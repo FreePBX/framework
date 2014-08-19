@@ -37,7 +37,7 @@
     }
     table {
         min-width: 1250px;
-        border: 1px solid #aed0ea;
+        border: 1px solid @modulelist-table-border-color;
         border-radius: 6px;
     }
     .moduleheader {
@@ -79,8 +79,12 @@
         height: 20px;
     }
     .modulelicense {
-	position:absolute;
-	left: 590px;
+      a {
+        cursor: help;
+        text-decoration: none;
+      }
+      position:absolute;
+      left: 590px;
     }
     .modulevul {
         position:absolute;
@@ -92,9 +96,9 @@
     }
     div.moduleinfopane {
         display:none;
-        background: #fff;
+        background: @modulelist-table-background-color;
         height: 17.5em;
-        border-top: 1px dashed #aed0ea;
+        border-top: 1px dashed @modulelist-table-border-color;
     }
     ul.modulerequirements {
         padding-left: 30px;
@@ -118,7 +122,6 @@
         }
         li.tabberactive {
             a {
-                color: #f68a00;
                 font-weight:bold;
             }
         }

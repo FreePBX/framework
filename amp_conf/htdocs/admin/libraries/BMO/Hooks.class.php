@@ -80,8 +80,8 @@ class Hooks extends DB_Helper {
 						foreach($xml->hooks as $modules) {
 							foreach($modules as $m => $methods) {
 								$hks = array();
-								$namespace = isset($methods->attributes()->namespace) ? $methods->attributes()->namespace : '';
-								$class = isset($methods->attributes()->class) ? $methods->attributes()->class : $m;
+								$namespace = isset($methods->attributes()->namespace) ? (string)$methods->attributes()->namespace : '';
+								$class = isset($methods->attributes()->class) ? (string)$methods->attributes()->class : $m;
 								$hookMod = !empty($namespace) ? $namespace . '\\' . $class : $class;
 								foreach($methods->method as $method) {
 									foreach($method->attributes() as $key => $value) {

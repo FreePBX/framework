@@ -1,10 +1,13 @@
 .button-border(@color) {
 	border: 1px solid @color;
 }
+.button-background(@color, @image) {
+	background: @color url(@image) 50% 50% repeat-x;
+}
 .button-layout() {
 	.button-border(@button-border-default);
-	background: @button-background-color url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAGQEAIAAACwqkHPAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAmElEQVRIx+3PIQ6CABgF4PfeZnPTanBjGjUYNBPkEGwmvREHMDhOQDI7PAEFNzHoHAYcQRJI8BROw5++/OEevfx3LgAADMMwjG+DNC2KusbJf06brjhCgKm45A4zZE7Za7a4xOW1yaSQCV3pyCs8MeYNnhQygYt8Xg1aB499dW5X0oYRFuKYASbCAWsMRQd9dP4ibRiG8UM+QjMuTsD8TMoAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTMtMDUtMDNUMDk6MjE6MTgtMDc6MDDQs4aNAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDEzLTA1LTAzVDA5OjIxOjE4LTA3OjAwoe4+MQAAAABJRU5ErkJggg==) 50% 50% repeat-x;
-	color: @button-default;
+	.button-background(@button-background-color-default, @button-image-default);
+	color: @button-color-default;
 	font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
 	display: inline-block;
 	position: relative;
@@ -21,14 +24,14 @@
 
 .button-hover() {
 	.button-border(@button-border-hover);
-	background: @button-background-color url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAGQEAIAAACwqkHPAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAnElEQVRIx+3PrQrCYBiG4ed50SSIUbC6MLa4ZNFiMC6sCnoinoGYLIs7iBWTxeBhOJN/fIP9wPaBwWMQDW+62g03XodqZ/cCAICiKIrybZBlxjQNrmHutj1hgQ3GwgG3cIUeYvjCNVMEuM2LWfvA/Vh2rYPntDzbpXDFFAGM1BN7Qr6oL7YSeozpf2KOMGGEoWCEPjp/Ma0oivJD3kmDL+OlYr6CAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEzLTA1LTAzVDA5OjIxOjE4LTA3OjAw0LOGjQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMy0wNS0wM1QwOToyMToxOC0wNzowMKHuPjEAAAAASUVORK5CYII=) 50% 50% repeat-x;
-	color: @button-hover;
+	.button-background(@button-background-color-hover, @button-image-hover);
+	color: @button-color-hover;
 }
 
 .button-active() {
 	.button-border(@button-border-active);
-	background: @button-background-color url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAGQEAIAAACwqkHPAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAjklEQVRIx2NImrp798smJgYGBgYGhlFqlBqlRqlRiubUzWXv3/9KZGLsZlzNaMHEUsnYxFDPxHKHaQ1jHxOLHdN1htlMrCxMuozbIdQOJtZ05giGo0xs6UzhjMfQ5FgWMjExrGRitWO6zjibobj/sMTr90xMgYyMjKFMjMkM2gx8g8PTo9QoNUqNUgNHAQAy4iFUVISQBwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxMy0wNS0wM1QwOToyMToxOC0wNzowMNCzho0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTMtMDUtMDNUMDk6MjE6MTgtMDc6MDCh7j4xAAAAAElFTkSuQmCC) 50% 50% repeat-x;
-	color: @button-active;
+	.button-background(@button-background-color-active, @button-image-active);
+	color: @button-color-active;
 }
 
 .button-disabled() {
@@ -36,7 +39,7 @@
 	filter: Alpha(Opacity=35);
 	background-image: none;
 	cursor: not-allowed;
-	color: @button-disabled;
+	color: @button-color-disabled;
 }
 
 /* BUTTON CSS */

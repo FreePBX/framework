@@ -30,6 +30,13 @@ class Less extends Less_Parser {
 		$less_rel = '/admin/assets';
 		$less_path = $amp_conf['AMPWEBROOT'].'/admin/assets/less';
 
+		$varOverride = $this->FreePBX->Hooks->processHooks($variables);
+		if(!empty($varOverride)) {
+			foreach($varOverride as $o) {
+				$variables = array_merge($o, $variables);
+			}
+		}
+
 		//compile these all into one giant file so that variables cross
 		$less_dirs = array("bootstrap","freepbx","font-awesome");
 		$out = array();
@@ -68,6 +75,13 @@ class Less extends Less_Parser {
 		$less_path = $amp_conf['AMPWEBROOT'] . '/admin/modules/' . $module . '/assets/less';
 		$files = array();
 		if(file_exists($less_path)) {
+			$varOverride = $this->FreePBX->Hooks->processHooks($variables);
+			if(!empty($varOverride)) {
+				foreach($varOverride as $o) {
+					$variables = array_merge($o, $variables);
+				}
+			}
+
 			$files[] = $this->getCachedFile($less_path,$less_rel,$variables);
 		}
 		return $files;
