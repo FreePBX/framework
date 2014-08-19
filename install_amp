@@ -1278,8 +1278,8 @@ if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) || (p
 	if ((version_compare($matches[1], "1.8") < 0)) {
 		fatal("Asterisk 1.6, 1.8, 10, 11 or 12 is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
-	if (version_compare($matches[1], "13", "ge")) {
-		fatal("Asterisk 1.8, 10, 11 or 12 is required for this version of FreePBX. Detected version is: ".$matches[1]);
+	if (version_compare($matches[1], "14", "ge")) {
+		fatal("Asterisk 1.8, 10, 11, 12 or 13 is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
 	out("{$matches[1]}");
 	$asterisk_version = $matches[1];
