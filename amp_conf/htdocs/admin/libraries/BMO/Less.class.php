@@ -21,10 +21,21 @@ class Less extends Less_Parser {
 		parent::__construct($env);
 	}
 
-	public function generateMainStyles() {
+	/**
+	 * Generate all FreePBX Main Style Sheets
+	 * @param {array} $variables = array() Array of variables to override
+	 */
+	public function generateMainStyles($variables = array()) {
 		global $amp_conf;
 		$less_rel = '/admin/assets';
 		$less_path = $amp_conf['AMPWEBROOT'].'/admin/assets/less';
+
+		$varOverride = $this->FreePBX->Hooks->processHooks($variables);
+		if(!empty($varOverride)) {
+			foreach($varOverride as $o) {
+				$variables = array_merge($o, $variables);
+			}
+		}
 
 		//compile these all into one giant file so that variables cross
 		$less_dirs = array("bootstrap","freepbx","font-awesome");
@@ -38,7 +49,7 @@ class Less extends Less_Parser {
 		}
 
 		\Less_Cache::$cache_dir = $less_path.'/cache';
-		$filename = \Less_Cache::Get( $files, array('compress' => true) );
+		$filename = \Less_Cache::Get( $files, array('compress' => true), $variables );
 		$out['compiled_less_files'][] = 'cache/'.$filename;
 
 		$extra_less_dirs = array("buttons");
@@ -46,20 +57,32 @@ class Less extends Less_Parser {
 		foreach($extra_less_dirs as $dir) {
 			$path = $less_path."/".$dir;
 			if (is_dir($path)) {
-				$file = $this->getCachedFile($path,$less_rel);
+				$file = $this->getCachedFile($path,$less_rel, $variables);
 				$out['extra_compiled_less_files'][$dir] = $dir.'/cache/'.$file;
 			}
 		}
 		return $out;
 	}
 
-	public function generateModuleStyles($module) {
+	/**
+	 * Generate Individual Module Style Sheets
+	 * @param {string} $module    The module name
+	 * @param {array} $variables =             array() Array of variables to override
+	 */
+	public function generateModuleStyles($module, $variables = array()) {
 		global $amp_conf;
 		$less_rel = '/admin/assets/' . $module;
 		$less_path = $amp_conf['AMPWEBROOT'] . '/admin/modules/' . $module . '/assets/less';
 		$files = array();
 		if(file_exists($less_path)) {
-			$files[] = $this->getCachedFile($less_path,$less_rel);
+			$varOverride = $this->FreePBX->Hooks->processHooks($variables);
+			if(!empty($varOverride)) {
+				foreach($varOverride as $o) {
+					$variables = array_merge($o, $variables);
+				}
+			}
+
+			$files[] = $this->getCachedFile($less_path,$less_rel,$variables);
 		}
 		return $files;
 	}
@@ -106,9 +129,10 @@ class Less extends Less_Parser {
 	 *
 	 * @param string $dir The directory housing the less files
 	 * @param string $uri_root The uri root of the web request
+	 * @param array $variables Array of variables to override
 	 * @return string the CSS filename
 	 */
-	public function getCachedFile($dir, $uri_root = '') {
+	public function getCachedFile($dir, $uri_root = '', $variables = array()) {
 		if(!file_exists($dir.'/cache')) {
 			if(!mkdir($dir.'/cache')) {
 				die_freepbx('Can Not Create Cache Folder at '.$dir.'/cache');
@@ -119,17 +143,17 @@ class Less extends Less_Parser {
 		$basename = basename($dir);
 		if(file_exists($dir."/bootstrap.less")) {
 			$files = array( $dir."/bootstrap.less" => $uri_root );
-			$filename = \Less_Cache::Get( $files, array('compress' => true) );
+			$filename = \Less_Cache::Get( $files, array('compress' => true), $variables );
 		} elseif(file_exists($dir."/".$basename.".less")) {
 			$files = array( $dir."/".$basename.".less" => $uri_root );
-			$filename = \Less_Cache::Get( $files, array('compress' => true) );
+			$filename = \Less_Cache::Get( $files, array('compress' => true), $variables );
 		} else {
 			//load them all randomly. Probably in alpha order
 			foreach(glob($dir."/*.less") as $file) {
 				$files[$file] = $uri_root;
 			}
 			uksort($files, "strcmp");
-			$filename = \Less_Cache::Get( $files, array('compress' => true) );
+			$filename = \Less_Cache::Get( $files, array('compress' => true), $variables );
 		}
 		return $filename;
 	}

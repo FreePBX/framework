@@ -104,18 +104,18 @@ class Self_Helper extends DB_Helper {
 		if (isset($args[1]) && isset($args[1][0])) {
 			// We do. We were __call'ed. Sanity check
 			if (isset($args[1][1])) {
-				throw new Exception("Multiple params to autoload (__call) not supported. Don't do that. Or re-write this.");
+				throw new Exception(_("Multiple params to autoload (__call) not supported. Don't do that. Or re-write this."));
 			}
 			if (class_exists($class)) {
 				$this->$var = new $class($this, $args[1][0]);
 			} else {
-				throw new Exception("I tried to load the class but it didnt exist.");
+				throw new Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
 			}
 		} else {
 			if (class_exists($class)) {
 				$this->$var = new $class($this);
 			} else {
-				throw new Exception("I tried to load the class but it didnt exist.");
+				throw new Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
 			}
 			FreePBX::create()->$var = $this->$var;
 
@@ -135,6 +135,7 @@ class Self_Helper extends DB_Helper {
 	 * @return bool True if found or throws exception
 	 */
 	private function loadObject($objname, $hint = null) {
+		$objname = str_replace('FreePBX\\modules\\','',$objname);
 		$class = class_exists($this->moduleNamespace.$objname) ? $this->moduleNamespace.$objname : $objname;
 		// If it already exists, we're fine.
 		if (class_exists($class)) {
@@ -152,7 +153,7 @@ class Self_Helper extends DB_Helper {
 
 		if ($hint) {
 			if (!file_exists($hint)) {
-				throw new Exception("I was asked to load $objname, with a hint of $hint, and it didn't exist");
+				throw new Exception(sprintf(_("Attempted to load %s with a hint of %s and it didn't exist"),$objname,$hint));
 			} else {
 				$try = $hint;
 			}
@@ -186,11 +187,13 @@ class Self_Helper extends DB_Helper {
 		if (!class_exists($class) && !class_exists($this->moduleNamespace.$objname)) {
 			// Bad things have happened.
 			if (!$loaded) {
-				throw new Exception("I was unable to locate the BMO Class $objname. I looked everywhere for $objname.class.php");
+				$sobjname = strtolower($objname);
+				throw new Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$objname) . sprintf(_("A required module might be disabled or uninstalled. Recommended steps (run from the CLI): 1) amportal a ma install %s 2) amportal a ma enable %s"),$sobjname,$sobjname));
+				//die_freepbx(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$objname), sprintf(_("A required module might be disabled or uninstalled. Recommended steps (run from the CLI): 1) amportal a ma install %s 2) amportal a ma enable %s"),$sobjname,$sobjname));
 			}
 
 			// We loaded a file that claimed to represent that class, but didn't.
-			throw new Exception("I loaded the file $try, but it doesn't define the class $objname");
+			throw new Exception(sprintf(_("Attempted to load %s but it didn't define the class %s"),$try,$objname));
 		}
 
 		return true;

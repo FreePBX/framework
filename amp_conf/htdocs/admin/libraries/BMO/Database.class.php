@@ -36,20 +36,21 @@ class Database extends PDO {
 
 		$amp_conf = FreePBX::$conf;
 
-		if (isset($args[0])) {
+		//Isset, not empty and is a string that's the only valid DSN we will accept here
+		if (isset($args[0]) && !empty($args[0]) && is_string($args[0])) {
 			$dsn = $args[0];
 		} else {
-            $host = !empty($amp_conf['AMPDBHOST']) ? $amp_conf['AMPDBHOST'] : 'localhost';
+			$host = !empty($amp_conf['AMPDBHOST']) ? $amp_conf['AMPDBHOST'] : 'localhost';
 			$dsn = "mysql:host=".$host.";dbname=".$amp_conf['AMPDBNAME'];
 		}
 
-		if (isset($args[1])) {
+		if (isset($args[1]) && !empty($args[0]) && is_string($args[0])) {
 			$username = $args[1];
 		} else {
 			$username = $amp_conf['AMPDBUSER'];
 		}
 
-		if (isset($args[2])) {
+		if (isset($args[2]) && !empty($args[0]) && is_string($args[0])) {
 			$password = $args[2];
 		} else {
 			$password = $amp_conf['AMPDBPASS'];

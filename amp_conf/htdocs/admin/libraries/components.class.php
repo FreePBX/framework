@@ -275,7 +275,7 @@ class component {
 			ksort($this->_jsfuncs);
 		}
 
-		$this->_sorted_jsfuncs = true;	
+		$this->_sorted_jsfuncs = true;
 	}
 
 	function sortguifuncs() {
@@ -302,13 +302,13 @@ class component {
 		$formname = "frm_$this->_compname";
 		$hasoutput = false;
 
-		if ( !$this->_sorted_guielems ) 
+		if ( !$this->_sorted_guielems )
 			$this->sortguielems();
 
 
 		// Start of form
 
-		$form_action = isset($this->_opts['form_action']) ? $this->_opts['form_action'] : $_SERVER['PHP_SELF'];
+		$form_action = isset($this->_opts['form_action']) ? $this->_opts['form_action'] : "";
 		$htmlout .= "<form class=\"popover-form\" name=\"$formname\" action=\"".$form_action."\" method=\"post\" onsubmit=\"return ".$formname."_onsubmit();\">\n";
 		$htmlout .= "<input type=\"hidden\" name=\"display\" value=\"$this->_compname\" />\n";
 		$htmlout .= "<input type=\"hidden\" name=\"type\" value=\"$this->_type\" />\n\n";
@@ -336,16 +336,16 @@ class component {
 				foreach ( array_keys($this->_guielems_middle) as $section ) {
 					if ($this->_guielems_middle[$section]['placement'] !== $placement)
 						continue;
-					// Header for $section				
+					// Header for $section
 					$htmlout .= "\t<tr class=\"guielToggle\" data-toggle_class=\"".preg_replace('/[^A-Za-z]/', '' ,$section)."\">\n";
 					$htmlout .= "\t\t<td colspan=\"2\">";
 					if ($section) {
 						$mysec = preg_replace('/[^A-Za-z]/', '' ,$section);
 						$state = isset($this->_opts[$mysec]['guielToggle']) && $this->_opts[$mysec]['guielToggle'] == false
 							? '+' : '-  ';
-						$htmlout .= "<h5>" 
-							. "<span class=\"guielToggleBut\">$state</span>" 
-							. _($section) 
+						$htmlout .= "<h5>"
+							. "<span class=\"guielToggleBut\">$state</span>"
+							. _($section)
 							. "</h5><hr>";
 					} else {
 						$htmlout .= '<hr>';
@@ -356,7 +356,7 @@ class component {
 
 					// Elements
 					foreach ( array_keys($this->_guielems_middle[$section]) as $sortorder ) {
-						if ($sortorder == 'placement') 
+						if ($sortorder == 'placement')
 							continue;
 						foreach ( array_keys($this->_guielems_middle[$section][$sortorder]) as $idx ) {
 							$elem = $this->_guielems_middle[$section][$sortorder][$idx];
@@ -524,7 +524,7 @@ class guielement {
 // Hidden field
 // Odd ball this one as neither guiinput or guitext !
 /**
- * 
+ *
  * @param $table bool if this element is in a table or not, Default is true.
  */
 class gui_hidden extends guielement {
@@ -618,8 +618,8 @@ class guiinput extends guielement {
 		if ($section) {
 			$mysec = preg_replace('/[^A-Za-z]/', '' ,$section);
 			$output .= '<tr class="' . $section . '" '
-				. ((isset($this->_opts[$mysec]['guielToggle']) && $this->_opts[$mysec]['guielToggle'] == false) 
-						? ' style="display:none" ' 
+				. ((isset($this->_opts[$mysec]['guielToggle']) && $this->_opts[$mysec]['guielToggle'] == false)
+						? ' style="display:none" '
 						: '')
 				.' >' . "\n";
 		} else {
@@ -720,7 +720,7 @@ class gui_selectbox extends guiinput {
 		$output .= "\n\t\t\t<select name=\"$this->_elemname\" id=\"$this->_elemname\" tabindex=\"$tabindex\" $disable_state $onchange >\n";
 		// include blank option if required
 		if ($canbeempty)
-			$output .= "<option value=\"\">&nbsp;</option>";			
+			$output .= "<option value=\"\">&nbsp;</option>";
 
 		// build the options
 		foreach ($valarray as $item) {
@@ -807,7 +807,7 @@ class gui_drawselects extends guiinput {
 
 		//attach a value to this element, so that we can find its value
 		$currentcomponent->addguielem('', new gui_hidden($elemname,'goto'.$index,false));
-	}	
+	}
 }
 
 class gui_textarea extends guiinput {
@@ -819,7 +819,7 @@ class gui_textarea extends guiinput {
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
 
 		$list = explode("\n",$this->currentvalue);
-		$rows = count($list); 
+		$rows = count($list);
 		$rows = (($rows > 20) ? 20 : $rows);
 
 		$this->html_input = "<textarea rows=\"$rows\" cols=\"24\" name=\"$this->_elemname\" id=\"$this->_elemname\"$maxlength>" . htmlentities($this->currentvalue) . "</textarea>";
@@ -852,8 +852,8 @@ class guitext extends guielement {
 		if ($section) {
 			$mysec = preg_replace('/[^A-Za-z]/', '' ,$section);
 			$output .= '<tr class="' . $section . '" '
-				. ((isset($this->_opts[$mysec]['guielToggle']) && $this->_opts[$mysec]['guielToggle'] == false) 
-						? ' style="display:none" ' 
+				. ((isset($this->_opts[$mysec]['guielToggle']) && $this->_opts[$mysec]['guielToggle'] == false)
+						? ' style="display:none" '
 						: '')
 				.' >' . "\n";
 		} else {
@@ -870,7 +870,7 @@ class guitext extends guielement {
 		$output .= "\t</tr>\n";
 
 		return $output;
-	}	
+	}
 }
 
 // Label -- just text basically!
@@ -906,7 +906,7 @@ class gui_subheading extends guitext {
 		parent::$parent_class($elemname, $text);
 
 		// H3
-		$this->html_text = "<h3 id=\"$this->_elemname\">$text</h3>";		
+		$this->html_text = "<h3 id=\"$this->_elemname\">$text</h3>";
 	}
 }
 

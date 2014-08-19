@@ -75,4 +75,18 @@ class Modules {
 	public function getInfo($modname) {
 		return $this->modclass->getinfo($modname);
 	}
+
+	/**
+	 * Boolean return for checking a module's status
+	 * @param {string} $modname Module Raw Name
+	 * @param {constant} $status  Integer/Constant, status to compare to
+	 */
+	public function checkStatus($modname,$status=MODULE_STATUS_ENABLED) {
+		$modinfo = $this->getInfo($modname);
+		if(!empty($modinfo[$modname]) && $modinfo[$modname]['status'] == $status) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

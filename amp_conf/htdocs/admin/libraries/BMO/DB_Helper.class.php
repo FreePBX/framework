@@ -24,6 +24,7 @@ class DB_Helper {
 	private static $dbDel;
 	private static $dbAdd;
 	private static $dbDelId;
+	private static $dbDelMod;
 
 	/* These are only added when required */
 	private static $dbGetFirst = false;
@@ -34,17 +35,19 @@ class DB_Helper {
 
 	/** Don't new DB_Helper */
 	public function __construct() {
-		throw new Exception("You should never 'new' this. Just use it as an 'extends'");
+		throw new Exception("You should never 'new' DB_Helper. Just use it as an 'extends'");
 	}
 
 	/** This is our pseudo-__construct, called whenever our public functions are called. */
 	private static function checkDatabase() {
 		// Have we already run?
-		if (self::$checked != false)
+		if (self::$checked != false) {
 			return;
+		}
 
-		if (!isset(self::$db))
+		if (!isset(self::$db)) {
 			self::$db = FreePBX::create()->Database;
+		}
 
 		// Definitions
 		$create = "CREATE TABLE IF NOT EXISTS ".self::$dbname." ( `module` CHAR(64) NOT NULL, `key` CHAR(255) NOT NULL, `val` LONGBLOB, `type` CHAR(16) DEFAULT NULL, `id` CHAR(255) DEFAULT NULL)";
@@ -59,8 +62,7 @@ class DB_Helper {
 			if ($e->getCode() == "42S02") { // Table does not exist
 				self::$db->query($create);
 			} else {
-				print "I have ".$e->getCode()." as an error<br>\nI don't know what that means.<br/>";
-				exit;
+				throw new \Exception($e->getMessage());
 			}
 		}
 
@@ -88,6 +90,7 @@ class DB_Helper {
 		self::$dbDel = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod AND `key` = :key  AND `id` = :id");
 		self::$dbAdd = self::$db->prepare("INSERT INTO `".self::$dbname."` ( `module`, `key`, `val`, `type`, `id` ) VALUES ( :mod, :key, :val, :type, :id )");
 		self::$dbDelId = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id");
+		self::$dbDelMod = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod");
 
 		// Now this has run, everything IS JUST FINE.
 		self::$checked = true;
@@ -119,8 +122,9 @@ class DB_Helper {
 	 * @return bool|string|array|StdObject Returns what was handed to setConfig, or bool false if it doesn't exist
 	 */
 	public function getConfig($var = null, $id = "noid") {
-		if ($var === null)
+		if ($var === null) {
 			throw new Exception("Can't getConfig for null");
+		}
 
 		// Call our pretend __construct
 		self::checkDatabase();
@@ -139,6 +143,7 @@ class DB_Helper {
 
 		self::$dbGet->execute($query);
 		$res = self::$dbGet->fetchAll();
+
 		if (isset($res[0])) {
 			// Found!
 			if ($res[0]['type'] == "json-obj") {
@@ -219,6 +224,14 @@ class DB_Helper {
 	}
 
 	/**
+	 * Alias function to delete
+	 * @param {string} $key = null The key name
+	 */
+	public function delConfig($key = null) {
+		$this->setConfig($key);
+	}
+
+	/**
 	 * Store multiple variables, arrays or objects.
 	 *
 	 * setMultiConfig is the same as setConfig, except it uses an associative array,
@@ -276,6 +289,26 @@ class DB_Helper {
 		} else {
 			return array();
 		}
+	}
+
+	/**
+	 * Delete All Keys from module
+	 */
+	public function deleteAll() {
+		// Our pretend __construct();
+		self::checkDatabase();
+
+		if ($this->classOverride) {
+			$mod = $this->classOverride;
+			$this->classOverride = false;
+		} else {
+			$mod = get_class($this);
+		}
+
+		$query[':mod'] = $mod;
+
+		$ret = self::$dbDelMod->execute($query);
+		return $ret;
 	}
 
 	/**

@@ -9,8 +9,9 @@
 class FileHooks {
 
 	public function __construct($freepbx = null) {
-		if ($freepbx == null)
+		if ($freepbx == null) {
 			throw new Exception("Need to be instantiated with a FreePBX Object");
+		}
 
 		$this->FreePBX = $freepbx;
 	}
@@ -70,6 +71,11 @@ class FileHooks {
 	private function processNewHooks() {
 		$hooks = $this->FreePBX->Hooks->getAllHooks();
 		foreach ($hooks['ConfigFiles'] as $hook) {
+			$hparts = explode("\\",$hook);
+			if(count($hparts) > 0) {
+				$c = count($hparts);
+				$hook = $hparts[$c-1];
+			}
 			$this->FreePBX->Performance->Stamp("fileHook-".$hook."_start");
 			// This is where we'd hook the output of files, if it was implemented.
 			// As no-one wants it yet, I'm not going to bother.

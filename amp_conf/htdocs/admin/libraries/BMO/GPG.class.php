@@ -167,8 +167,10 @@ class GPG {
 		}
 
 		// List of well-known keyservers.
-		$keyservers = array("pool.sks-keyservers.net", "pgp.mit.edu", "keyserver.ubuntu.com",
-			"keyserver.pgp.com", "pool.sks-keyservers.net"); // Yes. sks is there twice.
+		$keyservers = array("pool.sks-keyservers.net",  // This should almost always work
+			"hkp://keyserver.ubuntu.com:80",  // This is in case port 11371 is blocked outbound
+			"pgp.mit.edu", "keyserver.pgp.com",  // Other random keyservers
+			"pool.sks-keyservers.net"); // Yes. sks is there twice.
 
 		if (strlen($key) > 16) {
 			$key = substr($key, -16);
@@ -299,11 +301,11 @@ class GPG {
 		if (!isset($this->gpgenv)) {
 			$this->gpgenv['PATH'] = "/bin:/usr/bin";
 			$this->gpgenv['USER'] = $webuser;
-			$this->gpgenv['HOME'] = $home;
+			$this->gpgenv['HOME'] = "/tmp";
 			$this->gpgenv['SHELL'] = "/bin/bash";
 		}
 
-		$homedir = "--homedir ${home}.gnupg";
+		$homedir = "--homedir $home";
 
 		$cmd = $this->gpg." $homedir ".$this->gpgopts." --status-fd 3 $params";
 		$proc = proc_open($cmd, $fds, $pipes, "/tmp", $this->gpgenv);
@@ -504,10 +506,28 @@ class GPG {
 			$home .= "/";
 		}
 
-		if (is_writable($home.".gnupg") || (is_writable($home) && !is_dir($home.".gnupg"))) {
-			return $home;
+		// Make sure that home exists
+		if (!is_dir($home)) {
+			$ret = @mkdir($home);
+			if (!$ret) {
+				throw new Exception("Home directory $home doesn't exist, and I can't create it");
+			}
+		}
+
+		$dir = $home.".gnupg";
+
+		if (!is_dir($dir)) {
+			// That's worrying. Can I make it?
+			$ret = @mkdir($dir);
+			if (!$ret) {
+				throw new Exception("Directory $dir doesn't exist, and I can't make it (getGpgLocation).");
+			}
+		}
+
+		if (is_writable($dir)) {
+			return $dir;
 		} else {
-			throw new Exception("Don't have permission/can't write to ${home}.gnupg");
+			throw new Exception("Don't have permission/can't write to $dir");
 		}
 	}
 
@@ -524,7 +544,7 @@ class GPG {
 			// That's worrying. Can I make it?
 			$ret = @mkdir($dir);
 			if (!$ret) {
-				throw new Exception("Directory $dir doesn't exist, and I can't make it.");
+				throw new Exception("Directory $dir doesn't exist, and I can't make it. (checkPermissions)");
 			}
 		}
 
@@ -549,8 +569,9 @@ class GPG {
 		// Check the permissions of the files inside the .gpg directory
 		$allfiles = glob($dir."/*");
 		foreach ($allfiles as $file) {
+			$stat = stat($file);
 			if ($uid != $stat['uid'] || $gid != $stat['gid']) {
-				// Permissions are wrong on the GPG directory. Hopefully, I'm root, so I can fix them.
+				// Permissions are wrong on the file inside the .gnupg directory.
 				if (!posix_geteuid() === 0) {
 					throw new Exception("Permissions error on $home - please re-run as root to automatically repair");
 				}

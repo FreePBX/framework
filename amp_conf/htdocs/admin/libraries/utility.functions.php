@@ -153,6 +153,9 @@ function compress_framework_css() {
 function die_freepbx($text, $extended_text="", $type="FATAL") {
 	global $amp_conf;
 
+	$text = htmlentities($text);
+	$extended_text = htmlentities($extended_text);
+
 	$bt = debug_backtrace();
 	freepbx_log(FPBX_LOG_FATAL, "die_freepbx(): ".$text);
 
@@ -1126,16 +1129,15 @@ function generate_message_banner($message,$type='info',$details=array(),$link=''
  * allows FreePBX to update the manager credentials primarily used by Advanced Settings and Backup and Restore.
  */
 function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
-	global $amp_conf, $astman;
+	global $amp_conf, $astman, $db;
 	$conf_file = $amp_conf['ASTETCDIR'] . '/manager.conf';
 	$conf_file = escapeshellarg($amp_conf['ASTETCDIR'] . '/manager.conf');
 	$ret = $ret2 = 0;
 	$output = array();
 
 	if ($user !== false && $user != '') {
-		$sed_arg = escapeshellarg('"s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/"');
-		exec("sed -i.bak  $sed_arg $conf_file", $output, $ret);
-		exec('sed -i.bak "s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/" '. $conf_file, $output, $ret);
+		$sed_arg = escapeshellarg('s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/');
+		exec("sed -i.bak $sed_arg $conf_file", $output, $ret);
 		if ($ret) {
 			dbug($output);
 			dbug($ret);
@@ -1148,7 +1150,8 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 
 	if ($pass !== false && $pass != '') {
 		unset($output);
-		exec('sed -i.bak "s/secret\s*=.*$/secret = ' . $amp_conf['AMPMGRPASS'] . '/" ' . $conf_file, $output, $ret2);
+		$sed_arg = escapeshellarg('s/secret\s*=.*$/secret = ' . $amp_conf['AMPMGRPASS'] . '/');
+		exec("sed -i.bak $sed_arg $conf_file", $output, $ret2);
 		if ($ret2) {
 			dbug($output);
 			dbug($ret2);
@@ -1174,8 +1177,8 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 	//attempt to set writetimeout
 	unset($output);
 	if ($writetimeout) {
-		exec('sed -i.bak "s/writetimeout\s*=.*$/writetimeout = '
-			. $amp_conf['ASTMGRWRITETIMEOUT'] . '/" ' . $conf_file, $output, $ret3);
+		$sed_arg = escapeshellarg('s/writetimeout\s*=.*$/writetimeout = ' . $amp_conf['ASTMGRWRITETIMEOUT'] . '/');
+		exec("sed -i.bak $sed_arg $conf_file", $output, $ret3);
 		if ($ret3) {
 			dbug($output);
 			dbug($ret3);

@@ -20,14 +20,14 @@ then
 	exit $E_NOTROOT
 fi
 
-# function to eventually get freepbx.conf to /etc 
+# function to eventually get freepbx.conf to /etc
 move_freepbxconf() {
 	if [ -e /etc/asterisk/freepbx.conf -a ! -e /etc/freepbx.conf ]; then
 		echo moving /etc/asterisk/freepbx.conf to /etc/freepbx.conf
 		mv /etc/asterisk/freepbx.conf /etc/
 	  	if [ "$?" -ne "0" ]; then
-				echo "unable to move, FreePBX will function fine but you will" 
-				echo "get this error until the file can be successfully moved" 
+				echo "unable to move, FreePBX will function fine but you will"
+				echo "get this error until the file can be successfully moved"
 			else
 				FREEPBX_CONF="/etc/freepbx.conf"
 	  	fi
@@ -99,7 +99,7 @@ if [[ -e $FREEPBX_CONF && -w "/etc/amportal.conf" && -z "$FORCE_AMPORTAL_CONF" ]
 elif [ -e "/etc/amportal.conf" ]; then # Check if file exists, if it dose read it and then write out /etc/freepbx.conf
 	. /etc/amportal.conf
 	write_freepbxconf
-else 
+else
 	echo;
     echo "FreePBX config file not found!";
 	echo "Have you installed FreePBX?";
@@ -185,13 +185,13 @@ call_hook() {
 	HOOKLEN=${#HOOKPRE}
 	RETCODE=1
 	# echo "LOOKING FOR:  ${HOOKPRE}* LEN: ${HOOKLEN}"
-	
+
 	for VAR in `typeset -F`
 	do
 		HOOKBASE=${VAR:0:${HOOKLEN}}
 		if [ "${HOOKBASE}" == "${HOOKPRE}" ]
 		then
-			# echo "GOT ONE ${VAR} now trying to call it"	
+			# echo "GOT ONE ${VAR} now trying to call it"
 			${VAR}
 			RETCODE=0
 		fi
@@ -200,88 +200,67 @@ call_hook() {
 }
 
 chown_asterisk() {
-	echo SETTING FILE PERMISSIONS
-	
-	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/amportal.conf
-	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $FREEPBX_CONF
-	chmod 660 /etc/amportal.conf
-	chmod 660 $FREEPBX_CONF
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTRUNDIR)
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTETCDIR)
-	chmod -R g+w $(readlink -f $ASTETCDIR)
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTVARLIBDIR)
-	chmod -R g+w $(readlink -f $ASTVARLIBDIR)
-	#ssh keys need to be 0600
-	[ -f $ASTVARLIBDIR/.ssh/id_rsa ] && chmod 0600 $ASTVARLIBDIR/.ssh/id_rsa
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTLOGDIR)
-	chmod -R g+w $(readlink -f $ASTLOGDIR)
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTSPOOLDIR)
-	chmod -R g+w $(readlink -f $ASTSPOOLDIR)
-	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $AMPWEBROOT/admin)
-	chmod -R g+w $(readlink -f $AMPWEBROOT/admin)
-	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $AMPWEBROOT/recordings)
-	chmod -R g+w $(readlink -f $AMPWEBROOT/recordings)
-	chmod u+x,g+x $(readlink -f $AMPBIN)/*
-	chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $AMPBIN)
+	echo -n SETTING FILE PERMISSIONS
 
-	if [ "$FPBXDBUGFILE" != "" -a -e "$FPBXDBUGFILE" ]; then
-		chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $FPBXDBUGFILE)
-	fi
-
-	if [ "$FPBX_LOG_FILE" != "" -a -e "$FPBX_LOG_FILE" ]; then
-		chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $(readlink -f $FPBX_LOG_FILE)
-	fi
-		
-	if [ "$ASTAGIDIR" != "" ]; then
-		chmod u+x $ASTAGIDIR/*
-		chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $(readlink -f $ASTAGIDIR)
-	else
-		chmod u+x $(readlink -f $ASTVARLIBDIR/agi-bin)
-	fi
-
-	# make sure MOHDIR folder has x permission
-	if [ "$MOHDIR" != "" ]; then
-		chmod u+x $ASTVARLIBDIR/$MOHDIR
-	fi
-
-	chown $AMPASTERISKUSER /dev/tty9
-
-	# Ensure that various hardware devices are owned correctly.
-	[ -e /dev/zap ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/zap 
-	[ -e /dev/dahdi ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/dahdi 
-	[ -e /dev/capi20 ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/capi20
-	[ -e /dev/misdn ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/misdn
-	[ -e /dev/mISDN ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/mISDN
-	[ -e /dev/dsp ] && chown -R $AMPDEVUSER:$AMPDEVGROUP /dev/dsp
-	
-	# If hardware directories exists, owen them correctly so that modules can create the configs
-	[ -e /etc/dahdi ] && chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/dahdi 
-	[ -e /etc/wanpipe ] && chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/wanpipe
-
-	# If there is an odbc.ini file make sure we can modify it
-	[ -e /etc/odbc.ini ] && chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/odbc.ini 
-
-	# Ensure PHP session directory is owned by asterisk web user.
-	SESSDIR=`php -r "echo ini_get('session.save_path');"`
+	# Get our PHP session directory.
+	SESSDIR=$(php -r "echo ini_get('session.save_path');")
 	[ ! $SESSDIR ] && SESSDIR=/var/lib/php/session
-	# If it's not a directory AND it's not a link, recreate it.
+	# If it's not a directory AND it's not a link, it's broken. Fix it.
 	if [ ! -d $SESSDIR -a ! -h $SESSDIR ]; then
 		mv $SESSDIR $SESSDIR.$$
 		mkdir $SESSDIR
 	fi
-	chown -HR $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $SESSDIR
+
+	ASTERISKOWNED=("$ASTRUNDIR" "$ASTETCDIR" "$ASTVARLIBDIR" "$ASTLOGDIR" "$AMPBIN" "$ASTAGIDIR" \
+		"/etc/dahdi" "/etc/wanpipe" "/etc/odbc.ini" "/usr/local/asterisk" "/dev/tty9")
+	WEBOWNED=("$AMPWEBROOT/admin" "$AMPWEBROOT/recordings" "$FPBXDBUGFILE" "$FPBX_LOG_FILE" "$SESSDIR")
+	PRIVFILES=("$FREEPBX_CONF" "$ASTVARLIBDIR/.ssh/.id_rsa")
+	DEVICES=("/dev/zap" "/dev/dahdi" "/dev/capi20" "/dev/misdn" "/dev/mISDN" "/dev/dsp")
+
+	for target in "${WEBOWNED[@]}"; do
+		[ ! -e "$target" ] && continue
+		L=$(readlink -f $target)
+		chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $L
+		chmod -R 775 $L
+		echo -n .
+	done
+
+	for target in "${ASTERISKOWNED[@]}"; do
+		[ ! -e "$target" ] && continue
+		L=$(readlink -f $target)
+		chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $L
+		chmod -R 775 $L
+		echo -n .
+	done
+
+	for file in "${PRIVFILES[@]}"; do
+		[ ! -e "$file" ] && continue
+		L=$(readlink -f $file)
+		chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $L
+		chmod 600 $L
+		echo -n .
+	done
+
+	for dev in "${DEVICES[@]}"; do
+		[ ! -e "$dev" ] && continue
+		chown -R $AMPDEVUSER:$AMPDEVGROUP $dev
+		echo -n .
+	done
+
+	# This can take a while, so run it in the background
+	( D=$(readlink -f $ASTSPOOLDIR); chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $D; chmod -R g+w $D ) &
 
 	# Make sure that everything in AMPWEBROOT is owned by asterisk.
 	# Edit: No. Don't chown EVERYTHING. Takes too long. Chown
-	# the directory itself, and the first level directories.
+	# the directory itself, and all of the first level directories.
+	# We've already recursed into admin and recordings above
 	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT
-	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/*
+	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/* 2>/dev/null # Silence dangling symlink errors, cleared later
 
 	# Fix PIAF immutable files
-	# chattr errors on symlinks. Ignore them.
-	chattr -i $AMPWEBROOT/* 2>/dev/null 
+	chattr -i $AMPWEBROOT/* 2>/dev/null
 
-	echo Permissions OK
+	echo Done
 	call_hook chown_asterisk
 }
 
@@ -502,22 +481,22 @@ case "$1" in
 				$AMPBIN/freepbx_setting $3 $4
 			;;
 			auth_database|ad)
-				$AMPBIN/freepbx_setting AUTHTYPE database 
+				$AMPBIN/freepbx_setting AUTHTYPE database
 			;;
 			auth_none|an)
-				$AMPBIN/freepbx_setting AUTHTYPE none 
+				$AMPBIN/freepbx_setting AUTHTYPE none
 			;;
 			externalip|extip)
 				echo `wget http://mirror.freepbx.org/whatismyip.php -O - -q|sed 's/<[^>]*>//g'`
 			;;
 			dbug)
-				if [ ! -f $FPBXDBUGFILE ]; then 
+				if [ ! -f $FPBXDBUGFILE ]; then
 					touch tail -f $FPBXDBUGFILE
 					chown $AMPASTERISKUSER:$AMPASTERISKGROUP $FPBXDBUGFILE
 				fi
 				if [ -f '/var/log/httpd/error_log' ]; then
 					httpd_error='/var/log/httpd/error_log'
-				fi 
+				fi
 				#enable dbug in case its disabled
 				$AMPBIN/freepbx_setting FPBXDBUGDISABLE 0
 				#tail the freepbx logfile as well FREEPBX-7067
@@ -525,6 +504,27 @@ case "$1" in
 			;;
 			mysql|m)
 				mysql -u$AMPDBUSER -D$AMPDBNAME -p$AMPDBPASS
+			;;
+			syncmanager|s)
+				`php -r '
+				$bootstrap_settings["freepbx_auth"] = false;
+				$bootstrap_settings["skip_astman"] = true;
+				$restrict_mods = true;
+				if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) {
+					include_once("/etc/asterisk/freepbx.conf");
+				}
+				fpbx_ami_update(true,true,true);
+				'`
+				if [[ $? = 0 ]]; then
+					echo 'Manager ReSynced, restarting Asterisk'
+					stop_asterisk
+					sleep 1
+					chown_asterisk
+					remove_dangling_links
+					run_asterisk
+				else
+					echo 'um, something went wrong...'
+				fi
 			;;
 			unlock|u)
 				`php -r '
@@ -567,22 +567,23 @@ echo -e "                         $b $u FPBX admin options menu$ux$bx
 
 useage: ${b}amportal$bx (${b}admin$bx|${b}a$bx) <option>
 
-options: 
+options:
 
-${b}externalip$bx|${b}extip$bx: Returns the external ip for the default gateway    
+${b}externalip$bx|${b}extip$bx: Returns the external ip for the default gateway
 ${b}dbug$bx:		Shows the freepbx debug log file and any update
 ${b}context$bx|${b}cxt$bx:   Show's the specified context from the dialplan. This is extreamly
-               usefull when developing dialplan on a system with many modules, 
+               usefull when developing dialplan on a system with many modules,
                where it is not fesable look thru the whole extensions_additional
                every time to see how a specific context was generate
-               When run with the 'list' or 'l' option, will list all avalible 
+               When run with the 'list' or 'l' option, will list all avalible
                contexts as they appear in extensions* files
 ${b}modadmin$bx|${b}ma$bx:  Runs the module_admin script with additional argument as passed
-${b}mysql$bx|${b}m$bx:	Connect to freebx's mysql connection (assumes server is on localhost) s 
+${b}mysql$bx|${b}m$bx:	Connect to freebx's mysql connection (assumes server is on localhost) s
 ${b}rmsymlinks$bx:		Cleans up dangling linkes left over from uninstalled modules
-${b}reload$bx|${b}r$bx:      Does a full dialplan regeneration/reload (like clicking 
-               the orange bar)     
-${b}unlock$bx|${b}u$bx:	Unlock the web gui from the cli (requires root) 
+${b}reload$bx|${b}r$bx:      Does a full dialplan regeneration/reload (like clicking
+               the orange bar)
+${b}unlock$bx|${b}u$bx:	Unlock the web gui from the cli (requires root)
+${b}syncmanager$bx|${b}s$bx:	Resyncs the Asterisk manager credentials then restarts Asterisk
 \n\n\n"
 		;;
 	esac

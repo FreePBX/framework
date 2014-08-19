@@ -1,0 +1,88 @@
+.button-border(@color) {
+	border: 1px solid @color;
+}
+.button-background(@color, @image) {
+	background: @color url(@image) 50% 50% repeat-x;
+}
+.button-layout() {
+	.button-border(@button-border-default);
+	.button-background(@button-background-color-default, @button-image-default);
+	color: @button-color-default;
+	font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+	display: inline-block;
+	position: relative;
+	line-height: normal;
+	margin-right: .1em;
+	cursor: pointer;
+	vertical-align: middle;
+	text-align: center;
+	overflow: visible;
+	font-size: 11px !important;
+	padding: .4em 1em;
+	font-weight: bold;
+}
+
+.button-hover() {
+	.button-border(@button-border-hover);
+	.button-background(@button-background-color-hover, @button-image-hover);
+	color: @button-color-hover;
+}
+
+.button-active() {
+	.button-border(@button-border-active);
+	.button-background(@button-background-color-active, @button-image-active);
+	color: @button-color-active;
+}
+
+.button-disabled() {
+	opacity: .35;
+	filter: Alpha(Opacity=35);
+	background-image: none;
+	cursor: not-allowed;
+	color: @button-color-disabled;
+}
+
+/* BUTTON CSS */
+.btn, button, input[type="button"], input[type="reset"], input[type="submit"], .btn:visited, button:visited, input[type="button"]:visited, input[type="reset"]:visited, input[type="submit"]:visited {
+	.button-layout();
+	border-radius: 6px;
+}
+.btn:hover, button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover{
+	.button-hover();
+}
+.btn:focus, button:focus, input[type="button"]:focus, input[type="reset"]:focus, input[type="submit"]:focus{
+	.button-hover();
+}
+.btn:active, button:active, input[type="button"]:active, input[type="reset"]:active, input[type="submit"]:active{
+	.button-active();
+}
+.btn:disabled, button:disabled, input[type="button"]:disabled, input[type="reset"]:disabled, input[type="submit"]:disabled{
+	.button-disabled();
+}
+
+/* RADIOSET/CHECKSET */
+.radioset input[type="radio"], .radioset input[type="checkbox"] {
+	display:none;
+}
+.radioset input[type="radio"] + label, .radioset input[type="checkbox"] ~ label {
+	.button-layout();
+	margin-right: -3px;
+}
+.radioset input[type="radio"] + label:first-of-type, .radioset input[type="checkbox"] ~ label:first-of-type {
+	border-top-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+}
+.radioset input[type="radio"] + label:last-of-type, .radioset input[type="checkbox"] ~ label:last-of-type {
+	border-top-right-radius: 6px;
+	border-bottom-right-radius: 6px;
+}
+.radioset input[type="radio"] + label:hover, .radioset input[type="checkbox"] ~ label:hover {
+	.button-hover();
+}
+.radioset input[type="radio"]:checked + label, .radioset input[type="checkbox"]:checked + label {
+	.button-active();
+}
+
+.radioset input[type="radio"]:disabled + label, .radioset input[type="checkbox"]:disabled + label {
+	.button-disabled();
+}
