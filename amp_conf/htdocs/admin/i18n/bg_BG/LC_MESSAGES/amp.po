@@ -8,12 +8,16 @@ msgstr ""
 "Project-Id-Version: FreePBX v2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-11 07:15+0100\n"
-"PO-Revision-Date: 2009-02-14 16:58+0200\n"
-"Last-Translator: \n"
-"Language-Team: Chavdar Iliev <chavdar_75@yahoo.com>\n"
+"PO-Revision-Date: 2014-07-22 14:52+0200\n"
+"Last-Translator: Chavdar <chavdar_75@yahoo.com>\n"
+"Language-Team: Bulgarian "
+"<http://git.freepbx.org/projects/freepbx/framework/bg/>\n"
+"Language: bg_BG\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 1.10-dev\n"
 "X-Poedit-Language: Bulgarian\n"
 "X-Poedit-Country: BULGARIA\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -657,7 +661,7 @@ msgid ""
 "the right to remove this notice."
 msgstr ""
 "Следващите нови модули са достъпни за изтегляне. Кликнете върху иконата "
-"изтрий отдясно за да премахнете това съобщение"
+"изтрий отдясно за да премахнете това съобщение."
 
 #, php-format
 msgid "%s New modules are available"
@@ -686,7 +690,7 @@ msgstr ""
 
 #, php-format
 msgid "Module %s is required, but yours is broken. You should reinstall "
-msgstr "Модул %s е необходим, но вашия е повреден. Преинсталирайте го"
+msgstr "Модул %s е необходим, но вашия е повреден. Преинсталирайте го "
 
 #, php-format
 msgid "it and try again."
@@ -698,7 +702,7 @@ msgstr "Модул %s е необходим, но вашия е забранен
 
 #, php-format
 msgid "Module %s is required, but yours is disabled because it needs to "
-msgstr "Модул %s е необходим, но вашия е забранен защото се нуждае"
+msgstr "Модул %s е необходим, но вашия е забранен защото се нуждае "
 
 #, php-format
 msgid "be upgraded. Please upgrade %s first, and then try again."
@@ -1038,7 +1042,7 @@ msgid "Help"
 msgstr "Помощ"
 
 msgid "Logged in: "
-msgstr "Влязъл с:"
+msgstr "Влязъл с: "
 
 msgid "Logout"
 msgstr "Излез"
@@ -1142,7 +1146,7 @@ msgid "Asterisk may not be running."
 msgstr "Може би Астериск не стартиран."
 
 msgid "Welcome to FreePBX."
-msgstr "Добре Дошли в FreePBX"
+msgstr "Добре Дошли в FreePBX."
 
 msgid "Critical"
 msgstr "Критично"
@@ -2626,7 +2630,7 @@ msgid "This device id is already in use"
 msgstr "ID на устройството вече се използва"
 
 msgid "User Extension: "
-msgstr "Вътрешна Линия:"
+msgstr "Вътрешна Линия: "
 
 #, php-format
 msgid "Inbound Route: %s (%s)"
@@ -2741,8 +2745,8 @@ msgid ""
 "standard dialpatterns. You must use the inbound routing form to enter non-"
 "standard patterns"
 msgstr ""
-"Въвели сте настандартен модел за ваш DID. Тук можете да въвеждате само "
-"стандартни модели. Използвайте меню Входящи маршрути за нестандартни модели."
+"Въвели сте нестандартен модел за ваш DID. Тук можете да въвеждате само "
+"стандартни модели. Използвайте меню Входящи маршрути за нестандартни модели"
 
 msgid ""
 "Please enter a valid Caller ID Number or leave it blank for your Assigned "
@@ -2927,7 +2931,7 @@ msgid ""
 "normally required on outbound calls"
 msgstr ""
 "Разрешаването на Избягване на PIN при Избиране ще ви позволи да избегнете "
-"всички PIN кодове които нормално се изискват при изходящи обаждания."
+"всички PIN кодове които нормално се изискват при изходящи обаждания"
 
 msgid "Assigned DID/CID"
 msgstr "Назначени DID/CID"
@@ -2949,8 +2953,8 @@ msgid ""
 msgstr ""
 "Директен DID който е назначен за тази вътрешна линия. DID трябва да е в "
 "същия формат, който се предоставя от доставчика (като пълен номер, 4 цифри "
-"за 10x4 и т.н.).<br><br>Формата трябва да е: <b>XXXXXXXXXX</b><br><br>."
-"Допълнително CID може да бъде свързан с този DID в следващото поле."
+"за 10x4 и т.н.).<br><br>Формата трябва да е: <b>XXXXXXXXXX</b><br><br>. "
+"Допълнително CID може да бъде свързан с този DID в следващото поле"
 
 msgid "Add Inbound CID"
 msgstr "Добави Входящ CID"
@@ -3559,7 +3563,7 @@ msgid "starting migration"
 msgstr "стартиране на преместване"
 
 msgid "User: "
-msgstr "Потребител:"
+msgstr "Потребител: "
 
 #, php-format
 msgid "ERROR: failed to insert %s for user %s"
@@ -3883,7 +3887,7 @@ msgstr ""
 "Въведете очаквания DID Номер ако вашата външна линия пропуска DID на "
 "входящите обаждания. <br><br>Оставете празно за да отговаря на обажданията с "
 "всякаква или без DID информация.<br><br>Също така можете да използвате модел "
-"за съвпадения (като _2[345]X) който да отговаря на диапазон от номера."
+"за съвпадения (като _2[345]X) който да отговаря на диапазон от номера"
 
 msgid "Caller ID Number"
 msgstr "CallerID Номер"
@@ -4099,7 +4103,7 @@ msgid "Call Recording"
 msgstr "Запис на Разговор"
 
 msgid "Extension Recording Override:"
-msgstr "Отменяне на Запис на Вътрешна Линия"
+msgstr "Отменяне на Запис на Вътрешна Линия:"
 
 msgid ""
 "This will override the recording settings of all extensions/users. If "
@@ -4150,7 +4154,7 @@ msgid "Voicemail"
 msgstr "Гласова Поща"
 
 msgid "Ringtime Default:"
-msgstr "Време на Звънене По-Подразбиране"
+msgstr "Време на Звънене По-Подразбиране:"
 
 msgid ""
 "Default number of seconds to ring phones before sending callers to "
@@ -4162,7 +4166,7 @@ msgstr ""
 "вътрешен номер/потребител и няма да има ефект за телефоните без гласова поща."
 
 msgid "Direct Dial Voicemail Prefix:"
-msgstr "Префикс за Директно Избиране на Гласова Поща"
+msgstr "Префикс за Директно Избиране на Гласова Поща:"
 
 msgid ""
 "Prefix used to dial directly to someone's voicemail. Caution should be taken "
@@ -4173,7 +4177,7 @@ msgstr ""
 "със специалните кодове."
 
 msgid "Direct Dial to Voicemail message type:"
-msgstr "Тип на съобщението за Директно Избиране на ГП"
+msgstr "Тип на съобщението за Директно Избиране на ГП:"
 
 msgid ""
 "Default message type to use when dialing direct to an extensions voicemail"
@@ -4188,7 +4192,7 @@ msgid "No Message"
 msgstr "Без Съобщение"
 
 msgid "Optional Voicemail Recording Gain:"
-msgstr "Допълнително Усилване  Звука на Записа на ГП"
+msgstr "Допълнително Усилване  Звука на Записа на ГП:"
 
 msgid "Use the specified amount of gain when recording the voicemail message."
 msgstr ""
@@ -4332,7 +4336,7 @@ msgstr "Национални Значения на Тоновете"
 
 msgid "Select which country you are in"
 msgstr ""
-"Изберете кои национални значения на тоновете за сигнализация да се използват."
+"Изберете кои национални значения на тоновете за сигнализация да се използват"
 
 msgid "24-hour format"
 msgstr "24-часов формат"
@@ -4342,7 +4346,7 @@ msgid ""
 "format"
 msgstr ""
 "Изберете 'да' ако желаете да използвате 24-часов формат или 'не' ако "
-"използвате 12-часов am/pm формат."
+"използвате 12-часов am/pm формат"
 
 msgid "no"
 msgstr "не"
@@ -4364,14 +4368,14 @@ msgid ""
 "Asterisk server using the SIP protocol"
 msgstr ""
 "Установяването на 'да' евентуално ще позволи на ВСЕКИ  да се обажда във "
-"вашия Астериск сървър използвайки SIP протокол."
+"вашия Астериск сървър използвайки SIP протокол"
 
 msgid ""
 "It should only be used if you fully understand the impact of allowing "
 "anonymous calls into your server"
 msgstr ""
 "Използвайте само ако напълно разбирате въздействието на позволяване на "
-"анонимни обаждания във вашия сървър."
+"анонимни обаждания във вашия сървър"
 
 msgid "Online Updates"
 msgstr "Онлайн Обновявания"
@@ -4424,7 +4428,7 @@ msgstr ""
 "доведе до недостъпност при някои външни IVR-и и други странни проблеми."
 
 msgid "Error fetching prefix list for: "
-msgstr "Грешка при вмъкване на префиксите за:"
+msgstr "Грешка при вмъкване на префиксите за: "
 
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "Неправилен формат за NPA-NXX код (трябва да е във формат: NXXNXX)"
