@@ -2077,8 +2077,10 @@ class module_functions {
 				if (file_exists($bmofile)) {
 					try {
 						FreePBX::create()->injectClass($mn, $bmofile);
-						//TODO: Need to take care of halting the install process
-						FreePBX::create()->$mn->install();
+						$o = FreePBX::create()->$mn->install();
+						if($o === false) {
+							return false;
+						}
 					} catch(Exception $e) {
 						dbug("Error Returned was: ".$e->getMessage());
 						return false;
@@ -2104,8 +2106,10 @@ class module_functions {
 				$bmofile = "$moduledir/$mn.class.php";
 				if (file_exists($bmofile)) {
 					try {
-						//TODO: Need to take care of halting the uninstall process
-						FreePBX::create()->$mn->uninstall();
+						$o = FreePBX::create()->$mn->uninstall();
+						if($o === false) {
+							return false;
+						}
 					} catch(Exception $e) {
 						dbug("Error Returned was: ".$e->getMessage());
 						return false;
