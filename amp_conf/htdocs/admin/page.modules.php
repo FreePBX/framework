@@ -24,6 +24,7 @@ if ($quietmode && isset($_REQUEST['update_email'])) {
 	} else {
 		$cm =& cronmanager::create($db);
 		$cm->save_email($update_email);
+		$cm->set_machineid($_REQUEST['machine_id']);
 		$json_array['status'] = true;
 	}
 	header("Content-type: application/json");
@@ -69,6 +70,7 @@ if (!$quietmode) {
 	$cm =& cronmanager::create($db);
 	$displayvars['online_updates'] = $cm->updates_enabled() ? 'yes' : 'no';
 	$update_email   = $cm->get_email();
+	$machine_id     = $cm->get_machineid();
 
 	if (!$cm->updates_enabled()) {
 		$displayvars['shield_class'] = 'updates_off';
@@ -78,6 +80,7 @@ if (!$quietmode) {
 
 	$displayvars['update_blurb']   = htmlspecialchars(_("Add your email here to receive important security and module updates. The email address you provide is NEVER transmitted to the FreePBX remote servers. The email is ONLY used by your local PBX to send notifications of updates that are available as well as IMPORTANT Security Notifications. It is STRONGLY advised that you keep this enabled and keep updated of these important notifications to avoid costly security vulnerabilities."));
 	$displayvars['ue'] = htmlspecialchars($update_email);
+	$displayvars['machine_id'] = htmlspecialchars($machine_id);
 	//TODO: decide if warnings of any sort need to be given, or just list of repos active?
 } else {
 	if($action == 'process') {
