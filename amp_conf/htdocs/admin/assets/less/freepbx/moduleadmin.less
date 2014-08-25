@@ -39,7 +39,6 @@
         }
     }
     table {
-        /*min-width: 1250px;*/
         border: 1px solid @modulelist-table-border-color;
         border-radius: 6px;
     }
@@ -124,7 +123,6 @@
     div.moduleinfopane {
         display:none;
         background: @modulelist-table-background-color;
-        /*height: 17.5em;*/
         border-top: 1px dashed @modulelist-table-border-color;
         padding-bottom: 15px;
         pre {
@@ -159,7 +157,6 @@
     }
     div.tabbertab {
         margin-left:1.5em;
-        /*height:19em;*/
         overflow:auto;
         padding-left: 6px;
         padding-top: 6px;
@@ -265,3 +262,9 @@ div.modulebuttons {
         display:none;
     }
 }
+
+/* 'Info' sections can expand and contract naturally, but
+ * larger sections - changelog, debug - are limited to an
+ * abitrary 17em. */
+.limitheight { height:17em; }
+
