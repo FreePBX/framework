@@ -278,7 +278,7 @@ chown_asterisk() {
 	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/*
 
 	# Fix PIAF immutable files
-	chattr -i $AMPWEBROOT/*
+	chattr -i $AMPWEBROOT/*  2>&1 >/dev/null
 
 	echo Permissions OK
 	call_hook chown_asterisk
