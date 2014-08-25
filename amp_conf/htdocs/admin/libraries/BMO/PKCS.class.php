@@ -38,6 +38,10 @@ class PKCS {
 		} else {
 			$this->debug = 0;
 		}
+		if(function_exists('fpbx_which')) {
+			$command = fpbx_which('openssl');
+			$this->openssl = !empty($command) ? $command : $this->openssl;
+		}
 	}
 
 	/**
