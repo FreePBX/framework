@@ -1,4 +1,6 @@
-<?php if($online) { ?>
+<?php
+// vim: :set filetype=php tabstop=4 shiftwidth=4 autoindent smartindent:
+ if($online) { ?>
 	<?php if(!empty($announcements)) {?>
 		<div class='announcements'><?php echo $announcements?></div>
 	<?php } ?>
@@ -311,7 +313,7 @@
 										</table>
 									</div>
 									<?php if(!empty($module['changelog'])) { ?>
-									<div class="tabbertab" id="changelog_<?php echo prep_id($module['name'])?>"  title="<?php echo _("Changelog")?>">
+									<div class="tabbertab limitheight" id="changelog_<?php echo prep_id($module['name'])?>"  title="<?php echo _("Changelog")?>">
 										<h5><?php echo _("Change Log for version")?>: <?php echo $module['version']?></h5>
 										<span><?php echo $module['changelog']?></span>
 									</div>
@@ -337,7 +339,7 @@
 										</div>
 									<?php } ?>
 									<?php if ($devel) { ?>
-										<div class="tabbertab" title="<?php echo _("Debug")?>">
+										<div class="tabbertab limitheight" title="<?php echo _("Debug")?>">
 											<h5><?php echo $module['name']?></h5>
 											<pre>
 												<?php print_r($module['raw']['local'])?>
