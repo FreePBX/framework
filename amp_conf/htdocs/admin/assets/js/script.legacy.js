@@ -1038,12 +1038,12 @@ $(document).ready(function() {
 		$(this).replaceWith($(this).html());
 	});
 
-	$(".help").on("mouseenter", function() {
+	$(document).on("mouseenter", '.help', function() {
 		side = fpbx.conf.text_dir == "lrt" ? "left" : "right";
 		var pos = $(this).offset(), offset = (200 - pos.side) + "px";
 		//left = left > 0 ? left : 0;
 		$(this).find("span").css(side, offset).stop(true, true).delay(500).animate({ opacity: "show" }, 750);
-	}).on("mouseleave", function(){
+	}).on("mouseleave", '.help', function(){
 		$(this).find("span").stop(true, true).animate({opacity: "hide"}, "fast");
 	});
 
