@@ -110,6 +110,8 @@ $(document).ready(function(){
 		var pi = (previous_track == 'stable') ? modules[module] : modules[module].releasetracks[previous_track];
 
 		$('#fullmodule_'+module+' .moduletrack').html(track.capitalize());
+		$('#fullmodule_'+module+' .moduletrack').removeClass(previous_track.toLowerCase());
+		$('#fullmodule_'+module+' .moduletrack').addClass(track.toLowerCase());
 
 		var label = $('#fullmodule_'+module+' .modulestatus').children().text().replace(pi.version,si.version);
 		$('#fullmodule_'+module+' .modulestatus').children().text(label);
