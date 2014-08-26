@@ -868,22 +868,22 @@ class module_functions {
 											}
 										break;
 										case MODULE_STATUS_BROKEN:
-											$errors[$mod] = sprintf(_('Module %s is required, but yours is broken. You should reinstall it and try again.'), $needed_module);
+											$errors[$mod] = sprintf(_('The Module Named "%s" is required, but yours is broken. You should reinstall it and try again.'), $needed_module);
 										break;
 										case MODULE_STATUS_DISABLED:
-											$errors[$mod] = sprintf(_('Module %s is required, but yours is disabled.'), $needed_module);
+											$errors[$mod] = sprintf(_('The Module Named "%s" is required, but yours is disabled.'), $needed_module);
 										break;
 										case MODULE_STATUS_NEEDUPGRADE:
-											$errors[$mod] = sprintf(_('Module %s is required, but yours is disabled because it needs to be upgraded. Please upgrade %s first, and then try again.'), $needed_module, $needed_module);
+											$errors[$mod] = sprintf(_('The Module Named "%s" is required, but yours is disabled because it needs to be upgraded. Please upgrade %s first, and then try again.'), $needed_module, $needed_module);
 										break;
 										default:
 										case MODULE_STATUS_NOTINSTALLED:
-											$errors[$mod] = sprintf(_('Module %s is required, yours is not installed.'), $needed_module);
+											$errors[$mod] = sprintf(_('The Module Named "%s" is required, yours is not installed.'), $needed_module);
 											$this->modDepends[] = $matches[1];
 										break;
 									}
 								} else {
-									$errors[$matches[1]] = sprintf(_('Module %s is required.'), $matches[1]);
+									$errors[$matches[1]] = sprintf(_('The Module Named "%s" is required.'), $matches[1]);
 									$this->modDepends[] = $matches[1];
 								}
 							}
@@ -894,7 +894,7 @@ class module_functions {
 							$file = $this->_ampconf_string_replace($value);
 
 							if (!file_exists( $file )) {
-								$errors[] = sprintf(_('File %s must exist.'), $file);
+								$errors[] = sprintf(_('The File "%s" must exist.'), $file);
 							}
 						break;
 						case 'engine':
