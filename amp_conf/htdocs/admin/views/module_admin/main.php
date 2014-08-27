@@ -1,6 +1,6 @@
 <?php
 // vim: :set filetype=php tabstop=4 shiftwidth=4 autoindent smartindent:
- if($online) { ?>
+if($online) { ?>
 	<?php if(!empty($announcements)) {?>
 		<div class='announcements'><?php echo $announcements?></div>
 	<?php } ?>
@@ -79,17 +79,21 @@
 											// check for online upgrade
 											if (!empty($module['raw']['online'])) {
 												$track = $module['track'];
-												$trackinfo = ($track == 'stable') ? $module['raw']['online'] : (!empty($module['raw']['online']['releasetracks'][$track]) ? $module['raw']['online']['releasetracks'][$track] : array());
+												$trackinfo = (strtolower($track) == 'stable') ? $module['raw']['online'] : (!empty($module['raw']['online']['releasetracks'][$track]) ? $module['raw']['online']['releasetracks'][$track] : array());
 												if (!empty($trackinfo['version'])) {
 													$vercomp = version_compare_freepbx($module['raw']['local']['version'], $trackinfo['version']);
+													$tn = ($trackenable && $module['track'] != $module['highreleasetracktype']) ? ucfirst(strtolower($module['track'])) : '';
 													if ($vercomp < 0) {?>
-														<span class="alert"><?php echo sprintf(_($disabled.'Online upgrade available (%s)'), $trackinfo['version']);?><?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>')) ? ' ' . sprintf(_('%s Upgrade Avalible (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) : ''?></span>
+														<span class="alert">
+															<?php echo sprintf(_('%s Online %s upgrade available (%s)'), $disabled, $tn, $trackinfo['version']);?>
+															<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>') && $module['track'] != $module['highreleasetracktype']) ? '; ' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) : ''?>
+														</span>
 													<?php } elseif ($vercomp > 0) { ?>
 														<?php echo sprintf(_($disabled.'Newer than online version (%s)'), $trackinfo['version']);?>
 													<?php } elseif($module['status'] == MODULE_STATUS_DISABLED) { ?>
-														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Avalible (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Disabled; up to date')?>
+														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Disabled; up to date')?>
 													<?php } else { ?>
-														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Avalible (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Enabled and up to date')?>
+														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Enabled and up to date')?>
 													<?php }
 												}
 											} else {
