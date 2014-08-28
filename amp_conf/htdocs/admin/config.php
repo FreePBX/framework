@@ -109,6 +109,12 @@ if ($unlock) {
 		}
 }
 
+//redirect back to the modules page for upgrade 
+if(isset($_SESSION['modulesRedirect'])) {
+	$display = 'modules';
+	unset($_SESSION['modulesRedirect']);
+}
+
 // determine if the user has a session time out set in advanced settings. If the timeout is 0 or not set, we don't force logout
 $sessionTimeOut = !empty($amp_conf['SESSION_TIMEOUT']) && is_numeric($amp_conf['SESSION_TIMEOUT']) ? $amp_conf['SESSION_TIMEOUT'] : false;
 if ($sessionTimeOut !== false) {
@@ -248,8 +254,14 @@ if(is_array($active_modules)){
 		}
 }
 
+//if display is modules then show the login page dont show does not exist as its confusing
 if ($cur_menuitem === null && !in_array($display, array('noauth', 'badrefer','noaccess',''))) {
-		$display = 'noaccess';
+		if($display == 'modules') {
+			$display = 'noauth';
+			$_SESSION['modulesRedirect'] = 1;
+		} else {
+			$display = 'noaccess';
+		}
 }
 
 // extensions vs device/users ... this is a bad design, but hey, it works
