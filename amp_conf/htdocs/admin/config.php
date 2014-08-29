@@ -126,7 +126,7 @@ if ($sessionTimeOut !== false) {
 		}
 	}
 }
-dbug('last_activity',$_SESSION['AMP_user']->_lastactivity);
+
 /* If there is an action request then some sort of update is usually being done.
    This may protect from cross site request forgeries unless disabled.
  */
