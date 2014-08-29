@@ -7,7 +7,6 @@ class ampuser {
 	var $_extension_low;
 	var $_deptname;
 	var $_sections;
-	var $_created;
 
 	function ampuser($username) {
 		$this->username = $username;
@@ -17,7 +16,6 @@ class ampuser {
 			$this->_extension_low = $user["extension_low"];
 			$this->_deptname = $user["deptname"];
 			$this->_sections = $user["sections"];
-			$this->_created = time();
 		} else {
 			// user doesn't exist
 			$this->_password = false;
@@ -25,7 +23,6 @@ class ampuser {
 			$this->_extension_low = "";
 			$this->_deptname = "";
 			$this->_sections = array();
-			$this->_created = false;
 		}
 	}
 
@@ -36,9 +33,6 @@ class ampuser {
 		$this->_extension_low = "";
 		$this->_deptname = "";
 		$this->_sections = array("*");
-		if ($this->_created === false) {
-			$this->_created = time();
-		}
 	}
 
 	function checkPassword($password) {
