@@ -446,7 +446,7 @@ class Freepbx_conf {
           }
           $comments .= "# " . $this->db_conf_store[$keyword]['name'] . "\n";
           //avoid newline issues
-          $default_val = str_replace(array("\r", "\n", "\r\n"), ",", $default_val);
+          $default_val = str_replace(array("\r", "\n", "\r\n"), "\\n", $default_val);
           $comments .= "# Default Value: $default_val\n";
         } else {
           $comments = "#\n";
@@ -457,6 +457,7 @@ class Freepbx_conf {
         }
       }
 			$this_val = str_replace(' ','\ ',$this_val);
+      $default_val = str_replace(array("\r", "\n", "\r\n"), "\\n", $default_val);
       $conf_string .= $comments . "$keyword=$this_val\n\n";
     }
     return $conf_string;
@@ -1057,7 +1058,7 @@ class Freepbx_conf {
       }
       //if cli then dont echo out newlines its confusing
       if(php_sapi_name() === 'cli' && $type === CONF_TYPE_TEXTAREA) {
-        $ret = str_replace(array("\r", "\n", "\r\n"), ",", $ret);
+        //$ret = str_replace(array("\r", "\n", "\r\n"), ",", $ret);
       }
       break;
 

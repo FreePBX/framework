@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>12.0.1rc4</version>
+	<version>12.0.1rc5</version>
 	<publisher>FreePBX</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*12.0.1rc5* Revert cli export, yet fix the amportal.conf generator
 		*12.0.1rc4* Final newline issues resolved
 		*12.0.1rc3* Newline after every install command, dont export textarea to cli
 		*12.0.1rc2* Ignore fw_ari on signature check because it doesnt fit into our perfect box
