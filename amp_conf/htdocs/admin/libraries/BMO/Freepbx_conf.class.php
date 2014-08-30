@@ -445,6 +445,8 @@ class Freepbx_conf {
             $comments = "#\n# --- CATEGORY: $category ---\n#\n\n";
           }
           $comments .= "# " . $this->db_conf_store[$keyword]['name'] . "\n";
+          //avoid newline issues
+          $default_val = str_replace(array("\r", "\n", "\r\n"), ",", $default_val);
           $comments .= "# Default Value: $default_val\n";
         } else {
           $comments = "#\n";
