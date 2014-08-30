@@ -214,7 +214,7 @@ switch ($action) {
 								echo '</span>';
 							} else {
 								$change_tracks[$modulename] = $setting['track'];
-								echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span>';
+								echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span><br/>';
 							}
 						}
 					}
@@ -243,7 +243,7 @@ switch ($action) {
 								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 								echo '</span>';
 							} else {
-								echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span>';
+								echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span><br/>';
 							}
 						}
 					}
@@ -268,7 +268,7 @@ switch ($action) {
 								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 								echo '</span>';
 							} else {
-								echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span>';
+								echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span><br/>';
 							}
 						}
 					}
@@ -282,7 +282,7 @@ switch ($action) {
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
 						} else {
-							echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span>';
+							echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span><br/>';
 						}
 					}
 				break;
@@ -294,7 +294,7 @@ switch ($action) {
 						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 						echo '</span>';
 					} else {
-						echo '<span class="success">'.sprintf(_("%s enabled successfully"),$modulename).'</span>';
+						echo '<span class="success">'.sprintf(_("%s enabled successfully"),$modulename).'</span><br/>';
 					}
 				break;
 				case 'disable':
@@ -305,7 +305,7 @@ switch ($action) {
 						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 						echo '</span>';
 					} else {
-						echo '<span class="success">'.sprintf(_("%s disabled successfully"),$modulename).'</span>';
+						echo '<span class="success">'.sprintf(_("%s disabled successfully"),$modulename).'</span><br/>';
 					}
 				break;
 				case 'uninstall':
@@ -317,7 +317,7 @@ switch ($action) {
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
 						} else {
-							echo '<span class="success">'.sprintf(_("%s uninstalled successfully"),$modulename).'</span>';
+							echo '<span class="success">'.sprintf(_("%s uninstalled successfully"),$modulename).'</span><br/>';
 						}
 					}
 				break;
@@ -328,7 +328,7 @@ switch ($action) {
 						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 						echo '</span>';
 					} else {
-						echo '<span class="success">'.sprintf(_("%s removed successfully"),$modulename).'</span>';
+						echo '<span class="success">'.sprintf(_("%s removed successfully"),$modulename).'</span><br/>';
 					}
 				break;
 				case 'reinstall':
@@ -349,7 +349,7 @@ switch ($action) {
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
 						} else {
-							echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span>';
+							echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span><br/>';
 						}
 					}
 				default:

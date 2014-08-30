@@ -1053,6 +1053,10 @@ class Freepbx_conf {
         $ret = $value;
         $this->_last_update_status['validated'] = true;
       }
+      //if cli then dont echo out newlines its confusing
+      if(php_sapi_name() === 'cli' && $type === CONF_TYPE_TEXTAREA) {
+        $ret = str_replace(array("\r", "\n", "\r\n"), ",", $ret);
+      }
       break;
 
     case CONF_TYPE_INT:

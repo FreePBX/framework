@@ -257,6 +257,8 @@ chown_asterisk() {
 	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT
 	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/* 2>/dev/null # Silence dangling symlink errors, cleared later
 
+	chown $AMPASTERISKUSER:$AMPASTERISKGROUP /usr/local/sbin/amportal
+
 	# Fix PIAF immutable files
 	chattr -i $AMPWEBROOT/* 2>/dev/null
 
