@@ -709,10 +709,13 @@ class module_functions {
 			$modulelist->initialize($modules);
 		}
 
+		//ksort for consistency throughout freepbx
 		if ($status === false) {
 			if (!$module) {
+				ksort($modulelist->module_array);
 				return $modulelist->module_array;
 			} else {
+				ksort($modules);
 				return $modules;
 			}
 		} else {
@@ -730,6 +733,7 @@ class module_functions {
 				}
 			}
 
+			ksort($modules);
 			return $modules;
 		}
 	}
@@ -1928,8 +1932,7 @@ class module_functions {
 						}
 					}
 				}
-				if (isset($xmlarray['module']['menuitems'])) {
-
+				if (!empty($xmlarray['module']['menuitems'])) {
 					foreach ($xmlarray['module']['menuitems'] as $item=>$displayname) {
 						$displayname = str_replace("\n&\n","&",$displayname);
 						$xmlarray['module']['menuitems'][$item] = $displayname;

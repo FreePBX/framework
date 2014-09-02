@@ -96,7 +96,7 @@ if [[ -e $FREEPBX_CONF && -w "/etc/amportal.conf" && -z "$FORCE_AMPORTAL_CONF" ]
         gen_path=$PWD
         cd $sv_pwd
 	`$gen_path/gen_amp_conf.php`
-elif [ -e "/etc/amportal.conf" ]; then # Check if file exists, if it dose read it and then write out /etc/freepbx.conf
+elif [ -e "/etc/amportal.conf" ]; then # Check if file exists, if it does read it and then write out /etc/freepbx.conf
 	. /etc/amportal.conf
 	write_freepbxconf
 else
@@ -111,19 +111,24 @@ if [ -z $PIDOF ]; then
 fi
 
 if [ -e $AMPBIN/amportal ]; then
-  echo "new amportal script detected, moving it to $AMPSBIN and attempting to backup up old"
-  # just in case it isn't there though it should be
-  if [ -e $AMPSBIN/amportal ]; then
-    mv $AMPSBIN/amportal $AMPSBIN/amportal.bak
-  else
-    echo "no exiting $AMPSBIN/amportal to make a backup of"
-  fi
-  mv $AMPBIN/amportal $AMPSBIN/amportal
-  if [ "$?" -ne "0" ]; then
-    echo "unable to update to new amportal, check permissions and try again"
-  fi
-  chown root:root $AMPSBIN/amportal
-  chmod +x $AMPSBIN/amportal
+	if [ ! -e $AMPSBIN/amportal ] || [ ! -h $AMPSBIN/amportal ]; then
+		cmp -s $AMPBIN/amportal $AMPSBIN/amportal > /dev/null
+		if [ $? -eq 1 ]; then
+		  echo "new amportal script detected, moving it to $AMPSBIN and attempting to backup up old"
+		  # just in case it isn't there though it should be
+		  if [ -e $AMPSBIN/amportal ]; then
+		    mv $AMPSBIN/amportal $AMPSBIN/amportal.bak
+		  fi
+		  mv $AMPBIN/amportal $AMPSBIN/amportal
+		  if [ "$?" -ne "0" ]; then
+		    echo "unable to update to new amportal, check permissions and try again"
+		  fi
+		  chown root:root $AMPSBIN/amportal
+		  chmod +x $AMPSBIN/amportal
+		else
+			rm -f $AMPBIN/amportal
+		fi
+	fi
 fi
 
 if [ "$ASTRUNDIR" = "/var/run" ]
