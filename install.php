@@ -177,8 +177,8 @@ if (!function_exists('version_compare_freepbx')) {
 		return false;
 	}
 
-	//sbin is not set correctly starting in 2.9, this is a stopgap till we fix the installer in 13
-	exec('which -a amportal',$output, $return_var);
+	//sbin is not set correctly starting in 2.9, this is a stop-gap till we fix the installer in 13
+	exec('export PATH=/usr/local/sbin:$PATH && which -a amportal',$output, $return_var);
 	$file = null;
 	foreach($output as $f) {
 		if(!is_link($f)) {
@@ -188,7 +188,7 @@ if (!function_exists('version_compare_freepbx')) {
 	}
 	if(!empty($file)) {
 		$sbin = dirname($file);
-		if($amp_conf['AMPSBIN'] !== $sbin) {
+		if(is_dir($sbin) && ($amp_conf['AMPSBIN'] !== $sbin)) {
 			$freepbx_conf =& freepbx_conf::create();
 			out(sprintf(_("Setting sbin to the correct location of: %s"),$sbin));
 			$freepbx_conf->set_conf_values(array("AMPSBIN" => $sbin), true,true);
