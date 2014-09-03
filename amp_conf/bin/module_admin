@@ -668,24 +668,36 @@ function refreshsignatures() {
 	FreePBX::GPG();
 	$fpbxmodules = FreePBX::Modules();
 	$list = $fpbxmodules->getActiveModules();
+	outn("Getting Data from Online Server...");
 	$modules_online = $mf->getonlinexml();
 	if(empty($modules_online)) {
 		out('Cant Reach Online Server');
 		exit(1);
+	} else {
+		out("Done");
 	}
+	out("Checking Signatures of Modules...");
 	foreach($list as $m) {
 		//Check signature status, then if its online then if its signed online then redownload (through force)
-		if(isset($m['signature']['status']) && (~$m['signature']['status'] & GPG::STATE_GOOD) && isset($modules_online[$m['rawname']]) && isset($modules_online[$m['rawname']]['signed'])) {
-			out("Refreshing ".$m['rawname']);
-			$modulename = $m['rawname'];
-			$modules = $fpbxmodules->getinfo($modulename);
-			doUpgrade($modulename,true);
-			outn("Verifying GPG...");
-			$mf->updateSignature($modulename);
-			out('Done');
-			out("");
+		outn("Checking ". $m['rawname'] . "...");
+		if(isset($m['signature']['status']) && (~$m['signature']['status'] & GPG::STATE_GOOD)) {
+			out("Signature Invalid");
+			if(isset($modules_online[$m['rawname']]) && isset($modules_online[$m['rawname']]['signed'])) {
+				out("\tRefreshing ".$m['rawname']);
+				$modulename = $m['rawname'];
+				$modules = $fpbxmodules->getinfo($modulename);
+				doUpgrade($modulename,true);
+				outn("\tVerifying GPG...");
+				$mf->updateSignature($modulename);
+				out("Done");
+			} else {
+				out("\tCould not find signed module on remote server!");
+			}
+		} else {
+			out("Good");
 		}
 	}
+	out("Done");
 }
 
 function showReverseDepends($modulename) {
