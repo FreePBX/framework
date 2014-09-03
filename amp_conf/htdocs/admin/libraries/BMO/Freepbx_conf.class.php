@@ -179,6 +179,16 @@ class Freepbx_conf {
    */
   var $amportal_canwrite;
 
+  /**
+   * Depreciated settings that will be forced to output this value
+   * @type {array}
+   */
+  private $depreciatedSettings = array(
+    "USEDEVSTATE" => true,
+    "USEQUEUESTATE" => false,
+    "QUEUES_UPDATECDR" => true
+  );
+
 
   /** All access to this class should be done using the static method create
    * so a single copy is created and used throughout.
@@ -233,6 +243,20 @@ class Freepbx_conf {
       }
     }
     unset($db_raw);
+    $dp = array();
+    foreach($this->depreciatedSettings as $keyword => $value) {
+      if(isset($this->db_conf_store[$keyword])) {
+        $dp[] = $keyword;
+      }
+      $this->conf[$keyword] = $value;
+    }
+    if(!empty($dp)) {
+      $this->remove_conf_settings($dp);
+    }
+  }
+
+  public function update($keyword, $value, $commit=true) {
+    return $this->set_conf_values(array($keyword => $value), $commit);
   }
 
   public function get($keyword, $passthru=false) {
@@ -395,6 +419,10 @@ class Freepbx_conf {
 		  }
 	  }
 
+    foreach($this->depreciatedSettings as $keyword => $value) {
+      $this->conf[$keyword] = $value;
+    }
+
 	  return $this->conf;
   }
 
@@ -519,7 +547,7 @@ class Freepbx_conf {
    * @return bool   True if the setting exists.
    */
   function conf_setting_exists($keyword) {
-    return isset($this->db_conf_store[$keyword]);
+    return isset($this->depreciatedSettings[$keyword]) || isset($this->db_conf_store[$keyword]);
   }
 
   /** Get's the current value of a configuration setting from the database store.
@@ -533,6 +561,9 @@ class Freepbx_conf {
    *                not exist.
    */
   function get_conf_setting($keyword, $passthru=false) {
+    if(isset($this->depreciatedSettings[$keyword])) {
+      return $this->depreciatedSettings[$keyword];
+    }
 		if ($passthru) {
 			// This is a special case situation, do I need to confirm if the setting
 			// actually exists so I can return a boolean false if not?
@@ -561,6 +592,9 @@ class Freepbx_conf {
    *                not exist.
    */
   function get_conf_default_setting($keyword) {
+    if(isset($this->depreciatedSettings[$keyword])) {
+      return $this->depreciatedSettings[$keyword];
+    }
     if (isset($this->db_conf_store[$keyword])) {
       return $this->db_conf_store[$keyword]['defaultval'];
     } else {
@@ -603,6 +637,9 @@ class Freepbx_conf {
     }
     unset($this->last_update_status);
     foreach($update_arr as $keyword => $value) {
+      if(isset($this->depreciatedSettings[$keyword])) {
+        continue;
+      }
       if (!isset($this->db_conf_store[$keyword])) {
         die_freepbx(sprintf(_("trying to set keyword [%s] to [%s] on uninitialized setting"),$keyword, $value));
       }
@@ -692,6 +729,9 @@ class Freepbx_conf {
    */
   function define_conf_setting($keyword,$vars,$commit=false) {
     global $amp_conf;
+    if(isset($this->depreciatedSettings[$keyword])) {
+      return true;
+    }
 
     unset($this->last_update_status);
     $this->last_update_status[$keyword]['validated'] = false;
