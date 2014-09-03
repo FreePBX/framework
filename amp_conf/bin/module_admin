@@ -76,12 +76,14 @@ function doInstall($modulename, $force) {
 						if (($status2 = doInstall($mod, $force)) !== true) {
 							out("Unable to install module ${modulename}'s dependency ${mod}:");
 							out(' - '.implode("\n - ",$status2));
-							exit;
+							continue;
+							//exit;
 						}
-                    } else {
+					} else {
 						out("Unable to download module ${modulename}'s dependency ${mod}:");
 						out(' - '.implode("\n - ",$status1));
-						exit;
+						continue;
+						//exit;
 					}
 				}
 			}
@@ -92,13 +94,13 @@ function doInstall($modulename, $force) {
 					if (($status2 = doInstall($modulename, $force)) !== true) {
 						out("Unable to install module ${modulename}:");
 						out(' - '.implode("\n - ",$status2));
-						exit;
+						//exit;
 					}
 				}
 			} else {
 				out("The following error(s) occurred:");
 				out(' - '.implode("\n - ",$errors));
-				exit(2);
+				//exit(2);
 			}
 
 		}
@@ -136,6 +138,7 @@ function doDeleteAll($force=true) {
 			if (is_array($errors = $modulef->delete($module['rawname'], true))) {
 				out("The following error(s) occured:");
 				out(' - '.implode("\n - ",$errors));
+				continue;
 				//exit(2);
 			} else {
 				out("Module ".$module['rawname']." successfully deleted");
