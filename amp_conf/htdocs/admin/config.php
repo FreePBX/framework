@@ -170,7 +170,7 @@ if (!$quietmode) {
 		// No .htaccess support
 		if(!$nt->exists('framework', 'htaccess')) {
 			$nt->add_security('framework', 'htaccess', _('.htaccess files are disable on this webserver. Please enable them'),
-			_('To Protect the integrity of your server, you must set AllowOverride to All in the Apache configuration file for this directory'));
+			sprintf(_("To protect the integrity of your server, you must allow overrides in your webserver's configuration file for the User Control Panel. For more information see: %s"), '<a href="http://wiki.freepbx.org/display/F2/Webserver+Overrides">http://wiki.freepbx.org/display/F2/Webserver+Overrides</a>'));
 		}
 	} else {
 		if($nt->exists('framework', 'htaccess')) {
