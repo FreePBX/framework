@@ -1123,22 +1123,27 @@ class module_functions {
 		// if we're not forcing the download, and a file with the target name exists..
 		if (!$force && file_exists($filename)) {
 			outn(_('Found module locally, verifying...'));
-            if(!empty($modulexml['signed']['type']) && $modulexml['signed']['type'] == 'gpg' && $modulexml['signed']['sha1'] == sha1_file($filename)) {
-                if(!FreePBX::GPG()->verifyFile($filename)) {
-					out(_('Redownloading'));
-                    unlink($filename);
-                }
-                try {
-                    $filename = FreePBX::GPG()->getFile($filename);
-                    if(!file_exists($filename)) {
+			if(!empty($modulexml['signed']['type']) && $modulexml['signed']['type'] == 'gpg' && $modulexml['signed']['sha1'] == sha1_file($filename)) {
+				try {
+					if(!FreePBX::GPG()->verifyFile($filename)) {
 						out(_('Redownloading'));
-                        unlink($filename);
-                    }
-                } catch(\Exception $e) {
+						unlink($filename);
+					}
+				} catch(\Exception $e) {
 					out(_('Redownloading'));
-                    unlink($filename);
-                }
-            }
+					unlink($filename);
+				}
+				try {
+					$filename = FreePBX::GPG()->getFile($filename);
+					if(!file_exists($filename)) {
+						out(_('Redownloading'));
+						unlink($filename);
+					}
+				} catch(\Exception $e) {
+					out(_('Redownloading'));
+					unlink($filename);
+				}
+			}
 			// We might already have it! Let's check the MD5.
 			if ((isset($modulexml['sha1sum']) && $modulexml['sha1sum'] == sha1_file($filename)) || (isset($modulexml['md5sum']) && $modulexml['md5sum'] == md5_file($filename))) {
 				out(_('Verified. Using Local'));
@@ -1274,22 +1279,33 @@ class module_functions {
 			return array(sprintf(_('Unable to save %s'),$filename));
 		}
 
-        if(!empty($modulexml['signed']['type']) && $modulexml['signed']['type'] == 'gpg') {
-            if($modulexml['signed']['sha1'] != sha1_file($filename)) {
-                return array(sprintf(_('File Integrity failed for %s - aborting (sha1 did not match)'), $filename));
-            }
-            if(!FreePBX::GPG()->verifyFile($filename)) {
-                return array(sprintf(_('File Integrity failed for %s - aborting (gpg check failed)'), $filename));
-            }
-            try {
-                $filename = FreePBX::GPG()->getFile($filename);
-                if(!file_exists($filename)) {
-                    return array(sprintf(_('Could not find extracted module: %s'), $filename));
-                }
-            } catch(\Exception $e) {
-                return array(sprintf(_('Unable to work with GPG file, message was: %s'), $e->getMessage()));
-            }
-        }
+		if(!empty($modulexml['signed']['type']) && $modulexml['signed']['type'] == 'gpg') {
+				if($modulexml['signed']['sha1'] != sha1_file($filename)) {
+						return array(sprintf(_('File Integrity failed for %s - aborting (sha1 did not match)'), $filename));
+				}
+				try {
+					if(!FreePBX::GPG()->trustFreePBX()) {
+						return array(sprintf(_('Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: No Cause Given)'), $filename));
+					}
+				}catch(\Exception $e) {
+					return array(sprintf(_('Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: %s)'), $filename, $e->getMessage()));
+				}
+				try {
+					if(!FreePBX::GPG()->verifyFile($filename)) {
+							return array(sprintf(_('File Integrity failed for %s - aborting (GPG Verify File check failed)'), $filename));
+					}
+				}catch(\Exception $e) {
+					return array(sprintf(_('File Integrity failed for %s - aborting (Cause: %s)'), $filename, $e->getMessage()));
+				}
+				try {
+						$filename = FreePBX::GPG()->getFile($filename);
+						if(!file_exists($filename)) {
+								return array(sprintf(_('Could not find extracted module: %s'), $filename));
+						}
+				} catch(\Exception $e) {
+						return array(sprintf(_('Unable to work with GPG file, message was: %s'), $e->getMessage()));
+				}
+		}
 		// Check the MD5 info against what's in the module's XML
 		if (!isset($modulexml['md5sum']) || empty($modulexml['md5sum'])) {
 			//echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
