@@ -40,7 +40,9 @@ class moduleHook {
 				// check if there is a processing function
 				$funct = $hookingMod . '_hookProcess_' . $target_module;
 				if( function_exists( $funct ) ) {
+					modgettext::push_textdomain(strtolower($hookingMod));
 					$funct($viewing_itemid, $request);
+					modgettext::pop_textdomain();
 				}
 			}
 		}

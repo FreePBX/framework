@@ -132,12 +132,14 @@ class Hooks extends DB_Helper {
 									throw new \Exception('Cant find '.$namespace.$hook['class']);
 								}
 							} catch(\Exception $e) {
-								throw new \Exception('Cant find '.$namespace.$hook['class']);
+								throw new \Exception('Cant find '.$namespace.$hook['class']."::: ".$e->getMessage());
 							}
 						}
 						$meth = $hook['method'];
 						//now send the method from that class the data!
+						modgettext::push_textdomain(strtolower($module));
 						$return[$module] = $this->FreePBX->$module->$meth($data);
+						modgettext::pop_textdomain();
 					}
 				}
 			}
