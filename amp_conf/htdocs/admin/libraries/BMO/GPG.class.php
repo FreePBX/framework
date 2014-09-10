@@ -318,7 +318,7 @@ class GPG {
 		$tmp = null;
 		$r = array($pipes[3]);
 		if (!stream_select($r , $tmp, $tmp, $this->timeout)) {
-			throw new RuntimeException(sprintf_("gpg took too long to run the command: %s"),$cmd);
+			throw new RuntimeException(sprintf(_("gpg took too long to run the command: %s"),$cmd));
 		}
 
 		$status = explode("\n", stream_get_contents($pipes[3]));
