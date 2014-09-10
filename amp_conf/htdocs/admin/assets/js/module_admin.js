@@ -20,6 +20,9 @@ $(document).ready(function(){
 			}
 		});
 	})
+	$("#check_online").click(function() {
+		toggleScreenDoor();
+	})
 	$('#show_auto_update').click(function() {
 		autoupdate_box = $('#db_online').dialog({
 			title: fpbx.msg.framework.updatenotifications,
@@ -291,6 +294,12 @@ function close_module_actions(goback) {
 	if (goback) {
   		location.href = 'config.php?display=modules';
 	}
+}
+
+function toggleScreenDoor() {
+	var h = $( document ).height();
+	$('.screendoor').css('height', h);
+	$('.screendoor').fadeToggle('fast');
 }
 
 String.prototype.capitalize = function() {
