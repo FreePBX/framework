@@ -111,7 +111,7 @@ class DialplanHooks {
 		// Loop through all our modules
 		$hooksDiscovered = array();
 		foreach($active_modules as $module => $mod_data) {
-			// Some modules (currently, only pinsets) specify they want to run at
+			// Some modules specify they want to run at
 			// a specific priority, in module.xml.  Let them.
 			if (isset($mod_data['methods'], $mod_data['methods']['get_config'])){
 				foreach ($mod_data['methods']['get_config'] as $pri => $methods) {
