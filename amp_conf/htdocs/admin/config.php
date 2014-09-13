@@ -422,7 +422,7 @@ switch($display) {
 
 			// create a module_hook object for this module's page
 			try {
-				$module_hook = new moduleHook;
+				$module_hook = moduleHook::create();
 
 				// populate object variables
 				$module_hook->install_hooks($module_page,$module_name,$itemid);

@@ -1,10 +1,20 @@
 <?php
 
 class moduleHook {
-	var $hookHtml = '';
-	var $arrHooks = array();
+	public $hookHtml = '';
+	public $arrHooks = array();
 
-	function install_hooks($viewing_itemid,$target_module,$target_menuid = '') {
+	private static $obj = false;
+
+	public static function create() {
+		if (!$obj) {
+			self::$obj = new moduleHook();
+		}
+		return self::$obj;
+	}
+
+
+	public function install_hooks($viewing_itemid,$target_module,$target_menuid = '') {
 		global $active_modules;
 
 		/*  Loop though all active modules and find which ones have hooks.
@@ -34,7 +44,7 @@ class moduleHook {
 		}
 	}
 	// process the request from the module we hooked
-	function process_hooks($viewing_itemid, $target_module, $target_menuid, $request) {
+	public function process_hooks($viewing_itemid, $target_module, $target_menuid, $request) {
 		if(is_array($this->arrHooks)) {
 			foreach($this->arrHooks as $hookingMod) {
 				// check if there is a processing function
