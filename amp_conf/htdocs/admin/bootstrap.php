@@ -30,8 +30,9 @@
  */
 
 // This is used with BMO.
-if (isset($bootstrap_settings['returnimmediately']))
+if (isset($bootstrap_settings['returnimmediately'])) {
 	return;
+}
 
 // we should never re-run this file, something is wrong if we do.
 //

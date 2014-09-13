@@ -113,8 +113,9 @@ class GuiHooks {
 
 		$hooks = $this->getHooks($module, $filename);
 
-		if (!isset($hooks['INTERCEPT']))
+		if (!isset($hooks['INTERCEPT'])) {
 			return true;
+		}
 
 		$output = $this->getOutput($filename);
 
