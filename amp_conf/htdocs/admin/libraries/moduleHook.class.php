@@ -4,15 +4,22 @@ class moduleHook {
 	public $hookHtml = '';
 	public $arrHooks = array();
 
-	private static $obj = false;
+	private static $obj;
 
 	public static function create() {
-		if (!$obj) {
-			self::$obj = new moduleHook();
+		if (!is_object(self::$obj)) {
+			self::$obj = new moduleHook(true);
 		}
 		return self::$obj;
 	}
 
+
+	public function __construct($checker = false) {
+		if ($checker !== true) {
+			throw new \Exception("Someone tried to new moduleHook. This is a bug");
+		}
+		self::$obj = $this;
+	}
 
 	public function install_hooks($viewing_itemid,$target_module,$target_menuid = '') {
 		global $active_modules;
