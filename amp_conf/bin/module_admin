@@ -76,12 +76,14 @@ function doInstall($modulename, $force) {
 						if (($status2 = doInstall($mod, $force)) !== true) {
 							out("Unable to install module ${modulename}'s dependency ${mod}:");
 							out(' - '.implode("\n - ",$status2));
-							exit;
+							continue;
+							//exit;
 						}
-                    } else {
+					} else {
 						out("Unable to download module ${modulename}'s dependency ${mod}:");
 						out(' - '.implode("\n - ",$status1));
-						exit;
+						continue;
+						//exit;
 					}
 				}
 			}
@@ -92,13 +94,13 @@ function doInstall($modulename, $force) {
 					if (($status2 = doInstall($modulename, $force)) !== true) {
 						out("Unable to install module ${modulename}:");
 						out(' - '.implode("\n - ",$status2));
-						exit;
+						//exit;
 					}
 				}
 			} else {
 				out("The following error(s) occurred:");
 				out(' - '.implode("\n - ",$errors));
-				exit(2);
+				//exit(2);
 			}
 
 		}
@@ -136,6 +138,7 @@ function doDeleteAll($force=true) {
 			if (is_array($errors = $modulef->delete($module['rawname'], true))) {
 				out("The following error(s) occured:");
 				out(' - '.implode("\n - ",$errors));
+				continue;
 				//exit(2);
 			} else {
 				out("Module ".$module['rawname']." successfully deleted");
@@ -367,36 +370,71 @@ function mirrorrepo(){
 }
 
 function showi18n($modulename) {
-	$modulef =& module_functions::create();
-	$modules = $modulef->getinfo($modulename);
-	if (!isset($modules[$modulename])) {
-		fatal($modulename.' not found');
+	//special case core so that we have everything we need for localizations
+	switch($modulename) {
+		case 'core':
+			$modules = module_getinfo();
+		break;
+		default:
+			$modules = module_getinfo($modulename);
+		break;
 	}
 
-	if (isset($modules[$modulename]['name'])) {
-		echo "# name:\n_(\"".$modules[$modulename]['name']."\");\n";
-	}
-	if (isset($modules[$modulename]['category'])) {
-		echo "# category:\n_(\"".str_replace("\n","",$modules[$modulename]['category'])."\");\n";
-	}
-	if (isset($modules[$modulename]['description'])) {
-		echo "# description:\n_(\"".trim(str_replace("\n","",$modules[$modulename]['description']))."\");\n";
-	}
-	if (isset($modules[$modulename]['menuitems'])) {
-		foreach ($modules[$modulename]['menuitems'] as $key => $menuitem) {
-			echo "# $key:\n_(\"$menuitem\");\n";
+	$modulesProcessed = array();
+	foreach ($modules as $rawname => $mod) {
+		if (!isset($modules[$rawname])) {
+			fatal($rawname.' not found');
+		}
+
+		if (!in_array($modules[$rawname]['name'], $modulesProcessed['name'])) {
+			$modulesProcessed['name'][] = $modules[$rawname]['name'];
+			if (isset($modules[$rawname]['name'])) {
+				echo "# name:\n_(\"".$modules[$rawname]['name']."\");\n";
+			}
+		}
+		if (!in_array($modules[$rawname]['category'], $modulesProcessed['category'])) {
+			$modulesProcessed['category'][] = $modules[$rawname]['category'];
+			if (isset($modules[$rawname]['category'])) {
+				echo "# category:\n_(\"".str_replace("\n","",$modules[$rawname]['category'])."\");\n";
+			}
+		}
+		if (!in_array($modules[$rawname]['description'], $modulesProcessed['description'])) {
+			$moduleProcessed['description'][] = $modules[$rawname]['description'];
+			if (isset($modules[$rawname]['description'])) {
+				echo "# description:\n_(\"".trim(str_replace("\n","",$modules[$rawname]['description']))."\");\n";
+			}
+		}
+		if (isset($modules[$rawname]['menuitems'])) {
+			foreach ($modules[$rawname]['menuitems'] as $key => $menuitem) {
+				if (!in_array($menuitem, $modulesProcessed['menuitem'])) {
+					$modulesProcessed['menuitem'][] = $menuitem;
+					echo "# $key:\n_(\"$menuitem\");\n";
+				}
+			}
 		}
 	}
 
-  $freepbx_conf =& freepbx_conf::create();
-  $conf = $freepbx_conf->get_conf_settings();
-  foreach ($conf as $keyword => $settings) {
-    if (($modulename == 'framework' && $settings['module'] == '') || $settings['module'] == $modulename) {
-      echo "# Setting name - $keyword:\n_(\"".$settings['name']."\");\n";
-      echo "# Setting category - $keyword:\n_(\"".$settings['category']."\");\n";
-      echo "# Setting description - $keyword:\n_(\"".$settings['description']."\");\n";
-    }
-  }
+	//get our settings
+	$freepbx_conf =& freepbx_conf::create();
+	$conf = $freepbx_conf->get_conf_settings();
+	$settingsProcessed = array();
+	foreach ($conf as $keyword => $settings) {
+		//we don't need hidden settings as the user never sees them
+		if ($settings['hidden'] != true && ($rawname == 'framework' && $settings['module'] == '') || $settings['module'] == $modulename) {
+			if (!in_array($settings['name'], $settingsProcessed['name'])) {
+				$settingsProcessed['name'][] = $settings['name'];
+				echo "# Setting name - $keyword:\n_(\"".$settings['name']."\");\n";
+			}
+			if (!in_array($settings['category'], $settingsProcessed['category'])) {
+				$settingsProcessed['category'][] = $settings['category'];
+				echo "# Setting category - $keyword:\n_(\"".$settings['category']."\");\n";
+			}
+			if (!in_array($settings['description'], $settingsProcessed['description'])) {
+				$settingsProcessed['description'][] = $settings['description'];
+				echo "# Setting description - $keyword:\n_(\"".$settings['description']."\");\n";
+			}
+		}
+	}
 }
 
 function showCheckDepends($modulename) {
@@ -633,24 +671,36 @@ function refreshsignatures() {
 	FreePBX::GPG();
 	$fpbxmodules = FreePBX::Modules();
 	$list = $fpbxmodules->getActiveModules();
+	outn("Getting Data from Online Server...");
 	$modules_online = $mf->getonlinexml();
 	if(empty($modules_online)) {
 		out('Cant Reach Online Server');
 		exit(1);
+	} else {
+		out("Done");
 	}
+	out("Checking Signatures of Modules...");
 	foreach($list as $m) {
 		//Check signature status, then if its online then if its signed online then redownload (through force)
-		if(isset($m['signature']['status']) && (~$m['signature']['status'] & GPG::STATE_GOOD) && isset($modules_online[$m['rawname']]) && isset($modules_online[$m['rawname']]['signed'])) {
-			out("Refreshing ".$m['rawname']);
-			$modulename = $m['rawname'];
-			$modules = $fpbxmodules->getinfo($modulename);
-			doUpgrade($modulename,true);
-			outn("Verifying GPG...");
-			$mf->updateSignature($modulename);
-			out('Done');
-			out("");
+		outn("Checking ". $m['rawname'] . "...");
+		if(isset($m['signature']['status']) && (~$m['signature']['status'] & GPG::STATE_GOOD)) {
+			out("Signature Invalid");
+			if(isset($modules_online[$m['rawname']]) && isset($modules_online[$m['rawname']]['signed'])) {
+				out("\tRefreshing ".$m['rawname']);
+				$modulename = $m['rawname'];
+				$modules = $fpbxmodules->getinfo($modulename);
+				doUpgrade($modulename,true);
+				outn("\tVerifying GPG...");
+				$mf->updateSignature($modulename);
+				out("Done");
+			} else {
+				out("\tCould not find signed module on remote server!");
+			}
+		} else {
+			out("Good");
 		}
 	}
+	out("Done");
 }
 
 function showReverseDepends($modulename) {

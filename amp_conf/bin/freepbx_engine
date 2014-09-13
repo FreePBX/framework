@@ -96,7 +96,7 @@ if [[ -e $FREEPBX_CONF && -w "/etc/amportal.conf" && -z "$FORCE_AMPORTAL_CONF" ]
         gen_path=$PWD
         cd $sv_pwd
 	`$gen_path/gen_amp_conf.php`
-elif [ -e "/etc/amportal.conf" ]; then # Check if file exists, if it dose read it and then write out /etc/freepbx.conf
+elif [ -e "/etc/amportal.conf" ]; then # Check if file exists, if it does read it and then write out /etc/freepbx.conf
 	. /etc/amportal.conf
 	write_freepbxconf
 else
@@ -111,19 +111,24 @@ if [ -z $PIDOF ]; then
 fi
 
 if [ -e $AMPBIN/amportal ]; then
-  echo "new amportal script detected, moving it to $AMPSBIN and attempting to backup up old"
-  # just in case it isn't there though it should be
-  if [ -e $AMPSBIN/amportal ]; then
-    mv $AMPSBIN/amportal $AMPSBIN/amportal.bak
-  else
-    echo "no exiting $AMPSBIN/amportal to make a backup of"
-  fi
-  mv $AMPBIN/amportal $AMPSBIN/amportal
-  if [ "$?" -ne "0" ]; then
-    echo "unable to update to new amportal, check permissions and try again"
-  fi
-  chown root:root $AMPSBIN/amportal
-  chmod +x $AMPSBIN/amportal
+	if [ ! -e $AMPSBIN/amportal ] || [ ! -h $AMPSBIN/amportal ]; then
+		cmp -s $AMPBIN/amportal $AMPSBIN/amportal > /dev/null
+		if [ $? -eq 1 ]; then
+		  echo "new amportal script detected, moving it to $AMPSBIN and attempting to backup up old"
+		  # just in case it isn't there though it should be
+		  if [ -e $AMPSBIN/amportal ]; then
+		    mv $AMPSBIN/amportal $AMPSBIN/amportal.bak
+		  fi
+		  mv $AMPBIN/amportal $AMPSBIN/amportal
+		  if [ "$?" -ne "0" ]; then
+		    echo "unable to update to new amportal, check permissions and try again"
+		  fi
+		  chown root:root $AMPSBIN/amportal
+		  chmod +x $AMPSBIN/amportal
+		else
+			rm -f $AMPBIN/amportal
+		fi
+	fi
 fi
 
 if [ "$ASTRUNDIR" = "/var/run" ]
@@ -257,8 +262,10 @@ chown_asterisk() {
 	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT
 	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/* 2>/dev/null # Silence dangling symlink errors, cleared later
 
+	chown $AMPASTERISKUSER:$AMPASTERISKGROUP /usr/local/sbin/amportal
+
 	# Fix PIAF immutable files
-	chattr -i $AMPWEBROOT/* 2>/dev/null
+	chattr -i $AMPWEBROOT/*  2>&1 >/dev/null
 
 	echo Done
 	call_hook chown_asterisk
@@ -474,6 +481,74 @@ case "$1" in
 				;;
 			esac
 			;;
+			ucp)
+				case $3 in
+					enableall|ea)
+						out=`php -r '
+						$bootstrap_settings["freepbx_auth"] = false;
+						$bootstrap_settings["skip_astman"] = true;
+						$restrict_mods = true;
+						if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) {
+							include_once("/etc/asterisk/freepbx.conf");
+						}
+						if(!FreePBX::Modules()->checkStatus("ucp")) {
+							echo "UCP is not installed!";
+							exit();
+						}
+						$ucp = FreePBX::Ucp();
+						if($ucp->enableAllUsers()) {
+							echo "All Users have been successfully enabled!";
+						} else {
+							echo "There was an error";
+						}
+						'`
+						echo $out
+					;;
+					unlock|u)
+						if [ -z "$4" ]; then
+							echo "Invalid Command"
+							echo 'amportal a ucp u <username> <session>'
+							exit
+						fi
+						if [ -z "$5" ]; then
+							echo "Invalid Command"
+							echo "amportal a ucp u $5 <session>"
+							exit
+						fi
+						out=`php -r '
+						$bootstrap_settings["freepbx_auth"] = false;
+						$bootstrap_settings["skip_astman"] = true;
+						$restrict_mods = true;
+						if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) {
+							include_once("/etc/asterisk/freepbx.conf");
+						}
+						if(!FreePBX::Modules()->checkStatus("ucp")) {
+							echo "UCP is not installed!";
+							exit();
+						}
+						$ucp = FreePBX::Ucp();
+						if($ucp->sessionUnlock("'$4'","'$5'")) {
+							echo "UCP Session Unlocked!";
+						} else {
+							echo "User Doesnt Exist";
+						}
+						'`
+						echo $out
+					;;
+					*)
+						#formating variables defined at top of file
+						echo -e "                         $b $u UCP admin options menu$ux$bx
+
+usage: ${b}amportal$bx (${b}admin$bx|${b}a$bx) ${b}ucp$bx <option>
+
+options:
+
+${b}enableall$bx|${b}en$bx: Enables UCP login for all User Manager users
+${b}unlock$bx|${b}u$bx: Allows remote session unlock in UCP. Ex: amportal a ucp u <user> <session>
+\n\n\n"
+					;;
+				esac
+			;;
 			modadmin|ma)
 				$AMPBIN/module_admin $3 $4
 			;;
@@ -527,24 +602,28 @@ case "$1" in
 				fi
 			;;
 			unlock|u)
-				`php -r '
-				$bootstrap_settings["freepbx_auth"] = false;
-				$bootstrap_settings["skip_astman"] = true;
-				$restrict_mods = true;
-				if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) {
-					include_once("/etc/asterisk/freepbx.conf");
-				}
-				session_id("'$3'");
-				session_start();
-				if (!isset($_SESSION["AMP_user"])) {
-					$_SESSION["AMP_user"] = new ampuser($amp_conf["AMPDBUSER"]);
-					$_SESSION["AMP_user"]->setAdmin();
-				}
-				'`
-				if [[ $? = 0 ]]; then
-					echo 'session unlocked!'
+				if [ -z "$3" ]; then
+					echo 'cant unlock a blank session!'
 				else
-					echo 'um, something went wrong...'
+					`php -r '
+					$bootstrap_settings["freepbx_auth"] = false;
+					$bootstrap_settings["skip_astman"] = true;
+					$restrict_mods = true;
+					if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) {
+						include_once("/etc/asterisk/freepbx.conf");
+					}
+					session_id("'$3'");
+					session_start();
+					if (!isset($_SESSION["AMP_user"])) {
+						$_SESSION["AMP_user"] = new ampuser($amp_conf["AMPDBUSER"]);
+						$_SESSION["AMP_user"]->setAdmin();
+					}
+					'`
+					if [[ $? = 0 ]]; then
+						echo 'session unlocked!'
+					else
+						echo 'um, something went wrong...'
+					fi
 				fi
 			;;
 			genunlockkey)
@@ -557,7 +636,7 @@ case "$1" in
 					print "KEY=".$bmo->Unlock->genUnlockKey()."\n";'
 			;;
 			rmsymlinks)
-			remove_dangling_links
+				remove_dangling_links
 			;;
 		*)
 
@@ -565,24 +644,25 @@ case "$1" in
 echo -e "                         $b $u FPBX admin options menu$ux$bx
 
 
-useage: ${b}amportal$bx (${b}admin$bx|${b}a$bx) <option>
+usage: ${b}amportal$bx (${b}admin$bx|${b}a$bx) <option>
 
 options:
 
 ${b}externalip$bx|${b}extip$bx: Returns the external ip for the default gateway
 ${b}dbug$bx:		Shows the freepbx debug log file and any update
-${b}context$bx|${b}cxt$bx:   Show's the specified context from the dialplan. This is extreamly
-               usefull when developing dialplan on a system with many modules,
-               where it is not fesable look thru the whole extensions_additional
-               every time to see how a specific context was generate
-               When run with the 'list' or 'l' option, will list all avalible
+${b}context$bx|${b}cxt$bx:   Show's the specified context from the dialplan. This is extremely
+               useful when developing dialplan on a system with many modules,
+               where it is not feasible to look thru the whole extensions_additional
+               every time to see how a specific context was generated.
+               When run with the 'list' or 'l' option, will list all available
                contexts as they appear in extensions* files
-${b}modadmin$bx|${b}ma$bx:  Runs the module_admin script with additional argument as passed
-${b}mysql$bx|${b}m$bx:	Connect to freebx's mysql connection (assumes server is on localhost) s
-${b}rmsymlinks$bx:		Cleans up dangling linkes left over from uninstalled modules
+${b}modadmin$bx|${b}ma$bx:  Runs the module_admin script with additional arguments as passed
+${b}mysql$bx|${b}m$bx:	Connect to freebx's mysql connection (assumes server is on localhost)
+${b}rmsymlinks$bx:		Cleans up dangling links left over from uninstalled modules
 ${b}reload$bx|${b}r$bx:      Does a full dialplan regeneration/reload (like clicking
-               the orange bar)
+               the red 'Apply Changes' button)
 ${b}unlock$bx|${b}u$bx:	Unlock the web gui from the cli (requires root)
+${b}ucp$bx:           UCP Specific Operations (requires root) (Type 'amportal a ucp' to see more)
 ${b}syncmanager$bx|${b}s$bx:	Resyncs the Asterisk manager credentials then restarts Asterisk
 \n\n\n"
 		;;

@@ -1,3 +1,34 @@
+.screendoor {
+  height: 900px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.39);
+  position: absolute;
+  z-index: 500;
+  margin-left: -47px;
+  margin-top: -53px;
+  border-radius: 10px;
+  padding: 5px;
+  display: none;
+  cursor:progress;
+  .message {
+    background-color: white;
+    margin-top: 20%;
+    width: 275px;
+    height: 135px;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 20px;
+    .text {
+      margin-bottom: 13px;
+      font-weight: bold;
+    }
+    i {
+      font-size: 500%;
+      margin-left: 38%;
+      color: @help-background-color;
+    }
+  }
+}
 #shield_link_div {
     float:right;
 }
@@ -36,7 +67,6 @@
         }
     }
     table {
-        min-width: 1250px;
         border: 1px solid @modulelist-table-border-color;
         border-radius: 6px;
     }
@@ -63,6 +93,9 @@
         left: 380px;
         overflow: hidden;
         height: 20px;
+    }
+    .moduletrack.beta,.moduletrack.alpha,.moduletrack.nightly {
+      color: lightcoral;
     }
     .modulepublisher {
         position:absolute;
@@ -97,7 +130,6 @@
     div.moduleinfopane {
         display:none;
         background: @modulelist-table-background-color;
-        height: 17.5em;
         border-top: 1px dashed @modulelist-table-border-color;
         pre {
           white-space: pre-wrap;
@@ -131,7 +163,6 @@
     }
     div.tabbertab {
         margin-left:1.5em;
-        height:17em;
         overflow:auto;
         padding-left: 6px;
         padding-top: 6px;
@@ -237,3 +268,8 @@ div.modulebuttons {
         display:none;
     }
 }
+
+/* 'Info' sections can expand and contract naturally, but
+ * larger sections - changelog, debug - are limited to an
+ * abitrary 17em. */
+.limitheight { height:17em; }

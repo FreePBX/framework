@@ -20,6 +20,9 @@ $(document).ready(function(){
 			}
 		});
 	})
+	$("#check_online").click(function() {
+		toggleScreenDoor();
+	})
 	$('#show_auto_update').click(function() {
 		autoupdate_box = $('#db_online').dialog({
 			title: fpbx.msg.framework.updatenotifications,
@@ -41,34 +44,35 @@ $(document).ready(function(){
 						$('#update_email').focus();
 					} else {
 						update_email = $('#update_email').val();
+						machine_id = $('#machine_id').val();
 						if (isEmpty(update_email)) {
 							if (!confirm(fpbx.msg.framework.noupemail)) {
 								return false;
 							}
 						}
-					$.ajax({
-	  					type: 'POST',
-	  					url: "config.php",
-						data: {quietmode: 1, skip_astman: 1, display: "modules", update_email: update_email},
-	  					dataType: 'json',
-	  					success: function(data) {
-									if (data.status == true) {
-										$('#update_email').attr('saved-value', $('#update_email').val());
-										if ($('[name="online_updates"]:checked').val() == 'no') {
-											$('#shield_link').attr('class', 'updates_off');
-										} else {
-											$('#shield_link').attr('class', (isEmpty($('#update_email').val()) ? 'updates_partial' : 'updates_full'));
-										}
-										autoupdate_box.dialog("close")
+						$.ajax({
+	  						type: 'POST',
+	  						url: "config.php",
+							data: {quietmode: 1, skip_astman: 1, display: "modules", update_email: update_email, machine_id: machine_id },
+	  						dataType: 'json',
+	  						success: function(data) {
+								if (data.status == true) {
+									$('#update_email').attr('saved-value', $('#update_email').val());
+									if ($('[name="online_updates"]:checked').val() == 'no') {
+										$('#shield_link').attr('class', 'updates_off');
 									} else {
-										alert(data.status)
-										$('#update_email').focus();
+										$('#shield_link').attr('class', (isEmpty($('#update_email').val()) ? 'updates_partial' : 'updates_full'));
 									}
-	  					},
-	  					error: function(data) {
-									alert(fpbx.msg.framework.invalid_response);
-	  					}
-					});
+									autoupdate_box.dialog("close")
+								} else {
+									alert(data.status)
+									$('#update_email').focus();
+								}
+	  						},
+	  						error: function(data) {
+								alert(fpbx.msg.framework.invalid_response);
+	  						}
+						});
 					}
 				}
 			}, {
@@ -109,6 +113,8 @@ $(document).ready(function(){
 		var pi = (previous_track == 'stable') ? modules[module] : modules[module].releasetracks[previous_track];
 
 		$('#fullmodule_'+module+' .moduletrack').html(track.capitalize());
+		$('#fullmodule_'+module+' .moduletrack').removeClass(previous_track.toLowerCase());
+		$('#fullmodule_'+module+' .moduletrack').addClass(track.toLowerCase());
 
 		var label = $('#fullmodule_'+module+' .modulestatus').children().text().replace(pi.version,si.version);
 		$('#fullmodule_'+module+' .modulestatus').children().text(label);
@@ -288,6 +294,12 @@ function close_module_actions(goback) {
 	if (goback) {
   		location.href = 'config.php?display=modules';
 	}
+}
+
+function toggleScreenDoor() {
+	var h = $( document ).height();
+	$('.screendoor').css('height', h);
+	$('.screendoor').fadeToggle('fast');
 }
 
 String.prototype.capitalize = function() {

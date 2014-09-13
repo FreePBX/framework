@@ -9,6 +9,12 @@
 			<input id="update_email" type="email" required size="40" name="update_email" saved-value="<?php echo $ue ?>" value="<?php echo $ue ?>"/>
 		</td>
 	</tr>
+	<tr>
+		<td><?php echo _("Machine ID") ?></td>
+		<td>
+			<input id="machine_id" type="text" required size="40" name="machine_id" saved-value="<?php echo $machine_id ?>" value="<?php echo $machine_id ?>"/>
+		</td>
+	</tr>
 </table>
 </form>
 </div>

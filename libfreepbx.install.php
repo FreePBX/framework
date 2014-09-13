@@ -1039,19 +1039,6 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('FCBEEPONLY',$set);
 
-  // USEDEVSTATE
-  $set['value'] = true;
-  $set['defaultval'] = true;
-  $set['options'] = '';
-  $set['name'] = 'Enable Custom Device States';
-  $set['description'] = 'If this is set, it assumes that you are running Asterisk 1.4 or higher and want to take advantage of the func_devstate.c backport available from Asterisk 1.6. This allows custom hints to be created to support BLF for server side feature codes such as daynight, followme, etc';
-  $set['emptyok'] = 0;
-  $set['readonly'] = 0;
-  $set['hidden'] = 1;
-  $set['type'] = CONF_TYPE_BOOL;
-  $freepbx_conf->define_conf_setting('USEDEVSTATE',$set);
-  $set['hidden'] = 0; //reset hidden
-
   // USEGOOGLEDNSFORENUM
   $set['value'] = false;
   $set['options'] = '';

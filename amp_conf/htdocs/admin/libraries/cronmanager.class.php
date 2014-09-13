@@ -30,6 +30,26 @@ class cronmanager {
 		return sql($sql, 'getOne');
 	}
 
+	function set_machineid($mid) {
+		if (!$mid) {
+			$mid = "FreePBX Server";
+		}
+		$mid = q($mid);
+		sql("DELETE FROM admin WHERE variable = 'machineid'");
+		sql("INSERT INTO admin (variable, value) VALUES ('machineid', $mid)");
+	}
+
+	function get_machineid() {
+		$sql = "SELECT value FROM admin WHERE variable = 'machineid'";
+		$mid = sql($sql, 'getOne');
+		if ($mid) {
+			return $mid;
+		} else {
+			return "FreePBX Server";
+		}
+	}
+
+
 	function save_hash($id, &$string) {
 		$hash = md5($string);
 		$id = q($id);

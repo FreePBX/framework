@@ -49,18 +49,21 @@ class FileHooks {
 						continue;
 					}
 
+					//Check if module does not want the header inserted
+					$generateHeader = (isset($module->use_warning_banner) && is_bool($module->use_warning_banner)) ? $module->use_warning_banner : true;
+
 					// if the module returns an array, it wants to write multiple files
 					// ** pinsets is an example of a module that does this
 					if (is_array($fn)) {
 						foreach($fn as $modconf) {
 							$this->FreePBX->Performance->Stamp("oldfileHook-".$modconf."_start");
-							$this->FreePBX->WriteConfig->writeConfig($modconf,$module->generateConf($modconf));
+							$this->FreePBX->WriteConfig->writeConfig($modconf,$module->generateConf($modconf),$generateHeader);
 							$this->FreePBX->Performance->Stamp("oldfileHook-".$modconf."_stop");
 						}
 					} else {
 						if ($module->get_filename() != "")
 							$this->FreePBX->Performance->Stamp("oldfileHook-".$module->get_filename()."_start");
-							$this->FreePBX->WriteConfig->writeConfig($module->get_filename(), $module->generateConf());
+							$this->FreePBX->WriteConfig->writeConfig($module->get_filename(), $module->generateConf(),$generateHeader);
 							$this->FreePBX->Performance->Stamp("oldfileHook-".$module->get_filename()."_stop");
 					}
 				}

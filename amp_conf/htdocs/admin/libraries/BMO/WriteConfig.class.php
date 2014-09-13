@@ -46,25 +46,27 @@ class WriteConfig {
 	 * Simply builds an array and passes it to writeConfigs()
 	 * @param string $filename File to write
 	 * @param mixed $contents What should be written to the file
+	 * @param bool $generateHeader Backward compatibility to generate FreePBX header or not
 	 */
-	public function writeConfig($filename = null, $contents) {
+	public function writeConfig($filename = null, $contents, $generateHeader = true) {
 		if ($filename == null)
 			throw new Exception("No filename given to writeConfig. This is a bug");
 
-		$this->writeConfigs(array($filename => $contents));
+		$this->writeConfigs(array($filename => $contents), $generateHeader);
 	}
 
 	/**
 	 * Write multiple configuration files.
 	 * This is the public call to write configuration files.
 	 * @param array $array An array of [filename]=>array(line, line, line), or [filename]=>string
+	 * @param bool $generateHeader Backward compatibility to generate FreePBX header or not
 	 */
-	public function writeConfigs($array) {
+	public function writeConfigs($array, $generateHeader = true) {
 		if(!is_array($array)){
 			return true;
 		}
 		foreach ($array as $file => $contents) {
-			$this->writeFile($this->validateFilename($file), $contents);
+			$this->writeFile($this->validateFilename($file), $contents, $generateHeader);
 		}
 	}
 
@@ -99,10 +101,11 @@ class WriteConfig {
 	 * Actually write the file
 	 * @param string $filename Full path to file
 	 * @param mixed $contents String or Array to write to the file
+	 * @param bool $generateHeader Backward compatibility to generate FreePBX header or not
 	 * @return boolean Always returns true, unless it throws and exception
 	 * @access private
 	 */
-	private function writeFile($filename, $contents) {
+	private function writeFile($filename, $contents, $generateHeader = true) {
 		if ($contents === false) {
 			// False means 'delete'
 			unlink($filename);
@@ -157,7 +160,8 @@ class WriteConfig {
 
 		// Now I have a string, and can write it out.
 		// print "Writing: ".$this->getHeader().$header.$output."\n";
-		file_put_contents($filename, $this->getHeader().$header.$output);
+		$freepbxHeader = ($generateHeader) ? $this->getHeader() : '';
+		file_put_contents($filename, $freepbxHeader.$header.$output);
 		return true;
 	}
 

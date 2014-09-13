@@ -109,11 +109,27 @@ if ($unlock) {
 		}
 }
 
+//redirect back to the modules page for upgrade
+if(isset($_SESSION['modulesRedirect'])) {
+	$display = 'modules';
+	unset($_SESSION['modulesRedirect']);
+}
+
 // determine if the user has a session time out set in advanced settings. If the timeout is 0 or not set, we don't force logout
 $sessionTimeOut = !empty($amp_conf['SESSION_TIMEOUT']) && is_numeric($amp_conf['SESSION_TIMEOUT']) ? $amp_conf['SESSION_TIMEOUT'] : false;
 if ($sessionTimeOut !== false) {
-	if (!empty($_SESSION['AMP_user']) && is_object($_SESSION['AMP_user']) && ($_SESSION['AMP_user']->_created + $sessionTimeOut) < time()) {
-		unset($_SESSION['AMP_user']);
+	if (!empty($_SESSION['AMP_user']) && is_object($_SESSION['AMP_user'])) {
+		//if we don't have last activity set it now
+		if (empty($_SESSION['AMP_user']->_lastactivity)) {
+			$_SESSION['AMP_user']->_lastactivity = time();
+		} else {
+			//check to see if we should be logged out or reset the last activity time
+			if (($_SESSION['AMP_user']->_lastactivity + $sessionTimeOut) < time()) {
+				unset($_SESSION['AMP_user']);
+			} else {
+				$_SESSION['AMP_user']->_lastactivity = time();
+			}
+		}
 	}
 }
 
@@ -154,7 +170,7 @@ if (!$quietmode) {
 		// No .htaccess support
 		if(!$nt->exists('framework', 'htaccess')) {
 			$nt->add_security('framework', 'htaccess', _('.htaccess files are disable on this webserver. Please enable them'),
-			_('To Protect the integrity of your server, you must set AllowOverride to All in the Apache configuration file for this directory'));
+			sprintf(_("To protect the integrity of your server, you must allow overrides in your webserver's configuration file for the User Control Panel. For more information see: %s"), '<a href="http://wiki.freepbx.org/display/F2/Webserver+Overrides">http://wiki.freepbx.org/display/F2/Webserver+Overrides</a>'));
 		}
 	} else {
 		if($nt->exists('framework', 'htaccess')) {
@@ -248,8 +264,14 @@ if(is_array($active_modules)){
 		}
 }
 
+//if display is modules then show the login page dont show does not exist as its confusing
 if ($cur_menuitem === null && !in_array($display, array('noauth', 'badrefer','noaccess',''))) {
-		$display = 'noaccess';
+		if($display == 'modules') {
+			$display = 'noauth';
+			$_SESSION['modulesRedirect'] = 1;
+		} else {
+			$display = 'noaccess';
+		}
 }
 
 // extensions vs device/users ... this is a bad design, but hey, it works
@@ -400,7 +422,7 @@ switch($display) {
 
 			// create a module_hook object for this module's page
 			try {
-				$module_hook = new moduleHook;
+				$module_hook = moduleHook::create();
 
 				// populate object variables
 				$module_hook->install_hooks($module_page,$module_name,$itemid);
@@ -425,7 +447,7 @@ switch($display) {
 					break; // we break here to avoid the generateconfigpage() below
 			} else if (file_exists($module_file)) {
 					//check module first and foremost, but not during quietmode
-					if(!isset($_REQUEST['quietmode']) && $amp_conf['SIGNATURECHECK']) {
+					if(!isset($_REQUEST['quietmode']) && $amp_conf['SIGNATURECHECK'] && (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'popup')) {
 						//Since we are viewing this module update it's signature
 						try {
 							module_functions::create()->updateSignature($module_name,false);

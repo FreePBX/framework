@@ -1,4 +1,16 @@
-<?php if($online) { ?>
+<?php
+// vim: :set filetype=php tabstop=4 shiftwidth=4 autoindent smartindent:
+?>
+<div class="screendoor">
+	<div class="message center-block">
+		<div class="text">
+			<?php echo _("Checking Online, Please Wait...");?>
+		</div>
+		<i class="fa fa-spinner fa-spin"></i>
+	</div>
+</div>
+<?php
+if($online) { ?>
 	<?php if(!empty($announcements)) {?>
 		<div class='announcements'><?php echo $announcements?></div>
 	<?php } ?>
@@ -53,7 +65,7 @@
 							<i id="arrow_<?php echo prep_id($module['name'])?>" class="fa fa-chevron-right"></i>
 							<span class="modulename"><?php echo $module['pretty_name']?></span>
 							<span class="moduleversion"><?php echo $module['dbversion']?></span>
-							<span class="moduletrack"><?php echo ucfirst($module['track'])?></span>
+							<span class="moduletrack <?php echo strtolower($module['track'])?>"><?php echo ucfirst($module['track'])?></span>
 							<span class="modulepublisher"><?php echo $module['publisher']?></span>
 							<span class="modulelicense"><?php echo (!empty($module['licenselink'])) ? '<a href="'.$module['licenselink'].'" target="_moduleLicenseLink">'.$module['license'].'</a>' : $module['license']?></span>
 							<span class="modulestatus">
@@ -77,17 +89,21 @@
 											// check for online upgrade
 											if (!empty($module['raw']['online'])) {
 												$track = $module['track'];
-												$trackinfo = ($track == 'stable') ? $module['raw']['online'] : (!empty($module['raw']['online']['releasetracks'][$track]) ? $module['raw']['online']['releasetracks'][$track] : array());
+												$trackinfo = (strtolower($track) == 'stable') ? $module['raw']['online'] : (!empty($module['raw']['online']['releasetracks'][$track]) ? $module['raw']['online']['releasetracks'][$track] : array());
 												if (!empty($trackinfo['version'])) {
 													$vercomp = version_compare_freepbx($module['raw']['local']['version'], $trackinfo['version']);
+													$tn = ($trackenable && $module['track'] != $module['highreleasetracktype']) ? ucfirst(strtolower($module['track'])) : '';
 													if ($vercomp < 0) {?>
-														<span class="alert"><?php echo sprintf(_($disabled.'Online upgrade available (%s)'), $trackinfo['version']);?><?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['version'],'>')) ? ' ' . sprintf(_('%s Upgrade Avalible (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) : ''?></span>
+														<span class="alert">
+															<?php echo sprintf(_('%s Online %s upgrade available (%s)'), $disabled, $tn, $trackinfo['version']);?>
+															<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>') && $module['track'] != $module['highreleasetracktype']) ? '; ' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) : ''?>
+														</span>
 													<?php } elseif ($vercomp > 0) { ?>
 														<?php echo sprintf(_($disabled.'Newer than online version (%s)'), $trackinfo['version']);?>
 													<?php } elseif($module['status'] == MODULE_STATUS_DISABLED) { ?>
-														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Avalible (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Disabled; up to date')?>
+														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Disabled; up to date')?>
 													<?php } else { ?>
-														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Avalible (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Enabled and up to date')?>
+														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Enabled and up to date')?>
 													<?php }
 												}
 											} else {
@@ -311,7 +327,7 @@
 										</table>
 									</div>
 									<?php if(!empty($module['changelog'])) { ?>
-									<div class="tabbertab" id="changelog_<?php echo prep_id($module['name'])?>"  title="<?php echo _("Changelog")?>">
+									<div class="tabbertab limitheight" id="changelog_<?php echo prep_id($module['name'])?>"  title="<?php echo _("Changelog")?>">
 										<h5><?php echo _("Change Log for version")?>: <?php echo $module['version']?></h5>
 										<span><?php echo $module['changelog']?></span>
 									</div>
@@ -337,7 +353,7 @@
 										</div>
 									<?php } ?>
 									<?php if ($devel) { ?>
-										<div class="tabbertab" title="<?php echo _("Debug")?>">
+										<div class="tabbertab limitheight" title="<?php echo _("Debug")?>">
 											<h5><?php echo $module['name']?></h5>
 											<pre>
 												<?php print_r($module['raw']['local'])?>

@@ -708,10 +708,13 @@ class module_functions {
 			$modulelist->initialize($modules);
 		}
 
+		//ksort for consistency throughout freepbx
 		if ($status === false) {
 			if (!$module) {
+				ksort($modulelist->module_array);
 				return $modulelist->module_array;
 			} else {
+				ksort($modules);
 				return $modules;
 			}
 		} else {
@@ -729,6 +732,7 @@ class module_functions {
 				}
 			}
 
+			ksort($modules);
 			return $modules;
 		}
 	}
@@ -867,22 +871,22 @@ class module_functions {
 											}
 										break;
 										case MODULE_STATUS_BROKEN:
-											$errors[$mod] = sprintf(_('Module %s is required, but yours is broken. You should reinstall it and try again.'), $needed_module);
+											$errors[$mod] = sprintf(_('The Module Named "%s" is required, but yours is broken. You should reinstall it and try again.'), $needed_module);
 										break;
 										case MODULE_STATUS_DISABLED:
-											$errors[$mod] = sprintf(_('Module %s is required, but yours is disabled.'), $needed_module);
+											$errors[$mod] = sprintf(_('The Module Named "%s" is required, but yours is disabled.'), $needed_module);
 										break;
 										case MODULE_STATUS_NEEDUPGRADE:
-											$errors[$mod] = sprintf(_('Module %s is required, but yours is disabled because it needs to be upgraded. Please upgrade %s first, and then try again.'), $needed_module, $needed_module);
+											$errors[$mod] = sprintf(_('The Module Named "%s" is required, but yours is disabled because it needs to be upgraded. Please upgrade %s first, and then try again.'), $needed_module, $needed_module);
 										break;
 										default:
 										case MODULE_STATUS_NOTINSTALLED:
-											$errors[$mod] = sprintf(_('Module %s is required, yours is not installed.'), $needed_module);
+											$errors[$mod] = sprintf(_('The Module Named "%s" is required, yours is not installed.'), $needed_module);
 											$this->modDepends[] = $matches[1];
 										break;
 									}
 								} else {
-									$errors[$matches[1]] = sprintf(_('Module %s is required.'), $matches[1]);
+									$errors[$matches[1]] = sprintf(_('The Module Named "%s" is required.'), $matches[1]);
 									$this->modDepends[] = $matches[1];
 								}
 							}
@@ -893,7 +897,7 @@ class module_functions {
 							$file = $this->_ampconf_string_replace($value);
 
 							if (!file_exists( $file )) {
-								$errors[] = sprintf(_('File %s must exist.'), $file);
+								$errors[] = sprintf(_('The File "%s" must exist.'), $file);
 							}
 						break;
 						case 'engine':
@@ -1118,22 +1122,27 @@ class module_functions {
 		// if we're not forcing the download, and a file with the target name exists..
 		if (!$force && file_exists($filename)) {
 			outn(_('Found module locally, verifying...'));
-            if(!empty($modulexml['signed']['type']) && $modulexml['signed']['type'] == 'gpg' && $modulexml['signed']['sha1'] == sha1_file($filename)) {
-                if(!FreePBX::GPG()->verifyFile($filename)) {
-					out(_('Redownloading'));
-                    unlink($filename);
-                }
-                try {
-                    $filename = FreePBX::GPG()->getFile($filename);
-                    if(!file_exists($filename)) {
+			if(!empty($modulexml['signed']['type']) && $modulexml['signed']['type'] == 'gpg' && $modulexml['signed']['sha1'] == sha1_file($filename)) {
+				try {
+					if(!FreePBX::GPG()->verifyFile($filename)) {
 						out(_('Redownloading'));
-                        unlink($filename);
-                    }
-                } catch(\Exception $e) {
+						unlink($filename);
+					}
+				} catch(\Exception $e) {
 					out(_('Redownloading'));
-                    unlink($filename);
-                }
-            }
+					unlink($filename);
+				}
+				try {
+					$filename = FreePBX::GPG()->getFile($filename);
+					if(!file_exists($filename)) {
+						out(_('Redownloading'));
+						unlink($filename);
+					}
+				} catch(\Exception $e) {
+					out(_('Redownloading'));
+					unlink($filename);
+				}
+			}
 			// We might already have it! Let's check the MD5.
 			if ((isset($modulexml['sha1sum']) && $modulexml['sha1sum'] == sha1_file($filename)) || (isset($modulexml['md5sum']) && $modulexml['md5sum'] == md5_file($filename))) {
 				out(_('Verified. Using Local'));
@@ -1269,22 +1278,33 @@ class module_functions {
 			return array(sprintf(_('Unable to save %s'),$filename));
 		}
 
-        if(!empty($modulexml['signed']['type']) && $modulexml['signed']['type'] == 'gpg') {
-            if($modulexml['signed']['sha1'] != sha1_file($filename)) {
-                return array(sprintf(_('File Integrity failed for %s - aborting (sha1 did not match)'), $filename));
-            }
-            if(!FreePBX::GPG()->verifyFile($filename)) {
-                return array(sprintf(_('File Integrity failed for %s - aborting (gpg check failed)'), $filename));
-            }
-            try {
-                $filename = FreePBX::GPG()->getFile($filename);
-                if(!file_exists($filename)) {
-                    return array(sprintf(_('Could not find extracted module: %s'), $filename));
-                }
-            } catch(\Exception $e) {
-                return array(sprintf(_('Unable to work with GPG file, message was: %s'), $e->getMessage()));
-            }
-        }
+		if(!empty($modulexml['signed']['type']) && $modulexml['signed']['type'] == 'gpg') {
+				if($modulexml['signed']['sha1'] != sha1_file($filename)) {
+						return array(sprintf(_('File Integrity failed for %s - aborting (sha1 did not match)'), $filename));
+				}
+				try {
+					if(!FreePBX::GPG()->trustFreePBX()) {
+						return array(sprintf(_('Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: No Cause Given)'), $filename));
+					}
+				}catch(\Exception $e) {
+					return array(sprintf(_('Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: %s)'), $filename, $e->getMessage()));
+				}
+				try {
+					if(!FreePBX::GPG()->verifyFile($filename)) {
+							return array(sprintf(_('File Integrity failed for %s - aborting (GPG Verify File check failed)'), $filename));
+					}
+				}catch(\Exception $e) {
+					return array(sprintf(_('File Integrity failed for %s - aborting (Cause: %s)'), $filename, $e->getMessage()));
+				}
+				try {
+						$filename = FreePBX::GPG()->getFile($filename);
+						if(!file_exists($filename)) {
+								return array(sprintf(_('Could not find extracted module: %s'), $filename));
+						}
+				} catch(\Exception $e) {
+						return array(sprintf(_('Unable to work with GPG file, message was: %s'), $e->getMessage()));
+				}
+		}
 		// Check the MD5 info against what's in the module's XML
 		if (!isset($modulexml['md5sum']) || empty($modulexml['md5sum'])) {
 			//echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
@@ -1927,8 +1947,7 @@ class module_functions {
 						}
 					}
 				}
-				if (isset($xmlarray['module']['menuitems'])) {
-
+				if (!empty($xmlarray['module']['menuitems'])) {
 					foreach ($xmlarray['module']['menuitems'] as $item=>$displayname) {
 						$displayname = str_replace("\n&\n","&",$displayname);
 						$xmlarray['module']['menuitems'][$item] = $displayname;
@@ -2076,8 +2095,10 @@ class module_functions {
 				if (file_exists($bmofile)) {
 					try {
 						FreePBX::create()->injectClass($mn, $bmofile);
-						//TODO: Need to take care of halting the install process
-						FreePBX::create()->$mn->install();
+						$o = FreePBX::create()->$mn->install();
+						if($o === false) {
+							return false;
+						}
 					} catch(Exception $e) {
 						dbug("Error Returned was: ".$e->getMessage());
 						return false;
@@ -2103,8 +2124,10 @@ class module_functions {
 				$bmofile = "$moduledir/$mn.class.php";
 				if (file_exists($bmofile)) {
 					try {
-						//TODO: Need to take care of halting the uninstall process
-						FreePBX::create()->$mn->uninstall();
+						$o = FreePBX::create()->$mn->uninstall();
+						if($o === false) {
+							return false;
+						}
 					} catch(Exception $e) {
 						dbug("Error Returned was: ".$e->getMessage());
 						return false;
@@ -2661,8 +2684,8 @@ class module_functions {
 		$modules = array();
 		$globalValidation = true;
 		foreach($res as $mod) {
-			//Hide Framework for now.
-			if($mod['modulename'] == 'framework') {
+			//Hide Framework and ari for now because their files are copied all over the planet.
+			if($mod['modulename'] == 'framework' || $mod['modulename'] == 'fw_ari') {
 				continue;
 			}
 			//TODO: determine if this should be in here or not.
@@ -2681,7 +2704,7 @@ class module_functions {
 			$md = $this->getInfo();
 			$modname = !empty($md[$mod['modulename']]['name']) ? $md[$mod['modulename']]['name'] : sprintf(_('%s [not enabled]'),$mod['modulename']);
 			if ($unsigned) {
-				$modules['statuses']['unsigned'][] = sprintf(_('Module: %s, is unsigned'),$modname);
+				$modules['statuses']['unsigned'][] = sprintf(_('Module: %s is unsigned'),$modname);
 			} else {
 				if ($tampered) {
 					foreach($mod['signature']['details'] as $d) {
