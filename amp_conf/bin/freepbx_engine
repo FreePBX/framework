@@ -265,7 +265,7 @@ chown_asterisk() {
 	chown $AMPASTERISKUSER:$AMPASTERISKGROUP /usr/local/sbin/amportal
 
 	# Fix PIAF immutable files
-	chattr -i $AMPWEBROOT/*  2>&1 >/dev/null
+	chattr -i $AMPWEBROOT/*  >/dev/null 2>&1
 
 	echo Done
 	call_hook chown_asterisk
