@@ -1364,7 +1364,10 @@ class AGI_AsteriskManager {
 		//
 		array_shift($data);
 		foreach ($data as $line) {
-			$temp = explode(":",$line,2);
+			// Note the space here is specifically for PJSIP registration entries,
+			// which have a : in them:
+			// /registrar/contact/301;@sip:301@192.168.15.125:5062: {"outbound_proxy":"",....
+			$temp = explode(": ",$line,2);
 			if (trim($temp[0]) != '' && count($temp) == 2) {
 				$temp[1] = isset($temp[1])?$temp[1]:null;
 				$db[ trim($temp[0]) ] = trim($temp[1]);
