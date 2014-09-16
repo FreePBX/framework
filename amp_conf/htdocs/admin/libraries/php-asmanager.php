@@ -1573,6 +1573,10 @@ class AGI_AsteriskManager {
 		// Asterisk 12 can sometimes dump extra garbage after the
 		// output of this. So grab it, and discard it, if it's 
 		// pending. 
+		// Note that this has been reported as a bug and should
+		// be removed, or, wait_response needs to be re-written
+		// to keep waiting until it receives the ending event
+		// https://issues.asterisk.org/jira/browse/ASTERISK-24331
 		usleep(1000);
 		stream_set_blocking($this->socket, false);
 		while (fgets($this->socket)) { /* do nothing */ }
