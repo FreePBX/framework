@@ -1564,7 +1564,6 @@ class AGI_AsteriskManager {
 		$params = array("Endpoint" => $dev);
 		$response = $this->send_request('PJSIPShowEndpoint', $params);
 		if ($response["Response"] == "Success") {
-			$this->response_catch = array();
 			$this->wait_response(true);
 			stream_set_timeout($this->socket, 30);
 		} else {
@@ -1574,7 +1573,13 @@ class AGI_AsteriskManager {
 		// Asterisk 12 can sometimes dump extra garbage after the
 		// output of this. So grab it, and discard it, if it's 
 		// pending. 
-		while ($r = fgets($this->socket)) { /* do nothing */ }
+		usleep(1000);
+		stream_set_blocking($this->socket, false);
+		while (fgets($this->socket)) { /* do nothing */ }
+		stream_set_blocking($this->socket, true);
+		unset($this->event_handlers['endpointdetail']);
+		unset($this->event_handlers['authdetail']);
+		unset($this->event_handlers['endpointdetailcomplete']);
 		return $res;
 	}
 
