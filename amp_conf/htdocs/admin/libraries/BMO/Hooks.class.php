@@ -105,9 +105,8 @@ class Hooks extends DB_Helper {
 
 	/**
 	 * Process all cached hooks
-	 * @param {mixed} $data=null Data to send to the hook
 	 */
-	public function processHooks($data=null) {
+	public function processHooks() {
 		$this->activemods = $this->FreePBX->Modules->getActiveModules();
 		$hooks = $this->getAllHooks();
 		$o = debug_backtrace();
@@ -138,7 +137,7 @@ class Hooks extends DB_Helper {
 						$meth = $hook['method'];
 						//now send the method from that class the data!
 						modgettext::push_textdomain(strtolower($module));
-						$return[$module] = $this->FreePBX->$module->$meth($data);
+						$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), func_get_args());
 						modgettext::pop_textdomain();
 					}
 				}
