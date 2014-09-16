@@ -1559,6 +1559,7 @@ class AGI_AsteriskManager {
 	 */
 	function PJSIPShowEndpoint($dev) {
 	 	$this->add_event_handler("endpointdetail", array($this, 'Endpoint_catch'));
+	 	$this->add_event_handler("authdetail", array($this, 'Endpoint_catch'));
 		$this->add_event_handler("endpointdetailcomplete", array($this, 'Endpoint_catch'));
 		$params = array("Endpoint" => $dev);
 		$response = $this->send_request('PJSIPShowEndpoint', $params);
@@ -1569,7 +1570,12 @@ class AGI_AsteriskManager {
 		} else {
 			return false;
 		}
-		return $this->response_catch; 
+		$res = $this->response_catch; 
+		// Asterisk 12 can sometimes dump extra garbage after the
+		// output of this. So grab it, and discard it, if it's 
+		// pending. 
+		while ($r = fgets($this->socket)) { /* do nothing */ }
+		return $res;
 	}
 
 	/**
