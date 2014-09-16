@@ -1550,5 +1550,41 @@ class AGI_AsteriskManager {
 		$args = 'mixmonitor stop ' . trim($channel);
 		return $this->command($args, $actionid);
 	}
+
+	/**
+	 * PJSIPShowEndpoint
+	 * @param string $channel
+	 *
+	 * @return array returns a key => val array
+	 */
+	function PJSIPShowEndpoint($dev) {
+	 	$this->add_event_handler("endpointdetail", array($this, 'Endpoint_catch'));
+		$this->add_event_handler("endpointdetailcomplete", array($this, 'Endpoint_catch'));
+		$params = array("Endpoint" => $dev);
+		$response = $this->send_request('PJSIPShowEndpoint', $params);
+		if ($response["Response"] == "Success") {
+			$this->response_catch = array();
+			$this->wait_response(true);
+			stream_set_timeout($this->socket, 30);
+		} else {
+			return false;
+		}
+		return $this->response_catch; 
+	}
+
+	/**
+	* Catcher for the pjsip events
+	*
+	*/
+	private function Endpoint_catch($event, $data, $server, $port) {
+		switch($event) {
+			case 'endpointdetailcomplete':
+				/* HACK: Force a timeout after we get this event, so that the wait_response() returns. */
+				stream_set_timeout($this->socket, 0, 1);
+				break;
+			default:
+				$this->response_catch[] =  $data;
+		}
+	}
+
 }
-?>
