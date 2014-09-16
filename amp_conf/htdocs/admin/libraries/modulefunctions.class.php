@@ -1733,6 +1733,7 @@ class module_functions {
 		}
 		$this->upgrade_notifications($new_modules, 'PASSIVE');
 		needreload();
+		FreePBX::Config()->update("SIGNATURECHECK", true);
 		return true;
 	}
 

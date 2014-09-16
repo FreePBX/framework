@@ -264,14 +264,16 @@ chown_asterisk() {
 
 	chown $AMPASTERISKUSER:$AMPASTERISKGROUP /usr/local/sbin/amportal
 
-	# Fix PIAF immutable files
-	chattr -i $AMPWEBROOT/*  >/dev/null 2>&1
+	# Fix immutable files
+	chattr -i $AMPWEBROOT/* > /dev/null 2>&1
 
 	echo Done
 	call_hook chown_asterisk
 }
 
 remove_dangling_links() {
+	#find -L /var/www/html/admin/assets 2>&1 >/dev/null | grep -i 'too many levels of symbolic links' | sed 's/\(.*\)\/.*/\1/'
+	#rm -Rf /var/www/html/admin/assets/superfecta/images/*
 	echo Removing any dangling symlinks
 	find -L $AMPWEBROOT -type l -delete
 	find -L $AMPBIN -type l -delete
