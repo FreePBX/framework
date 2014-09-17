@@ -3,6 +3,8 @@
 //	Copyright 2013 Schmooze Com Inc.
 //  Copyright (c) 2003, 2004, 2005 Matthew Asham <matthewa@bcwireless.net>, David Eder <david@eder.us>
 //
+// NOTE THAT THIS FILE WILL BE DEPRECATED IN FREEPBX 13, and will start to emit warnings if used.
+// The replacement is admin/libraries/php-asmanager.agi
 
   if(!class_exists('AGI'))
   {

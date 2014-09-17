@@ -1364,7 +1364,10 @@ class AGI_AsteriskManager {
 		//
 		array_shift($data);
 		foreach ($data as $line) {
-			$temp = explode(":",$line,2);
+			// Note the space here is specifically for PJSIP registration entries,
+			// which have a : in them:
+			// /registrar/contact/301;@sip:301@192.168.15.125:5062: {"outbound_proxy":"",....
+			$temp = explode(": ",$line,2);
 			if (trim($temp[0]) != '' && count($temp) == 2) {
 				$temp[1] = isset($temp[1])?$temp[1]:null;
 				$db[ trim($temp[0]) ] = trim($temp[1]);
@@ -1547,5 +1550,56 @@ class AGI_AsteriskManager {
 		$args = 'mixmonitor stop ' . trim($channel);
 		return $this->command($args, $actionid);
 	}
+
+	/**
+	 * PJSIPShowEndpoint
+	 * @param string $channel
+	 *
+	 * @return array returns a key => val array
+	 */
+	function PJSIPShowEndpoint($dev) {
+	 	$this->add_event_handler("endpointdetail", array($this, 'Endpoint_catch'));
+	 	$this->add_event_handler("authdetail", array($this, 'Endpoint_catch'));
+		$this->add_event_handler("endpointdetailcomplete", array($this, 'Endpoint_catch'));
+		$params = array("Endpoint" => $dev);
+		$response = $this->send_request('PJSIPShowEndpoint', $params);
+		if ($response["Response"] == "Success") {
+			$this->wait_response(true);
+			stream_set_timeout($this->socket, 30);
+		} else {
+			return false;
+		}
+		$res = $this->response_catch; 
+		// Asterisk 12 can sometimes dump extra garbage after the
+		// output of this. So grab it, and discard it, if it's 
+		// pending. 
+		// Note that this has been reported as a bug and should
+		// be removed, or, wait_response needs to be re-written
+		// to keep waiting until it receives the ending event
+		// https://issues.asterisk.org/jira/browse/ASTERISK-24331
+		usleep(1000);
+		stream_set_blocking($this->socket, false);
+		while (fgets($this->socket)) { /* do nothing */ }
+		stream_set_blocking($this->socket, true);
+		unset($this->event_handlers['endpointdetail']);
+		unset($this->event_handlers['authdetail']);
+		unset($this->event_handlers['endpointdetailcomplete']);
+		return $res;
+	}
+
+	/**
+	* Catcher for the pjsip events
+	*
+	*/
+	private function Endpoint_catch($event, $data, $server, $port) {
+		switch($event) {
+			case 'endpointdetailcomplete':
+				/* HACK: Force a timeout after we get this event, so that the wait_response() returns. */
+				stream_set_timeout($this->socket, 0, 1);
+				break;
+			default:
+				$this->response_catch[] =  $data;
+		}
+	}
+
 }
-?>
