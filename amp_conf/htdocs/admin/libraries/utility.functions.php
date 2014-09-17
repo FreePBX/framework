@@ -1132,15 +1132,14 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 	global $amp_conf, $astman, $db;
 	$conf_file = $amp_conf['ASTETCDIR'] . '/manager.conf';
 	$conf_file = escapeshellarg($amp_conf['ASTETCDIR'] . '/manager.conf');
-	$ret = $ret2 = 0;
+	$ret = $ret2 = $ret3 = 0;
 	$output = array();
 
 	if ($user !== false && $user != '') {
 		$sed_arg = escapeshellarg('s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/');
 		exec("sed -i.bak $sed_arg $conf_file", $output, $ret);
+		dbug("sed -i.bak $sed_arg $conf_file");
 		if ($ret) {
-			dbug($output);
-			dbug($ret);
 			freepbx_log(FPBX_LOG_ERROR,sprintf(_("Failed changing AMI user to [%s], internal failure details follow:"),$amp_conf['AMPMGRUSER']));
 			foreach ($output as $line) {
 				freepbx_log(FPBX_LOG_ERROR,sprintf(_("AMI failure details:"),$line));
@@ -1151,10 +1150,8 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 	if ($pass !== false && $pass != '') {
 		unset($output);
 		$sed_arg = escapeshellarg('s/secret\s*=.*$/secret = ' . $amp_conf['AMPMGRPASS'] . '/');
-		exec("sed -i.bak $sed_arg $conf_file", $output, $ret2);
+		exec("sed -i.bak $sed_arg $conf_file", $output2, $ret2);
 		if ($ret2) {
-			dbug($output);
-			dbug($ret2);
 			freepbx_log(FPBX_LOG_ERROR,sprintf(_("Failed changing AMI password to [%s], internal failure details follow:"),$amp_conf['AMPMGRPASS']));
 			foreach ($output as $line) {
 				freepbx_log(FPBX_LOG_ERROR,sprintf(_("AMI failure details:"),$line));
@@ -1178,17 +1175,15 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 	unset($output);
 	if ($writetimeout) {
 		$sed_arg = escapeshellarg('s/writetimeout\s*=.*$/writetimeout = ' . $amp_conf['ASTMGRWRITETIMEOUT'] . '/');
-		exec("sed -i.bak $sed_arg $conf_file", $output, $ret3);
+		exec("sed -i.bak $sed_arg $conf_file", $output3, $ret3);
 		if ($ret3) {
-			dbug($output);
-			dbug($ret3);
 			freepbx_log(FPBX_LOG_ERROR,sprintf(_("Failed changing AMI writetimout to [%s], internal failure details follow:"),$amp_conf['ASTMGRWRITETIMEOUT']));
 			foreach ($output as $line) {
 				freepbx_log(FPBX_LOG_ERROR,sprintf(_("AMI failure details:"),$line));
 			}
 		}
 	}
-	if (isset($ret) || isset($ret2) || isset($ret3)) {
+	if ($ret || $ret2 || $ret3) {
 		dbug("aborting early because previous errors");
 		return false;
 	}
@@ -1199,8 +1194,6 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 		dbug("no astman connection so trying to force through linux command line");
 		exec(fpbx_which('asterisk') . " -rx 'module reload manager'", $output, $ret2);
 		if ($ret2) {
-			dbug($output);
-			dbug($ret2);
 			freepbx_log(FPBX_LOG_ERROR,_("Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx 'module reload manager']"));
 		}
 	}
