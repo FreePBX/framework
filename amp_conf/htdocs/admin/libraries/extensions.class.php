@@ -224,22 +224,30 @@ class extensions {
 			$backup_array[$key] = $array[$key];
 		}
 		$upper_limit = count($array);
-		while($n <= $upper_limit) {
-			if($n == $ky) {
-				$array[$n] = $val;
-				// echo $n;
-			} else {
-				$i = $n - "1";
-				$array[$n] = $backup_array[$i];
+		if ($upper_limit === 0) {
+			// We've been asked to splice into an empty section. This is PROBABLY
+			// a bug in the module, but may not be. Either way, set it to the
+			// priority requested, and then add it to the beginning.
+			if ($priority > 1) {
+				log(sprintf(_("Critical error when splicing into %s. I was asked to splice into an empty section with a priority greater than 1. This is always a bug in a module. I was asked to add %s"), $section, json_encode($var)));
 			}
-			$n++;
+			$val['basetag'] = $priority;
+			$this->_exts[$section][$extension][$priority] = $val;
+		} else {
+			while($n <= $upper_limit) {
+				if($n == $ky) {
+					$array[$n] = $val;
+					// echo $n;
+				} else {
+					$i = $n - "1";
+					$array[$n] = $backup_array[$i];
+				}
+				$n++;
+			}
+
+			// apply our newly modified array
+			$this->_exts[$section][$extension] = $array;
 		}
-
-		// apply our newly modified array
-		//echo "Splicing [$section] $extension\n";
-		$this->_exts[$section][$extension] = $array;
-
-		//print_r($this->_exts[$section][$extension]);
 	}
 
 	/* This function allows dial plan to be replaced.  This is most useful for modules that
