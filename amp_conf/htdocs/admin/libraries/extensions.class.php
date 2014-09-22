@@ -230,6 +230,7 @@ class extensions {
 			// priority requested, and then add it to the beginning.
 			if ($priority > 1) {
 				log(sprintf(_("Critical error when splicing into %s. I was asked to splice into an empty section with a priority greater than 1. This is always a bug in a module. I was asked to add %s"), $section, json_encode($var)));
+			throw new \Exception(sprintf(_("Critical error when splicing into %s. I was asked to splice into an empty section with a priority greater than 1. This is always a bug in a module. I was asked to add %s"), $section, json_encode($var)));
 			}
 			$val['basetag'] = $priority;
 			$this->_exts[$section][$extension][$priority] = $val;
