@@ -125,9 +125,9 @@ EOF;
 			//Creating CA certificate ${CACERT}
 			$this->out("Creating CA certificate");
 			if(!empty($passphrase)) {
-				$out = $this->runOpenSSL("req -new -config " . $location . "/".$base.".cfg -x509 -days 365 -key " . $location . "/".$base.".key -out " . $location . "/".$base.".crt -passin stdin", $passphrase);
+				$out = $this->runOpenSSL("req -new -config " . $location . "/".$base.".cfg -x509 -days 3650 -key " . $location . "/".$base.".key -out " . $location . "/".$base.".crt -passin stdin", $passphrase);
 			} else {
-				$out = $this->runOpenSSL("req -nodes -new -config " . $location . "/".$base.".cfg -x509 -days 365 -key " . $location . "/".$base.".key -out " . $location . "/".$base.".crt");
+				$out = $this->runOpenSSL("req -nodes -new -config " . $location . "/".$base.".cfg -x509 -days 3650 -key " . $location . "/".$base.".key -out " . $location . "/".$base.".crt");
 			}
 			if($out['exitcode'] > 0) {
 				throw new Exception("Error Generating Certificate: ".$out['stderr']);
@@ -162,9 +162,9 @@ EOF;
 		//Creating certificate ${base}.crt
 		$this->out("Creating certificate " . $base);
 		if(!empty($passphrase)) {
-			$out = $this->runOpenSSL("x509 -req -days 365 -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt -passin stdin", $passphrase);
+			$out = $this->runOpenSSL("x509 -req -days 3650 -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt -passin stdin", $passphrase);
 		} else {
-			$out = $this->runOpenSSL("x509 -req -days 365 -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt");
+			$out = $this->runOpenSSL("x509 -req -days 3650 -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt");
 		}
 		if($out['exitcode'] > 0) {
 			throw new Exception("Error Generating Certificate: ".$out['stderr']);

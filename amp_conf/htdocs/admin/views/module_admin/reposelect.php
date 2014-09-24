@@ -23,7 +23,8 @@
 		</table>
 	<?php } ?>
 	<div>
-		<input type="submit" value="<?php echo _("Check Online") ?>" name="check_online" id="check_online" style="<?php if($online) {?>display:none;<?php } ?>"/>
+		<input type="hidden" value="1" name="check_online">
+		<input type="submit" value="<?php echo _("Check Online") ?>" style="<?php if($online) {?>display:none;<?php } ?>"/>
 		<?php echo $button_display ?>
 		<?php if($online) {?>
 			<a class="btn" href="config.php?display=modules&amp;online=0"><?php echo _("Manage local modules")?></a>
@@ -32,3 +33,11 @@
 		<?php } ?>
 	</div>
 </form>
+<div class="screendoor">
+	<div class="message center-block">
+		<div class="text">
+			<?php echo _("Checking Online, Please Wait...");?>
+		</div>
+		<i class="fa fa-spinner fa-spin"></i>
+	</div>
+</div>

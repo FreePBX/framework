@@ -1,14 +1,6 @@
 <?php
 // vim: :set filetype=php tabstop=4 shiftwidth=4 autoindent smartindent:
 ?>
-<div class="screendoor">
-	<div class="message center-block">
-		<div class="text">
-			<?php echo _("Checking Online, Please Wait...");?>
-		</div>
-		<i class="fa fa-spinner fa-spin"></i>
-	</div>
-</div>
 <?php
 if($online) { ?>
 	<?php if(!empty($announcements)) {?>
