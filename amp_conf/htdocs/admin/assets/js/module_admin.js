@@ -93,6 +93,9 @@ $(document).ready(function(){
 			} ]
 		});
 	});
+	if(window.location.hash == '#email'){
+		$('#show_auto_update').click();
+	}
 	$('.modulevul_tag').click(function(e) {
 		e.preventDefault();
 		e.stopPropagation();
