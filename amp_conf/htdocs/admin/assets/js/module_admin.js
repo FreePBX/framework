@@ -20,9 +20,19 @@ $(document).ready(function(){
 			}
 		});
 	})
-	$("#check_online").click(function() {
+	$( "form[name='onlineRepo']" ).submit(function( event ) {
 		toggleScreenDoor();
-	})
+		//The following is a workaround hack for safari
+		//if you submit a page and add something to it
+		//safari rejects your add
+		//so we stop submission of the page, wait 100 ms
+		//then submit again
+		event.preventDefault();
+		var form = this;
+		setTimeout(function() {
+			form.submit();
+		}, 200);
+});
 	$('#show_auto_update').click(function() {
 		autoupdate_box = $('#db_online').dialog({
 			title: fpbx.msg.framework.updatenotifications,

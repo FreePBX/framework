@@ -80,6 +80,7 @@ class module_functions {
 		preg_match('/(\d+\.\d+)/',$version,$matches);
 		$base_version = $matches[1];
 		if((time() - $result['time']) > 300 || $skip_cache || strlen($data) < 100 ) {
+			set_time_limit(120);
 			if ($override_xml) {
 				$data = $this->get_url_contents($override_xml,"/modules-" . $base_version . ".xml");
 			} else {
@@ -1732,6 +1733,7 @@ class module_functions {
 		}
 		$this->upgrade_notifications($new_modules, 'PASSIVE');
 		needreload();
+		FreePBX::Config()->update("SIGNATURECHECK", true);
 		return true;
 	}
 

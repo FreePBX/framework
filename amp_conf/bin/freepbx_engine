@@ -217,7 +217,8 @@ chown_asterisk() {
 	fi
 
 	ASTERISKOWNED=("$ASTRUNDIR" "$ASTETCDIR" "$ASTVARLIBDIR" "$ASTLOGDIR" "$AMPBIN" "$ASTAGIDIR" \
-		"/etc/dahdi" "/etc/wanpipe" "/etc/odbc.ini" "/usr/local/asterisk" "/dev/tty9")
+		"/etc/dahdi" "/etc/wanpipe" "/etc/odbc.ini" "/usr/local/asterisk" "/dev/tty9" \
+		"/etc/amportal.conf")
 	WEBOWNED=("$AMPWEBROOT/admin" "$AMPWEBROOT/recordings" "$FPBXDBUGFILE" "$FPBX_LOG_FILE" "$SESSDIR")
 	PRIVFILES=("$FREEPBX_CONF" "$ASTVARLIBDIR/.ssh/.id_rsa")
 	DEVICES=("/dev/zap" "/dev/dahdi" "/dev/capi20" "/dev/misdn" "/dev/mISDN" "/dev/dsp")
@@ -264,14 +265,16 @@ chown_asterisk() {
 
 	chown $AMPASTERISKUSER:$AMPASTERISKGROUP /usr/local/sbin/amportal
 
-	# Fix PIAF immutable files
-	chattr -i $AMPWEBROOT/*  2>&1 >/dev/null
+	# Fix immutable files
+	chattr -i $AMPWEBROOT/* > /dev/null 2>&1
 
 	echo Done
 	call_hook chown_asterisk
 }
 
 remove_dangling_links() {
+	#find -L /var/www/html/admin/assets 2>&1 >/dev/null | grep -i 'too many levels of symbolic links' | sed 's/\(.*\)\/.*/\1/'
+	#rm -Rf /var/www/html/admin/assets/superfecta/images/*
 	echo Removing any dangling symlinks
 	find -L $AMPWEBROOT -type l -delete
 	find -L $AMPBIN -type l -delete

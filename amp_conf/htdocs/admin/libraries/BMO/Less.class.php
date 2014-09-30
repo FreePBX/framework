@@ -49,7 +49,11 @@ class Less extends Less_Parser {
 		}
 
 		\Less_Cache::$cache_dir = $less_path.'/cache';
-		$filename = \Less_Cache::Get( $files, array('compress' => true), $variables );
+		try {
+			$filename = \Less_Cache::Get( $files, array('compress' => true), $variables );
+		} catch(\Exception $e) {
+			die_freepbx(sprintf(_('Can not write to cache folder at %s/cache. Please run (from the CLI): %s'),$dir,'amportal chown'));
+		}
 		$out['compiled_less_files'][] = 'cache/'.$filename;
 
 		$extra_less_dirs = array("buttons");
@@ -102,7 +106,7 @@ class Less extends Less_Parser {
 		//Load bootstrap only if it exists as this will tell us the correct load order
 		if(!file_exists($dir.'/cache')) {
 			if(!mkdir($dir.'/cache')) {
-				die_freepbx('Can Not Create Cache Folder at '.$dir.'/cache');
+				die_freepbx(sprintf(_('Can not create cache folder at %s/cache. Please run (from the CLI): %s'),$dir,'amportal chown'));
 			}
 		}
 		$this->SetOption('cache_dir',$dir.'/cache');
@@ -135,25 +139,30 @@ class Less extends Less_Parser {
 	public function getCachedFile($dir, $uri_root = '', $variables = array()) {
 		if(!file_exists($dir.'/cache')) {
 			if(!mkdir($dir.'/cache')) {
-				die_freepbx('Can Not Create Cache Folder at '.$dir.'/cache');
+				die_freepbx(sprintf(_('Can not create cache folder at %s/cache. Please run (from the CLI): %s'),$dir,'amportal chown'));
 			}
 		}
 		\Less_Cache::$cache_dir = $dir.'/cache';
 		$files = array();
 		$basename = basename($dir);
-		if(file_exists($dir."/bootstrap.less")) {
-			$files = array( $dir."/bootstrap.less" => $uri_root );
-			$filename = \Less_Cache::Get( $files, array('compress' => true), $variables );
-		} elseif(file_exists($dir."/".$basename.".less")) {
-			$files = array( $dir."/".$basename.".less" => $uri_root );
-			$filename = \Less_Cache::Get( $files, array('compress' => true), $variables );
-		} else {
-			//load them all randomly. Probably in alpha order
-			foreach(glob($dir."/*.less") as $file) {
-				$files[$file] = $uri_root;
+		try {
+			if(file_exists($dir."/bootstrap.less")) {
+				$files = array( $dir."/bootstrap.less" => $uri_root );
+				$filename = \Less_Cache::Get( $files, array('compress' => true), $variables );
+			} elseif(file_exists($dir."/".$basename.".less")) {
+				$files = array( $dir."/".$basename.".less" => $uri_root );
+				$filename = \Less_Cache::Get( $files, array('compress' => true), $variables );
+			} else {
+				//load them all randomly. Probably in alpha order
+				foreach(glob($dir."/*.less") as $file) {
+					$files[$file] = $uri_root;
+				}
+				uksort($files, "strcmp");
+
+				$filename = \Less_Cache::Get( $files, array('compress' => true), $variables );
 			}
-			uksort($files, "strcmp");
-			$filename = \Less_Cache::Get( $files, array('compress' => true), $variables );
+		} catch(\Exception $e) {
+			die_freepbx(sprintf(_('Can not write to cache folder at %s/cache. Please run (from the CLI): %s'),$dir,'amportal chown'));
 		}
 		return $filename;
 	}
