@@ -77,8 +77,8 @@ if (!$quietmode) {
 	} else {
 		$displayvars['shield_class'] = $update_email ? 'updates_full' : 'updates_partial';
 	}
-
-	$displayvars['update_blurb']   = htmlspecialchars(_("Add your email here to receive important security and module updates. The email address you provide is NEVER transmitted to the FreePBX remote servers. The email is ONLY used by your local PBX to send notifications of updates that are available as well as IMPORTANT Security Notifications. It is STRONGLY advised that you keep this enabled and keep updated of these important notifications to avoid costly security vulnerabilities."));
+	$brand = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
+	$displayvars['update_blurb']   = htmlspecialchars(sprintf(_("Add your email here to receive important security and module updates. The email address you provide is NEVER transmitted to the %s remote servers. The email is ONLY used by your local PBX to send notifications of updates that are available as well as IMPORTANT Security Notifications. It is STRONGLY advised that you keep this enabled and keep updated of these important notifications to avoid costly security vulnerabilities."),$brand));
 	$displayvars['ue'] = htmlspecialchars($update_email);
 	$displayvars['machine_id'] = htmlspecialchars($machine_id);
 	//TODO: decide if warnings of any sort need to be given, or just list of repos active?
@@ -890,7 +890,7 @@ switch ($action) {
 		$displayvars['module_display'] = $module_display;
 		$displayvars['devel'] = $amp_conf['DEVEL'];
 		$displayvars['trackenable'] = $amp_conf['AMPTRACKENABLE'];
-		$displayvars['brand'] = FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
+		$displayvars['brand'] = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
 		$displayvars['broken_module_list'] = $broken_module_list;
 		show_view('views/module_admin/main.php',$displayvars);
 	break;
@@ -1077,10 +1077,12 @@ function displayRepoSelect($buttons,$online=false,$repo_list=array()) {
 		}
 	}
 
+	$brand = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
+
 	$displayvars['tooltip']  = _("Choose the repositories that you want to check for new modules. Any updates available for modules you have on your system will be detected even if the repository is not checked. If you are installing a new system, you may want to start with the Basic repository and update all modules, then go back and review the others.").' ';
-	$displayvars['tooltip'] .= _(" The modules in the Extended repository are less common and may receive lower levels of support. The Unsupported repository has modules that are not supported by the FreePBX team but may receive some level of support by the authors.").' ';
+	$displayvars['tooltip'] .= sprintf(_(" The modules in the Extended repository are less common and may receive lower levels of support. The Unsupported repository has modules that are not supported by the %s team but may receive some level of support by the authors."),$brand).' ';
 	$displayvars['tooltip'] .= _("The Commercial repository is reserved for modules that are available for purchase and commercially supported.").' ';
-	$displayvars['tooltip'] .= '<br /><br /><small><i>('._("Checking for updates will transmit your FreePBX, Distro, Asterisk and PHP version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted.").')</i></small>';
+	$displayvars['tooltip'] .= '<br /><br /><small><i>('.sprintf(_("Checking for updates will transmit your %s, Distro, Asterisk and PHP version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted."),$brand).')</i></small>';
 
 	return load_view('views/module_admin/reposelect.php',$displayvars);
 }
