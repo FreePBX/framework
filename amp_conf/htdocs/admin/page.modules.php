@@ -823,7 +823,7 @@ switch ($action) {
 			$module_display[$category]['data'][$name]['name_text'] = $name_text;
 
 			$salert = isset($modules[$name]['vulnerabilities']);
-			$module_display[$category]['data'][$name]['mclass'] = $salert ? "modulevulnerable" : "moduleheader";
+			$module_display[$category]['data'][$name]['mclass'] = $salert ? "moduleheader modulevulnerable" : "moduleheader";
 
 			if ($salert) {
 				$module_display[$category]['data'][$name]['vulnerabilities'] = $modules[$name]['vulnerabilities'];
