@@ -2309,6 +2309,19 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('BRAND_ALT_JS', $set);
   $set['hidden'] = 0;
 
+	// DASHBOARD_FREEPBX_BRAND
+	$set['value']	= 'FreePBX';
+	$set['options'] = '';
+	$set['name'] = 'FreePBX Brand';
+	$set['description'] = 'The FreePBX Brand Name';
+	$set['readonly'] = 1;
+	$set['emptyok'] = 1;
+	$set['hidden'] = 1;
+	$set['sortorder'] = 360;
+	$set['type'] = CONF_TYPE_TEXT;
+	$freepbx_conf->define_conf_setting('DASHBOARD_FREEPBX_BRAND', $set);
+	$set['hidden'] = 0;
+
 
   //
   // CATEGORY: Device Setting Defaults
