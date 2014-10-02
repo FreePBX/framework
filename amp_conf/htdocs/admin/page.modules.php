@@ -823,7 +823,7 @@ switch ($action) {
 			$module_display[$category]['data'][$name]['name_text'] = $name_text;
 
 			$salert = isset($modules[$name]['vulnerabilities']);
-			$module_display[$category]['data'][$name]['mclass'] = $salert ? "modulevulnerable" : "moduleheader";
+			$module_display[$category]['data'][$name]['mclass'] = $salert ? "moduleheader modulevulnerable" : "moduleheader";
 
 			if ($salert) {
 				$module_display[$category]['data'][$name]['vulnerabilities'] = $modules[$name]['vulnerabilities'];
@@ -890,6 +890,7 @@ switch ($action) {
 		$displayvars['module_display'] = $module_display;
 		$displayvars['devel'] = $amp_conf['DEVEL'];
 		$displayvars['trackenable'] = $amp_conf['AMPTRACKENABLE'];
+		$displayvars['brand'] = FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
 		$displayvars['broken_module_list'] = $broken_module_list;
 		show_view('views/module_admin/main.php',$displayvars);
 	break;
