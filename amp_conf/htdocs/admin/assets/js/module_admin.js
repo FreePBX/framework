@@ -276,7 +276,7 @@ function process_module_actions(modules) {
 				position: ['center', 50],
 				width: '410px',
 				open: function (e) {
-					$('#moduledialogwrapper').html('Loading..<img src="images/spinner.gif">');
+					$('#moduledialogwrapper').html('Loading..<i class="fa fa-spinner fa-spin fa-2x">');
 				    var xhr = new XMLHttpRequest();
 				    xhr.open('POST', urlStr, true);
 				    xhr.send(null);
