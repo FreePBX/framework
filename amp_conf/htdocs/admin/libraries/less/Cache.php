@@ -42,6 +42,11 @@ class Less_Cache{
 
 		//create a file for variables
 		if( !empty($modify_vars) ){
+			// get less.php if it exists
+			$file = dirname(__FILE__) . '/Less.php';
+			if( file_exists($file) && !class_exists('Less_Parser') ){
+				require_once($file);
+			}
 			$lessvars = Less_Parser::serializeVars($modify_vars);
 			$vars_file = Less_Cache::$cache_dir.'lessphpvars_' . sha1($lessvars) . '.less';
 
