@@ -45,7 +45,7 @@ if($online) { ?>
 			<span class="modulestatus"><?php echo _("Status")?></span>
 			<span class="moduletrack"><?php echo _("Track")?></span>
 			<span class="clear">&nbsp;</span>
-    </div>
+		</div>
 		<?php foreach($module_display as $category) {?>
 			<div class="category" id="category_<?php echo prep_id($category['name'])?>">
 				<h3><?php echo $category['name']?></h3>
@@ -203,10 +203,15 @@ if($online) { ?>
 										<?php } ?>
 										<?php if($trackenable && $module['status'] >= 0 && !empty($module['tracks'])) {?>
 											<tr>
-												<td><a href="#" class="info"><?php echo _("Track")?>:<span><?php echo _("Modules can have separate individual repos or tracks, these tracks can determine what type of updates this module receives. A prime example is that of the beta track. You can select the beta track for this module and FreePBX will give you the highest updates in the beta track or stable. Some Modules will only have one track. Tracks can be disabled in Advanced Settings")?></span></a></td>
+												<td><a href="#" class="info"><?php echo _("Track")?>:<span><?php echo _("Modules can have separate individual repos or tracks, these tracks can determine what type of updates this module receives. A prime example is that of the beta track. You can select the beta track for this module and FreePBX will give you the highest updates in the beta track or stable. Some Modules will only have one track. Tracks can be disabled in Advanced Settings.<br>Tracks can only be changed after checking online")?></span></a></td>
 												<td>
 													<span class="moduletrackradios">
-													<?php foreach($module['tracks'] as $track => $checked) {?>
+													<?php
+													foreach($module['tracks'] as $track => $checked) {
+														if($track != "stable" && empty($module['raw']['online']['releasetracks'][$track])) {
+															continue;
+														}
+													?>
 														<input id="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>" type="radio" name="trackaction[<?php echo prep_id($module['name'])?>]" value="<?php echo $track?>" <?php echo ($checked) ? 'checked' : ''?>/>
 														<label for="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>"><?php echo ucfirst($track)?></label>
 													<?php } ?>
@@ -297,6 +302,11 @@ if($online) { ?>
 																				<label class="installabel" for="force_upgrade_<?php echo prep_id($module['name'])?>"><?php echo $force_msg ?></label>
 																			<?php }
 																		}
+																	} elseif($track != "stable") {
+																		?>
+																		<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="upgrade" />
+																		<label class="installabel" for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Switch to Stable and Download and Install %s'), $module['raw']['online']['version'])?></label>
+																		<?php
 																	}
 																	if (enable_option($module['name'],'candisable')) { ?>
 																		<input type="radio" id="disable_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="disable" />

@@ -558,19 +558,6 @@ class module_functions {
 		return !empty($repos) && is_array($repos) ? $repos : array();
 	}
 
-	function set_track($modulename,$track) {
-		global $db;
-		$sql = "SELECT data FROM module_xml WHERE id = 'track'";
-		$track = sql($sql, "getOne");
-
-
-		$track = !empty($track) ? json_decode($track,TRUE) : array();
-		$track[$modulename] = $track;
-		$track = json_encode($track);
-
-		sql("REPLACE INTO module_xml (id,time,data) VALUES('track',".time().",'".$track."')");
-	}
-
 	function set_tracks($modules) {
 		global $db;
 		$sql = "SELECT data FROM module_xml WHERE id = 'track'";
