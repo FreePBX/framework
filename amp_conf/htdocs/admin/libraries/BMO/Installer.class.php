@@ -1,0 +1,82 @@
+<?php
+// vim: set ai ts=4 sw=4 ft=php:
+/**
+ * This is the FreePBX Big Module Object.
+ *
+ * This is the first stage of the installer rewrite.
+ *
+ * License for all code of this FreePBX module can be found in the license file inside the module directory
+ * Copyright 2006-2014 Schmooze Com Inc.
+ */
+
+class Installer {
+
+	private $agidir;
+	private $varlibdir;
+	private $etcdir;
+	private $logdir;
+	private $moddir;
+	private $rundir;
+	private $spooldir;
+	private $soundsdir;
+
+	private $webroot;
+	private $sbindir;
+	private $bindir;
+
+	public function __construct($test = false) {
+		// Asterisk Directories
+		$this->agidir = FreePBX::Config()->get('ASTAGIDIR');
+		$this->varlibdir = FreePBX::Config()->get('ASTVARLIBDIR');
+		$this->etcdir = FreePBX::Config()->get('ASTETCDIR');
+		$this->logdir = FreePBX::Config()->get('ASTLOGDIR');
+		$this->moddir = FreePBX::Config()->get('ASTMODDIR');
+		$this->rundir = FreePBX::Config()->get('ASTRUNDIR');
+		$this->spooldir = FreePBX::Config()->get('ASTSPOOLDIR');
+
+		$this->webroot = FreePBX::Config()->get('AMPWEBROOT');
+		$this->sbindir = FreePBX::Config()->get('AMPSBIN');
+		$this->bindir = FreePBX::Config()->get('AMPBIN');
+
+
+		$vars = array("agidir", "varlibdir", "etcdir", "logdir", "moddir", "rundir", "spooldir", "webroot", "sbindir", "bindir");
+		foreach ($vars as $v) {
+			if (empty($this->$v)) {
+				throw new \Exception("I couldn't find $v");
+			}
+			if (substr($this->$v, -1) != "/") { // If it doesn't end with a slash
+				$this->$v = $this->$v."/"; // Add it.
+			}
+		}
+		// Assumptions...
+		$this->soundsdir = $this->varlibdir."sounds/";
+	}
+
+	public function getDestination($modulename = false, $src = false) {
+		if (!$modulename || !$src) {
+			throw new \Exception("No modulename or source provided");
+		}
+
+		if (method_exists($this, $modulename)) {
+			return $this->$modulename($src);
+		}
+
+		return $this->defaultModule($src);
+	}
+
+	private function defaultModule($src) {
+		throw new \Exception("Unimplemented");
+	}
+
+	private function framework($file) {
+		// This is broken into multiple ifs as it seems to be more readable that way.
+		if (substr($file,0,16) == "amp_conf/astetc/") {
+			return $this->etcdir.substr($file,16);
+		} elseif (substr($file,0,16) == "amp_conf/sounds/") {
+			return $this->soundsdir.substr($file,16);
+		} elseif (substr($file,0,17) == "amp_conf/sbin/") {
+			return $this->sbindir.substr($file,17);
+		}
+		throw new \Exception("Incomplete");
+	}
+}
