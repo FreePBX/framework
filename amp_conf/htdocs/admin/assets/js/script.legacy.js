@@ -1033,7 +1033,7 @@ $(document).ready(function() {
 
 	//help tags
 	$("a.info").each(function() {
-		$(this).after("<span class=\"help\">?<span>" + $(this).find("span").html() + "</span></span>");
+		$(this).after("<span class=\"help\"><i class=\"fa fa-question-circle\"></i><span>" + $(this).find("span").html() + "</span></span>");
 		$(this).find("span").remove();
 		$(this).replaceWith($(this).html());
 	});
