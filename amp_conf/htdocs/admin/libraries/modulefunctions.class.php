@@ -25,6 +25,13 @@ class module_functions {
 		return $obj;
 	}
 
+	function __construct() {
+		$time_limit = ini_get('max_execution_time');
+		if(!empty($time_limit)) {
+			$this->maxTimeLimit = (int)$time_limit + $this->maxTimeLimit;
+		}
+	}
+
 	/**
 	 * Get the latest module.xml file for this FreePBX version.
 	 *
