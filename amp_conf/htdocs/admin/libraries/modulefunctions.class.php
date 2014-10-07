@@ -13,6 +13,8 @@ class module_functions {
 	public $security_array = null;
 	public $modDepends = array();
 	public $notFound = false;
+	//Max Execution Time Limit
+	private $maxTimeLimit = 250;
 
 	function &create() {
 		static $obj;
@@ -81,7 +83,7 @@ class module_functions {
 		preg_match('/(\d+\.\d+)/',$version,$matches);
 		$base_version = $matches[1];
 		if((time() - $result['time']) > 300 || $skip_cache || strlen($data) < 100 ) {
-			set_time_limit(120);
+			set_time_limit($this->maxTimeLimit);
 			if ($override_xml) {
 				$data = $this->get_url_contents($override_xml,"/modules-" . $base_version . ".xml");
 			} else {
@@ -1093,9 +1095,7 @@ class module_functions {
 		}
 		$modulename = $modulexml['rawname'];
 
-		if ($time_limit = ini_get('max_execution_time')) {
-			set_time_limit($time_limit);
-		}
+		set_time_limit($this->maxTimeLimit);
 
 		// size of download blocks to fread()
 		// basically, this controls how often progress_callback is called
@@ -1359,9 +1359,7 @@ class module_functions {
 			}
 		}
 
-		if ($time_limit = ini_get('max_execution_time')) {
-			set_time_limit($time_limit);
-		}
+		set_time_limit($this->maxTimeLimit);
 
 		// size of download blocks to fread()
 		// basically, this controls how often progress_callback is called
@@ -1601,9 +1599,7 @@ class module_functions {
 		$this->notFound = false;
 		global $db, $amp_conf;
 
-		if ($time_limit = ini_get('max_execution_time')) {
-			set_time_limit($time_limit);
-		}
+		set_time_limit($this->maxTimeLimit);
 
 		$modules = $this->getinfo($modulename);
 
