@@ -19,6 +19,7 @@ class InstallerTest extends PHPUnit_Framework_TestCase {
 			"amp_conf/bin/amportal" => "/var/lib/asterisk/bin/amportal",
 			"amp_conf/sbin/amportal" => "/usr/local/sbin/amportal",
 			"amp_conf/sounds/dir-intro-fnln.gsm" => "/var/lib/asterisk/sounds/dir-intro-fnln.gsm",
+			"amp_conf/agi-bin/phpagi-asmanager.php" => "/var/lib/asterisk/agi-bin/phpagi-asmanager.php",
 		);
 
 		foreach ($checks as $src => $dst) {

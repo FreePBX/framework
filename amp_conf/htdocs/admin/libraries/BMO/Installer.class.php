@@ -80,6 +80,8 @@ class Installer {
 			return $this->bindir.substr($file,13);
 		} elseif (substr($file,0,16) == "amp_conf/htdocs/") {
 			return $this->webroot.substr($file,16);
+		} elseif (substr($file,0,17) == "amp_conf/agi-bin/") {
+			return $this->agidir.substr($file,17);
 		}
 		// Everything else isn't moved.
 		return $this->defaultModule("framework", $file);
