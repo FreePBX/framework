@@ -101,17 +101,17 @@ class GPG {
 	 * @param string Module name
 	 * @return array (status => GPG::STATE_whatever, details => array (details, details))
 	 */
-	public function verifyModule($module = null) {
-		if (!$module) {
+	public function verifyModule($modulename = null) {
+		if (!$modulename) {
 			throw new Exception(_("No module to check"));
 		}
 
-		if (strpos($module, "/") !== false) {
+		if (strpos($modulename, "/") !== false) {
 			throw new Exception(_("Path given to verifyModule. Only provide a module name"));
 		}
 
 		// Get the module.sig file.
-		$file = FreePBX::Config()->get_conf_setting('AMPWEBROOT')."/admin/modules/$module/module.sig";
+		$file = FreePBX::Config()->get('AMPWEBROOT')."/admin/modules/$modulename/module.sig";
 
 		if (!file_exists($file)) {
 			// Well. That was easy.
@@ -129,14 +129,18 @@ class GPG {
 		$retarr['status'] = GPG::STATE_GOOD | GPG::STATE_TRUSTED;
 		$retarr['details'] = array();
 
-		$hashes = $this->getHashes(dirname($file));
 		foreach ($module['hashes'] as $file => $hash) {
-			if (!isset($hashes[$file])) {
-				$retarr['details'][] = $file." missing";
+			$dest = FreePBX::Installer()->getDestination($modulename, $file);
+			if ($dest === false) {
+				// If the file is explicitly un-checkable, ignore it.
+				continue;
+			}
+			if (!file_exists($dest)) {
+				$retarr['details'][] = $dest." missing";
 				$retarr['status'] |= GPG::STATE_TAMPERED;
 				$retarr['status'] &= ~GPG::STATE_GOOD;
-			} elseif ($hashes[$file] != $hash) {
-				$retarr['details'][] = $file." altered";
+			} elseif (hash_file('sha256', $dest) != $hash) {
+				$retarr['details'][] = $dest." altered";
 				$retarr['status'] |= GPG::STATE_TAMPERED;
 				$retarr['status'] &= ~GPG::STATE_GOOD;
 			}
