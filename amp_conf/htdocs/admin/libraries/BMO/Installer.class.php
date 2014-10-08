@@ -82,6 +82,8 @@ class Installer {
 			return $this->webroot.substr($file,16);
 		} elseif (substr($file,0,17) == "amp_conf/agi-bin/") {
 			return $this->agidir.substr($file,17);
+		} elseif (substr($file,0,9) == "upgrades/") {
+			return false;  // Don't install. This is only needed as part of the installer
 		}
 		// Everything else isn't moved.
 		return $this->defaultModule("framework", $file);

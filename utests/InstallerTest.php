@@ -12,7 +12,6 @@ class InstallerTest extends PHPUnit_Framework_TestCase {
 	public function testFramework() {
 		$wr = "/var/www/html";
 		$i = self::$i;
-		$this->assertEquals($i->getDestination("framework", "upgrades/1.2.3/file"), "$wr/admin/modules/framework/upgrades/1.2.3/file", "Not-special file failed");
 		$checks = array (
 			"amp_conf/htdocs/admin/ajax.php" => "$wr/admin/ajax.php",
 			"amp_conf/astetc/cdr_mysql.conf" => "/etc/asterisk/cdr_mysql.conf",
@@ -20,6 +19,7 @@ class InstallerTest extends PHPUnit_Framework_TestCase {
 			"amp_conf/sbin/amportal" => "/usr/local/sbin/amportal",
 			"amp_conf/sounds/dir-intro-fnln.gsm" => "/var/lib/asterisk/sounds/dir-intro-fnln.gsm",
 			"amp_conf/agi-bin/phpagi-asmanager.php" => "/var/lib/asterisk/agi-bin/phpagi-asmanager.php",
+			"upgrades/2.9.0.md5" => false, // We don't install upgrade files.
 		);
 
 		foreach ($checks as $src => $dst) {
