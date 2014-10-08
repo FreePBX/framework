@@ -61,11 +61,11 @@ class Installer {
 			return $this->$modulename($src);
 		}
 
-		return $this->defaultModule($src);
+		return $this->defaultModule($modulename, $src);
 	}
 
-	private function defaultModule($src) {
-		throw new \Exception("Unimplemented");
+	private function defaultModule($modulename, $src) {
+		return $this->webroot."admin/modules/$modulename/$src";
 	}
 
 	private function framework($file) {
@@ -74,9 +74,14 @@ class Installer {
 			return $this->etcdir.substr($file,16);
 		} elseif (substr($file,0,16) == "amp_conf/sounds/") {
 			return $this->soundsdir.substr($file,16);
-		} elseif (substr($file,0,17) == "amp_conf/sbin/") {
-			return $this->sbindir.substr($file,17);
+		} elseif (substr($file,0,14) == "amp_conf/sbin/") {
+			return $this->sbindir.substr($file,14);
+		} elseif (substr($file,0,13) == "amp_conf/bin/") {
+			return $this->bindir.substr($file,13);
+		} elseif (substr($file,0,16) == "amp_conf/htdocs/") {
+			return $this->webroot.substr($file,16);
 		}
-		throw new \Exception("Incomplete");
+		// Everything else isn't moved.
+		return $this->defaultModule("framework", $file);
 	}
 }
