@@ -38,18 +38,6 @@ if (!function_exists('version_compare_freepbx')) {
 	}
 }
 
-/* This is here to catch some errors in an 11->12 upgrade, specifically
- * with dashboard changes. These used to be part of dashboard, but have
- * been moved to framework. As dashboard was never REMOVED, the symlinks
- * were never removed either. We'll just sneak them in now. */
-$wr = $amp_conf['AMPWEBROOT'];
-if (is_link("$wr/admin/images/notify_critical.png")) {
-	unlink("$wr/admin/images/notify_critical.png");
-}
-if (is_link("$wr/admin/images/notify_security.png")) {
-	unlink("$wr/admin/images/notify_security.png");
-}
-
 /*
  * Framework install script
  */
