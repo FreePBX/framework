@@ -435,6 +435,15 @@ class GPG {
 		}
 
 		$out = $this->runGPG("--output - $sigfile");
+
+		// Check to see if we don't know about this signature..
+		if (isset($out['status'][1]) && preg_match('/ERRSIG (.+) 1 2/', $out['status'][1], $keyarr)) {
+			// We don't. Try to grab it.
+			$this->getKey($keyarr[1]);
+			// And now run the validation again.
+			$out = $this->runGPG("--output - $sigfile");
+		}
+
 		$status = $this->checkStatus($out['status']);
 		if (!$status['trust']) {
 			return $status;
