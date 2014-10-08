@@ -2697,7 +2697,7 @@ class module_functions {
 			$md = $this->getInfo();
 			$modname = !empty($md[$mod['modulename']]['name']) ? $md[$mod['modulename']]['name'] : sprintf(_('%s [not enabled]'),$mod['modulename']);
 			if ($unsigned) {
-				$modules['statuses']['unsigned'][] = sprintf(_('Module: %s is unsigned'),$modname);
+				$modules['statuses']['unsigned'][] = sprintf(_('Module %s is unsigned'),$modname);
 			} else {
 				if ($tampered) {
 					foreach($mod['signature']['details'] as $d) {
