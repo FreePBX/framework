@@ -2677,8 +2677,8 @@ class module_functions {
 		$modules = array();
 		$globalValidation = true;
 		foreach($res as $mod) {
-			//Hide Framework and ari for now because their files are copied all over the planet.
-			if($mod['modulename'] == 'framework' || $mod['modulename'] == 'fw_ari') {
+			// Ignore ARI for the moment.
+			if($mod['modulename'] == 'fw_ari') {
 				continue;
 			}
 			//TODO: determine if this should be in here or not.
