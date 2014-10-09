@@ -2697,9 +2697,9 @@ class module_functions {
 			$md = $this->getInfo();
 			$modname = !empty($md[$mod['modulename']]['name']) ? $md[$mod['modulename']]['name'] : sprintf(_('%s [not enabled]'),$mod['modulename']);
 			if ($unsigned) {
-				if ($modname == "framework" || $modname == "core") {
+				if ($mod['modulename'] == "framework" || $mod['modulename'] == "core") {
 					// Unsigned framework or core is extremely terribly bad.
-					$modules['statuses']['tampered'][] = sprintf(_('Critical Module "%s" is unsigned'), $modname);
+					$modules['statuses']['tampered'][] = sprintf(_('Critical Module "%s" is unsigned, re-download immediately' ), $modname);
 				} else {
 					$modules['statuses']['unsigned'][] = sprintf(_('Module "%s" is unsigned and should be re-downloaded'),$modname);
 				}
