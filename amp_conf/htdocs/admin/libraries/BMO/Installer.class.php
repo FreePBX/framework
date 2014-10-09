@@ -77,6 +77,10 @@ class Installer {
 		} elseif (substr($file,0,14) == "amp_conf/sbin/") {
 			return $this->sbindir.substr($file,14);
 		} elseif (substr($file,0,13) == "amp_conf/bin/") {
+			// TODO: Fix this prior to installer rewrite.
+			if ($file === "amp_conf/bin/amportal") {
+				return false;
+			}
 			return $this->bindir.substr($file,13);
 		} elseif (substr($file,0,16) == "amp_conf/htdocs/") {
 			return $this->webroot.substr($file,16);

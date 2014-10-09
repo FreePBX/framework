@@ -2676,6 +2676,8 @@ class module_functions {
 		$res = $sth->fetchAll(PDO::FETCH_ASSOC);
 		$modules = array();
 		$globalValidation = true;
+		$amportal = FreePBX::Config->get('AMPSBIN')."/amportal";
+
 		foreach($res as $mod) {
 			// Ignore ARI for the moment.
 			if($mod['modulename'] == 'fw_ari') {
@@ -2706,7 +2708,11 @@ class module_functions {
 			} else {
 				if ($tampered) {
 					foreach($mod['signature']['details'] as $d) {
-						$modules['statuses']['tampered'][] = sprintf(_('Module: %s, File: %s'),$modname,$d);
+						if ($d == $amportal) {
+							$modules['statuses']['tampered'][] = sprintf(_('Module: %s, File: %s (You may need to run "amportal chown")'),$modname,$d);
+						} else {
+							$modules['statuses']['tampered'][] = sprintf(_('Module: %s, File: %s'),$modname,$d);
+						}
 					}
 				}
 				if (!$trusted) {
