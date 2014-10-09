@@ -114,12 +114,12 @@ if [ -e $AMPBIN/amportal ]; then
 	if [ ! -e $AMPSBIN/amportal ] || [ ! -h $AMPSBIN/amportal ]; then
 		cmp -s $AMPBIN/amportal $AMPSBIN/amportal > /dev/null
 		if [ $? -eq 1 ]; then
-		  echo "new amportal script detected, moving it to $AMPSBIN and attempting to backup up old"
+		  echo "new amportal script detected, copying it to $AMPSBIN and attempting to backup up old"
 		  # just in case it isn't there though it should be
 		  if [ -e $AMPSBIN/amportal ]; then
 		    mv $AMPSBIN/amportal $AMPSBIN/amportal.bak
 		  fi
-		  mv $AMPBIN/amportal $AMPSBIN/amportal
+		  cp $AMPBIN/amportal $AMPSBIN/amportal
 		  if [ "$?" -ne "0" ]; then
 		    echo "unable to update to new amportal, check permissions and try again"
 		  fi
