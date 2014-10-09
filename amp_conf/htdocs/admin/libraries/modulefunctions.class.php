@@ -2676,7 +2676,7 @@ class module_functions {
 		$res = $sth->fetchAll(PDO::FETCH_ASSOC);
 		$modules = array();
 		$globalValidation = true;
-		$amportal = FreePBX::Config->get('AMPSBIN')."/amportal";
+		$amportal = FreePBX::Config()->get('AMPSBIN')."/amportal";
 
 		foreach($res as $mod) {
 			// Ignore ARI for the moment.
