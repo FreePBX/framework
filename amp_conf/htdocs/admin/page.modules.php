@@ -410,7 +410,7 @@ switch ($action) {
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if(empty($modules_online[$module]['previous'])) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("<strong>%s</strong> cannot be rolledback, version <strong>%s</strong> is missing"), $modules[$module]['name'], $_REQUEST['version']);
+							$errorstext[] = sprintf(_("%s cannot be rolledback, version %s is missing"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$_REQUEST['version']."</strong>");
 						}
 						$previous_data = null;
 						foreach($modules_online[$module]['previous'] as $release) {
@@ -421,14 +421,14 @@ switch ($action) {
 						}
 						if(empty($previous_data)) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("<strong>%s<strong> cannot be rolledback, version <strong>%s</strong> is missing"), $modules[$module]['name'], $_REQUEST['version']);
+							$errorstext[] = sprintf(_("%s cannot be rolledback, version %s is missing"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$_REQUEST['version']."</strong>");
 						}
 						if (is_array($errors = $modulef->checkdepends($previous_data))) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("<strong>%s</strong> cannot be upgraded: <strong>%s</strong> Please try again after the dependencies have been installed."),
-							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),
+							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
 						} else {
-							$actionstext[] =  sprintf(_("<strong>%s %s</strong> will be downloaded and rolled back to <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $_REQUEST['version']);
+							$actionstext[] =  sprintf(_("%s %s will be downloaded and rolled back to %s"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$_REQUEST['version']."</strong>");
 						}
 					}
 				break;
@@ -441,39 +441,39 @@ switch ($action) {
 							$action = 'trackupgrade';
 							if(empty($trackinfo)) {
 								$skipaction = true;
-								$errorstext[] = sprintf(_("<strong>%s</strong> cannot be upgraded to <strong>%s</strong>: The release track of <strong>%s</strong> does not exist for this module"),
-								$modules[$module]['name'],$track,$track);
+								$errorstext[] = sprintf(_("%s cannot be upgraded to %s: The release track of %s does not exist for this module"),
+								"<strong>".$modules[$module]['name']."</strong>","<strong>".$track."</strong>","<strong>".$track."</strong>");
 							} elseif (is_array($errors = $modulef->checkdepends($trackinfo))) {
 								$skipaction = true;
-								$errorstext[] = sprintf(_("<strong>%s</strong> cannot be upgraded: <strong>%s</strong> Please try again after the dependencies have been installed."),
-								$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+								$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),
+								"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
 							} else {
 								switch (version_compare_freepbx($modules[$module]['dbversion'], $trackinfo['version'])) {
 									case '-1':
-										$actionstext[] = sprintf(_("<strong>%s %s</strong> will be upgraded to online version <strong>%s</strong> and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version'],$track);
+										$actionstext[] = sprintf(_("%s %s will be upgraded to online version %s and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$trackinfo['version']."</strong>");
 									break;
 									case '0':
-										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be re-installed to online version <strong>%s</strong> and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version'],$track);
+										$force_actionstext[] = sprintf(_("%s %s will be re-installed to online version %s and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$trackinfo['version']."</strong>");
 									break;
 									default:
-										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be downgraded to online version <strong>%s</strong> and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version'],$track);
+										$force_actionstext[] = sprintf(_("%s %s will be downgraded to online version %s and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$trackinfo['version']."</strong>");
 								}
 							}
 						} else {
 							if (is_array($errors = $modulef->checkdepends($trackinfo))) {
 								$skipaction = true;
 								$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),
-								$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+								"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
 							} else {
 								switch ( version_compare_freepbx($modules[$module]['dbversion'], $trackinfo['version'])) {
 									case '-1':
-										$actionstext[] = sprintf(_("<strong>%s %s</strong> will be upgraded to online version <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version']);
+										$actionstext[] = sprintf(_("%s %s will be upgraded to online version %s"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$trackinfo['version']."</strong>");
 									break;
 									case '0':
-										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be re-installed to online version <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version']);
+										$force_actionstext[] = sprintf(_("%s %s will be re-installed to online version %s"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$trackinfo['version']."</strong>");
 									break;
 									default:
-										$force_actionstext[] = sprintf(_("<strong>%s %s</strong> will be downgraded to online version <strong>%s</strong>"), $modules[$module]['name'], $modules[$module]['dbversion'], $trackinfo['version']);
+										$force_actionstext[] = sprintf(_("%s %s will be downgraded to online version %s"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$trackinfo['version']."</strong>");
 								}
 							}
 						}
@@ -487,21 +487,21 @@ switch ($action) {
 						$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : array());
 						if(empty($trackinfo)) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("<strong>%s</strong> cannot be upgraded to <strong>%s</strong>: The release track of %s does not exist for this module"),
-							$modules[$module]['name'],$track,$track);
+							$errorstext[] = sprintf(_("%s cannot be upgraded to %s: The release track of %s does not exist for this module"),
+							"<strong>".$modules[$module]['name']."</strong>","<strong>".$track."</strong>","<strong>".$track."</strong>");
 						} elseif (is_array($errors = $modulef->checkdepends($trackinfo))) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("<strong>%s</strong> cannot be installed: <strong>%s</strong> Please try again after the dependencies have been installed."),
-							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
+							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
 						} else {
-							$actionstext[] =  sprintf(_("<strong>%s %s</strong> will be downloaded and installed and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $trackinfo['version'],$track);
+							$actionstext[] =  sprintf(_("%s %s will be downloaded and installed and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$trackinfo['version']."</strong>","<strong>".$track."</strong>");
 						}
 					} elseif (is_array($errors = $modulef->checkdepends($modules_online[$module]))) {
 						$skipaction = true;
-						$errorstext[] = sprintf(_("<strong>%s</strong> cannot be installed: <strong>%s</strong> Please try again after the dependencies have been installed."),
-						$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
+						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
 					} else {
-						$actionstext[] =  sprintf(_("<strong>%s %s</strong> will be downloaded and installed"), $modules[$module]['name'], $modules_online[$module]['version']);
+						$actionstext[] =  sprintf(_("%s %s will be downloaded and installed"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules_online[$module]['version']."</strong>");
 					}
 				}
 				break;
@@ -513,24 +513,24 @@ switch ($action) {
 							$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : array());
 							if(empty($trackinfo)) {
 								$skipaction = true;
-								$errorstext[] = sprintf(_("<strong>%s</strong> cannot be upgraded to <strong>%s</strong>: The release track of <strong>%s</strong> does not exist for this module"),
-								$modules[$module]['name'],$track,$track);
+								$errorstext[] = sprintf(_("%s cannot be upgraded to %s: The release track of %s does not exist for this module"),
+								"<strong>".$modules[$module]['name']."</strong>","<strong>".$track."</strong>","<strong>".$track."</strong>");
 							} elseif (is_array($errors = $modulef->checkdepends($trackinfo))) {
 								$skipaction = true;
-								$errorstext[] = sprintf(_("<strong>%s</strong> cannot be installed: <strong>%s</strong> Please try again after the dependencies have been installed."),
-								$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+								$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
+								"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
 							} else {
-								$actionstext[] =  sprintf(_("<strong>%s %s</strong> will be downloaded and installed and switched to the <strong>%s</strong> track"), $modules[$module]['name'], $trackinfo['version'],$track);
+								$actionstext[] =  sprintf(_("%s %s will be downloaded and installed and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$trackinfo['version']."</strong>","<strong>".$track."<strong>");
 							}
 						} elseif (is_array($errors = $modulef->checkdepends($modules[$module]))) {
 							$skipaction = true;
 							$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please try again after the dependencies have been installed.") : _("%s cannot be installed: %s Please try again after the dependencies have been installed.") ),
-							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
 						} else {
 							if ($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) {
-								$actionstext[] =  sprintf(_("%s %s will be upgraded to %s"), $modules[$module]['name'], $modules[$module]['dbversion'], $modules[$module]['version']);
+								$actionstext[] =  sprintf(_("%s %s will be upgraded to %s"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$modules[$module]['version']."</strong>");
 							} else {
-								$actionstext[] =  sprintf(_("%s %s will be installed and enabled"), $modules[$module]['name'], $modules[$module]['version']);
+								$actionstext[] =  sprintf(_("%s %s will be installed and enabled"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['version']."</strong>");
 							}
 						}
 					}
@@ -538,49 +538,49 @@ switch ($action) {
 				case 'enable':
 					if (is_array($errors = $modulef->checkdepends($modules[$module]))) {
 						$skipaction = true;
-						$errorstext[] = sprintf(_("<strong>%s</strong> cannot be enabled: <strong>%s</strong> Please try again after the dependencies have been installed."),
-						$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						$errorstext[] = sprintf(_("%s cannot be enabled: %s Please try again after the dependencies have been installed."),
+						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
 					} else {
-						$actionstext[] =  sprintf(_("<strong>%s %s</strong> will be enabled"), $modules[$module]['name'], $modules[$module]['dbversion']);
+						$actionstext[] =  sprintf(_("%s %s will be enabled"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>");
 					}
 				break;
 				case 'disable':
 					if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
 						$skipaction = true;
-						$errorstext[] = sprintf(_("<strong>%s</strong> cannot be disabled because the following modules depend on it: <strong>%s</strong> Please disable those modules first then try again."),
-						$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						$errorstext[] = sprintf(_("%s cannot be disabled because the following modules depend on it: %s Please disable those modules first then try again."),
+						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
 					} else {
-						$actionstext[] =  sprintf(_("<strong>%s %s</strong> will be disabled"), $modules[$module]['name'], $modules[$module]['dbversion']);
+						$actionstext[] =  sprintf(_("%s %s will be disabled"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>");
 					}
 				break;
 				case 'uninstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("<strong>%s</strong> cannot be uninstalled because the following modules depend on it: <strong>%s</strong> Please disable those modules first then try again."),
-							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							$errorstext[] = sprintf(_("%s cannot be uninstalled because the following modules depend on it: %s Please disable those modules first then try again."),
+							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
 						} else {
-							$actionstext[] =  sprintf(_("<strong>%s %s</strong> will be uninstalled"), $modules[$module]['name'], $modules[$module]['dbversion']);
+							$actionstext[] =  sprintf(_("%s %s will be uninstalled"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>");
 						}
 					}
 				break;
 				case 'remove':
 					if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
 						$skipaction = true;
-						$errorstext[] = sprintf(_("<strong>%s</strong> cannot be removed because the following modules depend on it: <strong>%s</strong> Please disable those modules first then try again."),
-						$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+						$errorstext[] = sprintf(_("%s cannot be removed because the following modules depend on it: %s Please disable those modules first then try again."),
+						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
 					} else {
-						$actionstext[] =  sprintf(_("<strong>%s</strong> will be removed from the hard disk"), $modules[$module]['name']);
+						$actionstext[] =  sprintf(_("%s will be removed from the hard disk"), "<strong>".$modules[$module]['name']."</strong>");
 					}
 				break;
 				case 'reinstall':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if (is_array($errors = $modulef->reversedepends($modules[$module]))) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("<strong>%s</strong> cannot be reinstalled because the following modules depend on it: <strong>%s</strong> Please disable those modules first then try again."),
-							$modules[$module]['name'],'<ul><li>'.implode('</li><li>',$errors).'</li></ul>');
+							$errorstext[] = sprintf(_("%s cannot be reinstalled because the following modules depend on it: %s Please disable those modules first then try again."),
+							"</strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
 						} else {
-							$actionstext[] =  sprintf(_("<strong>%s %s</strong> will be reinstalled"), $modules[$module]['name'], $modules[$module]['dbversion']);
+							$actionstext[] =  sprintf(_("%s %s will be reinstalled"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>");
 						}
 					}
 				break;
