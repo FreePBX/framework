@@ -378,6 +378,7 @@ if (array_key_exists('core', $active_modules)) {
 // include any module global functions
 // $active_modules is provided by bootstrap now
 //
+$bmo->Performance->Stamp("Working with active modules");
 if(is_array($active_modules)){
 	foreach($active_modules as $key => $module) {
 
@@ -401,15 +402,22 @@ if(is_array($active_modules)){
           // don't copy or symlink from framework type modules as they are not real modules
           break;
         }
+				$bmo->Performance->Stamp("Symlinking files for ".$key);
         $con_dirs->symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
         $con_dirs->symlink_sound_dirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
         $con_dirs->symlink_assets($key);
+				$bmo->Performance->Stamp("Finished symlinking");
+				$bmo->Performance->Stamp("Generating CSS for ".$key);
 		    $con_dirs->generate_less($key); //generate less for said module if needed
+				$bmo->Performance->Stamp("Finished Generating Less");
+				$bmo->Performance->Stamp("Copying Files for ".$key);
         $con_dirs->cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+				$bmo->Performance->Stamp("Finished Copying Files");
       break;
 		}
 	}
 }
+$bmo->Performance->Stamp("Finished working with active modules");
 
 $bmo->Performance->Stamp("Generating all compiled CSS files from less");
 $bmo->Less->generateMainStyles();
