@@ -1083,10 +1083,9 @@ function generate_message_banner($message,$type='info',$details=array(),$link=''
 
 	setcookie('bannerMessages', json_encode($cookie));
 
-	if($closeable && !empty($_COOKIE['bannerMessages'])) {
-		$hashes = json_decode($_COOKIE['bannerMessages'],TRUE);
-		if(in_array($full_hash,$hashes)) {
-			//it's been closed
+	if($closeable && !empty($cookie)) {
+		if(in_array($full_hash,$cookie)) {
+			// This exact alert has previously been closed.
 			return '';
 		}
 	}
