@@ -136,16 +136,22 @@ class GPG {
 				continue;
 			}
 			if (!file_exists($dest)) {
-				$retarr['details'][] = $dest." missing";
+				$retarr['details'][] = $dest." "._("missing");
 				$retarr['status'] |= GPG::STATE_TAMPERED;
 				$retarr['status'] &= ~GPG::STATE_GOOD;
 			} elseif (hash_file('sha256', $dest) != $hash) {
-				$retarr['details'][] = $dest." altered";
+				// If you i18n this string, also note that it's used explicitly
+				// as a comparison of "altered" in modulefunctions.class, to
+				// warn people about // sbin/amportal needing to be updated
+				// with 'amportal chown'. Don't make them different!
+				$retarr['details'][] = $dest." "._("altered");
 				$retarr['status'] |= GPG::STATE_TAMPERED;
 				$retarr['status'] &= ~GPG::STATE_GOOD;
 			}
 		}
 		return $retarr;
+		// Reminder for people doing i18n.
+		if (false) { echo _("If you're i18n-ing this file, read the comment about 'altered' and 'missing'"); }
 	}
 
 	/**

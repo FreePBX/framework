@@ -2676,7 +2676,9 @@ class module_functions {
 		$res = $sth->fetchAll(PDO::FETCH_ASSOC);
 		$modules = array();
 		$globalValidation = true;
-		$amportal = FreePBX::Config()->get('AMPSBIN')."/amportal";
+		// String below, if i18n'ed, must be identical to that in GPG class.
+		// Read the comment there.
+		$amportal = FreePBX::Config()->get('AMPSBIN')."/amportal "._("missing");
 
 		foreach($res as $mod) {
 			// Ignore ARI for the moment.
