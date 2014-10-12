@@ -56,6 +56,10 @@ class GPG {
 		}
 
 		$out = $this->runGPG("--verify $filename");
+		if (strpos($out['status'][0], "[GNUPG:] BADSIG") === 0) {
+			// File has been tampered.
+			return false;
+		}
 		if (strpos($out['status'][1], "[GNUPG:] NO_PUBKEY") === 0) {
 			// This should never happen, as we try to auto-download
 			// the keys. However, if the keyserver timed out, or,
@@ -72,17 +76,21 @@ class GPG {
 
 		// Now, how does it check out?
 		$status = $this->checkStatus($out['status']);
-		if ($status['trust']) {
+		if ($status['trust'] == true) {
 			// It's trusted!  For the interim, we want to make sure that it's signed
 			// by the FreePBX Key, or, by a key that's been signed by the FreePBX Key.
 			// This is going above-and-beyond the web of trust thing, and we may end up
 			// removing it.
+			array_pop($out['status']); // Remove leading blank line.
 			$validline = explode(" ", array_pop($out['status']));
 			$thissig = $validline[2];
 			$longkey = substr($this->freepbxkey, -16);
 			$allsigs = $this->runGPG("--keyid-format long --with-colons --check-sigs $thissig");
 			$isvalid = false;
 			foreach (explode("\n", $allsigs['stdout']) as $line) {
+				if (!$line) {
+					continue; // Ignore blank lines
+				}
 				$tmparr = explode(":", $line);
 				if ($tmparr[4] == $longkey) {
 					$isvalid = true;
@@ -203,6 +211,7 @@ class GPG {
 				continue;
 			}
 			// We found it. And loaded it. Yay!
+			$this->checkPermissions();
 			return true;
 		}
 
@@ -210,6 +219,7 @@ class GPG {
 		$longkey = __DIR__."/${key}.key";
 		if (file_exists($longkey)) {
 			$out = $this->runGPG("--import $longkey");
+			$this->checkPermissions();
 			return true;
 		}
 
@@ -217,6 +227,7 @@ class GPG {
 		$shortkey = __DIR__."/".substr($key, -8).".key";
 		if (file_exists($shortkey)) {
 			$out = $this->runGPG("--import $shortkey");
+			$this->checkPermissions();
 			return true;
 		}
 
