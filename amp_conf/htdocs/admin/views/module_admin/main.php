@@ -1,7 +1,5 @@
 <?php
 // vim: :set filetype=php tabstop=4 shiftwidth=4 autoindent smartindent:
-?>
-<?php
 if($online) { ?>
 	<?php if(!empty($announcements)) {?>
 		<div class='announcements'><?php echo $announcements?></div>
@@ -61,6 +59,34 @@ if($online) { ?>
 							<span class="modulepublisher"><?php echo $module['publisher']?></span>
 							<span class="modulelicense"><?php echo (!empty($module['licenselink'])) ? '<a href="'.$module['licenselink'].'" target="_moduleLicenseLink">'.$module['license'].'</a>' : $module['license']?></span>
 							<span class="modulestatus">
+									<?php if($module['commercial']['status']) {?>
+										<?php if($module['commercial']['sysadmin'] || $module['name'] == 'sysadmin' && $module['status'] == MODULE_STATUS_ENABLED) {?>
+											<?php if(!$module['commercial']['licensed']) { ?>
+												<?php switch($module['commercial']['type']) {
+														case 'upgradeable':?>
+															<button class="fpbx-buy" data-rawname="<?php echo $module['name']?>">
+																<i class="fa fa-money"></i><?php echo _("Upgrade")?>
+															</button>
+													<?php break;?>
+													<?php case 'free':?>
+														<span class="buy">
+															<button class="fpbx-buy" data-rawname="<?php echo $module['name']?>">
+																<i class="fa fa-money"></i><?php echo _("Buy")?>
+															</button>
+														</span>
+													<?php break;?>
+													<?php case 'paid':?>
+													<?php default:?>
+														<span class="buy">
+															<button class="fpbx-buy" data-rawname="<?php echo $module['name']?>">
+																<i class="fa fa-money"></i><?php echo _("Buy")?>
+															</button>
+														</span>
+													<?php break;?>
+												<?php } ?>
+											<?php } ?>
+										<?php } ?>
+									<?php } ?>
 									<?php switch ($module['status']) {
 										case MODULE_STATUS_NOTINSTALLED:
 											if (!empty($module['raw']['online'])) { ?>
@@ -179,11 +205,14 @@ if($online) { ?>
 																	<?php break;?>
 																	<?php case 'paid':?>
 																	<?php default:?>
-																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new"><?php echo _('Buy')?></a>
+																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new"><?php echo _('Learn More')?> <i class="fa fa-share-square-o"></i></a>
+																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn fpbx-buy" data-rawname="<?php echo $module['name']?>" target="_new"><?php echo _('Buy')?></a>
 																	<?php break;?>
 																<?php } ?>
 															<?php } else { ?>
-																<?php echo _('Licensed')?>
+																<div class="fpbx-licensed" data-rawname="<?php echo $module['name']?>">
+																	<?php echo _('Licensed')?>
+																</div>
 															<?php } ?>
 														</td>
 													</tr>

@@ -898,8 +898,7 @@ switch ($action) {
 		show_view('views/module_admin/main.php',$displayvars);
 	break;
 }
-if ($quietmode) {
-} else {
+if (!$quietmode) {
 	$displayvars = array("security_issues" => array());
 	if (!empty($security_issues_to_report)) {
 		foreach (array_keys($security_issues_to_report) as $id) {
