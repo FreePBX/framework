@@ -1003,7 +1003,8 @@ class module_functions {
 						}
 
 						foreach ($requirements as $value) {
-							if (preg_match('/^([a-z0-9_]+)(\s+(>=|>|=|<|<=|!=)?\s*(\d(\.\d)*))?$/i', $value, $matches)) {
+
+							if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.\d*[beta|alpha|rc|RC]*\d+)+))?$/i', $value, $matches)) {
 								// matches[1] = modulename, [3]=comparison operator, [4] = version
 
 								// note, we're not checking version here. Normally this function is used when
