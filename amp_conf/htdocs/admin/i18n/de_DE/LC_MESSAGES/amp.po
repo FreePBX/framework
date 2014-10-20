@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: AMP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-11 07:15+0100\n"
-"PO-Revision-Date: 2014-10-07 17:10+0200\n"
+"PO-Revision-Date: 2014-10-20 17:34+0200\n"
 "Last-Translator: Dieter <dieter.finkbeiner@finkbeinernet.de>\n"
 "Language-Team: German "
 "<http://git.freepbx.org/projects/freepbx/framework/de_DE/>\n"
@@ -150,69 +150,81 @@ msgid ""
 "%s cannot be upgraded: %s Please try again after the dependencies have been "
 "installed."
 msgstr ""
+"%s kann nicht hochgestuft werden: %s Bitte noch einmal versuchen, nach dem "
+"die Abh&auml;ngigkeiten installiert worden sind."
 
 #, php-format
 msgid "%s %s will be upgraded to online version %s"
-msgstr ""
+msgstr "%s %s wird auf die online version hochgestuft %s"
 
 #, php-format
 msgid "%s %s will be re-installed to online version %s"
-msgstr ""
+msgstr "%s %s wird neu installiert auf die online version %s"
 
 #, php-format
 msgid "%s %s will be downgraded to online version %s"
-msgstr ""
+msgstr "%s %s wird auf die online Version %s herabgestuft"
 
 #, php-format
 msgid ""
 "%s cannot be installed: %s Please try again after the dependencies have been "
 "installed."
 msgstr ""
+"%s kann nicht installiert werden: %s Bitte noch einmal versuchen, wenn die "
+"Abh&auml;nigkeiten isntalliert worden sind."
 
 #, php-format
 msgid "%s %s will be downloaded and installed"
-msgstr ""
+msgstr "%s %s wird heruntergeladen und installiert"
 
 #, php-format
 msgid "%s %s will be upgraded to %s"
-msgstr ""
+msgstr "%s %s wird auf %s hochgestuft"
 
 #, php-format
 msgid "%s %s will be installed and enabled"
-msgstr ""
+msgstr "%s %s wird installiert und aktiviert"
 
 #, php-format
 msgid ""
 "%s cannot be enabled: %s Please try again after the dependencies have been "
 "installed."
 msgstr ""
+"%s kann nicht aktiviert werden: %s Bitte noch einmal versuchen, wenn die "
+"Abh&auml;ngigkeiten installiert worden sind."
 
 #, php-format
 msgid "%s %s will be enabled"
-msgstr ""
+msgstr "%s %s wird aktiviert"
 
 #, php-format
 msgid ""
 "%s cannot be disabled because the following modules depend on it: %s Please "
 "disable those modules first then try again."
 msgstr ""
+"%s kann nicht deaktiviert werden, das die folgenden Module davon "
+"Abh&auml;ngen: %s Bitte diese Module zuerst deaktivieren und dann noch "
+"einmal versuchen."
 
 #, php-format
 msgid "%s %s will be disabled"
-msgstr ""
+msgstr "%s %s wird deaktiviert"
 
 #, php-format
 msgid ""
 "%s cannot be uninstalled because the following modules depend on it: %s "
 "Please disable those modules first then try again."
 msgstr ""
+"%s kann nicht deinstalliert werden, da die folgenden Module davon "
+"abh&auml;ngen: %s Bitte zuerst diese Module deaktivieren und dann noch "
+"einmal versuchen."
 
 #, php-format
 msgid "%s %s will be uninstalled"
-msgstr ""
+msgstr "%s %s wird deinstalliert"
 
 msgid "Errors with selection:"
-msgstr ""
+msgstr "Fehler bei der Auswahl:"
 
 msgid ""
 "You may confirm the remaining selection and then try the again for the "
@@ -220,7 +232,7 @@ msgid ""
 msgstr ""
 
 msgid "Please confirm the following actions:"
-msgstr ""
+msgstr "Bitte best&auml;tigen Sie die folgenden Aktionen:"
 
 msgid "Upgrades, installs, enables and disables:"
 msgstr ""
@@ -229,7 +241,7 @@ msgid "Forced downgrades and re-installs:"
 msgstr ""
 
 msgid "Confirm"
-msgstr ""
+msgstr "Best&auml;tigen"
 
 msgid "No actions to perform"
 msgstr ""
@@ -240,7 +252,7 @@ msgid ""
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
+msgstr "Abbrechen"
 
 msgid "Manage local modules"
 msgstr ""
@@ -254,7 +266,7 @@ msgid "You should fix the problem or select another file and %s."
 msgstr ""
 
 msgid "try again"
-msgstr ""
+msgstr "noch einmal versuchen"
 
 #, php-format
 msgid ""
@@ -263,7 +275,7 @@ msgid ""
 msgstr ""
 
 msgid "local module administration"
-msgstr ""
+msgstr "Lokale Modul Administration"
 
 msgid ""
 "You can upload a tar gzip file containing a FreePBX module from your local "
@@ -278,97 +290,97 @@ msgid "Upload module"
 msgstr ""
 
 msgid "Download all"
-msgstr ""
+msgstr "Alles Herunterladen"
 
 msgid "Upgrade all"
-msgstr ""
+msgstr "Alles Heraufstufen"
 
 msgid "Reset"
-msgstr ""
+msgstr "R&uuml;cksetzen"
 
 msgid "Process"
-msgstr ""
+msgstr "Prozess"
 
 msgid "Module"
-msgstr ""
+msgstr "Modul"
 
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 msgid "Publisher"
-msgstr ""
+msgstr "Herausgeber"
 
 msgid "Broken"
-msgstr ""
+msgstr "Kaputt"
 
 msgid "name"
-msgstr ""
+msgstr "Name"
 
 msgid "Not Installed (Locally available)"
-msgstr ""
+msgstr "Nicht installiert (Lokal verf&uuml;gbar)"
 
 #, php-format
 msgid "Not Installed (Available online: %s)"
-msgstr ""
+msgstr "Nicht installiert (Online verf&uuml;gbar: %s)"
 
 #, php-format
 msgid "Disabled; Online upgrade available (%s)"
-msgstr ""
+msgstr "Deaktiviert; Online Upgrade verf&uuml;gbar (%s)"
 
 #, php-format
 msgid "Disabled; Newer than online version (%s)"
-msgstr ""
+msgstr "Deaktiviert; Neuer als die Online Version (%s)"
 
 msgid "Disabled; up to date"
-msgstr ""
+msgstr "Deaktiviert; Aktuell"
 
 msgid "Disabled"
-msgstr "Aus"
+msgstr "Deaktiviert"
 
 #, php-format
 msgid "Disabled; Pending upgrade to %s"
-msgstr ""
+msgstr "Deaktiviert; Laufendes Upgrade zu %s"
 
 #, php-format
 msgid "Online upgrade available (%s)"
-msgstr ""
+msgstr "Online Upgrade verf&uuml;gbar (%s)"
 
 #, php-format
 msgid "Newer than online version (%s)"
-msgstr ""
+msgstr "Neuer als die Online Version (%s)"
 
 msgid "Enabled and up to date"
-msgstr ""
+msgstr "Aktiviert und auf dem neusten Stand"
 
 msgid "Enabled; Not available online"
-msgstr ""
+msgstr "Aktiviert; Online nicht verf&uuml;gbar"
 
 msgid "Enabled"
-msgstr "Ein"
+msgstr "Aktiviert"
 
 msgid "Attention"
-msgstr ""
+msgstr "Achtung"
 
 msgid "attention"
-msgstr ""
+msgstr "Achtung"
 
 msgid "Action"
-msgstr "Auswahl"
+msgstr "Aktion"
 
 msgid "No Action"
-msgstr ""
+msgstr "keiner Aktion"
 
 msgid "Install"
-msgstr ""
+msgstr "Installieren"
 
 msgid "Download and Install"
-msgstr ""
+msgstr "Herunterladen und Intstallieren"
 
 msgid "Enable"
-msgstr ""
+msgstr "Aktivieren"
 
 msgid "Uninstall"
-msgstr ""
+msgstr "Deinstallieren"
 
 #, php-format
 msgid "Download %s, keep Disabled"
@@ -1088,7 +1100,7 @@ msgid ""
 "The section you requested does not exist or you do not have access to it."
 msgstr ""
 "Die aufgerufene Datei existiert nicht oder Sie haben keinen "
-"Zugriffsberechtigung auf die Datei"
+"Zugriffsberechtigung auf die Datei."
 
 msgid "Unauthorized"
 msgstr ""
@@ -3695,7 +3707,7 @@ msgid ""
 "Username cannot start with a number, and can only contain letters and numbers"
 msgstr ""
 "Benutzername kann nicht mit einer Ziffer beginnen und darf nur Buchstaben "
-"und Ziffern beinhalten."
+"und Ziffern beinhalten"
 
 msgid "For security reasons, you cannot use the department name default"
 msgstr ""
@@ -3962,31 +3974,34 @@ msgid "wav"
 msgstr "wav"
 
 msgid "ulaw"
-msgstr ""
+msgstr "ulaw"
 
 msgid "alaw"
-msgstr ""
+msgstr "alaw"
 
 msgid "sln"
-msgstr ""
+msgstr "sln"
 
 msgid "gsm"
 msgstr "gsm"
 
 msgid "g729"
-msgstr ""
+msgstr "g729"
 
 msgid "Voicemail"
 msgstr "Anrufbeantworter"
 
 msgid "Ringtime Default:"
-msgstr ""
+msgstr "Signalisierungszeit Voreinstellung:"
 
 msgid ""
 "Default number of seconds to ring phones before sending callers to "
 "voicemail. This can be set per extension/user and will have no effect on "
 "phones with no voicemail."
 msgstr ""
+"Voreinstellung in Sekunden in der das Telefon klingelt bevor der Anrufer auf "
+"den Anrufbeantworter abgeworfen wird. Dies kann pro Telefon/Benutzer gesetzt "
+"werden und hat keinen Einfluss auf Telefone ohne Anrufbeantworter."
 
 msgid "Direct Dial Voicemail Prefix:"
 msgstr ""
@@ -4205,7 +4220,7 @@ msgid ""
 msgstr ""
 
 msgid "Error fetching prefix list for: "
-msgstr "Fehler beim abrufen der Vorwahlliste f&uuml;r:"
+msgstr "Fehler beim abrufen der Vorwahlliste f&uuml;r: "
 
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "Falsches Format f&uuml;r den NPA-NXX code (muss NXXNXX sein)"
@@ -4846,8 +4861,7 @@ msgstr ""
 
 msgid "Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed."
 msgstr ""
-"Unzul&auml;ssige Wahlregel. Bitte nur 0-9, #, *, Z, N, X und . ben&uuml;"
-"tzen. "
+"Unzul&auml;ssige Wahlregel. Bitte nur 0-9, #, *, Z, N, X und . ben&uuml;tzen."
 
 msgid ""
 "What prefix should be added to the dialing pattern?\\n\\n(ie. for US/CAN, 1"
@@ -4937,7 +4951,7 @@ msgid "Custom Dial String"
 msgstr "Hauptkanalfolge"
 
 msgid "Define the custom Dial String.  Include the token"
-msgstr "Bestimmen Sie die Hauptkanalfolge. F&uuml;gen Sie das Merkmal ein."
+msgstr "Bestimmen Sie die Hauptkanalfolge. F&uuml;gen Sie das Merkmal ein"
 
 msgid "wherever the number to dial should go.<br><br><b>examples:</b><br>"
 msgstr ""
