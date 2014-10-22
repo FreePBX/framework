@@ -60,29 +60,24 @@ if($online) { ?>
 							<span class="modulelicense"><?php echo (!empty($module['licenselink'])) ? '<a href="'.$module['licenselink'].'" target="_moduleLicenseLink">'.$module['license'].'</a>' : $module['license']?></span>
 							<span class="modulestatus">
 									<?php if($module['commercial']['status']) {?>
-										<?php if($module['commercial']['sysadmin'] || $module['name'] == 'sysadmin' && $module['status'] == MODULE_STATUS_ENABLED) {?>
-											<?php if(!$module['commercial']['licensed']) { ?>
-												<?php switch($module['commercial']['type']) {
-														case 'upgradeable':?>
-															<button class="fpbx-buy" data-rawname="<?php echo $module['name']?>">
-																<i class="fa fa-money"></i><?php echo _("Upgrade")?>
-															</button>
-													<?php break;?>
-													<?php case 'free':?>
-														<span class="buy">
-															<button class="fpbx-buy" data-rawname="<?php echo $module['name']?>">
-																<i class="fa fa-money"></i><?php echo _("Buy")?>
-															</button>
-														</span>
-													<?php break;?>
-													<?php case 'paid':?>
-													<?php default:?>
-														<span class="buy">
-															<button class="fpbx-buy" data-rawname="<?php echo $module['name']?>">
-																<i class="fa fa-money"></i><?php echo _("Buy")?>
-															</button>
-														</span>
-													<?php break;?>
+										<?php if (function_exists('sysadmin_is_module_licensed') && !sysadmin_is_module_licensed($module['name'])) { ?>
+											<?php if($module['commercial']['sysadmin'] || $module['name'] == 'sysadmin' && $module['status'] == MODULE_STATUS_ENABLED) {?>
+												<?php if(!$module['commercial']['licensed']) { ?>
+													<?php switch($module['commercial']['type']) {
+															case 'upgradeable':
+															case 'free':
+																$buyText = _("Upgrade");
+															break;
+															case 'paid':
+															default:
+																$buyText = _("Buy");
+															break;
+													} ?>
+													<span class="buy">
+														<a class="btn fpbx-buy" data-rawname="<?php echo $module['name']?>" href="<?php echo $module['commercial']['purchaselink']?>" target="_new">
+															<i class="fa fa-money"></i><?php echo $buyText?>
+														</a>
+													</span>
 												<?php } ?>
 											<?php } ?>
 										<?php } ?>
