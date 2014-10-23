@@ -75,13 +75,13 @@ if (!class_exists('ci_def')) {
 	class ci_def {function __construct(){$this->lang = new ci_lan_def(); $this->config = new ci_config(); $this->uri = new ci_uri_string();}}
 }
 if (!class_exists('ci_lan_def')) {
-	class ci_lan_def {function load(){return false;} function line(){return false;}} 
+	class ci_lan_def {function load(){return false;} function line(){return false;}}
 }
 if (!class_exists('ci_config')) {
-	class ci_config {function __construct(){return false;} function site_url($v){return $v;} function item(){return false;}} 
+	class ci_config {function __construct(){return false;} function site_url($v){return $v;} function item(){return false;}}
 }
 if (!class_exists('ci_uri_string')) {
-	class ci_uri_string {function  uri_string(){return false;}} 
+	class ci_uri_string {function  uri_string(){return false;}}
 }
 if (!function_exists('config_item')) {
 	function config_item(){}
@@ -130,7 +130,7 @@ function fpbx_framework_autoloader($class) {
 					class ci_def {function __construct(){$this->lang = new ci_lan_def();}}
 				}
 				if (!class_exists('ci_lan_def')) {
-					class ci_lan_def {function load(){return false;} function line(){return false;}} 
+					class ci_lan_def {function load(){return false;} function line(){return false;}}
 				}
 				if (!defined('BASEPATH')){
 					define('BASEPATH', '');
@@ -202,7 +202,7 @@ function ast_with_dahdi() {
 		$engine_info = engine_getinfo();
 		$version = $engine_info['version'];
 	}
-		
+
 	if ($amp_conf['ZAP2DAHDICOMPAT']) {
 		$ast_with_dahdi = true;
 		$chan_dahdi_loaded = true;
@@ -251,7 +251,7 @@ function engine_getinfo($force_read=false) {
 				// could not connect to asterisk manager, try console
 				$verinfo = exec('asterisk -V');
 			}
-			
+
 			if (preg_match('/Asterisk (\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
 				$engine_info = array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4], 'raw' => $verinfo);
         $gotinfo = true;
@@ -333,32 +333,32 @@ function do_reload($passthru=false) {
 		$engine_info = engine_getinfo();
 		$version = $engine_info['version'];
 	}
-	
+
 	$notify =& notifications::create($db);
-	
+
 	$return = array('num_errors'=>0,'test'=>'abc');
 	$exit_val = null;
-	
+
 	if ($setting_pre_reload)  {
 		exec( $setting_pre_reload, $output, $exit_val );
-		
+
 		if ($exit_val != 0) {
 			$desc = sprintf(_("Exit code was %s and output was: %s"), $exit_val, "\n\n".implode("\n",$output));
 			$notify->add_error('freepbx','reload_pre_script', sprintf(_('Could not run %s script.'), $setting_pre_reload), $desc);
-			
+
 			$return['num_errors']++;
 		} else {
 			$notify->delete('freepbx', 'reload_pre_script');
 		}
 	}
-	
+
 	$retrieve = $setting_ampbin . '/retrieve_conf 2>&1';
 	//exec($retrieve.'&>'.$asterisk_conf['astlogdir'].'/freepbx-retrieve.log', $output, $exit_val);
 	exec($retrieve, $output, $exit_val);
-	
+
 	// retrieve_conf html output
 	$return['retrieve_conf'] = 'exit: '.$exit_val.'<br/>'.implode('<br/>',$output);
-	
+
 	if ($exit_val != 0) {
 		$return['status'] = false;
 		$return['message'] = sprintf(_('Reload failed because retrieve_conf encountered an error: %s'),$exit_val);
@@ -375,41 +375,42 @@ function do_reload($passthru=false) {
 		return $return;
 	}
 	$notify->delete('freepbx', 'RCONFFAIL');
-	
+
 	//reload MOH to get around 'reload' not actually doing that.
-	
+
 	//reload asterisk
   if (version_compare($version,'1.4','lt')) {
 		$astman->send_request('Command', array('Command'=>'moh reload'));
-	  $astman->send_request('Command', array('Command'=>'reload'));	
+	  $astman->send_request('Command', array('Command'=>'reload'));
   } else {
   	$astman->Reload();
   }
-	
+
 	$return['status'] = true;
 	$return['message'] = _('Successfully reloaded');
-	
+  $return['retrieve_conf'] = '';
+
 	//store asterisk reloaded status
-	$sql = "UPDATE admin SET value = 'false' WHERE variable = 'need_reload'"; 
+	$sql = "UPDATE admin SET value = 'false' WHERE variable = 'need_reload'";
 	$result = $db->query($sql);
 	if(DB::IsError($result)) {
 		$return['message'] = _('Successful reload, but could not clear reload flag due to a database error: ').$db->getMessage();
 		$return['num_errors']++;
 	}
-	
+
 	if ($setting_post_reload)  {
 		exec( $setting_post_reload, $output, $exit_val );
-		
+
 		if ($exit_val != 0) {
 			$desc = sprintf(_("Exit code was %s and output was: %s"), $exit_val, "\n\n".implode("\n",$output));
 			$notify->add_error('freepbx','reload_post_script', sprintf(_('Could not run %s script.'), $setting_post_reload), $desc);
-			
+
 			$return['num_errors']++;
 		} else {
 			$notify->delete('freepbx', 'reload_post_script');
 		}
 	}
-	
+
 	return $return;
 }
 
@@ -417,7 +418,7 @@ function do_reload($passthru=false) {
 // draw list for users and devices with paging
 // $skip has been deprecated, used to be used to page-enate
 function drawListMenu($results, $skip, $type, $dispnum, $extdisplay, $description=false) {
-	
+
 	$index = 0;
 	echo "<ul>\n";
 	if ($description !== false) {
@@ -433,7 +434,7 @@ function drawListMenu($results, $skip, $type, $dispnum, $extdisplay, $descriptio
 }
 
 // this function returns true if $astman is defined and set to something (implying a current connection, false otherwise.
-// this function no longer puts out an error message, it is up to the caller to handle the situation. 
+// this function no longer puts out an error message, it is up to the caller to handle the situation.
 // Should probably be changed (at least name) to check if a connection is available to the current engine)
 //
 function checkAstMan() {
@@ -443,7 +444,7 @@ function checkAstMan() {
 }
 
 /* merge_ext_followme($dest) {
- * 
+ *
  * The purpose of this function is to take a destination
  * that was either a core extension OR a findmefollow-destination
  * and convert it so that they are merged and handled just like
@@ -512,7 +513,7 @@ function get_headers_assoc($url) {
 }
 
 
-// Dragged this in from page.modules.php, so it can be used by install_amp. 
+// Dragged this in from page.modules.php, so it can be used by install_amp.
 function runModuleSQL($moddir,$type){
 	trigger_error("runModuleSQL() is depreciated - please use _module_runscripts(), or preferably module_install() or module_enable() instead", E_USER_WARNING);
 	_module_runscripts($moddir, $type);
@@ -530,9 +531,9 @@ function runModuleSQL($moddir,$type){
 //	this defaults to false for disabled modules.
 function freepbx_get_contexts() {
 	$modules = module_getinfo(false, array(MODULE_STATUS_ENABLED, MODULE_STATUS_DISABLED, MODULE_STATUS_NEEDUPGRADE));
-	
+
 	$contexts = array();
-	
+
 	foreach ($modules as $modname => $mod) {
                 $funct = strtolower($modname.'_contexts');
 		if (function_exists($funct)) {

@@ -51,6 +51,11 @@ function set_language() {
 
 //
 function fileRequestHandler($handler, $module = false, $file = false){
+	if (empty($_SESSION['AMP_user']) || !is_object($_SESSION['AMP_user'])) {
+		header("HTTP/1.0 500 Internal Server Error");
+		die();
+	}
+
 	global $amp_conf;
 
 	switch ($handler) {
@@ -343,7 +348,7 @@ function framework_include_css() {
 			sort($file_list);
 			foreach ($file_list as $p_file) {
 				if (substr($p_file,-4) == '.css' && is_file($css_subdir . '/' . $p_file)) {
-			    $html .= '<link href="assets/' . $module_name . '/css/' . $module_page . '/' . $p_file 
+			    $html .= '<link href="assets/' . $module_name . '/css/' . $module_page . '/' . $p_file
 						. '" rel="stylesheet" type="text/css" />';
 				}
 			}
