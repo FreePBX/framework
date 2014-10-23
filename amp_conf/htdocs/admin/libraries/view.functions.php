@@ -51,6 +51,11 @@ function set_language() {
 
 //
 function fileRequestHandler($handler, $module = false, $file = false){
+	if (empty($_SESSION['AMP_user']) || !is_object($_SESSION['AMP_user'])) {
+		header("HTTP/1.0 500 Internal Server Error");
+		die();
+	}
+
 	global $amp_conf;
 	if (empty($_SESSION['AMP_user']) || !is_object($_SESSION['AMP_user'])) {
 		header("HTTP/1.0 500 Internal Server Error");
