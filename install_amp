@@ -621,15 +621,6 @@ if (version_compare(phpversion(),'4.3.0','<') || !defined("STDIN")) {
 	register_shutdown_function( create_function( '' , 'fclose(STDIN); fclose(STDOUT); fclose(STDERR); return true;' ) );
 }
 
-// **** Make sure we have PEAR's DB.php, and include it
-
-outn("Checking for PEAR DB..");
-if (! @ include('DB.php')) {
-	out("FAILED");
-	fatal("PEAR must be installed (requires DB.php). Include path: ".ini_get("include_path"));
-}
-out("OK");
-
 // **** Make sure we have PEAR's GetOpts.php, and include it
 
 outn("Checking for PEAR Console::Getopt..");
@@ -1346,47 +1337,24 @@ switch ($db_engine) {
 			fatal($db_engine." PHP libraries not installed");
 		}
 
-		$datasource = $db_engine.'://'.$db_user.':'.$db_pass.'@'.$db_host.'/'.$db_name;
-		$db = DB::connect($datasource); // attempt connection
-	break;
-
-	case "sqlite":
-		die_freepbx("SQLite2 support is deprecated. Please use sqlite3 only.");
-	break;
-
-	case "sqlite3":
-		if (!isset($amp_conf["AMPDBFILE"])) {
-			die("You must setup properly AMPDBFILE in /etc/amportal.conf");
+		$dsn = $db_engine.':dbname='.$db_name.';host='.$db_host;
+		try {
+		    $dbh = new PDO($dsn, $db_user, $db_pass);
+				if(!class_exists("DB")) {
+					require_once(__DIR__."/amp_conf/htdocs/admin/libraries/DB.class.php");
+					$db = new DB($dbh);
+				}
+		} catch (PDOException $e) {
+				out("FAILED");
+				out("Try running ".$argv[0]." --username=user --password=pass  (using your own user and pass)");
+				fatal("Cannot connect to database");
 		}
-
-		if (isset($amp_conf["AMPDBFILE"]) == "") {
-			die("AMPDBFILE in /etc/amportal.conf cannot be blank");
-		}
-
-		/* on centos this extension is not loaded by default */
-		if (! extension_loaded('sqlite3.so')  && ! extension_loaded('SQLITE3'))
-			dl('sqlite3.so');
-
-		if (! @require_once('DB/sqlite3.php') ) {
-			out("FAILED");
-			fatal( "Your PHP installation has no PEAR/SQLite3 support. Please install php-sqlite3 and php-pear.");
-		}
-
-		$datasource = "sqlite3:///" . $amp_conf["AMPDBFILE"] . "?mode=0666";
-		$db = DB::connect($datasource);
 	break;
 
 	default:
 		die( "Unknown SQL engine: [$db_engine]");
 }
 
-if(DB::IsError($db)) {
-	out("FAILED");
-	debug($db->userinfo);
-	out("Try running ".$argv[0]." --username=user --password=pass  (using your own user and pass)");
-	fatal("Cannot connect to database");
-
-}
 out("OK");
 
 if($installdb) {
@@ -1663,6 +1631,9 @@ if (!class_exists('modulelist')) {
 }
 out("OK");
 
+//$dbh = FreePBX::Create()->Database;
+//$db = new DB($dbh);
+
 // Run through all the upgrade scripts starting at the specified version
 //
 upgrade_all($version);
@@ -1688,7 +1659,6 @@ if(!empty($fwver)) {
 if (($set_freepbx_settings && $force_amportal_conf) || (!file_exists('/etc/redhat-release')))  {
 	$amp_conf_file = $amp_conf;
 }
-
 freepbx_settings_init(true);
 out("..OK");
 

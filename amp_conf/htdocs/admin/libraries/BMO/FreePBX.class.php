@@ -31,6 +31,13 @@ class FreePBX extends FreePBX_Helpers {
 	 * @access public
 	 */
 	public function __construct(&$conf = null) {
+		if(empty($conf)) {
+			global $amp_conf;
+			if(empty($amp_conf)) {
+				throw new Exception("conf was empty!");
+			}
+			$conf = $amp_conf;
+		}
 		//TODO: load this another way
 		global $astman;
 		$libraries = $this->listDefaultLibraries();

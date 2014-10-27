@@ -1,22 +1,23 @@
 <?php
 /* queries database using PEAR.
-*  $type can be query, getAll, getRow, getCol, getOne, etc
+*  $type can be query, getAll, getRow, getCol, getOne, getAssoc, etc
 *  $fetchmode can be DB_FETCHMODE_ORDERED, DB_FETCHMODE_ASSOC, DB_FETCHMODE_OBJECT
 *  returns array, unless using getOne
 */
 function sql($sql,$type="query",$fetchmode='default') {
-	$db = FreePBX::create()->Database;
+	$dbh = FreePBX::Create()->Database();
+	$db = new DB($dbh);
 	switch($fetchmode) {
-		case DB_FETCHMODE_ASSOC:
+		case DB_FETCHMODE_ASSOC || 'DB_FETCHMODE_ASSOC':
 			try {
-				$results = $db->sql($sql, $type, PDO::FETCH_ASSOC);
+				$results = $db->$type($sql);
 			}catch(\Exception $e) {
 				die_freepbx('Error on SQL Query', $e->getMessage());
 			}
 		break;
 		case 'default':
 			try {
-				$results = $db->sql($sql, $type);
+				$results = $dbh->sql($sql, $type);
 			}catch(\Exception $e) {
 				die_freepbx('Error on SQL Query', $e->getMessage());
 			}
