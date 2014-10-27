@@ -3,18 +3,24 @@
 
 // Return Array() of 'enabled' features for a specific module
 function featurecodes_getModuleFeatures($modulename) {
-	$s = "SELECT featurename, description ";
+	$s = "SELECT featurename, description, coalesce(customcode,defaultcode) as code ";
 	$s .= "FROM featurecodes ";
 	$s .= "WHERE modulename = ".sql_formattext($modulename)." AND enabled = 1 ";
 
 	$results = sql($s, "getAll", DB_FETCHMODE_ASSOC);
 
 	if (is_array($results)) {
+		usort($results,"featurecode_sort");
+		$results = array_reverse($results);
 		return $results;
 	} else {
 		return null;
-		
+
 	}
+}
+
+function featurecode_sort($a, $b) {
+	return strnatcasecmp($a['code'],$b['code']);
 }
 
 function featurecodes_getAllFeaturesDetailed($sort_module=true) {
@@ -30,7 +36,7 @@ function featurecodes_getAllFeaturesDetailed($sort_module=true) {
 	$s .= "FROM featurecodes ";
 	$s .= "INNER JOIN modules ON modules.modulename = featurecodes.modulename ";
 	$s .= ($sort_module ? "ORDER BY featurecodes.modulename, featurecodes.description " : "ORDER BY featurecodes.description ");
-	
+
 	$results = sql($s, "getAll", DB_FETCHMODE_ASSOC);
 	if (is_array($results)) {
 		$modules = module_getinfo(false, MODULE_STATUS_ENABLED);
@@ -42,7 +48,7 @@ function featurecodes_getAllFeaturesDetailed($sort_module=true) {
 				$results[$key]['defaultcode'] = $overridecodes[$item['modulename']][$item['featurename']];
 			}
 		}
-		
+
 		return $results;
 	} else {
 		return null;
@@ -62,7 +68,7 @@ function featurecodes_delModuleFeatures($modulename) {
 
 function featurecodes_getFeatureCode($modulename, $featurename) {
 	$fc_code = '';
-	
+
 	$fcc = new featurecode($modulename, $featurename);
 	$fc_code = $fcc->getCodeActive();
 	unset($fcc);

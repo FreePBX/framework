@@ -678,28 +678,6 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['type'] = CONF_TYPE_BOOL;
   $freepbx_conf->define_conf_setting('AMP_ACCESS_DB_CREDS',$set);
 
-  // ARI_ADMIN_USERNAME
-  $set['value'] = '';
-  $set['options'] = '';
-  $set['name'] = 'User Portal Admin Username';
-  $set['description'] = 'This is the default admin name used to allow an administrator to login to ARI bypassing all security. Change this to whatever you want, do not forget to change the User Portal Admin Password as well. Default = not set';
-  $set['emptyok'] = 1;
-  $set['readonly'] = 0;
-  $set['sortorder'] = -120;
-  $set['type'] = CONF_TYPE_TEXT;
-  $freepbx_conf->define_conf_setting('ARI_ADMIN_USERNAME',$set);
-
-  // ARI_ADMIN_PASSWORD
-  $set['value'] = 'ari_password';
-  $set['options'] = '';
-  $set['name'] = 'User Portal Admin Password';
-  $set['description'] = 'This is the default admin password to allow an administrator to login to ARI bypassing all security. Change this to a secure password. Default = not set';
-  $set['emptyok'] = 0;
-  $set['readonly'] = 0;
-  $set['sortorder'] = -110;
-  $set['type'] = CONF_TYPE_TEXT;
-  $freepbx_conf->define_conf_setting('ARI_ADMIN_PASSWORD',$set);
-
   // FORCED_ASTVERSION
   $set['value'] = '';
   $set['options'] = '';
@@ -729,7 +707,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $set['value'] = '007';
   $set['options'] = '';
   $set['name'] = 'Asterisk VMU Mask';
-  $set['description'] = 'Defaults to 077 allowing only the asterisk user to have any permission on VM files. If set to something like 007, it would allow the group to have permissions. This can be used if setting apache to a different user then asterisk, so that the apache user (and thus ARI) can have access to read/write/delete the voicemail files. If changed, some of the voicemail directory structures may have to be manually changed.';
+  $set['description'] = 'Defaults to 077 allowing only the asterisk user to have any permission on VM files. If set to something like 007, it would allow the group to have permissions. This can be used if setting apache to a different user then asterisk, so that the apache user can have access to read/write/delete the voicemail files. If changed, some of the voicemail directory structures may have to be manually changed.';
   $set['emptyok'] = 0;
   $set['readonly'] = 0;
   $set['type'] = CONF_TYPE_TEXT;

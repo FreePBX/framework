@@ -13,6 +13,8 @@ class module_functions {
 	public $security_array = null;
 	public $modDepends = array();
 	public $notFound = false;
+	//Max Execution Time Limit
+	private $maxTimeLimit = 250;
 
 	function &create() {
 		static $obj;
@@ -20,6 +22,13 @@ class module_functions {
 			$obj = new module_functions();
 		}
 		return $obj;
+	}
+
+	function __construct() {
+		$time_limit = ini_get('max_execution_time');
+		if(!empty($time_limit)) {
+			$this->maxTimeLimit = (int)$time_limit + $this->maxTimeLimit;
+		}
 	}
 
 	/**
@@ -80,7 +89,7 @@ class module_functions {
 		preg_match('/(\d+\.\d+)/',$version,$matches);
 		$base_version = $matches[1];
 		if((time() - $result['time']) > 300 || $skip_cache || strlen($data) < 100 ) {
-			set_time_limit(120);
+			set_time_limit($this->maxTimeLimit);
 			if ($override_xml) {
 				$data = $this->get_url_contents($override_xml,"/modules-" . $base_version . ".xml");
 			} else {
@@ -557,19 +566,6 @@ class module_functions {
 		return !empty($repos) && is_array($repos) ? $repos : array();
 	}
 
-	function set_track($modulename,$track) {
-		global $db;
-		$sql = "SELECT data FROM module_xml WHERE id = 'track'";
-		$track = sql($sql, "getOne");
-
-
-		$track = !empty($track) ? json_decode($track,TRUE) : array();
-		$track[$modulename] = $track;
-		$track = json_encode($track);
-
-		sql("REPLACE INTO module_xml (id,time,data) VALUES('track',".time().",'".$track."')");
-	}
-
 	function set_tracks($modules) {
 		global $db;
 		$sql = "SELECT data FROM module_xml WHERE id = 'track'";
@@ -1006,7 +1002,8 @@ class module_functions {
 						}
 
 						foreach ($requirements as $value) {
-							if (preg_match('/^([a-z0-9_]+)(\s+(>=|>|=|<|<=|!=)?\s*(\d(\.\d)*))?$/i', $value, $matches)) {
+
+							if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.\d*[beta|alpha|rc|RC]*\d+)+))?$/i', $value, $matches)) {
 								// matches[1] = modulename, [3]=comparison operator, [4] = version
 
 								// note, we're not checking version here. Normally this function is used when
@@ -1105,9 +1102,7 @@ class module_functions {
 		}
 		$modulename = $modulexml['rawname'];
 
-		if ($time_limit = ini_get('max_execution_time')) {
-			set_time_limit($time_limit);
-		}
+		set_time_limit($this->maxTimeLimit);
 
 		// size of download blocks to fread()
 		// basically, this controls how often progress_callback is called
@@ -1371,9 +1366,7 @@ class module_functions {
 			}
 		}
 
-		if ($time_limit = ini_get('max_execution_time')) {
-			set_time_limit($time_limit);
-		}
+		set_time_limit($this->maxTimeLimit);
 
 		// size of download blocks to fread()
 		// basically, this controls how often progress_callback is called
@@ -1613,9 +1606,7 @@ class module_functions {
 		$this->notFound = false;
 		global $db, $amp_conf;
 
-		if ($time_limit = ini_get('max_execution_time')) {
-			set_time_limit($time_limit);
-		}
+		set_time_limit($this->maxTimeLimit);
 
 		$modules = $this->getinfo($modulename);
 
@@ -2685,9 +2676,13 @@ class module_functions {
 		$res = $sth->fetchAll(PDO::FETCH_ASSOC);
 		$modules = array();
 		$globalValidation = true;
+		// String below, if i18n'ed, must be identical to that in GPG class.
+		// Read the comment there.
+		$amportal = FreePBX::Config()->get('AMPSBIN')."/amportal "._("altered");
+
 		foreach($res as $mod) {
-			//Hide Framework and ari for now because their files are copied all over the planet.
-			if($mod['modulename'] == 'framework' || $mod['modulename'] == 'fw_ari') {
+			// Ignore ARI for the moment.
+			if($mod['modulename'] == 'fw_ari') {
 				continue;
 			}
 			//TODO: determine if this should be in here or not.
@@ -2706,11 +2701,20 @@ class module_functions {
 			$md = $this->getInfo();
 			$modname = !empty($md[$mod['modulename']]['name']) ? $md[$mod['modulename']]['name'] : sprintf(_('%s [not enabled]'),$mod['modulename']);
 			if ($unsigned) {
-				$modules['statuses']['unsigned'][] = sprintf(_('Module: %s is unsigned'),$modname);
+				if ($mod['modulename'] == "framework" || $mod['modulename'] == "core") {
+					// Unsigned framework or core is extremely terribly bad.
+					$modules['statuses']['tampered'][] = sprintf(_('Critical Module "%s" is unsigned, re-download immediately' ), $modname);
+				} else {
+					$modules['statuses']['unsigned'][] = sprintf(_('Module "%s" is unsigned and should be re-downloaded'),$modname);
+				}
 			} else {
 				if ($tampered) {
 					foreach($mod['signature']['details'] as $d) {
-						$modules['statuses']['tampered'][] = sprintf(_('Module: %s, File: %s'),$modname,$d);
+						if ($d == $amportal) {
+							$modules['statuses']['tampered'][] = sprintf(_('Module: %s, File: %s (You may need to run "amportal chown")'),$modname,$d);
+						} else {
+							$modules['statuses']['tampered'][] = sprintf(_('Module: %s, File: %s'),$modname,$d);
+						}
 					}
 				}
 				if (!$trusted) {

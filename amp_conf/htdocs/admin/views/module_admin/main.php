@@ -1,7 +1,5 @@
 <?php
 // vim: :set filetype=php tabstop=4 shiftwidth=4 autoindent smartindent:
-?>
-<?php
 if($online) { ?>
 	<?php if(!empty($announcements)) {?>
 		<div class='announcements'><?php echo $announcements?></div>
@@ -45,7 +43,7 @@ if($online) { ?>
 			<span class="modulestatus"><?php echo _("Status")?></span>
 			<span class="moduletrack"><?php echo _("Track")?></span>
 			<span class="clear">&nbsp;</span>
-    </div>
+		</div>
 		<?php foreach($module_display as $category) {?>
 			<div class="category" id="category_<?php echo prep_id($category['name'])?>">
 				<h3><?php echo $category['name']?></h3>
@@ -61,6 +59,29 @@ if($online) { ?>
 							<span class="modulepublisher"><?php echo $module['publisher']?></span>
 							<span class="modulelicense"><?php echo (!empty($module['licenselink'])) ? '<a href="'.$module['licenselink'].'" target="_moduleLicenseLink">'.$module['license'].'</a>' : $module['license']?></span>
 							<span class="modulestatus">
+									<?php if($module['commercial']['status']) {?>
+										<?php if (function_exists('sysadmin_is_module_licensed') && !sysadmin_is_module_licensed($module['name'])) { ?>
+											<?php if($module['commercial']['sysadmin'] || $module['name'] == 'sysadmin' && $module['status'] == MODULE_STATUS_ENABLED) {?>
+												<?php if(!$module['commercial']['licensed']) { ?>
+													<?php switch($module['commercial']['type']) {
+															case 'upgradeable':
+															case 'free':
+																$buyText = _("Upgrade");
+															break;
+															case 'paid':
+															default:
+																$buyText = _("Buy");
+															break;
+													} ?>
+													<span class="buy">
+														<a class="btn fpbx-buy" data-rawname="<?php echo $module['name']?>" href="<?php echo $module['commercial']['purchaselink']?>" target="_new">
+															<i class="fa fa-money"></i><?php echo $buyText?>
+														</a>
+													</span>
+												<?php } ?>
+											<?php } ?>
+										<?php } ?>
+									<?php } ?>
 									<?php switch ($module['status']) {
 										case MODULE_STATUS_NOTINSTALLED:
 											if (!empty($module['raw']['online'])) { ?>
@@ -179,11 +200,14 @@ if($online) { ?>
 																	<?php break;?>
 																	<?php case 'paid':?>
 																	<?php default:?>
-																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new"><?php echo _('Buy')?></a>
+																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new"><?php echo _('Learn More')?> <i class="fa fa-share-square-o"></i></a>
+																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn fpbx-buy" data-rawname="<?php echo $module['name']?>" target="_new"><?php echo _('Buy')?></a>
 																	<?php break;?>
 																<?php } ?>
 															<?php } else { ?>
-																<?php echo _('Licensed')?>
+																<div class="fpbx-licensed" data-rawname="<?php echo $module['name']?>">
+																	<?php echo _('Licensed')?>
+																</div>
 															<?php } ?>
 														</td>
 													</tr>
@@ -203,10 +227,15 @@ if($online) { ?>
 										<?php } ?>
 										<?php if($trackenable && $module['status'] >= 0 && !empty($module['tracks'])) {?>
 											<tr>
-												<td><a href="#" class="info"><?php echo _("Track")?>:<span><?php echo _("Modules can have separate individual repos or tracks, these tracks can determine what type of updates this module receives. A prime example is that of the beta track. You can select the beta track for this module and FreePBX will give you the highest updates in the beta track or stable. Some Modules will only have one track. Tracks can be disabled in Advanced Settings")?></span></a></td>
+												<td><a href="#" class="info"><?php echo _("Track")?>:<span><?php echo _("Modules can have separate individual repos or tracks, these tracks can determine what type of updates this module receives. A prime example is that of the beta track. You can select the beta track for this module and FreePBX will give you the highest updates in the beta track or stable. Some Modules will only have one track. Tracks can be disabled in Advanced Settings.<br>Tracks can only be changed after checking online")?></span></a></td>
 												<td>
 													<span class="moduletrackradios">
-													<?php foreach($module['tracks'] as $track => $checked) {?>
+													<?php
+													foreach($module['tracks'] as $track => $checked) {
+														if($track != "stable" && empty($module['raw']['online']['releasetracks'][$track])) {
+															continue;
+														}
+													?>
 														<input id="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>" type="radio" name="trackaction[<?php echo prep_id($module['name'])?>]" value="<?php echo $track?>" <?php echo ($checked) ? 'checked' : ''?>/>
 														<label for="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>"><?php echo ucfirst($track)?></label>
 													<?php } ?>
@@ -297,6 +326,11 @@ if($online) { ?>
 																				<label class="installabel" for="force_upgrade_<?php echo prep_id($module['name'])?>"><?php echo $force_msg ?></label>
 																			<?php }
 																		}
+																	} elseif($track != "stable") {
+																		?>
+																		<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="upgrade" />
+																		<label class="installabel" for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Switch to Stable and Download and Install %s'), $module['raw']['online']['version'])?></label>
+																		<?php
 																	}
 																	if (enable_option($module['name'],'candisable')) { ?>
 																		<input type="radio" id="disable_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="disable" />

@@ -168,6 +168,9 @@ $(document).ready(function(){
 		$('#upload-group').show();
 	}
 	$('.moduleheader').not('a').click(function(e) {
+		if($(e.srcElement).hasClass("fpbx-buy") || $(e.srcElement).hasClass("fa-money")) {
+			return true;
+		}
 		var module = $(this).data('module');
 		if($('#infopane_'+module).is(":visible")) {
 			$('#infopane_'+module).slideUp( "slow", function() {
@@ -267,7 +270,6 @@ function process_module_actions(modules) {
 	if(!jQuery.isEmptyObject(modules)) {
 		urlStr = "config.php?display=modules&action=process&quietmode=1&online=1&"+$.param( {"modules":modules} );
 	}
-
 	box = $('<div id="moduledialogwrapper"></div>')
 			.dialog({
 				title: 'Status',
@@ -276,28 +278,32 @@ function process_module_actions(modules) {
 				position: ['center', 50],
 				width: '410px',
 				open: function (e) {
-					$('#moduledialogwrapper').html('Loading..<img src="images/spinner.gif">');
-				    var xhr = new XMLHttpRequest();
-				    xhr.open('POST', urlStr, true);
-				    xhr.send(null);
-				    var timer;
-				    timer = window.setInterval(function() {
-				        if (xhr.readyState == XMLHttpRequest.DONE) {
-				            window.clearTimeout(timer);
-				        }
-						if(xhr.responseText.length > 0) {
-				        	$('#moduledialogwrapper').html(xhr.responseText);
-							//scroll to bottom
+					$('#moduledialogwrapper').html('Loading..<i class="fa fa-spinner fa-spin fa-2x">');
+					var xhr = new XMLHttpRequest(),
+					timer = null;
+					xhr.open('POST', urlStr, true);
+					xhr.send(null);
+					timer = window.setInterval(function() {
+						if (xhr.readyState == XMLHttpRequest.DONE) {
+							window.clearTimeout(timer);
+						}
+						if (xhr.responseText.length > 0) {
+							if ($('#moduledialogwrapper').html() != xhr.responseText) {
+								$('#moduledialogwrapper').html(xhr.responseText);
+								$("#moduleprogress").prop({ scrollTop: $("#moduleprogress").prop("scrollHeight") });
+							}
+						}
+						if (xhr.readyState == XMLHttpRequest.DONE) {
+							$("#moduleprogress").css("overflow", "auto");
 							$("#moduleprogress").prop({ scrollTop: $("#moduleprogress").prop("scrollHeight") });
 						}
-				    }, 100);
+					}, 100);
 				},
-				close: function (e) {
+				close: function(e) {
 					close_module_actions(true);
 					$(e.target).dialog("destroy").remove();
 				}
 			});
-
 }
 function close_module_actions(goback) {
 	box.dialog("destroy").remove();

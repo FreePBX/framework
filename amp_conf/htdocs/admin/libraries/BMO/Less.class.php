@@ -27,7 +27,7 @@ class Less extends Less_Parser {
 	 */
 	public function generateMainStyles($variables = array()) {
 		global $amp_conf;
-		$less_rel = '/admin/assets';
+		$less_rel = '../';
 		$less_path = $amp_conf['AMPWEBROOT'].'/admin/assets/less';
 
 		$varOverride = $this->FreePBX->Hooks->processHooks($variables);
@@ -38,7 +38,7 @@ class Less extends Less_Parser {
 		}
 
 		//compile these all into one giant file so that variables cross
-		$less_dirs = array("bootstrap","freepbx","font-awesome");
+		$less_dirs = array("bootstrap","freepbx","font-awesome","schmooze-font");
 		$out = array();
 		$out['compiled_less_files'] = array();
 		foreach($less_dirs as $dir) {

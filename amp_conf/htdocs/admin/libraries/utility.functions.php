@@ -1068,10 +1068,24 @@ function fpbx_pdfinfo($pdf) {
  */
 function generate_message_banner($message,$type='info',$details=array(),$link='',$closeable = false) {
 	$full_hash = sha1($message.json_encode($details));
-	if($closeable && !empty($_COOKIE['bannerMessages'])) {
-		$hashes = json_decode($_COOKIE['bannerMessages'],TRUE);
-		if(in_array($full_hash,$hashes)) {
-			//it's been closed
+	// We have to ensure that Cookies don't exceed 'a small number' of bytes.
+	// I randomly am picking 'the last 5' to keep, and discard any others.
+	if (isset($_COOKIE['bannerMessages'])) {
+		$cookie = json_decode($_COOKIE['bannerMessages'],TRUE);
+	}
+	if (!isset($cookie) || !is_array($cookie)) {
+		$cookie = array();
+	}
+
+	while (count($cookie) > 5) {
+		array_shift($cookie);
+	}
+
+	setcookie('bannerMessages', json_encode($cookie));
+
+	if($closeable && !empty($cookie)) {
+		if(in_array($full_hash,$cookie)) {
+			// This exact alert has previously been closed.
 			return '';
 		}
 	}

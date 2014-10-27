@@ -114,12 +114,12 @@ if [ -e $AMPBIN/amportal ]; then
 	if [ ! -e $AMPSBIN/amportal ] || [ ! -h $AMPSBIN/amportal ]; then
 		cmp -s $AMPBIN/amportal $AMPSBIN/amportal > /dev/null
 		if [ $? -eq 1 ]; then
-		  echo "new amportal script detected, moving it to $AMPSBIN and attempting to backup up old"
+		  echo "new amportal script detected, copying it to $AMPSBIN and attempting to backup up old"
 		  # just in case it isn't there though it should be
 		  if [ -e $AMPSBIN/amportal ]; then
 		    mv $AMPSBIN/amportal $AMPSBIN/amportal.bak
 		  fi
-		  mv $AMPBIN/amportal $AMPSBIN/amportal
+		  cp $AMPBIN/amportal $AMPSBIN/amportal
 		  if [ "$?" -ne "0" ]; then
 		    echo "unable to update to new amportal, check permissions and try again"
 		  fi
@@ -484,10 +484,46 @@ case "$1" in
 				;;
 			esac
 			;;
+			userman)
+				case $3 in
+					migrate|m)
+						out=`php -r '
+						set_time_limit(0);
+						$bootstrap_settings["freepbx_auth"] = false;
+						if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) {
+							include_once("/etc/asterisk/freepbx.conf");
+						}
+						if(!FreePBX::Modules()->checkStatus("userman")) {
+							echo "Userman is not installed!";
+							exit();
+						}
+						$userman = FreePBX::Userman();
+						if(method_exists($userman, "migrateVoicemailUsers")) {
+							$userman->migrateVoicemailUsers("'$4'");
+						} else {
+							echo "Please update User Manager";
+						}
+						'`
+						echo -e $out
+					;;
+					*)
+						#formating variables defined at top of file
+						echo -e "                         $b $u User Manager admin options menu$ux$bx
+
+usage: ${b}amportal$bx (${b}admin$bx|${b}a$bx) ${b}userman$bx <option>
+
+options:
+
+${b}migrate$bx|${b}m$bx: Migrates all Voicemail users to User Manager. If no context is supplied the default will be used Ex: amportal a userman m <vmcontext>
+\n\n\n"
+					;;
+				esac
+			;;
 			ucp)
 				case $3 in
 					enableall|ea)
 						out=`php -r '
+						set_time_limit(0);
 						$bootstrap_settings["freepbx_auth"] = false;
 						$bootstrap_settings["skip_astman"] = true;
 						$restrict_mods = true;
@@ -499,10 +535,12 @@ case "$1" in
 							exit();
 						}
 						$ucp = FreePBX::Ucp();
-						if($ucp->enableAllUsers()) {
-							echo "All Users have been successfully enabled!";
-						} else {
-							echo "There was an error";
+						if(method_exists($ucp, "enableAllUsers")) {
+							if($ucp->enableAllUsers()) {
+								echo "All Users have been successfully enabled!";
+							} else {
+								echo "There was an error";
+							}
 						}
 						'`
 						echo $out
@@ -530,10 +568,12 @@ case "$1" in
 							exit();
 						}
 						$ucp = FreePBX::Ucp();
-						if($ucp->sessionUnlock("'$4'","'$5'")) {
-							echo "UCP Session Unlocked!";
-						} else {
-							echo "User Doesnt Exist";
+						if(method_exists($ucp, "sessionUnlock")) {
+							if($ucp->sessionUnlock("'$4'","'$5'")) {
+								echo "UCP Session Unlocked!";
+							} else {
+								echo "User Doesnt Exist";
+							}
 						}
 						'`
 						echo $out
@@ -666,6 +706,7 @@ ${b}reload$bx|${b}r$bx:      Does a full dialplan regeneration/reload (like clic
                the red 'Apply Changes' button)
 ${b}unlock$bx|${b}u$bx:	Unlock the web gui from the cli (requires root)
 ${b}ucp$bx:           UCP Specific Operations (requires root) (Type 'amportal a ucp' to see more)
+${b}userman$bx:           Usermanager Specific Operations (requires root) (Type 'amportal a userman' to see more)
 ${b}syncmanager$bx|${b}s$bx:	Resyncs the Asterisk manager credentials then restarts Asterisk
 \n\n\n"
 		;;

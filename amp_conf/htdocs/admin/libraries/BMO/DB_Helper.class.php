@@ -51,9 +51,11 @@ class DB_Helper {
 
 		// Definitions
 		$create = "CREATE TABLE IF NOT EXISTS ".self::$dbname." ( `module` CHAR(64) NOT NULL, `key` CHAR(255) NOT NULL, `val` LONGBLOB, `type` CHAR(16) DEFAULT NULL, `id` CHAR(255) DEFAULT NULL)";
-		$index['index2'] = "ALTER TABLE ".self::$dbname." ADD INDEX index2 (`key`)";
-		$index['index4'] = "ALTER TABLE ".self::$dbname." ADD UNIQUE INDEX index4 (`module`, `key`, `id`)";
-		$index['index6'] = "ALTER TABLE ".self::$dbname." ADD INDEX index6 (`module`, `id`)";
+		// These are limited to 50 chars as prefixes are limited to 255 chars in total (or 1000 in later versions
+		// of mysql), and UTF can cause that to overflow. 50 is plenty.
+		$index['index1'] = "ALTER TABLE ".self::$dbname." ADD INDEX index1 (`key`(50))";
+		$index['index3'] = "ALTER TABLE ".self::$dbname." ADD UNIQUE INDEX index3 (`module`, `key`(50), `id`(50))";
+		$index['index5'] = "ALTER TABLE ".self::$dbname." ADD INDEX index5 (`module`, `id`(50))";
 
 		// Check to make sure our Key/Value table exists.
 		try {

@@ -56,6 +56,10 @@ class GPG {
 		}
 
 		$out = $this->runGPG("--verify $filename");
+		if (strpos($out['status'][0], "[GNUPG:] BADSIG") === 0) {
+			// File has been tampered.
+			return false;
+		}
 		if (strpos($out['status'][1], "[GNUPG:] NO_PUBKEY") === 0) {
 			// This should never happen, as we try to auto-download
 			// the keys. However, if the keyserver timed out, or,
@@ -72,17 +76,21 @@ class GPG {
 
 		// Now, how does it check out?
 		$status = $this->checkStatus($out['status']);
-		if ($status['trust']) {
+		if ($status['trust'] == true) {
 			// It's trusted!  For the interim, we want to make sure that it's signed
 			// by the FreePBX Key, or, by a key that's been signed by the FreePBX Key.
 			// This is going above-and-beyond the web of trust thing, and we may end up
 			// removing it.
+			array_pop($out['status']); // Remove leading blank line.
 			$validline = explode(" ", array_pop($out['status']));
 			$thissig = $validline[2];
 			$longkey = substr($this->freepbxkey, -16);
 			$allsigs = $this->runGPG("--keyid-format long --with-colons --check-sigs $thissig");
 			$isvalid = false;
 			foreach (explode("\n", $allsigs['stdout']) as $line) {
+				if (!$line) {
+					continue; // Ignore blank lines
+				}
 				$tmparr = explode(":", $line);
 				if ($tmparr[4] == $longkey) {
 					$isvalid = true;
@@ -101,17 +109,17 @@ class GPG {
 	 * @param string Module name
 	 * @return array (status => GPG::STATE_whatever, details => array (details, details))
 	 */
-	public function verifyModule($module = null) {
-		if (!$module) {
+	public function verifyModule($modulename = null) {
+		if (!$modulename) {
 			throw new Exception(_("No module to check"));
 		}
 
-		if (strpos($module, "/") !== false) {
+		if (strpos($modulename, "/") !== false) {
 			throw new Exception(_("Path given to verifyModule. Only provide a module name"));
 		}
 
 		// Get the module.sig file.
-		$file = FreePBX::Config()->get_conf_setting('AMPWEBROOT')."/admin/modules/$module/module.sig";
+		$file = FreePBX::Config()->get('AMPWEBROOT')."/admin/modules/$modulename/module.sig";
 
 		if (!file_exists($file)) {
 			// Well. That was easy.
@@ -129,19 +137,29 @@ class GPG {
 		$retarr['status'] = GPG::STATE_GOOD | GPG::STATE_TRUSTED;
 		$retarr['details'] = array();
 
-		$hashes = $this->getHashes(dirname($file));
 		foreach ($module['hashes'] as $file => $hash) {
-			if (!isset($hashes[$file])) {
-				$retarr['details'][] = $file." missing";
+			$dest = FreePBX::Installer()->getDestination($modulename, $file);
+			if ($dest === false) {
+				// If the file is explicitly un-checkable, ignore it.
+				continue;
+			}
+			if (!file_exists($dest)) {
+				$retarr['details'][] = $dest." "._("missing");
 				$retarr['status'] |= GPG::STATE_TAMPERED;
 				$retarr['status'] &= ~GPG::STATE_GOOD;
-			} elseif ($hashes[$file] != $hash) {
-				$retarr['details'][] = $file." altered";
+			} elseif (hash_file('sha256', $dest) != $hash) {
+				// If you i18n this string, also note that it's used explicitly
+				// as a comparison of "altered" in modulefunctions.class, to
+				// warn people about // sbin/amportal needing to be updated
+				// with 'amportal chown'. Don't make them different!
+				$retarr['details'][] = $dest." "._("altered");
 				$retarr['status'] |= GPG::STATE_TAMPERED;
 				$retarr['status'] &= ~GPG::STATE_GOOD;
 			}
 		}
 		return $retarr;
+		// Reminder for people doing i18n.
+		if (false) { echo _("If you're i18n-ing this file, read the comment about 'altered' and 'missing'"); }
 	}
 
 	/**
@@ -193,6 +211,7 @@ class GPG {
 				continue;
 			}
 			// We found it. And loaded it. Yay!
+			$this->checkPermissions();
 			return true;
 		}
 
@@ -200,6 +219,7 @@ class GPG {
 		$longkey = __DIR__."/${key}.key";
 		if (file_exists($longkey)) {
 			$out = $this->runGPG("--import $longkey");
+			$this->checkPermissions();
 			return true;
 		}
 
@@ -207,6 +227,7 @@ class GPG {
 		$shortkey = __DIR__."/".substr($key, -8).".key";
 		if (file_exists($shortkey)) {
 			$out = $this->runGPG("--import $shortkey");
+			$this->checkPermissions();
 			return true;
 		}
 
@@ -435,6 +456,15 @@ class GPG {
 		}
 
 		$out = $this->runGPG("--output - $sigfile");
+
+		// Check to see if we don't know about this signature..
+		if (isset($out['status'][1]) && preg_match('/ERRSIG (.+) 1 2/', $out['status'][1], $keyarr)) {
+			// We don't. Try to grab it.
+			$this->getKey($keyarr[1]);
+			// And now run the validation again.
+			$out = $this->runGPG("--output - $sigfile");
+		}
+
 		$status = $this->checkStatus($out['status']);
 		if (!$status['trust']) {
 			return $status;

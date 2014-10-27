@@ -815,7 +815,7 @@ class AGI_AsteriskManager {
 		}
 		return $this->send_request('MailboxStatus', $parameters);
 	}
-	
+
 	/**
 	 * MessageSend
 	 *
@@ -1321,7 +1321,11 @@ class AGI_AsteriskManager {
 					$this->log('Execute handler ' . get_class($handler[0]) . '::' . $handler[1]);
 					$ret = $handler[0]->$handler[1]($e, $parameters, $this->server, $this->port);
 				} else {
-					$this->log("Execute handler $handler");
+					if(is_object($handler)) {
+						$this->log("Execute handler " . get_class($handler));
+					} else {
+						$this->log("Execute handler $handler");
+					}
 					$ret = $handler($e, $parameters, $this->server, $this->port);
 				}
 			}
@@ -1569,10 +1573,10 @@ class AGI_AsteriskManager {
 		} else {
 			return false;
 		}
-		$res = $this->response_catch; 
+		$res = $this->response_catch;
 		// Asterisk 12 can sometimes dump extra garbage after the
-		// output of this. So grab it, and discard it, if it's 
-		// pending. 
+		// output of this. So grab it, and discard it, if it's
+		// pending.
 		// Note that this has been reported as a bug and should
 		// be removed, or, wait_response needs to be re-written
 		// to keep waiting until it receives the ending event
