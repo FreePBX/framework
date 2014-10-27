@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+namespace FreePBX\Install;
+
+set_time_limit(0);
+
+require_once('libraries/vendors/console/vendor/autoload.php');
+require_once('installapplication.class.php');
+require_once('installcommand.class.php');
+
+use Symfony\Component\Console\Application;
+
+$app = new FreePBXInstallApplication("FreePBX Installation Utility", "13.0.1");
+$app->run();
+
+?>
