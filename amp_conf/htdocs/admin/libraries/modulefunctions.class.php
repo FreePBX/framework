@@ -2176,9 +2176,16 @@ class module_functions {
 		 Returns: random md5 hash
 	 */
 	function _generate_random_id($type=null, $mac=null) {
-
 		if (trim($mac) == "") {
-			$id['uniqueid'] = md5(mt_rand());
+			$sql = "SELECT * FROM module_xml WHERE id = 'randomid'";
+			$result = sql($sql,'getRow',DB_FETCHMODE_ASSOC);
+			if(!empty($result['data'])) {
+				$id['uniqueid'] = $result['data'];
+			} else {
+				$id['uniqueid'] = md5(mt_rand());
+				$data4sql = $db->escapeSimple($id['uniqueid']);
+				sql("INSERT INTO module_xml (id,time,data) VALUES ('randomid',".time().",'".$data4sql."')");
+			}
 		} else {
 			// MD5 hash of the MAC so it is not identifiable
 			//
@@ -2207,9 +2214,15 @@ class module_functions {
 		// Array of macs that require identification so we know these are not
 		// 'real' systems. Either home setups or test environments
 		//
-		$ids = array('000C29' => 'vmware',
+		$ids = array('080027' => 'virtualbox',
+								 '001C42' => 'parallels',
+								 '001C14' => 'vmware',
+								 '005056' => 'vmware',
+								 '000C29' => 'vmware',
 		             '000569' => 'vmware',
-		             '00163E' => 'xensource'
+		             '00163E' => 'xensource',
+								 '000F4B' => 'virtualiron4',
+								 '0003FF' => 'hyper-v'
 		            );
 		$mac_address = array();
 		$chosen_mac = null;
@@ -2520,21 +2533,21 @@ class module_functions {
 			// if not set so this is a first time install
 			// get a new hash to account for first time install
 			//
-			if (!isset($result['data']) || trim($result['data']) == "") {
-				$firstinstall=true;
-				$install_hash = $this->_generate_unique_id();
-				$installid = $install_hash['uniqueid'];
-				$type = $install_hash['type'];
-
-				// save the hash so we remeber this is a first time install
-				//
-				$data4sql = $db->escapeSimple($installid);
-				sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
-				$data4sql = $db->escapeSimple($type);
-				sql("INSERT INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
-
-				// Not a first time so save the queried hash and check if there is a type set
-				//
+			$install_hash = $this->_generate_unique_id();
+			$installid = $install_hash['uniqueid'];
+			$type = $install_hash['type'];
+			if (!isset($result['data']) || trim($result['data']) == "" || ($installid != $result['data'])) {
+				//Yes they do the same thing but thats ok
+				if(!isset($result['data']) || trim($result['data']) == "") {
+					$firstinstall=true;
+					sql("DELETE FROM module_xml WHERE id = 'installid' OR id = 'type'");
+					$data4sql = $db->escapeSimple($installid);
+					sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
+					$data4sql = $db->escapeSimple($type);
+					sql("INSERT INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
+				} else {
+					$this->_regenerate_unique_id();
+				}
 			} else {
 				$installid=$result['data'];
 				$sql = "SELECT * FROM module_xml WHERE id = 'type'";
@@ -2613,6 +2626,7 @@ class module_functions {
 	}
 
 	function url_get_contents($url,$request,$verb='get',$params=array()) {
+		$params['statsversion'] = 2;
 		global $amp_conf;
 		$verb = strtolower($verb);
 		$contents = null;
@@ -2621,6 +2635,9 @@ class module_functions {
 			$pest = new Pest($url);
 			try{
 				$contents = $pest->$verb($url.$request,$params);
+				if(isset($pest->last_headers['x-regenerate-id'])) {
+					$this->_regenerate_unique_id();
+				}
 				return $contents;
 			} catch (Exception $e) {
 				freepbx_log(FPBX_LOG_ERROR,sprintf(_('Failed to get remote file, error was:'),(string)$e->getMessage()));
@@ -2641,6 +2658,7 @@ class module_functions {
 				// so we only auto set the WGET var if we received something so as to not false trigger. If there are issues
 				// with content filters that this is designed to get around, we will eventually get a non-empty file which
 				// will trigger this for now and the future.
+				return null;
 			} elseif (!empty($data_arr) && !$amp_conf['MODULEADMINWGET']) {
 				$freepbx_conf =& freepbx_conf::create();
 				$freepbx_conf->set_conf_values(array('MODULEADMINWGET' => true),true);
@@ -2650,9 +2668,26 @@ class module_functions {
 				$extext = sprintf(_("The system detected a problem trying to access external server data and changed internal setting %s (Use wget For Module Admin) to true, see the tooltip in Advanced Settings for more details."),'MODULEADMINWGET');
 				$nt->add_warning('freepbx', 'MODULEADMINWGET', $text, $extext, '', false, true);
 			}
+			$headers = get_headers_assoc($fn2);
+			if(isset($headers['x-regenerate-id'])) {
+				$this->_regenerate_unique_id();
+			}
+
 			$contents = implode("\n",$data_arr);
 			return $contents;
 		}
+	}
+
+	function _regenerate_unique_id() {
+		global $db;
+		$install_hash = $this->_generate_unique_id();
+		$installid = $install_hash['uniqueid'];
+		$type = $install_hash['type'];
+		sql("DELETE FROM module_xml WHERE id = 'installid' OR id = 'type'");
+		$data4sql = $db->escapeSimple($installid);
+		sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
+		$data4sql = $db->escapeSimple($type);
+		sql("INSERT INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
 	}
 
 	function getSignature($modulename,$cached=true) {

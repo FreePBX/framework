@@ -1,4 +1,13 @@
 <?php
+/**
+ * What does this class do?
+ * This class is a PDO wrapper for PearDB.
+ * We moved from PearDB to PDO in 13 but much of the code
+ * still references PearDB functionality so we have to have
+ * a wrapper class
+ * Copyright Schmooze Com, Inc 2014
+ */
+
  /**
  * Indicates the current default fetch mode should be used
  * @see DB_common::$fetchmode
@@ -28,107 +37,151 @@ define('DB_FETCHMODE_OBJECT', 3);
  * in the first level of the array and the column names in the second level.
  */
 define('DB_FETCHMODE_FLIPPED', 4);
+
+/**
+ * Table already exists error
+ */
+define('DB_ERROR_ALREADY_EXISTS', -5);
+
+/**
+ * Can not create table error
+ */
+define('DB_ERROR_CANNOT_CREATE', -15);
+
 class DB {
 	private $db = null;
 	private static $error = null;
+	private $res = null;
 	public function __construct($dbh=null) {
 		$this->db = !empty($dbh) ? $dbh : FreePBX::create()->Database;
 		$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 
+	/**
+	 * http://pear.php.net/manual/en/package.database.db.db-common.getcol.php
+	 * @param string  $sql    [description]
+	 * @param integer $col    [description]
+	 * @param array   $params [description]
+	 */
 	public function getCol($sql,$col=0,$params=array()) {
 		$this->error = null;
 		try {
 			if(!empty($params) && is_array($params)) {
-				$res = $this->db->prepare($sql);
-				$res->execute($params);
-				return $res->fetchColumn($col);
+				$this->res = $this->db->prepare($sql);
+				$this->res->execute($params);
+				return $this->res->fetchColumn($col);
 			}
-			$res = $this->db->query($sql);
-			if($res === false) {
+			$this->res = $this->db->query($sql);
+			if($this->res === false) {
 				return false;
 			}
-			return $res->fetchColumn($col);
+			return $this->res->fetchColumn($col);
 		} catch (Exception $e) {
-			return $e;
+			return new DB_Error($e);
 		}
 	}
 
+	/**
+	 * http://pear.php.net/manual/en/package.database.db.db-common.getall.php
+	 * @param string  $sql       [description]
+	 * @param array  $params    [description]
+	 * @param constant $fetchmode [description]
+	 */
 	public function getAll($sql,$params=array(),$fetchmode=DB_FETCHMODE_DEFAULT) {
 		$this->error = null;
 		try {
 			$fetch = $this->setFetchMode($fetchmode);
 			if(!empty($params) && is_array($params)) {
-				$res = $this->db->prepare($sql);
-				$res->execute($params);
-				return $res->fetchAll($fetch);
+				$this->res = $this->db->prepare($sql);
+				$this->res->execute($params);
+				return $this->res->fetchAll($fetch);
 			}
-			$res = $this->db->query($sql);
-			if($res === false) {
+			$this->res = $this->db->query($sql);
+			if($this->res === false) {
 				return false;
 			}
-			return $res->fetchAll($fetch);
+			return $this->res->fetchAll($fetch);
 		} catch (Exception $e) {
-			return $e;
+			return new DB_Error($e);
 		}
 	}
 
+	/**
+	 * http://pear.php.net/manual/en/package.database.db.db-common.getrow.php
+	 * @param string  $sql       [description]
+	 * @param array  $params    [description]
+	 * @param constant $fetchmode [description]
+	 */
 	public function getRow($sql,$params=array(),$fetchmode=DB_FETCHMODE_DEFAULT) {
 		$this->error = null;
 		try {
 			$fetch = $this->setFetchMode($fetchmode);
 			if(!empty($params) && is_array($params)) {
-				$res = $this->db->prepare($sql);
-				$res->execute($params);
-				return $res->fetch($fetch);
+				$this->res = $this->db->prepare($sql);
+				$this->res->execute($params);
+				return $this->res->fetch($fetch);
 			}
-			$res = $this->db->query($sql);
-			if($res === false) {
+			$this->res = $this->db->query($sql);
+			if($this->res === false) {
 				return false;
 			}
-			return $res->fetch($fetch);
+			return $this->res->fetch($fetch);
 		} catch (Exception $e) {
-			return $e;
+			return new DB_Error($e);
 		}
 	}
 
+	/**
+	 * http://pear.php.net/manual/en/package.database.db.db-common.getrow.php
+	 * @param string  $sql    [description]
+	 * @param array  $params [description]
+	 */
 	public function getOne($sql,$params=array()) {
 		$this->error = null;
 		try {
 			if(!empty($params) && is_array($params)) {
-				$res = $this->db->prepare($sql);
-				$res->execute($params);
-				$line = $res->fetch(PDO::FETCH_NUM);
+				$this->res = $this->db->prepare($sql);
+				$this->res->execute($params);
+				$line = $this->res->fetch(PDO::FETCH_NUM);
 				if (isset($line[0])) {
 					return $line[0];
 				}
 				return false;
 			}
-			$res = $this->db->query($sql);
-			if($res === false) {
+			$this->res = $this->db->query($sql);
+			if($this->res === false) {
 				return false;
 			}
-			$line = $res->fetchColumn();
+			$line = $this->res->fetchColumn();
 			return !empty($line) ? $line : false;
 		} catch (Exception $e) {
-			return $e;
+			return new DB_Error($e);
 		}
 	}
 
-	public function getAssoc($sql,$force_array = false,$params = array(),$fetchmode = DB_FETCHMODE_ASSOC,$group = false) {
+	/**
+	 * http://pear.php.net/manual/en/package.database.db.db-common.getassoc.php
+	 * @param string  $sql         [description]
+	 * @param bool  $force_array [description]
+	 * @param array  $params      [description]
+	 * @param constant  $fetchmode   [description]
+	 * @param bool  $group       [description]
+	 */
+	public function getAssoc($sql, $force_array = false, $params = array(),
+															$fetchmode = DB_FETCHMODE_ASSOC, $group = false) {
 		$this->error = null;
 		try {
 			$fetch = $this->setFetchMode($fetchmode);
 			if(!empty($params) && is_array($params)) {
-				$res = $this->db->prepare($sql);
-				$res->execute($params);
-				$result = $res->fetchAll($fetch);
+				$this->res = $this->db->prepare($sql);
+				$this->res->execute($params);
+				$result = $this->res->fetchAll($fetch);
 			}
-			$res = $this->db->query($sql);
-			if($res === false) {
+			$this->res = $this->db->query($sql);
+			if($this->res === false) {
 				return false;
 			}
-			$result = $res->fetchAll($fetch);
+			$result = $this->res->fetchAll($fetch);
 			if($result === false) {
 				return false;
 			}
@@ -138,10 +191,21 @@ class DB {
 			}
 			return $final;
 		} catch (Exception $e) {
-			return $e;
+			return new DB_Error($e);
 		}
 	}
 
+	/**
+	 * http://pear.php.net/manual/en/package.database.db.db-common.affectedrows.php
+	 */
+	public function affectedRows() {
+		return isset($this->res) ? $this->res->rowCount() : false;
+	}
+
+	/**
+	 * Get Last Insert ID
+	 * @return [type] [description]
+	 */
 	public function insert_id() {
 		return $this->db->lastInsertId();
 	}
@@ -160,8 +224,12 @@ class DB {
 		return $this->db->quote($in);
 	}
 
+	/**
+	 * [IsError description]
+	 * @param [type] $e [description]
+	 */
 	public static function IsError($e) {
-		if(is_object($e) && get_class($e) == "PDOException") {
+		if(is_object($e) && get_class($e) == "DB_Error") {
 			return $e;
 		}
 		return false;
@@ -173,41 +241,64 @@ class DB {
 
 	public function execute($stmt, $data = array()) {
 		try {
-			return $stmt->execute($data);
+			if(!isset($data[0])) {
+				return $stmt->execute(array_values($data));
+			} else {
+				return $stmt->execute($data);
+			}
 		} catch(Exception $e) {
-			return $e;
+			return new DB_Error($e);
 		}
 	}
 
+	/**
+	 * http://pear.php.net/manual/en/package.database.db.db-common.executemultiple.php
+	 * @param object $stmt [description]
+	 * @param array  $data [description]
+	 */
 	public function executeMultiple($stmt, $data = array()) {
 		try {
 			foreach($data as &$row) {
-				$stmt->execute($row);
+				if(!isset($row[0])) {
+					$stmt->execute(array_values($row));
+				} else {
+					$stmt->execute($row);
+				}
 			}
 		} catch(Exception $e) {
-			return $e;
+			return new DB_Error($e);
 		}
 		return true;
 	}
 
+	/**
+	 * http://pear.php.net/manual/en/package.database.db.db-common.query.php
+	 * @param  string  $sql    [description]
+	 * @param  array  $params [description]
+	 * @return [type]         [description]
+	 */
 	public function query($sql,$params=array()) {
 		$this->error = null;
 		if(empty($params)) {
 			try {
 				$this->db->query($sql);
 			} catch(\Exception $e) {
-				return $e;
+				return new DB_Error($e);
 			}
 		} else {
 			try {
 				$sth = $this->db->prepare($sql);
 				$sth->execute($params);
 			} catch(\Exception $e) {
-				return $e;
+				return new DB_Error($e);
 			}
 		}
 	}
 
+	/**
+	 * Adjust the Fetch mode for PDO from PearDB
+	 * @param [type] $PearDBFetchMode [description]
+	 */
 	private function setFetchMode($PearDBFetchMode=DB_FETCHMODE_DEFAULT) {
 		switch($PearDBFetchMode) {
 			case DB_FETCHMODE_ASSOC:
@@ -221,5 +312,34 @@ class DB {
 			break;
 		}
 		return $fetch;
+	}
+}
+
+class DB_Error {
+	private $e =null;
+  public function __construct(Exception $exception = null) {
+		$this->e = $exception;
+  }
+	public function getMessage() {
+		return $this->e->getMessage();
+	}
+
+	public function getCode() {
+		switch($this->e->getCode()) {
+			case "42S01":
+				return DB_ERROR_ALREADY_EXISTS;
+			break;
+			default:
+				throw new Exception("Unknown Error Code");
+			break;
+		}
+	}
+
+	public function getUserInfo() {
+		return $this->e->getMessage();
+	}
+
+	public function getDebugInfo() {
+		return $this->e->getMessage();
 	}
 }
