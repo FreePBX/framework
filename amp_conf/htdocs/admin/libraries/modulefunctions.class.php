@@ -2627,7 +2627,7 @@ class module_functions {
 	}
 
 	function url_get_contents($url,$request,$verb='get',$params=array()) {
-		$params['statsversion'] = 2;
+		$params['sv'] = 2;
 		global $amp_conf;
 		$verb = strtolower($verb);
 		$contents = null;
