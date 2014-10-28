@@ -2679,7 +2679,6 @@ class module_functions {
 	}
 
 	function _regenerate_unique_id() {
-		dbug("regenerating");
 		global $db;
 		$install_hash = $this->_generate_unique_id();
 		$installid = $install_hash['uniqueid'];

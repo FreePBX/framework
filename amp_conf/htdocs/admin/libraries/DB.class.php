@@ -1,4 +1,13 @@
 <?php
+/**
+ * What does this class do?
+ * This class is a PDO wrapper for PearDB.
+ * We moved from PearDB to PDO in 13 but much of the code
+ * still references PearDB functionality so we have to have
+ * a wrapper class
+ * Copyright Schmooze Com, Inc 2014
+ */
+
  /**
  * Indicates the current default fetch mode should be used
  * @see DB_common::$fetchmode
@@ -29,8 +38,16 @@ define('DB_FETCHMODE_OBJECT', 3);
  */
 define('DB_FETCHMODE_FLIPPED', 4);
 
+/**
+ * Table already exists error
+ */
 define('DB_ERROR_ALREADY_EXISTS', -5);
+
+/**
+ * Can not create table error
+ */
 define('DB_ERROR_CANNOT_CREATE', -15);
+
 class DB {
 	private $db = null;
 	private static $error = null;
@@ -150,7 +167,8 @@ class DB {
 	 * @param constant  $fetchmode   [description]
 	 * @param bool  $group       [description]
 	 */
-	public function getAssoc($sql,$force_array = false,$params = array(),$fetchmode = DB_FETCHMODE_ASSOC,$group = false) {
+	public function getAssoc($sql, $force_array = false, $params = array(),
+															$fetchmode = DB_FETCHMODE_ASSOC, $group = false) {
 		$this->error = null;
 		try {
 			$fetch = $this->setFetchMode($fetchmode);
@@ -310,6 +328,9 @@ class DB_Error {
 		switch($this->e->getCode()) {
 			case "42S01":
 				return DB_ERROR_ALREADY_EXISTS;
+			break;
+			default:
+				throw new Exception("Unknown Error Code");
 			break;
 		}
 	}
