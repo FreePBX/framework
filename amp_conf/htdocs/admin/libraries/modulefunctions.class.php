@@ -2537,7 +2537,7 @@ class module_functions {
 			$installid = $install_hash['uniqueid'];
 			$type = $install_hash['type'];
 			if (!isset($result['data']) || trim($result['data']) == "" || ($installid != $result['data'])) {
-				if(isset($result['data']) || trim($result['data']) == "") {
+				if(!isset($result['data']) || trim($result['data']) == "") {
 					$firstinstall=true;
 				}
 
