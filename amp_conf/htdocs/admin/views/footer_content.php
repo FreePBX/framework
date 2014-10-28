@@ -14,14 +14,17 @@ if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
 
 // Brandable logos in footer
 //fpbx logo
-$html .= '<a target="_blank" href="' 
-		. $amp_conf['BRAND_IMAGE_FREEPBX_LINK_FOOT']
-		. '" class ="footer-float-left">'
- 	 	. '<img id="footer_logo1" src="'.$amp_conf['BRAND_IMAGE_FREEPBX_FOOT'].$version_tag
-		. '" alt="'.$amp_conf['BRAND_FREEPBX_ALT_FOOT'] .'"/></a>';
+$html .= '<div class="col-md-4">
+	<a target="_blank" href="'
+                . $amp_conf['BRAND_IMAGE_FREEPBX_LINK_FOOT']
+                . '" >'
+                . '<img id="footer_logo1" src="'.$amp_conf['BRAND_IMAGE_FREEPBX_FOOT'].$version_tag
+                . '" alt="'.$amp_conf['BRAND_FREEPBX_ALT_FOOT'] .'"/>
+	</a>
+	</div>';
 
 //text
-$html .= '<span class="footer-float-left" id="footer_text">';
+$html .= '<div class="col-md-4" id="footer_text">';
 $html .= '<a href="http://www.freepbx.org" target="_blank">FreePBX</a> ' 
 		. _('is a registered trademark of') 
      	. br() . '<a href="http://www.freepbx.org/copyright.html" target="_blank"> Schmooze Com., Inc.</a>'
@@ -41,11 +44,14 @@ if (isset($amp_conf['DEVEL']) && $amp_conf['DEVEL']) {
 	$benchmark_time = number_format(microtime_float() - $benchmark_starttime, 4);
 	$html .= '<br><span id="benchmark_time">Page loaded in ' . $benchmark_time . 's</span>';
 }
-$html .= '</span>';
+$html .= '</div>';
 
-$html .= '<a target="_blank" href="' . $amp_conf['BRAND_IMAGE_SPONSOR_LINK_FOOT'] 
-		. '" class="footer-float-left">'
+$html .= '<div class="col-md-4">
+	<a target="_blank" href="' . $amp_conf['BRAND_IMAGE_SPONSOR_LINK_FOOT'] 
+		. '" >'
 		. '<img id="footer_logo" src="' . $amp_conf['BRAND_IMAGE_SPONSOR_FOOT'] . '" '
-		. 'alt="' . $amp_conf['BRAND_SPONSOR_ALT_FOOT'] . '"/></a>';
+		. 'alt="' . $amp_conf['BRAND_SPONSOR_ALT_FOOT'] . '"/>
+	</a>
+	</div>';
 echo $html;
 ?>

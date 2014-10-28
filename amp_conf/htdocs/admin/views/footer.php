@@ -17,7 +17,7 @@ $html .= '<div id="footer">';
 if ($footer_content) {
 	$html .= '<hr />';
 }
-$html .= '<div id="footer_content">';
+$html .= '<div id="footer_content" class="row">';
 $html .= $footer_content;
 $html .= '</div>'; //footer_content
 $html .= '</div>'; //footer
