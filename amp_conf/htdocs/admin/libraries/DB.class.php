@@ -30,72 +30,116 @@ define('DB_FETCHMODE_OBJECT', 3);
 define('DB_FETCHMODE_FLIPPED', 4);
 class DB {
 	private $db = null;
-	public function __construct() {
-		$this->db = FreePBX::create()->Database;
+	private static $error = null;
+	public function __construct($dbh=null) {
+		$this->db = !empty($dbh) ? $dbh : FreePBX::create()->Database;
+		$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 
 	public function getCol($sql,$col=0,$params=array()) {
-		if(!empty($params) && is_array($params)) {
-			$res = $this->db->prepare($sql);
-			$res->execute($params);
+		$this->error = null;
+		try {
+			if(!empty($params) && is_array($params)) {
+				$res = $this->db->prepare($sql);
+				$res->execute($params);
+				return $res->fetchColumn($col);
+			}
+			$res = $this->db->query($sql);
+			if($res === false) {
+				return false;
+			}
 			return $res->fetchColumn($col);
+		} catch (Exception $e) {
+			return $e;
 		}
-		$res = $this->db->query($sql);
-		return $res->fetchColumn($col);
 	}
 
 	public function getAll($sql,$params=array(),$fetchmode=DB_FETCHMODE_DEFAULT) {
-		$fetch = $this->setFetchMode($fetchmode);
-		if(!empty($params) && is_array($params)) {
-			$res = $this->db->prepare($sql);
-			$res->execute($params);
+		$this->error = null;
+		try {
+			$fetch = $this->setFetchMode($fetchmode);
+			if(!empty($params) && is_array($params)) {
+				$res = $this->db->prepare($sql);
+				$res->execute($params);
+				return $res->fetchAll($fetch);
+			}
+			$res = $this->db->query($sql);
+			if($res === false) {
+				return false;
+			}
 			return $res->fetchAll($fetch);
+		} catch (Exception $e) {
+			return $e;
 		}
-		$x = $this->db->sql($sql,'getAll',$fetch);
-		return $x;
 	}
 
 	public function getRow($sql,$params=array(),$fetchmode=DB_FETCHMODE_DEFAULT) {
-		$fetch = $this->setFetchMode($fetchmode);
-		if(!empty($params) && is_array($params)) {
-			$res = $this->db->prepare($sql);
-			$res->execute($params);
+		$this->error = null;
+		try {
+			$fetch = $this->setFetchMode($fetchmode);
+			if(!empty($params) && is_array($params)) {
+				$res = $this->db->prepare($sql);
+				$res->execute($params);
+				return $res->fetch($fetch);
+			}
+			$res = $this->db->query($sql);
+			if($res === false) {
+				return false;
+			}
 			return $res->fetch($fetch);
+		} catch (Exception $e) {
+			return $e;
 		}
-		$x = $this->db->sql($sql,'getRow',$fetch);
-		return $x;
 	}
 
 	public function getOne($sql,$params=array()) {
-		if(!empty($params) && is_array($params)) {
-			$res = $this->db->prepare($sql);
-			$res->execute($params);
-			$line = $res->fetch(PDO::FETCH_NUM);
-			if (isset($line[0])) {
-				return $line[0];
+		$this->error = null;
+		try {
+			if(!empty($params) && is_array($params)) {
+				$res = $this->db->prepare($sql);
+				$res->execute($params);
+				$line = $res->fetch(PDO::FETCH_NUM);
+				if (isset($line[0])) {
+					return $line[0];
+				}
+				return false;
 			}
-			return false;
+			$res = $this->db->query($sql);
+			if($res === false) {
+				return false;
+			}
+			$line = $res->fetchColumn();
+			return !empty($line) ? $line : false;
+		} catch (Exception $e) {
+			return $e;
 		}
-		$x = $this->db->sql($sql,'getOne');
-		return $x;
 	}
 
 	public function getAssoc($sql,$force_array = false,$params = array(),$fetchmode = DB_FETCHMODE_ASSOC,$group = false) {
-		$fetch = $this->setFetchMode($fetchmode);
-		if(!empty($params) && is_array($params)) {
-			$res = $this->db->prepare($sql);
-			$res->execute($params);
+		$this->error = null;
+		try {
+			$fetch = $this->setFetchMode($fetchmode);
+			if(!empty($params) && is_array($params)) {
+				$res = $this->db->prepare($sql);
+				$res->execute($params);
+				$result = $res->fetchAll($fetch);
+			}
+			$res = $this->db->query($sql);
+			if($res === false) {
+				return false;
+			}
 			$result = $res->fetchAll($fetch);
+			if($result === false) {
+				return false;
+			}
+			$final = array();
+			foreach($result as $data) {
+				$final[$data['keyword']] = $data['data'];
+			}
+			return $final;
+		} catch (Exception $e) {
+			return $e;
 		}
-		$result = $this->db->sql($sql,'getAll',$fetch);
-		if(empty($result)) {
-			return false;
-		}
-		$final = array();
-		foreach($result as $data) {
-			$final[$data['keyword']] = $data['data'];
-		}
-		return $final;
 	}
 
 	public function insert_id() {
@@ -116,23 +160,50 @@ class DB {
 		return $this->db->quote($in);
 	}
 
-	public function IsError($value) {
+	public static function IsError($e) {
+		if(is_object($e) && get_class($e) == "PDOException") {
+			return $e;
+		}
 		return false;
 	}
 
+	public function prepare($query) {
+		return $this->db->prepare($query);
+	}
+
+	public function execute($stmt, $data = array()) {
+		try {
+			return $stmt->execute($data);
+		} catch(Exception $e) {
+			return $e;
+		}
+	}
+
+	public function executeMultiple($stmt, $data = array()) {
+		try {
+			foreach($data as &$row) {
+				$stmt->execute($row);
+			}
+		} catch(Exception $e) {
+			return $e;
+		}
+		return true;
+	}
+
 	public function query($sql,$params=array()) {
+		$this->error = null;
 		if(empty($params)) {
 			try {
 				$this->db->query($sql);
 			} catch(\Exception $e) {
-				die_freepbx('Error on SQL Query', $e->getMessage());
+				return $e;
 			}
 		} else {
 			try {
 				$sth = $this->db->prepare($sql);
 				$sth->execute($params);
 			} catch(\Exception $e) {
-				die_freepbx('Error on SQL Query', $e->getMessage());
+				return $e;
 			}
 		}
 	}

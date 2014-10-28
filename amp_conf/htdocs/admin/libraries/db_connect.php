@@ -1,5 +1,4 @@
 <?php
-
 require_once(dirname(__FILE__).'/freepbx_DB.php');
 
 switch ($amp_conf['AMPDBENGINE']) {
