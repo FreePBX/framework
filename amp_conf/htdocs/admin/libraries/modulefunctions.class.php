@@ -2544,6 +2544,7 @@ class module_functions {
 
 				// save the hash so we remeber this is a first time install
 				//
+				sql("DELETE FROM module_xml WHERE id = 'installid' OR id = 'type'");
 				$data4sql = $db->escapeSimple($installid);
 				sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
 				$data4sql = $db->escapeSimple($type);
