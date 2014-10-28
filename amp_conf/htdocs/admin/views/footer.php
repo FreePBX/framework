@@ -17,6 +17,16 @@ $html .= '<div id="footer">';
 if ($footer_content) {
 	$html .= '<hr />';
 }
+
+//Action Bar
+$html .='<div class="navbar-fixed-bottom container container-fluid action-bar">
+  <div class="navbar-right">
+    <input name="Delete" type="submit" value="Delete">
+    <input name="Reset" type="submit" value="Reset">
+    <input name="Submit" type="submit" value="Submit">
+  </div>
+</div>';
+
 $html .= '<div id="footer_content" class="row">';
 $html .= $footer_content;
 $html .= '</div>'; //footer_content

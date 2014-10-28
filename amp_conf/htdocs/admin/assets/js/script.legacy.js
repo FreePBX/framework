@@ -1329,4 +1329,24 @@ $(document).ready(function() {
 			}
 		}
 	};
+
+	/**
+	 * Lock the action bar to the bottom of the screen
+	 * @author Bryan Walters <bryan ! walters (at) schmoozecom (dot) com
+	 */
+	$(window).scroll(function() {
+		if ($('.action-bar').length > 0) {
+			var css = {};
+
+			$('.action-bar').removeClass('action-bar-locked');
+
+			var css = {},
+				pageHeight = parseInt($('#page').innerHeight()),
+				actionBarOffset = parseInt($('.action-bar').offset().top) + parseInt($('.action-bar').innerHeight()) + parseInt($('#footer').innerHeight()) + parseInt($('.action-bar').css('padding-bottom'));
+
+			if (pageHeight - actionBarOffset <= 0) {
+				$('.action-bar').addClass('action-bar-locked');
+			}
+		}
+	});
 });
