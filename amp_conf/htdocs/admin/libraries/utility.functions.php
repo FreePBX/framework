@@ -532,12 +532,19 @@ function generate_module_repo_url($path, $add_options=false) {
 		// if not set so this is a first time install
 		// get a new hash to account for first time install
 		//
-		if (!isset($result['data']) || trim($result['data']) == "") {
-
-			$firstinstall=true;
-			$install_hash = _module_generate_unique_id();
-			$installid = $install_hash['uniqueid'];
-			$type = $install_hash['type'];
+		$install_hash = _module_generate_unique_id();
+		$installid = $install_hash['uniqueid'];
+		$type = $install_hash['type'];
+		if (!isset($result['data']) || trim($result['data']) == "" || ($installid != $result['data'])) {
+			//Yes they do the same thing but thats ok
+			if(!isset($result['data']) || trim($result['data']) == "") {
+				$firstinstall=true;
+				sql("DELETE FROM module_xml WHERE id = 'installid' OR id = 'type'");
+			} else {
+				$install_hash = _module_regenerate_unique_id();
+				$installid = $install_hash['uniqueid'];
+				$type = $install_hash['type'];
+			}
 
 			// save the hash so we remeber this is a first time install
 			//
@@ -561,6 +568,8 @@ function generate_module_repo_url($path, $add_options=false) {
 		// Now we have the id and know if this is a firstime install so we can get the announcement
 		//
 		$options = "?installid=".urlencode($installid);
+
+		$options .= "&sv=2";
 
 		if (trim($type) != "") {
 			$options .= "&type=".urlencode($type);

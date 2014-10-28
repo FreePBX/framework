@@ -1,10 +1,10 @@
 <?php
 
 /***********************************************************************************************************
-                                       Module functions 
+                                       Module functions
 ************************************************************************************************************/
- 
-/** Get the latest module.xml file for this FreePBX version. 
+
+/** Get the latest module.xml file for this FreePBX version.
  * Caches in the database for 5 mintues.
  * If $module is specified, only returns the data for that module.
  * If the module is not found (or none are available for whatever reason),
@@ -12,7 +12,7 @@
  *
  * Sets the global variable $module_getonlinexml_error to true if an error
  * occurred getting the module from the repository, false if no error occurred,
- * or null if the repository wasn't checked. Note that this may change in the 
+ * or null if the repository wasn't checked. Note that this may change in the
  * future if we decide we need to return more error codes, but as long as it's
  * a php zero-value (false, null, 0, etc) then no error happened.
  */
@@ -21,7 +21,7 @@ function module_getonlinexml($module = false, $override_xml = false, &$sec_array
 	$module_getonlinexml_error = null;
 	$got_new = false;
 	$skip_cache = false;
-	
+
 	$result = sql("SELECT * FROM module_xml WHERE id = 'xml'",'getRow',DB_FETCHMODE_ASSOC);
 	$data = $result['data'];
 
@@ -64,7 +64,7 @@ function module_getonlinexml($module = false, $override_xml = false, &$sec_array
     $data = file_get_contents_url($fn);
     $module_getonlinexml_error = ($data === false)?true:false;
 
-		
+
 		$old_xml = array();
 		$got_new = false;
 		if (!empty($data)) {
@@ -80,12 +80,12 @@ function module_getonlinexml($module = false, $override_xml = false, &$sec_array
 			sql("INSERT INTO module_xml (id,time,data) VALUES ('xml',".time().",'".$data4sql."')");
 		}
 	}
-	
+
 	if (empty($data)) {
 		// no data, probably couldn't connect online, and nothing cached
 		return null;
 	}
-	
+
 	$parser = new xml2ModuleArray($data);
 	$xmlarray = $parser->parseAdvanced($data);
 
@@ -103,7 +103,7 @@ function module_getonlinexml($module = false, $override_xml = false, &$sec_array
 	module_update_security_notifications($exposures);
 
 	if (isset($xmlarray['xml']['module'])) {
-	
+
 		if ($module != false) {
 			foreach ($xmlarray['xml']['module'] as $mod) {
 				if ($module == $mod['rawname']) {
@@ -152,8 +152,8 @@ function module_get_security($xmlarray, $base_version=null) {
 			if (!empty($sinfo['versions']['v' . $base_version])) {
 				// If this version has vulnerabilities, check each vulnerable module to see if we have any
 				//
-				if (strtolower($sinfo['versions']['v' . $base_version]['vulnerable']) == 'yes' && 
-					!empty($sinfo['versions']['v' . $base_version]['fixes'])) 
+				if (strtolower($sinfo['versions']['v' . $base_version]['vulnerable']) == 'yes' &&
+					!empty($sinfo['versions']['v' . $base_version]['fixes']))
 					foreach ($sinfo['versions']['v' . $base_version]['fixes'] as $rmod => $mver) {
 					$rmod = trim($rmod);
 					$mver = trim($mver);
@@ -192,7 +192,7 @@ function module_get_security($xmlarray, $base_version=null) {
 function module_update_notifications(&$old_xml, &$xmlarray, $passive) {
 	global $db;
 
-	$notifications =& notifications::create($db); 
+	$notifications =& notifications::create($db);
 
 	$reset_value = $passive ? 'PASSIVE' : false;
 	$old_parser = new xml2ModuleArray($old_xml);
@@ -244,7 +244,7 @@ function module_update_notifications(&$old_xml, &$xmlarray, $passive) {
  */
 function module_upgrade_notifications(&$new_modules, $passive_value) {
 	global $db;
-	$notifications =& notifications::create($db); 
+	$notifications =& notifications::create($db);
 
 	$installed_status = array(MODULE_STATUS_ENABLED, MODULE_STATUS_DISABLED);
 	$modules_local = module_getinfo(false, $installed_status);
@@ -286,7 +286,7 @@ function module_upgrade_notifications(&$new_modules, $passive_value) {
  */
 function module_update_security_notifications($exposures) {
 	global $db;
-	$notifications =& notifications::create($db); 
+	$notifications =& notifications::create($db);
 
 	if (!empty($exposures)) {
 		$cnt = count($exposures);
@@ -298,7 +298,7 @@ function module_update_security_notifications($exposures) {
 		$extext = "";
 		foreach($exposures as $m => $vinfo) {
 			$extext .= sprintf(
-				_("%s (Cur v. %s) should be upgraded to v. %s to fix security issues: %s\n"), 
+				_("%s (Cur v. %s) should be upgraded to v. %s to fix security issues: %s\n"),
 				$m, $vinfo['curver'], $vinfo['minver'], implode($vinfo['vul'],', ')
 			);
 		}
@@ -342,7 +342,7 @@ function module_getinfo($module = false, $status = false, $forceload = false) {
 
 	global $amp_conf, $db;
 	$modules = array();
-	
+
 	if ($module) {
 		// get info on only one module
 		$xml = _module_readxml($module);
@@ -351,7 +351,7 @@ function module_getinfo($module = false, $status = false, $forceload = false) {
 			// if status is anything else, it will be updated below when we read the db
 			$modules[$module]['status'] = MODULE_STATUS_NOTINSTALLED;
 		}
-		
+
 		// query to get just this one
 		$sql = 'SELECT * FROM modules WHERE modulename = "'.$module.'"';
 	} else {
@@ -369,8 +369,8 @@ function module_getinfo($module = false, $status = false, $forceload = false) {
 			// read modules dir for module names
 			$dir = opendir($amp_conf['AMPWEBROOT'].'/admin/modules');
 			while ($file = readdir($dir)) {
-				if (($file != ".") && ($file != "..") && ($file != "CVS") && 
-			    	($file != ".svn") && ($file != "_cache") && 
+				if (($file != ".") && ($file != "..") && ($file != "CVS") &&
+			    	($file != ".svn") && ($file != "_cache") &&
 			    	is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file)) {
 					$module_list[] = $file;
 				}
@@ -402,18 +402,18 @@ function module_getinfo($module = false, $status = false, $forceload = false) {
 	}
 	// determine details about this module from database
 	// modulename should match the directory name
-	
+
 	if ($module || !$modulelist->is_loaded()) {
 		$results = $db->getAll($sql,DB_FETCHMODE_ASSOC);
 		if(DB::IsError($results)) {
 			die_freepbx($sql."<br>\n".$results->getMessage());
 		}
-	
+
 		if (is_array($results)) {
 			foreach($results as $row) {
 				if (isset($modules[ $row['modulename'] ])) {
 					if ($row['enabled'] != 0) {
-					
+
 						// check if file and registered versions are the same
 						// version_compare returns 0 if no difference
 						if (version_compare_freepbx($row['version'], $modules[ $row['modulename'] ]['version']) == 0) {
@@ -421,7 +421,7 @@ function module_getinfo($module = false, $status = false, $forceload = false) {
 						} else {
 							$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_NEEDUPGRADE;
 						}
-					
+
 					} else {
 						$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_DISABLED;
 					}
@@ -436,7 +436,7 @@ function module_getinfo($module = false, $status = false, $forceload = false) {
 
 		// "builtin" module is always enabled
 		$modules['builtin']['status'] = MODULE_STATUS_ENABLED;
-	} 
+	}
 	if (!$module && !$modulelist->is_loaded()) {
 		$modulelist->initialize($modules);
 	}
@@ -465,15 +465,15 @@ function module_getinfo($module = false, $status = false, $forceload = false) {
 	}
 }
 
-/** Check if a module meets dependencies. 
+/** Check if a module meets dependencies.
  * @param  mixed  The name of the module, or the modulexml Array
- * @return mixed  Returns true if dependencies are met, or an array 
+ * @return mixed  Returns true if dependencies are met, or an array
  *                containing a list of human-readable errors if not.
  *                NOTE: you must use strict type checking (===) to test
  *                for true, because  array() == true !
  */
 function module_checkdepends($modulename) {
-	
+
 	// check if we were passed a modulexml array, or a string (name)
 	// ensure $modulexml is the modules array, and $modulename is the name (as a string)
 	if (is_array($modulename)) {
@@ -482,14 +482,14 @@ function module_checkdepends($modulename) {
 	} else {
 		$modulexml = module_getinfo($modulename);
 	}
-	
+
 	$errors = array();
-	
+
 	// special handling for engine
 	$engine_dependency = false; // if we've found ANY engine dependencies to check
 	$engine_matched = false; // if an engine dependency has matched
 	$engine_errors = array(); // the error strings for engines
-	
+
 	if (isset($modulexml['depends'])) {
 		foreach ($modulexml['depends'] as $type => $requirements) {
 			// if only a single item, make it an array so we can use the same code as for multiple items
@@ -497,7 +497,7 @@ function module_checkdepends($modulename) {
 			if (!is_array($requirements)) {
 				$requirements = array($requirements);
 			}
-			
+
 			foreach ($requirements as $value) {
 				switch ($type) {
 					case 'version':
@@ -530,14 +530,14 @@ function module_checkdepends($modulename) {
 							} else {
 								$errors[] = _module_comparison_error_message('PHP', $compare_ver, $installed_ver, $operator);
 							}
-						} 
+						}
 					break;
 					case 'phpcomponent':
 						/* accepted formats
 						   <depends>
 							   <phpcomponent>zlib<phpversion>        TRUE: if extension zlib is loaded
 							   <phpcomponent>zlib 1.2<phpversion>    TRUE: if extension zlib is loaded and >= 1.2
-						 	   <phpcomponent>zlib gt 1.2<phpversion> TRUE: if extension zlib is loaded and > 1.2	
+						 	   <phpcomponent>zlib gt 1.2<phpversion> TRUE: if extension zlib is loaded and > 1.2
 						   </depends>
 						*/
 						$phpcomponents = explode('||',$value);
@@ -568,7 +568,7 @@ function module_checkdepends($modulename) {
 										$newerrors[] = sprintf(_('PHP Component %s version %s is required but missing from you PHP installation.'), $matches[1], $compare_version);
 									}
 								}
-							}	
+							}
 						}
 						if (count($newerrors) == count($phpcomponents)) {
 							$errors = array_merge($errors,$newerrors);
@@ -588,7 +588,7 @@ function module_checkdepends($modulename) {
 											$installed_ver = $modules[$matches[1]]['dbversion'];
 											$compare_ver = $matches[4];
 											$operator = (!empty($matches[3]) ? $matches[3] : 'ge'); // default to >=
-											
+
 											if (version_compare_freepbx($installed_ver, $compare_ver, $operator) ) {
 												// version is good
 											} else {
@@ -605,7 +605,7 @@ function module_checkdepends($modulename) {
 									break;
 									case MODULE_STATUS_NEEDUPGRADE:
 										$errors[] = sprintf(_('Module %s is required, but yours is disabled because it needs to '.
-										                      'be upgraded. Please upgrade %s first, and then try again.'), 
+										                      'be upgraded. Please upgrade %s first, and then try again.'),
 															$needed_module, $needed_module);
 									break;
 									default:
@@ -626,7 +626,7 @@ function module_checkdepends($modulename) {
 
 
 						$file = _module_ampconf_string_replace($value);
-						
+
 						if (!file_exists( $file )) {
 							$errors[] = sprintf(_('File %s must exist.'), $file);
 						}
@@ -634,21 +634,21 @@ function module_checkdepends($modulename) {
 					case 'engine':
 						/****************************
 						 *  NOTE: there is special handling for this check. We want to "OR" conditions, instead of
-						 *        "AND"ing like the rest of them. 
+						 *        "AND"ing like the rest of them.
 						 */
-						
-						// we found at least one engine, so mark that we're matching this 
+
+						// we found at least one engine, so mark that we're matching this
 						$engine_dependency = true;
-						
+
 						if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.[^\.]+)*))?$/i', $value, $matches)) {
 							// matches[1] = engine, [3]=comparison operator, [4] = version
 							$operator = (!empty($matches[3]) ? $matches[3] : 'ge'); // default to >=
-							
+
 							$engine = engine_getinfo();
 							if (($engine['engine'] == $matches[1]) &&
                 (empty($matches[4]) || version_compare($engine['version'], $matches[4], $operator))
 							   ) {
-							   
+
 								$engine_matched = true;
 							} else {
 								// add it to the error messages
@@ -666,11 +666,11 @@ function module_checkdepends($modulename) {
 				}
 			}
 		}
-		
+
 		// special handling for engine
 		// if we've had at least one engine dependency check, and no engine dependencies matched, we have an error
 		if ($engine_dependency && !$engine_matched) {
-		
+
 			$engineinfo = engine_getinfo();
 			$yourengine = $engineinfo['engine'].' '.$engineinfo['version'];
 			// print it nicely
@@ -681,7 +681,7 @@ function module_checkdepends($modulename) {
 			}
 		}
 	}
-	
+
 	if (count($errors) > 0) {
 		return $errors;
 	} else {
@@ -703,7 +703,7 @@ function _module_comparison_error_message($module, $reqversion, $version, $opera
 		case 'ne': case '!=': case '<>':
 			return sprintf(_('Your %s version (%s) is incompatible.'), $version, $reqversion);
 		break;
-		case 'eq': case '==': case '=': 
+		case 'eq': case '==': case '=':
 			return sprintf(_('Only %s version %s is compatible, you have %s'), $module, $reqversion, $version);
 		break;
 		default:
@@ -722,11 +722,11 @@ function module_reversedepends($modulename) {
 	if (is_array($modulename)) {
 		$modulename = $modulename['rawname'];
 	}
-	
+
 	$modules = module_getinfo(false, MODULE_STATUS_ENABLED);
-	
+
 	$depends = array();
-	
+
 	foreach (array_keys($modules) as $name) {
 		if (isset($modules[$name]['depends'])) {
 			foreach ($modules[$name]['depends'] as $type => $requirements) {
@@ -736,11 +736,11 @@ function module_reversedepends($modulename) {
 					if (!is_array($requirements)) {
 						$requirements = array($requirements);
 					}
-					
+
 					foreach ($requirements as $value) {
 						if (preg_match('/^([a-z0-9_]+)(\s+(>=|>|=|<|<=|!=)?\s*(\d(\.\d)*))?$/i', $value, $matches)) {
 							// matches[1] = modulename, [3]=comparison operator, [4] = version
-							
+
 							// note, we're not checking version here. Normally this function is used when
 							// uninstalling a module, so it doesn't really matter anyways, and version
 							// dependency should have already been checked when the module was installed
@@ -753,7 +753,7 @@ function module_reversedepends($modulename) {
 			}
 		}
 	}
-	
+
 	return (count($depends) > 0) ? $depends : false;
 }
 
@@ -764,22 +764,22 @@ function module_reversedepends($modulename) {
  */
 function module_enable($modulename, $force = false) { // was enableModule
 	$modules = module_getinfo($modulename);
-	
+
 	if ($modules[$modulename]['status'] == MODULE_STATUS_ENABLED) {
 		return array(_("Module ".$modulename." is already enabled"));
 	}
-	
+
 	// doesn't make sense to skip this on $force - eg, we can't enable a non-installed or broken module
 	if ($modules[$modulename]['status'] != MODULE_STATUS_DISABLED) {
 		return array(_("Module ".$modulename." cannot be enabled"));
 	}
-	
-	if (!$force) { 
+
+	if (!$force) {
 		if (($errors = module_checkdepends($modules[$modulename])) !== true) {
 			return $errors;
 		}
 	}
-	
+
 	// disabled (but doesn't needupgrade or need install), and meets dependencies
 	_module_setenabled($modulename, true);
 	needreload();
@@ -799,28 +799,28 @@ function module_enable($modulename, $force = false) { // was enableModule
  * @return  mixed   True if succesful, array of error messages if not succesful
  */
 
-// was fetchModule 
-function module_download($modulename, $force = false, $progress_callback = null, $override_svn = false, $override_xml = false) { 
+// was fetchModule
+function module_download($modulename, $force = false, $progress_callback = null, $override_svn = false, $override_xml = false) {
 	global $amp_conf;
 
 	if ($time_limit = ini_get('max_execution_time')) {
 		set_time_limit($time_limit);
 	}
-	
+
 	// size of download blocks to fread()
 	// basically, this controls how often progress_callback is called
 	$download_chunk_size = 12*1024;
-	
+
 	// invoke progress callback
 	if (function_exists($progress_callback)) {
 		$progress_callback('getinfo', array('module'=>$modulename));
 	}
-			
+
 	$res = module_getonlinexml($modulename, $override_xml);
 	if ($res == null) {
 		return array(_("Module not found in repository"));
 	}
-	
+
 	$file = basename($res['location']);
 	$filename = $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$file;
 	// if we're not forcing the download, and a file with the target name exists..
@@ -833,17 +833,17 @@ function module_download($modulename, $force = false, $progress_callback = null,
 			}
 			fclose($fh);
 		}
-		
+
 		if (isset($res['md5sum']) && $res['md5sum'] == md5 ($filedata)) {
 			// Note, if there's no MD5 information, it will redownload
 			// every time. Otherwise theres no way to avoid a corrupt
 			// download
-			
+
 			// invoke progress callback
 			if (function_exists($progress_callback)) {
 				$progress_callback('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
 			}
-			
+
 			/* We will explode the tarball in the cache directory and then once successful, remove the old module before before
 			 * moving the new one over. This way, things like removed files end up being removed instead of laying around
 			 *
@@ -871,18 +871,18 @@ function module_download($modulename, $force = false, $progress_callback = null,
 			if ($exitcode != 0) {
 				return array(sprintf(_('Could not move %s to %s'), $amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename", $amp_conf['AMPWEBROOT'].'/admin/modules/'));
 			}
-			
+
 			// invoke progress_callback
 			if (function_exists($progress_callback)) {
 				$progress_callback('done', array('module'=>$modulename));
 			}
-			
+
 			return true;
 		} else {
 			unlink($filename);
 		}
 	}
-	
+
 	if (!($fp = @fopen($filename,"w"))) {
 		return array(sprintf(_("Error opening %s for writing"), $filename));
 	}
@@ -892,7 +892,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	} else {
 		$url_list = generate_module_repo_url("/modules/".$res['location'], true);
 	}
-	
+
 	// Check each URL until get_headers_assoc() returns something intelligible. We then use
 	// that URL and hope the file is there, we won't check others.
 	//
@@ -908,7 +908,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	if (!$headers || !$url) {
 		return array(sprintf(_("Unable to connect to servers from URLs provided: %s"), implode(',',$url_list)));
 	}
-	
+
 	// TODO: do we want to make more robust past this point:
 	// At this point we have settled on a specific URL that we can reach, if the file isn't there we won't try
 	// other servers to check for it. The assumption is that no backup server will have it either at this point
@@ -920,7 +920,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	if (function_exists($progress_callback)) {
 		$progress_callback('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
 	}
-	
+
 	// Check MODULEADMINWGET first so we don't execute the fopen() if set
 	//
 	if ($amp_conf['MODULEADMINWGET'] || !$dp = @fopen($url,'r')) {
@@ -933,7 +933,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 			}
 		}
 	}
-	
+
 	$filedata = '';
 	while (!feof($dp)) {
 		$data = fread($dp, $download_chunk_size);
@@ -946,12 +946,12 @@ function module_download($modulename, $force = false, $progress_callback = null,
 	fwrite($fp,$filedata);
 	fclose($dp);
 	fclose($fp);
-	
-	
+
+
 	if (is_readable($filename) !== TRUE ) {
 		return array(sprintf(_('Unable to save %s'),$filename));
 	}
-	
+
 	// Check the MD5 info against what's in the module's XML
 	if (!isset($res['md5sum']) || empty($res['md5sum'])) {
 		//echo "<div class=\"error\">"._("Unable to Locate Integrity information for")." {$filename} - "._("Continuing Anyway")."</div>";
@@ -959,7 +959,7 @@ function module_download($modulename, $force = false, $progress_callback = null,
 		unlink($filename);
 		return array(sprintf(_('File Integrity failed for %s - aborting'), $filename));
 	}
-	
+
 	// invoke progress callback
 	if (function_exists($progress_callback)) {
 		$progress_callback('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
@@ -1006,17 +1006,17 @@ function module_download($modulename, $force = false, $progress_callback = null,
 function module_handleupload($uploaded_file) {
 	global $amp_conf;
 	$errors = array();
-	
+
 	if (!isset($uploaded_file['tmp_name']) || !file_exists($uploaded_file['tmp_name'])) {
 		$errors[] = _("Error finding uploaded file - check your PHP and/or web server configuration");
 		return $errors;
 	}
-	
+
 	if (!preg_match('/\.(tar\.gz|tgz|tar)$/', $uploaded_file['name'])) {
 		$errors[] = _("File must be in tar or tar+gzip (.tar, .tgz or .tar.gz) format");
 		return $errors;
 	}
-	
+
 	if (!preg_match('/^([A-Za-z][A-Za-z0-9_]+)\-([0-9a-zA-Z]+(\.[0-9a-zA-Z]+)*)\.(tar\.gz|tgz|tar)$/', $uploaded_file['name'], $matches)) {
 		$errors[] = _("Filename not in correct format: must be modulename-version.[tar|tar.gz|tgz] (eg. custommodule-0.1.tgz)");
 		return $errors;
@@ -1024,22 +1024,22 @@ function module_handleupload($uploaded_file) {
 		$modulename = $matches[1];
 		$moduleversion = $matches[2];
 	}
-	
+
 	$temppath = $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.uniqid("upload");
 	if (! @mkdir($temppath) ) {
 		return array(sprintf(_("Error creating temporary directory: %s"), $temppath));
 	}
 	$filename = $temppath.'/'.$uploaded_file['name'];
-	
+
 	move_uploaded_file($uploaded_file['tmp_name'], $filename);
-	
+
   $tar_z_arg = substr($uploaded_file['name'],-4) == '.tar' ? '' : 'z';
 	exec("tar ".$tar_z_arg."tf ".escapeshellarg($filename), $output, $exitcode);
 	if ($exitcode != 0) {
 		$errors[] = _("Error untaring uploaded file. Must be a tar or tar+gzip file");
 		return $errors;
 	}
-	
+
 	foreach ($output as $line) {
 		// make sure all lines start with "modulename/"
 		if (!preg_match('/^'.$modulename.'\//', $line)) {
@@ -1083,11 +1083,11 @@ function module_handleupload($uploaded_file) {
 	if ($exitcode != 0) {
 		$errors[] = sprintf(_('Error removing temporary directory: %s'), $temppath);
 	}
-	
+
 	if (count($errors)) {
 		return $errors;
 	}
-	
+
 	// finally, module installation is successful
 	return true;
 }
@@ -1106,32 +1106,32 @@ function module_install($modulename, $force = false) {
 	}
 
 	$modules = module_getinfo($modulename);
-	
+
 	// make sure we have a directory, to begin with
 	$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
 	if (!is_dir($dir)) {
 		return array(_("Cannot find module"));
 	}
-	
+
 	// read the module.xml file
 	$modules = module_getinfo($modulename);
 	if (!isset($modules[$modulename])) {
 		return array(_("Could not read module.xml"));
 	}
-	
-	// don't force this bit - we can't install a broken module (missing files) 
+
+	// don't force this bit - we can't install a broken module (missing files)
 	if ($modules[$modulename]['status'] == MODULE_STATUS_BROKEN) {
 		return array(_("Module ".$modules[$modulename]['rawname']." is broken and cannot be installed. You should try to download it again."));
 	}
-	
+
 	if (!$force) {
-	
+
 		if (!in_array($modules[$modulename]['status'], array(MODULE_STATUS_NOTINSTALLED, MODULE_STATUS_NEEDUPGRADE))) {
 			//return array(_("This module is already installed."));
 			// This isn't really an error, we just exit
 			return true;
 		}
-		
+
 		// check dependencies
 		if (is_array($errors = module_checkdepends($modules[$modulename]))) {
 			return $errors;
@@ -1159,12 +1159,12 @@ function module_install($modulename, $force = false) {
 	if (!empty($rejects)) {
 		return $rejects;
 	}
-	
+
 	// run the scripts
 	if (!_module_runscripts($modulename, 'install', $modules)) {
 		return array(_("Failed to run installation scripts"));
 	}
-	
+
 	if ($modules[$modulename]['status'] == MODULE_STATUS_NOTINSTALLED) {
 		// customize INSERT query
 		$sql = "INSERT INTO modules (modulename, version, enabled) values ('".$db->escapeSimple($modules[$modulename]['rawname'])."','".$db->escapeSimple($modules[$modulename]['version'])."', 1);";
@@ -1172,13 +1172,13 @@ function module_install($modulename, $force = false) {
 		// just need to update the version
 		$sql = "UPDATE modules SET version='".$db->escapeSimple($modules[$modulename]['version'])."' WHERE modulename = '".$db->escapeSimple($modules[$modulename]['rawname'])."'";
 	}
-	
+
 	// run query
 	$results = $db->query($sql);
 	if(DB::IsError($results)) {
 		return array(sprintf(_("Error updating database. Command was: %s; error was: %s "), $sql, $results->getMessage()));
 	}
-	
+
 	// module is now installed & enabled, invalidate the modulelist class since it is now stale
 	$modulelist =& modulelist::create($db);
 	$modulelist->invalidate();
@@ -1199,7 +1199,7 @@ function module_install($modulename, $force = false) {
 	}
 	module_upgrade_notifications($new_modules, 'PASSIVE');
 	needreload();
-	
+
 	return true;
 }
 
@@ -1213,17 +1213,17 @@ function module_disable($modulename, $force = false) { // was disableModule
 	if (!isset($modules[$modulename])) {
 		return array(_("Specified module not found"));
 	}
-	
+
 	if (!$force) {
 		if ($modules[$modulename]['status'] != MODULE_STATUS_ENABLED) {
 			return array(_("Module not enabled: cannot disable"));
 		}
-		
+
 		if ( ($depmods = module_reversedepends($modulename)) !== false) {
 			return array(_("Cannot disable: The following modules depend on this one: ").implode(',',$depmods));
 		}
 	}
-	
+
 	_module_setenabled($modulename, false);
 	needreload();
 	return true;
@@ -1237,17 +1237,17 @@ function module_disable($modulename, $force = false) { // was disableModule
 function module_uninstall($modulename, $force = false) {
 	global $db;
 	global $amp_conf;
-	
+
 	$modules = module_getinfo($modulename);
 	if (!isset($modules[$modulename])) {
 		return array(_("Specified module not found"));
 	}
-	
+
 	if (!$force) {
 		if ($modules[$modulename]['status'] == MODULE_STATUS_NOTINSTALLED) {
 			return array(_("Module not installed: cannot uninstall"));
 		}
-		
+
 		if ( ($depmods = module_reversedepends($modulename)) !== false) {
 			return array(_("Cannot disable: The following modules depend on this one: ").implode(',',$depmods));
 		}
@@ -1268,13 +1268,13 @@ function module_uninstall($modulename, $force = false) {
 	if (!empty($rejects)) {
 		return $rejects;
 	}
-	
+
 	$sql = "DELETE FROM modules WHERE modulename = '".$db->escapeSimple($modulename)."'";
 	$results = $db->query($sql);
 	if(DB::IsError($results)) {
 		return array(_("Error updating database: ").$results->getMessage());
 	}
-	
+
 	if (!_module_runscripts($modulename, 'uninstall', $modules)) {
 		return array(_("Failed to run un-installation scripts"));
 	}
@@ -1290,7 +1290,7 @@ function module_uninstall($modulename, $force = false) {
   if (is_link($mod_asset_dir)) {
     @unlink($mod_asset_dir);
   }
-	
+
 	needreload();
 	return true;
 }
@@ -1302,18 +1302,18 @@ function module_uninstall($modulename, $force = false) {
  */
 function module_delete($modulename, $force = false) {
 	global $amp_conf;
-	
+
 	$modules = module_getinfo($modulename);
 	if (!isset($modules[$modulename])) {
 		return array(_("Specified module not found"));
 	}
-	
+
 	if ($modules[$modulename]['status'] != MODULE_STATUS_NOTINSTALLED) {
 		if (is_array($errors = module_uninstall($modulename, $force))) {
 			return $errors;
 		}
 	}
-	
+
 	// delete module directory
 	//TODO : do this in pure php
 	$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
@@ -1327,7 +1327,7 @@ function module_delete($modulename, $force = false) {
 	if ($exitcode != 0) {
 		return array(sprintf(_("Error deleting directory %s (code %d)"), $dir, $exitcode));
 	}
-	
+
 	// uninstall will have called needreload() if necessary
 	return true;
 }
@@ -1385,7 +1385,7 @@ function _module_readxml($modulename) {
 							$pri = ctype_digit($pri) && $pri > 0
 								? $pri
 								: $defpri;
-							$xmlarray['module']['methods'][$type][$pri][] 
+							$xmlarray['module']['methods'][$type][$pri][]
 								= $method;
 						}
 					} else {
@@ -1396,19 +1396,19 @@ function _module_readxml($modulename) {
 						$pri = ctype_digit($pri) && $pri > 0
 							? $pri
 							: $defpri;
-						
-						$xmlarray['module']['methods'][$type][$pri][] 
+
+						$xmlarray['module']['methods'][$type][$pri][]
 							= $methods;
 					}
 				}
 			}
 			if (isset($xmlarray['module']['menuitems'])) {
-				
+
 				foreach ($xmlarray['module']['menuitems'] as $item=>$displayname) {
 					$displayname = str_replace("\n&\n","&",$displayname);
 					$xmlarray['module']['menuitems'][$item] = $displayname;
 					$path = '/module/menuitems/'.$item;
-					
+
 					// find category
 					if (isset($parser->attributes[$path]['category'])) {
 						$category = str_replace("\n&\n","&",$parser->attributes[$path]['category']);
@@ -1417,7 +1417,7 @@ function _module_readxml($modulename) {
 					} else {
 						$category = 'Basic';
 					}
-					
+
 					// find type
 					if (isset($parser->attributes[$path]['type'])) {
 						$type = $parser->attributes[$path]['type'];
@@ -1426,7 +1426,7 @@ function _module_readxml($modulename) {
 					} else {
 						$type = 'setup';
 					}
-					
+
 					// sort priority
 					if (isset($parser->attributes[$path]['sort'])) {
 						// limit to -10 to 10
@@ -1448,7 +1448,7 @@ function _module_readxml($modulename) {
 						'category' => $category,
 						'sort' => $sort,
 					);
-					
+
 					// add optional values:
 					$optional_attribs = array(
 						'href', // custom href
@@ -1478,7 +1478,7 @@ function _module_readxml($modulename) {
 // IVR module..
 
 function modules_getversion($modname) {
-	return _modules_getversion($modname); 
+	return _modules_getversion($modname);
 }
 
 // This returns the version of a module
@@ -1487,7 +1487,7 @@ function _modules_getversion($modname) {
 
 	$sql = "SELECT version FROM modules WHERE modulename = '".$db->escapeSimple($modname)."'";
 	$results = $db->getRow($sql,DB_FETCHMODE_ASSOC);
-	if (isset($results['version'])) 
+	if (isset($results['version']))
 		return $results['version'];
 	else
 		return null;
@@ -1540,27 +1540,27 @@ function _module_runscripts_include($modulexml, $type) {
 function _module_runscripts($modulename, $type, $modulexml = false) {
 	global $amp_conf;
 	$db_engine = $amp_conf["AMPDBENGINE"];
-	
+
 	$moduledir = $amp_conf["AMPWEBROOT"]."/admin/modules/".$modulename;
 	if (!is_dir($moduledir)) {
 		return false;
 	}
-	
-	switch ($type) { 
+
+	switch ($type) {
 		case 'install':
 			// install sql files
 			$sqlfilename = "install.sql";
       			$rc = true;
-			
+
 			if (is_file($moduledir.'/'.$sqlfilename)) {
 				$rc = execSQL($moduledir.'/'.$sqlfilename);
 			}
-			
+
 			//include additional files developer requested
 			if ($modulexml !== false) {
 				_module_runscripts_include($modulexml, $type);
 			}
-	
+
 			// then run .php scripts
 			return (_modules_doinclude($moduledir.'/install.php', $modulename) && $rc);
 		break;
@@ -1572,28 +1572,28 @@ function _module_runscripts($modulename, $type, $modulexml = false) {
 
 			// run uninstall .php scripts first
 			$rc = _modules_doinclude($moduledir.'/uninstall.php', $modulename);
-		
+
 			$sqlfilename = "uninstall.sql";
-			
-			// then uninstall sql files 
+
+			// then uninstall sql files
 			if (is_file($moduledir.'/'.$sqlfilename)) {
 				return ($rc && execSQL($moduledir.'/'.$sqlfilename));
 			} else {
         			return $rc;
       			}
-			
+
 		break;
 		default:
 			return false;
 	}
-	
+
 	return true;
 }
 
 function _modules_doinclude($filename, $modulename) {
 	// we provide the following variables to the included file (as well as $filename and $modulename)
 	global $db, $amp_conf, $asterisk_conf;
-	
+
 	if (file_exists($filename) && is_file($filename)) {
 		return include_once($filename);
 	} else {
@@ -1623,9 +1623,17 @@ function module_get_annoucements() {
 	 Returns: random md5 hash
  */
 function _module_generate_random_id($type=null, $mac=null) {
-
+  global $db;
 	if (trim($mac) == "") {
-		$id['uniqueid'] = md5(mt_rand());
+		$sql = "SELECT * FROM module_xml WHERE id = 'randomid'";
+    $result = sql($sql,'getRow',DB_FETCHMODE_ASSOC);
+    if(!empty($result['data'])) {
+      $id['uniqueid'] = $result['data'];
+    } else {
+      $id['uniqueid'] = md5(mt_rand());
+      $data4sql = $db->escapeSimple($id['uniqueid']);
+      sql("INSERT INTO module_xml (id,time,data) VALUES ('randomid',".time().",'".$data4sql."')");
+    }
 	} else {
 		// MD5 hash of the MAC so it is not identifiable
 		//
@@ -1634,6 +1642,19 @@ function _module_generate_random_id($type=null, $mac=null) {
 	$id['type'] = $type;
 
 	return $id;
+}
+
+function _module_regenerate_unique_id() {
+  global $db;
+  $install_hash = _module_generate_unique_id();
+  $installid = $install_hash['uniqueid'];
+  $type = $install_hash['type'];
+  sql("DELETE FROM module_xml WHERE id = 'installid' OR id = 'type'");
+  $data4sql = $db->escapeSimple($installid);
+  sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
+  $data4sql = $db->escapeSimple($type);
+  sql("INSERT INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
+	return $install_hash;
 }
 
 /* _module_generate_unique_id
@@ -1647,17 +1668,23 @@ function _module_generate_random_id($type=null, $mac=null) {
 
 	Array: ["uniqueid"] => unique_md5_hash
 	       ["type"]     => type_passed_in
-  
+
 */
 function _module_generate_unique_id($type=null) {
 
 	// Array of macs that require identification so we know these are not
 	// 'real' systems. Either home setups or test environments
 	//
-	$ids = array('000C29' => 'vmware',
-	             '000569' => 'vmware',
-	             '00163E' => 'xensource'
-	            ); 
+  $ids = array('080027' => 'virtualbox',
+               '001C42' => 'parallels',
+               '001C14' => 'vmware',
+               '005056' => 'vmware',
+               '000C29' => 'vmware',
+               '000569' => 'vmware',
+               '00163E' => 'xensource',
+               '000F4B' => 'virtualiron4',
+               '0003FF' => 'hyper-v'
+              );
 	$mac_address = array();
 	$chosen_mac = null;
 
@@ -1716,13 +1743,13 @@ function _module_generate_unique_id($type=null) {
 	} else {
 		return _module_generate_random_id($type);
 	}
-} 
+}
 
 function module_run_notification_checks() {
 	global $db;
 	$modules_needup = module_getinfo(false, MODULE_STATUS_NEEDUPGRADE);
 	$modules_broken = module_getinfo(false, MODULE_STATUS_BROKEN);
-	
+
 	$notifications =& notifications::create($db);
 	if ($cnt = count($modules_needup)) {
 		$text = (($cnt > 1) ? sprintf(_('You have %s disabled modules'), $cnt) : _('You have a disabled module'));
@@ -1747,15 +1774,15 @@ function module_run_notification_checks() {
  */
 function _module_ampconf_string_replace($string) {
 	$freepbx_conf =& freepbx_conf::create();
-	
+
 	$target = array();
 	$replace = array();
-	
+
 	foreach ($freepbx_conf->conf as $key=>$value) {
 		$target[] = '%'.$key.'%';
 		$replace[] = $value;
 	}
-	
+
 	return str_replace($target, $replace, $string);
 }
 
@@ -1789,7 +1816,7 @@ function _module_deploymentid() {
 		if (isset($lic['deploymentid'])) {
 			return trim($lic['deploymentid']);
 		}
-	} 
+	}
 	return false;
 }
 
@@ -1810,7 +1837,7 @@ function _module_distro_id() {
 			$cpu_arch = trim($matches[1]);
 			break;
 		}
-	}			
+	}
   }
 
   // FreePBX Distro
@@ -1836,7 +1863,7 @@ function _module_distro_id() {
   } elseif (file_exists('/etc/asterisknow-version')) {
     $pbx_type = 'asterisknow';
     $pbx_version = trim(file_get_contents('/etc/asterisknow-version'));
-  
+
   // Elastix
   } elseif (is_dir('/usr/share/elastix') || file_exists('/usr/share/elastix/pre_elastix_version.info')) {
     $pbx_type = 'elastix';
@@ -1881,11 +1908,11 @@ function _module_distro_id() {
         $pbx_version = 'unknown';
       }
     }
-	
+
 	//raspbx
   } elseif(file_exists('/etc/raspbx/base_version') || file_exists('/etc/raspbx/installed_version')) {
 	$pbx_type = 'raspbx';
-	
+
 	if (file_exists('/etc/raspbx/base_version')) {
 		$pbx_version = trim(file_get_contents('/etc/raspbx/base_version'));
 	}
@@ -1918,7 +1945,7 @@ function _module_distro_id() {
     $pbx_type = 'unknown';
     $pbx_version = 'unknown';
   }
-  
+
   //Final Check if we are still unknown
   if($pbx_type == 'unknown') {
     exec('uname 2>&1',$kernel,$ret1);
@@ -1928,6 +1955,6 @@ function _module_distro_id() {
         $pbx_version = $kernelv[0];
     }
   }
-  
+
   return array('pbx_type' => $pbx_type, 'pbx_version' => $pbx_version);
 }
