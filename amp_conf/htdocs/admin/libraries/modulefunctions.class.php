@@ -2177,9 +2177,16 @@ class module_functions {
 		 Returns: random md5 hash
 	 */
 	function _generate_random_id($type=null, $mac=null) {
-
 		if (trim($mac) == "") {
-			$id['uniqueid'] = md5(mt_rand());
+			$sql = "SELECT * FROM module_xml WHERE id = 'randomid'";
+			$result = sql($sql,'getRow',DB_FETCHMODE_ASSOC);
+			if(!empty($result['data'])) {
+				$id['uniqueid'] = $result['data'];
+			} else {
+				$id['uniqueid'] = md5(mt_rand());
+				$data4sql = $db->escapeSimple($id['uniqueid']);
+				sql("INSERT INTO module_xml (id,time,data) VALUES ('randomid',".time().",'".$data4sql."')");
+			}
 		} else {
 			// MD5 hash of the MAC so it is not identifiable
 			//
@@ -2208,9 +2215,15 @@ class module_functions {
 		// Array of macs that require identification so we know these are not
 		// 'real' systems. Either home setups or test environments
 		//
-		$ids = array('000C29' => 'vmware',
+		$ids = array('080027' => 'virtualbox',
+								 '001C42' => 'parallels',
+								 '001C14' => 'vmware',
+								 '005056' => 'vmware',
+								 '000C29' => 'vmware',
 		             '000569' => 'vmware',
-		             '00163E' => 'xensource'
+		             '00163E' => 'xensource',
+								 '000F4B' => 'virtualiron4',
+								 '0003FF' => 'hyper-v'
 		            );
 		$mac_address = array();
 		$chosen_mac = null;
@@ -2521,11 +2534,13 @@ class module_functions {
 			// if not set so this is a first time install
 			// get a new hash to account for first time install
 			//
-			if (!isset($result['data']) || trim($result['data']) == "") {
-				$firstinstall=true;
-				$install_hash = $this->_generate_unique_id();
-				$installid = $install_hash['uniqueid'];
-				$type = $install_hash['type'];
+			$install_hash = $this->_generate_unique_id();
+			$installid = $install_hash['uniqueid'];
+			$type = $install_hash['type'];
+			if (!isset($result['data']) || trim($result['data']) == "" || ($installid != $result['data'])) {
+				if(isset($result['data']) || trim($result['data']) == "") {
+					$firstinstall=true;
+				}
 
 				// save the hash so we remeber this is a first time install
 				//
@@ -2614,6 +2629,7 @@ class module_functions {
 	}
 
 	function url_get_contents($url,$request,$verb='get',$params=array()) {
+		$params['statsversion'] = 2;
 		global $amp_conf;
 		$verb = strtolower($verb);
 		$contents = null;
