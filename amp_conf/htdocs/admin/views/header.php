@@ -55,6 +55,9 @@ if ($amp_conf['BRAND_CSS_CUSTOM']) {
 	$html .= '<link href="' . $amp_conf['BRAND_CSS_CUSTOM'] . $version_tag . '" rel="stylesheet" type="text/css">';
 }
 
+// Add the CSS for the searchbox
+$html .= '<link href="assets/css/search.css" rel="stylesheet" type="text/css">';
+
 //shiv
 $html .= '<!--[if lt IE 9]>';
 $html .= '<script src="assets/js/html5shiv.js"></script>';
