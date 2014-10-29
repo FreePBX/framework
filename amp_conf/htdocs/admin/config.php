@@ -669,6 +669,16 @@ if ($quietmode) {
 			$footer['sysadmin'] = sysadmin_hook_framework_footer_view();
 		}
 		$footer['covert'] ? $footer['no_auth'] 	= true : '';
+
+		//See if we should provide an action bar
+		$classModuleName = ucfirst($module_name);
+		$abClass = $bmo->$classModuleName;
+		dbug('request', $_REQUEST);
+		$footer['action_bar'] = null;
+		if (method_exists($abClass, 'getActionBar')) {
+			$footer['action_bar'] = $abClass->getActionBar($_REQUEST);
+		}
+
 		echo load_view($amp_conf['VIEW_FOOTER'], $footer);
 }
 ?>
