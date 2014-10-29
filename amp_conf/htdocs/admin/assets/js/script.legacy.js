@@ -1044,6 +1044,36 @@ $(document).ready(function() {
 		}
 	});
 
+	/**
+	* Perform form actions on a given page based on what action-bar button is clicked
+	* @author Bryan Walters <bryan ! walters (at) schmoozecom (dot) com
+	*/
+	$(document).on('click', '.action-bar input[type=submit]', function(e){
+		e.preventDefault();
+
+		var fpbxForm = $('.fpbx-submit'),
+			formName = fpbxForm.attr('name'),
+			buttonName = $(this).attr('name');
+console.log(formName);
+
+		switch (buttonName) {
+			case 'Reset':
+				document.forms[formName].reset();
+			break;
+			case 'Submit':
+				document.forms[formName].submit();
+			break;
+			case 'Delete':
+				delLink = fpbxForm.data('fpbx-delete');
+				location.href = delLink;
+console.log(delLink);
+				break;
+			default:
+				console.log(buttonName);
+				break;
+			}
+	});
+
 	$(".global-message-banner .close").click(function() {
 		var hash = $(this).data("hash"), m = $.cookie("bannerMessages"), messages = [];
 		if (typeof m != "undefined") {
@@ -1115,23 +1145,6 @@ $(document).ready(function() {
 	if (!firsttypeofselector) {
 		$(".radioset").buttonset();
 	}
-	$(".menubar").menubar().hide().show();
-
-	//show menu on hover
-	//this is far from perfect, and will hopefully be depreciated soon
-	//HACK for low resolution displays where menu is cut off
-	$(".module_menu_button").hover(function() {
-		$(this).click();
-		var sh = $(window).height();
-		$(".menubar.ui-menu").each(function() {
-			if ($(this).css("display") == "block") {
-				$(this).css("max-height", "");
-				if ($(this).height() > sh) {
-					$(this).css("max-height", sh - 50 + "px");
-				}
-			}
-		});
-	});
 
 	//show reload button if neede
 	if (fpbx.conf.reload_needed) {
