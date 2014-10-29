@@ -8,10 +8,11 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
+require_once('amp_conf/htdocs/admin/libraries/BMO/Database.class.php');
+
 class FreePBXInstallCommand extends Command {
 	private $settings = array(
 		'dbengine' => array(
-			'option' => 'AMPDBENGINE',
 			'default' => 'mysql',
 	 		'description' => 'Database engine'
 		),
@@ -23,20 +24,15 @@ class FreePBXInstallCommand extends Command {
 			'default' => '',
 	 		'description' => 'Database password',
 		),
-		'astuser' => array(
+		'user' => array(
 			'default' => 'admin',
-	 		'description' => 'Asterisk username'
+	 		'description' => 'File owner user'
 		),
-		'astgroup' => array(
+		'group' => array(
 			'default' => 'admin',
-	 		'description' => 'Asterisk group'
-		),
-		'astpass' => array(
-			'default' => '',
-	 		'description' => 'Asterisk password'
+	 		'description' => 'File owner group'
 		),
 		'webroot' => array(
-			'option' => 'AMPWEBROOT',
 			'default' => '/var/www/html',
 	 		'description' => 'Filesystem location from which FreePBX files will be served'
 		),
@@ -71,6 +67,7 @@ class FreePBXInstallCommand extends Command {
 		}
 
 		define("AMP_CONF", "/etc/amportal.conf");
+		define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
 
 		// Fail if !root
 		$euid = posix_getpwuid(posix_geteuid());
@@ -85,10 +82,25 @@ class FreePBXInstallCommand extends Command {
 		} else {
 			$amp_conf = $this->amportal_conf_read(AMP_CONF);
 		}
-		foreach ($this->settings as $key => $setting) {
-			if (isset($setting['option'])) {
-				$amp_conf[$setting['option']] = $answers[$key];
-			}
+
+		if (isset($answers['dbengine'])) {
+			$amp_conf['AMPDBENGINE'] = $answers['dbengine'];
+		}
+		if (isset($answers['webroot'])) {
+			$amp_conf['AMPWEBROOT'] = $answers['webroot'];
+		}
+		if (isset($answers['user'])) {
+			$amp_conf['AMPASTERISKUSER'] = $answers['user'];
+			$amp_conf['AMPASTERISKWEBUSER'] = $answers['user'];
+			$amp_conf['AMPDEVUSER'] = $answers['user'];
+		}
+		if (isset($answers['group'])) {
+			$amp_conf['AMPASTERISKGROUP'] = $answers['group'];
+			$amp_conf['AMPASTERISKWEBGROUP'] = $answers['group'];
+			$amp_conf['AMPDEVGROUP'] = $answers['group'];
+		}
+		if (!isset($amp_conf['AMPMANAGERHOST'])) {
+			$amp_conf['AMPMANAGERHOST'] = 'localhost';
 		}
 
 		// ... and then write amportal.conf?
@@ -97,6 +109,10 @@ class FreePBXInstallCommand extends Command {
 		// Copy asterisk.conf
 		if (!file_exists(ASTERISK_CONF)) {
 			$asterisk_conf = $this->asterisk_conf_read(dirname(__FILE__) . "/asterisk.conf");
+
+			$this->asterisk_conf_write(dirname(__FILE__) . "/asterisk_new.conf", $asterisk_conf);
+		} else {
+			$asterisk_conf = $this->asterisk_conf_read(ASTERISK_CONF);
 
 			$asterisk_defaults_conf = array(
 				'astetcdir' => '/etc/asterisk',
@@ -113,7 +129,6 @@ class FreePBXInstallCommand extends Command {
 					$asterisk_conf[$key] = $value;
 				}
 			}
-			$this->asterisk_conf_write(dirname(__FILE__) . "/asterisk_new.conf", $asterisk_conf);
 		}
 
 		if (isset($asterisk_conf['astetcdir'])) {
@@ -149,6 +164,7 @@ class FreePBXInstallCommand extends Command {
 			die();
 		}
 		$astver = $tmpout[0];
+		unset($tmpout);
 
 		file_put_contents($amp_conf['ASTETCDIR'] . '/version', $astver);
 
@@ -159,10 +175,10 @@ class FreePBXInstallCommand extends Command {
 				$output->writeln("Supported Asterisk versions: 1.8, 11, 12, 13");
 				$output->writeln("Detected Asterisk version: " . $matches[1]);
 				die();
-			} else {
-				$output->writeln("Could not determine Asterisk version (got: " . $astver . "). Please report this.");
-				die();
 			}
+		} else {
+			$output->writeln("Could not determine Asterisk version (got: " . $astver . "). Please report this.");
+			die();
 		}
 
 		// Make sure SELinux is disabled
@@ -171,28 +187,62 @@ class FreePBXInstallCommand extends Command {
 			$output->writeln("SELinux is enabled.  Please disable SELinux before installing FreePBX.");
 			die();
 		}
+		unset($tmpout);
 
-		// Datasource!  Getting somewhere now...
 		// Create database(s).
+		/* CDR first, so we can keep the correct database handler around. */
+		$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'] . ";dbname=asteriskcdrdb";
+		$db = new \Database($amp_conf, $dsn);
+		$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'asteriskcdrdb';";
+		if (!$db->getOne($sql)) {
+			$this->installampimport_mysql_dump('cdr_mysql_table.sql', $db);
+		}
+		unset($db);
+
+		$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'] . ";dbname=" . $amp_conf['AMPDBNAME'];
+		$db = new \Database($amp_conf, $dsn);
+		$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '" . $amp_conf['AMPDBNAME'] . "';";
+		if (!$db->getOne($sql)) {
+			$this->installampimport_mysql_dump('newinstall.sql', $db);
+		}
+
 		// Get version of FreePBX.
+		$version = $this->get_version($db);
+
+		// Copy amp_conf/
+//		$this->recursive_copy("amp_conf", "");
 
 		// Create dirs
 		// 	/var/www/html/admin/modules/framework/
 		// 	/var/www/html/admin/modules/_cache/
 		//	./amp_conf/htdocs/admin/modules/_cache/
+		mkdir($amp_conf['AMPWEBROOT'] . "/admin/modules/_cache", 0777, true);
+
 		// Copy /var/www/html/admin/modules/framework/module.xml
-		// Copy amp_conf/
-		// Create missing #include files.
+		copy(dirname(__FILE__) . "/module.xml", $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.xml");
 
 		// Create dirs
 		//	/var/spool/asterisk/voicemail/device/
-		//	/var/spool/asterisk/fax/
-		//	/var/spool/asterisk/monitor/
-		//	/var/www/html/recordings/themes/js/
+		mkdir($amp_conf['AMPSPOOLDIR'] . "/voicemail/device", 0755, true);
 		// Copy /etc/asterisk/voicemail.conf.template
 		// ... to /etc/asterisk/voicemail.conf
+
+		//	/var/spool/asterisk/fax/
+		mkdir($amp_conf['AMPSPOOLDIR'] . "/fax", 0766, true);
+
+		//	/var/spool/asterisk/monitor/
+		mkdir($amp_conf['AMPSPOOLDIR'] . "/monitor", 0766, true);
+
+		//	/var/www/html/recordings/themes/js/
+		mkdir($amp_conf['AMPWEBROOT'] . "/recordings/themes/js", 0755, true);
+
 		// Link /var/www/html/admin/common/libfreepbx.javascripts.js
 		// ... to /var/www/html/recordings/themes/js/
+		$js = $amp_conf['AMPWEBROOT'] . "/admin/common/libfreepbx.javascripts.js";
+		$js_link = $amp_conf['AMPWEBROOT'] . "/recordings/themes/js/libfreepbx.javascripts.js";
+		if (file_exists($js) && !file_exists($js_link)) {
+			link($js, $js_link);
+		}
 
 		// Set User/Group settings
 		//	AMPASTERISKWEBGROUP
@@ -201,7 +251,24 @@ class FreePBXInstallCommand extends Command {
 		//	AMPASTERISKUSER
 		//	AMPDEVGROUP
 		//	AMPDEVUSER
-		//	ASTMANAGERHOST
+		//	ASTMANAGERHOST - should this be localhost?  Yes.
+
+		// Create missing #include files.
+		exec("grep -h '^#include' " . $amp_conf['ASTETCDIR'] . "/*.conf | sed 's/\s*;.*//;s/#include\s*//'", $tmpout, $ret);
+		if ($ret != 0) {
+			$output->writeln("Error finding #include files.");
+			die();
+		}
+
+		foreach ($tmpout as $file) {
+			if ($file[0] != "/") {
+				$file = $amp_conf['ASTETCDIR'] . "/" . $file;
+			}
+			if (!file_exists($file)) {
+				touch($file);
+			}
+		}
+		unset($tmpout);
 
 		// apply_conf.sh
 
@@ -255,6 +322,46 @@ class FreePBXInstallCommand extends Command {
 		}
 
 		file_put_contents($filename, implode("\n", $file) . "\n");
+	}
+
+	private function get_version($db) {
+		$version = $db->getOne("SELECT value FROM admin WHERE variable = 'version'");
+
+		return $version;
+	}
+	private function set_version($db, $version) {
+	}
+
+	function installampimport_mysql_dump($file, $db) {
+		$dir = dirname(__FILE__);
+		if (!file_exists($dir.'/SQL/'.$file)) {
+			return false;
+		}
+
+		// Temporary variable, used to store current query
+		$templine = '';
+		// Read in entire file
+		$lines = file($dir.'/SQL/'.$file);
+		// Loop through each line
+		foreach ($lines as $line) {
+			// Skip it if it's a comment
+			if (substr($line, 0, 2) == '--' || $line == '') {
+				continue;
+			}
+
+			// Add this line to the current segment
+			$templine .= $line;
+			// If it has a semicolon at the end, it's the end of the query
+			if (substr(trim($line), -1, 1) == ';') {
+				// Perform the query
+				$sth = $db->query($templine);
+				if($sth->errorCode() != 0) {
+					fatal("Error performing query: ". $templine . " Message:".$sth->errorInfo());
+				}
+				// Reset temp variable to empty
+				$templine = '';
+			}
+		}
 	}
 }
 
