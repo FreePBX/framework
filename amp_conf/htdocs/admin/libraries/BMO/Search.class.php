@@ -10,13 +10,27 @@
 
 class Search extends FreePBX_Helpers {
 
-	public function globalSearch($str) {
-		$retarr = array(
-			array("text" => "Search Result 1", "type" => "get", "dest" => "config.php?display=one"),
-			array("text" => "Second Search Result", "type" => "get", "dest" => "config.php?display=two"),
-			array("text" => "Third Result", "type" => "get", "dest" => "config.php?display=three"),
-			);
-		return $retarr;
+	public function ajaxRequest($cmd, &$settings) {
+		$settings['allowremote'] = true;
+		$settings['authenticate'] = false;
+		return true;
+	}
+
+	public function ajaxHandler() {
+		$search = $this->getSearch();
+		if ($search) {
+			$thismod = $this->whichModule();
+			$retarr = $this->moduleSearch($thismod, $search);
+			$this->globalSearch($search, $retarr);
+			return $retarr;
+		} else {
+			return "Derp";
+		}
+	}
+	public function globalSearch($str, &$retarr) {
+		$retarr[] = array("text" => "Search Result 1", "type" => "get", "dest" => "config.php?display=one");
+		$retarr[] = array("text" => "Second Search Result", "type" => "get", "dest" => "config.php?display=two");
+		$retarr[] = array("text" => "Third Result", "type" => "get", "dest" => "config.php?display=three");
 	}
 
 	public function moduleSearch($module, $str) {
@@ -39,5 +53,16 @@ class Search extends FreePBX_Helpers {
 			);
 		}
 		return $res;
+	}
+
+	private function getSearch($str) {
+		if (!isset($_REQUEST['query']) || strlen($_REQUEST['query']) < 3) {
+			return false;
+		}
+		return $_REQUEST['query'];
+	}
+
+	private function whichModule() {
+		return "core";
 	}
 }
