@@ -43,8 +43,8 @@ $language = array(
 						<ul class="nav navbar-nav navbar-right">
 							<li >
 								<form class="navbar-form" role="search">
-									<div class="form-group">
-										<input type="text" id='fpbxsearch' class="form-control" placeholder="Search">
+									<div class="form-group" id='fpbxsearch'>
+										<input type="text" class="form-control typeahead" placeholder="Search">
 									</div>
 								</form>
 							</li>

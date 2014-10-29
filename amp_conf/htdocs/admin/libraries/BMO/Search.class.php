@@ -18,19 +18,18 @@ class Search extends FreePBX_Helpers {
 
 	public function ajaxHandler() {
 		$search = $this->getSearch();
-		if ($search) {
-			$thismod = $this->whichModule();
-			$retarr = $this->moduleSearch($thismod, $search);
-			$this->globalSearch($search, $retarr);
-			return $retarr;
+		if ($search == "global") {
+			return $this->globalSearch();
 		} else {
 			return "Derp";
 		}
 	}
-	public function globalSearch($str, &$retarr) {
+	public function globalSearch() {
+		$retarr = array();
 		$retarr[] = array("text" => "Search Result 1", "type" => "get", "dest" => "config.php?display=one");
 		$retarr[] = array("text" => "Second Search Result", "type" => "get", "dest" => "config.php?display=two");
 		$retarr[] = array("text" => "Third Result", "type" => "get", "dest" => "config.php?display=three");
+		return $retarr;
 	}
 
 	public function moduleSearch($module, $str) {
@@ -56,10 +55,10 @@ class Search extends FreePBX_Helpers {
 	}
 
 	private function getSearch($str) {
-		if (!isset($_REQUEST['query']) || strlen($_REQUEST['query']) < 3) {
+		if (!isset($_REQUEST['command'])) {
 			return false;
 		}
-		return $_REQUEST['query'];
+		return $_REQUEST['command'];
 	}
 
 	private function whichModule() {

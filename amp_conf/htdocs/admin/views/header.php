@@ -62,7 +62,6 @@ $html .= '<![endif]-->';
 //Javascripts
 $html .= '<script type="text/javascript" src="assets/js/modernizr.js"></script>';
 $html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
-$html .= '<script type="text/javascript" src="assets/js/typeahead.bundle.min.js"></script>';
 //CSS3 buttons or jqueryUI buttons
 //TODO the jqueryUI code to turn on buttons needs to be moved here eventually
 $html .= "<script>var firsttypeofselector = Modernizr.firsttypeofselector; if(firsttypeofselector) { document.write('<link href=\"assets/less/".$extra_compiled_less_files['buttons']."\" rel=\"stylesheet\" type=\"text/css\">'); }</script>";
@@ -84,6 +83,8 @@ if($amp_conf['JQMIGRATE']) {
 	$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js"></script>';
 }
 
+$html .= '<script type="text/javascript" src="assets/js/typeahead.bundle.min.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/search.js"></script>';
 $html .= '</head>';
 
 //open body
