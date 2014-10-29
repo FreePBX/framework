@@ -44,7 +44,7 @@ $language = array(
 							<li >
 								<form class="navbar-form" role="search">
 									<div class="form-group">
-										<input type="text" class="form-control" placeholder="Search">
+										<input type="text" id='fpbxsearch' class="form-control" placeholder="Search">
 									</div>
 								</form>
 							</li>
