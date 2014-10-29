@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Question\ChoiceQuestion;
 
 require_once('amp_conf/htdocs/admin/libraries/BMO/Database.class.php');
 
@@ -25,11 +26,11 @@ class FreePBXInstallCommand extends Command {
 	 		'description' => 'Database password',
 		),
 		'user' => array(
-			'default' => 'admin',
+			'default' => 'asterisk',
 	 		'description' => 'File owner user'
 		),
 		'group' => array(
-			'default' => 'admin',
+			'default' => 'asterisk',
 	 		'description' => 'File owner group'
 		),
 		'webroot' => array(
@@ -55,16 +56,16 @@ class FreePBXInstallCommand extends Command {
 		$style = new OutputFormatterStyle('white', 'red', array('bold'));
 		$output->getFormatter()->setStyle('fire', $style);
 
+		foreach ($this->settings as $key => $setting) {
+			$answers[$key] = $input->getOption($key);
+		}
+
 		if ($input->isInteractive()) {
 			$helper = $this->getHelper('question');
 
 			foreach ($this->settings as $key => $setting) {
-				$question = new Question($setting['description'] . ($setting['default'] ? ' [' . $setting['default'] . ']' : '') . ': ', $setting['default']);
+				$question = new Question($setting['description'] . ($setting['default'] ? ' [' . $setting['default'] . ']' : '') . ': ', isset($answers[$key]) ? $answers[$key] : $setting['default']);
 				$answers[$key] = $helper->ask($input, $output, $question);
-			}
-		} else {
-			foreach ($this->settings as $key => $setting) {
-				$answers[$key] = $input->getOption($key);
 			}
 		}
 
@@ -75,7 +76,7 @@ class FreePBXInstallCommand extends Command {
 		$euid = posix_getpwuid(posix_geteuid());
 		if ($euid['name'] != 'root') {
 			$output->writeln($this->getName() . " must be run as root.");
-			die();
+			exit(1);
 		}
 
 		// Copy default amportal.conf
@@ -164,7 +165,7 @@ class FreePBXInstallCommand extends Command {
 		exec("asterisk -V", $tmpout, $ret);
 		if ($ret != 0) {
 			$output->writeln("Error executing Asterisk.  Ensure that Asterisk is properly installed.");
-			die();
+			exit(1);
 		}
 		$astver = $tmpout[0];
 		unset($tmpout);
@@ -177,18 +178,18 @@ class FreePBXInstallCommand extends Command {
 			     version_compare($matches[1], "14", "ge")) {
 				$output->writeln("Supported Asterisk versions: 1.8, 11, 12, 13");
 				$output->writeln("Detected Asterisk version: " . $matches[1]);
-				die();
+				exit(1);
 			}
 		} else {
 			$output->writeln("Could not determine Asterisk version (got: " . $astver . "). Please report this.");
-			die();
+			exit(1);
 		}
 
 		// Make sure SELinux is disabled
 		exec("getenforce 2>/dev/null", $tmpout, $ret);
 		if (isset($tmpout[0]) && $tmpout[0] === "Enabled") {
 			$output->writeln("SELinux is enabled.  Please disable SELinux before installing FreePBX.");
-			die();
+			exit(1);
 		}
 		unset($tmpout);
 
@@ -213,31 +214,31 @@ class FreePBXInstallCommand extends Command {
 		$version = $this->get_version($db);
 
 		// Copy amp_conf/
-		$this->recursive_copy("amp_conf", "", "", $newinstall, true);
+		$this->recursive_copy($input, $output, "amp_conf", "", "", $newinstall, false);
 
 		// Create dirs
 		// 	/var/www/html/admin/modules/framework/
 		// 	/var/www/html/admin/modules/_cache/
 		//	./amp_conf/htdocs/admin/modules/_cache/
-		mkdir($this->amp_conf['AMPWEBROOT'] . "/admin/modules/_cache", 0777, true);
+		@mkdir($this->amp_conf['AMPWEBROOT'] . "/admin/modules/_cache", 0777, true);
 
 		// Copy /var/www/html/admin/modules/framework/module.xml
 		copy(dirname(__FILE__) . "/module.xml", $this->amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.xml");
 
 		// Create dirs
 		//	/var/spool/asterisk/voicemail/device/
-		mkdir($this->amp_conf['AMPSPOOLDIR'] . "/voicemail/device", 0755, true);
+		@mkdir($this->amp_conf['AMPSPOOLDIR'] . "/voicemail/device", 0755, true);
 		// Copy /etc/asterisk/voicemail.conf.template
 		// ... to /etc/asterisk/voicemail.conf
 
 		//	/var/spool/asterisk/fax/
-		mkdir($this->amp_conf['AMPSPOOLDIR'] . "/fax", 0766, true);
+		@mkdir($this->amp_conf['AMPSPOOLDIR'] . "/fax", 0766, true);
 
 		//	/var/spool/asterisk/monitor/
-		mkdir($this->amp_conf['AMPSPOOLDIR'] . "/monitor", 0766, true);
+		@mkdir($this->amp_conf['AMPSPOOLDIR'] . "/monitor", 0766, true);
 
 		//	/var/www/html/recordings/themes/js/
-		mkdir($this->amp_conf['AMPWEBROOT'] . "/recordings/themes/js", 0755, true);
+		@mkdir($this->amp_conf['AMPWEBROOT'] . "/recordings/themes/js", 0755, true);
 
 		// Link /var/www/html/admin/common/libfreepbx.javascripts.js
 		// ... to /var/www/html/recordings/themes/js/
@@ -260,7 +261,7 @@ class FreePBXInstallCommand extends Command {
 		exec("grep -h '^#include' " . $this->amp_conf['ASTETCDIR'] . "/*.conf | sed 's/\s*;.*//;s/#include\s*//'", $tmpout, $ret);
 		if ($ret != 0) {
 			$output->writeln("Error finding #include files.");
-			die();
+			exit(1);
 		}
 
 		foreach ($tmpout as $file) {
@@ -367,6 +368,39 @@ class FreePBXInstallCommand extends Command {
 		}
 	}
 
+	private function ask_overwrite(InputInterface $input, OutputInterface $output, $file1, $file2) {
+		$output->writeln($file2." has been changed from the original version.");
+
+		if (!$input->isInteractive()) {
+			return true;
+		}
+
+		$helper = $this->getHelper('question');
+
+		$question = new ChoiceQuestion('Overwrite: ', array('x' => 'Exit', 'y' => 'Yes', 'n' => 'No', 'd' => 'Diff'), 'x');
+		$key = $helper->ask($input, $output, $question);
+
+		switch ($key) {
+		case "Exit":
+		default:
+			$output->writeln("-> Original file:  ".$file2);
+			$output->writeln("-> New file:       ".$file1);
+			$output->writeln("Exiting install program.");
+			exit(1);
+			break;
+		case "Yes":
+			return true;
+		case "No":
+			return false;
+		case "Diff":
+			$output->writeln("");
+			// w = ignore whitespace, u = unified
+			passthru("diff -wu ".escapeshellarg($file2)." ".escapeshellarg($file1));
+
+			return $this->ask_overwrite($input, $output, $file1, $file2);
+		}
+	}
+
 	/**
 	 * Recursive Read Links
 	 *
@@ -425,7 +459,7 @@ class FreePBXInstallCommand extends Command {
 		}
 	}
 
-	private function recursive_copy($dirsourceparent, $dirdest, $dirsource = "", $newinstall = true, $make_links = false) {
+	private function recursive_copy(InputInterface $input, OutputInterface $output, $dirsourceparent, $dirdest, $dirsource = "", $newinstall = true, $make_links = false) {
 		$moh_subdir = isset($this->amp_conf['MOHDIR']) ? trim(trim($this->amp_conf['MOHDIR']),'/') : 'moh';
 
 		// total # files, # actually copied
@@ -465,11 +499,17 @@ class FreePBXInstallCommand extends Command {
 				// These are modified by apply_conf.sh, there may be others that fit in this category also. This keeps these from
 				// being symlinked and then developers inadvertently checking in the changes when they should not have.
 				//
-				$never_symlink = array("cdr_mysql.conf", "manager.conf", "vm_email.inc", "modules.conf");
+				$never_symlink = array(
+					"cdr_mysql.conf",
+					"manager.conf",
+					"vm_email.inc",
+					"modules.conf"
+				);
 
 				$num_files++;
 				if ($make_links && !in_array(basename($source),$never_symlink)) {
 					// symlink, unlike copy, doesn't overwrite - have to delete first
+					// ^^ lies! :(
 					if (is_link($destination) || file_exists($destination)) {
 						unlink($destination);
 					}
@@ -484,14 +524,13 @@ class FreePBXInstallCommand extends Command {
 					}
 				} else {
 					$ow = false;
-					if(file_exists($destination)) {
+					if(file_exists($destination) && !is_link($destination)) {
 						if ($this->check_diff($source, $destination) && !$make_links) {
-							$ow = ask_overwrite($source, $destination);
+							$ow = $this->ask_overwrite($input, $output, $source, $destination);
 						}
 					} else {
 						$ow = true;
 					}
-					//ask_overwrite
 					if($ow) {
 						//Copy will not overwrite a symlink, phpnesssss
 						if(file_exists($destination) && is_link($destination)) {
@@ -507,11 +546,11 @@ class FreePBXInstallCommand extends Command {
 				// if this is a directory, ensure destination exists
 				if (!file_exists($destination)) {
 					if ($destination != "") {
-						mkdir($destination, "0750", true);
+						@mkdir($destination, "0750", true);
 					}
 				}
 
-				list($tmp_num_files, $tmp_num_copied) = $this->recursive_copy($dirsourceparent, $dirdest, $dirsource."/".$file, $newinstall, $make_links);
+				list($tmp_num_files, $tmp_num_copied) = $this->recursive_copy($input, $output, $dirsourceparent, $dirdest, $dirsource."/".$file, $newinstall, $make_links);
 				$num_files += $tmp_num_files;
 				$num_copied += $tmp_num_copied;
 			}
