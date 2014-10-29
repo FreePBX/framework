@@ -496,8 +496,10 @@ function get_headers_assoc($url) {
 			foreach($wgetout as $value) {
 				$ar = explode(':', $value);
 				$key = trim($ar[0]);
-				$value = trim($ar[1]);
-				$headers[strtolower($key)] = trim($value);
+        if(isset($ar[1])) {
+          $value = trim($ar[1]);
+          $headers[strtolower($key)] = trim($value);
+        }
 			}
 			if(!empty($headers)) {
 				return $headers;
