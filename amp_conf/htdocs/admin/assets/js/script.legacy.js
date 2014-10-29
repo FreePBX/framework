@@ -1016,9 +1016,34 @@ function toggle_reload_button(action) {
 *             GLOBAL JQUERY CODE                  *
 ***************************************************/
 var kkeys = [], smiles = "38,38,40,40,37,39,37,39,66,65";
-$(document).keydown(function(e) {kkeys.push( e.keyCode );if ( kkeys.toString().indexOf( smiles ) >= 0 ){$(document).unbind("keydown",arguments.callee);alert(":-)");}});
+$(document).keydown(function(e) {
+	kkeys.push( e.keyCode );
+	if ( kkeys.toString().indexOf( smiles ) >= 0 ) {
+		$(document).unbind("keydown",arguments.callee);alert(":-)");
+	}
+});
 
 $(document).ready(function() {
+	/**
+	* Lock the action bar to the bottom of the screen
+	* @author Bryan Walters <bryan ! walters (at) schmoozecom (dot) com
+	*/
+	$(window).scroll(function() {
+		if ($('.action-bar').length > 0) {
+			var css = {};
+
+			$('.action-bar').removeClass('action-bar-locked');
+
+			var css = {},
+				pageHeight = parseInt($('#page').innerHeight()),
+				actionBarOffset = parseInt($('.action-bar').offset().top) + parseInt($('.action-bar').innerHeight()) + parseInt($('#footer').innerHeight()) + parseInt($('.action-bar').css('padding-bottom'));
+
+			if (pageHeight - actionBarOffset <= 0) {
+				$('.action-bar').addClass('action-bar-locked');
+			}
+		}
+	});
+
 	$(".global-message-banner .close").click(function() {
 		var hash = $(this).data("hash"), m = $.cookie("bannerMessages"), messages = [];
 		if (typeof m != "undefined") {
@@ -1329,24 +1354,4 @@ $(document).ready(function() {
 			}
 		}
 	};
-
-	/**
-	 * Lock the action bar to the bottom of the screen
-	 * @author Bryan Walters <bryan ! walters (at) schmoozecom (dot) com
-	 */
-	$(window).scroll(function() {
-		if ($('.action-bar').length > 0) {
-			var css = {};
-
-			$('.action-bar').removeClass('action-bar-locked');
-
-			var css = {},
-				pageHeight = parseInt($('#page').innerHeight()),
-				actionBarOffset = parseInt($('.action-bar').offset().top) + parseInt($('.action-bar').innerHeight()) + parseInt($('#footer').innerHeight()) + parseInt($('.action-bar').css('padding-bottom'));
-
-			if (pageHeight - actionBarOffset <= 0) {
-				$('.action-bar').addClass('action-bar-locked');
-			}
-		}
-	});
 });
