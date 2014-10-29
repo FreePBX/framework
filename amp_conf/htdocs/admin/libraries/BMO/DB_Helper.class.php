@@ -64,7 +64,7 @@ class DB_Helper {
 			if ($e->getCode() == "42S02") { // Table does not exist
 				self::$db->query($create);
 			} else {
-				throw new \Exception($e->getMessage());
+				self::checkException($e);
 			}
 		}
 
@@ -143,7 +143,11 @@ class DB_Helper {
 		$query[':id'] = $id;
 		$query[':key'] = $var;
 
-		self::$dbGet->execute($query);
+		try {
+			self::$dbGet->execute($query);
+		} catch (Exception $e) {
+			self::checkException($e);
+		}
 		$res = self::$dbGet->fetchAll();
 
 		if (isset($res[0])) {
@@ -205,7 +209,11 @@ class DB_Helper {
 		$query[':mod'] = $mod;
 
 		// Delete any that previously match
-		$res = self::$dbDel->execute($query);
+		try {
+			$res = self::$dbDel->execute($query);
+		} catch (Exception $e) {
+			self::checkException($e);
+		}
 
 		if ($val === false) // Just wanted to delete
 			return true;
@@ -309,7 +317,11 @@ class DB_Helper {
 
 		$query[':mod'] = $mod;
 
-		$ret = self::$dbDelMod->execute($query);
+		try {
+			$ret = self::$dbDelMod->execute($query);
+		} catch (Exception $e) {
+			self::checkException($e);
+		}
 		return $ret;
 	}
 
@@ -337,7 +349,11 @@ class DB_Helper {
 		$query[':mod'] = $mod;
 		$query[':id'] = $id;
 
-		self::$dbGetAll->execute($query);
+		try {
+			self::$dbGetAll->execute($query);
+		} catch (Exception $e) {
+			self::checkException($e);
+		}
 		$ret = self::$dbGetAll->fetchAll(PDO::FETCH_COLUMN, 0);
 
 		return $ret;
@@ -389,7 +405,11 @@ class DB_Helper {
 
 		$query[':mod']= $mod;
 		$query[':id'] = $id;
-		self::$dbDelId->execute($query);
+		try {
+			self::$dbDelId->execute($query);
+		} catch (Exception $e) {
+			self::checkException($e);
+		}
 	}
 
 	/**
@@ -420,7 +440,11 @@ class DB_Helper {
 		}
 		$query[':mod']= $mod;
 		$query[':id'] = $id;
-		self::$dbGetFirst->execute($query);
+		try {
+			self::$dbGetFirst->execute($query);
+		} catch (Exception $e) {
+			self::checkException($e);
+		}
 		$ret = self::$dbGetFirst->fetchAll(PDO::FETCH_COLUMN, 0);
 		return $ret[0];
 	}
@@ -451,8 +475,35 @@ class DB_Helper {
 		}
 		$query[':mod']= $mod;
 		$query[':id'] = $id;
-		self::$dbGetLast->execute($query);
+		try {
+			self::$dbGetLast->execute($query);
+		} catch (Exception $e) {
+			self::checkException($e);
+		}
 		$ret = self::$dbGetLast->fetchAll(PDO::FETCH_COLUMN, 0);
 		return $ret[0];
+	}
+
+	/**
+	 * Check for exceptions when PDO does things, and try to auto-heal them
+	 *
+	 */
+	public static function checkException($e) {
+		if (!is_a($e, "PDOException")) {
+			print "checkException wasn't given an Exception. Madness\n";
+			exit;
+		}
+
+		// I can't seem to see how this is goign to go with i18n. Argh.
+		$msg = $e->getMessage();
+		if (preg_match('/(134|145)/', $msg)) {
+			// Table corrupt. Repair it. 
+			print _("Database Error detected. Automatic repair started. Please retry");
+			$res = self::$db->exec("REPAIR TABLE ".self::$dbname);
+			exit(-2);
+		} else {
+			// Pass it up to the next handler
+			throw $e;
+		}
 	}
 }
