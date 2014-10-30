@@ -1054,22 +1054,23 @@ $(document).ready(function() {
 		var fpbxForm = $('.fpbx-submit'),
 			formName = fpbxForm.attr('name'),
 			buttonName = $(this).attr('name');
-console.log(formName);
 
 		switch (buttonName) {
 			case 'Reset':
+			case 'reset':
 				document.forms[formName].reset();
 			break;
 			case 'Submit':
+			case 'submit':
 				document.forms[formName].submit();
 			break;
 			case 'Delete':
+			case 'delete':
 				delLink = fpbxForm.data('fpbx-delete');
 				location.href = delLink;
-console.log(delLink);
 				break;
 			default:
-				console.log(buttonName);
+				console.log("There is no action for button named " + buttonName);
 				break;
 			}
 	});
