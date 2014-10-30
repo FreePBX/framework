@@ -1,18 +1,19 @@
 // Javascript handler 
  
+var searchLookup = {};
+
 var globalSearch = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
   queryTokenizer: Bloodhound.tokenizers.whitespace,
-  remote: {
-    url: 'ajax.php?module=search&command=global',
-    filter: function(list) { console.log(list);
-      return $.map(list, function(x) { console.log(x); return { name: x.text }; }); 
-    }
+  limit: 10,
+  prefetch: {
+    ttl: 1000,
+    url: 'ajax.php?module=search&command=global&t=9',
+    filter: function(data) { console.log(data); return $.map(data, function(t) { searchLookup[t.text] = t; return { value: t.text } }); },
   }
 });
 
 globalSearch.initialize();
-
 
 $(document).ready(function() {
   console.log("herex");
@@ -21,8 +22,8 @@ $(document).ready(function() {
     highlight: true,
     minLength: 1
   }, {
-    name: 'states',
-    displayKey: 'name',
+    name: 'globalSearch',
+    displayKey: 'value',
     source: globalSearch.ttAdapter()
   });
 });

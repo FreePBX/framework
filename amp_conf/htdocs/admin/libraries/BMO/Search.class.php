@@ -25,10 +25,15 @@ class Search extends FreePBX_Helpers {
 		}
 	}
 	public function globalSearch() {
+		$modules = FreePBX::Modules()->getActiveModules();
 		$retarr = array();
-		$retarr[] = array("text" => "Search Result 1", "type" => "get", "dest" => "config.php?display=one");
-		$retarr[] = array("text" => "Second Search Result", "type" => "get", "dest" => "config.php?display=two");
-		$retarr[] = array("text" => "Third Result", "type" => "get", "dest" => "config.php?display=three");
+		foreach ($modules as $m) {
+			if (isset($m['items'])) {
+				foreach ($m['items'] as $k => $v) {
+					$retarr[] = array("text" => $v['name'], "type" => "get", "dest" => "config.php?display=$k");
+				}
+			}
+		}
 		return $retarr;
 	}
 
