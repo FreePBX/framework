@@ -6,8 +6,8 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Question\Question;
 
 class FreePBXInstallCommand extends Command {
 	private $settings = array(
@@ -83,10 +83,13 @@ class FreePBXInstallCommand extends Command {
 			}
 		}
 
+		require_once('installer.class.php');
+		$installer = new \Installer($input, $output);
+
 		// Copy default amportal.conf
 		if (!file_exists(AMP_CONF)) {
 			$newinstall = true;
-			$amp_conf = $this->amportal_conf_read(dirname(__FILE__) . "/amportal.conf");
+			$amp_conf = $installer->amportal_conf_read(dirname(__FILE__) . "/amportal.conf");
 		} else {
 			$bootstrap_settings['freepbx_auth'] = false;
 			$restrict_mods = true;
@@ -128,11 +131,11 @@ class FreePBXInstallCommand extends Command {
 
 		// Copy asterisk.conf
 		if (!file_exists(ASTERISK_CONF)) {
-			$asterisk_conf = $this->asterisk_conf_read(dirname(__FILE__) . "/asterisk.conf");
+			$asterisk_conf = $installer->asterisk_conf_read(dirname(__FILE__) . "/asterisk.conf");
 
-			$this->asterisk_conf_write(dirname(__FILE__) . "/asterisk_new.conf", $asterisk_conf);
+			$installer->asterisk_conf_write(dirname(__FILE__) . "/asterisk_new.conf", $asterisk_conf);
 		} else {
-			$asterisk_conf = $this->asterisk_conf_read(ASTERISK_CONF);
+			$asterisk_conf = $installer->asterisk_conf_read(ASTERISK_CONF);
 
 			$asterisk_defaults_conf = array(
 				'astetcdir' => '/etc/asterisk',
@@ -175,7 +178,7 @@ class FreePBXInstallCommand extends Command {
 
 		// Read/parse asterisk.conf
 		// ... and then write amportal.conf, again?!
-		$this->amportal_conf_write(dirname(__FILE__) . "/amportal_new.conf");
+//		$installer->amportal_conf_write(dirname(__FILE__) . "/amportal_new.conf");
 
 		// Write /etc/asterisk/version ?
 		exec("asterisk -V", $tmpout, $ret);
@@ -217,7 +220,7 @@ class FreePBXInstallCommand extends Command {
 			$db = new \Database($amp_conf, $dsn);
 			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'asteriskcdrdb';";
 			if (!$db->getOne($sql)) {
-				$this->install_sql_file(dirname(__FILE__) . 'SQL/cdr_mysql_table.sql');
+				$installer->install_sql_file(dirname(__FILE__) . 'SQL/cdr_mysql_table.sql');
 			}
 			unset($db);
 
@@ -225,12 +228,12 @@ class FreePBXInstallCommand extends Command {
 			$db = new \Database($amp_conf, $dsn);
 			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '" . $amp_conf['AMPDBNAME'] . "';";
 			if (!$db->getOne($sql)) {
-				$this->install_sql_file(dirname(__FILE__) . 'SQL/newinstall.sql');
+				$installer->install_sql_file(dirname(__FILE__) . 'SQL/newinstall.sql');
 			}
 		}
 
 		// Get version of FreePBX.
-		$version = $this->get_version();
+		$version = $installer->get_version();
 
 		// Copy amp_conf/
 		$this->recursive_copy($input, $output, "amp_conf", "", "", $newinstall, false);
@@ -303,7 +306,11 @@ class FreePBXInstallCommand extends Command {
 		unset($tmpout);
 
 		// Upgrade modules
+		$installer->install_upgrades($version);
+
 		// freepbx_settings_init();
+		$installer->freepbx_settings_init(true);
+
 		// freepbx_conf set_conf_values()
 		// generate_configs();
 		// install_modules()
@@ -312,179 +319,6 @@ class FreePBXInstallCommand extends Command {
 		// GPG setup - trustFreePBX();
 
 		// needreload();
-	}
-
-	private function amportal_conf_read($filename) {
-		$file = file($filename);
-
-		foreach ($file as $line) {
-			if (preg_match("/^\s*([a-zA-Z0-9_]+)\s*=\s*(.*)\s*([;#].*)?/", $line, $matches)) {
-				$conf[$matches[1]] = $matches[2];
-			}
-		}
-
-		return $conf;
-	}
-
-	private function amportal_conf_write($filename) {
-		global $amp_conf;
-
-		foreach ($amp_conf as $key => $value) {
-			$file[] = $key . "=" . $value;
-		}
-
-		file_put_contents($filename, implode("\n", $file) . "\n");
-	}
-
-	private function asterisk_conf_read($filename) {
-		$file = file($filename);
-
-		foreach ($file as $line) {
-			if (preg_match("/^\s*([a-zA-Z0-9_]+)\s*(?:=>|=)\s*(.*)\s*([;#].*)?/", $line, $matches)) {
-				$conf[$matches[1]] = $matches[2];
-			}
-		}
-
-		return $conf;
-	}
-
-	private function asterisk_conf_write($filename, $conf) {
-		foreach ($conf as $key => $value) {
-			$file[] = $key . "=>" . $value;
-		}
-
-		file_put_contents($filename, implode("\n", $file) . "\n");
-	}
-
-	private function get_version() {
-		global $db;
-
-		$version = $db->getOne("SELECT value FROM admin WHERE variable = 'version'");
-
-		return $version;
-	}
-	private function set_version($version) {
-		global $db;
-	}
-
-	private function upgrade_all($version) {
-		global $db;
-
-		// **** Read upgrades/ directory
-		outn("Checking for upgrades..");
-
-		// read versions list from upgrades/
-		$versions = array();
-		$dir = opendir(UPGRADE_DIR);
-		while ($file = readdir($dir)) {
-			if (($file[0] != ".") && is_dir(UPGRADE_DIR . "/" . $file)) {
-				$versions[] = $file;
-			}
-		}
-		closedir($dir);
-
-		// callback to use php's version_compare() to sort
-		usort($versions, "version_compare_freepbx");
-
-		// find versions that are higher than the current version
-		$starting_version = false;
-		foreach ($versions as $check_version) {
-			if (version_compare_freepbx($check_version, $version) > 0) { // if check_version < version
-				$starting_version = $check_version;
-				break;
-			}
-		}
-
-		// run all upgrades from the list of higher versions
-		if ($starting_version) {
-			$pos = array_search($starting_version, $versions);
-			$upgrades = array_slice($versions, $pos); // grab the list of versions, starting at $starting_version
-			out(count($upgrades)." found");
-			foreach ($upgrades as $version) {
-				out("Upgrading to ".$version."..");
-				$this->install_upgrade($version);
-				$this->set_version($version);
-				out("Upgrading to ".$version."..OK");
-			}
-		} else {
-			out("No further upgrades necessary");
-		}
-	}
-
-	/** Install a particular version
-	 */
-	private function install_upgrade($version) {
-		global $db;
-		global $amp_conf;
-
-		$db_engine = $amp_conf["AMPDBENGINE"];
-
-		if (is_dir(UPGRADE_DIR . "/" . $version)) {
-			// sql scripts first
-			$dir = opendir(UPGRADE_DIR . "/" . $version);
-			while ($file = readdir($dir)) {
-				if (($file[0] != ".") && is_file(UPGRADE_DIR . "/" . $version . "/" . $file)) {
-					if ((strtolower(substr($file,-7)) == ".sqlite") && ($db_engine == "sqlite")) {
-						$this->install_sql_file(UPGRADE_DIR . "/" . $version . "/" . $file);
-					} elseif ((strtolower(substr($file,-4)) == ".sql") &&
-							(($db_engine  == "mysql")  ||  ($db_engine  == "pgsql") || ($db_engine == "sqlite3"))) {
-						$this->install_sql_file(UPGRADE_DIR . "/" . $version . "/" . $file);
-					}
-				}
-			}
-
-			// now non sql scripts
-			$dir = opendir(UPGRADE_DIR . "/" . $version);
-			while ($file = readdir($dir)) {
-				if (($file[0] != ".") && is_file(UPGRADE_DIR . "/" . $version . "/" . $file)) {
-					if ((strtolower(substr($file,-4)) == ".sql") || (strtolower(substr($file,-7)) == ".sqlite")) {
-						// sql scripts were dealt with first
-					} else if (strtolower(substr($file,-4)) == ".php") {
-						out("-> Running PHP script " . UPGRADE_DIR . "/" . $version . "/" . $file);
-						include_once(UPGRADE_DIR . "/" . $version . "/" . $file);
-
-					} else if (is_executable(UPGRADE_DIR . "/" . $version . "/" . $file)) {
-						out("-> Executing " . UPGRADE_DIR . "/" . $version . "/" . $file);
-						exec(UPGRADE_DIR . "/" . $version . "/" . $file);
-					} else {
-						error("-> Don't know what to do with " . UPGRADE_DIR . "/" . $version . "/" . $file);
-					}
-				}
-			}
-		}
-	}
-
-	private function install_sql_file($file) {
-		global $db;
-
-		if (!file_exists($file)) {
-			return false;
-		}
-
-		// Temporary variable, used to store current query
-		$templine = '';
-		// Read in entire file
-		$lines = file($file);
-		// Loop through each line
-		foreach ($lines as $line) {
-			// Skip it if it's a comment
-			if (substr($line, 0, 2) == '--' || $line == '') {
-				continue;
-			}
-
-			// Add this line to the current segment
-			$templine .= $line;
-			// If it has a semicolon at the end, it's the end of the query
-			if (substr(trim($line), -1, 1) == ';') {
-				// Perform the query
-				$sth = $db->query($templine);
-				if($sth->errorCode() != 0) {
-					fatal("Error performing query: ". $templine . " Message:".$sth->errorInfo());
-				}
-				// Reset temp variable to empty
-				$templine = '';
-			}
-		}
 	}
 
 	private function ask_overwrite(InputInterface $input, OutputInterface $output, $file1, $file2) {
@@ -682,7 +516,7 @@ class FreePBXInstallCommand extends Command {
 
 	private function check_diff($file1, $file2) {
 		// diff, ignore whitespace and be quiet
-		exec("diff -wq ".escapeshellarg($file2)." ".escapeshellarg($file1), $output, $retVal);
+		exec("diff -wq ".escapeshellarg($file2)." ".escapeshellarg($file1), $tmpout, $retVal);
 		return ($retVal != 0);
 	}
 }
