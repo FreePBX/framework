@@ -111,10 +111,9 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 	$mods[$t] .= '</li>';
 	uksort($mods,'_menu_sort');
 	$out .= implode($mods);
+
+	echo $out;
 }
-
-echo $out;
-
 
 // key sort but keep Favorites on the far left, Other on the far right
 //
