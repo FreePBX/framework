@@ -15,28 +15,74 @@ var SearchC = Class.extend({
       }
     });
     this.moduleSearch.initialize();
+
     $('#fpbxsearch .typeahead').typeahead({
       hint: true,
       highlight: true,
       minLength: 1
     }, {
+      name: 'extenSearch',
+      displayKey: 'value',
+      source: this.extMatch(this.getAllExtens()),
+    }, {
       name: 'moduleSearch',
       displayKey: 'value',
       source: this.moduleSearch.ttAdapter()
     })
-    .bind("typeahead:selected", function(o,d,n) { self.processSearchClick(o,d,n); });
+    .bind("typeahead:selected", function(o,d,n) { self.processSearchClick(o,d,n); })
+    .focus();
   },
+
+  extMatch: function(strs) {
+    return function findMatches(q, cb) {
+      var matches, substrRegex;
+      matches = [];
+      substrRegex = new RegExp(q, 'i');
+      $.each(strs, function(i, str) {
+        if (substrRegex.test(str)) {
+          matches.push({ value: "Extension "+str, ext: str });
+        }
+      });
+      cb(matches);
+    };
+  },
+
+  getAllExtens: function() {
+    var self = this;
+    var knownExtensions = [];
+    $.each(extmap, function(x) { 
+      if (this.match(/User Exten/)) { 
+        knownExtensions.push(x); 
+      }
+    });
+    return knownExtensions;
+  },
+      
   processSearchClick: function(o, d, name) {
-    if (typeof(d.o.type) == "undefined") {
-      console.log("Madness.", d);
+    console.log(d);
+    if (name == "moduleSearch") {
+      return this.processModuleClick(d.o);
+    } else if (name == "extenSearch") {
+      return this.processExtenClick(d);
+    } else {
+      console.log("All the wat "+name);
       return false;
     }
-    if (d.o.type == "get") {
-      window.location.search = d.o.dest;
+  },
+  processModuleClick: function(o) {
+    if (o.type == "get") {
+      window.location.search = o.dest;
       return true;
     }
-    console.log("No idea what to do with this: ", d);
+    console.log("No idea what to do with this: ", o);
   },
+  processExtenClick: function(o) {
+    window.location.search = "?display=extensions&extdisplay="+o.ext+"#";
+    return true;
+  },
+});
+
+$(document).ready(function() {
 });
 
 $(document).ready(function() {
