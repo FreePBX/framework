@@ -62,12 +62,10 @@ class Start extends Command {
 		exec($astbin);
 	}
 	private function preAsteriskHooks($output){
-		$output->writeln("HERE");
 		\FreePBX::Hooks()->processHooks($output);
 		return;
 	}
 	private function postAsteriskHooks($output){
-		$output->writeln("THERE");
 		\FreePBX::Hooks()->processHooks($output);
 		return;
 	}

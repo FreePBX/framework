@@ -836,6 +836,8 @@ class Moduleadmin extends Command {
 				$this->refreshsignatures();
 				$this->setPerms();
 				break;
+			case 'updatexml':
+				break;
 			case 'help':
 			case 'h':
 			case '?':
