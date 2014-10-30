@@ -86,8 +86,6 @@ if($amp_conf['JQMIGRATE']) {
 	$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js"></script>';
 }
 
-$html .= '<script type="text/javascript" src="assets/js/typeahead.bundle.min.js"></script>';
-$html .= '<script type="text/javascript" src="assets/js/search.js"></script>';
 $html .= '</head>';
 
 //open body
