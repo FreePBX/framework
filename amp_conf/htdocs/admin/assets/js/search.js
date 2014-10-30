@@ -2,28 +2,40 @@
  
 var searchLookup = {};
 
-var globalSearch = new Bloodhound({
+var moduleSearch = new Bloodhound({
   datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
   queryTokenizer: Bloodhound.tokenizers.whitespace,
   limit: 10,
   prefetch: {
     ttl: 1000,
     url: 'ajax.php?module=search&command=global&t=9',
-    filter: function(data) { console.log(data); return $.map(data, function(t) { searchLookup[t.text] = t; return { value: t.text } }); },
+    filter: function(data) { console.log(data); return $.map(data, function(t) { return { value: t.text, o: t } }); },
   }
 });
 
-globalSearch.initialize();
+moduleSearch.initialize();
+
+function processSearchClick(o, d, name) {
+	if (typeof(d.o.type) == "undefined") {
+		console.log("Madness.", d);
+		return false;
+	}
+	if (d.o.type == "get") {
+		window.location.search = d.o.dest;
+		return true;
+	}
+	console.log("No idea what to do with this: ", d);
+}
 
 $(document).ready(function() {
-  console.log("herex");
   $('#fpbxsearch .typeahead').typeahead({
     hint: true,
     highlight: true,
     minLength: 1
   }, {
-    name: 'globalSearch',
+    name: 'moduleSearch',
     displayKey: 'value',
-    source: globalSearch.ttAdapter()
-  });
+    source: moduleSearch.ttAdapter()
+  })
+  .bind("typeahead:selected", function(o,d,n) { processSearchClick(o,d,n); });
 });

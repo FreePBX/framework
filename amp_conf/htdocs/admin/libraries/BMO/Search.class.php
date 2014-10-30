@@ -30,7 +30,7 @@ class Search extends FreePBX_Helpers {
 		foreach ($modules as $m) {
 			if (isset($m['items'])) {
 				foreach ($m['items'] as $k => $v) {
-					$retarr[] = array("text" => $v['name'], "type" => "get", "dest" => "config.php?display=$k");
+					$retarr[] = array("text" => $v['name'], "type" => "get", "dest" => "?display=$k");
 				}
 			}
 		}
