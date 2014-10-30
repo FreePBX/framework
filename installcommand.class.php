@@ -9,13 +9,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 
-require_once('amp_conf/htdocs/admin/libraries/BMO/Database.class.php');
-
 class FreePBXInstallCommand extends Command {
 	private $settings = array(
 		'dbengine' => array(
 			'default' => 'mysql',
 	 		'description' => 'Database engine'
+		),
+		'dbname' => array(
+			'default' => 'asterisk',
+	 		'description' => 'Database name'
 		),
 		'dbuser' => array(
 			'default' => 'root',
@@ -39,8 +41,6 @@ class FreePBXInstallCommand extends Command {
 		),
 	);
 
-	protected $amp_conf;
-
 	protected function configure() {
 		$this
 			->setName('install')
@@ -53,8 +53,22 @@ class FreePBXInstallCommand extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
+		global $amp_conf; /* This makes pandas sad. :( */
+		global $db;
+
 		$style = new OutputFormatterStyle('white', 'red', array('bold'));
 		$output->getFormatter()->setStyle('fire', $style);
+
+		define("AMP_CONF", "/etc/amportal.conf");
+		define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
+		define("UPGRADE_DIR", dirname(__FILE__) . "/upgrades");
+
+		// Fail if !root
+		$euid = posix_getpwuid(posix_geteuid());
+		if ($euid['name'] != 'root') {
+			$output->writeln($this->getName() . " must be run as root.");
+			exit(1);
+		}
 
 		foreach ($this->settings as $key => $setting) {
 			$answers[$key] = $input->getOption($key);
@@ -69,42 +83,44 @@ class FreePBXInstallCommand extends Command {
 			}
 		}
 
-		define("AMP_CONF", "/etc/amportal.conf");
-		define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
-
-		// Fail if !root
-		$euid = posix_getpwuid(posix_geteuid());
-		if ($euid['name'] != 'root') {
-			$output->writeln($this->getName() . " must be run as root.");
-			exit(1);
-		}
-
 		// Copy default amportal.conf
 		if (!file_exists(AMP_CONF)) {
 			$newinstall = true;
-			$this->amp_conf = $this->amportal_conf_read(dirname(__FILE__) . "/amportal.conf");
+			$amp_conf = $this->amportal_conf_read(dirname(__FILE__) . "/amportal.conf");
 		} else {
-			$this->amp_conf = $this->amportal_conf_read(AMP_CONF);
+			$bootstrap_settings['freepbx_auth'] = false;
+			$restrict_mods = true;
+			if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+				include_once('/etc/asterisk/freepbx.conf');
+			}
 		}
 
 		if (isset($answers['dbengine'])) {
-			$this->amp_conf['AMPDBENGINE'] = $answers['dbengine'];
+			$amp_conf['AMPDBENGINE'] = $answers['dbengine'];
+		}
+		if (isset($answers['dbname'])) {
+			$amp_conf['AMPDBNAME'] = $answers['dbname'];
 		}
 		if (isset($answers['webroot'])) {
-			$this->amp_conf['AMPWEBROOT'] = $answers['webroot'];
+			$amp_conf['AMPWEBROOT'] = $answers['webroot'];
 		}
 		if (isset($answers['user'])) {
-			$this->amp_conf['AMPASTERISKUSER'] = $answers['user'];
-			$this->amp_conf['AMPASTERISKWEBUSER'] = $answers['user'];
-			$this->amp_conf['AMPDEVUSER'] = $answers['user'];
+			$amp_conf['AMPASTERISKUSER'] = $answers['user'];
+			$amp_conf['AMPASTERISKWEBUSER'] = $answers['user'];
+			$amp_conf['AMPDEVUSER'] = $answers['user'];
 		}
 		if (isset($answers['group'])) {
-			$this->amp_conf['AMPASTERISKGROUP'] = $answers['group'];
-			$this->amp_conf['AMPASTERISKWEBGROUP'] = $answers['group'];
-			$this->amp_conf['AMPDEVGROUP'] = $answers['group'];
+			$amp_conf['AMPASTERISKGROUP'] = $answers['group'];
+			$amp_conf['AMPASTERISKWEBGROUP'] = $answers['group'];
+			$amp_conf['AMPDEVGROUP'] = $answers['group'];
 		}
-		if (!isset($this->amp_conf['AMPMANAGERHOST'])) {
-			$this->amp_conf['AMPMANAGERHOST'] = 'localhost';
+		if (!isset($amp_conf['AMPMANAGERHOST'])) {
+			$amp_conf['AMPMANAGERHOST'] = 'localhost';
+		}
+
+		if ($newinstall) {
+			$amp_conf['AMPMGRUSER'] = 'admin';
+			$amp_conf['AMPMGRPASS'] = md5(uniqid());
 		}
 
 		// ... and then write amportal.conf?
@@ -136,25 +152,25 @@ class FreePBXInstallCommand extends Command {
 		}
 
 		if (isset($asterisk_conf['astetcdir'])) {
-			$this->amp_conf['ASTETCDIR'] = $asterisk_conf['astetcdir'];
+			$amp_conf['ASTETCDIR'] = $asterisk_conf['astetcdir'];
 		}
 		if (isset($asterisk_conf['astmoddir'])) {
-			$this->amp_conf['ASTMODDIR'] = $asterisk_conf['astmoddir'];
+			$amp_conf['ASTMODDIR'] = $asterisk_conf['astmoddir'];
 		}
 		if (isset($asterisk_conf['astvarlibdir'])) {
-			$this->amp_conf['ASTVARLIBDIR'] = $asterisk_conf['astvarlibdir'];
+			$amp_conf['ASTVARLIBDIR'] = $asterisk_conf['astvarlibdir'];
 		}
 		if (isset($asterisk_conf['astagidir'])) {
-			$this->amp_conf['ASTAGIDIR'] = $asterisk_conf['astagidir'];
+			$amp_conf['ASTAGIDIR'] = $asterisk_conf['astagidir'];
 		}
 		if (isset($asterisk_conf['astspooldir'])) {
-			$this->amp_conf['ASTSPOOLDIR'] = $asterisk_conf['astspooldir'];
+			$amp_conf['ASTSPOOLDIR'] = $asterisk_conf['astspooldir'];
 		}
 		if (isset($asterisk_conf['astrundir'])) {
-			$this->amp_conf['ASTRUNDIR'] = $asterisk_conf['astrundir'];
+			$amp_conf['ASTRUNDIR'] = $asterisk_conf['astrundir'];
 		}
 		if (isset($asterisk_conf['astlogdir'])) {
-			$this->amp_conf['ASTLOGDIR'] = $asterisk_conf['astlogdir'];
+			$amp_conf['ASTLOGDIR'] = $asterisk_conf['astlogdir'];
 		}
 
 		// Read/parse asterisk.conf
@@ -170,7 +186,7 @@ class FreePBXInstallCommand extends Command {
 		$astver = $tmpout[0];
 		unset($tmpout);
 
-		file_put_contents($this->amp_conf['ASTETCDIR'] . '/version', $astver);
+		file_put_contents($amp_conf['ASTETCDIR'] . '/version', $astver);
 
 		// Parse Asterisk version.
 		if (preg_match('/^Asterisk (?:SVN-)?(\d+(\.\d+)*)(-?(.*))$/', $astver, $matches)) {
@@ -194,24 +210,27 @@ class FreePBXInstallCommand extends Command {
 		unset($tmpout);
 
 		// Create database(s).
-		/* CDR first, so we can keep the correct database handler around. */
-		$dsn = $this->amp_conf['AMPDBENGINE'] . ":host=" . $this->amp_conf['AMPDBHOST'] . ";dbname=asteriskcdrdb";
-		$db = new \Database($this->amp_conf, $dsn);
-		$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'asteriskcdrdb';";
-		if (!$db->getOne($sql)) {
-			$this->installampimport_mysql_dump('cdr_mysql_table.sql', $db);
-		}
-		unset($db);
+		if ($newinstall) {
+			require_once('amp_conf/htdocs/admin/libraries/BMO/Database.class.php');
 
-		$dsn = $this->amp_conf['AMPDBENGINE'] . ":host=" . $this->amp_conf['AMPDBHOST'] . ";dbname=" . $this->amp_conf['AMPDBNAME'];
-		$db = new \Database($this->amp_conf, $dsn);
-		$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '" . $this->amp_conf['AMPDBNAME'] . "';";
-		if (!$db->getOne($sql)) {
-			$this->installampimport_mysql_dump('newinstall.sql', $db);
+			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'] . ";dbname=asteriskcdrdb";
+			$db = new \Database($amp_conf, $dsn);
+			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'asteriskcdrdb';";
+			if (!$db->getOne($sql)) {
+				$this->install_sql_file(dirname(__FILE__) . 'SQL/cdr_mysql_table.sql');
+			}
+			unset($db);
+
+			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'] . ";dbname=" . $amp_conf['AMPDBNAME'];
+			$db = new \Database($amp_conf, $dsn);
+			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '" . $amp_conf['AMPDBNAME'] . "';";
+			if (!$db->getOne($sql)) {
+				$this->install_sql_file(dirname(__FILE__) . 'SQL/newinstall.sql');
+			}
 		}
 
 		// Get version of FreePBX.
-		$version = $this->get_version($db);
+		$version = $this->get_version();
 
 		// Copy amp_conf/
 		$this->recursive_copy($input, $output, "amp_conf", "", "", $newinstall, false);
@@ -220,30 +239,30 @@ class FreePBXInstallCommand extends Command {
 		// 	/var/www/html/admin/modules/framework/
 		// 	/var/www/html/admin/modules/_cache/
 		//	./amp_conf/htdocs/admin/modules/_cache/
-		@mkdir($this->amp_conf['AMPWEBROOT'] . "/admin/modules/_cache", 0777, true);
+		@mkdir($amp_conf['AMPWEBROOT'] . "/admin/modules/_cache", 0777, true);
 
 		// Copy /var/www/html/admin/modules/framework/module.xml
-		copy(dirname(__FILE__) . "/module.xml", $this->amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.xml");
+		copy(dirname(__FILE__) . "/module.xml", $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.xml");
 
 		// Create dirs
 		//	/var/spool/asterisk/voicemail/device/
-		@mkdir($this->amp_conf['AMPSPOOLDIR'] . "/voicemail/device", 0755, true);
+		@mkdir($amp_conf['AMPSPOOLDIR'] . "/voicemail/device", 0755, true);
 		// Copy /etc/asterisk/voicemail.conf.template
 		// ... to /etc/asterisk/voicemail.conf
 
 		//	/var/spool/asterisk/fax/
-		@mkdir($this->amp_conf['AMPSPOOLDIR'] . "/fax", 0766, true);
+		@mkdir($amp_conf['AMPSPOOLDIR'] . "/fax", 0766, true);
 
 		//	/var/spool/asterisk/monitor/
-		@mkdir($this->amp_conf['AMPSPOOLDIR'] . "/monitor", 0766, true);
+		@mkdir($amp_conf['AMPSPOOLDIR'] . "/monitor", 0766, true);
 
 		//	/var/www/html/recordings/themes/js/
-		@mkdir($this->amp_conf['AMPWEBROOT'] . "/recordings/themes/js", 0755, true);
+		@mkdir($amp_conf['AMPWEBROOT'] . "/recordings/themes/js", 0755, true);
 
 		// Link /var/www/html/admin/common/libfreepbx.javascripts.js
 		// ... to /var/www/html/recordings/themes/js/
-		$js = $this->amp_conf['AMPWEBROOT'] . "/admin/common/libfreepbx.javascripts.js";
-		$js_link = $this->amp_conf['AMPWEBROOT'] . "/recordings/themes/js/libfreepbx.javascripts.js";
+		$js = $amp_conf['AMPWEBROOT'] . "/admin/common/libfreepbx.javascripts.js";
+		$js_link = $amp_conf['AMPWEBROOT'] . "/recordings/themes/js/libfreepbx.javascripts.js";
 		if (file_exists($js) && !file_exists($js_link)) {
 			link($js, $js_link);
 		}
@@ -255,10 +274,19 @@ class FreePBXInstallCommand extends Command {
 		//	AMPASTERISKUSER
 		//	AMPDEVGROUP
 		//	AMPDEVUSER
-		//	ASTMANAGERHOST - should this be localhost?  Yes.
+		//	ASTMANAGERHOST - should this default to localhost?  Yes.
+
+		// apply_conf.sh
+		$manager_conf = file_get_contents($amp_conf['ASTETCDIR'] . "/manager.conf");
+		$replace = array(
+			'AMPMGRUSER' => $amp_conf['AMPMGRUSER'],
+			'AMPMGRPASS' => $amp_conf['AMPMGRPASS'],
+		);
+		$manager_conf = str_replace(array_keys($replace), array_values($replace), $manager_conf);
+		file_put_contents($amp_conf['ASTETCDIR'] . "/manager.conf", $manager_conf);
 
 		// Create missing #include files.
-		exec("grep -h '^#include' " . $this->amp_conf['ASTETCDIR'] . "/*.conf | sed 's/\s*;.*//;s/#include\s*//'", $tmpout, $ret);
+		exec("grep -h '^#include' " . $amp_conf['ASTETCDIR'] . "/*.conf | sed 's/\s*;.*//;s/#include\s*//'", $tmpout, $ret);
 		if ($ret != 0) {
 			$output->writeln("Error finding #include files.");
 			exit(1);
@@ -266,15 +294,13 @@ class FreePBXInstallCommand extends Command {
 
 		foreach ($tmpout as $file) {
 			if ($file[0] != "/") {
-				$file = $this->amp_conf['ASTETCDIR'] . "/" . $file;
+				$file = $amp_conf['ASTETCDIR'] . "/" . $file;
 			}
 			if (!file_exists($file)) {
 				touch($file);
 			}
 		}
 		unset($tmpout);
-
-		// apply_conf.sh
 
 		// Upgrade modules
 		// freepbx_settings_init();
@@ -301,7 +327,9 @@ class FreePBXInstallCommand extends Command {
 	}
 
 	private function amportal_conf_write($filename) {
-		foreach ($this->amp_conf as $key => $value) {
+		global $amp_conf;
+
+		foreach ($amp_conf as $key => $value) {
 			$file[] = $key . "=" . $value;
 		}
 
@@ -328,24 +356,115 @@ class FreePBXInstallCommand extends Command {
 		file_put_contents($filename, implode("\n", $file) . "\n");
 	}
 
-	private function get_version($db) {
+	private function get_version() {
+		global $db;
+
 		$version = $db->getOne("SELECT value FROM admin WHERE variable = 'version'");
 
 		return $version;
 	}
-	private function set_version($db, $version) {
+	private function set_version($version) {
+		global $db;
 	}
 
-	private function installampimport_mysql_dump($file, $db) {
-		$dir = dirname(__FILE__);
-		if (!file_exists($dir.'/SQL/'.$file)) {
+	private function upgrade_all($version) {
+		global $db;
+
+		// **** Read upgrades/ directory
+		outn("Checking for upgrades..");
+
+		// read versions list from upgrades/
+		$versions = array();
+		$dir = opendir(UPGRADE_DIR);
+		while ($file = readdir($dir)) {
+			if (($file[0] != ".") && is_dir(UPGRADE_DIR . "/" . $file)) {
+				$versions[] = $file;
+			}
+		}
+		closedir($dir);
+
+		// callback to use php's version_compare() to sort
+		usort($versions, "version_compare_freepbx");
+
+		// find versions that are higher than the current version
+		$starting_version = false;
+		foreach ($versions as $check_version) {
+			if (version_compare_freepbx($check_version, $version) > 0) { // if check_version < version
+				$starting_version = $check_version;
+				break;
+			}
+		}
+
+		// run all upgrades from the list of higher versions
+		if ($starting_version) {
+			$pos = array_search($starting_version, $versions);
+			$upgrades = array_slice($versions, $pos); // grab the list of versions, starting at $starting_version
+			out(count($upgrades)." found");
+			foreach ($upgrades as $version) {
+				out("Upgrading to ".$version."..");
+				$this->install_upgrade($version);
+				$this->set_version($version);
+				out("Upgrading to ".$version."..OK");
+			}
+		} else {
+			out("No further upgrades necessary");
+		}
+	}
+
+	/** Install a particular version
+	 */
+	private function install_upgrade($version) {
+		global $db;
+		global $amp_conf;
+
+		$db_engine = $amp_conf["AMPDBENGINE"];
+
+		if (is_dir(UPGRADE_DIR . "/" . $version)) {
+			// sql scripts first
+			$dir = opendir(UPGRADE_DIR . "/" . $version);
+			while ($file = readdir($dir)) {
+				if (($file[0] != ".") && is_file(UPGRADE_DIR . "/" . $version . "/" . $file)) {
+					if ((strtolower(substr($file,-7)) == ".sqlite") && ($db_engine == "sqlite")) {
+						$this->install_sql_file(UPGRADE_DIR . "/" . $version . "/" . $file);
+					} elseif ((strtolower(substr($file,-4)) == ".sql") &&
+							(($db_engine  == "mysql")  ||  ($db_engine  == "pgsql") || ($db_engine == "sqlite3"))) {
+						$this->install_sql_file(UPGRADE_DIR . "/" . $version . "/" . $file);
+					}
+				}
+			}
+
+			// now non sql scripts
+			$dir = opendir(UPGRADE_DIR . "/" . $version);
+			while ($file = readdir($dir)) {
+				if (($file[0] != ".") && is_file(UPGRADE_DIR . "/" . $version . "/" . $file)) {
+					if ((strtolower(substr($file,-4)) == ".sql") || (strtolower(substr($file,-7)) == ".sqlite")) {
+						// sql scripts were dealt with first
+					} else if (strtolower(substr($file,-4)) == ".php") {
+						out("-> Running PHP script " . UPGRADE_DIR . "/" . $version . "/" . $file);
+						include_once(UPGRADE_DIR . "/" . $version . "/" . $file);
+
+					} else if (is_executable(UPGRADE_DIR . "/" . $version . "/" . $file)) {
+						out("-> Executing " . UPGRADE_DIR . "/" . $version . "/" . $file);
+						exec(UPGRADE_DIR . "/" . $version . "/" . $file);
+					} else {
+						error("-> Don't know what to do with " . UPGRADE_DIR . "/" . $version . "/" . $file);
+					}
+				}
+			}
+		}
+	}
+
+	private function install_sql_file($file) {
+		global $db;
+
+		if (!file_exists($file)) {
 			return false;
 		}
 
 		// Temporary variable, used to store current query
 		$templine = '';
 		// Read in entire file
-		$lines = file($dir.'/SQL/'.$file);
+		$lines = file($file);
 		// Loop through each line
 		foreach ($lines as $line) {
 			// Skip it if it's a comment
@@ -460,7 +579,7 @@ class FreePBXInstallCommand extends Command {
 	}
 
 	private function recursive_copy(InputInterface $input, OutputInterface $output, $dirsourceparent, $dirdest, $dirsource = "", $newinstall = true, $make_links = false) {
-		$moh_subdir = isset($this->amp_conf['MOHDIR']) ? trim(trim($this->amp_conf['MOHDIR']),'/') : 'moh';
+		$moh_subdir = isset($amp_conf['MOHDIR']) ? trim(trim($amp_conf['MOHDIR']),'/') : 'moh';
 
 		// total # files, # actually copied
 		$num_files = $num_copied = 0;
@@ -483,17 +602,17 @@ class FreePBXInstallCommand extends Command {
 			}
 
 			// configurable in amportal.conf
-			$destination=preg_replace("/^\/htdocs/",trim($this->amp_conf["AMPWEBROOT"])."/",$destination);
+			$destination=preg_replace("/^\/htdocs/",trim($amp_conf["AMPWEBROOT"])."/",$destination);
 
-			$destination=str_replace("/astetc",trim($this->amp_conf["ASTETCDIR"]),$destination);
-			$destination=str_replace("/moh",trim($this->amp_conf["ASTVARLIBDIR"])."/$moh_subdir",$destination);
-			$destination=str_replace("/astvarlib",trim($this->amp_conf["ASTVARLIBDIR"]),$destination);
+			$destination=str_replace("/astetc",trim($amp_conf["ASTETCDIR"]),$destination);
+			$destination=str_replace("/moh",trim($amp_conf["ASTVARLIBDIR"])."/$moh_subdir",$destination);
+			$destination=str_replace("/astvarlib",trim($amp_conf["ASTVARLIBDIR"]),$destination);
 			if(strpos($dirsource, 'modules') === false) {
-				$destination=str_replace("/agi-bin",trim($this->amp_conf["ASTAGIDIR"]),$destination);
-				$destination=str_replace("/sounds",trim($this->amp_conf["ASTVARLIBDIR"])."/sounds",$destination);
-				$destination=str_replace("/bin",trim($this->amp_conf["AMPBIN"]),$destination);
+				$destination=str_replace("/agi-bin",trim($amp_conf["ASTAGIDIR"]),$destination);
+				$destination=str_replace("/sounds",trim($amp_conf["ASTVARLIBDIR"])."/sounds",$destination);
+				$destination=str_replace("/bin",trim($amp_conf["AMPBIN"]),$destination);
 			}
-			$destination=str_replace("/sbin",trim($this->amp_conf["AMPSBIN"]),$destination);
+			$destination=str_replace("/sbin",trim($amp_conf["AMPSBIN"]),$destination);
 
 			if (!is_dir($source)) {
 				// These are modified by apply_conf.sh, there may be others that fit in this category also. This keeps these from
