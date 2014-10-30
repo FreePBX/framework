@@ -680,17 +680,17 @@ class guiinput extends guielement {
 
 // Textbox
 class gui_textbox extends guiinput {
-	function gui_textbox($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $inputgroup = false) {
+	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $inputgroup = false, $class = '') {
 		// call parent class contructor
 		parent::__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
 
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
 		$tabindex = guielement::gettabindex();
-		$disable_state = $disable ? 'disabled="true"':'';
+		$disable_state = $disable ? 'disabled':'';
 		if($inputgroup) {
-			$this->html_input = "<div class=\"input-group\"><input type=\"text\" name=\"$this->_elemname\" class=\"form-control\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" value=\"" . htmlspecialchars($this->currentvalue) . "\">";
+			$this->html_input = "<div class=\"input-group\"><input type=\"text\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" value=\"" . htmlspecialchars($this->currentvalue) . "\">";
 		} else {
-			$this->html_input = "<input type=\"text\" name=\"$this->_elemname\" class=\"form-control\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" value=\"" . htmlspecialchars($this->currentvalue) . "\">";
+			$this->html_input = "<input type=\"text\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" value=\"" . htmlspecialchars($this->currentvalue) . "\">";
 		}
 		$this->type = "textbox";
 	}
@@ -698,41 +698,42 @@ class gui_textbox extends guiinput {
 
 // Textbox with Enable/Disable Check after
 class gui_textbox_check extends gui_textbox {
-	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $label='Enable', $disabled_value='DEFAULT', $check_enables='true') {
+	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $cblabel='Enable', $disabled_value='DEFAULT', $check_enables='true', $cbdisable = false, $class='', $cbclass='') {
 		// call parent class contructor
 		if ($disable) {
 			$currentvalue = $disabled_value;
 		}
-		parent::__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty, $maxchars, $disable, true);
+		parent::__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty, $maxchars, $disable, true, $class);
 
+		$cb_disable = $cbdisable ? 'disabled':'';
 		$cb_state = $disable && $check_enables || !$disable && !$check_enables ? '':' CHECKED';
 
 		$OnClickClass = "class=\"input_checkbox_toggle_" . ($check_enables ? 'false':'true') . "\"";
 
 		$cbid = $this->_elemname . '_cb';
-		$this->html_input .= "<span class=\"input-group-addon\"><input type=\"checkbox\" name=\"$cbid\" id=\"$cbid\" data-disabled=\"$disabled_value\" {$OnClickClass}{$cb_state}> <label for=\"$cbid\">$label</label></span></div>";
+		$this->html_input .= "<span class=\"input-group-addon\"><input type=\"checkbox\" name=\"$cbid\" id=\"$cbid\" data-disabled=\"$disabled_value\" {$OnClickClass}{$cb_state} $cb_disable> <label for=\"$cbid\">$cblabel</label></span></div>";
 		$this->type = "textbox_check";
 	}
 }
 
 // Password
 class gui_password extends guiinput {
-	function gui_password($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false) {
+	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $class='') {
 		// call parent class contructor
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
 
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
 		$tabindex = guielement::gettabindex();
-		$disable_state = $disable ? 'disabled="true"':'';
-		$this->html_input = "<input type=\"password\" name=\"$this->_elemname\" class=\"form-control\" id=\"$this->_elemname\" $disable_state $maxlength tabindex=\"$tabindex\" value=\"" . htmlentities($this->currentvalue) . "\">";
+		$disable_state = $disable ? ' disabled':'';
+		$this->html_input = "<input type=\"password\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" $disable_state $maxlength tabindex=\"$tabindex\" value=\"" . htmlentities($this->currentvalue) . "\">";
 		$this->type = "password";
 	}
 }
 
 // Select box
 class gui_selectbox extends guiinput {
-	function gui_selectbox($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false) {
+	function __construct($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
 		if (!is_array($valarray)) {
 			trigger_error('$valarray must be a valid array in gui_selectbox');
 			return;
@@ -743,18 +744,18 @@ class gui_selectbox extends guiinput {
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext);
 
-		$this->html_input = $this->buildselectbox($valarray, $currentvalue, $canbeempty, $onchange, $disable);
+		$this->html_input = $this->buildselectbox($valarray, $currentvalue, $canbeempty, $onchange, $disable, $class);
 		$this->type = "selectbox";
 	}
 
 	// Build select box
-	function buildselectbox($valarray, $currentvalue, $canbeempty, $onchange, $disable) {
+	function buildselectbox($valarray, $currentvalue, $canbeempty, $onchange, $disable, $class='') {
 		$output = '';
 		$onchange = ($onchange != '') ? " onchange=\"$onchange\"" : '';
 
 		$tabindex = guielement::gettabindex();
-		$disable_state = $disable ? 'disabled="true"':'';
-		$output .= "\n\t\t\t<select name=\"$this->_elemname\" class=\"form-control\" id=\"$this->_elemname\" tabindex=\"$tabindex\" $disable_state $onchange >\n";
+		$disable_state = $disable ? ' disabled':'';
+		$output .= "\n\t\t\t<select name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" tabindex=\"$tabindex\" $disable_state $onchange >\n";
 		// include blank option if required
 		if ($canbeempty)
 			$output .= "<option value=\"\">&nbsp;</option>";
@@ -774,22 +775,22 @@ class gui_selectbox extends guiinput {
 }
 
 class gui_checkbox extends guiinput {
-	function gui_checkbox($elemname, $checked=false, $prompttext='', $helptext='', $value='on', $post_text = '', $jsonclick = '', $disable=false) {
+	function __construct($elemname, $checked=false, $prompttext='', $helptext='', $value='on', $post_text = '', $jsonclick = '', $disable=false, $class = '') {
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, '', $prompttext, $helptext);
 
 		$itemchecked = $checked ? 'checked' : '';
-		$disable_state = $disable ? 'disabled="true"' : '';
+		$disable_state = $disable ? ' disabled' : '';
 		$js_onclick_include = ($jsonclick != '') ? 'onclick="' . $jsonclick. '"' : '';
 		$tabindex = guielement::gettabindex();
 
-		$this->html_input = "<input type=\"checkbox\" name=\"$this->_elemname\" class=\"form-control\" id=\"$this->_elemname\" $disable_state tabindex=\"$tabindex\" value=\"$value\" $js_onclick_include $itemchecked/>$post_text\n";
+		$this->html_input = "<input type=\"checkbox\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" $disable_state tabindex=\"$tabindex\" value=\"$value\" $js_onclick_include $itemchecked/>$post_text\n";
 		$this->type = "checkbox";
 	}
 }
 
-class gui_radio extends guiinput {
-	function gui_radio($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $disable=false) {
+class gui_checkset extends guiinput {
+	function __construct($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '') {
 		if (!is_array($valarray)) {
 			trigger_error('$valarray must be a valid array in gui_radio');
 			return;
@@ -798,11 +799,11 @@ class gui_radio extends guiinput {
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext);
 
-		$this->html_input = $this->buildradiobuttons($valarray, $currentvalue, $disable);
+		$this->html_input = $this->buildcheckset($valarray, $currentvalue, $disable, $class);
 		$this->type = "radio";
 	}
 
-	function buildradiobuttons($valarray, $currentvalue, $disable=false) {
+	function buildcheckset($valarray, $currentvalue, $disable=false, $class='') {
 		$output = '';
 		$output .= '<span class="radioset">';
 
@@ -810,11 +811,45 @@ class gui_radio extends guiinput {
 		foreach ($valarray as $item) {
 			$itemvalue = (isset($item['value']) ? $item['value'] : '');
 			$itemtext = (isset($item['text']) ? $item['text'] : '');
-			$itemchecked = ((string) $currentvalue == (string) $itemvalue) ? ' checked=checked' : '';
+			$itemchecked = (in_array((string)$itemvalue,$currentvalue)) ? ' checked' : '';
 
 			$tabindex = guielement::gettabindex();
-			$disable_state = $disable ? 'disabled="true"':'';
-			$output .= "<input type=\"radio\" name=\"$this->_elemname\"  class=\"form-control\" id=\"$this->_elemname$count\" $disable_state tabindex=\"$tabindex\" value=\"$this->_elemname=$itemvalue\"$itemchecked/><label for=\"$this->_elemname$count\">$itemtext</label>\n";
+			$disable_state = $disable ? ' disabled':'';
+			$output .= "<input type=\"checkbox\" name=\"$itemvalue\"  class=\"form-control ".$class."\" id=\"$this->_elemname$count\" $disable_state tabindex=\"$tabindex\" $itemchecked/><label for=\"$this->_elemname$count\">$itemtext</label>\n";
+			$count++;
+		}
+		$output .= '</span>';
+		return $output;
+	}
+}
+
+class gui_radio extends guiinput {
+	function __construct($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '') {
+		if (!is_array($valarray)) {
+			trigger_error('$valarray must be a valid array in gui_radio');
+			return;
+		}
+
+		$parent_class = get_parent_class($this);
+		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext);
+
+		$this->html_input = $this->buildradiobuttons($valarray, $currentvalue, $disable, $class);
+		$this->type = "radio";
+	}
+
+	function buildradiobuttons($valarray, $currentvalue, $disable=false, $class='') {
+		$output = '';
+		$output .= '<span class="radioset">';
+
+		$count = 0;
+		foreach ($valarray as $item) {
+			$itemvalue = (isset($item['value']) ? $item['value'] : '');
+			$itemtext = (isset($item['text']) ? $item['text'] : '');
+			$itemchecked = ((string) $currentvalue == (string) $itemvalue) ? ' checked' : '';
+
+			$tabindex = guielement::gettabindex();
+			$disable_state = $disable ? ' disabled':'';
+			$output .= "<input type=\"radio\" name=\"$this->_elemname\"  class=\"form-control ".$class."\" id=\"$this->_elemname$count\" $disable_state tabindex=\"$tabindex\" value=\"$this->_elemname=$itemvalue\"$itemchecked/><label for=\"$this->_elemname$count\">$itemtext</label>\n";
 			$count++;
 		}
 		$output .= '</span>';
@@ -823,20 +858,20 @@ class gui_radio extends guiinput {
 }
 
 class gui_button extends guiinput {
-	function gui_button($elemname, $value, $prompttext = '', $helptext = '', $post_text = '', $jsonclick = '', $disable=false) {
+	function __construct($elemname, $value, $prompttext = '', $helptext = '', $post_text = '', $jsonclick = '', $disable=false, $class = '') {
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, '', $prompttext, $helptext);
 
-		$disable_state = $disable ? 'disabled="true"' : '';
+		$disable_state = $disable ? ' disabled' : '';
 		$js_onclick_include = ($jsonclick != '') ? 'onclick="' . $jsonclick. '"' : '';
 		$tabindex = guielement::gettabindex();
-		$this->html_input = "<button type=\"button\" name=\"$this->_elemname\" class=\"form-control\" id=\"$this->_elemname\" $disable_state tabindex=\"$tabindex\" value=\"$value\" $js_onclick_include/>$post_text</button>\n";
+		$this->html_input = "<button type=\"button\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" $disable_state tabindex=\"$tabindex\" value=\"$value\" $js_onclick_include/>$post_text</button>\n";
 		$this->type = "button";
 	}
 }
 
 class gui_drawselects extends guiinput {
-	function gui_drawselects($elemname, $index, $dest, $prompttext = '', $helptext = '', $required = false, $failvalidationmsg='', $nodest_msg='') {
+	function __construct($elemname, $index, $dest, $prompttext = '', $helptext = '', $required = false, $failvalidationmsg='', $nodest_msg='', $class='') {
 		global $currentcomponent;
 		$parent_class = get_parent_class($this);
 		$jsvalidation = isset($jsvalidation) ? $jsvalidation : '';
@@ -852,7 +887,7 @@ class gui_drawselects extends guiinput {
 }
 
 class gui_textarea extends guiinput {
-	function gui_textarea($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0) {
+	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $class='') {
 		// call parent class contructor
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
@@ -863,7 +898,7 @@ class gui_textarea extends guiinput {
 		$rows = count($list);
 		$rows = (($rows > 20) ? 20 : $rows);
 
-		$this->html_input = "<textarea rows=\"$rows\" cols=\"24\" name=\"$this->_elemname\" class=\"form-control\" id=\"$this->_elemname\"$maxlength>" . htmlentities($this->currentvalue) . "</textarea>";
+		$this->html_input = "<textarea rows=\"$rows\" cols=\"24\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\"$maxlength>" . htmlentities($this->currentvalue) . "</textarea>";
 		$this->type = "textarea";
 	}
 }
@@ -917,65 +952,65 @@ class guitext extends guielement {
 
 // Label -- just text basically!
 class gui_label extends guitext {
-	function gui_label($elemname, $text, $uselang = true) {
+	function gui_label($elemname, $text, $uselang = true, $class='') {
 		// call parent class contructor
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $text);
 
 		// nothing really needed here as it's just whatever text was passed
 		// but suppose we should do something with the element name
-		$this->html_text = "<span id=\"$this->_elemname\">$text</span>";
+		$this->html_text = "<span id=\"$this->_elemname\" class=\"".$class."\">$text</span>";
 		$this->type = "label";
 	}
 }
 
 // Main page header
 class gui_pageheading extends guitext {
-	function gui_pageheading($elemname, $text, $uselang = true) {
+	function gui_pageheading($elemname, $text, $uselang = true, $class='') {
 		// call parent class contructor
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $text);
 
 		// H2
-		$this->html_text = "<h2 id=\"$this->_elemname\">$text</h2>";
+		$this->html_text = "<h2 id=\"$this->_elemname\" class=\"".$class."\">$text</h2>";
 		$this->type = "heading";
 	}
 }
 
 // Second level / sub header
 class gui_subheading extends guitext {
-	function gui_subheading($elemname, $text, $uselang = true) {
+	function gui_subheading($elemname, $text, $uselang = true, $class='') {
 		// call parent class contructor
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $text);
 
 		// H3
-		$this->html_text = "<h3 id=\"$this->_elemname\">$text</h3>";
+		$this->html_text = "<h3 id=\"$this->_elemname\" class=\"".$class."\">$text</h3>";
 		$this->type = "subheading";
 	}
 }
 
 // URL / Link
 class gui_link extends guitext {
-	function gui_link($elemname, $text, $url, $uselang = true) {
+	function gui_link($elemname, $text, $url, $uselang = true, $class='') {
 
 		// call parent class contructor
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $text);
 
 		// A tag
-		$this->html_text = "<a href=\"$url\" id=\"$this->_elemname\">$text</a>";
+		$this->html_text = "<a href=\"$url\" id=\"$this->_elemname\" class=\"".$class."\">$text</a>";
 		$this->type = "link";
 	}
 }
 class gui_link_label extends guitext {
-	function gui_link_label($elemname, $text, $tooltip, $uselang = true) {
+	function gui_link_label($elemname, $text, $tooltip, $uselang = true, $class='') {
 		// call parent class contructor
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $text);
 
 		// A tag
-		$this->html_text = "<a href=\"#\" class=\"info\" id=\"$this->_elemname\">$text:<span>$tooltip</span></a>";
+		$this->html_text = "<a href=\"#\" class=\"info ".$class."\" id=\"$this->_elemname\">$text:<span>$tooltip</span></a>";
 		$this->type = "linklabel";
 	}
 }

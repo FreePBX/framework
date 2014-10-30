@@ -59,13 +59,16 @@ if ($amp_conf['BRAND_CSS_CUSTOM']) {
 $html .= '<!--[if lt IE 9]>';
 $html .= '<script src="assets/js/html5shiv.js"></script>';
 $html .= '<![endif]-->';
+$html .= '<!--[if (gte IE 6)&(lte IE 8)]>';
+$html .= '<script type="text/javascript" src="assets/js/selectivizr.js"></script>';
+$html .= '<![endif]-->';
 //Javascripts
 $html .= '<script type="text/javascript" src="assets/js/modernizr.js"></script>';
 $html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
 //CSS3 buttons or jqueryUI buttons
 //TODO the jqueryUI code to turn on buttons needs to be moved here eventually
-$html .= "<script>var firsttypeofselector = Modernizr.firsttypeofselector; if(firsttypeofselector) { document.write('<link href=\"assets/less/".$extra_compiled_less_files['buttons']."\" rel=\"stylesheet\" type=\"text/css\">'); }</script>";
-
+$html .= "<script>var firsttypeofselector = true</script>";
+$html .= '<link href="assets/less/' .$extra_compiled_less_files['buttons'] . '" rel="stylesheet" type="text/css">';
 
 //it seems extremely difficult to put jquery in the footer with the other scripts
 /* We are using a custom Jquery file for now, it's beta
