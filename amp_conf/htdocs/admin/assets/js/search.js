@@ -49,10 +49,15 @@ var SearchC = Class.extend({
 
   getAllExtens: function() {
     var self = this;
+    self.extLookup = {};
     var knownExtensions = [];
     $.each(extmap, function(x) { 
       if (this.match(/User Exten/)) { 
         knownExtensions.push(x); 
+	self.extLookup[x] = x;
+	var extName = this.toString().replace("User Extension: ", "");
+        knownExtensions.push(extName); 
+	self.extLookup[extName] = x;
       }
     });
     return knownExtensions;
@@ -77,12 +82,11 @@ var SearchC = Class.extend({
     console.log("No idea what to do with this: ", o);
   },
   processExtenClick: function(o) {
-    window.location.search = "?display=extensions&extdisplay="+o.ext+"#";
+    var ext = this.extLookup[o.ext];
+    window.location.search = "?display=extensions&extdisplay="+ext;
+    window.location.hash = "";
     return true;
   },
-});
-
-$(document).ready(function() {
 });
 
 $(document).ready(function() {
