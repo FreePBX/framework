@@ -1,49 +1,14 @@
-.menubar {
-    height: 29px;
-    padding-left: 3px;
-    & > a {
-        margin: 2px 1px;
-        height: 23px;
-        & + ul {
-            display: none;
-        }
-    }
-    .ui-menu {
-        position: absolute;
-        outline: none;
-        z-index: 9999;
-        overflow-y: auto;
-        .ui-icon {
-            float: right;
-        }
-        li.ui-state-disabled {
-            font-weight: bold;
-            padding: .0em .4em;
-            margin: .4em 0 .2em;
-            line-height: 1.5;
-        }
-    }
-    .button-right {
-        float: right;
-        right: 4px;
-    }
-}
-#MENU_BRAND_IMAGE_TANGO_LEFT {
-    min-width: 40px;
-    height:23px;
-    margin:1px;
-    cursor:pointer;
-    float:left;
-    border:none;
-    background:none;
-}
-.ui-menu {
-    .ui-menu-item {
-        a {
-            color: @menu-item-color-default;
-        }
-        a:hover {
-            color: @menu-item-color-hover;
-        }
-    }
+.navbar {
+	
+	background-color: @menu-item-color-default;
+
+	.navbar-toggle {
+		float: left;
+	}
+	.fa-cog {
+		font-size: 25px;
+	}
+	.navbar-brand img {
+		height: 90%;
+	}
 }

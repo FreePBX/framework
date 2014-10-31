@@ -17,7 +17,21 @@ $html .= '<div id="footer">';
 if ($footer_content) {
 	$html .= '<hr />';
 }
-$html .= '<div id="footer_content">';
+
+//Action Bar
+if (!$covert && !empty($action_bar)) {
+  $html .= '<div class="navbar-fixed-bottom container container-fluid action-bar">
+    <div class="navbar-right">';
+  foreach($action_bar as $button) {
+    $html .= '<input name="' . $button['name'] . '" type="submit" value="' . $button['value'] . '"';
+    $html .= !empty($button['id']) ? ' id="' . $button['id'] . '" ' : '';
+    $html .= '>';
+  }
+  $html .= '</div>
+    </div>';
+}
+
+$html .= '<div id="footer_content" class="row">';
 $html .= $footer_content;
 $html .= '</div>'; //footer_content
 $html .= '</div>'; //footer
@@ -144,13 +158,14 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
      * class.js - Simple JavaScript Inheritance
 	 */
 	$html .= ' <script type="text/javascript" src="assets/js/XMLHttpRequest.js' . $version_tag . '"></script>'
-		. '<script type="text/javascript" src="assets/js/menu.js' . $version_tag . '"></script>'
 		. '<script type="text/javascript" src="assets/js/jquery.hotkeys.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/jquery.cookie.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/script.legacy.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/tabber-minimized.js' . $version_tag . '"></script>'
          . '<script type="text/javascript" src="assets/js/class.js"></script>';
 }
+$html .= '<script type="text/javascript" src="assets/js/typeahead.bundle.min.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/search.js"></script>';
 if ($amp_conf['BRAND_ALT_JS']) {
 	$html .= '<script type="text/javascript" src="' . $amp_conf['BRAND_ALT_JS'] . $version_tag . '"></script>';
 }
@@ -184,70 +199,20 @@ if ($amp_conf['BROWSER_STATS']) {
 if (!empty($js_content)) {
 	$html .= $js_content;
 }
+
 //add IE specifc styling polyfills
-//offer google chrome frame for the richest experience
-//TODO: This should be removed sometime soon
 if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
 	$html .= '<!--[if lte IE 10]>';
 	$html .= '<link rel="stylesheet" href="assets/css/progress-polyfill.css" type="text/css">';
 	$html .= '<script type="text/javascript" src="assets/js/progress-polyfill.min.js"></script>';
 	$html .= '<![endif]-->';
-
-	//offer google chrome frame for the richest experience
-	$html .= <<<END
-	<!--[if IE]>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
-		<script>
-			!$.cookie('skip_cf_check') //skip check if skip_cf_check cookie is active
-				&& CFInstall	//make sure CFInstall is loaded
-				&& !!window.attachEvent //attachEvent is ie only, should never fire in other browsers
-				&& window.attachEvent("onload", function() {
-				 CFInstall.check({
-					preventPrompt: true,
-					onmissing: function() {
-						$('<div></div>')
-							.html('Unfortunately, some features may not work correctly in your '
-								+ 'current browser. We suggest that you activate Chrome Frame, '
-								+ 'which will offer you the richest possible experience. ')
-							.dialog({
-								title: 'Activate Chrome Frame',
-								resizable: false,
-								modal: true,
-								position: ['center', 'center'],
-								close: function (e) {
-									$.cookie('skip_cf_check', 'true');
-									$(e.target).dialog("destroy").remove();
-								},
-								buttons: [
-									{
-										text: 'Activate',
-										click: function() {
-												window.location = 'http://www.google.com/chromeframe/?redirect=true';
-										}
-
-									},
-									{
-										text: fpbx.msg.framework.cancel,
-										click: function() {
-												//set cookie to prevent prompting again in this session
-												$.cookie('skip_cf_check', 'true');
-												$(this).dialog("destroy").remove();
-											}
-									}
-									]
-							});
-					}
-				});
-
-			});
-	</script>
-	<![endif]-->
-END;
 }
+
 //TODO: This should move to a hook similar to framework_include_js
 if(!empty($sysadmin)) {
   $html .= $sysadmin;
 }
+
 echo $html;
 ?>
 </body>
