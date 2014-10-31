@@ -539,7 +539,6 @@ function generate_module_repo_url($path, $add_options=false) {
 			//Yes they do the same thing but thats ok
 			if(!isset($result['data']) || trim($result['data']) == "") {
 				$firstinstall=true;
-				sql("DELETE FROM module_xml WHERE id = 'installid' OR id = 'type'");
 			} else {
 				$install_hash = _module_regenerate_unique_id();
 				$installid = $install_hash['uniqueid'];
@@ -548,6 +547,7 @@ function generate_module_repo_url($path, $add_options=false) {
 
 			// save the hash so we remeber this is a first time install
 			//
+			sql("DELETE FROM module_xml WHERE id = 'installid' AND id = 'type'");
 			$data4sql = $db->escapeSimple($installid);
 			sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
 			$data4sql = $db->escapeSimple($type);
