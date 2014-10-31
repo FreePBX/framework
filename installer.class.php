@@ -1,4 +1,5 @@
 <?php
+namespace FreePBX\Install;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -202,7 +203,7 @@ class Installer {
 		include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/freepbx_conf.class.php');
 	}
 
-	$freepbx_conf =& freepbx_conf::create();
+	$freepbx_conf =& \freepbx_conf::create();
 
 
 	$category = 'Advanced Settings Details';
@@ -2010,7 +2011,7 @@ class Installer {
 			include($amp_conf["AMPWEBROOT"].'/admin/libraries/cronmanager.class.php');
 		}
 	
-		$cm =& cronmanager::create($db);
+		$cm =& \cronmanager::create($db);
 		$cm->enable_updates();
 	}
 	}
