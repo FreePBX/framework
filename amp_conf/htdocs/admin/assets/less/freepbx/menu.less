@@ -1,14 +1,54 @@
-.navbar {
-	
-	background-color: @menu-item-color-default;
+@navbar-height: 34px;
+.freepbx-navbar {
+	.navbar {
+		/*background-color: @menu-item-color-default;*/
+		margin-bottom: 10px;
+		border: 1px solid #aed0ea;
+		background: @menu-item-color-default url(../images/jquery-ui/ui-bg_highlight-soft_100_deedf7_1x100.png) 50% 50% repeat-x;
+		min-height: @navbar-height;
 
-	.navbar-toggle {
-		float: left;
-	}
-	.fa-cog {
-		font-size: 25px;
-	}
-	.navbar-brand img {
-		height: 90%;
+		@media (min-width: 768px) {
+			.navbar-nav > li > a {
+				padding-top: 0px;
+				padding-bottom: 0px;
+			}
+		}
+		.navbar-form {
+			margin-top: 2px;
+			margin-bottom: 0px;
+			input {
+				height: (@navbar-height - 4);
+			}
+		}
+		.navbar-nav > li > a {
+			line-height: inherit;
+		}
+		.navbar-nav {
+			> li {
+				margin-left: 5px;
+				> a {
+					height: (@navbar-height - 7);
+					border: 1px solid #aed0ea;
+					background: @menu-item-color-default url(../images/jquery-ui/ui-bg_glass_80_d7ebf9_1x400.png) 50% 50% repeat-x;
+					font-weight: bold;
+					color: #2779aa;
+					border-radius: 4px;
+				}
+			}
+		}
+		.navbar-toggle {
+			float: left;
+		}
+		.fa-cog {
+			margin-top: -5px;
+			font-size: 25px;
+		}
+		.navbar-brand {
+			padding: 0px;
+			height: @navbar-height;
+			img {
+				height: @navbar-height;
+			}
+		}
 	}
 }
