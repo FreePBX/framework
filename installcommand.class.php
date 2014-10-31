@@ -178,7 +178,6 @@ class FreePBXInstallCommand extends Command {
 
 		// Read/parse asterisk.conf
 		// ... and then write amportal.conf, again?!
-//		$installer->amportal_conf_write(dirname(__FILE__) . "/amportal_new.conf");
 
 		// Write /etc/asterisk/version ?
 		exec("asterisk -V", $tmpout, $ret);
@@ -236,7 +235,7 @@ class FreePBXInstallCommand extends Command {
 		$version = $installer->get_version();
 
 		// Copy amp_conf/
-		$this->recursive_copy($input, $output, "amp_conf", "", "", $newinstall, false);
+//		$this->recursive_copy($input, $output, "amp_conf", "", "", $newinstall, false);
 
 		// Create dirs
 		// 	/var/www/html/admin/modules/framework/
@@ -312,7 +311,20 @@ class FreePBXInstallCommand extends Command {
 		$installer->freepbx_settings_init(true);
 
 		// freepbx_conf set_conf_values()
+		$freepbx_conf =& \freepbx_conf::create();
+		foreach ($amp_conf as $keyword => $value) {
+			if ($freepbx_conf->conf_setting_exists($keyword)) {
+				$freepbx_conf->set_conf_values(array($keyword => $value), false, true);
+			}
+		}
+		$freepbx_conf->commit_conf_settings();
+//		$installer->amportal_conf_write(dirname(__FILE__) . "/amportal_new.conf");
+//		$installer->amportal_conf_write(AMP_CONF);
+		file_put_contents(AMP_CONF, $freepbx_conf->amportal_generate(true));
+
 		// generate_configs();
+		/* nah */
+
 		// install_modules()
 		// module_admin install framework
 
