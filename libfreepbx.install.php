@@ -448,9 +448,6 @@ function install_sqlupdate( $version, $file )
 	}
 }
 
-/********************************************************************************************************************/
-/*                          FREEPBX SETTINGS (AMPORTAL.CONF) DEFINED HERE                                           */
-/********************************************************************************************************************/
 //
 // TODO: find a good way to extract the required localization strings for the tools to pickup
 //

@@ -2176,6 +2176,7 @@ class module_functions {
 		 Returns: random md5 hash
 	 */
 	function _generate_random_id($type=null, $mac=null) {
+		global $db;
 		if (trim($mac) == "") {
 			$sql = "SELECT * FROM module_xml WHERE id = 'randomid'";
 			$result = sql($sql,'getRow',DB_FETCHMODE_ASSOC);
@@ -2546,7 +2547,9 @@ class module_functions {
 					$data4sql = $db->escapeSimple($type);
 					sql("INSERT INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
 				} else {
-					$this->_regenerate_unique_id();
+					$install_hash = $this->_regenerate_unique_id();
+					$installid = $install_hash['uniqueid'];
+					$type = $install_hash['type'];
 				}
 			} else {
 				$installid=$result['data'];
@@ -2626,7 +2629,7 @@ class module_functions {
 	}
 
 	function url_get_contents($url,$request,$verb='get',$params=array()) {
-		$params['statsversion'] = 2;
+		$params['sv'] = 2;
 		global $amp_conf;
 		$verb = strtolower($verb);
 		$contents = null;
@@ -2688,6 +2691,7 @@ class module_functions {
 		sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
 		$data4sql = $db->escapeSimple($type);
 		sql("INSERT INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
+		return $install_hash;
 	}
 
 	function getSignature($modulename,$cached=true) {

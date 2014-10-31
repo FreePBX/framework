@@ -121,15 +121,13 @@ if (is_link("$wr/admin/images/notify_security.png")) {
    *    should run amportal to update it.
    */
 
-	if (function_exists('upgrade_all')) {
-		upgrade_all(getversion());
-    // We run this each time so that we can add settings if need be
-    // without requiring a major version bump
-    //
-    freepbx_settings_init(true);
-	} else {
-		out("[ERROR] Function: 'upgrade_all' not present, libfreepbx.install.php seems not to be installed");
-	}
+	require_once('installer.class.php');
+	$installer = new \Installer();
+	$installer->install_upgrades(getversion());
+	// We run this each time so that we can add settings if need be
+	// without requiring a major version bump
+	//
+	$installer->freepbx_settings_init(true);
 
 	// We now delete the files, this makes sure that if someone had an unprotected system where they have not enabled
 	// the .htaccess files or otherwise allowed direct access, that these files are not around to possibly cause problems
