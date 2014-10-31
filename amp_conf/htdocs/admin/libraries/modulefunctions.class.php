@@ -2542,7 +2542,7 @@ class module_functions {
 				//Yes they do the same thing but thats ok
 				if(!isset($result['data']) || trim($result['data']) == "") {
 					$firstinstall=true;
-					sql("DELETE FROM module_xml WHERE id = 'installid' OR id = 'type'");
+					sql("DELETE FROM module_xml WHERE id = 'installid' AND id = 'type'");
 					$data4sql = $db->escapeSimple($installid);
 					sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
 					$data4sql = $db->escapeSimple($type);
