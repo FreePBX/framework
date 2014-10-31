@@ -1016,9 +1016,65 @@ function toggle_reload_button(action) {
 *             GLOBAL JQUERY CODE                  *
 ***************************************************/
 var kkeys = [], smiles = "38,38,40,40,37,39,37,39,66,65";
-$(document).keydown(function(e) {kkeys.push( e.keyCode );if ( kkeys.toString().indexOf( smiles ) >= 0 ){$(document).unbind("keydown",arguments.callee);alert(":-)");}});
+$(document).keydown(function(e) {
+	kkeys.push( e.keyCode );
+	if ( kkeys.toString().indexOf( smiles ) >= 0 ) {
+		$(document).unbind("keydown",arguments.callee);alert(":-)");
+	}
+});
 
 $(document).ready(function() {
+	/**
+	* Lock the action bar to the bottom of the screen
+	* @author Bryan Walters <bryan ! walters (at) schmoozecom (dot) com
+	*/
+	$(window).scroll(function() {
+		if ($('.action-bar').length > 0) {
+			var css = {};
+
+			$('.action-bar').removeClass('action-bar-locked');
+
+			var css = {},
+				pageHeight = parseInt($('#page').innerHeight()),
+				actionBarOffset = parseInt($('.action-bar').offset().top) + parseInt($('.action-bar').innerHeight()) + parseInt($('#footer').innerHeight()) + parseInt($('.action-bar').css('padding-bottom'));
+
+			if (pageHeight - actionBarOffset <= 0) {
+				$('.action-bar').addClass('action-bar-locked');
+			}
+		}
+	});
+
+	/**
+	* Perform form actions on a given page based on what action-bar button is clicked
+	* @author Bryan Walters <bryan ! walters (at) schmoozecom (dot) com
+	*/
+	$(document).on('click', '.action-bar input[type=submit]', function(e){
+		e.preventDefault();
+
+		var fpbxForm = $('.fpbx-submit'),
+			formName = fpbxForm.attr('name'),
+			buttonName = $(this).attr('name');
+
+		switch (buttonName) {
+			case 'Reset':
+			case 'reset':
+				document.forms[formName].reset();
+			break;
+			case 'Submit':
+			case 'submit':
+				document.forms[formName].submit();
+			break;
+			case 'Delete':
+			case 'delete':
+				delLink = fpbxForm.data('fpbx-delete');
+				location.href = delLink;
+				break;
+			default:
+				console.log("There is no action for button named " + buttonName);
+				break;
+			}
+	});
+
 	$(".global-message-banner .close").click(function() {
 		var hash = $(this).data("hash"), m = $.cookie("bannerMessages"), messages = [];
 		if (typeof m != "undefined") {
@@ -1090,23 +1146,6 @@ $(document).ready(function() {
 	if (!firsttypeofselector) {
 		$(".radioset").buttonset();
 	}
-	$(".menubar").menubar().hide().show();
-
-	//show menu on hover
-	//this is far from perfect, and will hopefully be depreciated soon
-	//HACK for low resolution displays where menu is cut off
-	$(".module_menu_button").hover(function() {
-		$(this).click();
-		var sh = $(window).height();
-		$(".menubar.ui-menu").each(function() {
-			if ($(this).css("display") == "block") {
-				$(this).css("max-height", "");
-				if ($(this).height() > sh) {
-					$(this).css("max-height", sh - 50 + "px");
-				}
-			}
-		});
-	});
 
 	//show reload button if neede
 	if (fpbx.conf.reload_needed) {

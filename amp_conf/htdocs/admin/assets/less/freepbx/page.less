@@ -33,8 +33,6 @@ html {
     max-width: 1920px;
 }
 #page_body {
-    padding:10px;
-    padding-top:31px;
     padding-bottom:110px;
     width: 95%;
     margin-left: auto;
@@ -70,21 +68,23 @@ html {
     & > span {
         float:left;
     }
+    .action-bar {
+      padding-bottom: 10px;
+    }
+    .action-bar-locked {
+      position: absolute;
+      bottom: 110px;
+    }
 }
 #footer_content {
     margin: 0px auto;
     padding-top: 15px;
     display: table;
     text-align:center;
-}
-#footer_text {
-    margin: auto 10px;
+    clear: both;
 }
 #footer, #footer a {
     color:#999;
-}
-.footer-float-left {
-    float: left;
 }
 #footer_content_sponsor {
     margin-left:25px;
@@ -165,6 +165,7 @@ a:hover {
     color:@a-color-hover;
 }
 h1, h2, h3, h4, h5, h6 {
+    margin-top: 0px;
     color: gray;
 }
 input, textarea {

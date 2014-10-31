@@ -21,9 +21,9 @@ class Ajax extends FreePBX_Helpers {
 	}
 
 	/**
-	 * Preform AJAX Request
+	 * Perform AJAX Request
 	 *
-	 * Preform the Ajax Request
+	 * Perform the Ajax Request
 	 *
 	 * @param $module The module name
 	 * @param $command The command to execute
@@ -45,6 +45,9 @@ class Ajax extends FreePBX_Helpers {
 		if ($module == "framework") {
 			$file = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/libraries/BMO/Framework.class.php";
 			$ucMod = "Framework";
+		} elseif ($module == "search") { // Ajax Search plugin
+			$file = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/libraries/BMO/Search.class.php";
+			$ucMod = "Search";
 		} else {
 			$ucMod = ucfirst($module);
 			$file = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/$module/$ucMod.class.php";
@@ -114,12 +117,12 @@ class Ajax extends FreePBX_Helpers {
 		}
 		$this->addHeader('HTTP/1.0','200');
 		//some helpers
-		if(!is_array($ret) && is_bool($ret)) {
+		if(is_bool($ret)) {
 			$ret = array(
 				"status" => $ret,
 				"message" => "unknown"
 			);
-		} elseif(is_array($ret) && is_string($ret)) {
+		} elseif(is_string($ret)) {
 			$ret = array(
 				"status" => true,
 				"message" => $ret
