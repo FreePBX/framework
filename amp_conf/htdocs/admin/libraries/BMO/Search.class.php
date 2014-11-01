@@ -57,7 +57,7 @@ class Search extends FreePBX_Helpers {
 				if(!method_exists($mod, 'search')) {
 					continue;
 				}
-				$mod->search($_REQUEST, $results);
+				$mod->search($qs, $results);
 			} catch (Exception $e) {
 				continue;
 			}
@@ -65,8 +65,13 @@ class Search extends FreePBX_Helpers {
 
 		// Remove any results from the search that are unneeded.
 		foreach ($results as $i => $r) {
-			if (isset($r['force']) || strpos($r['text'], $qs) === false) {
-				// Not forced to appear, and doesn't match? Remove.
+			if ($r['type'] == "text" || isset($r['force'])) {
+				// Always return text fields that were given back to us, or if the result
+				// was forced to display.
+				continue;
+			}
+			if (strpos($r['text'], $qs) === false) {
+				// Doesn't match? Remove.
 				unset($results[$i]);
 			}
 		}

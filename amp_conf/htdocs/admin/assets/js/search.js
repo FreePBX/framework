@@ -23,7 +23,7 @@ var SearchC = Class.extend({
       remote: {
         ttl: 100,
         url: 'ajax.php?module=search&command=local&query=%QUERY&section='+window.modulename,
-        filter: function(data) { console.log(data); return $.map(data, function(t) { return { raw: true, value: t.text, o: t } }); },
+        filter: function(data) { return $.map(data, function(t) { return { raw: true, value: t.text, o: t } }); },
       },
     });
     this.itemSearch.initialize();
@@ -55,21 +55,27 @@ var SearchC = Class.extend({
   extMatch: function(strs) {
     var self = this;
     return function findMatches(q, cb) {
-      var matches, substrRegex;
+      var matches, oMatches, substrRegex;
       matches = [];
+      oMatches = {};
       substrRegex = new RegExp(q, 'i');
       $.each(strs, function(i, str) {
+        var val;
         if (substrRegex.test(str)) {
 	  // We're an Extension!
 	  if (self.extLookup[str] == str) {
 	    // It's an extension
-            matches.push({ value: "Extension "+str, ext: str });
+	    val = "Extension "+str;
 	  } else {
-	    // It's a name
-            matches.push({ value: str+" ("+self.extLookup[str]+")", ext: str });
+	    val = str+" ("+self.extLookup[str]+")";
 	  }
+          oMatches[val] = { value: val, ext: str };
         }
       });
+      // We loop twice to remove duplicates. This possibly could be
+      // quicker by doing a hash check in the previous loop, but it'll
+      // be harder to read.
+      $.each(oMatches, function(i, obj) { matches.push(obj) });;
       cb(matches);
     };
   },
