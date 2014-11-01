@@ -20,6 +20,8 @@ class Search extends FreePBX_Helpers {
 		$search = $this->getSearch();
 		if ($search == "global") {
 			return $this->globalSearch();
+		} elseif ($search == "local") {
+			return $this->moduleSearch();
 		} else {
 			return "Derp";
 		}
@@ -37,26 +39,29 @@ class Search extends FreePBX_Helpers {
 		return $retarr;
 	}
 
-	public function moduleSearch($module, $str) {
-		$module = htmlentities($module);
-		// Lets see if the module exists
-		try {
-			$mod = $this->FreePBX->$module;
-			if(!method_exists($mod, 'search')) {
-				throw new Exception("No Search Method");
+	public function moduleSearch() {
+		// Ask all modules for their search results
+		$modules = FreePBX::Modules()->getActiveModules();
+		$results = array();
+		foreach ($modules as $m) {
+			// If this is a BMO Module, grab it and ask it for search results
+			try {
+				$module = ucfirst($m['rawname']);
+				$mod = $this->FreePBX->$module;
+				if(!method_exists($mod, 'search')) {
+					continue;
+				}
+				$mod->search($_REQUEST, $results);
+			} catch (Exception $e) {
+				continue;
 			}
-		} catch (Exception $e) {
-			return array(
-				array("text" => "Module $module doesn't implement search", "type" => "text", "details" => $e->getMessage())
-			);
 		}
-		$res = $mod->search($str);
-		if (!is_array($res)) {
-			return array(
-				array("text" => "Search Error", "type" => "text", "details" => $res)
-			);
-		}
-		return $res;
+		$results[] = array("text" => "<h4>This is text</h4>", "type" => "text");
+		$results[] = array("text" => "This is a relative link", "type" => "get", "dest" => "config.php?display=modules");
+		$results[] = array("text" => "This is an explicit link", "type" => "get", "dest" => "https://google.com.au");
+		$results[] = array("text" => "<h3>Moar</h3>", "type" => "text");
+
+		return $results;
 	}
 
 	private function getSearch($str) {
