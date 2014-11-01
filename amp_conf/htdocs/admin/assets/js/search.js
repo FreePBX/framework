@@ -96,11 +96,14 @@ var SearchC = Class.extend({
       return this.processModuleClick(d.o);
     } else if (name == "extenSearch") {
       return this.processExtenClick(d);
+    } else if (name == "itemSearch") {
+      return this.processItemClick(d);
     } else {
       console.log("All the wat "+name);
       return false;
     }
   },
+
   processModuleClick: function(o) {
     if (o.type == "get") {
       window.location.search = o.dest;
@@ -108,12 +111,45 @@ var SearchC = Class.extend({
     }
     console.log("No idea what to do with this: ", o);
   },
+
   processExtenClick: function(o) {
     var ext = this.extLookup[o.ext];
     window.location.search = "?display=extensions&extdisplay="+ext;
     window.location.hash = "";
     return true;
   },
+
+  processItemClick: function(o) {
+    var item = o.o;
+
+    var href;
+
+    if(item.dest.match(/\/\//)) {
+      // It's an explicit link. (check for // anywhere) Go there.
+      href = item.dest;
+    } else {
+      // It's a relative link. Let's rebuild our URL. Note that IE compat in
+      // w.l.origin is in header, where we preload our ajaxurl and modulename
+      href = window.location.origin;
+      if (item.dest.match(/^\//)) {
+        // It starts with a slash
+        href += item.dest;
+      } else {
+        // It's inside freepbx. 
+        href += window.location.pathname + item.dest;
+      }
+    }
+    if (typeof(item.search) != "undefined") {
+      href += "?" + item.search;
+    }
+    if (typeof(item.hash) != "undefined") {
+      href += "#" + item.hash;
+    }
+    // Actually go there!
+    window.location.href = href;
+    return true;
+  },
+
   genItemHtml: function(o) {
     if (o.o.type == "text") {
       return "<div>"+o.value+"</div>";

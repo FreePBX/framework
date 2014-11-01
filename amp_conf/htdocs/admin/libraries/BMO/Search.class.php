@@ -57,7 +57,8 @@ class Search extends FreePBX_Helpers {
 			}
 		}
 		$results[] = array("text" => "<h4>This is text</h4>", "type" => "text");
-		$results[] = array("text" => "This is a relative link", "type" => "get", "dest" => "config.php?display=modules");
+		$results[] = array("text" => "This is a query link", "type" => "get", "dest" => "?display=modules");
+		$results[] = array("text" => "This is a relative link", "type" => "get", "dest" => "/admin/config.php");
 		$results[] = array("text" => "This is an explicit link", "type" => "get", "dest" => "https://google.com.au");
 		$results[] = array("text" => "<h3>Moar</h3>", "type" => "text");
 
