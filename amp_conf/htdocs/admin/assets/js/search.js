@@ -11,10 +11,22 @@ var SearchC = Class.extend({
       prefetch: {
         ttl: 1000,
         url: 'ajax.php?module=search&command=global&t=9',
-       filter: function(data) { console.log(data); return $.map(data, function(t) { return { value: t.text, o: t } }); },
+       filter: function(data) { return $.map(data, function(t) { return { value: t.text, o: t } }); },
       }
     });
     this.moduleSearch.initialize();
+
+    this.itemSearch = new Bloodhound({
+      datumTokenizer: Bloodhound.tokenizers.obj.whitespace('value'),
+      queryTokenizer: Bloodhound.tokenizers.whitespace,
+      limit: 10,
+      remote: {
+        ttl: 100,
+        url: 'ajax.php?module=search&command=local&query=%QUERY&section='+window.modulename,
+        filter: function(data) { console.log(data); return $.map(data, function(t) { return { raw: true, value: t.text, o: t } }); },
+      },
+    });
+    this.itemSearch.initialize();
 
     $('#fpbxsearch .typeahead').typeahead({
       hint: true,
@@ -28,19 +40,34 @@ var SearchC = Class.extend({
       name: 'moduleSearch',
       displayKey: 'value',
       source: this.moduleSearch.ttAdapter()
+    }, {
+      name: 'itemSearch',
+      displayKey: 'value',
+      source: this.itemSearch.ttAdapter(),
+      templates: {
+        suggestion: self.genItemHtml,
+      }
     })
     .bind("typeahead:selected", function(o,d,n) { self.processSearchClick(o,d,n); })
     .focus();
   },
 
   extMatch: function(strs) {
+    var self = this;
     return function findMatches(q, cb) {
       var matches, substrRegex;
       matches = [];
       substrRegex = new RegExp(q, 'i');
       $.each(strs, function(i, str) {
         if (substrRegex.test(str)) {
-          matches.push({ value: "Extension "+str, ext: str });
+	  // We're an Extension!
+	  if (self.extLookup[str] == str) {
+	    // It's an extension
+            matches.push({ value: "Extension "+str, ext: str });
+	  } else {
+	    // It's a name
+            matches.push({ value: str+" ("+self.extLookup[str]+")", ext: str });
+	  }
         }
       });
       cb(matches);
@@ -87,8 +114,15 @@ var SearchC = Class.extend({
     window.location.hash = "";
     return true;
   },
+  genItemHtml: function(o) {
+    if (o.o.type == "text") {
+      return "<div>"+o.value+"</div>";
+    } else {
+      return "<div class='tt-suggestion'><p>"+o.value+"</p></div>";
+    }
+  },
 });
 
 $(document).ready(function() {
-  var Search = new SearchC();
+  window.Search = new SearchC();
 });
