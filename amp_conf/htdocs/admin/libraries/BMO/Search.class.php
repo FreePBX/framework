@@ -40,6 +40,12 @@ class Search extends FreePBX_Helpers {
 	}
 
 	public function moduleSearch() {
+		if (!isset($_REQUEST['query'])) {
+			return array();
+		}
+		// Make the query string usable.
+		$qs = htmlentities($_REQUEST['query'], ENT_QUOTES|ENT_HTML401, 'UTF-8', false);
+
 		// Ask all modules for their search results
 		$modules = FreePBX::Modules()->getActiveModules();
 		$results = array();
@@ -56,16 +62,18 @@ class Search extends FreePBX_Helpers {
 				continue;
 			}
 		}
-		$results[] = array("text" => "<h4>This is text</h4>", "type" => "text");
-		$results[] = array("text" => "This is a query link", "type" => "get", "dest" => "?display=modules");
-		$results[] = array("text" => "This is a relative link", "type" => "get", "dest" => "/admin/config.php");
-		$results[] = array("text" => "This is an explicit link", "type" => "get", "dest" => "https://google.com.au");
-		$results[] = array("text" => "<h3>Moar</h3>", "type" => "text");
 
+		// Remove any results from the search that are unneeded.
+		foreach ($results as $i => $r) {
+			if (isset($r['force']) || strpos($r['text'], $qs) === false) {
+				// Not forced to appear, and doesn't match? Remove.
+				unset($results[$i]);
+			}
+		}
 		return $results;
 	}
 
-	private function getSearch($str) {
+	private function getSearch() {
 		if (!isset($_REQUEST['command'])) {
 			return false;
 		}
