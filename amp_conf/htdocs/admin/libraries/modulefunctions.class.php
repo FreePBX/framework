@@ -1849,6 +1849,7 @@ class module_functions {
 
 		if ($modules[$modulename]['status'] != MODULE_STATUS_NOTINSTALLED) {
 			if (is_array($errors = $this->uninstall($modulename, $force))) {
+				//TODO: not sure about this...
 				return $errors;
 			}
 		}
