@@ -1848,6 +1848,7 @@ class module_functions {
 
 		if ($modules[$modulename]['status'] != MODULE_STATUS_NOTINSTALLED) {
 			if (is_array($errors = $this->uninstall($modulename, $force))) {
+				//TODO: not sure about this...
 				return $errors;
 			}
 		}
@@ -2541,7 +2542,7 @@ class module_functions {
 				//Yes they do the same thing but thats ok
 				if(!isset($result['data']) || trim($result['data']) == "") {
 					$firstinstall=true;
-					sql("DELETE FROM module_xml WHERE id = 'installid' OR id = 'type'");
+					sql("DELETE FROM module_xml WHERE id = 'installid' AND id = 'type'");
 					$data4sql = $db->escapeSimple($installid);
 					sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
 					$data4sql = $db->escapeSimple($type);
@@ -2731,6 +2732,10 @@ class module_functions {
 				$mod['signature'] = json_decode($mod['signature'],TRUE);
 			}
 			$modules['modules'][$mod['modulename']] = $mod;
+			if(!is_int($mod['signature']['status'])) {
+				$modules['statuses']['unsigned'][] = sprintf(_('Module "%s" is is missing its signature status.'),$modname);
+				continue;
+			}
 			if(~$mod['signature']['status'] & GPG::STATE_GOOD) {
 				$globalValidation = false;
 			}
