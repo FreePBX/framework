@@ -1,8 +1,9 @@
 .button-border(@color) {
-	border: 1px solid @color;
+	border: 1px solid rgba(116, 178, 226, 0.46);
 }
 .button-background(@color, @image) {
-	background: @color url(@image) 50% 50% repeat-x;
+	/* background: @color url(@image) 50% 50% repeat-x; */
+	background: @color;
 }
 .button-layout() {
 	.button-border(@button-border-default);
@@ -26,13 +27,15 @@
 .button-hover() {
 	.button-border(@button-border-hover);
 	.button-background(@button-background-color-hover, @button-image-hover);
-	color: @button-color-hover;
+	color: @button-color-default;
+	background-color: #EBF7FF;
 }
 
 .button-active() {
 	.button-border(@button-border-active);
 	.button-background(@button-background-color-active, @button-image-active);
-	color: @button-color-active;
+	color: #FFFFFF;
+	background-color: #358BC8;
 }
 
 .button-disabled() {
