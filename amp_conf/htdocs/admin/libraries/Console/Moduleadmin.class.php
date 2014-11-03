@@ -10,6 +10,7 @@ class Moduleadmin extends Command {
 
 	protected function configure(){
 		$this->setName('ma')
+		->setAliases(array('modadmin'))
 		->setDescription('Module Administration')
 		->setDefinition(array(
 			new InputOption('force', 'f', InputOption::VALUE_NONE, 'Force operation (skips dependency and status checks) <warning>WARNING:</warning> Use at your own risk, modules have dependencies for a reason!'),
