@@ -37,7 +37,7 @@ $language = array(
 
 						<ul class="nav navbar-nav navbar-left">
 							<?php include_once(__DIR__ . '/menu_items.php'); ?>
-							<li><button id="button_reload" class="btn btn-default navbar-btn"><?php echo _('Apply Config'); ?></button></li>
+							<li><a id="button_reload" class="navbar-btn reload-btn"><?php echo _('Apply Config'); ?></a></li>
 						</ul>
 						<?php if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) { ?>
 							<ul class="nav navbar-nav navbar-right">
@@ -65,9 +65,9 @@ $language = array(
 								<li class="dropdown">
 									<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cog"></i></a>
 									<ul class="dropdown-menu" role="menu">
-										<li role="presentation" ><?php echo _('Hello, ') . (isset($_SESSION['AMP_user']->username) ? $_SESSION['AMP_user']->username : 'ERROR'); ?></li>
+										<li role="presentation" ><a><?php echo _('Hello, ') . (isset($_SESSION['AMP_user']->username) ? $_SESSION['AMP_user']->username : 'ERROR'); ?></a></li>
 										<li role="presentation" class="divider"></li>
-										<li><a id="user_logout" href="#" title="logout"><?php echo _('Logout'); ?></a>
+										<li><a id="user_logout" href="#"><?php echo _('Logout'); ?></a>
 									</ul>
 								</li>
 							</ul>
