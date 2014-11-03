@@ -2733,6 +2733,10 @@ class module_functions {
 				$mod['signature'] = json_decode($mod['signature'],TRUE);
 			}
 			$modules['modules'][$mod['modulename']] = $mod;
+			if(!is_int($mod['signature']['status'])) {
+				$modules['statuses']['unsigned'][] = sprintf(_('Module "%s" is is missing its signature status.'),$modname);
+				continue;
+			}
 			if(~$mod['signature']['status'] & GPG::STATE_GOOD) {
 				$globalValidation = false;
 			}
