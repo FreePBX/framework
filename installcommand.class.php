@@ -35,6 +35,9 @@ class FreePBXInstallCommand extends Command {
 			'default' => 'asterisk',
 	 		'description' => 'File owner group'
 		),
+		'dev-links' => array(
+	 		'description' => 'Make links to files in the source directory instead of copying (developer option)'
+		),
 		'webroot' => array(
 			'default' => '/var/www/html',
 	 		'description' => 'Filesystem location from which FreePBX files will be served'
@@ -48,7 +51,11 @@ class FreePBXInstallCommand extends Command {
 			;
 
 		foreach ($this->settings as $key => $setting) {
-			$this->addOption($key, null, InputOption::VALUE_REQUIRED, $setting['description'], $setting['default']);
+			if (isset($setting['default'])) {
+				$this->addOption($key, null, InputOption::VALUE_REQUIRED, $setting['description'], $setting['default']);
+			} else {
+				$this->addOption($key, null, InputOption::VALUE_NONE, $setting['description']);
+			}
 		}
 	}
 
@@ -79,8 +86,10 @@ class FreePBXInstallCommand extends Command {
 			$helper = $this->getHelper('question');
 
 			foreach ($this->settings as $key => $setting) {
-				$question = new Question($setting['description'] . ($setting['default'] ? ' [' . $setting['default'] . ']' : '') . ': ', isset($answers[$key]) ? $answers[$key] : $setting['default']);
-				$answers[$key] = $helper->ask($input, $output, $question);
+				if (isset($setting['default'])) {
+					$question = new Question($setting['description'] . ($setting['default'] ? ' [' . $setting['default'] . ']' : '') . ': ', $answers[$key]);
+					$answers[$key] = $helper->ask($input, $output, $question);
+				}
 			}
 		}
 
@@ -236,7 +245,7 @@ class FreePBXInstallCommand extends Command {
 		$version = $installer->get_version();
 
 		// Copy amp_conf/
-		$this->recursive_copy($input, $output, "amp_conf", "", $newinstall, false);
+		$this->recursive_copy($input, $output, "amp_conf", "", $newinstall, $answers['dev-links']);
 
 		// Create dirs
 		// 	/var/www/html/admin/modules/framework/
