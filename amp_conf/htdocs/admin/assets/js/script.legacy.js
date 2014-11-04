@@ -1069,6 +1069,11 @@ $(document).ready(function() {
 				delLink = fpbxForm.data('fpbx-delete');
 				location.href = delLink;
 				break;
+			case 'Duplicate':
+			case 'duplicate':
+				document.forms[formName].submit();
+				console.log(document.forms[formName]);
+				break;
 			default:
 				console.log("There is no action for button named " + buttonName);
 				break;
