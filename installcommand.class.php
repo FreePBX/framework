@@ -342,17 +342,19 @@ class FreePBXInstallCommand extends Command {
 			}
 		}
 
-		// install_modules()
-		$included_modules = array();
-		/* read modules list from MODULE_DIR */
-		$dir = opendir(MODULE_DIR);
-		while ($file = readdir($dir)) {
-			if ($file[0] != "." && $file[0] != "_" && is_dir(MODULE_DIR."/".$file)) {
-				$included_modules[] = $file;
+		if (!$answers['dev-links']) {
+			// install_modules()
+			$included_modules = array();
+			/* read modules list from MODULE_DIR */
+			$dir = opendir(MODULE_DIR);
+			while ($file = readdir($dir)) {
+				if ($file[0] != "." && $file[0] != "_" && is_dir(MODULE_DIR."/".$file)) {
+					$included_modules[] = $file;
+				}
 			}
+			closedir($dir);
+			$this->install_modules($included_modules);
 		}
-		closedir($dir);
-		$this->install_modules($included_modules);
 
 		// module_admin install framework
 		$this->install_modules(array('framework'));
