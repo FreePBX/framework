@@ -6,7 +6,7 @@
 */
 function sql($sql,$type="query",$fetchmode='default') {
 	global $db;
-	if(!is_object($db) || get_class($db) != "DB") {
+	if(empty($db) || !is_object($db) || get_class($db) != "DB") {
 		$dbh = FreePBX::Create()->Database();
 		$db = new DB($dbh);
 	}
