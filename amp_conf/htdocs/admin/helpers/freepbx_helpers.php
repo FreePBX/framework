@@ -212,7 +212,7 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 
 	//draw "parent" select box
 	$style=' style="'.(($destmod=='Error')?'background-color:red;':'').'"';
-	$html.='<select data-last="'.$data_last_cat.'" name="goto' . $i . '" id="goto' . $i . '" class="destdropdown" ' . $style . ' tabindex="' . ++$tabindex . '"'
+	$html.='<select data-last="'.$data_last_cat.'" name="goto' . $i . '" id="goto' . $i . '" class="form-control destdropdown" ' . $style . ' tabindex="' . ++$tabindex . '"'
 			. ($required ? ' required ' : '') //html5 validation
 			. ' data-id="' . $i . '" '
 			. '>';
@@ -258,7 +258,7 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 				$data_class = '';
 			}
 		}
-		$class_tag = ' class="destdropdown2 ' . $rawmod;
+		$class_tag = ' class="form-control destdropdown2 ' . $rawmod;
 		$class_tag .= $rawmod == $ds_id ? '"' : ' ' . $ds_id . '"';
 		$name_tag = str_replace(' ', '_', $cat) . $i;
 		$html.='<select ' . $data_url . $data_class . $data_mod . 'data-last="'.$data_last_dest.'" name="' . $name_tag

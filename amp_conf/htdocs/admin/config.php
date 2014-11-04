@@ -306,7 +306,7 @@ ob_start();
 if (!empty($display) && $display != 'badrefer') {
 		// $CC is used by guielemets as a Global.
 		try {
-			$CC = $currentcomponent = new component($display,$type);
+			$CC = $currentcomponent = new component($display);
 
 			// BMO: Process ConfigPageInit functions
 			$bmo->GuiHooks->doConfigPageInits($display, $currentcomponent);
@@ -527,7 +527,8 @@ switch($display) {
 					modgettext::textdomain($module_name);
 					try {
 						$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
-						echo  $currentcomponent->generateconfigpage();
+						/** NOTE: Depreciated. Because of this ONLY the pages that need this will run it! **/
+						//echo  $currentcomponent->generateconfigpage();
 					} catch(Exception $e) {
 						die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
 					}
