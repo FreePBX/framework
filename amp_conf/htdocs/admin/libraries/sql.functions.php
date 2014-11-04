@@ -5,8 +5,11 @@
 *  returns array, unless using getOne
 */
 function sql($sql,$type="query",$fetchmode='default') {
-	$dbh = FreePBX::Create()->Database();
-	$db = new DB($dbh);
+	global $db;
+	if(!is_object($db) || get_class($db) != "DB") {
+		$dbh = FreePBX::Create()->Database();
+		$db = new DB($dbh);
+	}
 	switch($fetchmode) {
 		case DB_FETCHMODE_ASSOC || 'DB_FETCHMODE_ASSOC':
 			try {
