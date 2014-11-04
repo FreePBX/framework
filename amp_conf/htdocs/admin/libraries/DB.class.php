@@ -65,17 +65,24 @@ class DB {
 	 */
 	public function getCol($sql,$col=0,$params=array()) {
 		$this->error = null;
+		$array = array();
 		try {
 			if(!empty($params) && is_array($params)) {
 				$this->res = $this->db->prepare($sql);
 				$this->res->execute($params);
-				return $this->res->fetchColumn($col);
+				while($row = $this->res->fetchColumn($col)) {
+					$array[] = $row;
+				}
+				return $array;
 			}
 			$this->res = $this->db->query($sql);
 			if($this->res === false) {
 				return false;
 			}
-			return $this->res->fetchColumn($col);
+			while($row = $this->res->fetchColumn($col)) {
+				$array[] = $row;
+			}
+			return $array;
 		} catch (Exception $e) {
 			return new DB_Error($e);
 		}
