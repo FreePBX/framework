@@ -92,8 +92,21 @@ class Chown extends Command {
 		}
 	}
 	private function singleChown($file, $user, $group){
-		chown($file, $user);
-		chgrp($file, $group);
+		$oret = chown($file, $user);
+		$gret = chgrp($file, $group);
+			if($oret){
+				echo 'Owner for ' . $file . ' set' ;
+			}else{
+				echo 'Setting owner for ' . $file . ' failed';				
+			}
+			if($gret){
+				echo 'Group for ' . $file . ' set' ;
+			}else{
+				echo 'Setting Group for ' . $file . ' failed';				
+			}
+			unset($oret);
+			unset($gret);
+				
 	}
 	private function recursiveChown($dir, $user, $group){
 		$files = scandir($dir);
@@ -123,10 +136,23 @@ class Chown extends Command {
 		switch($filetype){
 			case 'link':
 				$realfile = readlink($file);
-				chmod($realfile,$perms);
+				echo $file . ' Links to ' . $realfile;
+				$ret = chmod($realfile,$perms);
+				if($ret){
+					echo 'Permissions for ' . $realfile . ' set' ;
+				}else{
+					echo 'Permissions for ' . $realfile . ' failed';
+				}
+				unset($ret);
 			break;
 			case 'file':
-				chmod($file,$perms);
+				$ret = chmod($file,$perms);
+				if($ret){
+					echo 'Permissions for ' . $file . ' set' ;
+				}else{
+					echo 'Permissions for ' . $file . ' failed';
+				}
+				unset($ret);
 			break;
 		}
 	}
