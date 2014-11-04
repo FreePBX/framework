@@ -8,7 +8,7 @@ $bootstrap_settings['freepbx_auth'] = false;
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
       include_once('/etc/asterisk/freepbx.conf');
 }
-$webrootpath = (isset($amp_conf['AMPWEBROOT']) && !empty($amp_conf['AMPWEBROOT'])) ?  $amp_conf['AMPWEBROOT'] : '/var/www/html'; 
+$webrootpath = (isset($amp_conf['AMPWEBROOT']) && !empty($amp_conf['AMPWEBROOT'])) ?  $amp_conf['AMPWEBROOT'] : '/var/www/html';
 
 include $webrootpath .'/admin/libraries/Symfony/vendor/autoload.php';
 include $webrootpath .'/admin/libraries/FWApplication.class.php';
@@ -35,12 +35,12 @@ foreach ($fwclasses as $class){
 		$class = 'FreePBX\\Console\\Command\\' . $classname;
 		$fbc->add(new $class);
 	}
-}	
+}
 
 /*
  * Dynamic Class Loader. This looks to enabled modules for a Console folder
- * Then loads any file.class.php files found in that subdir. 
- * This doesn't really handle bad includes. If your include in no good
+ * Then loads any file.class.php files found in that subdir.
+ * This doesn't really handle bad includes. If your include in bad
  * It will likely break everything!
  */
 foreach($amodules as $module){
