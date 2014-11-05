@@ -61,51 +61,17 @@ function doEnable($modulename, $force) {
 function doInstall($modulename, $force) {
 	getIncludes();
 	$module =& module_functions::create();
-	if (is_array($errors = $module->install($modulename, $force))) {
-		if(!empty($module->modDepends)) {
-			out("Detected Unmet Dependency..Attempting to install it");
-			foreach($module->modDepends as $mod) {
-				if($modulename == $mod) {
-					continue; //skip self?
-				}
-				getIncludes(); //get functions from other modules, in case we need them here
-				out("Installing $mod...");
-				$status = doInstall($mod, $force);
-				if($status !== true && $mod != 'framework') {
-					if (($status1 = doDownload($mod, $force)) === true) {
-						if (($status2 = doInstall($mod, $force)) !== true) {
-							out("Unable to install module ${modulename}'s dependency ${mod}:");
-							out(' - '.implode("\n - ",$status2));
-							continue;
-							//exit;
-						}
-					} else {
-						out("Unable to download module ${modulename}'s dependency ${mod}:");
-						out(' - '.implode("\n - ",$status1));
-						continue;
-						//exit;
-					}
-				}
-			}
-			doInstall($modulename, $force);
-		} else {
-			if($module->notFound) {
-				if (($status1 = doDownload($modulename, $force)) === true) {
-					if (($status2 = doInstall($modulename, $force)) !== true) {
-						out("Unable to install module ${modulename}:");
-						out(' - '.implode("\n - ",$status2));
-						//exit;
-					}
-				}
-			} else {
-				out("The following error(s) occurred:");
-				out(' - '.implode("\n - ",$errors));
-				//exit(2);
-			}
-
-		}
+	if(!$module->resolveDependencies($modulename,'download_progress')) {
+		out(sprintf(_("Unable to resolve dependencies for module %s:"),$modulename));
+		exit(2);
 	} else {
-		out("Module ".$modulename." successfully installed");
+		if (is_array($errors = $module->install($modulename, $force))) {
+			out("Unable to install module ${modulename}:");
+			out(' - '.implode("\n - ",$status2));
+			exit(2);
+		} else {
+			out("Module ".$modulename." successfully installed");
+		}
 	}
 	return true;
 }
@@ -222,29 +188,29 @@ function doInstallLocal($force) {
 	$modulef =& module_functions::create();
 	//refresh module cache
 	$modulef->getinfo(false,false,true);
-  $module_info=$modulef->getinfo(false, MODULE_STATUS_NOTINSTALLED);
-  foreach ($module_info as $module) {
-    if ($module['rawname'] != 'builtin') {
-      $modules[] = $module['rawname'];
-    }
-  }
-  if (in_array('core', $modules)){
-    out("Installing core...");
-    doInstall('core', $force);
-  }
-  if (count($modules) > 0) {
-    out("Installing: ".implode(', ',$modules));
-    foreach ($modules as $module => $name) {
-      if (($name != 'core')){//we dont want to reinstall core
-        getIncludes(); //get functions from other modules, in case we need them here
-        out("Installing $name...");
-        doInstall($name, $force);
-      }
-    }
-    out("Done. All modules installed.");
-  } else {
-    out("All modules up to date.");
-  }
+	$module_info=$modulef->getinfo(false, MODULE_STATUS_NOTINSTALLED);
+	foreach ($module_info as $module) {
+		if ($module['rawname'] != 'builtin') {
+			$modules[] = $module['rawname'];
+		}
+	}
+	if (in_array('core', $modules)){
+		out("Installing core...");
+		doInstall('core', $force);
+	}
+	if (count($modules) > 0) {
+		out("Installing: ".implode(', ',$modules));
+		foreach ($modules as $module => $name) {
+			if (($name != 'core')){//we dont want to reinstall core
+				getIncludes(); //get functions from other modules, in case we need them here
+				out("Installing $name...");
+				doInstall($name, $force);
+			}
+		}
+		out("Done. All modules installed.");
+	} else {
+		out("All modules up to date.");
+	}
 }
 
 function doInstallAll($force) {
@@ -285,44 +251,44 @@ function getIncludes(){
 }
 
 /**
- * @param bool Controls if a simple (names only) or extended (array of name,versions) array is returned
- */
+* @param bool Controls if a simple (names only) or extended (array of name,versions) array is returned
+*/
 function getInstallableModules($extarray = false) {
 	$modulef =& module_functions::create();
 	$modules_online = $modulef->getonlinexml();
 	$module_info=$modulef->getinfo(false);
 	$modules_installable = array();
-  global $active_repos;
+	global $active_repos;
 
-  check_active_repos();
+	check_active_repos();
 
 	foreach ($modules_online as $name) {
 
-    // Theory: module is not in the defined repos, and since it is not local (meaning we loaded it at some point) then we
-    //         don't show it. Exception, if the status is BROKEN then we should show it because it was here once.
-    //
-    if ((!isset($active_repos[$modules_online[$name['rawname']]['repo']]) || !$active_repos[$modules_online[$name['rawname']]['repo']]) && (!isset($module_info[$name['rawname']]) || $module_info[$name['rawname']]['status'] == MODULE_STATUS_NOTINSTALLED)) {
-      continue;
-    }
+		// Theory: module is not in the defined repos, and since it is not local (meaning we loaded it at some point) then we
+		//         don't show it. Exception, if the status is BROKEN then we should show it because it was here once.
+		//
+		if ((!isset($active_repos[$modules_online[$name['rawname']]['repo']]) || !$active_repos[$modules_online[$name['rawname']]['repo']]) && (!isset($module_info[$name['rawname']]) || $module_info[$name['rawname']]['status'] == MODULE_STATUS_NOTINSTALLED)) {
+			continue;
+		}
 
 		if ((!isset($module_info[$name['rawname']]['status'])) || ($module_info[$name['rawname']]['status'] == MODULE_STATUS_NEEDUPGRADE) || ($module_info[$name['rawname']]['status'] == MODULE_STATUS_NOTINSTALLED)){
 			$modules_installable[]=$name['rawname'];
-    }
+		}
 	}
 	return $modules_installable;
 }
 
 /**
- * @param bool Controls if a simple (names only) or extended (array of name,versions) array is returned
- */
+* @param bool Controls if a simple (names only) or extended (array of name,versions) array is returned
+*/
 function getUpgradableModules($extarray = false) {
 	$modulef =& module_functions::create();
 	$modules_local = $modulef->getinfo(false, MODULE_STATUS_ENABLED);
 	$modules_online = $modulef->getonlinexml();
 	$modules_upgradable = array();
-  global $active_repos;
+	global $active_repos;
 
-  check_active_repos();
+	check_active_repos();
 
 	foreach (array_keys($modules_local) as $name) {
 		if (isset($modules_online[$name])) {
@@ -463,25 +429,25 @@ function setPerms() {
 	//If were running as root, attempt to set proper permissions
 	//on the freshly installed files. For simplicity, we run the
 	// freepbx default utility for setting freepbx perms
-    global $amp_conf;
-    $current_user = posix_getpwuid(posix_geteuid());
+		global $amp_conf;
+		$current_user = posix_getpwuid(posix_geteuid());
 	if ($current_user['uid'] === 0) {
 		system($amp_conf['AMPBIN'] . '/freepbx_engine chown');
 	}
 }
 function check_active_repos() {
-  global $no_warnings;
-  global $active_repos;
+	global $no_warnings;
+	global $active_repos;
 
 	$modulef =& module_functions::create();
-  if (!isset($active_repos)) {
-    $active_repos = $modulef->get_active_repos();
-    $list = implode(',',array_keys($active_repos));
-    if (!$no_warnings) {
-      out("no repos specified, using: [$list] from last GUI settings");
-      out("");
-    }
-  }
+	if (!isset($active_repos)) {
+		$active_repos = $modulef->get_active_repos();
+		$list = implode(',',array_keys($active_repos));
+		if (!$no_warnings) {
+			out("no repos specified, using: [$list] from last GUI settings");
+			out("");
+		}
+	}
 }
 
 
@@ -594,7 +560,7 @@ function showList($online = false) {
 	$modules = $modules_local;
 	global $active_repos;
 
-  check_active_repos();
+	check_active_repos();
 
 	if ($online) {
 		$modules_online = $modulef->getonlinexml();
@@ -616,11 +582,11 @@ function showList($online = false) {
 
 		$status_index = isset($modules[$name]['status'])?$modules[$name]['status']:'';
 
-    // Don't include modules not in our repo unless they are locally installed already
-    //
-    if ((!isset($active_repos[$modules[$name]['repo']]) || !$active_repos[$modules[$name]['repo']]) && $status_index != MODULE_STATUS_BROKEN && !isset($modules_local[$name])) {
-      continue;
-    }
+		// Don't include modules not in our repo unless they are locally installed already
+		//
+		if ((!isset($active_repos[$modules[$name]['repo']]) || !$active_repos[$modules[$name]['repo']]) && $status_index != MODULE_STATUS_BROKEN && !isset($modules_local[$name])) {
+			continue;
+		}
 
 		switch ($status_index) {
 			case MODULE_STATUS_NOTINSTALLED:
