@@ -355,7 +355,7 @@ class module_functions {
 				}
 			}
 			if ($cnt) {
-				$notifications->add_notice('freepbx', 'NEWMODS', sprintf(_('%s New modules are available'),$cnt), $extext, '', $reset_value, true);
+				$notifications->add_notice('freepbx', 'NEWMODS', sprintf(_('%s New modules are available'),$cnt), $extext, 'config.php?display=modules', $reset_value, true);
 			}
 		}
 
@@ -402,7 +402,7 @@ class module_functions {
 			foreach ($modules_upgradable as $mod) {
 				$extext .= sprintf(_("%s (current: %s)"), $mod['name'].' '.$mod['online_version'], $mod['local_version'])."\n";
 			}
-			$notifications->add_update('freepbx', 'NEWUPDATES', $text, $extext, '', $passive_value);
+			$notifications->add_update('freepbx', 'NEWUPDATES', $text, $extext, 'config.php?display=modules', $passive_value);
 		} else {
 			$notifications->delete('freepbx', 'NEWUPDATES');
 		}
@@ -433,7 +433,7 @@ class module_functions {
 					$m, $vinfo['curver'], $vinfo['minver'], implode($vinfo['vul'],', ')
 				);
 			}
-			$notifications->add_security('freepbx', 'VULNERABILITIES', $text, $extext, '');
+			$notifications->add_security('freepbx', 'VULNERABILITIES', $text, $extext, 'config.php?display=modules');
 		} else {
 			$notifications->delete('freepbx', 'VULNERABILITIES');
 		}
