@@ -18,7 +18,6 @@ use FreePBX\Console\Command;
 use FreePBX\Console\Application as App;
 
 $amodules = FreePBX::Modules()->getActiveModules();
-
 $fbc = new App\FWApplication('FW Console - FreePBX Utility', getVersion());
 /*
  * Framework is not like the others so we load up framework classes first.
@@ -45,7 +44,7 @@ foreach ($fwclasses as $class){
  */
 foreach($amodules as $module){
 	//Module Path
-	$mpath = $webrootpath . '/admin/modules/' . $module . '/Console/';
+	$mpath = $webrootpath . '/admin/modules/' . $module['rawname'] . '/Console/';
 	if (file_exists($mpath)){
 		//Class files
 		$cfiles = scandir($mpath);
@@ -54,14 +53,13 @@ foreach($amodules as $module){
 				if( substr($class , -9) !== 'class.php'){
 					continue;
 				}else{
-					$ifile = $mpath . $class;
+					$ifile = $mpath . '/' . $class;
 					include $ifile;
-					$classname = substr($class ,0,-9);
+					$classname = substr($class ,0,-10);
 					$class = 'FreePBX\\Console\\Command\\' . $classname;
-					$fbc->add(new $class);
+					echo $fbc->add(new $class);
 				}
 		}
 	}
 }
-
 $fbc->run();
