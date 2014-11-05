@@ -486,6 +486,13 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	);
 	
+	$vers = array('JQUERY_VER', 'JQUERYUI_VER', 'BOOTSTRAP_VER');
+	foreach ($vers as $ver) {
+		if($freepbx_conf->conf_setting_exists($ver)) {
+			$freepbx_conf->set_conf_values(array($ver => $settings[$category][$ver]['value']), true, true);
+		}
+	}
+
 	$settings[$category]['CRONMAN_UPDATES_CHECK'] = array(
 	'value' => true,
 	'options' => '',
@@ -1914,19 +1921,7 @@ class Installer {
 	'level' => 10,
 	'type' => CONF_TYPE_INT,
 	);
-	
-	//only for jquery, bootstrap and jqueryUI
-	if($freepbx_conf->conf_setting_exists('JQUERY_VER')) {
-		$freepbx_conf->set_conf_values(array('JQUERY_VER' => 'value'), true, true);
-	}
-	if($freepbx_conf->conf_setting_exists('JQUERYUI_VER')) {
-		$freepbx_conf->set_conf_values(array('JQUERYUI_VER' => 'value'), true, true);
-	}	
-	if($freepbx_conf->conf_setting_exists('BOOTSTRAP_VER')) {
-		$freepbx_conf->set_conf_values(array('BOOTSTRAP_VER' => 'value'), true, true);
-	}	
-	
-	
+
 	// The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we
 	// retain their values until the individual modules are updated and their install scripts run where a full
 	// configuration (descriptions, defaults, etc.) will be provided and maintained. This provides just enough to
