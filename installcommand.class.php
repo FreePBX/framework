@@ -281,6 +281,7 @@ class FreePBXInstallCommand extends Command {
 		chmod($amp_conf['AMPBIN'] . "/freepbx_setting", 0755);
 		chmod($amp_conf['AMPBIN'] . "/fwconsole", 0755);
 		chmod($amp_conf['AMPBIN'] . "/gen_amp_conf.php", 0755);
+		chmod($amp_conf['AMPBIN'] . "/retrieve_conf", 0755);
 		chmod($amp_conf['AMPSBIN'] . "/amportal", 0755);
 
 		// Create dirs
@@ -354,10 +355,12 @@ class FreePBXInstallCommand extends Command {
 		// Upgrade framework (upgrades/ dir)
 		$installer->install_upgrades($version);
 
-		file_put_contents(AMP_CONF, $freepbx_conf->amportal_generate(true));
+		$fwxml = simplexml_load_file(dirname(__FILE__).'/module.xml');
+		//setversion to whatever is in framework.xml forever for here on out.
+		$fwver = (string)$fwxml->version;
+		$installer->set_version($fwver);
 
-		// generate_configs();
-		/* nah */
+		file_put_contents(AMP_CONF, $freepbx_conf->amportal_generate(true));
 
 		if ($newinstall) {
 			/* Write freepbx.conf */
@@ -390,6 +393,9 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 		// module_admin install framework
 		$this->install_modules(array('framework'));
+
+		// generate_configs();
+		passthru("sudo -u " . $amp_conf['AMPASTERISKUSER'] . " " . $amp_conf["AMPBIN"] . "/retrieve_conf --run-install --skip-registry-checks");
 
 		// GPG setup - trustFreePBX();
 		\FreePBX::GPG()->trustFreePBX();

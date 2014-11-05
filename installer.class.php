@@ -69,6 +69,8 @@ class Installer {
 	}
 	function set_version($version) {
 		global $db;
+
+		$db->query("UPDATE admin SET value = '".$version."' WHERE variable = 'version'");
 	}
 
 	function install_upgrades($version) {
