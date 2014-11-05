@@ -44,7 +44,7 @@ class Search extends FreePBX_Helpers {
 			return array();
 		}
 		// Make the query string usable.
-		$qs = htmlentities($_REQUEST['query'], ENT_QUOTES|ENT_HTML401, 'UTF-8', false);
+		$qs = htmlentities($_REQUEST['query'], ENT_QUOTES, 'UTF-8', false);
 
 		// Ask all modules for their search results
 		$modules = FreePBX::Modules()->getActiveModules();
