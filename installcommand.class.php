@@ -277,7 +277,10 @@ class FreePBXInstallCommand extends Command {
 		// Copy amp_conf/
 		$this->recursive_copy($input, $output, "amp_conf", "", $newinstall, $answers['dev-links']);
 
+		chmod($amp_conf['AMPBIN'] . "/freepbx_engine", 0755);
+		chmod($amp_conf['AMPBIN'] . "/freepbx_setting", 0755);
 		chmod($amp_conf['AMPBIN'] . "/fwconsole", 0755);
+		chmod($amp_conf['AMPBIN'] . "/gen_amp_conf.php", 0755);
 		chmod($amp_conf['AMPSBIN'] . "/amportal", 0755);
 
 		// Create dirs
@@ -285,6 +288,7 @@ class FreePBXInstallCommand extends Command {
 		// 	/var/www/html/admin/modules/_cache/
 		//	./amp_conf/htdocs/admin/modules/_cache/
 		@mkdir($amp_conf['AMPWEBROOT'] . "/admin/modules/_cache", 0777, true);
+		@mkdir($amp_conf['AMPWEBROOT'] . "/admin/modules/framework", 0777, true);
 
 		// Copy /var/www/html/admin/modules/framework/module.xml
 		copy(dirname(__FILE__) . "/module.xml", $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.xml");
