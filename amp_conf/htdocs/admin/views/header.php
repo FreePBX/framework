@@ -86,6 +86,22 @@ if($amp_conf['JQMIGRATE']) {
 	$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js"></script>';
 }
 
+// Add global variables to be used later
+$html .= "<script type='text/javascript'>
+	var path = window.location.pathname.toString().split('/');
+	path[path.length - 1] = 'ajax.php';
+	// Oh look, IE. Hur Dur, I'm a bwowsah.
+	if (typeof(window.location.origin) == 'undefined') {
+		window.location.origin = window.location.protocol+'//'+window.location.host;
+		if (window.location.port.length != 0) {
+			window.location.origin = window.location.origin+':'+window.location.port;
+		}
+	}
+	window.ajaxurl = window.location.origin + path.join('/');
+	// This assumes the module name is the first param.
+	window.modulename = window.location.search.split(/\?|&/)[1].split('=')[1];
+</script>";
+
 $html .= '</head>';
 
 //open body

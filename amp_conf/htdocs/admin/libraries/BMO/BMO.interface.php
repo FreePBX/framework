@@ -67,6 +67,13 @@ interface BMO  {
 	// several versions ago, so ensure that you verify that it's up to date with your
 	// current schema.
 
+	// ////////////// //
+	// FreePBX Search //
+	// ////////////// //
+	// public function search($request, &$results);
+	// This function needs to append (or possibly alter?) $result, which is an array
+	// that is handed back to the search box.
+
 	// ////////// //
 	// FreePBX UI //
 	// ////////// //

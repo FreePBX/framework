@@ -42,6 +42,7 @@ if ($amp_conf['USE_FREEPBX_MENU_CONF']) {
 // TODO: these categories are not localizable
 //
 if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not defined
+	$out = null;
 	if (empty($favorites)) foreach ($fpbx_menu as $mod => $deets) {
 		switch(strtolower($deets['category'])) {
 			case 'admin':

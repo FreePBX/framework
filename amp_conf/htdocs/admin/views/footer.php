@@ -164,7 +164,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	 	. '<script type="text/javascript" src="assets/js/tabber-minimized.js' . $version_tag . '"></script>'
          . '<script type="text/javascript" src="assets/js/class.js"></script>';
 }
-$html .= '<script type="text/javascript" src="assets/js/typeahead.bundle.min.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/typeahead.bundle.js"></script>';
 $html .= '<script type="text/javascript" src="assets/js/search.js"></script>';
 if ($amp_conf['BRAND_ALT_JS']) {
 	$html .= '<script type="text/javascript" src="' . $amp_conf['BRAND_ALT_JS'] . $version_tag . '"></script>';

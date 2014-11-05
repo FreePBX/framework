@@ -20,6 +20,8 @@ class Search extends FreePBX_Helpers {
 		$search = $this->getSearch();
 		if ($search == "global") {
 			return $this->globalSearch();
+		} elseif ($search == "local") {
+			return $this->moduleSearch();
 		} else {
 			return "Derp";
 		}
@@ -37,29 +39,46 @@ class Search extends FreePBX_Helpers {
 		return $retarr;
 	}
 
-	public function moduleSearch($module, $str) {
-		$module = htmlentities($module);
-		// Lets see if the module exists
-		try {
-			$mod = $this->FreePBX->$module;
-			if(!method_exists($mod, 'search')) {
-				throw new Exception("No Search Method");
+	public function moduleSearch() {
+		if (!isset($_REQUEST['query'])) {
+			return array();
+		}
+		// Make the query string usable.
+		$qs = htmlentities($_REQUEST['query'], ENT_QUOTES|ENT_HTML401, 'UTF-8', false);
+
+		// Ask all modules for their search results
+		$modules = FreePBX::Modules()->getActiveModules();
+		$results = array();
+		foreach ($modules as $m) {
+			// If this is a BMO Module, grab it and ask it for search results
+			try {
+				$module = ucfirst($m['rawname']);
+				$mod = $this->FreePBX->$module;
+				if(!method_exists($mod, 'search')) {
+					continue;
+				}
+				$mod->search($qs, $results);
+			} catch (Exception $e) {
+				continue;
 			}
-		} catch (Exception $e) {
-			return array(
-				array("text" => "Module $module doesn't implement search", "type" => "text", "details" => $e->getMessage())
-			);
 		}
-		$res = $mod->search($str);
-		if (!is_array($res)) {
-			return array(
-				array("text" => "Search Error", "type" => "text", "details" => $res)
-			);
+
+		// Remove any results from the search that are unneeded.
+		foreach ($results as $i => $r) {
+			if ($r['type'] == "text" || isset($r['force'])) {
+				// Always return text fields that were given back to us, or if the result
+				// was forced to display.
+				continue;
+			}
+			if (strpos($r['text'], $qs) === false) {
+				// Doesn't match? Remove.
+				unset($results[$i]);
+			}
 		}
-		return $res;
+		return $results;
 	}
 
-	private function getSearch($str) {
+	private function getSearch() {
 		if (!isset($_REQUEST['command'])) {
 			return false;
 		}
