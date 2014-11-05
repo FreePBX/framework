@@ -24,14 +24,6 @@ class component {
 
 	private $opts; //array of configurable options
 
-	private $categories = array(
-		"general",
-		"voicemail",
-		"followmme",
-		"advanced",
-		"other"
-	);
-
 	function __construct($compname) {
 		$this->compname = $compname;
 
@@ -67,6 +59,7 @@ class component {
 			$category = $sortorder;
 			$sortorder = 5;
 		}
+		$category = strtolower(trim($category));
 		// Note that placement is only used in 'middle', eg, a named module
 		if ( $sortorder < 0 || $sortorder > 9 ) {
 			trigger_error('$sortorder must be between 0 and 9 in component->addguielem()');
@@ -96,6 +89,7 @@ class component {
 	}
 
 	function delguielem($section, $elemname, $category="other") {
+		$category = strtolower(trim($category));
 		switch ($section) {
 			case '_top':
 				foreach ($this->guielems_top as $index1 => $elements) {
@@ -174,6 +168,7 @@ class component {
 	}
 
 	function addoptlist($listname, $sort = true, $category = 'other') {
+		$category = strtolower(trim($category));
 		if ( (isset($listname) ? $listname : '') == '') {
 			trigger_error('missing $listname in component->addoptlist()');
 			return;
@@ -188,10 +183,12 @@ class component {
 	}
 
 	function setoptlistopts($listname, $opt, $val, $category = 'other') {
+		$category = strtolower(trim($category));
 		$this->lists[$category][$listname][$opt] = $val;
 	}
 
 	function addoptlistitem($listname, $value, $text, $uselang = true, $category = 'other') {
+		$category = strtolower(trim($category));
 		// must add the list before using it
 		if ( !isset($this->lists[$category][$listname]) ) {
 			$this->addoptlist($listname, true, $category);
@@ -202,6 +199,7 @@ class component {
 	}
 
 	function getoptlist($listname, $category = 'other') {
+		$category = strtolower(trim($category));
 		if ( isset($this->lists[$category][$listname]['array']) ) {
 			// sort the array by text
 			if ( $this->lists[$category][$listname]['sort'] ) {
@@ -217,6 +215,7 @@ class component {
 	}
 
 	function addgeneralarray($arrayname, $category = 'other') {
+		$category = strtolower(trim($category));
 		if ( (isset($arrayname) ? $arrayname : '') == '') {
 			trigger_error('missing $arrayname in component->addarray()');
 			return;
@@ -229,6 +228,7 @@ class component {
 	}
 
 	function addgeneralarrayitem($arrayname, $arraykey, $item, $category = 'other') {
+		$category = strtolower(trim($category));
 		if ( !isset($this->lists[$category][$arrayname]) ) {
 			$this->addgeneralarray($arrayname);
 		}
@@ -237,6 +237,7 @@ class component {
 	}
 
 	function getgeneralarray($arrayname, $category = 'other') {
+		$category = strtolower(trim($category));
 		if ( isset($this->lists[$category][$arrayname]) ) {
 			return $this->lists[$category][$arrayname];
 		} else {
@@ -246,6 +247,7 @@ class component {
 	}
 
 	function getgeneralarrayitem($arrayname, $arraykey, $category = 'other') {
+		$category = strtolower(trim($category));
 		if ( isset($this->lists[$category][$arrayname][$arraykey]) ) {
 			return $this->lists[$category][$arrayname][$arraykey];
 		} else {
@@ -275,9 +277,6 @@ class component {
 				}
 				ksort($final[$category]);
 			}
-			$temp['Other'] = $final['other'];
-			unset($final['other']);
-			$final['Other'] = $temp['Other'];
 			$this->guielems_middle = $final;
 		}
 
@@ -285,6 +284,23 @@ class component {
 		if ( is_array($this->guielems_top) ) {
 			ksort($this->guielems_top);
 		}
+
+		ksort($this->guielems_middle);
+		dbug(array_keys($this->guielems_middle));
+		uksort($this->guielems_middle, function($a,$b) {
+			$a = strtolower($a);
+			$b = strtolower($b);
+			$categories = array(
+				"general" => 1,
+				"voicemail" => 2,
+				"followme" => 3,
+				"advanced" => 4,
+				"other" => 999
+			);
+			$aOrder = isset($categories[$a]) ? $categories[$a] : 5;
+			$bOrder = isset($categories[$b]) ? $categories[$b] : 5;
+			return ($aOrder < $bOrder) ? -1 : 1;
+		});
 
 		$this->sorted_guielems = true;
 	}
@@ -880,8 +896,8 @@ class gui_drawselects extends guiinput {
 
 		$this->html_input=drawselects($dest, $index, false, false, $nodest_msg, $required);
 
-		//attach a value to this element, so that we can find its value
-		$currentcomponent->addguielem('', new gui_hidden($elemname,'goto'.$index,false));
+		$hidden =  new gui_hidden($elemname,'goto'.$index,false);
+		$this->html_input .= $hidden->_html;
 		$this->type = "select";
 	}
 }
