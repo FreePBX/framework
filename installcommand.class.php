@@ -61,13 +61,15 @@ class FreePBXInstallCommand extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		global $amp_conf; /* This makes pandas sad. :( */
-		global $db;
+
+		date_default_timezone_set('America/Los_Angeles');
 
 		$style = new OutputFormatterStyle('white', 'red', array('bold'));
 		$output->getFormatter()->setStyle('fire', $style);
 
 		define("AMP_CONF", "/etc/amportal.conf");
 		define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
+		define("FREEPBX_CONF", "/etc/freepbx.conf");
 		define("MODULE_DIR", dirname(__FILE__)."/amp_conf/htdocs/admin/modules");
 		define("UPGRADE_DIR", dirname(__FILE__) . "/upgrades");
 
@@ -100,6 +102,8 @@ class FreePBXInstallCommand extends Command {
 		if (!file_exists(AMP_CONF)) {
 			$newinstall = true;
 			$amp_conf = $installer->amportal_conf_read(dirname(__FILE__) . "/amportal.conf");
+
+			require_once('amp_conf/htdocs/admin/functions.inc.php');
 		} else {
 			$bootstrap_settings['freepbx_auth'] = false;
 			$restrict_mods = true;
@@ -134,6 +138,9 @@ class FreePBXInstallCommand extends Command {
 		if ($newinstall) {
 			$amp_conf['AMPMGRUSER'] = 'admin';
 			$amp_conf['AMPMGRPASS'] = md5(uniqid());
+
+			$amp_conf['AMPDBUSER'] = $answers['dbuser'];
+			$amp_conf['AMPDBPASS'] = $answers['dbpass'];
 		}
 
 		// ... and then write amportal.conf?
@@ -223,35 +230,66 @@ class FreePBXInstallCommand extends Command {
 
 		// Create database(s).
 		if ($newinstall) {
-			require_once('amp_conf/htdocs/admin/libraries/BMO/Database.class.php');
+			global $db;
+
+			require_once('amp_conf/htdocs/admin/libraries/BMO/FreePBX.class.php');
+			require_once('amp_conf/htdocs/admin/libraries/DB.class.php');
+
+			$bmo = new \FreePBX($amp_conf);
+
+			$amp_conf['AMPDBUSER'] = 'freepbxuser';
+			$amp_conf['AMPDBPASS'] = md5(uniqid());
 
 			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'] . ";dbname=asteriskcdrdb";
-			$db = new \Database($amp_conf, $dsn);
+			$db = new \DB(new \Database($dsn, $answers['dbuser'], $answers['dbpass']));
 			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'asteriskcdrdb';";
 			if (!$db->getOne($sql)) {
-				$installer->install_sql_file(dirname(__FILE__) . 'SQL/cdr_mysql_table.sql');
+				$installer->install_sql_file(dirname(__FILE__) . '/SQL/cdr_mysql_table.sql');
 			}
-			unset($db);
+			$sql = "GRANT ALL PRIVILEGES ON asteriskcdrdb.* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
+			$db->query($sql);
 
 			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'] . ";dbname=" . $amp_conf['AMPDBNAME'];
-			$db = new \Database($amp_conf, $dsn);
+			$db = new \DB(new \Database($dsn, $answers['dbuser'], $answers['dbpass']));
 			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '" . $amp_conf['AMPDBNAME'] . "';";
 			if (!$db->getOne($sql)) {
-				$installer->install_sql_file(dirname(__FILE__) . 'SQL/newinstall.sql');
+				$installer->install_sql_file(dirname(__FILE__) . '/SQL/newinstall.sql');
 			}
+			$sql = "GRANT ALL PRIVILEGES ON " . $amp_conf['AMPDBNAME'] . ".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
+			$db->query($sql);
 		}
 
 		// Get version of FreePBX.
 		$version = $installer->get_version();
 
+		// freepbx_settings_init();
+		$installer->freepbx_settings_init(true);
+
+		// freepbx_conf set_conf_values()
+		$freepbx_conf =& \freepbx_conf::create();
+		foreach ($amp_conf as $keyword => $value) {
+			if ($freepbx_conf->conf_setting_exists($keyword)) {
+				$freepbx_conf->set_conf_values(array($keyword => $value), false, true);
+			}
+		}
+		$freepbx_conf->commit_conf_settings();
+
 		// Copy amp_conf/
 		$this->recursive_copy($input, $output, "amp_conf", "", $newinstall, $answers['dev-links']);
+
+		chmod($amp_conf['AMPBIN'] . "/freepbx_engine", 0755);
+		chmod($amp_conf['AMPBIN'] . "/freepbx_setting", 0755);
+		chmod($amp_conf['AMPBIN'] . "/fwconsole", 0755);
+		chmod($amp_conf['AMPBIN'] . "/gen_amp_conf.php", 0755);
+		chmod($amp_conf['AMPBIN'] . "/retrieve_conf", 0755);
+		chmod($amp_conf['AMPSBIN'] . "/amportal", 0755);
 
 		// Create dirs
 		// 	/var/www/html/admin/modules/framework/
 		// 	/var/www/html/admin/modules/_cache/
 		//	./amp_conf/htdocs/admin/modules/_cache/
 		@mkdir($amp_conf['AMPWEBROOT'] . "/admin/modules/_cache", 0777, true);
+		@mkdir($amp_conf['AMPWEBROOT'] . "/admin/modules/framework", 0777, true);
 
 		// Copy /var/www/html/admin/modules/framework/module.xml
 		copy(dirname(__FILE__) . "/module.xml", $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.xml");
@@ -317,29 +355,26 @@ class FreePBXInstallCommand extends Command {
 		// Upgrade framework (upgrades/ dir)
 		$installer->install_upgrades($version);
 
-		// freepbx_settings_init();
-		$installer->freepbx_settings_init(true);
+		$fwxml = simplexml_load_file(dirname(__FILE__).'/module.xml');
+		//setversion to whatever is in framework.xml forever for here on out.
+		$fwver = (string)$fwxml->version;
+		$installer->set_version($fwver);
 
-		// freepbx_conf set_conf_values()
-		$freepbx_conf =& \freepbx_conf::create();
-		foreach ($amp_conf as $keyword => $value) {
-			if ($freepbx_conf->conf_setting_exists($keyword)) {
-				$freepbx_conf->set_conf_values(array($keyword => $value), false, true);
-			}
-		}
-		$freepbx_conf->commit_conf_settings();
 		file_put_contents(AMP_CONF, $freepbx_conf->amportal_generate(true));
 
-		// generate_configs();
-		/* nah */
-
-		/* Bootstrap!  Yeah! */
 		if ($newinstall) {
-			$bootstrap_settings['freepbx_auth'] = false;
-			$restrict_mods = true;
-			if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
-				include_once('/etc/asterisk/freepbx.conf');
-			}
+			/* Write freepbx.conf */
+			$conf = "<?php
+\$amp_conf['AMPDBUSER'] = '{$amp_conf['AMPDBUSER']}';
+\$amp_conf['AMPDBPASS'] = '{$amp_conf['AMPDBPASS']}';
+\$amp_conf['AMPDBHOST'] = '{$amp_conf['AMPDBHOST']}';
+\$amp_conf['AMPDBNAME'] = '{$amp_conf['AMPDBNAME']}';
+\$amp_conf['AMPDBENGINE'] = '{$amp_conf['AMPDBENGINE']}';
+\$amp_conf['datasource'] = ''; //for sqlite3
+
+require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
+";
+			file_put_contents(FREEPBX_CONF, $conf);
 		}
 
 		if (!$answers['dev-links']) {
@@ -359,6 +394,9 @@ class FreePBXInstallCommand extends Command {
 		// module_admin install framework
 		$this->install_modules(array('framework'));
 
+		// generate_configs();
+		passthru("sudo -u " . $amp_conf['AMPASTERISKUSER'] . " " . $amp_conf["AMPBIN"] . "/retrieve_conf --run-install --skip-registry-checks");
+
 		// GPG setup - trustFreePBX();
 		\FreePBX::GPG()->trustFreePBX();
 
@@ -367,8 +405,6 @@ class FreePBXInstallCommand extends Command {
 	}
 
 	private function ask_overwrite(InputInterface $input, OutputInterface $output, $file1, $file2) {
-		$output->writeln($file2." has been changed from the original version.");
-
 		if (!$input->isInteractive()) {
 			return true;
 		}
@@ -460,8 +496,7 @@ class FreePBXInstallCommand extends Command {
 	private function recursive_copy(InputInterface $input, OutputInterface $output, $dirsourceparent, $dirsource = "", $newinstall = true, $make_links = false) {
 		global $amp_conf;
 
-		require_once('amp_conf/htdocs/admin/libraries/BMO/Installer.class.php');
-		$bmoinst = new \Installer();
+		$bmoinst = \FreePBX::create()->Installer;
 
 		$moh_subdir = isset($amp_conf['MOHDIR']) ? trim(trim($amp_conf['MOHDIR']),'/') : 'moh';
 
@@ -483,22 +518,6 @@ class FreePBXInstallCommand extends Command {
 			}
 
 			$source = $dirsourceparent.$dirsource."/".$file;
-/*
-			$destination =  $dirsource."/".$file;
-
-			// configurable in amportal.conf
-			$destination=preg_replace("/^\/htdocs/",trim($amp_conf["AMPWEBROOT"])."/",$destination);
-
-			$destination=str_replace("/astetc",trim($amp_conf["ASTETCDIR"]),$destination);
-			$destination=str_replace("/moh",trim($amp_conf["ASTVARLIBDIR"])."/$moh_subdir",$destination);
-			$destination=str_replace("/astvarlib",trim($amp_conf["ASTVARLIBDIR"]),$destination);
-			if(strpos($dirsource, 'modules') === false) {
-				$destination=str_replace("/agi-bin",trim($amp_conf["ASTAGIDIR"]),$destination);
-				$destination=str_replace("/sounds",trim($amp_conf["ASTVARLIBDIR"])."/sounds",$destination);
-				$destination=str_replace("/bin",trim($amp_conf["AMPBIN"]),$destination);
-			}
-			$destination=str_replace("/sbin",trim($amp_conf["AMPSBIN"]),$destination);
-*/
 
 			if (!is_dir($source)) {
 				$destination = $bmoinst->getDestination('framework', $source);
@@ -532,7 +551,8 @@ class FreePBXInstallCommand extends Command {
 				} else {
 					$ow = false;
 					if(file_exists($destination) && !is_link($destination)) {
-						if ($this->check_diff($source, $destination) && !$make_links) {
+						if ($input->isInteractive() && $this->check_diff($source, $destination) && !$make_links) {
+							$output->writeln($destination." has been changed from the original version.");
 							$ow = $this->ask_overwrite($input, $output, $source, $destination);
 						}
 					} else {
@@ -594,7 +614,7 @@ class FreePBXInstallCommand extends Command {
 				// since it is included. (TODO: should we not?)
 				//
 				if ($keep_checking) {
-					exec($amp_conf['AMPBIN']."/module_admin --no-warnings checkdepends $up_module",$output,$retval);
+					exec($amp_conf['AMPBIN']."/fwconsole modadmin checkdepends $up_module", $output, $retval);
 					unset($output);
 					if ($retval) {
 						continue;
@@ -605,11 +625,13 @@ class FreePBXInstallCommand extends Command {
 				switch ($up_module) {
 					case 'framework':
 					case 'fw_ari':
-						system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
+						system($amp_conf['AMPBIN']."/fwconsole modadmin --force install $up_module");
 					break;
 					default:
-						system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
-						system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
+						system($amp_conf['AMPBIN']."/fwconsole modadmin --force install $up_module");
+
+						exec($amp_conf['AMPBIN']."/fwconsole modadmin --force enable $up_module", $output, $retval);
+						unset($output);
 				}
 				unset($modules[$id]);
 			}
