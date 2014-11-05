@@ -35,6 +35,9 @@ class FreePBXInstallCommand extends Command {
 			'default' => 'asterisk',
 	 		'description' => 'File owner group'
 		),
+		'dev-links' => array(
+	 		'description' => 'Make links to files in the source directory instead of copying (developer option)'
+		),
 		'webroot' => array(
 			'default' => '/var/www/html',
 	 		'description' => 'Filesystem location from which FreePBX files will be served'
@@ -48,7 +51,11 @@ class FreePBXInstallCommand extends Command {
 			;
 
 		foreach ($this->settings as $key => $setting) {
-			$this->addOption($key, null, InputOption::VALUE_REQUIRED, $setting['description'], $setting['default']);
+			if (isset($setting['default'])) {
+				$this->addOption($key, null, InputOption::VALUE_REQUIRED, $setting['description'], $setting['default']);
+			} else {
+				$this->addOption($key, null, InputOption::VALUE_NONE, $setting['description']);
+			}
 		}
 	}
 
@@ -61,6 +68,7 @@ class FreePBXInstallCommand extends Command {
 
 		define("AMP_CONF", "/etc/amportal.conf");
 		define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
+		define("MODULE_DIR", dirname(__FILE__)."/amp_conf/htdocs/admin/modules");
 		define("UPGRADE_DIR", dirname(__FILE__) . "/upgrades");
 
 		// Fail if !root
@@ -78,13 +86,15 @@ class FreePBXInstallCommand extends Command {
 			$helper = $this->getHelper('question');
 
 			foreach ($this->settings as $key => $setting) {
-				$question = new Question($setting['description'] . ($setting['default'] ? ' [' . $setting['default'] . ']' : '') . ': ', isset($answers[$key]) ? $answers[$key] : $setting['default']);
-				$answers[$key] = $helper->ask($input, $output, $question);
+				if (isset($setting['default'])) {
+					$question = new Question($setting['description'] . ($setting['default'] ? ' [' . $setting['default'] . ']' : '') . ': ', $answers[$key]);
+					$answers[$key] = $helper->ask($input, $output, $question);
+				}
 			}
 		}
 
 		require_once('installer.class.php');
-		$installer = new \Installer($input, $output);
+		$installer = new Installer($input, $output);
 
 		// Copy default amportal.conf
 		if (!file_exists(AMP_CONF)) {
@@ -235,7 +245,7 @@ class FreePBXInstallCommand extends Command {
 		$version = $installer->get_version();
 
 		// Copy amp_conf/
-//		$this->recursive_copy($input, $output, "amp_conf", "", "", $newinstall, false);
+		$this->recursive_copy($input, $output, "amp_conf", "", $newinstall, $answers['dev-links']);
 
 		// Create dirs
 		// 	/var/www/html/admin/modules/framework/
@@ -248,15 +258,15 @@ class FreePBXInstallCommand extends Command {
 
 		// Create dirs
 		//	/var/spool/asterisk/voicemail/device/
-		@mkdir($amp_conf['AMPSPOOLDIR'] . "/voicemail/device", 0755, true);
+		@mkdir($amp_conf['ASTSPOOLDIR'] . "/voicemail/device", 0755, true);
 		// Copy /etc/asterisk/voicemail.conf.template
 		// ... to /etc/asterisk/voicemail.conf
 
 		//	/var/spool/asterisk/fax/
-		@mkdir($amp_conf['AMPSPOOLDIR'] . "/fax", 0766, true);
+		@mkdir($amp_conf['ASTSPOOLDIR'] . "/fax", 0766, true);
 
 		//	/var/spool/asterisk/monitor/
-		@mkdir($amp_conf['AMPSPOOLDIR'] . "/monitor", 0766, true);
+		@mkdir($amp_conf['ASTSPOOLDIR'] . "/monitor", 0766, true);
 
 		//	/var/www/html/recordings/themes/js/
 		@mkdir($amp_conf['AMPWEBROOT'] . "/recordings/themes/js", 0755, true);
@@ -304,7 +314,7 @@ class FreePBXInstallCommand extends Command {
 		}
 		unset($tmpout);
 
-		// Upgrade modules
+		// Upgrade framework (upgrades/ dir)
 		$installer->install_upgrades($version);
 
 		// freepbx_settings_init();
@@ -318,19 +328,42 @@ class FreePBXInstallCommand extends Command {
 			}
 		}
 		$freepbx_conf->commit_conf_settings();
-//		$installer->amportal_conf_write(dirname(__FILE__) . "/amportal_new.conf");
-//		$installer->amportal_conf_write(AMP_CONF);
 		file_put_contents(AMP_CONF, $freepbx_conf->amportal_generate(true));
 
 		// generate_configs();
 		/* nah */
 
-		// install_modules()
+		/* Bootstrap!  Yeah! */
+		if ($newinstall) {
+			$bootstrap_settings['freepbx_auth'] = false;
+			$restrict_mods = true;
+			if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+				include_once('/etc/asterisk/freepbx.conf');
+			}
+		}
+
+		if (!$answers['dev-links']) {
+			// install_modules()
+			$included_modules = array();
+			/* read modules list from MODULE_DIR */
+			$dir = opendir(MODULE_DIR);
+			while ($file = readdir($dir)) {
+				if ($file[0] != "." && $file[0] != "_" && is_dir(MODULE_DIR."/".$file)) {
+					$included_modules[] = $file;
+				}
+			}
+			closedir($dir);
+			$this->install_modules($included_modules);
+		}
+
 		// module_admin install framework
+		$this->install_modules(array('framework'));
 
 		// GPG setup - trustFreePBX();
+		\FreePBX::GPG()->trustFreePBX();
 
 		// needreload();
+		needreload();
 	}
 
 	private function ask_overwrite(InputInterface $input, OutputInterface $output, $file1, $file2) {
@@ -424,7 +457,12 @@ class FreePBXInstallCommand extends Command {
 		}
 	}
 
-	private function recursive_copy(InputInterface $input, OutputInterface $output, $dirsourceparent, $dirdest, $dirsource = "", $newinstall = true, $make_links = false) {
+	private function recursive_copy(InputInterface $input, OutputInterface $output, $dirsourceparent, $dirsource = "", $newinstall = true, $make_links = false) {
+		global $amp_conf;
+
+		require_once('amp_conf/htdocs/admin/libraries/BMO/Installer.class.php');
+		$bmoinst = new \Installer();
+
 		$moh_subdir = isset($amp_conf['MOHDIR']) ? trim(trim($amp_conf['MOHDIR']),'/') : 'moh';
 
 		// total # files, # actually copied
@@ -439,13 +477,14 @@ class FreePBXInstallCommand extends Command {
 				continue;
 			}
 
-			$source = $dirsourceparent.$dirsource."/".$file;
-			$destination =  $dirdest.$dirsource."/".$file;
-
 			if ($dirsource == "" && $file == "moh" && !$newinstall) {
 				// skip to the next dir
 				continue;
 			}
+
+			$source = $dirsourceparent.$dirsource."/".$file;
+/*
+			$destination =  $dirsource."/".$file;
 
 			// configurable in amportal.conf
 			$destination=preg_replace("/^\/htdocs/",trim($amp_conf["AMPWEBROOT"])."/",$destination);
@@ -459,8 +498,11 @@ class FreePBXInstallCommand extends Command {
 				$destination=str_replace("/bin",trim($amp_conf["AMPBIN"]),$destination);
 			}
 			$destination=str_replace("/sbin",trim($amp_conf["AMPSBIN"]),$destination);
+*/
 
 			if (!is_dir($source)) {
+				$destination = $bmoinst->getDestination('framework', $source);
+
 				// These are modified by apply_conf.sh, there may be others that fit in this category also. This keeps these from
 				// being symlinked and then developers inadvertently checking in the changes when they should not have.
 				//
@@ -508,6 +550,8 @@ class FreePBXInstallCommand extends Command {
 				}
 				$num_copied++;
 			} else {
+				$destination = $bmoinst->getDestination('framework', $source . "/");
+
 				// if this is a directory, ensure destination exists
 				if (!file_exists($destination)) {
 					if ($destination != "") {
@@ -515,7 +559,7 @@ class FreePBXInstallCommand extends Command {
 					}
 				}
 
-				list($tmp_num_files, $tmp_num_copied) = $this->recursive_copy($input, $output, $dirsourceparent, $dirdest, $dirsource."/".$file, $newinstall, $make_links);
+				list($tmp_num_files, $tmp_num_copied) = $this->recursive_copy($input, $output, $dirsourceparent, $dirsource."/".$file, $newinstall, $make_links);
 				$num_files += $tmp_num_files;
 				$num_copied += $tmp_num_copied;
 			}
@@ -530,6 +574,46 @@ class FreePBXInstallCommand extends Command {
 		// diff, ignore whitespace and be quiet
 		exec("diff -wq ".escapeshellarg($file2)." ".escapeshellarg($file1), $tmpout, $retVal);
 		return ($retVal != 0);
+	}
+
+	private function install_modules($modules) {
+		global $amp_conf;
+
+		$output = array();
+		$keep_checking = true;
+		$num_modules = false;
+		while ($keep_checking && count($modules)) {
+			if ($num_modules === count($modules)) {
+				$keep_checking = false;
+			} else {
+				$num_modules = count($modules);
+			}
+			foreach ($modules as $id => $up_module) {
+				// if $keep_checking then check dependencies first and skip if not met
+				// otherwise we will install anyhow even if some dependencies are not met
+				// since it is included. (TODO: should we not?)
+				//
+				if ($keep_checking) {
+					exec($amp_conf['AMPBIN']."/module_admin --no-warnings checkdepends $up_module",$output,$retval);
+					unset($output);
+					if ($retval) {
+						continue;
+					}
+				}
+				// Framework modules cannot be enabled, only installed.
+				//
+				switch ($up_module) {
+					case 'framework':
+					case 'fw_ari':
+						system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
+					break;
+					default:
+						system($amp_conf['AMPBIN']."/module_admin --no-warnings -f install $up_module");
+						system($amp_conf['AMPBIN']."/module_admin --no-warnings -f enable $up_module");
+				}
+				unset($modules[$id]);
+			}
+		}
 	}
 }
 

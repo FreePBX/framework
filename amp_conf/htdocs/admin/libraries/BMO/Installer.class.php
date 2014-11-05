@@ -13,6 +13,7 @@ class Installer {
 
 	private $agidir;
 	private $varlibdir;
+	private $mohdir;
 	private $etcdir;
 	private $logdir;
 	private $moddir;
@@ -28,6 +29,7 @@ class Installer {
 		// Asterisk Directories
 		$this->agidir = FreePBX::Config()->get('ASTAGIDIR');
 		$this->varlibdir = FreePBX::Config()->get('ASTVARLIBDIR');
+		$this->mohdir = $this->varlibdir . "/" . FreePBX::Config()->get('ASTVARLIBDIR');
 		$this->etcdir = FreePBX::Config()->get('ASTETCDIR');
 		$this->logdir = FreePBX::Config()->get('ASTLOGDIR');
 		$this->moddir = FreePBX::Config()->get('ASTMODDIR');
@@ -39,7 +41,7 @@ class Installer {
 		$this->bindir = FreePBX::Config()->get('AMPBIN');
 
 
-		$vars = array("agidir", "varlibdir", "etcdir", "logdir", "moddir", "rundir", "spooldir", "webroot", "sbindir", "bindir");
+		$vars = array("agidir", "varlibdir", "mohdir", "etcdir", "logdir", "moddir", "rundir", "spooldir", "webroot", "sbindir", "bindir");
 		foreach ($vars as $v) {
 			if (empty($this->$v)) {
 				throw new \Exception("I couldn't find $v");
@@ -74,13 +76,11 @@ class Installer {
 			return $this->etcdir.substr($file,16);
 		} elseif (substr($file,0,16) == "amp_conf/sounds/") {
 			return $this->soundsdir.substr($file,16);
+		} elseif (substr($file,0,13) == "amp_conf/moh/") {
+			return $this->mohdir.substr($file,13);
 		} elseif (substr($file,0,14) == "amp_conf/sbin/") {
 			return $this->sbindir.substr($file,14);
 		} elseif (substr($file,0,13) == "amp_conf/bin/") {
-			// TODO: Fix this prior to installer rewrite.
-			if ($file === "amp_conf/bin/amportal") {
-				return false;
-			}
 			return $this->bindir.substr($file,13);
 		} elseif (substr($file,0,16) == "amp_conf/htdocs/") {
 			return $this->webroot.substr($file,16);
