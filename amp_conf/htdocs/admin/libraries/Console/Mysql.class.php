@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 
-class mySQL extends Command {
+class Mysql extends Command {
 	protected function configure(){
 		$this->setName('m')
 		->setAliases(array('mysql'))
@@ -24,13 +24,18 @@ class mySQL extends Command {
 			//$sql = $db->prepare($arg[0]);
 			$sql = $arg[0];
 			$ob = $db->query($sql,\PDO::FETCH_ASSOC);
-			if($ob->rowCount())
-				$res = $ob->fetchAll();
+			if(!$ob){
+				$output->writeln($db->errorInfo());
 			}
-			//print_r($res);
-			if($res){
+			//if we get rows back from a query fetch them
+			if($ob->rowCount())
+				$gotRows = $ob->fetchAll();
+			}
+			
+			//handle results if we got rows
+			if($gotRows){
 				$rows = array();
-				foreach($res as $row){
+				foreach($gotRows as $row){
 					array_push($rows, array_values($row));
 				}
 				$table = new Table($output);
@@ -38,11 +43,8 @@ class mySQL extends Command {
 					->setHeaders(array_keys($res[0]))
 					->setRows($rows);
 				$table->render();
+			}
 			
-			//print_r($res);
-		} else {
-			$output->writeln('You did not supply a query');
-		}
 	}
-	
+
 }

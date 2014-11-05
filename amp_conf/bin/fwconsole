@@ -8,7 +8,7 @@ $bootstrap_settings['freepbx_auth'] = false;
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
       include_once('/etc/asterisk/freepbx.conf');
 }
-$webrootpath = (isset($amp_conf['AMPWEBROOT']) && !empty($amp_conf['AMPWEBROOT'])) ?  $amp_conf['AMPWEBROOT'] : '/var/www/html'; 
+$webrootpath = (isset($amp_conf['AMPWEBROOT']) && !empty($amp_conf['AMPWEBROOT'])) ?  $amp_conf['AMPWEBROOT'] : '/var/www/html';
 
 include $webrootpath .'/admin/libraries/Symfony/vendor/autoload.php';
 include $webrootpath .'/admin/libraries/FWApplication.class.php';
@@ -18,7 +18,6 @@ use FreePBX\Console\Command;
 use FreePBX\Console\Application as App;
 
 $amodules = FreePBX::Modules()->getActiveModules();
-
 $fbc = new App\FWApplication('FW Console - FreePBX Utility', getVersion());
 /*
  * Framework is not like the others so we load up framework classes first.
@@ -35,17 +34,17 @@ foreach ($fwclasses as $class){
 		$class = 'FreePBX\\Console\\Command\\' . $classname;
 		$fbc->add(new $class);
 	}
-}	
+}
 
 /*
  * Dynamic Class Loader. This looks to enabled modules for a Console folder
- * Then loads any file.class.php files found in that subdir. 
- * This doesn't really handle bad includes. If your include in no good
+ * Then loads any file.class.php files found in that subdir.
+ * This doesn't really handle bad includes. If your include in bad
  * It will likely break everything!
  */
 foreach($amodules as $module){
 	//Module Path
-	$mpath = $webrootpath . '/admin/modules/' . $module . '/Console/';
+	$mpath = $webrootpath . '/admin/modules/' . $module['rawname'] . '/Console/';
 	if (file_exists($mpath)){
 		//Class files
 		$cfiles = scandir($mpath);
@@ -54,14 +53,13 @@ foreach($amodules as $module){
 				if( substr($class , -9) !== 'class.php'){
 					continue;
 				}else{
-					$ifile = $mpath . $class;
+					$ifile = $mpath . '/' . $class;
 					include $ifile;
-					$classname = substr($class ,0,-9);
+					$classname = substr($class ,0,-10);
 					$class = 'FreePBX\\Console\\Command\\' . $classname;
-					$fbc->add(new $class);
+					echo $fbc->add(new $class);
 				}
 		}
 	}
 }
-
 $fbc->run();
