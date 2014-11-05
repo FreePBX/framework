@@ -3,7 +3,7 @@
 //	Copyright 2013 Schmooze Com Inc.
 //
 
-$dirname = $amp_conf['AMPWEBROOT'] . '/admin';
+$dirname = dirname(__FILE__);
 
 //http://php.net/manual/en/function.phpversion.php
 if (!defined('PHP_VERSION_ID')) {
@@ -82,7 +82,7 @@ require_once($dirname . '/helpers/form_helper.php');
 //freepbx autoloader
 function fpbx_framework_autoloader($class) {
 	global $amp_conf;
-	$dirname = $amp_conf['AMPWEBROOT'] . '/admin';
+	$dirname = dirname(__FILE__);
 	if (substr($class, 0, 3) == 'gui') {
 		$class = 'component';
 	}

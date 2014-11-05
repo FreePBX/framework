@@ -99,7 +99,8 @@ if (file_exists($bmo)) {
 // database conifguration already included, connect to database:
 //
 //require_once('DB.php'); //PEAR must be installed
-include(dirname(__FILE__)."/libraries/DB.class.php");
+require_once(dirname(__FILE__)."/libraries/DB.class.php");
+global $db;
 $db = new DB();
 //require_once($dirname . '/libraries/db_connect.php'); //PEAR must be installed
 

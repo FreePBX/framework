@@ -34,14 +34,21 @@ class Database extends PDO {
 			array_shift($args);
 		}
 
-		$amp_conf = FreePBX::$conf;
+		if (class_exists("FreePBX")) {
+			$amp_conf = FreePBX::$conf;
+		} else if (is_array($args[0]) && !empty($args[0])) {
+			$amp_conf = $args[0];
+			array_shift($args);
+		} else {
+			throw new Exception("FreePBX class does not exist, and no amp_conf found.");
+		}
 
 		//Isset, not empty and is a string that's the only valid DSN we will accept here
 		if (isset($args[0]) && !empty($args[0]) && is_string($args[0])) {
 			$dsn = $args[0];
 		} else {
 			$host = !empty($amp_conf['AMPDBHOST']) ? $amp_conf['AMPDBHOST'] : 'localhost';
-			$dsn = "mysql:host=".$host.";dbname=".$amp_conf['AMPDBNAME'];
+			$dsn = $amp_conf['AMPDBENGINE'].":host=".$host.";dbname=".$amp_conf['AMPDBNAME'];
 		}
 
 		if (isset($args[1]) && !empty($args[0]) && is_string($args[0])) {
