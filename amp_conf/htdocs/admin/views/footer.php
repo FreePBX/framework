@@ -87,6 +87,7 @@ $fpbx['conf']['uniqueid']		= sql('SELECT data FROM module_xml WHERE id = "instal
 $fpbx['conf']['dist']			= $modulef->_distro_id();
 $fpbx['conf']['ver']			= get_framework_version();
 $fpbx['conf']['reload_needed']  = $reload_needed;
+$fpbx['conf']['brandid'] = $modulef->_brandid();
 //TODO: This eventually should be provided by each individual module, rather than be hardcoded
 $fpbx['conf']['modules']['sysadmin']['deployment_id'] = $modulef->_deploymentid();
 $fpbx['conf']['modules']['sysadmin']['zendid'] = (function_exists('sysadmin_get_zendid'))?sysadmin_get_zendid():null;
