@@ -1024,53 +1024,60 @@ $(document).keydown(function(e) {
 });
 
 $(document).ready(function() {
+
 	/**
 	* Lock the action bar to the bottom of the screen
 	* @author Bryan Walters <bryan ! walters (at) schmoozecom (dot) com
 	*/
-	$(window).scroll(function() {
-		if ($('.action-bar').length > 0) {
+	function positionActionBar() {
+		if ($(".action-bar").length > 0) {
 			var css = {};
 
-			$('.action-bar').removeClass('action-bar-locked');
+			$(".action-bar").removeClass("action-bar-locked");
 
 			var css = {},
-				pageHeight = parseInt($('#page').innerHeight()),
-				actionBarOffset = parseInt($('.action-bar').offset().top) + parseInt($('.action-bar').innerHeight()) + parseInt($('#footer').innerHeight()) + parseInt($('.action-bar').css('padding-bottom'));
+				pageHeight = parseInt($("#page").innerHeight()),
+				actionBarOffset = parseInt($(".action-bar").offset().top) + parseInt($(".action-bar").innerHeight()) + parseInt($("#footer").innerHeight()) + parseInt($(".action-bar").css("padding-bottom"));
 
 			if (pageHeight - actionBarOffset <= 0) {
-				$('.action-bar').addClass('action-bar-locked');
+				$(".action-bar").addClass("action-bar-locked");
 			}
 		}
+	}
+
+	positionActionBar();
+
+	$(window).scroll(function() {
+		positionActionBar();
 	});
 
 	/**
 	* Perform form actions on a given page based on what action-bar button is clicked
 	* @author Bryan Walters <bryan ! walters (at) schmoozecom (dot) com
 	*/
-	$(document).on('click', '.action-bar input[type=submit]', function(e){
+	$(document).on("click", ".action-bar input[type=submit]", function(e) {
 		e.preventDefault();
 
-		var fpbxForm = $('.fpbx-submit'),
-			formName = fpbxForm.attr('name'),
-			buttonName = $(this).attr('name');
+		var fpbxForm = $(".fpbx-submit"),
+			formName = fpbxForm.attr("name"),
+			buttonName = $(this).attr("name");
 
 		switch (buttonName) {
-			case 'Reset':
-			case 'reset':
+			case "Reset":
+			case "reset":
 				document.forms[formName].reset();
 			break;
-			case 'Submit':
-			case 'submit':
+			case "Submit":
+			case "submit":
 				document.forms[formName].submit();
 			break;
-			case 'Delete':
-			case 'delete':
-				delLink = fpbxForm.data('fpbx-delete');
+			case "Delete":
+			case "delete":
+				delLink = fpbxForm.data("fpbx-delete");
 				location.href = delLink;
 				break;
-			case 'Duplicate':
-			case 'duplicate':
+			case "Duplicate":
+			case "duplicate":
 				document.forms[formName].submit();
 				console.log(document.forms[formName]);
 				break;
