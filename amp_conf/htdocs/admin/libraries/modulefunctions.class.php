@@ -1,6 +1,6 @@
 <?php
 /***********************************************************************************************************
-                                       Module functions
+																			Module functions
 ************************************************************************************************************/
 
 define('MODULE_STATUS_NOTINSTALLED', 0);
@@ -33,23 +33,23 @@ class module_functions {
 	}
 
 	/**
-	 * Get the latest module.xml file for this FreePBX version.
-	 *
-	 * Caches in the database for 5 mintues.
-	 * If $module is specified, only returns the data for that module.
-	 * If the module is not found (or none are available for whatever reason),
-	 * then null is returned.
-	 *
-	 * Sets the global variable $module_getonlinexml_error to true if an error
-	 * occurred getting the module from the repository, false if no error occurred,
-	 * or null if the repository wasn't checked. Note that this may change in the
-	 * future if we decide we need to return more error codes, but as long as it's
-	 * a php zero-value (false, null, 0, etc) then no error happened.
-	 *
-	 * @param string $module rawname of module to get xml for
-	 * @param bool $override_xml Different xml path to use for repos instead of the included default
-	 * @return mixed combined module xml array if true, null if no data
-	 */
+	* Get the latest module.xml file for this FreePBX version.
+	*
+	* Caches in the database for 5 mintues.
+	* If $module is specified, only returns the data for that module.
+	* If the module is not found (or none are available for whatever reason),
+	* then null is returned.
+	*
+	* Sets the global variable $module_getonlinexml_error to true if an error
+	* occurred getting the module from the repository, false if no error occurred,
+	* or null if the repository wasn't checked. Note that this may change in the
+	* future if we decide we need to return more error codes, but as long as it's
+	* a php zero-value (false, null, 0, etc) then no error happened.
+	*
+	* @param string $module rawname of module to get xml for
+	* @param bool $override_xml Different xml path to use for repos instead of the included default
+	* @return mixed combined module xml array if true, null if no data
+	*/
 	function getonlinexml($module = false, $override_xml = false) { // was getModuleXml()
 		global $amp_conf, $db, $module_getonlinexml_error;  // okay, yeah, this sucks, but there's no other good way to do it without breaking BC
 		$module_getonlinexml_error = null;
@@ -248,13 +248,13 @@ class module_functions {
 	}
 
 	/**
-	 * Return any existing security vulnerabilities in currently installed modules if
-	 * present in the xmlarray
-	 *
-	 * @param array the parsed xml array containing the security information
-	 * @param string the current base version of freepbx if already available, or leave out
-	 * @return array an array of vulnerable modules along with some vulnerability data
-	 */
+	* Return any existing security vulnerabilities in currently installed modules if
+	* present in the xmlarray
+	*
+	* @param array the parsed xml array containing the security information
+	* @param string the current base version of freepbx if already available, or leave out
+	* @return array an array of vulnerable modules along with some vulnerability data
+	*/
 	function get_security($xmlarray, $base_version=null) {
 
 		if ($base_version === null) {
@@ -307,14 +307,14 @@ class module_functions {
 
 
 	/**
-	 * Determines if there are updates we don't already know about and posts to notification
-	 * server about those updates.
-	 *
-	 * @param array $old_xml The old xml taken from the DB cache
-	 * @param array $xmlarray The new XML taken from the online resource
-	 * @param array $passive Whether to allow notification to be reset
-	 *
-	 */
+	* Determines if there are updates we don't already know about and posts to notification
+	* server about those updates.
+	*
+	* @param array $old_xml The old xml taken from the DB cache
+	* @param array $xmlarray The new XML taken from the online resource
+	* @param array $passive Whether to allow notification to be reset
+	*
+	*/
 	function update_notifications(&$old_xml, &$xmlarray, $passive) {
 		global $db;
 
@@ -365,13 +365,13 @@ class module_functions {
 	}
 
 	/**
-	 * Compare installed (enabled or disabled) modules against the xml to generate or
-	 * update the notification table of which modules have available updates. If the list
-	 * is empty then delete the notification.
-	 *
-	 * @param array $new_modules New Module XML
-	 * @param array $passive Whether to allow notification to be reset
-	 */
+	* Compare installed (enabled or disabled) modules against the xml to generate or
+	* update the notification table of which modules have available updates. If the list
+	* is empty then delete the notification.
+	*
+	* @param array $new_modules New Module XML
+	* @param array $passive Whether to allow notification to be reset
+	*/
 	function upgrade_notifications(&$new_modules, $passive_value) {
 		global $db;
 		$notifications =& notifications::create($db);
@@ -409,12 +409,12 @@ class module_functions {
 	}
 
 	/**
-	 * Updates the notification panel of any known vulnerable modules present
-	 * on the system. Since these are security notifications, emails will be
-	 * sent out informing of the issues if enabled.
-	 *
-	 * @param array $exposures vulnerability information array returned by module_get_security()
-	 */
+	* Updates the notification panel of any known vulnerable modules present
+	* on the system. Since these are security notifications, emails will be
+	* sent out informing of the issues if enabled.
+	*
+	* @param array $exposures vulnerability information array returned by module_get_security()
+	*/
 	function update_security_notifications($exposures) {
 		global $db;
 		$notifications =& notifications::create($db);
@@ -440,10 +440,10 @@ class module_functions {
 	}
 
 	/**
-	 * Get Active Locally Set Repos
-	 *
-	 * @return array Array of Active Repos array("<reponame>" => 1)
-	 */
+	* Get Active Locally Set Repos
+	*
+	* @return array Array of Active Repos array("<reponame>" => 1)
+	*/
 	function get_active_repos() {
 		global $active_repos;
 		global $db;
@@ -471,12 +471,12 @@ class module_functions {
 				$active_repos = array('standard' => 1);
 				$this->set_active_repo('standard',1);
 			}
-            $final_repos = array();
-            foreach($active_repos as $repo => $state) {
-                $repo = strtolower($repo);
-                $final_repos[$repo] = $state;
+						$final_repos = array();
+						foreach($active_repos as $repo => $state) {
+								$repo = strtolower($repo);
+								$final_repos[$repo] = $state;
 
-            }
+						}
 			return $final_repos;
 		} else {
 			return $active_repos;
@@ -484,11 +484,11 @@ class module_functions {
 	}
 
 	/**
-	 * Enable or disable an online repository
-	 *
-	 * @param string $repo The repository name
-	 * @param int $active 1 for true 0 for false
-	 */
+	* Enable or disable an online repository
+	*
+	* @param string $repo The repository name
+	* @param int $active 1 for true 0 for false
+	*/
 	function set_active_repo($repo,$active=1) {
 		global $db;
 		$repos = $this->get_active_repos();
@@ -503,9 +503,9 @@ class module_functions {
 	}
 
 	/**
-	 * Retrieve and Store available remote repositories
-	 *
-	 */
+	* Retrieve and Store available remote repositories
+	*
+	*/
 	function generate_remote_repos() {
 		global $db;
 		$xml = $this->getonlinexml();
@@ -525,35 +525,35 @@ class module_functions {
 	}
 
 	/**
-	 * Store available remote repositories
-	 *
-	 * @param array $repos Array of remote repositories
-	 */
+	* Store available remote repositories
+	*
+	* @param array $repos Array of remote repositories
+	*/
 	function set_remote_repos($repos) {
 		global $db;
 		$old_remote_repos = $this->get_remote_repos(true);
 		$active_repos = $this->get_active_repos();
-        $final_repos = array();
+				$final_repos = array();
 		foreach($repos as $repo) {
-            if(in_array(strtolower($repo),$final_repos)) {
-                continue;
-            }
+						if(in_array(strtolower($repo),$final_repos)) {
+								continue;
+						}
 			//If there is a new repo detected and it's not in our former list of remote repos
 			//and it was not previously medled with locally then enable it automatically
 			if(!in_array($repo,$old_remote_repos) && !isset($active_repos[$repo]) && $repo != 'orphan') {
 				$this->set_active_repo($repo,1);
 			}
-            $final_repos[] = $repo;
+						$final_repos[] = $repo;
 		}
 		$repos_json = $db->escapeSimple(json_encode($final_repos));
 		sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('remote_repos_json', '".time()."','".$repos_json."')");
 	}
 
 	/**
-	 * Get the list of locally stored remote repository names
-	 *
-	 * @return array Array of remote repositories
-	 */
+	* Get the list of locally stored remote repository names
+	*
+	* @return array Array of remote repositories
+	*/
 	function get_remote_repos($online = false) {
 		global $db;
 		$repos = ($online) ? $this->generate_remote_repos() : array();
@@ -593,13 +593,13 @@ class module_functions {
 	}
 
 	/**
-	 * Looks through the modules directory and modules database and returns all available
-	 * information about one or all modules
-	 *
-	 * @param string $module (optional) The module name to query, or false for all module
-	 * @param mixed $status (optional) The status(es) to show, using MODULE_STATUS_* constants. Can
-	 *                either be one value, or an array of values.
-	 */
+	* Looks through the modules directory and modules database and returns all available
+	* information about one or all modules
+	*
+	* @param string $module (optional) The module name to query, or false for all module
+	* @param mixed $status (optional) The status(es) to show, using MODULE_STATUS_* constants. Can
+	*                either be one value, or an array of values.
+	*/
 	function getinfo($module = false, $status = false, $forceload = false) {
 
 		global $amp_conf, $db;
@@ -632,8 +632,8 @@ class module_functions {
 				$dir = opendir($amp_conf['AMPWEBROOT'].'/admin/modules');
 				while ($file = readdir($dir)) {
 					if (($file != ".") && ($file != "..") && ($file != "CVS") &&
-				    	($file != ".svn") && ($file != "_cache") &&
-				    	is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file)) {
+							($file != ".svn") && ($file != "_cache") &&
+							is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file)) {
 						$module_list[] = $file;
 					}
 				}
@@ -645,15 +645,15 @@ class module_functions {
 						$modules[$file] = $xml;
 						// if status is anything else, it will be updated below when we read the db
 						$modules[$file]['status'] = MODULE_STATUS_NOTINSTALLED;
-	          // I think this is the source of reading every module from a file. The assumption is all modules
-	          // from the online repo will always have a repo defined but local ones may not so we need to define
-	          // them here.
+						// I think this is the source of reading every module from a file. The assumption is all modules
+						// from the online repo will always have a repo defined but local ones may not so we need to define
+						// them here.
 
-	          //TODO: should we have a master list of supported repos and validate against that, or do it dynamically
-	          //      we do with other stuff
-	          if (!isset($modules[$file]['repo']) || !$modules[$file]['repo']) {
-	            $modules[$file]['repo'] = 'local';
-	          }
+						//TODO: should we have a master list of supported repos and validate against that, or do it dynamically
+						//      we do with other stuff
+						if (!isset($modules[$file]['repo']) || !$modules[$file]['repo']) {
+							$modules[$file]['repo'] = 'local';
+						}
 					}
 				}
 				closedir($dir);
@@ -694,7 +694,7 @@ class module_functions {
 					}
 					$modules[ $row['modulename'] ]['dbversion'] = $row['version'];
 					$modules[ $row['modulename'] ]['track'] = $this->get_track($row['modulename']);
-                    $modules[ $row['modulename'] ]['signature'] = !empty($row['signature']) ? json_decode($row['signature'],true) : array();
+										$modules[ $row['modulename'] ]['signature'] = !empty($row['signature']) ? json_decode($row['signature'],true) : array();
 				}
 			}
 
@@ -735,13 +735,117 @@ class module_functions {
 		}
 	}
 
+	/**
+	* Smart Dependency Resolver
+	* This is smart because it will auto download/install/enable whatever it needs tool
+	* @param string $modulename The raw module name
+	* @param string $callback   The function callback name
+	*/
+	function resolveDependencies($modulename,$callback) {
+		$force = false;
+		if (is_array($errors = $this->checkdepends($modulename))) {
+			$depends = $this->modDepends;
+			if(!empty($depends)) {
+				foreach($depends as $module) {
+					out(sprintf(_("Detected Missing Dependency of: %s"),$module));
+					$m = $this->getinfo($module);
+					if(!empty($m[$module])) {
+						if(!$this->resolveDependencies($module,$callback)) {
+							return false;
+						}
+						switch($m[$module]['status']) {
+							case MODULE_STATUS_NOTINSTALLED:
+								out(sprintf(_("Installing Missing Dependency of: %s"),$module));
+								if (is_array($errors = $this->install($module,$force))) {
+									out(_("The following error(s) occured:"));
+									out(' - '.implode("\n - ",$errors));
+									return false;
+								} else {
+									out(sprintf(_("Installed Missing Dependency of: %s"),$module));
+								}
+							break;
+							case MODULE_STATUS_DISABLED:
+								out(sprintf(_("Enabling Missing Dependency of: %s"),$module));
+								if (is_array($errors = $this->enable($module))) {
+									out(_("The following error(s) occured:"));
+									out(' - '.implode("\n - ",$errors));
+									return false;
+								}
+								out(sprintf(_("Missing Dependency %s successfully enabled"),$module));
+							break;
+							case MODULE_STATUS_NEEDUPGRADE:
+								out(sprintf(_("Installing Missing Dependency of: %s"),$module));
+								if (is_array($errors = $this->install($module,$force))) {
+									out(_("The following error(s) occured:"));
+									out(' - '.implode("\n - ",$errors));
+									return false;
+								} else {
+									out(sprintf(_("Installed Missing Dependency of: %s"),$module));
+								}
+							break;
+							case MODULE_STATUS_BROKEN:
+								out(sprintf(_("Downloading Missing Dependency of: %s"),$module));
+								if (is_array($errors = $this->download($module,$force,$callback))) {
+									out(_("The following error(s) occured:"));
+									out(' - '.implode("\n - ",$errors));
+									return false;
+								} else {
+									out("Module ".$module." successfully downloaded");
+									if(!$this->resolveDependencies($module,$callback)) {
+										return false;
+									}
+									out(sprintf(_("Installing Missing Dependency of: %s"),$module));
+									if (is_array($errors = $this->install($module,$force))) {
+										out(_("The following error(s) occured:"));
+										out(' - '.implode("\n - ",$errors));
+										return false;
+									} else {
+										out(sprintf(_("Installed Missing Dependency of: %s"),$module));
+									}
+								}
+							break;
+							case MODULE_STATUS_ENABLED:
+								return true;
+							break;
+							default:
+								out(sprintf(_("Dependency %s has an unknown state of : %s"),$module, $m[$module]['status']));
+								return false;
+							break;
+						}
+					} else {
+						out(sprintf(_("Downloading Missing Dependency of: %s"),$module));
+						if (is_array($errors = $this->download($module,$force,$callback))) {
+							out(_("The following error(s) occured:"));
+							out(' - '.implode("\n - ",$errors));
+							return false;
+						} else {
+							out("Module ".$module." successfully downloaded");
+							if(!$this->resolveDependencies($module,$callback)) {
+								return false;
+							}
+							out(sprintf(_("Installing Missing Dependency of: %s"),$module));
+							if (is_array($errors = $this->install($module,$force))) {
+								out(_("The following error(s) occured:"));
+								out(' - '.implode("\n - ",$errors));
+								return false;
+							} else {
+								out(sprintf(_("Installed Missing Dependency of: %s"),$module));
+							}
+						}
+					}
+				}
+			}
+		}
+		return true;
+	}
+
 	/** Check if a module meets dependencies.
-	 * @param  mixed  The name of the module, or the modulexml Array
-	 * @return mixed  Returns true if dependencies are met, or an array
-	 *                containing a list of human-readable errors if not.
-	 *                NOTE: you must use strict type checking (===) to test
-	 *                for true, because  array() == true !
-	 */
+	* @param  mixed  The name of the module, or the modulexml Array
+	* @return mixed  Returns true if dependencies are met, or an array
+	*                containing a list of human-readable errors if not.
+	*                NOTE: you must use strict type checking (===) to test
+	*                for true, because  array() == true !
+	*/
 	function checkdepends($modulename) {
 		$this->modDepends = array();
 		// check if we were passed a modulexml array, or a string (name)
@@ -865,27 +969,32 @@ class module_functions {
 													// version is good
 												} else {
 													$errors[$mod] = $this->_comparison_error_message($needed_module.' module', $compare_ver, $installed_ver, $operator);
+													$this->modDepends[] = $mod;
 												}
 											}
 										break;
 										case MODULE_STATUS_BROKEN:
 											$errors[$mod] = sprintf(_('The Module Named "%s" is required, but yours is broken. You should reinstall it and try again.'), $needed_module);
+											$this->modDepends[] = $mod;
 										break;
 										case MODULE_STATUS_DISABLED:
 											$errors[$mod] = sprintf(_('The Module Named "%s" is required, but yours is disabled.'), $needed_module);
+											$this->modDepends[] = $mod;
 										break;
 										case MODULE_STATUS_NEEDUPGRADE:
 											$errors[$mod] = sprintf(_('The Module Named "%s" is required, but yours is disabled because it needs to be upgraded. Please upgrade %s first, and then try again.'), $needed_module, $needed_module);
+											$this->modDepends[] = $mod;
 										break;
 										default:
 										case MODULE_STATUS_NOTINSTALLED:
 											$errors[$mod] = sprintf(_('The Module Named "%s" is required, yours is not installed.'), $needed_module);
-											$this->modDepends[] = $matches[1];
+											$this->modDepends[] = $mod;
 										break;
 									}
 								} else {
-									$errors[$matches[1]] = sprintf(_('The Module Named "%s" is required.'), $matches[1]);
-									$this->modDepends[] = $matches[1];
+									$mod = $matches[1];
+									$errors[$mod] = sprintf(_('The Module Named "%s" is required.'), $mod);
+									$this->modDepends[] = $mod;
 								}
 							}
 						break;
@@ -977,10 +1086,10 @@ class module_functions {
 	}
 
 	/**
-	 * Finds all the enabled modules that depend on a given module
-	 * @param  mixed  The name of the module, or the modulexml Array
-	 * @return array  Array containing the list of modules, or false if no dependencies
-	 */
+	* Finds all the enabled modules that depend on a given module
+	* @param  mixed  The name of the module, or the modulexml Array
+	* @return array  Array containing the list of modules, or false if no dependencies
+	*/
 	function reversedepends($modulename) {
 		// check if we were passed a modulexml array, or a string (name)
 		// ensure $modulename is the name (as a string)
@@ -1024,11 +1133,11 @@ class module_functions {
 	}
 
 	/**
-	 * Enables a module
-	 * @param string    The name of the module to enable
-	 * @param bool      If true, skips status and dependency checks
-	 * @return  mixed   True if succesful, array of error messages if not succesful
-	 */
+	* Enables a module
+	* @param string    The name of the module to enable
+	* @param bool      If true, skips status and dependency checks
+	* @return  mixed   True if succesful, array of error messages if not succesful
+	*/
 	function enable($modulename, $force = false) { // was enableModule
 		$this->modDepends = array();
 		global $db;
@@ -1057,17 +1166,17 @@ class module_functions {
 	}
 
 	/**
-	 * Downloads the latest version of a module and extracts it to the directory
-	 * @param string    The location of the module to install
-	 * @param bool      If true, skips status and dependency checks
-	 * @param string    The name of a callback function to call with progress updates.
-	 *                   function($action, $params). Possible actions:
-	 *                     getinfo: while downloading modules.xml
-	 *                     downloading: while downloading file; params include 'read' and 'total'
-	 *                     untar: before untarring
-	 *                     done: when complete
-	 * @return  mixed   True if succesful, array of error messages if not succesful
-	 */
+	* Downloads the latest version of a module and extracts it to the directory
+	* @param string    The location of the module to install
+	* @param bool      If true, skips status and dependency checks
+	* @param string    The name of a callback function to call with progress updates.
+	*                   function($action, $params). Possible actions:
+	*                     getinfo: while downloading modules.xml
+	*                     downloading: while downloading file; params include 'read' and 'total'
+	*                     untar: before untarring
+	*                     done: when complete
+	* @return  mixed   True if succesful, array of error messages if not succesful
+	*/
 	function download($moduledata, $force = false, $progress_callback = null, $override_svn = false, $override_xml = false) {
 		$this->notFound = false;
 		global $amp_conf;
@@ -1153,10 +1262,10 @@ class module_functions {
 				}
 
 				/* We will explode the tarball in the cache directory and then once successful, remove the old module before before
-				 * moving the new one over. This way, things like removed files end up being removed instead of laying around
-				 *
-				 * TODO: save old module being replaced, if there is an old one.
-				 */
+				* moving the new one over. This way, things like removed files end up being removed instead of laying around
+				*
+				* TODO: save old module being replaced, if there is an old one.
+				*/
 				exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename", $output, $exitcode);
 				if ($exitcode != 0) {
 					return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulename));
@@ -1324,22 +1433,22 @@ class module_functions {
 		}
 
 		/* We will explode the tarball in the cache directory and then once successful, remove the old module before before
-		 * moving the new one over. This way, things like removed files end up being removed instead of laying around
-		 */
+		* moving the new one over. This way, things like removed files end up being removed instead of laying around
+		*/
 		exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename", $output, $exitcode);
 		if ($exitcode != 0) {
 			return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulename));
 		}
 		exec("tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
 		if ($exitcode != 0) {
-	    freepbx_log(FPBX_LOG_ERROR,sprintf(_("failed to open %s module archive into _cache directory."),$filename));
+			freepbx_log(FPBX_LOG_ERROR,sprintf(_("failed to open %s module archive into _cache directory."),$filename));
 			return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/_cache'));
 		} else {
-	    // since untarring was successful, remvove the tarball so they do not accumulate
-	    if (unlink($filename) === false) {
-	      freepbx_log(FPBX_LOG_WARNING,sprintf(_("failed to delete %s from cache directory after opening module archive."),$filename));
-	    }
-	  }
+			// since untarring was successful, remvove the tarball so they do not accumulate
+			if (unlink($filename) === false) {
+				freepbx_log(FPBX_LOG_WARNING,sprintf(_("failed to delete %s from cache directory after opening module archive."),$filename));
+			}
+		}
 		exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
 		if ($exitcode != 0) {
 			return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename));
@@ -1538,9 +1647,9 @@ class module_functions {
 		}
 
 		// since untarring was successful, remvove the tarball so they do not accumulate
-	    if (unlink($filename) === false) {
+			if (unlink($filename) === false) {
 			freepbx_log(FPBX_LOG_WARNING,sprintf(_("failed to delete %s from cache directory after opening module archive."),$filename));
-	    }
+			}
 
 		if(!file_exists($temppath.'/module.xml')) {
 			$dirs = glob($temppath.'/*',GLOB_ONLYDIR);
@@ -1596,12 +1705,12 @@ class module_functions {
 	}
 
 	/**
-	 * Installs or upgrades a module from it's directory
-	 * Checks dependencies, and enables
-	 * @param string   The name of the module to install
-	 * @param bool     If true, skips status and dependency checks
-	 * @return mixed   True if succesful, array of error messages if not succesful
-	 */
+	* Installs or upgrades a module from it's directory
+	* Checks dependencies, and enables
+	* @param string   The name of the module to install
+	* @param bool     If true, skips status and dependency checks
+	* @return mixed   True if succesful, array of error messages if not succesful
+	*/
 	function install($modulename, $force = false) {
 		$this->modDepends = array();
 		$this->notFound = false;
@@ -1730,10 +1839,10 @@ class module_functions {
 	}
 
 	/**
-	 * Disable a module, but reqmains installed
-	 * @param string   The name of the module to disable
-	 * @param bool     If true, skips status and dependency checks
-	 * @return mixed   True if succesful, array of error messages if not succesful
+	* Disable a module, but reqmains installed
+	* @param string   The name of the module to disable
+	* @param bool     If true, skips status and dependency checks
+	* @return mixed   True if succesful, array of error messages if not succesful
 	*/
 	function disable($modulename, $force = false) { // was disableModule
 		global $db;
@@ -1760,11 +1869,11 @@ class module_functions {
 	}
 
 	/**
-	 * Uninstall a module, but files remain
-	 * @param string   The name of the module to install
-	 * @param bool     If true, skips status and dependency checks
-	 * @return mixed   True if succesful, array of error messages if not succesful
-	 */
+	* Uninstall a module, but files remain
+	* @param string   The name of the module to install
+	* @param bool     If true, skips status and dependency checks
+	* @return mixed   True if succesful, array of error messages if not succesful
+	*/
 	function uninstall($modulename, $force = false) {
 		global $db;
 		global $amp_conf;
@@ -1834,11 +1943,11 @@ class module_functions {
 	}
 
 	/**
-	 * Totally deletes a module
-	 * @param string   The name of the module to install
-	 * @param bool     If true, skips status and dependency checks
-	 * @return mixed   True if succesfull, array of error messages if not succesful
-	 */
+	* Totally deletes a module
+	* @param string   The name of the module to install
+	* @param bool     If true, skips status and dependency checks
+	* @return mixed   True if succesfull, array of error messages if not succesful
+	*/
 	function delete($modulename, $force = false) {
 		global $amp_conf;
 
@@ -1898,7 +2007,7 @@ class module_functions {
 		}
 
 		if (file_exists($xmlfile)) {
-	    ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
+			ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
 			$data = file_get_contents($xmlfile);
 			//$parser = new xml2ModuleArray($data);
 			//$xmlarray = $parser->parseModulesXML($data);
@@ -2026,10 +2135,10 @@ class module_functions {
 	}
 
 	/** Include additional files requested in module.xml for install and uninstall
-	 * @param array   The modulexml array
-	 * @param string  The action to perform, either 'install' or 'uninstall'
-	 * @return boolean   If the action was successful, currently TRUE so we don't prevent the install
-	 */
+	* @param array   The modulexml array
+	* @param string  The action to perform, either 'install' or 'uninstall'
+	* @return boolean   If the action was successful, currently TRUE so we don't prevent the install
+	*/
 	function _runscripts_include($modulexml, $type) {
 		global $amp_conf;
 
@@ -2055,11 +2164,11 @@ class module_functions {
 	}
 
 	/** Run the module install/uninstall scripts
-	 * @param string  The name of the module
-	 * @param string  The action to perform, either 'install' or 'uninstall'
-	 * @param array	  The modulexml array
-	 * @return boolean  If the action was succesful
-	 */
+	* @param string  The name of the module
+	* @param string  The action to perform, either 'install' or 'uninstall'
+	* @param array	  The modulexml array
+	* @return boolean  If the action was succesful
+	*/
 	function _runscripts($modulename, $type, $modulexml = false) {
 		global $amp_conf;
 		$db_engine = $amp_conf["AMPDBENGINE"];
@@ -2151,8 +2260,8 @@ class module_functions {
 		if (file_exists($filename) && is_file($filename)) {
 			return include_once($filename);
 		} else {
-	    return true;
-	  }
+			return true;
+		}
 	}
 
 	/* module_get_annoucements()
@@ -2172,11 +2281,11 @@ class module_functions {
 	}
 
 	/* Assumes properly formated input, which is ok since
-	   this is a private function and error checking is done
-		 through proper regex scanning above
+		this is a private function and error checking is done
+		through proper regex scanning above
 
-		 Returns: random md5 hash
-	 */
+		Returns: random md5 hash
+	*/
 	function _generate_random_id($type=null, $mac=null) {
 		global $db;
 		if (trim($mac) == "") {
@@ -2209,7 +2318,7 @@ class module_functions {
 		Returns:
 
 		Array: ["uniqueid"] => unique_md5_hash
-		       ["type"]     => type_passed_in
+					["type"]     => type_passed_in
 
 	*/
 	function _generate_unique_id($type=null) {
@@ -2218,15 +2327,15 @@ class module_functions {
 		// 'real' systems. Either home setups or test environments
 		//
 		$ids = array('080027' => 'virtualbox',
-								 '001C42' => 'parallels',
-								 '001C14' => 'vmware',
-								 '005056' => 'vmware',
-								 '000C29' => 'vmware',
-		             '000569' => 'vmware',
-		             '00163E' => 'xensource',
-								 '000F4B' => 'virtualiron4',
-								 '0003FF' => 'hyper-v'
-		            );
+								'001C42' => 'parallels',
+								'001C14' => 'vmware',
+								'005056' => 'vmware',
+								'000C29' => 'vmware',
+								'000569' => 'vmware',
+								'00163E' => 'xensource',
+								'000F4B' => 'virtualiron4',
+								'0003FF' => 'hyper-v'
+								);
 		$mac_address = array();
 		$chosen_mac = null;
 
@@ -2275,7 +2384,7 @@ class module_functions {
 		// Now either we have a chosen_mac, we will use the first mac, or if something went wrong
 		// and there is nothing in the array (couldn't find a mac) then we will make it purely random
 		//
-	  if ($type == "vmware" || $type == "xensource") {
+		if ($type == "vmware" || $type == "xensource") {
 			// vmware, xensource machines will have repeated macs so make random
 			return $this->_generate_random_id($type);
 		} else if ($chosen_mac != "") {
@@ -2312,8 +2421,8 @@ class module_functions {
 	}
 
 	/** Replaces variables in a string with the values from ampconf
-	 * eg, "%AMPWEBROOT%/admin" => "/var/www/html/admin"
-	 */
+	* eg, "%AMPWEBROOT%/admin" => "/var/www/html/admin"
+	*/
 	function _ampconf_string_replace($string) {
 		$freepbx_conf =& freepbx_conf::create();
 
@@ -2329,9 +2438,9 @@ class module_functions {
 	}
 
 	/* Get the brand from the pbx-brand file. This can be overriden
-	 * by setting it first, used primarily to modify current brand
-	 * to get a specific version that may exist online
-	 */
+	* by setting it first, used primarily to modify current brand
+	* to get a specific version that may exist online
+	*/
 	function _brandid($brand_override=false) {
 		static $brand;
 		if ($brand_override) {
@@ -2351,7 +2460,7 @@ class module_functions {
 	}
 
 	/* Get the deploymentid from zend.
-	 */
+	*/
 	function _deploymentid() {
 		if (function_exists('sysadmin_get_license')) {
 			$lic = sysadmin_get_license();
@@ -2512,14 +2621,14 @@ class module_functions {
 	}
 
 	/**
-	 * function generate_module_repo_url
-	 * short create array of full URLs to get a file from repo
-	 * use this function to generate an array of URLs for all configured REPOs
-	 * @author Philippe Lindheimer
-	 *
-	 * @pram string
-	 * @returns string
-	 */
+	* function generate_module_repo_url
+	* short create array of full URLs to get a file from repo
+	* use this function to generate an array of URLs for all configured REPOs
+	* @author Philippe Lindheimer
+	*
+	* @pram string
+	* @returns string
+	*/
 	function generate_remote_urls($path, $add_options=false) {
 		global $db;
 		global $amp_conf;
@@ -2707,9 +2816,9 @@ class module_functions {
 	}
 
 	/**
-	 * Get all Cached Signatures, update if it doesnt exist
-	 * @param {bool} $cached=true Whether to use cached data or not
-	 */
+	* Get all Cached Signatures, update if it doesnt exist
+	* @param {bool} $cached=true Whether to use cached data or not
+	*/
 	function getAllSignatures($cached=true) {
 		FreePBX::GPG(); //declare class to get constants
 		$sql = "SELECT modulename, signature FROM modules";
@@ -2788,9 +2897,9 @@ class module_functions {
 	}
 
 	/**
-	 * Update gpg Signature check for a single module
-	 * @param {string} $modulename Raw Module Name
-	 */
+	* Update gpg Signature check for a single module
+	* @param {string} $modulename Raw Module Name
+	*/
 	public function updateSignature($modulename) {
 		try {
 			$mod = FreePBX::GPG()->verifyModule($modulename);
