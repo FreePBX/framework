@@ -11,7 +11,8 @@ use Symfony\Component\Process\Process;
 //Tables
 use Symfony\Component\Console\Helper\Table;
 //Kill output buffering 
-ini_set('output_buffering',0);
+@ini_set('output_buffering',0);
+@ini_set('implicit_flush',1);
 
 class Debug extends Command {
 	protected function configure(){
@@ -31,10 +32,12 @@ class Debug extends Command {
 		touch($DBUGFILE);
 		chown($DBUGFILE, $user);
 		chgrp($DEBUGFILE, $group);
+		//Another hard coded list...
 		$files = array(
 			$DBUGFILE,
 			'/var/log/httpd/access_log',
-			'/var/log/httpd/error_log',			
+			'/var/log/httpd/error_log',
+			'/var/log/asterisk/freepbx_security.log',		
 			);
 		$table = new Table($output);
 		$table->setHeaders(array('FreePBX Notifications'));
@@ -51,6 +54,16 @@ class Debug extends Command {
 				}
 		}
 		$files = implode(' ', $files);
-		passthru('tail -f ' . $files);
+		//passthru('tail -f ' . $files);
+		$process = new Process('tail -f ' . $files);
+		//Timeout for the above process. Not sure if there is a no limit but 42 Years seems long enough.
+		$process->setTimeout(1325390892);
+		$process->run(function ($type, $buffer) {
+			if (Process::ERR === $type) {
+				echo 'ERR > '.$buffer;
+			} else {
+				echo 'OUT > '.$buffer;
+			}
+		});
 	}
 }
