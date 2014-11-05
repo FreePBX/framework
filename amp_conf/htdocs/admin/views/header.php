@@ -89,20 +89,40 @@ if($amp_conf['JQMIGRATE']) {
 	$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js"></script>';
 }
 
+// As we have code in the header acting as a class, this has to be up here.
+$html .= '<script type="text/javascript" src="assets/js/class.js"></script>';
+
 // Add global variables to be used later
 $html .= "<script type='text/javascript'>
-	var path = window.location.pathname.toString().split('/');
-	path[path.length - 1] = 'ajax.php';
-	// Oh look, IE. Hur Dur, I'm a bwowsah.
-	if (typeof(window.location.origin) == 'undefined') {
-		window.location.origin = window.location.protocol+'//'+window.location.host;
-		if (window.location.port.length != 0) {
-			window.location.origin = window.location.origin+':'+window.location.port;
+	var fpbx = Class.extend({
+		params: {},
+		init: function() {
+			var self = this;
+			var path = window.location.pathname.toString().split('/');
+
+			path[path.length - 1] = 'ajax.php';
+			if (typeof(window.location.origin) == 'undefined') {
+				// Oh look, IE. Hur Dur, I'm a bwowsah.
+				window.location.origin = window.location.protocol+'//'+window.location.host;
+				if (window.location.port.length != 0) {
+					window.location.origin = window.location.origin+':'+window.location.port;
+				}
+			}
+			this.ajaxurl = window.location.origin + path.join('/');
+			if (window.location.search.length) {
+				var params = window.location.search.split(/\?|&/);
+				// NOT using jquery here. This is a bit more annoying, yes, but it means we
+				// can move it out of the way later. Note we break compat with IE8 and below
+				// here.
+				params.forEach(function(v) {
+					if (res = v.match(/(.+)=(.+)/)) {
+						self.params[res[1]] = res[2];
+					}
+				});
+			}
 		}
-	}
-	window.ajaxurl = window.location.origin + path.join('/');
-	// This assumes the module name is the first param.
-	window.modulename = window.location.search.split(/\?|&/)[1].split('=')[1];
+	});
+	window.FreePBX = new fpbx();
 </script>";
 
 $html .= '</head>';

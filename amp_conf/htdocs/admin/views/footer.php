@@ -155,14 +155,12 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	 * jquery.cookie.js - for setting cookies (https://github.com/carhartl/jquery-cookie)
 	 * script.legacy.js - freepbx library
 	 * tabber-minimized.js - sed for module admin (hiding content)
-     * class.js - Simple JavaScript Inheritance
 	 */
 	$html .= ' <script type="text/javascript" src="assets/js/XMLHttpRequest.js' . $version_tag . '"></script>'
 		. '<script type="text/javascript" src="assets/js/jquery.hotkeys.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/jquery.cookie.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/script.legacy.js' . $version_tag . '"></script>'
-	 	. '<script type="text/javascript" src="assets/js/tabber-minimized.js' . $version_tag . '"></script>'
-         . '<script type="text/javascript" src="assets/js/class.js"></script>';
+		. '<script type="text/javascript" src="assets/js/tabber-minimized.js' . $version_tag . '"></script>';
 }
 $html .= '<script type="text/javascript" src="assets/js/typeahead.bundle.js"></script>';
 $html .= '<script type="text/javascript" src="assets/js/search.js"></script>';

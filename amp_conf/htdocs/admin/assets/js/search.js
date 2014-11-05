@@ -10,7 +10,7 @@ var SearchC = Class.extend({
       limit: 10,
       prefetch: {
         ttl: 1000,
-        url: 'ajax.php?module=search&command=global&t=9',
+        url: window.FreePBX.ajaxurl+'?module=search&command=global',
        filter: function(data) { return $.map(data, function(t) { return { value: t.text, o: t } }); },
       }
     });
@@ -22,7 +22,7 @@ var SearchC = Class.extend({
       limit: 10,
       remote: {
         ttl: 100,
-        url: 'ajax.php?module=search&command=local&query=%QUERY&section='+window.modulename,
+        url: window.FreePBX.ajaxurl+'?module=search&command=local&query=%QUERY&section='+window.FreePBX.params.display,
         filter: function(data) { return $.map(data, function(t) { return { raw: true, value: t.text, o: t } }); },
       },
     });
