@@ -2203,10 +2203,7 @@ class module_functions {
 						if($o === false) {
 							return false;
 						}
-					} catch(Exception $e) {
-						dbug("Error Returned was: ".$e->getMessage());
-						return false;
-					}
+					} catch(Exception $e) { }
 				}
 
 				// then run .php scripts
