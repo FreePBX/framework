@@ -286,7 +286,6 @@ class component {
 		}
 
 		ksort($this->guielems_middle);
-		dbug(array_keys($this->guielems_middle));
 		uksort($this->guielems_middle, function($a,$b) {
 			$a = strtolower($a);
 			$b = strtolower($b);
