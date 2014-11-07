@@ -37,11 +37,11 @@ function frameworkPasswordCheck() {
 // setup locale
 function set_language() {
 	if (extension_loaded('gettext')) {
-        if (!isset($_COOKIE['lang']) || $_COOKIE['lang'] == '') {
-            $_COOKIE['lang'] = 'en_US';
-        }
-        setlocale(LC_ALL,  $_COOKIE['lang']);
-        putenv("LANGUAGE=".$_COOKIE['lang']);
+		if (empty($_COOKIE['lang']) || !preg_match('/^[\w\._@-]+$/', $_COOKIE['lang'])) {
+			$_COOKIE['lang'] = 'en_US';
+		}
+		setlocale(LC_ALL,  $_COOKIE['lang']);
+		putenv("LANGUAGE=".$_COOKIE['lang']);
 
         bindtextdomain('amp','./i18n');
 		bind_textdomain_codeset('amp', 'utf8');
@@ -51,6 +51,11 @@ function set_language() {
 
 //
 function fileRequestHandler($handler, $module = false, $file = false){
+	if (empty($_SESSION['AMP_user']) || !is_object($_SESSION['AMP_user'])) {
+		header("HTTP/1.0 500 Internal Server Error");
+		die();
+	}
+
 	global $amp_conf;
 
 	switch ($handler) {

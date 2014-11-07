@@ -298,9 +298,10 @@ function collect_settings($filename, $dbhost = '', $dbuser = '', $dbpass = '', $
 	if (preg_match('/^$/',$key)) $amp_conf["AMPMGRUSER"] = "admin";
 	else $amp_conf["AMPMGRUSER"] = $key;
 
+	$rs = substr(md5(rand()), 0, 5);
 	outn("Enter a PASSWORD to connect to the Asterisk Manager interface:\n [amp111] ");
 	$key = trim(fgets(STDIN,1024));
-	if (preg_match('/^$/',$key)) $amp_conf["AMPMGRPASS"] = "amp111";
+	if (preg_match('/^$/',$key)) $amp_conf["AMPMGRPASS"] = 'amp111';
 	else $amp_conf["AMPMGRPASS"] = $key;
 
 	do {
@@ -1577,6 +1578,14 @@ if ($module_install && !$update_links) {
 	install_modules();
 } else {
 	out("bypassing packaged module installation because --skip-module-install or --update-links flag");
+}
+
+if($update_links) {
+	//copy framework into installed folder if it doesnt already exist
+	if(!file_exists($amp_conf['AMPWEBROOT'].'/admin/modules/framework')) {
+		mkdir($amp_conf['AMPWEBROOT'].'/admin/modules/framework');
+	}
+	copy(__DIR__.'/module.xml',$amp_conf['AMPWEBROOT'].'/admin/modules/framework/module.xml');
 }
 
 
