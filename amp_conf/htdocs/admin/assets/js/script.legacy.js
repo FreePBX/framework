@@ -1069,7 +1069,7 @@ $(document).ready(function() {
 			break;
 			case "Submit":
 			case "submit":
-				document.forms[formName].submit();
+				fpbxForm.submit();
 			break;
 			case "Delete":
 			case "delete":
@@ -1078,8 +1078,8 @@ $(document).ready(function() {
 				break;
 			case "Duplicate":
 			case "duplicate":
-				document.forms[formName].submit();
-				console.log(document.forms[formName]);
+				fpbxForm.submit();
+				console.log(fpbxForm);
 				break;
 			default:
 				console.log("There is no action for button named " + buttonName);
