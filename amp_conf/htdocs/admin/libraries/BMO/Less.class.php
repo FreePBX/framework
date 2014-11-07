@@ -49,9 +49,11 @@ class Less extends Less_Parser {
 		}
 
 		\Less_Cache::$cache_dir = $less_path.'/cache';
+		$filename = \Less_Cache::Get( $files, array('compress' => true), $variables );
 		try {
 			$filename = \Less_Cache::Get( $files, array('compress' => true), $variables );
 		} catch(\Exception $e) {
+			dbug($e);
 			die_freepbx(sprintf(_('Can not write to cache folder at %s/cache. Please run (from the CLI): %s'),$dir,'amportal chown'));
 		}
 		$out['compiled_less_files'][] = 'cache/'.$filename;
