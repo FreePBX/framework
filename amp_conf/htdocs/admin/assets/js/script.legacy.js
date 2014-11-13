@@ -1297,11 +1297,11 @@ $(document).ready(function() {
 
 	//ajax spinner
 	$(document).ajaxStart(function() {
-		$("#ajax_spinner").show();
+		$("#settings-cog").addClass("fa-spin");
 	});
 
 	$(document).ajaxStop(function() {
-		$("#ajax_spinner").hide();
+		$("#settings-cog").removeClass("fa-spin");
 	});
 
 	$("#login_admin").click(function() {
