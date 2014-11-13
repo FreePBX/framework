@@ -8,7 +8,7 @@
  * Copyright Schmooze Com, Inc 2014
  */
 
- /**
+/**
  * Indicates the current default fetch mode should be used
  * @see DB_common::$fetchmode
  */
@@ -288,7 +288,7 @@ class DB {
 		$this->error = null;
 		if(empty($params)) {
 			try {
-				$this->db->query($sql);
+				$sth = $this->db->query($sql);
 			} catch(\Exception $e) {
 				return new DB_Error($e);
 			}
@@ -300,6 +300,7 @@ class DB {
 				return new DB_Error($e);
 			}
 		}
+		return new DB_result($sth);
 	}
 
 	/**
@@ -308,8 +309,14 @@ class DB {
 	 */
 	private function setFetchMode($PearDBFetchMode=DB_FETCHMODE_DEFAULT) {
 		switch($PearDBFetchMode) {
+			case DB_FETCHMODE_OBJECT:
+				$fetch = PDO::FETCH_OBJ;
+			break;
 			case DB_FETCHMODE_ASSOC:
 				$fetch = PDO::FETCH_ASSOC;
+			break;
+			case DB_FETCHMODE_ORDERED:
+				$fetch = PDO::FETCH_NUM;
 			break;
 			case DB_FETCHMODE_DEFAULT:
 				$fetch = PDO::FETCH_BOTH;
@@ -322,11 +329,76 @@ class DB {
 	}
 }
 
+class DB_result {
+	private $sth = null;
+
+	public function __construct($PDOStatement) {
+		$this->sth = $PDOStatement;
+	}
+
+	public function fetchInto() {
+		throw new Exception("fetchInto not implemented");
+	}
+
+	/**
+	 * Fetches a row from a result set
+	 * @param {int} $fetchmode = DB_DEFAULT_MODE The fetchmode to use
+	 * @param {int} $rownum    = null            The row number to fetch
+	 */
+	public function fetchRow($fetchmode = DB_DEFAULT_MODE , $rownum = null) {
+		$res = $this->sth->fetch($this->setFetchMode($fetchmode));
+		return isset($rownum) ? (isset($res[$rownum]) ? $res[$rownum] : false) : $res;
+	}
+
+	public function free() {
+		throw new Exception("free not implemented");
+	}
+
+	public function nextResult() {
+		throw new Exception("nextresult not implemented");
+	}
+
+	public function numCols() {
+		throw new Exception("numcols not implemented");
+	}
+
+	/**
+	 * Gets number of rows in a result set
+	 * http://pear.php.net/manual/en/package.database.db.db-result.numrows.php
+	 */
+	public function numRows() {
+		return $this->sth->rowCount();
+	}
+
+	/**
+	 * Adjust the Fetch mode for PDO from PearDB
+	 * @param integer $PearDBFetchMode The fetchmode to use
+	 */
+	private function setFetchMode($PearDBFetchMode=DB_FETCHMODE_DEFAULT) {
+		switch($PearDBFetchMode) {
+			case DB_FETCHMODE_OBJECT:
+				$fetch = PDO::FETCH_OBJ;
+			break;
+			case DB_FETCHMODE_ASSOC:
+				$fetch = PDO::FETCH_ASSOC;
+			break;
+			case DB_FETCHMODE_ORDERED:
+			case DB_FETCHMODE_DEFAULT:
+				$fetch = PDO::FETCH_NUM;
+			break;
+			default:
+				throw new Exception("Unknown SQL fetchmode of $fetchmode");
+			break;
+		}
+		return $fetch;
+	}
+}
+
 class DB_Error {
 	private $e =null;
-  public function __construct(Exception $exception = null) {
+	public function __construct(Exception $exception = null) {
 		$this->e = $exception;
-  }
+	}
 	public function getMessage() {
 		return $this->e->getMessage();
 	}
