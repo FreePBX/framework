@@ -171,6 +171,8 @@ class LoadConfig {
 		$myarr = $arr;
 		// Again, go through my copy...
 		foreach ($myarr as $id => $line) {
+			//Trim leading whitespace
+			$line = trim($line);
 			// Note, not checking for empty lines, as FILE_SKIP_EMPTY_LINES does that for us.
 			if (strpos($line, ";") === 0) {
 				// Starts with a comment. Remove it.
