@@ -345,7 +345,7 @@ class component {
 		}
 
 		$loadView = !empty($loadView) ? $loadView : dirname(__DIR__)."/views/extensions.php";
-		return load_view($loadView, array("top" => $this->guielems_top, "middle" => $this->guielems_middle, "bottom" => $this->guielems_bottom));
+		return load_view($loadView, array("top" => $this->guielems_top, "middle" => $this->guielems_middle, "bottom" => $this->guielems_bottom, "jsfuncs" => $this->jsfuncs));
 
 		/*
 		// Start of form
@@ -578,7 +578,7 @@ class gui_hidden extends guielement {
 
 		// make it a new row
 		if($table) {
-			$this->_html = "\t<tr>\n\t\t<td>" . $this->_html . "</td>\n\t</tr>\n";
+			$this->_html = $this->_html;
 		}
 	}
 }
@@ -696,6 +696,9 @@ class guiinput extends guielement {
 // Textbox
 class gui_textbox extends guiinput {
 	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $inputgroup = false, $class = '') {
+		if(is_array($elemname)) {
+			extract($elemname);
+		}
 		// call parent class contructor
 		parent::__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
 
@@ -840,6 +843,9 @@ class gui_checkset extends guiinput {
 
 class gui_radio extends guiinput {
 	function __construct($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '') {
+		if(is_array($elemname)) {
+			extract($elemname);
+		}
 		if (!is_array($valarray)) {
 			trigger_error('$valarray must be a valid array in gui_radio');
 			return;
@@ -848,11 +854,11 @@ class gui_radio extends guiinput {
 		$parent_class = get_parent_class($this);
 		parent::$parent_class($elemname, $currentvalue, $prompttext, $helptext);
 
-		$this->html_input = $this->buildradiobuttons($valarray, $currentvalue, $disable, $class);
+		$this->html_input = $this->buildradiobuttons($valarray, $currentvalue, $disable, $jsonclick, $class);
 		$this->type = "radio";
 	}
 
-	function buildradiobuttons($valarray, $currentvalue, $disable=false, $class='') {
+	function buildradiobuttons($valarray, $currentvalue, $disable=false, $jsonclick='', $class='') {
 		$output = '';
 		$output .= '<span class="radioset">';
 
@@ -864,7 +870,7 @@ class gui_radio extends guiinput {
 
 			$tabindex = guielement::gettabindex();
 			$disable_state = $disable ? ' disabled':'';
-			$output .= "<input type=\"radio\" name=\"$this->_elemname\"  class=\"form-control ".$class."\" id=\"$this->_elemname$count\" $disable_state tabindex=\"$tabindex\" value=\"$this->_elemname=$itemvalue\"$itemchecked/><label for=\"$this->_elemname$count\">$itemtext</label>\n";
+			$output .= "<input type=\"radio\" name=\"$this->_elemname\"  onclick=\"$jsonclick\" class=\"form-control ".$class."\" id=\"$this->_elemname$count\" $disable_state tabindex=\"$tabindex\" value=\"$this->_elemname=$itemvalue\"$itemchecked/><label for=\"$this->_elemname$count\">$itemtext</label>\n";
 			$count++;
 		}
 		$output .= '</span>';
