@@ -75,7 +75,7 @@ class Less extends Less_Parser {
 	 * @param {string} $module    The module name
 	 * @param {array} $variables =             array() Array of variables to override
 	 */
-	public function generateModuleStyles($module, $variables = array()) {
+	public function generateModuleStyles($module, $pagename = '', $variables = array()) {
 		global $amp_conf;
 		$less_rel = '/admin/assets/' . $module;
 		$less_path = $amp_conf['AMPWEBROOT'] . '/admin/modules/' . $module . '/assets/less';
@@ -88,7 +88,27 @@ class Less extends Less_Parser {
 				}
 			}
 
-			$files[] = $this->getCachedFile($less_path,$less_rel,$variables);
+			$f = $this->getCachedFile($less_path,$less_rel,$variables);
+			if(!empty($f)) {
+				$files[] = 'cache/'.$f;
+			}
+		}
+
+		if(!empty($pagename)) {
+			$less_path = $less_path."/".$pagename;
+			if(file_exists($less_path)) {
+				$varOverride = $this->FreePBX->Hooks->processHooks($variables);
+				if(!empty($varOverride)) {
+					foreach($varOverride as $o) {
+						$variables = array_merge($o, $variables);
+					}
+				}
+
+				$f = $this->getCachedFile($less_path,$less_rel,$variables);
+				if(!empty($f)) {
+					$files[] = $pagename.'/cache/'.$f;
+				}
+			}
 		}
 		return $files;
 	}
