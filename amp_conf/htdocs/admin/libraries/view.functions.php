@@ -369,9 +369,9 @@ function framework_include_css() {
 		}
 	}
 
-	$files = FreePBX::create()->Less->generateModuleStyles($module_name);
+	$files = FreePBX::create()->Less->generateModuleStyles($module_name, $module_page);
 	if(!empty($files)) {
-		$html .= '<link href="assets/' . $module_name . '/less/cache/' . $files[0] . '" rel="stylesheet" type="text/css" />';
+		$html .= '<link href="assets/' . $module_name . '/less/' . $files[0] . '" rel="stylesheet" type="text/css" />';
 	}
 	return $html;
 }
