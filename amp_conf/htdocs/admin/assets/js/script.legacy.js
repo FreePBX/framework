@@ -75,16 +75,19 @@ function validateDestinations(theForm, numForms, bRequired) {
  * this will display a message, select the content of the relevent field and
  * then set the focus to that field.  finally return FALSE to the 'onsubmit' event
  *
- * NOTE: <select> boxes do not support the .select method, therefore you cannot
- * use this function on any <select> elements
- *
- * @param {jquery object} theField The Jquery Field Object
+ * @param {jquery object} theField javascript form object
  * @param {string} s        The Alert message
  */
 function warnInvalid(theField, s) {
+	$(".element-container").removeClass("has-error has-warning has-success");
 	if (theField){
-		theField.focus();
-		theField.select();
+		var field = $(theField),
+				id = field.prop("id");
+		field.parents(".element-container[data-id='" + id + "']").addClass("has-error");
+		field.focus();
+		field.one("propertychange change contextmenu keyup input paste", function() {
+			$(this).parents(".element-container[data-id='" + id + "']").removeClass("has-error has-warning has-success");
+		});
 	}
 	alert(s);
 	return false;

@@ -25,6 +25,33 @@ html {
     margin-right: auto;
     margin-left: auto;
 }
+.has-error {
+  @button-has-error: #a94442;
+  .fa.fa-question-circle {
+    color: @button-has-error;
+  }
+  input {
+    background-color: fade(@button-has-error, 20%);
+  }
+}
+.has-warning {
+  @button-has-warning: #8a6d3b;
+  .fa.fa-question-circle {
+    color: @button-has-warning;
+  }
+  input {
+    background-color: fade(@button-has-warning, 20%);
+  }
+}
+.has-success {
+  @button-has-success: #3c763d;
+  .fa.fa-question-circle {
+    color: @button-has-success;
+  }
+  input {
+    background-color: fade(@button-has-success, 20%);
+  }
+}
 #header {
     position: fixed;
     z-index: 1000;

@@ -90,3 +90,54 @@
 .radioset input[type="radio"]:disabled + label, .radioset input[type="checkbox"]:disabled + label {
 	.button-disabled();
 }
+
+.has-error {
+	.radioset input[type="radio"] + label:first-of-type, .radioset input[type="checkbox"] ~ label:first-of-type,
+	.radioset input[type="radio"] + label, .radioset input[type="checkbox"] ~ label,
+	.radioset input[type="radio"] + label:last-of-type, .radioset input[type="checkbox"] ~ label:last-of-type {
+		background-color: fade(@button-has-error, 60%);
+		border-color: @button-has-error;
+		color: white
+	}
+	.radioset input[type="radio"]:checked + label:first-of-type, .radioset input[type="checkbox"]:checked ~ label:first-of-type,
+	.radioset input[type="radio"]:checked + label, .radioset input[type="checkbox"]:checked ~ label,
+	.radioset input[type="radio"]:checked + label:last-of-type, .radioset input[type="checkbox"]:checked ~ label:last-of-type {
+		background-color: @button-has-error;
+		border-color: @button-has-error;
+		color: white
+	}
+}
+
+.has-warning {
+	.radioset input[type="radio"] + label:first-of-type, .radioset input[type="checkbox"] ~ label:first-of-type,
+	.radioset input[type="radio"] + label, .radioset input[type="checkbox"] ~ label,
+	.radioset input[type="radio"] + label:last-of-type, .radioset input[type="checkbox"] ~ label:last-of-type {
+		background-color: fade(@button-has-warning, 60%);
+		border-color: @button-has-warning;
+		color: white
+	}
+	.radioset input[type="radio"]:checked + label:first-of-type, .radioset input[type="checkbox"]:checked ~ label:first-of-type,
+	.radioset input[type="radio"]:checked + label, .radioset input[type="checkbox"]:checked ~ label,
+	.radioset input[type="radio"]:checked + label:last-of-type, .radioset input[type="checkbox"]:checked ~ label:last-of-type {
+		background-color: @button-has-warning;
+		border-color: @button-has-warning;
+		color: white
+	}
+}
+
+.has-success {
+	.radioset input[type="radio"] + label:first-of-type, .radioset input[type="checkbox"] ~ label:first-of-type,
+	.radioset input[type="radio"] + label, .radioset input[type="checkbox"] ~ label,
+	.radioset input[type="radio"] + label:last-of-type, .radioset input[type="checkbox"] ~ label:last-of-type {
+		background-color: fade(@button-has-success, 60%);
+		border-color: @button-has-success;
+		color: white
+	}
+	.radioset input[type="radio"]:checked + label:first-of-type, .radioset input[type="checkbox"]:checked ~ label:first-of-type,
+	.radioset input[type="radio"]:checked + label, .radioset input[type="checkbox"]:checked ~ label,
+	.radioset input[type="radio"]:checked + label:last-of-type, .radioset input[type="checkbox"]:checked ~ label:last-of-type {
+		background-color: @button-has-success;
+		border-color: @button-has-success;
+		color: white
+	}
+}
