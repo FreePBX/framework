@@ -110,6 +110,24 @@ if [ -z $PIDOF ]; then
     PIDOF=pidof
 fi
 
+if [ -e $AMPBIN/fwconsole ]; then
+	if [ ! -L $AMPSBIN/fwconsole ] && [ ! -h $AMPSBIN/fwconsole ]; then
+		echo "Creating symlink for fwconsole"
+		if [ -e $AMPSBIN/fwconsole ]; then
+			rm -f $AMPSBIN/fwconsole
+		fi
+		echo ln -s $AMPBIN/fwconsole $AMPSBIN/fwconsole
+	else
+		echo -e "\033[38;5;148m!!!!amportal is depreciated. Please use fwconsole!!!!\033[39m"
+		echo "forwarding all commands to 'fwconsole'"
+		fwconsole "$@"
+		echo -e "\033[38;5;148m!!!!amportal is depreciated. Please use fwconsole!!!!\033[39m"
+		exit;
+	fi
+fi
+
+
+
 if [ -e $AMPBIN/amportal ]; then
 	if [ ! -e $AMPSBIN/amportal ] || [ ! -h $AMPSBIN/amportal ]; then
 		cmp -s $AMPBIN/amportal $AMPSBIN/amportal > /dev/null
