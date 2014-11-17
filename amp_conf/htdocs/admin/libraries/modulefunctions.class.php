@@ -2877,8 +2877,12 @@ class module_functions {
 			$trusted = $mod['signature']['status'] & GPG::STATE_TRUSTED;
 			$tampered = $mod['signature']['status'] & GPG::STATE_TAMPERED;
 			$unsigned = $mod['signature']['status'] & GPG::STATE_UNSIGNED;
+			$invalid = $mod['signature']['status'] & GPG::STATE_INVALID;
 			$md = $this->getInfo();
 			$modname = !empty($md[$mod['modulename']]['name']) ? $md[$mod['modulename']]['name'] : sprintf(_('%s [not enabled]'),$mod['modulename']);
+			if ($invalid) {
+				$modules['statuses']['tampered'][] = sprintf(_('Module "%s" signed by an invalid key.' ), $modname);
+			}
 			if ($unsigned) {
 				if ($mod['modulename'] == "framework" || $mod['modulename'] == "core") {
 					// Unsigned framework or core is extremely terribly bad.
