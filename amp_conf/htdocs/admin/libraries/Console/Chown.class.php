@@ -94,14 +94,10 @@ class Chown extends Command {
 	private function singleChown($file, $user, $group){
 		$oret = chown($file, $user);
 		$gret = chgrp($file, $group);
-			if($oret){
-				echo 'Owner for ' . $file . ' set' ;
-			}else{
+			if(!$oret){
 				echo 'Setting owner for ' . $file . ' failed';				
 			}
-			if($gret){
-				echo 'Group for ' . $file . ' set' ;
-			}else{
+			if(!$gret){
 				echo 'Setting Group for ' . $file . ' failed';				
 			}
 			unset($oret);
@@ -136,20 +132,15 @@ class Chown extends Command {
 		switch($filetype){
 			case 'link':
 				$realfile = readlink($file);
-				echo $file . ' Links to ' . $realfile;
 				$ret = chmod($realfile,$perms);
-				if($ret){
-					echo 'Permissions for ' . $realfile . ' set' ;
-				}else{
+				if(!$ret){
 					echo 'Permissions for ' . $realfile . ' failed';
 				}
 				unset($ret);
 			break;
 			case 'file':
 				$ret = chmod($file,$perms);
-				if($ret){
-					echo 'Permissions for ' . $file . ' set' ;
-				}else{
+				if(!$ret){
 					echo 'Permissions for ' . $file . ' failed';
 				}
 				unset($ret);
@@ -171,5 +162,4 @@ class Chown extends Command {
 			}
 		}
 	}
-	
 }
