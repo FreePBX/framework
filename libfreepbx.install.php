@@ -2527,6 +2527,19 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('SESSION_TIMEOUT',$set);
   $set['hidden'] = 0;
 
+	// VIEW_ZEND_CONFIG
+	$set['value'] = 'views/zend_config.php';
+	$set['options'] = '';
+	$set['name'] = 'View: zend_config.php';
+	$set['description'] = 'zend_config.php view. This should never be changed except for very advanced layout changes.';
+	$set['readonly'] = 1;
+	$set['emptyok'] = 0;
+	$set['hidden'] = 1;
+	$set['sortorder'] = 180;
+	$set['type'] = CONF_TYPE_TEXT;
+	$freepbx_conf->define_conf_setting('VIEW_ZEND_CONFIG',$set);
+	$set['hidden'] = 0;
+
   // The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we
   // retain their values until the individual modules are updated and their install scripts run where a full
   // configuration (descriptions, defaults, etc.) will be provided and maintained. This provides just enough to

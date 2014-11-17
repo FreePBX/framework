@@ -457,10 +457,22 @@ switch($display) {
 				die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
 			}
 
+			$licFileExists = glob ('/etc/schmooze/license-*.zl');
+			$complete_zend = !(!function_exists('zend_loader_install_license') || !empty($licFileExists));
+
 			// include the module page
 			if (isset($cur_menuitem['disabled']) && $cur_menuitem['disabled']) {
 					show_view($amp_conf['VIEW_MENUITEM_DISABLED'], $cur_menuitem);
 					break; // we break here to avoid the generateconfigpage() below
+					//
+			} else if (file_exists($module_file) && class_exists('\Schmooze\Zend') && \Schmooze\Zend::fileIsLicensed($module_file) && $complete_zend) {
+					$amp_conf['VIEW_ZEND_CONFIG'] = empty($amp_conf['VIEW_ZEND_CONFIG']) ? 'views/zend_config.php' : $amp_conf['VIEW_ZEND_CONFIG'];
+
+					if (file_exists($amp_conf['VIEW_ZEND_CONFIG'])) {
+						echo load_view($amp_conf['VIEW_ZEND_CONFIG']);
+					} else {
+						die_freepbx(_("Your Zend Configuration is not fully setup. Please recitfy the problem and reload this page"));
+					}
 			} else if (file_exists($module_file)) {
 					//check module first and foremost, but not during quietmode
 					if(!isset($_REQUEST['quietmode']) && $amp_conf['SIGNATURECHECK'] && (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'popup')) {
@@ -670,13 +682,13 @@ if ($quietmode) {
 			$footer['sysadmin'] = sysadmin_hook_framework_footer_view();
 		}
 		$footer['covert'] ? $footer['no_auth'] 	= true : '';
-	
-		$footer['action_bar'] = null;	
+
+		$footer['action_bar'] = null;
 		//See if we should provide an action bar
 		try {
 			$classModuleName = ucfirst($module_name);
 			$abClass = $bmo->$classModuleName;
-			
+
 			if (method_exists($abClass, 'getActionBar')) {
 				$footer['action_bar'] = $abClass->getActionBar($_REQUEST);
 			}
