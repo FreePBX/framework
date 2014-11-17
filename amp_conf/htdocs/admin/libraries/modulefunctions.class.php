@@ -2676,11 +2676,10 @@ class module_functions {
 				//Yes they do the same thing but thats ok
 				if(!isset($result['data']) || trim($result['data']) == "") {
 					$firstinstall=true;
-					sql("DELETE FROM module_xml WHERE id = 'installid' AND id = 'type'");
 					$data4sql = $db->escapeSimple($installid);
-					sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
+					sql("REPLACE INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
 					$data4sql = $db->escapeSimple($type);
-					sql("INSERT INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
+					sql("REPLACE INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
 				} else {
 					$install_hash = $this->_regenerate_unique_id();
 					$installid = $install_hash['uniqueid'];
