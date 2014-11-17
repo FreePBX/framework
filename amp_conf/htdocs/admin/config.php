@@ -458,7 +458,7 @@ switch($display) {
 			}
 
 			$licFileExists = glob ('/etc/schmooze/license-*.zl');
-			$complete_zend = !(!function_exists('zend_loader_install_license') || !empty($licFileExists));
+			$complete_zend = !(!function_exists('zend_loader_install_license') || empty($licFileExists));
 
 			// include the module page
 			if (isset($cur_menuitem['disabled']) && $cur_menuitem['disabled']) {

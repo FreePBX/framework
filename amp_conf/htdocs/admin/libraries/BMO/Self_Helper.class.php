@@ -80,8 +80,9 @@ class Self_Helper extends DB_Helper {
 	 */
 	private function autoLoad() {
 		// Figure out what is wanted, and return it.
-		if (func_num_args() == 0)
+		if (func_num_args() == 0) {
 			throw new Exception("Nothing given to the AutoLoader");
+		}
 
 		// If we have TWO arguments, we've been called by __call, if we only have
 		// one we've been called by __get.
@@ -89,12 +90,14 @@ class Self_Helper extends DB_Helper {
 		$args = func_get_args();
 		$var = $args[0];
 
-		if ($var == "FreePBX")
+		if ($var == "FreePBX") {
 			throw new Exception("No. You ALREADY HAVE the FreePBX Object. You don't need another one.");
+		}
 
 		// Ensure no-one's trying to include something with a path in it.
-		if (strpos($var, "/") || strpos($var, ".."))
+		if (strpos($var, "/") || strpos($var, "..")) {
 			throw new Exception("Invalid include given to AutoLoader - $var");
+		}
 
 		// This will throw an Exception if it can't find the class.
 		$this->loadObject($var);
@@ -176,6 +179,13 @@ class Self_Helper extends DB_Helper {
 				//TODO: this needs to look with dirname not from webroot
 				$try = $path.$module."/$objname.class.php";
 				if(file_exists($try)) {
+					$info = FreePBX::create()->Modules->getInfo($module);
+					$needs_zend = isset($info[$module]['depends']['phpcomponent']) && stristr($info[$module]['depends']['phpcomponent'], 'zend');
+					$licFileExists = glob ('/etc/schmooze/license-*.zl');
+					$complete_zend = (!function_exists('zend_loader_install_license') || empty($licFileExists));
+					if ($needs_zend && class_exists('\Schmooze\Zend') && \Schmooze\Zend::fileIsLicensed($file) && $complete_zend) {
+						break;
+					}
 					include $try;
 					$loaded = $try;
 					break;
