@@ -7,8 +7,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\ProgressBar;
 
 class Chown extends Command {
+	private $errors = array();
 	protected function configure(){
 		$this->setName('chown')
 		->setDescription('Change ownership of files')
@@ -20,9 +22,9 @@ class Chown extends Command {
 		$conf = $freepbx_conf->get_conf_settings();
 		foreach ($conf as $key => $val){
 			${$key} = $val['value'];
-        }
-        //This needs to be a hook, where modules declare rather than a list.
-        $sessdir = ini_get('session.save_path');
+		}
+		//This needs to be a hook, where modules declare rather than a list.
+		$sessdir = session_save_path();
 		$own = array(
 			'/etc/amportal.conf',
 			$FREEPBX_CONF,
@@ -53,7 +55,7 @@ class Chown extends Command {
 			$sessdir,
 			$AMPWEBROOT,
 		);
-		$perm = array(
+		$perms = array(
 			'/etc/amportal.conf' => 0660,
 			${FREEPBX_CONF} => 0660,
 			${ASTETCDIR} => 0775,
@@ -66,8 +68,13 @@ class Chown extends Command {
 			${AMPBIN} => 0775,
 			//${ASTAGIDIR} => 0775',
 			${ASTVARLIBDIR} . '/agi-bin' => 0775,
-			);		
+			);
+
+		$output->writeln("Setting Ownership");
+		$progress = new ProgressBar($output, count($own));
+		$progress->start();
 		foreach($own as $file){
+			$progress->advance();
 			$filetype = filetype($file);
 			switch($filetype){
 				case 'dir':
@@ -82,7 +89,14 @@ class Chown extends Command {
 				break;
 			}
 		}
+		$progress->finish();
+
+		$output->writeln("");
+		$output->writeln("Setting Permissions");
+		$progress = new ProgressBar($output, count($perms));
+		$progress->start();
 		foreach($perms as $file => $perm){
+			$progress->advance();
 			$filetype = filetype($file);
 			if($filetype == 'dir'){
 				$this->recursivePerms($file, $perm);
@@ -90,19 +104,23 @@ class Chown extends Command {
 				$this->singlePerms($file, $perm);
 			}
 		}
+		$progress->finish();
+
+		$output->writeln("");
+		foreach($this->errors as $error) {
+			$output->writeln("<error>".$error."</error>");
+		}
 	}
 	private function singleChown($file, $user, $group){
+
 		$oret = chown($file, $user);
 		$gret = chgrp($file, $group);
-			if(!$oret){
-				echo 'Setting owner for ' . $file . ' failed';				
-			}
-			if(!$gret){
-				echo 'Setting Group for ' . $file . ' failed';				
-			}
-			unset($oret);
-			unset($gret);
-				
+		if(!$oret){
+			$this->errors[] = 'Setting owner for ' . $file . ' failed';
+		} else if(!$gret){
+			$this->errors[] = 'Setting Group for ' . $file . ' failed';
+		} else {
+		}
 	}
 	private function recursiveChown($dir, $user, $group){
 		$files = scandir($dir);
@@ -124,7 +142,7 @@ class Chown extends Command {
 					$this->singleChown($fullpath, $user, $group);
 				break;
 			}
-			
+
 		}
 	}
 	private function singlePerms($file, $perms){
@@ -134,14 +152,14 @@ class Chown extends Command {
 				$realfile = readlink($file);
 				$ret = chmod($realfile,$perms);
 				if(!$ret){
-					echo 'Permissions for ' . $realfile . ' failed';
+					$this->errors[] = 'Permissions for ' . $realfile . ' failed';
 				}
 				unset($ret);
 			break;
 			case 'file':
 				$ret = chmod($file,$perms);
 				if(!$ret){
-					echo 'Permissions for ' . $file . ' failed';
+					$this->errors[] = 'Permissions for ' . $file . ' failed';
 				}
 				unset($ret);
 			break;
@@ -155,7 +173,7 @@ class Chown extends Command {
 			}
 			$fullpath = $dir . '/' . $file;
 			$filetype = filetype($fullpath);
-			if(filetype == 'dir'){
+			if($filetype == 'dir'){
 				$this->recursivePerms($fullpath, $perms);
 			}else{
 				$this->singlePerms($fullpath,$perms);

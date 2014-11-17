@@ -113,7 +113,8 @@ fi
 if [ -e $AMPBIN/fwconsole ]; then
 	if [ ! -L $AMPSBIN/fwconsole ] && [ ! -h $AMPSBIN/fwconsole ]; then
 		echo "Creating symlink for fwconsole"
-		if [ -e $AMPSBIN/fwconsole ]; then
+		if [ ! -e $AMPSBIN/fwconsole ]; then
+			echo "Removing broken fwconsole link"
 			rm -f $AMPSBIN/fwconsole
 		fi
 		echo ln -s $AMPBIN/fwconsole $AMPSBIN/fwconsole
@@ -121,6 +122,7 @@ if [ -e $AMPBIN/fwconsole ]; then
 		echo -e "\033[38;5;148m!!!!amportal is depreciated. Please use fwconsole!!!!\033[39m"
 		echo "forwarding all commands to 'fwconsole'"
 		fwconsole "$@"
+		echo ""
 		echo -e "\033[38;5;148m!!!!amportal is depreciated. Please use fwconsole!!!!\033[39m"
 		exit;
 	fi
