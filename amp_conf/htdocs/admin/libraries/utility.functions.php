@@ -547,11 +547,10 @@ function generate_module_repo_url($path, $add_options=false) {
 
 			// save the hash so we remeber this is a first time install
 			//
-			sql("DELETE FROM module_xml WHERE id = 'installid' AND id = 'type'");
 			$data4sql = $db->escapeSimple($installid);
-			sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
+			sql("REPLACE INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
 			$data4sql = $db->escapeSimple($type);
-			sql("INSERT INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
+			sql("REPLACE INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
 
 		// Not a first time so save the queried hash and check if there is a type set
 		//
