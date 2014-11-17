@@ -82,7 +82,11 @@ function warnInvalid(theField, s) {
 	$(".element-container").removeClass("has-error has-warning has-success");
 	if (theField){
 		var field = $(theField),
-				id = field.prop("id");
+				id = field.prop("id"),
+				tab = field.parents(".info-pane").prop("id");
+		if (typeof tab !== "undefined") {
+			$('li.change-tab[data-name="' + tab + '"]').click();
+		}
 		field.parents(".element-container[data-id='" + id + "']").addClass("has-error");
 		field.focus();
 		field.one("propertychange change contextmenu keyup input paste", function() {

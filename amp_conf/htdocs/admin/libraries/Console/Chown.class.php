@@ -8,6 +8,8 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class Chown extends Command {
 	private $errors = array();
@@ -16,6 +18,7 @@ class Chown extends Command {
 		->setDescription('Change ownership of files')
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
+		$this->fs = new Filesystem();	
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$freepbx_conf = \freepbx_conf::create();
@@ -108,41 +111,41 @@ class Chown extends Command {
 
 		$output->writeln("");
 		foreach($this->errors as $error) {
+			dbug($error);
 			$output->writeln("<error>".$error."</error>");
 		}
 	}
 	private function singleChown($file, $user, $group){
-
-		$oret = chown($file, $user);
-		$gret = chgrp($file, $group);
-		if(!$oret){
-			$this->errors[] = 'Setting owner for ' . $file . ' failed';
-		} else if(!$gret){
-			$this->errors[] = 'Setting Group for ' . $file . ' failed';
-		} else {
+		try {
+			$this->fs->chown($file,$user);
+		} catch (IOExceptionInterface $e) {
+			if($file){
+				$this->errors[] ='An error occurred while changing ownership ' . $file;
+			}
 		}
+		try {
+			$this->fs->chgrp($file,$group);
+		} catch (IOExceptionInterface $e) {
+			if($file){
+				$this->errors[] ='An error occurred while changing group ' . $file;
+			}
+		}
+
 	}
 	private function recursiveChown($dir, $user, $group){
-		$files = scandir($dir);
-		foreach($files as $file){
-			if($file == '.' || $file == '..'){
-				continue;
+		try {
+			$this->fs->chown($realfile,$user, true);
+		} catch (IOExceptionInterface $e) {
+			if($realfile){
+				$this->errors[] ='An error occurred while changing ownership ' . $realfile;
 			}
-			$fullpath = $dir . '/' . $file;
-			$filetype = filetype($fullpath);
-			switch($filetype){
-				case 'dir':
-					$this->recursiveChown($fullpath, $user, $group);
-				break;
-				case 'link':
-					$realfile = readlink($fullpath);
-					$this->singleChown($realfile, $user, $group);
-				break;
-				case 'file':
-					$this->singleChown($fullpath, $user, $group);
-				break;
+		}
+		try {
+			$this->fs->chgrp($file,$group, true);
+		} catch (IOExceptionInterface $e) {
+			if($file){
+				$this->errors[] ='An error occurred while changing group ' . $file;
 			}
-
 		}
 	}
 	private function singlePerms($file, $perms){
@@ -150,34 +153,36 @@ class Chown extends Command {
 		switch($filetype){
 			case 'link':
 				$realfile = readlink($file);
-				$ret = chmod($realfile,$perms);
-				if(!$ret){
-					$this->errors[] = 'Permissions for ' . $realfile . ' failed';
+				try {
+					$this->fs->chmod($realfile,$perms);
+				} catch (IOExceptionInterface $e) {
+					if($realfile){
+						if($realfile){
+							$this->errors[] ='An error occurred while changing permissions ' . $realfile;
+						}
+					}
 				}
-				unset($ret);
-			break;
+				break;
 			case 'file':
-				$ret = chmod($file,$perms);
-				if(!$ret){
-					$this->errors[] = 'Permissions for ' . $file . ' failed';
+				$realfile = readlink($file);
+				try {
+					$this->fs->chmod($file,$perms);
+				} catch (IOExceptionInterface $e) {
+					if($file){
+						$this->errors[] ='An error occurred while changing permissions ' . $file;
+					}
 				}
-				unset($ret);
-			break;
+				break;
 		}
 	}
 	private function recursivePerms($dir, $perms){
-		$files = scandir($dir);
-		foreach($files as $file){
-			if($file == '.' || $file == '..'){
-				continue;
-			}
-			$fullpath = $dir . '/' . $file;
-			$filetype = filetype($fullpath);
-			if($filetype == 'dir'){
-				$this->recursivePerms($fullpath, $perms);
-			}else{
-				$this->singlePerms($fullpath,$perms);
+		try {
+			$this->fs->chmod($dir,$perms, 0000, true);
+		} catch (IOExceptionInterface $e) {
+			if($dir){
+				$this->errors[] ='An error occurred while changing permissions ' . $dir;
 			}
 		}
 	}
 }
+
