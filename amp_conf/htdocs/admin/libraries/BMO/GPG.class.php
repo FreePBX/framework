@@ -129,7 +129,7 @@ class GPG {
 		// Check the signature on the module.sig
 		$module = $this->checkSig($file);
 		if (isset($module['status'])) {
-			return array("status" => $module['status'], "details" => array(_("module.sig verification failed")));
+			return array("status" => $module['status'], "details" => array(sprintf(_("module.sig check failed! %s"), $module['trustdetails'][0])));
 		}
 
 		// OK, signature is valid. Let's look at the files we know
@@ -150,13 +150,14 @@ class GPG {
 			} elseif (hash_file('sha256', $dest) != $hash) {
 				// If you i18n this string, also note that it's used explicitly
 				// as a comparison of "altered" in modulefunctions.class, to
-				// warn people about // sbin/amportal needing to be updated
+				// warn people about bin/amportal needing to be updated
 				// with 'amportal chown'. Don't make them different!
 				$retarr['details'][] = $dest." "._("altered");
 				$retarr['status'] |= GPG::STATE_TAMPERED;
 				$retarr['status'] &= ~GPG::STATE_GOOD;
 			}
 		}
+
 		return $retarr;
 		// Reminder for people doing i18n.
 		if (false) { echo _("If you're i18n-ing this file, read the comment about 'altered' and 'missing'"); }
@@ -460,7 +461,12 @@ class GPG {
 		// Check to see if we don't know about this signature..
 		if (isset($out['status'][1]) && preg_match('/ERRSIG (.+) 1 2/', $out['status'][1], $keyarr)) {
 			// We don't. Try to grab it.
-			$this->getKey($keyarr[1]);
+			try {
+				$this->getKey($keyarr[1]);
+			} catch (\Exception $e) {
+				// Couldn't download the key.
+				return array("status" => self::STATE_INVALID);
+			}
 			// And now run the validation again.
 			$out = $this->runGPG("--output - $sigfile");
 		}
@@ -501,6 +507,10 @@ class GPG {
 			}
 			if (strpos($l, "[GNUPG:] BADSIG") === 0) {
 				$retarr['trustdetails'][] = "Bad Signature, Tampered! ($l)";
+				$retarr['status'] |= GPG::STATE_TAMPERED;
+			}
+			if (strpos($l, "[GNUPG:] TRUST_UNDEFINED") === 0) {
+				$retarr['trustdetails'][] = "Signed by unkown, untrusted key.";
 				$retarr['status'] |= GPG::STATE_TAMPERED;
 			}
 			if (strpos($l, "[GNUPG:] ERRSIG") === 0) {

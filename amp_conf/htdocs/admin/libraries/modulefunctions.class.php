@@ -2672,11 +2672,10 @@ class module_functions {
 				//Yes they do the same thing but thats ok
 				if(!isset($result['data']) || trim($result['data']) == "") {
 					$firstinstall=true;
-					sql("DELETE FROM module_xml WHERE id = 'installid' AND id = 'type'");
 					$data4sql = $db->escapeSimple($installid);
-					sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
+					sql("REPLACE INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
 					$data4sql = $db->escapeSimple($type);
-					sql("INSERT INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
+					sql("REPLACE INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
 				} else {
 					$install_hash = $this->_regenerate_unique_id();
 					$installid = $install_hash['uniqueid'];
@@ -2872,8 +2871,12 @@ class module_functions {
 			$trusted = $mod['signature']['status'] & GPG::STATE_TRUSTED;
 			$tampered = $mod['signature']['status'] & GPG::STATE_TAMPERED;
 			$unsigned = $mod['signature']['status'] & GPG::STATE_UNSIGNED;
+			$invalid = $mod['signature']['status'] & GPG::STATE_INVALID;
 			$md = $this->getInfo();
 			$modname = !empty($md[$mod['modulename']]['name']) ? $md[$mod['modulename']]['name'] : sprintf(_('%s [not enabled]'),$mod['modulename']);
+			if ($invalid) {
+				$modules['statuses']['tampered'][] = sprintf(_('Module "%s" signed by an invalid key.' ), $modname);
+			}
 			if ($unsigned) {
 				if ($mod['modulename'] == "framework" || $mod['modulename'] == "core") {
 					// Unsigned framework or core is extremely terribly bad.

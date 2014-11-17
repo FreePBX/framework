@@ -1598,9 +1598,40 @@ class AGI_AsteriskManager {
 	private function Endpoint_catch($event, $data, $server, $port) {
 		switch($event) {
 			case 'endpointdetailcomplete':
-				/* HACK: Force a timeout after we get this event, so that the wait_response() returns. */
 				stream_set_timeout($this->socket, 0, 1);
 				break;
+			default:
+				$this->response_catch[] =  $data;
+		}
+	}
+
+	/** List all channels
+	 *
+	 * @return array of all channels currently active
+	 */
+
+	public function CoreShowChannels() {
+		$this->add_event_handler("coreshowchannel", array($this, 'coreshowchan_catch'));
+		$this->add_event_handler("coreshowchannelscomplete", array($this, 'coreshowchan_catch'));
+		$response = $this->send_request('CoreShowChannels');
+		if ($response["Response"] == "Success") {
+			$this->response_catch = array();
+			$this->wait_response(true);
+			stream_set_timeout($this->socket, 30);
+		} else {
+			return false;
+		}
+		unset($this->event_handlers['coreshowchannel']);
+		unset($this->event_handlers['coreshowchannelscomplete']);
+		return $this->response_catch;
+	}
+
+
+	private function coreshowchan_catch($event, $data, $server, $port) {
+		switch($event) {
+			case 'coreshowchannelscomplete':
+				stream_set_timeout($this->socket, 0, 1);
+			break;
 			default:
 				$this->response_catch[] =  $data;
 		}
