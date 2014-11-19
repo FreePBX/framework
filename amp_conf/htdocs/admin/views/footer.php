@@ -20,15 +20,13 @@ if ($footer_content) {
 
 //Action Bar
 if (!$covert && !empty($action_bar)) {
-  $html .= '<div class="navbar-fixed-bottom container container-fluid action-bar">
-    <div class="navbar-right">';
+  $html .= '<div id="action-bar">';
   foreach($action_bar as $button) {
     $html .= '<input name="' . $button['name'] . '" type="submit" value="' . $button['value'] . '"';
     $html .= !empty($button['id']) ? ' id="' . $button['id'] . '" ' : '';
     $html .= '>';
   }
-  $html .= '</div>
-    </div>';
+  $html .= '</div>';
 }
 
 $html .= '<div id="footer_content" class="row">';

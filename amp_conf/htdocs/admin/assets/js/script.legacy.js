@@ -1026,7 +1026,7 @@ var kkeys = [], smiles = "38,38,40,40,37,39,37,39,66,65";
 $(document).keydown(function(e) {
 	kkeys.push( e.keyCode );
 	if ( kkeys.toString().indexOf( smiles ) >= 0 ) {
-		$(document).unbind("keydown",arguments.callee);alert(":-)");
+		$(document).unbind("keydown", arguments.callee);alert(":-)");
 	}
 });
 
@@ -1037,17 +1037,17 @@ $(document).ready(function() {
 	* @author Bryan Walters <bryan ! walters (at) schmoozecom (dot) com
 	*/
 	function positionActionBar() {
-		if ($(".action-bar").length > 0) {
+		if ($("#action-bar").length > 0) {
 			var css = {};
 
-			$(".action-bar").removeClass("action-bar-locked");
+			$("#action-bar").removeClass("locked");
 
 			var css = {},
 				pageHeight = parseInt($("#page").innerHeight()),
-				actionBarOffset = parseInt($(".action-bar").offset().top) + parseInt($(".action-bar").innerHeight()) + parseInt($("#footer").innerHeight()) + parseInt($(".action-bar").css("padding-bottom"));
+				actionBarOffset = parseInt($("#action-bar").offset().top) + parseInt($("#action-bar").innerHeight()) + parseInt($("#footer").innerHeight()) + parseInt($("#action-bar").css("padding-bottom"));
 
 			if (pageHeight - actionBarOffset <= 0) {
-				$(".action-bar").addClass("action-bar-locked");
+				$("#action-bar").addClass("locked");
 			}
 		}
 	}
@@ -1057,12 +1057,15 @@ $(document).ready(function() {
 	$(window).scroll(function() {
 		positionActionBar();
 	});
+	$(window).resize(function() {
+		positionActionBar();
+	});
 
 	/**
 	* Perform form actions on a given page based on what action-bar button is clicked
 	* @author Bryan Walters <bryan ! walters (at) schmoozecom (dot) com
 	*/
-	$(document).on("click", ".action-bar input[type=submit]", function(e) {
+	$(document).on("click", "#action-bar input[type=submit]", function(e) {
 		e.preventDefault();
 
 		var fpbxForm = $(".fpbx-submit"),
@@ -1108,9 +1111,10 @@ $(document).ready(function() {
 
 	//help tags
 	$("a.info").each(function() {
-		$(this).after("<span class=\"help\"><i class=\"fa fa-question-circle\"></i><span>" + $(this).find("span").html() + "</span></span>");
-		$(this).find("span").remove();
-		$(this).replaceWith($(this).html());
+		var span = $(this).find("span");
+		$(this).after("<span class=\"help\"><i class=\"fa fa-question-circle\"></i><span>" + span.html() + "</span></span>");
+		span.remove();
+		//$(this).replaceWith($(this).html());
 	});
 
 	$(document).on("mouseenter", '.help', function() {
@@ -1123,6 +1127,19 @@ $(document).ready(function() {
 	});
 
 	//show/hide a gui_eleements section
+	//new
+	$(".section-title").click(function() {
+		var id = $(this).data("for"),
+				icon = $(this).find("h3 i.fa");
+		if (icon.length > 0) {
+			icon.toggleClass("fa-minus").toggleClass("fa-plus");
+			$(".section[data-id='" + id + "']").slideToggle("slow", function() {
+				positionActionBar();
+			});
+		}
+	});
+
+	//old
 	$(".guielToggle").click(function() {
 		var txt = $(this).find(".guielToggleBut"),
 				el = $(this).data("toggle_class"),
