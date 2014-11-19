@@ -280,11 +280,6 @@ class component {
 			$this->guielems_middle = $final;
 		}
 
-		// sort bottom gui elements
-		if ( is_array($this->guielems_top) ) {
-			ksort($this->guielems_top);
-		}
-
 		ksort($this->guielems_middle);
 		uksort($this->guielems_middle, function($a,$b) {
 			$a = strtolower($a);
@@ -300,6 +295,11 @@ class component {
 			$bOrder = isset($categories[$b]) ? $categories[$b] : 5;
 			return ($aOrder < $bOrder) ? -1 : 1;
 		});
+
+		// sort bottom gui elements
+		if ( is_array($this->guielems_bottom) ) {
+			ksort($this->guielems_bottom);
+		}
 
 		$this->sorted_guielems = true;
 	}
@@ -353,33 +353,60 @@ class component {
 			"bottom"
 		);
 
+		$html = array();
+		$hiddens = array();
 		foreach($crossSections as $pl) {
 			$divide = "guielems_".$pl;
 			if(!is_array($this->$divide)) {
 				continue;
 			}
 			foreach($this->$divide as $category => $sections) {
-				foreach($sections as $order => $section) {
-					foreach($section as $name => $elements) {
-						if(!isset($elements['placement'])) {
-							continue;
-						}
-						$placement = $elements['placement'];
-						if(!empty($elements[$placement]) && is_array($elements[$placement])) {
-							foreach($elements[$placement] as $elem) {
-								$validation = $elem->generatevalidation();
-								if(!empty($validation)) {
-									$this->addjsfunc('onsubmit()', $validation);
+				foreach($sections as $order => $sections) {
+					if($pl == "middle") {
+						foreach($sections as $section => $elements) {
+							if(!isset($elements['placement'])) {
+								continue;
+							}
+							$placement = $elements['placement'];
+							unset($elements['placement']);
+							$elements = array_values($elements);
+							$final = array();
+							foreach($elements as $el) {
+								$final = array_merge($final,$el);
+							}
+
+							foreach($final as $elem) {
+								$data = $elem->getRawArray();
+								if($data['type'] == "hidden") {
+									$hiddens[] = $data;
+								} else {
+									$html[$pl][$category][$section][] = $data;
+									$validation = $elem->generatevalidation();
+									if(!empty($validation)) {
+										$this->addjsfunc('onsubmit()', $validation);
+									}
 								}
 							}
 						}
+					} else {
+						$html[$pl][] = $sections->getRawArray();
 					}
 				}
 			}
 		}
 
+		$jsfuncs = array();
+		foreach($this->jsfuncs as $f => $data) {
+			foreach($data as $scripts) {
+				$jsfuncs[$f] = $scripts;
+			}
+		}
+		reset($html['middle']);
+		$active = key($html['middle']);
+		reset($html['middle']);
+
 		$action = isset($this->opts['form_action']) ? $this->opts['form_action'] : "";
-		return load_view($loadView, array("action" => $action, "top" => $this->guielems_top, "middle" => $this->guielems_middle, "bottom" => $this->guielems_bottom, "jsfuncs" => $this->jsfuncs));
+		return load_view($loadView, array("active" => $active, "hiddens" => $hiddens, "action" => $action, "html" => $html, "jsfuncs" => $jsfuncs));
 	}
 
 	function processconfigpage() {
@@ -424,10 +451,10 @@ class component {
 }
 
 class guielement {
-	var $_elemname;
-	var $_html;
-	var $_javascript;
-	var $_opts;
+	protected $_elemname;
+	protected $_html;
+	protected $_javascript;
+	protected $_opts;
 
 	function __construct($elemname, $html = '', $javascript = '') {
 		global $CC;
@@ -448,7 +475,15 @@ class guielement {
 		return property_exists($this, $key) ? $this->$key : null;
 	}
 
-	function generatehtml() {
+	public function getRawArray() {
+		return array(
+			'name' => $this->_elemname,
+			'html' => $this->_html,
+			'type' => $this->type
+		);
+	}
+
+	public function generatehtml() {
 		return $this->_html;
 	}
 
@@ -580,6 +615,16 @@ class guiinput extends guielement {
 		return $output;
 	}
 
+	function getRawArray() {
+		return array(
+			'helptext' => $this->helptext,
+			'prompttext' => $this->prompttext,
+			'html' => $this->html_input,
+			'type' => $this->type,
+			'name' => $this->_elemname
+		);
+	}
+
 	function generatehtml($section = '') {
 		// this effectivly creates the template using the prompttext and html_input
 		// we would expect the $html_input to be set by the child class
@@ -652,23 +697,21 @@ class gui_textbox_check extends gui_textbox {
 		if ($disable) {
 			$currentvalue = $disabled_value;
 		}
-		//prevent lazy/bad javascript params
-		switch($check_enables) {
-			case 'false':
-				$check_enables = 'false';
-				break;
-			case 'true':
-			default:
-				$check_enables = 'true';
-			break;
-		}
+
 		parent::__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty, $maxchars, $disable, true, $class);
 
 		$cb_disable = $cbdisable ? 'disabled':'';
 		if(!isset($cbchecked)) {
+			if(is_string($check_enables)) {
+				$check_enables = ($check_enables == "true") ? true : false;
+			}
 			$cb_state = $disable && $check_enables || !$disable && !$check_enables ? '':' CHECKED';
 		} else {
 			$cb_state = $cbchecked ? 'CHECKED' : '';
+		}
+
+		if(is_bool($check_enables)) {
+			$check_enables = ($check_enables) ? "true" : "false";
 		}
 
 		$cbid = !empty($cbelemname) ? $cbelemname : $this->_elemname . '_cb';
@@ -679,7 +722,7 @@ class gui_textbox_check extends gui_textbox {
 					val = $('#{$elemname}').val();
 			if(disable) {
 				$('#{$elemname}').data('orig', val);
-				$('#{$elemname}').val('');
+				$('#{$elemname}').val($(this).data('disabled'));
 			} else {
 				$('#{$elemname}').val($('#{$elemname}').data('orig'))
 			}
@@ -769,7 +812,7 @@ class gui_checkbox extends guiinput {
 }
 
 class gui_checkset extends guiinput {
-	function __construct($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '') {
+	public function __construct($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '') {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -784,7 +827,7 @@ class gui_checkset extends guiinput {
 		$this->type = "radio";
 	}
 
-	function buildcheckset($valarray, $currentvalue, $disable=false, $class='') {
+	private function buildcheckset($valarray, $currentvalue, $disable=false, $class='') {
 		$output = '';
 		$output .= '<span class="radioset">';
 
@@ -805,7 +848,7 @@ class gui_checkset extends guiinput {
 }
 
 class gui_radio extends guiinput {
-	function __construct($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '', $pairedvalues = true) {
+	public function __construct($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '', $pairedvalues = true) {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -820,7 +863,7 @@ class gui_radio extends guiinput {
 		$this->type = "radio";
 	}
 
-	function buildradiobuttons($valarray, $currentvalue, $disable=false, $jsonclick='', $class='', $pairedvalues = true) {
+	private function buildradiobuttons($valarray, $currentvalue, $disable=false, $jsonclick='', $class='', $pairedvalues = true) {
 		$output = '';
 		$output .= '<span class="radioset">';
 		$pairedvalues = ($pairedvalues) ? true : false;
@@ -842,7 +885,7 @@ class gui_radio extends guiinput {
 }
 
 class gui_button extends guiinput {
-	function __construct($elemname, $value, $prompttext = '', $helptext = '', $post_text = '', $jsonclick = '', $disable=false, $class = '') {
+	public function __construct($elemname, $value, $prompttext = '', $helptext = '', $post_text = '', $jsonclick = '', $disable=false, $class = '') {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -851,13 +894,13 @@ class gui_button extends guiinput {
 		$disable_state = $disable ? ' disabled' : '';
 		$js_onclick_include = ($jsonclick != '') ? 'onclick="' . $jsonclick. '"' : '';
 		$tabindex = guielement::gettabindex();
-		$this->html_input = "<button type=\"button\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" $disable_state tabindex=\"$tabindex\" value=\"$value\" $js_onclick_include/>$post_text</button>\n";
+		$this->html_input = "<button type=\"button\" name=\"$this->_elemname\" class=\"btn form-control ".$class."\" id=\"$this->_elemname\" $disable_state tabindex=\"$tabindex\" value=\"$value\" $js_onclick_include/>$post_text</button>\n";
 		$this->type = "button";
 	}
 }
 
 class gui_drawselects extends guiinput {
-	function __construct($elemname, $index, $dest, $prompttext = '', $helptext = '', $required = false, $failvalidationmsg='', $nodest_msg='', $class='') {
+	public function __construct($elemname, $index, $dest, $prompttext = '', $helptext = '', $required = false, $failvalidationmsg='', $nodest_msg='', $class='') {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -875,7 +918,7 @@ class gui_drawselects extends guiinput {
 }
 
 class gui_textarea extends guiinput {
-	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $class='') {
+	public function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $class='') {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -899,16 +942,26 @@ class gui_textarea extends guiinput {
  */
 
 class guitext extends guielement {
-	var $html_text;
+	protected $html_text;
 
-	function guitext($elemname, $html_text = '') {
+	public function __construct($elemname, $html_text = '') {
 		// call parent class contructor
 		parent::__construct($elemname, '', '');
 
 		$this->html_text = $html_text;
 	}
 
-	function generatehtml($section = '') {
+	public function getRawArray() {
+		return array(
+			'helptext' => $this->helptext,
+			'prompttext' => $this->prompttext,
+			'html' => $this->html_text,
+			'type' => $this->type,
+			'name' => $this->_elemname
+		);
+	}
+
+	public function generatehtml($section = '') {
 		// this effectivly creates the template using the html_text
 		// we would expect the $html_text to be set by the child class
 
@@ -941,10 +994,9 @@ class guitext extends guielement {
 
 // Label -- just text basically!
 class gui_label extends guitext {
-	function gui_label($elemname, $text, $uselang = true, $class='') {
+	public function __construct($elemname, $text, $uselang = true, $class='') {
 		// call parent class contructor
-		$parent_class = get_parent_class($this);
-		parent::$parent_class($elemname, $text);
+		parent::__construct($elemname, $text);
 
 		// nothing really needed here as it's just whatever text was passed
 		// but suppose we should do something with the element name
@@ -955,10 +1007,9 @@ class gui_label extends guitext {
 
 // Main page header
 class gui_pageheading extends guitext {
-	function gui_pageheading($elemname, $text, $uselang = true, $class='') {
+	public function __construct($elemname, $text, $uselang = true, $class='') {
 		// call parent class contructor
-		$parent_class = get_parent_class($this);
-		parent::$parent_class($elemname, $text);
+		parent::__construct($elemname, $text);
 
 		// H2
 		$this->html_text = "<h2 id=\"$this->_elemname\" class=\"".$class."\">$text</h2>";
@@ -968,10 +1019,9 @@ class gui_pageheading extends guitext {
 
 // Second level / sub header
 class gui_subheading extends guitext {
-	function gui_subheading($elemname, $text, $uselang = true, $class='') {
+	public function __construct($elemname, $text, $uselang = true, $class='') {
 		// call parent class contructor
-		$parent_class = get_parent_class($this);
-		parent::$parent_class($elemname, $text);
+		parent::__construct($elemname, $text);
 
 		// H3
 		$this->html_text = "<h3 id=\"$this->_elemname\" class=\"".$class."\">$text</h3>";
@@ -981,11 +1031,9 @@ class gui_subheading extends guitext {
 
 // URL / Link
 class gui_link extends guitext {
-	function gui_link($elemname, $text, $url, $uselang = true, $class='') {
-
+	public function __construct($elemname, $text, $url, $uselang = true, $class='') {
 		// call parent class contructor
-		$parent_class = get_parent_class($this);
-		parent::$parent_class($elemname, $text);
+		parent::__construct($elemname, $text);
 
 		// A tag
 		$this->html_text = "<a href=\"$url\" id=\"$this->_elemname\" class=\"".$class."\">$text</a>";
@@ -993,15 +1041,12 @@ class gui_link extends guitext {
 	}
 }
 class gui_link_label extends guitext {
-	function gui_link_label($elemname, $text, $tooltip, $uselang = true, $class='') {
+	public function __construct($elemname, $text, $tooltip, $uselang = true, $class='') {
 		// call parent class contructor
-		$parent_class = get_parent_class($this);
-		parent::$parent_class($elemname, $text);
+		parent::__construct($elemname, $text);
 
 		// A tag
 		$this->html_text = "<a href=\"#\" class=\"info ".$class."\" id=\"$this->_elemname\">$text:<span>$tooltip</span></a>";
 		$this->type = "linklabel";
 	}
 }
-
-?>
