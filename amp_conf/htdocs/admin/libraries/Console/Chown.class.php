@@ -11,14 +11,16 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
-class Chown extends Command {
+class Pwn extends Command {
 	private $errors = array();
 	protected function configure(){
-		$this->setName('chown')
+		$this->setName('pwn')
 		->setDescription('Change ownership of files')
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
-		$this->fs = new Filesystem();	
+		$this->fs = new Filesystem();
+		$this->modfiles = array();
+		$this->actions = array();
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$freepbx_conf = \freepbx_conf::create();
@@ -26,94 +28,160 @@ class Chown extends Command {
 		foreach ($conf as $key => $val){
 			${$key} = $val['value'];
 		}
-		//This needs to be a hook, where modules declare rather than a list.
+		/*
+		 * These are files Framework is responsible for This list can be 
+		 * reduced by moving responsibility to other modules as a hook
+		 * where appropriate. 
+		 * 
+		 * Types:
+		 * 		file:		Set permissions/ownership on a single item
+		 * 		dir: 		Set permissions/ownership on a single directory
+		 * 		rdir: 		Set permissions/ownership on a single directory then recursively on
+		 * 					files within less the execute bit. If the dir is 755, child files will be 644,
+		 * 					child directories will be set the same as the parent.
+		 * 		execdir:	Same as rdir but the execute bit is not stripped. 
+		 */
 		$sessdir = session_save_path();
-		$own = array(
-			'/etc/amportal.conf',
-			$FREEPBX_CONF,
-			$ASTRUNDIR,
-			$ASTETCDIR,
-			$ASTVARLIBDIR,
-			$ASTVARLIBDIR . '/.ssh.id_rsa',
-			$ASTLOGDIR,
-			$ASTSPOOLDIR,
-			$AMPWEBROOT . '/admin',
-			$AMPWEBROOT . '/recordings',
-			$AMPBIN,
-			$FPBXDBUGFILE,
-			$FPBX_LOG_FILE,
-			$ASTAGIDIR,
-			$ASTVARLIBDIR . '/agi-bin',
-			$ASTVARLIBDIR . '/' . $MOHDIR,
-			'/dev/tty9',
-			'/dev/zap',
-			'/dev/dahdi',
-			'/dev/capi20',
-			'/dev/misdn',
-			'/dev/mISDN',
-			'/dev/dsp',
-			'/etc/dahdi',
-			'/etc/wanpipe',
-			'/etc/obdc.ini',
-			$sessdir,
-			$AMPWEBROOT,
-		);
-		$perms = array(
-			'/etc/amportal.conf' => 0660,
-			${FREEPBX_CONF} => 0660,
-			${ASTETCDIR} => 0775,
-			${ASTVARLIBDIR} => 0775,
-			${ASTVARLIBDIR} . '/.ssh.id_rsa' => 0600,
-			${ASTLOGDIR} => 0755,
-			${AMPWEBROOT} . '/admin' => 0774,
-			${AMPWEBROOT} . '/recordings' => 0774,
-			${ASTSPOOLDIR} => 0775,
-			${AMPBIN} => 0775,
-			//${ASTAGIDIR} => 0775',
-			${ASTVARLIBDIR} . '/agi-bin' => 0775,
-			);
-
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => '/etc/amportal.conf',
+											   'perms' => 0644);
+		$this->modfiles['framework'][] = array('type' => 'dir',
+											   'path' => $ASTRUNDIR,
+											   'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+											   'path' => $ASTETCDIR,
+											   'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+											   'path' => $ASTVARLIBDIR,
+											   'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+											   'path' => $ASTVARLIBDIR . '/.ssh.id_rsa',
+											   'perms' => 0644);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+											   'path' => $ASTLOGDIR,
+											   'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+											   'path' => $ASTSPOOLDIR,
+											   'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+											   'path' => $AMPWEBROOT . '/admin/',
+											   'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+											   'path' => $AMPWEBROOT . '/recordings/',
+											   'perms' => 0755);
+		//We may wish to declare files individually rather than touching everything											   
+		$this->modfiles['framework'][] = array('type' => 'execdir',
+											   'path' => $AMPBIN,
+											   'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => $FPBXDBUGFILE,
+											   'perms' => 0644);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => $FPBX_LOG_FILE,
+											   'perms' => 0644);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+											   'path' => $ASTAGIDIR,
+											   'perms' => 0755);
+		//We may wish to declare files individually rather than touching everything
+		$this->modfiles['framework'][] = array('type' => 'execdir',
+											   'path' => $ASTVARLIBDIR . '/agi-bin',
+											   'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+											   'path' => $ASTVARLIBDIR . '/' . $MOHDIR,
+											   'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => '/dev/tty9',
+											   'perms' => 0644);
+		//TODO: Move these to dahdiconfig hook //
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => '/dev/zap',
+											   'perms' => 0644);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => '/dev/dahdi',
+											   'perms' => 0644);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+											   'path' => '/etc/dahdi',
+											   'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+											   'path' => '/etc/wanpipe',
+											   'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => '/dev/misdn',
+											   'perms' => 0644);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => '/dev/mISDN',
+											   'perms' => 0644);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => '/dev/dsp',
+											   'perms' => 0644);
+		//END TODO
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => '/etc/obdc.ini',
+											   'perms' => 0644);		
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+											   'path' => $sessdir,
+											   'perms' => 0644);		
+		$this->modfiles['framework'][] = array('type' => 'dir',
+											   'path' => $AMPWEBROOT,
+											   'perms' => 0755);
+											  
+		//Merge static files and hook files, then act on them as a single unit
+		$this->modfiles = array_merge_recursive($this->modfiles,$this->fwcChownFiles());
 		$output->writeln("Setting Ownership");
-		$progress = new ProgressBar($output, count($own));
-		$progress->start();
-		foreach($own as $file){
-			$progress->advance();
-			$filetype = filetype($file);
-			switch($filetype){
-				case 'dir':
-					$this->recursiveChown($file, $AMPASTERISKWEBUSER, $AMPASTERISKWEBGROUP);
-				break;
-				case 'link':
-					$realfile = readlink($file);
-					$this->singleChown($realfile, $AMPASTERISKWEBUSER,$AMPASTERISKWEBGROUP);
-				break;
-				case 'file':
-					$this->singleChown($file, $AMPASTERISKWEBUSER,$AMPASTERISKWEBGROUP);
-				break;
-			}
+		$owner = $AMPASTERISKWEBUSER;
+		$group = $AMPASTERISKWEBGROUP;
+		$output->writeln("Building action list...");
+		foreach($this->modfiles as $modfilearray => $modfilelist){
+			foreach($modfilelist as $file){
+				switch($file['type']){
+					case 'file':
+					case 'dir':
+						$this->actions[] = array($file['path'],$owner,$group,$file['perms']);
+						break;
+					case 'rdir':
+						$fileperms = $this->stripExecute($file['perms']);
+						$files = $this->recursiveDirList($file['path']);
+						foreach($files as $f){
+							if(is_dir($f)){
+								$this->actions[] = array($f, $owner, $group, $file['perms']);
+							}else{
+								$this->actions[] = array($f, $owner, $group, $fileperms);
+							}
+						}
+						break;
+					case 'execdir':
+						$files = $this->recursiveDirList($file['path']);
+						foreach($files as $f){
+							$this->actions[] = array($f, $owner, $group, $file['perms']);
+						}
+						break;
+				}
+			}	
 		}
-		$progress->finish();
-
+		$actioncount = count($this->actions);
 		$output->writeln("");
-		$output->writeln("Setting Permissions");
-		$progress = new ProgressBar($output, count($perms));
+		$output->writeln($actioncount . " Actions queued");
+		$output->writeln("");
+		$progress = new ProgressBar($output, $actioncount);
 		$progress->start();
-		foreach($perms as $file => $perm){
-			$progress->advance();
-			$filetype = filetype($file);
-			if($filetype == 'dir'){
-				$this->recursivePerms($file, $perm);
-			}else{
-				$this->singlePerms($file, $perm);
-			}
+		foreach($this->actions as $action){
+			$this->singleChown($action[0],$action[1],$action[2]);
+			$this->singlePerms($action[0], $action[3]);
+			$progress->advance();	
 		}
 		$progress->finish();
-
+		$output->writeln("");
 		$output->writeln("");
 		foreach($this->errors as $error) {
 			dbug($error);
 			$output->writeln("<error>".$error."</error>");
 		}
+	}
+	private function stripExecute($mask){
+		$mask = ($mask & ~(1<<0));
+		$mask = ($mask & ~(1<<3));
+		$mask = ($mask & ~(1<<6));
+		return $mask;
 	}
 	private function singleChown($file, $user, $group){
 		try {
@@ -130,7 +198,6 @@ class Chown extends Command {
 				$this->errors[] ='An error occurred while changing group ' . $file;
 			}
 		}
-
 	}
 	private function recursiveChown($dir, $user, $group){
 		try {
@@ -184,5 +251,30 @@ class Chown extends Command {
 			}
 		}
 	}
-}
+	private function recursiveDirList($path){
+		$list =  array();
+		$files = scandir($path);
+		foreach($files as $file){
+			if ($file == '.' || $file == '..'){
+				continue;
+			}
+			$fullpath = $path . '/' . $file;
+			$filetype = filetype($fullpath);
+			if($filetype == 'dir'){
+				$list[] = $fullpath;
+				$getFiles = $this->recursiveDirList($fullpath);
+				foreach($getFiles as $f){
+					$list[] = $f;
+				}
+			}else{
+				$list[] = $fullpath;
+			}
+		}
+		return array_unique($list);
+	}
 
+	private function fwcChownFiles(){
+		$modules = \FreePBX::Hooks()->processHooks($files);
+		return $modules;
+	}
+}
