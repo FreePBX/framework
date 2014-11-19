@@ -400,6 +400,8 @@ class component {
 			$this->sortguifuncs();
 		}
 
+		$perf = FreePBX::Performance();
+
 		if ( is_array($this->guifuncs) ) {
 			foreach ( array_keys($this->guifuncs) as $sortorder ) {
 				foreach ( $this->guifuncs[$sortorder] as $func ) {
@@ -407,7 +409,9 @@ class component {
 					$thismod = $modparts[0];
 
 					modgettext::push_textdomain($thismod);
+					$perf->Start("buildpager-$func");
 					$func($this->compname);
+					$perf->Stop("buildpager-$func");
 					modgettext::pop_textdomain();
 				}
 			}

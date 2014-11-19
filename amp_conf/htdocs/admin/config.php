@@ -309,11 +309,17 @@ if (!empty($display) && $display != 'badrefer') {
 			$CC = $currentcomponent = new component($display);
 
 			// BMO: Process ConfigPageInit functions
+			$bmo->Performance->Start("inits-$display");
 			$bmo->GuiHooks->doConfigPageInits($display, $currentcomponent);
+			$bmo->Performance->Stop("inits-$display");
 
 			// now run each 'process' function and 'gui' function
+			$bmo->Performance->Start("processconfigpage-$display");
 			$currentcomponent->processconfigpage();
+			$bmo->Performance->Stop("processconfigpage-$display");
+			$bmo->Performance->Start("buildconfigpage-$display");
 			$currentcomponent->buildconfigpage();
+			$bmo->Performance->Stop("buildconfigpage-$display");
 	} catch(Exception $e) {
 		die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
 	}
@@ -504,9 +510,13 @@ switch($display) {
 					modgettext::textdomain($module_name);
 					try {
 						if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
-								$bmo->GuiHooks->doIntercept($module_name, $module_file);
+							$bmo->Performance->Start("hooks-$module_name-$module_file");
+							$bmo->GuiHooks->doIntercept($module_name, $module_file);
+							$bmo->Performance->Stop("hooks-$module_name-$module_file");
 						} else {
-								include($module_file);
+							$bmo->Performance->Start("includefile-$module_file");
+							include($module_file);
+							$bmo->Performance->Stop("includefile-$module_file");
 						}
 					} catch(Exception $e) {
 						die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());

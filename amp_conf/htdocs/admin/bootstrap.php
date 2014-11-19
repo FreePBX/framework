@@ -95,6 +95,11 @@ if (file_exists($bmo)) {
     throw new Exception("Unable to load BMO");
 }
 
+// For performance tuning, or, for assistance in debugging a white screen,
+// you can turn this on for a full trace of functions, memory use, and time
+// taken.
+$bmo->Performance->On();
+
 // bootstrap.php should always be called from freepbx.conf so
 // database conifguration already included, connect to database:
 //
