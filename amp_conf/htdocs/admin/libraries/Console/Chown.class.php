@@ -14,7 +14,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 class Chown extends Command {
 	private $errors = array();
 	protected function configure(){
-		$this->setName('pwn')
+		$this->setName('chown')
 		->setDescription('Change ownership of files')
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
