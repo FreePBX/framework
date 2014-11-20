@@ -19,7 +19,6 @@ class Unlock extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$FreePBX = \FreePBX::Create();
 		$args = $input->getArgument('args');
-		array_shift($args);
 		session_id($args[0]);
 		session_start();
 		$output->writeln('Unlocking: ' . $args[0]);
