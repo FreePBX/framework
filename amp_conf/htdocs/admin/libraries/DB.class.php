@@ -57,6 +57,14 @@ class DB {
 		$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 
+	public function sql($sql = null, $type = "query", $fetchmode=DB_FETCHMODE_DEFAULT) {
+		$fetch = $this->setFetchMode($fetchmode);
+		if(!method_exists($this->db,"sql")) {
+			return $this->db->$type($sql);
+		}
+		return $this->db->sql($sql,$type,$fetch);
+	}
+
 	/**
 	 * http://pear.php.net/manual/en/package.database.db.db-common.getcol.php
 	 * @param string  $sql    [description]
