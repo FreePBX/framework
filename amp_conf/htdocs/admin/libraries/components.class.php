@@ -20,7 +20,8 @@ class component {
 	protected $sorted_guifuncs;
 	protected $sorted_processfuncs;
 
-	private $redirecturl = null;
+	private $generated = false; //Did we already generate the output?
+	private $redirecturl = null; //Do we need to do a reidrect after we finish processing
 
 	protected $lists; // Array of lists
 
@@ -342,8 +343,12 @@ class component {
 
 	function generateconfigpage($loadView=null) {
 		if(empty($loadView)) {
-			throw new Exception("You must pass a template to use");
+			$loadView = dirname(__DIR__) . "/views/currentcomponent.php";
 		}
+		if($this->generated) {
+			return '';
+		}
+		$this->generated = true;
 
 		$htmlout = '';
 		$formname = "frm_$this->compname";
@@ -407,12 +412,20 @@ class component {
 				$jsfuncs[$f] = $scripts;
 			}
 		}
-		reset($html['middle']);
-		$active = key($html['middle']);
-		reset($html['middle']);
 
-		$action = isset($this->opts['form_action']) ? $this->opts['form_action'] : "";
-		return load_view($loadView, array("active" => $active, "hiddens" => $hiddens, "action" => $action, "html" => $html, "jsfuncs" => $jsfuncs));
+		if(!empty($html)) {
+			if(!empty($html['middle'])) {
+				reset($html['middle']);
+				$active = key($html['middle']);
+				reset($html['middle']);
+			}
+			$action = isset($this->opts['form_action']) ? $this->opts['form_action'] : "";
+			$display = !empty($_REQUEST['display']) ? $_REQUEST['display'] : rand(0,10);
+			return load_view($loadView, array("display" => $display, "active" => $active, "hiddens" => $hiddens, "action" => $action, "html" => $html, "jsfuncs" => $jsfuncs));
+		} else {
+			return '';
+		}
+
 	}
 
 	function processconfigpage() {

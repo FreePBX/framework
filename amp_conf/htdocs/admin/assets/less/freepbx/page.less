@@ -176,6 +176,34 @@ a.info:link, a.info:hover {
         }
     }
 }
+.bootnav {
+  .list-group {
+    max-height: 450px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+  .list-group-item:first-child {
+    border-top: none;
+    border-bottom: 1px solid #ddd;
+  }
+  .list-group-item:last-child {
+    border-top: 1px solid #ddd;
+    border-bottom: none;
+  }
+  .list-group-item {
+    border: none;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+  }
+  a.list-group-item {
+    color: #555;
+  }
+  a.list-group-item.active {
+    color: #fff;
+  }
+}
 #reloadbox {
     overflow:none;
 }

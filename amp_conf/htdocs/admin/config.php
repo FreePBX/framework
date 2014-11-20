@@ -538,7 +538,7 @@ switch($display) {
 					try {
 						$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
 						/** NOTE: Depreciated. Because of this ONLY the pages that need this will run it! **/
-						//echo  $currentcomponent->generateconfigpage();
+						echo  $currentcomponent->generateconfigpage();
 					} catch(Exception $e) {
 						die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
 					}

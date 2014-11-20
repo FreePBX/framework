@@ -1034,6 +1034,50 @@ $(document).keydown(function(e) {
 
 $(document).ready(function() {
 
+	if ($(".currentcomponent-container").length > 0) {
+		var loc = window.location.hash.replace("#", "");
+		if (loc !== "" && $("#" + loc + ".info-pane").length > 0) {
+			$(".currentcomponent-container .info-pane").addClass("hidden");
+			$(".currentcomponent-container .change-tab").removeClass("active");
+			$("#" + loc + ".info-pane").removeClass("hidden");
+			$(".currentcomponent-container .change-tab[data-name='" + loc + "']").addClass("active");
+		}
+
+		$(".currentcomponent-container .change-tab").click(function(event) {
+			var pos = document.body.scrollTop,
+			id = $(this).data("name");
+			if ($(this).hasClass("active")) {
+				event.stopPropagation();
+				event.preventDefault();
+				return true;
+			}
+			$(".info-pane").addClass("hidden");
+			$(".change-tab").removeClass("active");
+			$(this).addClass("active");
+			$("#" + id).removeClass("hidden");
+			location.hash = id;
+			document.body.scrollTop = document.documentElement.scrollTop = pos;
+			event.stopPropagation();
+			event.preventDefault();
+		});
+
+		$(".currentcomponent-container .fa.fa-question-circle").hover(function() {
+			var id = $(this).data("id");
+			$("#" + id + "-help").addClass("active");
+		}, function() {
+			var id = $(this).data("id");
+			$("#" + id + "-help").removeClass("active");
+		});
+		$(".currentcomponent-container input, .currentcomponent-container select, .currentcomponent-container textarea").focus(function() {
+			var id = $(this).parents(".form-group").data("id");
+			$("#" + id + "-help").addClass("active");
+		});
+		$(".currentcomponent-container input, .currentcomponent-container select, .currentcomponent-container textarea").blur(function() {
+			var id = $(this).parents(".form-group").data("id");
+			$("#" + id + "-help").removeClass("active");
+		});
+	}
+
 	/**
 	* Lock the action bar to the bottom of the screen
 	* @author Bryan Walters <bryan ! walters (at) schmoozecom (dot) com
