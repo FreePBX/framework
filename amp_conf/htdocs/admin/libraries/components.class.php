@@ -421,7 +421,8 @@ class component {
 			}
 			$action = isset($this->opts['form_action']) ? $this->opts['form_action'] : "";
 			$display = !empty($_REQUEST['display']) ? $_REQUEST['display'] : rand(0,10);
-			return load_view($loadView, array("display" => $display, "active" => $active, "hiddens" => $hiddens, "action" => $action, "html" => $html, "jsfuncs" => $jsfuncs));
+			$showTabs = count($html['middle']) > 1;
+			return load_view($loadView, array("showtabs" => $showTabs, "display" => $display, "active" => $active, "hiddens" => $hiddens, "action" => $action, "html" => $html, "jsfuncs" => $jsfuncs));
 		} else {
 			return '';
 		}

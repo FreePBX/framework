@@ -9,12 +9,14 @@
           <?php foreach ( $html['bottom'] as $elem ) {
             echo $elem['html'];
           } ?>
-          <ul class="nav nav-tabs" role="tablist">
-            <?php foreach(array_keys($html['middle']) as $category) { ?>
-              <li data-name="<?php echo strtolower($category)?>" class="change-tab <?php echo ($active == strtolower($category)) ? 'active' : ''?>"><a href="#<?php echo strtolower($category)?>"><?php echo ucfirst($category)?></a></li>
-            <?php $c++;} ?>
-          </ul>
-          <div class="display">
+          <?php if($showtabs) {?>
+            <ul class="nav nav-tabs" role="tablist">
+              <?php foreach(array_keys($html['middle']) as $category) { ?>
+                <li data-name="<?php echo strtolower($category)?>" class="change-tab <?php echo ($active == strtolower($category)) ? 'active' : ''?>"><a href="#<?php echo strtolower($category)?>"><?php echo ucfirst($category)?></a></li>
+              <?php $c++;} ?>
+            </ul>
+          <?php } ?>
+          <div class="display <?php echo !($showtabs) ? 'full-border' : ''?>">
             <?php foreach($html['middle'] as $category => $sections) { ?>
               <div id="<?php echo strtolower($category)?>" class="info-pane <?php echo ($active == strtolower($category)) ? '' : 'hidden'?>">
                 <div class="container-fluid">
