@@ -11,7 +11,7 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
-class Pwn extends Command {
+class Chown extends Command {
 	private $errors = array();
 	protected function configure(){
 		$this->setName('pwn')
