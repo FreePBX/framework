@@ -11,16 +11,17 @@ function sql($sql,$type="query",$fetchmode='default') {
 		$db = new DB($dbh);
 	}
 	switch($fetchmode) {
-		case DB_FETCHMODE_ASSOC || 'DB_FETCHMODE_ASSOC':
+		case 'DB_FETCHMODE_ASSOC':
+		case DB_FETCHMODE_ASSOC:
 			try {
-				$results = $db->$type($sql);
+				$results = $db->$type($sql,array(),DB_FETCHMODE_ASSOC);
 			}catch(\Exception $e) {
 				die_freepbx('Error on SQL Query', $e->getMessage());
 			}
 		break;
 		case 'default':
 			try {
-				$results = $dbh->sql($sql, $type);
+				$results = $db->sql($sql, $type);
 			}catch(\Exception $e) {
 				die_freepbx('Error on SQL Query', $e->getMessage());
 			}

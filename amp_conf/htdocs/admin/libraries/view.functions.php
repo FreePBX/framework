@@ -236,8 +236,15 @@ function redirect($url, $stop_processing = true) {
 	if (!empty($res)) {
 		@ob_end_clean();
 	}
-	@header('Location: '.$url);
-	if ($stop_processing) exit;
+	//ob_end_clean();
+	//
+	if ($stop_processing) {
+		@header('Location: '.$url);
+		exit;
+	} else {
+		global $currentcomponent;
+		$currentcomponent->setRedirectURL($url);
+	}
 }
 
 /** Abort all output, and redirect the browser's location using standard

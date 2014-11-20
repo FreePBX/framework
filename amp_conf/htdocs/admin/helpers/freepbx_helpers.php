@@ -88,7 +88,7 @@ function fpbx_form_input_check($data = '', $value = '', $extra = '', $label = 'E
  *
  */
 
-function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='', $required = false, $output_array = false, $reset = false) {
+function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='', $required = false, $output_array = false, $reset = false, $disable=false, $class='') {
 	global $tabindex, $active_modules, $drawselect_destinations, $drawselects_module_hash, $fw_popover;
 	static $drawselects_id_hash;
 
@@ -99,6 +99,7 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 	}
 	//php session last_dest
 	$fw_popover = isset($fw_popover) ? $fw_popover : FALSE;
+	$disabled = ($disable) ? "disabled" : "";
 
 	$html=$destmod=$errorclass=$errorstyle='';
   if ($nodest_msg == '') {
@@ -212,10 +213,10 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 
 	//draw "parent" select box
 	$style=' style="'.(($destmod=='Error')?'background-color:red;':'').'"';
-	$html.='<select data-last="'.$data_last_cat.'" name="goto' . $i . '" id="goto' . $i . '" class="form-control destdropdown" ' . $style . ' tabindex="' . ++$tabindex . '"'
+	$html.='<select data-last="'.$data_last_cat.'" name="goto' . $i . '" id="goto' . $i . '" class="form-control destdropdown ' . $class . '" ' . $style . ' tabindex="' . ++$tabindex . '"'
 			. ($required ? ' required ' : '') //html5 validation
 			. ' data-id="' . $i . '" '
-			. '>';
+			. $disabled .'>';
 	$html.='<option value="" style="">'.$nodest_msg.'</option>';
 	foreach($drawselects_module_hash as $mod => $disc){
 
@@ -258,11 +259,11 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 				$data_class = '';
 			}
 		}
-		$class_tag = ' class="form-control destdropdown2 ' . $rawmod;
+		$class_tag = ' class="form-control destdropdown2 ' . $rawmod . " " . $class;
 		$class_tag .= $rawmod == $ds_id ? '"' : ' ' . $ds_id . '"';
 		$name_tag = str_replace(' ', '_', $cat) . $i;
 		$html.='<select ' . $data_url . $data_class . $data_mod . 'data-last="'.$data_last_dest.'" name="' . $name_tag
-			. '" id="' . $name_tag . '" ' . $tabindexhtml . $style . $class_tag . ' data-id="' . $i . '" ' . '>';
+			. '" id="' . $name_tag . '" ' . $tabindexhtml . $style . $class_tag . ' data-id="' . $i . '" ' . $disabled . '>';
 		foreach ($destination as $key => $dest) {
 			$selected=($goto==$dest['destination'])?'SELECTED ':' ';
 			$ds_array[$cat][$key]['selected'] = ($goto == $dest['destination']) ? true : false;

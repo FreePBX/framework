@@ -77,12 +77,12 @@ class GuiHooks {
 		if ($hooks = $this->getHooks($thispage)) {
 			if (isset($hooks['hooks'])) {
 				foreach ($hooks['hooks'] as $hook) {
-					$this->doHook($hook, $currentcomponent);
+					$this->doHook($hook, $currentcomponent, $thispage);
 				}
 			}
 		}
 	}
-	public function doHook($moduleToCall, &$currentcomponent) {
+	public function doHook($moduleToCall, &$currentcomponent, $thispage) {
 
 		// Make sure we actually can load the module
 		try {
@@ -97,7 +97,7 @@ class GuiHooks {
 			throw new Exception("$moduleToCall asked to hook, but $moduleToCall::doGuiHook() doesn't exist");
 
 		// Yay. Do stuff.
-		$mod->doGuiHook($currentcomponent);
+		$mod->doGuiHook($currentcomponent, $thispage);
 	}
 
 	public function needsIntercept($module, $filename) {

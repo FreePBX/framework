@@ -680,13 +680,13 @@ if ($quietmode) {
 			$footer['sysadmin'] = sysadmin_hook_framework_footer_view();
 		}
 		$footer['covert'] ? $footer['no_auth'] 	= true : '';
-	
-		$footer['action_bar'] = null;	
+
+		$footer['action_bar'] = null;
 		//See if we should provide an action bar
 		try {
 			$classModuleName = ucfirst($module_name);
 			$abClass = $bmo->$classModuleName;
-			
+
 			if (method_exists($abClass, 'getActionBar')) {
 				$footer['action_bar'] = $abClass->getActionBar($_REQUEST);
 			}

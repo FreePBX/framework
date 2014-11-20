@@ -20,6 +20,8 @@ class component {
 	protected $sorted_guifuncs;
 	protected $sorted_processfuncs;
 
+	private $redirecturl = null;
+
 	protected $lists; // Array of lists
 
 	protected $opts; //array of configurable options
@@ -40,6 +42,10 @@ class component {
 				$this->opts[$section]['guielToggle'] = $v ? true :false;
 			}
 		}
+	}
+
+	function setRedirectURL($url) {
+		$this->redirecturl = $url;
 	}
 
 	/*
@@ -410,8 +416,9 @@ class component {
 	}
 
 	function processconfigpage() {
-		if ( !$this->sorted_processfuncs )
+		if ( !$this->sorted_processfuncs ) {
 			$this->sortprocessfuncs();
+		}
 
 		if ( is_array($this->processfuncs) ) {
 			foreach ( array_keys($this->processfuncs) as $sortorder ) {
@@ -419,6 +426,10 @@ class component {
 					$func($this->compname);
 				}
 			}
+		}
+		if(!empty($this->redirecturl)) {
+			@header('Location: '.$this->redirecturl);
+			exit;
 		}
 	}
 
@@ -900,7 +911,7 @@ class gui_button extends guiinput {
 }
 
 class gui_drawselects extends guiinput {
-	public function __construct($elemname, $index, $dest, $prompttext = '', $helptext = '', $required = false, $failvalidationmsg='', $nodest_msg='', $class='') {
+	public function __construct($elemname, $index, $dest, $prompttext = '', $helptext = '', $required = false, $failvalidationmsg='', $nodest_msg='', $disable=false, $class='') {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -909,7 +920,7 @@ class gui_drawselects extends guiinput {
 		$jsvalidationtest = isset($jsvalidationtest) ? $jsvalidationtest : '';
 		parent::__construct($elemname, '', $prompttext, $helptext, $jsvalidation, $failvalidationmsg, '', $jsvalidationtest);
 
-		$this->html_input=drawselects($dest, $index, false, false, $nodest_msg, $required);
+		$this->html_input=drawselects($dest, $index, false, false, $nodest_msg, $required, false,false,$disable,$class);
 
 		$hidden =  new gui_hidden($elemname,'goto'.$index,false);
 		$this->html_input .= $hidden->_html;
@@ -926,11 +937,14 @@ class gui_textarea extends guiinput {
 
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
 
+		$disable_state = isset($disable) && $disable ? ' disabled' : '';
 		$list = explode("\n",$this->currentvalue);
 		$rows = count($list);
 		$rows = (($rows > 20) ? 20 : $rows);
+		$rows++;
 
-		$this->html_input = "<textarea rows=\"$rows\" cols=\"24\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\"$maxlength>" . htmlentities($this->currentvalue) . "</textarea>";
+		$this->html_input = "<textarea rows=\"$rows\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" $maxlength $disable_state>" . htmlentities($this->currentvalue) . "</textarea>";
+		$this->html_input .= '<script>$(function() {$("#' . $this->_elemname . '").autosize();});</script>';
 		$this->type = "textarea";
 	}
 }

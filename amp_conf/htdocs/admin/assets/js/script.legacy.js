@@ -80,7 +80,7 @@ function validateDestinations(theForm, numForms, bRequired) {
  */
 function warnInvalid(theField, s) {
 	$(".element-container").removeClass("has-error has-warning has-success");
-	if (theField){
+	if (theField) {
 		var field = $(theField),
 				id = field.prop("id"),
 				tab = field.parents(".info-pane").prop("id");
@@ -93,7 +93,9 @@ function warnInvalid(theField, s) {
 			$(this).parents(".element-container[data-id='" + id + "']").removeClass("has-error has-warning has-success");
 		});
 	}
-	alert(s);
+	if (typeof s !== "undefined" && s !== "") {
+		alert(s);
+	}
 	return false;
 }
 
@@ -1114,7 +1116,8 @@ $(document).ready(function() {
 		var span = $(this).find("span");
 		$(this).after("<span class=\"help\"><i class=\"fa fa-question-circle\"></i><span>" + span.html() + "</span></span>");
 		span.remove();
-		//$(this).replaceWith($(this).html());
+		//this gets rid of the <a> tags surrounding the promp text
+		$(this).replaceWith($(this).html());
 	});
 
 	$(document).on("mouseenter", '.help', function() {
