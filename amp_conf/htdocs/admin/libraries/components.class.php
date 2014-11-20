@@ -20,6 +20,8 @@ class component {
 	protected $sorted_guifuncs;
 	protected $sorted_processfuncs;
 
+	private $redirecturl = null;
+
 	protected $lists; // Array of lists
 
 	protected $opts; //array of configurable options
@@ -40,6 +42,10 @@ class component {
 				$this->opts[$section]['guielToggle'] = $v ? true :false;
 			}
 		}
+	}
+
+	function setRedirectURL($url) {
+		$this->redirecturl = $url;
 	}
 
 	/*
@@ -410,8 +416,9 @@ class component {
 	}
 
 	function processconfigpage() {
-		if ( !$this->sorted_processfuncs )
+		if ( !$this->sorted_processfuncs ) {
 			$this->sortprocessfuncs();
+		}
 
 		if ( is_array($this->processfuncs) ) {
 			foreach ( array_keys($this->processfuncs) as $sortorder ) {
@@ -419,6 +426,10 @@ class component {
 					$func($this->compname);
 				}
 			}
+		}
+		if(!empty($this->redirecturl)) {
+			@header('Location: '.$this->redirecturl);
+			exit;
 		}
 	}
 
