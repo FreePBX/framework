@@ -153,10 +153,23 @@ function compress_framework_css() {
 function die_freepbx($text, $extended_text="", $type="FATAL") {
 	global $amp_conf;
 
+	if(is_object($extended_text)) {
+		$e = $extended_text;
+		$bt = array();
+		if(method_exists($e,"getMessage")) {
+			$extended_text = htmlentities($e->getMessage());
+			do {
+				$bt = array_merge($bt,$e->getTrace());
+			} while($e = $e->getPrevious());
+		} else {
+			$extended_text = _("Unknown!");
+		}
+	} else {
+		$extended_text = htmlentities($extended_text);
+		$bt = debug_backtrace();
+	}
 	$text = htmlentities($text);
-	$extended_text = htmlentities($extended_text);
 
-	$bt = debug_backtrace();
 	freepbx_log(FPBX_LOG_FATAL, "die_freepbx(): ".$text);
 
 	if (isset($_SERVER['REQUEST_METHOD'])) {
@@ -174,7 +187,7 @@ function die_freepbx($text, $extended_text="", $type="FATAL") {
 		$tail = "<br />\n";
 		$f = 'htmlspecialchars';
 	} else {
- 		// CLI
+		// CLI
 		$trace =  "[$type] ".$text." ".$extended_text."\n\n";
 		$trace .= "Trace Back:\n\n";
 
