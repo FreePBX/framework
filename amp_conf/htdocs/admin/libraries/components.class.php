@@ -27,6 +27,8 @@ class component {
 
 	protected $opts; //array of configurable options
 
+	private $translations = array();
+
 	function __construct($compname) {
 		$this->compname = $compname;
 
@@ -43,10 +45,22 @@ class component {
 				$this->opts[$section]['guielToggle'] = $v ? true :false;
 			}
 		}
+
+		$this->tabtranslations = array(
+			"general" => _("General"),
+			"voicemail" => _("Voicemail"),
+			"advanced" => _("Advanced"),
+			"endpoint" => _("Endpoint"),
+			"other" => _("Other")
+		);
 	}
 
 	function setRedirectURL($url) {
 		$this->redirecturl = $url;
+	}
+
+	function addTabTranslation($category,$translation) {
+		$this->tabtranslations[$category] = $translation;
 	}
 
 	/*
@@ -65,6 +79,9 @@ class component {
 		if(!ctype_digit($sortorder) && is_string($sortorder)) {
 			$category = $sortorder;
 			$sortorder = 5;
+		}
+		if(!isset($this->tabtranslations[$category])) {
+			$this->tabtranslations[$category] = $category;
 		}
 		$category = strtolower(trim($category));
 		// Note that placement is only used in 'middle', eg, a named module
@@ -174,12 +191,11 @@ class component {
 		$this->sorted_processfuncs = false;
 	}
 
-	function addoptlist($listname, $sort = true, $category = 'other') {
-		$category = strtolower(trim($category));
+	function addoptlist($listname, $sort = true) {
 		if ( (isset($listname) ? $listname : '') == '') {
 			trigger_error('missing $listname in component->addoptlist()');
 			return;
-		} elseif (isset($this->lists[$category][$listname]) && is_array($this->lists[$category][$listname]) ) {
+		} elseif (isset($this->lists[$listname]) && is_array($this->lists[$listname]) ) {
 			trigger_error("list $listname already exists");
 		}
 
@@ -189,74 +205,68 @@ class component {
 		$this->lists[$category][$listname]['array'] = array();
 	}
 
-	function setoptlistopts($listname, $opt, $val, $category = 'other') {
-		$category = strtolower(trim($category));
-		$this->lists[$category][$listname][$opt] = $val;
+	function setoptlistopts($listname, $opt, $val) {
+		$this->lists[$opt] = $val;
 	}
 
-	function addoptlistitem($listname, $value, $text, $uselang = true, $category = 'other') {
-		$category = strtolower(trim($category));
+	function addoptlistitem($listname, $value, $text, $uselang = true) {
 		// must add the list before using it
-		if ( !isset($this->lists[$category][$listname]) ) {
+		if ( !isset($this->lists[$listname]) ) {
 			$this->addoptlist($listname, true, $category);
 		}
 
 		// add the item
-		$this->lists[$category][$listname]['array'][] = array('text' => $text, 'value' => $value);
+		$this->lists[$listname]['array'][] = array('text' => $text, 'value' => $value);
 	}
 
-	function getoptlist($listname, $category = 'other') {
+	function getoptlist($listname) {
 		$category = strtolower(trim($category));
-		if ( isset($this->lists[$category][$listname]['array']) ) {
+		if ( isset($this->lists[$listname]['array']) ) {
 			// sort the array by text
-			if ( $this->lists[$category][$listname]['sort'] ) {
-				asort($this->lists[$category][$listname]['array']);
+			if ( $this->lists[$listname]['sort'] ) {
+				asort($this->lists[$listname]['array']);
 			}
 
 			// and return it!
-			return $this->lists[$category][$listname]['array'];
+			return $this->lists[$listname]['array'];
 		} else {
 			trigger_error("'$listname' does not exist in component->getoptlist()");
 			return null;
 		}
 	}
 
-	function addgeneralarray($arrayname, $category = 'other') {
-		$category = strtolower(trim($category));
+	function addgeneralarray($arrayname) {
 		if ( (isset($arrayname) ? $arrayname : '') == '') {
 			trigger_error('missing $arrayname in component->addarray()');
 			return;
-		} elseif ( isset($this->lists[$category][$arrayname]) && is_array($this->lists[$category][$arrayname]) ) {
+		} elseif ( isset($this->lists[$arrayname]) && is_array($this->lists[$arrayname]) ) {
 			trigger_error("array $arrayname already exists");
 		}
 
 		// nothing really, but an array will be here after addlistitem
-		$this->lists[$category][$arrayname] = array();
+		$this->lists[$arrayname] = array();
 	}
 
-	function addgeneralarrayitem($arrayname, $arraykey, $item, $category = 'other') {
-		$category = strtolower(trim($category));
-		if ( !isset($this->lists[$category][$arrayname]) ) {
+	function addgeneralarrayitem($arrayname, $arraykey, $item) {
+		if ( !isset($this->lists[$arrayname]) ) {
 			$this->addgeneralarray($arrayname);
 		}
 
-		$this->lists[$category][$arrayname][$arraykey] = $item;
+		$this->lists[$arrayname][$arraykey] = $item;
 	}
 
-	function getgeneralarray($arrayname, $category = 'other') {
-		$category = strtolower(trim($category));
-		if ( isset($this->lists[$category][$arrayname]) ) {
-			return $this->lists[$category][$arrayname];
+	function getgeneralarray($arrayname) {
+		if ( isset($this->lists[$arrayname]) ) {
+			return $this->lists[$arrayname];
 		} else {
 			trigger_error("'$arrayname' does not exist in component->getgeneralarray()");
 			return null;
 		}
 	}
 
-	function getgeneralarrayitem($arrayname, $arraykey, $category = 'other') {
-		$category = strtolower(trim($category));
-		if ( isset($this->lists[$category][$arrayname][$arraykey]) ) {
-			return $this->lists[$category][$arrayname][$arraykey];
+	function getgeneralarrayitem($arrayname, $arraykey) {
+		if ( isset($this->lists[$arrayname][$arraykey]) ) {
+			return $this->lists[$arrayname][$arraykey];
 		} else {
 			trigger_error("'$arraykey' does not exist in array '$arrayname'");
 			return null;
@@ -294,7 +304,7 @@ class component {
 			$categories = array(
 				"general" => 1,
 				"voicemail" => 2,
-				"followme" => 3,
+				"findmefollow" => 3,
 				"advanced" => 4,
 				"other" => 999
 			);
@@ -422,7 +432,7 @@ class component {
 			$action = isset($this->opts['form_action']) ? $this->opts['form_action'] : "";
 			$display = !empty($_REQUEST['display']) ? $_REQUEST['display'] : rand(0,10);
 			$showTabs = count($html['middle']) > 1;
-			return load_view($loadView, array("showtabs" => $showTabs, "display" => $display, "active" => $active, "hiddens" => $hiddens, "action" => $action, "html" => $html, "jsfuncs" => $jsfuncs));
+			return load_view($loadView, array("tabtranslations" => $this->tabtranslations, "showtabs" => $showTabs, "display" => $display, "active" => $active, "hiddens" => $hiddens, "action" => $action, "html" => $html, "jsfuncs" => $jsfuncs));
 		} else {
 			return '';
 		}
@@ -934,7 +944,8 @@ class gui_drawselects extends guiinput {
 		$jsvalidationtest = isset($jsvalidationtest) ? $jsvalidationtest : '';
 		parent::__construct($elemname, '', $prompttext, $helptext, $jsvalidation, $failvalidationmsg, '', $jsvalidationtest);
 
-		$this->html_input=drawselects($dest, $index, false, false, $nodest_msg, $required, false,false,$disable,$class);
+		$reset = isset($reset) && $reset ? true : false;
+		$this->html_input=drawselects($dest, $index, false, false, $nodest_msg, $required, false,$reset,$disable,$class);
 
 		$hidden =  new gui_hidden($elemname,'goto'.$index,false);
 		$this->html_input .= $hidden->_html;

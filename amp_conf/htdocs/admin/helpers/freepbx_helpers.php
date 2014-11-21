@@ -121,7 +121,7 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 			//if the modulename_destinations() function exits, run it and display selections for it
 			if (function_exists($funct)) {
 				modgettext::push_textdomain($rawmod);
-				$destArray = $funct(); //returns an array with 'destination' and 'description', and optionally 'category'
+				$destArray = $funct($i); //returns an array with 'destination' and 'description', and optionally 'category'
 				modgettext::pop_textdomain();
 				if(is_Array($destArray)) {
 					foreach($destArray as $dest){
