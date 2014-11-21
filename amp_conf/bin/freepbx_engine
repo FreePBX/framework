@@ -117,7 +117,7 @@ if [ -e $AMPBIN/fwconsole ]; then
 			echo "Removing broken fwconsole link"
 			rm -f $AMPSBIN/fwconsole
 		fi
-		echo ln -s $AMPBIN/fwconsole $AMPSBIN/fwconsole
+		ln -s $AMPBIN/fwconsole $AMPSBIN/fwconsole
 	else
 		echo -e "\033[38;5;148m!!!!amportal is depreciated. Please use fwconsole!!!!\033[39m"
 		echo "forwarding all commands to 'fwconsole'"
