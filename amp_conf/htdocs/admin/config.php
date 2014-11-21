@@ -315,7 +315,7 @@ if (!empty($display) && $display != 'badrefer') {
 			$currentcomponent->processconfigpage();
 			$currentcomponent->buildconfigpage();
 	} catch(Exception $e) {
-		die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
+		die_freepbx(_("FreePBX is Unable to Continue"), $e);
 	}
 }
 $module_name = "";
