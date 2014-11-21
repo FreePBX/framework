@@ -29,17 +29,17 @@ class Chown extends Command {
 			${$key} = $val['value'];
 		}
 		/*
-		 * These are files Framework is responsible for This list can be 
+		 * These are files Framework is responsible for This list can be
 		 * reduced by moving responsibility to other modules as a hook
-		 * where appropriate. 
-		 * 
+		 * where appropriate.
+		 *
 		 * Types:
 		 * 		file:		Set permissions/ownership on a single item
 		 * 		dir: 		Set permissions/ownership on a single directory
 		 * 		rdir: 		Set permissions/ownership on a single directory then recursively on
 		 * 					files within less the execute bit. If the dir is 755, child files will be 644,
 		 * 					child directories will be set the same as the parent.
-		 * 		execdir:	Same as rdir but the execute bit is not stripped. 
+		 * 		execdir:	Same as rdir but the execute bit is not stripped.
 		 */
 		$sessdir = session_save_path();
 		$this->modfiles['framework'][] = array('type' => 'file',
@@ -69,7 +69,7 @@ class Chown extends Command {
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $AMPWEBROOT . '/recordings/',
 											   'perms' => 0755);
-		//We may wish to declare files individually rather than touching everything											   
+		//We may wish to declare files individually rather than touching everything
 		$this->modfiles['framework'][] = array('type' => 'execdir',
 											   'path' => $AMPBIN,
 											   'perms' => 0755);
@@ -117,14 +117,14 @@ class Chown extends Command {
 		//END TODO
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => '/etc/obdc.ini',
-											   'perms' => 0644);		
+											   'perms' => 0644);
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $sessdir,
-											   'perms' => 0644);		
+											   'perms' => 0644);
 		$this->modfiles['framework'][] = array('type' => 'dir',
 											   'path' => $AMPWEBROOT,
 											   'perms' => 0755);
-											  
+
 		//Merge static files and hook files, then act on them as a single unit
 		$this->modfiles = array_merge_recursive($this->modfiles,$this->fwcChownFiles());
 		$output->writeln("Setting Ownership");
@@ -156,7 +156,7 @@ class Chown extends Command {
 						}
 						break;
 				}
-			}	
+			}
 		}
 		$actioncount = count($this->actions);
 		$output->writeln("");
@@ -167,7 +167,7 @@ class Chown extends Command {
 		foreach($this->actions as $action){
 			$this->singleChown($action[0],$action[1],$action[2]);
 			$this->singlePerms($action[0], $action[3]);
-			$progress->advance();	
+			$progress->advance();
 		}
 		$progress->finish();
 		$output->writeln("");
@@ -274,7 +274,7 @@ class Chown extends Command {
 	}
 
 	private function fwcChownFiles(){
-		$modules = \FreePBX::Hooks()->processHooks($files);
+		$modules = \FreePBX::Hooks()->processHooks();
 		return $modules;
 	}
 }
