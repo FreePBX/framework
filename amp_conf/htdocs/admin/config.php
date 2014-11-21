@@ -321,7 +321,7 @@ if (!empty($display) && $display != 'badrefer') {
 			$currentcomponent->buildconfigpage();
 			$bmo->Performance->Stop("buildconfigpage-$display");
 	} catch(Exception $e) {
-		die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
+		die_freepbx(_("FreePBX is Unable to Continue"), $e);
 	}
 }
 $module_name = "";
@@ -460,7 +460,7 @@ switch($display) {
 				// be used.
 				$bmo->GuiHooks->getPreDisplay($module_name, $_REQUEST);
 			} catch(Exception $e) {
-				die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
+				die_freepbx(_("FreePBX is Unable to Continue"), $e);
 			}
 
 			// include the module page
@@ -476,7 +476,7 @@ switch($display) {
 							//check all cached signatures
 							$modules = module_functions::create()->getAllSignatures();
 						} catch(Exception $e) {
-							die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
+							die_freepbx(_("FreePBX is Unable to Continue"), $e);
 						}
 						if(!$modules['validation']) {
 							$type = (!empty($modules['statuses']['untrusted']) || !empty($modules['statuses']['tampered'])) ? 'danger' : 'warning';
@@ -519,7 +519,7 @@ switch($display) {
 							$bmo->Performance->Stop("includefile-$module_file");
 						}
 					} catch(Exception $e) {
-						die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
+						die_freepbx(_("FreePBX is Unable to Continue"), $e);
 					}
 			} else {
 					echo "404 Not found (" . $module_file  . ')';
@@ -529,7 +529,7 @@ switch($display) {
 			try {
 				$bmo->GuiHooks->getPostDisplay($module_name, $_REQUEST);
 			} catch(Exception $e) {
-				die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
+				die_freepbx(_("FreePBX is Unable to Continue"), $e);
 			}
 
 			// global component
@@ -540,7 +540,7 @@ switch($display) {
 						/** NOTE: Depreciated. Because of this ONLY the pages that need this will run it! **/
 						echo  $currentcomponent->generateconfigpage();
 					} catch(Exception $e) {
-						die_freepbx(_("FreePBX is Unable to Continue"), $e->getMessage());
+						die_freepbx(_("FreePBX is Unable to Continue"), $e);
 					}
 			}
 		break;
