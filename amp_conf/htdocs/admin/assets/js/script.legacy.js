@@ -81,16 +81,16 @@ function validateDestinations(theForm, numForms, bRequired) {
 function warnInvalid(theField, s) {
 	$(".element-container").removeClass("has-error has-warning has-success");
 	if (theField) {
-		var field = $(theField),
+		var field = (typeof theField.length === "undefined") ? $(theField) : theField,
 				id = field.prop("id"),
 				tab = field.parents(".info-pane").prop("id");
 		if (typeof tab !== "undefined") {
 			$('li.change-tab[data-name="' + tab + '"]').click();
 		}
-		field.parents(".element-container[data-id='" + id + "']").addClass("has-error");
+		field.parents(".element-container").addClass("has-error");
 		field.focus();
 		field.one("propertychange change contextmenu keyup input paste", function() {
-			$(this).parents(".element-container[data-id='" + id + "']").removeClass("has-error has-warning has-success");
+			$(this).parents(".element-container").removeClass("has-error has-warning has-success");
 		});
 	}
 	if (typeof s !== "undefined" && s !== "") {
@@ -1034,16 +1034,16 @@ $(document).keydown(function(e) {
 
 $(document).ready(function() {
 
-	if ($(".currentcomponent-container").length > 0) {
+	if ($(".fpbx-container").length > 0) {
 		var loc = window.location.hash.replace("#", "");
 		if (loc !== "" && $("#" + loc + ".info-pane").length > 0) {
-			$(".currentcomponent-container .info-pane").addClass("hidden");
-			$(".currentcomponent-container .change-tab").removeClass("active");
+			$(".fpbx-container .info-pane").addClass("hidden");
+			$(".fpbx-container .change-tab").removeClass("active");
 			$("#" + loc + ".info-pane").removeClass("hidden");
-			$(".currentcomponent-container .change-tab[data-name='" + loc + "']").addClass("active");
+			$(".fpbx-container .change-tab[data-name='" + loc + "']").addClass("active");
 		}
 
-		$(".currentcomponent-container .change-tab").click(function(event) {
+		$(".fpbx-container .change-tab").click(function(event) {
 			var pos = document.body.scrollTop,
 			id = $(this).data("name");
 			if ($(this).hasClass("active")) {
@@ -1061,19 +1061,19 @@ $(document).ready(function() {
 			event.preventDefault();
 		});
 
-		$(".currentcomponent-container .fa.fa-question-circle").hover(function() {
-			var id = $(this).data("id");
+		$(".fpbx-container i.fpbx-help-icon").hover(function() {
+			var id = $(this).data("for");
 			$("#" + id + "-help").addClass("active");
 		}, function() {
-			var id = $(this).data("id");
+			var id = $(this).data("for");
 			$("#" + id + "-help").removeClass("active");
 		});
-		$(".currentcomponent-container input, .currentcomponent-container select, .currentcomponent-container textarea").focus(function() {
-			var id = $(this).parents(".form-group").data("id");
+		$(".fpbx-container .form-control").focus(function() {
+			var id = $(this).prop("id");
 			$("#" + id + "-help").addClass("active");
 		});
-		$(".currentcomponent-container input, .currentcomponent-container select, .currentcomponent-container textarea").blur(function() {
-			var id = $(this).parents(".form-group").data("id");
+		$(".fpbx-container .form-control").blur(function() {
+			var id = $(this).prop("id");
 			$("#" + id + "-help").removeClass("active");
 		});
 	}
