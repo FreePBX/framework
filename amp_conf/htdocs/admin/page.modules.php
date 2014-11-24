@@ -436,8 +436,11 @@ switch ($action) {
 				case 'force_upgrade':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						$track = !empty($trackaction[$module]) ? $trackaction[$module] : 'stable';
+						if(empty($modules_online)) {
+							$modules_online = $modulef->getonlinexml();
+						}
 						$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : array());
-						if($trackaction[$module] != $modules[$module]['track']) {
+						if(!empty($modules_online) && $trackaction[$module] != $modules[$module]['track']) {
 							$action = 'trackupgrade';
 							if(empty($trackinfo)) {
 								$skipaction = true;
@@ -450,13 +453,13 @@ switch ($action) {
 							} else {
 								switch (version_compare_freepbx($modules[$module]['dbversion'], $trackinfo['version'])) {
 									case '-1':
-										$actionstext[] = sprintf(_("%s %s will be upgraded to online version %s and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$trackinfo['version']."</strong>");
+										$actionstext[] = sprintf(_("%s %s will be upgraded to online version %s and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$trackinfo['version']."</strong>","<strong>".$track."</strong>");
 									break;
 									case '0':
-										$force_actionstext[] = sprintf(_("%s %s will be re-installed to online version %s and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$trackinfo['version']."</strong>");
+										$force_actionstext[] = sprintf(_("%s %s will be re-installed to online version %s and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$trackinfo['version']."</strong>","<strong>".$track."</strong>");
 									break;
 									default:
-										$force_actionstext[] = sprintf(_("%s %s will be downgraded to online version %s and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$trackinfo['version']."</strong>");
+										$force_actionstext[] = sprintf(_("%s %s will be downgraded to online version %s and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$trackinfo['version']."</strong>","<strong>".$track."</strong>");
 								}
 							}
 						} else {
@@ -507,22 +510,7 @@ switch ($action) {
 				break;
 				case 'install':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-						if($trackaction[$module] != $modules[$module]['track']) {
-							$action = 'trackinstall';
-							$track = !empty($trackaction[$module]) ? $trackaction[$module] : 'stable';
-							$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : array());
-							if(empty($trackinfo)) {
-								$skipaction = true;
-								$errorstext[] = sprintf(_("%s cannot be upgraded to %s: The release track of %s does not exist for this module"),
-								"<strong>".$modules[$module]['name']."</strong>","<strong>".$track."</strong>","<strong>".$track."</strong>");
-							} elseif (is_array($errors = $modulef->checkdepends($trackinfo))) {
-								$skipaction = true;
-								$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
-								"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
-							} else {
-								$actionstext[] =  sprintf(_("%s %s will be downloaded and installed and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$trackinfo['version']."</strong>","<strong>".$track."<strong>");
-							}
-						} elseif (is_array($errors = $modulef->checkdepends($modules[$module]))) {
+						if (is_array($errors = $modulef->checkdepends($modules[$module]))) {
 							$skipaction = true;
 							$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please try again after the dependencies have been installed.") : _("%s cannot be installed: %s Please try again after the dependencies have been installed.") ),
 							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
