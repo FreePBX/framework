@@ -106,18 +106,18 @@ if($online) { ?>
 												$trackinfo = (strtolower($track) == 'stable') ? $module['raw']['online'] : (!empty($module['raw']['online']['releasetracks'][$track]) ? $module['raw']['online']['releasetracks'][$track] : array());
 												if (!empty($trackinfo['version'])) {
 													$vercomp = version_compare_freepbx($module['raw']['local']['version'], $trackinfo['version']);
-													$tn = ($trackenable && $module['track'] != $module['highreleasetracktype']) ? ucfirst(strtolower($module['track'])) : '';
+													$tn = ($trackenable && !empty($module['highreleasetracktype']) && ($module['track'] != $module['highreleasetracktype'])) ? ucfirst(strtolower($module['track'])) : '';
 													if ($vercomp < 0) {?>
 														<span class="alert">
 															<?php echo sprintf(_('%s Online %s upgrade available (%s)'), $disabled, $tn, $trackinfo['version']);?>
-															<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>') && $module['track'] != $module['highreleasetracktype']) ? '; ' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) : ''?>
+															<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['online']['version'],'>') && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>') && $module['track'] != $module['highreleasetracktype']) ? '; ' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) : ''?>
 														</span>
 													<?php } elseif ($vercomp > 0) { ?>
 														<?php echo sprintf(_($disabled.'Newer than online version (%s)'), $trackinfo['version']);?>
 													<?php } elseif($module['status'] == MODULE_STATUS_DISABLED) { ?>
-														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Disabled; up to date')?>
+														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['online']['version'],'>') && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Disabled; up to date')?>
 													<?php } else { ?>
-														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Enabled and up to date')?>
+														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['online']['version'],'>') && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Enabled and up to date')?>
 													<?php }
 												}
 											} else {
@@ -226,7 +226,7 @@ if($online) { ?>
 												</td>
 											</tr>
 										<?php } ?>
-										<?php if($trackenable && $module['status'] >= 0 && !empty($module['tracks'])) {?>
+										<?php if($trackenable && $module['status'] >= 0 && !empty($module['tracks']) && ($module['status'] != MODULE_STATUS_NEEDUPGRADE)) {?>
 											<tr>
 												<td><a href="#" class="info"><?php echo _("Track")?>:<span><?php echo _("Modules can have separate individual repos or tracks, these tracks can determine what type of updates this module receives. A prime example is that of the beta track. You can select the beta track for this module and FreePBX will give you the highest updates in the beta track or stable. Some Modules will only have one track. Tracks can be disabled in Advanced Settings.<br>Tracks can only be changed after checking online")?></span></a></td>
 												<td>
