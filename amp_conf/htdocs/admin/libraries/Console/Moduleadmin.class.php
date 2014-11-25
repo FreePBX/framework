@@ -17,7 +17,8 @@ class Moduleadmin extends Command {
 			new InputOption('debug', 'd', InputOption::VALUE_NONE, 'Output debug messages to the console (be super chatty)'),
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Set the Repos. -R Commercial -R Contributed'),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
-		->setHelp('fwconsole ma -f -R commmercial -R Contributed install module1 module2 module3');
+		//->setHelp('fwconsole ma -f -R commmercial -R Contributed install module1 module2 module3');
+		->setHelp($this->showHelp());
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output){
@@ -662,33 +663,50 @@ class Moduleadmin extends Command {
 	}
 
 	private function showHelp(){
-		$this->out->writeln('FWConsole Help:');
-		$this->out->writeln('Usage: fwconsole [-f][-R reponame][-R reponame][action][arg1][arg2][arg...]');
-		$this->out->writeln('Flags:');
-		$this->out->writeln('-f - FORCE');
-		$this->out->writeln('-R - REPO, accepts reponame as a single argument');
-		$this->out->writeln('Module Actions:');
-		$this->out->writeln('checkdepends, checks dependencies for provided module[s], accepts argument module[s] ');
-		$this->out->writeln('disable, disables module[s], accepts argument module[s]');
-		$this->out->writeln('download, download module[s], accepts argument module[s]');
-		$this->out->writeln('delete, deleted module[s], accepts argument module[s]');
-		$this->out->writeln('enable, enable module[s], accepts argument module[s]');
-		$this->out->writeln('install, installs module[s], accepts argument module[s]');
-		$this->out->writeln('installlocal, install local module[s], accepts argument module[s]');
-		$this->out->writeln('uninstall, uninstalls module[s], accepts argument module[s]');
-		$this->out->writeln('upgrade, upgrade module[s], accepts argument module[s]');
-		$this->out->writeln('All inclusive Module Actions:');
-		$this->out->writeln('installall, installs all modules, accepts no arguments');
-		$this->out->writeln('enableall, trys to enable all modules, accepts no arguments');
-		$this->out->writeln('upgradeall, upgrades all modules, accepts no arguments');
-		$this->out->writeln('Repository Actions:');
-		$this->out->writeln('disablerepo, disables repo, accepts argument repo[s]');
-		$this->out->writeln('enablerepo, enables repo, accepts argument repo[s]');
-		$this->out->writeln('list, list all local modules, accepts no arguments');
-		$this->out->writeln('listonline, list online modules, accepts no arguments');
-		$this->out->writeln('showupgrades, shows a list of modules that may be updated, accepts no arguments');
-		$this->out->writeln('i18n, shows translation information for supplied modules, accepts argument module[s]');
-		$this->out->writeln('refreshsignatures, ReDownloads all modules that have invalid signatures');
+		$help .= 'FWConsole Help:';
+		$help .= 'Usage: fwconsole [-f][-R reponame][-R reponame][action][arg1][arg2][arg...]' . PHP_EOL;
+		$help .= 'Flags:' . PHP_EOL;
+		$help .= '-f - FORCE' . PHP_EOL;
+		$help .= '-R - REPO, accepts reponame as a single argument' . PHP_EOL;
+		
+		$help .= '<question>Module Actions:</question>' . PHP_EOL;
+		$rows[] = array('checkdepends','Checks dependencies for provided module[s], accepts argument module[s] ');
+		$rows[] = array('disable','Disables module[s] accepts argument module[s]');
+		$rows[] = array('download','Download module[s], accepts argument module[s]');
+		$rows[] = array('delete','Deleted module[s], accepts argument module[s]');
+		$rows[] = array('enable','Enable module[s], accepts argument module[s]');
+		$rows[] = array('install','Installs module[s], accepts argument module[s]');
+		$rows[] = array('installlocal','Install local module[s], accepts argument module[s]');
+		$rows[] = array('uninstall','Uninstalls module[s], accepts argument module[s]');
+		$rows[] = array('upgrade','Upgrade module[s], accepts argument module[s]');
+		foreach($rows as $k => $v){
+			$help .= '<info>'.$v[0].'</info> : <comment>' . $v[1] . '</comment>'. PHP_EOL;
+		}
+		unset($rows);
+		$rows = array();
+		$help .= '<question>All inclusive Module Actions:</question>' . PHP_EOL;
+		$rows[] = array('installall','Installs all modules, accepts no arguments');
+		$rows[] = array('enableall','Trys to enable all modules, accepts no arguments');
+		$rows[] = array('upgradeall','Upgrades all modules, accepts no arguments');
+		foreach($rows as $k => $v){
+			$help .= '<info>'.$v[0].'</info> : <comment>' . $v[1] . '</comment>'. PHP_EOL;
+		}
+		unset($rows);
+		$rows = array();
+		$help .= '<question>Repository Actions:</question>' . PHP_EOL;
+		$rows[] = array('disablerepo','Disables repo, accepts argument repo[s]');
+		$rows[] = array('enablerepo','Enables repo, accepts argument repo[s]');
+		$rows[] = array('list','List all local modules, accepts no arguments');
+		$rows[] = array('listonline','List online modules, accepts no arguments');
+		$rows[] = array('showupgrades','Shows a list of modules that may be updated, accepts no arguments');
+		$rows[] = array('i18n','Shows translation information for supplied modules, accepts argument module[s]');
+		$rows[] = array('refreshsignatures',' ReDownloads all modules that have invalid signatures');
+		foreach($rows as $k => $v){
+			$help .= '<info>'.$v[0].'</info> : <comment>' . $v[1] . '</comment>'. PHP_EOL;
+		}
+		unset($rows);
+		$rows = array();
+		return $help;
 
 	}
 
