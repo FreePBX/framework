@@ -242,8 +242,13 @@ chown_asterisk() {
 	for file in "${PRIVFILES[@]}"; do
 		[ ! -e "$file" ] && continue
 		L=$(readlink -f $file)
-		chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $L
-		chmod 600 $L
+		if [ $AMPASTERISKWEBUSER != $AMPASTERISKUSER ]; then
+			chown $AMPASTERISKWEBUSER:$AMPASTERISKGROUP $L
+			chmod 600 $L
+		else
+			chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $L
+			chmod 600 $L
+		fi
 		echo -n .
 	done
 
