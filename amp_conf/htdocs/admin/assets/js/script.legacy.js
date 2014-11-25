@@ -1129,8 +1129,10 @@ $(document).ready(function() {
 			break;
 			case "Delete":
 			case "delete":
-				delLink = fpbxForm.data("fpbx-delete");
-				location.href = delLink;
+				if (confirm(fpbx.msg.framework.validation.delete)) {
+					delLink = fpbxForm.data("fpbx-delete");
+					location.href = delLink;
+				}
 				break;
 			case "Duplicate":
 			case "duplicate":

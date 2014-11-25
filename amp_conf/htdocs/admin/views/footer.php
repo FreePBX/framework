@@ -100,6 +100,7 @@ $fpbx['msg']['framework']['bademail'] = _("Invalid email address");
 $fpbx['msg']['framework']['updatenotifications'] = _("Update Notifications");
 $fpbx['msg']['framework']['securityissue'] = _("Security Issue");
 $fpbx['msg']['framework']['validation']['duplicate'] = _(" extension number already in use by: ");
+$fpbx['msg']['framework']['validation']['delete'] = _("Are you sure you want to delete this?");
 $fpbx['msg']['framework']['noupdates'] = _("Are you sure you want to disable automatic update notifications? This could leave your system at risk to serious security vulnerabilities. Enabling update notifications will NOT automatically install them but will make sure you are informed as soon as they are available.");
 $fpbx['msg']['framework']['noupemail'] = _("Are you sure you don't want to provide an email address where update notifications will be sent. This email will never be transmitted off the PBX. It is used to send update and security notifications when they are detected.");
 $fpbx['msg']['framework']['invalid_responce'] = _("Error: Did not receive valid response from server");
