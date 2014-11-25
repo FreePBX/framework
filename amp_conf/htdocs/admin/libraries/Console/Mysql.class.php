@@ -19,32 +19,70 @@ class Mysql extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$db = \FreePBX::Database();
 		$arg = $input->getArgument('args');
-		array_shift($arg);
 		if ($arg) {
-			//$sql = $db->prepare($arg[0]);
-			$sql = $arg[0];
-			$ob = $db->query($sql,\PDO::FETCH_ASSOC);
-			if(!$ob){
-				$output->writeln($db->errorInfo());
-			}
-			//if we get rows back from a query fetch them
-			if($ob->rowCount())
-				$gotRows = $ob->fetchAll();
-			}
-			
-			//handle results if we got rows
-			if($gotRows){
-				$rows = array();
-				foreach($gotRows as $row){
-					array_push($rows, array_values($row));
-				}
-				$table = new Table($output);
-				$table
-					->setHeaders(array_keys($res[0]))
-					->setRows($rows);
-				$table->render();
-			}
-			
-	}
 
+			$query = explode(' ',trim($arg[0]));
+			$verb  = strtoupper($query[0]);
+			switch($verb){
+				case 'INSERT':
+				case 'DROP':
+				case 'UPDATE':
+					$sql = $arg[0];
+					$ob = $db->query($sql,\PDO::FETCH_ASSOC);
+					if(!$ob){
+						$output->writeln($db->errorInfo());
+					}
+					if($ob->rowCount()){
+						$output.writeln('<info>' . $ob->rowCount() . '</info> Rows affected');
+					}
+					break;
+				case 'SELECT':
+					$sql = $arg[0];
+					$ob = $db->query($sql,\PDO::FETCH_ASSOC);
+					if(!$ob){
+						$output->writeln($db->errorInfo());
+					}
+					//if we get rows back from a query fetch them
+					if($ob->rowCount()){
+						$gotRows = $ob->fetchAll();
+					}
+					
+					//handle results if we got rows
+					if($gotRows){
+						$rows = array();
+						foreach($gotRows as $row){
+							array_push($rows, array_values($row));
+						}
+						$table = new Table($output);
+						$table
+							->setHeaders(array_keys($res[0]))
+							->setRows($rows);
+						$table->render();
+					}
+					break;
+				case 'SHOW':
+					$rows = array();
+					$sql = $arg[0];
+					$result = $db->query($sql);
+					$table = new Table($output);
+					while ($row = $result->fetch(\PDO::FETCH_NUM)) {
+						$rows[] = array($row[0]);
+					}
+					$table
+						->setHeaders(array($query[1]))
+						->setRows($rows);
+					$table->render();
+					break;
+				case 'BUILTIN':
+					return true;
+					break;
+				default:
+					$output->writeln("I didn't understand the verb provided");
+					break;
+				
+			}
+		}
+	}
 }
+
+
