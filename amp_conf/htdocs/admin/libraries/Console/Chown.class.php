@@ -42,12 +42,14 @@ class Chown extends Command {
 		 * 		execdir:	Same as rdir but the execute bit is not stripped.
 		 */
 		$sessdir = session_save_path();
+		
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => '/etc/amportal.conf',
 											   'perms' => 0644);
 		$this->modfiles['framework'][] = array('type' => 'dir',
 											   'path' => $ASTRUNDIR,
 											   'perms' => 0755);
+		//we may wish to declare these manually or through some automated fashion
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $ASTETCDIR,
 											   'perms' => 0755);
@@ -57,22 +59,62 @@ class Chown extends Command {
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $ASTVARLIBDIR . '/.ssh.id_rsa',
 											   'perms' => 0644);
+		//Executables for framework
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/amportal',
+											   'perms' => 755);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/sbin/amportal',
+											   'perms' => 755);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/archive_recordings',
+											   'perms' => 755);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/freepbx-cron-scheduler.php',
+											   'perms' => 755);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/freepbx_engine',
+											   'perms' => 755);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/freepbx_setting',
+											   'perms' => 755);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/fwconsole',
+											   'perms' => 755);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/gen_amp_conf.php',
+											   'perms' => 755);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/generate_hints.php',
+											   'perms' => 755);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/retrieve_conf',
+											   'perms' => 755);
+		$this->modfiles['framework'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/retrieve_parse_amportal_conf.pl',
+											   'perms' => 755);
+		//End Executables for framework
+		
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $ASTLOGDIR,
 											   'perms' => 0755);
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $ASTSPOOLDIR,
 											   'perms' => 0755);
+		/* I don't think we need this but not removing incase I am wrong									   
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $AMPWEBROOT . '/admin/',
 											   'perms' => 0755);
+		*/
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $AMPWEBROOT . '/recordings/',
 											   'perms' => 0755);
-		//We may wish to declare files individually rather than touching everything
+		//I have added these below individually, 
+		/*
 		$this->modfiles['framework'][] = array('type' => 'execdir',
 											   'path' => $AMPBIN,
 											   'perms' => 0755);
+		*/
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => $FPBXDBUGFILE,
 											   'perms' => 0644);
@@ -93,27 +135,95 @@ class Chown extends Command {
 											   'path' => '/dev/tty9',
 											   'perms' => 0644);
 		//TODO: Move these to dahdiconfig hook //
-		$this->modfiles['framework'][] = array('type' => 'file',
+		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/freepbx_engine_hook_dahdiconfig',
+											   'perms' => 0755);
+		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
 											   'path' => '/dev/zap',
 											   'perms' => 0644);
-		$this->modfiles['framework'][] = array('type' => 'file',
+		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
 											   'path' => '/dev/dahdi',
 											   'perms' => 0644);
-		$this->modfiles['framework'][] = array('type' => 'rdir',
+		$this->modfiles['dahdiconfig'][] = array('type' => 'rdir',
 											   'path' => '/etc/dahdi',
 											   'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'rdir',
+		$this->modfiles['dahdiconfig'][] = array('type' => 'rdir',
 											   'path' => '/etc/wanpipe',
 											   'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'file',
+		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
 											   'path' => '/dev/misdn',
 											   'perms' => 0644);
-		$this->modfiles['framework'][] = array('type' => 'file',
+		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
 											   'path' => '/dev/mISDN',
 											   'perms' => 0644);
-		$this->modfiles['framework'][] = array('type' => 'file',
+		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
 											   'path' => '/dev/dsp',
 											   'perms' => 0644);
+		//Executables for backup
+		//TODO: Move to backup
+		$this->modfiles['backup'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/backup.php',
+											   'perms' => 755);
+		$this->modfiles['backup'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/restore.php',
+											   'perms' => 755);
+		//End Executables for backup
+		
+		//Executables for UCP
+		//TODO: Move to UCP
+		$this->modfiles['ucp'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/freepbx_engine_hook_ucp',
+											   'perms' => 755);
+		//End Executables for UCP
+
+		//Executables for timeconditions
+		//TODO: Move to timeconditions
+		$this->modfiles['timeconditions'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/schedtc.php',
+											   'perms' => 755);
+		//End Executables for timeconditions
+
+		//Executables for callrecording
+		//TODO: Move to callrecording
+		$this->modfiles['callrecording'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/one_touch_record.php',
+											   'perms' => 755);
+		$this->modfiles['callrecording'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/stoprecording.php',
+											   'perms' => 755);
+		//End Executables for callrecording
+
+		//Executables for queues
+		//TODO: Move to queues
+		$this->modfiles['queues'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/generate_queue_hints.php',
+											   'perms' => 755);
+		$this->modfiles['queues'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/queue_reset_stats.php',
+											   'perms' => 755);
+		//End Executables for queues
+
+		//Executables for cidlookup
+		//TODO: Move to cidlookup
+		$this->modfiles['cidlookup'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/opencnam-alert.php',
+											   'perms' => 755);
+		//End Executables for cidlookup
+	
+		//Executables for fax
+		//TODO: Move to fax
+		$this->modfiles['fax'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/fax2mail.php',
+											   'perms' => 755);
+		//End Executables for fax
+
+		//Executables for dictate
+		//TODO: Move to dictate
+		$this->modfiles['dictate'][] = array('type' => 'file',
+											   'path' => $ASTVARLIBDIR . '/bin/audio-email.pl',
+											   'perms' => 755);
+		//End Executables for dictate
+		
 		//END TODO
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => '/etc/obdc.ini',
@@ -121,18 +231,23 @@ class Chown extends Command {
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $sessdir,
 											   'perms' => 0644);
+		//we were doing a recursive on this which I think is not needed.
+		//Changed to just be the directory
 		$this->modfiles['framework'][] = array('type' => 'dir',
 											   'path' => $AMPWEBROOT,
 											   'perms' => 0755);
+		
 
 		//Merge static files and hook files, then act on them as a single unit
 		$this->modfiles = array_merge_recursive($this->modfiles,$this->fwcChownFiles());
-		$output->writeln("Setting Ownership");
 		$owner = $AMPASTERISKWEBUSER;
 		$group = $AMPASTERISKWEBGROUP;
 		$output->writeln("Building action list...");
 		foreach($this->modfiles as $modfilearray => $modfilelist){
 			foreach($modfilelist as $file){
+				if(!file_exists($file['path'])){
+						continue;
+				}
 				switch($file['type']){
 					case 'file':
 					case 'dir':
