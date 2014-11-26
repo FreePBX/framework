@@ -62,37 +62,37 @@ class Chown extends Command {
 		//Executables for framework
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/amportal',
-											   'perms' => 755);
+											   'perms' => 0755);
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/sbin/amportal',
-											   'perms' => 755);
+											   'perms' => 0755);
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/archive_recordings',
-											   'perms' => 755);
+											   'perms' => 0755);
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/freepbx-cron-scheduler.php',
-											   'perms' => 755);
+											   'perms' => 0755);
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/freepbx_engine',
-											   'perms' => 755);
+											   'perms' => 0755);
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/freepbx_setting',
-											   'perms' => 755);
+											   'perms' => 0755);
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/fwconsole',
-											   'perms' => 755);
+											   'perms' => 0755);
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/gen_amp_conf.php',
-											   'perms' => 755);
+											   'perms' => 0755);
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/generate_hints.php',
-											   'perms' => 755);
+											   'perms' => 0755);
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/retrieve_conf',
-											   'perms' => 755);
+											   'perms' => 0755);
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/retrieve_parse_amportal_conf.pl',
-											   'perms' => 755);
+											   'perms' => 0755);
 		//End Executables for framework
 		
 		$this->modfiles['framework'][] = array('type' => 'rdir',
@@ -163,65 +163,65 @@ class Chown extends Command {
 		//TODO: Move to backup
 		$this->modfiles['backup'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/backup.php',
-											   'perms' => 755);
+											   'perms' => 0755);
 		$this->modfiles['backup'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/restore.php',
-											   'perms' => 755);
+											   'perms' => 0755);
 		//End Executables for backup
 		
 		//Executables for UCP
 		//TODO: Move to UCP
 		$this->modfiles['ucp'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/freepbx_engine_hook_ucp',
-											   'perms' => 755);
+											   'perms' => 0755);
 		//End Executables for UCP
 
 		//Executables for timeconditions
 		//TODO: Move to timeconditions
 		$this->modfiles['timeconditions'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/schedtc.php',
-											   'perms' => 755);
+											   'perms' => 0755);
 		//End Executables for timeconditions
 
 		//Executables for callrecording
 		//TODO: Move to callrecording
 		$this->modfiles['callrecording'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/one_touch_record.php',
-											   'perms' => 755);
+												'path' => $ASTVARLIBDIR . '/bin/one_touch_record.php',
+												'perms' => 0755);
 		$this->modfiles['callrecording'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/stoprecording.php',
-											   'perms' => 755);
+													'path' => $ASTVARLIBDIR . '/bin/stoprecording.php',
+													'perms' => 0755);
 		//End Executables for callrecording
 
 		//Executables for queues
 		//TODO: Move to queues
 		$this->modfiles['queues'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/generate_queue_hints.php',
-											   'perms' => 755);
+											'path' => $ASTVARLIBDIR . '/bin/generate_queue_hints.php',
+											'perms' => 0755);
 		$this->modfiles['queues'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/queue_reset_stats.php',
-											   'perms' => 755);
+											   'perms' => 0755);
 		//End Executables for queues
 
 		//Executables for cidlookup
 		//TODO: Move to cidlookup
 		$this->modfiles['cidlookup'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/opencnam-alert.php',
-											   'perms' => 755);
+											   'perms' => 0755);
 		//End Executables for cidlookup
 	
 		//Executables for fax
 		//TODO: Move to fax
 		$this->modfiles['fax'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/fax2mail.php',
-											   'perms' => 755);
+											   'perms' => 0755);
 		//End Executables for fax
 
 		//Executables for dictate
 		//TODO: Move to dictate
 		$this->modfiles['dictate'][] = array('type' => 'file',
 											   'path' => $ASTVARLIBDIR . '/bin/audio-email.pl',
-											   'perms' => 755);
+											   'perms' => 0755);
 		//End Executables for dictate
 		
 		//END TODO
@@ -251,6 +251,8 @@ class Chown extends Command {
 				if(!file_exists($file['path'])){
 						continue;
 				}
+				//Set warning for bad permissions and move on
+				$this->padPermissions($file['path'],$file['perms']);
 				switch($file['type']){
 					case 'file':
 					case 'dir':
@@ -389,6 +391,15 @@ class Chown extends Command {
 			}
 		}
 		return array_unique($list);
+	}
+	private function padPermissions($file, $mode){
+		if(($mode>>9) == 0){
+			return true;
+		}else{ 
+			$this->errors[] = $file . ' Likely will not work as expected';
+			$this->errors[] = 'Permissions should be set with a leading 0, example 644 should be 0644 File:' . $file . ' Permission set as: ' . $mode ;
+			return false;
+		}
 	}
 
 	private function fwcChownFiles(){
