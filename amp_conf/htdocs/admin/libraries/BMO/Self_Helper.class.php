@@ -98,6 +98,7 @@ class Self_Helper extends DB_Helper {
 
 		// This will throw an Exception if it can't find the class.
 		$this->loadObject($var);
+		$var = str_replace("-","dash",$var);
 
 		$class = class_exists($this->moduleNamespace.$var) ? $this->moduleNamespace.$var : $var;
 		// Now, we may have paramters (__call), or we may not..
@@ -135,8 +136,10 @@ class Self_Helper extends DB_Helper {
 	 * @return bool True if found or throws exception
 	 */
 	private function loadObject($objname, $hint = null) {
+		$objname = str_replace("-","dash",$objname);
 		$objname = str_replace('FreePBX\\modules\\','',$objname);
 		$class = class_exists($this->moduleNamespace.$objname) ? $this->moduleNamespace.$objname : $objname;
+
 		// If it already exists, we're fine.
 		if (class_exists($class)) {
 			//do reflection tests for ARI junk, we **dont** want to load ARI
