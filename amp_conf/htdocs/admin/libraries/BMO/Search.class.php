@@ -46,21 +46,9 @@ class Search extends FreePBX_Helpers {
 		// Make the query string usable.
 		$qs = htmlentities($_REQUEST['query'], ENT_QUOTES, 'UTF-8', false);
 
-		// Ask all modules for their search results
-		$modules = FreePBX::Modules()->getActiveModules();
-		$results = array();
-		foreach ($modules as $m) {
-			// If this is a BMO Module, grab it and ask it for search results
-			try {
-				$module = ucfirst($m['rawname']);
-				$mod = $this->FreePBX->$module;
-				if(!method_exists($mod, 'search')) {
-					continue;
-				}
-				$mod->search($qs, $results);
-			} catch (Exception $e) {
-				continue;
-			}
+		$mods = FreePBX::Modules()->getModulesByMethod("search");
+		foreach($mods as $mod) {
+			$this->FreePBX->$mod->search($qs, $results);
 		}
 
 		// Remove any results from the search that are unneeded.

@@ -80,8 +80,9 @@ class Self_Helper extends DB_Helper {
 	 */
 	private function autoLoad() {
 		// Figure out what is wanted, and return it.
-		if (func_num_args() == 0)
+		if (func_num_args() == 0) {
 			throw new Exception("Nothing given to the AutoLoader");
+		}
 
 		// If we have TWO arguments, we've been called by __call, if we only have
 		// one we've been called by __get.
@@ -89,16 +90,18 @@ class Self_Helper extends DB_Helper {
 		$args = func_get_args();
 		$var = $args[0];
 
-		if ($var == "FreePBX")
+		if ($var == "FreePBX") {
 			throw new Exception("No. You ALREADY HAVE the FreePBX Object. You don't need another one.");
+		}
 
 		// Ensure no-one's trying to include something with a path in it.
-		if (strpos($var, "/") || strpos($var, ".."))
+		if (strpos($var, "/") || strpos($var, "..")) {
 			throw new Exception("Invalid include given to AutoLoader - $var");
+		}
 
 		// This will throw an Exception if it can't find the class.
 		$this->loadObject($var);
-		$var = str_replace("-","dash",$var);
+		$var = $this->Modules->cleanModuleName($var);
 
 		$class = class_exists($this->moduleNamespace.$var) ? $this->moduleNamespace.$var : $var;
 		// Now, we may have paramters (__call), or we may not..
@@ -136,7 +139,7 @@ class Self_Helper extends DB_Helper {
 	 * @return bool True if found or throws exception
 	 */
 	private function loadObject($objname, $hint = null) {
-		$objname = str_replace("-","dash",$objname);
+		$objname = $this->Modules->cleanModuleName($objname);
 		$objname = str_replace('FreePBX\\modules\\','',$objname);
 		$class = class_exists($this->moduleNamespace.$objname) ? $this->moduleNamespace.$objname : $objname;
 

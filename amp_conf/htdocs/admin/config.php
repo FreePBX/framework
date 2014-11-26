@@ -683,15 +683,9 @@ if ($quietmode) {
 
 		$footer['action_bar'] = null;
 		//See if we should provide an action bar
-		try {
-			$classModuleName = ucfirst($module_name);
-			$abClass = $bmo->$classModuleName;
-
-			if (method_exists($abClass, 'getActionBar')) {
-				$footer['action_bar'] = $abClass->getActionBar($_REQUEST);
-			}
-		} catch (Exception $e) {
-			//TODO: Log me
+		$bmomodule_name = str_replace("-","dash",$module_name);
+		if($bmo->Modules->moduleHasMethod($bmomodule_name,"getActionBar")) {
+			$footer['action_bar'] = $bmo->$bmomodule_name->getActionBar($_REQUEST);
 		}
 		echo load_view($amp_conf['VIEW_FOOTER'], $footer);
 }
