@@ -15,27 +15,91 @@ class Modules {
 
 	public function __construct($freepbx = null) {
 
-		if ($freepbx == null)
+		if ($freepbx == null) {
 			throw new Exception("Need to be instantiated with a FreePBX Object");
+		}
 		$this->FreePBX = $freepbx;
 
 		if (!class_exists('module_functions')) {
 			throw new Exception("module_functions class missing? Bootstrap not run?");
 		}
+
 		$this->modclass = module_functions::create();
 		$this->getActiveModules();
 	}
 
+	/**
+	 * Get all active modules
+	 */
 	public function getActiveModules() {
-
 		// If session isn't authenticated, we don't care about modules.
 		if (!defined('FREEPBX_IS_AUTH') || !FREEPBX_IS_AUTH) {
 			return array();
 		}
-
-		$this->active_modules = $this->modclass->getinfo(false, MODULE_STATUS_ENABLED);
-
+		if(empty($this->active_modules)) {
+			$this->active_modules = $this->modclass->getinfo(false, MODULE_STATUS_ENABLED);
+		}
 		return $this->active_modules;
+	}
+
+	/**
+	 * String invalid characters from a class name
+	 * @param {string} $module The raw mdoule name.
+	 */
+	public function cleanModuleName($module) {
+		$module = str_replace("-","dash",$module);
+		return $module;
+	}
+
+	/**
+	 * Check to see if said module has method and is publically callable
+	 * @param {string} $module The raw module name
+	 * @param {string} $method The method name
+	 */
+	public function moduleHasMethod($module, $method) {
+		$amods = array();
+		foreach(array_keys($this->active_modules) as $mod) {
+			$amods[] = $this->cleanModuleName($mod);
+		}
+		if(in_array(strtolower($module),$amods)) {
+			$module = ucfirst(strtolower($module));
+			try {
+				$rc = new \ReflectionClass($this->FreePBX->$module);
+				if($rc->hasMethod($method)) {
+					$reflection = new \ReflectionMethod($this->FreePBX->$module, $method);
+					if ($reflection->isPublic()) {
+						return true;
+					}
+				}
+			} catch(\Exception $e) {}
+		}
+		return false;
+	}
+
+	/**
+	 * Get all modules that have said method
+	 * @param {string} $method The method name to look for
+	 */
+	public function getModulesByMethod($method) {
+		$this->getActiveModules();
+		$amods = array();
+		foreach(array_keys($this->active_modules) as $mod) {
+			$amods[] = $this->cleanModuleName($mod);
+		}
+		$methods = array();
+		foreach($amods as $module) {
+			$module = ucfirst(strtolower($module));
+			try {
+				$rc = new \ReflectionClass($this->FreePBX->$module);
+				if($rc->hasMethod($method)) {
+					$reflection = new \ReflectionMethod($this->FreePBX->$module, $method);
+					if ($reflection->isPublic()) {
+						$methods[] = $module;
+					}
+				}
+			} catch(\Exception $e) {}
+		}
+		return $methods;
 	}
 
 	/**
