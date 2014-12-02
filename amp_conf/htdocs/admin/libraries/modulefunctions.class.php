@@ -2709,6 +2709,7 @@ class module_functions {
 					$options['modules'][$m]['version'] = $mod['version'];
 					$options['modules'][$m]['status'] = $mod['status'];
 					$options['modules'][$m]['rawname'] = $mod['rawname'];
+					$options['modules'][$m]['license'] = !empty($mod['license']) ? $mod['license'] : "unknown";
 				}
 			}
 
