@@ -1,5 +1,7 @@
 <?php
-
+//	License for all code of this FreePBX module can be found in the license file inside the module directory
+//	Copyright 2013 Schmooze Com Inc.
+//
 function generate_configurations_sip($ast_version) {
 
 	global $amp_conf;
@@ -16,7 +18,7 @@ function generate_configurations_sip($ast_version) {
 
 	// Asterisk 1.4 requires call-limit be set for hints to work properly
 	//
-	if (version_compare($ast_version, "1.4", "ge")) { 
+	if (version_compare($ast_version, "1.4", "ge")) {
 		$call_limit = "call-limit=50\n";
 	} else {
 		$call_limit = "";

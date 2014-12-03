@@ -1,5 +1,8 @@
 #!/usr/bin/php -q
 <?php
+//	License for all code of this FreePBX module can be found in the license file inside the module directory
+//	Copyright 2013 Schmooze Com Inc.
+//
 	$current_user = posix_getpwuid(posix_geteuid());
 	if ($current_user['uid'] !== 0) {
 		die('Forbidden - must be root');

@@ -1,5 +1,8 @@
 #!/usr/bin/php -q
 <?php
+//	License for all code of this FreePBX module can be found in the license file inside the module directory
+//	Copyright 2013 Schmooze Com Inc.
+//
 //include bootstrap
 $restrict_mods = true;
 $bootstrap_settings['freepbx_auth'] = false;
@@ -73,7 +76,7 @@ function get_dial_string($devices) {
 	global $ast_with_dahdi;
 
 	$device_array = explode( '&', $devices );
-	$dialstring = ''; 
+	$dialstring = '';
 	foreach ($device_array as $adevice) {
 		$dds = $astman->database_get('DEVICE',$adevice.'/dial');
 		$dialstring .= $dds.'&';
