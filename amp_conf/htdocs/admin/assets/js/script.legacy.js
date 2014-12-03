@@ -115,7 +115,7 @@ function isAlphanumeric(s) {
 	}
 	for (i = 0; i < s.length; i++) {
 		c = s.charAt(i);
-		if (!(isUnicodeLetter(c) || isDigit(c))) {
+		if (!(isUnicodeLetter(c) || isDigit(c)) && c != ".") {
 			return false;
 		}
 	}
