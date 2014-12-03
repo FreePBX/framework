@@ -1,5 +1,7 @@
 <?php /* $Id$ */
-
+//	License for all code of this FreePBX module can be found in the license file inside the module directory
+//	Copyright 2013 Schmooze Com Inc.
+//
 /** Controls if online module and install/uninstall options are available.
  * This is meant for when using external packaging systems (eg, deb or rpm) to manage
  * modules. Package maintainers should set AMPEXTERNPACKAGES to true in /etc/amportal.conf.

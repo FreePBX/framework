@@ -1,5 +1,8 @@
 #!/usr/bin/php -q
 <?php
+//	License for all code of this FreePBX module can be found in the license file inside the module directory
+//	Copyright 2013 Schmooze Com Inc.
+//
 // TODO: no modules and no manager?
 //
 //include bootstrap
@@ -35,14 +38,14 @@ function makeDirs($strPath, $mode = 0770) {
 function process_files() {
 	global $dryrun;
 	global $debug;
-	
+
 	if (is_dir(MONITOR_DIR)) {
 		$dir = opendir(MONITOR_DIR);
 		while ($file = readdir($dir)) {
 			$calltype="";
 			if (($file[0] != ".") && is_file(MONITOR_DIR."/".$file)) {
 				if($debug) {
-						debug("Processing file ".$file);					
+						debug("Processing file ".$file);
 				}
 				if ((strtolower(substr($file,-4)) == ".wav") || (strtolower(substr($file,-4)) == ".gsm")) {
 					// check if recording is from a queue, ringgroup or outbound
@@ -110,9 +113,9 @@ function check_table() {
 	outn("Verifying CDR 'uniqueid' field exisits..");
 	$sql = "SELECT uniqueid FROM cdr WHERE NOT uniqueid=\"\"";
 	if ($debug) {out(""); debug("Query: ".$sql);}
-	$result = $cdrdb->query($sql); 
-	if($cdrdb->IsError($result)) {     
-		fatal($result->getDebugInfo()."\" while running ".$sql."\n"); 
+	$result = $cdrdb->query($sql);
+	if($cdrdb->IsError($result)) {
+		fatal($result->getDebugInfo()."\" while running ".$sql."\n");
 	}
 	if (count($result) > 0) {
 		out("OK");
@@ -148,9 +151,9 @@ function get_cdr($datetime,$uniqueid,$calltype) {
 	$datetimes = fix_datetime($datetime);
 	$sql = "SELECT * FROM cdr WHERE uniqueid = '$uniqueid' AND calldate BETWEEN '".$datetimes['allow']."' AND '".$datetimes['exact']."'";
 	if ($debug) {out(""); debug("Query: ".$sql);}
-	$result = $cdrdb->getRow($sql); 
-	if($cdrdb->IsError($result)) {     
-		fatal($result->getDebugInfo()."\" while running ".$sql."\n"); 
+	$result = $cdrdb->getRow($sql);
+	if($cdrdb->IsError($result)) {
+		fatal($result->getDebugInfo()."\" while running ".$sql."\n");
 	}
 	if (count($result) > 0) {
 		out("Found");
@@ -199,8 +202,8 @@ function get_cdr($datetime,$uniqueid,$calltype) {
 	return($cdrRecord);
 }
 
-// Create list of all files 
-function make_tree($path){ 
+// Create list of all files
+function make_tree($path){
 	$handle=opendir($path);
 	while($a=readdir($handle)){
 		if(!preg_match('/^\./',$a)){

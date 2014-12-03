@@ -1,7 +1,10 @@
 <?php
-
+//	License for all code of this FreePBX module can be found in the license file inside the module directory
+//	Copyright 2013 Schmooze Com Inc.
+//
+//
 /**
- * BMO Ajax handler. 
+ * BMO Ajax handler.
  *
  * Does not support older modules.
  */
@@ -42,4 +45,3 @@ include '/etc/freepbx.conf';
 error_reporting(-1);
 
 $bmo->Ajax->doRequest($module, $command);
-
