@@ -115,6 +115,29 @@ function isAlphanumeric(s) {
 	}
 	for (i = 0; i < s.length; i++) {
 		c = s.charAt(i);
+		if (!(isUnicodeLetter(c) || isDigit(c))) {
+			return false;
+		}
+	}
+	return true;
+}
+
+/**
+* String Check for Letters and Numbers only!
+* Note: that UTF-8 letters are allowed by calling the isUnicodeLetter check
+* @param {string} s The string to check
+*/
+function isAlphanumericDot(s) {
+	var i, c;
+	if (isEmpty(s)) {
+		if (isAlphanumeric.arguments.length == 1) {
+			return defaultEmptyOK;
+		} else {
+			return (isAlphanumeric.arguments[1] === true);
+		}
+	}
+	for (i = 0; i < s.length; i++) {
+		c = s.charAt(i);
 		if (!(isUnicodeLetter(c) || isDigit(c)) && c != ".") {
 			return false;
 		}
