@@ -469,7 +469,7 @@ switch($display) {
 					break; // we break here to avoid the generateconfigpage() below
 			} else if (file_exists($module_file)) {
 					//check module first and foremost, but not during quietmode
-					if(!isset($_REQUEST['quietmode']) && $amp_conf['SIGNATURECHECK'] && (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'popup')) {
+					if(!isset($_REQUEST['quietmode']) && $amp_conf['SIGNATURECHECK'] && !isset($_REQUEST['fw_popover'])) {
 						//Since we are viewing this module update it's signature
 						try {
 							module_functions::create()->updateSignature($module_name,false);
