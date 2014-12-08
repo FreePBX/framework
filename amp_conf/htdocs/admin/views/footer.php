@@ -139,7 +139,7 @@ $html .= '<script src="assets/js/bootstrap-3.0.2.custom.min.js"></script>';
 $html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>';
 
 
-
+$html .= '<script type="text/javascript" src="assets/js/jed.js' . $version_tag . '"></script>';
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below
 if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
@@ -156,8 +156,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	 * script.legacy.js - freepbx library
 	 * tabber-minimized.js - sed for module admin (hiding content)
 	 */
-	$html .= ' <script type="text/javascript" src="assets/js/jed.js' . $version_tag . '"></script>'
-  .'<script type="text/javascript" src="assets/js/XMLHttpRequest.js' . $version_tag . '"></script>'
+	$html .= '<script type="text/javascript" src="assets/js/XMLHttpRequest.js' . $version_tag . '"></script>'
 		. '<script type="text/javascript" src="assets/js/jquery.hotkeys.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/jquery.cookie.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/script.legacy.js' . $version_tag . '"></script>'
