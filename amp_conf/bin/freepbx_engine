@@ -290,7 +290,12 @@ remove_dangling_links() {
 	find -L $AMPBIN -type l -delete
 	find -L $ASTETCDIR -type l -delete
 	find -L $ASTVARLIBDIR -type l -delete
-	find -L $ASTSPOOLDIR -type l -delete
+	for d in $ASTSPOOLDIR/* ; do
+		if [ "$d" != "$ASTSPOOLDIR/voicemail" ]
+			then
+			find -L $d -type l -delete
+			fi
+	done;
 	find -L $ASTAGIDIR -type l -delete
 	echo Dangling symlinks removed
 }
