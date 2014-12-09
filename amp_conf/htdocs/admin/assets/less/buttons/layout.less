@@ -1,13 +1,45 @@
-.button-border(@color) {
+/** Button Borders **/
+.button-border(@gradient, @color) when (@gradient = false) {
 	border: 1px solid rgba(116, 178, 226, 0.46);
 }
-.button-background(@color, @image) {
-	/* background: @color url(@image) 50% 50% repeat-x; */
+.button-border (@gradient, @color) when (default()) {
+	border: none;
+}
+
+.button-border-gradient (@gradient, @top, @bottom) when (@gradient = true) {
+	border: 1px;
+	border-image: -webkit-linear-gradient(@top,@bottom) 1 1;
+	border-image: linear-gradient(to bottom, @top, @bottom) 1 1;
+	border-image: -o-linear-gradient(top, @top, @bottom) 1 1;
+}
+.button-border-gradient (@gradient, @top, @bottom) when (default()) {
+}
+
+/** Button Backgrounds **/
+.button-background (@gradient, @color, @image) when (@gradient = false) {
 	background: @color;
 }
+.button-background (@gradient, @color, @image) when (default()) {
+	background: none;
+}
+
+.button-background-gradient (@gradient, @top, @bottom) when (@gradient = true) {
+	background: @top;
+	background: -webkit-linear-gradient(top,  @top 0%,@bottom 100%);
+	background: -o-linear-gradient(top,  @top 0%,@bottom 100%);
+	background: -ms-linear-gradient(top,  @top 0%,@bottom 100%);
+	background: linear-gradient(to bottom,  @top 0%,@bottom 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@top', endColorstr='@bottom',GradientType=0 );
+}
+
+.button-background-gradient (@gradient, @top, @bottom) when (default()) {
+}
+
 .button-layout() {
-	.button-border(@button-border-default);
-	.button-background(@button-background-color-default, @button-image-default);
+	.button-border(@button-gradient, @button-border-default);
+	.button-border-gradient(@button-gradient, @button-border-gradient-top-default, @button-border-gradient-bottom-default);
+	.button-background(@button-gradient, @button-background-color-default, @button-image-default);
+	.button-background-gradient(@button-gradient, @button-background-gradient-top-default, @button-background-gradient-bottom-default);
 	color: @button-color-default;
 	font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
 	display: inline-block;
@@ -25,15 +57,19 @@
 }
 
 .button-hover() {
-	.button-border(@button-border-hover);
-	.button-background(@button-background-color-hover, @button-image-hover);
-	color: @button-color-default;
+	.button-border(@button-gradient, @button-border-hover);
+	.button-border-gradient(@button-gradient, @button-border-gradient-top-hover, @button-border-gradient-bottom-hover);
+	.button-background(@button-gradient, @button-background-color-hover, @button-image-hover);
+	.button-background-gradient(@button-gradient, @button-background-gradient-top-hover, @button-background-gradient-bottom-hover);
+	color: @button-color-hover;
 	background-color: #EBF7FF;
 }
 
 .button-active() {
-	.button-border(@button-border-active);
-	.button-background(@button-background-color-active, @button-image-active);
+	.button-border(@button-gradient, @button-border-active);
+	.button-border-gradient(@button-gradient, @button-border-gradient-top-active, @button-border-gradient-bottom-active);
+	.button-background(@button-gradient, @button-background-color-active, @button-image-active);
+	.button-background-gradient(@button-gradient, @button-background-gradient-top-active, @button-background-gradient-bottom-active);
 	color: #FFFFFF;
 	background-color: #358BC8;
 }
@@ -41,7 +77,10 @@
 .button-disabled() {
 	opacity: .35;
 	filter: Alpha(Opacity=35);
-	/*background-image: none;*/
+	.button-background(@button-gradient, @button-background-color-default, @button-image-default);
+	.button-background-gradient(@button-gradient, @button-background-gradient-top-default, @button-background-gradient-bottom-default);
+	.button-border(@button-gradient, @button-border-hover);
+	.button-border-gradient(@button-gradient, @button-border-gradient-top-default, @button-border-gradient-bottom-default);
 	cursor: not-allowed;
 	/*color: @button-color-disabled;*/
 }
@@ -49,7 +88,7 @@
 /* BUTTON CSS */
 .btn, button, input[type="button"], input[type="reset"], input[type="submit"], .btn:visited, button:visited, input[type="button"]:visited, input[type="reset"]:visited, input[type="submit"]:visited {
 	.button-layout();
-	border-radius: 6px;
+	border-radius: @button-border-radius;
 }
 .btn:hover, button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover{
 	.button-hover();
@@ -73,12 +112,12 @@
 	margin-right: -3px;
 }
 .radioset input[type="radio"] + label:first-of-type, .radioset input[type="checkbox"] ~ label:first-of-type {
-	border-top-left-radius: 6px;
-	border-bottom-left-radius: 6px;
+	border-top-left-radius: @button-border-radius;
+	border-bottom-left-radius: @button-border-radius;
 }
 .radioset input[type="radio"] + label:last-of-type, .radioset input[type="checkbox"] ~ label:last-of-type {
-	border-top-right-radius: 6px;
-	border-bottom-right-radius: 6px;
+	border-top-right-radius: @button-border-radius;
+	border-bottom-right-radius: @button-border-radius;
 }
 .radioset input[type="radio"] + label:hover, .radioset input[type="checkbox"] ~ label:hover {
 	.button-hover();
