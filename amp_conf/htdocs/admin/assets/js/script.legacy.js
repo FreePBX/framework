@@ -80,6 +80,7 @@ function validateDestinations(theForm, numForms, bRequired) {
  */
 function warnInvalid(theField, s) {
 	$(".element-container").removeClass("has-error has-warning has-success");
+	/*
 	if (theField) {
 		var field = (typeof theField.length === "undefined") ? $(theField) : theField,
 				id = field.prop("id"),
@@ -96,6 +97,7 @@ function warnInvalid(theField, s) {
 	if (typeof s !== "undefined" && s !== "") {
 		alert(s);
 	}
+	*/
 	return false;
 }
 
@@ -1057,32 +1059,12 @@ $(document).keydown(function(e) {
 
 $(document).ready(function() {
 
+
 	if ($(".fpbx-container").length > 0) {
 		var loc = window.location.hash.replace("#", "");
-		if (loc !== "" && $("#" + loc + ".info-pane").length > 0) {
-			$(".fpbx-container .info-pane").addClass("hidden");
-			$(".fpbx-container .change-tab").removeClass("active");
-			$("#" + loc + ".info-pane").removeClass("hidden");
-			$(".fpbx-container .change-tab[data-name='" + loc + "']").addClass("active");
+		if (loc !== "" && $(".fpbx-container li[data-name=" + loc + "] a").length > 0) {
+			$(".fpbx-container li[data-name=" + loc + "] a").tab('show');
 		}
-
-		$(".fpbx-container .change-tab").click(function(event) {
-			var pos = document.body.scrollTop,
-			id = $(this).data("name");
-			if ($(this).hasClass("active")) {
-				event.stopPropagation();
-				event.preventDefault();
-				return true;
-			}
-			$(".info-pane").addClass("hidden");
-			$(".change-tab").removeClass("active");
-			$(this).addClass("active");
-			$("#" + id).removeClass("hidden");
-			location.hash = id;
-			document.body.scrollTop = document.documentElement.scrollTop = pos;
-			event.stopPropagation();
-			event.preventDefault();
-		});
 
 		$(".fpbx-container i.fpbx-help-icon").hover(function() {
 			var id = $(this).data("for");
