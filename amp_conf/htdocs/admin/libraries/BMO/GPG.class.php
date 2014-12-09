@@ -275,7 +275,7 @@ class GPG {
 			fseek($fd, 0);
 			$out = $this->runGPG("--import-ownertrust", $fd);
 			if ($out['exitcode'] != 0) {
-				throw new Exception(sprintf_("Unable to trust the FreePBX Key! -- %s"),json_encode($out));
+				throw new Exception(sprintf(_("Unable to trust the FreePBX Key! -- %s"),json_encode($out)));
 			}
 			fclose($fd);
 		}
