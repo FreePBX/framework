@@ -1,6 +1,10 @@
 <?php
 global $amp_conf;
 global $module_name, $active_modules;
+//For generating action buttons
+include __DIR__ . '/../libraries/actionButton.class.php';
+use FreePBX\libraries\actionButton;
+
 $version	 = get_framework_version();
 $version_tag = '?load_version=' . urlencode($version);
 if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
@@ -20,13 +24,13 @@ if ($footer_content) {
 
 //Action Bar
 if (!$covert && !empty($action_bar)) {
-  $html .= '<div id="action-bar">';
-  foreach($action_bar as $button) {
-    $html .= '<input name="' . $button['name'] . '" type="submit" value="' . $button['value'] . '"';
-    $html .= !empty($button['id']) ? ' id="' . $button['id'] . '" ' : '';
-    $html .= '>';
-  }
-  $html .= '</div>';
+	$html .= '<div id="action-bar">';
+	foreach($action_bar as $b){
+		$temp = new actionButton();
+		$temp->setParams($b);
+		$html .= $temp->getHTML();
+	}
+	$html .= '</div>';
 }
 
 $html .= '<div id="footer_content" class="row">';
@@ -160,7 +164,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 		. '<script type="text/javascript" src="assets/js/jquery.hotkeys.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/jquery.cookie.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/script.legacy.js' . $version_tag . '"></script>'
-     . '<script type="text/javascript" src="assets/js/jquery.autosize.min.js' . $version_tag . '"></script>'
+		. '<script type="text/javascript" src="assets/js/jquery.autosize.min.js' . $version_tag . '"></script>'
 		. '<script type="text/javascript" src="assets/js/tabber-minimized.js' . $version_tag . '"></script>';
 }
 $html .= '<script type="text/javascript" src="assets/js/typeahead.bundle.js"></script>';

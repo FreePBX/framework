@@ -1,5 +1,5 @@
 <?php
-namespace FreePBX;
+namespace FreePBX\libraries;
 /**
 * Class actionButton
 *
