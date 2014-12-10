@@ -337,7 +337,7 @@ class GPG {
 		if (!isset($this->gpgenv)) {
 			$this->gpgenv['PATH'] = "/bin:/usr/bin";
 			$this->gpgenv['USER'] = $webuser;
-			$this->gpgenv['HOME'] = "/tmp";
+			$this->gpgenv['HOME'] = sys_get_temp_dir();
 			$this->gpgenv['SHELL'] = "/bin/bash";
 		}
 
