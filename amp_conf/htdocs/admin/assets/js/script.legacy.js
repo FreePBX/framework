@@ -85,10 +85,14 @@ function warnInvalid(theField, s) {
 				id = field.prop("id"),
 				tab = field.parents(".tab-pane").prop("id");
 		if (typeof tab !== "undefined") {
-			$('li.change-tab[data-name="' + tab + '"]').click();
+			$('li.change-tab[data-name="' + tab + '"] a').one("shown.bs.tab", function(e) {
+				field.focus();
+			})
+			$('li.change-tab[data-name="' + tab + '"] a').tab("show");
+
 		}
 		field.parents(".element-container").addClass("has-error");
-		field.focus();
+
 		field.one("propertychange change contextmenu keyup input paste", function() {
 			$(this).parents(".element-container").removeClass("has-error has-warning has-success");
 		});
