@@ -3,6 +3,9 @@
 		border: 1px solid #ddd;
 		border-radius: 10px;
 	}
+	.display .section.no-border, .display.no-border {
+		border: none;
+	}
 	.display {
 		border-bottom: 1px solid #ddd;
 		border-left: 1px solid #ddd;
@@ -32,7 +35,7 @@
 				font-weight: normal;
 			}
 			.fpbx-help-block {
-				background-color: rgba(242, 242, 242, 0.47);
+				/*background-color: rgba(242, 242, 242, 0.47);*/
 				padding: 5px;
 				border-radius: 5px;
 				display:none;
@@ -54,6 +57,26 @@
 			border: 1px solid #ddd;
 			padding: 5px;
 			border-radius: 5px;
+			.element-container {
+				padding: 3px;
+				.control-label {
+					@media (min-width: 768px) {
+						padding-top: 12px;
+						padding-left: 20px;
+					}
+					font-weight: bold;
+				}
+			}
+			.element-container:nth-child(even) {
+				background-color: @table-striped-even-background-color;
+				color: @table-striped-even-color;
+				border-radius: 3px;
+			}
+			.element-container:nth-child(odd) {
+				background-color: @table-striped-odd-background-color;
+				color: @table-striped-odd-color;
+				border-radius: 3px;
+			}
 		}
 	}
 }
