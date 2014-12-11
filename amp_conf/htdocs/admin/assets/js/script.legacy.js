@@ -80,11 +80,10 @@ function validateDestinations(theForm, numForms, bRequired) {
  */
 function warnInvalid(theField, s) {
 	$(".element-container").removeClass("has-error has-warning has-success");
-	/*
 	if (theField) {
 		var field = (typeof theField.length === "undefined") ? $(theField) : theField,
 				id = field.prop("id"),
-				tab = field.parents(".info-pane").prop("id");
+				tab = field.parents(".tab-pane").prop("id");
 		if (typeof tab !== "undefined") {
 			$('li.change-tab[data-name="' + tab + '"]').click();
 		}
@@ -97,7 +96,6 @@ function warnInvalid(theField, s) {
 	if (typeof s !== "undefined" && s !== "") {
 		alert(s);
 	}
-	*/
 	return false;
 }
 
@@ -1184,7 +1182,7 @@ $(document).ready(function() {
 	//new
 	$(".section-title").click(function() {
 		var id = $(this).data("for"),
-				icon = $(this).find("h3 i.fa");
+				icon = $(this).find("i.fa");
 		if (icon.length > 0) {
 			icon.toggleClass("fa-minus").toggleClass("fa-plus");
 			$(".section[data-id='" + id + "']").slideToggle("slow", function() {
