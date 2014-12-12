@@ -451,7 +451,10 @@ class Freepbx_conf {
     // Note, No localization of the name field, this is a conf file! DON'T MESS WITH THIS!
     $category = '';
     foreach ($this->conf as $keyword => $value) {
-      if ($this->conf_setting_exists($keyword)) {
+      if(isset($this->depreciatedSettings[$keyword])) {
+        $default_val = $this->depreciatedSettings[$keyword];
+        $this_val    = $this->depreciatedSettings[$keyword];
+      } elseif ($this->conf_setting_exists($keyword)) {
         if ($this->db_conf_store[$keyword]['hidden']) {
           continue;
         }
@@ -466,7 +469,11 @@ class Freepbx_conf {
         $this_val = $value;
       }
       if ($verbose) {
-        if ($this->conf_setting_exists($keyword)) {
+        if(isset($this->depreciatedSettings[$keyword])) {
+          $comments = "#\n# --- DEPRECIATED SETTINGS ---\n#\n\n";
+          $default_val = $this->depreciatedSettings[$keyword];
+          $this_val    = $this->depreciatedSettings[$keyword];
+        } elseif ($this->conf_setting_exists($keyword)) {
           $comments = '';
           if ($this->db_conf_store[$keyword]['category'] != $category) {
             $category = $this->db_conf_store[$keyword]['category'];

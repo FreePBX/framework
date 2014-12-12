@@ -1391,6 +1391,7 @@ $(document).ready(function() {
 			.dialog({
 				title: "Login",
 				resizable: false,
+				width: 400,
 				modal: true,
 				position: [ "center", "center" ],
 				close: function(e) {

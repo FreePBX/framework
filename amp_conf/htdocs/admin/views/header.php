@@ -37,7 +37,7 @@ if(!empty($amp_conf['BRAND_CSS_ALT_MAINSTYLE'])) {
 	$html .= '<link href="' . $amp_conf['BRAND_CSS_ALT_MAINSTYLE'].$version_tag.$css_ver . '" rel="stylesheet" type="text/css">';
 }
 
-$html .= '<link href="' . $amp_conf['JQUERY_CSS'] . $version_tag . '" rel="stylesheet" type="text/css">';
+//$html .= '<link href="' . $amp_conf['JQUERY_CSS'] . $version_tag . '" rel="stylesheet" type="text/css">';
 
 //add the popover.css stylesheet if we are displaying a popover to override mainstyle.css styling
 if ($use_popover_css) {
@@ -54,9 +54,6 @@ if (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))) {
 if ($amp_conf['BRAND_CSS_CUSTOM']) {
 	$html .= '<link href="' . $amp_conf['BRAND_CSS_CUSTOM'] . $version_tag . '" rel="stylesheet" type="text/css">';
 }
-
-// Add the CSS for the searchbox
-$html .= '<link href="assets/css/search.css" rel="stylesheet" type="text/css">';
 
 //shiv
 $html .= '<!--[if lt IE 9]>';
