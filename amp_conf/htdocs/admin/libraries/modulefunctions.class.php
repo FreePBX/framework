@@ -2894,7 +2894,7 @@ class module_functions {
 				if ($tampered) {
 					foreach($mod['signature']['details'] as $d) {
 						if ($d == $amportal) {
-							$modules['statuses']['tampered'][] = sprintf(_('Module: %s, File: %s (You may need to run "amportal chown")'),$modname,$d);
+							$modules['statuses']['tampered'][] = sprintf(_("Module: %s, File: %s (If you just updated FreePBX, you'll need to run 'amportal chown' and then 'amportal a r' to clear this message. If you did not just update FreePBX, your system may have been compromised)"),$modname,$d);
 						} else {
 							$modules['statuses']['tampered'][] = sprintf(_('Module: %s, File: %s'),$modname,$d);
 						}
