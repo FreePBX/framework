@@ -91,7 +91,7 @@ CREATE TABLE `cronmanager` (
 
 LOCK TABLES `cronmanager` WRITE;
 /*!40000 ALTER TABLE `cronmanager` DISABLE KEYS */;
-INSERT INTO `cronmanager` VALUES ('module_admin','UPDATES','22',24,0,'/var/lib/asterisk/bin/module_admin listonline');
+INSERT INTO `cronmanager` VALUES ('module_admin','UPDATES','22',24,0,'/var/lib/asterisk/bin/module_admin listonline > /dev/null 2>&1');
 /*!40000 ALTER TABLE `cronmanager` ENABLE KEYS */;
 UNLOCK TABLES;
 
