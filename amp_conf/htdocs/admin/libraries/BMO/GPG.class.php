@@ -473,6 +473,11 @@ class GPG {
 
 		$status = $this->checkStatus($out['status']);
 		if (!$status['trust']) {
+			$longkey = substr($this->freepbxkey, -16);
+			$out = $this->runGPG("--keyid-format long --with-colons --check-sigs ".$status['signedby']);
+			if(preg_match('/^rev:!::1:'.$longkey.'/m',$out['stdout'])) {
+				return array("status" => self::STATE_REVOKED, 'trustdetails' => array("Signed by Revoked Key"));
+			}
 			return $status;
 		}
 		// Silence warnings about '# not a valid comment'.
@@ -510,16 +515,12 @@ class GPG {
 				$retarr['status'] |= GPG::STATE_TAMPERED;
 			}
 			if (strpos($l, "[GNUPG:] TRUST_UNDEFINED") === 0) {
-				$retarr['trustdetails'][] = "Signed by unkown, untrusted key.";
+				$retarr['trustdetails'][] = "Signed by unknown, untrusted key.";
 				$retarr['status'] |= GPG::STATE_TAMPERED;
 			}
 			if (strpos($l, "[GNUPG:] ERRSIG") === 0) {
 				$retarr['trustdetails'][] = "Unknown Signature ($l)";
 				$retarr['status'] |= GPG::STATE_INVALID;
-			}
-			if (strpos($l, "[GNUPG:] REVKEYSIG") === 0) {
-				$retarr['trustdetails'][] = "Signed by Revoked Key ($l)";
-				$retarr['status'] |= GPG::STATE_REVOKED;
 			}
 			if (strpos($l, "[GNUPG:] EXPKEYSIG") === 0) {
 				$retarr['trustdetails'][] = "Signed by Expired Key ($l)";

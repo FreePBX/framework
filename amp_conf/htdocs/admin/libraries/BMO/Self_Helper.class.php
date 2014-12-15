@@ -14,9 +14,9 @@ class Self_Helper extends DB_Helper {
 	private $moduleNamespace = '\\FreePBX\\modules\\';
 
 	public function __construct($freepbx = null) {
-		if (!is_object($freepbx))
+		if (!is_object($freepbx)) {
 			throw new Exception("Need to be instantiated with a FreePBX Object");
-
+		}
 		$this->FreePBX = FreePBX::create();
 	}
 
@@ -176,8 +176,14 @@ class Self_Helper extends DB_Helper {
 				//TODO: this needs to look with dirname not from webroot
 				$try = $path.$module."/$objname.class.php";
 				if(file_exists($try)) {
-					include $try;
-					$loaded = $try;
+					//Now we need to make sure this is not a revoked module!
+					$gpgstatus = FreePBX::GPG()->verifyModule($module);
+					$revoked = $gpgstatus['status'] & GPG::STATE_REVOKED;
+					//if revoked then dont load!
+					if(!$revoked) {
+						include $try;
+						$loaded = $try;
+					}
 					break;
 				}
 			}

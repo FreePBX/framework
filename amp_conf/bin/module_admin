@@ -570,6 +570,8 @@ function showList($online = false) {
 	}
 	ksort($modules);
 
+	$modulef->getAllSignatures(false);
+
 	outn(str_pad("Module", 20));
 	outn(str_pad("Version", 18));
 	out("Status");

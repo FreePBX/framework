@@ -466,7 +466,7 @@ switch($display) {
 					if(!isset($_REQUEST['quietmode']) && $amp_conf['SIGNATURECHECK'] && (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'popup')) {
 						//Since we are viewing this module update it's signature
 						try {
-							module_functions::create()->updateSignature($module_name,false);
+							$gpgstatus = module_functions::create()->updateSignature($module_name,false);
 							//check all cached signatures
 							$modules = module_functions::create()->getAllSignatures();
 						} catch(Exception $e) {
@@ -476,7 +476,7 @@ switch($display) {
 							$type = (!empty($modules['statuses']['untrusted']) || !empty($modules['statuses']['tampered'])) ? 'danger' : 'warning';
 							$merged = array();
 							//priority sorting
-							$stauses = array("untrusted","tampered","unsigned","unknown");
+							$stauses = array("revoked","untrusted","tampered","unsigned","unknown");
 							foreach($stauses as $st) {
 								if(!empty($modules['statuses'][$st])) {
 									$merged = array_merge($merged,$modules['statuses'][$st]);
@@ -485,7 +485,7 @@ switch($display) {
 							$d = FreePBX::notifications()->list_security(true);
 							foreach($d as $n) {
 								//Dont show the same notifications twice
-								if(!in_array($n['id'],array('FW_UNSIGNED','FW_UNTRUSTED','FW_TAMPERED','FW_UNKNOWN'))) {
+								if(!in_array($n['id'],array('FW_REVOKED','FW_UNSIGNED','FW_UNTRUSTED','FW_TAMPERED','FW_UNKNOWN'))) {
 									array_unshift($merged,$n['display_text']);
 								}
 							}
@@ -500,19 +500,23 @@ switch($display) {
 						}
 					}
 
-					// load language info if available
-					modgettext::textdomain($module_name);
-					try {
-						if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
+					if(isset($gpgstatus['status']) && ($gpgstatus['status'] & GPG::STATE_REVOKED)) {
+						echo sprintf(_("File %s has a revoked signature. Can not load"),$module_file);
+					} else {
+						// load language info if available
+						modgettext::textdomain($module_name);
+						try {
+							if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
 								$bmo->GuiHooks->doIntercept($module_name, $module_file);
-						} else {
+							} else {
 								include($module_file);
+							}
+						} catch(Exception $e) {
+							die_freepbx(_("FreePBX is Unable to Continue"), $e);
 						}
-					} catch(Exception $e) {
-						die_freepbx(_("FreePBX is Unable to Continue"), $e);
 					}
 			} else {
-					echo "404 Not found (" . $module_file  . ')';
+					echo sprintf(_("404 Not found (%s)"),$module_file);
 			}
 
 			// BMO TODO: Post display hooks.
