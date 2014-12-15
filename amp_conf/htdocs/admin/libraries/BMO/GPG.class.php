@@ -40,6 +40,15 @@ class GPG {
 	// Default options.
 	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true";
 
+	// List of well-known keyservers.
+	private $keyservers = array(
+		"pool.sks-keyservers.net",  // This should almost always work
+		"hkp://keyserver.ubuntu.com:80",  // This is in case port 11371 is blocked outbound
+		"pgp.mit.edu", // Other random keyservers
+		"keyserver.pgp.com",  // Other random keyserver
+		"pool.sks-keyservers.net"
+	); // Yes. sks is there twice.
+
 	// This is how long we should wait for GPG to run a command.
 	// This may need to be tuned on things like the pi.
 	public $timeout = 3;
@@ -185,12 +194,6 @@ class GPG {
 			return true;
 		}
 
-		// List of well-known keyservers.
-		$keyservers = array("pool.sks-keyservers.net",  // This should almost always work
-			"hkp://keyserver.ubuntu.com:80",  // This is in case port 11371 is blocked outbound
-			"pgp.mit.edu", "keyserver.pgp.com",  // Other random keyservers
-			"pool.sks-keyservers.net"); // Yes. sks is there twice.
-
 		if (strlen($key) > 16) {
 			$key = substr($key, -16);
 		}
@@ -199,7 +202,7 @@ class GPG {
 			throw new Exception(sprintf(_("Key provided - %s - is not hex"),$key));
 		}
 
-		foreach ($keyservers as $ks) {
+		foreach ($this->keyservers as $ks) {
 			try {
 				$retarr = $this->runGPG("--keyserver $ks --recv-keys $key");
 			} catch (RuntimeException $e) {
@@ -442,6 +445,28 @@ class GPG {
 		}
 
 		return $hasharr;
+	}
+
+	/**
+	 * Refresh all stored keys
+	 */
+	public function refreshKeys() {
+		foreach ($this->keyservers as $ks) {
+			try {
+				$retarr = $this->runGPG("--keyserver $ks --refresh-keys");
+			} catch (RuntimeException $e) {
+				// Took too long. We'll just try the next one.
+				continue;
+			}
+			if ($retarr['exitcode'] > 0) {
+				//There was some sort of error so try the next one
+				continue;
+			} else {
+				$this->checkPermissions();
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/**

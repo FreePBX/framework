@@ -2863,7 +2863,9 @@ class module_functions {
 		// String below, if i18n'ed, must be identical to that in GPG class.
 		// Read the comment there.
 		$amportal = FreePBX::Config()->get('AMPSBIN')."/amportal "._("altered");
-
+		if(!$cached) {
+			FreePBX::GPG()->refreshKeys();
+		}
 		foreach($res as $mod) {
 			// Ignore ARI for the moment.
 			if($mod['modulename'] == 'fw_ari') {
