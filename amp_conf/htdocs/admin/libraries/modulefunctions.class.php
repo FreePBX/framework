@@ -1175,6 +1175,12 @@ class module_functions {
 			return array(_("Module ".$modulename." cannot be enabled"));
 		}
 
+		$mod = FreePBX::GPG()->verifyModule($modulename);
+		$revoked = $mod['status'] & GPG::STATE_REVOKED;
+		if($revoked) {
+			return array(_("Module ".$modulename." has a revoked signature and cannot be enabled"));
+		}
+
 		if (!$force) {
 			if (($errors = $this->checkdepends($modules[$modulename])) !== true) {
 				return $errors;
@@ -1759,6 +1765,12 @@ class module_functions {
 		// don't force this bit - we can't install a broken module (missing files)
 		if ($modules[$modulename]['status'] == MODULE_STATUS_BROKEN) {
 			return array(_("Module ".$modules[$modulename]['rawname']." is broken and cannot be installed. You should try to download it again."));
+		}
+
+		$mod = FreePBX::GPG()->verifyModule($modulename);
+		$revoked = $mod['status'] & GPG::STATE_REVOKED;
+		if($revoked) {
+			return array(_("Module ".$modulename." has a revoked signature and cannot be installed"));
 		}
 
 		if (!$force) {
@@ -2831,7 +2843,9 @@ class module_functions {
 		$sth = FreePBX::Database()->prepare($sql);
 		$sth->execute(array($modulename));
 		$res = $sth->fetch(PDO::FETCH_ASSOC);
-		return (empty($res) || !$cached) ? $this->updateSignature($modulename) : json_decode($res['signature'],TRUE);
+
+		$mod = (empty($res) || !$cached) ? $this->updateSignature($modulename) : json_decode($res['signature'],TRUE);
+		return $mod;
 	}
 
 	/**
@@ -2873,6 +2887,8 @@ class module_functions {
 			$tampered = $mod['signature']['status'] & GPG::STATE_TAMPERED;
 			$unsigned = $mod['signature']['status'] & GPG::STATE_UNSIGNED;
 			$invalid = $mod['signature']['status'] & GPG::STATE_INVALID;
+			$revoked = $mod['signature']['status'] & GPG::STATE_REVOKED;
+			//if revoked then disable
 			$md = $this->getInfo();
 			$modname = !empty($md[$mod['modulename']]['name']) ? $md[$mod['modulename']]['name'] : sprintf(_('%s [not enabled]'),$mod['modulename']);
 			if ($invalid) {
@@ -2889,19 +2905,21 @@ class module_functions {
 				if ($tampered) {
 					foreach($mod['signature']['details'] as $d) {
 						if ($d == $amportal) {
-							$modules['statuses']['tampered'][] = sprintf(_("Module: %s, File: %s (If you just updated FreePBX, you'll need to run 'amportal chown' and then 'amportal a r' to clear this message. If you did not just update FreePBX, your system may have been compromised)"),$modname,$d);
+							$modules['statuses']['tampered'][] = sprintf(_("Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run 'amportal chown' and then 'amportal a r' to clear this message. If you did not just update FreePBX, your system may have been compromised)"),$modname,$d);
 						} else {
-							$modules['statuses']['tampered'][] = sprintf(_('Module: %s, File: %s'),$modname,$d);
+							$modules['statuses']['tampered'][] = sprintf(_('Module: "%s", File: "%s"'),$modname,$d);
 						}
 					}
 				}
 				if (!$trusted) {
-					//TODO: Figure this out eventually
+					if($revoked) {
+						$modules['statuses']['revoked'][] = sprintf(_('Module: "%s"\'s signature has been revoked. Module has been automatically disabled'),$modname);
+					}
 				}
 			}
 		}
 
-		$statuses = array('untrusted','unsigned','tampered','unknown');
+		$statuses = array('untrusted','unsigned','tampered','unknown','revoked');
 		$nt = notifications::create();
 		foreach($statuses as $type) {
 			if(!empty($modules['statuses'][$type]) && FreePBX::Config()->get('SIGNATURECHECK')) {
@@ -2926,6 +2944,13 @@ class module_functions {
 	public function updateSignature($modulename) {
 		try {
 			$mod = FreePBX::GPG()->verifyModule($modulename);
+
+			$revoked = $mod['status'] & GPG::STATE_REVOKED;
+			//if revoked then disable
+			if($revoked) {
+				$this->disable($modulename);
+			}
+
 			$sql = "UPDATE `modules` SET signature = ? WHERE modulename = ?";
 			$sth = FreePBX::Database()->prepare($sql);
 			$sth->execute(array(json_encode($mod),$modulename));
