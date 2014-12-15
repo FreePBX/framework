@@ -69,7 +69,7 @@ class cronmanager {
 
 		$night_time = array(19,20,21,22,23,0,1,2,3,4,5);
 		$run_time = $night_time[rand(0,10)];
-		$command = $amp_conf['AMPBIN']."/module_admin listonline";
+		$command = $amp_conf['AMPBIN']."/module_admin listonline > /dev/null 2>&1";
 		$lasttime = 0;
 
 		$sql = "SELECT * FROM cronmanager WHERE module = 'module_admin' AND id = 'UPDATES'";
