@@ -450,12 +450,6 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			file_put_contents(FREEPBX_CONF, $conf);
 		}
 
-		//TODO: THESE ARE STOP GAPS UNTIL FWCONSOLE IS FIXED
-		//DONT LEAVE THESE IN THERE UPON 13 RELEASE
-		exec("chmod -R 777 ".$amp_conf['AMPWEBROOT']);
-		exec("chown -R ".$answers['user'].":".$answers['group']." /var/lib/php/session");
-		//END RANT
-
 		if (!$answers['dev-links']) {
 			// install_modules()
 			$included_modules = array();
