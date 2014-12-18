@@ -209,7 +209,7 @@ class Installer {
 
 
 	$category = 'Advanced Settings Details';
-	
+
 	$settings[$category]['AS_DISPLAY_HIDDEN_SETTINGS'] = array(
 	'value' => false,
 	'options' => '',
@@ -219,7 +219,7 @@ class Installer {
 	'hidden' => 1,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['AS_DISPLAY_READONLY_SETTINGS'] = array(
 	'value' => false,
 	'options' => '',
@@ -227,7 +227,7 @@ class Installer {
 	'description' => 'This will display settings that are readonly. These settings are often internally used settings that are not of interest to most users. Since they are readonly they can only be viewed.',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['AS_OVERRIDE_READONLY'] = array(
 	'value' => false,
 	'options' => '',
@@ -235,7 +235,7 @@ class Installer {
 	'description' => 'Setting this to true will allow you to override un-hidden readonly setting to change them. Settings that are readonly may be extremely volatile and have a high chance of breaking your system if you change them. Take extreme caution when electing to make such changes.',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['AS_DISPLAY_FRIENDLY_NAME'] = array(
 	'value' => true,
 	'options' => '',
@@ -243,10 +243,10 @@ class Installer {
 	'description' => 'Normally the friendly names will be displayed on this page and the internal freepbx_conf configuration names are shown in the tooltip. If you prefer to view the configuration variables, and the friendly name in the tooltip, set this to false..',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
-	
+
+
 	$category = 'System Setup';
-	
+
 	$settings[$category]['AMPSYSLOGLEVEL'] = array(
 	'value' => 'FILE',
 	'options' => 'FILE, LOG_EMERG, LOG_ALERT, LOG_CRIT, LOG_ERR, LOG_WARNING, LOG_NOTICE, LOG_INFO, LOG_DEBUG' . ((isset($amp_conf['AMPSYSLOGLEVEL']) && (strtoupper($amp_conf['AMPSYSLOGLEVEL']) == 'SQL' || strtoupper($amp_conf['AMPSYSLOGLEVEL']) == 'LOG_SQL')) ? ', LOG_SQL, SQL' : ''),
@@ -255,7 +255,7 @@ class Installer {
 	'sortorder' => -190,
 	'type' => CONF_TYPE_SELECT,
 	);
-	
+
 	$settings[$category]['AMPDISABLELOG'] = array(
 	'value' => false,
 	'options' => '',
@@ -264,7 +264,7 @@ class Installer {
 	'sortorder' => -180,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['LOG_OUT_MESSAGES'] = array(
 	'value' => true,
 	'options' => '',
@@ -273,7 +273,7 @@ class Installer {
 	'sortorder' => -170,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['LOG_NOTIFICATIONS'] = array(
 	'value' => true,
 	'options' => '',
@@ -282,7 +282,7 @@ class Installer {
 	'sortorder' => -160,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['FPBX_LOG_FILE'] = array(
 	'value' => $amp_conf['ASTLOGDIR'] . '/freepbx.log',
 	'options' => '',
@@ -291,7 +291,7 @@ class Installer {
 	'sortorder' => -150,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['PHP_ERROR_HANDLER_OUTPUT'] = array(
 	'value' => 'freepbxlog',
 	'options' => array('dbug','freepbxlog','off'),
@@ -300,7 +300,7 @@ class Installer {
 	'sortorder' => -140,
 	'type' => CONF_TYPE_SELECT,
 	);
-	
+
 	$settings[$category]['AGGRESSIVE_DUPLICATE_CHECK'] = array(
 	'value' => false,
 	'options' => '',
@@ -309,7 +309,7 @@ class Installer {
 	'sortorder' => -137,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['AMPEXTENSIONS'] = array(
 	'value' => 'extensions',
 	'options' => 'extensions,deviceanduser',
@@ -318,7 +318,7 @@ class Installer {
 	'sortorder' => -135,
 	'type' => CONF_TYPE_SELECT,
 	);
-	
+
 	$settings[$category]['AUTHTYPE'] = array(
 	'value' => 'database',
 	'options' => 'database,none,webserver',
@@ -329,7 +329,7 @@ class Installer {
 	'sortorder' => -130,
 	'type' => CONF_TYPE_SELECT,
 	);
-	
+
 	$settings[$category]['AMP_ACCESS_DB_CREDS'] = array(
 	'value' => false,
 	'options' => '',
@@ -338,7 +338,7 @@ class Installer {
 	'sortorder' => -126,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['FORCED_ASTVERSION'] = array(
 	'value' => '',
 	'options' => '',
@@ -350,7 +350,7 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['AMPENGINE'] = array(
 	'value' => 'asterisk',
 	'options' => 'asterisk',
@@ -360,7 +360,7 @@ class Installer {
 	'readonly' => 1,
 	'type' => CONF_TYPE_SELECT,
 	);
-	
+
 	$settings[$category]['AMPVMUMASK'] = array(
 	'value' => '007',
 	'options' => '',
@@ -369,7 +369,7 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['AMPWEBADDRESS'] = array(
 	'value' => '',
 	'options' => '',
@@ -379,7 +379,7 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['AMPASTERISKUSER'] = array(
 	'value' => 'asterisk',
 	'options' => '',
@@ -389,7 +389,7 @@ class Installer {
 	'level' => 4,
 	'readonly' => 1,
 	);
-	
+
 	$settings[$category]['AMPASTERISKGROUP'] = array(
 	'value' => 'asterisk',
 	'options' => '',
@@ -399,7 +399,7 @@ class Installer {
 	'level' => 4,
 	'readonly' => 1,
 	);
-	
+
 	$settings[$category]['AMPASTERISKWEBUSER'] = array(
 	'value' => 'asterisk',
 	'options' => '',
@@ -409,7 +409,7 @@ class Installer {
 	'level' => 4,
 	'readonly' => 1,
 	);
-	
+
 	$settings[$category]['AMPASTERISKWEBGROUP'] = array(
 	'value' => 'asterisk',
 	'options' => '',
@@ -419,7 +419,7 @@ class Installer {
 	'level' => 4,
 	'readonly' => 1,
 	);
-	
+
 	$settings[$category]['AMPDEVUSER'] = array(
 	'value' => 'asterisk',
 	'options' => '',
@@ -429,7 +429,7 @@ class Installer {
 	'level' => 4,
 	'readonly' => 1,
 	);
-	
+
 	$settings[$category]['AMPDEVGROUP'] = array(
 	'value' => 'asterisk',
 	'options' => '',
@@ -439,7 +439,7 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['BROWSER_STATS'] = array(
 	'value' => true,
 	'options' => '',
@@ -447,7 +447,7 @@ class Installer {
 	'description' => 'Setting this to true will allow the development team to use google analytics to anonymously analyze browser information to help make better development decisions.',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['USE_GOOGLE_CDN_JS'] = array(
 	'value' => false,
 	'options' => '',
@@ -455,7 +455,7 @@ class Installer {
 	'description' => 'Setting this to true will fetch system javascript libraries such as jQuery and jQuery-ui from ajax.googleapis.com. This can be advantageous if accessing remote or multiple different FreePBX systems since the libraries are only cached once in your browser. If external internet connections are problematic, setting this true could result in slow systems. FreePBX will always fallback to the locally available libraries if the CDN is not available.',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['JQUERY_VER'] = array(
 	'value' => '1.11.1',
 	'options' => '',
@@ -465,7 +465,7 @@ class Installer {
 	'description' => 'The version of jQuery that we wish to use.',
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['JQUERYUI_VER'] = array(
 	'value' => '1.10.3',
 	'options' => '',
@@ -475,7 +475,7 @@ class Installer {
 	'description' => 'The version of jQuery UI that we wish to use.',
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['BOOTSTRAP_VER'] = array(
 	'value' => '3.0.2',
 	'options' => '',
@@ -485,7 +485,7 @@ class Installer {
 	'description' => 'The version of Bootstrap that we wish to use.',
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$vers = array('JQUERY_VER', 'JQUERYUI_VER', 'BOOTSTRAP_VER');
 	foreach ($vers as $ver) {
 		if($freepbx_conf->conf_setting_exists($ver)) {
@@ -501,7 +501,7 @@ class Installer {
 	'description' => 'FreePBX allows you to automatically check for updates online. The updates will NOT be automatically installed. It is STRONGYLY advised that you keep this enabled and keep updated of these important notificaions to avoid costly security issues.',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['SIGNATURECHECK'] = array(
 	'value' => true,
 	'options' => '',
@@ -509,7 +509,7 @@ class Installer {
 	'description' => 'Checks to make sure modules and their files are validly signed. Will display a notice on any module page that is not correctly verified.',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['AMPTRACKENABLE'] = array(
 	'value' => true,
 	'options' => '',
@@ -518,7 +518,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['REMOTEUNLOCK'] = array(
 	'value' => false,
 	'options' => '',
@@ -527,9 +527,9 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$category = 'Dialplan and Operational';
-	
+
 	$settings[$category]['AMPBADNUMBER'] = array(
 	'value' => true,
 	'options' => '',
@@ -538,7 +538,7 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	'level' => 2,
 	);
-	
+
 	$settings[$category]['CWINUSEBUSY'] = array(
 	'value' => true,
 	'options' => '',
@@ -546,7 +546,7 @@ class Installer {
 	'description' => 'For extensions that have CW enabled, report unanswered CW calls as <b>busy</b> (resulting in busy voicemail greeting). If set to no, unanswered CW calls simply report as <b>no-answer</b>.',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['ZAP2DAHDICOMPAT'] = array(
 	'value' => false,
 	'options' => '',
@@ -555,7 +555,7 @@ class Installer {
 	'readonly' => 1,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['DYNAMICHINTS'] = array(
 	'value' => false,
 	'options' => '',
@@ -564,7 +564,7 @@ class Installer {
 	'readonly' => 1,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['ENABLECW'] = array(
 	'value' => true,
 	'options' => '',
@@ -572,7 +572,7 @@ class Installer {
 	'description' => 'Enable call waiting by default when an extension is created (Default is yes). Set to <b>no</b> to if you do not want phones to be commissioned with call waiting already enabled. The user would then be required to dial the CW feature code (*70 default) to enable their phone. Most installations should leave this alone. It allows multi-line phones to receive multiple calls on their line appearances.',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['FCBEEPONLY'] = array(
 	'value' => false,
 	'options' => '',
@@ -580,7 +580,7 @@ class Installer {
 	'description' => 'When set to true, a beep is played instead of confirmation message when activating/de-activating: CallForward, CallWaiting, DayNight, DoNotDisturb and FindMeFollow.',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['USEGOOGLEDNSFORENUM'] = array(
 	'value' => false,
 	'options' => '',
@@ -589,7 +589,7 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	'level' => 2,
 	);
-	
+
 	$settings[$category]['DISABLECUSTOMCONTEXTS'] = array(
 	'value' => false,
 	'options' => '',
@@ -598,7 +598,7 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	'level' => 2,
 	);
-	
+
 	$settings[$category]['NOOPTRACE'] = array(
 	'value' => '0',
 	'options' => '0,1,2,3,4,5,6,7,8,9,10',
@@ -606,7 +606,7 @@ class Installer {
 	'description' => 'Some modules will generate lots of NoOp() commands proceeded by a [TRACE](trace_level) that can be used during development or while trying to trace call flows. These NoOp() commands serve no other purpose so if you do not want to see excessive NoOp()s in your dialplan you can set this to 0. The higher the number the more detailed level of trace NoOp()s will be generated',
 	'type' => CONF_TYPE_SELECT,
 	);
-	
+
 	$settings[$category]['DIVERSIONHEADER'] = array(
 	'value' => false,
 	'options' => '',
@@ -614,7 +614,7 @@ class Installer {
 	'description' => 'If this value is set to true, then calls going out your outbound routes that originate from outside your PBX and were subsequently forwarded through a call forward, ring group, follow-me or other means, will have a SIP diversion header added to the call with the original incoming DID assuming there is a DID available. This is useful with some carriers that may require this under certain circumstances.',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$opts = array();
 	for ($i=-1; $i<=120; $i++) {
 	$opts[] = $i;
@@ -627,7 +627,7 @@ class Installer {
 	'type' => CONF_TYPE_SELECT,
 	);
 	unset($opts);
-	
+
 	$settings[$category]['DEFAULT_INTERNAL_AUTO_ANSWER'] = array(
 	'value' => 'disabled',
 	'options' => array('disabled','intercom'),
@@ -635,7 +635,7 @@ class Installer {
 	'description' => "Default setting for new extensions. When set to Intercom, calls to new extensions/users from other internal users act as if they were intercom calls meaning they will be auto-answered if the endpoint supports this feature and the system is configured to operate in this mode. All the normal white list and black list settings will be honored if they are set. External calls will still ring as normal, as will certain other circumstances such as blind transfers and when a Follow Me is configured and enabled. If Disabled, the phone rings as a normal phone.",
 	'type' => CONF_TYPE_SELECT,
 	);
-	
+
 	$settings[$category]['FORCE_INTERNAL_AUTO_ANSWER_ALL'] = array(
 	'value' => false,
 	'options' => '',
@@ -643,7 +643,7 @@ class Installer {
 	'description' => "Force all extensions to operate in the Internal Auto Answer mode regardless of their individual settings. See 'Internal Auto Answer Default' for more information.",
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$opts = array();
 	for ($i=0; $i<=120; $i++) {
 	$opts[] = $i;
@@ -656,7 +656,7 @@ class Installer {
 	'type' => CONF_TYPE_SELECT,
 	);
 	unset($opts);
-	
+
 	$settings[$category]['BLOCK_OUTBOUND_TRUNK_CNAM'] = array(
 	'value' => false,
 	'options' => '',
@@ -664,7 +664,7 @@ class Installer {
 	'description' => "Some carriers will reject a call if a CallerID Name (CNAM) is presented. This occurs in several areas when configuring CID on the PBX using the format of 'CNAM' <CNUM>. To remove the CNAM part of CID on all external trunks, set this value to true. This WILL NOT remove CNAM when a trunk is called from an Intra-Company route. This can be done on each individual trunk in addition to globally if there are trunks where it is desirable to keep CNAM information, though most carriers ignore CNAM.",
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['ASTSTOPTIMEOUT'] = array(
 	'value' => '120',
 	'options' => array(0,5,10,30,60,120,300,600,1800,3600,7200,10800),
@@ -672,7 +672,7 @@ class Installer {
 	'description' => "When Asterisk is stopped or restarted with the 'amportal stop/restart' commands, it does a graceful stop waiting for active channels to hangup. This sets the maximum time in seconds to wait prior to force stopping Asterisk",
 	'type' => CONF_TYPE_SELECT,
 	);
-	
+
 	$settings[$category]['ASTSTOPPOLLINT'] = array(
 	'value' => '2',
 	'options' => array(1,2,3,5,10),
@@ -680,7 +680,7 @@ class Installer {
 	'description' => "When Asterisk is stopped or restarted with the 'amportal stop/restart' commands, it does a graceful stop waiting for active channels to hangup. This sets the polling interval to check if Asterisk is shutdown and update the countdown timer.",
 	'type' => CONF_TYPE_SELECT,
 	);
-	
+
 	$settings[$category]['CID_PREPEND_REPLACE'] = array(
 	'value' => true,
 	'options' => '',
@@ -688,7 +688,7 @@ class Installer {
 	'description' => "Some modules allow the CNAM to be prepended. If a previous prepend was done, the default behavior is to remove the previous prepend and only use the most recent one. Setting this to false will turn that off allowing all prepends to be 'starcked' in front of one another.",
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['DITECH_VQA_INBOUND'] = array(
 	'value' => '7',
 	'options' => array(0,1,2,3,4,5,6,7),
@@ -696,7 +696,7 @@ class Installer {
 	'description' => "If Ditech's VQA, Voice Quality application is installed, this setting will be used for all inbound calls. For more information 'core show application VQA' at the Asterisk CLI will show the different settings.",
 	'type' => CONF_TYPE_SELECT,
 	);
-	
+
 	$settings[$category]['DITECH_VQA_OUTBOUND'] = array(
 	'value' => '7',
 	'options' => array(0,1,2,3,4,5,6,7),
@@ -704,7 +704,7 @@ class Installer {
 	'description' => "If Ditech's VQA, Voice Quality application is installed, this setting will be used for all outbound calls. For more information 'core show application VQA' at the Asterisk CLI will show the different settings.",
 	'type' => CONF_TYPE_SELECT,
 	);
-	
+
 	$settings[$category]['ASTCONFAPP'] = array(
 	'value' => 'app_confbridge',
 	'options' => array('app_meetme', 'app_confbridge'),
@@ -712,7 +712,7 @@ class Installer {
 	'description' => 'The asterisk application to use for conferencing. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The app_confbridge application is considered "experimental" with known issues and does not work on Asterisk 10 where it was completely rewritten and changed from the version on 1.6 and 1.8.',
 	'type' => CONF_TYPE_SELECT,
 	);
-	
+
 	$settings[$category]['TRUNK_RING_TIMER'] = array(
 	'value' => '300',
 	'name' => 'Trunk Dial Timeout',
@@ -722,7 +722,7 @@ class Installer {
 	'options' => array(0,86400),
 	'level' => 2,
 	);
-	
+
 	$settings[$category]['REC_POLICY'] = array(
 	'value' => 'caller',
 	'options' => array('caller', 'callee'),
@@ -730,7 +730,7 @@ class Installer {
 	'description' => 'Call Recording Policy used to resove the winner in a conflict between two extensions when one wants a call recorded and the other does not, if both their priorities are also the same.',
 	'type' => CONF_TYPE_SELECT,
 	);
-	
+
 	$settings[$category]['TRANSFER_CONTEXT'] = array(
 	'value' => 'from-internal-xfer',
 	'options' => '',
@@ -742,7 +742,7 @@ class Installer {
 	'description' => "This is the Asterisk Channel Variable TRANSFER_CONTEXT. In general it should NOT be changed unless you really know what you are doing. It is used to do create slightly different 'views' when a call is being transfered. An example is hiding the paging groups so a call isn't accidentally transfered into a page.",
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['ASTSIPDRIVER'] = array(
 	'value' => 'both',
 	'options' => array('both', 'chan_sip', 'chan_pjsip'),
@@ -751,10 +751,10 @@ class Installer {
 	'description' => 'The Asterisk channel driver to use for SIP. The default is both for Asterisk 12 and higher. For Asterisk 11 and lower the default will be chan_sip. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The chan_pjsip channel driver is considered "experimental" with known issues and does not work on Asterisk 11 or lower.',
 	'type' => CONF_TYPE_SELECT,
 	);
-	
-	
+
+
 	$category = 'Directory Layout';
-	
+
 	$settings[$category]['AMPBIN'] = array(
 	'value' => '/var/lib/asterisk/bin',
 	'options' => '',
@@ -764,7 +764,7 @@ class Installer {
 	'type' => CONF_TYPE_DIR,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['AMPSBIN'] = array(
 	'value' => '/usr/sbin',
 	'options' => '',
@@ -774,7 +774,7 @@ class Installer {
 	'type' => CONF_TYPE_DIR,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['AMPWEBROOT'] = array(
 	'value' => '/var/www/html',
 	'options' => '',
@@ -784,7 +784,7 @@ class Installer {
 	'type' => CONF_TYPE_DIR,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['ASTAGIDIR'] = array(
 	'value' => '/var/lib/asterisk/agi-bin',
 	'options' => '',
@@ -794,7 +794,7 @@ class Installer {
 	'type' => CONF_TYPE_DIR,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['ASTETCDIR'] = array(
 	'value' => '/etc/asterisk',
 	'options' => '',
@@ -804,7 +804,7 @@ class Installer {
 	'type' => CONF_TYPE_DIR,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['ASTLOGDIR'] = array(
 	'value' => '/var/log/asterisk',
 	'options' => '',
@@ -814,7 +814,7 @@ class Installer {
 	'type' => CONF_TYPE_DIR,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['ASTMODDIR'] = array(
 	'value' => '/usr/lib/asterisk/modules',
 	'options' => '',
@@ -824,7 +824,7 @@ class Installer {
 	'type' => CONF_TYPE_DIR,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['ASTSPOOLDIR'] = array(
 	'value' => '/var/spool/asterisk',
 	'options' => '',
@@ -834,7 +834,7 @@ class Installer {
 	'type' => CONF_TYPE_DIR,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['ASTRUNDIR'] = array(
 	'value' => '/var/run/asterisk',
 	'options' => '',
@@ -844,7 +844,7 @@ class Installer {
 	'type' => CONF_TYPE_DIR,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['ASTVARLIBDIR'] = array(
 	'value' => '/var/lib/asterisk',
 	'options' => '',
@@ -854,7 +854,7 @@ class Installer {
 	'type' => CONF_TYPE_DIR,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['AMPCGIBIN'] = array(
 	'value' => '/var/www/cgi-bin ',
 	'options' => '',
@@ -864,7 +864,7 @@ class Installer {
 	'type' => CONF_TYPE_DIR,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['MOHDIR'] = array(
 	'value' => 'moh',
 	'options' => array('moh','mohmp3'),
@@ -874,7 +874,7 @@ class Installer {
 	'type' => CONF_TYPE_SELECT,
 	'level' => 4,
 	);
-	
+
 	$settings[$category]['CERTKEYLOC'] = array(
 	'value' => '/etc/asterisk/keys',
 	'options' => '',
@@ -884,10 +884,10 @@ class Installer {
 	'type' => CONF_TYPE_DIR,
 	'level' => 4,
 	);
-	
-	
+
+
 	$category = 'GUI Behavior';
-	
+
 	$settings[$category]['CHECKREFERER'] = array(
 	'value' => true,
 	'options' => '',
@@ -895,7 +895,7 @@ class Installer {
 	'description' => 'When set to the default value of true, all requests into FreePBX that might possibly add/edit/delete settings will be validated to assure the request is coming from the server. This will protect the system from CSRF (cross site request forgery) attacks. It will have the effect of preventing legitimately entering URLs that could modify settings which can be allowed by changing this field to false.',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['MODULEADMINWGET'] = array(
 	'value' => false,
 	'options' => '',
@@ -903,7 +903,7 @@ class Installer {
 	'description' => 'Module Admin normally tries to get its online information through direct file open type calls to URLs that go back to the freepbx.org server. If it fails, typically because of content filters in firewalls that do not like the way PHP formats the requests, the code will fall back and try a wget to pull the information. This will often solve the problem. However, in such environment there can be a significant timeout before the failed file open calls to the URLs return and there are often 2-3 of these that occur. Setting this value will force FreePBX to avoid the attempt to open the URL and go straight to the wget calls.',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['SHOWLANGUAGE'] = array(
 	'value' => false,
 	'options' => '',
@@ -911,7 +911,7 @@ class Installer {
 	'description' => 'Show Language setting on menu . Defaults = false',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['SERVERINTITLE'] = array(
 	'value' => false,
 	'options' => '',
@@ -919,7 +919,7 @@ class Installer {
 	'description' => 'Precede browser title with the server name.',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['RELOADCONFIRM'] = array(
 	'value' => true,
 	'options' => '',
@@ -927,7 +927,7 @@ class Installer {
 	'description' => 'When set to false, will bypass the confirm on Reload Box.',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['BADDESTABORT'] = array(
 	'value' => false,
 	'options' => '',
@@ -936,7 +936,7 @@ class Installer {
 	'level' => 3,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['XTNCONFLICTABORT'] = array(
 	'value' => false,
 	'options' => '',
@@ -945,7 +945,7 @@ class Installer {
 	'level' => 3,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['CUSTOMASERROR'] = array(
 	'value' => true,
 	'options' => '',
@@ -954,7 +954,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['ALWAYS_SHOW_DEVICE_DETAILS'] = array(
 	'value' => false,
 	'options' => '',
@@ -962,7 +962,7 @@ class Installer {
 	'description' => 'When adding a new extension/device, setting this to true will show most available device settings that are displayed when you edit the same extension/device. Otherwise, just a few basic settings are displayed.',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['USE_FREEPBX_MENU_CONF'] = array(
 	'value' => false,
 	'options' => '',
@@ -971,9 +971,9 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
-	
+
 	$category = 'Asterisk Manager';
-	
+
 	$settings[$category]['AMPMGRPASS'] = array(
 	'value' => 'amp111',
 	'options' => '',
@@ -982,7 +982,7 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	'level' => 2,
 	);
-	
+
 	$settings[$category]['AMPMGRUSER'] = array(
 	'value' => 'admin',
 	'options' => '',
@@ -991,7 +991,7 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	'level' => 2,
 	);
-	
+
 	$settings[$category]['ASTMANAGERHOST'] = array(
 	'value' => 'localhost',
 	'options' => '',
@@ -1001,7 +1001,7 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	'level' => 2,
 	);
-	
+
 	$settings[$category]['ASTMANAGERPORT'] = array(
 	'value' => '5038',
 	'name' => 'Asterisk Manager Port',
@@ -1011,7 +1011,7 @@ class Installer {
 	'options' => array(1024,65535),
 	'level' => 2,
 	);
-	
+
 	$settings[$category]['ASTMANAGERPROXYPORT'] = array(
 	'value' => '',
 	'name' => 'Asterisk Manager Proxy Port',
@@ -1022,7 +1022,7 @@ class Installer {
 	'options' => array(1024,65535),
 	'level' => 2,
 	);
-	
+
 	$settings[$category]['ASTMGRWRITETIMEOUT'] = array(
 	'value' => '5000',
 	'name' => 'Asterisk Manager Write Timeout',
@@ -1033,10 +1033,10 @@ class Installer {
 	'options' => array(100,100000),
 	'level' => 2,
 	);
-	
-	
+
+
 	$category = 'Developer and Customization';
-	
+
 	$settings[$category]['FPBXDBUGFILE'] = array(
 	'value' => $amp_conf['ASTLOGDIR'] . '/freepbx_dbug',
 	'options' => '',
@@ -1045,7 +1045,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['FPBXDBUGDISABLE'] = array(
 	'value' => true,
 	'options' => '',
@@ -1054,7 +1054,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['DIE_FREEPBX_VERBOSE'] = array(
 	'value' => false,
 	'options' => '',
@@ -1063,7 +1063,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['DEVEL'] = array(
 	'value' => false,
 	'options' => '',
@@ -1072,7 +1072,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['USE_PACKAGED_JS'] = array(
 	'value' => true,
 	'options' => '',
@@ -1081,7 +1081,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['FORCE_JS_CSS_IMG_DOWNLOAD'] = array(
 	'value' => false,
 	'options' => '',
@@ -1090,7 +1090,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['DEVELRELOAD'] = array(
 	'value' => false,
 	'options' => '',
@@ -1099,7 +1099,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['PRE_RELOAD'] = array(
 	'value' => '',
 	'options' => '',
@@ -1110,7 +1110,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['POST_RELOAD'] = array(
 	'value' => '',
 	'options' => '',
@@ -1121,7 +1121,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['POST_RELOAD_DEBUG'] = array(
 	'value' => false,
 	'options' => '',
@@ -1130,7 +1130,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['AMPLOCALBIN'] = array(
 	'value' => '',
 	'options' => '',
@@ -1141,7 +1141,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_DIR,
 	);
-	
+
 	$settings[$category]['DISABLE_CSS_AUTOGEN'] = array(
 	'value' => false,
 	'options' => '',
@@ -1150,7 +1150,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['MODULEADMIN_SKIP_CACHE'] = array(
 	'value' => false,
 	'options' => '',
@@ -1160,7 +1160,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['DISPLAY_MONITOR_TRUNK_FAILURES_FIELD'] = array(
 	'value' => false,
 	'options' => '',
@@ -1169,7 +1169,7 @@ class Installer {
 	'level' => 2,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['JQMIGRATE'] = array(
 	'value' => true,
 	'options' => '',
@@ -1178,10 +1178,10 @@ class Installer {
 	'description' => 'This plugin can be used to detect and restore APIs or features that have been deprecated in jQuery and removed as of version 1.9',
 	'type' => CONF_TYPE_BOOL,
 	);
-	
-	
+
+
 	$category = 'Flash Operator Panel';
-	
+
 	$settings[$category]['FOPWEBROOT'] = array(
 	'value' => '',
 	'options' => '',
@@ -1192,10 +1192,10 @@ class Installer {
 	'type' => CONF_TYPE_DIR,
 	'level' => 4,
 	);
-	
-	
+
+
 	$category = 'Remote CDR Database';
-	
+
 	$settings[$category]['CDRDBHOST'] = array(
 	'value' => '',
 	'options' => '',
@@ -1206,7 +1206,7 @@ class Installer {
 	'level' => 3,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['CDRDBNAME'] = array(
 	'value' => '',
 	'options' => '',
@@ -1217,7 +1217,7 @@ class Installer {
 	'level' => 3,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['CDRDBPASS'] = array(
 	'value' => '',
 	'options' => '',
@@ -1228,7 +1228,7 @@ class Installer {
 	'level' => 3,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['CDRDBPORT'] = array(
 	'value' => '',
 	'options' => array(1024,65536),
@@ -1239,7 +1239,7 @@ class Installer {
 	'level' => 3,
 	'type' => CONF_TYPE_INT,
 	);
-	
+
 	$settings[$category]['CDRDBTABLENAME'] = array(
 	'value' => '',
 	'options' => '',
@@ -1250,7 +1250,7 @@ class Installer {
 	'level' => 3,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['CDRDBTYPE'] = array(
 	'value' => '',
 	'description' => 'DO NOT set this unless you know what you are doing. Only used if you do not use the default values provided by FreePBX. Defaults to your configured AMDBENGINE.',
@@ -1261,7 +1261,7 @@ class Installer {
 	'level' => 3,
 	'type' => CONF_TYPE_SELECT,
 	);
-	
+
 	$settings[$category]['CDRDBUSER'] = array(
 	'value' => '',
 	'options' => '',
@@ -1272,10 +1272,10 @@ class Installer {
 	'level' => 3,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
-	
+
+
 	$category = 'Styling and Logos';
-	
+
 	$settings[$category]['BRAND_IMAGE_FAVICON'] = array(
 	'value' => 'images/favicon.ico',
 	'options' => '',
@@ -1287,7 +1287,7 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	'level' => 1,
 	);
-	
+
 	$settings[$category]['BRAND_TITLE'] = array(
 	'value' => 'FreePBX Administration',
 	'options' => '',
@@ -1299,7 +1299,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['BRAND_IMAGE_TANGO_LEFT'] = array(
 	'value' => 'images/tango.png',
 	'options' => '',
@@ -1310,7 +1310,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['BRAND_IMAGE_FREEPBX_FOOT'] = array(
 	'value' => 'images/freepbx_small.png',
 	'options' => '',
@@ -1322,7 +1322,7 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	'emptyok' => 1,
 	);
-	
+
 	$settings[$category]['BRAND_IMAGE_SPONSOR_FOOT'] = array(
 	'value' => 'images/schmooze-logo.png',
 	'options' => '',
@@ -1334,7 +1334,7 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	'emptyok' => 1,
 	);
-	
+
 	$settings[$category]['BRAND_FREEPBX_ALT_LEFT'] = array(
 	'value' => 'FreePBX',
 	'options' => '',
@@ -1346,7 +1346,7 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	'emptyok' => 1,
 	);
-	
+
 	$settings[$category]['BRAND_FREEPBX_ALT_FOOT'] = array(
 	'value' => 'FreePBX&reg;',
 	'options' => '',
@@ -1358,7 +1358,7 @@ class Installer {
 	'level' => 1,
 	'emptyok' => 1,
 	);
-	
+
 	$settings[$category]['BRAND_SPONSOR_ALT_FOOT'] = array(
 	'value' => 'www.schmoozecom.com',
 	'options' => '',
@@ -1370,7 +1370,7 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	'emptyok' => 1,
 	);
-	
+
 	$settings[$category]['BRAND_IMAGE_FREEPBX_LINK_LEFT'] = array(
 	'value' => 'http://www.freepbx.org',
 	'options' => '',
@@ -1382,7 +1382,7 @@ class Installer {
 	'level' => 1,
 	'emptyok' => 1,
 	);
-	
+
 	$settings[$category]['BRAND_IMAGE_FREEPBX_LINK_FOOT'] = array(
 	'value' => 'http://www.freepbx.org',
 	'options' => '',
@@ -1394,7 +1394,7 @@ class Installer {
 	'level' => 1,
 	'emptyok' => 1,
 	);
-	
+
 	$settings[$category]['BRAND_IMAGE_SPONSOR_LINK_FOOT'] = array(
 	'value' => 'http://www.schmoozecom.com',
 	'options' => '',
@@ -1406,7 +1406,7 @@ class Installer {
 	'level' => 1,
 	'emptyok' => 1,
 	);
-	
+
 	$settings[$category]['BRAND_CSS_ALT_MAINSTYLE'] = array(
 	'value' => '',
 	'options' => '',
@@ -1418,7 +1418,7 @@ class Installer {
 	'level' => 1,
 	'emptyok' => 1,
 	);
-	
+
 	$settings[$category]['BRAND_CSS_ALT_POPOVER'] = array(
 	'value' => '',
 	'options' => '',
@@ -1430,7 +1430,7 @@ class Installer {
 	'level' => 1,
 	'emptyok' => 1,
 	);
-	
+
 	$settings[$category]['BRAND_CSS_CUSTOM'] = array(
 	'value' => '',
 	'options' => '',
@@ -1442,7 +1442,7 @@ class Installer {
 	'level' => 1,
 	'emptyok' => 1,
 	);
-	
+
 	$settings[$category]['VIEW_FREEPBX_ADMIN'] = array(
 	'value' => 'views/freepbx_admin.php',
 	'options' => '',
@@ -1454,7 +1454,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_FREEPBX'] = array(
 	'value' => 'views/freepbx.php',
 	'options' => '',
@@ -1466,7 +1466,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_FREEPBX_RELOAD'] = array(
 	'value' => 'views/freepbx_reload.php',
 	'options' => '',
@@ -1478,7 +1478,7 @@ class Installer {
 	'sortorder' => 200,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_FREEPBX_RELOADBAR'] = array(
 	'value' => 'views/freepbx_reloadbar.php',
 	'options' => '',
@@ -1490,7 +1490,7 @@ class Installer {
 	'sortorder' => 210,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_WELCOME'] = array(
 	'value' => 'views/welcome.php',
 	'options' => '',
@@ -1502,7 +1502,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_WELCOME_NONMANAGER'] = array(
 	'value' => 'views/welcome_nomanager.php',
 	'options' => '',
@@ -1514,7 +1514,7 @@ class Installer {
 	'sortorder' => 230,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_MENUITEM_DISABLED'] = array(
 	'value' => 'views/menuitem_disabled.php',
 	'options' => '',
@@ -1526,7 +1526,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_NOACCESS'] = array(
 	'value' => 'views/noaccess.php',
 	'options' => '',
@@ -1538,7 +1538,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_UNAUTHORIZED'] = array(
 	'value' => 'views/unauthorized.php',
 	'options' => '',
@@ -1550,7 +1550,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_BAD_REFFERER'] = array(
 	'value' => 'views/bad_refferer.php',
 	'options' => '',
@@ -1562,7 +1562,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_LOGGEDOUT'] = array(
 	'value' => 'views/loggedout.php',
 	'options' => '',
@@ -1574,7 +1574,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_PANEL'] = array(
 	'value' => 'views/panel.php',
 	'options' => '',
@@ -1586,7 +1586,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_REPORTS'] = array(
 	'value' => 'views/reports.php',
 	'options' => '',
@@ -1598,7 +1598,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_MENU'] = array(
 	'value' => 'views/menu.php',
 	'options' => '',
@@ -1610,7 +1610,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_BETA_NOTICE'] = array(
 	'value' => 'views/beta_notice.php',
 	'options' => '',
@@ -1622,7 +1622,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_OBE'] = array(
 	'value' => 'views/obe.php',
 	'options' => '',
@@ -1634,7 +1634,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['JQUERY_CSS'] = array(
 	'value' => 'assets/css/jquery-ui.css',
 	'options' => '',
@@ -1646,7 +1646,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_LOGIN'] = array(
 	'value' => 'views/login.php',
 	'options' => '',
@@ -1658,7 +1658,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_HEADER'] = array(
 	'value' => 'views/header.php',
 	'options' => '',
@@ -1670,7 +1670,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_FOOTER'] = array(
 	'value' => 'views/footer.php',
 	'options' => '',
@@ -1682,7 +1682,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_FOOTER_CONTENT'] = array(
 	'value' => 'views/footer_content.php',
 	'options' => '',
@@ -1694,7 +1694,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['VIEW_POPOVER_JS'] = array(
 	'value' => 'views/popover_js.php',
 	'options' => '',
@@ -1706,7 +1706,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['BRAND_ALT_JS'] = array(
 	'value' => '',
 	'options' => '',
@@ -1719,7 +1719,7 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['DASHBOARD_FREEPBX_BRAND'] = array(
 	'value' => 'FreePBX',
 	'options' => '',
@@ -1732,10 +1732,10 @@ class Installer {
 	'level' => 1,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
-	
+
+
 	$category = 'Device Settings';
-	
+
 	$settings[$category]['ALWAYS_SHOW_DEVICE_DETAILS'] = array(
 	'value' => false,
 	'options' => '',
@@ -1744,7 +1744,7 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	'sortorder' => 10,
 	);
-	
+
 	$settings[$category]['DEVICE_STRONG_SECRETS'] = array(
 	'value' => true,
 	'options' => '',
@@ -1753,7 +1753,7 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	'sortorder' => 12,
 	);
-	
+
 	$settings[$category]['DEVICE_REMOVE_MAILBOX'] = array(
 	'value' => false,
 	'options' => '',
@@ -1762,7 +1762,7 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	'sortorder' => 15,
 	);
-	
+
 	$settings[$category]['DEVICE_SIP_CANREINVITE'] = array(
 	'value' => 'no',
 	'options' => array('no', 'yes', 'nonat', 'update'),
@@ -1771,7 +1771,7 @@ class Installer {
 	'type' => CONF_TYPE_SELECT,
 	'sortorder' => 20,
 	);
-	
+
 	$settings[$category]['DEVICE_SIP_TRUSTRPID'] = array(
 	'value' => 'yes',
 	'options' => array('no', 'yes'),
@@ -1780,7 +1780,7 @@ class Installer {
 	'type' => CONF_TYPE_SELECT,
 	'sortorder' => 30,
 	);
-	
+
 	$settings[$category]['DEVICE_SIP_SENDRPID'] = array(
 	'value' => 'no',
 	'options' => array('no', 'yes', 'pai'),
@@ -1789,7 +1789,7 @@ class Installer {
 	'type' => CONF_TYPE_SELECT,
 	'sortorder' => 40,
 	);
-	
+
 	$settings[$category]['DEVICE_SIP_NAT'] = array(
 	'value' => 'no',
 	'options' => array('no', 'yes', 'never', 'route'),
@@ -1798,7 +1798,7 @@ class Installer {
 	'type' => CONF_TYPE_SELECT,
 	'sortorder' => 50,
 	);
-	
+
 	$settings[$category]['DEVICE_SIP_ENCRYPTION'] = array(
 	'value' => 'no',
 	'options' => array('no', 'yes'),
@@ -1807,7 +1807,7 @@ class Installer {
 	'type' => CONF_TYPE_SELECT,
 	'sortorder' => 60,
 	);
-	
+
 	$settings[$category]['DEVICE_SIP_QUALIFYFREQ'] = array(
 	'value' => 60,
 	'options' => array(15, 86400),
@@ -1816,7 +1816,7 @@ class Installer {
 	'type' => CONF_TYPE_INT,
 	'sortorder' => 70,
 	);
-	
+
 	$settings[$category]['DEVICE_QUALIFY'] = array(
 	'value' => 'yes',
 	'options' => '',
@@ -1825,7 +1825,7 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	'sortorder' => 80,
 	);
-	
+
 	$settings[$category]['DEVICE_DISALLOW'] = array(
 	'value' => '',
 	'options' => '',
@@ -1835,7 +1835,7 @@ class Installer {
 	'emptyok' => 1,
 	'sortorder' => 90,
 	);
-	
+
 	$settings[$category]['DEVICE_ALLOW'] = array(
 	'value' => '',
 	'options' => '',
@@ -1845,7 +1845,7 @@ class Installer {
 	'emptyok' => 1,
 	'sortorder' => 90,
 	);
-	
+
 	$settings[$category]['DEVICE_CALLGROUP'] = array(
 	'value' => '',
 	'options' => '',
@@ -1855,7 +1855,7 @@ class Installer {
 	'emptyok' => 1,
 	'sortorder' => 100,
 	);
-	
+
 	$settings[$category]['DEVICE_PICKUPGROUP'] = array(
 	'value' => '',
 	'options' => '',
@@ -1865,10 +1865,10 @@ class Installer {
 	'emptyok' => 1,
 	'sortorder' => 110,
 	);
-	
-	
+
+
 	$category = 'Internal Use';
-	
+
 	$settings[$category]['SIPUSERAGENT'] = array(
 	'value' => 'FPBX',
 	'options' => '',
@@ -1879,7 +1879,7 @@ class Installer {
 	'level' => 10,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['MODULE_REPO'] = array(
 	'value' => 'http://mirror1.freepbx.org,http://mirror2.freepbx.org',
 	'options' => '',
@@ -1890,7 +1890,7 @@ class Installer {
 	'level' => 10,
 	'type' => CONF_TYPE_TEXT,
 	);
-	
+
 	$settings[$category]['NOTICE_BROWSER_STATS'] = array(
 	'value' => false,
 	'options' => '',
@@ -1901,7 +1901,7 @@ class Installer {
 	'level' => 10,
 	'type' => CONF_TYPE_BOOL,
 	);
-	
+
 	$settings[$category]['mainstyle_css_generated'] = array(
 	'value' => (isset($amp_conf['mainstyle_css_generated']) && $amp_conf['mainstyle_css_generated']) ? $amp_conf['mainstyle_css_generated'] : '',
 	'description' => 'internal use',
@@ -1912,7 +1912,7 @@ class Installer {
 	'level' => 10,
 	'emptyok' => 1,
 	);
-	
+
 	$settings[$category]['SESSION_TIMEOUT'] = array(
 	'value' => 2592000, //30 days in seconds
 	'options' => array(0, 2147483647),
@@ -1939,11 +1939,11 @@ class Installer {
 		'MAXCALLS' => CONF_TYPE_INT,
 		'AMPMPG123' => CONF_TYPE_BOOL,
 	);
-	
+
 	foreach ($module_migrate as $setting => $type) {
 		if (isset($amp_conf[$setting]) && !$freepbx_conf->conf_setting_exists($setting)) {
 			$val = $amp_conf[$setting];
-	
+
 			// since this came from a conf file, change any 'false' that will otherwise turn to true
 			if ($type == CONF_TYPE_BOOL) {
 				switch (strtolower($val)) {
@@ -1954,11 +1954,11 @@ class Installer {
 					break;
 				}
 			}
-	
+
 			if (in_array($setting, array('USEQUEUESTATE'))) {
 				$val = true;
 			}
-	
+
 			$category = 'Under Migration';
 			$settings[$category][$setting] = array(
 				'value' => $val,
@@ -1971,7 +1971,7 @@ class Installer {
 			);
 		}
 	}
-	
+
 	$defaults = array(
 		'value' => '',
 		'options' => '',
@@ -1984,30 +1984,30 @@ class Installer {
 	foreach ($settings as $category => $list) {
 		foreach ($list as $name => $setting) {
 			$setting = array_merge($defaults, $setting);
-	
+
 			$setting['category'] = $category;
-	
+
 			if (!isset($setting['defaultval'])) {
 				$setting['defaultval'] = $setting['value'];
 			}
-	
+
 			$freepbx_conf->define_conf_setting($name, $setting);
 		}
 	}
-	
+
 	if ($commit_to_db) {
 		$freepbx_conf->commit_conf_settings();
 	}
-	
+
 	//Make sure we don't set the value again because we dont need to do that
 	//also to prevent against loops
 	if ($freepbx_conf->get_conf_setting('CRONMAN_UPDATES_CHECK') && file_exists($freepbx_conf->get_conf_setting("AMPWEBROOT").'/admin/libraries/cronmanager.class.php')) {
 		global $db;
-	
+
 		if(!class_exists('cronmanager')) {
 			include($amp_conf["AMPWEBROOT"].'/admin/libraries/cronmanager.class.php');
 		}
-	
+
 		$cm =& \cronmanager::create($db);
 		$cm->enable_updates();
 	}

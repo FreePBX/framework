@@ -22,7 +22,7 @@ global $amp_conf;
 global $asterisk_conf;
 
 // default php will check local path, or should we add that in?
-include "libfreepbx.install.php";
+//include "libfreepbx.install.php";
 
 $debug = false;
 $dryrun = false;
@@ -121,7 +121,7 @@ if (is_link("$wr/admin/images/notify_security.png")) {
    *    should run amportal to update it.
    */
 
-	require_once('installer.class.php');
+	require_once('installlib/installer.class.php');
 	$installer = new \Installer();
 	$installer->install_upgrades(getversion());
 	// We run this each time so that we can add settings if need be
@@ -177,8 +177,8 @@ if (is_link("$wr/admin/images/notify_security.png")) {
 			die('Cant find function setversion');
 			return false;
 		}
-		setversion($fwver);
-		if(getVersion() != $fwver) {
+	$install->set_version($fwver);
+		if($install->get_version() != $fwver) {
 			out(_('Internal Error. Function install_getversion did not match the Framework version, even after it was suppose to be applied'));
 			return false;
 		}

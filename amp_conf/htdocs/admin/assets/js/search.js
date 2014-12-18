@@ -84,18 +84,21 @@ var SearchC = Class.extend({
     var self = this;
     self.extLookup = {};
     var knownExtensions = [];
-    $.each(extmap, function(x) { 
-      if (this.match(/User Exten/)) { 
-        knownExtensions.push(x); 
+    if(extmap === null) {
+      return knownExtensions;
+    }
+    $.each(extmap, function(x) {
+      if (this.match(/User Exten/)) {
+        knownExtensions.push(x);
 	self.extLookup[x] = x;
 	var extName = this.toString().replace("User Extension: ", "");
-        knownExtensions.push(extName); 
+        knownExtensions.push(extName);
 	self.extLookup[extName] = x;
       }
     });
     return knownExtensions;
   },
-      
+
   processSearchClick: function(o, d, name) {
     console.log(d);
     if (name == "moduleSearch") {
@@ -141,7 +144,7 @@ var SearchC = Class.extend({
         // It starts with a slash
         href += item.dest;
       } else {
-        // It's inside freepbx. 
+        // It's inside freepbx.
         href += window.location.pathname + item.dest;
       }
     }

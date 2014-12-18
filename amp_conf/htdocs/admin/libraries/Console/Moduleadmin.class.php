@@ -399,7 +399,7 @@ class Moduleadmin extends Command {
 	    global $amp_conf;
 	    $current_user = posix_getpwuid(posix_geteuid());
 		if ($current_user['uid'] === 0) {
-			system($amp_conf['AMPBIN'] . '/freepbx_engine chown');
+			system($amp_conf['AMPBIN'] . '/fwconsole chown');
 		}
 	}
 	private function check_active_repos() {
@@ -668,7 +668,7 @@ class Moduleadmin extends Command {
 		$help .= 'Flags:' . PHP_EOL;
 		$help .= '-f - FORCE' . PHP_EOL;
 		$help .= '-R - REPO, accepts reponame as a single argument' . PHP_EOL;
-		
+
 		$help .= '<question>Module Actions:</question>' . PHP_EOL;
 		$rows[] = array('checkdepends','Checks dependencies for provided module[s], accepts argument module[s] ');
 		$rows[] = array('disable','Disables module[s] accepts argument module[s]');

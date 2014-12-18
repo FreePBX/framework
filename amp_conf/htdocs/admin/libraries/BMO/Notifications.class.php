@@ -27,12 +27,6 @@ class Notifications {
 	private $not_loaded = true;
 	private $notification_table = array();
 
-	public function __construct() {
-		if (!defined('NOTIFICATION_TYPE_CRITICAL')) {
-			throw new Exception('Old Notifications has been removed, but defines have not been uncommented');
-		}
-	}
-
 	/**
 	 * Check to see if Notification Already exists
 	 *

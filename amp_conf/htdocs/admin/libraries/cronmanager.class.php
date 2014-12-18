@@ -89,7 +89,7 @@ class cronmanager {
 						";
 		}
 		sql($sql);
-		$nt =& notifications::create($db);
+		$nt =& notifications::create();
 		$nt->delete('core', 'UPDATES_OFF');
 
 		$freepbx_conf =& freepbx_conf::create();

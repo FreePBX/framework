@@ -19,6 +19,10 @@ class FreePBXInstallCommand extends Command {
 			'default' => 'asterisk',
 	 		'description' => 'Database name'
 		),
+		'cdrdbname' => array(
+			'default' => 'asteriskcdrdb',
+			'description' => 'CDR Database name'
+		),
 		'dbuser' => array(
 			'default' => 'root',
 	 		'description' => 'Database username'
@@ -57,6 +61,12 @@ class FreePBXInstallCommand extends Command {
 				$this->addOption($key, null, InputOption::VALUE_NONE, $setting['description']);
 			}
 		}
+		$this->addOption('rootdb', 'r', InputOption::VALUE_NONE, 'Database Root Based Install. Will create the database user and password automatically along with the databases');
+		$this->addOption('force', 'f', InputOption::VALUE_NONE, 'Force an install. Rewriting all databases with default information');
+	}
+
+	public function getHelp() {
+		return '';
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
@@ -64,20 +74,26 @@ class FreePBXInstallCommand extends Command {
 
 		date_default_timezone_set('America/Los_Angeles');
 
-		$style = new OutputFormatterStyle('white', 'red', array('bold'));
-		$output->getFormatter()->setStyle('fire', $style);
+		$style = new OutputFormatterStyle('white', 'black', array('bold'));
+		$output->getFormatter()->setStyle('bold', $style);
 
 		define("AMP_CONF", "/etc/amportal.conf");
 		define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
 		define("FREEPBX_CONF", "/etc/freepbx.conf");
-		define("MODULE_DIR", dirname(__FILE__)."/amp_conf/htdocs/admin/modules");
-		define("UPGRADE_DIR", dirname(__FILE__) . "/upgrades");
+		define("MODULE_DIR", dirname(__DIR__)."/amp_conf/htdocs/admin/modules");
+		define("UPGRADE_DIR", dirname(__DIR__) . "/upgrades");
 
 		// Fail if !root
 		$euid = posix_getpwuid(posix_geteuid());
 		if ($euid['name'] != 'root') {
 			$output->writeln($this->getName() . " must be run as root.");
 			exit(1);
+		}
+
+		$dbroot = $input->getOption('rootdb');
+		$force = $input->getOption('force');
+		if($force) {
+			$output->writeln("<info>Force Install. This will reset everything!</info>");
 		}
 
 		foreach ($this->settings as $key => $setting) {
@@ -95,13 +111,18 @@ class FreePBXInstallCommand extends Command {
 			}
 		}
 
-		require_once('installer.class.php');
+		if($dbroot || $answers['dbuser'] == 'root') {
+			$output->writeln("<info>Assuming you are Database Root</info>");
+			$dbroot = true;
+		}
+
+		require_once('installlib/installer.class.php');
 		$installer = new Installer($input, $output);
 
 		// Copy default amportal.conf
-		if (!file_exists(AMP_CONF)) {
+		if (!file_exists(AMP_CONF) || $force) {
 			$newinstall = true;
-			$amp_conf = $installer->amportal_conf_read(dirname(__FILE__) . "/amportal.conf");
+			$amp_conf = $installer->amportal_conf_read(dirname(__DIR__) . "/amportal.conf");
 
 			require_once('amp_conf/htdocs/admin/functions.inc.php');
 		} else {
@@ -117,6 +138,9 @@ class FreePBXInstallCommand extends Command {
 		}
 		if (isset($answers['dbname'])) {
 			$amp_conf['AMPDBNAME'] = $answers['dbname'];
+		}
+		if (isset($answers['cdrdbname'])) {
+			$amp_conf['CDRDBNAME'] = $answers['cdrdbname'];
 		}
 		if (isset($answers['webroot'])) {
 			$amp_conf['AMPWEBROOT'] = $answers['webroot'];
@@ -135,12 +159,28 @@ class FreePBXInstallCommand extends Command {
 			$amp_conf['AMPMANAGERHOST'] = 'localhost';
 		}
 
-		if ($newinstall) {
+		if ($newinstall || $force) {
 			$amp_conf['AMPMGRUSER'] = 'admin';
 			$amp_conf['AMPMGRPASS'] = md5(uniqid());
 
 			$amp_conf['AMPDBUSER'] = $answers['dbuser'];
 			$amp_conf['AMPDBPASS'] = $answers['dbpass'];
+
+			if($dbroot) {
+				$output->write("Database Root installation checking credentials and permissions..");
+				$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'];
+				try {
+					$pdodb = new \PDO($dsn, $amp_conf['AMPDBUSER'], $amp_conf['AMPDBPASS']);
+				} catch(\Exception $e) {
+					throw new \Exception("Invalid Database Permissions. Please fix and try again");
+				}
+				try {
+					$pdodb->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['AMPDBNAME']);
+				} catch(\Exception $e) {
+					throw new \Exception("Unable to create ".$amp_conf['AMPDBNAME']);
+				}
+				$output->writeln("Looks good!");
+			}
 		}
 
 		// ... and then write amportal.conf?
@@ -148,15 +188,15 @@ class FreePBXInstallCommand extends Command {
 
 		// Copy asterisk.conf
 		if (!file_exists(ASTERISK_CONF)) {
-			$asterisk_conf = $installer->asterisk_conf_read(dirname(__FILE__) . "/asterisk.conf");
+			$asterisk_conf = $installer->asterisk_conf_read(dirname(__DIR__) . "/asterisk.conf");
 
-			$installer->asterisk_conf_write(dirname(__FILE__) . "/asterisk_new.conf", $asterisk_conf);
+			$installer->asterisk_conf_write(dirname(__DIR__) . "/asterisk_new.conf", $asterisk_conf);
 		} else {
 			$asterisk_conf = $installer->asterisk_conf_read(ASTERISK_CONF);
 
 			$asterisk_defaults_conf = array(
 				'astetcdir' => '/etc/asterisk',
-				'astmoddir' => '/usr/lib/asterisk/modules',
+				'astmoddir' => file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules',
 				'astvarlibdir' => '/var/lib/asterisk',
 				'astagidir' => '/var/lib/asterisk/agi-bin',
 				'astspooldir' => '/var/spool/asterisk',
@@ -209,9 +249,9 @@ class FreePBXInstallCommand extends Command {
 
 		// Parse Asterisk version.
 		if (preg_match('/^Asterisk (?:SVN-)?(\d+(\.\d+)*)(-?(.*))$/', $astver, $matches)) {
-			if ((version_compare($matches[1], "1.8") < 0) || 
-			     version_compare($matches[1], "14", "ge")) {
-				$output->writeln("Supported Asterisk versions: 1.8, 11, 12, 13");
+			if ((version_compare($matches[1], "11") < 0) ||
+			     version_compare($matches[1], "15", "ge")) {
+				$output->writeln("Supported Asterisk versions: 11, 12, 13, 14");
 				$output->writeln("Detected Asterisk version: " . $matches[1]);
 				exit(1);
 			}
@@ -237,26 +277,48 @@ class FreePBXInstallCommand extends Command {
 
 			$bmo = new \FreePBX($amp_conf);
 
-			$amp_conf['AMPDBUSER'] = 'freepbxuser';
-			$amp_conf['AMPDBPASS'] = md5(uniqid());
-
-			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'] . ";dbname=asteriskcdrdb";
-			$db = new \DB(new \Database($dsn, $answers['dbuser'], $answers['dbpass']));
-			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'asteriskcdrdb';";
-			if (!$db->getOne($sql)) {
-				$installer->install_sql_file(dirname(__FILE__) . '/SQL/cdr_mysql_table.sql');
+			if($dbroot) {
+				$amp_conf['AMPDBUSER'] = 'freepbxuser';
+				$amp_conf['AMPDBPASS'] = md5(uniqid());
+			} else {
+				$amp_conf['AMPDBUSER'] = $answers['dbuser'];
+				$amp_conf['AMPDBPASS'] = $answers['dbpass'];
 			}
-			$sql = "GRANT ALL PRIVILEGES ON asteriskcdrdb.* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
-			$db->query($sql);
 
-			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'] . ";dbname=" . $amp_conf['AMPDBNAME'];
+			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'];
 			$db = new \DB(new \Database($dsn, $answers['dbuser'], $answers['dbpass']));
-			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '" . $amp_conf['AMPDBNAME'] . "';";
-			if (!$db->getOne($sql)) {
-				$installer->install_sql_file(dirname(__FILE__) . '/SQL/newinstall.sql');
+
+			if($dbroot) {
+				if($force) {
+					$db->query("DROP DATABASE IF EXISTS ".$amp_conf['AMPDBNAME']);
+				}
+				$db->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['AMPDBNAME']);
+				$sql = "GRANT ALL PRIVILEGES ON ".$amp_conf['AMPDBNAME'].".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
+				$db->query($sql);
 			}
-			$sql = "GRANT ALL PRIVILEGES ON " . $amp_conf['AMPDBNAME'] . ".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
-			$db->query($sql);
+			$db->query("USE ".$amp_conf['AMPDBNAME']);
+			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['AMPDBNAME']."';";
+			if (!$db->getOne($sql)) {
+				$output->writeln("Empty " . $amp_conf['AMPDBNAME'] . " Database going to populate it");
+				$installer->install_sql_file(dirname(__DIR__) . '/SQL/asterisk.sql');
+			}
+
+			if($dbroot) {
+				if($force) {
+					$db->query("DROP DATABASE IF EXISTS ".$amp_conf['CDRDBNAME']);
+				}
+				$db->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['CDRDBNAME']);
+				$sql = "GRANT ALL PRIVILEGES ON ".$amp_conf['CDRDBNAME'].".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
+				$db->query($sql);
+			}
+			$db->query("USE ".$amp_conf['CDRDBNAME']);
+			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['CDRDBNAME']."';";
+			if (!$db->getOne($sql)) {
+				$output->writeln("Empty " . $amp_conf['CDRDBNAME'] . " Databse going to populate it");
+				$installer->install_sql_file(dirname(__DIR__) . '/SQL/cdr.sql');
+			}
+
+			$db->query("USE ".$amp_conf['AMPDBNAME']);
 		}
 
 		// Get version of FreePBX.
@@ -274,8 +336,15 @@ class FreePBXInstallCommand extends Command {
 		}
 		$freepbx_conf->commit_conf_settings();
 
+		if(!file_exists($amp_conf['AMPWEBROOT'])) {
+			@mkdir($amp_conf['AMPWEBROOT'], 0777, true);
+		}
+		if(!is_writeable($amp_conf['AMPWEBROOT'])) {
+			throw new \Exception($amp_conf['AMPWEBROOT'] . " is NOT writable!");
+		}
+		chown($amp_conf['AMPWEBROOT'], $amp_conf['AMPASTERISKWEBUSER']);
 		// Copy amp_conf/
-		$this->recursive_copy($input, $output, "amp_conf", "", $newinstall, $answers['dev-links']);
+		$this->recursive_copy($input, $output, dirname(__DIR__)."/amp_conf", "", $newinstall, $answers['dev-links']);
 
 		chmod($amp_conf['AMPBIN'] . "/freepbx_engine", 0755);
 		chmod($amp_conf['AMPBIN'] . "/freepbx_setting", 0755);
@@ -292,7 +361,7 @@ class FreePBXInstallCommand extends Command {
 		@mkdir($amp_conf['AMPWEBROOT'] . "/admin/modules/framework", 0777, true);
 
 		// Copy /var/www/html/admin/modules/framework/module.xml
-		copy(dirname(__FILE__) . "/module.xml", $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.xml");
+		copy(dirname(__DIR__) . "/module.xml", $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.xml");
 
 		// Create dirs
 		//	/var/spool/asterisk/voicemail/device/
@@ -355,7 +424,7 @@ class FreePBXInstallCommand extends Command {
 		// Upgrade framework (upgrades/ dir)
 		$installer->install_upgrades($version);
 
-		$fwxml = simplexml_load_file(dirname(__FILE__).'/module.xml');
+		$fwxml = simplexml_load_file(dirname(__DIR__).'/module.xml');
 		//setversion to whatever is in framework.xml forever for here on out.
 		$fwver = (string)$fwxml->version;
 		$installer->set_version($fwver);
@@ -381,14 +450,16 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			// install_modules()
 			$included_modules = array();
 			/* read modules list from MODULE_DIR */
-			$dir = opendir(MODULE_DIR);
-			while ($file = readdir($dir)) {
-				if ($file[0] != "." && $file[0] != "_" && is_dir(MODULE_DIR."/".$file)) {
-					$included_modules[] = $file;
+			if(file_exists(MODULE_DIR)) {
+				$dir = opendir(MODULE_DIR);
+				while ($file = readdir($dir)) {
+					if ($file[0] != "." && $file[0] != "_" && is_dir(MODULE_DIR."/".$file)) {
+						$included_modules[] = $file;
+					}
 				}
+				closedir($dir);
+				$this->install_modules($included_modules);
 			}
-			closedir($dir);
-			$this->install_modules($included_modules);
 		}
 
 		// module_admin install framework
@@ -435,64 +506,6 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		}
 	}
 
-	/**
-	 * Recursive Read Links
-	 *
-	 * This function is used to recursively read symlink until we reach a real directory
-	 *
-	 * @params string $source - The original file we are replacing
-	 * @returns array of the original source we read in and the real directory for it
-	 */
-	private function recursive_readlink($source){
-		$dir = dirname($source);
-		$links = array();
-		$ldir = null;
-
-		while (!in_array($dir,array('.','..','','/')) && strpos('.git',$dir) == false) {
-			if ($dir == $ldir) {
-				break;
-			}
-			if (is_link($dir)) {
-				$ldir = readlink($dir);
-				$file = str_replace($dir, $ldir, $source);
-				if (!is_link($ldir) && file_exists($file)) {
-					$links[$source] = $file;
-				}
-			} else {
-				if (file_exists($source) && !is_link(dirname($source))) {
-					break;
-				}
-				$ldir = dirname($dir);
-				$file = str_replace($dir, $ldir, $source);
-				if (!is_link($ldir) && file_exists($file)) {
-					$links[$source] = $file;
-				}
-			}
-			$ldir = $dir;
-			$dir = dirname($dir);
-		}
-
-		return $links;
-	}
-
-	/**
-	 * Substitute Read Links
-	 *
-	 * This function is used to substitute symlinks, to real directories where information is stored
-	 *
-	 * @params string $source - The original file we are replacing
-	 * @params array $links - A list of possible replacements
-	 * @return string of the real file path to the given source
-	 */
-	private function substitute_readlinks($source,$links) {
-		foreach ($links as $key => $value) {
-			if (strpos($source, $key) !== false) {
-				$source = str_replace($key, $value, $source);
-				return $source;
-			}
-		}
-	}
-
 	private function recursive_copy(InputInterface $input, OutputInterface $output, $dirsourceparent, $dirsource = "", $newinstall = true, $make_links = false) {
 		global $amp_conf;
 
@@ -520,8 +533,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			$source = $dirsourceparent.$dirsource."/".$file;
 
 			if (!is_dir($source)) {
-				$destination = $bmoinst->getDestination('framework', $source);
-
+				$destination = $bmoinst->getDestination('framework', str_replace(dirname(__DIR__)."/","",$source));
 				// These are modified by apply_conf.sh, there may be others that fit in this category also. This keeps these from
 				// being symlinked and then developers inadvertently checking in the changes when they should not have.
 				//
@@ -540,13 +552,11 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 						unlink($destination);
 					}
 
-					$links = $this->recursive_readlink($source);
-					if (!empty($links)) {
-						@symlink($this->substitute_readlinks($source,$links), $destination);
-					} else {
-						if(file_exists(dirname(__FILE__)."/".$source)) {
-							@symlink(dirname(__FILE__)."/".$source, $destination);
+					if(file_exists($source)) {
+						if ($output->isDebug()) {
+							$output->writeln("Linking ".basename($source)." to ".dirname($destination));
 						}
+						@symlink($source, $destination);
 					}
 				} else {
 					$ow = false;
@@ -563,6 +573,9 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 						if(file_exists($destination) && is_link($destination)) {
 							unlink($destination);
 						}
+						if ($output->isDebug()) {
+							$output->writeln("Copying ".basename($source)." to ".dirname($destination));
+						}
 						copy($source, $destination);
 					} else {
 						continue;
@@ -570,11 +583,14 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 				}
 				$num_copied++;
 			} else {
-				$destination = $bmoinst->getDestination('framework', $source . "/");
+				$destination = $bmoinst->getDestination('framework', str_replace(dirname(__DIR__)."/","",$source) . "/");
 
 				// if this is a directory, ensure destination exists
 				if (!file_exists($destination)) {
 					if ($destination != "") {
+						if ($output->isDebug()) {
+							$output->writeln("Creating ".$destination);
+						}
 						@mkdir($destination, "0750", true);
 					}
 				}
@@ -638,4 +654,3 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		}
 	}
 }
-
