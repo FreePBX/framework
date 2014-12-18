@@ -1157,10 +1157,13 @@ function generate_message_banner($message,$type='info',$details=array(),$link=''
  */
 function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 	global $amp_conf, $astman, $db;
-	$conf_file = $amp_conf['ASTETCDIR'] . '/manager.conf';
 	$conf_file = escapeshellarg($amp_conf['ASTETCDIR'] . '/manager.conf');
 	$ret = $ret2 = $ret3 = 0;
 	$output = array();
+
+	if(!file_exists($conf_file)) {
+		return;
+	}
 
 	if ($user !== false && $user != '') {
 		$sed_arg = escapeshellarg('s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $amp_conf['AMPMGRUSER'] . '\]/;s/^TEMPCONTEXT$/\[general\]/');
