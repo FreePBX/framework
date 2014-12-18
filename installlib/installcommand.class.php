@@ -262,7 +262,7 @@ class FreePBXInstallCommand extends Command {
 
 		// Make sure SELinux is disabled
 		exec("getenforce 2>/dev/null", $tmpout, $ret);
-		if (isset($tmpout[0]) && $tmpout[0] === "Enabled") {
+		if (isset($tmpout[0]) && ($tmpout[0] === "Enabled" || $tmpout[0] === "Enforcing")) {
 			$output->writeln("SELinux is enabled.  Please disable SELinux before installing FreePBX.");
 			exit(1);
 		}
