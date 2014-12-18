@@ -63,10 +63,14 @@ class Database extends PDO {
 			$password = $amp_conf['AMPDBPASS'];
 		}
 
-		if (isset($args[3])) {
-			parent::__construct($dsn, $username, $password, $args[3]);
-		} else {
-			parent::__construct($dsn, $username, $password);
+		try {
+			if (isset($args[3])) {
+				parent::__construct($dsn, $username, $password, $args[3]);
+			} else {
+				parent::__construct($dsn, $username, $password);
+			}
+		} catch(\Exception $e) {
+			die_freepbx($e->getMessage(), $e);
 		}
 		$this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
