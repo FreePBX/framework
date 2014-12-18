@@ -122,6 +122,11 @@ $html .= "<script type='text/javascript'>
 	window.FreePBX = new fpbx();
 </script>";
 
+$html .= '<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<link rel="apple-touch-icon" href="assets/images/badge.png" />
+<link rel="apple-touch-icon-precomposed" href="assets/images/badge.png" />';
+
 $html .= '</head>';
 
 //open body
