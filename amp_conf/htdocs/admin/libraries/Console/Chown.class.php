@@ -42,7 +42,8 @@ class Chown extends Command {
 		 * 		execdir:	Same as rdir but the execute bit is not stripped.
 		 */
 		$sessdir = session_save_path();
-		
+		$sessdir = !empty($session) ? $session : '/var/lib/php/session';
+
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => '/etc/amportal.conf',
 											   'perms' => 0644);
@@ -94,14 +95,14 @@ class Chown extends Command {
 											   'path' => $ASTVARLIBDIR . '/bin/retrieve_parse_amportal_conf.pl',
 											   'perms' => 0755);
 		//End Executables for framework
-		
+
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $ASTLOGDIR,
 											   'perms' => 0755);
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $ASTSPOOLDIR,
 											   'perms' => 0755);
-		/* I don't think we need this but not removing incase I am wrong									   
+		/* I don't think we need this but not removing incase I am wrong
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $AMPWEBROOT . '/admin/',
 											   'perms' => 0755);
@@ -109,7 +110,7 @@ class Chown extends Command {
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $AMPWEBROOT . '/recordings/',
 											   'perms' => 0755);
-		//I have added these below individually, 
+		//I have added these below individually,
 		/*
 		$this->modfiles['framework'][] = array('type' => 'execdir',
 											   'path' => $AMPBIN,
@@ -168,7 +169,7 @@ class Chown extends Command {
 											   'path' => $ASTVARLIBDIR . '/bin/restore.php',
 											   'perms' => 0755);
 		//End Executables for backup
-		
+
 		//Executables for UCP
 		//TODO: Move to UCP
 		$this->modfiles['ucp'][] = array('type' => 'file',
@@ -209,7 +210,7 @@ class Chown extends Command {
 											   'path' => $ASTVARLIBDIR . '/bin/opencnam-alert.php',
 											   'perms' => 0755);
 		//End Executables for cidlookup
-	
+
 		//Executables for fax
 		//TODO: Move to fax
 		$this->modfiles['fax'][] = array('type' => 'file',
@@ -223,7 +224,7 @@ class Chown extends Command {
 											   'path' => $ASTVARLIBDIR . '/bin/audio-email.pl',
 											   'perms' => 0755);
 		//End Executables for dictate
-		
+
 		//END TODO
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => '/etc/obdc.ini',
@@ -233,17 +234,18 @@ class Chown extends Command {
 											   'perms' => 0644);
 		//we were doing a recursive on this which I think is not needed.
 		//Changed to just be the directory
-		$this->modfiles['framework'][] = array('type' => 'dir',
+		//^ Needs to be the whole shebang, doesnt work otherwise
+		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $AMPWEBROOT,
 											   'perms' => 0755);
-		
+
 
 		//Merge static files and hook files, then act on them as a single unit
 		$this->modfiles = array_merge_recursive($this->modfiles,$this->fwcChownFiles());
 		$owner = $AMPASTERISKWEBUSER;
 		/* Address concerns carried over from amportal in FREEPBX-8268. If the apache user is different
 		 * than the Asterisk user we provide permissions that allow both.
-		 */ 
+		 */
 		$group =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
 		$output->writeln("Building action list...");
 		foreach($this->modfiles as $modfilearray => $modfilelist){
@@ -261,6 +263,7 @@ class Chown extends Command {
 					case 'rdir':
 						$fileperms = $this->stripExecute($file['perms']);
 						$files = $this->recursiveDirList($file['path']);
+						$this->actions[] = array($file['path'], $owner, $group, $file['perms']);
 						foreach($files as $f){
 							if(is_dir($f)){
 								$this->actions[] = array($f, $owner, $group, $file['perms']);
@@ -395,7 +398,7 @@ class Chown extends Command {
 	private function padPermissions($file, $mode){
 		if(($mode>>9) == 0){
 			return true;
-		}else{ 
+		}else{
 			$this->errors[] = $file . ' Likely will not work as expected';
 			$this->errors[] = 'Permissions should be set with a leading 0, example 644 should be 0644 File:' . $file . ' Permission set as: ' . $mode ;
 			return false;
