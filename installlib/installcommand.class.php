@@ -10,6 +10,7 @@ use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 
 class FreePBXInstallCommand extends Command {
+	private $rootPath = null;
 	private $settings = array(
 		'dbengine' => array(
 			'default' => 'mysql',
@@ -72,6 +73,7 @@ class FreePBXInstallCommand extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		global $amp_conf; /* This makes pandas sad. :( */
 
+		$this->rootPath = dirname(__DIR__);
 		date_default_timezone_set('America/Los_Angeles');
 
 		$style = new OutputFormatterStyle('white', 'black', array('bold'));
@@ -80,8 +82,8 @@ class FreePBXInstallCommand extends Command {
 		define("AMP_CONF", "/etc/amportal.conf");
 		define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
 		define("FREEPBX_CONF", "/etc/freepbx.conf");
-		define("MODULE_DIR", dirname(__DIR__)."/amp_conf/htdocs/admin/modules");
-		define("UPGRADE_DIR", dirname(__DIR__) . "/upgrades");
+		define("MODULE_DIR", $this->rootPath."/amp_conf/htdocs/admin/modules");
+		define("UPGRADE_DIR", $this->rootPath . "/upgrades");
 
 		// Fail if !root
 		$euid = posix_getpwuid(posix_geteuid());
@@ -122,7 +124,7 @@ class FreePBXInstallCommand extends Command {
 		// Copy default amportal.conf
 		if (!file_exists(AMP_CONF) || $force) {
 			$newinstall = true;
-			$amp_conf = $installer->amportal_conf_read(dirname(__DIR__) . "/amportal.conf");
+			$amp_conf = $installer->amportal_conf_read($this->rootPath . "/amportal.conf");
 
 			require_once('amp_conf/htdocs/admin/functions.inc.php');
 		} else {
@@ -188,7 +190,7 @@ class FreePBXInstallCommand extends Command {
 
 		// Copy asterisk.conf
 		if (!file_exists(ASTERISK_CONF)) {
-			$asterisk_conf = $installer->asterisk_conf_read(dirname(__DIR__) . "/asterisk.conf");
+			$asterisk_conf = $installer->asterisk_conf_read($this->rootPath . "/asterisk.conf");
 			$asterisk_conf['astmoddir'] = file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules';
 			$installer->asterisk_conf_write(ASTERISK_CONF, $asterisk_conf);
 		} else {
@@ -300,7 +302,7 @@ class FreePBXInstallCommand extends Command {
 			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['AMPDBNAME']."';";
 			if (!$db->getOne($sql)) {
 				$output->writeln("Empty " . $amp_conf['AMPDBNAME'] . " Database going to populate it");
-				$installer->install_sql_file(dirname(__DIR__) . '/SQL/asterisk.sql');
+				$installer->install_sql_file($this->rootPath . '/SQL/asterisk.sql');
 			}
 
 			if($dbroot) {
@@ -315,7 +317,7 @@ class FreePBXInstallCommand extends Command {
 			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['CDRDBNAME']."';";
 			if (!$db->getOne($sql)) {
 				$output->writeln("Empty " . $amp_conf['CDRDBNAME'] . " Databse going to populate it");
-				$installer->install_sql_file(dirname(__DIR__) . '/SQL/cdr.sql');
+				$installer->install_sql_file($this->rootPath . '/SQL/cdr.sql');
 			}
 
 			$db->query("USE ".$amp_conf['AMPDBNAME']);
@@ -344,7 +346,7 @@ class FreePBXInstallCommand extends Command {
 		}
 		chown($amp_conf['AMPWEBROOT'], $amp_conf['AMPASTERISKWEBUSER']);
 		// Copy amp_conf/
-		$this->recursive_copy($input, $output, dirname(__DIR__)."/amp_conf", "", $newinstall, $answers['dev-links']);
+		$this->recursive_copy($input, $output, $this->rootPath."/amp_conf", "", $newinstall, $answers['dev-links']);
 
 		chmod($amp_conf['AMPBIN'] . "/freepbx_engine", 0755);
 		chmod($amp_conf['AMPBIN'] . "/freepbx_setting", 0755);
@@ -361,7 +363,7 @@ class FreePBXInstallCommand extends Command {
 		@mkdir($amp_conf['AMPWEBROOT'] . "/admin/modules/framework", 0777, true);
 
 		// Copy /var/www/html/admin/modules/framework/module.xml
-		copy(dirname(__DIR__) . "/module.xml", $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.xml");
+		copy($this->rootPath . "/module.xml", $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.xml");
 
 		// Create dirs
 		//	/var/spool/asterisk/voicemail/device/
@@ -424,7 +426,7 @@ class FreePBXInstallCommand extends Command {
 		// Upgrade framework (upgrades/ dir)
 		$installer->install_upgrades($version);
 
-		$fwxml = simplexml_load_file(dirname(__DIR__).'/module.xml');
+		$fwxml = simplexml_load_file($this->rootPath.'/module.xml');
 		//setversion to whatever is in framework.xml forever for here on out.
 		$fwver = (string)$fwxml->version;
 		$installer->set_version($fwver);
@@ -533,7 +535,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			$source = $dirsourceparent.$dirsource."/".$file;
 
 			if (!is_dir($source)) {
-				$destination = $bmoinst->getDestination('framework', str_replace(dirname(__DIR__)."/","",$source));
+				$destination = $bmoinst->getDestination('framework', str_replace($this->rootPath."/","",$source));
 				// These are modified by apply_conf.sh, there may be others that fit in this category also. This keeps these from
 				// being symlinked and then developers inadvertently checking in the changes when they should not have.
 				//
@@ -583,7 +585,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 				}
 				$num_copied++;
 			} else {
-				$destination = $bmoinst->getDestination('framework', str_replace(dirname(__DIR__)."/","",$source) . "/");
+				$destination = $bmoinst->getDestination('framework', str_replace($this->rootPath."/","",$source) . "/");
 
 				// if this is a directory, ensure destination exists
 				if (!file_exists($destination)) {
