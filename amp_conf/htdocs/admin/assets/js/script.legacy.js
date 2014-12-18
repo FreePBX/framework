@@ -1118,11 +1118,12 @@ $(document).ready(function() {
 	* Perform form actions on a given page based on what action-bar button is clicked
 	* @author Bryan Walters <bryan ! walters (at) schmoozecom (dot) com
 	*/
+
 	$(document).on("click", "#action-bar input[type=submit]", function(e) {
 		e.preventDefault();
 
-		var fpbxForm = $(".fpbx-submit"),
-			formName = fpbxForm.attr("name"),
+		var fpbxForm = $(".fpbx-submit");
+			formName = fpbxForm.attr("name");
 			buttonName = $(this).attr("name");
 
 		switch (buttonName) {
@@ -1132,7 +1133,18 @@ $(document).ready(function() {
 			break;
 			case "Submit":
 			case "submit":
-				fpbxForm.submit();
+				if(!fpbxForm[0].checkValidity()){
+					for(i = 0; i < fpbxForm[0].elements.length; i++){
+						if(!fpbxForm[0].elements[i].validity.valid){
+							var alertText = $(fpbxForm[0].elements[i]).data("invalid");
+							warnInvalid(fpbxForm[0].elements[i], alertText);
+						}
+					}
+					return false;
+				}else{
+					fpbxForm.submit();
+					return true;
+				}
 			break;
 			case "Delete":
 			case "delete":
@@ -1480,3 +1492,17 @@ function sprintf() {
 		return string;
 	}
 }
+
+/**
+ * This is used to make input fields "bootstrappy"
+ * <span class="btn btn-default btn-file">
+ * 	Browse <input type="file" class="form-control" name="privatekey" id="privatekey">
+ * </span>
+ * <span class="filename"></span>
+ */
+ $(document).on('change', '.btn-file :file', function() {
+    var input = $(this),
+        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.parent().siblings(".filename").html(label);
+});
+
