@@ -136,7 +136,7 @@ if (is_link("$wr/admin/images/notify_security.png")) {
 
 	$rem_files[] = $base_source;
 	$rem_files[] = dirname(__FILE__) . "/upgrades";
-	$rem_files[] = dirname(__FILE__) . "/libfreepbx.install.php";
+	$rem_files[] = dirname(__FILE__) . "/installlib";
 
 	foreach ($rem_files as $target) {
 		unset($out);
