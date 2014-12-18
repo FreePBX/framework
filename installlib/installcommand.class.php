@@ -406,10 +406,12 @@ class FreePBXInstallCommand extends Command {
 		$manager_conf = str_replace(array_keys($replace), array_values($replace), $manager_conf);
 		file_put_contents($amp_conf['ASTETCDIR'] . "/manager.conf", $manager_conf);
 
+		system("asterisk -rx 'module reload manager'");
+
 		// Create missing #include files.
 		exec("grep -h '^#include' " . $amp_conf['ASTETCDIR'] . "/*.conf | sed 's/\s*;.*//;s/#include\s*//'", $tmpout, $ret);
 		if ($ret != 0) {
-			$output->writeln("Error finding #include files.");
+			$output->writeln("<error>Error finding #include files.</error>");
 			exit(1);
 		}
 
@@ -447,6 +449,12 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 ";
 			file_put_contents(FREEPBX_CONF, $conf);
 		}
+
+		//TODO: THESE ARE STOP GAPS UNTIL FWCONSOLE IS FIXED
+		//DONT LEAVE THESE IN THERE UPON 13 RELEASE
+		exec("chmod -R 777 ".$amp_conf['AMPWEBROOT']);
+		exec("chown -R ".$answers['user'].":".$answers['group']." /var/lib/php/session");
+		//END RANT
 
 		if (!$answers['dev-links']) {
 			// install_modules()
