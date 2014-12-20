@@ -11,10 +11,17 @@ function sql($sql,$type="query",$fetchmode='default') {
 		$db = new DB($dbh);
 	}
 	switch($fetchmode) {
-		case 'DB_FETCHMODE_ASSOC':
+		case 'DB_FETCHMODE_ASSOC': //You guessed it, looking for string constants!
 		case DB_FETCHMODE_ASSOC:
 			try {
-				$results = $db->$type($sql,array(),DB_FETCHMODE_ASSOC);
+				//simulate craptacular function from previous versions
+				//that didn't even work correctly! sweet :-/
+				//(The integer shouldnt go there)
+				if($type == 'getAssoc') {
+					$results = $db->$type($sql,DB_FETCHMODE_ASSOC);
+				} else {
+					$results = $db->$type($sql,array(),DB_FETCHMODE_ASSOC);
+				}
 			}catch(\Exception $e) {
 				die_freepbx('Error on SQL Query', $e->getMessage());
 			}

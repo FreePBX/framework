@@ -52,13 +52,14 @@ class DB {
 	private $db = null;
 	private static $error = null;
 	private $res = null;
+	private $defaultFetch = DB_FETCHMODE_ORDERED;
 	public function __construct($dbh=null) {
 		$this->db = !empty($dbh) ? $dbh : FreePBX::create()->Database;
 		$this->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 
 	public function sql($sql = null, $type = "query", $fetchmode=DB_FETCHMODE_DEFAULT) {
-		$fetch = $this->setFetchMode($fetchmode);
+		$fetch = $this->correctFetchMode($fetchmode);
 		if(!method_exists($this->db,"sql")) {
 			return $this->db->$type($sql);
 		}
@@ -103,9 +104,11 @@ class DB {
 	 * @param constant $fetchmode [description]
 	 */
 	public function getAll($sql,$params=array(),$fetchmode=DB_FETCHMODE_DEFAULT) {
+		//this is a sad workaround for people who couldn't follow documentation for functions
+		$fetchmode = $this->isFetchMode($params) ? $params : $fetchmode;
 		$this->error = null;
 		try {
-			$fetch = $this->setFetchMode($fetchmode);
+			$fetch = $this->correctFetchMode($fetchmode);
 			if(!empty($params) && is_array($params)) {
 				$this->res = $this->db->prepare($sql);
 				$this->res->execute($params);
@@ -128,9 +131,11 @@ class DB {
 	 * @param constant $fetchmode [description]
 	 */
 	public function getRow($sql,$params=array(),$fetchmode=DB_FETCHMODE_DEFAULT) {
+		//this is a sad workaround for people who couldn't follow documentation for functions
+		$fetchmode = $this->isFetchMode($params) ? $params : $fetchmode;
 		$this->error = null;
 		try {
-			$fetch = $this->setFetchMode($fetchmode);
+			$fetch = $this->correctFetchMode($fetchmode);
 			if(!empty($params) && is_array($params)) {
 				$this->res = $this->db->prepare($sql);
 				$this->res->execute($params);
@@ -183,10 +188,12 @@ class DB {
 	 * @param bool  $group       [description]
 	 */
 	public function getAssoc($sql, $force_array = false, $params = array(),
-															$fetchmode = DB_FETCHMODE_ASSOC, $group = false) {
+															$fetchmode = DB_FETCHMODE_DEFAULT, $group = false) {
+		//this is a sad workaround for people who couldn't follow documentation for functions
+		$fetchmode = $this->isFetchMode($params) ? $params : $fetchmode;
 		$this->error = null;
 		try {
-			$fetch = $this->setFetchMode($fetchmode);
+			$fetch = $this->correctFetchMode($fetchmode);
 			if(!empty($params) && is_array($params)) {
 				$this->res = $this->db->prepare($sql);
 				$this->res->execute($params);
@@ -201,8 +208,25 @@ class DB {
 				return false;
 			}
 			$final = array();
-			foreach($result as $data) {
-				$final[$data['keyword']] = $data['data'];
+			switch($fetch) {
+				case \PDO::FETCH_NUM:
+					foreach($result as $data) {
+						if(count($data) > 2) {
+							$k = array_shift($data);
+							$v = array_values($data);
+							$final[$k] = $v;
+						} elseif(count($data) == 2) {
+							$k = array_shift($data);
+							$v = array_values($data);
+							$final[$k] = $v;
+						} else {
+							return false;
+						}
+					}
+				break;
+				default:
+					throw new \Exception("Unsupported getAssoc Conversion mode");
+				break;
 			}
 			return $final;
 		} catch (Exception $e) {
@@ -312,10 +336,34 @@ class DB {
 	}
 
 	/**
+	 * http://pear.php.net/manual/en/package.database.db.db-common.setfetchmode.php
+	 * @param int $fetchmode The fetchmode
+	 */
+	public function setFetchMode($fetchmode) {
+		switch($fetchmode) {
+			case DB_FETCHMODE_DEFAULT:
+				throw new \Exception("You can't set the default to the default");
+			break;
+			case DB_FETCHMODE_OBJECT:
+			case DB_FETCHMODE_ASSOC:
+			case DB_FETCHMODE_ORDERED:
+				$this->defaultFetch = $fetchmode;
+			break;
+			default:
+				throw new Exception("Unknown SQL fetchmode of $fetchmode");
+			break;
+		}
+	}
+
+	private function isFetchMode($mixed) {
+		return (is_int($mixed) && ($mixed == DB_FETCHMODE_DEFAULT || $mixed == DB_FETCHMODE_OBJECT || $mixed == DB_FETCHMODE_ASSOC || $mixed == DB_FETCHMODE_ORDERED));
+	}
+
+	/**
 	 * Adjust the Fetch mode for PDO from PearDB
 	 * @param [type] $PearDBFetchMode [description]
 	 */
-	private function setFetchMode($PearDBFetchMode=DB_FETCHMODE_DEFAULT) {
+	private function correctFetchMode($PearDBFetchMode=DB_FETCHMODE_DEFAULT) {
 		switch($PearDBFetchMode) {
 			case DB_FETCHMODE_OBJECT:
 				$fetch = PDO::FETCH_OBJ;
@@ -323,11 +371,11 @@ class DB {
 			case DB_FETCHMODE_ASSOC:
 				$fetch = PDO::FETCH_ASSOC;
 			break;
+			case DB_FETCHMODE_DEFAULT:
+				$fetch = $this->correctFetchMode($this->defaultFetch);
+			break;
 			case DB_FETCHMODE_ORDERED:
 				$fetch = PDO::FETCH_NUM;
-			break;
-			case DB_FETCHMODE_DEFAULT:
-				$fetch = PDO::FETCH_BOTH;
 			break;
 			default:
 				throw new Exception("Unknown SQL fetchmode of $fetchmode");
@@ -354,7 +402,7 @@ class DB_result {
 	 * @param {int} $rownum    = null            The row number to fetch
 	 */
 	public function fetchRow($fetchmode = DB_DEFAULT_MODE , $rownum = null) {
-		$res = $this->sth->fetch($this->setFetchMode($fetchmode));
+		$res = $this->sth->fetch($this->correctFetchMode($fetchmode));
 		return isset($rownum) ? (isset($res[$rownum]) ? $res[$rownum] : false) : $res;
 	}
 
@@ -382,7 +430,7 @@ class DB_result {
 	 * Adjust the Fetch mode for PDO from PearDB
 	 * @param integer $PearDBFetchMode The fetchmode to use
 	 */
-	private function setFetchMode($PearDBFetchMode=DB_FETCHMODE_DEFAULT) {
+	private function correctFetchMode($PearDBFetchMode=DB_FETCHMODE_DEFAULT) {
 		switch($PearDBFetchMode) {
 			case DB_FETCHMODE_OBJECT:
 				$fetch = PDO::FETCH_OBJ;
