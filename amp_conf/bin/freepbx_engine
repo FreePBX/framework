@@ -409,7 +409,7 @@ chown_asterisk() {
 		L=$(readlink -f $file)
 		if [ $AMPASTERISKWEBUSER != $AMPASTERISKUSER ]; then
 			chown $AMPASTERISKWEBUSER:$AMPASTERISKGROUP $L
-			chmod 600 $L
+			chmod 660 $L
 		else
 			chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $L
 			chmod 600 $L
