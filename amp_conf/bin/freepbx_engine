@@ -272,6 +272,14 @@ chown_asterisk() {
 
 	chown $AMPASTERISKUSER:$AMPASTERISKGROUP /usr/local/sbin/amportal
 
+	ASTHOME=`sudo -u $AMPASTERISKUSER -H -s eval 'echo $HOME'`
+	if [ -n "$ASTHOME" ] && [ -d "$ASTHOME" ]
+		then
+			chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTHOME
+			chmod -R 755 $ASTHOME
+			echo -n .
+	fi
+
 	# Fix immutable files
 	chattr -i $AMPWEBROOT/* > /dev/null 2>&1
 
