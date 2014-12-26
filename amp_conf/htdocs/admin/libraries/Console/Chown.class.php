@@ -13,6 +13,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class Chown extends Command {
 	private $errors = array();
+	private $infos = array();
 	protected function configure(){
 		$this->setName('chown')
 		->setDescription('Change ownership of files')
@@ -43,92 +44,47 @@ class Chown extends Command {
 		 */
 		$sessdir = session_save_path();
 		$sessdir = !empty($session) ? $session : '/var/lib/php/session';
-
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+													'path' => $sessdir,
+													'perms' => 0644);
 		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => '/etc/amportal.conf',
-											   'perms' => 0644);
+													'path' => '/etc/amportal.conf',
+													'perms' => 0644);
 		$this->modfiles['framework'][] = array('type' => 'dir',
-											   'path' => $ASTRUNDIR,
-											   'perms' => 0755);
+													'path' => $ASTRUNDIR,
+													'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+													'path' => \FreePBX::GPG()->getGpgLocation(),
+													'perms' => 0755);
 		//we may wish to declare these manually or through some automated fashion
 		$this->modfiles['framework'][] = array('type' => 'rdir',
-											   'path' => $ASTETCDIR,
-											   'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-											   'path' => $ASTVARLIBDIR,
-											   'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-											   'path' => $ASTVARLIBDIR . '/.ssh.id_rsa',
-											   'perms' => 0644);
-		//Executables for framework
-		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/amportal',
-											   'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/sbin/amportal',
-											   'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/archive_recordings',
-											   'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/freepbx-cron-scheduler.php',
-											   'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/freepbx_engine',
-											   'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/freepbx_setting',
-											   'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/fwconsole',
-											   'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/gen_amp_conf.php',
-											   'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/generate_hints.php',
-											   'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/retrieve_conf',
-											   'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/retrieve_parse_amportal_conf.pl',
-											   'perms' => 0755);
-		//End Executables for framework
-
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-											   'path' => $ASTLOGDIR,
-											   'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-											   'path' => $ASTSPOOLDIR,
-											   'perms' => 0755);
-		/* I don't think we need this but not removing incase I am wrong
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-											   'path' => $AMPWEBROOT . '/admin/',
-											   'perms' => 0755);
-		*/
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-											   'path' => $AMPWEBROOT . '/recordings/',
-											   'perms' => 0755);
-		//I have added these below individually,
-		/*
+													'path' => $ASTETCDIR,
+													'perms' => 0755);
+		//Anything in bin and agi-bin should be exec'd
 		$this->modfiles['framework'][] = array('type' => 'execdir',
-											   'path' => $AMPBIN,
-											   'perms' => 0755);
-		*/
+													'path' => $AMPBIN,
+													'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'execdir',
+													'path' => $ASTAGIDIR,
+													'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+													'path' => $ASTVARLIBDIR . '/.ssh.id_rsa',
+													'perms' => 0644);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+													'path' => $ASTLOGDIR,
+													'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+													'path' => $ASTSPOOLDIR,
+													'perms' => 0755);
+
+		//I have added these below individually,
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => $FPBXDBUGFILE,
 											   'perms' => 0644);
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => $FPBX_LOG_FILE,
 											   'perms' => 0644);
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-											   'path' => $ASTAGIDIR,
-											   'perms' => 0755);
 		//We may wish to declare files individually rather than touching everything
-		$this->modfiles['framework'][] = array('type' => 'execdir',
-											   'path' => $ASTVARLIBDIR . '/agi-bin',
-											   'perms' => 0755);
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $ASTVARLIBDIR . '/' . $MOHDIR,
 											   'perms' => 0755);
@@ -136,9 +92,6 @@ class Chown extends Command {
 											   'path' => '/dev/tty9',
 											   'perms' => 0644);
 		//TODO: Move these to dahdiconfig hook //
-		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/freepbx_engine_hook_dahdiconfig',
-											   'perms' => 0755);
 		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
 											   'path' => '/dev/zap',
 											   'perms' => 0644);
@@ -160,77 +113,19 @@ class Chown extends Command {
 		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
 											   'path' => '/dev/dsp',
 											   'perms' => 0644);
-		//Executables for backup
-		//TODO: Move to backup
-		$this->modfiles['backup'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/backup.php',
-											   'perms' => 0755);
-		$this->modfiles['backup'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/restore.php',
-											   'perms' => 0755);
-		//End Executables for backup
-
-		//Executables for UCP
-		//TODO: Move to UCP
-		$this->modfiles['ucp'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/freepbx_engine_hook_ucp',
-											   'perms' => 0755);
-		//End Executables for UCP
-
-		//Executables for timeconditions
-		//TODO: Move to timeconditions
-		$this->modfiles['timeconditions'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/schedtc.php',
-											   'perms' => 0755);
-		//End Executables for timeconditions
-
-		//Executables for callrecording
-		//TODO: Move to callrecording
-		$this->modfiles['callrecording'][] = array('type' => 'file',
-												'path' => $ASTVARLIBDIR . '/bin/one_touch_record.php',
+		$this->modfiles['dahdiconfig'][] = array('type' => 'rdir',
+												'path' => $DAHDIMODULESLOC,
 												'perms' => 0755);
-		$this->modfiles['callrecording'][] = array('type' => 'file',
-													'path' => $ASTVARLIBDIR . '/bin/stoprecording.php',
-													'perms' => 0755);
-		//End Executables for callrecording
-
-		//Executables for queues
-		//TODO: Move to queues
-		$this->modfiles['queues'][] = array('type' => 'file',
-											'path' => $ASTVARLIBDIR . '/bin/generate_queue_hints.php',
-											'perms' => 0755);
-		$this->modfiles['queues'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/queue_reset_stats.php',
-											   'perms' => 0755);
-		//End Executables for queues
-
-		//Executables for cidlookup
-		//TODO: Move to cidlookup
-		$this->modfiles['cidlookup'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/opencnam-alert.php',
-											   'perms' => 0755);
-		//End Executables for cidlookup
-
-		//Executables for fax
-		//TODO: Move to fax
-		$this->modfiles['fax'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/fax2mail.php',
-											   'perms' => 0755);
-		//End Executables for fax
-
-		//Executables for dictate
-		//TODO: Move to dictate
-		$this->modfiles['dictate'][] = array('type' => 'file',
-											   'path' => $ASTVARLIBDIR . '/bin/audio-email.pl',
-											   'perms' => 0755);
-		//End Executables for dictate
+		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
+												'path' => $DAHDIMODPROBELOC,
+												'perms' => 0644);
+		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
+												'path' => $DAHDISYSTEMLOC,
+												'perms' => 0644);
 
 		//END TODO
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => '/etc/obdc.ini',
-											   'perms' => 0644);
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-											   'path' => $sessdir,
 											   'perms' => 0644);
 		//we were doing a recursive on this which I think is not needed.
 		//Changed to just be the directory
@@ -238,8 +133,18 @@ class Chown extends Command {
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $AMPWEBROOT,
 											   'perms' => 0755);
+		/* Same as above
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+												'path' => $AMPWEBROOT . '/admin/',
+												'perms' => 0755);
 
-
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+												'path' => $AMPWEBROOT . '/recordings/',
+												'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'rdir',
+												'path' => $AMPWEBROOT . '/ucp/',
+												'perms' => 0755);
+		*/
 		//Merge static files and hook files, then act on them as a single unit
 		$this->modfiles = array_merge_recursive($this->modfiles,$this->fwcChownFiles());
 		$owner = $AMPASTERISKWEBUSER;
@@ -296,8 +201,10 @@ class Chown extends Command {
 		$output->writeln("");
 		$output->writeln("");
 		foreach($this->errors as $error) {
-			dbug($error);
 			$output->writeln("<error>".$error."</error>");
+		}
+		foreach($this->infos as $error) {
+			$output->writeln("<info>".$error."</info>");
 		}
 	}
 	private function stripExecute($mask){
@@ -324,14 +231,14 @@ class Chown extends Command {
 	}
 	private function recursiveChown($dir, $user, $group){
 		try {
-			$this->fs->chown($realfile,$user, true);
+			$this->fs->chown($dir,$user, true);
 		} catch (IOExceptionInterface $e) {
-			if($realfile){
+			if($dir){
 				$this->errors[] ='An error occurred while changing ownership ' . $realfile;
 			}
 		}
 		try {
-			$this->fs->chgrp($file,$group, true);
+			$this->fs->chgrp($dir,$group, true);
 		} catch (IOExceptionInterface $e) {
 			if($file){
 				$this->errors[] ='An error occurred while changing group ' . $file;
@@ -346,10 +253,12 @@ class Chown extends Command {
 				try {
 					$this->fs->chmod($realfile,$perms);
 				} catch (IOExceptionInterface $e) {
-					if($realfile){
-						if($realfile){
-							$this->errors[] ='An error occurred while changing permissions ' . $realfile;
-						}
+					if(file_exists($realfile)) {
+						$this->errors[] ='An error occurred while changing permissions on link ' . $file . ' which points to '.$realfile;
+					} else {
+						//File does not exist. Now we have a dangling symlink so remove it.
+						$this->infos[] ='Removing dangling symlink ' . $file . ' which points to a file that no longer exists';
+						unlink($file);
 					}
 				}
 				break;
@@ -359,7 +268,7 @@ class Chown extends Command {
 					$this->fs->chmod($file,$perms);
 				} catch (IOExceptionInterface $e) {
 					if($file){
-						$this->errors[] ='An error occurred while changing permissions ' . $file;
+						$this->errors[] ='An error occurred while changing permissions on file' . $file;
 					}
 				}
 				break;
