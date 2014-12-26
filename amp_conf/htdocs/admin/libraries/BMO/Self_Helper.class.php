@@ -11,7 +11,7 @@
 
 class Self_Helper extends DB_Helper {
 
-	private $moduleNamespace = '\\FreePBX\\modules\\';
+	private $moduleNamespace = '\\FreePBX\\Modules\\';
 
 	public function __construct($freepbx = null) {
 		if (!is_object($freepbx)) {

@@ -82,17 +82,18 @@ class FileHooks {
 			$this->FreePBX->Performance->Stamp("fileHook-".$hook."_start");
 			// This is where we'd hook the output of files, if it was implemented.
 			// As no-one wants it yet, I'm not going to bother.
-			if (!method_exists($this->FreePBX->$hook, "genConfig"))
+			if (!method_exists($this->FreePBX->$hook, "genConfig")) {
 				throw new Exception("$hook asked to generate a config file, but, doesn't implement genConfig()");
-
+			}
 			$tmpconf = $this->FreePBX->$hook->genConfig();
 
 			// Here we want to hand off $tmpconf to other modules, if they somehow say they want to do something
 			// with it.
 
-			if (!method_exists($this->FreePBX->$hook, "writeConfig"))
+			if (!method_exists($this->FreePBX->$hook, "writeConfig")) {
 				throw new Exception("$hook asked to generate a config file, but, doesn't implement writeConfig()");
-
+			}
+			
 			$this->FreePBX->$hook->writeConfig($tmpconf);
 			$this->FreePBX->Performance->Stamp("fileHook-".$hook."_stop");
 		}

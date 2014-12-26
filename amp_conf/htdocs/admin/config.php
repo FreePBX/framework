@@ -488,7 +488,7 @@ switch($display) {
 									$merged = array_merge($merged,$modules['statuses'][$st]);
 								}
 							}
-							$d = FreePBX::notifications()->list_security(true);
+							$d = FreePBX::Notifications()->list_security(true);
 							foreach($d as $n) {
 								//Dont show the same notifications twice
 								if(!in_array($n['id'],array('FW_REVOKED','FW_UNSIGNED','FW_UNTRUSTED','FW_TAMPERED','FW_UNKNOWN'))) {
