@@ -276,7 +276,7 @@ chown_asterisk() {
 	if [ -n "$ASTHOME" ] && [ -d "$ASTHOME" ]
 		then
 			chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTHOME
-			chmod -R 755 $ASTHOME
+			chmod -R 700 $ASTHOME
 			echo -n .
 	fi
 
