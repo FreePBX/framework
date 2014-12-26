@@ -48,6 +48,7 @@ class Modules {
 	 */
 	public function cleanModuleName($module) {
 		$module = str_replace("-","dash",$module);
+		$module = ucfirst(strtolower($module));
 		return $module;
 	}
 

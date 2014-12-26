@@ -687,7 +687,7 @@ if ($quietmode) {
 
 		$footer['action_bar'] = null;
 		//See if we should provide an action bar
-		$bmomodule_name = str_replace("-","dash",$module_name);
+		$bmomodule_name = $bmo->Modules->cleanModuleName($module_name);
 		if($bmo->Modules->moduleHasMethod($bmomodule_name,"getActionBar")) {
 			$footer['action_bar'] = $bmo->$bmomodule_name->getActionBar($_REQUEST);
 		}

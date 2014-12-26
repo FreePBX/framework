@@ -117,6 +117,9 @@ class Self_Helper extends DB_Helper {
 			}
 		} else {
 			if (class_exists($class)) {
+				if($var[0] != strtoupper($var[0])) {
+					throw new \Exception(sprintf(_("BMO Objects must have their first letter captialized. You provided %s"),$var));
+				}
 				$this->$var = new $class($this);
 			} else {
 				throw new Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
@@ -139,9 +142,7 @@ class Self_Helper extends DB_Helper {
 	 * @return bool True if found or throws exception
 	 */
 	private function loadObject($objname, $hint = null) {
-		$objname = $this->Modules->cleanModuleName($objname);
-		$objname = str_replace('FreePBX\\modules\\','',$objname);
-		$class = class_exists($this->moduleNamespace.$objname) ? $this->moduleNamespace.$objname : $objname;
+		$class = $objname;
 
 		// If it already exists, we're fine.
 		if (class_exists($class)) {
@@ -173,6 +174,10 @@ class Self_Helper extends DB_Helper {
 			$loaded = $try;
 		} else {
 			// It's a module, hopefully.
+			$objname = $this->Modules->cleanModuleName($objname);
+			$objname = str_replace('FreePBX\\modules\\','',$objname);
+			$class = class_exists($this->moduleNamespace.$objname) ? $this->moduleNamespace.$objname : $objname;
+
 			// This is our root to search from
 			$path = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/";
 
