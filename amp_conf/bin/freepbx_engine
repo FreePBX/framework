@@ -222,7 +222,7 @@ chown_asterisk() {
 		"/etc/dahdi" "/etc/wanpipe" "/etc/odbc.ini" "/usr/local/asterisk" "/dev/tty9" \
 		"/etc/amportal.conf")
 	WEBOWNED=("$AMPWEBROOT/admin" "$AMPWEBROOT/recordings" "$FPBXDBUGFILE" "$FPBX_LOG_FILE" "$SESSDIR")
-	PRIVFILES=("$FREEPBX_CONF" "$ASTVARLIBDIR/.ssh/.id_rsa")
+	PRIVFILES=("$ASTVARLIBDIR/.ssh/.id_rsa")
 	DEVICES=("/dev/zap" "/dev/dahdi" "/dev/capi20" "/dev/misdn" "/dev/mISDN" "/dev/dsp")
 
 	for target in "${WEBOWNED[@]}"; do
@@ -232,10 +232,6 @@ chown_asterisk() {
 		chmod -R 775 $L
 		echo -n .
 	done
-
-	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/freepbx.conf
-	chmod -R 640 /etc/freepbx.conf
-	echo -n .
 
 	for target in "${ASTERISKOWNED[@]}"; do
 		[ ! -e "$target" ] && continue
@@ -283,6 +279,10 @@ chown_asterisk() {
 			chmod -R 700 $ASTHOME
 			echo -n .
 	fi
+
+	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $FREEPBX_CONF
+	chmod -R 640 $FREEPBX_CONF
+	echo -n .
 
 	# Fix immutable files
 	chattr -i $AMPWEBROOT/* > /dev/null 2>&1
