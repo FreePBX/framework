@@ -396,6 +396,10 @@ chown_asterisk() {
 		echo -n .
 	done
 
+	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP /etc/freepbx.conf
+	chmod -R 640 /etc/freepbx.conf
+	echo -n .
+
 	for target in "${ASTERISKOWNED[@]}"; do
 		[ ! -e "$target" ] && continue
 		L=$(readlink -f $target)
