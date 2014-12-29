@@ -50,6 +50,9 @@ class Chown extends Command {
 		$this->modfiles['framework'][] = array('type' => 'file',
 													'path' => '/etc/amportal.conf',
 													'perms' => 0644);
+		$this->modfiles['framework'][] = array('type' => 'file',
+													'path' => '/etc/freepbx.conf',
+													'perms' => 0644);
 		$this->modfiles['framework'][] = array('type' => 'dir',
 													'path' => $ASTRUNDIR,
 													'perms' => 0755);
@@ -59,13 +62,6 @@ class Chown extends Command {
 		//we may wish to declare these manually or through some automated fashion
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 													'path' => $ASTETCDIR,
-													'perms' => 0755);
-		//Anything in bin and agi-bin should be exec'd
-		$this->modfiles['framework'][] = array('type' => 'execdir',
-													'path' => $AMPBIN,
-													'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'execdir',
-													'path' => $ASTAGIDIR,
 													'perms' => 0755);
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 													'path' => $ASTVARLIBDIR . '/.ssh.id_rsa',
@@ -145,6 +141,15 @@ class Chown extends Command {
 												'path' => $AMPWEBROOT . '/ucp/',
 												'perms' => 0755);
 		*/
+		//Anything in bin and agi-bin should be exec'd
+		//Should be after everything except but before hooks
+		//So that we dont get overwritten by ampwebroot
+		$this->modfiles['framework'][] = array('type' => 'execdir',
+		'path' => $AMPBIN,
+		'perms' => 0755);
+		$this->modfiles['framework'][] = array('type' => 'execdir',
+		'path' => $ASTAGIDIR,
+		'perms' => 0755);
 		//Merge static files and hook files, then act on them as a single unit
 		$this->modfiles = array_merge_recursive($this->modfiles,$this->fwcChownFiles());
 		$owner = $AMPASTERISKWEBUSER;
