@@ -142,7 +142,8 @@ class Self_Helper extends DB_Helper {
 	 * @return bool True if found or throws exception
 	 */
 	private function loadObject($objname, $hint = null) {
-		$class = $objname;
+		$objname = str_replace('FreePBX\\modules\\','',$objname);
+		$class = class_exists($this->moduleNamespace.$objname) ? $this->moduleNamespace.$objname : $objname;
 
 		// If it already exists, we're fine.
 		if (class_exists($class)) {
@@ -174,11 +175,8 @@ class Self_Helper extends DB_Helper {
 			$loaded = $try;
 		} else {
 			// It's a module, hopefully.
-			$objname = $this->Modules->cleanModuleName($objname);
-			$objname = str_replace('FreePBX\\modules\\','',$objname);
-			$class = class_exists($this->moduleNamespace.$objname) ? $this->moduleNamespace.$objname : $objname;
-
 			// This is our root to search from
+			$objname = $this->Modules->cleanModuleName($objname);
 			$path = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/";
 
 			$active_modules = array_keys(FreePBX::create()->Modules->getActiveModules());
@@ -205,7 +203,7 @@ class Self_Helper extends DB_Helper {
 		}
 
 		// Right, after all of this we should now have our object ready to create.
-		if (!class_exists($class) && !class_exists($this->moduleNamespace.$objname)) {
+		if (!class_exists($objname) && !class_exists($this->moduleNamespace.$objname)) {
 			// Bad things have happened.
 			if (!$loaded) {
 				$sobjname = strtolower($objname);
