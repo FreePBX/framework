@@ -188,8 +188,12 @@ class Self_Helper extends DB_Helper {
 				$try = $path.$module."/$objname.class.php";
 				if(file_exists($try)) {
 					//Now we need to make sure this is not a revoked module!
-					$gpgstatus = FreePBX::GPG()->verifyModule($module);
-					$revoked = $gpgstatus['status'] & GPG::STATE_REVOKED;
+					try {
+						$gpgstatus = FreePBX::GPG()->verifyModule($module);
+						$revoked = $gpgstatus['status'] & GPG::STATE_REVOKED;
+					} catch(\Exception $e) {
+						$revoked = false;
+					}
 					//if revoked then dont load!
 					if(!$revoked) {
 						include $try;
