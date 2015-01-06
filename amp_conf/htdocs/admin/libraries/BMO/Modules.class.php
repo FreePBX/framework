@@ -62,8 +62,8 @@ class Modules {
 		foreach(array_keys($this->active_modules) as $mod) {
 			$amods[] = $this->cleanModuleName($mod);
 		}
-		if(in_array(strtolower($module),$amods)) {
-			$module = ucfirst(strtolower($module));
+		$module = ucfirst(strtolower($module));
+		if(in_array($module,$amods)) {
 			try {
 				$rc = new \ReflectionClass($this->FreePBX->$module);
 				if($rc->hasMethod($method)) {
