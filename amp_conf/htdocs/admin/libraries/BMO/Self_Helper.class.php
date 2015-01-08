@@ -187,8 +187,12 @@ class Self_Helper extends DB_Helper {
 				if(file_exists($try)) {
 					//Now we need to make sure this is not a revoked module!
 					try {
-						$gpgstatus = FreePBX::GPG()->verifyModule($module);
-						$revoked = $gpgstatus['status'] & GPG::STATE_REVOKED;
+						$signature = FreePBX::Modules()->getSignature($module);
+						if(empty($signature['status'])) {
+							$revoked = false;
+						} else {
+							$revoked = $signature['status'] & GPG::STATE_REVOKED;
+						}
 					} catch(\Exception $e) {
 						$revoked = false;
 					}

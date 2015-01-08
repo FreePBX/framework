@@ -12,6 +12,7 @@
 class Modules {
 
 	public $active_modules;
+	private $moduleMethods = array();
 
 	public function __construct($freepbx = null) {
 
@@ -43,6 +44,15 @@ class Modules {
 	}
 
 	/**
+	* Get Signature
+	* @param string $modulename The raw module name
+	* @param bool $cached     Get cached data or update the signature
+	*/
+	public function getSignature($modulename,$cached=true) {
+		return $this->modclass->getSignature($modulename,$cached);
+	}
+
+	/**
 	 * String invalid characters from a class name
 	 * @param {string} $module The raw mdoule name.
 	 */
@@ -58,17 +68,22 @@ class Modules {
 	 * @param {string} $method The method name
 	 */
 	public function moduleHasMethod($module, $method) {
+		$module = ucfirst(strtolower($module));
+		if(!empty($this->moduleMethods[$module]) && in_array($method, $this->moduleMethods[$module])) {
+			return true;
+		}
 		$amods = array();
 		foreach(array_keys($this->active_modules) as $mod) {
 			$amods[] = $this->cleanModuleName($mod);
 		}
-		$module = ucfirst(strtolower($module));
-		if(in_array($module,$amods)) {
+		if(in_array(strtolower($module),$amods)) {
+			$module = ucfirst(strtolower($module));
 			try {
 				$rc = new \ReflectionClass($this->FreePBX->$module);
 				if($rc->hasMethod($method)) {
 					$reflection = new \ReflectionMethod($this->FreePBX->$module, $method);
 					if ($reflection->isPublic()) {
+						$this->moduleMethods[$module][] = $method;
 						return true;
 					}
 				}
@@ -89,16 +104,9 @@ class Modules {
 		}
 		$methods = array();
 		foreach($amods as $module) {
-			$module = ucfirst(strtolower($module));
-			try {
-				$rc = new \ReflectionClass($this->FreePBX->$module);
-				if($rc->hasMethod($method)) {
-					$reflection = new \ReflectionMethod($this->FreePBX->$module, $method);
-					if ($reflection->isPublic()) {
-						$methods[] = $module;
-					}
-				}
-			} catch(\Exception $e) {}
+			if($this->moduleHasMethod($module,$method)) {
+				$methods[] = $module;
+			}
 		}
 		return $methods;
 	}
