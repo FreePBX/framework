@@ -103,7 +103,7 @@ if($online) { ?>
 											// check for online upgrade
 											if (!empty($module['raw']['online'])) {
 												$track = $module['track'];
-												$trackinfo = (strtolower($track) == 'stable') ? $module['raw']['online'] : (!empty($module['raw']['online']['releasetracks'][$track]) ? $module['raw']['online']['releasetracks'][$track] : array());
+												$trackinfo = (strtolower($track) == 'stable') ? $module['raw']['online'] : (!empty($module['raw']['online']['releasetracks'][$track]) ? $module['raw']['online']['releasetracks'][$track] : $module['raw']['online']);
 												if (!empty($trackinfo['version'])) {
 													$vercomp = version_compare_freepbx($module['raw']['local']['version'], $trackinfo['version']);
 													if($trackenable && !empty($module['highreleasetracktype']) && ($module['highreleasetracktype'] == 'stable') && ($track != 'stable') && version_compare_freepbx($module['raw']['local']['version'],$module['raw']['online']['version'],"<=")) {
