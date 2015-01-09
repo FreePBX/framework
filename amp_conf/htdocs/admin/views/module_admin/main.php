@@ -103,11 +103,17 @@ if($online) { ?>
 											// check for online upgrade
 											if (!empty($module['raw']['online'])) {
 												$track = $module['track'];
-												$trackinfo = (strtolower($track) == 'stable') ? $module['raw']['online'] : (!empty($module['raw']['online']['releasetracks'][$track]) ? $module['raw']['online']['releasetracks'][$track] : array());
+												$trackinfo = (strtolower($track) == 'stable') ? $module['raw']['online'] : (!empty($module['raw']['online']['releasetracks'][$track]) ? $module['raw']['online']['releasetracks'][$track] : $module['raw']['online']);
 												if (!empty($trackinfo['version'])) {
 													$vercomp = version_compare_freepbx($module['raw']['local']['version'], $trackinfo['version']);
-													$tn = ($trackenable && !empty($module['highreleasetracktype']) && ($module['track'] != $module['highreleasetracktype'])) ? ucfirst(strtolower($module['track'])) : '';
-													if ($vercomp < 0) {?>
+													if($trackenable && !empty($module['highreleasetracktype']) && ($module['highreleasetracktype'] == 'stable') && ($track != 'stable') && version_compare_freepbx($module['raw']['local']['version'],$module['raw']['online']['version'],"<=")) {
+														$vercomp2 = true;
+														$trackinfo = $module['raw']['online'];
+													} else {
+														$vercomp2 = false;
+													}
+													$tn = ($trackenable && !empty($module['highreleasetracktype']) && ($module['track'] != $module['highreleasetracktype'])) ? ucfirst(strtolower($module['highreleasetracktype'])) : '';
+													if ($vercomp < 0 || $vercomp2) {?>
 														<span class="alert">
 															<?php echo sprintf(_('%s Online %s upgrade available (%s)'), $disabled, $tn, $trackinfo['version']);?>
 															<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['online']['version'],'>') && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>') && $module['track'] != $module['highreleasetracktype']) ? '; ' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) : ''?>
