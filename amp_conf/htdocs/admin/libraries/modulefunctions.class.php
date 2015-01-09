@@ -198,7 +198,7 @@ class module_functions {
 						if(!empty($betaxml['xml']['modules'][$module])) {
 							$betalist = isset($betaxml['xml']['modules'][$module]['rawname']) ? array($betaxml['xml']['modules'][$module]) : $betaxml['xml']['modules'][$module];
 							$mod['highreleasetrack'] = $mod['version'];
-							$mod['highreleasetracktype'] = '';
+							$mod['highreleasetracktype'] = 'stable';
 							foreach($betalist as $release) {
 								$mod['releasetracks'][$release['releasetracktype']] = $release;
 								if(version_compare_freepbx($mod['highreleasetrackver'],$release['version'],'<')) {
@@ -227,7 +227,7 @@ class module_functions {
 					if(!empty($betaxml['xml']['modules'][$mod['rawname']])) {
 						$betalist = isset($betaxml['xml']['modules'][$mod['rawname']]['rawname']) ? array($betaxml['xml']['modules'][$mod['rawname']]) : $betaxml['xml']['modules'][$mod['rawname']];
 						$modules[$mod['rawname']]['highreleasetrackver'] = $modules[$mod['rawname']]['version'];
-						$modules[$mod['rawname']]['highreleasetracktype'] = '';
+						$modules[$mod['rawname']]['highreleasetracktype'] = 'stable';
 						foreach($betalist as $release) {
 							$modules[$mod['rawname']]['releasetracks'][$release['releasetracktype']] = $release;
 							if(version_compare_freepbx($modules[$mod['rawname']]['highreleasetrackver'],$release['version'],'<')) {
