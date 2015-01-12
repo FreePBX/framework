@@ -18,23 +18,19 @@ $nt = notifications::create($db);
 $cm =& cronmanager::create($db);
 
 $cm->run_jobs();
-//Check if sysadmin is installed where people may set a "from" email.
-$ma = \module_functions::create();
-$sa = $ma->getinfo("sysadmin");
-//If we have sysadmin installed (2) or needs upgrade(3)
-if($sa['status'] == 2 || $sa['status'] == 3){
-	$sql = 'SELECT value FROM sysadmin_options WHERE `key` = "fromemail"';
-	$sth = $db->prepare($sql);
-	$sth->execute();
-	$from_email = $sth->fetchColumn();
+//If we have sysadmin installed
+$fallback = get_current_user() . '@' . gethostname();
+if(function_exists('sysadmin_get_storage_email')){
+	$emails = sysadmin_get_storage_email();
+	$from_email = $emails['fromemail'];
 	//Check that what we got back above is a email address
 	if(!filter_var($from_email,FILTER_VALIDATE_EMAIL)){
 		//Fallback address
-		$from_email = 'freepbx@freepbx.local';
+		$from_email = $fallback;
 	}
 } else {
 	//Fallback address
-	$from_email = 'freepbx@freepbx.local';
+	$from_email = $fallback;
 }
 //Send email with our mail class
 function send_message($to,$from,$subject,$message){
