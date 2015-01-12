@@ -2,7 +2,7 @@
 <?php
 //include bootstrap
 //	License for all code of this FreePBX module can be found in the license file inside the module directory
-//	Copyright 2013 Schmooze Com Inc.
+//	Copyright 2013-2015 Schmooze Com Inc.
 //
 $bootstrap_settings['freepbx_auth'] = false;
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
@@ -18,6 +18,33 @@ $nt = notifications::create($db);
 $cm =& cronmanager::create($db);
 
 $cm->run_jobs();
+//Check if sysadmin is installed where people may set a "from" email.
+$ma = \module_functions::create();
+$sa = $ma->getinfo("sysadmin");
+//If we have sysadmin installed (2) or needs upgrade(3)
+if($sa['status'] == 2 || $sa['status'] == 3){
+	$sql = 'SELECT value FROM sysadmin_options WHERE `key` = "fromemail"';
+	$sth = $db->prepare($sql);
+	$sth->execute();
+	$from_email = $sth->fetchColumn();
+	//Check that what we got back above is a email address
+	if(!filter_var($from_email,FILTER_VALIDATE_EMAIL)){
+		//Fallback address
+		$from_email = 'freepbx@freepbx.local';
+	}
+} else {
+	//Fallback address
+	$from_email = 'freepbx@freepbx.local';
+}
+//Send email with our mail class
+function send_message($to,$from,$subject,$message){
+	$em = new \CI_Email();
+	$em->from($from);
+	$em->to($to);
+	$em->subject($subject);
+	$em->message($message);
+	return $em->send();
+}
 
 $email = $cm->get_email();
 if ($email) {
@@ -49,7 +76,7 @@ if ($email) {
 
 	if ($send_email && (! $cm->check_hash('update_semail', $text))) {
 		$cm->save_hash('update_semail', $text);
-		if (mail($email, _("FreePBX: New Security Notifications"), $text)) {
+		if (send_message($email, $from_email, _("FreePBX: New Security Notifications"), $text)) {
 			$nt->delete('freepbx', 'SEMAILFAIL');
 		} else {
 			$nt->add_error('freepbx', 'SEMAILFAIL', _('Failed to send security notification email'), sprintf(_('An attempt to send email to: %s with security notifications failed'),$email));
@@ -71,7 +98,7 @@ if ($email) {
 
 	if ($send_email && (! $cm->check_hash('update_email', $text))) {
 		$cm->save_hash('update_email', $text);
-		if (mail($email, _("FreePBX: New Online Updates Available"), $text)) {
+		if (send_message($email, $from_email, _("FreePBX: New Online Updates Available"), $text)) {
 			$nt->delete('freepbx', 'EMAILFAIL');
 		} else {
 			$nt->add_error('freepbx', 'EMAILFAIL', _('Failed to send online update email'), sprintf(_('An attempt to send email to: %s with online update status failed'),$email));
