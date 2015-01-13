@@ -15,6 +15,7 @@ class module_functions {
 	public $notFound = false;
 	//Max Execution Time Limit
 	private $maxTimeLimit = 250;
+	private $onlineModules = null;
 
 	function &create() {
 		static $obj;
@@ -56,17 +57,24 @@ class module_functions {
 		$got_new = false;
 		$skip_cache = false;
 		$sec_array=false;
-		$type = array('all','module','track','security','old');
+		//$type = array('all','module','track','security','old');
 
 		$result = sql("SELECT * FROM module_xml WHERE id = 'beta'",'getRow',DB_FETCHMODE_ASSOC);
-		$beta = $result['data'];
+		if(!empty($result['data'])) {
+			$beta = json_decode($result['data'],true);
+		}
 		$result = sql("SELECT * FROM module_xml WHERE id = 'security'",'getRow',DB_FETCHMODE_ASSOC);
-		$security = $result['data'];
+		if(!empty($result['data'])) {
+			$security = json_decode($result['data'],true);
+		}
 		$result = sql("SELECT * FROM module_xml WHERE id = 'previous'",'getRow',DB_FETCHMODE_ASSOC);
-		$previous = $result['data'];
-		//get this last for timestamp
-		$result = sql("SELECT * FROM module_xml WHERE id = 'xml'",'getRow',DB_FETCHMODE_ASSOC);
-		$data = $result['data'];
+		if(!empty($result['data'])) {
+			$previous = json_decode($result['data'],true);
+		}
+		$result = sql("SELECT * FROM module_xml WHERE id = 'modules'",'getRow',DB_FETCHMODE_ASSOC);
+		if(!empty($result['data'])) {
+			$modules = json_decode($result['data'],true);
+		}
 
 		// Check if the cached module xml is for the same repo as being requested
 		// if not, then we get it anyhow
@@ -89,7 +97,7 @@ class module_functions {
 		// we need to know the freepbx major version we have running (ie: 12.0.1 is 12.0)
 		preg_match('/(\d+\.\d+)/',$version,$matches);
 		$base_version = $matches[1];
-		if((time() - $result['time']) > 300 || $skip_cache || strlen($data) < 100 ) {
+		if((time() - $result['time']) > 300 || $skip_cache || strlen($result['data']) < 100 ) {
 			set_time_limit($this->maxTimeLimit);
 			if ($override_xml) {
 				$data = $this->get_url_contents($override_xml,"/modules-" . $base_version . ".xml");
@@ -97,106 +105,76 @@ class module_functions {
 				// We pass in true to add options to accomodate future needs of things like php versions to get properly zended
 				// tarballs of the same version for modules that are zended.
 				//
-				$data = $this->get_remote_contents("/modules-" . $base_version . ".xml", true);
-				$beta = $this->get_remote_contents("/beta-" . $base_version . ".xml", true);
-				$security = $this->get_remote_contents("/security-" . $base_version . ".xml", true);
-				$previous = $this->get_remote_contents("/old-" . $base_version . ".xml", true);
+				$all = $this->get_remote_contents("/all-" . $base_version . ".xml", true);
+				if(!empty($all)) {
+					$parser = new xml2ModuleArray($all);
+					$allxml = $parser->parseAdvanced($all);
+				}
 			}
 
-			$module_getonlinexml_error = ($data === false)?true:false;
+			$module_getonlinexml_error = ($all === false)?true:false;
 
-
-			$old_xml = array();
+			$old_modules = array();
 			$got_new = false;
-			if (!empty($data)) {
-				// Compare the download to our current XML to see if anything changed for the notification system.
-				//
-				$sql = "SELECT data FROM module_xml WHERE id = 'xml'";
-				$old_xml = sql($sql, "getOne");
-				$got_new = true;
+			if(!empty($allxml['xml']['module'])) {
+				$modules = $allxml['xml']['module'];
+				$sql = "SELECT data FROM module_xml WHERE id = 'modules'";
+				$old_modules = sql($sql, "getOne");
+				if(!empty($old_modules)) {
+					$old_modules = json_decode($old_modules,true);
+					$this->update_notifications($old_modules, $modules, ($old_modules == $modules));
+				}
 				// update the db with the new xml
-				$data4sql = $db->escapeSimple($data);
-				sql("REPLACE INTO module_xml (id,time,data) VALUES('xml',".time().",'".$data4sql."')");
+				$data4sql = $db->escapeSimple(json_encode($modules));
+				sql("REPLACE INTO module_xml (id,time,data) VALUES('modules',".time().",'".$data4sql."')");
 			}
-			if (!empty($beta)) {
-				// Compare the download to our current XML to see if anything changed for the notification system.
-				//
-				$sql = "SELECT data FROM module_xml WHERE id = 'beta'";
-				$old_beta_xml = sql($sql, "getOne");
-				$got_new = true;
+			if(!empty($allxml['xml']['beta'])) {
+				$beta = $allxml['xml']['beta'];
 				// update the db with the new xml
-				$data4sql = $db->escapeSimple($beta);
+				$data4sql = $db->escapeSimple(json_encode($beta));
 				sql("REPLACE INTO module_xml (id,time,data) VALUES('beta',".time().",'".$data4sql."')");
 			}
-			if (!empty($security)) {
-				// Compare the download to our current XML to see if anything changed for the notification system.
-				//
-				$sql = "SELECT data FROM module_xml WHERE id = 'security'";
-				$old_security_xml = sql($sql, "getOne");
-				$got_new = true;
+			if(!empty($allxml['xml']['security'])) {
+				$security = $allxml['xml']['security'];
 				// update the db with the new xml
-				$data4sql = $db->escapeSimple($security);
+				$data4sql = $db->escapeSimple(json_encode($security));
 				sql("REPLACE INTO module_xml (id,time,data) VALUES('security',".time().",'".$data4sql."')");
 			}
-			if (!empty($previous)) {
-				// Compare the download to our current XML to see if anything changed for the notification system.
-				//
-				$sql = "SELECT data FROM module_xml WHERE id = 'previous'";
-				$old_previous_xml = sql($sql, "getOne");
-				$got_new = true;
+			if(!empty($allxml['xml']['previous'])) {
+				$previous = $allxml['xml']['previous'];
 				// update the db with the new xml
-				$data4sql = $db->escapeSimple($previous);
+				$data4sql = $db->escapeSimple(json_encode($previous));
 				sql("REPLACE INTO module_xml (id,time,data) VALUES('previous',".time().",'".$data4sql."')");
 			}
 		}
+		//alter table module_xml change data data longblob;
 
-		if (empty($data)) {
+		if (empty($allxml['xml'])) {
 			// no data, probably couldn't connect online, and nothing cached
 			return null;
 		}
 
-		$parser = new xml2ModuleArray($data);
-		$xmlarray = $parser->parseAdvanced($data);
-
-		$parser = new xml2ModuleArray($previous);
-		$previousxml = $parser->parseAdvanced($previous);
-
-		$parser = new xml2ModuleArray($beta);
-		$betaxml = $parser->parseAdvanced($beta);
-
-		$parser = new xml2ModuleArray($security);
-		$securityxml = $parser->parseAdvanced($security);
-		if(!empty($securityxml) && is_array($securityxml)) {
-			foreach($securityxml['xml']['security']['issue'] as $item) {
+		if(!empty($security)) {
+			foreach($security['issue'] as $item) {
 				$this->security_array[$item['id']] = $item;
+				$sec_array[$item['id']] = $item;
 			}
 		}
 
 		//this is why xml to array is terrible on php, prime example here.
-		$xmlarray['xml']['module'] = !isset($xmlarray['xml']['module']['rawname']) ? $xmlarray['xml']['module'] : array($xmlarray['xml']['module']);
+		$modules = !isset($modules['rawname']) ? $modules : array($modules);
 
-		if ($got_new) {
-			$this->update_notifications($old_xml, $xmlarray, ($old_xml == $data4sql));
-		}
-
-		if (is_array($sec_array) && !empty($xmlarray['xml']['security'])) {
-			foreach ($xmlarray['xml']['security']['issue'] as $issue) {
-				$sec_array[$issue['id']] = $issue;
-			}
-		}
-
-		$exposures = $this->get_security($securityxml, $base_version);
+		$exposures = $this->get_security($security, $base_version);
 		$this->update_security_notifications($exposures);
 
-		if (isset($xmlarray['xml']['module'])) {
-
+		if(isset($modules)) {
 			if ($module != false) {
-				foreach ($xmlarray['xml']['module'] as $mod) {
+				foreach ($modules as $mod) {
 					if ($module == $mod['rawname']) {
-						$releases = !empty($previousxml['xml']['modules'][$module]['releases']['module']) ? $previousxml['xml']['modules'][$module]['releases']['module'] : array();
+						$releases = !empty($previous[$module]['releases']['module']) ? $previous[$module]['releases']['module'] : array();
 						$mod['previous'] = isset($releases['rawname']) ? array($releases) : $releases;
-						if(!empty($betaxml['xml']['modules'][$module])) {
-							$betalist = isset($betaxml['xml']['modules'][$module]['rawname']) ? array($betaxml['xml']['modules'][$module]) : $betaxml['xml']['modules'][$module];
+						if(!empty($beta[$module])) {
+							$betalist = isset($beta[$module]['rawname']) ? array($beta[$module]) : $beta[$module];
 							$mod['highreleasetrack'] = $mod['version'];
 							$mod['highreleasetracktype'] = 'stable';
 							foreach($betalist as $release) {
@@ -216,32 +194,33 @@ class module_functions {
 				}
 				return null;
 			} else {
-				$modules = array();
-				foreach ($xmlarray['xml']['module'] as $mod) {
-					$modules[$mod['rawname']] = $mod;
+				$final = array();
+				foreach ($modules as $mod) {
+					$final[$mod['rawname']] = $mod;
 					if (isset($exposures[$mod['rawname']])) {
-						$modules[$mod['rawname']]['vulnerabilities'] = $exposures[$mod['rawname']];
+						$final[$mod['rawname']]['vulnerabilities'] = $exposures[$mod['rawname']];
 					}
-					$releases = !empty($previousxml['xml']['modules'][$mod['rawname']]['releases']['module']) ? $previousxml['xml']['modules'][$mod['rawname']]['releases']['module'] : array();
-					$modules[$mod['rawname']]['previous'] = isset($releases['rawname']) ? array($releases) : $releases;
-					if(!empty($betaxml['xml']['modules'][$mod['rawname']])) {
-						$betalist = isset($betaxml['xml']['modules'][$mod['rawname']]['rawname']) ? array($betaxml['xml']['modules'][$mod['rawname']]) : $betaxml['xml']['modules'][$mod['rawname']];
-						$modules[$mod['rawname']]['highreleasetrackver'] = $modules[$mod['rawname']]['version'];
-						$modules[$mod['rawname']]['highreleasetracktype'] = 'stable';
+					$releases = !empty($previous[$mod['rawname']]['releases']['module']) ? $previous[$mod['rawname']]['releases']['module'] : array();
+					$final[$mod['rawname']]['previous'] = isset($releases['rawname']) ? array($releases) : $releases;
+					if(!empty($beta[$mod['rawname']])) {
+						$betalist = isset($beta[$mod['rawname']]['rawname']) ? array($beta[$mod['rawname']]) : $beta[$mod['rawname']];
+						$final[$mod['rawname']]['highreleasetrackver'] = $final[$mod['rawname']]['version'];
+						$final[$mod['rawname']]['highreleasetracktype'] = 'stable';
 						foreach($betalist as $release) {
-							$modules[$mod['rawname']]['releasetracks'][$release['releasetracktype']] = $release;
-							if(version_compare_freepbx($modules[$mod['rawname']]['highreleasetrackver'],$release['version'],'<')) {
-								$modules[$mod['rawname']]['highreleasetrackver'] = $release['version'];
-								$modules[$mod['rawname']]['highreleasetracktype'] = $release['releasetracktype'];
+							$final[$mod['rawname']]['releasetracks'][$release['releasetracktype']] = $release;
+							if(version_compare_freepbx($final[$mod['rawname']]['highreleasetrackver'],$release['version'],'<')) {
+								$final[$mod['rawname']]['highreleasetrackver'] = $release['version'];
+								$final[$mod['rawname']]['highreleasetracktype'] = $release['releasetracktype'];
 							}
 						}
 					} else {
-						$modules[$mod['rawname']]['highreleasetrackver'] = $modules[$mod['rawname']]['version'];
-						$modules[$mod['rawname']]['highreleasetracktype'] = 'stable';
-						$modules[$mod['rawname']]['releasetracks'] = array();
+						$final[$mod['rawname']]['highreleasetrackver'] = $final[$mod['rawname']]['version'];
+						$final[$mod['rawname']]['highreleasetracktype'] = 'stable';
+						$final[$mod['rawname']]['releasetracks'] = array();
 					}
 				}
-				return $modules;
+				$this->onlineModules = $final;
+				return $final;
 			}
 		}
 		return null;
@@ -264,13 +243,13 @@ class module_functions {
 			$base_version = $matches[1];
 		}
 
-		if (!empty($xmlarray['xml']['security'])) {
+		if (!empty($xmlarray)) {
 			$exposures = array();
 			$modinfo = $this->getinfo();
 
 			// check each listed vulnerability to see if there are vulnerable modules for this version
 			//
-			foreach ($xmlarray['xml']['security']['issue'] as $sinfo) {
+			foreach ($xmlarray['issue'] as $sinfo) {
 				$vul = $sinfo['id'];
 				if (!empty($sinfo['versions']['v' . $base_version])) {
 					// If this version has vulnerabilities, check each vulnerable module to see if we have any
@@ -315,24 +294,22 @@ class module_functions {
 	* @param array $passive Whether to allow notification to be reset
 	*
 	*/
-	function update_notifications(&$old_xml, &$xmlarray, $passive) {
+	function update_notifications($omodules, $modules, $passive) {
 		global $db;
 
 		$notifications =& notifications::create($db);
 
 		$reset_value = $passive ? 'PASSIVE' : false;
-		$old_parser = new xml2ModuleArray($old_xml);
-		$old_xmlarray = $old_parser->parseAdvanced($old_xml);
 
 		$new_modules = array();
-		if (count($xmlarray)) {
-			foreach ($xmlarray['xml']['module'] as $mod) {
+		if (count($modules)) {
+			foreach ($modules as $mod) {
 				$new_modules[$mod['rawname']] = $mod;
 			}
 		}
 		$old_modules = array();
-		if (count($old_xmlarray)) {
-			foreach ($old_xmlarray['xml']['module'] as $mod) {
+		if (count($omodules)) {
+			foreach ($omodules as $mod) {
 				$old_modules[$mod['rawname']] = $mod;
 			}
 		}
@@ -508,7 +485,7 @@ class module_functions {
 	*/
 	function generate_remote_repos() {
 		global $db;
-		$xml = $this->getonlinexml();
+		$xml = !empty($this->onlineModules) ? $this->onlineModules : $this->getonlinexml();
 		if(!empty($xml)) {
 			$repos = array();
 			foreach($xml as $module) {
