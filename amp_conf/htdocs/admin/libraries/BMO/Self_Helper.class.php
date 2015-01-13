@@ -188,19 +188,24 @@ class Self_Helper extends DB_Helper {
 					//Now we need to make sure this is not a revoked module!
 					try {
 						$signature = FreePBX::Modules()->getSignature($module);
-						if(empty($signature['status'])) {
-							$revoked = false;
-						} else {
+						if(!empty($signature['status'])) {
 							$revoked = $signature['status'] & GPG::STATE_REVOKED;
+							if($revoked) {
+								return false;
+							}
 						}
-					} catch(\Exception $e) {
-						$revoked = false;
+					} catch(\Exception $e) {}
+
+					$info = FreePBX::Modules()->getInfo($module);
+					$needs_zend = isset($info[$module]['depends']['phpcomponent']) && stristr($info[$module]['depends']['phpcomponent'], 'zend');
+					$licFileExists = glob ('/etc/schmooze/license-*.zl');
+					$complete_zend = (!function_exists('zend_loader_install_license') || empty($licFileExists));
+					if ($needs_zend && class_exists('\Schmooze\Zend') && \Schmooze\Zend::fileIsLicensed($file) && $complete_zend) {
+						break;
 					}
-					//if revoked then dont load!
-					if(!$revoked) {
-						include $try;
-						$loaded = $try;
-					}
+
+					include $try;
+					$loaded = $try;
 					break;
 				}
 			}
