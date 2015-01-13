@@ -38,7 +38,7 @@ class GPG {
 	// Our path to GPG.
 	private $gpg = "/usr/bin/gpg";
 	// Default options.
-	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true";
+	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true,timeout=5";
 
 	// List of well-known keyservers.
 	private $keyservers = array(
