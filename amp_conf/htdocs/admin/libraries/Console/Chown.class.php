@@ -268,7 +268,6 @@ class Chown extends Command {
 				}
 				break;
 			case 'file':
-				$realfile = readlink($file);
 				try {
 					$this->fs->chmod($file,$perms);
 				} catch (IOExceptionInterface $e) {
