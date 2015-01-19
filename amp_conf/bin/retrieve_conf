@@ -19,10 +19,10 @@ $freepbx_conf =& freepbx_conf::create();
 // Load the BMO Object
 $bmo = FreePBX::create();
 // $bmo->Performance->On();
-$bmo->Performance->Stamp("trust_gpg_start");
+$bmo->Performance->Start("trust_gpg");
 $bmo->GPG->trustFreePBX();
-$bmo->Performance->Stamp("trust_gpg_end");
-$bmo->Performance->Stamp("retrieve_conf_start");
+$bmo->Performance->Stop();
+$bmo->Performance->Start("retrieve_conf");
 $bmo->Hooks->updateBMOHooks();
 // BMO TODO: Move this to be part of BMO.
 class connectdirs {
@@ -61,33 +61,55 @@ class connectdirs {
     $this->nt = notifications::create($db);
 	}
 
-  function symlink_assets($module) {
-    global $amp_conf;
+	function symlink_assets($module) {
+		global $amp_conf;
 
-    // e.g. /var/www/html/admin/modules/ringgroups/assets
-    // e.g. /var/www/html/admin/assets/ringgroups
-    //
-    $dir = $amp_conf['AMPWEBROOT'] . '/admin/modules/' . $module . '/assets';
-    $targetdir = $amp_conf['AMPWEBROOT'] . "/admin/assets/" . $module;
+		// e.g. /var/www/html/admin/modules/ringgroups/assets
+		// e.g. /var/www/html/admin/assets/ringgroups
+		//
+		$srcdir = $amp_conf['AMPWEBROOT'] . '/admin/modules/' . $module . '/assets';
+		$targetdir = $amp_conf['AMPWEBROOT'] . "/admin/assets/" . $module;
 
-    // if assets does not exists in the module then unlinkk it in assets had it
-    // been there already.
-    //
-    if (!is_dir($dir)) {
-      if (is_link($targetdir)) {
-        $this->err_unlink($targetdir);
-      }
-      return;
-    } elseif (!is_link($targetdir)) {
-      // The assets dir exists in the module but no symlink to it, so do that now
-      // e.g. ln -s /var/www/html/admin/modules/ringgroups/assets /var/www/html/admin/assets/ringgroups
-      //
-      if (!symlink($dir, $targetdir)) {
-        freepbx_log(FPBX_LOG_ERROR, "Can Not $dir to $targetdir");
-      }
+		// if assets does not exists in the module then there's no need to have
+		// a link to it.
+		if (!is_dir($srcdir)) {
+			if (is_link($targetdir)) {
+				$this->err_unlink($targetdir);
+			}
+			return;
+		} else {
+			// This module has assets that need to be linked.
+			// Is the target already a directory?
+			if (is_dir($targetdir) && !is_link($targetdir)) {
+				// This shouldn't have happened. Rename it out of the way.
+				rename($targetdir, "$targetdir.badasset");
+			}
+			// The assets dir exists in the module
+			// If it's not a symlink, create it.
+			if (!is_link($targetdir)) {
+				if (!symlink($srcdir, $targetdir)) {
+					freepbx_log(FPBX_LOG_ERROR, "Can not symlink $srcdir to $targetdir");
+				} else {
+					// All good, we created the correct link
+					return true;
+				}
+			}
 
-    }
-  }
+			// We're here because the link already exists. Make sure that the symlink is linking to the correct place.
+			if (!is_link($targetdir)) {
+				throw new \Exception("Symlink error - $targetdir should be linked to $srcdir, and it isn't a link");
+			}
+
+			$dest = readlink($targetdir);
+			if ($dest !== $srcdir) {
+				// Wow. How did that happen?
+				unlink($targetdir);
+				if (!symlink($srcdir, $targetdir)) {
+					freepbx_log(FPBX_LOG_ERROR, "Error replacing symlink $srcdir to $targetdir");
+				}
+			}
+		}
+	}
 
   function generate_less($module) {
     // e.g. /var/www/html/admin/modules/ringgroups/assets
@@ -386,7 +408,7 @@ if (array_key_exists('core', $active_modules)) {
 // include any module global functions
 // $active_modules is provided by bootstrap now
 //
-$bmo->Performance->Stamp("Working with active modules");
+$bmo->Performance->Start("Working with active modules");
 if(is_array($active_modules)){
 	foreach($active_modules as $key => $module) {
 
@@ -425,11 +447,11 @@ if(is_array($active_modules)){
 		}
 	}
 }
-$bmo->Performance->Stamp("Finished working with active modules");
+$bmo->Performance->Stop();
 
-$bmo->Performance->Stamp("Generating all compiled CSS files from less");
+$bmo->Performance->Start("Generating all compiled CSS files from less");
 $bmo->Less->generateMainStyles();
-$bmo->Performance->Stamp("Done Generating Styles");
+$bmo->Performance->Stop();
 
 // Now that we have done all the symlinks and copies, we check and report if there were any errors
 //
@@ -655,9 +677,9 @@ $extens_ok = true;
 $dests_ok = true;
 
 $my_hash = array_flip($module_list);
-$bmo->Performance->Stamp("extenconflicts_start");
+$bmo->Performance->Start("extenconflicts");
 $my_prob_extens = $skip_registry_checks ? false : framework_list_extension_conflicts($my_hash);
-$bmo->Performance->Stamp("extenconflicts_stop");
+$bmo->Performance->Stop();
 
 if (empty($my_prob_extens)) {
 	$nt->delete('retrieve_conf', 'XTNCONFLICT');
@@ -681,9 +703,9 @@ if (empty($my_prob_extens)) {
 
 // Check for and report any bogus destinations
 //
-$bmo->Performance->Stamp("listproblems_start");
+$bmo->Performance->Start("listproblems");
 $my_probs = $skip_registry_checks ? false : framework_list_problem_destinations($my_hash, !$amp_conf['CUSTOMASERROR']);
-$bmo->Performance->Stamp("listproblems_stop");
+$bmo->Performance->Stop();
 
 if (empty($my_probs)) {
 	$nt->delete('retrieve_conf', 'BADDEST');
@@ -713,19 +735,19 @@ if ((!$extens_ok && $amp_conf['XTNCONFLICTABORT']) || (!$dests_ok && $amp_conf['
 }
 
 // Generate an extension map of all extensions on the system
-$bmo->Performance->Stamp("extmap_start");
+$bmo->Performance->Start("extmap");
 framework_set_extmap();
-$bmo->Performance->Stamp("extmap_stop");
+$bmo->Performance->Stop();
 
 // Dialplan Hook processing moved to BMO.
-$bmo->Performance->Stamp("getAllDialplanHooks_start");
+$bmo->Performance->Start("getAllDialplanHooks");
 $hooks = $bmo->DialplanHooks->getAllHooks($active_modules);
-$bmo->Performance->Stamp("getAllDialplanHooks_stop");
+$bmo->Performance->Stop();
 
-$bmo->Performance->Stamp("processDialplanHooks_start");
+$bmo->Performance->Start("processDialplanHooks");
 if (is_array($hooks))
 	$bmo->DialplanHooks->processHooks($engine, $hooks);
-$bmo->Performance->Stamp("processDialplanHooks_stop");
+$bmo->Performance->Stop();
 
 // extensions_additional.conf
 // create the from-internal-additional contexts so other can add to it
@@ -736,9 +758,9 @@ $ext->add('from-internal-noxfer-additional', 'h', '', new ext_hangup(''));
 $bmo->WriteConfig->writeConfig($ext->get_filename(), $ext->generateConf());
 
 // Output any other configuration files from other modules.
-$bmo->Performance->Stamp("processFileHooks_start");
+$bmo->Performance->Start("processFileHooks");
 $bmo->FileHooks->processFileHooks($module_list);
-$bmo->Performance->Stamp("processFileHooks_stop");
+$bmo->Performance->Stop();
 
 // Now we write on amportal.conf if it is writable, which allows legacy applications in the
 // eco-system to take advantage of the settings.
@@ -965,7 +987,9 @@ else
 	out(_("Please update your modules and reload Asterisk by browsing to your server."),false);
 }
 
+$bmo->Performance->Start("Signature Checks");
 module_functions::create()->getAllSignatures(false);
+$bmo->Performance->Stop();
 
 if(!FreePBX::Config()->get('SIGNATURECHECK')) {
 	$nt->add_notice('freepbx', 'SIGNATURE_CHECK', _('Signature checking is disabled'), _('FreePBX Module Signature checking has been disabled. Your system could be exposed to security vulnerabilities from compromised or tampered code'));
@@ -975,4 +999,4 @@ if(!FreePBX::Config()->get('SIGNATURECHECK')) {
 
 $nt->delete('retrieve_conf', 'FATAL');
 
-$bmo->Performance->Stamp("retrieve_conf_stop");
+$bmo->Performance->Stop("retrieve_conf");
