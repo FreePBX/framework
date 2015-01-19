@@ -53,7 +53,7 @@ class module_functions {
 	*/
 	function getonlinexml($module = false, $override_xml = false) { // was getModuleXml()
 		global $amp_conf, $db, $module_getonlinexml_error;  // okay, yeah, this sucks, but there's no other good way to do it without breaking BC
-		$module_getonlinexml_error = null;
+		$module_getonlinexml_error = false;
 		$got_new = false;
 		$skip_cache = false;
 		$sec_array=false;
@@ -109,10 +109,10 @@ class module_functions {
 				if(!empty($all)) {
 					$parser = new xml2ModuleArray($all);
 					$allxml = $parser->parseAdvanced($all);
+				} else {
+					$module_getonlinexml_error = true;
 				}
 			}
-
-			$module_getonlinexml_error = ($all === false)?true:false;
 
 			$old_modules = array();
 			$got_new = false;
