@@ -87,7 +87,7 @@ class Performance {
 		print "$type/$str/$now,$timediff/$mem,$memdiff<br/>\n";
 
 		// This is grabbed by Start and Stop.
-		return array("now" => $now, "mem" => $mem);
+		return array("now" => $now, "mem" => $mem, "str" => $str);
 	}
 
 	/**
@@ -131,6 +131,7 @@ class Performance {
 			// Well, it does in this version of php. It may break in another.
 			// There is a test for this in framework/utests.
 			$start = array_pop($this->current);
+			$str = $start['str'];
 		} else {
 			if (!isset($this->current[$str])) {
 				throw new \Exception("Unable to find START for $str");
