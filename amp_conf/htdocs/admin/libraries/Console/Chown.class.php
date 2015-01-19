@@ -109,9 +109,9 @@ class Chown extends Command {
 		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
 											   'path' => '/dev/dsp',
 											   'perms' => 0644);
-		$this->modfiles['dahdiconfig'][] = array('type' => 'rdir',
-												'path' => $DAHDIMODULESLOC,
-												'perms' => 0755);
+		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
+											   'path' => $DAHDIMODULESLOC,
+											   'perms' => 0755);
 		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
 												'path' => $DAHDIMODPROBELOC,
 												'perms' => 0644);
