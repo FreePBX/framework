@@ -200,7 +200,7 @@ class Self_Helper extends DB_Helper {
 					$needs_zend = isset($info[$module]['depends']['phpcomponent']) && stristr($info[$module]['depends']['phpcomponent'], 'zend');
 					$licFileExists = glob ('/etc/schmooze/license-*.zl');
 					$complete_zend = (!function_exists('zend_loader_install_license') || empty($licFileExists));
-					if ($needs_zend && class_exists('\Schmooze\Zend') && \Schmooze\Zend::fileIsLicensed($file) && $complete_zend) {
+					if ($needs_zend && class_exists('\Schmooze\Zend') && \Schmooze\Zend::fileIsLicensed($try) && $complete_zend) {
 						break;
 					}
 
