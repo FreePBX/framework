@@ -176,8 +176,13 @@ class connectdirs {
         $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest." from ".basename($moduledir)."/".$subdir." (Already exists, linked to something else)";
       }
     } else {
-      if (!symlink($src, $dest)) {
-        freepbx_log(FPBX_LOG_ERROR, 'Cannot symlink '.$src.' to '.$dest.'. Check Permissions?');
+      $targetdir = dirname($dest);
+      if (!is_dir($targetdir)) {
+        freepbx_log(FREEPBX_LOG_ERROR, "Tried to link $src to $dest, but $targetdir doesn't exist");
+      } else {
+        if (!symlink($src, $dest)) {
+          freepbx_log(FPBX_LOG_ERROR, 'Cannot symlink '.$src.' to '.$dest.'. Check Permissions?');
+        }
       }
     }
   }
