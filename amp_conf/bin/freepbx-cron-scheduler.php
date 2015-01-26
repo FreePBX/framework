@@ -22,11 +22,10 @@ $cm->run_jobs();
 $from_email = get_current_user() . '@' . gethostname();
 if(function_exists('sysadmin_get_storage_email')){
 	$emails = sysadmin_get_storage_email();
-	$from_email = $emails['fromemail'];
 	//Check that what we got back above is a email address
-	if(!filter_var($from_email,FILTER_VALIDATE_EMAIL)){
+	if(!empty($emails['fromemail']) && filter_var($emails['fromemail'],FILTER_VALIDATE_EMAIL)){
 		//Fallback address
-		$from_email = $fallback;
+		$from_email = $emails['fromemail'];
 	}
 }
 
