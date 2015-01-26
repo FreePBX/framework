@@ -67,7 +67,7 @@ function doInstall($modulename, $force) {
 	} else {
 		if (is_array($errors = $module->install($modulename, $force))) {
 			out("Unable to install module ${modulename}:");
-			out(' - '.implode("\n - ",$status2));
+			out(' - '.implode("\n - ",$errors));
 			exit(2);
 		} else {
 			out("Module ".$modulename." successfully installed");
