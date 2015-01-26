@@ -351,7 +351,10 @@ class module_functions {
 		global $db;
 		$notifications =& notifications::create($db);
 
-		$installed_status = array(MODULE_STATUS_ENABLED, MODULE_STATUS_DISABLED);
+		//$installed_status = array(MODULE_STATUS_ENABLED, MODULE_STATUS_DISABLED);
+		//http://issues.freepbx.org/browse/FREEPBX-8628
+		//http://issues.freepbx.org/browse/FREEPBX-8380
+		$installed_status = array(MODULE_STATUS_ENABLED);
 		$modules_local = $this->getinfo(false, $installed_status);
 
 		$modules_upgradable = array();
