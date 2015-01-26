@@ -129,8 +129,8 @@ $(document).ready(function(){
 		$('#fullmodule_'+module+' .moduletrack').removeClass(previous_track.toLowerCase());
 		$('#fullmodule_'+module+' .moduletrack').addClass(track.toLowerCase());
 
-		var label = $('#fullmodule_'+module+' .modulestatus').children().text().replace(pi.version,si.version);
-		$('#fullmodule_'+module+' .modulestatus').children().text(label);
+		var label = $('#fullmodule_'+module+' .modulestatus span.text').html().replace(pi.version,si.version);
+		$('#fullmodule_'+module+' .modulestatus span.text').html(label);
 
 		$('#fullmodule_'+module+' .modulefunctionradios input[type=radio]').each(function( index ) {
 			var label = '';
