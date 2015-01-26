@@ -54,7 +54,7 @@ class Unlock extends FreePBX_Helpers {
 			return false;
 		}
 
-		if (!$var) {
+		if (!$key) {
 			return false;
 		}
 

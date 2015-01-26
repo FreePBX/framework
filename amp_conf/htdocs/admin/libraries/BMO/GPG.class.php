@@ -38,7 +38,7 @@ class GPG {
 	// Our path to GPG.
 	private $gpg = "/usr/bin/gpg";
 	// Default options.
-	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true";
+	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true,timeout=5";
 
 	// List of well-known keyservers.
 	private $keyservers = array(
@@ -484,7 +484,7 @@ class GPG {
 		$out = $this->runGPG("--output - $sigfile");
 
 		// Check to see if we don't know about this signature..
-		if (isset($out['status'][1]) && preg_match('/ERRSIG (.+) 1 2/', $out['status'][1], $keyarr)) {
+		if (isset($out['status'][2]) && preg_match('/NO_PUBKEY (.+)/', $out['status'][2], $keyarr)) {
 			// We don't. Try to grab it.
 			try {
 				$this->getKey($keyarr[1]);

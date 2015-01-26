@@ -352,7 +352,7 @@ DROP TABLE IF EXISTS `module_xml`;
 CREATE TABLE `module_xml` (
   `id` varchar(20) NOT NULL DEFAULT 'xml',
   `time` int(11) NOT NULL DEFAULT '0',
-  `data` mediumblob NOT NULL,
+  `data` longblob NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;

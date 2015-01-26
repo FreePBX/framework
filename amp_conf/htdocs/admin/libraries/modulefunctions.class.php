@@ -96,7 +96,7 @@ class module_functions {
 		// we need to know the freepbx major version we have running (ie: 12.0.1 is 12.0)
 		preg_match('/(\d+\.\d+)/',$version,$matches);
 		$base_version = $matches[1];
-		if((time() - $result['time']) > 300 || $skip_cache || strlen($result['data']) < 100 ) {
+		if((time() - $result['time']) > 300 || $skip_cache || empty($modules) ) {
 			set_time_limit($this->maxTimeLimit);
 			if ($override_xml) {
 				$data = $this->get_url_contents($override_xml,"/modules-" . $base_version . ".xml");
@@ -146,9 +146,8 @@ class module_functions {
 				sql("REPLACE INTO module_xml (id,time,data) VALUES('previous',".time().",'".$data4sql."')");
 			}
 		}
-		//alter table module_xml change data data longblob;
 
-		if (empty($allxml['xml'])) {
+		if (empty($modules)) {
 			// no data, probably couldn't connect online, and nothing cached
 			return null;
 		}

@@ -112,11 +112,15 @@ if($online) { ?>
 													} else {
 														$vercomp2 = false;
 													}
-													$tn = ($trackenable && !empty($module['highreleasetracktype']) && ($module['track'] != $module['highreleasetracktype'])) ? ucfirst(strtolower($module['highreleasetracktype'])) : '';
+													$tn = ($trackenable && !empty($module['highreleasetracktype'])) ? ucfirst(strtolower($module['highreleasetracktype'])) : '';
 													if ($vercomp < 0 || $vercomp2) {?>
 														<span class="alert">
-															<?php echo sprintf(_('%s Online %s upgrade available (%s)'), $disabled, $tn, $trackinfo['version']);?>
-															<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['online']['version'],'>') && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>') && $module['track'] != $module['highreleasetracktype']) ? '; ' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) : ''?>
+															<?php if($module['track'] != 'stable') { ?>
+																<?php echo sprintf(_('%s Online %s upgrade available (%s)'), $disabled, $tn, $trackinfo['version']);?>
+															<?php } else { ?>
+																<?php echo sprintf(_('%s Online upgrade available (%s)'), $disabled, $trackinfo['version']);?>
+																<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['online']['version'],'>') && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>') && $module['track'] != $module['highreleasetracktype']) ? '; ' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) : ''?>
+															<?php } ?>
 														</span>
 													<?php } elseif ($vercomp > 0) { ?>
 														<?php echo sprintf(_($disabled.'Newer than online version (%s)'), $trackinfo['version']);?>

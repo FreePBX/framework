@@ -28,7 +28,7 @@ class PKCS {
 
 	// This is how long we should wait for OpenSSL to run a command.
 	// This may need to be tuned on things like the pi.
-	public $timeout = 30;
+	public $timeout = 120;
 
 	//TODO first element that comes in here is the freepbx object yikes
 	public function __construct($debug=0) {
