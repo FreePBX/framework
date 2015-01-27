@@ -415,12 +415,12 @@ if(is_array($active_modules)){
         $con_dirs->symlink_sound_dirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
         $con_dirs->symlink_assets($key);
 				$bmo->Performance->Stamp("Finished symlinking");
-				$bmo->Performance->Stamp("Generating CSS for ".$key);
-		    $con_dirs->generate_less($key); //generate less for said module if needed
-				$bmo->Performance->Stamp("Finished Generating Less");
 				$bmo->Performance->Stamp("Copying Files for ".$key);
         $con_dirs->cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
 				$bmo->Performance->Stamp("Finished Copying Files");
+				$bmo->Performance->Stamp("Generating CSS from LESS for ".$key);
+				$con_dirs->generate_less($key); //generate less for said module if needed
+				$bmo->Performance->Stamp("Finished Generating Less");
       break;
 		}
 	}
