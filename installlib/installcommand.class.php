@@ -250,7 +250,7 @@ class FreePBXInstallCommand extends Command {
 		file_put_contents($amp_conf['ASTETCDIR'] . '/version', $astver);
 
 		// Parse Asterisk version.
-		if (preg_match('/^Asterisk (?:SVN-)?(\d+(\.\d+)*)(-?(.*))$/', $astver, $matches)) {
+		if (preg_match('/^Asterisk (?:SVN-)(?:branch-)?(\d+(\.\d+)*)(-?(.*))$/', $astver, $matches)) {
 			if ((version_compare($matches[1], "11") < 0) ||
 			     version_compare($matches[1], "15", "ge")) {
 				$output->writeln("Supported Asterisk versions: 11, 12, 13, 14");
