@@ -88,26 +88,25 @@ class Less extends Less_Parser {
 					$variables = array_merge($o, $variables);
 				}
 			}
-
 			$f = $this->getCachedFile($less_path,$less_rel,$variables);
 			if(!empty($f)) {
 				$files[] = 'cache/'.$f;
 			}
-		}
 
-		if(!empty($pagename)) {
-			$less_path = $less_path."/".$pagename;
-			if(file_exists($less_path)) {
-				$varOverride = $this->FreePBX->Hooks->processHooks($variables);
-				if(!empty($varOverride)) {
-					foreach($varOverride as $o) {
-						$variables = array_merge($o, $variables);
+			if(!empty($pagename)) {
+				$page_less_path = $less_path."/".$pagename;
+				if(file_exists($page_less_path)) {
+					$f = $this->getCachedFile($page_less_path,$less_rel,$variables);
+					if(!empty($f)) {
+						$files[] = $pagename.'/cache/'.$f;
 					}
 				}
-
-				$f = $this->getCachedFile($less_path,$less_rel,$variables);
-				if(!empty($f)) {
-					$files[] = $pagename.'/cache/'.$f;
+			} else {
+				//we dont know the page so generate it for all page folders
+				foreach(glob($less_path.'/*', GLOB_ONLYDIR) as $dir) {
+					if(!preg_match('/cache$/',$dir)) {
+						$this->getCachedFile($dir,$less_rel,$variables);
+					}
 				}
 			}
 		}
