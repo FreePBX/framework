@@ -238,28 +238,24 @@ class FreePBXInstallCommand extends Command {
 		// Read/parse asterisk.conf
 		// ... and then write amportal.conf, again?!
 
-		// Write /etc/asterisk/version ?
 		exec("asterisk -V", $tmpout, $ret);
 		if ($ret != 0) {
 			$output->writeln("Error executing Asterisk.  Ensure that Asterisk is properly installed.");
-			exit(1);
-		}
-		$astver = $tmpout[0];
-		unset($tmpout);
+		} else {
+			$astver = $tmpout[0];
+			unset($tmpout);
 
-		file_put_contents($amp_conf['ASTETCDIR'] . '/version', $astver);
-
-		// Parse Asterisk version.
-		if (preg_match('/^Asterisk (?:SVN-)(?:branch-)?(\d+(\.\d+)*)(-?(.*))$/', $astver, $matches)) {
-			if ((version_compare($matches[1], "11") < 0) ||
-			     version_compare($matches[1], "15", "ge")) {
-				$output->writeln("Supported Asterisk versions: 11, 12, 13, 14");
-				$output->writeln("Detected Asterisk version: " . $matches[1]);
+			// Parse Asterisk version.
+			if (preg_match('/^Asterisk (?:SVN-)(?:branch-)?(\d+(\.\d+)*)(-?(.*))$/', $astver, $matches)) {
+				if ((version_compare($matches[1], "11") < 0) || version_compare($matches[1], "15", "ge")) {
+					$output->writeln("Supported Asterisk versions: 11, 12, 13, 14");
+					$output->writeln("Detected Asterisk version: " . $matches[1]);
+					exit(1);
+				}
+			} else {
+				$output->writeln("Could not determine Asterisk version (got: " . $astver . "). Please report this.");
 				exit(1);
 			}
-		} else {
-			$output->writeln("Could not determine Asterisk version (got: " . $astver . "). Please report this.");
-			exit(1);
 		}
 
 		// Make sure SELinux is disabled

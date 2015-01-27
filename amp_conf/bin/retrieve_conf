@@ -489,6 +489,9 @@ if($engineinfo['version'] == 0){
 // was setting these variables before, assume we still need them
 $engine = $engineinfo['engine'];
 $version = $engineinfo['version'];
+if ((version_compare($version, "11") < 0) || version_compare($version, "15", "ge")) {
+	fatal(_("Running an unsupported version of Asterisk. Supported Asterisk versions: 11, 12, 13, 14. Detected Asterisk version: ".$version));
+}
 $chan_dahdi = ast_with_dahdi();
 
 // If BROWSER_STATS is set to true (default) and we have never provided a notice (NOTICE_BROWSER_STATS false) then do so one time only so
