@@ -169,9 +169,15 @@ if($online) { ?>
 											<?php if(!empty($module['license'])) {?>
 											<tr>
 												<td><?php echo ("License")?>:</td>
-												<td><?php echo $module['license']?></td>
+												<td><?php echo (!empty($module['licenselink'])) ? '<a href="'.$module['licenselink'].'" target="_moduleLicenseLink">'.$module['license'].'</a>' : $module['license']?></td>
 											</tr>
 											<?php } ?>
+											<?php dbug($module); if(!empty($module['signature']['message'])) {?>
+												<tr>
+													<td><?php echo ("Signature Status")?>:</td>
+													<td><?php echo $module['signature']['message']?> <a class="alert-link" href="http://wiki.freepbx.org/display/F2/Module+Signing" target="_blank">(What Does this Mean?)</a></td>
+												</tr>
+												<?php } ?>
 											<?php if(!empty($module['salert'])) {?>
 											<tr>
 												<td><?php echo ("Fixes Vulnerabilities")?>:</td>

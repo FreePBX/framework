@@ -813,8 +813,41 @@ switch ($action) {
 			$module_display[$category]['data'][$name]['loc_domain'] = $loc_domain;
 			$module_display[$category]['data'][$name]['name_text'] = $name_text;
 
+			$headerclass = "moduleheader";
+			$module_display[$category]['data'][$name]['signature']['message'] = "";
+			if(FreePBX::Config()->get('SIGNATURECHECK')) {
+				FreePBX::GPG();
+				if(is_int($modules[$name]['signature']['status']) && (~$modules[$name]['signature']['status'] & GPG::STATE_GOOD)) {
+					switch(true) {
+						case $modules[$name]['signature']['status'] & GPG::STATE_TAMPERED:
+							$headerclass = "moduleheader tampered";
+							$module_display[$category]['data'][$name]['signature']['message'] = _("Module has been tampered. Please redownload");
+							break;
+						case $modules[$name]['signature']['status'] & GPG::STATE_UNSIGNED:
+							$headerclass = "moduleheader unsigned";
+							$module_display[$category]['data'][$name]['signature']['message'] = _("Module is Unsigned");
+							break;
+						case $modules[$name]['signature']['status'] & GPG::STATE_INVALID:
+							$headerclass = "moduleheader invalid";
+							$module_display[$category]['data'][$name]['signature']['message'] = _("Module has been signed with an invalid key");
+							break;
+						case $modules[$name]['signature']['status'] & GPG::STATE_REVOKED:
+							$headerclass = "moduleheader revoked";
+							$module_display[$category]['data'][$name]['signature']['message'] = _("Module has been revoked and can not be enabled");
+							break;
+						break;
+						default:
+					}
+				} else if(is_int($modules[$name]['signature']['status']) && ($modules[$name]['signature']['status'] & GPG::STATE_GOOD)) {
+					$module_display[$category]['data'][$name]['signature']['message'] = _("Good");
+				} else {
+					$headerclass = "moduleheader unsigned";
+					$module_display[$category]['data'][$name]['signature']['message'] = _("Unknown");
+				}
+			}
+
 			$salert = isset($modules[$name]['vulnerabilities']);
-			$module_display[$category]['data'][$name]['mclass'] = $salert ? "moduleheader modulevulnerable" : "moduleheader";
+			$module_display[$category]['data'][$name]['mclass'] = $salert ? "moduleheader modulevulnerable" : $headerclass;
 
 			if ($salert) {
 				$module_display[$category]['data'][$name]['vulnerabilities'] = $modules[$name]['vulnerabilities'];
