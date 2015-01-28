@@ -85,17 +85,17 @@ if($online) { ?>
 									<?php switch ($module['status']) {
 										case MODULE_STATUS_NOTINSTALLED:
 											if (!empty($module['raw']['online'])) { ?>
-												<span class="notinstalled"><?php echo sprintf(_('Not Installed (Available online: %s)'), $module['raw']['online']['version'])?></span>
+												<span class="notinstalled text"><?php echo sprintf(_('Not Installed (Available online: %s)'), $module['raw']['online']['version'])?></span>
 											<?php } else { ?>
-												<span class="notinstalled"><?php echo sprintf(_('Not Installed (Locally available: %s)'),$module['raw']['local']['version'])?></span>
+												<span class="notinstalled text"><?php echo sprintf(_('Not Installed (Locally available: %s)'),$module['raw']['local']['version'])?></span>
 											<?php }
 										break;
 										case MODULE_STATUS_NEEDUPGRADE:?>
 											<?php $uptype = (version_compare_freepbx($module['dbversion'],$module['raw']['local']['version'],'<')) ? _("Upgrade") : _("Downgrade"); ?>
-											<span class="alert"><?php echo sprintf(_('Disabled; Pending %s to %s'),$uptype,$module['raw']['local']['version']);?></span>
+											<span class="alert text"><?php echo sprintf(_('Disabled; Pending %s to %s'),$uptype,$module['raw']['local']['version']);?></span>
 										<?php break;
 										case MODULE_STATUS_BROKEN:?>
-											<span class="alert"><?php echo _('Broken');?></span>
+											<span class="alert text"><?php echo _('Broken');?></span>
 										<?php break;
 										case MODULE_STATUS_DISABLED:
 										default:
@@ -114,7 +114,7 @@ if($online) { ?>
 													}
 													$tn = ($trackenable && !empty($module['highreleasetracktype'])) ? ucfirst(strtolower($module['highreleasetracktype'])) : '';
 													if ($vercomp < 0 || $vercomp2) {?>
-														<span class="alert">
+														<span class="alert text">
 															<?php if($module['track'] != 'stable') { ?>
 																<?php echo sprintf(_('%s Online %s upgrade available (%s)'), $disabled, $tn, $trackinfo['version']);?>
 															<?php } else { ?>
