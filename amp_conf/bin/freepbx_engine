@@ -570,12 +570,17 @@ ${b}migrate$bx|${b}m$bx: Migrates all Voicemail users to User Manager. If no con
 					unlock|u)
 						if [ -z "$4" ]; then
 							echo "Invalid Command"
-							echo 'amportal a ucp u <username> <session>'
+							echo 'amportal a ucp u <username> <session> <ipaddress>'
 							exit
 						fi
 						if [ -z "$5" ]; then
 							echo "Invalid Command"
-							echo "amportal a ucp u $5 <session>"
+							echo "amportal a ucp u $4 <session> <ipaddress>"
+							exit
+						fi
+						if [ -z "$6" ]; then
+							echo "Invalid Command"
+							echo "amportal a ucp u $4 $5 <ipaddress>"
 							exit
 						fi
 						out=`php -r '
@@ -591,7 +596,7 @@ ${b}migrate$bx|${b}m$bx: Migrates all Voicemail users to User Manager. If no con
 						}
 						$ucp = FreePBX::Ucp();
 						if(method_exists($ucp, "sessionUnlock")) {
-							if($ucp->sessionUnlock("'$4'","'$5'")) {
+							if($ucp->sessionUnlock("'$4'","'$5'","'$6'")) {
 								echo "UCP Session Unlocked!";
 							} else {
 								echo "User Doesnt Exist";
@@ -609,7 +614,7 @@ usage: ${b}amportal$bx (${b}admin$bx|${b}a$bx) ${b}ucp$bx <option>
 options:
 
 ${b}enableall$bx|${b}en$bx: Enables UCP login for all User Manager users
-${b}unlock$bx|${b}u$bx: Allows remote session unlock in UCP. Ex: amportal a ucp u <user> <session>
+${b}unlock$bx|${b}u$bx: Allows remote session unlock in UCP. Ex: amportal a ucp u <user> <session> <ipaddress>
 \n\n\n"
 					;;
 				esac
