@@ -13,10 +13,7 @@
   error_reporting(0);
   @ini_set('display_errors', 0);
 
-  define('AST_CONFIG_DIR', '/etc/asterisk/');
-  define('AST_SPOOL_DIR', '/var/spool/asterisk/');
-  define('AST_TMP_DIR', AST_SPOOL_DIR . '/tmp/');
-  define('DEFAULT_PHPAGI_CONFIG', AST_CONFIG_DIR . '/phpagi.conf');
+  define('DEFAULT_PHPAGI_CONFIG', '/etc/asterisk/phpagi.conf');
 
   define('AST_DIGIT_ANY', '0123456789#*');
 
@@ -125,10 +122,11 @@
     */
     function __construct($config=NULL, $optconfig=array(), $socket=NULL) {
       // load config
-      if(!is_null($config) && file_exists($config))
+      if(!is_null($config) && file_exists($config)) {
         $this->config = parse_ini_file($config, true);
-      elseif(file_exists(DEFAULT_PHPAGI_CONFIG))
+      } elseif(file_exists(DEFAULT_PHPAGI_CONFIG)) {
         $this->config = parse_ini_file(DEFAULT_PHPAGI_CONFIG, true);
+      }
 
       // If optconfig is specified, stuff vals and vars into 'phpagi' config array.
       foreach($optconfig as $var=>$val)
@@ -138,7 +136,8 @@
       if(!isset($this->config['phpagi']['error_handler'])) $this->config['phpagi']['error_handler'] = true;
       if(!isset($this->config['phpagi']['debug'])) $this->config['phpagi']['debug'] = false;
       if(!isset($this->config['phpagi']['admin'])) $this->config['phpagi']['admin'] = NULL;
-      if(!isset($this->config['phpagi']['tempdir'])) $this->config['phpagi']['tempdir'] = AST_TMP_DIR;
+      $temp = sys_get_temp_dir();
+      if(!isset($this->config['phpagi']['tempdir'])) $this->config['phpagi']['tempdir'] = (!empty($temp) ? $temp : '/tmp');
 
       ob_implicit_flush(true);
 
@@ -1525,7 +1524,7 @@
       stream_set_blocking($this->in, 0);
       while (fgets($this->in) !== false) { } // Discard
       stream_set_blocking($this->in, 1);
-      
+
       // write command
       if(is_null($this->socket))
       {
