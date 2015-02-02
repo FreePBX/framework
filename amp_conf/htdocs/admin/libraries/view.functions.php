@@ -36,11 +36,12 @@ function frameworkPasswordCheck() {
 
 // setup locale
 function set_language() {
+	global $amp_conf;
 	if (extension_loaded('gettext')) {
 		if (empty($_COOKIE['lang']) || !preg_match('/^[\w\._@-]+$/', $_COOKIE['lang'])) {
-			$_COOKIE['lang'] = 'en_US';
+			$lang = $amp_conf['UIDEFAULTLANG']?$amp_conf['UIDEFAULTLANG']:'en_US';
+			$_COOKIE['lang'] = $lang;
 		}
-		setlocale(LC_ALL,  $_COOKIE['lang']);
 		putenv("LANGUAGE=".$_COOKIE['lang']);
 
         bindtextdomain('amp','./i18n');

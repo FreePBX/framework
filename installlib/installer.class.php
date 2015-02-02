@@ -528,6 +528,16 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
+	$settings[$category]['UIDEFAULTLANG'] = array(
+	'value' => 'en_US',
+	'options' => '',
+	'readonly' => 0,
+	'hidden' => 0,
+	'name' => 'Default language',
+	'description' => 'The default language used in the webUI',
+	'type' => CONF_TYPE_TEXT,
+	);
+
 	$category = 'Dialplan and Operational';
 
 	$settings[$category]['AMPBADNUMBER'] = array(
