@@ -1109,24 +1109,24 @@ function checkPassword(el) {
 	}
 	switch(result.score){
 		case 0:
-			box.find(".wording").text(_("Weak"));
-			box.find(".progress-bar").removeClass("progress-bar-warning progress-bar-success").addClass("progress-bar-danger").css("width", "20%");
+			box.find(".wording").text(_("Really Weak"));
+			box.find(".progress-bar").removeClass("progress-bar-warning progress-bar-success progress-bar-info").addClass("progress-bar-danger").css("width", "20%");
 		break;
 		case 1:
 			box.find(".wording").text(_("Weak"));
-			box.find(".progress-bar").removeClass("progress-bar-warning progress-bar-success").addClass("progress-bar-danger").css("width", "40%");
+			box.find(".progress-bar").removeClass("progress-bar-warning progress-bar-success progress-bar-info").addClass("progress-bar-danger").css("width", "40%");
 		break;
 		case 2:
 			box.find(".wording").text(_("So-So"));
-			box.find(".progress-bar").removeClass("progress-bar-danger progress-bar-success").addClass("progress-bar-warning").css("width", "60%");
+			box.find(".progress-bar").removeClass("progress-bar-danger progress-bar-success progress-bar-info").addClass("progress-bar-warning").css("width", "60%");
 		break;
 		case 3:
-			box.find(".wording").text(_("Better"));
-			box.find(".progress-bar").removeClass("progress-bar-warning progress-bar-danger").addClass("progress-bar-success").css("width", "80%");
+			box.find(".wording").text(_("Good"));
+			box.find(".progress-bar").removeClass("progress-bar-warning progress-bar-danger progress-bar-success").addClass("progress-bar-info").css("width", "80%");
 		break;
 		case 4:
 			box.find(".wording").text(_("Strong"));
-			box.find(".progress-bar").removeClass("progress-bar-warning progress-bar-danger").addClass("progress-bar-success").css("width", "100%");
+			box.find(".progress-bar").removeClass("progress-bar-warning progress-bar-danger progress-bar-info").addClass("progress-bar-success").css("width", "100%");
 		break;
 	}
 }
