@@ -527,27 +527,6 @@ function framework_add_amp_admin($username,
 	return true;
 }
 
-function framework_obe_intialize_validate($username,
-			$password,
-			$confirm_password,
-			$email,
-			$confirm_email
-) {
-	$errors = array();
-	if (!$username){
-		$errors[] = _('Please enter a username');
-	}
-	if (!$password) {
-		$errors[] = _('Please enter a password');
-	} elseif ($password != $confirm_password) {
-		$errors[] = _('Passwords dont match');
-	}
-	if ($email && $email != $confirm_email) {
-		$errors[] = _('Emaill addresses dont match');
-	}
-
-	return $errors;
-}
 /**
  * Create admin user & email address
  *

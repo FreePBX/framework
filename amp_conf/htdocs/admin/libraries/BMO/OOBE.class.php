@@ -63,8 +63,66 @@ class OOBE extends FreePBX_Helpers {
 			// Just show the view
 			echo load_view("/var/www/html/admin/views/oobe.php");
 		} else {
-			echo "I dunno man\n";
+			$errors = $this->validateFrameworkOOBE($results);
+			if ($errors) {
+				// Something failed. Try again
+				$results['errors'] = $errors;
+				echo load_view("/var/www/html/admin/views/oobe.php", $results);
+			} else {
+				print "Success!";
+				exit;
+			}
 		}
+	}
+
+	private function validateFrameworkOOBE(&$results) {
+		if (isset($_REQUEST['username'])) {
+			$username = trim($_REQUEST['username']);
+		} else {
+			$username = "";
+		}
+
+		if (isset($_REQUEST['password1'])) {
+			$password1 = trim($_REQUEST['password1']);
+		} else {
+			$password1 = "";
+		}
+
+		if (isset($_REQUEST['password2'])) {
+			$password2 = trim($_REQUEST['password2']);
+		} else {
+			$password2 = "";
+		}
+
+		if (isset($_REQUEST['email'])) {
+			$email = trim($_REQUEST['email']);
+		} else {
+			$email = "";
+		}
+		$results = array();
+		$errors = array();
+
+		if (!$username){
+			$errors[] = _('Please enter a username');
+		}  else {
+			$results['username'] = $username;
+		}
+
+		if (!$password1 || !$password2 || $password1 != $password2) {
+			$errors[] = _('Password error. Please re-check');
+		} elseif (strlen($password1) < 40) {
+			$errors[] = _('Password too short');
+		} else {
+			$results['password'] = $password1;
+		}
+
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			$errors[] = _('Email addresses error');
+		} else {
+			$results['email'] = $email;
+		}
+
+		return $errors;
 	}
 
 }

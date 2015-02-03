@@ -33,7 +33,9 @@ if (!isset($email)) {
       </div>
 <?php if (isset($errors)) { ?>
       <div class='row'>
-        <span class="obe_error"><?php echo $er.ul($errors); ?></span>
+        <div class='col-sm-12'>
+          <span class="obe_error"><?php echo $er.ul($errors); ?></span>
+        </div>
       </div>
 <?php } ?>
       <div class='row'>
@@ -72,7 +74,7 @@ if (!isset($email)) {
             <label for="email" style='margin-top: 1em'><?php echo $em[0];?></label>
           </div>
           <div class='col-sm-8'>
-            <input type='text' class='form-control' id='email' name='email' placeholder='<?php echo $em[1]; ?>'>
+            <input type='text' class='form-control' id='email' name='email' placeholder='<?php echo $em[1]; ?>' value='<?php echo $email; ?>'>
           </div>
         </div>
       </div>
