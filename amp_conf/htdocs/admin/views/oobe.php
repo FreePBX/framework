@@ -20,6 +20,7 @@ if (!isset($email)) {
 ?>
 
 <form method='post' id='loginform'>
+<input type='hidden' name='action' value='setup_admin'>
 
 <div class='container-fluid'>
   <div class='panel panel-default'>

@@ -347,7 +347,7 @@ case 'noauth':
 	// If we're a new install..
 	$obecomplete = $bmo->OOBE->isComplete("noauth");
 	if (!$obecomplete) {
-		$ret = $bmo->OOBE->showOOBE();
+		$ret = $bmo->OOBE->showOOBE("noauth");
 	} else {
 		$ret = false;
 	}
@@ -389,130 +389,141 @@ case '':
 	}
 	break;
 default:
-	//display the appropriate module page
-	$module_name = $cur_menuitem['module']['rawname'];
-	$module_page = $cur_menuitem['display'];
-	$module_file = 'modules/'.$module_name.'/page.'.$module_page.'.php';
 
-	//TODO Determine which item is this module displaying.
-	//Currently this is over the place, we should standardize on a
-	//"itemid" request var for now, we'll just cover all possibilities :-(
-	$possibilites = array(
-		'userdisplay',
-		'extdisplay',
-		'id',
-		'itemid',
-		'selection'
-	);
-	$itemid = '';
-	foreach($possibilites as $possibility) {
-		if (isset($_REQUEST[$possibility]) && $_REQUEST[$possibility] != '' ) {
-			$itemid = htmlspecialchars($_REQUEST[$possibility], ENT_QUOTES);
-			$_REQUEST[$possibility] = $itemid;
-		}
-	}
-
-	// create a module_hook object for this module's page
-	try {
-		$module_hook = moduleHook::create();
-
-		// populate object variables
-		$module_hook->install_hooks($module_page,$module_name,$itemid);
-
-		// let hooking modules process the $_REQUEST
-		$module_hook->process_hooks($itemid,
-			$module_name,
-			$module_page,
-			$_REQUEST);
-
-		// BMO: Pre display hooks.
-		// getPreDisplay and getPostDisplay should probably never
-		// be used.
-		$bmo->GuiHooks->getPreDisplay($module_name, $_REQUEST);
-	} catch(Exception $e) {
-		die_freepbx(_("FreePBX is Unable to Continue"), $e);
-	}
-
-	// include the module page
-	if (isset($cur_menuitem['disabled']) && $cur_menuitem['disabled']) {
-		show_view($amp_conf['VIEW_MENUITEM_DISABLED'], $cur_menuitem);
-		break; // we break here to avoid the generateconfigpage() below
-	} else if (file_exists($module_file)) {
-		//check module first and foremost, but not during quietmode
-		if(!isset($_REQUEST['quietmode']) && $amp_conf['SIGNATURECHECK'] && (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'popup')) {
-			//Since we are viewing this module update it's signature
-			try {
-				$gpgstatus = module_functions::create()->updateSignature($module_name,false);
-				//check all cached signatures
-				$modules = module_functions::create()->getAllSignatures();
-			} catch(Exception $e) {
-				die_freepbx(_("FreePBX is Unable to Continue"), $e);
-			}
-			if(!$modules['validation']) {
-				$type = (!empty($modules['statuses']['untrusted']) || !empty($modules['statuses']['tampered'])) ? 'danger' : 'warning';
-				$merged = array();
-				//priority sorting
-				$stauses = array("revoked","untrusted","tampered","unsigned","unknown");
-				foreach($stauses as $st) {
-					if(!empty($modules['statuses'][$st])) {
-						$merged = array_merge($merged,$modules['statuses'][$st]);
-					}
-				}
-				$d = FreePBX::notifications()->list_security(true);
-				foreach($d as $n) {
-					//Dont show the same notifications twice
-					if(!in_array($n['id'],array('FW_REVOKED','FW_UNSIGNED','FW_UNTRUSTED','FW_TAMPERED','FW_UNKNOWN'))) {
-						array_unshift($merged,$n['display_text']);
-					}
-				}
-				switch($type) {
-				case 'danger':
-					echo generate_message_banner(_('Security Warning'), 'danger',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing',true);
-					break;
-				case 'warning':
-					echo generate_message_banner(_('Security Warning'), 'warning',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing', true);
-					break;
-				}
-			}
-		}
-
-		if(isset($gpgstatus['status']) && ($gpgstatus['status'] & GPG::STATE_REVOKED)) {
-			echo sprintf(_("File %s has a revoked signature. Can not load"),$module_file);
-		} else {
-			// load language info if available
-			modgettext::textdomain($module_name);
-			try {
-				if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
-					$bmo->GuiHooks->doIntercept($module_name, $module_file);
-				} else {
-					include($module_file);
-				}
-			} catch(Exception $e) {
-				die_freepbx(_("FreePBX is Unable to Continue"), $e);
-			}
-		}
+	$obecomplete = $bmo->OOBE->isComplete();
+	if (!$obecomplete) {
+		$ret = $bmo->OOBE->showOOBE();
 	} else {
-		echo sprintf(_("404 Not found (%s)"),$module_file);
+		$ret = false;
 	}
 
-	// BMO TODO: Post display hooks.
-	try {
-		$bmo->GuiHooks->getPostDisplay($module_name, $_REQUEST);
-	} catch(Exception $e) {
-		die_freepbx(_("FreePBX is Unable to Continue"), $e);
-	}
+	if ($obecomplete || $ret === true) {
 
-	// global component
-	if ( isset($currentcomponent) ) {
-		modgettext::textdomain($module_name);
+		//display the appropriate module page
+		$module_name = $cur_menuitem['module']['rawname'];
+		$module_page = $cur_menuitem['display'];
+		$module_file = 'modules/'.$module_name.'/page.'.$module_page.'.php';
+
+		//TODO Determine which item is this module displaying.
+		//Currently this is over the place, we should standardize on a
+		//"itemid" request var for now, we'll just cover all possibilities :-(
+		$possibilites = array(
+			'userdisplay',
+			'extdisplay',
+			'id',
+			'itemid',
+			'selection'
+		);
+		$itemid = '';
+		foreach($possibilites as $possibility) {
+			if (isset($_REQUEST[$possibility]) && $_REQUEST[$possibility] != '' ) {
+				$itemid = htmlspecialchars($_REQUEST[$possibility], ENT_QUOTES);
+				$_REQUEST[$possibility] = $itemid;
+			}
+		}
+
+		// create a module_hook object for this module's page
 		try {
-			$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
-			echo  $currentcomponent->generateconfigpage();
+			$module_hook = moduleHook::create();
+
+			// populate object variables
+			$module_hook->install_hooks($module_page,$module_name,$itemid);
+
+			// let hooking modules process the $_REQUEST
+			$module_hook->process_hooks($itemid,
+				$module_name,
+				$module_page,
+				$_REQUEST);
+
+			// BMO: Pre display hooks.
+			// getPreDisplay and getPostDisplay should probably never
+			// be used.
+			$bmo->GuiHooks->getPreDisplay($module_name, $_REQUEST);
 		} catch(Exception $e) {
 			die_freepbx(_("FreePBX is Unable to Continue"), $e);
 		}
+
+		// include the module page
+		if (isset($cur_menuitem['disabled']) && $cur_menuitem['disabled']) {
+			show_view($amp_conf['VIEW_MENUITEM_DISABLED'], $cur_menuitem);
+			break; // we break here to avoid the generateconfigpage() below
+		} else if (file_exists($module_file)) {
+			//check module first and foremost, but not during quietmode
+			if(!isset($_REQUEST['quietmode']) && $amp_conf['SIGNATURECHECK'] && (!isset($_REQUEST['action']) || $_REQUEST['action'] != 'popup')) {
+				//Since we are viewing this module update it's signature
+				try {
+					$gpgstatus = module_functions::create()->updateSignature($module_name,false);
+					//check all cached signatures
+					$modules = module_functions::create()->getAllSignatures();
+				} catch(Exception $e) {
+					die_freepbx(_("FreePBX is Unable to Continue"), $e);
+				}
+				if(!$modules['validation']) {
+					$type = (!empty($modules['statuses']['untrusted']) || !empty($modules['statuses']['tampered'])) ? 'danger' : 'warning';
+					$merged = array();
+					//priority sorting
+					$stauses = array("revoked","untrusted","tampered","unsigned","unknown");
+					foreach($stauses as $st) {
+						if(!empty($modules['statuses'][$st])) {
+							$merged = array_merge($merged,$modules['statuses'][$st]);
+						}
+					}
+					$d = FreePBX::notifications()->list_security(true);
+					foreach($d as $n) {
+						//Dont show the same notifications twice
+						if(!in_array($n['id'],array('FW_REVOKED','FW_UNSIGNED','FW_UNTRUSTED','FW_TAMPERED','FW_UNKNOWN'))) {
+							array_unshift($merged,$n['display_text']);
+						}
+					}
+					switch($type) {
+					case 'danger':
+						echo generate_message_banner(_('Security Warning'), 'danger',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing',true);
+						break;
+					case 'warning':
+						echo generate_message_banner(_('Security Warning'), 'warning',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing', true);
+						break;
+					}
+				}
+			}
+
+			if(isset($gpgstatus['status']) && ($gpgstatus['status'] & GPG::STATE_REVOKED)) {
+				echo sprintf(_("File %s has a revoked signature. Can not load"),$module_file);
+			} else {
+				// load language info if available
+				modgettext::textdomain($module_name);
+				try {
+					if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
+						$bmo->GuiHooks->doIntercept($module_name, $module_file);
+					} else {
+						include($module_file);
+					}
+				} catch(Exception $e) {
+					die_freepbx(_("FreePBX is Unable to Continue"), $e);
+				}
+			}
+		} else {
+			echo sprintf(_("404 Not found (%s)"),$module_file);
+		}
+
+		// BMO TODO: Post display hooks.
+		try {
+			$bmo->GuiHooks->getPostDisplay($module_name, $_REQUEST);
+		} catch(Exception $e) {
+			die_freepbx(_("FreePBX is Unable to Continue"), $e);
+		}
+
+		// global component
+		if ( isset($currentcomponent) ) {
+			modgettext::textdomain($module_name);
+			try {
+				$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
+				echo  $currentcomponent->generateconfigpage();
+			} catch(Exception $e) {
+				die_freepbx(_("FreePBX is Unable to Continue"), $e);
+			}
+		}
+		break;
 	}
-	break;
 }
 
 $header = array();

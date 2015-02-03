@@ -19,14 +19,19 @@ class OOBE extends FreePBX_Helpers {
 				return false;
 			}
 		}
-
 		// Otherwise....
 		return $this->getConfig("iscomplete");
 	}
 
 	// Which modules have pending OOBE pages to show?
-	public function getPendingModules() {
-		$all = $this->getOOBEModules();
+	public function getPendingModules($type = "auth") {
+
+		if ($type = "noauth") {
+			$all = array("framework" => "framework");
+		} else {
+			$all = $this->getOOBEModules();
+		}
+
 		$complete = $this->getConfig("completed");
 		if (!is_array($complete)) {
 			return $all;
@@ -117,13 +122,13 @@ class OOBE extends FreePBX_Helpers {
 		return $obj->$func();
 	}
 
-	public function showOOBE() {
-		$pending = $this->getPendingModules();
+	public function showOOBE($auth = "auth") {
+		$pending = $this->getPendingModules($auth);
 		// If there aren't any pending modules, return false
 		// so config.php knows we didn't do anything, and can
 		// continue on.
 		if (!$pending) {
-			return false;
+			return true;
 		}
 
 		$current = key($pending);
