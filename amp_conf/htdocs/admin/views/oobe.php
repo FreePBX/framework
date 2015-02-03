@@ -77,11 +77,61 @@ if (!isset($email)) {
         </div>
       </div>
       <div class='row'>
-        <div class='col-sm-3 col-sm-offset-8'><span class='pull-right'><button>Button</button></div>
+        <div class='col-sm-3 col-sm-offset-8'><span class='pull-right'><button type='submit' id='createacct'>Create Account</button></div>
       </div>
     </div>
   </div>
 </div>
 
 </form>
+
+<script type='text/javascript'>
+$(document).ready(function(){
+	var emailregexp = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+	var alertcol = "rgb(255, 192, 192)";
+	var origcol = $("#email").css("background-color");
+	$("#createacct").click(function(e) {
+		var canProceed = true;
+
+		// Check the admin user name. No spaces.
+		var un = $("#username").val().replace(/\s/g, "");
+		$("#username").val(un);
+		if (!un.length) {
+			$("#username").css("background-color", alertcol);
+			canProceed = false;
+		} else {
+			$("#username").css("background-color", origcol);
+		}
+
+		// Validate the email address
+		if (!emailregexp.test($("#email").val())) {
+			$("#email").css("background-color", alertcol);
+			canProceed = false;
+		} else {
+			$("#email").css("background-color", origcol);
+		}
+
+		// Check the passwords.
+		if ($("#password1").val().length < 4) {
+			$("#password1").css("background-color", alertcol);
+			$("#password2").css("background-color", origcol);
+			canProceed = false;
+		} else if ($("#password1").val() != $("#password2").val()) {
+			$("#password1").css("background-color", origcol);
+			$("#password2").css("background-color", alertcol);
+			canProceed = false;
+		} else {
+			$("#password1").css("background-color", origcol);
+			$("#password2").css("background-color", origcol);
+		}
+
+		if (!canProceed) {
+			e.preventDefault();
+			return false;
+		} else {
+			return true;
+		}
+	 });
+});
+</script>
 

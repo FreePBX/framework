@@ -644,4 +644,4 @@ if ($quietmode) {
 		$footer['covert'] ? $footer['no_auth'] 	= true : '';
 		echo load_view($amp_conf['VIEW_FOOTER'], $footer);
 }
-?>
+
