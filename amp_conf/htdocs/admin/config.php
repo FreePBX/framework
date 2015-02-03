@@ -345,9 +345,16 @@ switch($display) {
 			break;
 	case 'noauth':
 		// If we're a new install..
-		if (!$bmo->OOBE->isComplete()) {
-			$bmo->OOBE->showOOBE();
+		$obecomplete = $bmo->OOBE->isComplete("noauth");
+		if (!$obecomplete) {
+			$ret = $bmo->OOBE->showOOBE();
 		} else {
+			$ret = false;
+		}
+
+		// Did we do anything? If we returned true, we didn't actually output anything
+		// So just keep going.
+		if ($obecomplete || $ret === true) {
 			// We're installed, we just need to log in.
 			$login['errors'] = array();
 			if ($config_vars['username'] && $action !== 'setup_admin') {

@@ -9,7 +9,18 @@
 class OOBE extends FreePBX_Helpers {
 
 	// Is the out of box experience complete?
-	public function isComplete() {
+	public function isComplete($type = "auth") {
+		if ($type == "noauth") {
+			// We only care about framework if we're unauthed
+			$complete = $this->getConfig("completed");
+			if (isset($complete['framework'])) {
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		// Otherwise....
 		return $this->getConfig("iscomplete");
 	}
 
@@ -35,9 +46,9 @@ class OOBE extends FreePBX_Helpers {
 		}
 		$complete = $this->getConfig("completed");
 		if (!is_array($complete)) {
-			$complete = array($mod);
+			$complete = array($mod => $mod);
 		} else {
-			$complete[] = $mod;
+			$complete[$mod] = $mod;
 		}
 
 		$this->setConfig("completed", $complete);
@@ -45,18 +56,95 @@ class OOBE extends FreePBX_Helpers {
 
 	// Which modules are providing OOBE pages?
 	public function getOOBEModules() {
-		return array("framework" => "Core System Setup", "sysadmin" => "System Administration");
+		$retarr = array("framework" => "Core System Setup");
+		$mods = module_functions::create();
+		$i = $mods->getinfo(false, false, true);
+		foreach ($i as $modname => $arr) {
+			if (!isset($arr['obe']) && !isset($arr['oobe'])) {
+				continue;
+			}
+			$retarr[$modname] = $arr['name'];
+		}
+
+		return $retarr;
+	}
+
+	// Call a module's OOBE Hook
+	public function runModulesOOBE($modname = false) {
+		if (!$modname) {
+			throw new \Exception("You didn't ask for a module");
+		}
+
+		$bmo = FreePBX::create();
+		$mod = ucfirst($modname);
+
+		// Firstly. Is that module already loaded? Pretty unlikely
+		// at this stage of play..
+		if (!class_exists("\\FreePBX\\modules\\$mod")) {
+			// Unsurprisingly, it didn't. Let's load it.
+			// We need to manually load it, as the autoloader WON'T.
+			$hint = FreePBX::Config()->get("AMPWEBROOT")."/admin/modules/$modname/$mod.class.php";
+			$this->injectClass($mod, $hint);
+		}
+
+		// Now we can instantiate it
+		$obj = FreePBX::$mod();
+
+		// Awesome. Now, what was that oobe function again...?
+		$mods = module_functions::create();
+		$tmparr = $mods->getinfo($modname);
+		if (!isset($tmparr[$modname])) {
+			throw new \Exception("Critical error with getinfo on $modname");
+		}
+
+		$i = $tmparr[$modname];
+
+		if (isset($i['oobe'])) {
+			$func = $i['oobe'];
+		} else {
+			$func = $i['obe'];
+		}
+
+		// Is someone taking crazy pills?
+		if (!method_exists($obj, $func)) {
+			print "I'm sorry. The module $modname said that it was providing an OOBE, but when I actually asked it for $func, it didn't exist. ";
+			print "Please try again.\n";
+			$this->completeOOBE($modname);
+			return false;
+		}
+
+		// Awesome. Off you go then!
+		return $obj->$func();
 	}
 
 	public function showOOBE() {
 		$pending = $this->getPendingModules();
+		// If there aren't any pending modules, return false
+		// so config.php knows we didn't do anything, and can
+		// continue on.
+		if (!$pending) {
+			return false;
+		}
+
 		$current = key($pending);
+
 		if ($current == "framework") {
 			// That's us!
 			return $this->createAdminAccount();
-		} else {
-			throw new \Exception("Unimplemented");
 		}
+
+		// It's an external OOBE request.
+		// This displays the output (if there is any)
+		$ret = $this->runModulesOOBE($current);
+		// If this returns bool true, then that means it's completed
+		// its processing, and didn't output anything. We can mark it
+		// as complete, and proceed on to the next one.
+		if ($ret === true) {
+			$this->completeOOBE($current);
+			return $this->showOOBE();
+		}
+
+		// Otherwise, don't do anything else.
 	}
 
 	private function createAdminAccount() {
