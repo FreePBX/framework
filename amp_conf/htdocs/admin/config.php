@@ -344,62 +344,31 @@ switch($display) {
 			show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf' => &$amp_conf));
 			break;
 	case 'noauth':
-			$config_vars['obe_error_msg'] = array();
-			if ($config_vars['action'] == 'setup_admin'){
-					$config_vars['obe_error_msg'] = framework_obe_intialize_validate(
-							$config_vars['username'],
-							$config_vars['password'],
-							$config_vars['confirm_password'],
-							$config_vars['email_address'],
-							$config_vars['confirm_email']);
-			}
-			//if we have no admin users AND were trying to set one up
-			if (!count(getAmpAdminUsers())
-					&& $action == 'setup_admin'
-					&& !$config_vars['obe_error_msg']
-			) {
-					//validate the inputs
-					framework_obe_intialize_admin(
-							$config_vars['username'],
-							$config_vars['password'],
-							$config_vars['confirm_password'],
-							$config_vars['email_address'],
-							$config_vars['confirm_email']
-					);
+		// If we're a new install..
+		if (!$bmo->OOBE->isComplete()) {
+			$bmo->OOBE->showOOBE();
+		} else {
+			// We're installed, we just need to log in.
+			$login['errors'] = array();
+			if ($config_vars['username'] && $action !== 'setup_admin') {
+				$login['errors'][] = _('Invalid Username or Password');
 			}
 
-			//if we (still) have no admin users
-			if (!count(getAmpAdminUsers())) {
-					$login = $config_vars;
-					$login['amp_conf'] = $amp_conf;
-					$login['errors'] = $config_vars['obe_error_msg'];
-					echo load_view($amp_conf['VIEW_OBE'], $login);
-					unset($_SESSION['AMP_user']);
+			//show fop option if enabled, probobly doesnt belong on the
+			//login page
+			$login['panel'] = false;
+			if (!empty($amp_conf['FOPWEBROOT'])
+				&& is_dir($amp_conf['FOPWEBROOT'])
+			){
+				$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/admin/',
+					'', $amp_conf['FOPWEBROOT']);
 			}
 
-			//prompt for a password if we have users
-			if (count(getAmpAdminUsers())) {
-					//error message
-					$login['errors'] = array();
-					if ($config_vars['username'] && $action !== 'setup_admin') {
-							$login['errors'][] = _('Invalid Username or Password');
-					}
 
-					//show fop option if enabled, probobly doesnt belong on the
-					//login page
-					$login['panel'] = false;
-					if (!empty($amp_conf['FOPWEBROOT'])
-							&& is_dir($amp_conf['FOPWEBROOT'])
-					){
-							$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/admin/',
-									'', $amp_conf['FOPWEBROOT']);
-					}
-
-
-					$login['amp_conf'] = $amp_conf;
-					echo load_view($amp_conf['VIEW_LOGIN'], $login);
-			}
-			break;
+			$login['amp_conf'] = $amp_conf;
+			echo load_view($amp_conf['VIEW_LOGIN'], $login);
+		}
+		break;
 	case 'badrefer':
 			echo load_view($amp_conf['VIEW_BAD_REFFERER'], $amp_conf);
 			break;
