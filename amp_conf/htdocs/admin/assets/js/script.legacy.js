@@ -1059,9 +1059,79 @@ $(document).keydown(function(e) {
 	}
 });
 
+jQuery.cachedScript = function( url, options ) {
+
+	/// Allow user to set any option except for dataType, cache, and url
+	options = $.extend( options || {}, {
+		dataType: "script",
+		cache: true,
+		url: url
+	});
+
+	// Use $.ajax() since it is more flexible than $.getScript
+	// Return the jqXHR object so we can chain callbacks
+	return jQuery.ajax( options );
+};
+
+$(document).on('keyup', '.password-meter', function() {
+	var $this = this;
+	if(typeof zxcvbn === "undefined") {
+		$($this).after('<i id="password-meter-load" class="fa fa-circle-o-notch fa-spin"></i>');
+		$.cachedScript( "assets/js/zxcvbn.js" ).done(function( script, textStatus ) {
+			$("#password-meter-load").remove();
+			checkPassword($this);
+		});
+	} else {
+		checkPassword($this);
+	}
+});
+$(document).on('focus', '.password-meter', function() {
+	var $this = this;
+	if(typeof zxcvbn === "undefined") {
+		$($this).after('<i id="password-meter-load" class="fa fa-circle-o-notch fa-spin"></i>');
+		$.cachedScript( "assets/js/zxcvbn.js" ).done(function( script, textStatus ) {
+			$("#password-meter-load").remove();
+			checkPassword($this);
+		});
+	} else {
+		checkPassword($this);
+	}
+});
+
+function checkPassword(el) {
+	var jel = $(el);
+	var textVal = jel.val(),
+			result = zxcvbn(textVal),
+			box = jel.parents("div").find(".password-meter-box");
+	if(box.length === 0) {
+		$(el).after('<div class="password-meter-box"><div class="wording"></div><div class="progress password-meter-progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div></div></div>');
+		box = $(el).parents("div").find(".password-meter-box");
+	}
+	switch(result.score){
+		case 0:
+			box.find(".wording").text(_("Weak"));
+			box.find(".progress-bar").removeClass("progress-bar-warning progress-bar-success").addClass("progress-bar-danger").css("width", "20%");
+		break;
+		case 1:
+			box.find(".wording").text(_("Weak"));
+			box.find(".progress-bar").removeClass("progress-bar-warning progress-bar-success").addClass("progress-bar-danger").css("width", "40%");
+		break;
+		case 2:
+			box.find(".wording").text(_("So-So"));
+			box.find(".progress-bar").removeClass("progress-bar-danger progress-bar-success").addClass("progress-bar-warning").css("width", "60%");
+		break;
+		case 3:
+			box.find(".wording").text(_("Better"));
+			box.find(".progress-bar").removeClass("progress-bar-warning progress-bar-danger").addClass("progress-bar-success").css("width", "80%");
+		break;
+		case 4:
+			box.find(".wording").text(_("Strong"));
+			box.find(".progress-bar").removeClass("progress-bar-warning progress-bar-danger").addClass("progress-bar-success").css("width", "100%");
+		break;
+	}
+}
+
 $(document).ready(function() {
-
-
 	if ($(".fpbx-container").length > 0) {
 		var loc = window.location.hash.replace("#", "");
 		if (loc !== "" && $(".fpbx-container li[data-name=" + loc + "] a").length > 0) {
@@ -1505,4 +1575,3 @@ function sprintf() {
         label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
         input.parent().siblings(".filename").html(label);
 });
-

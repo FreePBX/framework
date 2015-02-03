@@ -702,7 +702,7 @@ class guiinput extends guielement {
 
 // Textbox
 class gui_textbox extends guiinput {
-	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $inputgroup = false, $class = '') {
+	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $inputgroup = false, $class = '', $autocomplete = true) {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -710,12 +710,13 @@ class gui_textbox extends guiinput {
 		parent::__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
 
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
+		$autocomplete = !($autcomplete) ? " autocomplete=\"off\"" : '';
 		$tabindex = guielement::gettabindex();
 		$disable_state = $disable ? 'disabled':'';
 		if($inputgroup) {
-			$this->html_input = "<div class=\"input-group\"><input type=\"text\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" value=\"" . htmlspecialchars($this->currentvalue) . "\">";
+			$this->html_input = "<div class=\"input-group\"><input type=\"text\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" $autocomplete value=\"" . htmlspecialchars($this->currentvalue) . "\">";
 		} else {
-			$this->html_input = "<input type=\"text\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" value=\"" . htmlspecialchars($this->currentvalue) . "\">";
+			$this->html_input = "<input type=\"text\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" size=\"35\" $disable_state $maxlength tabindex=\"$tabindex\" $autocomplete value=\"" . htmlspecialchars($this->currentvalue) . "\">";
 		}
 		$this->type = "textbox";
 	}
