@@ -10,9 +10,9 @@ class OOBE extends FreePBX_Helpers {
 
 	// Is the out of box experience complete?
 	public function isComplete($type = "auth") {
+		$complete = $this->getConfig("completed");
 		if ($type == "noauth") {
 			// We only care about framework if we're unauthed
-			$complete = $this->getConfig("completed");
 			if (isset($complete['framework'])) {
 				return true;
 			} else {
@@ -20,13 +20,19 @@ class OOBE extends FreePBX_Helpers {
 			}
 		}
 		// Otherwise....
-		return $this->getConfig("iscomplete");
+		$pending = $this->getPendingModules();
+
+		if ($pending) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	// Which modules have pending OOBE pages to show?
 	public function getPendingModules($type = "auth") {
 
-		if ($type = "noauth") {
+		if ($type == "noauth") {
 			$all = array("framework" => "framework");
 		} else {
 			$all = $this->getOOBEModules();
@@ -124,6 +130,7 @@ class OOBE extends FreePBX_Helpers {
 
 	public function showOOBE($auth = "auth") {
 		$pending = $this->getPendingModules($auth);
+
 		// If there aren't any pending modules, return false
 		// so config.php knows we didn't do anything, and can
 		// continue on.
