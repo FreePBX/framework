@@ -55,7 +55,7 @@ if (!isset($email)) {
             <label for="password1" style='margin-top: 1em'><?php echo $pw[0];?></label>
           </div>
           <div class='col-sm-8'>
-            <input type='password' class='form-control' id='password1' name='password1' placeholder='<?php echo $pw[1]; ?>'>
+            <input type='password' class='form-control password-meter' id='password1' name='password1' placeholder='<?php echo $pw[1]; ?>'>
           </div>
         </div>
       </div>
