@@ -1073,6 +1073,19 @@ jQuery.cachedScript = function( url, options ) {
 	return jQuery.ajax( options );
 };
 
+$(document).on('click', '.toggle-password', function() {
+	var id = $(this).data("id");
+			icon = $(this).find("i");
+			type = $("#" + id).prop("type");
+	if(type == "password") {
+		$("#" + id).prop("type", "text");
+		icon.removeClass("fa-eye").addClass("fa-eye-slash");
+	} else {
+		$("#" + id).prop("type", "password");
+		icon.removeClass("fa-eye-slash").addClass("fa-eye");
+	}
+});
+
 $(document).on('keyup', '.password-meter', function() {
 	var $this = this;
 	if(typeof zxcvbn === "undefined") {

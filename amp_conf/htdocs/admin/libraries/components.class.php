@@ -770,7 +770,7 @@ class gui_textbox_check extends gui_textbox {
 
 // Password
 class gui_password extends guiinput {
-	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $class='') {
+	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $class='',$passwordToggle=false) {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -780,7 +780,19 @@ class gui_password extends guiinput {
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
 		$tabindex = guielement::gettabindex();
 		$disable_state = $disable ? ' disabled':'';
+		/*
+		<div class="input-group">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button">Go!</button>
+					</span>
+					<input type="text" class="form-control" placeholder="Search for...">
+				</div><!-- /input-group -->
+		 */
 		$this->html_input = "<input type=\"password\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" $disable_state $maxlength tabindex=\"$tabindex\" value=\"" . htmlentities($this->currentvalue) . "\">";
+		if($passwordToggle) {
+			$input = $this->html_input;
+			$this->html_input = "<div class=\"input-group\">".$input."<span class=\"input-group-btn\"><button data-id=\"$this->_elemname\" class=\"btn btn-default toggle-password ".$class."\" type=\"button\" $disable_state><i class=\"fa fa-eye fa-2x\" style=\"margin-top: -2px;\"></i></button></span></div>";
+		}
 		$this->type = "password";
 	}
 }
