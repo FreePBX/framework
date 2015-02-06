@@ -456,43 +456,6 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
-	$settings[$category]['JQUERY_VER'] = array(
-	'value' => '1.11.1',
-	'options' => '',
-	'readonly' => 1,
-	'hidden' => 1,
-	'name' => 'jQuery Version',
-	'description' => 'The version of jQuery that we wish to use.',
-	'type' => CONF_TYPE_TEXT,
-	);
-
-	$settings[$category]['JQUERYUI_VER'] = array(
-	'value' => '1.10.3',
-	'options' => '',
-	'readonly' => 1,
-	'hidden' => 1,
-	'name' => 'jQuery UI Version',
-	'description' => 'The version of jQuery UI that we wish to use.',
-	'type' => CONF_TYPE_TEXT,
-	);
-
-	$settings[$category]['BOOTSTRAP_VER'] = array(
-	'value' => '3.0.2',
-	'options' => '',
-	'readonly' => 1,
-	'hidden' => 1,
-	'name' => 'Bootstrap Version',
-	'description' => 'The version of Bootstrap that we wish to use.',
-	'type' => CONF_TYPE_TEXT,
-	);
-
-	$vers = array('JQUERY_VER', 'JQUERYUI_VER', 'BOOTSTRAP_VER');
-	foreach ($vers as $ver) {
-		if($freepbx_conf->conf_setting_exists($ver)) {
-			$freepbx_conf->set_conf_values(array($ver => $settings[$category][$ver]['value']), true, true);
-		}
-	}
-
 	$settings[$category]['CRONMAN_UPDATES_CHECK'] = array(
 	'value' => true,
 	'options' => '',

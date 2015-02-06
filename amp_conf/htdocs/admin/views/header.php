@@ -71,15 +71,12 @@ $html .= "<script>var firsttypeofselector = true</script>";
 $html .= '<link href="assets/less/' .$extra_compiled_less_files['buttons'] . '" rel="stylesheet" type="text/css">';
 
 //it seems extremely difficult to put jquery in the footer with the other scripts
-/* We are using a custom Jquery file for now, it's beta
 if ($amp_conf['USE_GOOGLE_CDN_JS']) {
-	$html .= '<script src="//ajax.googleapis.com/ajax/libs/jquery/' . $amp_conf['JQUERY_VER'] . '/jquery.min.js"></script>';
-	$html .= '<script>window.jQuery || document.write(\'<script src="assets/js/jquery-' . $amp_conf['JQUERY_VER'] . '.min.js"><\/script>\')</script>';
+	$html .= '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
+	$html .= '<script>window.jQuery || document.write(\'<script src="assets/js/jquery-1.11.2.min.js"><\/script>\')</script>';
 } else {
-	$html .= '<script type="text/javascript" src="assets/js/jquery-' . $amp_conf['JQUERY_VER'] . '.min.js"></script>';
+	$html .= '<script type="text/javascript" src="assets/js/jquery-1.11.2.min.js"></script>';
 }
-*/
-$html .= '<script type="text/javascript" src="assets/js/jquery-' . $amp_conf['JQUERY_VER'] . '.min.js"></script>';
 
 //development
 if($amp_conf['JQMIGRATE']) {

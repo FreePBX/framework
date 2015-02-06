@@ -539,6 +539,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 				//
 				$never_symlink = array(
 					"cdr_mysql.conf",
+					"indications.conf",
 					"manager.conf",
 					"vm_email.inc",
 					"modules.conf"

@@ -138,9 +138,9 @@ $html .= "\n" . '<script type="text/javascript">'
 
 
 //Removed google CDN because we are using custom libraries for bootstrap and jqueryui so that buttons work together
-$html .= '<script src="assets/js/bootstrap-3.3.1.custom.min.js"></script>';
+$html .= '<script src="assets/js/bootstrap-3.3.2.custom.min.js"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.10.3.custom.min.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.11.2.min.js"></script>';
 
 
 $html .= '<script type="text/javascript" src="assets/js/jed.js' . $version_tag . '"></script>';
