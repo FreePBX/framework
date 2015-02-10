@@ -123,21 +123,26 @@ if($online) { ?>
 															<?php } ?>
 														</span>
 													<?php } elseif ($vercomp > 0) { ?>
-														<?php echo sprintf(_($disabled.'Newer than online version (%s)'), $trackinfo['version']);?>
+														<span class="text"><?php echo sprintf(_($disabled.'Newer than online version (%s)'), $trackinfo['version']);?></span>
 													<?php } elseif($module['status'] == MODULE_STATUS_DISABLED) { ?>
-														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['online']['version'],'>') && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Disabled; up to date')?>
+														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['online']['version'],'>') && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>')) ? '<span class="alert text">' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Disabled; up to date')?>
 													<?php } else { ?>
-														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['online']['version'],'>') && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>')) ? '<span class="alert">' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Enabled and up to date')?>
+														<?php echo ($trackenable && !empty($module['highreleasetrackver']) && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['online']['version'],'>') && version_compare_freepbx($module['highreleasetrackver'],$module['raw']['local']['version'],'>')) ? '<span class="alert text">' . sprintf(_('%s Upgrade Available (%s)'),ucfirst($module['highreleasetracktype']),$module['highreleasetrackver']) . '</span>' : _('Enabled and up to date')?>
 													<?php }
 												}
 											} else {
-												if($online && $module['status'] != MODULE_STATUS_DISABLED) {?>
-													<?php echo _('Enabled; Not available online');?>
-												<?php } elseif($module['status'] == MODULE_STATUS_DISABLED) { ?>
-													<?php echo _('Disabled');?>
-												<?php } else { ?>
-													<?php echo _('Enabled'); ?>
-												<?php }
+												?>
+												<span class="text">
+												<?php
+													if($online && $module['status'] != MODULE_STATUS_DISABLED) {?>
+														<?php echo _('Enabled; Not available online');?>
+													<?php } elseif($module['status'] == MODULE_STATUS_DISABLED) { ?>
+														<?php echo _('Disabled');?>
+													<?php } else { ?>
+														<?php echo _('Enabled'); ?>
+													<?php } ?>
+												</span>
+												<?php
 											}
 										break;
 									}?>
