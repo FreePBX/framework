@@ -68,8 +68,7 @@ class Modules {
 	 * @param {string} $method The method name
 	 */
 	public function moduleHasMethod($module, $method) {
-		$lowerModule = strtolower($module);
-		$module = ucfirst(strtolower($lowerModule));
+		$module = ucfirst(strtolower($module));
 		if(!empty($this->moduleMethods[$module]) && in_array($method, $this->moduleMethods[$module])) {
 			return true;
 		}
@@ -77,7 +76,7 @@ class Modules {
 		foreach(array_keys($this->active_modules) as $mod) {
 			$amods[] = $this->cleanModuleName($mod);
 		}
-		if(in_array($lowerModule,$amods)) {
+		if(in_array($module,$amods)) {
 			try {
 				$rc = new \ReflectionClass($this->FreePBX->$module);
 				if($rc->hasMethod($method)) {
