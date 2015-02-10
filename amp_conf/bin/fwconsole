@@ -56,9 +56,15 @@ foreach($amodules as $module){
 					continue;
 				}else{
 					$ifile = $mpath . '/' . $class;
+					if(!file_exists($ifile)) {
+						continue;
+					}
 					include $ifile;
 					$classname = substr($class ,0,-10);
 					$class = 'FreePBX\\Console\\Command\\' . $classname;
+					if(!class_exists($class)) {
+						continue;
+					}
 					echo $fbc->add(new $class);
 				}
 		}
