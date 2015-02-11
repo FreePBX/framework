@@ -10,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Process;
 //Tables
 use Symfony\Component\Console\Helper\Table;
-//Kill output buffering 
+//Kill output buffering
 @ini_set('output_buffering',0);
 @ini_set('implicit_flush',1);
 

@@ -87,39 +87,6 @@ class Chown extends Command {
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => '/dev/tty9',
 											   'perms' => 0644);
-		//TODO: Move these to dahdiconfig hook //
-		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
-											   'path' => '/dev/zap',
-											   'perms' => 0644);
-		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
-											   'path' => '/dev/dahdi',
-											   'perms' => 0644);
-		$this->modfiles['dahdiconfig'][] = array('type' => 'rdir',
-											   'path' => '/etc/dahdi',
-											   'perms' => 0755);
-		$this->modfiles['dahdiconfig'][] = array('type' => 'rdir',
-											   'path' => '/etc/wanpipe',
-											   'perms' => 0755);
-		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
-											   'path' => '/dev/misdn',
-											   'perms' => 0644);
-		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
-											   'path' => '/dev/mISDN',
-											   'perms' => 0644);
-		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
-											   'path' => '/dev/dsp',
-											   'perms' => 0644);
-		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
-											   'path' => $DAHDIMODULESLOC,
-											   'perms' => 0755);
-		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
-												'path' => $DAHDIMODPROBELOC,
-												'perms' => 0644);
-		$this->modfiles['dahdiconfig'][] = array('type' => 'file',
-												'path' => $DAHDISYSTEMLOC,
-												'perms' => 0644);
-
-		//END TODO
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => '/etc/obdc.ini',
 											   'perms' => 0644);
@@ -152,6 +119,7 @@ class Chown extends Command {
 		'perms' => 0755);
 		//Merge static files and hook files, then act on them as a single unit
 		$this->modfiles = array_merge_recursive($this->modfiles,$this->fwcChownFiles());
+
 		$owner = $AMPASTERISKWEBUSER;
 		/* Address concerns carried over from amportal in FREEPBX-8268. If the apache user is different
 		 * than the Asterisk user we provide permissions that allow both.
