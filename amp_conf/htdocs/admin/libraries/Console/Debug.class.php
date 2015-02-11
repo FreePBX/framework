@@ -26,18 +26,22 @@ class Debug extends Command {
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$this->FreePBXConf->set_conf_values(array('FPBXDBUGDISABLE' => 0),true,true);
-		$DBUGFILE = $this->FreePBXConf->get('FPBXDBUGFILE',true);
-		$user = $this->FreePBXConf->get('AMPASTERISKWEBUSER',true);
-		$group = $this->FreePBXConf->get('AMPASTERISKWEBGROUP',true);
+		$DBUGFILE = $this->FreePBXConf->get('FPBXDBUGFILE');
+		$FPBXLOGFILE = $this->FreePBXConf->get('FPBX_LOG_FILE');
+		$user = $this->FreePBXConf->get('AMPASTERISKWEBUSER');
+		$group = $this->FreePBXConf->get('AMPASTERISKWEBGROUP');
 		touch($DBUGFILE);
 		chown($DBUGFILE, $user);
 		chgrp($DEBUGFILE, $group);
+		touch($FPBXLOGFILE);
+		chown($FPBXLOGFILE, $user);
+		chgrp($FPBXLOGFILE, $group);
 		//Another hard coded list...
 		$files = array(
 			$DBUGFILE,
-			'/var/log/httpd/access_log',
+			$FPBXLOGFILE,
 			'/var/log/httpd/error_log',
-			'/var/log/asterisk/freepbx_security.log',		
+			'/var/log/asterisk/freepbx_security.log',
 			);
 		$table = new Table($output);
 		$table->setHeaders(array('FreePBX Notifications'));
@@ -45,7 +49,7 @@ class Debug extends Command {
 		unset($table);
 		foreach($this->Notifications->list_all() as $notice){
 				if($notice['extended_text'] != strip_tags($notice['extended_text'])) {
-					//breaks in the console make me sad. 
+					//breaks in the console make me sad.
 					$longtext = preg_replace('#<br\s*/?>#i', PHP_EOL, $notice['extended_text']);
 					$output->write($longtext);
 				}else{
