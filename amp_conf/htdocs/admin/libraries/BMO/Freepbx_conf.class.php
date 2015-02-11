@@ -807,7 +807,7 @@ class Freepbx_conf {
     switch ($vars['type']) {
     case CONF_TYPE_SELECT:
       if (!isset($vars['options']) || $vars['options'] == '') {
-        die_freepbx(sprintf(_("missing options for keyword [%] required if type is select"),$keyword));
+        die_freepbx(sprintf(_("missing options for keyword [%s] required if type is select"),$keyword));
       } else {
         $opt_array =  is_array($vars['options']) ? $vars['options'] : explode(',',$vars['options']);
         foreach($opt_array as $av) {
@@ -820,7 +820,7 @@ class Freepbx_conf {
     break;
     case CONF_TYPE_FSELECT:
       if (!isset($vars['options']) || !is_array($vars['options'])) {
-        die_freepbx(sprintf(_("missing options array for keyword [%] required if type is select"),$keyword));
+        die_freepbx(sprintf(_("missing options array for keyword [%s] required if type is select"),$keyword));
       } else {
         $attributes['options'] = serialize($vars['options']);
 			}
