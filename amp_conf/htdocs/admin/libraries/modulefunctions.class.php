@@ -705,6 +705,7 @@ class module_functions {
 				if (!in_array($modules[$name]['status'], $status)) {
 					// not found in the $status array, remove it
 					unset($modules[$name]);
+					continue;
 				}
 			}
 

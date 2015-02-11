@@ -177,7 +177,7 @@ if($online) { ?>
 												<td><?php echo (!empty($module['licenselink'])) ? '<a href="'.$module['licenselink'].'" target="_moduleLicenseLink">'.$module['license'].'</a>' : $module['license']?></td>
 											</tr>
 											<?php } ?>
-											<?php dbug($module); if(!empty($module['signature']['message'])) {?>
+											<?php if(!empty($module['signature']['message'])) {?>
 												<tr>
 													<td><?php echo ("Signature Status")?>:</td>
 													<td><?php echo $module['signature']['message']?> <a class="alert-link" href="http://wiki.freepbx.org/display/F2/Module+Signing" target="_blank">(What Does this Mean?)</a></td>

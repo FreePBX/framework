@@ -812,27 +812,45 @@ switch ($action) {
 			$name_text = modgettext::_($modules[$name]['name'], $loc_domain);
 			$module_display[$category]['data'][$name]['loc_domain'] = $loc_domain;
 			$module_display[$category]['data'][$name]['name_text'] = $name_text;
+			$module_display[$category]['data'][$name]['statusClass'] = 'stuff';
 
 			$headerclass = "moduleheader";
 			$module_display[$category]['data'][$name]['signature']['message'] = "";
+			switch($modules[$name]['status']) {
+				case MODULE_STATUS_NOTINSTALLED:
+					$headerclass .= ' notinstalled';
+				break;
+				case MODULE_STATUS_DISABLED:
+					$headerclass .= ' disabled';
+				break;
+				case MODULE_STATUS_ENABLED:
+					$headerclass .= ' enabled';
+				break;
+				case MODULE_STATUS_NEEDUPGRADE:
+					$headerclass .= ' needupgrade';
+				break;
+				case MODULE_STATUS_BROKEN:
+					$headerclass .= ' broken';
+				break;
+			}
 			if(FreePBX::Config()->get('SIGNATURECHECK')) {
 				FreePBX::GPG();
 				if(is_int($modules[$name]['signature']['status']) && (~$modules[$name]['signature']['status'] & GPG::STATE_GOOD)) {
 					switch(true) {
 						case $modules[$name]['signature']['status'] & GPG::STATE_TAMPERED:
-							$headerclass = "moduleheader tampered";
+							$headerclass .= " tampered";
 							$module_display[$category]['data'][$name]['signature']['message'] = _("Module has been tampered. Please redownload");
 							break;
 						case $modules[$name]['signature']['status'] & GPG::STATE_UNSIGNED:
-							$headerclass = "moduleheader unsigned";
+							$headerclass .= " unsigned";
 							$module_display[$category]['data'][$name]['signature']['message'] = _("Module is Unsigned");
 							break;
 						case $modules[$name]['signature']['status'] & GPG::STATE_INVALID:
-							$headerclass = "moduleheader invalid";
+							$headerclass .= " invalid";
 							$module_display[$category]['data'][$name]['signature']['message'] = _("Module has been signed with an invalid key");
 							break;
 						case $modules[$name]['signature']['status'] & GPG::STATE_REVOKED:
-							$headerclass = "moduleheader revoked";
+							$headerclass .= " revoked";
 							$module_display[$category]['data'][$name]['signature']['message'] = _("Module has been revoked and can not be enabled");
 							break;
 						break;

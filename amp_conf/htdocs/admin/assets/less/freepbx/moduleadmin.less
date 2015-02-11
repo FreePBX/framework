@@ -80,6 +80,10 @@
           margin-top: 3px;
         }
     }
+    .moduleheader.disabled {
+      background-color: lightgrey;
+      font-style: italic;
+    }
     .modulevulnerable {
         background:#f6921d;
         padding:2px;
@@ -208,14 +212,16 @@
         margin-top: 0;
         margin-bottom: 0.5em;
     }
-    .alert {
-        color:#a00;
-        padding: 0px;
-        margin-bottom:0px;
-        border:none;
-    }
-    .notinstalled {
-        color:#2B77FE;
+    .modulestatus {
+      .alert {
+          color:#a00;
+          padding: 0px;
+          margin-bottom:0px;
+          border:none;
+      }
+      .notinstalled {
+          color:#2B77FE;
+      }
     }
 }
 div.modulebuttons {
