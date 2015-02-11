@@ -579,7 +579,7 @@ class GPG {
 			$home = FreePBX::Freepbx_conf()->get('ASTSPOOLDIR');
 			if (!is_dir($home)) {
 				// OK, I give up.
-				throw new Exception(sprintf(_("Asterisk home dir (%S) doesn't exist, and, ASTSPOOLDIR doesn't exist. Aborting"),$home));
+				throw new Exception(sprintf(_("Asterisk home dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. Aborting"),$home));
 			}
 		}
 
