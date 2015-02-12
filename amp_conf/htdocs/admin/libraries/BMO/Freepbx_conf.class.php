@@ -1108,7 +1108,7 @@ class Freepbx_conf {
 
       if ($options != '' && (string) $ret !== '') {
         $range = is_array($options) ? $options : explode(',',$options);
-        switch ($ret) {
+        switch (true) {
         case $ret < $range[0]:
           $ret = $range[0];
           $this->_last_update_status['validated'] = false;
