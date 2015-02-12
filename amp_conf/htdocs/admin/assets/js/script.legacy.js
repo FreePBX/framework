@@ -1588,3 +1588,26 @@ function sprintf() {
         label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
         input.parent().siblings(".filename").html(label);
 });
+
+/**
+ * This is used to provide a "maxsize" field addon for text inputs
+ * Example: <input type="text" name="foo" id="foo" class="form-control maxlen" maxlength="25" value="bar">
+ * This would show Foo Field: [bar        ][3/25]
+ * Input must have a maxlength and id attribute
+ * 
+ */
+$(document).ready(function(){
+	$(".maxlen").each(function(){
+		var curid = $(this).attr('id');
+		var maxl = $(this).attr('maxlength');
+		var curl = $(this).val().length;
+		$(this).wrap('<div class="input-group"></div>');
+		$(this).after('<span class="input-group-addon" id="basic-addon-'+curid+'">'+curl+'/'+maxl+'</span>');
+	});
+});
+$(".maxlen").keyup(function(){
+		var curid = $(this).attr('id');
+		var maxl = $(this).attr('maxlength');
+		var curl = $(this).val().length;
+		$('#basic-addon-'+curid).html(curl+'/'+maxl);
+});
