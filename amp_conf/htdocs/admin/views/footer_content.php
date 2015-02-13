@@ -14,7 +14,7 @@ if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
 
 // Brandable logos in footer
 //fpbx logo
-$html .= '<a target="_blank" href="' 
+$html .= '<a target="_blank" href="'
 		. $amp_conf['BRAND_IMAGE_FREEPBX_LINK_FOOT']
 		. '" class ="footer-float-left">'
  	 	. '<img id="footer_logo1" src="'.$amp_conf['BRAND_IMAGE_FREEPBX_FOOT'].$version_tag
@@ -22,9 +22,9 @@ $html .= '<a target="_blank" href="'
 
 //text
 $html .= '<span class="footer-float-left" id="footer_text">';
-$html .= '<a href="http://www.freepbx.org" target="_blank">FreePBX</a> ' 
-		. _('is a registered trademark of') 
-     	. br() . '<a href="http://www.freepbx.org/copyright.html" target="_blank"> Schmooze Com., Inc.</a>'
+$html .= '<a href="http://www.freepbx.org" target="_blank">FreePBX</a> '
+		. _('is a registered trademark of')
+     	. br() . '<a href="http://www.freepbx.org/copyright.html" target="_blank"> Sangoma Technologies Inc.</a>'
 		. br();
 $html .= _('FreePBX') . ' ' . $version . ' ' . _('is licensed under the')
 		. '<a href="http://www.gnu.org/copyleft/gpl.html" target="_blank"> GPL</a>' . br();
@@ -43,7 +43,7 @@ if (isset($amp_conf['DEVEL']) && $amp_conf['DEVEL']) {
 }
 $html .= '</span>';
 
-$html .= '<a target="_blank" href="' . $amp_conf['BRAND_IMAGE_SPONSOR_LINK_FOOT'] 
+$html .= '<a target="_blank" href="' . $amp_conf['BRAND_IMAGE_SPONSOR_LINK_FOOT']
 		. '" class="footer-float-left">'
 		. '<img id="footer_logo" src="' . $amp_conf['BRAND_IMAGE_SPONSOR_FOOT'] . '" '
 		. 'alt="' . $amp_conf['BRAND_SPONSOR_ALT_FOOT'] . '"/></a>';
