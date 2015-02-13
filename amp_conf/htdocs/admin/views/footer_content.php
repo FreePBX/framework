@@ -25,9 +25,9 @@ $html .= '<div class="col-md-4">
 
 //text
 $html .= '<div class="col-md-4" id="footer_text">';
-$html .= '<a href="http://www.freepbx.org" target="_blank">FreePBX</a> ' 
-		. _('is a registered trademark of') 
-     	. br() . '<a href="http://www.freepbx.org/copyright.html" target="_blank"> Schmooze Com., Inc.</a>'
+$html .= '<a href="http://www.freepbx.org" target="_blank">FreePBX</a> '
+		. _('is a registered trademark of')
+     	. br() . '<a href="http://www.freepbx.org/copyright.html" target="_blank"> Sangoma Technologies Inc.</a>'
 		. br();
 $html .= _('FreePBX') . ' ' . $version . ' ' . _('is licensed under the')
 		. '<a href="http://www.gnu.org/copyleft/gpl.html" target="_blank"> GPL</a>' . br();
@@ -47,7 +47,7 @@ if (isset($amp_conf['DEVEL']) && $amp_conf['DEVEL']) {
 $html .= '</div>';
 
 $html .= '<div class="col-md-4">
-	<a target="_blank" href="' . $amp_conf['BRAND_IMAGE_SPONSOR_LINK_FOOT'] 
+	<a target="_blank" href="' . $amp_conf['BRAND_IMAGE_SPONSOR_LINK_FOOT']
 		. '" >'
 		. '<img id="footer_logo" src="' . $amp_conf['BRAND_IMAGE_SPONSOR_FOOT'] . '" '
 		. 'alt="' . $amp_conf['BRAND_SPONSOR_ALT_FOOT'] . '"/>
