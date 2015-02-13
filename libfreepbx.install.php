@@ -1881,7 +1881,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('BRAND_IMAGE_FREEPBX_FOOT',$set);
 
   // BRAND_IMAGE_SPONSOR_FOOT
-  $set['value'] = 'images/schmooze-logo.png';
+  $set['value'] = 'images/sangoma-horizontal_thumb.png';
   $set['options'] = '';
   $set['name'] = 'Image: Footer';
   $set['description'] = 'Logo in footer.  Path is relative to admin.';
@@ -1914,7 +1914,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('BRAND_FREEPBX_ALT_FOOT',$set);
 
   // BRAND_SPONSOR_ALT_FOOT
-  $set['value'] = 'www.schmoozecom.com';
+  $set['value'] = 'www.sangoma.com';
   $set['options'] = '';
   $set['name'] = 'Alt for Footer Logo';
   $set['description'] = 'alt attribute to use in place of image and title hover value. Defaults to FreePBX';
@@ -1947,7 +1947,7 @@ function freepbx_settings_init($commit_to_db = false) {
   $freepbx_conf->define_conf_setting('BRAND_IMAGE_FREEPBX_LINK_FOOT',$set);
 
   // BRAND_IMAGE_SPONSOR_LINK_FOOT
-  $set['value'] = 'http://www.schmoozecom.com';
+  $set['value'] = 'http://www.sangoma.com';
   $set['options'] = '';
   $set['name'] = 'Link for Sponsor Footer Logo';
   $set['description'] = 'link to follow when clicking on sponsor logo';
