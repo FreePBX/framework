@@ -1297,7 +1297,7 @@ class Installer {
 	);
 
 	$settings[$category]['BRAND_IMAGE_SPONSOR_FOOT'] = array(
-	'value' => 'images/schmooze-logo.png',
+	'value' => 'images/sangoma-horizontal_thumb.png',
 	'options' => '',
 	'name' => 'Image: Footer',
 	'description' => 'Logo in footer.Path is relative to admin.',
@@ -1333,7 +1333,7 @@ class Installer {
 	);
 
 	$settings[$category]['BRAND_SPONSOR_ALT_FOOT'] = array(
-	'value' => 'www.schmoozecom.com',
+	'value' => 'www.sangoma.com',
 	'options' => '',
 	'name' => 'Alt for Footer Logo',
 	'description' => 'alt attribute to use in place of image and title hover value. Defaults to FreePBX',
@@ -1369,7 +1369,7 @@ class Installer {
 	);
 
 	$settings[$category]['BRAND_IMAGE_SPONSOR_LINK_FOOT'] = array(
-	'value' => 'http://www.schmoozecom.com',
+	'value' => 'http://www.sangoma.com',
 	'options' => '',
 	'name' => 'Link for Sponsor Footer Logo',
 	'description' => 'link to follow when clicking on sponsor logo',
