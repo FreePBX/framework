@@ -667,6 +667,14 @@ if ($quietmode) {
 		$menu['display']		= $display; //currently displayed item
 		$menu['authtype']		= $amp_conf['AUTHTYPE'];
 		$menu['reload_confirm']	= $amp_conf['RELOADCONFIRM'];
+		$menu['language'] = array(
+			'en_US' => _('English'). " (US)"
+		);
+		$langKey = !empty($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en_US';
+		foreach(glob($amp_conf['AMPWEBROOT']."/admin/i18n/*",GLOB_ONLYDIR) as $langDir) {
+			$lang = basename($langDir);
+			$menu['language'][$lang] = function_exists('locale_get_display_name') ? locale_get_display_name($lang, $langKey) : $lang;
+		}
 
 		//add menu to final output
 		echo load_view($amp_conf['VIEW_MENU'], $menu);

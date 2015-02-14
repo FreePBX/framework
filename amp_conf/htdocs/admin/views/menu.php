@@ -1,23 +1,6 @@
 <?php
 global $amp_conf;
 global $_item_sort;
-
-$language = array(
-	'en_US' => _('English'),
-	'bg_BG' => _('Bulgarian'),
-	'zh_CN' => _('Chinese'),
-	'de_DE' => _('German'),
-	'fr_FR' => _('French'),
-	'he_IL' => _('Hebrew'),
-	'hu_HU' => _('Hungarian'),
-	'it_IT' => _('Italian'),
-	'pt_PT' => _('Portuguese'),
-	'pt_BR' => _('Portuguese (Brasil)'),
-	'ru_RU' => _('Russian'),
-	'sv_SE' => _('Swedish'),
-	'es_ES' => _('Spanish'),
-	'ja_JP' => _('Japanese'),
-);
 ?>
 <div class="freepbx-navbar">
 	<nav class="navbar navbar-default" role="navigation">
