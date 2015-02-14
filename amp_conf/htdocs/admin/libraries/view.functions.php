@@ -38,13 +38,19 @@ function frameworkPasswordCheck() {
 function set_language() {
 	global $amp_conf;
 	if (extension_loaded('gettext')) {
-		if (empty($_COOKIE['lang']) || !preg_match('/^[\w\._@-]+$/', $_COOKIE['lang'])) {
+		if (empty($_COOKIE['lang']) || !preg_match('/^[\w\._@-]+$/', $_COOKIE['lang'], $matches)) {
 			$lang = $amp_conf['UIDEFAULTLANG']?$amp_conf['UIDEFAULTLANG']:'en_US';
 			$_COOKIE['lang'] = $lang;
+		} else {
+			preg_match('/^([\w\._@-]+)$/', $_COOKIE['lang'], $matches);
+			$lang = !empty($matches[1])?$matches[1]:'en_US';
 		}
-		putenv("LANGUAGE=".$_COOKIE['lang']);
+		putenv('LC_ALL='.$lang);
+		putenv('LANG='.$lang);
+		putenv('LANGUAGE='.$lang);
+		setlocale(LC_ALL, $lang);
 
-        bindtextdomain('amp','./i18n');
+		bindtextdomain('amp',$amp_conf['AMPWEBROOT'].'/admin/i18n');
 		bind_textdomain_codeset('amp', 'utf8');
 		textdomain('amp');
 	}
