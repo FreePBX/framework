@@ -20,7 +20,7 @@ foreach($settings as $keyword => $newValue) {
 		$val = $freepbx_conf->get_conf_setting($keyword);
 		$def = $freepbx_conf->get_conf_default_setting($keyword);
 		if($def != $newValue) {
-			$freepbx_conf->define_conf_setting($keyword,array('defaultval' => $newValue, 'value' => $newValue));
+			$freepbx_conf->define_conf_setting($keyword,array('defaultval' => $newValue, 'value' => $val));
 		}
 		if($val == $oldSettings[$keyword]) {
 			$freepbx_conf->set_conf_values(array($keyword => $newValue),false,true);
