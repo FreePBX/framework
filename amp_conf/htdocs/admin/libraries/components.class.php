@@ -277,7 +277,7 @@ class component {
 		// sort top gui elements
 
 		if ( is_array($this->guielems_top) ) {
-			ksort($this->guielems_top);
+			core_collator::ksort($this->guielems_top,core_collator::SORT_NATURAL);
 		}
 
 		// sort middle gui elements
@@ -285,7 +285,7 @@ class component {
 			$final = array();
 			foreach(array_keys($this->guielems_middle) as $category) {
 				foreach ( array_keys($this->guielems_middle[$category]) as $section ) {
-					ksort($this->guielems_middle[$category][$section]);
+					core_collator::ksort($this->guielems_middle[$category][$section],core_collator::SORT_NATURAL);
 					for ($placement = 0; $placement < 10; $placement++) {
 						if($this->guielems_middle[$category][$section]['placement'] == $placement) {
 							$final[$category][$placement][$section] = $this->guielems_middle[$category][$section];
@@ -297,7 +297,7 @@ class component {
 			$this->guielems_middle = $final;
 		}
 
-		ksort($this->guielems_middle);
+		core_collator::ksort($this->guielems_middle,core_collator::SORT_NATURAL);
 		uksort($this->guielems_middle, function($a,$b) {
 			$a = strtolower($a);
 			$b = strtolower($b);
@@ -315,7 +315,7 @@ class component {
 
 		// sort bottom gui elements
 		if ( is_array($this->guielems_bottom) ) {
-			ksort($this->guielems_bottom);
+			core_collator::ksort($this->guielems_bottom,core_collator::SORT_NATURAL);
 		}
 
 		$this->sorted_guielems = true;
