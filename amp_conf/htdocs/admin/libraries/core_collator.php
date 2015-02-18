@@ -217,7 +217,7 @@ class core_collator {
 				if (!$casesensitive) {
 						$original = $arr;
 						foreach ($arr as $key => $value) {
-								$arr[$key] = core_text::strtolower($value);
+								$arr[$key] = strtolower($value);
 						}
 				}
 
