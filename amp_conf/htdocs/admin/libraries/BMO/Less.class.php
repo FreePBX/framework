@@ -28,9 +28,9 @@ class Less extends Less_Parser {
 	 * @param {array} $variables = array() Array of variables to override
 	 */
 	public function generateMainStyles($variables = array()) {
-		global $amp_conf;
+		$this->FreePBX->Performance->Start("Less Parser Generate Main Styles");
 		$less_rel = '../';
-		$less_path = $amp_conf['AMPWEBROOT'].'/admin/assets/less';
+		$less_path = $this->FreePBX->Config->get('AMPWEBROOT') .'/admin/assets/less';
 
 		$varOverride = $this->FreePBX->Hooks->processHooks($variables);
 		if(!empty($varOverride)) {
@@ -70,6 +70,7 @@ class Less extends Less_Parser {
 				$out['extra_compiled_less_files'][$dir] = $dir.'/cache/'.$file;
 			}
 		}
+		$this->FreePBX->Performance->Stop("Less Parser Generate Main Styles");
 		return $out;
 	}
 
@@ -79,9 +80,9 @@ class Less extends Less_Parser {
 	 * @param {array} $variables =             array() Array of variables to override
 	 */
 	public function generateModuleStyles($module, $pagename = '', $variables = array()) {
-		global $amp_conf;
+		$this->FreePBX->Performance->Start("Less Parser Generate Module Styles");
 		$less_rel = '/admin/assets/' . $module;
-		$less_path = $amp_conf['AMPWEBROOT'] . '/admin/modules/' . $module . '/assets/less';
+		$less_path = $this->FreePBX->Config->get('AMPWEBROOT') . '/admin/modules/' . $module . '/assets/less';
 		$files = array();
 		if(file_exists($less_path)) {
 			$varOverride = $this->FreePBX->Hooks->processHooks($variables);
@@ -112,6 +113,7 @@ class Less extends Less_Parser {
 				}
 			}
 		}
+		$this->FreePBX->Performance->Stop("Less Parser Generate Module Styles");
 		return $files;
 	}
 

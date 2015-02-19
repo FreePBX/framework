@@ -96,11 +96,6 @@ if (file_exists($bmo)) {
     throw new Exception("Unable to load BMO");
 }
 
-// For performance tuning, or, for assistance in debugging a white screen,
-// you can turn this on for a full trace of functions, memory use, and time
-// taken.
-#$bmo->Performance->On();
-
 // bootstrap.php should always be called from freepbx.conf so
 // database conifguration already included, connect to database:
 //
@@ -118,6 +113,16 @@ $freepbx_conf = $bmo->Freepbx_conf();
 //
 $bootstrap_settings['amportal_conf_initialized'] = false;
 $amp_conf =& $freepbx_conf->parse_amportal_conf("/etc/amportal.conf",$amp_conf);
+// For performance tuning, or, for assistance in debugging a white screen,
+// you can turn this on for a full trace of functions, memory use, and time
+// taken.
+//
+// This MUST start after amp_conf is set or it's useless!!
+// sorry Rob :-(
+if(!empty($amp_conf['FPBXPERFLOGGING'])) {
+	$bmo->Performance->On('dbug');
+}
+
 $asterisk_conf =& $freepbx_conf->get_asterisk_conf();
 $bootstrap_settings['amportal_conf_initialized'] = true;
 

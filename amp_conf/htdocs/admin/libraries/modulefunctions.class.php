@@ -1100,7 +1100,7 @@ class module_functions {
 			$modulename = $modulename['rawname'];
 		}
 
-		$modules = $this->getinfo(false, MODULE_STATUS_ENABLED);
+		$modules = $this->getinfo(false, array(MODULE_STATUS_ENABLED, MODULE_STATUS_NEEDUPGRADE));
 
 		$depends = array();
 

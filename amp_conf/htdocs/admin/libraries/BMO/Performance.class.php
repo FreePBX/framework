@@ -13,20 +13,34 @@ class Performance {
 	private $doperf = false;
 	private $lasttick = false;
 	private $lastmem = false;
+	private $mode = 'print';
 
 	private $current = array();
 
 	/**
 	 * Turn Performance Logging on
 	 */
-	public function On() {
+	public function On($mode='print') {
+		switch($mode) {
+			case 'print':
+				$this->mode = 'print';
+			break;
+			case 'dbug':
+			default:
+				$this->mode = 'dbug';
+			break;
+		}
 		$this->doperf = true;
+		$this->Stamp("~==========~Starting Performance tuning~==========~","GLOBAL START");
 	}
 
 	/**
 	 * Turn Performance logging off
 	 */
 	public function Off() {
+		if($this->doperf) {
+			$this->Stamp("~==========~Stopping Performance tuning~==========~","GLOBAL STOP");
+		}
 		$this->doperf = false;
 	}
 
@@ -84,7 +98,20 @@ class Performance {
 		$this->lasttick = $now;
 		$this->lastmem = $mem;
 
-		print "$type/$str/$now,$timediff/$mem,$memdiff<br/>\n";
+		if($this->mode == 'print') {
+			print "$type/$str/$now,$timediff/$mem,$memdiff<br/>\n";
+		} elseif($this->mode == 'dbug') {
+			$backtrace = debug_backtrace();
+			dbug(array(
+				"type" => $type,
+				"str" => $str,
+				"now" => $now,
+				"timediff" => $timediff,
+				"mem" => $this->formatBytes($mem),
+				"memdiff" => $this->formatBytes($memdiff),
+				"file" => $backtrace[1]['file'].":".$backtrace[1]['line']
+			));
+		}
 
 		// This is grabbed by Start and Stop.
 		return array("now" => $now, "mem" => $mem, "str" => $str);
@@ -142,4 +169,22 @@ class Performance {
 
 		$this->Stamp($str, "STOP", $start);
 	}
+
+	private function formatBytes($bytes, $precision = 6) {
+		$n = "";
+		if($bytes < 0) {
+			$bytes = abs($bytes);
+			$n = "-";
+		}
+		$units = array('B', 'KB', 'MB', 'GB', 'TB');
+
+		$bytes = max($bytes, 0);
+		$pow = floor(($bytes ? log($bytes) : 0) / log(1024));
+		$pow = min($pow, count($units) - 1);
+
+		// Uncomment one of the following alternatives
+		$bytes /= pow(1024, $pow);
+		// $bytes /= (1 << (10 * $pow));
+		return $n.round($bytes, $precision) . ' ' . $units[$pow];
+}
 }

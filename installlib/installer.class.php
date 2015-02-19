@@ -1028,6 +1028,15 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
+	$settings[$category]['FPBXPERFLOGGING'] = array(
+	'value' => false,
+	'options' => '',
+	'name' => 'Enable Performance Logging',
+	'description' => 'Set to true to enable Advanced Performance Logging into the dbug file',
+	'level' => 2,
+	'type' => CONF_TYPE_BOOL,
+	);
+
 	$settings[$category]['DIE_FREEPBX_VERBOSE'] = array(
 	'value' => false,
 	'options' => '',
