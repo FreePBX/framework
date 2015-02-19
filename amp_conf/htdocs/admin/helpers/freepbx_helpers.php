@@ -232,7 +232,7 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 	//draw "children" select boxes
 	$tabindexhtml=' tabindex="'.++$tabindex.'"';//keep out of the foreach so that we don't increment it
 	foreach($drawselect_destinations as $cat=>$destination){
-		$style=(($cat==$destmod)?'':'display:none;');
+		$style = '';
 		if ($cat == 'Error') {
 			$style.=' ' . $errorstyle;
 		}//add error style
@@ -259,7 +259,8 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 				$data_class = '';
 			}
 		}
-		$class_tag = ' class="form-control destdropdown2 ' . $rawmod . " " . $class;
+		$hidden = (($cat==$destmod)?'':'hidden');
+		$class_tag = ' class="form-control destdropdown2 ' . $rawmod . " ".$hidden." " . $class;
 		$class_tag .= $rawmod == $ds_id ? '"' : ' ' . $ds_id . '"';
 		$name_tag = str_replace(' ', '_', $cat) . $i;
 		$html.='<select ' . $data_url . $data_class . $data_mod . 'data-last="'.$data_last_dest.'" name="' . $name_tag

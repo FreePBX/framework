@@ -744,9 +744,9 @@ function bind_dests_double_selects() {
 		var id = $(this).data("id"), dest	= $(this).val();
 		id = (typeof id == "undefined") ? "" : id; //ensure id isn't set to undefined
 
-		$("[data-id=" + id + "].destdropdown2").hide();
+		$("[data-id=" + id + "].destdropdown2").addClass("hidden");
 		dd2 = $("#" + dest + id + ".destdropdown2");
-		cur_val = dd2.show().val();
+		cur_val = dd2.removeClass("hidden").val();
 
 		// This was added because a cancel can leave dd2 cur_val to popover
 		// even when there are other choices so we force it to 'none'
@@ -1526,7 +1526,7 @@ $(document).ready(function() {
 	$("form").submit(function(e) {
 		// If the page isn't going to submit then don't remove the elements
 		if (!e.isDefaultPrevented()) {
-			$(".destdropdown2").filter(":hidden").remove();
+			$(".destdropdown2").filter(".hidden").remove();
 		}
 	});
 
@@ -1594,7 +1594,7 @@ function sprintf() {
  * Example: <input type="text" name="foo" id="foo" class="form-control maxlen" maxlength="25" value="bar">
  * This would show Foo Field: [bar        ][3/25]
  * Input must have a maxlength and id attribute
- * 
+ *
  */
 $(document).ready(function(){
 	$(".maxlen").each(function(){
