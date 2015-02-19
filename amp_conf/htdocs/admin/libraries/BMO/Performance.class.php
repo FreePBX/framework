@@ -20,7 +20,7 @@ class Performance {
 	/**
 	 * Turn Performance Logging on
 	 */
-	public function On($mode='print') {
+	public function On($mode='print',$lasttick=null) {
 		switch($mode) {
 			case 'print':
 				$this->mode = 'print';
@@ -31,6 +31,10 @@ class Performance {
 			break;
 		}
 		$this->doperf = true;
+		if(!empty($lasttick) && function_exists('bcadd')) {
+			list($msec, $utime) = explode(' ', $lasttick);
+			$this->lasttick = bcadd($msec, $utime, 6);
+		}
 		$this->Stamp("~==========~Starting Performance tuning~==========~","GLOBAL START");
 	}
 

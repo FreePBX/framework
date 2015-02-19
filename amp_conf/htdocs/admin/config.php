@@ -450,10 +450,7 @@ switch($display) {
 				$module_hook->install_hooks($module_page,$module_name,$itemid);
 
 				// let hooking modules process the $_REQUEST
-				$module_hook->process_hooks($itemid,
-						$module_name,
-						$module_page,
-						$_REQUEST);
+				$module_hook->process_hooks($itemid, $module_name, $module_page, $_REQUEST);
 
 				// BMO: Pre display hooks.
 				// getPreDisplay and getPostDisplay should probably never

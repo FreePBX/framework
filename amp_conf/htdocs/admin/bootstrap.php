@@ -34,6 +34,7 @@ if (isset($bootstrap_settings['returnimmediately'])) {
 	return;
 }
 
+$mt = microtime();
 // we should never re-run this file, something is wrong if we do.
 //
 //enable error reporting and start benchmarking
@@ -120,7 +121,7 @@ $amp_conf =& $freepbx_conf->parse_amportal_conf("/etc/amportal.conf",$amp_conf);
 // This MUST start after amp_conf is set or it's useless!!
 // sorry Rob :-(
 if(!empty($amp_conf['FPBXPERFLOGGING'])) {
-	$bmo->Performance->On('dbug');
+	$bmo->Performance->On('dbug',$mt);
 }
 
 $asterisk_conf =& $freepbx_conf->get_asterisk_conf();
