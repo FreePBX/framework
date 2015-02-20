@@ -653,7 +653,7 @@ if ($quietmode) {
 
 		//if we have a module loaded, load its css
 		if (isset($module_name)) {
-				$fw_gui_html .= framework_include_css();
+				echo framework_include_css();
 				$header['module_name'] = $module_name;
 		}
 
