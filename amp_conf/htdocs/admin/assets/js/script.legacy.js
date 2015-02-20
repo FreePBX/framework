@@ -1593,3 +1593,11 @@ $(".maxlen").keyup(function(){
 		var curl = $(this).val().length;
 		$('#basic-addon-'+curid).html(curl+'/'+maxl);
 });
+
+/*
+ * Confirm Deletion on grid actions. Add class "delAction to delete links."
+ */
+$(document).on('click','.delAction', function(){
+	var confirmed = confirm(_("Are you sure you want to delete this item?"));
+	return confirmed;
+});
