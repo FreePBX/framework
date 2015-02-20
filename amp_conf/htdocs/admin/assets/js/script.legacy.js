@@ -1558,24 +1558,6 @@ $(document).ready(function() {
 	};
 });
 
-/** Language, global functions so they act like php **/
-var languages = { locale_data : [] }, i18n = new Jed(languages);
-function _(string) {
-	try {
-		return i18n.dgettext( UCP.domain, string );
-	} catch (err) {
-		return string;
-	}
-}
-
-function sprintf() {
-	try {
-		return i18n.sprintf.apply(this, arguments);
-	} catch (err) {
-		return string;
-	}
-}
-
 /**
  * This is used to make input fields "bootstrappy"
  * <span class="btn btn-default btn-file">

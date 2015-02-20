@@ -88,6 +88,10 @@ if($amp_conf['JQMIGRATE']) {
 // As we have code in the header acting as a class, this has to be up here.
 $html .= '<script type="text/javascript" src="assets/js/class.js"></script>';
 
+$html .= '<script type="text/javascript" src="assets/js/jed.js' . $version_tag . '"></script>';
+
+$html .= '<script type="text/javascript" src="assets/js/modgettext.js' . $version_tag . '"></script>';
+
 // Add global variables to be used later
 $html .= "<script type='text/javascript'>
 	var fpbx = Class.extend({
