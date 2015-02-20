@@ -582,12 +582,14 @@ if ($quietmode) {
 		$o = FreePBX::create()->Less->generateMainStyles();
 		$header['compiled_less_files'] = $o['compiled_less_files'];
 		$header['extra_compiled_less_files'] = $o['extra_compiled_less_files'];
-		show_view($amp_conf['VIEW_HEADER'], $header);
 
 		//if we have a module loaded, load its css
 		if (isset($module_name)) {
 				$fw_gui_html .= framework_include_css();
+				$header['module_name'] = $module_name;
 		}
+
+		show_view($amp_conf['VIEW_HEADER'], $header);
 
 		// set the language so local module languages take
 		set_language();
@@ -649,12 +651,13 @@ if ($quietmode) {
 		$header['compiled_less_files'] = $o['compiled_less_files'];
 		$header['extra_compiled_less_files'] = $o['extra_compiled_less_files'];
 
-		echo load_view($amp_conf['VIEW_HEADER'], $header);
-
 		//if we have a module loaded, load its css
 		if (isset($module_name)) {
-			echo framework_include_css();
+				$fw_gui_html .= framework_include_css();
+				$header['module_name'] = $module_name;
 		}
+
+		echo load_view($amp_conf['VIEW_HEADER'], $header);
 
 		// set the language so local module languages take
 		set_language();

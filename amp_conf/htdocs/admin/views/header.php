@@ -92,6 +92,10 @@ $html .= '<script type="text/javascript" src="assets/js/jed.js' . $version_tag .
 
 $html .= '<script type="text/javascript" src="assets/js/modgettext.js' . $version_tag . '"></script>';
 
+if(isset($module_name) && !empty($module_name)) {
+	$html .= '<script>textdomain("' . $module_name . '")</script>';
+}
+
 // Add global variables to be used later
 $html .= "<script type='text/javascript'>
 	var fpbx = Class.extend({
