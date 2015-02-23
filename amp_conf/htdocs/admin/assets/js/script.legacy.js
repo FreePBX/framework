@@ -643,7 +643,7 @@ function isURLChar(c) {
  * @param {string} c The character to check
  */
 function isCallerIDChar(c) {
-	return new RegExp(/[ a-zA-Z0-9:_,-<>\(\)\"&@\.\+]/).test(c);
+	return new RegExp(/[ a-zA-Z0-9:_,-<>\(\)\"&@\.\+\*]/).test(c);
 }
 
 /**
