@@ -47,6 +47,11 @@ class PKCS {
 		}
 	}
 
+	// Ensure that permissions are correct in teardown
+	public function __destruct() {
+		$this->checkPermissions();
+	}
+
 	/**
 	 * Create a global configuration file for use
 	 * when generating more base certificates
@@ -143,7 +148,6 @@ EOF;
 				throw new Exception("Error Generating Certificate: ".$out['stderr']);
 			}
 		}
-		$this->checkPermissions($location);
 		return true;
 	}
 
@@ -186,7 +190,6 @@ EOF;
 		$contents = file_get_contents($location . "/" . $base . ".key");
 		$contents = $contents . file_get_contents($location . "/" . $base . ".crt");
 		file_put_contents($location . "/" . $base . ".pem", $contents);
-		$this->checkPermissions($location);
 		return true;
 	}
 
@@ -590,6 +593,7 @@ default_md = sha256
 	 * @param {string} $dir = false The Directory to check and fix
 	 */
 	private function checkPermissions($dir = false) {
+		print "Running checks\n";
 		if (!$dir) {
 			// No directory specified. Let's use the default.
 			$dir = $this->getKeysLocation();
@@ -624,9 +628,16 @@ default_md = sha256
 			chgrp($dir, $gid);
 		}
 
-		// Check the permissions of the files inside the .gpg directory
+		// Check the permissions of the files inside the key location
 		$allfiles = glob($dir."/*");
+		// Add the entropy file
+		$allfiles[] = "$dir/.rnd";
 		foreach ($allfiles as $file) {
+			if (!file_exists($file)) {
+				// .rnd file may not exist
+				continue;
+			}
+			$stat = stat($file);
 			if ($uid != $stat['uid'] || $gid != $stat['gid']) {
 				// Permissions are wrong on the keys directory. Hopefully, I'm root, so I can fix them.
 				if (!posix_geteuid() === 0) {
