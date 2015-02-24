@@ -593,7 +593,6 @@ default_md = sha256
 	 * @param {string} $dir = false The Directory to check and fix
 	 */
 	private function checkPermissions($dir = false) {
-		print "Running checks\n";
 		if (!$dir) {
 			// No directory specified. Let's use the default.
 			$dir = $this->getKeysLocation();
