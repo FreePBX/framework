@@ -686,9 +686,8 @@ function isFilenameChar(c) {
  */
 function validateSingleDestination(theForm, formNum, bRequired) {
 	var gotoType = theForm.elements[ "goto" + formNum ].value, gotoFld, gotoVal;
-
 	if (bRequired && gotoType === "") {
-		alert(fpbx.msg.framework.validateSingleDestination.required);
+		warnInvalid($("#goto" + formNum), fpbx.msg.framework.validateSingleDestination.required);
 		return false;
 	} else {
 		// check the 'custom' goto, if selected
@@ -696,8 +695,7 @@ function validateSingleDestination(theForm, formNum, bRequired) {
 			gotoFld = theForm.elements[ "custom" + formNum ];
 			gotoVal = gotoFld.value;
 			if (gotoVal.indexOf("custom-") == -1) {
-				alert(fpbx.msg.framework.validateSingleDestination.error);
-				gotoFld.focus();
+				warnInvalid($("#goto" + formNum), fpbx.msg.framework.validateSingleDestination.error);
 				return false;
 			}
 		}
