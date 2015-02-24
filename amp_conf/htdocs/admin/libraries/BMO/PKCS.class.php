@@ -53,11 +53,21 @@ class PKCS {
 	 * @param {string} $cn The Common Name, usually a FQDN
 	 * @param {string} $o  The organization name
 	 */
-	public function createConfig($base,$cn,$o,$force=false) {
-		if(empty($cn) || empty($o)) {
-			throw new Exception("Create Config Paramteters Left Blank!");
+	public function createConfig($base = false, $cn = false, $o = false, $force=false) {
+		if (!$base) {
+			throw new \Exception("No name for this CA");
 		}
+
+		// If we weren't given anything, use the defaults.
+		if (!$cn) {
+			$cn = $this->defaults['ca_cn'];
+		}
+		if (!$o) {
+			$o = $this->defaults['org'];
+		}
+
 		$cfglocation = $this->getKeysLocation()."/$base.config";
+
 		if(!file_exists($cfglocation) || $force == true) {
 			$ca = <<<EOF
 [req]
@@ -69,7 +79,7 @@ default_md = sha256
 default_md = sha256
 
 [req_distinguished_name]
-CN={$this->defaults['ca_cn']}
+CN={$cn}
 O={$o}
 
 [ext]
@@ -94,14 +104,21 @@ EOF;
 	 * @param {string} $passphrase  The passphrase used to encrypt the key file
 	 * @param {bool} $force=false Whether to force recreation if already exists
 	 */
-	public function createCA($base,$passphrase = false, $force = false) {
+	public function createCA($base = false, $passphrase = false, $force = false) {
+		if (!$base) {
+			throw new \Exception("No name for this CA");
+		}
+
 		$location = $this->getKeysLocation();
 		$key = "$location/$base.key";
 		if(file_exists($key) && !$force) {
 			$this->out("CA key already exists, reusing");
 		} else {
 			$this->out("Creating CA key");
-			if(!empty($passphrase)) {
+			if($passphrase) {
+				if (strlen($passphrase) < 8) {
+					throw new \Exception("Invalid password supplied - less than 8 chars");
+				}
 				$out = $this->runOpenSSL("genrsa -des3 -out $key -passout stdin 4096",$passphrase);
 			} else {
 				$out = $this->runOpenSSL("genrsa -out $key 4096");
@@ -337,6 +354,9 @@ default_md = sha256
 		$certfile = "$keyloc/$name.crt";
 		// Woo! Actually sign it!
 		if($password) {
+			// Don't check the length. Someone may have an old CA they're using that works
+			// with less than 8. But you shouldn't. Really, that's like a day's worth of
+			// time to crack on a modern CPU.
 			$out = $this->runOpenSSL("x509 -req -sha256 -days $life -in $csrfile -CA $cacrt -CAkey $cakey -set_serial $serial -out $certfile -passin stdin", $password);
 		} else {
 			$out = $this->runOpenSSL("x509 -req -sha256 -days $life -in $csrfile -CA $cacrt -CAkey $cakey -set_serial $serial -out $certfile");
@@ -346,8 +366,6 @@ default_md = sha256
 		}
 		return true;
 	}
-
-
 
 	/**
 	 * Actually run OpenSSL
@@ -530,7 +548,6 @@ default_md = sha256
 		// Remove any nasty characters
 		$name = str_replace( array('/', "'", '"', '\\', '&', ';', " "), "", $name);
 	}
-
 
 	private function out($message,$level=1) {
 		if($level < $this->debug) {
