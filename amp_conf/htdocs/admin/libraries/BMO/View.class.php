@@ -3,8 +3,6 @@
 /**
 * This is the FreePBX Big Module Object.
 *
-* This is a very basic interface to the existing 'module_functions' class.
-*
 * License for all code of this FreePBX module can be found in the license file inside the module directory
 * Copyright 2006-2014 Schmooze Com Inc.
 */
@@ -47,7 +45,8 @@ class View {
 		if(!$replace) {
 			return false;
 		}
-		$this->queryString = http_build_query($params);
+		$base = basename($_SERVER['PHP_SELF']);
+		$this->queryString = $base."?".http_build_query($params);
 		$this->replaceState = true;
 		return true;
 	}
