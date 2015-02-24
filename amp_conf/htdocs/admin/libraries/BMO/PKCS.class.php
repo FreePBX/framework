@@ -115,17 +115,8 @@ EOF;
 			$this->out("CA key already exists, reusing");
 		} else {
 			$this->out("Creating CA key");
-			if($passphrase) {
-				if (strlen($passphrase) < 8) {
-					throw new \Exception("Invalid password supplied - less than 8 chars");
-				}
-				$out = $this->runOpenSSL("genrsa -des3 -out $key -passout stdin 4096",$passphrase);
-			} else {
-				$out = $this->runOpenSSL("genrsa -out $key 4096");
-			}
-			if($out['exitcode'] > 0) {
-				throw new Exception("Error Generating Key: ".$out['stderr']);
-			}
+			@unlink($key);
+			$this->generateKey($base, $passphrase, 4096);
 		}
 
 		// We have a key.
@@ -357,12 +348,14 @@ default_md = sha256
 			// Don't check the length. Someone may have an old CA they're using that works
 			// with less than 8. But you shouldn't. Really, that's like a day's worth of
 			// time to crack on a modern CPU.
-			$out = $this->runOpenSSL("x509 -req -sha256 -days $life -in $csrfile -CA $cacrt -CAkey $cakey -set_serial $serial -out $certfile -passin stdin", $password);
+			$cmd = "x509 -req -sha256 -days $life -in $csrfile -CA $cacrt -CAkey $cakey -set_serial $serial -out $certfile -passin stdin";
+			$out = $this->runOpenSSL($cmd, $password);
 		} else {
-			$out = $this->runOpenSSL("x509 -req -sha256 -days $life -in $csrfile -CA $cacrt -CAkey $cakey -set_serial $serial -out $certfile");
+			$cmd = "x509 -req -sha256 -days $life -in $csrfile -CA $cacrt -CAkey $cakey -set_serial $serial -out $certfile";
+			$out = $this->runOpenSSL($cmd);
 		}
 		if($out['exitcode'] != 0) {
-			throw new Exception("Error Generating Key: ".json_encode($out));
+			throw new Exception("Error Signing Cert with '$cmd': ".json_encode($out));
 		}
 		return true;
 	}
