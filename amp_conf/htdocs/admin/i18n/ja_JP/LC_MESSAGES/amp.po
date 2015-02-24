@@ -38,7 +38,7 @@ msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-02-19 18:03-0500\n"
-"PO-Revision-Date: 2015-02-19 12:18+0200\n"
+"PO-Revision-Date: 2015-02-20 19:56+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
 "framework/ja_JP/>\n"
@@ -1517,7 +1517,7 @@ msgstr ""
 
 #: ../core/page.did.php:304
 msgid "Clear Destination & Submit"
-msgstr "宛先をクリア & 投稿"
+msgstr "宛先をクリアして送信"
 
 #: ../core/views/trunks/trunk_header.php:226
 msgid "Clear all Fields"
@@ -1528,26 +1528,26 @@ msgstr "全てのフィールドをクリア"
 #: ../core/views/trunks/trunk_header.php:195
 #: ../core/views/trunks/trunk_header.php:209
 msgid "Click here to insert a new pattern before this pattern"
-msgstr ""
+msgstr "ここにクリックすると、このパターンの前に新規のパターンを挿入できます"
 
 #: ../core/page.routing.php:602 ../core/page.routing.php:617
 #: ../core/page.routing.php:891 ../core/views/trunks/trunk_footer.php:62
 #: ../core/views/trunks/trunk_header.php:196
 #: ../core/views/trunks/trunk_header.php:210
 msgid "Click here to remove this pattern"
-msgstr "このパターンを削除するにはここをクリック"
+msgstr "クリックするとこのパターンを削除します"
 
 #: amp_conf/htdocs/admin/views/module_admin/header.php:23
 msgid "Click to configure Update Notifications"
-msgstr "アップデート通知設定はこちらをクリックしてください"
+msgstr "アップデート通知の設定はこちらをクリックしてください"
 
 #: ../core/views/trunks/pjsip.php:88
 msgid "Client SIP URI used when attemping outbound registration"
-msgstr ""
+msgstr "アウトバウンドのレジストを試す際に使う、クライアントのSIP URI"
 
 #: ../core/views/trunks/pjsip.php:88
 msgid "Client URI"
-msgstr ""
+msgstr "クライアントURI"
 
 #: amp_conf/htdocs/admin/views/footer.php:81
 msgid "Close"
@@ -2408,7 +2408,7 @@ msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:143
 msgid "Dial Number Manipulation Rules"
-msgstr ""
+msgstr "ダイヤル番号変換ルール"
 
 #: ../core/page.routing.php:538 ../core/page.routing.php:553
 msgid "Dial Patterns that will use this Route"
@@ -4465,11 +4465,11 @@ msgstr "最大試行数"
 #: ../core/views/trunks/trunk_header.php:83
 #: ../core/views/trunks/trunk_header.php:85
 msgid "Maximum Channels"
-msgstr "最大チャネル"
+msgstr "最大チャネル数"
 
 #: ../core/functions.inc.php:7173
 msgid "Maximum number of Endpoints that can associate with this Device"
-msgstr ""
+msgstr "最大でこのデバイスと連動できる端末の数"
 
 #: ../core/functions.inc.php:6653
 msgid ""
@@ -4478,9 +4478,9 @@ msgid ""
 "been compromised. It will limit the number of simultaneous calls that can be "
 "made on the compromised extension."
 msgstr ""
-"内線が発信できるアウトバウンドの同時コールの最大数を指定します。また、これは"
-"侵害されたシステムに対してセキュリティ保護として非常に役に立ちます。これは、"
-"危険にさらされた内線から発信される同時コールの数を制限します。"
+"内線から発信できるアウトバウンドの同時通話の最大数を指定します。危険にさらさ"
+"れた内線から発信される同時コールの数を制限するため、万が一システムが侵害され"
+"た場合にセキュリティ対策として有効な手段と言えます。"
 
 #: ../core/views/trunks/pjsip.php:25 ../core/views/trunks/pjsip.php:46
 msgid "Maximum number of registration attempts."
@@ -5235,7 +5235,7 @@ msgstr "アウトバウンドCID"
 
 #: ../core/views/trunks/trunk_header.php:55
 msgid "Outbound CallerID"
-msgstr "アウトバウンド発信者番号"
+msgstr "アウトバウンドCID"
 
 #: ../core/functions.inc.php:6653
 msgid "Outbound Concurrency Limit"
@@ -5279,7 +5279,7 @@ msgstr "発信設定"
 #: ../core/functions.inc.php:6408 ../core/functions.inc.php:6632
 #: ../core/views/trunks/trunk_header.php:103
 msgid "Override"
-msgstr "置き換え"
+msgstr "オーバーライド"
 
 #: amp.i18n.php:407
 msgid "Override Call Recording Location"
