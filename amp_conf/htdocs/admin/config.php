@@ -653,11 +653,14 @@ if ($quietmode) {
 
 		//if we have a module loaded, load its css
 		if (isset($module_name)) {
-				echo framework_include_css();
 				$header['module_name'] = $module_name;
 		}
 
 		echo load_view($amp_conf['VIEW_HEADER'], $header);
+
+		if (isset($module_name)) {
+				echo framework_include_css();
+		}
 
 		// set the language so local module languages take
 		set_language();
