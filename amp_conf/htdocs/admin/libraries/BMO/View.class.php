@@ -8,15 +8,8 @@
 */
 
 class View {
-	private $freepbx;
 	private $queryString = "";
 	private $replaceState = false;
-	public function __construct($freepbx = null) {
-		if ($freepbx == null) {
-			throw new Exception("Need to be instantiated with a FreePBX Object");
-		}
-		$this->freepbx = $freepbx;
-	}
 
 	/**
 	 * This is a replace of the old redirect standard.
