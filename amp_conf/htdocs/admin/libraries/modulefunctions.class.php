@@ -1,7 +1,7 @@
 <?php
-/***********************************************************************************************************
-																			Module functions
-************************************************************************************************************/
+/**
+ * Module functions
+ */
 
 define('MODULE_STATUS_NOTINSTALLED', 0);
 define('MODULE_STATUS_DISABLED', 1);
@@ -17,7 +17,7 @@ class module_functions {
 	private $maxTimeLimit = 250;
 	private $onlineModules = null;
 
-	function &create() {
+	public static function create() {
 		static $obj;
 		if (!isset($obj) || !is_object($obj)) {
 			$obj = new module_functions();
@@ -25,7 +25,7 @@ class module_functions {
 		return $obj;
 	}
 
-	function __construct() {
+	public function __construct() {
 		$time_limit = ini_get('max_execution_time');
 		if(!empty($time_limit)) {
 			$this->maxTimeLimit = (int)$time_limit + $this->maxTimeLimit;
