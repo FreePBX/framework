@@ -851,7 +851,7 @@ function fpbx_which($app) {
 	// don't know if we will always have an open class and not even sure if
 	// $amp_conf will be set so to be safe deal with it all here.
 	//
-	$freepbx_conf =& freepbx_conf::create();
+	$freepbx_conf = freepbx_conf::create();
  	$which = $freepbx_conf->get_conf_setting('WHICH_' . $app);
 
 	//if we have the location cached return it
