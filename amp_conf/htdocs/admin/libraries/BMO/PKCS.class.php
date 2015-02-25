@@ -227,11 +227,11 @@ EOF;
 			throw new \Exception("not an array");
 		}
 
-		if (!isset($params['OU']) || !isset($params['CN'])) {
-			throw new \Exception("Missing OU or CN. Can't create");
+		if (!isset($params['O']) || !isset($params['CN'])) {
+			throw new \Exception("Missing O or CN. Can't create");
 		}
 
-		$defaults = array("C" => "AU", "ST" => "QLD", "L" => "Brisbane", "O" => "FreePBX Created Certificate",
+		$defaults = array("C" => "AU", "ST" => "QLD", "L" => "Brisbane", "OU" => "FreePBX Created Certificate",
 			"emailAddress" => "invalid@example.com");
 
 		// Load defaults if they're not provided.
