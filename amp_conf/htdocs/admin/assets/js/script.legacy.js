@@ -1387,7 +1387,44 @@ $(document).ready(function() {
 	 * adding a duplicate class also for styling options.
 	 * TODO: get feedback on a different image
 	 */
-	var extselector = $("input.extdisplay,input[type=text][name=extension],input[type=text][name=extdisplay],input[type=text][name=account]").not("input.noextmap");
+	$('input.extdisplay.form-control,input[type=text][name=extension].form-control,input[type=text][name=extdisplay].form-control,input[type=text][name=account].form-control').each(function() {
+		var val = $(this).val(), data = $(this).data("extdisplay");
+		if (typeof data == "undefined") {
+			$(this).data("extdisplay", val);
+		} else if (typeof extmap[val] != "undefined") {
+			val++;
+			while (typeof extmap[val] != "undefined") {
+				val++;
+			}
+		}
+	});
+	$(document).on('keyup', 'input.extdisplay.form-control,input[type=text][name=extension].form-control,input[type=text][name=extdisplay].form-control,input[type=text][name=account].form-control', function() {
+		var val = $(this).val(), data = $(this).data("extdisplay"), $this = this;
+		if(typeof val !== "undefined" && val !== "") {
+			if(typeof extmap[val] == "undefined" || $(this).data("extdisplay") == val) {
+				$(this).removeClass("duplicate-exten").parents(".form-group").removeClass("has-warning").find(".input-warn").remove();
+			} else {
+				$(this).addClass("duplicate-exten").before('<i class="fa fa-exclamation-triangle input-warn" data-toggle="tooltip" data-placement="left" title="'+ val + fpbx.msg.framework.validation.duplicate + extmap[val]+'"></i>').parents(".form-group").addClass("has-warning");
+				$(this).parents(".form-group").find(".input-warn").tooltip();
+			}
+		}
+		//remove previous binds so we don't duplicate
+		$(this).parents("form").off("submit.extdisplay");
+		$(this).parents("form").on("submit.extdisplay",function(e) {
+			// If a previous submit handler has cancelled this don't bother
+			if (e.isDefaultPrevented()) {
+				return false;
+			}
+			exten = $('.duplicate-exten', this);
+			if (exten.length > 0) {
+				extnum = exten.val();
+				warnInvalid($($this),extnum + fpbx.msg.framework.validation.duplicate + extmap[extnum]);
+				return false;
+			}
+			return true;
+		});
+	});
+	var extselector = $("input.extdisplay,input[type=text][name=extension],input[type=text][name=extdisplay],input[type=text][name=account]").not("input.noextmap").not("input.form-control");
 	if (extselector.length > 0) {
 		extselector.after(" <span style='display:none'><a href='#'><img src='images/notify_critical.png'/></a></span>").keyup(function() {
 			if (typeof extmap[this.value] == "undefined" || $(this).data("extdisplay") == this.value) {
@@ -1420,7 +1457,7 @@ $(document).ready(function() {
 			exten = $('.duplicate-exten', this);
 			if (exten.length > 0) {
 				extnum = exten.val();
-				alert(extnum + fpbx.msg.framework.validation.duplicate + extmap[extnum]);
+				warnInvalid($(this),extnum + fpbx.msg.framework.validation.duplicate + extmap[extnum]);
 				return false;
 			}
 			return true;

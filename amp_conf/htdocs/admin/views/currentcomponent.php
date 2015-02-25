@@ -96,7 +96,9 @@
     }
     echo $htmlout;
   ?>
-  $("form").submit(function() {
-    return frm_extensions_onsubmit(this);
-  });
+  <?php if(!empty($jsfuncs)) { ?>
+    $("form").submit(function() {
+      return frm_<?php echo $display?>_onsubmit(this);
+    });
+  <?php } ?>
 </script>
