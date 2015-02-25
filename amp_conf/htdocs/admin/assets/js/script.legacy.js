@@ -1186,7 +1186,9 @@ $(document).ready(function() {
 		}
 	}
 
-	positionActionBar();
+	$(function() {
+		positionActionBar();
+	});
 
 	$(window).scroll(function() {
 		positionActionBar();
