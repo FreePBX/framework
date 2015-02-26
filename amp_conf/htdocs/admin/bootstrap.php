@@ -97,6 +97,8 @@ if (file_exists($bmo)) {
 } else {
     throw new Exception("Unable to load BMO");
 }
+/** TODO Remove this when all modules are finally NOT referencing it like this **/
+class Database extends FreePBX\Database {};
 
 // bootstrap.php should always be called from freepbx.conf so
 // database conifguration already included, connect to database:

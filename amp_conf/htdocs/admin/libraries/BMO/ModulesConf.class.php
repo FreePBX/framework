@@ -6,6 +6,7 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
+namespace FreePBX;
 class ModulesConf {
 
 	private $conf;
@@ -13,7 +14,7 @@ class ModulesConf {
 
 	public function __construct() {
 
-		$this->conf = FreePBX::create()->ConfigFile("modules.conf");
+		$this->conf = \FreePBX::create()->ConfigFile("modules.conf");
 
 		$this->ProcessedConfig =& $this->conf->config->ProcessedConfig;
 
@@ -33,7 +34,7 @@ class ModulesConf {
 	public function noload($module = null) {
 
 		if ($module == null)
-			throw new Exception("Wasn't given a module to noload");
+			throw new \Exception("Wasn't given a module to noload");
 
 		// Add module(s) to noload.
 		$mods = array();
@@ -53,7 +54,7 @@ class ModulesConf {
 
 	public function removenoload($module = null) {
 		if ($module == null)
-			throw new Exception("Wasn't given a module to remove the noload tag from");
+			throw new \Exception("Wasn't given a module to remove the noload tag from");
 
 		if (is_array($module)) {
 			foreach($module as $m) {
@@ -67,7 +68,7 @@ class ModulesConf {
 	public function preload($module = null) {
 
 		if ($module == null)
-			throw new Exception("Wasn't given a module to preload");
+			throw new \Exception("Wasn't given a module to preload");
 
 		// Add module(s) to preload.
 		$mods = array();
@@ -87,7 +88,7 @@ class ModulesConf {
 
 	public function removepreload($module = null) {
 		if ($module == null)
-			throw new Exception("Wasn't given a module to remove the preload tag from");
+			throw new \Exception("Wasn't given a module to remove the preload tag from");
 
 		if (is_array($module)) {
 			foreach($module as $m) {

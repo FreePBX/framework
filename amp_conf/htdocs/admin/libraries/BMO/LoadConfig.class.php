@@ -10,7 +10,7 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
-
+namespace FreePBX;
 class LoadConfig {
 
 	private $RawConfigContents;
@@ -30,7 +30,7 @@ class LoadConfig {
 	 */
 	public function __construct($freepbx = null, $file = null, $hint = "/etc/asterisk") {
 		if ($freepbx == null)
-			throw new Exception("Need to be instantiated with a FreePBX Object");
+			throw new \Exception("Need to be instantiated with a FreePBX Object");
 
 		if ($file !== null)
 			$this->loadConfig($file, $hint);
@@ -52,7 +52,7 @@ class LoadConfig {
 		//clear old contents out
 		$this->ProcessedConfig = $this->BaseConfig = $this->PlainConfig = $this->RawConfigContents = "";
 		if ($file === null)
-			throw new Exception("No file given to load");
+			throw new \Exception("No file given to load");
 
 		$filename = $this->validateFilename($file,$hint);
 
@@ -85,7 +85,7 @@ class LoadConfig {
 	 */
 	public function getRaw($file = null) {
 		if ($file === null && !isset($this->RawConfigContents))
-			throw new Exception("Asked for raw contents of a file, but was never asked to read a file");
+			throw new \Exception("Asked for raw contents of a file, but was never asked to read a file");
 
 		return $this->RawConfigContents;
 	}
@@ -103,7 +103,7 @@ class LoadConfig {
 	 */
 	public function getConfig($file = null, $hint = "/etc/asterisk", $context = null) {
 		if ($file === null)
-			throw new Exception("No file given to load");
+			throw new \Exception("No file given to load");
 
 		$this->loadConfig($file, $hint);
 
@@ -124,9 +124,9 @@ class LoadConfig {
 		// in it. We're only allowed to write to /etc/asterisk or our hint
 
 		if (strpos($file, "/") !== false)
-			throw new Exception("$filename contains a /");
+			throw new \Exception("$filename contains a /");
 		if (strpos($file, "..") !== false)
-			throw new Exception("$filename contains ..");
+			throw new \Exception("$filename contains ..");
 
 		$filename = $hint."/".$file;
 		return $filename;
@@ -224,7 +224,7 @@ class LoadConfig {
 			} else if (trim($entry) == "") {
 				continue;
 			} else {
-				throw new Exception("Coding Error - don't understand '$entry' from ".$this->Filename);
+				throw new \Exception("Coding Error - don't understand '$entry' from ".$this->Filename);
 			}
 		}
 	}

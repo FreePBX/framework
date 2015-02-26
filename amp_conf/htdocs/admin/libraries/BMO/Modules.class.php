@@ -8,7 +8,7 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
-
+namespace FreePBX;
 class Modules {
 
 	public $active_modules;
@@ -17,15 +17,15 @@ class Modules {
 	public function __construct($freepbx = null) {
 
 		if ($freepbx == null) {
-			throw new Exception("Need to be instantiated with a FreePBX Object");
+			throw new \Exception("Need to be instantiated with a FreePBX Object");
 		}
 		$this->FreePBX = $freepbx;
 
 		if (!class_exists('module_functions')) {
-			throw new Exception("module_functions class missing? Bootstrap not run?");
+			throw new \Exception("module_functions class missing? Bootstrap not run?");
 		}
 
-		$this->modclass = module_functions::create();
+		$this->modclass = \module_functions::create();
 		$this->getActiveModules();
 	}
 
@@ -122,7 +122,7 @@ class Modules {
 	 */
 	public function getClassName($page = null) {
 		if ($page == null)
-			throw new Exception("I can't find a module for a page that doesn't exist");
+			throw new \Exception("I can't find a module for a page that doesn't exist");
 
 		// Search through all active modules..
 		$mods = $this->getActiveModules();

@@ -6,13 +6,14 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
+namespace FreePBX;
 class Hooks extends DB_Helper {
 
 	private $hooks;
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null)
-			throw new Exception("Need to be instantiated with a FreePBX Object");
+			throw new \Exception("Need to be instantiated with a FreePBX Object");
 
 		$this->FreePBX = $freepbx;
 	}
@@ -137,9 +138,9 @@ class Hooks extends DB_Helper {
 						}
 						$meth = $hook['method'];
 						//now send the method from that class the data!
-						modgettext::push_textdomain(strtolower($module));
+						\modgettext::push_textdomain(strtolower($module));
 						$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), func_get_args());
-						modgettext::pop_textdomain();
+						\modgettext::pop_textdomain();
 					}
 				}
 			}

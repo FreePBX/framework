@@ -73,7 +73,7 @@ class DB {
 	 * @param array   $params [description]
 	 */
 	public function getCol($sql,$col=0,$params=array()) {
-		$this->error = null;
+		self::$error = null;
 		$array = array();
 		try {
 			if(!empty($params) && is_array($params)) {
@@ -106,7 +106,7 @@ class DB {
 	public function getAll($sql,$params=array(),$fetchmode=DB_FETCHMODE_DEFAULT) {
 		//this is a sad workaround for people who couldn't follow documentation for functions
 		$fetchmode = $this->isFetchMode($params) ? $params : $fetchmode;
-		$this->error = null;
+		self::$error = null;
 		try {
 			$fetch = $this->correctFetchMode($fetchmode);
 			if(!empty($params) && is_array($params)) {
@@ -133,7 +133,7 @@ class DB {
 	public function getRow($sql,$params=array(),$fetchmode=DB_FETCHMODE_DEFAULT) {
 		//this is a sad workaround for people who couldn't follow documentation for functions
 		$fetchmode = $this->isFetchMode($params) ? $params : $fetchmode;
-		$this->error = null;
+		self::$error = null;
 		try {
 			$fetch = $this->correctFetchMode($fetchmode);
 			if(!empty($params) && is_array($params)) {
@@ -157,7 +157,7 @@ class DB {
 	 * @param array  $params [description]
 	 */
 	public function getOne($sql,$params=array()) {
-		$this->error = null;
+		self::$error = null;
 		try {
 			if(!empty($params) && is_array($params)) {
 				$this->res = $this->db->prepare($sql);
@@ -191,7 +191,7 @@ class DB {
 															$fetchmode = DB_FETCHMODE_DEFAULT, $group = false) {
 		//this is a sad workaround for people who couldn't follow documentation for functions
 		$fetchmode = $this->isFetchMode($params) ? $params : $fetchmode;
-		$this->error = null;
+		self::$error = null;
 		try {
 			$fetch = $this->correctFetchMode($fetchmode);
 			if(!empty($params) && is_array($params)) {
@@ -317,7 +317,7 @@ class DB {
 	 * @return [type]         [description]
 	 */
 	public function query($sql,$params=array()) {
-		$this->error = null;
+		self::$error = null;
 		if(empty($params)) {
 			try {
 				$sth = $this->db->query($sql);

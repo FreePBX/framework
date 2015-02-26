@@ -186,7 +186,7 @@ class Self_Helper extends DB_Helper {
 					try {
 						$signature = \FreePBX::Modules()->getSignature($module);
 						if(!empty($signature['status'])) {
-							$revoked = $signature['status'] & \GPG::STATE_REVOKED;
+							$revoked = $signature['status'] & GPG::STATE_REVOKED;
 							if($revoked) {
 								return false;
 							}

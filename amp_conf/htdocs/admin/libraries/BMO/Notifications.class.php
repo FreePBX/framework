@@ -9,7 +9,7 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 
-
+namespace FreePBX;
 define("NOTIFICATION_TYPE_CRITICAL", 100);
 define("NOTIFICATION_TYPE_SECURITY", 200);
 define("NOTIFICATION_TYPE_UPDATE",   300);
@@ -21,7 +21,7 @@ class Notifications {
 
 	// Legacy pre-BMO Hooks
 	public static function create() {
-		return FreePBX::create()->Notifications;
+		return \FreePBX::create()->Notifications;
 	}
 
 	private $not_loaded = true;
@@ -266,7 +266,7 @@ class Notifications {
 	 */
 	function ignore_forever($module, $id) {
 
-		$freepbx_conf =& freepbx_conf::create();
+		$freepbx_conf =& \freepbx_conf::create();
 		$setting = "NOTIFICATION_IGNORE_{$module}_{$id}";
 
 		if (!$freepbx_conf->conf_setting_exists($setting)) {
@@ -300,7 +300,7 @@ class Notifications {
 	 */
 	function undo_ignore_forever($module, $id) {
 
-		$freepbx_conf =& freepbx_conf::create();
+		$freepbx_conf =& \freepbx_conf::create();
 		$setting = "NOTIFICATION_IGNORE_{$module}_{$id}";
 
 		$freepbx_conf->remove_conf_setting($setting);

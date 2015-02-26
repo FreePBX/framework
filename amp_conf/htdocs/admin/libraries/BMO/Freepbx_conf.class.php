@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
 */
-
+namespace FreePBX;
 /** freepbx_conf class
  * This class represents the evolution of $amp_conf settings that
  * were originally parsed from the amportal.conf table. It is an
@@ -198,7 +198,7 @@ class Freepbx_conf {
    */
 	// Legacy pre-BMO Hooks
 	public static function create() {
-		return FreePBX::create()->Freepbx_conf;
+		return \FreePBX::create()->Freepbx_conf;
 	}
   /** freepbx_conf constructor
    * The class when initialized is filled populated from the SQL store
@@ -215,7 +215,7 @@ class Freepbx_conf {
     global $db;
     $sql = 'SELECT * FROM freepbx_settings ORDER BY category, sortorder, name';
     $db_raw = $db->getAll($sql, array(), DB_FETCHMODE_ASSOC);
-    if(DB::IsError($db_raw)) {
+    if(\DB::IsError($db_raw)) {
       die_freepbx(_('fatal error reading freepbx_settings'));
     }
     unset($this->last_update_status);
@@ -933,7 +933,7 @@ class Freepbx_conf {
     }
     $sql = "DELETE FROM freepbx_settings WHERE keyword in ('".implode("','",$settings)."')";
     $result = $db->query($sql);
-    if(DB::IsError($result)) {
+    if(\DB::IsError($result)) {
       die_freepbx(_('fatal error deleting rows from freepbx_settings, sql query: %s').$sql);
     }
   }
@@ -958,7 +958,7 @@ class Freepbx_conf {
     global $db;
     $sql = "DELETE FROM freepbx_settings WHERE module = '$module'";
     $result = $db->query($sql);
-    if(DB::IsError($result)) {
+    if(\DB::IsError($result)) {
       die_freepbx(_('fatal error deleting rows from freepbx_settings, sql query: %s').$sql);
     }
   }
@@ -1004,7 +1004,7 @@ class Freepbx_conf {
       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
     $compiled = $db->prepare($sql);
     $result = $db->executeMultiple($compiled,$update_array);
-    if(DB::IsError($result)) {
+    if(\DB::IsError($result)) {
       die_freepbx(_('fatal error updating freepbx_settings table'));
     }
     return count($update_array);

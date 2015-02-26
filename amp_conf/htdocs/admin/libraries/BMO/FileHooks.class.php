@@ -6,6 +6,7 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
+namespace FreePBX;
 class FileHooks {
 
 	public function __construct($freepbx = null) {
@@ -93,7 +94,7 @@ class FileHooks {
 			if (!method_exists($this->FreePBX->$hook, "writeConfig")) {
 				throw new Exception("$hook asked to generate a config file, but, doesn't implement writeConfig()");
 			}
-			
+
 			$this->FreePBX->$hook->writeConfig($tmpconf);
 			$this->FreePBX->Performance->Stamp("fileHook-".$hook."_stop");
 		}

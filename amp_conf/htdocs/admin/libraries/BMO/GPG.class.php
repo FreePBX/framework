@@ -12,6 +12,7 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
+namespace FreePBX;
 class GPG {
 
 	// Statuses:
@@ -128,7 +129,7 @@ class GPG {
 		}
 
 		// Get the module.sig file.
-		$file = FreePBX::Config()->get('AMPWEBROOT')."/admin/modules/$modulename/module.sig";
+		$file = \FreePBX::Config()->get('AMPWEBROOT')."/admin/modules/$modulename/module.sig";
 
 		if (!file_exists($file)) {
 			// Well. That was easy.
@@ -147,7 +148,7 @@ class GPG {
 		$retarr['details'] = array();
 
 		foreach ($module['hashes'] as $file => $hash) {
-			$dest = FreePBX::Installer()->getDestination($modulename, $file);
+			$dest = \FreePBX::Installer()->getDestination($modulename, $file);
 			if ($dest === false) {
 				// If the file is explicitly un-checkable, ignore it.
 				continue;
@@ -199,13 +200,13 @@ class GPG {
 		}
 
 		if (!ctype_xdigit($key)) {
-			throw new Exception(sprintf(_("Key provided - %s - is not hex"),$key));
+			throw new \Exception(sprintf(_("Key provided - %s - is not hex"),$key));
 		}
 
 		foreach ($this->keyservers as $ks) {
 			try {
 				$retarr = $this->runGPG("--keyserver $ks --recv-keys $key");
-			} catch (RuntimeException $e) {
+			} catch (\RuntimeException $e) {
 				// Took too long. We'll just try the next one.
 				continue;
 			}
@@ -236,7 +237,7 @@ class GPG {
 		}
 
 		// We weren't able to find it.
-		throw new Exception(sprintf(_("Unable to download GPG key %s, or find %s or %s"), $key, $longkey, $shortkey));
+		throw new \Exception(sprintf(_("Unable to download GPG key %s, or find %s or %s"), $key, $longkey, $shortkey));
 	}
 
 	/**
@@ -252,7 +253,7 @@ class GPG {
 		$stdout = explode("\n", $out['stdout']);
 		array_pop($stdout); // Remove trailing blank line.
 		if (isset($stdout[0]) && strpos($stdout[0], "# List of assigned trustvalues") !== 0) {
-			throw new Exception(sprintf(_("gpg --export-ownertrust didn't return sane stuff - %s"), json_encode($out)));
+			throw new \Exception(sprintf(_("gpg --export-ownertrust didn't return sane stuff - %s"), json_encode($out)));
 		}
 
 		$trusted = false;
@@ -278,7 +279,7 @@ class GPG {
 			fseek($fd, 0);
 			$out = $this->runGPG("--import-ownertrust", $fd);
 			if ($out['exitcode'] != 0) {
-				throw new Exception(sprintf(_("Unable to trust the FreePBX Key! -- %s"),json_encode($out)));
+				throw new \Exception(sprintf(_("Unable to trust the FreePBX Key! -- %s"),json_encode($out)));
 			}
 			fclose($fd);
 		}
@@ -302,14 +303,14 @@ class GPG {
 		if (substr($filename, -4) == ".gpg") {
 			$output = substr($filename, 0, -4);
 		} else {
-			throw new Exception(_("I can only do .gpg files at the moment"));
+			throw new \Exception(_("I can only do .gpg files at the moment"));
 		}
 
 		$out = $this->runGPG("--batch --yes --out $output --decrypt $filename");
 		if ($out['exitcode'] == 0) {
 			return $output;
 		}
-		throw new Exception(sprintf_("Unable to strip signature - result was: %s"),json_encode($out));
+		throw new \Exception(sprintf_("Unable to strip signature - result was: %s"),json_encode($out));
 	}
 
 	/**
@@ -350,14 +351,14 @@ class GPG {
 		$proc = proc_open($cmd, $fds, $pipes, "/tmp", $this->gpgenv);
 
 		if (!is_resource($proc)) { // Unable to start!
-			throw new Exception(_("Unable to start GPG"));
+			throw new \Exception(_("Unable to start GPG"));
 		}
 
 		// Wait $timeout seconds for it to finish.
 		$tmp = null;
 		$r = array($pipes[3]);
 		if (!stream_select($r , $tmp, $tmp, $this->timeout)) {
-			throw new RuntimeException(sprintf(_("gpg took too long to run the command: %s"),$cmd));
+			throw new \RuntimeException(sprintf(_("gpg took too long to run the command: %s"),$cmd));
 		}
 		// We grab stdout and stderr first, as the status fd won't
 		// have completed and closed until those FDs are emptied.
@@ -434,7 +435,7 @@ class GPG {
 	 */
 	public function getHashes($dir) {
 		if (!is_dir($dir)) {
-			throw new Exception(sprintf(_("getHashes was given %s which is not a directory!"),$dir));
+			throw new \Exception(sprintf(_("getHashes was given %s which is not a directory!"),$dir));
 		}
 
 		$hasharr = array();
@@ -454,7 +455,7 @@ class GPG {
 		foreach ($this->keyservers as $ks) {
 			try {
 				$retarr = $this->runGPG("--keyserver $ks --refresh-keys");
-			} catch (RuntimeException $e) {
+			} catch (\RuntimeException $e) {
 				// Took too long. We'll just try the next one.
 				continue;
 			}
@@ -478,7 +479,7 @@ class GPG {
 	 */
 	public function checkSig($sigfile) {
 		if (!is_file($sigfile)) {
-			throw new Exception(sprintf(_("checkSig was given %s, which is not a file"),$sigfile));
+			throw new \Exception(sprintf(_("checkSig was given %s, which is not a file"),$sigfile));
 		}
 
 		$out = $this->runGPG("--output - $sigfile");
@@ -519,7 +520,7 @@ class GPG {
 	 */
 	private function checkStatus($status) {
 		if (!is_array($status)) {
-			throw new Exception(_("No status was given to checkStatus"));
+			throw new \Exception(_("No status was given to checkStatus"));
 		}
 
 		$retarr['valid'] = false;
@@ -564,13 +565,13 @@ class GPG {
 		$webuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
 
 		if (!$webuser) {
-			throw new Exception(_("I don't know who I should be running GPG as."));
+			throw new \Exception(_("I don't know who I should be running GPG as."));
 		}
 
 		// We need to ensure that we can actually read the GPG files.
 		$web = posix_getpwnam($webuser);
 		if (!$web) {
-			throw new Exception(sprintf(_("I tried to find out about %s, but the system doesn't think that user exists"),$webuser));
+			throw new \Exception(sprintf(_("I tried to find out about %s, but the system doesn't think that user exists"),$webuser));
 		}
 		$home = trim($web['dir']);
 		if (!is_dir($home)) {
@@ -579,7 +580,7 @@ class GPG {
 			$home = FreePBX::Freepbx_conf()->get('ASTSPOOLDIR');
 			if (!is_dir($home)) {
 				// OK, I give up.
-				throw new Exception(sprintf(_("Asterisk home dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. Aborting"),$home));
+				throw new \Exception(sprintf(_("Asterisk home dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. Aborting"),$home));
 			}
 		}
 
@@ -592,7 +593,7 @@ class GPG {
 		if (!is_dir($home)) {
 			$ret = @mkdir($home);
 			if (!$ret) {
-				throw new Exception(sprintf(_("Home directory %s doesn't exist, and I can't create it"),$home));
+				throw new \Exception(sprintf(_("Home directory %s doesn't exist, and I can't create it"),$home));
 			}
 		}
 
@@ -602,14 +603,14 @@ class GPG {
 			// That's worrying. Can I make it?
 			$ret = @mkdir($dir);
 			if (!$ret) {
-				throw new Exception(sprintf(_("Directory %s doesn't exist, and I can't make it (getGpgLocation)."),$dir));
+				throw new \Exception(sprintf(_("Directory %s doesn't exist, and I can't make it (getGpgLocation)."),$dir));
 			}
 		}
 
 		if (is_writable($dir)) {
 			return $dir;
 		} else {
-			throw new Exception(sprintf(_("Don't have permission/can't write to %s"),$dir));
+			throw new \Exception(sprintf(_("Don't have permission/can't write to %s"),$dir));
 		}
 	}
 
@@ -626,12 +627,12 @@ class GPG {
 			// That's worrying. Can I make it?
 			$ret = @mkdir($dir);
 			if (!$ret) {
-				throw new Exception(sprintf(_("Directory %s doesn't exist, and I can't make it. (checkPermissions)"),$dir));
+				throw new \Exception(sprintf(_("Directory %s doesn't exist, and I can't make it. (checkPermissions)"),$dir));
 			}
 		}
 
 		// Now, who should be running gpg normally?
-		$freepbxuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
+		$freepbxuser = \FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
 		$pwent = posix_getpwnam($freepbxuser);
 		$uid = $pwent['uid'];
 		$gid = $pwent['gid'];
@@ -641,7 +642,7 @@ class GPG {
 		if ($uid != $stat['uid'] || $gid != $stat['gid']) {
 			// Permissions are wrong on the GPG directory. Hopefully, I'm root, so I can fix them.
 			if (!posix_geteuid() === 0) {
-				throw new Exception(sprintf(_("Permissions error on %s - please re-run as root to automatically repair"),$home));
+				throw new \Exception(sprintf(_("Permissions error on %s - please re-run as root to automatically repair"),$home));
 			}
 			// We're root. Yay.
 			chown($dir, $uid);
@@ -655,7 +656,7 @@ class GPG {
 			if ($uid != $stat['uid'] || $gid != $stat['gid']) {
 				// Permissions are wrong on the file inside the .gnupg directory.
 				if (!posix_geteuid() === 0) {
-					throw new Exception(sprintf(_("Permissions error on %s - please re-run as root to automatically repair"),$home));
+					throw new \Exception(sprintf(_("Permissions error on %s - please re-run as root to automatically repair"),$home));
 				}
 				// We're root. Yay.
 				chown($file, $uid);

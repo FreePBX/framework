@@ -8,7 +8,7 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
-
+namespace FreePBX;
 class Installer {
 
 	private $agidir;
@@ -27,18 +27,18 @@ class Installer {
 
 	public function __construct($test = false) {
 		// Asterisk Directories
-		$this->agidir = FreePBX::Config()->get('ASTAGIDIR');
-		$this->varlibdir = FreePBX::Config()->get('ASTVARLIBDIR');
-		$this->mohdir = $this->varlibdir . "/" . FreePBX::Config()->get('ASTVARLIBDIR');
-		$this->etcdir = FreePBX::Config()->get('ASTETCDIR');
-		$this->logdir = FreePBX::Config()->get('ASTLOGDIR');
-		$this->moddir = FreePBX::Config()->get('ASTMODDIR');
-		$this->rundir = FreePBX::Config()->get('ASTRUNDIR');
-		$this->spooldir = FreePBX::Config()->get('ASTSPOOLDIR');
+		$this->agidir = \FreePBX::Config()->get('ASTAGIDIR');
+		$this->varlibdir = \FreePBX::Config()->get('ASTVARLIBDIR');
+		$this->mohdir = $this->varlibdir . "/" . \FreePBX::Config()->get('ASTVARLIBDIR');
+		$this->etcdir = \FreePBX::Config()->get('ASTETCDIR');
+		$this->logdir = \FreePBX::Config()->get('ASTLOGDIR');
+		$this->moddir = \FreePBX::Config()->get('ASTMODDIR');
+		$this->rundir = \FreePBX::Config()->get('ASTRUNDIR');
+		$this->spooldir = \FreePBX::Config()->get('ASTSPOOLDIR');
 
-		$this->webroot = FreePBX::Config()->get('AMPWEBROOT');
-		$this->sbindir = FreePBX::Config()->get('AMPSBIN');
-		$this->bindir = FreePBX::Config()->get('AMPBIN');
+		$this->webroot = \FreePBX::Config()->get('AMPWEBROOT');
+		$this->sbindir = \FreePBX::Config()->get('AMPSBIN');
+		$this->bindir = \FreePBX::Config()->get('AMPBIN');
 
 
 		$vars = array("agidir", "varlibdir", "mohdir", "etcdir", "logdir", "moddir", "rundir", "spooldir", "webroot", "sbindir", "bindir");

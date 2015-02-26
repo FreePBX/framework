@@ -7,7 +7,7 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 
-
+namespace FreePBX;
 class Search extends FreePBX_Helpers {
 
 	public function ajaxRequest($cmd, &$settings) {
@@ -27,7 +27,7 @@ class Search extends FreePBX_Helpers {
 		}
 	}
 	public function globalSearch() {
-		$modules = FreePBX::Modules()->getActiveModules();
+		$modules = \FreePBX::Modules()->getActiveModules();
 		$retarr = array();
 		foreach ($modules as $m) {
 			if (isset($m['items'])) {
@@ -46,7 +46,7 @@ class Search extends FreePBX_Helpers {
 		// Make the query string usable.
 		$qs = htmlentities($_REQUEST['query'], ENT_QUOTES, 'UTF-8', false);
 
-		$mods = FreePBX::Modules()->getModulesByMethod("search");
+		$mods = \FreePBX::Modules()->getModulesByMethod("search");
 		foreach($mods as $mod) {
 			$this->FreePBX->$mod->search($qs, $results);
 		}

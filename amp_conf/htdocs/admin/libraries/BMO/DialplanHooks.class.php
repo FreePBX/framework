@@ -6,6 +6,7 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
+namespace FreePBX;
 class DialplanHooks {
 
 	public function __construct($freepbx = null) {

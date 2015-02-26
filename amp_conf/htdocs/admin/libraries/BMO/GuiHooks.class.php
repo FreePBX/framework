@@ -6,11 +6,12 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
+namespace FreePBX;
 class GuiHooks {
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null)
-			throw new Exception("Need to be instantiated with a FreePBX Object");
+			throw new \Exception("Need to be instantiated with a FreePBX Object");
 
 		$this->FreePBX = $freepbx;
 	}
@@ -53,7 +54,7 @@ class GuiHooks {
 						}
 					}
 				} elseif (!is_string($val)) {
-					throw new Exception("Handed unknown stuff by $module");
+					throw new \Exception("Handed unknown stuff by $module");
 				}
 
 				// Now check for normal hooks
@@ -94,7 +95,7 @@ class GuiHooks {
 
 		// Now, does the hook actually exist?
 		if (!method_exists($moduleToCall, "doGuiHook"))
-			throw new Exception("$moduleToCall asked to hook, but $moduleToCall::doGuiHook() doesn't exist");
+			throw new \Exception("$moduleToCall asked to hook, but $moduleToCall::doGuiHook() doesn't exist");
 
 		// Yay. Do stuff.
 		$mod->doGuiHook($currentcomponent, $thispage);
@@ -125,11 +126,11 @@ class GuiHooks {
 				$mod = $this->FreePBX->$moduleToCall;
 				// Now, does the hook actually exist?
 				if (!method_exists($moduleToCall, "doGuiIntercept"))
-					throw new Exception("$moduleToCall asked to intercept, but ${moduleToCall}->doGuiIntercept() doesn't exist");
+					throw new \Exception("$moduleToCall asked to intercept, but ${moduleToCall}->doGuiIntercept() doesn't exist");
 
 				// Output is being passed as a reference.
 				$mod->doGuiIntercept($filename, $output);
-			} catch (Exception $e) {
+			} catch (\Exception $e) {
 				// Unable to find the module.
 				echo "Intercept error from $moduleToCall - ".$e->getMessage()."<br />\n";
 			}
@@ -186,7 +187,7 @@ class GuiHooks {
 
 	public function doConfigPageInits($display = null) {
 		if ($display == null)
-			throw new Exception("Hooking into the main page is currently not supported. Sorry");
+			throw new \Exception("Hooking into the main page is currently not supported. Sorry");
 
 		// Get the owner of this page.
 		$class = $this->FreePBX->Modules->getClassName($display);

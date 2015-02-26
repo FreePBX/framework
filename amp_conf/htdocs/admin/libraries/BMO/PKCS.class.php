@@ -14,6 +14,7 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
+namespace FreePBX;
 class PKCS {
 
 	// Our path to openssl.
@@ -87,7 +88,7 @@ basicConstraints=CA:TRUE
 
 EOF;
 			if(!file_put_contents($cfglocation,$ca)) {
-				throw new Exception("Unable to create $cfglocation config file");
+				throw new \Exception("Unable to create $cfglocation config file");
 			}
 			return true;
 		}
@@ -140,7 +141,7 @@ EOF;
 				$out = $this->runOpenSSL("req -nodes -new -config $config -x509 -days 3650 -key $key -out $cacrt");
 			}
 			if($out['exitcode'] > 0) {
-				throw new Exception("Error Generating Certificate: ".$out['stderr']);
+				throw new \Exception("Error Generating Certificate: ".$out['stderr']);
 			}
 		}
 		$this->checkPermissions($location);
@@ -159,13 +160,13 @@ EOF;
 		$this->out("Creating certificate for " . $base);
 		$out = $this->runOpenSSL("genrsa -out " . $location . "/" . $base . ".key 1024");
 		if($out['exitcode'] > 0) {
-			throw new Exception("Error Generating Key: ".$out['stderr']);
+			throw new \Exception("Error Generating Key: ".$out['stderr']);
 		}
 		//Creating signing request ${base}.csr
 		$this->out("Creating signing request for " . $base);
 		$out = $this->runOpenSSL("req -batch -new -config " . $location . "/".$cabase.".cfg -key " . $location . "/" . $base . ".key -out " . $location . "/" . $base . ".csr");
 		if($out['exitcode'] > 0) {
-			throw new Exception("Error Generating Signing Request: ".$out['stderr']);
+			throw new \Exception("Error Generating Signing Request: ".$out['stderr']);
 		}
 		//Creating certificate ${base}.crt
 		$this->out("Creating certificate " . $base);
@@ -179,7 +180,7 @@ EOF;
 			$out = $this->runOpenSSL("x509 -req -days 3650 -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt");
 		}
 		if($out['exitcode'] > 0) {
-			throw new Exception("Error Generating Certificate: ".$out['stderr']);
+			throw new \Exception("Error Generating Certificate: ".$out['stderr']);
 		}
 		//Combining key and crt into ${base}.pem
 		$this->out("Combining key and crt into " . $base . ".pem");
@@ -210,16 +211,16 @@ EOF;
 
 		$keyloc = $this->getKeysLocation();
 		$csr = "$keyloc/$name.csr";
-		
+
 		if (file_exists($csr)) {
-			// Already exists. 
+			// Already exists.
 			if ($regen) {
 				unlink($csr);
 			} else {
 				return true;
 			}
 		}
-				
+
 		if (!is_array($params)) {
 			throw new \Exception("not an array");
 		}
@@ -355,7 +356,7 @@ default_md = sha256
 			$out = $this->runOpenSSL($cmd);
 		}
 		if($out['exitcode'] != 0) {
-			throw new Exception("Error Signing Cert with '$cmd': ".json_encode($out));
+			throw new \Exception("Error Signing Cert with '$cmd': ".json_encode($out));
 		}
 		return true;
 	}
@@ -375,7 +376,7 @@ default_md = sha256
 			array("pipe", "w"), // Status
 		);
 
-		$webuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
+		$webuser = \FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
 		$keyloc = $this->getKeysLocation();
 
 		// We need to ensure that our environment variables are sane.
@@ -391,7 +392,7 @@ default_md = sha256
 		$proc = proc_open($cmd, $fds, $pipes, "/tmp", $this->opensslenv);
 
 		if (!is_resource($proc)) { // Unable to start!
-			throw new Exception("Unable to start OpenSSL");
+			throw new \Exception("Unable to start OpenSSL");
 		}
 
 		// If we need to send stuff to stdin, then do it!
@@ -404,7 +405,7 @@ default_md = sha256
 		$tmp = null;
 		$r = array($pipes[3]);
 		if (!stream_select($r , $tmp, $tmp, $this->timeout)) {
-			throw new RuntimeException("OpenSSL took too long to run the command \"$cmd\".");
+			throw new \RuntimeException("OpenSSL took too long to run the command \"$cmd\".");
 		}
 
 		$status = explode("\n", stream_get_contents($pipes[3]));
@@ -451,7 +452,7 @@ default_md = sha256
 		foreach($this->getAllCertificates() as $file) {
 			if(preg_match('/^'.$base.'/',$file)) {
 				if(!unlink($location . "/" . $file)) {
-					throw new Exception('Unable to remove '.$file);
+					throw new \Exception('Unable to remove '.$file);
 				}
 			}
 		}
@@ -464,7 +465,7 @@ default_md = sha256
 		$location = $this->getKeysLocation();
 		foreach($this->getAllAuthorityFiles() as $file) {
 			if(!unlink($location . "/" . $file)) {
-				throw new Exception('Unable to remove '.$file);
+				throw new \Exception('Unable to remove '.$file);
 			}
 		}
 		return true;
@@ -477,12 +478,12 @@ default_md = sha256
 		$location = $this->getKeysLocation();
 		if(file_exists($location . "/ca.cfg")) {
 			if(!unlink($location . "/ca.cfg")) {
-				throw new Exception('Unable to remove ca.cfg');
+				throw new \Exception('Unable to remove ca.cfg');
 			}
 		}
 		if(file_exists($location . "/tmp.cfg")) {
 			if(!unlink($location . "/tmp.cfg")) {
-				throw new Exception('Unable to remove tmp.cfg');
+				throw new \Exception('Unable to remove tmp.cfg');
 			}
 		}
 		return true;
@@ -512,18 +513,18 @@ default_md = sha256
 			return $this->keylocation;
 		}
 
-		$webuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
+		$webuser = \FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
 
 		if (!$webuser) {
-			throw new Exception("I don't know who I should be running OpenSSL as.");
+			throw new \Exception("I don't know who I should be running OpenSSL as.");
 		}
 
 		// We need to ensure that we can actually read the Key files.
-		$keyloc = FreePBX::Freepbx_conf()->get('CERTKEYLOC');
+		$keyloc = \FreePBX::Freepbx_conf()->get('CERTKEYLOC');
 		$keyloc = !empty($keyloc) ? $keyloc : FreePBX::Freepbx_conf()->get('ASTETCDIR') . "/keys";
 		if (!file_exists($keyloc)) {
 			if(!mkdir($keyloc)) {
-				throw new Exception("Could Not Create the Asterisk Keys Folder: " . $keyloc);
+				throw new \Exception("Could Not Create the Asterisk Keys Folder: " . $keyloc);
 			}
 		}
 
@@ -532,7 +533,7 @@ default_md = sha256
 			$this->keylocation = $keyloc;
 			return $keyloc;
 		} else {
-			throw new Exception("Don't have permission/can't write to: " . $keyloc);
+			throw new \Exception("Don't have permission/can't write to: " . $keyloc);
 		}
 	}
 
@@ -602,12 +603,12 @@ default_md = sha256
 			// That's worrying. Can I make it?
 			$ret = @mkdir($dir);
 			if (!$ret) {
-				throw new Exception("Directory $dir doesn't exist, and I can't make it.");
+				throw new \Exception("Directory $dir doesn't exist, and I can't make it.");
 			}
 		}
 
 		// Now, who should be running OpenSSL normally?
-		$freepbxuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
+		$freepbxuser = \FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
 		$pwent = posix_getpwnam($freepbxuser);
 		$uid = $pwent['uid'];
 		$gid = $pwent['gid'];
@@ -617,7 +618,7 @@ default_md = sha256
 		if ($uid != $stat['uid'] || $gid != $stat['gid']) {
 			// Permissions are wrong on the keys directory. Hopefully, I'm root, so I can fix them.
 			if (!posix_geteuid() === 0) {
-				throw new Exception("Permissions error on $dir - please re-run as root to automatically repair");
+				throw new \Exception("Permissions error on $dir - please re-run as root to automatically repair");
 			}
 			// We're root. Yay.
 			chown($dir, $uid);
@@ -630,7 +631,7 @@ default_md = sha256
 			if ($uid != $stat['uid'] || $gid != $stat['gid']) {
 				// Permissions are wrong on the keys directory. Hopefully, I'm root, so I can fix them.
 				if (!posix_geteuid() === 0) {
-					throw new Exception("Permissions error on $dir - please re-run as root to automatically repair");
+					throw new \Exception("Permissions error on $dir - please re-run as root to automatically repair");
 				}
 				// We're root. Yay.
 				chown($file, $uid);

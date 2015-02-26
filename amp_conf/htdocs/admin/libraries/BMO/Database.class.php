@@ -13,7 +13,8 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
-class Database extends PDO {
+namespace FreePBX;
+class Database extends \PDO {
 
 	/**
 	 * Connecting to the Database object
@@ -35,7 +36,7 @@ class Database extends PDO {
 		}
 
 		if (class_exists("FreePBX")) {
-			$amp_conf = FreePBX::$conf;
+			$amp_conf = \FreePBX::$conf;
 		} else if (is_array($args[0]) && !empty($args[0])) {
 			$amp_conf = $args[0];
 			array_shift($args);
@@ -72,7 +73,7 @@ class Database extends PDO {
 		} catch(\Exception $e) {
 			die_freepbx($e->getMessage(), $e);
 		}
-		$this->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+		$this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 	}
 
 	/**
@@ -85,7 +86,7 @@ class Database extends PDO {
 	 * @param $type string Type of query
 	 * @param $fetchmode int One of the PDO::FETCH_ methos (see http://www.php.net/manual/en/pdo.constants.php for info)
 	 */
-	public function sql($sql = null, $type = "query", $fetchmode = PDO::FETCH_BOTH) {
+	public function sql($sql = null, $type = "query", $fetchmode = \PDO::FETCH_BOTH) {
 		if (!$sql)
 			throw new Exception("No SQL Given to Database->sql()");
 

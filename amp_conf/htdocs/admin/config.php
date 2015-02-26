@@ -515,7 +515,7 @@ switch($display) {
 						}
 					}
 
-					if(isset($gpgstatus['status']) && ($gpgstatus['status'] & GPG::STATE_REVOKED)) {
+					if(isset($gpgstatus['status']) && ($gpgstatus['status'] & FreePBX\GPG::STATE_REVOKED)) {
 						echo sprintf(_("File %s has a revoked signature. Can not load"),$module_file);
 					} else {
 						// load language info if available

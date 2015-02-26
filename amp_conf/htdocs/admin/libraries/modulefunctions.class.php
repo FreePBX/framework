@@ -1156,7 +1156,7 @@ class module_functions {
 		}
 
 		$mod = FreePBX::GPG()->verifyModule($modulename);
-		$revoked = $mod['status'] & GPG::STATE_REVOKED;
+		$revoked = $mod['status'] & FreePBX\GPG::STATE_REVOKED;
 		if($revoked) {
 			return array(_("Module ".$modulename." has a revoked signature and cannot be enabled"));
 		}
@@ -1748,7 +1748,7 @@ class module_functions {
 		}
 
 		$mod = FreePBX::GPG()->verifyModule($modulename);
-		$revoked = $mod['status'] & GPG::STATE_REVOKED;
+		$revoked = $mod['status'] & FreePBX\GPG::STATE_REVOKED;
 		if($revoked) {
 			return array(_("Module ".$modulename." has a revoked signature and cannot be installed"));
 		}
@@ -2862,14 +2862,14 @@ class module_functions {
 				$modules['statuses']['unsigned'][] = sprintf(_('Module "%s" is is missing its signature status.'),$modname);
 				continue;
 			}
-			if(~$mod['signature']['status'] & GPG::STATE_GOOD) {
+			if(~$mod['signature']['status'] & FreePBX\GPG::STATE_GOOD) {
 				$globalValidation = false;
 			}
-			$trusted = $mod['signature']['status'] & GPG::STATE_TRUSTED;
-			$tampered = $mod['signature']['status'] & GPG::STATE_TAMPERED;
-			$unsigned = $mod['signature']['status'] & GPG::STATE_UNSIGNED;
-			$invalid = $mod['signature']['status'] & GPG::STATE_INVALID;
-			$revoked = $mod['signature']['status'] & GPG::STATE_REVOKED;
+			$trusted = $mod['signature']['status'] & FreePBX\GPG::STATE_TRUSTED;
+			$tampered = $mod['signature']['status'] & FreePBX\GPG::STATE_TAMPERED;
+			$unsigned = $mod['signature']['status'] & FreePBX\GPG::STATE_UNSIGNED;
+			$invalid = $mod['signature']['status'] & FreePBX\GPG::STATE_INVALID;
+			$revoked = $mod['signature']['status'] & FreePBX\GPG::STATE_REVOKED;
 			//if revoked then disable
 			$md = $this->getInfo();
 			$modname = !empty($md[$mod['modulename']]['name']) ? $md[$mod['modulename']]['name'] : sprintf(_('%s [not enabled]'),$mod['modulename']);
@@ -2927,7 +2927,7 @@ class module_functions {
 		try {
 			$mod = FreePBX::GPG()->verifyModule($modulename);
 
-			$revoked = $mod['status'] & GPG::STATE_REVOKED;
+			$revoked = $mod['status'] & FreePBX\GPG::STATE_REVOKED;
 			//if revoked then disable
 			if($revoked) {
 				$this->disable($modulename);
