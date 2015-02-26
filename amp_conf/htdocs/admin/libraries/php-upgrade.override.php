@@ -122,7 +122,7 @@ if (!function_exists("gethostname")) {
  * @return array
  */
 if (!function_exists("get_declared_traits")) {
-   function get_declared_traits($trait = null) {
+   function get_declared_traits() {
        return (array)NULL;
    }
 }
