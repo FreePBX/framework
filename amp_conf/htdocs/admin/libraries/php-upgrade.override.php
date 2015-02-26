@@ -117,6 +117,16 @@ if (!function_exists("gethostname")) {
     }
 }
 
+/**
+ * Returns an array with names of all declared traits in values. Returns NULL in case of a failure.
+ * @return array
+ */
+if (!function_exists("get_declared_traits")) {
+   function get_declared_traits($trait = null) {
+       return (array)NULL;
+   }
+}
+
 require_once('php-upgrade/upgrade.php');
 require_once('php-upgrade/ext/gettext.php');
 ?>
