@@ -835,21 +835,21 @@ switch ($action) {
 			}
 			if(FreePBX::Config()->get('SIGNATURECHECK')) {
 				FreePBX::GPG();
-				if(is_int($modules[$name]['signature']['status']) && (~$modules[$name]['signature']['status'] & GPG::STATE_GOOD)) {
+				if(is_int($modules[$name]['signature']['status']) && (~$modules[$name]['signature']['status'] & \FreePBX\GPG::STATE_GOOD)) {
 					switch(true) {
-						case $modules[$name]['signature']['status'] & GPG::STATE_TAMPERED:
+						case $modules[$name]['signature']['status'] & \FreePBX\GPG::STATE_TAMPERED:
 							$headerclass .= " tampered";
 							$module_display[$category]['data'][$name]['signature']['message'] = _("Module has been tampered. Please redownload");
 							break;
-						case $modules[$name]['signature']['status'] & GPG::STATE_UNSIGNED:
+						case $modules[$name]['signature']['status'] & \FreePBX\GPG::STATE_UNSIGNED:
 							$headerclass .= " unsigned";
 							$module_display[$category]['data'][$name]['signature']['message'] = _("Module is Unsigned");
 							break;
-						case $modules[$name]['signature']['status'] & GPG::STATE_INVALID:
+						case $modules[$name]['signature']['status'] & \FreePBX\GPG::STATE_INVALID:
 							$headerclass .= " invalid";
 							$module_display[$category]['data'][$name]['signature']['message'] = _("Module has been signed with an invalid key");
 							break;
-						case $modules[$name]['signature']['status'] & GPG::STATE_REVOKED:
+						case $modules[$name]['signature']['status'] & \FreePBX\GPG::STATE_REVOKED:
 							$headerclass .= " revoked";
 							$module_display[$category]['data'][$name]['signature']['message'] = _("Module has been revoked and can not be enabled");
 							break;
