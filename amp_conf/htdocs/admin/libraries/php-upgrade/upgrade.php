@@ -1,4 +1,12 @@
 <?php
+///////////////////////////////////////////////
+// THIS FILE SHOULD BE REMOVED IN FREEPBX 13 //
+///////////////////////////////////////////////
+// It's totally unneeded now, and will cause //
+// ongoing issues with trying to be backward //
+// compat.                                   //
+//                      -- xrobau 2015-02-26 //
+///////////////////////////////////////////////
 /**
  * api:		php
  * title:	upgrade.php
@@ -196,7 +204,7 @@ if (!function_exists("trait_exists")) {
    }
 }
 if (!function_exists("get_declared_traits")) {
-   function get_declared_traits($trait) {
+   function get_declared_traits() {
        return (array)NULL;
    }
 }
