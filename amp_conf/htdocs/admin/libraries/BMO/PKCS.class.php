@@ -48,6 +48,11 @@ class PKCS {
 		}
 	}
 
+	// Ensure that permissions are correct in teardown
+	public function __destruct() {
+		$this->checkPermissions();
+	}
+
 	/**
 	 * Create a global configuration file for use
 	 * when generating more base certificates
@@ -144,7 +149,6 @@ EOF;
 				throw new \Exception("Error Generating Certificate: ".$out['stderr']);
 			}
 		}
-		$this->checkPermissions($location);
 		return true;
 	}
 
@@ -187,7 +191,6 @@ EOF;
 		$contents = file_get_contents($location . "/" . $base . ".key");
 		$contents = $contents . file_get_contents($location . "/" . $base . ".crt");
 		file_put_contents($location . "/" . $base . ".pem", $contents);
-		$this->checkPermissions($location);
 		return true;
 	}
 
@@ -225,11 +228,11 @@ EOF;
 			throw new \Exception("not an array");
 		}
 
-		if (!isset($params['OU']) || !isset($params['CN'])) {
-			throw new \Exception("Missing OU or CN. Can't create");
+		if (!isset($params['O']) || !isset($params['CN'])) {
+			throw new \Exception("Missing O or CN. Can't create");
 		}
 
-		$defaults = array("C" => "AU", "ST" => "QLD", "L" => "Brisbane", "O" => "FreePBX Created Certificate",
+		$defaults = array("C" => "AU", "ST" => "QLD", "L" => "Brisbane", "OU" => "FreePBX Created Certificate",
 			"emailAddress" => "invalid@example.com");
 
 		// Load defaults if they're not provided.
@@ -625,9 +628,16 @@ default_md = sha256
 			chgrp($dir, $gid);
 		}
 
-		// Check the permissions of the files inside the .gpg directory
+		// Check the permissions of the files inside the key location
 		$allfiles = glob($dir."/*");
+		// Add the entropy file
+		$allfiles[] = "$dir/.rnd";
 		foreach ($allfiles as $file) {
+			if (!file_exists($file)) {
+				// .rnd file may not exist
+				continue;
+			}
+			$stat = stat($file);
 			if ($uid != $stat['uid'] || $gid != $stat['gid']) {
 				// Permissions are wrong on the keys directory. Hopefully, I'm root, so I can fix them.
 				if (!posix_geteuid() === 0) {
