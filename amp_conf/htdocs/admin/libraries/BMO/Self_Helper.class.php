@@ -8,16 +8,17 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
-
+namespace FreePBX;
 class Self_Helper extends DB_Helper {
 
 	private $moduleNamespace = '\\FreePBX\\Modules\\';
+	private $freepbxNamespace = '\\FreePBX\\';
 
 	public function __construct($freepbx = null) {
 		if (!is_object($freepbx)) {
-			throw new Exception("Need to be instantiated with a FreePBX Object");
+			throw new \Exception("Need to be instantiated with a FreePBX Object");
 		}
-		$this->FreePBX = FreePBX::create();
+		$this->FreePBX = \FreePBX::create();
 	}
 
 	/**
@@ -28,8 +29,8 @@ class Self_Helper extends DB_Helper {
 	 */
 	public function __get($var) {
 		// Does the BMO know about this object already?
-		if (isset(FreePBX::create()->$var)) {
-			$this->$var = FreePBX::create()->$var;
+		if (isset(\FreePBX::create()->$var)) {
+			$this->$var = \FreePBX::create()->$var;
 			return $this->$var;
 		}
 
@@ -81,7 +82,7 @@ class Self_Helper extends DB_Helper {
 	private function autoLoad() {
 		// Figure out what is wanted, and return it.
 		if (func_num_args() == 0) {
-			throw new Exception("Nothing given to the AutoLoader");
+			throw new \Exception("Nothing given to the AutoLoader");
 		}
 
 		// If we have TWO arguments, we've been called by __call, if we only have
@@ -91,46 +92,42 @@ class Self_Helper extends DB_Helper {
 		$var = $args[0];
 
 		if ($var == "FreePBX") {
-			throw new Exception("No. You ALREADY HAVE the FreePBX Object. You don't need another one.");
+			throw new \Exception("No. You ALREADY HAVE the FreePBX Object. You don't need another one.");
 		}
 
 		// Ensure no-one's trying to include something with a path in it.
 		if (strpos($var, "/") || strpos($var, "..")) {
-			throw new Exception("Invalid include given to AutoLoader - $var");
+			throw new \Exception("Invalid include given to AutoLoader - $var");
 		}
 
 		// This will throw an Exception if it can't find the class.
 		$this->loadObject($var);
 		$var = $this->Modules->cleanModuleName($var);
 
-		$class = class_exists($this->moduleNamespace.$var) ? $this->moduleNamespace.$var : $var;
+		$class = class_exists($this->moduleNamespace.$var) ? $this->moduleNamespace.$var : (class_exists($this->freepbxNamespace.$var) ? $this->freepbxNamespace.$var : $var);
 		// Now, we may have paramters (__call), or we may not..
 		if (isset($args[1]) && isset($args[1][0])) {
 			// We do. We were __call'ed. Sanity check
 			if (isset($args[1][1])) {
-				throw new Exception(_("Multiple params to autoload (__call) not supported. Don't do that. Or re-write this."));
+				throw new \Exception(_("Multiple params to autoload (__call) not supported. Don't do that. Or re-write this."));
 			}
 			if (class_exists($class)) {
 				$this->$var = new $class($this, $args[1][0]);
 			} else {
-				throw new Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
+				throw new \Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
 			}
 		} else {
 			if (class_exists($class)) {
+
 				if($var[0] != strtoupper($var[0])) {
 					throw new \Exception(sprintf(_("BMO Objects must have their first letter captialized. You provided %s"),$var));
 				}
 				$this->$var = new $class($this);
 			} else {
-				throw new Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
+				throw new \Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
 			}
-			FreePBX::create()->$var = $this->$var;
+			\FreePBX::create()->$var = $this->$var;
 
-		}
-		//Load the hooks
-		if(preg_match('/FreePBX\\\modules/i',get_class($this->$var))) {
-			//$callers=debug_backtrace();
-			//dbug($callers[5]['function']);
 		}
 		return $this->$var;
 	}
@@ -143,12 +140,12 @@ class Self_Helper extends DB_Helper {
 	 */
 	private function loadObject($objname, $hint = null) {
 		$objname = str_replace('FreePBX\\modules\\','',$objname);
-		$class = class_exists($this->moduleNamespace.$objname) ? $this->moduleNamespace.$objname : $objname;
+		$class = class_exists($this->moduleNamespace.$objname) ? $this->moduleNamespace.$objname : (class_exists($this->freepbxNamespace.$objname) ? $this->freepbxNamespace.$objname : $objname);
 
 		// If it already exists, we're fine.
-		if (class_exists($class)) {
+		if (class_exists($class) && $class != "Directory") {
 			//do reflection tests for ARI junk, we **dont** want to load ARI
-			$class = new ReflectionClass($class);
+			$class = new \ReflectionClass($class);
 
 			//this is a stop gap, remove in 13 or 14 when ARI is no longer used
 			if(!$class->hasMethod('navMenu') && !$class->hasMethod('rank')) {
@@ -161,7 +158,7 @@ class Self_Helper extends DB_Helper {
 
 		if ($hint) {
 			if (!file_exists($hint)) {
-				throw new Exception(sprintf(_("Attempted to load %s with a hint of %s and it didn't exist"),$objname,$hint));
+				throw new \Exception(sprintf(_("Attempted to load %s with a hint of %s and it didn't exist"),$objname,$hint));
 			} else {
 				$try = $hint;
 			}
@@ -179,7 +176,7 @@ class Self_Helper extends DB_Helper {
 			$objname = $this->Modules->cleanModuleName($objname);
 			$path = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/";
 
-			$active_modules = array_keys(FreePBX::create()->Modules->getActiveModules());
+			$active_modules = array_keys(\FreePBX::create()->Modules->getActiveModules());
 			foreach ($active_modules as $module) {
 				// Lets try this one..
 				//TODO: this needs to look with dirname not from webroot
@@ -187,16 +184,16 @@ class Self_Helper extends DB_Helper {
 				if(file_exists($try)) {
 					//Now we need to make sure this is not a revoked module!
 					try {
-						$signature = FreePBX::Modules()->getSignature($module);
+						$signature = \FreePBX::Modules()->getSignature($module);
 						if(!empty($signature['status'])) {
-							$revoked = $signature['status'] & GPG::STATE_REVOKED;
+							$revoked = $signature['status'] & \GPG::STATE_REVOKED;
 							if($revoked) {
 								return false;
 							}
 						}
 					} catch(\Exception $e) {}
 
-					$info = FreePBX::Modules()->getInfo($module);
+					$info = \FreePBX::Modules()->getInfo($module);
 					$needs_zend = isset($info[$module]['depends']['phpcomponent']) && stristr($info[$module]['depends']['phpcomponent'], 'zend');
 					$licFileExists = glob ('/etc/schmooze/license-*.zl');
 					$complete_zend = (!function_exists('zend_loader_install_license') || empty($licFileExists));
@@ -212,16 +209,16 @@ class Self_Helper extends DB_Helper {
 		}
 
 		// Right, after all of this we should now have our object ready to create.
-		if (!class_exists($objname) && !class_exists($this->moduleNamespace.$objname)) {
+		if (!class_exists($objname) && !class_exists($this->moduleNamespace.$objname) && !class_exists($this->freepbxNamespace.$objname)) {
 			// Bad things have happened.
 			if (!$loaded) {
 				$sobjname = strtolower($objname);
-				throw new Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$objname) . sprintf(_("A required module might be disabled or uninstalled. Recommended steps (run from the CLI): 1) amportal a ma install %s 2) amportal a ma enable %s"),$sobjname,$sobjname));
+				throw new \Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$objname) . sprintf(_("A required module might be disabled or uninstalled. Recommended steps (run from the CLI): 1) amportal a ma install %s 2) amportal a ma enable %s"),$sobjname,$sobjname));
 				//die_freepbx(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$objname), sprintf(_("A required module might be disabled or uninstalled. Recommended steps (run from the CLI): 1) amportal a ma install %s 2) amportal a ma enable %s"),$sobjname,$sobjname));
 			}
 
 			// We loaded a file that claimed to represent that class, but didn't.
-			throw new Exception(sprintf(_("Attempted to load %s but it didn't define the class %s"),$try,$objname));
+			throw new \Exception(sprintf(_("Attempted to load %s but it didn't define the class %s"),$try,$objname));
 		}
 
 		return true;

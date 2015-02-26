@@ -10,7 +10,7 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
-
+namespace FreePBX;
 class DB_Helper {
 
 	private static $db;
@@ -46,7 +46,7 @@ class DB_Helper {
 		}
 
 		if (!isset(self::$db)) {
-			self::$db = FreePBX::create()->Database;
+			self::$db = \FreePBX::create()->Database;
 		}
 
 		// Definitions
@@ -71,7 +71,7 @@ class DB_Helper {
 		// Check for indexes.
 		// TODO: This only works on MySQL
 		$res = self::$db->query("SHOW INDEX FROM `".self::$dbname."`");
-		$out = $res->fetchAll(PDO::FETCH_COLUMN|PDO::FETCH_GROUP, 2);
+		$out = $res->fetchAll(\PDO::FETCH_COLUMN|\PDO::FETCH_GROUP, 2);
 		foreach ($out as $i => $null) {
 			// Do we not know about this index? (Are we upgrading?)
 			if (!isset($index[$i])) {
@@ -354,7 +354,7 @@ class DB_Helper {
 		} catch (Exception $e) {
 			self::checkException($e);
 		}
-		$ret = self::$dbGetAll->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = self::$dbGetAll->fetchAll(\PDO::FETCH_COLUMN, 0);
 
 		return $ret;
 	}
@@ -376,7 +376,7 @@ class DB_Helper {
 		} else {
 			$mod = get_class($this);
 		}
-		$ret = self::$db->query("SELECT DISTINCT(`id`) FROM `".self::$dbname."` WHERE `module` = '$mod' AND `id` <> 'noid' ")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = self::$db->query("SELECT DISTINCT(`id`) FROM `".self::$dbname."` WHERE `module` = '$mod' AND `id` <> 'noid' ")->fetchAll(\PDO::FETCH_COLUMN, 0);
 		return $ret;
 	}
 
@@ -445,7 +445,7 @@ class DB_Helper {
 		} catch (Exception $e) {
 			self::checkException($e);
 		}
-		$ret = self::$dbGetFirst->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = self::$dbGetFirst->fetchAll(\PDO::FETCH_COLUMN, 0);
 		return $ret[0];
 	}
 
@@ -480,7 +480,7 @@ class DB_Helper {
 		} catch (Exception $e) {
 			self::checkException($e);
 		}
-		$ret = self::$dbGetLast->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = self::$dbGetLast->fetchAll(\PDO::FETCH_COLUMN, 0);
 		return $ret[0];
 	}
 
@@ -497,7 +497,7 @@ class DB_Helper {
 		// I can't seem to see how this is goign to go with i18n. Argh.
 		$msg = $e->getMessage();
 		if (preg_match('/(134|145)/', $msg)) {
-			// Table corrupt. Repair it. 
+			// Table corrupt. Repair it.
 			print _("Database Error detected. Automatic repair started. Please retry");
 			$res = self::$db->exec("REPAIR TABLE ".self::$dbname);
 			exit(-2);

@@ -12,8 +12,12 @@ include 'BMO.interface.php';
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
+interface BMO extends FreePBX\BMO {};
+class FreePBX_Helpers extends FreePBX\FreePBX_Helpers {};
+class Request_Helper extends FreePBX\Request_Helper {};
+class DB_Helper extends FreePBX\DB_Helper {};
 
-class FreePBX extends FreePBX_Helpers {
+class FreePBX extends FreePBX\FreePBX_Helpers {
 
 	// Static Object used for self-referencing.
 	private static $obj;

@@ -7,7 +7,7 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 // Define and document the BMO Interface
-
+namespace FreePBX;
 // Helpers here.
 // DB_Helper provides $this->getConfig and $this->setConfig
 include "DB_Helper.class.php";
