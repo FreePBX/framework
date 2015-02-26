@@ -42,7 +42,7 @@ class PKCSTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(!empty($state), "Didn't generate a CA Cert");
 
 		// Now, generate a client csr.
-		$csr = array("OU" => "Unit Testing, Intl.", "CN" => "tests.local");
+		$csr = array("O" => "Unit Testing, Intl.", "CN" => "tests.local");
 		$p->createCSR("client", $csr, true);
 		$algo = trim(`openssl req -in /tmp/ssltest/client.csr -noout -text | grep "Signature Algo"`);
 		$this->assertEquals($algo, "Signature Algorithm: sha256WithRSAEncryption", "Incorrect Signature Algo on CSR");
