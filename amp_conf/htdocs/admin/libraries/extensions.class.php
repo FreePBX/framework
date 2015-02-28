@@ -951,6 +951,20 @@ class ext_setcallerpres extends extension {
 	}
 }
 
+class ext_setcallernamepres extends extension {
+	function output() {
+		function output() {
+			return "Set(CALLERID(name-pres)={$this->data})";
+		}
+	}
+}
+
+class ext_setcallernumpres extends extension {
+	function output() {
+		return "Set(CALLERID(num-pres)={$this->data})";
+	}
+}
+
 class ext_record extends extension {
 	function output() {
 		return "Record(".$this->data.")";
