@@ -645,6 +645,7 @@ function refreshsignatures() {
 		out("Done");
 	}
 	out("Checking Signatures of Modules...");
+	$mf->getAllSignatures(false);
 	foreach($list as $m) {
 		//Check signature status, then if its online then if its signed online then redownload (through force)
 		outn("Checking ". $m['rawname'] . "...");
