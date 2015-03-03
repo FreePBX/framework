@@ -5,49 +5,49 @@
 
 //set variables
 $vars = array(
-		'action'			=> null,
-		'confirm_email'		=> '',
-		'confirm_password'	=> '',
-		'display'			=> '',
-		'extdisplay'		=> null,
-		'email_address'		=> '',
-		'fw_popover' 		=> '',
-		'fw_popover_process' => '',
-		'logout'			=> false,
-		'password'			=> '',
-		'quietmode'			=> '',
-		'restrictmods'		=> false,
-		'skip'				=> 0,
-		'skip_astman'		=> false,
-		'type'				=> '',
-		'username'			=> '',
-		'unlock'			=> false,
+	'action'			=> null,
+	'confirm_email'		=> '',
+	'confirm_password'	=> '',
+	'display'			=> '',
+	'extdisplay'		=> null,
+	'email_address'		=> '',
+	'fw_popover' 		=> '',
+	'fw_popover_process' => '',
+	'logout'			=> false,
+	'password'			=> '',
+	'quietmode'			=> '',
+	'restrictmods'		=> false,
+	'skip'				=> 0,
+	'skip_astman'		=> false,
+	'type'				=> '',
+	'username'			=> '',
+	'unlock'			=> false,
 );
 
 foreach ($vars as $k => $v) {
-		//were use config_vars instead of, say, vars, so as not to polute
-		// page.<some_module>.php (which usually uses $var or $vars)
-		$config_vars[$k] = $$k = isset($_REQUEST[$k]) ? $_REQUEST[$k] : $v;
+	//were use config_vars instead of, say, vars, so as not to polute
+	// page.<some_module>.php (which usually uses $var or $vars)
+	$config_vars[$k] = $$k = isset($_REQUEST[$k]) ? $_REQUEST[$k] : $v;
 
-		//special handeling
-		switch ($k) {
-		case 'extdisplay':
-				$extdisplay = (isset($extdisplay) && $extdisplay !== false)
-						? htmlspecialchars($extdisplay, ENT_QUOTES)
-						: false;
-				$_REQUEST['extdisplay'] = $extdisplay;
-				break;
+	//special handeling
+	switch ($k) {
+	case 'extdisplay':
+		$extdisplay = (isset($extdisplay) && $extdisplay !== false)
+			? htmlspecialchars($extdisplay, ENT_QUOTES)
+			: false;
+		$_REQUEST['extdisplay'] = $extdisplay;
+		break;
 
-		case 'restrictmods':
-				$restrict_mods = $restrictmods
-						? array_flip(explode('/', $restrictmods))
-						: false;
-				break;
+	case 'restrictmods':
+		$restrict_mods = $restrictmods
+			? array_flip(explode('/', $restrictmods))
+			: false;
+		break;
 
-		case 'skip_astman':
-				$bootstrap_settings['skip_astman']	= $skip_astman;
-				break;
-		}
+	case 'skip_astman':
+		$bootstrap_settings['skip_astman']	= $skip_astman;
+		break;
+	}
 }
 
 header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
@@ -64,49 +64,49 @@ require_once(dirname(__FILE__) . '/libraries/ampuser.class.php');
 session_set_cookie_params(60 * 60 * 24 * 30);//(re)set session cookie to 30 days
 ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 30);//(re)set session to 30 days
 if (!isset($_SESSION)) {
-		//start a session if we need one
-		session_start();
+	//start a session if we need one
+	session_start();
 }
 
 //unset the ampuser if the user logged out
 if ($logout == 'true') {
-		unset($_SESSION['AMP_user']);
-		exit();
+	unset($_SESSION['AMP_user']);
+	exit();
 }
 
 //session_cache_limiter('public, no-store');
 if (isset($_REQUEST['handler'])) {
-		if ($restrict_mods === false) {
-				$restrict_mods = true;
-		}
-		// I think reload is the only handler that requires astman, so skip it
-		//for others
-		switch ($_REQUEST['handler']) {
-		case 'api':
-				break;
+	if ($restrict_mods === false) {
+		$restrict_mods = true;
+	}
+	// I think reload is the only handler that requires astman, so skip it
+	//for others
+	switch ($_REQUEST['handler']) {
+	case 'api':
+		break;
 		case 'reload';
-				break;
-		default:
-				// If we didn't provide skip_astman in the $_REQUEST[] array it will be boolean false and for handlers, this should default
-				// to true, if we did provide it, it will NOT be a boolean (it could be 0) so we will honor the setting
-				//
-				$bootstrap_settings['skip_astman'] = $bootstrap_settings['skip_astman'] === false ? true : $bootstrap_settings['skip_astman'];
-				break;
-		}
+		break;
+	default:
+		// If we didn't provide skip_astman in the $_REQUEST[] array it will be boolean false and for handlers, this should default
+		// to true, if we did provide it, it will NOT be a boolean (it could be 0) so we will honor the setting
+		//
+		$bootstrap_settings['skip_astman'] = $bootstrap_settings['skip_astman'] === false ? true : $bootstrap_settings['skip_astman'];
+		break;
+	}
 }
 
 // call bootstrap.php through freepbx.conf
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
-		include_once('/etc/asterisk/freepbx.conf');
+	include_once('/etc/asterisk/freepbx.conf');
 }
 
 // At this point, we have a session, and BMO was created in bootstrap, so we can check to
 // see if someone's trying to programatically log in.
 if ($unlock) {
-		if ($bmo->Unlock($unlock)) {
-				unset($no_auth);
-				$display = 'index';
-		}
+	if ($bmo->Unlock($unlock)) {
+		unset($no_auth);
+		$display = 'index';
+	}
 }
 
 //redirect back to the modules page for upgrade
@@ -137,28 +137,28 @@ if ($sessionTimeOut !== false) {
    This may protect from cross site request forgeries unless disabled.
  */
 if (!isset($no_auth) && $action != '' && $amp_conf['CHECKREFERER']) {
-		if (isset($_SERVER['HTTP_REFERER'])) {
-				$referer = parse_url($_SERVER['HTTP_REFERER']);
-				$refererok = (trim($referer['host']) == trim($_SERVER['SERVER_NAME']))
-						? true : false;
-		} else {
-				$refererok = false;
-		}
-		if (!$refererok) {
-				$display = 'badrefer';
-		}
+	if (isset($_SERVER['HTTP_REFERER'])) {
+		$referer = parse_url($_SERVER['HTTP_REFERER']);
+		$refererok = (trim($referer['host']) == trim($_SERVER['SERVER_NAME']))
+			? true : false;
+	} else {
+		$refererok = false;
+	}
+	if (!$refererok) {
+		$display = 'badrefer';
+	}
 }
 if (isset($no_auth) && empty($display)) {
-		$display = 'noauth';
+	$display = 'noauth';
 }
 // handle special requests
 if (!in_array($display, array('noauth', 'badrefer'))
-		&& isset($_REQUEST['handler'])
+	&& isset($_REQUEST['handler'])
 ) {
-		$module = isset($_REQUEST['module'])	? $_REQUEST['module']	: '';
-		$file 	= isset($_REQUEST['file'])		? $_REQUEST['file']		: '';
-		fileRequestHandler($_REQUEST['handler'], $module, $file);
-		exit();
+	$module = isset($_REQUEST['module'])	? $_REQUEST['module']	: '';
+	$file 	= isset($_REQUEST['file'])		? $_REQUEST['file']		: '';
+	fileRequestHandler($_REQUEST['handler'], $module, $file);
+	exit();
 }
 
 
@@ -170,7 +170,7 @@ if (!$quietmode) {
 		// No .htaccess support
 		if(!$nt->exists('framework', 'htaccess')) {
 			$nt->add_security('framework', 'htaccess', _('.htaccess files are disable on this webserver. Please enable them'),
-			sprintf(_("To protect the integrity of your server, you must allow overrides in your webserver's configuration file for the User Control Panel. For more information see: %s"), '<a href="http://wiki.freepbx.org/display/F2/Webserver+Overrides">http://wiki.freepbx.org/display/F2/Webserver+Overrides</a>'),"http://wiki.freepbx.org/display/F2/Webserver+Overrides");
+				sprintf(_("To protect the integrity of your server, you must allow overrides in your webserver's configuration file for the User Control Panel. For more information see: %s"), '<a href="http://wiki.freepbx.org/display/F2/Webserver+Overrides">http://wiki.freepbx.org/display/F2/Webserver+Overrides</a>'),"http://wiki.freepbx.org/display/F2/Webserver+Overrides");
 		}
 	} elseif(!preg_match("/apache/i", $_SERVER['SERVER_SOFTWARE'])) {
 		$sql = "SELECT value FROM admin WHERE variable = 'htaccess'";
@@ -183,7 +183,7 @@ if (!$quietmode) {
 				$nt->delete('framework', 'htaccess');
 			}
 			$nt->add_warning('framework', 'htaccess', _('.htaccess files are not supported on this webserver.'),
-			sprintf(_("htaccess files help protect the integrity of your server. Please make sure file paths and directories are locked down properly. For more information see: %s"), '<a href="http://wiki.freepbx.org/display/F2/Webserver+Overrides">http://wiki.freepbx.org/display/F2/Webserver+Overrides</a>'),"http://wiki.freepbx.org/display/F2/Webserver+Overrides",true,true);
+				sprintf(_("htaccess files help protect the integrity of your server. Please make sure file paths and directories are locked down properly. For more information see: %s"), '<a href="http://wiki.freepbx.org/display/F2/Webserver+Overrides">http://wiki.freepbx.org/display/F2/Webserver+Overrides</a>'),"http://wiki.freepbx.org/display/F2/Webserver+Overrides",true,true);
 			$sql = "REPLACE INTO admin (`value`, `variable`) VALUES (1, 'htaccess')";
 			$sth = FreePBX::Database()->prepare($sql);
 			$sth->execute();
@@ -203,123 +203,123 @@ $cur_menuitem = null;
 
 // add module sections to $fpbx_menu
 if(is_array($active_modules)){
-		foreach($active_modules as $key => $module) {
+	foreach($active_modules as $key => $module) {
 
-				//create an array of module sections to display
-				// stored as [items][$type][$category][$name] = $displayvalue
-				if (isset($module['items']) && is_array($module['items'])) {
-						// loop through the types
-						foreach($module['items'] as $itemKey => $item) {
+		//create an array of module sections to display
+		// stored as [items][$type][$category][$name] = $displayvalue
+		if (isset($module['items']) && is_array($module['items'])) {
+			// loop through the types
+			foreach($module['items'] as $itemKey => $item) {
 
-								// check access, unless module.xml defines all have access
-								// BMO TODO: Per-module auth should be managed by BMO.
-								//module is restricted to admin with excplicit permission
-								$needs_perms = !isset($item['access'])
-										|| strtolower($item['access']) != 'all'
-										? true : false;
+				// check access, unless module.xml defines all have access
+				// BMO TODO: Per-module auth should be managed by BMO.
+				//module is restricted to admin with excplicit permission
+				$needs_perms = !isset($item['access'])
+					|| strtolower($item['access']) != 'all'
+					? true : false;
 
-								//check if were logged in
-								$admin_auth = isset($_SESSION["AMP_user"])
-										&& is_object($_SESSION["AMP_user"]);
+				//check if were logged in
+				$admin_auth = isset($_SESSION["AMP_user"])
+					&& is_object($_SESSION["AMP_user"]);
 
-								//per admin access rules
-								$has_perms = $admin_auth
-										&& $_SESSION["AMP_user"]->checkSection($itemKey);
+				//per admin access rules
+				$has_perms = $admin_auth
+					&& $_SESSION["AMP_user"]->checkSection($itemKey);
 
-								//requies authentication
-								$needs_auth = isset($item['requires_auth'])
-										&& strtolower($item['requires_auth']) == 'false'
-										? false
-										: true;
+				//requies authentication
+				$needs_auth = isset($item['requires_auth'])
+					&& strtolower($item['requires_auth']) == 'false'
+					? false
+					: true;
 
-								//skip this module if we dont have proper access
-								//test: if we require authentication for this module
-								//			and either the user isnt authenticated
-								//			or the user is authenticated and dose require
-								//				section specifc permissions but doesnt have them
-								if ($needs_auth
-										&& (!$admin_auth || ($needs_perms && !$has_perms))
-								) {
-										//clear display if they were trying to gain unautherized
-										//access to $itemKey. If there logged in, but dont have
-										//permissions to view this specicc page - show them a message
-										//otherwise, show them the login page
-										if($display == $itemKey){
-												if ($admin_auth) {
-														$display = 'noaccess';
-												} else {
-														$display = 'noauth';
-												}
-										}
-										continue;
-								}
-
-								if (!isset($item['display'])) {
-										$item['display'] = $itemKey;
-								}
-
-								// reference to the actual module
-								$item['module'] =& $active_modules[$key];
-
-								// item is an assoc array, with at least
-								//array(module=> name=>, category=>, type=>, display=>)
-								$fpbx_menu[$itemKey] = $item;
-
-								// allow a module to replace our main index page
-								if (($item['display'] == 'index') && ($display == '')) {
-										$display = 'index';
-								}
-
-								// check current item
-								if ($display == $item['display']) {
-										// found current menuitem, make a reference to it
-										$cur_menuitem =& $fpbx_menu[$itemKey];
-								}
+				//skip this module if we dont have proper access
+				//test: if we require authentication for this module
+				//			and either the user isnt authenticated
+				//			or the user is authenticated and dose require
+				//				section specifc permissions but doesnt have them
+				if ($needs_auth
+					&& (!$admin_auth || ($needs_perms && !$has_perms))
+				) {
+					//clear display if they were trying to gain unautherized
+					//access to $itemKey. If there logged in, but dont have
+					//permissions to view this specicc page - show them a message
+					//otherwise, show them the login page
+					if($display == $itemKey){
+						if ($admin_auth) {
+							$display = 'noaccess';
+						} else {
+							$display = 'noauth';
 						}
+					}
+					continue;
 				}
+
+				if (!isset($item['display'])) {
+					$item['display'] = $itemKey;
+				}
+
+				// reference to the actual module
+				$item['module'] =& $active_modules[$key];
+
+				// item is an assoc array, with at least
+				//array(module=> name=>, category=>, type=>, display=>)
+				$fpbx_menu[$itemKey] = $item;
+
+				// allow a module to replace our main index page
+				if (($item['display'] == 'index') && ($display == '')) {
+					$display = 'index';
+				}
+
+				// check current item
+				if ($display == $item['display']) {
+					// found current menuitem, make a reference to it
+					$cur_menuitem =& $fpbx_menu[$itemKey];
+				}
+			}
 		}
+	}
 }
 
 //if display is modules then show the login page dont show does not exist as its confusing
 if ($cur_menuitem === null && !in_array($display, array('noauth', 'badrefer','noaccess',''))) {
-		if($display == 'modules') {
-			$display = 'noauth';
-			$_SESSION['modulesRedirect'] = 1;
-		} else {
-			$display = 'noaccess';
-		}
+	if($display == 'modules') {
+		$display = 'noauth';
+		$_SESSION['modulesRedirect'] = 1;
+	} else {
+		$display = 'noaccess';
+	}
 }
 
 // extensions vs device/users ... this is a bad design, but hey, it works
 if (!$quietmode && isset($fpbx_menu["extensions"])) {
-		if (isset($amp_conf["AMPEXTENSIONS"])
-				&& ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
-						unset($fpbx_menu["extensions"]);
-				} else {
-						unset($fpbx_menu["devices"]);
-						unset($fpbx_menu["users"]);
-				}
+	if (isset($amp_conf["AMPEXTENSIONS"])
+		&& ($amp_conf["AMPEXTENSIONS"] == "deviceanduser")) {
+			unset($fpbx_menu["extensions"]);
+		} else {
+			unset($fpbx_menu["devices"]);
+			unset($fpbx_menu["users"]);
+		}
 }
 
 ob_start();
 // Run all the pre-processing for the page that's been requested.
 if (!empty($display) && $display != 'badrefer') {
-		// $CC is used by guielemets as a Global.
-		try {
-			$CC = $currentcomponent = new component($display);
+	// $CC is used by guielemets as a Global.
+	try {
+		$CC = $currentcomponent = new component($display);
 
-			// BMO: Process ConfigPageInit functions
-			$bmo->Performance->Start("inits-$display");
-			$bmo->GuiHooks->doConfigPageInits($display, $currentcomponent);
-			$bmo->Performance->Stop("inits-$display");
+		// BMO: Process ConfigPageInit functions
+		$bmo->Performance->Start("inits-$display");
+		$bmo->GuiHooks->doConfigPageInits($display, $currentcomponent);
+		$bmo->Performance->Stop("inits-$display");
 
-			// now run each 'process' function and 'gui' function
-			$bmo->Performance->Start("processconfigpage-$display");
-			$currentcomponent->processconfigpage();
-			$bmo->Performance->Stop("processconfigpage-$display");
-			$bmo->Performance->Start("buildconfigpage-$display");
-			$currentcomponent->buildconfigpage();
-			$bmo->Performance->Stop("buildconfigpage-$display");
+		// now run each 'process' function and 'gui' function
+		$bmo->Performance->Start("processconfigpage-$display");
+		$currentcomponent->processconfigpage();
+		$bmo->Performance->Stop("processconfigpage-$display");
+		$bmo->Performance->Start("buildconfigpage-$display");
+		$currentcomponent->buildconfigpage();
+		$bmo->Performance->Stop("buildconfigpage-$display");
 	} catch(Exception $e) {
 		die_freepbx(_("FreePBX is Unable to Continue"), $e);
 	}
@@ -334,91 +334,77 @@ $module_file = "";
 // to "?display=index"
 //TODO: acount for bad refer
 if ($display == 'index' && ($cur_menuitem['module']['rawname'] == 'builtin')) {
-		$display = '';
+	$display = '';
 }
 
 // show the appropriate page
 switch($display) {
 	case 'modules':
-			// set these to avoid undefined variable warnings later
-			//
-			$module_name = 'modules';
-			$module_page = $cur_menuitem['display'];
-			include 'page.modules.php';
-			break;
+		// set these to avoid undefined variable warnings later
+		//
+		$module_name = 'modules';
+		$module_page = $cur_menuitem['display'];
+		include 'page.modules.php';
+		break;
 	case 'noaccess':
-			show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf' => &$amp_conf));
-			break;
+		show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf' => &$amp_conf));
+		break;
 	case 'noauth':
-			$config_vars['obe_error_msg'] = array();
-			if ($config_vars['action'] == 'setup_admin'){
-					$config_vars['obe_error_msg'] = framework_obe_intialize_validate(
-							$config_vars['username'],
-							$config_vars['password'],
-							$config_vars['confirm_password'],
-							$config_vars['email_address'],
-							$config_vars['confirm_email']);
-			}
-			//if we have no admin users AND were trying to set one up
-			if (!count(getAmpAdminUsers())
-					&& $action == 'setup_admin'
-					&& !$config_vars['obe_error_msg']
-			) {
-					//validate the inputs
-					framework_obe_intialize_admin(
-							$config_vars['username'],
-							$config_vars['password'],
-							$config_vars['confirm_password'],
-							$config_vars['email_address'],
-							$config_vars['confirm_email']
-					);
+		// If we're a new install..
+		$obecomplete = $bmo->OOBE->isComplete("noauth");
+		if (!$obecomplete) {
+			$ret = $bmo->OOBE->showOOBE("noauth");
+		} else {
+			$ret = false;
+		}
+
+		// Did we do anything? If we returned true, we didn't actually output anything
+		// So just keep going.
+		if ($obecomplete || $ret === true) {
+			// We're installed, we just need to log in.
+			$login['errors'] = array();
+			if ($config_vars['username'] && $action !== 'setup_admin') {
+				$login['errors'][] = _('Invalid Username or Password');
 			}
 
-			//if we (still) have no admin users
-			if (!count(getAmpAdminUsers())) {
-					$login = $config_vars;
-					$login['amp_conf'] = $amp_conf;
-					$login['errors'] = $config_vars['obe_error_msg'];
-					echo load_view($amp_conf['VIEW_OBE'], $login);
-					unset($_SESSION['AMP_user']);
+			//show fop option if enabled, probobly doesnt belong on the
+			//login page
+			$login['panel'] = false;
+			if (!empty($amp_conf['FOPWEBROOT'])
+				&& is_dir($amp_conf['FOPWEBROOT'])
+			){
+				$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/admin/',
+					'', $amp_conf['FOPWEBROOT']);
 			}
 
-			//prompt for a password if we have users
-			if (count(getAmpAdminUsers())) {
-					//error message
-					$login['errors'] = array();
-					if ($config_vars['username'] && $action !== 'setup_admin') {
-							$login['errors'][] = _('Invalid Username or Password');
-					}
 
-					//show fop option if enabled, probobly doesnt belong on the
-					//login page
-					$login['panel'] = false;
-					if (!empty($amp_conf['FOPWEBROOT'])
-							&& is_dir($amp_conf['FOPWEBROOT'])
-					){
-							$login['panel'] = str_replace($amp_conf['AMPWEBROOT'] .'/admin/',
-									'', $amp_conf['FOPWEBROOT']);
-					}
-
-
-					$login['amp_conf'] = $amp_conf;
-					echo load_view($amp_conf['VIEW_LOGIN'], $login);
-			}
-			break;
+			$login['amp_conf'] = $amp_conf;
+			echo load_view($amp_conf['VIEW_LOGIN'], $login);
+		}
+		break;
 	case 'badrefer':
-			echo load_view($amp_conf['VIEW_BAD_REFFERER'], $amp_conf);
-			break;
+		echo load_view($amp_conf['VIEW_BAD_REFFERER'], $amp_conf);
+		break;
 	case '':
-			if ($astman) {
-					show_view($amp_conf['VIEW_WELCOME'], array('AMP_CONF' => &$amp_conf));
-			} else {
-					// no manager, no connection to asterisk
-					show_view($amp_conf['VIEW_WELCOME_NOMANAGER'],
-							array('mgruser' => $amp_conf["AMPMGRUSER"]));
-			}
-			break;
+		if ($astman) {
+			show_view($amp_conf['VIEW_WELCOME'], array('AMP_CONF' => &$amp_conf));
+		} else {
+			// no manager, no connection to asterisk
+			show_view($amp_conf['VIEW_WELCOME_NOMANAGER'],
+				array('mgruser' => $amp_conf["AMPMGRUSER"]));
+		}
+		break;
 	default:
+
+		$obecomplete = $bmo->OOBE->isComplete();
+		if (!$obecomplete) {
+			$ret = $bmo->OOBE->showOOBE();
+		} else {
+			$ret = false;
+		}
+
+		if ($obecomplete || $ret === true) {
+
 			//display the appropriate module page
 			$module_name = $cur_menuitem['module']['rawname'];
 			$module_page = $cur_menuitem['display'];
@@ -428,18 +414,18 @@ switch($display) {
 			//Currently this is over the place, we should standardize on a
 			//"itemid" request var for now, we'll just cover all possibilities :-(
 			$possibilites = array(
-					'userdisplay',
-					'extdisplay',
-					'id',
-					'itemid',
-					'selection'
+				'userdisplay',
+				'extdisplay',
+				'id',
+				'itemid',
+				'selection'
 			);
 			$itemid = '';
 			foreach($possibilites as $possibility) {
-					if (isset($_REQUEST[$possibility]) && $_REQUEST[$possibility] != '' ) {
-							$itemid = htmlspecialchars($_REQUEST[$possibility], ENT_QUOTES);
-							$_REQUEST[$possibility] = $itemid;
-					}
+				if (isset($_REQUEST[$possibility]) && $_REQUEST[$possibility] != '' ) {
+					$itemid = htmlspecialchars($_REQUEST[$possibility], ENT_QUOTES);
+					$_REQUEST[$possibility] = $itemid;
+				}
 			}
 
 			// create a module_hook object for this module's page
@@ -465,77 +451,76 @@ switch($display) {
 
 			// include the module page
 			if (isset($cur_menuitem['disabled']) && $cur_menuitem['disabled']) {
-					show_view($amp_conf['VIEW_MENUITEM_DISABLED'], $cur_menuitem);
-					break; // we break here to avoid the generateconfigpage() below
-					//
+				show_view($amp_conf['VIEW_MENUITEM_DISABLED'], $cur_menuitem);
+				break; // we break here to avoid the generateconfigpage() below
+				//
 			} else if (file_exists($module_file) && class_exists('\Schmooze\Zend') && \Schmooze\Zend::fileIsLicensed($module_file) && $complete_zend) {
-					$amp_conf['VIEW_ZEND_CONFIG'] = empty($amp_conf['VIEW_ZEND_CONFIG']) ? 'views/zend_config.php' : $amp_conf['VIEW_ZEND_CONFIG'];
+				$amp_conf['VIEW_ZEND_CONFIG'] = empty($amp_conf['VIEW_ZEND_CONFIG']) ? 'views/zend_config.php' : $amp_conf['VIEW_ZEND_CONFIG'];
 
-					if (file_exists($amp_conf['VIEW_ZEND_CONFIG'])) {
-						echo load_view($amp_conf['VIEW_ZEND_CONFIG']);
-					} else {
-						die_freepbx(_("Your Zend Configuration is not fully setup. Please recitfy the problem and reload this page"));
-					}
+				if (file_exists($amp_conf['VIEW_ZEND_CONFIG'])) {
+					echo load_view($amp_conf['VIEW_ZEND_CONFIG']);
+				} else {
+					die_freepbx(_("Your Zend Configuration is not fully setup. Please recitfy the problem and reload this page"));
+				}
 			} else if (file_exists($module_file)) {
-					//check module first and foremost, but not during quietmode
-					if(!isset($_REQUEST['quietmode']) && $amp_conf['SIGNATURECHECK'] && !isset($_REQUEST['fw_popover'])) {
-						//Since we are viewing this module update it's signature
-						try {
-							$gpgstatus = module_functions::create()->updateSignature($module_name,false);
-							//check all cached signatures
-							$modules = module_functions::create()->getAllSignatures();
-						} catch(Exception $e) {
-							die_freepbx(_("FreePBX is Unable to Continue"), $e);
+				//check module first and foremost, but not during quietmode
+				if(!isset($_REQUEST['quietmode']) && $amp_conf['SIGNATURECHECK'] && !isset($_REQUEST['fw_popover'])) {
+					//Since we are viewing this module update it's signature
+					try {
+						$gpgstatus = module_functions::create()->updateSignature($module_name,false);
+						//check all cached signatures
+						$modules = module_functions::create()->getAllSignatures();
+					} catch(Exception $e) {
+						die_freepbx(_("FreePBX is Unable to Continue"), $e);
+					}
+					if(!$modules['validation']) {
+						$type = (!empty($modules['statuses']['untrusted']) || !empty($modules['statuses']['tampered'])) ? 'danger' : 'warning';
+						$merged = array();
+						//priority sorting
+						$stauses = array("revoked","untrusted","tampered","unsigned","unknown");
+						foreach($stauses as $st) {
+							if(!empty($modules['statuses'][$st])) {
+								$merged = array_merge($merged,$modules['statuses'][$st]);
+							}
 						}
-						if(!$modules['validation']) {
-							$type = (!empty($modules['statuses']['untrusted']) || !empty($modules['statuses']['tampered'])) ? 'danger' : 'warning';
-							$merged = array();
-							//priority sorting
-							$stauses = array("revoked","untrusted","tampered","unsigned","unknown");
-							foreach($stauses as $st) {
-								if(!empty($modules['statuses'][$st])) {
-									$merged = array_merge($merged,$modules['statuses'][$st]);
-								}
+						$d = FreePBX::Notifications()->list_security(true);
+						foreach($d as $n) {
+							//Dont show the same notifications twice
+							if(!in_array($n['id'],array('FW_REVOKED','FW_UNSIGNED','FW_UNTRUSTED','FW_TAMPERED','FW_UNKNOWN'))) {
+								array_unshift($merged,$n['display_text']);
 							}
-							$d = FreePBX::Notifications()->list_security(true);
-							foreach($d as $n) {
-								//Dont show the same notifications twice
-								if(!in_array($n['id'],array('FW_REVOKED','FW_UNSIGNED','FW_UNTRUSTED','FW_TAMPERED','FW_UNKNOWN'))) {
-									array_unshift($merged,$n['display_text']);
-								}
-							}
-							switch($type) {
-								case 'danger':
-									echo generate_message_banner(_('Security Warning'), 'danger',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing',true);
-								break;
-								case 'warning':
-									echo generate_message_banner(_('Security Warning'), 'warning',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing', true);
-								break;
-							}
+						}
+						switch($type) {
+							case 'danger':
+								echo generate_message_banner(_('Security Warning'), 'danger',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing',true);
+							break;
+							case 'warning':
+								echo generate_message_banner(_('Security Warning'), 'warning',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing', true);
+							break;
 						}
 					}
-
-					if(isset($gpgstatus['status']) && ($gpgstatus['status'] & FreePBX\GPG::STATE_REVOKED)) {
-						echo sprintf(_("File %s has a revoked signature. Can not load"),$module_file);
-					} else {
-						// load language info if available
-						modgettext::textdomain($module_name);
-						try {
-							if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
-								$bmo->Performance->Start("hooks-$module_name-$module_file");
-								$bmo->GuiHooks->doIntercept($module_name, $module_file);
-								$bmo->Performance->Stop("hooks-$module_name-$module_file");
-							} else {
-								$bmo->Performance->Start("includefile-$module_file");
-								include($module_file);
-								$bmo->Performance->Stop("includefile-$module_file");
-							}
-						} catch(Exception $e) {
-							die_freepbx(_("FreePBX is Unable to Continue"), $e);
+				}
+				if(isset($gpgstatus['status']) && ($gpgstatus['status'] & FreePBX\GPG::STATE_REVOKED)) {
+					echo sprintf(_("File %s has a revoked signature. Can not load"),$module_file);
+				} else {
+					// load language info if available
+					modgettext::textdomain($module_name);
+					try {
+						if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
+							$bmo->Performance->Start("hooks-$module_name-$module_file");
+							$bmo->GuiHooks->doIntercept($module_name, $module_file);
+							$bmo->Performance->Stop("hooks-$module_name-$module_file");
+						} else {
+							$bmo->Performance->Start("includefile-$module_file");
+							include($module_file);
+							$bmo->Performance->Stop("includefile-$module_file");
 						}
+					} catch(Exception $e) {
+						die_freepbx(_("FreePBX is Unable to Continue"), $e);
 					}
+				}
 			} else {
-					echo sprintf(_("404 Not found (%s)"),$module_file);
+				echo sprintf(_("404 Not found (%s)"),$module_file);
 			}
 
 			// BMO TODO: Post display hooks.
@@ -547,176 +532,173 @@ switch($display) {
 
 			// global component
 			if ( isset($currentcomponent) ) {
-					modgettext::textdomain($module_name);
-					try {
-						$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
-						/** NOTE: Depreciated. Because of this ONLY the pages that need this will run it! **/
-						echo  $currentcomponent->generateconfigpage();
-					} catch(Exception $e) {
-						die_freepbx(_("FreePBX is Unable to Continue"), $e);
-					}
+				modgettext::textdomain($module_name);
+				try {
+					$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
+					echo  $currentcomponent->generateconfigpage();
+				} catch(Exception $e) {
+					die_freepbx(_("FreePBX is Unable to Continue"), $e);
+				}
 			}
-		break;
+		}
+	break;
 }
 
 $header = array();
 $footer = array();
 
 if ($quietmode) {
-		// send the output buffer, should be sending just the page contents
-		ob_end_flush();
+	// send the output buffer, should be sending just the page contents
+	ob_end_flush();
 } elseif ($fw_popover || $fw_popover_process) {
-		$admin_template = $template = array();
-		//get the page contents from the buffer
-		$content = ob_get_contents();
-		ob_end_clean();
-		$fw_gui_html = '';
+	$admin_template = $template = array();
+	//get the page contents from the buffer
+	$content = ob_get_contents();
+	ob_end_clean();
+	$fw_gui_html = '';
 
-		// add header
-		// Taken as is from the else just below this elseif
-		// We're sending the popover, it needs a header if only for jQuery.
-		// Already ok to pass popover awareness to header so popover.css is added
-		$header['title']	= framework_server_name();
-		$header['amp_conf']	= $amp_conf;
-		$header['use_popover_css'] = ($fw_popover || $fw_popover_process);
-		$o = FreePBX::create()->Less->generateMainStyles();
-		$header['compiled_less_files'] = $o['compiled_less_files'];
-		$header['extra_compiled_less_files'] = $o['extra_compiled_less_files'];
+	// add header
+	// Taken as is from the else just below this elseif
+	// We're sending the popover, it needs a header if only for jQuery.
+	// Already ok to pass popover awareness to header so popover.css is added
+	$header['title']	= framework_server_name();
+	$header['amp_conf']	= $amp_conf;
+	$header['use_popover_css'] = ($fw_popover || $fw_popover_process);
+	$o = FreePBX::create()->Less->generateMainStyles();
+	$header['compiled_less_files'] = $o['compiled_less_files'];
+	$header['extra_compiled_less_files'] = $o['extra_compiled_less_files'];
 
-		//if we have a module loaded, load its css
-		if (isset($module_name)) {
-				$fw_gui_html .= framework_include_css();
-				$header['module_name'] = $module_name;
-		}
+	//if we have a module loaded, load its css
+	if (isset($module_name)) {
+			$fw_gui_html .= framework_include_css();
+			$header['module_name'] = $module_name;
+	}
 
-		show_view($amp_conf['VIEW_HEADER'], $header);
+	show_view($amp_conf['VIEW_HEADER'], $header);
 
-		// set the language so local module languages take
-		set_language();
+	// set the language so local module languages take
+	set_language();
 
-		// If processing posback (fw_popover_process) and there are errors then we
-		// display again, otherwise we ignore the $content and prepare to process
-		//
-		$show_normal = $fw_popover_process ? fwmsg::errors() : true;
-		if ($show_normal) {
-				// provide beta status
-				if (isset($fpbx_menu[$display]['beta']) && strtolower($fpbx_menu[$display]['beta']) == 'yes') {
-					//TODO: Why is this in a global system variable?
-						$fw_gui_html .= load_view($amp_conf['VIEW_BETA_NOTICE']);
-				}
-				$fw_gui_html .= $content;
-				$popover_args['popover_mode'] = 'display';
-		} else {
-				$popover_args['popover_mode'] = 'process';
-		}
-
-		//send footer
-		$footer['js_content'] = load_view($amp_conf['VIEW_POPOVER_JS'], $popover_args);
-
-		$footer['extmap'] 				= !$footer['covert']
-				? framework_get_extmap(true)
-				: json_encode(array());
-		$footer['module_name'] = $module_name;
-		$footer['module_page'] = $module_page;
-		$footer['benchmark_starttime'] = $benchmark_starttime;
-		$footer['reload_needed'] = false; //we don't display the menu in this view so irrelivant
-		//These changes will hide the excess footer which is just empty anyways, also it sets our body background to transparent
-		//scripts in footer are still run eventhough it's hidden
-		//hack into the footer and change the background to be transparent so it seems like we "belong" in the dialog box
-		$footer['footer_content'] = "<script>$('body').css('background-color','transparent');$('#footer').hide()</script>";
-		$footer['remove_rnav'] = true;
-		$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], $footer);
-		echo $fw_gui_html;
-
-} else {
-		// Save the last module page normal view in the session. This is needed in some scenarios
-		// such as a post back within a popOver destination box so that the drawselects() can be
-		// properly generated within the context of the parent window that it will be filled back
-		// in with.
-		//
-		$_SESSION['module_name']			= $module_name;
-		$_SESSION['module_page']			= $module_page;
-
-		$admin_template = $template = array();
-		//get the page contents from the buffer
-		$page_content		= ob_get_contents();
-		ob_end_clean();
-
-		//add header
-		$header['title']	= framework_server_name();
-		$header['amp_conf']	= $amp_conf;
-		$header['use_popover_css'] = ($fw_popover || $fw_popover_process);
-
-		$o = FreePBX::create()->Less->generateMainStyles();
-		$header['compiled_less_files'] = $o['compiled_less_files'];
-		$header['extra_compiled_less_files'] = $o['extra_compiled_less_files'];
-
-		//if we have a module loaded, load its css
-		if (isset($module_name)) {
-				$header['module_name'] = $module_name;
-		}
-
-		echo load_view($amp_conf['VIEW_HEADER'], $header);
-
-		if (isset($module_name)) {
-				echo framework_include_css();
-		}
-
-		// set the language so local module languages take
-		set_language();
-
-		// send menu
-		$menu['fpbx_menu']		= $fpbx_menu; //array of modules & settings
-		$menu['display']		= $display; //currently displayed item
-		$menu['authtype']		= $amp_conf['AUTHTYPE'];
-		$menu['reload_confirm']	= $amp_conf['RELOADCONFIRM'];
-		$menu['language'] = array(
-			'en_US' => _('English'). " (US)"
-		);
-		$langKey = !empty($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en_US';
-		foreach(glob($amp_conf['AMPWEBROOT']."/admin/i18n/*",GLOB_ONLYDIR) as $langDir) {
-			$lang = basename($langDir);
-			$menu['language'][$lang] = function_exists('locale_get_display_name') ? locale_get_display_name($lang, $langKey) : $lang;
-		}
-
-		//add menu to final output
-		echo load_view($amp_conf['VIEW_MENU'], $menu);
-
+	// If processing posback (fw_popover_process) and there are errors then we
+	// display again, otherwise we ignore the $content and prepare to process
+	//
+	$show_normal = $fw_popover_process ? fwmsg::errors() : true;
+	if ($show_normal) {
 		// provide beta status
 		if (isset($fpbx_menu[$display]['beta']) && strtolower($fpbx_menu[$display]['beta']) == 'yes') {
-			echo load_view($amp_conf['VIEW_BETA_NOTICE']);
+			//TODO: Why is this in a global system variable?
+			$fw_gui_html .= load_view($amp_conf['VIEW_BETA_NOTICE']);
 		}
+		$fw_gui_html .= $content;
+		$popover_args['popover_mode'] = 'display';
+	} else {
+		$popover_args['popover_mode'] = 'process';
+	}
 
-		//send actual page content
-		echo $page_content;
+	//send footer
+	$footer['js_content'] = load_view($amp_conf['VIEW_POPOVER_JS'], $popover_args);
 
-		//send footer
-		$footer['covert'] 		= in_array($display, array('noauth', 'badrefer'))
-				? true : false;
-		$footer['extmap'] 				= !$footer['covert']
-				? framework_get_extmap(true)
-				: json_encode(array());
-		$footer['module_name']			= $module_name;
-		$footer['module_page']			= $module_page;
-		$footer['benchmark_starttime']	= $benchmark_starttime;
-		$footer['reload_needed']		= $footer['covert']
-				? false : check_reload_needed();
-		$footer['footer_content']		= load_view($amp_conf['VIEW_FOOTER_CONTENT'],
-				$footer);
-		if (!$footer['covert'] && function_exists("sysadmin_hook_framework_footer_view")) {
-			$footer['sysadmin'] = sysadmin_hook_framework_footer_view();
+	$footer['extmap'] 				= !$footer['covert']
+		? framework_get_extmap(true)
+		: json_encode(array());
+	$footer['module_name'] = $module_name;
+	$footer['module_page'] = $module_page;
+	$footer['benchmark_starttime'] = $benchmark_starttime;
+	$footer['reload_needed'] = false; //we don't display the menu in this view so irrelivant
+	//These changes will hide the excess footer which is just empty anyways, also it sets our body background to transparent
+	//scripts in footer are still run eventhough it's hidden
+	//hack into the footer and change the background to be transparent so it seems like we "belong" in the dialog box
+	$footer['footer_content'] = "<script>$('body').css('background-color','transparent');$('#footer').hide()</script>";
+	$footer['remove_rnav'] = true;
+	$fw_gui_html .= load_view($amp_conf['VIEW_FOOTER'], $footer);
+	echo $fw_gui_html;
+
+} else {
+	// Save the last module page normal view in the session. This is needed in some scenarios
+	// such as a post back within a popOver destination box so that the drawselects() can be
+	// properly generated within the context of the parent window that it will be filled back
+	// in with.
+	//
+	$_SESSION['module_name']			= $module_name;
+	$_SESSION['module_page']			= $module_page;
+
+	$admin_template = $template = array();
+	//get the page contents from the buffer
+	$page_content	= ob_get_contents();
+	ob_end_clean();
+
+	//add header
+	$header['title']	= framework_server_name();
+	$header['amp_conf']	= $amp_conf;
+	$header['use_popover_css'] = ($fw_popover || $fw_popover_process);
+
+	$o = FreePBX::create()->Less->generateMainStyles();
+	$header['compiled_less_files'] = $o['compiled_less_files'];
+	$header['extra_compiled_less_files'] = $o['extra_compiled_less_files'];
+
+	//if we have a module loaded, load its css
+	if (isset($module_name)) {
+			$header['module_name'] = $module_name;
+	}
+
+	echo load_view($amp_conf['VIEW_HEADER'], $header);
+
+	if (isset($module_name)) {
+			echo framework_include_css();
+	}
+
+	// set the language so local module languages take
+	set_language();
+
+	// send menu
+	$menu['fpbx_menu']		= $fpbx_menu; //array of modules & settings
+	$menu['display']		= $display; //currently displayed item
+	$menu['authtype']		= $amp_conf['AUTHTYPE'];
+	$menu['reload_confirm']	= $amp_conf['RELOADCONFIRM'];
+	$menu['language'] = array(
+		'en_US' => _('English'). " (US)"
+	);
+	$langKey = !empty($_COOKIE['lang']) ? $_COOKIE['lang'] : 'en_US';
+	foreach(glob($amp_conf['AMPWEBROOT']."/admin/i18n/*",GLOB_ONLYDIR) as $langDir) {
+		$lang = basename($langDir);
+		$menu['language'][$lang] = function_exists('locale_get_display_name') ? locale_get_display_name($lang, $langKey) : $lang;
+	}
+
+	//add menu to final output
+	echo load_view($amp_conf['VIEW_MENU'], $menu);
+
+	// provide beta status
+	if (isset($fpbx_menu[$display]['beta']) && strtolower($fpbx_menu[$display]['beta']) == 'yes') {
+		echo load_view($amp_conf['VIEW_BETA_NOTICE']);
+	}
+
+	//send actual page content
+	echo $page_content;
+
+	//send footer
+	$footer['covert'] 		= in_array($display, array('noauth', 'badrefer')) ? true : false;
+	$footer['extmap'] 				= !$footer['covert'] ? framework_get_extmap(true) : json_encode(array());
+	$footer['module_name']			= $module_name;
+	$footer['module_page']			= $module_page;
+	$footer['benchmark_starttime']	= $benchmark_starttime;
+	$footer['reload_needed']		= $footer['covert'] ? false : check_reload_needed();
+	$footer['footer_content']		= load_view($amp_conf['VIEW_FOOTER_CONTENT'], $footer);
+
+	if (!$footer['covert'] && function_exists("sysadmin_hook_framework_footer_view")) {
+		$footer['sysadmin'] = sysadmin_hook_framework_footer_view();
+	}
+
+	$footer['covert'] ? $footer['no_auth'] 	= true : '';
+
+	$footer['action_bar'] = null;
+	//See if we should provide an action bar
+	try {
+		$bmomodule_name = $bmo->Modules->cleanModuleName($module_name);
+		if($bmo->Modules->moduleHasMethod($bmomodule_name,"getActionBar")) {
+			$footer['action_bar'] = $bmo->$bmomodule_name->getActionBar($_REQUEST);
 		}
-		$footer['covert'] ? $footer['no_auth'] 	= true : '';
-
-		$footer['action_bar'] = null;
-		//See if we should provide an action bar
-		try {
-			$bmomodule_name = $bmo->Modules->cleanModuleName($module_name);
-			if($bmo->Modules->moduleHasMethod($bmomodule_name,"getActionBar")) {
-				$footer['action_bar'] = $bmo->$bmomodule_name->getActionBar($_REQUEST);
-			}
-		} catch (Exception $e) {
-			//TODO: Log me
-		}
-		echo load_view($amp_conf['VIEW_FOOTER'], $footer);
+	} catch (Exception $e) {
+		//TODO: Log me
+	}
+	echo load_view($amp_conf['VIEW_FOOTER'], $footer);
 }

@@ -32,8 +32,11 @@ class WriteConfig {
 	 * or array('modules.conf' => array('line','line','line'))
 	 */
 	public function __construct($freepbx = null, $array = null) {
-		if ($freepbx == null)
+		if ($freepbx == null) {
 			throw new Exception("Need to be instantiated with a FreePBX Object");
+		}
+
+		$this->freepbx = $freepbx;
 
 		if ($array !== null) {
 			$this->writeConfigs($array);
@@ -90,7 +93,8 @@ class WriteConfig {
 		if (strpos($file, "..") !== false) {
 			throw new Exception("$file contains ..");
 		}
-		$filename = "/etc/asterisk/$file";
+		$dir = $this->freepbx->Config->get('ASTETCDIR');
+		$filename = $dir."/$file";
 		if (is_link($filename)) {
 			$filename = readlink($filename);
 		}
