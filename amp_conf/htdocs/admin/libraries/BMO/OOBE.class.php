@@ -10,6 +10,8 @@ class OOBE extends FreePBX_Helpers {
 
 	// Is the out of box experience complete?
 	public function isComplete($type = "auth") {
+		// Temporarily disable OOBE
+		return true;
 		$complete = $this->getConfig("completed");
 		if ($type == "noauth") {
 			// We only care about framework if we're unauthed
