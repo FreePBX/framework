@@ -10,8 +10,6 @@ class OOBE extends FreePBX_Helpers {
 
 	// Is the out of box experience complete?
 	public function isComplete($type = "auth") {
-		// Temporarily disable OOBE
-		return true;
 		$complete = $this->getConfig("completed");
 		if ($type == "noauth") {
 			// We only care about framework if we're unauthed
@@ -38,6 +36,15 @@ class OOBE extends FreePBX_Helpers {
 			$all = array("framework" => "framework");
 		} else {
 			$all = $this->getOOBEModules();
+		}
+
+		if (isset($all['framework'])) {
+			// Make sure we don't try to run framework when we
+			// don't need to.
+			if (!$this->isFrameworkOOBENeeded()) {
+				$this->completeOOBE('framework');
+				unset($all['framework']);
+			}
 		}
 
 		$complete = $this->getConfig("completed");
@@ -78,7 +85,6 @@ class OOBE extends FreePBX_Helpers {
 			}
 			$retarr[$modname] = $arr['name'];
 		}
-
 		return $retarr;
 	}
 
@@ -232,8 +238,7 @@ class OOBE extends FreePBX_Helpers {
 	private function createFreePBXAdmin($settings) {
 		// This will never, ever, overwrite an existing admin.
 		$db = FreePBX::Database();
-		$count = (int) $db->query("SELECT COUNT(`username`) FROM `ampusers`")->fetchColumn();
-		if ($count !== 0) {
+		if (!$this->isFrameworkOOBENeeded()) {
 			throw new \Exception("Tried to add an admin user, but some users ($count) already exist.");
 		}
 
@@ -250,5 +255,14 @@ class OOBE extends FreePBX_Helpers {
 		//set email address
 		$cm =& cronmanager::create($db);
 		$cm->save_email($settings['email']);
+	}
+
+	private function isFrameworkOOBENeeded() {
+		$db = FreePBX::Database();
+		$count = (int) $db->query("SELECT COUNT(`username`) FROM `ampusers`")->fetchColumn();
+		if ($count !== 0) {
+			return false;
+		}
+		return true;
 	}
 }
