@@ -16,7 +16,7 @@ class PKCSTest extends PHPUnit_Framework_TestCase {
 		$p = self::$p;
 		$this->assertFalse(file_exists("/tmp/ssltest/unittests.cfg"), "Unittests.cfg shouldn't exist");
 		$p->createConfig("unittests", "utests.local", "Fakename Pty Ltd");
-		$this->assertTrue(file_exists("/tmp/ssltest/unittests.config"), "Unittests SHOULD exist, but it doesnt");
+		$this->assertTrue(file_exists("/tmp/ssltest/unittests.cfg"), "Unittests SHOULD exist, but it doesnt");
 		// Make sure we can't generate a bad key
 		try {
 			$p->generateKey("unittests", "short");
