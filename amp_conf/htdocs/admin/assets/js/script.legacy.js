@@ -966,7 +966,7 @@ function fpbx_reload() {
 				// there was a problem
 				var r = "<h3>" + data.message + "<\/h3>" +
 				"<a href=\"#\" id=\"error_more_info\">click here for more info</a>" +
-				"<pre style=\"display:none\">" + data.retrieve_conf + "<\/pre>";
+				"<pre style=\"display:none;max-height:200px\">" + data.retrieve_conf + "<\/pre>";
 				if (data.num_errors) {
 					r += "<p>" + data.num_errors + fpbx.msg.framework.reload_unidentified_error + "<\/p>";
 				}
