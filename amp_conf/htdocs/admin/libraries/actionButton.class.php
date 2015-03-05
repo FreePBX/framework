@@ -51,22 +51,22 @@ class actionButton{
 		foreach($this as $key => $val){
 			if(empty($val)){ continue;}
 				if(is_array($val)){
-					switch(${key}){
+					switch($key){
 						case "data":
 							foreach($val as $dk => $dv){
 								$button[] = 'data-' . $dk . '="' . $dv .'"';
 							}
 							break;
-						default:		
-							$button[] = ${key} . '="' . implode(" ",$val) . '"'; 
+						default:
+							$button[] = $key . '="' . implode(" ",$val) . '"';
 							break;
-					}		
+					}
 				}else{
-					$button[] = ${key} . '="' . $val . '"';
+					$button[] = $key . '="' . $val . '"';
 				}
 		}
 		$button[] = '>';
-		return implode(" ", $button);	
+		return implode(" ", $button);
 	}
 	public function setParams($button){
 		foreach($button as $key => $val){
