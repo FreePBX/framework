@@ -928,14 +928,6 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
-	$settings[$category]['ALWAYS_SHOW_DEVICE_DETAILS'] = array(
-	'value' => false,
-	'options' => '',
-	'name' => 'Show all Device Setting on Add',
-	'description' => 'When adding a new extension/device, setting this to true will show most available device settings that are displayed when you edit the same extension/device. Otherwise, just a few basic settings are displayed.',
-	'type' => CONF_TYPE_BOOL,
-	);
-
 	$settings[$category]['USE_FREEPBX_MENU_CONF'] = array(
 	'value' => false,
 	'options' => '',

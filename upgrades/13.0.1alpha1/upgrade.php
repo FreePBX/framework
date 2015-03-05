@@ -18,6 +18,10 @@ if ($freepbx_conf->conf_setting_exists('BOOTSTRAP_VER')) {
 	$remove[] = 'BOOTSTRAP_VER';
 }
 
+if ($freepbx_conf->conf_setting_exists('ALWAYS_SHOW_DEVICE_DETAILS')) {
+	$remove[] = 'ALWAYS_SHOW_DEVICE_DETAILS';
+}
+
 if(!empty($remove)) {
 	$freepbx_conf->remove_conf_settings($remove);
 }
