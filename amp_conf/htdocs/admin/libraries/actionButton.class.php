@@ -3,11 +3,11 @@ namespace FreePBX\libraries;
 /**
 * Class actionButton
 *
-* Example: 
+* Example:
 *	$b = new actionButton();
 *  	$b->setParams($buttonArray);
 * 	$b->getHTML();
-* 
+*
 * Button Array:
 * 	$buttonArray = array(
 * 		'name' => 'Submit',
@@ -18,7 +18,7 @@ namespace FreePBX\libraries;
 * 			'fooclass'
 * 			),
 * 		);
-* 
+*
 * Methods:
 * @actionButton::setParams()
 * 	Accepts an array of parameters used to generate buttons.
