@@ -80,6 +80,7 @@ class FreePBXInstallCommand extends Command {
 		$output->getFormatter()->setStyle('bold', $style);
 
 		define("AMP_CONF", "/etc/amportal.conf");
+		define("ODBC_INI", "/etc/odbc.ini");
 		define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
 		define("FREEPBX_CONF", "/etc/freepbx.conf");
 		define("MODULE_DIR", $this->rootPath."/amp_conf/htdocs/admin/modules");
@@ -183,6 +184,10 @@ class FreePBXInstallCommand extends Command {
 				}
 				$output->writeln("Looks good!");
 			}
+		}
+
+		if(!file_exists(ODBC_INI)) {
+			copy($this->rootPath . "/odbc.ini", ODBC_INI);
 		}
 
 		// ... and then write amportal.conf?
