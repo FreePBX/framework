@@ -68,6 +68,7 @@ class Modules {
 	 * @param {string} $method The method name
 	 */
 	public function moduleHasMethod($module, $method) {
+		$this->getActiveModules();
 		$module = ucfirst(strtolower($module));
 		if(!empty($this->moduleMethods[$module]) && in_array($method, $this->moduleMethods[$module])) {
 			return true;
