@@ -1,5 +1,9 @@
 <?php
-
+/**
+* https://blogs.kent.ac.uk/webdev/2011/07/14/phpunit-and-unserialized-pdo-instances/
+* @backupGlobals disabled
+* @backupStaticAttributes disabled
+*/
 class InstallerTest extends PHPUnit_Framework_TestCase {
 
 	protected static $i;
@@ -19,7 +23,7 @@ class InstallerTest extends PHPUnit_Framework_TestCase {
 			"amp_conf/sounds/dir-intro-fnln.gsm" => "/var/lib/asterisk/sounds/dir-intro-fnln.gsm",
 			"amp_conf/agi-bin/phpagi-asmanager.php" => "/var/lib/asterisk/agi-bin/phpagi-asmanager.php",
 			"upgrades/2.9.0.md5" => false, // We don't install upgrade files.
-			"amp_conf/bin/amportal" => false, // amportal isn't installed for the moment
+			//"amp_conf/bin/amportal" => false, // amportal isn't installed for the moment this breaks in 13 because we arent using it
 		);
 
 		foreach ($checks as $src => $dst) {

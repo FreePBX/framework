@@ -1,5 +1,9 @@
 <?php
-
+/**
+* https://blogs.kent.ac.uk/webdev/2011/07/14/phpunit-and-unserialized-pdo-instances/
+* @backupGlobals disabled
+* @backupStaticAttributes disabled
+*/
 class ModulesTest extends PHPUnit_Framework_TestCase {
 
 	protected static $f;

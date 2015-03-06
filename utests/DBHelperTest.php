@@ -1,5 +1,9 @@
 <?php
-
+/**
+* https://blogs.kent.ac.uk/webdev/2011/07/14/phpunit-and-unserialized-pdo-instances/
+* @backupGlobals disabled
+* @backupStaticAttributes disabled
+*/
 class DBHelperTest extends PHPUnit_Framework_TestCase {
 
 	protected static $f;
@@ -12,7 +16,7 @@ class DBHelperTest extends PHPUnit_Framework_TestCase {
 	public function testConnection() {
 		$db = self::$f->Database();
 		$db->query('drop table if exists `phpunittests`');
-		$db->query('create table `phpunittests` (`x` CHAR(64) NOT NULL)'); 
+		$db->query('create table `phpunittests` (`x` CHAR(64) NOT NULL)');
 		$db->query('insert into `phpunittests` values ("test")');
 		$db->query('insert into `phpunittests` values ("test")');
 		$ret = $db->query("SELECT DISTINCT(`x`) FROM `phpunittests`")->fetchAll(PDO::FETCH_COLUMN, 0);

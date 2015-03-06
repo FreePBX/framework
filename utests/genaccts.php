@@ -1,4 +1,5 @@
 <?php
+
 header("Pragma: public"); // required
 header("Expires: 0");
 header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
@@ -36,7 +37,7 @@ foreach ($names as $name) {
 		$ext['vmpin'] = mt_rand(1111,9999);
 		$ext['sippw'] = hash("sha1", $ext['ext'].$ext['vmpin']);
 
-		foreach ($ext as $key => $val) 
+		foreach ($ext as $key => $val)
 			$newline = preg_replace("/::${key}::/", $val, $newline);
 
 		print $newline;
