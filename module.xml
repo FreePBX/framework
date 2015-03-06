@@ -3,137 +3,58 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>13.0.1alpha1</version>
+	<version>13.0.1alpha2</version>
 	<publisher>FreePBX</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
-		*13.0.1alpha1* Using PDO only now
+		*13.0.1alpha2* First attempted release. Complete visual overhaul using bootstrap. Action buttons on every page. Global search functionality. Namespace everything. Using core PHP symfony technologies. Replacement of installer, replacement of amportal.
+		*13.0.1alpha1* Removed depreciated PearDB.
+		*12.0.43* FREEPBX-8872 Revert static QUEUES_UPDATECDR removal
+		*12.0.42* FREEPBX-8853 - Fix regression in PKCS
+		*12.0.41* Implement enhanced OOBE infrastructure
+		*12.0.40* FREEPBX-8676 lookup ASTETCDIR for writeConfigs
+		*12.0.39* Enhancments to PKCS infrastructure
+		*12.0.38* Localization updates
+		*12.0.37* FREEPBX-8650
+		*12.0.36* Unlock UCP fixes (adding ip address restrictions)
+		*12.0.35* FREEPBX-8491, Makes security and update notices come from address set in sysadmin, FREEPBX-8380 Exclude Update Notifications for Disabled Modules, FREEPBX-8287 some work on less to css generation
+		*12.0.34* FREEPBX-8632 Third Party Key Signatures not working
+		*12.0.33* Autologin param was failing validation
+		*12.0.32* Fix Module Admin caching issue
+		*12.0.31* Increase reload time by setting a timeout on gpg key check
+		*12.0.30* Speedier check online, FREEPBX-8491 Update Notices Not Coming from Correct E-mail
+		*12.0.29* Simple fix as a last result situation
+		*12.0.28* Display notice for switching out of beta mode in module admin
+		*12.0.27* Method find functionality fixes
+		*12.0.26* Performance improvements
+		*12.0.25* If there is a problem with GPG dont kill FreePBX
+		*12.0.24* Be smarter about setting the permissions
+		*12.0.23* Permissions on freepbx.conf
+		*12.0.22* FREEPBX-8506 amportal chown should chown asterisk home directory
+		*12.0.20* FREEPBX-8410 Permissions
+		*12.0.21* Dont restrict mons during UCP CLI commands
+		*12.0.20* Enable astman during some UCP CLI commands
+		*12.0.19* FREEPBX-8403 During the cron job nightly check send output into the background
+		*12.0.18* Word wrap in the installer window
+		*12.0.17* Set button default value to a truth false, not a truthy false
+		*12.0.16* Define default layout additions or it breaks
+		*12.0.15* Layout changes and additions
+		*12.0.14* FREEPBX-8402 Syntax in GPG
+		*12.0.13* Beta track module admin fixes
+		*12.0.12* Better backtracing when exceptions are thrown to users
+		*12.0.11* FREEPBX-8258 Replace instead of insert
+		*12.0.10* Better module signing text
+		*12.0.9* Sub Depends checking
+		*12.0.8* Catch exceptions gracefully
+		*12.0.7* FREEPBX-8213 Stop never ending CLI install loops
+		*12.0.6* Remove the last of the sounds from the sounds folder
+		*12.0.5* FREEPBX-8190 signature fixes, FREEPBX-8102 allow modules to be removed that have missing dependencies
+		*12.0.4* KV Recovery and fixes for installer
+		*12.0.3* Fixes to check online
 		*12.0.2* First Stable Release of 12
-		*12.0.1rc37* Fix reload issue
-		*12.0.1rc36* Tweaks and fixes to btn tags
-		*12.0.1rc35* Proper reverse depends checking
-		*12.0.1rc34* fun new features
-		*12.0.1rc33* Fix potential i18n issue.
-		*12.0.1rc32* More descriptive errors on amportal.
-		*12.0.1rc31* Hopefully final Signature fixes, also start of new Installer class.
-		*12.0.1rc30* FREEPBX-7743 Call forwarding default feature codes conflict, FREEPBX-7928 Webserver Overrides check if using other webserver than Apache
-		*12.0.1rc29* Increase max execution time in module admin for very slow machines
-		*12.0.1rc28* FREEPBX-8049 add userman setting to amportal
-		*12.0.1rc27* Remove old ARI Settings from installer
-		*12.0.1rc26* FREEPBX-7518, FREEPBX-7999, FREEPBX-8067,
-		*12.0.1rc25* Tweaks and housecleaning
-		*12.0.1rc24* Allow selecting of modules that have security issues
-		*12.0.1rc23* Check for valid language in cookie
-		*12.0.1rc22* Small fix for buffer sizes on gpg checks
-		*12.0.1rc21* Include gpg key locally, fix small rare issue in zap or dahdi barge
-		*12.0.1rc20* UP max exec time in check online, fix FREEPBX-7968
-		*12.0.1rc19* Change hooks to use variable length parameters
-		*12.0.1rc18* Tweaking some things
-		*12.0.1rc17* Let users know when less cache dirs arent writable
-		*12.0.1rc16* Redo moduleHook to be a persistent static obj
-		*12.0.1rc15* FREEPBX-7880 Add indication when checking online
-		*12.0.1rc14* FREEPBX-7883 Allow old useage of use_warning_banner in BMO
-		*12.0.1rc13* Push languages into hooks as well
-		*12.0.1rc12* Updates to downloader
-		*12.0.1rc11* CLI Install shouldnt just abort
-		*12.0.1rc10* FREEPBX-7903 Attempted fix
-		*12.0.1rc8* And again..
-		*12.0.1rc7* Check for amportal a different way
-		*12.0.1rc6* Fix amportal updater bit
-		*12.0.1rc5* Revert cli export, yet fix the amportal.conf generator
-		*12.0.1rc4* Final newline issues resolved
-		*12.0.1rc3* Newline after every install command, dont export textarea to cli
-		*12.0.1rc2* Ignore fw_ari on signature check because it doesnt fit into our perfect box
-		*12.0.1rc1* Release Candidate
-		*12.0.1beta35* Added functionality to control ucp functions from amportal
-		*12.0.1beta34* Check for return false and exceptions on module install from BMO
-		*12.0.1beta33* Asterisk 13 support and LESS Fixes
-		*12.0.1beta32* LESS Parser Upgrades
-		*12.0.1beta31* LESS Cleanup
-		*12.0.1beta30* More fixes to Javascript
-		*12.0.1beta29* Fixes to hooks so that they work properly
-		*12.0.1beta28* Fix for overwritten input parameter in BMO::Hooks::processHooks()
-		*12.0.1beta27* Even more javascript validation bugs
-		*12.0.1beta26* Last of the javascript cleanup bugs
-		*12.0.1beta25* Javascript cleanup bugs
-		*12.0.1beta24* Finishing work on BMO Hooks
-		*12.0.1beta23* Tweak, Comment, Label BMO Hooks
-		*12.0.1beta22* Better and more clear error handling
-		*12.0.1beta21* Finishing Touches to PKCS Class
-		*12.0.1beta20* Throw Exception instead of die
-		*12.0.1beta19* Fix GPG permissions
-		*12.0.1beta18* Make sure DSN is a valid string not a random object
-		*12.0.1beta17* Do a FreePBX die if objects are missing so that users can see the error
-		*12.0.1beta16* Revert everything I just did, also add in fixes from Rob
-		*12.0.1beta15* Run GPG checking twice
-		*12.0.1beta14* Run Trust GPG another way
-		*12.0.1beta12* Trust FreePBX at the end of install.php, also tweak GPG permissions
-		*12.0.1beta11* FREEPBX-7538 turn newlines into commas, cache hooks
-		*12.0.1beta10* New Manager Setting of message
-		*12.0.1beta9* Fixes to Module Track Switching
-		*12.0.1beta8* Numerical Representations of dates for security
-		*12.0.1beta7* Dont log landing
-		*12.0.1beta6* FREEPBX-7517 log invalid logins to a security file for parsing
-		*12.0.1beta5* Packaging fixes
-		*12.0.1beta4* Change link on landing page from recordings to UCP
-		*12.0.1beta3* Copy/replace fixes
-		*12.0.1beta2* CLI, If repo doesnt exist check for it online
-		*12.0.1beta1* First Beta Release
-		*12.0.1alpha59* Silence a warning
-		*12.0.1alpha58* Unmet depends are auto downloaded through CLI
-		*12.0.1alpha57* Run trust key inside of install_amp, fix class loader
-		*12.0.1alpha56* GPG Fixes
-		*12.0.1alpha55* Turn on Asterisk Manager on module installs
-		*12.0.1alpha54* Support for Module Namespaces
-		*12.0.1alpha53* Prevent fatal on upgrade if textarea missing
-		*12.0.1alpha52* Added new textarea type and other small fixes
-		*12.0.1alpha51* Fix issue with gpg checks
-		*12.0.1alpha50* FREEPBX-3481 fix login issue when using amportal
-		*12.0.1alpha49* Preping for beta release, final alpha changes
-		*12.0.1alpha48* Changes for Second Database class
-		*12.0.1alpha47* Update jquery to a stable version and update font-awesome
-		*12.0.1alpha46* Hide Framework signatures for now
-		*12.0.1alpha45* Added Support for Module Signature Checking.
-		*12.0.1alpha44* Add support for FreePBX::Modulename(), Return false if we couldnt run install or uninstall, Fixes for manager.conf errors, Use AMPDBHOST, don't hard code localhost.
-		*12.0.1alpha43* Minor AJAX Changes to support non-standard ports.
-		*12.0.1alpha42* FREEPBX-7344 FreePBX generated CSS link for module css files is wrong
-		*12.0.1alpha41* Bring in Less/CSS updates and minor BMO additions.
-		*12.0.1alpha40* Bring in all development work, including css to less work
-		*12.0.1alpha38* Only define DB classes one time
-		*12.0.1alpha37* Update framework DB to have helper functions for functions that mysqli needs
-		*12.0.1alpha36* Revert Use mysqli extension for database access, if available.
-		*12.0.1alpha35* #7141 Use mysqli extension for database access, if available.
-		*12.0.1alpha34* Remove need for jqueryUI buttonset on browsers with CSS3 native support
-		*12.0.1alpha33* Change security shield functionality, add advanced setting to disable nightly update checking
-		*12.0.1alpha32* Add Japanese language support
-		*12.0.1alpha31* FREEPBX-7119
-		*12.0.1alpha30* #7168 and CSS Updates
-		*12.0.1alpha29* Enable Less Support
-		*12.0.1alpha28* Ensure module hooks aren't duplicated.
-		*12.0.1alpha26* Move BMO Startup to enable proper module integration
-		*12.0.1alpha25* BMO issues with Commercial Modules
-		*12.0.1alpha24* Minor BMO cleanups
-		*12.0.1alpha22* #7123 SECURITY ISSUE introduced in 2.9
-		*12.0.1alpha18* #6471 Allow better voicemail passwords
-		*12.0.1alpha17* Set CustomPresence on dynamic hints, when available.
-		*12.0.1alpha16* Added help text bubbles to feature code admin re FREEPBX-6903
-		*12.0.1alpha15* Add remote-unlock feature. This is disabled by default.
-		*12.0.1alpha14* Remove unneeded warning when processing commercial modules.
-		*12.0.1alpha13* Automatically enable repos from module_admin if used with --repo also make standard, standard
-		*12.0.1alpha12* Full fix for module_admin functionality to always attempt to look at master modulexml for list of repos
-		*12.0.1alpha11* BMO didn't know how to preload a module.
-		*12.0.1alpha10* Update to 10, numerous fixes here and there
-		*12.0.1alpha9* And then there was 9, set the Version of FreePBX correctly
-		*12.0.1alpha8* BMO fixes and other things that make this awesome
-		*12.0.1alpha7* Prep for public release 1
-		*12.0.1alpha6* Update Global SIP Settings Driver Selection
-		*12.0.1alpha5* More Module Admin tweaks and fixes
-		*12.0.1alpha4* Module Admin Javascript bugs fixed
-		*12.0.1alpha3* Module Admin working. Might have some bugs.
-		*12.0.1alpha2* Good start to the first alpha, forgot to package the new javascripts
 	</changelog>
 	<description>
 		This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module
