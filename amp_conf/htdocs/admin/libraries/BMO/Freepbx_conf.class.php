@@ -185,8 +185,7 @@ class Freepbx_conf {
    */
   private $depreciatedSettings = array(
     "USEDEVSTATE" => true,
-    "USEQUEUESTATE" => false,
-    "QUEUES_UPDATECDR" => true
+    "USEQUEUESTATE" => false
   );
 
 
