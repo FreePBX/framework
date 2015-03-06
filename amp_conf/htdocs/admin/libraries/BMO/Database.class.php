@@ -48,8 +48,13 @@ class Database extends \PDO {
 		if (isset($args[0]) && !empty($args[0]) && is_string($args[0])) {
 			$dsn = $args[0];
 		} else {
-			$host = !empty($amp_conf['AMPDBHOST']) ? $amp_conf['AMPDBHOST'] : 'localhost';
-			$dsn = $amp_conf['AMPDBENGINE'].":host=".$host.";dbname=".$amp_conf['AMPDBNAME'];
+			if(empty($amp_conf['AMPDBSOCK'])) {
+				$host = !empty($amp_conf['AMPDBHOST']) ? $amp_conf['AMPDBHOST'] : 'localhost';
+				$dsn = $amp_conf['AMPDBENGINE'].":host=".$host.";dbname=".$amp_conf['AMPDBNAME'];
+			} else {
+				$dsn = $amp_conf['AMPDBENGINE'].":unix_socket=".$amp_conf['AMPDBSOCK'].";dbname=".$amp_conf['AMPDBNAME'];
+			}
+
 		}
 
 		if (isset($args[1]) && !empty($args[0]) && is_string($args[0])) {

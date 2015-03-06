@@ -103,7 +103,6 @@ class Database extends FreePBX\Database {};
 // bootstrap.php should always be called from freepbx.conf so
 // database conifguration already included, connect to database:
 //
-//require_once('DB.php'); //PEAR must be installed
 require_once(dirname(__FILE__)."/libraries/DB.class.php");
 global $db;
 $db = new DB();
