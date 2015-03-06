@@ -28,12 +28,18 @@ class LoadConfig {
 	 * @param string $file The basename of the file to load
 	 * @param string $hint The directory where the file lives
 	 */
-	public function __construct($freepbx = null, $file = null, $hint = "/etc/asterisk") {
-		if ($freepbx == null)
-			throw new \Exception("Need to be instantiated with a FreePBX Object");
+	public function __construct($freepbx = null, $file = null, $hint = "") {
+		if ($freepbx == null) {
+			throw new \Exception(_("Need to be instantiated with a FreePBX Object"));
+		}
 
-		if ($file !== null)
+		$this->freepbx = $freepbx;
+
+		$hint = !empty($hint) ? $hint : $this->freepbx->Config->get('ASTETCDIR');
+
+		if ($file !== null) {
 			$this->loadConfig($file, $hint);
+		}
 	}
 
 	/**
@@ -48,11 +54,14 @@ class LoadConfig {
 	 * @param string $hint The directory where the file lives
 	 * @return bool True if pass
 	 */
-	public function loadConfig($file = null, $hint = "/etc/asterisk") {
+	public function loadConfig($file = null, $hint = "") {
+		$hint = !empty($hint) ? $hint : $this->freepbx->Config->get('ASTETCDIR');
 		//clear old contents out
 		$this->ProcessedConfig = $this->BaseConfig = $this->PlainConfig = $this->RawConfigContents = "";
-		if ($file === null)
-			throw new \Exception("No file given to load");
+
+		if ($file === null) {
+			throw new \Exception(_("No file given to load"));
+		}
 
 		$filename = $this->validateFilename($file,$hint);
 
@@ -84,8 +93,9 @@ class LoadConfig {
 	 * @return string Raw Contents of said file
 	 */
 	public function getRaw($file = null) {
-		if ($file === null && !isset($this->RawConfigContents))
-			throw new \Exception("Asked for raw contents of a file, but was never asked to read a file");
+		if ($file === null && !isset($this->RawConfigContents)) {
+			throw new \Exception(_("Asked for raw contents of a file, but was never asked to read a file"));
+		}
 
 		return $this->RawConfigContents;
 	}
@@ -101,9 +111,12 @@ class LoadConfig {
 	 * @param string $context The specific context to return, if not set then return all
 	 * @return array The hashed configuration file
 	 */
-	public function getConfig($file = null, $hint = "/etc/asterisk", $context = null) {
-		if ($file === null)
-			throw new \Exception("No file given to load");
+	public function getConfig($file = null, $hint = "", $context = null) {
+		if ($file === null) {
+			throw new \Exception(_("No file given to load"));
+		}
+
+		$hint = !empty($hint) ? $hint : $this->freepbx->Config->get('ASTETCDIR');
 
 		$this->loadConfig($file, $hint);
 
@@ -119,14 +132,17 @@ class LoadConfig {
 	 * @param string $hint The directory where the file lives
 	 * @return string The complete file path
 	 */
-	private function validateFilename($file, $hint = "/etc/asterisk") {
+	private function validateFilename($file, $hint = "") {
+		$hint = !empty($hint) ? $hint : $this->freepbx->Config->get('ASTETCDIR');
 		// Check to make sure it doesn't have any /'s or ..'s
 		// in it. We're only allowed to write to /etc/asterisk or our hint
 
-		if (strpos($file, "/") !== false)
-			throw new \Exception("$filename contains a /");
-		if (strpos($file, "..") !== false)
-			throw new \Exception("$filename contains ..");
+		if (strpos($file, "/") !== false) {
+			throw new \Exception(sprintf(_("%s contains a /"),$file));
+		}
+		if (strpos($file, "..") !== false) {
+			throw new \Exception(sprintf(_("%s contains .."),$file));
+		}
 
 		$filename = $hint."/".$file;
 		return $filename;
@@ -224,7 +240,7 @@ class LoadConfig {
 			} else if (trim($entry) == "") {
 				continue;
 			} else {
-				throw new \Exception("Coding Error - don't understand '$entry' from ".$this->Filename);
+				throw new \Exception(sprintf(_("Coding Error - don't understand '%s' from %s"),$entry,$this->Filename));
 			}
 		}
 	}
