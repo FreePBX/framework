@@ -200,9 +200,9 @@ class component {
 		}
 
 		// does this list need sorting ?
-		$this->lists[$category][$listname]['sort'] = $sort;
+		$this->lists[$listname]['sort'] = $sort;
 		// nothing really, but an array will be here after addlistitem
-		$this->lists[$category][$listname]['array'] = array();
+		$this->lists[$listname]['array'] = array();
 	}
 
 	function setoptlistopts($listname, $opt, $val) {
@@ -212,7 +212,7 @@ class component {
 	function addoptlistitem($listname, $value, $text, $uselang = true) {
 		// must add the list before using it
 		if ( !isset($this->lists[$listname]) ) {
-			$this->addoptlist($listname, true, $category);
+			$this->addoptlist($listname, false);
 		}
 
 		// add the item
@@ -220,7 +220,6 @@ class component {
 	}
 
 	function getoptlist($listname) {
-		$category = strtolower(trim($category));
 		if ( isset($this->lists[$listname]['array']) ) {
 			// sort the array by text
 			if ( $this->lists[$listname]['sort'] ) {
@@ -374,7 +373,11 @@ class component {
 			"bottom"
 		);
 
-		$html = array();
+		$html = array(
+			"top" => array(),
+			"middle" => array(),
+			"bottom" => array()
+		);
 		$hiddens = array();
 		foreach($crossSections as $pl) {
 			$divide = "guielems_".$pl;
@@ -577,6 +580,7 @@ class guiinput extends guielement {
 	protected $jsvalidation = null;
 	protected $failvalidationmsg = null;
 	protected $canbeempty = null;
+	protected $type;
 
 	protected $html_input = null;
 
@@ -710,7 +714,7 @@ class gui_textbox extends guiinput {
 		parent::__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty);
 
 		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
-		$autocomplete = !($autcomplete) ? " autocomplete=\"off\"" : '';
+		$autocomplete = !($autocomplete) ? " autocomplete=\"off\"" : '';
 		$tabindex = guielement::gettabindex();
 		$disable_state = $disable ? 'disabled':'';
 		if($inputgroup) {
@@ -799,11 +803,11 @@ class gui_password extends guiinput {
 
 // Select box
 class gui_selectbox extends guiinput {
-	function __construct($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
+	function __construct($elemname, $valarray = array(), $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
-		if (!is_array($valarray)) {
+		if (!is_array($valarray) || empty($valarray)) {
 			trigger_error('$valarray must be a valid array in gui_selectbox');
 			return;
 		}
@@ -860,12 +864,12 @@ class gui_checkbox extends guiinput {
 }
 
 class gui_checkset extends guiinput {
-	public function __construct($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '') {
+	public function __construct($elemname, $valarray = array(), $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '') {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
-		if (!is_array($valarray)) {
-			trigger_error('$valarray must be a valid array in gui_radio');
+		if (!is_array($valarray) || empty($valarray)) {
+			trigger_error('$valarray must be a valid array in gui_checkset');
 			return;
 		}
 
@@ -896,11 +900,11 @@ class gui_checkset extends guiinput {
 }
 
 class gui_radio extends guiinput {
-	public function __construct($elemname, $valarray, $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '', $pairedvalues = true) {
+	public function __construct($elemname, $valarray = array(), $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '', $pairedvalues = true) {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
-		if (!is_array($valarray)) {
+		if (!is_array($valarray) || empty($valarray)) {
 			trigger_error('$valarray must be a valid array in gui_radio');
 			return;
 		}
@@ -948,9 +952,13 @@ class gui_button extends guiinput {
 }
 
 class gui_drawselects extends guiinput {
-	public function __construct($elemname, $index, $dest, $prompttext = '', $helptext = '', $required = false, $failvalidationmsg='', $nodest_msg='', $disable=false, $class='') {
+	public function __construct($elemname, $index = '', $dest = '', $prompttext = '', $helptext = '', $required = false, $failvalidationmsg='', $nodest_msg='', $disable=false, $class='') {
 		if(is_array($elemname)) {
 			extract($elemname);
+		}
+		if(empty($index) || empty($dest)) {
+			trigger_error('$index or $dest can not be blank');
+			return;
 		}
 		global $currentcomponent;
 		$jsvalidation = isset($jsvalidation) ? $jsvalidation : '';
@@ -995,6 +1003,10 @@ class gui_textarea extends guiinput {
 
 class guitext extends guielement {
 	protected $html_text;
+	protected $helptext;
+	protected $prompttext;
+	protected $type;
+	protected $_elemname;
 
 	public function __construct($elemname, $html_text = '') {
 		// call parent class contructor
