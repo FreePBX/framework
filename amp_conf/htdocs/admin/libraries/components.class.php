@@ -426,7 +426,7 @@ class component {
 			}
 		}
 
-		if(!empty($html)) {
+		if(!empty($html['top']) || !empty($html['middle']) || !empty($html['bottom'])) {
 			if(!empty($html['middle'])) {
 				reset($html['middle']);
 				$active = key($html['middle']);
