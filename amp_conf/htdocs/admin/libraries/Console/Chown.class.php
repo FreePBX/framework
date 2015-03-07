@@ -46,7 +46,7 @@ class Chown extends Command {
 		$sessdir = !empty($session) ? $session : '/var/lib/php/session';
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 													'path' => $sessdir,
-													'perms' => 0644);
+													'perms' => 0744);
 		$this->modfiles['framework'][] = array('type' => 'file',
 													'path' => '/etc/amportal.conf',
 													'perms' => 0644);
@@ -63,8 +63,8 @@ class Chown extends Command {
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 													'path' => $ASTETCDIR,
 													'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-													'path' => $ASTVARLIBDIR . '/.ssh.id_rsa',
+		$this->modfiles['framework'][] = array('type' => 'file',
+													'path' => $ASTVARLIBDIR . '/.ssh/id_rsa',
 													'perms' => 0644);
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 													'path' => $ASTLOGDIR,
@@ -84,9 +84,11 @@ class Chown extends Command {
 		$this->modfiles['framework'][] = array('type' => 'rdir',
 											   'path' => $ASTVARLIBDIR . '/' . $MOHDIR,
 											   'perms' => 0755);
+		/* this was never actually assigned to do anything
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => '/dev/tty9',
 											   'perms' => 0644);
+		*/
 		$this->modfiles['framework'][] = array('type' => 'file',
 											   'path' => '/etc/obdc.ini',
 											   'perms' => 0644);
@@ -234,7 +236,8 @@ class Chown extends Command {
 						unlink($file);
 					}
 				}
-				break;
+			break;
+			case 'dir':
 			case 'file':
 				try {
 					$this->fs->chmod($file,$perms);
@@ -243,7 +246,10 @@ class Chown extends Command {
 						$this->errors[] ='An error occurred while changing permissions on file' . $file;
 					}
 				}
-				break;
+			break;
+			default:
+				throw new \Exception("Unknown filetype of:".$filetype."[".$file."]");
+			break;
 		}
 	}
 	private function recursivePerms($dir, $perms){
