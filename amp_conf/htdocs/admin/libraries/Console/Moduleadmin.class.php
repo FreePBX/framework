@@ -13,9 +13,10 @@ class Moduleadmin extends Command {
 		->setAliases(array('modadmin'))
 		->setDescription('Module Administration')
 		->setDefinition(array(
-			new InputOption('force', 'f', InputOption::VALUE_NONE, 'Force operation (skips dependency and status checks) <warning>WARNING:</warning> Use at your own risk, modules have dependencies for a reason!'),
-			new InputOption('debug', 'd', InputOption::VALUE_NONE, 'Output debug messages to the console (be super chatty)'),
-			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, 'Set the Repos. -R Commercial -R Contributed'),
+			new InputOption('force', 'f', InputOption::VALUE_NONE, _('Force operation (skips dependency and status checks) <warning>WARNING:</warning> Use at your own risk, modules have dependencies for a reason!')),
+			new InputOption('debug', 'd', InputOption::VALUE_NONE, _('Output debug messages to the console (be super chatty)')),
+			new InputOption('json', 'j', InputOption::VALUE_NONE, _('Present dump output in a JSON format.')),
+			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
 		//->setHelp('fwconsole ma -f -R commmercial -R Contributed install module1 module2 module3');
 		->setHelp($this->showHelp());
@@ -29,14 +30,19 @@ class Moduleadmin extends Command {
 		} else {
 			$this->DEBUG = False;
 		}
+		if ($input->getOption('json')) {
+			$this->JSON = True;
+		} else {
+			$this->JSON = False;
+		}
 		if ($input->getOption('force')) {
 			$this->force = True;
 			$$this->no_warnings = True;
-			if($this->DEBUG){$output->writeln('Force Enabled');}
+			if($this->DEBUG){$output->writeln(_('Force Enabled'));}
 		} else {
 			$this->force = False;
 			$this->no_warnings = False;
-			if($this->DEBUG){$output->writeln('Force Disabled');}
+			if($this->DEBUG){$output->writeln(_('Force Disabled'));}
 		}
 		$repos = $input->getOption('repo');
 	    if($repos){
@@ -55,9 +61,9 @@ class Moduleadmin extends Command {
 		$remote = $modulef->get_remote_repos();
 		$modulef->set_active_repo(strtolower($repo),1);
 		if(!in_array($repo,$remote)) {
-			$this->out->writeln("Repo ".$repo." successfully enabled, but was not found in the remote list");
+			$this->out->writeln(_("Repo ").$repo._(" successfully enabled, but was not found in the remote list"));
 		}else{
-			$this->out->writeln("Repo ".$repo." successfully enabled");
+			$this->out->writeln(_("Repo ").$repo._(" successfully enabled"));
 		}
 	}
 
@@ -67,16 +73,16 @@ class Moduleadmin extends Command {
 		$remote = $modulef->get_remote_repos();
 
 		if(!in_array($repo,$remote)) {
-			$this->out->writeln("Repo ".$repo." successfully disabled, but was not found in the remote list");
+			$this->out->writeln(_("Repo ").$repo._(" successfully disabled, but was not found in the remote list"));
 		} else {
-			$this->out->writeln("Repo ".$repo." successfully disabled");
+			$this->out->writeln(_("Repo ").$repo._(" successfully disabled"));
 		}
 	}
 
 	private function doReload() {
 		$result = do_reload();
 		if ($result['status'] != true) {
-			$this->out->writeln("Error(s) have occured, the following is the retrieve_conf output:");
+			$this->out->writeln(_("Error(s) have occured, the following is the retrieve_conf output:"));
 			$retrieve_array = explode('<br/>',$result['retrieve_conf']);
 			foreach ($retrieve_array as $line) {
 				$this->out->writeln($line);
@@ -91,24 +97,24 @@ class Moduleadmin extends Command {
 		$module = \module_functions::create();
 		if (is_array($errors = $module->install($modulename, $this->force))) {
 			if(!empty($module->modDepends)) {
-				$this->out->writeln("Detected Unmet Dependency..Attempting to install it");
+				$this->out->writeln(_("Detected Unmet Dependency..Attempting to install it"));
 				foreach($module->modDepends as $mod) {
 					if($modulename == $mod) {
 						continue; //skip self?
 					}
 					$this->getIncludes(); //get functions from other modules, in case we need them here
-					$this->out->writeln("Installing $mod...");
+					$this->out->writeln(_("Installing ") . $mod . "...");
 					$status = $this->doInstall($mod, $this->force);
 					if($status !== true && $mod != 'framework') {
 						if (($status1 = $this->doDownload($mod, $this->force)) === true) {
 							if (($status2 = $this->doInstall($mod, $this->force)) !== true) {
-								$this->out->writeln("Unable to install module ${modulename}'s dependency ${mod}:");
+								$this->out->writeln(_("Unable to install module ").${modulename}._("'s dependency"). $mod.':');
 								$this->out->writeln(' - '.implode("\n - ",$status2));
 								continue;
 								//exit;
 							}
 						} else {
-							$this->out->writeln("Unable to download module ${modulename}'s dependency ${mod}:");
+							$this->out->writeln(_("Unable to download modulev"). ${modulename}._("'s dependency ").$mod.":");
 							$this->out->writeln(' - '.implode("\n - ",$status1));
 							continue;
 							//exit;
@@ -120,20 +126,20 @@ class Moduleadmin extends Command {
 				if($module->notFound) {
 					if (($status1 = $this->doDownload($modulename, $this->force)) === true) {
 						if (($status2 = $this->doInstall($modulename, $this->force)) !== true) {
-							$this->out->writeln("Unable to install module ${modulename}:");
+							$this->out->writeln(_("Unable to install module "). $modulename.":");
 							$this->out->writeln(' - '.implode("\n - ",$status2));
 							//exit;
 						}
 					}
 				} else {
-					$this->out->writeln("The following error(s) occurred:");
+					$this->out->writeln(_("The following error(s) occurred:"));
 					$this->out->writeln(' - '.implode("\n - ",$errors));
 					//exit(2);
 				}
 
 			}
 		} else {
-			$this->out->writeln("Module ".$modulename." successfully installed");
+			$this->out->writeln(_("Module ").$modulename._(" successfully installed"));
 		}
 		return true;
 	}
@@ -143,11 +149,11 @@ class Moduleadmin extends Command {
 		global $modulerepository_path;
 		$modulef = \module_functions::create();
 		if (is_array($errors = $modulef->download($modulename, $this->force, 'download_progress', $modulerepository_path, $modulexml_path))) {
-			$this->out->writeln("The following error(s) occured:");
+			$this->out->writeln(_("The following error(s) occured:"));
 			$this->out->writeln(' - '.implode("\n - ",$errors));
 			exit(2);
 		} else {
-			$this->out->writeln("Module ".$modulename." successfully downloaded");
+			$this->out->writeln(_("Module ").$modulename._(" successfully downloaded"));
 		}
 		return true;
 	}
@@ -156,11 +162,11 @@ class Moduleadmin extends Command {
 		$this->getIncludes();
 		$module = \module_functions::create();
 		if (is_array($errors = $module->delete($modulename, $this->force))) {
-			$this->out->writeln("The following error(s) occured:");
+			$this->out->writeln(_("The following error(s) occured:"));
 			$this->out->writeln(' - '.implode("\n - ",$errors));
 			exit(2);
 		} else {
-			$this->out->writeln("Module ".$modulename." successfully deleted");
+			$this->out->writeln(_("Module ").$modulename._(" successfully deleted"));
 		}
 	}
 
@@ -168,11 +174,11 @@ class Moduleadmin extends Command {
 		$this->getIncludes();
 		$modulef = \module_functions::create();
 		if (is_array($errors = $modulef->uninstall($modulename, $this->force))) {
-			$this->out->writeln("The following error(s) occured:");
+			$this->out->writeln(_("The following error(s) occured:"));
 			$this->out->writeln(' - '.implode("\n - ",$errors));
 			exit(2);
 		} else {
-			$this->out->writeln("Module ".$modulename." successfully uninstalled");
+			$this->out->writeln(_("Module ").$modulename._(" successfully uninstalled"));
 		}
 	}
 
@@ -205,9 +211,9 @@ class Moduleadmin extends Command {
 					$this->doInstall($name, $this->force);
 				}
 			}
-			$this->out->writeln("Done. All modules installed.");
+			$this->out->writeln(_("Done. All modules installed."));
 		} else {
-			$this->out->writeln("All modules up to date.");
+			$this->out->writeln(_("All modules up to date."));
 		}
 	}
 
@@ -266,14 +272,14 @@ class Moduleadmin extends Command {
 	private function doUpgradeAll($force) {
 		$modules = $this->getUpgradableModules();
 		if (count($modules) > 0) {
-			$this->out->writeln("Upgrading: ".implode(', ',$modules));
+			$this->out->writeln(_("Upgrading: ").implode(', ',$modules));
 			foreach ($modules as $modulename) {
-				$this->out->writeln("Upgrading $modulename..");
+				$this->out->writeln(_("Upgrading ").$modulename."..");
 				$this->doUpgrade($modulename, $this->force);
 			}
-			$this->out->writeln("All upgrades done!");
+			$this->out->writeln(_("All upgrades done!"));
 		} else {
-			$this->out->writeln("Up to date.");
+			$this->out->writeln(_("Up to date."));
 		}
 	}
 
@@ -304,7 +310,7 @@ class Moduleadmin extends Command {
 		$modulesProcessed = array();
 		foreach ($modules as $rawname => $mod) {
 			if (!isset($modules[$rawname])) {
-				fatal($rawname.' not found');
+				fatal($rawname._(' not found'));
 			}
 
 			if (!in_array($modules[$rawname]['name'], $modulesProcessed['name'])) {
@@ -377,11 +383,11 @@ class Moduleadmin extends Command {
 			fatal($modulename.' not found');
 		}
 		if (($errors = $modulef->checkdepends($modules[$modulename])) !== true) {
-			$this->out->writeln("The following dependencies are not met:");
+			$this->out->writeln(_("The following dependencies are not met:"));
 			$this->out->writeln(' - '.implode("\n - ",$errors));
 			exit(1);
 		} else {
-			$this->out->writeln("All dependencies met for module ".$modulename);
+			$this->out->writeln(_("All dependencies met for module ").$modulename);
 		}
 	}
 
@@ -409,7 +415,7 @@ class Moduleadmin extends Command {
 			$active_repos = $modulef->get_active_repos();
 			$list = implode(',',array_keys($active_repos));
 				if (!$this->no_warnings) {
-					$this->out->writeln("no repos specified, using: [$list] from last GUI settings");
+					$this->out->writeln(_("no repos specified, using: [$list] from last GUI settings"));
 					$this->out->writeln("");
 				}
 		}
@@ -419,7 +425,7 @@ class Moduleadmin extends Command {
 		$this->doUpgradeAll(true);
 		$modules = $this->getInstallableModules();
 		if (in_array('core', $modules)){
-			$this->out->writeln("Installing core...");
+			$this->out->writeln(_("Installing core..."));
 			$this->doDownload('core', $this->force);
 			$this->doInstall('core', $this->force);
 		}
@@ -428,14 +434,14 @@ class Moduleadmin extends Command {
 			foreach ($modules as $module => $name) {
 				if (($name != 'core')){//we dont want to reinstall core
 					$this->getIncludes(); //get functions from other modules, in case we need them here
-					$this->out->writeln("Installing $name...");
+					$this->out->writeln(_("Installing ").$name."...");
 					$this->doDownload($name, $this->force);
 					$this->doInstall($name, $this->force);
 				}
 			}
-			$this->out->writeln("Done. All modules installed.");
+			$this->out->writeln(_("Done. All modules installed."));
 		} else {
-			$this->out->writeln("All modules up to date.");
+			$this->out->writeln(_("All modules up to date."));
 		}
 	}
 
@@ -513,47 +519,51 @@ class Moduleadmin extends Command {
 			switch ($status_index) {
 				case MODULE_STATUS_NOTINSTALLED:
 					if (isset($modules_local[$name])) {
-						$status = 'Not Installed (Locally available)';
+						$status = _('Not Installed (Locally available)');
 					} else {
-						$status = 'Not Installed (Available online: '.$modules_online[$name]['version'].')';
+						$status = _('Not Installed (Available online: ').$modules_online[$name]['version'].')';
 					}
 				break;
 				case MODULE_STATUS_DISABLED:
-					$status = 'Disabled';
+					$status = _('Disabled');
 				break;
 				case MODULE_STATUS_NEEDUPGRADE:
-					$status = 'Disabled; Pending upgrade to '.$modules[$name]['version'];
+					$status = _('Disabled; Pending upgrade to ').$modules[$name]['version'];
 				break;
 				case MODULE_STATUS_BROKEN:
-					$status = 'Broken';
+					$status = _('Broken');
 				break;
 				default:
 					// check for online upgrade
 					if (isset($modules_online[$name]['version'])) {
 						$vercomp = version_compare_freepbx($modules[$name]['version'], $modules_online[$name]['version']);
 						if ($vercomp < 0) {
-							$status = 'Online upgrade available ('.$modules_online[$name]['version'].')';
+							$status = _('Online upgrade available (').$modules_online[$name]['version'].')';
 						} else if ($vercomp > 0) {
-							$status = 'Newer than online version ('.$modules_online[$name]['version'].')';
+							$status = _('Newer than online version (').$modules_online[$name]['version'].')';
 						} else {
-							$status = 'Enabled and up to date';
+							$status = _('Enabled and up to date');
 						}
 					} else if (isset($modules_online)) {
 						// we're connected to online, but didn't find this module
-						$status = 'Enabled; Not available online';
+						$status = _('Enabled; Not available online');
 					} else {
-						$status = 'Enabled';
+						$status = _('Enabled');
 					}
 				break;
 			}
 			$module_version = isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'';
 			array_push($rows,array($name, $module_version, $status));
 		}
-		$table = new Table($this->out);
-		$table
-			->setHeaders(array('Module', 'Version', 'Status'))
-			->setRows($rows);
-		$table->render();
+		if($this->JSON){
+			$this->out->writeln(json_encode($rows));
+		}else{
+			$table = new Table($this->out);
+			$table
+				->setHeaders(array(_('Module'), _('Version'), _('Status')))
+				->setRows($rows);
+			$table->render();
+		}
 	}
 
 	private function refreshsignatures() {
@@ -561,15 +571,15 @@ class Moduleadmin extends Command {
 		\FreePBX::GPG();
 		$fpbxmodules = \FreePBX::Modules();
 		$list = $fpbxmodules->getActiveModules();
-		$this->out->writeln("Getting Data from Online Server...");
+		$this->out->writeln(_("Getting Data from Online Server..."));
 		$modules_online = $mf->getonlinexml();
 		if(empty($modules_online)) {
-			$this->out->writeln('Cant Reach Online Server');
+			$this->out->writeln(_('Cant Reach Online Server'));
 			exit(1);
 		} else {
-			$this->out->writeln("Done");
+			$this->out->writeln(_("Done"));
 		}
-		$this->out->writeln("Checking Signatures of Modules...");
+		$this->out->writeln(_("Checking Signatures of Modules..."));
 		foreach($list as $m) {
 			//Check signature status, then if its online then if its signed online then redownload (through force)
 			$this->out->writeln("Checking ". $m['rawname'] . "...");
@@ -584,46 +594,54 @@ class Moduleadmin extends Command {
 					$mf->updateSignature($modulename);
 					$this->out->writeln("Done");
 				} else {
-					$this->out->writeln("\tCould not find signed module on remote server!");
+					$this->out->writeln(_("\tCould not find signed module on remote server!"));
 				}
 			} else {
-				$this->out->writeln("Good");
+				$this->out->writeln(_("Good"));
 			}
 		}
-		$this->out->writeln("Done");
+		$this->out->writeln(_("Done"));
 	}
 
 	private function showReverseDepends($modulename) {
 		$modulef = \module_functions::create();
 		$modules = $modulef->getinfo($modulename);
 		if (!isset($modules[$modulename])) {
-			fatal($modulename.' not found');
+			fatal($modulename._(' not found'));
 		}
 
 		if (($depmods = $modulef->reversedepends($modulename)) !== false) {
-			$this->out->writeln("The following modules depend on this one: ".implode(', ',$depmods));
+			$this->out->writeln(_("The following modules depend on this one: ").implode(', ',$depmods));
 			exit(1);
 		} else {
-			$this->out->writeln("No enabled modules depend on this module.");
+			$this->out->writeln(_("No enabled modules depend on this module."));
 		}
 	}
 
 	private function showUpgrades() {
 		$modules = $this->getUpgradableModules(true);
 		if (count($modules) > 0) {
-			$this->out->writeln("Upgradable: ");
+			$this->out->writeln(_("Upgradable: "));
 			$rows = array();
 			foreach ($modules as $mod) {
 				array_push($rows, array($mod['name'],$mod['local_version'],$mod['online_version']));
 				//$this->out->writeln($mod['name'].' '.$mod['local_version'].' -> '.$mod['online_version']);
 			}
-			$table = new Table($this->out);
-			$table
-				->setHeaders(array('Module', 'Local Version', 'Online Versiob'))
-				->setRows($rows);
-			$table->render();
+			if($this->JSON){
+				$this->out->writeln(json_encode($rows));
+			}else{
+				$table = new Table($this->out);
+				$table
+					->setHeaders(array(_('Module'), _('Local Version'), _('Online Version')))
+					->setRows($rows);
+				$table->render();
+			}
 		} else {
-			$this->out->writeln("Up to date.");
+			if($this->JSON){
+				$this->out->writeln(json_encode(array('status'=>_("Up to date"))));
+			}else{
+				$this->out->writeln(_("Up to date."));
+			}
 		}
 	}
 
@@ -631,11 +649,11 @@ class Moduleadmin extends Command {
 		$this->getIncludes();
 		$module = \module_functions::create();
 		if (is_array($errors = $module->disable($modulename, $force))) {
-			$this->out->writeln("<error>The following error(s) occured:</error>");
+			$this->out->writeln("<error>"._("The following error(s) occured:")."</error>");
 			$this->out->writeln(' - '.implode("\n - ",$errors));
 			exit(2);
 		} else {
-			$this->out->writeln("Module ".$modulename." successfully disabled");
+			$this->out->writeln(_("Module ").$modulename._(" successfully disabled"));
 		}
 	}
 
@@ -643,11 +661,11 @@ class Moduleadmin extends Command {
 		$this->getIncludes();
 		$module = \module_functions::create();
 		if (is_array($errors = $module->enable($modulename, $this->force))) {
-			$this->out->writeln("<error>The following error(s) occured:</error>");
+			$this->out->writeln("<error>"._("The following error(s) occured:")."</error>");
 			$this->out->writeln(' - '.implode("\n - ",$errors));
 			exit(2);
 		} else {
-			$this->out->writeln("Module ".$modulename." successfully enabled");
+			$this->out->writeln(_("Module ").$modulename._(" successfully enabled"));
 		}
 	}
 
@@ -655,10 +673,10 @@ class Moduleadmin extends Command {
 		$this->getIncludes();
 		$module = \module_functions::create();
 		if (is_array($errors = $module->enable($modulename, $this->force))) {
-			$this->out->writeln("<error>The following error(s) occured:</error>");
+			$this->out->writeln("<error>"._("The following error(s) occured:")."</error>");
 			$this->out->writeln(' - '.implode("\n - ",$errors));
 		} else {
-			$this->out->writeln("Module ".$modulename." successfully enabled");
+			$this->out->writeln(_("Module ").$modulename._(" successfully enabled"));
 		}
 	}
 
