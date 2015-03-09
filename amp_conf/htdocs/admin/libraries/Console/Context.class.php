@@ -12,7 +12,7 @@ class Context extends Command {
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->setName('context')
 		->setAliases(array('cx'))
-		->setDescription('Reload Configs')
+		->setDescription(_('Reload Configs'))
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 	}
@@ -21,7 +21,6 @@ class Context extends Command {
 		$FreePBX = \FreePBX::Create();
 		$astMan = $FreePBX->astman;
 		if($astMan->connected()){
-			array_shift($args);
 			$astMan->Command('dialplan reload');
 			$res = $astMan->Command('dialplan show ' . $args[0]);
 			$lines = explode("\n",$res['data']);
@@ -33,7 +32,7 @@ class Context extends Command {
 				}	
 			}
 			if($i < 1){
-				$output->writeln('May be invalid Check your spelling');
+				$output->writeln(_('May be invalid Check your spelling'));
 			}
 		}
 	}

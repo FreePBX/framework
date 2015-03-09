@@ -20,7 +20,7 @@ class Debug extends Command {
 		$this->Notifications = \FreePBX::Notifications();
 		$this->setName('dbug')
 		->setAliases(array('debug'))
-		->setDescription('Stream files for debugging')
+		->setDescription(_('Stream files for debugging'))
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 	}

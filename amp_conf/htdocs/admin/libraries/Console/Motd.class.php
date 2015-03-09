@@ -14,7 +14,7 @@ class Motd extends Command {
 	private $errors = array();
 	protected function configure(){
 		$this->setName('motd')
-		->setDescription('Prints MOTD')
+		->setDescription(_('Prints MOTD'))
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 		$this->brand = "FreePBXDistro";
@@ -29,10 +29,10 @@ class Motd extends Command {
 		$output->writeln("");
 		$output->writeln("");
 		if($alerts != 0){
-			$output->writeln("<fg=red>NOTICE: YOU HAVE: " . $alerts . " NOTIFICATIONS PLEASE LOG IN TO THE UI TO SEE THEM! </fg=red>");
+			$output->writeln(_("<fg=red>NOTICE: YOU HAVE: ") . $alerts . _(" NOTIFICATIONS PLEASE LOG IN TO THE UI TO SEE THEM! </fg=red>"));
 		}
 		$output->writeln("");
-		$output->writeln("<info>NETWORK</info>");
+		$output->writeln("<info>"._("NETWORK")."</info>");
 		$iflist = $this->listIFS();
 		if($iflist){
 			$rows = array();
@@ -46,13 +46,13 @@ class Motd extends Command {
 			$table->render();	
 		}else{
 			$output->writeln("-------------------");	
-			$output->writeln("No interfaces found");	
+			$output->writeln(_("No interfaces found"));	
 			$output->writeln("-------------------");	
 		}
 		$output->writeln("");
-		$output->writeln("Please note most tasks should be handled through the " . $this->brand . " UI.");
-		$output->writeln("You can access the " . $this->brand ." GUI by typing one of the above IP's in to your web browser.");
-		$output->writeln("For support please visit: " . $this->supporturl);
+		$output->writeln(_("Please note most tasks should be handled through the ") . $this->brand . _(" UI."));
+		$output->writeln(_("You can access the ") . $this->brand ._(" GUI by typing one of the above IP's in to your web browser."));
+		$output->writeln(_("For support please visit: ") . $this->supporturl);
 		$output->writeln("");
 	}
 	private function listIFS(){

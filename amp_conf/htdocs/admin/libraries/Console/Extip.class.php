@@ -12,7 +12,7 @@ class Extip extends Command {
 	protected function configure(){
 		$this->setName('extip')
 		->setAliases(array('externalip'))
-		->setDescription('Get External IP')
+		->setDescription(_('Get External IP'))
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 	}
@@ -24,10 +24,10 @@ class Extip extends Command {
 			if(filter_var($xml->ipaddress,FILTER_VALIDATE_IP)){
 				$output->writeln($xml->ipaddress);
 			}else{
-				$output->writeln('We received data but it was not a valid IP address');
+				$output->writeln(_('We received data but it was not a valid IP address'));
 			}
 		}else{
-			$output->writeln('We were unable to obtain a valid IP Data');
+			$output->writeln(_('We were unable to obtain a valid IP Data'));
 		}
 	}
 }

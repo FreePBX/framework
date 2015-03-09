@@ -16,7 +16,7 @@ class Chown extends Command {
 	private $infos = array();
 	protected function configure(){
 		$this->setName('chown')
-		->setDescription('Change ownership of files')
+		->setDescription(_('Change ownership of files'))
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 		$this->fs = new Filesystem();
@@ -127,7 +127,7 @@ class Chown extends Command {
 		 * than the Asterisk user we provide permissions that allow both.
 		 */
 		$group =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
-		$output->writeln("Building action list...");
+		$output->writeln(_("Building action list..."));
 		foreach($this->modfiles as $modfilearray => $modfilelist){
 			foreach($modfilelist as $file){
 				if(!file_exists($file['path'])){
@@ -163,7 +163,7 @@ class Chown extends Command {
 		}
 		$actioncount = count($this->actions);
 		$output->writeln("");
-		$output->writeln($actioncount . " Actions queued");
+		$output->writeln($actioncount . _(" Actions queued"));
 		$output->writeln("");
 		$progress = new ProgressBar($output, $actioncount);
 		$progress->start();
@@ -193,14 +193,14 @@ class Chown extends Command {
 			$this->fs->chown($file,$user);
 		} catch (IOExceptionInterface $e) {
 			if($file){
-				$this->errors[] ='An error occurred while changing ownership ' . $file;
+				$this->errors[] = _('An error occurred while changing ownership ') . $file;
 			}
 		}
 		try {
 			$this->fs->chgrp($file,$group);
 		} catch (IOExceptionInterface $e) {
 			if($file){
-				$this->errors[] ='An error occurred while changing group ' . $file;
+				$this->errors[] = _('An error occurred while changing group ') . $file;
 			}
 		}
 	}
@@ -209,14 +209,14 @@ class Chown extends Command {
 			$this->fs->chown($dir,$user, true);
 		} catch (IOExceptionInterface $e) {
 			if($dir){
-				$this->errors[] ='An error occurred while changing ownership ' . $realfile;
+				$this->errors[] = _('An error occurred while changing ownership ') . $realfile;
 			}
 		}
 		try {
 			$this->fs->chgrp($dir,$group, true);
 		} catch (IOExceptionInterface $e) {
 			if($file){
-				$this->errors[] ='An error occurred while changing group ' . $file;
+				$this->errors[] = _('An error occurred while changing group ') . $file;
 			}
 		}
 	}
@@ -229,10 +229,10 @@ class Chown extends Command {
 					$this->fs->chmod($realfile,$perms);
 				} catch (IOExceptionInterface $e) {
 					if(file_exists($realfile)) {
-						$this->errors[] ='An error occurred while changing permissions on link ' . $file . ' which points to '.$realfile;
+						$this->errors[] = _('An error occurred while changing permissions on link ') . $file . _(' which points to ').$realfile;
 					} else {
 						//File does not exist. Now we have a dangling symlink so remove it.
-						$this->infos[] ='Removing dangling symlink ' . $file . ' which points to a file that no longer exists';
+						$this->infos[] = _('Removing dangling symlink ') . $file . _(' which points to a file that no longer exists');
 						unlink($file);
 					}
 				}
@@ -243,12 +243,12 @@ class Chown extends Command {
 					$this->fs->chmod($file,$perms);
 				} catch (IOExceptionInterface $e) {
 					if($file){
-						$this->errors[] ='An error occurred while changing permissions on file' . $file;
+						$this->errors[] = _('An error occurred while changing permissions on file') . $file;
 					}
 				}
 			break;
 			default:
-				throw new \Exception("Unknown filetype of:".$filetype."[".$file."]");
+				throw new \Exception(_("Unknown filetype of:").$filetype."[".$file."]");
 			break;
 		}
 	}
@@ -257,7 +257,7 @@ class Chown extends Command {
 			$this->fs->chmod($dir,$perms, 0000, true);
 		} catch (IOExceptionInterface $e) {
 			if($dir){
-				$this->errors[] ='An error occurred while changing permissions ' . $dir;
+				$this->errors[] = _('An error occurred while changing permissions ') . $dir;
 			}
 		}
 	}
@@ -286,8 +286,8 @@ class Chown extends Command {
 		if(($mode>>9) == 0){
 			return true;
 		}else{
-			$this->errors[] = $file . ' Likely will not work as expected';
-			$this->errors[] = 'Permissions should be set with a leading 0, example 644 should be 0644 File:' . $file . ' Permission set as: ' . $mode ;
+			$this->errors[] = $file . _(' Likely will not work as expected');
+			$this->errors[] = _('Permissions should be set with a leading 0, example 644 should be 0644 File:') . $file . _(' Permission set as: ') . $mode ;
 			return false;
 		}
 	}
