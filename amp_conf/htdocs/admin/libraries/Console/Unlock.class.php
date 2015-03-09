@@ -12,7 +12,7 @@ class Unlock extends Command {
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->setName('unlock')
 		->setAliases(array('u'))
-		->setDescription('Unlock Session')
+		->setDescription(_('Unlock Session'))
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 	}
@@ -25,7 +25,7 @@ class Unlock extends Command {
 		if (!isset($_SESSION["AMP_user"])) {
 			$_SESSION["AMP_user"] = new $FreePBX->ampuser('fwconsole');
 			$_SESSION["AMP_user"]->setAdmin();
-			$output->writeln('Session Should be unlocked now');
+			$output->writeln(_('Session Should be unlocked now'));
 		}
 	}
 }

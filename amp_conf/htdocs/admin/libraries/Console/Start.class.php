@@ -14,21 +14,21 @@ use Symfony\Component\Console\Helper\ProgressBar;
 class Start extends Command {
 	protected function configure(){
 		$this->setName('start')
-			->setDescription('Start Asterisk and run other needed FreePBX commands')
+			->setDescription(_('Start Asterisk and run other needed FreePBX commands'))
 			->setDefinition(array(
 				new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output){
-		$output->writeln('Running FreePBX startup...');
+		$output->writeln(_('Running FreePBX startup...'));
 		$output->writeln('');
-		$output->writeln('Checking Asterisk Status...');
+		$output->writeln(_('Checking Asterisk Status...'));
 		$aststat = $this->asteriskProcess();
 		if($aststat[0]){
-			$output->writeln('Asterisk Seems to be running on PID: <info>'. $aststat[0] . '</info> and has been running for <info>' . $aststat[1]. '</info>');
-			$output->writeln('<info>Not running Pre-Asterisk Hooks.</info>');
+			$output->writeln(_('Asterisk Seems to be running on PID: ').'<info>'. $aststat[0] . '</info>'. _(' and has been running for ').'<info>' . $aststat[1]. '</info>');
+			$output->writeln('<info>'._('Not running Pre-Asterisk Hooks.').'</info>');
 		}else{
-			$output->writeln('Run Pre-Asterisk Hooks');
+			$output->writeln(_('Run Pre-Asterisk Hooks'));
 			$this->preAsteriskHooks($output);
 			$output->writeln('');
 			$this->startAsterisk($output);
@@ -43,9 +43,9 @@ class Start extends Command {
 			if($aststat[0]){
 				$progress->finish();
 				$output->writeln('');
-				$output->writeln('Asterisk Started on <info>' . $aststat[0] . '</info>');
+				$output->writeln(_('Asterisk Started on ').'<info>' . $aststat[0] . '</info>');
 				$output->writeln('');
-				$output->writeln('Running Post-Asterisk Scripts');
+				$output->writeln(_('Running Post-Asterisk Scripts'));
 				$this->postAsteriskHooks($output);
 			}
 		}
@@ -57,7 +57,7 @@ class Start extends Command {
 		return explode('|',$stat);
 	}
 	private function startAsterisk($output){
-		$output->writeln('Starting Asterisk...');
+		$output->writeln(_('Starting Asterisk...'));
 		$astbin = '/bin/env safe_asterisk > /dev/null 2>&1 &';
 		exec($astbin);
 	}

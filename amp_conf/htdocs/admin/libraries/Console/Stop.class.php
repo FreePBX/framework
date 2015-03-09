@@ -14,40 +14,40 @@ use Symfony\Component\Console\Helper\ProgressBar;
 class Stop extends Command {
 	protected function configure(){
 		$this->setName('stop')
-			->setDescription('Start Asterisk and run other needed FreePBX commands')
+			->setDescription(_('Stop Asterisk and run other needed FreePBX commands'))
 			->setDefinition(array(
-				new InputOption('immediate', 'i', InputOption::VALUE_NONE, 'Shutdown NOW rather than convieniently'),
+				new InputOption('immediate', 'i', InputOption::VALUE_NONE, _('Shutdown NOW rather than convieniently')),
 				new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output){
-		$output->writeln('Running FreePBX shutdown...');
+		$output->writeln(_('Running FreePBX shutdown...'));
 		$output->writeln('');
-		$output->writeln('Checking Asterisk Status...');
+		$output->writeln(_('Checking Asterisk Status...'));
 		$aststat = $this->asteriskProcess();
 		if(!$aststat[0]){
-			$output->writeln('Asterisk Seems to be NOT running</info>');
-			$output->writeln('<info>Not running Pre-Asterisk Shutdown Hooks.</info>');
+			$output->writeln(_('Asterisk Seems to be NOT running'));
+			$output->writeln('<info>'._('Not running Pre-Asterisk Shutdown Hooks.').'</info>');
 		}else{
-			$output->writeln('Run Pre-Asterisk Shutdown Hooks');
+			$output->writeln(_('Run Pre-Asterisk Shutdown Hooks'));
 			$this->preAsteriskHooks($output);
 			if($input->getOption('immediate')){
-				$output->writeln('Shutting down NOW...');
+				$output->writeln(_('Shutting down NOW...'));
 				$this->stopAsterisk($output, now);
 				$aststat = $this->asteriskProcess();
 				sleep(2);
 				while($i++ < 3){
 					if($aststat[0]){
-						$output->writeln('The immediate shutdown did not go as planned... Trying again...');
+						$output->writeln(_('The immediate shutdown did not go as planned... Trying again...'));
 						$this->stopAsterisk($output, now);
 						sleep(2);
 					}
 				}
 			}else{
 				$output->writeln('');
-				$output->writeln('Shutting down Asterisk Gracefully...');
-				$output->writeln('Press C to Cancel');
-				$output->writeln('Press N to shut down NOW');
+				$output->writeln(_('Shutting down Asterisk Gracefully...'));
+				$output->writeln(_('Press C to Cancel'));
+				$output->writeln(_('Press N to shut down NOW'));
 				$progress = new ProgressBar($output, 120);
 				$this->stopAsterisk($output, 'gracefully');
 				$progress->start();
@@ -63,7 +63,7 @@ class Stop extends Command {
 					if(!$aststat[0]){
 						$progress->finish();
 						$output->writeln('');
-						$output->writeln('Asterisk Stopped Successfuly');
+						$output->writeln(_('Asterisk Stopped Successfuly'));
 						$userov = True;
 						break;
 					} 
@@ -94,7 +94,7 @@ class Stop extends Command {
 				}
 				system("stty '" . $term[0] . "'");
 				if(!$userov){
-					$output->writeln('Grace timed out');
+					$output->writeln(_('Grace timed out'));
 					$this->stopAsterisk($output, 'now');
 				}
 			}
@@ -102,7 +102,7 @@ class Stop extends Command {
 			sleep(1);
 			if(!$aststat[0]){
 				$output->writeln('');
-				$output->writeln('Running Post-Asterisk Stop Scripts');
+				$output->writeln(_('Running Post-Asterisk Stop Scripts'));
 				$this->postAsteriskHooks($output);
 			}
 		}
@@ -114,7 +114,7 @@ class Stop extends Command {
 		return explode('|',$stat);
 	}
 	private function stopAsterisk($output, $method){
-		$output->writeln('Stopping Asterisk...');
+		$output->writeln(_('Stopping Asterisk...'));
 		$sastbin = '/bin/env killall safe_asterisk > /dev/null 2>&1';
 		$astbin = '/bin/env asterisk -rx "core stop ' . $method .'"';
 		exec($sastbin);
@@ -124,7 +124,7 @@ class Stop extends Command {
 		$freepbx = \FreePBX::Create();
 		$astman = $freepbx->astman;
 		if (is_object($astman) && $astman->Connected()) {
-			$output->writeln('Aborting Shutdown');
+			$output->writeln(_('Aborting Shutdown'));
 			$astman->send_request('Command',array('Command'=>'core abort shutdown'));
 		}
 	}

@@ -12,7 +12,7 @@ class Reload extends Command {
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->setName('reload')
 		->setAliases(array('r'))
-		->setDescription('Reload Configs')
+		->setDescription(_('Reload Configs'))
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 	}
@@ -21,7 +21,7 @@ class Reload extends Command {
 		$result = do_reload();
 		print_r($result);
 		if ($result['status'] != true) {
-			$output->writeln("Error(s) have occured, the following is the retrieve_conf output:");
+			$output->writeln(_("Error(s) have occured, the following is the retrieve_conf output:"));
 			$retrieve_array = explode('<br/>',$result['retrieve_conf']);
 			foreach ($retrieve_array as $line) {
 				$line = preg_replace('#<br\s*/?>#i','', $line);
