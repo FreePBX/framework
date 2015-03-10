@@ -31,16 +31,16 @@ class Ajax extends FreePBX_Helpers {
 	 */
 	public function doRequest($module = null, $command = null) {
 		if (!$module || !$command) {
-			throw new Exception("Module or Command were null. Check your code.");
+			throw new \Exception("Module or Command were null. Check your code.");
 		}
 
 		if (class_exists(ucfirst($module))) {
-			throw new Exception("The class $module already existed. Ajax MUST load it, for security reasons");
+			throw new \Exception("The class $module already existed. Ajax MUST load it, for security reasons");
 		}
 
 		// Is someone trying to be tricky with filenames?
 		if (strpos($module, ".") !== false) {
-			throw new Exception("Module requested invalid");
+			throw new \Exception("Module requested invalid");
 		}
 		// Is it the hardcoded Framework module?
 		if ($module == "framework") {

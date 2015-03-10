@@ -22,12 +22,12 @@ class ConfigFile {
 	 */
 	public function __construct($freepbx = null, $file = null) {
 		if ($freepbx == null) {
-			throw new Exception("Not given a FreePBX Object");
+			throw new \Exception("Not given a FreePBX Object");
 		}
 		$this->FreePBX = $freepbx;
 
 		if ($file == null) {
-			throw new Exception("Not given a file to manage");
+			throw new \Exception("Not given a file to manage");
 		}
 
 		$this->config = $this->FreePBX->LoadConfig($file);
@@ -49,7 +49,7 @@ class ConfigFile {
 			$myconfig = $this->config->ProcessedConfig;
 			unset($myconfig['HEADER']);
 			if (!empty($myconfig)) {
-				throw new Exception("Tried to add string '$entry' to ".$this->file.", but it has sections.");
+				throw new \Exception("Tried to add string '$entry' to ".$this->file.", but it has sections.");
 			}
 
 			$this->doAdd('HEADER', $section); // Not section. Entry.
@@ -60,7 +60,7 @@ class ConfigFile {
 				$this->doAdd($section, $row);
 			}
 		} else {
-			throw new Exception("Unimplemented");
+			throw new \Exception("Unimplemented");
 		}
 
 		$this->updateConfig();
@@ -77,11 +77,11 @@ class ConfigFile {
 
 		// Does the section exist? This is more of a 'The dev stuffed up' check.
 		if (!isset($this->config->ProcessedConfig[$section]))
-			throw new Exception("Tried to remove key $key from section $section, but that section doesn't exist");
+			throw new \Exception("Tried to remove key $key from section $section, but that section doesn't exist");
 
 		if (is_array($this->config->ProcessedConfig[$section][$key])) {
 			if ($val == null)
-				throw new Exception("Sorry, you can't delete an entire section this way, as it's likely a bug");
+				throw new \Exception("Sorry, you can't delete an entire section this way, as it's likely a bug");
 
 			// Ok, it's buried in here somewhere. Sigh.
 			foreach ($this->config->ProcessedConfig[$section][$key] as $id => $v) {
@@ -120,7 +120,7 @@ class ConfigFile {
 				$key = trim($out[1]);
 				$val = trim($out[2]);
 			} else {
-				throw new Exception("Can't add '$item' to the config. No Equals??");
+				throw new \Exception("Can't add '$item' to the config. No Equals??");
 			}
 		}
 

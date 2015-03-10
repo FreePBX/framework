@@ -35,7 +35,7 @@ class DB_Helper {
 
 	/** Don't new DB_Helper */
 	public function __construct() {
-		throw new Exception("You should never 'new' DB_Helper. Just use it as an 'extends'");
+		throw new \Exception("You should never 'new' DB_Helper. Just use it as an 'extends'");
 	}
 
 	/** This is our pseudo-__construct, called whenever our public functions are called. */
@@ -60,7 +60,7 @@ class DB_Helper {
 		// Check to make sure our Key/Value table exists.
 		try {
 			$res = self::$db->query("SELECT * FROM `".self::$dbname."` LIMIT 1");
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			if ($e->getCode() == "42S02") { // Table does not exist
 				self::$db->query($create);
 			} else {
@@ -125,7 +125,7 @@ class DB_Helper {
 	 */
 	public function getConfig($var = null, $id = "noid") {
 		if ($var === null) {
-			throw new Exception("Can't getConfig for null");
+			throw new \Exception("Can't getConfig for null");
 		}
 
 		// Call our pretend __construct
@@ -145,7 +145,7 @@ class DB_Helper {
 
 		try {
 			self::$dbGet->execute($query);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			self::checkException($e);
 		}
 		$res = self::$dbGet->fetchAll();
@@ -189,7 +189,7 @@ class DB_Helper {
 	public function setConfig($key = null, $val = false, $id = "noid") {
 
 		if ($key === null)
-			throw new Exception("Can't setConfig null");
+			throw new \Exception("Can't setConfig null");
 
 		// Our pretend __construct();
 		self::checkDatabase();
@@ -211,7 +211,7 @@ class DB_Helper {
 		// Delete any that previously match
 		try {
 			$res = self::$dbDel->execute($query);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			self::checkException($e);
 		}
 
@@ -253,7 +253,7 @@ class DB_Helper {
 	 */
 	public function setMultiConfig($keyval = false, $id = "noid") {
 		if (!is_array($keyval)) {
-			throw new Exception('setMultiConfig was not given an array');
+			throw new \Exception('setMultiConfig was not given an array');
 		}
 
 		self::$db->beginTransaction();
@@ -319,7 +319,7 @@ class DB_Helper {
 
 		try {
 			$ret = self::$dbDelMod->execute($query);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			self::checkException($e);
 		}
 		return $ret;
@@ -351,7 +351,7 @@ class DB_Helper {
 
 		try {
 			self::$dbGetAll->execute($query);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			self::checkException($e);
 		}
 		$ret = self::$dbGetAll->fetchAll(\PDO::FETCH_COLUMN, 0);
@@ -393,7 +393,7 @@ class DB_Helper {
 		self::checkDatabase();
 
 		if ($id === null) {
-			throw new Exception("Coder error. You can't delete a blank ID");
+			throw new \Exception("Coder error. You can't delete a blank ID");
 		}
 
 		if ($this->classOverride) {
@@ -407,7 +407,7 @@ class DB_Helper {
 		$query[':id'] = $id;
 		try {
 			self::$dbDelId->execute($query);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			self::checkException($e);
 		}
 	}
@@ -423,7 +423,7 @@ class DB_Helper {
 	public function getFirst($id = null) {
 
 		if ($id === null) {
-			throw new Exception("Coder error. getFirst requires an ID");
+			throw new \Exception("Coder error. getFirst requires an ID");
 		}
 
 		self::checkDatabase();
@@ -442,7 +442,7 @@ class DB_Helper {
 		$query[':id'] = $id;
 		try {
 			self::$dbGetFirst->execute($query);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			self::checkException($e);
 		}
 		$ret = self::$dbGetFirst->fetchAll(\PDO::FETCH_COLUMN, 0);
@@ -458,7 +458,7 @@ class DB_Helper {
 	public function getLast($id = null) {
 
 		if ($id === null) {
-			throw new Exception("Coder error. getFirst requires an ID");
+			throw new \Exception("Coder error. getFirst requires an ID");
 		}
 
 		self::checkDatabase();
@@ -477,7 +477,7 @@ class DB_Helper {
 		$query[':id'] = $id;
 		try {
 			self::$dbGetLast->execute($query);
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			self::checkException($e);
 		}
 		$ret = self::$dbGetLast->fetchAll(\PDO::FETCH_COLUMN, 0);

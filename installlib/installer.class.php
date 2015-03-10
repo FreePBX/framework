@@ -41,20 +41,20 @@ class Installer {
 	}
 
 	function asterisk_conf_read($filename) {
-		$file = file($filename);
-
-		foreach ($file as $line) {
-			if (preg_match("/^\s*([a-zA-Z0-9_]+)\s*(?:=>|=)\s*(.*)\s*([;#].*)?/", $line, $matches)) {
-				$conf[$matches[1]] = $matches[2];
-			}
+		if(!class_exists('FreePBX\LoadConfig')) {
+			include dirname(__DIR__)."/amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php";
 		}
+		$conf = new \FreePBX\LoadConfig("Fake FreePBX Object",basename($filename),dirname($filename));
 
-		return $conf;
+		return $conf->ProcessedConfig;
 	}
 
 	function asterisk_conf_write($filename, $conf) {
-		foreach ($conf as $key => $value) {
-			$file[] = $key . "=>" . $value;
+		foreach($conf as $section => $data) {
+			$file[] = "[".$section."]";
+			foreach ($data as $key => $value) {
+				$file[] = $key . "=" . $value;
+			}
 		}
 
 		file_put_contents($filename, implode("\n", $file) . "\n");

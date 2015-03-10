@@ -41,7 +41,7 @@ class Database extends \PDO {
 			$amp_conf = $args[0];
 			array_shift($args);
 		} else {
-			throw new Exception("FreePBX class does not exist, and no amp_conf found.");
+			throw new \Exception("FreePBX class does not exist, and no amp_conf found.");
 		}
 
 		//Isset, not empty and is a string that's the only valid DSN we will accept here
@@ -93,7 +93,7 @@ class Database extends \PDO {
 	 */
 	public function sql($sql = null, $type = "query", $fetchmode = \PDO::FETCH_BOTH) {
 		if (!$sql)
-			throw new Exception("No SQL Given to Database->sql()");
+			throw new \Exception("No SQL Given to Database->sql()");
 
 		switch ($type) {
 		case "query":
@@ -113,7 +113,7 @@ class Database extends \PDO {
 			$res = $this->sql_getRow($sql, $fetchmode);
 			break;
 		default:
-			throw new Exception("Unknown SQL query type of $type");
+			throw new \Exception("Unknown SQL query type of $type");
 		}
 
 		return $res;
@@ -171,7 +171,7 @@ class Database extends \PDO {
 	 */
 	public function getMessage() {
 		// There is a PDO call for this.. I think.
-		throw new Exception("getMessage was called on the DB Object");
+		throw new \Exception("getMessage was called on the DB Object");
 	}
 
 	/**
@@ -181,7 +181,7 @@ class Database extends \PDO {
 	 */
 	public function isError($result) {
 		// Should check that the $result is an object, and it's a PDOStatement object, I think.
-		throw new Exception("isError was called on the DB Object");
+		throw new \Exception("isError was called on the DB Object");
 	}
 
 	/**
@@ -203,7 +203,7 @@ class Database extends \PDO {
 	 */
 	public function getOne($sql = null) {
 		if ($sql === null)
-			throw new Exception("No SQL given to getOne");
+			throw new \Exception("No SQL given to getOne");
 
 		return $this->sql_getOne($sql);
 	}

@@ -47,7 +47,7 @@ class Cron {
 		if (posix_geteuid() != 0) {
 			$userArray = posix_getpwuid(posix_geteuid());
 			if ($userArray['name'] != $user)
-				throw new Exception("Trying to edit user $user, when I'm running as ".$userArray['name']);
+				throw new \Exception("Trying to edit user $user, when I'm running as ".$userArray['name']);
 		} else {
 			$this->uoption = "-u ".$this->user." ";
 		}
@@ -73,7 +73,7 @@ class Cron {
 	 */
 	public function checkLine($line = null) {
 		if ($line == null)
-			throw new Exception("Null handed to checkLine");
+			throw new \Exception("Null handed to checkLine");
 
 		$allLines = $this->getAll();
 		return in_array($line, $allLines);
@@ -96,7 +96,7 @@ class Cron {
 				return true;
 			// It didn't stick. WTF? Put our original one back.
 			$this->installCrontab($backup);
-			throw new Exception("Cron line added didn't remain in crontab on final check");
+			throw new \Exception("Cron line added didn't remain in crontab on final check");
 		} else {
 			// It was already there.
 			return true;
@@ -153,7 +153,7 @@ class Cron {
 		// Takes either an array, or a series of params
 		$args = func_get_args();
 		if (!isset($args[0]))
-			throw new Exception("add takes at least one parameter");
+			throw new \Exception("add takes at least one parameter");
 
 		if (is_array($args[0])) {
 			$addArray[] = $args[0];
@@ -167,7 +167,7 @@ class Cron {
 				continue;
 			} else if (is_array($add)) {
 				if (!isset($add['command']))
-					throw new Exception("No command to execute by cron");
+					throw new \Exception("No command to execute by cron");
 
 				if (isset($add['magic'])) {
 					$newline = $add['magic']." ";
@@ -183,7 +183,7 @@ class Cron {
 					$newline = implode(" ", $cronEntry);
 				}
 				if ($newline == "* * * * *")
-					throw new Exception("Can't add * * * * * programatically. Add it as a line. Probably a bug");
+					throw new \Exception("Can't add * * * * * programatically. Add it as a line. Probably a bug");
 
 				$newline .= " ".$add['command'];
 				$this->addLine($newline);
@@ -230,7 +230,7 @@ class Cron {
 		$fds = array( array('pipe', 'r'), array('pipe', 'w'), array('file', '/tmp/cron.error', 'a') );
 		$rsc = proc_open('/usr/bin/crontab '.$this->uoption.' -', $fds, $pipes);
 		if (!is_resource($rsc))
-			throw new Exception("Unable to run crontab");
+			throw new \Exception("Unable to run crontab");
 
 		fwrite($pipes[0], join("\n", $arr)."\n");
 		fclose($pipes[0]);

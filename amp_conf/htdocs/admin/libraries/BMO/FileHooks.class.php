@@ -11,7 +11,7 @@ class FileHooks {
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {
-			throw new Exception("Need to be instantiated with a FreePBX Object");
+			throw new \Exception("Need to be instantiated with a FreePBX Object");
 		}
 
 		$this->FreePBX = $freepbx;
@@ -19,7 +19,7 @@ class FileHooks {
 
 	public function processFileHooks($active_modules = null) {
 		if ($active_modules == null)
-			throw new Exception("BMO Doesn't know about modules yet. It needs to be told about them");
+			throw new \Exception("BMO Doesn't know about modules yet. It needs to be told about them");
 
 		$this->processOldHooks($active_modules);
 
@@ -84,7 +84,7 @@ class FileHooks {
 			// This is where we'd hook the output of files, if it was implemented.
 			// As no-one wants it yet, I'm not going to bother.
 			if (!method_exists($this->FreePBX->$hook, "genConfig")) {
-				throw new Exception("$hook asked to generate a config file, but, doesn't implement genConfig()");
+				throw new \Exception("$hook asked to generate a config file, but, doesn't implement genConfig()");
 			}
 			$tmpconf = $this->FreePBX->$hook->genConfig();
 
@@ -92,7 +92,7 @@ class FileHooks {
 			// with it.
 
 			if (!method_exists($this->FreePBX->$hook, "writeConfig")) {
-				throw new Exception("$hook asked to generate a config file, but, doesn't implement writeConfig()");
+				throw new \Exception("$hook asked to generate a config file, but, doesn't implement writeConfig()");
 			}
 
 			$this->FreePBX->$hook->writeConfig($tmpconf);

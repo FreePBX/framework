@@ -266,7 +266,7 @@ class FreePBXInstallCommand extends Command {
 		// Make sure SELinux is disabled
 		exec("getenforce 2>/dev/null", $tmpout, $ret);
 		if (isset($tmpout[0]) && ($tmpout[0] === "Enabled" || $tmpout[0] === "Enforcing")) {
-			$output->writeln("SELinux is enabled.  Please disable SELinux before installing FreePBX.");
+			$output->writeln("<error>SELinux is enabled.  Please disable SELinux before installing FreePBX.</error>");
 			exit(1);
 		}
 		unset($tmpout);
@@ -289,7 +289,7 @@ class FreePBXInstallCommand extends Command {
 			}
 
 			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'];
-			$db = new \DB(new \Database($dsn, $answers['dbuser'], $answers['dbpass']));
+			$db = new \DB(new \FreePBX\Database($dsn, $answers['dbuser'], $answers['dbpass']));
 
 			if($dbroot) {
 				if($force) {

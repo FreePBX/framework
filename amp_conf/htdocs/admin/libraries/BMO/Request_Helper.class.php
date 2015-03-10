@@ -97,7 +97,7 @@ class Request_Helper extends Self_Helper {
 	 */
 	public function getReqUnsafe($var = null, $def = true) {
 		if (!$var) {
-			throw new Exception("Wasn't given anything to get from REQUEST.");
+			throw new \Exception("Wasn't given anything to get from REQUEST.");
 		}
 
 		// Do we have an override?
@@ -155,7 +155,7 @@ class Request_Helper extends Self_Helper {
 	public function getReq($var = null, $def = true) {
 		$ret = $this->getReqUnsafe($var, $def);
 		if (is_array($ret)) {
-			throw new Exception("No-one's written anything to safe an array. Get on it!");
+			throw new \Exception("No-one's written anything to safe an array. Get on it!");
 		}
 
 		// Unicode attack mitigation:
@@ -194,7 +194,7 @@ class Request_Helper extends Self_Helper {
 	 */
 	public function setReq($var = null, $val = null) {
 		if ($var === null) {
-			throw new Exception("Don't know what you want me to update");
+			throw new \Exception("Don't know what you want me to update");
 		}
 
 		if ($val === null) {

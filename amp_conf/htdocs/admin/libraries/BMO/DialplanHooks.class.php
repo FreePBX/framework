@@ -11,14 +11,14 @@ class DialplanHooks {
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null)
-			throw new Exception("Need to be instantiated with a FreePBX Object");
+			throw new \Exception("Need to be instantiated with a FreePBX Object");
 
 		$this->FreePBX = $freepbx;
 	}
 
 	public function getAllHooks($active_modules = null) {
 		if ($active_modules == null)
-			throw new Exception("Don't know about modules yet. It needs to be handed to me");
+			throw new \Exception("Don't know about modules yet. It needs to be handed to me");
 
 		// Note that OldHooks and NewHooks return a COMPLETELY DIFFERENT structure.
 		$oldHooks = $this->getOldHooks($active_modules);
@@ -28,7 +28,7 @@ class DialplanHooks {
 		foreach ($newHooks as $module => $priority) {
 			// Note that a module may want to hook in several times, so priority may be an array.
 			if (is_array($priority))
-				throw new Exception("Multiple hooks unimplemented");
+				throw new \Exception("Multiple hooks unimplemented");
 
 			// If the module is returning 'false', then it doesn't want to hook the dialplan.
 			if ($priority === false)
@@ -40,7 +40,7 @@ class DialplanHooks {
 				$priority = 500;
 
 			if (!is_numeric($priority))
-				throw new Exception("Priority needs to be either 'true', 'false' or a number");
+				throw new \Exception("Priority needs to be either 'true', 'false' or a number");
 
 			$oldHooks[$priority][] = array("Class" => $module);
 		}
@@ -55,7 +55,7 @@ class DialplanHooks {
 		global $ext;
 
 		if ($hooks == null)
-			throw new Exception("I wasn't given any modules to hook. Bug.");
+			throw new \Exception("I wasn't given any modules to hook. Bug.");
 
 		// The array should already be sorted before it's given to us. Don't
 		// sort again. Just run through it!
@@ -90,13 +90,13 @@ class DialplanHooks {
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_start");
 						$this->FreePBX->$class->doDialplanHook($ext, $engine, $pri);
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
-					} catch (Exception $e) {
+					} catch (\Exception $e) {
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
 						print "HANDLED-ERROR: Tried to run ${class}->doDialplanHook(), it threw an exception. I received ".$e->getMessage()."\nContinuing. This is a bug\n";
 					}
 				} else {
 					// I have no idea what this is.
-					throw new Exception("I was handed ".json_encode($cmd)." to hook. Don't know how to handle it");
+					throw new \Exception("I was handed ".json_encode($cmd)." to hook. Don't know how to handle it");
 				}
 			}
 		}
@@ -107,7 +107,7 @@ class DialplanHooks {
 
 		// Check to make sure we actually were given modules.
 		if(!is_array($active_modules))
-			throw new Exception("I'm unaware what I was given as $active_modules");
+			throw new \Exception("I'm unaware what I was given as $active_modules");
 
 		// Loop through all our modules
 		$hooksDiscovered = array();
