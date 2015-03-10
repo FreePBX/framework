@@ -195,11 +195,13 @@ class FreePBXInstallCommand extends Command {
 
 		// Copy asterisk.conf
 		if (!file_exists(ASTERISK_CONF)) {
-			$asterisk_conf = $installer->asterisk_conf_read($this->rootPath . "/asterisk.conf");
-			$asterisk_conf['astmoddir'] = file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules';
-			$installer->asterisk_conf_write(ASTERISK_CONF, $asterisk_conf);
+			$aconf = $installer->asterisk_conf_read($this->rootPath . "/asterisk.conf");
+			$aconf['directories']['astmoddir'] = file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules';
+			$installer->asterisk_conf_write(ASTERISK_CONF, $aconf);
+			$asterisk_conf = $aconf['directories'];
 		} else {
-			$asterisk_conf = $installer->asterisk_conf_read(ASTERISK_CONF);
+			$aconf = $installer->asterisk_conf_read(ASTERISK_CONF);
+			$asterisk_conf = $aconf['directories'];
 
 			$asterisk_defaults_conf = array(
 				'astetcdir' => '/etc/asterisk',
