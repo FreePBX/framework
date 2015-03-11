@@ -79,10 +79,13 @@ class FreePBXInstallCommand extends Command {
 		$style = new OutputFormatterStyle('white', 'black', array('bold'));
 		$output->getFormatter()->setStyle('bold', $style);
 
+		//STATIC???
 		define("AMP_CONF", "/etc/amportal.conf");
 		define("ODBC_INI", "/etc/odbc.ini");
 		define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
 		define("FREEPBX_CONF", "/etc/freepbx.conf");
+		define("FILES_DIR",$this->rootPath."/installlib/files");
+		define("SQL_DIR", $this->rootPath."/installlib/SQL");
 		define("MODULE_DIR", $this->rootPath."/amp_conf/htdocs/admin/modules");
 		define("UPGRADE_DIR", $this->rootPath . "/upgrades");
 
@@ -125,7 +128,7 @@ class FreePBXInstallCommand extends Command {
 		// Copy default amportal.conf
 		if (!file_exists(AMP_CONF) || $force) {
 			$newinstall = true;
-			$amp_conf = $installer->amportal_conf_read($this->rootPath . "/amportal.conf");
+			$amp_conf = $installer->amportal_conf_read(FILES_DIR . "/amportal.conf");
 
 			require_once('amp_conf/htdocs/admin/functions.inc.php');
 		} else {
@@ -187,7 +190,7 @@ class FreePBXInstallCommand extends Command {
 		}
 
 		if(!file_exists(ODBC_INI)) {
-			copy($this->rootPath . "/odbc.ini", ODBC_INI);
+			copy(FILES_DIR . "/odbc.ini", ODBC_INI);
 		}
 
 		// ... and then write amportal.conf?
@@ -195,7 +198,7 @@ class FreePBXInstallCommand extends Command {
 
 		// Copy asterisk.conf
 		if (!file_exists(ASTERISK_CONF)) {
-			$aconf = $installer->asterisk_conf_read($this->rootPath . "/asterisk.conf");
+			$aconf = $installer->asterisk_conf_read(FILES_DIR . "/asterisk.conf");
 			$aconf['directories']['astmoddir'] = file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules';
 			$installer->asterisk_conf_write(ASTERISK_CONF, $aconf);
 			$asterisk_conf = $aconf['directories'];
@@ -305,7 +308,7 @@ class FreePBXInstallCommand extends Command {
 			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['AMPDBNAME']."';";
 			if (!$db->getOne($sql)) {
 				$output->writeln("Empty " . $amp_conf['AMPDBNAME'] . " Database going to populate it");
-				$installer->install_sql_file($this->rootPath . '/SQL/asterisk.sql');
+				$installer->install_sql_file(SQL_DIR . '/asterisk.sql');
 			}
 
 			if($dbroot) {
@@ -320,7 +323,7 @@ class FreePBXInstallCommand extends Command {
 			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['CDRDBNAME']."';";
 			if (!$db->getOne($sql)) {
 				$output->writeln("Empty " . $amp_conf['CDRDBNAME'] . " Databse going to populate it");
-				$installer->install_sql_file($this->rootPath . '/SQL/cdr.sql');
+				$installer->install_sql_file(SQL_DIR . '/cdr.sql');
 			}
 
 			$db->query("USE ".$amp_conf['AMPDBNAME']);
