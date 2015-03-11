@@ -456,10 +456,6 @@ class FreePBXInstallCommand extends Command {
 		}
 		$output->writeln("Done!");
 
-		//run this here so that we make sure everything is square for asterisk
-		$output->writeln("Setting Permissions...");
-		passthru("fwconsole chown");
-
 		// Set User/Group settings
 		//	AMPASTERISKWEBGROUP
 		//	AMPASTERISKWEBUSER
@@ -542,6 +538,10 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			}
 			$output->writeln("Done");
 		}
+
+		//run this here so that we make sure everything is square for asterisk
+		$output->writeln("Setting Permissions...");
+		passthru("fwconsole chown");
 
 		if (!$answers['dev-links']) {
 			// install_modules()

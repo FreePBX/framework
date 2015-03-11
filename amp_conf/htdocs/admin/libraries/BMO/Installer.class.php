@@ -29,7 +29,8 @@ class Installer {
 		// Asterisk Directories
 		$this->agidir = \FreePBX::Config()->get('ASTAGIDIR');
 		$this->varlibdir = \FreePBX::Config()->get('ASTVARLIBDIR');
-		$this->mohdir = $this->varlibdir . "/" . \FreePBX::Config()->get('ASTVARLIBDIR');
+		$moh = \FreePBX::Config()->get('MOHDIR');
+		$this->mohdir = $this->varlibdir . "/" . (!empty($moh) ? $moh : "moh");
 		$this->etcdir = \FreePBX::Config()->get('ASTETCDIR');
 		$this->logdir = \FreePBX::Config()->get('ASTLOGDIR');
 		$this->moddir = \FreePBX::Config()->get('ASTMODDIR');

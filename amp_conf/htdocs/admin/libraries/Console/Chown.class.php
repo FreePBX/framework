@@ -154,6 +154,7 @@ class Chown extends Command {
 						break;
 					case 'execdir':
 						$files = $this->recursiveDirList($file['path']);
+						$this->actions[] = array($file['path'], $owner, $group, $file['perms']);
 						foreach($files as $f){
 							$this->actions[] = array($f, $owner, $group, $file['perms']);
 						}
