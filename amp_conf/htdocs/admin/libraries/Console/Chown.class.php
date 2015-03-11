@@ -166,6 +166,7 @@ class Chown extends Command {
 		$output->writeln($actioncount . _(" Actions queued"));
 		$output->writeln("");
 		$progress = new ProgressBar($output, $actioncount);
+		$progress->setRedrawFrequency(100);
 		$progress->start();
 		foreach($this->actions as $action){
 			$this->singleChown($action[0],$action[1],$action[2]);
