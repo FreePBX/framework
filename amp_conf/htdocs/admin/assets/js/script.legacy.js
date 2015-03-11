@@ -1623,6 +1623,7 @@ $(document).ready(function(){
 		$(this).wrap('<div class="input-group"></div>');
 		$(this).after('<span class="input-group-addon" id="basic-addon-'+curid+'">'+curl+'/'+maxl+'</span>');
 	});
+	$('textarea.autosize').autosize();
 });
 $(".maxlen").keyup(function(){
 		var curid = $(this).attr('id');

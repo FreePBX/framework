@@ -989,8 +989,7 @@ class gui_textarea extends guiinput {
 		$rows = (($rows > 20) ? 20 : $rows);
 		$rows++;
 
-		$this->html_input = "<textarea rows=\"$rows\" name=\"$this->_elemname\" class=\"form-control ".$class."\" id=\"$this->_elemname\" $maxlength $disable_state>" . htmlentities($this->currentvalue) . "</textarea>";
-		$this->html_input .= '<script>$(function() {$("#' . $this->_elemname . '").autosize();});</script>';
+		$this->html_input = "<textarea rows=\"$rows\" name=\"$this->_elemname\" class=\"form-control autosize ".$class."\" id=\"$this->_elemname\" $maxlength $disable_state>" . htmlentities($this->currentvalue) . "</textarea>";
 		$this->type = "textarea";
 	}
 }
