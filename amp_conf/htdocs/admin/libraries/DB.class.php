@@ -210,19 +210,33 @@ class DB {
 			$final = array();
 			switch($fetch) {
 				case \PDO::FETCH_NUM:
+				if(!$force_array) {
 					foreach($result as $data) {
-						if(count($data) > 2) {
+						if(count($data) >= 2) {
 							$k = array_shift($data);
 							$v = array_values($data);
-							$final[$k] = $v;
-						} elseif(count($data) == 2) {
-							$k = array_shift($data);
-							$v = array_values($data);
-							$final[$k] = $v;
+							if(!$group) {
+								$final[$k] = $v[0];
+							} else {
+								$final = $v;
+							}
 						} else {
 							return false;
 						}
 					}
+				} elseif($force_array && count($result[0]) == 2) {
+					foreach($result as $data) {
+						$k = array_shift($data);
+						$v = array_values($data);
+						if(!$group) {
+							$final[$k] = $v;
+						} else {
+							foreach($v as $v1) {
+								$final[] = $v1;
+							}
+						}
+					}
+				}
 				break;
 				default:
 					throw new \Exception("Unsupported getAssoc Conversion mode");
@@ -356,6 +370,18 @@ class DB {
 	}
 
 	private function isFetchMode($mixed) {
+		/*TODO Implement for Rob
+		switch($mixed) {
+			case DB_FETCHMODE_DEFAULT:
+			case DB_FETCHMODE_OBJECT:
+			case DB_FETCHMODE_ASSOC:
+			case DB_FETCHMODE_ORDERED:
+				return true;
+			default:
+				throw new Exception("Invalid Fetch Mode!");
+			break;
+		}
+		*/
 		return (is_int($mixed) && ($mixed == DB_FETCHMODE_DEFAULT || $mixed == DB_FETCHMODE_OBJECT || $mixed == DB_FETCHMODE_ASSOC || $mixed == DB_FETCHMODE_ORDERED));
 	}
 

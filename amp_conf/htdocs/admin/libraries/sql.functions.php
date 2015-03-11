@@ -18,7 +18,7 @@ function sql($sql,$type="query",$fetchmode='default') {
 				//that didn't even work correctly! sweet :-/
 				//(The integer shouldnt go there)
 				if($type == 'getAssoc') {
-					$results = $db->$type($sql,DB_FETCHMODE_ASSOC);
+					$results = $db->$type($sql,true);
 				} else {
 					$results = $db->$type($sql,array(),DB_FETCHMODE_ASSOC);
 				}
