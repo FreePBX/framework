@@ -30,11 +30,6 @@
  * $bootstrap_settings['function_modules_included'] = true/false true if one or more were included, false if all were skipped;
  */
 
-// This is used with BMO.
-if (isset($bootstrap_settings['returnimmediately'])) {
-	return;
-}
-
 $mt = microtime();
 // we should never re-run this file, something is wrong if we do.
 //
@@ -50,7 +45,6 @@ if (empty($amp_conf['AMPWEBROOT'])) {
 	$amp_conf['AMPWEBROOT'] = dirname(dirname(__FILE__));
 }
 $dirname = $amp_conf['AMPWEBROOT'] . '/admin';
-
 
 if (isset($bootstrap_settings['bootstrapped'])) {
   freepbx_log(FPBX_LOG_ERROR,"Bootstrap has already been called once, bad code somewhere");
@@ -73,6 +67,8 @@ $bootstrap_settings['cdrdb'] = isset($bootstrap_settings['cdrdb']) ? $bootstrap_
 $restrict_mods = isset($restrict_mods) ? $restrict_mods : false;
 
 // include base functions
+// Adding _once here cause im scurred. Rob I'm scurred.
+include_once $dirname .'/libraries/Symfony/vendor/autoload.php';
 require_once($dirname . '/libraries/compress.class.php');
 require_once($dirname . '/libraries/core_collator.php');
 require_once($dirname . '/libraries/utility.functions.php');

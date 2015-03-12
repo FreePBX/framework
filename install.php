@@ -46,13 +46,14 @@ if (!function_exists('version_compare_freepbx')) {
 /* This is here to catch some errors in an 11->12 upgrade, specifically
  * with dashboard changes. These used to be part of dashboard, but have
  * been moved to framework. As dashboard was never REMOVED, the symlinks
- * were never removed either. We'll just sneak them in now. */
+ * were never removed either. We'll just sneak them in now.
+ */
 $wr = $amp_conf['AMPWEBROOT'];
 if (is_link("$wr/admin/images/notify_critical.png")) {
-       unlink("$wr/admin/images/notify_critical.png");
+	unlink("$wr/admin/images/notify_critical.png");
 }
 if (is_link("$wr/admin/images/notify_security.png")) {
-       unlink("$wr/admin/images/notify_security.png");
+	unlink("$wr/admin/images/notify_security.png");
 }
 
 /*
@@ -65,9 +66,9 @@ if (is_link("$wr/admin/images/notify_security.png")) {
 	$agibin_source = $base_source . "/agi-bin/*";
 
 	if (!file_exists(dirname($htdocs_source))) {
-    out(sprintf(_("No directory %s, install script not needed"),dirname($htdocs_source)));
-    return true;
-  }
+		out(sprintf(_("No directory %s, install script not needed"),dirname($htdocs_source)));
+		return true;
+	}
 
 	// These are required by libfreepbx.install.php library for upgrade routines
 	//
@@ -111,18 +112,18 @@ if (is_link("$wr/admin/images/notify_security.png")) {
 		out(_("done"));
 	}
 
-  /*TODO: (Requirment for #4733)
-   *
-   * 1. Update publish.pl to grab a copy of amportal and put it somehwere.
-   * 2. If we have access to do an md5sum on AMPSBIN/amportal do it and
-   *    compare to the local copy.
-   * 3. If the md5sum is different or we couldn't check, put amportal in AMPBIN
-   * 4. If we decided they need a new one, then write out a message that they
-   *    should run amportal to update it.
-   */
+	/*TODO: (Requirment for #4733)
+	 *
+	 * 1. Update publish.pl to grab a copy of amportal and put it somehwere.
+	 * 2. If we have access to do an md5sum on AMPSBIN/amportal do it and
+	 *    compare to the local copy.
+	 * 3. If the md5sum is different or we couldn't check, put amportal in AMPBIN
+	 * 4. If we decided they need a new one, then write out a message that they
+	 *    should run amportal to update it.
+	 */
 
-	require_once('installlib/installer.class.php');
-	$installer = new \Installer();
+	require_once(__DIR__.'/installlib/installer.class.php');
+	$installer = new \FreePBX\Install\Installer();
 	$installer->install_upgrades(getversion());
 	// We run this each time so that we can add settings if need be
 	// without requiring a major version bump
@@ -173,11 +174,7 @@ if (is_link("$wr/admin/images/notify_security.png")) {
 	//setversion to whatever is in framework.xml forever for here on out.
 	$fwver = (string)$fwxml->version;
 	if(!empty($fwver)) {
-		if(!function_exists('setversion')) {
-			die('Cant find function setversion');
-			return false;
-		}
-	$install->set_version($fwver);
+		$install->set_version($fwver);
 		if($install->get_version() != $fwver) {
 			out(_('Internal Error. Function install_getversion did not match the Framework version, even after it was suppose to be applied'));
 			return false;

@@ -10,7 +10,6 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 }
 $webrootpath = (isset($amp_conf['AMPWEBROOT']) && !empty($amp_conf['AMPWEBROOT'])) ?  $amp_conf['AMPWEBROOT'] : '/var/www/html';
 
-include $webrootpath .'/admin/libraries/Symfony/vendor/autoload.php';
 include $webrootpath .'/admin/libraries/FWApplication.class.php';
 include $webrootpath .'/admin/libraries/FWHelper.class.php';
 include $webrootpath .'/admin/libraries/FWList.class.php';
