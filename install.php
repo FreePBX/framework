@@ -174,8 +174,8 @@ if (is_link("$wr/admin/images/notify_security.png")) {
 	//setversion to whatever is in framework.xml forever for here on out.
 	$fwver = (string)$fwxml->version;
 	if(!empty($fwver)) {
-		$install->set_version($fwver);
-		if($install->get_version() != $fwver) {
+		$installer->set_version($fwver);
+		if($installer->get_version() != $fwver) {
 			out(_('Internal Error. Function install_getversion did not match the Framework version, even after it was suppose to be applied'));
 			return false;
 		}
