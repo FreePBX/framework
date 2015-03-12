@@ -203,3 +203,8 @@ if (is_link("$wr/admin/images/notify_security.png")) {
 	}
 
 	exec($amp_conf['AMPBIN'] . '/retrieve_conf 2>&1', $ret);
+
+//need to invalidate module_xml at this point
+if(function_exists("sql")) {
+	sql("DELETE FROM module_xml WHERE id = 'modules'");
+}
