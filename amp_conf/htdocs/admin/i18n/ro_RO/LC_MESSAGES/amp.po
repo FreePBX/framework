@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-11 16:05-0400\n"
+"POT-Creation-Date: 2015-03-12 16:21-0400\n"
 "PO-Revision-Date: 2014-09-11 02:13+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Romanian <http://git.freepbx.org/projects/freepbx/framework/"
@@ -285,7 +285,7 @@ msgstr ""
 msgid "%s Upgrade Available (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2875
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2885
 #, php-format
 msgid "%s [not enabled]"
 msgstr ""
@@ -1471,13 +1471,13 @@ msgstr "Anuleaza"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "Nu se poate conecta la Asterisk Manager cu "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1985
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1995
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "Nu se poate sterge directorul %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1875
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1907
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1885
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1917
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr "Nu se poate dezactiva: Urmatoarele module depind de acesta:"
 
@@ -1485,7 +1485,7 @@ msgstr "Nu se poate dezactiva: Urmatoarele module depind de acesta:"
 msgid "Cannot find module"
 msgstr "Modulul nu a fost gasit"
 
-#: install.php:165
+#: install.php:166
 msgid "Cant Find Framework XML"
 msgstr ""
 
@@ -1903,7 +1903,7 @@ msgstr ""
 msgid "Critical"
 msgstr "Critic"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2882
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2892
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
@@ -3008,7 +3008,7 @@ msgstr ""
 msgid "Error creating temporary directory: %s"
 msgstr "Eroare la crearea directorului temporar: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1992
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2002
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "Eroare la stergerea directorului %s (cod %d)"
@@ -3047,7 +3047,7 @@ msgstr ""
 msgid "Error updating database. Command was: %s; error was: %s "
 msgstr "Eroare la actualizarea bazei de date. Comanda a fost: %s, eroarea: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1930
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1940
 msgid "Error updating database: "
 msgstr "Eroare la actualizarea bazei de date:"
 
@@ -3245,12 +3245,12 @@ msgstr ""
 msgid "Failed to Remove directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2769
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2779
 #, php-format
 msgid "Failed to get remote file, error was:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2781
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2791
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:511
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -3281,7 +3281,7 @@ msgstr ""
 msgid "Failed to run installation scripts"
 msgstr "Rularea scriptului de instalare a esuat"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1934
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1944
 msgid "Failed to run un-installation scripts"
 msgstr "Eroare la executarea scriptului de dezinstalare"
 
@@ -3451,7 +3451,7 @@ msgstr ""
 msgid "Force rport - (force_rport)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2793
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2803
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:523
 #, php-format
 msgid "Forced %s to true"
@@ -4126,7 +4126,7 @@ msgid ""
 "even after it was suppose to be applied"
 msgstr ""
 
-#: install.php:182
+#: install.php:179
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -4490,17 +4490,17 @@ msgstr "Modul"
 msgid "Module "
 msgstr "Modulul "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2862
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2872
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2884
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2894
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2877
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2887
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr ""
@@ -4566,11 +4566,11 @@ msgstr ""
 msgid "Module is Unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1871
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1881
 msgid "Module not enabled: cannot disable"
 msgstr "Modulul nu este activ: nu de poate dezactiva"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1903
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1913
 msgid "Module not installed: cannot uninstall"
 msgstr "Modul neinstalat: nu se poate dezinstala"
 
@@ -4583,19 +4583,19 @@ msgstr ""
 "Modul incarcat cu succes. trebuie sa activati modulul utilizand %s pentru a-"
 "l face disponibil."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2898
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2908
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2892
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2902
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2890
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2900
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -4771,7 +4771,7 @@ msgstr "Nici o operatiune in derulare"
 msgid "No description is available."
 msgstr "Nici o descriere disponibila."
 
-#: install.php:68
+#: install.php:69
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr ""
@@ -6190,7 +6190,7 @@ msgid ""
 "problem but these can be set if a more strict behavior is desired."
 msgstr ""
 
-#: install.php:203
+#: install.php:200
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr ""
@@ -6349,9 +6349,9 @@ msgid ""
 "the right of the values if not set at default."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1866
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1898
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1971
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1876
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1908
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1981
 msgid "Specified module not found"
 msgstr "Modulul specificat nu a fost gasit"
 
@@ -6658,11 +6658,11 @@ msgstr "Urmatoarele erori au aparut la procesarea fisierului incarcat: %s"
 msgid "The following error(s) occurred:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2427
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2437
 msgid "The following modules are disabled because they are broken:"
 msgstr "Urmatoarele module sunt dezactivate deoarece sunt corupte:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2419
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2429
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "Urmatoarele module au fost dezactivate deoarece necesita upgrade:"
 
@@ -6810,7 +6810,7 @@ msgstr ""
 "continuati daca nu intentionati sa executati aceasta comanda care va avea ca "
 "rezultat schimbarea configuratiilor."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2794
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2804
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:524
 #, php-format
 msgid ""
@@ -7619,7 +7619,7 @@ msgstr ""
 msgid "Version"
 msgstr "Versiune"
 
-#: install.php:186
+#: install.php:183
 msgid "Version from Framework was empty, cant continue"
 msgstr ""
 
@@ -8024,26 +8024,26 @@ msgstr ""
 "sistemului dumneavoastra.Daca exista deja un modul cu acelasi nume, va fi "
 "suprascris."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2913
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2923
 #, php-format
 msgid "You have %s %s %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2426
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2436
 #, php-format
 msgid "You have %s broken modules"
 msgstr "Aveti %s module corupte"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2418
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2428
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "Urmatoarele %s module sunt dezactivate"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2426
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2436
 msgid "You have a broken module"
 msgstr "Aveti un modul corupt"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2418
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2428
 msgid "You have a disabled module"
 msgstr "Aveti un modul dezactivat"
 
@@ -8147,8 +8147,8 @@ msgstr "Trebuie sa introduceti o extensie (sau utilizator)"
 msgid "You should fix the problem or select another file and %s."
 msgstr "Trebuie sa rezolvati problema sau sa selectati un alt fisier si %s."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2420
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2428
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2430
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2438
 msgid "You should go to the module admin page to fix these."
 msgstr ""
 "Trebuie sa accesati pagina de administrare a modulelor pentru a repara "
@@ -8267,11 +8267,11 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:165
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2845
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2855
 msgid "altered"
 msgstr ""
 
-#: install.php:145
+#: install.php:146
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr ""
@@ -8416,7 +8416,7 @@ msgstr ""
 msgid "deleting obsoleted record_in and record_out entries.."
 msgstr ""
 
-#: install.php:90 install.php:101 install.php:111
+#: install.php:91 install.php:102 install.php:112
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:494
 #: ../core/install.php:881 ../core/install.php:967
 msgid "done"
@@ -8427,7 +8427,7 @@ msgstr "realizat"
 msgid "done! Reload FreePBX to update all Custom Context settings."
 msgstr ""
 
-#: install.php:88 install.php:99 install.php:109
+#: install.php:89 install.php:100 install.php:110
 msgid "done, see errors below"
 msgstr ""
 
@@ -8498,8 +8498,8 @@ msgstr ""
 msgid "failed to delete %s from cache directory after opening module archive."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2166
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2172
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2176
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2182
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr ""
@@ -8532,12 +8532,12 @@ msgstr ""
 msgid "fatal error updating freepbx_settings table"
 msgstr ""
 
-#: install.php:147
+#: install.php:148
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2909
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2919
 msgid "files"
 msgstr ""
 
@@ -8546,7 +8546,7 @@ msgstr ""
 msgid "framework couldn't copy file to %s"
 msgstr ""
 
-#: install.php:135
+#: install.php:136
 msgid "framework file install done, removing packages from module"
 msgstr ""
 
@@ -8583,7 +8583,7 @@ msgstr ""
 msgid "insert"
 msgstr ""
 
-#: install.php:81
+#: install.php:82
 #, php-format
 msgid "installing files to %s.."
 msgstr ""
@@ -8748,7 +8748,7 @@ msgstr ""
 msgid "module.sig check failed! %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2911
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2921
 msgid "modules"
 msgstr ""
 
