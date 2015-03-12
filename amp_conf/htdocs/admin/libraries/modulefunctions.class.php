@@ -1850,6 +1850,16 @@ class module_functions {
 		$this->upgrade_notifications($new_modules, 'PASSIVE');
 		needreload();
 		FreePBX::Config()->update("SIGNATURECHECK", true);
+
+		//Generate LESS on install
+		//http://issues.freepbx.org/browse/FREEPBX-8287
+		try {
+			if($modulename == 'framework') {
+				FreePBX::Less()->generateMainStyles();
+			} else {
+				FreePBX::Less()->generateModuleStyles($modulename);
+			}
+		}catch(\Exception $e) {}
 		return true;
 	}
 
