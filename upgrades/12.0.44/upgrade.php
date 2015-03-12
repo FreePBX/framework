@@ -3,12 +3,6 @@ global $amp_conf;
 include_once  $amp_conf['AMPWEBROOT'].'/admin/libraries/freepbx_conf.class.php';
 $c = freepbx_conf::create();
 
-$c->remove_conf_settings('PROXY_ENABLED');
-$c->remove_conf_settings('PROXY_ADDRESS');
-$c->remove_conf_settings('PROXY_USERNAME');
-$c->remove_conf_settings('PROXY_PASSWORD');
-$c->commit_conf_settings();
-
 // Ensure that our Proxy Settings exist
 $set = array('category' => 'Proxy Settings', 'emptyok' => 0, 'readonly' => 0, 'defaultval' => '');
 
