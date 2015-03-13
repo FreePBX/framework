@@ -1639,3 +1639,7 @@ $(document).on('click','.delAction', function(){
 	var confirmed = confirm(_("Are you sure you want to delete this item?"));
 	return confirmed;
 });
+/*
+ * Handle loooong bootnavs.
+ */
+$('div.bootnav .list-group').scrollTop($('div.bootnav a.active').position().top);
