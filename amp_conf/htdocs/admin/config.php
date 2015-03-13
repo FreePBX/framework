@@ -100,6 +100,13 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 	include_once('/etc/asterisk/freepbx.conf');
 }
 
+//check to make sure zend files aren't breaking the SPL autoloader.
+//if they are then tell the user to run said command below
+//which disables any zend module that breaks the autoloader
+if(function_exists('SPLAutoloadBroken') && SPLAutoloadBroken()) {
+	die_freepbx(_("The autoloader is damaged. Please run: ".$amp_conf['AMPBIN']."/fwconsole --fix_zend"));
+}
+
 // At this point, we have a session, and BMO was created in bootstrap, so we can check to
 // see if someone's trying to programatically log in.
 if ($unlock) {
