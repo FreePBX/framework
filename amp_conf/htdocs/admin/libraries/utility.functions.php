@@ -12,6 +12,25 @@ define("FPBX_LOG_NOTICE",   "NOTICE");
 define("FPBX_LOG_INFO",     "INFO");
 define("FPBX_LOG_PHP",      "PHP");
 
+function SPLAutoloadBroken() {
+	if(!class_exists('freepbxSPLAutoLoadTest',false)) {
+		class freepbxSPLAutoLoadTest {
+			public static $attempted = false;
+			public static function loadClassLoader($class) {
+				self::$attempted = true;
+			}
+		}
+	}
+
+	spl_autoload_register(array('freepbxSPLAutoLoadTest', 'loadClassLoader'));
+	class_exists('freepbxSPLAutoLoadTestClassThatDoesNotExist');
+	spl_autoload_unregister(array('freepbxSPLAutoLoadTest', 'loadClassLoader'));
+	if(freepbxSPLAutoLoadTest::$attempted) {
+		freepbxSPLAutoLoadTest::$attempted = false;
+		return false;
+	}
+	return true;
+}
 /**
  * Log a message to the freepbx security file
  * @param  {string} $message the message

@@ -1,15 +1,56 @@
 #!/usr/bin/env php
 <?php
+$options = getopt("", array("fix_zend"));
 /* Optional. It’s better to do it in the php.ini file */
 date_default_timezone_set('America/Los_Angeles');
 
 //Bootstrap to give access to FreePBX internals
 $bootstrap_settings['freepbx_auth'] = false;
+$bootstrap_settings['fix_zend'] = isset($options['fix_zend']);
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
       include_once('/etc/asterisk/freepbx.conf');
 }
-$webrootpath = (isset($amp_conf['AMPWEBROOT']) && !empty($amp_conf['AMPWEBROOT'])) ?  $amp_conf['AMPWEBROOT'] : '/var/www/html';
+if(!isset($options['fix_zend']) && function_exists('SPLAutoloadBroken') && SPLAutoloadBroken()) {
+  echo "Autoloader is damaaged.\n";
+  echo "Please run: ".basename($argv[0])." --fix_zend\n";
+  die();
+}
+if(isset($options['fix_zend'])) {
+  if(SPLAutoloadBroken()) {
+    die("Autoloader was damanged before we even started!\n");
+  }
+  //autoload our fix it classes now before autoloading breaks
+  $mf = module_functions::create();
+  error_reporting(0);
+  $disable = null;
+  if(!empty($zended) && is_array($zended)) {
+    foreach($zended as $key => $file) {
+      if(file_exists($file)) {
+        bootstrap_include_hooks('pre_module_load', $key);
+        require_once($file);
+        bootstrap_include_hooks('post_module_load', $key);
+        if(SPLAutoloadBroken()) {
+          $disable = $key;
+          break;
+        }
+      }
+    }
+  }
+  if(!empty($disable)) {
+    echo "Disabling malfunctioning module: ".$disable."\n";
+    $mf->disable($disable, true);
+    exec(__FILE__." --fix_zend",$o);
+    foreach($o as $line) {
+      echo $line."\n";
+    }
+  }
+  if(!SPLAutoloadBroken()) {
+    die("There's nothing left to fix\n");
+    exit(0);
+  }
+}
 
+$webrootpath = (isset($amp_conf['AMPWEBROOT']) && !empty($amp_conf['AMPWEBROOT'])) ?  $amp_conf['AMPWEBROOT'] : '/var/www/html';
 include $webrootpath .'/admin/libraries/FWApplication.class.php';
 include $webrootpath .'/admin/libraries/FWHelper.class.php';
 include $webrootpath .'/admin/libraries/FWList.class.php';

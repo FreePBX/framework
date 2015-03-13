@@ -184,6 +184,8 @@ $restrict_mods_local = $restrict_mods;
 //I'm pretty sure if this is == true then there is no need to even pull all
 //the module info as we are going down a path such as an ajax path that this
 //is just overhead. (We'll know soon enough if this is too restrcitive).
+$zended = array();
+$zendedbroken = array(); //to display in module_admin, or disable it here and now?
 if ($restrict_mods_local !== true) {
 	$isauth = !isset($no_auth);
 	$modulef =& module_functions::create();
@@ -222,9 +224,24 @@ if ($restrict_mods_local !== true) {
 			//do we have a license file
 			$licFileExists = glob ('/etc/schmooze/license-*.zl');
 			$complete_zend = (!function_exists('zend_loader_install_license') || empty($licFileExists));
-			if ($needs_zend && class_exists('\Schmooze\Zend') && file_exists($file) && \Schmooze\Zend::fileIsLicensed($file) && $complete_zend) {
+			try {
+				if ($needs_zend && class_exists('\Schmooze\Zend') && file_exists($file) && \Schmooze\Zend::fileIsLicensed($file) && $complete_zend) {
+					$file_exists = false;
+					$zendedbroken[] = $key;
+				}
+				//emergency mode
+				if($needs_zend && $file_exists && !empty($bootstrap_settings['fix_zend'])) {
+					$file_exists = false;
+					$zended[$key] = $file;
+				}
+				//$file_exists = false;
+			} catch(\Exception $e) {
+				//Some fatal error happened
+				freepbx_log(FPBX_LOG_WARNING,$e->getMessage());
 				$file_exists = false;
+				$zendedbroken[] = $key;
 			}
+
 
 			//actualy load module
 			if ((!$restrict_mods_local || $is_selected) && $file_exists) {
