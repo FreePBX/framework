@@ -1642,4 +1642,8 @@ $(document).on('click','.delAction', function(){
 /*
  * Handle loooong bootnavs.
  */
-$('div.bootnav .list-group').scrollTop($('div.bootnav a.active').position().top);
+$(document).ready(function() {
+	if ($('div.bootnav').length){
+		$('div.bootnav .list-group').scrollTop($('div.bootnav a.active').position().top);
+	}
+});
