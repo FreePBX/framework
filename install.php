@@ -137,6 +137,8 @@ if (is_link("$wr/admin/images/notify_security.png")) {
 
 	$rem_files[] = $base_source;
 	$rem_files[] = dirname(__FILE__) . "/upgrades";
+	$rem_files[] = dirname(__FILE__) . "/start_asterisk";
+	$rem_files[] = dirname(__FILE__) . "/install";
 	$rem_files[] = dirname(__FILE__) . "/installlib";
 
 	foreach ($rem_files as $target) {
