@@ -308,6 +308,38 @@ function getUpgradableModules($extarray = false) {
 	return $modules_upgradable;
 }
 
+/**
+* @param bool Controls if a simple (names only) or extended (array of name,versions) array is returned
+*/
+function getCriticalModules($extarray = false) {
+	$modulef =& module_functions::create();
+	$modules_local = $modulef->getinfo(false, MODULE_STATUS_ENABLED);
+	$modules_online = $modulef->getonlinexml();
+	$modules_upgradable = array();
+	global $active_repos;
+
+	check_active_repos();
+
+	foreach (array_keys($modules_local) as $name) {
+		if (isset($modules_online[$name])) {
+			if (version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']) < 0) {
+				if ($extarray) {
+					if (is_array($modules_online[$name]['vulnerabilities'])) {
+						$modules_upgradable[] = array(
+							'name' => $name,
+							'local_version' => $modules_local[$name]['version'],
+							'online_version' => $modules_online[$name]['version'],
+						);
+					}
+				} else {
+					$modules_upgradable[] = $name;
+				}
+			}
+		}
+	}
+	return $modules_upgradable;
+}
+
 function doUpgradeAll($force) {
 	$modules = getUpgradableModules();
 	if (count($modules) > 0) {
@@ -337,7 +369,14 @@ function mirrorrepo(){
 
 function showi18n($modulename) {
 	//special case core so that we have everything we need for localizations
-	$modules = module_getinfo($modulename);
+	switch($modulename) {
+		case 'core':
+			$modules = module_getinfo();
+		break;
+		default:
+			$modules = module_getinfo($modulename);
+		break;
+	}
 
 	$modulesProcessed = array();
 	foreach ($modules as $rawname => $mod) {
@@ -347,19 +386,19 @@ function showi18n($modulename) {
 
 		if (!in_array($modules[$rawname]['name'], $modulesProcessed['name'])) {
 			$modulesProcessed['name'][] = $modules[$rawname]['name'];
-			if (!empty($modules[$rawname]['name'])) {
+			if (isset($modules[$rawname]['name'])) {
 				echo "# name:\n_(\"".$modules[$rawname]['name']."\");\n";
 			}
 		}
 		if (!in_array($modules[$rawname]['category'], $modulesProcessed['category'])) {
 			$modulesProcessed['category'][] = $modules[$rawname]['category'];
-			if (!empty($modules[$rawname]['category'])) {
+			if (isset($modules[$rawname]['category'])) {
 				echo "# category:\n_(\"".str_replace("\n","",$modules[$rawname]['category'])."\");\n";
 			}
 		}
 		if (!in_array($modules[$rawname]['description'], $modulesProcessed['description'])) {
 			$moduleProcessed['description'][] = $modules[$rawname]['description'];
-			if (!empty($modules[$rawname]['description'])) {
+			if (isset($modules[$rawname]['description'])) {
 				echo "# description:\n_(\"".trim(str_replace("\n","",$modules[$rawname]['description']))."\");\n";
 			}
 		}
@@ -368,10 +407,6 @@ function showi18n($modulename) {
 				if (!in_array($menuitem, $modulesProcessed['menuitem'])) {
 					$modulesProcessed['menuitem'][] = $menuitem;
 					echo "# $key:\n_(\"$menuitem\");\n";
-					if (!empty($modules[$rawname]['items'][$key]['category']) && !in_array($modules[$rawname]['items'][$key]['category'], $modulesProcessed['menuitem'])) {
-						$modulesProcessed['menuitem'][] = $modules[$rawname]['items'][$key]['category'];
-						echo "# $key category:\n_(\"".str_replace("\n","",$modules[$rawname]['items'][$key]['category'])."\");\n";
-					}
 				}
 			}
 		}
@@ -496,6 +531,8 @@ function showHelp() {
 	out("      Show all modules that depend on this one",false);
 	out("  showupgrades",false);
 	out("      Show a list of upgradable modules",false);
+	out("  showcriticalupgrades",false);
+	out("      Show a list of critical upgradable modules",false);
 	out("  showannounce",false);
 	out("      Shows any annoucements that maybe displayed at freepbx.org for this version",false);
 	out("  uninstall <module>",false);
@@ -695,6 +732,19 @@ function showUpgrades() {
 		out("Up to date.");
 	}
 }
+
+function showCriticalUpgrades() {
+	$modules = getCriticalModules(true);
+	if (count($modules) > 0) {
+		out("Critical Upgrades: ");
+		foreach ($modules as $mod) {
+			outn('   ');
+			out($mod['name'].' '.$mod['local_version'].' -> '.$mod['online_version']);
+		}
+	} else {
+		out("Up to date.");
+	}
+}
 //****************************************************************************************************
 
 
@@ -886,6 +936,9 @@ switch ($operation ) {
 	case 'showupgrade':
 	case 'showupgrades':
 		showUpgrades();
+	break;
+	case 'showcriticalupgrades':
+		showCriticalUpgrades();
 	break;
 	case 'uninstall':
 		if (empty($param)) {
