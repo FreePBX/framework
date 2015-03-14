@@ -1853,6 +1853,7 @@ class module_functions {
 
 		//Generate LESS on install
 		//http://issues.freepbx.org/browse/FREEPBX-8287
+		outn(_("Generating CSS..."));
 		try {
 			if($modulename == 'framework') {
 				FreePBX::Less()->generateMainStyles();
@@ -1860,6 +1861,7 @@ class module_functions {
 				FreePBX::Less()->generateModuleStyles($modulename);
 			}
 		}catch(\Exception $e) {}
+		out(_("Done"));
 		return true;
 	}
 
