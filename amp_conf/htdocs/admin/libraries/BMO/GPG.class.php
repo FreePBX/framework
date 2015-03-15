@@ -320,6 +320,9 @@ class GPG {
 	 */
 	public function runGPG($params, $stdin = null) {
 
+		// Ensure our proxy settings are set, if needed.
+		\FreePBX::Curl()->setEnvVariables();
+
 		$fds = array(
 			array("file", "/dev/null", "r"), // stdin
 			array("pipe", "w"), // stdout
