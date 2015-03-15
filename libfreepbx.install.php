@@ -2596,4 +2596,65 @@ function freepbx_settings_init($commit_to_db = false) {
         $cm->enable_updates();
     }
 
+  // FREEPBX13 - Add Proxy Support
+
+  // Ensure that our Proxy Settings exist
+  $set = array('category' => 'Proxy Settings', 'emptyok' => 0, 'readonly' => 0, 'defaultval' => '');
+
+  if (!$freepbx_conf->conf_setting_exists('PROXY_ENABLED')) {
+	  $set['value'] = false;
+	  $set['defaultval'] = false;
+	  $set['name'] = "Use HTTP(S) Proxy";
+	  $set['description'] = "Enable this to send outbound HTTP and HTTPS requests via a proxy. This does not affect Voice or Video traffic.";
+	  $set['sortorder'] = 1;
+	  $set['type'] = CONF_TYPE_BOOL;
+	  $freepbx_conf->define_conf_setting('PROXY_ENABLED',$set);
+  }
+
+  /**
+   * SOCKS5 unimplemented as yet
+  if (!$c->conf_setting_exists('PROXY_TYPE')) {
+	  $set['value'] = "http";
+	  $set['options'] = array("http", "socks5");
+	  $set['name'] = "Proxy Type";
+	  $set['description'] = "Select the type of outbound proxy. This will normally be HTTP";
+	  $set['sortorder'] = 2;
+	  $set['type'] = CONF_TYPE_SELECT;
+	  $c->define_conf_setting('PROXY_TYPE',$set);
+	  unset($set['options']);
+  }
+   */
+
+  $set['value'] = "";
+  $set['defaultval'] = "";
+  $set['emptyok'] = 1;
+
+  if (!$freepbx_conf->conf_setting_exists('PROXY_ADDRESS')) {
+	  $set['value'] = "";
+	  $set['name'] = "Proxy Address";
+	  $set['description'] = "Enter the address of the outbound proxy. This will be similar to http://10.1.1.1:3128";
+	  $set['sortorder'] = 3;
+	  $set['type'] = CONF_TYPE_TEXT;
+	  $freepbx_conf->define_conf_setting('PROXY_ADDRESS',$set);
+  }
+
+  if (!$freepbx_conf->conf_setting_exists('PROXY_USERNAME')) {
+	  $set['value'] = "";
+	  $set['name'] = "Proxy Username";
+	  $set['description'] = "If you need to authenticate to the proxy server, you must enter both a username and password. Leaving either (or both) blank disables Proxy Authentication";
+	  $set['sortorder'] = 4;
+	  $set['type'] = CONF_TYPE_TEXT;
+	  $freepbx_conf->define_conf_setting('PROXY_USERNAME',$set);
+  }
+
+  if (!$freepbx_conf->conf_setting_exists('PROXY_PASSWORD')) {
+	  $set['value'] = "";
+	  $set['name'] = "Proxy Password";
+	  $set['description'] = "If you need to authenticate to the proxy server, you must enter both a username and password. Leaving either (or both) blank disables Proxy Authentication";
+	  $set['sortorder'] = 5;
+	  $set['type'] = CONF_TYPE_TEXT;
+	  $freepbx_conf->define_conf_setting('PROXY_PASSWORD',$set);
+  }
+  $freepbx_conf->commit_conf_settings();
+
 }
