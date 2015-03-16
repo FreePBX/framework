@@ -367,17 +367,21 @@ class FreePBXInstallCommand extends Command {
 		// Get version of FreePBX.
 		$version = $installer->get_version();
 
+		$output->writeln("Initializing FreePBX Settings");
+		$installer_amp_conf = $amp_conf;
 		// freepbx_settings_init();
 		$installer->freepbx_settings_init(true);
 
-		// freepbx_conf set_conf_values()
+		// Use the installer defined amp_conf settings
 		$freepbx_conf =& \freepbx_conf::create();
-		foreach ($amp_conf as $keyword => $value) {
-			if ($freepbx_conf->conf_setting_exists($keyword)) {
+		foreach ($installer_amp_conf as $keyword => $value) {
+			if ($freepbx_conf->conf_setting_exists($keyword) && $amp_conf[$keyword] != $value) {
+				$output->writeln("\tChanging ".$keyword." to match what was given at install time");
 				$freepbx_conf->set_conf_values(array($keyword => $value), false, true);
 			}
 		}
 		$freepbx_conf->commit_conf_settings();
+		$output->writeln("Finished initalizing settings");
 
 		if(!file_exists($amp_conf['AMPWEBROOT'])) {
 			@mkdir($amp_conf['AMPWEBROOT'], 0777, true);
@@ -456,15 +460,6 @@ class FreePBXInstallCommand extends Command {
 		}
 		$output->writeln("Done!");
 
-		// Set User/Group settings
-		//	AMPASTERISKWEBGROUP
-		//	AMPASTERISKWEBUSER
-		//	AMPASTERISKGROUP
-		//	AMPASTERISKUSER
-		//	AMPDEVGROUP
-		//	AMPDEVUSER
-		//	ASTMANAGERHOST - should this default to localhost?  Yes.
-
 		//setup and get manager.conf working
 		$output->write("Setting up Asterisk Manager Connection...");
 		$manager_conf = file_get_contents($amp_conf['ASTETCDIR'] . "/manager.conf");
@@ -474,28 +469,28 @@ class FreePBXInstallCommand extends Command {
 		);
 		$manager_conf = str_replace(array_keys($replace), array_values($replace), $manager_conf);
 		file_put_contents($amp_conf['ASTETCDIR'] . "/manager.conf", $manager_conf);
-
-		exec("sudo -u " . $answers['user'] ." asterisk -rx 'module reload manager'");
+		exec("sudo -u " . $answers['user'] ." asterisk -rx 'module reload manager'",$o,$r);
+		if($r !== 0) {
+			$output->writeln("<error>Unable to reload Asterisk Manager</error>");
+			exit(127);
+		}
 		//we should check to make sure manager worked at this stage..
 		$output->writeln("Done");
 
 		// Create missing #include files.
 		$output->write("Creating missing #include files...");
-		exec("grep -h '^#include' " . $amp_conf['ASTETCDIR'] . "/*.conf | sed 's/\s*;.*//;s/#include\s*//' > /dev/null 2>&1", $tmpout, $ret);
-		if ($ret != 0) {
-			$output->writeln("<error>Error finding #include files.</error>");
-			exit(1);
-		}
-
-		foreach ($tmpout as $file) {
-			if ($file[0] != "/") {
-				$file = $amp_conf['ASTETCDIR'] . "/" . $file;
-			}
-			if (!file_exists($file)) {
-				touch($file);
+		foreach(glob($amp_conf['ASTETCDIR'] . "/*.conf") as $file) {
+			$data = file_get_contents($file);
+			if(preg_match_all("/#include\s(.*)/",$data,$matches)) {
+				if(!empty($matches[1])) {
+					foreach($matches[1] as $include) {
+						if (!file_exists($amp_conf['ASTETCDIR'] . "/".$include)) {
+							touch($amp_conf['ASTETCDIR'] . "/".$include);
+						}
+					}
+				}
 			}
 		}
-		unset($tmpout);
 		$output->writeln("Done");
 
 		$output->writeln("Running through upgrades...");

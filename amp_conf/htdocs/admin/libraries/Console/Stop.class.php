@@ -59,15 +59,15 @@ class Stop extends Command {
 				while ($stdin) {
 					$res = fgetc ($stdin);
 					echo $res;
-					$aststat = $this->asteriskProcess(); 
+					$aststat = $this->asteriskProcess();
 					if(!$aststat[0]){
 						$progress->finish();
 						$output->writeln('');
 						$output->writeln(_('Asterisk Stopped Successfuly'));
 						$userov = True;
 						break;
-					} 
-					
+					}
+
 					if (strtolower($res) == 'c'){
 						$progress->finish();
 						$output->writeln('');
