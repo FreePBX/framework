@@ -12,7 +12,7 @@ class Context extends Command {
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->setName('context')
 		->setAliases(array('cx'))
-		->setDescription(_('Reload Configs'))
+		->setDescription(_('Shows the specified context from the dialplan'))
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 	}
@@ -29,7 +29,7 @@ class Context extends Command {
 				if(strpos($line, '=>')){
 					$i++;
 					$output->writeln($line);
-				}	
+				}
 			}
 			if($i < 1){
 				$output->writeln(_('May be invalid Check your spelling'));

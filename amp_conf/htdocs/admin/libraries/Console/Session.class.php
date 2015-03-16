@@ -10,7 +10,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Session extends Command {
 	protected function configure(){
 		$this->setName('session')
-		->setAliases(array('s'))
 		->setDescription(_('Manage Session'))
 		->setDefinition(array(
 			new InputOption('list', 'l', InputOption::VALUE_NONE, _('List all sessions')),

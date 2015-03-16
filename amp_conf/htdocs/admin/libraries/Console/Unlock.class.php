@@ -11,7 +11,6 @@ class Unlock extends Command {
 	protected function configure(){
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->setName('unlock')
-		->setAliases(array('u'))
 		->setDescription(_('Unlock Session'))
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));

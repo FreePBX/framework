@@ -8,46 +8,46 @@ date_default_timezone_set('America/Los_Angeles');
 $bootstrap_settings['freepbx_auth'] = false;
 $bootstrap_settings['fix_zend'] = isset($options['fix_zend']);
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
-      include_once('/etc/asterisk/freepbx.conf');
+	include_once('/etc/asterisk/freepbx.conf');
 }
 if(!isset($options['fix_zend']) && function_exists('SPLAutoloadBroken') && SPLAutoloadBroken()) {
-  echo "Autoloader is damaaged.\n";
-  echo "Please run: ".basename($argv[0])." --fix_zend\n";
-  die();
+	echo "Autoloader is damaaged.\n";
+	echo "Please run: ".basename($argv[0])." --fix_zend\n";
+	die();
 }
 if(isset($options['fix_zend'])) {
-  if(SPLAutoloadBroken()) {
-    die("Autoloader was damanged before we even started!\n");
-  }
-  //autoload our fix it classes now before autoloading breaks
-  $mf = module_functions::create();
-  error_reporting(0);
-  $disable = null;
-  if(!empty($zended) && is_array($zended)) {
-    foreach($zended as $key => $file) {
-      if(file_exists($file)) {
-        bootstrap_include_hooks('pre_module_load', $key);
-        require_once($file);
-        bootstrap_include_hooks('post_module_load', $key);
-        if(SPLAutoloadBroken()) {
-          $disable = $key;
-          break;
-        }
-      }
-    }
-  }
-  if(!empty($disable)) {
-    echo "Disabling malfunctioning module: ".$disable."\n";
-    $mf->disable($disable, true);
-    exec(__FILE__." --fix_zend",$o);
-    foreach($o as $line) {
-      echo $line."\n";
-    }
-  }
-  if(!SPLAutoloadBroken()) {
-    die("There's nothing left to fix\n");
-    exit(0);
-  }
+	if(SPLAutoloadBroken()) {
+		die("Autoloader was damanged before we even started!\n");
+	}
+	//autoload our fix it classes now before autoloading breaks
+	$mf = module_functions::create();
+	error_reporting(0);
+	$disable = null;
+	if(!empty($zended) && is_array($zended)) {
+		foreach($zended as $key => $file) {
+			if(file_exists($file)) {
+				bootstrap_include_hooks('pre_module_load', $key);
+				require_once($file);
+				bootstrap_include_hooks('post_module_load', $key);
+				if(SPLAutoloadBroken()) {
+					$disable = $key;
+					break;
+				}
+			}
+		}
+	}
+	if(!empty($disable)) {
+		echo "Disabling malfunctioning module: ".$disable."\n";
+		$mf->disable($disable, true);
+		exec(__FILE__." --fix_zend",$o);
+		foreach($o as $line) {
+			echo $line."\n";
+		}
+	}
+	if(!SPLAutoloadBroken()) {
+		die("There's nothing left to fix\n");
+		exit(0);
+	}
 }
 
 $webrootpath = (isset($amp_conf['AMPWEBROOT']) && !empty($amp_conf['AMPWEBROOT'])) ?  $amp_conf['AMPWEBROOT'] : '/var/www/html';
@@ -62,8 +62,8 @@ use FreePBX\Console\Application as App;
 $amodules = FreePBX::Modules()->getActiveModules();
 $fbc = new App\FWApplication('FW Console - FreePBX Utility', getVersion());
 /*
- * Framework is not like the others so we load up framework classes first.
- */
+* Framework is not like the others so we load up framework classes first.
+*/
 $fwcpath = $webrootpath . '/admin/libraries/Console';
 $fwclasses = scandir($fwcpath);
 foreach ($fwclasses as $class){
@@ -71,19 +71,21 @@ foreach ($fwclasses as $class){
 		continue;
 	}else{
 		$ifile = $fwcpath . '/' . $class;
-		include $ifile;
-		$classname = substr($class ,0,-10);
-		$class = 'FreePBX\\Console\\Command\\' . $classname;
-		$fbc->add(new $class);
+		if(file_exists($ifile)) {
+			include $ifile;
+			$classname = substr($class ,0,-10);
+			$class = 'FreePBX\\Console\\Command\\' . $classname;
+			$fbc->add(new $class);
+		}
 	}
 }
 
 /*
- * Dynamic Class Loader. This looks to enabled modules for a Console folder
- * Then loads any file.class.php files found in that subdir.
- * This doesn't really handle bad includes. If your include in bad
- * It will likely break everything!
- */
+* Dynamic Class Loader. This looks to enabled modules for a Console folder
+* Then loads any file.class.php files found in that subdir.
+* This doesn't really handle bad includes. If your include in bad
+* It will likely break everything!
+*/
 foreach($amodules as $module){
 	//Module Path
 	$mpath = $webrootpath . '/admin/modules/' . $module['rawname'] . '/Console/';
@@ -91,22 +93,22 @@ foreach($amodules as $module){
 		//Class files
 		$cfiles = scandir($mpath);
 		foreach($cfiles as $class){
-				//ignore anything in this dir that is NOT class.php
-				if( substr($class , -9) !== 'class.php'){
+			//ignore anything in this dir that is NOT class.php
+			if( substr($class , -9) !== 'class.php'){
+				continue;
+			}else{
+				$ifile = $mpath . '/' . $class;
+				if(!file_exists($ifile)) {
 					continue;
-				}else{
-					$ifile = $mpath . '/' . $class;
-					if(!file_exists($ifile)) {
-						continue;
-					}
-					include $ifile;
-					$classname = substr($class ,0,-10);
-					$class = 'FreePBX\\Console\\Command\\' . $classname;
-					if(!class_exists($class)) {
-						continue;
-					}
-					echo $fbc->add(new $class);
 				}
+				include $ifile;
+				$classname = substr($class ,0,-10);
+				$class = 'FreePBX\\Console\\Command\\' . $classname;
+				if(!class_exists($class)) {
+					continue;
+				}
+				echo $fbc->add(new $class);
+			}
 		}
 	}
 }

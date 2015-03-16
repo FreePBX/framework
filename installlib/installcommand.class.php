@@ -481,7 +481,7 @@ class FreePBXInstallCommand extends Command {
 
 		// Create missing #include files.
 		$output->write("Creating missing #include files...");
-		exec("grep -h '^#include' " . $amp_conf['ASTETCDIR'] . "/*.conf | sed 's/\s*;.*//;s/#include\s*//'", $tmpout, $ret);
+		exec("grep -h '^#include' " . $amp_conf['ASTETCDIR'] . "/*.conf | sed 's/\s*;.*//;s/#include\s*//' > /dev/null 2>&1", $tmpout, $ret);
 		if ($ret != 0) {
 			$output->writeln("<error>Error finding #include files.</error>");
 			exit(1);

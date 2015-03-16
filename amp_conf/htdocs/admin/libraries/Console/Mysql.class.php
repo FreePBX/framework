@@ -20,7 +20,6 @@ class Mysql extends Command {
 		$db = \FreePBX::Database();
 		$arg = $input->getArgument('args');
 		if ($arg) {
-
 			$query = explode(' ',trim($arg[0]));
 			$verb  = strtoupper($query[0]);
 			switch($verb){
@@ -46,7 +45,7 @@ class Mysql extends Command {
 					if($ob->rowCount()){
 						$gotRows = $ob->fetchAll();
 					}
-					
+
 					//handle results if we got rows
 					if($gotRows){
 						$rows = array();
@@ -79,10 +78,9 @@ class Mysql extends Command {
 				default:
 					$output->writeln("I didn't understand the verb provided");
 					break;
-				
 			}
+		} else {
+			$output->writeln("I didn't understand the verb provided");
 		}
 	}
 }
-
-
