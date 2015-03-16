@@ -1643,7 +1643,7 @@ $(document).on('click','.delAction', function(){
  * Handle loooong bootnavs.
  */
 $(document).ready(function() {
-	if ($('div.bootnav').length){
+	if ($('div.bootnav').length && $('div.bootnav a.active').length){
 		$('div.bootnav .list-group').scrollTop($('div.bootnav a.active').position().top);
 	}
 });
