@@ -24,6 +24,7 @@ class Chown extends Command {
 		$this->actions = array();
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
+		$output->writeln("Setting Permissions...");
 		$freepbx_conf = \freepbx_conf::create();
 		$conf = $freepbx_conf->get_conf_settings();
 		foreach ($conf as $key => $val){
@@ -127,7 +128,6 @@ class Chown extends Command {
 		 * than the Asterisk user we provide permissions that allow both.
 		 */
 		$group =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
-		$output->writeln(_("Building action list..."));
 		foreach($this->modfiles as $modfilearray => $modfilelist){
 			foreach($modfilelist as $file){
 				if(!file_exists($file['path'])){
@@ -163,9 +163,6 @@ class Chown extends Command {
 			}
 		}
 		$actioncount = count($this->actions);
-		$output->writeln("");
-		$output->writeln($actioncount . _(" Actions queued"));
-		$output->writeln("");
 		$progress = new ProgressBar($output, $actioncount);
 		$progress->setRedrawFrequency(100);
 		$progress->start();
@@ -176,7 +173,7 @@ class Chown extends Command {
 		}
 		$progress->finish();
 		$output->writeln("");
-		$output->writeln("");
+		$output->writeln("Finished setting permissions");
 		foreach($this->errors as $error) {
 			$output->writeln("<error>".$error."</error>");
 		}

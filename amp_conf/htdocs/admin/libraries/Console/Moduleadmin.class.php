@@ -6,11 +6,12 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Helper\ProgressBar;
 class Moduleadmin extends Command {
 
 	protected function configure(){
 		$this->setName('ma')
-		->setAliases(array('modadmin'))
+		->setAliases(array('moduleadmin'))
 		->setDescription('Module Administration')
 		->setDefinition(array(
 			new InputOption('force', 'f', InputOption::VALUE_NONE, _('Force operation (skips dependency and status checks) <warning>WARNING:</warning> Use at your own risk, modules have dependencies for a reason!')),
@@ -45,14 +46,25 @@ class Moduleadmin extends Command {
 			if($this->DEBUG){$output->writeln(_('Force Disabled'));}
 		}
 		$repos = $input->getOption('repo');
-	    if($repos){
-
+		if($repos){
+			$modulef = \module_functions::create();
+			$remote_repos = $modulef->get_remote_repos(true);
+			foreach ($repos as $repo) {
+				if(in_array($repo, $remote_repos)) {
+					$active_repos[$repo] = 1;
+					$modulef->set_active_repo($repo);
+				} else {
+					out("No such repo: [$repo], skipping");
+				}
+			}
 		}
 
 		$output->writeln($text);
-		if($args){
+		if(!empty($args)){
 			if($this->DEBUG){print_r($args);}
 			$this->handleArgs($args);
+		} else {
+			$this->out->writeln($this->showHelp());
 		}
 	}
 
@@ -95,51 +107,17 @@ class Moduleadmin extends Command {
 	private function doInstall($modulename, $force) {
 		$this->getIncludes();
 		$module = \module_functions::create();
-		if (is_array($errors = $module->install($modulename, $this->force))) {
-			if(!empty($module->modDepends)) {
-				$this->out->writeln(_("Detected Unmet Dependency..Attempting to install it"));
-				foreach($module->modDepends as $mod) {
-					if($modulename == $mod) {
-						continue; //skip self?
-					}
-					$this->getIncludes(); //get functions from other modules, in case we need them here
-					$this->out->writeln(_("Installing ") . $mod . "...");
-					$status = $this->doInstall($mod, $this->force);
-					if($status !== true && $mod != 'framework') {
-						if (($status1 = $this->doDownload($mod, $this->force)) === true) {
-							if (($status2 = $this->doInstall($mod, $this->force)) !== true) {
-								$this->out->writeln(_("Unable to install module ").${modulename}._("'s dependency"). $mod.':');
-								$this->out->writeln(' - '.implode("\n - ",$status2));
-								continue;
-								//exit;
-							}
-						} else {
-							$this->out->writeln(_("Unable to download modulev"). ${modulename}._("'s dependency ").$mod.":");
-							$this->out->writeln(' - '.implode("\n - ",$status1));
-							continue;
-							//exit;
-						}
-					}
-				}
-				$this->doInstall($modulename, $this->force);
-			} else {
-				if($module->notFound) {
-					if (($status1 = $this->doDownload($modulename, $this->force)) === true) {
-						if (($status2 = $this->doInstall($modulename, $this->force)) !== true) {
-							$this->out->writeln(_("Unable to install module "). $modulename.":");
-							$this->out->writeln(' - '.implode("\n - ",$status2));
-							//exit;
-						}
-					}
-				} else {
-					$this->out->writeln(_("The following error(s) occurred:"));
-					$this->out->writeln(' - '.implode("\n - ",$errors));
-					//exit(2);
-				}
-
-			}
+		if(!$force && !$module->resolveDependencies($modulename,array($this,'progress'))) {
+			out(sprintf(_("Unable to resolve dependencies for module %s:"),$modulename));
+			return false;
 		} else {
-			$this->out->writeln(_("Module ").$modulename._(" successfully installed"));
+			if (is_array($errors = $module->install($modulename, $force))) {
+				out("Unable to install module ${modulename}:");
+				out(' - '.implode("\n - ",$errors));
+				return false;
+			} else {
+				out("Module ".$modulename." successfully installed");
+			}
 		}
 		return true;
 	}
@@ -148,14 +126,58 @@ class Moduleadmin extends Command {
 		global $modulexml_path;
 		global $modulerepository_path;
 		$modulef = \module_functions::create();
-		if (is_array($errors = $modulef->download($modulename, $this->force, 'download_progress', $modulerepository_path, $modulexml_path))) {
+		$this->out->writeln("Starting ".$modulename." download..");
+		if (is_array($errors = $modulef->download($modulename, $this->force, array($this,'progress'), $modulerepository_path, $modulexml_path))) {
 			$this->out->writeln(_("The following error(s) occured:"));
 			$this->out->writeln(' - '.implode("\n - ",$errors));
 			exit(2);
 		} else {
-			$this->out->writeln(_("Module ").$modulename._(" successfully downloaded"));
+			$this->out->writeln(sprintf(_("Module %s successfully downloaded"),$modulename));
 		}
 		return true;
+	}
+
+	public function progress($type, $data) {
+		switch($type) {
+			case "verifying":
+				switch($data['status']) {
+					case 'start':
+						$this->out->write("Verifying local module download...");
+					break;
+					case 'redownload':
+						$this->out->writeln("Redownloading");
+					break;
+					case 'verified':
+						$this->out->writeln("Verified");
+					break;
+				}
+			break;
+			case "getinfo":
+				$this->out->writeln("Processing ".$data['module']);
+			break;
+			case "downloading":
+				if(!isset($this->progress) && $data['read'] < $data['total']) {
+					$this->progress = new ProgressBar($this->out, $data['total']);
+					$this->out->writeln("Downloading...");
+					$this->progress->start();
+				} elseif(isset($this->progress) && $data['read'] < $data['total']) {
+					$this->progress->setCurrent($data['read']);
+				} elseif($data['read'] == $data['total']) {
+					if(isset($this->progress) && $this->progress->getStep() != $data['total']) {
+						$this->progress->finish();
+						$this->out->writeln("");
+						$this->out->writeln("Finished downloading");
+						unset($this->progress);
+					}
+				}
+			break;
+			case "done":
+				$this->out->writeln("Done");
+			break;
+			case "untar":
+				$this->out->write("Extracting...");
+			break;
+		}
 	}
 
 	private function doDelete($modulename, $force) {
@@ -209,6 +231,7 @@ class Moduleadmin extends Command {
 					$this->getIncludes(); //get functions from other modules, in case we need them here
 					$this->out->writeln("Installing $name...");
 					$this->doInstall($name, $this->force);
+					$this->out->writeln("");
 				}
 			}
 			$this->out->writeln(_("Done. All modules installed."));
@@ -399,15 +422,10 @@ class Moduleadmin extends Command {
 	}
 
 	private function setPerms() {
-		//If were running as root, attempt to set proper permissions
-		//on the freshly installed files. For simplicity, we run the
-		// freepbx default utility for setting freepbx perms
-	    global $amp_conf;
-	    $current_user = posix_getpwuid(posix_geteuid());
-		if ($current_user['uid'] === 0) {
-			system($amp_conf['AMPBIN'] . '/fwconsole chown');
-		}
+		$chown = new Chown();
+		$chown->execute($this->in, $this->out);
 	}
+
 	private function check_active_repos() {
 		global $active_repos;
 		$modulef = \module_functions::create();
@@ -434,9 +452,10 @@ class Moduleadmin extends Command {
 			foreach ($modules as $module => $name) {
 				if (($name != 'core')){//we dont want to reinstall core
 					$this->getIncludes(); //get functions from other modules, in case we need them here
-					$this->out->writeln(_("Installing ").$name."...");
+					$this->out->writeln(_("Downloading & Installing ").$name."...");
 					$this->doDownload($name, $this->force);
 					$this->doInstall($name, $this->force);
+					$this->out->writeln("");
 				}
 			}
 			$this->out->writeln(_("Done. All modules installed."));
@@ -681,8 +700,8 @@ class Moduleadmin extends Command {
 	}
 
 	private function showHelp(){
-		$help .= 'FWConsole Help:';
-		$help .= 'Usage: fwconsole [-f][-R reponame][-R reponame][action][arg1][arg2][arg...]' . PHP_EOL;
+		$help .= '<info>Module Administration Help:'.PHP_EOL;
+		$help .= 'Usage: fwconsole modadmin [-f][-R reponame][-R reponame][action][arg1][arg2][arg...]</info>' . PHP_EOL;
 		$help .= 'Flags:' . PHP_EOL;
 		$help .= '-f - FORCE' . PHP_EOL;
 		$help .= '-R - REPO, accepts reponame as a single argument' . PHP_EOL;
@@ -827,7 +846,7 @@ class Moduleadmin extends Command {
 					fatal("Missing module name");
 				}
 				foreach($args as $module){
-					doDelete($module, $this->force);
+					$this->doDelete($module, $this->force);
 				}
 				$this->setPerms();
 				break;
