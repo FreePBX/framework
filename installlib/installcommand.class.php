@@ -170,7 +170,6 @@ class FreePBXInstallCommand extends Command {
 		if (!file_exists(AMP_CONF) || $force) {
 			$output->writeln("Yes (No ".AMP_CONF." file detected)");
 			$newinstall = true;
-			$amp_conf = $installer->amportal_conf_read(FILES_DIR . "/amportal.conf");
 			require_once('amp_conf/htdocs/admin/functions.inc.php');
 		} else {
 			$output->writeln("No (".AMP_CONF." file detected)");
@@ -460,6 +459,22 @@ class FreePBXInstallCommand extends Command {
 		}
 		$output->writeln("Done!");
 
+		// Create missing #include files.
+		$output->write("Creating missing #include files...");
+		foreach(glob($amp_conf['ASTETCDIR'] . "/*.conf") as $file) {
+			$data = file_get_contents($file);
+			if(preg_match_all("/#include\s(.*)/",$data,$matches)) {
+				if(!empty($matches[1])) {
+					foreach($matches[1] as $include) {
+						if (!file_exists($amp_conf['ASTETCDIR'] . "/".$include)) {
+							touch($amp_conf['ASTETCDIR'] . "/".$include);
+						}
+					}
+				}
+			}
+		}
+		$output->writeln("Done");
+
 		//setup and get manager.conf working
 		$output->write("Setting up Asterisk Manager Connection...");
 		$manager_conf = file_get_contents($amp_conf['ASTETCDIR'] . "/manager.conf");
@@ -475,22 +490,6 @@ class FreePBXInstallCommand extends Command {
 			exit(127);
 		}
 		//we should check to make sure manager worked at this stage..
-		$output->writeln("Done");
-
-		// Create missing #include files.
-		$output->write("Creating missing #include files...");
-		foreach(glob($amp_conf['ASTETCDIR'] . "/*.conf") as $file) {
-			$data = file_get_contents($file);
-			if(preg_match_all("/#include\s(.*)/",$data,$matches)) {
-				if(!empty($matches[1])) {
-					foreach($matches[1] as $include) {
-						if (!file_exists($amp_conf['ASTETCDIR'] . "/".$include)) {
-							touch($amp_conf['ASTETCDIR'] . "/".$include);
-						}
-					}
-				}
-			}
-		}
 		$output->writeln("Done");
 
 		$output->writeln("Running through upgrades...");
