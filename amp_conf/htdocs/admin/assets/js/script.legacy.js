@@ -1635,7 +1635,8 @@ $(".maxlen").keyup(function(){
 /*
  * Confirm Deletion on grid actions. Add class "delAction to delete links."
  */
-$(document).on('click','.delAction', function(){
+$(document).on('click','.delAction', function(e){
+	e.preventDefault();
 	var confirmed = confirm(_("Are you sure you want to delete this item?"));
 	return confirmed;
 });
@@ -1646,4 +1647,8 @@ $(document).ready(function() {
 	if ($('div.bootnav').length && $('div.bootnav a.active').length){
 		$('div.bootnav .list-group').scrollTop($('div.bootnav a.active').position().top);
 	}
+});
+//Prevent links from jumoing to the top of the page
+$(document).on('click','.clickable', function(e){
+	e.preventDefault();
 });
