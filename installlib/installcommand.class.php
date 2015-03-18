@@ -212,6 +212,7 @@ class FreePBXInstallCommand extends Command {
 
 			$amp_conf['AMPDBUSER'] = $answers['dbuser'];
 			$amp_conf['AMPDBPASS'] = $answers['dbpass'];
+			$amp_conf['AMPDBHOST'] = 'localhost';
 
 			if($dbroot) {
 				$output->write("Database Root installation checking credentials and permissions..");
@@ -475,21 +476,40 @@ class FreePBXInstallCommand extends Command {
 		}
 		$output->writeln("Done");
 
-		//setup and get manager.conf working
-		$output->write("Setting up Asterisk Manager Connection...");
-		$manager_conf = file_get_contents($amp_conf['ASTETCDIR'] . "/manager.conf");
-		$replace = array(
-			'AMPMGRUSER' => $amp_conf['AMPMGRUSER'],
-			'AMPMGRPASS' => $amp_conf['AMPMGRPASS'],
+		//File variable replacement
+		$rfiles = array(
+			$amp_conf['ASTETCDIR'] . "/manager.conf",
+			$amp_conf['ASTETCDIR'] . "/voicemail.conf",
+			$amp_conf['ASTETCDIR'] . "/cdr_adaptive_odbc.conf",
+			ODBC_INI,
 		);
-		$manager_conf = str_replace(array_keys($replace), array_values($replace), $manager_conf);
-		file_put_contents($amp_conf['ASTETCDIR'] . "/manager.conf", $manager_conf);
+		$output->write("Running variable replacement...");
+		foreach($rfiles as $file) {
+			if(!file_exists($file) || !is_writable($file)) {
+				continue;
+			}
+			$conf = file_get_contents($file);
+			$replace = array(
+				'AMPMGRUSER' => $amp_conf['AMPMGRUSER'],
+				'AMPMGRPASS' => $amp_conf['AMPMGRPASS'],
+				'AMPWEBADDRESS' => $amp_conf['AMPWEBADDRESS'],
+				'CDRDBNAME' => $amp_conf['CDRDBNAME'],
+				'AMPDBUSER' => $amp_conf['AMPDBUSER'],
+				'AMPDBPASS' => $amp_conf['AMPDBPASS']
+			);
+			$conf = str_replace(array_keys($replace), array_values($replace), $conf);
+			file_put_contents($file, $conf);
+		}
+		$output->writeln("Done");
+
+		//setup and get manager working
+		$output->write("Setting up Asterisk Manager Connection...");
 		exec("sudo -u " . $answers['user'] ." asterisk -rx 'module reload manager'",$o,$r);
 		if($r !== 0) {
 			$output->writeln("<error>Unable to reload Asterisk Manager</error>");
 			exit(127);
 		}
-		//we should check to make sure manager worked at this stage..
+		//TODO: we should check to make sure manager worked at this stage..
 		$output->writeln("Done");
 
 		$output->writeln("Running through upgrades...");
@@ -534,7 +554,6 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		}
 
 		//run this here so that we make sure everything is square for asterisk
-		$output->writeln("Setting Permissions...");
 		passthru("fwconsole chown");
 
 		if (!$answers['dev-links']) {
@@ -659,10 +678,9 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 				// being symlinked and then developers inadvertently checking in the changes when they should not have.
 				//
 				$never_symlink = array(
-					"cdr_mysql.conf",
+					"cdr_adaptive_odbc.conf",
 					"indications.conf",
 					"manager.conf",
-					"vm_email.inc",
 					"modules.conf"
 				);
 
@@ -686,6 +704,13 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 						if ($input->isInteractive() && $this->check_diff($source, $destination) && !$make_links) {
 							$output->writeln($destination." has been changed from the original version.");
 							$ow = $this->ask_overwrite($input, $output, $source, $destination);
+						} elseif (!$input->isInteractive() && $this->check_diff($source, $destination) && !$make_links) {
+							if(basename($source) == "manager.conf") {
+								$ow = false;
+							} else {
+								$output->writeln($destination." has been changed from the original version.");
+								$ow = true;
+							}
 						}
 					} else {
 						$ow = true;
@@ -751,7 +776,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			foreach ($modules as $id => $up_module) {
 				// if $keep_checking then check dependencies first and skip if not met
 				// otherwise we will install anyhow even if some dependencies are not met
-				// since it is included. (TODO: should we not?)
+				// since it is included. This keeps us strictly local
 				//
 				if ($keep_checking) {
 					exec($amp_conf['AMPBIN']."/fwconsole ma checkdepends $up_module", $output, $retval);
@@ -764,7 +789,6 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 				//
 				switch ($up_module) {
 					case 'framework':
-					case 'fw_ari':
 						system($amp_conf['AMPBIN']."/fwconsole ma --force install $up_module");
 					break;
 					default:

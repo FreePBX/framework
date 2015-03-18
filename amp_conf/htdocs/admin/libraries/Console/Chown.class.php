@@ -24,6 +24,10 @@ class Chown extends Command {
 		$this->actions = array();
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
+		if(posix_geteuid() != 0) {
+			$output->writeln("<error>You need to be root to run this command</error>");
+			exit(1);
+		}
 		$output->writeln("Setting Permissions...");
 		$freepbx_conf = \freepbx_conf::create();
 		$conf = $freepbx_conf->get_conf_settings();

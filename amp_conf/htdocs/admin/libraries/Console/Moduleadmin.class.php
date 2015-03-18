@@ -8,6 +8,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\ProgressBar;
 class Moduleadmin extends Command {
+	private $activeRepos = array();
+	private $mf = null;
+	private $setRepos = false;
 
 	protected function configure(){
 		$this->setName('ma')
@@ -24,7 +27,9 @@ class Moduleadmin extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output){
+		$this->mf = \module_functions::create();
 		$this->out = $output;
+
 		$args = $input->getArgument('args');
 		if ($input->getOption('debug')) {
 			$this->DEBUG = True;
@@ -38,21 +43,28 @@ class Moduleadmin extends Command {
 		}
 		if ($input->getOption('force')) {
 			$this->force = True;
-			$$this->no_warnings = True;
-			if($this->DEBUG){$output->writeln(_('Force Enabled'));}
+			if($this->DEBUG){
+				$output->writeln(_('Force Enabled'));
+			}
 		} else {
 			$this->force = False;
-			$this->no_warnings = False;
-			if($this->DEBUG){$output->writeln(_('Force Disabled'));}
+			if($this->DEBUG){
+				$output->writeln(_('Force Disabled'));
+			}
 		}
 		$repos = $input->getOption('repo');
 		if($repos){
-			$modulef = \module_functions::create();
-			$remote_repos = $modulef->get_remote_repos(true);
+			$this->out->write(_("Getting Remote Repo list..."));
+			$this->activeRepos = $this->mf->get_remote_repos(true);
+			$this->out->writeln(_("Done"));
+			$local_repos = $this->mf->get_active_repos();
 			foreach ($repos as $repo) {
-				if(in_array($repo, $remote_repos)) {
-					$active_repos[$repo] = 1;
-					$modulef->set_active_repo($repo);
+				if(in_array($repo, $this->activeRepos)) {
+					$this->setRepos = true;
+					if(!in_array($repo, array_keys($local_repos))) {
+						out("Enabling repo: [$repo]");
+						$this->mf->set_active_repo($repo);
+					}
 				} else {
 					out("No such repo: [$repo], skipping");
 				}
@@ -61,7 +73,9 @@ class Moduleadmin extends Command {
 
 		$output->writeln($text);
 		if(!empty($args)){
-			if($this->DEBUG){print_r($args);}
+			if($this->DEBUG){
+				print_r($args);
+			}
 			$this->handleArgs($args);
 		} else {
 			$this->out->writeln($this->showHelp());
@@ -69,10 +83,11 @@ class Moduleadmin extends Command {
 	}
 
 	private function enableRepo($repo){
-		$modulef = \module_functions::create();
-		$remote = $modulef->get_remote_repos();
-		$modulef->set_active_repo(strtolower($repo),1);
-		if(!in_array($repo,$remote)) {
+		$this->out->write(_("Getting Remote Repo list..."));
+		$this->activeRepos = $this->mf->get_remote_repos(true);
+		$this->out->writeln(_("Done"));
+		$this->mf->set_active_repo(strtolower($repo),1);
+		if(!in_array($repo,$this->activeRepos)) {
 			$this->out->writeln(_("Repo ").$repo._(" successfully enabled, but was not found in the remote list"));
 		}else{
 			$this->out->writeln(_("Repo ").$repo._(" successfully enabled"));
@@ -80,10 +95,10 @@ class Moduleadmin extends Command {
 	}
 
 	private function disableRepo($repo){
-		$modulef = \module_functions::create();
-		$modulef->set_active_repo(strtolower($repo),0);
-		$remote = $modulef->get_remote_repos();
-
+		$this->mf->set_active_repo(strtolower($repo),0);
+		$this->out->write(_("Getting Remote Repo list..."));
+		$remote = $this->mf->get_remote_repos(true);
+		$this->out->writeln(_("Done"));
 		if(!in_array($repo,$remote)) {
 			$this->out->writeln(_("Repo ").$repo._(" successfully disabled, but was not found in the remote list"));
 		} else {
@@ -106,12 +121,11 @@ class Moduleadmin extends Command {
 
 	private function doInstall($modulename, $force) {
 		$this->getIncludes();
-		$module = \module_functions::create();
-		if(!$force && !$module->resolveDependencies($modulename,array($this,'progress'))) {
+		if(!$force && !$this->mf->resolveDependencies($modulename,array($this,'progress'))) {
 			out(sprintf(_("Unable to resolve dependencies for module %s:"),$modulename));
 			return false;
 		} else {
-			if (is_array($errors = $module->install($modulename, $force))) {
+			if (is_array($errors = $this->mf->install($modulename, $force))) {
 				out("Unable to install module ${modulename}:");
 				out(' - '.implode("\n - ",$errors));
 				return false;
@@ -125,9 +139,8 @@ class Moduleadmin extends Command {
 	private function doDownload($modulename, $force) {
 		global $modulexml_path;
 		global $modulerepository_path;
-		$modulef = \module_functions::create();
 		$this->out->writeln("Starting ".$modulename." download..");
-		if (is_array($errors = $modulef->download($modulename, $this->force, array($this,'progress'), $modulerepository_path, $modulexml_path))) {
+		if (is_array($errors = $this->mf->download($modulename, $this->force, array($this,'progress'), $modulerepository_path, $modulexml_path))) {
 			$this->out->writeln(_("The following error(s) occured:"));
 			$this->out->writeln(' - '.implode("\n - ",$errors));
 			exit(2);
@@ -182,8 +195,7 @@ class Moduleadmin extends Command {
 
 	private function doDelete($modulename, $force) {
 		$this->getIncludes();
-		$module = \module_functions::create();
-		if (is_array($errors = $module->delete($modulename, $this->force))) {
+		if (is_array($errors = $this->mf->delete($modulename, $this->force))) {
 			$this->out->writeln(_("The following error(s) occured:"));
 			$this->out->writeln(' - '.implode("\n - ",$errors));
 			exit(2);
@@ -194,8 +206,7 @@ class Moduleadmin extends Command {
 
 	private function doUninstall($modulename, $force) {
 		$this->getIncludes();
-		$modulef = \module_functions::create();
-		if (is_array($errors = $modulef->uninstall($modulename, $this->force))) {
+		if (is_array($errors = $this->mf->uninstall($modulename, $this->force))) {
 			$this->out->writeln(_("The following error(s) occured:"));
 			$this->out->writeln(' - '.implode("\n - ",$errors));
 			exit(2);
@@ -211,10 +222,9 @@ class Moduleadmin extends Command {
 	}
 
 	private function doInstallLocal($force) {
-		$modulef = \module_functions::create();
 		//refresh module cache
-		$modulef->getinfo(false,false,true);
-		$module_info=$modulef->getinfo(false, MODULE_STATUS_NOTINSTALLED);
+		$this->mf->getinfo(false,false,true);
+		$module_info=$this->mf->getinfo(false, MODULE_STATUS_NOTINSTALLED);
 		foreach ($module_info as $module) {
 			if ($module['rawname'] != 'builtin') {
 				$modules[] = $module['rawname'];
@@ -244,17 +254,14 @@ class Moduleadmin extends Command {
 	 * @param bool Controls if a simple (names only) or extended (array of name,versions) array is returned
 	 */
 	private function getInstallableModules($extarray = false) {
-		$modulef = \module_functions::create();
-		$modules_online = $modulef->getonlinexml();
-		$module_info=$modulef->getinfo(false);
+		$modules_online = $this->mf->getonlinexml();
+		$module_info = $this->mf->getinfo(false);
 		$modules_installable = array();
-		global $active_repos;
-		$this->check_active_repos();
 		foreach ($modules_online as $name) {
 			// Theory: module is not in the defined repos, and since it is not local (meaning we loaded it at some point) then we
 			//         don't show it. Exception, if the status is BROKEN then we should show it because it was here once.
 			//
-			if ((!isset($active_repos[$modules_online[$name['rawname']]['repo']]) || !$active_repos[$modules_online[$name['rawname']]['repo']]) && (!isset($module_info[$name['rawname']]) || $module_info[$name['rawname']]['status'] == MODULE_STATUS_NOTINSTALLED)) {
+			if ((!isset($this->activeRepos[$modules_online[$name['rawname']]['repo']]) || !$this->activeRepos[$modules_online[$name['rawname']]['repo']]) && (!isset($module_info[$name['rawname']]) || $module_info[$name['rawname']]['status'] == MODULE_STATUS_NOTINSTALLED)) {
 				continue;
 			}
 			if ((!isset($module_info[$name['rawname']]['status'])) || ($module_info[$name['rawname']]['status'] == MODULE_STATUS_NEEDUPGRADE) || ($module_info[$name['rawname']]['status'] == MODULE_STATUS_NOTINSTALLED)){
@@ -268,11 +275,9 @@ class Moduleadmin extends Command {
 	 * @param bool Controls if a simple (names only) or extended (array of name,versions) array is returned
 	 */
 	private function getUpgradableModules($extarray = false) {
-		$modulef = \module_functions::create();
-		$modules_local = $modulef->getinfo(false, MODULE_STATUS_ENABLED);
-		$modules_online = $modulef->getonlinexml();
+		$modules_local = $this->mf->getinfo(false, MODULE_STATUS_ENABLED);
+		$modules_online = $this->mf->getonlinexml();
 		$modules_upgradable = array();
-		global $active_repos;
 		$this->check_active_repos();
 		foreach (array_keys($modules_local) as $name) {
 			if (isset($modules_online[$name])) {
@@ -308,12 +313,11 @@ class Moduleadmin extends Command {
 
 	private function mirrorrepo(){
 		doInstallAll(true);
-		$modulef = \module_functions::create();
-		$modules_online = $modulef->getonlinexml();
-		$modules_local = $modulef->getinfo();
+		$modules_online = $this->mf->getonlinexml();
+		$modules_local = $this->mf->getinfo();
 		unset($modules_local['builtin']); //builtin never gets deleted, so remove it from the list
 		foreach ($modules_local as $localmod){
-			if (!$modulef->getonlinexml($localmod['rawname'])){
+			if (!$this->mf->getonlinexml($localmod['rawname'])){
 				$this->doDelete($localmod['rawname'],1);
 			}
 		}
@@ -388,24 +392,21 @@ class Moduleadmin extends Command {
 	}
 
 	private function listDisabled(){
-		$modulef = \module_functions::create();
-		$modules = $modulef->getinfo(false, MODULE_STATUS_DISABLED);
+		$modules = $this->mf->getinfo(false, MODULE_STATUS_DISABLED);
 		return array_keys($modules);
 	}
 
 	private function listEnabled(){
-		$modulef = \module_functions::create();
-		$modules = $modulef->getinfo(false, MODULE_STATUS_ENABLED);
+		$modules = $this->mf->getinfo(false, MODULE_STATUS_ENABLED);
 		return array_keys($modules);
 	}
 
 	private function showCheckDepends($modulename) {
-		$modulef = \module_functions::create();
-		$modules = $modulef->getinfo($modulename);
+		$modules = $this->mf->getinfo($modulename);
 		if (!isset($modules[$modulename])) {
 			fatal($modulename.' not found');
 		}
-		if (($errors = $modulef->checkdepends($modules[$modulename])) !== true) {
+		if (($errors = $this->mf->checkdepends($modules[$modulename])) !== true) {
 			$this->out->writeln(_("The following dependencies are not met:"));
 			$this->out->writeln(' - '.implode("\n - ",$errors));
 			exit(1);
@@ -427,15 +428,22 @@ class Moduleadmin extends Command {
 	}
 
 	private function check_active_repos() {
-		global $active_repos;
-		$modulef = \module_functions::create();
-		if (!isset($active_repos)) {
-			$active_repos = $modulef->get_active_repos();
-			$list = implode(',',array_keys($active_repos));
-				if (!$this->no_warnings) {
-					$this->out->writeln(_("no repos specified, using: [$list] from last GUI settings"));
+		if (empty($this->activeRepos)) {
+			$this->activeRepos = $this->mf->get_active_repos();
+			if(!empty($this->activeRepos) && !$this->setRepos) {
+				$list = implode(',',array_keys($this->activeRepos));
+				$this->out->writeln(_("No repos specified, using: [$list] from last GUI settings"));
+				$this->out->writeln("");
+
+			} else {
+				$this->out->write(_("Getting Remote Repo list..."));
+				$this->activeRepos = $this->mf->get_remote_repos(true);
+				$this->out->writeln(_("Done"));
+				if(!empty($this->activeRepos)) {
+					$this->out->writeln(sprintf(_("Using repos: [%s]"),implode(",",$this->activeRepos)));
 					$this->out->writeln("");
 				}
+			}
 		}
 	}
 
@@ -465,8 +473,7 @@ class Moduleadmin extends Command {
 	}
 
 	private function getIncludes(){
-		$modulef = \module_functions::create();
-		$active_modules = $modulef->getinfo(false, MODULE_STATUS_ENABLED);
+		$active_modules = $this->mf->getinfo(false, MODULE_STATUS_ENABLED);
 		if(is_array($active_modules)){
 			foreach($active_modules as $key => $module) {
 				//include module functions
@@ -505,8 +512,7 @@ class Moduleadmin extends Command {
 				}
 			}
 		}
-		$modulef = \module_functions::create();
-		$modules = $modulef->getinfo($modulename);
+		$modules = $this->mf->getinfo($modulename);
 		if (!isset($modules[$modulename])) {
 			fatal($modulename.' not found');
 		}
@@ -516,13 +522,11 @@ class Moduleadmin extends Command {
 
 	private function showList($online = false) {
 		global $amp_conf;
-		$modulef = \module_functions::create();
-		$modules_local = $modulef->getinfo(false,false,true);
+		$modules_local = $this->mf->getinfo(false,false,true);
 		$modules = $modules_local;
-		global $active_repos;
 		$this->check_active_repos();
 		if ($online) {
-			$modules_online = $modulef->getonlinexml();
+			$modules_online = $this->mf->getonlinexml();
 			if (isset($modules_online)) {
 				$modules += $modules_online;
 			}
@@ -532,7 +536,7 @@ class Moduleadmin extends Command {
 		foreach (array_keys($modules) as $name) {
 			$status_index = isset($modules[$name]['status'])?$modules[$name]['status']:'';
 			// Don't include modules not in our repo unless they are locally installed already
-			if ((!isset($active_repos[$modules[$name]['repo']]) || !$active_repos[$modules[$name]['repo']]) && $status_index != MODULE_STATUS_BROKEN && !isset($modules_local[$name])) {
+			if ((!isset($this->activeRepos[$modules[$name]['repo']]) || !$this->activeRepos[$modules[$name]['repo']]) && $status_index != MODULE_STATUS_BROKEN && !isset($modules_local[$name])) {
 				continue;
 			}
 			switch ($status_index) {
@@ -586,12 +590,11 @@ class Moduleadmin extends Command {
 	}
 
 	private function refreshsignatures() {
-		$mf = \module_functions::create();
 		\FreePBX::GPG();
 		$fpbxmodules = \FreePBX::Modules();
 		$list = $fpbxmodules->getActiveModules();
 		$this->out->writeln(_("Getting Data from Online Server..."));
-		$modules_online = $mf->getonlinexml();
+		$modules_online = $this->mf->getonlinexml();
 		if(empty($modules_online)) {
 			$this->out->writeln(_('Cant Reach Online Server'));
 			exit(1);
@@ -623,13 +626,12 @@ class Moduleadmin extends Command {
 	}
 
 	private function showReverseDepends($modulename) {
-		$modulef = \module_functions::create();
-		$modules = $modulef->getinfo($modulename);
+		$modules = $this->mf->getinfo($modulename);
 		if (!isset($modules[$modulename])) {
 			fatal($modulename._(' not found'));
 		}
 
-		if (($depmods = $modulef->reversedepends($modulename)) !== false) {
+		if (($depmods = $this->mf->reversedepends($modulename)) !== false) {
 			$this->out->writeln(_("The following modules depend on this one: ").implode(', ',$depmods));
 			exit(1);
 		} else {
@@ -666,8 +668,7 @@ class Moduleadmin extends Command {
 
 	private function doDisable($modulename, $force) {
 		$this->getIncludes();
-		$module = \module_functions::create();
-		if (is_array($errors = $module->disable($modulename, $force))) {
+		if (is_array($errors = $this->mf->disable($modulename, $force))) {
 			$this->out->writeln("<error>"._("The following error(s) occured:")."</error>");
 			$this->out->writeln(' - '.implode("\n - ",$errors));
 			exit(2);
@@ -678,8 +679,7 @@ class Moduleadmin extends Command {
 
 	private function doEnable($modulename, $force) {
 		$this->getIncludes();
-		$module = \module_functions::create();
-		if (is_array($errors = $module->enable($modulename, $this->force))) {
+		if (is_array($errors = $this->mf->enable($modulename, $this->force))) {
 			$this->out->writeln("<error>"._("The following error(s) occured:")."</error>");
 			$this->out->writeln(' - '.implode("\n - ",$errors));
 			exit(2);
@@ -690,8 +690,7 @@ class Moduleadmin extends Command {
 
 	private function tryEnable($modulename, $force) {
 		$this->getIncludes();
-		$module = \module_functions::create();
-		if (is_array($errors = $module->enable($modulename, $this->force))) {
+		if (is_array($errors = $this->mf->enable($modulename, $this->force))) {
 			$this->out->writeln("<error>"._("The following error(s) occured:")."</error>");
 			$this->out->writeln(' - '.implode("\n - ",$errors));
 		} else {
@@ -760,6 +759,7 @@ class Moduleadmin extends Command {
 				$this->setPerms();
 				break;
 			case 'installall':
+				$this->check_active_repos();
 				$this->doInstallAll(false);
 				$this->setPerms();
 				break;
@@ -778,6 +778,7 @@ class Moduleadmin extends Command {
 				if(empty($args)){
 					fatal("Missing module name");
 				}
+				$this->check_active_repos();
 				foreach($args as $module){
 						$this->doDownload($module, $this->force);
 				}
@@ -788,6 +789,7 @@ class Moduleadmin extends Command {
 				if(empty($args)){
 					fatal("Missing module name");
 				}
+				$this->check_active_repos();
 				foreach($args as $module){
 					$this->doUpgrade($module, $this->force);
 				}
@@ -795,6 +797,7 @@ class Moduleadmin extends Command {
 				break;
 			case 'updateall':
 			case 'upgradeall':
+				$this->check_active_repos();
 				$this->doUpgradeAll($force);
 				$this->setPerms();
 				break;
@@ -802,8 +805,7 @@ class Moduleadmin extends Command {
 				$this->showList();
 				break;
 			case 'listonline':
-				$modulef = \module_functions::create();
-				$announcements = $modulef->get_annoucements();
+				$announcements = $this->mf->get_annoucements();
 				$this->showList(true);
 				break;
 			case 'reversedepends':
@@ -827,7 +829,7 @@ class Moduleadmin extends Command {
 					fatal("Missing repo name");
 				}
 				foreach($args as $repo){
-					$this->enableRepo($repo);
+					$this->disableRepo($repo);
 				}
 				foreach($args as $module){
 
@@ -877,7 +879,7 @@ class Moduleadmin extends Command {
 				break;
 			case 'showupgrade':
 			case 'showupgrades':
-				if($this->DEBUG){$this->out->writeln('Called showupgrade[s]');}
+				$this->check_active_repos();
 				$this->showUpgrades();
 				break;
 			case 'i18n':

@@ -67,8 +67,10 @@ $bootstrap_settings['cdrdb'] = isset($bootstrap_settings['cdrdb']) ? $bootstrap_
 $restrict_mods = isset($restrict_mods) ? $restrict_mods : false;
 
 // include base functions
-// Adding _once here cause im scurred. Rob I'm scurred.
-include_once $dirname .'/libraries/Symfony/vendor/autoload.php';
+if(!class_exists("Composer\Autoload\ClassLoader")) {
+	//TODO Symfony is really composer, we should change the directory name
+	include $dirname .'/libraries/Symfony/vendor/autoload.php';
+}
 require_once($dirname . '/libraries/compress.class.php');
 require_once($dirname . '/libraries/core_collator.php');
 require_once($dirname . '/libraries/utility.functions.php');
