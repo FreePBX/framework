@@ -104,20 +104,20 @@ class Self_Helper extends DB_Helper {
 		$this->loadObject($var);
 		$var = $this->Modules->cleanModuleName($var);
 
-		$class = class_exists($this->moduleNamespace.$var) ? $this->moduleNamespace.$var : (class_exists($this->freepbxNamespace.$var) ? $this->freepbxNamespace.$var : $var);
+		$class = class_exists($this->moduleNamespace.$var,false) ? $this->moduleNamespace.$var : (class_exists($this->freepbxNamespace.$var,false) ? $this->freepbxNamespace.$var : $var);
 		// Now, we may have paramters (__call), or we may not..
 		if (isset($args[1]) && isset($args[1][0])) {
 			// We do. We were __call'ed. Sanity check
 			if (isset($args[1][1])) {
 				throw new \Exception(_("Multiple params to autoload (__call) not supported. Don't do that. Or re-write this."));
 			}
-			if (class_exists($class)) {
+			if (class_exists($class,false)) {
 				$this->$var = new $class($this, $args[1][0]);
 			} else {
 				throw new \Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
 			}
 		} else {
-			if (class_exists($class)) {
+			if (class_exists($class,false)) {
 
 				if($var[0] != strtoupper($var[0])) {
 					throw new \Exception(sprintf(_("BMO Objects must have their first letter captialized. You provided %s"),$var));
@@ -140,10 +140,10 @@ class Self_Helper extends DB_Helper {
 	 */
 	private function loadObject($objname, $hint = null) {
 		$objname = str_replace('FreePBX\\modules\\','',$objname);
-		$class = class_exists($this->moduleNamespace.$objname) ? $this->moduleNamespace.$objname : (class_exists($this->freepbxNamespace.$objname) ? $this->freepbxNamespace.$objname : $objname);
+		$class = class_exists($this->moduleNamespace.$objname,false) ? $this->moduleNamespace.$objname : (class_exists($this->freepbxNamespace.$objname,false) ? $this->freepbxNamespace.$objname : $objname);
 
 		// If it already exists, we're fine.
-		if (class_exists($class) && $class != "Directory") {
+		if (class_exists($class,false) && $class != "Directory") {
 			//do reflection tests for ARI junk, we **dont** want to load ARI
 			$class = new \ReflectionClass($class);
 
@@ -197,7 +197,7 @@ class Self_Helper extends DB_Helper {
 					$needs_zend = isset($info[$module]['depends']['phpcomponent']) && stristr($info[$module]['depends']['phpcomponent'], 'zend');
 					$licFileExists = glob ('/etc/schmooze/license-*.zl');
 					$complete_zend = (!function_exists('zend_loader_install_license') || empty($licFileExists));
-					if ($needs_zend && class_exists('\Schmooze\Zend') && \Schmooze\Zend::fileIsLicensed($try) && $complete_zend) {
+					if ($needs_zend && class_exists('\Schmooze\Zend',false) && \Schmooze\Zend::fileIsLicensed($try) && $complete_zend) {
 						break;
 					}
 
@@ -209,7 +209,7 @@ class Self_Helper extends DB_Helper {
 		}
 
 		// Right, after all of this we should now have our object ready to create.
-		if (!class_exists($objname) && !class_exists($this->moduleNamespace.$objname) && !class_exists($this->freepbxNamespace.$objname)) {
+		if (!class_exists($objname,false) && !class_exists($this->moduleNamespace.$objname,false) && !class_exists($this->freepbxNamespace.$objname,false)) {
 			// Bad things have happened.
 			if (!$loaded) {
 				$sobjname = strtolower($objname);
