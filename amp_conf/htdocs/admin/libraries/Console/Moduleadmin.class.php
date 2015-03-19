@@ -55,13 +55,13 @@ class Moduleadmin extends Command {
 		$repos = $input->getOption('repo');
 		if($repos){
 			$this->out->write(_("Getting Remote Repo list..."));
-			$this->activeRepos = $this->mf->get_remote_repos(true);
+			$remotes = $this->mf->get_remote_repos(true);
 			$this->out->writeln(_("Done"));
-			$local_repos = $this->mf->get_active_repos();
+			$local = $this->mf->get_active_repos();
 			foreach ($repos as $repo) {
-				if(in_array($repo, $this->activeRepos)) {
+				if(in_array($repo, $remotes)) {
 					$this->setRepos = true;
-					if(!in_array($repo, array_keys($local_repos))) {
+					if(!in_array($repo, array_keys($local))) {
 						out("Enabling repo: [$repo]");
 						$this->mf->set_active_repo($repo);
 					}
@@ -437,10 +437,11 @@ class Moduleadmin extends Command {
 
 			} else {
 				$this->out->write(_("Getting Remote Repo list..."));
-				$this->activeRepos = $this->mf->get_remote_repos(true);
+				$this->mf->get_remote_repos(true);
+				$this->activeRepos = $this->mf->get_active_repos();
 				$this->out->writeln(_("Done"));
 				if(!empty($this->activeRepos)) {
-					$this->out->writeln(sprintf(_("Using repos: [%s]"),implode(",",$this->activeRepos)));
+					$this->out->writeln(sprintf(_("Using repos: [%s]"),implode(",",array_keys($this->activeRepos))));
 					$this->out->writeln("");
 				}
 			}
