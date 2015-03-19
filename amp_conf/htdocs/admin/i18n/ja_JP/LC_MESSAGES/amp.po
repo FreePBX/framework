@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-06 13:50-0500\n"
+"POT-Creation-Date: 2015-03-18 20:47-0400\n"
 "PO-Revision-Date: 2015-02-21 10:54+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -202,7 +202,7 @@ msgstr ""
 msgid "%s Upgrade Available (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2879
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2891
 #, php-format
 msgid "%s [not enabled]"
 msgstr ""
@@ -1360,13 +1360,13 @@ msgstr "キャンセル"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "接続できません。Asteriskマネージャー "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1985
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1997
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "%s ディレクトリの削除ができません"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1875
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1907
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1887
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1919
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr "無効化できません：次とこのモジュールが依存関係です： "
 
@@ -1787,7 +1787,7 @@ msgstr ""
 msgid "Critical"
 msgstr "クリティカル"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2886
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2898
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
@@ -2616,6 +2616,7 @@ msgstr "無視"
 msgid "Don't have permission/can't write to %s"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1864
 #: amp_conf/htdocs/admin/page.modules.php:965
 msgid "Done"
 msgstr ""
@@ -2988,7 +2989,7 @@ msgstr ""
 msgid "Error creating temporary directory: %s"
 msgstr "テンポラリディレクトリの作成に失敗： %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1992
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2004
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "ディレクトリ %s の削除エラー (コード %d)"
@@ -3027,7 +3028,7 @@ msgstr ""
 msgid "Error updating database. Command was: %s; error was: %s "
 msgstr "データベースのアップデートエラー。コマンド；%s エラー：%s "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1930
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1942
 msgid "Error updating database: "
 msgstr "データベースアップデートエラー： "
 
@@ -3260,12 +3261,12 @@ msgstr ""
 msgid "Failed to Remove directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2772
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2784
 #, php-format
 msgid "Failed to get remote file, error was:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2784
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2796
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:511
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -3299,7 +3300,7 @@ msgstr ""
 msgid "Failed to run installation scripts"
 msgstr "インストールスクリプトの実行に失敗"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1934
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1946
 msgid "Failed to run un-installation scripts"
 msgstr "アンインストールスクリプトの実行に失敗しました"
 
@@ -3465,7 +3466,7 @@ msgstr ""
 msgid "Force rport - (force_rport)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2796
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2808
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:523
 #, php-format
 msgid "Forced %s to true"
@@ -3708,6 +3709,10 @@ msgstr ""
 "偽の番号やキーコードを補足する不正な番号コンテキストを生成し、メッセージを再"
 "生するという効果があります。もし、いくつかのグランドストリームの電話上でアー"
 "リーダイヤルキーコードを使用する場合は、これをfalseにしたいはずです。"
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1856
+msgid "Generating CSS..."
+msgstr ""
 
 #: ../core/functions.inc.php:7232 ../core/functions.inc.php:7234
 msgid "Generic CHAN SIP Device"
@@ -4601,17 +4606,17 @@ msgstr "モジュール"
 msgid "Module "
 msgstr "モジュール "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2866
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2878
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2888
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2900
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2881
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2893
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr ""
@@ -4675,11 +4680,11 @@ msgstr ""
 msgid "Module XML was not in the proper format"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1871
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1883
 msgid "Module not enabled: cannot disable"
 msgstr "モジュールは有効ではありません：無効化できません"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1903
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1915
 msgid "Module not installed: cannot uninstall"
 msgstr "モジュールがインストールされていません： アンインストールできません"
 
@@ -4692,19 +4697,19 @@ msgstr ""
 "モジュールのアップロードに成功しました。 モジュールを利用可能にするため>に"
 "は、%s を使用してモジュールを有効化する必要があります。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2902
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2914
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2896
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2908
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2894
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2906
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -6542,9 +6547,9 @@ msgstr ""
 msgid "Spanish"
 msgstr "スペイン語"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1866
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1898
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1971
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1878
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1910
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1983
 msgid "Specified module not found"
 msgstr "指定されたモジュールが見つかりません"
 
@@ -6830,11 +6835,11 @@ msgstr ""
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr "アップロードされたファイルを処理中に次のエラーが発生しました： %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2430
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2442
 msgid "The following modules are disabled because they are broken:"
 msgstr "次のモジュールは壊れているため無効になります："
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2422
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2434
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "次のモジュールはアップグレードが必要なため無効になります。"
 
@@ -6983,7 +6988,7 @@ msgstr ""
 "ドを実行するつもりがない場合は、設定が変更されてしまうため、進めないでくだ>さ"
 "い。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2797
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2809
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:524
 #, php-format
 msgid ""
@@ -8368,26 +8373,26 @@ msgstr ""
 "ローカルシステムからFreePBXモジュールを含むtar gzipファイルをアップロー>ドす"
 "ることができます。同じ名前のモジュールが既に存在する場合は、上書きされます。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2917
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2929
 #, php-format
 msgid "You have %s %s %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2429
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2441
 #, php-format
 msgid "You have %s broken modules"
 msgstr "壊れたモジュール%s個が存在します"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2421
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2433
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "%s個のモジュールが無効になっています"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2429
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2441
 msgid "You have a broken module"
 msgstr "壊れたモジュールが1個存在します"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2421
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2433
 msgid "You have a disabled module"
 msgstr "1つのモジュールが無効になってます"
 
@@ -8507,8 +8512,8 @@ msgstr ""
 msgid "You should fix the problem or select another file and %s."
 msgstr "問題を解決するか、他のファイル又は %s を選択してください。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2423
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2431
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2435
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2443
 msgid "You should go to the module admin page to fix these."
 msgstr "これらを解決するためにモジュール管理ページへ移動してください。"
 
@@ -8645,7 +8650,7 @@ msgstr ""
 "画像やタイトルにマウスを乗せた際に使用されるalt属性。デフォルトではFreePBX"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:164
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2849
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2861
 msgid "altered"
 msgstr ""
 
@@ -8878,8 +8883,8 @@ msgstr ""
 "モジュールアーカイブをオープン後にキャッシュディレクトリから %s を削除できま"
 "せんでした。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2166
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2172
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2178
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2184
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr "%s を %s 中に、%s モジュールの取り込みに失敗しました。"
@@ -8922,7 +8927,7 @@ msgstr "フィールドを空白に設定可能"
 msgid "file/directory: %s removed successfully"
 msgstr "ファイル/ディレクトリー:%s の削除に成功しました"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2913
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2925
 msgid "files"
 msgstr ""
 
@@ -9174,7 +9179,7 @@ msgstr "値が見つかりません、および／または [%s] のデフォル
 msgid "module.sig check failed! %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2915
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2927
 msgid "modules"
 msgstr ""
 
