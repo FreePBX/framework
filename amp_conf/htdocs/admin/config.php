@@ -556,8 +556,6 @@ if ($quietmode) {
 		$fw_gui_html .= framework_include_css();
 	}
 
-	show_view($amp_conf['VIEW_HEADER'], $header);
-
 	// If processing posback (fw_popover_process) and there are errors then we
 	// display again, otherwise we ignore the $content and prepare to process
 	//
