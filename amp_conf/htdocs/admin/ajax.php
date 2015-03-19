@@ -38,10 +38,13 @@ $bootstrap_settings['freepbx_error_handler'] = false;
 $restrict_mods = true;
 
 // Bootstrap!
-include '/etc/freepbx.conf';
+if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
+	include_once('/etc/asterisk/freepbx.conf');
+}
 
 // We may remove this, but for the moment, ajax should be
 // 100% error and warning free.
 error_reporting(-1);
-
+set_language();
+modgettext::textdomain($module);
 $bmo->Ajax->doRequest($module, $command);

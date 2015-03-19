@@ -114,6 +114,9 @@ $freepbx_conf = $bmo->Freepbx_conf();
 //
 $bootstrap_settings['amportal_conf_initialized'] = false;
 $amp_conf =& $freepbx_conf->parse_amportal_conf("/etc/amportal.conf",$amp_conf);
+// set the language so local module languages take
+set_language();
+
 // For performance tuning, or, for assistance in debugging a white screen,
 // you can turn this on for a full trace of functions, memory use, and time
 // taken.

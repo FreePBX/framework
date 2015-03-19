@@ -583,9 +583,6 @@ if ($quietmode) {
 
 	show_view($amp_conf['VIEW_HEADER'], $header);
 
-	// set the language so local module languages take
-	set_language();
-
 	// If processing posback (fw_popover_process) and there are errors then we
 	// display again, otherwise we ignore the $content and prepare to process
 	//

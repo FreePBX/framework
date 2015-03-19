@@ -1,10 +1,4 @@
 <?php
-// Set language, needs to be set here for full localization of the gui
-set_language();
-
-//dbug('sess', $_SESSION);
-//dbug('server', $_SERVER);
-
 
 //promt for a password if there there is no user set
 if (!isset($_SESSION['AMP_user'])) {
