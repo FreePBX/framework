@@ -487,6 +487,7 @@ function merge_ext_followme($dest) {
 function get_headers_assoc($url) {
 	global $amp_conf;
 	if ($amp_conf['MODULEADMINWGET']) {
+		FreePBX::Curl()->setEnvVariables();
 		exec("wget --spider --server-response -q ".$url." 2>&1", $wgetout, $exitstatus);
 		$headers = array();
 		if($exitstatus == 0 && !empty($wgetout)) {

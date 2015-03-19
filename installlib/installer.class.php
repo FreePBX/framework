@@ -1909,6 +1909,54 @@ class Installer {
 		'type' => CONF_TYPE_TEXT
 	);
 
+	// FREEPBX13 - Add Proxy Support
+	$category = "Proxy Settings";
+
+	$settings[$category]['PROXY_ENABLED'] = array(
+		'name' => "Use HTTP(S) Proxy",
+		'description' => "Enable this to send outbound HTTP and HTTPS requests via a proxy. This does not affect Voice or Video traffic.",
+		'value' => false,
+		'defaultval' => false,
+		'emptyok' => 0,
+		'readonly' => 0,
+		'sortorder' => 1,
+		'type' => CONF_TYPE_BOOL,
+	);
+
+
+	$settings[$category]['PROXY_ADDRESS'] = array(
+		'name' => "Proxy Address",
+		'description' => "Enter the address of the outbound proxy. This will be similar to http://10.1.1.1:3128",
+		'value' => "",
+		'defaultval' => "",
+		'emptyok' => 1,
+		'readonly' => 0,
+		'sortorder' => 2,
+		'type' => CONF_TYPE_TEXT,
+	);
+
+	$settings[$category]['PROXY_USERNAME'] = array(
+		'name' => "Proxy Username",
+		'description' => "If you need to authenticate to the proxy server, you must enter both a username and password. Leaving either (or both) blank disables Proxy Authentication",
+		'value' => "",
+		'defaultval' => "",
+		'emptyok' => 1,
+		'readonly' => 0,
+		'sortorder' => 3,
+		'type' => CONF_TYPE_TEXT,
+	);
+
+	$settings[$category]['PROXY_PASSWORD'] = array(
+		'name' => "Proxy Password",
+		'description' => "If you need to authenticate to the proxy server, you must enter both a username and password. Leaving either (or both) blank disables Proxy Authentication",
+		'value' => "",
+		'defaultval' => "",
+		'emptyok' => 1,
+		'readonly' => 0,
+		'sortorder' => 4,
+		'type' => CONF_TYPE_TEXT,
+	);
+
 	// The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we
 	// retain their values until the individual modules are updated and their install scripts run where a full
 	// configuration (descriptions, defaults, etc.) will be provided and maintained. This provides just enough to

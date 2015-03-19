@@ -1401,6 +1401,7 @@ class module_functions {
 		//
 		if ($amp_conf['MODULEADMINWGET'] || !$dp = @fopen($url,'r',false,$streamcontext)) {
 			$p = (!empty($urls['query'])) ? "--post-data '".$urls['query']."'" : "";
+			FreePBX::Curl()->setEnvVariables();
 			exec("wget --tries=1 --timeout=600 $p -O $filename $url 2> /dev/null", $filedata, $retcode);
 			if ($retcode != 0) {
 				return array(sprintf(_("Error opening %s for reading"), $url));
@@ -1571,6 +1572,7 @@ class module_functions {
 		// Check MODULEADMINWGET first so we don't execute the fopen() if set
 		//
 		if ($amp_conf['MODULEADMINWGET'] || !$dp = @fopen($module_location,'r')) {
+			FreePBX::Curl()->setEnvVariables();
 			exec("wget --tries=1 --timeout=600 -O $filename $module_location 2> /dev/null", $filedata, $retcode);
 			if ($retcode != 0) {
 				return array(sprintf(_("Error opening %s for reading"), $url));
@@ -2822,7 +2824,7 @@ class module_functions {
 		$contents = null;
 
 		if(!$amp_conf['MODULEADMINWGET']) {
-			$pest = new Pest($url);
+			$pest = FreePBX::Curl()->pest($url);
 			try{
 				$contents = $pest->$verb($url.$request,$params);
 				if(isset($pest->last_headers['x-regenerate-id'])) {
@@ -2838,7 +2840,8 @@ class module_functions {
 		if(empty($contents)) {
 			$fn2 = str_replace('&','\\&',$fn);
 			$p = (!empty($params)) ? "--post-data '".http_build_query($params)."'" : "";
-			exec("wget --tries=1 --timeout=30 $p -O - $fn2 2>> /dev/null", $data_arr, $retcode);
+			FreePBX::Curl()->setEnvVariables();
+			exec("wget --tries=1 --timeout=30 $p -O - $fn2 2> /dev/null", $data_arr, $retcode);
 			if ($retcode) {
 				// if server isn't available for some reason should return non-zero
 				// so we return and we don't set the flag below

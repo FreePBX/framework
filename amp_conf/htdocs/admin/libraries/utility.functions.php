@@ -523,6 +523,7 @@ function file_get_contents_url($file_url) {
 		}
 		if (empty($contents)) {
 			$fn2 = str_replace('&','\\&',$fn);
+			FreePBX::Curl()->setEnvVariables();
 			exec("wget --tries=1 --timeout=30 -O - $fn2 2>> /dev/null", $data_arr, $retcode);
 			if ($retcode) {
 				// if server isn't available for some reason should return non-zero
