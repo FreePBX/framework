@@ -287,6 +287,18 @@ class FreePBXInstallCommand extends Command {
 				exit(1);
 			}
 			$output->writeln("Done");
+		} elseif(file_exists(ODBC_INI)) {
+			$conf = file_get_contents(ODBC_INI);
+			$conf = trim($conf);
+			if(empty($conf)) {
+				$output->write("Blank ".ODBC_INI." file detected. Installing...");
+				if(!copy(FILES_DIR . "/odbc.ini", ODBC_INI)) {
+					$output->writeln("<error>Error!</error>");
+					$output->writeln("<error>Unable to copy " . FILES_DIR . "/odbc.ini to ".ODBC_INI."</error>");
+					exit(1);
+				}
+				$output->writeln("Done");
+			}
 		}
 
 		if (isset($asterisk_conf['astetcdir'])) {
@@ -479,7 +491,7 @@ class FreePBXInstallCommand extends Command {
 		//File variable replacement
 		$rfiles = array(
 			$amp_conf['ASTETCDIR'] . "/manager.conf",
-			$amp_conf['ASTETCDIR'] . "/voicemail.conf",
+			//$amp_conf['ASTETCDIR'] . "/voicemail.conf",
 			$amp_conf['ASTETCDIR'] . "/cdr_adaptive_odbc.conf",
 			ODBC_INI,
 		);
