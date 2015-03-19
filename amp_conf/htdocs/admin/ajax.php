@@ -45,6 +45,5 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 // We may remove this, but for the moment, ajax should be
 // 100% error and warning free.
 error_reporting(-1);
-set_language();
 modgettext::textdomain($module);
 $bmo->Ajax->doRequest($module, $command);
