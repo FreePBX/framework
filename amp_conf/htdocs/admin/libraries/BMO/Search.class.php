@@ -61,9 +61,18 @@ class Search extends FreePBX_Helpers {
 				// was forced to display.
 				continue;
 			}
-			if (strpos($r['text'], $qs) === false) {
-				// Doesn't match? Remove.
-				unset($results[$i]);
+			// We should try to use UTF-8 sensible matching if possible.
+			if (function_exists("mb_stripos")) {
+				if (mb_stripos($r['text'], $qs) === false) {
+					// Doesn't match? Remove.
+					unset($results[$i]);
+				}
+			} else {
+				// Use UTF-8 unsafe check.
+				if (stripos($r['text'], $qs) === false) {
+					// Doesn't match? Remove.
+					unset($results[$i]);
+				}
 			}
 		}
 		return $results;
