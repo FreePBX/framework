@@ -40,6 +40,9 @@ class Search extends FreePBX_Helpers {
 	}
 
 	public function moduleSearch() {
+
+		$results = array();
+
 		if (!isset($_REQUEST['query'])) {
 			return array();
 		}
