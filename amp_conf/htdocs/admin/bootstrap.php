@@ -106,6 +106,9 @@ $freepbx_conf = $bmo->Freepbx_conf();
 //
 $bootstrap_settings['amportal_conf_initialized'] = false;
 $amp_conf =& $freepbx_conf->parse_amportal_conf("/etc/amportal.conf",$amp_conf);
+// set the language so local module languages take
+set_language();
+
 $asterisk_conf =& $freepbx_conf->get_asterisk_conf();
 $bootstrap_settings['amportal_conf_initialized'] = true;
 

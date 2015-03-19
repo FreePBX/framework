@@ -37,17 +37,21 @@ function frameworkPasswordCheck() {
 // setup locale
 function set_language() {
 	if (extension_loaded('gettext')) {
-		if (empty($_COOKIE['lang']) || !preg_match('/^[\w\._@-]+$/', $_COOKIE['lang'], $matches)) {
-			$lang = $amp_conf['UIDEFAULTLANG']?$amp_conf['UIDEFAULTLANG']:'en_US';
-			if (empty($_COOKIE['lang'])) {
-				setcookie("lang", $lang);
+		if(php_sapi_name() !== 'cli') {
+			if (empty($_COOKIE['lang']) || !preg_match('/^[\w\._@-]+$/', $_COOKIE['lang'], $matches)) {
+				$lang = $amp_conf['UIDEFAULTLANG']?$amp_conf['UIDEFAULTLANG']:'en_US';
+				if (empty($_COOKIE['lang'])) {
+					setcookie("lang", $lang);
+				} else {
+					$_COOKIE['lang'] = $lang;
+				}
 			} else {
+				preg_match('/^([\w\._@-]+)$/', $_COOKIE['lang'], $matches);
+				$lang = !empty($matches[1])?$matches[1]:'en_US';
 				$_COOKIE['lang'] = $lang;
 			}
 		} else {
-			preg_match('/^([\w\._@-]+)$/', $_COOKIE['lang'], $matches);
-			$lang = !empty($matches[1])?$matches[1]:'en_US';
-			$_COOKIE['lang'] = $lang;
+			$lang = $amp_conf['UIDEFAULTLANG']?$amp_conf['UIDEFAULTLANG']:'en_US';
 		}
 		putenv('LC_ALL='.$lang);
 		putenv('LANG='.$lang);
@@ -506,4 +510,3 @@ function framework_server_name() {
 
 	return $title;
 }
-
