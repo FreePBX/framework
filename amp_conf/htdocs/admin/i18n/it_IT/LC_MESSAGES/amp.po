@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-19 12:29-0400\n"
+"POT-Creation-Date: 2015-03-20 15:13-0400\n"
 "PO-Revision-Date: 2008-11-09 19:43+0100\n"
 "Last-Translator: Francesco Romano <francesco.romano@alteclab.it>\n"
 "Language-Team: Italian\n"
@@ -485,6 +485,17 @@ msgid ""
 "device is unusable!"
 msgstr ""
 
+#: ../core/page.advancedsettings.php:200
+msgid ""
+"<strong>Some of these settings can render your system inoperable.</"
+"strong><br/> You are urged to backup before making any changes.<br/>Readonly "
+"settings are usually more volatile, they can be changed by changing "
+"'Override Readonly Settings' to Yes.</br> You can restore the default "
+"setting by clicking on the <i class='fa fa-refresh'></i> icon to the left of "
+"the values if they are not set as default.<br/> Unlike previous versions of "
+"this module you now save changes as a group."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1071
 #, php-format
 msgid "A %s version below %s is required, you have %s"
@@ -548,7 +559,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "Una rotta per questa Selezione Passante/ID Chiamante già esiste!"
 
-#: ../core/Core.class.php:1341 ../core/functions.inc.php:4914
+#: ../core/Core.class.php:1343 ../core/functions.inc.php:4914
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "Una rotta con questa Selezione Passante / ID: %s/%s già esiste"
@@ -569,9 +580,9 @@ msgstr ""
 "ALERT_INFO può essere utilizzato per distinguere le suonerie con gli "
 "apparati di tipo SIP."
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1195
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1207
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1232
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1196
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1208
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1233
 #, php-format
 msgid "AMI failure details:"
 msgstr ""
@@ -694,7 +705,7 @@ msgstr ""
 msgid "Add New %s Extension"
 msgstr ""
 
-#: ../core/page.routing.php:11
+#: ../core/page.routing.php:10
 msgid "Add Route"
 msgstr "Aggiungi Rotta"
 
@@ -2073,7 +2084,7 @@ msgstr ""
 msgid "Default"
 msgstr "Predefinito"
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1217
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1218
 msgid "Default Asterisk Manager Password Used"
 msgstr ""
 
@@ -2347,7 +2358,7 @@ msgstr ""
 msgid "Device"
 msgstr "Apparato"
 
-#: ../core/Core.class.php:1006
+#: ../core/Core.class.php:1008
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
@@ -2757,7 +2768,7 @@ msgstr "Modifica Interno"
 msgid "Edit Fixed User: %s"
 msgstr "Modifica Utente Fisso: %s"
 
-#: ../core/page.routing.php:9
+#: ../core/page.routing.php:8
 msgid "Edit Route"
 msgstr "Modifica Rotta"
 
@@ -2995,7 +3006,7 @@ msgstr "Errore durante la creazione della directory temporanea: %s"
 msgid "Error deleting directory %s (code %d)"
 msgstr "Errore durante l'eliminazione della direcory %s (codice %d)"
 
-#: ../core/Core.class.php:760 ../core/page.trunks.php:323
+#: ../core/Core.class.php:758 ../core/page.trunks.php:323
 msgid "Error fetching prefix list for: "
 msgstr "Errore nel prelevamento della lista prefissi per:"
 
@@ -3197,17 +3208,17 @@ msgstr ""
 msgid "FOP Web Root Dir"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1205
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1206
 #, php-format
 msgid "Failed changing AMI password to [%s], internal failure details follow:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1193
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1194
 #, php-format
 msgid "Failed changing AMI user to [%s], internal failure details follow:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1230
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1231
 #, php-format
 msgid ""
 "Failed changing AMI writetimout to [%s], internal failure details follow:"
@@ -3233,7 +3244,7 @@ msgid "Failed to get remote file, error was:"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2848
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:531
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:532
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
 msgstr ""
@@ -3252,7 +3263,7 @@ msgstr ""
 msgid "Failed to read manager file to add writetimeout"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1247
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1248
 msgid ""
 "Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx "
 "'module reload manager']"
@@ -3434,7 +3445,7 @@ msgid "Force rport - (force_rport)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2860
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:543
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:544
 #, php-format
 msgid "Forced %s to true"
 msgstr ""
@@ -4200,7 +4211,7 @@ msgstr ""
 msgid "Invalid email address"
 msgstr ""
 
-#: ../core/Core.class.php:764 ../core/page.trunks.php:328
+#: ../core/Core.class.php:762 ../core/page.trunks.php:328
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr ""
 "Formato non valido per il codice NPA-NXX (deve essere del formato: NXXNXX)"
@@ -5176,7 +5187,7 @@ msgstr ""
 msgid "Outbound Route: %s"
 msgstr ""
 
-#: amp.i18n.php:730 ../core/page.routing.php:87
+#: amp.i18n.php:730 ../core/page.routing.php:86
 #: ../core/views/routing/default.php:2
 msgid "Outbound Routes"
 msgstr "Rotte in uscita"
@@ -6343,16 +6354,6 @@ msgid ""
 "higher the number the more detailed level of trace NoOp()s will be generated"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:200
-msgid ""
-"Some of these settings can render your system inoperable. You are urged to "
-"backup before making any changes. Readonly settings are usually more "
-"volatile, they can be changed by changing 'Override Readonly Settings' to "
-"true. Once changed you must save the setting by checking the green check box "
-"that appears. You can restore the default setting by clicking on the icon to "
-"the right of the values if not set at default."
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1932
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1964
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2037
@@ -6815,7 +6816,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2861
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:544
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:545
 #, php-format
 msgid ""
 "The system detected a problem trying to access external server data and "
@@ -6949,7 +6950,7 @@ msgid ""
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
 msgstr ""
 
-#: ../core/Core.class.php:1013
+#: ../core/Core.class.php:1015
 msgid "This device id is already in use"
 msgstr "Questo apparato è già in uso"
 
@@ -7088,7 +7089,7 @@ msgstr ""
 msgid "This page is used to manage various system trunks"
 msgstr ""
 
-#: ../core/page.routing.php:24 ../core/views/routing/default.php:4
+#: ../core/page.routing.php:23 ../core/views/routing/default.php:4
 msgid "This page is used to manage your outbound routing."
 msgstr ""
 
@@ -7125,7 +7126,7 @@ msgstr ""
 "uscita per il suo utilizzo. Andare su <b>Rotte in uscita<b> per impostare le "
 "varie rotte."
 
-#: ../core/Core.class.php:1325
+#: ../core/Core.class.php:1327
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "Questo utente/interno %s è già in uso"
@@ -7737,7 +7738,7 @@ msgstr ""
 msgid "Welcome to FreePBX."
 msgstr "Benvenuto in FreePBX."
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1162
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1163
 msgid "What Does this Mean?"
 msgstr ""
 
@@ -7980,7 +7981,7 @@ msgid ""
 "They will continue to show up here."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1217
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1218
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
 "you should set a secure password"
@@ -8134,7 +8135,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:1317
+#: ../core/Core.class.php:1319
 msgid "You must put in an extension (or user) number"
 msgstr "Devi inserire un numero di interno (o utente)"
 

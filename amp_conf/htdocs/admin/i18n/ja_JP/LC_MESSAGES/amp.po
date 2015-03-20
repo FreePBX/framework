@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-19 12:29-0400\n"
+"POT-Creation-Date: 2015-03-20 15:13-0400\n"
 "PO-Revision-Date: 2015-02-21 10:54+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -528,6 +528,17 @@ msgid ""
 "device is unusable!"
 msgstr ""
 
+#: ../core/page.advancedsettings.php:200
+msgid ""
+"<strong>Some of these settings can render your system inoperable.</"
+"strong><br/> You are urged to backup before making any changes.<br/>Readonly "
+"settings are usually more volatile, they can be changed by changing "
+"'Override Readonly Settings' to Yes.</br> You can restore the default "
+"setting by clicking on the <i class='fa fa-refresh'></i> icon to the left of "
+"the values if they are not set as default.<br/> Unlike previous versions of "
+"this module you now save changes as a group."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1071
 #, php-format
 msgid "A %s version below %s is required, you have %s"
@@ -595,7 +606,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "このDID/CIDのルートは既に存在しています!"
 
-#: ../core/Core.class.php:1341 ../core/functions.inc.php:4914
+#: ../core/Core.class.php:1343 ../core/functions.inc.php:4914
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "このDID/CIDのルート: %s/%s は既に存在しています"
@@ -612,9 +623,9 @@ msgstr "ユーザーはデバイスにログオンする時にこのパスワー
 msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
 msgstr "ALERT_INFOは、SIPデバイスと着信音に使用することができます。"
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1195
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1207
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1232
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1196
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1208
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1233
 #, php-format
 msgid "AMI failure details:"
 msgstr "AMI失敗の詳細:"
@@ -737,7 +748,7 @@ msgstr ""
 msgid "Add New %s Extension"
 msgstr ""
 
-#: ../core/page.routing.php:11
+#: ../core/page.routing.php:10
 msgid "Add Route"
 msgstr "経路の追加"
 
@@ -2215,7 +2226,7 @@ msgstr "デバッグファイル"
 msgid "Default"
 msgstr "デフォルト"
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1217
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1218
 msgid "Default Asterisk Manager Password Used"
 msgstr "Asteriskマネージャーの初期パスワードを使用"
 
@@ -2562,7 +2573,7 @@ msgstr "開発者とカスタマイズ"
 msgid "Device"
 msgstr "デバイス"
 
-#: ../core/Core.class.php:1006
+#: ../core/Core.class.php:1008
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
@@ -2983,7 +2994,7 @@ msgstr "内線編集"
 msgid "Edit Fixed User: %s"
 msgstr "固定ユーザーを編集: %s"
 
-#: ../core/page.routing.php:9
+#: ../core/page.routing.php:8
 msgid "Edit Route"
 msgstr "経路の編集"
 
@@ -3233,7 +3244,7 @@ msgstr "テンポラリディレクトリの作成に失敗： %s"
 msgid "Error deleting directory %s (code %d)"
 msgstr "ディレクトリ %s の削除エラー (コード %d)"
 
-#: ../core/Core.class.php:760 ../core/page.trunks.php:323
+#: ../core/Core.class.php:758 ../core/page.trunks.php:323
 msgid "Error fetching prefix list for: "
 msgstr "エラー プリフィックスリスト取得： "
 
@@ -3442,18 +3453,18 @@ msgstr ""
 msgid "FOP Web Root Dir"
 msgstr "FOP Webルートディレクトリ"
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1205
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1206
 #, php-format
 msgid "Failed changing AMI password to [%s], internal failure details follow:"
 msgstr ""
 "AMIパスワードの [%s] への変更に失敗しました。問題の詳細は次のとおりです:"
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1193
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1194
 #, php-format
 msgid "Failed changing AMI user to [%s], internal failure details follow:"
 msgstr "AMIユーザーの [%s] への変更に失敗しました。問題の詳細は次のとおりです:"
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1230
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1231
 #, php-format
 msgid ""
 "Failed changing AMI writetimout to [%s], internal failure details follow:"
@@ -3482,7 +3493,7 @@ msgid "Failed to get remote file, error was:"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2848
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:531
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:532
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
 msgstr ""
@@ -3502,7 +3513,7 @@ msgstr ""
 msgid "Failed to read manager file to add writetimeout"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1247
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1248
 msgid ""
 "Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx "
 "'module reload manager']"
@@ -3692,7 +3703,7 @@ msgid "Force rport - (force_rport)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2860
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:543
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:544
 #, php-format
 msgid "Forced %s to true"
 msgstr "%sを強制的に true にする"
@@ -4538,7 +4549,7 @@ msgstr "無効なユーザー名かパスワード"
 msgid "Invalid email address"
 msgstr "無効なEメールアドレス"
 
-#: ../core/Core.class.php:764 ../core/page.trunks.php:328
+#: ../core/Core.class.php:762 ../core/page.trunks.php:328
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "NPA-NXX コードの無効なフォーマット (正しいフォーマット: NXXNXX)"
 
@@ -5599,7 +5610,7 @@ msgstr ""
 msgid "Outbound Route: %s"
 msgstr "アウトバウンド経路： %s"
 
-#: amp.i18n.php:730 ../core/page.routing.php:87
+#: amp.i18n.php:730 ../core/page.routing.php:86
 #: ../core/views/routing/default.php:2
 msgid "Outbound Routes"
 msgstr "アウトバウンドルート"
@@ -6850,23 +6861,6 @@ msgstr ""
 "せない場合は、0に設定します。設定数が大きい程、 NoOp()は詳細なのトレースを生"
 "成します"
 
-#: ../core/page.advancedsettings.php:200
-msgid ""
-"Some of these settings can render your system inoperable. You are urged to "
-"backup before making any changes. Readonly settings are usually more "
-"volatile, they can be changed by changing 'Override Readonly Settings' to "
-"true. Once changed you must save the setting by checking the green check box "
-"that appears. You can restore the default setting by clicking on the icon to "
-"the right of the values if not set at default."
-msgstr ""
-"これらの設定のいくつかはあなたのシステムを操作不能な状態にする可能性がありま"
-"す。変更の前にバックアップすることを強くおすすめします。読み込み専用項目の設"
-"定変更はより危険です。これらは、'読み取り専用設定を上書きする'をtrueにするこ"
-"とにより変更可能になります。一度変更したら、緑のチェックボックスにチェックを"
-"入れ、設定を保存する必要があります。デフォルト設定になっていない場合は、値の"
-"右側にあるアイコンをクリックすることにより、デフォルト設定に復元することがで"
-"きます。"
-
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1932
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1964
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2037
@@ -7344,7 +7338,7 @@ msgstr ""
 "い。"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2861
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:544
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:545
 #, php-format
 msgid ""
 "The system detected a problem trying to access external server data and "
@@ -7505,7 +7499,7 @@ msgstr ""
 "アウトバウンドルートを緊急フラグ付きでダイヤルアウトする時、この発信者IDは常"
 "にセットされます。緊急のCIDは他の発信者ID設定全てを上書きします。"
 
-#: ../core/Core.class.php:1013
+#: ../core/Core.class.php:1015
 msgid "This device id is already in use"
 msgstr "このデバイスIDは既に使用されています"
 
@@ -7661,7 +7655,7 @@ msgstr "このページはβ版です"
 msgid "This page is used to manage various system trunks"
 msgstr ""
 
-#: ../core/page.routing.php:24 ../core/views/routing/default.php:4
+#: ../core/page.routing.php:23 ../core/views/routing/default.php:4
 msgid "This page is used to manage your outbound routing."
 msgstr ""
 
@@ -7708,7 +7702,7 @@ msgstr ""
 "コールで使用できません。<b>アウトバウンド経路</b>をクリックしてルーティングの"
 "セットアップを行ってください。"
 
-#: ../core/Core.class.php:1325
+#: ../core/Core.class.php:1327
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "このユーザー/内線番号 %s は既に使用中です"
@@ -8342,7 +8336,7 @@ msgstr "ようこそ "
 msgid "Welcome to FreePBX."
 msgstr "FreePBXへようこそ。"
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1162
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1163
 msgid "What Does this Mean?"
 msgstr "詳しくはこちらをご覧ください。"
 
@@ -8657,7 +8651,7 @@ msgid ""
 "They will continue to show up here."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1217
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1218
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
 "you should set a secure password"
@@ -8815,7 +8809,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:1317
+#: ../core/Core.class.php:1319
 msgid "You must put in an extension (or user) number"
 msgstr "内線(またはユーザー)番号を入力は必須です"
 
@@ -9707,6 +9701,22 @@ msgstr ""
 #: ../core/install.php:1047
 msgid "zap devices migrated"
 msgstr "zapでバイスが移行されました"
+
+#~ msgid ""
+#~ "Some of these settings can render your system inoperable. You are urged "
+#~ "to backup before making any changes. Readonly settings are usually more "
+#~ "volatile, they can be changed by changing 'Override Readonly Settings' to "
+#~ "true. Once changed you must save the setting by checking the green check "
+#~ "box that appears. You can restore the default setting by clicking on the "
+#~ "icon to the right of the values if not set at default."
+#~ msgstr ""
+#~ "これらの設定のいくつかはあなたのシステムを操作不能な状態にする可能性があり"
+#~ "ます。変更の前にバックアップすることを強くおすすめします。読み込み専用項目"
+#~ "の設定変更はより危険です。これらは、'読み取り専用設定を上書きする'をtrueに"
+#~ "することにより変更可能になります。一度変更したら、緑のチェックボックスに"
+#~ "チェックを入れ、設定を保存する必要があります。デフォルト設定になっていない"
+#~ "場合は、値の右側にあるアイコンをクリックすることにより、デフォルト設定に復"
+#~ "元することができます。"
 
 #~ msgid " (toggle sort)"
 #~ msgstr " (ソート切り替え)"
