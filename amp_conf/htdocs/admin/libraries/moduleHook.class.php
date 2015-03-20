@@ -35,7 +35,6 @@ class moduleHook {
 	 */
 	public function install_hooks($module_page,$target_module,$viewing_itemid = '') {
 		global $active_modules;
-
 		/*  Loop though all active modules and find which ones have hooks.
 		 *  Then process those hooks. Note we split this into two loops
 		 *  because of #4057, if drawselects() is called from within a hook

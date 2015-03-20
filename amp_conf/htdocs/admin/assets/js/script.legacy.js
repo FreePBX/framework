@@ -1151,18 +1151,35 @@ $(document).ready(function() {
 
 		$(".fpbx-container i.fpbx-help-icon").hover(function() {
 			var id = $(this).data("for");
+			$(".fpbx-help-block").removeClass("active");
 			$("#" + id + "-help").addClass("active");
-		}, function() {
-			var id = $(this).data("for");
-			$("#" + id + "-help").removeClass("active");
+		}, function(event) {
+			if(event.relatedTarget && (event.relatedTarget.type == "submit" || event.relatedTarget.type == "button")){
+				return;
+			}
+			var id = $(this).data("for"), act = $("#" + id + "-help").data("activate");
+			if(typeof act !== "undefined" && act == "locked") {
+				return;
+			}
+			$("#" + id + "-help").fadeOut("slow",function() {
+				$(this).removeClass("active").css("display","");
+			});
 		});
 		$(".fpbx-container .form-control").focus(function() {
+			$(".fpbx-help-block").removeClass("active");
 			var id = $(this).prop("id");
 			$("#" + id + "-help").addClass("active");
+			$("#" + id + "-help").data("activate","locked");
 		});
-		$(".fpbx-container .form-control").blur(function() {
+		$(".fpbx-container .form-control").blur(function(event) {
+			if(event.relatedTarget && (event.relatedTarget.type == "submit" || event.relatedTarget.type == "button")){
+				return;
+			}
+			$("#" + id + "-help").data("activate","");
 			var id = $(this).prop("id");
-			$("#" + id + "-help").removeClass("active");
+			$("#" + id + "-help").fadeOut("slow",function() {
+				$(this).removeClass("active").css("display","");
+			});
 		});
 	}
 

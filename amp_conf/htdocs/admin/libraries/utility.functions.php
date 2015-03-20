@@ -497,6 +497,7 @@ function debug($text,$log=true) {
 
 	if ($debug) echo "[DEBUG-preDB] ".$text.EOL;
 	if ($log) {
+		dbug("HEY YOU!! YEAH YOU. STOP USING THIS. USE dbug() INSTEAD");
 		dbug($text);
 	}
 }
