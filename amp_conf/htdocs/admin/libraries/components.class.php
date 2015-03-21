@@ -584,6 +584,11 @@ class guiinput extends guielement {
 
 	protected $html_input = null;
 
+	//php4 backwards for certain modules
+	function guiinput($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $jsvalidationtest='') {
+		$this->__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty, $jsvalidationtest);
+	}
+
 	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $jsvalidationtest='') {
 
 		// call parent class contructor
@@ -706,6 +711,11 @@ class guiinput extends guielement {
 
 // Textbox
 class gui_textbox extends guiinput {
+	//php4 backwards for certain modules
+	function gui_textbox($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $inputgroup = false, $class = '', $autocomplete = true) {
+		$this->__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty, $maxchars, $disable, $inputgroup, $class, $autocomplete);
+	}
+
 	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $inputgroup = false, $class = '', $autocomplete = true) {
 		if(is_array($elemname)) {
 			extract($elemname);
@@ -728,6 +738,11 @@ class gui_textbox extends guiinput {
 
 // Textbox with Enable/Disable Check after
 class gui_textbox_check extends gui_textbox {
+	//php4 backwards for certain modules
+	function gui_textbox_check($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $cblabel='Enable', $disabled_value='DEFAULT', $check_enables='true', $cbdisable = false, $class='', $cbclass='') {
+		$this->__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty, $maxchars, $disable, $cblabel, $disabled_value, $check_enables, $cbdisable, $class, $cbclass);
+	}
+
 	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $cblabel='Enable', $disabled_value='DEFAULT', $check_enables='true', $cbdisable = false, $class='', $cbclass='') {
 		if(is_array($elemname)) {
 			extract($elemname);
@@ -774,6 +789,11 @@ class gui_textbox_check extends gui_textbox {
 
 // Password
 class gui_password extends guiinput {
+	//php4 backwards for certain modules
+	function gui_password($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $class='',$passwordToggle=false) {
+		$this->__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty, $maxchars, $disable, $class, $passwordToggle);
+	}
+
 	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $class='',$passwordToggle=false) {
 		if(is_array($elemname)) {
 			extract($elemname);
@@ -803,6 +823,11 @@ class gui_password extends guiinput {
 
 // Select box
 class gui_selectbox extends guiinput {
+	//php4 backwards for certain modules
+	function gui_selectbox($elemname, $valarray = array(), $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
+		$this->__construct($elemname, $valarray, $currentvalue, $prompttext, $helptext, $canbeempty, $onchange, $disable, $class);
+	}
+
 	function __construct($elemname, $valarray = array(), $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
 		if(is_array($elemname)) {
 			extract($elemname);
@@ -847,6 +872,10 @@ class gui_selectbox extends guiinput {
 }
 
 class gui_checkbox extends guiinput {
+	//php4 backwards for certain modules
+	function gui_checkbox($elemname, $checked=false, $prompttext='', $helptext='', $value='on', $post_text = '', $jsonclick = '', $disable=false, $class = '') {
+		$this->__construct($elemname, $checked, $prompttext, $helptext, $value, $post_text, $jsonclick, $disable, $class);
+	}
 	function __construct($elemname, $checked=false, $prompttext='', $helptext='', $value='on', $post_text = '', $jsonclick = '', $disable=false, $class = '') {
 		if(is_array($elemname)) {
 			extract($elemname);
@@ -864,6 +893,10 @@ class gui_checkbox extends guiinput {
 }
 
 class gui_checkset extends guiinput {
+	//php4 backwards for certain modules
+	function gui_checkset($elemname, $valarray = array(), $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '') {
+		$this->__construct($elemname, $valarray, $currentvalue, $prompttext, $helptext, $disable, $jsonclick, $class);
+	}
 	public function __construct($elemname, $valarray = array(), $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '') {
 		if(is_array($elemname)) {
 			extract($elemname);
@@ -900,6 +933,10 @@ class gui_checkset extends guiinput {
 }
 
 class gui_radio extends guiinput {
+	//php4 backwards for certain modules
+	function gui_radio($elemname, $valarray = array(), $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '', $pairedvalues = true) {
+		$this->__construct($elemname, $valarray, $currentvalue, $prompttext, $helptext, $disable, $jsonclick, $class, $pairedvalues);
+	}
 	public function __construct($elemname, $valarray = array(), $currentvalue = '', $prompttext = '', $helptext = '', $disable=false, $jsonclick = '', $class = '', $pairedvalues = true) {
 		if(is_array($elemname)) {
 			extract($elemname);
@@ -937,6 +974,11 @@ class gui_radio extends guiinput {
 }
 
 class gui_button extends guiinput {
+	//php4 backwards for certain modules
+	function gui_button($elemname, $value, $prompttext = '', $helptext = '', $post_text = '', $jsonclick = '', $disable=false, $class = '') {
+		$this->__construct($elemname, $value, $prompttext, $helptext, $post_text, $jsonclick, $disable, $class);
+	}
+
 	public function __construct($elemname, $value, $prompttext = '', $helptext = '', $post_text = '', $jsonclick = '', $disable=false, $class = '') {
 		if(is_array($elemname)) {
 			extract($elemname);
@@ -952,6 +994,11 @@ class gui_button extends guiinput {
 }
 
 class gui_drawselects extends guiinput {
+	//php4 backwards for certain modules
+	function gui_drawselects($elemname, $index = '', $dest = '', $prompttext = '', $helptext = '', $required = false, $failvalidationmsg='', $nodest_msg='', $disable=false, $class='') {
+		$this->__construct($elemname, $index, $dest, $prompttext, $helptext, $required, $failvalidationmsg, $nodest_msg, $disable, $class);
+	}
+
 	public function __construct($elemname, $index = '', $dest = '', $prompttext = '', $helptext = '', $required = false, $failvalidationmsg='', $nodest_msg='', $disable=false, $class='') {
 		if(is_array($elemname)) {
 			extract($elemname);
@@ -975,6 +1022,10 @@ class gui_drawselects extends guiinput {
 }
 
 class gui_textarea extends guiinput {
+	//php4 backwards for certain modules
+	function gui_textarea($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $class='') {
+		$this->__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty, $maxchars, $class);
+	}
 	public function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $class='') {
 		if(is_array($elemname)) {
 			extract($elemname);
@@ -1057,6 +1108,10 @@ class guitext extends guielement {
 
 // Label -- just text basically!
 class gui_label extends guitext {
+	//php4 backwards for certain modules
+	function gui_label($elemname, $text, $uselang = true, $class='') {
+		$this->__construct($elemname, $text, $uselang, $class);
+	}
 	public function __construct($elemname, $text, $uselang = true, $class='') {
 		// call parent class contructor
 		parent::__construct($elemname, $text);
@@ -1070,6 +1125,10 @@ class gui_label extends guitext {
 
 // Main page header
 class gui_pageheading extends guitext {
+	//php4 backwards for certain modules
+	function gui_textarea($elemname, $text, $uselang = true, $class='') {
+		$this->__construct($elemname, $text, $uselang, $class);
+	}
 	public function __construct($elemname, $text, $uselang = true, $class='') {
 		// call parent class contructor
 		parent::__construct($elemname, $text);
@@ -1082,6 +1141,10 @@ class gui_pageheading extends guitext {
 
 // Second level / sub header
 class gui_subheading extends guitext {
+	//php4 backwards for certain modules
+	function gui_textarea($elemname, $text, $uselang = true, $class='') {
+		$this->__construct($elemname, $text, $uselang, $class);
+	}
 	public function __construct($elemname, $text, $uselang = true, $class='') {
 		// call parent class contructor
 		parent::__construct($elemname, $text);
@@ -1094,6 +1157,10 @@ class gui_subheading extends guitext {
 
 // URL / Link
 class gui_link extends guitext {
+	//php4 backwards for certain modules
+	function gui_textarea($elemname, $text, $url, $uselang = true, $class='') {
+		$this->__construct($elemname, $text, $url, $uselang, $class);
+	}
 	public function __construct($elemname, $text, $url, $uselang = true, $class='') {
 		// call parent class contructor
 		parent::__construct($elemname, $text);
@@ -1104,6 +1171,10 @@ class gui_link extends guitext {
 	}
 }
 class gui_link_label extends guitext {
+	//php4 backwards for certain modules
+	function gui_textarea($elemname, $text, $tooltip, $uselang = true, $class='') {
+		$this->__construct($elemname, $text, $tooltip, $uselang, $class);
+	}
 	public function __construct($elemname, $text, $tooltip, $uselang = true, $class='') {
 		// call parent class contructor
 		parent::__construct($elemname, $text);
