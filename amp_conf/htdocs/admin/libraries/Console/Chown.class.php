@@ -127,16 +127,19 @@ class Chown extends Command {
 		//Merge static files and hook files, then act on them as a single unit
 		$this->modfiles = array_merge_recursive($this->modfiles,$this->fwcChownFiles());
 
-		$owner = $AMPASTERISKWEBUSER;
+		$ampowner = $AMPASTERISKWEBUSER;
 		/* Address concerns carried over from amportal in FREEPBX-8268. If the apache user is different
 		 * than the Asterisk user we provide permissions that allow both.
 		 */
-		$group =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
+		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
 		foreach($this->modfiles as $modfilearray => $modfilelist){
 			foreach($modfilelist as $file){
 				if(!file_exists($file['path'])){
 						continue;
 				}
+				//Handle custom ownership (optional)
+				$owner = array_key_exists('owner', $file)?$file['owner']:$ampowner;
+				$group = array_key_exists('group', $file)?$file['group']:$ampgroup;
 				//Set warning for bad permissions and move on
 				$this->padPermissions($file['path'],$file['perms']);
 				switch($file['type']){
