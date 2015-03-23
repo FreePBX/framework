@@ -184,9 +184,9 @@ class Freepbx_conf {
    * @type {array}
    */
   private $depreciatedSettings = array(
-    "USEDEVSTATE" => true,
-    "USEQUEUESTATE" => false,
-    "ALWAYS_SHOW_DEVICE_DETAILS" => true
+    "USEDEVSTATE" => 1,
+    "USEQUEUESTATE" => 0,
+    "ALWAYS_SHOW_DEVICE_DETAILS" => 1
   );
 
 
@@ -378,10 +378,10 @@ class Freepbx_conf {
 			  //
         case CONF_TYPE_BOOL:
 				  if (!isset($this->conf[$key])) {
-					  $this->conf[$key] = $arr[1];
+					  $this->conf[$key] = ($arr[1] ? 1: 0);
 				  } else {
-					  $this->conf[$key] = ($this->conf[$key] === true || strtolower($this->conf[$key]) == 'true' || $this->conf[$key] === 1 || $this->conf[$key] == '1'
-					                                      || strtolower($this->conf[$key]) == 'yes' ||  strtolower($this->conf[$key]) == 'on');
+					  $this->conf[$key] = (($this->conf[$key] === true || strtolower($this->conf[$key]) == 'true' || $this->conf[$key] === 1 || $this->conf[$key] == '1'
+					                                      || strtolower($this->conf[$key]) == 'yes' ||  strtolower($this->conf[$key]) == 'on') ? 1 : 0);
 				  }
 				  break;
 			  default:
