@@ -36,6 +36,7 @@ function frameworkPasswordCheck() {
 
 // setup locale
 function set_language() {
+	global $amp_conf;
 	if (extension_loaded('gettext')) {
 		if(php_sapi_name() !== 'cli') {
 			if (empty($_COOKIE['lang']) || !preg_match('/^[\w\._@-]+$/', $_COOKIE['lang'], $matches)) {

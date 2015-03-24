@@ -3,13 +3,15 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>12.0.45</version>
+	<version>12.0.47</version>
 	<publisher>FreePBX</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*12.0.47* Declare amp_conf as a global in set_language
+		*12.0.46* Added UI Default Lanaguge to Advanced Settings
 		*12.0.45* FREEPBX-8766 - Support 'load' tag in modules.conf
 		*12.0.44* Language support when making AJAX calls
 		*12.0.43* FREEPBX-8872 Revert static QUEUES_UPDATECDR removal

@@ -952,6 +952,18 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['type'] = CONF_TYPE_BOOL;
 	$freepbx_conf->define_conf_setting('REMOTEUNLOCK',$set);
 
+	// UIDEFAULTLANG
+	$set['value'] = 'en_US';
+	$set['options'] = '';
+	$set['name'] = 'Default Language';
+	$set['description'] = 'The default language used in the webUI';
+	$set['level'] = 2;
+	$set['module'] = '';
+	$set['hidden'] = 0;
+	$set['readonly'] = 0;
+	$set['type'] = CONF_TYPE_TEXT;
+	$freepbx_conf->define_conf_setting('UIDEFAULTLANG',$set);
+
   //
   // CATEGORY: Dialplan and Operational
   //
