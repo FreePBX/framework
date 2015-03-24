@@ -1653,7 +1653,6 @@ $(".maxlen").keyup(function(){
  * Confirm Deletion on grid actions. Add class "delAction to delete links."
  */
 $(document).on('click','.delAction', function(e){
-	e.preventDefault();
 	var confirmed = confirm(_("Are you sure you want to delete this item?"));
 	return confirmed;
 });
