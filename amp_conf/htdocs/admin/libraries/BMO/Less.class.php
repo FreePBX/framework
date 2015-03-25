@@ -9,7 +9,7 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
-if(!class_exists('Less_Parser')) {
+if(!class_exists('Less_Parser', false)) {
 	include dirname(dirname(__FILE__)).'/less/Less.php';
 }
 
