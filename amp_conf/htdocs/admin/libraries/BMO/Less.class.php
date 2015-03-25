@@ -9,7 +9,9 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
-require_once dirname(dirname(__FILE__)).'/less/Less.php';
+if(!class_exists('Less_Parser')) {
+	include dirname(dirname(__FILE__)).'/less/Less.php';
+}
 
 class Less extends \Less_Parser {
 	public function __construct($freepbx = null, $env = null) {
