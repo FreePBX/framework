@@ -8,8 +8,9 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
-
-require_once dirname(dirname(__FILE__)).'/less/Less.php';
+if(!class_exists('Less_Parser')) {
+	include dirname(dirname(__FILE__)).'/less/Less.php';
+}
 
 class Less extends Less_Parser {
 	public function __construct($freepbx = null, $env = null) {
