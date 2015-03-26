@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-03-24 20:41-0400\n"
-"PO-Revision-Date: 2015-03-23 21:06+0200\n"
+"PO-Revision-Date: 2015-03-25 23:04+0200\n"
 "Last-Translator: Jan Peter <jpveldhuizen@gmail.com>\n"
-"Language-Team: Dutch <http://weblate.freepbx.org/projects/freepbx/framework/"
-"nl_NL/>\n"
+"Language-Team: Dutch "
+"<http://weblate.freepbx.org/projects/freepbx/framework/nl_NL/>\n"
+"Language: nl_NL\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: nl_NL\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.2-dev\n"
 
@@ -720,158 +720,184 @@ msgid ""
 "advised that you keep this enabled and keep updated of these important "
 "notifications to avoid costly security vulnerabilities."
 msgstr ""
+"Geef hier uw e-mailadres op om informatie over belangrijke "
+"beveiligingsupdates en module-updates te ontvangen. Dit e-mailadres zal "
+"NOOIT verstuurd worden naar de %s servers. Het e-mailadres wordt ALLEEN "
+"gebruikt door het lokale systeem om berichten te sturen over BELANGRIJKE "
+"beveiligingsproblemen. Het is TEN ZEERSTE aangeraden om deze optie "
+"geactiveerd te houden en om een actief e-mailadres in te vullen, om "
+"eventuele (kostbare) beveiligingsproblemen snel te kunnen verhelpen."
 
 #: ../core/install.php:507
+#, fuzzy
 msgid "Added pmmaxretries and pmminlength"
-msgstr ""
+msgstr "pmmaxretries en pmminlength toegevoegd"
 
 #: ../core/page.routing.php:528
 msgid "Additional Settings"
-msgstr ""
+msgstr "Extra instellingen"
 
 #: amp.i18n.php:36
 msgid "Address to bind to. Default is 0.0.0.0"
-msgstr ""
+msgstr "IP-adres om mee te verbinden. Standaard is 0.0.0.0"
 
 #: ../core/functions.inc.php:7250
 msgid "Adhoc"
-msgstr ""
+msgstr "ad hoc"
 
 #: amp.i18n.php:6 amp.i18n.php:740
 msgid "Admin"
-msgstr ""
+msgstr "Beheerder"
 
 #: ../core/page.ampusers.php:203
 msgid "Admin Access"
-msgstr ""
+msgstr "Beheerderstoegang"
 
 #: amp_conf/htdocs/admin/views/obe.php:54
 #: amp_conf/htdocs/admin/views/oobe.php:10
 msgid "Admin Email address"
-msgstr ""
+msgstr "Beheerder e-mailadres"
 
 #: amp_conf/htdocs/admin/views/obe.php:30
 #: amp_conf/htdocs/admin/views/oobe.php:9
 msgid "Admin password"
-msgstr ""
+msgstr "Beheerder wachtwoord"
 
 #: amp_conf/htdocs/admin/views/obe.php:20
 #: amp_conf/htdocs/admin/views/oobe.php:8
 msgid "Admin user name"
-msgstr ""
+msgstr "Beheerder gebruikersnaam"
 
 #: amp.i18n.php:738
 msgid "Administrators"
-msgstr ""
+msgstr "Beheerders"
 
 #: amp.i18n.php:734
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Geavanceerde instellingen"
 
 #: amp.i18n.php:12
 msgid "Advanced Settings Details"
-msgstr ""
+msgstr "Geavanceerde instellingen details"
 
 #: amp.i18n.php:598
 msgid "Aggresively Check for Duplicate Extensions"
-msgstr ""
+msgstr "Agressief controleren op dubbele extensies"
 
 #: ../core/page.did.php:212
 msgid "Alert Info"
-msgstr ""
+msgstr "Alarm informatie"
 
 #: ../core/functions.inc.php:7104
 msgid "All - TCP Primary"
-msgstr ""
+msgstr "Alles - TCP eerst"
 
 #: ../core/functions.inc.php:7105
 msgid "All - TLS Primary"
-msgstr ""
+msgstr "Alles - TLS eerst"
 
 #: ../core/functions.inc.php:7103
 msgid "All - UDP Primary"
-msgstr ""
+msgstr "Alles - UDP eerst"
 
 #: ../core/functions.inc.php:7107
 msgid "All - WS Primary"
-msgstr ""
+msgstr "Alles - WS eerst"
 
 #: ../core/page.did.php:76
 msgid "All DIDs"
-msgstr ""
+msgstr "Alle inkomende nummers (DID)"
 
 #: amp_conf/htdocs/admin/page.modules.php:876
 msgid "All available modules are up-to-date and installed."
-msgstr ""
+msgstr "Alle beschikbare modules zijn geïnstalleerd en up-to-date."
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:446
 msgid ""
 "All settings can be set from the Advanced Settings page accessible in FreePBX"
 msgstr ""
+"Alle instellingen kunnen ingesteld worden vanaf de \"Geavanceerde "
+"instellingen\"-pagina in FreePBX"
 
 #: ../core/views/trunks/trunk_header.php:70
 msgid "Allow Any CID"
-msgstr ""
+msgstr "Sta elk nummer van beller (CID) toe"
 
 #: ../core/functions.inc.php:7187
+#, fuzzy
 msgid "Allow Contact header to be rewritten with the source IP address-port"
 msgstr ""
+"Sta toe dat Contact informatie wordt herschreven met het oorspronkelijke IP-"
+"adres/poort"
 
 #: amp.i18n.php:610
 msgid "Allow Login With DB Credentials"
-msgstr ""
+msgstr "Aanmelden met database-referenties toestaan"
 
 #: ../core/functions.inc.php:6953 ../core/functions.inc.php:7155
+#, fuzzy
 msgid ""
 "Allow specific codecs, separated by the '&' sign and in priority order. E.g. "
 "'ulaw&g729'. Codecs allowed in the general settings will also be allowed "
 "unless removed with the 'disallow' directive."
 msgstr ""
+"Specifieke codecs toestaan, gescheiden door een ampersand ('&')  en in "
+"volgorde van prioriteit. Bijvoorbeeld: 'alaw&G729'. Codecs die toegestaan "
+"zijn in de algemene instellingen zullen ook toegestaan zijn, behalve als "
+"deze aangegeven zijn via de \"Niet toegestaan\" optie."
 
 #: ../core/functions.inc.php:7156
 msgid "Allowed Codecs"
-msgstr ""
+msgstr "Codecs toegestaan"
 
 #: upgrades/2.8.0/custom-context.php:55
 #: upgrades/2.8.0rc1/custom-context.php:55
 msgid "Already Migrated!"
-msgstr ""
+msgstr "is al gemigreerd!"
 
 #: amp.i18n.php:486
+#, fuzzy
 msgid "Alt for Footer Logo"
-msgstr ""
+msgstr "Alt voor voettekst logo"
 
 #: amp.i18n.php:482
 msgid "Alt for Left Logo"
-msgstr ""
+msgstr "Alt voor linker logo"
 
 #: ../core/functions.inc.php:6432
 msgid "Always"
-msgstr ""
+msgstr "Altijd"
 
 #: amp.i18n.php:82
+#, fuzzy
 msgid "Always Download Web Assets"
-msgstr ""
+msgstr "Altijd web-activa downloaden"
 
 #: ../core/views/trunks/trunk_header.php:245
 #: ../core/views/trunks/trunk_header.php:253
 msgid "Always dial with prefix"
-msgstr ""
+msgstr "Altijd bellen met voorvoegsel"
 
 #: amp.i18n.php:440
 msgid ""
 "Amount of seconds to allow a session to stay open before logging a user out"
 msgstr ""
+"Tijd in seconden dat de sessie actief moet blijven voordat een gebruiker "
+"afgemeld wordt"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:97
 #, php-format
 msgid "An attempt to send email to: %s with online update status failed"
 msgstr ""
+"Een poging om een e-mail met online update statussen te versturen naar %s is "
+"mislukt"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:75
 #, php-format
 msgid "An attempt to send email to: %s with security notifications failed"
 msgstr ""
+"Een poging om een e-mail met beveiligingsnotificaties te versturen naar %s "
+"is mislukt"
 
 #: ../core/page.did.php:249
 msgid ""
@@ -880,28 +906,36 @@ msgid ""
 "external fax equipment or security systems are installed in parallel and you "
 "would like them to be able to seize the line."
 msgstr ""
+"Een optionele vertraging voordat met deze route wordt begonnen. Als u dit "
+"instelt wordt er gewacht door het kanaal om dit gesprek te beantwoorden. Dit "
+"kan van belang zijn als er bijvoorbeeld een externe fax of "
+"beveiligingssysteem geïnstalleerd is, die eventueel moet reageren op het "
+"inkomende gesprek."
 
 #: ../core/page.routing.php:352
 msgid ""
 "An unknown error occurred repositioning routes, refresh your browser to see "
 "the current correct route positions"
 msgstr ""
+"Een onbekende fout is opgetreden bij het herpositioneren van de routes. "
+"Ververs uw browser ('F5') om de huidige correcte positionering van de routes "
+"weer te geven"
 
 #: ../core/functions.inc.php:6678
 msgid "Any DID"
-msgstr ""
+msgstr "Elk inkomend nummer (DID)"
 
 #: amp.i18n.php:716
 msgid "Applications"
-msgstr ""
+msgstr "Applicaties"
 
 #: ../core/page.ampusers.php:227
 msgid "Apply Changes Bar"
-msgstr ""
+msgstr "Veranderingen toepassen balk"
 
 #: amp_conf/htdocs/admin/views/menu.php:168
 msgid "Apply Config"
-msgstr ""
+msgstr "Veranderingen toepassen"
 
 #: ../core/functions.inc.php:7209
 msgid ""
@@ -909,6 +943,9 @@ msgid ""
 "Refresh, then you MUST hit save when you are done to propagate the new "
 "settings)"
 msgstr ""
+"Weet u zeker dat u het SIP-kanaal stuurprogramma wilt wijzigen? (De pagina "
+"zal verversen, daarna MOET u op opslaan klikken om de nieuwe instellingen "
+"toe te passen)"
 
 #: amp_conf/htdocs/admin/views/footer.php:92
 msgid ""
@@ -917,6 +954,9 @@ msgid ""
 "PBX. It is used to send update and security notifications when they are "
 "detected."
 msgstr ""
+"Weet u zeker dat u geen e-mailadres wilt opgeven voor update- en belangrijke "
+"beveiligingsmeldingen? Dit e-mailadres zal verder nergens anders voor "
+"gebruikt worden."
 
 #: amp_conf/htdocs/admin/views/footer.php:91
 msgid ""
@@ -925,37 +965,50 @@ msgid ""
 "update notifications will NOT automatically install them but will make sure "
 "you are informed as soon as they are available."
 msgstr ""
+"Weet u zeker dat u automatische updatemeldingen wilt deactiveren? Dit kan "
+"het systeem gevoelig maken voor beveiligingslekken. Het activeren van de  "
+"automatische updatemeldingen zal deze updates NIET automatisch installeren, "
+"maar zal u informeren zodra deze beschikbaar zijn."
 
 #: ../core/views/trunks/trunk_header.php:278
 msgid "Are you sure you want to disable this trunk in all routes it is used?"
 msgstr ""
+"Weet u zeker dat u deze externe koppeling in alle routes die hier gebruik "
+"van maken wilt deactiveren?"
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:96
+#, fuzzy
 msgid "Asked for raw contents of a file, but was never asked to read a file"
 msgstr ""
+"Gevraagd om ruwe inhoud van een bestand, maar werd nooit gevraagd om een "
+"bestand in te lezen"
 
 #: ../core/functions.inc.php:6663
 msgid "Assigned DID/CID"
-msgstr ""
+msgstr "Toegewezen inkomend nummer(DID)/nummer van beller(CID)"
 
 #: amp.i18n.php:76
+#, fuzzy
 msgid ""
 "Asterisk 12 introduces the Asterisk REST Interface, a set of RESTful API's "
 "for building Asterisk based applications. This will enable the ARI server as "
 "long as the HTTP server is enabled as well."
 msgstr ""
+"Asterisk 12 introduceert de Asterisk REST Interface, een set van RESTful "
+"API's voor het programmeren van op Asterisk gebaseerde applicaties. Dit zal "
+"de ARI server activeren, zolang als de HTTP server ook geactiveerd is."
 
 #: amp.i18n.php:332
 msgid "Asterisk AGI Dir"
-msgstr ""
+msgstr "Asterisk AGI Map"
 
 #: amp.i18n.php:26
 msgid "Asterisk Builtin mini-HTTP server"
-msgstr ""
+msgstr "Asterisk ingebouwde mini-HTTP server"
 
 #: amp.i18n.php:304 ../core/functions.inc.php:6632
 msgid "Asterisk Dial Options"
-msgstr ""
+msgstr "Asterisk bel opties"
 
 #: ../core/views/trunks/trunk_header.php:102
 msgid ""
@@ -963,82 +1016,88 @@ msgid ""
 "override the Advanced Settings default, check the box and then provide the "
 "required options for this trunk"
 msgstr ""
+"Asterisk bel-commando opties welke gebruikt worden als via deze externe "
+"koppeling uit gebeld wordt. Om de standaard instelling van de Geavanceerde "
+"instellingen te overschrijven, klik dan op opschrijven, en vul de vereiste "
+"opties in voor deze externe koppeling"
 
 #: ../core/install.php:13
 msgid "Asterisk General Call Pickup"
-msgstr ""
+msgstr "Asterisk algemene gespreksovername"
 
 #: amp.i18n.php:346
 msgid "Asterisk Log Dir"
-msgstr ""
+msgstr "Asterisk Log map"
 
 #: amp.i18n.php:48
 msgid "Asterisk Manager"
-msgstr ""
+msgstr "Asterisk Manager"
 
 #: amp.i18n.php:46
 msgid "Asterisk Manager Host"
-msgstr ""
+msgstr "Asterisk Manager server"
 
 #: amp.i18n.php:52
 msgid "Asterisk Manager Password"
-msgstr ""
+msgstr "Asterisk Manager Wachtwoord"
 
 #: amp.i18n.php:56
 msgid "Asterisk Manager Port"
-msgstr ""
+msgstr "Asterisk Manager poort"
 
 #: amp.i18n.php:60
 msgid "Asterisk Manager Proxy Port"
-msgstr ""
+msgstr "Asterisk Manager proxy poort"
 
 #: amp.i18n.php:64
 msgid "Asterisk Manager User"
-msgstr ""
+msgstr "Asterisk Manager gebruiker"
 
 #: amp.i18n.php:68
 msgid "Asterisk Manager Write Timeout"
-msgstr ""
+msgstr "Asterisk Manager schrijven time-out"
 
 #: amp.i18n.php:742 ../core/page.astmodules.php:4
 msgid "Asterisk Modules"
-msgstr ""
+msgstr "Asterisk modules"
 
 #: amp.i18n.php:350
 msgid "Asterisk Modules Dir"
-msgstr ""
+msgstr "Asterisk modules map"
 
 #: amp.i18n.php:308
 msgid "Asterisk Outbound Trunk Dial Options"
-msgstr ""
+msgstr "Asterisk uitgaande externe koppeling bel opties"
 
 #: amp.i18n.php:74
+#, fuzzy
 msgid "Asterisk REST Interface"
-msgstr ""
+msgstr "Asterisk REST Interface"
 
 #: amp.i18n.php:354
 msgid "Asterisk Run Dir"
-msgstr ""
+msgstr "Asterisk uitvoeren map"
 
 #: amp.i18n.php:358
+#, fuzzy
 msgid "Asterisk Spool Dir"
-msgstr ""
+msgstr "Asterisk spool map"
 
 #: ../core/views/trunks/trunk_header.php:102
 msgid "Asterisk Trunk Dial Options"
-msgstr ""
+msgstr "Asterisk externe koppeling bel opties"
 
 #: amp.i18n.php:614
 msgid "Asterisk VMU Mask"
-msgstr ""
+msgstr "Asterisk voicemail beveilgingsmasker"
 
 #: amp.i18n.php:338
 msgid "Asterisk bin Dir"
-msgstr ""
+msgstr "Asterisk bin map"
 
 #: ../core/functions.inc.php:6944 ../core/functions.inc.php:7069
 msgid "Asterisk connection type, usually friend for endpoints."
-msgstr ""
+msgstr "Asterisk connectie type, meestal \"friend\" voor eindpunten."
 
 #: ../core/functions.inc.php:6825 ../core/functions.inc.php:6872
 #: ../core/functions.inc.php:6935 ../core/functions.inc.php:7043
@@ -1046,6 +1105,8 @@ msgid ""
 "Asterisk context this device will send calls to. Only change this is you "
 "know what you are doing."
 msgstr ""
+"Asterisk context waar dit apparaat gesprekken naar toe zal sturen. Verander "
+"ALLEEN als u zeker weet wat u doet."
 
 #: ../core/functions.inc.php:7163
 msgid ""
@@ -1054,10 +1115,15 @@ msgid ""
 "blank, the default vmexten setting is automatically configured by the "
 "voicemail module. Only change this on devices that may have special needs."
 msgstr ""
+"Asterisk kiesschema extensie om de voicemail van dit apparaat te bereiken. "
+"Sommige apparaten hebben een eigen vaste waarde hiervoor ingesteld. Als dit "
+"veld niet gevuld wordt, wordt de standaard vmexten instellnig automatisch "
+"geconfigureerd door de voicemail module. Alleen veranderen als het niet op "
+"het apparaat ingesteld kan worden."
 
 #: amp.i18n.php:342
 msgid "Asterisk etc Dir"
-msgstr ""
+msgstr "Astrisk etc map"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:582
 #, php-format
@@ -1065,24 +1131,28 @@ msgid ""
 "Asterisk home dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. "
 "Aborting"
 msgstr ""
+"Asterisk eigen map (%s) en ASTSPOOLDIR bestaan niet. Configuratie wordt "
+"afgebroken"
 
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:7
 msgid "Asterisk may not be running."
-msgstr ""
+msgstr "Waarschijnlijk is Asterisk niet opgestart."
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:210
 #, php-format
 msgid "Attempted to load %s but it didn't define the class %s"
 msgstr ""
+"Er werd geprobeerd om %s te laden, maar de klasse %s werd niet gedefinieerd"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:156
-#, php-format
+#, fuzzy, php-format
 msgid "Attempted to load %s with a hint of %s and it didn't exist"
 msgstr ""
+"Er werd geprobeerd om %s te laden met een vleugje %s, maar deze bestond niet"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:162
 msgid "Attention"
-msgstr ""
+msgstr "Attentie"
 
 #: amp.i18n.php:608
 msgid ""
@@ -1094,10 +1164,21 @@ msgid ""
 "authentication to happen at the apache level, but will take the user "
 "credentials and apply any restrictions as if it were in database mode."
 msgstr ""
+"Autorisatietype te gebruiken voor beheer vanaf de internetpagina's. Als het "
+"type is ingesteld op <b>database</b>, dan zijn de standaard AMP "
+"beheerdersreferenties dezelfde als hierboven ingesteld bij AMPDBUSER/"
+"AMPDBPASS. Als u gebruik maakt van het database type, dan kunnen er extra "
+"gebruikers aangemaakt worden die gelimiteerd kunnen worden aan bepaalde "
+"module-pagina's.\n"
+"Als autorisatietype ingesteld wordt op <b>geen</b> moet de beveiliging op "
+"Apache-level goed ingesteld zijn.\n"
+"Als autorisatietype ingesteld wordt op <b>webserver</b> dan gaat FreePBX dat "
+"de beveiliging op Apache-level goed ingesteld is, maar zal de "
+"gebruikersreferenties overnemen zoals in <b>database</b> mode."
 
 #: amp.i18n.php:606
 msgid "Authorization Type"
-msgstr ""
+msgstr "Autorisatietype"
 
 #: ../core/page.ampusers.php:161
 msgid ""
@@ -1106,28 +1187,35 @@ msgid ""
 "passwords here or adding users will have no effect unless Authorization Type "
 "is set to 'database'."
 msgstr ""
+"Autorisatietype is niet ingesteld op <b>database</b> in Geavanceerde "
+"instellingen. Deze module heeft daardoor momenteel geen invloed. \n"
+"Het toevoegen van gebruikers, instellen van wachtwoorden en rechten "
+"toewijzen heeft geen effect totdat het autorisatietype ingesteld wordt op "
+"<b>database</b>."
 
 #: ../core/functions.inc.php:6969 ../core/functions.inc.php:7015
 msgid "Auto"
-msgstr ""
+msgstr "Automatisch"
 
 #: amp_conf/htdocs/admin/functions.inc.php:225
 msgid ""
 "Auto set ZAP2DAHDICOMPAT to true because we are running a version of "
 "Asterisk greater than 1.4.21"
 msgstr ""
+"ZAP2DAHDICOMPAT automatisch ingeschakeld, omdat de versie van Asterisk "
+"groter is dan versie 1.4.21"
 
 #: ../core/functions.inc.php:7082
 msgid "Automatic Force Both - (auto_force_rport,auto_comedia)"
-msgstr ""
+msgstr "Automatisch beide forceren - (auto_force_rport,auto_comedia)"
 
 #: ../core/functions.inc.php:7083
 msgid "Automatic Force rport - (auto_force_rport)"
-msgstr ""
+msgstr "Automatisch rport forceren - (auto_force_rport)"
 
 #: ../core/functions.inc.php:7084
 msgid "Automatic comedia - (auto_comedia)"
-msgstr ""
+msgstr "Automatisch comedia - (auto_comedia)"
 
 #: amp.i18n.php:130
 msgid ""
@@ -1136,102 +1224,106 @@ msgid ""
 "POST_RELOAD_DEBUG=true, you will see the output of the script in the web "
 "page."
 msgstr ""
+"Automatisch een script uitvoeren nadat wijziging zijn gemaakt in het AMP "
+"beheer. Stel POST_RELOAD in op het script wat u wilt uitvoeren nadat de "
+"wijzigingen worden toegepast. Als POST_RELOAD_DEBUG aan staat, zal u de "
+"uitvoer van het script in de internetpagina zien."
 
 #: ../core/page.routing.php:513
 #, php-format
 msgid "Before %s"
-msgstr ""
+msgstr "Voor %s"
 
 #: amp.i18n.php:206
 msgid "Block CNAM on External Trunks"
-msgstr ""
+msgstr "Blokkeer CNAM op externe koppelingen"
 
 #: ../core/views/trunks/trunk_header.php:71
 msgid "Block Foreign CIDs"
-msgstr ""
+msgstr "Blokkeer buitenlandse nummers van beller (CID)"
 
 #: amp_conf/htdocs/admin/page.modules.php:733
 #: amp_conf/htdocs/admin/views/module_admin/main.php:98
 msgid "Broken"
-msgstr ""
+msgstr "Verbroken"
 
 #: amp.i18n.php:618
 msgid "Browser Stats"
-msgstr ""
+msgstr "Browser statistieken"
 
 #: amp_conf/htdocs/admin/views/menu.php:143
 msgid "Bulgarian"
-msgstr ""
+msgstr "Bulgaars"
 
 #: ../core/functions.inc.php:849 ../core/functions.inc.php:6733
 msgid "Busy"
-msgstr ""
+msgstr "In gesprek"
 
 #: ../core/functions.inc.php:6732
 msgid "Busy Voicemail if Enabled"
-msgstr ""
+msgstr "In gesprek, naar voicemail als geactiveerd"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:73
 #: amp_conf/htdocs/admin/views/module_admin/main.php:220
 msgid "Buy"
-msgstr ""
+msgstr "Kopen"
 
 #: amp.i18n.php:366
 msgid "CGI Dir"
-msgstr ""
+msgstr "CGI map"
 
 #: ../core/functions.inc.php:6597
 msgid "CID Num Alias"
-msgstr ""
+msgstr "Nummer van beller (CID) alias"
 
 #: ../core/views/trunks/trunk_header.php:64
 msgid "CID Options"
-msgstr ""
+msgstr "nummer van beller (CID) opties"
 
 #: ../core/functions.inc.php:6725 ../core/functions.inc.php:6734
 #: ../core/functions.inc.php:6739
 msgid "CID Prefix"
-msgstr ""
+msgstr "nummer van beller (CID) voorvoegsel"
 
 #: ../core/page.did.php:206
 msgid "CID Priority Route"
-msgstr ""
+msgstr "nummer van beller (CID) prioriteit route"
 
 #: ../core/page.did.php:216
 msgid "CID name prefix"
-msgstr ""
+msgstr "nummer van beller (CID) naam voorvoegsel"
 
 #: ../core/install.php:994
 msgid "CRITICAL ERROR"
-msgstr ""
+msgstr "KRITIEKE FOUT"
 
 #: amp.i18n.php:228
 msgid "CW Enabled by Default"
-msgstr ""
+msgstr "Wisselgesprek is standaard geactiveerd"
 
 #: ../core/functions.inc.php:6643
 msgid "Call Forward Ring Time"
-msgstr ""
+msgstr "Doorschakelen overgaan tijdsduur"
 
 #: amp.i18n.php:212
 msgid "Call Forward Ringtimer Default"
-msgstr ""
+msgstr "Wisselgesprek standaard overgaan tijdsduur"
 
 #: ../core/functions.inc.php:7150
 msgid "Call Groups"
-msgstr ""
+msgstr "Belgroepen"
 
 #: amp.i18n.php:682
 msgid "Call Recording Format"
-msgstr ""
+msgstr "Gespreksopname formaat"
 
 #: ../core/functions.inc.php:1045
 msgid "Call Recording Module Not Enabled"
-msgstr ""
+msgstr "Gespreksopname module niet geactiveerd"
 
 #: amp.i18n.php:216
 msgid "Call Recording Policy"
-msgstr ""
+msgstr "Gespreksopname beleid"
 
 #: amp.i18n.php:218
 msgid ""
@@ -1239,6 +1331,9 @@ msgid ""
 "extensions when one wants a call recorded and the other does not, if both "
 "their priorities are also the same."
 msgstr ""
+"Gespreksopname beleid om de winnaar aan te wijzen bij conflicten tussen twee "
+"extensies als de eerste een gesprek wil opnemen, de tweede dat juist niet "
+"wilt en beide dezelfde prioriteit hebben."
 
 #: ../core/functions.inc.php:6660
 msgid "Call Screening"
