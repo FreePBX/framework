@@ -32,7 +32,9 @@ class Search extends FreePBX_Helpers {
 		foreach ($modules as $m) {
 			if (isset($m['items'])) {
 				foreach ($m['items'] as $k => $v) {
-					$retarr[] = array("text" => $v['name'], "type" => "get", "dest" => "?display=$k");
+					\modgettext::push_textdomain(strtolower($m['rawname']));
+					$retarr[] = array("text" => _($v['name']), "type" => "get", "dest" => "?display=$k");
+					\modgettext::pop_textdomain();
 				}
 			}
 		}
@@ -51,7 +53,9 @@ class Search extends FreePBX_Helpers {
 
 		$mods = \FreePBX::Modules()->getModulesByMethod("search");
 		foreach($mods as $mod) {
+			\modgettext::push_textdomain(strtolower($mod));
 			$this->FreePBX->$mod->search($qs, $results);
+			\modgettext::pop_textdomain();
 		}
 
 		// Remove any results from the search that are unneeded.
