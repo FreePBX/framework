@@ -212,21 +212,32 @@ class GuiHooks {
 		}
 
 		$myOldHooks = $this->getOldConfigPageInit();
-
 		// Before we run any others, we want to make sure that THIS MODULE'S hooks are run first.
-		// Firstly, do the OLD Hooks.
-		$preOldHooks = $this->getOldConfigPageInit($display);
-		foreach ($preOldHooks as $hook) {
-			// Remove the hook from the ones we're going to run later
-			$loc = array_search($hook,$myOldHooks,true);
-			if($loc !==  false) {
-				unset($myOldHooks[$loc]);
-				$myOldHooks = array_values($myOldHooks);
+		$preOldHooks = array();
+		if (isset($myOldHooks[$display])) {
+			foreach ($myOldHooks[$display] as $hookName) {
+				$preOldHooks[$display][] = $hookName;
 			}
-			// Run it.
-			$this->FreePBX->Performance->Stamp("preOldHooks-$hook-$display"."_start");
-			$hook($display);
-			$this->FreePBX->Performance->Stamp("preOldHooks-$hook-$display"."_stop");
+			unset ($myOldHooks[$display]);
+		}
+
+		// Now, generate list of any other old hooks that need to run.
+		$postOldHooks = array();
+		foreach ($myOldHooks as $modname => $hookArr) {
+			foreach ($hookArr as $hookName) {
+				$postOldHooks[$modname][] = $hookName;
+			}
+		}
+
+		// Now run the first, old, hooks.
+		foreach ($preOldHooks as $module => $hookArr) {
+			\modgettext::push_textdomain(strtolower($module));
+			foreach ($hookArr as $hook) {
+				$this->FreePBX->Performance->Stamp("preOldHooks-$hook-$display"."_start");
+				$hook($display);
+				$this->FreePBX->Performance->Stamp("preOldHooks-$hook-$display"."_stop");
+			}
+			\modgettext::pop_textdomain();
 		}
 
 		// New style module? Here, have your data..
@@ -244,9 +255,9 @@ class GuiHooks {
 		// modules that want it.
 
 		// Firstly, old style hooks
-		foreach ($myOldHooks as $mod => $hooks) {
+		foreach ($postOldHooks as $mod => $hookArr) {
 			\modgettext::push_textdomain(strtolower($mod));
-			foreach($hooks as $hook) {
+			foreach($hookArr as $hook) {
 				$this->FreePBX->Performance->Stamp("myOldHooks-$hook-$display"."_start");
 				$hook($display);
 				$this->FreePBX->Performance->Stamp("myOldHooks-$hook-$display"."_stop");
