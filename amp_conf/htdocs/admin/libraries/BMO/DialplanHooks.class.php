@@ -10,15 +10,17 @@ namespace FreePBX;
 class DialplanHooks {
 
 	public function __construct($freepbx = null) {
-		if ($freepbx == null)
-			throw new \Exception("Need to be instantiated with a FreePBX Object");
+		if ($freepbx == null) {
+			throw new Exception("Need to be instantiated with a FreePBX Object");
+		}
 
 		$this->FreePBX = $freepbx;
 	}
 
 	public function getAllHooks($active_modules = null) {
-		if ($active_modules == null)
-			throw new \Exception("Don't know about modules yet. It needs to be handed to me");
+		if ($active_modules == null) {
+			throw new \Exception(_("Don't know about modules yet. It needs to be handed to me"));
+		}
 
 		// Note that OldHooks and NewHooks return a COMPLETELY DIFFERENT structure.
 		$oldHooks = $this->getOldHooks($active_modules);
@@ -27,22 +29,26 @@ class DialplanHooks {
 		// Merge newHooks into oldHooks and return it.
 		foreach ($newHooks as $module => $priority) {
 			// Note that a module may want to hook in several times, so priority may be an array.
-			if (is_array($priority))
-				throw new \Exception("Multiple hooks unimplemented");
+			if (is_array($priority)) {
+				throw new \Exception(_("Multiple hooks unimplemented"));
+			}
 
 			// If the module is returning 'false', then it doesn't want to hook the dialplan.
-			if ($priority === false)
+			if ($priority === false) {
 				continue;
+			}
 
 			// A 'true' return means 'yes, I do want to hook, at the default priority' which
 			// is 500.
-			if ($priority === true)
+			if ($priority === true) {
 				$priority = 500;
+			}
 
-			if (!is_numeric($priority))
-				throw new \Exception("Priority needs to be either 'true', 'false' or a number");
+			if (!is_numeric($priority)) {
+				throw new \Exception(_("Priority needs to be either 'true', 'false' or a number"));
+			}
 
-			$oldHooks[$priority][] = array("Class" => $module);
+			$oldHooks[$priority][$module][] = array("Class" => $module);
 		}
 
 		// Sort them by priority before returning them.
@@ -60,44 +66,48 @@ class DialplanHooks {
 		// The array should already be sorted before it's given to us. Don't
 		// sort again. Just run through it!
 		foreach ($hooks as $pri => $hook) {
-			foreach ($hook as $cmd) {
-				// Is this an old-style function call? (_hookGet, _hook_core etc)
-				if (isset($cmd['function'])) {
-					$func = $cmd['function'];
-					if (!function_exists($func)) {
-						// Old style modules may be licenced, and as such their functions may not be there. Let's see if this
-						// module is one of those.
-						$funcarr = explode("_", $func);
-						$x = $this->FreePBX->Modules->getInfo($funcarr[0]);
-						if (isset($x[$funcarr[0]]) && $x[$funcarr[0]]['license'] == "Commercial") {
-							continue;
-						} else {
-							print "HANDLED-ERROR: $func should exist, but it doesn't - Dazed and confused, but continuing. This is a bug.\n";
-							continue;
+			foreach ($hook as $module => $cmds) {
+				\modgettext::push_textdomain(strtolower($module));
+				foreach($cmds as $cmd) {
+					// Is this an old-style function call? (_hookGet, _hook_core etc)
+					if (isset($cmd['function'])) {
+						$func = $cmd['function'];
+						if (!function_exists($func)) {
+							// Old style modules may be licenced, and as such their functions may not be there. Let's see if this
+							// module is one of those.
+							$funcarr = explode("_", $func);
+							$x = $this->FreePBX->Modules->getInfo($funcarr[0]);
+							if (isset($x[$funcarr[0]]) && $x[$funcarr[0]]['license'] == "Commercial") {
+								continue;
+							} else {
+								print "HANDLED-ERROR: $func should exist, but it doesn't - Dazed and confused, but continuing. This is a bug.\n";
+								continue;
+							}
 						}
-					}
-					$this->FreePBX->Performance->Stamp("olddialplanHook-".$func."_start");
-					$func($engine);
-					$this->FreePBX->Performance->Stamp("olddialplanHook-".$func."_stop");
-				} elseif (isset($cmd['Class'])) {
-					// This is a new BMO Object!
-					$class = $cmd['Class'];
-					try {
-						if (!method_exists($this->FreePBX->$class, "doDialplanHook")) {
-							print "HANDLED-ERROR: ${class}->doDialplanHook() isn't there, but the module is saying it wants to hook - Dazed and confused, but continuing. This is a bug\n";
-							continue;
+						$this->FreePBX->Performance->Stamp("olddialplanHook-".$func."_start");
+						$func($engine);
+						$this->FreePBX->Performance->Stamp("olddialplanHook-".$func."_stop");
+					} elseif (isset($cmd['Class'])) {
+						// This is a new BMO Object!
+						$class = $cmd['Class'];
+						try {
+							if (!method_exists($this->FreePBX->$class, "doDialplanHook")) {
+								print "HANDLED-ERROR: ${class}->doDialplanHook() isn't there, but the module is saying it wants to hook - Dazed and confused, but continuing. This is a bug\n";
+								continue;
+							}
+							$this->FreePBX->Performance->Stamp($class."->doDialplanHook_start");
+							$this->FreePBX->$class->doDialplanHook($ext, $engine, $pri);
+							$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
+						} catch (\Exception $e) {
+							$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
+							print "HANDLED-ERROR: Tried to run ${class}->doDialplanHook(), it threw an exception. I received ".$e->getMessage()."\nContinuing. This is a bug\n";
 						}
-						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_start");
-						$this->FreePBX->$class->doDialplanHook($ext, $engine, $pri);
-						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
-					} catch (\Exception $e) {
-						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
-						print "HANDLED-ERROR: Tried to run ${class}->doDialplanHook(), it threw an exception. I received ".$e->getMessage()."\nContinuing. This is a bug\n";
+					} else {
+						// I have no idea what this is.
+						throw new \Exception("I was handed ".json_encode($cmd)." to hook. Don't know how to handle it");
 					}
-				} else {
-					// I have no idea what this is.
-					throw new \Exception("I was handed ".json_encode($cmd)." to hook. Don't know how to handle it");
 				}
+				\modgettext::pop_textdomain();
 			}
 		}
 	}
@@ -117,7 +127,7 @@ class DialplanHooks {
 			if (isset($mod_data['methods'], $mod_data['methods']['get_config'])){
 				foreach ($mod_data['methods']['get_config'] as $pri => $methods) {
 					foreach($methods as $method) {
-						$funclist[$pri][] = array("function" => $method);
+						$funclist[$pri][$module][] = array("function" => $method);
 						$hooksDiscovered[$method] = true;
 					}
 				}
@@ -128,10 +138,10 @@ class DialplanHooks {
 			$getconf = $module."_get_config";
 			$hookgetconf = $module."_hookGet_config";
 			if (function_exists($getconf) && !isset($hooksDiscovered[$getconf])) {
-				$funclist[100][] = array("function" => $getconf);
+				$funclist[100][$module][] = array("function" => $getconf);
 			}
 			if (function_exists($hookgetconf) && !isset($hooksDiscovered[$getconf])) {
-				$funclist[600][] = array("function" => $hookgetconf);
+				$funclist[600][$module][] = array("function" => $hookgetconf);
 			}
 
 		}

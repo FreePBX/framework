@@ -66,12 +66,12 @@ class modgettext {
 		// act like textdomain() would if passed null even though that is not the intended use
 		if ($module === null) {
 			return textdomain(null);
-		}		
+		}
 		return textdomain(self::_bindtextdomain($module));
 	}
 
 	/**
-	 * 
+	 *
 	 * push_textdomain
 	 * short sets the textdomain while saving the current domain on a stack
 	 *
@@ -106,6 +106,7 @@ class modgettext {
 	 * should be changed one of these days...).
 	 */
 	static private function _bindtextdomain($module) {
+		global $amp_conf;
 		if (isset(self::$tdhash[$module])) {
 			return self::$tdhash[$module];
 		} else {
@@ -116,7 +117,17 @@ class modgettext {
 				bind_textdomain_codeset('amp', 'utf8');
 				self::$tdhash[$module] = 'amp';
 			}
-			if (isset($_COOKIE['lang']) && is_dir('modules/' . $module . '/i18n/' . $_COOKIE['lang'])) {
+			if(php_sapi_name() !== 'cli') {
+				if (empty($_COOKIE['lang']) || !preg_match('/^[\w\._@-]+$/', $_COOKIE['lang'], $matches)) {
+					$lang = $amp_conf['UIDEFAULTLANG']?$amp_conf['UIDEFAULTLANG']:'en_US';
+				} else {
+					preg_match('/^([\w\._@-]+)$/', $_COOKIE['lang'], $matches);
+					$lang = !empty($matches[1])?$matches[1]:'en_US';
+				}
+			} else {
+				$lang = $amp_conf['UIDEFAULTLANG']?$amp_conf['UIDEFAULTLANG']:'en_US';
+			}
+			if (isset($lang) && is_dir('modules/' . $module . '/i18n/' . $lang)) {
 				bindtextdomain($module, 'modules/'. $module . '/i18n');
 				bind_textdomain_codeset($module, 'utf8');
 				self::$tdhash[$module] = $module;

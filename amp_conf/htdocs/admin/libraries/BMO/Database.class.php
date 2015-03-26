@@ -50,11 +50,10 @@ class Database extends \PDO {
 		} else {
 			if(empty($amp_conf['AMPDBSOCK'])) {
 				$host = !empty($amp_conf['AMPDBHOST']) ? $amp_conf['AMPDBHOST'] : 'localhost';
-				$dsn = $amp_conf['AMPDBENGINE'].":host=".$host.";dbname=".$amp_conf['AMPDBNAME'];
+				$dsn = $amp_conf['AMPDBENGINE'].":host=".$host.";dbname=".$amp_conf['AMPDBNAME'].";charset=utf8";
 			} else {
-				$dsn = $amp_conf['AMPDBENGINE'].":unix_socket=".$amp_conf['AMPDBSOCK'].";dbname=".$amp_conf['AMPDBNAME'];
+				$dsn = $amp_conf['AMPDBENGINE'].":unix_socket=".$amp_conf['AMPDBSOCK'].";dbname=".$amp_conf['AMPDBNAME'].";charset=utf8";
 			}
-
 		}
 
 		if (isset($args[1]) && !empty($args[0]) && is_string($args[0])) {
@@ -69,9 +68,14 @@ class Database extends \PDO {
 			$password = $amp_conf['AMPDBPASS'];
 		}
 
+		$options = isset($args[3]) ? $args[3] : array();
+		if (version_compare(PHP_VERSION, '5.3.6', '<')) {
+			$options[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES utf8';
+		}
+
 		try {
-			if (isset($args[3])) {
-				parent::__construct($dsn, $username, $password, $args[3]);
+			if (!empty($options)) {
+				parent::__construct($dsn, $username, $password, $options);
 			} else {
 				parent::__construct($dsn, $username, $password);
 			}
