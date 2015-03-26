@@ -335,6 +335,7 @@ class Notifications {
 		if (!empty($amp_conf["NOTIFICATION_IGNORE_{$module}_{$id}"])) {
 			return null;
 		}
+		\modgettext::push_textdomain(strtolower($module));
 
 		if ($this->not_loaded) {
 			$this->notification_table = $this->_list("",true);
@@ -403,6 +404,7 @@ class Notifications {
 			//       how often does this get called that if is a big deal.
 			$this->not_loaded = true;
 		}
+		\modgettext::pop_textdomain();
 	}
 
 	/**

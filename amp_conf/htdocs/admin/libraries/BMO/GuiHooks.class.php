@@ -36,7 +36,7 @@ class GuiHooks {
 			return $retarr;
 		}
 		foreach ($allHooks['GuiHooks'] as $module => $hookArr) {
-
+			\modgettext::push_textdomain(strtolower($module));
 			foreach ($hookArr as $key => $val) {
 
 				// Check for INTERCEPT Hooks.
@@ -60,6 +60,7 @@ class GuiHooks {
 				if ($val == $currentModule)
 					$retarr['hooks'][] = $module;
 			}
+			\modgettext::pop_textdomain();
 		}
 
 		$retarr['oldhooks'] = $this->getOldConfigPageInit();
@@ -91,6 +92,7 @@ class GuiHooks {
 			// Unable to find the module.
 			return false;
 		}
+		\modgettext::push_textdomain(strtolower($mod));
 
 		// Now, does the hook actually exist?
 		if (!method_exists($moduleToCall, "doGuiHook"))
@@ -98,6 +100,7 @@ class GuiHooks {
 
 		// Yay. Do stuff.
 		$mod->doGuiHook($currentcomponent);
+		\modgettext::pop_textdomain();
 	}
 
 	public function needsIntercept($module, $filename) {
@@ -111,31 +114,38 @@ class GuiHooks {
 
 	public function doIntercept($moduleToCall, $filename) {
 
-		$hooks = $this->getHooks($module, $filename);
+		$hooks = $this->getHooks($moduleToCall, $filename);
 
 		if (!isset($hooks['INTERCEPT'])) {
 			return true;
 		}
+		\modgettext::push_textdomain(strtolower($moduleToCall));
 
 		$output = $this->getOutput($filename);
+
+		\modgettext::pop_textdomain();
 
 		foreach ($hooks['INTERCEPT'] as $moduleToCall => $file) {
 			// Make sure we actually can load the module
 			try {
 				$mod = $this->FreePBX->$moduleToCall;
+				\modgettext::push_textdomain(strtolower($moduleToCall));
 				// Now, does the hook actually exist?
 				if (!method_exists($moduleToCall, "doGuiIntercept"))
 					throw new Exception("$moduleToCall asked to intercept, but ${moduleToCall}->doGuiIntercept() doesn't exist");
 
 				// Output is being passed as a reference.
 				$mod->doGuiIntercept($filename, $output);
-			} catch (Exception $e) {
+				\modgettext::pop_textdomain();
+			} catch (\Exception $e) {
 				// Unable to find the module.
-				echo "Intercept error from $moduleToCall - ".$e->getMessage()."<br />\n";
+				\modgettext::pop_textdomain();
+				echo sprintf(_("Intercept error from $moduleToCall - %s"),$e->getMessage())."<br />\n";
 			}
 		}
 
 		echo $output;
+
 	}
 
 
@@ -153,13 +163,14 @@ class GuiHooks {
 
 		if (!empty($active_modules) && is_array($active_modules)) {
 			foreach($active_modules as $key => $module) {
+				\modgettext::push_textdomain(strtolower($key));
 				// If we've been handed a modulename, only return the
 				// hooks for that specific module.
 				if ($onlymodule == null || $onlymodule == $key) {
 					// Does this module have a _configpageinit function?
 					$initfuncname = $key . '_configpageinit';
 					if (function_exists($initfuncname) ) {
-						$configpageinits[] = $initfuncname;
+						$configpageinits[$key][] = $initfuncname;
 					}
 
 					// Does the module have multiple items?
@@ -168,11 +179,12 @@ class GuiHooks {
 							// Each item may have a configpageinit, too.
 							$initfuncname = $key . '_' . $itemKey . '_configpageinit';
 							if (function_exists($initfuncname)) {
-								$configpageinits[] = $initfuncname;
+								$configpageinits[$key][] = $initfuncname;
 							}
 						}
 					}
 				}
+				\modgettext::pop_textdomain();
 			}
 		}
 
@@ -232,23 +244,31 @@ class GuiHooks {
 		// modules that want it.
 
 		// Firstly, old style hooks
-		foreach ($myOldHooks as $hook) {
-			$this->FreePBX->Performance->Stamp("myOldHooks-$hook-$display"."_start");
-			$hook($display);
-			$this->FreePBX->Performance->Stamp("myOldHooks-$hook-$display"."_stop");
+		foreach ($myOldHooks as $mod => $hooks) {
+			\modgettext::push_textdomain(strtolower($mod));
+			foreach($hooks as $hook) {
+				$this->FreePBX->Performance->Stamp("myOldHooks-$hook-$display"."_start");
+				$hook($display);
+				$this->FreePBX->Performance->Stamp("myOldHooks-$hook-$display"."_stop");
+			}
+			\modgettext::pop_textdomain();
 		}
 
 		// And now the new-style module hooks.
 		foreach ($myHooks as $mod => $arr) {
-			if (in_array($display, $arr))
+			if (in_array($display, $arr)) {
 				$this->doBMOConfigPage($mod, $display);
+			}
 		}
 	}
 
 	private function doBMOConfigPage($class, $display) {
+		$mod = str_replace("FreePBX\\modules\\","",$class);
 		if (method_exists($this->FreePBX->$class, "doConfigPageInit")) {
 			$this->FreePBX->Performance->Stamp($class."->doConfigPageInit-$display"."_start");
+			\modgettext::push_textdomain(strtolower($mod));
 			$this->FreePBX->$class->doConfigPageInit($display);
+			\modgettext::pop_textdomain();
 			$this->FreePBX->Performance->Stamp($class."->doConfigPageInit-$display"."_stop");
 		} else {
 			print "Page $class doesn't implement doConfigPageInit, this is bad.\n";
