@@ -92,7 +92,7 @@ basicConstraints=CA:TRUE
 
 EOF;
 			if(!file_put_contents($cfglocation,$ca)) {
-				throw new Exception("Unable to create $cfglocation config file");
+				throw new Exception(sprintf(_("Unable to create %s config file"),$cfglocation));
 			}
 			return true;
 		}
@@ -111,15 +111,15 @@ EOF;
 	 */
 	public function createCA($base = false, $passphrase = false, $force = false) {
 		if (!$base) {
-			throw new \Exception("No name for this CA");
+			throw new \Exception(_("No name for this CA"));
 		}
 
 		$location = $this->getKeysLocation();
 		$key = "$location/$base.key";
 		if(file_exists($key) && !$force) {
-			$this->out("CA key already exists, reusing");
+			$this->out(_("CA key already exists, reusing"));
 		} else {
-			$this->out("Creating CA key");
+			$this->out(_("Creating CA key"));
 			@unlink($key);
 			$this->generateKey($base, $passphrase, 4096);
 		}
@@ -132,20 +132,20 @@ EOF;
 		$cacrt = "$location/$base.crt";
 
 		if(file_exists($cacrt) && !$force) {
-			$this->out("CA certificate already exists, reusing");
+			$this->out(_("CA certificate already exists, reusing"));
 		} else {
 			//Creating CA certificate ${CACERT}
-			$this->out("Creating CA certificate");
+			$this->out(_("Creating CA certificate"));
 			if($passphrase) {
 				if (strlen($passphrase) < 8) {
-					throw new \Exception("Invalid password supplied - less than 8 chars");
+					throw new \Exception(_("Invalid password supplied - less than 8 characters"));
 				}
 				$out = $this->runOpenSSL("req -new -config $config -x509 -days 3650 -key $key -out $cacrt -passin stdin", $passphrase);
 			} else {
 				$out = $this->runOpenSSL("req -nodes -new -config $config -x509 -days 3650 -key $key -out $cacrt");
 			}
 			if($out['exitcode'] > 0) {
-				throw new Exception("Error Generating Certificate: ".$out['stderr']);
+				throw new Exception(sprintf(_("Error Generating Certificate: %s"),$out['stderr']));
 			}
 		}
 		return true;
@@ -160,22 +160,22 @@ EOF;
 	public function createCert($base,$cabase,$passphrase) {
 		$location = $this->getKeysLocation();
 		//Creating certificate ${base}.key
-		$this->out("Creating certificate for " . $base);
+		$this->out(sprintf(_("Creating certificate for %s"),$base));
 		$out = $this->runOpenSSL("genrsa -out " . $location . "/" . $base . ".key 1024");
 		if($out['exitcode'] > 0) {
-			throw new Exception("Error Generating Key: ".$out['stderr']);
+			throw new Exception(sprintf(_("Error Generating Key: %s"),$out['stderr']));
 		}
 		//Creating signing request ${base}.csr
-		$this->out("Creating signing request for " . $base);
+		$this->out(sprintf(_("Creating signing request for %s"),$base));
 		$out = $this->runOpenSSL("req -batch -new -config " . $location . "/".$cabase.".cfg -key " . $location . "/" . $base . ".key -out " . $location . "/" . $base . ".csr");
 		if($out['exitcode'] > 0) {
-			throw new Exception("Error Generating Signing Request: ".$out['stderr']);
+			throw new Exception(sprintf(_("Error Generating Signing Request: %s"),$out['stderr']));
 		}
 		//Creating certificate ${base}.crt
 		$this->out("Creating certificate " . $base);
 		if($passphrase) {
 			if (strlen($passphrase) < 8) {
-				throw new \Exception("Invalid password supplied - less than 8 chars");
+				throw new \Exception(_("Invalid password supplied - less than 8 chars"));
 			}
 			// Generate a key
 			$out = $this->runOpenSSL("x509 -req -days 3650 -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt -passin stdin", $passphrase);
@@ -183,10 +183,10 @@ EOF;
 			$out = $this->runOpenSSL("x509 -req -days 3650 -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt");
 		}
 		if($out['exitcode'] > 0) {
-			throw new Exception("Error Generating Certificate: ".$out['stderr']);
+			throw new Exception(sprintf(_("Error Generating Certificate: %s"),$out['stderr']));
 		}
 		//Combining key and crt into ${base}.pem
-		$this->out("Combining key and crt into " . $base . ".pem");
+		$this->out(sprintf(_("Combining key and crt into %s.pem"),$base));
 		$contents = file_get_contents($location . "/" . $base . ".key");
 		$contents = $contents . file_get_contents($location . "/" . $base . ".crt");
 		file_put_contents($location . "/" . $base . ".pem", $contents);
@@ -205,7 +205,7 @@ EOF;
 		$this->validateName($name);
 
 		if (!$name) {
-			throw new \Exception("Must have a name for the CSR");
+			throw new \Exception(_("Must have a name for the CSR"));
 		}
 
 		// Make sure the key has been generated.
@@ -213,22 +213,22 @@ EOF;
 
 		$keyloc = $this->getKeysLocation();
 		$csr = "$keyloc/$name.csr";
-		
+
 		if (file_exists($csr)) {
-			// Already exists. 
+			// Already exists.
 			if ($regen) {
 				unlink($csr);
 			} else {
 				return true;
 			}
 		}
-				
+
 		if (!is_array($params)) {
-			throw new \Exception("not an array");
+			throw new \Exception(_("Not an array"));
 		}
 
 		if (!isset($params['O']) || !isset($params['CN'])) {
-			throw new \Exception("Missing O or CN. Can't create");
+			throw new \Exception(_("Missing O or CN. Can't create"));
 		}
 
 		$defaults = array("C" => "AU", "ST" => "QLD", "L" => "Brisbane", "OU" => "FreePBX Created Certificate",
@@ -260,7 +260,7 @@ default_md = sha256
 		file_put_contents($csrconfig, $config);
 		$out = $this->runOpenSSL("req -batch -new -key $keyfile -out $csr -config $csrconfig");
 		if($out['exitcode'] != 0) {
-			throw new \Exception("Can't create CSR, no idea why. ".json_encode($out));
+			throw new \Exception(sprintf(_("Can't create CSR, no idea why. $s"),json_encode($out)));
 		}
 		return true;
 	}
@@ -282,7 +282,7 @@ default_md = sha256
 		$this->validateName($name);
 
 		if (!$name) {
-			throw new \Exception("Can't generate unnamed key");
+			throw new \Exception(_("Can't generate unnamed key"));
 		}
 		$keyloc = $this->getKeysLocation();
 		$keyfile = "$keyloc/$name.key";
@@ -295,12 +295,12 @@ default_md = sha256
 		if ($password) {
 			// Woo! There's a password. Is it valid though?
 			if (strlen($password) < 8) {
-				throw new \Exception("Invalid password supplied - less than 8 chars");
+				throw new \Exception(_("Invalid password supplied - less than 8 chars"));
 			}
 			// Generate a key
 			$out = $this->runOpenSSL("genrsa -des3 -out $keyfile -passout stdin $bits", $password);
 			if($out['exitcode'] != 0) {
-				throw new \Exception("Can't create key, no idea why. ".json_encode($out));
+				throw new \Exception(sprintf(_("Can't create key, no idea why. %s"),json_encode($out)));
 			} else {
 				return true;
 			}
@@ -308,7 +308,7 @@ default_md = sha256
 			// No password. Easy.
 			$out = $this->runOpenSSL("genrsa -out $keyfile $bits");
 			if($out['exitcode'] != 0) {
-				throw new \Exception("Can't create key, no idea why. ".json_encode($out));
+				throw new \Exception(sprintf(_("Can't create key, no idea why. %s"),json_encode($out)));
 			} else {
 				return true;
 			}
@@ -330,19 +330,19 @@ default_md = sha256
 		$this->validateName($name);
 
 		if (!$name) {
-			throw new \Exception("Can't sign unnamed key");
+			throw new \Exception(_("Can't sign unnamed key"));
 		}
 		$keyloc = $this->getKeysLocation();
 		$csrfile = "$keyloc/$name.csr";
 		if (!file_exists($csrfile)) {
-			throw new \Exception("No Cert Signing Request for $name");
+			throw new \Exception(sprintf(_("No Cert Signing Request for %s"),$name));
 		}
 
 		// Make sure the CA we've been asked to use exists.
 		$cacrt = "$keyloc/$caname.crt";
 		$cakey = "$keyloc/$caname.key";
 		if (!file_exists($cacrt) || !file_exists($cakey)) {
-			throw new \Exception("CA $caname Doesn't exist");
+			throw new \Exception(sprintf(_("CA %s Doesn't exist"),$caname));
 		}
 
 		$certfile = "$keyloc/$name.crt";
@@ -358,7 +358,7 @@ default_md = sha256
 			$out = $this->runOpenSSL($cmd);
 		}
 		if($out['exitcode'] != 0) {
-			throw new Exception("Error Signing Cert with '$cmd': ".json_encode($out));
+			throw new Exception(sprintf(_("Error Signing Cert with '%s': %s"),$cmd, json_encode($out)));
 		}
 		return true;
 	}
@@ -394,7 +394,7 @@ default_md = sha256
 		$proc = proc_open($cmd, $fds, $pipes, "/tmp", $this->opensslenv);
 
 		if (!is_resource($proc)) { // Unable to start!
-			throw new Exception("Unable to start OpenSSL");
+			throw new Exception(_("Unable to start OpenSSL"));
 		}
 
 		// If we need to send stuff to stdin, then do it!
@@ -407,7 +407,7 @@ default_md = sha256
 		$tmp = null;
 		$r = array($pipes[3]);
 		if (!stream_select($r , $tmp, $tmp, $this->timeout)) {
-			throw new RuntimeException("OpenSSL took too long to run the command \"$cmd\".");
+			throw new RuntimeException(sprintf(_("OpenSSL took too long to run the command '%s'"),$cmd));
 		}
 
 		$status = explode("\n", stream_get_contents($pipes[3]));
@@ -454,7 +454,7 @@ default_md = sha256
 		foreach($this->getAllCertificates() as $file) {
 			if(preg_match('/^'.$base.'/',$file)) {
 				if(!unlink($location . "/" . $file)) {
-					throw new Exception('Unable to remove '.$file);
+					throw new Exception(sprintf(_('Unable to remove %s'),$file));
 				}
 			}
 		}
@@ -467,7 +467,7 @@ default_md = sha256
 		$location = $this->getKeysLocation();
 		foreach($this->getAllAuthorityFiles() as $file) {
 			if(!unlink($location . "/" . $file)) {
-				throw new Exception('Unable to remove '.$file);
+				throw new Exception(sprintf(_('Unable to remove %s'),$file));
 			}
 		}
 		return true;
@@ -480,12 +480,12 @@ default_md = sha256
 		$location = $this->getKeysLocation();
 		if(file_exists($location . "/ca.cfg")) {
 			if(!unlink($location . "/ca.cfg")) {
-				throw new Exception('Unable to remove ca.cfg');
+				throw new Exception(_('Unable to remove ca.cfg'));
 			}
 		}
 		if(file_exists($location . "/tmp.cfg")) {
 			if(!unlink($location . "/tmp.cfg")) {
-				throw new Exception('Unable to remove tmp.cfg');
+				throw new Exception(_('Unable to remove tmp.cfg'));
 			}
 		}
 		return true;
@@ -518,7 +518,7 @@ default_md = sha256
 		$webuser = FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
 
 		if (!$webuser) {
-			throw new Exception("I don't know who I should be running OpenSSL as.");
+			throw new Exception(_("I don't know who I should be running OpenSSL as."));
 		}
 
 		// We need to ensure that we can actually read the Key files.
@@ -526,7 +526,7 @@ default_md = sha256
 		$keyloc = !empty($keyloc) ? $keyloc : FreePBX::Freepbx_conf()->get('ASTETCDIR') . "/keys";
 		if (!file_exists($keyloc)) {
 			if(!mkdir($keyloc)) {
-				throw new Exception("Could Not Create the Asterisk Keys Folder: " . $keyloc);
+				throw new Exception(sprintf(_("Could Not Create the Asterisk Keys Folder: %s"),$keyloc));
 			}
 		}
 
@@ -535,7 +535,7 @@ default_md = sha256
 			$this->keylocation = $keyloc;
 			return $keyloc;
 		} else {
-			throw new Exception("Don't have permission/can't write to: " . $keyloc);
+			throw new Exception(sprintf(_("Don't have permission/can't write to: %s"),$keyloc));
 		}
 	}
 
@@ -605,7 +605,7 @@ default_md = sha256
 			// That's worrying. Can I make it?
 			$ret = @mkdir($dir);
 			if (!$ret) {
-				throw new Exception("Directory $dir doesn't exist, and I can't make it.");
+				throw new Exception(sprintf(_("Directory %s doesn't exist, and I can't make it."),$dir));
 			}
 		}
 
@@ -620,7 +620,7 @@ default_md = sha256
 		if ($uid != $stat['uid'] || $gid != $stat['gid']) {
 			// Permissions are wrong on the keys directory. Hopefully, I'm root, so I can fix them.
 			if (posix_geteuid() !== 0) {
-				throw new Exception("Permissions error on directory $dir - please re-run as root to automatically repair");
+				throw new Exception(sprintf(_("Permissions error on directory %s - please re-run as root to automatically repair"),$dir));
 			}
 			// We're root. Yay.
 			chown($dir, $uid);
@@ -640,7 +640,7 @@ default_md = sha256
 			if ($uid != $stat['uid'] || $gid != $stat['gid']) {
 				// Permissions are wrong on the keys directory. Hopefully, I'm root, so I can fix them.
 				if (posix_geteuid() !== 0) {
-					throw new Exception("Permissions error on file $file - please re-run as root to automatically repair");
+					throw new Exception(sprintf(_("Permissions error on file %s - please re-run as root to automatically repair"),$file));
 				}
 				// We're root. Yay.
 				chown($file, $uid);
