@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-24 20:48-0400\n"
+"POT-Creation-Date: 2015-03-25 21:24-0400\n"
 "PO-Revision-Date: 2014-09-11 01:58+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Portuguese (Brazil) <http://git.freepbx.org/projects/freepbx/"
@@ -428,7 +428,7 @@ msgstr "O %s versão %s ou maior é necessário, existente %s"
 msgid "%s will be removed from the hard disk"
 msgstr ""
 
-#: install.php:13
+#: install.php:14
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
 msgstr ""
@@ -1482,7 +1482,7 @@ msgstr "Impossível desabilitar: Os seguintes módulos dependem deste:"
 msgid "Cannot find module"
 msgstr "Impossível encontrar módulo"
 
-#: install.php:168
+#: install.php:169
 msgid "Cant Find Framework XML"
 msgstr ""
 
@@ -2613,6 +2613,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:616
 #, php-format
 msgid "Don't have permission/can't write to %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:22
+msgid "Don't know about modules yet. It needs to be handed to me"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:59
@@ -4164,7 +4168,7 @@ msgid ""
 "even after it was suppose to be applied"
 msgstr ""
 
-#: install.php:181
+#: install.php:182
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -4672,6 +4676,10 @@ msgstr ""
 "você forneça um número de DDR (DID), ex:username:password@switch."
 "voipprovider.com/didnumber de maneira a que o DDR funcione."
 
+#: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:33
+msgid "Multiple hooks unimplemented"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:112
 msgid ""
 "Multiple params to autoload (__call) not supported. Don't do that. Or re-"
@@ -4807,7 +4815,7 @@ msgstr "Sem ações a executar"
 msgid "No description is available."
 msgstr "Sem descrição disponível."
 
-#: install.php:69
+#: install.php:70
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr ""
@@ -5624,6 +5632,10 @@ msgstr ""
 msgid "Priority"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:48
+msgid "Priority needs to be either 'true', 'false' or a number"
+msgstr ""
+
 #: ../core/views/did/routeform.php:66
 msgid "Privacy"
 msgstr "Privacidade"
@@ -6218,7 +6230,7 @@ msgid ""
 "problem but these can be set if a more strict behavior is desired."
 msgstr ""
 
-#: install.php:202
+#: install.php:203
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr ""
@@ -7638,7 +7650,7 @@ msgstr ""
 msgid "Version"
 msgstr "Versão"
 
-#: install.php:185
+#: install.php:186
 msgid "Version from Framework was empty, cant continue"
 msgstr ""
 
@@ -8287,7 +8299,7 @@ msgstr ""
 msgid "altered"
 msgstr ""
 
-#: install.php:148
+#: install.php:149
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr ""
@@ -8432,7 +8444,7 @@ msgstr ""
 msgid "deleting obsoleted record_in and record_out entries.."
 msgstr ""
 
-#: install.php:91 install.php:102 install.php:112
+#: install.php:92 install.php:103 install.php:113
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:494
 #: ../core/install.php:881 ../core/install.php:967
 msgid "done"
@@ -8443,7 +8455,7 @@ msgstr ""
 msgid "done! Reload FreePBX to update all Custom Context settings."
 msgstr ""
 
-#: install.php:89 install.php:100 install.php:110
+#: install.php:90 install.php:101 install.php:111
 msgid "done, see errors below"
 msgstr ""
 
@@ -8548,7 +8560,7 @@ msgstr ""
 msgid "fatal error updating freepbx_settings table"
 msgstr ""
 
-#: install.php:150
+#: install.php:151
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr ""
@@ -8565,12 +8577,12 @@ msgstr ""
 msgid "format list as xml"
 msgstr ""
 
-#: install.php:14
+#: install.php:15
 #, php-format
 msgid "framework couldn't copy file to %s"
 msgstr ""
 
-#: install.php:136
+#: install.php:137
 msgid "framework file install done, removing packages from module"
 msgstr ""
 
@@ -8607,7 +8619,7 @@ msgstr ""
 msgid "insert"
 msgstr "inserir"
 
-#: install.php:82
+#: install.php:83
 #, php-format
 msgid "installing files to %s.."
 msgstr ""

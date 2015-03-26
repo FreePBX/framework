@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-24 20:48-0400\n"
+"POT-Creation-Date: 2015-03-25 21:24-0400\n"
 "PO-Revision-Date: 2015-02-21 10:54+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -453,7 +453,7 @@ msgstr ""
 msgid "%s will be removed from the hard disk"
 msgstr ""
 
-#: install.php:13
+#: install.php:14
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
 msgstr "'cp -rf' 参照元: '%s' から 参照先: '%s'…詳細は次の通り："
@@ -1565,7 +1565,7 @@ msgstr "無効化できません：次とこのモジュールが依存関係で
 msgid "Cannot find module"
 msgstr "モジュールを見つけられません"
 
-#: install.php:168
+#: install.php:169
 msgid "Cant Find Framework XML"
 msgstr ""
 
@@ -2823,6 +2823,10 @@ msgstr "無視"
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:616
 #, php-format
 msgid "Don't have permission/can't write to %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:22
+msgid "Don't know about modules yet. It needs to be handed to me"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:59
@@ -4489,7 +4493,7 @@ msgid ""
 "even after it was suppose to be applied"
 msgstr ""
 
-#: install.php:181
+#: install.php:182
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -5017,6 +5021,10 @@ msgstr ""
 "ではあなたがDID番号を提供することが必要です、例:ex: username:password@switch."
 "voipprovider.com/didnumber どのようなDIDマッチングでも機能する順番で。"
 
+#: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:33
+msgid "Multiple hooks unimplemented"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:112
 msgid ""
 "Multiple params to autoload (__call) not supported. Don't do that. Or re-"
@@ -5155,7 +5163,7 @@ msgstr "実行するアクションが存在しません"
 msgid "No description is available."
 msgstr "利用できる説明がありません。"
 
-#: install.php:69
+#: install.php:70
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr "%s のディレクトリが存在しないため、インストールスクリプトは不要です"
@@ -6061,6 +6069,10 @@ msgstr ""
 msgid "Priority"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:48
+msgid "Priority needs to be either 'true', 'false' or a number"
+msgstr ""
+
 #: ../core/views/did/routeform.php:66
 msgid "Privacy"
 msgstr "プライバシー"
@@ -6670,7 +6682,7 @@ msgstr ""
 "許可するほうが良い場合がほとんどですが、より厳密な挙動を望む場合は設定してく"
 "ださい。"
 
-#: install.php:202
+#: install.php:203
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr ""
@@ -8220,7 +8232,7 @@ msgstr "値 [%s] が範囲外です、[%s]に変更されました"
 msgid "Version"
 msgstr "バージョン"
 
-#: install.php:185
+#: install.php:186
 msgid "Version from Framework was empty, cant continue"
 msgstr ""
 
@@ -8947,7 +8959,7 @@ msgstr ""
 msgid "altered"
 msgstr ""
 
-#: install.php:148
+#: install.php:149
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr "パッケージ ファイル/ディレクトリーの削除に失敗しました: %s"
@@ -9092,7 +9104,7 @@ msgstr "ALLOW_SIP_ANONをグローバルから削除中.."
 msgid "deleting obsoleted record_in and record_out entries.."
 msgstr "廃止したrecord_in、record_outのエントリーを削除中.."
 
-#: install.php:91 install.php:102 install.php:112
+#: install.php:92 install.php:103 install.php:113
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:494
 #: ../core/install.php:881 ../core/install.php:967
 msgid "done"
@@ -9103,7 +9115,7 @@ msgstr "完了"
 msgid "done! Reload FreePBX to update all Custom Context settings."
 msgstr ""
 
-#: install.php:89 install.php:100 install.php:110
+#: install.php:90 install.php:101 install.php:111
 msgid "done, see errors below"
 msgstr "完了しました。以下のエラーを確認してください："
 
@@ -9213,7 +9225,7 @@ msgstr "フィールドを追加中に致命的なエラーが発生しました
 msgid "fatal error updating freepbx_settings table"
 msgstr "freepbx_settingsテーブルのアップデートにおける致命的なエラー"
 
-#: install.php:150
+#: install.php:151
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr "ファイル/ディレクトリー:%s の削除に成功しました"
@@ -9230,12 +9242,12 @@ msgstr ""
 msgid "format list as xml"
 msgstr ""
 
-#: install.php:14
+#: install.php:15
 #, php-format
 msgid "framework couldn't copy file to %s"
 msgstr "frameworkは、ファイルを %s にコピーできませんでした"
 
-#: install.php:136
+#: install.php:137
 msgid "framework file install done, removing packages from module"
 msgstr ""
 "framework ファイルのインストールが完了し、パッケージをモジュールから削除して"
@@ -9276,7 +9288,7 @@ msgstr ""
 msgid "insert"
 msgstr "挿入"
 
-#: install.php:82
+#: install.php:83
 #, php-format
 msgid "installing files to %s.."
 msgstr "%s にファイルをインストール中.."

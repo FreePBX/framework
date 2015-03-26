@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-24 20:48-0400\n"
+"POT-Creation-Date: 2015-03-25 21:24-0400\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Mikael Carlsson <mickecamino@gmail.com>\n"
 "Language-Team: EdwardBadBoy <zhougongjizhe@163.com>\n"
@@ -415,7 +415,7 @@ msgstr "需要 %s ，并且要求它的版本比 %s 新，你安装的是 %s "
 msgid "%s will be removed from the hard disk"
 msgstr ""
 
-#: install.php:13
+#: install.php:14
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
 msgstr ""
@@ -1469,7 +1469,7 @@ msgstr "无法禁用：以下模块依赖于本模块："
 msgid "Cannot find module"
 msgstr "无法找到模块"
 
-#: install.php:168
+#: install.php:169
 msgid "Cant Find Framework XML"
 msgstr ""
 
@@ -2596,6 +2596,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:616
 #, php-format
 msgid "Don't have permission/can't write to %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:22
+msgid "Don't know about modules yet. It needs to be handed to me"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:59
@@ -4133,7 +4137,7 @@ msgid ""
 "even after it was suppose to be applied"
 msgstr ""
 
-#: install.php:181
+#: install.php:182
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -4635,6 +4639,10 @@ msgstr ""
 "文标点）<br />许多提供商还要求你提供一个DID号码，例如：用户名:密码@switch."
 "voipprovider.com/did号码。"
 
+#: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:33
+msgid "Multiple hooks unimplemented"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:112
 msgid ""
 "Multiple params to autoload (__call) not supported. Don't do that. Or re-"
@@ -4770,7 +4778,7 @@ msgstr "没有要执行的操作"
 msgid "No description is available."
 msgstr "没有可用的描述"
 
-#: install.php:69
+#: install.php:70
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr ""
@@ -5585,6 +5593,10 @@ msgstr ""
 msgid "Priority"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:48
+msgid "Priority needs to be either 'true', 'false' or a number"
+msgstr ""
+
 #: ../core/views/did/routeform.php:66
 msgid "Privacy"
 msgstr "隐私"
@@ -6172,7 +6184,7 @@ msgid ""
 "problem but these can be set if a more strict behavior is desired."
 msgstr ""
 
-#: install.php:202
+#: install.php:203
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr ""
@@ -7574,7 +7586,7 @@ msgstr ""
 msgid "Version"
 msgstr "版本"
 
-#: install.php:185
+#: install.php:186
 msgid "Version from Framework was empty, cant continue"
 msgstr ""
 
@@ -8213,7 +8225,7 @@ msgstr ""
 msgid "altered"
 msgstr ""
 
-#: install.php:148
+#: install.php:149
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr ""
@@ -8358,7 +8370,7 @@ msgstr ""
 msgid "deleting obsoleted record_in and record_out entries.."
 msgstr ""
 
-#: install.php:91 install.php:102 install.php:112
+#: install.php:92 install.php:103 install.php:113
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:494
 #: ../core/install.php:881 ../core/install.php:967
 msgid "done"
@@ -8369,7 +8381,7 @@ msgstr ""
 msgid "done! Reload FreePBX to update all Custom Context settings."
 msgstr ""
 
-#: install.php:89 install.php:100 install.php:110
+#: install.php:90 install.php:101 install.php:111
 msgid "done, see errors below"
 msgstr ""
 
@@ -8474,7 +8486,7 @@ msgstr ""
 msgid "fatal error updating freepbx_settings table"
 msgstr ""
 
-#: install.php:150
+#: install.php:151
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr ""
@@ -8491,12 +8503,12 @@ msgstr ""
 msgid "format list as xml"
 msgstr ""
 
-#: install.php:14
+#: install.php:15
 #, php-format
 msgid "framework couldn't copy file to %s"
 msgstr ""
 
-#: install.php:136
+#: install.php:137
 msgid "framework file install done, removing packages from module"
 msgstr ""
 
@@ -8533,7 +8545,7 @@ msgstr ""
 msgid "insert"
 msgstr "插入"
 
-#: install.php:82
+#: install.php:83
 #, php-format
 msgid "installing files to %s.."
 msgstr ""
