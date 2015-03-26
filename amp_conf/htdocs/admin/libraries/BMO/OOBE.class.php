@@ -168,7 +168,7 @@ class OOBE extends FreePBX_Helpers {
 	}
 
 	private function createAdminAccount() {
-		$view = FreePBX::Config()->get("AMPWEBROOT")."/views/oobe.php";
+		$view = FreePBX::Config()->get("AMPWEBROOT")."/admin/views/oobe.php";
 		if (!isset($_REQUEST['username'])) {
 			// Just show the view
 			echo load_view($view);
