@@ -42,7 +42,8 @@ class Database extends PDO {
 			$dsn = $args[0];
 		} else {
 			$host = !empty($amp_conf['AMPDBHOST']) ? $amp_conf['AMPDBHOST'] : 'localhost';
-			$dsn = "mysql:host=".$host.";dbname=".$amp_conf['AMPDBNAME'];
+			//Note: charset=utf8 requires php 5.3.6 (http://php.net/manual/en/mysqlinfo.concepts.charset.php)
+			$dsn = "mysql:host=".$host.";dbname=".$amp_conf['AMPDBNAME'].";charset=utf8";
 		}
 
 		if (isset($args[1]) && !empty($args[0]) && is_string($args[0])) {
@@ -57,9 +58,14 @@ class Database extends PDO {
 			$password = $amp_conf['AMPDBPASS'];
 		}
 
+		$options = isset($args[3]) ? $args[3] : array();
+		if (version_compare(PHP_VERSION, '5.3.6', '<')) {
+			$options[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES utf8';
+		}
+
 		try {
-			if (isset($args[3])) {
-				parent::__construct($dsn, $username, $password, $args[3]);
+			if (!empty($options)) {
+				parent::__construct($dsn, $username, $password, $options);
 			} else {
 				parent::__construct($dsn, $username, $password);
 			}

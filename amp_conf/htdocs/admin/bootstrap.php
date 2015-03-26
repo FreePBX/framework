@@ -37,7 +37,7 @@ if (isset($bootstrap_settings['returnimmediately'])) {
 // we should never re-run this file, something is wrong if we do.
 //
 //enable error reporting and start benchmarking
-
+ini_set("default_charset","UTF-8");
 error_reporting(E_ALL & ~E_STRICT);
 date_default_timezone_set(@date_default_timezone_get());
 function microtime_float() { list($usec,$sec) = explode(' ',microtime()); return ((float)$usec+(float)$sec); }

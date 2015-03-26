@@ -29,6 +29,7 @@ class FileHooks {
 	private function processOldHooks($active_modules) {
 		// Moved from retrieve_conf, and slightly tidied up
 		foreach($active_modules as $mod) {
+			\modgettext::push_textdomain(strtolower($mod));
 			$classname = $mod."_conf";
 
 			if(class_exists($classname)) {
@@ -68,12 +69,15 @@ class FileHooks {
 					}
 				}
 			}
+			\modgettext::pop_textdomain();
 		}
 	}
 
 	private function processNewHooks() {
 		$hooks = $this->FreePBX->Hooks->getAllHooks();
 		foreach ($hooks['ConfigFiles'] as $hook) {
+			$mod = str_replace("FreePBX\\modules\\","",$hook);
+			\modgettext::push_textdomain(strtolower($mod));
 			$hparts = explode("\\",$hook);
 			if(count($hparts) > 0) {
 				$c = count($hparts);
@@ -95,6 +99,7 @@ class FileHooks {
 
 			$this->FreePBX->$hook->writeConfig($tmpconf);
 			$this->FreePBX->Performance->Stamp("fileHook-".$hook."_stop");
+			\modgettext::pop_textdomain();
 		}
 	}
 }
