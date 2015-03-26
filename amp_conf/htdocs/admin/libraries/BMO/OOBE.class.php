@@ -168,15 +168,16 @@ class OOBE extends FreePBX_Helpers {
 	}
 
 	private function createAdminAccount() {
+		$view = FreePBX::Config()->get("AMPWEBROOT")."/views/oobe.php";
 		if (!isset($_REQUEST['username'])) {
 			// Just show the view
-			echo load_view("/var/www/html/admin/views/oobe.php");
+			echo load_view($view);
 		} else {
 			$errors = $this->validateFrameworkOOBE($results);
 			if ($errors) {
 				// Something failed. Try again
 				$results['errors'] = $errors;
-				echo load_view("/var/www/html/admin/views/oobe.php", $results);
+				echo load_view($view, $results);
 			} else {
 				$this->createFreePBXAdmin($results);
 				$this->completeOOBE("framework");
