@@ -74,6 +74,12 @@ class FreePBXInstallCommand extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		global $amp_conf; /* This makes pandas sad. :( */
 
+		if (version_compare(PHP_VERSION, '5.3.3', '<')) {
+			//charset=utf8 requires php 5.3.6 (http://php.net/manual/en/mysqlinfo.concepts.charset.php)
+			$output->writeln("<error>FreePBX Requires PHP Version 5.3.3 or Higher, you have: ".PHP_VERSION."</error>");
+			return false;
+		}
+
 		$this->rootPath = dirname(__DIR__);
 		date_default_timezone_set('America/Los_Angeles');
 
@@ -225,16 +231,6 @@ class FreePBXInstallCommand extends Command {
 					exit(1);
 				}
 				$output->writeln("Connected!");
-				$output->write("Creating the Database ".$amp_conf['AMPDBNAME']."...");
-				try {
-					$pdodb->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['AMPDBNAME']);
-				} catch(\Exception $e) {
-					$output->writeln("<error>Error!</error>");
-					$output->writeln("<error>Unable to create the Databse. The error was: ".$e->getMessage()."</error>");
-					exit(1);
-				}
-				$output->writeln("Finished");
-
 			}
 		}
 
@@ -347,7 +343,7 @@ class FreePBXInstallCommand extends Command {
 				if($force) {
 					$db->query("DROP DATABASE IF EXISTS ".$amp_conf['AMPDBNAME']);
 				}
-				$db->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['AMPDBNAME']);
+				$db->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['AMPDBNAME']." DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci");
 				$sql = "GRANT ALL PRIVILEGES ON ".$amp_conf['AMPDBNAME'].".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
 				$db->query($sql);
 			}
@@ -362,14 +358,14 @@ class FreePBXInstallCommand extends Command {
 				if($force) {
 					$db->query("DROP DATABASE IF EXISTS ".$amp_conf['CDRDBNAME']);
 				}
-				$db->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['CDRDBNAME']);
+				$db->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['CDRDBNAME']." DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci");
 				$sql = "GRANT ALL PRIVILEGES ON ".$amp_conf['CDRDBNAME'].".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
 				$db->query($sql);
 			}
 			$db->query("USE ".$amp_conf['CDRDBNAME']);
 			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['CDRDBNAME']."';";
 			if (!$db->getOne($sql)) {
-				$output->writeln("Empty " . $amp_conf['CDRDBNAME'] . " Databse going to populate it");
+				$output->writeln("Empty " . $amp_conf['CDRDBNAME'] . " Database going to populate it");
 				$installer->install_sql_file(SQL_DIR . '/cdr.sql');
 			}
 
