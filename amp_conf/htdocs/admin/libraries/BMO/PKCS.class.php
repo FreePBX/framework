@@ -620,8 +620,8 @@ default_md = sha256
 		$stat = stat($dir);
 		if ($uid != $stat['uid'] || $gid != $stat['gid']) {
 			// Permissions are wrong on the keys directory. Hopefully, I'm root, so I can fix them.
-			if (!posix_geteuid() === 0) {
-				throw new \Exception("Permissions error on $dir - please re-run as root to automatically repair");
+			if (posix_geteuid() !== 0) {
+				throw new Exception(sprintf(_("Permissions error on directory %s - please re-run as root to automatically repair"),$dir));
 			}
 			// We're root. Yay.
 			chown($dir, $uid);
@@ -640,8 +640,8 @@ default_md = sha256
 			$stat = stat($file);
 			if ($uid != $stat['uid'] || $gid != $stat['gid']) {
 				// Permissions are wrong on the keys directory. Hopefully, I'm root, so I can fix them.
-				if (!posix_geteuid() === 0) {
-					throw new \Exception("Permissions error on $dir - please re-run as root to automatically repair");
+				if (posix_geteuid() !== 0) {
+					throw new Exception(sprintf(_("Permissions error on file %s - please re-run as root to automatically repair"),$file));
 				}
 				// We're root. Yay.
 				chown($file, $uid);
