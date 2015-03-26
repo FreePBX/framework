@@ -112,8 +112,9 @@ class modgettext {
 		} else {
 			// We special case core and assume it is there since that is assumed throughout
 			//
+			$path = dirname(__DIR__);
 			if ($module == 'core') {
-				bindtextdomain('amp','./i18n');
+				bindtextdomain('amp', $path.'/i18n');
 				bind_textdomain_codeset('amp', 'utf8');
 				self::$tdhash[$module] = 'amp';
 			}
@@ -127,8 +128,10 @@ class modgettext {
 			} else {
 				$lang = $amp_conf['UIDEFAULTLANG']?$amp_conf['UIDEFAULTLANG']:'en_US';
 			}
-			if (isset($lang) && is_dir('modules/' . $module . '/i18n/' . $lang)) {
-				bindtextdomain($module, 'modules/'. $module . '/i18n');
+			$lang_parts = explode("_",$lang);
+			//if a user sets the system language to 'pt_BR', the system will look for any given string in pt_BR, then pt
+			if (isset($lang) && (is_dir($path.'/modules/' . $module . '/i18n/' . $lang) || is_dir($path.'/modules/' . $module . '/i18n/' . $lang_parts[0]))) {
+				bindtextdomain($module, $path.'/modules/'. $module . '/i18n');
 				bind_textdomain_codeset($module, 'utf8');
 				self::$tdhash[$module] = $module;
 			} else {
