@@ -997,7 +997,7 @@ class module_functions {
 								} else {
 									$mod = $matches[1];
 									$errors[$mod] = sprintf(_('The Module Named "%s" is required.'), $mod);
-									$this->modDepends[] = array("module" => $mod, "version" => $compare_ver);
+									$this->modDepends[] = array("module" => $mod);
 								}
 							}
 						break;

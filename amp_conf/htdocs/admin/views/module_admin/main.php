@@ -62,7 +62,7 @@ if($online) { ?>
 									<?php if($module['commercial']['status']) {?>
 										<?php if (function_exists('sysadmin_is_module_licensed') && !sysadmin_is_module_licensed($module['name'])) { ?>
 											<?php if($module['commercial']['sysadmin'] || $module['name'] == 'sysadmin' && $module['status'] == MODULE_STATUS_ENABLED) {?>
-												<?php if(!$module['commercial']['licensed']) { ?>
+												<?php if(!$module['commercial']['licensed'] && isset($module['commercial']['type'])) { ?>
 													<?php switch($module['commercial']['type']) {
 															case 'upgradeable':
 															case 'free':
@@ -212,7 +212,7 @@ if($online) { ?>
 													<tr>
 														<td><a href="#" class="info"><?php echo _('Commercial Status')?>:<span><?php echo _('Commercial Status of this module. Commercial Modules are maintained and supported through Schmoozecom, INC')?></span></a></td>
 														<td>
-															<?php if(!$module['commercial']['licensed']) { ?>
+															<?php if(!$module['commercial']['licensed'] && isset($module['commercial']['type'])) { ?>
 																<?php switch($module['commercial']['type']) {
 																		case 'upgradeable':?>
 																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new"><?php echo _('Upgrade')?></a>

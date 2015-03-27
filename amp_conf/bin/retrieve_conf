@@ -748,8 +748,9 @@ $hooks = $bmo->DialplanHooks->getAllHooks($active_modules);
 $bmo->Performance->Stop();
 
 $bmo->Performance->Start("processDialplanHooks");
-if (is_array($hooks))
+if (is_array($hooks)) {
 	$bmo->DialplanHooks->processHooks($engine, $hooks);
+}
 $bmo->Performance->Stop();
 
 // extensions_additional.conf

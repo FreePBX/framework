@@ -835,7 +835,7 @@ switch ($action) {
 			}
 			if(FreePBX::Config()->get('SIGNATURECHECK')) {
 				FreePBX::GPG();
-				if(is_int($modules[$name]['signature']['status']) && (~$modules[$name]['signature']['status'] & \FreePBX\GPG::STATE_GOOD)) {
+				if(!empty($modules[$name]['signature']) && is_int($modules[$name]['signature']['status']) && (~$modules[$name]['signature']['status'] & \FreePBX\GPG::STATE_GOOD)) {
 					switch(true) {
 						case $modules[$name]['signature']['status'] & \FreePBX\GPG::STATE_TAMPERED:
 							$headerclass .= " tampered";
@@ -856,7 +856,7 @@ switch ($action) {
 						break;
 						default:
 					}
-				} else if(is_int($modules[$name]['signature']['status']) && ($modules[$name]['signature']['status'] & \FreePBX\GPG::STATE_GOOD)) {
+				} else if(!empty($modules[$name]['signature']) && is_int($modules[$name]['signature']['status']) && ($modules[$name]['signature']['status'] & \FreePBX\GPG::STATE_GOOD)) {
 					$module_display[$category]['data'][$name]['signature']['message'] = _("Good");
 				} else {
 					$headerclass = "moduleheader unsigned";

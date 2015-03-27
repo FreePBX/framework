@@ -42,7 +42,7 @@ class Hooks extends DB_Helper {
 		$bmomodules = array();
 		foreach ($classes as $class) {
 			$implements = class_implements($class);
-			if (isset($implements['BMO']))
+			if (isset($implements['BMO']) || isset($implements['FreePBX\BMO']))
 				$bmomodules[] = $class;
 		}
 
