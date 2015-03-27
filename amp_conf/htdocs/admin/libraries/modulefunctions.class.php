@@ -1916,6 +1916,12 @@ class module_functions {
 			}
 		}catch(\Exception $e) {}
 		out(_("Done"));
+
+		outn(_("Updating Hooks..."));
+		try {
+			\FreePBX::Hooks()->updateBMOHooks();
+		}catch(\Exception $e) {}
+		out(_("Done"));
 		return true;
 	}
 
@@ -2020,6 +2026,13 @@ class module_functions {
 			$sth = FreePBX::Database()->prepare("DELETE FROM `kvstore` WHERE `module` = :mod");
 			$sth->execute(array(":mod" => $modulename));
 		} catch(\Exception $e) {}
+
+		outn(_("Updating Hooks..."));
+		try {
+			\FreePBX::Hooks()->updateBMOHooks();
+		}catch(\Exception $e) {}
+		out(_("Done"));
+
 		return true;
 	}
 
