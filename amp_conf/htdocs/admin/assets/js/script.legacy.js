@@ -199,7 +199,7 @@ function lengthInUtf8Bytes(str) {
  * @param {string} s The string to check
  */
 function isInteger(mixedVar) {
-	if (isEmpty(mixedVar)) {
+	if (mixedVar.length === 0) {
 		return defaultEmptyOK;
 	}
 	return new RegExp(/^\d+$/).test(mixedVar);
