@@ -22,7 +22,7 @@ class Unlock extends Command {
 		session_start();
 		$output->writeln('Unlocking: ' . $args[0]);
 		if (!isset($_SESSION["AMP_user"])) {
-			$_SESSION["AMP_user"] = new $FreePBX->ampuser('fwconsole');
+			$_SESSION["AMP_user"] = new \ampuser('fwconsole');
 			$_SESSION["AMP_user"]->setAdmin();
 			$output->writeln(_('Session Should be unlocked now'));
 		}
