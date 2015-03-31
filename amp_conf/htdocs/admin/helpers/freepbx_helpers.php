@@ -126,6 +126,8 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 				if(is_Array($destArray)) {
 					foreach($destArray as $dest){
 						$cat=(isset($dest['category'])?$dest['category']:$module['displayname']);
+						$cat = str_replace(array("|"),"",$cat);
+						$cat = str_replace("&",_("and"),$cat);
 						$ds_id = (isset($dest['id']) ? $dest['id'] : $rawmod);
 						$popover_hash[$ds_id] = $cat;
 						$drawselect_destinations[$cat][] = $dest;
