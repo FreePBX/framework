@@ -8,13 +8,13 @@ FreePBX is a Registered Trademark of Schmooze Com Inc.
 Version
 ----
 
-12
+13
 
 Tech
 -----------
 FreePBX uses a number of open source projects to work properly:
 
-* [Asterisk] - Asterisk is a software implementation of a telephone private branch exchange (PBX) (Supported Versions 1.8 through 12). License GPL
+* [Asterisk] - Asterisk is a software implementation of a telephone private branch exchange (PBX) (Supported Versions 11 through 13). License GPL
 * [Pear DB] - A database abstraction layer. License PHP License
 * [Pear Console::Getopt] - This is a PHP implementation of "getopt" supporting both short and long options. License PHP License
 * [jQuery] - A multi-browser JavaScript library designed to simplify the client-side scripting of HTML. License MIT
@@ -25,12 +25,15 @@ FreePBX uses a number of open source projects to work properly:
 * [CssMin] - A (simple) css minifier with benefits. By Joe Scylla, Copyright (c) 2008 - 2010. License MIT
 * [Codeigniter helpers/librarires] - Copyright (c) 2008 - 2011, EllisLab, Inc., All rights reserved. License GPL
 * [jQuery UI Bootstrap] - Some work based off of this project which was started to bring the beauty and ease-of-use of Twitter Bootstrap to jQuery UI widgets 
+* [Bootstrap-table] An extended Bootstrap table with radio, checkbox, sort, pagination, and other added features. Licence MIT
+* [zxcvbn]  Realistic password strength estimation - Dan Wheeler (Dropbox). Licence MIT
 
 Visuals
 -----------
 FreePBX uses a number of visual graphics packages to render properly:
 
 * [Silk Icon Set] - Version 1.3, Creative Commons Attribution 2.5 License: http://creativecommons.org/licenses/by/2.5/, Originally by Mark James
+* [Font Awesome] Font Awesome by Dave Gandy. Licence(s) http://fontawesome.io/license/
 
 Music
 -----------
@@ -50,7 +53,7 @@ Installation
 --------------
 
 ```sh
-./install_amp --username <mysql_username> -password <mysql_password> --installdb
+./install
 ```
 
 License
@@ -77,3 +80,6 @@ Please see the included license file in the module for license information
   [pear console::getopt]: http://pear.php.net/package/Console_Getopt
   [bootstrap]: http://getbootstrap.com
   [jQuery UI Bootstrap]: https://github.com/addyosmani/jquery-ui-bootstrap
+  [Bootstrap-table]: http://bootstrap-table.wenzhixin.net.cn/
+  [zxcvbn]: https://github.com/dropbox/zxcvbn
+  [Font Awesome]: http://fontawesome.io
