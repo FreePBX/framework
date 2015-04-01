@@ -10,14 +10,15 @@ $bootstrap_settings['fix_zend'] = isset($options['fix_zend']);
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
 	include_once('/etc/asterisk/freepbx.conf');
 }
+modgettext::push_textdomain("amp");
 if(!isset($options['fix_zend']) && function_exists('SPLAutoloadBroken') && SPLAutoloadBroken()) {
-	echo "Autoloader is damaaged.\n";
-	echo "Please run: ".basename($argv[0])." --fix_zend\n";
+	echo _("Autoloader is damaaged")."\n";
+	echo sprintf(_("Please run: %s --fix_zend"),basename($argv[0]))."\n";
 	die();
 }
 if(isset($options['fix_zend'])) {
 	if(SPLAutoloadBroken()) {
-		die("Autoloader was damanged before we even started!\n");
+		die(_("Autoloader was damanged before we even started!")."\n");
 	}
 	//autoload our fix it classes now before autoloading breaks
 	$mf = module_functions::create();
@@ -37,7 +38,7 @@ if(isset($options['fix_zend'])) {
 		}
 	}
 	if(!empty($disable)) {
-		echo "Disabling malfunctioning module: ".$disable."\n";
+		echo sprintf(_("Disabling malfunctioning module: %s"),$disable)."\n";
 		$mf->disable($disable, true);
 		exec(__FILE__." --fix_zend",$o);
 		foreach($o as $line) {
@@ -45,7 +46,7 @@ if(isset($options['fix_zend'])) {
 		}
 	}
 	if(!SPLAutoloadBroken()) {
-		die("There's nothing left to fix\n");
+		die(_("There's nothing left to fix")."\n");
 		exit(0);
 	}
 }
@@ -108,7 +109,9 @@ try {
 					if(!class_exists($class)) {
 						continue;
 					}
-					echo $fbc->add(new $class);
+					modgettext::push_textdomain($module['rawname']);
+					$fbc->add(new $class);
+					modgettext::pop_textdomain();
 				}
 			}
 		}
