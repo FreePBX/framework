@@ -904,6 +904,7 @@ function fpbx_reload_confirm() {
  * Do the actual Reload
  */
 function fpbx_reload() {
+	$(document).trigger( "fpbx_reload", {status: "starting", complete: false, errors: false} );
 	$("<div></div>").progressbar({ value: 100 });
 	var box = $("<div id=\"reloadbox\"></div>")
 		.html("<progress style=\"width: 100%\">Please wait...</progress>")
@@ -929,6 +930,7 @@ function fpbx_reload() {
 		success: function(data) {
 			box.dialog("destroy").remove();
 			if (!data.status) {
+				$(document).trigger( "fpbx_reload", {status: "error", complete: true, errors: {type: "object", status: true, data: data}} );
 				// there was a problem
 				var r = "<h3>" + data.message + "<\/h3>" +
 				"<a href=\"#\" id=\"error_more_info\">click here for more info</a>" +
@@ -938,6 +940,7 @@ function fpbx_reload() {
 				}
 				freepbx_reload_error(r);
 			} else {
+				$(document).trigger( "fpbx_reload", {status: "complete", complete: true, errors: {type: false, status: false, data: {}}} );
 				//unless fpbx.conf.DEVELRELOAD is true, hide the reload button
 				if (fpbx.conf.DEVELRELOAD != "true") {
 					toggle_reload_button("hide");
@@ -945,6 +948,7 @@ function fpbx_reload() {
 			}
 		},
 		error: function(reqObj, status) {
+			$(document).trigger( "fpbx_reload", {status: "error", complete: true, errors: {type: "jqXHR", status: true, data: reqObj}} );
 			box.dialog("destroy").remove();
 			var r = "<p>" + fpbx.msg.framework.invalid_responce + "<\/p>" +
 							"<p>XHR response code: " + reqObj.status +
