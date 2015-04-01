@@ -33,7 +33,7 @@ function isUnicodeLetter(c){return new RegExp(/[ a-zA-Z'\\\/\&\(\)\-\u3000-\u300
 function isCorrectLengthExtensions(s){return isCorrectLength(s,50);}
 function isCorrectLength(s,l){var i;if(lengthInUtf8Bytes(s)>l){return false;}else{return true;}}
 function lengthInUtf8Bytes(str){var m=encodeURIComponent(str).match(/%[89ABab]/g);return str.length+(m?m.length:0);}
-function isInteger(mixedVar){if(isEmpty(mixedVar)){return defaultEmptyOK;}
+function isInteger(mixedVar){if(mixedVar.length===0){return defaultEmptyOK;}
 return new RegExp(/^\d+$/).test(mixedVar);}
 function isFloat(mixedVar){if(isEmpty(mixedVar)){return defaultEmptyOK;}
 return new RegExp(/^(?:[1-9]\d*|0)?(?:\.\d+)?$/).test(mixedVar);}
