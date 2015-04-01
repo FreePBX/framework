@@ -222,16 +222,18 @@ class FreePBXInstallCommand extends Command {
 
 			if($dbroot) {
 				$output->write("Database Root installation checking credentials and permissions..");
-				$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'];
-				try {
-					$pdodb = new \PDO($dsn, $amp_conf['AMPDBUSER'], $amp_conf['AMPDBPASS']);
-				} catch(\Exception $e) {
-					$output->writeln("<error>Error!</error>");
-					$output->writeln("<error>Invalid Database Permissions. The error was: ".$e->getMessage()."</error>");
-					exit(1);
-				}
-				$output->writeln("Connected!");
+			} else {
+				$output->write("Database installation checking credentials and permissions..");
 			}
+			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'];
+			try {
+				$pdodb = new \PDO($dsn, $amp_conf['AMPDBUSER'], $amp_conf['AMPDBPASS']);
+			} catch(\Exception $e) {
+				$output->writeln("<error>Error!</error>");
+				$output->writeln("<error>Invalid Database Permissions. The error was: ".$e->getMessage()."</error>");
+				exit(1);
+			}
+			$output->writeln("Connected!");
 		}
 
 		// Copy asterisk.conf
@@ -326,6 +328,15 @@ class FreePBXInstallCommand extends Command {
 			require_once('amp_conf/htdocs/admin/libraries/BMO/FreePBX.class.php');
 			require_once('amp_conf/htdocs/admin/libraries/DB.class.php');
 
+			if($dbroot) {
+				if($force) {
+					$pdodb->query("DROP DATABASE IF EXISTS ".$amp_conf['AMPDBNAME']);
+				}
+				$pdodb->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['AMPDBNAME']." DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci");
+				$sql = "GRANT ALL PRIVILEGES ON ".$amp_conf['AMPDBNAME'].".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
+				$pdodb->query($sql);
+			}
+
 			$bmo = new \FreePBX($amp_conf);
 
 			if($dbroot) {
@@ -339,14 +350,6 @@ class FreePBXInstallCommand extends Command {
 			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'];
 			$db = new \DB(new \FreePBX\Database($dsn, $answers['dbuser'], $answers['dbpass']));
 
-			if($dbroot) {
-				if($force) {
-					$db->query("DROP DATABASE IF EXISTS ".$amp_conf['AMPDBNAME']);
-				}
-				$db->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['AMPDBNAME']." DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci");
-				$sql = "GRANT ALL PRIVILEGES ON ".$amp_conf['AMPDBNAME'].".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
-				$db->query($sql);
-			}
 			$db->query("USE ".$amp_conf['AMPDBNAME']);
 			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['AMPDBNAME']."';";
 			if (!$db->getOne($sql)) {
