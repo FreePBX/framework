@@ -1644,7 +1644,19 @@ $(document).ready(function(){
 		$(this).wrap('<div class="input-group"></div>');
 		$(this).after('<span class="input-group-addon" id="basic-addon-'+curid+'">'+curl+'/'+maxl+'</span>');
 	});
+	//Enable textarea autosizer
 	$('textarea.autosize').autosize();
+
+	//enable bootstrap multiselect
+	$('select[multiple].bsmultiselect').multiselect();
+
+	$('select[multiple].chosenmultiselect').chosen({ width: '100%' });
+	/*
+	 * Handle loooong bootnavs.
+	 */
+	if ($('div.bootnav').length && $('div.bootnav a.active').length){
+		$('div.bootnav .list-group').scrollTop($('div.bootnav a.active').position().top);
+	}
 });
 $(".maxlen").keyup(function(){
 		var curid = $(this).attr('id');
@@ -1660,14 +1672,7 @@ $(document).on('click','.delAction', function(e){
 	var confirmed = confirm(_("Are you sure you want to delete this item?"));
 	return confirmed;
 });
-/*
- * Handle loooong bootnavs.
- */
-$(document).ready(function() {
-	if ($('div.bootnav').length && $('div.bootnav a.active').length){
-		$('div.bootnav .list-group').scrollTop($('div.bootnav a.active').position().top);
-	}
-});
+
 //Prevent links from jumoing to the top of the page
 $(document).on('click','.clickable', function(e){
 	e.preventDefault();

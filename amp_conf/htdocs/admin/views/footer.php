@@ -144,6 +144,10 @@ $html .= '<script src="assets/js/bootstrap-table-1.6.0.js"></script>';
 
 $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-en-US.js"></script>';
 
+$html .= '<script src="assets/js/bootstrap-multiselect.js"></script>';
+
+$html .= '<script src="assets/js/chosen.jquery.min.js"></script>';
+
 $html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.11.2.min.js"></script>';
 
 // Production versions should include the packed consolidated javascript library but if it
