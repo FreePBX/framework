@@ -84,13 +84,13 @@ function warnInvalid(theField, s) {
 		var field = (typeof theField.length === "undefined") ? $(theField) : theField,
 				id = field.prop("id"),
 				tab = field.parents(".tab-pane").prop("id");
-		if (typeof tab !== "undefined") {
-			$('li.change-tab[data-name="' + tab + '"] a').one("shown.bs.tab", function(e) {
-				field.focus();
-			})
+		//while loop here to tab switch through different layers
+		while(typeof tab !== "undefined") {
+			$('li.change-tab[data-name="' + tab + '"] a').one("shown.bs.tab");
 			$('li.change-tab[data-name="' + tab + '"] a').tab("show");
-
+			tab = $('li.change-tab[data-name="' + tab + '"] a').parents(".tab-pane").prop("id");
 		}
+		field.focus();
 		field.parents(".element-container").addClass("has-error");
 
 		field.one("propertychange change contextmenu keyup input paste", function() {
