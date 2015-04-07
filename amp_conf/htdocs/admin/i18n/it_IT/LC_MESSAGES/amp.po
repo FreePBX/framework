@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-01 18:45-0400\n"
+"POT-Creation-Date: 2015-04-07 14:04-0400\n"
 "PO-Revision-Date: 2008-11-09 19:43+0100\n"
 "Last-Translator: Francesco Romano <francesco.romano@alteclab.it>\n"
 "Language-Team: Italian\n"
@@ -253,7 +253,7 @@ msgstr ""
 msgid "%s Upgrade Available (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2942
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2955
 #, php-format
 msgid "%s [not enabled]"
 msgstr ""
@@ -1472,13 +1472,13 @@ msgstr "Annulla"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "Impossibile connettersi al Manager di Asterisk con"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2051
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2064
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "Non posso eliminare la directory %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1941
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1973
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1947
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1979
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr "Impossibile disattivarlo: i seguenti moduli dipendono da questo:"
 
@@ -1668,11 +1668,11 @@ msgid ""
 "review the others."
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:134
+#: ../core/assets/js/trunks/trunks.js:240
 msgid "Click here to insert a new pattern before this pattern"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:135
+#: ../core/assets/js/trunks/trunks.js:241
 msgid "Click here to remove this pattern"
 msgstr ""
 
@@ -1942,7 +1942,7 @@ msgstr ""
 msgid "Critical"
 msgstr "Critico"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2949
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2962
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
@@ -2474,7 +2474,7 @@ msgstr ""
 msgid "Dial Patterns that will use this Route"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:212
+#: ../core/assets/js/trunks/trunks.js:318
 msgid "Dial pattern is invalid"
 msgstr "Modello di chiamata non valido"
 
@@ -2683,6 +2683,8 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:603
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:626
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1918
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1924
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2034
 #: amp_conf/htdocs/admin/page.modules.php:1016
 msgid "Done"
 msgstr ""
@@ -3113,7 +3115,7 @@ msgstr ""
 msgid "Error creating temporary directory: %s"
 msgstr "Errore durante la creazione della directory temporanea: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2058
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2071
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "Errore durante l'eliminazione della direcory %s (codice %d)"
@@ -3153,7 +3155,7 @@ msgid "Error updating database. Command was: %s; error was: %s "
 msgstr ""
 "Errore durante l'aggiornamento del database. Il comando era: %s, l'errore: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1996
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2002
 msgid "Error updating database: "
 msgstr "Errore nell'agiornamento del database:"
 
@@ -3350,12 +3352,12 @@ msgstr ""
 msgid "Failed to Remove directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2835
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2848
 #, php-format
 msgid "Failed to get remote file, error was:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2848
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2861
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:532
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -3386,7 +3388,7 @@ msgstr ""
 msgid "Failed to run installation scripts"
 msgstr "Impossibile eseguire gli script di installazione"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2000
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2006
 msgid "Failed to run un-installation scripts"
 msgstr "Errore nell'eseguire lo script di disintallazione"
 
@@ -3556,7 +3558,7 @@ msgstr ""
 msgid "Force rport - (force_rport)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2860
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2873
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:544
 #, php-format
 msgid "Forced %s to true"
@@ -4319,7 +4321,7 @@ msgid "Invalid Channel Number, must be numeric and not blank"
 msgstr ""
 "Numero Canale non valido, deve essere un numero oppure lasciato in bianco"
 
-#: ../core/views/trunks/trunk_footer.php:231
+#: ../core/views/trunks/trunk_footer.php:97
 msgid "Invalid Custom Dial String entered"
 msgstr "Stringa di chiamata personalizzata non valida"
 
@@ -4327,19 +4329,19 @@ msgstr "Stringa di chiamata personalizzata non valida"
 msgid "Invalid DID, must be a non-blank DID"
 msgstr "Selezione Passante non valida, il campo non deve essere vuoto"
 
-#: ../core/views/trunks/trunk_footer.php:228
+#: ../core/views/trunks/trunk_footer.php:94
 msgid "Invalid Dial Rules"
 msgstr "Regole di Chiamata non valide"
 
-#: ../core/views/trunks/trunk_footer.php:227
+#: ../core/views/trunks/trunk_footer.php:93
 msgid "Invalid Maximum Channels"
 msgstr "Numero Massimo di Canali non valido"
 
-#: ../core/views/trunks/trunk_footer.php:226
+#: ../core/views/trunks/trunk_footer.php:92
 msgid "Invalid Outbound CallerID"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:230
+#: ../core/views/trunks/trunk_footer.php:96
 msgid "Invalid Trunk Name entered"
 msgstr "Nome Fascio non valido"
 
@@ -4376,7 +4378,7 @@ msgstr ""
 msgid "Invalid value supplied violates the validation regex: %s"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:235
+#: ../core/views/trunks/trunk_footer.php:101
 msgid ""
 "It is highly recommended that you define an Outbound CallerID on all trunks, "
 "undefined behavior can result when nothing is specified. The CID Options can "
@@ -4664,17 +4666,17 @@ msgstr "Modulo"
 msgid "Module "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2929
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2942
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2951
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2964
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2957
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr ""
@@ -4745,11 +4747,11 @@ msgstr ""
 msgid "Module is Unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1937
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1943
 msgid "Module not enabled: cannot disable"
 msgstr "Modulo non attivato: impossibile disattivarlo"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1969
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1975
 msgid "Module not installed: cannot uninstall"
 msgstr "Modulo non installato: non posso disinstallare"
 
@@ -4762,19 +4764,19 @@ msgstr ""
 "Modulo caricato con successo. Hai bisogno di attivare il modulo usando %s "
 "per renderlo disponibile."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2965
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2978
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2959
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2972
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2957
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2970
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -5433,10 +5435,6 @@ msgstr ""
 
 #: amp.i18n.php:574
 msgid "PHP Error Log Output"
-msgstr ""
-
-#: ../core/page.trunks.php:498
-msgid "PJSIP In FreePBX is Experimental."
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:28
@@ -6545,9 +6543,9 @@ msgstr ""
 msgid "Some of these settings can render your system inoperable."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1932
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1964
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2037
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1938
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1970
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2050
 msgid "Specified module not found"
 msgstr "Modulo specificato non trovato"
 
@@ -6779,7 +6777,7 @@ msgstr ""
 msgid "The Module Named \"%s\" is required."
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:229
+#: ../core/views/trunks/trunk_footer.php:95
 msgid ""
 "The Outbound Dial Prefix contains non-standard characters. If these are "
 "intentional the press OK to continue."
@@ -6861,11 +6859,11 @@ msgstr ""
 "Si sono verificati i segueni errori durante il processo di caricamento del "
 "file: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2493
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2506
 msgid "The following modules are disabled because they are broken:"
 msgstr "I seguenti moduli sono disabilitati perchè sono rovinati:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2485
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2498
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr ""
 "I seguenti moduli sono disabilitati perchè richiedono un aggiornamento:"
@@ -6961,7 +6959,7 @@ msgid ""
 "configuration."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2861
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2874
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:545
 #, php-format
 msgid ""
@@ -7338,7 +7336,7 @@ msgstr ""
 msgid "Trunk Name"
 msgstr "Nome Fascio"
 
-#: ../core/views/trunks/trunk_footer.php:232
+#: ../core/views/trunks/trunk_footer.php:98
 msgid "Trunk Name and User Context cannot be set to the same value"
 msgstr ""
 "Il nome del Fascio e il Contesto Utente non possono avere lo stesso valore"
@@ -7551,6 +7549,11 @@ msgstr "Aggiornamento"
 msgid "Update Notifications"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1920
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2030
+msgid "Updating Hooks..."
+msgstr ""
+
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:143
 msgid "Updating prepared settings.."
 msgstr ""
@@ -7688,7 +7691,7 @@ msgstr "Utente"
 msgid "User & Devices Mode"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:233
+#: ../core/views/trunks/trunk_footer.php:99
 msgid "User Context was left blank and User Details will not be saved!"
 msgstr ""
 "Il Contesto Utente è stato lasciato vuoto e i Dettagli Utente non saranno "
@@ -8147,7 +8150,7 @@ msgstr ""
 msgid "Yes - (force_rport,comedia)"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:236
+#: ../core/views/trunks/trunk_footer.php:102
 msgid "You Must define a Server URI"
 msgstr ""
 
@@ -8228,26 +8231,26 @@ msgstr ""
 "Puoi effettuare l'upload di un file tar gzip contenente un modulo FreePBX. "
 "Se già esiste un modulo con lo stesso nome, verrà sovrascritto."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2980
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2993
 #, php-format
 msgid "You have %s %s %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2492
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2505
 #, php-format
 msgid "You have %s broken modules"
 msgstr "Hai %s moduli rovinati"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2484
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2497
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "Hai %s moduli disabilitati"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2492
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2505
 msgid "You have a broken module"
 msgstr "Hai un modulo rovinato"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2484
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2497
 msgid "You have a disabled module"
 msgstr "Hai un modulo disabilitato"
 
@@ -8315,24 +8318,24 @@ msgid ""
 "Directory assistance, International dialing and long distance"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:240
+#: ../core/views/trunks/trunk_footer.php:106
 msgid "You must define a SIP Port"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:239
+#: ../core/views/trunks/trunk_footer.php:105
 msgid "You must define a SIP Server"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:238
+#: ../core/views/trunks/trunk_footer.php:104
 msgid "You must define a(n) AOR Contact"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:234
+#: ../core/views/trunks/trunk_footer.php:100
 msgid ""
 "You must define an Outbound CallerID when Choosing this CID Options value"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:237
+#: ../core/views/trunks/trunk_footer.php:103
 msgid "You must defined a Client URI"
 msgstr ""
 
@@ -8349,8 +8352,8 @@ msgstr "Devi inserire un numero di interno (o utente)"
 msgid "You should fix the problem or select another file and %s."
 msgstr "Dovresti risolvere il problem o selezionare un altro file e %s."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2486
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2494
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2499
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2507
 msgid "You should go to the module admin page to fix these."
 msgstr ""
 "Dovresti andate nella pagina di amminstrazione moduli per la riparazione."
@@ -8470,7 +8473,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:165
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2912
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2925
 msgid "altered"
 msgstr ""
 
@@ -8705,8 +8708,8 @@ msgstr ""
 msgid "failed to delete %s from cache directory after opening module archive."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2232
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2238
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2245
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2251
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr ""
@@ -8744,7 +8747,7 @@ msgstr ""
 msgid "file/directory: %s removed successfully"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2976
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2989
 msgid "files"
 msgstr ""
 
@@ -8794,7 +8797,7 @@ msgid ""
 "see: %s"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:134
+#: ../core/assets/js/trunks/trunks.js:240
 msgid "insert"
 msgstr ""
 
@@ -8967,7 +8970,7 @@ msgstr ""
 msgid "module.sig check failed! %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2978
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2991
 msgid "modules"
 msgstr ""
 
@@ -9051,7 +9054,7 @@ msgstr ""
 msgid "prepend:"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:135
+#: ../core/assets/js/trunks/trunks.js:241
 msgid "remove"
 msgstr ""
 

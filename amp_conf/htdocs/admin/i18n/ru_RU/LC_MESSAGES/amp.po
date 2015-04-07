@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-01 18:45-0400\n"
+"POT-Creation-Date: 2015-04-07 14:04-0400\n"
 "PO-Revision-Date: 2014-02-28 04:51+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://example.com/projects/freepbx-211/amp/ru/>\n"
@@ -256,7 +256,7 @@ msgstr ""
 msgid "%s Upgrade Available (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2942
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2955
 #, php-format
 msgid "%s [not enabled]"
 msgstr ""
@@ -1529,13 +1529,13 @@ msgstr "Отмена"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "Невозможно соединится с Asterisk Manager"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2051
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2064
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "Невозможно удалить директорию %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1941
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1973
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1947
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1979
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr "Невозможно отменить: выбранный модуль зависит от:"
 
@@ -1725,11 +1725,11 @@ msgid ""
 "review the others."
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:134
+#: ../core/assets/js/trunks/trunks.js:240
 msgid "Click here to insert a new pattern before this pattern"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:135
+#: ../core/assets/js/trunks/trunks.js:241
 msgid "Click here to remove this pattern"
 msgstr "Кликнуть для удаления этого шаблона"
 
@@ -2000,7 +2000,7 @@ msgstr ""
 msgid "Critical"
 msgstr "Критично"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2949
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2962
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
@@ -2661,7 +2661,7 @@ msgstr ""
 msgid "Dial Patterns that will use this Route"
 msgstr "Шаблоны номеров, используемые на этом маршруте"
 
-#: ../core/views/trunks/trunk_footer.php:212
+#: ../core/assets/js/trunks/trunks.js:318
 msgid "Dial pattern is invalid"
 msgstr "Неверный шаблон номера"
 
@@ -2879,6 +2879,8 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:603
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:626
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1918
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1924
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2034
 #: amp_conf/htdocs/admin/page.modules.php:1016
 msgid "Done"
 msgstr ""
@@ -3322,7 +3324,7 @@ msgstr ""
 msgid "Error creating temporary directory: %s"
 msgstr "Ошибка при создании временной директории: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2058
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2071
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "Ошибка при удалении директории %s (код %d)"
@@ -3361,7 +3363,7 @@ msgstr ""
 msgid "Error updating database. Command was: %s; error was: %s "
 msgstr "Ошибка при обновлении базы данных. Вызов команды: %s; ошибка: %s "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1996
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2002
 msgid "Error updating database: "
 msgstr "Ошибка при обновлении базы данных: "
 
@@ -3565,12 +3567,12 @@ msgstr ""
 msgid "Failed to Remove directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2835
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2848
 #, php-format
 msgid "Failed to get remote file, error was:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2848
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2861
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:532
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -3601,7 +3603,7 @@ msgstr ""
 msgid "Failed to run installation scripts"
 msgstr "Ошибка при исполнении скрипта инсталляции"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2000
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2006
 msgid "Failed to run un-installation scripts"
 msgstr "Ошибка при выполнении скрипта удаления"
 
@@ -3783,7 +3785,7 @@ msgstr ""
 msgid "Force rport - (force_rport)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2860
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2873
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:544
 #, php-format
 msgid "Forced %s to true"
@@ -4641,7 +4643,7 @@ msgstr ""
 msgid "Invalid Channel Number, must be numeric and not blank"
 msgstr "Неверный номер канала, должен быть цифрой и не может быть пустым"
 
-#: ../core/views/trunks/trunk_footer.php:231
+#: ../core/views/trunks/trunk_footer.php:97
 msgid "Invalid Custom Dial String entered"
 msgstr "Указана неверная последовательность набора"
 
@@ -4649,19 +4651,19 @@ msgstr "Указана неверная последовательность н�
 msgid "Invalid DID, must be a non-blank DID"
 msgstr "Неверный DID, не должен быть пустым"
 
-#: ../core/views/trunks/trunk_footer.php:228
+#: ../core/views/trunks/trunk_footer.php:94
 msgid "Invalid Dial Rules"
 msgstr "Неверное правило набора"
 
-#: ../core/views/trunks/trunk_footer.php:227
+#: ../core/views/trunks/trunk_footer.php:93
 msgid "Invalid Maximum Channels"
 msgstr "Неверное максимальное число каналов"
 
-#: ../core/views/trunks/trunk_footer.php:226
+#: ../core/views/trunks/trunk_footer.php:92
 msgid "Invalid Outbound CallerID"
 msgstr "Неверный Исходящий Caller ID"
 
-#: ../core/views/trunks/trunk_footer.php:230
+#: ../core/views/trunks/trunk_footer.php:96
 msgid "Invalid Trunk Name entered"
 msgstr "Указано неверное имя транка"
 
@@ -4698,7 +4700,7 @@ msgid "Invalid value supplied violates the validation regex: %s"
 msgstr ""
 "Неверное значение вызывает нарушения при проверке регулярного выражения: %s"
 
-#: ../core/views/trunks/trunk_footer.php:235
+#: ../core/views/trunks/trunk_footer.php:101
 msgid ""
 "It is highly recommended that you define an Outbound CallerID on all trunks, "
 "undefined behavior can result when nothing is specified. The CID Options can "
@@ -4999,17 +5001,17 @@ msgstr "Модуль"
 msgid "Module "
 msgstr "Модуль"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2929
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2942
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2951
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2964
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2957
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr ""
@@ -5094,11 +5096,11 @@ msgstr ""
 msgid "Module is Unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1937
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1943
 msgid "Module not enabled: cannot disable"
 msgstr "Модуль не задействован: нельзя отменить"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1969
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1975
 msgid "Module not installed: cannot uninstall"
 msgstr "Модуль не установлен: нельзя удалить"
 
@@ -5111,19 +5113,19 @@ msgstr ""
 "Модуль загружен успешно, Необходимо задействовать его используя %s чтобы "
 "сделать его доступным."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2965
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2978
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2959
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2972
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2957
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2970
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -5856,10 +5858,6 @@ msgstr ""
 #: amp.i18n.php:574
 msgid "PHP Error Log Output"
 msgstr "Журнал ошибок РНР"
-
-#: ../core/page.trunks.php:498
-msgid "PJSIP In FreePBX is Experimental."
-msgstr ""
 
 #: ../core/views/trunks/pjsip.php:28
 msgid "PJSIP Settings"
@@ -7033,9 +7031,9 @@ msgstr ""
 msgid "Some of these settings can render your system inoperable."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1932
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1964
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2037
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1938
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1970
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2050
 msgid "Specified module not found"
 msgstr "Указаный модуль не найден"
 
@@ -7273,7 +7271,7 @@ msgstr ""
 msgid "The Module Named \"%s\" is required."
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:229
+#: ../core/views/trunks/trunk_footer.php:95
 msgid ""
 "The Outbound Dial Prefix contains non-standard characters. If these are "
 "intentional the press OK to continue."
@@ -7357,11 +7355,11 @@ msgstr ""
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr "%s Следующая ошибка(-и) произошла при загрузке файла: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2493
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2506
 msgid "The following modules are disabled because they are broken:"
 msgstr "Следующий модуль отключен ввиду его повреждения:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2485
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2498
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "Следущий модуль отключен так как нуждается в обновлении"
 
@@ -7462,7 +7460,7 @@ msgstr ""
 "сделать исполнением этой команды, то не стоит соверщать это действие, потому "
 "что это повлечёт изменения в конфигурации."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2861
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2874
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:545
 #, php-format
 msgid ""
@@ -7901,7 +7899,7 @@ msgstr ""
 msgid "Trunk Name"
 msgstr "Название транка"
 
-#: ../core/views/trunks/trunk_footer.php:232
+#: ../core/views/trunks/trunk_footer.php:98
 msgid "Trunk Name and User Context cannot be set to the same value"
 msgstr ""
 "Имя транка и контекст User для входящих не могут иметь одно и то же значение"
@@ -8114,6 +8112,11 @@ msgstr "Обновления"
 msgid "Update Notifications"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1920
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2030
+msgid "Updating Hooks..."
+msgstr ""
+
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:143
 msgid "Updating prepared settings.."
 msgstr ""
@@ -8270,7 +8273,7 @@ msgstr "Пользователь"
 msgid "User & Devices Mode"
 msgstr "Режим Пользователь & Устройство"
 
-#: ../core/views/trunks/trunk_footer.php:233
+#: ../core/views/trunks/trunk_footer.php:99
 msgid "User Context was left blank and User Details will not be saved!"
 msgstr ""
 "Контекст User для входящих остался пустым и параметры User не будут "
@@ -8795,7 +8798,7 @@ msgstr "Да (только SRTP)"
 msgid "Yes - (force_rport,comedia)"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:236
+#: ../core/views/trunks/trunk_footer.php:102
 msgid "You Must define a Server URI"
 msgstr ""
 
@@ -8887,26 +8890,26 @@ msgstr ""
 "Можно загрузить tar gzip файл содержащий модуль FreePBX с вашего компьютера. "
 "Если модуль в системе с таким имененм уже существует, он будет переписан."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2980
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2993
 #, php-format
 msgid "You have %s %s %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2492
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2505
 #, php-format
 msgid "You have %s broken modules"
 msgstr "У вас %s повреждённых модуля"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2484
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2497
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "У вас отключено %s модулей"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2492
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2505
 msgid "You have a broken module"
 msgstr "У вас повреждён модуль"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2484
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2497
 msgid "You have a disabled module"
 msgstr "У вас тключен модуль"
 
@@ -8973,25 +8976,25 @@ msgid ""
 "Directory assistance, International dialing and long distance"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:240
+#: ../core/views/trunks/trunk_footer.php:106
 msgid "You must define a SIP Port"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:239
+#: ../core/views/trunks/trunk_footer.php:105
 msgid "You must define a SIP Server"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:238
+#: ../core/views/trunks/trunk_footer.php:104
 msgid "You must define a(n) AOR Contact"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:234
+#: ../core/views/trunks/trunk_footer.php:100
 msgid ""
 "You must define an Outbound CallerID when Choosing this CID Options value"
 msgstr ""
 "Вы должны указать исходящий Caller ID если выбрано это значение опции CID."
 
-#: ../core/views/trunks/trunk_footer.php:237
+#: ../core/views/trunks/trunk_footer.php:103
 msgid "You must defined a Client URI"
 msgstr ""
 
@@ -9008,8 +9011,8 @@ msgstr "Вы должны ввести внутренний номер или н
 msgid "You should fix the problem or select another file and %s."
 msgstr "Устраните проблему или выберите другой файл и %s."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2486
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2494
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2499
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2507
 msgid "You should go to the module admin page to fix these."
 msgstr "Необходимо зайти в Управление модулями чтобы исправить это."
 
@@ -9131,7 +9134,7 @@ msgstr ""
 "умолчанию - FreePBX"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:165
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2912
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2925
 msgid "altered"
 msgstr ""
 
@@ -9368,8 +9371,8 @@ msgstr ""
 "невозможно удалить файл %s из каталога кеша модулей после открытия файла "
 "модуля"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2232
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2238
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2245
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2251
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr ""
@@ -9408,7 +9411,7 @@ msgstr "неустранимая ошибка при обновлении таб
 msgid "file/directory: %s removed successfully"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2976
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2989
 msgid "files"
 msgstr ""
 
@@ -9458,7 +9461,7 @@ msgid ""
 "see: %s"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:134
+#: ../core/assets/js/trunks/trunks.js:240
 msgid "insert"
 msgstr "вставить"
 
@@ -9636,7 +9639,7 @@ msgstr "отсутствует указанное  и/или дефолтное 
 msgid "module.sig check failed! %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2978
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2991
 msgid "modules"
 msgstr ""
 
@@ -9720,7 +9723,7 @@ msgstr "приставка"
 msgid "prepend:"
 msgstr "приставка:"
 
-#: ../core/views/trunks/trunk_footer.php:135
+#: ../core/assets/js/trunks/trunks.js:241
 msgid "remove"
 msgstr "удалить"
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX amp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-01 18:45-0400\n"
+"POT-Creation-Date: 2015-04-07 14:04-0400\n"
 "PO-Revision-Date: 2010-06-27 18:43+0100\n"
 "Last-Translator: Mikael Carlsson <mickecamino@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -255,7 +255,7 @@ msgstr ""
 msgid "%s Upgrade Available (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2942
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2955
 #, php-format
 msgid "%s [not enabled]"
 msgstr ""
@@ -1479,13 +1479,13 @@ msgstr "Avbryt"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "Kan inte koppla upp mot Asterisk hanterare med "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2051
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2064
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "Kan inte ta bort katalogen %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1941
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1973
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1947
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1979
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr "Kan inte avaktivera: Följande modul är beroende av denna: "
 
@@ -1675,11 +1675,11 @@ msgid ""
 "review the others."
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:134
+#: ../core/assets/js/trunks/trunks.js:240
 msgid "Click here to insert a new pattern before this pattern"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:135
+#: ../core/assets/js/trunks/trunks.js:241
 msgid "Click here to remove this pattern"
 msgstr "Klicka här för att radera detta mönster"
 
@@ -1947,7 +1947,7 @@ msgstr ""
 msgid "Critical"
 msgstr "Kritisk"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2949
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2962
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
@@ -2490,7 +2490,7 @@ msgstr ""
 msgid "Dial Patterns that will use this Route"
 msgstr "Nummermönster som denna väg kommer att använda"
 
-#: ../core/views/trunks/trunk_footer.php:212
+#: ../core/assets/js/trunks/trunks.js:318
 msgid "Dial pattern is invalid"
 msgstr "Nummermönstret är ogiltigt"
 
@@ -2702,6 +2702,8 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:603
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:626
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1918
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1924
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2034
 #: amp_conf/htdocs/admin/page.modules.php:1016
 msgid "Done"
 msgstr ""
@@ -3134,7 +3136,7 @@ msgstr ""
 msgid "Error creating temporary directory: %s"
 msgstr "Fel, kunde inte skapa temporär katalog: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2058
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2071
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "Fel, kan inte ta bort katalogen %s (kod %d)"
@@ -3173,7 +3175,7 @@ msgstr ""
 msgid "Error updating database. Command was: %s; error was: %s "
 msgstr "Fel vid uppdatering av databas. Kommandot var: %s; felet var: %s "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1996
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2002
 msgid "Error updating database: "
 msgstr "Fel vid uppdatering av databas: "
 
@@ -3370,12 +3372,12 @@ msgstr ""
 msgid "Failed to Remove directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2835
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2848
 #, php-format
 msgid "Failed to get remote file, error was:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2848
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2861
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:532
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -3406,7 +3408,7 @@ msgstr ""
 msgid "Failed to run installation scripts"
 msgstr "Kunde inte köra installationsskript"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2000
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2006
 msgid "Failed to run un-installation scripts"
 msgstr "Fel, kan inte köra avinstallationsskriptet"
 
@@ -3576,7 +3578,7 @@ msgstr ""
 msgid "Force rport - (force_rport)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2860
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2873
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:544
 #, php-format
 msgid "Forced %s to true"
@@ -4349,7 +4351,7 @@ msgid "Invalid Channel Number, must be numeric and not blank"
 msgstr ""
 "Ogiltigt kanalnummer, det kan inte vara blankt och måste innehålla siffror"
 
-#: ../core/views/trunks/trunk_footer.php:231
+#: ../core/views/trunks/trunk_footer.php:97
 msgid "Invalid Custom Dial String entered"
 msgstr "Ogiltig anpassad nummerslagningssträng angiven"
 
@@ -4357,19 +4359,19 @@ msgstr "Ogiltig anpassad nummerslagningssträng angiven"
 msgid "Invalid DID, must be a non-blank DID"
 msgstr "Ogiltigt direktnummer, kan inte vara tomt"
 
-#: ../core/views/trunks/trunk_footer.php:228
+#: ../core/views/trunks/trunk_footer.php:94
 msgid "Invalid Dial Rules"
 msgstr "Ogiltig nummerslagningsregel"
 
-#: ../core/views/trunks/trunk_footer.php:227
+#: ../core/views/trunks/trunk_footer.php:93
 msgid "Invalid Maximum Channels"
 msgstr "Ogiltigt maximalt antal kanaler"
 
-#: ../core/views/trunks/trunk_footer.php:226
+#: ../core/views/trunks/trunk_footer.php:92
 msgid "Invalid Outbound CallerID"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:230
+#: ../core/views/trunks/trunk_footer.php:96
 msgid "Invalid Trunk Name entered"
 msgstr "Ogiltigt trunknamn angivet"
 
@@ -4405,7 +4407,7 @@ msgstr ""
 msgid "Invalid value supplied violates the validation regex: %s"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:235
+#: ../core/views/trunks/trunk_footer.php:101
 msgid ""
 "It is highly recommended that you define an Outbound CallerID on all trunks, "
 "undefined behavior can result when nothing is specified. The CID Options can "
@@ -4690,17 +4692,17 @@ msgstr "Modul"
 msgid "Module "
 msgstr "Modulen"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2929
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2942
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2951
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2964
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2957
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr ""
@@ -4771,11 +4773,11 @@ msgstr ""
 msgid "Module is Unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1937
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1943
 msgid "Module not enabled: cannot disable"
 msgstr "Modulen är inte aktiverad: kan inte avaktivera den"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1969
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1975
 msgid "Module not installed: cannot uninstall"
 msgstr "Modulen inte installerad: kan inte avinstallera den"
 
@@ -4788,19 +4790,19 @@ msgstr ""
 "Modulen laddades upp utan problem. Du måste aktivera modulen genom att "
 "använda %s för att få den tillgänglig"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2965
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2978
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2959
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2972
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2957
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2970
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -5467,10 +5469,6 @@ msgstr "PHP-komponenten %s version %s krävs men fattas i din PHP-installation"
 
 #: amp.i18n.php:574
 msgid "PHP Error Log Output"
-msgstr ""
-
-#: ../core/page.trunks.php:498
-msgid "PJSIP In FreePBX is Experimental."
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:28
@@ -6580,9 +6578,9 @@ msgstr ""
 msgid "Some of these settings can render your system inoperable."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1932
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1964
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2037
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1938
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1970
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2050
 msgid "Specified module not found"
 msgstr "Angiven modul hittades inte"
 
@@ -6809,7 +6807,7 @@ msgstr ""
 msgid "The Module Named \"%s\" is required."
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:229
+#: ../core/views/trunks/trunk_footer.php:95
 msgid ""
 "The Outbound Dial Prefix contains non-standard characters. If these are "
 "intentional the press OK to continue."
@@ -6892,11 +6890,11 @@ msgstr ""
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr "Följande fel inträffade när den uppladdade filen behandlades: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2493
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2506
 msgid "The following modules are disabled because they are broken:"
 msgstr "Följande moduler är avaktiverade, dom är felaktiga:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2485
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2498
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "Följande moduler är avaktiverade, dom måste uppgraderas först:"
 
@@ -6997,7 +6995,7 @@ msgstr ""
 "länk om du inte hade för avsikt att utföra denna funktion då den kan ändra i "
 "din konfiguration."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2861
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2874
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:545
 #, php-format
 msgid ""
@@ -7383,7 +7381,7 @@ msgstr ""
 msgid "Trunk Name"
 msgstr "Trunknamn"
 
-#: ../core/views/trunks/trunk_footer.php:232
+#: ../core/views/trunks/trunk_footer.php:98
 msgid "Trunk Name and User Context cannot be set to the same value"
 msgstr "Trunknamn och användarsammanhang kan inte sättas till samma värde"
 
@@ -7595,6 +7593,11 @@ msgstr "Uppdatering"
 msgid "Update Notifications"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1920
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2030
+msgid "Updating Hooks..."
+msgstr ""
+
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:143
 msgid "Updating prepared settings.."
 msgstr ""
@@ -7737,7 +7740,7 @@ msgstr "Användare"
 msgid "User & Devices Mode"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:233
+#: ../core/views/trunks/trunk_footer.php:99
 msgid "User Context was left blank and User Details will not be saved!"
 msgstr ""
 "Användarsammanhang var tomt och användardetaljer kommer inte att sparas!"
@@ -8196,7 +8199,7 @@ msgstr ""
 msgid "Yes - (force_rport,comedia)"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:236
+#: ../core/views/trunks/trunk_footer.php:102
 msgid "You Must define a Server URI"
 msgstr ""
 
@@ -8280,26 +8283,26 @@ msgstr ""
 "lokala system. Om en modul med samma namn redan finns kommer den att skrivas "
 "över."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2980
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2993
 #, php-format
 msgid "You have %s %s %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2492
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2505
 #, php-format
 msgid "You have %s broken modules"
 msgstr "Du har %s felaktiga moduler"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2484
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2497
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "Du har %s avaktiverade moduler"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2492
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2505
 msgid "You have a broken module"
 msgstr "Du har en felaktig modul"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2484
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2497
 msgid "You have a disabled module"
 msgstr "Du har en avaktiverad modul"
 
@@ -8367,24 +8370,24 @@ msgid ""
 "Directory assistance, International dialing and long distance"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:240
+#: ../core/views/trunks/trunk_footer.php:106
 msgid "You must define a SIP Port"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:239
+#: ../core/views/trunks/trunk_footer.php:105
 msgid "You must define a SIP Server"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:238
+#: ../core/views/trunks/trunk_footer.php:104
 msgid "You must define a(n) AOR Contact"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:234
+#: ../core/views/trunks/trunk_footer.php:100
 msgid ""
 "You must define an Outbound CallerID when Choosing this CID Options value"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:237
+#: ../core/views/trunks/trunk_footer.php:103
 msgid "You must defined a Client URI"
 msgstr ""
 
@@ -8401,8 +8404,8 @@ msgstr "Du måste ange ett nummer för anknytningen (eller användaren)"
 msgid "You should fix the problem or select another file and %s."
 msgstr "Du bör rätta till problemet eller välja en annan fil och %s."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2486
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2494
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2499
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2507
 msgid "You should go to the module admin page to fix these."
 msgstr "Du måste går till moduladministrationssidan för att rätta till detta."
 
@@ -8519,7 +8522,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:165
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2912
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2925
 msgid "altered"
 msgstr ""
 
@@ -8754,8 +8757,8 @@ msgstr ""
 msgid "failed to delete %s from cache directory after opening module archive."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2232
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2238
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2245
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2251
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr ""
@@ -8793,7 +8796,7 @@ msgstr ""
 msgid "file/directory: %s removed successfully"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2976
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2989
 msgid "files"
 msgstr ""
 
@@ -8843,7 +8846,7 @@ msgid ""
 "see: %s"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:134
+#: ../core/assets/js/trunks/trunks.js:240
 msgid "insert"
 msgstr ""
 
@@ -9016,7 +9019,7 @@ msgstr ""
 msgid "module.sig check failed! %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2978
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2991
 msgid "modules"
 msgstr ""
 
@@ -9100,7 +9103,7 @@ msgstr "lägg till"
 msgid "prepend:"
 msgstr "lägg till:"
 
-#: ../core/views/trunks/trunk_footer.php:135
+#: ../core/assets/js/trunks/trunks.js:241
 msgid "remove"
 msgstr "radera"
 

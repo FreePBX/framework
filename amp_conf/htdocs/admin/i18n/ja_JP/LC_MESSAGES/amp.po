@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-01 18:45-0400\n"
+"POT-Creation-Date: 2015-04-07 14:04-0400\n"
 "PO-Revision-Date: 2015-02-21 10:54+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -295,7 +295,7 @@ msgstr ""
 msgid "%s Upgrade Available (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2942
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2955
 #, php-format
 msgid "%s [not enabled]"
 msgstr ""
@@ -1572,13 +1572,13 @@ msgstr "キャンセル"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "接続できません。Asteriskマネージャー "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2051
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2064
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "%s ディレクトリの削除ができません"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1941
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1973
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1947
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1979
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr "無効化できません：次とこのモジュールが依存関係です： "
 
@@ -1771,11 +1771,11 @@ msgid ""
 "review the others."
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:134
+#: ../core/assets/js/trunks/trunks.js:240
 msgid "Click here to insert a new pattern before this pattern"
 msgstr "ここにクリックすると、このパターンの前に新規のパターンを挿入できます"
 
-#: ../core/views/trunks/trunk_footer.php:135
+#: ../core/assets/js/trunks/trunks.js:241
 msgid "Click here to remove this pattern"
 msgstr "クリックするとこのパターンを削除します"
 
@@ -2048,7 +2048,7 @@ msgstr ""
 msgid "Critical"
 msgstr "クリティカル"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2949
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2962
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
@@ -2688,7 +2688,7 @@ msgstr ""
 msgid "Dial Patterns that will use this Route"
 msgstr "このルートを使用するダイヤルパターン"
 
-#: ../core/views/trunks/trunk_footer.php:212
+#: ../core/assets/js/trunks/trunks.js:318
 msgid "Dial pattern is invalid"
 msgstr "ダイヤルパターンが無効です"
 
@@ -2906,6 +2906,8 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:603
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:626
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1918
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1924
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2034
 #: amp_conf/htdocs/admin/page.modules.php:1016
 msgid "Done"
 msgstr ""
@@ -3351,7 +3353,7 @@ msgstr ""
 msgid "Error creating temporary directory: %s"
 msgstr "テンポラリディレクトリの作成に失敗： %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2058
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2071
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "ディレクトリ %s の削除エラー (コード %d)"
@@ -3390,7 +3392,7 @@ msgstr ""
 msgid "Error updating database. Command was: %s; error was: %s "
 msgstr "データベースのアップデートエラー。コマンド；%s エラー：%s "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1996
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2002
 msgid "Error updating database: "
 msgstr "データベースアップデートエラー： "
 
@@ -3599,12 +3601,12 @@ msgstr ""
 msgid "Failed to Remove directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2835
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2848
 #, php-format
 msgid "Failed to get remote file, error was:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2848
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2861
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:532
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -3638,7 +3640,7 @@ msgstr ""
 msgid "Failed to run installation scripts"
 msgstr "インストールスクリプトの実行に失敗"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2000
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2006
 msgid "Failed to run un-installation scripts"
 msgstr "アンインストールスクリプトの実行に失敗しました"
 
@@ -3814,7 +3816,7 @@ msgstr ""
 msgid "Force rport - (force_rport)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2860
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2873
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:544
 #, php-format
 msgid "Forced %s to true"
@@ -4657,7 +4659,7 @@ msgstr "Intra-Companyルートでは、常に内線番号と名前を送信し�
 msgid "Invalid Channel Number, must be numeric and not blank"
 msgstr "無効なチャネル番号、数値でなければならず、空白は許可されません"
 
-#: ../core/views/trunks/trunk_footer.php:231
+#: ../core/views/trunks/trunk_footer.php:97
 msgid "Invalid Custom Dial String entered"
 msgstr "無効なカスタムダイヤル文字列が入力されました"
 
@@ -4665,19 +4667,19 @@ msgstr "無効なカスタムダイヤル文字列が入力されました"
 msgid "Invalid DID, must be a non-blank DID"
 msgstr "無効なDID、空白でないDIDでなければなりません"
 
-#: ../core/views/trunks/trunk_footer.php:228
+#: ../core/views/trunks/trunk_footer.php:94
 msgid "Invalid Dial Rules"
 msgstr "無効なダイヤルルール"
 
-#: ../core/views/trunks/trunk_footer.php:227
+#: ../core/views/trunks/trunk_footer.php:93
 msgid "Invalid Maximum Channels"
 msgstr "無効な最大チャネル"
 
-#: ../core/views/trunks/trunk_footer.php:226
+#: ../core/views/trunks/trunk_footer.php:92
 msgid "Invalid Outbound CallerID"
 msgstr "無効なアウトバウンド発信者ID"
 
-#: ../core/views/trunks/trunk_footer.php:230
+#: ../core/views/trunks/trunk_footer.php:96
 msgid "Invalid Trunk Name entered"
 msgstr "無効なトランク名が入力されました"
 
@@ -4713,7 +4715,7 @@ msgstr "無効な選択肢が提供されました"
 msgid "Invalid value supplied violates the validation regex: %s"
 msgstr "提供された不正な値が正規表現の検証に違反しました: %s"
 
-#: ../core/views/trunks/trunk_footer.php:235
+#: ../core/views/trunks/trunk_footer.php:101
 msgid ""
 "It is highly recommended that you define an Outbound CallerID on all trunks, "
 "undefined behavior can result when nothing is specified. The CID Options can "
@@ -5006,17 +5008,17 @@ msgstr "モジュール"
 msgid "Module "
 msgstr "モジュール "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2929
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2942
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2951
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2964
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2957
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr ""
@@ -5101,11 +5103,11 @@ msgstr ""
 msgid "Module is Unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1937
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1943
 msgid "Module not enabled: cannot disable"
 msgstr "モジュールは有効ではありません：無効化できません"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1969
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1975
 msgid "Module not installed: cannot uninstall"
 msgstr "モジュールがインストールされていません： アンインストールできません"
 
@@ -5118,19 +5120,19 @@ msgstr ""
 "モジュールのアップロードに成功しました。 モジュールを利用可能にするため>に"
 "は、%s を使用してモジュールを有効化する必要があります。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2965
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2978
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2959
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2972
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2957
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2970
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -5866,10 +5868,6 @@ msgstr ""
 #: amp.i18n.php:574
 msgid "PHP Error Log Output"
 msgstr "PHPエラーログ出力"
-
-#: ../core/page.trunks.php:498
-msgid "PJSIP In FreePBX is Experimental."
-msgstr ""
 
 #: ../core/views/trunks/pjsip.php:28
 msgid "PJSIP Settings"
@@ -7052,9 +7050,9 @@ msgstr ""
 msgid "Some of these settings can render your system inoperable."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1932
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1964
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2037
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1938
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1970
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2050
 msgid "Specified module not found"
 msgstr "指定されたモジュールが見つかりません"
 
@@ -7291,7 +7289,7 @@ msgstr ""
 msgid "The Module Named \"%s\" is required."
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:229
+#: ../core/views/trunks/trunk_footer.php:95
 msgid ""
 "The Outbound Dial Prefix contains non-standard characters. If these are "
 "intentional the press OK to continue."
@@ -7378,11 +7376,11 @@ msgstr ""
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr "アップロードされたファイルを処理中に次のエラーが発生しました： %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2493
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2506
 msgid "The following modules are disabled because they are broken:"
 msgstr "次のモジュールは壊れているため無効になります："
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2485
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2498
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "次のモジュールはアップグレードが必要なため無効になります。"
 
@@ -7482,7 +7480,7 @@ msgstr ""
 "ドを実行するつもりがない場合は、設定が変更されてしまうため、進めないでくだ>さ"
 "い。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2861
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2874
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:545
 #, php-format
 msgid ""
@@ -7916,7 +7914,7 @@ msgstr ""
 msgid "Trunk Name"
 msgstr "トランク名"
 
-#: ../core/views/trunks/trunk_footer.php:232
+#: ../core/views/trunks/trunk_footer.php:98
 msgid "Trunk Name and User Context cannot be set to the same value"
 msgstr "トランク名とユーザーコンテキストを同じ値に設定することはできません"
 
@@ -8128,6 +8126,11 @@ msgstr "アップデート"
 msgid "Update Notifications"
 msgstr "アップデート通知"
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1920
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2030
+msgid "Updating Hooks..."
+msgstr ""
+
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:143
 msgid "Updating prepared settings.."
 msgstr ""
@@ -8281,7 +8284,7 @@ msgstr "ユーザー"
 msgid "User & Devices Mode"
 msgstr "ユーザー&デバイスモード"
 
-#: ../core/views/trunks/trunk_footer.php:233
+#: ../core/views/trunks/trunk_footer.php:99
 msgid "User Context was left blank and User Details will not be saved!"
 msgstr "ユーザーコンテキスとが空白のままで、ユーザー詳細は保存されません!"
 
@@ -8812,7 +8815,7 @@ msgstr "はい(SRTPのみ)"
 msgid "Yes - (force_rport,comedia)"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:236
+#: ../core/views/trunks/trunk_footer.php:102
 msgid "You Must define a Server URI"
 msgstr ""
 
@@ -8902,26 +8905,26 @@ msgstr ""
 "ローカルシステムからFreePBXモジュールを含むtar gzipファイルをアップロー>ドす"
 "ることができます。同じ名前のモジュールが既に存在する場合は、上書きされます。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2980
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2993
 #, php-format
 msgid "You have %s %s %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2492
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2505
 #, php-format
 msgid "You have %s broken modules"
 msgstr "壊れたモジュール%s個が存在します"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2484
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2497
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "%s個のモジュールが無効になっています"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2492
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2505
 msgid "You have a broken module"
 msgstr "壊れたモジュールが1個存在します"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2484
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2497
 msgid "You have a disabled module"
 msgstr "1つのモジュールが無効になってます"
 
@@ -8987,25 +8990,25 @@ msgid ""
 "Directory assistance, International dialing and long distance"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:240
+#: ../core/views/trunks/trunk_footer.php:106
 msgid "You must define a SIP Port"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:239
+#: ../core/views/trunks/trunk_footer.php:105
 msgid "You must define a SIP Server"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:238
+#: ../core/views/trunks/trunk_footer.php:104
 msgid "You must define a(n) AOR Contact"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:234
+#: ../core/views/trunks/trunk_footer.php:100
 msgid ""
 "You must define an Outbound CallerID when Choosing this CID Options value"
 msgstr ""
 "このCIDオプション値を選択する際に、アウトバウンド発信者IDを定義が必要です"
 
-#: ../core/views/trunks/trunk_footer.php:237
+#: ../core/views/trunks/trunk_footer.php:103
 msgid "You must defined a Client URI"
 msgstr ""
 
@@ -9022,8 +9025,8 @@ msgstr "内線(またはユーザー)番号を入力は必須です"
 msgid "You should fix the problem or select another file and %s."
 msgstr "問題を解決するか、他のファイル又は %s を選択してください。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2486
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2494
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2499
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2507
 msgid "You should go to the module admin page to fix these."
 msgstr "これらを解決するためにモジュール管理ページへ移動してください。"
 
@@ -9142,7 +9145,7 @@ msgstr ""
 "画像やタイトルにマウスを乗せた際に使用されるalt属性。デフォルトではFreePBX"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:165
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2912
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2925
 msgid "altered"
 msgstr ""
 
@@ -9381,8 +9384,8 @@ msgstr ""
 "モジュールアーカイブをオープン後にキャッシュディレクトリから %s を削除できま"
 "せんでした。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2232
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2238
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2245
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2251
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr "%s を %s 中に、%s モジュールの取り込みに失敗しました。"
@@ -9421,7 +9424,7 @@ msgstr "freepbx_settingsテーブルのアップデートにおける致命的�
 msgid "file/directory: %s removed successfully"
 msgstr "ファイル/ディレクトリー:%s の削除に成功しました"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2976
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2989
 msgid "files"
 msgstr ""
 
@@ -9475,7 +9478,7 @@ msgid ""
 "see: %s"
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:134
+#: ../core/assets/js/trunks/trunks.js:240
 msgid "insert"
 msgstr "挿入"
 
@@ -9652,7 +9655,7 @@ msgstr "値が見つかりません、および／または [%s] のデフォル
 msgid "module.sig check failed! %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2978
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2991
 msgid "modules"
 msgstr ""
 
@@ -9736,7 +9739,7 @@ msgstr "前に付与"
 msgid "prepend:"
 msgstr "前に付与:"
 
-#: ../core/views/trunks/trunk_footer.php:135
+#: ../core/assets/js/trunks/trunks.js:241
 msgid "remove"
 msgstr "削除"
 
