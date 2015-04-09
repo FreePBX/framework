@@ -395,7 +395,8 @@ class CI_Email {
 	public function attach($filename, $disposition = 'attachment')
 	{
 		$this->_attach_name[] = $filename;
-		$this->_attach_type[] = $this->_mime_types(next(explode('.', basename($filename))));
+		// FREEPBX-9034 - Take the LAST part of the filename, not the second part.
+		$this->_attach_type[] = $this->_mime_types(end(explode('.', basename($filename))));
 		$this->_attach_disp[] = $disposition; // Can also be 'inline'  Not sure if it matters
 		return $this;
 	}
