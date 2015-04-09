@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>12.0.52</version>
+	<version>12.0.53</version>
 	<publisher>FreePBX</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*12.0.53* Avoid hangs when starting asterisk
 		*12.0.52* Add priorities to OOBE
 		*12.0.51* FREEPBX-9002 Trigger event on successful completion of Apply Config, FREEPBX-8998 Invalid group when updating ring group 0
 		*12.0.50.1* FREEPBX-8984 OOBE fails because path is staticly set
