@@ -1648,9 +1648,16 @@ $(document).ready(function(){
 	$('textarea.autosize').autosize();
 
 	//enable bootstrap multiselect
-	$('select[multiple].bsmultiselect').multiselect();
+	$('select[multiple].bsmultiselect').multiselect({
+		maxHeight: 300,
+		includeSelectAllOption: true,
+		enableFiltering: true,
+		enableCaseInsensitiveFiltering: true
+	});
 
-	$('select[multiple].chosenmultiselect').chosen({ width: '100%' });
+	$('select[multiple].chosenmultiselect').chosen({
+		width: '100%'
+	});
 	/*
 	 * Handle loooong bootnavs.
 	 */

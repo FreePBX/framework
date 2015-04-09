@@ -217,9 +217,13 @@ class LoadConfig {
 
 			if (preg_match("/^(\S+)\s*(?:=>?)\s*(.+)?$/", $entry, $out)) {
 
+				if(!isset($out[2])) {
+					$out[2] = "";
+				}
 				// If it doesn't have anything set, then we don't care.
-				if (empty($out[2]) && trim($out[2]) != "0")
+				if (empty($out[2]) && trim($out[2]) != "0") {
 					continue;
+				}
 
 				if (isset($this->ProcessedConfig[$section]) && isset($this->ProcessedConfig[$section][$out[1]])) {
 					// This already exists. Multiple definitions.

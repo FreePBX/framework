@@ -1,12 +1,12 @@
 <?php
-
 //promt for a password if there there is no user set
 if (!isset($_SESSION['AMP_user'])) {
 
 	//|| (isset($_SESSION['AMP_user']->username) && $_SESSION['AMP_user']->username != $_SERVER['PHP_AUTH_USER'])) {
 	//if we dont have a username/pass prompt for one
-	if (!$username || !$password || !count(getAmpAdminUsers())) {
+	if (!$username || !$password) {
 		switch(strtolower($amp_conf['AUTHTYPE'])) {
+			case 'usermanager':
 			case 'database':
 				$no_auth = true;
 			break;
@@ -34,16 +34,34 @@ if (!isset($_SESSION['AMP_user'])) {
 			$_SESSION['AMP_user'] = new ampuser($amp_conf['AMPDBUSER']);
 			$_SESSION['AMP_user']->setAdmin();
 			break;
+		case 'usermanager':
+			if (!class_exists("\\FreePBX\\modules\\Userman")) {
+				// Unsurprisingly, it didn't. Let's load it.
+				// We need to manually load it, as the autoloader WON'T.
+				$hint = FreePBX::Config()->get("AMPWEBROOT")."/admin/modules/userman/Userman.class.php";
+				FreePBX::create()->injectClass("Userman", $hint);
+				$_SESSION['AMP_user'] = new ampuser($username,"usermanager");
+				if (!$_SESSION['AMP_user']->checkPassword(sha1($password))) {
+					unset($_SESSION['AMP_user']);
+					$no_auth = true;
+					if(!empty($username)) {
+						freepbx_log_security('Authentication failure for '.(!empty($username) ? $username : 'unknown').' from '.$_SERVER['REMOTE_ADDR']);
+					}
+				} else {
+					if(FreePBX::Userman()->getGlobalSettingByID($_SESSION['AMP_user']->id,'pbx_admin')) {
+						$_SESSION['AMP_user']->setAdmin();
+					}
+				}
+				break;
+			}
+			//no break here so that we can fall back to database if userman is broken
 		case 'database':
 		default:
 			// not logged in, and have provided a user/pass
 			$_SESSION['AMP_user'] = new ampuser($username);
 			if (!$_SESSION['AMP_user']->checkPassword(sha1($password))) {
 				// failed, one last chance -- fallback to amportal.conf db admin user
-				if ($amp_conf['AMP_ACCESS_DB_CREDS']
-					&& $username == $amp_conf['AMPDBUSER']
-					&& $password == $amp_conf['AMPDBPASS']
-				) {
+				if ($amp_conf['AMP_ACCESS_DB_CREDS'] && $username == $amp_conf['AMPDBUSER'] && $password == $amp_conf['AMPDBPASS']) {
 					// password succesfully matched amportal.conf db admin user, set admin access
 					$_SESSION['AMP_user']->setAdmin();
 				} else {

@@ -64,6 +64,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 	}
 
 	$count = 0;
+	//if(FreePBX::Config()->get('AUTHTYPE') == "usermanager") {
 	foreach($menu as $t => $cat) { //categories
 		if (count($cat) == 1) {
 			if (isset($cat[0]['hidden']) && $cat[0]['hidden'] == 'true') {
@@ -83,6 +84,10 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 
 		foreach ($cat as $c => $mod) { //modules
 			if (isset($mod['hidden']) && $mod['hidden'] == 'true') {
+				continue;
+			}
+			//remove administrators, makes no sense in these modes
+			if($mod['display'] == "ampusers" &&  in_array(FreePBX::Config()->get('AUTHTYPE'), array("usermanager","none"))) {
 				continue;
 			}
 			$classes = array();

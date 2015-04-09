@@ -321,7 +321,7 @@ class Installer {
 
 	$settings[$category]['AUTHTYPE'] = array(
 	'value' => 'database',
-	'options' => 'database,none,webserver',
+	'options' => 'database,none,webserver,usermanager',
 	'name' => 'Authorization Type',
 	'description' => 'Authentication type to use for web admin. If type set to <b>database</b>, the primary AMP admin credentials will be the AMPDBUSER/AMPDBPASS above. When using database you can create users that are restricted to only certain module pages. When set to none, you should make sure you have provided security at the apache level. When set to webserver, FreePBX will expect authentication to happen at the apache level, but will take the user credentials and apply any restrictions as if it were in database mode.',
 	'level' => 3,
