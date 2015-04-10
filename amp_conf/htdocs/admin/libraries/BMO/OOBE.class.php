@@ -76,14 +76,33 @@ class OOBE extends FreePBX_Helpers {
 
 	// Which modules are providing OOBE pages?
 	public function getOOBEModules() {
-		$retarr = array("framework" => "Core System Setup");
 		$mods = module_functions::create();
 		$i = $mods->getinfo(false, false, true);
+
+		// Make sure framework always runs.
+		$tmparr = array("framework" => 10);
 		foreach ($i as $modname => $arr) {
-			if (!isset($arr['obe']) && !isset($arr['oobe'])) {
+			if (!isset($arr['oobe'])) {
 				continue;
 			}
-			$retarr[$modname] = $arr['name'];
+			// We've found a module with OOBE hooks!
+			$xml = \FreePBX::Modules()->getXML($modname);
+
+			if (!$xml->oobe->attributes()->priority) {
+				$priority = 100;
+			} else {
+				$priority = (int) $xml->oobe->attributes()->priority;
+			}
+			$tmparr[$modname] = $priority;
+		}
+
+		// Sort the list of found hooks by priority.
+		asort($tmparr);
+		// And add them to $retarr
+		$retarr = array();
+		foreach ($tmparr as $modname => $null) {
+			$xml = \FreePBX::Modules()->getXML($modname);
+			$retarr[$modname] = (string) $xml->name;
 		}
 		return $retarr;
 	}
@@ -110,19 +129,8 @@ class OOBE extends FreePBX_Helpers {
 		$obj = FreePBX::$mod();
 
 		// Awesome. Now, what was that oobe function again...?
-		$mods = module_functions::create();
-		$tmparr = $mods->getinfo($modname);
-		if (!isset($tmparr[$modname])) {
-			throw new \Exception("Critical error with getinfo on $modname");
-		}
-
-		$i = $tmparr[$modname];
-
-		if (isset($i['oobe'])) {
-			$func = $i['oobe'];
-		} else {
-			$func = $i['obe'];
-		}
+		$xml = \FreePBX::Modules()->getXML($modname);
+		$func = (string) $xml->oobe->attributes()->method;
 
 		// Is someone taking crazy pills?
 		if (!method_exists($obj, $func)) {

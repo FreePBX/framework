@@ -14,6 +14,9 @@ class Modules {
 	public $active_modules;
 	private $moduleMethods = array();
 
+	// Cache for XML objects
+	private $modulexml = array();
+
 	public function __construct($freepbx = null) {
 
 		if ($freepbx == null) {
@@ -160,5 +163,45 @@ class Modules {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Parse a modules XML from filesystem
+	 *
+	 * This function loads a modules xml file from the filesystem, and return
+	 * a simpleXML object.  This explicitly does NOT care about the active or
+	 * inactive state of the module. It also caches the object, so this can
+	 * be called multiple times without re-reading and re-generating the XML.
+	 *
+	 * @param (string) $modname Raw module name
+	 * @returns (object) SimpleXML Object.
+	 *
+	 * @throws Exception if module does not exist
+	 * @throws Exception if module xml file is not parseable
+	 */
+
+	public function getXML($modname = false) {
+		if (!$modname) {
+			throw new \Exception("No module name given");
+		}
+
+		// Do we have this in the cache?
+		if (!isset($this->modulexml[$modname])) {
+			// We haven't. Load it up!
+			$moddir = $this->FreePBX->Config()->get("AMPWEBROOT")."/admin/modules/$modname";
+			if (!is_dir($moddir)) {
+				throw new \Exception("$moddir is not a directory");
+			}
+
+			$xmlfile = "$moddir/module.xml";
+			if (!file_exists($xmlfile)) {
+				throw new \Exception("$xmlfile does not exist");
+			}
+
+			$this->modulexml[$modname] = simplexml_load_file($xmlfile);
+		}
+
+		// Return it
+		return $this->modulexml[$modname];
 	}
 }
