@@ -340,7 +340,7 @@ pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 			# su - asterisk -c "export PATH=$PATH:/usr/sbin && export LD_LIBRARY_PATH=/usr/local/lib && /usr/sbin/safe_asterisk"
 			export LD_LIBRARY_PATH=/usr/local/lib
 			umask $AMPVMUMASK
-			/usr/sbin/safe_asterisk -U $AMPASTERISKUSER -G $AMPASTERISKGROUP 2>&1 >/dev/null
+			/usr/sbin/safe_asterisk -U $AMPASTERISKUSER -G $AMPASTERISKGROUP >/dev/null 2>&1
 			sleep 5
 			check_asterisk
 			sleep 1
@@ -349,7 +349,7 @@ pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
 			if [ "$DYNAMICHINTS" == "TRUE" ]
 			then
 				echo "Reloading Asterisk because of Dynamic Hints"
-				/usr/sbin/asterisk -rx 'core reload' 2>&1 >/dev/null
+				/usr/sbin/asterisk -rx 'core reload' >/dev/null 2>&1
 			fi
 		fi
 	call_hook run_asterisk
