@@ -501,6 +501,16 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	);
 
+	$settings[$category]['FREEPBX_SYSTEM_IDENT'] = array(
+	'value' => 'VoIP Server',
+	'options' => '',
+	'readonly' => 0,
+	'hidden' => 0,
+	'name' => 'System Identity',
+	'description' => 'This name will be used to help identify this machine in emails or alerts',
+	'type' => CONF_TYPE_TEXT,
+	);
+
 	$category = 'Dialplan and Operational';
 
 	$settings[$category]['AMPBADNUMBER'] = array(
