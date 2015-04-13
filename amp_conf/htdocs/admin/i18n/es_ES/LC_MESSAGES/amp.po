@@ -3,8 +3,8 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-10 12:55+0200\n"
-"PO-Revision-Date: 2015-04-12 10:01+0200\n"
-"Last-Translator: Daver <daverjorge46@gmail.com>\n"
+"PO-Revision-Date: 2015-04-12 23:24+0200\n"
+"Last-Translator: Ernesto <ecasas@sangoma.com>\n"
 "Language-Team: Spanish "
 "<http://weblate.freepbx.org/projects/freepbx/framework/es_ES/>\n"
 "Language: es_ES\n"
@@ -358,17 +358,14 @@ msgid "0 admins"
 msgstr "0 administradores"
 
 #: ../core/page.routing.php:700
-#, fuzzy
 msgid "011."
 msgstr "011."
 
 #: ../core/page.routing.php:694
-#, fuzzy
 msgid "1800NXXXXXX,1888NXXXXXX,1877NXXXXXX,1866NXXXXXX,1855NXXXXXX,1844NXXXXXX"
 msgstr "1800NXXXXXX,1888NXXXXXX,1877NXXXXXX,1866NXXXXXX,1855NXXXXXX,1844NXXXXXX"
 
 #: ../core/page.routing.php:697
-#, fuzzy
 msgid "1NXXNXXXXXX"
 msgstr "1NXXNXXXXXX"
 
@@ -378,12 +375,10 @@ msgid "404 Not found (%s)"
 msgstr "404 No encontrado (%s)"
 
 #: ../core/page.routing.php:703
-#, fuzzy
 msgid "411,311"
 msgstr "411,311"
 
 #: ../core/page.routing.php:706
-#, fuzzy
 msgid "911"
 msgstr "911"
 
@@ -656,9 +651,8 @@ msgid "Address to bind to. Default is 0.0.0.0"
 msgstr "Dirección para unirse a. El valor predeterminado es 0.0.0.0"
 
 #: ../core/functions.inc.php:7250
-#, fuzzy
 msgid "Adhoc"
-msgstr "Especial"
+msgstr "Ad hoc"
 
 #: amp.i18n.php:54
 msgid "Admin"
@@ -1258,9 +1252,8 @@ msgid "Calling Out Route: %s"
 msgstr "Ruta Llamada Saliente: %s"
 
 #: ../core/functions.inc.php:7041
-#, fuzzy
 msgid "Can Reinvite"
-msgstr "Can Reinvite"
+msgstr "Puede Reinvitar"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:131
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:164
@@ -1342,9 +1335,8 @@ msgid "Certificate File Location"
 msgstr "Ubicación Archivo Certificado"
 
 #: ../core/install.php:10
-#, fuzzy
 msgid "ChanSpy"
-msgstr "ChanSpy"
+msgstr "Chan Spy"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:382
 msgid "Change Log for version"
@@ -1851,14 +1843,12 @@ msgstr ""
 "la tarjeta para obtener más información."
 
 #: ../core/page.dahdichandids.php:90
-#, fuzzy
 msgid "DID"
-msgstr "DID"
+msgstr "\"DID\""
 
 #: ../core/functions.inc.php:7207
-#, fuzzy
 msgid "DID / CID"
-msgstr "DID / CID"
+msgstr "\"DID / CID\""
 
 #: ../core/functions.inc.php:7197
 msgid "DID Description"
@@ -2031,15 +2021,14 @@ msgstr ""
 "más detalles."
 
 #: amp.i18n.php:188
-#, fuzzy
 msgid "Default setting for SIP and IAX qualify. Whether to send periodic OPTIONS messages (for SIP) or otherwise monitor the channel, and at what point to consider the channel unavailable. A value of 'yes' is equivalent to 2000, time in msec. Can help to keep NAT holes open with SIP but not dependable for remote client firewalls. See Asterisk documentation for details."
 msgstr ""
 "Configuración por defecto elegible para SIP e IAX . Ya sea para enviar "
 "periódicos mensajes OPTIONS (para SIP) o supervisar de otra forma el canal, "
 "y en qué momento de considerar si el canal no está disponible. Un valor de "
-"'sí' es equivale a 2000, tiempo en ms. Puede ayudar a mantener abiertos los "
-"agujeros de NAT con SIP pero no es confiable para firewalls de clientes "
-"remotos. Consulte la documentación de Asterisk para más detalles."
+"'sí' es equivale a 2000 ms. Puede ayudar a mantener abiertos los agujeros de "
+"NAT con SIP pero no es confiable para firewalls de clientes remotos. "
+"Consulte la documentación de Asterisk para más detalles."
 
 #: amp.i18n.php:164
 msgid "Default setting for SIP canreinvite (same as directmedia). See Asterisk documentation for details."
@@ -2437,499 +2426,540 @@ msgstr "Codecs Deshabilitados"
 #: ../core/functions.inc.php:6951 ../core/functions.inc.php:7153
 msgid "Disallowed codecs. Set this to all to remove all codecs defined in the general settings and then specify specific codecs separated by '&' on the 'allow' setting, or just disallow specific codecs separated by '&'."
 msgstr ""
+"Codecs no permitidos. Asigne \"todos/all\" para remover todos los codecs "
+"definidos en la configuración general y especifique entonces los códec "
+"específicos separados por \"&\" en la sección de 'permitidos'. O simplemente "
+"indique los codecs \"no permitidos\" separados por \"&\"."
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:155 ../core/install.php:891
 #, php-format
 msgid "Discontinued logging type %s changing to %s.."
-msgstr ""
+msgstr "Discontinuados tipo de registro/logging %s cambiando a %s .."
 
 #: amp.i18n.php:248
 msgid "Display CallerID on Calling Phone"
-msgstr ""
+msgstr "Despliegue ID de llamadas en teléfono llamante"
 
 #: amp.i18n.php:252
 msgid "Display Dialed Number on Calling Phone"
-msgstr ""
+msgstr "Despliegue Numero Discado en Teléfono Llamante"
 
 #: amp.i18n.php:10
 msgid "Display Friendly Name"
-msgstr ""
+msgstr "Despliegue Nombre Amigable"
 
 #: amp.i18n.php:112
 msgid "Display Monitor Trunk Failures Option"
-msgstr ""
+msgstr "Opción de Despliegue de Fallas de Troncal"
 
 #: ../core/functions.inc.php:7128
 msgid "Display Name"
-msgstr ""
+msgstr "Nombre a Mostrar"
 
 #: amp.i18n.php:256
 msgid "Display Presence State of Callee"
-msgstr ""
+msgstr "Despliegue Estado de Presencia del Llamado"
 
 #: amp.i18n.php:16
 msgid "Display Readonly Settings"
-msgstr ""
+msgstr "Desplegar Opciones SoloLectura"
 
 #: amp.i18n.php:134
 msgid "Display debug output for script used if POST_RELOAD is used."
 msgstr ""
+"Despliegue Salida de Depuración para script usado si se usa POST_RELOAD."
 
 #: amp.i18n.php:260
 msgid "Ditech VQA Inbound Setting"
-msgstr ""
+msgstr "Configuración entrante de Ditech VQA"
 
 #: amp.i18n.php:264
 msgid "Ditech VQA Outbound Setting"
-msgstr ""
+msgstr "Configuración Saliente de Ditech VQA"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:438
 msgid "Do NOT edit this file as it is auto-generated by FreePBX. All modifications to"
 msgstr ""
+"NO edite este archivo ya que es autogenerado por FreePBX. Todas las "
+"modificaciones a"
 
 #: ../core/functions.inc.php:6397
 msgid "Don't Care"
-msgstr ""
+msgstr "No Importa"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:612
 #, php-format
 msgid "Don't have permission/can't write to %s"
-msgstr ""
+msgstr "No tiene permisos/no se puede escribir en %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:538
 #, php-format
 msgid "Don't have permission/can't write to: %s"
-msgstr ""
+msgstr "No tiene permisos/no se puede escribir en: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:21
 msgid "Don't know about modules yet. It needs to be handed to me"
-msgstr ""
+msgstr "No sé acerca de módulos todavía. Tiene que ser entregado a mí"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1864
 #: amp_conf/htdocs/admin/page.modules.php:965
 msgid "Done"
-msgstr ""
+msgstr "Hecho"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:94
 #: amp_conf/htdocs/admin/views/module_admin/main.php:312
 msgid "Downgrade"
-msgstr ""
+msgstr "Degradar"
 
 #: amp_conf/htdocs/admin/page.modules.php:859
 #, php-format
 msgid "Download %s, keep Disabled"
-msgstr ""
+msgstr "Bajar %s, mantener Deshabilitado"
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:27
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:38
 msgid "Download (From Web)"
-msgstr ""
+msgstr "Bajar (de la Web)"
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:37
 msgid "Download Remote Module"
-msgstr ""
+msgstr "Bajar Modulo Remoto"
 
 #: amp_conf/htdocs/admin/page.modules.php:678
 #: amp_conf/htdocs/admin/page.modules.php:994
 msgid "Download all"
-msgstr ""
+msgstr "Bajar todo"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:320
 #, php-format
 msgid "Download and %s to %s"
-msgstr ""
+msgstr "Bajar y %s a %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:845
 msgid "Download and Install"
-msgstr ""
+msgstr "Bajar e Instalar"
 
 #: amp_conf/htdocs/admin/page.modules.php:873
 #: amp_conf/htdocs/admin/page.modules.php:895
 #, php-format
 msgid "Download and Upgrade to %s"
-msgstr ""
+msgstr "Bajar e Instalar en %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:360
 #, php-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Bajando %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:736
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:790
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:819
 #, php-format
 msgid "Downloading Missing Dependency of: %s %s"
-msgstr ""
+msgstr "Bajando Dependencias Faltantes de: %s %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:260
 #, php-format
 msgid "Downloading and Installing %s"
-msgstr ""
+msgstr "Bajando e Instalando %s"
 
 #: ../core/page.routing.php:368
 msgid "Drag up or down to reposition, click to choose"
-msgstr ""
+msgstr "Arrastre arriba o abajo para reposicionar, oprima para escoger"
 
 #: ../core/page.routing.php:845
 msgid "Duplicate Route"
-msgstr ""
+msgstr "Ruta Duplicada"
 
 #: ../core/views/trunks/trunk_footer.php:5
 msgid "Duplicate Trunk"
-msgstr ""
+msgstr "Troncal Duplicado"
 
 #: amp.i18n.php:268
 msgid "Dynamically Generate Hints"
-msgstr ""
+msgstr "\"Hints/Sugerencias\" Generadas Automáticamente"
 
 #: upgrades/2.8.0alpha2/tables.php:117
 msgid "ERROR - could not drop table"
-msgstr ""
+msgstr "ERROR - No se puede dejar la tabla"
 
 #: upgrades/2.10.0beta3/migration.php:48
 msgid "ERROR connectng to CDR DB to migrate, not done!"
-msgstr ""
+msgstr "ERROR conectando a BD CDR para migrar, no completado!"
 
 #: ../core/install.php:193
 msgid "ERROR: could not access user table to migrate directdids to incoming table, aborting"
 msgstr ""
+"ERROR: no se puede acceder tabla de usuario para migrar directdids a tabla "
+"entrante, abortando"
 
 #: ../core/install.php:977
 msgid "ERROR: could not insert previous value for ALLOW_SIP_ANON, it may already exist"
 msgstr ""
+"ERROR: no se puede insertar valor previo para ALLOW_SIP_ANON, puede que ya "
+"exista"
 
 #: upgrades/2.11.0rc1/migration.php:21
 msgid "ERROR: could not insert previous values for rpt.conf, they may already exist"
 msgstr ""
+"ERROR: no se puede insertar valores previos de rpt.conf, puede que ya existan"
 
 #: ../core/install.php:173
 #, php-format
 msgid "ERROR: failed to insert %s for user %s"
-msgstr ""
+msgstr "ERROR: falló inserción de %s para usuario %s"
 
 #: ../core/install.php:32
 #, php-format
 msgid "ERROR: trying to check if %s already in use"
-msgstr ""
+msgstr "ERROR: tratando de chequear si %s ya esta en uso"
 
 #: ../core/functions.inc.php:6892
 msgid "Echo training requirements of this card. See DAHDi documentation for details."
 msgstr ""
+"Requerimientos de entrenamiento de Eco de esta tarjeta. Ver documentación "
+"DAHDi para mas detalles."
 
 #: ../core/functions.inc.php:6841
 msgid "Echo training requirements of this card. See Zap documentation for details."
 msgstr ""
+"Requerimientos de entrenamiento de Eco de esta tarjeta. Ver documentación "
+"Zap para mas detalles."
 
 #: ../core/views/trunks/trunk_header.php:1
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: ../core/page.did.php:172
 #, php-format
 msgid "Edit %s"
-msgstr ""
+msgstr "Editar %s"
 
 #: ../core/page.did.php:172
 #, php-format
 msgid "Edit %s %s (%s)"
-msgstr ""
+msgstr "Editar %s %s (%s)"
 
 #: ../core/page.ampusers.php:117
 msgid "Edit Administrator"
-msgstr ""
+msgstr "Editar Administrador"
 
 #: ../core/page.dahdichandids.php:74
 msgid "Edit Channel"
-msgstr ""
+msgstr "Editar Canal"
 
 #: ../core/page.dahdichandids.php:61
 msgid "Edit DAHDI Channel: "
-msgstr ""
+msgstr "Editar Canal DAHDi: "
 
 #: ../core/functions.inc.php:7738
 #, php-format
 msgid "Edit Default User: %s"
-msgstr ""
+msgstr "Editar Usuario por defecto: %s"
 
 #: ../core/functions.inc.php:7085
 msgid "Edit Extension"
-msgstr ""
+msgstr "Editar Extensión"
 
 #: ../core/functions.inc.php:7738
 #, php-format
 msgid "Edit Fixed User: %s"
-msgstr ""
+msgstr "Editar Usuario Fijo: %s"
 
 #: ../core/page.did.php:190
 msgid "Edit Incoming Route"
-msgstr ""
+msgstr "Editar Ruta Entrante"
 
 #: ../core/page.routing.php:345 ../core/page.routing.php:363
 msgid "Edit Route"
-msgstr ""
+msgstr "Editar Ruta"
 
 #: ../core/functions.inc.php:7087
 msgid "Edit User"
-msgstr ""
+msgstr "Editar Usuario"
 
 #: ../core/functions.inc.php:7147
 msgid "Edit:"
-msgstr ""
+msgstr "Editar:"
 
 #: amp_conf/htdocs/admin/views/module_admin/header.php:7
 msgid "Email"
-msgstr ""
+msgstr "Correo"
 
 #: amp_conf/htdocs/admin/views/oobe.php:10
 msgid "Email Address"
-msgstr ""
+msgstr "Dirección de Correo"
 
 #: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:231
 msgid "Email addresses error"
-msgstr ""
+msgstr "error dirección de Correo"
 
 #: ../core/page.routing.php:425 ../core/page.routing.php:662
 msgid "Emergency"
-msgstr ""
+msgstr "Emergencia"
 
 #: ../core/functions.inc.php:7786 ../core/functions.inc.php:7791
 msgid "Emergency CID"
-msgstr ""
+msgstr "CID Emergencia"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1079
 msgid "Empty value not allowed for this field"
-msgstr ""
+msgstr "Valor vacío no es permitido en este campo"
 
 #: amp_conf/htdocs/admin/page.modules.php:851 ../core/functions.inc.php:6941
 #: ../core/functions.inc.php:6944 ../core/functions.inc.php:6955
 #: ../core/page.trunks.php:601
 msgid "Enable"
-msgstr ""
+msgstr "Habilitar"
 
 #: ../core/functions.inc.php:7123
 msgid "Enable AVPF"
-msgstr ""
+msgstr "Habilitar AVPF"
 
 #: ../core/functions.inc.php:7146
 msgid "Enable Encryption"
-msgstr ""
+msgstr "Habilitar Criptografía"
 
 #: ../core/functions.inc.php:7139
 msgid "Enable ICE Support"
-msgstr ""
+msgstr "Habilitar Soporte a ICE"
 
 #: amp.i18n.php:614
 msgid "Enable Module Signature Checking"
-msgstr ""
+msgstr "Habilitar Verificación de firmas de Módulo"
 
 #: amp.i18n.php:618
 msgid "Enable Module Tracks"
-msgstr ""
+msgstr "Habilitar Traza  de Módulo"
 
 #: amp.i18n.php:120
 msgid "Enable Performance Logging"
-msgstr ""
+msgstr "Habilitar registro de Rendimiento"
 
 #: amp.i18n.php:622
 msgid "Enable Remote Unlocking"
-msgstr ""
+msgstr "Habilitar Desbloqueo Remoto"
 
 #: amp.i18n.php:24
 msgid "Enable Static Content"
-msgstr ""
+msgstr "Habilitar Contenido Estático"
 
 #: amp.i18n.php:408
 msgid "Enable The Old Style FreePBX Dial Patterns Textarea"
-msgstr ""
+msgstr "Habilitar Patrones de Discado \"Viejo Estilo\" FreePBX Textarea"
 
 #: amp.i18n.php:242
 msgid "Enable call waiting by default when an extension is created (Default is yes). Set to <b>no</b> to if you do not want phones to be commissioned with call waiting already enabled. The user would then be required to dial the CW feature code (*70 default) to enable their phone. Most installations should leave this alone. It allows multi-line phones to receive multiple calls on their line appearances."
 msgstr ""
+"Activar la llamada en espera por defecto cuando se crea una extensión (por "
+"defecto es sí). Se establece en <b>no</b> si no desea que los teléfonos "
+"queden definidos con llamada en espera ya habilitado. El usuario se vería "
+"obligado a marcar el código de funcion (*70 predeterminado) para permitir "
+"Llamada en espera. La mayoría de las instalaciones deben dejarlo como esta. "
+"Permite a teléfonos multi-línea recibir varias llamadas en sus líneas."
 
 #: amp.i18n.php:116
 msgid "Enable jQuery Migrate"
-msgstr ""
+msgstr "Habilitar Migrar jQuery"
 
 #: ../core/functions.inc.php:6706
 msgid "Enable or disable the ability to do on demand (one-touch) recording. The overall calling policy rules still apply and if calls are already being recorded by 'Force' or 'Never', the can not be paused unless 'Override' is selected.."
 msgstr ""
+"Activar o desactivar la capacidad de hacer (de un solo toque) grabación bajo "
+"demanda. Las reglas de la política general se siguen aplicando y si las "
+"llamadas ya están siendo grabadas  por 'Fuerza/Force' o 'Nunca/Never',  no "
+"se pueden pausar a menos que se seleccione 'Ignorar/Override' .."
 
 #: amp.i18n.php:80
 msgid "Enable pretty-printing of the JSON responses from Asterisk"
-msgstr ""
+msgstr "Habilita pretty-printing en la respuesta JSON desde Astersik"
 
 #: amp.i18n.php:72
 msgid "Enable the Asterisk REST Interface"
-msgstr ""
+msgstr "Habilita la Interface REST de Asterisk"
 
 #: amp.i18n.php:30
 msgid "Enable the mini-HTTP Server"
-msgstr ""
+msgstr "Habilita el Servidor mini-HTTP"
 
 #: amp.i18n.php:446
 msgid "Enable this to send outbound HTTP and HTTPS requests via a proxy. This does not affect Voice or Video traffic."
 msgstr ""
+"Habilita esto para enviar requerimientos salientes HTTP y HTTPS a través del "
+"proxy. Esto no afecta tráfico de voz o video."
 
 #: amp_conf/htdocs/admin/page.modules.php:805
 msgid "Enabled"
-msgstr ""
+msgstr "Habilitado"
 
 #: amp_conf/htdocs/admin/page.modules.php:799
 msgid "Enabled and up to date"
-msgstr ""
+msgstr "Habilitado y Actualizado"
 
 #: amp_conf/htdocs/admin/page.modules.php:803
 msgid "Enabled; Not available online"
-msgstr ""
+msgstr "Habilitado: No disponible en línea"
 
 #: amp_conf/htdocs/admin/page.modules.php:293
 #, php-format
 msgid "Enabling %s"
-msgstr ""
+msgstr "Habilitando %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:771
 #, php-format
 msgid "Enabling Missing Dependency of: %s %s"
-msgstr ""
+msgstr "Habilitando Dependencia faltante de: %s %s"
 
 #: ../core/functions.inc.php:6661
 msgid "Enabling Pinless Dialing will allow this extension to bypass any pin codes normally required on outbound calls"
 msgstr ""
+"Habilitando Discado sin PIN va a permitir a esta extensión obviar la "
+"necesidad de uso de PIN en llamadas salientes"
 
 #: amp.i18n.php:624
 msgid "Enabling this option will allow a remote user to automatically authenticate as an admin via use of a one-time key generated by "
 msgstr ""
+"Habilitando esta opción permite al usuario remoto autenticarse "
+"automáticamente como un administrador usa sola vez con clave generada por "
 
 #: ../core/functions.inc.php:6947
 msgid "Endpoint port number to use, usually 4569."
-msgstr ""
+msgstr "Puerto a usar por el Endpoint, usualmente 4569."
 
 #: ../core/functions.inc.php:7093
 msgid "Endpoint port number to use, usually 5060. Some 2 ports devices such as ATA may used 5061 for the second port."
 msgstr ""
+"Numero de puerto a usar por el Endpoint, usualmente 5060. Algunos "
+"dispositivos de dos puertos como un ATA puede usar el 5061 como segundo "
+"puerto."
 
 #: ../core/functions.inc.php:7185
 msgid "Enforce that RTP must be symmetric. If this device is natting in it is usually a good idea to enable this. Disable only if you are having issues."
 msgstr ""
+"Forzar RTP a ser simétrico. Si este dispositivo esta siendo nat-eado es "
+"buena idea habilitar esto. Deshabilite solo si esta tendiendo problemas."
 
 #: amp_conf/htdocs/admin/views/menu.php:142
 msgid "English"
-msgstr ""
+msgstr "Inglés"
 
 #: amp.i18n.php:450
 msgid "Enter the address of the outbound proxy. This will be similar to http://10.1.1.1:3128"
 msgstr ""
+"Introduzca la dirección del \"outbound proxy\". Puede ser similar a "
+"http://10.1.1.1:3128"
 
 #: amp_conf/htdocs/admin/views/welcome.php:12
 msgid "Error"
-msgstr ""
+msgstr "ERROR"
 
 #: ../core/functions.inc.php:5833
 msgid "Error Duplicate Channel Entry"
-msgstr ""
+msgstr "Error Entrada Duplicada de Canal"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:148
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:186
 #, php-format
 msgid "Error Generating Certificate: %s"
-msgstr ""
+msgstr "Error generando certificado: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:166
 #, php-format
 msgid "Error Generating Key: %s"
-msgstr ""
+msgstr "Error Generando Clave: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:172
 #, php-format
 msgid "Error Generating Signing Request: %s"
-msgstr ""
+msgstr "Error Generando Petición de Firma: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:361
 #, php-format
 msgid "Error Signing Cert with '%s': %s"
-msgstr ""
+msgstr "Error Firmando Certificado con '%s': %s"
 
 #: ../core/install.php:1035
 msgid "Error converting zap to dahdi in devices table and AstDB"
-msgstr ""
+msgstr "Error convirtiendo zap a dahdi en tabla de dispositivos y AstDB"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1692
 #, php-format
 msgid "Error creating module directory: %s"
-msgstr ""
+msgstr "Error creando directorio de módulo: %s"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1030
 #, php-format
 msgid "Error creating temporary directory: %s"
-msgstr ""
+msgstr "Error creando directorio temporal: %s"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1328
 #, php-format
 msgid "Error deleting directory %s (code %d)"
-msgstr ""
+msgstr "Error borrando directorio %s (código %d)"
 
 #: ../core/page.routing.php:317 ../core/page.trunks.php:323
 msgid "Error fetching prefix list for: "
-msgstr ""
+msgstr "Error al obtener lista de prefijos para: "
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1011
 msgid "Error finding uploaded file - check your PHP and/or web server configuration"
 msgstr ""
+"Error encontrando archivo subido - revisar su configuración de PHP y / o "
+"servidor web"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:929
 #: amp_conf/htdocs/admin/libraries/module.functions.php:932
 #, php-format
 msgid "Error opening %s for reading"
-msgstr ""
+msgstr "Error abriendo %s para lectura"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:887
 #, php-format
 msgid "Error opening %s for writing"
-msgstr ""
+msgstr "Error abriendo %s para escritura"
 
 #: upgrades/2.10.0beta3/migration.php:35
 msgid "Error parsing cdr_mysql.conf no migration done"
-msgstr ""
+msgstr "Error al analizar cdr_mysql.conf ninguna migración hecha"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1179
 #, php-format
 msgid "Error updating database. Command was: %s; error was: %s "
-msgstr ""
+msgstr "Error Actualizando base de datos. Comando fue: %s error fue: %s "
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1275
 msgid "Error updating database: "
-msgstr ""
+msgstr "Error actualizando base de datos: "
 
 #: amp_conf/htdocs/admin/page.modules.php:398
 #, php-format
 msgid "Error(s) disabling %s"
-msgstr ""
+msgstr "Error(es) deshabilitando %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:362
 #, php-format
 msgid "Error(s) downloading %s"
-msgstr ""
+msgstr "Error(es) bajando %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:389
 #, php-format
 msgid "Error(s) enabling %s"
-msgstr ""
+msgstr "Error(es) habilitando %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:367
 #: amp_conf/htdocs/admin/page.modules.php:379
 #, php-format
 msgid "Error(s) installing %s"
-msgstr ""
+msgstr "Error(es) instalando %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:330
 #, php-format
 msgid "Error(s) removing %s"
-msgstr ""
+msgstr "Error(es) removiendo %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:408
 #, php-format
 msgid "Error(s) uninstalling %s"
-msgstr ""
+msgstr "Error(es) desinstalando %s"
 
 #: ../core/page.routing.php:598 ../core/page.trunks.php:746
 msgid "Error: Cannot continue!\\n\\nPrefix lookup requires cURL support in PHP on the server. Please install or enable cURL support in your PHP installation to use this function. See http://www.php.net/curl for more information."
