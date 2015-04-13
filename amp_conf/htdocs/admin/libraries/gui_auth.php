@@ -39,20 +39,24 @@ if (!isset($_SESSION['AMP_user'])) {
 				// Unsurprisingly, it didn't. Let's load it.
 				// We need to manually load it, as the autoloader WON'T.
 				$hint = FreePBX::Config()->get("AMPWEBROOT")."/admin/modules/userman/Userman.class.php";
-				FreePBX::create()->injectClass("Userman", $hint);
+				try {
+					FreePBX::create()->injectClass("Userman", $hint);
+				} catch(Exception $e) {}
 				$_SESSION['AMP_user'] = new ampuser($username,"usermanager");
 				if (!$_SESSION['AMP_user']->checkPassword(sha1($password))) {
 					unset($_SESSION['AMP_user']);
-					$no_auth = true;
-					if(!empty($username)) {
-						freepbx_log_security('Authentication failure for '.(!empty($username) ? $username : 'unknown').' from '.$_SERVER['REMOTE_ADDR']);
-					}
+					//Fall through to database only
+					//$no_auth = true;
+					//if(!empty($username)) {
+						//freepbx_log_security('Authentication failure for '.(!empty($username) ? $username : 'unknown').' from '.$_SERVER['REMOTE_ADDR']);
+					//}
 				} else {
 					if(FreePBX::Userman()->getGlobalSettingByID($_SESSION['AMP_user']->id,'pbx_admin')) {
 						$_SESSION['AMP_user']->setAdmin();
 					}
+					//We are logged in. Stop processing
+					break;
 				}
-				break;
 			}
 			//no break here so that we can fall back to database if userman is broken
 		case 'database':

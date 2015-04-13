@@ -196,7 +196,6 @@ if ($restrict_mods_local !== true) {
 	$modulef =& module_functions::create();
 	$active_modules = $modulef->getinfo(false, MODULE_STATUS_ENABLED);
 	$modpath = $amp_conf['AMPWEBROOT'] . '/admin/modules/';
-
 	if(is_array($active_modules)){
 		$force_autoload = false;
 		foreach($active_modules as $key => $module) {

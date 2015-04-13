@@ -87,7 +87,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 				continue;
 			}
 			//remove administrators, makes no sense in these modes
-			if($mod['display'] == "ampusers" &&  in_array(FreePBX::Config()->get('AUTHTYPE'), array("usermanager","none"))) {
+			if($mod['display'] == "ampusers" &&  in_array(FreePBX::Config()->get('AUTHTYPE'), array("none"))) {
 				continue;
 			}
 			$classes = array();
