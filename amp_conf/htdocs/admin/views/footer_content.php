@@ -25,12 +25,8 @@ $html .= '<div class="col-md-4">
 
 //text
 $html .= '<div class="col-md-4" id="footer_text">';
-$html .= '<a href="http://www.freepbx.org" target="_blank">FreePBX</a> '
-		. _('is a registered trademark of')
-     	. br() . '<a href="http://www.freepbx.org/copyright.html" target="_blank"> Sangoma Technologies Inc.</a>'
-		. br();
-$html .= _('FreePBX') . ' ' . $version . ' ' . _('is licensed under the')
-		. '<a href="http://www.gnu.org/copyleft/gpl.html" target="_blank"> GPL</a>' . br();
+$html .= sprintf(_('%s is a registered trademark of'),'<a href="http://www.freepbx.org" target="_blank">FreePBX</a>') . br() . '<a href="http://www.freepbx.org/copyright.html" target="_blank"> Sangoma Technologies Inc.</a>' . br();
+$html .= sprintf(_('%s %s is licensed under the %s'),'FreePBX',$version,'<a href="http://www.gnu.org/copyleft/gpl.html" target="_blank"> GPL</a>') . br();
 $html .= '<a href="http://www.freepbx.org/copyright.html" target="_blank">Copyright&copy; 2007-'.date('Y',time()).'</a>';
 
 //module license
