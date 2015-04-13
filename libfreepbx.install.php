@@ -964,6 +964,20 @@ function freepbx_settings_init($commit_to_db = false) {
 	$set['type'] = CONF_TYPE_TEXT;
 	$freepbx_conf->define_conf_setting('UIDEFAULTLANG',$set);
 
+
+	// FREEPBX_SYSTEM_IDENT  (Used by Dashboard)
+	$set['value'] = "VoIP Server";
+	$set['defaultval'] = $set['value'];
+	$set['options'] = '';
+	$set['name'] = "System Identity";
+	$set['description'] = "This name will be used to help identify this machine in emails or alerts";
+	$set['level'] = 0;
+	$set['module'] = '';
+	$set['hidden'] = 0;
+	$set['readonly'] = 0;
+	$set['type'] = CONF_TYPE_TEXT;
+	$freepbx_conf->define_conf_setting('FREEPBX_SYSTEM_IDENT', $set);
+
   //
   // CATEGORY: Dialplan and Operational
   //
