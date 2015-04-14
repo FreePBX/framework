@@ -17,7 +17,6 @@ class Motd extends Command {
 		->setDescription(_('Prints MOTD'))
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
-		$this->brand = "FreePBXDistro";
 		//banners should be base64 encoded, Why? Because php likes to randomly shift multiline variables. Also makes it all look super cryptic :-/ 
 		$this->banner = "IF9fX19fICAgICAgICAgICAgICBfX19fICBfX19fX18gIF9fDQp8ICBfX198IF9fIF9fXyAgX19ffCAgXyBcfCBfXyApIFwvIC8NCnwgfF8gfCAnX18vIF8gXC8gXyBcIHxfKSB8ICBfIFxcICAvIA0KfCAgX3x8IHwgfCAgX18vICBfXy8gIF9fL3wgfF8pIC8gIFwgDQp8X3wgIHxffCAgXF9fX3xcX19ffF98ICAgfF9fX18vXy9cX1wgICAgIA==";
 		$this->supporturl = 'http://www.freepbx.org/support-and-professional-services';
@@ -28,20 +27,20 @@ class Motd extends Command {
 		$output->write(base64_decode($this->banner));
 		$output->writeln("");
 		$output->writeln("");
-		if($alerts != 0){
-			$output->writeln(_("<fg=red>NOTICE: YOU HAVE: ") . $alerts . _(" NOTIFICATIONS PLEASE LOG IN TO THE UI TO SEE THEM! </fg=red>"));
+		if($alerts != 0) {
+			$output->writeln("<fg=red>".sprintf(_("NOTICE! You have %s notifications! Please log into the UI to see them!"), $alerts)."</fg=red>");
 		}
 		$output->writeln("");
-		$output->writeln("<info>"._("NETWORK")."</info>");
+		$output->writeln("<info>"._("Current Network Configuration")."</info>");
 		$iflist = $this->listIFS();
 		if($iflist){
 			$rows = array();
 			foreach($iflist as $if => $info){
-				$rows[] = array($if,$info['mac'],$info['ip']);
+				$rows[] = array($if,$info['mac'],$info['ipv4'],$info['ipv6']);
 			}
 			$table = new Table($output);
 			$table
-				->setHeaders(array('INTERFACE','MAC ADDRESS','IP ADDRESS'))
+				->setHeaders(array(_('Interface'), _('MAC Address'), _('IP Address'), _('IPv6 Address')))
 				->setRows($rows);
 			$table->render();	
 		}else{
@@ -50,8 +49,8 @@ class Motd extends Command {
 			$output->writeln("-------------------");	
 		}
 		$output->writeln("");
-		$output->writeln(_("Please note most tasks should be handled through the ") . $this->brand . _(" UI."));
-		$output->writeln(_("You can access the ") . $this->brand ._(" GUI by typing one of the above IP's in to your web browser."));
+		$output->writeln(_("Please note most tasks should be handled through the GUI."));
+		$output->writeln(_("You can access the GUI by typing one of the above IPs in to your web browser."));
 		$output->writeln(_("For support please visit: ") . $this->supporturl);
 		$output->writeln("");
 	}
@@ -66,10 +65,11 @@ class Motd extends Command {
 			if($iftype != 1){
 				continue;
 			}
-			$MAC = file_get_contents('/sys/class/net/' . $if . '/address');
+			$MAC = trim(file_get_contents('/sys/class/net/' . $if . '/address'));
 			$MAC = strtoupper($MAC);
-			$ip = shell_exec("/sbin/ifconfig " . $if . " | grep 'inet addr:'| cut -d: -f2 | awk '{ print $1}'");
-			$iflist[$if] = array('mac' => $MAC, 'ip' => $ip);
+			$ipv6 = trim(shell_exec("/sbin/ip -o addr show " . $if ." | grep -Po 'inet6 \K[\da-f:]+'"));
+			$ipv4 = trim(shell_exec("/sbin/ip -o addr show " . $if ." | grep -Po 'inet \K[\d.]+'"));
+			$iflist[$if] = array('mac' => $MAC, 'ipv4' => $ipv4, 'ipv6' => $ipv6);
 		}
 		return $iflist;
 	}	
