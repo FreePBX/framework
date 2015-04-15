@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-10 12:55+0200\n"
-"PO-Revision-Date: 2015-04-15 00:07+0200\n"
+"PO-Revision-Date: 2015-04-15 03:59+0200\n"
 "Last-Translator: Daver <daverjorge46@gmail.com>\n"
 "Language-Team: Spanish "
 "<http://weblate.freepbx.org/projects/freepbx/framework/es_ES/>\n"
@@ -4736,40 +4736,64 @@ msgstr "Congestión Normal"
 #: amp.i18n.php:246
 msgid "Normally FreePBX auto-generates a custom context that may be usable for adding custom dialplan to modify the normal behavior of FreePBX. It takes a good understanding of how Asterisk processes these includes to use this and in many of the cases, there is no useful application. All includes will result in a WARNING in the Asterisk log if there is no context found to include though it results in no errors. If you know that you want the includes, you can set this to true. If you comment it out FreePBX will revert to legacy behavior and include the contexts."
 msgstr ""
+"Normalmente FreePBX genera automáticamente un contexto personalizado que "
+"puede ser utilizado para añadir plan de marcado personalizado para modificar "
+"el comportamiento normal de FreePBX. Se necesita una buena comprensión de "
+"cómo procesa Asterisk estos includes y en muchos de los casos, no hay una "
+"aplicación útil. Todos los  includes darán una ADVERTENCIA en el registro de "
+"Asterisk si no hay un contexto que se encuentre para incluir a pesar de que "
+"de lugar a errores. Si usted sabe que desea que se hagan includes, puede "
+"establecer esta propiedad a verdadero. Si comenta esto fuera FreePBX "
+"revertirá al comportamiento heredado e incluirá los contextos."
 
 #: amp.i18n.php:596
 msgid "Normally FreePBX gets the current Asterisk version directly from Asterisk. This is required to generate proper dialplan for a given version. When using some custom Asterisk builds, the version may not be properly parsed and improper dialplan generated. Setting this to an equivalent Asterisk version will override what is read from Asterisk. This SHOULD be left blank unless you know what you are doing."
 msgstr ""
+"Normalmente FreePBX obtiene la versión Asterisk corriente directamente de "
+"Asterisk. Esto es necesario para generar dialplan adecuado para una versión "
+"determinada. Cuando se utiliza alguna versión Asterisk personalizada, la "
+"versión no puede ser analizada correctamente y se genera un dialplan "
+"indebido. Al establecer esto a una versión Asterisk equivalente anulará lo "
+"que se lee de Asterisk. Esto DEBERIA dejarse en blanco si no sabe lo que "
+"está haciendo."
 
 #: amp.i18n.php:14
 msgid "Normally the friendly names will be displayed on this page and the internal freepbx_conf configuration names are shown in the tooltip. If you prefer to view the configuration variables, and the friendly name in the tooltip, set this to false.."
 msgstr ""
+"Normalmente los nombres descriptivos se mostrarán en esta página y los "
+"nombres de configuración interna de freepbx_conf se muestran en la "
+"descripción. Si prefiere ver las variables de configuración y el nombre "
+"descriptivo en la descripción, ponga esto en falso.."
 
 #: ../core/views/trunks/trunk_header.php:114
 msgid "Normally the next trunk is only tried upon a trunk being 'Congested' in some form, or unavailable. Checking this box will force a failed call to always continue to the next configured trunk or destination even when the channel reports BUSY or INVALID NUMBER."
 msgstr ""
+"Normalmente la próxima línea se intenta sólo sobre la línea si esta ha dado "
+"'Congested' en alguna forma, o no está disponible. Al marcar esta casilla "
+"forzará una llamada fallida a seguir siempre a la siguiente línea o destino "
+"configurado incluso cuando el canal informa 'número ocupado' o no válido."
 
 #: amp_conf/htdocs/admin/page.modules.php:767
 #, php-format
 msgid "Not Installed (Available online: %s)"
-msgstr ""
+msgstr "No instalado (Disponible online: %s)"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:90
 #, php-format
 msgid "Not Installed (Locally available: %s)"
-msgstr ""
+msgstr "No instalado (localmente disponibles: %s)"
 
 #: ../core/functions.inc.php:6738
 msgid "Not Reachable"
-msgstr ""
+msgstr "No Alcanzable"
 
 #: upgrades/2.5.0/removefiles.php:23
 msgid "Not Required"
-msgstr ""
+msgstr "No Requerido"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:227
 msgid "Not an array"
-msgstr ""
+msgstr "No es un arreglo (array)"
 
 #: amp_conf/htdocs/admin/views/noaccess.php:3
 msgid "Not found"
