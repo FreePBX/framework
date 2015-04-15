@@ -77,20 +77,22 @@ class Modules {
 			return true;
 		}
 		$amods = array();
-		foreach(array_keys($this->active_modules) as $mod) {
-			$amods[] = $this->cleanModuleName($mod);
-		}
-		if(in_array($module,$amods)) {
-			try {
-				$rc = new \ReflectionClass($this->FreePBX->$module);
-				if($rc->hasMethod($method)) {
-					$reflection = new \ReflectionMethod($this->FreePBX->$module, $method);
-					if ($reflection->isPublic()) {
-						$this->moduleMethods[$module][] = $method;
-						return true;
+		if(is_array($this->active_modules)) {
+			foreach(array_keys($this->active_modules) as $mod) {
+				$amods[] = $this->cleanModuleName($mod);
+			}
+			if(in_array($module,$amods)) {
+				try {
+					$rc = new \ReflectionClass($this->FreePBX->$module);
+					if($rc->hasMethod($method)) {
+						$reflection = new \ReflectionMethod($this->FreePBX->$module, $method);
+						if ($reflection->isPublic()) {
+							$this->moduleMethods[$module][] = $method;
+							return true;
+						}
 					}
-				}
-			} catch(\Exception $e) {}
+				} catch(\Exception $e) {}
+			}
 		}
 		return false;
 	}
@@ -102,8 +104,10 @@ class Modules {
 	public function getModulesByMethod($method) {
 		$this->getActiveModules();
 		$amods = array();
-		foreach(array_keys($this->active_modules) as $mod) {
-			$amods[] = $this->cleanModuleName($mod);
+		if(is_array($this->active_modules)) {
+			foreach(array_keys($this->active_modules) as $mod) {
+				$amods[] = $this->cleanModuleName($mod);
+			}
 		}
 		$methods = array();
 		foreach($amods as $module) {
