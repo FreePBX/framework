@@ -2922,7 +2922,7 @@ class module_functions {
 		$globalValidation = true;
 		// String below, if i18n'ed, must be identical to that in GPG class.
 		// Read the comment there.
-		$amportal = FreePBX::Config()->get('AMPSBIN')."/amportal "._("altered");
+		$fwconsole = FreePBX::Config()->get('AMPSBIN')."/fwconsole "._("altered");
 		if(!$cached) {
 			FreePBX::GPG()->refreshKeys();
 		}
@@ -2966,8 +2966,8 @@ class module_functions {
 			} else {
 				if ($tampered) {
 					foreach($mod['signature']['details'] as $d) {
-						if ($d == $amportal) {
-							$modules['statuses']['tampered'][] = sprintf(_("Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run 'amportal chown' and then 'amportal a r' to clear this message. If you did not just update FreePBX, your system may have been compromised)"),$modname,$d);
+						if ($d == $fwconsole) {
+							$modules['statuses']['tampered'][] = sprintf(_("Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run 'fwconsole chown' and then 'fwconsole reload' to clear this message. If you did not just update FreePBX, your system may have been compromised)"),$modname,$d);
 						} else {
 							$modules['statuses']['tampered'][] = sprintf(_('Module: "%s", File: "%s"'),$modname,$d);
 						}

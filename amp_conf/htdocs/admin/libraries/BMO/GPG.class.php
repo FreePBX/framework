@@ -160,8 +160,8 @@ class GPG {
 			} elseif (hash_file('sha256', $dest) != $hash) {
 				// If you i18n this string, also note that it's used explicitly
 				// as a comparison of "altered" in modulefunctions.class, to
-				// warn people about bin/amportal needing to be updated
-				// with 'amportal chown'. Don't make them different!
+				// warn people about bin/fwconsole needing to be updated
+				// with 'fwconsole chown'. Don't make them different!
 				$retarr['details'][] = $dest." "._("altered");
 				$retarr['status'] |= GPG::STATE_TAMPERED;
 				$retarr['status'] &= ~GPG::STATE_GOOD;

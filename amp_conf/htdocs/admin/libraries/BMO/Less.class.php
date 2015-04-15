@@ -59,7 +59,7 @@ class Less extends \Less_Parser {
 			$filename = \Less_Cache::Get( $files, array('compress' => true), $variables );
 		} catch(\Exception $e) {
 			dbug($e);
-			die_freepbx(sprintf(_('Can not write to cache folder at %s/cache. Please run (from the CLI): %s'),$dir,'amportal chown'));
+			die_freepbx(sprintf(_('Can not write to cache folder at %s/cache. Please run (from the CLI): %s'),$dir,'fwconsole chown'));
 		}
 		$out['compiled_less_files'][] = 'cache/'.$filename;
 
@@ -134,7 +134,7 @@ class Less extends \Less_Parser {
 		//Load bootstrap only if it exists as this will tell us the correct load order
 		if(!file_exists($dir.'/cache')) {
 			if(!mkdir($dir.'/cache')) {
-				die_freepbx(sprintf(_('Can not create cache folder at %s/cache. Please run (from the CLI): %s'),$dir,'amportal chown'));
+				die_freepbx(sprintf(_('Can not create cache folder at %s/cache. Please run (from the CLI): %s'),$dir,'fwconsole chown'));
 			}
 		}
 		$this->SetOption('cache_dir',$dir.'/cache');
@@ -167,14 +167,14 @@ class Less extends \Less_Parser {
 	public function getCachedFile($dir, $uri_root = '', $variables = array()) {
 		if(!file_exists($dir.'/cache')) {
 			if(!mkdir($dir.'/cache')) {
-				die_freepbx(sprintf(_('Can not create the LESS cache folder at %s. Please run (from the CLI): %s'),$dir.'/cache','amportal chown'));
+				die_freepbx(sprintf(_('Can not create the LESS cache folder at %s. Please run (from the CLI): %s'),$dir.'/cache','fwconsole chown'));
 			}
 		}
 		if(!is_readable($dir)) {
-			die_freepbx(sprintf(_('Can not read from the LESS folder at %s. Please run (from the CLI): %s'),$dir,'amportal chown'));
+			die_freepbx(sprintf(_('Can not read from the LESS folder at %s. Please run (from the CLI): %s'),$dir,'fwconsole chown'));
 		}
 		if(!is_readable($dir.'/cache') || !is_writable($dir.'/cache')) {
-			die_freepbx(sprintf(_('Can not write to the LESS cache folder at %s. Please run (from the CLI): %s'),$dir.'/cache','amportal chown'));
+			die_freepbx(sprintf(_('Can not write to the LESS cache folder at %s. Please run (from the CLI): %s'),$dir.'/cache','fwconsole chown'));
 		}
 		\Less_Cache::$cache_dir = $dir.'/cache';
 		$files = array();
