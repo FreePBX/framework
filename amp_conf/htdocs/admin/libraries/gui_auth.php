@@ -51,7 +51,7 @@ if (!isset($_SESSION['AMP_user'])) {
 						//freepbx_log_security('Authentication failure for '.(!empty($username) ? $username : 'unknown').' from '.$_SERVER['REMOTE_ADDR']);
 					//}
 				} else {
-					if(FreePBX::Userman()->getGlobalSettingByID($_SESSION['AMP_user']->id,'pbx_admin')) {
+					if(FreePBX::Userman()->getCombinedGlobalSettingByID($_SESSION['AMP_user']->id,'pbx_admin')) {
 						$_SESSION['AMP_user']->setAdmin();
 					}
 					//We are logged in. Stop processing

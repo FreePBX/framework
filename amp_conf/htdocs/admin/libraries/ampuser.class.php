@@ -64,9 +64,11 @@ class ampuser {
 					$user['id'] = $um['id'];
 					$user["username"] = $um['username'];
 					$user["password_sha1"] = $um['password'];
-					$user["extension_low"] = "";
-					$user["extension_high"] = "";
-					$sections = FreePBX::Userman()->getGlobalSettingByID($um['id'],'pbx_modules');
+					$pbl = FreePBX::Userman()->getCombinedGlobalSettingByID($um['id'],'pbx_low');
+					$user["extension_low"] = (trim($pbl) !== "") ? $pbl : "";
+					$pbh = FreePBX::Userman()->getCombinedGlobalSettingByID($um['id'],'pbx_high');
+					$user["extension_high"] = (trim($pbh) !== "") ? $pbh : "";
+					$sections = FreePBX::Userman()->getCombinedGlobalSettingByID($um['id'],'pbx_modules');
 					$user["sections"] = !empty($sections) && is_array($sections) ? $sections : array();
 					return $user;
 				} catch(Exception $e) {}
