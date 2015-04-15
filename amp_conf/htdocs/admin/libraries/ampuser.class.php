@@ -46,7 +46,7 @@ class ampuser {
 				//fail-through
 			case "database":
 			default:
-				return ($this->password === $password);
+				return ($this->password === sha1($password));
 		}
 	}
 

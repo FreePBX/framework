@@ -43,7 +43,7 @@ if (!isset($_SESSION['AMP_user'])) {
 					FreePBX::create()->injectClass("Userman", $hint);
 				} catch(Exception $e) {}
 				$_SESSION['AMP_user'] = new ampuser($username,"usermanager");
-				if (!$_SESSION['AMP_user']->checkPassword(sha1($password))) {
+				if (!$_SESSION['AMP_user']->checkPassword($password)) {
 					unset($_SESSION['AMP_user']);
 					//Fall through to database only
 					//$no_auth = true;
@@ -63,7 +63,7 @@ if (!isset($_SESSION['AMP_user'])) {
 		default:
 			// not logged in, and have provided a user/pass
 			$_SESSION['AMP_user'] = new ampuser($username);
-			if (!$_SESSION['AMP_user']->checkPassword(sha1($password))) {
+			if (!$_SESSION['AMP_user']->checkPassword($password)) {
 				// failed, one last chance -- fallback to amportal.conf db admin user
 				if ($amp_conf['AMP_ACCESS_DB_CREDS'] && $username == $amp_conf['AMPDBUSER'] && $password == $amp_conf['AMPDBPASS']) {
 					// password succesfully matched amportal.conf db admin user, set admin access
