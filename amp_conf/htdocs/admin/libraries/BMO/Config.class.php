@@ -31,7 +31,7 @@ class Config {
 			// code across to here and tidy it up.
 			return call_user_func_array(array($this->freepbx_conf, $cmd),  $args);
 		}
-		throw new Exception("Unknown function ".$cmd);
+		throw new \Exception("Unknown function ".$cmd);
 	}
 	public function __get($var) { return $this->autoload($var); }
 	public function __call($var, $args) { return $this->autoload($var, $args); }
