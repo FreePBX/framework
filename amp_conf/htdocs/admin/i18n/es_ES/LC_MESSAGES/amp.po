@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-10 12:55+0200\n"
-"PO-Revision-Date: 2015-04-15 21:48+0200\n"
+"PO-Revision-Date: 2015-04-16 00:22+0200\n"
 "Last-Translator: Daver <daverjorge46@gmail.com>\n"
 "Language-Team: Spanish "
 "<http://weblate.freepbx.org/projects/freepbx/framework/es_ES/>\n"
@@ -6212,267 +6212,348 @@ msgstr ""
 
 #: amp.i18n.php:716
 msgid "Settings"
-msgstr ""
+msgstr "Configuraciones"
 
 #: ../core/views/trunks/trunk_header.php:247
 #: ../core/views/trunks/trunk_header.php:255
 msgid "Setup directory assistance"
-msgstr ""
+msgstr "Configuración Directorio Asistencia"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:11
 msgid "Severity"
-msgstr ""
+msgstr "Severidad"
 
 #: amp.i18n.php:424
 msgid "Show Language setting"
-msgstr ""
+msgstr "Mostrar Configuración Idioma"
 
 #: amp.i18n.php:426
 msgid "Show Language setting on menu . Defaults = false"
 msgstr ""
+"Mostrar configuración de idioma en el menú. Valores predeterminados = false"
 
 #: amp.i18n.php:168
 msgid "Show all Device Setting on Add"
-msgstr ""
+msgstr "Mostrar Todas las Configuraciónlos de Dispositivo en Agregar"
 
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:32
 msgid "Show only upgradeable"
-msgstr ""
+msgstr "Mostrar sólo actualizable"
 
 #: ../core/page.did.php:241
 msgid "Signal RINGING"
-msgstr ""
+msgstr "Señal RINGING"
 
 #: ../core/install.php:11
 msgid "Simulate Incoming Call"
-msgstr ""
+msgstr "Simular Llamada Entrante"
 
 #: amp.i18n.php:218
 msgid "Some carriers will reject a call if a CallerID Name (CNAM) is presented. This occurs in several areas when configuring CID on the PBX using the format of 'CNAM' <CNUM>. To remove the CNAM part of CID on all external trunks, set this value to true. This WILL NOT remove CNAM when a trunk is called from an Intra-Company route. This can be done on each individual trunk in addition to globally if there are trunks where it is desirable to keep CNAM information, though most carriers ignore CNAM."
 msgstr ""
+"Algunos proveedores rechazarán una llamada, si se presenta un CallerID (CNAM)"
+". Esto ocurre en varias áreas al configurar un CID en la PBX utilizando el "
+"formato de 'CNAM' <CNUM>. Para quitar la parte CNAM del CID en todas las "
+"líneas externas, ajuste este valor a verdadero. Esto No eliminará CNAM "
+"cuando una línea se llama desde una ruta dentro de una empresa. Esto se "
+"puede hacer en cada línea individual  y además globalmente si hay líneas "
+"donde es deseable mantener la información CNAM, aunque la mayoría de los "
+"proveedores ignoran CNAM."
 
 #: ../core/page.did.php:241
 msgid "Some devices or providers require RINGING to be sent before ANSWER. You'll notice this happening if you can send calls directly to a phone, but if you send it to an IVR, it won't connect the call."
 msgstr ""
+"Algunos dispositivos o proveedores requieren un RINGING para ser enviado "
+"antes DESCOLGAR. Se dará cuenta de que esto ocurre si usted puede enviar "
+"llamadas directamente a un teléfono, pero si lo envía a un IVR, no puede "
+"conectar la llamada."
 
 #: amp.i18n.php:302
 msgid "Some modules allow the CNAM to be prepended. If a previous prepend was done, the default behavior is to remove the previous prepend and only use the most recent one. Setting this to false will turn that off allowing all prepends to be 'starcked' in front of one another."
 msgstr ""
+"Algunos módulos permiten que se anteponga  el CNAM. Si se hizo un prefijo "
+"anterior, el comportamiento predeterminado es eliminar el prefijo anterior y "
+"sólo usar el más reciente. Establecer esto a falso apagará esto permitiendo "
+"que todos los prefijos sean 'apilados' en frente uno de otro."
 
 #: amp.i18n.php:294
 msgid "Some modules will generate lots of NoOp() commands proceeded by a [TRACE](trace_level) that can be used during development or while trying to trace call flows. These NoOp() commands serve no other purpose so if you do not want to see excessive NoOp()s in your dialplan you can set this to 0. The higher the number the more detailed level of trace NoOp()s will be generated"
 msgstr ""
+"Algunos módulos generan gran cantidad de comandos NoOp() precedido por un "
+"[TRACE](trace_level) que se puede utilizar durante el desarrollo o al tratar "
+"de rastrear los flujos de llamadas. Estos comandos NoOp() no sirven a ningún "
+"otro propósito por lo que si usted no quiere ver la excesiva cantidad  de "
+"NoOp()s en el plan de marcación se puede establecer a 0. Cuanto mayor sea el "
+"número del nivel más detallado será la traza NoOp()s generada"
 
 #: ../core/page.advancedsettings.php:42
 msgid "Some of these settings can render your system inoperable. You are urged to backup before making any changes. Readonly settings are usually more volatile, they can be changed by changing 'Override Readonly Settings' to true. Once changed you must save the setting by checking the green check box that appears. You can restore the default setting by clicking on the icon to the right of the values if not set at default."
 msgstr ""
+"Algunos de estos ajustes pueden hacer que su sistema no funcione. Se le "
+"recomienda hacer copias de seguridad antes de hacer cambios. Las "
+"configuración de sólo lectura suelen ser más volátiles, pueden ser "
+"modificadas cambiando a verdadero el 'Ajustes Reemplazao Sólo Lectura'. Una "
+"vez cambiado usted debe guardar la configuración marcando la casilla de "
+"verificación verde que aparece. Puede restaurar la configuración "
+"predeterminada, haga clic en el icono a la derecha de los valores si no se "
+"establece en el valor predeterminado."
 
 #: amp_conf/htdocs/admin/views/menu.php:154
 msgid "Spanish"
-msgstr ""
+msgstr "Español"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1214
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1243
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1308
 msgid "Specified module not found"
-msgstr ""
+msgstr "Módulo especificado no encontrado"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:43
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: amp.i18n.php:106
 msgid "Stops the automatic generation of a stripped CSS file that replaces the primary sheet, usually mainstyle.css."
 msgstr ""
+"Detiene la generación automática de un archivo CSS que reemplaza la hoja "
+"primaria, por lo general mainstyle.css."
 
 #: amp.i18n.php:490
 msgid "Styling and Logos"
-msgstr ""
+msgstr "Logos y Estilos"
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:399
 #: ../core/page.did.php:298
 msgid "Submit"
-msgstr ""
+msgstr "Enviar"
 
 #: ../core/page.ampusers.php:250 ../core/page.dahdichandids.php:95
 #: ../core/page.routing.php:765 ../core/page.trunks.php:1002
 msgid "Submit Changes"
-msgstr ""
+msgstr "Enviar Cambios"
 
 #: amp_conf/htdocs/admin/functions.inc.php:410
 msgid "Successful reload, but could not clear reload flag due to a database error: "
 msgstr ""
+"Recarga Exitosa, pero no se pudo limpiar la bandera de recarga debido a un "
+"error de base de datos: "
 
 #: amp_conf/htdocs/admin/functions.inc.php:403
 msgid "Successfully reloaded"
-msgstr ""
+msgstr "Recargado con Exito"
 
 #: amp_conf/htdocs/admin/views/menu.php:153
 msgid "Swedish"
-msgstr ""
+msgstr "Sueco"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:355
 #, php-format
 msgid "Switch to Stable and Download and Install %s"
-msgstr ""
+msgstr "Cambie a Estable y Descarge e Instalar %s"
 
 #: amp_conf/htdocs/admin/views/menu.php:50
 msgid "Syntax error in your freepbx_menu.conf file"
-msgstr ""
+msgstr "Error de sintaxis en el archivo freepbx_menu.conf"
 
 #: amp.i18n.php:528
 msgid "System Apps"
-msgstr ""
+msgstr "Aplicaciones Sistema"
 
 #: amp.i18n.php:634
 msgid "System Asterisk Group"
-msgstr ""
+msgstr "Grupo Sistema Asterisk"
 
 #: amp.i18n.php:638
 msgid "System Asterisk User"
-msgstr ""
+msgstr "Usuario Sistema Asterisk"
 
 #: amp.i18n.php:642
 msgid "System Device Group"
-msgstr ""
+msgstr "Grupo Sistema Dispositivo"
 
 #: amp.i18n.php:646
 msgid "System Device User"
-msgstr ""
+msgstr "Usuario Sistema Dispositivo"
 
 #: amp.i18n.php:554
 msgid "System Setup"
-msgstr ""
+msgstr "Configuración del sistema"
 
 #: amp.i18n.php:650
 msgid "System Web Group"
-msgstr ""
+msgstr "Grupo Sistema Web"
 
 #: amp.i18n.php:654
 msgid "System Web User"
-msgstr ""
+msgstr "Usuario Sistema Web"
 
 #: ../core/functions.inc.php:7110
 msgid "TCP Only"
-msgstr ""
+msgstr "Sólo TCP"
 
 #: ../core/functions.inc.php:7111
 msgid "TLS Only"
-msgstr ""
+msgstr "Sólo TLS"
 
 #: amp.i18n.php:658
 msgid "Telephony Engine"
-msgstr ""
+msgstr "Motor de Telefonía"
 
 #: ../core/functions.inc.php:795
 msgid "Terminate Call"
-msgstr ""
+msgstr "Terminar llamada"
 
 #: amp.i18n.php:314
 msgid "The Asterisk channel driver to use for SIP. The default is both for Asterisk 12 and higher. For Asterisk 11 and lower the default will be chan_sip. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The chan_pjsip channel driver is considered "
 msgstr ""
+"El controlador del canal de Asterisk a utilizar para SIP. El valor "
+"predeterminado es tanto para Asterisk 12 como superior. Para Asterisk 11 y "
+"versiones mas bajas el valor predeterminado será chan_sip. Si sólo uno se "
+"compila en asterisk, FreePBX detectará automáticamente y cambiará este valor "
+"si se está mal ajustado. El controlador del canal chan_pjsip es considerado "
 
 #: ../core/functions.inc.php:6597
 msgid "The CID Number to use for internal calls, if different from the extension number. This is used to masquerade as a different user. A common example is a team of support people who would like their internal CallerID to display the general support number (a ringgroup or queue). There will be no effect on external calls."
 msgstr ""
+"El número CID a utilizar para las llamadas internas, si es diferente del "
+"número de extensión. Esto se utiliza para hacerse pasar como un usuario "
+"diferente. Un ejemplo común es un equipo de personas de apoyo que le "
+"gustaría que su identificador de llamadas internas mostrara el número de "
+"asistencia general (un grupo de timbre o cola). No habrá efecto en las "
+"llamadas externas."
 
 #: ../core/functions.inc.php:1045
 msgid "The Call Recording module is not enabled. Since this feature is required for call recording you may not be able to record calls until the module is installed and enabled."
 msgstr ""
+"El módulo de grabación de llamadas no está habilitado. Dado que esta función "
+"es necesaria para la grabación de llamadas es posible que no pueda grabar "
+"las llamadas hasta que se instale el módulo y lo habilite."
 
 #: ../core/functions.inc.php:6595
 msgid "The CallerID name for calls from this user will be set to this name. Only enter the name, NOT the number."
 msgstr ""
+"El nombre del identificador de llamadas(CallerID) para las llamadas de este "
+"usuario se establecerá en este nombre. Sólo introduzca el nombre, NO el "
+"número."
 
 #: ../core/functions.inc.php:7363
 msgid "The CallerID name for this device will be set to this description until it is logged into."
 msgstr ""
+"El nombre de identificación de llamadas (CallerID) para este dispositivo se "
+"ajustará a esta descripción hasta que se registra en."
 
 #: amp_conf/htdocs/admin/page.modules.php:1080
 msgid "The Commercial repository is reserved for modules that are available for purchase and commercially supported."
 msgstr ""
+"El repositorio comercial está reservado para los módulos que están "
+"disponibles para compra y soporte comercial."
 
 #: ../core/page.dahdichandids.php:79
 msgid "The DAHDI Channel number to map to a DID"
-msgstr ""
+msgstr "El número de Canal DAHDI a mapeaer a un DID"
 
 #: ../core/functions.inc.php:6870
 msgid "The DAHDi channel number for this port."
-msgstr ""
+msgstr "El número de canal DAHDi para este puerto."
 
 #: ../core/page.dahdichandids.php:90
 msgid "The DID that this channel represents. The incoming call on this channel will be treated as if it came in with this DID and can be managed with Inbound Routing on DIDs"
 msgstr ""
+"El DID que este canal representa. La llamada entrante en este canal será "
+"tratada como si entrrara con este DID y se puede manejar con Rutas Entrantes "
+"en DIDs"
 
 #: ../core/functions.inc.php:7021
 msgid "The DTMF signaling mode used by this device, usually RFC for most phones."
 msgstr ""
+"El modo de señalización de tonos DTMF utilizado por este dispositivo, por lo "
+"general RFC para la mayoría de los teléfonos."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1010
 #, php-format
 msgid "The File \"%s\" must exist."
-msgstr ""
+msgstr "El archivo \"%s\" debe existir."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:980
 #, php-format
 msgid "The Module Named \"%s\" is required, but yours is broken. You should reinstall it and try again."
 msgstr ""
+"El Módulo denominado \"%s\" es necesario, pero el suyo está roto. Usted debe "
+"volver a instalarlo y vuelva a intentarlo."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:988
 #, php-format
 msgid "The Module Named \"%s\" is required, but yours is disabled because it needs to be upgraded. Please upgrade %s first, and then try again."
 msgstr ""
+"El Módulo denominado \"%s\" es necesario, pero el suyo está desactivado "
+"porque necesita ser actualizado. Por favor, actualice %s primero, y luego "
+"vuelva a intentarlo."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:984
 #, php-format
 msgid "The Module Named \"%s\" is required, but yours is disabled."
 msgstr ""
+"El Módulo denominado \"%s\" es necesario, pero el suyo está desactivado."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:993
 #, php-format
 msgid "The Module Named \"%s\" is required, yours is not installed."
-msgstr ""
+msgstr "Se Módulo denominado \"%s\" es requerido, el suyo no está instalado."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:999
 #, php-format
 msgid "The Module Named \"%s\" is required."
-msgstr ""
+msgstr "El Módulo denominado \"%s\" es requerido."
 
 #: ../core/views/trunks/trunk_footer.php:155
 msgid "The Outbound Dial Prefix contains non-standard characters. If these are intentional the press OK to continue."
 msgstr ""
+"El Prefijo de salida contiene caracteres no estándar. Si éstos son "
+"intencionales presione en OK para continuar."
 
 #: ../core/views/trunks/pjsip.php:130
 msgid "The Transport to use for connection"
-msgstr ""
+msgstr "El transporte a utilizar para la conexión"
 
 #: ../core/page.routing.php:676
 msgid "The Trunk Sequence controls the order of trunks that will be used when the above Dial Patterns are matched. <br><br>For Dial Patterns that match long distance numbers, for example, you'd want to pick the cheapest routes for long distance (ie, VoIP trunks first) followed by more expensive routes (POTS lines)."
 msgstr ""
+"La Secuencia de Línea controla el orden de los líneas que se utilizarán "
+"cuando los Patrones de Marcación anteriores que coinciden. <br><br>Para "
+"Patrones de Marcación que coinciden con los números de larga distancia, por "
+"ejemplo, usted quiere recoger las rutas más baratas de larga distancia (es "
+"decir, las líneas de VoIP primero), seguido de las rutas más caras (líneas "
+"POTS)."
 
 #: ../core/functions.inc.php:6823
 msgid "The Zap channel number for this port."
-msgstr ""
+msgstr "El número de canal Zap para este puerto."
 
 #: amp.i18n.php:230
 msgid "The asterisk application to use for conferencing. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The app_confbridge application is considered "
 msgstr ""
+"La aplicación asterisk a utilizar para conferencias. Si sólo uno es "
+"compilado en asterisk, FreePBX detectará automáticamente y cambiará este "
+"valor si se ajusta mal. La aplicación app_confbridge será considerada "
 
 #: amp.i18n.php:612
 msgid "The default language used in the webUI"
-msgstr ""
+msgstr "El idioma por defecto utilizado en la webUI"
 
 #: ../core/page.routing.php:562
 msgid "The dialed number will be compared against the  prefix + this match pattern. Upon a match, the match pattern portion of the dialed number will be sent to the trunks"
 msgstr ""
+"El número marcado se compara con el prefijo + este patrón de coincidencia. "
+"Tras una coincidencia, la parte del patrón de coincidencia del número "
+"marcado será enviado a las líneas"
 
 #: ../core/functions.inc.php:7092
 msgid "The extension number to dial to reach this user."
-msgstr ""
+msgstr "El número de extensión que debe marcar para llegar a este usuario."
 
 #: amp_conf/htdocs/admin/libraries/cronmanager.class.php:157
 msgid "The following commands failed with the listed error"
-msgstr ""
+msgstr "Los siguientes comandos han fallado con el error de la lista"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:738
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:748
@@ -6484,184 +6565,256 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:821
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:831
 msgid "The following error(s) occured:"
-msgstr ""
+msgstr "El error(s) siguiente ha ocurrido:"
 
 #: amp_conf/htdocs/admin/page.modules.php:620
 #, php-format
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr ""
+"Se ha producido el siguiente error(s) al procesar el archivo cargado: %s"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1764
 msgid "The following modules are disabled because they are broken:"
-msgstr ""
+msgstr "Los siguientes módulos están deshabilitados porque están rotos:"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1756
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr ""
+"Los siguientes módulos están deshabilitados porque necesitan ser "
+"actualizados:"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:221
 msgid "The following new modules are available for download. Click delete icon on the right to remove this notice."
 msgstr ""
+"Los siguientes nuevos módulos están disponibles para su descarga. Haga clic "
+"en Eliminar icono de la derecha para eliminar este aviso."
 
 #: amp.i18n.php:364
 msgid "The location for Asterisk Certificates"
-msgstr ""
+msgstr "La ubicación de los Certificados de Asterisk"
 
 #: ../core/views/trunks/trunk_header.php:398
 msgid "The outbound dialing prefix is used to prefix a dialing string to all outbound calls placed on this trunk. For example, if this trunk is behind another PBX or is a Centrex line, then you would put 9 here to access an outbound line. Another common use is to prefix calls with 'w' on a POTS line that need time to obtain dial tone to avoid eating digits.<br><br>Most users should leave this option blank."
 msgstr ""
+"El prefijo de marcación saliente se usa como prefijo para una cadena de "
+"marcado para todas las llamadas salientes colocados en esta línea. Por "
+"ejemplo, si esta línea está detrás de otro PBX o una línea Centrex, entonces "
+"usted pondría 9 aquí para acceder a una línea de salida. Otro uso común es "
+"prefijo llamadas con 'w' en una línea POTS que necesitan tiempo para obtener "
+"tono de marcado para evitar comerse los dígitos. <br><br>La mayoría de los "
+"usuarios deberían dejar esta opción en blanco."
 
 #: amp.i18n.php:368
 msgid "The path to Apache cgi-bin dir (leave off trailing slash)."
-msgstr ""
+msgstr "La ruta al directorio Apache cgi-bin (dejar fuera la barra diagonal)."
 
 #: amp.i18n.php:380
 msgid "The path to Apache webroot (leave off trailing slash)."
-msgstr ""
+msgstr "La ruta a Apache webroot (dejar fuera la barra diagonal)."
 
 #: amp.i18n.php:550
 msgid "The path to cp as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"La ruta a cp como  auto-determined por el sistema. Sobrescribir cuando sea "
+"necesario."
 
 #: amp.i18n.php:554
 msgid "The path to grep as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"El camino a grep como auto-determined por el sistema. Sobrescribir cuando "
+"sea necesario."
 
 #: amp.i18n.php:530
 msgid "The path to gs as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"El camino a gs como auto-determined por el sistema. Sobrescribir cuando sea "
+"necesario."
 
 #: amp.i18n.php:558
 msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"El camino a la ifconfig como auto-determined por el sistema. Sobrescribir "
+"cuando sea necesario."
 
 #: amp.i18n.php:562
 msgid "The path to mysqldump as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"El camino a la mysqldump como auto-determined por el sistema. Sobrescribir "
+"cuando sea necesario."
 
 #: amp.i18n.php:534
 msgid "The path to openssl as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"El camino a openssl como auto-determined por el sistema. Sobrescribir cuando "
+"sea necesario."
 
 #: amp.i18n.php:570
 msgid "The path to rm as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"El camino a rm como auto-determined por el sistema. Sobrescribir cuando sea "
+"necesario."
 
 #: amp.i18n.php:538
 msgid "The path to route as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"El camino a la ruta como auto-determined por el sistema. Sobrescribir cuando "
+"sea necesario."
 
 #: amp.i18n.php:578
 msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"La ruta a ssh como auto-determined por el sistema. Sobrescribir cuando sea "
+"necesario."
 
 #: amp.i18n.php:582
 msgid "The path to tail as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"El camino a tail como auto-determined por el sistema. Sobrescribir cuando "
+"sea necesario."
 
 #: amp.i18n.php:586
 msgid "The path to tar as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"El camino a tar como auto-determined por el sistema. Sobrescribir cuando sea "
+"necesario."
 
 #: amp.i18n.php:542
 msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"El camino a tiff2pdf como auto-determined por el sistema. Sobrescribir "
+"cuando sea necesario."
 
 #: amp.i18n.php:546
 msgid "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"El camino a tiffcp como auto-determined por el sistema. Sobrescribir cuando "
+"sea necesario."
 
 #: amp.i18n.php:550
 msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"El camino a tiffinfo como auto-determined por el sistema. Sobrescribir "
+"cuando sea necesario."
 
 #: amp.i18n.php:590
 msgid "The path to touch as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"El camino a touch como auto-determined por el sistema. Sobrescribir cuando "
+"sea necesario."
 
 #: amp.i18n.php:594
 msgid "The path to wc as auto-determined by the system. Overwrite as necessary."
 msgstr ""
+"El camino a wc como auto-determined por el sistema. Sobrescribir cuando sea "
+"necesario."
 
 #: amp_conf/htdocs/admin/views/footer.php:97
 msgid "The secret must be at minimum six characters in length."
-msgstr ""
+msgstr "El secreto debe ser como mínimo de seis caracteres de longitud."
 
 #: amp_conf/htdocs/admin/views/footer.php:98
 msgid "The secret must contain at least two numbers and two letters."
-msgstr ""
+msgstr "El secreto debe contener al menos dos números y dos letras."
 
 #: amp_conf/htdocs/admin/views/noaccess.php:4
 msgid "The section you requested does not exist or you do not have access to it."
-msgstr ""
+msgstr "La sección que ha solicitado no existe o no tiene acceso a ella."
 
 #: amp_conf/htdocs/admin/views/bad_refferer.php:18
 msgid "The suspect URL is listed below. If this action is intended, you can click this link and your action will be processed. Do not proceed with this if you did not intended to execute this command as it may result in changes to your configuration."
 msgstr ""
+"La URL sospechosa se encuentra a continuación. Si esta acción es "
+"intensionada, puede hacer clic en este enlace y será procesada su acción. No "
+"continúe con esto si no tiene intención de ejecutar este comando, ya que "
+"puede dar lugar a cambios en la configuración."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2809
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:524
 #, php-format
 msgid "The system detected a problem trying to access external server data and changed internal setting %s (Use wget For Module Admin) to true, see the tooltip in Advanced Settings for more details."
 msgstr ""
+"El sistema ha detectado un problema al intentar acceder a los datos del "
+"servidor externo y ha cambiado el ajuste interno %s (Use wget para Módulo de "
+"Administración) a verdadero, consulte la información en Configuración "
+"Avanzada para obtener más detalles."
 
 #: amp.i18n.php:660
 msgid "The telephony backend engine being used, asterisk is the only option currently."
 msgstr ""
+"El motor de backend de telefonía que se utiliza, asterisk es la única opción "
+"actualmente."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1575
 msgid "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form"
 msgstr ""
+"El archivo subido excede la directiva MAX_FILE_SIZE que se especificó en el "
+"formulario HTML"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1572
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "El archivo subido excede la directiva upload_max_filesize en php.ini"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1578
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "El archivo subido se ha subido sólo parcialmente"
 
 #: amp.i18n.php:640
 msgid "The user Asterisk should be running as, used by freepbx_engine. Most systems should not change this."
 msgstr ""
+"El usuario Asterisk debe estar en ejecución como, utilizado por "
+"freepbx_engine. La mayoría de los sistemas no deberían cambiar esto."
 
 #: amp.i18n.php:636
 msgid "The user group Asterisk should be running as, used by freepbx_engine. Most systems should not change this."
 msgstr ""
+"El grupo de usuarios Asterisk debe estar en ejecución como, utilizado por "
+"freepbx_engine. La mayoría de los sistemas no deberían cambiar esto."
 
 #: amp.i18n.php:644
 msgid "The user group that various device directories should be set to, used by freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/mISDN and /dev/dsp. Most systems should not change this."
 msgstr ""
+"El grupo de usuarios que varios directorios de dispositivos se debe "
+"establecerse en, utilizado por freepbx_engine. Algunos ejemplos son /dev/"
+"zap, /dev/dahdi, /dev/misdn, /dev/mISDN y /dev/dsp. La mayoría de los "
+"sistemas no deberían cambiar esto."
 
 #: amp.i18n.php:652
 msgid "The user group your httpd should be running as, used by freepbx_engine. Most systems should not change this."
 msgstr ""
+"El grupo de usuarios de su httpd debe estar en ejecución como, utilizado por "
+"freepbx_engine. La mayoría de los sistemas no deberían cambiar esto."
 
 #: amp.i18n.php:648
 msgid "The user that various device directories should be set to, used by freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/mISDN and /dev/dsp. Most systems should not change this."
 msgstr ""
+"El usuario que varios directorios de dispositivos deben establecer en, "
+"utilizado por freepbx_engine. Algunos ejemplos son /dev/zap, /dev/dahdi, "
+"/dev/misdn, /dev/mISDN y /dev/dsp. La mayoría de los sistemas no deberían "
+"cambiar esto."
 
 #: amp.i18n.php:656
 msgid "The user your httpd should be running as, used by freepbx_engine. Most systems should not change this."
 msgstr ""
+"El usuario de su httpd debe estar en ejecución como, utilizado por "
+"freepbx_engine. La mayoría de los sistemas no deberían cambiar esto."
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:269
 #, php-format
 msgid "There are %s modules available for online upgrades"
-msgstr ""
+msgstr "Hay %s módulos disponibles para actualizaciones en línea"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:406
 #, php-format
 msgid "There are %s modules vulnerable to security threats"
-msgstr ""
+msgstr "Hay %s módulos vulnerables a las amenazas de seguridad"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:267
 msgid "There is 1 module available for online upgrade"
-msgstr ""
+msgstr "Hay 1 módulo disponible para la actualización en línea"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:404
 msgid "There is 1 module vulnerable to security threats"
-msgstr ""
+msgstr "Hay 1 módulo vulnerables a las amenazas de seguridad"
 
 #: amp_conf/htdocs/admin/views/welcome.php:67
 #, php-format
@@ -6669,23 +6822,39 @@ msgid ""
 "There is also a community based <a href='%s' target='_new'>FreePBX Web Forum</a> where you can post\n"
 "questions and search for answers for any problems you may be having."
 msgstr ""
+"También hay una comunidad <a href='%s' target='_new'>FreePBX Web Forum</a> "
+"donde se puede postear↵\n"
+"preguntas y la buscar respuestas para cualquier problema que pueda tener."
 
 #: ../core/install.php:185
 #, php-format
 msgid "There were %s failures migrating directdids, users table not being changed"
 msgstr ""
+"Había %s fallos migrando directdids, tabla de usuarios no se ha cambiando"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:147
 msgid "There were no settings to update"
-msgstr ""
+msgstr "No hubo ajustes para actualizar"
 
 #: ../core/page.routing.php:574
 msgid "These options provide a quick way to add outbound dialing rules. Follow the prompts for each."
 msgstr ""
+"Estas opciones proporcionan una manera rápida de agregar reglas de marcación "
+"de salida. Siga las indicaciones para cada uno."
 
 #: ../core/views/trunks/trunk_header.php:160
 msgid "These rules can manipulate the dialed number before sending it out this trunk. If no rule applies, the number is not changed. The original dialed number is passed down from the route where some manipulation may have already occurred. This trunk has the option to further manipulate the number. If the number matches the combined values in the <b>prefix</b> plus the <b>match pattern</b> boxes, the rule will be applied and all subsequent rules ignored.<br/> Upon a match, the <b>prefix</b>, if defined, will be stripped. Next the <b>prepend</b> will be inserted in front of the <b>match pattern</b> and the resulting number will be sent to the trunk. All fields are optional."
 msgstr ""
+"Estas reglas pueden manipular el número marcado antes de enviarlo a esta "
+"línea. Si no se aplica ninguna regla, no se cambia el número. El número "
+"marcado original se transmite de la ruta, donde ya puede haber ocurrido "
+"algún tipo de manipulación. Esta línea tiene la opción de manipular aún más "
+"el número. Si el número coincide con los valores combinados en las cajas  "
+"<b>prefijo</b> más <b>patrón de coincidencia</b>, la regla se aplicará y "
+"todas las reglas posteriores serán ignoradas.<br/> Tras una coincidencia, el "
+"<b>prefijo</b>, si está definido, será eliminado. A continuación, el "
+"<b>anteponer</b> se insertará delante del <b>patrón de coincidencia</b> y el "
+"número resultante se envía a la línea. Todos los campos son opcionales."
 
 #: ../core/functions.inc.php:7364 ../core/functions.inc.php:7369
 msgid "This CallerID will always be set when dialing out an Outbound Route flagged as Emergency.  The Emergency CID overrides all other CallerID settings."
