@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-10 12:55+0200\n"
-"PO-Revision-Date: 2015-04-15 09:54+0200\n"
+"PO-Revision-Date: 2015-04-15 21:48+0200\n"
 "Last-Translator: Daver <daverjorge46@gmail.com>\n"
 "Language-Team: Spanish "
 "<http://weblate.freepbx.org/projects/freepbx/framework/es_ES/>\n"
@@ -3695,7 +3695,6 @@ msgstr ""
 "para más detalles."
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:5
-#, fuzzy
 msgid "ID"
 msgstr "ID"
 
@@ -3717,6 +3716,12 @@ msgstr ""
 #: ../core/page.routing.php:563
 msgid "If CallerID is supplied, the dialed number will only match the prefix + match pattern if the CallerID being transmitted matches this. When extensions make outbound calls, the CallerID will be their extension number and NOT their Outbound CID. The above special matching sequences can be used for CallerID matching similar to other number matches."
 msgstr ""
+"Si el CallerID es suministrado, el número marcado sólo coincidirá con el "
+"prefijo + patrón de coincidencia si el identificador de llamadas coincide "
+"con este. Cuando las extensiones hagan llamadas salientes, el identificador "
+"de llamadas será su número de extensión y NO su CID de salida. Las "
+"secuencias especiales que coinciden con las  anteriores se pueden utilizar "
+"para adaptar el CallerID a otro número coincidente."
 
 #: amp.i18n.php:262
 msgid "If Ditech's VQA, Voice Quality application is installed, this setting will be used for all inbound calls. For more information 'core show application VQA' at the Asterisk CLI will show the different settings."
@@ -4217,7 +4222,7 @@ msgstr "Local 7/10 dígitos"
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:41
 msgid "Locally Choosen FreePBX module from your system"
-msgstr ""
+msgstr "Localmente Elegido módulo FreePBX de su sistema"
 
 #: amp.i18n.php:372
 msgid "Location of the FreePBX command line scripts."
@@ -5755,7 +5760,7 @@ msgstr "Eliminando campo %s de tabla de usuarios.."
 
 #: amp.i18n.php:416
 msgid "Report Unknown Dest as Error"
-msgstr ""
+msgstr "Informe Desconocido Dest como Error"
 
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:8
 msgid "Repositories"
@@ -5772,350 +5777,438 @@ msgstr "Requerir Secrets (contraseñas) fuertes"
 #: amp.i18n.php:156
 msgid "Requires a strong secret on SIP and IAX devices requiring at least two numeric and non-numeric characters and 6 or more characters. This can be disabled if using devices that can not meet these needs, or you prefer to put other constraints including more rigid constraints that this rule actually considers weak when it may not be."
 msgstr ""
+"Requiere un secreto fuerte en dispositivos SIP e IAX que requieren al menos "
+"dos caracteres numéricos y no numéricos y 6 o más caracteres. Esto se puede "
+"desactivar si se utilizan dispositivos que no pueden satisfacer estas "
+"necesidades, o si prefiere poner otras restricciones, incluyendo "
+"restricciones más rígidas que esta regla actual considerada débil cuando "
+"puede que no lo sea."
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:678
 #, php-format
 msgid "Requires engine %s, you have: %s"
-msgstr ""
+msgstr "Requiere motor %s, usted tiene: %s"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:680
 #, php-format
 msgid "Requires one of the following engines: %s; you have: %s"
-msgstr ""
+msgstr "Requiere uno de los siguientes motores: %s; Usted tiene: %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:681
 #: amp_conf/htdocs/admin/page.modules.php:997
 msgid "Reset"
-msgstr ""
+msgstr "Restaura"
 
 #: amp_conf/htdocs/admin/views/menuitem_disabled.php:4
 msgid "Restart Asterisk and then refresh the browser in order to try accessing this menu item again."
 msgstr ""
+"Reinicie Asterisk y vuelva a cargar el navegador con el fin de tratar de "
+"acceder a este elemento de menú otra vez."
 
 #: ../core/page.ampusers.php:187
 msgid "Restrict this user's view of Digital Receptionist menus and System Recordings to only those for this department."
 msgstr ""
+"Restringir la vista del usuario de los menús de Recepcionista Digital y "
+"Grabaciones del Sistema para sólo los de este departamento."
 
 #: ../core/page.ampusers.php:194
 msgid "Restrict this user's view to only Extensions, Ring Groups, and Queues within this range."
 msgstr ""
+"Restringir el punto de vista de este usuario sólo  a Extensiones, Grupos de "
+"Timbre, y Colas de Espera dentro de este rango."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1219
 msgid "Retrieved Module XML Was Empty"
-msgstr ""
+msgstr "Módulo XML Obtenido Estaba Vacío"
 
 #: amp_conf/htdocs/admin/views/footer.php:80
 msgid "Retry"
-msgstr ""
+msgstr "Reintentar"
 
 #: ../core/views/trunks/pjsip.php:25
 msgid "Retry Interval"
-msgstr ""
+msgstr "Intervalo de Reintento"
 
 #: amp_conf/htdocs/admin/page.modules.php:429
 #: amp_conf/htdocs/admin/page.modules.php:431
 msgid "Return"
-msgstr ""
+msgstr "Retorno"
 
 #: ../core/page.advancedsettings.php:144
 msgid "Revert to Default"
-msgstr ""
+msgstr "Revertir por Defecto"
 
 #: ../core/functions.inc.php:7188
 msgid "Rewrite Contact"
-msgstr ""
+msgstr "Reescribir Contacto"
 
 #: ../core/functions.inc.php:6634
 msgid "Ring Time"
-msgstr ""
+msgstr "Tiempo de Timbre"
 
 #: amp.i18n.php:308
 msgid "Ringtime Default"
-msgstr ""
+msgstr "Tiempo de Timbre por Defecto"
 
 #: amp_conf/htdocs/admin/page.modules.php:233
 #, php-format
 msgid "Rolling back %s to %s"
-msgstr ""
+msgstr "Revertir %s a %s"
 
 #: ../core/page.did.php:140 ../core/page.trunks.php:425
 msgid "Route"
-msgstr ""
+msgstr "Ruta"
 
 #: ../core/page.routing.php:449
 msgid "Route CID"
-msgstr ""
+msgstr "Ruta CID"
 
 #: ../core/page.routing.php:402
 msgid "Route Name"
-msgstr ""
+msgstr "Nombre de Ruta"
 
 #: ../core/page.routing.php:418
 msgid "Route Password"
-msgstr ""
+msgstr "Contraseña de Ruta"
 
 #: ../core/page.routing.php:500
 msgid "Route Position"
-msgstr ""
+msgstr "Posición de Ruta"
 
 #: ../core/page.routing.php:436
 msgid "Route Settings"
-msgstr ""
+msgstr "Configuraciones de Ruta"
 
 #: ../core/page.routing.php:462
 msgid "Route Type"
-msgstr ""
+msgstr "Tipo de Ruta"
 
 #: ../core/page.routing.php:840
 msgid "Route name is invalid, please try again"
-msgstr ""
+msgstr "Nombre de la ruta no es válido, por favor intente de nuevo"
 
 #: ../core/page.routing.php:841
 msgid "Route password must be numeric or leave blank to disable"
 msgstr ""
+"Contraseña de la ruta debe ser numérico o dejar en blanco para inhabilitar"
 
 #: ../core/page.routing.php:497 ../core/page.trunks.php:611
 msgid "Rules:"
-msgstr ""
+msgstr "Reglas:"
 
 #: amp_conf/htdocs/admin/views/menu.php:152
 msgid "Russian"
-msgstr ""
+msgstr "Ruso"
 
 #: ../core/page.trunks.php:400 ../core/page.trunks.php:401
-#, php-format
+#, fuzzy, php-format
 msgid "SIP (%s)"
-msgstr ""
+msgstr "SIP (%s)"
 
 #: ../core/functions.inc.php:7131
 msgid "SIP Alias"
-msgstr ""
+msgstr "Alias SIP"
 
 #: amp.i18n.php:312
 msgid "SIP Channel Driver"
-msgstr ""
+msgstr "Controlador Canal SIP"
 
 #: ../core/functions.inc.php:7016
 msgid "SIP INFO (application/dtmf)"
-msgstr ""
+msgstr "INFO SIP (aplicación/dtmf)"
 
 #: ../core/functions.inc.php:7019
 msgid "SIP INFO (application/dtmf-relay)"
-msgstr ""
+msgstr "INFO SIP (aplicación/dtmf-relay)"
 
 #: ../core/views/trunks/pjsip.php:74
 msgid "SIP Server"
-msgstr ""
+msgstr "Servidor SIP"
 
 #: ../core/views/trunks/pjsip.php:74
 msgid "SIP Server Address."
-msgstr ""
+msgstr "Dirección Servidor SIP."
 
 #: ../core/views/trunks/pjsip.php:81
 msgid "SIP Server Port"
-msgstr ""
+msgstr "Puerto Servidor SIP"
 
 #: ../core/views/trunks/pjsip.php:81
 msgid "SIP Server Port."
-msgstr ""
+msgstr "Puerto Servidor SIP."
 
 #: ../core/views/trunks/pjsip.php:95
 msgid "SIP URI of the server to register against"
-msgstr ""
+msgstr "SIP URI del servidor para registrar contra"
 
 #: amp.i18n.php:198
 msgid "SIP and DAHDi callgroup"
-msgstr ""
+msgstr "Grupo de Llamada SIP y DAHDi"
 
 #: amp.i18n.php:202
 msgid "SIP and DAHDi pickupgroup"
-msgstr ""
+msgstr "Grupo de Captura SIP y DAHDi"
 
 #: amp.i18n.php:190
 msgid "SIP and IAX allow"
-msgstr ""
+msgstr "Habilitar SIP e IAX"
 
 #: amp.i18n.php:194
 msgid "SIP and IAX disallow"
-msgstr ""
+msgstr "Dshabilitar SIP e IAX"
 
 #: amp.i18n.php:186
 msgid "SIP and IAX qualify"
-msgstr ""
+msgstr "SIP e IAX qualify"
 
 #: amp.i18n.php:162
 msgid "SIP canrenivite (directmedia)"
-msgstr ""
+msgstr "Canreinvite SIP (directmedia)"
 
 #: amp.i18n.php:178
 msgid "SIP encryption"
-msgstr ""
+msgstr "cifrado SIP"
 
 #: amp.i18n.php:174
 msgid "SIP nat"
-msgstr ""
+msgstr "Nat SIP"
 
 #: amp.i18n.php:182
+#, fuzzy
 msgid "SIP qualifyfreq"
-msgstr ""
+msgstr "SIP qualifyfreq"
 
 #: amp.i18n.php:170
+#, fuzzy
 msgid "SIP sendrpid"
-msgstr ""
+msgstr "SIP sendrpid"
 
 #: amp.i18n.php:166
+#, fuzzy
 msgid "SIP trustrpid"
-msgstr ""
+msgstr "SIP trustrpid"
 
 #: amp_conf/htdocs/admin/views/bad_refferer.php:19
 msgid "SUSPECT LINK:"
-msgstr ""
+msgstr "ENLACE SOSPECHOSO:"
 
 #: amp_conf/htdocs/admin/views/footer.php:86
 #: ../core/page.advancedsettings.php:150
 msgid "Save"
-msgstr ""
+msgstr "Guardar"
 
 #: ../core/functions.inc.php:6427
 msgid "Screen Caller: Memory"
-msgstr ""
+msgstr "Filtrado Llamante: Memoria"
 
 #: ../core/functions.inc.php:6426
 msgid "Screen Caller: No Memory"
-msgstr ""
+msgstr "Filtrado llamate: no Memoria"
 
 #: ../core/views/trunks/pjsip.php:67
 msgid "Secret"
-msgstr ""
+msgstr "Secreto"
 
 #: amp_conf/htdocs/admin/views/welcome.php:10
 msgid "Security"
-msgstr ""
+msgstr "Seguridad"
 
 #: amp_conf/htdocs/admin/views/footer.php:89
 msgid "Security Issue"
-msgstr ""
+msgstr "Asunto de Seguridad"
 
 #: amp_conf/htdocs/admin/config.php:480 amp_conf/htdocs/admin/config.php:483
 msgid "Security Warning"
-msgstr ""
+msgstr "Alerta De Seguridad"
 
 #: ../core/page.ampusers.php:203
 msgid "Select the Admin Sections this user should have access to."
 msgstr ""
+"Seleccione las Secciones Admin a las que este usuario debe tener acceso."
 
 #: amp.i18n.php:566
 msgid "Send Dashboard Notifications to Log"
-msgstr ""
+msgstr "Enviar Notificaciones del Tablero (Dashboard) al registro"
 
 #: ../core/functions.inc.php:7060
 msgid "Send P-Asserted-Identity header"
-msgstr ""
+msgstr "Enviar cabecera P-Asserted-Identity"
 
 #: ../core/functions.inc.php:7063
 msgid "Send RPID"
-msgstr ""
+msgstr "Enviar RPID"
 
 #: ../core/functions.inc.php:7057
 msgid "Send Remote-Party-ID header"
-msgstr ""
+msgstr "Enviar cabecera Remote-Party-ID"
 
 #: ../core/page.trunks.php:425
 msgid "Sequence"
-msgstr ""
+msgstr "Secuencia"
 
 #: ../core/views/trunks/pjsip.php:95
 msgid "Server URI"
-msgstr ""
+msgstr "URI de Servidor"
 
 #: amp.i18n.php:436
 msgid "Session Timeout"
-msgstr ""
+msgstr "Hora de Término de La Sesión"
 
 #: ../core/page.did.php:290
 msgid "Set Destination"
-msgstr ""
+msgstr "Fijar Destino"
 
 #: ../core/page.did.php:221
 msgid "Set the MoH class that will be used for calls that come in on this route. For example, choose a type appropriate for routes coming in from a country which may have announcements in their language."
 msgstr ""
+"Defina la clase del Música en Espera que se utilizará para las llamadas que "
+"entran en esta ruta. Por ejemplo, elegir un tipo apropiado para las rutas "
+"que vienen de un país que pueden tener anuncios en su idioma."
 
 #: ../core/functions.inc.php:6655
 msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr ""
+"Establecer el estado inicial/actual de la Llamada en Espera para la "
+"extensión de este usuario"
 
 #: amp.i18n.php:516
 msgid "Set this to replace the default mainstyle.css style sheet with your own, relative to admin."
 msgstr ""
+"Establezca esta opción para sustituir el estilo mainstyle.css por defecto "
+"por el suyo propio, relativo a admin."
 
 #: amp.i18n.php:520
 msgid "Set this to replace the default popover.css style sheet with your own, relative to admin."
 msgstr ""
+"Establezca esta opción para sustituir el estilo popover.css por defecto por "
+"el suyo propio, relativo a admin."
 
 #: amp.i18n.php:122
 msgid "Set to true to enable Advanced Performance Logging into the dbug file"
 msgstr ""
+"Se establece en verdadero para habilitar Rendimiento Avanzado de Inicio de "
+"Sesión en el archivo de depuración"
 
 #: amp.i18n.php:102
 msgid "Set to true to stop all dbug() calls from writing to the Debug File (FPBXDBUGFILE)"
 msgstr ""
+"Se establece en verdadero para parar todo debug() de llamadas que se "
+"escriben en el Archivo de Depuración FPBXDBUGFILE)"
 
 #: amp_conf/htdocs/admin/views/obe.php:78
 msgid "Set up my Account"
-msgstr ""
+msgstr "Establecer mi Cuenta"
 
 #: amp.i18n.php:628
 msgid "Sets the extension behavior in FreePBX.  If set to <b>extensions</b>, Devices and Users are administered together as a unified Extension, and appear on a single page. If set to <b>deviceanduser</b>, Devices and Users will be administered separately. Devices (e.g. each individual line on a SIP phone) and Users (e.g. <b>101</b>) will be configured independent of each other, allowing association of one User to many Devices, or allowing Users to login and logout of Devices."
 msgstr ""
+"Define el comportamiento de la extensión en FreePBX. Si se define "
+"en<b>extensions</b>, Dispositivos y Usuarios se administran juntos como una "
+"extensión unificada, y aparecen en una sola página. Si se define en "
+"<b>deviceanduser</b>, Dispositivos y Usuarios serán administrados por "
+"separado. Los Dispositivos (por ejemplo, cada línea individual en un "
+"teléfono SIP) y Usuarios (por ejemplo, <b>101</b>) se configurarán "
+"independientes entre sí, lo que permite la asociación de un usuario a muchos "
+"dispositivos, o permitir que los usuarios inicien sesión y cierren sesión de "
+"Dispositivos."
 
 #: amp.i18n.php:584
 msgid "Sets the extension behavior in FreePBX.If set to <b>extensions</b>, Devices and Users are administered together as a unified Extension, and appear on a single page. If set to <b>deviceanduser</b>, Devices and Users will be administered separately. Devices (e.g. each individual line on a SIP phone) and Users (e.g. <b>101</b>) will be configured independent of each other, allowing association of one User to many Devices, or allowing Users to login and logout of Devices."
 msgstr ""
+"Define el comportamiento de la extensión en FreePBX. Si se define "
+"en<b>extensions</b>, Dispositivos y Usuarios se administran juntos como una "
+"extensión unificada, y aparecen en una sola página. Si se define en "
+"<b>deviceanduser</b>, Dispositivos y Usuarios serán administrados por "
+"separado. Los Dispositivos (por ejemplo, cada línea individual en un "
+"teléfono SIP) y Usuarios (por ejemplo, <b>101</b>) se configurarán "
+"independientes entre sí, lo que permite la asociación de un usuario a muchos "
+"dispositivos, o permitir que los usuarios inicien sesión y cierren sesión de "
+"Dispositivos."
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:89
 msgid "Setting AUTHTYPE to none consistent with old default"
-msgstr ""
+msgstr "Ajuste AUTHTYPE a ninguno coherente con la antigua por defecto"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:94
 msgid "Setting MOHDIR to mohmp3 consistent with old default"
-msgstr ""
+msgstr "Configuración MOHDIR a mohmp3 coherente con la antigua por defecto"
 
 #: amp.i18n.php:400
 msgid "Setting either of these to true will result in retrieve_conf aborting during a reload if an extension conflict is detected or a destination is detected. It is usually better to allow the reload to go through and then correct the problem but these can be set if a more strict behavior is desired."
 msgstr ""
+"Ajustando cualquiera de éstos a verdadero resultará en abortar retrieve_conf "
+"durante una recarga si se detecta un conflicto de extensiones o se detecta "
+"un destino. Por lo general, es mejor permitir la recarga y luego corregir el "
+"problema, pero ésto se puede establecer si se desea un comportamiento más "
+"estricto."
 
 #: install.php:205
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
-msgstr ""
+msgstr "Configuración sbin a la ubicación correcta de: %s"
 
 #: amp.i18n.php:326
 msgid "Setting this flag will generate the required global variable so that enumlookup.agi will use Google DNS 8.8.8.8 when performing an ENUM lookup. Not all DNS deals with NAPTR record, but Google does. There is a drawback to this as Google tracks every lookup. If you are not comfortable with this, do not enable this setting. Please read Google FAQ about this: <b>http://code.google.com/speed/public-dns/faq.html#privacy</b>."
 msgstr ""
+"Establecer esta bandera va a generar la variable global que se requiere para "
+"que enumlookup.agi utilize Google DNS 8.8.8.8 cuando se realiza una búsqueda "
+"ENUM. No todos ofrecen DNS con registro NAPTR, pero  Google lo hace. Hay un "
+"inconveniente en como Google hace un seguimiento de cada búsqueda. Si usted "
+"no se siente cómodo con esto, no habilite esta opción. Por favor, lea Google "
+"FAQ sobre esto: <b>http://code.google.com/speed/public-"
+"dns/faq.html#privacy</b>."
 
 #: amp.i18n.php:604
 msgid "Setting this to true will allow the development team to use google analytics to anonymously analyze browser information to help make better development decisions."
 msgstr ""
+"Fijando esto a verdadero permitirá al equipo de desarrollo a utilizar Google "
+"Analytics para analizar de forma anónima información del navegador para "
+"ayudar a tomar mejores decisiones de desarrollo."
 
 #: amp.i18n.php:22
 msgid "Setting this to true will allow you to override un-hidden readonly setting to change them. Settings that are readonly may be extremely volatile and have a high chance of breaking your system if you change them. Take extreme caution when electing to make such changes."
 msgstr ""
+"Fijando esto a verdadero le permitirá sobreescribir los ajustes un-hidden "
+"para cambiarlos. Ajustes que son de sólo lectura pueden ser extremadamente "
+"volátiles y tienen una alta probabilidad de romper su sistema si los cambia. "
+"Tenga mucho cuidado al elegir a hacer tales cambios."
 
 #: amp.i18n.php:114
 msgid "Setting this to true will expose the "
-msgstr ""
+msgstr "Fijando esto a verdadero expondrá el "
 
 #: amp.i18n.php:668
 msgid "Setting this to true will fetch system javascript libraries such as jQuery and jQuery-ui from ajax.googleapis.com. This can be advantageous if accessing remote or multiple different FreePBX systems since the libraries are only cached once in your browser. If external internet connections are problematic, setting this true could result in slow systems. FreePBX will always fallback to the locally available libraries if the CDN is not available."
 msgstr ""
+"Fijando esto a verdadero obtendrá sistema de bibliotecas de Javascript tales "
+"como jQuery y jQuery-ui de ajax.googleapis.com. Esto puede ser ventajoso si "
+"accede a múltiples diferentes sistemas de FreePBX  remotos ya que las "
+"bibliotecas sólo se almacenan en caché una vez en tu navegador. Si las "
+"conexiones externas son problemáticas, establecer esto a verdadero podría "
+"resultar en sistemas lentos. FreePBX siempre se replegará para las "
+"bibliotecas disponibles a nivel local si el CDN no está habilitado."
 
 #: ../core/functions.inc.php:7095
 msgid "Setting to yes (equivalent to 2000 msec) will send an OPTIONS packet to the endpoint periodically (default every minute). Used to monitor the health of the endpoint. If delays are longer then the qualify time, the endpoint will be taken offline and considered unreachable. Can be set to a value which is the msec threshhold. Setting to no will turn this off. Can also be helpful to keep NAT pinholes open."
 msgstr ""
+"Ajustando esto a Sí (equivalente a 2000 ms) enviará un paquete OPTIONS al "
+"terminal periódicamente (por defecto cada minuto). Se utiliza para controlar "
+"la salud del terminal. Si los retrasos son más largos que los tiempos a "
+"calificar, el terminal quedará fuera de línea y se considera inalcanzable. "
+"Se puede establecer en un valor que es el umbral sec. Ajustando a No se "
+"desactiva esta opción. También puede ser útil para tener agujeros NAT "
+"abiertos."
 
 #: ../core/functions.inc.php:6949
 msgid "Setting to yes (equivalent to 2000 msec) will send an OPTIONS packet to the endpoint periodically (default every minute). Used to monitor the health of the endpoint. If delays are longer then the qualify time, the endpoint will be taken offline and considered unreachable. Can be set to a value which is the msec threshold. Setting to no will turn this off. Can also be helpful to keep NAT pinholes open."
 msgstr ""
+"Ajustando esto a Sí (equivalente a 2000 ms) enviará un paquete OPTIONS al "
+"terminal periódicamente (por defecto cada minuto). Se utiliza para controlar "
+"la salud del terminal. Si los retrasos son más largos que los tiempos a "
+"calificar, el terminal quedará fuera de línea y se considera inalcanzable. "
+"Se puede establecer en un valor que es el umbral sec. Ajustando a No se "
+"desactiva esta opción. También puede ser útil para tener agujeros NAT "
+"abiertos."
 
 #: amp.i18n.php:716
 msgid "Settings"
