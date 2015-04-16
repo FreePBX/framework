@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-10 12:55+0200\n"
-"PO-Revision-Date: 2015-04-16 00:22+0200\n"
+"PO-Revision-Date: 2015-04-16 02:24+0200\n"
 "Last-Translator: Daver <daverjorge46@gmail.com>\n"
 "Language-Team: Spanish "
 "<http://weblate.freepbx.org/projects/freepbx/framework/es_ES/>\n"
@@ -6859,116 +6859,199 @@ msgstr ""
 #: ../core/functions.inc.php:7364 ../core/functions.inc.php:7369
 msgid "This CallerID will always be set when dialing out an Outbound Route flagged as Emergency.  The Emergency CID overrides all other CallerID settings."
 msgstr ""
+"Este identificador de llamadas (CallerID) se ajustará siempre al marcar por "
+"una Ruta de Salida marcada como Emergencia. El CID de Emergencia prevalece "
+"sobre todos los demás valores del identificador de llamadas."
 
 #: ../core/functions.inc.php:7392
 #, php-format
 msgid "This device uses %s technology %s"
-msgstr ""
+msgstr "Este dispositivo utiliza %s tecnología %s"
 
 #: ../core/page.did.php:206
 msgid "This effects CID ONLY routes where no DID is specified. If checked, calls with this CID will be routed to this route, even if there is a route to the DID that was called. Normal behavior is for the DID route to take the calls. If there is a specific DID/CID route for this CID, that route will still take the call when that DID is called."
 msgstr ""
+"Esto afecta SOLO a Rutas CID en las que no hay un DID especificado. Si está "
+"activado, las llamadas con este CID se dirigirán a esta ruta, incluso si hay "
+"una ruta para el DID que se ha llamado. El comportamiento normal es por la "
+"ruta DID a tomar las llamadas. Si hay una ruta DID/CID específicada para "
+"este CID, esa ruta todavía tomará la llamada cuando ese DID es llamado."
 
 #: amp.i18n.php:98
 msgid "This enables several debug features geared towards developers, including some page load timing information, some debug information in Module Admin, use of original CSS files and other future capabilities will be enabled."
 msgstr ""
+"Esto habilita varias características de depuración orientadas a "
+"desarrolladores, incluyendo alguna información de temporización de carga de "
+"página, alguna información de depuración en el Módulo de Administración, se "
+"habilitará el uso de archivos CSS originales y otras capacidades futuras."
 
 #: amp.i18n.php:620
 msgid "This enables the setting of module tracks (sub repositories of modules). Whereas a user could select a beta release track of a module or keep it on standard. Disabling this will force all modules into the stable track and disallow users to change the tracks"
 msgstr ""
+"Esto habilita la creación de pistas de módulo (sub repositorios de módulos). "
+"Mientras que un usuario podría seleccionar una pista versión beta de un "
+"módulo o mantenerlo en el estándar. La desactivación de esto forzará todos "
+"los módulos en la pista estable y no permitirá a los usuarios cambiar de "
+"pistas"
 
 #: ../core/views/trunks/sip.php:30
 msgid "This is most often the account name or number your provider expects.<br><br>This USER Context will be used to define the below user details."
 msgstr ""
+"Esto es normalmente el nombre de cuenta o número que su proveedor "
+"espera.<br><br>Este contexto de Usuario se utiliza para definir los detalles "
+"del usuario de abajo."
 
 #: amp.i18n.php:628
 msgid "This is the address of your Web Server. It is mostly obsolete and derived when not supplied and will be phased out, but there are still some areas expecting a variable to be set and if you are using it this will migrate your value."
 msgstr ""
+"Esta es la dirección de su Servidor Web. Esto en su mayoría está obsoleto y "
+"es derivado de cuando era suministrado y será eliminado, pero todavía hay "
+"algunas áreas que esperan una variable a ser ajustada y si usted lo está "
+"utilizando esto migrará su valor."
 
 #: amp.i18n.php:640
 msgid "This is the default admin name used to allow an administrator to login to ARI bypassing all security. Change this to whatever you want, do not forget to change the User Portal Admin Password as well. Default = not set"
 msgstr ""
+"Este es el nombre de administrador por defecto utilizado para permitir que "
+"un administrador inicie sesión en ARI pasando por alto toda la seguridad. "
+"Cambie esto a lo que quieras, no te olvides de cambiar la contraseña del "
+"Portal del Usuario Admin también. Por defecto = no establecido"
 
 #: amp.i18n.php:644
 msgid "This is the default admin password to allow an administrator to login to ARI bypassing all security. Change this to a secure password. Default = not set"
 msgstr ""
+"Esta es la contraseña de administrador predeterminada para permitir que un "
+"administrador inicie sesión en la cuenta ARI pasando por alto toda la "
+"seguridad. Cambie esto a una contraseña segura. Por defecto = no establecida"
 
 #: amp.i18n.php:336
 msgid "This is the default directory for Asterisks agi files."
-msgstr ""
+msgstr "Este es el directorio predeterminado para los archivos agi de Asterisk."
 
 #: amp.i18n.php:344
 msgid "This is the default directory for Asterisks configuration files."
 msgstr ""
+"Este es el directorio predeterminado para los archivos de configuración de "
+"Asterisk."
 
 #: amp.i18n.php:340
 msgid "This is the default directory for Asterisks lib files."
-msgstr ""
+msgstr "Este es el directorio predeterminado para los archivos lib de Asterisk."
 
 #: amp.i18n.php:348
 msgid "This is the default directory for Asterisks log files."
 msgstr ""
+"Este es el directorio predeterminado para los archivos de registro de "
+"Asterisk."
 
 #: amp.i18n.php:352
 msgid "This is the default directory for Asterisks modules."
-msgstr ""
+msgstr "Este es el directorio por defecto para los módulos de Asterisk."
 
 #: amp.i18n.php:356
 msgid "This is the default directory for Asterisks run files."
 msgstr ""
+"Este es el directorio predeterminado para los archivos que corren Asterisk."
 
 #: amp.i18n.php:360
 msgid "This is the default directory for Asterisks spool directory."
-msgstr ""
+msgstr "Este es el directorio por defecto para el directorio spool de Asterisk."
 
 #: amp.i18n.php:222
 msgid "This is the default time in seconds to try and connect a call that has been call forwarded by the server side CF, CFU and CFB options. (If your phones use client side CF such as SIP redirects, this will not have any affect) If set to the default of 0, it will use the standard ring timer. If set to -1 it will ring the forwarded number with no limit which is consistent with the behavior of some existing PBX systems. If set to any other value, it will ring for that duration before diverting the call to the users voicemail if they have one. This can be overridden for each extension."
 msgstr ""
+"Este es el tiempo predeterminado en segundos para tratar de conectar una "
+"llamada que ha sido llamada desviada por el CF lado del servidor, CFU y "
+"opciones CFB. (Si sus teléfonos utilizan CF en lado cliente como "
+"redirecciones SIP, esto no tendrá ningún efecto) Si se establece en el valor "
+"predeterminado de 0, utilizará el temporizador de timbre estándar. Si se "
+"establece en -1 sonará el número reenviado sin límite lo que es consistente "
+"con el comportamiento de algunos sistemas PBX existentes. Si se fija en "
+"cualquier otro valor, sonará por este tiempo antes de desviar la llamada al "
+"correo de voz a los usuarios si tienen uno. Esto puede cambiarse para cada "
+"extensión."
 
 #: ../core/views/trunks/dundi.php:8
 msgid "This is the name of the DUNDi mapping as defined in the [mappings] section of remote dundi.conf peers. This corresponds to the 'include' section of the peer details in the local dundi.conf file. This requires manual configuration of DUNDi to use this trunk."
 msgstr ""
+"Este es el nombre del mapeado DUNDi como se define en la sección "
+"[asignaciones] de pares remotos dundi.conf. Esto corresponde a la sección "
+"'include' de los detalles de pares en el archivo dundi.conf local. Esto "
+"requiere la configuración manual de DUNDi para utilizar esta línea."
 
 #: amp.i18n.php:384
 msgid "This is the subdirectory for the MoH files/directories which is located in ASTVARLIBDIR. Older installation may be using mohmp3 which was the old Asterisk default and should be set to that value if the music files are located there relative to the ASTVARLIBDIR."
 msgstr ""
+"Este es el subdirectorio para la MoH archivos/directorios que se encuentra "
+"en ASTVARLIBDIR. Instalaciones anteriores pueden estar utilizando mohmp3 que "
+"era el valor por defecto en antiguos Asterisk y debe ser ajustado a ese "
+"valor si los archivos de música se encuentran allí con relación al "
+"ASTVARLIBDIR."
 
 #: ../core/page.trunks.php:686
 msgid "This looks up your local number on www.localcallingguide.com (NA-only), and sets up so you can dial either 7 or 10 digits (regardless of what your PSTN is) on a local trunk (where you have to dial 1+area code for long distance, but only 5551234 (7-digit dialing) or 6135551234 (10-digit dialing) for local calls"
 msgstr ""
+"Esto ve su número local en www.localcallingguide.com (NA-solamente), y "
+"establece para que pueda marcar 7 o 10 dígitos (independientemente de lo que "
+"es su PSTN) en una línea local (donde tiene que marcar 1+ código de área de "
+"larga distancia, pero sólo 5551234 (marcación de 7 dígitos) o 6135551234 ("
+"marcación de 10 dígitos) para llamadas locales"
 
 #: ../core/page.routing.php:575
 msgid "This looks up your local number on www.localcallingguide.com (NA-only), and sets up so you can dial either 7, 10 or 11 digits (5551234, 6135551234, 16135551234) to access this route."
 msgstr ""
+"Esto ve su número local en www.localcallingguide.com (NA-solamente), y "
+"establece para que pueda marcar ya sea 7, 10 u 11 dígitos (5551234, "
+"6135551234, 16135551234) para tener acceso a esta ruta."
 
 #: amp.i18n.php:8
 msgid "This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module"
 msgstr ""
+"Este módulo proporciona una facilidad para instalar correcciones de errores "
+"en el código framework que no se encuentran de otra manera en un módulo"
 
 #: amp_conf/htdocs/admin/views/beta_notice.php:8
 msgid "This page is currently BETA"
-msgstr ""
+msgstr "Esta página está actualmente en BETA"
 
 #: amp.i18n.php:118
 msgid "This plugin can be used to detect and restore APIs or features that have been deprecated in jQuery and removed as of version 1.9"
 msgstr ""
+"Este plugin se puede utilizar para detectar y restaurar APIs o "
+"características que se han desaprobado en jQuery y retiradas a partir de la "
+"versión 1.9"
 
 #: ../core/functions.inc.php:7115
 msgid "This sets the allowed transport settings for this device and the default (Primary) transport for outgoing. The default transport is only used for outbound messages until a registration takes place.  During the peer registration the transport type may change to another supported type if the peer requests so. In most common cases, this does not have to be changed as most devices register in conjunction with the host=dynamic setting. If you are using TCP and/or TLS you need to make sure the general SIP Settings are configured for the system to operate in those modes and for TLS, proper certificates have been generated and configured. If you are using websockets (such as WebRTC) then you must select an option that includes WS"
 msgstr ""
+"Esto establece la configuración de transporte autorizada para este "
+"dispositivo y el transporte predeterminado (Primario) para las llamadas "
+"salientes. El transporte por defecto sólo se utiliza para los mensajes "
+"salientes hasta que el registro se lleva a cabo. Durante el registro de "
+"pares el tipo de transporte puede cambiar a otro tipo soportado, si las "
+"solicitudes de pares son menos. En los casos más comunes, esto no tiene que "
+"ser cambiado como la mayoría de los dispositivos registran en conjunto con "
+"el host=dynamic. Si está utilizando TCP y/o TLS necesita asegurarse que los "
+"valores de SIP generales están configurados para que el sistema funcione en "
+"esos modos y para TLS, los certificados apropiados que se han generado y "
+"configurado. Si está utilizando websockets (como WebRTC), entonces usted "
+"debe seleccionar una opción que incluye WS"
 
 #: ../core/page.trunks.php:429
 msgid "This trunk is not used by any routes!"
-msgstr ""
+msgstr "Esta línea no es utilizada por ninguna ruta!"
 
 #: ../core/page.trunks.php:430
 msgid "This trunk will not be able to be used for outbound calls until a route is setup that uses it. Click on <b>Outbound Routes</b> to setup routing."
 msgstr ""
+"Esta línea no será capaz de ser utilizada para las llamadas salientes hasta "
+"que una ruta sea configurada para utilizarla. Haga clic en <b>Rutas "
+"Salientes</b> para configurar el enrutamiento."
 
 #: ../core/functions.inc.php:5442
 #, php-format
 msgid "This user/extension %s is already in use"
-msgstr ""
+msgstr "Este usuario/extensiones %s ya está en uso"
 
 #: amp.i18n.php:18
 msgid "This will display settings that are readonly. These settings are often internally used settings that are not of interest to most users. Since they are readonly they can only be viewed."
