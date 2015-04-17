@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-10 12:55+0200\n"
-"PO-Revision-Date: 2015-04-17 05:12+0200\n"
+"PO-Revision-Date: 2015-04-17 09:53+0200\n"
 "Last-Translator: Daver <daverjorge46@gmail.com>\n"
 "Language-Team: Spanish "
 "<http://weblate.freepbx.org/projects/freepbx/framework/es_ES/>\n"
@@ -4033,9 +4033,8 @@ msgid "Interval used when receiving a 403 Forbidden response."
 msgstr "Intervalo utilizado cuando se recibe una respuesta de 403 Forbidden."
 
 #: ../core/page.routing.php:465
-#, fuzzy
 msgid "Intra-Company"
-msgstr "Intra-Company"
+msgstr "Dentro de la Empresa"
 
 #: ../core/views/trunks/trunk_header.php:64
 msgid "Intra-Company Routes will always trasmit an extension's internal number and name."
@@ -4277,9 +4276,8 @@ msgid "Machine ID"
 msgstr "ID Máquina"
 
 #: amp_conf/htdocs/admin/libraries/view.functions.php:30
-#, fuzzy
 msgid "Magic Quotes GPC"
-msgstr "Magic Quotes GPC"
+msgstr "Comillas Mágicas GPC"
 
 #: ../core/functions.inc.php:7162
 msgid "Mailbox"
@@ -5899,7 +5897,7 @@ msgid "Russian"
 msgstr "Ruso"
 
 #: ../core/page.trunks.php:400 ../core/page.trunks.php:401
-#, php-format
+#, fuzzy, php-format
 msgid "SIP (%s)"
 msgstr "SIP (%s)"
 
@@ -5973,15 +5971,15 @@ msgstr "Nat SIP"
 
 #: amp.i18n.php:182
 msgid "SIP qualifyfreq"
-msgstr "SIP qualifyfreq"
+msgstr ""
 
 #: amp.i18n.php:170
 msgid "SIP sendrpid"
-msgstr "SIP sendrpid"
+msgstr ""
 
 #: amp.i18n.php:166
 msgid "SIP trustrpid"
-msgstr "SIP trustrpid"
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/bad_refferer.php:19
 msgid "SUSPECT LINK:"
@@ -7132,6 +7130,7 @@ msgid "Trunks"
 msgstr "Líneas"
 
 #: ../core/functions.inc.php:7053
+#, fuzzy
 msgid "Trust RPID"
 msgstr "Trust RPID"
 
@@ -8742,7 +8741,7 @@ msgstr ""
 #: upgrades/2.9.0beta2/logger_migrate.php:18
 #, php-format
 msgid "migrating %s settings so core can generate"
-msgstr "migrando ajustes % por lo que el núcleo se puede generar"
+msgstr "migrando  %s ajustes por lo que el núcleo se puede generar"
 
 #: upgrades/2.8.0alpha2/tables.php:59
 msgid "migrating rules.."
@@ -8949,109 +8948,121 @@ msgstr "Iniciando migración"
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:440
 msgid "this file must be done via the Web GUI. There are alternative files to make"
 msgstr ""
+"este archivo se debe hacer a través de la GUI Web. Hay archivos alternativos "
+"para hacer"
 
 #: amp_conf/htdocs/admin/page.modules.php:623
 msgid "try again"
-msgstr ""
+msgstr "inténtalo de nuevo"
 
 #: upgrades/2.11.0rc1/migration.php:42
 msgid "trying to move res_odbc.conf to res_odbc_custom.conf"
-msgstr ""
+msgstr "intentando mover res_odbc.conf a res_odbc custom.conf"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:643
 #, php-format
 msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr ""
+"intentando de establecer palabra clave [%s] a [%s] en el ajuste sin "
+"inicializar"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1131
 #, php-format
 msgid "unknown type: [%s]"
-msgstr ""
+msgstr "tipo desconocido: [%s]"
 
 #: upgrades/2.8.0alpha2/tables.php:94
 #, php-format
 msgid "unrecognized rule: %s discarding"
-msgstr ""
+msgstr "reglas no reconocidas: %s descartando"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:135
 msgid "unsigned"
-msgstr ""
+msgstr "no firmado"
 
 #: ../core/install.php:226
 #, php-format
 msgid "updated %s callgroups, %s pickupgroups"
-msgstr ""
+msgstr "actualizado %s grupos de llamadas, %s grupos de captura"
 
 #: ../core/install.php:911
 #, php-format
 msgid "updated %s records"
-msgstr ""
+msgstr "actualizados %s registros"
 
 #: ../core/install.php:201
 msgid "updating zap callgroup, pickupgroup.."
-msgstr ""
+msgstr "actualizando zap grupos de llamadas, grupos de captura.."
 
 #: ../core/install.php:1061
 msgid "upgrading any zap trunks to dahdi if found"
-msgstr ""
+msgstr "actualizando cualquier línea zap a dahdi si se encuentra"
 
 #: amp_conf/htdocs/admin/views/login.php:16
 #: amp_conf/htdocs/admin/views/obe.php:25
 msgid "username"
-msgstr ""
+msgstr "nombre de usuario"
 
 #: ../core/views/trunks/custom.php:8
 msgid "wherever the number to dial should go.<br><br><b>examples:</b><br>"
-msgstr ""
+msgstr "donde el número a marcar debe ir.<br><br><b>ejemplos:</b><br>"
 
 #: ../core/page.routing.php:543
 msgid "wildcard, matches one or more characters"
-msgstr ""
+msgstr "comodín, coincide con uno o más caracteres"
 
 #: ../core/views/trunks/trunk_header.php:148
 msgid "wildcard, matches one or more characters (not allowed before a | or +)"
-msgstr ""
+msgstr "comodín, cincide con uno o más caracteres (no permitido antes de | o +)"
 
 #: ../core/page.routing.php:559 ../core/views/trunks/trunk_header.php:165
 msgid "wildcard, matches one or more dialed digits"
-msgstr ""
+msgstr "comodín, coincide con uno o más dígitos marcados"
 
 #: upgrades/2.10.1/migration.php:56
 msgid "writetimeout added to manager.conf"
-msgstr ""
+msgstr "writetimeout añadido a manager.conf"
 
 #: upgrades/2.10.1/migration.php:62
 msgid "writetimeout already exists"
-msgstr ""
+msgstr "writetimeout ya existe"
 
 #: upgrades/2.10.1/migration.php:45
 msgid "writetimeout not present, adding"
-msgstr ""
+msgstr "writetimeout no está presente, añadiendo"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:798
 #, php-format
 msgid "you can't convert an existing type, keyword [%s]"
-msgstr ""
+msgstr "no se puede convertir un tipo existente, palabra clave [%s]"
 
 #: upgrades/2.8.0/modules-conf.php:42
 msgid "you may need to add the line 'preload => chan_local.so' to your modules.conf manually"
 msgstr ""
+"puede que tenga que agregar la línea 'preload => chan_local.so' a tu "
+"modules.conf manualmente"
 
 #: upgrades/2.8.0/modules-conf.php:56
 msgid "you may need to add the line 'preload => pbx_config.so' to your modules.conf manually"
 msgstr ""
+"puede que tenga que agregar la línea 'preload => pbx_config.so' a tu "
+"modules.conf manualmente"
 
 #: ../core/install.php:1048
 msgid "zap devices migrated"
-msgstr ""
+msgstr "dispositivos zap migrados"
 
 #: amp_conf/htdocs/admin/page.modules.php:1179
 msgid " The modules in the Extended repository are less common and may receive lower levels of support. The Unsupported repository has modules that are not supported by the FreePBX team but may receive some level of support by the authors."
 msgstr ""
+" Los módulos en el repositorio Extendido son menos comunes y pueden recibir "
+"los niveles más bajos de soporte. El repositorio No Compatible son los "
+"módulos que no están soportados por el equipo de FreePBX pero pueden recibir "
+"cierto nivel de soporte por los autores."
 
 #: amp_conf/htdocs/admin/views/beta_notice.php:8
 msgid "-This page is currently BETA-"
-msgstr ""
+msgstr "-Esta Página está actualmente en BETA-"
 
 #: amp_conf/bin/libfreepbx.confgen.php:15
 #: amp_conf/bin/libfreepbx.confgen.php:105
@@ -9062,210 +9073,249 @@ msgid ""
 "; all modifications must be done from the web gui\n"
 "\n"
 msgstr ""
+"; No edite este archivo, este es un archivo generado automáticamente por "
+"freepbx↵\n"
+"; todas las modificaciones se deben hacer desde el gui web↵\n"
+"↵\n"
+"\n"
 
 #: ../core/page.trunks.php:360
 msgid "Add Custom Trunk"
-msgstr ""
+msgstr "Añadir Línea Personalizada"
 
 #: ../core/page.trunks.php:350
 msgid "Add DAHDi Trunk"
-msgstr ""
+msgstr "Añadir Línea DAHDi"
 
 #: ../core/page.trunks.php:359
 msgid "Add DUNDi Trunk"
-msgstr ""
+msgstr "Añadir Línea DUNDi"
 
 #: ../core/page.trunks.php:358
 msgid "Add ENUM Trunk"
-msgstr ""
+msgstr "Añadir Línea ENUM"
 
 #: ../core/page.trunks.php:351
 msgid "Add IAX2 Trunk"
-msgstr ""
+msgstr "Añadir Línea IAX2"
 
 #: ../core/page.trunks.php:349
 msgid "Add SIP Trunk"
-msgstr ""
+msgstr "Añadir Línea SIP"
 
 #: ../core/functions.inc.php:7199
 msgid "Add a CID for more specific DID + CID routing. A DID must be specified in the above Add DID box. In addition to standard dial sequences, you can also put Private, Blocked, Unknown, Restricted, Anonymous and Unavailable in order to catch these special cases if the Telco transmits them."
 msgstr ""
+"Añadir un CID para más específica enrutamiento DID + CID. Un DID se debe "
+"especificar en el cuadro de arriba Agregar DID. Además de las secuencias de "
+"marcación estándar, también puede poner Privada, Bloqueado, Desconocido, "
+"Restringido, Anónimo y NO Disponible con el fin de atrapar estos casos "
+"especiales si la Telco los transmite."
 
 #: ../core/page.trunks.php:355
 msgid "Add mISDN Trunk"
-msgstr ""
+msgstr "Añadir Línea mISDN"
 
 #: amp_conf/htdocs/admin/page.modules.php:76
 msgid "Add your email here to receive important security and module updates. The email address you provide is NEVER transmitted to the FreePBX remote servers. The email is ONLY used by your local PBX to send notifications of updates that are available as well as IMPORTANT Security Notifications. It is STRONGLY advised that you keep this enabled and keep updated of these important notifications to avoid costly security vulnerabilities."
 msgstr ""
+"Agregue su email para recibir importantes actualizaciones de seguridad y "
+"módulos. La dirección de correo electrónico que usted proporciona NUNCA se "
+"transmite a los servidores remotos FreePBX. El correo electrónico se utiliza "
+"sólo por su PBX local para enviar notificaciones de actualizaciones que "
+"están disponibles, así como las notificaciones de seguridad importantes. Se "
+"recomienda encarecidamente que mantenga esta habilitado y mantener "
+"actualizado de estas notificaciones importantes para evitar costosos "
+"problemas de seguridad."
 
 #: ../core/page.ampusers.php:208
 msgid "Admin Access<span>Select the Admin Sections this user should have access to.</span>"
 msgstr ""
+"Acceso Administrador<span>Seleccione las Secciones Admin a las que este "
+"usuario debe tener acceso.</span>"
 
 #: amp_conf/htdocs/admin/page.modules.php:1196
 msgid "Basic"
-msgstr ""
+msgstr "Básico"
 
 #: amp_conf/bin/libfreepbx.confgen.php:109
 msgid "Cannot write IAX configurations"
-msgstr ""
+msgstr "No se pueden escribir configuraciones IAX"
 
 #: amp_conf/bin/libfreepbx.confgen.php:113
 msgid "Cannot write IAX registrations"
-msgstr ""
+msgstr "No se pueden escribir registros IAX"
 
 #: amp_conf/bin/libfreepbx.confgen.php:255
 msgid "Cannot write Queues configurations"
-msgstr ""
+msgstr "No se pueden escribir configuraciones de Colas"
 
 #: amp_conf/bin/libfreepbx.confgen.php:27
 msgid "Cannot write SIP configurations"
-msgstr ""
+msgstr "No se puedne escribir configuraciones SIP"
 
 #: amp_conf/bin/libfreepbx.confgen.php:31
 msgid "Cannot write SIP registrations"
-msgstr ""
+msgstr "No se pueden escribir registros SIP"
 
 #: amp_conf/htdocs/admin/page.modules.php:938
 #, php-format
 msgid "Change Log for version %s"
-msgstr ""
+msgstr "Cambio de registro para la versión %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:1181
 msgid "Checking for updates will transmit your FreePBX, Distro, Asterisk and PHP version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted."
 msgstr ""
+"Comprobación de actualizaciones transmitirá sus números de versión FreePBX, "
+"Distro, Asterisk y PHP junto con un identificador único, pero al azar. Esto "
+"se utiliza para proporcionar información adecuada de actualización y "
+"seguimiento del uso de la versión para centrar los esfuerzos de desarrollo y "
+"mantenimiento. Ninguna información privada se transmite."
 
 #: ../core/page.trunks.php:653 ../core/page.trunks.php:666
 #: ../core/page.trunks.php:1057
 msgid "Click here to insert a new pattern"
-msgstr ""
+msgstr "Haga clic aquí para insertar un nuevo patrón"
 
 #: amp_conf/htdocs/admin/page.modules.php:1208
 msgid "Commercial"
-msgstr ""
+msgstr "Comercial"
 
 #: ../core/page.trunks.php:412
 msgid "DAHDi compatibility Mode"
-msgstr ""
+msgstr "Modo de compatibilidad DAHDi"
 
 #: ../core/page.trunks.php:464
 msgid "DAHDi compatibility mode"
-msgstr ""
+msgstr "modo de compatibilidad DAHDi"
 
 #: ../core/page.ampusers.php:192
 msgid "Department Name<span>Restrict this user's view of Digital Receptionist menus and System Recordings to only those for this department.</span>"
 msgstr ""
+"Nombre del Departamento<span>Restringir la vista del usuario a los menús de "
+"Recepcionista Digital y Grabaciones del Sistema para sólo los de este "
+"departamento.</span>"
 
 #: amp_conf/htdocs/admin/page.modules.php:924
 #, php-format
 msgid "Description for version %s"
-msgstr ""
+msgstr "Descripción de la versión %s"
 
 #: ../core/page.trunks.php:617
 msgid "Digits to prepend upon a successful match. If the dialed number matches the patterns in the <b>prefix</b> and <b>match pattern</b> boxes, this will be prepended before sending to the trunk."
 msgstr ""
+"Dígitos que anteponer a una coincidencia compatible. Si el número marcado "
+"coincide con los patrones en el <b>prefijo</b> ylas cajas de <b>patrón de "
+"coincidencia</b>, esto se antepondrá antes de enviar a la línea."
 
 #: amp_conf/htdocs/admin/page.modules.php:776
 #, php-format
 msgid "Disabled; Newer than online version (%s)"
-msgstr ""
+msgstr "Deshabilitado; Entrada más reciente que la versión en línea (%s)"
 
 #: amp_conf/htdocs/admin/page.modules.php:774
 #, php-format
 msgid "Disabled; Online upgrade available (%s)"
-msgstr ""
+msgstr "Deshabilitado; Actualización en línea disponible (%s)"
 
 #: amp_conf/htdocs/admin/page.modules.php:785
 #, php-format
 msgid "Disabled; Pending upgrade to %s"
-msgstr ""
+msgstr "Deshabilitado; Pendiente de actualizar a %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:1099
 msgid "Done."
-msgstr ""
+msgstr "Hecho."
 
 #: ../core/page.trunks.php:412
 #, php-format
 msgid "Edit %s Trunk"
-msgstr ""
+msgstr "Editar Línea %s"
 
 #: amp_conf/htdocs/admin/libraries/view.functions.php:543
 msgid "Emaill addresses dont match"
-msgstr ""
+msgstr "Direcciones de correo electrónico no coinciden"
 
 #: ../core/functions.inc.php:7239
 msgid "Enable or disable the ability to do on demand (one-touch) recording. The overall calling policy rules still apply and if calls are already being recorded they can not be paused."
 msgstr ""
+"Activa o desactiva la capacidad de hacer grabación a demanda (de un solo "
+"toque). Las reglas generales de la política de llamada se siguen aplicando y "
+"si ya se están grabando las llamadas estas no se pueden detener."
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1084
 #, php-format
 msgid "Error removing temporary directory: %s"
-msgstr ""
+msgstr "Error al eliminar directorio temporal: %s"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1039
 msgid "Error untaring uploaded file. Must be a tar or tar+gzip file"
 msgstr ""
+"Error desempaquetando archivo subido. Debe ser un tar o tar+archivo gzip"
 
 #: amp_conf/htdocs/admin/page.modules.php:1200
 msgid "Extended"
-msgstr ""
+msgstr "Extendido"
 
 #: ../core/page.ampusers.php:199
 msgid "Extension Range<span>Restrict this user's view to only Extensions, Ring Groups, and Queues within this range.</span>"
 msgstr ""
+"Rango de Extensión<span>Restringir la vista del usuario a sólo Extensiones, "
+"Grupos de timbre, y Colas dentro de este rango.</span>"
 
 #: amp_conf/bin/libfreepbx.confgen.php:109
 #, php-format
 msgid "Failed creating/overwriting IAX extensions file: %s"
-msgstr ""
+msgstr "No se pudo crear/sobrescribir archivos extensiones IAX: %s"
 
 #: amp_conf/bin/libfreepbx.confgen.php:113
 #, php-format
 msgid "Failed creating/overwriting IAX registrations file: %s"
-msgstr ""
+msgstr "No se pudo crear/sobrescribir archivos registros IAX: %s"
 
 #: amp_conf/bin/libfreepbx.confgen.php:255
 #, php-format
 msgid "Failed creating/overwriting Queues extensions file: %s"
-msgstr ""
+msgstr "No se pudo crear/sobrescribir archivos extensiones Colas: %s"
 
 #: amp_conf/bin/libfreepbx.confgen.php:27
 #, php-format
 msgid "Failed creating/overwriting SIP extensions file: %s"
-msgstr ""
+msgstr "No se pudo crear/sobrescribir archivos de extensiones SIP: %s"
 
 #: amp_conf/bin/libfreepbx.confgen.php:31
 #, php-format
 msgid "Failed creating/overwriting SIP registrations file: %s"
-msgstr ""
+msgstr "No se pudo crear/sobrescribir archivos registros SIP: %s"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:631
 #, php-format
 msgid "File %s must exist."
-msgstr ""
+msgstr "Archivo %s debe existir."
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:960
 #, php-format
 msgid "File Integrity failed for %s - aborting"
-msgstr ""
+msgstr "Archivo Integridad fracasó para %s - abortando"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1016
 msgid "File must be in tar or tar+gzip (.tar, .tgz or .tar.gz) format"
-msgstr ""
+msgstr "El archivo debe estar en formato tar o tar+gzip (.tar, .tgz o .tar.gz)"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1021
 msgid "Filename not in correct format: must be modulename-version.[tar|tar.gz|tgz] (eg. custommodule-0.1.tgz)"
 msgstr ""
+"Nombre de archivo no está en el formato correcto: Debe ser nombredemódulo-"
+"versión.[tar|tar.gz|tgz] (Ejemplo.  custommodule-0.1.tgz)"
 
 #: amp_conf/htdocs/admin/page.modules.php:921
 #, php-format
 msgid "Fixes Vulnerabilities: %s"
-msgstr ""
+msgstr "Resuelve las Vulnerabilidades: %s"
 
 #: ../core/functions.inc.php:7660
 msgid "Generic SIP Device"
-msgstr ""
+msgstr "Dispositivo SIP Genérico"
 
 #: amp_conf/htdocs/admin/views/welcome.php:55
 #, php-format
@@ -9275,10 +9325,19 @@ msgid ""
 "to talk to other users and the developers in real time. Click on <a href='%s'>Start IRC</a>,\n"
 "when the module is installed, to start a Java IRC client."
 msgstr ""
+"Si tiene algún problema, también puede utilizar el módulo de <a href='%s'>"
+"Soporte en línea</a> ↵\n"
+"(<b>necesita instalar esto a través del <a href='%s'>Repositorio de "
+"Módulos</a> primero</b>)↵\n"
+"hablar con otros usuarios y los desarrolladores en tiempo real. Haga clic en "
+"<a href='%s'>Iniciar IRC</a>,↵\n"
+"cuando se instale el módulo, para iniciar un cliente Java IRC."
 
 #: amp_conf/htdocs/admin/views/welcome.php:37
 msgid "If you're new to FreePBX, Welcome. Here are some quick instructions to get you started"
 msgstr ""
+"Si eres nuevo en FreePBX, Bienvenido. Aquí están algunas instrucciones "
+"rápidas para empezar"
 
 #: ../core/functions.inc.php:7517
 msgid "In band audio"
@@ -9287,90 +9346,111 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:919
 #, php-format
 msgid "License: %s"
-msgstr ""
+msgstr "Licencia: %s"
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:600
 #, php-format
 msgid "Module %s is required, but yours is broken. You should reinstall it and try again."
 msgstr ""
+"Se requiere el módulo %s, pero el suyo está roto. Usted debe volver a "
+"instalarlo y vuelva a intentarlo."
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:607
 #, php-format
 msgid "Module %s is required, but yours is disabled because it needs to be upgraded. Please upgrade %s first, and then try again."
 msgstr ""
+"Se requiere el módulo %s, pero el suyo está deshabilitado ya que necesita "
+"ser actualizado. Por favor, actualice %s primero, y luego vuelva a "
+"intentarlo."
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:604
 #, php-format
 msgid "Module %s is required, but yours is disabled."
-msgstr ""
+msgstr "Se requiere el módulo %s, pero el suyo está deshabilitado."
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:613
 #, php-format
 msgid "Module %s is required, yours is not installed."
-msgstr ""
+msgstr "Se requiere el módulo %s, el tuyo no está instalado."
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:617
 #, php-format
 msgid "Module %s is required."
-msgstr ""
+msgstr "Se requiere el módulo %s."
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:821
 msgid "Module not found in repository"
-msgstr ""
+msgstr "Módulo no se encuentra en el repositorio"
 
 #: ../core/functions.inc.php:7574
+#, fuzzy
 msgid "No - RFC3581"
-msgstr ""
+msgstr "No - RFC3581"
 
 #: amp_conf/htdocs/admin/page.modules.php:765
 msgid "Not Installed (Locally available)"
-msgstr ""
+msgstr "No instalado (Disponible localmente)"
 
 #: ../core/functions.inc.php:6926
 msgid "On Demand"
-msgstr ""
+msgstr "Bajo Demanda"
 
 #: amp_conf/htdocs/admin/page.modules.php:795
 #, php-format
 msgid "Online upgrade available (%s)"
-msgstr ""
+msgstr "Actualización en línea disponible (%s)"
 
 #: ../core/page.routing.php:410
 msgid "Optional Route CID to be used for this route. If set, this will override all CIDS specified except:<ul><li>extension/device EMERGENCY CIDs if this route is checked as an EMERGENCY Route</li><li>trunk CID if trunk is set to force it's CID</li><li>Forwarded call CIDs (CF, Follow Me, Ring Groups, etc)</li><li>Extension/User CIDs if checked</li></ul>"
 msgstr ""
+"CID ruta opcional que se utiliza para esta ruta. Si se establece, esto "
+"anulará todas CIDS especificados, excepto:<ul><li>CIDs extensión/dispositivo "
+"EMERGENCIA si esta ruta está marcada como una ruta de EMERGENCIA</li><li>CID "
+"línea si la línea está fijada a forzar CID</li><li>CIDs llamada desviada ("
+"CF, Sígueme, Grupos de timbre, etc.)</li><li>CIDs Extesión/usuario si se "
+"marca</li></ul>"
 
 #: ../core/page.ampusers.php:179
 msgid "Password<span>Create a password for this new user</span>"
-msgstr ""
+msgstr "Contraseña<span>Crear una contraseña para este nuevo usuario</span>"
 
 #: amp_conf/htdocs/admin/libraries/view.functions.php:540
 msgid "Passwords dont match"
-msgstr ""
+msgstr "Las contraseñas no coinciden"
 
 #: amp_conf/htdocs/admin/libraries/view.functions.php:538
 msgid "Please enter a password"
-msgstr ""
+msgstr "Por favor, ingrese una contraseña"
 
 #: ../core/page.trunks.php:618
 msgid "Prefix to remove upon a successful match. If the dialed number matches this plus the <b>match pattern</b> box, this prefix is removed before adding the optional <b>prepend</b> box and sending the results to the trunk."
 msgstr ""
+"Prefijo para eliminar en una coincidencia correcta. Si el número marcado "
+"coincide con esto además de la caja <b>patrón de coincidencia</b>, este "
+"prefijo se elimina antes de añadir la opción <b>anteponer</b> y el envío de "
+"los resultados a la línea."
 
 #: amp_conf/htdocs/admin/page.modules.php:917
 #, php-format
 msgid "Publisher: %s"
-msgstr ""
+msgstr "Publicador: %s"
 
 #: ../core/functions.inc.php:7519
 msgid "SIP INFO (application/dtmf-relay"
-msgstr ""
+msgstr "INFO SIP (application/dtmf-relay"
 
 #: ../core/functions.inc.php:7521
 msgid "The DTMF signaling mode used by this device, usually rfc2833 for most phones."
 msgstr ""
+"El modo de señalización de tonos DTMF utilizado por este dispositivo, por lo "
+"general RFC2833 para la mayoría de los teléfonos."
 
 #: ../core/page.trunks.php:619
 msgid "The dialed number will be compared against the <b>prefix</b> plus this pattern. Upon a match, this portion of the number will be sent to the trunks after removing the <b>prefix</b> and appending the <b>prepend</b> digits"
 msgstr ""
+"El número marcado se compara con el <b>prefijo</b> más este patrón. Tras una "
+"coincidencia, esta parte del número será enviada a las líneas después de "
+"quitar el <b>prefijo</b> y de ser añadidos los dígitos<b>anteponer</b>"
 
 #: amp_conf/htdocs/admin/views/welcome.php:41
 #, php-format
@@ -9382,60 +9462,84 @@ msgid ""
 "Modules are updated and patched often, so if you are having a problem, it's worth checking there to see if there's\n"
 "a new version of the module available."
 msgstr ""
+"Hay un gran número de módulos plug-in disponibles desde el repositorio en "
+"línea. Esto es↵\n"
+"haciendo clic en el <a href='%s'>Menú Herramientas</a> en la parte superior, "
+"luego↵\n"
+"<a href='%s'>Módulo Admin</a>, luego↵\n"
+"<a href='%s'>Buscar actualizaciones en línea</a>.↵\n"
+"Los módulos son actualizados y parcheados a menudo, así que si usted tiene "
+"un problema, vale la pena chequear allí para ver si hay↵\n"
+"una nueva versión del módulo disponible."
 
 #: ../core/functions.inc.php:4635
 msgid "This device id is already in use"
-msgstr ""
+msgstr "Este id de dispositivo ya está en uso"
 
 #: ../core/functions.inc.php:7799
 #, php-format
 msgid "This device uses %s technology."
-msgstr ""
+msgstr "Este dispositivo utiliza una tecnología %s."
 
 #: amp_conf/htdocs/admin/page.modules.php:1204
 msgid "Unsupported"
-msgstr ""
+msgstr "no compatible"
 
 #: amp_conf/htdocs/admin/page.modules.php:867
 #, php-format
 msgid "Upgrade to %s and Enable"
-msgstr ""
+msgstr "Actualizar a %s y Habilitar"
 
 #: ../core/page.ampusers.php:172
 msgid "Username<span>Create a unique username for this new user</span>"
 msgstr ""
+"Nombre de usuario<span>Crear un nombre de usuario único para este nuevo "
+"usuario</span>"
 
 #: ../core/page.trunks.php:620
 msgid "You can completely replace a number by matching on the <b>prefix</b> only, replacing it with a <b>prepend</b> and leaving the <b>match pattern</b> blank."
 msgstr ""
+"Puede reemplazar completamente un número haciendo coincidir con el "
+"<b>prefijo</b> sólo, reemplazándolo con un <b>anteponer</b> y dejando el <b>"
+"patrón de coincidencia</b> en blanco."
 
 #: ../core/page.trunks.php:968
 msgid ""
 "You may need to add to the default lines listed below, depending on your provider..<br /><br />WARNING: Order is important as it will be retained. For example, if you use the \"allow/deny\" directives make sure deny \n"
 "\t\t\t\tcomes first."
 msgstr ""
+"Es posible que tenga que añadir las líneas de especificaciones que figuran a "
+"continuación, según el proveedor de .. <br/><br/>ADVERTENCIA: El orden es "
+"importante, ya que será retenido. Por ejemplo, si se utilizan las directivas "
+"\"permitir/denegar\" asegúrese que negar↵\n"
+"→→→→vaya primero."
 
 #: ../core/functions.inc.php:4625
 msgid "You must put in a device id"
-msgstr ""
+msgstr "Usted debe poner un identificador de dispositivo"
 
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:150
 #, php-format
 msgid "failed to delete %s from assets/css directory after creating updated CSS file."
 msgstr ""
+"fallo al eliminar %s desde el directorio assets/css después de crear el "
+"archivo actualizado CCS."
 
 #: amp_conf/htdocs/admin/libraries/freepbx_conf.class.php:772
 msgid "missing options array for keyword [%] required if type is select"
 msgstr ""
+"falta opciones del arreglo para la palabra clave [%] requerida si el tipo es "
+"seleccionado"
 
 #: amp_conf/htdocs/admin/libraries/freepbx_conf.class.php:759
 msgid "missing options for keyword [%] required if type is select"
 msgstr ""
+"falta opciones para la palabra clave [%] requerida si el tipo es seleccionado"
 
 #: ../core/functions.inc.php:7575
 msgid "never - no RFC3581"
-msgstr ""
+msgstr "nunca - no RFC3581"
 
 #: ../core/functions.inc.php:7576
 msgid "route - NAT no rport"
-msgstr ""
+msgstr "ruta - NAT no rport"
