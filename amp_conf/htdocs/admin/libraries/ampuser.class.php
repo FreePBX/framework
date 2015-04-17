@@ -41,7 +41,7 @@ class ampuser {
 		switch($this->mode) {
 			case "usermanager":
 				try {
-					return FreePBX::Userman()->getGlobalSettingByID($this->id,'pbx_login') && FreePBX::Userman()->checkCredentials($this->username,$password);
+					return FreePBX::Userman()->getCombinedGlobalSettingByID($this->id,'pbx_login') && FreePBX::Userman()->checkCredentials($this->username,$password);
 				} catch(Exception $e) {}
 				//fail-through
 			case "database":
