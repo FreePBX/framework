@@ -41,22 +41,24 @@ if (!isset($_SESSION['AMP_user'])) {
 				$hint = FreePBX::Config()->get("AMPWEBROOT")."/admin/modules/userman/Userman.class.php";
 				try {
 					FreePBX::create()->injectClass("Userman", $hint);
-				} catch(Exception $e) {}
-				$_SESSION['AMP_user'] = new ampuser($username,"usermanager");
-				if (!$_SESSION['AMP_user']->checkPassword($password)) {
-					unset($_SESSION['AMP_user']);
-					//Fall through to database only
-					//$no_auth = true;
-					//if(!empty($username)) {
-						//freepbx_log_security('Authentication failure for '.(!empty($username) ? $username : 'unknown').' from '.$_SERVER['REMOTE_ADDR']);
-					//}
-				} else {
-					if(FreePBX::Userman()->getCombinedGlobalSettingByID($_SESSION['AMP_user']->id,'pbx_admin')) {
-						$_SESSION['AMP_user']->setAdmin();
+					if(method_exists(FreePBX::Userman(),"getCombinedGlobalSettingByID")) {
+						$_SESSION['AMP_user'] = new ampuser($username,"usermanager");
+						if (!$_SESSION['AMP_user']->checkPassword($password)) {
+							unset($_SESSION['AMP_user']);
+							//Fall through to database only
+							//$no_auth = true;
+							//if(!empty($username)) {
+								//freepbx_log_security('Authentication failure for '.(!empty($username) ? $username : 'unknown').' from '.$_SERVER['REMOTE_ADDR']);
+							//}
+						} else {
+							if(FreePBX::Userman()->getCombinedGlobalSettingByID($_SESSION['AMP_user']->id,'pbx_admin')) {
+								$_SESSION['AMP_user']->setAdmin();
+							}
+							//We are logged in. Stop processing
+							break;
+						}
 					}
-					//We are logged in. Stop processing
-					break;
-				}
+				} catch(Exception $e) {}
 			}
 			//no break here so that we can fall back to database if userman is broken
 		case 'database':
