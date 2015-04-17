@@ -5968,6 +5968,10 @@ msgstr "Значение группы для устройств"
 msgid "System Device User"
 msgstr "Значение пользователя для устройств"
 
+#: amp.i18n.php:156
+msgid "System Identity"
+msgstr ""
+
 #: amp.i18n.php:554
 msgid "System Setup"
 msgstr "Системные установки"
@@ -6417,6 +6421,10 @@ msgstr ""
 #: amp.i18n.php:8
 msgid "This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module"
 msgstr "Этот модуль даёт возможность быстро инсталлировать обновления и исправления в основном коде, которые так или иначе скрыты в модуле."
+
+#: amp.i18n.php:158
+msgid "This name will be used to help identify this machine in emails or alerts"
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/beta_notice.php:8
 msgid "This page is currently BETA"
@@ -8194,16 +8202,30 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr ""
 
-#: amp.i18n.php:156
-msgid "System Identity"
+#: amp_conf/htdocs/admin/views/footer_content.php:26
+#, php-format
+msgid "%s %s is licensed under the %s"
 msgstr ""
 
-#: amp.i18n.php:158
-msgid "This name will be used to help identify this machine in emails or alerts"
+#: amp_conf/htdocs/admin/views/footer_content.php:25
+#, php-format
+msgid "%s is a registered trademark of"
 msgstr ""
 
-#~ msgid "<b>IMPORTANT:</b> Use extreme caution when making changes!"
-#~ msgstr "<b>ВАЖНО:</b> Будьте предельно внимательны когда делаете изменения!"
+#: amp_conf/htdocs/admin/functions.inc.php:381
+#, php-format
+msgid "Reload failed because %s could not connect to the asterisk manager interface."
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/welcome.php:54
+#, php-format
+msgid "We hope you enjoy using %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/welcome.php:5
+#, php-format
+msgid "Welcome to %s"
+msgstr ""
 
 #~ msgid "Left upper logo.  Path is relative to admin."
 #~ msgstr "Логотип вверху слева. Путь к файлу относительно директории admin."
@@ -8213,9 +8235,6 @@ msgstr ""
 
 #~ msgid "Path for mysqldump"
 #~ msgstr "Путь к mysqldump"
-
-#~ msgid "Path for ssh"
-#~ msgstr "Путь к ssh"
 
 #~ msgid "Path for tar"
 #~ msgstr "Путь к tar"
@@ -8228,9 +8247,6 @@ msgstr ""
 
 #~ msgid "The path to mysqldump as auto-determined by the system. Overwrite as necessary."
 #~ msgstr "Путь к mysqldump, автоопределенный системой. Переустановите, если необходимо."
-
-#~ msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Путь к ssh, автоопределенный системой. Переустановите, если необходимо."
 
 #~ msgid "The path to tar as auto-determined by the system. Overwrite as necessary."
 #~ msgstr "Путь к tar, автоопределенный системой. Переустановите, если необходимо."
@@ -8309,6 +8325,9 @@ msgstr ""
 
 #~ msgid "911"
 #~ msgstr "911"
+
+#~ msgid "<b>IMPORTANT:</b> Use extreme caution when making changes!"
+#~ msgstr "<b>ВАЖНО:</b> Будьте предельно внимательны когда делаете изменения!"
 
 #~ msgid "A Slash ('/') is never a valid DID. Please remove it and try again"
 #~ msgstr "Знак слэш ('/') является служебным символом и не разрешённ для DID. Удалите его и попробуйте ещё раз."
@@ -8999,6 +9018,9 @@ msgstr ""
 #~ msgid "Password<span>Create a password for this new user</span>"
 #~ msgstr "Пароль<span>Создать пароль для нового пользователя</span>"
 
+#~ msgid "Path for ssh"
+#~ msgstr "Путь к ssh"
+
 #~ msgid "Path for which"
 #~ msgstr "Путь к which"
 
@@ -9193,6 +9215,9 @@ msgstr ""
 
 #~ msgid "The outbound dialing prefix is used to prefix a dialing string to all outbound calls placed on this trunk. For example, if this trunk is behind another PBX or is a Centrex line, then you would put 9 here to access an outbound line. Another common use is to prefix calls with 'w' on a POTS line that need time to obtain dial tone to avoid eating digits.<br><br>Most users should leave this option blank."
 #~ msgstr "Префикс выхода на линию используется для отделения номеров набранных исходящих соединений, сделанных через этот транк. Например, если этот транк подключен к АТС или к линии Centrex, то обычно используют 9 для выходана линию. Другое стандартное применение префикса - совершать звонки с опцией 'w' в линии ТФОП, которая нужна для ожидания длинного гудка для набора номера.<br><br>Для большинства пользователей проще оставить это поле пустым"
+
+#~ msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Путь к ssh, автоопределенный системой. Переустановите, если необходимо."
 
 #~ msgid "The path to which as auto-determined by the system. Overwrite as necessary."
 #~ msgstr "Путь к which, автоопределенный системой. Переустановите, если необходимо."

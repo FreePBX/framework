@@ -5872,6 +5872,10 @@ msgstr "システムデバイスグループ"
 msgid "System Device User"
 msgstr "システムデバイスユーザー"
 
+#: amp.i18n.php:156
+msgid "System Identity"
+msgstr ""
+
 #: amp.i18n.php:554
 msgid "System Setup"
 msgstr "システムセットアップ"
@@ -6313,6 +6317,10 @@ msgstr ""
 #: amp.i18n.php:8
 msgid "This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module"
 msgstr "このモジュールは他のモジュールで含まれないフレームワークコードへのバグフィックスをインストールする機能を提供します"
+
+#: amp.i18n.php:158
+msgid "This name will be used to help identify this machine in emails or alerts"
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/beta_notice.php:8
 msgid "This page is currently BETA"
@@ -8077,12 +8085,29 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr "zapでバイスが移行されました"
 
-#: amp.i18n.php:156
-msgid "System Identity"
+#: amp_conf/htdocs/admin/views/footer_content.php:26
+#, php-format
+msgid "%s %s is licensed under the %s"
 msgstr ""
 
-#: amp.i18n.php:158
-msgid "This name will be used to help identify this machine in emails or alerts"
+#: amp_conf/htdocs/admin/views/footer_content.php:25
+#, php-format
+msgid "%s is a registered trademark of"
+msgstr ""
+
+#: amp_conf/htdocs/admin/functions.inc.php:381
+#, php-format
+msgid "Reload failed because %s could not connect to the asterisk manager interface."
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/welcome.php:54
+#, php-format
+msgid "We hope you enjoy using %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/welcome.php:5
+#, php-format
+msgid "Welcome to %s"
 msgstr ""
 
 #~ msgid "Left upper logo.  Path is relative to admin."
@@ -8094,18 +8119,6 @@ msgstr ""
 #~ msgid "Path for mysqldump"
 #~ msgstr "mysqldumpのパス"
 
-#~ msgid "Path for rm"
-#~ msgstr "rm のパス"
-
-#~ msgid "Path for ssh"
-#~ msgstr "sshのパス"
-
-#~ msgid "Path for tail"
-#~ msgstr "tail のパス"
-
-#~ msgid "Path for touch"
-#~ msgstr "touch のパス"
-
 #~ msgid "Sets the extension behavior in FreePBX.  If set to <b>extensions</b>, Devices and Users are administered together as a unified Extension, and appear on a single page. If set to <b>deviceanduser</b>, Devices and Users will be administered separately. Devices (e.g. each individual line on a SIP phone) and Users (e.g. <b>101</b>) will be configured independent of each other, allowing association of one User to many Devices, or allowing Users to login and logout of Devices."
 #~ msgstr "FreePBXの内線の動作を設定します。<b>内線</b>設定は、デバイスとユーザーは統一内線として一緒に管理され、ひとつのページに表示されます。<b>デバイスとユーザー</b>設定は、デバイスとユーザーは別々に管理されます。デバイス(例:各SIP電話の個別の回線)とユーザー(例:<b>101</b>)はそれぞれ独立して設定され、1ユーザーを多デバイスへの関連付けや、ユーザーがデバイスへのログイン・ログアウトが許可されます。"
 
@@ -8114,18 +8127,6 @@ msgstr ""
 
 #~ msgid "The path to mysqldump as auto-determined by the system. Overwrite as necessary."
 #~ msgstr "システムのデフォルトmysqldumpへのパス。必要で上書きします。"
-
-#~ msgid "The path to rm as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "システムのデフォルトrmへのパス。必要に応じて上書きしてください。"
-
-#~ msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "システムのデフォルトsshへのパス。必要で上書きします。"
-
-#~ msgid "The path to tail as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "システムで自動的に設定されるtailのパス。必要に応じて上書きしてください。"
-
-#~ msgid "The path to touch as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "システムのデフォルトtouchへのパス。必要に応じて上書きしてください。"
 
 #~ msgid "This is the default admin name used to allow an administrator to login to ARI bypassing all security. Change this to whatever you want, do not forget to change the User Portal Admin Password as well. Default = not set"
 #~ msgstr "管理者がARIへログインして全てのセキュリティを通過できることが許可されたデフォルトのadmin 名。これを好きな名前に変更してください、忘れずにユーザーポータルの管理者パスワードも変更してください。デフォルト = 設定なし"
@@ -8920,6 +8921,18 @@ msgstr ""
 #~ msgid "Passwords dont match"
 #~ msgstr "パスワードが一致しません"
 
+#~ msgid "Path for rm"
+#~ msgstr "rm のパス"
+
+#~ msgid "Path for ssh"
+#~ msgstr "sshのパス"
+
+#~ msgid "Path for tail"
+#~ msgstr "tail のパス"
+
+#~ msgid "Path for touch"
+#~ msgstr "touch のパス"
+
 #~ msgid "Pick the format in which to save recorded calls"
 #~ msgstr "録音された通話を保存する際のフォーマットを選択"
 
@@ -9114,6 +9127,18 @@ msgstr ""
 
 #~ msgid "The outbound dialing prefix is used to prefix a dialing string to all outbound calls placed on this trunk. For example, if this trunk is behind another PBX or is a Centrex line, then you would put 9 here to access an outbound line. Another common use is to prefix calls with 'w' on a POTS line that need time to obtain dial tone to avoid eating digits.<br><br>Most users should leave this option blank."
 #~ msgstr "このトランクに置かれた全てのアウトバウンドコールダイヤル文字列にプリフィックスを付与するためにアウトバウンドダイヤルプリフィックスは使用されます。例えば、このトランクが他のPBXの配下にある場合や、セントレックスラインの場合、アウトバウンドラインにアクセスするためにここで9を押します。他の一般的な使用方法は、桁数の欠落を防ぐためにダイヤルトーンを取得する時間が必要なPOTSライン上で'w'オプションを使用してコールにプリフィックスを付与します。<br><br>ほとんどのユーザーは、このオプションを空白のままにする必要があります。"
+
+#~ msgid "The path to rm as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "システムのデフォルトrmへのパス。必要に応じて上書きしてください。"
+
+#~ msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "システムのデフォルトsshへのパス。必要で上書きします。"
+
+#~ msgid "The path to tail as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "システムで自動的に設定されるtailのパス。必要に応じて上書きしてください。"
+
+#~ msgid "The path to touch as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "システムのデフォルトtouchへのパス。必要に応じて上書きしてください。"
 
 #~ msgid "The units are whole-number decibels (dB)."
 #~ msgstr "ユニットは整数のデシベルです (dB)。"

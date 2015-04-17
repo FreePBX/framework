@@ -1,8 +1,8 @@
 <?php
 
 // This is the emergency fallback 'welcome' page. It shouldn't be seen.
-global $db;
-printf( "<h2>%s</h2>", dgettext("welcome page", "Welcome to FreePBX.") );
+global $db,$amp_conf;
+echo "<h2>".sprintf(_("Welcome to %s"),$amp_conf['DASHBOARD_FREEPBX_BRAND'])."</h2>";
 $notify =& notifications::create($db);
 $items = $notify->list_all(true);
 if (count($items)) {
@@ -51,4 +51,4 @@ questions and search for answers for any problems you may be having."),
 "http://community.freepbx.org"  );
 echo "</p>\n";
 
-print "<p>" . _("We hope you enjoy using FreePBX!") . "</p>\n";
+print "<p>" . sprintf(_("We hope you enjoy using %s"),$amp_conf['DASHBOARD_FREEPBX_BRAND']) . "</p>\n";

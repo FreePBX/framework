@@ -6519,6 +6519,10 @@ msgstr ""
 msgid "System Device User"
 msgstr ""
 
+#: amp.i18n.php:156
+msgid "System Identity"
+msgstr ""
+
 #: amp.i18n.php:554
 msgid "System Setup"
 msgstr ""
@@ -6999,6 +7003,10 @@ msgstr ""
 
 #: amp.i18n.php:8
 msgid "This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module"
+msgstr ""
+
+#: amp.i18n.php:158
+msgid "This name will be used to help identify this machine in emails or alerts"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/beta_notice.php:8
@@ -8996,19 +9004,30 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr ""
 
-#: amp.i18n.php:156
-msgid "System Identity"
+#: amp_conf/htdocs/admin/views/footer_content.php:26
+#, php-format
+msgid "%s %s is licensed under the %s"
 msgstr ""
 
-#: amp.i18n.php:158
-msgid "This name will be used to help identify this machine in emails or alerts"
+#: amp_conf/htdocs/admin/views/footer_content.php:25
+#, php-format
+msgid "%s is a registered trademark of"
 msgstr ""
 
-#~ msgid "Clear Destination & Submit"
-#~ msgstr "Effacer Destination et Soumettre"
+#: amp_conf/htdocs/admin/functions.inc.php:381
+#, php-format
+msgid "Reload failed because %s could not connect to the asterisk manager interface."
+msgstr ""
 
-#~ msgid "Username must not be blank"
-#~ msgstr "Un nom d\\'utilisateur ne peut être à blanc"
+#: amp_conf/htdocs/admin/views/welcome.php:54
+#, php-format
+msgid "We hope you enjoy using %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/welcome.php:5
+#, php-format
+msgid "Welcome to %s"
+msgstr ""
 
 #~ msgid " (toggle sort)"
 #~ msgstr "(Choix tri)"
@@ -9171,6 +9190,9 @@ msgstr ""
 
 #~ msgid "Choosing Yes will result in the system automatically checking for updates nightly. The resulting information will be displayed in the dashboard and will be optionally emailed to the address below if provided.<br />This will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and to track version usage to focus development and maintenance efforts. No private information is transmitted."
 #~ msgstr "Le choix Oui amène le système a automatiquement recherché une mise à jour toutes les nuits. Le résultat sera affiché sur l'écran et sera de façon optionnelle envoyé par courriel si l'adresse est renseignée.<br />Cela transmettra les numéros de version FreePBX et Asterisk avec un identifiant unique aléatoire. Cela permet de fournir des informations sur les mises à jour et les versions utilisées au développement et à la maintenance. Aucune information privée n'est transmise."
+
+#~ msgid "Clear Destination & Submit"
+#~ msgstr "Effacer Destination et Soumettre"
 
 #~ msgid "Compare Calls"
 #~ msgstr "Compare les Appels"
@@ -9742,6 +9764,9 @@ msgstr ""
 
 #~ msgid "Username cannot start with a number, and can only contain letters and numbers"
 #~ msgstr "Un nom d\\'utilisateur doit commencer par une lettre et ne contenir que des chiffres et des lettres"
+
+#~ msgid "Username must not be blank"
+#~ msgstr "Un nom d\\'utilisateur ne peut être à blanc"
 
 #~ msgid "Username<span>Create a unique username for this new user</span>"
 #~ msgstr "Nom Administrateur<span>Création d'un nom unique pour cet administrateur</span>"

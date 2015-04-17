@@ -6548,6 +6548,10 @@ msgstr ""
 msgid "System Device User"
 msgstr ""
 
+#: amp.i18n.php:156
+msgid "System Identity"
+msgstr ""
+
 #: amp.i18n.php:554
 msgid "System Setup"
 msgstr ""
@@ -7028,6 +7032,10 @@ msgstr ""
 
 #: amp.i18n.php:8
 msgid "This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module"
+msgstr ""
+
+#: amp.i18n.php:158
+msgid "This name will be used to help identify this machine in emails or alerts"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/beta_notice.php:8
@@ -9027,22 +9035,30 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr ""
 
-#: amp.i18n.php:156
-msgid "System Identity"
+#: amp_conf/htdocs/admin/views/footer_content.php:26
+#, php-format
+msgid "%s %s is licensed under the %s"
 msgstr ""
 
-#: amp.i18n.php:158
-msgid "This name will be used to help identify this machine in emails or alerts"
+#: amp_conf/htdocs/admin/views/footer_content.php:25
+#, php-format
+msgid "%s is a registered trademark of"
 msgstr ""
 
-#~ msgid "Clear Destination & Submit"
-#~ msgstr "Limpar Destino e Aplicar"
+#: amp_conf/htdocs/admin/functions.inc.php:381
+#, php-format
+msgid "Reload failed because %s could not connect to the asterisk manager interface."
+msgstr ""
 
-#~ msgid "Username must not be blank"
-#~ msgstr "O nome do usuário não deve estar em branco"
+#: amp_conf/htdocs/admin/views/welcome.php:54
+#, php-format
+msgid "We hope you enjoy using %s"
+msgstr ""
 
-#~ msgid "You have enabled this trunk in all routes it is used"
-#~ msgstr "Você habitou este tronco em todas as rotas que é usado."
+#: amp_conf/htdocs/admin/views/welcome.php:5
+#, php-format
+msgid "Welcome to %s"
+msgstr ""
 
 #~ msgid " (toggle sort)"
 #~ msgstr "(modificar ordem)"
@@ -9187,6 +9203,9 @@ msgstr ""
 
 #~ msgid "Choosing Yes will result in the system automatically checking for updates nightly. The resulting information will be displayed in the dashboard and will be optionally emailed to the address below if provided.<br />This will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and to track version usage to focus development and maintenance efforts. No private information is transmitted."
 #~ msgstr "\"Selecionado Sim o sistema automaticamente buscara por atulizações à noite. A informação resultante será apresentada na tela de estado e pode ser enviada por e-mail para o endereço abaixo de especificado.<br />Será transmitida  sua versão do asterisk e freePBX um identificador único, porém randômico. Será usado para gerar estatísticas de uso de versão e focar os esforços de desenvolvimento e manutenção. Nenhuma informação privada será transmitida."
+
+#~ msgid "Clear Destination & Submit"
+#~ msgstr "Limpar Destino e Aplicar"
 
 #~ msgid "Compare Calls"
 #~ msgstr "Comparar chamadas"
@@ -9725,6 +9744,9 @@ msgstr ""
 #~ msgid "Username cannot start with a number, and can only contain letters and numbers"
 #~ msgstr "O nome do usuário não pode comçar por um numero e deverá conter somente letras e números"
 
+#~ msgid "Username must not be blank"
+#~ msgstr "O nome do usuário não deve estar em branco"
+
 #~ msgid "Username<span>Create a unique username for this new user</span>"
 #~ msgstr "Nome do Usuário<span>Crie um único nome para este novo usuário</span>"
 
@@ -9766,6 +9788,9 @@ msgstr ""
 
 #~ msgid "You can optionally prefix the Caller ID name. ie: If you prefix with \"Sales:\", a call from John Doe would display as \"Sales:John Doe\" on the extensions that ring."
 #~ msgstr "Opcionalmente é possível adicionar um prefixo ao nome do CallerID. ex: Se adicionar o prefixo \"Vendas:\", uma chamada de João Silva será mostrado como \"Vendas: João Silva\" para o destino."
+
+#~ msgid "You have enabled this trunk in all routes it is used"
+#~ msgstr "Você habitou este tronco em todas as rotas que é usado."
 
 #~ msgid "You have made changes to the configuration that have not yet been applied. When you are finished making all changes, click on %s to put them into effect."
 #~ msgstr "Você fez alterações à configuração que não foram aplicadas ainda. Ao finalizar todas as alterações, clique em %s para torná-las ativas."

@@ -654,8 +654,8 @@ msgstr ""
 msgid "Actions to preform in regards to this module. This usually contains installation and maintenance operations at an administration level"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:431 ../core/page.astmodules.php:137
-#: ../core/views/trunks/trunk_header.php:2
+#: amp_conf/htdocs/admin/functions.inc.php:434 ../core/page.astmodules.php:40
+#: ../core/views/trunks/trunk_header.php:1
 msgid "Add"
 msgstr ""
 
@@ -831,9 +831,9 @@ msgstr ""
 msgid "Adhoc"
 msgstr ""
 
-#: amp.i18n.php:6 amp.i18n.php:720
+#: amp.i18n.php:6 amp.i18n.php:702
 msgid "Admin"
-msgstr ""
+msgstr "ניהול"
 
 #: ../core/page.ampusers.php:276
 msgid "Admin Access"
@@ -858,18 +858,18 @@ msgstr ""
 msgid "Admin user name"
 msgstr ""
 
-#: amp.i18n.php:718
+#: amp.i18n.php:700
 msgid "Administrators"
-msgstr ""
+msgstr "מנהלים"
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:52
 #: ../core/views/did/routeform.php:61 ../core/views/trunks/pjsip.php:38
 msgid "Advanced"
 msgstr ""
 
-#: amp.i18n.php:714
+#: amp.i18n.php:696
 msgid "Advanced Settings"
-msgstr ""
+msgstr "הגדרות מתקדמות"
 
 #: amp.i18n.php:12
 msgid "Advanced Settings Details"
@@ -1048,11 +1048,11 @@ msgstr ""
 msgid "Applications"
 msgstr ""
 
-#: ../core/page.ampusers.php:178
+#: ../core/page.ampusers.php:227
 msgid "Apply Changes Bar"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/menu.php:22
+#: amp_conf/htdocs/admin/views/menu.php:168
 msgid "Apply Config"
 msgstr ""
 
@@ -1341,7 +1341,6 @@ msgstr ""
 msgid "Block Foreign CIDs"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:558
 #: amp_conf/htdocs/admin/page.modules.php:733
 #: amp_conf/htdocs/admin/views/module_admin/main.php:98
 msgid "Broken"
@@ -1545,7 +1544,7 @@ msgid "Can't sign unnamed key"
 msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:630
-#: amp_conf/htdocs/admin/views/footer.php:99
+#: amp_conf/htdocs/admin/views/footer.php:83
 msgid "Cancel"
 msgstr ""
 
@@ -2424,10 +2423,9 @@ msgid "Dependency %s has an unknown state of : %s %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:14
-#: amp_conf/htdocs/admin/views/module_admin/main.php:193
-#: ../core/functions.inc.php:6607 ../core/views/dahdichandids/changrid.php:24
-#: ../core/views/dahdichandids/didForm.php:36
-#: ../core/views/did/routeform.php:84
+#: amp_conf/htdocs/admin/views/module_admin/main.php:187
+#: ../core/functions.inc.php:7363 ../core/page.dahdichandids.php:86
+#: ../core/page.did.php:193
 msgid "Description"
 msgstr ""
 
@@ -2523,9 +2521,9 @@ msgstr ""
 msgid "Device and User mode is unsupported by the development team. Are you sure you want to use this mode?"
 msgstr ""
 
-#: amp.i18n.php:702
+#: amp.i18n.php:684
 msgid "Devices"
-msgstr ""
+msgstr "התקנים"
 
 #: ../core/functions.inc.php:6609
 msgid "Devices can be fixed or adhoc. Fixed devices are always associated to the same extension/user. Adhoc devices can be logged into and logged out of by users."
@@ -2842,7 +2840,7 @@ msgstr ""
 msgid "Download and %s to %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:291
+#: amp_conf/htdocs/admin/views/module_admin/main.php:285
 msgid "Download and Install"
 msgstr ""
 
@@ -3128,11 +3126,9 @@ msgstr ""
 msgid "Enable this to send outbound HTTP and HTTPS requests via a proxy. This does not affect Voice or Video traffic."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:575
 #: amp_conf/htdocs/admin/views/module_admin/main.php:142
-#: ../core/views/trunks/pjsip.php:212 ../core/views/trunks/trunkgrid.php:31
 msgid "Enabled"
-msgstr ""
+msgstr "מופעל"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:569
 #: amp_conf/htdocs/admin/views/module_admin/main.php:130
@@ -3208,7 +3204,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/welcome.php:13
 msgid "Error"
-msgstr ""
+msgstr "שגיאה"
 
 #: ../core/functions.inc.php:4965
 msgid "Error Duplicate Channel Entry"
@@ -3466,9 +3462,9 @@ msgstr ""
 msgid "Extension number conflict, please choose another."
 msgstr ""
 
-#: amp.i18n.php:698
+#: amp.i18n.php:680
 msgid "Extensions"
-msgstr ""
+msgstr "שלוחות"
 
 #: upgrades/2.8.0/modules-conf.php:41 upgrades/2.8.0/modules-conf.php:55
 msgid "FAILED"
@@ -3820,9 +3816,9 @@ msgstr ""
 msgid "FreePBX Log Routing"
 msgstr ""
 
-#: amp.i18n.php:724
+#: amp.i18n.php:706
 msgid "FreePBX Support"
-msgstr ""
+msgstr "FreePBX תמיכה"
 
 #: amp.i18n.php:626
 msgid "FreePBX Web Address"
@@ -3939,7 +3935,7 @@ msgstr ""
 msgid "General Retry Interval"
 msgstr ""
 
-#: ../core/page.ampusers.php:220
+#: ../core/page.ampusers.php:155 ../core/views/trunks/trunk_header.php:43
 msgid "General Settings"
 msgstr ""
 
@@ -4358,9 +4354,9 @@ msgstr ""
 msgid "Inbound Route: %s (%s)"
 msgstr ""
 
-#: amp.i18n.php:704 ../core/page.did.php:106
+#: amp.i18n.php:686
 msgid "Inbound Routes"
-msgstr ""
+msgstr "נתיבים נכנסים"
 
 #: ../core/views/did/rnav.php:1
 msgid "Inbound Routes List"
@@ -4408,8 +4404,8 @@ msgstr ""
 msgid "Inserted interim RTPSTART and RTPEND settings"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:286
-#: amp_conf/htdocs/admin/views/module_admin/main.php:335
+#: amp_conf/htdocs/admin/views/module_admin/main.php:280
+#: amp_conf/htdocs/admin/views/module_admin/main.php:329
 msgid "Install"
 msgstr ""
 
@@ -4748,7 +4744,7 @@ msgstr ""
 msgid "Logo in footer.Path is relative to admin."
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/menu.php:51
+#: amp_conf/htdocs/admin/views/menu.php:162
 msgid "Logout"
 msgstr ""
 
@@ -4807,7 +4803,7 @@ msgid "Manage Session"
 msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:645
-#: amp_conf/htdocs/admin/page.modules.php:1119
+#: amp_conf/htdocs/admin/page.modules.php:1068
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:30
 msgid "Manage local modules"
 msgstr ""
@@ -4918,11 +4914,7 @@ msgstr ""
 msgid "Modify the default USER connection parameters for your VoIP provider."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:587
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:657
 #: amp_conf/htdocs/admin/views/module_admin/main.php:39
-#: ../core/page.astmodules.php:85 ../core/page.astmodules.php:102
-#: ../core/page.astmodules.php:119
 msgid "Module"
 msgstr ""
 
@@ -5109,7 +5101,7 @@ msgstr ""
 msgid "Multiple params to autoload (__call) not supported. Don't do that. Or re-write this."
 msgstr ""
 
-#: ../core/views/did/routeform.php:12
+#: ../core/page.did.php:221
 msgid "Music On Hold"
 msgstr ""
 
@@ -5346,10 +5338,6 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:88
 #, php-format
 msgid "Not Installed (Available online: %s)"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:546
-msgid "Not Installed (Locally available)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:90
@@ -5643,10 +5631,9 @@ msgstr ""
 msgid "Outbound Route: %s"
 msgstr ""
 
-#: amp.i18n.php:710 ../core/page.routing.php:86
-#: ../core/views/routing/default.php:2
+#: amp.i18n.php:692
 msgid "Outbound Routes"
-msgstr ""
+msgstr "נתיבים יוצאים"
 
 #: ../core/views/trunks/sip.php:4
 msgid "Outgoing"
@@ -6437,11 +6424,7 @@ msgid "Requires one of the following engines: %s; you have: %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:33
-#: amp_conf/htdocs/admin/views/module_admin/main.php:444
-#: ../core/Core.class.php:192 ../core/Core.class.php:209
-#: ../core/Core.class.php:228 ../core/Core.class.php:249
-#: ../core/Core.class.php:279 ../core/Core.class.php:309
-#: ../core/Core.class.php:337
+#: amp_conf/htdocs/admin/views/module_admin/main.php:438
 msgid "Reset"
 msgstr ""
 
@@ -6862,10 +6845,9 @@ msgstr ""
 msgid "Setting to yes (equivalent to 2000 msec) will send an OPTIONS packet to the endpoint periodically (default every minute). Used to monitor the health of the endpoint. If delays are longer then the qualify time, the endpoint will be taken offline and considered unreachable. Can be set to a value which is the msec threshold. Setting to no will turn this off. Can also be helpful to keep NAT pinholes open."
 msgstr ""
 
-#: amp.i18n.php:716 ../core/functions.inc/drivers/Sip.class.php:168
-#: ../core/views/trunks/trunk_header.php:237
+#: amp.i18n.php:698
 msgid "Settings"
-msgstr ""
+msgstr "הגדרות"
 
 #: ../core/views/trunks/trunk_header.php:247
 #: ../core/views/trunks/trunk_header.php:255
@@ -7008,10 +6990,8 @@ msgstr ""
 msgid "Styling image."
 msgstr ""
 
-#: ../core/Core.class.php:197 ../core/Core.class.php:214
-#: ../core/Core.class.php:233 ../core/Core.class.php:254
-#: ../core/Core.class.php:284 ../core/Core.class.php:314
-#: ../core/Core.class.php:342
+#: amp_conf/htdocs/admin/libraries/components.class.php:399
+#: ../core/page.did.php:303
 msgid "Submit"
 msgstr ""
 
@@ -7024,7 +7004,7 @@ msgstr ""
 msgid "Successful reload, but could not clear reload flag due to a database error: "
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:396
+#: amp_conf/htdocs/admin/functions.inc.php:399
 msgid "Successfully reloaded"
 msgstr ""
 
@@ -7066,6 +7046,10 @@ msgstr ""
 
 #: amp.i18n.php:646
 msgid "System Device User"
+msgstr ""
+
+#: amp.i18n.php:156
+msgid "System Identity"
 msgstr ""
 
 #: amp.i18n.php:554
@@ -7496,10 +7480,6 @@ msgstr ""
 msgid "This CallerID will always be set when dialing out an Outbound Route flagged as Emergency.  The Emergency CID overrides all other CallerID settings."
 msgstr ""
 
-#: ../core/Core.class.php:1024
-msgid "This device id is already in use"
-msgstr ""
-
 #: ../core/functions.inc/drivers/Sip.class.php:185
 #, php-format
 msgid "This device uses %s technology %s"
@@ -7595,6 +7575,10 @@ msgstr ""
 
 #: amp.i18n.php:8
 msgid "This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module"
+msgstr ""
+
+#: amp.i18n.php:158
+msgid "This name will be used to help identify this machine in emails or alerts"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/beta_notice.php:8
@@ -7724,9 +7708,9 @@ msgstr ""
 msgid "Trunk: %s (%s)"
 msgstr ""
 
-#: amp.i18n.php:712 ../core/views/trunks/main.php:2
+#: amp.i18n.php:694
 msgid "Trunks"
-msgstr ""
+msgstr "טרנקים"
 
 #: ../core/functions.inc/drivers/Sip.class.php:272
 msgid "Trust RPID"
@@ -7853,9 +7837,9 @@ msgstr ""
 msgid "Under Migration"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:310
-#: amp_conf/htdocs/admin/views/module_admin/main.php:338
-#: amp_conf/htdocs/admin/views/module_admin/main.php:370
+#: amp_conf/htdocs/admin/views/module_admin/main.php:304
+#: amp_conf/htdocs/admin/views/module_admin/main.php:332
+#: amp_conf/htdocs/admin/views/module_admin/main.php:364
 msgid "Uninstall"
 msgstr ""
 
@@ -7924,7 +7908,7 @@ msgstr ""
 msgid "Up to date."
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:101
+#: amp_conf/htdocs/admin/views/footer.php:85
 #: amp_conf/htdocs/admin/views/welcome.php:12
 msgid "Update"
 msgstr ""
@@ -8164,9 +8148,9 @@ msgstr ""
 msgid "Username<span>Create a unique username for this new user</span>"
 msgstr ""
 
-#: amp.i18n.php:700
+#: amp.i18n.php:682
 msgid "Users"
-msgstr ""
+msgstr "משתמשים"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:444
 #, php-format
@@ -8219,7 +8203,6 @@ msgstr ""
 msgid "Verified. Using Local"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:587
 #: amp_conf/htdocs/admin/views/module_admin/main.php:40
 msgid "Version"
 msgstr ""
@@ -9772,10 +9755,45 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr ""
 
-#: amp.i18n.php:156
-msgid "System Identity"
+# Hebrew version for FreePBX Administration.
+# This file is distributed under the same license as the PACKAGE package.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: FreePBX 2.2.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-04-17 15:29-0400\n"
+"PO-Revision-Date: 2006-09-28 17:30+0300\n"
+"Last-Translator: Moshe Brevda mbrevda => gmail ! com\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: amp_conf/htdocs/admin/views/footer_content.php:26
+#, php-format
+msgid "%s %s is licensed under the %s"
 msgstr ""
 
-#: amp.i18n.php:158
-msgid "This name will be used to help identify this machine in emails or alerts"
+#: amp_conf/htdocs/admin/views/footer_content.php:25
+#, php-format
+msgid "%s is a registered trademark of"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/menu.php:140
+msgid "Language"
+msgstr ""
+
+#: amp_conf/htdocs/admin/functions.inc.php:381
+#, php-format
+msgid "Reload failed because %s could not connect to the asterisk manager interface."
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/welcome.php:54
+#, php-format
+msgid "We hope you enjoy using %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/welcome.php:5
+#, php-format
+msgid "Welcome to %s"
 msgstr ""

@@ -132,7 +132,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:543
 #, php-format
 msgid "%s %s will be disabled"
-msgstr ""
+msgstr "%s %s zal gedeactiveerd worden"
 
 #: amp_conf/htdocs/admin/page.modules.php:481
 #, php-format
@@ -350,7 +350,7 @@ msgstr ""
 #: ../core/install.php:836
 #, php-format
 msgid "%s prepared"
-msgstr ""
+msgstr "%s voorbereid"
 
 #: amp_conf/htdocs/admin/page.modules.php:334
 #, php-format
@@ -566,9 +566,9 @@ msgstr ""
 msgid "AMI failure details:"
 msgstr ""
 
-#: amp.i18n.php:88
+#: amp.i18n.php:78
 msgid "AMPLOCALBIN Dir for retrieve_conf"
-msgstr ""
+msgstr "AMPLOCALBIN map voor retrieve_conf"
 
 #: ../core/views/trunks/pjsip.php:102
 msgid "AOR Contact"
@@ -6326,6 +6326,10 @@ msgstr ""
 msgid "System Device User"
 msgstr ""
 
+#: amp.i18n.php:156
+msgid "System Identity"
+msgstr ""
+
 #: amp.i18n.php:554
 msgid "System Setup"
 msgstr ""
@@ -6808,6 +6812,10 @@ msgstr ""
 
 #: amp.i18n.php:8
 msgid "This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module"
+msgstr ""
+
+#: amp.i18n.php:158
+msgid "This name will be used to help identify this machine in emails or alerts"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/beta_notice.php:8
@@ -8702,12 +8710,29 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr ""
 
-#: amp.i18n.php:156
-msgid "System Identity"
+#: amp_conf/htdocs/admin/views/footer_content.php:26
+#, php-format
+msgid "%s %s is licensed under the %s"
 msgstr ""
 
-#: amp.i18n.php:158
-msgid "This name will be used to help identify this machine in emails or alerts"
+#: amp_conf/htdocs/admin/views/footer_content.php:25
+#, php-format
+msgid "%s is a registered trademark of"
+msgstr ""
+
+#: amp_conf/htdocs/admin/functions.inc.php:381
+#, php-format
+msgid "Reload failed because %s could not connect to the asterisk manager interface."
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/welcome.php:54
+#, php-format
+msgid "We hope you enjoy using %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/welcome.php:5
+#, php-format
+msgid "Welcome to %s"
 msgstr ""
 
 #~ msgid "Always dial with prefix"

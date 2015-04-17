@@ -6543,6 +6543,10 @@ msgstr ""
 msgid "System Device User"
 msgstr ""
 
+#: amp.i18n.php:156
+msgid "System Identity"
+msgstr ""
+
 #: amp.i18n.php:554
 msgid "System Setup"
 msgstr ""
@@ -7021,6 +7025,10 @@ msgstr ""
 
 #: amp.i18n.php:8
 msgid "This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module"
+msgstr ""
+
+#: amp.i18n.php:158
+msgid "This name will be used to help identify this machine in emails or alerts"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/beta_notice.php:8
@@ -9020,22 +9028,30 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr ""
 
-#: amp.i18n.php:156
-msgid "System Identity"
+#: amp_conf/htdocs/admin/views/footer_content.php:26
+#, php-format
+msgid "%s %s is licensed under the %s"
 msgstr ""
 
-#: amp.i18n.php:158
-msgid "This name will be used to help identify this machine in emails or alerts"
+#: amp_conf/htdocs/admin/views/footer_content.php:25
+#, php-format
+msgid "%s is a registered trademark of"
 msgstr ""
 
-#~ msgid "Clear Destination & Submit"
-#~ msgstr "Pulisci Destinazione e Conferma"
+#: amp_conf/htdocs/admin/functions.inc.php:381
+#, php-format
+msgid "Reload failed because %s could not connect to the asterisk manager interface."
+msgstr ""
 
-#~ msgid "Username must not be blank"
-#~ msgstr "Il nome utente non può essere lasciato vuoto"
+#: amp_conf/htdocs/admin/views/welcome.php:54
+#, php-format
+msgid "We hope you enjoy using %s"
+msgstr ""
 
-#~ msgid "You have enabled this trunk in all routes it is used"
-#~ msgstr "Permette di disabilitare il fascio in tutte le rotte dove è utilizzato"
+#: amp_conf/htdocs/admin/views/welcome.php:5
+#, php-format
+msgid "Welcome to %s"
+msgstr ""
 
 #~ msgid "\")"
 #~ msgstr "\")"
@@ -9174,6 +9190,9 @@ msgstr ""
 
 #~ msgid "Choosing Yes will result in the system automatically checking for updates nightly. The resulting information will be displayed in the dashboard and will be optionally emailed to the address below if provided.<br />This will transmit your FreePBX and Asterisk version numbers along with a unique but random identifier. This is used to provide proper update information and to track version usage to focus development and maintenance efforts. No private information is transmitted."
 #~ msgstr "Selezionando Sì il sistema ricercherà nuovi aggiornamenti ogni notte. Le informazioni risultanti saranno visualizzate nella Dashboard e come opzione inviate tramite Email all'indirizzo quì sotto specificato. Il controllo aggiornamento trasmetterà informazioni sulla versione di Asterisk e FreePBX in uso, così come anche un numero identificativo univoco. Questo è utilizzato per fornire informazioni corrette sugli aggiornamenti e per tracciare l'uso delle versioni, utile per la manutenzione e gli sviluppi futuri. Nessuna informazione privata verrà trasmessa."
+
+#~ msgid "Clear Destination & Submit"
+#~ msgstr "Pulisci Destinazione e Conferma"
 
 #~ msgid "Compare Calls"
 #~ msgstr "Comparazione Chiamate"
@@ -9702,6 +9721,9 @@ msgstr ""
 #~ msgid "Username cannot start with a number, and can only contain letters and numbers"
 #~ msgstr "Il Nome Utente non può iniziare con un numero e può contenere solo lettere e numeri"
 
+#~ msgid "Username must not be blank"
+#~ msgstr "Il nome utente non può essere lasciato vuoto"
+
 #~ msgid "Username<span>Create a unique username for this new user</span>"
 #~ msgstr "Nome utente<span>Digitare il nome del nuovo utente</span>"
 
@@ -9745,6 +9767,9 @@ msgstr ""
 
 #~ msgid "You can optionally prefix the Caller ID name. ie: If you prefix with \"Sales:\", a call from John Doe would display as \"Sales:John Doe\" on the extensions that ring."
 #~ msgstr "Come opzione si può inserire un prefisso prima dell'identificativo chiamante. Es.: se si inserisce \"Commerciale:\", una chiamata da Mario Rossi sarà visualizzata come \"Commerciale:Mario Rossi\" sul display del telefono che squilla."
+
+#~ msgid "You have enabled this trunk in all routes it is used"
+#~ msgstr "Permette di disabilitare il fascio in tutte le rotte dove è utilizzato"
 
 #~ msgid "You have made changes to the configuration that have not yet been applied. When you are finished making all changes, click on %s to put them into effect."
 #~ msgstr "Hai effettuato dei cambiamenti alla configurazione che non sono stati ancora applicati. Quando hai terminato, fai click su %s per metterli in atto."

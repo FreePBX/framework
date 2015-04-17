@@ -375,7 +375,7 @@ function do_reload($passthru=false) {
 
 	if (!isset($astman) || !$astman) {
 		$return['status'] = false;
-		$return['message'] = _('Reload failed because FreePBX could not connect to the asterisk manager interface.');
+		$return['message'] = sprtinf(_('Reload failed because %s could not connect to the asterisk manager interface.'),$amp_conf['DASHBOARD_FREEPBX_BRAND']);
 		$return['num_errors']++;
 		$notify->add_critical('freepbx','RCONFFAIL', _("retrieve_conf failed, config not applied"), $return['message']);
 		return $return;
