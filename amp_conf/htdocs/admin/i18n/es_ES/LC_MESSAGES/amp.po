@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-10 12:55+0200\n"
-"PO-Revision-Date: 2015-04-17 00:12+0200\n"
+"PO-Revision-Date: 2015-04-17 03:57+0200\n"
 "Last-Translator: Daver <daverjorge46@gmail.com>\n"
 "Language-Team: Spanish "
 "<http://weblate.freepbx.org/projects/freepbx/framework/es_ES/>\n"
@@ -8139,46 +8139,65 @@ msgstr "Usted debe arreglar el problema o seleccionar otro archivo y %s."
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1757
 #: amp_conf/htdocs/admin/libraries/module.functions.php:1765
 msgid "You should go to the module admin page to fix these."
-msgstr ""
+msgstr "Debe ir a la página de Administración de Módulos para fijar estos."
 
 #: amp_conf/htdocs/admin/libraries/module.functions.php:704
 #, php-format
 msgid "Your %s version (%s) is incompatible."
-msgstr ""
+msgstr "Su %s versión (%s) no es compatible."
 
 #: ../core/page.advancedsettings.php:37
 msgid "Your Display settings have been changed, click on 'Refresh Page' to view the affects of your changes once you have saved other outstanding changes that are still un-confirmed."
 msgstr ""
+"La configuración de pantalla se ha cambiado, haga clic en 'Actualizar "
+"Página' para ver los efectos de los cambios una vez que haya guardado otros "
+"cambios pendientes que aún están sin confirmar."
 
 #: amp_conf/htdocs/admin/libraries/view.functions.php:19
 #, php-format
 msgid "Your memory_limit, %sM, is set too low and has been increased to %sM. You may want to change this in you php.ini config file"
 msgstr ""
+"Su memory_limit, %sM, es demasiado baja y se ha aumentado a %sM. Es posible "
+"que desee cambiar esto en el archivo de configuración php.ini"
 
 #: amp_conf/htdocs/admin/libraries/view.functions.php:21
 #, php-format
 msgid "Your memory_limit, %sM, is set too low and may cause problems. FreePBX is not able to change this on your system. You should increase this to %sM in you php.ini config file"
 msgstr ""
+"Su memory_limit, %sM, es demasiado baja y puede causar problemas. FreePBX no "
+"es capaz de cambiar esto en su sistema. Debe incrementarlo a %sM en el "
+"archivo de configuración php.ini"
 
 #: ../core/views/trunks/zap.php:8
 msgid "ZAP channels are referenced either by a group number or channel number (which is defined in zapata.conf).  <br><br>The default setting is <b>g0</b> (group zero)."
 msgstr ""
+"Los canales Zap están referenciados ya sea por un número de grupo o número "
+"de canal (que se define en zapata.conf). <br><br>La configuración "
+"predeterminada es<b>g0</b> (grupo cero)."
 
 #: ../core/views/trunks/zap.php:8
 msgid "Zap Identifier"
-msgstr ""
+msgstr "Identificador Zap"
 
 #: ../core/functions.inc.php:6834
 msgid "Zap echocancel setting, see Zap documentation for details."
 msgstr ""
+"Configuración eco cancelación Zap, consulte la documentación de Zap para "
+"detalles."
 
 #: ../core/functions.inc.php:6830
 msgid "Zap immediate mode setting, see Zap documentation for details."
 msgstr ""
+"Configuración Modo inmediato Zap, consulte la documentación de Zap para más "
+"detalles."
 
 #: ../core/functions.inc.php:6832
 msgid "Zap signaling, usually fxo_ks when connected to an analog phone. Some special applications or channel bank connections may require fxs_ks or other valid settings. See Zap and card documentation for details."
 msgstr ""
+"Señalización Zap, por lo general fxo_ks cuando se conecta a un teléfono "
+"analógico. Algunas aplicaciones especiales o conexiones bancarias pueden "
+"requerir fxs_ks u otros valores válidos. Ver Zap y documentación de la "
+"tarjeta para obtener más información."
 
 #: ../core/install.php:9
 msgid "ZapBarge"
@@ -8187,34 +8206,41 @@ msgstr ""
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:116
 msgid "[WARNING] this is a security risk, you should create an admin user and disable this vulnerability."
 msgstr ""
+"[ADVERTENCIA] esto es un riesgo de seguridad, debe crear un usuario "
+"administrador y deshabilitar esta vulnerabilidad."
 
 #: amp_conf/htdocs/admin/views/menuitem_disabled.php:3
 #, php-format
 msgid "[WARNING]: Menu Item: %s is disabled because asterisk is not running"
 msgstr ""
+"[ADVERTENCIA]: Elemento de Menú: %s está desactivado porque asterisk no está "
+"en funcionamiento"
 
 #: upgrades/2.10.0beta3/migration.php:61 upgrades/2.10.0beta3/migration.php:76
 #: upgrades/2.9.0alpha1/tables.php:48 upgrades/2.9.0alpha1/tables.php:64
 #: ../core/install.php:243 ../core/install.php:259 ../core/install.php:503
 #: ../core/install.php:519 ../core/install.php:910 ../core/install.php:926
 msgid "added"
-msgstr ""
+msgstr "Añadido"
 
 #: upgrades/2.8.0/modules-conf.php:37
 msgid "adding preload for chan_local.so to modules.conf.."
-msgstr ""
+msgstr "Añadiendo precarga para chan_local.so a modules.conf.."
 
 #: upgrades/2.8.0/modules-conf.php:51
 msgid "adding preload for pbx_config.so to modules.conf.."
-msgstr ""
+msgstr "Añadiendo precarga para pbx_config.so a modules.conf.."
 
 #: ../core/views/trunks/trunk_header.php:150
 msgid "adds a dialing prefix from the number (for example, 1613+NXXXXXX would match when some dialed \"5551234\" and would pass \"16135551234\" to the trunk)"
 msgstr ""
+"Añade un prefijo de marcación del número (por ejemplo, 1613+NXXXXXX "
+"coincidiría cuando alguien marca \"5551234\" y pasaría \"16135551234\" a la "
+"línea)"
 
 #: ../core/install.php:196
 msgid "already done"
-msgstr ""
+msgstr "todo realizado"
 
 #: upgrades/2.6.0beta1/tables.php:336 upgrades/2.8.0alpha2/tables.php:56
 #: upgrades/2.8.0alpha2/tables.php:172 upgrades/2.9.0alpha1/tables.php:50
@@ -8222,7 +8248,7 @@ msgstr ""
 #: ../core/install.php:262 ../core/install.php:486 ../core/install.php:505
 #: ../core/install.php:521 ../core/install.php:913 ../core/install.php:929
 msgid "already exists"
-msgstr ""
+msgstr "ya existe"
 
 #: upgrades/2.11.0rc1/migration.php:53
 msgid "already symlinked skipping"
@@ -8230,105 +8256,113 @@ msgstr ""
 
 #: upgrades/2.10.0beta3/migration.php:63 upgrades/2.10.0beta3/migration.php:78
 msgid "already there"
-msgstr ""
+msgstr "ya allí"
 
 #: amp.i18n.php:500
 msgid "alt attribute to use in place of image and title hover value. Defaults to FreePBX"
 msgstr ""
+"atributo alt para usar en lugar del valor fijo de la imagen y el título. Por "
+"defecto es FreePBX"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:164
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2861
 msgid "altered"
-msgstr ""
+msgstr "alterado"
 
 #: install.php:147
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr ""
+"se ha producido un error al eliminar el directorio/archivo empaquetado: %s"
 
 #: upgrades/2.10.1/migration.php:58
 msgid "an error occurred trying to write out manager.conf changes"
-msgstr ""
+msgstr "Error al intentar escribir cambios en manager.conf"
 
 #: ../core/page.did.php:111
 msgid "any CID"
-msgstr ""
+msgstr "cualquier CID"
 
 #: ../core/page.did.php:110
 msgid "any DID"
-msgstr ""
+msgstr "cualquier DID"
 
 #: ../core/page.routing.php:545
 msgid "appended to a dial pattern, matches a callerid or callerid pattern (for example, NXXXXXX/104 would match only if dialed by extension \"104\")"
 msgstr ""
+"anexo a un patrón de marcado, si coincide con un callerid o patrón callerid ("
+"por ejemplo, NXXXXXX/104 coincidiría sólo si es marcado por la extensión \""
+"104\")"
 
 #: upgrades/2.9.0beta2/logger_migrate.php:84
 msgid "apply configuration settings after new core module loaded"
 msgstr ""
+"aplicar los ajustes de configuración después de cargado nuevo núcleo de "
+"módulo"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:635
 msgid "called set_conf_values with a non-array"
-msgstr ""
+msgstr "llamado set_conf_values con un non-array"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:145
 #, php-format
 msgid "changed %s settings"
-msgstr ""
+msgstr "Modificados %s Ajustes"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:481
 #, php-format
 msgid "checkSig was given %s, which is not a file"
-msgstr ""
+msgstr "checkSig se le dio %s, el cual no es un archivo"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:125
 #, php-format
 msgid "checking %s .."
-msgstr ""
+msgstr "comprobando %s .."
 
 #: ../core/install.php:940
 msgid "checking for continue field in trunks.."
-msgstr ""
+msgstr "comprobando para seguir campo en líneas.."
 
 #: ../core/install.php:233
 msgid "checking for delay_answer field .."
-msgstr ""
+msgstr "comprobando campo delay_answer .."
 
 #: ../core/install.php:924
 msgid "checking for dest field in outbound_routes.."
-msgstr ""
+msgstr "comprobando campo dest en rutas salientes.."
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:167
 msgid "checking for freepbx.conf.."
-msgstr ""
+msgstr "comprobando para freepbx.conf.."
 
 #: ../core/install.php:249
 msgid "checking for pricid field .."
-msgstr ""
+msgstr "comprobando para campo pricid .."
 
 #: ../core/install.php:257
 msgid "checking for reversal field .."
-msgstr ""
+msgstr "comprobando para campo reversal .."
 
 #: upgrades/2.8.0/custom-context.php:40
 #: upgrades/2.8.0rc1/custom-context.php:33
 msgid "checking if Custom Context migration is required..."
-msgstr ""
+msgstr "comprobando si se requiere la migración de Contexto personalizado ..."
 
 #: upgrades/2.10.0beta3/migration.php:68
 msgid "checking if did file field needed in cdr.."
-msgstr ""
+msgstr "comprobando si el archivo did requiere un campo en cdr .."
 
 #: upgrades/2.10.0beta3/migration.php:53
 msgid "checking if recordingfile file field needed in cdr.."
-msgstr ""
+msgstr "comprobando si el archivo recordingfile necesita un campo en cdr.."
 
 #: upgrades/2.11.0rc1/migration.php:40
 msgid "checking if res_odbc.conf needs migration"
-msgstr ""
+msgstr "comprobando si res_odbc.conf necesita migración"
 
 #: amp_conf/htdocs/admin/helpers/freepbx_helpers.php:105
 msgid "choose one"
-msgstr ""
+msgstr "escoja uno"
 
 #: ../core/functions.inc.php:7078
 msgid "comedia - (comedia)"
@@ -8336,124 +8370,128 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:70
 msgid "confirm email"
-msgstr ""
+msgstr "confirmar email"
 
 #: upgrades/2.8.0alpha2/tables.php:95
 msgid "continuing.."
-msgstr ""
+msgstr "continuando.."
 
 #: ../core/install.php:970
 msgid "could not delete"
-msgstr ""
+msgstr "No puede eliminarse"
 
 #: upgrades/2.6.0beta1/tables.php:338 upgrades/2.8.0alpha2/tables.php:58
 #: upgrades/2.8.0alpha2/tables.php:174
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:48
 msgid "created"
-msgstr ""
+msgstr "creado"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:200
 #, php-format
 msgid "created %s"
-msgstr ""
+msgstr "creado %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:442
 msgid "custom modifications, details at:"
-msgstr ""
+msgstr "modificaciones personalizadas, detalles en:"
 
 #: ../core/install.php:1018
 msgid "dahdi table not empty, can't migrate zap data there"
-msgstr ""
+msgstr "tabla dahdi no está vacía, no se pueden migrar los datos de zap allí"
 
 #: ../core/page.routing.php:481
 msgid "default"
-msgstr ""
+msgstr "Por defecto"
 
 #: ../core/functions.inc.php:7018 ../core/functions.inc.php:7709
 #: ../core/page.did.php:122
 msgid "deleted"
-msgstr ""
+msgstr "eliminado"
 
 #: ../core/install.php:965
 msgid "deleting ALLOW_SIP_ANON from globals.."
-msgstr ""
+msgstr "eliminando ALLOW_SIP_ANON de variables globales.."
 
 #: ../core/install.php:915
 msgid "deleting obsoleted record_in and record_out entries.."
-msgstr ""
+msgstr "eliminando las entradas obsoletas  record_in y record_out.."
 
 #: install.php:90 install.php:101 install.php:111
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:495
 #: ../core/install.php:882 ../core/install.php:968
 msgid "done"
-msgstr ""
+msgstr "hecho"
 
 #: upgrades/2.8.0/custom-context.php:104
 #: upgrades/2.8.0rc1/custom-context.php:105
 msgid "done! Reload FreePBX to update all Custom Context settings."
 msgstr ""
+"hecho! Recarga FreePBX para actualizar todos los ajustes de Contexto "
+"Personalizado."
 
 #: install.php:88 install.php:99 install.php:109
 msgid "done, see errors below"
-msgstr ""
+msgstr "hecho, ver los errores a continuación"
 
 #: upgrades/2.8.0alpha2/tables.php:114
 msgid "dropping old trunks_dialpatterns table.."
-msgstr ""
+msgstr "vaciando antiguas tablas trunks_dialpatterns.."
 
 #: amp_conf/htdocs/admin/views/obe.php:59
 msgid "email address"
-msgstr ""
+msgstr "dirección de correo electrónico"
 
 #: ../core/install.php:1015
 msgid "error checking dahdi table size to determine if zap table contents can be migrated"
 msgstr ""
+"error comprobando tamaño de la tabla dahdi para determinar si el contenido "
+"de la tabla zap se puede migrar"
 
 #: upgrades/2.11.0rc1/migration.php:47
 msgid "error could not move it"
-msgstr ""
+msgstr "error no se pudo mover"
 
 #: ../core/install.php:1010 ../core/install.php:1029
 msgid "error dropping table"
-msgstr ""
+msgstr "error vaciando la tabla"
 
 #: ../core/install.php:1054
 msgid "error migrating table"
-msgstr ""
+msgstr "error migrando la tabla"
 
 #: ../core/install.php:1066
 msgid "error occured"
-msgstr ""
+msgstr "ha ocurrido un error"
 
 #: ../core/install.php:1050
 msgid "error occured updating devices table"
-msgstr ""
+msgstr "error actualizando tabla de dispositivos"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:110
 msgid "error reading ampusers table"
-msgstr ""
+msgstr "error leyendo tabla ampusers"
 
 #: upgrades/2.9.0beta2/logger_migrate.php:82
 msgid "errors occured listed above"
-msgstr ""
+msgstr "errores ocurridos listados arriba"
 
 #: upgrades/2.9.0beta2/logger_migrate.php:19
 #, php-format
 msgid "existing settings will be put in %s and %s"
-msgstr ""
+msgstr "ajustes existentes serán puestos en %s y s%s"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:50
 msgid "exists"
-msgstr ""
+msgstr "existe"
 
 #: upgrades/2.10.0beta3/migration.php:58 upgrades/2.10.0beta3/migration.php:73
 msgid "failed"
-msgstr ""
+msgstr "fallido"
 
 #: upgrades/2.9.0beta2/logger_migrate.php:29
 #, php-format
 msgid "failed reading %s, file not being removed"
-msgstr ""
+msgstr "fallo leyendo %s archivo no pudo ser eliminado"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1289
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1458
@@ -8461,44 +8499,46 @@ msgstr ""
 #, php-format
 msgid "failed to delete %s from cache directory after opening module archive."
 msgstr ""
+"fallo al eliminar %s desde el directorio caché después de abrir archivo de "
+"módulo."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2178
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2184
 #, php-format
 msgid "failed to include %s during %s of the %s module."
-msgstr ""
+msgstr "fallo al incluir %s durante %s del módulo %s."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1284
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1453
 #, php-format
 msgid "failed to open %s module archive into _cache directory."
-msgstr ""
+msgstr "fallo al abrir archivo de módulo %s en  directorio into_cache."
 
 #: ../core/install.php:240 ../core/install.php:256
 msgid "fatal error"
-msgstr ""
+msgstr "error fatal"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:929
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:954
 #, php-format
 msgid "fatal error deleting rows from freepbx_settings, sql query: %s"
-msgstr ""
+msgstr "error fatal eliminando filas de freepbx_settings, consulta sql: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:218
 msgid "fatal error reading freepbx_settings"
-msgstr ""
+msgstr "error fatal leyendo freepbx_settings"
 
 #: ../core/install.php:931 ../core/install.php:947
 msgid "fatal error trying to add field"
-msgstr ""
+msgstr "error fatal intentando añadir campo"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1000
 msgid "fatal error updating freepbx_settings table"
-msgstr ""
+msgstr "error fatal actualizando tabla freepbx_settings"
 
 #: ../core/page.advancedsettings.php:90
 msgid "field can be left blank"
-msgstr ""
+msgstr "campo puede dejarse en blanco"
 
 #: install.php:149
 #, php-format
