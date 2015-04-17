@@ -53,8 +53,16 @@ if ($amp_conf['USE_FREEPBX_MENU_CONF']) {
 }
 
 
-// TODO: these categories are not localizable
-//
+//For Localization pickup
+if(false) {
+  _("Admin");
+  _("Applications");
+  _("Connectivity");
+  _("Reports");
+  _("Settings");
+  _("User Panel");
+  _("Other");
+}
 if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not defined
 	if (empty($favorites)) foreach ($fpbx_menu as $mod => $deets) {
 		switch(strtolower($deets['category'])) {
@@ -88,9 +96,12 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
       $mods[$t] = '<a href="' . $href . '" ' . $target . $class . '>' . modgettext::_(ucwords($cat[0]['name']),$cat[0]['module']['rawname']) . '</a>';
       continue;
     }
-		// $t is a heading so can't be isolated to a module, translation must come from amp
+    //Reverse lookup here, first look in amp, then the module, then amp again.
+    //This allows us to check special modules that are not defined in Framework
+    $catname = _(ucwords($t));
+    $catname = ($catname != ucwords($t)) ? $catname : modgettext::_(ucwords($t),$cat[0]['module']['rawname']);
 		$mods[$t] = '<a href="#" class="module_menu_button ui-button ui-widget ui-state-default ui-corner-all">'
-				. _(ucwords($t))
+				. $catname
 				. '</a><ul>';
 		foreach ($cat as $c => $mod) { //modules
 			if (isset($mod['hidden']) && $mod['hidden'] == 'true') {
