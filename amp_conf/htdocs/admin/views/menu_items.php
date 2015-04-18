@@ -39,8 +39,16 @@ if ($amp_conf['USE_FREEPBX_MENU_CONF']) {
 	}
 }
 
-// TODO: these categories are not localizable
-//
+//For Localization pickup
+if(false) {
+  _("Admin");
+  _("Applications");
+  _("Connectivity");
+  _("Reports");
+  _("Settings");
+  _("User Panel");
+  _("Other");
+}
 if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not defined
 	$out = null;
 	if (empty($favorites)) foreach ($fpbx_menu as $mod => $deets) {
@@ -77,9 +85,12 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 			continue;
 		}
 
-		// $t is a heading so can't be isolated to a module, translation must come from amp
+		//Reverse lookup here, first look in amp, then the module, then amp again.
+		//This allows us to check special modules that are not defined in Framework
+		$catname = _(ucwords($t));
+		$catname = ($catname != ucwords($t)) ? $catname : modgettext::_(ucwords($t),$cat[0]['module']['rawname']);
 		$mods[$t] = '<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown">' . _(ucwords($t)) . '</a>
+			<a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $catname . '</a>
 			<ul class="dropdown-menu" role="menu">';
 
 		foreach ($cat as $c => $mod) { //modules
