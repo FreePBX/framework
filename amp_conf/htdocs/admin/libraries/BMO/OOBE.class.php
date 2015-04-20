@@ -20,7 +20,7 @@ class OOBE extends FreePBX_Helpers {
 			}
 		}
 		// Otherwise....
-		$pending = $this->getPendingModules();
+		$pending = $this->getPendingModules($type);
 
 		if ($pending) {
 			return false;
@@ -134,7 +134,8 @@ class OOBE extends FreePBX_Helpers {
 
 		// Is someone taking crazy pills?
 		if (!method_exists($obj, $func)) {
-			print "I'm sorry. The module $modname said that it was providing an OOBE, but when I actually asked it for $func, it didn't exist. ";
+			// Do not i18n. This is for support, not end users.
+			print "I'm sorry. The module $modname said that it was providing an OOBE, but when I actually asked it for '$func', it didn't exist. ";
 			print "Please try again.\n";
 			$this->completeOOBE($modname);
 			return false;
@@ -158,7 +159,7 @@ class OOBE extends FreePBX_Helpers {
 
 		if ($current == "framework") {
 			// That's us!
-			return $this->createAdminAccount();
+			return $this->createAdminAccount($auth);
 		}
 
 		// It's an external OOBE request.
@@ -169,13 +170,13 @@ class OOBE extends FreePBX_Helpers {
 		// as complete, and proceed on to the next one.
 		if ($ret === true) {
 			$this->completeOOBE($current);
-			return $this->showOOBE();
+			return $this->showOOBE($auth);
 		}
 
 		// Otherwise, don't do anything else.
 	}
 
-	private function createAdminAccount() {
+	private function createAdminAccount($auth) {
 		$view = FreePBX::Config()->get("AMPWEBROOT")."/admin/views/oobe.php";
 		if (!isset($_REQUEST['username'])) {
 			// Just show the view
@@ -189,7 +190,7 @@ class OOBE extends FreePBX_Helpers {
 			} else {
 				$this->createFreePBXAdmin($results);
 				$this->completeOOBE("framework");
-				return $this->showOOBE();
+				return $this->showOOBE($auth);
 			}
 		}
 	}
