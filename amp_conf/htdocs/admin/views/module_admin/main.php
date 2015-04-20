@@ -46,7 +46,7 @@ if($online) { ?>
 		</div>
 		<?php foreach($module_display as $category) {?>
 			<div class="category" id="category_<?php echo prep_id($category['name'])?>">
-				<h3><?php echo $category['name']?></h3>
+				<h3><?php echo _($category['name'])?></h3>
 				<table class="table modulelist table-striped" width="100%">
 					<?php foreach($category['data'] as $module) {?>
 					</tr>
