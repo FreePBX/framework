@@ -38,7 +38,7 @@ function chron_scheduler_send_message($to,$from,$subject,$message){
 	$em->message($message);
 	return $em->send();
 }
-$brand = $amp_conf['DASHBOARD_FREEPBX_BRAND']?$amp_conf['DASHBOARD_FREEPBX_BRAND']:_('FreePBX');
+$brand = $amp_conf['DASHBOARD_FREEPBX_BRAND']?$amp_conf['DASHBOARD_FREEPBX_BRAND']:'FreePBX';
 $email = $cm->get_email();
 if ($email) {
 	$mid = $cm->get_machineid();
