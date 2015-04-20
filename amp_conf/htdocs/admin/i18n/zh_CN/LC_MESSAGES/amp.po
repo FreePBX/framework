@@ -435,6 +435,10 @@ msgstr ""
 msgid "0 admins"
 msgstr ""
 
+#: ../core/page.routing.php:700
+msgid "011."
+msgstr ""
+
 #: ../core/views/routing/form.php:582 ../core/views/trunks/trunk_footer.php:64
 msgid "10 Digit Patterns"
 msgstr ""
@@ -443,13 +447,29 @@ msgstr ""
 msgid "11 Digit Patterns"
 msgstr ""
 
+#: ../core/page.routing.php:694
+msgid "1800NXXXXXX,1888NXXXXXX,1877NXXXXXX,1866NXXXXXX,1855NXXXXXX,1844NXXXXXX"
+msgstr ""
+
+#: ../core/page.routing.php:697
+msgid "1NXXNXXXXXX"
+msgstr ""
+
 #: amp_conf/htdocs/admin/config.php:530
 #, php-format
 msgid "404 Not found (%s)"
 msgstr ""
 
+#: ../core/page.routing.php:703
+msgid "411,311"
+msgstr ""
+
 #: ../core/views/routing/form.php:580 ../core/views/trunks/trunk_footer.php:62
 msgid "7 Digit Patterns"
+msgstr ""
+
+#: ../core/page.routing.php:706
+msgid "911"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:23
@@ -475,6 +495,10 @@ msgstr "需要一个 %s ，并且要求它比版本 %s 新，你安装的是： 
 msgid "A Dial Pattern is a unique set of digits that will select this route and send the call to the designated trunks. If a dialed pattern matches this route, no subsequent routes will be tried. If Time Groups are enabled, subsequent routes will be checked for matches outside of the designated time(s)."
 msgstr "拨号模式是一个唯一的数字组合集，简单来说，就是用户拨号后生成的号码格式。然后通过选择唯一的组合集路由呼叫流程，发送呼叫到用户设置的中继线路。如果拨号模式匹配了这个路由规则，系统就不会再现在剩余的路由规则。如果时间组开启，系统将进一步检查匹配剩余的路由规则。"
 
+#: ../core/page.routing.php:538
+msgid "A Dial Pattern is a unique set of digits that will select this trunk. Enter one dial pattern per line."
+msgstr ""
+
 #: ../core/views/trunks/trunk_header.php:93
 msgid "A Dial Rule controls how calls will be dialed on this trunk. It can be used to add or remove prefixes. Numbers that don't match any patterns defined here will be dialed as-is. Note that a pattern without a + or | (to add or remove a prefix) will not make any changes but will create a match. Only the first matched rule will be executed and the remaining rules will not be acted on."
 msgstr ""
@@ -489,6 +513,11 @@ msgstr "设置与此分机直接相关的DID。这个DID必须与服务提供商
 
 #: ../core/functions.inc/drivers/PJSip.class.php:40
 msgid "A new SIP channel driver for Asterisk, chan_pjsip is built on the PJSIP SIP stack. A collection of resource modules provides the bulk of the SIP functionality"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:205
+#, php-format
+msgid "A required module might be disabled or uninstalled. Recommended steps (run from the CLI): 1) amportal a ma install %s 2) amportal a ma enable %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
@@ -596,6 +625,10 @@ msgstr "添加 %s 中继"
 #: ../core/page.ampusers.php:122
 msgid "Add Administrator"
 msgstr "添加管理员"
+
+#: ../core/page.dahdichandids.php:63
+msgid "Add DAHDI Channel"
+msgstr ""
 
 #: ../core/views/dahdichandids/bootnav.php:3
 msgid "Add DAHDI DID"
@@ -876,6 +909,10 @@ msgstr ""
 msgid "An optional delay to wait before processing this route. Setting this value will delay the channel from answering the call. This may be handy if external fax equipment or security systems are installed in parallel and you would like them to be able to seize the line."
 msgstr "在处理这条线路的通话时，可以设置一个可选的等待时间。设置等待时间会延迟频道对呼叫的应答。这个设置对于并行安装的传真机或保安系统很实用，因为你可能希望他们有机会占有线路。"
 
+#: ../core/page.routing.php:352
+msgid "An unknown error occurred repositioning routes, refresh your browser to see the current correct route positions"
+msgstr ""
+
 #: ../core/functions.inc.php:6400
 msgid "Any DID"
 msgstr "任何DID"
@@ -1082,6 +1119,10 @@ msgstr ""
 msgid "Authorization Type"
 msgstr "签权类型"
 
+#: ../core/page.ampusers.php:161
+msgid "Authorization Type is not set to 'database' in Advanced Setting - note that this module is not currently providing access control, and changing passwords here or adding users will have no effect unless Authorization Type is set to 'database'."
+msgstr ""
+
 #: ../core/page.ampusers.php:135
 msgid "Authorization Type is not set to 'database' in Advanced Settings - note that this module is not currently providing access control, and changing passwords here or adding users will have no effect unless Authorization Type is set to 'database'."
 msgstr ""
@@ -1145,6 +1186,10 @@ msgstr "损坏"
 
 #: amp.i18n.php:650
 msgid "Browser Stats"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/menu.php:154
+msgid "Bulgarian"
 msgstr ""
 
 #: ../core/functions.inc.php:849 ../core/functions.inc.php:6455
@@ -1493,6 +1538,10 @@ msgstr ""
 msgid "Checks to make sure modules and their files are validly signed. Will display a notice on any module page that is not correctly verified."
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/menu.php:155
+msgid "Chinese"
+msgstr ""
+
 #: ../core/views/routing/form.php:492
 msgid "Choose File"
 msgstr ""
@@ -1519,6 +1568,10 @@ msgstr "点击这里删除这个模式"
 
 #: amp_conf/htdocs/admin/views/module_admin/header.php:23
 msgid "Click to configure Update Notifications"
+msgstr ""
+
+#: ../core/views/trunks/pjsip.php:88
+msgid "Client SIP URI used when attemping outbound registration"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:458
@@ -1562,6 +1615,10 @@ msgstr ""
 
 #: amp.i18n.php:240
 msgid "Conference Room App"
+msgstr ""
+
+#: ../core/views/trunks/pjsip.php:8
+msgid "Configuration Mode"
 msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:624
@@ -1935,6 +1992,10 @@ msgstr ""
 msgid "Default User"
 msgstr "默认用户"
 
+#: amp.i18n.php:610
+msgid "Default language"
+msgstr ""
+
 #: amp.i18n.php:270
 msgid "Default maximum number of outbound simultaneous calls that an extension can make. This is also very useful as a Security Protection against a system that has been compromised. It will limit the number of simultaneous calls that can be made on the compromised extension. This default is used when an extension is created. A default of 0 means no limit."
 msgstr ""
@@ -2029,6 +2090,10 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:387
 msgid "Deny"
+msgstr ""
+
+#: ../core/page.ampusers.php:187
+msgid "Department Name"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:814
@@ -2126,6 +2191,10 @@ msgstr "设备设置"
 #: ../core/functions.inc.php:6638
 msgid "Device Type"
 msgstr "设备类型"
+
+#: ../core/page.advancedsettings.php:37
+msgid "Device and User mode is unsupported by the development team. Are you sure you want to use this mode?"
+msgstr ""
 
 #: amp.i18n.php:734
 msgid "Devices"
@@ -2433,6 +2502,10 @@ msgstr ""
 msgid "Downloading and Installing %s"
 msgstr ""
 
+#: ../core/page.routing.php:368
+msgid "Drag up or down to reposition, click to choose"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:19
 msgid "Dump Configs"
 msgstr ""
@@ -2479,6 +2552,10 @@ msgstr "错误：试图确认 %s 是否已经在使用中"
 msgid "Echo training requirements of this card. See DAHDi documentation for details."
 msgstr ""
 
+#: ../core/functions.inc.php:6841
+msgid "Echo training requirements of this card. See Zap documentation for details."
+msgstr ""
+
 #: ../core/views/trunks/trunk_header.php:2
 msgid "Edit"
 msgstr ""
@@ -2496,6 +2573,10 @@ msgstr "编辑 %s %s （%s）"
 #: ../core/page.ampusers.php:111
 msgid "Edit Administrator"
 msgstr "编辑管理员"
+
+#: ../core/page.dahdichandids.php:61
+msgid "Edit DAHDI Channel: "
+msgstr ""
 
 #: ../core/functions.inc.php:6588
 #, php-format
@@ -2579,6 +2660,10 @@ msgstr ""
 
 #: amp.i18n.php:128
 msgid "Enable Module Tracks"
+msgstr ""
+
+#: amp.i18n.php:120
+msgid "Enable Performance Logging"
 msgstr ""
 
 #: amp.i18n.php:132
@@ -2858,12 +2943,24 @@ msgstr "退出码为 %s ，输出为：%s"
 msgid "Experimental and un-reliable setting to try and detect a busy signal, number of iterations to conclude busy. See DAHDi documentation for details."
 msgstr ""
 
+#: ../core/functions.inc.php:6848
+msgid "Experimental and un-reliable setting to try and detect a busy signal, number of iterations to conclude busy. See Zap documentation for details."
+msgstr ""
+
 #: ../core/functions.inc/drivers/Dahdi.class.php:86
 msgid "Experimental and un-reliable setting to try and detect a busy signal. See DAHDi documentation for details."
 msgstr ""
 
+#: ../core/functions.inc.php:6846
+msgid "Experimental and un-reliable setting to try and detect a busy signal. See Zap documentation for details."
+msgstr ""
+
 #: ../core/functions.inc/drivers/Dahdi.class.php:95
 msgid "Experimental and un-reliable setting to try and detect call progress tones. See DAHDi documentation for details."
+msgstr ""
+
+#: ../core/functions.inc.php:6853
+msgid "Experimental and un-reliable setting to try and detect call progress tones. See Zap documentation for details."
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:280
@@ -2876,6 +2973,11 @@ msgstr ""
 
 #: ../core/views/routing/form.php:512
 msgid "Export Dialplans as CSV"
+msgstr ""
+
+#: ../core/views/trunks/trunk_header.php:405
+#, php-format
+msgid "Export patterns as a CSV file with headers listed as: %s, %s and %s in the first row."
 msgstr ""
 
 #: ../core/views/routing/form.php:524
@@ -2906,6 +3008,10 @@ msgstr ""
 #: ../core/functions.inc.php:6347 ../core/functions.inc.php:6641
 msgid "Extension Options"
 msgstr "分机选项"
+
+#: ../core/page.ampusers.php:194
+msgid "Extension Range"
+msgstr ""
 
 #: ../core/Core.class.php:103
 msgid "Extension already in use!"
@@ -3078,6 +3184,10 @@ msgstr "固定的"
 msgid "Fixed devices will always mapped to this user.  Adhoc devices will be mapped to this user by default.<br><br>If selecting 'New User', a new User Extension of the same Device ID will be set as the Default User."
 msgstr "固定设备总是映射到此用户上。自组织的设备在默认情况下映射到此用户。<br /><br />如果选择了“新用户”，该自组织设备（以相同的设备ID标识）的默认用户会被设置成一个新的用户分机号。"
 
+#: amp_conf/htdocs/admin/views/module_admin/main.php:182
+msgid "Fixes Vulnerabilities"
+msgstr ""
+
 #: amp.i18n.php:412
 msgid "Flash Operator Panel"
 msgstr "Flash 操作面版"
@@ -3170,6 +3280,10 @@ msgstr ""
 msgid "Format to save recoreded calls for most call recording unless specified differently in specific applications."
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1239
+msgid "Found module locally, verifying..."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1875
 #, php-format
 msgid "Framework Detected, Setting FreePBX Version to %s"
@@ -3249,6 +3363,18 @@ msgstr ""
 msgid "FreePBX sbin Dir"
 msgstr ""
 
+#: amp_conf/bin/freepbx-cron-scheduler.php:94
+msgid "FreePBX: New Online Updates Available"
+msgstr ""
+
+#: amp_conf/bin/freepbx-cron-scheduler.php:72
+msgid "FreePBX: New Security Notifications"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/menu.php:157
+msgid "French"
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:317
 msgid "Frequency in seconds to send qualify messages to the endpoint."
 msgstr ""
@@ -3256,6 +3382,11 @@ msgstr ""
 #: ../core/page.advancedsettings.php:113 ../core/page.advancedsettings.php:137
 #: ../core/page.advancedsettings.php:167 ../core/page.advancedsettings.php:191
 msgid "Friendly Name"
+msgstr ""
+
+#: ../core/page.advancedsettings.php:102
+#, php-format
+msgid "Friendly Name: %s"
 msgstr ""
 
 #: ../core/page.advancedsettings.php:89
@@ -3324,12 +3455,20 @@ msgstr ""
 msgid "Generating CSS..."
 msgstr ""
 
+#: ../core/functions.inc.php:7232 ../core/functions.inc.php:7234
+msgid "Generic CHAN SIP Device"
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:18
 msgid "Generic CHAN SIP Driver"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Custom.class.php:9
 msgid "Generic Custom Driver"
+msgstr ""
+
+#: ../core/functions.inc.php:7239
+msgid "Generic DAHDi Device"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:9
@@ -3346,6 +3485,10 @@ msgstr ""
 
 #: ../core/views/routing/form.php:567 ../core/views/trunks/trunk_footer.php:49
 msgid "Generic Patterns"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/menu.php:156
+msgid "German"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Extip.class.php:15
@@ -3409,6 +3552,10 @@ msgstr ""
 msgid "Hangup"
 msgstr "挂断"
 
+#: amp_conf/htdocs/admin/views/menu.php:158
+msgid "Hebrew"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/menu.php:49
 msgid "Hello, "
 msgstr ""
@@ -3443,6 +3590,10 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Custom.class.php:29
 msgid "How to dial this device. This will be device specific. For example, a custom device which is really a remote SIP URI might be configured such as SIP/joe@somedomain.com"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/menu.php:159
+msgid "Hungarian"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:306
@@ -3510,6 +3661,10 @@ msgstr ""
 
 #: amp.i18n.php:262
 msgid "If Ditech's VQA, Voice Quality application is installed, this setting will be used for all outbound calls. For more information 'core show application VQA' at the Asterisk CLI will show the different settings."
+msgstr ""
+
+#: ../core/page.routing.php:834
+msgid "If all the trunks fail because of Asterisk 'CONGESTION' dialstatus you can optionally go to a destination such as a unique recorded message or anywhere else. This destination will NOT be engaged if the trunk is reporting busy, invalid numbers or anything else that would imply the trunk was able to make an 'intelligent' choice about the number that was dialed. The 'Normal Congestion' behavior is to play the 'All Circuits Busy' recording or other options configured in the Route Congestion Messages module when installed."
 msgstr ""
 
 #: ../core/views/routing/form.php:332
@@ -3731,6 +3886,11 @@ msgstr ""
 msgid "Internal Error. Function install_getversion did not match the Framework version, even after it was suppose to be applied"
 msgstr ""
 
+#: ../core/page.advancedsettings.php:100
+#, php-format
+msgid "Internal Name: %s"
+msgstr ""
+
 #: amp.i18n.php:458
 msgid "Internal Use"
 msgstr ""
@@ -3749,6 +3909,10 @@ msgstr "公司内部"
 
 #: ../core/views/trunks/trunk_header.php:320
 msgid "Intra-Company Routes will always trasmit an extension's internal number and name."
+msgstr ""
+
+#: ../core/page.did.php:322
+msgid "Invalid CallerID prefix."
 msgstr ""
 
 #: ../core/functions.inc.php:4951
@@ -3801,6 +3965,10 @@ msgstr ""
 msgid "Invalid password supplied - less than 8 chars"
 msgstr ""
 
+#: ../core/views/trunks/trunk_header.php:346
+msgid "Invalid pattern. Only 0-9, #, *"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1048
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1067
 msgid "Invalid value supplied to select"
@@ -3817,6 +3985,14 @@ msgstr ""
 
 #: ../core/page.astmodules.php:50
 msgid "It is unlikely you'll need to change anything here."
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/menu.php:160
+msgid "Italian"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/menu.php:166
+msgid "Japanese"
 msgstr ""
 
 #: ../core/page.advancedsettings.php:87 ../core/page.advancedsettings.php:111
@@ -3847,8 +4023,16 @@ msgstr ""
 msgid "Leave Reload Bar Up"
 msgstr ""
 
+#: ../core/page.did.php:319
+msgid "Leaving the DID Number AND the CallerID Number empty will match all incoming calls received not routed using any other defined Incoming Route.\\n\\nAre you sure?"
+msgstr ""
+
 #: amp.i18n.php:512
 msgid "Left upper logo.  Path is relative to admin."
+msgstr ""
+
+#: amp.i18n.php:492
+msgid "Left upper logo.Path is relative to admin."
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:42
@@ -3905,6 +4089,10 @@ msgstr "日志信息"
 
 #: amp.i18n.php:516
 msgid "Logo in footer.  Path is relative to admin."
+msgstr ""
+
+#: amp.i18n.php:496
+msgid "Logo in footer.Path is relative to admin."
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/menu.php:51
@@ -4169,6 +4357,11 @@ msgstr ""
 msgid "Module: \"%s\", File: \"%s\""
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2906
+#, php-format
+msgid "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run 'amportal chown' and then 'amportal a r' to clear this message. If you did not just update FreePBX, your system may have been compromised)"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2970
 #, php-format
 msgid "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run 'fwconsole chown' and then 'fwconsole reload' to clear this message. If you did not just update FreePBX, your system may have been compromised)"
@@ -4225,6 +4418,15 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:31
 #, php-format
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
+msgstr ""
+
+#: ../core/page.routing.php:688 ../core/views/trunks/trunk_header.php:316
+#: ../core/views/trunks/trunk_header.php:335
+msgid "NXXXXXX"
+msgstr ""
+
+#: ../core/page.routing.php:691
+msgid "NXXXXXX,NXXNXXXXXX"
 msgstr ""
 
 #: ../core/page.devices.php:49 ../core/page.devices.php:58
@@ -4471,6 +4673,10 @@ msgstr ""
 msgid "Number of seconds to ring prior to going to voicemail. Default will use the value set in Advanced Settings. If no voicemail is configured this will be ignored."
 msgstr ""
 
+#: ../core/views/trunks/trunk_header.php:349
+msgid "Number to dial when calling directory assistance on this trunk"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:253
 msgid "Object"
 msgstr "对象"
@@ -4490,6 +4696,10 @@ msgstr ""
 #: ../core/functions.inc.php:6428
 msgid "On Demand Recording"
 msgstr "按需录音"
+
+#: ../core/page.did.php:245
+msgid "On PRI channels the carrier will send a signal if the caller indicates a billing reversal. When checked this route will reject calls that indicate a billing reversal"
+msgstr ""
 
 #: ../core/views/did/routeform.php:300
 msgid "On PRI channels the carrier will send a signal if the caller indicates a billing reversal. When checked this route will reject calls that indicate a billing reversal if supported"
@@ -4647,6 +4857,10 @@ msgstr "对分机呼出到分机录音"
 msgid "Outbound Proxy"
 msgstr ""
 
+#: ../core/views/trunks/pjsip.php:109
+msgid "Outbound Proxy."
+msgstr ""
+
 #: ../core/functions.inc.php:5937
 #, php-format
 msgid "Outbound Route: %s"
@@ -4708,6 +4922,10 @@ msgstr ""
 msgid "PHP Error Log Output"
 msgstr ""
 
+#: ../core/page.trunks.php:498
+msgid "PJSIP In FreePBX is Experimental."
+msgstr ""
+
 #: ../core/views/trunks/pjsip.php:28
 msgid "PJSIP Settings"
 msgstr ""
@@ -4758,6 +4976,10 @@ msgstr ""
 msgid "Path for grep"
 msgstr ""
 
+#: amp.i18n.php:526
+msgid "Path for gs"
+msgstr ""
+
 #: amp.i18n.php:556
 msgid "Path for ifconfig"
 msgstr ""
@@ -4790,6 +5012,18 @@ msgstr ""
 msgid "Path for tar"
 msgstr ""
 
+#: amp.i18n.php:540
+msgid "Path for tiff2pdf"
+msgstr ""
+
+#: amp.i18n.php:544
+msgid "Path for tiffcp"
+msgstr ""
+
+#: amp.i18n.php:548
+msgid "Path for tiffinfo"
+msgstr ""
+
 #: amp.i18n.php:588
 msgid "Path for touch"
 msgstr ""
@@ -4816,6 +5050,10 @@ msgstr "在应答前暂停"
 
 #: ../core/views/trunks/pjsip.php:207
 msgid "Permanent Auth Rejection"
+msgstr ""
+
+#: ../core/views/trunks/pjsip.php:102
+msgid "Permanent contacts assigned to AoR"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:506
@@ -4897,6 +5135,10 @@ msgstr ""
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
 msgstr "请输入有效的主叫ID（CID）号码（必须是数字）"
 
+#: ../core/page.did.php:315
+msgid "Please enter a valid CallerID Number"
+msgstr ""
+
 #: ../core/functions.inc.php:6263
 msgid "Please enter a valid CallerID Number or leave it blank for your Assigned DID/CID pair"
 msgstr ""
@@ -4972,6 +5214,14 @@ msgstr "Asterisk Manager 端口"
 
 #: amp.i18n.php:40
 msgid "Port to bind to. Default is 8088"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/menu.php:161
+msgid "Portuguese"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/menu.php:162
+msgid "Portuguese (Brasil)"
 msgstr ""
 
 #: amp.i18n.php:168
@@ -5152,6 +5402,14 @@ msgstr ""
 msgid "Recording of outbound calls to external sources."
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1243
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1247
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1253
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1257
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1308
+msgid "Redownloading"
+msgstr ""
+
 #: ../core/views/trunks/sip.php:120
 msgid "Register String"
 msgstr "注册字符串"
@@ -5320,6 +5578,14 @@ msgstr ""
 msgid "Restart Asterisk and then refresh the browser in order to try accessing this menu item again."
 msgstr "重启Asterisk并刷新浏览器以启用此菜单项"
 
+#: ../core/page.ampusers.php:187
+msgid "Restrict this user's view of Digital Receptionist menus and System Recordings to only those for this department."
+msgstr ""
+
+#: ../core/page.ampusers.php:194
+msgid "Restrict this user's view to only Extensions, Ring Groups, and Queues within this range."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1219
 msgid "Retrieved Module XML Was Empty"
 msgstr ""
@@ -5328,9 +5594,17 @@ msgstr ""
 msgid "Retry"
 msgstr "重试"
 
+#: ../core/views/trunks/pjsip.php:25
+msgid "Retry Interval"
+msgstr ""
+
 #: amp_conf/htdocs/admin/page.modules.php:374
 msgid "Return"
 msgstr "返回"
+
+#: ../core/page.advancedsettings.php:147
+msgid "Revert to Default"
+msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:193
 msgid "Rewrite Contact"
@@ -5405,6 +5679,14 @@ msgstr ""
 msgid "Running Post-Asterisk Stop Scripts"
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/menu.php:163
+msgid "Russian"
+msgstr ""
+
+#: amp_conf/bin/freepbx-cron-scheduler.php:61
+msgid "SECURITY NOTICE:"
+msgstr ""
+
 #: amp_conf/bin/freepbx-cron-scheduler.php:61
 msgid ""
 "SECURITY NOTICE: \n"
@@ -5446,6 +5728,10 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:142
 msgid "SIP Server Port."
+msgstr ""
+
+#: ../core/views/trunks/pjsip.php:95
+msgid "SIP URI of the server to register against"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:482
@@ -5588,6 +5874,10 @@ msgstr ""
 msgid "Set this to replace the default popover.css style sheet with your own, relative to admin."
 msgstr ""
 
+#: amp.i18n.php:122
+msgid "Set to true to enable Advanced Performance Logging into the dbug file"
+msgstr ""
+
 #: amp.i18n.php:106
 msgid "Set to true to stop all dbug() calls from writing to the Debug File (FPBXDBUGFILE)"
 msgstr ""
@@ -5598,6 +5888,10 @@ msgstr ""
 
 #: amp.i18n.php:628
 msgid "Sets the extension behavior in FreePBX.  If set to <b>extensions</b>, Devices and Users are administered together as a unified Extension, and appear on a single page. If set to <b>deviceanduser</b>, Devices and Users will be administered separately. Devices (e.g. each individual line on a SIP phone) and Users (e.g. <b>101</b>) will be configured independent of each other, allowing association of one User to many Devices, or allowing Users to login and logout of Devices."
+msgstr ""
+
+#: amp.i18n.php:584
+msgid "Sets the extension behavior in FreePBX.If set to <b>extensions</b>, Devices and Users are administered together as a unified Extension, and appear on a single page. If set to <b>deviceanduser</b>, Devices and Users will be administered separately. Devices (e.g. each individual line on a SIP phone) and Users (e.g. <b>101</b>) will be configured independent of each other, allowing association of one User to many Devices, or allowing Users to login and logout of Devices."
 msgstr ""
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:89
@@ -5651,6 +5945,11 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
+#: ../core/views/trunks/trunk_header.php:247
+#: ../core/views/trunks/trunk_header.php:255
+msgid "Setup directory assistance"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:11
 msgid "Severity"
 msgstr ""
@@ -5665,6 +5964,10 @@ msgstr ""
 
 #: amp.i18n.php:442
 msgid "Show Language setting on menu . Defaults = false"
+msgstr ""
+
+#: amp.i18n.php:162
+msgid "Show all Device Setting on Add"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:32
@@ -5714,6 +6017,10 @@ msgstr ""
 
 #: ../core/page.advancedsettings.php:206
 msgid "Some of these settings can render your system inoperable."
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/menu.php:165
+msgid "Spanish"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1938
@@ -5771,6 +6078,10 @@ msgstr "重启成功，但是由于数据库发生错误，无法清除重启标
 #: amp_conf/htdocs/admin/functions.inc.php:396
 msgid "Successfully reloaded"
 msgstr "重启成功"
+
+#: amp_conf/htdocs/admin/views/menu.php:164
+msgid "Swedish"
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:361
 #, php-format
@@ -5927,6 +6238,10 @@ msgstr ""
 msgid "The Trunk Sequence controls the order of trunks that will be used when the above Dial Patterns are matched. <br><br>For Dial Patterns that match long distance numbers, for example, you'd want to pick the cheapest routes for long distance (ie, VoIP trunks first) followed by more expensive routes (POTS lines)."
 msgstr "中继顺序控制了拨号模式被匹配后，中继被使用的顺序。<br /><br />例如说，对于匹配长途通话的拨号模式来说，你会希望首先使用那些比较便宜的中继（比如VoIP），若不成功，才使用那些较贵的中继（比如一般的电话线）。"
 
+#: ../core/functions.inc.php:6823
+msgid "The Zap channel number for this port."
+msgstr ""
+
 #: amp.i18n.php:242
 msgid "The asterisk application to use for conferencing. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The app_confbridge application is considered "
 msgstr ""
@@ -6022,6 +6337,10 @@ msgstr ""
 msgid "The path to grep as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
+#: amp.i18n.php:530
+msgid "The path to gs as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
 #: amp.i18n.php:558
 msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
 msgstr ""
@@ -6052,6 +6371,18 @@ msgstr ""
 
 #: amp.i18n.php:586
 msgid "The path to tar as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:542
+msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:546
+msgid "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:550
+msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
 #: amp.i18n.php:590
@@ -6391,6 +6722,10 @@ msgid "UDP Only"
 msgstr "仅UDP"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:85
+msgid "UPDATE NOTICE:"
+msgstr ""
+
+#: amp_conf/bin/freepbx-cron-scheduler.php:85
 msgid ""
 "UPDATE NOTICE: \n"
 "\n"
@@ -6514,6 +6849,10 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
+#: ../core/page.astmodules.php:23
+msgid "Unknown Entry"
+msgstr ""
+
 #: upgrades/2.8.0/custom-context.php:52
 #: upgrades/2.8.0rc1/custom-context.php:52
 msgid "Unknown error fetching Custom Context table data or no data to migrate"
@@ -6632,6 +6971,11 @@ msgstr "上传模块"
 #: amp_conf/htdocs/admin/page.modules.php:1122
 msgid "Upload modules"
 msgstr "上传模块"
+
+#: ../core/views/trunks/trunk_header.php:249
+#, php-format
+msgid "Upload patterns from a CSV file replacing existing entries. If there are no headers then the file must have 3 columns of patterns in the same order as in the GUI. You can also supply headers: %s, %s and %s in the first row. If there are less then 3 recognized headers then the remaining columns will be blank"
+msgstr ""
 
 #: ../core/views/routing/form.php:502
 #, php-format
@@ -6822,6 +7166,10 @@ msgstr ""
 msgid "Value must be between 1 and 63"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1263
+msgid "Verified. Using Local"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:587
 #: amp_conf/htdocs/admin/views/module_admin/main.php:40
 msgid "Version"
@@ -6911,6 +7259,10 @@ msgstr ""
 msgid "Warning: Error retrieving updates from online repository(s) (%s). Online modules are not available."
 msgstr ""
 
+#: ../core/page.routing.php:625 ../core/views/trunks/trunk_header.php:218
+msgid "We have detected that you have more than 500 dial patterns, It is advised you turn on the <a href=\"config.php?display=advancedsettings\" target=\"_as\">Advanced Setting</a> called \"Enable The Old Style FreePBX Dial Patterns Textarea\" to turn this into a simple Text Area"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/welcome.php:54
 #, php-format
 msgid "We hope you enjoy using %s"
@@ -6942,6 +7294,14 @@ msgstr ""
 msgid "What Does this Mean?"
 msgstr ""
 
+#: ../core/views/trunks/trunk_header.php:344
+msgid "What is the directory assistance number you will dial locally in the format that is passed to this trunk?"
+msgstr ""
+
+#: ../core/views/trunks/trunk_header.php:293
+msgid "What is your areacode + prefix (NPA-NXX)?\\n\\n(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\\n\\nThis may take a few seconds.\")"
+msgstr ""
+
 #: amp.i18n.php:322
 msgid "When Asterisk is stopped or restarted with the 'amportal stop/restart' commands, it does a graceful stop waiting for active channels to hangup. This sets the maximum time in seconds to wait prior to force stopping Asterisk"
 msgstr ""
@@ -6952,6 +7312,10 @@ msgstr ""
 
 #: amp.i18n.php:636
 msgid "When Set to True, admin access to the FreePBX GUI will be allowed using the FreePBX configured AMPDBUSER and AMPDBPASS credentials. This only applies when Authorization Type is 'database' mode."
+msgstr ""
+
+#: amp.i18n.php:166
+msgid "When adding a new extension/device, setting this to true will show most available device settings that are displayed when you edit the same extension/device. Otherwise, just a few basic settings are displayed."
 msgstr ""
 
 #: amp.i18n.php:612
@@ -7040,6 +7404,10 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:77
 msgid "Whether to turn on echo cancellation when bridging between DAHDi channels. See DAHDi documentation for details."
+msgstr ""
+
+#: ../core/functions.inc.php:6839
+msgid "Whether to turn on echo cancellation when bridging between Zap channels. See Zap documentation for details."
 msgstr ""
 
 #: ../core/functions.inc.php:6110
@@ -7164,6 +7532,10 @@ msgstr ""
 msgid "You have some broken %s Modules. We advise you take care of these as soon as possible: "
 msgstr ""
 
+#: ../core/page.advancedsettings.php:39
+msgid "You have un-saved changes, press OK to disregard changes and reload page or Cancel to abort."
+msgstr ""
+
 #: amp_conf/bin/freepbx-cron-scheduler.php:46
 msgid "You may change this designation in the module admin page, by clicking on the alert icon in the top right hand corner of the page."
 msgstr ""
@@ -7175,6 +7547,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:604
 msgid "You may confirm the remaining selection and then try the again for the listed issues once the required dependencies have been met:"
 msgstr "你可以确认余下的选择的项，然后在满足了依赖要求后，针对列出的有问题的地方，再重试一次："
+
+#: ../core/views/trunks/sip.php:37
+msgid ""
+"You may need to add to the default lines listed below, depending on your provider..<br /><br />WARNING: Order is important as it will be retained. For example, if you use the \"allow/deny\" directives make sure deny \n"
+"comes first."
+msgstr ""
 
 #: ../core/views/routing/form.php:567 ../core/views/trunks/trunk_footer.php:49
 msgid "You may select to allow toll free calls such as 800,877 etc as well as Directory assistance, International dialing and long distance"
@@ -7208,6 +7586,10 @@ msgstr ""
 msgid "You must put in an extension (or user) number"
 msgstr "你必须输入一个分机（或用户）号码"
 
+#: ../core/page.advancedsettings.php:38
+msgid "You must run 'amportal restart' from the Linux command line before you can save setting here."
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:9
 #, php-format
 msgid "You should fix the problem or select another file and %s."
@@ -7222,6 +7604,10 @@ msgstr "请在模块管理页面中更正这些错误。"
 #, php-format
 msgid "Your %s version (%s) is incompatible."
 msgstr "你安装的 %s （版本为%s）不被兼容。"
+
+#: ../core/page.advancedsettings.php:40
+msgid "Your Display settings have been changed, click on 'Refresh Page' to view the affects of your changes once you have saved other outstanding changes that are still un-confirmed."
+msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:470
 msgid "Your Zend Configuration is not fully setup. Please recitfy the problem and reload this page"
@@ -7243,6 +7629,18 @@ msgstr "ZAP频道可以以一个组号或者频道号（在zapata.conf中定义�
 
 #: ../core/views/trunks/zap.php:9
 msgid "Zap Identifier"
+msgstr ""
+
+#: ../core/functions.inc.php:6834
+msgid "Zap echocancel setting, see Zap documentation for details."
+msgstr ""
+
+#: ../core/functions.inc.php:6830
+msgid "Zap immediate mode setting, see Zap documentation for details."
+msgstr ""
+
+#: ../core/functions.inc.php:6832
+msgid "Zap signaling, usually fxo_ks when connected to an analog phone. Some special applications or channel bank connections may require fxs_ks or other valid settings. See Zap and card documentation for details."
 msgstr ""
 
 #: ../core/install.php:9
@@ -7337,6 +7735,10 @@ msgstr "任何DID"
 
 #: ../core/views/routing/form.php:69
 msgid "appended to a dial pattern, matches a CallerID or CallerID pattern (for example, NXXXXXX/104 would match only if dialed by extension \"104\")"
+msgstr ""
+
+#: ../core/page.routing.php:545
+msgid "appended to a dial pattern, matches a callerid or callerid pattern (for example, NXXXXXX/104 would match only if dialed by extension \"104\")"
 msgstr ""
 
 #: upgrades/2.9.0beta2/logger_migrate.php:84
@@ -7657,6 +8059,14 @@ msgstr ""
 msgid "is unknown"
 msgstr ""
 
+#: ../core/views/trunks/trunk_header.php:246
+msgid "is useful for ZAP and DAHDi trunks, where if a local number is dialed as \"6135551234\", it can be converted to \"555-1234\"."
+msgstr ""
+
+#: ../core/views/trunks/trunk_header.php:247
+msgid "is useful to translate a call to directory assistance"
+msgstr ""
+
 #: amp.i18n.php:526
 msgid "link to follow when clicking on logo, defaults to http://www.freepbx.org"
 msgstr ""
@@ -7878,6 +8288,10 @@ msgstr "已移除"
 msgid "removes a dialing prefix from the number (for example, 613|NXXXXXX would match when some dialed \"6135551234\" but would only pass \"5551234\" to the trunk"
 msgstr ""
 
+#: ../core/views/trunks/trunk_header.php:149
+msgid "removes a dialing prefix from the number (for example, 613|NXXXXXX would match when some dialed \"6135551234\" but would only pass \"5551234\" to the trunk)"
+msgstr ""
+
 #: upgrades/2.10.1/migration.php:7
 msgid "removing deprecated Advanced settings if needed.."
 msgstr ""
@@ -8025,471 +8439,16 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr ""
 
-#: ../core/page.routing.php:700
-msgid "011."
+#: amp_conf/htdocs/admin/libraries/view.functions.php:67
+msgid "Gettext is not installed"
 msgstr ""
 
-#: ../core/page.routing.php:694
-msgid "1800NXXXXXX,1888NXXXXXX,1877NXXXXXX,1866NXXXXXX,1855NXXXXXX,1844NXXXXXX"
+#: amp_conf/htdocs/admin/libraries/view.functions.php:67
+msgid "Please install gettext so that the PBX can properly translate itself"
 msgstr ""
 
-#: ../core/page.routing.php:697
-msgid "1NXXNXXXXXX"
-msgstr ""
-
-#: ../core/page.routing.php:703
-msgid "411,311"
-msgstr ""
-
-#: ../core/page.routing.php:706
-msgid "911"
-msgstr ""
-
-#: ../core/page.routing.php:538
-msgid "A Dial Pattern is a unique set of digits that will select this trunk. Enter one dial pattern per line."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:205
-#, php-format
-msgid "A required module might be disabled or uninstalled. Recommended steps (run from the CLI): 1) amportal a ma install %s 2) amportal a ma enable %s"
-msgstr ""
-
-#: ../core/page.dahdichandids.php:63
-msgid "Add DAHDI Channel"
-msgstr ""
-
-#: ../core/page.routing.php:352
-msgid "An unknown error occurred repositioning routes, refresh your browser to see the current correct route positions"
-msgstr ""
-
-#: ../core/page.ampusers.php:161
-msgid "Authorization Type is not set to 'database' in Advanced Setting - note that this module is not currently providing access control, and changing passwords here or adding users will have no effect unless Authorization Type is set to 'database'."
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/menu.php:154
-msgid "Bulgarian"
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/menu.php:155
-msgid "Chinese"
-msgstr ""
-
-#: ../core/views/trunks/pjsip.php:88
-msgid "Client SIP URI used when attemping outbound registration"
-msgstr ""
-
-#: ../core/views/trunks/pjsip.php:8
-msgid "Configuration Mode"
-msgstr ""
-
-#: amp.i18n.php:610
-msgid "Default language"
-msgstr ""
-
-#: ../core/page.ampusers.php:187
-msgid "Department Name"
-msgstr ""
-
-#: ../core/page.advancedsettings.php:37
-msgid "Device and User mode is unsupported by the development team. Are you sure you want to use this mode?"
-msgstr ""
-
-#: ../core/page.routing.php:368
-msgid "Drag up or down to reposition, click to choose"
-msgstr ""
-
-#: ../core/functions.inc.php:6841
-msgid "Echo training requirements of this card. See Zap documentation for details."
-msgstr ""
-
-#: ../core/page.dahdichandids.php:61
-msgid "Edit DAHDI Channel: "
-msgstr ""
-
-#: amp.i18n.php:120
-msgid "Enable Performance Logging"
-msgstr ""
-
-#: ../core/functions.inc.php:6848
-msgid "Experimental and un-reliable setting to try and detect a busy signal, number of iterations to conclude busy. See Zap documentation for details."
-msgstr ""
-
-#: ../core/functions.inc.php:6846
-msgid "Experimental and un-reliable setting to try and detect a busy signal. See Zap documentation for details."
-msgstr ""
-
-#: ../core/functions.inc.php:6853
-msgid "Experimental and un-reliable setting to try and detect call progress tones. See Zap documentation for details."
-msgstr ""
-
-#: ../core/views/trunks/trunk_header.php:405
-#, php-format
-msgid "Export patterns as a CSV file with headers listed as: %s, %s and %s in the first row."
-msgstr ""
-
-#: ../core/page.ampusers.php:194
-msgid "Extension Range"
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/module_admin/main.php:182
-msgid "Fixes Vulnerabilities"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1239
-msgid "Found module locally, verifying..."
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/menu.php:157
-msgid "French"
-msgstr ""
-
-#: ../core/page.advancedsettings.php:102
-#, php-format
-msgid "Friendly Name: %s"
-msgstr ""
-
-#: ../core/functions.inc.php:7232 ../core/functions.inc.php:7234
-msgid "Generic CHAN SIP Device"
-msgstr ""
-
-#: ../core/functions.inc.php:7239
-msgid "Generic DAHDi Device"
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/menu.php:156
-msgid "German"
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/menu.php:158
-msgid "Hebrew"
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/menu.php:159
-msgid "Hungarian"
-msgstr ""
-
-#: ../core/page.routing.php:834
-msgid "If all the trunks fail because of Asterisk 'CONGESTION' dialstatus you can optionally go to a destination such as a unique recorded message or anywhere else. This destination will NOT be engaged if the trunk is reporting busy, invalid numbers or anything else that would imply the trunk was able to make an 'intelligent' choice about the number that was dialed. The 'Normal Congestion' behavior is to play the 'All Circuits Busy' recording or other options configured in the Route Congestion Messages module when installed."
-msgstr ""
-
-#: ../core/page.advancedsettings.php:100
-#, php-format
-msgid "Internal Name: %s"
-msgstr ""
-
-#: ../core/page.did.php:322
-msgid "Invalid CallerID prefix."
-msgstr ""
-
-#: ../core/views/trunks/trunk_header.php:346
-msgid "Invalid pattern. Only 0-9, #, *"
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/menu.php:160
-msgid "Italian"
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/menu.php:166
-msgid "Japanese"
-msgstr ""
-
-#: ../core/page.did.php:319
-msgid "Leaving the DID Number AND the CallerID Number empty will match all incoming calls received not routed using any other defined Incoming Route.\\n\\nAre you sure?"
-msgstr ""
-
-#: amp.i18n.php:492
-msgid "Left upper logo.Path is relative to admin."
-msgstr ""
-
-#: amp.i18n.php:496
-msgid "Logo in footer.Path is relative to admin."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2906
-#, php-format
-msgid "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run 'amportal chown' and then 'amportal a r' to clear this message. If you did not just update FreePBX, your system may have been compromised)"
-msgstr ""
-
-#: ../core/page.routing.php:688 ../core/views/trunks/trunk_header.php:316
-#: ../core/views/trunks/trunk_header.php:335
-msgid "NXXXXXX"
-msgstr ""
-
-#: ../core/page.routing.php:691
-msgid "NXXXXXX,NXXNXXXXXX"
-msgstr ""
-
-#: ../core/views/trunks/trunk_header.php:349
-msgid "Number to dial when calling directory assistance on this trunk"
-msgstr ""
-
-#: ../core/page.did.php:245
-msgid "On PRI channels the carrier will send a signal if the caller indicates a billing reversal. When checked this route will reject calls that indicate a billing reversal"
-msgstr ""
-
-#: ../core/views/trunks/pjsip.php:109
-msgid "Outbound Proxy."
-msgstr ""
-
-#: ../core/page.trunks.php:498
-msgid "PJSIP In FreePBX is Experimental."
-msgstr ""
-
-#: amp.i18n.php:526
-msgid "Path for gs"
-msgstr ""
-
-#: amp.i18n.php:540
-msgid "Path for tiff2pdf"
-msgstr ""
-
-#: amp.i18n.php:544
-msgid "Path for tiffcp"
-msgstr ""
-
-#: amp.i18n.php:548
-msgid "Path for tiffinfo"
-msgstr ""
-
-#: ../core/views/trunks/pjsip.php:102
-msgid "Permanent contacts assigned to AoR"
-msgstr ""
-
-#: ../core/page.did.php:315
-msgid "Please enter a valid CallerID Number"
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/menu.php:161
-msgid "Portuguese"
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/menu.php:162
-msgid "Portuguese (Brasil)"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1243
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1247
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1253
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1257
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1308
-msgid "Redownloading"
-msgstr ""
-
-#: ../core/page.ampusers.php:187
-msgid "Restrict this user's view of Digital Receptionist menus and System Recordings to only those for this department."
-msgstr ""
-
-#: ../core/page.ampusers.php:194
-msgid "Restrict this user's view to only Extensions, Ring Groups, and Queues within this range."
-msgstr ""
-
-#: ../core/views/trunks/pjsip.php:25
-msgid "Retry Interval"
-msgstr ""
-
-#: ../core/page.advancedsettings.php:147
-msgid "Revert to Default"
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/menu.php:163
-msgid "Russian"
-msgstr ""
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:61
-msgid "SECURITY NOTICE:"
-msgstr ""
-
-#: ../core/views/trunks/pjsip.php:95
-msgid "SIP URI of the server to register against"
-msgstr ""
-
-#: amp.i18n.php:122
-msgid "Set to true to enable Advanced Performance Logging into the dbug file"
-msgstr ""
-
-#: amp.i18n.php:584
-msgid "Sets the extension behavior in FreePBX.If set to <b>extensions</b>, Devices and Users are administered together as a unified Extension, and appear on a single page. If set to <b>deviceanduser</b>, Devices and Users will be administered separately. Devices (e.g. each individual line on a SIP phone) and Users (e.g. <b>101</b>) will be configured independent of each other, allowing association of one User to many Devices, or allowing Users to login and logout of Devices."
-msgstr ""
-
-#: ../core/views/trunks/trunk_header.php:247
-#: ../core/views/trunks/trunk_header.php:255
-msgid "Setup directory assistance"
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/menu.php:165
-msgid "Spanish"
-msgstr ""
-
-#: amp_conf/htdocs/admin/views/menu.php:164
-msgid "Swedish"
-msgstr ""
-
-#: ../core/functions.inc.php:6823
-msgid "The Zap channel number for this port."
-msgstr ""
-
-#: amp.i18n.php:530
-msgid "The path to gs as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:542
-msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:546
-msgid "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:550
-msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:85
-msgid "UPDATE NOTICE:"
-msgstr ""
-
-#: ../core/page.astmodules.php:23
-msgid "Unknown Entry"
-msgstr ""
-
-#: ../core/views/trunks/trunk_header.php:249
-#, php-format
-msgid "Upload patterns from a CSV file replacing existing entries. If there are no headers then the file must have 3 columns of patterns in the same order as in the GUI. You can also supply headers: %s, %s and %s in the first row. If there are less then 3 recognized headers then the remaining columns will be blank"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1263
-msgid "Verified. Using Local"
-msgstr ""
-
-#: ../core/page.routing.php:625 ../core/views/trunks/trunk_header.php:218
-msgid "We have detected that you have more than 500 dial patterns, It is advised you turn on the <a href=\"config.php?display=advancedsettings\" target=\"_as\">Advanced Setting</a> called \"Enable The Old Style FreePBX Dial Patterns Textarea\" to turn this into a simple Text Area"
-msgstr ""
-
-#: ../core/views/trunks/trunk_header.php:344
-msgid "What is the directory assistance number you will dial locally in the format that is passed to this trunk?"
-msgstr ""
-
-#: ../core/views/trunks/trunk_header.php:293
-msgid "What is your areacode + prefix (NPA-NXX)?\\n\\n(Note: this database contains North American numbers only, and is not guaranteed to be 100% accurate. You will still have the option of modifying results.)\\n\\nThis may take a few seconds.\")"
-msgstr ""
-
-#: ../core/functions.inc.php:6839
-msgid "Whether to turn on echo cancellation when bridging between Zap channels. See Zap documentation for details."
-msgstr ""
-
-#: ../core/page.advancedsettings.php:39
-msgid "You have un-saved changes, press OK to disregard changes and reload page or Cancel to abort."
-msgstr ""
-
-#: ../core/views/trunks/sip.php:37
-msgid ""
-"You may need to add to the default lines listed below, depending on your provider..<br /><br />WARNING: Order is important as it will be retained. For example, if you use the \"allow/deny\" directives make sure deny \n"
-"comes first."
-msgstr ""
-
-#: ../core/page.advancedsettings.php:38
-msgid "You must run 'amportal restart' from the Linux command line before you can save setting here."
-msgstr ""
-
-#: ../core/page.advancedsettings.php:40
-msgid "Your Display settings have been changed, click on 'Refresh Page' to view the affects of your changes once you have saved other outstanding changes that are still un-confirmed."
-msgstr ""
-
-#: ../core/functions.inc.php:6834
-msgid "Zap echocancel setting, see Zap documentation for details."
-msgstr ""
-
-#: ../core/functions.inc.php:6830
-msgid "Zap immediate mode setting, see Zap documentation for details."
-msgstr ""
-
-#: ../core/functions.inc.php:6832
-msgid "Zap signaling, usually fxo_ks when connected to an analog phone. Some special applications or channel bank connections may require fxs_ks or other valid settings. See Zap and card documentation for details."
-msgstr ""
-
-#: ../core/page.routing.php:545
-msgid "appended to a dial pattern, matches a callerid or callerid pattern (for example, NXXXXXX/104 would match only if dialed by extension \"104\")"
-msgstr ""
-
-#: ../core/views/trunks/trunk_header.php:246
-msgid "is useful for ZAP and DAHDi trunks, where if a local number is dialed as \"6135551234\", it can be converted to \"555-1234\"."
-msgstr ""
-
-#: ../core/views/trunks/trunk_header.php:247
-msgid "is useful to translate a call to directory assistance"
-msgstr ""
-
-#: ../core/views/trunks/trunk_header.php:149
-msgid "removes a dialing prefix from the number (for example, 613|NXXXXXX would match when some dialed \"6135551234\" but would only pass \"5551234\" to the trunk)"
-msgstr ""
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:94
-msgid "FreePBX: New Online Updates Available"
-msgstr ""
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:72
-msgid "FreePBX: New Security Notifications"
-msgstr ""
-
-#: amp.i18n.php:162
-msgid "Show all Device Setting on Add"
-msgstr ""
-
-#: amp.i18n.php:166
-msgid "When adding a new extension/device, setting this to true will show most available device settings that are displayed when you edit the same extension/device. Otherwise, just a few basic settings are displayed."
-msgstr ""
-
-#~ msgid "<b>IMPORTANT:</b> Use extreme caution when making changes!"
-#~ msgstr "<b>重要提醒:</b> 当你做系统修改时，千万要小心！修改前请备份！"
-
-#~ msgid "ALL SECTIONS"
-#~ msgstr "所有区域"
-
-#~ msgid "Acceptable Values: %s - %s"
-#~ msgstr "可接受的值是:%s - %s"
-
-#~ msgid "Default Value: %s"
-#~ msgstr "默认值: %s"
-
-#~ msgid "Department name cannot have a space"
-#~ msgstr "部门名称不能包含空格"
-
-#~ msgid "False"
-#~ msgstr "否"
-
-#~ msgid "For security reasons, you cannot use the department name default"
-#~ msgstr "出于安全考虑，你不能使用默认的部门名称"
-
-#~ msgid "Language"
-#~ msgstr "界面语言设置"
-
-#~ msgid "No Default Provided"
-#~ msgstr "无默认值"
-
-#~ msgid "Refresh Page"
-#~ msgstr "更新此页面"
-
-#~ msgid "Some of these settings can render your system inoperable. You are urged to backup before making any changes. Readonly settings are usually more volatile, they can be changed by changing 'Override Readonly Settings' to true. Once changed you must save the setting by checking the green check box that appears. You can restore the default setting by clicking on the icon to the right of the values if not set at default."
-#~ msgstr "修改一些设置可能导致你的系统不能正常工作。我们强烈要求用户提前备份。仅读到设置通常是可以修改的，他们可以通过'Override Readonly Settings' 为true来修改。一旦修改，用户必须保存设置，并且通过绿色复选框来进一步确认。用户同样可以通过复选框来还原修改的设置。"
-
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#~ msgid "Submit Changes"
-#~ msgstr "提交更改"
-
-#~ msgid "True"
-#~ msgstr "是"
-
-#~ msgid "Username cannot start with a number, and can only contain letters and numbers"
-#~ msgstr "用户名不能以数字开始，只能以字母打头"
-
-#~ msgid "Username must not be blank"
-#~ msgstr "用户名不能为空"
-
-#~ msgid "field can be left blank"
-#~ msgstr "不能为空"
+#~ msgid "Give this trunk a unique name.  Example: myiaxtel"
+#~ msgstr "为这个中继取一个唯一的名字。例如：myiaxtel"
 
 #~ msgid " (toggle sort)"
 #~ msgstr "（切换是否排序）"
@@ -8521,11 +8480,20 @@ msgstr ""
 #~ msgid "24-hour format"
 #~ msgstr "24小时格式"
 
+#~ msgid "<b>IMPORTANT:</b> Use extreme caution when making changes!"
+#~ msgstr "<b>重要提醒:</b> 当你做系统修改时，千万要小心！修改前请备份！"
+
 #~ msgid "A Slash ('/') is never a valid DID. Please remove it and try again"
 #~ msgstr "斜杠（“/”）不是有效的DID。请删除此字符后重试"
 
+#~ msgid "ALL SECTIONS"
+#~ msgstr "所有区域"
+
 #~ msgid "Accept"
 #~ msgstr "接受"
+
+#~ msgid "Acceptable Values: %s - %s"
+#~ msgstr "可接受的值是:%s - %s"
 
 #~ msgid "Add Channel"
 #~ msgstr "添加中继"
@@ -8683,6 +8651,9 @@ msgstr ""
 #~ msgid "Daily load"
 #~ msgstr "每日负载"
 
+#~ msgid "Default Value: %s"
+#~ msgstr "默认值: %s"
+
 #~ msgid "Default message type to use when dialing direct to an extensions voicemail"
 #~ msgstr "当直接拨号到某人的语音邮件邮箱时，这项设定指示了消息的类型。"
 
@@ -8709,6 +8680,9 @@ msgstr ""
 
 #~ msgid "Department Name<span>Restrict this user's view of Digital Receptionist menus and System Recordings to only those for this department.</span>"
 #~ msgstr "部门<span>在数字话务员的菜单和系统录音界面中，限制该用户只能访问关于此部门的信息。</span>"
+
+#~ msgid "Department name cannot have a space"
+#~ msgstr "部门名称不能包含空格"
 
 #~ msgid "Description for version %s"
 #~ msgstr "对版本 %s 的描述"
@@ -8782,6 +8756,9 @@ msgstr ""
 #~ msgid "Extension Recording Override:"
 #~ msgstr "覆盖分机录音设定："
 
+#~ msgid "False"
+#~ msgstr "否"
+
 #~ msgid "File %s must exist."
 #~ msgstr "文件 %s 必须存在。"
 
@@ -8790,6 +8767,9 @@ msgstr ""
 
 #~ msgid "Find users in the Company Directory by:"
 #~ msgstr "在伙伴目录中查找用户，通过以下方式："
+
+#~ msgid "For security reasons, you cannot use the department name default"
+#~ msgstr "出于安全考虑，你不能使用默认的部门名称"
 
 #~ msgid "FreePBX: Call Detail Reports"
 #~ msgstr "FreePBX：呼叫详细记录"
@@ -8805,9 +8785,6 @@ msgstr ""
 
 #~ msgid "Generic ZAP Device"
 #~ msgstr "标准模拟板卡"
-
-#~ msgid "Give this trunk a unique name.  Example: myiaxtel"
-#~ msgstr "为这个中继取一个唯一的名字。例如：myiaxtel"
 
 #~ msgid "Help"
 #~ msgstr "帮助"
@@ -8862,6 +8839,9 @@ msgstr ""
 
 #~ msgid "It should only be used if you fully understand the impact of allowing anonymous calls into your server"
 #~ msgstr "除非你完全了解允许匿名呼叫进入你的服务器的影响，否则不要启用此项"
+
+#~ msgid "Language"
+#~ msgstr "界面语言设置"
 
 #~ msgid "Leaving the DID Number AND the Caller ID Number empty will match all incoming calls received not routed using any other defined Incoming Route.\\n\\nAre you sure?"
 #~ msgstr "如果不填写DID号码和主叫ID号码，所有没有匹配其他定义好的入局线路的入局呼叫都将被匹配。\\n\\n你确定要这样设置吗？"
@@ -8940,6 +8920,9 @@ msgstr ""
 
 #~ msgid "NOTE:"
 #~ msgstr "注意："
+
+#~ msgid "No Default Provided"
+#~ msgstr "无默认值"
 
 #~ msgid "No Message"
 #~ msgstr "无信息"
@@ -9049,6 +9032,9 @@ msgstr ""
 #~ msgid "Recordings"
 #~ msgstr "录音"
 
+#~ msgid "Refresh Page"
+#~ msgstr "更新此页面"
+
 #~ msgid "Registration"
 #~ msgstr "注册"
 
@@ -9091,8 +9077,18 @@ msgstr ""
 #~ msgid "Setup"
 #~ msgstr "设置"
 
+#~ msgid "Some of these settings can render your system inoperable. You are urged to backup before making any changes. Readonly settings are usually more volatile, they can be changed by changing 'Override Readonly Settings' to true. Once changed you must save the setting by checking the green check box that appears. You can restore the default setting by clicking on the icon to the right of the values if not set at default."
+#~ msgstr "修改一些设置可能导致你的系统不能正常工作。我们强烈要求用户提前备份。仅读到设置通常是可以修改的，他们可以通过'Override Readonly Settings' 为true来修改。一旦修改，用户必须保存设置，并且通过绿色复选框来进一步确认。用户同样可以通过复选框来还原修改的设置。"
+
 #~ msgid "Std Instructions"
 #~ msgstr "标准说明"
+
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#~ msgid "Submit Changes"
+#~ msgstr "提交更改"
 
 #~ msgid "System Administration"
 #~ msgstr "系统管理"
@@ -9169,6 +9165,9 @@ msgstr ""
 #~ msgid "Tools"
 #~ msgstr "工具"
 
+#~ msgid "True"
+#~ msgstr "是"
+
 #~ msgid "Unauthorized"
 #~ msgstr "权限不足，拒绝访问"
 
@@ -9183,6 +9182,12 @@ msgstr ""
 
 #~ msgid "Use the specified amount of gain when recording the voicemail message."
 #~ msgstr "当为语音邮件录音时，使用指定的增益。"
+
+#~ msgid "Username cannot start with a number, and can only contain letters and numbers"
+#~ msgstr "用户名不能以数字开始，只能以字母打头"
+
+#~ msgid "Username must not be blank"
+#~ msgstr "用户名不能为空"
 
 #~ msgid "Username<span>Create a unique username for this new user</span>"
 #~ msgstr "用户名<span>为新用户创建一个唯一的用户名</span>"
@@ -9272,6 +9277,9 @@ msgstr ""
 
 #~ msgid "description"
 #~ msgstr "描述"
+
+#~ msgid "field can be left blank"
+#~ msgstr "不能为空"
 
 #~ msgid "first name"
 #~ msgstr "名"
