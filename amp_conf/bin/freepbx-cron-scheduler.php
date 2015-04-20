@@ -58,7 +58,7 @@ if ($email) {
 	if (count($security)) {
 		$send_email = true;
 		$text = $htext;
-		$text .= _("SECURITY NOTICE: \n\n");
+		$text .= _("SECURITY NOTICE:")."\n\n";
 		foreach ($security as $item) {
 			$text .= $item['display_text']."\n";
 			$text .= $item['extended_text']."\n\n";
@@ -82,7 +82,7 @@ if ($email) {
 	if (count($updates)) {
 		$send_email = true;
 		$text = $htext;
-		$text .= _("UPDATE NOTICE: \n\n");
+		$text .= _("UPDATE NOTICE:")."\n\n";
 		foreach ($updates as $item) {
 			$text .= $item['display_text']."\n";
 			$text .= $item['extended_text']."\n\n";
@@ -98,5 +98,5 @@ if ($email) {
 		}
 	}
 } else {
-		$nt->add_notice('freepbx', 'NOEMAIL', _('No email address for online update checks'), _('You are automatically checking for online updates nightly but you have no email address setup to send the results. This can be set in Module Admin. They will continue to show up here.'), 'config.php?display=modules#email', 'PASSIVE', false);
+	$nt->add_notice('freepbx', 'NOEMAIL', _('No email address for online update checks'), _('You are automatically checking for online updates nightly but you have no email address setup to send the results. This can be set in Module Admin. They will continue to show up here.'), 'config.php?display=modules#email', 'PASSIVE', false);
 }
