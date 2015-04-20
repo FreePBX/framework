@@ -46,7 +46,7 @@ if($online) { ?>
 		</div>
 		<?php foreach($module_display as $category) {?>
 			<div class="category" id="category_<?php echo prep_id($category['name'])?>">
-				<h3><?php echo $category['name']?></h3>
+				<h3><?php echo _($category['name'])?></h3>
 				<table class="table modulelist table-striped" width="100%">
 					<?php foreach($category['data'] as $module) {?>
 					</tr>
@@ -167,13 +167,13 @@ if($online) { ?>
 										<table class="modulequickinfo">
 											<?php if(!empty($module['publisher'])) {?>
 											<tr>
-												<td><?php echo ("Publisher")?>:</td>
+												<td><?php echo _("Publisher")?>:</td>
 												<td><?php echo $module['publisher']?></td>
 											</tr>
 											<?php } ?>
 											<?php if(!empty($module['license'])) {?>
 											<tr>
-												<td><?php echo ("License")?>:</td>
+												<td><?php echo _("License")?>:</td>
 												<td><?php echo (!empty($module['licenselink'])) ? '<a href="'.$module['licenselink'].'" target="_moduleLicenseLink">'.$module['license'].'</a>' : $module['license']?></td>
 											</tr>
 											<?php } ?>
@@ -185,7 +185,7 @@ if($online) { ?>
 												<?php } ?>
 											<?php if(!empty($module['salert'])) {?>
 											<tr>
-												<td><?php echo ("Fixes Vulnerabilities")?>:</td>
+												<td><?php echo _("Fixes Vulnerabilities")?>:</td>
 												<td><?php echo implode($module['vulnerabilities']['vul'], ', ')?></td>
 											</tr>
 											<?php } ?>
