@@ -167,19 +167,19 @@ if($online) { ?>
 										<table class="modulequickinfo">
 											<?php if(!empty($module['publisher'])) {?>
 											<tr>
-												<td><?php echo ("Publisher")?>:</td>
+												<td><?php echo _("Publisher")?>:</td>
 												<td><?php echo $module['publisher']?></td>
 											</tr>
 											<?php } ?>
 											<?php if(!empty($module['license'])) {?>
 											<tr>
-												<td><?php echo ("License")?>:</td>
+												<td><?php echo _("License")?>:</td>
 												<td><?php echo $module['license']?></td>
 											</tr>
 											<?php } ?>
 											<?php if(!empty($module['salert'])) {?>
 											<tr>
-												<td><?php echo ("Fixes Vulnerabilities")?>:</td>
+												<td><?php echo _("Fixes Vulnerabilities")?>:</td>
 												<td><?php echo implode($module['vulnerabilities']['vul'], ', ')?></td>
 											</tr>
 											<?php } ?>
