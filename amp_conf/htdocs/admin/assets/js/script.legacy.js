@@ -1658,6 +1658,9 @@ $(document).ready(function(){
 	$('select[multiple].chosenmultiselect').chosen({
 		width: '100%'
 	});
+	$('select.chosenselect').chosen({
+		width: '100%'
+	});
 	/*
 	 * Handle loooong bootnavs.
 	 */
