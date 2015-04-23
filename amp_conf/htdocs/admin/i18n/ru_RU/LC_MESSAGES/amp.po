@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-21 21:42-0400\n"
-"PO-Revision-Date: 2015-04-22 20:47+0200\n"
+"PO-Revision-Date: 2015-04-23 00:14+0200\n"
 "Last-Translator: Yuriy <alliancesko@gmail.com>\n"
 "Language-Team: Russian "
 "<http://weblate.freepbx.org/projects/freepbx/framework/ru_RU/>\n"
@@ -318,9 +318,9 @@ msgid "%s uninstalled successfully"
 msgstr "%s деинсталлирован успешно"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1074
-#, fuzzy, php-format
+#, php-format
 msgid "%s version %s or below is required, you have %s"
-msgstr "Требуется версия %s или ниже, в наличии же %s"
+msgstr "%s Требуется версия %s или ниже, установлено %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1087
 #, php-format
@@ -473,8 +473,8 @@ msgstr ""
 #: ../core/page.did.php:321
 msgid "A Slash ('/') is never a valid DID. Please remove it and try again"
 msgstr ""
-"Знак слэш ('/') является служебным символом и не разрешённ для DID. Удалите "
-"его и попробуйте ещё раз."
+"Знак слэш ('/') является служебным символом и не разрешён для DID. Удалите "
+"его и попробуйте ещё раз"
 
 #: ../core/functions.inc.php:6664
 msgid "A description for this DID, such as \"Fax\""
@@ -491,7 +491,7 @@ msgstr ""
 "в том же вормате, в котором приходит от провайдера (напр. полный номер, или "
 "4 последние цифры из полного номера, и т.д.)<br><br>То есть формат должен "
 "быть в виде :<b>ХХХХХХХХХХ<b><br><br>. Дополнительно можно указать и Номер "
-"ИД, который будет ассоциирован с этим номером DID - в следующем поле ниже."
+"ИД, который будет ассоциирован с этим номером DID - в следующем поле ниже"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:205
 #, php-format
@@ -515,13 +515,14 @@ msgstr "Внятное описание этого канала"
 
 #: ../core/functions.inc.php:6562
 msgid "A user will enter this password when logging onto a device."
-msgstr "Пользователь введёт этот пароль когда будет логиниться в устройство"
+msgstr "Пользователь будет вводить этот пароль при входе на устройство."
 
 #: ../core/page.did.php:212
 msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
 msgstr ""
-"Информация о сигнале может быть использована для различных сигналов вызова "
-"различных SIP устройств"
+"Дополнительная информация ALERT_INFO может быть использования для "
+"распознавания адресата чтобы присвоить различный тип звонков на SIP "
+"устройствах."
 
 #: ../core/page.ampusers.php:240
 msgid "ALL SECTIONS"
@@ -566,7 +567,7 @@ msgstr ""
 #: ../core/functions.inc.php:6857 ../core/functions.inc.php:6912
 #: ../core/functions.inc.php:6957 ../core/functions.inc.php:7159
 msgid "Accountcode for this device."
-msgstr "Параметр доступа для этого устройства"
+msgstr "Параметр доступа для этого устройства."
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:269
 msgid "Action"
@@ -761,7 +762,7 @@ msgstr "Все DIDs"
 
 #: amp_conf/htdocs/admin/page.modules.php:876
 msgid "All available modules are up-to-date and installed."
-msgstr "Все доступные модули обновлены и инсталлированы"
+msgstr "Все доступные модули обновлены и установлены."
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:446
 msgid ""
@@ -855,7 +856,7 @@ msgid ""
 "the current correct route positions"
 msgstr ""
 "Неизвестная ошибка произошла при изменении маршрутов, обновите страницу "
-"браузера чтобы увидеть правильную текущую таблицу маршрутов."
+"браузера чтобы увидеть правильную текущую таблицу маршрутов"
 
 #: ../core/functions.inc.php:6678
 msgid "Any DID"
@@ -1048,7 +1049,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:7
 msgid "Asterisk may not be running."
-msgstr "Астериск возможно не работает"
+msgstr "Астериск не может быть запущен."
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:210
 #, php-format
@@ -1453,7 +1454,7 @@ msgstr ""
 #: ../core/views/trunks/trunk_header.php:122
 msgid "Check this to disable this trunk in all routes where it is used."
 msgstr ""
-"Отметить чтобы выключить этот транк из всех маршрутов где он используется"
+"Отметить чтобы выключить этот транк из всех маршрутов где он используется."
 
 #: ../core/views/trunks/trunk_header.php:117
 msgid "Check to always try next trunk"
@@ -1779,7 +1780,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/functions.inc.php:415
 #, php-format
 msgid "Could not run %s script."
-msgstr "Невозможно исполнить %s скрипт"
+msgstr "Не удалось запустить скрипт %s."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1285
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1454
@@ -2022,8 +2023,9 @@ msgid ""
 "use the default values provided by FreePBX.<br>Port number for db host."
 msgstr ""
 "НЕ УСТАНАВЛИВАЙТЕ этот параметр если вы не точно понимаете что делаете. Это "
-"используется только если значения по умолчанию FreePBX не используются по "
-"каким то причинам.<br>Номер порта хоста для подключения к сторонней базе CDR"
+"используется только если значения по умолчанию, предоставленные FreePBX, не "
+"используются по каким то причинам.<br>Номер порта хоста для подключения к "
+"сторонней базе CDR."
 
 #: ../core/functions.inc.php:7022
 msgid "DTMF Signaling"
@@ -2292,8 +2294,8 @@ msgid ""
 msgstr ""
 "Указать ожидаемый входящий номер DID если ваш транк поддерживает DID на "
 "входящих звонках.<br><br>Оставьте это поле пустым, чтобы принимать звонки с "
-"любыми DID или вообще без них.<br><br>Можно использовать шаблон (например _2"
-"[345]X) для диапазона ожидаемых DID."
+"любыми DID или вообще без них.<br><br>Можно использовать шаблон (например "
+"_2[345]X) для диапазона ожидаемых DID"
 
 #: ../core/page.astmodules.php:48 ../core/page.dahdichandids.php:96
 msgid "Delete"
@@ -2778,7 +2780,7 @@ msgid ""
 "aborting"
 msgstr ""
 "ОШИБКА: нет доступа к таблице пользователей для переноса прямых DIDs в "
-"исходную таблицу, прервано."
+"исходную таблицу, прервано"
 
 #: ../core/install.php:977
 msgid ""
@@ -3011,8 +3013,8 @@ msgid ""
 "Enabling Pinless Dialing will allow this extension to bypass any pin codes "
 "normally required on outbound calls"
 msgstr ""
-"Набороы без PIN-кодов разрешают внутренним номерам обходить установленные на "
-"исходящих маршрутах PIN-коды."
+"Наборы без PIN-кодов разрешают внутренним номерам обходить установленные на "
+"исходящих маршрутах PIN-коды"
 
 #: amp.i18n.php:624
 msgid ""
@@ -3300,7 +3302,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:6590
 msgid "Extension number conflict, please choose another."
-msgstr "Внутренний номер, по которому можно найти пользователя"
+msgstr "Конфликт внутренних номеров, пожалуйста, выберите другой номер."
 
 #: amp.i18n.php:698
 msgid "Extensions"
@@ -3745,7 +3747,7 @@ msgstr "Французский"
 
 #: ../core/functions.inc.php:7098
 msgid "Frequency in seconds to send qualify messages to the endpoint."
-msgstr "Частота посылок сообщений qualify конечным устройствам, в секундах"
+msgstr "Частота посылок сообщений qualify конечным устройствам, в секундах."
 
 #: ../core/page.advancedsettings.php:102
 #, php-format
@@ -3921,9 +3923,9 @@ msgid ""
 "device which is really a remote SIP URI might be configured such as SIP/"
 "joe@somedomain.com"
 msgstr ""
-"Как набирать через это устройство. Это специфично для каждого устройства. "
+"Как набирать это устройство. Это специфично для каждого устройства. "
 "Например, особое устройство, которое поддерживает наборы по SIP URI может "
-"быть сконфигурено как SIP/joe@somedomain.com."
+"быть настроено как SIP/joe@somedomain.com"
 
 #: amp_conf/htdocs/admin/views/menu.php:159
 msgid "Hungarian"
@@ -4004,7 +4006,7 @@ msgstr ""
 "Если установлено приложение Ditech VQA этот параметр будет использован для "
 "всех входящих вызовов, для более подробной информации используйте команду "
 "'core show application VQA' в командной строке Asterisk, которая покажет "
-"различные параметры"
+"различные параметры."
 
 #: amp.i18n.php:266
 msgid ""
@@ -4015,7 +4017,7 @@ msgstr ""
 "Если установлено приложение Ditech VQA этот параметр будет использован для "
 "всех исходящих вызовов, для более подробной информации используйте команду "
 "'core show application VQA' в командной строке Asterisk, которая покажет "
-"различные параметры"
+"различные параметры."
 
 #: ../core/page.routing.php:834
 msgid ""
@@ -4173,7 +4175,7 @@ msgstr ""
 "Если вы хотите поддерживать SIP вызовы между внутренними пользователями "
 "напрямую, или для анонимизации таких звонков, вы можете использовать "
 "узнаваемое имя, которое будет использоваться дополнительно вместе с "
-"внутренним номером абонента при звонке"
+"внутренним номером абонента при звонке."
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:172
 msgid ""
@@ -4410,7 +4412,7 @@ msgstr "Неверный формат NPA-NXX (должен быть NXXNXX)"
 
 #: ../core/views/trunks/trunk_header.php:351
 msgid "Invalid number. Only 0-9, #,  and * are allowed."
-msgstr "Неверный номер. Только 0-9, #, *"
+msgstr "Неверный номер. Только 0-9, # и * разрешены."
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:141
 msgid "Invalid password supplied - less than 8 characters"
@@ -4437,7 +4439,7 @@ msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:323
 msgid "Invalid prefix. Only dialable characters (0-9, #, and *) are allowed."
-msgstr "Неверный префикс. Разрешены только набираемые символы (0-9, #, and *)"
+msgstr "Неверный префикс. Разрешены только набираемые символы (0-9, #, и *)."
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1040
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1059
@@ -4493,7 +4495,7 @@ msgstr ""
 
 #: amp.i18n.php:124
 msgid "Leave Reload Bar Up"
-msgstr "Оставлять оранжевый элемент <b>Применить изменения</b> сверху."
+msgstr "Оставлять оранжевый элемент <b>Применить изменения</b> сверху"
 
 #: ../core/page.did.php:319
 msgid ""
@@ -4544,7 +4546,7 @@ msgstr ""
 
 #: amp.i18n.php:372
 msgid "Location of the FreePBX command line scripts."
-msgstr "Местонахождение скриптов командной строки FreePBX"
+msgstr "Местонахождение скриптов командной строки FreePBX."
 
 #: amp.i18n.php:562
 msgid "Log Verbose Messages"
@@ -4732,8 +4734,7 @@ msgstr ""
 #: ../core/views/trunks/sip.php:37
 msgid "Modify the default USER connection parameters for your VoIP provider."
 msgstr ""
-"Изменить параметры USER соединения входящих соединений от вашего VoIP "
-"провайдера"
+"Изменить параметры соединения по умолчанию USER для вашего провайдера VoIP."
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:39
 msgid "Module"
@@ -5031,7 +5032,7 @@ msgstr "Никаких действий не производить"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:191
 msgid "No description is available."
-msgstr "Описание не доступно"
+msgstr "Описание не доступно."
 
 #: ../core/page.routing.php:983
 msgid "No dial pattern, there must be at least one"
@@ -5189,12 +5190,12 @@ msgid ""
 "ring. Default will use the current Ring Time. If voicemail is disabled and "
 "their is not destination specified, it will be forced into Always mode"
 msgstr ""
-"Количество секунд, в течение которых вызов будет передаваться в голосовую "
-"почту или специальное назначение при простом перенаправлении, "
-"перенаправлении по статусам Занято или Не доступен. Установка в положение "
-"Всегда вызов будет просто продолжаться. По умолчанию будет использоваться "
-"текущее значение времени вызова. Если голосовая почта не включена и не "
-"установлено перенаправление будет выбираться режим Всегда."
+"Продолжительность звонка в секундах во время переадресации, переадресации "
+"при занятости или недоступности, до перевода на голосовую почту или "
+"указанное назначение. Установка в положение Всегда вызов будет просто "
+"продолжаться. По умолчанию будет использоваться текущее значение времени "
+"вызова. Если голосовая почта не включена и не установлено перенаправление "
+"будет выбираться режим Всегда"
 
 #: ../core/functions.inc.php:6634
 msgid ""
@@ -5720,7 +5721,7 @@ msgstr "Введите пароль для этого устройства"
 
 #: ../core/functions.inc.php:7347
 msgid "Please enter a device id."
-msgstr "Введите ИД устройства"
+msgstr "Введите ИД устройства."
 
 #: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:226
 msgid "Please enter a username"
@@ -5728,7 +5729,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:6539
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
-msgstr "Пожалуйста, введите псевдоним Caller IDе числа)"
+msgstr "Пожалуйста, введите псевдоним Caller ID (только допустимые числа)."
 
 #: ../core/page.did.php:315
 msgid "Please enter a valid CallerID Number"
@@ -5770,7 +5771,7 @@ msgstr "Пожалуйста, введите исходящий ИД номер"
 
 #: ../core/functions.inc.php:6538 ../core/functions.inc.php:7350
 msgid "Please enter a valid extension number."
-msgstr "Пожалуйста, введите внутренний номер"
+msgstr "Пожалуйста, введите верный внутренний номер."
 
 #: ../core/page.did.php:318
 msgid "Please enter a valid number for Pause Before Answer field"
@@ -5857,7 +5858,7 @@ msgstr "Потенциальная брешь в безопасности"
 
 #: amp.i18n.php:414
 msgid "Precede browser title with the server name."
-msgstr "Предварять заголовок в браузере именем сервера"
+msgstr "Предварять заголовок в браузере именем сервера."
 
 #: ../core/page.routing.php:561
 msgid ""
@@ -5999,19 +6000,19 @@ msgstr "Опции записи"
 
 #: ../core/functions.inc.php:6705
 msgid "Recording of calls made to other extensions on the system."
-msgstr "Записывать все входящие звонки на этот внутренний номер"
+msgstr "Запись звонков на другие внутренние номера системы."
 
 #: ../core/functions.inc.php:6704
 msgid "Recording of calls received from other extensions on the system."
-msgstr "Записывать все входящие звонки на этот внутренний номер"
+msgstr "Запись звонков, принятых с других внутренних номеров системы."
 
 #: ../core/functions.inc.php:6702
 msgid "Recording of inbound calls from external sources."
-msgstr "Записывать все входящие звонки на этот внутренний номер"
+msgstr "Запись входящих звонков от внешних источников."
 
 #: ../core/functions.inc.php:6703
 msgid "Recording of outbound calls to external sources."
-msgstr "Записывать все исходящие звонки с этого внутреннего номера"
+msgstr "Запись исходящих звонков на внешние источники."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1243
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1247
@@ -6132,7 +6133,7 @@ msgstr ""
 #: ../core/install.php:189
 #, php-format
 msgid "Removing field %s from users table.."
-msgstr "Удаляем поле %s из таблицы пользователей"
+msgstr "Удаляем поле %s из таблицы пользователей.."
 
 #: amp.i18n.php:416
 msgid "Report Unknown Dest as Error"
@@ -6353,7 +6354,7 @@ msgstr "SIP и IAX запросы qualify"
 
 #: amp.i18n.php:162
 msgid "SIP canrenivite (directmedia)"
-msgstr "SIP canrenivite (directmedia)"
+msgstr "Прямое соединение SIP (directmedia)"
 
 #: amp.i18n.php:178
 msgid "SIP encryption"
@@ -6361,7 +6362,7 @@ msgstr "Шифрование SIP"
 
 #: amp.i18n.php:174
 msgid "SIP nat"
-msgstr "SIP nat"
+msgstr "Трансляция сетевых адресов SIP (NAT)"
 
 #: amp.i18n.php:182
 msgid "SIP qualifyfreq"
@@ -6999,9 +7000,9 @@ msgid "The following error(s) occured:"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:7
-#, fuzzy, php-format
+#, php-format
 msgid "The following error(s) occurred processing the uploaded file: %s"
-msgstr "%s Следующая ошибка(-и) произошла при загрузке файла: %s"
+msgstr "Следующая ошибка(-и) произошла при загрузке файла: %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2442
 msgid "The following modules are disabled because they are broken:"
@@ -7212,24 +7213,23 @@ msgid "There is 1 module vulnerable to security threats"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/welcome.php:49
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "There is also a community based <a href='%s' target='_new'>FreePBX Web "
 "Forum</a> where you can post\n"
 "questions and search for answers for any problems you may be having."
 msgstr ""
-"Русскоязычную поддержку FreePBX вы можете получить на <a href='http://forum."
-"sterisk.ru/>форуме</a>,  платная поддержка - у \n"
-"<a href='https://www.postmet.com/shop/126-remote-support-or-consultations-1-"
-"hour.html'>специалистов компании <b>PostMet</a></b>"
+"Существует также сообщество, основанное <a href='%s' target='_new'> FreePBX "
+"Web Forum </a>, где вы можете задавать вопросы и искать ответы по любым "
+"проблемам, которые могут иметь место."
 
 #: ../core/install.php:185
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "There were %s failures migrating directdids, users table not being changed"
 msgstr ""
-"При переносе прямых DID's произошли сбои, таблица пользователей осталась без "
-"изменений"
+"При переносе %s прямых DID's произошли сбои, таблица пользователей не "
+"изменилась"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:147
 msgid "There were no settings to update"
@@ -7477,14 +7477,13 @@ msgid "This trunk is not used by any routes!"
 msgstr "Этот транк не используется никакими маршрутами!"
 
 #: ../core/views/trunks/trunk_header.php:22
-#, fuzzy
 msgid ""
 "This trunk will not be able to be used for outbound calls until a route is "
 "setup that uses it. Click on <b>Outbound Routes</b> to setup routing."
 msgstr ""
 "Этот транк не может использоваться для соединений, пока не будет "
-"задействован в одном из маршрутов. Кликните на <b>Исходящая маршрутизация</"
-"b> для настройки маршрутов."
+"задействован в одном из маршрутов. Кликните на <b>Исходящая маршрутизация</b>"
+" для настройки маршрута."
 
 #: ../core/functions.inc.php:4900
 #, php-format
