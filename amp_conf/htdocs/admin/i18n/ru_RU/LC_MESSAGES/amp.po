@@ -7,16 +7,16 @@ msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-21 21:42-0400\n"
-"PO-Revision-Date: 2015-04-22 02:10+0200\n"
-"Last-Translator: Andrew <andrew.nagy@the159.com>\n"
-"Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
-"framework/ru_RU/>\n"
+"PO-Revision-Date: 2015-04-22 20:47+0200\n"
+"Last-Translator: Yuriy <alliancesko@gmail.com>\n"
+"Language-Team: Russian "
+"<http://weblate.freepbx.org/projects/freepbx/framework/ru_RU/>\n"
+"Language: ru_RU\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ru_RU\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
-"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
+"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.2-dev\n"
 
 #: ../core/page.did.php:71
@@ -502,7 +502,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:4294 ../core/functions.inc.php:4386
 msgid "A route for this DID/CID already exists!"
-msgstr "Маршрут для этого DID/CID уже существует"
+msgstr "Маршрут для этого DID/CID уже существует!"
 
 #: ../core/functions.inc.php:4919 ../core/functions.inc.php:5241
 #, php-format
@@ -1311,7 +1311,7 @@ msgstr ""
 
 #: ../core/page.routing.php:563
 msgid "CallerID:"
-msgstr "Caller ID (CID)"
+msgstr "ID звонящего (CID):"
 
 #: ../core/functions.inc.php:6859 ../core/functions.inc.php:6914
 #: ../core/functions.inc.php:7149
@@ -1369,7 +1369,7 @@ msgstr "Отмена"
 
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:5
 msgid "Cannot connect to Asterisk Manager with "
-msgstr "Невозможно соединится с Asterisk Manager"
+msgstr "Невозможно соединиться к Asterisk Manager с "
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1997
 #, php-format
@@ -1379,7 +1379,7 @@ msgstr "Невозможно удалить директорию %s"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1887
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1919
 msgid "Cannot disable: The following modules depend on this one: "
-msgstr "Невозможно отменить: выбранный модуль зависит от:"
+msgstr "Не отключить: Выбранный модуль зависит от: "
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1736
 msgid "Cannot find module"
@@ -2347,7 +2347,7 @@ msgstr ""
 
 #: ../core/page.ampusers.php:268
 msgid "Department name cannot have a space"
-msgstr "Название департамента не должно содержать пробелы "
+msgstr "Название департамента не должно содержать пробелы"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:814
 #, php-format
@@ -3098,7 +3098,7 @@ msgstr "Ошибка при удалении директории %s (код %d)
 
 #: ../core/page.routing.php:317 ../core/page.trunks.php:323
 msgid "Error fetching prefix list for: "
-msgstr "Ошибка вызова списка префиксов для:"
+msgstr "Ошибка вызова списка префиксов для: "
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1600
 msgid ""
@@ -3177,9 +3177,11 @@ msgid ""
 "the server. Please install or enable cURL support in your PHP installation "
 "to use this function. See http://www.php.net/curl for more information."
 msgstr ""
-"Ошибка: Невозможно продолжить.\\n\\nПоиск по префиксу требует поддержки cURL "
-"в РНР на сервере (Да-да! Есть такая приблуда!). Проинсталлируйте или "
-"задействуйте поддержку cURL в вашей инсталляции РНР. http://www.php.net/curl "
+"Ошибка: Невозможно продолжить.\\n"
+"\\n"
+"Поиск по префиксу требует поддержки cURL в РНР на сервере (Да-да! Есть такая "
+"приблуда!). Установите или задействуйте поддержку cURL в вашей инсталляции "
+"РНР. Смотрите http://www.php.net/curl для информации."
 
 #: amp_conf/htdocs/admin/views/footer.php:93
 msgid "Error: Did not receive valid response from server"
@@ -4404,7 +4406,7 @@ msgstr ""
 
 #: ../core/page.routing.php:322 ../core/page.trunks.php:328
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
-msgstr "Неверный формат NPA-NXX (должен быть NXXNXX) "
+msgstr "Неверный формат NPA-NXX (должен быть NXXNXX)"
 
 #: ../core/views/trunks/trunk_header.php:351
 msgid "Invalid number. Only 0-9, #,  and * are allowed."
@@ -4426,12 +4428,12 @@ msgstr "Неверный шашаблон. Только 0-9, #, *"
 #: ../core/views/trunks/trunk_header.php:318
 #: ../core/views/trunks/trunk_header.php:337
 msgid "Invalid pattern. Only 0-9, #, *, Z, N, X and . are allowed."
-msgstr "Неверный шаблон. Разрешаются только символы 0-9, #, *, Z, N, X и . "
+msgstr "Неверный шаблон. Разрешаются только символы 0-9, #, *, Z, N, X и . ."
 
 #: ../core/views/trunks/trunk_header.php:332
 msgid "Invalid prefix. Only 0-9, #, *, Z, N, and X are allowed."
 msgstr ""
-"Неверный префикс. Допускаются только цифры 0-9, символы #, *, Z, N, и X "
+"Неверный префикс. Допускаются только цифры 0-9, символы #, *, Z, N, и X."
 
 #: ../core/views/trunks/trunk_header.php:323
 msgid "Invalid prefix. Only dialable characters (0-9, #, and *) are allowed."
@@ -4743,7 +4745,7 @@ msgstr "Модуль"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1747
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1753
 msgid "Module "
-msgstr "Модуль"
+msgstr "Модуль "
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2878
 #, php-format
@@ -4883,9 +4885,9 @@ msgid ""
 "any DID matching to work."
 msgstr ""
 "Большинство VoIP провайдеров требуют, чтобы ваша система регистрировалась. "
-"Введите строку регистрации.<br><br>Пример: username:password@2iax2.postmet."
-"com. Многие провайдеры требуют указывать и номера DID, например: username:"
-"password@2iax2.postmet.com/1234567, где 1234567 номер DID "
+"Введите строку регистрации.<br><br>Пример: username:password@"
+"2iax2.postmet.com. Многие провайдеры требуют указывать и номера DID, "
+"например: username:password@2iax2.postmet.com/1234567, где 1234567 номер DID."
 
 #: ../core/page.routing.php:788
 msgid "Move Down"
@@ -4933,7 +4935,7 @@ msgstr ""
 
 #: ../core/page.ampusers.php:161
 msgid "NOTE:"
-msgstr "ВНИМАНИЕ: "
+msgstr "ВНИМАНИЕ:"
 
 #: ../core/page.routing.php:688 ../core/views/trunks/trunk_header.php:316
 #: ../core/views/trunks/trunk_header.php:335
@@ -6227,7 +6229,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:6634
 msgid "Ring Time"
-msgstr "Как долго звонит?"
+msgstr "Время звонка"
 
 #: amp.i18n.php:308
 msgid "Ringtime Default"
@@ -7007,7 +7009,7 @@ msgstr "Следующий модуль отключен ввиду его по�
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2434
 msgid "The following modules are disabled because they need to be upgraded:"
-msgstr "Следущий модуль отключен так как нуждается в обновлении"
+msgstr "Следующий модуль отключен так как нуждается в обновлении:"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:323
 msgid ""
@@ -7823,7 +7825,7 @@ msgstr ""
 
 #: amp.i18n.php:148
 msgid "Use Packaged Javascript Library "
-msgstr "Использовать пакет библиотеки Javascript"
+msgstr "Использовать пакет библиотеки Javascript "
 
 #: amp.i18n.php:320
 msgid "Use bad-number Context"
@@ -8176,8 +8178,9 @@ msgid ""
 "What prefix should be removed from the number?\\n\\n(ie. for US/CAN, 1"
 "+areacode, ie, \\'1613\\')"
 msgstr ""
-"Какой префикс должен быть убран из номера?\\n\\n(например для США и Канады, "
-"1 + код зоны, типа \\'1613\\')?"
+"Какой префикс должен быть убран из номера?\\n"
+"\\n"
+"(например для США и Канады, 1 + код зоны, типа \\'1613\\')"
 
 #: amp.i18n.php:330
 msgid ""
@@ -8244,7 +8247,7 @@ msgstr ""
 msgid "When set to false, will bypass the confirm on Reload Box."
 msgstr ""
 "Если установлено в false, окно подтверждения не будет появляться при "
-"перезагрузке. "
+"перезагрузке."
 
 #: amp.i18n.php:406
 msgid ""
@@ -8601,9 +8604,10 @@ msgid ""
 "will not be able to login to an AdHoc device.\\n\\nAre you sure you wish to "
 "leave the User Password empty?"
 msgstr ""
-"Не введён паролб пользователя. Если это подтверждается, то этот пользователь "
-"не сможет попасть в устройство со статусом AdHoc. \\n\\Вы действительно "
-"хотите оставить пароль пустым?"
+"Не введен пароль пользователя. Если это подтверждается, то этот пользователь "
+"не сможет попасть в устройство со статусом AdHoc. \\n"
+"\\n"
+"Вы действительно хотите оставить пароль пустым?"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:20
 #, php-format
