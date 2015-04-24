@@ -6,17 +6,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-21 21:42-0400\n"
+"POT-Creation-Date: 2015-04-24 14:43-0400\n"
 "PO-Revision-Date: 2015-04-23 00:14+0200\n"
 "Last-Translator: Yuriy <alliancesko@gmail.com>\n"
-"Language-Team: Russian "
-"<http://weblate.freepbx.org/projects/freepbx/framework/ru_RU/>\n"
-"Language: ru_RU\n"
+"Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
+"framework/ru_RU/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<="
-"4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Language: ru_RU\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 2.2-dev\n"
 
 #: ../core/page.did.php:71
@@ -697,7 +697,7 @@ msgstr ""
 msgid "Adhoc"
 msgstr "Периодическое"
 
-#: amp.i18n.php:6 amp.i18n.php:720 amp_conf/htdocs/admin/views/menu.php:58
+#: amp.i18n.php:6 amp.i18n.php:724 amp_conf/htdocs/admin/views/menu.php:58
 msgid "Admin"
 msgstr "Администратор"
 
@@ -720,11 +720,11 @@ msgstr ""
 msgid "Admin user name"
 msgstr ""
 
-#: amp.i18n.php:718
+#: amp.i18n.php:722
 msgid "Administrators"
 msgstr "Администраторы"
 
-#: amp.i18n.php:714
+#: amp.i18n.php:718
 msgid "Advanced Settings"
 msgstr "Дополнительные настройки"
 
@@ -862,7 +862,7 @@ msgstr ""
 msgid "Any DID"
 msgstr "Любой DID"
 
-#: amp.i18n.php:696 amp_conf/htdocs/admin/views/menu.php:59
+#: amp.i18n.php:700 amp_conf/htdocs/admin/views/menu.php:59
 msgid "Applications"
 msgstr "Приложения"
 
@@ -973,7 +973,7 @@ msgstr "Пользователь Asterisk Manager"
 msgid "Asterisk Manager Write Timeout"
 msgstr ""
 
-#: amp.i18n.php:722 ../core/page.astmodules.php:4
+#: amp.i18n.php:726 ../core/page.astmodules.php:4
 msgid "Asterisk Modules"
 msgstr ""
 
@@ -1640,7 +1640,7 @@ msgstr "Перегрузка"
 msgid "Connection Type"
 msgstr ""
 
-#: amp.i18n.php:706 amp_conf/htdocs/admin/views/menu.php:60
+#: amp.i18n.php:710 amp_conf/htdocs/admin/views/menu.php:60
 msgid "Connectivity"
 msgstr "Подключения"
 
@@ -1707,7 +1707,7 @@ msgstr "Конвертация настроек ZAP в DAHDi"
 msgid "Converting IAX notransfer to transfer if needed.."
 msgstr "Конвертируем IAX нетрансферы в трансферы, если требуется.."
 
-#: amp.i18n.php:694 ../core/install.php:6
+#: amp.i18n.php:698 ../core/install.php:6
 msgid "Core"
 msgstr "База"
 
@@ -1869,7 +1869,7 @@ msgstr ""
 "Переход Goto в специальный контекст должен содержать в названии \"custom-\". "
 "Например: custom-app,s,1"
 
-#: amp.i18n.php:708
+#: amp.i18n.php:712
 msgid "DAHDI Channel DIDs"
 msgstr ""
 
@@ -2294,8 +2294,8 @@ msgid ""
 msgstr ""
 "Указать ожидаемый входящий номер DID если ваш транк поддерживает DID на "
 "входящих звонках.<br><br>Оставьте это поле пустым, чтобы принимать звонки с "
-"любыми DID или вообще без них.<br><br>Можно использовать шаблон (например "
-"_2[345]X) для диапазона ожидаемых DID"
+"любыми DID или вообще без них.<br><br>Можно использовать шаблон (например _2"
+"[345]X) для диапазона ожидаемых DID"
 
 #: ../core/page.astmodules.php:48 ../core/page.dahdichandids.php:96
 msgid "Delete"
@@ -2472,7 +2472,7 @@ msgid ""
 "you want to use this mode?"
 msgstr ""
 
-#: amp.i18n.php:702
+#: amp.i18n.php:706
 msgid "Devices"
 msgstr "Устройства"
 
@@ -3179,11 +3179,10 @@ msgid ""
 "the server. Please install or enable cURL support in your PHP installation "
 "to use this function. See http://www.php.net/curl for more information."
 msgstr ""
-"Ошибка: Невозможно продолжить.\\n"
-"\\n"
-"Поиск по префиксу требует поддержки cURL в РНР на сервере (Да-да! Есть такая "
-"приблуда!). Установите или задействуйте поддержку cURL в вашей инсталляции "
-"РНР. Смотрите http://www.php.net/curl для информации."
+"Ошибка: Невозможно продолжить.\\n\\nПоиск по префиксу требует поддержки cURL "
+"в РНР на сервере (Да-да! Есть такая приблуда!). Установите или задействуйте "
+"поддержку cURL в вашей инсталляции РНР. Смотрите http://www.php.net/curl для "
+"информации."
 
 #: amp_conf/htdocs/admin/views/footer.php:93
 msgid "Error: Did not receive valid response from server"
@@ -3304,7 +3303,7 @@ msgstr ""
 msgid "Extension number conflict, please choose another."
 msgstr "Конфликт внутренних номеров, пожалуйста, выберите другой номер."
 
-#: amp.i18n.php:698
+#: amp.i18n.php:702
 msgid "Extensions"
 msgstr "Внутренние номера"
 
@@ -3631,7 +3630,7 @@ msgstr "Файл журнала FreePBX"
 msgid "FreePBX Log Routing"
 msgstr "Маршрутизировать журнал FreePBX"
 
-#: amp.i18n.php:724
+#: amp.i18n.php:728
 msgid "FreePBX Support"
 msgstr "Поддержка FreePBX"
 
@@ -3643,7 +3642,7 @@ msgstr "Вэб адрес FreePBX"
 msgid "FreePBX Web Root Dir"
 msgstr "Корневая директория вэб FreePBX"
 
-#: amp.i18n.php:664
+#: amp.i18n.php:668
 msgid ""
 "FreePBX allows you to automatically check for updates online. The updates "
 "will NOT be automatically installed. It is STRONGYLY advised that you keep "
@@ -4232,7 +4231,7 @@ msgstr "Контроль внутренних входящих соединен�
 msgid "Inbound Route: %s (%s)"
 msgstr "Входящий маршрут: %s (%s)"
 
-#: amp.i18n.php:704
+#: amp.i18n.php:708
 msgid "Inbound Routes"
 msgstr "Входящая маршрутизация"
 
@@ -4886,9 +4885,9 @@ msgid ""
 "any DID matching to work."
 msgstr ""
 "Большинство VoIP провайдеров требуют, чтобы ваша система регистрировалась. "
-"Введите строку регистрации.<br><br>Пример: username:password@"
-"2iax2.postmet.com. Многие провайдеры требуют указывать и номера DID, "
-"например: username:password@2iax2.postmet.com/1234567, где 1234567 номер DID."
+"Введите строку регистрации.<br><br>Пример: username:password@2iax2.postmet."
+"com. Многие провайдеры требуют указывать и номера DID, например: username:"
+"password@2iax2.postmet.com/1234567, где 1234567 номер DID."
 
 #: ../core/page.routing.php:788
 msgid "Move Down"
@@ -5486,7 +5485,7 @@ msgstr ""
 msgid "Outbound Route: %s"
 msgstr "Исходящий маршрут: %s"
 
-#: amp.i18n.php:710
+#: amp.i18n.php:714
 msgid "Outbound Routes"
 msgstr "Исходящая маршрутизация"
 
@@ -6568,7 +6567,7 @@ msgstr ""
 msgid "Setting this to true will expose the "
 msgstr ""
 
-#: amp.i18n.php:668
+#: amp.i18n.php:672
 msgid ""
 "Setting this to true will fetch system javascript libraries such as jQuery "
 "and jQuery-ui from ajax.googleapis.com. This can be advantageous if "
@@ -6613,7 +6612,7 @@ msgstr ""
 "установить в no, то эта опция выключена. Также помогает поддерживать "
 "динамические трансляции NAT."
 
-#: amp.i18n.php:716 amp_conf/htdocs/admin/views/menu.php:62
+#: amp.i18n.php:720 amp_conf/htdocs/admin/views/menu.php:62
 msgid "Settings"
 msgstr "Общие настройки"
 
@@ -6794,15 +6793,19 @@ msgstr "Значение группы для устройств"
 msgid "System Device User"
 msgstr "Значение пользователя для устройств"
 
+#: amp.i18n.php:650
+msgid "System Identity"
+msgstr ""
+
 #: amp.i18n.php:554
 msgid "System Setup"
 msgstr "Системные установки"
 
-#: amp.i18n.php:650
+#: amp.i18n.php:654
 msgid "System Web Group"
 msgstr "Значение группы для Web"
 
-#: amp.i18n.php:654
+#: amp.i18n.php:658
 msgid "System Web User"
 msgstr "Значение пользователя для Web"
 
@@ -6814,7 +6817,7 @@ msgstr "Только TCP"
 msgid "TLS Only"
 msgstr "Только TLS"
 
-#: amp.i18n.php:658
+#: amp.i18n.php:662
 msgid "Telephony Engine"
 msgstr "Подсистема телефонии"
 
@@ -7119,7 +7122,7 @@ msgstr ""
 "внутренние установки %s изменены на true (для использования команды wget в "
 "Управлении модулями), см. подсказки в Дополнительных установках."
 
-#: amp.i18n.php:660
+#: amp.i18n.php:664
 msgid ""
 "The telephony backend engine being used, asterisk is the only option "
 "currently."
@@ -7167,7 +7170,7 @@ msgstr ""
 "исполнения freepbx_engine. Например - /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
 "mISDN and /dev/dsp. Для большинства систем это значение не надо менять."
 
-#: amp.i18n.php:652
+#: amp.i18n.php:656
 msgid ""
 "The user group your httpd should be running as, used by freepbx_engine. Most "
 "systems should not change this."
@@ -7185,7 +7188,7 @@ msgstr ""
 "freepbx_engine. Например - /dev/zap, /dev/dahdi, /dev/misdn, /dev/mISDN and /"
 "dev/dsp. Для большинства систем это значение не надо менять."
 
-#: amp.i18n.php:656
+#: amp.i18n.php:660
 msgid ""
 "The user your httpd should be running as, used by freepbx_engine. Most "
 "systems should not change this."
@@ -7443,6 +7446,11 @@ msgstr ""
 "Этот модуль даёт возможность быстро инсталлировать обновления и исправления "
 "в основном коде, которые так или иначе скрыты в модуле."
 
+#: amp.i18n.php:652
+msgid ""
+"This name will be used to help identify this machine in emails or alerts"
+msgstr ""
+
 #: amp_conf/bin/freepbx-cron-scheduler.php:45
 #, php-format
 msgid "This notification was generated by the %s Server identified as '%s'."
@@ -7482,8 +7490,8 @@ msgid ""
 "setup that uses it. Click on <b>Outbound Routes</b> to setup routing."
 msgstr ""
 "Этот транк не может использоваться для соединений, пока не будет "
-"задействован в одном из маршрутов. Кликните на <b>Исходящая маршрутизация</b>"
-" для настройки маршрута."
+"задействован в одном из маршрутов. Кликните на <b>Исходящая маршрутизация</"
+"b> для настройки маршрута."
 
 #: ../core/functions.inc.php:4900
 #, php-format
@@ -7572,7 +7580,7 @@ msgstr "Последовательность транков для совпав�
 msgid "Trunk: %s (%s)"
 msgstr "Транк: %s (%s)"
 
-#: amp.i18n.php:712
+#: amp.i18n.php:716
 msgid "Trunks"
 msgstr "Транки"
 
@@ -7727,7 +7735,7 @@ msgstr "Неиспользуемые DIDs"
 msgid "Update"
 msgstr "Обновления"
 
-#: amp.i18n.php:662 amp_conf/htdocs/admin/views/footer.php:88
+#: amp.i18n.php:666 amp_conf/htdocs/admin/views/footer.php:88
 msgid "Update Notifications"
 msgstr ""
 
@@ -7814,7 +7822,7 @@ msgstr ""
 msgid "Use Google DNS for Enum"
 msgstr "Использовать Google ДНС для сервиса Enum"
 
-#: amp.i18n.php:666
+#: amp.i18n.php:670
 msgid "Use Google Distribution Network for js Downloads"
 msgstr ""
 
@@ -7843,7 +7851,7 @@ msgstr "Использовать команду wget для Управления
 msgid "Used as Destination by %s %s"
 msgstr "Используется в качестве назначения в %s %s"
 
-#: amp.i18n.php:674
+#: amp.i18n.php:678
 msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this."
@@ -7852,7 +7860,7 @@ msgstr ""
 "почты macro-vm локатора VmX. Проверьте диал-план для понимания как это "
 "используется."
 
-#: amp.i18n.php:688
+#: amp.i18n.php:692
 msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this. "
@@ -7867,7 +7875,7 @@ msgstr ""
 "нажал #, который интерпретируется как таймаут. Установить опцию в 'dovm' "
 "чтобы отправлять по умолчанию в голосовую почту."
 
-#: amp.i18n.php:678
+#: amp.i18n.php:682
 msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this. "
@@ -7962,40 +7970,40 @@ msgstr ""
 msgid "Username must not be blank"
 msgstr "Имя пользователя не должно быть пустым"
 
-#: amp.i18n.php:700
+#: amp.i18n.php:704
 msgid "Users"
 msgstr "Пользователи"
 
-#: amp.i18n.php:670
+#: amp.i18n.php:674
 msgid "VMX Default Context"
 msgstr "Контекст по умолчанию для VmX системы голосовой почты"
 
-#: amp.i18n.php:676
+#: amp.i18n.php:680
 msgid "VMX Default Loop Exceed Context"
 msgstr "Контекст по умолчанию для выхода из поиска VMX"
 
-#: amp.i18n.php:680
+#: amp.i18n.php:684
 msgid "VMX Default Loop Exceed Extension"
 msgstr ""
 "Внутренний номер по умолчанию для выхода по превышению числа попыток в VMX"
 
-#: amp.i18n.php:682
+#: amp.i18n.php:686
 msgid "VMX Default Loop Exceed Priority"
 msgstr "Приоритет по умолчанию для выхода по превышению числа попыток в VMX"
 
-#: amp.i18n.php:684
+#: amp.i18n.php:688
 msgid "VMX Default Priority"
 msgstr "Приоритет по умолчанию для VMX"
 
-#: amp.i18n.php:686
+#: amp.i18n.php:690
 msgid "VMX Default Timeout Context"
 msgstr "Контекст по умолчанию для таймаута в VMX"
 
-#: amp.i18n.php:690
+#: amp.i18n.php:694
 msgid "VMX Default Timeout Extension"
 msgstr "Внутренний номер по умолчанию для выхода по таймауту в VMX"
 
-#: amp.i18n.php:692
+#: amp.i18n.php:696
 msgid "VMX Default Timeout Priority"
 msgstr "Приоритет по умолчанию для выхода по таймауту в VMX"
 
@@ -8025,7 +8033,7 @@ msgstr "Режим совместимости с DAHDi"
 msgid "View"
 msgstr ""
 
-#: amp.i18n.php:672
+#: amp.i18n.php:676
 msgid "VmX Locater"
 msgstr "VmX Локатор"
 
@@ -8177,9 +8185,8 @@ msgid ""
 "What prefix should be removed from the number?\\n\\n(ie. for US/CAN, 1"
 "+areacode, ie, \\'1613\\')"
 msgstr ""
-"Какой префикс должен быть убран из номера?\\n"
-"\\n"
-"(например для США и Канады, 1 + код зоны, типа \\'1613\\')"
+"Какой префикс должен быть убран из номера?\\n\\n(например для США и Канады, "
+"1 + код зоны, типа \\'1613\\')"
 
 #: amp.i18n.php:330
 msgid ""
@@ -8604,9 +8611,8 @@ msgid ""
 "leave the User Password empty?"
 msgstr ""
 "Не введен пароль пользователя. Если это подтверждается, то этот пользователь "
-"не сможет попасть в устройство со статусом AdHoc. \\n"
-"\\n"
-"Вы действительно хотите оставить пароль пустым?"
+"не сможет попасть в устройство со статусом AdHoc. \\n\\nВы действительно "
+"хотите оставить пароль пустым?"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:20
 #, php-format
