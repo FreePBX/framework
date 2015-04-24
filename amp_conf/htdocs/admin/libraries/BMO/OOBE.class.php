@@ -77,7 +77,7 @@ class OOBE extends FreePBX_Helpers {
 	// Which modules are providing OOBE pages?
 	public function getOOBEModules() {
 		$mods = module_functions::create();
-		$i = $mods->getinfo(false, false, true);
+		$i = $mods->getinfo(false, array(MODULE_STATUS_ENABLED), true);
 
 		// Make sure framework always runs.
 		$tmparr = array("framework" => 10);
