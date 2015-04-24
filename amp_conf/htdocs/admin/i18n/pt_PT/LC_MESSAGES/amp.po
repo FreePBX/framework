@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: GpwmPOT-Creation-Date: 2005-08-17 10:15-0300\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-21 21:42-0400\n"
-"PO-Revision-Date: 2015-04-24 00:55+0200\n"
+"PO-Revision-Date: 2015-04-24 15:41+0200\n"
 "Last-Translator: Paulo <paulop1975@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_PT/>\n"
@@ -414,7 +414,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/config.php:505
 #, php-format
 msgid "404 Not found (%s)"
-msgstr ""
+msgstr "404 Não Encontrado (%s)"
 
 #: ../core/page.routing.php:703
 msgid "411,311"
@@ -478,6 +478,13 @@ msgid ""
 "first matched rule will be executed and the remaining rules will not be "
 "acted on."
 msgstr ""
+"Uma Regra de Marcação controla o modo como as chamadas são marcadas neste "
+"trunk. Pode ser usado para agregar ou demover prefixos. Número que não "
+"correspondam a nenhum padrão definido aqui serão marcados tal como estão. De "
+"notar que um padrão sem um + ou um | (agregar e remover prefixo) não "
+"realizará qualquer alteração , mas será criada uma correspondencia. Só a "
+"primeira correspondencia da regra será executada e as restantes não terão "
+"efeito."
 
 #: ../core/page.did.php:321
 msgid "A Slash ('/') is never a valid DID. Please remove it and try again"
@@ -694,6 +701,12 @@ msgid ""
 "advised that you keep this enabled and keep updated of these important "
 "notifications to avoid costly security vulnerabilities."
 msgstr ""
+"Agregue o seu email aqui para receber atualizações importantes de segurança "
+"e de módulos. O endereço de email NUNCA será enviado para os servidores "
+"remotos %s. O email será APENAS usado pelo PBX local para enviar "
+"notificações de atualizações que estejam disponíveis, bem como notificações "
+"IMPORTANTES de segurança. Recomenda-se VIVAMENTE que mantenha esta opção "
+"ativa para que se mantenha atualizado e evitar vulnerabilidades de segurança."
 
 #: ../core/install.php:507
 msgid "Added pmmaxretries and pmminlength"
@@ -863,6 +876,10 @@ msgid ""
 "external fax equipment or security systems are installed in parallel and you "
 "would like them to be able to seize the line."
 msgstr ""
+"Um atraso opcional para processar esta rota. O canal irá sofrer um atraso "
+"antes de atender a chamada, Pode ser útil se estiver instalado um fax "
+"externo ou sistemas de segurança em paralelo e se pretenda que estes "
+"capturem a linha."
 
 #: ../core/page.routing.php:352
 msgid ""
@@ -1107,6 +1124,14 @@ msgid ""
 "authentication to happen at the apache level, but will take the user "
 "credentials and apply any restrictions as if it were in database mode."
 msgstr ""
+"Tipo de autenticação a usar para administração web. Se definido como "
+"<b>database</b>, as credenciais de admin AMP serão AMPDBUSER/AMPDBPASS  "
+"definidas acima. Ao definir database é possível criar utilizadores que "
+"estejam restritos apenas a alguns módulos. Quando definido como none, "
+"devemos certificar-nos que foi configurada a segurança ao nível do apache. "
+"Quando definido como webserver, o FreePBX esperará que a autenticação "
+"aconteça ao nível do apache, mas manterá guardadas as credenciais e aplicará "
+"quaisquer restrições, como se tratasse do modo database."
 
 #: amp.i18n.php:586
 msgid "Authorization Type"
@@ -1155,6 +1180,9 @@ msgid ""
 "POST_RELOAD_DEBUG=true, you will see the output of the script in the web "
 "page."
 msgstr ""
+"Executar script automaticamente após aplicar alterações na admin AMP. "
+"Definir o script desejado no POST_RELOAD. Se POST_RELOAD_DEBUG=true, verá o "
+"output do script na página web."
 
 #: ../core/page.routing.php:513
 #, php-format
@@ -1271,6 +1299,9 @@ msgid ""
 "extensions when one wants a call recorded and the other does not, if both "
 "their priorities are also the same."
 msgstr ""
+"Política de Gravação de Chamadas usada para resolver conflitos entre duas "
+"extensões quando uma quer gravar uma chamada e a outra não, se as suas "
+"prioridades forem iguais."
 
 #: ../core/functions.inc.php:6660
 msgid "Call Screening"
@@ -1288,6 +1319,15 @@ msgid ""
 "and all users on the system will have that new introduction associated with "
 "the caller's CallerID."
 msgstr ""
+"Seleção de Chamada (Call Screening) obriga que os chamadores externos digam "
+"o seu nome, o qual permitirá ao utilizador optar por atender ou não a "
+"chamada. Seleção com memória apenas verifica o chamador para o seu CallerID, "
+"uma única vez. Seleção sem memória sempre obriga o chamador a dizer o seu "
+"nome. Qualquer dos modos sempre anunciará o chamador com base na ultima "
+"apresentação associada a esse CallerID. Se algum utilizador usar a opção de "
+"memória, quando esse utilizador é chamado, o chamador será obrigado a "
+"apresentar-se novamente e todos os utilizadores do sistema terão essa nova "
+"apresentação associada a esse CallerID."
 
 #: ../core/functions.inc.php:6655
 msgid "Call Waiting"
@@ -1300,6 +1340,10 @@ msgid ""
 "it. The higher of the two determines the policy, on a tie the global policy "
 "(caller or callee) determines the policy."
 msgstr ""
+"Política de gravação de chamadas relativa a outras extensões sempre que se "
+"verifique conflito entre uma que pretende gravar e outra que não o pretende. "
+"A maior das duas determina a política e, em caso de empate, a política "
+"global (chamador ou chamado) será usada."
 
 #: ../core/page.routing.php:573
 msgid "CallerID"
@@ -1315,6 +1359,10 @@ msgid ""
 "</b>. You can also use the format: \"hidden\" <b>&lt;#######&gt;</b> to hide "
 "the CallerID sent out over Digital lines if supported (E1/T1/J1/BRI/SIP/IAX)."
 msgstr ""
+"CallerID para as chamadas a ser realizadas neste trunk<br><br>Formato: "
+"<b>&lt;#######&gt;</b>. Também se pode usar o formato: \"hidden\" "
+"<b>&lt;#######&gt;</b> para ocultar o CallerID enviado através de linhas "
+"digitais, caso suportado (E1/T1/J1/BRI/SIP/IAX)."
 
 #: ../core/page.routing.php:563
 msgid "CallerID:"
@@ -1367,8 +1415,9 @@ msgid "Can't generate unnamed key"
 msgstr "Não é possível gerar chave sem nome"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:333
+#, fuzzy
 msgid "Can't sign unnamed key"
-msgstr ""
+msgstr "Não é possível assinar chave sem nome"
 
 #: amp_conf/htdocs/admin/page.modules.php:630
 #: amp_conf/htdocs/admin/views/footer.php:83
@@ -1502,6 +1551,11 @@ msgid ""
 "proper update information and track version usage to focus development and "
 "maintenance efforts. No private information is transmitted."
 msgstr ""
+"Verificar atualização irá transmitir as versões de %s, Distro, Asterisk e "
+"PHP juntamente com um identificador aleatório único. Talé usado para "
+"providenciar informação adequada de atualização e utilização para ajudar aos "
+"esforços de desenvolvimento e manutenção. Não será transmitida informação "
+"privada."
 
 #: ../core/install.php:155
 msgid "Checking if directdids need migrating.."
@@ -1556,6 +1610,11 @@ msgid ""
 "to start with the Basic repository and update all modules, then go back and "
 "review the others."
 msgstr ""
+"Escolha os repositórios nos quais quer encontrar novos módulos. Quaisquer "
+"atualizações disponíveis localmente no sistema serão detetadas, mesmo que o "
+"repositório esteja inativo. Se está a instalar um novo sistema, deverá "
+"começar com o Repositório Básico, atualizar todos os módulos e só depois "
+"rever os restantes."
 
 #: ../core/page.did.php:304
 msgid "Clear Destination & Submit"
@@ -2111,6 +2170,9 @@ msgid ""
 "or other extension destinations. This can be set per extension/user. Phones "
 "with no voicemail or other destination options will ring indefinitely."
 msgstr ""
+"Limite em segundos antes de passar a chamada para o voicemail ou outros "
+"destinos. Pode ser definido por extensão/utilizador. Telefones sem voicemail "
+"ou outros destinos tocarão indefinidamente."
 
 #: amp.i18n.php:192
 msgid ""
@@ -2119,6 +2181,11 @@ msgid ""
 "the device. Values van be separated with '&' e.g. 'ulaw&g729&g729' where the "
 "preference order is preserved. See Asterisk documentation for details."
 msgstr ""
+"Definição por defeito para permitir (codecs) para o SIP e IAX. Este codecs "
+"serão permitidos para além dos definidos nas configurações gerais a não ser "
+"que sejam incluídos no parametro 'disallowed' do dispositivo. Os valores "
+"podem ser separados por '&' ex. 'ulaw&g729&g729', a ordem de prefencia é "
+"preservada. Consultar documentação do Asterisk para mais detalhes."
 
 #: amp.i18n.php:196
 msgid ""
@@ -2128,6 +2195,11 @@ msgid ""
 "Values van be separated with '&' e.g. 'g729&g722'. See Asterisk "
 "documentation for details."
 msgstr ""
+"Definição por defeito para não permitir codecs SIP e IAX. Codecs a não "
+"permitir, podem ajudar a fazer o reset das configurações gerais definindo o "
+"valor 'all' e incluir os codecs permitidos através da diretiva 'allow'. "
+"Valores podem ser separados por '&' ex. 'g729&g722'. Consultar documentação "
+"do Asterisk para mais detalhes."
 
 #: amp.i18n.php:188
 msgid ""
@@ -2143,6 +2215,8 @@ msgid ""
 "Default setting for SIP canreinvite (same as directmedia). See Asterisk "
 "documentation for details."
 msgstr ""
+"Definição por omissão para o canreinvite do SIP (igual a directmedia). "
+"Consultar documentação do Asterisk para mais detalhes."
 
 #: amp.i18n.php:180
 msgid ""
@@ -2181,6 +2255,8 @@ msgstr ""
 msgid ""
 "Default setting for SIP trustrpid. See Asterisk documentation for details."
 msgstr ""
+"Definição por omissão do trustrpid do SIP. Consultar documentação do "
+"Asterisk para mais detalhes."
 
 #: amp.i18n.php:200
 msgid ""
