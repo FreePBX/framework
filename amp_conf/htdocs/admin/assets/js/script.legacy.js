@@ -1656,10 +1656,12 @@ $(document).ready(function(){
 	});
 
 	$('select[multiple].chosenmultiselect').chosen({
-		width: '100%'
+		width: '100%',
+		search_contains: true
 	});
 	$('select.chosenselect').chosen({
-		width: '100%'
+		width: '100%',
+		search_contains: true
 	});
 	/*
 	 * Handle loooong bootnavs.

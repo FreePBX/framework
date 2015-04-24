@@ -420,7 +420,7 @@ class component {
 		}
 
 		$jsfuncs = array();
-		if(!empty($this->jsFuncs)) {
+		if(!empty($this->jsfuncs)) {
 			foreach($this->jsfuncs as $f => $data) {
 				foreach($data as $scripts) {
 					$jsfuncs[$f] = $scripts;
