@@ -422,8 +422,17 @@ class Moduleadmin extends Command {
 		}
 	}
 
-	private function setPerms() {
+	private function setPerms($action,$args) {
 		$chown = new Chown();
+		switch ($action) {
+			case 'install':
+			case 'upgrade':
+			case 'update':
+				if(sizeof($args) == 1){
+					$chown->moduleName = $args[0];
+				}				
+			break;
+		}
 		$chown->execute($this->in, $this->out);
 	}
 
@@ -757,16 +766,16 @@ class Moduleadmin extends Command {
 				foreach($args as $module){
 					$this->doInstall($module, $this->force);
 				}
-				$this->setPerms();
+				$this->setPerms($action,$args);
 				break;
 			case 'installall':
 				$this->check_active_repos();
 				$this->doInstallAll(false);
-				$this->setPerms();
+				$this->setPerms($action,$args);
 				break;
 			case 'installlocal':
 				$this->doInstallLocal(true);
-				$this->setPerms();
+				$this->setPerms($action,$args);
 			case 'uninstall':
 				if(empty($args)){
 					fatal("Missing module name");
@@ -783,7 +792,7 @@ class Moduleadmin extends Command {
 				foreach($args as $module){
 						$this->doDownload($module, $this->force);
 				}
-				$this->setPerms();
+				$this->setPerms($action,$args);
 				break;
 			case 'upgrade':
 			case 'update':
@@ -794,13 +803,13 @@ class Moduleadmin extends Command {
 				foreach($args as $module){
 					$this->doUpgrade($module, $this->force);
 				}
-				$this->setPerms();
+				$this->setPerms($action,$args);
 				break;
 			case 'updateall':
 			case 'upgradeall':
 				$this->check_active_repos();
 				$this->doUpgradeAll($force);
-				$this->setPerms();
+				$this->setPerms($action,$args);
 				break;
 			case 'list':
 				$this->showList();
@@ -851,7 +860,7 @@ class Moduleadmin extends Command {
 				foreach($args as $module){
 					$this->doDelete($module, $this->force);
 				}
-				$this->setPerms();
+				$this->setPerms($action,$args);
 				break;
 			case 'disable':
 				if(empty($args)){
@@ -893,7 +902,7 @@ class Moduleadmin extends Command {
 				break;
 			case 'refreshsignatures':
 				$this->refreshsignatures();
-				$this->setPerms();
+				$this->setPerms($action,$args);
 				break;
 			case 'updatexml':
 				break;

@@ -14,6 +14,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 class Chown extends Command {
 	private $errors = array();
 	private $infos = array();
+	public $moduleName;
 	protected function configure(){
 		$this->setName('chown')
 		->setDescription(_('Change ownership of files'))
@@ -49,83 +50,105 @@ class Chown extends Command {
 		 */
 		$sessdir = session_save_path();
 		$sessdir = !empty($session) ? $session : '/var/lib/php/session';
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-													'path' => $sessdir,
-													'perms' => 0744);
-		$this->modfiles['framework'][] = array('type' => 'file',
-													'path' => '/etc/amportal.conf',
-													'perms' => 0644);
-		$this->modfiles['framework'][] = array('type' => 'file',
-													'path' => '/etc/freepbx.conf',
-													'perms' => 0644);
-		$this->modfiles['framework'][] = array('type' => 'dir',
-													'path' => $ASTRUNDIR,
-													'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-													'path' => \FreePBX::GPG()->getGpgLocation(),
-													'perms' => 0755);
-		//we may wish to declare these manually or through some automated fashion
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-													'path' => $ASTETCDIR,
-													'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'file',
-													'path' => $ASTVARLIBDIR . '/.ssh/id_rsa',
-													'perms' => 0644);
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-													'path' => $ASTLOGDIR,
-													'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-													'path' => $ASTSPOOLDIR,
+		$args = array();
+		if($input){
+			$args = $input->getArgument('args');
+		}
+		if (!empty($args[0])||!empty($this->moduleName)) {
+			\FreePBX::Hooks()->updateBMOHooks();
+			if(!empty($args[0])){
+				$mod = strtolower($args[0]);
+			}elseif(!empty($this->moduleName)){
+				$mod = strtolower($this->moduleName);
+			}
+			$this->modfiles[$mod][] = array('type' => 'rdir',
+					'path' => $AMPWEBROOT.'/admin/modules/'.$mod,
+					'perms' => 0644,
+				);
+			$hooks = $this->fwcChownFiles();
+			$current = $hooks[ucfirst($mod)];
+			if($current){
+				$this->modfiles = array_merge_recursive($this->modfiles,$current);
+			}
+		}else{
+			$this->modfiles['framework'][] = array('type' => 'rdir',
+														'path' => $sessdir,
+														'perms' => 0744);
+			$this->modfiles['framework'][] = array('type' => 'file',
+														'path' => '/etc/amportal.conf',
+														'perms' => 0644);
+			$this->modfiles['framework'][] = array('type' => 'file',
+														'path' => '/etc/freepbx.conf',
+														'perms' => 0644);
+			$this->modfiles['framework'][] = array('type' => 'dir',
+														'path' => $ASTRUNDIR,
+														'perms' => 0755);
+			$this->modfiles['framework'][] = array('type' => 'rdir',
+														'path' => \FreePBX::GPG()->getGpgLocation(),
+														'perms' => 0755);
+			//we may wish to declare these manually or through some automated fashion
+			$this->modfiles['framework'][] = array('type' => 'rdir',
+														'path' => $ASTETCDIR,
+														'perms' => 0755);
+			$this->modfiles['framework'][] = array('type' => 'file',
+														'path' => $ASTVARLIBDIR . '/.ssh/id_rsa',
+														'perms' => 0644);
+			$this->modfiles['framework'][] = array('type' => 'rdir',
+														'path' => $ASTLOGDIR,
+														'perms' => 0755);
+			$this->modfiles['framework'][] = array('type' => 'rdir',
+														'path' => $ASTSPOOLDIR,
+														'perms' => 0755);
+
+			//I have added these below individually,
+			$this->modfiles['framework'][] = array('type' => 'file',
+												   'path' => $FPBXDBUGFILE,
+												   'perms' => 0644);
+			$this->modfiles['framework'][] = array('type' => 'file',
+												   'path' => $FPBX_LOG_FILE,
+												   'perms' => 0644);
+			//We may wish to declare files individually rather than touching everything
+			$this->modfiles['framework'][] = array('type' => 'rdir',
+												   'path' => $ASTVARLIBDIR . '/' . $MOHDIR,
+												   'perms' => 0755);
+			/* this was never actually assigned to do anything
+			$this->modfiles['framework'][] = array('type' => 'file',
+												   'path' => '/dev/tty9',
+												   'perms' => 0644);
+			*/
+			$this->modfiles['framework'][] = array('type' => 'file',
+												   'path' => '/etc/obdc.ini',
+												   'perms' => 0644);
+			//we were doing a recursive on this which I think is not needed.
+			//Changed to just be the directory
+			//^ Needs to be the whole shebang, doesnt work otherwise
+			$this->modfiles['framework'][] = array('type' => 'rdir',
+												   'path' => $AMPWEBROOT,
+												   'perms' => 0755);
+			/* Same as above
+			$this->modfiles['framework'][] = array('type' => 'rdir',
+													'path' => $AMPWEBROOT . '/admin/',
 													'perms' => 0755);
 
-		//I have added these below individually,
-		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => $FPBXDBUGFILE,
-											   'perms' => 0644);
-		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => $FPBX_LOG_FILE,
-											   'perms' => 0644);
-		//We may wish to declare files individually rather than touching everything
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-											   'path' => $ASTVARLIBDIR . '/' . $MOHDIR,
-											   'perms' => 0755);
-		/* this was never actually assigned to do anything
-		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => '/dev/tty9',
-											   'perms' => 0644);
-		*/
-		$this->modfiles['framework'][] = array('type' => 'file',
-											   'path' => '/etc/obdc.ini',
-											   'perms' => 0644);
-		//we were doing a recursive on this which I think is not needed.
-		//Changed to just be the directory
-		//^ Needs to be the whole shebang, doesnt work otherwise
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-											   'path' => $AMPWEBROOT,
-											   'perms' => 0755);
-		/* Same as above
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-												'path' => $AMPWEBROOT . '/admin/',
-												'perms' => 0755);
-
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-												'path' => $AMPWEBROOT . '/recordings/',
-												'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'rdir',
-												'path' => $AMPWEBROOT . '/ucp/',
-												'perms' => 0755);
-		*/
-		//Anything in bin and agi-bin should be exec'd
-		//Should be after everything except but before hooks
-		//So that we dont get overwritten by ampwebroot
-		$this->modfiles['framework'][] = array('type' => 'execdir',
-		'path' => $AMPBIN,
-		'perms' => 0755);
-		$this->modfiles['framework'][] = array('type' => 'execdir',
-		'path' => $ASTAGIDIR,
-		'perms' => 0755);
-		//Merge static files and hook files, then act on them as a single unit
-		$this->modfiles = array_merge_recursive($this->modfiles,$this->fwcChownFiles());
+			$this->modfiles['framework'][] = array('type' => 'rdir',
+													'path' => $AMPWEBROOT . '/recordings/',
+													'perms' => 0755);
+			$this->modfiles['framework'][] = array('type' => 'rdir',
+													'path' => $AMPWEBROOT . '/ucp/',
+													'perms' => 0755);
+			*/
+			//Anything in bin and agi-bin should be exec'd
+			//Should be after everything except but before hooks
+			//So that we dont get overwritten by ampwebroot
+			$this->modfiles['framework'][] = array('type' => 'execdir',
+			'path' => $AMPBIN,
+			'perms' => 0755);
+			$this->modfiles['framework'][] = array('type' => 'execdir',
+			'path' => $ASTAGIDIR,
+			'perms' => 0755);
+			//Merge static files and hook files, then act on them as a single unit
+			$this->modfiles = array_merge_recursive($this->modfiles,$this->fwcChownFiles());
+		}
 
 		$ampowner = $AMPASTERISKWEBUSER;
 		/* Address concerns carried over from amportal in FREEPBX-8268. If the apache user is different
