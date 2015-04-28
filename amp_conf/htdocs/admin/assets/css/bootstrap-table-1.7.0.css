@@ -1,8 +1,28 @@
+/**
+ * @author zhixin wen <wenzhixin2010@gmail.com>
+ * version: 1.7.0
+ * https://github.com/wenzhixin/bootstrap-table/
+ */
+
 .bootstrap-table .table {
     margin-bottom: 0 !important;
     border-bottom: 1px solid #dddddd;
     border-collapse: collapse !important;
     border-radius: 1px;
+}
+
+.bootstrap-table .table,
+.bootstrap-table .table > tbody > tr > th,
+.bootstrap-table .table > tfoot > tr > th,
+.bootstrap-table .table > thead > tr > td,
+.bootstrap-table .table > tbody > tr > td,
+.bootstrap-table .table > tfoot > tr > td {
+    padding: 8px !important;
+}
+
+.bootstrap-table .table.table-no-bordered > thead > tr > th,
+.bootstrap-table .table.table-no-bordered > tbody > tr > td {
+    border-right: 2px solid transparent;
 }
 
 .fixed-table-container {
@@ -14,11 +34,25 @@
     -moz-border-radius: 4px;
 }
 
+.fixed-table-container.table-no-bordered {
+    border: 1px solid transparent;
+}
+
+.fixed-table-footer,
 .fixed-table-header {
+    height: 37px; /*cellHeight*/
     overflow: hidden;
     border-radius: 4px 4px 0 0;
     -webkit-border-radius: 4px 4px 0 0;
     -moz-border-radius: 4px 4px 0 0;
+}
+
+.fixed-table-header {
+    border-bottom: 1px solid #dddddd;
+}
+
+.fixed-table-footer {
+    border-top: 1px solid #dddddd;
 }
 
 .fixed-table-body {
@@ -56,6 +90,10 @@
 
 .fixed-table-container thead th .sortable {
     cursor: pointer;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAQAAADYWf5HAAAAkElEQVQoz7X QMQ5AQBCF4dWQSJxC5wwax1Cq1e7BAdxD5SL+Tq/QCM1oNiJidwox0355mXnG/DrEtIQ6azioNZQxI0ykPhTQIwhCR+BmBYtlK7kLJYwWCcJA9M4qdrZrd8pPjZWPtOqdRQy320YSV17OatFC4euts6z39GYMKRPCTKY9UnPQ6P+GtMRfGtPnBCiqhAeJPmkqAAAAAElFTkSuQmCC');
+    background-position: right;
+    background-repeat: no-repeat;
+    padding-right: 30px;
 }
 
 .fixed-table-container tbody td {
@@ -92,11 +130,14 @@
     text-align: center;
 }
 
-
-.fixed-table-pagination .pagination,
+.fixed-table-pagination div.pagination,
 .fixed-table-pagination .pagination-detail {
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.fixed-table-pagination div.pagination .pagination {
+    margin: 0;
 }
 
 .fixed-table-pagination .pagination a {
@@ -115,7 +156,7 @@
     vertical-align: middle;
 }
 
-.fixed-table-pagination .dropup  .dropdown-menu {
+.fixed-table-pagination .dropup .dropdown-menu {
     margin-bottom: 0;
 }
 
@@ -188,32 +229,32 @@
     overflow: auto;
 }
 
-.fixed-table-toolbar .btn-group>.btn-group {
+.fixed-table-toolbar .btn-group > .btn-group {
     display: inline-block;
     margin-left: -1px !important;
 }
 
-.fixed-table-toolbar .btn-group>.btn-group>.btn {
+.fixed-table-toolbar .btn-group > .btn-group > .btn {
     border-radius: 0;
 }
 
-.fixed-table-toolbar .btn-group>.btn-group:first-child>.btn {
+.fixed-table-toolbar .btn-group > .btn-group:first-child > .btn {
     border-top-left-radius: 4px;
     border-bottom-left-radius: 4px;
 }
 
-.fixed-table-toolbar .btn-group>.btn-group:last-child>.btn {
+.fixed-table-toolbar .btn-group > .btn-group:last-child > .btn {
     border-top-right-radius: 4px;
     border-bottom-right-radius: 4px;
 }
 
-.bootstrap-table .table>thead>tr>th {
+.bootstrap-table .table > thead > tr > th {
     vertical-align: bottom;
     border-bottom: 2px solid #ddd;
 }
 
 /* support bootstrap 3 */
-.bootstrap-table .table thead>tr>th {
+.bootstrap-table .table thead > tr > th {
     padding: 0;
     margin: 0;
 }

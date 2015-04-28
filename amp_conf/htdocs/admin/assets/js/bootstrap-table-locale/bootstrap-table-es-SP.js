@@ -1,28 +1,28 @@
 /**
- * Bootstrap Table Spanish (Nicaragua) translation
- * Author: Dennis Hernández (http://djhvscf.github.io/Blog/)
+ * Bootstrap Table Spanish (España) translation
+ * Author: Antonio Pérez <anpegar@gmail.com>
  */
-(function ($) {
+ (function ($) {
     'use strict';
-
-    $.fn.bootstrapTable.locales['es-NI'] = {
+    
+    $.fn.bootstrapTable.locales['es-SP'] = {
         formatLoadingMessage: function () {
-            return 'Cargando, por favor espere...';
+            return 'Cargando, por favor espera...';
         },
         formatRecordsPerPage: function (pageNumber) {
-            return pageNumber + ' registros por página';
+            return pageNumber + ' registros por p&#225;gina.';
         },
         formatShowingRows: function (pageFrom, pageTo, totalRows) {
-            return 'Mostrando de ' + pageFrom + ' a ' + pageTo + ' registros de ' + totalRows + ' registros en total';
+            return pageFrom + ' - ' + pageTo + ' de ' + totalRows + ' registros.';
         },
         formatSearch: function () {
             return 'Buscar';
         },
         formatNoMatches: function () {
-            return 'No se encontraron registros';
+            return 'No se han encontrado registros.';
         },
         formatRefresh: function () {
-            return 'Refrescar';
+            return 'Actualizar';
         },
         formatToggle: function () {
             return 'Alternar';
@@ -35,6 +35,6 @@
         }
     };
 
-    $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['es-NI']);
+    $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['es-SP']);
 
 })(jQuery);

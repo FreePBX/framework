@@ -1,11 +1,12 @@
 /**
- * Bootstrap Table Spanish (Argentina) translation
- * Author: Felix Vera (felix.vera@gmail.com)
+ * Bootstrap Table Spanish (México) translation (Obtenido de traducción de Argentina)
+ * Author: Felix Vera (felix.vera@gmail.com) 
+ * Copiado: Mauricio Vera (mauricioa.vera@gmail.com)
  */
 (function ($) {
     'use strict';
 
-    $.fn.bootstrapTable.locales['es-AR'] = {
+    $.fn.bootstrapTable.locales['es-MX'] = {
         formatLoadingMessage: function () {
             return 'Cargando, espere por favor...';
         },
@@ -26,6 +27,6 @@
         }
     };
 
-    $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['es-AR']);
+    $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['es-MX']);
 
 })(jQuery);

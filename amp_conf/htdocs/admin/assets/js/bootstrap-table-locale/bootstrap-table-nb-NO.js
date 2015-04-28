@@ -1,37 +1,37 @@
 /**
- * Bootstrap Table danish translation
- * Author: Your Name Jan Borup Coyle, github@coyle.dk
+ * Bootstrap Table norwegian translation
+ * Author: Jim Nordbø, jim@nordb.no
  */
 (function ($) {
     'use strict';
 
-    $.fn.bootstrapTable.locales['da-DK'] = {
+    $.fn.bootstrapTable.locales['nb-NO'] = {
         formatLoadingMessage: function () {
-            return 'Indlæser, vent venligst...';
+            return 'Oppdaterer, vennligst vent...';
         },
         formatRecordsPerPage: function (pageNumber) {
             return pageNumber + ' poster pr side';
         },
         formatShowingRows: function (pageFrom, pageTo, totalRows) {
-            return 'Viser ' + pageFrom + ' til ' + pageTo + ' af ' + totalRows + ' rækker';
+            return 'Viser ' + pageFrom + ' til ' + pageTo + ' av ' + totalRows + ' rekker';
         },
         formatSearch: function () {
-            return 'Søg';
+            return 'Søk';
         },
         formatNoMatches: function () {
-            return 'Ingen poster fundet';
+            return 'Ingen poster funnet';
         },
         formatRefresh: function () {
-            return 'Opdater';
+            return 'Oppdater';
         },
         formatToggle: function () {
-            return 'Skift';
+            return 'Endre';
         },
         formatColumns: function () {
             return 'Kolonner';
         }
     };
 
-    $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['da-DK']);
+    $.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['nb-NO']);
 
 })(jQuery);

@@ -32,7 +32,7 @@ foreach($compiled_less_files as $file) {
 	$html .= '<link href="assets/less/'.$file.'" rel="stylesheet" type="text/css">';
 }
 
-$html .= '<link href="assets/css/bootstrap-table-1.6.0.css" rel="stylesheet" type="text/css">';
+$html .= '<link href="assets/css/bootstrap-table-1.7.0.css" rel="stylesheet" type="text/css">';
 
 if(!empty($amp_conf['BRAND_CSS_ALT_MAINSTYLE'])) {
 	$css_ver = '.' . filectime($amp_conf['BRAND_CSS_ALT_MAINSTYLE']);

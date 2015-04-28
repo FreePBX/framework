@@ -140,7 +140,7 @@ $html .= "\n" . '<script type="text/javascript">'
 //Removed google CDN because we are using custom libraries for bootstrap and jqueryui so that buttons work together
 $html .= '<script src="assets/js/bootstrap-3.3.2.custom.min.js"></script>';
 
-$html .= '<script src="assets/js/bootstrap-table-1.6.0.js"></script>';
+$html .= '<script src="assets/js/bootstrap-table-1.7.0.js"></script>';
 
 $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-en-US.js"></script>';
 
