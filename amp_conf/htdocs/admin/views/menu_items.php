@@ -111,10 +111,11 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 			$target = isset($mod['target'])
 					? ' target="' . $mod['target'] . '" '  : '';
 
+			$active = ($mod['display'] == $_REQUEST['display']) ? 'active' : '';
 			// try the module's translation domain first
 			$items[$mod['name']] = '<li><a href="' . $href . '"'
 					. $target
-					. (!empty($classes) ? ' class="' . implode(' ', $classes) . '">' : '>')
+					. ' class="' . implode(' ', $classes) . ' '.$active.'">'
 					. modgettext::_($mod['name'], $mod['module']['rawname'])
 					. '</a></li>';
 
