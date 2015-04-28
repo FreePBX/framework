@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-24 14:43-0400\n"
-"PO-Revision-Date: 2015-04-28 08:57+0200\n"
+"PO-Revision-Date: 2015-04-28 10:30+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -250,12 +250,14 @@ msgid ""
 "%s cannot be removed because the following modules depend on it: %s Please "
 "disable those modules first then try again."
 msgstr ""
+"%s não pode ser removido porque os seguintes módulos dependem dele: %s Por "
+"favor desabilite estes módulos primeiro então tente novamente."
 
 #: amp_conf/htdocs/admin/page.modules.php:415
 #: amp_conf/htdocs/admin/page.modules.php:426
 #, php-format
 msgid "%s cannot be rolledback, version %s is missing"
-msgstr ""
+msgstr "%s não pode voltar, versão %s está faltando"
 
 #: amp_conf/htdocs/admin/page.modules.php:550
 #, php-format
@@ -273,6 +275,8 @@ msgid ""
 "%s cannot be upgraded to %s: The release track of %s does not exist for this "
 "module"
 msgstr ""
+"%s não pode ser atualizada para %s: A faixa de publicação de %s não existe "
+"para este módulo"
 
 #: amp_conf/htdocs/admin/page.modules.php:430
 #: amp_conf/htdocs/admin/page.modules.php:453
@@ -289,12 +293,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:143
 #, php-format
 msgid "%s contains .."
-msgstr ""
+msgstr "%s contém .."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:140
 #, php-format
 msgid "%s contains a /"
-msgstr ""
+msgstr "%s contém uma /"
 
 #: amp_conf/htdocs/admin/page.modules.php:311
 #, php-format
@@ -318,22 +322,22 @@ msgstr "%s instalado com sucesso"
 #: amp_conf/htdocs/admin/views/footer_content.php:25
 #, php-format
 msgid "%s is a registered trademark of"
-msgstr ""
+msgstr "%s é uma marca registrada de"
 
 #: ../core/install.php:836
 #, php-format
 msgid "%s prepared"
-msgstr ""
+msgstr "%s preparada"
 
 #: amp_conf/htdocs/admin/page.modules.php:334
 #, php-format
 msgid "%s removed successfully"
-msgstr ""
+msgstr "%s removido com sucesso"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:314
 #, php-format
 msgid "%s to %s and Enable"
-msgstr ""
+msgstr "%s a %s e Habilitado"
 
 #: amp_conf/htdocs/admin/page.modules.php:323
 #: amp_conf/htdocs/admin/page.modules.php:345
@@ -354,22 +358,22 @@ msgstr "O %s versão %s ou maior é necessário, existente %s"
 #: amp_conf/htdocs/admin/page.modules.php:563
 #, php-format
 msgid "%s will be removed from the hard disk"
-msgstr ""
+msgstr "%s será removido do disco"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:94
 #, php-format
 msgid "%s: New Online Updates Available (%s)"
-msgstr ""
+msgstr "%s: Novas Atualizações Online Disponíveis (%s)"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:71
 #, php-format
 msgid "%s: New Security Notifications (%s)"
-msgstr ""
+msgstr "%s: Novas Notificações de Segurança (%s)"
 
 #: install.php:13
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
-msgstr ""
+msgstr "'cp -rf' de src: '%s' para dst: '%s'...detalhes seguintes"
 
 #: ../core/views/trunks/trunk_header.php:335
 msgid "(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)"
@@ -387,64 +391,66 @@ msgstr "** FALTA CÓDIGO DE FACILIDADE **"
 
 #: ../core/page.routing.php:629 ../core/views/trunks/trunk_header.php:225
 msgid "+ Add More Dial Pattern Fields"
-msgstr ""
+msgstr "+ Adicionar Mais Campos de Padrão de Discagem"
 
 #: ../core/page.routing.php:511
 msgid "---No Change---"
-msgstr ""
+msgstr "---Sem Mudança---"
 
 #: ../core/page.routing.php:494
 msgid "---Permanent Route---"
-msgstr ""
+msgstr "---Rota Permanente---"
 
 #: amp_conf/htdocs/admin/config.php:172
 msgid ".htaccess files are disable on this webserver. Please enable them"
 msgstr ""
+"os arquivos .htaccess estão desabilitados nestes servidor web. Por favor "
+"habilite-os"
 
 #: amp_conf/htdocs/admin/config.php:185
 msgid ".htaccess files are not supported on this webserver."
-msgstr ""
+msgstr "arquivos .htaccess não são suportados neste servidor web."
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:175
 msgid "/etc/asterisk/freepbx.conf already exists"
-msgstr ""
+msgstr "/etc/asterisk/freepbx.conf já existe"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:173
 msgid "/etc/freepbx.conf already exists"
-msgstr ""
+msgstr "/etc/freepbx.conf já existe"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:112
 msgid "0 admins"
-msgstr ""
+msgstr "0 Admins"
 
 #: ../core/page.routing.php:700
 msgid "011."
-msgstr ""
+msgstr "011."
 
 #: ../core/page.routing.php:694
 msgid "1800NXXXXXX,1888NXXXXXX,1877NXXXXXX,1866NXXXXXX,1855NXXXXXX,1844NXXXXXX"
-msgstr ""
+msgstr "1800NXXXXXX,1888NXXXXXX,1877NXXXXXX,1866NXXXXXX,1855NXXXXXX,1844NXXXXXX"
 
 #: ../core/page.routing.php:697
 msgid "1NXXNXXXXXX"
-msgstr ""
+msgstr "1NXXNXXXXXX"
 
 #: amp_conf/htdocs/admin/config.php:505
 #, php-format
 msgid "404 Not found (%s)"
-msgstr ""
+msgstr "404 Não Encontrado (%s)"
 
 #: ../core/page.routing.php:703
 msgid "411,311"
-msgstr ""
+msgstr "411,311"
 
 #: ../core/page.routing.php:706
 msgid "911"
-msgstr ""
+msgstr "911"
 
 #: ../core/page.advancedsettings.php:45
 msgid "<b>IMPORTANT:</b> Use extreme caution when making changes!"
-msgstr ""
+msgstr "<b>IMPORTANTE:</b> Use extrema cautela ao fazer mudanças!"
 
 #: ../core/functions.inc.php:7407
 #, php-format
@@ -452,6 +458,8 @@ msgid ""
 "<strong>CRITICAL ERROR!</strong> Required Service %s is disabled! This "
 "device is unusable!"
 msgstr ""
+"<strong>ERRO CRÍTICO!</strong> Serviço Requerido %s está desabilitado! Este "
+"dispositivo está inutilizável!"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1071
 #, php-format
@@ -471,12 +479,19 @@ msgid ""
 "subsequent routes will be checked for matches outside of the designated time"
 "(s)."
 msgstr ""
+"Um Padrão de Discagem é um conjunto único de dígitos que selecionarão esta "
+"rota e enviará a chamada para seus troncos designados. Se um padrão discado "
+"coincidir nesta rota, nenhuma rota subsequente será tentada. Se Grupos de "
+"Tempo estiverem habilitados, rotas subsequentes serão verificadas para "
+"coincidências fora da hora(s) designada(s)."
 
 #: ../core/page.routing.php:538
 msgid ""
 "A Dial Pattern is a unique set of digits that will select this trunk. Enter "
 "one dial pattern per line."
 msgstr ""
+"Um Padrão de Discagem é um conjunto único de dígitos que selecionará este "
+"tronco. Entre com um padrão de discagem por linha."
 
 #: ../core/views/trunks/trunk_header.php:143
 msgid ""
