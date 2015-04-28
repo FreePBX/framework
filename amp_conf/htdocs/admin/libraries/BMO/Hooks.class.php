@@ -152,6 +152,7 @@ class Hooks extends DB_Helper {
 	 * Process all cached hooks
 	 */
 	public function processHooks() {
+		//get hooks from level "2" backtrace
 		$sortedHooks = $this->returnHooks(2);
 		if(!empty($sortedHooks)) {
 			foreach($sortedHooks as $hook) {
