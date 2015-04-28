@@ -1361,10 +1361,10 @@ $(document).ready(function() {
 	}
 
 	//style all sortables as menu"s
-	$(".sortable").menu();
+	$(".sortable:not(.th-inner)").menu();
 
 	//allow click on checkbox and surrounding area
-	$(".sortable li").click(function(event) {
+	$(".sortable:not(.th-inner) li").click(function(event) {
 		if ($(event.target).is(":checkbox")) {
 			return true;
 		}
