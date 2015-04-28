@@ -113,14 +113,15 @@ class Hooks extends DB_Helper {
 	}
 
 	/**
-	 * Process all cached hooks
+	 * Return all of the hooks sorted as an array
+	 * @param integer $level Level of backtrace to do to discover the calling module
 	 */
-	public function processHooks() {
+	public function returnHooks($level=1) {
 		$this->activemods = $this->FreePBX->Modules->getActiveModules();
 		$hooks = $this->getAllHooks();
 		$o = debug_backtrace();
-		$callingMethod = !empty($o[1]['function']) ? $o[1]['function'] : '';
-		$callingClass = !empty($o[1]['class']) ? $o[1]['class'] : '';
+		$callingMethod = !empty($o[$level]['function']) ? $o[$level]['function'] : '';
+		$callingClass = !empty($o[$level]['class']) ? $o[$level]['class'] : '';
 
 		$return = array();
 
@@ -129,7 +130,8 @@ class Hooks extends DB_Helper {
 			foreach($hooks['ModuleHooks'][$callingClass][$callingMethod] as $module => $hooks) {
 				if(isset($this->activemods[$module])) {
 					foreach($hooks as $priority => $hook) {
-						$hook['module'] = $module;
+						$hook['module'] = ucfirst(strtolower($module));
+						$hook['namespace'] = !empty($hook['namespace']) ? $hook['namespace'] . '\\' : '';
 						if(isset($sortedHooks[$priority])) {
 							while(isset($sortedHooks[$priority])) {
 								$priority++;
@@ -143,10 +145,18 @@ class Hooks extends DB_Helper {
 			}
 		}
 		ksort($sortedHooks);
+		return $sortedHooks;
+	}
+
+	/**
+	 * Process all cached hooks
+	 */
+	public function processHooks() {
+		$sortedHooks = $this->returnHooks(2);
 		if(!empty($sortedHooks)) {
 			foreach($sortedHooks as $hook) {
-				$namespace = !empty($hook['namespace']) ? $hook['namespace'] . '\\' : '';
-				$module = !empty($hook['module']) ? ucfirst(strtolower($hook['module'])) : $hook['class'];
+				$module = $hook['module'];
+				$namespace = $hook['namespace'];
 				if(!class_exists($namespace.$hook['class'])) {
 					//its active so lets get BMO to load it
 					//basically we are hoping the module itself will load the right class
