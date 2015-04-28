@@ -82,6 +82,7 @@ class Hooks extends DB_Helper {
 							foreach($modules as $m => $methods) {
 								$hks = array();
 								$namespace = isset($methods->attributes()->namespace) ? (string)$methods->attributes()->namespace : '';
+								$priority = isset($methods->attributes()->priority) ? (string)$methods->attributes()->priority : '500';
 								$class = isset($methods->attributes()->class) ? (string)$methods->attributes()->class : $m;
 								$hookMod = !empty($namespace) ? $namespace . '\\' . $class : $class;
 								foreach($methods->method as $method) {
@@ -91,7 +92,14 @@ class Hooks extends DB_Helper {
 									$hks['method'] = (string)$method;
 									$cm = $hks['callingMethod'];
 									unset($hks['callingMethod']);
-									$allhooks['ModuleHooks'][$hookMod][$cm][$module][] = $hks;
+									if(isset($allhooks['ModuleHooks'][$hookMod][$cm][$module][$priority])) {
+										while(isset($allhooks['ModuleHooks'][$hookMod][$cm][$module][$priority])) {
+											$priority++;
+										}
+										$allhooks['ModuleHooks'][$hookMod][$cm][$module][$priority] = $hks;
+									} else {
+										$allhooks['ModuleHooks'][$hookMod][$cm][$module][$priority] = $hks;
+									}
 								}
 							}
 						}
@@ -116,33 +124,48 @@ class Hooks extends DB_Helper {
 
 		$return = array();
 
+		$sortedHooks = array();
 		if(!empty($hooks['ModuleHooks'][$callingClass]) && !empty($hooks['ModuleHooks'][$callingClass][$callingMethod])) {
 			foreach($hooks['ModuleHooks'][$callingClass][$callingMethod] as $module => $hooks) {
 				if(isset($this->activemods[$module])) {
-					foreach($hooks as $hook) {
-						$namespace = !empty($hook['namespace']) ? $hook['namespace'] . '\\' : '';
-						$module = ucfirst(strtolower($module));
-						if(!class_exists($namespace.$hook['class'])) {
-							//its active so lets get BMO to load it
-							//basically we are hoping the module itself will load the right class
-							//follow FreePBX BMO naming Schema
-							try {
-								$this->FreePBX->$module;
-								if(!class_exists($namespace.$hook['class'])) {
-									//Ok we really couln't find it. Give up
-									throw new \Exception('Cant find '.$namespace.$hook['class']);
-								}
-							} catch(\Exception $e) {
-								throw new \Exception('Cant find '.$namespace.$hook['class']."::: ".$e->getMessage());
+					foreach($hooks as $priority => $hook) {
+						$hook['module'] = $module;
+						if(isset($sortedHooks[$priority])) {
+							while(isset($sortedHooks[$priority])) {
+								$priority++;
 							}
+							$sortedHooks[$priority] = $hook;
+						} else {
+							$sortedHooks[$priority] = $hook;
 						}
-						$meth = $hook['method'];
-						//now send the method from that class the data!
-						\modgettext::push_textdomain(strtolower($module));
-						$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), func_get_args());
-						\modgettext::pop_textdomain();
 					}
 				}
+			}
+		}
+		ksort($sortedHooks);
+		if(!empty($sortedHooks)) {
+			foreach($sortedHooks as $hook) {
+				$namespace = !empty($hook['namespace']) ? $hook['namespace'] . '\\' : '';
+				$module = !empty($hook['module']) ? ucfirst(strtolower($hook['module'])) : $hook['class'];
+				if(!class_exists($namespace.$hook['class'])) {
+					//its active so lets get BMO to load it
+					//basically we are hoping the module itself will load the right class
+					//follow FreePBX BMO naming Schema
+					try {
+						$this->FreePBX->$module;
+						if(!class_exists($namespace.$hook['class'])) {
+							//Ok we really couln't find it. Give up
+							throw new \Exception('Cant find '.$namespace.$hook['class']);
+						}
+					} catch(\Exception $e) {
+						throw new \Exception('Cant find '.$namespace.$hook['class']."::: ".$e->getMessage());
+					}
+				}
+				$meth = $hook['method'];
+				//now send the method from that class the data!
+				\modgettext::push_textdomain(strtolower($module));
+				$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), func_get_args());
+				\modgettext::pop_textdomain();
 			}
 		}
 		//return the data from that class
