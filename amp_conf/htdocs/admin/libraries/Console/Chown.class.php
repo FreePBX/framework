@@ -53,7 +53,7 @@ class Chown extends Command {
 		$args = array();
 		if($input){
 			$args = $input->getArgument('args');
-			$this->moduleName = strtolower($args[0]);
+			$this->moduleName = $args[0]?strtolower($args[0]):$this->moduleName;
 		}
 		if (!empty($this->moduleName) && $this->moduleName != 'framework') {
 			\FreePBX::Hooks()->updateBMOHooks();
@@ -144,7 +144,9 @@ class Chown extends Command {
 			'path' => $ASTAGIDIR,
 			'perms' => 0755);
 			//Merge static files and hook files, then act on them as a single unit
-			$this->modfiles = array_merge_recursive($this->modfiles,$this->fwcChownFiles());
+			if(!empty($this->modfiles) && !empty($this->fwcChownFiles)){
+				$this->modfiles = array_merge_recursive($this->modfiles,$this->fwcChownFiles());
+			}
 		}
 
 		$ampowner = $AMPASTERISKWEBUSER;

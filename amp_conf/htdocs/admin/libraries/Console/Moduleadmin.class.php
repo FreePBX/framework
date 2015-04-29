@@ -709,7 +709,7 @@ class Moduleadmin extends Command {
 	}
 
 	private function showHelp(){
-		$help .= '<info>Module Administration Help:'.PHP_EOL;
+		$help = '<info>Module Administration Help:'.PHP_EOL;
 		$help .= 'Usage: fwconsole modadmin [-f][-R reponame][-R reponame][action][arg1][arg2][arg...]</info>' . PHP_EOL;
 		$help .= 'Flags:' . PHP_EOL;
 		$help .= '-f - FORCE' . PHP_EOL;

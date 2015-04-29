@@ -34,7 +34,7 @@ class Debug extends Command {
 		$group = $this->FreePBXConf->get('AMPASTERISKWEBGROUP');
 		touch($DBUGFILE);
 		chown($DBUGFILE, $user);
-		chgrp($DEBUGFILE, $group);
+		chgrp($DBUGFILE, $group);
 		touch($FPBXLOGFILE);
 		chown($FPBXLOGFILE, $user);
 		chgrp($FPBXLOGFILE, $group);
