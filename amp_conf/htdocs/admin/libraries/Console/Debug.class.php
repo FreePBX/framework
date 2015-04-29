@@ -22,7 +22,9 @@ class Debug extends Command {
 		->setAliases(array('debug'))
 		->setDescription(_('Stream files for debugging'))
 		->setDefinition(array(
-			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
+			new InputArgument('args', InputArgument::IS_ARRAY, null, null),
+			new InputOption('skipstandard', 's', InputOption::VALUE_NONE, _('Do not tail standard freepbx.log')),)
+		);
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$this->FreePBXConf->set_conf_values(array('FPBXDBUGDISABLE' => 0),true,true);
@@ -39,10 +41,12 @@ class Debug extends Command {
 		//Another hard coded list...
 		$files = array(
 			$DBUGFILE,
-			$FPBXLOGFILE,
 			'/var/log/httpd/error_log',
 			'/var/log/asterisk/freepbx_security.log',
 			);
+		if (!$input->getOption('skipstandard')) {
+			$files[] = $FPBXLOGFILE;
+		}
 		$table = new Table($output);
 		$table->setHeaders(array('FreePBX Notifications'));
 		$table->render();
