@@ -134,8 +134,10 @@ CREATE TABLE `devices` (
   `devicetype` varchar(5) NOT NULL DEFAULT '',
   `user` varchar(50) DEFAULT NULL,
   `description` varchar(50) DEFAULT NULL,
-  `emergency_cid` varchar(100) DEFAULT NULL
-) ENGINE=MyISAM;
+  `emergency_cid` varchar(100) DEFAULT NULL,
+  KEY `id` (`id`),
+  KEY `tech` (`tech`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -633,8 +635,9 @@ CREATE TABLE `users` (
   `noanswer_dest` varchar(255) NOT NULL DEFAULT '',
   `busy_dest` varchar(255) NOT NULL DEFAULT '',
   `chanunavail_dest` varchar(255) NOT NULL DEFAULT '',
-  `mohclass` varchar(80) DEFAULT 'default'
-) ENGINE=MyISAM;
+  `mohclass` varchar(80) DEFAULT 'default',
+  KEY `extension` (`extension`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
