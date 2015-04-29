@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-24 14:43-0400\n"
-"PO-Revision-Date: 2015-04-29 02:59+0200\n"
+"PO-Revision-Date: 2015-04-29 06:59+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -615,6 +615,8 @@ msgid ""
 "Actions to preform in regards to this module. This usually contains "
 "installation and maintenance operations at an administration level"
 msgstr ""
+"Ações a executar em relação a este módulo. Isto usualmente contém operações "
+"de instalação e manutenção em nível de administração"
 
 #: amp_conf/htdocs/admin/functions.inc.php:434 ../core/page.astmodules.php:40
 #: ../core/views/trunks/trunk_header.php:1
@@ -624,12 +626,12 @@ msgstr "Adicionar"
 #: ../core/functions.inc.php:7329
 #, php-format
 msgid "Add %s Device"
-msgstr ""
+msgstr "Adicionar Dispositivo %s"
 
 #: ../core/functions.inc.php:7331
 #, php-format
 msgid "Add %s Extension"
-msgstr ""
+msgstr "Adicionar Ramal %s"
 
 #: ../core/views/trunks/main.php:4 ../core/views/trunks/main.php:6
 #, php-format
@@ -646,7 +648,7 @@ msgstr "Adicionar canal"
 
 #: ../core/page.dahdichandids.php:63
 msgid "Add DAHDI Channel"
-msgstr ""
+msgstr "Adicionar Canal DAHDI"
 
 #: ../core/functions.inc.php:7291 ../core/page.ampusers.php:235
 msgid "Add Device"
@@ -693,6 +695,11 @@ msgid ""
 "Unavailable in order to catch these special cases if the Telco transmits "
 "them."
 msgstr ""
+"Adicionar um CID para rota DID + CID mais específica. Um DID deve ser "
+"especificado na caixa Adicionar DID acima. Em adição a sequências de "
+"discagem padrão, você pode colocar Private, Blocked, Unknown, Restricted, "
+"Anonymous, Withheld e Unavailable para pegar estes casos especiais se a "
+"Telco transmiti-los."
 
 #: ../core/views/trunks/main.php:1
 msgid "Add a Trunk"
@@ -705,7 +712,7 @@ msgstr "Adicionar um Ramal"
 #: amp_conf/htdocs/admin/helpers/freepbx_helpers.php:114
 #, php-format
 msgid "Add new %s &#133"
-msgstr ""
+msgstr "Adicionar novo %s &#133"
 
 #: amp_conf/htdocs/admin/page.modules.php:83
 #, php-format
@@ -717,18 +724,25 @@ msgid ""
 "advised that you keep this enabled and keep updated of these important "
 "notifications to avoid costly security vulnerabilities."
 msgstr ""
+"Adicione seu email aqui para receber atualizações de segurança e módulos "
+"importantes. O endereço de email que você fornecer NUNCA é transmitido para "
+"os servidores remotos %s. O email é usado APENAS pelo seu PBX local para "
+"enviar notificações de atualizações que estão disponíveis bem como "
+"Notificações de Segurança IMPORTANTES. É FORTEMENTE aconselhado que você "
+"mantenha isto habilitado e se mantenha atualizado destas notificações "
+"importantes para evitar vulnerabilidades de seguranças custosas."
 
 #: ../core/install.php:507
 msgid "Added pmmaxretries and pmminlength"
-msgstr ""
+msgstr "Pmmaxretries e pmminlength adicionados"
 
 #: ../core/page.routing.php:528
 msgid "Additional Settings"
-msgstr ""
+msgstr "Configurações Adicionais"
 
 #: amp.i18n.php:36
 msgid "Address to bind to. Default is 0.0.0.0"
-msgstr ""
+msgstr "Endereço a ser vinculado. Padrão é 0.0.0.0"
 
 #: ../core/functions.inc.php:7250
 msgid "Adhoc"
@@ -740,22 +754,22 @@ msgstr "Admin"
 
 #: ../core/page.ampusers.php:203
 msgid "Admin Access"
-msgstr ""
+msgstr "Acesso Admin"
 
 #: amp_conf/htdocs/admin/views/obe.php:54
 #: amp_conf/htdocs/admin/views/oobe.php:10
 msgid "Admin Email address"
-msgstr ""
+msgstr "Endereço de Email de Admin"
 
 #: amp_conf/htdocs/admin/views/obe.php:30
 #: amp_conf/htdocs/admin/views/oobe.php:9
 msgid "Admin password"
-msgstr ""
+msgstr "Senha Admin"
 
 #: amp_conf/htdocs/admin/views/obe.php:20
 #: amp_conf/htdocs/admin/views/oobe.php:8
 msgid "Admin user name"
-msgstr ""
+msgstr "Usuário Admin"
 
 #: amp.i18n.php:722
 msgid "Administrators"
@@ -763,15 +777,15 @@ msgstr "Administradores"
 
 #: amp.i18n.php:718
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Configurações Avançadas"
 
 #: amp.i18n.php:12
 msgid "Advanced Settings Details"
-msgstr ""
+msgstr "Detalhes de Configurações Avançadas"
 
 #: amp.i18n.php:578
 msgid "Aggresively Check for Duplicate Extensions"
-msgstr ""
+msgstr "Verificar Agressivamente por Ramais Duplicados"
 
 #: ../core/page.did.php:212
 msgid "Alert Info"
@@ -779,19 +793,19 @@ msgstr "Info Alerta"
 
 #: ../core/functions.inc.php:7104
 msgid "All - TCP Primary"
-msgstr ""
+msgstr "Tudo - TCP Primário"
 
 #: ../core/functions.inc.php:7105
 msgid "All - TLS Primary"
-msgstr ""
+msgstr "Tudo - TLS Primário"
 
 #: ../core/functions.inc.php:7103
 msgid "All - UDP Primary"
-msgstr ""
+msgstr "Tudo - UDP Primário"
 
 #: ../core/functions.inc.php:7107
 msgid "All - WS Primary"
-msgstr ""
+msgstr "Tudo - WS Primário"
 
 #: ../core/page.did.php:76
 msgid "All DIDs"
@@ -805,18 +819,21 @@ msgstr "Todos os módulos disponíveis estão atualizados e instalados."
 msgid ""
 "All settings can be set from the Advanced Settings page accessible in FreePBX"
 msgstr ""
+"Todas as configurações podem ser ajustadas da página Configurações Avançadas "
+"acessível no FreePBX"
 
 #: ../core/views/trunks/trunk_header.php:70
 msgid "Allow Any CID"
-msgstr ""
+msgstr "Permitir Qualquer CID"
 
 #: ../core/functions.inc.php:7187
 msgid "Allow Contact header to be rewritten with the source IP address-port"
 msgstr ""
+"Permitir Cabeçalho de contato se reescrito com o endereço-porta IP de origem"
 
 #: amp.i18n.php:590
 msgid "Allow Login With DB Credentials"
-msgstr ""
+msgstr "Permitir Logar Com Credenciar BD"
 
 #: ../core/functions.inc.php:6953 ../core/functions.inc.php:7155
 msgid ""
@@ -6702,7 +6719,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:378
 #, php-format
 msgid "There are %s modules available for online upgrades"
-msgstr "Exitem %s módulos disponíveis para atualização online"
+msgstr "Existem %s módulos disponíveis para atualização online"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:406
 #, php-format
@@ -6711,7 +6728,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:376
 msgid "There is 1 module available for online upgrade"
-msgstr "Exite 1 módulo disponível para atualização online"
+msgstr "Existe 1 módulo disponível para atualização online"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:404
 msgid "There is 1 module vulnerable to security threats"
@@ -7925,7 +7942,7 @@ msgstr "Existem um módulo quebrado"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2433
 msgid "You have a disabled module"
-msgstr "Exite um módulo desabilitado"
+msgstr "Existe um módulo desabilitado"
 
 #: ../core/views/trunks/trunk_header.php:283
 msgid "You have enabled this trunk in all routes it is used"
