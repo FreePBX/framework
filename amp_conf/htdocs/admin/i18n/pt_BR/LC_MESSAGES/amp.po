@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-24 14:43-0400\n"
-"PO-Revision-Date: 2015-04-28 10:45+0200\n"
+"PO-Revision-Date: 2015-04-29 02:59+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -502,16 +502,21 @@ msgid ""
 "first matched rule will be executed and the remaining rules will not be "
 "acted on."
 msgstr ""
+"Uma Regra de Discagem controla como as chamadas serão discadas neste tronco. "
+"Ela pode ser usada para adicionar ou remover prefixos. Números que não "
+"coincidem com qualquer padrão definido aqui serão discado como são. Note que "
+"o padrão sem um + ou | (para adicionar ou remover um prefixo) não fará "
+"nenhuma mudança mas criará uma coincidência. Apenas a primeira regra que "
+"coincidir será executada e as regras restantes não serão acionadas."
 
 #: ../core/page.did.php:321
 msgid "A Slash ('/') is never a valid DID. Please remove it and try again"
 msgstr ""
-"Uma barra ('/') nunca é um DDR (DID) válido. Por favor remova e tente "
-"novamente"
+"Uma barra ('/') nunca é um DID válido. Por favor remova e tente novamente"
 
 #: ../core/functions.inc.php:6664
 msgid "A description for this DID, such as \"Fax\""
-msgstr "Uma descrição para este DDR (DID), por exemplo \"Fax\""
+msgstr "Uma descrição para este DID, por exemplo \"Fax\""
 
 #: ../core/functions.inc.php:6665
 msgid ""
@@ -531,10 +536,13 @@ msgid ""
 "A required module might be disabled or uninstalled. Recommended steps (run "
 "from the CLI): 1) amportal a ma install %s 2) amportal a ma enable %s"
 msgstr ""
+"Um módulo requerido pode estar desabilitado ou desinstalado. Passos "
+"recomendados (rode do CLI): 1) amportal a ma install %s 2) amportal a ma "
+"enable %s"
 
 #: ../core/functions.inc.php:4294 ../core/functions.inc.php:4386
 msgid "A route for this DID/CID already exists!"
-msgstr "Uma rota para esse DDR/CID já existe!"
+msgstr "Uma rota para esse DID/CID já existe!"
 
 #: ../core/functions.inc.php:4919 ../core/functions.inc.php:5241
 #, php-format
@@ -562,28 +570,28 @@ msgstr "TODAS SESSÕES"
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1211
 #, php-format
 msgid "AMI failure details:"
-msgstr ""
+msgstr "Detalhes de falha AMI:"
 
 #: amp.i18n.php:88
 msgid "AMPLOCALBIN Dir for retrieve_conf"
-msgstr ""
+msgstr "Diretório AMPLOCALBIN para retrieve_conf"
 
 #: ../core/views/trunks/pjsip.php:102
 msgid "AOR Contact"
-msgstr ""
+msgstr "Contato AOR"
 
 #: amp.i18n.php:396
 msgid "Abort Config Gen on Bad Dest"
-msgstr ""
+msgstr "Abortar Geração de Configuração em Destino Ruim"
 
 #: amp.i18n.php:402
 msgid "Abort Config Gen on Exten Conflict"
-msgstr ""
+msgstr "Abortar Geração de Configuração em Conflito de Ramal"
 
 #: ../core/page.advancedsettings.php:97
 #, php-format
 msgid "Acceptable Values: %s - %s"
-msgstr ""
+msgstr "Valores Aceitáveis: %s - %s"
 
 #: ../core/page.ampusers.php:182
 msgid "Access Restrictions"
@@ -591,12 +599,12 @@ msgstr "Restrições De Acesso"
 
 #: ../core/functions.inc.php:7160
 msgid "Account Code"
-msgstr ""
+msgstr "Código da Conta"
 
 #: ../core/functions.inc.php:6857 ../core/functions.inc.php:6912
 #: ../core/functions.inc.php:6957 ../core/functions.inc.php:7159
 msgid "Accountcode for this device."
-msgstr ""
+msgstr "Código da Conta para este dispositivo."
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:269
 msgid "Action"
@@ -654,7 +662,7 @@ msgstr "Adicionar CID de entrada"
 
 #: ../core/functions.inc.php:6665
 msgid "Add Inbound DID"
-msgstr "Adicionar DDR de entrada"
+msgstr "Adicionar DID de entrada"
 
 #: ../core/page.did.php:75 ../core/page.did.php:149 ../core/page.did.php:180
 #: ../core/page.did.php:191
@@ -787,7 +795,7 @@ msgstr ""
 
 #: ../core/page.did.php:76
 msgid "All DIDs"
-msgstr "Todos DDRs"
+msgstr "Todos DIDs"
 
 #: amp_conf/htdocs/admin/page.modules.php:876
 msgid "All available modules are up-to-date and installed."
@@ -882,7 +890,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:6678
 msgid "Any DID"
-msgstr "Qualquer DDR"
+msgstr "Qualquer DID"
 
 #: amp.i18n.php:700 amp_conf/htdocs/admin/views/menu.php:59
 msgid "Applications"
@@ -930,7 +938,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:6663
 msgid "Assigned DID/CID"
-msgstr "DDR/CID Atribuído"
+msgstr "DID/CID Atribuído"
 
 #: amp.i18n.php:76
 msgid ""
@@ -1202,11 +1210,11 @@ msgstr ""
 
 #: ../core/page.did.php:206
 msgid "CID Priority Route"
-msgstr "Rota de prioridade DDR"
+msgstr "Rota Prioritária CID"
 
 #: ../core/page.did.php:216
 msgid "CID name prefix"
-msgstr "Nome do prefix DDR"
+msgstr "Nome do prefix CID"
 
 #: ../core/install.php:994
 msgid "CRITICAL ERROR"
@@ -1888,19 +1896,19 @@ msgstr ""
 
 #: ../core/page.dahdichandids.php:90
 msgid "DID"
-msgstr "DDR"
+msgstr "DID"
 
 #: ../core/functions.inc.php:6674
 msgid "DID / CID"
-msgstr "DDR / CID"
+msgstr "DID / CID"
 
 #: ../core/functions.inc.php:6664
 msgid "DID Description"
-msgstr "Descrição do DDR"
+msgstr "Descrição do DID"
 
 #: ../core/page.did.php:197
 msgid "DID Number"
-msgstr "Número DDR"
+msgstr "Número DID"
 
 #: ../core/page.did.php:320
 msgid ""
@@ -1908,17 +1916,23 @@ msgid ""
 "advanced users, a valid Asterisk Dial Pattern\\n\\nYou have entered a non "
 "standard DID pattern.\\n\\nAre you sure this is correct?"
 msgstr ""
-"Informações de DDR é normalmente um número de telefone de entrada ou para "
-"usuários avançados, uma regra de discagem válida\\n\\nVocê digitou um DDR "
-"fora de padrão.\\n\\nTem certeza que está correto?"
+"Informações de DID é normalmente um número de telefone de entrada ou para "
+"usuários avançados, uma regra de discagem válida\\n"
+"\\n"
+"Você digitou um DID fora de padrão.\\n"
+"\\n"
+"Tem certeza que está correto?"
 
 #: ../core/page.dahdichandids.php:112
 msgid ""
 "DID information is normally just an incoming telephone number.\\n\\nYou have "
 "entered a non standard DID pattern.\\n\\nAre you sure this is correct?"
 msgstr ""
-"Informação DDR (DID) é geralmente é apenas um número telefônico de entrada."
-"\\n\\nVocê digitou um DDR fora de padrão.\\n\\nTem certeza que está correto?"
+"Informação DID é geralmente é apenas um número telefônico de entrada.\\n"
+"\\n"
+"Você digitou um DID fora de padrão.\\n"
+"\\n"
+"Tem certeza que está correto?"
 
 #: amp.i18n.php:482
 msgid ""
@@ -2613,7 +2627,7 @@ msgid ""
 "ERROR: could not access user table to migrate directdids to incoming table, "
 "aborting"
 msgstr ""
-"ERRO: Impossível acessar tabela de usuários para migrar DDRs diretos para "
+"ERRO: Impossível acessar tabela de usuários para migrar DIDs diretos para "
 "tabela de entrada, abortando"
 
 #: ../core/install.php:977
@@ -3554,7 +3568,7 @@ msgstr ""
 
 #: ../core/page.did.php:78
 msgid "General DIDs"
-msgstr "DDRs gerais"
+msgstr "DIDs Gerais"
 
 #: ../core/page.ampusers.php:155 ../core/views/trunks/trunk_header.php:43
 msgid "General Settings"
@@ -4075,7 +4089,7 @@ msgstr "String de chamada personalizada inválida"
 
 #: ../core/functions.inc.php:5280 ../core/page.dahdichandids.php:111
 msgid "Invalid DID, must be a non-blank DID"
-msgstr "DDR inválido, não pode estar em branco"
+msgstr "DID inválido, não pode estar em branco"
 
 #: ../core/views/trunks/trunk_footer.php:154
 msgid "Invalid Dial Rules"
@@ -4554,10 +4568,10 @@ msgid ""
 "any DID matching to work."
 msgstr ""
 "A maioria dos provedores VoIP precisam que seu sistema se REGISTRE. Entre "
-"com os parametros de registro aqui.<br><br>exemplo:<br><br>username:"
-"password@switch.voipprovider.com. <br><br> Muito provedores vão exigir que "
-"você forneça um número de DDR (DID), ex:username:password@switch."
-"voipprovider.com/didnumber de maneira a que o DDR funcione."
+"com os parametros de registro aqui.<br><br>exemplo:<br><br>username:password@"
+"switch.voipprovider.com. <br><br> Muito provedores vão exigir que você "
+"forneça um número de DID, ex:username:password@switch.voipprovider.com/"
+"didnumber de maneira a que o DID funcione."
 
 #: ../core/page.routing.php:788
 msgid "Move Down"
@@ -5330,7 +5344,7 @@ msgstr ""
 
 #: ../core/page.did.php:314
 msgid "Please enter a valid DID Number"
-msgstr "Entre um número DDR válido"
+msgstr "Entre um número DID válido"
 
 #: ../core/functions.inc.php:7348
 msgid "Please enter a valid Description for this device"
@@ -6404,9 +6418,9 @@ msgid ""
 "be treated as if it came in with this DID and can be managed with Inbound "
 "Routing on DIDs"
 msgstr ""
-"O DDR que representa este canal. A chamada de entrada neste canal será "
-"tratada se vier com esse DDR e pode ser gerenciada pelo Roteamento de "
-"entrada nos DDRs"
+"O DID que representa este canal. A chamada de entrada neste canal será "
+"tratada se vier com esse DID e pode ser gerenciada pelo Roteamento de "
+"entrada nos DIDs"
 
 #: ../core/functions.inc.php:7021
 msgid ""
@@ -6766,11 +6780,11 @@ msgid ""
 "If there is a specific DID/CID route for this CID, that route will still "
 "take the call when that DID is called."
 msgstr ""
-"Isso afeta somente o CID das rotas onde nenhum DDR é especificado. Se "
+"Isso afeta somente o CID das rotas onde nenhum DID é especificado. Se "
 "marcado, chamadas com esse CID serão roteadas por essa rota, mesmo que "
-"exista uma rota para o DDR que foi chamado. O comportamento normal é que a "
-"rota DDR fique com a chamada. Se existir uma rota DDR/CID específica neste "
-"CID, essa rota continua com a chamada quando o DDR é chamado."
+"exista uma rota para o DID que foi chamado. O comportamento normal é que a "
+"rota DID fique com a chamada. Se existir uma rota DID/CID específica neste "
+"CID, essa rota continua com a chamada quando o DID é chamado."
 
 #: amp.i18n.php:98
 msgid ""
@@ -7173,7 +7187,7 @@ msgstr "Destarrando..."
 
 #: ../core/page.did.php:79
 msgid "Unused DIDs"
-msgstr "DDRs não usados"
+msgstr "DIDs Não Usados"
 
 #: amp_conf/htdocs/admin/views/footer.php:85
 #: amp_conf/htdocs/admin/views/welcome.php:12
@@ -7329,7 +7343,7 @@ msgstr ""
 
 #: ../core/page.did.php:77
 msgid "User DIDs"
-msgstr "DDRs do usuário"
+msgstr "DIDs do usuário"
 
 #: ../core/functions.inc.php:6603
 msgid "User Devices"
@@ -7827,10 +7841,10 @@ msgid ""
 "the inbound routing abilities. Changing the DID here will require you to "
 "make changes in the Inbound Routes tab. Do you want to continue?"
 msgstr ""
-"Aparentemente você está usando um DDR convertido no formato de zapchanNN que "
+"Aparentemente você está usando um DID convertido no formato de zapchanNN que "
 "é automaticamentegerado durante uma atualização. Você pode considerar "
-"atrivuir o DDR que é normalmente associado à este canal para ter total "
-"aplicabilidade do roteamento de entrada. Modificando o DDR aqui será "
+"atrivuir o DID que é normalmente associado à este canal para ter total "
+"aplicabilidade do roteamento de entrada. Modificando o DID aqui será "
 "necessário fazer mudanças na aba Rotas de entrada. Deseja continuar?"
 
 #: amp_conf/htdocs/admin/views/bad_refferer.php:17
@@ -8183,7 +8197,7 @@ msgstr "Qualquer CID"
 
 #: ../core/page.did.php:111
 msgid "any DID"
-msgstr "qualquer DDR"
+msgstr "qualquer DID"
 
 #: ../core/page.routing.php:545
 msgid ""
