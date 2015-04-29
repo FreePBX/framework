@@ -53,14 +53,11 @@ class Chown extends Command {
 		$args = array();
 		if($input){
 			$args = $input->getArgument('args');
+			$this->moduleName = strtolower($args[0]);
 		}
-		if (!empty($args[0])||!empty($this->moduleName)) {
+		if (!empty($this->moduleName) && $this->moduleName != 'framework') {
 			\FreePBX::Hooks()->updateBMOHooks();
-			if(!empty($args[0])){
-				$mod = strtolower($args[0]);
-			}elseif(!empty($this->moduleName)){
-				$mod = strtolower($this->moduleName);
-			}
+			$mod = $this->moduleName;
 			$this->modfiles[$mod][] = array('type' => 'rdir',
 					'path' => $AMPWEBROOT.'/admin/modules/'.$mod,
 					'perms' => 0644,
