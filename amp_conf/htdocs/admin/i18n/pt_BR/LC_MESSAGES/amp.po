@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-04-24 14:43-0400\n"
-"PO-Revision-Date: 2015-04-29 08:47+0200\n"
+"PO-Revision-Date: 2015-04-30 08:32+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -841,23 +841,27 @@ msgid ""
 "'ulaw&g729'. Codecs allowed in the general settings will also be allowed "
 "unless removed with the 'disallow' directive."
 msgstr ""
+"Permite codecs específicos, separados pelo sinal '&' e em ordem de "
+"prioridade. Ex.: 'ulaw&g729'. Os Codecs permitidos nas configurações gerais "
+"também serão permitidos a menos que sejam removidos com a diretiva "
+"'disallow'."
 
 #: ../core/functions.inc.php:7156
 msgid "Allowed Codecs"
-msgstr ""
+msgstr "Codecs Permitidos"
 
 #: upgrades/2.8.0/custom-context.php:55
 #: upgrades/2.8.0rc1/custom-context.php:55
 msgid "Already Migrated!"
-msgstr ""
+msgstr "Já Migrado!"
 
 #: amp.i18n.php:502
 msgid "Alt for Footer Logo"
-msgstr ""
+msgstr "Alt para Logo de Rodapé"
 
 #: amp.i18n.php:498
 msgid "Alt for Left Logo"
-msgstr ""
+msgstr "Alt para Logo Esquerdo"
 
 #: ../core/functions.inc.php:6432
 msgid "Always"
@@ -865,7 +869,7 @@ msgstr "Sempre"
 
 #: amp.i18n.php:82
 msgid "Always Download Web Assets"
-msgstr ""
+msgstr "Sempre Baixar Recursos Web"
 
 #: ../core/views/trunks/trunk_header.php:245
 #: ../core/views/trunks/trunk_header.php:253
@@ -876,16 +880,21 @@ msgstr "Sempre disca com prefixo"
 msgid ""
 "Amount of seconds to allow a session to stay open before logging a user out"
 msgstr ""
+"Quantidade de segundos para permitir uma sessão permanecer aberta antes "
+"desligar um usuário"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:97
 #, php-format
 msgid "An attempt to send email to: %s with online update status failed"
 msgstr ""
+"Uma tentativa de enviar email para: %s com estado de atualização online "
+"falhou"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:74
 #, php-format
 msgid "An attempt to send email to: %s with security notifications failed"
 msgstr ""
+"Uma tentativa de enviar email para: %s com notificações de segurança falhou"
 
 #: ../core/page.did.php:249
 msgid ""
@@ -904,6 +913,8 @@ msgid ""
 "An unknown error occurred repositioning routes, refresh your browser to see "
 "the current correct route positions"
 msgstr ""
+"Um erro desconhecido ocorreu ao reposicionar rotas, atualize a página para "
+"ver as posiciones de rotas corretas atualmente"
 
 #: ../core/functions.inc.php:6678
 msgid "Any DID"
@@ -911,7 +922,7 @@ msgstr "Qualquer DDR"
 
 #: amp.i18n.php:700 amp_conf/htdocs/admin/views/menu.php:59
 msgid "Applications"
-msgstr ""
+msgstr "Aplicações"
 
 #: ../core/page.ampusers.php:230
 msgid "Apply Changes Bar"
@@ -919,7 +930,7 @@ msgstr "Barra de Confirmação de alterações"
 
 #: amp_conf/htdocs/admin/views/menu.php:179
 msgid "Apply Config"
-msgstr ""
+msgstr "Aplicar Config"
 
 #: ../core/functions.inc.php:7209
 msgid ""
@@ -927,6 +938,9 @@ msgid ""
 "Refresh, then you MUST hit save when you are done to propagate the new "
 "settings)"
 msgstr ""
+"Você tem Certeza que deseja Mudar o Driver de Canal SIP? (A Página "
+"Atualizará, então você DEVE clicar salvar quando terminar de propagar as "
+"novas configurações)"
 
 #: amp_conf/htdocs/admin/views/footer.php:92
 msgid ""
