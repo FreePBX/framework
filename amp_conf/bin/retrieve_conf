@@ -764,7 +764,9 @@ $ext->add('from-internal-additional', 'h', '', new ext_hangup(''));
 $ext->add('from-internal-noxfer-additional', 'h', '', new ext_hangup(''));
 
 // Write extensions_additional.conf!
+$bmo->Performance->Start("extensions_additional");
 $bmo->WriteConfig->writeConfig($ext->get_filename(), $ext->generateConf());
+$bmo->Performance->Stop();
 
 // Output any other configuration files from other modules.
 $bmo->Performance->Start("processFileHooks");
