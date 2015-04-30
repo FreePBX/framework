@@ -5,6 +5,7 @@ define('EOL', isset($_SERVER['REQUEST_METHOD']) ? "<br />" :  PHP_EOL);
 define("FPBX_LOG_FATAL",    "FATAL");
 define("FPBX_LOG_CRITICAL", "CRITICAL");
 define("FPBX_LOG_SECURITY", "SECURITY");
+define("FPBX_LOG_SIGNATURE_UNSIGNED", "SIGNATURE_UNSIGNED");
 define("FPBX_LOG_UPDATE",   "UPDATE");
 define("FPBX_LOG_ERROR",    "ERROR");
 define("FPBX_LOG_WARNING",  "WARNING");

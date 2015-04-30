@@ -1031,6 +1031,7 @@ $(document).ready(function() {
 		} else {
 			messages = [ hash ];
 		}
+		console.log(messages);
 		$.cookie("bannerMessages", JSON.stringify(messages));
 	});
 	bind_dests_double_selects();

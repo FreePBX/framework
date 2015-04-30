@@ -12,6 +12,7 @@
 
 define("NOTIFICATION_TYPE_CRITICAL", 100);
 define("NOTIFICATION_TYPE_SECURITY", 200);
+define("NOTIFICATION_TYPE_SIGNATURE_UNSIGNED", 250);
 define("NOTIFICATION_TYPE_UPDATE",   300);
 define("NOTIFICATION_TYPE_ERROR",    400);
 define("NOTIFICATION_TYPE_WARNING" , 500);
@@ -76,6 +77,22 @@ class Notifications {
 	function add_security($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
 		$this->_add_type(NOTIFICATION_TYPE_SECURITY, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
 		$this->_freepbx_log(FPBX_LOG_SECURITY, $module, $id, $display_text, $extended_text);
+	}
+	/**
+	* Add a Security Notification Message
+	*
+	* @param string $module Raw name of the module requesting
+	* @param string $id ID of the notification
+	* @param string $display_text The text that will be displayed as the subject/header of the message
+	* @param string $extended_text The extended text of the notification when it is expanded
+	* @param string $link The link that is set to the notification
+	* @param bool $reset Reset notification on module update
+	* @param bool $candelete If the notification can be deleted by the user on the notifications display page
+	* @return int Returns the number of notifications per module & id
+	*/
+	function add_signature_unsigned($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
+		$this->_add_type(NOTIFICATION_TYPE_SIGNATURE_UNSIGNED, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+		$this->_freepbx_log(FPBX_LOG_SIGNATURE_UNSIGNED, $module, $id, $display_text, $extended_text);
 	}
 	/**
 	 * Add an Update Notification Message
@@ -150,6 +167,15 @@ class Notifications {
 	 */
 	function list_critical($show_reset=false) {
 		return $this->_list(NOTIFICATION_TYPE_CRITICAL, $show_reset);
+	}
+	/**
+	* List all Security Messages
+	*
+	* @param bool $show_reset Show resettable messages
+	* @return array Returns the list of Messages
+	*/
+	function list_signature_unsigned($show_reset=false) {
+		return $this->_list(NOTIFICATION_TYPE_SIGNATURE_UNSIGNED, $show_reset);
 	}
 	/**
 	 * List all Security Messages
@@ -425,15 +451,16 @@ class Notifications {
 		}
 
 		switch ($level) {
-		case NOTIFICATION_TYPE_CRITICAL:
-		case NOTIFICATION_TYPE_SECURITY:
-		case NOTIFICATION_TYPE_UPDATE:
-		case NOTIFICATION_TYPE_ERROR:
-		case NOTIFICATION_TYPE_WARNING:
-		case NOTIFICATION_TYPE_NOTICE:
-			$where[] = "level = $level ";
-			break;
-		default:
+			case NOTIFICATION_TYPE_CRITICAL:
+			case NOTIFICATION_TYPE_SECURITY:
+			case NOTIFICATION_TYPE_UPDATE:
+			case NOTIFICATION_TYPE_ERROR:
+			case NOTIFICATION_TYPE_WARNING:
+			case NOTIFICATION_TYPE_NOTICE:
+			case NOTIFICATION_TYPE_SIGNATURE_UNSIGNED:
+				$where[] = "level = $level ";
+				break;
+			default:
 		}
 		$sql = "SELECT * FROM notifications ";
 		if (count($where)) {
