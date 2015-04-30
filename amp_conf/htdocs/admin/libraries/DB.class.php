@@ -501,6 +501,9 @@ class DB {
 		} else {
 			try {
 				$sth = $this->db->prepare($sql);
+				if(!is_array($params)) {
+					$params = array($params);
+				}
 				$sth->execute($params);
 			} catch(\Exception $e) {
 				return new DB_Error($e);
