@@ -18,6 +18,11 @@ $freepbx_conf =& freepbx_conf::create();
 
 // Load the BMO Object
 $bmo = FreePBX::create();
+//Load Asterisk Manager into Memory
+$bmo->astman->useCaching = true;
+$bmo->Performance->Start("load_astdb");
+$bmo->astman->LoadAstDB();
+$bmo->Performance->Stop("load_astdb");
 // $bmo->Performance->On();
 $bmo->Performance->Start("trust_gpg");
 $bmo->GPG->trustFreePBX();
