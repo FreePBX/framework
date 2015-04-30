@@ -419,76 +419,19 @@ class extensions {
 						foreach ($this->_hints[$section][$extension] as $hint) {
 							$output .= "exten => ". trim($extension) .",hint,".$hint."\n";
 						}
+						unset($this->_hints[$section][$extension]);
 					}
 					$output .= "\n";
+				}
+				//get orphan hints
+				foreach ($this->_hints[$section] as $extension => $extensions) {
+					foreach($extensions as $hint) {
+						$output .= "exten => ". trim($extension) .",hint,".$hint."\n";
+					}
 				}
 
 				$output .= ";--== end of [".$section."] ==--;\n\n\n";
 			}
-		}
-
-		return $output;
-	}
-
-	/** Generate the file
-	* @return A string containing the extensions.conf file
-	*/
-	function generateOldConf() {
-		$output = "";
-
-		/* sorting is not necessary anymore
-		if (!$this->_sorted) {
-			$this->sort();
-		}
-		*/
-
-		var_dump($this->_exts);
-
-		foreach (array_keys($this->_exts) as $section) {
-			$output .= "[".$section."]\n";
-
-			foreach (array_keys($this->_exts[$section]) as $extension) {
-				$priority = 0;
-				$prioritytable = array();
-
-				foreach (array_keys($this->_exts[$section][$extension]) as $idx) {
-
-					$ext = $this->_exts[$section][$extension][$idx];
-
-					//var_dump($ext);
-					switch ($ext['basetag']) {
-						case '1': $priority = 1; break;
-						case 'n': $priority += 1; break;
-						default:
-							if (isset($prioritytable[$ext['basetag']])) {
-								$priority = $prioritytable[$ext['basetag']];
-							} else {
-								$priority = 'unknown!!!';
-							}
-						break;
-					}
-
-					if ($ext['addpri']) {
-						$priority += $ext['addpri'];
-					}
-
-					if ($ext['tag']) {
-						$prioritytable[$ext['tag']] = $priority;
-					}
-
-					$output .= "exten => ".$extension.",".$priority.
-						",".$ext['cmd']->output()."\n";
-
-				}
-
-				if (isset($this->_hints[$section][$extension])) {
-					foreach ($this->_hints[$section][$extension] as $hint) {
-						$output .= "exten => ".$extension.",hint,".$hint;
-					}
-				}
-			}
-
-			$output .= "\n; end of [".$section."]\n\n\n";
 		}
 
 		return $output;
@@ -1942,28 +1885,3 @@ class ext_log extends extension {
 		return "Log(".$this->level.",".$this->msg.")";
 	}
 }
-
-/* example usage
-$ext = new extensions;
-
-
-$ext->add('default','123', 'dial1', new ext_dial('ZAP/1234'));
-$ext->add('default','123', '', new ext_noop('test1'));
-$ext->add('default','123', '', new ext_noop('test2'));
-$ext->add('default','123', '', new ext_noop('test at +101'), 'dial1', 101);
-$ext->add('default','123', '', new ext_noop('test at +102'));
-echo "<pre>";
-echo $ext->generateConf();
-echo $ext->generateOldConf();
-exit;
-*/
-
-/*
-exten => 123,1(dial1),Dial(ZAP/1234)
-exten => 123,n,noop(test1)
-exten => 123,n,noop(test2)
-exten => 123,dial1+101,noop(test at 101)
-exten => 123,n,noop(test at 102)
-*/
-
-?>
