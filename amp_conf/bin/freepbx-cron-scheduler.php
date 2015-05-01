@@ -54,8 +54,7 @@ if ($email) {
 	// set to true and no email will go out even though the hash
 	// may have changed.
 	//
-	$amp_conf['SEND_UNSIGNED_EMAILS_NOTIFICATIONS'] = true;
-	if($amp_conf['SEND_UNSIGNED_EMAILS_NOTIFICATIONS']) {
+	if(FreePBX::Config()->get('SEND_UNSIGNED_EMAILS_NOTIFICATIONS')) {
 		$send_email = false;
 
 		$unsigned = $nt->list_signature_unsigned();

@@ -79,7 +79,7 @@ class Notifications {
 		$this->_freepbx_log(FPBX_LOG_SECURITY, $module, $id, $display_text, $extended_text);
 	}
 	/**
-	* Add a Security Notification Message
+	* Add a Unsigned Modules Notification Message
 	*
 	* @param string $module Raw name of the module requesting
 	* @param string $id ID of the notification
@@ -169,7 +169,7 @@ class Notifications {
 		return $this->_list(NOTIFICATION_TYPE_CRITICAL, $show_reset);
 	}
 	/**
-	* List all Security Messages
+	* List all Unsigned Module Notification Messages
 	*
 	* @param bool $show_reset Show resettable messages
 	* @return array Returns the list of Messages
