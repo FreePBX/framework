@@ -460,6 +460,10 @@ msgstr ""
 msgid "11 Digit Patterns"
 msgstr ""
 
+#: ../core/page.routing.php:694
+msgid "1800NXXXXXX,1888NXXXXXX,1877NXXXXXX,1866NXXXXXX,1855NXXXXXX,1844NXXXXXX"
+msgstr ""
+
 #: amp_conf/htdocs/admin/config.php:530
 #, php-format
 msgid "404 Not found (%s)"
@@ -492,6 +496,10 @@ msgstr "%s バージョンが必要です。(%sより新しい)。あなたの�
 msgid "A Dial Pattern is a unique set of digits that will select this route and send the call to the designated trunks. If a dialed pattern matches this route, no subsequent routes will be tried. If Time Groups are enabled, subsequent routes will be checked for matches outside of the designated time(s)."
 msgstr "ダイヤルパターンはこのルートを選択し、指定されたトランクにコールを送るための固有な桁数セットです。ダイヤルパターンがこのルートにマッチした場合は、後続のルートは試されません。タイムグループが有効になった場合、後続のルートは指定された時間外に一致するかどうかチェックされます。"
 
+#: ../core/page.routing.php:538
+msgid "A Dial Pattern is a unique set of digits that will select this trunk. Enter one dial pattern per line."
+msgstr ""
+
 #: ../core/views/trunks/trunk_header.php:93
 msgid "A Dial Rule controls how calls will be dialed on this trunk. It can be used to add or remove prefixes. Numbers that don't match any patterns defined here will be dialed as-is. Note that a pattern without a + or | (to add or remove a prefix) will not make any changes but will create a match. Only the first matched rule will be executed and the remaining rules will not be acted on."
 msgstr ""
@@ -506,6 +514,11 @@ msgstr "この内線に割り当てられたダイレクトDID。DIDはプロバ
 
 #: ../core/functions.inc/drivers/PJSip.class.php:40
 msgid "A new SIP channel driver for Asterisk, chan_pjsip is built on the PJSIP SIP stack. A collection of resource modules provides the bulk of the SIP functionality"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:205
+#, php-format
+msgid "A required module might be disabled or uninstalled. Recommended steps (run from the CLI): 1) amportal a ma install %s 2) amportal a ma enable %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
@@ -1581,6 +1594,10 @@ msgstr ""
 msgid "Conference Room App"
 msgstr "カンファレンスルームのアプリ"
 
+#: ../core/views/trunks/pjsip.php:8
+msgid "Configuration Mode"
+msgstr ""
+
 #: amp_conf/htdocs/admin/page.modules.php:624
 msgid "Confirm"
 msgstr "確認"
@@ -2048,6 +2065,10 @@ msgstr "不要なグローバルを削除中.."
 msgid "Deny"
 msgstr ""
 
+#: ../core/page.ampusers.php:187
+msgid "Department Name"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:814
 #, php-format
 msgid "Dependency %s has an unknown state of : %s %s"
@@ -2143,6 +2164,10 @@ msgstr "デバイス設定"
 #: ../core/functions.inc.php:6638
 msgid "Device Type"
 msgstr "デバイスタイプ"
+
+#: ../core/page.advancedsettings.php:37
+msgid "Device and User mode is unsupported by the development team. Are you sure you want to use this mode?"
+msgstr ""
 
 #: amp.i18n.php:706
 msgid "Devices"
@@ -2928,6 +2953,10 @@ msgstr "競合する内線番号が検出されました"
 msgid "Extension Options"
 msgstr "内線オプション"
 
+#: ../core/page.ampusers.php:194
+msgid "Extension Range"
+msgstr ""
+
 #: ../core/Core.class.php:103
 msgid "Extension already in use!"
 msgstr ""
@@ -3195,6 +3224,10 @@ msgstr "必要がない時でも、'設定変更を実行'を常に表示する�
 msgid "Format to save recoreded calls for most call recording unless specified differently in specific applications."
 msgstr "特定のアプリケーションで異なる指定がなされていない限り、ここで通話録音を保存するファイルの形式を指定できます。"
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1239
+msgid "Found module locally, verifying..."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1875
 #, php-format
 msgid "Framework Detected, Setting FreePBX Version to %s"
@@ -3343,6 +3376,10 @@ msgstr "偽の番号やキーコードを補足する不正な番号コンテキ
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1910
 msgid "Generating CSS..."
+msgstr ""
+
+#: ../core/functions.inc.php:7232 ../core/functions.inc.php:7234
+msgid "Generic CHAN SIP Device"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:18
@@ -4195,6 +4232,11 @@ msgstr ""
 msgid "Module: \"%s\", File: \"%s\""
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2906
+#, php-format
+msgid "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run 'amportal chown' and then 'amportal a r' to clear this message. If you did not just update FreePBX, your system may have been compromised)"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2970
 #, php-format
 msgid "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run 'fwconsole chown' and then 'fwconsole reload' to clear this message. If you did not just update FreePBX, your system may have been compromised)"
@@ -4517,6 +4559,10 @@ msgstr "占有された回線のCWビジー"
 msgid "On Demand Recording"
 msgstr "オンデマンド録音"
 
+#: ../core/page.did.php:245
+msgid "On PRI channels the carrier will send a signal if the caller indicates a billing reversal. When checked this route will reject calls that indicate a billing reversal"
+msgstr ""
+
 #: ../core/views/did/routeform.php:300
 msgid "On PRI channels the carrier will send a signal if the caller indicates a billing reversal. When checked this route will reject calls that indicate a billing reversal if supported"
 msgstr ""
@@ -4673,6 +4719,10 @@ msgstr "内部発信コール"
 msgid "Outbound Proxy"
 msgstr ""
 
+#: ../core/views/trunks/pjsip.php:109
+msgid "Outbound Proxy."
+msgstr ""
+
 #: ../core/functions.inc.php:5937
 #, php-format
 msgid "Outbound Route: %s"
@@ -4733,6 +4783,10 @@ msgstr "PHPコンポーネント %s バージョン %s が必要ですが、イ�
 #: amp.i18n.php:574
 msgid "PHP Error Log Output"
 msgstr "PHPエラーログ出力"
+
+#: ../core/page.trunks.php:498
+msgid "PJSIP In FreePBX is Experimental."
+msgstr ""
 
 #: ../core/views/trunks/pjsip.php:28
 msgid "PJSIP Settings"
@@ -4818,6 +4872,10 @@ msgstr "応答前に一時停止"
 
 #: ../core/views/trunks/pjsip.php:207
 msgid "Permanent Auth Rejection"
+msgstr ""
+
+#: ../core/views/trunks/pjsip.php:102
+msgid "Permanent contacts assigned to AoR"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:506
@@ -5159,6 +5217,14 @@ msgstr "外部ソースからの着信コールを記録します。"
 msgid "Recording of outbound calls to external sources."
 msgstr "外部ソースへの発信コールを記録します。"
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1243
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1247
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1253
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1257
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1308
+msgid "Redownloading"
+msgstr ""
+
 #: ../core/views/trunks/sip.php:120
 msgid "Register String"
 msgstr "レジスト文字列"
@@ -5327,6 +5393,14 @@ msgstr ""
 msgid "Restart Asterisk and then refresh the browser in order to try accessing this menu item again."
 msgstr "再びメニューアイテムにアクセスするためAsteriskを再起動し、ブラウザを更新してください。"
 
+#: ../core/page.ampusers.php:187
+msgid "Restrict this user's view of Digital Receptionist menus and System Recordings to only those for this department."
+msgstr ""
+
+#: ../core/page.ampusers.php:194
+msgid "Restrict this user's view to only Extensions, Ring Groups, and Queues within this range."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1219
 msgid "Retrieved Module XML Was Empty"
 msgstr ""
@@ -5334,6 +5408,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/footer.php:100
 msgid "Retry"
 msgstr "再試行"
+
+#: ../core/views/trunks/pjsip.php:25
+msgid "Retry Interval"
+msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:374
 msgid "Return"
@@ -5451,6 +5529,10 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:142
 msgid "SIP Server Port."
+msgstr ""
+
+#: ../core/views/trunks/pjsip.php:95
+msgid "SIP URI of the server to register against"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:482
@@ -6489,6 +6571,10 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
+#: ../core/page.astmodules.php:23
+msgid "Unknown Entry"
+msgstr ""
+
 #: upgrades/2.8.0/custom-context.php:52
 #: upgrades/2.8.0rc1/custom-context.php:52
 msgid "Unknown error fetching Custom Context table data or no data to migrate"
@@ -6789,6 +6875,10 @@ msgstr "値 [%s] が範囲外です、[%s]に変更されました"
 msgid "Value must be between 1 and 63"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1263
+msgid "Verified. Using Local"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:587
 #: amp_conf/htdocs/admin/views/module_admin/main.php:40
 msgid "Version"
@@ -6877,6 +6967,10 @@ msgstr "警告:オンラインリポジトリー(%s)へ接続できません。�
 #, php-format
 msgid "Warning: Error retrieving updates from online repository(s) (%s). Online modules are not available."
 msgstr "警告:オンラインリポジトリー(%s)からのアップデート取得でエラーが発生しました。オンラインモジュールが利用できません。"
+
+#: ../core/page.routing.php:625 ../core/views/trunks/trunk_header.php:218
+msgid "We have detected that you have more than 500 dial patterns, It is advised you turn on the <a href=\"config.php?display=advancedsettings\" target=\"_as\">Advanced Setting</a> called \"Enable The Old Style FreePBX Dial Patterns Textarea\" to turn this into a simple Text Area"
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/welcome.php:54
 #, php-format
@@ -7143,6 +7237,12 @@ msgstr ""
 msgid "You may confirm the remaining selection and then try the again for the listed issues once the required dependencies have been met:"
 msgstr "残りの選択を確認し、必要な依存関係が解消された後に再度実行してください。"
 
+#: ../core/views/trunks/sip.php:37
+msgid ""
+"You may need to add to the default lines listed below, depending on your provider..<br /><br />WARNING: Order is important as it will be retained. For example, if you use the \"allow/deny\" directives make sure deny \n"
+"comes first."
+msgstr ""
+
 #: ../core/views/routing/form.php:567 ../core/views/trunks/trunk_footer.php:49
 msgid "You may select to allow toll free calls such as 800,877 etc as well as Directory assistance, International dialing and long distance"
 msgstr ""
@@ -7304,6 +7404,10 @@ msgstr "全てのダイヤルイン"
 
 #: ../core/views/routing/form.php:69
 msgid "appended to a dial pattern, matches a CallerID or CallerID pattern (for example, NXXXXXX/104 would match only if dialed by extension \"104\")"
+msgstr ""
+
+#: ../core/page.routing.php:545
+msgid "appended to a dial pattern, matches a callerid or callerid pattern (for example, NXXXXXX/104 would match only if dialed by extension \"104\")"
 msgstr ""
 
 #: upgrades/2.9.0beta2/logger_migrate.php:84
@@ -7845,6 +7949,10 @@ msgstr "削除済み"
 msgid "removes a dialing prefix from the number (for example, 613|NXXXXXX would match when some dialed \"6135551234\" but would only pass \"5551234\" to the trunk"
 msgstr ""
 
+#: ../core/views/trunks/trunk_header.php:149
+msgid "removes a dialing prefix from the number (for example, 613|NXXXXXX would match when some dialed \"6135551234\" but would only pass \"5551234\" to the trunk)"
+msgstr ""
+
 #: upgrades/2.10.1/migration.php:7
 msgid "removing deprecated Advanced settings if needed.."
 msgstr ""
@@ -7992,112 +8100,74 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr "zapでバイスが移行されました"
 
-#: ../core/page.routing.php:694
-msgid "1800NXXXXXX,1888NXXXXXX,1877NXXXXXX,1866NXXXXXX,1855NXXXXXX,1844NXXXXXX"
-msgstr ""
-
-#: ../core/page.routing.php:538
-msgid "A Dial Pattern is a unique set of digits that will select this trunk. Enter one dial pattern per line."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:205
+#: amp_conf/bin/freepbx-cron-scheduler.php:74
 #, php-format
-msgid "A required module might be disabled or uninstalled. Recommended steps (run from the CLI): 1) amportal a ma install %s 2) amportal a ma enable %s"
+msgid "%s: New Unsigned Modules Notifications (%s)"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:8
-msgid "Configuration Mode"
+#: ../core/install.php:571
+msgid "Adding index to extensions field in the users"
 msgstr ""
 
-#: ../core/page.ampusers.php:187
-msgid "Department Name"
+#: ../core/install.php:558
+msgid "Adding index to tech field in the devices"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:37
-msgid "Device and User mode is unsupported by the development team. Are you sure you want to use this mode?"
-msgstr ""
-
-#: ../core/page.ampusers.php:194
-msgid "Extension Range"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1239
-msgid "Found module locally, verifying..."
-msgstr ""
-
-#: ../core/functions.inc.php:7232 ../core/functions.inc.php:7234
-msgid "Generic CHAN SIP Device"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2906
+#: amp_conf/bin/freepbx-cron-scheduler.php:77
 #, php-format
-msgid "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run 'amportal chown' and then 'amportal a r' to clear this message. If you did not just update FreePBX, your system may have been compromised)"
+msgid "An attempt to send email to: %s with unsigned modules notifications failed"
 msgstr ""
 
-#: ../core/page.did.php:245
-msgid "On PRI channels the carrier will send a signal if the caller indicates a billing reversal. When checked this route will reject calls that indicate a billing reversal"
+#: amp_conf/bin/freepbx-cron-scheduler.php:77
+msgid "Failed to send unsigned modules notification email"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:109
-msgid "Outbound Proxy."
+#: amp_conf/bin/freepbx-cron-scheduler.php:64
+msgid "UNSIGNED MODULES NOTICE:"
 msgstr ""
 
-#: ../core/page.trunks.php:498
-msgid "PJSIP In FreePBX is Experimental."
+#: ../core/install.php:568
+msgid "Unable to add index to extensions field in users"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:102
-msgid "Permanent contacts assigned to AoR"
+#: ../core/install.php:555
+msgid "Unable to add index to tech field in devices"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1243
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1247
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1253
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1257
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1308
-msgid "Redownloading"
+#: amp_conf/htdocs/admin/config.php:486
+msgid "Unsigned Module(s)"
 msgstr ""
 
-#: ../core/page.ampusers.php:187
-msgid "Restrict this user's view of Digital Receptionist menus and System Recordings to only those for this department."
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2953
+#, php-format
+msgid "You have %s %s modules"
 msgstr ""
 
-#: ../core/page.ampusers.php:194
-msgid "Restrict this user's view to only Extensions, Ring Groups, and Queues within this range."
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2950
+#, php-format
+msgid "You have %s tampered files"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:25
-msgid "Retry Interval"
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2940
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+#, php-format
+msgid "You have %s unsigned modules"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:95
-msgid "SIP URI of the server to register against"
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2926
+msgid "revoked"
 msgstr ""
 
-#: ../core/page.astmodules.php:23
-msgid "Unknown Entry"
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2924
+msgid "tampered"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1263
-msgid "Verified. Using Local"
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2925
+msgid "unknown"
 msgstr ""
 
-#: ../core/page.routing.php:625 ../core/views/trunks/trunk_header.php:218
-msgid "We have detected that you have more than 500 dial patterns, It is advised you turn on the <a href=\"config.php?display=advancedsettings\" target=\"_as\">Advanced Setting</a> called \"Enable The Old Style FreePBX Dial Patterns Textarea\" to turn this into a simple Text Area"
-msgstr ""
-
-#: ../core/views/trunks/sip.php:37
-msgid ""
-"You may need to add to the default lines listed below, depending on your provider..<br /><br />WARNING: Order is important as it will be retained. For example, if you use the \"allow/deny\" directives make sure deny \n"
-"comes first."
-msgstr ""
-
-#: ../core/page.routing.php:545
-msgid "appended to a dial pattern, matches a callerid or callerid pattern (for example, NXXXXXX/104 would match only if dialed by extension \"104\")"
-msgstr ""
-
-#: ../core/views/trunks/trunk_header.php:149
-msgid "removes a dialing prefix from the number (for example, 613|NXXXXXX would match when some dialed \"6135551234\" but would only pass \"5551234\" to the trunk)"
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2922
+msgid "untrusted"
 msgstr ""
 
 #~ msgid " (toggle sort)"

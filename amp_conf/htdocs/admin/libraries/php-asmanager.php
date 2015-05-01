@@ -1387,11 +1387,19 @@ class AGI_AsteriskManager {
 	 * @return bool True if successful
 	 */
 	function database_put($family, $key, $value) {
+		$write_through = false;
 		$value = (trim($value) == '')?'"'.$value.'"':$value;
-		$r = $this->command("database put ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key)." ".$value);
 		if (!empty($this->memAstDB)){
 			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
-			$this->memAstDB[$keyUsed] = $value;
+			if ($this->memAstDB[$keyUsed] != $value) {
+				$this->memAstDB[$keyUsed] = $value;
+				$write_through = true;
+			}
+		} else {
+			$write_through = true;
+		}
+		if ($write_through) {
+			$r = $this->command("database put ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key)." ".$value);
 		}
 		return (bool)strstr($r["data"], "success");
 	}
