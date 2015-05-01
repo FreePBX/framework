@@ -1391,7 +1391,7 @@ class AGI_AsteriskManager {
 		$value = (trim($value) == '')?'"'.$value.'"':$value;
 		if (!empty($this->memAstDB)){
 			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
-			if ($this->memAstDB[$keyUsed] != $value) {
+			if (!isset($this->memAstDB[$keyUsed]) || $this->memAstDB[$keyUsed] != $value) {
 				$this->memAstDB[$keyUsed] = $value;
 				$write_through = true;
 			}
