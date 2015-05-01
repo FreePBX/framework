@@ -443,7 +443,6 @@ class Notifications {
 	 */
 	function _list($level, $show_reset=false) {
 
-		$level = q($level);
 		$where = array();
 
 		if (!$show_reset) {
@@ -458,6 +457,7 @@ class Notifications {
 			case NOTIFICATION_TYPE_WARNING:
 			case NOTIFICATION_TYPE_NOTICE:
 			case NOTIFICATION_TYPE_SIGNATURE_UNSIGNED:
+				$level = q($level);
 				$where[] = "level = $level ";
 				break;
 			default:
