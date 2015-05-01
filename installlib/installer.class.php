@@ -473,6 +473,14 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
+	$settings[$category]['SEND_UNSIGNED_EMAILS_NOTIFICATIONS'] = array(
+	'value' => true,
+	'options' => '',
+	'name' => 'Send unsigned module email notifications',
+	'description' => 'Whether or not to send unsigned module email notifications. If disabled unsigned module emails will never be sent',
+	'type' => CONF_TYPE_BOOL,
+	);
+
 	$settings[$category]['AMPTRACKENABLE'] = array(
 	'value' => true,
 	'options' => '',

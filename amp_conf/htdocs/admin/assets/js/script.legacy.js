@@ -1276,7 +1276,7 @@ $(document).ready(function() {
 		} else {
 			messages = [ hash ];
 		}
-		$.cookie("bannerMessages", JSON.stringify(messages));
+		$.cookie("bannerMessages", JSON.stringify(messages), { expires: 365 });
 	});
 	bind_dests_double_selects();
 

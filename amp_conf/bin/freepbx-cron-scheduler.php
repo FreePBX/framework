@@ -48,10 +48,38 @@ if ($email) {
 	// clear email flag
 	$nt->delete('freepbx', 'NOEMAIL');
 
+	//list_signature_unsigned
+
 	// set to false, if no updates are needed then it will not be
 	// set to true and no email will go out even though the hash
 	// may have changed.
 	//
+	if(FreePBX::Config()->get('SEND_UNSIGNED_EMAILS_NOTIFICATIONS')) {
+		$send_email = false;
+
+		$unsigned = $nt->list_signature_unsigned();
+		if (count($unsigned)) {
+			$send_email = true;
+			$text = $htext;
+			$text .= _("UNSIGNED MODULES NOTICE:")."\n\n";
+			foreach ($unsigned as $item) {
+				$text .= $item['display_text']."\n";
+				$text .= $item['extended_text']."\n\n";
+			}
+		}
+		$text .= "\n\n";
+
+		if ($send_email && (! $cm->check_hash('update_sigemail', $text))) {
+			$cm->save_hash('update_sigemail', $text);
+			if (chron_scheduler_send_message($email, $from_email, sprintf(_("%s: New Unsigned Modules Notifications (%s)"),$brand, $mid), $text)) {
+				$nt->delete('freepbx', 'SIGEMAILFAIL');
+			} else {
+				$nt->add_error('freepbx', 'SIGEMAILFAIL', _('Failed to send unsigned modules notification email'), sprintf(_('An attempt to send email to: %s with unsigned modules notifications failed'),$email));
+			}
+		}
+	}
+
+
 	$send_email = false;
 
 	$security = $nt->list_security();

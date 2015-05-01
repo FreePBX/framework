@@ -1904,6 +1904,7 @@ class module_functions {
 		$this->upgrade_notifications($new_modules, 'PASSIVE');
 		needreload();
 		FreePBX::Config()->update("SIGNATURECHECK", true);
+		FreePBX::Database()->query("DELETE FROM admin WHERE variable = 'unsigned' LIMIT 1");
 
 		//Generate LESS on install
 		//http://issues.freepbx.org/browse/FREEPBX-8287
@@ -2981,16 +2982,41 @@ class module_functions {
 			}
 		}
 
-		$statuses = array('untrusted','unsigned','tampered','unknown','revoked');
+		$statuses = array(
+			'untrusted' => _('untrusted'),
+			'unsigned' => _('unsigned'),
+			'tampered' => _('tampered'),
+			'unknown' => _('unknown'),
+			'revoked' => _('revoked'),
+		);
 		$nt = notifications::create();
-		foreach($statuses as $type) {
+		foreach($statuses as $type => $name) {
 			if(!empty($modules['statuses'][$type]) && FreePBX::Config()->get('SIGNATURECHECK')) {
-				if($type == 'tampered') {
-					$kind = _('files');
-				} else {
-					$kind = _('modules');
+				$nt->delete('freepbx', 'FW_'.strtoupper($type));
+				switch($type) {
+					case 'unsigned':
+						//TODO: check the hash
+						$hash = md5(json_encode($modules['statuses'][$type]));
+						$sth = FreePBX::Database()->prepare("SELECT value FROM admin WHERE variable = 'unsigned' LIMIT 1");
+						$sth->execute();
+						$o = $sth->fetch();
+						if(empty($o)) {
+							$nt->add_signature_unsigned('freepbx', 'FW_'.strtoupper($type), sprintf(_('You have %s unsigned modules'),count($modules['statuses'][$type])), implode("<br>",$modules['statuses'][$type]),'',true,true);
+							sql("INSERT INTO admin (variable, value) VALUE ('unsigned', '$hash')");
+						} elseif($o['value'] != $hash) {
+							dbug("updating hash");
+							$nt->add_signature_unsigned('freepbx', 'FW_'.strtoupper($type), sprintf(_('You have %s unsigned modules'),count($modules['statuses'][$type])), implode("<br>",$modules['statuses'][$type]),'',true,true);
+							$sth = FreePBX::Database()->prepare("UPDATE admin SET value = ? WHERE variable = 'unsigned'");
+							$sth->execute(array($hash));
+						}
+					break;
+					case 'tampered':
+						$nt->add_security('freepbx', 'FW_'.strtoupper($type), sprintf(_('You have %s tampered files'),count($modules['statuses'][$type])), implode("<br>",$modules['statuses'][$type]));
+					break;
+					default:
+						$nt->add_security('freepbx', 'FW_'.strtoupper($type), sprintf(_('You have %s %s modules'),count($modules['statuses'][$type]),$name), implode("<br>",$modules['statuses'][$type]));
+					break;
 				}
-				$nt->add_security('freepbx', 'FW_'.strtoupper($type), sprintf(_('You have %s %s %s'),count($modules['statuses'][$type]),$type,$kind), implode("<br>",$modules['statuses'][$type]));
 			} else {
 				$nt->delete('freepbx', 'FW_'.strtoupper($type));
 			}

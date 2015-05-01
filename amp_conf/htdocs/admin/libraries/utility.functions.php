@@ -5,6 +5,7 @@ define('EOL', isset($_SERVER['REQUEST_METHOD']) ? "<br />" :  PHP_EOL);
 define("FPBX_LOG_FATAL",    "FATAL");
 define("FPBX_LOG_CRITICAL", "CRITICAL");
 define("FPBX_LOG_SECURITY", "SECURITY");
+define("FPBX_LOG_SIGNATURE_UNSIGNED", "SIGNATURE_UNSIGNED");
 define("FPBX_LOG_UPDATE",   "UPDATE");
 define("FPBX_LOG_ERROR",    "ERROR");
 define("FPBX_LOG_WARNING",  "WARNING");
@@ -1104,18 +1105,17 @@ function generate_message_banner($message,$type='info',$details=array(),$link=''
 	$full_hash = sha1($message.json_encode($details));
 	// We have to ensure that Cookies don't exceed 'a small number' of bytes.
 	// I randomly am picking 'the last 5' to keep, and discard any others.
+
 	if (isset($_COOKIE['bannerMessages'])) {
 		$cookie = json_decode($_COOKIE['bannerMessages'],TRUE);
-	}
-	if (!isset($cookie) || !is_array($cookie)) {
-		$cookie = array();
-	}
 
-	while (count($cookie) > 5) {
-		array_shift($cookie);
+		if(is_array($cookie)) {
+			while (count($cookie) > 5) {
+				array_shift($cookie);
+			}
+			setcookie('bannerMessages', json_encode($cookie), strtotime("+1 year"));
+		}
 	}
-
-	setcookie('bannerMessages', json_encode($cookie));
 
 	if($closeable && !empty($cookie)) {
 		if(in_array($full_hash,$cookie)) {

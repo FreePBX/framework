@@ -481,29 +481,31 @@ switch($display) {
 						die_freepbx(_("FreePBX is Unable to Continue"), $e);
 					}
 					if(!$modules['validation']) {
-						$type = (!empty($modules['statuses']['untrusted']) || !empty($modules['statuses']['tampered'])) ? 'danger' : 'warning';
-						$merged = array();
+						//$type = (!empty($modules['statuses']['untrusted']) || !empty($modules['statuses']['tampered'])) ? 'danger' : 'warning';
+						$danger = array();
+						$warning = array();
 						//priority sorting
 						$stauses = array("revoked","untrusted","tampered","unsigned","unknown");
 						foreach($stauses as $st) {
-							if(!empty($modules['statuses'][$st])) {
-								$merged = array_merge($merged,$modules['statuses'][$st]);
+							if(!empty($modules['statuses'][$st]) && $st != 'unsigned') {
+								$danger = array_merge($danger,$modules['statuses'][$st]);
+							}else if(!empty($modules['statuses'][$st]) && $st == 'unsigned') {
+								$warning = array_merge($warning,$modules['statuses'][$st]);
 							}
 						}
-						$d = FreePBX::Notifications()->list_security(true);
+						$d = FreePBX::notifications()->list_security(true);
 						foreach($d as $n) {
 							//Dont show the same notifications twice
 							if(!in_array($n['id'],array('FW_REVOKED','FW_UNSIGNED','FW_UNTRUSTED','FW_TAMPERED','FW_UNKNOWN'))) {
-								array_unshift($merged,$n['display_text']);
+								array_unshift($danger,$n['display_text']);
+								array_unshift($warning,$n['display_text']);
 							}
 						}
-						switch($type) {
-							case 'danger':
-								echo generate_message_banner(_('Security Warning'), 'danger',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing',true);
-							break;
-							case 'warning':
-								echo generate_message_banner(_('Security Warning'), 'warning',$merged,'http://wiki.freepbx.org/display/F2/Module+Signing', true);
-							break;
+						if(!empty($danger)) {
+							echo generate_message_banner(_('Security Warning'), 'danger',$danger,'http://wiki.freepbx.org/display/F2/Module+Signing',true);
+						}
+						if(!empty($warning)) {
+							echo generate_message_banner(_('Unsigned Module(s)'), 'warning',$warning,'http://wiki.freepbx.org/display/F2/Module+Signing',true);
 						}
 					}
 				}
