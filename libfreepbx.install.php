@@ -926,6 +926,20 @@ function freepbx_settings_init($commit_to_db = false) {
     $set['type'] = CONF_TYPE_BOOL;
     $freepbx_conf->define_conf_setting('SIGNATURECHECK',$set);
 
+		// SIGNATURECHECK
+		$set['value'] = true;
+		$set['options'] = '';
+		$set['defaultval'] =& $set['value'];
+		$set['name'] = 'Send unsigned module email notifications';
+		$set['description'] = 'Whether or not to send unsigned module email notifications. If disabled unsigned module emails will never be sent';
+		$set['level'] = 0;
+		$set['emptyok'] = 0;
+		$set['module'] = '';
+		$set['hidden'] = 0;
+		$set['readonly'] = 0;
+		$set['type'] = CONF_TYPE_BOOL;
+		$freepbx_conf->define_conf_setting('SEND_UNSIGNED_EMAILS_NOTIFICATIONS',$set);
+
 	//AMPTRACKENABLE
 	$set['value'] = true;
 	$set['options'] = '';
