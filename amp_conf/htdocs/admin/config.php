@@ -498,7 +498,6 @@ switch($display) {
 							//Dont show the same notifications twice
 							if(!in_array($n['id'],array('FW_REVOKED','FW_UNSIGNED','FW_UNTRUSTED','FW_TAMPERED','FW_UNKNOWN'))) {
 								array_unshift($danger,$n['display_text']);
-								array_unshift($warning,$n['display_text']);
 							}
 						}
 						if(!empty($danger)) {
