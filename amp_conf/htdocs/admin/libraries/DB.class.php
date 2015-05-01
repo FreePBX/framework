@@ -61,7 +61,7 @@ class DB {
 	public static function connect($dsn=null) {
 		$pdsn = DB::parseDSN($dsn);
 		if(!empty($pdsn)) {
-			$db_port = empty($pdsn['port']) ? '' :  ':' . $pdsn['port'];
+			$db_port = empty($pdsn['port']) ? '' :  ';port=' . $pdsn['port'];
 			return new DB(new \FreePBX\Database($pdsn['dbsyntax'].':host='.$pdsn['hostspec'].$db_port.';dbname='.$pdsn['database'],$pdsn['username'],$pdsn['password']));
 		}
 		throw new \Exception("Could not understand DSN for connect");
