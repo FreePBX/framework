@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GpwmPOT-Creation-Date: 2005-08-17 10:15-0300\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-24 14:43-0400\n"
+"POT-Creation-Date: 2015-05-01 12:48-0400\n"
 "PO-Revision-Date: 2015-04-24 19:56+0200\n"
 "Last-Translator: Paulo <paulop1975@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) <http://weblate.freepbx.org/projects/"
@@ -176,7 +176,7 @@ msgstr ""
 msgid "%s Upgrade Available (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2891
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2892
 #, php-format
 msgid "%s [not enabled]"
 msgstr "%s [não ativado]"
@@ -305,7 +305,7 @@ msgstr "%s instalado com sucesso"
 msgid "%s is a registered trademark of"
 msgstr "%s é marca registada de"
 
-#: ../core/install.php:836
+#: ../core/install.php:862
 #, php-format
 msgid "%s prepared"
 msgstr "%s preparado"
@@ -341,15 +341,20 @@ msgstr "%s versão %s ou superior necessária, ver. atual %s"
 msgid "%s will be removed from the hard disk"
 msgstr "%s será removido do disco rígido"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:94
+#: amp_conf/bin/freepbx-cron-scheduler.php:122
 #, php-format
 msgid "%s: New Online Updates Available (%s)"
 msgstr "%s: Disponíveis Novas Atualizações Online (%s)"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:71
+#: amp_conf/bin/freepbx-cron-scheduler.php:99
 #, php-format
 msgid "%s: New Security Notifications (%s)"
 msgstr "%s: Novas Notificações de Segurança (%s)"
+
+#: amp_conf/bin/freepbx-cron-scheduler.php:74
+#, php-format
+msgid "%s: New Unsigned Modules Notifications (%s)"
+msgstr ""
 
 #: install.php:13
 #, php-format
@@ -413,7 +418,7 @@ msgstr ""
 msgid "1NXXNXXXXXX"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:505
+#: amp_conf/htdocs/admin/config.php:507
 #, php-format
 msgid "404 Not found (%s)"
 msgstr "404 Não Encontrado (%s)"
@@ -714,6 +719,14 @@ msgstr ""
 msgid "Added pmmaxretries and pmminlength"
 msgstr "Adicionados pmmaxretries e pmminlength"
 
+#: ../core/install.php:571
+msgid "Adding index to extensions field in the users"
+msgstr ""
+
+#: ../core/install.php:558
+msgid "Adding index to tech field in the devices"
+msgstr ""
+
 #: ../core/page.routing.php:528
 msgid "Additional Settings"
 msgstr "Configurações Suplementares"
@@ -861,16 +874,22 @@ msgstr ""
 "Tempo em segundos, durante o qual a sessão se manterá aberta antes de a "
 "terminar"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:97
+#: amp_conf/bin/freepbx-cron-scheduler.php:125
 #, php-format
 msgid "An attempt to send email to: %s with online update status failed"
 msgstr "Falhou tentativa de envio das atualizações online para o email: %s"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:74
+#: amp_conf/bin/freepbx-cron-scheduler.php:102
 #, php-format
 msgid "An attempt to send email to: %s with security notifications failed"
 msgstr ""
 "Falhou tentativa de envio de notificações de segurança para o email: %s"
+
+#: amp_conf/bin/freepbx-cron-scheduler.php:77
+#, php-format
+msgid ""
+"An attempt to send email to: %s with unsigned modules notifications failed"
+msgstr ""
 
 #: ../core/page.did.php:249
 msgid ""
@@ -1264,7 +1283,7 @@ msgstr "Rota de Prioridade CID"
 msgid "CID name prefix"
 msgstr "Nome do prefixo CID"
 
-#: ../core/install.php:994
+#: ../core/install.php:1020
 msgid "CRITICAL ERROR"
 msgstr "ERRO CRITICO"
 
@@ -1431,13 +1450,13 @@ msgstr "Cancelar"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "Não é possível ligar ao Asterisk Manager com "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1997
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1998
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "Não é possível apagar o diretório %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1887
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1919
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1888
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1920
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr "Não é possível desativar: Módulos dependentes: "
 
@@ -1534,7 +1553,7 @@ msgstr "Verificando Online, Por Favor Aguarde..."
 msgid "Checking for %s field.."
 msgstr "Verificando campo %s.."
 
-#: ../core/install.php:831
+#: ../core/install.php:857
 msgid "Checking for General Setting migrations.."
 msgstr "Verificando migrações das Configurações Gerais.."
 
@@ -1781,7 +1800,7 @@ msgstr ""
 msgid "Convert ZAP Settings to DAHDi"
 msgstr "Converter definições ZAP para DAHDi"
 
-#: ../core/install.php:903
+#: ../core/install.php:929
 msgid "Converting IAX notransfer to transfer if needed.."
 msgstr "Converter IAX notransfer a transfer se necessário.."
 
@@ -1848,7 +1867,7 @@ msgstr "Não foi possível remover armazenamento temporário em %s"
 msgid "Could not remove temporary location %s"
 msgstr "Não foi possível remover localização temporária %s"
 
-#: ../core/install.php:995
+#: ../core/install.php:1021
 msgid ""
 "Could not rename table, if no dahdichandids table present FATAL errors will "
 "occur"
@@ -1902,7 +1921,7 @@ msgstr "Criando pedido de assinatura para %s"
 msgid "Critical"
 msgstr "Crítico"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2898
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2899
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr "Módulo crítico \"%s\" não está assinado, volte a transferir"
@@ -2350,7 +2369,7 @@ msgstr "Eliminar Utilizador: %s"
 msgid "Deleting the modules.conf file will reset this to defaults."
 msgstr "Eliminar o ficheiro modules.conf irá reverter aos valores padrão."
 
-#: ../core/install.php:876
+#: ../core/install.php:902
 msgid "Deleting unused globals.."
 msgstr "Eliminando globals não usadas.."
 
@@ -2602,7 +2621,7 @@ msgid ""
 "'allow' setting, or just disallow specific codecs separated by '&'."
 msgstr ""
 
-#: upgrades/2.9.0alpha1/migrate_ampconf.php:155 ../core/install.php:891
+#: upgrades/2.9.0alpha1/migrate_ampconf.php:155 ../core/install.php:917
 #, php-format
 msgid "Discontinued logging type %s changing to %s.."
 msgstr "Tipo de logging %s descontinuado, mudado para %s.."
@@ -2673,7 +2692,7 @@ msgstr "Não existem permissões/não posso escrever para: %s"
 msgid "Don't know about modules yet. It needs to be handed to me"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1864
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1865
 #: amp_conf/htdocs/admin/page.modules.php:965
 msgid "Done"
 msgstr "Terminado"
@@ -2767,7 +2786,7 @@ msgstr ""
 "ERRO: não foi possível aceder à tabela user para migrar directdids para a "
 "tabela incoming, abortando"
 
-#: ../core/install.php:977
+#: ../core/install.php:1003
 msgid ""
 "ERROR: could not insert previous value for ALLOW_SIP_ANON, it may already "
 "exist"
@@ -3062,7 +3081,7 @@ msgstr "Erro Gerando Pedido de Assinatura: %s"
 msgid "Error Signing Cert with '%s': %s"
 msgstr "Erro Assinando Cert com '%s': %s"
 
-#: ../core/install.php:1035
+#: ../core/install.php:1061
 msgid "Error converting zap to dahdi in devices table and AstDB"
 msgstr "Erro convertendo zap par dahdi na tabela de dispositivos e AstDB"
 
@@ -3076,7 +3095,7 @@ msgstr "Erro criando diretório de módulo: %s"
 msgid "Error creating temporary directory: %s"
 msgstr "Erro criando diretório temporário: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2004
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2005
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "Erro apagando diretório %s (código %d)"
@@ -3115,7 +3134,7 @@ msgstr "Erro analisando cdr_mysql.conf nenhuma migração realizada"
 msgid "Error updating database. Command was: %s; error was: %s "
 msgstr "Erro atualizando a base de dados. Comando: %s; erro: %s "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1942
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1943
 msgid "Error updating database: "
 msgstr "Erro atualizando a base de dados: "
 
@@ -3333,13 +3352,13 @@ msgstr "Falha ao Remover"
 msgid "Failed to Remove directory"
 msgstr "Falha ao Remover diretório"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2784
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2785
 #, php-format
 msgid "Failed to get remote file, error was:"
 msgstr "Falha otendo ficheiro remoto, erro:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2796
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:511
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2797
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:512
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
 msgstr "Falha obtendo ficheiro remoto, o mirror site pode estar em baixo: %s"
@@ -3369,17 +3388,21 @@ msgstr ""
 msgid "Failed to run installation scripts"
 msgstr "Falha ao executar scripts de instalação"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1946
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1947
 msgid "Failed to run un-installation scripts"
 msgstr "Falha ao executar scripts de desinstalação"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:97
+#: amp_conf/bin/freepbx-cron-scheduler.php:125
 msgid "Failed to send online update email"
 msgstr "Falha no envio de email de atualização online"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:74
+#: amp_conf/bin/freepbx-cron-scheduler.php:102
 msgid "Failed to send security notification email"
 msgstr "Falha no envio de mail com notificação de segurança"
+
+#: amp_conf/bin/freepbx-cron-scheduler.php:77
+msgid "Failed to send unsigned modules notification email"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1587
 msgid "Failed to write file to disk"
@@ -3397,7 +3420,7 @@ msgstr ""
 msgid "False"
 msgstr "Falso"
 
-#: ../core/install.php:880
+#: ../core/install.php:906
 msgid "Fatal DB error trying to delete globals, trying to carry on"
 msgstr ""
 "Erro fatal de base de dados tentando apagar globals, tentando continuar"
@@ -3406,7 +3429,7 @@ msgstr ""
 msgid "Feature Codes Beep Only"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:490
+#: amp_conf/htdocs/admin/config.php:492
 #, php-format
 msgid "File %s has a revoked signature. Can not load"
 msgstr "Ficheiro %s tem uma assinatura revogada. Não é possível carregar"
@@ -3539,8 +3562,8 @@ msgstr ""
 msgid "Force rport - (force_rport)"
 msgstr "Forçar rport - (force_rport)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2808
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:523
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2809
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:524
 #, php-format
 msgid "Forced %s to true"
 msgstr "Forçados %s a true"
@@ -3645,8 +3668,8 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:318 amp_conf/htdocs/admin/config.php:443
-#: amp_conf/htdocs/admin/config.php:459 amp_conf/htdocs/admin/config.php:501
-#: amp_conf/htdocs/admin/config.php:512 amp_conf/htdocs/admin/config.php:522
+#: amp_conf/htdocs/admin/config.php:459 amp_conf/htdocs/admin/config.php:503
+#: amp_conf/htdocs/admin/config.php:514 amp_conf/htdocs/admin/config.php:524
 msgid "FreePBX is Unable to Continue"
 msgstr "O FreePBX está Impossibilitado de Continuar"
 
@@ -3723,7 +3746,7 @@ msgstr "DIDs Gerais"
 msgid "General Settings"
 msgstr "Configurações Gerais"
 
-#: ../core/install.php:874
+#: ../core/install.php:900
 msgid "General Settings migrated"
 msgstr "Configurações Gerais migradas"
 
@@ -3738,7 +3761,7 @@ msgid ""
 "Grandstream phones, you will want to set this to false."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1856
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1857
 msgid "Generating CSS..."
 msgstr "Gerando CSS..."
 
@@ -4138,7 +4161,7 @@ msgstr "Setup inicial"
 msgid "Initialize freepbx_conf settings.."
 msgstr "Inicializar configurações freepbx_conf.."
 
-#: ../core/install.php:979
+#: ../core/install.php:1005
 msgid "Inserted ALLOW_SIP_ANON fine"
 msgstr "Inserido ALLOW_SIP_ANON corretamente"
 
@@ -4606,17 +4629,17 @@ msgstr "Módulo"
 msgid "Module "
 msgstr "Módulo "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2878
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2879
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr "Módulo \"%s\" sem estado de assinatura."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2900
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2901
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr "Módulo \"%s\" não está assinado e deverá ser transferido novamente"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2893
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2894
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr "Módulo \"%s\" assinado por uma chave inválida."
@@ -4666,11 +4689,11 @@ msgstr "Nome do módulo está vazio em %s"
 msgid "Module XML was not in the proper format"
 msgstr "XML do módulo não estava no formato apropriado"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1883
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1884
 msgid "Module not enabled: cannot disable"
 msgstr "Módulo não está ativo: não é possível desativar"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1915
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1916
 msgid "Module not installed: cannot uninstall"
 msgstr "Módulo não está instalado: não é possível desinstalar"
 
@@ -4683,7 +4706,7 @@ msgstr ""
 "Módulo transferido com sucesso. Necessário ativar o módulo usando %s para o "
 "tornar disponível."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2914
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2915
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
@@ -4692,12 +4715,12 @@ msgstr ""
 "A assinatura do módulo \"%s\" foi revogada. O módulo foi desativado "
 "automaticamente"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2908
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2909
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr "Módulo: \"%s\", Ficheiro: \"%s\""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2906
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2907
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -4884,7 +4907,7 @@ msgstr "Sem padrão de marcação, deve existir pelo menos um"
 msgid "No directory %s, install script not needed"
 msgstr "Sem diretório %s, não é necessário script de instalação"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:101
+#: amp_conf/bin/freepbx-cron-scheduler.php:129
 msgid "No email address for online update checks"
 msgstr "Sem email para verificações de atualizações online"
 
@@ -6075,7 +6098,7 @@ msgstr "Regras:"
 msgid "Russian"
 msgstr "Russo"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:61
+#: amp_conf/bin/freepbx-cron-scheduler.php:89
 msgid "SECURITY NOTICE:"
 msgstr "AVISO DE SEGURANÇA:"
 
@@ -6193,7 +6216,7 @@ msgstr "Segurança"
 msgid "Security Issue"
 msgstr "Questão de Segurança"
 
-#: amp_conf/htdocs/admin/config.php:480 amp_conf/htdocs/admin/config.php:483
+#: amp_conf/htdocs/admin/config.php:483
 msgid "Security Warning"
 msgstr "Aviso de Segurança"
 
@@ -6451,9 +6474,9 @@ msgstr ""
 msgid "Spanish"
 msgstr "Espanhol"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1878
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1910
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1983
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1879
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1911
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1984
 msgid "Specified module not found"
 msgstr "Não encontrado o módulo especificado"
 
@@ -6725,11 +6748,11 @@ msgstr "Ocorreram os seguintes erros:"
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr "Ocorreram os seguintes erros processando o ficheiro transferido: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2442
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2443
 msgid "The following modules are disabled because they are broken:"
 msgstr "Os seguintes módulos estão inativos porque estão quebrados:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2434
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2435
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "Os seguintes módulos estão inativos porque necessitam ser atualizados:"
 
@@ -6828,8 +6851,8 @@ msgid ""
 "configuration."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2809
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:524
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2810
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:525
 #, php-format
 msgid ""
 "The system detected a problem trying to access external server data and "
@@ -7174,7 +7197,7 @@ msgstr ""
 msgid "Toll-free"
 msgstr "Grátis"
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:182
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:183
 msgid "Trace Back"
 msgstr ""
 
@@ -7235,7 +7258,11 @@ msgstr ""
 msgid "UDP Only"
 msgstr "UDP Apenas"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:85
+#: amp_conf/bin/freepbx-cron-scheduler.php:64
+msgid "UNSIGNED MODULES NOTICE:"
+msgstr ""
+
+#: amp_conf/bin/freepbx-cron-scheduler.php:113
 msgid "UPDATE NOTICE:"
 msgstr "AVISO DE ATUALIZAÇÃO:"
 
@@ -7246,6 +7273,14 @@ msgstr "Contexto do USER"
 #: ../core/views/trunks/sip.php:37
 msgid "USER Details"
 msgstr "Detalhes do USER"
+
+#: ../core/install.php:568
+msgid "Unable to add index to extensions field in users"
+msgstr ""
+
+#: ../core/install.php:555
+msgid "Unable to add index to tech field in devices"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1339
 #, php-format
@@ -7351,9 +7386,13 @@ msgstr ""
 msgid "Unknown upload error"
 msgstr "Erro de transferencia desconhecido"
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:165
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:166
 msgid "Unknown!"
 msgstr "Desconhecido!"
+
+#: amp_conf/htdocs/admin/config.php:486
+msgid "Unsigned Module(s)"
+msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:946
 msgid "Untarring.."
@@ -8021,7 +8060,7 @@ msgid ""
 "security check"
 msgstr ""
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:101
+#: amp_conf/bin/freepbx-cron-scheduler.php:129
 msgid ""
 "You are automatically checking for online updates nightly but you have no "
 "email address setup to send the results. This can be set in Module Admin. "
@@ -8062,26 +8101,37 @@ msgid ""
 "overwritten."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2929
-#, fuzzy, php-format
-msgid "You have %s %s %s"
-msgstr "Você tem %s %s %s"
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2953
+#, php-format
+msgid "You have %s %s modules"
+msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2441
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2442
 #, php-format
 msgid "You have %s broken modules"
 msgstr "Você tem %s módulos quebrados"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2433
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2434
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "Você tem %s módulos inativos"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2441
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2950
+#, php-format
+msgid "You have %s tampered files"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2940
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+#, php-format
+msgid "You have %s unsigned modules"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2442
 msgid "You have a broken module"
 msgstr "Vocè tem um módulo quebrado"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2433
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2434
 msgid "You have a disabled module"
 msgstr "Você tem um módulo inativo"
 
@@ -8190,8 +8240,8 @@ msgstr ""
 msgid "You should fix the problem or select another file and %s."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2435
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2443
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2436
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2444
 msgid "You should go to the module admin page to fix these."
 msgstr ""
 
@@ -8269,8 +8319,8 @@ msgstr ""
 #: upgrades/2.10.0beta3/migration.php:61 upgrades/2.10.0beta3/migration.php:76
 #: upgrades/2.9.0alpha1/tables.php:48 upgrades/2.9.0alpha1/tables.php:64
 #: ../core/install.php:250 ../core/install.php:267 ../core/install.php:283
-#: ../core/install.php:527 ../core/install.php:543 ../core/install.php:934
-#: ../core/install.php:950
+#: ../core/install.php:527 ../core/install.php:543 ../core/install.php:960
+#: ../core/install.php:976
 #, fuzzy
 msgid "added"
 msgstr "adicionado"
@@ -8297,8 +8347,8 @@ msgstr "já feito"
 #: upgrades/2.8.0alpha2/tables.php:172 upgrades/2.9.0alpha1/tables.php:50
 #: upgrades/2.9.0alpha1/tables.php:66 ../core/install.php:253
 #: ../core/install.php:270 ../core/install.php:286 ../core/install.php:510
-#: ../core/install.php:529 ../core/install.php:545 ../core/install.php:937
-#: ../core/install.php:953
+#: ../core/install.php:529 ../core/install.php:545 ../core/install.php:963
+#: ../core/install.php:979
 msgid "already exists"
 msgstr "já existe"
 
@@ -8317,7 +8367,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:164
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2861
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2862
 #, fuzzy
 msgid "altered"
 msgstr "alterado"
@@ -8368,7 +8418,7 @@ msgstr ""
 msgid "checking %s .."
 msgstr "verificando %s.."
 
-#: ../core/install.php:940
+#: ../core/install.php:966
 msgid "checking for continue field in trunks.."
 msgstr ""
 
@@ -8376,7 +8426,7 @@ msgstr ""
 msgid "checking for delay_answer field .."
 msgstr ""
 
-#: ../core/install.php:924
+#: ../core/install.php:950
 msgid "checking for dest field in outbound_routes.."
 msgstr ""
 
@@ -8425,7 +8475,7 @@ msgstr "confirmar email"
 msgid "continuing.."
 msgstr "continuando.."
 
-#: ../core/install.php:970
+#: ../core/install.php:996
 msgid "could not delete"
 msgstr ""
 
@@ -8445,7 +8495,7 @@ msgstr "criado %s"
 msgid "custom modifications, details at:"
 msgstr "modificações personalizadas, detalhes:"
 
-#: ../core/install.php:1018
+#: ../core/install.php:1044
 msgid "dahdi table not empty, can't migrate zap data there"
 msgstr ""
 
@@ -8459,17 +8509,17 @@ msgstr "por omissão"
 msgid "deleted"
 msgstr "apagado"
 
-#: ../core/install.php:965
+#: ../core/install.php:991
 msgid "deleting ALLOW_SIP_ANON from globals.."
 msgstr "apagando ALLOW_SIP_ANON das globals.."
 
-#: ../core/install.php:915
+#: ../core/install.php:941
 msgid "deleting obsoleted record_in and record_out entries.."
 msgstr "apagando entradas record_in e record_out obsoletas.."
 
 #: install.php:90 install.php:101 install.php:111
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:495
-#: ../core/install.php:882 ../core/install.php:968
+#: ../core/install.php:908 ../core/install.php:994
 msgid "done"
 msgstr "terminado"
 
@@ -8490,7 +8540,7 @@ msgstr "eliminando tabela trunks_dialpatterns antiga.."
 msgid "email address"
 msgstr "endereço email"
 
-#: ../core/install.php:1015
+#: ../core/install.php:1041
 msgid ""
 "error checking dahdi table size to determine if zap table contents can be "
 "migrated"
@@ -8500,19 +8550,19 @@ msgstr ""
 msgid "error could not move it"
 msgstr ""
 
-#: ../core/install.php:1010 ../core/install.php:1029
+#: ../core/install.php:1036 ../core/install.php:1055
 msgid "error dropping table"
 msgstr "erro eliminando tabela"
 
-#: ../core/install.php:1054
+#: ../core/install.php:1080
 msgid "error migrating table"
 msgstr "erro migrando tabela"
 
-#: ../core/install.php:1066
+#: ../core/install.php:1092
 msgid "error occured"
 msgstr "ocorreu um erro"
 
-#: ../core/install.php:1050
+#: ../core/install.php:1076
 msgid "error occured updating devices table"
 msgstr "ocorreu erro atualizando tabela de dispositivos"
 
@@ -8550,8 +8600,8 @@ msgstr "falha lendo %s, ficheiro não removido"
 msgid "failed to delete %s from cache directory after opening module archive."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2178
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2184
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2179
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2185
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr ""
@@ -8576,7 +8626,7 @@ msgstr "erro fatal apagando linhas de freepbx_settings, query sql: %s"
 msgid "fatal error reading freepbx_settings"
 msgstr "erro fatal lendo freepbx_settings"
 
-#: ../core/install.php:931 ../core/install.php:947
+#: ../core/install.php:957 ../core/install.php:973
 msgid "fatal error trying to add field"
 msgstr "erro fatal tentando adicionar campo"
 
@@ -8592,10 +8642,6 @@ msgstr "campo pode ser deixado em branco"
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr "ficheiro/diretório: %s removido com sucesso"
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2925
-msgid "files"
-msgstr "ficheiros"
 
 #: install.php:14
 #, php-format
@@ -8781,7 +8827,7 @@ msgid ""
 "setting value [%s], error msg if supplied [%s]"
 msgstr ""
 
-#: ../core/install.php:1074
+#: ../core/install.php:1100
 msgid "migrated username column to allow for longer usernames"
 msgstr ""
 
@@ -8794,7 +8840,7 @@ msgstr ""
 msgid "migrating rules.."
 msgstr "migrando regras.."
 
-#: ../core/install.php:1020
+#: ../core/install.php:1046
 msgid "migrating zap table contents to dahdi table.."
 msgstr "migrando conteúdo da tabela zap para a tabela dahdi.."
 
@@ -8827,10 +8873,6 @@ msgstr ""
 msgid "module.sig check failed! %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2927
-msgid "modules"
-msgstr "módulos"
-
 #: amp_conf/htdocs/admin/page.modules.php:779
 msgid "needs to be upgraded"
 msgstr "necessita ser atualizado"
@@ -8853,7 +8895,7 @@ msgstr ""
 
 #: upgrades/2.6.0beta1/tables.php:319 upgrades/2.8.0/custom-context.php:109
 #: upgrades/2.8.0rc1/custom-context.php:110 ../core/install.php:235
-#: ../core/install.php:497 ../core/install.php:841 ../core/install.php:911
+#: ../core/install.php:497 ../core/install.php:867 ../core/install.php:937
 msgid "not needed"
 msgstr "não é necessário"
 
@@ -8865,9 +8907,9 @@ msgstr "não está presente"
 #: upgrades/2.8.0/modules-conf.php:58 upgrades/2.8.0alpha2/tables.php:112
 #: upgrades/2.8.0alpha2/tables.php:119
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:77
-#: upgrades/2.9.0alpha1/migrate_ampconf.php:157 ../core/install.php:893
-#: ../core/install.php:920 ../core/install.php:992 ../core/install.php:1008
-#: ../core/install.php:1023 ../core/install.php:1027 ../core/install.php:1064
+#: upgrades/2.9.0alpha1/migrate_ampconf.php:157 ../core/install.php:919
+#: ../core/install.php:946 ../core/install.php:1018 ../core/install.php:1034
+#: ../core/install.php:1049 ../core/install.php:1053 ../core/install.php:1090
 msgid "ok"
 msgstr ""
 
@@ -8890,11 +8932,11 @@ msgstr "prefixo"
 msgid "prefix:"
 msgstr "prefixo:"
 
-#: ../core/install.php:833
+#: ../core/install.php:859
 msgid "preparing"
 msgstr "preparando"
 
-#: ../core/install.php:1041
+#: ../core/install.php:1067
 #, php-format
 msgid "preparing device %s dial to %s"
 msgstr "preparando no dispositivo %s marcação para %s"
@@ -8946,17 +8988,21 @@ msgstr ""
 msgid "removing rtp.conf it will be symlinked from core"
 msgstr ""
 
-#: ../core/install.php:1005 ../core/install.php:1024
+#: ../core/install.php:1031 ../core/install.php:1050
 msgid "removing zap table.."
 msgstr "removendo tabela zap.."
 
-#: ../core/install.php:989
+#: ../core/install.php:1015
 msgid "renaming table zapchandids to dahdichandids.."
 msgstr "renomeando tabela zapchandids para dahdichandids.."
 
 #: amp_conf/htdocs/admin/functions.inc.php:375
 #: amp_conf/htdocs/admin/functions.inc.php:383
 msgid "retrieve_conf failed, config not applied"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2926
+msgid "revoked"
 msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:11
@@ -8986,6 +9032,10 @@ msgstr "definindo AMP_ACCESS_DB_CREDS como verdadeiro"
 msgid "starting migration"
 msgstr "iniciando migração"
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2924
+msgid "tampered"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:440
 msgid ""
 "this file must be done via the Web GUI. There are alternative files to make"
@@ -9004,6 +9054,10 @@ msgstr ""
 msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2925
+msgid "unknown"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1131
 #, php-format
 msgid "unknown type: [%s]"
@@ -9015,15 +9069,20 @@ msgid "unrecognized rule: %s discarding"
 msgstr "regra irreconhecível: %s descartando"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:135
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2923
 msgid "unsigned"
 msgstr "não assinado"
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2922
+msgid "untrusted"
+msgstr ""
 
 #: ../core/install.php:233
 #, php-format
 msgid "updated %s callgroups, %s pickupgroups"
 msgstr "atualizados %s grupos de chamada, %s grupos de atendimento"
 
-#: ../core/install.php:911
+#: ../core/install.php:937
 #, php-format
 msgid "updated %s records"
 msgstr "atualizados %s registos"
@@ -9032,7 +9091,7 @@ msgstr "atualizados %s registos"
 msgid "updating zap callgroup, pickupgroup.."
 msgstr ""
 
-#: ../core/install.php:1061
+#: ../core/install.php:1087
 msgid "upgrading any zap trunks to dahdi if found"
 msgstr ""
 
@@ -9086,9 +9145,19 @@ msgid ""
 "manually"
 msgstr ""
 
-#: ../core/install.php:1048
+#: ../core/install.php:1074
 msgid "zap devices migrated"
 msgstr "migrados dispositivos zap"
+
+#, fuzzy
+#~ msgid "You have %s %s %s"
+#~ msgstr "Você tem %s %s %s"
+
+#~ msgid "files"
+#~ msgstr "ficheiros"
+
+#~ msgid "modules"
+#~ msgstr "módulos"
 
 #~ msgid "Add Custom Trunk"
 #~ msgstr "Adicionar um canal personalizado"
