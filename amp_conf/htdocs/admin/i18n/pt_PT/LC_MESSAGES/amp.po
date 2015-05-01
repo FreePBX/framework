@@ -389,6 +389,11 @@ msgstr "%s: Disponíveis Novas Atualizações Online (%s)"
 msgid "%s: New Security Notifications (%s)"
 msgstr "%s: Novas Notificações de Segurança (%s)"
 
+#: amp_conf/bin/freepbx-cron-scheduler.php:74
+#, php-format
+msgid "%s: New Unsigned Modules Notifications (%s)"
+msgstr ""
+
 #: install.php:13
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
@@ -740,6 +745,14 @@ msgstr ""
 msgid "Added pmmaxretries and pmminlength"
 msgstr ""
 
+#: ../core/install.php:571
+msgid "Adding index to extensions field in the users"
+msgstr ""
+
+#: ../core/install.php:558
+msgid "Adding index to tech field in the devices"
+msgstr ""
+
 #: ../core/page.routing.php:528
 msgid "Additional Settings"
 msgstr "Configurações Suplementares"
@@ -917,6 +930,11 @@ msgstr "Falhou tentativa de envio das atualizações online para o email: %s"
 #, php-format
 msgid "An attempt to send email to: %s with security notifications failed"
 msgstr "Falhou tentativa de envio de notificações de segurança para o email: %s"
+
+#: amp_conf/bin/freepbx-cron-scheduler.php:77
+#, php-format
+msgid "An attempt to send email to: %s with unsigned modules notifications failed"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:209
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:225
@@ -3215,6 +3233,10 @@ msgstr "Falha no envio de email de atualização online"
 #: amp_conf/bin/freepbx-cron-scheduler.php:102
 msgid "Failed to send security notification email"
 msgstr "Falha no envio de mail com notificação de segurança"
+
+#: amp_conf/bin/freepbx-cron-scheduler.php:77
+msgid "Failed to send unsigned modules notification email"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1587
 msgid "Failed to write file to disk"
@@ -6854,6 +6876,10 @@ msgstr ""
 msgid "UDP Only"
 msgstr ""
 
+#: amp_conf/bin/freepbx-cron-scheduler.php:64
+msgid "UNSIGNED MODULES NOTICE:"
+msgstr ""
+
 #: amp_conf/bin/freepbx-cron-scheduler.php:113
 msgid "UPDATE NOTICE:"
 msgstr "AVISO DE ATUALIZAÇÃO:"
@@ -6880,6 +6906,14 @@ msgstr ""
 
 #: ../core/views/trunks/sip.php:37
 msgid "USER Details"
+msgstr ""
+
+#: ../core/install.php:568
+msgid "Unable to add index to extensions field in users"
+msgstr ""
+
+#: ../core/install.php:555
+msgid "Unable to add index to tech field in devices"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1339
@@ -7008,6 +7042,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Unlock.class.php:14
 msgid "Unlock Session"
+msgstr ""
+
+#: amp_conf/htdocs/admin/config.php:486
+msgid "Unsigned Module(s)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:946
@@ -7628,6 +7666,11 @@ msgstr ""
 msgid "You have %s %s %s"
 msgstr "Você tem %s %s %s"
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2953
+#, php-format
+msgid "You have %s %s modules"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2442
 #, php-format
 msgid "You have %s broken modules"
@@ -7637,6 +7680,17 @@ msgstr "Você tem %s módulos quebrados"
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "Você tem %s módulos inativos"
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2950
+#, php-format
+msgid "You have %s tampered files"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2940
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+#, php-format
+msgid "You have %s unsigned modules"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2442
 msgid "You have a broken module"
@@ -8480,6 +8534,10 @@ msgstr "renomeando tabela zapchandids para dahdichandids.."
 msgid "retrieve_conf failed, config not applied"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2926
+msgid "revoked"
+msgstr ""
+
 #: ../core/views/trunks/trunk_header.php:11
 msgid "route"
 msgstr "rota"
@@ -8504,6 +8562,10 @@ msgstr ""
 msgid "starting migration"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2924
+msgid "tampered"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:441
 msgid "this file must be done via the Web GUI. There are alternative files to make"
 msgstr ""
@@ -8521,6 +8583,10 @@ msgstr ""
 msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2925
+msgid "unknown"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1131
 #, php-format
 msgid "unknown type: [%s]"
@@ -8535,6 +8601,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2923
 msgid "unsigned"
 msgstr "não assinado"
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2922
+msgid "untrusted"
+msgstr ""
 
 #: ../core/install.php:233
 #, php-format
@@ -8603,76 +8673,6 @@ msgstr ""
 #: ../core/install.php:1074
 msgid "zap devices migrated"
 msgstr "migrados dispositivos zap"
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:74
-#, php-format
-msgid "%s: New Unsigned Modules Notifications (%s)"
-msgstr ""
-
-#: ../core/install.php:571
-msgid "Adding index to extensions field in the users"
-msgstr ""
-
-#: ../core/install.php:558
-msgid "Adding index to tech field in the devices"
-msgstr ""
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:77
-#, php-format
-msgid "An attempt to send email to: %s with unsigned modules notifications failed"
-msgstr ""
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:77
-msgid "Failed to send unsigned modules notification email"
-msgstr ""
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:64
-msgid "UNSIGNED MODULES NOTICE:"
-msgstr ""
-
-#: ../core/install.php:568
-msgid "Unable to add index to extensions field in users"
-msgstr ""
-
-#: ../core/install.php:555
-msgid "Unable to add index to tech field in devices"
-msgstr ""
-
-#: amp_conf/htdocs/admin/config.php:486
-msgid "Unsigned Module(s)"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2953
-#, php-format
-msgid "You have %s %s modules"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2950
-#, php-format
-msgid "You have %s tampered files"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2940
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
-#, php-format
-msgid "You have %s unsigned modules"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2926
-msgid "revoked"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2924
-msgid "tampered"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2925
-msgid "unknown"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2922
-msgid "untrusted"
-msgstr ""
 
 #~ msgid "files"
 #~ msgstr "ficheiros"

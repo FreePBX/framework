@@ -398,6 +398,11 @@ msgstr ""
 msgid "%s: New Security Notifications (%s)"
 msgstr ""
 
+#: amp_conf/bin/freepbx-cron-scheduler.php:74
+#, php-format
+msgid "%s: New Unsigned Modules Notifications (%s)"
+msgstr ""
+
 #: install.php:14
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
@@ -709,6 +714,14 @@ msgstr ""
 msgid "Added pmmaxretries and pmminlength"
 msgstr ""
 
+#: ../core/install.php:571
+msgid "Adding index to extensions field in the users"
+msgstr ""
+
+#: ../core/install.php:558
+msgid "Adding index to tech field in the devices"
+msgstr ""
+
 #: ../core/views/routing/form.php:46
 msgid "Additional Settings"
 msgstr "额外设置"
@@ -881,6 +894,11 @@ msgstr ""
 #: amp_conf/bin/freepbx-cron-scheduler.php:74
 #, php-format
 msgid "An attempt to send email to: %s with security notifications failed"
+msgstr ""
+
+#: amp_conf/bin/freepbx-cron-scheduler.php:77
+#, php-format
+msgid "An attempt to send email to: %s with unsigned modules notifications failed"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:209
@@ -3115,6 +3133,10 @@ msgstr ""
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:74
 msgid "Failed to send security notification email"
+msgstr ""
+
+#: amp_conf/bin/freepbx-cron-scheduler.php:77
+msgid "Failed to send unsigned modules notification email"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1637
@@ -6605,6 +6627,10 @@ msgstr ""
 msgid "UDP Only"
 msgstr "仅UDP"
 
+#: amp_conf/bin/freepbx-cron-scheduler.php:64
+msgid "UNSIGNED MODULES NOTICE:"
+msgstr ""
+
 #: amp_conf/bin/freepbx-cron-scheduler.php:85
 msgid "UPDATE NOTICE:"
 msgstr ""
@@ -6632,6 +6658,14 @@ msgstr "用户上下文"
 #: ../core/views/trunks/sip.php:96
 msgid "USER Details"
 msgstr "用户详细信息"
+
+#: ../core/install.php:568
+msgid "Unable to add index to extensions field in users"
+msgstr ""
+
+#: ../core/install.php:555
+msgid "Unable to add index to tech field in devices"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1373
 #, php-format
@@ -6759,6 +6793,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Unlock.class.php:14
 msgid "Unlock Session"
+msgstr ""
+
+#: amp_conf/htdocs/admin/config.php:486
+msgid "Unsigned Module(s)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:997
@@ -7359,6 +7397,11 @@ msgstr "你可以从本地系统上传包含了一个FreePBX模块的tar+gzip文
 msgid "You have %s %s %s"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2953
+#, php-format
+msgid "You have %s %s modules"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2505
 #, php-format
 msgid "You have %s broken modules"
@@ -7368,6 +7411,17 @@ msgstr "有 %s 个损坏的模块"
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "已禁用 %s 个模块"
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2950
+#, php-format
+msgid "You have %s tampered files"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2940
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+#, php-format
+msgid "You have %s unsigned modules"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2505
 msgid "You have a broken module"
@@ -8187,6 +8241,10 @@ msgstr ""
 msgid "retrieve_conf failed, config not applied"
 msgstr "retrieve_conf 函数执行失败，配置未生效"
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2926
+msgid "revoked"
+msgstr ""
+
 #: ../core/views/trunks/trunk_header.php:7
 msgid "route"
 msgstr "线路"
@@ -8211,6 +8269,10 @@ msgstr ""
 msgid "starting migration"
 msgstr "开始转移"
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2924
+msgid "tampered"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:441
 msgid "this file must be done via the Web GUI. There are alternative files to make"
 msgstr ""
@@ -8228,6 +8290,10 @@ msgstr ""
 msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2925
+msgid "unknown"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1139
 #, php-format
 msgid "unknown type: [%s]"
@@ -8240,6 +8306,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:136
 msgid "unsigned"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2922
+msgid "untrusted"
 msgstr ""
 
 #: ../core/install.php:233
@@ -8303,76 +8373,6 @@ msgstr ""
 
 #: ../core/install.php:1047
 msgid "zap devices migrated"
-msgstr ""
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:74
-#, php-format
-msgid "%s: New Unsigned Modules Notifications (%s)"
-msgstr ""
-
-#: ../core/install.php:571
-msgid "Adding index to extensions field in the users"
-msgstr ""
-
-#: ../core/install.php:558
-msgid "Adding index to tech field in the devices"
-msgstr ""
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:77
-#, php-format
-msgid "An attempt to send email to: %s with unsigned modules notifications failed"
-msgstr ""
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:77
-msgid "Failed to send unsigned modules notification email"
-msgstr ""
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:64
-msgid "UNSIGNED MODULES NOTICE:"
-msgstr ""
-
-#: ../core/install.php:568
-msgid "Unable to add index to extensions field in users"
-msgstr ""
-
-#: ../core/install.php:555
-msgid "Unable to add index to tech field in devices"
-msgstr ""
-
-#: amp_conf/htdocs/admin/config.php:486
-msgid "Unsigned Module(s)"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2953
-#, php-format
-msgid "You have %s %s modules"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2950
-#, php-format
-msgid "You have %s tampered files"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2940
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
-#, php-format
-msgid "You have %s unsigned modules"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2926
-msgid "revoked"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2924
-msgid "tampered"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2925
-msgid "unknown"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2922
-msgid "untrusted"
 msgstr ""
 
 #~ msgid " (toggle sort)"

@@ -1,3 +1,18 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-01 12:48-0400\n"
+"PO-Revision-Date: 2015-04-23 06:32+0200\n"
+"Last-Translator: Ernesto <ecasas@sangoma.com>\n"
+"Language-Team: Spanish <http://weblate.freepbx.org/projects/freepbx/framework/es_ES/>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: es_ES\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.2-dev\n"
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:620
 msgid "\tCould not find signed module on remote server!"
 msgstr ""
@@ -369,6 +384,11 @@ msgstr "%s: Actualizaciones Nuevas Disponible en línea (%s)"
 msgid "%s: New Security Notifications (%s)"
 msgstr "%s: Notificaciones Nueva Seguridad (%s)"
 
+#: amp_conf/bin/freepbx-cron-scheduler.php:74
+#, php-format
+msgid "%s: New Unsigned Modules Notifications (%s)"
+msgstr ""
+
 #: install.php:13
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
@@ -720,6 +740,14 @@ msgstr ""
 msgid "Added pmmaxretries and pmminlength"
 msgstr ""
 
+#: ../core/install.php:571
+msgid "Adding index to extensions field in the users"
+msgstr ""
+
+#: ../core/install.php:558
+msgid "Adding index to tech field in the devices"
+msgstr ""
+
 #: ../core/page.routing.php:528
 msgid "Additional Settings"
 msgstr "Ajustes Adicionales"
@@ -896,6 +924,11 @@ msgstr "Un intento de enviar un correo electrónico a: %s con el estado de actua
 #, php-format
 msgid "An attempt to send email to: %s with security notifications failed"
 msgstr "Un intento de enviar un correo electrónico a: %s con las notificaciones de seguridad fracasó"
+
+#: amp_conf/bin/freepbx-cron-scheduler.php:77
+#, php-format
+msgid "An attempt to send email to: %s with unsigned modules notifications failed"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:209
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:225
@@ -3190,6 +3223,10 @@ msgstr "Error al enviar el email de actualización online"
 #: amp_conf/bin/freepbx-cron-scheduler.php:102
 msgid "Failed to send security notification email"
 msgstr "Error al enviar el email de notificación de seguridad"
+
+#: amp_conf/bin/freepbx-cron-scheduler.php:77
+msgid "Failed to send unsigned modules notification email"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1587
 msgid "Failed to write file to disk"
@@ -6824,6 +6861,10 @@ msgstr ""
 msgid "UDP Only"
 msgstr ""
 
+#: amp_conf/bin/freepbx-cron-scheduler.php:64
+msgid "UNSIGNED MODULES NOTICE:"
+msgstr ""
+
 #: amp_conf/bin/freepbx-cron-scheduler.php:113
 msgid "UPDATE NOTICE:"
 msgstr "AVISO ACTUALIZACIÓN:"
@@ -6850,6 +6891,14 @@ msgstr ""
 
 #: ../core/views/trunks/sip.php:37
 msgid "USER Details"
+msgstr ""
+
+#: ../core/install.php:568
+msgid "Unable to add index to extensions field in users"
+msgstr ""
+
+#: ../core/install.php:555
+msgid "Unable to add index to tech field in devices"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1339
@@ -6978,6 +7027,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Unlock.class.php:14
 msgid "Unlock Session"
+msgstr ""
+
+#: amp_conf/htdocs/admin/config.php:486
+msgid "Unsigned Module(s)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:946
@@ -7597,6 +7650,11 @@ msgstr ""
 msgid "You can upload a tar gzip file containing a FreePBX module from your local system. If a module with the same name already exists, it will be overwritten."
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2953
+#, php-format
+msgid "You have %s %s modules"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2442
 #, php-format
 msgid "You have %s broken modules"
@@ -7606,6 +7664,17 @@ msgstr "Usted tiene  %s módulos rotos"
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "Usted tiene %s módulos deshabilitados"
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2950
+#, php-format
+msgid "You have %s tampered files"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2940
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+#, php-format
+msgid "You have %s unsigned modules"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2442
 msgid "You have a broken module"
@@ -8448,6 +8517,10 @@ msgstr "cambiando de nombre de tabla zapchandids para  dahdichandids.."
 msgid "retrieve_conf failed, config not applied"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2926
+msgid "revoked"
+msgstr ""
+
 #: ../core/views/trunks/trunk_header.php:11
 msgid "route"
 msgstr "ruta"
@@ -8472,6 +8545,10 @@ msgstr ""
 msgid "starting migration"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2924
+msgid "tampered"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:440
 msgid "this file must be done via the Web GUI. There are alternative files to make"
 msgstr "este archivo se debe hacer a través de la GUI Web. Hay archivos alternativos para hacer"
@@ -8489,6 +8566,10 @@ msgstr ""
 msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2925
+msgid "unknown"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1131
 #, php-format
 msgid "unknown type: [%s]"
@@ -8503,6 +8584,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2923
 msgid "unsigned"
 msgstr "no firmado"
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2922
+msgid "untrusted"
+msgstr ""
 
 #: ../core/install.php:233
 #, php-format
@@ -8571,91 +8656,6 @@ msgstr ""
 #: ../core/install.php:1074
 msgid "zap devices migrated"
 msgstr "dispositivos zap migrados"
-
-msgid ""
-msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-01 12:48-0400\n"
-"PO-Revision-Date: 2015-04-23 06:32+0200\n"
-"Last-Translator: Ernesto <ecasas@sangoma.com>\n"
-"Language-Team: Spanish <http://weblate.freepbx.org/projects/freepbx/framework/es_ES/>\n"
-"MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
-"Language: es_ES\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.2-dev\n"
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:74
-#, php-format
-msgid "%s: New Unsigned Modules Notifications (%s)"
-msgstr ""
-
-#: ../core/install.php:571
-msgid "Adding index to extensions field in the users"
-msgstr ""
-
-#: ../core/install.php:558
-msgid "Adding index to tech field in the devices"
-msgstr ""
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:77
-#, php-format
-msgid "An attempt to send email to: %s with unsigned modules notifications failed"
-msgstr ""
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:77
-msgid "Failed to send unsigned modules notification email"
-msgstr ""
-
-#: amp_conf/bin/freepbx-cron-scheduler.php:64
-msgid "UNSIGNED MODULES NOTICE:"
-msgstr ""
-
-#: ../core/install.php:568
-msgid "Unable to add index to extensions field in users"
-msgstr ""
-
-#: ../core/install.php:555
-msgid "Unable to add index to tech field in devices"
-msgstr ""
-
-#: amp_conf/htdocs/admin/config.php:486
-msgid "Unsigned Module(s)"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2953
-#, php-format
-msgid "You have %s %s modules"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2950
-#, php-format
-msgid "You have %s tampered files"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2940
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
-#, php-format
-msgid "You have %s unsigned modules"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2926
-msgid "revoked"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2924
-msgid "tampered"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2925
-msgid "unknown"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2922
-msgid "untrusted"
-msgstr ""
 
 #~ msgid "You have %s %s %s"
 #~ msgstr "Usted tiene  %s %s %s"

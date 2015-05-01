@@ -2992,7 +2992,6 @@ class module_functions {
 		$nt = notifications::create();
 		foreach($statuses as $type => $name) {
 			if(!empty($modules['statuses'][$type]) && FreePBX::Config()->get('SIGNATURECHECK')) {
-				$nt->delete('freepbx', 'FW_'.strtoupper($type));
 				switch($type) {
 					case 'unsigned':
 						//TODO: check the hash
@@ -3004,7 +3003,6 @@ class module_functions {
 							$nt->add_signature_unsigned('freepbx', 'FW_'.strtoupper($type), sprintf(_('You have %s unsigned modules'),count($modules['statuses'][$type])), implode("<br>",$modules['statuses'][$type]),'',true,true);
 							sql("INSERT INTO admin (variable, value) VALUE ('unsigned', '$hash')");
 						} elseif($o['value'] != $hash) {
-							dbug("updating hash");
 							$nt->add_signature_unsigned('freepbx', 'FW_'.strtoupper($type), sprintf(_('You have %s unsigned modules'),count($modules['statuses'][$type])), implode("<br>",$modules['statuses'][$type]),'',true,true);
 							$sth = FreePBX::Database()->prepare("UPDATE admin SET value = ? WHERE variable = 'unsigned'");
 							$sth->execute(array($hash));
