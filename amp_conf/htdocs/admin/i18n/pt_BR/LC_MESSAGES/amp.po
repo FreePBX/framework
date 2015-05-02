@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-05-01 16:52-0400\n"
-"PO-Revision-Date: 2015-05-02 04:38+0200\n"
+"PO-Revision-Date: 2015-05-02 05:55+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -1175,10 +1175,18 @@ msgid ""
 "authentication to happen at the apache level, but will take the user "
 "credentials and apply any restrictions as if it were in database mode."
 msgstr ""
+"Tipo de autenticação a usar para administração web. Se o tipo definido para "
+"<b>banco de dados</b>, as credenciais admin AMP primárias serão AMPDBUSER/"
+"AMPDBPASS acima. Quando usar banco de dados você pode criar usuários que são "
+"restritos a apenas certas páginas de módulos. Quando definido como nenhum, "
+"você deve estar certo de fornecer segurança à nível apache. Quando definido "
+"para servidor web, o FreePBX esperará a que a autenticação aconteça a nível "
+"de apache, mas tomará as credenciais do usuário e aplicará qualquer "
+"restrição como se estivesse em modo banco de dados."
 
 #: amp.i18n.php:586
 msgid "Authorization Type"
-msgstr ""
+msgstr "Tipo de Autorização"
 
 #: ../core/page.ampusers.php:161
 msgid ""
@@ -1187,28 +1195,34 @@ msgid ""
 "passwords here or adding users will have no effect unless Authorization Type "
 "is set to 'database'."
 msgstr ""
+"Tipo de Autorização não está definido para 'banco de dados' nas "
+"Configurações Avançadas - note que este módulo não fornecendo controle de "
+"acesso atualmente e mudar senhas aqui ou adicionar usuários não terá nenhum "
+"efeito a menos que Tipo de Autorização esteja definido para 'banco de dados'."
 
 #: ../core/functions.inc.php:6969 ../core/functions.inc.php:7015
 msgid "Auto"
-msgstr ""
+msgstr "Auto"
 
 #: amp_conf/htdocs/admin/functions.inc.php:225
 msgid ""
 "Auto set ZAP2DAHDICOMPAT to true because we are running a version of "
 "Asterisk greater than 1.4.21"
 msgstr ""
+"Auto definir ZAP2DAHDICOMPACT para verdadeiro porque estamos rodando a "
+"versão do Asterisk maior que 1.4.21"
 
 #: ../core/functions.inc.php:7082
 msgid "Automatic Force Both - (auto_force_rport,auto_comedia)"
-msgstr ""
+msgstr "Forçar Ambos Automático - (auto_force_rport,auto_comedia)"
 
 #: ../core/functions.inc.php:7083
 msgid "Automatic Force rport - (auto_force_rport)"
-msgstr ""
+msgstr "Forçar rport Automático - (auto_force_rport)"
 
 #: ../core/functions.inc.php:7084
 msgid "Automatic comedia - (auto_comedia)"
-msgstr ""
+msgstr "Comedia Automático - (auto_comedia)"
 
 #: amp.i18n.php:138
 msgid ""
@@ -1217,19 +1231,23 @@ msgid ""
 "POST_RELOAD_DEBUG=true, you will see the output of the script in the web "
 "page."
 msgstr ""
+"Automaticamente executar um script após aplicar mudanças no admin AMP. "
+"Definir PORT_RELOAD para o script que você desejar executar após aplicar as "
+"mudanças. Se POST_RELOAD_DEBUG=verdadeiro, você verá a saída do script na "
+"página web."
 
 #: ../core/page.routing.php:513
 #, php-format
 msgid "Before %s"
-msgstr ""
+msgstr "Antes de %s"
 
 #: amp.i18n.php:216
 msgid "Block CNAM on External Trunks"
-msgstr ""
+msgstr "Bloquear CNAM em Troncos Externos"
 
 #: ../core/views/trunks/trunk_header.php:71
 msgid "Block Foreign CIDs"
-msgstr ""
+msgstr "Bloquear CIDs Estrangeiros"
 
 #: amp_conf/htdocs/admin/page.modules.php:733
 #: amp_conf/htdocs/admin/views/module_admin/main.php:98
@@ -1238,11 +1256,11 @@ msgstr "Quebrado"
 
 #: amp.i18n.php:602
 msgid "Browser Stats"
-msgstr ""
+msgstr "Estat. Navegador"
 
 #: amp_conf/htdocs/admin/views/menu.php:154
 msgid "Bulgarian"
-msgstr ""
+msgstr "Búlgaro"
 
 #: ../core/functions.inc.php:849 ../core/functions.inc.php:6733
 msgid "Busy"
@@ -1250,29 +1268,29 @@ msgstr "Ocupado"
 
 #: ../core/functions.inc.php:6732
 msgid "Busy Voicemail if Enabled"
-msgstr ""
+msgstr "Correio de Voz Ocupado se Habilitado"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:73
 #: amp_conf/htdocs/admin/views/module_admin/main.php:220
 msgid "Buy"
-msgstr ""
+msgstr "Comprar"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:345
 #, php-format
 msgid "CA %s Doesn't exist"
-msgstr ""
+msgstr "CA %s Não existe"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:135
 msgid "CA certificate already exists, reusing"
-msgstr ""
+msgstr "Certificado CA já existe, reusando"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:120
 msgid "CA key already exists, reusing"
-msgstr ""
+msgstr "Chave CA já existe, reusando"
 
 #: amp.i18n.php:366
 msgid "CGI Dir"
-msgstr ""
+msgstr "Dir CGI"
 
 #: ../core/functions.inc.php:6597
 msgid "CID Num Alias"
@@ -1280,12 +1298,12 @@ msgstr "Pseudo CID Num"
 
 #: ../core/views/trunks/trunk_header.php:64
 msgid "CID Options"
-msgstr ""
+msgstr "Opções CID"
 
 #: ../core/functions.inc.php:6725 ../core/functions.inc.php:6734
 #: ../core/functions.inc.php:6739
 msgid "CID Prefix"
-msgstr ""
+msgstr "Prefixo CID"
 
 #: ../core/page.did.php:206
 msgid "CID Priority Route"
@@ -1297,35 +1315,35 @@ msgstr "Nome do prefix CID"
 
 #: ../core/install.php:1020
 msgid "CRITICAL ERROR"
-msgstr ""
+msgstr "ERRO CRÍTICO"
 
 #: amp.i18n.php:240
 msgid "CW Enabled by Default"
-msgstr ""
+msgstr "CW Habilitado por Padrão"
 
 #: ../core/functions.inc.php:6643
 msgid "Call Forward Ring Time"
-msgstr ""
+msgstr "Tempo de Toque Encam. Chamada"
 
 #: amp.i18n.php:220
 msgid "Call Forward Ringtimer Default"
-msgstr ""
+msgstr "Tempo de Toque Padrão Encam. Chamada"
 
 #: ../core/functions.inc.php:7150
 msgid "Call Groups"
-msgstr ""
+msgstr "Grupos de Chamada"
 
 #: amp.i18n.php:606
 msgid "Call Recording Format"
-msgstr ""
+msgstr "Formato Gravação de Chamada"
 
 #: ../core/functions.inc.php:1045
 msgid "Call Recording Module Not Enabled"
-msgstr ""
+msgstr "Módulo Gravação de Chamada Não Habilitado"
 
 #: amp.i18n.php:224
 msgid "Call Recording Policy"
-msgstr ""
+msgstr "Política Gravação de Chamada"
 
 #: amp.i18n.php:226
 msgid ""
