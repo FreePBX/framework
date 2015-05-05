@@ -93,7 +93,7 @@ class GuiHooks {
 			// Unable to find the module.
 			return false;
 		}
-		\modgettext::push_textdomain(strtolower($mod));
+		\modgettext::push_textdomain(strtolower($moduleToCall));
 
 		// Now, does the hook actually exist?
 		if (!method_exists($moduleToCall, "doGuiHook"))

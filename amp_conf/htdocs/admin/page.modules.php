@@ -661,8 +661,27 @@ switch ($action) {
 	break;
 	case 'online':
 	default:
-
-		uasort($modules, 'category_sort_callback');
+		uasort($modules, function($a, $b) {
+			if (!isset($a['category']) || !isset($b['category'])) {
+				if (!isset($a['name']) || !isset($b['name'])) {
+					return 0;
+				} else {
+					return strcmp($a['name'], $b['name']);
+				}
+			}
+			// sort by category..
+			$catcomp = strcmp($a['category'], $b['category']);
+			if ($catcomp == 0) {
+				// .. then by name
+				return strcmp($a['name'], $b['name']);
+			} elseif ($a['category'] == 'Basic') {
+					return -1;
+			} elseif ($b['category'] == 'Basic') {
+				return 1;
+			} else {
+				return $catcomp;
+			}
+		});
 
 		$local_repo_list = array();
 		$remote_repo_list = array();
@@ -959,28 +978,6 @@ if (!$quietmode) {
 //-------------------------------------------------------------------------------------------
 // Help functions
 //
-
-function category_sort_callback($a, $b) {
-	if (!isset($a['category']) || !isset($b['category'])) {
-		if (!isset($a['name']) || !isset($b['name'])) {
-			return 0;
-		} else {
-			return strcmp($a['name'], $b['name']);
-		}
-	}
-	// sort by category..
-	$catcomp = strcmp($a['category'], $b['category']);
-	if ($catcomp == 0) {
-		// .. then by name
-		return strcmp($a['name'], $b['name']);
-	} elseif ($a['category'] == 'Basic') {
-			return -1;
-	} elseif ($b['category'] == 'Basic') {
-		return 1;
-	} else {
-		return $catcomp;
-	}
-}
 
 /** preps a string to use as an HTML id element
 */

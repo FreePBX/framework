@@ -111,7 +111,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 			$target = isset($mod['target'])
 					? ' target="' . $mod['target'] . '" '  : '';
 
-			$active = ($mod['display'] == $_REQUEST['display']) ? 'active' : '';
+			$active = !empty($mod['display']) && !empty($_REQUEST['display']) && ($mod['display'] == $_REQUEST['display']) ? 'active' : '';
 			// try the module's translation domain first
 			$items[$mod['name']] = '<li><a href="' . $href . '"'
 					. $target
