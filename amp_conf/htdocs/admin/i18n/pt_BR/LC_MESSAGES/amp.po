@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-05-01 16:52-0400\n"
-"PO-Revision-Date: 2015-05-02 05:55+0200\n"
+"PO-Revision-Date: 2015-05-05 06:36+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -1351,6 +1351,9 @@ msgid ""
 "extensions when one wants a call recorded and the other does not, if both "
 "their priorities are also the same."
 msgstr ""
+"Política de Gravação de Chamada usada para resolver o ganhador em um "
+"conflito entre dois ramais quando um quer uma chamada gravada e o outro não "
+"quer, se ambas as prioridades são também as mesmas."
 
 #: ../core/functions.inc.php:6660
 msgid "Call Screening"
@@ -1368,6 +1371,16 @@ msgid ""
 "and all users on the system will have that new introduction associated with "
 "the caller's CallerID."
 msgstr ""
+"Rastreio de Chamada necessita que um chamador externo diga seu nome, o qual "
+"será reproduzido para o usuário e permitir que o usuário aceite ou rejeite a "
+"chamada. o Rastreio com memória verifica apenas um chamador por seu "
+"Identificador de Chamada uma vez. Rastreio sem memória sempre necessita que "
+"um chamador diga seu nome. Qualquer dos modos sempre anunciará o chamador "
+"com base na última apresentação salva com aquele Identificador de Chamada. "
+"Se qualquer usuário no sistema usar a opção memória, quando o usuário é "
+"chamado, o chamador será solicitado se apresentar novamente e todos os "
+"usuários no sistema terão esta nova apresentação associada ao ID de Chamada "
+"do chamador."
 
 #: ../core/functions.inc.php:6655
 msgid "Call Waiting"
@@ -1380,14 +1393,18 @@ msgid ""
 "it. The higher of the two determines the policy, on a tie the global policy "
 "(caller or callee) determines the policy."
 msgstr ""
+"A prioridade da política de gravação de chamada relativa a outros ramais "
+"quando existe um conflito entre um ramal que deseja gravação e outro que não "
+"deseja. A mais alta das duas determina a política, em um empate a política "
+"global (chamador ou chamado) determina a política."
 
 #: ../core/page.routing.php:573
 msgid "CallerID"
-msgstr ""
+msgstr "ID de Chamada"
 
 #: ../core/page.did.php:201
 msgid "CallerID Number"
-msgstr ""
+msgstr "Número ID de Chamada"
 
 #: ../core/views/trunks/trunk_header.php:55
 msgid ""
@@ -1395,10 +1412,14 @@ msgid ""
 "</b>. You can also use the format: \"hidden\" <b>&lt;#######&gt;</b> to hide "
 "the CallerID sent out over Digital lines if supported (E1/T1/J1/BRI/SIP/IAX)."
 msgstr ""
+"ID de Chamada para chamadas discadas para este tronco <br><br>Formato: "
+"<b>&lt;#######&gt;</b>. Pode ser também usado o formato: \"hidden\" "
+"<b>&lt;#######&gt;</b> para ocultar o ID de Chamada enviado para linhas "
+"Digitais se suportado (E1/T1/J1/BRI/SIP/IAX)."
 
 #: ../core/page.routing.php:563
 msgid "CallerID:"
-msgstr ""
+msgstr "ID de Chamada:"
 
 #: ../core/functions.inc.php:6859 ../core/functions.inc.php:6914
 #: ../core/functions.inc.php:7149
@@ -1406,11 +1427,13 @@ msgid ""
 "Callgroup(s) that this device is part of, can be one or more callgroups, e."
 "g. '1,3-5' would be in groups 1,3,4,5."
 msgstr ""
+"Grupo de Chamada que este dispositivo faz parte, pode ser um ou mais grupos "
+"de chamada, ex.: '1,3-5' estaria  nos grupos 1,3,4,5."
 
 #: ../core/functions.inc.php:2152
 #, php-format
 msgid "Calling Out Route: %s"
-msgstr ""
+msgstr "Chamando Rota de Saída: %s"
 
 #: ../core/functions.inc.php:7041
 msgid "Can Reinvite"
@@ -1725,7 +1748,7 @@ msgstr ""
 
 #: amp.i18n.php:710 amp_conf/htdocs/admin/views/menu.php:60
 msgid "Connectivity"
-msgstr ""
+msgstr "Conectividade"
 
 #: ../core/views/trunks/pjsip.php:116
 msgid "Contact User"
@@ -4199,7 +4222,7 @@ msgstr "NPA-NXX Inválido. Deve estar no formato 'NXX-NXX'"
 
 #: ../core/page.routing.php:929 ../core/views/trunks/trunk_footer.php:152
 msgid "Invalid Outbound CallerID"
-msgstr ""
+msgstr "ID de Chamada de Saída Inválido"
 
 #: ../core/views/trunks/trunk_footer.php:156
 msgid "Invalid Trunk Name entered"
@@ -5164,7 +5187,7 @@ msgstr "CID de Saída"
 
 #: ../core/views/trunks/trunk_header.php:55
 msgid "Outbound CallerID"
-msgstr ""
+msgstr "ID de Chamada de Saída"
 
 #: ../core/functions.inc.php:6653
 msgid "Outbound Concurrency Limit"
