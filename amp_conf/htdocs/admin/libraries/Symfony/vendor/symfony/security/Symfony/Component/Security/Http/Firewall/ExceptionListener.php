@@ -13,6 +13,7 @@ namespace Symfony\Component\Security\Http\Firewall;
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Http\Authorization\AccessDeniedHandlerInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
@@ -93,7 +94,7 @@ class ExceptionListener
             } elseif ($exception instanceof AccessDeniedException) {
                 return $this->handleAccessDeniedException($event, $exception);
             } elseif ($exception instanceof LogoutException) {
-                return $this->handleLogoutException($event, $exception);
+                return $this->handleLogoutException($exception);
             }
         } while (null !== $exception = $exception->getPrevious());
     }
@@ -146,7 +147,7 @@ class ExceptionListener
                 }
             } elseif (null !== $this->errorPage) {
                 $subRequest = $this->httpUtils->createRequest($event->getRequest(), $this->errorPage);
-                $subRequest->attributes->set(SecurityContextInterface::ACCESS_DENIED_ERROR, $exception);
+                $subRequest->attributes->set(Security::ACCESS_DENIED_ERROR, $exception);
 
                 $event->setResponse($event->getKernel()->handle($subRequest, HttpKernelInterface::SUB_REQUEST, true));
             }
@@ -159,7 +160,7 @@ class ExceptionListener
         }
     }
 
-    private function handleLogoutException(GetResponseForExceptionEvent $event, LogoutException $exception)
+    private function handleLogoutException(LogoutException $exception)
     {
         if (null !== $this->logger) {
             $this->logger->info(sprintf('Logout exception occurred; wrapping with AccessDeniedHttpException (%s)', $exception->getMessage()));
@@ -171,6 +172,7 @@ class ExceptionListener
      * @param AuthenticationException $authException
      *
      * @return Response
+     *
      * @throws AuthenticationException
      */
     private function startAuthentication(Request $request, AuthenticationException $authException)

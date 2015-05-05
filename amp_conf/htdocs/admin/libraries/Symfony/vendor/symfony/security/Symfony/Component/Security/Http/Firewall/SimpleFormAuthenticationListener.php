@@ -23,6 +23,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerI
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\SimpleFormAuthenticatorInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Http\HttpUtils;
 use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategyInterface;
@@ -74,9 +75,9 @@ class SimpleFormAuthenticationListener extends AbstractAuthenticationListener
         $options = array_merge(array(
             'username_parameter' => '_username',
             'password_parameter' => '_password',
-            'csrf_parameter'     => '_csrf_token',
-            'intention'          => 'authenticate',
-            'post_only'          => true,
+            'csrf_parameter' => '_csrf_token',
+            'intention' => 'authenticate',
+            'post_only' => true,
         ), $options);
         parent::__construct($securityContext, $authenticationManager, $sessionStrategy, $httpUtils, $providerKey, $successHandler, $failureHandler, $options, $logger, $dispatcher);
     }
@@ -114,7 +115,7 @@ class SimpleFormAuthenticationListener extends AbstractAuthenticationListener
             $password = $request->get($this->options['password_parameter'], null, true);
         }
 
-        $request->getSession()->set(SecurityContextInterface::LAST_USERNAME, $username);
+        $request->getSession()->set(Security::LAST_USERNAME, $username);
 
         $token = $this->simpleAuthenticator->createToken($request, $username, $password, $this->providerKey);
 

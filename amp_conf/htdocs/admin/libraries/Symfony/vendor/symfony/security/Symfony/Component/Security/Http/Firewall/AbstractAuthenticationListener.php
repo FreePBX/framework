@@ -15,6 +15,7 @@ use Symfony\Component\Security\Http\Session\SessionAuthenticationStrategyInterfa
 use Symfony\Component\Security\Http\Authentication\AuthenticationFailureHandlerInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationSuccessHandlerInterface;
 use Symfony\Component\Security\Http\RememberMe\RememberMeServicesInterface;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -92,15 +93,15 @@ abstract class AbstractAuthenticationListener implements ListenerInterface
         $this->successHandler = $successHandler;
         $this->failureHandler = $failureHandler;
         $this->options = array_merge(array(
-            'check_path'                     => '/login_check',
-            'login_path'                     => '/login',
+            'check_path' => '/login_check',
+            'login_path' => '/login',
             'always_use_default_target_path' => false,
-            'default_target_path'            => '/',
-            'target_path_parameter'          => '_target_path',
-            'use_referer'                    => false,
-            'failure_path'                   => null,
-            'failure_forward'                => false,
-            'require_previous_session'       => true,
+            'default_target_path' => '/',
+            'target_path_parameter' => '_target_path',
+            'use_referer' => false,
+            'failure_path' => null,
+            'failure_forward' => false,
+            'require_previous_session' => true,
         ), $options);
         $this->logger = $logger;
         $this->dispatcher = $dispatcher;
@@ -108,7 +109,7 @@ abstract class AbstractAuthenticationListener implements ListenerInterface
     }
 
     /**
-     * Sets the RememberMeServices implementation to use
+     * Sets the RememberMeServices implementation to use.
      *
      * @param RememberMeServicesInterface $rememberMeServices
      */
@@ -218,8 +219,8 @@ abstract class AbstractAuthenticationListener implements ListenerInterface
         $this->securityContext->setToken($token);
 
         $session = $request->getSession();
-        $session->remove(SecurityContextInterface::AUTHENTICATION_ERROR);
-        $session->remove(SecurityContextInterface::LAST_USERNAME);
+        $session->remove(Security::AUTHENTICATION_ERROR);
+        $session->remove(Security::LAST_USERNAME);
 
         if (null !== $this->dispatcher) {
             $loginEvent = new InteractiveLoginEvent($request, $token);

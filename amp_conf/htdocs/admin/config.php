@@ -653,7 +653,7 @@ if ($quietmode) {
 	}
 
 	// set the language so local module languages take
-	set_language();
+	$language = set_language();
 
 	// send menu
 	$menu['fpbx_menu']		= $fpbx_menu; //array of modules & settings
@@ -681,6 +681,7 @@ if ($quietmode) {
 	echo $page_content;
 
 	//send footer
+	$footer['lang'] = $language;
 	$footer['covert'] 		= in_array($display, array('noauth', 'badrefer')) ? true : false;
 	$footer['extmap'] 				= !$footer['covert'] ? framework_get_extmap(true) : json_encode(array());
 	$footer['module_name']			= $module_name;

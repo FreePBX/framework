@@ -12,8 +12,6 @@
 namespace Symfony\Component\Security\Http\Tests\RememberMe;
 
 use Symfony\Component\Security\Http\RememberMe\RememberMeServicesInterface;
-
-use Symfony\Component\Security\Core\Authentication\Token\RememberMeToken;
 use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,7 +43,7 @@ class TokenBasedRememberMeServicesTest extends \PHPUnit_Framework_TestCase
         $userProvider = $this->getProvider();
         $service = $this->getService($userProvider, array('name' => 'foo', 'path' => null, 'domain' => null, 'always_remember_me' => true, 'lifetime' => 3600));
         $request = new Request();
-        $request->cookies->set('foo', $this->getCookie('fooclass', 'foouser', time()+3600, 'foopass'));
+        $request->cookies->set('foo', $this->getCookie('fooclass', 'foouser', time() + 3600, 'foopass'));
 
         $userProvider
             ->expects($this->once())
@@ -131,7 +129,7 @@ class TokenBasedRememberMeServicesTest extends \PHPUnit_Framework_TestCase
 
         $service = $this->getService($userProvider, array('name' => 'foo', 'always_remember_me' => true, 'lifetime' => 3600));
         $request = new Request();
-        $request->cookies->set('foo', $this->getCookie('fooclass', 'foouser', time()+3600, 'foopass'));
+        $request->cookies->set('foo', $this->getCookie('fooclass', 'foouser', time() + 3600, 'foopass'));
 
         $returnedToken = $service->autoLogin($request);
 
@@ -220,7 +218,7 @@ class TokenBasedRememberMeServicesTest extends \PHPUnit_Framework_TestCase
         $service->loginSuccess($request, $response, $token);
 
         $cookies = $response->headers->getCookies(ResponseHeaderBag::COOKIES_ARRAY);
-        $cookie  = $cookies['myfoodomain.foo']['/foo/path']['foo'];
+        $cookie = $cookies['myfoodomain.foo']['/foo/path']['foo'];
         $this->assertFalse($cookie->isCleared());
         $this->assertTrue($cookie->isSecure());
         $this->assertTrue($cookie->isHttpOnly());

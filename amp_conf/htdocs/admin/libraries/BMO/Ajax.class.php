@@ -13,8 +13,9 @@ class Ajax extends FreePBX_Helpers {
 	private $headers = array();
 	public $settings = array( "authenticate" => true, "allowremote" => false );
 
-	public function __construct($UCP) {
+	public function __construct($freepbx = null) {
 		$this->init();
+		$this->freepbx = $freepbx;
 	}
 
 	public function init() {
@@ -51,6 +52,7 @@ class Ajax extends FreePBX_Helpers {
 			$ucMod = "Search";
 		} else {
 			$ucMod = ucfirst($module);
+			$ucMod = str_replace("-","dash",$ucMod);
 			$file = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/$module/$ucMod.class.php";
 		}
 

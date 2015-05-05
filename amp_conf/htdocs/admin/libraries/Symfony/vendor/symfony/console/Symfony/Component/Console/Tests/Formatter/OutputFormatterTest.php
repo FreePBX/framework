@@ -19,15 +19,15 @@ class OutputFormatterTest extends \PHPUnit_Framework_TestCase
     public function testEmptyTag()
     {
         $formatter = new OutputFormatter(true);
-        $this->assertEquals("foo<>bar", $formatter->format('foo<>bar'));
+        $this->assertEquals('foo<>bar', $formatter->format('foo<>bar'));
     }
 
     public function testLGCharEscaping()
     {
         $formatter = new OutputFormatter(true);
 
-        $this->assertEquals("foo<bar", $formatter->format('foo\\<bar'));
-        $this->assertEquals("<info>some info</info>", $formatter->format('\\<info>some info\\</info>'));
+        $this->assertEquals('foo<bar', $formatter->format('foo\\<bar'));
+        $this->assertEquals('<info>some info</info>', $formatter->format('\\<info>some info\\</info>'));
         $this->assertEquals("\\<info>some info\\</info>", OutputFormatter::escape('<info>some info</info>'));
 
         $this->assertEquals(
@@ -101,6 +101,11 @@ class OutputFormatterTest extends \PHPUnit_Framework_TestCase
             "(\033[32mz>=2.0,<a2.3\033[39m)",
             $formatter->format('(<info>'.$formatter->escape('z>=2.0,<a2.3').'</info>)')
         );
+
+        $this->assertEquals(
+            "\033[32m<error>some error</error>\033[39m",
+            $formatter->format('<info>'.$formatter->escape('<error>some error</error>').'</info>')
+        );
     }
 
     public function testDeepNestedStyles()
@@ -171,16 +176,16 @@ class OutputFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($formatter->hasStyle('question'));
 
         $this->assertEquals(
-            "some error", $formatter->format('<error>some error</error>')
+            'some error', $formatter->format('<error>some error</error>')
         );
         $this->assertEquals(
-            "some info", $formatter->format('<info>some info</info>')
+            'some info', $formatter->format('<info>some info</info>')
         );
         $this->assertEquals(
-            "some comment", $formatter->format('<comment>some comment</comment>')
+            'some comment', $formatter->format('<comment>some comment</comment>')
         );
         $this->assertEquals(
-            "some question", $formatter->format('<question>some question</question>')
+            'some question', $formatter->format('<question>some question</question>')
         );
 
         $formatter->setDecorated(true);

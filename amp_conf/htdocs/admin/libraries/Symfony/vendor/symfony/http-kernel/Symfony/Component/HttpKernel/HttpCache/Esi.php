@@ -26,25 +26,34 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  */
-class Esi
+class Esi implements SurrogateInterface
 {
     private $contentTypes;
+    private $phpEscapeMap = array(
+        array('<?', '<%', '<s', '<S'),
+        array('<?php echo "<?"; ?>', '<?php echo "<%"; ?>', '<?php echo "<s"; ?>', '<?php echo "<S"; ?>'),
+    );
 
     /**
      * Constructor.
      *
      * @param array $contentTypes An array of content-type that should be parsed for ESI information.
-     *                           (default: text/html, text/xml, application/xhtml+xml, and application/xml)
+     *                            (default: text/html, text/xml, application/xhtml+xml, and application/xml)
      */
     public function __construct(array $contentTypes = array('text/html', 'text/xml', 'application/xhtml+xml', 'application/xml'))
     {
         $this->contentTypes = $contentTypes;
     }
 
+    public function getName()
+    {
+        return 'esi';
+    }
+
     /**
      * Returns a new cache strategy instance.
      *
-     * @return EsiResponseCacheStrategyInterface A EsiResponseCacheStrategyInterface instance
+     * @return ResponseCacheStrategyInterface A ResponseCacheStrategyInterface instance
      */
     public function createCacheStrategy()
     {
@@ -56,7 +65,21 @@ class Esi
      *
      * @param Request $request A Request instance
      *
-     * @return bool    true if one surrogate has ESI/1.0 capability, false otherwise
+     * @return bool true if one surrogate has ESI/1.0 capability, false otherwise
+     */
+    public function hasSurrogateCapability(Request $request)
+    {
+        return $this->hasSurrogateEsiCapability($request);
+    }
+
+    /**
+     * Checks that at least one surrogate has ESI/1.0 capability.
+     *
+     * @param Request $request A Request instance
+     *
+     * @return bool true if one surrogate has ESI/1.0 capability, false otherwise
+     *
+     * @deprecated Deprecated since version 2.6, to be removed in 3.0. Use hasSurrogateCapability() instead
      */
     public function hasSurrogateEsiCapability(Request $request)
     {
@@ -71,6 +94,18 @@ class Esi
      * Adds ESI/1.0 capability to the given Request.
      *
      * @param Request $request A Request instance
+     */
+    public function addSurrogateCapability(Request $request)
+    {
+        $this->addSurrogateEsiCapability($request);
+    }
+
+    /**
+     * Adds ESI/1.0 capability to the given Request.
+     *
+     * @param Request $request A Request instance
+     *
+     * @deprecated Deprecated since version 2.6, to be removed in 3.0. Use addSurrogateCapability() instead
      */
     public function addSurrogateEsiCapability(Request $request)
     {
@@ -99,7 +134,21 @@ class Esi
      *
      * @param Response $response A Response instance
      *
-     * @return bool    true if the Response needs to be parsed, false otherwise
+     * @return bool true if the Response needs to be parsed, false otherwise
+     */
+    public function needsParsing(Response $response)
+    {
+        return $this->needsEsiParsing($response);
+    }
+
+    /**
+     * Checks that the Response needs to be parsed for ESI tags.
+     *
+     * @param Response $response A Response instance
+     *
+     * @return bool true if the Response needs to be parsed, false otherwise
+     *
+     * @deprecated Deprecated since version 2.6, to be removed in 3.0. Use needsParsing() instead
      */
     public function needsEsiParsing(Response $response)
     {
@@ -113,10 +162,10 @@ class Esi
     /**
      * Renders an ESI tag.
      *
-     * @param string  $uri          A URI
-     * @param string  $alt          An alternate URI
-     * @param bool    $ignoreErrors Whether to ignore errors or not
-     * @param string  $comment      A comment to add as an esi:include tag
+     * @param string $uri          A URI
+     * @param string $alt          An alternate URI
+     * @param bool   $ignoreErrors Whether to ignore errors or not
+     * @param string $comment      A comment to add as an esi:include tag
      *
      * @return string
      */
@@ -158,10 +207,34 @@ class Esi
 
         // we don't use a proper XML parser here as we can have ESI tags in a plain text response
         $content = $response->getContent();
-        $content = str_replace(array('<?', '<%'), array('<?php echo "<?"; ?>', '<?php echo "<%"; ?>'), $content);
-        $content = preg_replace_callback('#<esi\:include\s+(.*?)\s*(?:/|</esi\:include)>#', array($this, 'handleEsiIncludeTag'), $content);
-        $content = preg_replace('#<esi\:comment[^>]*(?:/|</esi\:comment)>#', '', $content);
         $content = preg_replace('#<esi\:remove>.*?</esi\:remove>#', '', $content);
+        $content = preg_replace('#<esi\:comment[^>]*(?:/|</esi\:comment)>#', '', $content);
+
+        $chunks = preg_split('#<esi\:include\s+(.*?)\s*(?:/|</esi\:include)>#', $content, -1, PREG_SPLIT_DELIM_CAPTURE);
+        $chunks[0] = str_replace($this->phpEscapeMap[0], $this->phpEscapeMap[1], $chunks[0]);
+
+        $i = 1;
+        while (isset($chunks[$i])) {
+            $options = array();
+            preg_match_all('/(src|onerror|alt)="([^"]*?)"/', $chunks[$i], $matches, PREG_SET_ORDER);
+            foreach ($matches as $set) {
+                $options[$set[1]] = $set[2];
+            }
+
+            if (!isset($options['src'])) {
+                throw new \RuntimeException('Unable to process an ESI tag without a "src" attribute.');
+            }
+
+            $chunks[$i] = sprintf('<?php echo $this->surrogate->handle($this, %s, %s, %s) ?>'."\n",
+                var_export($options['src'], true),
+                var_export(isset($options['alt']) ? $options['alt'] : '', true),
+                isset($options['onerror']) && 'continue' == $options['onerror'] ? 'true' : 'false'
+            );
+            ++$i;
+            $chunks[$i] = str_replace($this->phpEscapeMap[0], $this->phpEscapeMap[1], $chunks[$i]);
+            ++$i;
+        }
+        $content = implode('', $chunks);
 
         $response->setContent($content);
         $response->headers->set('X-Body-Eval', 'ESI');
@@ -213,33 +286,5 @@ class Esi
                 throw $e;
             }
         }
-    }
-
-    /**
-     * Handles an ESI include tag (called internally).
-     *
-     * @param array $attributes An array containing the attributes.
-     *
-     * @return string The response content for the include.
-     *
-     * @throws \RuntimeException
-     */
-    private function handleEsiIncludeTag($attributes)
-    {
-        $options = array();
-        preg_match_all('/(src|onerror|alt)="([^"]*?)"/', $attributes[1], $matches, PREG_SET_ORDER);
-        foreach ($matches as $set) {
-            $options[$set[1]] = $set[2];
-        }
-
-        if (!isset($options['src'])) {
-            throw new \RuntimeException('Unable to process an ESI tag without a "src" attribute.');
-        }
-
-        return sprintf('<?php echo $this->esi->handle($this, %s, %s, %s) ?>'."\n",
-            var_export($options['src'], true),
-            var_export(isset($options['alt']) ? $options['alt'] : '', true),
-            isset($options['onerror']) && 'continue' == $options['onerror'] ? 'true' : 'false'
-        );
     }
 }

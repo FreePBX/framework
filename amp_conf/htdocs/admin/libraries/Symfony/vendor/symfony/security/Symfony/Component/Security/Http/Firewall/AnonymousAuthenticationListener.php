@@ -11,6 +11,8 @@
 
 namespace Symfony\Component\Security\Http\Firewall;
 
+use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\SecurityContextInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
@@ -26,13 +28,15 @@ class AnonymousAuthenticationListener implements ListenerInterface
 {
     private $context;
     private $key;
+    private $authenticationManager;
     private $logger;
 
-    public function __construct(SecurityContextInterface $context, $key, LoggerInterface $logger = null)
+    public function __construct(SecurityContextInterface $context, $key, LoggerInterface $logger = null, AuthenticationManagerInterface $authenticationManager = null)
     {
         $this->context = $context;
-        $this->key     = $key;
-        $this->logger  = $logger;
+        $this->key = $key;
+        $this->authenticationManager = $authenticationManager;
+        $this->logger = $logger;
     }
 
     /**
@@ -46,10 +50,21 @@ class AnonymousAuthenticationListener implements ListenerInterface
             return;
         }
 
-        $this->context->setToken(new AnonymousToken($this->key, 'anon.', array()));
+        try {
+            $token = new AnonymousToken($this->key, 'anon.', array());
+            if (null !== $this->authenticationManager) {
+                $token = $this->authenticationManager->authenticate($token);
+            }
 
-        if (null !== $this->logger) {
-            $this->logger->info('Populated SecurityContext with an anonymous Token');
+            $this->context->setToken($token);
+
+            if (null !== $this->logger) {
+                $this->logger->info('Populated SecurityContext with an anonymous Token');
+            }
+        } catch (AuthenticationException $failed) {
+            if (null !== $this->logger) {
+                $this->logger->info(sprintf('Anonymous authentication failed: %s', $failed->getMessage()));
+            }
         }
     }
 }

@@ -143,6 +143,11 @@ $html .= '<script src="assets/js/bootstrap-3.3.2.custom.min.js"></script>';
 $html .= '<script src="assets/js/bootstrap-table-1.7.0.js"></script>';
 
 $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-en-US.js"></script>';
+if($lang != "en_US") {
+  $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-'.str_replace("_","-",$lang).'.js"></script>';
+  $html .= "<script>$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['".str_replace("_","-",$lang)."']);</script>";
+}
+
 
 $html .= '<script src="assets/js/bootstrap-multiselect.js"></script>';
 

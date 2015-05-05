@@ -18,17 +18,19 @@ use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\SecurityContext;
 use Symfony\Component\Security\Http\Firewall\ContextListener;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class ContextListenerTest extends \PHPUnit_Framework_TestCase
 {
     protected function setUp()
     {
         $this->securityContext = new SecurityContext(
-            $this->getMock('Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface'),
-            $this->getMock('Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface')
+            new TokenStorage(),
+            $this->getMock('Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface')
         );
     }
 
@@ -111,7 +113,7 @@ class ContextListenerTest extends \PHPUnit_Framework_TestCase
             new Response()
         );
 
-        $listener = new ContextListener($this->securityContext, array(), 'session');
+        $listener = new ContextListener($this->securityContext, array(), 'session', null, new EventDispatcher());
         $listener->onKernelResponse($event);
 
         $this->assertTrue($session->isStarted());
@@ -130,7 +132,7 @@ class ContextListenerTest extends \PHPUnit_Framework_TestCase
             new Response()
         );
 
-        $listener = new ContextListener($this->securityContext, array(), 'session');
+        $listener = new ContextListener($this->securityContext, array(), 'session', null, new EventDispatcher());
         $listener->onKernelResponse($event);
 
         $this->assertFalse($session->isStarted());
@@ -202,6 +204,35 @@ class ContextListenerTest extends \PHPUnit_Framework_TestCase
         $listener->handle($event);
     }
 
+    public function testOnKernelResponseListenerRemovesItself()
+    {
+        $context = $this->getMock('Symfony\Component\Security\Core\SecurityContextInterface');
+        $dispatcher = $this->getMock('Symfony\Component\EventDispatcher\EventDispatcherInterface');
+        $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\FilterResponseEvent')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $listener = new ContextListener($context, array(), 'key123', null, $dispatcher);
+
+        $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
+        $request->expects($this->any())
+            ->method('hasSession')
+            ->will($this->returnValue(true));
+
+        $event->expects($this->any())
+            ->method('isMasterRequest')
+            ->will($this->returnValue(true));
+        $event->expects($this->any())
+            ->method('getRequest')
+            ->will($this->returnValue($request));
+
+        $dispatcher->expects($this->once())
+            ->method('removeListener')
+            ->with(KernelEvents::RESPONSE, array($listener, 'onKernelResponse'));
+
+        $listener->onKernelResponse($event);
+    }
+
     public function testHandleRemovesTokenIfNoPreviousSessionWasFound()
     {
         $request = $this->getMock('Symfony\Component\HttpFoundation\Request');
@@ -240,7 +271,7 @@ class ContextListenerTest extends \PHPUnit_Framework_TestCase
             new Response()
         );
 
-        $listener = new ContextListener($this->securityContext, array(), 'session');
+        $listener = new ContextListener($this->securityContext, array(), 'session', null, new EventDispatcher());
         $listener->onKernelResponse($event);
 
         return $session;

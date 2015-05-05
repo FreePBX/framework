@@ -859,7 +859,7 @@ switch ($action) {
 				} else if(!empty($modules[$name]['signature']) && is_int($modules[$name]['signature']['status']) && ($modules[$name]['signature']['status'] & \FreePBX\GPG::STATE_GOOD)) {
 					$module_display[$category]['data'][$name]['signature']['message'] = _("Good");
 				} else {
-					$headerclass = "moduleheader unsigned";
+					$headerclass = "moduleheader";
 					$module_display[$category]['data'][$name]['signature']['message'] = _("Unknown");
 				}
 			}

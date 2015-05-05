@@ -15,7 +15,8 @@ use Symfony\Component\Debug\Exception\ClassNotFoundException;
 use Symfony\Component\Debug\Exception\FatalErrorException;
 use Symfony\Component\Debug\DebugClassLoader;
 use Composer\Autoload\ClassLoader as ComposerClassLoader;
-use Symfony\Component\ClassLoader as SymfonyClassLoader;
+use Symfony\Component\ClassLoader\ClassLoader as SymfonyClassLoader;
+use Symfony\Component\ClassLoader\UniversalClassLoader as SymfonyUniversalClassLoader;
 
 /**
  * ErrorHandler for classes that do not exist.
@@ -51,29 +52,23 @@ class ClassNotFoundFatalErrorHandler implements FatalErrorHandlerInterface
             if (false !== $namespaceSeparatorIndex = strrpos($fullyQualifiedClassName, '\\')) {
                 $className = substr($fullyQualifiedClassName, $namespaceSeparatorIndex + 1);
                 $namespacePrefix = substr($fullyQualifiedClassName, 0, $namespaceSeparatorIndex);
-                $message = sprintf(
-                    'Attempted to load %s "%s" from namespace "%s" in %s line %d. Do you need to "use" it from another namespace?',
-                    $typeName,
-                    $className,
-                    $namespacePrefix,
-                    $error['file'],
-                    $error['line']
-                );
+                $message = sprintf('Attempted to load %s "%s" from namespace "%s".', $typeName, $className, $namespacePrefix);
+                $tail = ' for another namespace?';
             } else {
                 $className = $fullyQualifiedClassName;
-                $message = sprintf(
-                    'Attempted to load %s "%s" from the global namespace in %s line %d. Did you forget a use statement for this %s?',
-                    $typeName,
-                    $className,
-                    $error['file'],
-                    $error['line'],
-                    $typeName
-                );
+                $message = sprintf('Attempted to load %s "%s" from the global namespace.', $typeName, $className);
+                $tail = '?';
             }
 
-            if ($classes = $this->getClassCandidates($className)) {
-                $message .= sprintf(' Perhaps you need to add a use statement for one of the following: %s.', implode(', ', $classes));
+            if ($candidates = $this->getClassCandidates($className)) {
+                $tail = array_pop($candidates).'"?';
+                if ($candidates) {
+                    $tail = ' for e.g. "'.implode('", "', $candidates).'" or "'.$tail;
+                } else {
+                    $tail = ' for "'.$tail;
+                }
             }
+            $message .= "\nDid you forget a \"use\" statement".$tail;
 
             return new ClassNotFoundException($message, $exception);
         }
@@ -97,11 +92,11 @@ class ClassNotFoundFatalErrorHandler implements FatalErrorHandlerInterface
 
         // find Symfony and Composer autoloaders
         $classes = array();
+
         foreach ($functions as $function) {
             if (!is_array($function)) {
                 continue;
             }
-
             // get class loaders wrapped by DebugClassLoader
             if ($function[0] instanceof DebugClassLoader) {
                 $function = $function[0]->getClassLoader();
@@ -116,7 +111,7 @@ class ClassNotFoundFatalErrorHandler implements FatalErrorHandlerInterface
                 }
             }
 
-            if ($function[0] instanceof ComposerClassLoader || $function[0] instanceof SymfonyClassLoader) {
+            if ($function[0] instanceof ComposerClassLoader || $function[0] instanceof SymfonyClassLoader || $function[0] instanceof SymfonyUniversalClassLoader) {
                 foreach ($function[0]->getPrefixes() as $prefix => $paths) {
                     foreach ($paths as $path) {
                         $classes = array_merge($classes, $this->findClassInPath($path, $class, $prefix));
@@ -125,7 +120,7 @@ class ClassNotFoundFatalErrorHandler implements FatalErrorHandlerInterface
             }
         }
 
-        return $classes;
+        return array_unique($classes);
     }
 
     /**
