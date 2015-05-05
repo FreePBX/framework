@@ -69,7 +69,7 @@ $restrict_mods = isset($restrict_mods) ? $restrict_mods : false;
 // include base functions
 if(!class_exists("Composer\Autoload\ClassLoader")) {
 	//TODO Symfony is really composer, we should change the directory name
-	include $dirname .'/libraries/Symfony/vendor/autoload.php';
+	include $dirname .'/libraries/Composer/vendor/autoload.php';
 }
 require_once($dirname . '/libraries/compress.class.php');
 require_once($dirname . '/libraries/core_collator.php');
