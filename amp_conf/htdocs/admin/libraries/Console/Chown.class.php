@@ -53,7 +53,7 @@ class Chown extends Command {
 		$args = array();
 		if($input){
 			$args = $input->getArgument('args');
-			$this->moduleName = $args[0]?strtolower($args[0]):$this->moduleName;
+			$this->moduleName = $this->moduleName?$this->moduleName:strtolower($args[0]);
 		}
 		if (!empty($this->moduleName) && $this->moduleName != 'framework') {
 			\FreePBX::Hooks()->updateBMOHooks();

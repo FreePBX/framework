@@ -29,7 +29,7 @@ class Moduleadmin extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$this->mf = \module_functions::create();
 		$this->out = $output;
-
+		$this->input = $input;
 		$args = $input->getArgument('args');
 		if ($input->getOption('debug')) {
 			$this->DEBUG = True;
@@ -62,16 +62,15 @@ class Moduleadmin extends Command {
 				if(in_array($repo, $remotes)) {
 					$this->setRepos = true;
 					if(!in_array($repo, array_keys($local))) {
-						out("Enabling repo: [$repo]");
+						$output->writeln("Enabling repo: [$repo]");
 						$this->mf->set_active_repo($repo);
 					}
 				} else {
-					out("No such repo: [$repo], skipping");
+					$output->writeln("No such repo: [$repo], skipping");
 				}
 			}
 		}
 
-		$output->writeln($text);
 		if(!empty($args)){
 			if($this->DEBUG){
 				print_r($args);
@@ -122,15 +121,15 @@ class Moduleadmin extends Command {
 	private function doInstall($modulename, $force) {
 		$this->getIncludes();
 		if(!$force && !$this->mf->resolveDependencies($modulename,array($this,'progress'))) {
-			out(sprintf(_("Unable to resolve dependencies for module %s:"),$modulename));
+			$this->out->writeln(sprintf(_("Unable to resolve dependencies for module %s:"),$modulename));
 			return false;
 		} else {
 			if (is_array($errors = $this->mf->install($modulename, $force))) {
-				out("Unable to install module ${modulename}:");
-				out(' - '.implode("\n - ",$errors));
+				$this->out->writeln("Unable to install module ${modulename}:");
+				$this->out->writeln(' - '.implode("\n - ",$errors));
 				return false;
 			} else {
-				out("Module ".$modulename." successfully installed");
+				$this->out->writeln("Module ".$modulename." successfully installed");
 			}
 		}
 		return true;
@@ -433,7 +432,7 @@ class Moduleadmin extends Command {
 				}				
 			break;
 		}
-		$chown->execute($this->in, $this->out);
+		$chown->execute($this->input, $this->out);
 	}
 
 	private function check_active_repos() {
