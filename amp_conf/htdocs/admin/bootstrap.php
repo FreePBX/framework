@@ -35,8 +35,18 @@ $mt = microtime();
 //
 //enable error reporting and start benchmarking
 ini_set("default_charset","UTF-8");
-error_reporting(E_ALL & ~E_STRICT);
-date_default_timezone_set(@date_default_timezone_get());
+//Below is a hack, a hack-y-hack--hack because PHP gets madd when I *ask* it what the default timezone should be
+set_error_handler(function ($errno, $errstr){
+	throw new Exception($errstr);
+	return false;
+});
+try{
+	date_default_timezone_get();
+}
+catch(Exception $e){
+	date_default_timezone_set('UTC'); // Sets to UTC if not specified anywhere in .ini
+}
+restore_error_handler();
 function microtime_float() { list($usec,$sec) = explode(' ',microtime()); return ((float)$usec+(float)$sec); }
 $benchmark_starttime = microtime_float();
 
@@ -68,9 +78,9 @@ $restrict_mods = isset($restrict_mods) ? $restrict_mods : false;
 
 // include base functions
 if(!class_exists("Composer\Autoload\ClassLoader")) {
-	//TODO Symfony is really composer, we should change the directory name
 	include $dirname .'/libraries/Composer/vendor/autoload.php';
 }
+
 require_once($dirname . '/libraries/compress.class.php');
 require_once($dirname . '/libraries/core_collator.php');
 require_once($dirname . '/libraries/utility.functions.php');
@@ -80,10 +90,15 @@ $bootstrap_settings['framework_functions_included'] = true;
 
 //now that its been included, use our own error handler as it tends to be much more verbose.
 if ($bootstrap_settings['freepbx_error_handler']) {
-  $error_handler = $bootstrap_settings['freepbx_error_handler'] === true ? 'freepbx_error_handler' : $bootstrap_settings['freepbx_error_handler'];
+  $error_handler = $bootstrap_settings['freepbx_error_handler'] === true ? '' : $bootstrap_settings['freepbx_error_handler'];
   if (function_exists($error_handler)) {
     set_error_handler($error_handler, E_ALL & ~E_STRICT);
-  }
+  } else {
+		set_error_handler('freepbx_error_handler', E_ALL & ~E_STRICT);
+		$whoops = new \Whoops\Run;
+		$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+		$whoops->register();
+	}
 }
 
 // BMO: Initialize BMO as early as possible.
@@ -113,7 +128,18 @@ $freepbx_conf = $bmo->Freepbx_conf();
 // within the class, which is probably a direction we want to go to use the class.
 //
 $bootstrap_settings['amportal_conf_initialized'] = false;
-$amp_conf =& $freepbx_conf->parse_amportal_conf("/etc/amportal.conf",$amp_conf);
+$amp_conf = $freepbx_conf->parse_amportal_conf("/etc/amportal.conf",$amp_conf);
+
+if($amp_conf['PHP_CONSOLE']) {
+	$connector = PhpConsole\Connector::getInstance();
+	if(!empty($amp_conf['PHP_CONSOLE_PASSWORD'])) {
+		$connector->setPassword($amp_conf['PHP_CONSOLE_PASSWORD']);
+	}
+	$handler = PhpConsole\Handler::getInstance();
+	$handler->start();
+	error_reporting(0);
+}
+
 // set the language so local module languages take
 set_language();
 
@@ -127,7 +153,7 @@ if(!empty($amp_conf['FPBXPERFLOGGING'])) {
 	$bmo->Performance->On('dbug',$mt);
 }
 
-$asterisk_conf =& $freepbx_conf->get_asterisk_conf();
+$asterisk_conf = $freepbx_conf->get_asterisk_conf();
 $bootstrap_settings['amportal_conf_initialized'] = true;
 
 //connect to cdrdb if requestes

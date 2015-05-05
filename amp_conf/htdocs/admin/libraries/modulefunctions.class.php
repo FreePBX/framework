@@ -2493,7 +2493,7 @@ class module_functions {
 		$modules_needup = $this->getinfo(false, MODULE_STATUS_NEEDUPGRADE);
 		$modules_broken = $this->getinfo(false, MODULE_STATUS_BROKEN);
 
-		$notifications =& notifications::create($db);
+		$notifications = notifications::create($db);
 		if ($cnt = count($modules_needup)) {
 			$text = (($cnt > 1) ? sprintf(_('You have %s disabled modules'), $cnt) : _('You have a disabled module'));
 			$desc = _('The following modules are disabled because they need to be upgraded:')."\n".implode(", ",array_keys($modules_needup));
@@ -2516,7 +2516,7 @@ class module_functions {
 	* eg, "%AMPWEBROOT%/admin" => "/var/www/html/admin"
 	*/
 	function _ampconf_string_replace($string) {
-		$freepbx_conf =& freepbx_conf::create();
+		$freepbx_conf = freepbx_conf::create();
 
 		$target = array();
 		$replace = array();

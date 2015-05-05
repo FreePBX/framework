@@ -301,6 +301,24 @@ class Installer {
 	'type' => CONF_TYPE_SELECT,
 	);
 
+	$settings[$category]['PHP_CONSOLE'] = array(
+	'value' => false,
+	'options' => '',
+	'name' => 'PHP Console',
+	'description' => "When enabled will turn on PHP Console for error debugging https://github.com/barbushin/php-console",
+	'sortorder' => -140,
+	'type' => CONF_TYPE_BOOL,
+	);
+
+	$settings[$category]['PHP_CONSOLE_PASSWORD'] = array(
+	'value' => 'batteryhorsestaple',
+	'options' => '',
+	'name' => 'PHP Console Password',
+	'description' => "Used when PHP Console is enabled for error debugging https://github.com/barbushin/php-console",
+	'sortorder' => -140,
+	'type' => CONF_TYPE_TEXT,
+	);
+
 	$settings[$category]['AGGRESSIVE_DUPLICATE_CHECK'] = array(
 	'value' => false,
 	'options' => '',

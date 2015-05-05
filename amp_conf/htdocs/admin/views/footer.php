@@ -81,7 +81,7 @@ foreach ($clean as $var) {
 	}
 }
 
-$modulef =& module_functions::create();
+$modulef = module_functions::create();
 
 $fpbx['conf']['text_dir']		= isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))
 									? 'rtl' : 'ltr';

@@ -295,7 +295,7 @@ function engine_getinfo($force_read=false) {
       // Asterisk may not be running and we may some day not need it to be so just deal
       // with it here.
       //
-      $freepbx_conf =& freepbx_conf::create();
+      $freepbx_conf = freepbx_conf::create();
       if (!$freepbx_conf->conf_setting_exists('ASTVERSION')) {
         // ASTVERSION
         //

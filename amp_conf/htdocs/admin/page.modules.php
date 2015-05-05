@@ -14,7 +14,7 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 	define('EXTERNAL_PACKAGE_MANAGEMENT', 1);
 }
 
-$modulef =& module_functions::create();
+$modulef = module_functions::create();
 
 // Handle the ajax post back of an update online updates email array and status
 //
@@ -24,7 +24,7 @@ if ($quietmode && isset($_REQUEST['update_email'])) {
 	if (!$ci->valid_email($update_email) && $update_email) {
 		$json_array['status'] = _("Invalid email address") . ' : ' . $update_email;
 	} else {
-		$cm =& cronmanager::create($db);
+		$cm = cronmanager::create($db);
 		$cm->save_email($update_email);
 		$cm->set_machineid($_REQUEST['machine_id']);
 		$json_array['status'] = true;
@@ -69,7 +69,7 @@ $displayvars['freepbx_help_url'] = $freepbx_help_url;
 $displayvars['online'] = $online;
 
 if (!$quietmode) {
-	$cm =& cronmanager::create($db);
+	$cm = cronmanager::create($db);
 	$displayvars['online_updates'] = $cm->updates_enabled() ? 'yes' : 'no';
 	$update_email   = $cm->get_email();
 	$machine_id     = $cm->get_machineid();
@@ -1103,7 +1103,7 @@ function pageReload(){
 function displayRepoSelect($buttons,$online=false,$repo_list=array()) {
 	global $display, $online, $tabindex;
 
-	$modulef =& module_functions::create();
+	$modulef = module_functions::create();
 	$displayvars = array("display" => $display, "online" => $online, "tabindex" => $tabindex, "repo_list" => $repo_list, "active_repos" => $modulef->get_active_repos());
 	$button_display = '';
 	$href = "config.php?display=$display";

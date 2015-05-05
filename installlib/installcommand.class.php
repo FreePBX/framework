@@ -150,7 +150,7 @@ class FreePBXInstallCommand extends Command {
 			} else {
 				$output->writeln("<error>Error!</error>");
 				$output->writeln("<error>Could not determine Asterisk version (got: " . $astver . "). Please report this.</error>");
-				exit(1);
+				//exit(1);
 			}
 		}
 		$output->writeln("Done!");

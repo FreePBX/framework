@@ -48,7 +48,7 @@ function sql($sql,$type="query",$fetchmode='default') {
  * @param  mixed  The value to go into the database
  * @return string  A value that can be safely inserted into an SQL query
  */
-function q(&$value) {
+function q($value) {
 	global $db;
 	return $db->quoteSmart($value);
 }

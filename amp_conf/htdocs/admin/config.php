@@ -170,9 +170,9 @@ if (!in_array($display, array('noauth', 'badrefer'))
 
 
 if (!$quietmode) {
-	$modulef =& module_functions::create();
+	$modulef = module_functions::create();
 	$modulef->run_notification_checks();
-	$nt =& notifications::create();
+	$nt = notifications::create();
 	if ( !isset($_SERVER['HTACCESS']) && preg_match("/apache/i", $_SERVER['SERVER_SOFTWARE']) ) {
 		// No .htaccess support
 		if(!$nt->exists('framework', 'htaccess')) {
