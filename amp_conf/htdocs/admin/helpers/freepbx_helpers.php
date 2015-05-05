@@ -103,7 +103,7 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 
 	$html=$destmod=$errorclass=$errorstyle='';
   if ($nodest_msg == '') {
-	  $nodest_msg = '== '.modgettext::_('choose one').' ==';
+	  $nodest_msg = '== '.modgettext::_('choose one','amp').' ==';
   }
 
 	if ($table) {

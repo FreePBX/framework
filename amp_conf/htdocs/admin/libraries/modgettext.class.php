@@ -34,7 +34,7 @@ class modgettext {
 	 * translations for some modules were put in amp by the translators back when
 	 * this didn't work too well.
 	 */
-	static public function _($string, $module) {
+	static public function _($string, $module='amp') {
 		// don't do anything if we don't have gettext present
 		if (!extension_loaded('gettext')) {
 			return $string;
