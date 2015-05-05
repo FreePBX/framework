@@ -1106,7 +1106,7 @@ function generate_message_banner($message,$type='info',$details=array(),$link=''
 	// We have to ensure that Cookies don't exceed 'a small number' of bytes.
 	// I randomly am picking 'the last 5' to keep, and discard any others.
 
-	if (isset($_COOKIE['bannerMessages'])) {
+	if ($closeable && isset($_COOKIE['bannerMessages'])) {
 		$cookie = json_decode($_COOKIE['bannerMessages'],TRUE);
 
 		if(is_array($cookie)) {
