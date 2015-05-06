@@ -320,7 +320,7 @@ class module_functions {
 		if ($cnt) {
 			$active_repos = $this->get_active_repos();
 			$extext = _("The following new modules are available for download. Click delete icon on the right to remove this notice.")."<br />";
-			foreach ($diff_modules as $modname) {
+			foreach ($diff_modules as $modname => $data) {
 				$mod = $new_modules[$modname];
 				// If it's a new module in a repo we are not interested in, then don't send a notification.
 				if (isset($active_repos[$mod['repo']]) && $active_repos[$mod['repo']]) {

@@ -563,12 +563,12 @@ $footer = array();
 
 if ($quietmode) {
 	// send the output buffer, should be sending just the page contents
-	ob_end_flush();
+	@ob_end_flush();
 } elseif ($fw_popover || $fw_popover_process) {
 	$admin_template = $template = array();
 	//get the page contents from the buffer
 	$content = ob_get_contents();
-	ob_end_clean();
+	@ob_end_clean();
 	$fw_gui_html = '';
 
 	// add header
