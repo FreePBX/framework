@@ -261,16 +261,16 @@ function engine_getinfo($force_read=false) {
 			if (preg_match('/Asterisk (\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
 				$engine_info = array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4], 'raw' => $verinfo);
         $gotinfo = true;
-			} elseif (preg_match('/Asterisk SVN-(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
+			} elseif (preg_match('/Asterisk (?:SVN|GIT)-(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
 				$engine_info = array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4], 'raw' => $verinfo);
         $gotinfo = true;
-			} elseif (preg_match('/Asterisk SVN-branch-(\d+(\.\d+)*)-r(-?(\S*))/', $verinfo, $matches)) {
+			} elseif (preg_match('/Asterisk (?:SVN|GIT)-branch-(\d+(\.\d+)*)-r(-?(\S*))/', $verinfo, $matches)) {
 				$engine_info = array('engine'=>'asterisk', 'version' => $matches[1].'.'.$matches[4], 'additional' => $matches[4], 'raw' => $verinfo);
         $gotinfo = true;
-			} elseif (preg_match('/Asterisk SVN-trunk-r(-?(\S*))/', $verinfo, $matches)) {
+			} elseif (preg_match('/Asterisk (?:SVN|GIT)-trunk-r(-?(\S*))/', $verinfo, $matches)) {
 				$engine_info = array('engine'=>'asterisk', 'version' => '1.8', 'additional' => $matches[1], 'raw' => $verinfo);
         $gotinfo = true;
-			} elseif (preg_match('/Asterisk SVN-.+-(\d+(\.\d+)*)-r(-?(\S*))-(.+)/', $verinfo, $matches)) {
+			} elseif (preg_match('/Asterisk (?:SVN|GIT)-.+-(\d+(\.\d+)*)-r(-?(\S*))-(.+)/', $verinfo, $matches)) {
 				$engine_info = array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[3], 'raw' => $verinfo);
         $gotinfo = true;
 			} elseif (preg_match('/Asterisk [B].(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {

@@ -140,7 +140,7 @@ class FreePBXInstallCommand extends Command {
 			unset($tmpout);
 
 			// Parse Asterisk version.
-			if (preg_match('/^Asterisk (?:SVN-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*))$/', $astver, $matches)) {
+			if (preg_match('/^Asterisk (?:GIT-)(?:SVN-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*))$/', $astver, $matches)) {
 				if ((version_compare($matches[1], "11") < 0) || version_compare($matches[1], "15", "ge")) {
 					$output->writeln("<error>Error!</error>");
 					$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
@@ -434,15 +434,20 @@ class FreePBXInstallCommand extends Command {
 		}
 
 		$output->write("Finishing up directory processes...");
-		chmod($amp_conf['AMPBIN'] . "/freepbx_engine", 0755);
-		chmod($amp_conf['AMPBIN'] . "/freepbx_setting", 0755);
-		chmod($amp_conf['AMPBIN'] . "/fwconsole", 0755);
-		chmod($amp_conf['AMPBIN'] . "/gen_amp_conf.php", 0755);
-		chmod($amp_conf['AMPBIN'] . "/retrieve_conf", 0755);
-		chmod($amp_conf['AMPBIN'] . "/fwconsole", 0755);
-		chmod($amp_conf['AMPSBIN'] . "/amportal", 0755);
-		//this probably bubbles down, but just to be sure
-		chmod($amp_conf['AMPSBIN'] . "/fwconsole", 0755);
+		$binFiles = array(
+			$amp_conf['AMPBIN'] . "/freepbx_engine" => 0755,
+			$amp_conf['AMPBIN'] . "/freepbx_setting" => 0755,
+			$amp_conf['AMPBIN'] . "/fwconsole" => 0755,
+			$amp_conf['AMPBIN'] . "/gen_amp_conf" => 0755,
+			$amp_conf['AMPBIN'] . "/retrieve_conf" => 0755,
+			$amp_conf['AMPSBIN'] . "/amportal" => 0755,
+			$amp_conf['AMPSBIN'] . "/fwconsole" => 0755
+		);
+		foreach($binFiles as $file => $perms) {
+			if(file_exists($file)) {
+				chmod($file, $perms);
+			}
+		}
 
 		// Create dirs
 		// 	/var/www/html/admin/modules/framework/
@@ -700,7 +705,9 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 					// symlink, unlike copy, doesn't overwrite - have to delete first
 					// ^^ lies! :(
 					if (is_link($destination) || file_exists($destination)) {
-						unlink($destination);
+						if(!is_dir($destination)) {
+							unlink($destination);
+						}
 					}
 
 					if(file_exists($source)) {
@@ -729,7 +736,9 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 					if($ow) {
 						//Copy will not overwrite a symlink, phpnesssss
 						if(file_exists($destination) && is_link($destination)) {
-							unlink($destination);
+							if(!is_dir($destination)) {
+								unlink($destination);
+							}
 						}
 						if ($output->isDebug()) {
 							$output->writeln("Copying ".basename($source)." to ".dirname($destination));
