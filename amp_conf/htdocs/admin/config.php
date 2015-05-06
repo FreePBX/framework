@@ -509,7 +509,7 @@ switch($display) {
 						if($amp_conf['PHP_CONSOLE']) {
 							$connector = PhpConsole\Connector::getInstance();
 							if(!$connector->isActiveClient()) {
-								echo generate_message_banner(_('PHP Console Enabled but not installed'), 'info',array(_('You have enabled PHP Console in Advanced settings but have not installed the Chrome Extension or you are not using Chrome')),'https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&cad=rja&uact=8&ved=0CB8QFjAA&url=https%3A%2F%2Fchrome.google.com%2Fwebstore%2Fdetail%2Fphp-console%2Fnfhmhhlpfleoednkpnnnkolmclajemef%3Fhl%3Den&ei=_2FJVYWQM8e0ggSMrID4Cg&usg=AFQjCNF6pt0mJtJNQ0jAbE6zty5qk8Lh1A&bvm=bv.92291466,d.eXY',true);
+								echo generate_message_banner(_('PHP Console Enabled but not installed'), 'info',array(_('You have enabled PHP Console in Advanced settings but have not installed the Chrome Extension or you are not using Chrome')),'https://chrome.google.com/webstore/detail/php-console/nfhmhhlpfleoednkpnnnkolmclajemef',true);
 							}
 						}
 					}
