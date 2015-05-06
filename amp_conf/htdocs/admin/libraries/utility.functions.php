@@ -322,6 +322,12 @@ function freepbx_debug($string, $option='', $filename='') {
 	dbug($string);
 }
 
+function d($var, $tags = null) {
+	if($amp_conf['PHP_CONSOLE']) {
+		PhpConsole\Connector::getInstance()->getDebugDispatcher()->dispatchDebug($var, $tags, 1);
+	}
+}
+
 /**
  * FreePBX Debugging function
  * This function can be called as follows:
@@ -687,6 +693,10 @@ function dbug_write($txt, $check = false){
 		file_put_contents($amp_conf['FPBXDBUGFILE'], $txt);
 	} else {
 		file_put_contents($amp_conf['FPBXDBUGFILE'], $txt, FILE_APPEND);
+	}
+
+	if($amp_conf['PHP_CONSOLE']) {
+		PhpConsole\Connector::getInstance()->getDebugDispatcher()->dispatchDebug($txt, 'dbug');
 	}
 }
 
