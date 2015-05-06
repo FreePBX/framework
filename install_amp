@@ -1274,7 +1274,9 @@ $verinfo = $tmpout;
 //  Set the 'engine' to be 'asterisk14' if using asterisk 1.4, otherwise
 //  'asterisk'
 outn("Checking for Asterisk version..");
-if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) || (preg_match('/^Asterisk SVN-(\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches))) {
+if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) || 
+	(preg_match('/^Asterisk SVN-(\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) ||
+	(preg_match('/^Asterisk GIT-(\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches))) {
 	if ((version_compare($matches[1], "1.8") < 0)) {
 		fatal("Asterisk 1.6, 1.8, 10, 11 or 12 is required for this version of FreePBX. Detected version is: ".$matches[1]);
 	}
@@ -1291,7 +1293,8 @@ if ((preg_match('/^Asterisk (\d+(\.\d+)*)(-?(.*))$/', $verinfo, $matches)) || (p
 	out("{$matches[1]}");
 	$asterisk_version = '1.4'; //Not really, but this makes sure that proper execution occurs later on reload commands, etc.
 
-} elseif ($asterisk_version = preg_match('/^Asterisk SVN.+/', $verinfo)) {
+} elseif ($asterisk_version = preg_match('/^Asterisk SVN.+/', $verinfo) ||
+		$asterisk_version = preg_match('/^Asterisk GIT.+/', $verinfo)) {
 	out("FAIL");
 	out("*** WARNING ***");
 	out("You are not using a released version of Asterisk. We are unable to verify");
