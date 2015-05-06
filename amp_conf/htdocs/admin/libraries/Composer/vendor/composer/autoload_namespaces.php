@@ -20,4 +20,6 @@ return array(
     'Symfony\\Component\\BrowserKit\\' => array($vendorDir . '/symfony/browser-kit'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'PhpConsole' => array($vendorDir . '/php-console/php-console/src'),
+    'Guzzle\\Tests' => array($vendorDir . '/guzzlehttp/guzzle/tests'),
+    'Guzzle' => array($vendorDir . '/guzzlehttp/guzzle/src'),
 );
