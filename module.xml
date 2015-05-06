@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>12.0.62</version>
+	<version>12.0.63</version>
 	<publisher>FreePBX</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*12.0.63* FREEPBX-9137 Outbound route will not accept 0 as prefix, FREEPBX-9194 Check for unzip support, redefine errors, allow uploading up gpg (web or hard disk)
 	  *12.0.62* More notifications fixes
 		*12.0.61* FREEPBX-9190 dont always delete the notification
 		*12.0.60* FREEPBX-9190 many signature releated fixes, allow all unsigned modules, dont send notices if disabled in advanced settings, fix cookie hashes (annoying)
