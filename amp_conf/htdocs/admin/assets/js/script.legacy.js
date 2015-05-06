@@ -311,7 +311,7 @@ function isURL(s) {
  */
 function isPINList(s) {
 	var i, c;
-	if (isEmpty(s)) {
+	if (isEmpty(s) && s != '0') {
 		if (isPINList.arguments.length == 1) {
 			return defaultEmptyOK;
 		} else {
@@ -361,7 +361,7 @@ function isCallerID(s) {
  */
 function isDialpattern(s) {
 	var i, c;
-	if (isEmpty(s)) {
+	if (isEmpty(s) && s != '0') {
 		if (isDialpattern.arguments.length == 1) {
 			return defaultEmptyOK;
 		} else {
