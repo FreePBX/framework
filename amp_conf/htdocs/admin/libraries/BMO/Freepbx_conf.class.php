@@ -246,6 +246,11 @@ class Freepbx_conf {
     foreach($this->depreciatedSettings as $keyword => $value) {
       if(isset($this->db_conf_store[$keyword])) {
         $dp[] = $keyword;
+      } else {
+        $this->db_conf_store[$keyword] = array(
+          "value" => $value,
+          "hidden" => true
+        );
       }
       $this->conf[$keyword] = $value;
     }
