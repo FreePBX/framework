@@ -312,7 +312,6 @@ ob_start();
 // Run all the pre-processing for the page that's been requested.
 if (!empty($display) && $display != 'badrefer') {
 	// $CC is used by guielemets as a Global.
-	try {
 		$CC = $currentcomponent = new component($display);
 
 		// BMO: Process ConfigPageInit functions
@@ -327,9 +326,6 @@ if (!empty($display) && $display != 'badrefer') {
 		$bmo->Performance->Start("buildconfigpage-$display");
 		$currentcomponent->buildconfigpage();
 		$bmo->Performance->Stop("buildconfigpage-$display");
-	} catch(Exception $e) {
-		die_freepbx(_("FreePBX is Unable to Continue"), $e);
-	}
 }
 $module_name = "";
 $module_page = "";
@@ -436,22 +432,19 @@ switch($display) {
 			}
 
 			// create a module_hook object for this module's page
-			try {
-				$module_hook = moduleHook::create();
+			$module_hook = moduleHook::create();
 
-				// populate object variables
-				$module_hook->install_hooks($module_page,$module_name,$itemid);
+			// populate object variables
+			$module_hook->install_hooks($module_page,$module_name,$itemid);
 
-				// let hooking modules process the $_REQUEST
-				$module_hook->process_hooks($itemid, $module_name, $module_page, $_REQUEST);
+			// let hooking modules process the $_REQUEST
+			$module_hook->process_hooks($itemid, $module_name, $module_page, $_REQUEST);
 
-				// BMO: Pre display hooks.
-				// getPreDisplay and getPostDisplay should probably never
-				// be used.
-				$bmo->GuiHooks->getPreDisplay($module_name, $_REQUEST);
-			} catch(Exception $e) {
-				die_freepbx(_("FreePBX is Unable to Continue"), $e);
-			}
+			// BMO: Pre display hooks.
+			// getPreDisplay and getPostDisplay should probably never
+			// be used.
+			$bmo->GuiHooks->getPreDisplay($module_name, $_REQUEST);
+
 
 			$licFileExists = glob ('/etc/schmooze/license-*.zl');
 			$complete_zend = !(!function_exists('zend_loader_install_license') || empty($licFileExists));
@@ -473,13 +466,10 @@ switch($display) {
 				//check module first and foremost, but not during quietmode
 				if(!isset($_REQUEST['quietmode']) && $amp_conf['SIGNATURECHECK'] && !isset($_REQUEST['fw_popover'])) {
 					//Since we are viewing this module update it's signature
-					try {
-						$gpgstatus = module_functions::create()->updateSignature($module_name,false);
-						//check all cached signatures
-						$modules = module_functions::create()->getAllSignatures();
-					} catch(Exception $e) {
-						die_freepbx(_("FreePBX is Unable to Continue"), $e);
-					}
+					$gpgstatus = module_functions::create()->updateSignature($module_name,false);
+					//check all cached signatures
+					$modules = module_functions::create()->getAllSignatures();
+
 					if(!$modules['validation']) {
 						//$type = (!empty($modules['statuses']['untrusted']) || !empty($modules['statuses']['tampered'])) ? 'danger' : 'warning';
 						$danger = array();
@@ -519,18 +509,14 @@ switch($display) {
 				} else {
 					// load language info if available
 					modgettext::textdomain($module_name);
-					try {
-						if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
-							$bmo->Performance->Start("hooks-$module_name-$module_file");
-							$bmo->GuiHooks->doIntercept($module_name, $module_file);
-							$bmo->Performance->Stop("hooks-$module_name-$module_file");
-						} else {
-							$bmo->Performance->Start("includefile-$module_file");
-							include($module_file);
-							$bmo->Performance->Stop("includefile-$module_file");
-						}
-					} catch(Exception $e) {
-						die_freepbx(_("FreePBX is Unable to Continue"), $e);
+					if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
+						$bmo->Performance->Start("hooks-$module_name-$module_file");
+						$bmo->GuiHooks->doIntercept($module_name, $module_file);
+						$bmo->Performance->Stop("hooks-$module_name-$module_file");
+					} else {
+						$bmo->Performance->Start("includefile-$module_file");
+						include($module_file);
+						$bmo->Performance->Stop("includefile-$module_file");
 					}
 				}
 			} else {
@@ -538,21 +524,13 @@ switch($display) {
 			}
 
 			// BMO TODO: Post display hooks.
-			try {
-				$bmo->GuiHooks->getPostDisplay($module_name, $_REQUEST);
-			} catch(Exception $e) {
-				die_freepbx(_("FreePBX is Unable to Continue"), $e);
-			}
+			$bmo->GuiHooks->getPostDisplay($module_name, $_REQUEST);
 
 			// global component
 			if ( isset($currentcomponent) ) {
 				modgettext::textdomain($module_name);
-				try {
-					$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
-					echo  $currentcomponent->generateconfigpage();
-				} catch(Exception $e) {
-					die_freepbx(_("FreePBX is Unable to Continue"), $e);
-				}
+				$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
+				echo  $currentcomponent->generateconfigpage();
 			}
 		}
 	break;
