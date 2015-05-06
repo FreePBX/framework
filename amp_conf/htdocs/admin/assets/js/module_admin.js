@@ -293,9 +293,7 @@ function process_module_actions(modules) {
 						if (xhr.responseText.length > 0) {
 							if ($('#moduledialogwrapper').html().trim() != xhr.responseText.trim()) {
 								$('#moduledialogwrapper').html(xhr.responseText);
-								if(($('#moduleprogress').scrollTop() + $('#moduleprogress').height()) != $("#moduleprogress").prop("scrollHeight")) {
-									$('#moduleprogress').scrollTop(1E10);
-								}
+								$('#moduleprogress').scrollTop(1E10);
 							}
 						}
 						if (xhr.readyState == XMLHttpRequest.DONE) {
