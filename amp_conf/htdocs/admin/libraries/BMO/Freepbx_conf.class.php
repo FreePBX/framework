@@ -185,7 +185,7 @@ class Freepbx_conf {
    */
   private $depreciatedSettings = array(
     "USEDEVSTATE" => 1,
-    "USEQUEUESTATE" => 0,
+    "USEQUEUESTATE" => 1,
     "ALWAYS_SHOW_DEVICE_DETAILS" => 1
   );
 
@@ -247,6 +247,11 @@ class Freepbx_conf {
     foreach($this->depreciatedSettings as $keyword => $value) {
       if(isset($this->db_conf_store[$keyword])) {
         $dp[] = $keyword;
+      } else {
+        $this->db_conf_store[$keyword] = array(
+          "value" => $value,
+          "hidden" => true
+        );
       }
       $this->conf[$keyword] = $value;
     }

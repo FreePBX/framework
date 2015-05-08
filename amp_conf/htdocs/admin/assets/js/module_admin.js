@@ -291,16 +291,16 @@ function process_module_actions(modules) {
 							window.clearTimeout(timer);
 						}
 						if (xhr.responseText.length > 0) {
-							if ($('#moduledialogwrapper').html() != xhr.responseText) {
+							if ($('#moduledialogwrapper').html().trim() != xhr.responseText.trim()) {
 								$('#moduledialogwrapper').html(xhr.responseText);
-								$("#moduleprogress").prop({ scrollTop: $("#moduleprogress").prop("scrollHeight") });
+								$('#moduleprogress').scrollTop(1E10);
 							}
 						}
 						if (xhr.readyState == XMLHttpRequest.DONE) {
 							$("#moduleprogress").css("overflow", "auto");
-							$("#moduleprogress").prop({ scrollTop: $("#moduleprogress").prop("scrollHeight") });
+							$('#moduleprogress').scrollTop(1E10);
 						}
-					}, 100);
+					}, 500);
 				},
 				close: function(e) {
 					close_module_actions(true);

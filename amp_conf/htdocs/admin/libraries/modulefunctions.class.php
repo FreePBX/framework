@@ -1683,23 +1683,45 @@ class module_functions {
 		}
 
 		$extension = pathinfo($filename,PATHINFO_EXTENSION);
+		if(preg_match('/^(gpg)$/', $extension)) {
+			try {
+				if(!FreePBX::GPG()->verifyFile($filename)) {
+					return array(sprintf(_('File Integrity failed for %s - aborting (GPG Verify File check failed)'), $filename));
+				}
+			} catch(\Exception $e) {
+				return array(sprintf(_('File Integrity failed for %s - aborting (Cause: %s)'), $filename, $e->getMessage()));
+			}
+			try {
+				$filename = FreePBX::GPG()->getFile($filename);
+				if(!file_exists($filename)) {
+					return array(sprintf(_('Could not find extracted module: %s'), $filename));
+				}
+				$extension = pathinfo($filename,PATHINFO_EXTENSION);
+			} catch(\Exception $e) {
+				return array(sprintf(_('Unable to work with GPG file, message was: %s'), $e->getMessage()));
+			}
+		}
 		switch(true) {
 			case preg_match('/^(tgz|tar)$/', $extension) || preg_match('/^(tar\.gz)$/', $filename):
-				exec("/usr/bin/env tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($temppath), $output, $exitcode);
+				$err = exec("/usr/bin/env tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($temppath), $output, $exitcode);
 				if ($exitcode != 0) {
-					return array(sprintf(_('Could not remove temp storage at %s'), $temppath));
+					return array(sprintf(_('Error from %s: %s'), 'tar', $err));
 				}
 			break;
 			case preg_match('/^(zip)$/', $extension):
-				exec("/usr/bin/env unzip  ".escapeshellarg($filename)." -d ".escapeshellarg($temppath), $output, $exitcode);
+				exec("/usr/bin/env unzip", $output, $exitcode);
 				if ($exitcode != 0) {
-					return array(sprintf(_('Could not remove temp storage at %s'), $temppath));
+					return array(_("The binary unzip is not installed. Unable to work with zip file"));
+				}
+				$err = exec("/usr/bin/env unzip  ".escapeshellarg($filename)." -d ".escapeshellarg($temppath), $output, $exitcode);
+				if ($exitcode != 0) {
+					return array(sprintf(_('Error from %s: %s'), 'unzip', $err));
 				}
 			break;
 			case preg_match('/^(bz2|bz|tbz2|tbz)$/', $extension):
-				exec("/usr/bin/env tar xjf ".escapeshellarg($filename)." -C ".escapeshellarg($temppath), $output, $exitcode);
+				$err = exec("/usr/bin/env tar xjf ".escapeshellarg($filename)." -C ".escapeshellarg($temppath), $output, $exitcode);
 				if ($exitcode != 0) {
-					return array(sprintf(_('Could not remove temp storage at %s'), $temppath));
+					return array(sprintf(_('Error from %s: %s'), 'tar', $err));
 				}
 			break;
 			default:
