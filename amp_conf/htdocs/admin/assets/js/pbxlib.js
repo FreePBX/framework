@@ -50,13 +50,13 @@ return true;}
 function isURL(s){var i,c;if(isEmpty(s)){if(isURL.arguments.length==1){return defaultEmptyOK;}else{return(isURL.arguments[1]===true);}}
 for(i=0;i<s.length;i++){c=s.charAt(i);if(!(isURLChar(c)||isDigit(c))){return false;}}
 return true;}
-function isPINList(s){var i,c;if(isEmpty(s)){if(isPINList.arguments.length==1){return defaultEmptyOK;}else{return(isPINList.arguments[1]===true);}}
+function isPINList(s){var i,c;if(isEmpty(s)&&s!='0'){if(isPINList.arguments.length==1){return defaultEmptyOK;}else{return(isPINList.arguments[1]===true);}}
 for(i=0;i<s.length;i++){c=s.charAt(i);if(!isDigit(c)&&c!=","){return false;}}
 return true;}
 function isCallerID(s){var i,c;if(isEmpty(s)){if(isCallerID.arguments.length==1){return defaultEmptyOK;}else{return(isCallerID.arguments[1]===true);}}
 for(i=0;i<s.length;i++){c=s.charAt(i);if(!(isCallerIDChar(c))){return false;}}
 return true;}
-function isDialpattern(s){var i,c;if(isEmpty(s)){if(isDialpattern.arguments.length==1){return defaultEmptyOK;}else{return(isDialpattern.arguments[1]===true);}}
+function isDialpattern(s){var i,c;if(isEmpty(s)&&s!='0'){if(isDialpattern.arguments.length==1){return defaultEmptyOK;}else{return(isDialpattern.arguments[1]===true);}}
 for(i=0;i<s.length;i++){c=s.charAt(i);if(!isDialpatternChar(c)){if(c.charCodeAt(0)!=13&&c.charCodeAt(0)!=10){return false;}}}
 return true;}
 function isDialrule(s){var i,c;if(isEmpty(s)){if(isDialrule.arguments.length==1){return defaultEmptyOK;}else{return(isDialrule.arguments[1]===true);}}
