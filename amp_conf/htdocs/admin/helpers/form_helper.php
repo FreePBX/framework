@@ -62,7 +62,7 @@ if ( ! function_exists('form_open'))
 
 		$form .= _attributes_to_string($attributes, TRUE);
 
-		$form .= '>';
+		$form .= ' class="fpbx-submit">';
 
 		// CSRF
 		if ($CI->config->item('csrf_protection') === TRUE)
@@ -176,7 +176,7 @@ if ( ! function_exists('form_input'))
 	{
 		$defaults = array('type' => 'text', 'name' => (( ! is_array($data)) ? $data : ''), 'value' => $value);
 
-		return "<input "._parse_form_attributes($data, $defaults).$extra." />";
+		return "<input "._parse_form_attributes($data, $defaults).$extra." class='form-control' />";
 	}
 }
 
@@ -262,7 +262,7 @@ if ( ! function_exists('form_textarea'))
 		}
 
 		$name = (is_array($data)) ? $data['name'] : $data;
-		return "<textarea "._parse_form_attributes($data, $defaults).$extra.">".form_prep($val, $name)."</textarea>";
+		return "<textarea "._parse_form_attributes($data, $defaults).$extra." class='form-control'>".form_prep($val, $name)."</textarea>";
 	}
 }
 
@@ -326,7 +326,7 @@ if ( ! function_exists('form_dropdown'))
 
 		$multiple = (count($selected) > 1 && strpos($extra, 'multiple') === FALSE) ? ' multiple="multiple"' : '';
 
-		$form = '<select id="'.$name.'" name="'.$name.'"'.$extra.$multiple.">\n";
+		$form = '<select id="'.$name.'" name="'.$name.'"'.$extra.$multiple." class='form-control'>\n";
 
 		foreach ($options as $key => $val)
 		{
