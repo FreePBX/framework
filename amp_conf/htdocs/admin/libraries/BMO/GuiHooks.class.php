@@ -33,35 +33,37 @@ class GuiHooks {
 		$retarr = array();
 
 		$allHooks = $this->FreePBX->Hooks->getAllHooks();
-		if(empty($allHooks['GuiHooks'])) {
+		if(empty($allHooks['GuiHooks']) || !is_array($allHooks['GuiHooks'])) {
 			return $retarr;
 		}
 		foreach ($allHooks['GuiHooks'] as $module => $hookArr) {
-			\modgettext::push_textdomain(strtolower($module));
-			foreach ($hookArr as $key => $val) {
+			if(!empty($hookArr) && is_array($hookArr)) {
+				\modgettext::push_textdomain(strtolower($module));
+				foreach ($hookArr as $key => $val) {
 
-				// Check for INTERCEPT Hooks.
-				if ($key == 'INTERCEPT') {
-					if (is_array($val)) {
-						foreach ($val as $page) {
-							if ($pageName == $page) {
-								$retarr['INTERCEPT'][$module] = $page;
+					// Check for INTERCEPT Hooks.
+					if ($key == 'INTERCEPT') {
+						if (!empty($val) && is_array($val)) {
+							foreach ($val as $page) {
+								if ($pageName == $page) {
+									$retarr['INTERCEPT'][$module] = $page;
+								}
+							}
+						} else {
+							if ($pageName == $val) {
+								$retarr['INTERCEPT'][$module] = $val;
 							}
 						}
-					} else {
-						if ($pageName == $val) {
-							$retarr['INTERCEPT'][$module] = $val;
-						}
+					} elseif (!is_string($val)) {
+						throw new \Exception("Handed unknown stuff by $module");
 					}
-				} elseif (!is_string($val)) {
-					throw new \Exception("Handed unknown stuff by $module");
-				}
 
-				// Now check for normal hooks
-				if ($val == $currentModule)
-					$retarr['hooks'][] = $module;
+					// Now check for normal hooks
+					if ($val == $currentModule)
+						$retarr['hooks'][] = $module;
+				}
+				\modgettext::pop_textdomain();
 			}
-			\modgettext::pop_textdomain();
 		}
 
 		$retarr['oldhooks'] = $this->getOldConfigPageInit();
