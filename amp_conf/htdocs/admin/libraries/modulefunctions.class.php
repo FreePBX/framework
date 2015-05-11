@@ -1100,12 +1100,17 @@ class module_functions {
 			$modulename = $modulename['rawname'];
 		}
 
+		$info = $this->getinfo($modulename);
+		if($info[$modulename]['status'] == MODULE_STATUS_BROKEN) {
+			return false;
+		}
+
 		$modules = $this->getinfo(false, array(MODULE_STATUS_ENABLED, MODULE_STATUS_NEEDUPGRADE));
 
 		$depends = array();
 
 		foreach (array_keys($modules) as $name) {
-			if (isset($modules[$name]['depends'])) {
+			if (!empty($modules[$name]['depends']) && is_array($modules[$name]['depends'])) {
 				foreach ($modules[$name]['depends'] as $type => $requirements) {
 					if ($type == 'module') {
 						// if only a single item, make it an array so we can use the same code as for multiple items
@@ -1113,17 +1118,18 @@ class module_functions {
 						if (!is_array($requirements)) {
 							$requirements = array($requirements);
 						}
+						if(!empty($requirements) && is_array($requirements)) {
+							foreach ($requirements as $value) {
 
-						foreach ($requirements as $value) {
+								if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.\d*[beta|alpha|rc|RC]*\d+)+))?$/i', $value, $matches)) {
+									// matches[1] = modulename, [3]=comparison operator, [4] = version
 
-							if (preg_match('/^([a-z0-9_]+)(\s+(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d+(\.\d*[beta|alpha|rc|RC]*\d+)+))?$/i', $value, $matches)) {
-								// matches[1] = modulename, [3]=comparison operator, [4] = version
-
-								// note, we're not checking version here. Normally this function is used when
-								// uninstalling a module, so it doesn't really matter anyways, and version
-								// dependency should have already been checked when the module was installed
-								if ($matches[1] == $modulename) {
-									$depends[] = $name;
+									// note, we're not checking version here. Normally this function is used when
+									// uninstalling a module, so it doesn't really matter anyways, and version
+									// dependency should have already been checked when the module was installed
+									if ($matches[1] == $modulename) {
+										$depends[] = $name;
+									}
 								}
 							}
 						}
