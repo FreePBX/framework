@@ -256,20 +256,26 @@ class GuiHooks {
 		// modules that want it.
 
 		// Firstly, old style hooks
-		foreach ($postOldHooks as $mod => $hookArr) {
-			\modgettext::push_textdomain(strtolower($mod));
-			foreach($hookArr as $hook) {
-				$this->FreePBX->Performance->Stamp("myOldHooks-$hook-$display"."_start");
-				$hook($display);
-				$this->FreePBX->Performance->Stamp("myOldHooks-$hook-$display"."_stop");
+		if(!empty($postOldHooks) && is_array($postOldHooks)) {
+			foreach ($postOldHooks as $mod => $hookArr) {
+				\modgettext::push_textdomain(strtolower($mod));
+				if(!empty($hookArr) && is_array($hookArr)) {
+					foreach($hookArr as $hook) {
+						$this->FreePBX->Performance->Stamp("myOldHooks-$hook-$display"."_start");
+						$hook($display);
+						$this->FreePBX->Performance->Stamp("myOldHooks-$hook-$display"."_stop");
+					}
+				}
+				\modgettext::pop_textdomain();
 			}
-			\modgettext::pop_textdomain();
 		}
 
 		// And now the new-style module hooks.
-		foreach ($myHooks as $mod => $arr) {
-			if (in_array($display, $arr)) {
-				$this->doBMOConfigPage($mod, $display);
+		if(!empty($myHooks) && is_array($myHooks)) {
+			foreach ($myHooks as $mod => $arr) {
+				if (!empty($arr) && is_array($arr) && in_array($display, $arr)) {
+					$this->doBMOConfigPage($mod, $display);
+				}
 			}
 		}
 	}
