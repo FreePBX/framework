@@ -63,7 +63,7 @@ class Chown extends Command {
 					'perms' => 0644,
 				);
 			$hooks = $this->fwcChownFiles();
-			$current = $hooks[ucfirst($mod)];
+			$current = isset($hooks[ucfirst($mod)])?$hooks[ucfirst($mod)]:false;
 			if($current){
 				$this->modfiles = array_merge_recursive($this->modfiles,$current);
 			}
@@ -164,6 +164,7 @@ class Chown extends Command {
 				$group = array_key_exists('group', $file)?$file['group']:$ampgroup;
 				//Set warning for bad permissions and move on
 				$this->padPermissions($file['path'],$file['perms']);
+				$file['type'] = isset($file['type'])?$file['type']:'file';
 				switch($file['type']){
 					case 'file':
 					case 'dir':
