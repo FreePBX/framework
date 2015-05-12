@@ -1005,8 +1005,8 @@ class gui_drawselects extends guiinput {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
-		if(trim($index) == '' || empty($dest)) {
-			trigger_error('$index or $dest can not be blank');
+		if(trim($index) == '') {
+			trigger_error('$index can not be blank');
 			return;
 		}
 		global $currentcomponent;
