@@ -195,7 +195,7 @@ class Hooks extends DB_Helper {
 			$path = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/";
 			if(file_exists($path.$module.'/'.ucfirst($module).'.class.php')) {
 				$ucmodule = ucfirst($module);
-				if(!class_exists($ucmodule)) {
+				if(!class_exists($ucmodule) || !class_exists("FreePBX\\modules\\".$ucmodule)) {
 					try { $this->FreePBX->$ucmodule; } catch (Exception $e) { }
 				}
 			}

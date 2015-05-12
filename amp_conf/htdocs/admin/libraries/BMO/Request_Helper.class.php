@@ -62,7 +62,7 @@ class Request_Helper extends Self_Helper {
 			}
 
 			// Is it a Radio button?  It'll return $r['foo'] = 'foo=var';
-			if (preg_match("/^$key=(.+)$/", $var, $match)) {
+			if (is_string($var) && preg_match("/^$key=(.+)$/", $var, $match)) {
 				// It is.
 				$this->setConfig($key, $match[1], $id);
 				continue;
