@@ -1624,9 +1624,9 @@ $(document).ready(function() {
  * <span class="filename"></span>
  */
  $(document).on('change', '.btn-file :file', function() {
-    var input = $(this),
-        label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
-        input.parent().siblings(".filename").html(label);
+		var input = $(this),
+				label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+				input.parent().siblings(".filename").html(label);
 });
 
 /**
@@ -1669,6 +1669,10 @@ $(document).ready(function(){
 	if ($('div.bootnav').length && $('div.bootnav a.active').length){
 		$('div.bootnav .list-group').scrollTop($('div.bootnav a.active').position().top);
 	}
+
+	if($(window).width() > 991) {
+		$(".freepbx-navbar .dropdown-menu").css("max-height",$(window).height()-40);
+	}
 });
 $(".maxlen").keyup(function(){
 		var curid = $(this).attr('id');
@@ -1688,4 +1692,13 @@ $(document).on('click','.delAction', function(e){
 //Prevent links from jumoing to the top of the page
 $(document).on('click','.clickable', function(e){
 	e.preventDefault();
+});
+
+//Menu autoresize to height of browser viewport
+$(window).resize(function() {
+	if($(window).width() < 992) {
+		$(".freepbx-navbar .dropdown-menu").css("max-height","");
+	} else {
+		$(".freepbx-navbar .dropdown-menu").css("max-height",$(window).height()-40);
+	}
 });
