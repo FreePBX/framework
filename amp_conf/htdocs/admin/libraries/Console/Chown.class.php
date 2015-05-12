@@ -160,8 +160,8 @@ class Chown extends Command {
 						continue;
 				}
 				//Handle custom ownership (optional)
-				$owner = array_key_exists('owner', $file)?$file['owner']:$ampowner;
-				$group = array_key_exists('group', $file)?$file['group']:$ampgroup;
+				$owner = isset($file['owner'])?$file['owner']:$ampowner;
+				$group = isset($file['group'])?$file['group']:$ampgroup;
 				//Set warning for bad permissions and move on
 				$this->padPermissions($file['path'],$file['perms']);
 				$file['type'] = isset($file['type'])?$file['type']:'file';
