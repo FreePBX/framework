@@ -329,7 +329,7 @@ function engine_getinfo($force_read=false) {
 
 function do_reload($passthru=false) {
 	global $amp_conf, $asterisk_conf, $db, $astman, $version;
-	$freepbx_conf =& freepbx_conf::create();
+	$freepbx_conf = freepbx_conf::create();
 
 	$setting_pre_reload = $freepbx_conf->get_conf_setting('PRE_RELOAD', $passthru);
 	$setting_ampbin = $freepbx_conf->get_conf_setting('AMPBIN', $passthru);
@@ -340,7 +340,7 @@ function do_reload($passthru=false) {
 		$version = $engine_info['version'];
 	}
 
-	$notify =& notifications::create($db);
+	$notify = notifications::create($db);
 
 	$return = array('num_errors'=>0,'test'=>'abc');
 	$exit_val = null;

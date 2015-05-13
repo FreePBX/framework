@@ -614,7 +614,7 @@ class Moduleadmin extends Command {
 		foreach($list as $m) {
 			//Check signature status, then if its online then if its signed online then redownload (through force)
 			$this->out->writeln("Checking ". $m['rawname'] . "...");
-			if(isset($m['signature']['status']) && (~$m['signature']['status'] & \GPG::STATE_GOOD)) {
+			if(isset($m['signature']['status']) && (~$m['signature']['status'] & \FreePBX\GPG::STATE_GOOD)) {
 				$this->out->writeln("Signature Invalid");
 				if(isset($modules_online[$m['rawname']]) && isset($modules_online[$m['rawname']]['signed'])) {
 					$this->out->writeln("\tRefreshing ".$m['rawname']);
