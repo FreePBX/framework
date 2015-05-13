@@ -74,6 +74,12 @@ class Chown extends Command {
 				$this->modfiles = array_merge_recursive($this->modfiles,$current);
 			}
 		}else{
+			//Include all module folders
+			foreach(glob($AMPWEBROOT.'/admin/modules/', GLOB_ONLYDIR | GLOB_NOSORT) as $folder) {
+				$this->modfiles['framework'][] = array('type' => 'dir',
+														'path' => $folder,
+														'perms' => 0744);
+			}
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $sessdir,
 														'perms' => 0744);
@@ -166,8 +172,8 @@ class Chown extends Command {
 						continue;
 				}
 				//Handle custom ownership (optional)
-				$owner = array_key_exists('owner', $file)?$file['owner']:$ampowner;
-				$group = array_key_exists('group', $file)?$file['group']:$ampgroup;
+				$owner = isset($file['owner'])?$file['owner']:$ampowner;
+				$group = isset($file['group'])?$file['group']:$ampgroup;
 				//Set warning for bad permissions and move on
 				$this->padPermissions($file['path'],$file['perms']);
 				$file['type'] = isset($file['type'])?$file['type']:'file';
