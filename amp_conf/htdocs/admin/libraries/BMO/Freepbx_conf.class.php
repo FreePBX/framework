@@ -895,10 +895,18 @@ class Freepbx_conf {
 
     if ($new_setting || $attributes != $this->db_conf_store[$keyword]) {
       if (!$new_setting) {
-        unset($attributes['keyword']);
-        unset($attributes['value']);
-        unset($attributes['type']);
-        unset($attributes['modified']);
+        if(isset($attributes['keyword'])) {
+          unset($attributes['keyword']);
+        }
+        if(isset($attributes['value'])) {
+          unset($attributes['value']);
+        }
+        if(isset($attributes['type'])) {
+          unset($attributes['type']);
+        }
+        if(isset($attributes['modified'])) {
+          unset($attributes['modified']);
+        }
       }
       foreach ($attributes as $key => $val) {
         $this->db_conf_store[$keyword][$key] = $val;
