@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-05-06 16:15-0400\n"
-"PO-Revision-Date: 2015-05-13 09:55+0200\n"
+"PO-Revision-Date: 2015-05-13 10:51+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -795,7 +795,7 @@ msgstr "Configurações Avançadas"
 
 #: amp.i18n.php:12
 msgid "Advanced Settings Details"
-msgstr "Detalhes de Configurações Avançadas"
+msgstr "Detalhes Configurações Avançadas"
 
 #: amp.i18n.php:590
 msgid "Aggresively Check for Duplicate Extensions"
@@ -2548,26 +2548,41 @@ msgid ""
 "except if part of any EMERGENCY Route with an EMERGENCY CID defined for the "
 "extension/device."
 msgstr ""
+"Determina quais CIDs serão permitidos para este tronco. IMPORTANTE: CIDs de "
+"EMERGÊNCIA definidos no ramal/dispositivo serão SEMPRE usados se este tronco "
+"for parte de uma Rota de EMERGÊNCIA independente destas configurações.<br />"
+"Permitir Qualquer CID: todos os CIDs incluindo CIDs exteriores de chamadas "
+"externas encaminhadas serão transmitidos.<br />Bloqueio CIDs Exteriores: "
+"bloqueia todo CID que é o resultado de uma chamada encaminhada de fora do "
+"sistema. Os CIDs definidos para ramais/usuários serão transmitidos.<br />"
+"Remover CNAM: isto removerá CNAM de todo CID enviado fora deste tronco<br />"
+"Forçar CID Tronco: Sempre usará o CID definido para este tronco exceto se "
+"parte de uma Rota de EMERGÊNCIA com um CID de EMERGENCIA definido para "
+"ramal/dispositivo."
 
 #: ../core/views/trunks/pjsip.php:18
 msgid ""
 "Determines whether failed authentication challenges are treated as permanent "
 "failures."
 msgstr ""
+"Determina se desafios de autenticação falhados são tratados como falhas "
+"permanentes."
 
 #: ../core/functions.inc.php:7182
 msgid ""
 "Determines whether res_pjsip will use the media transport received in the "
 "offer SDP in the corresponding answer SDP."
 msgstr ""
+"Determina se res_pjsip usará o transporte de mídia recebido na oferta SDP na "
+"resposta SDP correspondente."
 
 #: amp.i18n.php:96
 msgid "Developer Mode"
-msgstr ""
+msgstr "Modo Desenvolvedor"
 
 #: amp.i18n.php:84
 msgid "Developer and Customization"
-msgstr ""
+msgstr "Desenvolvedor e Personalização"
 
 #: ../core/functions.inc.php:7296 ../core/functions.inc.php:7306
 #: ../core/page.devices.php:8
@@ -2588,7 +2603,7 @@ msgstr "Opções do dispositivo"
 
 #: amp.i18n.php:154
 msgid "Device Settings"
-msgstr ""
+msgstr "Configurações de Dispositivo"
 
 #: ../core/functions.inc.php:7365
 msgid "Device Type"
@@ -2599,6 +2614,8 @@ msgid ""
 "Device and User mode is unsupported by the development team. Are you sure "
 "you want to use this mode?"
 msgstr ""
+"O Dispositivo e modo de Usuário não é suportado pela equipe de "
+"desenvolvimento. Você tem certeza que deseja usar este modo?"
 
 #: amp.i18n.php:722
 msgid "Devices"
@@ -2616,15 +2633,15 @@ msgstr ""
 
 #: ../core/functions.inc.php:7158
 msgid "Dial"
-msgstr ""
+msgstr "Discar"
 
 #: ../core/views/trunks/trunk_header.php:143
 msgid "Dial Number Manipulation Rules"
-msgstr ""
+msgstr "Regras de Manipulação de Número de Discagem"
 
 #: ../core/page.routing.php:538 ../core/page.routing.php:553
 msgid "Dial Patterns that will use this Route"
-msgstr ""
+msgstr "Padrões de Discagem que usarão esta Rota"
 
 #: ../core/views/trunks/trunk_header.php:244
 msgid "Dial Rules Wizards"
@@ -2640,11 +2657,11 @@ msgstr "Assistente de regras de discagem"
 
 #: ../core/views/trunks/trunk_header.php:159
 msgid "Dialed Number Manipulation Rules"
-msgstr ""
+msgstr "Regras de Manipulação de Número Discado"
 
 #: amp.i18n.php:208
 msgid "Dialplan and Operational"
-msgstr ""
+msgstr "Plano de Discagem e Operacional"
 
 #: ../core/page.routing.php:560
 msgid ""
@@ -3708,7 +3725,7 @@ msgstr "Administração do FreePBX"
 
 #: ../core/page.advancedsettings.php:44
 msgid "FreePBX Advanced Settings"
-msgstr ""
+msgstr "Configurações Avançadas FreePBX"
 
 #: amp.i18n.php:4
 msgid "FreePBX Framework"
@@ -3724,7 +3741,7 @@ msgstr ""
 
 #: amp.i18n.php:744
 msgid "FreePBX Support"
-msgstr "Suporte ao FreePBX"
+msgstr "Suporte FreePBX"
 
 #: amp.i18n.php:638
 msgid "FreePBX Web Address"
@@ -5391,7 +5408,7 @@ msgstr "Rotas de saída"
 #: ../core/views/trunks/dundi.php:3 ../core/views/trunks/misdn.php:3
 #: ../core/views/trunks/sip.php:3 ../core/views/trunks/zap.php:3
 msgid "Outgoing Settings"
-msgstr "Parâmetros de saída"
+msgstr "Configurações de Saída"
 
 #: ../core/functions.inc.php:6408 ../core/functions.inc.php:6632
 #: ../core/views/trunks/trunk_header.php:103
@@ -5458,7 +5475,7 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:3
 msgid "PJSIP Settings"
-msgstr ""
+msgstr "Configurações PJSIP"
 
 #: amp.i18n.php:132
 msgid "POST_RELOAD Debug Mode"
@@ -5825,7 +5842,7 @@ msgstr ""
 
 #: amp.i18n.php:444
 msgid "Proxy Settings"
-msgstr ""
+msgstr "Configurações de Proxy"
 
 #: amp.i18n.php:452
 msgid "Proxy Username"
@@ -6143,7 +6160,7 @@ msgstr ""
 
 #: ../core/page.routing.php:436
 msgid "Route Settings"
-msgstr ""
+msgstr "Configurações de Rota"
 
 #: ../core/page.routing.php:462
 msgid "Route Type"
@@ -6465,7 +6482,7 @@ msgstr ""
 
 #: amp.i18n.php:736 amp_conf/htdocs/admin/views/menu.php:62
 msgid "Settings"
-msgstr ""
+msgstr "Configurações"
 
 #: ../core/views/trunks/trunk_header.php:247
 #: ../core/views/trunks/trunk_header.php:255
