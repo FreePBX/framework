@@ -74,6 +74,12 @@ class Chown extends Command {
 				$this->modfiles = array_merge_recursive($this->modfiles,$current);
 			}
 		}else{
+			//Include all module folders
+			foreach(glob($AMPWEBROOT.'/admin/modules/', GLOB_ONLYDIR | GLOB_NOSORT) as $folder) {
+				$this->modfiles['framework'][] = array('type' => 'dir',
+														'path' => $folder,
+														'perms' => 0744);
+			}
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $sessdir,
 														'perms' => 0744);
