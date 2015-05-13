@@ -429,7 +429,7 @@ class Moduleadmin extends Command {
 			case 'update':
 				if(sizeof($args) == 1){
 					$chown->moduleName = $args[0];
-				}				
+				}
 			break;
 		}
 		$chown->execute($this->input, $this->out);
@@ -622,7 +622,7 @@ class Moduleadmin extends Command {
 					$modules = $fpbxmodules->getinfo($modulename);
 					$this->doUpgrade($modulename,true);
 					$this->out->writeln("\tVerifying GPG...");
-					$mf->updateSignature($modulename);
+					$this->mf->updateSignature($modulename);
 					$this->out->writeln("Done");
 				} else {
 					$this->out->writeln(_("\tCould not find signed module on remote server!"));
