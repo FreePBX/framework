@@ -429,7 +429,7 @@ class Moduleadmin extends Command {
 			case 'update':
 				if(sizeof($args) == 1){
 					$chown->moduleName = $args[0];
-				}				
+				}
 			break;
 		}
 		$chown->execute($this->input, $this->out);
@@ -614,7 +614,7 @@ class Moduleadmin extends Command {
 		foreach($list as $m) {
 			//Check signature status, then if its online then if its signed online then redownload (through force)
 			$this->out->writeln("Checking ". $m['rawname'] . "...");
-			if(isset($m['signature']['status']) && (~$m['signature']['status'] & \GPG::STATE_GOOD)) {
+			if(isset($m['signature']['status']) && (~$m['signature']['status'] & \FreePBX\GPG::STATE_GOOD)) {
 				$this->out->writeln("Signature Invalid");
 				if(isset($modules_online[$m['rawname']]) && isset($modules_online[$m['rawname']]['signed'])) {
 					$this->out->writeln("\tRefreshing ".$m['rawname']);
@@ -622,7 +622,7 @@ class Moduleadmin extends Command {
 					$modules = $fpbxmodules->getinfo($modulename);
 					$this->doUpgrade($modulename,true);
 					$this->out->writeln("\tVerifying GPG...");
-					$mf->updateSignature($modulename);
+					$this->mf->updateSignature($modulename);
 					$this->out->writeln("Done");
 				} else {
 					$this->out->writeln(_("\tCould not find signed module on remote server!"));
