@@ -266,7 +266,7 @@ switch ($action) {
 						} else {
 							echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
 							echo '<span id="installstatus_'.$modulename.'"></span>';
-							if (is_array($errors = $modulef->install($modulename))) {
+							if (is_array($errors = $modulef->install($modulename,($setting['action'] == "force_upgrade")))) {
 								echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
 								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 								echo '</span>';
