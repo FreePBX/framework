@@ -275,12 +275,12 @@ class component {
 	function sortguielems() {
 		// sort top gui elements
 
-		if ( is_array($this->guielems_top) ) {
+		if (is_array($this->guielems_top)) {
 			core_collator::ksort($this->guielems_top,core_collator::SORT_NATURAL);
 		}
 
 		// sort middle gui elements
-		if ( is_array($this->guielems_middle) ) {
+		if (is_array($this->guielems_middle)) {
 			$final = array();
 			foreach(array_keys($this->guielems_middle) as $category) {
 				foreach ( array_keys($this->guielems_middle[$category]) as $section ) {
@@ -294,26 +294,25 @@ class component {
 				ksort($final[$category]);
 			}
 			$this->guielems_middle = $final;
+			core_collator::ksort($this->guielems_middle,core_collator::SORT_NATURAL);
+			uksort($this->guielems_middle, function($a,$b) {
+				$a = strtolower($a);
+				$b = strtolower($b);
+				$categories = array(
+					"general" => 1,
+					"voicemail" => 2,
+					"findmefollow" => 3,
+					"advanced" => 4,
+					"other" => 999
+				);
+				$aOrder = isset($categories[$a]) ? $categories[$a] : 5;
+				$bOrder = isset($categories[$b]) ? $categories[$b] : 5;
+				return ($aOrder < $bOrder) ? -1 : 1;
+			});
 		}
 
-		core_collator::ksort($this->guielems_middle,core_collator::SORT_NATURAL);
-		uksort($this->guielems_middle, function($a,$b) {
-			$a = strtolower($a);
-			$b = strtolower($b);
-			$categories = array(
-				"general" => 1,
-				"voicemail" => 2,
-				"findmefollow" => 3,
-				"advanced" => 4,
-				"other" => 999
-			);
-			$aOrder = isset($categories[$a]) ? $categories[$a] : 5;
-			$bOrder = isset($categories[$b]) ? $categories[$b] : 5;
-			return ($aOrder < $bOrder) ? -1 : 1;
-		});
-
 		// sort bottom gui elements
-		if ( is_array($this->guielems_bottom) ) {
+		if (is_array($this->guielems_bottom)) {
 			core_collator::ksort($this->guielems_bottom,core_collator::SORT_NATURAL);
 		}
 
