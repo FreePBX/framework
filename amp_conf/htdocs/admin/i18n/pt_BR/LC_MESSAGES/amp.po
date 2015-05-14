@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-05-06 16:15-0400\n"
-"PO-Revision-Date: 2015-05-07 06:03+0200\n"
+"PO-Revision-Date: 2015-05-13 18:42+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -795,7 +795,7 @@ msgstr "Configurações Avançadas"
 
 #: amp.i18n.php:12
 msgid "Advanced Settings Details"
-msgstr "Detalhes de Configurações Avançadas"
+msgstr "Detalhes Configurações Avançadas"
 
 #: amp.i18n.php:590
 msgid "Aggresively Check for Duplicate Extensions"
@@ -1605,7 +1605,7 @@ msgid ""
 "proper update information and track version usage to focus development and "
 "maintenance efforts. No private information is transmitted."
 msgstr ""
-"Verificando por atualizações transmitirá seus números de versão de seu %s, "
+"Ao verificar por atualizações transmitirá seus números de versão de seu %s, "
 "Distro, Asterisk e PHP junto com um identificador único mas randômico. Isto "
 "é usado para fornecer informações próprias de atualização e faixa de uso de "
 "versão para focar esforços de desenvolvimento e manutenção. Nenhuma "
@@ -2280,12 +2280,20 @@ msgid ""
 "time in msec. Can help to keep NAT holes open with SIP but not dependable "
 "for remote client firewalls. See Asterisk documentation for details."
 msgstr ""
+"Configuração padrão para qualidade SIP e IAX. Se enviar mensagens de OPÇÕES "
+"periódicas (para SIP) ou caso contrário monitorar o canal, e em que ponto "
+"considerar um canal indisponível. Um valor de 'sim' é equivalente a 2000, "
+"tempo em mseg. Pode ajudar a manter comunicação NAT aberta com SIP mas não "
+"dependente para firewalls de clientes remotos. Veja documentação Asterisk "
+"para detalhes."
 
 #: amp.i18n.php:164
 msgid ""
 "Default setting for SIP canreinvite (same as directmedia). See Asterisk "
 "documentation for details."
 msgstr ""
+"Configuração padrão para permissão reinvite SIP (mesmo que directmedia). "
+"Veja documentação Asterisk para detalhes."
 
 #: amp.i18n.php:180
 msgid ""
@@ -2294,6 +2302,10 @@ msgid ""
 "with HANGUPCAUSE=58 if the peer does not support SRTP. See Asterisk "
 "documentation for details."
 msgstr ""
+"Configuração padrão para criptografia SIP. Se oferecer mídia criptografia "
+"SRTP (e apenas mídia criptografada SRTP) nas chamadas de saída para um peer. "
+"As chamadas falharão com HANGUPCAUSE=58 se o peer não suportar SRTP. Veja "
+"documentação Asterisk para detalhes."
 
 #: amp.i18n.php:176
 msgid ""
@@ -2303,6 +2315,11 @@ msgid ""
 "'route' ignores the rport information. See Asterisk documentation for "
 "details."
 msgstr ""
+"Configuração padrão para nat SIP. Um 'sim' tentará lidar com nat, também "
+"funciona para local (usa as portas de rede e endereço ao invés das portas "
+"reportadas), 'não' segue o protocolo, 'nunca' tenta bloqueei-lo, sem "
+"RFC3581, 'rotear' ignora a informação rport. Veja documentação Asterisk para "
+"detalhes."
 
 #: amp.i18n.php:184
 msgid ""
@@ -2311,6 +2328,10 @@ msgid ""
 "help to keep NAT holes open but not dependable for remote client firewalls. "
 "See Asterisk documentation for details."
 msgstr ""
+"Configuração padrão para qualifyfreq SIP. Apenas válido para Asterisk 1.6 e "
+"acima. Frequência que mensagens de OPÇÕES 'qualificar' serão enviadas para o "
+"dispositivo. Pode ajudar a manter comunicação NAT aberta mas não dependente "
+"para firewalls de clientes remotos. Veja documentação Asterisk para detalhes."
 
 #: amp.i18n.php:172
 msgid ""
@@ -2319,11 +2340,16 @@ msgid ""
 "starting with Asterisk 1.8 and will send the 'P-Asserted-Identity' header. "
 "See Asterisk documentation for details."
 msgstr ""
+"Configuração padrão para sendrpid SIP. Um valor de 'sim' é equivalente a "
+"'rpid' e enviará o cabeçalho 'Remote-Party-ID'. Um valor de 'pai' só é "
+"válido a partir do Asterisk 1.8 e enviará o cabeçalho 'P-Asserted-Identity'. "
+"Veja documentação Asterisk para detalhes."
 
 #: amp.i18n.php:168
 msgid ""
 "Default setting for SIP trustrpid. See Asterisk documentation for details."
 msgstr ""
+"Valor padrão para trustrpid SIP. Veja documentação Asterisk para detalhes."
 
 #: amp.i18n.php:200
 msgid ""
@@ -2331,6 +2357,9 @@ msgid ""
 "device is part of, can be one or more callgroups, e.g. '1,3-5' would be in "
 "groups 1,3,4,5. See Asterisk documentation for details."
 msgstr ""
+"Valor padrão para grupo de chamada SIP, DAHDi (e Zap). Grupos de chamadas "
+"que o dispositivo faz parte, pode ser um ou mais grupos de chamadas, ex.: "
+"'1,3-5' estaria nos grupos 1,3,4,5. Veja documentação Asterisk para detalhes."
 
 #: amp.i18n.php:204
 msgid ""
@@ -2339,6 +2368,11 @@ msgid ""
 "would be in groups 1,3,4,5. Device does not have to be in a group to be able "
 "to pickup calls from that group. See Asterisk documentation for details."
 msgstr ""
+"Configuração padrão para grupo de captura SIP, DAHDi (e Zap). Grupos de "
+"captura que o dispositivo pode capturar, pode ser um ou mais grupos, ex.: "
+"'1,3-5' estaria nos grupos 1,3,4,5. O dispositivo não precisa estar em um "
+"grupo para ser capaz de capturar chamadas daquele grupo. Veja documentação "
+"Asterisk para detalhes."
 
 #: amp.i18n.php:290
 msgid ""
@@ -2351,6 +2385,15 @@ msgid ""
 "blind transfers and when a Follow Me is configured and enabled. If Disabled, "
 "the phone rings as a normal phone."
 msgstr ""
+"Configuração padrão para novos ramais. Quando definido para Intercom, "
+"chamadas para novo ramal/usuário de outro usuário interno agem como se "
+"fossem chamadas de intercom significando que elas serão auto atendidas se o "
+"dispositivo suportar esta característica e o sistema estiver configurado "
+"para operar neste modo. Todas as configurações de listas brancas e negras "
+"normais serão honradas se elas estiverem definidas. Chamadas externas ainda "
+"tocarão normalmente, bem como outras certas circunstâncias como uma "
+"transferência cega e quando um Siga Me estiver configurado e habilitado. Se "
+"desabilitado, o telefone tocará como um telefone normal."
 
 #: amp.i18n.php:612
 msgid ""
@@ -2361,6 +2404,12 @@ msgid ""
 "voicemail files. If changed, some of the voicemail directory structures may "
 "have to be manually changed."
 msgstr ""
+"Padrões para 077 permitindo apenas o usuário asterisk ter toda permissão "
+"sobre arquivos VM. Se definido para algo como 007 permitiria o grupo ter "
+"permissões. Isto pode ser usado se definir apache para um usuário diferente "
+"de asterisk, para que o usuário apache possa ter acesso leitura/gravação/"
+"apagar aos arquivos do correio de voz. Se mudado, algumas das estruturas de "
+"diretório do correio de voz pode ter que ser mudada manualmente."
 
 #: ../core/page.did.php:201
 msgid ""
@@ -2370,6 +2419,11 @@ msgid ""
 "and Unavailable in order to catch these special cases if the Telco transmits "
 "them."
 msgstr ""
+"Defina o Número do ID de Chamada para ser conferida nas chamadas de "
+"entrada.<br><br>Deixe este campo em branco para conferir com qualquer ou "
+"nenhuma informação CID. Em adição às sequências de discagem padrão, você "
+"pode colocar Privado, Bloqueado, Desconhecido, Restrito, Anônimo e "
+"Indisponível para capturar estes casos especiais se a Telco transmiti-los."
 
 #: ../core/views/trunks/custom.php:8
 msgid "Define the custom Dial String.  Include the token"
@@ -2422,19 +2476,19 @@ msgstr "Apagar Usuário: %s"
 
 #: ../core/page.astmodules.php:8
 msgid "Deleting the modules.conf file will reset this to defaults."
-msgstr ""
+msgstr "Apagar o arquivo modules.conf redefinirá isto para os padrões."
 
 #: ../core/install.php:902
 msgid "Deleting unused globals.."
-msgstr ""
+msgstr "Apagando globais não usadas.."
 
 #: ../core/functions.inc.php:7166
 msgid "Deny"
-msgstr ""
+msgstr "Negar"
 
 #: ../core/page.ampusers.php:187
 msgid "Department Name"
-msgstr ""
+msgstr "Norme Departamento"
 
 #: ../core/page.ampusers.php:268
 msgid "Department name cannot have a space"
@@ -2443,7 +2497,7 @@ msgstr "O nome do departamento nao pode ter nenhum espaço"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:814
 #, php-format
 msgid "Dependency %s has an unknown state of : %s %s"
-msgstr ""
+msgstr "Dependência %s tem um estado desconhecido de: %s %s"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:14
 #: amp_conf/htdocs/admin/views/module_admin/main.php:187
@@ -2454,12 +2508,12 @@ msgstr "Descrição"
 
 #: ../core/views/trunks/trunk_header.php:48
 msgid "Descriptive Name for this Trunk"
-msgstr ""
+msgstr "Nome Descritivo para este Tronco"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:731
 #, php-format
 msgid "Detected Missing Dependency of: %s %s"
-msgstr ""
+msgstr "Dependência Faltante Detectada de: %s %s"
 
 #: amp.i18n.php:560
 msgid ""
@@ -2471,6 +2525,15 @@ msgid ""
 "can be configured to route different levels to different locations. See "
 "'syslog' documentation (man syslog) on your system for more details."
 msgstr ""
+"Determina para onde enviar informações de relatório se o relatório estiver "
+"habilitado ('Desabilitar Relatório FreePBX' (AMPDISABLELOG) falso). Existem "
+"dois lugares para rotear as mensagens de relatório. 'ARQUIVO' enviará todas "
+"as mensagens de relatório para o 'Arquivo de Relatório FreePBX' "
+"(FPBX_LOG_FILE) definido. Todas as outras configurações rotearão as "
+"mensagens de relatório para seu subsistema de Relatório de Sistema (syslog) "
+"usando o nível de relatório especificado. O syslog pode ser configurado para "
+"rotear níveis diferentes para localizações diferentes. Veja documentação "
+"'syslog' (man syslog) no seu sistema para mais detalhes."
 
 #: ../core/views/trunks/trunk_header.php:64
 msgid ""
@@ -2485,26 +2548,41 @@ msgid ""
 "except if part of any EMERGENCY Route with an EMERGENCY CID defined for the "
 "extension/device."
 msgstr ""
+"Determina quais CIDs serão permitidos para este tronco. IMPORTANTE: CIDs de "
+"EMERGÊNCIA definidos no ramal/dispositivo serão SEMPRE usados se este tronco "
+"for parte de uma Rota de EMERGÊNCIA independente destas configurações.<br />"
+"Permitir Qualquer CID: todos os CIDs incluindo CIDs exteriores de chamadas "
+"externas encaminhadas serão transmitidos.<br />Bloqueio CIDs Exteriores: "
+"bloqueia todo CID que é o resultado de uma chamada encaminhada de fora do "
+"sistema. Os CIDs definidos para ramais/usuários serão transmitidos.<br />"
+"Remover CNAM: isto removerá CNAM de todo CID enviado fora deste tronco<br />"
+"Forçar CID Tronco: Sempre usará o CID definido para este tronco exceto se "
+"parte de uma Rota de EMERGÊNCIA com um CID de EMERGENCIA definido para "
+"ramal/dispositivo."
 
 #: ../core/views/trunks/pjsip.php:18
 msgid ""
 "Determines whether failed authentication challenges are treated as permanent "
 "failures."
 msgstr ""
+"Determina se desafios de autenticação falhados são tratados como falhas "
+"permanentes."
 
 #: ../core/functions.inc.php:7182
 msgid ""
 "Determines whether res_pjsip will use the media transport received in the "
 "offer SDP in the corresponding answer SDP."
 msgstr ""
+"Determina se res_pjsip usará o transporte de mídia recebido na oferta SDP na "
+"resposta SDP correspondente."
 
 #: amp.i18n.php:96
 msgid "Developer Mode"
-msgstr ""
+msgstr "Modo Desenvolvedor"
 
 #: amp.i18n.php:84
 msgid "Developer and Customization"
-msgstr ""
+msgstr "Desenvolvedor e Personalização"
 
 #: ../core/functions.inc.php:7296 ../core/functions.inc.php:7306
 #: ../core/page.devices.php:8
@@ -2525,7 +2603,7 @@ msgstr "Opções do dispositivo"
 
 #: amp.i18n.php:154
 msgid "Device Settings"
-msgstr ""
+msgstr "Configurações de Dispositivo"
 
 #: ../core/functions.inc.php:7365
 msgid "Device Type"
@@ -2536,6 +2614,8 @@ msgid ""
 "Device and User mode is unsupported by the development team. Are you sure "
 "you want to use this mode?"
 msgstr ""
+"O Dispositivo e modo de Usuário não é suportado pela equipe de "
+"desenvolvimento. Você tem certeza que deseja usar este modo?"
 
 #: amp.i18n.php:722
 msgid "Devices"
@@ -2553,15 +2633,15 @@ msgstr ""
 
 #: ../core/functions.inc.php:7158
 msgid "Dial"
-msgstr ""
+msgstr "Discar"
 
 #: ../core/views/trunks/trunk_header.php:143
 msgid "Dial Number Manipulation Rules"
-msgstr ""
+msgstr "Regras de Manipulação de Número de Discagem"
 
 #: ../core/page.routing.php:538 ../core/page.routing.php:553
 msgid "Dial Patterns that will use this Route"
-msgstr ""
+msgstr "Padrões de Discagem que usarão esta Rota"
 
 #: ../core/views/trunks/trunk_header.php:244
 msgid "Dial Rules Wizards"
@@ -2577,11 +2657,11 @@ msgstr "Assistente de regras de discagem"
 
 #: ../core/views/trunks/trunk_header.php:159
 msgid "Dialed Number Manipulation Rules"
-msgstr ""
+msgstr "Regras de Manipulação de Número Discado"
 
 #: amp.i18n.php:208
 msgid "Dialplan and Operational"
-msgstr ""
+msgstr "Plano de Discagem e Operacional"
 
 #: ../core/page.routing.php:560
 msgid ""
@@ -2972,7 +3052,7 @@ msgstr ""
 
 #: amp.i18n.php:630
 msgid "Enable Module Tracks"
-msgstr ""
+msgstr "Habilitar Faixas de Módulos"
 
 #: amp.i18n.php:120
 msgid "Enable Performance Logging"
@@ -3645,7 +3725,7 @@ msgstr "Administração do FreePBX"
 
 #: ../core/page.advancedsettings.php:44
 msgid "FreePBX Advanced Settings"
-msgstr ""
+msgstr "Configurações Avançadas FreePBX"
 
 #: amp.i18n.php:4
 msgid "FreePBX Framework"
@@ -3661,7 +3741,7 @@ msgstr ""
 
 #: amp.i18n.php:744
 msgid "FreePBX Support"
-msgstr "Suporte ao FreePBX"
+msgstr "Suporte FreePBX"
 
 #: amp.i18n.php:638
 msgid "FreePBX Web Address"
@@ -4410,7 +4490,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/menu.php:151
 msgid "Language"
-msgstr ""
+msgstr "Idioma"
 
 #: ../core/page.routing.php:517
 #, php-format
@@ -4439,11 +4519,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:42
 #: amp_conf/htdocs/admin/views/module_admin/main.php:176
 msgid "License"
-msgstr ""
+msgstr "Licença"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:225
 msgid "Licensed"
-msgstr ""
+msgstr "Licenciado"
 
 #: amp.i18n.php:508
 msgid "Link for Footer Logo"
@@ -5089,7 +5169,7 @@ msgstr "Objetos"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:215
 msgid "Obtain Free License"
-msgstr ""
+msgstr "Obter Licença Gratuita"
 
 #: amp.i18n.php:296
 msgid "Occupied Lines CW Busy"
@@ -5328,7 +5408,7 @@ msgstr "Rotas de saída"
 #: ../core/views/trunks/dundi.php:3 ../core/views/trunks/misdn.php:3
 #: ../core/views/trunks/sip.php:3 ../core/views/trunks/zap.php:3
 msgid "Outgoing Settings"
-msgstr "Parâmetros de saída"
+msgstr "Configurações de Saída"
 
 #: ../core/functions.inc.php:6408 ../core/functions.inc.php:6632
 #: ../core/views/trunks/trunk_header.php:103
@@ -5395,7 +5475,7 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:3
 msgid "PJSIP Settings"
-msgstr ""
+msgstr "Configurações PJSIP"
 
 #: amp.i18n.php:132
 msgid "POST_RELOAD Debug Mode"
@@ -5762,7 +5842,7 @@ msgstr ""
 
 #: amp.i18n.php:444
 msgid "Proxy Settings"
-msgstr ""
+msgstr "Configurações de Proxy"
 
 #: amp.i18n.php:452
 msgid "Proxy Username"
@@ -5771,7 +5851,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:41
 #: amp_conf/htdocs/admin/views/module_admin/main.php:170
 msgid "Publisher"
-msgstr ""
+msgstr "Publicador"
 
 #: ../core/functions.inc.php:851
 msgid "Put caller on hold forever"
@@ -5967,7 +6047,7 @@ msgstr "Relatórios"
 
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:8
 msgid "Repositories"
-msgstr ""
+msgstr "Repositórios"
 
 #: amp.i18n.php:420
 msgid "Require Confirm with Apply Changes"
@@ -6080,7 +6160,7 @@ msgstr ""
 
 #: ../core/page.routing.php:436
 msgid "Route Settings"
-msgstr ""
+msgstr "Configurações de Rota"
 
 #: ../core/page.routing.php:462
 msgid "Route Type"
@@ -6402,7 +6482,7 @@ msgstr ""
 
 #: amp.i18n.php:736 amp_conf/htdocs/admin/views/menu.php:62
 msgid "Settings"
-msgstr ""
+msgstr "Configurações"
 
 #: ../core/views/trunks/trunk_header.php:247
 #: ../core/views/trunks/trunk_header.php:255
@@ -6415,15 +6495,15 @@ msgstr ""
 
 #: amp.i18n.php:424
 msgid "Show Language setting"
-msgstr ""
+msgstr "Mostrar Configuração de Idioma"
 
 #: amp.i18n.php:426
 msgid "Show Language setting on menu . Defaults = false"
-msgstr ""
+msgstr "Mostrar Configuração de Idiona no menu. Padrão = falso"
 
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:32
 msgid "Show only upgradeable"
-msgstr ""
+msgstr "Mostrar apenas atualizáveis"
 
 #: ../core/page.did.php:241
 msgid "Signal RINGING"
@@ -6494,7 +6574,7 @@ msgstr "Módulo especificado não encontrado"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:43
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: amp.i18n.php:106
 msgid ""
@@ -6737,7 +6817,7 @@ msgstr ""
 
 #: amp.i18n.php:624
 msgid "The default language used in the webUI"
-msgstr ""
+msgstr "O idioma padrão usado no webUI"
 
 #: ../core/page.routing.php:562
 msgid ""
@@ -7250,7 +7330,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:44
 #: amp_conf/htdocs/admin/views/module_admin/main.php:246
 msgid "Track"
-msgstr ""
+msgstr "Faixa"
 
 #: ../core/functions.inc.php:7116 ../core/views/trunks/pjsip.php:130
 msgid "Transport"
@@ -7482,7 +7562,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:203
 #, php-format
 msgid "Upgrading %s to %s from track %s"
-msgstr ""
+msgstr "Atualizando %s para %s da faixa %s"
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:28
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:42
@@ -7505,7 +7585,7 @@ msgstr "Upload de módulo"
 
 #: amp_conf/htdocs/admin/page.modules.php:1071
 msgid "Upload modules"
-msgstr ""
+msgstr "Carregar módulos"
 
 #: ../core/views/trunks/trunk_header.php:249
 #, php-format
@@ -9176,9 +9256,7 @@ msgstr ""
 #: ../core/install.php:233
 #, php-format
 msgid "updated %s callgroups, %s pickupgroups"
-msgstr ""
-"atualizados %s grupos de chamdas (callgroups). %s grupos de captura "
-"(pickupgrups)"
+msgstr "atualizados %s grupos de chamda. %s grupos de captura"
 
 #: ../core/install.php:937
 #, php-format
