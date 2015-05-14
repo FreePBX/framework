@@ -20,5 +20,6 @@ CREATE TABLE cdr (
    KEY `calldate` (`calldate`),
    KEY `dst` (`dst`),
    KEY `accountcode` (`accountcode`),
-   KEY `uniqueid` (`uniqueid`)
+   KEY `uniqueid` (`uniqueid`),
+   KEY `did` (`did`)
 );
