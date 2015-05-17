@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-05-06 16:15-0400\n"
-"PO-Revision-Date: 2015-05-17 00:04+0200\n"
+"PO-Revision-Date: 2015-05-17 02:30+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -2669,6 +2669,9 @@ msgid ""
 "patterns specified by the subsequent columns, then this will be prepended "
 "before sending to the trunks."
 msgstr ""
+"Dígitos a acrescentar a uma comparação bem sucedida. Se o número discado "
+"conferir com o padrão especificado pelas colunas subsequentes então isto "
+"será acrescentado antes de enviar aos troncos."
 
 #: ../core/install.php:12
 msgid "Directed Call Pickup"
@@ -2677,21 +2680,21 @@ msgstr "Puxar chamadas direcionado"
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:605
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it (getGpgLocation)."
-msgstr ""
+msgstr "Diretório %s não existe e não posso fazê-lo (getGpgLocation)."
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:608
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it."
-msgstr ""
+msgstr "Diretório %s não existe e não posso fazê-lo."
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:629
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
-msgstr ""
+msgstr "Diretório %s não existe e não posso fazê-lo. (verificarPermissões)"
 
 #: amp.i18n.php:334
 msgid "Directory Layout"
-msgstr ""
+msgstr "Esboço Diretório"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:360
 #: ../core/functions.inc.php:6406 ../core/functions.inc.php:6412
@@ -2702,23 +2705,23 @@ msgstr "Desabilitado"
 
 #: amp.i18n.php:244
 msgid "Disable -custom Context Includes"
-msgstr ""
+msgstr "Desabilitar - Inclusão de Contextos personalizados"
 
 #: amp.i18n.php:562
 msgid "Disable FreePBX Log"
-msgstr ""
+msgstr "Desabilitar Relatório FreePBX"
 
 #: amp.i18n.php:100
 msgid "Disable FreePBX dbug Logging"
-msgstr ""
+msgstr "Desabilitar Relatório dbug FreePBX"
 
 #: amp.i18n.php:104
 msgid "Disable Mainstyle CSS Compression"
-msgstr ""
+msgstr "Desabilitar Compressão CSS Mainstyle"
 
 #: amp.i18n.php:108
 msgid "Disable Module Admin Caching"
-msgstr ""
+msgstr "Desabilitar Cache de Admin Módulo"
 
 #: ../core/views/trunks/trunk_header.php:122
 msgid "Disable Trunk"
@@ -2732,7 +2735,7 @@ msgstr "Desabilitado"
 #: amp_conf/htdocs/admin/views/module_admin/main.php:95
 #, php-format
 msgid "Disabled; Pending %s to %s"
-msgstr ""
+msgstr "Desabilitado, Pendente %s para %s"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:128
 msgid "Disabled; up to date"
@@ -2741,11 +2744,11 @@ msgstr "Desabilitado; atualizado"
 #: amp_conf/htdocs/admin/page.modules.php:304
 #, php-format
 msgid "Disabling %s"
-msgstr ""
+msgstr "Desabilitando %s"
 
 #: ../core/functions.inc.php:7154
 msgid "Disallowed Codecs"
-msgstr ""
+msgstr "Codecs Não Permitidos"
 
 #: ../core/functions.inc.php:6951 ../core/functions.inc.php:7153
 msgid ""
@@ -2753,27 +2756,31 @@ msgid ""
 "general settings and then specify specific codecs separated by '&' on the "
 "'allow' setting, or just disallow specific codecs separated by '&'."
 msgstr ""
+"Codecs não permitidos. Defina isto para 'all' para remover todos os codecs "
+"definidos nas configurações gerais e então especifique os codecs específicos "
+"separados por '&' na configuração 'Permitir', ou apenas desabilite codecs "
+"específicos separados por '&'."
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:155 ../core/install.php:917
 #, php-format
 msgid "Discontinued logging type %s changing to %s.."
-msgstr ""
+msgstr "Tipo %s de relatório descontinuado mudando para %s.."
 
 #: amp.i18n.php:248
 msgid "Display CallerID on Calling Phone"
-msgstr ""
+msgstr "Mostrar ID de Chamada no Telefone Chamado"
 
 #: amp.i18n.php:252
 msgid "Display Dialed Number on Calling Phone"
-msgstr ""
+msgstr "Mostrar Número Discado no Telefone Chamado"
 
 #: amp.i18n.php:10
 msgid "Display Friendly Name"
-msgstr ""
+msgstr "Mostrar Nome Amigável"
 
 #: amp.i18n.php:112
 msgid "Display Monitor Trunk Failures Option"
-msgstr ""
+msgstr "Mostrar Opção de Monitoramento de Falhas de Tronco"
 
 #: ../core/functions.inc.php:6595
 msgid "Display Name"
@@ -2781,57 +2788,59 @@ msgstr "Nome de Exibição"
 
 #: amp.i18n.php:256
 msgid "Display Presence State of Callee"
-msgstr ""
+msgstr "Mostrar Estado de Presença do Destinatário"
 
 #: amp.i18n.php:16
 msgid "Display Readonly Settings"
-msgstr ""
+msgstr "Mostrar Configurações Apenas Leitura"
 
 #: amp.i18n.php:134
 msgid "Display debug output for script used if POST_RELOAD is used."
-msgstr ""
+msgstr "Mostrar saída debug para scripts usados se POST_RELOAD for usado."
 
 #: amp.i18n.php:260
 msgid "Ditech VQA Inbound Setting"
-msgstr ""
+msgstr "Configuração de Entrada Ditech VQA"
 
 #: amp.i18n.php:264
 msgid "Ditech VQA Outbound Setting"
-msgstr ""
+msgstr "Configuração de Saída Ditech VQA"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:443
 msgid ""
 "Do NOT edit this file as it is auto-generated by FreePBX. All modifications "
 "to"
 msgstr ""
+"NÃO edite este arquivo uma vez que ele é gerado automaticamente pelo "
+"FreePBX. Todas modificações para"
 
 #: ../core/functions.inc.php:6397
 msgid "Don't Care"
-msgstr ""
+msgstr "Não Importa"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:612
 #, php-format
 msgid "Don't have permission/can't write to %s"
-msgstr ""
+msgstr "Não possui permissão/não pode escrever para %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:538
 #, php-format
 msgid "Don't have permission/can't write to: %s"
-msgstr ""
+msgstr "Não possui permissão/não pode escrever para: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:21
 msgid "Don't know about modules yet. It needs to be handed to me"
-msgstr ""
+msgstr "Não sei sobre módulos ainda. Necessita ser entregue a mim"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1887
 #: amp_conf/htdocs/admin/page.modules.php:965
 msgid "Done"
-msgstr ""
+msgstr "Feito"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:94
 #: amp_conf/htdocs/admin/views/module_admin/main.php:312
 msgid "Downgrade"
-msgstr ""
+msgstr "Voltar Versão"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:299
 #, php-format
@@ -2841,11 +2850,11 @@ msgstr "Baixar para %s, manter Desabilitado"
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:27
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:38
 msgid "Download (From Web)"
-msgstr ""
+msgstr "Baixar (Da Web)"
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:37
 msgid "Download Remote Module"
-msgstr ""
+msgstr "Baixar Módulo Remoto"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:30
 #: amp_conf/htdocs/admin/views/module_admin/main.php:435
@@ -2855,7 +2864,7 @@ msgstr "Baixar todos"
 #: amp_conf/htdocs/admin/views/module_admin/main.php:320
 #, php-format
 msgid "Download and %s to %s"
-msgstr ""
+msgstr "Baixar e %s para %s"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:285
 msgid "Download and Install"
@@ -2878,20 +2887,20 @@ msgstr "Baixando %s"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:819
 #, php-format
 msgid "Downloading Missing Dependency of: %s %s"
-msgstr ""
+msgstr "Baixando Dependências Faltantes de: %s %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:260
 #, php-format
 msgid "Downloading and Installing %s"
-msgstr ""
+msgstr "Baixando e Instalando %s"
 
 #: ../core/page.routing.php:368
 msgid "Drag up or down to reposition, click to choose"
-msgstr ""
+msgstr "Arraste para cima ou para baixo para reposicionar, clique para escolher"
 
 #: ../core/page.routing.php:845
 msgid "Duplicate Route"
-msgstr ""
+msgstr "Duplicar Rota"
 
 #: ../core/views/trunks/trunk_footer.php:5
 msgid "Duplicate Trunk"
@@ -2899,15 +2908,15 @@ msgstr "Duplicar Tronco"
 
 #: amp.i18n.php:268
 msgid "Dynamically Generate Hints"
-msgstr ""
+msgstr "Gerar Dicas Dinamicamente"
 
 #: upgrades/2.8.0alpha2/tables.php:117
 msgid "ERROR - could not drop table"
-msgstr ""
+msgstr "ERRO - Não foi possível apagar tabela"
 
 #: upgrades/2.10.0beta3/migration.php:48
 msgid "ERROR connectng to CDR DB to migrate, not done!"
-msgstr ""
+msgstr "ERRO conectando ao BD CDR para migrar, não feito!"
 
 #: ../core/install.php:200
 msgid ""
