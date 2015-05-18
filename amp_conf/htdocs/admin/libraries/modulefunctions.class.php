@@ -868,7 +868,7 @@ class module_functions {
 		$engine_matched = false; // if an engine dependency has matched
 		$engine_errors = array(); // the error strings for engines
 
-		if (isset($modulexml['depends'])) {
+		if (isset($modulexml['depends']) && is_array($modulexml['depends'])) {
 			foreach ($modulexml['depends'] as $type => $requirements) {
 				// if only a single item, make it an array so we can use the same code as for multiple items
 				// this is because if there is  <module>a</module><module>b</module>  we will get array('module' => array('a','b'))
