@@ -750,12 +750,24 @@ $bmo->Performance->Stop();
 
 // Dialplan Hook processing moved to BMO.
 $bmo->Performance->Start("getAllDialplanHooks");
-$hooks = $bmo->DialplanHooks->getAllHooks($active_modules);
+try {
+	$hooks = $bmo->DialplanHooks->getAllHooks($active_modules);
+} catch(\Exception $e) {
+	echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine())."\n";
+	echo
+	exit(255);
+}
 $bmo->Performance->Stop();
 
 $bmo->Performance->Start("processDialplanHooks");
 if (is_array($hooks)) {
-	$bmo->DialplanHooks->processHooks($engine, $hooks);
+	try {
+		$bmo->DialplanHooks->processHooks($engine, $hooks);
+	} catch(\Exception $e) {
+		echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine())."\n";
+		echo
+		exit(255);
+	}
 }
 $bmo->Performance->Stop();
 
