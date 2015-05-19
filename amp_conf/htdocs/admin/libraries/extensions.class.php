@@ -360,7 +360,7 @@ class extensions {
 		}
 
 		//now the rest of the contexts
-		if(is_array($this->_exts)){
+		if(!empty($this->_exts) && is_array($this->_exts)){
 			foreach (array_keys($this->_exts) as $section) {
         $comment = isset($this->_section_comment[$section]) ? ' ; '.$this->_section_comment[$section] : '';
 				$output .= "[$section]$comment\n";
@@ -370,19 +370,19 @@ class extensions {
 				  $output .= "include => {$section}-custom\n";
         }
 				//add requested includes for this context
-				if (isset($this->_includes[$section])) {
+				if (isset($this->_includes[$section]) && is_array($this->_includes[$section])) {
 					foreach ($this->_includes[$section] as $include) {
 						$output .= "include => ".$include['include'] . ($include['comment'] != ''?' ; '.$include['comment']:'') . "\n";
 					}
 				}
-				if (isset($this->_switches[$section])) {
+				if (isset($this->_switches[$section]) && is_array($this->_switches[$section])) {
 					foreach ($this->_switches[$section] as $include) {
 						$output .= "switch => ".$include."\n";
 					}
 				}
 
 				//add requested #exec scripts for this context
-				if (isset($this->_exec[$section])) {
+				if (isset($this->_exec[$section]) && is_array($this->_exec[$section])) {
 					foreach ($this->_exec[$section] as $include) {
 						$output .= "#exec ".$include."\n";
 					}
@@ -392,41 +392,47 @@ class extensions {
         // it outputs false (e.g. noop_trace), we need a pri 1 extension as the next one.
         //
         $last_base_tag = false;
-				foreach (array_keys($this->_exts[$section]) as $extension) {
-          if (is_array($this->_exts[$section][$extension])) foreach (array_keys($this->_exts[$section][$extension]) as $idx) {
+				if(!empty($this->_exts[$section]) && is_array($this->_exts[$section])) {
+					foreach (array_keys($this->_exts[$section]) as $extension) {
+	          if (is_array($this->_exts[$section][$extension])) foreach (array_keys($this->_exts[$section][$extension]) as $idx) {
 
-						$ext = $this->_exts[$section][$extension][$idx];
+							$ext = $this->_exts[$section][$extension][$idx];
 
-						//echo "[$section] $extension $idx\n";
-						//var_dump($ext);
+							//echo "[$section] $extension $idx\n";
+							//var_dump($ext);
 
-            if ($last_base_tag && $ext['basetag'] = 'n') {
-              $ext['basetag'] = $last_base_tag;
-              $last_base_tag = false;
-            }
-            $this_cmd = $ext['cmd']->output();
-            if ($this_cmd !== false) {
-						  $output .= "exten => ". trim($extension) .",".
-							  $ext['basetag'].
-							  ($ext['addpri'] ? '+'.$ext['addpri'] : '').
-							  ($ext['tag'] ? '('.$ext['tag'].')' : '').
-							  ",". $this_cmd ."\n";
-            } else {
-              $last_base_tag = $ext['basetag'] == 1 ? 1 : false;
-            }
-					}
-					if (isset($this->_hints[$section][$extension])) {
-						foreach ($this->_hints[$section][$extension] as $hint) {
-							$output .= "exten => ". trim($extension) .",hint,".$hint."\n";
+	            if ($last_base_tag && $ext['basetag'] = 'n') {
+	              $ext['basetag'] = $last_base_tag;
+	              $last_base_tag = false;
+	            }
+	            $this_cmd = $ext['cmd']->output();
+	            if ($this_cmd !== false) {
+							  $output .= "exten => ". trim($extension) .",".
+								  $ext['basetag'].
+								  ($ext['addpri'] ? '+'.$ext['addpri'] : '').
+								  ($ext['tag'] ? '('.$ext['tag'].')' : '').
+								  ",". $this_cmd ."\n";
+	            } else {
+	              $last_base_tag = $ext['basetag'] == 1 ? 1 : false;
+	            }
 						}
-						unset($this->_hints[$section][$extension]);
+						if (!empty($this->_hints[$section][$extension]) && is_array($this->_hints[$section][$extension])) {
+							foreach ($this->_hints[$section][$extension] as $hint) {
+								$output .= "exten => ". trim($extension) .",hint,".$hint."\n";
+							}
+							unset($this->_hints[$section][$extension]);
+						}
+						$output .= "\n";
 					}
-					$output .= "\n";
 				}
 				//get orphan hints
-				foreach ($this->_hints[$section] as $extension => $extensions) {
-					foreach($extensions as $hint) {
-						$output .= "exten => ". trim($extension) .",hint,".$hint."\n";
+				if(!empty($this->_hints[$section]) && is_array($this->_hints[$section])) {
+					foreach ($this->_hints[$section] as $extension => $extensions) {
+						if(!empty($extensions) && is_array($extensions)) {
+							foreach($extensions as $hint) {
+								$output .= "exten => ". trim($extension) .",hint,".$hint."\n";
+							}
+						}
 					}
 				}
 

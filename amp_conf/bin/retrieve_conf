@@ -9,7 +9,6 @@ $bootstrap_settings['freepbx_auth'] = false;
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
 	include_once('/etc/asterisk/freepbx.conf');
 }
-
 if (!$bootstrap_settings['astman_connected']) {
   fatal(sprintf(_("Unable to connect to Asterisk Manager from %s, aborting"),__FILE__));
 }
@@ -29,6 +28,7 @@ $bmo->GPG->trustFreePBX();
 $bmo->Performance->Stop();
 $bmo->Performance->Start("retrieve_conf");
 $bmo->Hooks->updateBMOHooks();
+
 // BMO TODO: Move this to be part of BMO.
 class connectdirs {
 
@@ -499,6 +499,7 @@ if ((version_compare($version, "11") < 0) || version_compare($version, "15", "ge
 }
 $chan_dahdi = ast_with_dahdi();
 
+
 // If BROWSER_STATS is set to true (default) and we have never provided a notice (NOTICE_BROWSER_STATS false) then do so one time only so
 // they are aware and can choose to opt out.
 if (!$amp_conf['NOTICE_BROWSER_STATS'] && $amp_conf['BROWSER_STATS']) {
@@ -765,8 +766,15 @@ $ext->add('from-internal-noxfer-additional', 'h', '', new ext_hangup(''));
 
 // Write extensions_additional.conf!
 $bmo->Performance->Start("extensions_additional");
-$bmo->WriteConfig->writeConfig($ext->get_filename(), $ext->generateConf());
+try {
+	$bmo->WriteConfig->writeConfig($ext->get_filename(), $ext->generateConf());
+} catch(\Exception $e) {
+	echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine());
+	echo
+	exit(255);
+}
 $bmo->Performance->Stop();
+
 
 // Output any other configuration files from other modules.
 $bmo->Performance->Start("processFileHooks");
