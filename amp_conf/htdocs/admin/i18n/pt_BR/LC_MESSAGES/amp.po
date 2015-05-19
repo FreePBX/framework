@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-05-06 16:15-0400\n"
-"PO-Revision-Date: 2015-05-17 02:30+0200\n"
+"PO-Revision-Date: 2015-05-19 07:32+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -2931,11 +2931,15 @@ msgid ""
 "ERROR: could not insert previous value for ALLOW_SIP_ANON, it may already "
 "exist"
 msgstr ""
+"ERRO: Não foi possível inserir o valor anterior para ALLOW_SIP_ANON, ele "
+"pode já existir"
 
 #: upgrades/2.11.0rc1/migration.php:21
 msgid ""
 "ERROR: could not insert previous values for rpt.conf, they may already exist"
 msgstr ""
+"ERRO: não foi possível inserir os valores anteriores para rpt.conf, eles "
+"podem já existir"
 
 #: ../core/install.php:180
 #, php-format
@@ -2951,15 +2955,19 @@ msgstr "ERRO: tentando verificar se %s já em uso"
 msgid ""
 "Echo training requirements of this card. See DAHDi documentation for details."
 msgstr ""
+"Requerimentos de treinamento Echo desta placa. Veja documentação DAHDi para "
+"detalhes."
 
 #: ../core/functions.inc.php:6841
 msgid ""
 "Echo training requirements of this card. See Zap documentation for details."
 msgstr ""
+"Requerimentos de treinamento Echo desta placa. Veja documentação Zap para "
+"detalhes."
 
 #: ../core/views/trunks/trunk_header.php:1
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: ../core/page.did.php:173
 #, php-format
@@ -2981,7 +2989,7 @@ msgstr "Editar Canal"
 
 #: ../core/page.dahdichandids.php:61
 msgid "Edit DAHDI Channel: "
-msgstr ""
+msgstr "Editar Canal DAHDI: "
 
 #: ../core/functions.inc.php:7315
 #, php-format
@@ -3015,15 +3023,15 @@ msgstr "Editar:"
 
 #: amp_conf/htdocs/admin/views/module_admin/header.php:7
 msgid "Email"
-msgstr ""
+msgstr "Email"
 
 #: amp_conf/htdocs/admin/views/oobe.php:10
 msgid "Email Address"
-msgstr ""
+msgstr "Endereço de Email"
 
 #: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:240
 msgid "Email addresses error"
-msgstr ""
+msgstr "Erro de endereços de email"
 
 #: ../core/page.routing.php:464 ../core/page.routing.php:741
 msgid "Emergency"
@@ -3035,7 +3043,7 @@ msgstr "CID de Emergência"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1084
 msgid "Empty value not allowed for this field"
-msgstr ""
+msgstr "Valor em branco não permitido para este campo"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:292
 #: ../core/functions.inc.php:6407 ../core/functions.inc.php:6411
@@ -3045,19 +3053,19 @@ msgstr "Ativar"
 
 #: ../core/functions.inc.php:7123
 msgid "Enable AVPF"
-msgstr ""
+msgstr "Habilitar AVPF"
 
 #: ../core/functions.inc.php:7146
 msgid "Enable Encryption"
-msgstr ""
+msgstr "Habilitar Criptografia"
 
 #: ../core/functions.inc.php:7139
 msgid "Enable ICE Support"
-msgstr ""
+msgstr "Habilitar Suporte ICE"
 
 #: amp.i18n.php:626
 msgid "Enable Module Signature Checking"
-msgstr ""
+msgstr "Habilitar Verificação de Assinatura de Módulo"
 
 #: amp.i18n.php:630
 msgid "Enable Module Tracks"
@@ -3065,19 +3073,20 @@ msgstr "Habilitar Faixas de Módulos"
 
 #: amp.i18n.php:120
 msgid "Enable Performance Logging"
-msgstr ""
+msgstr "Habilitar Relatório de Desempenho"
 
 #: amp.i18n.php:634
 msgid "Enable Remote Unlocking"
-msgstr ""
+msgstr "Habilitar Desbloqueio Remoto"
 
 #: amp.i18n.php:24
 msgid "Enable Static Content"
-msgstr ""
+msgstr "Habilitar Conteúdo Estático"
 
 #: amp.i18n.php:408
 msgid "Enable The Old Style FreePBX Dial Patterns Textarea"
 msgstr ""
+"Habilitar O Estilo Antigo de Área de texto de Padrões de Discagem FreePBX"
 
 #: amp.i18n.php:242
 msgid ""
@@ -3088,6 +3097,12 @@ msgid ""
 "leave this alone. It allows multi-line phones to receive multiple calls on "
 "their line appearances."
 msgstr ""
+"Habilitar chamada em espera por padrão quando um ramal é criado (Padrão é "
+"sim). Definir para <b>não</b> se você não quiser fones serem delegados com "
+"espera de chamada já habilitada. O usuário teria então que discar o código "
+"de recurso CW (padrão *70) para habilitar seu aparelho. A maioria das "
+"instalações deveriam deixar isto sem mudar. Ele permite que fones com multi-"
+"linhas receberem múltiplas chamadas em suas apresentações de linhas."
 
 #: amp.i18n.php:116
 msgid "Enable jQuery Migrate"
