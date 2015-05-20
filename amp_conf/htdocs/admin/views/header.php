@@ -74,10 +74,10 @@ $html .= '<link href="assets/less/' .$extra_compiled_less_files['buttons'] . '" 
 
 //it seems extremely difficult to put jquery in the footer with the other scripts
 if ($amp_conf['USE_GOOGLE_CDN_JS']) {
-	$html .= '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>';
-	$html .= '<script>window.jQuery || document.write(\'<script src="assets/js/jquery-1.11.2.min.js"><\/script>\')</script>';
+	$html .= '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>';
+	$html .= '<script>window.jQuery || document.write(\'<script src="assets/js/jquery-1.11.3.min.js"><\/script>\')</script>';
 } else {
-	$html .= '<script type="text/javascript" src="assets/js/jquery-1.11.2.min.js"></script>';
+	$html .= '<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>';
 }
 
 //development

@@ -155,7 +155,7 @@ $html .= '<script src="assets/js/chosen.jquery.min.js"></script>';
 
 $html .= '<script type="text/javascript" src="assets/js/jquery.smartWizard.js"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.11.2.min.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.11.4.min.js"></script>';
 
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below
