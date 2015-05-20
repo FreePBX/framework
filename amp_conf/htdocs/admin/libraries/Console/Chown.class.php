@@ -156,8 +156,9 @@ class Chown extends Command {
 			'path' => $ASTAGIDIR,
 			'perms' => 0755);
 			//Merge static files and hook files, then act on them as a single unit
-			if(!empty($this->modfiles) && !empty($this->fwcChownFiles)){
-				$this->modfiles = array_merge_recursive($this->modfiles,$this->fwcChownFiles());
+			$fwcCF = $this->fwcChownFiles();
+			if(!empty($this->modfiles) && !empty($fwcCF)){
+				$this->modfiles = array_merge_recursive($this->modfiles,$fwcCF);
 			}
 		}
 
