@@ -225,7 +225,7 @@ function die_freepbx($text, $extended_text="", $type="FATAL") {
 		$trace .= sprintf($main_fmt, $l['file'], $l['line'], $func);
 		if (isset($l['args'])) foreach ($l['args'] as $i => $a) {
 			if(is_array($a)) {
-				
+			} elseif(is_object($a)) {
 			} else {
 				$trace .= sprintf($arg_fmt, $i, $f($a));
 			}

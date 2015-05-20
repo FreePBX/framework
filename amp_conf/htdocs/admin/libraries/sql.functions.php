@@ -13,28 +13,20 @@ function sql($sql,$type="query",$fetchmode='default') {
 	switch($fetchmode) {
 		case 'DB_FETCHMODE_ASSOC': //You guessed it, looking for string constants!
 		case DB_FETCHMODE_ASSOC:
-			try {
-				//simulate craptacular function from previous versions
-				//that didn't even work correctly! sweet :-/
-				//(The integer shouldnt go there)
-				if($type == 'getAssoc') {
-					$results = $db->$type($sql,true);
-				} else {
-					$results = $db->$type($sql,array(),DB_FETCHMODE_ASSOC);
-				}
-			}catch(\Exception $e) {
-				die_freepbx('Error on SQL Query', $e->getMessage());
+			//simulate craptacular function from previous versions
+			//that didn't even work correctly! sweet :-/
+			//(The integer shouldnt go there)
+			if($type == 'getAssoc') {
+				$results = $db->$type($sql,true);
+			} else {
+				$results = $db->$type($sql,array(),DB_FETCHMODE_ASSOC);
 			}
 		break;
 		case 'default':
-			try {
-				$results = $db->sql($sql, $type);
-			}catch(\Exception $e) {
-				die_freepbx('Error on SQL Query', $e->getMessage());
-			}
+			$results = $db->sql($sql, $type);
 		break;
 		default:
-			die_freepbx("Unknown SQL fetchmode of $fetchmode", "");
+			throw new Exception("Unknown SQL fetchmode of $fetchmode");
 		break;
 	}
 	return $results;
