@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX amp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-13 16:11-0400\n"
+"POT-Creation-Date: 2015-05-19 23:32-0400\n"
 "PO-Revision-Date: 2010-06-27 18:43+0100\n"
 "Last-Translator: Mikael Carlsson <mickecamino@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -380,7 +380,7 @@ msgstr ""
 msgid "%s prepared"
 msgstr ""
 
-#: ../core/Core.class.php:1901
+#: ../core/Core.class.php:1918
 #, php-format
 msgid "%s records failed validation"
 msgstr ""
@@ -532,11 +532,11 @@ msgid ""
 "acted on."
 msgstr ""
 
-#: ../core/functions.inc.php:6385
+#: ../core/functions.inc.php:6196
 msgid "A description for this DID, such as \"Fax\""
 msgstr "Ett kort namn för detta direktnummer, t.ex. \"Fax\""
 
-#: ../core/functions.inc.php:6386
+#: ../core/functions.inc.php:6197
 msgid ""
 "A direct DID that is associated with this extension. The DID should be in "
 "the same format as provided by the provider (e.g. full number, 4 digits for "
@@ -562,11 +562,11 @@ msgid ""
 "from the CLI): 1) fwconsole ma install %s 2) fwconsole ma enable %s"
 msgstr ""
 
-#: ../core/functions.inc.php:4273 ../core/functions.inc.php:4362
+#: ../core/functions.inc.php:4084 ../core/functions.inc.php:4173
 msgid "A route for this DID/CID already exists!"
 msgstr "En väg för detta direktnummer/nummerpresentation finns redan!"
 
-#: ../core/Core.class.php:1491 ../core/functions.inc.php:4915
+#: ../core/Core.class.php:1496 ../core/functions.inc.php:4726
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "En väg med detta direktnummer/nummerpresentation: %s/%s finns redan"
@@ -575,7 +575,7 @@ msgstr "En väg med detta direktnummer/nummerpresentation: %s/%s finns redan"
 msgid "A useful description describing this channel"
 msgstr "En kortfattad beskrivning för denna kanal"
 
-#: ../core/functions.inc.php:6280
+#: ../core/functions.inc.php:6091
 msgid "A user will enter this password when logging onto a device."
 msgstr ""
 "En användare måste använda detta lösenord när han loggar in på sin enhet"
@@ -584,6 +584,10 @@ msgstr ""
 msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
 msgstr ""
 "Alert Info kan användas för att få en speciell ringsignal på SIP enheter."
+
+#: ../core/page.ampusers.php:168
+msgid "ALL SECTIONS"
+msgstr "ALLA SEKTIONER"
 
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1209
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1221
@@ -600,7 +604,7 @@ msgstr ""
 msgid "Aborting Shutdown"
 msgstr ""
 
-#: ../core/page.ampusers.php:267
+#: ../core/page.ampusers.php:250
 msgid "Access Restrictions"
 msgstr "Behörighetsrestriktioner"
 
@@ -615,7 +619,7 @@ msgid "Accountcode for this device."
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:275
-#: ../core/page.ampusers.php:292 ../core/page.astmodules.php:86
+#: ../core/page.ampusers.php:275 ../core/page.astmodules.php:86
 #: ../core/page.astmodules.php:103 ../core/page.astmodules.php:120
 msgid "Action"
 msgstr "Val"
@@ -640,12 +644,12 @@ msgstr ""
 msgid "Add"
 msgstr "Lägg till"
 
-#: ../core/functions.inc.php:6601
+#: ../core/functions.inc.php:6412
 #, php-format
 msgid "Add %s Device"
 msgstr "Lägg till %s enhet"
 
-#: ../core/functions.inc.php:6603
+#: ../core/functions.inc.php:6414
 #, php-format
 msgid "Add %s Extension"
 msgstr "Lägg till %s anknytning"
@@ -663,20 +667,20 @@ msgstr "Lägg till administratör"
 msgid "Add DAHDI DID"
 msgstr ""
 
-#: ../core/page.ampusers.php:173
+#: ../core/page.ampusers.php:142 ../core/page.ampusers.php:165
 msgid "Add Device"
 msgstr "Lägg till enhet"
 
-#: ../core/functions.inc.php:6269 ../core/functions.inc.php:6659
-#: ../core/page.ampusers.php:173
+#: ../core/functions.inc.php:6080 ../core/functions.inc.php:6470
+#: ../core/page.ampusers.php:142 ../core/page.ampusers.php:165
 msgid "Add Extension"
 msgstr "Lägg till anknytning"
 
-#: ../core/functions.inc.php:6387
+#: ../core/functions.inc.php:6198
 msgid "Add Inbound CID"
 msgstr "Lägg till inkommande nummerpresentation"
 
-#: ../core/functions.inc.php:6386
+#: ../core/functions.inc.php:6197
 msgid "Add Inbound DID"
 msgstr "Lägg till inkommande direktnummer"
 
@@ -706,21 +710,21 @@ msgstr ""
 msgid "Add Route"
 msgstr "Lägg till väg"
 
-#: ../core/functions.inc.php:6271 ../core/functions.inc.php:6661
+#: ../core/functions.inc.php:6082 ../core/functions.inc.php:6472
 #: ../core/page.ampusers.php:97 ../core/page.ampusers.php:99
 #: ../core/page.users.php:81
 msgid "Add User"
 msgstr "Lägg till användare"
 
-#: ../core/functions.inc.php:6248
+#: ../core/functions.inc.php:6059
 msgid "Add User/Extension"
 msgstr "Lägg till användare/anknytning"
 
-#: ../core/functions.inc.php:6555
+#: ../core/functions.inc.php:6366
 msgid "Add Virtual Extension"
 msgstr ""
 
-#: ../core/functions.inc.php:6387
+#: ../core/functions.inc.php:6198
 msgid ""
 "Add a CID for more specific DID + CID routing. A DID must be specified in "
 "the above Add DID box. In addition to standard dial sequences, you can also "
@@ -761,7 +765,7 @@ msgstr ""
 msgid "Additional Settings"
 msgstr "Extra inställningar"
 
-#: ../core/functions.inc.php:6529
+#: ../core/functions.inc.php:6340
 msgid "Adhoc"
 msgstr "Ad-hoc"
 
@@ -769,7 +773,7 @@ msgstr "Ad-hoc"
 msgid "Admin"
 msgstr "Administration"
 
-#: ../core/page.ampusers.php:275
+#: ../core/page.ampusers.php:258
 msgid "Admin Access"
 msgstr ""
 
@@ -888,7 +892,7 @@ msgstr ""
 msgid "Already Migrated!"
 msgstr ""
 
-#: ../core/functions.inc.php:6145
+#: ../core/functions.inc.php:5956
 msgid "Always"
 msgstr "Alltid"
 
@@ -942,7 +946,7 @@ msgstr ""
 "har annan utrustning installerad parallellt med denna linje och du vill att "
 "denna utrustning ska kunna svara först."
 
-#: ../core/functions.inc.php:6399
+#: ../core/functions.inc.php:6210
 msgid "Any DID"
 msgstr "Alla direktnummer"
 
@@ -950,7 +954,7 @@ msgstr "Alla direktnummer"
 msgid "Applications"
 msgstr ""
 
-#: ../core/page.ampusers.php:174
+#: ../core/page.ampusers.php:143 ../core/page.ampusers.php:162
 msgid "Apply Changes Bar"
 msgstr "Spara ändringar"
 
@@ -993,11 +997,11 @@ msgstr ""
 msgid "Asked for raw contents of a file, but was never asked to read a file"
 msgstr ""
 
-#: ../core/functions.inc.php:6383
+#: ../core/functions.inc.php:6194
 msgid "Assigned DID/CID"
 msgstr "Tilldela direktnummer/nummerpresentation"
 
-#: ../core/functions.inc.php:6352
+#: ../core/functions.inc.php:6163
 msgid "Asterisk Dial Options"
 msgstr ""
 
@@ -1150,11 +1154,11 @@ msgstr "Spärra främmande nummerpresentationer"
 msgid "Broken"
 msgstr "Felaktig/trasig"
 
-#: ../core/functions.inc.php:849 ../core/functions.inc.php:6454
+#: ../core/functions.inc.php:849 ../core/functions.inc.php:6265
 msgid "Busy"
 msgstr "Upptagen"
 
-#: ../core/functions.inc.php:6453
+#: ../core/functions.inc.php:6264
 msgid "Busy Voicemail if Enabled"
 msgstr ""
 
@@ -1181,7 +1185,7 @@ msgstr ""
 msgid "CID"
 msgstr ""
 
-#: ../core/functions.inc.php:6315
+#: ../core/functions.inc.php:6126
 msgid "CID Num Alias"
 msgstr "Alias för nummerpresentation"
 
@@ -1189,8 +1193,8 @@ msgstr "Alias för nummerpresentation"
 msgid "CID Options"
 msgstr "Val för nummerpresentation"
 
-#: ../core/functions.inc.php:6446 ../core/functions.inc.php:6455
-#: ../core/functions.inc.php:6460
+#: ../core/functions.inc.php:6257 ../core/functions.inc.php:6266
+#: ../core/functions.inc.php:6271
 msgid "CID Prefix"
 msgstr ""
 
@@ -1206,7 +1210,7 @@ msgstr "Namnprefix för nummerpresentation"
 msgid "CRITICAL ERROR"
 msgstr ""
 
-#: ../core/functions.inc.php:6363
+#: ../core/functions.inc.php:6174
 msgid "Call Forward Ring Time"
 msgstr ""
 
@@ -1218,11 +1222,11 @@ msgstr ""
 msgid "Call Recording Module Not Enabled"
 msgstr ""
 
-#: ../core/functions.inc.php:6380
+#: ../core/functions.inc.php:6191
 msgid "Call Screening"
 msgstr "Sålla samtal"
 
-#: ../core/functions.inc.php:6380
+#: ../core/functions.inc.php:6191
 msgid ""
 "Call Screening requires external callers to say their name, which will be "
 "played back to the user and allow the user to accept or reject the call.  "
@@ -1235,11 +1239,11 @@ msgid ""
 "the caller's CallerID."
 msgstr ""
 
-#: ../core/functions.inc.php:6375
+#: ../core/functions.inc.php:6186
 msgid "Call Waiting"
 msgstr "Samtal väntar"
 
-#: ../core/functions.inc.php:6428
+#: ../core/functions.inc.php:6239
 msgid ""
 "Call recording policy priority relative to other extensions when there is a "
 "conflict between an extension wanting recording and the other not wanting "
@@ -1247,7 +1251,7 @@ msgid ""
 "(caller or callee) determines the policy."
 msgstr ""
 
-#: ../core/Core.class.php:1877
+#: ../core/Core.class.php:1894
 msgid "Caller ID Number"
 msgstr "Nummerpresentation"
 
@@ -1278,7 +1282,7 @@ msgid ""
 "g. '1,3-5' would be in groups 1,3,4,5."
 msgstr ""
 
-#: ../core/functions.inc.php:2124
+#: ../core/functions.inc.php:2127
 #, php-format
 msgid "Calling Out Route: %s"
 msgstr "Ringer ut väg: %s"
@@ -1585,7 +1589,7 @@ msgstr ""
 msgid "Confirm Password"
 msgstr ""
 
-#: ../core/functions.inc.php:6298
+#: ../core/functions.inc.php:6109
 msgid "Conflicting Extensions"
 msgstr "Konfliktande anknytningar"
 
@@ -1745,11 +1749,11 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: ../core/page.ampusers.php:261
+#: ../core/page.ampusers.php:244
 msgid "Create a password for this new user"
 msgstr ""
 
-#: ../core/page.ampusers.php:240
+#: ../core/page.ampusers.php:223
 msgid "Create a unique username for this user"
 msgstr ""
 
@@ -1794,7 +1798,7 @@ msgstr ""
 msgid "Cronmanager encountered %s Errors"
 msgstr "Cronhanteraren stötte på %s fel"
 
-#: ../core/functions.inc.php:6352
+#: ../core/functions.inc.php:6163
 msgid ""
 "Cryptic Asterisk Dial Options, check to customize for this extension or un-"
 "check to use system defaults set in Advanced Options. These will not apply "
@@ -1889,11 +1893,11 @@ msgstr ""
 msgid "DID"
 msgstr "Direktnummer"
 
-#: ../core/functions.inc.php:6395
+#: ../core/functions.inc.php:6206
 msgid "DID / CID"
 msgstr "Direktnummer / Nummerpresentation"
 
-#: ../core/functions.inc.php:6385
+#: ../core/functions.inc.php:6196
 msgid "DID Description"
 msgstr "Beskrivning för direktnummer"
 
@@ -1901,11 +1905,11 @@ msgstr "Beskrivning för direktnummer"
 msgid "DID Number"
 msgstr "Direktnummer"
 
-#: ../core/Core.class.php:1828
+#: ../core/Core.class.php:1845
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:1829
+#: ../core/Core.class.php:1846
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
@@ -1933,7 +1937,7 @@ msgstr ""
 msgid "Debug"
 msgstr "Avlusa"
 
-#: ../core/functions.inc.php:6143 ../core/functions.inc.php:6144
+#: ../core/functions.inc.php:5954 ../core/functions.inc.php:5955
 #: ../core/views/did/routeform.php:9
 msgid "Default"
 msgstr "Standard"
@@ -1942,7 +1946,7 @@ msgstr "Standard"
 msgid "Default Asterisk Manager Password Used"
 msgstr "Standardlösenordet för Asterisk Manager används"
 
-#: ../core/functions.inc.php:6638
+#: ../core/functions.inc.php:6449
 msgid "Default User"
 msgstr "Standardanvändare"
 
@@ -1970,10 +1974,10 @@ msgstr ""
 "att matcha samtal från alla med eller utan nummerpresentation.<br><br>Du kan "
 "också använda mönster (t.ex. _2[345]X) för att matcha ett nummerområde."
 
-#: ../core/Core.class.php:214 ../core/Core.class.php:236
-#: ../core/Core.class.php:277 ../core/Core.class.php:298
-#: ../core/Core.class.php:323 ../core/Core.class.php:353
-#: ../core/Core.class.php:386 ../core/page.devices.php:50
+#: ../core/Core.class.php:216 ../core/Core.class.php:238
+#: ../core/Core.class.php:279 ../core/Core.class.php:300
+#: ../core/Core.class.php:325 ../core/Core.class.php:355
+#: ../core/Core.class.php:388 ../core/page.devices.php:50
 #: ../core/page.devices.php:82 ../core/page.extensions.php:52
 #: ../core/page.extensions.php:85 ../core/page.users.php:46
 #: ../core/views/did/didgrid.php:88 ../core/views/did/didgrid.php:109
@@ -1981,7 +1985,7 @@ msgstr ""
 msgid "Delete"
 msgstr "Ta bort"
 
-#: ../core/functions.inc.php:6581
+#: ../core/functions.inc.php:6392
 #, php-format
 msgid "Delete Device %s"
 msgstr "Ta bort enhet %s"
@@ -2005,9 +2009,9 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:14
 #: amp_conf/htdocs/admin/views/module_admin/main.php:193
-#: ../core/Core.class.php:1848 ../core/Core.class.php:1849
-#: ../core/Core.class.php:1873 ../core/Core.class.php:1874
-#: ../core/functions.inc.php:6635 ../core/views/dahdichandids/changrid.php:25
+#: ../core/Core.class.php:1865 ../core/Core.class.php:1866
+#: ../core/Core.class.php:1890 ../core/Core.class.php:1891
+#: ../core/functions.inc.php:6446 ../core/views/dahdichandids/changrid.php:25
 #: ../core/views/dahdichandids/didForm.php:36 ../core/views/did/didgrid.php:94
 #: ../core/views/did/didgrid.php:115 ../core/views/did/didgrid.php:134
 #: ../core/views/did/didgrid.php:153 ../core/views/did/routeform.php:85
@@ -2086,37 +2090,37 @@ msgid ""
 "offer SDP in the corresponding answer SDP."
 msgstr ""
 
-#: ../core/functions.inc.php:6578 ../core/page.devices.php:57
+#: ../core/functions.inc.php:6389 ../core/page.devices.php:57
 #: ../core/page.devices.php:90
 msgid "Device"
 msgstr "Enhet"
 
-#: ../core/Core.class.php:1071
+#: ../core/Core.class.php:1073
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
-#: ../core/functions.inc.php:6633
+#: ../core/functions.inc.php:6444
 msgid "Device ID"
 msgstr "Enhets-id"
 
-#: ../core/functions.inc.php:6629
+#: ../core/functions.inc.php:6440
 msgid "Device Info"
 msgstr "Enhetsinfo"
 
-#: ../core/functions.inc.php:6647
+#: ../core/functions.inc.php:6458
 #: ../core/functions.inc/drivers/Sip.class.php:218
 msgid "Device Options"
 msgstr "Enhetsval"
 
-#: ../core/Core.class.php:1853 ../core/Core.class.php:1854
+#: ../core/Core.class.php:1870 ../core/Core.class.php:1871
 msgid "Device Technology"
 msgstr ""
 
-#: ../core/functions.inc.php:6637
+#: ../core/functions.inc.php:6448
 msgid "Device Type"
 msgstr "Enhetstyp"
 
-#: ../core/Core.class.php:1930
+#: ../core/Core.class.php:1947
 msgid "Device could not be added."
 msgstr ""
 
@@ -2124,7 +2128,7 @@ msgstr ""
 msgid "Devices"
 msgstr "Enheter"
 
-#: ../core/functions.inc.php:6637
+#: ../core/functions.inc.php:6448
 msgid ""
 "Devices can be fixed or adhoc. Fixed devices are always associated to the "
 "same extension/user. Adhoc devices can be logged into and logged out of by "
@@ -2195,9 +2199,9 @@ msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:366
-#: ../core/functions.inc.php:6119 ../core/functions.inc.php:6125
-#: ../core/functions.inc.php:6129 ../core/functions.inc.php:6134
-#: ../core/functions.inc.php:6138
+#: ../core/functions.inc.php:5930 ../core/functions.inc.php:5936
+#: ../core/functions.inc.php:5940 ../core/functions.inc.php:5945
+#: ../core/functions.inc.php:5949
 msgid "Disable"
 msgstr "Avaktivera"
 
@@ -2256,11 +2260,11 @@ msgstr ""
 msgid "Discontinued logging type %s changing to %s.."
 msgstr ""
 
-#: ../core/functions.inc.php:6313 ../core/views/quickCreate.php:23
+#: ../core/functions.inc.php:6124 ../core/views/quickCreate.php:23
 msgid "Display Name"
 msgstr "Visningsnamn"
 
-#: ../core/Core.class.php:130
+#: ../core/Core.class.php:132
 msgid "Display Name can not be blank!"
 msgstr ""
 
@@ -2278,7 +2282,7 @@ msgstr ""
 msgid "Domain to use in From header for requests to this trunk"
 msgstr ""
 
-#: ../core/functions.inc.php:6110
+#: ../core/functions.inc.php:5921
 msgid "Don't Care"
 msgstr ""
 
@@ -2387,7 +2391,7 @@ msgstr ""
 msgid "Dump Configs"
 msgstr ""
 
-#: ../core/Core.class.php:328 ../core/Core.class.php:358
+#: ../core/Core.class.php:330 ../core/Core.class.php:360
 msgid "Duplicate"
 msgstr ""
 
@@ -2451,16 +2455,16 @@ msgstr "Redigera %s %s (%s)"
 msgid "Edit Administrator"
 msgstr "Redigera administratör"
 
-#: ../core/functions.inc.php:6587
+#: ../core/functions.inc.php:6398
 #, php-format
 msgid "Edit Default User: %s"
 msgstr "Redigera standard användare: %s"
 
-#: ../core/functions.inc.php:6269 ../core/functions.inc.php:6659
+#: ../core/functions.inc.php:6080 ../core/functions.inc.php:6470
 msgid "Edit Extension"
 msgstr "Redigera anknytning"
 
-#: ../core/functions.inc.php:6587
+#: ../core/functions.inc.php:6398
 #, php-format
 msgid "Edit Fixed User: %s"
 msgstr "Redigera fast användare: %s"
@@ -2469,11 +2473,11 @@ msgstr "Redigera fast användare: %s"
 msgid "Edit Route"
 msgstr "Redigera väg"
 
-#: ../core/functions.inc.php:6271 ../core/functions.inc.php:6661
+#: ../core/functions.inc.php:6082 ../core/functions.inc.php:6472
 msgid "Edit User"
 msgstr "Redigera användare"
 
-#: ../core/functions.inc.php:6332
+#: ../core/functions.inc.php:6143
 msgid "Edit:"
 msgstr "Redigera:"
 
@@ -2494,7 +2498,7 @@ msgstr ""
 msgid "Email addresses error"
 msgstr ""
 
-#: ../core/Core.class.php:130
+#: ../core/Core.class.php:132
 msgid "Email must be valid!"
 msgstr ""
 
@@ -2502,7 +2506,7 @@ msgstr ""
 msgid "Emergency"
 msgstr "Nödsamtal"
 
-#: ../core/functions.inc.php:6636 ../core/functions.inc.php:6641
+#: ../core/functions.inc.php:6447 ../core/functions.inc.php:6452
 msgid "Emergency CID"
 msgstr "Nummerpresentation för nödsamtal"
 
@@ -2511,8 +2515,8 @@ msgid "Empty value not allowed for this field"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:298
-#: ../core/functions.inc.php:6120 ../core/functions.inc.php:6124
-#: ../core/functions.inc.php:6135
+#: ../core/functions.inc.php:5931 ../core/functions.inc.php:5935
+#: ../core/functions.inc.php:5946
 msgid "Enable"
 msgstr "Aktivera"
 
@@ -2536,7 +2540,7 @@ msgstr ""
 msgid "Enable given trunk"
 msgstr ""
 
-#: ../core/functions.inc.php:6427
+#: ../core/functions.inc.php:6238
 msgid ""
 "Enable or disable the ability to do on demand (one-touch) recording. The "
 "overall calling policy rules still apply and if calls are already being "
@@ -2570,7 +2574,7 @@ msgstr ""
 msgid "Enabling Missing Dependency of: %s %s"
 msgstr ""
 
-#: ../core/functions.inc.php:6381
+#: ../core/functions.inc.php:6192
 msgid ""
 "Enabling Pinless Dialing will allow this extension to bypass any pin codes "
 "normally required on outbound calls"
@@ -2626,7 +2630,7 @@ msgstr ""
 msgid "Error"
 msgstr "Fel"
 
-#: ../core/functions.inc.php:4966
+#: ../core/functions.inc.php:4777
 msgid "Error Duplicate Channel Entry"
 msgstr "Fel, kanalen är en dubblett"
 
@@ -2670,7 +2674,7 @@ msgstr "Fel, kunde inte skapa temporär katalog: %s"
 msgid "Error deleting directory %s (code %d)"
 msgstr "Fel, kan inte ta bort katalogen %s (kod %d)"
 
-#: ../core/Core.class.php:819 ../core/page.trunks.php:323
+#: ../core/Core.class.php:821 ../core/page.trunks.php:323
 msgid "Error fetching prefix list for: "
 msgstr "Fel vid hämtning av prefixlistan för: "
 
@@ -2820,8 +2824,8 @@ msgstr ""
 msgid "Export settings to file"
 msgstr ""
 
-#: ../core/Core.class.php:1840 ../core/Core.class.php:1841
-#: ../core/functions.inc.php:6219 ../core/page.did.php:87
+#: ../core/Core.class.php:1857 ../core/Core.class.php:1858
+#: ../core/functions.inc.php:6030 ../core/page.did.php:87
 #: ../core/page.extensions.php:59 ../core/page.extensions.php:92
 msgid "Extension"
 msgstr "Anknytning"
@@ -2834,27 +2838,27 @@ msgstr ""
 msgid "Extension Numbering Duplicate Conflict Detected"
 msgstr ""
 
-#: ../core/functions.inc.php:6346 ../core/functions.inc.php:6640
+#: ../core/functions.inc.php:6157 ../core/functions.inc.php:6451
 msgid "Extension Options"
 msgstr "Anknytningsval"
 
-#: ../core/Core.class.php:130
+#: ../core/Core.class.php:132
 msgid "Extension already in use!"
 msgstr ""
 
-#: ../core/Core.class.php:130
+#: ../core/Core.class.php:132
 msgid "Extension can not be blank!"
 msgstr ""
 
-#: ../core/Core.class.php:1917
+#: ../core/Core.class.php:1934
 msgid "Extension is not numeric."
 msgstr ""
 
-#: ../core/functions.inc.php:6308
+#: ../core/functions.inc.php:6119
 msgid "Extension number conflict, please choose another."
 msgstr ""
 
-#: amp.i18n.php:8 ../core/Core.class.php:1824 ../core/Core.class.php:1825
+#: amp.i18n.php:8 ../core/Core.class.php:1841 ../core/Core.class.php:1842
 msgid "Extensions"
 msgstr "Anknytningar"
 
@@ -2917,7 +2921,7 @@ msgstr ""
 msgid "Failed to get remote file, mirror site may be down: %s"
 msgstr ""
 
-#: ../core/functions.inc.php:6079
+#: ../core/functions.inc.php:5890
 #, php-format
 msgid ""
 "Failed to open %s for writing, aborting attempt to write the country "
@@ -2962,7 +2966,7 @@ msgstr ""
 msgid "Failed to write file to disk"
 msgstr ""
 
-#: ../core/functions.inc.php:6080
+#: ../core/functions.inc.php:5891
 msgid "Failed to write indications.conf"
 msgstr "Kunde inte skriva till filen indications.conf"
 
@@ -3011,11 +3015,11 @@ msgstr ""
 msgid "First before %s"
 msgstr "Först före %s"
 
-#: ../core/functions.inc.php:6528
+#: ../core/functions.inc.php:6339
 msgid "Fixed"
 msgstr "Fast"
 
-#: ../core/functions.inc.php:6638
+#: ../core/functions.inc.php:6449
 msgid ""
 "Fixed devices will always mapped to this user.  Adhoc devices will be mapped "
 "to this user by default.<br><br>If selecting 'New User', a new User "
@@ -3046,7 +3050,7 @@ msgstr ""
 msgid "Forbidden Retry Interval"
 msgstr ""
 
-#: ../core/functions.inc.php:6108
+#: ../core/functions.inc.php:5919
 msgid "Force"
 msgstr ""
 
@@ -3192,7 +3196,7 @@ msgstr "Generella direktnummer"
 msgid "General Retry Interval"
 msgstr ""
 
-#: ../core/page.ampusers.php:219
+#: ../core/page.ampusers.php:202
 msgid "General Settings"
 msgstr "Generella inställningar"
 
@@ -3270,7 +3274,7 @@ msgid ""
 "trunk context within asterisk"
 msgstr ""
 
-#: ../core/functions.inc.php:6633
+#: ../core/functions.inc.php:6444
 msgid ""
 "Give your device a unique integer ID.  The device will use this ID to "
 "authenticate to the system."
@@ -3445,7 +3449,7 @@ msgstr ""
 "Tidgruppen. Standardvalet Permanent väg innebär att vägen alltid är "
 "tillgänglig."
 
-#: ../core/functions.inc.php:6316
+#: ../core/functions.inc.php:6127
 msgid ""
 "If you want to support direct sip dialing of users internally or through "
 "anonymous sip calls, you can supply a friendly name that can be used in "
@@ -3497,15 +3501,15 @@ msgstr "Avsluta samtal"
 msgid "In-Call Asterisk Toggle Call Recording"
 msgstr "Ställ om inspelning under samtal"
 
-#: ../core/functions.inc.php:6423
+#: ../core/functions.inc.php:6234
 msgid "Inbound External Calls"
 msgstr ""
 
-#: ../core/functions.inc.php:6425
+#: ../core/functions.inc.php:6236
 msgid "Inbound Internal Calls"
 msgstr ""
 
-#: ../core/functions.inc.php:4777
+#: ../core/functions.inc.php:4588
 #, php-format
 msgid "Inbound Route: %s (%s)"
 msgstr "Inkommande väg: %s (%s)"
@@ -3522,7 +3526,7 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: ../core/Core.class.php:1876
+#: ../core/Core.class.php:1893
 msgid "Incoming DID"
 msgstr ""
 
@@ -3596,7 +3600,7 @@ msgid ""
 "VoIP telephony sessions between servers and to terminal devices"
 msgstr ""
 
-#: ../core/functions.inc.php:6130
+#: ../core/functions.inc.php:5941
 msgid "Intercom"
 msgstr ""
 
@@ -3604,7 +3608,7 @@ msgstr ""
 msgid "Interface"
 msgstr ""
 
-#: ../core/functions.inc.php:6378
+#: ../core/functions.inc.php:6189
 msgid "Internal Auto Answer"
 msgstr ""
 
@@ -3638,7 +3642,7 @@ msgid ""
 "name."
 msgstr ""
 
-#: ../core/functions.inc.php:4950
+#: ../core/functions.inc.php:4761
 msgid "Invalid Channel Number, must be numeric and not blank"
 msgstr ""
 "Ogiltigt kanalnummer, det kan inte vara blankt och måste innehålla siffror"
@@ -3647,7 +3651,7 @@ msgstr ""
 msgid "Invalid Custom Dial String entered"
 msgstr "Ogiltig anpassad nummerslagningssträng angiven"
 
-#: ../core/functions.inc.php:4954
+#: ../core/functions.inc.php:4765
 msgid "Invalid DID, must be a non-blank DID"
 msgstr "Ogiltigt direktnummer, kan inte vara tomt"
 
@@ -3676,7 +3680,7 @@ msgstr ""
 msgid "Invalid email address"
 msgstr ""
 
-#: ../core/Core.class.php:823 ../core/page.trunks.php:328
+#: ../core/Core.class.php:825 ../core/page.trunks.php:328
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "Ogiltigt format för NPA-NXX-koden (det måste vara NXXNXX)"
 
@@ -3845,7 +3849,7 @@ msgstr "Max antal kanaler"
 msgid "Maximum number of Endpoints that can associate with this Device"
 msgstr ""
 
-#: ../core/functions.inc.php:6373
+#: ../core/functions.inc.php:6184
 msgid ""
 "Maximum number of outbound simultaneous calls that an extension can make. "
 "This is also very useful as a Security Protection against a system that has "
@@ -4123,7 +4127,7 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
-#: ../core/Core.class.php:1844 ../core/Core.class.php:1845
+#: ../core/Core.class.php:1861 ../core/Core.class.php:1862
 #: ../core/page.devices.php:58 ../core/page.devices.php:91
 #: ../core/page.extensions.php:60 ../core/page.extensions.php:93
 #: ../core/page.users.php:54 ../core/views/routing/grid.php:57
@@ -4143,11 +4147,11 @@ msgstr ""
 msgid "Need to be instantiated with a FreePBX Object"
 msgstr ""
 
-#: ../core/functions.inc.php:6112
+#: ../core/functions.inc.php:5923
 msgid "Never"
 msgstr "Aldrig"
 
-#: ../core/functions.inc.php:6533
+#: ../core/functions.inc.php:6344
 msgid "New User"
 msgstr "Ny användare"
 
@@ -4164,7 +4168,7 @@ msgstr "Nyare än on-lineversionen (%s)"
 msgid "Next"
 msgstr ""
 
-#: ../core/functions.inc.php:6111
+#: ../core/functions.inc.php:5922
 #: ../core/functions.inc/drivers/Dahdi.class.php:65
 #: ../core/functions.inc/drivers/Dahdi.class.php:76
 #: ../core/functions.inc/drivers/Dahdi.class.php:85
@@ -4195,7 +4199,7 @@ msgstr ""
 msgid "No Action"
 msgstr "Inget val"
 
-#: ../core/functions.inc.php:6445
+#: ../core/functions.inc.php:6256
 msgid "No Answer"
 msgstr ""
 
@@ -4216,7 +4220,7 @@ msgstr ""
 msgid "No Description Provided"
 msgstr ""
 
-#: ../core/functions.inc.php:6146
+#: ../core/functions.inc.php:5957
 msgid "No Limit"
 msgstr ""
 
@@ -4313,7 +4317,7 @@ msgstr "Inte installerad (lokalt tillgänglig)"
 msgid "Not Installed (Locally available: %s)"
 msgstr ""
 
-#: ../core/functions.inc.php:6459
+#: ../core/functions.inc.php:6270
 msgid "Not Reachable"
 msgstr ""
 
@@ -4321,7 +4325,7 @@ msgstr ""
 msgid "Not Required"
 msgstr ""
 
-#: ../core/page.ampusers.php:300
+#: ../core/page.ampusers.php:283
 msgid "Not Selected"
 msgstr ""
 
@@ -4353,7 +4357,7 @@ msgstr "Notering"
 msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr ""
 
-#: ../core/functions.inc.php:6363
+#: ../core/functions.inc.php:6174
 msgid ""
 "Number of seconds to ring during a Call Forward, Call Forward Busy or Call "
 "Forward Unavailable call prior to continuing to voicemail or specified "
@@ -4362,7 +4366,7 @@ msgid ""
 "their is not destination specified, it will be forced into Always mode"
 msgstr ""
 
-#: ../core/functions.inc.php:6354
+#: ../core/functions.inc.php:6165
 msgid ""
 "Number of seconds to ring prior to going to voicemail. Default will use the "
 "value set in Advanced Settings. If no voicemail is configured this will be "
@@ -4381,7 +4385,7 @@ msgstr "objekt"
 msgid "Obtain Free License"
 msgstr ""
 
-#: ../core/functions.inc.php:6427
+#: ../core/functions.inc.php:6238
 msgid "On Demand Recording"
 msgstr ""
 
@@ -4431,16 +4435,16 @@ msgstr ""
 msgid "Operator Panel"
 msgstr ""
 
-#: ../core/functions.inc.php:6455
+#: ../core/functions.inc.php:6266
 msgid "Optional CID Prefix to add before sending to this busy destination."
 msgstr ""
 
-#: ../core/functions.inc.php:6446
+#: ../core/functions.inc.php:6257
 msgid ""
 "Optional CID Prefix to add before sending to this no answer destination."
 msgstr ""
 
-#: ../core/functions.inc.php:6460
+#: ../core/functions.inc.php:6271
 msgid ""
 "Optional CID Prefix to add before sending to this not reachable destination."
 msgstr ""
@@ -4449,7 +4453,7 @@ msgstr ""
 msgid "Optional Destination on Congestion"
 msgstr ""
 
-#: ../core/functions.inc.php:6430
+#: ../core/functions.inc.php:6241
 msgid "Optional Destinations"
 msgstr ""
 
@@ -4465,24 +4469,24 @@ msgid ""
 "li><li>Extension/User CIDs if checked</li></ul>"
 msgstr ""
 
-#: ../core/functions.inc.php:6440
+#: ../core/functions.inc.php:6251
 msgid ""
 "Optional destination call is routed to when the call is not answered on an "
 "otherwise idle phone. If the phone is in use and the call is simply ignored, "
 "then the busy destination will be used."
 msgstr ""
 
-#: ../core/functions.inc.php:6442
+#: ../core/functions.inc.php:6253
 msgid "Optional destination call is routed to when the call is not answered."
 msgstr ""
 
-#: ../core/functions.inc.php:6451
+#: ../core/functions.inc.php:6262
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user."
 msgstr ""
 
-#: ../core/functions.inc.php:6449
+#: ../core/functions.inc.php:6260
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user. This destination is also used on an unanswered "
@@ -4490,7 +4494,7 @@ msgid ""
 "call."
 msgstr ""
 
-#: ../core/functions.inc.php:6457
+#: ../core/functions.inc.php:6268
 msgid ""
 "Optional destination the call is routed to when the phone is offline, such "
 "as a softphone currently off or a phone unplugged."
@@ -4533,7 +4537,7 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: ../core/functions.inc.php:6344 ../core/views/routing/grid.php:58
+#: ../core/functions.inc.php:6155 ../core/views/routing/grid.php:58
 msgid "Outbound CID"
 msgstr "Utgående nummerpresentation"
 
@@ -4545,15 +4549,15 @@ msgstr "Utgående nummerpresentation"
 msgid "Outbound CallerID"
 msgstr ""
 
-#: ../core/functions.inc.php:6373
+#: ../core/functions.inc.php:6184
 msgid "Outbound Concurrency Limit"
 msgstr ""
 
-#: ../core/functions.inc.php:6424
+#: ../core/functions.inc.php:6235
 msgid "Outbound External Calls"
 msgstr ""
 
-#: ../core/functions.inc.php:6426
+#: ../core/functions.inc.php:6237
 msgid "Outbound Internal Calls"
 msgstr ""
 
@@ -4561,7 +4565,7 @@ msgstr ""
 msgid "Outbound Proxy"
 msgstr ""
 
-#: ../core/functions.inc.php:5936
+#: ../core/functions.inc.php:5747
 #, php-format
 msgid "Outbound Route: %s"
 msgstr "Utgående väg: %s"
@@ -4579,7 +4583,7 @@ msgstr ""
 msgid "Output debug messages to the console (be super chatty)"
 msgstr ""
 
-#: ../core/functions.inc.php:6121 ../core/functions.inc.php:6352
+#: ../core/functions.inc.php:5932 ../core/functions.inc.php:6163
 #: ../core/views/trunks/trunk_header.php:363
 msgid "Override"
 msgstr ""
@@ -4588,7 +4592,7 @@ msgstr ""
 msgid "Override Extension"
 msgstr "Skriv över anknytning"
 
-#: ../core/functions.inc.php:6344 ../core/views/quickCreate.php:30
+#: ../core/functions.inc.php:6155 ../core/views/quickCreate.php:30
 msgid ""
 "Overrides the CallerID when dialing out a trunk. Any setting here will "
 "override the common outbound CallerID set in the Trunks admin."
@@ -4621,7 +4625,7 @@ msgid "PJSIP Settings"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:30
-#: amp_conf/htdocs/admin/views/oobe.php:9 ../core/page.ampusers.php:250
+#: amp_conf/htdocs/admin/views/oobe.php:9 ../core/page.ampusers.php:233
 msgid "Password"
 msgstr ""
 
@@ -4706,7 +4710,7 @@ msgid ""
 "in a group to be able to pickup calls from that group."
 msgstr ""
 
-#: ../core/functions.inc.php:6381
+#: ../core/functions.inc.php:6192
 msgid "Pinless Dialing"
 msgstr "Ring utan PIN"
 
@@ -4734,11 +4738,11 @@ msgstr "Bekräfta följande val:"
 msgid "Please correct the following errors:"
 msgstr ""
 
-#: ../core/functions.inc.php:6651
+#: ../core/functions.inc.php:6462
 msgid "Please enter a Secret for this device"
 msgstr "Skriv in ett lösenord för denna enhet"
 
-#: ../core/functions.inc.php:6619
+#: ../core/functions.inc.php:6430
 msgid "Please enter a device id."
 msgstr "Ange en giltig enhets id"
 
@@ -4746,45 +4750,45 @@ msgstr "Ange en giltig enhets id"
 msgid "Please enter a username"
 msgstr ""
 
-#: ../core/functions.inc.php:6256
+#: ../core/functions.inc.php:6067
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
 msgstr "Ange ett giltigt CID alias (måste vara ett giltigt nummer)."
 
-#: ../core/functions.inc.php:6262
+#: ../core/functions.inc.php:6073
 msgid ""
 "Please enter a valid CallerID Number or leave it blank for your Assigned DID/"
 "CID pair"
 msgstr ""
 
-#: ../core/functions.inc.php:6620
+#: ../core/functions.inc.php:6431
 msgid "Please enter a valid Description for this device"
 msgstr "Ange en giltig benämning för denna enhet"
 
-#: ../core/functions.inc.php:6258
+#: ../core/functions.inc.php:6069
 msgid "Please enter a valid Display Name"
 msgstr "Ange ett giltigt namn"
 
-#: ../core/functions.inc.php:6621
+#: ../core/functions.inc.php:6432
 msgid "Please enter a valid Emergency CID"
 msgstr "Ange en giltig nummerpresentation för nödsamtal"
 
-#: ../core/functions.inc.php:6259
+#: ../core/functions.inc.php:6070
 msgid "Please enter a valid Outbound CID"
 msgstr "Ange ett giltigt nummer för utgående nummerpresentation"
 
-#: ../core/functions.inc.php:6255 ../core/functions.inc.php:6622
+#: ../core/functions.inc.php:6066 ../core/functions.inc.php:6433
 msgid "Please enter a valid extension number."
 msgstr "Ange ett giltigt anknytningsnummer"
 
-#: ../core/functions.inc.php:6260
+#: ../core/functions.inc.php:6071
 msgid "Please enter a valid pause time in seconds, using digits only"
 msgstr "Ange en giltig paustid i sekunder, endast siffror"
 
-#: ../core/functions.inc.php:6649
+#: ../core/functions.inc.php:6460
 msgid "Please enter the channel for this device"
 msgstr "Skriv in kanalen för denna enhet"
 
-#: ../core/functions.inc.php:6257
+#: ../core/functions.inc.php:6068
 msgid "Please enter valid User Password using numbers only"
 msgstr "Ange ett giltigt användarlösenord, endast siffror"
 
@@ -4939,27 +4943,27 @@ msgid ""
 "'Override Readonly Settings' to Yes."
 msgstr ""
 
-#: ../core/functions.inc.php:6428
+#: ../core/functions.inc.php:6239
 msgid "Record Priority Policy"
 msgstr ""
 
-#: ../core/functions.inc.php:6415
+#: ../core/functions.inc.php:6226
 msgid "Recording Options"
 msgstr "Inspelningsval"
 
-#: ../core/functions.inc.php:6426
+#: ../core/functions.inc.php:6237
 msgid "Recording of calls made to other extensions on the system."
 msgstr ""
 
-#: ../core/functions.inc.php:6425
+#: ../core/functions.inc.php:6236
 msgid "Recording of calls received from other extensions on the system."
 msgstr ""
 
-#: ../core/functions.inc.php:6423
+#: ../core/functions.inc.php:6234
 msgid "Recording of inbound calls from external sources."
 msgstr ""
 
-#: ../core/functions.inc.php:6424
+#: ../core/functions.inc.php:6235
 msgid "Recording of outbound calls to external sources."
 msgstr ""
 
@@ -5065,10 +5069,10 @@ msgstr "Kräver en av följande grundmoduler: %s; du har: %s"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:33
 #: amp_conf/htdocs/admin/views/module_admin/main.php:444
-#: ../core/Core.class.php:219 ../core/Core.class.php:241
-#: ../core/Core.class.php:263 ../core/Core.class.php:282
-#: ../core/Core.class.php:303 ../core/Core.class.php:333
-#: ../core/Core.class.php:363 ../core/Core.class.php:391
+#: ../core/Core.class.php:221 ../core/Core.class.php:243
+#: ../core/Core.class.php:265 ../core/Core.class.php:284
+#: ../core/Core.class.php:305 ../core/Core.class.php:335
+#: ../core/Core.class.php:365 ../core/Core.class.php:393
 msgid "Reset"
 msgstr "Återställ"
 
@@ -5100,7 +5104,7 @@ msgstr "Återgå"
 msgid "Rewrite Contact"
 msgstr ""
 
-#: ../core/functions.inc.php:6354
+#: ../core/functions.inc.php:6165
 msgid "Ring Time"
 msgstr "Ringtid"
 
@@ -5174,7 +5178,7 @@ msgstr ""
 msgid "SIP (%s)"
 msgstr ""
 
-#: ../core/functions.inc.php:6316
+#: ../core/functions.inc.php:6127
 msgid "SIP Alias"
 msgstr "Alias för SIP"
 
@@ -5216,11 +5220,11 @@ msgstr "MISSTÄNKT LÄNK"
 msgid "Save"
 msgstr ""
 
-#: ../core/functions.inc.php:6140
+#: ../core/functions.inc.php:5951
 msgid "Screen Caller: Memory"
 msgstr "Sålla samtal: Kom ihåg"
 
-#: ../core/functions.inc.php:6139
+#: ../core/functions.inc.php:5950
 msgid "Screen Caller: No Memory"
 msgstr "Sålla samtal: Kom inte ihåg"
 
@@ -5241,11 +5245,11 @@ msgstr ""
 msgid "Security Warning"
 msgstr ""
 
-#: ../core/page.ampusers.php:315
+#: ../core/page.ampusers.php:298
 msgid "Select the Admin Sections this user should have access to."
 msgstr ""
 
-#: ../core/page.ampusers.php:283
+#: ../core/page.ampusers.php:266
 msgid "Selected"
 msgstr ""
 
@@ -5287,7 +5291,7 @@ msgstr ""
 msgid "Set the Repos. -R Commercial -R Contributed"
 msgstr ""
 
-#: ../core/functions.inc.php:6375
+#: ../core/functions.inc.php:6186
 msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr "Sätter valet för Samtal väntar för denna anknytning."
 
@@ -5419,10 +5423,10 @@ msgstr ""
 msgid "Stream files for debugging"
 msgstr ""
 
-#: ../core/Core.class.php:224 ../core/Core.class.php:246
-#: ../core/Core.class.php:268 ../core/Core.class.php:287
-#: ../core/Core.class.php:308 ../core/Core.class.php:338
-#: ../core/Core.class.php:368 ../core/Core.class.php:396
+#: ../core/Core.class.php:226 ../core/Core.class.php:248
+#: ../core/Core.class.php:270 ../core/Core.class.php:289
+#: ../core/Core.class.php:310 ../core/Core.class.php:340
+#: ../core/Core.class.php:370 ../core/Core.class.php:398
 msgid "Submit"
 msgstr "Spara"
 
@@ -5470,7 +5474,7 @@ msgstr ""
 msgid "Terminate Call"
 msgstr "Avsluta samtal"
 
-#: ../core/functions.inc.php:6315
+#: ../core/functions.inc.php:6126
 msgid ""
 "The CID Number to use for internal calls, if different from the extension "
 "number. This is used to masquerade as a different user. A common example is "
@@ -5486,13 +5490,13 @@ msgid ""
 "installed and enabled."
 msgstr ""
 
-#: ../core/functions.inc.php:6313 ../core/views/quickCreate.php:25
+#: ../core/functions.inc.php:6124 ../core/views/quickCreate.php:25
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
 msgstr ""
 
-#: ../core/functions.inc.php:6635
+#: ../core/functions.inc.php:6446
 msgid ""
 "The CallerID name for this device will be set to this description until it "
 "is logged into."
@@ -5592,7 +5596,7 @@ msgstr ""
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
-#: ../core/Core.class.php:1879
+#: ../core/Core.class.php:1896
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -5608,7 +5612,7 @@ msgstr ""
 "dessa matchar kommer den matchade delen av det slagna numret att skickas "
 "till trunken."
 
-#: ../core/functions.inc.php:6277 ../core/views/quickCreate.php:20
+#: ../core/functions.inc.php:6088 ../core/views/quickCreate.php:20
 msgid "The extension number to dial to reach this user."
 msgstr "Anknytningsnumret att slå för att nå denna användare."
 
@@ -5799,13 +5803,13 @@ msgstr ""
 "att läggas till först i <b>matcha mönster</b> och resultatet kommer att "
 "skickas ut på trunken. Alla fält är valbara."
 
-#: ../core/functions.inc.php:6636 ../core/functions.inc.php:6641
+#: ../core/functions.inc.php:6447 ../core/functions.inc.php:6452
 msgid ""
 "This CallerID will always be set when dialing out an Outbound Route flagged "
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
 msgstr ""
 
-#: ../core/Core.class.php:1078
+#: ../core/Core.class.php:1080
 msgid "This device id is already in use"
 msgstr "Denna enhets id använd redan"
 
@@ -5902,7 +5906,7 @@ msgstr ""
 "konfigurerar att använda den. Klicka på <b>Utgående vägar</b> för att sätta "
 "upp en väg."
 
-#: ../core/Core.class.php:1475
+#: ../core/Core.class.php:1480
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "Denna anknytning %s används redan"
@@ -6099,7 +6103,7 @@ msgstr ""
 msgid "Unable to work with GPG file, message was: %s"
 msgstr ""
 
-#: ../core/functions.inc.php:6444 ../core/functions.inc.php:6458
+#: ../core/functions.inc.php:6255 ../core/functions.inc.php:6269
 msgid "Unavail Voicemail if Enabled"
 msgstr ""
 
@@ -6272,7 +6276,7 @@ msgstr ""
 msgid "Used as Destination by %s %s"
 msgstr "Används som destination av %s %s"
 
-#: ../core/functions.inc.php:6233 ../core/page.did.php:84
+#: ../core/functions.inc.php:6044 ../core/page.did.php:84
 #: ../core/page.users.php:53
 msgid "User"
 msgstr "Användare"
@@ -6290,11 +6294,11 @@ msgstr ""
 msgid "User DIDs"
 msgstr "Användares direktnummer"
 
-#: ../core/functions.inc.php:6321
+#: ../core/functions.inc.php:6132
 msgid "User Devices"
 msgstr "Användarenhet"
 
-#: ../core/functions.inc.php:6277
+#: ../core/functions.inc.php:6088
 msgid "User Extension"
 msgstr "Användaranknytning: "
 
@@ -6303,7 +6307,7 @@ msgstr "Användaranknytning: "
 msgid "User Extension %s: %s"
 msgstr "Användaranknytning %s: %s"
 
-#: ../core/functions.inc.php:4746
+#: ../core/functions.inc.php:4557
 msgid "User Extension: "
 msgstr "Användaranknytning: "
 
@@ -6319,11 +6323,11 @@ msgstr "Logga på användare"
 msgid "User Panel"
 msgstr ""
 
-#: ../core/functions.inc.php:6280
+#: ../core/functions.inc.php:6091
 msgid "User Password"
 msgstr "Användarlösenord"
 
-#: ../core/Core.class.php:1948
+#: ../core/Core.class.php:1965
 msgid "User could not be added."
 msgstr ""
 
@@ -6332,7 +6336,7 @@ msgid "User: "
 msgstr "Användare:"
 
 #: amp_conf/htdocs/admin/views/obe.php:20
-#: amp_conf/htdocs/admin/views/oobe.php:8 ../core/page.ampusers.php:228
+#: amp_conf/htdocs/admin/views/oobe.php:8 ../core/page.ampusers.php:211
 #: ../core/views/trunks/pjsip.php:58
 msgid "Username"
 msgstr ""
@@ -6433,7 +6437,7 @@ msgstr ""
 msgid "Warning"
 msgstr "Varning"
 
-#: ../core/functions.inc.php:6476
+#: ../core/functions.inc.php:6287
 msgid "Warning! Extension"
 msgstr "Varning! Anknytning"
 
@@ -6488,7 +6492,7 @@ msgstr ""
 msgid "What Does this Mean?"
 msgstr ""
 
-#: ../core/functions.inc.php:6378
+#: ../core/functions.inc.php:6189
 msgid ""
 "When set to Intercom, calls to this extension/user from other internal users "
 "act as if they were intercom calls meaning they will be auto-answered if the "
@@ -6547,7 +6551,7 @@ msgid ""
 "See DAHDi documentation for details."
 msgstr ""
 
-#: ../core/functions.inc.php:6109
+#: ../core/functions.inc.php:5920
 #: ../core/functions.inc/drivers/Dahdi.class.php:64
 #: ../core/functions.inc/drivers/Dahdi.class.php:75
 #: ../core/functions.inc/drivers/Dahdi.class.php:84
@@ -6701,7 +6705,7 @@ msgid ""
 "Chrome Extension or you are not using Chrome"
 msgstr ""
 
-#: ../core/functions.inc.php:6261
+#: ../core/functions.inc.php:6072
 msgid ""
 "You have entered a non-standard dialpattern for your DID. You can only enter "
 "standard dialpatterns. You must use the inbound routing form to enter non-"
@@ -6721,7 +6725,7 @@ msgstr ""
 "detta kommer att orsaka fel i vissa moduler. FreePBX förutsätter att denna "
 "inställning är avaktiverad och kommer att köras i tron att det är så."
 
-#: ../core/functions.inc.php:6650
+#: ../core/functions.inc.php:6461
 msgid ""
 "You have not entered a Secret for this device, although this is possible it "
 "is generally bad practice to not assign a Secret to a device. Are you sure "
@@ -6796,7 +6800,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:1467
+#: ../core/Core.class.php:1472
 msgid "You must put in an extension (or user) number"
 msgstr "Du måste ange ett nummer för anknytningen (eller användaren)"
 
@@ -7057,7 +7061,7 @@ msgstr ""
 msgid "default"
 msgstr "standard"
 
-#: ../core/functions.inc.php:6198 ../core/functions.inc.php:6567
+#: ../core/functions.inc.php:6009 ../core/functions.inc.php:6378
 #: ../core/page.did.php:7
 msgid "deleted"
 msgstr "borttagen"
@@ -7259,7 +7263,7 @@ msgstr ""
 msgid "is disabled"
 msgstr ""
 
-#: ../core/functions.inc.php:6476
+#: ../core/functions.inc.php:6287
 msgid "is not allowed for your account"
 msgstr "är inte tillåtet för din anknytning"
 
@@ -7296,11 +7300,11 @@ msgstr "lokal moduladministration"
 msgid "logger file removed, core upgrade will provide new file"
 msgstr ""
 
-#: ../core/functions.inc.php:6280 ../core/functions.inc.php:6637
+#: ../core/functions.inc.php:6091 ../core/functions.inc.php:6448
 msgid "logs into a device."
 msgstr "loggar in på en enhet."
 
-#: ../core/functions.inc.php:6280 ../core/functions.inc.php:6637
+#: ../core/functions.inc.php:6091 ../core/functions.inc.php:6448
 msgid "logs out of a device."
 msgstr "loggar ut ur en enhet."
 
@@ -7405,7 +7409,7 @@ msgstr ""
 msgid "no logger file to remove"
 msgstr ""
 
-#: ../core/functions.inc.php:6532 ../core/views/routing/moh.php:8
+#: ../core/functions.inc.php:6343 ../core/views/routing/moh.php:8
 msgid "none"
 msgstr "ingen"
 
@@ -7721,9 +7725,6 @@ msgstr ""
 #~ msgstr ""
 #~ "Ett snedstreck ('/') är aldrig ett giltigt direktnummer. Ta bort det och "
 #~ "försök igen"
-
-#~ msgid "ALL SECTIONS"
-#~ msgstr "ALLA SEKTIONER"
 
 #~ msgid ""
 #~ "AUTHTYPE is not set to 'database' in /etc/amportal.conf - note that this "
