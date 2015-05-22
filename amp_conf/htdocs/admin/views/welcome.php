@@ -3,7 +3,7 @@
 // This is the emergency fallback 'welcome' page. It shouldn't be seen.
 global $db,$amp_conf;
 echo "<h2>".sprintf(_("Welcome to %s"),$amp_conf['DASHBOARD_FREEPBX_BRAND'])."</h2>";
-$notify =& notifications::create($db);
+$notify = notifications::create($db);
 $items = $notify->list_all(true);
 if (count($items)) {
 	$notify_names = array(

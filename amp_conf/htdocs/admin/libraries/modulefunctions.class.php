@@ -295,7 +295,7 @@ class module_functions {
 	function update_notifications($omodules, $modules, $passive) {
 		global $db;
 
-		$notifications =& notifications::create($db);
+		$notifications = notifications::create($db);
 
 		$reset_value = $passive ? 'PASSIVE' : false;
 
@@ -349,7 +349,7 @@ class module_functions {
 	*/
 	function upgrade_notifications(&$new_modules, $passive_value) {
 		global $db;
-		$notifications =& notifications::create($db);
+		$notifications = notifications::create($db);
 
 		//$installed_status = array(MODULE_STATUS_ENABLED, MODULE_STATUS_DISABLED);
 		//http://issues.freepbx.org/browse/FREEPBX-8628
@@ -395,7 +395,7 @@ class module_functions {
 	*/
 	function update_security_notifications($exposures) {
 		global $db;
-		$notifications =& notifications::create($db);
+		$notifications = notifications::create($db);
 
 		if (!empty($exposures)) {
 			$cnt = count($exposures);
@@ -1912,7 +1912,7 @@ class module_functions {
 		}
 
 		// module is now installed & enabled, invalidate the modulelist class since it is now stale
-		$modulelist =& modulelist::create($db);
+		$modulelist = modulelist::create($db);
 		$modulelist->invalidate();
 
 		// edit the notification table to list any remaining upgrades available or clear
@@ -2040,7 +2040,7 @@ class module_functions {
 		require_once(dirname(__FILE__) . '/featurecodes.class.php'); //TODO: do we need this, now that we have bootstrap? -MB
 		featurecodes_delModuleFeatures($modulename);
 
-		$freepbx_conf =& freepbx_conf::create();
+		$freepbx_conf = freepbx_conf::create();
 		$freepbx_conf->remove_module_settings($modulename);
 		$mod_asset_dir = $amp_conf['AMPWEBROOT'] . "/admin/assets/" . $modulename;
 		if (is_link($mod_asset_dir)) {
@@ -2112,7 +2112,7 @@ class module_functions {
 		if(DB::IsError($results)) {
 			die_freepbx($sql."<br>\n".$results->getMessage());
 		}
-		$modulelist =& modulelist::create($db);
+		$modulelist = modulelist::create($db);
 		$modulelist->invalidate();
 	}
 
@@ -2895,10 +2895,10 @@ class module_functions {
 				// will trigger this for now and the future.
 				return null;
 			} elseif (!empty($data_arr) && !$amp_conf['MODULEADMINWGET']) {
-				$freepbx_conf =& freepbx_conf::create();
+				$freepbx_conf = freepbx_conf::create();
 				$freepbx_conf->set_conf_values(array('MODULEADMINWGET' => true),true);
 
-				$nt =& notifications::create($db);
+				$nt = notifications::create($db);
 				$text = sprintf(_("Forced %s to true"),'MODULEADMINWGET');
 				$extext = sprintf(_("The system detected a problem trying to access external server data and changed internal setting %s (Use wget For Module Admin) to true, see the tooltip in Advanced Settings for more details."),'MODULEADMINWGET');
 				$nt->add_warning('freepbx', 'MODULEADMINWGET', $text, $extext, '', false, true);
