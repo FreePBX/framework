@@ -81,7 +81,7 @@ function validateDestinations(theForm, numForms, bRequired) {
 function warnInvalid(theField, s) {
 	$(".element-container").removeClass("has-error has-warning has-success");
 	if (theField) {
-		var field = (typeof theField.length === "undefined") ? $(theField) : theField,
+		var field = (theField instanceof jQuery) ? theField : $(theField),
 				id = field.prop("id"),
 				tab = field.parents(".tab-pane").prop("id");
 		//while loop here to tab switch through different layers
