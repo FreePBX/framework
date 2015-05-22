@@ -102,7 +102,8 @@ class connectdirs {
 
 			// We're here because the link already exists. Make sure that the symlink is linking to the correct place.
 			if (!is_link($targetdir)) {
-				throw new \Exception("Symlink error - $targetdir should be linked to $srcdir, and it isn't a link");
+				throw new \Exception(_("Symlink error - %s should be linked to %s, and it isn't a link"),$targetdir,$srcdir);
+				exit(255);
 			}
 
 			$dest = readlink($targetdir);
@@ -178,7 +179,7 @@ class connectdirs {
   function do_symlink($src, $dest, $subdir, $moduledir) {
 	global $amp_conf;
     if (file_exists_wrapper($dest)) {
-      if ((!is_link($dest) || readlink($dest) != $src) && (md5_file($src) == md5_file($dest))) {
+      if ((!is_link($dest) || readlink($dest) != $src) && file_exists($src) && file_exists($dest) && (md5_file($src) == md5_file($dest))) {
         // dbug('retrieve-conf', "Can't symlink $src to $dest but files are the same so ignoring");
       } else if (!is_link($dest)) {
 		//If the symlink error is coming from the etc directory then we move those files to backup
@@ -416,10 +417,9 @@ if (array_key_exists('core', $active_modules)) {
 $bmo->Performance->Start("Working with active modules");
 if(is_array($active_modules)){
 	foreach($active_modules as $key => $module) {
-
 		$module_list[] = $key;
 
-		if ($run_install) module_install($key);
+		if ($run_install) {module_install($key);}
 
 		// create symlinks for files in appropriate sub directories
 		// don't symlink framework files, it is a special case module that happens to have
@@ -437,17 +437,22 @@ if(is_array($active_modules)){
           // don't copy or symlink from framework type modules as they are not real modules
           break;
         }
-				$bmo->Performance->Stamp("Symlinking files for ".$key);
-        $con_dirs->symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
-        $con_dirs->symlink_sound_dirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
-        $con_dirs->symlink_assets($key);
-				$bmo->Performance->Stamp("Finished symlinking");
-				$bmo->Performance->Stamp("Copying Files for ".$key);
-        $con_dirs->cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
-				$bmo->Performance->Stamp("Finished Copying Files");
-				$bmo->Performance->Stamp("Generating CSS from LESS for ".$key);
-				$con_dirs->generate_less($key); //generate less for said module if needed
-				$bmo->Performance->Stamp("Finished Generating Less");
+				try {
+					$bmo->Performance->Stamp("Symlinking files for ".$key);
+	        $con_dirs->symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+	        $con_dirs->symlink_sound_dirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+	        $con_dirs->symlink_assets($key);
+					$bmo->Performance->Stamp("Finished symlinking");
+					$bmo->Performance->Stamp("Copying Files for ".$key);
+	        $con_dirs->cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+					$bmo->Performance->Stamp("Finished Copying Files");
+					$bmo->Performance->Stamp("Generating CSS from LESS for ".$key);
+					$con_dirs->generate_less($key); //generate less for said module if needed
+					$bmo->Performance->Stamp("Finished Generating Less");
+				} catch(\Exception $e) {
+					echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine());
+					exit(255);
+				}
       break;
 		}
 	}
@@ -782,7 +787,6 @@ try {
 	$bmo->WriteConfig->writeConfig($ext->get_filename(), $ext->generateConf());
 } catch(\Exception $e) {
 	echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine());
-	echo
 	exit(255);
 }
 $bmo->Performance->Stop();
