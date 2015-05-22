@@ -13,6 +13,7 @@ if (count($items)) {
 		NOTIFICATION_TYPE_ERROR => _('Error'),
 		NOTIFICATION_TYPE_WARNING => _('Warning'),
 		NOTIFICATION_TYPE_NOTICE => _('Notice'),
+		NOTIFICATION_TYPE_SIGNATURE_UNSIGNED => _('Unsigned')
 	);
 
 	echo "<div class=\"warning\">";
