@@ -102,20 +102,20 @@ class featurecode {
 		if (!$this->isReady())
 			die_freepbx('FeatureCode: class function init never called...will not update');
 
-		
+		$cc = isset($this->_customcode) ? $this->_customcode : "";
 		if ($this->_loaded) {
 			$sql = 'UPDATE featurecodes SET '.
 			       'description = '.sql_formattext($this->_description).', '.
 					'helptext = '.sql_formattext($this->_helptext).', '.
 			       'defaultcode = '.sql_formattext($this->_defaultcode).', '.
-			       'customcode = '.sql_formattext($this->_customcode).', '.
+			       'customcode = '.sql_formattext($cc).', '.
 			       'enabled = '.sql_formattext($this->_enabled).', '.
 			       'providedest = '.sql_formattext($this->_providedest).' '.
 			       'WHERE modulename = '.sql_formattext($this->_modulename).
 			       ' AND featurename = '.sql_formattext($this->_featurename);
 		} else {
 			$sql = 'INSERT INTO featurecodes (modulename, featurename, description, helptext, defaultcode, customcode, enabled, providedest) '.
-        'VALUES ('.sql_formattext($this->_modulename).', '.sql_formattext($this->_featurename).', '.sql_formattext($this->_description).', '.sql_formattext($this->_helptext).', '.sql_formattext($this->_defaultcode).', '.sql_formattext($this->_customcode).', '.sql_formattext($this->_enabled).', '.sql_formattext($this->_providedest).') ';
+        'VALUES ('.sql_formattext($this->_modulename).', '.sql_formattext($this->_featurename).', '.sql_formattext($this->_description).', '.sql_formattext($this->_helptext).', '.sql_formattext($this->_defaultcode).', '.sql_formattext($cc).', '.sql_formattext($this->_enabled).', '.sql_formattext($this->_providedest).') ';
 		}
 
 		sql($sql, 'query');
