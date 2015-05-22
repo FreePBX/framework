@@ -18,7 +18,7 @@ function setDestinations(theForm,numForms){var formNum=0,whichitem=0;for(formNum
 whichitem++;}}}
 var whitespace=" \t\n\r",decimalPointDelimiter=".",defaultEmptyOK=false;function validateDestinations(theForm,numForms,bRequired){var valid=true,formNum=0;for(formNum;formNum<numForms&&valid===true;formNum++){valid=validateSingleDestination(theForm,formNum,bRequired);}
 return valid;}
-function warnInvalid(theField,s){$(".element-container").removeClass("has-error has-warning has-success");if(theField){var field=(typeof theField.length==="undefined")?$(theField):theField,id=field.prop("id"),tab=field.parents(".tab-pane").prop("id");while(typeof tab!=="undefined"){$('li.change-tab[data-name="'+tab+'"] a').one("shown.bs.tab");$('li.change-tab[data-name="'+tab+'"] a').tab("show");tab=$('li.change-tab[data-name="'+tab+'"] a').parents(".tab-pane").prop("id");}
+function warnInvalid(theField,s){$(".element-container").removeClass("has-error has-warning has-success");if(theField){var field=(theField instanceof jQuery)?theField:$(theField),id=field.prop("id"),tab=field.parents(".tab-pane").prop("id");while(typeof tab!=="undefined"){$('li.change-tab[data-name="'+tab+'"] a').one("shown.bs.tab");$('li.change-tab[data-name="'+tab+'"] a').tab("show");tab=$('li.change-tab[data-name="'+tab+'"] a').parents(".tab-pane").prop("id");}
 field.focus();field.parents(".element-container").addClass("has-error");field.one("propertychange change contextmenu keyup input paste",function(){$(this).parents(".element-container").removeClass("has-error has-warning has-success");});}
 if(typeof s!=="undefined"&&s!==""){alert(s);}
 return false;}
