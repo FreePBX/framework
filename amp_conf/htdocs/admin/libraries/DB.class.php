@@ -587,10 +587,10 @@ class DB_result {
 
 	/**
 	 * Fetches a row from a result set
-	 * @param {int} $fetchmode = DB_DEFAULT_MODE The fetchmode to use
+	 * @param {int} $fetchmode = DB_FETCHMODE_DEFAULT The fetchmode to use
 	 * @param {int} $rownum    = null            The row number to fetch
 	 */
-	public function fetchRow($fetchmode = DB_DEFAULT_MODE , $rownum = null) {
+	public function fetchRow($fetchmode = DB_FETCHMODE_DEFAULT , $rownum = null) {
 		$res = $this->sth->fetch($this->correctFetchMode($fetchmode));
 		return isset($rownum) ? (isset($res[$rownum]) ? $res[$rownum] : false) : $res;
 	}
