@@ -48,6 +48,22 @@ define('AST_STATE_DIALING_OFFHOOK', 8);
 define('AST_STATE_PRERING', 9);
 
 
+function phpasmanager_error_handler($errno, $errstr, $errfile, $errline) {
+
+    switch ($errno) {
+		case E_WARNING:
+    case E_USER_WARNING:
+		case E_NOTICE:
+		case E_USER_NOTICE:
+		default:
+			dbug("Got a php-asmanager error of [$errno] $errstr");
+		  break;
+    }
+
+    /* Don't execute PHP internal error handler */
+    return true;
+}
+
 /**
 * Asterisk Manager class
 *
@@ -255,12 +271,15 @@ class AGI_AsteriskManager {
 	*/
 	function wait_response($allow_timeout = false) {
 		$timeout = false;
+
+		set_error_handler("phpasmanager_error_handler");
 		do {
 			$type = NULL;
 			$parameters = array();
 
-			if (feof($this->socket) || !$this->socket) {
+			if (!$this->socket || feof($this->socket)) {
 				$this->log("Got EOF in wait_response() from socket waiting for response, returning false",10);
+				restore_error_handler();
 				return false;
 			}
 			$buffer = trim(fgets($this->socket, 4096));
@@ -308,6 +327,7 @@ class AGI_AsteriskManager {
 		if (isset($buff)) {
 			$this->log('$buff: '.print_r($buff,true),10);
 		}
+		restore_error_handler();
 		return $parameters;
 	}
 
@@ -322,6 +342,8 @@ class AGI_AsteriskManager {
 	* @return boolean true on success
 	*/
 	function connect($server=NULL, $username=NULL, $secret=NULL, $events='on') {
+		set_error_handler("phpasmanager_error_handler");
+
 		// use config if not specified
 		if(is_null($server)) {
 			$server = $this->config['asmanager']['server'];
@@ -342,9 +364,12 @@ class AGI_AsteriskManager {
 
 		// connect the socket
 		$errno = $errstr = NULL;
-		$this->socket = @fsockopen($this->server, $this->port, $errno, $errstr);
+
+		$this->socket = stream_socket_client("tcp://".$this->server.":".$this->port, $errno, $errstr);
+		stream_set_timeout($this->socket,30);
 		if(!$this->socket) {
 			$this->log("Unable to connect to manager {$this->server}:{$this->port} ($errno): $errstr");
+			restore_error_handler();
 			return false;
 		}
 
@@ -353,6 +378,7 @@ class AGI_AsteriskManager {
 		if($str == false) {
 			// a problem.
 			$this->log("Asterisk Manager header not received.");
+			restore_error_handler();
 			return false;
 		} else {
 			// note: don't $this->log($str) until someone looks to see why it mangles the logging
@@ -365,8 +391,10 @@ class AGI_AsteriskManager {
 		if($res['Response'] != 'Success') {
 			$this->log("Failed to login.");
 			$this->disconnect();
+			restore_error_handler();
 			return false;
 		}
+		restore_error_handler();
 		return true;
 	}
 
