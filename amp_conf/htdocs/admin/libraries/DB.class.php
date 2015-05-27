@@ -64,7 +64,7 @@ class DB {
 			$db_port = empty($pdsn['port']) ? '' :  ';port=' . $pdsn['port'];
 			return new DB(new \FreePBX\Database($pdsn['dbsyntax'].':host='.$pdsn['hostspec'].$db_port.';dbname='.$pdsn['database'],$pdsn['username'],$pdsn['password']));
 		}
-		throw new \Exception("Could not understand DSN for connect");
+		throw new \Exception(_("Could not understand DSN for connect"));
 	}
 
 	/**
@@ -399,7 +399,7 @@ class DB {
 				}
 				break;
 				default:
-					throw new \Exception("Unsupported getAssoc Conversion mode");
+					throw new \Exception(_("Unsupported getAssoc Conversion mode"));
 				break;
 			}
 			return $final;
@@ -519,7 +519,7 @@ class DB {
 	public function setFetchMode($fetchmode) {
 		switch($fetchmode) {
 			case DB_FETCHMODE_DEFAULT:
-				throw new \Exception("You can't set the default to the default");
+				throw new \Exception(_("You can't set the default to the default"));
 			break;
 			case DB_FETCHMODE_OBJECT:
 			case DB_FETCHMODE_ASSOC:
@@ -527,7 +527,7 @@ class DB {
 				$this->defaultFetch = $fetchmode;
 			break;
 			default:
-				throw new Exception("Unknown SQL fetchmode of $fetchmode");
+				throw new Exception(sprintf(_("Unknown SQL fetchmode of %s"),$fetchmode));
 			break;
 		}
 	}
@@ -567,7 +567,7 @@ class DB {
 				$fetch = PDO::FETCH_NUM;
 			break;
 			default:
-				throw new Exception("Unknown SQL fetchmode of $fetchmode");
+				throw new Exception(sprintf(_("Unknown SQL fetchmode of %s"),$fetchmode));
 			break;
 		}
 		return $fetch;
@@ -582,7 +582,7 @@ class DB_result {
 	}
 
 	public function fetchInto() {
-		throw new Exception("fetchInto not implemented");
+		throw new Exception(_("fetchInto not implemented"));
 	}
 
 	/**
@@ -596,15 +596,15 @@ class DB_result {
 	}
 
 	public function free() {
-		throw new Exception("free not implemented");
+		throw new Exception(_("free not implemented"));
 	}
 
 	public function nextResult() {
-		throw new Exception("nextresult not implemented");
+		throw new Exception(_("nextresult not implemented"));
 	}
 
 	public function numCols() {
-		throw new Exception("numcols not implemented");
+		throw new Exception(_("numcols not implemented"));
 	}
 
 	/**
@@ -632,7 +632,7 @@ class DB_result {
 				$fetch = PDO::FETCH_NUM;
 			break;
 			default:
-				throw new Exception("Unknown SQL fetchmode of $fetchmode");
+				throw new Exception(sprintf(_("Unknown SQL fetchmode of %s"),$fetch));
 			break;
 		}
 		return $fetch;
@@ -654,7 +654,7 @@ class DB_Error {
 				return DB_ERROR_ALREADY_EXISTS;
 			break;
 			default:
-				throw new Exception("Unknown Error Code");
+				throw new Exception(sprintf(_("Unknown Error Code %s"),$this->e->getCode()));
 			break;
 		}
 	}
