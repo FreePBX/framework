@@ -454,10 +454,12 @@ class DB {
 
 	public function execute($stmt, $data = array()) {
 		try {
-			if(!isset($data[0])) {
+			if(is_array($data) && !isset($data[0])) {
 				return $stmt->execute(array_values($data));
-			} else {
+			} else if(is_array($data)) {
 				return $stmt->execute($data);
+			} else {
+				return $stmt->execute(array($data));
 			}
 		} catch(Exception $e) {
 			return new DB_Error($e);
@@ -471,11 +473,13 @@ class DB {
 	 */
 	public function executeMultiple($stmt, $data = array()) {
 		try {
-			foreach($data as &$row) {
-				if(!isset($row[0])) {
+			foreach($data as $row) {
+				if(is_array($row) && !isset($row[0])) {
 					$stmt->execute(array_values($row));
-				} else {
+				} elseif(is_array($row)) {
 					$stmt->execute($row);
+				} else {
+					$stmt->execute(array($row));
 				}
 			}
 		} catch(Exception $e) {
@@ -533,7 +537,7 @@ class DB {
 	}
 
 	private function isFetchMode($mixed) {
-		/*TODO Implement for Rob
+		/*TODO Implement for cleanup in the future
 		switch($mixed) {
 			case DB_FETCHMODE_DEFAULT:
 			case DB_FETCHMODE_OBJECT:
@@ -550,7 +554,7 @@ class DB {
 
 	/**
 	 * Adjust the Fetch mode for PDO from PearDB
-	 * @param [type] $PearDBFetchMode [description]
+	 * @param int $PearDBFetchMode Constant Fetch Mode
 	 */
 	private function correctFetchMode($PearDBFetchMode=DB_FETCHMODE_DEFAULT) {
 		switch($PearDBFetchMode) {

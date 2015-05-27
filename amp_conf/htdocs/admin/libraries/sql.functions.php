@@ -22,6 +22,9 @@ function sql($sql,$type="query",$fetchmode='default') {
 				$results = $db->$type($sql,array(),DB_FETCHMODE_ASSOC);
 			}
 		break;
+		case DB_FETCHMODE_ORDERED:
+			$results = $db->$type($sql,array(),DB_FETCHMODE_ORDERED);
+		break;
 		case 'default':
 			$results = $db->sql($sql, $type);
 		break;
