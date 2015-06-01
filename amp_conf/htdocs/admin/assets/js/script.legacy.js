@@ -1671,7 +1671,15 @@ $(document).ready(function(){
 	}
 
 	if($(window).width() > 991) {
-		$(".freepbx-navbar .dropdown-menu").css("max-height",$(window).height()-40);
+		$(".freepbx-navbar .dropdown-menu").css("max-height",$(window).height()-50);
+		resizeMode = 'desktop';
+	} else {
+		resizeMode = 'mobile'
+		$('table[data-toggle=table]').each(function() {
+			if(!$(this).bootstrapTable('getOptions').cardView) {
+				$(this).bootstrapTable('toggleView');
+			}
+		});
 	}
 });
 $(".maxlen").keyup(function(){
@@ -1694,11 +1702,24 @@ $(document).on('click','.clickable', function(e){
 	e.preventDefault();
 });
 
+var resizeMode = 'desktop';
 //Menu autoresize to height of browser viewport
 $(window).resize(function() {
-	if($(window).width() < 992) {
+	if(resizeMode != 'mobile' && $(window).width() < 992) {
 		$(".freepbx-navbar .dropdown-menu").css("max-height","");
-	} else {
-		$(".freepbx-navbar .dropdown-menu").css("max-height",$(window).height()-40);
+		$('table[data-toggle=table]').each(function() {
+			if(!$(this).bootstrapTable('getOptions').cardView) {
+				$(this).bootstrapTable('toggleView');
+			}
+		});
+		resizeMode = 'mobile';
+	} else if(resizeMode != 'desktop' && $(window).width() > 991) {
+		$(".freepbx-navbar .dropdown-menu").css("max-height",$(window).height()-50);
+		$('table[data-toggle=table]').each(function() {
+			if($(this).bootstrapTable('getOptions').cardView) {
+				$(this).bootstrapTable('toggleView');
+			}
+		});
+		resizeMode = 'desktop';
 	}
 });
