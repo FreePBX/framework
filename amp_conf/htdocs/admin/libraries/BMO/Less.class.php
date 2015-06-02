@@ -133,7 +133,9 @@ class Less extends \Less_Parser {
 	public function parseDir($dir, $uri_root = '') {
 		//Load bootstrap only if it exists as this will tell us the correct load order
 		if(!file_exists($dir.'/cache')) {
-			if(!mkdir($dir.'/cache')) {
+			// Explicitly don't trigger an E_WARNING, as PHP doesn't tell you what
+			// it was trying to mkdir, so the error is useless.
+			if(!@mkdir($dir.'/cache')) {
 				die_freepbx(sprintf(_('Can not create cache folder at %s/cache. Please run (from the CLI): %s'),$dir,'fwconsole chown'));
 			}
 		}
@@ -166,7 +168,9 @@ class Less extends \Less_Parser {
 	 */
 	public function getCachedFile($dir, $uri_root = '', $variables = array()) {
 		if(!file_exists($dir.'/cache')) {
-			if(!mkdir($dir.'/cache')) {
+			// Explicitly don't trigger an E_WARNING, as PHP doesn't tell you what
+			// it was trying to mkdir, so the error is useless.
+			if(!@mkdir($dir.'/cache')) {
 				die_freepbx(sprintf(_('Can not create the LESS cache folder at %s. Please run (from the CLI): %s'),$dir.'/cache','fwconsole chown'));
 			}
 		}
