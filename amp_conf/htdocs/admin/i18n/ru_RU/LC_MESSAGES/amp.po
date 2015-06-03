@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-27 16:44-0400\n"
+"POT-Creation-Date: 2015-06-03 19:07-0400\n"
 "PO-Revision-Date: 2015-05-31 00:37+0200\n"
 "Last-Translator: Yuriy <alliancesko@gmail.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -1331,12 +1331,12 @@ msgstr "Маршрут вызова: %s"
 msgid "Can Reinvite"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:137
+#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:139
 #, php-format
 msgid "Can not create cache folder at %s/cache. Please run (from the CLI): %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:170
+#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:174
 #, php-format
 msgid ""
 "Can not create the LESS cache folder at %s. Please run (from the CLI): %s"
@@ -1346,7 +1346,7 @@ msgstr ""
 msgid "Can not create trunk_dialpatterns table"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:174
+#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:178
 #, php-format
 msgid "Can not read from the LESS folder at %s. Please run (from the CLI): %s"
 msgstr ""
@@ -1357,7 +1357,7 @@ msgid ""
 "Can not write to cache folder at %s/cache. Please run (from the CLI): %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:177
+#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:181
 #, php-format
 msgid ""
 "Can not write to the LESS cache folder at %s. Please run (from the CLI): %s"
@@ -1964,6 +1964,10 @@ msgstr ""
 
 #: ../core/Core.class.php:1856
 msgid "DIDs / Inbound Routes"
+msgstr ""
+
+#: ../core/functions.inc/drivers/PJSip.class.php:204
+msgid "DTLS-SRTP"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:257
@@ -2785,7 +2789,7 @@ msgstr "Ошибка при обновлении базы данных. Вызо
 msgid "Error updating database: "
 msgstr "Ошибка при обновлении базы данных: "
 
-#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:199
+#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:203
 #, php-format
 msgid "Error with the templating engine: %s"
 msgstr ""
@@ -3197,7 +3201,7 @@ msgstr ""
 msgid "FreePBX Administration"
 msgstr "Администрирование FreePBX"
 
-#: ../core/page.advancedsettings.php:201
+#: ../core/page.advancedsettings.php:234
 msgid "FreePBX Advanced Settings"
 msgstr "Расширенные установки FreePBX"
 
@@ -3241,8 +3245,9 @@ msgstr ""
 msgid "Frequency in seconds to send qualify messages to the endpoint."
 msgstr "Частота посылок сообщений qualify конечным устройствам, в секундах."
 
-#: ../core/page.advancedsettings.php:113 ../core/page.advancedsettings.php:137
-#: ../core/page.advancedsettings.php:167 ../core/page.advancedsettings.php:191
+#: ../core/page.advancedsettings.php:113 ../core/page.advancedsettings.php:138
+#: ../core/page.advancedsettings.php:167 ../core/page.advancedsettings.php:197
+#: ../core/page.advancedsettings.php:221
 msgid "Friendly Name"
 msgstr ""
 
@@ -3441,7 +3446,7 @@ msgstr "Возможности трансферов IAX, см. документ�
 msgid "ID"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:203
+#: ../core/page.advancedsettings.php:236
 msgid "IMPORTANT:"
 msgstr ""
 
@@ -3814,8 +3819,8 @@ msgid "It is unlikely you'll need to change anything here."
 msgstr ""
 
 #: ../core/page.advancedsettings.php:87 ../core/page.advancedsettings.php:111
-#: ../core/page.advancedsettings.php:135 ../core/page.advancedsettings.php:165
-#: ../core/page.advancedsettings.php:189
+#: ../core/page.advancedsettings.php:136 ../core/page.advancedsettings.php:165
+#: ../core/page.advancedsettings.php:195 ../core/page.advancedsettings.php:219
 msgid "KEYWORD"
 msgstr ""
 
@@ -3972,6 +3977,16 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Context.class.php:35
 msgid "May be invalid Check your spelling"
+msgstr ""
+
+#: ../core/functions.inc/drivers/PJSip.class.php:205
+msgid ""
+"Media (RTP) Encryption. Normally you would use None, unless you have "
+"explicitly set up SDP or DTLS."
+msgstr ""
+
+#: ../core/functions.inc/drivers/PJSip.class.php:206
+msgid "Media Encryption"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Iax2.class.php:117
@@ -4392,6 +4407,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:526
 msgid "No status was given to checkStatus"
+msgstr ""
+
+#: ../core/functions.inc/drivers/PJSip.class.php:202
+msgid "None"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Virtual.class.php:9
@@ -5094,7 +5113,7 @@ msgstr ""
 "Политика реинвайт для этого устройства, см. документацию Астериск для "
 "деталей."
 
-#: ../core/page.advancedsettings.php:206
+#: ../core/page.advancedsettings.php:239
 msgid ""
 "Readonly settings are usually more volatile, they can be changed by changing "
 "'Override Readonly Settings' to Yes."
@@ -5369,6 +5388,10 @@ msgid ""
 "generated by the PBX if left blank"
 msgstr ""
 
+#: ../core/functions.inc/drivers/PJSip.class.php:203
+msgid "SRTP via in-SDP"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/bad_refferer.php:19
 msgid "SUSPECT LINK:"
 msgstr "ПОДОЗРИТЕЛЬНАЯ ССЫЛКА:"
@@ -5548,6 +5571,10 @@ msgstr "Сигнализация вызова (КПВ)"
 msgid "Simulate Incoming Call"
 msgstr "Симуляция входного звонка"
 
+#: ../core/functions.inc/drivers/PJSip.class.php:196
+msgid "Solicited"
+msgstr ""
+
 #: ../core/views/did/routeform.php:274
 msgid ""
 "Some devices or providers require RINGING to be sent before ANSWER. You'll "
@@ -5558,7 +5585,7 @@ msgstr ""
 "ответом. Это происходит, например, если звонок идёт прямо на телефон, но вы "
 "перенаправлете в Интерактивное меню, соединение не будет установлено."
 
-#: ../core/page.advancedsettings.php:206
+#: ../core/page.advancedsettings.php:239
 msgid "Some of these settings can render your system inoperable."
 msgstr ""
 
@@ -6350,7 +6377,7 @@ msgstr ""
 msgid "Unknown!"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:206
+#: ../core/page.advancedsettings.php:239
 msgid ""
 "Unlike previous versions of this module you now save changes as a group."
 msgstr ""
@@ -6365,6 +6392,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:497
 msgid "Unsigned Module(s)"
+msgstr ""
+
+#: ../core/functions.inc/drivers/PJSip.class.php:197
+msgid "Unsolicited"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/DB.class.php:402
@@ -6471,7 +6502,7 @@ msgstr ""
 "заголовки в первой строке: %s, %s, %s и %s. Если распознаётся меньше, чем 4 "
 "заголовка, то значения в недостающей колонке будут пустыми"
 
-#: ../core/page.advancedsettings.php:203
+#: ../core/page.advancedsettings.php:236
 msgid "Use extreme caution when making changes!"
 msgstr ""
 
@@ -6832,7 +6863,7 @@ msgid ""
 "They will continue to show up here."
 msgstr ""
 
-#: ../core/page.advancedsettings.php:206
+#: ../core/page.advancedsettings.php:239
 msgid "You are urged to backup before making any changes."
 msgstr ""
 
@@ -6875,7 +6906,7 @@ msgstr ""
 "идентификатор \"Sales:\", Звонок от John Doe будет выглядеть как \"Sales: "
 "John Doe\" на звонящем внутреннем номере."
 
-#: ../core/page.advancedsettings.php:206
+#: ../core/page.advancedsettings.php:239
 #, php-format
 msgid ""
 "You can restore the default setting by clicking on the %s icon to the left "
