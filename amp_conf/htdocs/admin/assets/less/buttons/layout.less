@@ -41,19 +41,21 @@
 	.button-background(@button-gradient, @button-background-color-default, @button-image-default);
 	.button-background-gradient(@button-gradient, @button-background-gradient-top-default, @button-background-gradient-bottom-default);
 	color: @button-color-default;
-	font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+	font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif, Verdana, "Trebuchet MS", SunSans-Regular;
 	display: inline-block;
 	position: relative;
-	line-height: normal;
+	line-height: inherit;
 	margin-right: .1em;
 	cursor: pointer;
 	vertical-align: middle;
 	text-align: center;
 	overflow: visible;
-	font-size: 11px !important;
-	padding: 9px 18px;
+	font-size: 14px;
+	padding: 8px 18px;
 	font-weight: bold;
-	height: 34px;
+	height: 31px;
+	min-width: 45px;
+	margin-right: 5px;
 }
 
 .button-hover() {
