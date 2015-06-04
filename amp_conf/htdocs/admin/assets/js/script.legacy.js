@@ -80,9 +80,11 @@ function validateDestinations(theForm, numForms, bRequired) {
  */
 function warnInvalid(theField, s) {
 	$(".element-container").removeClass("has-error has-warning has-success");
+	$(".element-container .input-warn").remove();
 	if (theField) {
 		var field = (theField instanceof jQuery) ? theField : $(theField),
 				id = field.prop("id"),
+				type = 'unknown',
 				tab = field.parents(".tab-pane").prop("id");
 		//while loop here to tab switch through different layers
 		while(typeof tab !== "undefined") {
@@ -92,9 +94,16 @@ function warnInvalid(theField, s) {
 		}
 		field.focus();
 		field.parents(".element-container").addClass("has-error");
+		if(field.is('input')) {
+			type = 'input';
+		} else if(field.is('select')) {
+			type = 'select';
+		}
+		field.before('<i class="fa fa-exclamation-triangle input-warn" data-type="' + type + '" data-toggle="tooltip" data-placement="left" title="test"></i>');
 
 		field.one("propertychange change contextmenu keyup input paste", function() {
 			$(this).parents(".element-container").removeClass("has-error has-warning has-success");
+			$(this).parents(".element-container").find(".input-warn").remove();
 		});
 	}
 	if (typeof s !== "undefined" && s !== "") {
