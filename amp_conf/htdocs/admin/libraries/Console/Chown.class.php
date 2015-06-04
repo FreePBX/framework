@@ -120,11 +120,9 @@ class Chown extends Command {
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 												   'path' => $ASTVARLIBDIR . '/' . $MOHDIR,
 												   'perms' => 0755);
-			/* this was never actually assigned to do anything
-			$this->modfiles['framework'][] = array('type' => 'file',
-												   'path' => '/dev/tty9',
-												   'perms' => 0644);
-			*/
+			$this->modfiles['framework'][] = array('type' => 'rdir',
+												   'path' => $ASTVARLIBDIR . '/sounds',
+												   'perms' => 0755);
 			$this->modfiles['framework'][] = array('type' => 'file',
 												   'path' => '/etc/obdc.ini',
 												   'perms' => 0644);
