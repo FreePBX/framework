@@ -941,12 +941,12 @@ function fpbx_reload() {
 	$(document).trigger( "fpbx_reload", {status: "starting", complete: false, errors: false} );
 	$("<div></div>").progressbar({ value: 100 });
 	var box = $("<div id=\"reloadbox\"></div>")
-		.html("<progress style=\"width: 100%\">Please wait...</progress>")
+		.html('<div class="progress"><div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 100%"><span class="sr-only">'+_("Reloading...")+'</span></div></div>')
 		.dialog({
 			title: _("Reloading..."),
 			resizable: false,
 			modal: true,
-			height: 52,
+			height: 102,
 			position: [ "center", 50 ],
 			closeOnEscape: false,
 			open: function(event, ui) {
