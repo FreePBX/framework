@@ -1260,10 +1260,9 @@ $(document).ready(function() {
 			case "Duplicate":
 			case "duplicate":
 				fpbxForm.submit();
-				console.log(fpbxForm);
 				break;
 			default:
-				console.log("There is no action for button named " + buttonName);
+				console.warn("There is no action for button named " + buttonName);
 				break;
 			}
 	});
