@@ -31,8 +31,8 @@ if (isset($_REQUEST['command'])) {
 // No auth - we'll do that later.
 $bootstrap_settings['freepbx_auth'] = false;
 
-// Throw verbose exceptions, no matter what.
-$bootstrap_settings['freepbx_error_handler'] = false;
+//for error handling mode
+$bootstrap_settings['whoops_handler'] = 'JsonResponseHandler';
 
 // No non-BMO Modules.
 $restrict_mods = true;

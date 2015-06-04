@@ -100,7 +100,6 @@ var SearchC = Class.extend({
   },
 
   processSearchClick: function(o, d, name) {
-    console.log(d);
     if (name == "moduleSearch") {
       return this.processModuleClick(d.o);
     } else if (name == "extenSearch") {
@@ -108,7 +107,7 @@ var SearchC = Class.extend({
     } else if (name == "itemSearch") {
       return this.processItemClick(d);
     } else {
-      console.log("All the wat "+name);
+      console.warn("Not sure what to do with " + name);
       return false;
     }
   },

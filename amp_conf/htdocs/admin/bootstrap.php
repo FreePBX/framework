@@ -96,7 +96,16 @@ if ($bootstrap_settings['freepbx_error_handler']) {
   } else {
 		set_error_handler('freepbx_error_handler', E_ALL & ~E_STRICT);
 		$whoops = new \Whoops\Run;
-		$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+		if(isset($bootstrap_settings['whoops_handler'])) {
+			$class = '\\Whoops\\Handler\\'.$bootstrap_settings['whoops_handler'];
+			$whoops->pushHandler(new $class);
+		} else {
+			if(php_sapi_name() == 'cli') {
+				$whoops->pushHandler(new \Whoops\Handler\PlainTextHandler);
+			} else {
+				$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+			}
+		}
 		$whoops->register();
 	}
 }
