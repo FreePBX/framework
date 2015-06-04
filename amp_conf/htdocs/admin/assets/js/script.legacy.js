@@ -907,7 +907,7 @@ function fpbx_reload_confirm() {
 	}
 
 	$("<div></div>")
-		.html("Reloading will apply all configuration changes made in FreePBX to your PBX engine and make them active.")
+		.html(sprintf(_("Reloading will apply all configuration changes made in %s to your PBX engine and make them active."),"FreePBX"))
 		.dialog({
 			title: "Confirm reload",
 			resizable: false,
@@ -943,7 +943,7 @@ function fpbx_reload() {
 	var box = $("<div id=\"reloadbox\"></div>")
 		.html("<progress style=\"width: 100%\">Please wait...</progress>")
 		.dialog({
-			title: "Reloading...",
+			title: _("Reloading..."),
 			resizable: false,
 			modal: true,
 			height: 52,
@@ -967,7 +967,7 @@ function fpbx_reload() {
 				$(document).trigger( "fpbx_reload", {status: "error", complete: true, errors: {type: "object", status: true, data: data}} );
 				// there was a problem
 				var r = "<h3>" + data.message + "<\/h3>" +
-				"<a href=\"#\" id=\"error_more_info\">click here for more info</a>" +
+				"<a href=\"#\" id=\"error_more_info\">" + _("click here for more info") + "</a>" +
 				"<pre style=\"display:none;max-height:200px\">" + data.retrieve_conf + "<\/pre>";
 				if (data.num_errors) {
 					r += "<p>" + data.num_errors + fpbx.msg.framework.reload_unidentified_error + "<\/p>";
@@ -1002,7 +1002,7 @@ function freepbx_reload_error(txt) {
 	var box = $("<div></div>")
 						.html(txt)
 						.dialog({
-							title: "Error!",
+							title: _("Error!"),
 							resizable: false,
 							modal: true,
 							minWidth: 600,
