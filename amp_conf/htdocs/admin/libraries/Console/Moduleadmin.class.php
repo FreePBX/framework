@@ -775,6 +775,7 @@ class Moduleadmin extends Command {
 			case 'installlocal':
 				$this->doInstallLocal(true);
 				$this->setPerms($action,$args);
+				break;
 			case 'uninstall':
 				if(empty($args)){
 					fatal("Missing module name");
