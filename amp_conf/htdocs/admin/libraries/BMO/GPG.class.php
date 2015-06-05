@@ -646,8 +646,8 @@ class GPG {
 		$stat = stat($dir);
 		if ($uid != $stat['uid'] || $gid != $stat['gid']) {
 			// Permissions are wrong on the GPG directory. Hopefully, I'm root, so I can fix them.
-			if (!posix_geteuid() === 0) {
-				throw new \Exception(sprintf(_("Permissions error on %s - please re-run as root to automatically repair"),$home));
+			if (posix_geteuid() !== 0) {
+				throw new \Exception(sprintf(_("Permissions error on %s - please re-run as root to automatically repair"),$dir));
 			}
 			// We're root. Yay.
 			chown($dir, $uid);
@@ -660,8 +660,8 @@ class GPG {
 			$stat = stat($file);
 			if ($uid != $stat['uid'] || $gid != $stat['gid']) {
 				// Permissions are wrong on the file inside the .gnupg directory.
-				if (!posix_geteuid() === 0) {
-					throw new \Exception(sprintf(_("Permissions error on %s - please re-run as root to automatically repair"),$home));
+				if (posix_geteuid() !== 0) {
+					throw new \Exception(sprintf(_("Permissions error on %s - please re-run as root to automatically repair"),$dir));
 				}
 				// We're root. Yay.
 				chown($file, $uid);
