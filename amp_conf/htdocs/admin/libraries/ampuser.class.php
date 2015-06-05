@@ -52,6 +52,9 @@ class ampuser {
 
 	function checkSection($section) {
 		// if they have * then it means all sections
+		if(empty($this->sections) || !is_array($this->sections)) {
+			return false;
+		}
 		return in_array("*", $this->sections) || in_array($section, $this->sections);
 	}
 
