@@ -350,14 +350,16 @@ class GPG {
 		$proc = proc_open($cmd, $fds, $pipes, "/tmp", $this->gpgenv);
 
 		if (!is_resource($proc)) { // Unable to start!
-			throw new Exception(_("Unable to start GPG"));
+			freepbx_log(FPBX_LOG_FATAL, "Tried to run command and failed: " . $cmd);
+			throw new \Exception(sprintf(_("Unable to start GPG, the command was: [%s]"),$cmd));
 		}
 
 		// Wait $timeout seconds for it to finish.
 		$tmp = null;
 		$r = array($pipes[3]);
 		if (!stream_select($r , $tmp, $tmp, $this->timeout)) {
-			throw new RuntimeException(sprintf(_("gpg took too long to run the command: %s"),$cmd));
+			freepbx_log(FPBX_LOG_FATAL, "Tried to run command and failed: " . $cmd);
+			throw new \RuntimeException(sprintf(_("GPG took too long to run the command: [%s]"),$cmd));
 		}
 		// We grab stdout and stderr first, as the status fd won't
 		// have completed and closed until those FDs are emptied.
