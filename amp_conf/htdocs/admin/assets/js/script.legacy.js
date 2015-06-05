@@ -780,7 +780,6 @@ function bind_dests_double_selects() {
 					title: "Add",
 					resizable: false,
 					modal: true,
-					position: [ "center", 50 ],
 					width: window.innerWidth - (window.innerWidth * .10),
 					height: window.innerHeight - (window.innerHeight * .10),
 					create: function() {
@@ -921,7 +920,6 @@ function fpbx_reload_confirm() {
 			title: "Confirm reload",
 			resizable: false,
 			modal: true,
-			position: [ "center", 50 ],
 			close: function (e) {
 				$(e.target).dialog("destroy").remove();
 			},
@@ -956,7 +954,6 @@ function fpbx_reload() {
 			resizable: false,
 			modal: true,
 			height: 102,
-			position: [ "center", 50 ],
 			closeOnEscape: false,
 			open: function(event, ui) {
 				$(".ui-dialog-titlebar-close", $(this).parent()).hide();
@@ -1015,7 +1012,6 @@ function freepbx_reload_error(txt) {
 							resizable: false,
 							modal: true,
 							minWidth: 600,
-							position: [ "center", 50 ],
 							close: function (e) {
 								$(e.target).dialog("destroy").remove();
 							},
@@ -1554,7 +1550,6 @@ $(document).ready(function() {
 				resizable: false,
 				width: 400,
 				modal: true,
-				position: [ "center", "center" ],
 				close: function(e) {
 					$(e.target).dialog("destroy").remove();
 				},

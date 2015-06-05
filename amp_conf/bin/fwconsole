@@ -12,13 +12,13 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 }
 modgettext::push_textdomain("amp");
 if(!isset($options['fix_zend']) && function_exists('SPLAutoloadBroken') && SPLAutoloadBroken()) {
-	echo _("Autoloader is damaaged")."\n";
+	echo _("Autoloader is damaged")."\n";
 	echo sprintf(_("Please run: %s --fix_zend"),basename($argv[0]))."\n";
 	die();
 }
 if(isset($options['fix_zend'])) {
 	if(SPLAutoloadBroken()) {
-		die(_("Autoloader was damanged before we even started!")."\n");
+		die(_("Autoloader was damaged before we even started!")."\n");
 	}
 	//autoload our fix it classes now before autoloading breaks
 	$mf = module_functions::create();

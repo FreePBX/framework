@@ -38,7 +38,6 @@ $(document).ready(function(){
 			title: fpbx.msg.framework.updatenotifications,
 			resizable: false,
 			modal: true,
-			position: ['center', 50],
 			width: '400px',
 			close: function (e) {
 				$('#update_email').val($('#update_email').attr('saved-value'));
@@ -103,7 +102,6 @@ $(document).ready(function(){
 			$('#security-' + value).dialog({
 				title: fpbx.msg.framework.securityissue + ' ' + value,
 				resizable: false,
-				position: [50+20*index, 50+20*index],
 				width: '450px',
 				close: function (e) {
 				},
@@ -278,7 +276,6 @@ function process_module_actions(modules) {
 				title: 'Status',
 				resizable: false,
 				modal: true,
-				position: ['center', 50],
 				width: '410px',
 				open: function (e) {
 					$('#moduledialogwrapper').html('Loading..<i class="fa fa-spinner fa-spin fa-2x">');
