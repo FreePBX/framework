@@ -56,8 +56,12 @@ class ConfigFile {
 		} elseif (is_string($entry)) {
 			$this->doAdd($section, $entry);
 		} elseif (is_array($entry)) {
-			foreach ($entry as $row) {
-				$this->doAdd($section, $row);
+			foreach ($entry as $key => $row) {
+				if(is_string($key)) {
+					$this->doAdd($section, $key, $row);
+				} else {
+					$this->doAdd($section, $row);
+				}
 			}
 		} else {
 			throw new \Exception("Unimplemented");
