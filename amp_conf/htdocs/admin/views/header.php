@@ -26,6 +26,10 @@ $html .= '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
 		. '<meta name="robots" content="noindex" />'
 		. '<link rel="shortcut icon" href="' . $amp_conf['BRAND_IMAGE_FAVICON'] . '">';
 
+//not supported in some browsers but will solve issues when switching from
+//http to https
+$html .= '<meta name="referrer" content="always">';
+
 //CSS First THEN JS (http://uxmovement.com/content/why-you-should-place-style-sheets-before-scripts/)
 //less compiled into css
 foreach($compiled_less_files as $file) {
