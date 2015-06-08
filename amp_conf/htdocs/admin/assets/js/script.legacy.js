@@ -1700,7 +1700,7 @@ $(document).on('click','.delAction', function(e){
 	return confirmed;
 });
 
-//Prevent links from jumoing to the top of the page
+//Prevent links from jumping to the top of the page
 $(document).on('click','.clickable', function(e){
 	e.preventDefault();
 });
@@ -1708,21 +1708,66 @@ $(document).on('click','.clickable', function(e){
 var resizeMode = 'desktop';
 //Menu autoresize to height of browser viewport
 $(window).resize(function() {
-	if(resizeMode != 'mobile' && $(window).width() < 992) {
+	if($(window).width() < 992) {
 		$(".freepbx-navbar .dropdown-menu").css("max-height","");
-		$('table[data-toggle=table]').each(function() {
-			if(!$(this).bootstrapTable('getOptions').cardView) {
-				$(this).bootstrapTable('toggleView');
-			}
-		});
+		if(resizeMode != 'mobile') {
+			$('table[data-toggle=table]').each(function() {
+				if(!$(this).bootstrapTable('getOptions').cardView) {
+					$(this).bootstrapTable('toggleView');
+				}
+			});
+		}
 		resizeMode = 'mobile';
-	} else if(resizeMode != 'desktop' && $(window).width() > 991) {
+	} else if($(window).width() > 991) {
 		$(".freepbx-navbar .dropdown-menu").css("max-height",$(window).height()-50);
-		$('table[data-toggle=table]').each(function() {
-			if($(this).bootstrapTable('getOptions').cardView) {
-				$(this).bootstrapTable('toggleView');
-			}
-		});
+		if(resizeMode != 'desktop') {
+			$('table[data-toggle=table]').each(function() {
+				if($(this).bootstrapTable('getOptions').cardView) {
+					$(this).bootstrapTable('toggleView');
+				}
+			});
+		}
 		resizeMode = 'desktop';
 	}
 });
+
+/*
+$.fn.overflown = function() {
+	var e = this[0];
+	console.log(e.scrollHeight);
+	console.log(e.clientHeight);
+	return e.scrollHeight > e.clientHeight || e.scrollWidth > e.clientWidth;
+};
+
+$(".freepbx-navbar .dropdown-toggle").hover(function(e){
+	var el = $(e.currentTarget).parents(".dropdown").children(".dropdown-menu"),
+			parent = $(e.currentTarget).parents(".dropdown");
+	if(typeof el !== "undefined" && !parent.hasClass("open")) {
+		el.show();
+		$(this).trigger( "show.bs.dropdown", e );
+	}
+}, function(e) {
+	var el = $(e.currentTarget).parents(".dropdown").children(".dropdown-menu"),
+			parent = $(e.currentTarget).parents(".dropdown"),
+			$this = this;
+	if(typeof el !== "undefined" && !$(e.relatedTarget).hasClass("dropdown-menu") && !parent.hasClass("open")) {
+		el.hide();
+		$(this).trigger( "hide.bs.dropdown", e );
+	} else if($(e.relatedTarget).hasClass("dropdown-menu")) {
+		$(e.relatedTarget).one('mouseleave', function() {
+			if(!parent.hasClass("open")) {
+				el.hide();
+				$($this).trigger( "hide.bs.dropdown", e );
+			}
+		});
+	}
+});
+
+$('.freepbx-navbar').on('show.bs.dropdown', function () {
+	console.log("yes");
+});
+
+$('.freepbx-navbar').on('hide.bs.dropdown', function () {
+	console.log("no");
+});
+*/
