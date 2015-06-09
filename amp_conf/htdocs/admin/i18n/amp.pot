@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-08 21:37-0400\n"
+"POT-Creation-Date: 2015-06-09 15:04-0400\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -368,7 +368,7 @@ msgstr ""
 msgid "%s prepared"
 msgstr ""
 
-#: ../core/Core.class.php:1928
+#: ../core/Core.class.php:1950
 #, php-format
 msgid "%s records failed validation"
 msgstr ""
@@ -549,7 +549,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr ""
 
-#: ../core/Core.class.php:1506
+#: ../core/Core.class.php:1528
 #: ../core/functions.inc.php:4736
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
@@ -616,7 +616,7 @@ msgstr ""
 #: ../core/page.devices.php:60
 #: ../core/page.devices.php:92
 #: ../core/page.extensions.php:62
-#: ../core/page.extensions.php:95
+#: ../core/page.extensions.php:81
 #: ../core/page.users.php:55
 #: ../core/views/dahdichandids/changrid.php:27
 #: ../core/views/did/didgrid.php:11
@@ -633,7 +633,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/functions.inc.php:431
 #: ../core/page.astmodules.php:137
-#: ../core/page.extensions.php:84
+#: ../core/page.extensions.php:70
 #: ../core/views/trunks/trunk_header.php:2
 msgid "Add"
 msgstr ""
@@ -700,7 +700,7 @@ msgstr ""
 msgid "Add New %s Device"
 msgstr ""
 
-#: ../core/page.extensions.php:165
+#: ../core/page.extensions.php:142
 #, php-format
 msgid "Add New %s Extension"
 msgstr ""
@@ -1141,10 +1141,6 @@ msgstr ""
 msgid "BMO Objects must have their first letter captialized. You provided %s"
 msgstr ""
 
-#: ../core/page.extensions.php:146
-msgid "Back"
-msgstr ""
-
 #: ../core/views/routing/form.php:40
 #, php-format
 msgid "Before %s"
@@ -1258,7 +1254,7 @@ msgid ""
 "(caller or callee) determines the policy."
 msgstr ""
 
-#: ../core/Core.class.php:1904
+#: ../core/Core.class.php:1926
 msgid "Caller ID Number"
 msgstr ""
 
@@ -1556,7 +1552,6 @@ msgid "Client URI"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/footer.php:97
-#: ../core/page.extensions.php:145
 #: ../core/views/routing/form.php:605
 #: ../core/views/trunks/trunk_footer.php:83
 msgid "Close"
@@ -1758,10 +1753,6 @@ msgstr ""
 msgid "Could not write to "
 msgstr ""
 
-#: ../core/page.extensions.php:148
-msgid "Create"
-msgstr ""
-
 #: ../core/page.ampusers.php:247
 msgid "Create a password for this new user"
 msgstr ""
@@ -1916,11 +1907,11 @@ msgstr ""
 msgid "DID Number"
 msgstr ""
 
-#: ../core/Core.class.php:1855
+#: ../core/Core.class.php:1877
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:1856
+#: ../core/Core.class.php:1878
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
@@ -1986,17 +1977,17 @@ msgid ""
 "can also use a pattern match (eg _2[345]X) to match a range of numbers"
 msgstr ""
 
-#: ../core/Core.class.php:225
 #: ../core/Core.class.php:247
-#: ../core/Core.class.php:288
-#: ../core/Core.class.php:309
-#: ../core/Core.class.php:334
-#: ../core/Core.class.php:364
-#: ../core/Core.class.php:397
+#: ../core/Core.class.php:269
+#: ../core/Core.class.php:310
+#: ../core/Core.class.php:331
+#: ../core/Core.class.php:356
+#: ../core/Core.class.php:386
+#: ../core/Core.class.php:419
 #: ../core/page.devices.php:50
 #: ../core/page.devices.php:82
 #: ../core/page.extensions.php:52
-#: ../core/page.extensions.php:86
+#: ../core/page.extensions.php:72
 #: ../core/page.users.php:46
 msgid "Delete"
 msgstr ""
@@ -2025,10 +2016,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:14
 #: amp_conf/htdocs/admin/views/module_admin/main.php:193
-#: ../core/Core.class.php:1875
-#: ../core/Core.class.php:1876
-#: ../core/Core.class.php:1900
-#: ../core/Core.class.php:1901
+#: ../core/Core.class.php:1897
+#: ../core/Core.class.php:1898
+#: ../core/Core.class.php:1922
+#: ../core/Core.class.php:1923
 #: ../core/functions.inc.php:6457
 #: ../core/views/dahdichandids/changrid.php:25
 #: ../core/views/dahdichandids/didForm.php:36
@@ -2102,7 +2093,7 @@ msgstr ""
 msgid "Device"
 msgstr ""
 
-#: ../core/Core.class.php:1082
+#: ../core/Core.class.php:1104
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
@@ -2119,8 +2110,8 @@ msgstr ""
 msgid "Device Options"
 msgstr ""
 
-#: ../core/Core.class.php:1880
-#: ../core/Core.class.php:1881
+#: ../core/Core.class.php:1902
+#: ../core/Core.class.php:1903
 msgid "Device Technology"
 msgstr ""
 
@@ -2128,7 +2119,7 @@ msgstr ""
 msgid "Device Type"
 msgstr ""
 
-#: ../core/Core.class.php:1957
+#: ../core/Core.class.php:1979
 msgid "Device could not be added."
 msgstr ""
 
@@ -2269,11 +2260,11 @@ msgid "Discontinued logging type %s changing to %s.."
 msgstr ""
 
 #: ../core/functions.inc.php:6135
-#: ../core/views/quickCreate.php:23
+#: ../core/views/quickCreate.php:59
 msgid "Display Name"
 msgstr ""
 
-#: ../core/Core.class.php:141
+#: ../core/Core.class.php:163
 msgid "Display Name can not be blank!"
 msgstr ""
 
@@ -2402,8 +2393,8 @@ msgstr ""
 msgid "Dump Configs"
 msgstr ""
 
-#: ../core/Core.class.php:339
-#: ../core/Core.class.php:369
+#: ../core/Core.class.php:361
+#: ../core/Core.class.php:391
 msgid "Duplicate"
 msgstr ""
 
@@ -2498,11 +2489,11 @@ msgid "Email"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/oobe.php:10
-#: ../core/views/quickCreate.php:33
+#: ../core/views/quickCreate.php:99
 msgid "Email Address"
 msgstr ""
 
-#: ../core/views/quickCreate.php:35
+#: ../core/views/quickCreate.php:109
 msgid ""
 "Email address to use for services such as Voicemail, User Management and Fax"
 msgstr ""
@@ -2511,7 +2502,7 @@ msgstr ""
 msgid "Email addresses error"
 msgstr ""
 
-#: ../core/Core.class.php:141
+#: ../core/Core.class.php:163
 msgid "Email must be valid!"
 msgstr ""
 
@@ -2625,19 +2616,19 @@ msgstr ""
 msgid "English"
 msgstr ""
 
-#: ../core/views/quickCreate.php:29
+#: ../core/views/quickCreate.php:82
 msgid "Enter Caller ID"
 msgstr ""
 
-#: ../core/views/quickCreate.php:19
+#: ../core/views/quickCreate.php:42
 msgid "Enter Extension"
 msgstr ""
 
-#: ../core/views/quickCreate.php:34
+#: ../core/views/quickCreate.php:102
 msgid "Enter email"
 msgstr ""
 
-#: ../core/views/quickCreate.php:24
+#: ../core/views/quickCreate.php:62
 msgid "Enter name"
 msgstr ""
 
@@ -2689,7 +2680,7 @@ msgstr ""
 msgid "Error deleting directory %s (code %d)"
 msgstr ""
 
-#: ../core/Core.class.php:830
+#: ../core/Core.class.php:852
 #: ../core/page.trunks.php:323
 msgid "Error fetching prefix list for: "
 msgstr ""
@@ -2838,16 +2829,16 @@ msgstr ""
 msgid "Export settings to file"
 msgstr ""
 
-#: ../core/Core.class.php:1867
-#: ../core/Core.class.php:1868
+#: ../core/Core.class.php:1889
+#: ../core/Core.class.php:1890
 #: ../core/functions.inc.php:6041
 #: ../core/page.did.php:87
 #: ../core/page.extensions.php:59
-#: ../core/page.extensions.php:93
+#: ../core/page.extensions.php:79
 msgid "Extension"
 msgstr ""
 
-#: ../core/views/quickCreate.php:18
+#: ../core/views/quickCreate.php:39
 msgid "Extension Number"
 msgstr ""
 
@@ -2860,15 +2851,15 @@ msgstr ""
 msgid "Extension Options"
 msgstr ""
 
-#: ../core/Core.class.php:141
+#: ../core/Core.class.php:163
 msgid "Extension already in use!"
 msgstr ""
 
-#: ../core/Core.class.php:141
+#: ../core/Core.class.php:163
 msgid "Extension can not be blank!"
 msgstr ""
 
-#: ../core/Core.class.php:1944
+#: ../core/Core.class.php:1966
 msgid "Extension is not numeric."
 msgstr ""
 
@@ -2877,8 +2868,8 @@ msgid "Extension number conflict, please choose another."
 msgstr ""
 
 #: amp.i18n.php:16
-#: ../core/Core.class.php:1851
-#: ../core/Core.class.php:1852
+#: ../core/Core.class.php:1873
+#: ../core/Core.class.php:1874
 msgid "Extensions"
 msgstr ""
 
@@ -3516,7 +3507,7 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: ../core/Core.class.php:1903
+#: ../core/Core.class.php:1925
 msgid "Incoming DID"
 msgstr ""
 
@@ -3669,7 +3660,7 @@ msgstr ""
 msgid "Invalid email address"
 msgstr ""
 
-#: ../core/Core.class.php:834
+#: ../core/Core.class.php:856
 #: ../core/page.trunks.php:328
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr ""
@@ -3745,7 +3736,7 @@ msgstr ""
 msgid "List Devices"
 msgstr ""
 
-#: ../core/page.extensions.php:161
+#: ../core/page.extensions.php:138
 msgid "List Extensions"
 msgstr ""
 
@@ -4127,12 +4118,12 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
-#: ../core/Core.class.php:1871
-#: ../core/Core.class.php:1872
+#: ../core/Core.class.php:1893
+#: ../core/Core.class.php:1894
 #: ../core/page.devices.php:58
 #: ../core/page.devices.php:91
 #: ../core/page.extensions.php:60
-#: ../core/page.extensions.php:94
+#: ../core/page.extensions.php:80
 #: ../core/page.users.php:54
 #: ../core/views/routing/grid.php:59
 #: ../core/views/trunks/trunkgrid.php:18
@@ -4164,10 +4155,6 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:126
 #, php-format
 msgid "Newer than online version (%s)"
-msgstr ""
-
-#: ../core/page.extensions.php:147
-msgid "Next"
 msgstr ""
 
 #: ../core/functions.inc.php:5933
@@ -4539,7 +4526,7 @@ msgstr ""
 msgid "Outbound CID"
 msgstr ""
 
-#: ../core/views/quickCreate.php:28
+#: ../core/views/quickCreate.php:79
 msgid "Outbound Caller ID"
 msgstr ""
 
@@ -4594,7 +4581,7 @@ msgid "Override Extension"
 msgstr ""
 
 #: ../core/functions.inc.php:6166
-#: ../core/views/quickCreate.php:30
+#: ../core/views/quickCreate.php:89
 msgid ""
 "Overrides the CallerID when dialing out a trunk. Any setting here will "
 "override the common outbound CallerID set in the Trunks admin."
@@ -4824,7 +4811,7 @@ msgid ""
 "selecting an action on the \"Action\" tab."
 msgstr ""
 
-#: ../core/views/quickCreate.php:9
+#: ../core/views/quickCreate.php:23
 msgid "Please select the type of device you want to create"
 msgstr ""
 
@@ -4919,7 +4906,7 @@ msgid "Qualify Frequency"
 msgstr ""
 
 #: ../core/page.extensions.php:50
-#: ../core/page.extensions.php:121
+#: ../core/page.extensions.php:97
 msgid "Quick Create Extension"
 msgstr ""
 
@@ -5072,14 +5059,14 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:33
 #: amp_conf/htdocs/admin/views/module_admin/main.php:444
-#: ../core/Core.class.php:230
 #: ../core/Core.class.php:252
 #: ../core/Core.class.php:274
-#: ../core/Core.class.php:293
-#: ../core/Core.class.php:314
-#: ../core/Core.class.php:344
-#: ../core/Core.class.php:374
-#: ../core/Core.class.php:402
+#: ../core/Core.class.php:296
+#: ../core/Core.class.php:315
+#: ../core/Core.class.php:336
+#: ../core/Core.class.php:366
+#: ../core/Core.class.php:396
+#: ../core/Core.class.php:424
 msgid "Reset"
 msgstr ""
 
@@ -5433,14 +5420,14 @@ msgstr ""
 msgid "Stream files for debugging"
 msgstr ""
 
-#: ../core/Core.class.php:235
 #: ../core/Core.class.php:257
 #: ../core/Core.class.php:279
-#: ../core/Core.class.php:298
-#: ../core/Core.class.php:319
-#: ../core/Core.class.php:349
-#: ../core/Core.class.php:379
-#: ../core/Core.class.php:407
+#: ../core/Core.class.php:301
+#: ../core/Core.class.php:320
+#: ../core/Core.class.php:341
+#: ../core/Core.class.php:371
+#: ../core/Core.class.php:401
+#: ../core/Core.class.php:429
 msgid "Submit"
 msgstr ""
 
@@ -5504,7 +5491,7 @@ msgid ""
 msgstr ""
 
 #: ../core/functions.inc.php:6135
-#: ../core/views/quickCreate.php:25
+#: ../core/views/quickCreate.php:69
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
@@ -5603,7 +5590,7 @@ msgstr ""
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
-#: ../core/Core.class.php:1906
+#: ../core/Core.class.php:1928
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -5617,7 +5604,7 @@ msgid ""
 msgstr ""
 
 #: ../core/functions.inc.php:6099
-#: ../core/views/quickCreate.php:20
+#: ../core/views/quickCreate.php:49
 msgid "The extension number to dial to reach this user."
 msgstr ""
 
@@ -5792,7 +5779,7 @@ msgid ""
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
 msgstr ""
 
-#: ../core/Core.class.php:1089
+#: ../core/Core.class.php:1111
 msgid "This device id is already in use"
 msgstr ""
 
@@ -5875,7 +5862,7 @@ msgid ""
 "setup that uses it. Click on <b>Outbound Routes</b> to setup routing."
 msgstr ""
 
-#: ../core/Core.class.php:1490
+#: ../core/Core.class.php:1512
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr ""
@@ -5950,7 +5937,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:8
 #: ../core/page.devices.php:59
 #: ../core/page.extensions.php:61
-#: ../core/views/quickCreate.php:2
+#: ../core/views/quickCreate.php:7
 msgid "Type"
 msgstr ""
 
@@ -6316,7 +6303,7 @@ msgstr ""
 msgid "User Password"
 msgstr ""
 
-#: ../core/Core.class.php:1975
+#: ../core/Core.class.php:1997
 msgid "User could not be added."
 msgstr ""
 
@@ -6775,7 +6762,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:1482
+#: ../core/Core.class.php:1504
 msgid "You must put in an extension (or user) number"
 msgstr ""
 
