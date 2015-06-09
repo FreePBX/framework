@@ -1414,7 +1414,7 @@ $(document).ready(function() {
 	 * adding a duplicate class also for styling options.
 	 * TODO: get feedback on a different image
 	 */
-	$('input.extdisplay.form-control,input[type=text][name=extension].form-control,input[type=text][name=extdisplay].form-control,input[type=text][name=account].form-control').each(function() {
+	$('input.extdisplay.form-control,input[type=text][name=extension].form-control,input[type=number][name=extension].form-control,input[type=text][name=extdisplay].form-control,input[type=text][name=account].form-control').each(function() {
 		var val = $(this).val(), data = $(this).data("extdisplay");
 		if (typeof data == "undefined") {
 			$(this).data("extdisplay", val);
@@ -1425,7 +1425,7 @@ $(document).ready(function() {
 			}
 		}
 	});
-	$(document).on('keyup', 'input.extdisplay.form-control,input[type=text][name=extension].form-control,input[type=text][name=extdisplay].form-control,input[type=text][name=account].form-control', function() {
+	$(document).on('keyup', 'input.extdisplay.form-control,input[type=text][name=extension].form-control,input[type=number][name=extension].form-control,input[type=text][name=extdisplay].form-control,input[type=text][name=account].form-control', function() {
 		var val = $(this).val(), data = $(this).data("extdisplay"), $this = this;
 		if(typeof val !== "undefined" && val !== "") {
 			if(typeof extmap[val] == "undefined" || $(this).data("extdisplay") == val) {
