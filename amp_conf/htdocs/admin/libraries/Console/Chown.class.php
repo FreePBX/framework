@@ -64,7 +64,7 @@ class Chown extends Command {
 			$mod = $this->moduleName;
 			$this->modfiles[$mod][] = array('type' => 'rdir',
 					'path' => $AMPWEBROOT.'/admin/modules/'.$mod,
-					'perms' => 0644,
+					'perms' => 0755,
 				);
 			try {
 				$hooks = $this->fwcChownFiles();
@@ -74,12 +74,6 @@ class Chown extends Command {
 				$this->modfiles = array_merge_recursive($this->modfiles,$current);
 			}
 		}else{
-			//Include all module folders
-			foreach(glob($AMPWEBROOT.'/admin/modules/', GLOB_ONLYDIR | GLOB_NOSORT) as $folder) {
-				$this->modfiles['framework'][] = array('type' => 'dir',
-														'path' => $folder,
-														'perms' => 0744);
-			}
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $sessdir,
 														'perms' => 0744);
@@ -132,18 +126,7 @@ class Chown extends Command {
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 												   'path' => $AMPWEBROOT,
 												   'perms' => 0755);
-			/* Same as above
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-													'path' => $AMPWEBROOT . '/admin/',
-													'perms' => 0755);
 
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-													'path' => $AMPWEBROOT . '/recordings/',
-													'perms' => 0755);
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-													'path' => $AMPWEBROOT . '/ucp/',
-													'perms' => 0755);
-			*/
 			//Anything in bin and agi-bin should be exec'd
 			//Should be after everything except but before hooks
 			//So that we dont get overwritten by ampwebroot
