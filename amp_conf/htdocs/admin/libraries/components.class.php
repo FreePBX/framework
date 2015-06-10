@@ -833,9 +833,8 @@ class gui_selectbox extends guiinput {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
-		if (!is_array($valarray) || empty($valarray)) {
-			trigger_error('$valarray must be a valid array in gui_selectbox');
-			return;
+		if (!is_array($valarray)) {
+			$valarray = array();
 		}
 
 		// currently no validation fucntions availble for select boxes
