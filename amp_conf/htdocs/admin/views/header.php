@@ -16,7 +16,7 @@ if ((isset($_SERVER['HTTP_USER_AGENT']) && (strpos($_SERVER['HTTP_USER_AGENT'], 
 //html head
 $html = '';
 $html .= '<!DOCTYPE html>'; //html5 functionality support
-$html .= '<html>';
+$html .= '<html class="firsttypeofselector">';
 $html .= '<head>';
 $html .= '<title>'
 		. (isset($title) ? _($title) : $amp_conf['BRAND_TITLE'])
