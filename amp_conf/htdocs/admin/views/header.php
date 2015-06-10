@@ -64,17 +64,16 @@ if ($amp_conf['BRAND_CSS_CUSTOM']) {
 $html .= '<link rel="stylesheet" href="assets/css/outdatedbrowser.min.css">';
 $html .= '<script type="text/javascript" src="assets/js/outdatedbrowser.min.js"></script>';
 
-//shiv
-$html .= '<!--[if lt IE 9]>';
-$html .= '<script src="assets/js/html5shiv.js"></script>';
-$html .= '<![endif]-->';
-$html .= '<!--[if (gte IE 6)&(lte IE 8)]>';
-$html .= '<script type="text/javascript" src="assets/js/selectivizr.js"></script>';
-$html .= '<![endif]-->';
-//Javascripts
-$html .= '<script type="text/javascript" src="assets/js/modernizr.js"></script>';
-//$html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
-//CSS3 buttons or jqueryUI buttons
+if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
+	//shiv
+	$html .= '<!--[if lt IE 9]>';
+	$html .= '<script src="assets/js/html5shiv.js"></script>';
+	$html .= '<![endif]-->';
+	$html .= '<!--[if (gte IE 6)&(lte IE 8)]>';
+	$html .= '<script type="text/javascript" src="assets/js/selectivizr.js"></script>';
+	$html .= '<![endif]-->';
+}
+
 //TODO: Remove "firsttypeofselector" at some point.
 $html .= "<script>var firsttypeofselector = true</script>";
 $html .= '<link href="assets/less/' .$extra_compiled_less_files['buttons'] . '" rel="stylesheet" type="text/css">';

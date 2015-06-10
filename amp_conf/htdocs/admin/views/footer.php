@@ -136,6 +136,9 @@ $html .= "\n" . '<script type="text/javascript">'
 		. ';$(document).click();' //TODO: this should be cleaned up eventually as right now it prevents the nav bar from not being fully displayed
  		. '</script>';
 
+//Javascripts
+$html .= '<script type="text/javascript" src="assets/js/modernizr.js"></script>';
+//$html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
 
 //Removed google CDN because we are using custom libraries for bootstrap and jqueryui so that buttons work together
 $html .= '<script src="assets/js/bootstrap-3.3.2.custom.min.js"></script>';
