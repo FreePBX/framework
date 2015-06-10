@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-10 16:11-0400\n"
+"POT-Creation-Date: 2015-06-10 17:53-0400\n"
 "PO-Revision-Date: 2015-05-13 12:57+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -3336,7 +3336,7 @@ msgstr ""
 msgid "FreePBX Administration"
 msgstr "FreePBX 管理ページ"
 
-#: ../core/page.advancedsettings.php:234
+#: ../core/page.advancedsettings.php:237
 msgid "FreePBX Advanced Settings"
 msgstr "FreePBX 高度な設定"
 
@@ -3382,13 +3382,13 @@ msgstr ""
 msgid "Frequency in seconds to send qualify messages to the endpoint."
 msgstr "エンドポイントへqualifyメッセージを送信する秒数での頻度。"
 
-#: ../core/page.advancedsettings.php:113 ../core/page.advancedsettings.php:138
-#: ../core/page.advancedsettings.php:167 ../core/page.advancedsettings.php:197
-#: ../core/page.advancedsettings.php:221
+#: ../core/page.advancedsettings.php:116 ../core/page.advancedsettings.php:141
+#: ../core/page.advancedsettings.php:170 ../core/page.advancedsettings.php:200
+#: ../core/page.advancedsettings.php:224
 msgid "Friendly Name"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:89
+#: ../core/page.advancedsettings.php:92
 msgid "Friendy Name"
 msgstr ""
 
@@ -3518,6 +3518,10 @@ msgstr "ハングアップ"
 msgid "Hello, "
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/view.functions.php:530
+msgid "Helpful Information"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:601
 #, php-format
 msgid "Home directory %s doesn't exist, and I can't create it"
@@ -3584,7 +3588,7 @@ msgstr "IAX転送能力、詳細はAsteriskドキュメントを参照くださ�
 msgid "ID"
 msgstr "ID"
 
-#: ../core/page.advancedsettings.php:236
+#: ../core/page.advancedsettings.php:239
 msgid "IMPORTANT:"
 msgstr ""
 
@@ -3947,9 +3951,9 @@ msgstr ""
 msgid "It is unlikely you'll need to change anything here."
 msgstr "通常はこの項目を変更する必要がありません。"
 
-#: ../core/page.advancedsettings.php:87 ../core/page.advancedsettings.php:111
-#: ../core/page.advancedsettings.php:136 ../core/page.advancedsettings.php:165
-#: ../core/page.advancedsettings.php:195 ../core/page.advancedsettings.php:219
+#: ../core/page.advancedsettings.php:90 ../core/page.advancedsettings.php:114
+#: ../core/page.advancedsettings.php:139 ../core/page.advancedsettings.php:168
+#: ../core/page.advancedsettings.php:198 ../core/page.advancedsettings.php:222
 msgid "KEYWORD"
 msgstr ""
 
@@ -4433,7 +4437,7 @@ msgstr "オンラインバージョン (%s) より新しいバージョン"
 #: ../core/functions.inc/drivers/Sip.class.php:354
 #: ../core/functions.inc/drivers/Sip.class.php:362
 #: ../core/functions.inc/drivers/Sip.class.php:369
-#: ../core/page.advancedsettings.php:83 ../core/views/did/routeform.php:167
+#: ../core/page.advancedsettings.php:86 ../core/views/did/routeform.php:167
 #: ../core/views/did/routeform.php:269 ../core/views/did/routeform.php:296
 #: ../core/views/did/routeform.php:350 ../core/views/routing/form.php:327
 #: ../core/views/trunks/trunk_header.php:69
@@ -5231,7 +5235,7 @@ msgid ""
 msgstr ""
 "このデバイスのRe-Inviteポリシー、詳細はAsteriskドキュメントを参照ください。"
 
-#: ../core/page.advancedsettings.php:239
+#: ../core/page.advancedsettings.php:242
 msgid ""
 "Readonly settings are usually more volatile, they can be changed by changing "
 "'Override Readonly Settings' to Yes."
@@ -5700,7 +5704,7 @@ msgstr ""
 "話機に直接コールを送信することができる場合、この現象に気づくでしょう、しかし"
 "もしIVRに送信した場合はコールを接続しません。"
 
-#: ../core/page.advancedsettings.php:239
+#: ../core/page.advancedsettings.php:242
 msgid "Some of these settings can render your system inoperable."
 msgstr ""
 
@@ -6134,6 +6138,10 @@ msgstr ""
 "アウトバウンドルートを緊急フラグ付きでダイヤルアウトする時、この発信者IDは常"
 "にセットされます。緊急のCIDは他の発信者ID設定全てを上書きします。"
 
+#: amp_conf/htdocs/admin/libraries/view.functions.php:559
+msgid "This Module has been deprecated"
+msgstr ""
+
 #: ../core/Core.class.php:1154
 msgid "This device id is already in use"
 msgstr "このデバイスIDは既に使用されています"
@@ -6496,7 +6504,7 @@ msgstr ""
 msgid "Unknown!"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:239
+#: ../core/page.advancedsettings.php:242
 msgid ""
 "Unlike previous versions of this module you now save changes as a group."
 msgstr ""
@@ -6624,7 +6632,7 @@ msgstr ""
 "要があります。あなたはヘッダーを提供することも可能です: 最初の行に%s, %s, %"
 "s, %s。認識できるヘッダーが4つ以下の場合は残りのカラムは空白になります"
 
-#: ../core/page.advancedsettings.php:236
+#: ../core/page.advancedsettings.php:239
 msgid "Use extreme caution when making changes!"
 msgstr ""
 
@@ -6939,7 +6947,7 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:347
 #: ../core/functions.inc/drivers/Sip.class.php:355
 #: ../core/functions.inc/drivers/Sip.class.php:363
-#: ../core/page.advancedsettings.php:81 ../core/views/did/routeform.php:165
+#: ../core/page.advancedsettings.php:84 ../core/views/did/routeform.php:165
 #: ../core/views/did/routeform.php:267 ../core/views/did/routeform.php:294
 #: ../core/views/did/routeform.php:348 ../core/views/routing/form.php:325
 #: ../core/views/trunks/trunk_header.php:67
@@ -6988,7 +6996,7 @@ msgid ""
 "They will continue to show up here."
 msgstr ""
 
-#: ../core/page.advancedsettings.php:239
+#: ../core/page.advancedsettings.php:242
 msgid "You are urged to backup before making any changes."
 msgstr ""
 
@@ -7031,7 +7039,7 @@ msgstr ""
 "\"営業:\"というプリフィックスをつければ、\"森圭介\"からのコールは着信した内線"
 "電話に\"営業:森圭介\"と表示されます。"
 
-#: ../core/page.advancedsettings.php:239
+#: ../core/page.advancedsettings.php:242
 #, php-format
 msgid ""
 "You can restore the default setting by clicking on the %s icon to the left "
