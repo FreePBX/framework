@@ -37,11 +37,11 @@
   //border
   .input-group .twitter-typeahead:first-child &{
     .border-left-radius(@border-radius-base);
-	width: 100%;
+    width: 100%;
   }
   .input-group .twitter-typeahead:last-child &{
     .border-right-radius(@border-radius-base);
-	width: 100%;
+    width: 100%;
   }
 
   //sizing - small:size and border
@@ -105,7 +105,7 @@
 }
 
 //dropdown styles
-.tt-dropdown-menu {
+.tt-dropdown-menu, .tt-menu {
   //dropdown menu
   position: absolute;
   top: 100%;
@@ -135,9 +135,9 @@
     line-height: @line-height-base;
     color: @dropdown-link-color;
 
-    &.tt-cursor {
+    &.tt-cursor, &:hover {
       //item selected
-	  cursor: pointer;
+      cursor: pointer;
       text-decoration: none;
       outline: 0;
       background-color: @dropdown-link-hover-bg;

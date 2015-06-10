@@ -38,7 +38,6 @@ $html .= $footer_content;
 $html .= '</div>'; //footer_content
 $html .= '</div>'; //footer
 $html .= '</div>'; //page
-
 //add javascript
 
 //localized strings and other javascript values that need to be set dynamically
@@ -141,7 +140,7 @@ $html .= '<script type="text/javascript" src="assets/js/modernizr.js"></script>'
 //$html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
 
 //Removed google CDN because we are using custom libraries for bootstrap and jqueryui so that buttons work together
-$html .= '<script src="assets/js/bootstrap-3.3.2.custom.min.js"></script>';
+$html .= '<script src="assets/js/bootstrap-3.3.4.custom.min.js"></script>';
 
 $html .= '<script src="assets/js/bootstrap-table-1.7.0.js"></script>';
 

@@ -1257,7 +1257,7 @@ $(document).ready(function() {
 			break;
 			case "Delete":
 			case "delete":
-				if (confirm(fpbx.msg.framework.validation.delete)) {
+				if (confirm(_("Are you sure you want to delete this?"))) {
 					delLink = fpbxForm.data("fpbx-delete");
 					location.href = delLink;
 				}

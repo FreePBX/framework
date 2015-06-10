@@ -44,14 +44,14 @@
 	font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif, Verdana, "Trebuchet MS", SunSans-Regular;
 	display: inline-block;
 	position: relative;
-	line-height: normal;
+	//line-height: normal;
 	margin-right: .1em;
 	cursor: pointer;
 	vertical-align: middle;
 	text-align: center;
 	overflow: visible;
 	font-size: 14px;
-	padding: 7px 18px;
+	padding: 6px 18px;
 	font-weight: bold;
 	height: 31px;
 	min-width: 45px;
@@ -85,7 +85,7 @@
 	.button-border(@button-gradient, @button-border-hover);
 	.button-border-gradient(@button-gradient, @button-border-gradient-top-default, @button-border-gradient-bottom-default);
 	cursor: not-allowed;
-	/*color: @button-color-disabled;*/
+	color: @button-color-default;
 }
 
 /* BUTTON CSS */
@@ -112,7 +112,16 @@
 }
 .radioset input[type="radio"] + label, .radioset input[type="checkbox"] ~ label {
 	.button-layout();
-	margin-right: -3px;
+	margin-right: -5px;
+}
+.radioset input[type="radio"] + label:first-of-type {
+	margin-left: 0px;
+}
+.radioset input[type="radio"] + label:last-of-type {
+	margin-right: 0px;
+}
+.radioset input[type="checkbox"] ~ label {
+	margin-right: 5px;
 }
 .radioset input[type="radio"] + label:first-of-type, .radioset input[type="checkbox"] ~ label:first-of-type {
 	border-top-left-radius: @button-border-radius;

@@ -64,35 +64,37 @@ if ($amp_conf['BRAND_CSS_CUSTOM']) {
 $html .= '<link rel="stylesheet" href="assets/css/outdatedbrowser.min.css">';
 $html .= '<script type="text/javascript" src="assets/js/outdatedbrowser.min.js"></script>';
 
+//TODO: Remove "firsttypeofselector" at some point.
+$html .= "<script>var firsttypeofselector = true</script>";
+
 if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
 	//shiv
 	$html .= '<!--[if lt IE 9]>';
 	$html .= '<script src="assets/js/html5shiv.js"></script>';
+	$html .= '<script src="assets/js/respond.min.js"></script>';
+	//IE8 has no "forEach" so we fake one with a pollyfill
+	$html .= '<script type="text/javascript">Array.prototype.forEach = function(callback, thisArg) {
+	if(typeof(callback) !== "function") {
+		throw new TypeError(callback + " is not a function!");
+	}
+	var len = this.length;
+	for(var i = 0; i < len; i++) {
+		callback.call(thisArg, this[i], i, this)
+	}
+}</script>';
 	$html .= '<![endif]-->';
 	$html .= '<!--[if (gte IE 6)&(lte IE 8)]>';
 	$html .= '<script type="text/javascript" src="assets/js/selectivizr.js"></script>';
 	$html .= '<![endif]-->';
+	$html .= '<!--[if lt IE 9]>';
 }
-
-//TODO: Remove "firsttypeofselector" at some point.
-$html .= "<script>var firsttypeofselector = true</script>";
-$html .= '<link href="assets/less/' .$extra_compiled_less_files['buttons'] . '" rel="stylesheet" type="text/css">';
 
 //it seems extremely difficult to put jquery in the footer with the other scripts
-if ($amp_conf['USE_GOOGLE_CDN_JS']) {
-	$html .= '<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>';
-	$html .= '<script>window.jQuery || document.write(\'<script src="assets/js/jquery-1.11.3.min.js"><\/script>\')</script>';
-} else {
-	$html .= '<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>';
-}
+$html .= '<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>';
 
 //development
 if($amp_conf['JQMIGRATE']) {
-	if ($amp_conf['USE_GOOGLE_CDN_JS']) {
-		$html .= '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/1.2.1/jquery-migrate.min.js"></script>';
-	} else {
-		$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js"></script>';
-	}
+	$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js"></script>';
 }
 
 // As we have code in the header acting as a class, this has to be up here.
@@ -153,9 +155,7 @@ $html .= '<div id="page">';//open page
 
 //add script warning
 $html .= '<noscript><div class="attention">'
-		. _('WARNING: Javascript is disabled in your browser. '
-		. 'The FreePBX administration interface requires Javascript to run properly. '
-		. 'Please enable javascript or switch to another  browser that supports it.')
+		. sprintf(_('WARNING: Javascript is disabled in your browser. The %s administration interface requires Javascript to run properly. Please enable javascript or switch to another  browser that supports it.'),FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND"))
 		. '</div></noscript>';
 
 echo $html;
