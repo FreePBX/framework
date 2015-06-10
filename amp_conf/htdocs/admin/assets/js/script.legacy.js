@@ -1355,9 +1355,6 @@ $(document).ready(function() {
 
 	//new skin - work in progress!
 	$(".rnav > ul").menu();
-	if (!firsttypeofselector) {
-		$(".radioset").buttonset();
-	}
 
 	//show reload button if neede
 	if (fpbx.conf.reload_needed) {
@@ -1395,18 +1392,6 @@ $(document).ready(function() {
 	$("#MENU_BRAND_IMAGE_TANGO_LEFT").click(function() {
 		window.open($(this).data("brand_image_freepbx_link_left"), "_newtab");
 	});
-
-	//pluck icons out of the markup - no need for js to add them (for buttons)
-	if (!firsttypeofselector) {
-		$("input[type=submit],input[type=button], button, input[type=reset]").each(function() {
-			var prim = (typeof $(this).data("button-icon-primary") == "undefined") ? "" : ($(this).data("button-icon-primary")),
-					sec  = (typeof $(this).data("button-icon-secondary") == "undefined") ? "" : ($(this).data("button-icon-secondary")),
-					txt = (typeof $(this).data("button-text") == "undefined") ? "true" : ($(this).data("button-text"));
-
-			txt = (txt == "true") ? true : false;
-			$(this).button({ icons: { primary: prim, secondary: sec }, text: txt });
-		});
-	}
 
 	/**
 	 * Search for fields marked as class .extdisplay or the common button types.

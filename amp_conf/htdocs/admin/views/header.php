@@ -61,6 +61,9 @@ if ($amp_conf['BRAND_CSS_CUSTOM']) {
 	$html .= '<link href="' . $amp_conf['BRAND_CSS_CUSTOM'] . $version_tag . '" rel="stylesheet" type="text/css">';
 }
 
+$html .= '<link rel="stylesheet" href="assets/css/outdatedbrowser.min.css">';
+$html .= '<script type="text/javascript" src="assets/js/outdatedbrowser.min.js"></script>';
+
 //shiv
 $html .= '<!--[if lt IE 9]>';
 $html .= '<script src="assets/js/html5shiv.js"></script>';
@@ -70,9 +73,9 @@ $html .= '<script type="text/javascript" src="assets/js/selectivizr.js"></script
 $html .= '<![endif]-->';
 //Javascripts
 $html .= '<script type="text/javascript" src="assets/js/modernizr.js"></script>';
-$html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
+//$html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
 //CSS3 buttons or jqueryUI buttons
-//TODO the jqueryUI code to turn on buttons needs to be moved here eventually
+//TODO: Remove "firsttypeofselector" at some point.
 $html .= "<script>var firsttypeofselector = true</script>";
 $html .= '<link href="assets/less/' .$extra_compiled_less_files['buttons'] . '" rel="stylesheet" type="text/css">';
 
@@ -86,7 +89,11 @@ if ($amp_conf['USE_GOOGLE_CDN_JS']) {
 
 //development
 if($amp_conf['JQMIGRATE']) {
-	$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js"></script>';
+	if ($amp_conf['USE_GOOGLE_CDN_JS']) {
+		$html .= '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-migrate/1.2.1/jquery-migrate.min.js"></script>';
+	} else {
+		$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js"></script>';
+	}
 }
 
 // As we have code in the header acting as a class, this has to be up here.

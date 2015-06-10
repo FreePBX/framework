@@ -1,8 +1,4 @@
 $(document).ready(function(){
-	if(!firsttypeofselector) {
-		$('.repo_boxes').find('input[type=checkbox]').button();
-		$('#show_upgradable_only').button();
-	}
 	$('.repo_boxes').find('input[type=checkbox]').click(function() {
 		var id = $(this).attr('id');
 		var selected = $(this).prop('checked') ? 1 : 0;
@@ -132,18 +128,10 @@ $(document).ready(function(){
 
 		$('#fullmodule_'+module+' .modulefunctionradios input[type=radio]').each(function( index ) {
 			var label = '';
-			if(!firsttypeofselector) {
-				label = $(this).button('option','label').replace(pi.version,si.version);
-				$(this).button('option', 'label', label);
-			}
 		});
 
-		if(firsttypeofselector) {
-			var llabel = $('#fullmodule_'+module+' .modulefunctionradios .installabel').text().replace(pi.version,si.version);
-			$('#fullmodule_'+module+' .modulefunctionradios .installabel').text(llabel);
-		} else {
-
-		}
+		var llabel = $('#fullmodule_'+module+' .modulefunctionradios .installabel').text().replace(pi.version,si.version);
+		$('#fullmodule_'+module+' .modulefunctionradios .installabel').text(llabel);
 
 		$('#changelog_'+module+' span').html(si.changelog);
 		//I dont like this much please improve...someone
@@ -181,13 +169,8 @@ $(document).ready(function(){
 			$('#infopane_'+module).slideDown( "slow", function() {
 			})
 			$('#arrow_'+module).removeClass("fa-chevron-right").addClass("fa-chevron-down");
-			if(!firsttypeofselector) {
-				$('#infopane_'+module+' .modulefunctionradios').buttonset();
-				$('#infopane_'+module+' .moduletrackradios').buttonset();
-			} else {
-				$('#infopane_'+module+' .modulefunctionradios').addClass('radioset');
-				$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
-			}
+			$('#infopane_'+module+' .modulefunctionradios').addClass('radioset');
+			$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
 		}
 	});
 	if(!fpbx.conf.AMPTRACKENABLE) {
@@ -200,13 +183,8 @@ function check_upgrade_all() {
 			$(this).prop('checked',true);
 			$(this).parents('.moduleinfopane').show();
 			var module = $(this).parents('.fullmodule').data('module');
-			if(!firsttypeofselector) {
-				$('#infopane_'+module+' .modulefunctionradios').buttonset();
-				$('#infopane_'+module+' .moduletrackradios').buttonset();
-			} else {
-				$('#infopane_'+module+' .modulefunctionradios').addClass('radioset');
-				$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
-			}
+			$('#infopane_'+module+' .modulefunctionradios').addClass('radioset');
+			$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
 		}
 	});
 }
@@ -217,13 +195,8 @@ function check_download_all() {
 			$(this).prop('checked',true);
 			$(this).parents('.moduleinfopane').show();
 			var module = $(this).parents('.fullmodule').data('module');
-			if(!firsttypeofselector) {
-				$('#infopane_'+module+' .modulefunctionradios').buttonset();
-				$('#infopane_'+module+' .moduletrackradios').buttonset();
-			} else {
-				$('#infopane_'+module+' .modulefunctionradios').addClass('radioset');
-				$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
-			}
+			$('#infopane_'+module+' .modulefunctionradios').addClass('radioset');
+			$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
 		}
 	});
 }
@@ -232,15 +205,10 @@ function navigate_to_module(module) {
 	if($('#fullmodule_'+module).length) {
 		$('#fullmodule_'+module).scrollMinimal(true, 100);
 		$('#infopane_'+module).slideDown( "slow", function() {})
-		if(!firsttypeofselector) {
-			$('#infopane_'+module+' .modulefunctionradios').buttonset();
-			$('#infopane_'+module+' .moduletrackradios').buttonset();
-		} else {
-			$('#infopane_'+module+' .modulefunctionradios').addClass('radioset');
-			$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
-		}
+		$('#infopane_'+module+' .modulefunctionradios').addClass('radioset');
+		$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
 	} else {
-		alert('Required Module '+module+' is not local');
+		alert(sprintf(_('Required Module %s is not local'),module));
 	}
 
 }
@@ -278,7 +246,7 @@ function process_module_actions(modules) {
 				modal: true,
 				width: '410px',
 				open: function (e) {
-					$('#moduledialogwrapper').html('Loading..<i class="fa fa-spinner fa-spin fa-2x">');
+					$('#moduledialogwrapper').html(_('Loading..' ) + '<i class="fa fa-spinner fa-spin fa-2x">');
 					var xhr = new XMLHttpRequest(),
 					timer = null;
 					xhr.open('POST', urlStr, true);

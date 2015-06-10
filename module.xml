@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>13.0.1alpha63</version>
+	<version>13.0.1alpha64</version>
 	<publisher>FreePBX</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*13.0.1alpha64* Add modern broswer detection, throw exception instead of die_freepbx() in ext-splice
 		*13.0.1alpha63* Extension map checking when numeric
 		*13.0.1alpha62* Fixes permissions and styling
 		*13.0.1alpha61* Fix jqueryUI centering issues
@@ -63,49 +64,6 @@
 		*13.0.1alpha3* Escape all of the exceptions, fixes to installer as well
 		*13.0.1alpha2* First attempted release. Complete visual overhaul using bootstrap. Action buttons on every page. Global search functionality. Namespace everything. Using core PHP symfony technologies. Replacement of installer, replacement of amportal.
 		*13.0.1alpha1* Removed depreciated PearDB.
-		*12.0.43* FREEPBX-8872 Revert static QUEUES_UPDATECDR removal
-		*12.0.42* FREEPBX-8853 - Fix regression in PKCS
-		*12.0.41* Implement enhanced OOBE infrastructure
-		*12.0.40* FREEPBX-8676 lookup ASTETCDIR for writeConfigs
-		*12.0.39* Enhancments to PKCS infrastructure
-		*12.0.38* Localization updates
-		*12.0.37* FREEPBX-8650
-		*12.0.36* Unlock UCP fixes (adding ip address restrictions)
-		*12.0.35* FREEPBX-8491, Makes security and update notices come from address set in sysadmin, FREEPBX-8380 Exclude Update Notifications for Disabled Modules, FREEPBX-8287 some work on less to css generation
-		*12.0.34* FREEPBX-8632 Third Party Key Signatures not working
-		*12.0.33* Autologin param was failing validation
-		*12.0.32* Fix Module Admin caching issue
-		*12.0.31* Increase reload time by setting a timeout on gpg key check
-		*12.0.30* Speedier check online, FREEPBX-8491 Update Notices Not Coming from Correct E-mail
-		*12.0.29* Simple fix as a last result situation
-		*12.0.28* Display notice for switching out of beta mode in module admin
-		*12.0.27* Method find functionality fixes
-		*12.0.26* Performance improvements
-		*12.0.25* If there is a problem with GPG dont kill FreePBX
-		*12.0.24* Be smarter about setting the permissions
-		*12.0.23* Permissions on freepbx.conf
-		*12.0.22* FREEPBX-8506 amportal chown should chown asterisk home directory
-		*12.0.20* FREEPBX-8410 Permissions
-		*12.0.21* Dont restrict mons during UCP CLI commands
-		*12.0.20* Enable astman during some UCP CLI commands
-		*12.0.19* FREEPBX-8403 During the cron job nightly check send output into the background
-		*12.0.18* Word wrap in the installer window
-		*12.0.17* Set button default value to a truth false, not a truthy false
-		*12.0.16* Define default layout additions or it breaks
-		*12.0.15* Layout changes and additions
-		*12.0.14* FREEPBX-8402 Syntax in GPG
-		*12.0.13* Beta track module admin fixes
-		*12.0.12* Better backtracing when exceptions are thrown to users
-		*12.0.11* FREEPBX-8258 Replace instead of insert
-		*12.0.10* Better module signing text
-		*12.0.9* Sub Depends checking
-		*12.0.8* Catch exceptions gracefully
-		*12.0.7* FREEPBX-8213 Stop never ending CLI install loops
-		*12.0.6* Remove the last of the sounds from the sounds folder
-		*12.0.5* FREEPBX-8190 signature fixes, FREEPBX-8102 allow modules to be removed that have missing dependencies
-		*12.0.4* KV Recovery and fixes for installer
-		*12.0.3* Fixes to check online
-		*12.0.2* First Stable Release of 12
 	</changelog>
 	<description>
 		This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module
