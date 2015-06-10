@@ -18,6 +18,29 @@ html {
 		cursor: not-allowed;
 	}
 }
+
+h4 {
+	font-size: 100%;
+	font-weight: bold;
+}
+h3 {
+	font-size: 120%;
+	font-weight: bold;
+}
+h2 {
+	font-size: 140%;
+	font-weight: bold;
+}
+h1 {
+	font-size: 160%;
+	font-weight: bold;
+}
+
+table {
+	border-collapse: separate;
+	border-spacing: 2px;
+}
+
 /* This is not in jquery-ui-bootstrap */
 .ui-widget-overlay {
 	opacity: 1;
@@ -318,6 +341,18 @@ th {
 	li {
 		cursor:move;
 	}
+	.label-info {
+		background-color: #D7EBF9;
+		padding: 5px;
+		margin: 3px;
+		font-size: 13px;
+		font-weight: normal;
+		color: #0070A3;
+		border: 1px solid #AAD2EF;
+	}
+}
+.well.ui-sortable {
+	padding: 5px;
 }
 .ui-widget {
 	font-size:11px !important;
@@ -461,4 +496,22 @@ a.ui-state-focus.ui-state-highlight {
 hr {
 	margin-top: 0px;
 	margin-bottom: 0px;
+}
+
+/**
+ * If last column in a bootstrap table
+ * make the icons (i) 150 bigger and separate them by 5px
+ * for clickability
+ * @type {[type]}
+ */
+table[data-toggle=table] {
+	td:last-child {
+		i.fa {
+			font-size: 150%;
+			margin-right: 5px;
+		}
+		a:last-child > i.fa {
+			margin-right: 0px;
+		}
+	}
 }
