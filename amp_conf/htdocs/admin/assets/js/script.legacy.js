@@ -1669,6 +1669,88 @@ $(document).ready(function(){
 			}
 		});
 	}
+
+	/*
+	 * Scrolling Nav-Tabs
+	 */
+	if($(".nav-container").length > 0) {
+		//http://www.bootply.com/l2ChB4vYmC
+		var widthOfList = function(){
+			var itemsWidth = 0;
+			$('.nav-container .list li').each(function(){
+				var itemWidth = $(this).outerWidth();
+				itemsWidth+=itemWidth;
+			});
+			return itemsWidth;
+		};
+
+		var reAdjust = function(){
+			var t = $('.nav-container .wrapper').outerWidth(),
+					p = $('.nav-container .list').position().left,
+					w = widthOfList();
+			if((w - t + p) < 0) {
+				$('.nav-container .scroller-right i').hide();
+			} else {
+				$('.nav-container .scroller-right i').show();
+			}
+			if(p >= 0) {
+				$('.nav-container .scroller-left i').hide();
+			} else {
+				$('.nav-container .scroller-left i').show();
+			}
+		}
+
+		reAdjust();
+
+		$(window).on('resize',function(e){
+			reAdjust();
+		});
+
+		var moving = false;
+		$('.nav-container .scroller-right i').click(function() {
+			if(moving) {
+				return;
+			}
+			var t = $('.nav-container .wrapper').outerWidth(),
+					p = $('.nav-container .list').position().left,
+					w = widthOfList(),
+					final = -(t);
+
+			moving = true;
+			$('.nav-container .scroller-left i').fadeIn('slow');
+
+			if((p + final) <= -(w - t)) {
+				$('.nav-container .scroller-right i').fadeOut('slow');
+			}
+			$('.nav-container .list').animate({left:"+="+final+"px"},'slow',function(){
+				moving = false;
+			});
+		});
+
+		$('.nav-container .scroller-left i').click(function() {
+			if(moving) {
+				return;
+			}
+			var t = $('.nav-container .wrapper').outerWidth(),
+					p = $('.nav-container .list').position().left,
+					w = widthOfList(),
+					final = -(t);
+
+			moving = true;
+			$('.nav-container .scroller-right i').fadeIn('slow');
+
+			if((p + t) >= 0) {
+				$('.nav-container .scroller-left i').fadeOut('slow');
+				$('.nav-container .list').animate({left:"0px"},'slow',function(){
+					moving = false;
+				});
+			} else {
+				$('.nav-container .list').animate({left:"-="+final+"px"},'slow',function(){
+					moving = false;
+				});
+			}
+		});
+	}
 });
 $(".maxlen").keyup(function(){
 		var curid = $(this).attr('id');
@@ -1715,6 +1797,7 @@ $(window).resize(function() {
 		resizeMode = 'desktop';
 	}
 });
+
 
 /*
 $.fn.overflown = function() {

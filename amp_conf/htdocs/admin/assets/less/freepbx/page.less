@@ -497,3 +497,50 @@ table[data-toggle=table] {
 		}
 	}
 }
+
+.nav-container {
+	.wrapper {
+		position: relative;
+		margin: 0 auto;
+		overflow: hidden;
+		padding: 0px;
+		height: 35px;
+		.list {
+			position:absolute;
+			left: 0px;
+			top:0px;
+			min-width:3000px;
+			margin-left:12px;
+			margin-top:0px;
+			li{
+				display:table-cell;
+				position:relative;
+				text-align:center;
+				cursor:grab;
+				cursor:-webkit-grab;
+				color:#efefef;
+				vertical-align:middle;
+			}
+		}
+	}
+	.scroller {
+		padding: 7px;
+		background-color: #fff;
+		height: 35px;
+		border-bottom: 1px solid #DDDDDD;
+		i {
+			display: none;
+			cursor: pointer;
+		}
+	}
+	.scroller-right{
+		position: absolute;
+		z-index: 500;
+		right: 18px;
+	}
+	.scroller-left {
+		position: absolute;
+		z-index: 500;
+		left: 20px;
+	}
+}
