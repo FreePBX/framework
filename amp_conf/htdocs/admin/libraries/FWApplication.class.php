@@ -11,6 +11,8 @@ use Symfony\Component\Console\Command\ListCommand;
 class FWApplication extends Application{
 	protected function getDefaultCommands() {
 		$defaultCommands = array(new FWHelpCommand(), new FWListCommand());
+		$defaultCommands[] = new \Stecman\Component\Symfony\Console\BashCompletion\CompletionCommand();
 		return $defaultCommands;
 	}
+
 }

@@ -522,3 +522,53 @@ function framework_server_name() {
 
 	return $title;
 }
+function show_help($message, $title='' ,$collapse=false){
+	$thisid = uniqid();
+	$html = '<div class="panel panel-default">';
+	$html .= '<div class="panel-heading">';
+	if(empty($title)){
+		$html .= '<h3><i class="fa fa-info-circle"></i> '._("Helpful Information");
+	}else{
+		$html .= '<h3><i class="fa fa-info-circle"></i> '.$title;
+	}
+	if($collapse){
+		$html .= '<span class="pull-right"><a href="#'.$thisid.'" data-target="#'.$thisid.'" data-toggle="collapse" ><i class="fa fa-plus" id="toggle'.$thisid.'"></i></a></span></h3>';
+	}else{
+		$html .= '<span class="pull-right"><a href="#'.$thisid.'" data-target="#'.$thisid.'" data-toggle="collapse" ><i class="fa fa-minus" id="toggle'.$thisid.'"></i></a></span></h3>';
+	}
+	$html .= '</div>';
+	$html .= '<div class="panel-body '.($collapse?'collapse':'').'" id="'.$thisid.'">';
+	$html .= $message;
+	$html .= '</div>';
+	$html .= '</div>';
+	$html .= '<script>';
+	$html .= '$( document ).ready(function(){';
+	$html .= '$("#'.$thisid.'").on("hidden.bs.collapse", function (e) {$("#toggle'.$thisid.'").toggleClass("fa-plus fa minus");});';
+	$html .= '$("#'.$thisid.'").on("shown.bs.collapse", function (e) {$("#toggle'.$thisid.'").toggleClass("fa-plus fa minus");});';
+	$html .= '});';
+	$html .= '</script>';
+	return $html;
+}
+function show_deprecated($message="", $dismisable = true, $logit = false){
+	if($dismisable){
+		$html = '<div class="alert alert-warning alert-dismissable hidden depnotice" data-for="dep">';
+		$html .= '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>';
+  }else{
+		$html = '<div class="alert alert-warning hidden">';
+	}
+	$html .= '<h3><i class="fa fa-warning"></i> '._("This Module has been deprecated").'</h3>';
+  $html .= $message;
+	$html .= '</div>';
+	$html .= '<script>';
+	$html .= '$( document ).ready(function() {';
+	$html .= 'if($.cookie(res[2]+"depdis") != "1"){$(".depnotice").each(function(){$(this).removeClass("hidden")})}';
+	$html .= '$(".alert").bind("closed.bs.alert", function(){if($(this).data("for") == "dep"){$.cookie(res[2]+"depdis", "1")}});';
+	$html .= '});';
+	$html .= '</script>';
+
+	if($logit){
+		freepbx_log($message);
+		dbug($message);
+	}
+	return $html;
+}
