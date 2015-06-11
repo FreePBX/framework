@@ -529,6 +529,10 @@ class Moduleadmin extends Command {
 		recursive_print($modules[$modulename]);
 	}
 
+	private function updateKeys() {
+		\FreePBX::GPG()->refreshKeys();
+	}
+
 	private function showList($online = false) {
 		global $amp_conf;
 		$modules_local = $this->mf->getinfo(false,false,true);
@@ -541,6 +545,7 @@ class Moduleadmin extends Command {
 			}
 		}
 		ksort($modules);
+		$this->mf->getAllSignatures(($online ? false : true), $online);
 		$rows = array();
 		foreach (array_keys($modules) as $name) {
 			$status_index = isset($modules[$name]['status'])?$modules[$name]['status']:'';
@@ -758,6 +763,9 @@ class Moduleadmin extends Command {
 	private function handleArgs($args){
 		$action = array_shift($args);
 		switch($action){
+			case 'updatekeys':
+				$this->updateKeys();
+			break;
 			case 'install':
 				if(empty($args)){
 					fatal("Missing module name");
