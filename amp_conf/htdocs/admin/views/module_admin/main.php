@@ -15,11 +15,15 @@ if($online) { ?>
 	<?php } ?>
 <?php } ?>
 
-<?php if(!empty($broken_module_list) && !$online) {?>
-	<br/>
-	<div class="alert alert-danger"><?php echo sprintf(_('You have some broken %s Modules. We advise you take care of these as soon as possible: '),$brand)?><a style="cursor:pointer;" onclick="$('#category_Broken').scrollMinimal(true,-250);"><?php echo _('View')?></a></div>
-<?php } ?>
-
+<div id="module-listing-container">
+	<?php if(!empty($broken_module_list) && !$online) {?>
+		<div class="alert alert-danger moduleadmin"><?php echo sprintf(_('You have some broken %s Modules. We advise you take care of these as soon as possible: '),$brand)?><a style="cursor:pointer;" onclick="$('#category_Broken').scrollMinimal(true,-250);"><?php echo _('View')?></a></div>
+	<?php } ?>
+	<?php if(!empty($warning)) {?>
+		<div class="alert alert-danger moduleadmin">
+			<p><?php echo $warning?></p>
+		</div>
+	<?php } ?>
 <form name="modulesGUI" action="config.php?display=modules" method="post">
 	<input type="hidden" name="display" value="modules" />
 	<input type="hidden" name="online" value="<?php echo $online?>" />
@@ -448,4 +452,5 @@ if($online) { ?>
 <script>
 	var modules = <?php echo !empty($finalmods) ? json_encode($finalmods) : '{}'?>;
 </script>
+</div>
 </div>

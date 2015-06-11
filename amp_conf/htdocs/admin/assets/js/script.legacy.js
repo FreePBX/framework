@@ -1672,12 +1672,13 @@ $(document).ready(function(){
 
 	/*
 	 * Scrolling Nav-Tabs
+	 * Original thought taken from: http://www.bootply.com/l2ChB4vYmC
+	 * Rewritten to work with multple tab groups and better scrolling
 	 */
 	if($(".nav-container").length > 0) {
-		//http://www.bootply.com/l2ChB4vYmC
-		var widthOfList = function(){
+		var widthOfList = function(container){
 			var itemsWidth = 0;
-			$('.nav-container .list li').each(function(){
+			container.find('.list li').each(function(){
 				var itemWidth = $(this).outerWidth();
 				itemsWidth+=itemWidth;
 			});
@@ -1685,19 +1686,22 @@ $(document).ready(function(){
 		};
 
 		var reAdjust = function(){
-			var t = $('.nav-container .wrapper').outerWidth(),
-					p = $('.nav-container .list').position().left,
-					w = widthOfList();
-			if((w - t + p) < 0) {
-				$('.nav-container .scroller-right i').hide();
-			} else {
-				$('.nav-container .scroller-right i').show();
-			}
-			if(p >= 0) {
-				$('.nav-container .scroller-left i').hide();
-			} else {
-				$('.nav-container .scroller-left i').show();
-			}
+			$(".nav-container").each(function() {
+				var container = $(this),
+						t = container.find('.wrapper').outerWidth(),
+						p = container.find('.list').position().left,
+						w = widthOfList(container);
+				if((w - t + p) < 0) {
+					container.find('.scroller-right i').hide();
+				} else {
+					container.find('.scroller-right i').show();
+				}
+				if(p >= 0) {
+					container.find('.scroller-left i').hide();
+				} else {
+					container.find('.scroller-left i').show();
+				}
+			})
 		}
 
 		reAdjust();
@@ -1706,47 +1710,57 @@ $(document).ready(function(){
 			reAdjust();
 		});
 
-		var moving = false;
 		$('.nav-container .scroller-right i').click(function() {
-			if(moving) {
-				return;
-			}
-			var t = $('.nav-container .wrapper').outerWidth(),
-					p = $('.nav-container .list').position().left,
-					w = widthOfList(),
+			var $this = this,
+					container = $($this).parents(".nav-container"),
+					moving = container.data("moving"),
+					t = container.find('.wrapper').outerWidth(),
+					p = container.find('.list').position().left,
+					w = widthOfList(container),
 					final = -(t);
 
-			moving = true;
-			$('.nav-container .scroller-left i').fadeIn('slow');
+			if(typeof moving !== "undefined" && moving) {
+				return;
+			}
+			container.data("moving", true);
+			$($this).addClass("moving");
+			container.find('.scroller-left i').fadeIn('slow');
 
 			if((p + final) <= -(w - t)) {
-				$('.nav-container .scroller-right i').fadeOut('slow');
+				$($this).fadeOut('slow');
 			}
-			$('.nav-container .list').animate({left:"+="+final+"px"},'slow',function(){
-				moving = false;
+			container.find('.list').animate({left:"+="+final+"px"},'slow',function(){
+				container.data("moving", false);
+				$($this).removeClass("moving");
 			});
 		});
 
 		$('.nav-container .scroller-left i').click(function() {
-			if(moving) {
-				return;
-			}
-			var t = $('.nav-container .wrapper').outerWidth(),
-					p = $('.nav-container .list').position().left,
-					w = widthOfList(),
+			var $this = this,
+					container = $($this).parents(".nav-container"),
+					moving = container.data("moving"),
+					t = container.find('.wrapper').outerWidth(),
+					p = container.find('.list').position().left,
+					w = widthOfList(container),
 					final = -(t);
 
-			moving = true;
-			$('.nav-container .scroller-right i').fadeIn('slow');
+			if(typeof moving !== "undefined" && moving) {
+				return;
+			}
+			container.data("moving", true);
+			$($this).addClass("moving");
+			container.find('.scroller-right i').fadeIn('slow');
 
 			if((p + t) >= 0) {
-				$('.nav-container .scroller-left i').fadeOut('slow');
-				$('.nav-container .list').animate({left:"0px"},'slow',function(){
-					moving = false;
+				$($this).fadeOut('slow');
+				container.find('.list').animate({left:"0px"},'slow',function(){
+					container.data("moving", false);
+					$($this).removeClass("moving");
 				});
 			} else {
-				$('.nav-container .list').animate({left:"-="+final+"px"},'slow',function(){
-					moving = false;
+				container.find('.list').animate({left:"-="+final+"px"},'slow',function(){
+					container.data("moving", false);
+					$($this).removeClass("moving");
 				});
 			}
 		});

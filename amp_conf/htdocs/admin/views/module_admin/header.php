@@ -22,9 +22,3 @@
 <div id="shield_link_div">
 	<a href="#" id="show_auto_update" title="<?php echo _("Click to configure Update Notifications") ?>"><span id="shield_link" class="<?php echo $shield_class ?>"></span></a>
 </div>
-<?php if(!empty($warning)) {?>
-	<div class="warning">
-		<p><?php echo $warning?></p>
-	</div>
-	<br />
-<?php } ?>

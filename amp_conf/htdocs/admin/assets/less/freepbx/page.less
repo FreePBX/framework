@@ -4,8 +4,7 @@
 	src: url('../fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
 				url('../fonts/opensans-regular-webfont.woff2') format('woff2'),
 				url('../fonts/opensans-regular-webfont.woff') format('woff'),
-				url('../fonts/opensans-regular-webfont.ttf') format('truetype'),
-				url('../fonts/opensans-regular-webfont.svg#open_sansregular') format('svg');
+				url('../fonts/opensans-regular-webfont.ttf') format('truetype');
 	font-weight: normal;
 	font-style: normal;
 	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
@@ -22,45 +21,60 @@
 	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
 }
 
+html,
 body {
-	font-family: 'open_sans';
-}
-html,body {
 	margin:0;
 	padding:0;
 	height:100%;
 }
+
+html {
+	text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+body {
+	font-family: 'open_sans';
+}
+
 html {
 	input:disabled {
 		color:grey;
-		background-color: rgba(211, 211, 211, 0.5);
-		cursor: not-allowed;
-	}
-	select:disabled {
-		cursor: not-allowed;
 	}
 }
 
 h4 {
 	font-size: 100%;
-	font-weight: bold;
 }
 h3 {
 	font-size: 120%;
-	font-weight: bold;
 }
 h2 {
 	font-size: 140%;
-	font-weight: bold;
 }
 h1 {
 	font-size: 160%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin-top: 0px;
+	color: gray;
 	font-weight: bold;
 }
 
 table {
 	border-collapse: separate;
 	border-spacing: 2px;
+	th {
+		background-color: @table-th-background-color;
+		color: @table-th-color;
+	}
 }
 
 //jqueryUI breaking my stylezzzz
@@ -76,6 +90,47 @@ textarea.form-control{
 	padding-left: 9px;
 	display: inherit;
 	line-height: inherit;
+}
+input[type=text]:hover:not([disabled]) {
+	border-color: #666 #CCC #CCC #CCC;
+}
+input[type=email]:invalid {
+	border: 2px solid red;
+}
+
+a {
+	text-decoration:none;
+	color:@a-color-default;
+}
+a:visited {
+	color:@a-color-visited;
+}
+a:hover {
+	color:@a-color-hover;
+}
+
+hr {
+	background-color: @hr-background-color;
+	border: 1px solid @hr-border-color;
+	height: 3px;
+	border-radius: 5px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+/**
+ * Table Definitions
+ */
+.alt_table tr:nth-child(even),
+.table-striped &>tbody &>tr:nth-child(even) &>td,
+.table-striped &>tbody &>tr:nth-child(even) &>th {
+	background-color: @table-striped-even-background-color;
+	color: @table-striped-even-color;
+}
+.table-striped &>tbody &>tr:nth-child(odd) &>td,
+.table-striped &>tbody &>tr:nth-child(odd) &>th {
+	background-color: @table-striped-odd-background-color;
+	color: @table-striped-odd-color;
 }
 
 #page {
@@ -160,6 +215,7 @@ textarea.form-control{
 		position: fixed;
 		bottom: 10px;
 		right: 10px;
+		z-index: 5;
 	}
 	#action-bar.locked {
 		position: absolute;
@@ -187,6 +243,7 @@ a.info:link, a.info:hover {
 	color:black;
 	text-decoration: none;
 }
+
 .help {
 	color: @help-background-color;
 	cursor: pointer;
@@ -247,6 +304,9 @@ a.info:link, a.info:hover {
 		border-top: 1px solid #ddd;
 		border-bottom: none;
 	}
+	.list-group-item:only-child {
+		border-top: none;
+	}
 	.list-group-item {
 		border: none;
 		border-top: 1px solid #ddd;
@@ -266,36 +326,7 @@ a.info:link, a.info:hover {
 	display:none;
 	cursor:pointer;
 }
-a {
-	text-decoration:none;
-	color:@a-color-default;
-}
-a:visited {
-	color:@a-color-visited;
-}
-a:hover {
-	color:@a-color-hover;
-}
-h1, h2, h3, h4, h5, h6 {
-	margin-top: 0px;
-	color: gray;
-}
-input, textarea {
-	border:1px solid #ccc;
-	padding: 2px;
-}
-input[type=text]:hover:not([disabled]) {
-	border-color: #666 #CCC #CCC #CCC;
-}
-hr {
-	background-color: @hr-background-color;
-	border: 1px solid @hr-border-color;
-	height: 3px;
-	border-radius: 5px;
-}
-input[type=email]:invalid {
-	border: 2px solid red;
-}
+
 .duplicate-exten {
 	border: 2px solid red;
 }
@@ -326,23 +357,10 @@ div.attention {
 		margin-bottom:10px;
 	}
 }
-.alt_table tr:nth-child(even),.table-striped &>tbody &>tr:nth-child(even) &>td,.table-striped &>tbody &>tr:nth-child(even) &>th {
-	background-color: @table-striped-even-background-color;
-	color: @table-striped-even-color;
-}
-.table-striped &>tbody &>tr:nth-child(odd) &>td, .table-striped &>tbody &>tr:nth-child(odd) &>th {
-	background-color: @table-striped-odd-background-color;
-	color: @table-striped-odd-color;
-}
 
-th {
-	background-color: @table-th-background-color;
-	color: @table-th-color;
-}
-.guielToggleBut {
-	cursor: pointer;
-}
-
+/**
+ * Not sure where this is used
+ */
 #ajax_spinner {
 	display: none;
 	width: 28px;
@@ -353,10 +371,10 @@ th {
 	-moz-transform: rotate(90deg);
 	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=1);
 }
-input[type="file"], input[type="text"] {
-	margin: 0px;
-}
 
+/**
+ * Signature specific alert box
+ */
 .alert.signature {
 	padding: 0px;
 	width:100%;
@@ -394,29 +412,35 @@ input[type="file"], input[type="text"] {
 	}
 }
 
+/**
+ * File select browser button
+ */
 .btn-file {
 	position: relative;
 	overflow: hidden;
-}
-.btn-file input[type=file] {
-	position: absolute;
-	top: 0;
-	right: 0;
-	min-width: 100%;
-	min-height: 100%;
-	font-size: 100px;
-	text-align: right;
-	filter: alpha(opacity=0);
-	opacity: 0;
-	outline: none;
-	background: white;
-	cursor: inherit;
-	display: block;
+	input[type=file] {
+		position: absolute;
+		top: 0;
+		right: 0;
+		min-width: 100%;
+		min-height: 100%;
+		font-size: 100px;
+		text-align: right;
+		filter: alpha(opacity=0);
+		opacity: 0;
+		outline: none;
+		background: white;
+		cursor: inherit;
+		display: block;
+	}
 }
 .filename {
 	font-weight: bold;
 }
 
+/**
+ * Nav tab colouring
+ */
 .nav-tabs {
 	padding: 3px 0 0 3px;
 	> li {
@@ -448,12 +472,19 @@ input[type="file"], input[type="text"] {
 	}
 }
 
-.nav > li > a:hover, .nav > li > a:focus {
+/**
+ * Menu navigation and Tab Navigation coloring
+ */
+.nav > li > a:hover,
+.nav > li > a:focus {
 	text-decoration: none;
 	background-color: rgba(222, 237, 247, 0.5);
 	color: rgb(132, 132, 132);
 }
 
+/**
+ * Password Meter addition to inputs
+ */
 .password-meter-box {
 	.wording {
 		margin-top: 3px;
@@ -466,27 +497,20 @@ input[type="file"], input[type="text"] {
 	}
 }
 
-
+/**
+ * Boostrap Table Tweaks
+ */
 .bootstrap-table {
 	.columns {
 		.btn {
 			margin-right: inherit;
 		}
 	}
-}
-
-hr {
-	margin-top: 0px;
-	margin-bottom: 0px;
-}
-
-/**
- * If last column in a bootstrap table
- * make the icons (i) 150 bigger and separate them by 5px
- * for clickability
- * @type {[type]}
- */
-table[data-toggle=table] {
+	/**
+	 * If last column in a bootstrap table
+	 * make the icons (i) 150 bigger and separate them by 5px
+	 * for clickability
+	 */
 	td:last-child {
 		i.fa {
 			font-size: 150%;
@@ -498,6 +522,9 @@ table[data-toggle=table] {
 	}
 }
 
+/**
+ * Scrolling Nav Tabs
+ */
 .nav-container {
 	.wrapper {
 		position: relative;
@@ -531,6 +558,10 @@ table[data-toggle=table] {
 		i {
 			display: none;
 			cursor: pointer;
+		}
+		i.moving {
+			color: gray;
+			cursor: not-allowed;
 		}
 	}
 	.scroller-right{
