@@ -545,7 +545,7 @@ class Moduleadmin extends Command {
 			}
 		}
 		ksort($modules);
-		$this->mf->getAllSignatures(($online ? false : true), $online);
+		$this->mf->getAllSignatures(!$online, $online);
 		$rows = array();
 		foreach (array_keys($modules) as $name) {
 			$status_index = isset($modules[$name]['status'])?$modules[$name]['status']:'';
