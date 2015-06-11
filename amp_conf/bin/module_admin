@@ -571,7 +571,7 @@ function showList($online = false) {
 	}
 	ksort($modules);
 
-	$modulef->getAllSignatures(($online ? false : true), $online);
+	$modulef->getAllSignatures(!$online, $online);
 
 	outn(str_pad("Module", 20));
 	outn(str_pad("Version", 18));
