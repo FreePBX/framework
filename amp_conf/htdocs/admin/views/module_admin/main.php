@@ -35,18 +35,18 @@ if($online) { ?>
 	</div>
 
 	<div id="modulelist">
-		<div id="modulelist-header">
-			<span class="modulename"><?php echo _("Module")?></span>
-			<span class="moduleversion"><?php echo _("Version")?></span>
-			<span class="modulepublisher"><?php echo _("Publisher")?></span>
-			<span class="modulelicense"><?php echo _("License")?></span>
-			<span class="modulestatus"><?php echo _("Status")?></span>
-			<span class="moduletrack"><?php echo _("Track")?></span>
-			<span class="clear">&nbsp;</span>
-		</div>
 		<?php foreach($module_display as $category) {?>
 			<div class="category" id="category_<?php echo prep_id($category['name'])?>">
 				<h3><?php echo _($category['name'])?></h3>
+				<div id="modulelist-header">
+					<span class="modulename"><?php echo _("Module")?></span>
+					<span class="moduleversion"><?php echo _("Version")?></span>
+					<span class="modulepublisher"><?php echo _("Publisher")?></span>
+					<span class="modulelicense"><?php echo _("License")?></span>
+					<span class="modulestatus"><?php echo _("Status")?></span>
+					<span class="moduletrack"><?php echo _("Track")?></span>
+					<span class="clear">&nbsp;</span>
+				</div>
 				<table class="table modulelist table-striped" width="100%">
 					<?php foreach($category['data'] as $module) {?>
 					</tr>

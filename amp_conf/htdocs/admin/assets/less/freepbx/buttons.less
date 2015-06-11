@@ -41,20 +41,20 @@
 	.button-background(@button-gradient, @button-background-color-default, @button-image-default);
 	.button-background-gradient(@button-gradient, @button-background-gradient-top-default, @button-background-gradient-bottom-default);
 	color: @button-color-default;
-	font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif, Verdana, "Trebuchet MS", SunSans-Regular;
 	display: inline-block;
 	position: relative;
-	//line-height: normal;
-	margin-right: .1em;
+	line-height: 1.42857143;
+	touch-action: manipulation;
 	cursor: pointer;
 	vertical-align: middle;
 	text-align: center;
 	overflow: visible;
 	font-size: 14px;
-	padding: 6px 18px;
+	padding: 5px 18px;
 	font-weight: bold;
 	height: 31px;
 	min-width: 45px;
+	margin: 0; //reset the margins
 	margin-right: 5px;
 	white-space: nowrap;
 }
@@ -88,20 +88,42 @@
 	color: @button-color-default;
 }
 
-/* BUTTON CSS */
-.btn, button, input[type="button"], input[type="reset"], input[type="submit"], .btn:visited, button:visited, input[type="button"]:visited, input[type="reset"]:visited, input[type="submit"]:visited {
+/* BUTTON CSS STATES */
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only,
+.btn,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+.btn:visited,
+button:visited,
+input[type="button"]:visited,
+input[type="reset"]:visited,
+input[type="submit"]:visited {
 	.button-layout();
 	border-radius: @button-border-radius;
 }
-.btn:hover, button:hover, input[type="button"]:hover, input[type="reset"]:hover, input[type="submit"]:hover{
+
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.ui-state-hover,
+.btn:hover,
+button:hover,
+input[type="button"]:hover,
+input[type="reset"]:hover,
+input[type="submit"]:hover{
 	.button-hover();
 }
+
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.ui-state-active,
 .btn:focus, button:focus, input[type="button"]:focus, input[type="reset"]:focus, input[type="submit"]:focus{
 	.button-hover();
 }
+
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.ui-state-focus,
 .btn:active, button:active, input[type="button"]:active, input[type="reset"]:active, input[type="submit"]:active{
 	.button-active();
 }
+
+.ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.ui-state-disabled,
 .btn:disabled, button:disabled, input[type="button"]:disabled, input[type="reset"]:disabled, input[type="submit"]:disabled{
 	.button-disabled();
 }

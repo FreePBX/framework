@@ -1,7 +1,29 @@
+@font-face {
+	font-family: 'open_sans';
+	src: url('../fonts/opensans-regular-webfont.eot');
+	src: url('../fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),
+				url('../fonts/opensans-regular-webfont.woff2') format('woff2'),
+				url('../fonts/opensans-regular-webfont.woff') format('woff'),
+				url('../fonts/opensans-regular-webfont.ttf') format('truetype'),
+				url('../fonts/opensans-regular-webfont.svg#open_sansregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+@font-face {
+	font-family: 'open_sans';
+	src: url('../fonts/opensans-bold-webfont.eot');
+	src: url('../fonts/opensans-bold-webfont.eot?#iefix') format('embedded-opentype'),
+			url('../fonts/opensans-bold-webfont.woff2') format('woff2'),
+			url('../fonts/opensans-bold-webfont.woff') format('woff'),
+			url('../fonts/opensans-bold-webfont.ttf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
 body {
-	font-family: Helvetica, Geneva, Arial, SunSans-Regular, sans-serif, Verdana, "Trebuchet MS", SunSans-Regular;
-	//font-size:11pt;
-	//line-height: 1;
+	font-family: 'open_sans';
 }
 html,body {
 	margin:0;
@@ -41,16 +63,6 @@ table {
 	border-spacing: 2px;
 }
 
-/* This is not in jquery-ui-bootstrap */
-.ui-widget-overlay {
-	opacity: 1;
-  filter: alpha(opacity=100);
-	background: none;
-	background-color: rgba(0,0,0,0.10);
-	height: 100%;
-	position: fixed;
-}
-
 //jqueryUI breaking my stylezzzz
 input[type="text"].form-control,
 input[type="email"].form-control,
@@ -65,7 +77,6 @@ textarea.form-control{
 	display: inherit;
 	line-height: inherit;
 }
-
 
 #page {
 	min-height: 100%;
@@ -219,12 +230,6 @@ a.info:link, a.info:hover {
 		max-width:275px;
 		overflow: auto;
 	}
-	.ui-widget-content {
-		background: none;
-		a {
-			color: #072966;
-		}
-	}
 }
 .bootnav {
 	.list-group {
@@ -337,26 +342,7 @@ th {
 .guielToggleBut {
 	cursor: pointer;
 }
-.ui-sortable {
-	li {
-		cursor:move;
-	}
-	.label-info {
-		background-color: #D7EBF9;
-		padding: 5px;
-		margin: 3px;
-		font-size: 13px;
-		font-weight: normal;
-		color: #0070A3;
-		border: 1px solid #AAD2EF;
-	}
-}
-.well.ui-sortable {
-	padding: 5px;
-}
-.ui-widget {
-	font-size:11px !important;
-}
+
 #ajax_spinner {
 	display: none;
 	width: 28px;
@@ -369,10 +355,6 @@ th {
 }
 input[type="file"], input[type="text"] {
 	margin: 0px;
-}
-a.ui-state-focus.ui-state-highlight {
-	font-weight: normal;
-	margin: 0px !important;
 }
 
 .alert.signature {
