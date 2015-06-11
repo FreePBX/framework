@@ -550,6 +550,10 @@ function showInfo($modulename) {
 
 }
 
+function updateKeys() {
+	FreePBX::GPG()->refreshKeys();
+}
+
 function showList($online = false) {
 	global $amp_conf;
 	$modulef =& module_functions::create();
@@ -567,7 +571,7 @@ function showList($online = false) {
 	}
 	ksort($modules);
 
-	$modulef->getAllSignatures(false);
+	$modulef->getAllSignatures(($online ? false : true), $online);
 
 	outn(str_pad("Module", 20));
 	outn(str_pad("Version", 18));
@@ -785,6 +789,9 @@ chdir ( $amp_conf["AMPWEBROOT"] . "/admin/" );
 
 
 switch ($operation ) {
+	case 'updateKeys':
+		updateKeys();
+	break;
 	case 'checkdepends':
 		if (empty($param)) {
 			fatal("Missing module name");

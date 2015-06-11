@@ -2871,7 +2871,7 @@ class module_functions {
 	* Get all Cached Signatures, update if it doesnt exist
 	* @param {bool} $cached=true Whether to use cached data or not
 	*/
-	function getAllSignatures($cached=true) {
+	function getAllSignatures($cached=true, $online = false) {
 		FreePBX::GPG(); //declare class to get constants
 		$sql = "SELECT modulename, signature FROM modules";
 		$sth = FreePBX::Database()->prepare($sql);
@@ -2882,7 +2882,7 @@ class module_functions {
 		// String below, if i18n'ed, must be identical to that in GPG class.
 		// Read the comment there.
 		$amportal = FreePBX::Config()->get('AMPSBIN')."/amportal "._("altered");
-		if(!$cached) {
+		if(!$cached && $online) {
 			FreePBX::GPG()->refreshKeys();
 		}
 		foreach($res as $mod) {
