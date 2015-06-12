@@ -1701,11 +1701,13 @@ $(document).ready(function(){
 				} else {
 					container.find('.scroller-left i').show();
 				}
-			})
-		}
+			});
+		};
 
 		reAdjust();
-
+		$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+			reAdjust();
+		});
 		$(window).on('resize',function(e){
 			reAdjust();
 		});
