@@ -418,6 +418,8 @@ class FreePBXInstallCommand extends Command {
 		//Last minute symlinks
 		$sbin = \FreePBX::Config()->get("AMPSBIN");
 		$bin = \FreePBX::Config()->get("AMPBIN");
+
+		//Put new fwconsole into place
 		if(!file_exists($sbin."/fwconsole")) {
 			$output->write("Symlinking ".$bin."/fwconsole to ".$sbin."/fwconsole ...");
 			if(!symlink($bin."/fwconsole", $sbin."/fwconsole")) {
@@ -428,6 +430,22 @@ class FreePBXInstallCommand extends Command {
 			unlink($sbin."/fwconsole");
 			$output->write("Symlinking ".$bin."/fwconsole to ".$sbin."/fwconsole ...");
 			if(!symlink($bin."/fwconsole", $sbin."/fwconsole")) {
+				$output->writeln("<error>Error</error>");
+			}
+			$output->writeln("Done");
+		}
+
+		//put old amportal into place
+		if(!file_exists($sbin."/amportal")) {
+			$output->write("Symlinking ".$bin."/amportal to ".$sbin."/amportal ...");
+			if(!symlink($bin."/amportal", $sbin."/amportal")) {
+				$output->writeln("<error>Error</error>");
+			}
+			$output->writeln("Done");
+		} elseif(file_exists($sbin."/amportal") && (!is_link($sbin."/amportal") || readlink($sbin."/amportal") != $bin."/amportal")) {
+			unlink($sbin."/amportal");
+			$output->write("Symlinking ".$bin."/amportal to ".$sbin."/amportal ...");
+			if(!symlink($bin."/amportal", $sbin."/amportal")) {
 				$output->writeln("<error>Error</error>");
 			}
 			$output->writeln("Done");

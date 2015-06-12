@@ -7,6 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Question\Question;
 
 class Mysql extends Command {
 	protected function configure(){
@@ -17,70 +18,59 @@ class Mysql extends Command {
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
-		$db = \FreePBX::Database();
-		$arg = $input->getArgument('args');
-		if ($arg) {
-			$query = explode(' ',trim($arg[0]));
-			$verb  = strtoupper($query[0]);
-			switch($verb){
-				case 'INSERT':
-				case 'DROP':
-				case 'UPDATE':
-					$sql = $arg[0];
-					$ob = $db->query($sql,\PDO::FETCH_ASSOC);
-					if(!$ob){
-						$output->writeln($db->errorInfo());
-					}
-					if($ob->rowCount()){
-						$output.writeln('<info>' . $ob->rowCount() . '</info> Rows affected');
-					}
-					break;
-				case 'SELECT':
-					$sql = $arg[0];
-					$ob = $db->query($sql,\PDO::FETCH_ASSOC);
-					if(!$ob){
-						$output->writeln($db->errorInfo());
-					}
-					//if we get rows back from a query fetch them
-					if($ob->rowCount()){
-						$gotRows = $ob->fetchAll();
-					}
+		$helper = $this->getHelper('question');
 
-					//handle results if we got rows
-					if($gotRows){
-						$rows = array();
-						foreach($gotRows as $row){
-							array_push($rows, array_values($row));
-						}
-						$table = new Table($output);
-						$table
-							->setHeaders(array_keys($res[0]))
-							->setRows($rows);
-						$table->render();
-					}
-					break;
-				case 'SHOW':
-					$rows = array();
-					$sql = $arg[0];
-					$result = $db->query($sql);
-					$table = new Table($output);
-					while ($row = $result->fetch(\PDO::FETCH_NUM)) {
-						$rows[] = array($row[0]);
-					}
-					$table
-						->setHeaders(array($query[1]))
-						->setRows($rows);
-					$table->render();
-					break;
-				case 'BUILTIN':
-					return true;
-					break;
-				default:
-					$output->writeln("I didn't understand the verb provided");
-					break;
-			}
-		} else {
-			$output->writeln("I didn't understand the verb provided");
+		$output->write(_("Connecting to the Database..."));
+		try {
+			$db = \FreePBX::Database();
+		} catch(\Exception $e) {
+			$output->writeln(_("<error>Unable to connect to database!</error>"));
+			return;
 		}
+		$output->writeln(_("Connected"));
+		$driver = $db->getAttribute(\PDO::ATTR_DRIVER_NAME);
+		while(true) {
+			$question = new Question($driver.'>', '');
+
+			$answer = $helper->ask($input, $output, $question);
+			if(preg_match("/^exit/i",$answer)) {
+				exit();
+			}
+
+			try {
+				$ob = $db->query($answer);
+			} catch(\Exception $e) {
+				$output->writeln("<error>".$e->getMessage()."</error>");
+				continue;
+			}
+
+			if(!$ob){
+				$output->writeln("<error>".$db->errorInfo()."</error>");
+				continue;
+			}
+			//if we get rows back from a query fetch them
+			if($ob->rowCount()){
+				$gotRows = $ob->fetchAll(\PDO::FETCH_ASSOC);
+			}
+
+			if(!empty($gotRows)){
+				$rows = array();
+				foreach($gotRows as $row){
+					$rows[] = array_values($row);
+				}
+
+				$table = new Table($output);
+				$table
+					->setHeaders(array_keys($gotRows[0]))
+					->setRows($rows);
+				$table->render();
+			} else {
+				$output->writeln(_("Successfully executed"));
+			}
+		}
+	}
+
+	private function runSQL() {
+
 	}
 }
