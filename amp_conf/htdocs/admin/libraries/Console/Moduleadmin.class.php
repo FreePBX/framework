@@ -135,6 +135,18 @@ class Moduleadmin extends Command {
 		return true;
 	}
 
+	private function doRemoteDownload($modulelocation) {
+		$this->out->writeln("Starting ".basename($modulelocation)." download..");
+		if (is_array($errors = $this->mf->handledownload($modulelocation, array($this,'progress')))) {
+			$this->out->writeln(_("The following error(s) occured:"));
+			$this->out->writeln(' - '.implode("\n - ",$errors));
+			exit(2);
+		} else {
+			$this->out->writeln(sprintf(_("Module %s successfully downloaded"),$modulelocation));
+		}
+		return true;
+	}
+
 	private function doDownload($modulename, $force) {
 		global $modulexml_path;
 		global $modulerepository_path;
@@ -722,7 +734,8 @@ class Moduleadmin extends Command {
 		$help .= '<question>Module Actions:</question>' . PHP_EOL;
 		$rows[] = array('checkdepends','Checks dependencies for provided module[s], accepts argument module[s] ');
 		$rows[] = array('disable','Disables module[s] accepts argument module[s]');
-		$rows[] = array('download','Download module[s], accepts argument module[s]');
+		$rows[] = array('download','Download module[s], accepts argument module[s] or URLs');
+		$rows[] = array('downloadinstall','Download and install module[s], accepts argument module[s] or URLs');
 		$rows[] = array('delete','Deleted module[s], accepts argument module[s]');
 		$rows[] = array('enable','Enable module[s], accepts argument module[s]');
 		$rows[] = array('install','Installs module[s], accepts argument module[s]');
@@ -794,14 +807,38 @@ class Moduleadmin extends Command {
 				break;
 			case 'download':
 				if(empty($args)){
-					fatal("Missing module name");
+					fatal("Missing module name or URL");
 				}
 				$this->check_active_repos();
 				foreach($args as $module){
+					if(preg_match('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',$module)) {
+						$this->doRemoteDownload($module);
+					} else {
 						$this->doDownload($module, $this->force);
+					}
 				}
 				$this->setPerms($action,$args);
 				break;
+			case 'downloadinstall':
+				if(empty($args)){
+					fatal("Missing module name or URL");
+				}
+				$this->check_active_repos();
+				foreach($args as $module){
+					if(preg_match('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',$module)) {
+						$this->doRemoteDownload($module);
+						if(!empty($this->mf->downloadedRawname)) {
+							$this->doInstall($this->mf->downloadedRawname, $this->force);
+						} else {
+							fatal("Could not determine module name");
+						}
+					} else {
+						$this->doDownload($module, $this->force);
+						$this->doInstall($module, $this->force);
+					}
+				}
+				$this->setPerms($action,$args);
+			break;
 			case 'upgrade':
 			case 'update':
 				if(empty($args)){
@@ -861,6 +898,7 @@ class Moduleadmin extends Command {
 					$this->showCheckDepends($module);
 				}
 				break;
+			case 'remove':
 			case 'delete':
 				if(empty($args)){
 					fatal("Missing module name");

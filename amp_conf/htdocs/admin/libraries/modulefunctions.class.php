@@ -13,6 +13,7 @@ class module_functions {
 	public $security_array = null;
 	public $modDepends = array();
 	public $notFound = false;
+	public $downloadedRawname = "";
 	//Max Execution Time Limit
 	private $maxTimeLimit = 250;
 	private $onlineModules = null;
@@ -1569,6 +1570,7 @@ class module_functions {
 		//
 		$totalread = 0;
 		// invoke progress callback
+		$headers['content-length'] = !empty($headers['content-length']) ? $headers['content-length'] : '0';
 		if (!is_array($progress_callback) && function_exists($progress_callback)) {
 			$progress_callback('downloading', array('read'=>$totalread, 'total'=>$headers['content-length']));
 		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
@@ -1756,6 +1758,7 @@ class module_functions {
 
 		$xml = simplexml_load_file($archivepath.'/module.xml');
 		$modulename = (string)$xml->rawname;
+		$this->downloadedRawname = !empty($modulename) ? $modulename : "";
 		if(empty($modulename)) {
 			return array(sprintf(_('Module Name is blank in %s'),$filename));
 		}
