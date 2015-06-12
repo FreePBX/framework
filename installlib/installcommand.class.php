@@ -437,6 +437,9 @@ class FreePBXInstallCommand extends Command {
 
 		//put old amportal into place
 		if(!file_exists($sbin."/amportal")) {
+			if(is_link($sbin."/amportal")) {
+				unlink($sbin."/amportal");
+			}
 			$output->write("Symlinking ".$bin."/amportal to ".$sbin."/amportal ...");
 			if(!symlink($bin."/amportal", $sbin."/amportal")) {
 				$output->writeln("<error>Error</error>");
