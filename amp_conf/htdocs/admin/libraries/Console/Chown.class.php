@@ -191,6 +191,10 @@ class Chown extends Command {
 		$progress->setRedrawFrequency(100);
 		$progress->start();
 		foreach($this->actions as $action){
+			//Ignore call files, Asterisk may process/delete them before we get to them.
+			if(pathinfo($action[0], PATHINFO_EXTENSION) == 'call'){
+				continue;
+			}
 			$this->singleChown($action[0],$action[1],$action[2]);
 			$this->singlePerms($action[0], $action[3]);
 			$progress->advance();
