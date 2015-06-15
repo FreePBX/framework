@@ -26,7 +26,8 @@ global $_item_sort;
 				<?php if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) { ?>
 					<div class="nav-search">
 						<div class="" id='fpbxsearch'>
-							<input type="text" class="form-control typeahead" placeholder="Search">
+							<i class="fa fa-search"></i>
+							<input type="text" class="form-control typeahead" placeholder="<?php echo _('Search')?>">
 						</div>
 					</div>
 					<?php if($amp_conf['SHOWLANGUAGE']) { ?>
