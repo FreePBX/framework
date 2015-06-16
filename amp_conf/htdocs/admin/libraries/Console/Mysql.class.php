@@ -38,7 +38,9 @@ class Mysql extends Command {
 			}
 
 			try {
+				$time_start = microtime(true);
 				$ob = $db->query($answer);
+				$time_end = microtime(true);
 			} catch(\Exception $e) {
 				$output->writeln("<error>".$e->getMessage()."</error>");
 				continue;
@@ -51,6 +53,8 @@ class Mysql extends Command {
 			//if we get rows back from a query fetch them
 			if($ob->rowCount()){
 				$gotRows = $ob->fetchAll(\PDO::FETCH_ASSOC);
+			} else {
+				$gotRows = array();
 			}
 
 			if(!empty($gotRows)){
@@ -64,6 +68,7 @@ class Mysql extends Command {
 					->setHeaders(array_keys($gotRows[0]))
 					->setRows($rows);
 				$table->render();
+				$output->writeln(sprintf(_("%s rows in set (%s sec)"),$ob->rowCount(), round($time_end - $time_start, 2)));
 			} else {
 				$output->writeln(_("Successfully executed"));
 			}
