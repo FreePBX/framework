@@ -328,7 +328,6 @@ class FreePBXInstallCommand extends Command {
 			require_once('amp_conf/htdocs/admin/libraries/BMO/FreePBX.class.php');
 			require_once('amp_conf/htdocs/admin/libraries/DB.class.php');
 
-			$pdodb->query("SET NAMES utf8");
 			if($dbroot) {
 				if($force) {
 					$pdodb->query("DROP DATABASE IF EXISTS ".$amp_conf['AMPDBNAME']);
