@@ -187,7 +187,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 if(FreePBX::View()->replaceState()) {
   $html .= '<script>history.replaceState(null, null, "'.FreePBX::View()->getQueryString().'");</script>';
 }
-$html .= '<script type="text/javascript" src="assets/js/typeahead.bundle.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/typeahead.bundle.min.js"></script>';
 $html .= '<script type="text/javascript" src="assets/js/search.js"></script>';
 if ($amp_conf['BRAND_ALT_JS']) {
 	$html .= '<script type="text/javascript" src="' . $amp_conf['BRAND_ALT_JS'] . $version_tag . '"></script>';

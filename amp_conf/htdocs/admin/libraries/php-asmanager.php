@@ -56,7 +56,7 @@ function phpasmanager_error_handler($errno, $errstr, $errfile, $errline) {
 		case E_NOTICE:
 		case E_USER_NOTICE:
 		default:
-			dbug("Got a php-asmanager error of [$errno] $errstr");
+			//dbug("Got a php-asmanager error of [$errno] $errstr");
 		  break;
     }
 

@@ -33,10 +33,6 @@ var SearchC = Class.extend({
       highlight: true,
       minLength: 1
     }, {
-      name: 'extenSearch',
-      displayKey: 'value',
-      source: this.extMatch(this.getAllExtens()),
-    }, {
       name: 'moduleSearch',
       displayKey: 'value',
       source: this.moduleSearch.ttAdapter()
@@ -52,62 +48,13 @@ var SearchC = Class.extend({
     .focus();
   },
 
-  extMatch: function(strs) {
-    var self = this;
-    return function findMatches(q, cb) {
-      var matches, oMatches, substrRegex;
-      matches = [];
-      oMatches = {};
-      substrRegex = new RegExp(q, 'i');
-      $.each(strs, function(i, str) {
-        var val;
-        if (substrRegex.test(str)) {
-	  // We're an Extension!
-	  if (self.extLookup[str] == str) {
-	    // It's an extension
-	    val = "Extension "+str;
-	  } else {
-	    val = str+" ("+self.extLookup[str]+")";
-	  }
-          oMatches[val] = { value: val, ext: str };
-        }
-      });
-      // We loop twice to remove duplicates. This possibly could be
-      // quicker by doing a hash check in the previous loop, but it'll
-      // be harder to read.
-      $.each(oMatches, function(i, obj) { matches.push(obj) });;
-      cb(matches);
-    };
-  },
-
-  getAllExtens: function() {
-    var self = this;
-    self.extLookup = {};
-    var knownExtensions = [];
-    if(extmap === null) {
-      return knownExtensions;
-    }
-    $.each(extmap, function(x) {
-      if (this.match(/User Exten/)) {
-        knownExtensions.push(x);
-	self.extLookup[x] = x;
-	var extName = this.toString().replace("User Extension: ", "");
-        knownExtensions.push(extName);
-	self.extLookup[extName] = x;
-      }
-    });
-    return knownExtensions;
-  },
-
   processSearchClick: function(o, d, name) {
     if (name == "moduleSearch") {
       return this.processModuleClick(d.o);
-    } else if (name == "extenSearch") {
-      return this.processExtenClick(d);
     } else if (name == "itemSearch") {
       return this.processItemClick(d);
     } else {
-      console.warn("Not sure what to do with " + name);
+      //just follow the link, name is undefined when clicked manually
       return false;
     }
   },
@@ -118,13 +65,6 @@ var SearchC = Class.extend({
       return true;
     }
     console.log("No idea what to do with this: ", o);
-  },
-
-  processExtenClick: function(o) {
-    var ext = this.extLookup[o.ext];
-    window.location.search = "?display=extensions&extdisplay="+ext;
-    window.location.hash = "";
-    return true;
   },
 
   processItemClick: function(o) {

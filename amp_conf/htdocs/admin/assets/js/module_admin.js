@@ -244,7 +244,8 @@ function process_module_actions(modules) {
 				title: 'Status',
 				resizable: false,
 				modal: true,
-				width: '410px',
+				width: 410,
+				height: 325,
 				open: function (e) {
 					$('#moduledialogwrapper').html(_('Loading..' ) + '<i class="fa fa-spinner fa-spin fa-2x">');
 					var xhr = new XMLHttpRequest(),
@@ -264,6 +265,7 @@ function process_module_actions(modules) {
 						if (xhr.readyState == XMLHttpRequest.DONE) {
 							$("#moduleprogress").css("overflow", "auto");
 							$('#moduleprogress').scrollTop(1E10);
+							$("#moduleBoxContents a").focus();
 						}
 					}, 500);
 				},
