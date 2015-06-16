@@ -137,7 +137,7 @@ CREATE TABLE `devices` (
   `emergency_cid` varchar(100) DEFAULT NULL,
   KEY `id` (`id`),
   KEY `tech` (`tech`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -637,7 +637,7 @@ CREATE TABLE `users` (
   `chanunavail_dest` varchar(255) NOT NULL DEFAULT '',
   `mohclass` varchar(80) DEFAULT 'default',
   KEY `extension` (`extension`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
