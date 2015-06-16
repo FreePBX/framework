@@ -1531,7 +1531,7 @@ $(document).ready(function() {
 		$("<div></div>")
 			.html(form)
 			.dialog({
-				title: "Login",
+				title: _("Login"),
 				resizable: false,
 				width: 400,
 				modal: true,
