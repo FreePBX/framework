@@ -25,11 +25,13 @@ if ($footer_content) {
 //Action Bar
 if (!$covert && !empty($action_bar)) {
 	$html .= '<div id="action-bar">';
+  $html .= '<div id="action-buttons">';
 	foreach($action_bar as $b){
 		$temp = new actionButton();
 		$temp->setParams($b);
 		$html .= $temp->getHTML();
 	}
+	$html .= '</div>';
 	$html .= '</div>';
 }
 
