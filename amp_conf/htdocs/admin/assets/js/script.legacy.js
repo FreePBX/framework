@@ -1676,6 +1676,32 @@ $(document).ready(function(){
 	 * Rewritten to work with multple tab groups and better scrolling
 	 */
 	if($(".nav-container").length > 0) {
+		var scrollTab = function(container, direction) {
+			var move = 0;
+			container.find(".wrapper li:not(.hidden)").each(function() {
+				var width = $(this).parents(".wrapper")[0].getBoundingClientRect().width,
+						list = $(this).parents(".list"),
+						scrollerright = $(this).parents(".nav-container").find(".scroller-right")[0].getBoundingClientRect().width,
+						scrollerleft = $(this).parents(".nav-container").find(".scroller-left")[0].getBoundingClientRect().width,
+						tabdimensions = $(this)[0].getBoundingClientRect(),
+						seen = ((width - (tabdimensions.left + tabdimensions.width) + scrollerright) >=0);
+
+				if(!seen && direction == "right") {
+					move = -($(this).position().left - scrollerleft);
+					return false;
+				} else if(seen && direction == "left") {
+					if(list.position().left + ($(this).position().left + scrollerright + width) > 0) {
+						move = 0;
+					} else {
+						var test = $(this)[0].getBoundingClientRect().width;
+						move = list.position().left + ($(this).position().left + scrollerright + width - test);
+					}
+					return false;
+				}
+			});
+			return move;
+		};
+
 		var widthOfList = function(container){
 			var itemsWidth = 0;
 			container.find('.list li').each(function(){
@@ -1724,14 +1750,16 @@ $(document).ready(function(){
 			if(typeof moving !== "undefined" && moving) {
 				return;
 			}
+			var move = scrollTab(container, "right");
+
 			container.data("moving", true);
 			$($this).addClass("moving");
 			container.find('.scroller-left i').fadeIn('slow');
 
-			if((p + final) <= -(w - t)) {
+			if((w - (-move+t)) <= 0) {
 				$($this).fadeOut('slow');
 			}
-			container.find('.list').animate({left:"+="+final+"px"},'slow',function(){
+			container.find('.list').animate({left:move+"px"},'slow',function(){
 				container.data("moving", false);
 				$($this).removeClass("moving");
 			});
@@ -1740,31 +1768,24 @@ $(document).ready(function(){
 		$('.nav-container .scroller-left i').click(function() {
 			var $this = this,
 					container = $($this).parents(".nav-container"),
-					moving = container.data("moving"),
-					t = container.find('.wrapper').outerWidth(),
-					p = container.find('.list').position().left,
-					w = widthOfList(container),
-					final = -(t);
+					moving = container.data("moving");
 
 			if(typeof moving !== "undefined" && moving) {
 				return;
 			}
+			var move = scrollTab(container, "left");
+
 			container.data("moving", true);
 			$($this).addClass("moving");
 			container.find('.scroller-right i').fadeIn('slow');
 
-			if((p + t) >= 0) {
+			if(move >= 0) {
 				$($this).fadeOut('slow');
-				container.find('.list').animate({left:"0px"},'slow',function(){
-					container.data("moving", false);
-					$($this).removeClass("moving");
-				});
-			} else {
-				container.find('.list').animate({left:"-="+final+"px"},'slow',function(){
-					container.data("moving", false);
-					$($this).removeClass("moving");
-				});
 			}
+			container.find('.list').animate({left:move+"px"},'slow',function(){
+				container.data("moving", false);
+				$($this).removeClass("moving");
+			});
 		});
 	}
 });
