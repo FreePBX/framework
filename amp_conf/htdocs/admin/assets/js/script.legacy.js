@@ -834,6 +834,23 @@ function bind_dests_double_selects() {
 	});
 }
 
+//Reset second level desination drop downs when the form is reset
+$('form').on('reset', function() {
+	var $this = this;
+	setTimeout(function(){
+		$($this).find(".destdropdown").each(function() {
+			var v = $(this).val(),
+					i = $(this).data("id");
+			if(v !== "") {
+				$(".destdropdown2").not("#" + v + i).addClass("hidden");
+				$("#"+ v + i).removeClass("hidden");
+			} else {
+				$(".destdropdown2").addClass("hidden");
+			}
+		});
+	}, 50); //50 mil timeout because the form is not reset yet
+});
+
 /**
  * Close Popover Window
  * @param {string} drawselects The draw select to replace with new data
