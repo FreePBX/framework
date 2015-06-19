@@ -329,6 +329,14 @@ class FreePBXInstallCommand extends Command {
 			require_once('amp_conf/htdocs/admin/libraries/DB.class.php');
 
 			if($dbroot) {
+				$amp_conf['AMPDBUSER'] = 'freepbxuser';
+				$amp_conf['AMPDBPASS'] = md5(uniqid());
+			} else {
+				$amp_conf['AMPDBUSER'] = $answers['dbuser'];
+				$amp_conf['AMPDBPASS'] = $answers['dbpass'];
+			}
+
+			if($dbroot) {
 				if($force) {
 					$pdodb->query("DROP DATABASE IF EXISTS ".$amp_conf['AMPDBNAME']);
 				}
@@ -338,14 +346,6 @@ class FreePBXInstallCommand extends Command {
 			}
 
 			$bmo = new \FreePBX($amp_conf);
-
-			if($dbroot) {
-				$amp_conf['AMPDBUSER'] = 'freepbxuser';
-				$amp_conf['AMPDBPASS'] = md5(uniqid());
-			} else {
-				$amp_conf['AMPDBUSER'] = $answers['dbuser'];
-				$amp_conf['AMPDBPASS'] = $answers['dbpass'];
-			}
 
 			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'];
 			$db = new \DB(new \FreePBX\Database($dsn, $answers['dbuser'], $answers['dbpass']));
