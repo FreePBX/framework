@@ -55,10 +55,11 @@ class Modules {
 		$path = $this->FreePBX->Config->get("AMPWEBROOT");
 		$modules = $this->getActiveModules();
 		$ifiles = get_included_files();
+		dbug($ifiles);
 		$destinations = array();
 		foreach($modules as $rawname => $data) {
-			$relative = "admin/modules/".$rawname."/functions.inc.php";
-			$absolute = $path."/".$relative;
+			$relative = $rawname."/functions.inc.php";
+			$absolute = $path."/admin/modules/".$relative;
 			if(file_exists($absolute)) {
 				$include = true;
 				foreach($ifiles as $file) {
@@ -103,8 +104,8 @@ class Modules {
 		if($this->checkStatus($module)) {
 			$path = $this->FreePBX->Config->get("AMPWEBROOT");
 			$ifiles = get_included_files();
-			$relative = "admin/modules/".$rawname."/functions.inc.php";
-			$absolute = $path."/".$relative;
+			$relative = $rawname."/functions.inc.php";
+			$absolute = $path."/admin/modules/".$relative;
 			if(file_exists($absolute)) {
 				foreach($ifiles as $file) {
 					$include = true;
