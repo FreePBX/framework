@@ -69,6 +69,7 @@ class Modules {
 		}
 		foreach($modules as $rawname => $data) {
 			$funct = strtolower($rawname.'_destinations');
+			$funct2 = strtolower($rawname.'_getdestinfo');
 			if (function_exists($funct)) {
 				\modgettext::push_textdomain($rawmod);
 				$destArray = $funct($i); //returns an array with 'destination' and 'description', and optionally 'category'
@@ -78,6 +79,10 @@ class Modules {
 						$destinations[$dest['destination']] = $dest;
 						$destinations[$dest['destination']]['module'] = $rawname;
 						$destinations[$dest['destination']]['name'] = $data['name'];
+						if(function_exists($funct2)) {
+							$info = $funct2($dest['destination']);
+							$destinations[$dest['destination']]['edit_url'] = $info['edit_url'];
+						}
 					}
 				}
 			}
