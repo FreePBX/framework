@@ -60,10 +60,15 @@ class Modules {
 			$relative = "admin/modules/".$rawname."/functions.inc.php";
 			$absolute = $path."/".$relative;
 			if(file_exists($absolute)) {
+				$include = true;
 				foreach($ifiles as $file) {
-					if(strpos($file, $absolute) !== false) {
-						include $absolute;
+					if(strpos($file, $relative) !== false) {
+						$include = false;
+						break;
 					}
+				}
+				if($include) {
+					include $absolute;
 				}
 			}
 		}
@@ -102,7 +107,14 @@ class Modules {
 			$absolute = $path."/".$relative;
 			if(file_exists($absolute)) {
 				foreach($ifiles as $file) {
-					if(strpos($file, $absolute) !== false) {
+					$include = true;
+					foreach($ifiles as $file) {
+						if(strpos($file, $relative) !== false) {
+							$include = false;
+							break;
+						}
+					}
+					if($include) {
 						include $absolute;
 					}
 				}
