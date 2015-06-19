@@ -764,6 +764,7 @@ function bind_dests_double_selects() {
 		if (cur_val == "popover") {
 			dd2.trigger("change");
 		}
+
 	});
 
 	$(".destdropdown2").unbind().bind("change", function() {
@@ -1079,7 +1080,10 @@ var kkeys = [], smiles = "38,38,40,40,37,39,37,39,66,65";
 $(document).keydown(function(e) {
 	kkeys.push( e.keyCode );
 	if ( kkeys.toString().indexOf( smiles ) >= 0 ) {
-		$(document).unbind("keydown", arguments.callee);alert(":-)");
+		$(document).unbind("keydown", arguments.callee);
+		var kkWindow = window.open("", "kkWindow", "width=340, height=300");
+		kkWindow.document.write('<title>:-)</title><canvas id="the-game" width="320" height="240" style="border:1px solid #000000;background:F8F8FF;"></canvas>');
+		kkWindow.document.write('<script type="application/javascript" src="'+window.location.origin+'/admin/assets/js/kclc.js"></script>');
 	}
 });
 
