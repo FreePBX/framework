@@ -3,7 +3,7 @@
 /** check if a specific extension is being used, or get a list of all extensions that are being used
  * @param mixed     an array of extension numbers to check against, or if boolean true then return list of all extensions
  * @param array     a hash of module names to search for callbacks, otherwise global $active_modules is used
- * @return array    returns an empty array if exten not in use, or any array with usage info, or of all usage 
+ * @return array    returns an empty array if exten not in use, or any array with usage info, or of all usage
  *                  if exten is boolean true
  * @description     Upon passing in an array of extension numbers, this api will query all modules to determine if any
  *                  are using those extension numbers. If so, it will return an array with the usage information
@@ -112,7 +112,7 @@ function framework_set_extmap() {
 /** check if a specific destination is being used, or get a list of all destinations that are being used
  * @param mixed     an array of destinations to check against, or if boolean true then return list of all destinations in use
  * @param array     a hash of module names to search for callbacks, otherwise global $active_modules is used
- * @return array    returns an empty array if destination not in use, or any array with usage info, or of all usage 
+ * @return array    returns an empty array if destination not in use, or any array with usage info, or of all usage
  *                  if dest is boolean true
  * @description     Upon passing in an array of destinations, this api will query all modules to determine if any
  *                  are using that destination. If so, it will return an array with the usage information
@@ -122,7 +122,7 @@ function framework_set_extmap() {
  *                  $dest_usage[$module][]['dest']        // The destination being used
  *                                        ['description'] // Description of who is using it
  *                                        ['edit_url']    // a url that could be invoked to edit the using entity
- *                                               
+ *
  */
 function framework_check_destination_usage($dest=true, $module_hash=false) {
 	global $active_modules;
@@ -353,7 +353,7 @@ function framework_list_problem_destinations($module_hash=false, $ignore_custom=
 	foreach ($all_dests as $dests) {
 		foreach ($dests as $adest) {
 			if (empty($adest['dest'])) {
-				$problem_dests[] = array('status' => 'EMPTY', 
+				$problem_dests[] = array('status' => 'EMPTY',
 					                       'dest' => $adest['dest'],
 					                       'description' => $adest['description'],
 					                       'edit_url' => $adest['edit_url'],
@@ -362,7 +362,7 @@ function framework_list_problem_destinations($module_hash=false, $ignore_custom=
 				if ($ignore_custom) {
 					continue;
 				}
-				$problem_dests[] = array('status' => 'CUSTOM', 
+				$problem_dests[] = array('status' => 'CUSTOM',
 					                       'dest' => $adest['dest'],
 					                       'description' => $adest['description'],
 					                       'edit_url' => $adest['edit_url'],
@@ -370,7 +370,7 @@ function framework_list_problem_destinations($module_hash=false, $ignore_custom=
 			} else if (is_array($identities[$adest['dest']])){
 				foreach ($identities[$adest['dest']] as $details) {
 					if (empty($details)) {
-						$problem_dests[] = array('status' => 'ORPHAN', 
+						$problem_dests[] = array('status' => 'ORPHAN',
 						                         'dest' => $adest['dest'],
 						                         'description' => $adest['description'],
 						                         'edit_url' => $adest['edit_url'],
@@ -463,7 +463,7 @@ function framework_list_extension_conflicts($module_hash=false) {
  * @return integer  returns the number of records that were updated
  * @description     has each module replace their destination information with another one, used if you are
  *                  assigning a new number to something such as a conference room that may be used as a destination
- *                                               
+ *
  */
 function framework_change_destination($old_dest, $new_dest, $module_hash=false) {
 	global $db, $active_modules;
@@ -495,21 +495,21 @@ function framework_change_destination($old_dest, $new_dest, $module_hash=false) 
  * Takes:
  * @func variable	the function name that we are searching for. The module name
  * 					will be appened to this
- * @opts mixed		a variable or array that will be passed to the function being 
+ * @opts mixed		a variable or array that will be passed to the function being
  * 					called , if its found
  *
  */
 function mod_func_iterator($func, &$opts = '') {
 	global $active_modules;
 	$res = array();
-	
+
 	foreach ($active_modules as $active => $mod) {
 		$funct = $mod['rawname'] . '_' . $func;
 		if (function_exists($funct)) {
 			$res[$mod['rawname']] = $funct($opts);
 		}
 	}
-	
+
 	return $res;
 }
 

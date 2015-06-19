@@ -47,6 +47,65 @@ class Modules {
 	}
 
 	/**
+	 * Get destinations of every module
+	 * This function might be slow, but it works from within bmo
+	 * @return array Array of destinations
+	 */
+	public function getDestinations() {
+		$path = $this->FreePBX->Config->get("AMPWEBROOT");
+		$modules = $this->getActiveModules();
+		$ifiles = get_included_files();
+		$destinations = array();
+		foreach($modules as $rawname => $data) {
+			$relative = "admin/modules/".$rawname."/functions.inc.php";
+			$absolute = $path."/".$relative;
+			if(file_exists($absolute)) {
+				foreach($ifiles as $file) {
+					if(strpos($file, $absolute) !== false) {
+						include $absolute;
+					}
+				}
+			}
+		}
+		foreach($modules as $rawname => $data) {
+			$funct = strtolower($rawname.'_destinations');
+			if (function_exists($funct)) {
+				\modgettext::push_textdomain($rawmod);
+				$destArray = $funct($i); //returns an array with 'destination' and 'description', and optionally 'category'
+				\modgettext::pop_textdomain();
+				if(!empty($destArray)) {
+					foreach($destArray as $dest) {
+						$destinations[$dest['destination']] = $dest;
+						$destinations[$dest['destination']]['module'] = $rawname;
+						$destinations[$dest['destination']]['name'] = $data['name'];
+					}
+				}
+			}
+		}
+		return $destinations;
+	}
+
+	/**
+	 * Try to load a functions.inc.php if not previously loaded
+	 * @param  string $module The module rawname
+	 */
+	public function loadFunctionsInc($module) {
+		if($this->checkStatus($module)) {
+			$path = $this->FreePBX->Config->get("AMPWEBROOT");
+			$ifiles = get_included_files();
+			$relative = "admin/modules/".$rawname."/functions.inc.php";
+			$absolute = $path."/".$relative;
+			if(file_exists($absolute)) {
+				foreach($ifiles as $file) {
+					if(strpos($file, $absolute) !== false) {
+						include $absolute;
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	* Get Signature
 	* @param string $modulename The raw module name
 	* @param bool $cached     Get cached data or update the signature
