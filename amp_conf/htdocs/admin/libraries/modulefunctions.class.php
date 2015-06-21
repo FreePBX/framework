@@ -2329,9 +2329,9 @@ class module_functions {
 						if($o === false) {
 							return false;
 						}
-					} catch(Exception $e) { 
+					} catch(Exception $e) {
 						// Module installers should NEVER throw an exception.
-						print "Error installing module: ".$e->getMessage();
+						outn("Error installing module: ".$e->getMessage());
 						return false;
 					}
 				}
