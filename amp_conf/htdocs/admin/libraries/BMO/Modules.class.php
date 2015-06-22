@@ -111,7 +111,14 @@ class Modules {
 			$ifiles = get_included_files();
 			$relative = $rawname."/functions.inc.php";
 			$absolute = $path."/admin/modules/".$relative;
+			$data = \FreePBX::Modules()->getInfo($module);
+			$needs_zend = isset($data[$module]['depends']['phpcomponent']) && stristr($data[$module]['depends']['phpcomponent'], 'zend');
+			$licFileExists = glob ('/etc/schmooze/license-*.zl');
+			$complete_zend = (!function_exists('zend_loader_install_license') || empty($licFileExists));
 			if(file_exists($absolute)) {
+				if ($needs_zend && class_exists('\Schmooze\Zend',false) && \Schmooze\Zend::fileIsLicensed($absolute) && $complete_zend) {
+					return false;
+				}
 				foreach($ifiles as $file) {
 					$include = true;
 					foreach($ifiles as $file) {
