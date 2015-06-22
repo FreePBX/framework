@@ -265,6 +265,7 @@ class Chown extends Command {
 				}
 			break;
 			case 'dir':
+			case 'socket':
 			case 'file':
 				try {
 					$this->fs->chmod($file,$perms);

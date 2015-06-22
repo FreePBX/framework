@@ -665,6 +665,14 @@ class Moduleadmin extends Command {
 		}
 	}
 
+	private function updateHooks() {
+		$this->out->write(_("Updating Hooks..."));
+		try {
+			\FreePBX::Hooks()->updateBMOHooks();
+		}catch(\Exception $e) {}
+		$this->out->writeln(_("Done"));
+	}
+
 	private function showUpgrades() {
 		$modules = $this->getUpgradableModules(true);
 		if (count($modules) > 0) {
@@ -787,15 +795,18 @@ class Moduleadmin extends Command {
 					$this->doInstall($module, $this->force);
 				}
 				$this->setPerms($action,$args);
+				$this->updateHooks();
 				break;
 			case 'installall':
 				$this->check_active_repos();
 				$this->doInstallAll(false);
 				$this->setPerms($action,$args);
+				$this->updateHooks();
 				break;
 			case 'installlocal':
 				$this->doInstallLocal(true);
 				$this->setPerms($action,$args);
+				$this->updateHooks();
 				break;
 			case 'uninstall':
 				if(empty($args)){
@@ -804,6 +815,7 @@ class Moduleadmin extends Command {
 				foreach($args as $module){
 					$this->doUninstall($module, $this->force);
 				}
+				$this->updateHooks();
 				break;
 			case 'download':
 				if(empty($args)){
@@ -838,6 +850,7 @@ class Moduleadmin extends Command {
 					}
 				}
 				$this->setPerms($action,$args);
+				$this->updateHooks();
 			break;
 			case 'upgrade':
 			case 'update':
@@ -849,12 +862,14 @@ class Moduleadmin extends Command {
 					$this->doUpgrade($module, $this->force);
 				}
 				$this->setPerms($action,$args);
+				$this->updateHooks();
 				break;
 			case 'updateall':
 			case 'upgradeall':
 				$this->check_active_repos();
 				$this->doUpgradeAll($force);
 				$this->setPerms($action,$args);
+				$this->updateHooks();
 				break;
 			case 'list':
 				$this->showList();
@@ -915,6 +930,7 @@ class Moduleadmin extends Command {
 				foreach($args as $module){
 					$this->doDisable($module, $this->force);
 				}
+				$this->updateHooks();
 				break;
 			case 'enable':
 				if(empty($args)){
@@ -923,6 +939,7 @@ class Moduleadmin extends Command {
 				foreach($args as $module){
 					$this->doEnable($module, $this->force);
 				}
+				$this->updateHooks();
 				break;
 			case 'enableall':
 				$modules = $this->listDisabled();
@@ -932,6 +949,7 @@ class Moduleadmin extends Command {
 				}
 				$this->out->writeln('This action understands somethings may be disabled for a reason.');
 				$this->out->writeln('Please review the output above for any errors while enabling modules');
+				$this->updateHooks();
 				break;
 			case 'showupgrade':
 			case 'showupgrades':
@@ -949,6 +967,7 @@ class Moduleadmin extends Command {
 			case 'refreshsignatures':
 				$this->refreshsignatures();
 				$this->setPerms($action,$args);
+				$this->updateHooks();
 				break;
 			case 'updatexml':
 				break;

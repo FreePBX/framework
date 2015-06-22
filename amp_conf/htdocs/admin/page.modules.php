@@ -368,6 +368,11 @@ switch ($action) {
 				flush();
 			}
 		}
+		echo _("Updating Hooks...");
+		try {
+			\FreePBX::Hooks()->updateBMOHooks();
+		}catch(\Exception $e) {}
+		echo _("Done")."<br />";
 		echo "</div>";
 		echo "<hr /><br />";
 		if ($quietmode) {
