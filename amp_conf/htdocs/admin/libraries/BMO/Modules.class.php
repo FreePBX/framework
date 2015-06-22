@@ -55,12 +55,17 @@ class Modules {
 		$path = $this->FreePBX->Config->get("AMPWEBROOT");
 		$modules = $this->getActiveModules();
 		$ifiles = get_included_files();
-		dbug($ifiles);
 		$destinations = array();
 		foreach($modules as $rawname => $data) {
 			$relative = $rawname."/functions.inc.php";
 			$absolute = $path."/admin/modules/".$relative;
+			$needs_zend = isset($data[$rawname]['depends']['phpcomponent']) && stristr($data[$rawname]['depends']['phpcomponent'], 'zend');
+			$licFileExists = glob ('/etc/schmooze/license-*.zl');
+			$complete_zend = (!function_exists('zend_loader_install_license') || empty($licFileExists));
 			if(file_exists($absolute)) {
+				if ($needs_zend && class_exists('\Schmooze\Zend',false) && \Schmooze\Zend::fileIsLicensed($absolute) && $complete_zend) {
+					continue;
+				}
 				$include = true;
 				foreach($ifiles as $file) {
 					if(strpos($file, $relative) !== false) {
