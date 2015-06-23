@@ -609,7 +609,7 @@ function isEmail(s) {
 			pattern = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/i,
 			emailCount = 0;
 
-	for (e in emailAddresses) {
+	for (var e in emailAddresses) {
 		emailCount += (pattern.test(emailAddresses[e]) === true) ? 1 : 0;
 	}
 
@@ -781,8 +781,8 @@ function bind_dests_double_selects() {
 					title: "Add",
 					resizable: false,
 					modal: true,
-					width: window.innerWidth - (window.innerWidth * .10),
-					height: window.innerHeight - (window.innerHeight * .10),
+					width: window.innerWidth - (window.innerWidth * '.10'),
+					height: window.innerHeight - (window.innerHeight * '.10'),
 					create: function() {
 						$("body").scrollTop(0).css({ overflow: "hidden" });
 					},
@@ -792,7 +792,7 @@ function bind_dests_double_selects() {
 						//dropdown 1
 						var par = $("#goto" + id).data("last");
 						$("#goto" + id).val(par).change();
-						if (par != "") { //Get dropdown2
+						if (par !== "") { //Get dropdown2
 							var par_id = par.concat(id);
 							$("#" + par_id).val($("#" + par_id).data("last")).change();
 						}
@@ -1174,27 +1174,34 @@ function checkPassword(el) {
 
 $(document).ready(function() {
 	if ($(".fpbx-container").length > 0) {
+		//Show tab if location hash matches data-name
 		var loc = window.location.hash.replace("#", "");
 		if (loc !== "" && $(".fpbx-container li[data-name=" + loc + "] a").length > 0) {
 			$(".fpbx-container li[data-name=" + loc + "] a").tab('show');
 		}
 
-		$(".fpbx-container i.fpbx-help-icon").hover(function() {
-			var id = $(this).data("for");
+		//Hover over (?) bubbles, they will lock until container is exited
+		$(".fpbx-container i.fpbx-help-icon").on("mouseenter", function() {
+			var id = $(this).data("for"), container = $(this).parents(".element-container");
 			$(".fpbx-help-block").removeClass("active");
 			$("#" + id + "-help").addClass("active");
-		}, function(event) {
-			if(event.relatedTarget && (event.relatedTarget.type == "submit" || event.relatedTarget.type == "button")){
-				return;
-			}
-			var id = $(this).data("for"), act = $("#" + id + "-help").data("activate");
-			if(typeof act !== "undefined" && act == "locked") {
-				return;
-			}
-			$("#" + id + "-help").fadeOut("slow",function() {
-				$(this).removeClass("active").css("display","");
+			container.one("mouseleave", function(event) {
+				if(event.relatedTarget && (event.relatedTarget.type == "submit" || event.relatedTarget.type == "button")){
+					return;
+				}
+				var act = $("#" + id + "-help").data("activate");
+				if(typeof act !== "undefined" && act == "locked") {
+					return;
+				}
+
+				$("#" + id + "-help").fadeOut("slow",function() {
+					$(this).removeClass("active").css("display","");
+				});
+				$(this).off("mouseleave");
 			});
 		});
+
+		//Help for input boxes
 		$(".fpbx-container .form-control").focus(function() {
 			$(".fpbx-help-block").removeClass("active");
 			var id = $(this).prop("id");
@@ -1219,8 +1226,6 @@ $(document).ready(function() {
 	*/
 	function positionActionBar() {
 		if ($("#action-bar").length > 0) {
-			var css = {};
-
 			$("#action-bar").removeClass("locked");
 
 			var css = {},
@@ -1679,7 +1684,7 @@ $(document).ready(function(){
 		$(".freepbx-navbar .dropdown-menu").css("max-height",$(window).height()-50);
 		resizeMode = 'desktop';
 	} else {
-		resizeMode = 'mobile'
+		resizeMode = 'mobile';
 		$('table[data-toggle=table]').each(function() {
 			if(!$(this).bootstrapTable('getOptions').cardView) {
 				$(this).bootstrapTable('toggleView');
