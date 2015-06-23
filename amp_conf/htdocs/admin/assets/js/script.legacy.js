@@ -1374,16 +1374,10 @@ $(document).ready(function() {
 		window.location.reload();
 	});
 
-	//new skin - work in progress!
-	$(".rnav > ul").menu();
-
 	//show reload button if neede
 	if (fpbx.conf.reload_needed) {
 		toggle_reload_button("show");
 	}
-
-	//style all sortables as menu"s
-	$(".sortable:not(.th-inner)").menu();
 
 	//allow click on checkbox and surrounding area
 	$(".sortable:not(.th-inner) li").click(function(event) {
@@ -1637,15 +1631,17 @@ $(document).ready(function() {
 				label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
 				input.parent().siblings(".filename").html(label);
 });
-
-/**
- * This is used to provide a "maxsize" field addon for text inputs
- * Example: <input type="text" name="foo" id="foo" class="form-control maxlen" maxlength="25" value="bar">
- * This would show Foo Field: [bar        ][3/25]
- * Input must have a maxlength and id attribute
- *
- */
 $(document).ready(function(){
+	//lock number inputs to only be numeric
+	$("input[type=number]").numeric();
+
+	/**
+	 * This is used to provide a "maxsize" field addon for text inputs
+	 * Example: <input type="text" name="foo" id="foo" class="form-control maxlen" maxlength="25" value="bar">
+	 * This would show Foo Field: [bar        ][3/25]
+	 * Input must have a maxlength and id attribute
+	 *
+	 */
 	$(".maxlen").each(function(){
 		var curid = $(this).attr('id');
 		var maxl = $(this).attr('maxlength');

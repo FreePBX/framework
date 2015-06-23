@@ -80,10 +80,10 @@ input[type="search"].form-control,
 input[type="url"].form-control,
 input[type="password"].form-control,
 textarea.form-control{
-	font-size: inherit;
+	font-size: unset;
 	padding-left: 9px;
-	display: inherit;
-	line-height: inherit;
+	display: unset;
+	line-height: unset;
 }
 input[type=text]:hover:not([disabled]) {
 	border-color: #666 #CCC #CCC #CCC;
@@ -283,16 +283,46 @@ a.info:link, a.info:hover {
 	line-height:15px;
 	border-radius: 5px;
 }
+
+/*Stylize rnav to match bootnav */
 .rnav {
 	float:right;
 	position: relative;
 	margin-top:10px;
-	right: 1.5%;
 	margin-left: 2%;
 	ul {
-		max-height:50em;
-		max-width:275px;
-		overflow: auto;
+		max-height: 450px;
+		overflow-y: auto;
+		border: 1px solid #ddd;
+		border-radius: 4px;
+		list-style-type: none;
+		padding: 0px;
+		font-size: 12px;
+		a {
+			color: #555;
+			position: relative;
+			display: block;
+			padding: 10px 15px;
+			background-color: #fff;
+		}
+		li > a {
+			border-bottom: 1px solid #ddd;
+		}
+		li:first-child > a {
+			border-top-right-radius: 4px;
+			border-top-left-radius: 4px;
+		}
+		li:last-child > a {
+			margin-bottom: 0;
+			border-bottom-right-radius: 4px;
+			border-bottom-left-radius: 4px;
+			border-bottom: none;
+		}
+		li > a:hover {
+			text-decoration: none;
+			color: #555;
+			background-color: #f5f5f5;
+		}
 	}
 }
 .bootnav {

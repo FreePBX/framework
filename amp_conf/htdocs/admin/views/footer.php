@@ -144,13 +144,15 @@ $html .= '<script type="text/javascript" src="assets/js/modernizr.js"></script>'
 //Removed google CDN because we are using custom libraries for bootstrap and jqueryui so that buttons work together
 $html .= '<script src="assets/js/bootstrap-3.3.4.custom.min.js"></script>';
 
-$html .= '<script src="assets/js/bootstrap-table-1.7.0.js"></script>';
+$html .= '<script src="assets/js/bootstrap-table-1.8.1.js"></script>';
 
 $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-en-US.js"></script>';
 if($lang != "en_US") {
   $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-'.str_replace("_","-",$lang).'.js"></script>';
   $html .= "<script>$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['".str_replace("_","-",$lang)."']);</script>";
 }
+
+$html .= '<script src="assets/js/bootstrap-table-cookie.min.js"></script>';
 
 
 $html .= '<script src="assets/js/bootstrap-multiselect.js"></script>';
@@ -159,7 +161,7 @@ $html .= '<script src="assets/js/chosen.jquery.min.js"></script>';
 
 $html .= '<script type="text/javascript" src="assets/js/jquery.smartWizard.js"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.11.4.min.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.11.4.custom.min.js"></script>';
 
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below
@@ -179,6 +181,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	 */
 	$html .= '<script type="text/javascript" src="assets/js/XMLHttpRequest.js' . $version_tag . '"></script>'
 		. '<script type="text/javascript" src="assets/js/jquery.hotkeys.js' . $version_tag . '"></script>'
+    . '<script type="text/javascript" src="assets/js/jquery.numeric.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/jquery.cookie.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/script.legacy.js' . $version_tag . '"></script>'
 		. '<script type="text/javascript" src="assets/js/jquery.autosize.min.js' . $version_tag . '"></script>'
