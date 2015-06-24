@@ -1840,7 +1840,7 @@ class module_functions {
 
 		if (!$force) {
 
-			if (!in_array($modules[$modulename]['status'], array(MODULE_STATUS_NOTINSTALLED, MODULE_STATUS_NEEDUPGRADE))) {
+			if (!in_array($modules[$modulename]['status'], array(MODULE_STATUS_ENABLED, MODULE_STATUS_NOTINSTALLED, MODULE_STATUS_NEEDUPGRADE))) {
 				//return array(_("This module is already installed."));
 				// This isn't really an error, we just exit
 				return true;
