@@ -547,7 +547,7 @@ class Freepbx_conf {
   function get_conf_settings() {
 		$db_conf_store = $this->db_conf_store;
 		foreach ($db_conf_store as $k => $s) {
-			if ($s['type'] == CONF_TYPE_FSELECT) {
+			if (isset($s['type']) && $s['type'] == CONF_TYPE_FSELECT) {
 				$db_conf_store[$k]['options'] = unserialize($s['options']);
 			}
 		}

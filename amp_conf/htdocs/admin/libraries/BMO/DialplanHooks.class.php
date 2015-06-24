@@ -80,7 +80,7 @@ class DialplanHooks {
 							if (isset($x[$funcarr[0]]) && $x[$funcarr[0]]['license'] == "Commercial") {
 								continue;
 							} else {
-								print "HANDLED-ERROR: $func should exist, but it doesn't - Dazed and confused, but continuing. This is a bug.\n";
+								out(_("HANDLED-ERROR: %s should exist, but it doesn't. This is a bug"), $func);
 								continue;
 							}
 						}
@@ -90,21 +90,16 @@ class DialplanHooks {
 					} elseif (isset($cmd['Class'])) {
 						// This is a new BMO Object!
 						$class = $cmd['Class'];
-						try {
-							if (!method_exists($this->FreePBX->$class, "doDialplanHook")) {
-								print "HANDLED-ERROR: ${class}->doDialplanHook() isn't there, but the module is saying it wants to hook - Dazed and confused, but continuing. This is a bug\n";
-								continue;
-							}
-							$this->FreePBX->Performance->Stamp($class."->doDialplanHook_start");
-							$this->FreePBX->$class->doDialplanHook($ext, $engine, $pri);
-							$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
-						} catch (\Exception $e) {
-							$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
-							print "HANDLED-ERROR: Tried to run ${class}->doDialplanHook(), it threw an exception. I received ".$e->getMessage()."\nContinuing. This is a bug\n";
+						if (!method_exists($this->FreePBX->$class, "doDialplanHook")) {
+							out(_("HANDLED-ERROR: %s->doDialplanHook() isn't there, but the module is saying it wants to hook. This is a bug"), $class);
+							continue;
 						}
+						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_start");
+						$this->FreePBX->$class->doDialplanHook($ext, $engine, $pri);
+						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
 					} else {
 						// I have no idea what this is.
-						throw new \Exception("I was handed ".json_encode($cmd)." to hook. Don't know how to handle it");
+						throw new \Exception(sprintf(_("I was handed %s to hook. Don't know how to handle it"),json_encode($cmd)));
 					}
 				}
 				\modgettext::pop_textdomain();

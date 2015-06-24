@@ -114,17 +114,28 @@ input[type="submit"]:hover{
 }
 
 .ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.ui-state-active,
-.btn:focus, button:focus, input[type="button"]:focus, input[type="reset"]:focus, input[type="submit"]:focus{
+.btn:focus, button:focus,
+input[type="button"]:focus,
+input[type="reset"]:focus,
+input[type="submit"]:focus{
 	.button-hover();
 }
 
 .ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.ui-state-focus,
-.btn:active, button:active, input[type="button"]:active, input[type="reset"]:active, input[type="submit"]:active{
+.btn:active,
+button:active,
+input[type="button"]:active,
+input[type="reset"]:active,
+input[type="submit"]:active{
 	.button-active();
 }
 
 .ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.ui-state-disabled,
-.btn:disabled, button:disabled, input[type="button"]:disabled, input[type="reset"]:disabled, input[type="submit"]:disabled{
+.btn:disabled,
+button:disabled,
+input[type="button"]:disabled,
+input[type="reset"]:disabled,
+input[type="submit"]:disabled{
 	.button-disabled();
 }
 
@@ -132,31 +143,40 @@ input[type="submit"]:hover{
 .radioset {
 	white-space: nowrap;
 }
-.radioset input[type="radio"], .radioset input[type="checkbox"] {
+.radioset input[type="radio"],
+.radioset input[type="checkbox"] {
 	display:none;
 }
-.radioset input[type="radio"] + label, .radioset input[type="checkbox"] ~ label {
+.radioset input[type="radio"] + label,
+.radioset input[type="checkbox"] ~ label {
 	.button-layout();
 	margin-right: -5px;
 }
 .radioset input[type="radio"] + label:first-of-type {
 	margin-left: 0px;
 }
+.btn-group input[type="button"],
+.btn-group input[type="submit"],
 .radioset input[type="radio"] + label:last-of-type {
 	margin-right: 0px;
 }
+.btn-group input[type="button"]:last-of-type,
+.btn-group input[type="submit"]:last-of-type,
 .radioset input[type="checkbox"] ~ label:last-of-type {
 	margin-right: 5px;
 }
-.radioset input[type="radio"] + label:first-of-type, .radioset input[type="checkbox"] ~ label:first-of-type {
+.radioset input[type="radio"] + label:first-of-type,
+.radioset input[type="checkbox"] ~ label:first-of-type {
 	border-top-left-radius: @button-border-radius;
 	border-bottom-left-radius: @button-border-radius;
 }
-.radioset input[type="radio"] + label:last-of-type, .radioset input[type="checkbox"] ~ label:last-of-type {
+.radioset input[type="radio"] + label:last-of-type,
+.radioset input[type="checkbox"] ~ label:last-of-type {
 	border-top-right-radius: @button-border-radius;
 	border-bottom-right-radius: @button-border-radius;
 }
-.radioset input[type="radio"] + label:hover, .radioset input[type="checkbox"] ~ label:hover {
+.radioset input[type="radio"] + label:hover,
+.radioset input[type="checkbox"] ~ label:hover {
 	.button-hover();
 }
 .radioset input[type="radio"]:checked + label, .radioset input[type="checkbox"]:checked + label {

@@ -206,7 +206,7 @@ class connectdirs {
     } else {
       $targetdir = dirname($dest);
       if (!is_dir($targetdir)) {
-        freepbx_log(FREEPBX_LOG_ERROR, sprintf(_("Tried to link %s to %s, but %s doesn't exist"),$src,$dest,$targetdir));
+        freepbx_log(FPBX_LOG_ERROR, sprintf(_("Tried to link %s to %s, but %s doesn't exist"),$src,$dest,$targetdir));
       } else {
         if (!symlink($src, $dest)) {
           freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));

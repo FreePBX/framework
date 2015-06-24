@@ -419,7 +419,7 @@ function framework_include_js($module_name, $module_page) {
 	if (is_file('modules/' . $module_name . '/' . $module_name . '.js')) {
 		$html .= '<script type="text/javascript" src="?handler=file&amp;module='
 				. $module_name . '&amp;file=' . $module_name . '.js'
-				. $mod_version_tag . '"></script>';
+				. $version_tag . '"></script>';
 	}
 	if (isset($module_page)
 		&& ($module_page != $module_name)
@@ -427,7 +427,7 @@ function framework_include_js($module_name, $module_page) {
 	) {
 		$html .= '<script type="text/javascript" src="?handler=file&amp;module='
 				. $module_name . '&amp;file=' . $module_page . '.js'
-				. $mod_version_tag . '"></script>';
+				. $version_tag . '"></script>';
 	}
 
 	// Check assets/js and then assets/js/page_name for any js files which will have been symlinked to

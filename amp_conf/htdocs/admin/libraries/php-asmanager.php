@@ -1426,8 +1426,9 @@ class AGI_AsteriskManager {
 		}
 		if ($write_through) {
 			$r = $this->command("database put ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key)." ".$value);
+			return (bool)strstr($r["data"], "success");
 		}
-		return (bool)strstr($r["data"], "success");
+		return true;
 	}
 
 	/** Get an entry from the asterisk database
