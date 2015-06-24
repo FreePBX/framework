@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-06-11 17:35-0400\n"
-"PO-Revision-Date: 2015-06-24 09:53+0200\n"
+"PO-Revision-Date: 2015-06-24 10:46+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -3971,21 +3971,27 @@ msgstr ""
 "dbug() pelos desenvolvedores."
 
 #: amp.i18n.php:592
+#, fuzzy
 msgid ""
 "Full path and name of the FreePBX Log File used in conjunction with the "
 "Syslog Level (AMPSYSLOGLEVEL) being set to FILE, not used otherwise. Initial "
 "installs may have some early logging sent to /tmp/freepbx_pre_install.log "
 "when it is first bootstrapping the installer."
 msgstr ""
+"Caminho completo e nome do arquivo de relatório FreePBX usado em conjunto "
+"com o Nível Syslog (AMPSYSLOGLEVELG) sendo definido para ARQUIVO, não usado "
+"do contrário. Instalações iniciais podem ter primeiros logs enviados para "
+"/tmp/freepbx_pre_install.log quando ele é o primeiro bootstrapping o "
+"instalador."
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:362
 #, php-format
 msgid "GPG took too long to run the command: [%s]"
-msgstr ""
+msgstr "O GPG levou um tempo muito longo para executar o comando: [%s]"
 
 #: amp.i18n.php:398
 msgid "GUI Behavior"
-msgstr ""
+msgstr "Comportamento Interface"
 
 #: ../core/page.did.php:78
 msgid "General DIDs"
@@ -3997,11 +4003,11 @@ msgstr "Configurações Gerais"
 
 #: ../core/install.php:900
 msgid "General Settings migrated"
-msgstr ""
+msgstr "Configurações Gerais migradas"
 
 #: amp.i18n.php:284
 msgid "Generate Diversion Headers"
-msgstr ""
+msgstr "Gerar Cabeçalhos de Desvio"
 
 #: amp.i18n.php:322
 msgid ""
@@ -4009,18 +4015,22 @@ msgid ""
 "and plays a message to the effect. If you use the Early Dial feature on some "
 "Grandstream phones, you will want to set this to false."
 msgstr ""
+"Gerar o contexto de numbero-ruim que aprisiona qualquer número falso ou "
+"código de recurso e toca uma mensagem para o efeito. Se você usar o recurso "
+"Discar Prematura em alguns telefones Grandstream, você deveria definir isto "
+"para falso."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1879
 msgid "Generating CSS..."
-msgstr ""
+msgstr "Gerando CSS..."
 
 #: ../core/functions.inc.php:7239 ../core/functions.inc.php:7241
 msgid "Generic CHAN SIP Device"
-msgstr ""
+msgstr "Dispositivo CHAN SIP Genérico"
 
 #: ../core/functions.inc.php:7246
 msgid "Generic DAHDi Device"
-msgstr ""
+msgstr "Dispositivo DAHDi Genérico"
 
 #: ../core/functions.inc.php:7245
 msgid "Generic IAX2 Device"
@@ -4028,7 +4038,7 @@ msgstr "Dispositivo IAX2 genérico"
 
 #: ../core/functions.inc.php:7238 ../core/functions.inc.php:7243
 msgid "Generic PJSIP Device"
-msgstr ""
+msgstr "Dispositivo PJSIP Genérico"
 
 #: amp_conf/htdocs/admin/views/menu.php:156
 msgid "German"
@@ -4036,7 +4046,7 @@ msgstr "Alemão"
 
 #: amp_conf/htdocs/admin/views/login.php:41
 msgid "Get Support"
-msgstr ""
+msgstr "Obter Suporte"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:200
 #, php-format
@@ -4045,7 +4055,7 @@ msgstr "Receber ajuda para %s"
 
 #: amp_conf/htdocs/admin/libraries/view.functions.php:67
 msgid "Gettext is not installed"
-msgstr ""
+msgstr "Gettext não está instalado"
 
 #: ../core/views/trunks/sip.php:8
 msgid "Give this trunk a unique name.  Example: myiaxtel"
@@ -4061,21 +4071,23 @@ msgstr ""
 
 #: amp.i18n.php:34
 msgid "HTTP Bind Address"
-msgstr ""
+msgstr "Endereço HTTP Associado"
 
 #: amp.i18n.php:38
 msgid "HTTP Bind Port"
-msgstr ""
+msgstr "Porta HTTP Associada"
 
 #: amp.i18n.php:42
 msgid "HTTP Prefix"
-msgstr ""
+msgstr "Prefixo HTTP"
 
 #: amp.i18n.php:44
 msgid ""
 "HTTP Prefix allows you to specify a prefix for all requests to the server. "
 "For example, if the prefix is set to "
 msgstr ""
+"Prefixo HTTP permite especificar um prefixo para todos as solicitações para "
+"o servidor. Por exemplo, se o prefixo estiver definido para "
 
 #: ../core/functions.inc.php:847
 msgid "Hangup"
@@ -4088,19 +4100,21 @@ msgstr "Hebraico"
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:597
 #, php-format
 msgid "Home directory %s doesn't exist, and I can't create it"
-msgstr ""
+msgstr "Diretório Home %s não existe, e não posso criá-lo"
 
 #: ../core/functions.inc.php:7047
 msgid "Host"
-msgstr ""
+msgstr "Host"
 
 #: ../core/functions.inc.php:6937 ../core/functions.inc.php:7046
 msgid "Host settings for this device, almost always dynamic for endpoints."
 msgstr ""
+"Configurações de Host para este dispositivo, quase sempre dinâmico para "
+"endpoints."
 
 #: amp.i18n.php:50
 msgid "Hostname for the Asterisk Manager"
-msgstr ""
+msgstr "Nome do host para o Gerenciador Asterisk"
 
 #: amp.i18n.php:318
 msgid ""
@@ -4109,6 +4123,10 @@ msgid ""
 "sort of problematic trunks. This is the Asterisk Dial Command timeout "
 "parameter."
 msgstr ""
+"Quantos segundos tentar uma chamada em seus troncos antes de desistir. Isto "
+"deveria ser normalmente um tempo muito longo e usualmente só mudado se você "
+"tiver algum tipo de tronco problemático. Este é o parâmetro de timeout do "
+"Comando de Discagem do Asterisk."
 
 #: ../core/functions.inc.php:6855 ../core/functions.inc.php:6910
 #: ../core/functions.inc.php:6955 ../core/functions.inc.php:7164
@@ -4116,6 +4134,8 @@ msgid ""
 "How to dial this device, this should not be changed unless you know what you "
 "are doing."
 msgstr ""
+"Como discar para este dispositivo, isto não deveria ser mudado a menos que "
+"você saiba o que esteja fazendo."
 
 #: ../core/functions.inc.php:7229
 msgid ""
@@ -4123,6 +4143,9 @@ msgid ""
 "device which is really a remote SIP URI might be configured such as SIP/"
 "joe@somedomain.com"
 msgstr ""
+"Como discar para este dispositivo. Este será específico do dispositivo. Por "
+"exemplo, um dispositivo personalizado que seja realmente um SIP URI remoto "
+"poderia ser configurado tal como SIP/joe@somedomain.com"
 
 #: amp_conf/htdocs/admin/views/menu.php:159
 msgid "Hungarian"
@@ -4130,35 +4153,39 @@ msgstr "Húngaro"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:305
 msgid "I can only do .gpg files at the moment"
-msgstr ""
+msgstr "Eu posso apenas fazer arquivos .gpg no momento"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:569
 msgid "I don't know who I should be running GPG as."
-msgstr ""
+msgstr "Eu não sei quem Eu deveria rodando como GPG."
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:521
 msgid "I don't know who I should be running OpenSSL as."
-msgstr ""
+msgstr "Eu não sei quem eu deveria rodar como OpenSSL."
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:575
 #, php-format
 msgid ""
 "I tried to find out about %s, but the system doesn't think that user exists"
 msgstr ""
+"Tentei descobrir sobre %s, mas o sistema não acredita que o usuário exista"
 
 #: ../core/functions.inc.php:6970
 msgid ""
 "IAX security setting. See IAX documentation and device compatibility for "
 "details."
 msgstr ""
+"Configuração de segurança IAX. Veja a documentação IAX e compatibilidade do "
+"dispositivo para detalhes."
 
 #: ../core/functions.inc.php:6932
 msgid "IAX transfer capabilities, see the Asterisk documentation for details."
 msgstr ""
+"Capacidades de transferencia IAX, veja documentação Asterisk para detalhes."
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:5
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: ../core/functions.inc.php:6963 ../core/functions.inc.php:7174
 msgid ""
