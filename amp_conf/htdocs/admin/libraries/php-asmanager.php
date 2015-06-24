@@ -21,8 +21,6 @@ if (!isset($bootstrap_settings['amportal_conf_initialized']) || !$bootstrap_sett
 		include_once('/etc/asterisk/freepbx.conf');
 	}
 }
-error_reporting(0);
-@ini_set('display_errors', 0);
 
 define('AST_CONFIG_DIR', $amp_conf['ASTETCDIR']);
 define('AST_SPOOL_DIR', $asterisk_conf['astspooldir']);
