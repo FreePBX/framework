@@ -92,9 +92,9 @@ $bootstrap_settings['framework_functions_included'] = true;
 if ($bootstrap_settings['freepbx_error_handler']) {
   $error_handler = $bootstrap_settings['freepbx_error_handler'] === true ? '' : $bootstrap_settings['freepbx_error_handler'];
   if (function_exists($error_handler)) {
-    set_error_handler($error_handler, E_ALL & ~(E_STRICT|E_NOTICE));
+    set_error_handler($error_handler, E_ALL);
   } else {
-		set_error_handler('freepbx_error_handler', E_ALL & ~(E_STRICT|E_NOTICE));
+		set_error_handler('freepbx_error_handler', E_ALL);
 		$whoops = new \Whoops\Run;
 		if(isset($bootstrap_settings['whoops_handler'])) {
 			$class = '\\Whoops\\Handler\\'.$bootstrap_settings['whoops_handler'];
@@ -128,7 +128,6 @@ class Database extends FreePBX\Database {};
 require_once(dirname(__FILE__)."/libraries/DB.class.php");
 global $db;
 $db = new DB();
-//require_once($dirname . '/libraries/db_connect.php'); //PEAR must be installed
 
 // get settings
 $freepbx_conf = $bmo->Freepbx_conf();
@@ -147,7 +146,26 @@ if($amp_conf['PHP_CONSOLE']) {
 	}
 	$handler = PhpConsole\Handler::getInstance();
 	$handler->start();
-	error_reporting(E_ALL & ~(E_STRICT|E_NOTICE));
+}
+
+$amp_conf['PHP_ERROR_LEVEL'] = !empty($amp_conf['PHP_ERROR_LEVEL']) ? $amp_conf['PHP_ERROR_LEVEL'] : "ALL_NOSTRICTNOTICE";
+switch($amp_conf['PHP_ERROR_LEVEL']) {
+	case "ALL":
+		error_reporting(E_ALL);
+	break;
+	case "ALL_NOSTRICT":
+		error_reporting(E_ALL & ~E_STRICT);
+	break;
+	case "ALL_NOSTRICTNOTICEWARNING":
+		error_reporting(E_ALL & ~E_STRICT & ~E_NOTICE & ~E_USER_NOTICE & ~E_WARNING & ~E_USER_WARNING);
+	break;
+	case "ALL_NOSTRICTNOTICEWARNINGDEPRECIATED":
+		error_reporting(E_ALL & ~E_STRICT & ~E_NOTICE & ~E_USER_NOTICE & ~E_WARNING & ~E_USER_WARNING & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+	break;
+	case "ALL_NOSTRICTNOTICE":
+	default;
+		error_reporting(E_ALL & ~E_STRICT & ~E_NOTICE & ~E_USER_NOTICE);
+	break;
 }
 
 // set the language so local module languages take

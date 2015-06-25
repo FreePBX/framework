@@ -38,7 +38,7 @@ class WebTest extends PHPUnit_Framework_TestCase {
 
 		$key = $crawler->filter('#key')->text();
 		$key = trim($key);
-		exec('fwconsole u '.$key);
+		exec('fwconsole unlock '.$key);
 
 		$response = $request->send();
 		$crawler = new Crawler($response->getBody(true));

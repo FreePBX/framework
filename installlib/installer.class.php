@@ -301,6 +301,15 @@ class Installer {
 	'type' => CONF_TYPE_SELECT,
 	);
 
+	$settings[$category]['PHP_ERROR_LEVEL'] = array(
+	'value' => 'ALL_NOSTRICTNOTICE',
+	'options' => array('ALL','ALL_NOSTRICT','ALL_NOSTRICTNOTICE','ALL_NOSTRICTNOTICEWARNING','ALL_NOSTRICTNOTICEWARNINGDEPRECIATED'),
+	'name' => 'PHP Error Level',
+	'description' => "Sets which PHP errors are reported",
+	'sortorder' => -139,
+	'type' => CONF_TYPE_SELECT,
+	);
+
 	$settings[$category]['PHP_CONSOLE'] = array(
 	'value' => false,
 	'options' => '',
