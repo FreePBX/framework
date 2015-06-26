@@ -59,7 +59,7 @@ class Modules {
 		foreach($modules as $rawname => $data) {
 			$relative = $rawname."/functions.inc.php";
 			$absolute = $path."/admin/modules/".$relative;
-			$needs_zend = isset($data[$rawname]['depends']['phpcomponent']) && stristr($data[$rawname]['depends']['phpcomponent'], 'zend');
+			$needs_zend = isset($data['depends']['phpcomponent']) && stristr($data['depends']['phpcomponent'], 'zend');
 			$licFileExists = glob ('/etc/schmooze/license-*.zl');
 			$complete_zend = (!function_exists('zend_loader_install_license') || empty($licFileExists));
 			if(file_exists($absolute)) {
