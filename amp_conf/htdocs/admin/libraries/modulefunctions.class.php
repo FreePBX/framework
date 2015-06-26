@@ -2306,12 +2306,6 @@ class module_functions {
 					$this->_runscripts_include($modulexml, $type);
 				}
 
-				// then run .php scripts
-				$status = ($this->_doinclude($moduledir.'/install.php', $modulename) && $rc);
-				if(!$status) {
-					return false;
-				}
-
 				// If it's a BMO module, manually include the file.
 				$mn = ucfirst($modulename);
 				$bmofile = "$moduledir/$mn.class.php";
@@ -2328,13 +2322,20 @@ class module_functions {
 						return false;
 					}
 				}
-				return true;
+
+				// then run .php scripts
+				return ($this->_doinclude($moduledir.'/install.php', $modulename) && $rc);
 			break;
 			case 'uninstall':
 				//include additional files developer requested
 				if ($modulexml !== false) {
 					$this->_runscripts_include($modulexml, $type);
 				}
+
+				// run uninstall .php scripts first
+				$rc = $this->_doinclude($moduledir.'/uninstall.php', $modulename);
+
+				$sqlfilename = "uninstall.sql";
 
 				// If it's a BMO module, run uninstall.
 				$mn = ucfirst($modulename);
@@ -2351,10 +2352,6 @@ class module_functions {
 					}
 				}
 
-				// run uninstall .php scripts first
-				$rc = $this->_doinclude($moduledir.'/uninstall.php', $modulename);
-
-				$sqlfilename = "uninstall.sql";
 				// then uninstall sql files
 				if (is_file($moduledir.'/'.$sqlfilename)) {
 					return ($rc && execSQL($moduledir.'/'.$sqlfilename));
