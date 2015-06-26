@@ -2310,15 +2310,9 @@ class module_functions {
 				$mn = ucfirst($modulename);
 				$bmofile = "$moduledir/$mn.class.php";
 				if (file_exists($bmofile)) {
-					try {
-						FreePBX::create()->injectClass($mn, $bmofile);
-						$o = FreePBX::create()->$mn->install();
-						if($o === false) {
-							return false;
-						}
-					} catch(Exception $e) {
-						// Module installers should NEVER throw an exception.
-						outn("Error installing module: ".$e->getMessage());
+					FreePBX::create()->injectClass($mn, $bmofile);
+					$o = FreePBX::create()->$mn->install();
+					if($o === false) {
 						return false;
 					}
 				}
