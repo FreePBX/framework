@@ -1710,7 +1710,7 @@ class module_functions {
 			}
 		}
 		switch(true) {
-			case preg_match('/^(tgz|tar)$/', $extension) || preg_match('/^(tar\.gz)$/', $filename):
+			case preg_match('/^(tgz|tar)$/', $extension) || preg_match('/(tar\.gz)$/', $filename):
 				$err = exec("/usr/bin/env tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($temppath), $output, $exitcode);
 				if ($exitcode != 0) {
 					return array(sprintf(_('Error from %s: %s'), 'tar', $err));
