@@ -502,11 +502,12 @@ function framework_change_destination($old_dest, $new_dest, $module_hash=false) 
 function mod_func_iterator($func, &$opts = '') {
 	global $active_modules;
 	$res = array();
-
-	foreach ($active_modules as $active => $mod) {
-		$funct = $mod['rawname'] . '_' . $func;
-		if (function_exists($funct)) {
-			$res[$mod['rawname']] = $funct($opts);
+	if(!empty($active_modules)) {
+		foreach ($active_modules as $active => $mod) {
+			$funct = $mod['rawname'] . '_' . $func;
+			if (function_exists($funct)) {
+				$res[$mod['rawname']] = $funct($opts);
+			}
 		}
 	}
 
