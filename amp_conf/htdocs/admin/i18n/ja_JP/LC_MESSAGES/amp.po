@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-06-26 16:50-0400\n"
+"POT-Creation-Date: 2015-06-29 16:41-0400\n"
 "PO-Revision-Date: 2015-05-13 12:57+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -419,7 +419,7 @@ msgstr ""
 msgid "%s prepared"
 msgstr "%s 準備しました"
 
-#: ../core/Core.class.php:2109
+#: ../core/Core.class.php:2116
 #, php-format
 msgid "%s records failed validation"
 msgstr ""
@@ -622,7 +622,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "このDID/CIDのルートは既に存在しています!"
 
-#: ../core/Core.class.php:1683 ../core/functions.inc.php:4735
+#: ../core/Core.class.php:1690 ../core/functions.inc.php:4735
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "このDID/CIDのルート: %s/%s は既に存在しています"
@@ -1405,7 +1405,7 @@ msgstr ""
 "た時の内線へのレコード優先度のポリシー。優先度を区別できない場合、グロバール"
 "ポリシーが使われます（発信者または受信者）。"
 
-#: ../core/Core.class.php:2085
+#: ../core/Core.class.php:2092
 msgid "Caller ID Number"
 msgstr ""
 
@@ -2098,11 +2098,11 @@ msgstr "DID説明"
 msgid "DID Number"
 msgstr "ダイヤルイン番号"
 
-#: ../core/Core.class.php:2036
+#: ../core/Core.class.php:2043
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:2037
+#: ../core/Core.class.php:2044
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
@@ -2218,8 +2218,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/main.php:197
-#: ../core/Core.class.php:2056 ../core/Core.class.php:2057
-#: ../core/Core.class.php:2081 ../core/Core.class.php:2082
+#: ../core/Core.class.php:2063 ../core/Core.class.php:2064
+#: ../core/Core.class.php:2088 ../core/Core.class.php:2089
 #: ../core/functions.inc.php:6455 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:25
 #: ../core/views/dahdichandids/didForm.php:36 ../core/views/did/didgrid.php:7
@@ -2307,7 +2307,7 @@ msgstr ""
 msgid "Device"
 msgstr "デバイス"
 
-#: ../core/Core.class.php:1259
+#: ../core/Core.class.php:1266
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
@@ -2324,7 +2324,7 @@ msgstr "デバイス情報"
 msgid "Device Options"
 msgstr "デバイスオプション"
 
-#: ../core/Core.class.php:2061 ../core/Core.class.php:2062
+#: ../core/Core.class.php:2068 ../core/Core.class.php:2069
 msgid "Device Technology"
 msgstr ""
 
@@ -2333,7 +2333,7 @@ msgstr ""
 msgid "Device Type"
 msgstr "デバイスタイプ"
 
-#: ../core/Core.class.php:2138
+#: ../core/Core.class.php:2145
 msgid "Device could not be added."
 msgstr ""
 
@@ -3063,8 +3063,8 @@ msgstr ""
 msgid "Export settings to file"
 msgstr ""
 
-#: ../core/Core.class.php:31 ../core/Core.class.php:2048
-#: ../core/Core.class.php:2049 ../core/functions.inc.php:6039
+#: ../core/Core.class.php:31 ../core/Core.class.php:2055
+#: ../core/Core.class.php:2056 ../core/functions.inc.php:6039
 #: ../core/page.did.php:88 ../core/page.extensions.php:65
 #: ../core/page.extensions.php:91
 msgid "Extension"
@@ -3090,7 +3090,7 @@ msgstr ""
 msgid "Extension can not be blank!"
 msgstr ""
 
-#: ../core/Core.class.php:2125
+#: ../core/Core.class.php:2132
 msgid "Extension is not numeric."
 msgstr ""
 
@@ -3098,7 +3098,7 @@ msgstr ""
 msgid "Extension number conflict, please choose another."
 msgstr "内線番号の競合、他の番号を選択してください。"
 
-#: amp.i18n.php:16 ../core/Core.class.php:2032 ../core/Core.class.php:2033
+#: amp.i18n.php:16 ../core/Core.class.php:2039 ../core/Core.class.php:2040
 msgid "Extensions"
 msgstr "内線"
 
@@ -3841,7 +3841,7 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: ../core/Core.class.php:2084
+#: ../core/Core.class.php:2091
 msgid "Incoming DID"
 msgstr ""
 
@@ -4534,7 +4534,7 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
-#: ../core/Core.class.php:2052 ../core/Core.class.php:2053
+#: ../core/Core.class.php:2059 ../core/Core.class.php:2060
 #: ../core/page.extensions.php:66 ../core/page.extensions.php:92
 #: ../core/page.users.php:54 ../core/views/routing/grid.php:59
 #: ../core/views/trunks/trunkgrid.php:18
@@ -6091,7 +6091,7 @@ msgstr ""
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
-#: ../core/Core.class.php:2087
+#: ../core/Core.class.php:2094
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -6326,7 +6326,7 @@ msgstr ""
 msgid "This Module has been deprecated"
 msgstr ""
 
-#: ../core/Core.class.php:1266
+#: ../core/Core.class.php:1273
 msgid "This device id is already in use"
 msgstr "このデバイスIDは既に使用されています"
 
@@ -6446,7 +6446,7 @@ msgstr ""
 "コールで使用できません。<b>アウトバウンド経路</b>をクリックしてルーティングの"
 "セットアップを行ってください。"
 
-#: ../core/Core.class.php:1667
+#: ../core/Core.class.php:1674
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "このユーザー/内線番号 %s は既に使用中です"
@@ -6886,7 +6886,7 @@ msgstr "ユーザーパネル"
 msgid "User Password"
 msgstr "ユーザーパスワード"
 
-#: ../core/Core.class.php:2156
+#: ../core/Core.class.php:2163
 msgid "User could not be added."
 msgstr ""
 
@@ -7412,7 +7412,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:1659
+#: ../core/Core.class.php:1666
 msgid "You must put in an extension (or user) number"
 msgstr "内線(またはユーザー)番号を入力は必須です"
 
