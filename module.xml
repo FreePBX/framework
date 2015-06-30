@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>13.0.1beta3.12</version>
+	<version>13.0.1beta3.13</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*13.0.1beta3.13* Dont run chown after module install if not root
 		*13.0.1beta3.12* Invalid Array looping
 		*13.0.1beta3.11* FREEPBX-7999 regular expression fix
 		*13.0.1beta3.10* Proper check for zended files

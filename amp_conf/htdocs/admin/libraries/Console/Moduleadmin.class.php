@@ -434,17 +434,19 @@ class Moduleadmin extends Command {
 	}
 
 	private function setPerms($action,$args) {
-		$chown = new Chown();
-		switch ($action) {
-			case 'install':
-			case 'upgrade':
-			case 'update':
-				if(sizeof($args) == 1){
-					$chown->moduleName = $args[0];
-				}
-			break;
+		if (0 == posix_getuid()) {
+			$chown = new Chown();
+			switch ($action) {
+				case 'install':
+				case 'upgrade':
+				case 'update':
+					if(sizeof($args) == 1){
+						$chown->moduleName = $args[0];
+					}
+				break;
+			}
+			$chown->execute($this->input, $this->out);
 		}
-		$chown->execute($this->input, $this->out);
 	}
 
 	private function check_active_repos() {
