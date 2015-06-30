@@ -52,6 +52,36 @@ class Modules {
 	 * @return array Array of destinations
 	 */
 	public function getDestinations() {
+		$this->loadAllFunctionsInc();
+		$modules = $this->getActiveModules();
+		$destinations = array();
+		foreach($modules as $rawname => $data) {
+			$funct = strtolower($rawname.'_destinations');
+			$funct2 = strtolower($rawname.'_getdestinfo');
+			if (function_exists($funct)) {
+				\modgettext::push_textdomain($rawmod);
+				$destArray = $funct($i); //returns an array with 'destination' and 'description', and optionally 'category'
+				\modgettext::pop_textdomain();
+				if(!empty($destArray)) {
+					foreach($destArray as $dest) {
+						$destinations[$dest['destination']] = $dest;
+						$destinations[$dest['destination']]['module'] = $rawname;
+						$destinations[$dest['destination']]['name'] = $data['name'];
+						if(function_exists($funct2)) {
+							$info = $funct2($dest['destination']);
+							$destinations[$dest['destination']]['edit_url'] = $info['edit_url'];
+						}
+					}
+				}
+			}
+		}
+		return $destinations;
+	}
+
+	/**
+	 * Load all Function.inc.php files into FreePBX
+	 */
+	public function loadAllFunctionsInc() {
 		$path = $this->FreePBX->Config->get("AMPWEBROOT");
 		$modules = $this->getActiveModules();
 		$ifiles = get_included_files();
@@ -78,27 +108,6 @@ class Modules {
 				}
 			}
 		}
-		foreach($modules as $rawname => $data) {
-			$funct = strtolower($rawname.'_destinations');
-			$funct2 = strtolower($rawname.'_getdestinfo');
-			if (function_exists($funct)) {
-				\modgettext::push_textdomain($rawmod);
-				$destArray = $funct($i); //returns an array with 'destination' and 'description', and optionally 'category'
-				\modgettext::pop_textdomain();
-				if(!empty($destArray)) {
-					foreach($destArray as $dest) {
-						$destinations[$dest['destination']] = $dest;
-						$destinations[$dest['destination']]['module'] = $rawname;
-						$destinations[$dest['destination']]['name'] = $data['name'];
-						if(function_exists($funct2)) {
-							$info = $funct2($dest['destination']);
-							$destinations[$dest['destination']]['edit_url'] = $info['edit_url'];
-						}
-					}
-				}
-			}
-		}
-		return $destinations;
 	}
 
 	/**

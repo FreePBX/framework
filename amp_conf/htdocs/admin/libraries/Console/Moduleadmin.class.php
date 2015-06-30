@@ -119,7 +119,7 @@ class Moduleadmin extends Command {
 	}
 
 	private function doInstall($modulename, $force) {
-		$this->getIncludes();
+		\FreePBX::Modules()->loadAllFunctionsInc();
 		if(!$force && !$this->mf->resolveDependencies($modulename,array($this,'progress'))) {
 			$this->out->writeln(sprintf(_("Unable to resolve dependencies for module %s:"),$modulename));
 			return false;
@@ -205,7 +205,7 @@ class Moduleadmin extends Command {
 	}
 
 	private function doDelete($modulename, $force) {
-		$this->getIncludes();
+		\FreePBX::Modules()->loadAllFunctionsInc();
 		if (is_array($errors = $this->mf->delete($modulename, $this->force))) {
 			$this->out->writeln(_("The following error(s) occured:"));
 			$this->out->writeln(' - '.implode("\n - ",$errors));
@@ -216,7 +216,7 @@ class Moduleadmin extends Command {
 	}
 
 	private function doUninstall($modulename, $force) {
-		$this->getIncludes();
+		\FreePBX::Modules()->loadAllFunctionsInc();
 		if (is_array($errors = $this->mf->uninstall($modulename, $this->force))) {
 			$this->out->writeln(_("The following error(s) occured:"));
 			$this->out->writeln(' - '.implode("\n - ",$errors));
@@ -249,7 +249,7 @@ class Moduleadmin extends Command {
 			$this->out->writeln("Installing: ".implode(', ',$modules));
 			foreach ($modules as $module => $name) {
 				if (($name != 'core')){//we dont want to reinstall core
-					$this->getIncludes(); //get functions from other modules, in case we need them here
+					\FreePBX::Modules()->loadAllFunctionsInc(); //get functions from other modules, in case we need them here
 					$this->out->writeln("Installing $name...");
 					$this->doInstall($name, $this->force);
 					$this->out->writeln("");
@@ -482,7 +482,7 @@ class Moduleadmin extends Command {
 			$this->out->writeln("Installing: ".implode(', ',$modules));
 			foreach ($modules as $module => $name) {
 				if (($name != 'core')){//we dont want to reinstall core
-					$this->getIncludes(); //get functions from other modules, in case we need them here
+					\FreePBX::Modules()->loadAllFunctionsInc(); //get functions from other modules, in case we need them here
 					$this->out->writeln(_("Downloading & Installing ").$name."...");
 					$this->doDownload($name, $this->force);
 					$this->doInstall($name, $this->force);
@@ -492,18 +492,6 @@ class Moduleadmin extends Command {
 			$this->out->writeln(_("Done. All modules installed."));
 		} else {
 			$this->out->writeln(_("All modules up to date."));
-		}
-	}
-
-	private function getIncludes(){
-		$active_modules = $this->mf->getinfo(false, MODULE_STATUS_ENABLED);
-		if(is_array($active_modules)){
-			foreach($active_modules as $key => $module) {
-				//include module functions
-				if (is_file("modules/{$key}/functions.inc.php")) {
-					require_once("modules/{$key}/functions.inc.php");
-				}
-			}
 		}
 	}
 
@@ -703,7 +691,7 @@ class Moduleadmin extends Command {
 	}
 
 	private function doDisable($modulename, $force) {
-		$this->getIncludes();
+		\FreePBX::Modules()->loadAllFunctionsInc();
 		if (is_array($errors = $this->mf->disable($modulename, $force))) {
 			$this->out->writeln("<error>"._("The following error(s) occured:")."</error>");
 			$this->out->writeln(' - '.implode("\n - ",$errors));
@@ -714,7 +702,7 @@ class Moduleadmin extends Command {
 	}
 
 	private function doEnable($modulename, $force) {
-		$this->getIncludes();
+		\FreePBX::Modules()->loadAllFunctionsInc();
 		if (is_array($errors = $this->mf->enable($modulename, $this->force))) {
 			$this->out->writeln("<error>"._("The following error(s) occured:")."</error>");
 			$this->out->writeln(' - '.implode("\n - ",$errors));
@@ -725,7 +713,7 @@ class Moduleadmin extends Command {
 	}
 
 	private function tryEnable($modulename, $force) {
-		$this->getIncludes();
+		\FreePBX::Modules()->loadAllFunctionsInc();
 		if (is_array($errors = $this->mf->enable($modulename, $this->force))) {
 			$this->out->writeln("<error>"._("The following error(s) occured:")."</error>");
 			$this->out->writeln(' - '.implode("\n - ",$errors));
