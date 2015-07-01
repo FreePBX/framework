@@ -14,6 +14,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 class Chown extends Command {
 	private $errors = array();
 	private $infos = array();
+	private $quiet = false;
 	public $moduleName;
 	protected function configure(){
 		$this->setName('chown')
@@ -24,12 +25,15 @@ class Chown extends Command {
 		$this->modfiles = array();
 		$this->actions = array();
 	}
-	protected function execute(InputInterface $input, OutputInterface $output){
+	protected function execute(InputInterface $input, OutputInterface $output, $quiet=false){
 		if(posix_geteuid() != 0) {
 			$output->writeln("<error>You need to be root to run this command</error>");
 			exit(1);
 		}
-		$output->writeln("Setting Permissions...");
+		$this->quiet = $quiet;
+		if(!$this->quiet) {
+			$output->writeln("Setting Permissions...");
+		}
 		$freepbx_conf = \freepbx_conf::create();
 		$conf = $freepbx_conf->get_conf_settings();
 		foreach ($conf as $key => $val){
@@ -187,9 +191,11 @@ class Chown extends Command {
 			}
 		}
 		$actioncount = count($this->actions);
-		$progress = new ProgressBar($output, $actioncount);
-		$progress->setRedrawFrequency(100);
-		$progress->start();
+		if(!$this->quiet) {
+			$progress = new ProgressBar($output, $actioncount);
+			$progress->setRedrawFrequency(100);
+			$progress->start();
+		}
 		foreach($this->actions as $action){
 			//Ignore call files, Asterisk may process/delete them before we get to them.
 			if(pathinfo($action[0], PATHINFO_EXTENSION) == 'call'){
@@ -197,16 +203,20 @@ class Chown extends Command {
 			}
 			$this->singleChown($action[0],$action[1],$action[2]);
 			$this->singlePerms($action[0], $action[3]);
-			$progress->advance();
+			if(!$this->quiet) {
+				$progress->advance();
+			}
 		}
-		$progress->finish();
-		$output->writeln("");
-		$output->writeln("Finished setting permissions");
-		foreach($this->errors as $error) {
-			$output->writeln("<error>".$error."</error>");
-		}
-		foreach($this->infos as $error) {
-			$output->writeln("<info>".$error."</info>");
+		if(!$this->quiet) {
+			$progress->finish();
+			$output->writeln("");
+			$output->writeln("Finished setting permissions");
+			foreach($this->errors as $error) {
+				$output->writeln("<error>".$error."</error>");
+			}
+			foreach($this->infos as $error) {
+				$output->writeln("<info>".$error."</info>");
+			}
 		}
 	}
 	private function stripExecute($mask){

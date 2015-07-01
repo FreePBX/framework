@@ -96,12 +96,14 @@ class Moduleadmin extends Command {
 				if($this->pretty) {
 					$this->out->writeln($this->prettyPrint(json_encode(array(
 						"status" => $status,
-						$type => $data
+						"type" => $type,
+						"data" => $data
 					))));
 				} else {
 					$this->out->writeln(json_encode(array(
 						"status" => $status,
-						$type => $data
+						"type" => $type,
+						"data" => $data
 					)));
 				}
 			break;
@@ -122,14 +124,16 @@ class Moduleadmin extends Command {
 		switch($this->format) {
 			case "json":
 				if($this->pretty) {
-					$this->out->write($this->prettyPrint(json_encode(array(
+					$this->out->writeln($this->prettyPrint(json_encode(array(
 						"status" => $status,
-						$type => $data
+						"type" => $type,
+						"data" => $data
 					))));
 				} else {
-					$this->out->write(json_encode(array(
+					$this->out->writeln(json_encode(array(
 						"status" => $status,
-						$type => $data
+						"type" => $type,
+						"data" => $data
 					)));
 				}
 			break;
@@ -525,7 +529,7 @@ class Moduleadmin extends Command {
 					}
 				break;
 			}
-			$chown->execute($this->input, $this->out);
+			$chown->execute($this->input, $this->out, true);
 		}
 	}
 
