@@ -11,6 +11,8 @@ class Moduleadmin extends Command {
 	private $activeRepos = array();
 	private $mf = null;
 	private $setRepos = false;
+	private $format = 'plain';
+	private $pretty = false;
 
 	protected function configure(){
 		$this->setName('ma')
@@ -19,10 +21,9 @@ class Moduleadmin extends Command {
 		->setDefinition(array(
 			new InputOption('force', 'f', InputOption::VALUE_NONE, _('Force operation (skips dependency and status checks) <warning>WARNING:</warning> Use at your own risk, modules have dependencies for a reason!')),
 			new InputOption('debug', 'd', InputOption::VALUE_NONE, _('Output debug messages to the console (be super chatty)')),
-			new InputOption('json', 'j', InputOption::VALUE_NONE, _('Present dump output in a JSON format.')),
+			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %'),'json, jsonpretty')),
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
-		//->setHelp('fwconsole ma -f -R commmercial -R Contributed install module1 module2 module3');
 		->setHelp($this->showHelp());
 	}
 
@@ -36,37 +37,45 @@ class Moduleadmin extends Command {
 		} else {
 			$this->DEBUG = False;
 		}
-		if ($input->getOption('json')) {
-			$this->JSON = True;
-		} else {
-			$this->JSON = False;
+		switch($input->getOption('format')) {
+			case "jsonpretty":
+				$this->pretty = true;
+				$this->format = 'json';
+			break;
+			case "json":
+				$this->format = 'json';
+			break;
+			default:
+				$this->format = 'plain';
+			break;
 		}
+
 		if ($input->getOption('force')) {
 			$this->force = True;
 			if($this->DEBUG){
-				$output->writeln(_('Force Enabled'));
+				$this->writeln(_('Force Enabled'));
 			}
 		} else {
 			$this->force = False;
 			if($this->DEBUG){
-				$output->writeln(_('Force Disabled'));
+				$this->writeln(_('Force Disabled'));
 			}
 		}
 		$repos = $input->getOption('repo');
 		if($repos){
-			$this->out->write(_("Getting Remote Repo list..."));
+			$this->write(_("Getting Remote Repo list..."));
 			$remotes = $this->mf->get_remote_repos(true);
-			$this->out->writeln(_("Done"));
+			$this->writeln(_("Done"));
 			$local = $this->mf->get_active_repos();
 			foreach ($repos as $repo) {
 				if(in_array($repo, $remotes)) {
 					$this->setRepos = true;
 					if(!in_array($repo, array_keys($local))) {
-						$output->writeln("Enabling repo: [$repo]");
+						$this->writeln("Enabling repo: [$repo]");
 						$this->mf->set_active_repo($repo);
 					}
 				} else {
-					$output->writeln("No such repo: [$repo], skipping");
+					$this->writeln("No such repo: [$repo], skipping");
 				}
 			}
 		}
@@ -77,72 +86,128 @@ class Moduleadmin extends Command {
 			}
 			$this->handleArgs($args);
 		} else {
-			$this->out->writeln($this->showHelp());
+			$this->writeln($this->showHelp());
+		}
+	}
+
+	private function writeln($data, $type = 'message', $status = true) {
+		switch($this->format) {
+			case "json":
+				if($this->pretty) {
+					$this->out->writeln($this->prettyPrint(json_encode(array(
+						"status" => $status,
+						$type => $data
+					))));
+				} else {
+					$this->out->writeln(json_encode(array(
+						"status" => $status,
+						$type => $data
+					)));
+				}
+			break;
+			default:
+			switch($type) {
+				case "error":
+					$this->out->writeln("<error>".$data."</error>");
+				break;
+				default:
+					$this->out->writeln($data);
+				break;
+			}
+			break;
+		}
+	}
+
+	private function write($data, $type = 'message', $status = true) {
+		switch($this->format) {
+			case "json":
+				if($this->pretty) {
+					$this->out->write($this->prettyPrint(json_encode(array(
+						"status" => $status,
+						$type => $data
+					))));
+				} else {
+					$this->out->write(json_encode(array(
+						"status" => $status,
+						$type => $data
+					)));
+				}
+			break;
+			default:
+				switch($type) {
+					case "error":
+						$this->out->write("<error>".$data."</error>");
+					break;
+					default:
+						$this->out->write($data);
+					break;
+				}
+			break;
 		}
 	}
 
 	private function enableRepo($repo){
-		$this->out->write(_("Getting Remote Repo list..."));
+		$this->write(_("Getting Remote Repo list..."));
 		$this->activeRepos = $this->mf->get_remote_repos(true);
-		$this->out->writeln(_("Done"));
+		$this->writeln(_("Done"));
 		$this->mf->set_active_repo(strtolower($repo),1);
 		if(!in_array($repo,$this->activeRepos)) {
-			$this->out->writeln(_("Repo ").$repo._(" successfully enabled, but was not found in the remote list"));
+			$this->writeln(_("Repo ").$repo._(" successfully enabled, but was not found in the remote list"));
 		}else{
-			$this->out->writeln(_("Repo ").$repo._(" successfully enabled"));
+			$this->writeln(_("Repo ").$repo._(" successfully enabled"));
 		}
 	}
 
 	private function disableRepo($repo){
 		$this->mf->set_active_repo(strtolower($repo),0);
-		$this->out->write(_("Getting Remote Repo list..."));
+		$this->write(_("Getting Remote Repo list..."));
 		$remote = $this->mf->get_remote_repos(true);
-		$this->out->writeln(_("Done"));
+		$this->writeln(_("Done"));
 		if(!in_array($repo,$remote)) {
-			$this->out->writeln(_("Repo ").$repo._(" successfully disabled, but was not found in the remote list"));
+			$this->writeln(_("Repo ").$repo._(" successfully disabled, but was not found in the remote list"));
 		} else {
-			$this->out->writeln(_("Repo ").$repo._(" successfully disabled"));
+			$this->writeln(_("Repo ").$repo._(" successfully disabled"));
 		}
 	}
 
 	private function doReload() {
 		$result = do_reload();
 		if ($result['status'] != true) {
-			$this->out->writeln(_("Error(s) have occured, the following is the retrieve_conf output:"));
+			$this->writeln(_("Error(s) have occured, the following is the retrieve_conf output:"), "error", false);
 			$retrieve_array = explode('<br/>',$result['retrieve_conf']);
 			foreach ($retrieve_array as $line) {
-				$this->out->writeln($line);
+				$this->writeln($line, "error", false);
 			}
 		}else{
-			$this->out->writeln($result['message']);
+			$this->writeln($result['message']);
 		}
 	}
 
 	private function doInstall($modulename, $force) {
 		\FreePBX::Modules()->loadAllFunctionsInc();
 		if(!$force && !$this->mf->resolveDependencies($modulename,array($this,'progress'))) {
-			$this->out->writeln(sprintf(_("Unable to resolve dependencies for module %s:"),$modulename));
+			$this->writeln(sprintf(_("Unable to resolve dependencies for module %s:"),$modulename), "error", false);
 			return false;
 		} else {
 			if (is_array($errors = $this->mf->install($modulename, $force))) {
-				$this->out->writeln("Unable to install module ${modulename}:");
-				$this->out->writeln(' - '.implode("\n - ",$errors));
+				$this->writeln("Unable to install module ${modulename}:", "error", false);
+				$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 				return false;
 			} else {
-				$this->out->writeln("Module ".$modulename." successfully installed");
+				$this->writeln("Module ".$modulename." successfully installed");
 			}
 		}
 		return true;
 	}
 
 	private function doRemoteDownload($modulelocation) {
-		$this->out->writeln("Starting ".basename($modulelocation)." download..");
+		$this->writeln("Starting ".basename($modulelocation)." download..");
 		if (is_array($errors = $this->mf->handledownload($modulelocation, array($this,'progress')))) {
-			$this->out->writeln(_("The following error(s) occured:"));
-			$this->out->writeln(' - '.implode("\n - ",$errors));
+			$this->writeln(_("The following error(s) occured:"), "error", false);
+			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 			exit(2);
 		} else {
-			$this->out->writeln(sprintf(_("Module %s successfully downloaded"),$modulelocation));
+			$this->writeln(sprintf(_("Module %s successfully downloaded"),$modulelocation));
 		}
 		return true;
 	}
@@ -150,13 +215,13 @@ class Moduleadmin extends Command {
 	private function doDownload($modulename, $force) {
 		global $modulexml_path;
 		global $modulerepository_path;
-		$this->out->writeln("Starting ".$modulename." download..");
+		$this->writeln("Starting ".$modulename." download..");
 		if (is_array($errors = $this->mf->download($modulename, $this->force, array($this,'progress'), $modulerepository_path, $modulexml_path))) {
-			$this->out->writeln(_("The following error(s) occured:"));
-			$this->out->writeln(' - '.implode("\n - ",$errors));
+			$this->writeln(_("The following error(s) occured:"), "error", false);
+			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 			exit(2);
 		} else {
-			$this->out->writeln(sprintf(_("Module %s successfully downloaded"),$modulename));
+			$this->writeln(sprintf(_("Module %s successfully downloaded"),$modulename));
 		}
 		return true;
 	}
@@ -166,40 +231,54 @@ class Moduleadmin extends Command {
 			case "verifying":
 				switch($data['status']) {
 					case 'start':
-						$this->out->write("Verifying local module download...");
+						$this->write("Verifying local module download...");
 					break;
 					case 'redownload':
-						$this->out->writeln("Redownloading");
+						$this->writeln("Redownloading");
 					break;
 					case 'verified':
-						$this->out->writeln("Verified");
+						$this->writeln("Verified");
 					break;
 				}
 			break;
 			case "getinfo":
-				$this->out->writeln("Processing ".$data['module']);
+				$this->writeln("Processing ".$data['module']);
 			break;
 			case "downloading":
-				if(!isset($this->progress) && $data['read'] < $data['total']) {
-					$this->progress = new ProgressBar($this->out, $data['total']);
-					$this->out->writeln("Downloading...");
-					$this->progress->start();
-				} elseif(isset($this->progress) && $data['read'] < $data['total']) {
-					$this->progress->setCurrent($data['read']);
-				} elseif($data['read'] == $data['total']) {
-					if(isset($this->progress) && $this->progress->getStep() != $data['total']) {
-						$this->progress->finish();
-						$this->out->writeln("");
-						$this->out->writeln("Finished downloading");
-						unset($this->progress);
+				if($this->format == 'json') {
+					if(!isset($this->progress) && $data['read'] < $data['total']) {
+						$this->progress = true;
+						$this->writeln(array("read" => $data['read'], "total" => $data['total']),"downloading");
+					} elseif(isset($this->progress) && $data['read'] < $data['total']) {
+						$this->writeln(array("read" => $data['read'], "total" => $data['total']),"downloading");
+					} elseif($data['read'] == $data['total']) {
+						if(isset($this->progress) && $data['read'] = $data['total']) {
+							$this->writeln(array("read" => $data['read'], "total" => $data['total']),"downloading");
+							unset($this->progress);
+						}
+					}
+				} else {
+					if(!isset($this->progress) && $data['read'] < $data['total']) {
+						$this->progress = new ProgressBar($this->out, $data['total']);
+						$this->writeln("Downloading...");
+						$this->progress->start();
+					} elseif(isset($this->progress) && $data['read'] < $data['total']) {
+						$this->progress->setCurrent($data['read']);
+					} elseif($data['read'] == $data['total']) {
+						if(isset($this->progress) && $this->progress->getStep() != $data['total']) {
+							$this->progress->finish();
+							$this->writeln("");
+							$this->writeln("Finished downloading");
+							unset($this->progress);
+						}
 					}
 				}
 			break;
 			case "done":
-				$this->out->writeln("Done");
+				$this->writeln("Done");
 			break;
 			case "untar":
-				$this->out->write("Extracting...");
+				$this->write("Extracting...");
 			break;
 		}
 	}
@@ -207,22 +286,22 @@ class Moduleadmin extends Command {
 	private function doDelete($modulename, $force) {
 		\FreePBX::Modules()->loadAllFunctionsInc();
 		if (is_array($errors = $this->mf->delete($modulename, $this->force))) {
-			$this->out->writeln(_("The following error(s) occured:"));
-			$this->out->writeln(' - '.implode("\n - ",$errors));
+			$this->writeln(_("The following error(s) occured:"), "error", false);
+			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 			exit(2);
 		} else {
-			$this->out->writeln(_("Module ").$modulename._(" successfully deleted"));
+			$this->writeln(_("Module ").$modulename._(" successfully deleted"));
 		}
 	}
 
 	private function doUninstall($modulename, $force) {
 		\FreePBX::Modules()->loadAllFunctionsInc();
 		if (is_array($errors = $this->mf->uninstall($modulename, $this->force))) {
-			$this->out->writeln(_("The following error(s) occured:"));
-			$this->out->writeln(' - '.implode("\n - ",$errors));
+			$this->writeln(_("The following error(s) occured:"), "error", false);
+			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 			exit(2);
 		} else {
-			$this->out->writeln(_("Module ").$modulename._(" successfully uninstalled"));
+			$this->writeln(_("Module ").$modulename._(" successfully uninstalled"));
 		}
 	}
 
@@ -242,22 +321,22 @@ class Moduleadmin extends Command {
 			}
 		}
 		if (in_array('core', $modules)){
-			$this->out->writeln("Installing core...");
+			$this->writeln("Installing core...");
 			$this->doInstall('core', $this->force);
 		}
 		if (count($modules) > 0) {
-			$this->out->writeln("Installing: ".implode(', ',$modules));
+			$this->writeln("Installing: ".implode(', ',$modules));
 			foreach ($modules as $module => $name) {
 				if (($name != 'core')){//we dont want to reinstall core
 					\FreePBX::Modules()->loadAllFunctionsInc(); //get functions from other modules, in case we need them here
-					$this->out->writeln("Installing $name...");
+					$this->writeln("Installing $name...");
 					$this->doInstall($name, $this->force);
-					$this->out->writeln("");
+					$this->writeln("");
 				}
 			}
-			$this->out->writeln(_("Done. All modules installed."));
+			$this->writeln(_("Done. All modules installed."));
 		} else {
-			$this->out->writeln(_("All modules up to date."));
+			$this->writeln(_("All modules up to date."));
 		}
 	}
 
@@ -311,14 +390,14 @@ class Moduleadmin extends Command {
 	private function doUpgradeAll($force) {
 		$modules = $this->getUpgradableModules();
 		if (count($modules) > 0) {
-			$this->out->writeln(_("Upgrading: ").implode(', ',$modules));
+			$this->writeln(_("Upgrading: ").implode(', ',$modules));
 			foreach ($modules as $modulename) {
-				$this->out->writeln(_("Upgrading ").$modulename."..");
+				$this->writeln(_("Upgrading ").$modulename."..");
 				$this->doUpgrade($modulename, $this->force);
 			}
-			$this->out->writeln(_("All upgrades done!"));
+			$this->writeln(_("All upgrades done!"));
 		} else {
-			$this->out->writeln(_("Up to date."));
+			$this->writeln(_("Up to date."));
 		}
 	}
 
@@ -415,21 +494,22 @@ class Moduleadmin extends Command {
 	private function showCheckDepends($modulename) {
 		$modules = $this->mf->getinfo($modulename);
 		if (!isset($modules[$modulename])) {
+			//TODO: what?
 			fatal($modulename.' not found');
 		}
 		if (($errors = $this->mf->checkdepends($modules[$modulename])) !== true) {
-			$this->out->writeln(_("The following dependencies are not met:"));
-			$this->out->writeln(' - '.implode("\n - ",$errors));
+			$this->writeln(_("The following dependencies are not met:"), "error", false);
+			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 			exit(1);
 		} else {
-			$this->out->writeln(_("All dependencies met for module ").$modulename);
+			$this->writeln(_("All dependencies met for module ").$modulename);
 		}
 	}
 
 	private function showEngine() {
 		$engine = engine_getinfo();
 		foreach ($engine as $key=>$value) {
-			$this->out->writeln(str_pad($key,15,' ',STR_PAD_LEFT).': '.$value);
+			$this->writeln(str_pad($key,15,' ',STR_PAD_LEFT).': '.$value);
 		}
 	}
 
@@ -454,17 +534,17 @@ class Moduleadmin extends Command {
 			$this->activeRepos = $this->mf->get_active_repos();
 			if(!empty($this->activeRepos) && !$this->setRepos) {
 				$list = implode(',',array_keys($this->activeRepos));
-				$this->out->writeln(_("No repos specified, using: [$list] from last GUI settings"));
-				$this->out->writeln("");
+				$this->writeln(_("No repos specified, using: [$list] from last GUI settings"));
+				$this->writeln("");
 
 			} else {
-				$this->out->write(_("Getting Remote Repo list..."));
+				$this->write(_("Getting Remote Repo list..."));
 				$this->mf->get_remote_repos(true);
 				$this->activeRepos = $this->mf->get_active_repos();
-				$this->out->writeln(_("Done"));
+				$this->writeln(_("Done"));
 				if(!empty($this->activeRepos)) {
-					$this->out->writeln(sprintf(_("Using repos: [%s]"),implode(",",array_keys($this->activeRepos))));
-					$this->out->writeln("");
+					$this->writeln(sprintf(_("Using repos: [%s]"),implode(",",array_keys($this->activeRepos))));
+					$this->writeln("");
 				}
 			}
 		}
@@ -474,24 +554,24 @@ class Moduleadmin extends Command {
 		$this->doUpgradeAll(true);
 		$modules = $this->getInstallableModules();
 		if (in_array('core', $modules)){
-			$this->out->writeln(_("Installing core..."));
+			$this->writeln(_("Installing core..."));
 			$this->doDownload('core', $this->force);
 			$this->doInstall('core', $this->force);
 		}
 		if (count($modules) > 0) {
-			$this->out->writeln("Installing: ".implode(', ',$modules));
+			$this->writeln("Installing: ".implode(', ',$modules));
 			foreach ($modules as $module => $name) {
 				if (($name != 'core')){//we dont want to reinstall core
 					\FreePBX::Modules()->loadAllFunctionsInc(); //get functions from other modules, in case we need them here
-					$this->out->writeln(_("Downloading & Installing ").$name."...");
+					$this->writeln(_("Downloading & Installing ").$name."...");
 					$this->doDownload($name, $this->force);
 					$this->doInstall($name, $this->force);
-					$this->out->writeln("");
+					$this->writeln("");
 				}
 			}
-			$this->out->writeln(_("Done. All modules installed."));
+			$this->writeln(_("Done. All modules installed."));
 		} else {
-			$this->out->writeln(_("All modules up to date."));
+			$this->writeln(_("All modules up to date."));
 		}
 	}
 
@@ -501,13 +581,13 @@ class Moduleadmin extends Command {
 				if (is_array($value)) {
 					// check if there is a numeric key in the sub-array, if so, we don't print the title
 					if (!isset($value[0])) {
-						$this->out->writeln(str_pad($key,15+($level * 3),' ',STR_PAD_LEFT).': ');
+						$this->writeln(str_pad($key,15+($level * 3),' ',STR_PAD_LEFT).': ');
 					}
 					recursive_print($value, $key, $level + 1);
 				} else {
 					if (is_numeric($key)) {
 						// its just multiple parent keys, so we don't indent, and print the parentkey instead
-						$this->out->writeln(str_pad($parentkey,15+(($level-1) * 3),' ',STR_PAD_LEFT).': '.$value);
+						$this->writeln(str_pad($parentkey,15+(($level-1) * 3),' ',STR_PAD_LEFT).': '.$value);
 					} else {
 						if ($key == 'status') {
 							switch ($value) {
@@ -518,7 +598,7 @@ class Moduleadmin extends Command {
 								case MODULE_STATUS_BROKEN: $value = 'Broken'; break;
 							}
 						}
-						$this->out->writeln(str_pad($key,15+($level * 3),' ',STR_PAD_LEFT).': '.$value);
+						$this->writeln(str_pad($key,15+($level * 3),' ',STR_PAD_LEFT).': '.$value);
 					}
 				}
 			}
@@ -594,51 +674,52 @@ class Moduleadmin extends Command {
 			$module_version = isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'';
 			array_push($rows,array($name, $module_version, $status));
 		}
-		if($this->JSON){
-			$this->out->writeln(json_encode($rows));
-		}else{
+		if($this->format == 'json') {
+			$this->writeln($rows);
+		} else {
 			$table = new Table($this->out);
 			$table
 				->setHeaders(array(_('Module'), _('Version'), _('Status')))
 				->setRows($rows);
 			$table->render();
 		}
+
 	}
 
 	private function refreshsignatures() {
 		\FreePBX::GPG();
 		$fpbxmodules = \FreePBX::Modules();
 		$list = $fpbxmodules->getActiveModules();
-		$this->out->writeln(_("Getting Data from Online Server..."));
+		$this->writeln(_("Getting Data from Online Server..."));
 		$modules_online = $this->mf->getonlinexml();
 		if(empty($modules_online)) {
-			$this->out->writeln(_('Cant Reach Online Server'));
+			$this->writeln(_('Cant Reach Online Server'));
 			exit(1);
 		} else {
-			$this->out->writeln(_("Done"));
+			$this->writeln(_("Done"));
 		}
-		$this->out->writeln(_("Checking Signatures of Modules..."));
+		$this->writeln(_("Checking Signatures of Modules..."));
 		foreach($list as $m) {
 			//Check signature status, then if its online then if its signed online then redownload (through force)
-			$this->out->writeln("Checking ". $m['rawname'] . "...");
+			$this->writeln("Checking ". $m['rawname'] . "...");
 			if(isset($m['signature']['status']) && (~$m['signature']['status'] & \FreePBX\GPG::STATE_GOOD)) {
-				$this->out->writeln("Signature Invalid");
+				$this->writeln("Signature Invalid");
 				if(isset($modules_online[$m['rawname']]) && isset($modules_online[$m['rawname']]['signed'])) {
-					$this->out->writeln("\tRefreshing ".$m['rawname']);
+					$this->writeln("\tRefreshing ".$m['rawname']);
 					$modulename = $m['rawname'];
 					$modules = $fpbxmodules->getinfo($modulename);
 					$this->doUpgrade($modulename,true);
-					$this->out->writeln("\tVerifying GPG...");
+					$this->writeln("\tVerifying GPG...");
 					$this->mf->updateSignature($modulename);
-					$this->out->writeln("Done");
+					$this->writeln("Done");
 				} else {
-					$this->out->writeln(_("\tCould not find signed module on remote server!"));
+					$this->writeln(_("\tCould not find signed module on remote server!"), "error", false);
 				}
 			} else {
-				$this->out->writeln(_("Good"));
+				$this->writeln(_("Good"));
 			}
 		}
-		$this->out->writeln(_("Done"));
+		$this->writeln(_("Done"));
 	}
 
 	private function showReverseDepends($modulename) {
@@ -648,33 +729,33 @@ class Moduleadmin extends Command {
 		}
 
 		if (($depmods = $this->mf->reversedepends($modulename)) !== false) {
-			$this->out->writeln(_("The following modules depend on this one: ").implode(', ',$depmods));
+			$this->writeln(_("The following modules depend on this one: ").implode(', ',$depmods));
 			exit(1);
 		} else {
-			$this->out->writeln(_("No enabled modules depend on this module."));
+			$this->writeln(_("No enabled modules depend on this module."));
 		}
 	}
 
 	private function updateHooks() {
-		$this->out->write(_("Updating Hooks..."));
+		$this->write(_("Updating Hooks..."));
 		try {
 			\FreePBX::Hooks()->updateBMOHooks();
 		}catch(\Exception $e) {}
-		$this->out->writeln(_("Done"));
+		$this->writeln(_("Done"));
 	}
 
 	private function showUpgrades() {
 		$modules = $this->getUpgradableModules(true);
 		if (count($modules) > 0) {
-			$this->out->writeln(_("Upgradable: "));
+			$this->writeln(_("Upgradable: "));
 			$rows = array();
 			foreach ($modules as $mod) {
 				array_push($rows, array($mod['name'],$mod['local_version'],$mod['online_version']));
-				//$this->out->writeln($mod['name'].' '.$mod['local_version'].' -> '.$mod['online_version']);
+				//$this->writeln($mod['name'].' '.$mod['local_version'].' -> '.$mod['online_version']);
 			}
-			if($this->JSON){
-				$this->out->writeln(json_encode($rows));
-			}else{
+			if($this->format == 'json') {
+				$this->writeln($rows);
+			} else {
 				$table = new Table($this->out);
 				$table
 					->setHeaders(array(_('Module'), _('Local Version'), _('Online Version')))
@@ -682,43 +763,39 @@ class Moduleadmin extends Command {
 				$table->render();
 			}
 		} else {
-			if($this->JSON){
-				$this->out->writeln(json_encode(array('status'=>_("Up to date"))));
-			}else{
-				$this->out->writeln(_("Up to date."));
-			}
+			$this->writeln(_("Up to date."));
 		}
 	}
 
 	private function doDisable($modulename, $force) {
 		\FreePBX::Modules()->loadAllFunctionsInc();
 		if (is_array($errors = $this->mf->disable($modulename, $force))) {
-			$this->out->writeln("<error>"._("The following error(s) occured:")."</error>");
-			$this->out->writeln(' - '.implode("\n - ",$errors));
+			$this->writeln(_("The following error(s) occured:"), "error", false);
+			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 			exit(2);
 		} else {
-			$this->out->writeln(_("Module ").$modulename._(" successfully disabled"));
+			$this->writeln(_("Module ").$modulename._(" successfully disabled"));
 		}
 	}
 
 	private function doEnable($modulename, $force) {
 		\FreePBX::Modules()->loadAllFunctionsInc();
 		if (is_array($errors = $this->mf->enable($modulename, $this->force))) {
-			$this->out->writeln("<error>"._("The following error(s) occured:")."</error>");
-			$this->out->writeln(' - '.implode("\n - ",$errors));
+			$this->writeln(_("The following error(s) occured:"), "error", false);
+			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 			exit(2);
 		} else {
-			$this->out->writeln(_("Module ").$modulename._(" successfully enabled"));
+			$this->writeln(_("Module ").$modulename._(" successfully enabled"));
 		}
 	}
 
 	private function tryEnable($modulename, $force) {
 		\FreePBX::Modules()->loadAllFunctionsInc();
 		if (is_array($errors = $this->mf->enable($modulename, $this->force))) {
-			$this->out->writeln("<error>"._("The following error(s) occured:")."</error>");
-			$this->out->writeln(' - '.implode("\n - ",$errors));
+			$this->writeln(_("The following error(s) occured:"), "error", false);
+			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 		} else {
-			$this->out->writeln(_("Module ").$modulename._(" successfully enabled"));
+			$this->writeln(_("Module ").$modulename._(" successfully enabled"));
 		}
 	}
 
@@ -934,11 +1011,11 @@ class Moduleadmin extends Command {
 			case 'enableall':
 				$modules = $this->listDisabled();
 				foreach($modules as $module){
-					$this->out->writeln('Attempting to Enable '. $module );
+					$this->writeln('Attempting to Enable '. $module );
 					$this->tryEnable($module, $this->force);
 				}
-				$this->out->writeln('This action understands somethings may be disabled for a reason.');
-				$this->out->writeln('Please review the output above for any errors while enabling modules');
+				$this->writeln('This action understands somethings may be disabled for a reason.');
+				$this->writeln('Please review the output above for any errors while enabling modules');
 				$this->updateHooks();
 				break;
 			case 'showupgrade':
@@ -965,8 +1042,63 @@ class Moduleadmin extends Command {
 			case 'h':
 			case '?':
 			default:
-				$this->out->writeln('Unknown Command! ('.$$action.')');
+				$this->writeln('Unknown Command! ('.$$action.')', "error", false);
 				break;
 		}
+	}
+
+	private function prettyPrint($json){
+		$result = '';
+		$level = 0;
+		$in_quotes = false;
+		$in_escape = false;
+		$ends_line_level = NULL;
+		$json_length = strlen( $json );
+
+		for( $i = 0; $i < $json_length; $i++ ) {
+			$char = $json[$i];
+			$new_line_level = NULL;
+			$post = "";
+			if( $ends_line_level !== NULL ) {
+				$new_line_level = $ends_line_level;
+				$ends_line_level = NULL;
+			}
+			if ( $in_escape ) {
+				$in_escape = false;
+			} else if( $char === '"' ) {
+				$in_quotes = !$in_quotes;
+			} else if( ! $in_quotes ) {
+				switch( $char ) {
+					case '}': case ']':
+						$level--;
+						$ends_line_level = NULL;
+						$new_line_level = $level;
+					break;
+
+					case '{': case '[':
+						$level++;
+					case ',':
+						$ends_line_level = $level;
+					break;
+
+					case ':':
+						$post = " ";
+					break;
+
+					case " ": case "\t": case "\n": case "\r":
+						$char = "";
+						$ends_line_level = $new_line_level;
+						$new_line_level = NULL;
+					break;
+				}
+			} else if ( $char === '\\' ) {
+				$in_escape = true;
+			}
+			if( $new_line_level !== NULL ) {
+				$result .= "\n".str_repeat( "\t", $new_line_level );
+			}
+			$result .= $char.$post;
+		}
+		return $result;
 	}
 }
