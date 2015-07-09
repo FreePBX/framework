@@ -420,9 +420,9 @@ if(is_array($active_modules)){
 		$module_list[] = $key;
 
 		if ($run_install) {
-			echo sprintf(_("Installing %s...")."\n",$key);
+			echo sprintf(_("Installing %s..."),$key)."\n";
 			module_install($key);
-			echo sprintf(_("Done installing %s")."\n",$key);
+			echo sprintf(_("Done installing %s"),$key)."\n";
 		}
 
 		// create symlinks for files in appropriate sub directories
