@@ -380,8 +380,12 @@ switch ($action) {
 		}
 	break;
 	case 'confirm':
-		ksort($trackaction);
-		ksort($moduleaction);
+		if(is_array($trackaction)) {
+			ksort($trackaction);
+		}
+		if(is_array($moduleaction)) {
+			ksort($moduleaction);
+		}
 		/* if updating language packs, make sure they are the last thing to be done so that
 		any modules currently being updated at the same time will be done so first and
 		language pack updates for those modules will be included.
@@ -403,6 +407,7 @@ switch ($action) {
 		$force_actionstext = array();
 		$errorstext = array();
 		$moduleActions = array();
+		$moduleaction = is_array($moduleaction) ? $moduleaction : array();
 		foreach ($moduleaction as $module => $action) {
 			$text = false;
 			$skipaction = false;
@@ -491,9 +496,9 @@ switch ($action) {
 				break;
 				case 'downloadinstall':
 				if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-					if($trackaction[$module] != $modules[$module]['track']) {
+					$track = !empty($trackaction[$module]) ? $trackaction[$module] : 'stable';
+					if($track != $modules[$module]['track']) {
 						$action = 'trackinstall';
-						$track = !empty($trackaction[$module]) ? $trackaction[$module] : 'stable';
 						$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : array());
 						if(empty($trackinfo)) {
 							$skipaction = true;
