@@ -591,7 +591,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		}
 
 		//run this here so that we make sure everything is square for asterisk
-		passthru("fwconsole chown");
+		passthru($amp_conf['AMPSBIN'] . "/fwconsole chown");
 
 		if (!$answers['dev-links']) {
 			// install_modules()
@@ -618,7 +618,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 		// generate_configs();
 		$output->writeln("Generating default configurations...");
-		passthru("sudo -u " . $amp_conf['AMPASTERISKUSER'] . " " . $amp_conf["AMPBIN"] . "/retrieve_conf --run-install --skip-registry-checks");
+		passthru("sudo -u " . $amp_conf['AMPASTERISKUSER'] . " " . $amp_conf["AMPBIN"] . "/retrieve_conf --skip-registry-checks");
 		$output->writeln("Finished generating default configurations");
 
 		// GPG setup - trustFreePBX();
@@ -632,8 +632,8 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		}
 		$output->writeln("Trusted");
 
-		// needreload();
-		needreload();
+		//run this here so that we make sure everything is square for asterisk
+		passthru($amp_conf['AMPSBIN'] . "/fwconsole chown");
 		$output->writeln("<info>You have successfully installed FreePBX</info>");
 	}
 

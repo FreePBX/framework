@@ -419,7 +419,11 @@ if(is_array($active_modules)){
 	foreach($active_modules as $key => $module) {
 		$module_list[] = $key;
 
-		if ($run_install) {module_install($key);}
+		if ($run_install) {
+			echo sprintf(_("Installing %s...")."\n",$key);
+			module_install($key);
+			echo sprintf(_("Done installing %s")."\n",$key);
+		}
 
 		// create symlinks for files in appropriate sub directories
 		// don't symlink framework files, it is a special case module that happens to have
