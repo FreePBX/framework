@@ -44,6 +44,11 @@ define('DB_FETCHMODE_FLIPPED', 4);
 define('DB_ERROR_ALREADY_EXISTS', -5);
 
 /**
+ * The database requested does not exist
+ */
+define('DB_ERROR_NOSUCHDB', -27);
+
+/**
  * Can not create table error
  */
 define('DB_ERROR_CANNOT_CREATE', -15);
@@ -578,15 +583,14 @@ class DB {
 	}
 }
 
+/**
+ * Database result class wrapper for PearDB
+ */
 class DB_result {
 	private $sth = null;
 
 	public function __construct($PDOStatement) {
 		$this->sth = $PDOStatement;
-	}
-
-	public function fetchInto() {
-		throw new Exception(_("fetchInto not implemented"));
 	}
 
 	/**
@@ -597,6 +601,10 @@ class DB_result {
 	public function fetchRow($fetchmode = DB_FETCHMODE_DEFAULT , $rownum = null) {
 		$res = $this->sth->fetch($this->correctFetchMode($fetchmode));
 		return isset($rownum) ? (isset($res[$rownum]) ? $res[$rownum] : false) : $res;
+	}
+
+	public function fetchInto() {
+		throw new Exception(_("fetchInto not implemented"));
 	}
 
 	public function free() {
@@ -643,17 +651,32 @@ class DB_result {
 	}
 }
 
+/**
+ * Simulates the DB Error class from PearDB
+ */
 class DB_Error {
 	private $e =null;
 	public function __construct(Exception $exception = null) {
 		$this->e = $exception;
 	}
+	/**
+	 * Get Message taken from PearDB
+	 * @return string The Error Message
+	 */
 	public function getMessage() {
 		return $this->e->getMessage();
 	}
 
+	/**
+	 * Decypher PDO error codes and turn them into PDO error codes
+	 * https://pear.php.net/package/DB/docs/latest/DB/_DB-1.8.2---DB.php.html
+	 * @return int The constant representation
+	 */
 	public function getCode() {
 		switch($this->e->getCode()) {
+			case "42S02":
+				return DB_ERROR_NOSUCHDB;
+			break;
 			case "42S01":
 				return DB_ERROR_ALREADY_EXISTS;
 			break;
