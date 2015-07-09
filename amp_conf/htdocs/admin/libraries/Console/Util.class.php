@@ -35,6 +35,13 @@ class Util extends Command {
 					$output->writeln(sprintf(_("MySQL table repair Failed: %s"),$e->getMessage()));
 			}
       break;
+      case "zendid":
+        $output->writeln("===========================");
+        foreach(zend_get_id() as $id){
+          $output->writeln($id);
+        }
+        $output->writeln("===========================");
+      break;
 
       default:
         $output->writeln('Invalid argument');
