@@ -29,7 +29,7 @@ require_once($dirname . '/libraries/modulefunctions.legacy.php');
 require_once($dirname . '/libraries/usage_registry.functions.php');
 
 //emulated compatibility for older versions of freepbx
-require_once($dirname . '/libraries/php-upgrade.functions.php');
+// require_once($dirname . '/libraries/php-upgrade.functions.php');
 
 //PHP Restful Library
 require_once($dirname . '/libraries/pest.functions.php');
