@@ -987,7 +987,7 @@ class Freepbx_conf {
 		return 0;
 	}
     foreach ($this->db_conf_store as $keyword => $atrib) {
-      if (empty($atrib['modified'])) {
+      if (!isset($atrib['modified'])) {
         continue;
       }
       //TODO: confirm that prepare with ? does an escapeSimple() or equiv, the docs say so

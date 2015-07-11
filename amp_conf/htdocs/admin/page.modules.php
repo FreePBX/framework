@@ -757,6 +757,7 @@ switch ($action) {
 		}
 		$module_display = array();
 		$category = null;
+		$sysadmininfo = $modulef->getinfo('sysadmin');
 		foreach (array_keys($modules) as $name) {
 			if (!isset($modules[$name]['category'])) {
 				$modules[$name]['category'] = _("Broken");
@@ -784,9 +785,15 @@ switch ($action) {
 				}
 			}
 
-			$sysadmininfo = $modulef->getinfo('sysadmin');
-			if(isset($modules[$name]['commercial']) && !empty($modules[$name]['commercial'])) {
+			if(isset($modules[$name]['commercial'])) {
 				$modules[$name]['commercial']['status'] = true;
+				// Has this module got an expiration?
+				if (isset($modules[$name]['updatesexpire'])) {
+					$modules[$name]['commercial']['updatesexpire'] = $modules[$name]['updatesexpire'];
+					if (isset($modules[$name]['unavail'])) {
+						$modules[$name]['commercial']['unavail'] = $modules[$name]['unavail'];
+					}
+				}
 				if(function_exists('sysadmin_is_module_licensed')) {
 					$modules[$name]['commercial']['sysadmin'] = true;
 					$modules[$name]['commercial']['licensed'] = sysadmin_is_module_licensed($name);
