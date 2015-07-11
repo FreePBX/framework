@@ -15,7 +15,7 @@ class Chown extends Command {
 	private $errors = array();
 	private $infos = array();
 	private $quiet = false;
-	public $moduleName;
+	public $moduleName = '';
 	protected function configure(){
 		$this->setName('chown')
 		->setDescription(_('Change ownership of files'))
@@ -57,9 +57,7 @@ class Chown extends Command {
 		$args = array();
 		if($input){
 			$args = $input->getArgument('args');
-			try {
-				$this->moduleName = $this->moduleName?$this->moduleName:strtolower($args[0]);
-			}catch(\Exception $e) {}
+			$this->moduleName = !empty($this->moduleName) ? $this->moduleName : strtolower($args[0]);
 		}
 		if (!empty($this->moduleName) && $this->moduleName != 'framework') {
 			try {
@@ -73,8 +71,8 @@ class Chown extends Command {
 			try {
 				$hooks = $this->fwcChownFiles();
 			}catch(\Exception $e) {}
-			$current = isset($hooks[ucfirst($mod)])?$hooks[ucfirst($mod)]:false;
-			if($current){
+			$current = isset($hooks[ucfirst($mod)]) ? $hooks[ucfirst($mod)] : false;
+			if(is_array($current)){
 				$this->modfiles = array_merge_recursive($this->modfiles,$current);
 			}
 		}else{
@@ -228,6 +226,11 @@ class Chown extends Command {
 	private function singleChown($file, $user, $group){
 		try {
 			$this->fs->chown($file,$user);
+			$filetype = filetype($file);
+			if($filetype == "link") {
+				$file = readlink($file);
+				$this->fs->chown($file,$user);
+			}
 		} catch (IOExceptionInterface $e) {
 			if($file){
 				$this->errors[] = _('An error occurred while changing ownership ') . $file;
@@ -235,6 +238,11 @@ class Chown extends Command {
 		}
 		try {
 			$this->fs->chgrp($file,$group);
+			$filetype = filetype($file);
+			if($filetype == "link") {
+				$file = readlink($file);
+				$this->fs->chown($file,$user);
+			}
 		} catch (IOExceptionInterface $e) {
 			if($file){
 				$this->errors[] = _('An error occurred while changing group ') . $file;
@@ -244,6 +252,11 @@ class Chown extends Command {
 	private function recursiveChown($dir, $user, $group){
 		try {
 			$this->fs->chown($dir,$user, true);
+			$filetype = filetype($dir);
+			if($filetype == "link") {
+				$dir = readlink($dir);
+				$this->fs->chown($dir,$user, true);
+			}
 		} catch (IOExceptionInterface $e) {
 			if($dir){
 				$this->errors[] = _('An error occurred while changing ownership ') . $realfile;
@@ -266,10 +279,10 @@ class Chown extends Command {
 					$this->fs->chmod($realfile,$perms);
 				} catch (IOExceptionInterface $e) {
 					if(file_exists($realfile)) {
-						$this->errors[] = _('An error occurred while changing permissions on link ') . $file . _(' which points to ').$realfile;
+						$this->errors[] = sprintf(_('An error occurred while changing permissions on link % which points to %s'), $file, $realfile);
 					} else {
 						//File does not exist. Now we have a dangling symlink so remove it.
-						$this->infos[] = _('Removing dangling symlink ') . $file . _(' which points to a file that no longer exists');
+						$this->infos[] = sprintf(_('Removing dangling symlink %s which points to a file that no longer exists'),$file);
 						unlink($file);
 					}
 				}
