@@ -52,19 +52,7 @@ if(false) {
 if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not defined
 	$out = null;
 	if (empty($favorites)) foreach ($fpbx_menu as $mod => $deets) {
-		switch(strtolower($deets['category'])) {
-			case 'admin':
-			case 'applications':
-			case 'connectivity':
-			case 'reports':
-			case 'settings':
-			case 'user panel':
-				$menu[strtolower($deets['category'])][] = $deets;
-				break;
-			default:
-				$menu['other'][] = $deets;
-				break;
-		}
+		$menu[strtolower($deets['category'])][] = $deets;
 	} else {
 		foreach ($fpbx_menu as $mod => $deets) {
 			$menu[$deets['category']][] = $deets;
@@ -72,7 +60,6 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 	}
 
 	$count = 0;
-	//if(FreePBX::Config()->get('AUTHTYPE') == "usermanager") {
 	foreach($menu as $t => $cat) { //categories
 		if (count($cat) == 1) {
 			if (isset($cat[0]['hidden']) && $cat[0]['hidden'] == 'true') {
