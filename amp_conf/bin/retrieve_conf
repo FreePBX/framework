@@ -915,7 +915,7 @@ function install_cron_scheduler() {
 		//force autoloader to load
 		$freepbxCron = \FreePBX::create()->Cron($amp_conf['AMPASTERISKWEBUSER']);
 		if (posix_geteuid() == 0) {
-			$rootCron = new \Cron('root');
+			$rootCron = new \FreePBX\Cron('root');
 			foreach($rootCron->getAll() as $cron) {
 				$str = str_replace("/", "\/", $amp_conf['AMPBIN']."/freepbx-cron-scheduler.php");
 				if(preg_match("/".$str."/i",$cron,$matches)) {
