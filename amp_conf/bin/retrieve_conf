@@ -875,7 +875,7 @@ function install_cron_scheduler() {
 			if(preg_match("/".$str."/i",$cron,$matches)) {
 				if($exists) {
 					//remove multiple entries (if any)
-					$rootCron->remove($cron);
+					$freepbxCron->remove($cron);
 				}
 				$exists = true;
 			}
