@@ -942,7 +942,6 @@ function install_cron_scheduler() {
 			}
 		}
 		if(!$exists) {
-			print_r("adding");
 			$freepbxCron->add(array(
 				"command" => $amp_conf['AMPBIN']."/freepbx-cron-scheduler.php",
 				"minute" => rand(0,59)
