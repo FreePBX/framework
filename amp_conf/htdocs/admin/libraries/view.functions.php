@@ -494,23 +494,9 @@ function framework_include_js($module_name, $module_page) {
 function framework_server_name() {
 	global $amp_conf;
 	if ($amp_conf['SERVERINTITLE']) {
-		// set the servername
-		$server_hostname 					= '';
-		if (isset($_SESSION['session_hostname'])){
-			$server_hostname 				= $_SESSION['session_hostname'];
-		} else {
-			$server_hostname 				= trim(gethostname());
-			if ($server_hostname) {
-				$server_hostname 			= ' (' . substr($server_hostname, 0, 30) . ')';
-			}
-			$_SESSION['session_hostname'] 	= $server_hostname;
-		}
-
-		$title								= $_SERVER['SERVER_NAME']
-											. $server_hostname . ' - '
-											. $amp_conf['BRAND_TITLE'];
+		$title = trim(gethostname()) ." (".$_SERVER['SERVER_NAME'].") - ".$amp_conf['BRAND_TITLE'];
 	} else {
-		$title								= $amp_conf['BRAND_TITLE'];
+		$title = $amp_conf['BRAND_TITLE'];
 	}
 
 	return $title;
