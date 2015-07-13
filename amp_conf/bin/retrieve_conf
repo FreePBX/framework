@@ -910,43 +910,46 @@ function install_cron_scheduler() {
 	global $amp_conf;
 	global $nt;
 
-	// crontab appears to return an error when no entries, os only fail if error returned AND a list of entries.
-	// Don't know if this will ever happen, but a failure and a list could indicate something wrong.
-	//
-	$outlines = array();
-	exec("/usr/bin/env crontab -l", $outlines, $ret);
-	if ($ret && count($outlines)) {
-		$nt->add_error('retrieve_conf', 'CRONMGR', _("Failed to check crontab for cron manager"), sprintf(_("crontab returned %s error code when checking for crontab entries to start freepbx-cron-scheduler.php crontab manager"),$ret));
-	} else {
+	try {
 		$nt->delete('retrieve_conf', 'CRONMGR');
-		$outlines2 = preg_grep("/freepbx-cron-scheduler.php/",$outlines);
-		$cnt = count($outlines2);
-		switch ($cnt) {
-			case 0:
-				/** grab any other cronjobs that are running as asterisk and NOT associated with backups
- 				*  this code was taken from the backup module for the most part. But seems to work...
- 				*/
-				$outlines = array();
-				exec("/usr/bin/env crontab -l | grep -v ^#\ DO\ NOT | grep -v ^#\ \( |  grep -v freepbx-cron-scheduler.php", $outlines, $ret);
-				$crontab_entry = "";
-				foreach ($outlines as $line) {
-					$crontab_entry .= $line."\n";
+		//force autoloader to load
+		$freepbxCron = \FreePBX::create()->Cron($amp_conf['AMPASTERISKWEBUSER']);
+		if (posix_geteuid() == 0) {
+			$rootCron = new \Cron('root');
+			foreach($rootCron->getAll() as $cron) {
+				$str = str_replace("/", "\/", $amp_conf['AMPBIN']."/freepbx-cron-scheduler.php");
+				if(preg_match("/".$str."/i",$cron,$matches)) {
+					$rootCron->remove($cron);
 				}
-				// schedule to run hourly, at a random time. The random time is explicit to accomodate things like module_admin online update checking
-				// since we will want a random access to the server. In the case of module_admin, that will also be scheduled randomly within the hour
-				// that it is to run
-				//
-				$crontab_entry .= rand(0,59)." * * * * ".$amp_conf['AMPBIN']."/freepbx-cron-scheduler.php";
-				system("/usr/bin/env echo '$crontab_entry' | /usr/bin/env crontab -");
-				break;
-			case 1:
-				// already running, nothing to do
-				break;
-			default:
-				// error, there should never be more than one running
-				echo "TODO: deal with error here\n";
-				$nt->add_error('retrieve_conf', 'CRONMGR', _("Multiple freepbx-cron-scheduler.php running"), sprintf(_("There were %s freepbx-cron-scheduler.php instances running. There should be only 1."),$cnt));
+			}
+		} else {
+			$userArray = posix_getpwuid(posix_geteuid());
+			if ($userArray['name'] != $amp_conf['AMPASTERISKWEBUSER']) {
+				//we arent the user we need to be
+				//and we aren't root so nothing we can do
+				return true;
+			}
 		}
+		$exists = false;
+		foreach($freepbxCron->getAll() as $cron) {
+			$str = str_replace("/", "\/", $amp_conf['AMPBIN']."/freepbx-cron-scheduler.php");
+			if(preg_match("/".$str."/i",$cron,$matches)) {
+				if($exists) {
+					//remove multiple entries (if any)
+					$rootCron->remove($cron);
+				}
+				$exists = true;
+			}
+		}
+		if(!$exists) {
+			print_r("adding");
+			$freepbxCron->add(array(
+				"command" => $amp_conf['AMPBIN']."/freepbx-cron-scheduler.php",
+				"minute" => rand(0,59)
+			));
+		}
+	} catch(\Exception $e) {
+		$nt->add_error('retrieve_conf', 'CRONMGR', _("Failed to check crontab for cron manager"), sprintf(_("crontab returned %s error code when checking for crontab entries to start freepbx-cron-scheduler.php crontab manager"),$e->getMessage()));
 	}
 }
 
