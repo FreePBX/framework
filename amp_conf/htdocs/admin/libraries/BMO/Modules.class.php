@@ -118,7 +118,7 @@ class Modules {
 		if($this->checkStatus($module)) {
 			$path = $this->FreePBX->Config->get("AMPWEBROOT");
 			$ifiles = get_included_files();
-			$relative = $rawname."/functions.inc.php";
+			$relative = $module."/functions.inc.php";
 			$absolute = $path."/admin/modules/".$relative;
 			$data = \FreePBX::Modules()->getInfo($module);
 			$needs_zend = isset($data[$module]['depends']['phpcomponent']) && stristr($data[$module]['depends']['phpcomponent'], 'zend');
@@ -128,27 +128,25 @@ class Modules {
 				if ($needs_zend && class_exists('\Schmooze\Zend',false) && \Schmooze\Zend::fileIsLicensed($absolute) && $complete_zend) {
 					return false;
 				}
+				$include = true;
 				foreach($ifiles as $file) {
-					$include = true;
-					foreach($ifiles as $file) {
-						if(strpos($file, $relative) !== false) {
-							$include = false;
-							break;
-						}
+					if(strpos($file, $relative) !== false) {
+						$include = false;
+						break;
 					}
-					if($include) {
-						include $absolute;
-					}
+				}
+				if($include) {
+					include $absolute;
 				}
 			}
 		}
 	}
 
 	/**
-	* Get Signature
-	* @param string $modulename The raw module name
-	* @param bool $cached     Get cached data or update the signature
-	*/
+	 * Get Signature
+	 * @param string $modulename The raw module name
+	 * @param bool $cached     Get cached data or update the signature
+	 */
 	public function getSignature($modulename,$cached=true) {
 		return $this->modclass->getSignature($modulename,$cached);
 	}
@@ -164,7 +162,7 @@ class Modules {
 	}
 
 	/**
-	 * Check to see if said module has method and is publically callable
+	 * Check to see if said module has method and is publicly callable
 	 * @param {string} $module The raw module name
 	 * @param {string} $method The method name
 	 */
