@@ -285,7 +285,7 @@ class Chown extends Command {
 					$this->fs->chmod($realfile,$perms);
 				} catch (IOExceptionInterface $e) {
 					if(file_exists($realfile)) {
-						$this->errors[] = sprintf(_('An error occurred while changing permissions on link % which points to %s'), $file, $realfile);
+						$this->errors[] = sprintf(_('An error occurred while changing permissions on link %s which points to %s'), $file, $realfile);
 					} else {
 						//File does not exist. Now we have a dangling symlink so remove it.
 						$this->infos[] = sprintf(_('Removing dangling symlink %s which points to a file that no longer exists'),$file);
