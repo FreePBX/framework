@@ -60,14 +60,14 @@ class Start extends Command {
 		}
 	}
 	private function asteriskProcess(){
-		$ps = '/bin/env ps';
+		$ps = '/usr/bin/env ps';
 		$cmd = $ps . " -C asterisk --no-headers -o '%p|%t'";
 		$stat = exec($cmd);
 		return explode('|',$stat);
 	}
 	private function startAsterisk($output){
 		$output->writeln(_('Starting Asterisk...'));
-		$astbin = '/bin/env safe_asterisk -U '.\FreePBX::Config()->get('AMPASTERISKUSER').' -G '.\FreePBX::Config()->get('AMPASTERISKGROUP').' > /dev/null 2>&1 &';
+		$astbin = '/usr/bin/env safe_asterisk -U '.\FreePBX::Config()->get('AMPASTERISKUSER').' -G '.\FreePBX::Config()->get('AMPASTERISKGROUP').' > /dev/null 2>&1 &';
 		exec($astbin);
 	}
 	private function preAsteriskHooks($output){
