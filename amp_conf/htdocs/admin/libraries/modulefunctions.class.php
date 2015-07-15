@@ -1935,7 +1935,7 @@ class module_functions {
 		$this->upgrade_notifications($new_modules, 'PASSIVE');
 		needreload();
 		FreePBX::Config()->update("SIGNATURECHECK", true);
-		FreePBX::Database()->query("DELETE FROM admin WHERE variable = 'unsigned' LIMIT 1");
+		$db->query("DELETE FROM admin WHERE variable = 'unsigned' LIMIT 1");
 
 		//Generate LESS on install
 		//http://issues.freepbx.org/browse/FREEPBX-8287
