@@ -229,7 +229,9 @@ class Chown extends Command {
 			$filetype = filetype($file);
 			if($filetype == "link") {
 				$file = readlink($file);
-				$this->fs->chown($file,$user);
+				if(file_exists($file)) {
+					$this->fs->chown($file,$user);
+				}
 			}
 		} catch (IOExceptionInterface $e) {
 			if($file){
@@ -241,7 +243,9 @@ class Chown extends Command {
 			$filetype = filetype($file);
 			if($filetype == "link") {
 				$file = readlink($file);
-				$this->fs->chown($file,$user);
+				if(file_exists($file)) {
+					$this->fs->chgrp($file,$user);
+				}
 			}
 		} catch (IOExceptionInterface $e) {
 			if($file){
@@ -255,7 +259,9 @@ class Chown extends Command {
 			$filetype = filetype($dir);
 			if($filetype == "link") {
 				$dir = readlink($dir);
-				$this->fs->chown($dir,$user, true);
+				if(file_exists($dir)) {
+					$this->fs->chown($dir,$user, true);
+				}
 			}
 		} catch (IOExceptionInterface $e) {
 			if($dir){

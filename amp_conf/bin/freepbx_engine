@@ -285,7 +285,7 @@ if [ -e $AMPBIN/fwconsole ]; then
 				esac
 				;;
 				modadmin|ma)
-				fwconsole modadmin $3 $4
+				fwconsole moduleadmin $3 $4
 				exit;
 				;;
 				freepbx_setting|fs)
@@ -309,7 +309,7 @@ if [ -e $AMPBIN/fwconsole ]; then
 				exit;
 				;;
 				mysql|m)
-				mysql -u$AMPDBUSER -D$AMPDBNAME -p$AMPDBPASS
+				fwconsole mysql
 				;;
 				syncmanager|s)
 				`php -r '
@@ -348,7 +348,7 @@ if [ -e $AMPBIN/fwconsole ]; then
 				exit;
 				;;
 				rmsymlinks)
-				remove_dangling_links
+				fwconsole chown
 				exit;
 				;;
 				*)
