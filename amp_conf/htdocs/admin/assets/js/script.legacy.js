@@ -1257,16 +1257,14 @@ $(document).ready(function() {
 	$(document).on("click", "#action-bar input[type=submit]", function(e) {
 		e.preventDefault();
 
-		var fpbxForm = $(".fpbx-submit");
+		var fpbxForm = $(".fpbx-submit:visible");
 			formName = fpbxForm.attr("name");
-			buttonName = $(this).attr("name");
+			buttonName = $(this).attr("name").toLowerCase();
 
 		switch (buttonName) {
-			case "Reset":
 			case "reset":
 				document.forms[formName].reset();
 			break;
-			case "Submit":
 			case "submit":
 				if(!fpbxForm[0].checkValidity()){
 					for(i = 0; i < fpbxForm[0].elements.length; i++){
@@ -1281,14 +1279,12 @@ $(document).ready(function() {
 					return true;
 				}
 			break;
-			case "Delete":
 			case "delete":
 				if (confirm(_("Are you sure you want to delete this?"))) {
 					delLink = fpbxForm.data("fpbx-delete");
 					location.href = delLink;
 				}
 				break;
-			case "Duplicate":
 			case "duplicate":
 				fpbxForm.submit();
 				break;
