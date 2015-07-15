@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Login functionality and user session management for FreePBX
+ */
 class ampuser {
 	public $username;
 	public $id;
@@ -9,7 +11,7 @@ class ampuser {
 	private $sections;
 	private $mode = "database";
 
-	function __construct($username, $mode="database") {
+	public function __construct($username, $mode="database") {
 		$this->username = $username;
 		$this->mode = $mode;
 		if ($user = $this->getAmpUser($username)) {
@@ -27,16 +29,22 @@ class ampuser {
 		}
 	}
 
-	/** Give this user full admin access
-	*/
-	function setAdmin() {
+	/**
+	 * Give this usr full admin access
+	 */
+	public function setAdmin() {
 		$this->extension_high = "";
 		$this->extension_low = "";
 		$this->deptname = "";
 		$this->sections = array("*");
 	}
 
-	function checkPassword($password) {
+	/**
+	 * Check password
+	 * @param  string $password The password to Check
+	 * @return bool           True if accepted false otherwise
+	 */
+	public function checkPassword($password) {
 		// strict checking so false will never match
 		switch($this->mode) {
 			case "usermanager":
@@ -50,15 +58,33 @@ class ampuser {
 		}
 	}
 
-	function checkSection($section) {
+	/**
+	 * Check to see if the user can view said section
+	 * @param  string $section The section name
+	 * @return bool          True of False
+	 */
+	public function checkSection($section) {
 		// if they have * then it means all sections
 		if(empty($this->sections) || !is_array($this->sections)) {
-			return false;
+			//section is empty try to convert it maybe?
+			if(!$this->convertAmpUser()) {
+				//there was nothing to convert fail
+				return false;
+			}
+			//check to see if converted sections have anything
+			if(empty($this->sections) || !is_array($this->sections)) {
+				return false;
+			}
 		}
 		return in_array("*", $this->sections) || in_array($section, $this->sections);
 	}
 
-	function getAmpUser($username) {
+	/**
+	 * Get the AMP User from the username
+	 * @param  string $username the username
+	 * @return mixed           False is false otherwise array of user
+	 */
+	public function getAmpUser($username) {
 		switch($this->mode) {
 			case "usermanager":
 				try {
@@ -95,6 +121,28 @@ class ampuser {
 				}
 			break;
 		}
+	}
 
+	/**
+	 * Convert old PHP4 style ampuser to PHP5
+	 * @return bool	True if this function converted something
+	 */
+	private function convertAmpUser() {
+		$converts = array(
+			"password",
+			"extension_high",
+			"extension_low",
+			"sections"
+		);
+		$status = false;
+		foreach($converts as $c) {
+			$b = "_".$c;
+			if(isset($this->$b)) {
+				$this->$c = $this->$b;
+				unset($this->$b);
+				$status = true;
+			}
+		}
+		return $status;
 	}
 }
