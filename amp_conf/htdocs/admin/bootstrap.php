@@ -89,7 +89,7 @@ require_once($dirname . '/functions.inc.php');
 $bootstrap_settings['framework_functions_included'] = true;
 
 //now that its been included, use our own error handler as it tends to be much more verbose.
-if ($bootstrap_settings['freepbx_error_handler']) {
+if ($bootstrap_settings['freepbx_error_handler'] && empty($bootstrap_settings['fix_zend'])) {
   $error_handler = $bootstrap_settings['freepbx_error_handler'] === true ? '' : $bootstrap_settings['freepbx_error_handler'];
   if (function_exists($error_handler)) {
     set_error_handler($error_handler, E_ALL);
