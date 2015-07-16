@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-15 15:34-0400\n"
+"POT-Creation-Date: 2015-07-15 20:01-0400\n"
 "PO-Revision-Date: 2014-09-11 02:13+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Romanian <http://git.freepbx.org/projects/freepbx/framework/"
@@ -965,8 +965,9 @@ msgid "An error occurred while changing permissions on file"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:288
+#, php-format
 msgid ""
-"An error occurred while changing permissions on link % which points to %s"
+"An error occurred while changing permissions on link %s which points to %s"
 msgstr ""
 
 #: ../core/views/did/routeform.php:327
@@ -3245,7 +3246,8 @@ msgid "Forced downgrades and re-installs:"
 msgstr "Downgrade fortat si reinstalari"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:24
-msgid "Format can be: %"
+#, php-format
+msgid "Format can be: %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1906
