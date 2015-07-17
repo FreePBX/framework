@@ -406,7 +406,7 @@ function framework_include_css() {
 function framework_include_js($module_name, $module_page) {
 	global $amp_conf, $active_modules;
 	$version			= get_framework_version();
-	$version_tag		= '?load_version=' . urlencode($version);
+	$version_tag		= 'load_version=' . urlencode($version);
 	if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
 	  $this_time_append	= '.' . time();
 	  $version_tag 		.= $this_time_append;
@@ -419,7 +419,7 @@ function framework_include_js($module_name, $module_page) {
 	if (is_file('modules/' . $module_name . '/' . $module_name . '.js')) {
 		$html .= '<script type="text/javascript" src="?handler=file&amp;module='
 				. $module_name . '&amp;file=' . $module_name . '.js'
-				. $version_tag . '"></script>';
+				. '&amp;'.$version_tag . '"></script>';
 	}
 	if (isset($module_page)
 		&& ($module_page != $module_name)
@@ -427,7 +427,7 @@ function framework_include_js($module_name, $module_page) {
 	) {
 		$html .= '<script type="text/javascript" src="?handler=file&amp;module='
 				. $module_name . '&amp;file=' . $module_page . '.js'
-				. $version_tag . '"></script>';
+				. '&amp;'.$version_tag . '"></script>';
 	}
 
 	// Check assets/js and then assets/js/page_name for any js files which will have been symlinked to
@@ -439,7 +439,7 @@ function framework_include_js($module_name, $module_page) {
 		foreach ($file_list as $file) {
 			if (substr($file,-3) == '.js' && is_file("$js_dir/$file")) {
 				$html .= '<script type="text/javascript"'
-						. ' src="assets/' . $module_name . '/js/' . $file . '"></script>';
+						. ' src="assets/' . $module_name . '/js/' . $file . '?'.$version_tag.'"></script>';
 			}
 		}
 		unset($file_list);
@@ -451,7 +451,7 @@ function framework_include_js($module_name, $module_page) {
 				  $html .= '<script type="text/javascript" '
 							. ' src="assets/' . $module_name . '/js/'
 							. $module_page . '/' . $p_file
-							. '"></script>';
+							. '?'.$version_tag.'"></script>';
 				}
 			}
 		}
