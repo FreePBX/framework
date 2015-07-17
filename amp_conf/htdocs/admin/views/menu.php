@@ -23,13 +23,13 @@ global $_item_sort;
 				</ul>
 			</div>
 			<div class="navbar-header stuck-right">
-				<?php if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) { ?>
-					<div class="nav-search">
-						<div class="" id='fpbxsearch'>
-							<i class="fa fa-search"></i>
-							<input type="text" class="form-control typeahead" placeholder="<?php echo _('Search')?>">
-						</div>
+				<div class="nav-search">
+					<div class="" id='fpbxsearch'>
+						<i class="fa fa-search"></i>
+						<input type="text" class="form-control typeahead" placeholder="<?php echo _('Search')?>">
 					</div>
+				</div>
+				<?php if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) { ?>
 					<?php if($amp_conf['SHOWLANGUAGE']) { ?>
 						<li class="dropdown">
 							<button class="dropdown-toggle nav-button" data-toggle="dropdown"><i class="fa fa-language"></i></button>
