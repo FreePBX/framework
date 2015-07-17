@@ -69,13 +69,6 @@ class Ajax extends FreePBX_Helpers {
 			$this->ajaxError(403, 'ajaxRequest declined');
 		}
 
-		if (method_exists($thisModule, "ajaxCustomHandler")) {
-			$ret = $thisModule->ajaxCustomHandler();
-			if($ret === true) {
-				exit;
-			}
-		}
-
 		if($this->settings['allowremote'] !== true) {
 			// Try to avoid CSRF issues.
 			if (!isset($_SERVER['HTTP_REFERER'])) {
@@ -103,6 +96,13 @@ class Ajax extends FreePBX_Helpers {
 				if (!defined('FREEPBX_IS_AUTH')) {
 					define('FREEPBX_IS_AUTH', 'TRUE');
 				}
+			}
+		}
+
+		if (method_exists($thisModule, "ajaxCustomHandler")) {
+			$ret = $thisModule->ajaxCustomHandler();
+			if($ret === true) {
+				exit;
 			}
 		}
 
@@ -343,6 +343,9 @@ class Ajax extends FreePBX_Helpers {
 	 */
 	private function sendHeaders() {
 		//send http header
+		if (headers_sent()) {
+			return;
+		}
 		if (isset($this->headers['HTTP/1.1'])) {
 			header('HTTP/1.1 ' . $this->headers['HTTP/1.1']);
 			unset($this->headers['HTTP/1.1']);
