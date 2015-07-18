@@ -93,15 +93,15 @@ class Ajax extends FreePBX_Helpers {
 			}
 		}
 
+		if (!method_exists($thisModule, "ajaxHandler")) {
+			$this->ajaxError(501, 'ajaxHandler not found');
+		}
+
 		if (method_exists($thisModule, "ajaxCustomHandler")) {
 			$ret = $thisModule->ajaxCustomHandler();
 			if($ret === true) {
 				exit;
 			}
-		}
-
-		if (!method_exists($thisModule, "ajaxHandler")) {
-			$this->ajaxError(501, 'ajaxHandler not found');
 		}
 
 		// Right. Now we can actually do it!
