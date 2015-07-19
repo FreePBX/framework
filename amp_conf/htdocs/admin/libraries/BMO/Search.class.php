@@ -28,16 +28,28 @@ class Search extends FreePBX_Helpers {
 	}
 	public function globalSearch() {
 		$modules = \FreePBX::Modules()->getActiveModules();
+
+		// If I'm in device and user mode, don't display Extensions, and vice-versa.
+		$mode = \FreePBX::Config()->get('AMPEXTENSIONS');
+
 		$retarr = array();
 		foreach ($modules as $m) {
 			if (isset($m['items'])) {
 				foreach ($m['items'] as $k => $v) {
+					if ($mode == "deviceanduser" && $v['name'] == "Extensions") {
+						continue;
+					} elseif ($mode == "extensions" && ($v['name'] == "Devices" || $v['name'] == "Users")) {
+						continue;
+					}
+
 					\modgettext::push_textdomain(strtolower($m['rawname']));
 					$retarr[] = array("text" => _($v['name']), "type" => "get", "dest" => "?display=$k");
 					\modgettext::pop_textdomain();
 				}
 			}
 		}
+
+
 		return $retarr;
 	}
 
