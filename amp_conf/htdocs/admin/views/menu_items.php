@@ -60,6 +60,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 	}
 
 	$count = 0;
+	$menu = is_array($menu) ? $menu : array();
 	foreach($menu as $t => $cat) { //categories
 		if (count($cat) == 1) {
 			if (isset($cat[0]['hidden']) && $cat[0]['hidden'] == 'true') {
@@ -80,6 +81,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 			<a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $catname . '</a>
 			<ul class="dropdown-menu" role="menu">';
 
+		$cat = is_array($cat) ? $cat : array();
 		foreach ($cat as $c => $mod) { //modules
 			if (isset($mod['hidden']) && $mod['hidden'] == 'true') {
 				continue;
