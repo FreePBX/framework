@@ -51,7 +51,6 @@ if (false) {
 
 class Freepbx_conf {
 
-	private static $derp = false;
   /** $legacy_conf_defaults are used by parse_amprotal_conf to
    * assure that a system being migrated has all the expected $amp_conf
    * settings defined as the code expects them to be there.
@@ -984,9 +983,6 @@ class Freepbx_conf {
    */
   function commit_conf_settings() {
 
-	  if (self::$derp) {
-		  throw new \Exception("WTF");
-	  }
 	  $update_array = array();
 	  if(empty($this->db_conf_store)) {
 		  return 0;
@@ -1015,7 +1011,7 @@ class Freepbx_conf {
 			  "emptyok" => $atrib['emptyok'],
 			  "sortorder" => $atrib['sortorder'],
 		  );
-		  $this->db_conf_store[$keyword]['modified'] = false;
+		  unset($this->db_conf_store[$keyword]['modified']);
 	  }
 	  if ($update_array) {
 		$keys = array( 'keyword', 'value', 'name', 'level', 'description', 'type', 'options', 'defaultval',
@@ -1036,8 +1032,6 @@ class Freepbx_conf {
 		   `emptyok`=VALUES(`emptyok`), `sortorder`=VALUES(`sortorder`)";
 
 		\FreePBX::Database()->query($sql);
-
-		  self::$derp = true;
 
 	  }
 	  return count($update_array);
