@@ -988,13 +988,13 @@ class Freepbx_conf {
 		  return 0;
 	  }
 
-	  $query = \FreePBX::Database()->prepare($sql);
 	  foreach ($this->db_conf_store as $keyword => $atrib) {
 
 		  // This hasn't been changed, no need to update
-		  if (!isset($atrib['modified'])) {
+		  if (!isset($atrib['modified']) || !$atrib['modified']) {
 			  continue;
 		  }
+
 		  $update_array[] = array(
 			  "keyword" => $keyword,
 			  "value" => $atrib['value'],
@@ -1032,7 +1032,6 @@ class Freepbx_conf {
 		   `emptyok`=VALUES(`emptyok`), `sortorder`=VALUES(`sortorder`)";
 
 		\FreePBX::Database()->query($sql);
-
 	  }
 	  return count($update_array);
   }
