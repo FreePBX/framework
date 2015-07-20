@@ -982,6 +982,7 @@ class Freepbx_conf {
    * @return int    The number of modified settings it committed back.
    */
   function commit_conf_settings() {
+	  global $db;
 
 	  $update_array = array();
 	  if(empty($this->db_conf_store)) {
@@ -1021,7 +1022,7 @@ class Freepbx_conf {
 		  foreach ($update_array as $row) {
 			  $sql .= " (  ";
 			  foreach ($keys as $n) {
-				  $sql .= \FreePBX::Database()->quote($row[$n]).", ";
+				  $sql .= $db->escapeSimple($row[$n]).", ";
 			  }
 			  $sql = substr($sql, 0, -2)." ), ";
 		  }
@@ -1031,7 +1032,7 @@ class Freepbx_conf {
 		   `hidden`=VALUES(`hidden`), `category`=VALUES(`category`), `module`=VALUES(`module`), 
 		   `emptyok`=VALUES(`emptyok`), `sortorder`=VALUES(`sortorder`)";
 
-		\FreePBX::Database()->query($sql);
+		$db->query($sql);
 	  }
 	  return count($update_array);
   }
