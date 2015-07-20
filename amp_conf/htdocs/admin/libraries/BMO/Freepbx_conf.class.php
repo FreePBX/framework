@@ -50,6 +50,8 @@ if (false) {
 }
 
 class Freepbx_conf {
+
+	private static $derp = false;
   /** $legacy_conf_defaults are used by parse_amprotal_conf to
    * assure that a system being migrated has all the expected $amp_conf
    * settings defined as the code expects them to be there.
@@ -981,46 +983,64 @@ class Freepbx_conf {
    * @return int    The number of modified settings it committed back.
    */
   function commit_conf_settings() {
-    global $db;
-    $update_array = array();
-	if(empty($this->db_conf_store)) {
-		return 0;
-	}
-    foreach ($this->db_conf_store as $keyword => $atrib) {
-      if (!isset($atrib['modified'])) {
-        continue;
-      }
-      //TODO: confirm that prepare with ? does an escapeSimple() or equiv, the docs say so
-      $update_array[] = array(
-        $keyword,
-        $atrib['value'],
-        $atrib['name'],
-        $atrib['level'],
-        $atrib['description'],
-        $atrib['type'],
-        $atrib['options'],
-        $atrib['defaultval'],
-        $atrib['readonly'],
-        $atrib['hidden'],
-        $atrib['category'],
-        $atrib['module'],
-        $atrib['emptyok'],
-        $atrib['sortorder'],
-      );
-      $this->db_conf_store[$keyword]['modified'] = false;
-    }
-    if (empty($update_array)) {
-      return 0;
-    }
-    $sql = 'REPLACE INTO freepbx_settings
-      (keyword, value, name, level, description, type, options, defaultval, readonly, hidden, category, module, emptyok, sortorder)
-      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-    $compiled = $db->prepare($sql);
-    $result = $db->executeMultiple($compiled,$update_array);
-    if(\DB::IsError($result)) {
-      die_freepbx(_('fatal error updating freepbx_settings table'));
-    }
-    return count($update_array);
+
+	  if (self::$derp) {
+		  throw new \Exception("WTF");
+	  }
+	  $update_array = array();
+	  if(empty($this->db_conf_store)) {
+		  return 0;
+	  }
+
+	  $query = \FreePBX::Database()->prepare($sql);
+	  foreach ($this->db_conf_store as $keyword => $atrib) {
+
+		  // This hasn't been changed, no need to update
+		  if (!isset($atrib['modified'])) {
+			  continue;
+		  }
+		  $update_array[] = array(
+			  "keyword" => $keyword,
+			  "value" => $atrib['value'],
+			  "name" => $atrib['name'],
+			  "level" => $atrib['level'],
+			  "description" => $atrib['description'],
+			  "type" => $atrib['type'],
+			  "options" => $atrib['options'],
+			  "defaultval" => $atrib['defaultval'],
+			  "readonly" => $atrib['readonly'],
+			  "hidden" => $atrib['hidden'],
+			  "category" => $atrib['category'],
+			  "module" => $atrib['module'],
+			  "emptyok" => $atrib['emptyok'],
+			  "sortorder" => $atrib['sortorder'],
+		  );
+		  $this->db_conf_store[$keyword]['modified'] = false;
+	  }
+	  if ($update_array) {
+		$keys = array( 'keyword', 'value', 'name', 'level', 'description', 'type', 'options', 'defaultval',
+			  'readonly', 'hidden', 'category', 'module', 'emptyok', 'sortorder' );
+		$sql = "INSERT INTO `freepbx_settings` ( ".implode(", ", $keys)." ) VALUES ";
+
+		  foreach ($update_array as $row) {
+			  $sql .= " (  ";
+			  foreach ($keys as $n) {
+				  $sql .= \FreePBX::Database()->quote($row[$n]).", ";
+			  }
+			  $sql = substr($sql, 0, -2)." ), ";
+		  }
+		  $sql = substr($sql, 0, -2)." ON DUPLICATE KEY UPDATE `value`=VALUES(`value`), `name`=VALUES(`name`), 
+		   `level`=VALUES(`level`), `description`=VALUES(`description`), `type`=VALUES(`type`), 
+		   `options`=VALUES(`options`), `defaultval`=VALUES(`defaultval`), `readonly`=VALUES(`readonly`), 
+		   `hidden`=VALUES(`hidden`), `category`=VALUES(`category`), `module`=VALUES(`module`), 
+		   `emptyok`=VALUES(`emptyok`), `sortorder`=VALUES(`sortorder`)";
+
+		\FreePBX::Database()->query($sql);
+
+		  self::$derp = true;
+
+	  }
+	  return count($update_array);
   }
 
   /**
