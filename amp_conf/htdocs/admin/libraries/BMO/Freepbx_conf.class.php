@@ -1015,24 +1015,21 @@ class Freepbx_conf {
 		  unset($this->db_conf_store[$keyword]['modified']);
 	  }
 	  if ($update_array) {
-		$keys = array( 'keyword', 'value', 'name', 'level', 'description', 'type', 'options', 'defaultval',
+		  $keys = array( 'keyword', 'value', 'name', 'level', 'description', 'type', 'options', 'defaultval',
 			  'readonly', 'hidden', 'category', 'module', 'emptyok', 'sortorder' );
-		$sql = "INSERT INTO `freepbx_settings` ( ".implode(", ", $keys)." ) VALUES ";
-
-		  foreach ($update_array as $row) {
-			  $sql .= " (  ";
-			  foreach ($keys as $n) {
-				  $sql .= $db->escapeSimple($row[$n]).", ";
-			  }
-			  $sql = substr($sql, 0, -2)." ), ";
+		  $sql = "INSERT INTO `freepbx_settings` ( ".implode(", ", $keys)." ) VALUES ( ";
+		  foreach ($keys as $n) {
+			  $sql .= ":$n,";
 		  }
-		  $sql = substr($sql, 0, -2)." ON DUPLICATE KEY UPDATE `value`=VALUES(`value`), `name`=VALUES(`name`), 
+		  $sql = substr($sql, 0, -1).") ON DUPLICATE KEY UPDATE `value`=VALUES(`value`), `name`=VALUES(`name`), 
 		   `level`=VALUES(`level`), `description`=VALUES(`description`), `type`=VALUES(`type`), 
 		   `options`=VALUES(`options`), `defaultval`=VALUES(`defaultval`), `readonly`=VALUES(`readonly`), 
 		   `hidden`=VALUES(`hidden`), `category`=VALUES(`category`), `module`=VALUES(`module`), 
 		   `emptyok`=VALUES(`emptyok`), `sortorder`=VALUES(`sortorder`)";
-
-		$db->query($sql);
+		  $p = $db->prepare($sql);
+		  foreach ($update_array as $row) {
+			  $p->execute($row);
+		  }
 	  }
 	  return count($update_array);
   }
