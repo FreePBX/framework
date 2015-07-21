@@ -1173,6 +1173,10 @@ function checkPassword(el) {
 }
 
 $(document).ready(function() {
+	//when clicking the magnifying glass on the search bar focus on the search input
+	$("#fpbxsearch .fa-search").click(function() {
+		$("#fpbxsearch .typeahead").focus()
+	});
 	if ($(".fpbx-container").length > 0) {
 		//Show tab if location hash matches data-name
 		var loc = window.location.hash.replace("#", "");
