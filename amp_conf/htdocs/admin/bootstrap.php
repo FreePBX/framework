@@ -245,7 +245,7 @@ $zended = array();
 $zendedbroken = array(); //to display in module_admin, or disable it here and now?
 if ($restrict_mods_local !== true) {
 	$isauth = !isset($no_auth);
-	$modulef =& module_functions::create();
+	$modulef = module_functions::create();
 	$active_modules = $modulef->getinfo(false, MODULE_STATUS_ENABLED);
 	$modpath = $amp_conf['AMPWEBROOT'] . '/admin/modules/';
 	if(is_array($active_modules)){

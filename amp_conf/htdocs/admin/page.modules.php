@@ -811,7 +811,7 @@ switch ($action) {
 							case MODULE_STATUS_BROKEN:
 								$sysstatus = _('is broken');
 							break;
-							case MODULE_STATUS_NEEEDUPGRADE:
+							case MODULE_STATUS_NEEDUPGRADE:
 								$sysstatus = _('needs to be upgraded');
 							break;
 							default:
