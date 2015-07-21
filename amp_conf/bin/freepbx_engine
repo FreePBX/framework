@@ -211,162 +211,161 @@ if [ -e $AMPBIN/fwconsole ]; then
 			rm -f $AMPSBIN/fwconsole
 		fi
 		ln -s $AMPBIN/fwconsole $AMPSBIN/fwconsole
-		exit;
-	else
-		echo -e "\033[38;5;148m!!!!amportal is depreciated. Please use fwconsole!!!!\033[39m"
-		echo "forwarding all commands to 'fwconsole'"
-		case "$1" in
-			start)
-			fwconsole start
-			call_hook run_asterisk
-			exit;
-			;;
-			stop)
-			fwconsole stop
-			call_hook stop_asterisk
-			exit;
-			;;
-			restart)
-			fwconsole restart
-			call_hook stop_asterisk
-			call_hook run_asterisk
-			exit;
-			;;
-			reload)
-			fwconsole reload
-			exit;
-			;;
-			chown)
-			fwconsole chown
-			exit;
-			;;
-			kill)
-			fwconsole kill
-			call_hook kill_asterisk
-			exit;
-			;;
-			#Added some admin/dev oriented options:
-			#see usage in help text below
-			admin|a)
-			case "$2" in
-				reload|r)
-				fwconsole reload
-				exit;
-				;;
-				context|ctx)
-				fwconsole context $3
-				exit;
-				;;
-				userman)
-				case $3 in
-					migrate|m)
-					fwconsole userman migrate
-					exit;
-					;;
-					*)
-					fwconsole userman --help
-					exit;
-					;;
-				esac
-				;;
-				ucp)
-				case $3 in
-					enableall|ea)
-					fwconsole ucp enableall
-					exit;
-					;;
-					unlock|u)
-					fwconsole ucp $4 $5
-					exit;
-					;;
-					*)
-					fwconsole ucp --help
-					exit;
-					;;
-				esac
-				;;
-				modadmin|ma)
-				fwconsole moduleadmin $3 $4
-				exit;
-				;;
-				freepbx_setting|fs)
-				fwconsole setting $3 $4
-				exit;
-				;;
-				auth_database|ad)
-				fwconsole setting AUTHTYPE database
-				exit;
-				;;
-				auth_none|an)
-				fwconsole setting AUTHTYPE none
-				exit;
-				;;
-				externalip|extip)
-				fwconsole extip
-				exit;
-				;;
-				dbug)
-				fwconsole dbug
-				exit;
-				;;
-				mysql|m)
-				fwconsole mysql
-				;;
-				syncmanager|s)
-				`php -r '
-				$bootstrap_settings["freepbx_auth"] = false;
-				$bootstrap_settings["skip_astman"] = true;
-				$restrict_mods = true;
-				if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) {
-					include_once("/etc/asterisk/freepbx.conf");
-				}
-				fpbx_ami_update(true,true,true);
-				'`
-				if [[ $? = 0 ]]; then
-					echo 'Manager ReSynced, restarting Asterisk'
-					stop_asterisk
-					sleep 1
-					chown_asterisk
-					remove_dangling_links
-					run_asterisk
-				else
-					echo 'um, something went wrong...'
-				fi
-				exit;
-				;;
-				unlock|u)
-				fwconsole unlock $3
-				exit;
-				;;
-				genunlockkey)
-				echo "If REMOTEUNLOCK is enabled, you will receive a value for KEY. You can use"
-				echo "that as a parameter to config.php, thus:"
-				echo "http://192.168.1.1/admin/config.php?unlock=abc123def... "
-				echo ""
-				env php -r '$bootstrap_settings["freepbx_auth"] = false; $bootstrap_settings["skip_astman"] = true; $restrict_mods = true;
-				if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) { include_once("/etc/asterisk/freepbx.conf"); }
-					print "KEY=".$bmo->Unlock->genUnlockKey()."\n";'
-				exit;
-				;;
-				rmsymlinks)
-				fwconsole chown
-				exit;
-				;;
-				*)
-				fwconsole
-				exit;
-				;;
-				esac
-				;;
-				*)
-				fwconsole "$@"
-				exit;
-				;;
-			esac
-		echo ""
-		echo -e "\033[38;5;148m!!!!amportal is depreciated. Please use 'fwconsole $@'!!!!\033[39m"
 	fi
 fi
+echo -e "\033[38;5;148m!!!!amportal is depreciated. Please use fwconsole!!!!\033[39m"
+echo "forwarding all commands to 'fwconsole'"
+case "$1" in
+	start)
+	$AMPBIN/fwconsole start
+	call_hook run_asterisk
+	exit;
+	;;
+	stop)
+	$AMPBIN/fwconsole stop
+	call_hook stop_asterisk
+	exit;
+	;;
+	restart)
+	$AMPBIN/fwconsole restart
+	call_hook stop_asterisk
+	call_hook run_asterisk
+	exit;
+	;;
+	reload)
+	$AMPBIN/fwconsole reload
+	exit;
+	;;
+	chown)
+	$AMPBIN/fwconsole chown
+	exit;
+	;;
+	kill)
+	$AMPBIN/fwconsole kill
+	call_hook kill_asterisk
+	exit;
+	;;
+	#Added some admin/dev oriented options:
+	#see usage in help text below
+	admin|a)
+	case "$2" in
+		reload|r)
+		$AMPBIN/fwconsole reload
+		exit;
+		;;
+		context|ctx)
+		$AMPBIN/fwconsole context $3
+		exit;
+		;;
+		userman)
+		case $3 in
+			migrate|m)
+			$AMPBIN/fwconsole userman migrate
+			exit;
+			;;
+			*)
+			$AMPBIN/fwconsole userman --help
+			exit;
+			;;
+		esac
+		;;
+		ucp)
+		case $3 in
+			enableall|ea)
+			$AMPBIN/fwconsole ucp enableall
+			exit;
+			;;
+			unlock|u)
+			$AMPBIN/fwconsole ucp $4 $5
+			exit;
+			;;
+			*)
+			$AMPBIN/fwconsole ucp --help
+			exit;
+			;;
+		esac
+		;;
+		modadmin|ma)
+		$AMPBIN/fwconsole moduleadmin $3 $4
+		exit;
+		;;
+		freepbx_setting|fs)
+		$AMPBIN/fwconsole setting $3 $4
+		exit;
+		;;
+		auth_database|ad)
+		$AMPBIN/fwconsole setting AUTHTYPE database
+		exit;
+		;;
+		auth_none|an)
+		$AMPBIN/fwconsole setting AUTHTYPE none
+		exit;
+		;;
+		externalip|extip)
+		$AMPBIN/fwconsole extip
+		exit;
+		;;
+		dbug)
+		$AMPBIN/fwconsole dbug
+		exit;
+		;;
+		mysql|m)
+		$AMPBIN/fwconsole mysql
+		;;
+		syncmanager|s)
+		`php -r '
+		$bootstrap_settings["freepbx_auth"] = false;
+		$bootstrap_settings["skip_astman"] = true;
+		$restrict_mods = true;
+		if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) {
+			include_once("/etc/asterisk/freepbx.conf");
+		}
+		fpbx_ami_update(true,true,true);
+		'`
+		if [[ $? = 0 ]]; then
+			echo 'Manager ReSynced, restarting Asterisk'
+			stop_asterisk
+			sleep 1
+			chown_asterisk
+			remove_dangling_links
+			run_asterisk
+		else
+			echo 'um, something went wrong...'
+		fi
+		exit;
+		;;
+		unlock|u)
+		$AMPBIN/fwconsole unlock $3
+		exit;
+		;;
+		genunlockkey)
+		echo "If REMOTEUNLOCK is enabled, you will receive a value for KEY. You can use"
+		echo "that as a parameter to config.php, thus:"
+		echo "http://192.168.1.1/admin/config.php?unlock=abc123def... "
+		echo ""
+		env php -r '$bootstrap_settings["freepbx_auth"] = false; $bootstrap_settings["skip_astman"] = true; $restrict_mods = true;
+		if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) { include_once("/etc/asterisk/freepbx.conf"); }
+			print "KEY=".$bmo->Unlock->genUnlockKey()."\n";'
+		exit;
+		;;
+		rmsymlinks)
+		$AMPBIN/fwconsole chown
+		exit;
+		;;
+		*)
+		$AMPBIN/fwconsole
+		exit;
+		;;
+		esac
+		;;
+		*)
+		$AMPBIN/fwconsole "$@"
+		exit;
+		;;
+	esac
+echo ""
+echo -e "\033[38;5;148m!!!!amportal is depreciated. Please use 'fwconsole $@'!!!!\033[39m"
+
 
 chown_asterisk() {
 	echo -n SETTING FILE PERMISSIONS
