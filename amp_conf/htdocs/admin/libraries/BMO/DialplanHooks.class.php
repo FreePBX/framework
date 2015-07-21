@@ -27,6 +27,7 @@ class DialplanHooks {
 		$newHooks = $this->getBMOHooks();
 
 		// Merge newHooks into oldHooks and return it.
+		$newHooks = is_array($newHooks) ? $newHooks : array();
 		foreach ($newHooks as $module => $priority) {
 			// Note that a module may want to hook in several times, so priority may be an array.
 			if (is_array($priority)) {
@@ -60,14 +61,18 @@ class DialplanHooks {
 	public function processHooks($engine, $hooks = null) {
 		global $ext;
 
-		if ($hooks == null)
+		if ($hooks == null) {
 			throw new \Exception("I wasn't given any modules to hook. Bug.");
+		}
 
 		// The array should already be sorted before it's given to us. Don't
 		// sort again. Just run through it!
+		$hooks = is_array($hooks) ? $hooks : array();
 		foreach ($hooks as $pri => $hook) {
+			$hook = is_array($hook) ? $hook : array();
 			foreach ($hook as $module => $cmds) {
 				\modgettext::push_textdomain(strtolower($module));
+				$cmds = is_array($cmds) ? $cmds : array();
 				foreach($cmds as $cmd) {
 					// Is this an old-style function call? (_hookGet, _hook_core etc)
 					if (isset($cmd['function'])) {
@@ -111,11 +116,13 @@ class DialplanHooks {
 		// Moved from retrieve_conf
 
 		// Check to make sure we actually were given modules.
-		if(!is_array($active_modules))
+		if(!is_array($active_modules)) {
 			throw new \Exception("I'm unaware what I was given as $active_modules");
+		}
 
 		// Loop through all our modules
 		$hooksDiscovered = array();
+		$active_modules = is_array($active_modules) ? $active_modules : array();
 		foreach($active_modules as $module => $mod_data) {
 			// Some modules specify they want to run at
 			// a specific priority, in module.xml.  Let them.
