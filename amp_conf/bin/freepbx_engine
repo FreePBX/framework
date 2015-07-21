@@ -136,7 +136,7 @@ if [ "$ASTRUNDIR" = "/var/run" ]
     echo "**** ERROR IN CONFIGURATION ****"
     echo "astrundir in '$ASTETCDIR' is set to '/var/run' - THIS IS WRONG."
     echo "Please change it to something sensible (eg, '/var/run/asterisk') and re-run"
-    echo "install_amp"
+    echo "install"
     exit;
 fi
 
@@ -242,7 +242,7 @@ case "$1" in
 	;;
 	kill)
 	$AMPBIN/fwconsole kill
-	call_hook kill_asterisk
+	call_hook kill_amp
 	exit;
 	;;
 	#Added some admin/dev oriented options:
@@ -324,11 +324,12 @@ case "$1" in
 		'`
 		if [[ $? = 0 ]]; then
 			echo 'Manager ReSynced, restarting Asterisk'
-			stop_asterisk
+			$AMPBIN/fwconsole stop
+			call_hook stop_asterisk
 			sleep 1
-			chown_asterisk
-			remove_dangling_links
-			run_asterisk
+			$AMPBIN/fwconsole chown
+			$AMPBIN/fwconsole start
+			call_hook run_asterisk
 		else
 			echo 'um, something went wrong...'
 		fi
@@ -365,257 +366,3 @@ case "$1" in
 	esac
 echo ""
 echo -e "\033[38;5;148m!!!!amportal is depreciated. Please use 'fwconsole $@'!!!!\033[39m"
-
-
-chown_asterisk() {
-	echo -n SETTING FILE PERMISSIONS
-
-	# Get our PHP session directory.
-	SESSDIR=$(php -r "echo ini_get('session.save_path');")
-	[ ! $SESSDIR ] && SESSDIR=/var/lib/php/session
-	# If it's not a directory AND it's not a link, it's broken. Fix it.
-	if [ ! -d $SESSDIR -a ! -h $SESSDIR ]; then
-		mv $SESSDIR $SESSDIR.$$
-		mkdir $SESSDIR
-	fi
-
-	ASTERISKOWNED=("$ASTRUNDIR" "$ASTETCDIR" "$ASTVARLIBDIR" "$ASTLOGDIR" "$AMPBIN" "$ASTAGIDIR" \
-		"/etc/dahdi" "/etc/wanpipe" "/etc/odbc.ini" "/usr/local/asterisk" "/dev/tty9" \
-		"/etc/amportal.conf")
-	WEBOWNED=("$AMPWEBROOT/admin" "$AMPWEBROOT/recordings" "$FPBXDBUGFILE" "$FPBX_LOG_FILE" "$SESSDIR")
-	PRIVFILES=("$ASTVARLIBDIR/.ssh/.id_rsa")
-	DEVICES=("/dev/zap" "/dev/dahdi" "/dev/capi20" "/dev/misdn" "/dev/mISDN" "/dev/dsp")
-
-	for target in "${WEBOWNED[@]}"; do
-		[ ! -e "$target" ] && continue
-		L=$(readlink -f $target)
-		chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $L
-		chmod -R 775 $L
-		echo -n .
-	done
-
-	for target in "${ASTERISKOWNED[@]}"; do
-		[ ! -e "$target" ] && continue
-		L=$(readlink -f $target)
-		chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $L
-		chmod -R 775 $L
-		echo -n .
-	done
-
-	for file in "${PRIVFILES[@]}"; do
-		[ ! -e "$file" ] && continue
-		L=$(readlink -f $file)
-		if [ $AMPASTERISKWEBUSER != $AMPASTERISKUSER ]; then
-			chown $AMPASTERISKWEBUSER:$AMPASTERISKGROUP $L
-			chmod 660 $L
-		else
-			chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $L
-			chmod 600 $L
-		fi
-		echo -n .
-	done
-
-	for dev in "${DEVICES[@]}"; do
-		[ ! -e "$dev" ] && continue
-		chown -R $AMPDEVUSER:$AMPDEVGROUP $dev
-		echo -n .
-	done
-
-	# This can take a while, so run it in the background
-	( D=$(readlink -f $ASTSPOOLDIR); chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $D; chmod -R g+w $D ) &
-
-	# Make sure that everything in AMPWEBROOT is owned by asterisk.
-	# Edit: No. Don't chown EVERYTHING. Takes too long. Chown
-	# the directory itself, and all of the first level directories.
-	# We've already recursed into admin and recordings above
-	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT
-	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/* 2>/dev/null # Silence dangling symlink errors, cleared later
-
-	chown $AMPASTERISKUSER:$AMPASTERISKGROUP /usr/local/sbin/amportal
-
-	ASTHOME=`sudo -u $AMPASTERISKUSER -H -s eval 'echo $HOME'`
-	if [ -n "$ASTHOME" ] && [ -d "$ASTHOME" ]
-		then
-			chown -R $AMPASTERISKUSER:$AMPASTERISKGROUP $ASTHOME
-			chmod -R 700 $ASTHOME
-			echo -n .
-	fi
-
-	chown -R $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $FREEPBX_CONF
-	chmod -R 640 $FREEPBX_CONF
-	echo -n .
-
-	# Fix immutable files
-	chattr -i $AMPWEBROOT/* > /dev/null 2>&1
-
-	echo Done
-	call_hook chown_asterisk
-}
-
-remove_dangling_links() {
-	#find -L /var/www/html/admin/assets 2>&1 >/dev/null | grep -i 'too many levels of symbolic links' | sed 's/\(.*\)\/.*/\1/'
-	#rm -Rf /var/www/html/admin/assets/superfecta/images/*
-	echo Removing any dangling symlinks
-	find -L $AMPWEBROOT -type l -delete
-	find -L $AMPBIN -type l -delete
-	find -L $ASTETCDIR -type l -delete
-	find -L $ASTVARLIBDIR -type l -delete
-	for d in $ASTSPOOLDIR/* ; do
-		if [ "$d" != "$ASTSPOOLDIR/voicemail" ]
-			then
-			find -L $d -type l -delete
-			fi
-	done;
-	find -L $ASTAGIDIR -type l -delete
-	echo Dangling symlinks removed
-}
-
-check_asterisk() {
-# check to see if asterisk is running
-# Note, this isn't fool-proof.  If safe_asterisk is constantly restarting a dying asterisk,
-# then there is a chance pidof will return non zero.  We call this twice to reduce chances of this happening
-pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
-	if [ "$pid_length" == "0" -a "$pid_length" != "" ]
-		then
-				killall -9 safe_asterisk
-				killall -9 mpg123 > /dev/null
-				echo
-				echo "-----------------------------------------------------"
-				echo "Asterisk could not start!"
-				echo "Use 'tail $ASTLOGDIR/full' to find out why."
-				echo "-----------------------------------------------------"
-				exit 0
-		fi
-	call_hook check_asterisk
-}
-
-run_asterisk() {
-# check to see if asterisk is running
-echo
-echo "STARTING ASTERISK"
-pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
-	if [ "$pid_length" != "0" -a "$pid_length" != "" ]
-		then
-			echo "Asterisk is already running"
-		else
-			# su - asterisk -c "export PATH=$PATH:/usr/sbin && export LD_LIBRARY_PATH=/usr/local/lib && /usr/sbin/safe_asterisk"
-			export LD_LIBRARY_PATH=/usr/local/lib
-			umask $AMPVMUMASK
-			/usr/sbin/safe_asterisk -U $AMPASTERISKUSER -G $AMPASTERISKGROUP >/dev/null 2>&1
-			sleep 5
-			check_asterisk
-			sleep 1
-			check_asterisk
-			echo "Asterisk Started"
-			if [ "$DYNAMICHINTS" == "TRUE" ]
-			then
-				echo "Reloading Asterisk because of Dynamic Hints"
-				/usr/sbin/asterisk -rx 'core reload' >/dev/null 2>&1
-			fi
-		fi
-	call_hook run_asterisk
-}
-
-stop_asterisk() {
-echo
-echo "STOPPING ASTERISK"
-echo "Waiting for Asterisk to Stop Gracefully..."
-pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
-	if [ "$pid_length" != "0" -a "$pid_length" != "" ]
-		then
-			/usr/sbin/asterisk -rx "core stop gracefully" 2>&1 >/dev/null | grep -v "No such command"
-			/usr/sbin/asterisk -rx "stop gracefully" 2>&1 >/dev/null | grep -v -E "No such command|deprecated|Unable to connect to remote"
-
-			pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
-			if [ "$pid_length" = "0" -o "$pid_length" = "" ]
-			then
-				ast_not_stopped=false
-			else
-				echo "All calls will be dropped once the timer hits 0. To cancel, press CTL-C"
-				ast_not_stopped=true
-				time_to_wait=$ASTSTOPTIMEOUT
-
-				while [ $time_to_wait -gt 0 ];
-				do
-					echo -ne "Waiting for Asterisk to Stop" $time_to_wait "\r"
-					sleep $ASTSTOPPOLLINT
-					let time_to_wait=time_to_wait-ASTSTOPPOLLINT
-					pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
-					if [ "$pid_length" = "0" -o "$pid_length" = "" ]
-					then
-						ast_not_stopped=false
-						break
-					fi
-				done
-			fi
-
-			if $ast_not_stopped ;
-			then
-				echo "Waiting for Asterisk to Stop    "
-			else
-				echo
-			fi
-
-			if $ast_not_stopped ;
-			then
-				echo "Force stopping Asterisk and hanging up active channels"
-				/usr/sbin/asterisk -rx "core stop now" 2>&1 >/dev/null | grep -v "No such command"
-				/usr/sbin/asterisk -rx "stop now" 2>&1 >/dev/null | grep -v -E "No such command|deprecated|Unable to connect to remote"
-				pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
-				if [ "$pid_length" != "0" -a "$pid_length" != "" ]
-				then
-					time_to_wait=20
-					while [ $time_to_wait -gt 0 ];
-					do
-						echo -ne "Waiting for Asterisk to Stop" $time_to_wait "\r"
-						sleep 1
-						let time_to_wait=time_to_wait-1
-						pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
-						if [ "$pid_length" = "0" -o "$pid_length" = "" ]
-						then
-							ast_not_stopped=false
-							break
-						fi
-					done
-
-					if $ast_not_stopped ;
-					then
-						echo "Waiting for Asterisk to Stop    "
-					else
-						echo
-					fi
-
-				else
-					ast_not_stopped=false
-				fi
-
-				if $ast_not_stopped ;
-				then
-					echo "Asterisk has still not stopped, killing Asterisk processes"
-					killall -9 safe_asterisk
-					killall -9 asterisk
-
-					pid_length=`$PIDOF asterisk|awk '{print length($0)}'`
-					if [ "$pid_length" != "0" -a "$pid_length" != "" ]
-					then
-						echo "[FATAL] Could not kill Asterisk process, exiting"
-						exit 1
-					fi
-				fi
-			fi
-			echo -ne "Asterisk Stopped" "\n\n"
-
-		fi
-	call_hook stop_asterisk
-}
-
-kill_amp() {
-	echo
-	echo "KILLING AMP PROCESSES"
-	killall -9 safe_asterisk
-	killall -9 asterisk
-	killall -9 mpg123
-	ps -ef | grep safe_opserver | grep -v grep | awk '{print $2}' | xargs kill -9
-	killall -9 op_server.pl
-	call_hook kill_amp
-}
