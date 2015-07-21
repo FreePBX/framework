@@ -33,8 +33,9 @@ class Hooks extends DB_Helper {
 	 * Update all cached hooks
 	 */
 	public function updateBMOHooks() {
+		$this->activemods = $this->FreePBX->Modules->getActiveModules();
+		$am = is_array($this->activemods) ? array_keys($this->activemods) : array();
 		// Find all BMO Modules, query them for GUI, Dialplan, and configpageinit hooks.
-
 		$this->preloadBMOModules();
 		$classes = get_declared_classes();
 
@@ -47,8 +48,11 @@ class Hooks extends DB_Helper {
 		}
 
 		$allhooks = array();
-
 		foreach ($bmomodules as $mod) {
+			$rawname = strtolower(str_replace("FreePBX\\modules\\","",$mod));
+			if(!in_array($rawname,$am)) {
+				continue;
+			}
 			// Find GUI Hooks
 			if (method_exists($mod, "myGuiHooks")) {
 				$allhooks['GuiHooks'][$mod] = $this->FreePBX->$mod->myGuiHooks();
