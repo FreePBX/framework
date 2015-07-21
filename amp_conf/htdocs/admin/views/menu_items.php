@@ -49,6 +49,7 @@ if(false) {
   _("User Panel");
   _("Other");
 }
+$connected = FreePBX::create()->astman->connected();
 if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not defined
 	$out = null;
 	if (empty($favorites)) foreach ($fpbx_menu as $mod => $deets) {
@@ -92,7 +93,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 			}
 			$classes = array();
 
-			//build defualt module url
+			//build default module url
 			$href = isset($mod['href'])
 					? $mod['href']
 					: "config.php?display=" . $mod['display'];
@@ -102,12 +103,18 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 
 			$active = !empty($mod['display']) && !empty($_REQUEST['display']) && ($mod['display'] == $_REQUEST['display']) ? 'active' : '';
 			// try the module's translation domain first
-			$items[$mod['name']] = '<li><a href="' . $href . '"'
-					. $target
-					. ' class="' . implode(' ', $classes) . ' '.$active.'">'
-					. modgettext::_($mod['name'], $mod['module']['rawname'])
-					. '</a></li>';
-
+			if (isset($mod['disabled']) && $mod['disabled']) {
+				$items[$mod['name']] = '<li><a'
+						. ' class="disabled ' . implode(' ', $classes) . ' '.$active.'">'
+						. modgettext::_($mod['name'], $mod['module']['rawname'])
+						. '</a></li>';
+			} else {
+				$items[$mod['name']] = '<li><a href="' . $href . '"'
+						. $target
+						. ' class="' . implode(' ', $classes) . ' '.$active.'">'
+						. modgettext::_($mod['name'], $mod['module']['rawname'])
+						. '</a></li>';
+			}
 			$_item_sort[$mod['name']] = $mod['sort'];
 		}
 		uksort($items,'_item_sort');

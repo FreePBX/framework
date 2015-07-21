@@ -199,15 +199,14 @@ if ($bootstrap_settings['cdrdb']) {
 }
 
 $bootstrap_settings['astman_connected'] = false;
+include $dirname . '/libraries/php-asmanager.php';
+$astman = new \AGI_AsteriskManager($bootstrap_settings['astman_config'], $bootstrap_settings['astman_options']);
 if (!$bootstrap_settings['skip_astman']) {
-	require_once($dirname . '/libraries/php-asmanager.php');
-    $astman = new AGI_AsteriskManager($bootstrap_settings['astman_config'], $bootstrap_settings['astman_options']);
 	// attempt to connect to asterisk manager proxy
 	if (!$amp_conf["ASTMANAGERPROXYPORT"] || !$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPROXYPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], $bootstrap_settings['astman_events'])) {
 		// attempt to connect directly to asterisk, if no proxy or if proxy failed
 		if (!$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], $bootstrap_settings['astman_events'])) {
 			// couldn't connect at all
-			unset( $astman );
 			freepbx_log(FPBX_LOG_CRITICAL,"Connection attmempt to AMI failed");
 		} else {
 			$bootstrap_settings['astman_connected'] = true;
@@ -218,9 +217,7 @@ if (!$bootstrap_settings['skip_astman']) {
 }
 
 //Because BMO was moved upward we have to inject this lower
-if(isset($astman)) {
-	FreePBX::create()->astman = $astman;
-}
+FreePBX::create()->astman = $astman;
 
 //include gui functions + auth if nesesarry
 // If set to freepbx_auth but we are in a cli mode, then don't bother authenticating either way.
@@ -319,7 +316,7 @@ if ($restrict_mods_local !== true) {
 					$needs_running = isset($item['needsenginerunning'])
 							&& strtolower($item['needsenginerunning']) == 'yes';
 					$needs_astman = $needs_edb || $needs_running;
-					if ((!isset($astman) || !$astman) && $needs_astman) {
+					if (!$astman->connected() && $needs_astman) {
 						$active_modules[$key]['items'][$itemKey]['disabled']
 							= true;
 					}
