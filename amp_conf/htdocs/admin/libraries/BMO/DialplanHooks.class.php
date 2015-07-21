@@ -53,7 +53,9 @@ class DialplanHooks {
 		}
 
 		// Sort them by priority before returning them.
-		ksort($oldHooks);
+		if(is_array($oldHooks)) {
+			ksort($oldHooks);
+		}
 
 		return $oldHooks;
 	}
@@ -152,9 +154,8 @@ class DialplanHooks {
 	}
 
 	public function getBMOHooks() {
-
 		$allHooks = $this->FreePBX->Hooks->getAllHooks();
-		return $allHooks['DialplanHooks'];
+		return is_array($allHooks['DialplanHooks']) ? $allHooks['DialplanHooks'] : array();
 
 	}
 }
