@@ -1255,14 +1255,16 @@ $(document).ready(function() {
 		}
 	}
 
-	$(function() {
-		positionActionBar();
-	});
+	positionActionBar();
 
 	$(window).scroll(function() {
 		positionActionBar();
 	});
 	$(window).resize(function() {
+		positionActionBar();
+	});
+
+	$(document).on("shown.bs.tab", 'a[data-toggle="tab"]', function(e) {
 		positionActionBar();
 	});
 
