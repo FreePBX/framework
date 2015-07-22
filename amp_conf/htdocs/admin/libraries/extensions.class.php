@@ -447,7 +447,7 @@ class extensions {
 	 * Basically the same as php's empty() function, except considers 0 to be
 	 * non-empty.
 	 */
-	static function gotoEmpty($value) {
+	function gotoEmpty($value) {
 		return ($value === "" || $value === null || $value === false);
 	}
 }
