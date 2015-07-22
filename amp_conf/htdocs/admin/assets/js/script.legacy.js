@@ -85,12 +85,23 @@ function warnInvalid(theField, s) {
 		var field = (theField instanceof jQuery) ? theField : $(theField),
 				id = field.prop("id"),
 				type = 'unknown',
-				tab = field.parents(".tab-pane").prop("id");
+				tab = field.parents(".tab-pane").prop("id"),
+				count = 0;
 		//while loop here to tab switch through different layers
-		while(typeof tab !== "undefined") {
-			$('li.change-tab[data-name="' + tab + '"] a').one("shown.bs.tab");
-			$('li.change-tab[data-name="' + tab + '"] a').tab("show");
-			tab = $('li.change-tab[data-name="' + tab + '"] a').parents(".tab-pane").prop("id");
+		while(typeof tab !== "undefined" && count < 5) {
+			if($('li.change-tab[data-name="' + tab + '"] a').length) {
+				$('li.change-tab[data-name="' + tab + '"] a').one("shown.bs.tab");
+				$('li.change-tab[data-name="' + tab + '"] a').tab("show");
+				tab = $('li.change-tab[data-name="' + tab + '"] a').parents(".tab-pane").prop("id");
+			} else if($('li[role="presentation"] a[href="#' + tab + '"]').length) {
+				$('li[role="presentation"] a[href="#' + tab + '"]').one("shown.bs.tab");
+				$('li[role="presentation"] a[href="#' + tab + '"]').tab("show");
+				tab = $('li[role="presentation"] a[href="#' + tab + '"]').parents(".tab-pane").prop("id");
+			} else {
+				tab = undefined;
+			}
+			//prevent spiralling out of control
+			count++;
 		}
 		field.focus();
 		field.parents(".element-container").addClass("has-error");
@@ -1113,10 +1124,11 @@ $(document).on('click', '.toggle-password', function() {
 		icon.removeClass("fa-eye-slash").addClass("fa-eye");
 	}
 });
-
+var loadingzxcvbn = false;
 $(document).on('keyup', '.password-meter', function() {
 	var $this = this;
-	if(typeof zxcvbn === "undefined") {
+	if(typeof zxcvbn === "undefined" && !loadingzxcvbn) {
+		loadingzxcvbn = true;
 		$($this).after('<i id="password-meter-load" class="fa fa-circle-o-notch fa-spin"></i>');
 		$.cachedScript( "assets/js/zxcvbn.js" ).done(function( script, textStatus ) {
 			$("#password-meter-load").remove();
@@ -1128,7 +1140,8 @@ $(document).on('keyup', '.password-meter', function() {
 });
 $(document).on('focus', '.password-meter', function() {
 	var $this = this;
-	if(typeof zxcvbn === "undefined") {
+	if(typeof zxcvbn === "undefined" && !loadingzxcvbn) {
+		loadingzxcvbn = true;
 		$($this).after('<i id="password-meter-load" class="fa fa-circle-o-notch fa-spin"></i>');
 		$.cachedScript( "assets/js/zxcvbn.js" ).done(function( script, textStatus ) {
 			$("#password-meter-load").remove();
