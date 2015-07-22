@@ -446,10 +446,8 @@ class extensions {
 	/** Checks if a value used for a goto is empty
 	 * Basically the same as php's empty() function, except considers 0 to be
 	 * non-empty.
-	 *
-	 * This function can be called statically
 	 */
-	function gotoEmpty($value) {
+	static function gotoEmpty($value) {
 		return ($value === "" || $value === null || $value === false);
 	}
 }
@@ -560,7 +558,7 @@ class ext_goto extends extension {
 	}
 
 	function output() {
-		return 'Goto('.(!extensions::gotoEmpty($this->context) ? $this->context.',' : '').(!extensions::gotoEmpty($this->ext) ? $this->ext.',' : '').$this->pri.')' ;
+		return 'Goto('.(!$this->gotoEmpty($this->context) ? $this->context.',' : '').(!$this->gotoEmpty($this->ext) ? $this->ext.',' : '').$this->pri.')' ;
 	}
 }
 
