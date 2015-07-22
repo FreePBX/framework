@@ -442,14 +442,6 @@ class extensions {
 
 		return $output;
 	}
-
-	/** Checks if a value used for a goto is empty
-	 * Basically the same as php's empty() function, except considers 0 to be
-	 * non-empty.
-	 */
-	function gotoEmpty($value) {
-		return ($value === "" || $value === null || $value === false);
-	}
 }
 
 class extension {
@@ -555,6 +547,10 @@ class ext_goto extends extension {
 
 	function incrementContents($value) {
 		$this->pri += $value;
+	}
+
+	function gotoEmpty($value) {
+		return ($value === "" || $value === null || $value === false);
 	}
 
 	function output() {
