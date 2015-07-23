@@ -28,6 +28,9 @@ class FileHooks {
 	}
 
 	private function processOldHooks($active_modules) {
+		if(empty($active_modules)) {
+			return;
+		}
 		// Moved from retrieve_conf, and slightly tidied up
 		foreach($active_modules as $mod) {
 			\modgettext::push_textdomain(strtolower($mod));
@@ -76,32 +79,34 @@ class FileHooks {
 
 	private function processNewHooks() {
 		$hooks = $this->FreePBX->Hooks->getAllHooks();
-		foreach ($hooks['ConfigFiles'] as $hook) {
-			$mod = str_replace("FreePBX\\modules\\","",$hook);
-			\modgettext::push_textdomain(strtolower($mod));
-			$hparts = explode("\\",$hook);
-			if(count($hparts) > 0) {
-				$c = count($hparts);
-				$hook = $hparts[$c-1];
-			}
-			$this->FreePBX->Performance->Stamp("fileHook-".$hook."_start");
-			// This is where we'd hook the output of files, if it was implemented.
-			// As no-one wants it yet, I'm not going to bother.
-			if (!method_exists($this->FreePBX->$hook, "genConfig")) {
-				throw new \Exception("$hook asked to generate a config file, but, doesn't implement genConfig()");
-			}
-			$tmpconf = $this->FreePBX->$hook->genConfig();
+		if(is_array($hooks['ConfigFiles'])) {
+			foreach ($hooks['ConfigFiles'] as $hook) {
+				$mod = str_replace("FreePBX\\modules\\","",$hook);
+				\modgettext::push_textdomain(strtolower($mod));
+				$hparts = explode("\\",$hook);
+				if(count($hparts) > 0) {
+					$c = count($hparts);
+					$hook = $hparts[$c-1];
+				}
+				$this->FreePBX->Performance->Stamp("fileHook-".$hook."_start");
+				// This is where we'd hook the output of files, if it was implemented.
+				// As no-one wants it yet, I'm not going to bother.
+				if (!method_exists($this->FreePBX->$hook, "genConfig")) {
+					throw new \Exception("$hook asked to generate a config file, but, doesn't implement genConfig()");
+				}
+				$tmpconf = $this->FreePBX->$hook->genConfig();
 
-			// Here we want to hand off $tmpconf to other modules, if they somehow say they want to do something
-			// with it.
+				// Here we want to hand off $tmpconf to other modules, if they somehow say they want to do something
+				// with it.
 
-			if (!method_exists($this->FreePBX->$hook, "writeConfig")) {
-				throw new \Exception("$hook asked to generate a config file, but, doesn't implement writeConfig()");
+				if (!method_exists($this->FreePBX->$hook, "writeConfig")) {
+					throw new \Exception("$hook asked to generate a config file, but, doesn't implement writeConfig()");
+				}
+
+				$this->FreePBX->$hook->writeConfig($tmpconf);
+				$this->FreePBX->Performance->Stamp("fileHook-".$hook."_stop");
+				\modgettext::pop_textdomain();
 			}
-
-			$this->FreePBX->$hook->writeConfig($tmpconf);
-			$this->FreePBX->Performance->Stamp("fileHook-".$hook."_stop");
-			\modgettext::pop_textdomain();
 		}
 	}
 }
