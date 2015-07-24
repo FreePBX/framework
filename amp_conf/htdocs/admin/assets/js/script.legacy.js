@@ -1268,6 +1268,18 @@ $(document).ready(function() {
 		positionActionBar();
 	});
 
+	$("#action-bar-hide").click(function() {
+		$("#action-bar").toggleClass("shrink");
+		var fa = $(this).find(".fa");
+		if(fa.hasClass("fa-angle-double-right")) {
+			fa.removeClass("fa-angle-double-right");
+			fa.addClass("fa-angle-double-left");
+		} else {
+			fa.removeClass("fa-angle-double-left");
+			fa.addClass("fa-angle-double-right");
+		}
+	});
+
 	/**
 	* Perform form actions on a given page based on what action-bar button is clicked
 	* @author Bryan Walters <bryan ! walters (at) schmoozecom (dot) com
