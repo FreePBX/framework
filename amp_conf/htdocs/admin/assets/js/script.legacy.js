@@ -755,6 +755,7 @@ $.urlParam = function(name) {
 var popover_box, popover_box_class, popover_box_mod, popover_select_id;
 /**
  * Bind Destination Double Selects
+ * Note: This is a function so it can be called again through POST AJAX scripts
  */
 function bind_dests_double_selects() {
 	//destination double dropdown code
