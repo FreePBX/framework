@@ -86,7 +86,6 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
 	$html .= '<!--[if (gte IE 6)&(lte IE 8)]>';
 	$html .= '<script type="text/javascript" src="assets/js/selectivizr.js"></script>';
 	$html .= '<![endif]-->';
-	$html .= '<!--[if lt IE 9]>';
 }
 
 //it seems extremely difficult to put jquery in the footer with the other scripts
