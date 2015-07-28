@@ -33,8 +33,8 @@ $bmo->Hooks->updateBMOHooks();
 class connectdirs {
 
 	var $nt;
-	var $symlink_dirs;
-	var $cp_dirs;
+	var $symlink_dirs = array();
+	var $cp_dirs = array();
 
 	var $cp_errors = '';
 	var $symlink_error_modules = '';
@@ -61,7 +61,7 @@ class connectdirs {
 
     $this->symlink_sound_dirs['sounds'] 		= $amp_conf['ASTVARLIBDIR'] . '/sounds';
 
-    $this->cp_dirs['agi-bin'] 			= $amp_conf['ASTAGIDIR'];
+    $this->symlink_dirs['agi-bin'] 			= $amp_conf['ASTAGIDIR'];
 
     $this->nt = notifications::create($db);
 	}
@@ -176,44 +176,55 @@ class connectdirs {
 	  }
   }
 
-  function do_symlink($src, $dest, $subdir, $moduledir) {
-	global $amp_conf;
-    if (file_exists_wrapper($dest)) {
-      if ((!is_link($dest) || readlink($dest) != $src) && file_exists($src) && file_exists($dest) && (md5_file($src) == md5_file($dest))) {
-        // dbug('retrieve-conf', "Can't symlink $src to $dest but files are the same so ignoring");
-      } else if (!is_link($dest)) {
-		//If the symlink error is coming from the etc directory then we move those files to backup
-		if(preg_match('/^'.str_replace("/","\/",$amp_conf['ASTETCDIR']).'/',$dest) && is_writable($dest)) {
-			if(!file_exists($amp_conf['ASTETCDIR'].'/backup')) {
-				mkdir($amp_conf['ASTETCDIR'].'/backup');
-			}
-			$f = $amp_conf['ASTETCDIR'].'/backup/'.basename($dest).".bk.".time();
-			rename($dest,$f);
-			if (!symlink($src, $dest)) {
-				freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
-			} else {
-				$this->symlink_notice_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
+	function do_symlink($src, $dest, $subdir, $moduledir) {
+		global $amp_conf;
+		if (file_exists_wrapper($dest)) {
+			if ((!is_link($dest) || readlink($dest) != $src) && file_exists($src) && file_exists($dest) && (md5_file($src) == md5_file($dest))) {
+				// dbug('retrieve-conf', "Can't symlink $src to $dest but files are the same so ignoring");
+			} else if (!is_link($dest)) {
+				//If the symlink error is coming from the etc directory then we move those files to backup
+				if(preg_match('/^'.str_replace("/","\/",$amp_conf['ASTETCDIR']).'/',$dest) && is_writable($dest)) {
+					if(!file_exists($amp_conf['ASTETCDIR'].'/backup')) {
+						mkdir($amp_conf['ASTETCDIR'].'/backup');
+					}
+					$f = $amp_conf['ASTETCDIR'].'/backup/'.basename($dest).".bk.".time();
+					rename($dest,$f);
+					if (!symlink($src, $dest)) {
+						freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
+					} else {
+						$this->symlink_notice_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
+					}
+				} elseif(preg_match('/^'.str_replace("/","\/",$amp_conf['ASTAGIDIR']).'/',$dest) && is_writable($dest)) {
+					if(!file_exists($amp_conf['ASTAGIDIR'].'/backup')) {
+						mkdir($amp_conf['ASTAGIDIR'].'/backup');
+					}
+					$f = $amp_conf['ASTAGIDIR'].'/backup/'.basename($dest).".bk.".time();
+					rename($dest,$f);
+					if (!symlink($src, $dest)) {
+						freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
+					} else {
+						$this->symlink_notice_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
+					}
+				} else {
+					freepbx_log(FPBX_LOG_ERROR, sprintf(_('%s already exists, and is not a symlink!'),$dest));
+					$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (Already exists, not a link)"),$dest,basename($moduledir),$subdir);
+				}
+			} else if (is_link($dest) && readlink($dest) != $src) {
+				//users need to be aware of symlink conflicts. We should attempt to resolve them properly though. So lets do that.
+				freepbx_log(FPBX_LOG_ERROR, $dest.' already exists, and is linked to something else!');
+				$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (Already exists, linked to something else)"),$dest,basename($moduledir),$subdir);
 			}
 		} else {
-        	freepbx_log(FPBX_LOG_ERROR, sprintf(_('%s already exists, and is not a symlink!'),$dest));
-        	$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (Already exists, not a link)"),$dest,basename($moduledir),$subdir);
+			$targetdir = dirname($dest);
+			if (!is_dir($targetdir)) {
+				freepbx_log(FPBX_LOG_ERROR, sprintf(_("Tried to link %s to %s, but %s doesn't exist"),$src,$dest,$targetdir));
+			} else {
+				if (!symlink($src, $dest)) {
+					freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
+				}
+			}
 		}
-      } else if (readlink($dest) != $src) {
-		//users need to be aware of symlink conflicts. We should attempt to resolve them properly though. So lets do that.
-        freepbx_log(FPBX_LOG_ERROR, $dest.' already exists, and is linked to something else!');
-        $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (Already exists, linked to something else)"),$dest,basename($moduledir),$subdir);
-      }
-    } else {
-      $targetdir = dirname($dest);
-      if (!is_dir($targetdir)) {
-        freepbx_log(FPBX_LOG_ERROR, sprintf(_("Tried to link %s to %s, but %s doesn't exist"),$src,$dest,$targetdir));
-      } else {
-        if (!symlink($src, $dest)) {
-          freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
-        }
-      }
-    }
-  }
+	}
 
   function symlink_check_errors() {
 	global $amp_conf;
