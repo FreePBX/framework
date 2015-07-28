@@ -977,7 +977,7 @@ class Installer {
 	'value' => false,
 	'options' => '',
 	'name' => 'Use freepbx_menu.conf Configuration',
-	'description' => 'When set to true, the system will check for a freepbx_menu.conf file amongst the normal configuraiton files and if found, it will be used to define and remap the menu tabs and contents. See the template supplied with FreePBX for details on how to do this.',
+	'description' => 'When set to true, the system will check for a freepbx_menu.conf file amongst the normal configuraiton files and if found, it will be used to define and remap the menu tabs and contents. See http://wiki.freepbx.org/x/6YDGAg for more details',
 	'type' => CONF_TYPE_BOOL,
 	);
 
