@@ -491,7 +491,9 @@ class FreePBXInstallCommand extends Command {
 		copy($this->rootPath . "/module.xml", $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.xml");
 
 		// Copy /var/www/html/admin/modules/framework/module.sig
-		copy($this->rootPath . "/module.sig", $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.sig");
+		if(file_exists($this->rootPath . "/module.sig")) {
+			copy($this->rootPath . "/module.sig", $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.sig");
+		}
 
 		// Copy /etc/asterisk/voicemail.conf.template
 		// ... to /etc/asterisk/voicemail.conf
