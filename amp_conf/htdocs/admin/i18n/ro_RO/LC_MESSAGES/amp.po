@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-27 14:10-0400\n"
+"POT-Creation-Date: 2015-07-28 16:03-0700\n"
 "PO-Revision-Date: 2014-09-11 02:13+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Romanian <http://git.freepbx.org/projects/freepbx/framework/"
@@ -258,7 +258,7 @@ msgstr ""
 msgid "%s Upgrade Available (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2972
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2966
 #, php-format
 msgid "%s [not enabled]"
 msgstr ""
@@ -386,7 +386,7 @@ msgstr ""
 msgid "%s prepared"
 msgstr ""
 
-#: ../core/Core.class.php:2138
+#: ../core/Core.class.php:2146
 #, php-format
 msgid "%s records failed validation"
 msgstr ""
@@ -584,7 +584,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "Deja exista o ruta pentru acest DID/CID!"
 
-#: ../core/Core.class.php:1704 ../core/functions.inc.php:4732
+#: ../core/Core.class.php:1712 ../core/functions.inc.php:4732
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "Exista deja o ruta cu acest DID/CID: %s/%s "
@@ -641,7 +641,7 @@ msgid "Account Code for this extension"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:93
-#: ../core/functions.inc/drivers/Iax2.class.php:135
+#: ../core/functions.inc/drivers/Iax2.class.php:138
 #: ../core/functions.inc/drivers/Sip.class.php:378
 msgid "Accountcode for this device."
 msgstr ""
@@ -914,7 +914,7 @@ msgstr "Accepta orice CID"
 msgid "Allow Contact header to be rewritten with the source IP address-port"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:131
+#: ../core/functions.inc/drivers/Iax2.class.php:134
 #: ../core/functions.inc/drivers/Sip.class.php:374
 msgid ""
 "Allow specific codecs, separated by the '&' sign and in priority order. E.g. "
@@ -1081,13 +1081,13 @@ msgstr ""
 msgid "Asterisk Trunk Dial Options"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:122
+#: ../core/functions.inc/drivers/Iax2.class.php:125
 #: ../core/functions.inc/drivers/Sip.class.php:286
 msgid "Asterisk connection type, usually friend for endpoints."
 msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:53
-#: ../core/functions.inc/drivers/Iax2.class.php:113
+#: ../core/functions.inc/drivers/Iax2.class.php:116
 #: ../core/functions.inc/drivers/Sip.class.php:260
 msgid ""
 "Asterisk context this device will send calls to. Only change this is you "
@@ -1152,7 +1152,7 @@ msgid ""
 "username does not exist in User Manager"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:147
+#: ../core/functions.inc/drivers/Iax2.class.php:150
 #: ../core/functions.inc/drivers/Sip.class.php:243
 msgid "Auto"
 msgstr ""
@@ -1342,13 +1342,17 @@ msgid ""
 "(caller or callee) determines the policy."
 msgstr ""
 
-#: ../core/Core.class.php:2111
+#: ../core/Core.class.php:2119
 msgid "Caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:2112
+#: ../core/Core.class.php:2120
 msgid "Caller ID Number"
 msgstr "Numar ID Apelant"
+
+#: ../core/views/quickCreate.php:82
+msgid "Caller Name"
+msgstr ""
 
 #: ../core/views/routing/form.php:91 ../core/views/trunks/trunk_header.php:103
 #: ../core/views/trunks/trunkgrid.php:20
@@ -1445,13 +1449,13 @@ msgstr "Anuleaza"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "Nu se poate conecta la Asterisk Manager cu "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2083
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2077
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "Nu se poate sterge directorul %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1973
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2005
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1967
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1999
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr "Nu se poate dezactiva: Urmatoarele module depind de acesta:"
 
@@ -1487,6 +1491,10 @@ msgstr "Spioneaza Convorbire"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:374
 msgid "Change Log for version"
+msgstr ""
+
+#: ../core/functions.inc/drivers/Sip.class.php:232
+msgid "Change SIP Driver"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:229
@@ -1892,7 +1900,7 @@ msgstr ""
 msgid "Critical"
 msgstr "Critic"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2979
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2973
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
@@ -2016,11 +2024,11 @@ msgstr "Descriere DID"
 msgid "DID Number"
 msgstr "Numar DID"
 
-#: ../core/Core.class.php:2058
+#: ../core/Core.class.php:2066
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:2059
+#: ../core/Core.class.php:2067
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
@@ -2098,10 +2106,10 @@ msgstr ""
 "sau fara.<br><br>Dealtfel puteti utiliza un model de asociere (ex _2[345]X) "
 "pentru a corespunde unui intervalde numere"
 
-#: ../core/Core.class.php:416 ../core/Core.class.php:439
-#: ../core/Core.class.php:463 ../core/Core.class.php:501
-#: ../core/Core.class.php:522 ../core/Core.class.php:547
-#: ../core/Core.class.php:577 ../core/Core.class.php:607
+#: ../core/Core.class.php:424 ../core/Core.class.php:447
+#: ../core/Core.class.php:471 ../core/Core.class.php:509
+#: ../core/Core.class.php:530 ../core/Core.class.php:555
+#: ../core/Core.class.php:585 ../core/Core.class.php:615
 #: ../core/page.devices.php:56 ../core/page.devices.php:76
 #: ../core/page.extensions.php:58 ../core/page.extensions.php:84
 #: ../core/page.users.php:46
@@ -2132,8 +2140,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/main.php:179
-#: ../core/Core.class.php:2078 ../core/Core.class.php:2079
-#: ../core/Core.class.php:2103 ../core/Core.class.php:2104
+#: ../core/Core.class.php:2086 ../core/Core.class.php:2087
+#: ../core/Core.class.php:2111 ../core/Core.class.php:2112
 #: ../core/functions.inc.php:6452 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:25
 #: ../core/views/dahdichandids/didForm.php:36 ../core/views/did/didgrid.php:19
@@ -2145,7 +2153,7 @@ msgstr "Descriere"
 msgid "Descriptive Name for this Trunk"
 msgstr "Descriere nume pentru acest Trunchi"
 
-#: ../core/Core.class.php:2115 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:2123 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr ""
 
@@ -2223,7 +2231,7 @@ msgstr ""
 msgid "Device"
 msgstr "Dispozitiv"
 
-#: ../core/Core.class.php:1279
+#: ../core/Core.class.php:1287
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
@@ -2240,7 +2248,7 @@ msgstr "Informatii Dispozitiv"
 msgid "Device Options"
 msgstr "Optiuni Dispozitiv"
 
-#: ../core/Core.class.php:2083 ../core/Core.class.php:2084
+#: ../core/Core.class.php:2091 ../core/Core.class.php:2092
 msgid "Device Technology"
 msgstr ""
 
@@ -2249,8 +2257,12 @@ msgstr ""
 msgid "Device Type"
 msgstr "Tipul Dispozitivului"
 
-#: ../core/Core.class.php:2167
+#: ../core/Core.class.php:2175
 msgid "Device could not be added."
+msgstr ""
+
+#: ../core/Core.class.php:358
+msgid "Device was not added!"
 msgstr ""
 
 #: amp.i18n.php:20
@@ -2373,7 +2385,7 @@ msgstr ""
 msgid "Disallowed Codecs"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:129
+#: ../core/functions.inc/drivers/Iax2.class.php:132
 #: ../core/functions.inc/drivers/Sip.class.php:372
 msgid ""
 "Disallowed codecs. Set this to all to remove all codecs defined in the "
@@ -2441,7 +2453,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:703
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:726
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:748
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1950
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1944
 #: amp_conf/htdocs/admin/page.modules.php:375
 #: amp_conf/htdocs/admin/page.modules.php:1030
 msgid "Done"
@@ -2525,7 +2537,7 @@ msgstr ""
 msgid "Dump Configs"
 msgstr ""
 
-#: ../core/Core.class.php:552 ../core/Core.class.php:582
+#: ../core/Core.class.php:560 ../core/Core.class.php:590
 msgid "Duplicate"
 msgstr ""
 
@@ -2724,7 +2736,7 @@ msgstr ""
 msgid "Endpoint"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:125
+#: ../core/functions.inc/drivers/Iax2.class.php:128
 msgid "Endpoint port number to use, usually 4569."
 msgstr ""
 
@@ -2744,16 +2756,8 @@ msgstr ""
 msgid "English"
 msgstr ""
 
-#: ../core/views/quickCreate.php:82
-msgid "Enter Caller ID"
-msgstr ""
-
 #: ../core/views/quickCreate.php:42
 msgid "Enter Extension"
-msgstr ""
-
-#: ../core/views/quickCreate.php:102
-msgid "Enter email"
 msgstr ""
 
 #: ../core/views/quickCreate.php:62
@@ -2803,12 +2807,12 @@ msgstr ""
 msgid "Error creating temporary directory: %s"
 msgstr "Eroare la crearea directorului temporar: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2090
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2084
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "Eroare la stergerea directorului %s (cod %d)"
 
-#: ../core/Core.class.php:1021 ../core/page.trunks.php:323
+#: ../core/Core.class.php:1029 ../core/page.trunks.php:323
 msgid "Error fetching prefix list for: "
 msgstr "Eroare in prezentare lista de prefixe pentru:"
 
@@ -2844,12 +2848,12 @@ msgstr "Eroare la deschiderea %s pentru scriere"
 msgid "Error parsing cdr_mysql.conf no migration done"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1899
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1893
 #, php-format
 msgid "Error updating database. Command was: %s; error was: %s "
 msgstr "Eroare la actualizarea bazei de date. Comanda a fost: %s, eroarea: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2028
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2022
 msgid "Error updating database: "
 msgstr "Eroare la actualizarea bazei de date:"
 
@@ -2958,8 +2962,8 @@ msgstr ""
 msgid "Export settings to file"
 msgstr ""
 
-#: ../core/Core.class.php:31 ../core/Core.class.php:2070
-#: ../core/Core.class.php:2071 ../core/functions.inc.php:6036
+#: ../core/Core.class.php:31 ../core/Core.class.php:2078
+#: ../core/Core.class.php:2079 ../core/functions.inc.php:6036
 #: ../core/page.did.php:88 ../core/page.extensions.php:65
 #: ../core/page.extensions.php:91
 msgid "Extension"
@@ -2985,7 +2989,7 @@ msgstr ""
 msgid "Extension can not be blank!"
 msgstr ""
 
-#: ../core/Core.class.php:2154
+#: ../core/Core.class.php:2162
 msgid "Extension is not numeric."
 msgstr ""
 
@@ -2993,7 +2997,11 @@ msgstr ""
 msgid "Extension number conflict, please choose another."
 msgstr ""
 
-#: amp.i18n.php:16 ../core/Core.class.php:2054 ../core/Core.class.php:2055
+#: ../core/Core.class.php:353
+msgid "Extension was not numeric!"
+msgstr ""
+
+#: amp.i18n.php:16 ../core/Core.class.php:2062 ../core/Core.class.php:2063
 msgid "Extensions"
 msgstr "Extensii"
 
@@ -3050,12 +3058,12 @@ msgstr ""
 msgid "Failed to Remove directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2865
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2859
 #, php-format
 msgid "Failed to get remote file, error was:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2878
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2872
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:543
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -3082,11 +3090,11 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1865
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1885
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1879
 msgid "Failed to run installation scripts"
 msgstr "Rularea scriptului de instalare a esuat"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2032
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2026
 msgid "Failed to run un-installation scripts"
 msgstr "Eroare la executarea scriptului de dezinstalare"
 
@@ -3244,7 +3252,7 @@ msgstr ""
 msgid "Force rport - (force_rport)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2890
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2884
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:555
 #, php-format
 msgid "Forced %s to true"
@@ -3259,16 +3267,9 @@ msgstr "Downgrade fortat si reinstalari"
 msgid "Format can be: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1906
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1900
 #, php-format
 msgid "Framework Detected, Setting FreePBX Version to %s"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1880
-#, php-format
-msgid ""
-"Framework has been detected as being in Developer mode, Please make sure to "
-"run '%s' manually so that any database or system settings can be updated"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/login.php:22
@@ -3354,7 +3355,7 @@ msgstr ""
 msgid "Generate Routes"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1942
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1936
 msgid "Generating CSS..."
 msgstr ""
 
@@ -3478,13 +3479,13 @@ msgstr ""
 msgid "Host"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:115
+#: ../core/functions.inc/drivers/Iax2.class.php:118
 #: ../core/functions.inc/drivers/Sip.class.php:263
 msgid "Host settings for this device, almost always dynamic for endpoints."
 msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:91
-#: ../core/functions.inc/drivers/Iax2.class.php:133
+#: ../core/functions.inc/drivers/Iax2.class.php:136
 #: ../core/functions.inc/drivers/Sip.class.php:376
 msgid ""
 "How to dial this device, this should not be changed unless you know what you "
@@ -3521,13 +3522,13 @@ msgstr ""
 msgid "I was handed %s to hook. Don't know how to handle it"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:148
+#: ../core/functions.inc/drivers/Iax2.class.php:151
 msgid ""
 "IAX security setting. See IAX documentation and device compatibility for "
 "details."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:110
+#: ../core/functions.inc/drivers/Iax2.class.php:113
 msgid "IAX transfer capabilities, see the Asterisk documentation for details."
 msgstr ""
 
@@ -3543,7 +3544,7 @@ msgstr ""
 msgid "IP Address"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:141
+#: ../core/functions.inc/drivers/Iax2.class.php:144
 #: ../core/functions.inc/drivers/Sip.class.php:386
 msgid ""
 "IP Address range to allow access to, in the form of network/netmask. This "
@@ -3552,7 +3553,7 @@ msgid ""
 "range for some home office situations."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:139
+#: ../core/functions.inc/drivers/Iax2.class.php:142
 #: ../core/functions.inc/drivers/Sip.class.php:384
 msgid "IP Address range to deny access to, in the form of network/netmask."
 msgstr ""
@@ -3693,7 +3694,7 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: ../core/Core.class.php:2107 ../core/Core.class.php:2108
+#: ../core/Core.class.php:2115 ../core/Core.class.php:2116
 msgid "Incoming DID"
 msgstr ""
 
@@ -3780,7 +3781,7 @@ msgstr ""
 msgid "Internal Auto Answer"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1913
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1907
 msgid ""
 "Internal Error. Function getVersion did not match the Framework version, "
 "even after it was suppose to be applied"
@@ -3852,7 +3853,7 @@ msgstr ""
 msgid "Invalid email address"
 msgstr ""
 
-#: ../core/Core.class.php:1025 ../core/page.trunks.php:328
+#: ../core/Core.class.php:1033 ../core/page.trunks.php:328
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr ""
 "Format invalid pentru codul NPA-NXX (trebuie sa fie in formatul: NXXNXX)"
@@ -3981,7 +3982,7 @@ msgid "Mailbox"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:99
-#: ../core/functions.inc/drivers/Iax2.class.php:137
+#: ../core/functions.inc/drivers/Iax2.class.php:140
 #: ../core/functions.inc/drivers/Sip.class.php:380
 msgid ""
 "Mailbox for this device. This should not be changed unless you know what you "
@@ -4077,7 +4078,7 @@ msgstr ""
 msgid "Media Encryption Optimistic"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:109
+#: ../core/functions.inc/drivers/Iax2.class.php:112
 msgid "Media Only"
 msgstr ""
 
@@ -4181,17 +4182,17 @@ msgstr "Modul"
 msgid "Module "
 msgstr "Modulul "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2959
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2953
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2981
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2975
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2974
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2968
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr ""
@@ -4265,11 +4266,11 @@ msgstr ""
 msgid "Module is Unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1969
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1963
 msgid "Module not enabled: cannot disable"
 msgstr "Modulul nu este activ: nu de poate dezactiva"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2001
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1995
 msgid "Module not installed: cannot uninstall"
 msgstr "Modul neinstalat: nu se poate dezinstala"
 
@@ -4282,19 +4283,19 @@ msgstr ""
 "Modul incarcat cu succes. trebuie sa activati modulul utilizand %s pentru a-"
 "l face disponibil."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2995
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2989
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2989
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2983
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2987
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2981
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -4386,7 +4387,7 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
-#: ../core/Core.class.php:2074 ../core/Core.class.php:2075
+#: ../core/Core.class.php:2082 ../core/Core.class.php:2083
 #: ../core/page.extensions.php:66 ../core/page.extensions.php:92
 #: ../core/page.users.php:54 ../core/views/routing/grid.php:82
 #: ../core/views/trunks/trunkgrid.php:18
@@ -4427,8 +4428,8 @@ msgstr "Mai nou decat versiunea online (%s)"
 #: ../core/functions.inc/drivers/Dahdi.class.php:69
 #: ../core/functions.inc/drivers/Dahdi.class.php:78
 #: ../core/functions.inc/drivers/Dahdi.class.php:87
-#: ../core/functions.inc/drivers/Iax2.class.php:108
-#: ../core/functions.inc/drivers/Iax2.class.php:146
+#: ../core/functions.inc/drivers/Iax2.class.php:111
+#: ../core/functions.inc/drivers/Iax2.class.php:149
 #: ../core/functions.inc/drivers/PJSip.class.php:203
 #: ../core/functions.inc/drivers/PJSip.class.php:216
 #: ../core/functions.inc/drivers/Sip.class.php:254
@@ -4879,7 +4880,7 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:103
+#: ../core/functions.inc/drivers/Iax2.class.php:106
 #: ../core/functions.inc/drivers/Sip.class.php:210
 msgid ""
 "Password (secret) configured for the device. Should be alphanumeric with at "
@@ -4993,7 +4994,7 @@ msgid "Please correct the following errors:"
 msgstr ""
 
 #: ../core/functions.inc.php:6468
-#: ../core/functions.inc/drivers/Iax2.class.php:99
+#: ../core/functions.inc/drivers/Iax2.class.php:102
 #: ../core/functions.inc/drivers/Sip.class.php:208
 msgid "Please enter a Secret for this device"
 msgstr "Va rugam sa introduceti o parola (secret) pentru acest dispozitiv"
@@ -5325,11 +5326,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:37
 #: amp_conf/htdocs/admin/views/module_admin/main.php:433
-#: ../core/Core.class.php:421 ../core/Core.class.php:444
-#: ../core/Core.class.php:468 ../core/Core.class.php:487
-#: ../core/Core.class.php:506 ../core/Core.class.php:527
-#: ../core/Core.class.php:557 ../core/Core.class.php:587
-#: ../core/Core.class.php:612
+#: ../core/Core.class.php:429 ../core/Core.class.php:452
+#: ../core/Core.class.php:476 ../core/Core.class.php:495
+#: ../core/Core.class.php:514 ../core/Core.class.php:535
+#: ../core/Core.class.php:565 ../core/Core.class.php:595
+#: ../core/Core.class.php:620
 msgid "Reset"
 msgstr "Reset"
 
@@ -5493,6 +5494,8 @@ msgstr "Control Apelant: Fara Memorie"
 msgid "Search"
 msgstr ""
 
+#: ../core/functions.inc/drivers/Iax2.class.php:107
+#: ../core/functions.inc/drivers/Sip.class.php:211
 #: ../core/functions.inc/drivers/Sip.class.php:423
 #: ../core/views/trunks/pjsip.php:82
 msgid "Secret"
@@ -5589,7 +5592,7 @@ msgid ""
 "to keep NAT pinholes open."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:127
+#: ../core/functions.inc/drivers/Iax2.class.php:130
 msgid ""
 "Setting to yes (equivalent to 2000 msec) will send an OPTIONS packet to the "
 "endpoint periodically (default every minute). Used to monitor the health of "
@@ -5600,6 +5603,7 @@ msgid ""
 msgstr ""
 
 #: amp.i18n.php:34 amp_conf/htdocs/admin/views/menu_items.php:48
+#: ../core/functions.inc/drivers/Iax2.class.php:98
 #: ../core/functions.inc/drivers/Sip.class.php:160
 #: ../core/views/trunks/trunk_header.php:237
 msgid "Settings"
@@ -5661,9 +5665,9 @@ msgstr ""
 msgid "Some of these settings can render your system inoperable."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1964
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1996
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2069
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1958
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1990
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2063
 msgid "Specified module not found"
 msgstr "Modulul specificat nu a fost gasit"
 
@@ -5694,11 +5698,11 @@ msgstr ""
 msgid "Stream files for debugging"
 msgstr ""
 
-#: ../core/Core.class.php:426 ../core/Core.class.php:449
-#: ../core/Core.class.php:473 ../core/Core.class.php:492
-#: ../core/Core.class.php:511 ../core/Core.class.php:532
-#: ../core/Core.class.php:562 ../core/Core.class.php:592
-#: ../core/Core.class.php:617
+#: ../core/Core.class.php:434 ../core/Core.class.php:457
+#: ../core/Core.class.php:481 ../core/Core.class.php:500
+#: ../core/Core.class.php:519 ../core/Core.class.php:540
+#: ../core/Core.class.php:570 ../core/Core.class.php:600
+#: ../core/Core.class.php:625
 msgid "Submit"
 msgstr "Confirma"
 
@@ -5890,7 +5894,7 @@ msgstr ""
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
-#: ../core/Core.class.php:2116
+#: ../core/Core.class.php:2124
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -5939,11 +5943,11 @@ msgstr ""
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr "Urmatoarele erori au aparut la procesarea fisierului incarcat: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2523
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2517
 msgid "The following modules are disabled because they are broken:"
 msgstr "Urmatoarele module sunt dezactivate deoarece sunt corupte:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2515
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2509
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "Urmatoarele module au fost dezactivate deoarece necesita upgrade:"
 
@@ -6007,7 +6011,7 @@ msgstr ""
 "continuati daca nu intentionati sa executati aceasta comanda care va avea ca "
 "rezultat schimbarea configuratiilor."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2891
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2885
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:556
 #, php-format
 msgid ""
@@ -6110,7 +6114,7 @@ msgstr ""
 msgid "This Module has been deprecated"
 msgstr ""
 
-#: ../core/Core.class.php:1286
+#: ../core/Core.class.php:1294
 msgid "This device id is already in use"
 msgstr "Dispozitivul este deja in uz"
 
@@ -6221,7 +6225,7 @@ msgstr ""
 "nu este stabilita o ruta care sa il foloseasca. Mergeti la  <b>Rute de "
 "iesire<b> pentru rutare. "
 
-#: ../core/Core.class.php:1688
+#: ../core/Core.class.php:1696
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "Acest utilizator/extensie %s este deja in uz"
@@ -6660,8 +6664,12 @@ msgstr ""
 msgid "User Password"
 msgstr "Parola Utilizator"
 
-#: ../core/Core.class.php:2185
+#: ../core/Core.class.php:2193
 msgid "User could not be added."
+msgstr ""
+
+#: ../core/Core.class.php:369
+msgid "User was not added!"
 msgstr ""
 
 #: ../core/install.php:177
@@ -6894,8 +6902,8 @@ msgstr ""
 #: ../core/functions.inc/drivers/Dahdi.class.php:68
 #: ../core/functions.inc/drivers/Dahdi.class.php:77
 #: ../core/functions.inc/drivers/Dahdi.class.php:86
-#: ../core/functions.inc/drivers/Iax2.class.php:107
-#: ../core/functions.inc/drivers/Iax2.class.php:145
+#: ../core/functions.inc/drivers/Iax2.class.php:110
+#: ../core/functions.inc/drivers/Iax2.class.php:148
 #: ../core/functions.inc/drivers/PJSip.class.php:204
 #: ../core/functions.inc/drivers/PJSip.class.php:217
 #: ../core/functions.inc/drivers/Sip.class.php:255
@@ -7008,37 +7016,37 @@ msgstr ""
 msgid "You can't set the default to the default"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3031
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3025
 #, php-format
 msgid "You have %s %s modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2522
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2516
 #, php-format
 msgid "You have %s broken modules"
 msgstr "Aveti %s module corupte"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2514
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2508
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "Urmatoarele %s module sunt dezactivate"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3028
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3022
 #, php-format
 msgid "You have %s tampered files"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3019
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3022
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3013
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3016
 #, php-format
 msgid "You have %s unsigned modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2522
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2516
 msgid "You have a broken module"
 msgstr "Aveti un modul corupt"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2514
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2508
 msgid "You have a disabled module"
 msgstr "Aveti un modul dezactivat"
 
@@ -7071,7 +7079,7 @@ msgstr ""
 "consecinta."
 
 #: ../core/functions.inc.php:6467
-#: ../core/functions.inc/drivers/Iax2.class.php:98
+#: ../core/functions.inc/drivers/Iax2.class.php:101
 #: ../core/functions.inc/drivers/Sip.class.php:207
 msgid ""
 "You have not entered a Secret for this device, although this is possible it "
@@ -7151,7 +7159,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:1680
+#: ../core/Core.class.php:1688
 msgid "You must put in an extension (or user) number"
 msgstr "Trebuie sa introduceti o extensie (sau utilizator)"
 
@@ -7160,8 +7168,8 @@ msgstr "Trebuie sa introduceti o extensie (sau utilizator)"
 msgid "You should fix the problem or select another file and %s."
 msgstr "Trebuie sa rezolvati problema sau sa selectati un alt fisier si %s."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2516
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2524
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2510
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2518
 msgid "You should go to the module admin page to fix these."
 msgstr ""
 "Trebuie sa accesati pagina de administrare a modulelor pentru a repara "
@@ -7278,7 +7286,7 @@ msgid "already there"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:165
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2942
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2936
 msgid "altered"
 msgstr ""
 
@@ -7503,8 +7511,8 @@ msgstr ""
 msgid "failed to delete %s from cache directory after opening module archive."
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2258
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2264
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2270
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr ""
@@ -7743,6 +7751,10 @@ msgstr ""
 msgid "module.sig check failed! %s"
 msgstr ""
 
+#: ../core/views/quickCreate.php:102
+msgid "name@domain.tld"
+msgstr ""
+
 #: amp_conf/htdocs/admin/page.modules.php:815
 msgid "needs to be upgraded"
 msgstr ""
@@ -7875,7 +7887,7 @@ msgstr ""
 msgid "retrieve_conf failed, config not applied"
 msgstr "retrieve_conf esuat, configurarea nu a fost aplicata"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3006
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3000
 msgid "revoked"
 msgstr ""
 
@@ -7906,7 +7918,7 @@ msgstr ""
 msgid "starting migration"
 msgstr "initializare migrare"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3004
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2998
 msgid "tampered"
 msgstr ""
 
@@ -7928,7 +7940,7 @@ msgstr ""
 msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3005
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2999
 msgid "unknown"
 msgstr ""
 
@@ -7943,11 +7955,11 @@ msgid "unrecognized rule: %s discarding"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:136
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3003
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2997
 msgid "unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3002
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2996
 msgid "untrusted"
 msgstr ""
 
