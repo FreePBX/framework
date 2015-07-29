@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX v2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-28 18:03-0700\n"
+"POT-Creation-Date: 2015-07-28 21:23-0700\n"
 "PO-Revision-Date: 2014-07-22 14:52+0200\n"
 "Last-Translator: Chavdar <chavdar_75@yahoo.com>\n"
 "Language-Team: Bulgarian <http://git.freepbx.org/projects/freepbx/framework/"
@@ -375,7 +375,7 @@ msgstr ""
 msgid "%s prepared"
 msgstr ""
 
-#: ../core/Core.class.php:2146
+#: ../core/Core.class.php:2136
 #, php-format
 msgid "%s records failed validation"
 msgstr ""
@@ -503,7 +503,7 @@ msgstr ""
 msgid "<error>Unable to connect to database!</error>"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:192
+#: ../core/functions.inc/drivers/Sip.class.php:194
 #, php-format
 msgid ""
 "<strong>CRITICAL ERROR!</strong> Required Service %s is disabled! This "
@@ -573,7 +573,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "Вече съществува маршрут за този DID/CID!"
 
-#: ../core/Core.class.php:1712 ../core/functions.inc.php:4732
+#: ../core/Core.class.php:1703 ../core/functions.inc.php:4732
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "Маршрут с този DID/CID: %s/%s вече се използва"
@@ -618,18 +618,13 @@ msgstr ""
 msgid "Access Restrictions"
 msgstr "Забрани за Достъп"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:177
-#: ../core/functions.inc/drivers/Sip.class.php:379
+#: ../core/functions.inc/drivers/Sip.class.php:381
 msgid "Account Code"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:176
-msgid "Account Code for this extension"
-msgstr ""
-
 #: ../core/functions.inc/drivers/Dahdi.class.php:93
-#: ../core/functions.inc/drivers/Iax2.class.php:138
-#: ../core/functions.inc/drivers/Sip.class.php:378
+#: ../core/functions.inc/drivers/Iax2.class.php:135
+#: ../core/functions.inc/drivers/Sip.class.php:380
 msgid "Accountcode for this device."
 msgstr ""
 
@@ -642,7 +637,7 @@ msgstr "Действие"
 #: ../core/page.devices.php:68 ../core/page.devices.php:88
 #: ../core/page.extensions.php:74 ../core/page.extensions.php:99
 #: ../core/page.users.php:61 ../core/views/dahdichandids/changrid.php:27
-#: ../core/views/did/didgrid.php:21 ../core/views/routing/grid.php:85
+#: ../core/views/did/didgrid.php:21 ../core/views/routing/grid.php:74
 #: ../core/views/trunks/trunkgrid.php:22
 msgid "Actions"
 msgstr ""
@@ -720,7 +715,7 @@ msgstr ""
 msgid "Add New %s Extension"
 msgstr ""
 
-#: ../core/views/routing/grid.php:66
+#: ../core/views/routing/grid.php:65
 msgid "Add Outbound Route"
 msgstr ""
 
@@ -795,7 +790,7 @@ msgstr ""
 msgid "Adhoc"
 msgstr "Променящ се"
 
-#: amp.i18n.php:38 amp_conf/htdocs/admin/views/menu_items.php:44
+#: amp.i18n.php:36 amp_conf/htdocs/admin/views/menu_items.php:44
 msgid "Admin"
 msgstr "Админ"
 
@@ -818,7 +813,7 @@ msgstr ""
 msgid "Admin user name"
 msgstr ""
 
-#: amp.i18n.php:36
+#: amp.i18n.php:34
 msgid "Administrators"
 msgstr "Администратори"
 
@@ -827,11 +822,11 @@ msgstr "Администратори"
 msgid "Advanced"
 msgstr ""
 
-#: amp.i18n.php:32
+#: amp.i18n.php:30
 msgid "Advanced Settings"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:206
+#: ../core/functions.inc/drivers/PJSip.class.php:198
 msgid "Aggregate MWI"
 msgstr ""
 
@@ -839,23 +834,23 @@ msgstr ""
 msgid "Alert Info"
 msgstr "Информация за Сигнал"
 
-#: ../core/functions.inc/drivers/Sip.class.php:321
+#: ../core/functions.inc/drivers/Sip.class.php:323
 msgid "All - TCP Primary"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:322
+#: ../core/functions.inc/drivers/Sip.class.php:324
 msgid "All - TLS Primary"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:320
+#: ../core/functions.inc/drivers/Sip.class.php:322
 msgid "All - UDP Primary"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:324
+#: ../core/functions.inc/drivers/Sip.class.php:326
 msgid "All - WS Primary"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:325
+#: ../core/functions.inc/drivers/Sip.class.php:327
 msgid "All - WSS Primary"
 msgstr ""
 
@@ -897,19 +892,19 @@ msgstr ""
 msgid "Allow Any CID"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:193
+#: ../core/functions.inc/drivers/PJSip.class.php:185
 msgid "Allow Contact header to be rewritten with the source IP address-port"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:134
-#: ../core/functions.inc/drivers/Sip.class.php:374
+#: ../core/functions.inc/drivers/Iax2.class.php:131
+#: ../core/functions.inc/drivers/Sip.class.php:376
 msgid ""
 "Allow specific codecs, separated by the '&' sign and in priority order. E.g. "
 "'ulaw&g729'. Codecs allowed in the general settings will also be allowed "
 "unless removed with the 'disallow' directive."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:375
+#: ../core/functions.inc/drivers/Sip.class.php:377
 msgid "Allowed Codecs"
 msgstr ""
 
@@ -978,7 +973,7 @@ msgstr ""
 msgid "Any DID"
 msgstr "Всеки DID"
 
-#: amp.i18n.php:14 amp_conf/htdocs/admin/views/menu_items.php:45
+#: amp.i18n.php:12 amp_conf/htdocs/admin/views/menu_items.php:45
 msgid "Applications"
 msgstr ""
 
@@ -990,7 +985,7 @@ msgstr "Приложи Промените"
 msgid "Apply Config"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:389
+#: ../core/functions.inc/drivers/Sip.class.php:391
 msgid ""
 "Are you Sure you want to Change the SIP Channel Driver? (The Page will "
 "Refresh, then you MUST hit save when you are done to propagate the new "
@@ -1044,7 +1039,7 @@ msgstr ""
 msgid "Asterisk General Call Pickup"
 msgstr "Основно Изтегляне на Обаждане"
 
-#: amp.i18n.php:40 ../core/page.astmodules.php:46
+#: amp.i18n.php:38 ../core/page.astmodules.php:46
 msgid "Asterisk Modules"
 msgstr ""
 
@@ -1068,20 +1063,20 @@ msgstr ""
 msgid "Asterisk Trunk Dial Options"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:125
-#: ../core/functions.inc/drivers/Sip.class.php:286
+#: ../core/functions.inc/drivers/Iax2.class.php:122
+#: ../core/functions.inc/drivers/Sip.class.php:288
 msgid "Asterisk connection type, usually friend for endpoints."
 msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:53
-#: ../core/functions.inc/drivers/Iax2.class.php:116
-#: ../core/functions.inc/drivers/Sip.class.php:260
+#: ../core/functions.inc/drivers/Iax2.class.php:113
+#: ../core/functions.inc/drivers/Sip.class.php:262
 msgid ""
 "Asterisk context this device will send calls to. Only change this is you "
 "know what you are doing."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:382
+#: ../core/functions.inc/drivers/Sip.class.php:384
 msgid ""
 "Asterisk dialplan extension to reach voicemail for this device. Some devices "
 "use this to auto-program the voicemail button on the endpoint. If left "
@@ -1118,7 +1113,7 @@ msgstr ""
 msgid "Attention"
 msgstr "Внимание"
 
-#: ../core/views/routing/grid.php:84
+#: ../core/views/routing/grid.php:73
 msgid "Attributes"
 msgstr ""
 
@@ -1139,8 +1134,8 @@ msgid ""
 "username does not exist in User Manager"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:150
-#: ../core/functions.inc/drivers/Sip.class.php:243
+#: ../core/functions.inc/drivers/Iax2.class.php:147
+#: ../core/functions.inc/drivers/Sip.class.php:245
 msgid "Auto"
 msgstr ""
 
@@ -1150,15 +1145,15 @@ msgid ""
 "Asterisk greater than 1.4.21"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:299
+#: ../core/functions.inc/drivers/Sip.class.php:301
 msgid "Automatic Force Both - (auto_force_rport,auto_comedia)"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:300
+#: ../core/functions.inc/drivers/Sip.class.php:302
 msgid "Automatic Force rport - (auto_force_rport)"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:301
+#: ../core/functions.inc/drivers/Sip.class.php:303
 msgid "Automatic comedia - (auto_comedia)"
 msgstr ""
 
@@ -1284,7 +1279,7 @@ msgstr ""
 msgid "Call Forwarding is enabled"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:369
+#: ../core/functions.inc/drivers/Sip.class.php:371
 msgid "Call Groups"
 msgstr ""
 
@@ -1329,17 +1324,13 @@ msgid ""
 "(caller or callee) determines the policy."
 msgstr ""
 
-#: ../core/Core.class.php:2119
+#: ../core/Core.class.php:2109
 msgid "Caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:2120
+#: ../core/Core.class.php:2110
 msgid "Caller ID Number"
 msgstr "CallerID Номер"
-
-#: ../core/views/quickCreate.php:82
-msgid "Caller Name"
-msgstr ""
 
 #: ../core/views/routing/form.php:91 ../core/views/trunks/trunk_header.php:103
 #: ../core/views/trunks/trunkgrid.php:20
@@ -1362,7 +1353,7 @@ msgid "CallerID:"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:95
-#: ../core/functions.inc/drivers/Sip.class.php:368
+#: ../core/functions.inc/drivers/Sip.class.php:370
 msgid ""
 "Callgroup(s) that this device is part of, can be one or more callgroups, e."
 "g. '1,3-5' would be in groups 1,3,4,5."
@@ -1377,7 +1368,7 @@ msgstr ""
 msgid "Can Not Connect to Asterisk"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:258
+#: ../core/functions.inc/drivers/Sip.class.php:260
 msgid "Can Reinvite"
 msgstr ""
 
@@ -1386,7 +1377,7 @@ msgstr ""
 msgid "Can not create cache folder at %s/cache. Please run (from the CLI): %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:174
+#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:178
 #, php-format
 msgid ""
 "Can not create the LESS cache folder at %s. Please run (from the CLI): %s"
@@ -1396,7 +1387,7 @@ msgstr ""
 msgid "Can not create trunk_dialpatterns table"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:178
+#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:186
 #, php-format
 msgid "Can not read from the LESS folder at %s. Please run (from the CLI): %s"
 msgstr ""
@@ -1407,7 +1398,7 @@ msgid ""
 "Can not write to cache folder at %s/cache. Please run (from the CLI): %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:181
+#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:189
 #, php-format
 msgid ""
 "Can not write to the LESS cache folder at %s. Please run (from the CLI): %s"
@@ -1481,11 +1472,7 @@ msgstr "ChanSpy"
 msgid "Change Log for version"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:232
-msgid "Change SIP Driver"
-msgstr ""
-
-#: ../core/functions.inc/drivers/Sip.class.php:229
+#: ../core/functions.inc/drivers/Sip.class.php:231
 #, php-format
 msgid "Change To %s Driver"
 msgstr ""
@@ -1503,7 +1490,7 @@ msgstr "Изменения"
 msgid "Changing "
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:235
+#: ../core/functions.inc/drivers/Sip.class.php:237
 msgid "Changing SIP Driver unavailable"
 msgstr ""
 
@@ -1617,11 +1604,11 @@ msgid ""
 "review the others."
 msgstr ""
 
-#: ../core/assets/js/trunks/trunks.js:244
+#: ../core/assets/js/trunks/trunks.js:240
 msgid "Click here to insert a new pattern before this pattern"
 msgstr ""
 
-#: ../core/assets/js/trunks/trunks.js:245
+#: ../core/assets/js/trunks/trunks.js:241
 msgid "Click here to remove this pattern"
 msgstr ""
 
@@ -1705,11 +1692,11 @@ msgstr ""
 msgid "Connecting to the Database..."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:287
+#: ../core/functions.inc/drivers/Sip.class.php:289
 msgid "Connection Type"
 msgstr ""
 
-#: amp.i18n.php:24 amp_conf/htdocs/admin/views/menu_items.php:46
+#: amp.i18n.php:22 amp_conf/htdocs/admin/views/menu_items.php:46
 msgid "Connectivity"
 msgstr ""
 
@@ -1721,7 +1708,7 @@ msgstr ""
 msgid "Contact User to use in request."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:261
+#: ../core/functions.inc/drivers/Sip.class.php:263
 #: ../core/views/trunks/pjsip.php:154
 msgid "Context"
 msgstr ""
@@ -1771,7 +1758,7 @@ msgstr ""
 msgid "Converting IAX notransfer to transfer if needed.."
 msgstr ""
 
-#: amp.i18n.php:12 ../core/install.php:6
+#: amp.i18n.php:10 ../core/install.php:6
 msgid "Core"
 msgstr "Основни"
 
@@ -1951,7 +1938,7 @@ msgstr ""
 "Custom Goto контекстите трябва да съдържат стринг \"custom-\". Например: "
 "custom-app,s,1"
 
-#: amp.i18n.php:26 ../core/views/dahdichandids/general.php:5
+#: amp.i18n.php:24 ../core/views/dahdichandids/general.php:5
 #: ../core/views/dahdichandids/view.php:6
 msgid "DAHDI Channel DIDs"
 msgstr ""
@@ -2012,11 +1999,11 @@ msgstr "DID Описание"
 msgid "DID Number"
 msgstr "DID Номер"
 
-#: ../core/Core.class.php:2066
+#: ../core/Core.class.php:2056
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:2067
+#: ../core/Core.class.php:2057
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
@@ -2025,7 +2012,7 @@ msgstr ""
 msgid "DND"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:211
+#: ../core/functions.inc/drivers/PJSip.class.php:203
 msgid "DTLS-SRTP"
 msgstr ""
 
@@ -2033,7 +2020,7 @@ msgstr ""
 msgid "DTMF Mode"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:250
+#: ../core/functions.inc/drivers/Sip.class.php:252
 msgid "DTMF Signaling"
 msgstr ""
 
@@ -2094,10 +2081,10 @@ msgstr ""
 "всякаква или без DID информация.<br><br>Също така можете да използвате модел "
 "за съвпадения (като _2[345]X) който да отговаря на диапазон от номера"
 
-#: ../core/Core.class.php:424 ../core/Core.class.php:447
-#: ../core/Core.class.php:471 ../core/Core.class.php:509
-#: ../core/Core.class.php:530 ../core/Core.class.php:555
-#: ../core/Core.class.php:585 ../core/Core.class.php:615
+#: ../core/Core.class.php:416 ../core/Core.class.php:439
+#: ../core/Core.class.php:463 ../core/Core.class.php:501
+#: ../core/Core.class.php:522 ../core/Core.class.php:547
+#: ../core/Core.class.php:577 ../core/Core.class.php:607
 #: ../core/page.devices.php:56 ../core/page.devices.php:76
 #: ../core/page.extensions.php:58 ../core/page.extensions.php:84
 #: ../core/page.users.php:46
@@ -2117,7 +2104,7 @@ msgstr ""
 msgid "Deleting unused globals.."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:385
+#: ../core/functions.inc/drivers/Sip.class.php:387
 msgid "Deny"
 msgstr ""
 
@@ -2128,8 +2115,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/main.php:179
-#: ../core/Core.class.php:2086 ../core/Core.class.php:2087
-#: ../core/Core.class.php:2111 ../core/Core.class.php:2112
+#: ../core/Core.class.php:2076 ../core/Core.class.php:2077
+#: ../core/Core.class.php:2101 ../core/Core.class.php:2102
 #: ../core/functions.inc.php:6452 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:25
 #: ../core/views/dahdichandids/didForm.php:36 ../core/views/did/didgrid.php:19
@@ -2141,7 +2128,7 @@ msgstr "Описание"
 msgid "Descriptive Name for this Trunk"
 msgstr ""
 
-#: ../core/Core.class.php:2123 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:2113 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr ""
 
@@ -2184,7 +2171,7 @@ msgid ""
 "extension/device."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:218
+#: ../core/functions.inc/drivers/PJSip.class.php:210
 msgid ""
 "Determines whether encryption should be used if possible but does not "
 "terminate the session if not achieved. This option only applies if Media "
@@ -2197,7 +2184,7 @@ msgid ""
 "failures."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:188
+#: ../core/functions.inc/drivers/PJSip.class.php:180
 msgid ""
 "Determines whether res_pjsip will use the media transport received in the "
 "offer SDP in the corresponding answer SDP."
@@ -2208,7 +2195,7 @@ msgstr ""
 msgid "Device"
 msgstr "Устройство"
 
-#: ../core/Core.class.php:1287
+#: ../core/Core.class.php:1279
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
@@ -2221,11 +2208,11 @@ msgid "Device Info"
 msgstr "Информация за Устройство"
 
 #: ../core/functions.inc.php:6464
-#: ../core/functions.inc/drivers/Sip.class.php:213
+#: ../core/functions.inc/drivers/Sip.class.php:215
 msgid "Device Options"
 msgstr "Опции на Устройство"
 
-#: ../core/Core.class.php:2091 ../core/Core.class.php:2092
+#: ../core/Core.class.php:2081 ../core/Core.class.php:2082
 msgid "Device Technology"
 msgstr ""
 
@@ -2234,15 +2221,11 @@ msgstr ""
 msgid "Device Type"
 msgstr "Тип на Устройство"
 
-#: ../core/Core.class.php:2175
+#: ../core/Core.class.php:2165
 msgid "Device could not be added."
 msgstr ""
 
-#: ../core/Core.class.php:358
-msgid "Device was not added!"
-msgstr ""
-
-#: amp.i18n.php:20
+#: amp.i18n.php:18
 msgid "Devices"
 msgstr "Устройства"
 
@@ -2257,7 +2240,7 @@ msgstr ""
 "променящите се устройства може да се влиза и излиза от потребителите."
 
 #: ../core/functions.inc/drivers/Custom.class.php:30
-#: ../core/functions.inc/drivers/Sip.class.php:377
+#: ../core/functions.inc/drivers/Sip.class.php:379
 msgid "Dial"
 msgstr ""
 
@@ -2273,7 +2256,7 @@ msgstr ""
 msgid "Dial Patterns that will use this Route"
 msgstr ""
 
-#: ../core/assets/js/trunks/trunks.js:322
+#: ../core/assets/js/trunks/trunks.js:318
 msgid "Dial pattern is invalid"
 msgstr "Схемата на избиране е направилна"
 
@@ -2358,12 +2341,12 @@ msgstr ""
 msgid "Disabling Trunk "
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:373
+#: ../core/functions.inc/drivers/Sip.class.php:375
 msgid "Disallowed Codecs"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:132
-#: ../core/functions.inc/drivers/Sip.class.php:372
+#: ../core/functions.inc/drivers/Iax2.class.php:129
+#: ../core/functions.inc/drivers/Sip.class.php:374
 msgid ""
 "Disallowed codecs. Set this to all to remove all codecs defined in the "
 "general settings and then specify specific codecs separated by '&' on the "
@@ -2514,7 +2497,7 @@ msgstr ""
 msgid "Dump Configs"
 msgstr ""
 
-#: ../core/Core.class.php:560 ../core/Core.class.php:590
+#: ../core/Core.class.php:552 ../core/Core.class.php:582
 msgid "Duplicate"
 msgstr ""
 
@@ -2643,15 +2626,15 @@ msgstr ""
 msgid "Enable"
 msgstr "Разреши"
 
-#: ../core/functions.inc/drivers/Sip.class.php:342
+#: ../core/functions.inc/drivers/Sip.class.php:344
 msgid "Enable AVPF"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:365
+#: ../core/functions.inc/drivers/Sip.class.php:367
 msgid "Enable Encryption"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:358
+#: ../core/functions.inc/drivers/Sip.class.php:360
 msgid "Enable ICE Support"
 msgstr ""
 
@@ -2713,17 +2696,17 @@ msgstr ""
 msgid "Endpoint"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:128
+#: ../core/functions.inc/drivers/Iax2.class.php:125
 msgid "Endpoint port number to use, usually 4569."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:310
+#: ../core/functions.inc/drivers/Sip.class.php:312
 msgid ""
 "Endpoint port number to use, usually 5060. Some 2 ports devices such as ATA "
 "may used 5061 for the second port."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:191
+#: ../core/functions.inc/drivers/PJSip.class.php:183
 msgid ""
 "Enforce that RTP must be symmetric. If this device is natting in it is "
 "usually a good idea to enable this. Disable only if you are having issues."
@@ -2733,8 +2716,16 @@ msgstr ""
 msgid "English"
 msgstr ""
 
+#: ../core/views/quickCreate.php:82
+msgid "Enter Caller ID"
+msgstr ""
+
 #: ../core/views/quickCreate.php:42
 msgid "Enter Extension"
+msgstr ""
+
+#: ../core/views/quickCreate.php:102
+msgid "Enter email"
 msgstr ""
 
 #: ../core/views/quickCreate.php:62
@@ -2789,7 +2780,7 @@ msgstr "Грешка при създаване на временна дирек�
 msgid "Error deleting directory %s (code %d)"
 msgstr "Грешка при изтриване на директория %s (код %d)"
 
-#: ../core/Core.class.php:1029 ../core/page.trunks.php:323
+#: ../core/Core.class.php:1021 ../core/page.trunks.php:323
 msgid "Error fetching prefix list for: "
 msgstr "Грешка при вмъкване на префиксите за: "
 
@@ -2835,7 +2826,7 @@ msgstr ""
 msgid "Error updating database: "
 msgstr "Грешка при обновяване на базата данни: "
 
-#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:203
+#: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:211
 #, php-format
 msgid "Error with the templating engine: %s"
 msgstr ""
@@ -2940,8 +2931,8 @@ msgstr ""
 msgid "Export settings to file"
 msgstr ""
 
-#: ../core/Core.class.php:31 ../core/Core.class.php:2078
-#: ../core/Core.class.php:2079 ../core/functions.inc.php:6036
+#: ../core/Core.class.php:31 ../core/Core.class.php:2068
+#: ../core/Core.class.php:2069 ../core/functions.inc.php:6036
 #: ../core/page.did.php:88 ../core/page.extensions.php:65
 #: ../core/page.extensions.php:91
 msgid "Extension"
@@ -2967,7 +2958,7 @@ msgstr ""
 msgid "Extension can not be blank!"
 msgstr ""
 
-#: ../core/Core.class.php:2162
+#: ../core/Core.class.php:2152
 msgid "Extension is not numeric."
 msgstr ""
 
@@ -2975,11 +2966,7 @@ msgstr ""
 msgid "Extension number conflict, please choose another."
 msgstr ""
 
-#: ../core/Core.class.php:353
-msgid "Extension was not numeric!"
-msgstr ""
-
-#: amp.i18n.php:16 ../core/Core.class.php:2062 ../core/Core.class.php:2063
+#: amp.i18n.php:14 ../core/Core.class.php:2052 ../core/Core.class.php:2053
 msgid "Extensions"
 msgstr "Вътрешни Линии"
 
@@ -3169,7 +3156,7 @@ msgstr ""
 msgid "Fixes Vulnerabilities"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:199
+#: ../core/functions.inc/drivers/PJSip.class.php:191
 msgid ""
 "For Message Waiting indicators there are two types: Solicited and "
 "Unsolicited. Solicited means Subscribe 200 then Notify 200. Unsolicited "
@@ -3189,13 +3176,13 @@ msgstr ""
 msgid "Force"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:349
+#: ../core/functions.inc/drivers/Sip.class.php:351
 msgid ""
 "Force 'RTP/AVP', 'RTP/AVPF', 'RTP/SAVP', and 'RTP/SAVPF' to be used for "
 "media streams when appropriate, even if a DTLS stream is present."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:350
+#: ../core/functions.inc/drivers/Sip.class.php:352
 msgid "Force AVP"
 msgstr ""
 
@@ -3227,7 +3214,7 @@ msgid ""
 "warning> Use at your own risk, modules have dependencies for a reason!"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:294
+#: ../core/functions.inc/drivers/Sip.class.php:296
 msgid "Force rport - (force_rport)"
 msgstr ""
 
@@ -3259,7 +3246,7 @@ msgstr ""
 msgid "FreePBX Advanced Settings"
 msgstr ""
 
-#: amp.i18n.php:42
+#: amp.i18n.php:40
 msgid "FreePBX Support"
 msgstr "FreePBX Поддръжка"
 
@@ -3296,7 +3283,7 @@ msgstr ""
 "съответните вътрешни линии и специални кодове предоставени от тези различни "
 "контексти и генерирани от FreePBX."
 
-#: ../core/functions.inc/drivers/Sip.class.php:315
+#: ../core/functions.inc/drivers/Sip.class.php:317
 msgid "Frequency in seconds to send qualify messages to the endpoint."
 msgstr ""
 
@@ -3469,18 +3456,18 @@ msgstr ""
 msgid "Home directory %s doesn't exist, and I can't create it"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:264
+#: ../core/functions.inc/drivers/Sip.class.php:266
 msgid "Host"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:118
-#: ../core/functions.inc/drivers/Sip.class.php:263
+#: ../core/functions.inc/drivers/Iax2.class.php:115
+#: ../core/functions.inc/drivers/Sip.class.php:265
 msgid "Host settings for this device, almost always dynamic for endpoints."
 msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:91
-#: ../core/functions.inc/drivers/Iax2.class.php:136
-#: ../core/functions.inc/drivers/Sip.class.php:376
+#: ../core/functions.inc/drivers/Iax2.class.php:133
+#: ../core/functions.inc/drivers/Sip.class.php:378
 msgid ""
 "How to dial this device, this should not be changed unless you know what you "
 "are doing."
@@ -3516,13 +3503,13 @@ msgstr ""
 msgid "I was handed %s to hook. Don't know how to handle it"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:151
+#: ../core/functions.inc/drivers/Iax2.class.php:148
 msgid ""
 "IAX security setting. See IAX documentation and device compatibility for "
 "details."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:113
+#: ../core/functions.inc/drivers/Iax2.class.php:110
 msgid "IAX transfer capabilities, see the Asterisk documentation for details."
 msgstr ""
 
@@ -3538,8 +3525,8 @@ msgstr ""
 msgid "IP Address"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:144
-#: ../core/functions.inc/drivers/Sip.class.php:386
+#: ../core/functions.inc/drivers/Iax2.class.php:141
+#: ../core/functions.inc/drivers/Sip.class.php:388
 msgid ""
 "IP Address range to allow access to, in the form of network/netmask. This "
 "can be a very useful security option when dealing with remote extensions "
@@ -3547,8 +3534,8 @@ msgid ""
 "range for some home office situations."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:142
-#: ../core/functions.inc/drivers/Sip.class.php:384
+#: ../core/functions.inc/drivers/Iax2.class.php:139
+#: ../core/functions.inc/drivers/Sip.class.php:386
 msgid "IP Address range to deny access to, in the form of network/netmask."
 msgstr ""
 
@@ -3636,7 +3623,7 @@ msgstr ""
 msgid "Import/Export Patterns"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:248
+#: ../core/functions.inc/drivers/Sip.class.php:250
 msgid "In band audio (Not recommended)"
 msgstr ""
 
@@ -3677,7 +3664,7 @@ msgstr ""
 msgid "Inbound Route: %s (%s)"
 msgstr "Входящ Маршрут: %s (%s)"
 
-#: amp.i18n.php:22 ../core/page.did.php:118
+#: amp.i18n.php:20 ../core/page.did.php:118
 msgid "Inbound Routes"
 msgstr "Входящи Маршрути"
 
@@ -3689,7 +3676,7 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: ../core/Core.class.php:2115 ../core/Core.class.php:2116
+#: ../core/Core.class.php:2105 ../core/Core.class.php:2106
 msgid "Incoming DID"
 msgstr ""
 
@@ -3847,7 +3834,7 @@ msgstr ""
 msgid "Invalid email address"
 msgstr ""
 
-#: ../core/Core.class.php:1033 ../core/page.trunks.php:328
+#: ../core/Core.class.php:1025 ../core/page.trunks.php:328
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "Неправилен формат за NPA-NXX код (трябва да е във формат: NXXNXX)"
 
@@ -3958,7 +3945,7 @@ msgstr "Нисък Лимит на Паметта"
 msgid "MAC Address"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:200
+#: ../core/functions.inc/drivers/PJSip.class.php:192
 msgid "MWI Subscription Type"
 msgstr ""
 
@@ -3970,13 +3957,13 @@ msgstr ""
 msgid "Magic Quotes GPC"
 msgstr "Magic Quotes GPC"
 
-#: ../core/functions.inc/drivers/Sip.class.php:381
+#: ../core/functions.inc/drivers/Sip.class.php:383
 msgid "Mailbox"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:99
-#: ../core/functions.inc/drivers/Iax2.class.php:140
-#: ../core/functions.inc/drivers/Sip.class.php:380
+#: ../core/functions.inc/drivers/Iax2.class.php:137
+#: ../core/functions.inc/drivers/Sip.class.php:382
 msgid ""
 "Mailbox for this device. This should not be changed unless you know what you "
 "are doing."
@@ -4008,12 +3995,12 @@ msgstr "Локално управление на модулите"
 msgid "Manually Loaded Modules"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:223
+#: ../core/functions.inc/drivers/PJSip.class.php:215
 #: ../core/views/trunks/pjsip.php:545
 msgid "Match (Permit)"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:180
+#: ../core/functions.inc/drivers/PJSip.class.php:172
 msgid "Max Contacts"
 msgstr ""
 
@@ -4029,11 +4016,11 @@ msgstr ""
 msgid "Maximum Channels"
 msgstr "Максимално Канали"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:227
+#: ../core/functions.inc/drivers/PJSip.class.php:219
 msgid "Maximum Expiration"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:179
+#: ../core/functions.inc/drivers/PJSip.class.php:171
 msgid "Maximum number of Endpoints that can associate with this Device"
 msgstr ""
 
@@ -4049,7 +4036,7 @@ msgstr ""
 msgid "Maximum number of registration attempts."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:226
+#: ../core/functions.inc/drivers/PJSip.class.php:218
 msgid "Maximum time to keep an AoR"
 msgstr ""
 
@@ -4057,25 +4044,25 @@ msgstr ""
 msgid "May be invalid Check your spelling"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:212
+#: ../core/functions.inc/drivers/PJSip.class.php:204
 msgid ""
 "Media (RTP) Encryption. Normally you would use None, unless you have "
 "explicitly set up SDP or DTLS."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:213
+#: ../core/functions.inc/drivers/PJSip.class.php:205
 msgid "Media Encryption"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:219
+#: ../core/functions.inc/drivers/PJSip.class.php:211
 msgid "Media Encryption Optimistic"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:112
+#: ../core/functions.inc/drivers/Iax2.class.php:109
 msgid "Media Only"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:189
+#: ../core/functions.inc/drivers/PJSip.class.php:181
 msgid "Media Use Received Transport"
 msgstr ""
 
@@ -4091,7 +4078,7 @@ msgstr ""
 msgid "Min Length"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:231
+#: ../core/functions.inc/drivers/PJSip.class.php:223
 msgid "Minimum Expiration"
 msgstr ""
 
@@ -4101,7 +4088,7 @@ msgid ""
 "valid"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:230
+#: ../core/functions.inc/drivers/PJSip.class.php:222
 msgid "Minimum time to keep an AoR"
 msgstr ""
 
@@ -4356,11 +4343,11 @@ msgstr ""
 msgid "MySQL table repair Failed: %s"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:308
+#: ../core/functions.inc/drivers/Sip.class.php:310
 msgid "NAT Mode"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:307
+#: ../core/functions.inc/drivers/Sip.class.php:309
 msgid ""
 "NAT setting, see Asterisk documentation for details. Yes usually works for "
 "both internal and external devices. Set to No if the device will always be "
@@ -4376,9 +4363,9 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
-#: ../core/Core.class.php:2082 ../core/Core.class.php:2083
+#: ../core/Core.class.php:2072 ../core/Core.class.php:2073
 #: ../core/page.extensions.php:66 ../core/page.extensions.php:92
-#: ../core/page.users.php:54 ../core/views/routing/grid.php:82
+#: ../core/page.users.php:54 ../core/views/routing/grid.php:71
 #: ../core/views/trunks/trunkgrid.php:18
 msgid "Name"
 msgstr ""
@@ -4417,17 +4404,17 @@ msgstr "По-нов от онлайн версия (%s)"
 #: ../core/functions.inc/drivers/Dahdi.class.php:69
 #: ../core/functions.inc/drivers/Dahdi.class.php:78
 #: ../core/functions.inc/drivers/Dahdi.class.php:87
-#: ../core/functions.inc/drivers/Iax2.class.php:111
-#: ../core/functions.inc/drivers/Iax2.class.php:149
-#: ../core/functions.inc/drivers/PJSip.class.php:203
-#: ../core/functions.inc/drivers/PJSip.class.php:216
-#: ../core/functions.inc/drivers/Sip.class.php:254
-#: ../core/functions.inc/drivers/Sip.class.php:267
-#: ../core/functions.inc/drivers/Sip.class.php:273
-#: ../core/functions.inc/drivers/Sip.class.php:339
-#: ../core/functions.inc/drivers/Sip.class.php:347
-#: ../core/functions.inc/drivers/Sip.class.php:355
-#: ../core/functions.inc/drivers/Sip.class.php:362
+#: ../core/functions.inc/drivers/Iax2.class.php:108
+#: ../core/functions.inc/drivers/Iax2.class.php:146
+#: ../core/functions.inc/drivers/PJSip.class.php:195
+#: ../core/functions.inc/drivers/PJSip.class.php:208
+#: ../core/functions.inc/drivers/Sip.class.php:256
+#: ../core/functions.inc/drivers/Sip.class.php:269
+#: ../core/functions.inc/drivers/Sip.class.php:275
+#: ../core/functions.inc/drivers/Sip.class.php:341
+#: ../core/functions.inc/drivers/Sip.class.php:349
+#: ../core/functions.inc/drivers/Sip.class.php:357
+#: ../core/functions.inc/drivers/Sip.class.php:364
 #: ../core/page.advancedsettings.php:86 ../core/views/did/routeform.php:166
 #: ../core/views/did/routeform.php:268 ../core/views/did/routeform.php:295
 #: ../core/views/did/routeform.php:349 ../core/views/routing/form.php:328
@@ -4437,7 +4424,7 @@ msgstr "По-нов от онлайн версия (%s)"
 msgid "No"
 msgstr "Не"
 
-#: ../core/functions.inc/drivers/Sip.class.php:291
+#: ../core/functions.inc/drivers/Sip.class.php:293
 msgid "No - (no)"
 msgstr ""
 
@@ -4524,7 +4511,7 @@ msgstr ""
 msgid "No status was given to checkStatus"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:209
+#: ../core/functions.inc/drivers/PJSip.class.php:201
 #: ../core/views/trunks/pjsip.php:215
 msgid "None"
 msgstr ""
@@ -4771,7 +4758,7 @@ msgstr ""
 msgid "Other"
 msgstr ""
 
-#: ../core/functions.inc.php:6161 ../core/views/routing/grid.php:83
+#: ../core/functions.inc.php:6161 ../core/views/routing/grid.php:72
 msgid "Outbound CID"
 msgstr "Изходящ CID"
 
@@ -4804,7 +4791,8 @@ msgstr ""
 msgid "Outbound Route: %s"
 msgstr ""
 
-#: amp.i18n.php:28 ../core/page.routing.php:90
+#: amp.i18n.php:26 ../core/page.routing.php:90
+#: ../core/views/routing/default.php:2
 msgid "Outbound Routes"
 msgstr "Изходящи Маршрути"
 
@@ -4866,8 +4854,8 @@ msgstr ""
 msgid "Password"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:106
-#: ../core/functions.inc/drivers/Sip.class.php:210
+#: ../core/functions.inc/drivers/Iax2.class.php:103
+#: ../core/functions.inc/drivers/Sip.class.php:212
 msgid ""
 "Password (secret) configured for the device. Should be alphanumeric with at "
 "least 2 letters and numbers to keep secure."
@@ -4935,16 +4923,16 @@ msgid ""
 "Permissions should be set with a leading 0, example 644 should be 0644 File:"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:387
+#: ../core/functions.inc/drivers/Sip.class.php:389
 msgid "Permit"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:371
+#: ../core/functions.inc/drivers/Sip.class.php:373
 msgid "Pickup Groups"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:97
-#: ../core/functions.inc/drivers/Sip.class.php:370
+#: ../core/functions.inc/drivers/Sip.class.php:372
 msgid ""
 "Pickupgroups(s) that this device can pickup calls from, can be one or more "
 "groups, e.g. '1,3-5' would be in groups 1,3,4,5. Device does not have to be "
@@ -4980,8 +4968,8 @@ msgid "Please correct the following errors:"
 msgstr ""
 
 #: ../core/functions.inc.php:6468
-#: ../core/functions.inc/drivers/Iax2.class.php:102
-#: ../core/functions.inc/drivers/Sip.class.php:208
+#: ../core/functions.inc/drivers/Iax2.class.php:99
+#: ../core/functions.inc/drivers/Sip.class.php:210
 msgid "Please enter a Secret for this device"
 msgstr "Моля въведете Парола за това устройство"
 
@@ -5073,7 +5061,7 @@ msgstr ""
 msgid "Please wait while module actions are performed"
 msgstr "Моля изчакайте докато задачите се изпълняват"
 
-#: ../core/functions.inc/drivers/Sip.class.php:311
+#: ../core/functions.inc/drivers/Sip.class.php:313
 msgid "Port"
 msgstr ""
 
@@ -5146,11 +5134,11 @@ msgstr ""
 msgid "Put caller on hold forever"
 msgstr "Постави обаждащия се на задържане завинаги"
 
-#: ../core/functions.inc/drivers/Sip.class.php:313
+#: ../core/functions.inc/drivers/Sip.class.php:315
 msgid "Qualify"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:316
+#: ../core/functions.inc/drivers/Sip.class.php:318
 #: ../core/views/trunks/pjsip.php:356
 msgid "Qualify Frequency"
 msgstr ""
@@ -5159,19 +5147,19 @@ msgstr ""
 msgid "Quick Create Extension"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:242
+#: ../core/functions.inc/drivers/Sip.class.php:244
 msgid "RFC 2833"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:240
+#: ../core/functions.inc/drivers/Sip.class.php:242
 msgid "RFC 4733"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:192
+#: ../core/functions.inc/drivers/PJSip.class.php:184
 msgid "RTP Symmetric"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:253
+#: ../core/functions.inc/drivers/Sip.class.php:255
 msgid ""
 "Re-Invite policy for this device, see Asterisk documentation for details."
 msgstr ""
@@ -5311,11 +5299,11 @@ msgstr "Изисква се един от следните инструмент�
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:37
 #: amp_conf/htdocs/admin/views/module_admin/main.php:433
-#: ../core/Core.class.php:429 ../core/Core.class.php:452
-#: ../core/Core.class.php:476 ../core/Core.class.php:495
-#: ../core/Core.class.php:514 ../core/Core.class.php:535
-#: ../core/Core.class.php:565 ../core/Core.class.php:595
-#: ../core/Core.class.php:620
+#: ../core/Core.class.php:421 ../core/Core.class.php:444
+#: ../core/Core.class.php:468 ../core/Core.class.php:487
+#: ../core/Core.class.php:506 ../core/Core.class.php:527
+#: ../core/Core.class.php:557 ../core/Core.class.php:587
+#: ../core/Core.class.php:612
 msgid "Reset"
 msgstr "Изчисти"
 
@@ -5341,7 +5329,7 @@ msgstr "Отново"
 msgid "Return"
 msgstr "Обратно"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:194
+#: ../core/functions.inc/drivers/PJSip.class.php:186
 msgid "Rewrite Contact"
 msgstr ""
 
@@ -5423,11 +5411,11 @@ msgstr ""
 msgid "SIP Alias"
 msgstr "SIP Псевдоним"
 
-#: ../core/functions.inc/drivers/Sip.class.php:244
+#: ../core/functions.inc/drivers/Sip.class.php:246
 msgid "SIP INFO (application/dtmf)"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:247
+#: ../core/functions.inc/drivers/Sip.class.php:249
 msgid "SIP INFO (application/dtmf-relay)"
 msgstr ""
 
@@ -5453,7 +5441,7 @@ msgid ""
 "generated by the PBX if left blank"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:210
+#: ../core/functions.inc/drivers/PJSip.class.php:202
 msgid "SRTP via in-SDP"
 msgstr ""
 
@@ -5477,9 +5465,7 @@ msgstr "Без Запомняне"
 msgid "Search"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:107
-#: ../core/functions.inc/drivers/Sip.class.php:211
-#: ../core/functions.inc/drivers/Sip.class.php:423
+#: ../core/functions.inc/drivers/Sip.class.php:425
 #: ../core/views/trunks/pjsip.php:82
 msgid "Secret"
 msgstr ""
@@ -5504,15 +5490,15 @@ msgstr ""
 msgid "Selected"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:277
+#: ../core/functions.inc/drivers/Sip.class.php:279
 msgid "Send P-Asserted-Identity header"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:280
+#: ../core/functions.inc/drivers/Sip.class.php:282
 msgid "Send RPID"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:274
+#: ../core/functions.inc/drivers/Sip.class.php:276
 msgid "Send Remote-Party-ID header"
 msgstr ""
 
@@ -5566,7 +5552,7 @@ msgstr ""
 msgid "Setting sbin to the correct location of: %s"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:312
+#: ../core/functions.inc/drivers/Sip.class.php:314
 msgid ""
 "Setting to yes (equivalent to 2000 msec) will send an OPTIONS packet to the "
 "endpoint periodically (default every minute). Used to monitor the health of "
@@ -5576,7 +5562,7 @@ msgid ""
 "to keep NAT pinholes open."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Iax2.class.php:130
+#: ../core/functions.inc/drivers/Iax2.class.php:127
 msgid ""
 "Setting to yes (equivalent to 2000 msec) will send an OPTIONS packet to the "
 "endpoint periodically (default every minute). Used to monitor the health of "
@@ -5586,8 +5572,7 @@ msgid ""
 "keep NAT pinholes open."
 msgstr ""
 
-#: amp.i18n.php:34 amp_conf/htdocs/admin/views/menu_items.php:48
-#: ../core/functions.inc/drivers/Iax2.class.php:98
+#: amp.i18n.php:32 amp_conf/htdocs/admin/views/menu_items.php:48
 #: ../core/functions.inc/drivers/Sip.class.php:160
 #: ../core/views/trunks/trunk_header.php:237
 msgid "Settings"
@@ -5630,7 +5615,7 @@ msgstr "Сигнал ЗВЪНЕНЕ"
 msgid "Simulate Incoming Call"
 msgstr "Имитирай Входящо Обаждане"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:197
+#: ../core/functions.inc/drivers/PJSip.class.php:189
 msgid "Solicited"
 msgstr ""
 
@@ -5681,11 +5666,11 @@ msgstr ""
 msgid "Stream files for debugging"
 msgstr ""
 
-#: ../core/Core.class.php:434 ../core/Core.class.php:457
-#: ../core/Core.class.php:481 ../core/Core.class.php:500
-#: ../core/Core.class.php:519 ../core/Core.class.php:540
-#: ../core/Core.class.php:570 ../core/Core.class.php:600
-#: ../core/Core.class.php:625
+#: ../core/Core.class.php:426 ../core/Core.class.php:449
+#: ../core/Core.class.php:473 ../core/Core.class.php:492
+#: ../core/Core.class.php:511 ../core/Core.class.php:532
+#: ../core/Core.class.php:562 ../core/Core.class.php:592
+#: ../core/Core.class.php:617
 msgid "Submit"
 msgstr "Приеми"
 
@@ -5717,7 +5702,7 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:328
+#: ../core/functions.inc/drivers/Sip.class.php:330
 msgid "TCP Only"
 msgstr ""
 
@@ -5725,7 +5710,7 @@ msgstr ""
 msgid "TECH"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:329
+#: ../core/functions.inc/drivers/Sip.class.php:331
 msgid "TLS Only"
 msgstr ""
 
@@ -5797,7 +5782,7 @@ msgstr ""
 "DID който представя този канал. Входящите обаждания по този канал ще бъдат "
 "представяни с този DID и могат да бъдат рутирани с Входящи Маршрути като DID"
 
-#: ../core/functions.inc/drivers/Sip.class.php:249
+#: ../core/functions.inc/drivers/Sip.class.php:251
 msgid ""
 "The DTMF signaling mode used by this device, usually RFC for most phones."
 msgstr ""
@@ -5877,7 +5862,7 @@ msgstr ""
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
-#: ../core/Core.class.php:2124
+#: ../core/Core.class.php:2114
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -6013,7 +5998,7 @@ msgstr ""
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:222
+#: ../core/functions.inc/drivers/PJSip.class.php:214
 msgid ""
 "The value is a comma-delimited list of IP addresses. IP addresses may have a "
 "subnet mask appended. The subnet mask may be written in either CIDR or dot-"
@@ -6093,11 +6078,11 @@ msgstr ""
 msgid "This Module has been deprecated"
 msgstr ""
 
-#: ../core/Core.class.php:1294
+#: ../core/Core.class.php:1286
 msgid "This device id is already in use"
 msgstr "ID на устройството вече се използва"
 
-#: ../core/functions.inc/drivers/Sip.class.php:177
+#: ../core/functions.inc/drivers/Sip.class.php:179
 #, php-format
 msgid "This device uses %s technology %s"
 msgstr ""
@@ -6173,11 +6158,11 @@ msgstr ""
 msgid "This page is used to manage various system trunks"
 msgstr ""
 
-#: ../core/page.routing.php:25
+#: ../core/page.routing.php:25 ../core/views/routing/default.php:4
 msgid "This page is used to manage your outbound routing."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:334
+#: ../core/functions.inc/drivers/Sip.class.php:336
 msgid ""
 "This sets the allowed transport settings for this device and the default "
 "(Primary) transport for outgoing. The default transport is only used for "
@@ -6204,7 +6189,7 @@ msgstr ""
 "установи маршрут, който да я използва. Кликнете на <b>Изходящи Маршрути</b> "
 "за да установите маршрут."
 
-#: ../core/Core.class.php:1696
+#: ../core/Core.class.php:1687
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "Потребителят/вътрешната линия %s вече се използва"
@@ -6244,7 +6229,7 @@ msgstr ""
 msgid "Track"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:335
+#: ../core/functions.inc/drivers/Sip.class.php:337
 #: ../core/views/trunks/pjsip.php:178
 msgid "Transport"
 msgstr ""
@@ -6270,11 +6255,11 @@ msgstr ""
 msgid "Trunk: %s (%s)"
 msgstr ""
 
-#: amp.i18n.php:30 ../core/views/trunks/main.php:2
+#: amp.i18n.php:28 ../core/views/trunks/main.php:2
 msgid "Trunks"
 msgstr "Външни Линии"
 
-#: ../core/functions.inc/drivers/Sip.class.php:270
+#: ../core/functions.inc/drivers/Sip.class.php:272
 msgid "Trust RPID"
 msgstr ""
 
@@ -6289,7 +6274,7 @@ msgid ""
 "to download remotely and upload locally"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:327
+#: ../core/functions.inc/drivers/Sip.class.php:329
 msgid "UDP Only"
 msgstr ""
 
@@ -6481,7 +6466,7 @@ msgstr ""
 msgid "Unsigned Module(s)"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:198
+#: ../core/functions.inc/drivers/PJSip.class.php:190
 msgid "Unsolicited"
 msgstr ""
 
@@ -6640,12 +6625,8 @@ msgstr ""
 msgid "User Password"
 msgstr "Парола"
 
-#: ../core/Core.class.php:2193
+#: ../core/Core.class.php:2183
 msgid "User could not be added."
-msgstr ""
-
-#: ../core/Core.class.php:369
-msgid "User was not added!"
 msgstr ""
 
 #: ../core/install.php:177
@@ -6666,7 +6647,7 @@ msgstr ""
 msgid "Username to use in From header for requests to this trunk"
 msgstr ""
 
-#: amp.i18n.php:18
+#: amp.i18n.php:16
 msgid "Users"
 msgstr "Потребители"
 
@@ -6681,7 +6662,7 @@ msgstr ""
 msgid "Value [%s] out of range, changed to [%s]"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:409
+#: ../core/functions.inc/drivers/Sip.class.php:411
 msgid "Value must be between 1 and 63"
 msgstr ""
 
@@ -6710,7 +6691,7 @@ msgstr ""
 msgid "Voicemail"
 msgstr "Гласова Поща"
 
-#: ../core/functions.inc/drivers/Sip.class.php:383
+#: ../core/functions.inc/drivers/Sip.class.php:385
 msgid "Voicemail Extension"
 msgstr ""
 
@@ -6736,11 +6717,11 @@ msgid ""
 "switch to another  browser that supports it."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:331
+#: ../core/functions.inc/drivers/Sip.class.php:333
 msgid "WS Only"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:332
+#: ../core/functions.inc/drivers/Sip.class.php:334
 msgid "WSS Only"
 msgstr ""
 
@@ -6808,7 +6789,7 @@ msgstr ""
 msgid "What Does this Mean?"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:205
+#: ../core/functions.inc/drivers/PJSip.class.php:197
 msgid ""
 "When enabled, Asterisk condenses message waiting notifications from multiple "
 "mailboxes into a single NOTIFY. If it is disabled, individual NOTIFYs are "
@@ -6830,21 +6811,21 @@ msgstr ""
 msgid "Where to insert this route or relocate it relative to the other routes."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:279
+#: ../core/functions.inc/drivers/Sip.class.php:281
 msgid ""
 "Whether Asterisk should send RPID (or PAI) info to the device. Usually "
 "should be enabled to the settings used by your device for CONNECTEDLINE() "
 "functionality to work if supported by the endpoint."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:269
+#: ../core/functions.inc/drivers/Sip.class.php:271
 msgid ""
 "Whether Asterisk should trust the RPID settings from this device. Usually "
 "should be yes for CONNECTEDLINE() functionality to work if supported by the "
 "endpoint."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:341
+#: ../core/functions.inc/drivers/Sip.class.php:343
 msgid ""
 "Whether to Enable AVPF. Defaults to no. The WebRTC standard has selected "
 "AVPF as the audio video profile to use for media streams. This is not the "
@@ -6852,7 +6833,7 @@ msgid ""
 "enabled to use WebRTC"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:357
+#: ../core/functions.inc/drivers/Sip.class.php:359
 msgid ""
 "Whether to Enable ICE Support. Defaults to no. ICE (Interactive Connectivity "
 "Establishment) is a protocol for Network Address Translator(NAT) traversal "
@@ -6860,7 +6841,7 @@ msgid ""
 "This option is commonly enabled in WebRTC setups"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:364
+#: ../core/functions.inc/drivers/Sip.class.php:366
 msgid ""
 "Whether to offer SRTP encrypted media (and only SRTP encrypted media) on "
 "outgoing calls to a peer. Calls will fail with HANGUPCAUSE=58 if the peer "
@@ -6878,15 +6859,15 @@ msgstr ""
 #: ../core/functions.inc/drivers/Dahdi.class.php:68
 #: ../core/functions.inc/drivers/Dahdi.class.php:77
 #: ../core/functions.inc/drivers/Dahdi.class.php:86
-#: ../core/functions.inc/drivers/Iax2.class.php:110
-#: ../core/functions.inc/drivers/Iax2.class.php:148
-#: ../core/functions.inc/drivers/PJSip.class.php:204
-#: ../core/functions.inc/drivers/PJSip.class.php:217
-#: ../core/functions.inc/drivers/Sip.class.php:255
-#: ../core/functions.inc/drivers/Sip.class.php:268
-#: ../core/functions.inc/drivers/Sip.class.php:340
-#: ../core/functions.inc/drivers/Sip.class.php:348
-#: ../core/functions.inc/drivers/Sip.class.php:356
+#: ../core/functions.inc/drivers/Iax2.class.php:107
+#: ../core/functions.inc/drivers/Iax2.class.php:145
+#: ../core/functions.inc/drivers/PJSip.class.php:196
+#: ../core/functions.inc/drivers/PJSip.class.php:209
+#: ../core/functions.inc/drivers/Sip.class.php:257
+#: ../core/functions.inc/drivers/Sip.class.php:270
+#: ../core/functions.inc/drivers/Sip.class.php:342
+#: ../core/functions.inc/drivers/Sip.class.php:350
+#: ../core/functions.inc/drivers/Sip.class.php:358
 #: ../core/page.advancedsettings.php:84 ../core/views/did/routeform.php:164
 #: ../core/views/did/routeform.php:266 ../core/views/did/routeform.php:293
 #: ../core/views/did/routeform.php:347 ../core/views/routing/form.php:326
@@ -6896,11 +6877,11 @@ msgstr ""
 msgid "Yes"
 msgstr "Да"
 
-#: ../core/functions.inc/drivers/Sip.class.php:363
+#: ../core/functions.inc/drivers/Sip.class.php:365
 msgid "Yes (SRTP only)"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:290
+#: ../core/functions.inc/drivers/Sip.class.php:292
 msgid "Yes - (force_rport,comedia)"
 msgstr ""
 
@@ -7051,8 +7032,8 @@ msgstr ""
 "изключени и работи под това предположение"
 
 #: ../core/functions.inc.php:6467
-#: ../core/functions.inc/drivers/Iax2.class.php:101
-#: ../core/functions.inc/drivers/Sip.class.php:207
+#: ../core/functions.inc/drivers/Iax2.class.php:98
+#: ../core/functions.inc/drivers/Sip.class.php:209
 msgid ""
 "You have not entered a Secret for this device, although this is possible it "
 "is generally bad practice to not assign a Secret to a device. Are you sure "
@@ -7131,7 +7112,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:1688
+#: ../core/Core.class.php:1679
 msgid "You must put in an extension (or user) number"
 msgstr "Трябва да въведете номер на вътрешна линия (или потребител)"
 
@@ -7350,7 +7331,7 @@ msgstr ""
 msgid "choose one"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:295
+#: ../core/functions.inc/drivers/Sip.class.php:297
 msgid "comedia - (comedia)"
 msgstr ""
 
@@ -7568,7 +7549,7 @@ msgid ""
 "see: %s"
 msgstr ""
 
-#: ../core/assets/js/trunks/trunks.js:244
+#: ../core/assets/js/trunks/trunks.js:240
 msgid "insert"
 msgstr ""
 
@@ -7606,7 +7587,7 @@ msgstr ""
 msgid "list trunks"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:176
+#: ../core/functions.inc/drivers/Sip.class.php:178
 #, php-format
 msgid "listening on <strong>%s</strong>"
 msgstr ""
@@ -7724,15 +7705,11 @@ msgstr ""
 msgid "module.sig check failed! %s"
 msgstr ""
 
-#: ../core/views/quickCreate.php:102
-msgid "name@domain.tld"
-msgstr ""
-
 #: amp_conf/htdocs/admin/page.modules.php:815
 msgid "needs to be upgraded"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:304
+#: ../core/functions.inc/drivers/Sip.class.php:306
 msgid "never - (no)"
 msgstr ""
 
@@ -7816,7 +7793,7 @@ msgstr ""
 msgid "prepend:"
 msgstr ""
 
-#: ../core/assets/js/trunks/trunks.js:245
+#: ../core/assets/js/trunks/trunks.js:241
 msgid "remove"
 msgstr ""
 
@@ -7868,7 +7845,7 @@ msgstr ""
 msgid "route"
 msgstr "маршрут"
 
-#: ../core/functions.inc/drivers/Sip.class.php:305
+#: ../core/functions.inc/drivers/Sip.class.php:307
 msgid "route - (force_rport)"
 msgstr ""
 
