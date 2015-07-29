@@ -3,6 +3,8 @@
 //	Copyright 2013 Schmooze Com Inc.
 //
 
+$dirname = isset($amp_conf['AMPWEBROOT']) ? $amp_conf['AMPWEBROOT'] . '/admin' : __DIR__;
+
 //http://php.net/manual/en/function.phpversion.php
 if (!defined('PHP_VERSION_ID')) {
     $version = explode('.', PHP_VERSION);
@@ -11,8 +13,17 @@ if (!defined('PHP_VERSION_ID')) {
 
 spl_autoload_register('fpbx_framework_autoloader');
 
+//css minimizer class
+require_once($dirname . '/libraries/compress.class.php');
+
+//collation services
+require_once($dirname . '/libraries/core_collator.php');
+
 //class that handles freepbx global setting. Dont autoload - we ALWAYS need this anyway
 require_once($dirname . '/libraries/freepbx_conf.class.php');
+
+//freepbx helpers for debugging/logging/comparing
+require_once($dirname . '/libraries/utility.functions.php');
 
 //----------include function files----------
 

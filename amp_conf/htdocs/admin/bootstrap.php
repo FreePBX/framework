@@ -81,10 +81,8 @@ if(!class_exists("Composer\Autoload\ClassLoader")) {
 	include $dirname .'/libraries/Composer/vendor/autoload.php';
 }
 
-require_once($dirname . '/libraries/compress.class.php');
-require_once($dirname . '/libraries/core_collator.php');
-require_once($dirname . '/libraries/utility.functions.php');
 $bootstrap_settings['framework_functions_included'] = false;
+//load all freepbx functions
 require_once($dirname . '/functions.inc.php');
 $bootstrap_settings['framework_functions_included'] = true;
 
