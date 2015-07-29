@@ -6,11 +6,6 @@ if (version_compare(PHP_VERSION, '5.3.3', '<')) {
 	return false;
 }
 
-if(!file_exists(__DIR__.'/installlib')) {
-	out(_("Installlib directory is missing. Please redownload Framework"));
-	return false;
-}
-
 // HELPER FUNCTIONS:
 
 function framework_print_errors($src, $dst, $errors) {
