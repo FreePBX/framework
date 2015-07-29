@@ -3,8 +3,6 @@
 //	Copyright 2013 Schmooze Com Inc.
 //
 
-$dirname = dirname(__FILE__);
-
 //http://php.net/manual/en/function.phpversion.php
 if (!defined('PHP_VERSION_ID')) {
     $version = explode('.', PHP_VERSION);
@@ -17,9 +15,6 @@ spl_autoload_register('fpbx_framework_autoloader');
 require_once($dirname . '/libraries/freepbx_conf.class.php');
 
 //----------include function files----------
-
-//freepbx helpers for debugging/logging/comparing
-require_once($dirname . '/libraries/utility.functions.php');
 
 //module state manipulation functions
 require_once($dirname . '/libraries/modulefunctions.class.php');
