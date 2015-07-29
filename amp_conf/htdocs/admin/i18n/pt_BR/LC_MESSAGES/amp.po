@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-29 11:59-0700\n"
+"POT-Creation-Date: 2015-07-29 14:18-0700\n"
 "PO-Revision-Date: 2015-05-31 10:22+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -467,7 +467,7 @@ msgstr "%s: Novas Notificações de Segurança (%s)"
 msgid "%s: New Unsigned Modules Notifications (%s)"
 msgstr "%s: Novas Notificações de Módulos Não Assinados (%s)"
 
-#: install.php:14
+#: install.php:18
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
 msgstr "'cp -rf' de src: '%s' para dst: '%s'...detalhes seguintes"
@@ -1569,7 +1569,7 @@ msgstr "Impossível desabilitar: Os seguintes módulos dependem deste: "
 msgid "Cannot find module"
 msgstr "Impossível encontrar módulo"
 
-#: install.php:169
+#: install.php:173
 msgid "Cant Find Framework XML"
 msgstr "Não Foi Possível Encontrar Framework XML"
 
@@ -3488,6 +3488,11 @@ msgstr "Administração do FreePBX"
 msgid "FreePBX Advanced Settings"
 msgstr "Configurações Avançadas FreePBX"
 
+#: install.php:5
+#, php-format
+msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
+msgstr ""
+
 #: amp.i18n.php:42
 msgid "FreePBX Support"
 msgstr "Suporte FreePBX"
@@ -4006,6 +4011,10 @@ msgstr ""
 msgid "Installing core..."
 msgstr ""
 
+#: install.php:10
+msgid "Installlib directory is missing. Please redownload Framework"
+msgstr ""
+
 #: ../core/functions.inc/drivers/Iax2.class.php:11
 msgid ""
 "Inter-Asterisk eXchange (IAX) is a communications protocol native to the "
@@ -4032,7 +4041,7 @@ msgid ""
 "even after it was suppose to be applied"
 msgstr ""
 
-#: install.php:182
+#: install.php:186
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -4733,7 +4742,7 @@ msgstr "Sem ações a executar"
 msgid "No description is available."
 msgstr "Sem descrição disponível."
 
-#: install.php:70
+#: install.php:74
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr ""
@@ -5811,7 +5820,7 @@ msgstr ""
 msgid "Setting MOHDIR to mohmp3 consistent with old default"
 msgstr ""
 
-#: install.php:203
+#: install.php:207
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr ""
@@ -6951,7 +6960,7 @@ msgstr ""
 msgid "Version"
 msgstr "Versão"
 
-#: install.php:186
+#: install.php:190
 msgid "Version from Framework was empty, cant continue"
 msgstr ""
 
@@ -7525,7 +7534,7 @@ msgstr ""
 msgid "altered"
 msgstr ""
 
-#: install.php:149
+#: install.php:153
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr ""
@@ -7664,7 +7673,7 @@ msgstr ""
 msgid "deleting obsoleted record_in and record_out entries.."
 msgstr ""
 
-#: install.php:92 install.php:103 install.php:113
+#: install.php:96 install.php:107 install.php:117
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:494
 #: ../core/install.php:907 ../core/install.php:993
 msgid "done"
@@ -7675,7 +7684,7 @@ msgstr ""
 msgid "done! Reload FreePBX to update all Custom Context settings."
 msgstr ""
 
-#: install.php:90 install.php:101 install.php:111
+#: install.php:94 install.php:105 install.php:115
 msgid "done, see errors below"
 msgstr ""
 
@@ -7780,7 +7789,7 @@ msgstr ""
 msgid "fetchInto not implemented"
 msgstr ""
 
-#: install.php:151
+#: install.php:155
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr ""
@@ -7793,12 +7802,12 @@ msgstr ""
 msgid "format list as xml"
 msgstr ""
 
-#: install.php:15
+#: install.php:19
 #, php-format
 msgid "framework couldn't copy file to %s"
 msgstr ""
 
-#: install.php:137
+#: install.php:141
 msgid "framework file install done, removing packages from module"
 msgstr ""
 
@@ -7834,7 +7843,7 @@ msgstr ""
 msgid "insert"
 msgstr "inserir"
 
-#: install.php:83
+#: install.php:87
 #, php-format
 msgid "installing files to %s.."
 msgstr ""
