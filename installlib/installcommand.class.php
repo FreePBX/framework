@@ -80,6 +80,13 @@ class FreePBXInstallCommand extends Command {
 			return false;
 		}
 
+		//still needed for module_admin and retrieve_conf
+		$filePath = stream_resolve_include_path('Console/Getopt.php');
+		if ($filePath === false) {
+			$output->writeln("<error>PEAR must be installed (requires Console/Getopt.php)</error>");
+			return false;
+		}
+
 		$this->rootPath = dirname(__DIR__);
 		date_default_timezone_set('America/Los_Angeles');
 
@@ -487,12 +494,17 @@ class FreePBXInstallCommand extends Command {
 			}
 		}
 
-		// Copy /var/www/html/admin/modules/framework/module.xml
-		copy($this->rootPath . "/module.xml", $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.xml");
-
-		// Copy /var/www/html/admin/modules/framework/module.sig
-		if(file_exists($this->rootPath . "/module.sig")) {
-			copy($this->rootPath . "/module.sig", $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.sig");
+		$copyFrameworkFiles = array(
+			"module.xml",
+			"module.sig",
+			"install.php",
+			"LICENSE",
+			"README.md"
+		);
+		foreach($copyFrameworkFiles as $file) {
+			if(file_exists($this->rootPath . "/" . $file)) {
+				copy($this->rootPath . "/" . $file, $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/" . $file);
+			}
 		}
 
 		// Copy /etc/asterisk/voicemail.conf.template
