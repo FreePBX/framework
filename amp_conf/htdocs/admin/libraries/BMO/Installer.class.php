@@ -55,26 +55,32 @@ class Installer {
 		$this->soundsdir = $this->varlibdir."sounds/";
 	}
 
-	public function getDestination($modulename = false, $src = false) {
+	public function getDestination($modulename = false, $src = false, $validation = false) {
 		if (!$modulename || !$src) {
 			throw new \Exception("No modulename or source provided");
 		}
 
 		if (method_exists($this, $modulename)) {
-			return $this->$modulename($src);
+			return $this->$modulename($src, $validation);
 		}
 
-		return $this->defaultModule($modulename, $src);
+		return $this->defaultModule($modulename, $src, $validation);
 	}
 
-	private function defaultModule($modulename, $src) {
+	private function defaultModule($modulename, $src, $validation) {
 		return $this->webroot."admin/modules/$modulename/$src";
 	}
 
-	private function framework($file) {
+	private function framework($file, $validation) {
 		// This is broken into multiple ifs as it seems to be more readable that way.
 		if (substr($file,0,16) == "amp_conf/astetc/") {
-			return $this->etcdir.substr($file,16);
+			// If we're validating, then we don't want to check ANY of these files,
+			// as they will get modified
+			if ($validation) {
+				return false;
+			} else {
+				return $this->etcdir.substr($file,16);
+			}
 		} elseif (substr($file,0,16) == "amp_conf/sounds/") {
 			return $this->soundsdir.substr($file,16);
 		} elseif (substr($file,0,13) == "amp_conf/moh/") {
@@ -91,6 +97,6 @@ class Installer {
 			return false;  // Don't install. This is only needed as part of the installer
 		}
 		// Everything else isn't moved.
-		return $this->defaultModule("framework", $file);
+		return $this->defaultModule("framework", $file, $validation);
 	}
 }
