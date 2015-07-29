@@ -138,6 +138,10 @@ class Less extends \Less_Parser {
 			if(!@mkdir($dir.'/cache')) {
 				die_freepbx(sprintf(_('Can not create cache folder at %s/cache. Please run (from the CLI): %s'),$dir,'fwconsole chown'));
 			}
+			$ampowner = $this->FreePBX->Config->get('AMPASTERISKWEBUSER');
+			$ampgroup =  $ampowner != $this->FreePBX->Config->get('AMPASTERISKUSER') ? $this->FreePBX->Config->get('AMPASTERISKGROUP') : $ampowner;
+			chown($dir.'/cache', $ampowner);
+			chgrp($dir.'/cache', $ampgroup);
 		}
 		$this->SetOption('cache_dir',$dir.'/cache');
 		$this->SetOption('compress',true);
@@ -173,6 +177,10 @@ class Less extends \Less_Parser {
 			if(!@mkdir($dir.'/cache')) {
 				die_freepbx(sprintf(_('Can not create the LESS cache folder at %s. Please run (from the CLI): %s'),$dir.'/cache','fwconsole chown'));
 			}
+			$ampowner = $this->FreePBX->Config->get('AMPASTERISKWEBUSER');
+			$ampgroup =  $ampowner != $this->FreePBX->Config->get('AMPASTERISKUSER') ? $this->FreePBX->Config->get('AMPASTERISKGROUP') : $ampowner;
+			chown($dir.'/cache', $ampowner);
+			chgrp($dir.'/cache', $ampgroup);
 		}
 		if(!is_readable($dir)) {
 			die_freepbx(sprintf(_('Can not read from the LESS folder at %s. Please run (from the CLI): %s'),$dir,'fwconsole chown'));
