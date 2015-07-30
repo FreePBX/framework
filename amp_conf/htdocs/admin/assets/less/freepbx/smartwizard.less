@@ -301,3 +301,20 @@
 		}
 	}
 }
+
+/**
+ * Special Casing when inside a bootstrap modal
+ */
+.modal-body.swMain {
+	float: none;
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	.actionBar {
+		-webkit-border-radius: 0px;
+		-moz-border-radius: 0px;
+		border: none;
+		border-top: 1px solid #ccc;
+		border-bottom-left-radius: 6px;
+		border-bottom-right-radius: 6px;
+	}
+}
