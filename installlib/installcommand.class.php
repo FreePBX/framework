@@ -138,16 +138,17 @@ class FreePBXInstallCommand extends Command {
 
 		//Check Asterisk (before file writes)
 		$output->write("Checking if Asterisk is running and we can talk to it as the '".$answers['user']."' user...");
-		exec("sudo -u " . $answers['user'] . " asterisk -V", $tmpout, $ret);
+		$singleLine = exec("sudo -u " . $answers['user'] . " asterisk -rx 'core show version'", $tmpout, $ret);
 		if ($ret != 0) {
 			$output->writeln("<error>Error!</error>");
-			$output->writeln("<error>Error executing Asterisk.  Ensure that Asterisk is properly installed.</error>");
+			$output->writeln("<error>Error communicating with Asterisk.  Ensure that Asterisk is properly installed and running as the ".$answers['user']." user, error was: ".$singleLine."</error>");
+			exit(1);
 		} else {
 			$astver = $tmpout[0];
 			unset($tmpout);
 
 			// Parse Asterisk version.
-			if (preg_match('/^Asterisk (?:SVN-|GIT-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*))$/', $astver, $matches)) {
+			if (preg_match('/^Asterisk (?:SVN-|GIT-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*)) built$/', $astver, $matches)) {
 				if ((version_compare($matches[1], "11") < 0) || version_compare($matches[1], "15", "ge")) {
 					$output->writeln("<error>Error!</error>");
 					$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
