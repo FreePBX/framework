@@ -136,12 +136,74 @@ class FreePBXInstallCommand extends Command {
 			$dbroot = true;
 		}
 
+		// Make sure SELinux is disabled
+		$output->write("Checking if SELinux is enabled...");
+		exec("getenforce 2>/dev/null", $tmpout, $ret);
+		if (isset($tmpout[0]) && ($tmpout[0] === "Enabled" || $tmpout[0] === "Enforcing")) {
+			$output->writeln("<error>Error!</error>");
+			$output->writeln("<error>SELinux is enabled.  Please disable SELinux before installing FreePBX.</error>");
+			exit(1);
+		}
+		$output->writeln("Its not (good)!");
+		unset($tmpout);
+
+		require_once('installlib/installer.class.php');
+		$installer = new Installer($input, $output);
+
+		// Copy asterisk.conf
+		if (!file_exists(ASTERISK_CONF)) {
+			$output->write("No ".ASTERISK_CONF." file detected. Installing...");
+			$aconf = $installer->asterisk_conf_read(FILES_DIR . "/asterisk.conf");
+			if(empty($aconf['directories'])) {
+				$output->writeln("<error>Error!</error>");
+				$output->writeln("<error>Unable to read " . FILES_DIR . "/asterisk.conf or it was missing a directories section</error>");
+				exit(1);
+			}
+			$aconf['directories']['astmoddir'] = file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules';
+			$installer->asterisk_conf_write(ASTERISK_CONF, $aconf);
+			$asterisk_conf = $aconf['directories'];
+			$output->writeln("Done!");
+		} else {
+			$output->write("Reading ".ASTERISK_CONF."...");
+			$aconf = $installer->asterisk_conf_read(ASTERISK_CONF);
+			if(empty($aconf['directories'])) {
+				$output->writeln("<error>Error!</error>");
+				$output->writeln("<error>Unable to read " . ASTERISK_CONF . " or it was missing a directories section</error>");
+				exit(1);
+			}
+			$output->writeln("Done");
+			$asterisk_conf = $aconf['directories'];
+
+			$asterisk_defaults_conf = array(
+				'astetcdir' => '/etc/asterisk',
+				'astmoddir' => file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules',
+				'astvarlibdir' => '/var/lib/asterisk',
+				'astagidir' => '/var/lib/asterisk/agi-bin',
+				'astspooldir' => '/var/spool/asterisk',
+				'astrundir' => '/var/run/asterisk',
+				'astlogdir' => '/var/log/asterisk',
+			);
+
+			foreach ($asterisk_defaults_conf as $key => $value) {
+				if (!isset($asterisk_conf[$key])) {
+					$asterisk_conf[$key] = $value;
+				}
+			}
+		}
+
 		//Check Asterisk (before file writes)
 		$output->write("Checking if Asterisk is running and we can talk to it as the '".$answers['user']."' user...");
-		$singleLine = exec("sudo -u " . $answers['user'] . " asterisk -rx 'core show version'", $tmpout, $ret);
+		$singleLine = exec("sudo -u " . $answers['user'] . " asterisk -rx 'core show version' 2>&1", $tmpout, $ret);
 		if ($ret != 0) {
 			$output->writeln("<error>Error!</error>");
-			$output->writeln("<error>Error communicating with Asterisk.  Ensure that Asterisk is properly installed and running as the ".$answers['user']." user, error was: ".$singleLine."</error>");
+			$output->writeln("<error>Error communicating with Asterisk.  Ensure that Asterisk is properly installed and running as the ".$answers['user']." user</error>");
+			if(file_exists($asterisk_conf['astrundir']."/asterisk.ctl")) {
+				$info = posix_getpwuid(fileowner($asterisk_conf['astrundir']."/asterisk.ctl"));
+				$output->writeln("<error>Asterisk appears to be running as ".$info['name']."</error>");
+			} else {
+				$output->writeln("<error>Asterisk does not appear to be running</error>");
+			}
+			$output->writeln("<error>Try starting it with the './start_asterisk start' command in this directory</error>");
 			exit(1);
 		} else {
 			$astver = $tmpout[0];
@@ -163,22 +225,18 @@ class FreePBXInstallCommand extends Command {
 		}
 		$output->writeln("Done!");
 
-		// Make sure SELinux is disabled
-		$output->write("Checking if SELinux is enabled...");
-		exec("getenforce 2>/dev/null", $tmpout, $ret);
-		if (isset($tmpout[0]) && ($tmpout[0] === "Enabled" || $tmpout[0] === "Enforcing")) {
-			$output->writeln("<error>Error!</error>");
-			$output->writeln("<error>SELinux is enabled.  Please disable SELinux before installing FreePBX.</error>");
+		if((file_exists(FREEPBX_CONF) && !file_exists(AMP_CONF)) || (!file_exists(FREEPBX_CONF) && file_exists(AMP_CONF))) {
+			if(file_exists(FREEPBX_CONF)) {
+				$output->writeln("<error>Error!</error>");
+				$output->writeln("<error>Half-baked install previously detected. ".FREEPBX_CONF." should not exist if ".AMP_CONF." does not exist</error>");
+			} else {
+				$output->writeln("<error>Error!</error>");
+				$output->writeln("<error>Half-baked install previously detected. ".AMP_CONF." should not exist if ".FREEPBX_CONF." does not exist</error>");
+			}
 			exit(1);
 		}
-		$output->writeln("Its not (good)!");
-		unset($tmpout);
 
-		$output->writeln("Starting FreePBX Installation");
-
-		require_once('installlib/installer.class.php');
-		$installer = new Installer($input, $output);
-
+		$output->writeln("Preliminary checks done. Starting FreePBX Installation");
 		// Copy default amportal.conf
 		$output->write("Checking if this is a new install...");
 		if (!file_exists(AMP_CONF) || $force) {
@@ -242,47 +300,6 @@ class FreePBXInstallCommand extends Command {
 				exit(1);
 			}
 			$output->writeln("Connected!");
-		}
-
-		// Copy asterisk.conf
-		if (!file_exists(ASTERISK_CONF)) {
-			$output->write("No ".ASTERISK_CONF." file detected. Installing...");
-			$aconf = $installer->asterisk_conf_read(FILES_DIR . "/asterisk.conf");
-			if(empty($aconf['directories'])) {
-				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Unable to read " . FILES_DIR . "/asterisk.conf or it was missing a directories section</error>");
-				exit(1);
-			}
-			$aconf['directories']['astmoddir'] = file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules';
-			$installer->asterisk_conf_write(ASTERISK_CONF, $aconf);
-			$asterisk_conf = $aconf['directories'];
-			$output->writeln("Done!");
-		} else {
-			$output->write("Reading ".ASTERISK_CONF."...");
-			$aconf = $installer->asterisk_conf_read(ASTERISK_CONF);
-			if(empty($aconf['directories'])) {
-				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Unable to read " . ASTERISK_CONF . " or it was missing a directories section</error>");
-				exit(1);
-			}
-			$output->writeln("Done");
-			$asterisk_conf = $aconf['directories'];
-
-			$asterisk_defaults_conf = array(
-				'astetcdir' => '/etc/asterisk',
-				'astmoddir' => file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules',
-				'astvarlibdir' => '/var/lib/asterisk',
-				'astagidir' => '/var/lib/asterisk/agi-bin',
-				'astspooldir' => '/var/spool/asterisk',
-				'astrundir' => '/var/run/asterisk',
-				'astlogdir' => '/var/log/asterisk',
-			);
-
-			foreach ($asterisk_defaults_conf as $key => $value) {
-				if (!isset($asterisk_conf[$key])) {
-					$asterisk_conf[$key] = $value;
-				}
-			}
 		}
 
 		if(!file_exists(ODBC_INI)) {
