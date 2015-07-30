@@ -463,13 +463,13 @@ class FreePBXInstallCommand extends Command {
 
 		$output->write("Finishing up directory processes...");
 		$binFiles = array(
-			$amp_conf['AMPBIN'] . "/freepbx_engine" => 0755,
-			$amp_conf['AMPBIN'] . "/freepbx_setting" => 0755,
-			$amp_conf['AMPBIN'] . "/fwconsole" => 0755,
-			$amp_conf['AMPBIN'] . "/gen_amp_conf" => 0755,
-			$amp_conf['AMPBIN'] . "/retrieve_conf" => 0755,
-			$amp_conf['AMPSBIN'] . "/amportal" => 0755,
-			$amp_conf['AMPSBIN'] . "/fwconsole" => 0755
+			$bin."/freepbx_engine" => 0755,
+			$bin."/freepbx_setting" => 0755,
+			$bin."/fwconsole" => 0755,
+			$bin."/gen_amp_conf" => 0755,
+			$bin."/retrieve_conf" => 0755,
+			$sbin."/amportal" => 0755,
+			$sbin."/fwconsole" => 0755
 		);
 		foreach($binFiles as $file => $perms) {
 			if(file_exists($file)) {
@@ -546,7 +546,6 @@ class FreePBXInstallCommand extends Command {
 			$replace = array(
 				'AMPMGRUSER' => $amp_conf['AMPMGRUSER'],
 				'AMPMGRPASS' => $amp_conf['AMPMGRPASS'],
-				'AMPWEBADDRESS' => $amp_conf['AMPWEBADDRESS'],
 				'CDRDBNAME' => $amp_conf['CDRDBNAME'],
 				'AMPDBUSER' => $amp_conf['AMPDBUSER'],
 				'AMPDBPASS' => $amp_conf['AMPDBPASS']
