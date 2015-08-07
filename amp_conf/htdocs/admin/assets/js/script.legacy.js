@@ -1140,7 +1140,11 @@ $(document).on('keyup', '.password-meter', function() {
 	}
 });
 $(document).on('focus', '.password-meter', function() {
-	var $this = this;
+	var $this = this,
+			val = $(this).val();
+	if(val == "******") {
+		return false;
+	}
 	if(typeof zxcvbn === "undefined" && !loadingzxcvbn) {
 		loadingzxcvbn = true;
 		$($this).after('<i id="password-meter-load" class="fa fa-circle-o-notch fa-spin"></i>');
