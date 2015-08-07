@@ -38,14 +38,14 @@ msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-15 14:01-0400\n"
-"PO-Revision-Date: 2015-05-13 12:57+0200\n"
+"PO-Revision-Date: 2015-08-03 14:13+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
-"Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
-"framework/ja_JP/>\n"
+"Language-Team: Japanese "
+"<http://weblate.freepbx.org/projects/freepbx/framework/ja_JP/>\n"
+"Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 2.2-dev\n"
 
@@ -82,7 +82,7 @@ msgstr "%s %s トランク"
 #: amp_conf/htdocs/admin/views/footer_content.php:26
 #, php-format
 msgid "%s %s is licensed under the %s"
-msgstr ""
+msgstr "%s %s は %s でライセンスされています"
 
 #: amp_conf/htdocs/admin/page.modules.php:543
 #, php-format
@@ -198,29 +198,29 @@ msgstr "%s オンライン %s アップグレードが利用可能（%s）"
 #: amp_conf/htdocs/admin/views/module_admin/main.php:105
 #, php-format
 msgid "%s Online upgrade available (%s)"
-msgstr ""
+msgstr "%s オンラインアップグレード利用可能 (%s)"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:106
 #: amp_conf/htdocs/admin/views/module_admin/main.php:112
 #: amp_conf/htdocs/admin/views/module_admin/main.php:114
 #, php-format
 msgid "%s Upgrade Available (%s)"
-msgstr ""
+msgstr "%s アップグレード利用可能 (%s)"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2914
 #, php-format
 msgid "%s [not enabled]"
-msgstr ""
+msgstr "%s [無効]"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:119
 #, php-format
 msgid "%s admins"
-msgstr ""
+msgstr "%s アドミン"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:171
 #, php-format
 msgid "%s already exists"
-msgstr ""
+msgstr "%s は既に存在します"
 
 #: amp_conf/htdocs/admin/page.modules.php:540
 #, php-format
@@ -255,20 +255,20 @@ msgstr ""
 msgid ""
 "%s cannot be reinstalled because the following modules depend on it: %s "
 "Please disable those modules first then try again."
-msgstr ""
+msgstr "%s は、次のモジュールが依存しているため再インストールできません。 %s これらのモジュールを無効にしてからもう一度お試しください。"
 
 #: amp_conf/htdocs/admin/page.modules.php:560
 #, php-format
 msgid ""
 "%s cannot be removed because the following modules depend on it: %s Please "
 "disable those modules first then try again."
-msgstr ""
+msgstr "%s は、次のモジュールが依存しているため削除できません。 %s これらのモジュールを無効にしてからもう一度お試しください。"
 
 #: amp_conf/htdocs/admin/page.modules.php:415
 #: amp_conf/htdocs/admin/page.modules.php:426
 #, php-format
 msgid "%s cannot be rolledback, version %s is missing"
-msgstr ""
+msgstr "%s はロールバックできません。バージョン %s が見つかりませんでした。"
 
 #: amp_conf/htdocs/admin/page.modules.php:550
 #, php-format
@@ -285,7 +285,7 @@ msgstr ""
 msgid ""
 "%s cannot be upgraded to %s: The release track of %s does not exist for this "
 "module"
-msgstr ""
+msgstr "%s は %s へアップグレードできません: このモジュールは %s のリリーストラックが存在しません"
 
 #: amp_conf/htdocs/admin/page.modules.php:430
 #: amp_conf/htdocs/admin/page.modules.php:453
@@ -302,12 +302,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:143
 #, php-format
 msgid "%s contains .."
-msgstr ""
+msgstr "%s には .."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:140
 #, php-format
 msgid "%s contains a /"
-msgstr ""
+msgstr "%s には /"
 
 #: amp_conf/htdocs/admin/page.modules.php:311
 #, php-format
@@ -331,7 +331,7 @@ msgstr "%s のインストールに成功しました"
 #: amp_conf/htdocs/admin/views/footer_content.php:25
 #, php-format
 msgid "%s is a registered trademark of"
-msgstr ""
+msgstr "%s は登録商標"
 
 #: ../core/install.php:862
 #, php-format
@@ -341,12 +341,12 @@ msgstr "%s 準備しました"
 #: amp_conf/htdocs/admin/page.modules.php:334
 #, php-format
 msgid "%s removed successfully"
-msgstr ""
+msgstr "%s を削除しました"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:298
 #, php-format
 msgid "%s to %s and Enable"
-msgstr ""
+msgstr "%s %s にして有効化する"
 
 #: amp_conf/htdocs/admin/page.modules.php:323
 #: amp_conf/htdocs/admin/page.modules.php:345
@@ -368,22 +368,22 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:563
 #, php-format
 msgid "%s will be removed from the hard disk"
-msgstr ""
+msgstr "%s はハードディスクから削除します"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:122
 #, php-format
 msgid "%s: New Online Updates Available (%s)"
-msgstr ""
+msgstr "%s: 新しいオンラインアップグレード利用可能 (%s)"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:99
 #, php-format
 msgid "%s: New Security Notifications (%s)"
-msgstr ""
+msgstr "%s: 新しいセキュリティのお知らせ (%s)"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:74
 #, php-format
 msgid "%s: New Unsigned Modules Notifications (%s)"
-msgstr ""
+msgstr "%s: 新しい非証明モジュールのお知らせ (%s)"
 
 #: install.php:13
 #, php-format
@@ -416,7 +416,7 @@ msgstr "---永続的なルート---"
 
 #: amp_conf/htdocs/admin/config.php:172
 msgid ".htaccess files are disable on this webserver. Please enable them"
-msgstr ""
+msgstr "このウェブサーバでは .htaccess ファイルが無効になっています。有効にしてください。"
 
 #: amp_conf/htdocs/admin/config.php:185
 msgid ".htaccess files are not supported on this webserver."
@@ -424,15 +424,15 @@ msgstr "このサーバーは .htaccess ファイルをサポートしていま�
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:175
 msgid "/etc/asterisk/freepbx.conf already exists"
-msgstr ""
+msgstr "/etc/asterisk/freepbx.conf は既に存在します"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:173
 msgid "/etc/freepbx.conf already exists"
-msgstr ""
+msgstr "/etc/freepbx.conf は既に存在します"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:112
 msgid "0 admins"
-msgstr ""
+msgstr "0 アドミン"
 
 #: ../core/page.routing.php:700
 msgid "011."
@@ -440,7 +440,7 @@ msgstr "011."
 
 #: ../core/page.routing.php:694
 msgid "1800NXXXXXX,1888NXXXXXX,1877NXXXXXX,1866NXXXXXX,1855NXXXXXX,1844NXXXXXX"
-msgstr ""
+msgstr "1800NXXXXXX,1888NXXXXXX,1877NXXXXXX,1866NXXXXXX,1855NXXXXXX,1844NXXXXXX"
 
 #: ../core/page.routing.php:697
 msgid "1NXXNXXXXXX"
@@ -449,7 +449,7 @@ msgstr "1NXXNXXXXXX"
 #: amp_conf/htdocs/admin/config.php:506
 #, php-format
 msgid "404 Not found (%s)"
-msgstr ""
+msgstr "404 見つかりませんでした (%s)"
 
 #: ../core/page.routing.php:703
 msgid "411,311"
@@ -468,7 +468,7 @@ msgstr "<b>重要:</b>変更の際は細心の注意を払ってください!"
 msgid ""
 "<strong>CRITICAL ERROR!</strong> Required Service %s is disabled! This "
 "device is unusable!"
-msgstr ""
+msgstr "<strong>クリティカルエラー！</strong> 必須サービス %s が無効になっています。このデバイスは利用できません。"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1071
 #, php-format
@@ -497,7 +497,7 @@ msgstr ""
 msgid ""
 "A Dial Pattern is a unique set of digits that will select this trunk. Enter "
 "one dial pattern per line."
-msgstr ""
+msgstr "ダイヤルパターンは、このトランクを選択するための番号(数字)です。1行に1つのダイヤルパターンを入力してください。"
 
 #: ../core/views/trunks/trunk_header.php:143
 msgid ""
@@ -508,6 +508,9 @@ msgid ""
 "first matched rule will be executed and the remaining rules will not be "
 "acted on."
 msgstr ""
+"ダイヤルルールは、このトランクから発信した場合の処理を行うための設定です。一致した番号にプレフィックスを付与したり、削ったりすることができますが、ここで定"
+"義するパターンに一致しない番号は、そのままダイヤルされます。「+」または「|」 (プレフィックスを付与・削除するための文字) を含まないパターンは、ダイヤ"
+"ルする番号は変更されませんが一致することになります。また、一致するパターンが複数あっても、一番最初に一致したルールしか適用されませんのでご注意ください。"
 
 #: ../core/page.did.php:321
 msgid "A Slash ('/') is never a valid DID. Please remove it and try again"
@@ -534,7 +537,7 @@ msgstr ""
 msgid ""
 "A required module might be disabled or uninstalled. Recommended steps (run "
 "from the CLI): 1) amportal a ma install %s 2) amportal a ma enable %s"
-msgstr ""
+msgstr "必要なモジュールが無効になっているか、インストールされていない可能性があります。解消するには、次のコマンドをコマンドラインから実行してください"
 
 #: ../core/functions.inc.php:4294 ../core/functions.inc.php:4386
 msgid "A route for this DID/CID already exists!"
@@ -574,7 +577,7 @@ msgstr "retrieve_conf の AMPLOCALBIN ディレクトリ"
 
 #: ../core/views/trunks/pjsip.php:102
 msgid "AOR Contact"
-msgstr ""
+msgstr "AORコンタクト"
 
 #: amp.i18n.php:396
 msgid "Abort Config Gen on Bad Dest"
@@ -595,7 +598,7 @@ msgstr "アクセス制限"
 
 #: ../core/functions.inc.php:7167
 msgid "Account Code"
-msgstr ""
+msgstr "アカウントコード"
 
 #: ../core/functions.inc.php:6857 ../core/functions.inc.php:6912
 #: ../core/functions.inc.php:6957 ../core/functions.inc.php:7166
@@ -744,7 +747,7 @@ msgstr "アドミン"
 
 #: ../core/page.ampusers.php:203
 msgid "Admin Access"
-msgstr ""
+msgstr "管理者アクセス"
 
 #: amp_conf/htdocs/admin/views/obe.php:54
 #: amp_conf/htdocs/admin/views/oobe.php:10
@@ -834,12 +837,12 @@ msgstr ""
 
 #: ../core/functions.inc.php:7163
 msgid "Allowed Codecs"
-msgstr ""
+msgstr "許可コーデック"
 
 #: upgrades/2.8.0/custom-context.php:55
 #: upgrades/2.8.0rc1/custom-context.php:55
 msgid "Already Migrated!"
-msgstr ""
+msgstr "既に移行済み！"
 
 #: amp.i18n.php:502
 msgid "Alt for Footer Logo"
@@ -870,18 +873,18 @@ msgstr ""
 #: amp_conf/bin/freepbx-cron-scheduler.php:125
 #, php-format
 msgid "An attempt to send email to: %s with online update status failed"
-msgstr ""
+msgstr "%s へのオンラインアップグレード情報のメールは送信できませんでした"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:102
 #, php-format
 msgid "An attempt to send email to: %s with security notifications failed"
-msgstr ""
+msgstr "%s へのセキュリティ情報のメールは送信できませんでした"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:77
 #, php-format
 msgid ""
 "An attempt to send email to: %s with unsigned modules notifications failed"
-msgstr ""
+msgstr "%s への非証明モジュール情報のメールは送信できませんでした"
 
 #: ../core/page.did.php:249
 msgid ""
@@ -974,7 +977,7 @@ msgstr "Asterisk AGI ディレクトリ"
 
 #: amp.i18n.php:26
 msgid "Asterisk Builtin mini-HTTP server"
-msgstr ""
+msgstr "Asterisk内部のmini-HTTPサーバー"
 
 #: amp.i18n.php:206 ../core/functions.inc.php:6632
 msgid "Asterisk Dial Options"
@@ -1097,7 +1100,7 @@ msgstr "Asterisk etc ディレクトリ"
 msgid ""
 "Asterisk home dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. "
 "Aborting"
-msgstr ""
+msgstr "Asteriskホームディレクトリ (%s) も、ASTSPOOLDIRも存在しません。中断します。"
 
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:7
 msgid "Asterisk may not be running."
@@ -1222,7 +1225,7 @@ msgstr "有効な場合にビジーのボイスメール"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:204
 msgid "Buy"
-msgstr ""
+msgstr "購入"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:345
 #, php-format
@@ -1231,11 +1234,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:135
 msgid "CA certificate already exists, reusing"
-msgstr ""
+msgstr "CA証明書が既に存在するため再利用します"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:120
 msgid "CA key already exists, reusing"
-msgstr ""
+msgstr "CA鍵が既に存在するため再利用します"
 
 #: amp.i18n.php:366
 msgid "CGI Dir"
@@ -1280,7 +1283,7 @@ msgstr "コール転送リングタイマーデフォルト"
 
 #: ../core/functions.inc.php:7157
 msgid "Call Groups"
-msgstr ""
+msgstr "コールグループ"
 
 #: amp.i18n.php:654
 msgid "Call Recording Format"
@@ -1288,7 +1291,7 @@ msgstr "通話録音形式："
 
 #: ../core/functions.inc.php:1045
 msgid "Call Recording Module Not Enabled"
-msgstr ""
+msgstr "通話録音モジュールは無効になっています"
 
 #: amp.i18n.php:224
 msgid "Call Recording Policy"
@@ -1393,28 +1396,28 @@ msgstr ""
 
 #: upgrades/2.8.0alpha2/tables.php:54
 msgid "Can not create trunk_dialpatterns table"
-msgstr ""
+msgstr "trunk_dialpatternsテーブルは作成できません"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:58
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:187
 #, php-format
 msgid ""
 "Can not write to cache folder at %s/cache. Please run (from the CLI): %s"
-msgstr ""
+msgstr "%s/cache フォルダに書き込むことができません。次のコマンドを実行してください: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:303
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:311
 #, php-format
 msgid "Can't create key, no idea why. %s"
-msgstr ""
+msgstr "鍵を作成できません。原因不明です。 %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:285
 msgid "Can't generate unnamed key"
-msgstr ""
+msgstr "名前のない鍵は生成できません"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:333
 msgid "Can't sign unnamed key"
-msgstr ""
+msgstr "名前のない鍵は署名できません"
 
 #: amp_conf/htdocs/admin/page.modules.php:630
 #: amp_conf/htdocs/admin/views/footer.php:83
@@ -1441,7 +1444,7 @@ msgstr "モジュールを見つけられません"
 
 #: install.php:167
 msgid "Cant Find Framework XML"
-msgstr ""
+msgstr "フレームワークXMLが見つかりません"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1405
 #, php-format
@@ -1459,7 +1462,7 @@ msgstr ""
 
 #: amp.i18n.php:362
 msgid "Certificate File Location"
-msgstr ""
+msgstr "証明書の保存先"
 
 #: ../core/install.php:10
 msgid "ChanSpy"
@@ -1467,12 +1470,12 @@ msgstr "ChanSpy"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:366
 msgid "Change Log for version"
-msgstr ""
+msgstr "バージョンのチェンジログ:"
 
 #: ../core/functions.inc.php:6999
 #, php-format
 msgid "Change To %s Driver"
-msgstr ""
+msgstr "%s ドライバーに変更"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:365
 msgid "Changelog"
@@ -1480,7 +1483,7 @@ msgstr "変更履歴"
 
 #: ../core/functions.inc.php:7005
 msgid "Changing SIP Driver unavailable"
-msgstr ""
+msgstr "SIPドライバーの変更はできません"
 
 #: ../core/page.dahdichandids.php:79
 msgid "Channel"
@@ -1516,7 +1519,7 @@ msgstr "チェックで、次のトランクを常時試みる"
 
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:39
 msgid "Checking Online, Please Wait..."
-msgstr ""
+msgstr "オンラインで確認中、お待ちください…"
 
 #: upgrades/2.9.0alpha1/tables.php:40 upgrades/2.9.0alpha1/tables.php:56
 #: ../core/install.php:519 ../core/install.php:535
@@ -1530,7 +1533,7 @@ msgstr "一般設定の移行をチェック中.."
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:19
 msgid "Checking for freepbx_settings table.."
-msgstr ""
+msgstr "freepbx_settingsテーブルを確認中.."
 
 #: upgrades/2.9.0alpha1/tables.php:37
 msgid "Checking for schema changes for core's users table."
@@ -1559,15 +1562,15 @@ msgstr "trunkテーブルの移行が必要かチェック中.."
 
 #: upgrades/2.8.0alpha2/tables.php:51
 msgid "Checking if trunk_dialpatterns table exists.."
-msgstr ""
+msgstr "trunk_dialpatternsテーブルの存在を確認中.."
 
 #: upgrades/2.6.0beta1/tables.php:331 upgrades/2.8.0alpha2/tables.php:167
 msgid "Checking if trunks_dialpatterns table exists.."
-msgstr ""
+msgstr "trunk_dialpatternsテーブルの存在を確認中.."
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:106
 msgid "Checking number of admin users.."
-msgstr ""
+msgstr "管理者の数を確認中.."
 
 #: amp.i18n.php:664
 msgid ""
@@ -1637,7 +1640,7 @@ msgstr "閉じる"
 
 #: ../core/views/trunks/pjsip.php:141
 msgid "Codecs"
-msgstr ""
+msgstr "コーデック"
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:242
 #, php-format
@@ -1655,13 +1658,13 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:191
 msgid "Commercial Status"
-msgstr ""
+msgstr "有償クラス"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:191
 msgid ""
 "Commercial Status of this module. Commercial Modules are maintained and "
 "supported through Schmoozecom, INC"
-msgstr ""
+msgstr "このモジュールの有償クラス。有償モジュールは Schmoozecom, Inc. が管理・保守しています。"
 
 #: amp.i18n.php:228
 msgid "Conference Room App"
@@ -1669,7 +1672,7 @@ msgstr "カンファレンスルームのアプリ"
 
 #: ../core/views/trunks/pjsip.php:8
 msgid "Configuration Mode"
-msgstr ""
+msgstr "設定モード"
 
 #: amp_conf/htdocs/admin/page.modules.php:624
 msgid "Confirm"
@@ -1694,7 +1697,7 @@ msgstr "混雑"
 
 #: ../core/functions.inc.php:7077
 msgid "Connection Type"
-msgstr ""
+msgstr "接続タイプ"
 
 #: amp.i18n.php:762 amp_conf/htdocs/admin/views/menu.php:60
 msgid "Connectivity"
@@ -1710,15 +1713,15 @@ msgstr ""
 
 #: ../core/functions.inc.php:7044 ../core/views/trunks/pjsip.php:123
 msgid "Context"
-msgstr ""
+msgstr "コンテキスト"
 
 #: ../core/views/trunks/pjsip.php:123
 msgid "Context to send the Inbound Call to."
-msgstr ""
+msgstr "インバウンド着信を転送する宛先のコンテキスト。"
 
 #: amp_conf/htdocs/admin/views/footer.php:82
 msgid "Continue"
-msgstr "再試行"
+msgstr "続行"
 
 #: ../core/views/trunks/trunk_header.php:114
 msgid "Continue if Busy"
@@ -1727,7 +1730,7 @@ msgstr "通話中の場合に続行する"
 #: upgrades/2.8.0/custom-context.php:86
 #: upgrades/2.8.0rc1/custom-context.php:87
 msgid "Continuing..."
-msgstr ""
+msgstr "続行中…"
 
 #: ../core/views/trunks/trunk_header.php:85
 msgid ""
@@ -1770,23 +1773,23 @@ msgstr "コア"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1564
 #, php-format
 msgid "Could Not Create Cache Folder: %s"
-msgstr ""
+msgstr "キャッシュフォルダは作成できませんでした: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:529
 #, php-format
 msgid "Could Not Create the Asterisk Keys Folder: %s"
-msgstr ""
+msgstr "Asterisk鍵フォルダは作成できませんでした: %s"
 
 #: upgrades/2.9.0beta2/logger_migrate.php:73
 #, php-format
 msgid "Could not delete %s"
-msgstr ""
+msgstr "%s を削除できませんでした"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1417
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1645
 #, php-format
 msgid "Could not find extracted module: %s"
-msgstr ""
+msgstr "展開済みモジュール %s が見つかりません"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1298
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1467
@@ -1817,12 +1820,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1721
 #, php-format
 msgid "Could not remove temp storage at %s"
-msgstr ""
+msgstr "%s の一時的ストレージを削除できませんでした"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1728
 #, php-format
 msgid "Could not remove temporary location %s"
-msgstr ""
+msgstr "一時的ロケーション %s は削除できませんでした"
 
 #: ../core/install.php:1021
 msgid ""
@@ -1858,21 +1861,21 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:138
 msgid "Creating CA certificate"
-msgstr ""
+msgstr "CA証明書を生成中"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:122
 msgid "Creating CA key"
-msgstr ""
+msgstr "CA鍵を生成中"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:163
 #, php-format
 msgid "Creating certificate for %s"
-msgstr ""
+msgstr "%s の証明書を生成中"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:169
 #, php-format
 msgid "Creating signing request for %s"
-msgstr ""
+msgstr "%s 署名リクエストを生成中"
 
 #: amp_conf/htdocs/admin/views/welcome.php:10
 msgid "Critical"
@@ -1943,14 +1946,12 @@ msgid ""
 "effecting the specified channel(s). Once you have assigned DIDs you can use "
 "standard Inbound Routes with the specified DIDs to route your calls."
 msgstr ""
-"DAHDIチャネルDIDによってDIDを特定のDAHDIチャネルに割当ることができます。あな"
-"たは同じDIDを複数のチャネルに提供することができます。これは、お使いのプロバイ"
-"ダーのハントグループ上にある複数のPOTSラインがある場合には一般的なシナリオに"
-"なります。これらの設定を有効にするには、あなたはチャネルのコンテキストをfrom-"
-"zaptelに割り当てなければなりません。それは、次のような行になるでしょう:<br /"
-"><br />context = from-zaptel<br /><br />指定のチャネルに影響するzapata.conf内"
-"の設定で。一度DIDを割り当てると、あなたのコールをルーティングするために指定し"
-"たDIDで標準のインバウンドルートを使用することができます。"
+"DAHDIチャネルDIDによってDIDを特定のDAHDIチャネルに割当ることができます。また、同じDIDを複数のチャネルに提供することができます。お使いの"
+"プロバイダーのハントグループ上にある複数のPOTSラインがある場合には一般的なシナリオになります。これらの設定を有効にするには"
+"、チャネルのコンテキストをfrom-"
+"zaptelに割り当てなければなりません。指定のチャネルに影響するchan_dahdi.conf内の設定で次のような設定になることが多いです: <br "
+"/><br />context = from-zaptel<br /><br "
+"/>。一度DIDを割り当てると、ルーティングするために指定したDIDで標準のインバウンドルートを使用することができます。"
 
 #: ../core/views/trunks/dahdi.php:8
 msgid "DAHDi Identifier"
@@ -2087,11 +2088,11 @@ msgstr ""
 
 #: ../core/functions.inc.php:7058
 msgid "DTLS-SRTP"
-msgstr ""
+msgstr "DTLS-SRTP"
 
 #: ../core/functions.inc.php:7022
 msgid "DTMF Signaling"
-msgstr ""
+msgstr "DTMF信号"
 
 #: ../core/views/trunks/dundi.php:8
 msgid "DUNDi Mapping"
@@ -2099,7 +2100,7 @@ msgstr "DUNDiマッピング"
 
 #: amp_conf/htdocs/admin/libraries/BMO/DB_Helper.class.php:501
 msgid "Database Error detected. Automatic repair started. Please retry"
-msgstr ""
+msgstr "データベースエラーを検出しました。自動修正を開始します。再試行してください。"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:20
 msgid "Date Fixed"
@@ -2137,7 +2138,7 @@ msgstr "デフォルト値： %s"
 
 #: amp.i18n.php:658
 msgid "Default language"
-msgstr ""
+msgstr "デフォルト言語"
 
 #: amp.i18n.php:274
 msgid ""
@@ -2389,11 +2390,11 @@ msgstr "不要なグローバルを削除中.."
 
 #: ../core/functions.inc.php:7173
 msgid "Deny"
-msgstr ""
+msgstr "拒否"
 
 #: ../core/page.ampusers.php:187
 msgid "Department Name"
-msgstr ""
+msgstr "部署名"
 
 #: ../core/page.ampusers.php:268
 msgid "Department name cannot have a space"
@@ -2526,7 +2527,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:7165
 msgid "Dial"
-msgstr ""
+msgstr "ダイヤル"
 
 #: ../core/views/trunks/trunk_header.php:143
 msgid "Dial Number Manipulation Rules"
