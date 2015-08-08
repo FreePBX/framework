@@ -201,14 +201,14 @@ if($online) { ?>
 															<?php if(!$module['commercial']['licensed'] && isset($module['commercial']['type'])) { ?>
 																<?php switch($module['commercial']['type']) {
 																		case 'upgradeable':?>
-																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new"><?php echo _('Upgrade')?></a>
+																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn btn-primary" target="_new"><?php echo _('Upgrade')?></a>
 																	<?php break;?>
 																	<?php case 'free':?>
-																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new"><?php echo _('Obtain Free License')?></a>
+																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn btn-primary" target="_new"><?php echo _('Obtain Free License')?></a>
 																	<?php break;?>
 																	<?php case 'paid':?>
 																	<?php default:?>
-																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn" target="_new"><?php echo _('Learn More')?> <i class="fa fa-share-square-o"></i></a>
+																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn btn-primary" target="_new"><?php echo _('Learn More')?></a>
 																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn fpbx-buy" data-rawname="<?php echo $module['name']?>" target="_new"><?php echo _('Buy')?></a>
 																	<?php break;?>
 																<?php } ?>
