@@ -152,13 +152,7 @@ class Chown extends Command {
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
 		foreach($this->modfiles as $moduleName => $modfilelist){
 			foreach($modfilelist as $file){
-				if(!isset($file['path'])) {
-					throw new \Exception(sprintf(_("No path declared during chown for module %s"),$moduleName));
-				}
-				if(!isset($file['perms'])) {
-					throw new \Exception(sprintf(_("No permissions declared during chown for module %s"),$moduleName));
-				}
-				if(!file_exists($file['path'])){
+				if(!isset($file['path']) || !isset($file['perms']) || !file_exists($file['path'])){
 						continue;
 				}
 				//Handle custom ownership (optional)
