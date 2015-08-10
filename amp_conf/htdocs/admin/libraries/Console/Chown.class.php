@@ -150,8 +150,14 @@ class Chown extends Command {
 		 * than the Asterisk user we provide permissions that allow both.
 		 */
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
-		foreach($this->modfiles as $modfilearray => $modfilelist){
+		foreach($this->modfiles as $moduleName => $modfilelist){
 			foreach($modfilelist as $file){
+				if(!isset($file['path'])) {
+					throw new \Exception(sprintf(_("No path declared during chown for module %s"),$moduleName));
+				}
+				if(!isset($file['perms'])) {
+					throw new \Exception(sprintf(_("No permissions declared during chown for module %s"),$moduleName));
+				}
 				if(!file_exists($file['path'])){
 						continue;
 				}
