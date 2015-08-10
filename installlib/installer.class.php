@@ -1934,11 +1934,12 @@ class Installer {
 
 	$settings[$category]['SESSION_TIMEOUT'] = array(
 	'value' => 2592000, //30 days in seconds
-	'options' => array(0, 2147483647),
+	'options' => array(1, 2147483647),
 	'name' => 'Session Timeout',
-	'description' => 'Amount of seconds to allow a session to stay open before logging a user out',
+	'description' => 'Amount of seconds to allow a session to stay open before logging a user out. For unlimited clear this box and save.',
 	'level' => 10,
 	'type' => CONF_TYPE_INT,
+	'emptyok' => 1,
 	);
 
 	$settings[$category]['VIEW_ZEND_CONFIG'] = array(

@@ -122,7 +122,7 @@ if(isset($_SESSION['modulesRedirect'])) {
 	unset($_SESSION['modulesRedirect']);
 }
 
-// determine if the user has a session time out set in advanced settings. If the timeout is 0 or not set, we don't force logout
+// determine if the user has a session time out set in advanced settings. If the timeout is not set, we don't force logout
 $sessionTimeOut = !empty($amp_conf['SESSION_TIMEOUT']) && is_numeric($amp_conf['SESSION_TIMEOUT']) ? $amp_conf['SESSION_TIMEOUT'] : false;
 if ($sessionTimeOut !== false) {
 	if (!empty($_SESSION['AMP_user']) && is_object($_SESSION['AMP_user'])) {
