@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-08-09 20:23-0700\n"
+"POT-Creation-Date: 2015-08-11 16:19-0700\n"
 "PO-Revision-Date: 2014-09-11 02:13+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Romanian <http://git.freepbx.org/projects/freepbx/framework/"
@@ -39,11 +39,11 @@ msgstr ""
 msgid "\tCould not find signed module on remote server!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:346
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:365
 msgid " Likely will not work as expected"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:347
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:366
 msgid " Permission set as: "
 msgstr ""
 
@@ -467,11 +467,11 @@ msgstr ""
 msgid "---Permanent Route---"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:179
+#: amp_conf/htdocs/admin/config.php:183
 msgid ".htaccess files are disable on this webserver. Please enable them"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:192
+#: amp_conf/htdocs/admin/config.php:196
 msgid ".htaccess files are not supported on this webserver."
 msgstr ""
 
@@ -495,7 +495,7 @@ msgstr ""
 msgid "11 Digit Patterns"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:523
+#: amp_conf/htdocs/admin/config.php:527
 #, php-format
 msgid "404 Not found (%s)"
 msgstr ""
@@ -951,25 +951,35 @@ msgid ""
 "An attempt to send email to: %s with unsigned modules notifications failed"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:252
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:275
-msgid "An error occurred while changing group "
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:290
+#, php-format
+msgid "An error occurred while changing group %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:238
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:268
-msgid "An error occurred while changing ownership "
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:256
+#, php-format
+msgid "An error occurred while changing groups %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:317
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:274
+#, php-format
+msgid "An error occurred while changing ownership %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:240
+#, php-format
+msgid "An error occurred while changing ownership on %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:336
 msgid "An error occurred while changing permissions "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:303
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:322
 msgid "An error occurred while changing permissions on file"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:288
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:303
 #, php-format
 msgid ""
 "An error occurred while changing permissions on link %s which points to %s"
@@ -1006,8 +1016,8 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:389
 msgid ""
 "Are you Sure you want to Change the SIP Channel Driver? (The Page will "
-"Refresh, then you MUST hit save when you are done to propagate the new "
-"settings)"
+"Refresh, then you MUST hit submit to resave the device when you are done to "
+"propagate the new settings)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/footer.php:111
@@ -1660,7 +1670,7 @@ msgstr "Închide"
 msgid "Codecs"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:247
+#: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:255
 #, php-format
 msgid "Coding Error - don't understand '%s' from %s"
 msgstr ""
@@ -2752,7 +2762,7 @@ msgid ""
 "usually a good idea to enable this. Disable only if you are having issues."
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:648
+#: amp_conf/htdocs/admin/config.php:652
 msgid "English"
 msgstr ""
 
@@ -3126,7 +3136,7 @@ msgstr ""
 msgid "Fatal DB error trying to delete globals, trying to carry on"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:508
+#: amp_conf/htdocs/admin/config.php:512
 #, php-format
 msgid "File %s has a revoked signature. Can not load"
 msgstr ""
@@ -3857,7 +3867,7 @@ msgstr ""
 msgid "Invalid Trunk Name entered"
 msgstr "Nume de Trunchi invalid"
 
-#: amp_conf/htdocs/admin/config.php:370
+#: amp_conf/htdocs/admin/config.php:374
 msgid "Invalid Username or Password"
 msgstr ""
 
@@ -4881,7 +4891,7 @@ msgstr ""
 "Componenta PHP %s versiune %s este necesara dar lipseste in instalarea dvs. "
 "PHP."
 
-#: amp_conf/htdocs/admin/config.php:502
+#: amp_conf/htdocs/admin/config.php:506
 msgid "PHP Console Enabled but not installed"
 msgstr ""
 
@@ -4958,7 +4968,7 @@ msgid ""
 "Permissions error on file %s - please re-run as root to automatically repair"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:347
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:366
 msgid ""
 "Permissions should be set with a leading 0, example 644 should be 0644 File:"
 msgstr ""
@@ -5301,7 +5311,7 @@ msgstr ""
 msgid "Removing %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:291
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:309
 #, php-format
 msgid ""
 "Removing dangling symlink %s which points to a file that no longer exists"
@@ -5523,7 +5533,7 @@ msgstr "Securitate"
 msgid "Security Issue"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:494
+#: amp_conf/htdocs/admin/config.php:498
 msgid "Security Warning"
 msgstr ""
 
@@ -5900,7 +5910,7 @@ msgstr ""
 "alegeti rutele cu cel mai mic cost interurban (ex. Trunchiurile VoIP au "
 "intaietate) urmate de rutele mai scumpe (liniile PSTN)."
 
-#: amp_conf/htdocs/admin/config.php:107
+#: amp_conf/htdocs/admin/config.php:111
 msgid "The autoloader is damaged. Please run: "
 msgstr ""
 
@@ -6262,7 +6272,7 @@ msgstr ""
 msgid "To get started, please enter your credentials:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:180
+#: amp_conf/htdocs/admin/config.php:184
 #, php-format
 msgid ""
 "To protect the integrity of your server, you must allow overrides in your "
@@ -6494,7 +6504,7 @@ msgid ""
 "Unknown file format of %s for %s, supported formats: tar,tgz,tar.gz,zip,bzip"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:308
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:327
 msgid "Unknown filetype of:"
 msgstr ""
 
@@ -6519,7 +6529,7 @@ msgstr ""
 msgid "Unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:497
+#: amp_conf/htdocs/admin/config.php:501
 msgid "Unsigned Module(s)"
 msgstr ""
 
@@ -7070,7 +7080,7 @@ msgstr "Aveti un modul corupt"
 msgid "You have a disabled module"
 msgstr "Aveti un modul dezactivat"
 
-#: amp_conf/htdocs/admin/config.php:502
+#: amp_conf/htdocs/admin/config.php:506
 msgid ""
 "You have enabled PHP Console in Advanced settings but have not installed the "
 "Chrome Extension or you are not using Chrome"
@@ -7200,7 +7210,7 @@ msgstr ""
 msgid "Your %s version (%s) is incompatible."
 msgstr "%s versiunea (%s) este incompatibila."
 
-#: amp_conf/htdocs/admin/config.php:463
+#: amp_conf/htdocs/admin/config.php:467
 msgid ""
 "Your Zend Configuration is not fully setup. Please recitfy the problem and "
 "reload this page"
@@ -7607,7 +7617,7 @@ msgstr ""
 msgid "gpg --export-ownertrust didn't return sane stuff - %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:193
+#: amp_conf/htdocs/admin/config.php:197
 #, php-format
 msgid ""
 "htaccess files help protect the integrity of your server. Please make sure "
