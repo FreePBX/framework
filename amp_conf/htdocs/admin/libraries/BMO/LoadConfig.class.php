@@ -210,34 +210,42 @@ class LoadConfig {
 		// Anything prior to the first section is in the magic 'HEADER' section
 		$section = "HEADER";
 		foreach ($conf as $entry) {
-			if (preg_match("/\[(.+)\]/", $entry, $out)) {
+			$entry = trim($entry);
+			if (preg_match("/^\[(.+)\]/", $entry, $out)) {
 				$section = $out[1];
 				continue;
 			}
 
-			if (preg_match("/^(\S+)\s*(?:=>?)\s*(.+)?$/", $entry, $out)) {
+			if (preg_match("/^([^+]+)\s*(?:(\+)?=>?)\s*(.+)?$/", $entry, $out)) {
 
-				if(!isset($out[2])) {
-					$out[2] = "";
+				if(!isset($out[3])) {
+					$out[3] = "";
 				}
 				// If it doesn't have anything set, then we don't care.
-				if (empty($out[2]) && trim($out[2]) != "0") {
+				if (empty($out[3]) && trim($out[3]) != "0") {
 					continue;
 				}
 
+				// Are we appending to an existing value?
+				$append_value = ($out[2] === "+");
+
 				if (isset($this->ProcessedConfig[$section]) && isset($this->ProcessedConfig[$section][$out[1]])) {
 					// This already exists. Multiple definitions.
-					if (!is_array($this->ProcessedConfig[$section][$out[1]])) {
-						// This is the first time we've found this, so make it an array.
+					if ($append_value) {
+						$this->ProcessedConfig[$section][$out[1]] .= $out[3];
+					} else {
+						if (!is_array($this->ProcessedConfig[$section][$out[1]])) {
+							// This is the first time we've found this, so make it an array.
 
-						$tmp = $this->ProcessedConfig[$section][$out[1]];
-						unset($this->ProcessedConfig[$section][$out[1]]);
-						$this->ProcessedConfig[$section][$out[1]][] = $tmp;
+							$tmp = $this->ProcessedConfig[$section][$out[1]];
+							unset($this->ProcessedConfig[$section][$out[1]]);
+							$this->ProcessedConfig[$section][$out[1]][] = $tmp;
+						}
+						// It's an array, so we can just append to it.
+						$this->ProcessedConfig[$section][$out[1]][] = $out[3];
 					}
-					// It's an array, so we can just append to it.
-					$this->ProcessedConfig[$section][$out[1]][] = $out[2];
 				} else {
-					$this->ProcessedConfig[$section][$out[1]] = $out[2];
+					$this->ProcessedConfig[$section][$out[1]] = $out[3];
 				}
 			} else if (preg_match("/^#include/", $entry)) {
 				$this->ProcessedConfig[$section][] = $entry;
