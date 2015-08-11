@@ -1135,7 +1135,7 @@ $(document).on('keyup', '.password-meter', function() {
 			$("#password-meter-load").remove();
 			checkPassword($this);
 		});
-	} else {
+	} else if(typeof zxcvbn !== "undefined") {
 		checkPassword($this);
 	}
 });
