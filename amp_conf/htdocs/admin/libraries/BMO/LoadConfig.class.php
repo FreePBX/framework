@@ -217,7 +217,7 @@ class LoadConfig {
 			}
 
 			if (preg_match("/^([^+]+)\s*(?:(\+)?=>?)\s*(.+)?$/", $entry, $out)) {
-				$out = array_map("trim", $out);
+
 				if(!isset($out[3])) {
 					$out[3] = "";
 				}
