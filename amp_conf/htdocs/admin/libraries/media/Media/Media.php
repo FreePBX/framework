@@ -4,6 +4,9 @@ use mm\Mime\Type;
 
 class Media {
 	private $track;
+	private $extension;
+	private $mime;
+	private $driver;
 
 	public function __construct($filename) {
 		$this->loadTrack($filename);
@@ -32,10 +35,7 @@ class Media {
 			throw new \Exception("Track [$track] not readable");
 		}
 		$this->track = $track;
-		$this->setupDrivers();
-	}
 
-	private function setupDrivers() {
 		Type::config('magic', array(
 			'adapter' => 'Freedesktop',
 			'file' => dirname(__DIR__).'/resources/magic.db'
@@ -44,8 +44,12 @@ class Media {
 			'adapter' => 'Freedesktop',
 			'file' => dirname(__DIR__).'/resources/glob.db'
 		));
-		echo Type::guessExtension($this->track);
-		echo Type::guessType($this->track);
+		$this->extension = Type::guessExtension($this->track);
+		$this->mime = Type::guessType($this->track);
+	}
+
+	private function setupDrivers() {
+
 	}
 
 	/**
@@ -71,8 +75,41 @@ class Media {
 	 * @param  string $filename The new filename
 	 * @return object           New Media Object
 	 */
-	public function convert($filename) {
-		return new static($filename);
+	public function convert($newFilename) {
+		$extension = Type::guessExtension($newFilename);
+		$mime = Type::guessType($newFilename);
+		switch($mime) {
+			case "audio/x-wav":
+			case "audio/ogg":
+				if(Driver\Drivers\SoxShell::installed()) {
+					$driver = new Driver\Drivers\SoxShell($this->track,$this->extension,$this->mime);
+					$driver->convert($newFilename,$extension,$mime);
+				} else {
+					throw new \Exception("Cant convert to $mime because Sox is not installed");
+				}
+			break;
+			case "audio/mp4":
+				if(Driver\Drivers\FfmpegShell::installed()) {
+					$driver = new Driver\Drivers\FfmpegShell($this->track,$this->extension,$this->mime);
+					$driver->convert($newFilename,$extension,$mime);
+				} else {
+					throw new \Exception("Cant convert to $mime because ffmpeg is not installed");
+				}
+			break;
+			case "audio/mpeg":
+				if(Driver\Drivers\LameShell::installed()) {
+					$driver = new Driver\Drivers\LameShell($this->track,$this->extension,$this->mime);
+					$driver->background = true;
+					$driver->convert($newFilename,$extension,$mime);
+				} else {
+					throw new \Exception("Cant convert to $mime because Lame is not installed");
+				}
+			break;
+			default:
+				throw new \Exception("Unable to convert to $mime, no matching binary converter");
+			break;
+		}
+		//return new static($newFilename);
 	}
 
 	/**

@@ -16,6 +16,7 @@ spl_autoload_register(function ($class) {
 });
 
 class Media {
+	private $file;
 	public function __construct($freepbx = null, $track = null) {
 		if ($freepbx == null) {
 			throw new Exception("Not given a FreePBX Object");
@@ -24,6 +25,10 @@ class Media {
 	}
 
 	public function load($filename) {
-		return new \Media\Media($filename);
+		$this->file = new \Media\Media($filename);
+	}
+
+	public function convert($newFilename) {
+		$this->file->convert($newFilename);
 	}
 }
