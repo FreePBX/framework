@@ -185,12 +185,29 @@ class LoadConfig {
 		// Remove all comments.
 		// First, take a copy of the array
 		$myarr = $arr;
+		//set inside a comment block to false
+		$commentBlock = false;
 		// Again, go through my copy...
 		foreach ($myarr as $id => $line) {
 			//Trim leading whitespace
 			$line = trim($line);
 			// Note, not checking for empty lines, as FILE_SKIP_EMPTY_LINES does that for us.
-			if (strpos($line, ";") === 0) {
+			// Are we inside a comment block?
+			// if so just drop the line completely
+			if($commentBlock) {
+				unset($arr[$id]);
+				//If we are inside a comment block look for the end of the block
+				if(strpos($line, "--;") === 0) {
+					//jump out of the comment block
+					$commentBlock = false;
+				}
+			//look for the start of the comment block
+			} elseif(strpos($line, ";--") === 0) {
+				//let the system know we are inside a comment block
+				$commentBlock = true;
+				unset($arr[$id]);
+			//single line comment
+			} elseif (strpos($line, ";") === 0) {
 				// Starts with a comment. Remove it.
 				unset($arr[$id]);
 			}
@@ -215,29 +232,33 @@ class LoadConfig {
 				continue;
 			}
 
-			if (preg_match("/^(\S+)\s*(?:=>?)\s*(.+)?$/", $entry, $out)) {
-
-				if(!isset($out[2])) {
-					$out[2] = "";
+			if (preg_match("/^([^\+=]+)\s*(?:(\+)?=>?)\s*(.+)?$/", $entry, $out)) {
+				$out = array_map("trim", $out);
+				if(!isset($out[3])) {
+					$out[3] = "";
 				}
 				// If it doesn't have anything set, then we don't care.
-				if (empty($out[2]) && trim($out[2]) != "0") {
+				if (empty($out[3]) && trim($out[3]) != "0") {
 					continue;
 				}
-
+				// Are we appending to an existing value?
+				$append_value = ($out[2] === "+");
 				if (isset($this->ProcessedConfig[$section]) && isset($this->ProcessedConfig[$section][$out[1]])) {
 					// This already exists. Multiple definitions.
-					if (!is_array($this->ProcessedConfig[$section][$out[1]])) {
-						// This is the first time we've found this, so make it an array.
-
-						$tmp = $this->ProcessedConfig[$section][$out[1]];
-						unset($this->ProcessedConfig[$section][$out[1]]);
-						$this->ProcessedConfig[$section][$out[1]][] = $tmp;
+					if ($append_value) {
+						$this->ProcessedConfig[$section][$out[1]] .= $out[3];
+					} else {
+						if (!is_array($this->ProcessedConfig[$section][$out[1]])) {
+							// This is the first time we've found this, so make it an array.
+							$tmp = $this->ProcessedConfig[$section][$out[1]];
+							unset($this->ProcessedConfig[$section][$out[1]]);
+							$this->ProcessedConfig[$section][$out[1]][] = $tmp;
+						}
+						// It's an array, so we can just append to it.
+						$this->ProcessedConfig[$section][$out[1]][] = $out[3];
 					}
-					// It's an array, so we can just append to it.
-					$this->ProcessedConfig[$section][$out[1]][] = $out[2];
 				} else {
-					$this->ProcessedConfig[$section][$out[1]] = $out[2];
+					$this->ProcessedConfig[$section][$out[1]] = $out[3];
 				}
 			} else if (preg_match("/^#include/", $entry)) {
 				$this->ProcessedConfig[$section][] = $entry;
