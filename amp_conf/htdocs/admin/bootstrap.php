@@ -57,25 +57,36 @@ if (isset($bootstrap_settings['bootstrapped'])) {
   $bootstrap_settings['bootstrapped'] = true;
 }
 
+// Legacy setting methods
 if (!isset($bootstrap_settings['skip_astman'])) {
   $bootstrap_settings['skip_astman'] = isset($skip_astman) ? $skip_astman : false;
 }
-$bootstrap_settings['astman_config'] = isset($bootstrap_settings['astman_config']) ? $bootstrap_settings['astman_config'] : null;
-$bootstrap_settings['astman_options'] = isset($bootstrap_settings['astman_options']) && is_array($bootstrap_settings['astman_options']) ? $bootstrap_settings['astman_options'] : array();
-$bootstrap_settings['astman_events'] = isset($bootstrap_settings['astman_events']) ? $bootstrap_settings['astman_events'] : 'off';
-
-$bootstrap_settings['freepbx_error_handler'] = isset($bootstrap_settings['freepbx_error_handler']) ? $bootstrap_settings['freepbx_error_handler'] : true;
-$bootstrap_settings['freepbx_auth'] = isset($bootstrap_settings['freepbx_auth']) ? $bootstrap_settings['freepbx_auth'] : true;
-$bootstrap_settings['cdrdb'] = isset($bootstrap_settings['cdrdb']) ? $bootstrap_settings['cdrdb'] : false;
-
 $restrict_mods = isset($restrict_mods) ? $restrict_mods : false;
 
+// Set defaults for unset settings
+$defaults = array('skip_config' => null,
+                  'astman_options' => array(),
+                  'astman_events' => 'off',
+                  'freepbx_error_handler' => true,
+                  'freepbx_auth' => true,
+                  'cdrdb' => false,
+                  'include_compress' => true,
+                  'include_utility_functions' => true,
+                  'include_framework_functions' =>true,
+                 );
+foreach ($defaults as $key => $default_value) {
+    if (!isset($bootstrap_settings[$key])) $bootstrap_settings[$key] = $default_value;
+}
+
 // include base functions
-require_once($dirname . '/libraries/compress.class.php');
-require_once($dirname . '/libraries/utility.functions.php');
+if ($bootstrap_settings['include_compress']) require_once($dirname . '/libraries/compress.class.php');
+if ($bootstrap_settings['include_utility_functions']) require_once($dirname . '/libraries/utility.functions.php');
+
 $bootstrap_settings['framework_functions_included'] = false;
-require_once($dirname . '/functions.inc.php');
-$bootstrap_settings['framework_functions_included'] = true;
+if ($bootstrap_settings['include_framework_functions']) {
+   require_once($dirname . '/functions.inc.php');
+   $bootstrap_settings['framework_functions_included'] = true;
+}
 
 //now that its been included, use our own error handler as it tends to be much more verbose.
 if ($bootstrap_settings['freepbx_error_handler']) {
