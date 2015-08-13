@@ -148,7 +148,7 @@ class GPG {
 		$retarr['details'] = array();
 
 		foreach ($module['hashes'] as $file => $hash) {
-			$dest = \FreePBX::Installer()->getDestination($modulename, $file);
+			$dest = \FreePBX::Installer()->getDestination($modulename, $file, true);
 			if ($dest === false) {
 				// If the file is explicitly un-checkable, ignore it.
 				continue;
@@ -310,7 +310,7 @@ class GPG {
 		if ($out['exitcode'] == 0) {
 			return $output;
 		}
-		throw new \Exception(sprintf_("Unable to strip signature - result was: %s"),json_encode($out));
+		throw new \Exception(sprintf(_("Unable to strip signature - result was: %s"),json_encode($out)));
 	}
 
 	/**

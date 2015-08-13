@@ -1874,12 +1874,6 @@ class module_functions {
 			return $rejects;
 		}
 
-		//Developer mode, remind them they need to run install_amp manually
-		//run this before the install scripts below because they end up removing install.php...yup
-		if($modulename == 'framework' && !file_exists($dir.'/install.php')) {
-			out(sprintf(_("Framework has been detected as being in Developer mode, Please make sure to run '%s' manually so that any database or system settings can be updated"),"./install --dev-links -n"));
-		}
-
 		// run the scripts
 		if (!$this->_runscripts($modulename, 'install', $modules)) {
 			return array(_("Failed to run installation scripts"));

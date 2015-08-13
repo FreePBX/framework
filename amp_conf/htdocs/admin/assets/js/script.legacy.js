@@ -85,12 +85,23 @@ function warnInvalid(theField, s) {
 		var field = (theField instanceof jQuery) ? theField : $(theField),
 				id = field.prop("id"),
 				type = 'unknown',
-				tab = field.parents(".tab-pane").prop("id");
+				tab = field.parents(".tab-pane").prop("id"),
+				count = 0;
 		//while loop here to tab switch through different layers
-		while(typeof tab !== "undefined") {
-			$('li.change-tab[data-name="' + tab + '"] a').one("shown.bs.tab");
-			$('li.change-tab[data-name="' + tab + '"] a').tab("show");
-			tab = $('li.change-tab[data-name="' + tab + '"] a').parents(".tab-pane").prop("id");
+		while(typeof tab !== "undefined" && count < 5) {
+			if($('li.change-tab[data-name="' + tab + '"] a').length) {
+				$('li.change-tab[data-name="' + tab + '"] a').one("shown.bs.tab");
+				$('li.change-tab[data-name="' + tab + '"] a').tab("show");
+				tab = $('li.change-tab[data-name="' + tab + '"] a').parents(".tab-pane").prop("id");
+			} else if($('li[role="presentation"] a[href="#' + tab + '"]').length) {
+				$('li[role="presentation"] a[href="#' + tab + '"]').one("shown.bs.tab");
+				$('li[role="presentation"] a[href="#' + tab + '"]').tab("show");
+				tab = $('li[role="presentation"] a[href="#' + tab + '"]').parents(".tab-pane").prop("id");
+			} else {
+				tab = undefined;
+			}
+			//prevent spiralling out of control
+			count++;
 		}
 		field.focus();
 		field.parents(".element-container").addClass("has-error");
@@ -744,6 +755,7 @@ $.urlParam = function(name) {
 var popover_box, popover_box_class, popover_box_mod, popover_select_id;
 /**
  * Bind Destination Double Selects
+ * Note: This is a function so it can be called again through POST AJAX scripts
  */
 function bind_dests_double_selects() {
 	//destination double dropdown code
@@ -1113,22 +1125,28 @@ $(document).on('click', '.toggle-password', function() {
 		icon.removeClass("fa-eye-slash").addClass("fa-eye");
 	}
 });
-
+var loadingzxcvbn = false;
 $(document).on('keyup', '.password-meter', function() {
 	var $this = this;
-	if(typeof zxcvbn === "undefined") {
+	if(typeof zxcvbn === "undefined" && !loadingzxcvbn) {
+		loadingzxcvbn = true;
 		$($this).after('<i id="password-meter-load" class="fa fa-circle-o-notch fa-spin"></i>');
 		$.cachedScript( "assets/js/zxcvbn.js" ).done(function( script, textStatus ) {
 			$("#password-meter-load").remove();
 			checkPassword($this);
 		});
-	} else {
+	} else if(typeof zxcvbn !== "undefined") {
 		checkPassword($this);
 	}
 });
 $(document).on('focus', '.password-meter', function() {
-	var $this = this;
-	if(typeof zxcvbn === "undefined") {
+	var $this = this,
+			val = $(this).val();
+	if(val == "******") {
+		return false;
+	}
+	if(typeof zxcvbn === "undefined" && !loadingzxcvbn) {
+		loadingzxcvbn = true;
 		$($this).after('<i id="password-meter-load" class="fa fa-circle-o-notch fa-spin"></i>');
 		$.cachedScript( "assets/js/zxcvbn.js" ).done(function( script, textStatus ) {
 			$("#password-meter-load").remove();
@@ -1173,6 +1191,10 @@ function checkPassword(el) {
 }
 
 $(document).ready(function() {
+	//when clicking the magnifying glass on the search bar focus on the search input
+	$("#fpbxsearch .fa-search").click(function() {
+		$("#fpbxsearch .typeahead").focus()
+	});
 	if ($(".fpbx-container").length > 0) {
 		//Show tab if location hash matches data-name
 		var loc = window.location.hash.replace("#", "");
@@ -1238,15 +1260,29 @@ $(document).ready(function() {
 		}
 	}
 
-	$(function() {
-		positionActionBar();
-	});
+	positionActionBar();
 
 	$(window).scroll(function() {
 		positionActionBar();
 	});
 	$(window).resize(function() {
 		positionActionBar();
+	});
+
+	$(document).on("shown.bs.tab", 'a[data-toggle="tab"]', function(e) {
+		positionActionBar();
+	});
+
+	$("#action-bar-hide").click(function() {
+		$("#action-bar").toggleClass("shrink");
+		var fa = $(this).find(".fa");
+		if(fa.hasClass("fa-angle-double-right")) {
+			fa.removeClass("fa-angle-double-right");
+			fa.addClass("fa-angle-double-left");
+		} else {
+			fa.removeClass("fa-angle-double-left");
+			fa.addClass("fa-angle-double-right");
+		}
 	});
 
 	/**

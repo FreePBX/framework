@@ -43,11 +43,11 @@ class ModulesConf {
 
 		if (is_array($module)) {
 			foreach($module as $m) {
-				if (!in_array($m, $current['modules']['noload']))
+				if (!is_array($current['modules']['noload']) || !in_array($m, $current['modules']['noload']))
 					$this->conf->addEntry("modules", "noload=$m");
 			}
 		} else {
-			if (!in_array($module, $current['modules']['noload']))
+			if (!is_array($current['modules']['noload']) || !in_array($module, $current['modules']['noload']))
 				$this->conf->addEntry("modules", "noload=$module");
 		}
 	}

@@ -69,7 +69,7 @@ class Ajax extends FreePBX_Helpers {
 			$this->ajaxError(403, 'ajaxRequest declined');
 		}
 
-		if($this->settings['allowremote'] !== true) {
+		if($this->settings['allowremote'] !== true && $this->freepbx->Config->get('CHECKREFERER')) {
 			// Try to avoid CSRF issues.
 			if (!isset($_SERVER['HTTP_REFERER'])) {
 				$this->ajaxError(403, 'ajaxRequest declined - Referrer');

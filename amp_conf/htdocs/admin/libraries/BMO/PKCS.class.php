@@ -407,6 +407,7 @@ default_md = sha256
 		// Wait $timeout seconds for it to finish.
 		$tmp = null;
 		$r = array($pipes[3]);
+		set_time_limit($this->timeout); //more pis. <3 all the pis for taking so long
 		if (!stream_select($r , $tmp, $tmp, $this->timeout)) {
 			throw new \RuntimeException(sprintf(_("OpenSSL took too long to run the command '%s'"),$cmd));
 		}

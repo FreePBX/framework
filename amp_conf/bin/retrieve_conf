@@ -228,6 +228,7 @@ class connectdirs {
   }
 
   function cp_subdirs($moduledir) {
+		global $amp_conf;
     foreach ($this->cp_dirs as $subdir => $targetdir) {
 		  $dir = addslash($moduledir).$subdir;
 		  if(is_dir($dir)){
@@ -248,7 +249,14 @@ class connectdirs {
 				  //
           if ($this->err_copy($sourcefile,$targetfile)) {
 					  // copy was successful, make sure it has execute permissions
-					  chmod($targetfile,0754);
+					  chmod($targetfile,0755);
+						$ampowner = $amp_conf['AMPASTERISKWEBUSER'];
+						/* Address concerns carried over from amportal in FREEPBX-8268. If the apache user is different
+						 * than the Asterisk user we provide permissions that allow both.
+						 */
+						$ampgroup =  $amp_conf['AMPASTERISKWEBUSER'] != $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKGROUP'] : $amp_conf['AMPASTERISKWEBGROUP'];
+						chown($targetfile, $ampowner);
+						chgrp($targetfile, $ampgroup);
 				  } else {
 					  freepbx_log(FPBX_LOG_ERROR, sprintf(_("%s failed to copy from module directory"),$targetfile));
 				  }

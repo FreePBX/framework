@@ -80,6 +80,13 @@ class FreePBXInstallCommand extends Command {
 			return false;
 		}
 
+		//still needed for module_admin and retrieve_conf
+		$filePath = stream_resolve_include_path('Console/Getopt.php');
+		if ($filePath === false) {
+			$output->writeln("<error>PEAR must be installed (requires Console/Getopt.php)</error>");
+			return false;
+		}
+
 		$this->rootPath = dirname(__DIR__);
 		date_default_timezone_set('America/Los_Angeles');
 
@@ -129,18 +136,81 @@ class FreePBXInstallCommand extends Command {
 			$dbroot = true;
 		}
 
+		// Make sure SELinux is disabled
+		$output->write("Checking if SELinux is enabled...");
+		exec("getenforce 2>/dev/null", $tmpout, $ret);
+		if (isset($tmpout[0]) && ($tmpout[0] === "Enabled" || $tmpout[0] === "Enforcing")) {
+			$output->writeln("<error>Error!</error>");
+			$output->writeln("<error>SELinux is enabled.  Please disable SELinux before installing FreePBX.</error>");
+			exit(1);
+		}
+		$output->writeln("Its not (good)!");
+		unset($tmpout);
+
+		require_once('installlib/installer.class.php');
+		$installer = new Installer($input, $output);
+
+		// Copy asterisk.conf
+		if (!file_exists(ASTERISK_CONF)) {
+			$output->write("No ".ASTERISK_CONF." file detected. Installing...");
+			$aconf = $installer->asterisk_conf_read(FILES_DIR . "/asterisk.conf");
+			if(empty($aconf['directories'])) {
+				$output->writeln("<error>Error!</error>");
+				$output->writeln("<error>Unable to read " . FILES_DIR . "/asterisk.conf or it was missing a directories section</error>");
+				exit(1);
+			}
+			$aconf['directories']['astmoddir'] = file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules';
+			$installer->asterisk_conf_write(ASTERISK_CONF, $aconf);
+			$asterisk_conf = $aconf['directories'];
+			$output->writeln("Done!");
+		} else {
+			$output->write("Reading ".ASTERISK_CONF."...");
+			$aconf = $installer->asterisk_conf_read(ASTERISK_CONF);
+			if(empty($aconf['directories'])) {
+				$output->writeln("<error>Error!</error>");
+				$output->writeln("<error>Unable to read " . ASTERISK_CONF . " or it was missing a directories section</error>");
+				exit(1);
+			}
+			$output->writeln("Done");
+			$asterisk_conf = $aconf['directories'];
+
+			$asterisk_defaults_conf = array(
+				'astetcdir' => '/etc/asterisk',
+				'astmoddir' => file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules',
+				'astvarlibdir' => '/var/lib/asterisk',
+				'astagidir' => '/var/lib/asterisk/agi-bin',
+				'astspooldir' => '/var/spool/asterisk',
+				'astrundir' => '/var/run/asterisk',
+				'astlogdir' => '/var/log/asterisk',
+			);
+
+			foreach ($asterisk_defaults_conf as $key => $value) {
+				if (!isset($asterisk_conf[$key])) {
+					$asterisk_conf[$key] = $value;
+				}
+			}
+		}
+
 		//Check Asterisk (before file writes)
 		$output->write("Checking if Asterisk is running and we can talk to it as the '".$answers['user']."' user...");
-		exec("sudo -u " . $answers['user'] . " asterisk -V", $tmpout, $ret);
+		$singleLine = exec("sudo -u " . $answers['user'] . " asterisk -rx 'core show version' 2>&1", $tmpout, $ret);
 		if ($ret != 0) {
 			$output->writeln("<error>Error!</error>");
-			$output->writeln("<error>Error executing Asterisk.  Ensure that Asterisk is properly installed.</error>");
+			$output->writeln("<error>Error communicating with Asterisk.  Ensure that Asterisk is properly installed and running as the ".$answers['user']." user</error>");
+			if(file_exists($asterisk_conf['astrundir']."/asterisk.ctl")) {
+				$info = posix_getpwuid(fileowner($asterisk_conf['astrundir']."/asterisk.ctl"));
+				$output->writeln("<error>Asterisk appears to be running as ".$info['name']."</error>");
+			} else {
+				$output->writeln("<error>Asterisk does not appear to be running</error>");
+			}
+			$output->writeln("<error>Try starting it with the './start_asterisk start' command in this directory</error>");
+			exit(1);
 		} else {
 			$astver = $tmpout[0];
 			unset($tmpout);
 
 			// Parse Asterisk version.
-			if (preg_match('/^Asterisk (?:SVN-|GIT-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*))$/', $astver, $matches)) {
+			if (preg_match('/^Asterisk (?:SVN-|GIT-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*)) built/', $astver, $matches)) {
 				if ((version_compare($matches[1], "11") < 0) || version_compare($matches[1], "15", "ge")) {
 					$output->writeln("<error>Error!</error>");
 					$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
@@ -155,22 +225,18 @@ class FreePBXInstallCommand extends Command {
 		}
 		$output->writeln("Done!");
 
-		// Make sure SELinux is disabled
-		$output->write("Checking if SELinux is enabled...");
-		exec("getenforce 2>/dev/null", $tmpout, $ret);
-		if (isset($tmpout[0]) && ($tmpout[0] === "Enabled" || $tmpout[0] === "Enforcing")) {
-			$output->writeln("<error>Error!</error>");
-			$output->writeln("<error>SELinux is enabled.  Please disable SELinux before installing FreePBX.</error>");
+		if((file_exists(FREEPBX_CONF) && !file_exists(AMP_CONF)) || (!file_exists(FREEPBX_CONF) && file_exists(AMP_CONF))) {
+			if(file_exists(FREEPBX_CONF)) {
+				$output->writeln("<error>Error!</error>");
+				$output->writeln("<error>Half-baked install previously detected. ".FREEPBX_CONF." should not exist if ".AMP_CONF." does not exist</error>");
+			} else {
+				$output->writeln("<error>Error!</error>");
+				$output->writeln("<error>Half-baked install previously detected. ".AMP_CONF." should not exist if ".FREEPBX_CONF." does not exist</error>");
+			}
 			exit(1);
 		}
-		$output->writeln("Its not (good)!");
-		unset($tmpout);
 
-		$output->writeln("Starting FreePBX Installation");
-
-		require_once('installlib/installer.class.php');
-		$installer = new Installer($input, $output);
-
+		$output->writeln("Preliminary checks done. Starting FreePBX Installation");
 		// Copy default amportal.conf
 		$output->write("Checking if this is a new install...");
 		if (!file_exists(AMP_CONF) || $force) {
@@ -234,47 +300,6 @@ class FreePBXInstallCommand extends Command {
 				exit(1);
 			}
 			$output->writeln("Connected!");
-		}
-
-		// Copy asterisk.conf
-		if (!file_exists(ASTERISK_CONF)) {
-			$output->write("No ".ASTERISK_CONF." file detected. Installing...");
-			$aconf = $installer->asterisk_conf_read(FILES_DIR . "/asterisk.conf");
-			if(empty($aconf['directories'])) {
-				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Unable to read " . FILES_DIR . "/asterisk.conf or it was missing a directories section</error>");
-				exit(1);
-			}
-			$aconf['directories']['astmoddir'] = file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules';
-			$installer->asterisk_conf_write(ASTERISK_CONF, $aconf);
-			$asterisk_conf = $aconf['directories'];
-			$output->writeln("Done!");
-		} else {
-			$output->write("Reading ".ASTERISK_CONF."...");
-			$aconf = $installer->asterisk_conf_read(ASTERISK_CONF);
-			if(empty($aconf['directories'])) {
-				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Unable to read " . ASTERISK_CONF . " or it was missing a directories section</error>");
-				exit(1);
-			}
-			$output->writeln("Done");
-			$asterisk_conf = $aconf['directories'];
-
-			$asterisk_defaults_conf = array(
-				'astetcdir' => '/etc/asterisk',
-				'astmoddir' => file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules',
-				'astvarlibdir' => '/var/lib/asterisk',
-				'astagidir' => '/var/lib/asterisk/agi-bin',
-				'astspooldir' => '/var/spool/asterisk',
-				'astrundir' => '/var/run/asterisk',
-				'astlogdir' => '/var/log/asterisk',
-			);
-
-			foreach ($asterisk_defaults_conf as $key => $value) {
-				if (!isset($asterisk_conf[$key])) {
-					$asterisk_conf[$key] = $value;
-				}
-			}
 		}
 
 		if(!file_exists(ODBC_INI)) {
@@ -343,6 +368,8 @@ class FreePBXInstallCommand extends Command {
 				$pdodb->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['AMPDBNAME']." DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci");
 				$sql = "GRANT ALL PRIVILEGES ON ".$amp_conf['AMPDBNAME'].".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
 				$pdodb->query($sql);
+			} else {
+				//check collate
 			}
 
 			$bmo = new \FreePBX($amp_conf);
@@ -364,6 +391,8 @@ class FreePBXInstallCommand extends Command {
 				$db->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['CDRDBNAME']." DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci");
 				$sql = "GRANT ALL PRIVILEGES ON ".$amp_conf['CDRDBNAME'].".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
 				$db->query($sql);
+			} else {
+				//check collate
 			}
 			$db->query("USE ".$amp_conf['CDRDBNAME']);
 			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['CDRDBNAME']."';";
@@ -456,13 +485,13 @@ class FreePBXInstallCommand extends Command {
 
 		$output->write("Finishing up directory processes...");
 		$binFiles = array(
-			$amp_conf['AMPBIN'] . "/freepbx_engine" => 0755,
-			$amp_conf['AMPBIN'] . "/freepbx_setting" => 0755,
-			$amp_conf['AMPBIN'] . "/fwconsole" => 0755,
-			$amp_conf['AMPBIN'] . "/gen_amp_conf" => 0755,
-			$amp_conf['AMPBIN'] . "/retrieve_conf" => 0755,
-			$amp_conf['AMPSBIN'] . "/amportal" => 0755,
-			$amp_conf['AMPSBIN'] . "/fwconsole" => 0755
+			$bin."/freepbx_engine" => 0755,
+			$bin."/freepbx_setting" => 0755,
+			$bin."/fwconsole" => 0755,
+			$bin."/gen_amp_conf" => 0755,
+			$bin."/retrieve_conf" => 0755,
+			$sbin."/amportal" => 0755,
+			$sbin."/fwconsole" => 0755
 		);
 		foreach($binFiles as $file => $perms) {
 			if(file_exists($file)) {
@@ -487,8 +516,18 @@ class FreePBXInstallCommand extends Command {
 			}
 		}
 
-		// Copy /var/www/html/admin/modules/framework/module.xml
-		copy($this->rootPath . "/module.xml", $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/module.xml");
+		$copyFrameworkFiles = array(
+			"module.xml",
+			"module.sig",
+			"install.php",
+			"LICENSE",
+			"README.md"
+		);
+		foreach($copyFrameworkFiles as $file) {
+			if(file_exists($this->rootPath . "/" . $file)) {
+				copy($this->rootPath . "/" . $file, $amp_conf['AMPWEBROOT'] . "/admin/modules/framework/" . $file);
+			}
+		}
 
 		// Copy /etc/asterisk/voicemail.conf.template
 		// ... to /etc/asterisk/voicemail.conf
@@ -529,7 +568,6 @@ class FreePBXInstallCommand extends Command {
 			$replace = array(
 				'AMPMGRUSER' => $amp_conf['AMPMGRUSER'],
 				'AMPMGRPASS' => $amp_conf['AMPMGRPASS'],
-				'AMPWEBADDRESS' => $amp_conf['AMPWEBADDRESS'],
 				'CDRDBNAME' => $amp_conf['CDRDBNAME'],
 				'AMPDBUSER' => $amp_conf['AMPDBUSER'],
 				'AMPDBPASS' => $amp_conf['AMPDBPASS']

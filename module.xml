@@ -3,13 +3,39 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>13.0.1beta3.25</version>
+	<version>13.0.1beta3.52</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*13.0.1beta3.52* Revert FREEPBX-9972
+		*13.0.1beta3.51* One off error in module.conf parsing
+		*13.0.1beta3.50* FREEPBX-9972 LoadConfig doesnt understand multi-line settings
+		*13.0.1beta3.49* FREEPBX-8630 Allow unlimited session timeouts for Local Admin
+		*13.0.1beta3.48* Provide better debug and backtraces during chowns
+		*13.0.1beta3.47* FREEPBX-9916 based on evidence provides in said ticket add set_time_limit in PKCS class
+		*13.0.1beta3.46* Bad regular expression match
+		*13.0.1beta3.45* More work on installer
+		*13.0.1beta3.43* FREEPBX-9897 installer doesn't correctly detect asterisk status
+		*13.0.1beta3.42* Remove PHP warnings
+		*13.0.1beta3.41* No need to check for installdir
+		*13.0.1beta3.40* Add check for Pear getopt and move a few more files into place
+		*13.0.1beta3.39* Revert changes from beta 3.37
+		*13.0.1beta3.38* Fix some less permission errors
+		*13.0.1beta3.37* Remove duplicate includes
+		*13.0.1beta3.36* FREEPBX-9841 Fix permissions during retrieve_conf, FREEPBX-9862 remove developer notice, FREEPBX-9863 add signature file into installer
+		*13.0.1beta3.35* Remove improperly placed IE 9 if tag
+		*13.0.1beta3.34* Shrinkable action bar
+		*13.0.1beta3.33* FREEPBX-9808 fixes invalid array
+		*13.0.1beta3.32* FREEPBX-9798 move gotoEmpty to the only class that uses it
+		*13.0.1beta3.31* FREEPBX-9795 Fix warnInvalid to work with improperly made tabs
+		*13.0.1beta3.30* FREEPBX-9790 ksort wants an array so only give it that
+		*13.0.1beta3.29* FREEPBX-9775 invalid loops
+		*13.0.1beta3.28* Numerous changes and corrections. FREEPBX-9713
+		*13.0.1beta3.27* Invalid menu looping
+		*13.0.1beta3.26* Move method to proper place
 		*13.0.1beta3.25* Fix fix_zend to work around error handler
 		*13.0.1beta3.24* Dont fall through after fwconsole update, add old session conversion
 		*13.0.1beta3.23* Check for valid symlinks on all chowns

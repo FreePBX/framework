@@ -2,8 +2,7 @@
 if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 
 if (version_compare(PHP_VERSION, '5.3.3', '<')) {
-	//charset=utf8 requires php 5.3.6 (http://php.net/manual/en/mysqlinfo.concepts.charset.php)
-	out("FreePBX Requires PHP Version 5.3.3 or Higher, you have: ".PHP_VERSION);
+	out(sprintf(_("FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"),PHP_VERSION));
 	return false;
 }
 

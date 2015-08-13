@@ -1343,7 +1343,7 @@ function bootstrap_include_hooks($hook_type, $module) {
 function _bootstrap_parse_hooks() {
 	$hooks		= array();
 
-	$modulef =& module_functions::create();
+	$modulef = module_functions::create();
 	$modules	= $modulef->getinfo(false, MODULE_STATUS_ENABLED);
 	foreach ($modules as $mymod => $mod) {
 		if (isset($mod['bootstrap_hooks'])) {

@@ -112,15 +112,15 @@ class Stop extends Command {
 		}
 	}
 	private function asteriskProcess(){
-		$ps = '/bin/env ps';
+		$ps = '/usr/bin/env ps';
 		$cmd = $ps . " -C asterisk --no-headers -o '%p|%t'";
 		$stat = exec($cmd);
 		return explode('|',$stat);
 	}
 	private function stopAsterisk($output, $method){
 		$output->writeln(_('Stopping Asterisk...'));
-		$sastbin = '/bin/env killall safe_asterisk > /dev/null 2>&1';
-		$astbin = '/bin/env asterisk -rx "core stop ' . $method .'"';
+		$sastbin = '/usr/bin/env killall safe_asterisk > /dev/null 2>&1';
+		$astbin = '/usr/bin/env asterisk -rx "core stop ' . $method .'"';
 		exec($sastbin);
 		exec($astbin);
 	}

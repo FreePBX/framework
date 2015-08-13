@@ -26,6 +26,7 @@ if ($footer_content) {
 if (!$covert && !empty($action_bar)) {
 	$html .= '<div id="action-bar">';
   $html .= '<div id="action-buttons">';
+  $html .= '<button id="action-bar-hide"><i class="fa fa-angle-double-right"></i></button>';
 	foreach($action_bar as $b){
 		$temp = new actionButton();
 		$temp->setParams($b);
@@ -234,6 +235,7 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
 	$html .= '<link rel="stylesheet" href="assets/css/progress-polyfill.css" type="text/css">';
 	$html .= '<script type="text/javascript" src="assets/js/progress-polyfill.min.js"></script>';
 	$html .= '<![endif]-->';
+  $html .= '<script type="text/javascript" src="assets/js/eventsource.min.js"></script>';
 }
 
 //TODO: This should move to a hook similar to framework_include_js

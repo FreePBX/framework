@@ -150,9 +150,9 @@ class Chown extends Command {
 		 * than the Asterisk user we provide permissions that allow both.
 		 */
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
-		foreach($this->modfiles as $modfilearray => $modfilelist){
+		foreach($this->modfiles as $moduleName => $modfilelist){
 			foreach($modfilelist as $file){
-				if(!file_exists($file['path'])){
+				if(!isset($file['path']) || !isset($file['perms']) || !file_exists($file['path'])){
 						continue;
 				}
 				//Handle custom ownership (optional)
@@ -225,54 +225,69 @@ class Chown extends Command {
 	}
 	private function singleChown($file, $user, $group){
 		try {
-			$this->fs->chown($file,$user);
 			$filetype = filetype($file);
 			if($filetype == "link") {
-				$file = readlink($file);
-				if(file_exists($file)) {
+				$link = readlink($file);
+				if(file_exists($link)) {
+					$this->fs->chown($link,$user);
 					$this->fs->chown($file,$user);
 				}
+			} else {
+				$this->fs->chown($file,$user);
 			}
 		} catch (IOExceptionInterface $e) {
 			if($file){
-				$this->errors[] = _('An error occurred while changing ownership ') . $file;
+				$this->errors[] = sprintf(_('An error occurred while changing ownership on %s'),$file);
 			}
 		}
 		try {
-			$this->fs->chgrp($file,$group);
 			$filetype = filetype($file);
 			if($filetype == "link") {
-				$file = readlink($file);
-				if(file_exists($file)) {
+				$link = readlink($file);
+				if(file_exists($link)) {
+					$this->fs->chgrp($link,$group);
 					$this->fs->chgrp($file,$user);
 				}
+			} else {
+				$this->fs->chgrp($file,$group);
 			}
 		} catch (IOExceptionInterface $e) {
 			if($file){
-				$this->errors[] = _('An error occurred while changing group ') . $file;
+				$this->errors[] = sprintf(_('An error occurred while changing groups %s'),$file);
 			}
 		}
 	}
 	private function recursiveChown($dir, $user, $group){
 		try {
-			$this->fs->chown($dir,$user, true);
 			$filetype = filetype($dir);
 			if($filetype == "link") {
-				$dir = readlink($dir);
-				if(file_exists($dir)) {
+				$link = readlink($dir);
+				if(file_exists($link)) {
+					$this->fs->chown($link,$user, true);
 					$this->fs->chown($dir,$user, true);
 				}
+			} else {
+				$this->fs->chown($dir,$user, true);
 			}
 		} catch (IOExceptionInterface $e) {
 			if($dir){
-				$this->errors[] = _('An error occurred while changing ownership ') . $realfile;
+				$this->errors[] = sprintf(_('An error occurred while changing ownership %s'),$dir);
 			}
 		}
 		try {
-			$this->fs->chgrp($dir,$group, true);
+			$filetype = filetype($dir);
+			if($filetype == "link") {
+				$link = readlink($dir);
+				if(file_exists($link)) {
+					$this->fs->chgrp($link,$user, true);
+					$this->fs->chgrp($dir,$user, true);
+				}
+			} else {
+				$this->fs->chgrp($dir,$group, true);
+			}
 		} catch (IOExceptionInterface $e) {
 			if($file){
-				$this->errors[] = _('An error occurred while changing group ') . $file;
+				$this->errors[] = sprintf(_('An error occurred while changing group %s'),$dir);
 			}
 		}
 	}
@@ -287,9 +302,13 @@ class Chown extends Command {
 					if(file_exists($realfile)) {
 						$this->errors[] = sprintf(_('An error occurred while changing permissions on link %s which points to %s'), $file, $realfile);
 					} else {
-						//File does not exist. Now we have a dangling symlink so remove it.
-						$this->infos[] = sprintf(_('Removing dangling symlink %s which points to a file that no longer exists'),$file);
-						unlink($file);
+						//Make sure this isn't a voicemail symlink
+						$asd = \FreePBX::Config()->get("ASTSPOOLDIR") . "/voicemail";
+						if (strpos($file, $asd) === false) {
+							//File does not exist. Now we have a dangling symlink so remove it.
+							$this->infos[] = sprintf(_('Removing dangling symlink %s which points to a file that no longer exists'),$file);
+							unlink($file);
+						}
 					}
 				}
 			break;

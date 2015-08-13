@@ -65,7 +65,11 @@ session_set_cookie_params(60 * 60 * 24 * 30);//(re)set session cookie to 30 days
 ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 30);//(re)set session to 30 days
 if (!isset($_SESSION)) {
 	//start a session if we need one
-	session_start();
+	$ss = @session_start();
+	if(!$ss){
+		session_regenerate_id(true); // replace the Session ID
+		session_start();
+	}
 }
 
 //unset the ampuser if the user logged out
@@ -122,7 +126,7 @@ if(isset($_SESSION['modulesRedirect'])) {
 	unset($_SESSION['modulesRedirect']);
 }
 
-// determine if the user has a session time out set in advanced settings. If the timeout is 0 or not set, we don't force logout
+// determine if the user has a session time out set in advanced settings. If the timeout is not set, we don't force logout
 $sessionTimeOut = !empty($amp_conf['SESSION_TIMEOUT']) && is_numeric($amp_conf['SESSION_TIMEOUT']) ? $amp_conf['SESSION_TIMEOUT'] : false;
 if ($sessionTimeOut !== false) {
 	if (!empty($_SESSION['AMP_user']) && is_object($_SESSION['AMP_user'])) {

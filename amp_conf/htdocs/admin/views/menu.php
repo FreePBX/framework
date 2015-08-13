@@ -19,17 +19,23 @@ global $_item_sort;
 			<div class="collapse navbar-collapse" id="fpbx-menu-collapse">
 				<ul class="nav navbar-nav navbar-left">
 					<?php include_once(__DIR__ . '/menu_items.php'); ?>
-					<li><a id="button_reload" class="navbar-btn reload-btn"><?php echo _('Apply Config'); ?></a></li>
+					<?php if(FreePBX::create()->astman->connected()) {?>
+						<li><a id="button_reload" class="navbar-btn reload-btn"><?php echo _('Apply Config'); ?></a></li>
+					<?php } else { ?>
+						<li><a class="navbar-btn reload-btn"><?php echo _('Can Not Connect to Asterisk'); ?></a></li>
+					<?php } ?>
 				</ul>
 			</div>
 			<div class="navbar-header stuck-right">
-				<?php if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) { ?>
-					<div class="nav-search">
-						<div class="" id='fpbxsearch'>
-							<i class="fa fa-search"></i>
-							<input type="text" class="form-control typeahead" placeholder="<?php echo _('Search')?>">
-						</div>
+				<?php if (isset($display) && $display != "noauth" && $display != "noaccess") { ?>
+				<div class="nav-search">
+					<div class="" id='fpbxsearch'>
+						<i class="fa fa-search"></i>
+						<input type="text" class="form-control typeahead" placeholder="<?php echo _('Search')?>">
 					</div>
+				</div>
+				<?php } ?>
+				<?php if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) { ?>
 					<?php if($amp_conf['SHOWLANGUAGE']) { ?>
 						<li class="dropdown">
 							<button class="dropdown-toggle nav-button" data-toggle="dropdown"><i class="fa fa-language"></i></button>
