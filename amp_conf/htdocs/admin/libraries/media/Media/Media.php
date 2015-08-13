@@ -7,9 +7,13 @@ class Media {
 	private $extension;
 	private $mime;
 	private $driver;
+	private $temp; //temp file to unset on convert
+	private $tempDir;
 
 	public function __construct($filename) {
 		$this->loadTrack($filename);
+		$tempDir = sys_get_temp_dir();
+		$this->tempDir = !empty($tempDir) ? $tempDir : "/tmp";
 	}
 	/**
 	 * Cast the track to a string
@@ -78,8 +82,65 @@ class Media {
 	public function convert($newFilename) {
 		$extension = Type::guessExtension($newFilename);
 		$mime = Type::guessType($newFilename);
-		switch($mime) {
+		//Use Asterisk to get the original audio file to wav
+		switch($this->mime) {
 			case "audio/x-wav":
+			case "audio/x-gsm":
+			case "text/plain":
+			case "application/octet-stream":
+				$parts = pathinfo($this->track);
+				switch($parts['extension']) {
+					case "alaw":
+					case "ulaw":
+					case "gsm":
+					case "g722":
+					case "sln":
+						if(Driver\Drivers\AsteriskShell::installed()) {
+							$driver = new Driver\Drivers\AsteriskShell($this->track,$this->extension,$this->mime);
+							$ts = time().base64_encode(openssl_random_pseudo_bytes(5));
+							$driver->convert($this->tempDir."/temp.".$ts.".wav","wav","audio/x-wav");
+							$this->track = $this->temp = $this->tempDir."/temp.".$ts.".wav";
+							$this->extension = "wav";
+							$this->mime = "audio/x-wave";
+						} else {
+							throw new \Exception("Cant convert to $mime because Asterisk is not installed");
+						}
+					break;
+					default:
+						throw new \Exception("Unable to convert to ".$this->mime." from ".$parts['extension'].", no matching binary converter");
+					break;
+				}
+			break;
+			case "audio/ogg":
+				if(Driver\Drivers\SoxShell::installed()) {
+					$driver = new Driver\Drivers\SoxShell($this->track,$this->extension,$this->mime);
+					$ts = time().base64_encode(openssl_random_pseudo_bytes(5));
+					$driver->convert($this->tempDir."/temp.".$ts.".wav","wav","audio/x-wav");
+					$this->track = $this->temp = $this->tempDir."/temp.".$ts.".wav";
+					$this->extension = "wav";
+					$this->mime = "audio/x-wave";
+				} else {
+					throw new \Exception("Cant convert to $mime because Sox is not installed");
+				}
+			break;
+			case "audio/mpeg":
+				if(Driver\Drivers\Mpg123Shell::installed()) {
+					$driver = new Driver\Drivers\Mpg123Shell($this->track,$this->extension,$this->mime);
+					$ts = time().base64_encode(openssl_random_pseudo_bytes(5));
+					$driver->convert($this->tempDir."/temp.".$ts.".wav","wav","audio/x-wav");
+					$this->track = $this->temp = $this->tempDir."/temp.".$ts.".wav";
+					$this->extension = "wav";
+					$this->mime = "audio/x-wave";
+				} else {
+					throw new \Exception("Cant convert to $mime because mpg123 is not installed");
+				}
+			break;
+			default:
+				throw new \Exception("Unable to convert to ".$this->mime." from ".$mime.", no matching binary converter");
+			break;
+		}
+		//From wav get it to other formats
+		switch($mime) {
 			case "audio/ogg":
 				if(Driver\Drivers\SoxShell::installed()) {
 					$driver = new Driver\Drivers\SoxShell($this->track,$this->extension,$this->mime);
@@ -99,17 +160,41 @@ class Media {
 			case "audio/mpeg":
 				if(Driver\Drivers\LameShell::installed()) {
 					$driver = new Driver\Drivers\LameShell($this->track,$this->extension,$this->mime);
-					$driver->background = true;
 					$driver->convert($newFilename,$extension,$mime);
 				} else {
 					throw new \Exception("Cant convert to $mime because Lame is not installed");
 				}
 			break;
+			//Yes we go wav to wav. It's on purpose I swear!!
+			case "audio/x-wav":
+			case "audio/x-gsm":
+			case "text/plain":
+			case "application/octet-stream":
 			default:
-				throw new \Exception("Unable to convert to $mime, no matching binary converter");
+				$parts = pathinfo($newFilename);
+				switch($parts['extension']) {
+					case "alaw":
+					case "ulaw":
+					case "gsm":
+					case "g722":
+					case "sln":
+					case "wav":
+						if(Driver\Drivers\AsteriskShell::installed()) {
+							$driver = new Driver\Drivers\AsteriskShell($this->track,$this->extension,$this->mime);
+							$driver->convert($newFilename,$parts['extension'],$mime);
+						} else {
+							throw new \Exception("Cant convert to $mime because Asterisk is not installed");
+						}
+					break;
+					default:
+						throw new \Exception("Unable to convert to ".$this->mime." from ".$parts['extension'].", no matching binary converter");
+					break;
+				}
 			break;
 		}
-		//return new static($newFilename);
+		if(!empty($this->temp)) {
+			unlink($this->temp);
+		}
 	}
 
 	/**
