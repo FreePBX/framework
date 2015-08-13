@@ -74,6 +74,43 @@ class Media {
 
 	}
 
+	public function getSupportedFormats() {
+		$formats = array(
+			"out" => array(),
+			"in" => array()
+		);
+		if(Driver\Drivers\AsteriskShell::installed()) {
+			$formats["in"]["g722"] = "g722";
+			$formats["in"]["gsm"] = "gsm";
+			$formats["in"]["ulaw"] = "ulaw";
+			$formats["in"]["alaw"] = "alaw";
+			$formats["in"]["wav"] = "wav";
+			$formats["in"]["WAV"] = "WAV";
+			$formats["out"]["g722"] = "g722";
+			$formats["out"]["gsm"] = "gsm";
+			$formats["out"]["ulaw"] = "ulaw";
+			$formats["out"]["alaw"] = "alaw";
+			$formats["out"]["wav"] = "wav";
+			$formats["out"]["WAV"] = "WAV";
+		}
+		if(Driver\Drivers\SoxShell::installed()) {
+			$formats["in"]["ogg"] = "ogg";
+			$formats["in"]["oga"] = "oga";
+		}
+		if(Driver\Drivers\Mpg123Shell::installed()) {
+			$formats["in"]["mp3"] = "mp3";
+		}
+		if(Driver\Drivers\FfmpegShell::installed()) {
+			$formats["in"]["m4a"] = "m4a";
+			$formats["out"]["m4a"] = "m4a";
+			$formats["in"]["mp4"] = "mp4";
+			$formats["out"]["mp4"] = "mp4";
+		}
+		if(Driver\Drivers\LameShell::installed()) {
+			$formats["out"]["mp3"] = "mp3";
+		}
+	}
+
 	/**
 	 * Convert the track using the best possible means
 	 * @param  string $filename The new filename
@@ -101,7 +138,7 @@ class Media {
 							$driver->convert($this->tempDir."/temp.".$ts.".wav","wav","audio/x-wav");
 							$this->track = $this->temp = $this->tempDir."/temp.".$ts.".wav";
 							$this->extension = "wav";
-							$this->mime = "audio/x-wave";
+							$this->mime = "audio/x-wav";
 						} else {
 							throw new \Exception("Cant convert to $mime because Asterisk is not installed");
 						}
@@ -118,7 +155,7 @@ class Media {
 					$driver->convert($this->tempDir."/temp.".$ts.".wav","wav","audio/x-wav");
 					$this->track = $this->temp = $this->tempDir."/temp.".$ts.".wav";
 					$this->extension = "wav";
-					$this->mime = "audio/x-wave";
+					$this->mime = "audio/x-wav";
 				} else {
 					throw new \Exception("Cant convert to $mime because Sox is not installed");
 				}
@@ -130,7 +167,7 @@ class Media {
 					$driver->convert($this->tempDir."/temp.".$ts.".wav","wav","audio/x-wav");
 					$this->track = $this->temp = $this->tempDir."/temp.".$ts.".wav";
 					$this->extension = "wav";
-					$this->mime = "audio/x-wave";
+					$this->mime = "audio/x-wav";
 				} else {
 					throw new \Exception("Cant convert to $mime because mpg123 is not installed");
 				}
@@ -166,6 +203,7 @@ class Media {
 				}
 			break;
 			//Yes we go wav to wav. It's on purpose I swear!!
+			case "audio/x-wave":
 			case "audio/x-wav":
 			case "audio/x-gsm":
 			case "text/plain":
@@ -184,6 +222,14 @@ class Media {
 							$driver->convert($newFilename,$parts['extension'],$mime);
 						} else {
 							throw new \Exception("Cant convert to $mime because Asterisk is not installed");
+						}
+					break;
+					case "mp4":
+						if(Driver\Drivers\FfmpegShell::installed()) {
+							$driver = new Driver\Drivers\FfmpegShell($this->track,$this->extension,$this->mime);
+							$driver->convert($newFilename,$extension,$mime);
+						} else {
+							throw new \Exception("Cant convert to $mime because ffmpeg is not installed");
 						}
 					break;
 					default:

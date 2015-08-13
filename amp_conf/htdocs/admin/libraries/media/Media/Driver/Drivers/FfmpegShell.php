@@ -59,6 +59,7 @@ class FfmpegShell extends \Media\Driver\Driver {
 
 	public function convert($newFilename,$extension,$mime) {
 		switch($mime) {
+			case "video/mp4":
 			case "audio/mp4":
 				$process = new Process('ffmpeg -i '.$this->track.' -acodec libfaac -ar 48000 -y '.$newFilename);
 				if(!$this->background) {
