@@ -162,11 +162,36 @@ class LoadConfig {
 
 		// Now, go through my copy..
 		foreach ($myarr as $id => $line) {
-			// Note, not checking for empty lines, as FILE_SKIP_EMPTY_LINES does that for us.
-			if (strpos($line, ";") === 0) {
-				// Starts with a comment. Remove it.
+			//Trim whitespace
+			$line = trim($line);
+			if ($comment_block === true) {
+				if (($pos = strpos($line, "--;")) !== false) {
+					// End of the comment block, carry on with the rest of the line
+					$comment_block = false;
+					$line = substr($line, $pos + 3);
+				} else {
+					// The comment block continues
+					$line = "";
+				}
+			}
+			// Negative lookbehind assertion matches unescaped semicolons only
+			if ($comment_block === false && preg_match("/(?<!\\\);--.*?--;/", $line)) {
+				// Line contains a whole comment block
+				$line = preg_replace("/(?<!\\\);--.*?--;/", "", $line);
+			}
+			if ($comment_block === false && preg_match("/(?<!\\\);--/", $line)) {
+				// Line starts a comment block
+				$comment_block = true;
+				$line = preg_replace("/(?<!\\\);--.*/", "", $line);
+			}
+			if ($comment_block === false && preg_match("/(?<!\\\);/", $line)) {
+				// Line contains a standard comment
+				$line = preg_replace("/(?<!\\\);.*/", "", $line);
+			}
+			if (empty($line)) {
 				unset($arr[$id]);
 			} else {
+				$arr[$id] = $line;
 				// It's not a comment, which means we're past the header.
 				// Stop now.
 				break;
@@ -185,31 +210,40 @@ class LoadConfig {
 		// Remove all comments.
 		// First, take a copy of the array
 		$myarr = $arr;
-		//set inside a comment block to false
-		$commentBlock = false;
+		$comment_block = false;
+
 		// Again, go through my copy...
 		foreach ($myarr as $id => $line) {
-			//Trim leading whitespace
+			//Trim whitespace
 			$line = trim($line);
-			// Note, not checking for empty lines, as FILE_SKIP_EMPTY_LINES does that for us.
-			// Are we inside a comment block?
-			// if so just drop the line completely
-			if($commentBlock) {
-				unset($arr[$id]);
-				//If we are inside a comment block look for the end of the block
-				if(strpos($line, "--;") === 0) {
-					//jump out of the comment block
-					$commentBlock = false;
+			if ($comment_block === true) {
+				if (($pos = strpos($line, "--;")) !== false) {
+					// End of the comment block, carry on with the rest of the line
+					$comment_block = false;
+					$line = substr($line, $pos + 3);
+				} else {
+					// The comment block continues
+					$line = "";
 				}
-			//look for the start of the comment block
-			} elseif(strpos($line, ";--") === 0) {
-				//let the system know we are inside a comment block
-				$commentBlock = true;
+			}
+			// Negative lookbehind assertion matches unescaped semicolons only
+			if ($comment_block === false && preg_match("/(?<!\\\);--.*?--;/", $line)) {
+				// Line contains a whole comment block
+				$line = preg_replace("/(?<!\\\);--.*?--;/", "", $line);
+			}
+			if ($comment_block === false && preg_match("/(?<!\\\);--/", $line)) {
+				// Line starts a comment block
+				$comment_block = true;
+				$line = preg_replace("/(?<!\\\);--.*/", "", $line);
+			}
+			if ($comment_block === false && preg_match("/(?<!\\\);/", $line)) {
+				// Line contains a standard comment
+				$line = preg_replace("/(?<!\\\);.*/", "", $line);
+			}
+			if (empty($line)) {
 				unset($arr[$id]);
-			//single line comment
-			} elseif (strpos($line, ";") === 0) {
-				// Starts with a comment. Remove it.
-				unset($arr[$id]);
+			} else {
+				$arr[$id] = $line;
 			}
 		}
 	}
@@ -227,22 +261,42 @@ class LoadConfig {
 		// Anything prior to the first section is in the magic 'HEADER' section
 		$section = "HEADER";
 		foreach ($conf as $entry) {
-			if (preg_match("/\[(.+)\]/", $entry, $out)) {
+			$entry = trim($entry);
+			if (preg_match("/^\[(\S+)\](?:\((.*)\))?/", $entry, $out)) {
 				$section = $out[1];
+				$modifier = isset($out[2]) ? $out[2] : "+";
+				if ($modifier === "!") {
+					// This is a template section, not part of the configuration
+					$section .= "__TEMPLATE__";
+				} else if ($modifier !== "+") {
+					$modifier = explode(",", $modifier);
+					foreach ($modifier as $template) {
+						if (isset($this->ProcessedConfig[$template . "__TEMPLATE__"])) {
+							foreach ($this->ProcessedConfig[$template . "__TEMPLATE__"] as $k=>$v) {
+								$this->ProcessedConfig[$section][$k] = $v;
+							}
+						}
+					}
+				}
 				continue;
 			}
 
-			if (preg_match("/^([^\+=]+)\s*(?:(\+)?=>?)\s*(.+)?$/", $entry, $out)) {
+			if (preg_match("/^([^+=]+)\s*(?:(\+)?=>?)\s*(.+)?$/", $entry, $out)) {
 				$out = array_map("trim", $out);
 				if(!isset($out[3])) {
 					$out[3] = "";
 				}
 				// If it doesn't have anything set, then we don't care.
-				if (empty($out[3]) && trim($out[3]) != "0") {
+				if (empty($out[3]) && $out[3] !== "0") {
 					continue;
 				}
+
+				// Replace any escaped semicolons
+				$out[3] = str_replace("\\;", ";", $out[3]);
+
 				// Are we appending to an existing value?
 				$append_value = ($out[2] === "+");
+
 				if (isset($this->ProcessedConfig[$section]) && isset($this->ProcessedConfig[$section][$out[1]])) {
 					// This already exists. Multiple definitions.
 					if ($append_value) {
@@ -250,6 +304,7 @@ class LoadConfig {
 					} else {
 						if (!is_array($this->ProcessedConfig[$section][$out[1]])) {
 							// This is the first time we've found this, so make it an array.
+
 							$tmp = $this->ProcessedConfig[$section][$out[1]];
 							unset($this->ProcessedConfig[$section][$out[1]]);
 							$this->ProcessedConfig[$section][$out[1]][] = $tmp;
@@ -260,12 +315,18 @@ class LoadConfig {
 				} else {
 					$this->ProcessedConfig[$section][$out[1]] = $out[3];
 				}
-			} else if (preg_match("/^#include/", $entry)) {
+			} else if (preg_match("/^#(include|exec)/", $entry)) {
 				$this->ProcessedConfig[$section][] = $entry;
-			} else if (trim($entry) == "") {
+			} else if ($entry === "") {
 				continue;
 			} else {
-				throw new \Exception(sprintf(_("Coding Error - don't understand '%s' from %s"),$entry,$this->Filename));
+				throw new \Exception(sprintf(_("Coding Error - don't understand '%s' from %s"), $entry, $this->Filename));
+			}
+		}
+		// We're done, remove all the templates
+		foreach (array_keys($this->ProcessedConfig) as $key) {
+			if (strpos($key, "__TEMPLATE__") !== false) {
+				unset($this->ProcessedConfig[$key]);
 			}
 		}
 	}
