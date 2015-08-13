@@ -17,6 +17,13 @@
  *
  * bootstrap_settings['freepbx_auth']          - true (default) - authorize, false - bypass authentication
  *
+ * bootstrap_settings['include_compress']      - true (default) - include compress class
+ *
+ * bootstrap_settings['include_utility_functions'] - true (default) - include utility functions.
+ *
+ * bootstrap_settings['include_framework_functions'] - true (default) - include the framework functions which are unavailable elsewhere
+ *
+ *
  * $restrict_mods: false means include all modules functions.inc.php, true skip all modules
  *                 array of hashes means each module where there is a hash
  *                 e.g. $restrict_mods = array('core' => true, 'dashboard' => true)
