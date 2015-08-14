@@ -24,6 +24,10 @@ class Media {
 		$this->FreePBX = $freepbx;
 	}
 
+	public function getSupportedFormats() {
+		return \Media\Media::getSupportedFormats();
+	}
+
 	public function load($filename) {
 		$this->file = new \Media\Media($filename);
 	}

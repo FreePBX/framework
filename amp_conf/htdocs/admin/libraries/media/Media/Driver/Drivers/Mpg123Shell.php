@@ -3,7 +3,7 @@
 namespace Media\Driver\Drivers;
 use Symfony\Component\Process\Process;
 
-class SoxShell extends \Media\Driver\Driver {
+class Mpg123Shell extends \Media\Driver\Driver {
 	private $track;
 	private $version;
 	private $mime;
@@ -18,7 +18,7 @@ class SoxShell extends \Media\Driver\Driver {
 	}
 
 	public static function installed() {
-		$process = new Process('sox --version');
+		$process = new Process('mpg123 --version');
 		$process->run();
 
 		// executes after the command finishes
@@ -42,15 +42,15 @@ class SoxShell extends \Media\Driver\Driver {
 	}
 
 	public function getVersion() {
-		$process = new Process('sox --version');
+		$process = new Process('mpg123 --version');
 		$process->run();
 
 		// executes after the command finishes
 		if (!$process->isSuccessful()) {
 			throw new \RuntimeException($process->getErrorOutput());
 		}
-		//sox: SoX v14.2.0
-		if(preg_match("/v(.*)/",$process->getOutput(),$matches)) {
+		//mpg123 1.13.6
+		if(preg_match("/mpg123 (.*)/",$process->getOutput(),$matches)) {
 			return $matches[1];
 		} else {
 			throw new \Exception("Unable to parse version");
@@ -58,7 +58,7 @@ class SoxShell extends \Media\Driver\Driver {
 	}
 
 	public function convert($newFilename,$extension,$mime) {
-		$process = new Process('sox '.$this->track.' '.$newFilename);
+		$process = new Process('mpg123 -w '.$newFilename.' '.$this->track);
 		if(!$this->background) {
 			$process->run();
 			if (!$process->isSuccessful()) {
