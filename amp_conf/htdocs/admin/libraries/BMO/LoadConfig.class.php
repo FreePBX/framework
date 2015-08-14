@@ -159,6 +159,7 @@ class LoadConfig {
 		// Remove all headers in this file
 		// First, take a copy of the array
 		$myarr = $arr;
+		$comment_block = false;
 
 		// Now, go through my copy..
 		foreach ($myarr as $id => $line) {
