@@ -74,7 +74,7 @@ class Media {
 
 	}
 
-	public function getSupportedFormats() {
+	public static function getSupportedFormats() {
 		$formats = array(
 			"out" => array(),
 			"in" => array()
@@ -96,6 +96,8 @@ class Media {
 		if(Driver\Drivers\SoxShell::installed()) {
 			$formats["in"]["ogg"] = "ogg";
 			$formats["in"]["oga"] = "oga";
+			$formats["out"]["ogg"] = "ogg";
+			$formats["out"]["oga"] = "oga";
 		}
 		if(Driver\Drivers\Mpg123Shell::installed()) {
 			$formats["in"]["mp3"] = "mp3";
@@ -109,6 +111,7 @@ class Media {
 		if(Driver\Drivers\LameShell::installed()) {
 			$formats["out"]["mp3"] = "mp3";
 		}
+		return $formats;
 	}
 
 	/**
