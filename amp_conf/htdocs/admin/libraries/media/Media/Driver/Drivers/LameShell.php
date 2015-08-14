@@ -17,6 +17,15 @@ class LameShell extends \Media\Driver\Driver {
 		$this->extension = $extension;
 	}
 
+	public static function supportedCodecs(&$formats) {
+		$formats["out"]["mp3"] = "mp3";
+		return $formats;
+	}
+
+	public static function isCodecSupported($codec,$direction) {
+		return in_array($codec,array("mp3"));
+	}
+
 	public static function installed() {
 		$process = new Process('lame --version');
 		$process->run();

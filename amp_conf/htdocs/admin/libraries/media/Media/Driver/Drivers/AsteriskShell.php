@@ -28,6 +28,46 @@ class AsteriskShell extends \Media\Driver\Driver {
 		return true;
 	}
 
+	public static function supportedCodecs(&$formats) {
+		$c = \FreePBX::Codecs()->getAudio();
+		if(isset($c['none'])) {unset($c['none']);}
+		if(isset($c['testlaw'])) {unset($c['testlaw']);}
+		$astman = \FreePBX::create()->astman;
+		if(!$astman->mod_loaded("g729")) {
+			if(isset($c['g729'])) {unset($c['g729']);}
+		} else {
+			$data = $astman->Command("g729 show licenses");
+			if(!preg_match('/licensed channels are currently in use/',$data['data'])) {
+				if(isset($c['g729'])) {unset($c['g729']);}
+			}
+		}
+		foreach($c as $codec => $state) {
+			$formats["in"][$codec] = $codec;
+			$formats["out"][$codec] = $codec;
+		}
+		$formats["out"]["wav"] = "wav";
+		$formats["out"]["WAV"] = "WAV";
+		$formats["in"]["wav"] = "wav";
+		$formats["in"]["WAV"] = "WAV";
+		return $formats;
+	}
+
+	public static function isCodecSupported($codec,$direction) {
+		$c = \FreePBX::Codecs()->getAudio();
+		if(isset($c['none'])) {unset($c['none']);}
+		if(isset($c['testlaw'])) {unset($c['testlaw']);}
+		$astman = \FreePBX::create()->astman;
+		if(!$astman->mod_loaded("g729")) {
+			if(isset($c['g729'])) {unset($c['g729']);}
+		} else {
+			$data = $astman->Command("g729 show licenses");
+			if(!preg_match('/licensed channels are currently in use/',$data['data'])) {
+				if(isset($c['g729'])) {unset($c['g729']);}
+			}
+		}
+		return isset($c[$codec]);
+	}
+
 	public function loadTrack($track) {
 		if(empty($track)) {
 			throw new \Exception("A track must be supplied");

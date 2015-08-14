@@ -9,6 +9,8 @@ class Media {
 	private $driver;
 	private $temp; //temp file to unset on convert
 	private $tempDir;
+	private $drivers = array();
+	public $image;
 
 	public function __construct($filename) {
 		$this->loadTrack($filename);
@@ -49,6 +51,10 @@ class Media {
 			'file' => dirname(__DIR__).'/resources/glob.db'
 		));
 		$this->extension = Type::guessExtension($this->track);
+		if(empty($this->extension) || $this->extension == "bin") {
+			$parts = pathinfo($this->track);
+			$this->extension = $parts['extension'];
+		}
 		$this->mime = Type::guessType($this->track);
 	}
 
@@ -74,42 +80,35 @@ class Media {
 
 	}
 
+	private function getDrivers() {
+		if(!empty($this->drivers)) {
+			return $this->drivers;
+		}
+		foreach(glob(__DIR__."/Driver/Drivers/*.php") as $file) {
+			$this->drivers[] = basename($file,".php");
+		}
+		return $this->drivers;
+	}
+
 	public static function getSupportedFormats() {
 		$formats = array(
 			"out" => array(),
 			"in" => array()
 		);
 		if(Driver\Drivers\AsteriskShell::installed()) {
-			$formats["in"]["g722"] = "g722";
-			$formats["in"]["gsm"] = "gsm";
-			$formats["in"]["ulaw"] = "ulaw";
-			$formats["in"]["alaw"] = "alaw";
-			$formats["in"]["wav"] = "wav";
-			$formats["in"]["WAV"] = "WAV";
-			$formats["out"]["g722"] = "g722";
-			$formats["out"]["gsm"] = "gsm";
-			$formats["out"]["ulaw"] = "ulaw";
-			$formats["out"]["alaw"] = "alaw";
-			$formats["out"]["wav"] = "wav";
-			$formats["out"]["WAV"] = "WAV";
+			$formats = Driver\Drivers\AsteriskShell::supportedCodecs($formats);
 		}
 		if(Driver\Drivers\SoxShell::installed()) {
-			$formats["in"]["ogg"] = "ogg";
-			$formats["in"]["oga"] = "oga";
-			$formats["out"]["ogg"] = "ogg";
-			$formats["out"]["oga"] = "oga";
+			$formats = Driver\Drivers\SoxShell::supportedCodecs($formats);
 		}
 		if(Driver\Drivers\Mpg123Shell::installed()) {
-			$formats["in"]["mp3"] = "mp3";
+			$formats = Driver\Drivers\Mpg123Shell::supportedCodecs($formats);
 		}
 		if(Driver\Drivers\FfmpegShell::installed()) {
-			$formats["in"]["m4a"] = "m4a";
-			$formats["out"]["m4a"] = "m4a";
-			$formats["in"]["mp4"] = "mp4";
-			$formats["out"]["mp4"] = "mp4";
+			$formats = Driver\Drivers\FfmpegShell::supportedCodecs($formats);
 		}
 		if(Driver\Drivers\LameShell::installed()) {
-			$formats["out"]["mp3"] = "mp3";
+			$formats = Driver\Drivers\LameShell::supportedCodecs($formats);
 		}
 		return $formats;
 	}
@@ -121,129 +120,44 @@ class Media {
 	 */
 	public function convert($newFilename) {
 		$extension = Type::guessExtension($newFilename);
+		$parts = pathinfo($newFilename);
+		if(empty($extension) || $extension == "bin") {
+			$extension = $parts['extension'];
+		}
 		$mime = Type::guessType($newFilename);
-		//Use Asterisk to get the original audio file to wav
-		switch($this->mime) {
-			case "audio/x-wav":
-			case "audio/x-gsm":
-			case "text/plain":
-			case "application/octet-stream":
-				$parts = pathinfo($this->track);
-				switch($parts['extension']) {
-					case "alaw":
-					case "ulaw":
-					case "gsm":
-					case "g722":
-					case "sln":
-						if(Driver\Drivers\AsteriskShell::installed()) {
-							$driver = new Driver\Drivers\AsteriskShell($this->track,$this->extension,$this->mime);
-							$ts = time().base64_encode(openssl_random_pseudo_bytes(5));
-							$driver->convert($this->tempDir."/temp.".$ts.".wav","wav","audio/x-wav");
-							$this->track = $this->temp = $this->tempDir."/temp.".$ts.".wav";
-							$this->extension = "wav";
-							$this->mime = "audio/x-wav";
-						} else {
-							throw new \Exception("Cant convert to $mime because Asterisk is not installed");
-						}
-					break;
-					default:
-						throw new \Exception("Unable to convert to ".$this->mime." from ".$parts['extension'].", no matching binary converter");
-					break;
-				}
-			break;
-			case "audio/ogg":
-				if(Driver\Drivers\SoxShell::installed()) {
-					$driver = new Driver\Drivers\SoxShell($this->track,$this->extension,$this->mime);
-					$ts = time().base64_encode(openssl_random_pseudo_bytes(5));
-					$driver->convert($this->tempDir."/temp.".$ts.".wav","wav","audio/x-wav");
-					$this->track = $this->temp = $this->tempDir."/temp.".$ts.".wav";
-					$this->extension = "wav";
-					$this->mime = "audio/x-wav";
-				} else {
-					throw new \Exception("Cant convert to $mime because Sox is not installed");
-				}
-			break;
-			case "audio/mpeg":
-				if(Driver\Drivers\Mpg123Shell::installed()) {
-					$driver = new Driver\Drivers\Mpg123Shell($this->track,$this->extension,$this->mime);
-					$ts = time().base64_encode(openssl_random_pseudo_bytes(5));
-					$driver->convert($this->tempDir."/temp.".$ts.".wav","wav","audio/x-wav");
-					$this->track = $this->temp = $this->tempDir."/temp.".$ts.".wav";
-					$this->extension = "wav";
-					$this->mime = "audio/x-wav";
-				} else {
-					throw new \Exception("Cant convert to $mime because mpg123 is not installed");
-				}
-			break;
-			default:
-				throw new \Exception("Unable to convert to ".$this->mime." from ".$mime.", no matching binary converter");
-			break;
+		//generate intermediary file
+		foreach($this->getDrivers() as $driver) {
+			$class = "Media\\Driver\\Drivers\\".$driver;
+			if($class::installed() && $class::isCodecSupported($this->extension,"in")) {
+				$driver = new $class($this->track,$this->extension,$this->mime);
+				$ts = time().rand(0,1000);
+				$driver->convert($this->tempDir."/temp.".$ts.".wav","wav","audio/x-wav");
+				$this->track = $this->temp = $this->tempDir."/temp.".$ts.".wav";
+				$this->extension = "wav";
+				$this->mime = "audio/x-wav";
+				break;
+			}
 		}
-		//From wav get it to other formats
-		switch($mime) {
-			case "audio/ogg":
-				if(Driver\Drivers\SoxShell::installed()) {
-					$driver = new Driver\Drivers\SoxShell($this->track,$this->extension,$this->mime);
-					$driver->convert($newFilename,$extension,$mime);
-				} else {
-					throw new \Exception("Cant convert to $mime because Sox is not installed");
-				}
-			break;
-			case "audio/mp4":
-				if(Driver\Drivers\FfmpegShell::installed()) {
-					$driver = new Driver\Drivers\FfmpegShell($this->track,$this->extension,$this->mime);
-					$driver->convert($newFilename,$extension,$mime);
-				} else {
-					throw new \Exception("Cant convert to $mime because ffmpeg is not installed");
-				}
-			break;
-			case "audio/mpeg":
-				if(Driver\Drivers\LameShell::installed()) {
-					$driver = new Driver\Drivers\LameShell($this->track,$this->extension,$this->mime);
-					$driver->convert($newFilename,$extension,$mime);
-				} else {
-					throw new \Exception("Cant convert to $mime because Lame is not installed");
-				}
-			break;
-			//Yes we go wav to wav. It's on purpose I swear!!
-			case "audio/x-wave":
-			case "audio/x-wav":
-			case "audio/x-gsm":
-			case "text/plain":
-			case "application/octet-stream":
-			default:
-				$parts = pathinfo($newFilename);
-				switch($parts['extension']) {
-					case "alaw":
-					case "ulaw":
-					case "gsm":
-					case "g722":
-					case "sln":
-					case "wav":
-						if(Driver\Drivers\AsteriskShell::installed()) {
-							$driver = new Driver\Drivers\AsteriskShell($this->track,$this->extension,$this->mime);
-							$driver->convert($newFilename,$parts['extension'],$mime);
-						} else {
-							throw new \Exception("Cant convert to $mime because Asterisk is not installed");
-						}
-					break;
-					case "mp4":
-						if(Driver\Drivers\FfmpegShell::installed()) {
-							$driver = new Driver\Drivers\FfmpegShell($this->track,$this->extension,$this->mime);
-							$driver->convert($newFilename,$extension,$mime);
-						} else {
-							throw new \Exception("Cant convert to $mime because ffmpeg is not installed");
-						}
-					break;
-					default:
-						throw new \Exception("Unable to convert to ".$this->mime." from ".$parts['extension'].", no matching binary converter");
-					break;
-				}
-			break;
+		//generate wav form png
+		if(isset($this->image)) {
+			$waveform = new \Jasny\Audio\Waveform($this->temp, array("width" => 700));
+			$waveform->output("png",$this->image);
 		}
-		if(!empty($this->temp)) {
+
+		//generate final file
+		foreach($this->getDrivers() as $driver) {
+			$class = "Media\\Driver\\Drivers\\".$driver;
+			if($class::installed() && $class::isCodecSupported($extension,"out")) {
+				$driver = new $class($this->track,$this->extension,$this->mime);
+				$driver->convert($newFilename,$extension,$mime);
+				break;
+			}
+		}
+		if(!empty($this->temp) && file_exists($this->temp)) {
 			unlink($this->temp);
 		}
+
+		return file_exists($newFilename);
 	}
 
 	/**

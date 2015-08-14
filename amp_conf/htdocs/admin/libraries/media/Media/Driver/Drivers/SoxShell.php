@@ -17,6 +17,28 @@ class SoxShell extends \Media\Driver\Driver {
 		$this->extension = $extension;
 	}
 
+	public static function supportedCodecs(&$formats) {
+		$process = new Process('sox -h');
+		$process->run();
+		if(preg_match("/AUDIO FILE FORMATS: (.*)/",$process->getOutput(),$matches)) {
+			$codecs = explode(" ",$matches[1]);
+			foreach($codecs as $codec) {
+				$formats["in"][$codec] = $codec;
+				$formats["out"][$codec] = $codec;
+			}
+		} else {
+			$formats["in"]["ogg"] = "ogg";
+			$formats["in"]["oga"] = "oga";
+			$formats["out"]["ogg"] = "ogg";
+			$formats["out"]["oga"] = "oga";
+		}
+		return $formats;
+	}
+
+	public static function isCodecSupported($codec,$direction) {
+		return in_array($codec,array("ogg","oga"));
+	}
+
 	public static function installed() {
 		$process = new Process('sox --version');
 		$process->run();

@@ -17,6 +17,18 @@ class FfmpegShell extends \Media\Driver\Driver {
 		$this->extension = $extension;
 	}
 
+	public static function supportedCodecs(&$formats) {
+		$formats["in"]["m4a"] = "m4a";
+		$formats["out"]["m4a"] = "m4a";
+		$formats["in"]["mp4"] = "mp4";
+		$formats["out"]["mp4"] = "mp4";
+		return $formats;
+	}
+
+	public static function isCodecSupported($codec,$direction) {
+		return in_array($codec,array("m4a","mp4"));
+	}
+
 	public static function installed() {
 		$process = new Process('ffmpeg -version');
 		$process->run();

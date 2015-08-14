@@ -17,6 +17,15 @@ class Mpg123Shell extends \Media\Driver\Driver {
 		$this->extension = $extension;
 	}
 
+	public static function supportedCodecs(&$formats) {
+		$formats["in"]["mp3"] = "mp3";
+		return $formats;
+	}
+
+	public static function isCodecSupported($codec,$direction) {
+		return ($direction == "in") && in_array($codec,array("mp3"));
+	}
+
 	public static function installed() {
 		$process = new Process('mpg123 --version');
 		$process->run();
