@@ -1,20 +1,23 @@
 <?php
+/**
+* https://blogs.kent.ac.uk/webdev/2011/07/14/phpunit-and-unserialized-pdo-instances/
+* @backupGlobals disabled
+* @backupStaticAttributes disabled
+*/
+
 class RequestTest extends PHPUnit_Framework_TestCase {
 
 	protected static $f;
-	private $config_file;
-	private $config_file2;
-	private $config_dir;
+	private static $config_file;
+	private static $config_file2;
+	private static $config_dir;
 
-	/**
-	* @beforeClass
-	*/
 	public static function setUpBeforeClass() {
 		include "setuptests.php";
 		self::$f = FreePBX::create();
-		$this->config_file = tempnam();
-		$this->config_file2 = tempnam();
-		$this->config_dir = sys_get_temp_dir();
+		self::$config_file = basename(tempnam(sys_get_temp_dir(), "utest"));
+		self::$config_file2 = basename(tempnam(sys_get_temp_dir(), "utest"));
+		self::$config_dir = sys_get_temp_dir() . "/";
 		$config = <<< 'EOF'
 ; Config file parser test
 ;-- Multi-line comment
@@ -54,25 +57,22 @@ baz=bix
 5432=>1234,Typical voicemail,,,attach=no|saycid=no|envelope=no|delete=no
 
 EOF;
-		file_put_contents($this->config_dir . $this->config_file, $config);
+		file_put_contents(self::$config_dir . self::$config_file, $config);
 		$config = str_replace("setting=value 2", "[invalid section]", $config);
-		file_put_contents($this->config_dir . $this->config_file2, $config);
+		file_put_contents(self::$config_dir . self::$config_file2, $config);
 	}
 
-	/**
-	* @afterClass
-	*/
-	public static function setUpAfterClass() {
-		unlink($this->config_dir . $this->config_file);
-		unlink($this->config_dir . $this->config_file2);
+	public static function tearDownAfterClass() {
+		unlink(self::$config_dir . self::$config_file);
+		unlink(self::$config_dir . self::$config_file2);
 	}
 
 	/**
 	* @test
 	*/
 	public function testLoadConfig() {
-		$f = self::$f;
-		$config = $f->LoadConfig->getConfig($this->config_file, $this->config_dir);
+		$config = self::$f->LoadConfig->getConfig(self::$config_file, self::$config_dir);
+		$this->assertTrue(is_array($config));
 		$this->assertTrue(is_array($config["first-section"]));
 		$this->assertTrue(strlen($config["first-section"]["hey"]) > 50);
 		$this->assertEquals($config["second_section"]["setting2"], "value with a ; semicolon");
@@ -83,11 +83,10 @@ EOF;
 
 	/**
 	* @test
-	* @expectedException Exception
-	* @expectedExceptionMessageRegExp #Coding Error - don't understand '\[invalid section\]' in .*#
+	* @expectedException \Exception
+	* @expectedExceptionMessageRegExp #Coding Error - don't understand '.invalid section.' from.*#
 	*/
 	public function testLoadConfigFailure() {
-		$f = self::$f;
-		$config = $f->LoadConfig->getConfig($this->config_file2, $this->config_dir);
+		$config = self::$f->LoadConfig->getConfig(self::$config_file2, self::$config_dir);
 	}
 }
