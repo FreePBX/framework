@@ -71,7 +71,7 @@ if (!isset($bootstrap_settings['skip_astman'])) {
 $restrict_mods = isset($restrict_mods) ? $restrict_mods : false;
 
 // Set defaults for unset settings
-$defaults = array('skip_config' => null,
+$bootstrap_defaults = array('skip_config' => null,
                   'astman_options' => array(),
                   'astman_events' => 'off',
                   'freepbx_error_handler' => true,
@@ -81,7 +81,7 @@ $defaults = array('skip_config' => null,
                   'include_utility_functions' => true,
                   'include_framework_functions' =>true,
                  );
-foreach ($defaults as $key => $default_value) {
+foreach ($bootstrap_defaults as $key => $default_value) {
     if (!isset($bootstrap_settings[$key])) {
         $bootstrap_settings[$key] = $default_value;
     }
