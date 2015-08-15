@@ -5,7 +5,7 @@
 * @backupStaticAttributes disabled
 */
 
-class RequestTest extends PHPUnit_Framework_TestCase {
+class LoadConfigTest extends PHPUnit_Framework_TestCase {
 
 	protected static $f;
 	private static $config_file;
@@ -47,7 +47,7 @@ and ends here--;setting4 =>value
 --;;another =>comment? i hope so
 	setting5     => value
 setting=value 2
-#include foo.conf	
+#include foo.conf
 
 [first-section](+)
 baz=bix
