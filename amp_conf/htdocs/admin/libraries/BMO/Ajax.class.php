@@ -69,8 +69,9 @@ class Ajax extends FreePBX_Helpers {
 				$this->ajaxError(403, 'ajaxRequest declined - Referrer');
 			}
 
-			// Make sure the referrer is at least this host.
-			$url = parse_url($_SERVER['HTTP_REFERER']);
+			// Make sure the url the request is sent to (ie us) is the same host as the referrer
+                        // (ie the one which made the page whcih sent us this request).
+                        $url = parse_url($_SERVER['HTTP_REFERER']);
 			if (isset($url['port'])) {
 				$checkhost = $url['host'].":".$url['port'];
 			} else {
@@ -83,6 +84,14 @@ class Ajax extends FreePBX_Helpers {
 		}
 
 		session_start();
+
+                // If the request has come from this machine then no need to authenticate.
+                $request_from_ip = $_SERVER['REMOTE_ADDR'];
+                if (($request_from_ip == '127.0.0.1') || ($request_from_ip == '::1')) {
+                    $this->settings['authenticate'] = false;
+                }
+
+                // Check authentication if set to
 		if ($this->settings['authenticate']) {
 			if (!isset($_SESSION['AMP_user'])) {
 				$this->ajaxError(401, 'Not Authenticated');
