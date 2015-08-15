@@ -26,7 +26,7 @@ class Apache extends \mm\Mime\Type\Magic\Adapter {
 		$this->_read($config['file']);
 	}
 
-	public function analyze($handle, $options = []) {
+	public function analyze($handle, $options = array()) {
 		return $this->_test($handle, current($this->_items)); // no support for priority
 	}
 
@@ -61,14 +61,14 @@ class Apache extends \mm\Mime\Type\Magic\Adapter {
 				continue;
 			}
 
-			$item = [
+			$item = array(
 				'offset'       => intval($matches[2]),
 				'value'        => $this->_formatValue($matches[4], $matches[3], true),
 				'mask'         => null,
 				'range_length' => 0,
 				'mime_type'    => empty($matches[5]) ? null : $matches[5],
 				'encoding'     => empty($matches[6]) ? null : $matches[6]
-			];
+			);
 			$item['value_length'] = strlen($item['value']);
 			$this->_register($item, strlen($matches[1]), 80);
 		}

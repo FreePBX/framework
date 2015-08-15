@@ -21,7 +21,7 @@ class Fileinfo extends \mm\Mime\Type\Magic\Adapter {
 
 	protected $_resource;
 
-	public function __construct(array $config = []) {
+	public function __construct(array $config = array()) {
 		if (isset($config['file'])) {
 			$this->_resource = finfo_open(FILEINFO_NONE, $config['file']);
 		} else {

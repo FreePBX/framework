@@ -61,10 +61,10 @@ class Apache extends \mm\Mime\Type\Glob\Adapter {
 				continue;
 			}
 			$line = preg_split('/\s+/', $line);
-			$this->_register([
+			$this->_register(array(
 				'mime_type' => array_shift($line),
 				'pattern' => $line
-			]);
+			));
 		}
 		fclose($handle);
 	}
