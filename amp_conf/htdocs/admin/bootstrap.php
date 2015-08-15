@@ -82,12 +82,18 @@ $defaults = array('skip_config' => null,
                   'include_framework_functions' =>true,
                  );
 foreach ($defaults as $key => $default_value) {
-    if (!isset($bootstrap_settings[$key])) $bootstrap_settings[$key] = $default_value;
+    if (!isset($bootstrap_settings[$key])) {
+        $bootstrap_settings[$key] = $default_value;
+    }
 }
 
 // include base functions
-if ($bootstrap_settings['include_compress']) require_once($dirname . '/libraries/compress.class.php');
-if ($bootstrap_settings['include_utility_functions']) require_once($dirname . '/libraries/utility.functions.php');
+if ($bootstrap_settings['include_compress']) {
+    require_once($dirname . '/libraries/compress.class.php');
+}
+if ($bootstrap_settings['include_utility_functions']) {
+    require_once($dirname . '/libraries/utility.functions.php');
+}
 
 $bootstrap_settings['framework_functions_included'] = false;
 if ($bootstrap_settings['include_framework_functions']) {
