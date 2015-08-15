@@ -193,35 +193,42 @@ class FreePBXInstallCommand extends Command {
 
 		//Check Asterisk (before file writes)
 		$output->write("Checking if Asterisk is running and we can talk to it as the '".$answers['user']."' user...");
-		$singleLine = exec("sudo -u " . $answers['user'] . " asterisk -rx 'core show version' 2>&1", $tmpout, $ret);
-		if ($ret != 0) {
-			$output->writeln("<error>Error!</error>");
-			$output->writeln("<error>Error communicating with Asterisk.  Ensure that Asterisk is properly installed and running as the ".$answers['user']." user</error>");
-			if(file_exists($asterisk_conf['astrundir']."/asterisk.ctl")) {
-				$info = posix_getpwuid(fileowner($asterisk_conf['astrundir']."/asterisk.ctl"));
-				$output->writeln("<error>Asterisk appears to be running as ".$info['name']."</error>");
-			} else {
-				$output->writeln("<error>Asterisk does not appear to be running</error>");
-			}
-			$output->writeln("<error>Try starting it with the './start_asterisk start' command in this directory</error>");
-			exit(1);
-		} else {
-			$astver = $tmpout[0];
-			unset($tmpout);
-
-			// Parse Asterisk version.
-			if (preg_match('/^Asterisk (?:SVN-|GIT-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*)) built/', $astver, $matches)) {
-				if ((version_compare($matches[1], "11") < 0) || version_compare($matches[1], "15", "ge")) {
-					$output->writeln("<error>Error!</error>");
-					$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
-					$output->writeln("<error>Supported Asterisk versions: 11, 12, 13, 14</error>");
-					exit(1);
-				}
-			} else {
+		$c = 0;
+		$determined = false;
+		while($c < 5) {
+			exec("sudo -u " . $answers['user'] . " asterisk -rx 'core show version' 2>&1", $tmpout, $ret);
+			if ($ret != 0) {
 				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Could not determine Asterisk version (got: " . $astver . "). Please report this.</error>");
-				//exit(1);
+				$output->writeln("<error>Error communicating with Asterisk.  Ensure that Asterisk is properly installed and running as the ".$answers['user']." user</error>");
+				if(file_exists($asterisk_conf['astrundir']."/asterisk.ctl")) {
+					$info = posix_getpwuid(fileowner($asterisk_conf['astrundir']."/asterisk.ctl"));
+					$output->writeln("<error>Asterisk appears to be running as ".$info['name']."</error>");
+				} else {
+					$output->writeln("<error>Asterisk does not appear to be running</error>");
+				}
+				$output->writeln("<error>Try starting Asterisk with the './start_asterisk start' command in this directory</error>");
+				exit(1);
+			} else {
+				$astver = $tmpout[0];
+				unset($tmpout);
+				// Parse Asterisk version.
+				if (preg_match('/^Asterisk (?:SVN-|GIT-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*)) built/', $astver, $matches)) {
+					$determined = true;
+					if ((version_compare($matches[1], "11") < 0) || version_compare($matches[1], "15", "ge")) {
+						$output->writeln("<error>Error!</error>");
+						$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
+						$output->writeln("<error>Supported Asterisk versions: 11, 12, 13, 14</error>");
+						exit(1);
+					}
+					break;
+				}
 			}
+			sleep(1);
+			$c++;
+		}
+		if(!$determined) {
+			$output->writeln("<error>Error!</error>");
+			$output->writeln("<error>Could not determine Asterisk version (got: " . $astver . "). Please report this.</error>");
 		}
 		$output->writeln("Done!");
 
