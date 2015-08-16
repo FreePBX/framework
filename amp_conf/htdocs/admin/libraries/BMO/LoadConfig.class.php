@@ -325,9 +325,11 @@ class LoadConfig {
 			}
 		}
 		// We're done, remove all the templates
-		foreach (array_keys($this->ProcessedConfig) as $key) {
-			if (strpos($key, "__TEMPLATE__") !== false) {
-				unset($this->ProcessedConfig[$key]);
+		if(is_array($this->ProcessedConfig)) {
+			foreach (array_keys($this->ProcessedConfig) as $key) {
+				if (strpos($key, "__TEMPLATE__") !== false) {
+					unset($this->ProcessedConfig[$key]);
+				}
 			}
 		}
 	}
