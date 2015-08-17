@@ -23,7 +23,7 @@ if (!isset($bootstrap_settings['amportal_conf_initialized']) || !$bootstrap_sett
 }
 
 define('AST_CONFIG_DIR', $amp_conf['ASTETCDIR']);
-define('AST_SPOOL_DIR', $asterisk_conf['astspooldir']);
+define('AST_SPOOL_DIR', $amp_conf['ASTSPOOLDIR']);
 define('AST_TMP_DIR', AST_SPOOL_DIR . '/tmp/');
 define('DEFAULT_PHPAGI_CONFIG', AST_CONFIG_DIR . '/phpagi.conf');
 
