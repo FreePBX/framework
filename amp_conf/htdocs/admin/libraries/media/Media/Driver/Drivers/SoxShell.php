@@ -8,6 +8,11 @@ class SoxShell extends \Media\Driver\Driver {
 	private $version;
 	private $mime;
 	private $extension;
+	private $optons = array(
+		"samplerate" => 48000, //-r
+		"channels" => 2, //-c
+		"bitdepth" => 16
+	);
 	public $background = false;
 
 	public function __construct($filename,$extension,$mime) {

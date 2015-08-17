@@ -149,8 +149,16 @@ $html .= '<script src="assets/js/bootstrap-table-1.8.1.js"></script>';
 
 $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-en-US.js"></script>';
 if($lang != "en_US") {
-  $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-'.str_replace("_","-",$lang).'.js"></script>';
-  $html .= "<script>$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['".str_replace("_","-",$lang)."']);</script>";
+  switch($lang) {
+    case "es_ES":
+      $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-es-SP.js"></script>';
+      $html .= "<script>$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['es-SP']);</script>";
+    break;
+    default:
+      $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-'.str_replace("_","-",$l).'.js"></script>';
+      $html .= "<script>$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['".str_replace("_","-",$l)."']);</script>";
+    break;
+  }
 }
 
 $html .= '<script src="assets/js/bootstrap-table-cookie.min.js"></script>';
@@ -163,6 +171,20 @@ $html .= '<script src="assets/js/chosen.jquery.min.js"></script>';
 $html .= '<script type="text/javascript" src="assets/js/jquery.smartWizard.js"></script>';
 
 $html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.11.4.custom.min.js"></script>';
+
+$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload.js"></script>';
+
+$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload-process.js"></script>';
+
+$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload-image.js"></script>';
+
+$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload-audio.js"></script>';
+
+$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload-video.js"></script>';
+
+$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload-validate.js"></script>';
+
+$html .= '<script type="text/javascript" src="assets/js/jquery.jplayer.min.js"></script>';
 
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below
