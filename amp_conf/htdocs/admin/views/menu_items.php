@@ -122,7 +122,6 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 		unset($items);
 		unset($_item_sort);
 	}
-	$mods[$t] .= '</li>';
 	uksort($mods,'_menu_sort');
 	$out .= implode($mods);
 
