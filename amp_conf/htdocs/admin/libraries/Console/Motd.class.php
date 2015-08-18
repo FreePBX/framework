@@ -36,11 +36,11 @@ class Motd extends Command {
 		if($iflist){
 			$rows = array();
 			foreach($iflist as $if => $info){
-				$rows[] = array($if,$info['mac'],$info['ipv4'],$info['ipv6']);
+				$rows[] = array($if,$info['mac'],$info['ip']);
 			}
 			$table = new Table($output);
 			$table
-				->setHeaders(array(_('Interface'), _('MAC Address'), _('IP Address'), _('IPv6 Address')))
+				->setHeaders(array(_('Interface'), _('MAC Address'), _('IP Addresses')))
 				->setRows($rows);
 			$table->render();	
 		}else{
@@ -51,7 +51,8 @@ class Motd extends Command {
 		$output->writeln("");
 		$output->writeln(_("Please note most tasks should be handled through the GUI."));
 		$output->writeln(_("You can access the GUI by typing one of the above IPs in to your web browser."));
-		$output->writeln(_("For support please visit: ") . $this->supporturl);
+		$output->writeln(_("For support please visit: "));
+		$output->writeln("    ".$this->supporturl);
 		$output->writeln("");
 	}
 	private function listIFS(){
@@ -69,7 +70,7 @@ class Motd extends Command {
 			$MAC = strtoupper($MAC);
 			$ipv6 = trim(shell_exec("/sbin/ip -o addr show " . $if ." | grep -Po 'inet6 \K[\da-f:]+'"));
 			$ipv4 = trim(shell_exec("/sbin/ip -o addr show " . $if ." | grep -Po 'inet \K[\d.]+'"));
-			$iflist[$if] = array('mac' => $MAC, 'ipv4' => $ipv4, 'ipv6' => $ipv6);
+			$iflist[$if] = array('mac' => $MAC, 'ip' => "$ipv4\n$ipv6");
 		}
 		return $iflist;
 	}	
