@@ -14,6 +14,7 @@ class SoxShell extends \Media\Driver\Driver {
 		"bitdepth" => 16
 	);
 	public $background = false;
+	static $supported;
 
 	public function __construct($filename,$extension,$mime) {
 		$this->loadTrack($filename);
@@ -23,6 +24,9 @@ class SoxShell extends \Media\Driver\Driver {
 	}
 
 	public static function supportedCodecs(&$formats) {
+		if(!empty(self::$supported)) {
+			return self::$supported;
+		}
 		$process = new Process('sox -h');
 		$process->run();
 		if(preg_match("/AUDIO FILE FORMATS: (.*)/",$process->getOutput(),$matches)) {
@@ -31,17 +35,22 @@ class SoxShell extends \Media\Driver\Driver {
 				$formats["in"][$codec] = $codec;
 				$formats["out"][$codec] = $codec;
 			}
+			$formats["in"]["oga"] = "oga";
+			$formats["out"]["oga"] = "oga";
 		} else {
 			$formats["in"]["ogg"] = "ogg";
 			$formats["in"]["oga"] = "oga";
 			$formats["out"]["ogg"] = "ogg";
 			$formats["out"]["oga"] = "oga";
 		}
-		return $formats;
+		self::$supported = $formats;
+		return self::$supported;
 	}
 
 	public static function isCodecSupported($codec,$direction) {
-		return in_array($codec,array("ogg","oga"));
+		$formats = array();
+		$formats = self::supportedCodecs($formats);
+		return in_array($codec,$formats[$direction]);
 	}
 
 	public static function installed() {

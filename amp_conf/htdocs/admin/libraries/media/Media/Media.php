@@ -7,7 +7,6 @@ class Media {
 	private $extension;
 	private $mime;
 	private $driver;
-	private $temp; //temp file to unset on convert
 	private $tempDir;
 	private $drivers = array();
 	public $image;
@@ -119,12 +118,6 @@ class Media {
 	 * @return object           New Media Object
 	 */
 	public function convert($newFilename) {
-		$extension = Type::guessExtension($newFilename);
-		$parts = pathinfo($newFilename);
-		if(empty($extension) || $extension == "bin") {
-			$extension = $parts['extension'];
-		}
-		$mime = Type::guessType($newFilename);
 		//generate intermediary file
 		foreach($this->getDrivers() as $driver) {
 			$class = "Media\\Driver\\Drivers\\".$driver;
@@ -132,29 +125,91 @@ class Media {
 				$driver = new $class($this->track,$this->extension,$this->mime);
 				$ts = time().rand(0,1000);
 				$driver->convert($this->tempDir."/temp.".$ts.".wav","wav","audio/x-wav");
-				$this->track = $this->temp = $this->tempDir."/temp.".$ts.".wav";
-				$this->extension = "wav";
-				$this->mime = "audio/x-wav";
+				$intermediary['path'] = $this->tempDir."/temp.".$ts.".wav";
+				$intermediary['extension'] = "wav";
+				$intermediary['mime'] = "audio/x-wav";
 				break;
 			}
 		}
 		//generate wav form png
 		if(isset($this->image)) {
-			$waveform = new \Jasny\Audio\Waveform($this->temp, array("width" => 700));
+			$waveform = new \Jasny\Audio\Waveform($intermediary['path'], array("width" => 700));
 			$waveform->output("png",$this->image);
 		}
 
+		$extension = Type::guessExtension($newFilename);
+		$parts = pathinfo($newFilename);
+		if(empty($extension) || $extension == "bin") {
+			$extension = $parts['extension'];
+		}
+		$mime = Type::guessType($newFilename);
 		//generate final file
 		foreach($this->getDrivers() as $driver) {
 			$class = "Media\\Driver\\Drivers\\".$driver;
 			if($class::installed() && $class::isCodecSupported($extension,"out")) {
-				$driver = new $class($this->track,$this->extension,$this->mime);
+				$driver = new $class($intermediary['path'],$intermediary['extension'],$intermediary['mime']);
 				$driver->convert($newFilename,$extension,$mime);
 				break;
 			}
 		}
-		if(!empty($this->temp) && file_exists($this->temp)) {
-			unlink($this->temp);
+		if(!empty($intermediary['path']) && file_exists($intermediary['path'])) {
+			unlink($intermediary['path']);
+			unset($intermediary);
+		}
+
+		return file_exists($newFilename);
+	}
+
+	/**
+	 * Convert the track using the best possible means
+	 * @param  string $filename The new filename
+	 * @return object           New Media Object
+	 */
+	public function convertMultiple($newFilename,$codecs=array()) {
+		if(empty($codecs)) {
+			return false;
+		}
+		//generate intermediary file
+		foreach($this->getDrivers() as $driver) {
+			$class = "Media\\Driver\\Drivers\\".$driver;
+			if($class::installed() && $class::isCodecSupported($this->extension,"in")) {
+				$driver = new $class($this->track,$this->extension,$this->mime);
+				$ts = time().rand(0,1000);
+				$driver->convert($this->tempDir."/temp.".$ts.".wav","wav","audio/x-wav");
+				$intermediary['path'] = $this->tempDir."/temp.".$ts.".wav";
+				$intermediary['extension'] = "wav";
+				$intermediary['mime'] = "audio/x-wav";
+				break;
+			}
+		}
+		//generate wav form png
+		if(isset($this->image)) {
+			$waveform = new \Jasny\Audio\Waveform($intermediary['path'], array("width" => 700));
+			$waveform->output("png",$this->image);
+		}
+
+		//generate final file
+		foreach($codecs as $codec) {
+			$parts = pathinfo($newFilename);
+			$base = dirname($newFilename);
+			$file = $base."/".$parts['filename'].".".$codec;
+			$extension = Type::guessExtension($file);
+			if(empty($extension) || $extension == "bin") {
+				$extension = $codec;
+			}
+			$mime = Type::guessType($file);
+			foreach($this->getDrivers() as $driver) {
+				$class = "Media\\Driver\\Drivers\\".$driver;
+				if($class::installed() && $class::isCodecSupported($extension,"out")) {
+					$driver = new $class($intermediary['path'],$intermediary['extension'],$intermediary['mime']);
+					$driver->convert($file,$extension,$mime);
+					break;
+				}
+			}
+		}
+		if(!empty($intermediary['path']) && file_exists($intermediary['path'])) {
+			unlink($intermediary['path']);
+			unset($intermediary);
 		}
 
 		return file_exists($newFilename);
