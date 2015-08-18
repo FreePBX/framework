@@ -172,17 +172,11 @@ $html .= '<script type="text/javascript" src="assets/js/jquery.smartWizard.js"><
 
 $html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.11.4.custom.min.js"></script>';
 
+$html .= '<script type="text/javascript" src="assets/js/jquery.iframe-transport.js"></script>';
+
 $html .= '<script type="text/javascript" src="assets/js/jquery.fileupload.js"></script>';
 
 $html .= '<script type="text/javascript" src="assets/js/jquery.fileupload-process.js"></script>';
-
-$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload-image.js"></script>';
-
-$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload-audio.js"></script>';
-
-$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload-video.js"></script>';
-
-$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload-validate.js"></script>';
 
 $html .= '<script type="text/javascript" src="assets/js/jquery.jplayer.min.js"></script>';
 

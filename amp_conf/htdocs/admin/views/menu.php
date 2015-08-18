@@ -38,7 +38,7 @@ global $_item_sort;
 				<?php if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) { ?>
 					<?php if($amp_conf['SHOWLANGUAGE']) { ?>
 						<li class="dropdown">
-							<button class="dropdown-toggle nav-button" data-toggle="dropdown"><i class="fa fa-language"></i></button>
+							<button class="btn dropdown-toggle nav-button" data-toggle="dropdown"><i class="fa fa-language"></i></button>
 							<ul id="fpbx_lang" class="dropdown-menu" role="menu">
 								<?php foreach ($language as $langKey => $lang) {
 										$class = '';
@@ -51,7 +51,7 @@ global $_item_sort;
 						</li>
 					<?php } ?>
 					<li class="dropdown">
-						<button class="dropdown-toggle nav-button" data-toggle="dropdown"><i id="settings-cog" class="fa fa-cog"></i></button>
+						<button class="btn dropdown-toggle nav-button" data-toggle="dropdown"><i id="settings-cog" class="fa fa-cog"></i></button>
 						<ul class="dropdown-menu" role="menu">
 							<li role="presentation" ><a><?php echo _('Hello, ') . (isset($_SESSION['AMP_user']->username) ? $_SESSION['AMP_user']->username : 'ERROR'); ?></a></li>
 							<li role="presentation" class="divider"></li>
