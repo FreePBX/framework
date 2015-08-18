@@ -59,18 +59,15 @@ class Chown extends Command {
 			$args = $input->getArgument('args');
 			$this->moduleName = !empty($this->moduleName) ? $this->moduleName : strtolower($args[0]);
 		}
+		// Always update hooks before running a Chown
+		\FreePBX::Hooks()->updateBMOHooks();
 		if (!empty($this->moduleName) && $this->moduleName != 'framework') {
-			try {
-				\FreePBX::Hooks()->updateBMOHooks();
-			}catch(\Exception $e) {}
 			$mod = $this->moduleName;
 			$this->modfiles[$mod][] = array('type' => 'rdir',
 					'path' => $AMPWEBROOT.'/admin/modules/'.$mod,
 					'perms' => 0755,
 				);
-			try {
-				$hooks = $this->fwcChownFiles();
-			}catch(\Exception $e) {}
+			$hooks = $this->fwcChownFiles();
 			$current = isset($hooks[ucfirst($mod)]) ? $hooks[ucfirst($mod)] : false;
 			if(is_array($current)){
 				$this->modfiles = array_merge_recursive($this->modfiles,$current);
