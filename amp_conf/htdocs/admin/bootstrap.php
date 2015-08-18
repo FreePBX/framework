@@ -18,6 +18,15 @@
  *
  * bootstrap_settings['freepbx_auth']          - true (default) - authorize, false - bypass authentication
  *
+ * bootstrap_settings['include_compress']      - true (default) - include compress class
+ *
+ * bootstrap_settings['include_utility_functions'] - true (default) - include utility functions.
+ *
+ * bootstrap_settings['include_framework_functions'] - true (default) - include the framework functions which are unavailable elsewhere
+ *
+ * bootstrap_settings['freepbx_auth']          - true (default) - authorize, false - bypass authentication
+ *
+ *
  * $restrict_mods: false means include all modules functions.inc.php, true skip all modules
  *                 array of hashes means each module where there is a hash
  *                 e.g. $restrict_mods = array('core' => true, 'dashboard' => true)
@@ -63,18 +72,28 @@ if (isset($bootstrap_settings['bootstrapped'])) {
   $bootstrap_settings['bootstrapped'] = true;
 }
 
+// Legacy setting methods
 if (!isset($bootstrap_settings['skip_astman'])) {
   $bootstrap_settings['skip_astman'] = isset($skip_astman) ? $skip_astman : false;
 }
-$bootstrap_settings['astman_config'] = isset($bootstrap_settings['astman_config']) ? $bootstrap_settings['astman_config'] : null;
-$bootstrap_settings['astman_options'] = isset($bootstrap_settings['astman_options']) && is_array($bootstrap_settings['astman_options']) ? $bootstrap_settings['astman_options'] : array();
-$bootstrap_settings['astman_events'] = isset($bootstrap_settings['astman_events']) ? $bootstrap_settings['astman_events'] : 'off';
-
-$bootstrap_settings['freepbx_error_handler'] = isset($bootstrap_settings['freepbx_error_handler']) ? $bootstrap_settings['freepbx_error_handler'] : true;
-$bootstrap_settings['freepbx_auth'] = isset($bootstrap_settings['freepbx_auth']) ? $bootstrap_settings['freepbx_auth'] : true;
-$bootstrap_settings['cdrdb'] = isset($bootstrap_settings['cdrdb']) ? $bootstrap_settings['cdrdb'] : false;
-
 $restrict_mods = isset($restrict_mods) ? $restrict_mods : false;
+
+// Set defaults for unset settings
+$bootstrap_defaults = array('skip_config' => null,
+	'astman_options' => array(),
+	'astman_events' => 'off',
+	'freepbx_error_handler' => true,
+	'freepbx_auth' => true,
+	'cdrdb' => false,
+	'include_compress' => true,
+	'include_utility_functions' => true,
+	'include_framework_functions' =>true,
+);
+foreach ($bootstrap_defaults as $key => $default_value) {
+	if (!isset($bootstrap_settings[$key])) {
+		$bootstrap_settings[$key] = $default_value;
+	}
+}
 
 // include base functions
 if(!class_exists("Composer\Autoload\ClassLoader")) {
@@ -83,8 +102,10 @@ if(!class_exists("Composer\Autoload\ClassLoader")) {
 
 $bootstrap_settings['framework_functions_included'] = false;
 //load all freepbx functions
-require_once($dirname . '/functions.inc.php');
-$bootstrap_settings['framework_functions_included'] = true;
+if ($bootstrap_settings['include_framework_functions']) {
+	require_once($dirname . '/functions.inc.php');
+	$bootstrap_settings['framework_functions_included'] = true;
+}
 
 //now that its been included, use our own error handler as it tends to be much more verbose.
 if ($bootstrap_settings['freepbx_error_handler'] && empty($bootstrap_settings['fix_zend'])) {
