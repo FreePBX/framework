@@ -14,7 +14,9 @@ if (!defined('PHP_VERSION_ID')) {
 spl_autoload_register('fpbx_framework_autoloader');
 
 //css minimizer class
-require_once($dirname . '/libraries/compress.class.php');
+if ($bootstrap_settings['include_compress']) {
+  require_once($dirname . '/libraries/compress.class.php');
+}
 
 //collation services
 require_once($dirname . '/libraries/core_collator.php');
@@ -23,7 +25,9 @@ require_once($dirname . '/libraries/core_collator.php');
 require_once($dirname . '/libraries/freepbx_conf.class.php');
 
 //freepbx helpers for debugging/logging/comparing
-require_once($dirname . '/libraries/utility.functions.php');
+if ($bootstrap_settings['include_utility_functions']) {
+  require_once($dirname . '/libraries/utility.functions.php');
+}
 
 //----------include function files----------
 
