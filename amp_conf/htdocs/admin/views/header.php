@@ -68,7 +68,10 @@ $html .= '<script type="text/javascript" src="assets/js/outdatedbrowser.min.js">
 $html .= "<script>var firsttypeofselector = true</script>";
 
 if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
-	//shiv
+	//shivs/shims/polyfills for crappy IE
+	$html .= '<!--[if lte IE 9]>';
+	$html .= '<script src="assets/js/XMLHttpRequest.js"></script>';
+	$html .= '<![endif]-->';
 	$html .= '<!--[if lt IE 9]>';
 	$html .= '<script src="assets/js/html5shiv.js"></script>';
 	$html .= '<script src="assets/js/respond.min.js"></script>';

@@ -180,6 +180,8 @@ $html .= '<script type="text/javascript" src="assets/js/jquery.fileupload-proces
 
 $html .= '<script type="text/javascript" src="assets/js/jquery.jplayer.min.js"></script>';
 
+$html .= '<script type="text/javascript" src="assets/js/Sortable.min.js"></script>';
+
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below
 if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
@@ -189,15 +191,13 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 } else {
 	/*
 	 * files below:
-	 * XMLHttpRequest.js - Standard-compliant cross-browser XMLHttpRequest object implementation (https://github.com/ilinsky/xmlhttprequest)
 	 * menu.js - The FreePBX Top Navigation Bar, utilizes jqueryUI
 	 * jquery.hotkeys.js - a plug-in that lets you easily add and remove handlers for keyboard events anywhere in your code supporting almost any key combination. (https://github.com/jeresig/jquery.hotkeys)
 	 * jquery.cookie.js - for setting cookies (https://github.com/carhartl/jquery-cookie)
 	 * script.legacy.js - freepbx library
 	 * tabber-minimized.js - sed for module admin (hiding content)
 	 */
-	$html .= '<script type="text/javascript" src="assets/js/XMLHttpRequest.js' . $version_tag . '"></script>'
-		. '<script type="text/javascript" src="assets/js/jquery.hotkeys.js' . $version_tag . '"></script>'
+	$html .= '<script type="text/javascript" src="assets/js/jquery.hotkeys.js' . $version_tag . '"></script>'
     . '<script type="text/javascript" src="assets/js/jquery.numeric.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/jquery.cookie.js' . $version_tag . '"></script>'
 	 	. '<script type="text/javascript" src="assets/js/script.legacy.js' . $version_tag . '"></script>'
