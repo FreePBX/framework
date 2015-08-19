@@ -32,6 +32,9 @@ class SoxShell extends \Media\Driver\Driver {
 		if(preg_match("/AUDIO FILE FORMATS: (.*)/",$process->getOutput(),$matches)) {
 			$codecs = explode(" ",$matches[1]);
 			foreach($codecs as $codec) {
+				if(!in_array($codec,array('oga','ogg', 'aiff', 'flac'))) {
+					continue;
+				}
 				$formats["in"][$codec] = $codec;
 				$formats["out"][$codec] = $codec;
 			}

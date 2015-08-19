@@ -134,7 +134,7 @@ class Media {
 		//generate wav form png
 		if(isset($this->image)) {
 			$waveform = new \Jasny\Audio\Waveform($intermediary['path'], array("width" => 700));
-			$waveform->output("png",$this->image);
+			$waveform->save("png",$this->image);
 		}
 
 		$extension = Type::guessExtension($newFilename);
@@ -185,7 +185,7 @@ class Media {
 		//generate wav form png
 		if(isset($this->image)) {
 			$waveform = new \Jasny\Audio\Waveform($intermediary['path'], array("width" => 700));
-			$waveform->output("png",$this->image);
+			$waveform->save("png",$this->image);
 		}
 
 		//generate final file

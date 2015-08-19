@@ -33,22 +33,24 @@ class AsteriskShell extends \Media\Driver\Driver {
 		if(!empty(self::$supported)) {
 			return self::$supported;
 		}
-		exec("asterisk -rx 'core show codecs audio'",$lines,$ret);
-		$c = array();
+		exec("asterisk -rx 'core show file formats'",$lines,$ret);
 		foreach($lines as $line) {
-			if(preg_match('/\d{1,6}\s*audio\s*([a-z0-9]*)\s/i',$line,$matches)) {
-				$codec = trim($matches[1]);
-				if(in_array($codec,array('none','testlaw','g729'))) {
-					continue;
+			if(preg_match('/([a-z0-9\|]*)$/i',$line,$matches)) {
+				$l = trim($matches[1]);
+				$codecs = explode("|",$matches[1]);
+				foreach($codecs as $codec) {
+					if(!in_array($codec,array('wav', 'gsm', 'g722', 'alaw', 'ulaw', 'sln'))) {
+						continue;
+					}
+					$formats["in"][$codec] = $codec;
+					$formats["out"][$codec] = $codec;
 				}
-				$formats["in"][$codec] = $codec;
-				$formats["out"][$codec] = $codec;
 			}
 		}
 		$lines = null;
 		exec("asterisk -rx 'g729 show licenses'",$lines,$ret);
 		foreach($lines as $line) {
-			if(!preg_match('/licensed channels are currently in use/',$data['data'])) {
+			if(preg_match('/licensed channels are currently in use/',$line)) {
 				$formats["in"]['g729'] = 'g729';
 				$formats["out"]['g729'] = 'g729';
 			}

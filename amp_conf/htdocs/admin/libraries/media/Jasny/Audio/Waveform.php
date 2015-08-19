@@ -268,15 +268,14 @@ class Waveform
         return imagecolorallocatealpha($im, $red, $green, $blue, $alpha);
     }
 
-
     /**
      * Output the generated waveform
      *
      * @param string $format  Options: png or json
      */
-    public function output($format='png',$filename='')
+    public function save($format='png',$filename='')
     {
-        $fn = "output$format";
+        $fn = "save$format";
         if (!method_exists($this, $fn)) throw new \Exception("Unknown format '$format'");
 
         $this->$fn($filename);
@@ -285,9 +284,43 @@ class Waveform
     /**
      * Output the generated waveform as PNG
      */
-    protected function outputPng($filename)
+    protected function savePng($filename)
     {
         $im = $this->plot();
         imagepng($im,$filename);
+    }
+
+    /**
+     * Output the generated waveform
+     *
+     * @param string $format  Options: png or json
+     */
+    public function output($format='png')
+    {
+        $fn = "output$format";
+        if (!method_exists($this, $fn)) throw new \Exception("Unknown format '$format'");
+
+        $this->$fn();
+    }
+
+    /**
+     * Output the generated waveform as PNG
+     */
+    protected function outputPng()
+    {
+        $im = $this->plot();
+        imagepng($im);
+    }
+
+    /**
+     * Output the generated waveform as JSON
+     */
+    protected function outputJson()
+    {
+        return json_encode(array(
+            'length'=>$this->getLength(),
+            'level'=>$this->getLevel(),
+            'samples'=>$this->getSamples()
+        ));
     }
 }
