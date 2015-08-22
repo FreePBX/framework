@@ -27,7 +27,7 @@ class LameShell extends \Media\Driver\Driver {
 	}
 
 	public static function isCodecSupported($codec,$direction) {
-		return in_array($codec,array("mp3"));
+		return $direction == "out" && in_array($codec,array("mp3"));
 	}
 
 	public static function installed() {
