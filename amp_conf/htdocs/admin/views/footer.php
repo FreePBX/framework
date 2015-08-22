@@ -26,7 +26,7 @@ if ($footer_content) {
 if (!$covert && !empty($action_bar)) {
 	$html .= '<div id="action-bar">';
   $html .= '<div id="action-buttons">';
-  $html .= '<button id="action-bar-hide"><i class="fa fa-angle-double-right"></i></button>';
+  $html .= '<button id="action-bar-hide" class="btn"><i class="fa fa-angle-double-right"></i></button>';
 	foreach($action_bar as $b){
 		$temp = new actionButton();
 		$temp->setParams($b);
