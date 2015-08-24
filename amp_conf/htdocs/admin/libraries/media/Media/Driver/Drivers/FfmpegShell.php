@@ -94,6 +94,9 @@ class FfmpegShell extends \Media\Driver\Driver {
 					}
 				}
 			break;
+			default:
+				throw new \Exception("Invalid mime type of $mime sent to LAME");
+			break;
 		}
 	}
 }
