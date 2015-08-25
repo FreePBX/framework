@@ -108,6 +108,13 @@ class Media {
 	}
 
 	public function getHTML5File($filename, $download=false) {
+		//Session write close because Safari slams us with requests
+		//asking for 2 bytes before proceeding to then request the full file.
+		//As is the case with PHP sessions are locked until the previous session
+		//has completed. When the server is slammed multiple requests are
+		//blocked, therefore we always close the session before streaming the file
+		//http://konrness.com/php5/how-to-prevent-blocking-php-requests/
+		session_write_close();
 		$filename = $this->html5Path ."/".$filename;
 		$format = pathinfo($filename, PATHINFO_EXTENSION);
 		if (is_file($filename)){
