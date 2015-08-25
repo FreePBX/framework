@@ -91,6 +91,7 @@ class Media {
 		$name = $path_parts['filename'];
 		$formats = $f = array("mp3" => "mp3","wav" => "wav","ogg" => "ogg","mp4" => "mp4");
 		$file = $dir."/".$name."-".$md5;
+		$file = str_replace(".","_",$file);
 		$converted = array();
 		foreach($f as $format) {
 			if(file_exists($file.".".$format)) {
