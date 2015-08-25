@@ -125,26 +125,6 @@ class Media {
 				case "m4a":
 					$ct = "audio/mp4";
 				break;
-				case "ulaw":
-					$ct = "audio/basic";
-					$format = "wav";
-				break;
-				case "alaw":
-					$ct = "audio/x-alaw-basic";
-					$format = "wav";
-				break;
-				case "sln":
-					$ct = "audio/x-wav";
-					$format = "wav";
-				break;
-				case "gsm":
-					$ct = "audio/x-gsm";
-					$format = "wav";
-				break;
-				case "g729":
-					$ct = "audio/x-g729";
-					$format = "wav";
-				break;
 				case "wav":
 					$ct = "audio/wav";
 				break;
@@ -153,6 +133,9 @@ class Media {
 					$ct = "audio/ogg";
 					$format = "oga";
 				break;
+				default:
+					throw new \Exception("I have no idea was this file is: $filename");
+				break;
 			}
 			header("Content-type: ".$ct); // change mimetype
 			if (!$download && isset($_SERVER['HTTP_RANGE'])){ // do it for any device that supports byte-ranges not only iPhone
@@ -160,6 +143,7 @@ class Media {
 				$length = $size;           // Content length
 				$start  = 0;               // Start byte
 				$end    = $size - 1;       // End byte
+
 				// Now that we've gotten so far without errors we send the accept range header
 				/* At the moment we only support single ranges.
 				* Multiple ranges requires some more work to ensure it works correctly
