@@ -118,8 +118,26 @@ class Media {
 	 * @return object           New Media Object
 	 */
 	public function convert($newFilename) {
+		$skipAsterisk = false;
+		//Asterisk can only deal with 8000k 1channel audio
+		if($this->extension == "wav") {
+			$fp = fopen($this->track, 'r');
+			if (fread($fp,4) == "RIFF") {
+				fseek($fp, 20);
+				$rawheader = fread($fp, 16);
+				$headers = unpack('vtype/vchannels/Vsamplerate/Vbytespersec/valignment/vbits',$rawheader);
+				if($headers['channels'] != 1 || $headers['samplerate'] != 8000) {
+					$skipAsterisk = true;
+				}
+			} else {
+				$skipAsterisk = true;
+			}
+		}
 		//generate intermediary file
 		foreach($this->getDrivers() as $driver) {
+			if($skipAsterisk && $driver == "AsteriskShell") {
+				continue;
+			}
 			$class = "Media\\Driver\\Drivers\\".$driver;
 			if($class::installed() && $class::isCodecSupported($this->extension,"in")) {
 				$driver = new $class($this->track,$this->extension,$this->mime);
@@ -169,8 +187,26 @@ class Media {
 		if(empty($codecs)) {
 			return false;
 		}
+		$skipAsterisk = false;
+		//Asterisk can only deal with 8000k 1channel audio
+		if($this->extension == "wav") {
+			$fp = fopen($this->track, 'r');
+			if (fread($fp,4) == "RIFF") {
+				fseek($fp, 20);
+				$rawheader = fread($fp, 16);
+				$headers = unpack('vtype/vchannels/Vsamplerate/Vbytespersec/valignment/vbits',$rawheader);
+				if($headers['channels'] != 1 || $headers['samplerate'] != 8000) {
+					$skipAsterisk = true;
+				}
+			} else {
+				$skipAsterisk = true;
+			}
+		}
 		//generate intermediary file
 		foreach($this->getDrivers() as $driver) {
+			if($skipAsterisk && $driver == "AsteriskShell") {
+				continue;
+			}
 			$class = "Media\\Driver\\Drivers\\".$driver;
 			if($class::installed() && $class::isCodecSupported($this->extension,"in")) {
 				$driver = new $class($this->track,$this->extension,$this->mime);
