@@ -361,6 +361,9 @@ class Notifications {
 		if (!empty($amp_conf["NOTIFICATION_IGNORE_{$module}_{$id}"])) {
 			return null;
 		}
+		if(!class_exists('modgettext',false)) {
+			include dirname(__DIR__)."/modgettext.class.php";
+		}
 		\modgettext::push_textdomain(strtolower($module));
 
 		if ($this->not_loaded) {
