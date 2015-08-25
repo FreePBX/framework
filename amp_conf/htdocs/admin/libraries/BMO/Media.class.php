@@ -27,9 +27,13 @@ class Media {
 		}
 		$this->FreePBX = $freepbx;
 
-		$dir = $this->FreePBX->Config->get("ASTVARLIBDIR") . "/fpbx_playback";
+		$dir = $this->FreePBX->Config->get("ASTVARLIBPLAYBACK");
 		if(!file_exists($dir)) {
 			mkdir($dir);
+			$ampowner = $this->FreePBX->Config->get('AMPASTERISKWEBUSER');
+			$ampgroup =  $ampowner != $this->FreePBX->Config->get('AMPASTERISKUSER') ? $this->FreePBX->Config->get('AMPASTERISKGROUP') : $ampowner;
+			chown($dir, $ampowner);
+			chgrp($dir, $ampgroup);
 		}
 		$this->html5Path = $dir;
 	}

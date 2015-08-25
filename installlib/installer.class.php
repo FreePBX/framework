@@ -873,6 +873,16 @@ class Installer {
 	'level' => 4,
 	);
 
+	$settings[$category]['ASTVARLIBPLAYBACK'] = array(
+	'value' => '/var/lib/asterisk/playback',
+	'options' => '',
+	'name' => 'Browser Playback Cache Directory',
+	'description' => 'This is the default directory for HTML5 releated playback files',
+	'readonly' => 1,
+	'type' => CONF_TYPE_DIR,
+	'level' => 4,
+	);
+
 	$settings[$category]['AMPCGIBIN'] = array(
 	'value' => '/var/www/cgi-bin ',
 	'options' => '',
