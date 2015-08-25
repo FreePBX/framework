@@ -97,7 +97,7 @@ class SoxShell extends \Media\Driver\Driver {
 	}
 
 	public function convert($newFilename,$extension,$mime) {
-		$process = new Process('sox '.$this->track.' '.$newFilename);
+		$process = new Process('sox '.$this->track.' -r 8000 -c 1 '.$newFilename);
 		if(!$this->background) {
 			$process->run();
 			if (!$process->isSuccessful()) {
