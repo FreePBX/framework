@@ -309,7 +309,7 @@ class GPG {
 		if ($out['exitcode'] == 0) {
 			return $output;
 		}
-		throw new Exception(sprintf_("Unable to strip signature - result was: %s"),json_encode($out));
+		throw new Exception(sprintf(_("Unable to strip signature - result was: %s"),json_encode($out)));
 	}
 
 	/**
