@@ -1930,3 +1930,22 @@ $('.freepbx-navbar').on('hide.bs.dropdown', function () {
 	console.log("no");
 });
 */
+function fpbxToast(message,title,level){
+	level = typeof level !== 'undefined'?level:'info';
+	title = typeof title !== 'undefined'?title:'';
+	switch (level) {
+		case 'info':
+			toastr.info(message,title);
+		break;
+		case 'warning':
+			toastr.warning(message,title);
+		break;
+		case 'success':
+			toastr.success(message,title);
+		break;
+		case 'error':
+			toastr.error(message,title);
+		break;
+
+	}
+}
