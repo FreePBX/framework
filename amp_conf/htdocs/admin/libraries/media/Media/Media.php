@@ -1,7 +1,11 @@
 <?php
 namespace Media;
 use mm\Mime\Type;
-
+/**
+ * FreePBX multi-audio convert engine
+ * This class will determine the best converting engine to use
+ * for cross converting audio files
+ */
 class Media {
 	private $track;
 	private $extension;
@@ -57,28 +61,10 @@ class Media {
 		$this->mime = Type::guessType($this->track);
 	}
 
-	private function setupDrivers() {
-
-	}
-
 	/**
-	 * Get Stats of an audio file
-	 * @return array The stats as an array
+	 * Get all known drivers
+	 * @return array Array of driver names
 	 */
-	public function getStats() {
-
-	}
-
-	/**
-	 * Get the file comments (annotations)
-	 *
-	 * @param boolean $parse   Parse and return a value object
-	 * @return string|object
-	 */
-	public function getAnnotations($parse=false) {
-
-	}
-
 	private function getDrivers() {
 		if(!empty($this->drivers)) {
 			return $this->drivers;
@@ -89,6 +75,10 @@ class Media {
 		return $this->drivers;
 	}
 
+	/**
+	 * Get all supported formats
+	 * @return array Array of supported audio formats
+	 */
 	public static function getSupportedFormats() {
 		$formats = array(
 			"out" => array(),
@@ -249,20 +239,5 @@ class Media {
 		}
 
 		return file_exists($newFilename);
-	}
-
-	/**
-	 * Combine two audio files
-	 *
-	 * @param string       $method  'concatenate', 'merge', 'mix', 'mix-power', 'multiply', 'sequence'
-	 * @param string|Track $in      File to mix with
-	 * @param string       $out     New filename
-	 * @return Track
-	 */
-	public function combine($method, $in, $out) {
-			if ($in instanceof self) {
-				$in = $in->filename;
-			}
-			return new static($out);
 	}
 }

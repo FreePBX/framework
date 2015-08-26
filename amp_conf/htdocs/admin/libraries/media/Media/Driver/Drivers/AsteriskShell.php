@@ -18,6 +18,10 @@ class AsteriskShell extends \Media\Driver\Driver {
 		$this->extension = $extension;
 	}
 
+	/**
+	 * Check if Asterisk is installed
+	 * @return string The version
+	 */
 	public static function installed() {
 		$process = new Process('asterisk -V');
 		$process->run();
@@ -29,6 +33,11 @@ class AsteriskShell extends \Media\Driver\Driver {
 		return true;
 	}
 
+	/**
+	 * Query Asterisk for the supported formats
+	 * @param  array $formats Previously supported formats
+	 * @return array          Array of formats
+	 */
 	public static function supportedCodecs(&$formats) {
 		if(!empty(self::$supported)) {
 			return self::$supported;
@@ -63,12 +72,22 @@ class AsteriskShell extends \Media\Driver\Driver {
 		return self::$supported;
 	}
 
+	/**
+	 * Check to see if a single format is supported by Asterisk
+	 * @param  string  $codec     The codec
+	 * @param  string  $direction The direction: in or out
+	 * @return boolean            If it's supported or not
+	 */
 	public static function isCodecSupported($codec,$direction) {
 		$formats = array();
 		$formats = self::supportedCodecs($formats);
 		return in_array($codec, $formats[$direction]);
 	}
 
+	/**
+	 * Load path, make sure it's valid
+	 * @param  string $track The full path to the file
+	 */
 	public function loadTrack($track) {
 		if(empty($track)) {
 			throw new \Exception("A track must be supplied");
@@ -82,6 +101,10 @@ class AsteriskShell extends \Media\Driver\Driver {
 		$this->track = $track;
 	}
 
+	/**
+	 * Get the version of Asterisk
+	 * @return string The version
+	 */
 	public function getVersion() {
 		$process = new Process('asterisk -V');
 		$process->run();
@@ -98,6 +121,12 @@ class AsteriskShell extends \Media\Driver\Driver {
 		}
 	}
 
+	/**
+	 * Convert file to format using Asterisk
+	 * @param  string $newFilename The full path to the new file
+	 * @param  string $extension   The new extension
+	 * @param  string $mime        Mime type
+	 */
 	public function convert($newFilename,$extension,$mime) {
 		$process = new Process("asterisk -rx 'file convert ".$this->track." ".$newFilename."'");
 		if(!$this->background) {

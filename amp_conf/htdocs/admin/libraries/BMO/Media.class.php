@@ -2,7 +2,6 @@
 namespace FreePBX;
 /**
  * Temp, replace later
- * @var [type]
  */
 spl_autoload_register(function ($class) {
 	$path = str_replace("\\","/",$class);
@@ -15,6 +14,11 @@ spl_autoload_register(function ($class) {
 	}
 });
 
+/**
+ * Media Class for FreePBX
+ * Deals with converting to various formats
+ * Also deals with generating HTML5 formats
+ */
 class Media {
 	private $file;
 	private $path;
@@ -38,6 +42,10 @@ class Media {
 		$this->html5Path = $dir;
 	}
 
+	/**
+	 * Get supported HTML5 formats
+	 * @return array Return array of formats
+	 */
 	public function getSupportedHTML5Formats() {
 		$formats = $this->getSupportedFormats();
 		$html5 = array("webma", "oga", "wav", "mp3", "m4a");
@@ -50,6 +58,10 @@ class Media {
 		return $final;
 	}
 
+	/**
+	 * Get all supported formats
+	 * @return array Array of all supported formats
+	 */
 	public function getSupportedFormats() {
 		if(!empty($this->supported)) {
 			return $this->supported;
@@ -58,6 +70,10 @@ class Media {
 		return $this->supported;
 	}
 
+	/**
+	 * Load file
+	 * @param  string $filename Full path to audio file
+	 */
 	public function load($filename) {
 		if(!file_exists($filename)) {
 			throw new \Exception(_("File does not exist"));
@@ -66,6 +82,10 @@ class Media {
 		$this->file = new \Media\Media($filename);
 	}
 
+	/**
+	 * Generate an image from this audio file
+	 * @param  string $image Full path to image
+	 */
 	public function generateImage($image) {
 		if(!isset($this->file)) {
 			throw new \Exception("You must first load an audio file");
@@ -73,14 +93,28 @@ class Media {
 		$this->file->image = $image;
 	}
 
+	/**
+	 * Convert a file to another format
+	 * @param  string $newFilename The full path to the new file
+	 */
 	public function convert($newFilename) {
 		$this->file->convert($newFilename);
 	}
 
-	public function convertMultiple($newFilename,$codecs=array()) {
-		$this->file->convertMultiple($newFilename,$codecs);
+	/**
+	 * Convert one file into multiple formats
+	 * @param  string $newFilename The new file name (extension will be replaced)
+	 * @param  array  $formats      Array of supported formats
+	 */
+	public function convertMultiple($newFilename,$formats=array()) {
+		$this->file->convertMultiple($newFilename,$formats);
 	}
 
+	/**
+	 * Generate HTML5 formats
+	 * @param  string $dir Directory to output to, if not set will use default
+	 * @return array      Array of converted files
+	 */
 	public function generateHTML5($dir='') {
 		$dir = !empty($dir) ? $dir : $this->html5Path;
 		if(!is_writable($dir)) {
@@ -107,6 +141,11 @@ class Media {
 		return $converted;
 	}
 
+	/**
+	 * Stream HTML5 compatible file
+	 * @param  string $filename The file name (relative)
+	 * @param  boolean $download Whether to stream or download
+	 */
 	public function getHTML5File($filename, $download=false) {
 		//Session write close because Safari slams us with requests
 		//asking for 2 bytes before proceeding to then request the full file.
