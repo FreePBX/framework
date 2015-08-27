@@ -71,7 +71,14 @@ class Mpg123Shell extends \Media\Driver\Driver {
 	}
 
 	public function convert($newFilename,$extension,$mime) {
-		$process = new Process('mpg123 -w '.$newFilename.' '.$this->track);
+		switch($extension) {
+			case "wav":
+				$process = new Process('mpg123 -r 8000 -m -w '.$newFilename.' '.$this->track);
+			break;
+			default:
+				throw new \Exception("Invalid type of $extension sent to MPG123");
+			break;
+		}
 		if(!$this->background) {
 			$process->run();
 			if (!$process->isSuccessful()) {

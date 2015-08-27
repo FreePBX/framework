@@ -78,25 +78,28 @@ class FfmpegShell extends \Media\Driver\Driver {
 	}
 
 	public function convert($newFilename,$extension,$mime) {
-		switch($mime) {
-			case "video/mp4":
-			case "audio/mp4":
+		switch($extension) {
+			case "wav":
+				$process = new Process('ffmpeg -i '.$this->track.' -ar 8000 -ac 1 -y '.$newFilename);
+			break;
+			case "mp4":
+			case "m4a":
 				$process = new Process('ffmpeg -i '.$this->track.' -acodec libfaac -ar 48000 -y '.$newFilename);
-				if(!$this->background) {
-					$process->run();
-					if (!$process->isSuccessful()) {
-						throw new \RuntimeException($process->getErrorOutput());
-					}
-				} else {
-					$process->start();
-					if (!$process->isRunning()) {
-						throw new \RuntimeException($process->getErrorOutput());
-					}
-				}
 			break;
 			default:
-				throw new \Exception("Invalid mime type of $mime sent to LAME");
+				throw new \Exception("Invalid type of $extension sent to FFMPEG");
 			break;
+		}
+		if(!$this->background) {
+			$process->run();
+			if (!$process->isSuccessful()) {
+				throw new \RuntimeException($process->getErrorOutput());
+			}
+		} else {
+			$process->start();
+			if (!$process->isRunning()) {
+				throw new \RuntimeException($process->getErrorOutput());
+			}
 		}
 	}
 }

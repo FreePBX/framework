@@ -135,7 +135,8 @@ class Media {
 		}
 
 		$supported = $this->getSupportedFormats();
-		$this->generateImage($dir."/".$name."-".$md5.".png");
+		/** This is broken for some stupid reason **/
+		//$this->generateImage($dir."/".$name."-".$md5.".png");
 		$this->convertMultiple($file,array_diff_key($formats,$supported));
 
 		return $converted;

@@ -71,24 +71,24 @@ class LameShell extends \Media\Driver\Driver {
 	}
 
 	public function convert($newFilename,$extension,$mime) {
-		switch($mime) {
-			case "audio/mpeg":
+		switch($extension) {
+			case "mp3":
 				$process = new Process('lame -V3 '.$this->track.' '.$newFilename);
-				if(!$this->background) {
-					$process->run();
-					if (!$process->isSuccessful()) {
-						throw new \RuntimeException($process->getErrorOutput());
-					}
-				} else {
-					$process->start();
-					if (!$process->isRunning()) {
-						throw new \RuntimeException($process->getErrorOutput());
-					}
-				}
 			break;
 			default:
-				throw new \Exception("Invalid mime type of $mime sent to LAME");
+				throw new \Exception("Invalid type of $extension sent to LAME");
 			break;
+		}
+		if(!$this->background) {
+			$process->run();
+			if (!$process->isSuccessful()) {
+				throw new \RuntimeException($process->getErrorOutput());
+			}
+		} else {
+			$process->start();
+			if (!$process->isRunning()) {
+				throw new \RuntimeException($process->getErrorOutput());
+			}
 		}
 	}
 }
