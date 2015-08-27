@@ -98,6 +98,7 @@ class Media {
 	 * @param  string $newFilename The full path to the new file
 	 */
 	public function convert($newFilename) {
+		session_write_close();
 		$this->file->convert($newFilename);
 	}
 
@@ -107,6 +108,7 @@ class Media {
 	 * @param  array  $formats      Array of supported formats
 	 */
 	public function convertMultiple($newFilename,$formats=array()) {
+		session_write_close();
 		$this->file->convertMultiple($newFilename,$formats);
 	}
 
@@ -116,6 +118,7 @@ class Media {
 	 * @return array      Array of converted files
 	 */
 	public function generateHTML5($dir='') {
+		session_write_close();
 		$dir = !empty($dir) ? $dir : $this->html5Path;
 		if(!is_writable($dir)) {
 			throw new \Exception("Path $dir is not writable");
