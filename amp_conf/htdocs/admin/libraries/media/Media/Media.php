@@ -139,6 +139,9 @@ class Media {
 				break;
 			}
 		}
+		if(empty($intermediary)) {
+			throw new \Exception("No Driver found for ".$this->extension);
+		}
 		//generate wav form png
 		if(isset($this->image)) {
 			$waveform = new \Jasny\Audio\Waveform($intermediary['path'], array("width" => 700));

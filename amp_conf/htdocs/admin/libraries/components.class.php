@@ -805,6 +805,49 @@ class gui_password extends guiinput {
 	}
 }
 
+class gui_multiselectbox extends guiinput {
+	function __construct($elemname, $valarray = array(), $currentvalue = array(), $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
+		if(is_array($elemname)) {
+			extract($elemname);
+		}
+		if (!is_array($valarray)) {
+			$valarray = array();
+		}
+
+		// currently no validation fucntions availble for select boxes
+		// using the normal $canbeempty to flag if a blank option is provided
+		parent::__construct($elemname, $currentvalue, $prompttext, $helptext);
+
+		$this->html_input = $this->buildselectbox($valarray, $currentvalue, $canbeempty, $onchange, $disable, $class);
+		$this->type = "selectbox";
+	}
+
+	// Build select box
+	function buildselectbox($valarray, $currentvalue, $canbeempty, $onchange, $disable, $class='') {
+		$output = '';
+		$onchange = ($onchange != '') ? " onchange=\"$onchange\"" : '';
+
+		$tabindex = guielement::gettabindex();
+		$disable_state = $disable ? ' disabled':'';
+		$output .= "\n\t\t\t<select name=\"".$this->_elemname."[]\" class=\"form-control ".$class."\" id=\"$this->_elemname\" tabindex=\"$tabindex\" $disable_state $onchange multiple>\n";
+		// include blank option if required
+		if ($canbeempty)
+			$output .= "<option value=\"\">&nbsp;</option>";
+
+		// build the options
+		foreach ($valarray as $item) {
+			$itemvalue = (isset($item['value']) ? $item['value'] : '');
+			$itemtext = (isset($item['text']) ? $item['text'] : '');
+			$itemselected = in_array($itemvalue,$currentvalue) ? ' selected' : '';
+
+			$output .= "\t\t\t\t<option value=\"$itemvalue\"$itemselected>$itemtext</option>\n";
+		}
+		$output .= "\t\t\t</select>\n\t\t";
+
+		return $output;
+	}
+}
+
 // Select box
 class gui_selectbox extends guiinput {
 

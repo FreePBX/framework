@@ -38,9 +38,11 @@ class SoxShell extends \Media\Driver\Driver {
 				$formats["in"][$codec] = $codec;
 				$formats["out"][$codec] = $codec;
 			}
+			$formats["in"]["wav"] = "wav";
 			$formats["in"]["oga"] = "oga";
 			$formats["out"]["oga"] = "oga";
 		} else {
+			$formats["in"]["wav"] = "wav";
 			$formats["in"]["ogg"] = "ogg";
 			$formats["in"]["oga"] = "oga";
 			$formats["out"]["ogg"] = "ogg";
