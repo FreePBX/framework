@@ -1054,7 +1054,7 @@ function format_ticket($string) {
 	$string = preg_replace_callback('/(?<!\w)(?:#|bug |ticket )([^&]\d{3,5})(?!\w)/i', 'trac_replace_ticket', $string);
 
 	// Convert FREEPBX|FPBXDISTRO(-| )6745 for jira
-	$string = preg_replace_callback('/(FREEPBX|FPBXDISTRO)(?:\-| )([^&]\d{3,5})(?!\w)/', 'jira_replace_ticket', $string);
+	$string = preg_replace_callback('/(?:[^\/])(FREEPBX|FPBXDISTRO)(?:\-| )([^&]\d{3,5})(?!\w)/', 'jira_replace_ticket', $string);
 
 	return $string;
 }
@@ -1088,10 +1088,12 @@ function enable_option($module_name, $option) {
 }
 
 /**
-*  Replace '#nnn', 'bug nnn', 'ticket nnn' type ticket numbers in changelog with a link, taken from Greg's drupal filter
+ *  Historically, this used to link to freepbx.org/trac/ticket/$id, but that's now just an extra
+ *  redirect to issues.freepbx.org/browse/FREEPBX-$id.  Let's remove that.
 */
 function trac_replace_ticket($match) {
-	$baseurl = 'http://freepbx.org/trac/ticket/';
+	if (!$match[1]) {throw new \Exception("Foo ".json_encode($match)); }
+	$baseurl = 'http://issues.freepbx.org/browse/FREEPBX-';
 	return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="ticket '.$match[1].'">'.$match[0].'</a>';
 }
 
