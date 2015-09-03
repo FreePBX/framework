@@ -9,6 +9,10 @@
  */
 
 /**
+ * The databast is OK!
+ */
+define("DB_OK", 1);
+/**
  * Indicates the current default fetch mode should be used
  * @see DB_common::$fetchmode
  */
@@ -603,8 +607,18 @@ class DB_result {
 		return isset($rownum) ? (isset($res[$rownum]) ? $res[$rownum] : false) : $res;
 	}
 
-	public function fetchInto() {
-		throw new Exception(_("fetchInto not implemented"));
+	/**
+	 * Fetches a row of a result set into a variable
+	 * http://pear.php.net/manual/en/package.database.db.db-result.fetchinto.php
+	 * @param  mixed $array     reference to a variable to contain the row
+	 * @param  integer $fetchmode The fetch mode
+	 * @param  integer $rownum    The row number to fetch. Note that 0 returns the first row, 1 returns the second row, etc
+	 * @return mixed            DB_OK if a row is processed, NULL when the end of the result set is reached or DB_Error object on failure
+	 */
+	public function fetchInto(&$array, $fetchmode = DB_FETCHMODE_DEFAULT , $rownum = null) {
+		$res = $this->sth->fetch($this->correctFetchMode($fetchmode));
+		//TODO: Bryan
+		return DB_OK;
 	}
 
 	public function free() {
