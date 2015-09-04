@@ -616,8 +616,16 @@ class DB_result {
 	 * @return mixed            DB_OK if a row is processed, NULL when the end of the result set is reached or DB_Error object on failure
 	 */
 	public function fetchInto(&$array, $fetchmode = DB_FETCHMODE_DEFAULT , $rownum = null) {
-		$res = $this->sth->fetch($this->correctFetchMode($fetchmode));
-		//TODO: Bryan
+		$res = $this->sth->fetchAll($this->correctFetchMode($fetchmode));
+		if ($fetchMode === ' DB_FETCHMODE_OBJECT') {
+			$array = (object) $res;
+		} else {
+			if (is_null($rownum) && (count($res) == 1)) {
+				$array = $res[0];		
+			} else {
+				$array = isset($rownum) ? (isset($res[$rownum]) ? $res[$rownum] : null) : $res;
+			}
+		}
 		return DB_OK;
 	}
 
