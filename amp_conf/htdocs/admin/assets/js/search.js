@@ -61,7 +61,7 @@ var SearchC = Class.extend({
 
   processModuleClick: function(o) {
     if (o.type == "get") {
-      window.location.search = o.dest;
+      window.location = o.dest;
       return true;
     }
     console.log("No idea what to do with this: ", o);

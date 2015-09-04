@@ -41,14 +41,12 @@ class Search extends FreePBX_Helpers {
 					} elseif ($mode == "extensions" && ($v['name'] == "Devices" || $v['name'] == "Users")) {
 						continue;
 					}
-
 					\modgettext::push_textdomain(strtolower($m['rawname']));
-					$retarr[] = array("text" => _($v['name']), "type" => "get", "dest" => "?display=$k");
+					$retarr[] = array("text" => _($v['name']), "type" => "get", "dest" => !empty($v['href']) ? $v['href'] : "?display=$k");
 					\modgettext::pop_textdomain();
 				}
 			}
 		}
-
 
 		return $retarr;
 	}
