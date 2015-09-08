@@ -63,11 +63,6 @@ if($online) { ?>
 							<span class="modulepublisher"><?php echo $module['publisher']?></span>
 							<span class="modulelicense"><?php echo (!empty($module['licenselink'])) ? '<a href="'.$module['licenselink'].'" target="_moduleLicenseLink">'.$module['license'].'</a>' : $module['license']?></span>
 							<span class="modulestatus">
-<?php if($module['commercial']['status']) {
-	if (function_exists('sysadmin_check_module')) {
-		sysadmin_check_module($module);
-	}
-} ?>
 <?php switch ($module['status']) {
 										case MODULE_STATUS_NOTINSTALLED:
 											if (!empty($module['raw']['online'])) { ?>
@@ -132,6 +127,11 @@ if($online) { ?>
 											}
 										break;
 									}?>
+									<?php if($module['commercial']['status']) {
+										if (function_exists('sysadmin_check_module')) {
+											sysadmin_check_module($module);
+										}
+									} ?>
 							</span>
 							<?php if ($module['salert']) { ?>
 								<span class="modulevul">
