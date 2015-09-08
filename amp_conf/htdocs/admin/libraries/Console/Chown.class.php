@@ -70,7 +70,7 @@ class Chown extends Command {
 			$hooks = $this->fwcChownFiles();
 			$current = isset($hooks[ucfirst($mod)]) ? $hooks[ucfirst($mod)] : false;
 			if(is_array($current)){
-				$this->modfiles = array_merge_recursive($this->modfiles,$current);
+				$this->modfiles[$mod] = array_merge_recursive($this->modfiles[$mod],$current);
 			}
 		}else{
 			$this->modfiles['framework'][] = array('type' => 'rdir',
