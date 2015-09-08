@@ -187,6 +187,7 @@ function check_upgrade_all() {
 			$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
 		}
 	});
+	fpbxToast(_('All module upgrades marked. Click process to run update.'),_('Updates Selected'),'success');
 }
 
 function check_download_all() {
@@ -199,6 +200,8 @@ function check_download_all() {
 			$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
 		}
 	});
+	fpbxToast(_('All modules selected to download. Press process to continue.'),_('Downloads Selected'),'success');
+
 }
 
 function navigate_to_module(module) {
