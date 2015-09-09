@@ -25,10 +25,20 @@ class Util extends Command {
 				$days = \FreePBX::Config()->get("CACHE_CLEANUP_DAYS");
 				$time = $days*24*60*60;
 				$path = \FreePBX::Config()->get("ASTVARLIBPLAYBACK");
+				$path = trim($path);
+				$user = \FreePBX::Config()->get("AMPASTERISKWEBUSER");
+				if(empty($path) || $path == "/") {
+					$output->writeln("<error>".sprintf(_("Invalid path %s"),$path)."</error>");
+					exit(1);
+				}
 				$output->writeln(_("Starting Cache cleanup"));
 				if (file_exists($path)) {
 					foreach (new \DirectoryIterator($path) as $fileInfo) {
 						if ($fileInfo->isDot()) {
+							continue;
+						}
+						$info = posix_getpwuid($fileInfo->getOwner());
+						if($info['name'] != $user) {
 							continue;
 						}
 						if (time() - $fileInfo->getCTime() >= $time) {
