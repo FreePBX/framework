@@ -259,8 +259,8 @@ class Freepbx_conf {
     }
   }
 
-  public function update($keyword, $value, $commit=true) {
-    return $this->set_conf_values(array($keyword => $value), $commit);
+  public function update($keyword, $value, $commit=true, $override_readonly=true) {
+    return $this->set_conf_values(array($keyword => $value), $commit, $override_readonly);
   }
 
   public function get($keyword, $passthru=false) {
