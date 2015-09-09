@@ -22,16 +22,17 @@ class Util extends Command {
 		$command = isset($args[0])?$args[0]:'';
 		switch ($command) {
 			case 'cleanplaybackcache':
+				$output->writeln(_("Starting Cache cleanup"));
 				$days = \FreePBX::Config()->get("CACHE_CLEANUP_DAYS");
 				$time = $days*24*60*60;
 				$path = \FreePBX::Config()->get("ASTVARLIBPLAYBACK");
 				$path = trim($path);
 				$user = \FreePBX::Config()->get("AMPASTERISKWEBUSER");
+				$formats = \FreePBX::Media()->getSupportedHTML5Formats();
 				if(empty($path) || $path == "/") {
 					$output->writeln("<error>".sprintf(_("Invalid path %s"),$path)."</error>");
 					exit(1);
 				}
-				$output->writeln(_("Starting Cache cleanup"));
 				if (file_exists($path)) {
 					foreach (new \DirectoryIterator($path) as $fileInfo) {
 						if ($fileInfo->isDot()) {
@@ -41,7 +42,8 @@ class Util extends Command {
 						if($info['name'] != $user) {
 							continue;
 						}
-						if (time() - $fileInfo->getCTime() >= $time) {
+						$extension = pathinfo($fileInfo->getFilename(),PATHINFO_EXTENSION);
+						if ($fileInfo->isFile() && in_array($extension,$formats) && (time() - $fileInfo->getCTime() >= $time)) {
 							$output->writeln(sprintf(_("Removing file %s"),basename($fileInfo->getRealPath())));
 							unlink($fileInfo->getRealPath());
 						}
