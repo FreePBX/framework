@@ -1952,6 +1952,16 @@ class Installer {
 	'emptyok' => 1,
 	);
 
+	$settings[$category]['CACHE_CLEANUP_DAYS'] = array(
+	'value' => 30, //30 days in seconds
+	'options' => array(1, 2147483647),
+	'name' => 'Browser Playback Day Cache',
+	'description' => 'Amount of days to keep browser playback (HTML5 audio files) cache. Set this to a lower value to conserve disk space.',
+	'level' => 10,
+	'type' => CONF_TYPE_INT,
+	'emptyok' => 0,
+	);
+
 	$settings[$category]['VIEW_ZEND_CONFIG'] = array(
 		'value' => 'views/zend_config.php', //30 days in seconds
 		'options' => '',

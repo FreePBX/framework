@@ -955,6 +955,24 @@ function install_cron_scheduler() {
 				"minute" => rand(0,59)
 			));
 		}
+
+		$exists = false;
+		foreach($freepbxCron->getAll() as $cron) {
+			$str = str_replace("/", "\/", $amp_conf['AMPSBIN']."/fwconsole util cleanplaybackcache -q");
+			if(preg_match("/".$str."/i",$cron,$matches)) {
+				if($exists) {
+					//remove multiple entries (if any)
+					$freepbxCron->remove($cron);
+				}
+				$exists = true;
+			}
+		}
+		if(!$exists) {
+			$freepbxCron->add(array(
+				"command" => $amp_conf['AMPSBIN']."/fwconsole util cleanplaybackcache -q",
+				"minute" => rand(0,59)
+			));
+		}
 	} catch(\Exception $e) {
 		$nt->add_error('retrieve_conf', 'CRONMGR', _("Failed to check crontab for cron manager"), sprintf(_("crontab returned %s error code when checking for crontab entries to start freepbx-cron-scheduler.php crontab manager"),$e->getMessage()));
 	}
