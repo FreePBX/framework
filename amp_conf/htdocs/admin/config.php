@@ -150,8 +150,20 @@ if ($sessionTimeOut !== false) {
 if (!isset($no_auth) && $action != '' && $amp_conf['CHECKREFERER']) {
 	if (isset($_SERVER['HTTP_REFERER'])) {
 		$referer = parse_url($_SERVER['HTTP_REFERER']);
-		$refererok = (trim($referer['host']) == trim($_SERVER['SERVER_NAME']))
-			? true : false;
+		// Check if the 'SERVER_NAME' variable is an IPv6 address. If it is, we want
+		// to add [ and ] around it. This is because IPv6 raw addresses are connected
+		// to like this:
+		//   http://[2001:f00d:dead:beef::1]/admin/config.php
+		// But, SERVER_NAME is (legitmately) reported as just '2001:f00d:dead:beef::1'.
+		// We need to add the braces around it to compare it.
+		if (filter_var($_SERVER['SERVER_NAME'], \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
+			$server = "[".$_SERVER['SERVER_NAME']."]";
+		} else {
+			$server = trim($_SERVER['SERVER_NAME']);
+		}
+		// This used to have 'trim's around them. I don't think we want that any more,
+		// if someone's stuck whitespace or \n's in there, it's broken already.
+		$refererok = ($referer['host'] == $server);
 	} else {
 		$refererok = false;
 	}
