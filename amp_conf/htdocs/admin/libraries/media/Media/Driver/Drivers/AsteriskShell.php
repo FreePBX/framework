@@ -10,12 +10,16 @@ class AsteriskShell extends \Media\Driver\Driver {
 	private $extension;
 	public $background = false;
 	static $supported;
+	private $optons = array(
+		"samplerate" => 48000
+	);
 
-	public function __construct($filename,$extension,$mime) {
+	public function __construct($filename,$extension,$mime,$samplerate=48000,$channels=1,$bitrate=16) {
 		$this->loadTrack($filename);
 		$this->version = $this->getVersion();
 		$this->mime = $mime;
 		$this->extension = $extension;
+		$this->options['samplerate'] = $samplerate;
 	}
 
 	/**
@@ -48,7 +52,7 @@ class AsteriskShell extends \Media\Driver\Driver {
 				$l = trim($matches[1]);
 				$codecs = explode("|",$matches[1]);
 				foreach($codecs as $codec) {
-					if(!in_array($codec,array('wav', 'gsm', 'g722', 'alaw', 'ulaw', 'sln', 'wav49', 'g719'))) {
+					if(!in_array($codec,array('gsm', 'g722', 'alaw', 'ulaw', 'sln', 'wav49', 'g719', 'sln12', 'sln16', 'sln24', 'sln32', 'sln44', 'sln48', 'sln96', 'sln192'))) {
 						continue;
 					}
 					$formats["in"][$codec] = $codec;
@@ -68,6 +72,7 @@ class AsteriskShell extends \Media\Driver\Driver {
 		$formats["out"]["WAV"] = "WAV";
 		$formats["in"]["wav"] = "wav";
 		$formats["in"]["WAV"] = "WAV";
+
 		self::$supported = $formats;
 		return self::$supported;
 	}

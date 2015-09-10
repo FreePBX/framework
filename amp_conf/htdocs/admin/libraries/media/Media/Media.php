@@ -108,43 +108,11 @@ class Media {
 	 * @return object           New Media Object
 	 */
 	public function convert($newFilename) {
-		$skipAsterisk = false;
-		//Asterisk can only deal with 8000k 1channel audio
-		if($this->extension == "wav") {
-			$fp = fopen($this->track, 'r');
-			if (fread($fp,4) == "RIFF") {
-				fseek($fp, 20);
-				$rawheader = fread($fp, 16);
-				$headers = unpack('vtype/vchannels/Vsamplerate/Vbytespersec/valignment/vbits',$rawheader);
-				if($headers['channels'] != 1 || $headers['samplerate'] != 8000) {
-					$skipAsterisk = true;
-				}
-			} else {
-				$skipAsterisk = true;
-			}
-		}
-		//generate intermediary file
-		foreach($this->getDrivers() as $driver) {
-			if($skipAsterisk && $driver == "AsteriskShell") {
-				continue;
-			}
-			$class = "Media\\Driver\\Drivers\\".$driver;
-			if($class::installed() && $class::isCodecSupported($this->extension,"in")) {
-				$driver = new $class($this->track,$this->extension,$this->mime);
-				$ts = time().rand(0,1000);
-				$driver->convert($this->tempDir."/temp.".$ts.".wav","wav","audio/x-wav");
-				$intermediary['path'] = $this->tempDir."/temp.".$ts.".wav";
-				$intermediary['extension'] = "wav";
-				$intermediary['mime'] = "audio/x-wav";
-				break;
-			}
-		}
-		if(empty($intermediary)) {
-			throw new \Exception("No Driver found for ".$this->extension);
-		}
+		$intermediary = $this->createIntermediaries();
+
 		//generate wav form png
 		if(isset($this->image)) {
-			$waveform = new \Jasny\Audio\Waveform($intermediary['path'], array("width" => 700));
+			$waveform = new \Jasny\Audio\Waveform($intermediary['wav']['path'], array("width" => 700));
 			$waveform->save("png",$this->image);
 		}
 
@@ -157,16 +125,24 @@ class Media {
 		//generate final file
 		foreach($this->getDrivers() as $driver) {
 			$class = "Media\\Driver\\Drivers\\".$driver;
+			if($driver == "AsteriskShell") {
+				$i = $intermediary['sln'];
+			} else {
+				$i = $intermediary['wav'];
+			}
 			if($class::installed() && $class::isCodecSupported($extension,"out")) {
-				$driver = new $class($intermediary['path'],$intermediary['extension'],$intermediary['mime']);
+				$driver = new $class($i['path'],$i['extension'],$i['mime']);
 				$driver->convert($newFilename,$extension,$mime);
 				break;
 			}
 		}
-		if(!empty($intermediary['path']) && file_exists($intermediary['path'])) {
-			unlink($intermediary['path']);
-			unset($intermediary);
+		if(!empty($intermediary['wav']['path']) && file_exists($intermediary['wav']['path'])) {
+			unlink($intermediary['wav']['path']);
 		}
+		if(!empty($intermediary['sln']['path']) && file_exists($intermediary['sln']['path'])) {
+			unlink($intermediary['sln']['path']);
+		}
+		unset($intermediary);
 
 		return file_exists($newFilename);
 	}
@@ -180,40 +156,11 @@ class Media {
 		if(empty($codecs)) {
 			return false;
 		}
-		$skipAsterisk = false;
-		//Asterisk can only deal with 8000k 1channel audio
-		if($this->extension == "wav") {
-			$fp = fopen($this->track, 'r');
-			if (fread($fp,4) == "RIFF") {
-				fseek($fp, 20);
-				$rawheader = fread($fp, 16);
-				$headers = unpack('vtype/vchannels/Vsamplerate/Vbytespersec/valignment/vbits',$rawheader);
-				if($headers['channels'] != 1 || $headers['samplerate'] != 8000) {
-					$skipAsterisk = true;
-				}
-			} else {
-				$skipAsterisk = true;
-			}
-		}
-		//generate intermediary file
-		foreach($this->getDrivers() as $driver) {
-			if($skipAsterisk && $driver == "AsteriskShell") {
-				continue;
-			}
-			$class = "Media\\Driver\\Drivers\\".$driver;
-			if($class::installed() && $class::isCodecSupported($this->extension,"in")) {
-				$driver = new $class($this->track,$this->extension,$this->mime);
-				$ts = time().rand(0,1000);
-				$driver->convert($this->tempDir."/temp.".$ts.".wav","wav","audio/x-wav");
-				$intermediary['path'] = $this->tempDir."/temp.".$ts.".wav";
-				$intermediary['extension'] = "wav";
-				$intermediary['mime'] = "audio/x-wav";
-				break;
-			}
-		}
+
+		$intermediary = $this->createIntermediaries();
 		//generate wav form png
 		if(isset($this->image)) {
-			$waveform = new \Jasny\Audio\Waveform($intermediary['path'], array("width" => 700));
+			$waveform = new \Jasny\Audio\Waveform($intermediary['wav']['path'], array("width" => 700));
 			$waveform->save("png",$this->image);
 		}
 
@@ -229,18 +176,72 @@ class Media {
 			$mime = Type::guessType($file);
 			foreach($this->getDrivers() as $driver) {
 				$class = "Media\\Driver\\Drivers\\".$driver;
+				if($driver == "AsteriskShell") {
+					$i = $intermediary['sln'];
+				} else {
+					$i = $intermediary['wav'];
+				}
 				if($class::installed() && $class::isCodecSupported($extension,"out")) {
-					$driver = new $class($intermediary['path'],$intermediary['extension'],$intermediary['mime']);
+					$driver = new $class($i['path'],$i['extension'],$i['mime']);
 					$driver->convert($file,$extension,$mime);
 					break;
 				}
 			}
 		}
-		if(!empty($intermediary['path']) && file_exists($intermediary['path'])) {
-			unlink($intermediary['path']);
-			unset($intermediary);
+		if(!empty($intermediary['wav']['path']) && file_exists($intermediary['wav']['path'])) {
+			unlink($intermediary['wav']['path']);
 		}
+		if(!empty($intermediary['sln']['path']) && file_exists($intermediary['sln']['path'])) {
+			unlink($intermediary['sln']['path']);
+		}
+		unset($intermediary);
 
 		return file_exists($newFilename);
+	}
+
+	private function createIntermediaries() {
+		//generate intermediary file
+		$ts = time().rand(0,1000);
+
+		$soxClass = "Media\\Driver\\Drivers\\SoxShell";
+		if(!$soxClass::installed()) {
+			throw new \Exception("Sox needs to be installed");
+		}
+
+		//Convert everything to 48k, so we upscale and downscale
+		//This is on purpose.
+		//Transform into a wav file
+		foreach($this->getDrivers() as $driver) {
+			if($this->extension == "wav" && $driver == "AsteriskShell") {
+				continue; //just dont allow it
+			}
+			$class = "Media\\Driver\\Drivers\\".$driver;
+			if($class::installed() && $class::isCodecSupported($this->extension,"in")) {
+				$d = new $class($this->track,$this->extension,$this->mime,48000,1,16);
+				$d->convert($this->tempDir."/temp.".$ts.".wav","wav","audio/x-wav");
+				$intermediary['wav']['path'] = $this->tempDir."/temp.".$ts.".wav";
+				$intermediary['wav']['extension'] = "wav";
+				$intermediary['wav']['mime'] = "audio/x-wav";
+				break;
+			}
+		}
+		if(!file_exists($this->track)) {
+			throw new \Exception("Unable to find an intermediay converter");
+		}
+
+		//Now transform into a raw audio file
+		$d = new $soxClass($intermediary['wav']['path'],$intermediary['wav']['extension'],$intermediary['wav']['mime'],48000,1,16);
+		$d->convert($this->tempDir."/temp.".$ts.".sln48","sln48","audio/x-raw");
+		$intermediary['sln']['path'] = $this->tempDir."/temp.".$ts.".sln48";
+		$intermediary['sln']['extension'] = "sln48";
+		$intermediary['sln']['mime'] = "audio/x-raw";
+
+		if(empty($intermediary)) {
+			throw new \Exception("No Driver found for ".$this->extension);
+		}
+		if(!file_exists($intermediary['wav']['path']) || !file_exists($intermediary['sln']['path'])) {
+			throw new \Exception("Intermediary files could not be created");
+		}
+		return $intermediary;
 	}
 }

@@ -14,11 +14,12 @@ class LameShell extends \Media\Driver\Driver {
 	);
 	public $background = false;
 
-	public function __construct($filename,$extension,$mime) {
+	public function __construct($filename,$extension,$mime,$samplerate=48000,$channels=1,$bitrate=16) {
 		$this->loadTrack($filename);
 		$this->version = $this->getVersion();
 		$this->mime = $mime;
 		$this->extension = $extension;
+		$this->options['samplerate'] = $samplerate;
 	}
 
 	public static function supportedCodecs(&$formats) {

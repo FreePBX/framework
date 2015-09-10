@@ -14,11 +14,13 @@ class Mpg123Shell extends \Media\Driver\Driver {
 	);
 	public $background = false;
 
-	public function __construct($filename,$extension,$mime) {
+	public function __construct($filename,$extension,$mime,$samplerate=48000,$channels=1,$bitrate=16) {
 		$this->loadTrack($filename);
 		$this->version = $this->getVersion();
 		$this->mime = $mime;
 		$this->extension = $extension;
+		$this->options['samplerate'] = $samplerate;
+		$this->options['channels'] = $channels;
 	}
 
 	public static function supportedCodecs(&$formats) {
@@ -73,7 +75,7 @@ class Mpg123Shell extends \Media\Driver\Driver {
 	public function convert($newFilename,$extension,$mime) {
 		switch($extension) {
 			case "wav":
-				$process = new Process('mpg123 -r 8000 -m -w '.$newFilename.' '.$this->track);
+				$process = new Process('mpg123 -r 44100 -m -w '.$newFilename.' '.$this->track);
 			break;
 			default:
 				throw new \Exception("Invalid type of $extension sent to MPG123");
