@@ -2125,7 +2125,12 @@ class module_functions {
 				$xmlarray['module']['name'] = str_replace("\n&\n","&",$xmlarray['module']['name']);
 				$xmlarray['module']['displayname'] = $xmlarray['module']['name'];
 				if (isset($xmlarray['module']['description'])) {
-					$xmlarray['module']['description'] = trim(str_replace("\n","",$xmlarray['module']['description']));
+					if(is_array($xmlarray['module']['description'])) {
+							$xmlarray['module']['description'] = _("Invalid description");
+					} else {
+						$xmlarray['module']['description'] = trim(str_replace("\n","",$xmlarray['module']['description']));
+					}
+
 				}
 				if (isset($xmlarray['module']['methods'])) {
 					$defpri = 300;
