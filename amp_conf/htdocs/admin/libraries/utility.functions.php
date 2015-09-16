@@ -877,66 +877,78 @@ function dbug_printtree($dir, $indent = "\t") {
 }
 
 /**
- * returns the absolute path to a system application
+ * Returns the absolute path to a system application
  *
- * @author Moshe Brevda mbrevda => gmail ~ com
- * @pram string
- * @retruns string
+ * @param string
+ * @return string
  */
 function fpbx_which($app) {
-	// don't know if we will always have an open class and not even sure if
-	// $amp_conf will be set so to be safe deal with it all here.
-	//
 	$freepbx_conf = freepbx_conf::create();
  	$which = $freepbx_conf->get_conf_setting('WHICH_' . $app);
 
 	//if we have the location cached return it
-	if ($which) {
+	if (!empty($which) && file_exists($which) && is_executable($which)) {
 		return $which;
+	}
 
-		//otherwise, search for it
-	} else {
-		//ist of posible plases to find which
+	//otherwise, search for it
+	//ist of posible plases to find which
 
-		$which = array(
-				'which',
-				'/usr/bin/which' //centos/mac osx
+	$which = array(
+			'which',
+			'/usr/bin/which' //centos/mac osx
+	);
+
+	$location = '';
+	foreach ($which as $w) {
+		exec($w . ' ' . $app, $path, $ret);
+
+		//exit if we have a positive find
+		if ($ret === 0) {
+			$location = $path[0];
+			break;
+		}
+	}
+
+	if(empty($location)) {
+		$paths = array(
+			"/usr/local/sbin",
+			"/usr/local/bin",
+			"/sbin",
+			"/bin",
+			"/usr/sbin",
+			"/usr/bin:/root/bin"
 		);
-
-		foreach ($which as $w) {
-			exec($w . ' ' . $app, $path, $ret);
-
-			//exit if we have a posotive find
-			if ($ret === 0) {
+		foreach($paths as $path) {
+			if (file_exists($path."/".$app) && is_executable($path."/".$app)) {
+				$location = $path."/".$app;
 				break;
 			}
 		}
+	}
 
-		if($path[0]) {
-			//if we have a path add it to freepbx settings
-			$set = array(
-					'value'			=> $path[0],
-					'defaultval'	=> $path[0],
-					'readonly'		=> 1,
-					'hidden'		=> 0,
-					'level'			=> 2,
-					'module'		=> '',
-					'category'		=> 'System Apps',
-					'emptyok'		=> 1,
-					'name'			=> 'Path for ' . $app,
-					'description'	=> 'The path to ' . $app
-									. ' as auto-determined by the system.'
-									. ' Overwrite as necessary.',
-					'type'			=> CONF_TYPE_TEXT
-			);
-			$freepbx_conf->define_conf_setting('WHICH_' . $app, $set);
-			$freepbx_conf->commit_conf_settings();
+	if(!empty($location)) {
+		//if we have a path add it to freepbx settings
+		$set = array(
+				'value'			=> $location,
+				'defaultval'	=> $location,
+				'readonly'		=> 1,
+				'hidden'		=> 0,
+				'level'			=> 2,
+				'module'		=> '',
+				'category'		=> 'System Apps',
+				'emptyok'		=> 1,
+				'name'			=> 'Path for ' . $app,
+				'description'	=> 'The path to ' . $app . ' as auto-determined by the system. Overwrite as necessary.',
+				'type'			=> CONF_TYPE_TEXT
+		);
+		$freepbx_conf->define_conf_setting('WHICH_' . $app, $set);
+		$freepbx_conf->commit_conf_settings();
 
-			//return the path
-			return $path[0];
-		} else {
-			return false;
-		}
+		//return the path
+		return $path[0];
+	} else {
+		return false;
 	}
 }
 

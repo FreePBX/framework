@@ -12,6 +12,7 @@ class LameShell extends \Media\Driver\Driver {
 		"bitrate" => 128, //-r
 		"samplerate" => 48000 //--resample
 	);
+	private $binary = 'lame';
 	public $background = false;
 
 	public function __construct($filename,$extension,$mime,$samplerate=48000,$channels=1,$bitrate=16) {
@@ -20,6 +21,10 @@ class LameShell extends \Media\Driver\Driver {
 		$this->mime = $mime;
 		$this->extension = $extension;
 		$this->options['samplerate'] = $samplerate;
+		$loc = fpbx_which("lame");
+		if(!empty($loc)) {
+			$this->binary = $loc;
+		}
 	}
 
 	public static function supportedCodecs(&$formats) {
@@ -32,7 +37,8 @@ class LameShell extends \Media\Driver\Driver {
 	}
 
 	public static function installed() {
-		$process = new Process('lame --version');
+		$loc = fpbx_which("lame");
+		$process = new Process($loc.' --version');
 		$process->run();
 
 		// executes after the command finishes
@@ -56,7 +62,7 @@ class LameShell extends \Media\Driver\Driver {
 	}
 
 	public function getVersion() {
-		$process = new Process('lame --version');
+		$process = new Process($this->binary.' --version');
 		$process->run();
 
 		// executes after the command finishes
@@ -74,7 +80,7 @@ class LameShell extends \Media\Driver\Driver {
 	public function convert($newFilename,$extension,$mime) {
 		switch($extension) {
 			case "mp3":
-				$process = new Process('lame -V3 '.$this->track.' '.$newFilename);
+				$process = new Process($this->binary.' -V3 '.$this->track.' '.$newFilename);
 			break;
 			default:
 				throw new \Exception("Invalid type of $extension sent to LAME");

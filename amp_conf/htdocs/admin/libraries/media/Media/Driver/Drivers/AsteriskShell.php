@@ -13,6 +13,7 @@ class AsteriskShell extends \Media\Driver\Driver {
 	private $optons = array(
 		"samplerate" => 48000
 	);
+	private $binary = 'asterisk';
 
 	public function __construct($filename,$extension,$mime,$samplerate=48000,$channels=1,$bitrate=16) {
 		$this->loadTrack($filename);
@@ -20,6 +21,10 @@ class AsteriskShell extends \Media\Driver\Driver {
 		$this->mime = $mime;
 		$this->extension = $extension;
 		$this->options['samplerate'] = $samplerate;
+		$loc = fpbx_which("asterisk");
+		if(!empty($loc)) {
+			$this->binary = $loc;
+		}
 	}
 
 	/**
@@ -27,7 +32,8 @@ class AsteriskShell extends \Media\Driver\Driver {
 	 * @return string The version
 	 */
 	public static function installed() {
-		$process = new Process('asterisk -V');
+		$loc = fpbx_which("asterisk");
+		$process = new Process($loc.' -V');
 		$process->run();
 
 		// executes after the command finishes
@@ -46,7 +52,8 @@ class AsteriskShell extends \Media\Driver\Driver {
 		if(!empty(self::$supported)) {
 			return self::$supported;
 		}
-		exec("asterisk -rx 'core show file formats'",$lines,$ret);
+		$loc = fpbx_which("asterisk");
+		exec($loc." -rx 'core show file formats'",$lines,$ret);
 		foreach($lines as $line) {
 			if(preg_match('/([a-z0-9\|]*)$/i',$line,$matches)) {
 				$l = trim($matches[1]);
@@ -61,7 +68,7 @@ class AsteriskShell extends \Media\Driver\Driver {
 			}
 		}
 		$lines = null;
-		exec("asterisk -rx 'g729 show licenses'",$lines,$ret);
+		exec($loc." -rx 'g729 show licenses'",$lines,$ret);
 		foreach($lines as $line) {
 			if(preg_match('/licensed channels are currently in use/',$line)) {
 				$formats["in"]['g729'] = 'g729';
@@ -111,7 +118,7 @@ class AsteriskShell extends \Media\Driver\Driver {
 	 * @return string The version
 	 */
 	public function getVersion() {
-		$process = new Process('asterisk -V');
+		$process = new Process($this->binary.' -V');
 		$process->run();
 
 		// executes after the command finishes
@@ -133,7 +140,7 @@ class AsteriskShell extends \Media\Driver\Driver {
 	 * @param  string $mime        Mime type
 	 */
 	public function convert($newFilename,$extension,$mime) {
-		$process = new Process("asterisk -rx 'file convert ".$this->track." ".$newFilename."'");
+		$process = new Process($this->binary." -rx 'file convert ".$this->track." ".$newFilename."'");
 		if(!$this->background) {
 			$process->run();
 			if (!$process->isSuccessful()) {

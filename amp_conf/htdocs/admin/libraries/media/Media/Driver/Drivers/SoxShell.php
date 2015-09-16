@@ -13,6 +13,7 @@ class SoxShell extends \Media\Driver\Driver {
 		"channels" => 2, //-c
 		"bitdepth" => 16
 	);
+	private $binary = 'sox';
 	public $background = false;
 	static $supported;
 
@@ -24,13 +25,18 @@ class SoxShell extends \Media\Driver\Driver {
 		$this->options['samplerate'] = $samplerate;
 		$this->options['channels'] = $channels;
 		$this->options['bitdepth'] = $bitrate;
+		$loc = fpbx_which("sox");
+		if(!empty($loc)) {
+			$this->binary = $loc;
+		}
 	}
 
 	public static function supportedCodecs(&$formats) {
 		if(!empty(self::$supported)) {
 			return self::$supported;
 		}
-		$process = new Process('sox -h');
+		$loc = fpbx_which("sox");
+		$process = new Process($loc.' -h');
 		$process->run();
 		if(preg_match("/AUDIO FILE FORMATS: (.*)/",$process->getOutput(),$matches)) {
 			$codecs = explode(" ",$matches[1]);
@@ -65,7 +71,8 @@ class SoxShell extends \Media\Driver\Driver {
 	}
 
 	public static function installed() {
-		$process = new Process('sox --version');
+		$loc = fpbx_which("sox");
+		$process = new Process($loc.' --version');
 		$process->run();
 
 		// executes after the command finishes
@@ -89,7 +96,7 @@ class SoxShell extends \Media\Driver\Driver {
 	}
 
 	public function getVersion() {
-		$process = new Process('sox --version');
+		$process = new Process($this->binary.' --version');
 		$process->run();
 
 		// executes after the command finishes
@@ -109,66 +116,66 @@ class SoxShell extends \Media\Driver\Driver {
 			case "wav":
 				switch($this->extension) {
 					case "sln":
-						$process = new Process('sox -t raw -s -b 16 -r 8000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
+						$process = new Process($this->binary.' -t raw -s -b 16 -r 8000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
 					break;
 					case "sln12":
-						$process = new Process('sox -t raw -s -b 16 -r 12000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
+						$process = new Process($this->binary.' -t raw -s -b 16 -r 12000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
 					break;
 					case "sln16":
-						$process = new Process('sox -t raw -s -b 16 -r 16000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
+						$process = new Process($this->binary.' -t raw -s -b 16 -r 16000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
 					break;
 					case "sln24":
-						$process = new Process('sox -t raw -s -b 16 -r 24000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
+						$process = new Process($this->binary.' -t raw -s -b 16 -r 24000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
 					break;
 					case "sln32":
-						$process = new Process('sox -t raw -s -b 16 -r 32000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
+						$process = new Process($this->binary.' -t raw -s -b 16 -r 32000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
 					break;
 					case "sln44":
-						$process = new Process('sox -t raw -s -b 16 -r 44000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
+						$process = new Process($this->binary.' -t raw -s -b 16 -r 44000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
 					break;
 					case "sln48":
-						$process = new Process('sox -t raw -s -b 16 -r 48000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
+						$process = new Process($this->binary.' -t raw -s -b 16 -r 48000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
 					break;
 					case "sln96":
-						$process = new Process('sox -t raw -s -b 16 -r 96000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
+						$process = new Process($this->binary.' -t raw -s -b 16 -r 96000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
 					break;
 					case "sln192":
-						$process = new Process('sox -t raw -s -b 16 -r 192000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
+						$process = new Process($this->binary.' -t raw -s -b 16 -r 192000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
 					break;
 					default:
-						$process = new Process('sox '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
+						$process = new Process($this->binary.' '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
 					break;
 				}
 			break;
 			case "sln":
-				$process = new Process('sox '.$this->track.' -t raw -b 16 -r 8000 -c 1 '.$newFilename);
+				$process = new Process($this->binary.' '.$this->track.' -t raw -b 16 -r 8000 -c 1 '.$newFilename);
 			break;
 			case "sln12":
-				$process = new Process('sox '.$this->track.' -t raw -b 16 -r 12000 -c 1 '.$newFilename);
+				$process = new Process($this->binary.' '.$this->track.' -t raw -b 16 -r 12000 -c 1 '.$newFilename);
 			break;
 			case "sln16":
-				$process = new Process('sox '.$this->track.' -t raw -b 16 -r 16000 -c 1 '.$newFilename);
+				$process = new Process($this->binary.' '.$this->track.' -t raw -b 16 -r 16000 -c 1 '.$newFilename);
 			break;
 			case "sln24":
-				$process = new Process('sox '.$this->track.' -t raw -b 16 -r 24000 -c 1 '.$newFilename);
+				$process = new Process($this->binary.' '.$this->track.' -t raw -b 16 -r 24000 -c 1 '.$newFilename);
 			break;
 			case "sln32":
-				$process = new Process('sox '.$this->track.' -t raw -b 16 -r 32000 -c 1 '.$newFilename);
+				$process = new Process($this->binary.' '.$this->track.' -t raw -b 16 -r 32000 -c 1 '.$newFilename);
 			break;
 			case "sln44":
-				$process = new Process('sox '.$this->track.' -t raw -b 16 -r 44100 -c 1 '.$newFilename);
+				$process = new Process($this->binary.' '.$this->track.' -t raw -b 16 -r 44100 -c 1 '.$newFilename);
 			break;
 			case "sln48":
-				$process = new Process('sox '.$this->track.' -t raw -b 16 -r 48000 -c 1 '.$newFilename);
+				$process = new Process($this->binary.' '.$this->track.' -t raw -b 16 -r 48000 -c 1 '.$newFilename);
 			break;
 			case "sln96":
-				$process = new Process('sox '.$this->track.' -t raw -b 16 -r 96000 -c 1 '.$newFilename);
+				$process = new Process($this->binary.' '.$this->track.' -t raw -b 16 -r 96000 -c 1 '.$newFilename);
 			break;
 			case "sln192":
-				$process = new Process('sox '.$this->track.' -t raw -b 16 -r 192000 -c 1 '.$newFilename);
+				$process = new Process($this->binary.' '.$this->track.' -t raw -b 16 -r 192000 -c 1 '.$newFilename);
 			break;
 			default:
-				$process = new Process('sox '.$this->track.' -c 1 '.$newFilename);
+				$process = new Process($this->binary.' '.$this->track.' -c 1 '.$newFilename);
 			break;
 		}
 		if(!$this->background) {

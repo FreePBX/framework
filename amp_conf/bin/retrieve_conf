@@ -26,6 +26,11 @@ $bmo->Performance->Stop("load_astdb");
 $bmo->Performance->Start("trust_gpg");
 $bmo->GPG->trustFreePBX();
 $bmo->Performance->Stop();
+
+$bmo->Performance->Start("check_html5");
+$bmo->Media->getSupportedHTML5Formats();
+$bmo->Performance->Stop();
+
 $bmo->Performance->Start("retrieve_conf");
 $bmo->Hooks->updateBMOHooks();
 

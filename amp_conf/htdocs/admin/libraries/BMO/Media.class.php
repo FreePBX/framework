@@ -48,12 +48,20 @@ class Media {
 	 */
 	public function getSupportedHTML5Formats() {
 		$formats = $this->getSupportedFormats();
-		$html5 = array("webma", "oga", "wav", "mp3", "m4a");
+		$html5 = array("oga", "wav", "mp3", "m4a");
 		$final = array();
+		$nt = notifications::create();
+		$missing = array();
 		foreach($html5 as $i) {
 			if(in_array($i,$formats['out'])) {
 				$final[] = $i;
 			}
+		}
+		if(!empty($missing)) {
+			$brand = $this->FreePBX->Config->get("DASHBOARD_FREEPBX_BRAND");
+			$nt->add_notice("framework", "missing_html5", _("Missing HTML5 format converters"), sprintf(_("You are missing support for the following HTML5 codecs: %s. To fully support HTML5 browser playback you will need to install programs that can not be distributed with %s. If you'd like to install the binaries needed for these conversions please follow the link in this notification. You can also safely ignore this message but browser playback might not work in your browser."),$missing,$brand), "http://wiki.freepbx.org/display/HTGS/Installing+Media+Conversion+Libraries");
+		} else {
+			$nt->delete("framework", "missing_html5");
 		}
 		return $final;
 	}
