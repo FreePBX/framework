@@ -899,6 +899,7 @@ function fpbx_which($app) {
 			'/usr/bin/which' //centos/mac osx
 	);
 
+	//TODO: Remove which in 14 no needed - Rob Thomas
 	$location = '';
 	foreach ($which as $w) {
 		exec($w . ' ' . $app, $path, $ret);
@@ -917,7 +918,8 @@ function fpbx_which($app) {
 			"/sbin",
 			"/bin",
 			"/usr/sbin",
-			"/usr/bin:/root/bin"
+			"/usr/bin",
+			"/root/bin"
 		);
 		foreach($paths as $path) {
 			if (file_exists($path."/".$app) && is_executable($path."/".$app)) {
