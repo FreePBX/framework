@@ -2254,7 +2254,7 @@ class module_functions {
 							return false;
 						}
 					} catch(Exception $e) {
-						dbug("Error Returned was: ".$e->getMessage());
+						out("Install error! ".$e->getMessage());
 						return false;
 					}
 				}
