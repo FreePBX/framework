@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX v2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-15 14:11-0700\n"
+"POT-Creation-Date: 2015-09-16 16:25-0700\n"
 "PO-Revision-Date: 2014-07-22 14:52+0200\n"
 "Last-Translator: Chavdar <chavdar_75@yahoo.com>\n"
 "Language-Team: Bulgarian <http://git.freepbx.org/projects/freepbx/framework/"
@@ -595,9 +595,9 @@ msgstr ""
 msgid "ALL SECTIONS"
 msgstr "ВСИЧКИ СЕКЦИИ"
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1209
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1221
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1246
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1233
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1258
 #, php-format
 msgid "AMI failure details:"
 msgstr ""
@@ -2073,7 +2073,7 @@ msgstr "Отсраняване на Грешки"
 msgid "Default"
 msgstr "По-Подразбиране"
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1231
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1243
 msgid "Default Asterisk Manager Password Used"
 msgstr ""
 
@@ -3017,17 +3017,17 @@ msgstr ""
 msgid "FMFM"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1219
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1231
 #, php-format
 msgid "Failed changing AMI password to [%s], internal failure details follow:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1207
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1219
 #, php-format
 msgid "Failed changing AMI user to [%s], internal failure details follow:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1244
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1256
 #, php-format
 msgid ""
 "Failed changing AMI writetimout to [%s], internal failure details follow:"
@@ -3072,7 +3072,7 @@ msgstr ""
 msgid "Failed to read manager file to add writetimeout"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1261
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1273
 msgid ""
 "Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx "
 "'module reload manager']"
@@ -3143,7 +3143,7 @@ msgstr ""
 msgid "File Integrity failed for %s - aborting (sha1 did not match)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Media.class.php:79
+#: amp_conf/htdocs/admin/libraries/BMO/Media.class.php:87
 msgid "File does not exist"
 msgstr ""
 
@@ -4145,6 +4145,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:778
 #, php-format
 msgid "Missing Dependency %s %s successfully enabled"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/Media.class.php:62
+msgid "Missing HTML5 format converters"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:232
@@ -6877,7 +6881,7 @@ msgstr ""
 msgid "Welcome to %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1177
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1189
 msgid "What Does this Mean?"
 msgstr ""
 
@@ -7006,11 +7010,21 @@ msgid ""
 "They will continue to show up here."
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/Media.class.php:62
+#, php-format
+msgid ""
+"You are missing support for the following HTML5 codecs: %s. To fully support "
+"HTML5 browser playback you will need to install programs that can not be "
+"distributed with %s. If you'd like to install the binaries needed for these "
+"conversions please follow the link in this notification. You can also safely "
+"ignore this message but browser playback might not work in your browser."
+msgstr ""
+
 #: ../core/page.advancedsettings.php:239
 msgid "You are urged to backup before making any changes."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1231
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1243
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
 "you should set a secure password"
