@@ -10,11 +10,20 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 	include_once('/etc/asterisk/freepbx.conf');
 }
 if (!$bootstrap_settings['astman_connected']) {
-  fatal(sprintf(_("Unable to connect to Asterisk Manager from %s, aborting"),__FILE__));
+	throw new \Exception(sprintf(_("Unable to connect to Asterisk Manager from %s, aborting"),__FILE__));
 }
 
 $freepbx_conf =& freepbx_conf::create();
 
+$loc = fpbx_which("asterisk");
+if(empty($loc)) {
+	throw new \Exception(_("Unable to find the Asterisk binary"));
+} else {
+	exec($loc . " -rx 'core show version'",$out,$ret);
+	if($ret != 0) {
+		throw new \Exception(_("Unable to connect to Asterisk through the CLI"));
+	}
+}
 // Load the BMO Object
 $bmo = FreePBX::create();
 //Load Asterisk Manager into Memory
