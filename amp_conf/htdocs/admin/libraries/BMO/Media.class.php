@@ -61,7 +61,7 @@ class Media {
 		}
 		if(!empty($missing)) {
 			$brand = $this->FreePBX->Config->get("DASHBOARD_FREEPBX_BRAND");
-			$nt->add_notice("framework", "missing_html5", _("Missing HTML5 format converters"), sprintf(_("You are missing support for the following HTML5 codecs: %s. To fully support HTML5 browser playback you will need to install programs that can not be distributed with %s. If you'd like to install the binaries needed for these conversions please follow the link in this notification. You can also safely ignore this message but browser playback might not work in your browser."),$missing,$brand), "http://wiki.freepbx.org/display/HTGS/Installing+Media+Conversion+Libraries");
+			$nt->add_notice("framework", "missing_html5", _("Missing HTML5 format converters"), sprintf(_("You are missing support for the following HTML5 codecs: %s. To fully support HTML5 browser playback you will need to install programs that can not be distributed with %s. If you'd like to install the binaries needed for these conversions click 'Resolve' in the lower left corner of this message. You can also safely ignore this message but browser playback might not work in your browser."),$missing,$brand), "http://wiki.freepbx.org/display/HTGS/Installing+Media+Conversion+Libraries");
 		} else {
 			$nt->delete("framework", "missing_html5");
 		}
