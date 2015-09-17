@@ -902,7 +902,7 @@ function fpbx_which($app) {
 	//TODO: Remove which in 14 no needed - Rob Thomas
 	$location = '';
 	foreach ($which as $w) {
-		exec($w . ' ' . $app, $path, $ret);
+		exec($w . ' ' . $app . ' 2>&1', $path, $ret);
 
 		//exit if we have a positive find
 		if ($ret === 0) {
