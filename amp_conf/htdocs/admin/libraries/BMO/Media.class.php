@@ -55,6 +55,8 @@ class Media {
 		foreach($html5 as $i) {
 			if(in_array($i,$formats['out'])) {
 				$final[] = $i;
+			} else {
+				$missing[] = $i;
 			}
 		}
 		if(!empty($missing)) {
