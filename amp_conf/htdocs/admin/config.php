@@ -126,9 +126,14 @@ if(isset($_SESSION['modulesRedirect'])) {
 	unset($_SESSION['modulesRedirect']);
 }
 
-// determine if the user has a session time out set in advanced settings. If the timeout is not set, we don't force logout
-$sessionTimeOut = !empty($amp_conf['SESSION_TIMEOUT']) && is_numeric($amp_conf['SESSION_TIMEOUT']) ? $amp_conf['SESSION_TIMEOUT'] : false;
-if ($sessionTimeOut !== false) {
+// determine if the user has a session time out set in advanced settings. If the timeout is 0 or not set, we don't force logout
+$sessionTimeOut = \FreePBX::Config()->get('SESSION_TIMEOUT');
+if ($sessionTimeOut) {
+	// Make sure it's not set to something crazy short.
+	if ($sessionTimeOut < 60) {
+		\FreePBX::Config()->update('SESSION_TIMEOUT', 60);
+		$sessionTimeOut = 60;
+	}
 	if (!empty($_SESSION['AMP_user']) && is_object($_SESSION['AMP_user'])) {
 		//if we don't have last activity set it now
 		if (empty($_SESSION['AMP_user']->_lastactivity)) {
