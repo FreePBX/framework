@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>13.0.1RC1.10</version>
+	<version>13.0.1RC1.11</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*13.0.1RC1.11* FREEPBX-10255 asterisk can only read 8k and 16k audio from sox
 		*13.0.1RC1.10* Fix links for media libraries
 		*13.0.1RC1.9* Media class should not die if it cant find a file
 		*13.0.1RC1.8* During retrieve_conf check to make sure FreePBX can talk to Asterisk over the CLI as well
