@@ -232,11 +232,13 @@ class Media {
 			throw new \Exception("Unable to find an intermediay converter");
 		}
 
+		$ver = \FreePBX::Config()->get("ASTVERSION");
+		$type = version_compare_freepbx("13.0",$ver,"ge") ? "sln48" : "sln16";
 		//Now transform into a raw audio file
 		$d = new $soxClass($intermediary['wav']['path'],$intermediary['wav']['extension'],$intermediary['wav']['mime'],16000,1,16);
-		$d->convert($this->tempDir."/temp.".$ts.".sln16","sln16","audio/x-raw");
-		$intermediary['sln']['path'] = $this->tempDir."/temp.".$ts.".sln16";
-		$intermediary['sln']['extension'] = "sln16";
+		$d->convert($this->tempDir."/temp.".$ts.".".$type,$type,"audio/x-raw");
+		$intermediary['sln']['path'] = $this->tempDir."/temp.".$ts.".".$type;
+		$intermediary['sln']['extension'] = $type;
 		$intermediary['sln']['mime'] = "audio/x-raw";
 
 		if(empty($intermediary)) {
