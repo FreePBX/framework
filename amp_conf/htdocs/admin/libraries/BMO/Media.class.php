@@ -150,7 +150,7 @@ class Media extends DB_Helper{
 		$supported = $this->getSupportedFormats();
 		/** This is broken for some stupid reason **/
 		//$this->generateImage($dir."/".$name."-".$md5.".png");
-		$this->convertMultiple($file,array_diff_key($formats,$supported));
+		$this->convertMultiple($file,array_intersect($formats,$supported['out']));
 
 		return $converted;
 	}

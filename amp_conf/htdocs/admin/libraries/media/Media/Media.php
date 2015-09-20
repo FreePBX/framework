@@ -184,6 +184,9 @@ class Media {
 				if($class::installed() && $class::isCodecSupported($extension,"out")) {
 					$driver = new $class($i['path'],$i['extension'],$i['mime']);
 					$driver->convert($file,$extension,$mime);
+					if(!file_exists($file)) {
+						throw new \Exception("File was not converted");
+					}
 					break;
 				}
 			}
@@ -230,10 +233,10 @@ class Media {
 		}
 
 		//Now transform into a raw audio file
-		$d = new $soxClass($intermediary['wav']['path'],$intermediary['wav']['extension'],$intermediary['wav']['mime'],48000,1,16);
-		$d->convert($this->tempDir."/temp.".$ts.".sln48","sln48","audio/x-raw");
-		$intermediary['sln']['path'] = $this->tempDir."/temp.".$ts.".sln48";
-		$intermediary['sln']['extension'] = "sln48";
+		$d = new $soxClass($intermediary['wav']['path'],$intermediary['wav']['extension'],$intermediary['wav']['mime'],16000,1,16);
+		$d->convert($this->tempDir."/temp.".$ts.".sln16","sln16","audio/x-raw");
+		$intermediary['sln']['path'] = $this->tempDir."/temp.".$ts.".sln16";
+		$intermediary['sln']['extension'] = "sln16";
 		$intermediary['sln']['mime'] = "audio/x-raw";
 
 		if(empty($intermediary)) {
