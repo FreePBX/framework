@@ -78,7 +78,7 @@ class FfmpegShell extends \Media\Driver\Driver {
 			throw new \RuntimeException($process->getErrorOutput());
 		}
 		//FFmpeg version 0.6.5,
-		if(preg_match("/FFmpeg (.*)/",$process->getOutput(),$matches)) {
+		if(preg_match("/FFmpeg (.*)/i",$process->getOutput(),$matches)) {
 			return $matches[1];
 		} else {
 			throw new \Exception("Unable to parse version");
