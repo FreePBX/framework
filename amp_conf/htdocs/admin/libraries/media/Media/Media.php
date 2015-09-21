@@ -233,9 +233,15 @@ class Media {
 		}
 
 		$ver = \FreePBX::Config()->get("ASTVERSION");
-		$type = version_compare_freepbx("13.0",$ver,"ge") ? "sln48" : "sln16";
+		if(version_compare_freepbx($ver,"13.0","ge")) {
+			$type = "sln48";
+			$samplerate = 48000;
+		} else {
+			$type = "sln16";
+			$samplerate = 16000;
+		}
 		//Now transform into a raw audio file
-		$d = new $soxClass($intermediary['wav']['path'],$intermediary['wav']['extension'],$intermediary['wav']['mime'],16000,1,16);
+		$d = new $soxClass($intermediary['wav']['path'],$intermediary['wav']['extension'],$intermediary['wav']['mime'],$samplerate,1,16);
 		$d->convert($this->tempDir."/temp.".$ts.".".$type,$type,"audio/x-raw");
 		$intermediary['sln']['path'] = $this->tempDir."/temp.".$ts.".".$type;
 		$intermediary['sln']['extension'] = $type;
