@@ -80,7 +80,7 @@ if (!isset($email)) {
         </div>
       </div>
       <div class='row'>
-        <div class='col-sm-3 col-sm-offset-8'><span class='pull-right'><button type='submit' id='createacct'>Create Account</button></div>
+        <div class='col-sm-3 col-sm-offset-8'><span class='pull-right'><button class='btn btn-default' type='submit' id='createacct'>Create Account</button></div>
       </div>
     </div>
   </div>
