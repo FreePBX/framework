@@ -8,7 +8,7 @@ if ($errors) {
 	$html .= '</span>';
 }
 $html .= '<div id="login_form">';
-$html .= form_open('config.php', 'id="loginform"');
+$html .= form_open('', 'id="loginform"');
 $html .= _('To get started, please enter your credentials:');
 $html .= br(2);
 $data = array(
