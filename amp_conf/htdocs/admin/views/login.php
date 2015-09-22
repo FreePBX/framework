@@ -5,7 +5,7 @@
 	</span>
 <?php } ?>
 <div id="login_form">
-	<form action="config.php" id="loginform" method="post" role="form">
+	<form id="loginform" method="post" role="form">
 		<h3><?php echo _('To get started, please enter your credentials:')?></h3>
 		<div class="form-group">
 			<input type="text" name="username" class="form-control" value="" placeholder="username" autocomplete="off">
