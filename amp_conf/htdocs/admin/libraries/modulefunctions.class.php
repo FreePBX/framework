@@ -2043,8 +2043,8 @@ class module_functions {
 		modulelist::create($db)->invalidate();
 
 		try {
-			$sth = FreePBX::Database()->prepare("DELETE FROM `kvstore` WHERE `module` = :mod");
-			$sth->execute(array(":mod" => $modulename));
+			$sth = FreePBX::Database()->prepare("DELETE FROM `kvstore` WHERE `module` = :mod OR `module` = :class");
+			$sth->execute(array(":mod" => $modulename, ":class" => "FreePBX\modules\\".$modulename));
 		} catch(\Exception $e) {}
 		return true;
 	}
