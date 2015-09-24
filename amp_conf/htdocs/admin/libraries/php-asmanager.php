@@ -48,18 +48,18 @@ define('AST_STATE_PRERING', 9);
 
 function phpasmanager_error_handler($errno, $errstr, $errfile, $errline) {
 
-    switch ($errno) {
+		switch ($errno) {
 		case E_WARNING:
-    case E_USER_WARNING:
+		case E_USER_WARNING:
 		case E_NOTICE:
 		case E_USER_NOTICE:
 		default:
 			//dbug("Got a php-asmanager error of [$errno] $errstr");
-		  break;
-    }
+			break;
+		}
 
-    /* Don't execute PHP internal error handler */
-    return true;
+		/* Don't execute PHP internal error handler */
+		return true;
 }
 
 /**
@@ -237,8 +237,8 @@ class AGI_AsteriskManager {
 		fwrite($this->socket, $req);
 		$response = $this->wait_response();
 
-	    // If we got a false back then something went wrong, we will try to reconnect the manager connection to try again
-	    //
+			// If we got a false back then something went wrong, we will try to reconnect the manager connection to try again
+			//
 		while ($response === false && $retry && $reconnects > 0) {
 			$this->log("Unexpected failure executing command: $action, reconnecting to manager and retrying: $reconnects");
 			$this->disconnect();
@@ -736,7 +736,7 @@ class AGI_AsteriskManager {
 		if($actionid) {
 			$parameters['ActionID'] = $actionid;
 		}
-      		return $this->send_request('ExtensionState', $parameters);
+					return $this->send_request('ExtensionState', $parameters);
 	}
 
 	/**
@@ -997,7 +997,7 @@ class AGI_AsteriskManager {
 				$parameters['Timeout'] = $args[4];
 			}
 			if ($args[5]) {
-		 		$parameters['CallerID'] = $args[5];
+				 $parameters['CallerID'] = $args[5];
 			}
 			if ($args[6]) {
 				$parameters['Variable'] = $args[6];
@@ -1044,7 +1044,7 @@ class AGI_AsteriskManager {
 		return $this->send_request('Ping');
 	}
 
-	   /**
+		 /**
 	* Queue Add
 	*
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+QueueAdd
@@ -1068,7 +1068,7 @@ class AGI_AsteriskManager {
 	* @param string $interface
 	*/
 	function QueueRemove($queue, $interface) {
-	 	return $this->send_request('QueueRemove', array('Queue'=>$queue, 'Interface'=>$interface));
+		 return $this->send_request('QueueRemove', array('Queue'=>$queue, 'Interface'=>$interface));
 	}
 	/**
 	* Queues
@@ -1254,7 +1254,7 @@ class AGI_AsteriskManager {
 		} else {
 			return $this->send_request('ZapShowChannels');
 		}
-    }
+		}
 
 	/*
 	* Log a message
@@ -1368,7 +1368,7 @@ class AGI_AsteriskManager {
 			if ($family == '') {
 				return $this->memAstDB;
 			} else {
- 				$key = '/'.$family;
+				 $key = '/'.$family;
 				if (isset($this->memAstDB[$key])) {
 					return array($key => $this->memAstDB[$key]);
 				} else {
@@ -1424,7 +1424,7 @@ class AGI_AsteriskManager {
 			$write_through = true;
 		}
 		if ($write_through) {
-			$r = $this->command("database put ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key)." ".$value);
+			$r = $this->command("database put ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key)." \"".$value."\"");
 			return (bool)strstr($r["data"], "success");
 		}
 		return true;
@@ -1461,7 +1461,7 @@ class AGI_AsteriskManager {
 	 * @return bool True if successful
 	 */
 	function database_del($family, $key) {
- 		if (!empty($this->memAstDB)){
+		 if (!empty($this->memAstDB)){
 			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
 			unset($this->memAstDB[$keyUsed]);
 		}
@@ -1596,8 +1596,8 @@ class AGI_AsteriskManager {
 	 * @return array returns a key => val array
 	 */
 	function PJSIPShowEndpoint($dev) {
-	 	$this->add_event_handler("endpointdetail", array($this, 'Endpoint_catch'));
-	 	$this->add_event_handler("authdetail", array($this, 'Endpoint_catch'));
+		 $this->add_event_handler("endpointdetail", array($this, 'Endpoint_catch'));
+		 $this->add_event_handler("authdetail", array($this, 'Endpoint_catch'));
 		$this->add_event_handler("endpointdetailcomplete", array($this, 'Endpoint_catch'));
 		$params = array("Endpoint" => $dev);
 		$response = $this->send_request('PJSIPShowEndpoint', $params);
