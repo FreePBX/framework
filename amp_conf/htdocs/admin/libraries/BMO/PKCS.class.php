@@ -36,7 +36,7 @@ class PKCS {
 
 	//TODO first element that comes in here is the freepbx object yikes
 	public function __construct($debug=0) {
-		$this->defaults['server_cn'] = exec("hostname -f");
+		$this->defaults['server_cn'] = $this->getHostname();
 		if(is_int($debug)) {
 			$this->debug = $debug;
 		} else {
@@ -649,5 +649,29 @@ default_md = sha256
 				chgrp($file, $gid);
 			}
 		}
+	}
+
+	/**
+	 * Figure out the 'correct' hostname for this machine.
+	 *
+	 * Sometimes, 'hostname -f', which doesn't do any DNS lookups (which
+	 * is what we want) errors.
+	 *
+	 * @return string Best guess at hostname
+	 */
+	public function getHostname() {
+		// First, try 'hostname -f'
+		exec("hostname -f 2>/dev/null", $output, $ret);
+		if ($ret === 0 && !empty($output[0])) {
+			// Hostname is valid
+			return trim($output[0]);
+		}
+		// It errored for some reason. 
+		// Just return whatever 'hostname' thinks it is, without FQDN.
+		exec("hostname", $raw, $ret);
+		if ($ret !== 0 || empty($raw[0])) {
+			throw new \Exception("Can not determine hostname. Critical error");
+		}
+		return trim($raw[0]);
 	}
 }

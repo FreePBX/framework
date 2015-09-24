@@ -238,16 +238,7 @@ function doInstallAll($force) {
 }
 
 function getIncludes(){
-	$modulef =& module_functions::create();
-	$active_modules = $modulef->getinfo(false, MODULE_STATUS_ENABLED);
-	if(is_array($active_modules)){
-		foreach($active_modules as $key => $module) {
-			//include module functions
-			if (is_file("modules/{$key}/functions.inc.php")) {
-				require_once("modules/{$key}/functions.inc.php");
-			}
-		}
-	}
+	\FreePBX::Modules()->loadAllFunctionsInc();
 }
 
 /**

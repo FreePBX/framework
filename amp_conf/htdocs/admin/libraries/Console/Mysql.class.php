@@ -29,13 +29,16 @@ class Mysql extends Command {
 		}
 		$output->writeln(_("Connected"));
 		$driver = $db->getAttribute(\PDO::ATTR_DRIVER_NAME);
+		$bundles = array();
 		while(true) {
 			$question = new Question($driver.'>', '');
+			$question->setAutocompleterValues($bundles);
 
 			$answer = $helper->ask($input, $output, $question);
 			if(preg_match("/^exit/i",$answer)) {
 				exit();
 			}
+			$bundles[] = $answer;
 
 			try {
 				$time_start = microtime(true);

@@ -12,13 +12,20 @@ class Mpg123Shell extends \Media\Driver\Driver {
 		"samplerate" => 48000, //-r
 		"channels" => 2 //--mono --stereo
 	);
+	private $binary = 'mpg123';
 	public $background = false;
 
-	public function __construct($filename,$extension,$mime) {
+	public function __construct($filename,$extension,$mime,$samplerate=48000,$channels=1,$bitrate=16) {
 		$this->loadTrack($filename);
 		$this->version = $this->getVersion();
 		$this->mime = $mime;
 		$this->extension = $extension;
+		$this->options['samplerate'] = $samplerate;
+		$this->options['channels'] = $channels;
+		$loc = fpbx_which("mpg123");
+		if(!empty($loc)) {
+			$this->binary = $loc;
+		}
 	}
 
 	public static function supportedCodecs(&$formats) {
@@ -31,7 +38,8 @@ class Mpg123Shell extends \Media\Driver\Driver {
 	}
 
 	public static function installed() {
-		$process = new Process('mpg123 --version');
+		$loc = fpbx_which("mpg123");
+		$process = new Process($loc.' --version');
 		$process->run();
 
 		// executes after the command finishes
@@ -55,7 +63,7 @@ class Mpg123Shell extends \Media\Driver\Driver {
 	}
 
 	public function getVersion() {
-		$process = new Process('mpg123 --version');
+		$process = new Process($this->binary.' --version');
 		$process->run();
 
 		// executes after the command finishes
@@ -73,7 +81,7 @@ class Mpg123Shell extends \Media\Driver\Driver {
 	public function convert($newFilename,$extension,$mime) {
 		switch($extension) {
 			case "wav":
-				$process = new Process('mpg123 -r 8000 -m -w '.$newFilename.' '.$this->track);
+				$process = new Process($this->binary.' -r '.$this->options['samplerate'].' -m -w '.$newFilename.' '.$this->track);
 			break;
 			default:
 				throw new \Exception("Invalid type of $extension sent to MPG123");

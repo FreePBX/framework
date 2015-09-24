@@ -38,6 +38,9 @@
  * $bootstrap_settings['astman_connected'] = false/false;
  * $bootstrap_settings['function_modules_included'] = true/false true if one or more were included, false if all were skipped;
  */
+if (isset($bootstrap_settings['returnimmediately'])) {
+	return;
+}
 
 $mt = microtime();
 // we should never re-run this file, something is wrong if we do.
@@ -141,6 +144,11 @@ if (file_exists($bmo)) {
 }
 /** TODO Remove this when all modules are finally NOT referencing it like this **/
 class Database extends FreePBX\Database {};
+
+//Not available until PHP 5
+if(!defined("ENT_HTML401")) {
+	define("ENT_HTML401", 0);
+}
 
 // bootstrap.php should always be called from freepbx.conf so
 // database conifguration already included, connect to database:

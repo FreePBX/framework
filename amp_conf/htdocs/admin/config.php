@@ -126,9 +126,14 @@ if(isset($_SESSION['modulesRedirect'])) {
 	unset($_SESSION['modulesRedirect']);
 }
 
-// determine if the user has a session time out set in advanced settings. If the timeout is not set, we don't force logout
-$sessionTimeOut = !empty($amp_conf['SESSION_TIMEOUT']) && is_numeric($amp_conf['SESSION_TIMEOUT']) ? $amp_conf['SESSION_TIMEOUT'] : false;
-if ($sessionTimeOut !== false) {
+// determine if the user has a session time out set in advanced settings. If the timeout is 0 or not set, we don't force logout
+$sessionTimeOut = \FreePBX::Config()->get('SESSION_TIMEOUT');
+if ($sessionTimeOut) {
+	// Make sure it's not set to something crazy short.
+	if ($sessionTimeOut < 60) {
+		\FreePBX::Config()->update('SESSION_TIMEOUT', 60);
+		$sessionTimeOut = 60;
+	}
 	if (!empty($_SESSION['AMP_user']) && is_object($_SESSION['AMP_user'])) {
 		//if we don't have last activity set it now
 		if (empty($_SESSION['AMP_user']->_lastactivity)) {
@@ -150,8 +155,20 @@ if ($sessionTimeOut !== false) {
 if (!isset($no_auth) && $action != '' && $amp_conf['CHECKREFERER']) {
 	if (isset($_SERVER['HTTP_REFERER'])) {
 		$referer = parse_url($_SERVER['HTTP_REFERER']);
-		$refererok = (trim($referer['host']) == trim($_SERVER['SERVER_NAME']))
-			? true : false;
+		// Check if the 'SERVER_NAME' variable is an IPv6 address. If it is, we want
+		// to add [ and ] around it. This is because IPv6 raw addresses are connected
+		// to like this:
+		//   http://[2001:f00d:dead:beef::1]/admin/config.php
+		// But, SERVER_NAME is (legitmately) reported as just '2001:f00d:dead:beef::1'.
+		// We need to add the braces around it to compare it.
+		if (filter_var($_SERVER['SERVER_NAME'], \FILTER_VALIDATE_IP, \FILTER_FLAG_IPV6)) {
+			$server = "[".$_SERVER['SERVER_NAME']."]";
+		} else {
+			$server = trim($_SERVER['SERVER_NAME']);
+		}
+		// This used to have 'trim's around them. I don't think we want that any more,
+		// if someone's stuck whitespace or \n's in there, it's broken already.
+		$refererok = ($referer['host'] == $server);
 	} else {
 		$refererok = false;
 	}

@@ -139,57 +139,56 @@ $html .= "\n" . '<script type="text/javascript">'
  		. '</script>';
 
 //Javascripts
-$html .= '<script type="text/javascript" src="assets/js/modernizr.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/modernizr.js'.$version_tag.'"></script>';
 //$html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
 
 //Removed google CDN because we are using custom libraries for bootstrap and jqueryui so that buttons work together
-$html .= '<script src="assets/js/bootstrap-3.3.4.custom.min.js"></script>';
+$html .= '<script src="assets/js/bootstrap-3.3.4.custom.min.js'.$version_tag.'"></script>';
 
-$html .= '<script src="assets/js/bootstrap-table-1.8.1.js"></script>';
+$html .= '<script src="assets/js/bootstrap-table-1.8.1.js'.$version_tag.'"></script>';
 
-$html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-en-US.js"></script>';
+$html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-en-US.js'.$version_tag.'"></script>';
 if($lang != "en_US") {
   switch($lang) {
     case "es_ES":
-      $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-es-SP.js"></script>';
+      $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-es-SP.js'.$version_tag.'"></script>';
       $html .= "<script>$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['es-SP']);</script>";
     break;
     default:
-      $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-'.str_replace("_","-",$l).'.js"></script>';
+      $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-'.str_replace("_","-",$l).'.js'.$version_tag.'"></script>';
       $html .= "<script>$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['".str_replace("_","-",$l)."']);</script>";
     break;
   }
 }
 
-$html .= '<script src="assets/js/bootstrap-table-cookie.min.js"></script>';
+$html .= '<script src="assets/js/bootstrap-table-cookie.min.js'.$version_tag.'"></script>';
 
 
-$html .= '<script src="assets/js/bootstrap-multiselect.js"></script>';
+$html .= '<script src="assets/js/bootstrap-multiselect.js'.$version_tag.'"></script>';
 
-$html .= '<script src="assets/js/chosen.jquery.min.js"></script>';
+$html .= '<script src="assets/js/chosen.jquery.min.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery.smartWizard.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/jquery.smartWizard.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.11.4.custom.min.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.11.4.custom.min.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery.iframe-transport.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/jquery.iframe-transport.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload-process.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload-process.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery.jplayer.min.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/jquery.jplayer.min.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/Sortable.min.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/Sortable.min.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/toastr-2.1.2.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/toastr-2.1.2.js'.$version_tag.'"></script>';
 
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below
 if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	$pbxlibver = '.' . filectime("assets/js/pbxlib.js");
-	$html .= '<script type="text/javascript" src="assets/js/pbxlib.js'
-			. $version_tag . $pbxlibver . '"></script>';
+	$html .= '<script type="text/javascript" src="assets/js/pbxlib.js'. $version_tag . $pbxlibver . '"></script>';
 } else {
 	/*
 	 * files below:
@@ -211,8 +210,8 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 if(FreePBX::View()->replaceState()) {
   $html .= '<script>history.replaceState(null, null, "'.FreePBX::View()->getQueryString().'");</script>';
 }
-$html .= '<script type="text/javascript" src="assets/js/typeahead.bundle.min.js"></script>';
-$html .= '<script type="text/javascript" src="assets/js/search.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/typeahead.bundle.min.js'.$version_tag.'"></script>';
+$html .= '<script type="text/javascript" src="assets/js/search.js'.$version_tag.'"></script>';
 if ($amp_conf['BRAND_ALT_JS']) {
 	$html .= '<script type="text/javascript" src="' . $amp_conf['BRAND_ALT_JS'] . $version_tag . '"></script>';
 }

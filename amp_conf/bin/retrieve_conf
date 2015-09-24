@@ -10,11 +10,20 @@ if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freep
 	include_once('/etc/asterisk/freepbx.conf');
 }
 if (!$bootstrap_settings['astman_connected']) {
-  fatal(sprintf(_("Unable to connect to Asterisk Manager from %s, aborting"),__FILE__));
+	throw new \Exception(sprintf(_("Unable to connect to Asterisk Manager from %s, aborting"),__FILE__));
 }
 
 $freepbx_conf =& freepbx_conf::create();
 
+$loc = fpbx_which("asterisk");
+if(empty($loc)) {
+	throw new \Exception(_("Unable to find the Asterisk binary"));
+} else {
+	exec($loc . " -rx 'core show version'",$out,$ret);
+	if($ret != 0) {
+		throw new \Exception(_("Unable to connect to Asterisk through the CLI"));
+	}
+}
 // Load the BMO Object
 $bmo = FreePBX::create();
 //Load Asterisk Manager into Memory
@@ -26,6 +35,11 @@ $bmo->Performance->Stop("load_astdb");
 $bmo->Performance->Start("trust_gpg");
 $bmo->GPG->trustFreePBX();
 $bmo->Performance->Stop();
+
+$bmo->Performance->Start("check_html5");
+$bmo->Media->getSupportedHTML5Formats();
+$bmo->Performance->Stop();
+
 $bmo->Performance->Start("retrieve_conf");
 $bmo->Hooks->updateBMOHooks();
 
@@ -952,6 +966,24 @@ function install_cron_scheduler() {
 		if(!$exists) {
 			$freepbxCron->add(array(
 				"command" => $amp_conf['AMPBIN']."/freepbx-cron-scheduler.php",
+				"minute" => rand(0,59)
+			));
+		}
+
+		$exists = false;
+		foreach($freepbxCron->getAll() as $cron) {
+			$str = str_replace("/", "\/", $amp_conf['AMPSBIN']."/fwconsole util cleanplaybackcache -q");
+			if(preg_match("/".$str."/i",$cron,$matches)) {
+				if($exists) {
+					//remove multiple entries (if any)
+					$freepbxCron->remove($cron);
+				}
+				$exists = true;
+			}
+		}
+		if(!$exists) {
+			$freepbxCron->add(array(
+				"command" => $amp_conf['AMPSBIN']."/fwconsole util cleanplaybackcache -q",
 				"minute" => rand(0,59)
 			));
 		}

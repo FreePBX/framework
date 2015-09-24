@@ -36,7 +36,7 @@ foreach($compiled_less_files as $file) {
 	$html .= '<link href="assets/less/'.$file.'" rel="stylesheet" type="text/css">';
 }
 
-$html .= '<link href="assets/css/bootstrap-table-1.8.1.css" rel="stylesheet" type="text/css">';
+$html .= '<link href="assets/css/bootstrap-table-1.8.1.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 
 if(!empty($amp_conf['BRAND_CSS_ALT_MAINSTYLE'])) {
 	$css_ver = '.' . filectime($amp_conf['BRAND_CSS_ALT_MAINSTYLE']);
@@ -61,8 +61,8 @@ if ($amp_conf['BRAND_CSS_CUSTOM']) {
 	$html .= '<link href="' . $amp_conf['BRAND_CSS_CUSTOM'] . $version_tag . '" rel="stylesheet" type="text/css">';
 }
 
-$html .= '<link rel="stylesheet" href="assets/css/outdatedbrowser.min.css">';
-$html .= '<script type="text/javascript" src="assets/js/outdatedbrowser.min.js"></script>';
+$html .= '<link rel="stylesheet" href="assets/css/outdatedbrowser.min.css'.$version_tag.'">';
+$html .= '<script type="text/javascript" src="assets/js/outdatedbrowser.min.js'.$version_tag.'"></script>';
 
 //TODO: Remove "firsttypeofselector" at some point.
 $html .= "<script>var firsttypeofselector = true</script>";
@@ -92,15 +92,15 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
 }
 
 //it seems extremely difficult to put jquery in the footer with the other scripts
-$html .= '<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js'.$version_tag.'"></script>';
 
 //development
 if($amp_conf['JQMIGRATE']) {
-	$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js"></script>';
+	$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js'.$version_tag.'"></script>';
 }
 
 // As we have code in the header acting as a class, this has to be up here.
-$html .= '<script type="text/javascript" src="assets/js/class.js"></script>';
+$html .= '<script type="text/javascript" src="assets/js/class.js'.$version_tag.'"></script>';
 
 $html .= '<script type="text/javascript" src="assets/js/jed.js' . $version_tag . '"></script>';
 

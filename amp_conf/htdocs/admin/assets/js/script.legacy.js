@@ -1572,10 +1572,33 @@ $(document).ready(function() {
 	//ajax spinner
 	$(document).ajaxStart(function() {
 		$("#settings-cog").addClass("fa-spin");
+		$("#settings-cog").css("color","")
+		$("#settings-cog").prop("title","");
 	});
 
 	$(document).ajaxStop(function() {
 		$("#settings-cog").removeClass("fa-spin");
+	});
+
+	$( document ).ajaxError(function(event, jqxhr, settings, thrownError) {
+		// Some modules *expect* errors, so we need to be able to disable
+		// alerts when this happens
+		if (typeof window.supresserrors !== 'undefined' && window.supresserrors === true) {
+			return;
+		}
+		if(typeof jqxhr.responseJSON !== "undefined" && jqxhr.responseJSON !== null) {
+			fpbxToast(jqxhr.responseJSON.error.message+"<br>File:"+jqxhr.responseJSON.error.file+":"+jqxhr.responseJSON.error.line,jqxhr.responseJSON.error.type,"exception");
+			if (window.console) {
+				console.warn(jqxhr.responseJSON);
+			}
+		} else {
+			fpbxToast(jqxhr.responseText,_("Error"),"exception");
+			if (window.console) {
+				console.warn(jqxhr.responseText);
+			}
+		}
+		$("#settings-cog").css("color","red");
+		$("#settings-cog").prop("title",_("Ajax Error, check the console for more information"));
 	});
 
 	$("#login_admin").click(function() {
@@ -1945,6 +1968,9 @@ function fpbxToast(message,title,level){
 		break;
 		case 'error':
 			toastr.error(message,title);
+		break;
+		case 'exception':
+			toastr.error(message,title, {timeOut: 30000});
 		break;
 
 	}

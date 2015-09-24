@@ -865,19 +865,19 @@ class Moduleadmin extends Command {
 				foreach($args as $module){
 					$this->doInstall($module, $this->force);
 				}
-				$this->setPerms($action,$args);
 				$this->updateHooks();
+				$this->setPerms($action,$args);
 				break;
 			case 'installall':
 				$this->check_active_repos();
 				$this->doInstallAll(false);
-				$this->setPerms($action,$args);
 				$this->updateHooks();
+				$this->setPerms($action,$args);
 				break;
 			case 'installlocal':
 				$this->doInstallLocal(true);
-				$this->setPerms($action,$args);
 				$this->updateHooks();
+				$this->setPerms($action,$args);
 				break;
 			case 'uninstall':
 				if(empty($args)){
@@ -920,8 +920,8 @@ class Moduleadmin extends Command {
 						$this->doInstall($module, $this->force);
 					}
 				}
-				$this->setPerms($action,$args);
 				$this->updateHooks();
+				$this->setPerms($action,$args);
 			break;
 			case 'upgrade':
 			case 'update':
@@ -932,15 +932,15 @@ class Moduleadmin extends Command {
 				foreach($args as $module){
 					$this->doUpgrade($module, $this->force);
 				}
-				$this->setPerms($action,$args);
 				$this->updateHooks();
+				$this->setPerms($action,$args);
 				break;
 			case 'updateall':
 			case 'upgradeall':
 				$this->check_active_repos();
 				$this->doUpgradeAll($force);
-				$this->setPerms($action,$args);
 				$this->updateHooks();
+				$this->setPerms($action,$args);
 				break;
 			case 'list':
 				$this->showList();
@@ -992,6 +992,7 @@ class Moduleadmin extends Command {
 				foreach($args as $module){
 					$this->doDelete($module, $this->force);
 				}
+				$this->updateHooks();
 				$this->setPerms($action,$args);
 				break;
 			case 'disable':
@@ -1037,8 +1038,8 @@ class Moduleadmin extends Command {
 				break;
 			case 'refreshsignatures':
 				$this->refreshsignatures();
-				$this->setPerms($action,$args);
 				$this->updateHooks();
+				$this->setPerms($action,$args);
 				break;
 			case 'updatexml':
 				break;
