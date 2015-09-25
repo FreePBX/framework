@@ -93,6 +93,8 @@ if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
 
 //it seems extremely difficult to put jquery in the footer with the other scripts
 $html .= '<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js'.$version_tag.'"></script>';
+$html .= '<script type="text/javascript" src="assets/js/selector-set-1.0.6.js'.$version_tag.'"></script>';
+$html .= '<script type="text/javascript" src="assets/js/jquery.selector-set-0.1.8.js'.$version_tag.'"></script>';
 
 //development
 if($amp_conf['JQMIGRATE']) {
