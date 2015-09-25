@@ -69,13 +69,6 @@ class Ajax extends FreePBX_Helpers {
 			$this->ajaxError(403, 'ajaxRequest declined');
 		}
 
-		// If we haven't been asked to NOT close the session, close it.
-		// It's still readable, but you can't change it. We do this so that
-		// it's not locked, and multiple things can ajax at the same time.
-		if (!$this->settings['changesession']) {
-			session_write_close();
-		}
-
 		if($this->settings['allowremote'] !== true && $this->freepbx->Config->get('CHECKREFERER')) {
 			// Try to avoid CSRF issues.
 			if (!isset($_SERVER['HTTP_REFERER'])) {
@@ -97,6 +90,13 @@ class Ajax extends FreePBX_Helpers {
 		}
 
 		session_start();
+
+		// If we haven't been asked to NOT close the session, close it.
+		// It's still readable, but you can't change it. We do this so that
+		// it's not locked, and multiple things can ajax at the same time.
+		if (!$this->settings['changesession']) {
+			session_write_close();
+		}
 
                 // If the request has come from this machine then no need to authenticate.
                 $request_from_ip = $_SERVER['REMOTE_ADDR'];
