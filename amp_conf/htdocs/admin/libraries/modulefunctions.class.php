@@ -8,7 +8,18 @@ define('MODULE_STATUS_DISABLED', 1);
 define('MODULE_STATUS_ENABLED', 2);
 define('MODULE_STATUS_NEEDUPGRADE', 3);
 define('MODULE_STATUS_BROKEN', -1);
-
+if(false) {
+	//Standard remote repositories
+	_("Standard");
+	_("Extended");
+	_("Commercial");
+	_("Unsupported");
+	_("Orphan");
+	//Standard tracks
+	_("Stable");
+	_("Beta");
+	_("Nightly");
+}
 class module_functions {
 	public $security_array = null;
 	public $modDepends = array();
