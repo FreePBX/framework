@@ -243,6 +243,9 @@ class DB {
 	 */
 	public function getCol($sql,$col=0,$params=array()) {
 		self::$error = null;
+		if (!is_array($params)) {
+			$params = array($params);
+		}
 		$array = array();
 		try {
 			if(!empty($params) && is_array($params)) {
@@ -321,12 +324,15 @@ class DB {
 	}
 
 	/**
-	 * http://pear.php.net/manual/en/package.database.db.db-common.getrow.php
+	 * http://pear.php.net/manual/en/package.database.db.db-common.getone.php
 	 * @param string  $sql    [description]
 	 * @param array  $params [description]
 	 */
 	public function getOne($sql,$params=array()) {
 		self::$error = null;
+		if (!is_array($params)) {
+			$params = array($params);
+		}
 		try {
 			if(!empty($params) && is_array($params)) {
 				$this->res = $this->db->prepare($sql);
@@ -360,6 +366,9 @@ class DB {
 															$fetchmode = DB_FETCHMODE_DEFAULT, $group = false) {
 		//this is a sad workaround for people who couldn't follow documentation for functions
 		$fetchmode = $this->isFetchMode($params) ? $params : $fetchmode;
+		if (!is_array($params)) {
+			$params = array($params);
+		}
 		self::$error = null;
 		try {
 			$fetch = $this->correctFetchMode($fetchmode);
@@ -621,7 +630,7 @@ class DB_result {
 			$array = (object) $res;
 		} else {
 			if (is_null($rownum) && (count($res) == 1)) {
-				$array = $res[0];		
+				$array = $res[0];
 			} else {
 				$array = isset($rownum) ? (isset($res[$rownum]) ? $res[$rownum] : null) : $res;
 			}
