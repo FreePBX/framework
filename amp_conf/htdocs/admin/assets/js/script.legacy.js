@@ -1587,7 +1587,12 @@ $(document).ready(function() {
 			return;
 		}
 		if(typeof jqxhr.responseJSON !== "undefined" && jqxhr.responseJSON !== null) {
-			fpbxToast(jqxhr.responseJSON.error.message+"<br>File:"+jqxhr.responseJSON.error.file+":"+jqxhr.responseJSON.error.line,jqxhr.responseJSON.error.type,"exception");
+			if(typeof jqxhr.responseJSON.error.message !== "undefined") {
+				fpbxToast(jqxhr.responseJSON.error.message+"<br>File:"+jqxhr.responseJSON.error.file+":"+jqxhr.responseJSON.error.line,jqxhr.responseJSON.error.type,"exception");
+
+			} else {
+				fpbxToast(jqxhr.responseJSON.error,_("Error"),"exception");
+			}
 			if (window.console) {
 				console.warn(jqxhr.responseJSON);
 			}
