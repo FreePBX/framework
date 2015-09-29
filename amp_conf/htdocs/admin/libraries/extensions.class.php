@@ -277,6 +277,8 @@ class extensions {
 				}
 			}
 			$priority = ($existing_priority === false) ? $count : $existing_priority;
+		} else {
+			$priority -= 1;
 		}
 		$newcommand = array(
 			'basetag' => $this->_exts[$section][$extension][$priority]['basetag'],
@@ -315,18 +317,16 @@ class extensions {
 					$count++;
 				}
 			}
-			$priority = ($existing_priority === false)
-				? false : $existing_priority;
+			$priority = ($existing_priority === false) ? false : $existing_priority;
+		} else {
+			$priority -= 1;
 		}
 		if($this->is_priority($priority)){
 			if (isset($this->_exts[$section][$extension][$priority])) {
 				unset($this->_exts[$section][$extension][$priority]);
-				$this->_exts[$section][$extension]
-					= array_values($this->_exts[$section][$extension]);
+				$this->_exts[$section][$extension] = array_values($this->_exts[$section][$extension]);
 			}
-			if ($priority === 0
-				&& isset($this->_exts[$section][$extension][0])
-			) {
+			if ($priority === 0 && isset($this->_exts[$section][$extension][0])) {
 				$this->_exts[$section][$extension][0]['basetag'] = 1;
 			}
 			return true;
