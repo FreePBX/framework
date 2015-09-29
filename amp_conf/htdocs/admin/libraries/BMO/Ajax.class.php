@@ -11,7 +11,7 @@ class Ajax extends FreePBX_Helpers {
 
 	public $storage = 'null';
 	private $headers = array();
-	public $settings = array( "authenticate" => true, "allowremote" => false );
+	public $settings = array( "authenticate" => true, "allowremote" => false, "changesession" => false );
 
 	public function __construct($freepbx = null) {
 		$this->init();
@@ -90,6 +90,13 @@ class Ajax extends FreePBX_Helpers {
 		}
 
 		session_start();
+
+		// If we haven't been asked to NOT close the session, close it.
+		// It's still readable, but you can't change it. We do this so that
+		// it's not locked, and multiple things can ajax at the same time.
+		if (!$this->settings['changesession']) {
+			session_write_close();
+		}
 
                 // If the request has come from this machine then no need to authenticate.
                 $request_from_ip = $_SERVER['REMOTE_ADDR'];
