@@ -65,8 +65,14 @@ class Ajax extends FreePBX_Helpers {
 			$this->ajaxError(501, 'ajaxRequest not found');
 		}
 
-		if (!$thisModule->ajaxRequest($command, $this->settings)) {
+		$settings = array();
+		if (!$thisModule->ajaxRequest($command, $settings)) {
 			$this->ajaxError(403, 'ajaxRequest declined');
+		}
+		foreach($this->settings as $k => &$v) {
+			if(isset($settings[$k])) {
+				$v = $settings[$k];
+			}
 		}
 
 		if($this->settings['allowremote'] !== true && $this->freepbx->Config->get('CHECKREFERER')) {
