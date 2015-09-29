@@ -174,7 +174,7 @@ class module_functions {
 						$mod['previous'] = isset($releases['rawname']) ? array($releases) : $releases;
 						if(!empty($beta[$module])) {
 							$betalist = isset($beta[$module]['rawname']) ? array($beta[$module]) : $beta[$module];
-							$mod['highreleasetrack'] = $mod['version'];
+							$mod['highreleasetrackver'] = $mod['version'];
 							$mod['highreleasetracktype'] = 'stable';
 							foreach($betalist as $release) {
 								$mod['releasetracks'][$release['releasetracktype']] = $release;
