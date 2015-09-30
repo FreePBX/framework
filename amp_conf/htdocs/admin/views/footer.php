@@ -148,6 +148,7 @@ $html .= '<script src="assets/js/bootstrap-3.3.4.custom.min.js'.$version_tag.'">
 $html .= '<script src="assets/js/bootstrap-table-1.8.1.js'.$version_tag.'"></script>';
 
 $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-en-US.js'.$version_tag.'"></script>';
+$lang = $amp_conf['UIDEFAULTLANG'] ? $amp_conf['UIDEFAULTLANG'] : 'en_US';
 if($lang != "en_US") {
   switch($lang) {
     case "es_ES":
@@ -155,8 +156,10 @@ if($lang != "en_US") {
       $html .= "<script>$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['es-SP']);</script>";
     break;
     default:
-      $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-'.str_replace("_","-",$l).'.js'.$version_tag.'"></script>';
-      $html .= "<script>$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['".str_replace("_","-",$l)."']);</script>";
+      if (!empty($lang)) {
+        $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-'.str_replace("_","-",$lang).'.js'.$version_tag.'"></script>';
+        $html .= "<script>$.extend($.fn.bootstrapTable.defaults, $.fn.bootstrapTable.locales['".str_replace("_","-",$lang)."']);</script>";
+      }
     break;
   }
 }
