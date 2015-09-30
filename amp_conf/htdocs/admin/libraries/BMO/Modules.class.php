@@ -59,8 +59,8 @@ class Modules {
 			$funct = strtolower($rawname.'_destinations');
 			$funct2 = strtolower($rawname.'_getdestinfo');
 			if (function_exists($funct)) {
-				\modgettext::push_textdomain($rawmod);
-				$destArray = $funct($i); //returns an array with 'destination' and 'description', and optionally 'category'
+				\modgettext::push_textdomain($rawname);
+				$destArray = $funct(); //returns an array with 'destination' and 'description', and optionally 'category'
 				\modgettext::pop_textdomain();
 				if(!empty($destArray)) {
 					foreach($destArray as $dest) {
