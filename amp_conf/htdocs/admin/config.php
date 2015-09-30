@@ -607,7 +607,7 @@ if ($quietmode) {
 
 	//send footer
 	$footer['js_content'] = load_view($amp_conf['VIEW_POPOVER_JS'], $popover_args);
-
+	$footer['lang'] = $language;
 	$footer['extmap'] 				= !$footer['covert']
 		? framework_get_extmap(true)
 		: json_encode(array());
