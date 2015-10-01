@@ -20,7 +20,7 @@ class Reload extends Command {
 		$args = $input->getArgument('args');
 		$result = do_reload();
 		if ($result['status'] != true) {
-			$output->writeln(_("<error>Error(s) have occured, the following is the retrieve_conf output:</error>"));
+			$output->writeln(_("<error>"._("Error(s) have occured, the following is the retrieve_conf output").":</error>"));
 			$retrieve_array = explode('<br/>',$result['retrieve_conf']);
 			foreach ($retrieve_array as $line) {
 				$line = preg_replace('#<br\s*/?>#i','', $line);

@@ -22,7 +22,7 @@ class Restart extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output){
 		if(posix_geteuid() != 0) {
-			$output->writeln("<error>You need to be root to run this command</error>");
+			$output->writeln("<error>"._("You need to be root to run this command")."</error>");
 			exit(1);
 		}
 		$start = new Start();

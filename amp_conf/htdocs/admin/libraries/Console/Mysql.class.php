@@ -24,7 +24,7 @@ class Mysql extends Command {
 		try {
 			$db = \FreePBX::Database();
 		} catch(\Exception $e) {
-			$output->writeln(_("<error>Unable to connect to database!</error>"));
+			$output->writeln(_("<error>"._("Unable to connect to database!")."</error>"));
 			return;
 		}
 		$output->writeln(_("Connected"));

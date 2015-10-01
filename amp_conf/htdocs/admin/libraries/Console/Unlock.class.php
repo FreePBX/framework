@@ -20,7 +20,7 @@ class Unlock extends Command {
 		$args = $input->getArgument('args');
 		session_id($args[0]);
 		session_start();
-		$output->writeln('Unlocking: ' . $args[0]);
+		$output->writeln(sprintf(_('Unlocking: %s'),$args[0]));
 		if (!isset($_SESSION["AMP_user"])) {
 			$_SESSION["AMP_user"] = new \ampuser('fwconsole');
 			$_SESSION["AMP_user"]->setAdmin();

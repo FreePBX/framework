@@ -661,9 +661,9 @@ class Moduleadmin extends Command {
 					if (isset($modules_online[$name]['version'])) {
 						$vercomp = version_compare_freepbx($modules[$name]['version'], $modules_online[$name]['version']);
 						if ($vercomp < 0) {
-							$status = _('Online upgrade available (').$modules_online[$name]['version'].')';
+							$status = sprintf(_('Online upgrade available (%s)'),$modules_online[$name]['version']);
 						} else if ($vercomp > 0) {
-							$status = _('Newer than online version (').$modules_online[$name]['version'].')';
+							$status = sprintf(_('Newer than online version (%s)'),$modules_online[$name]['version']);
 						} else {
 							$status = _('Enabled and up to date');
 						}
@@ -705,19 +705,19 @@ class Moduleadmin extends Command {
 		$this->writeln(_("Checking Signatures of Modules..."));
 		foreach($list as $m) {
 			//Check signature status, then if its online then if its signed online then redownload (through force)
-			$this->writeln("Checking ". $m['rawname'] . "...");
+			$this->writeln(sprintf(_("Checking %s..."),$m['rawname']));
 			if(isset($m['signature']['status']) && (~$m['signature']['status'] & \FreePBX\GPG::STATE_GOOD)) {
-				$this->writeln("Signature Invalid");
+				$this->writeln(_("Signature Invalid"));
 				if(isset($modules_online[$m['rawname']]) && isset($modules_online[$m['rawname']]['signed'])) {
-					$this->writeln("\tRefreshing ".$m['rawname']);
+					$this->writeln("\t".sprintf(_("Refreshing %s"),$m['rawname']));
 					$modulename = $m['rawname'];
 					$modules = $fpbxmodules->getinfo($modulename);
 					$this->doUpgrade($modulename,true);
-					$this->writeln("\tVerifying GPG...");
+					$this->writeln("\t"._("Verifying GPG..."));
 					$this->mf->updateSignature($modulename);
-					$this->writeln("Done");
+					$this->writeln(_("Done"));
 				} else {
-					$this->writeln(_("\tCould not find signed module on remote server!"), "error", false);
+					$this->writeln("\t"._("Could not find signed module on remote server!"), "error", false);
 				}
 			} else {
 				$this->writeln(_("Good"));
@@ -729,11 +729,11 @@ class Moduleadmin extends Command {
 	private function showReverseDepends($modulename) {
 		$modules = $this->mf->getinfo($modulename);
 		if (!isset($modules[$modulename])) {
-			fatal($modulename._(' not found'));
+			fatal(sprintf(_('%s not found'),$modulename));
 		}
 
 		if (($depmods = $this->mf->reversedepends($modulename)) !== false) {
-			$this->writeln(_("The following modules depend on this one: ").implode(', ',$depmods));
+			$this->writeln(sprintf(_("The following modules depend on this one: %s"),implode(', ',$depmods)));
 			exit(1);
 		} else {
 			$this->writeln(_("No enabled modules depend on this module."));
@@ -778,7 +778,7 @@ class Moduleadmin extends Command {
 			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 			exit(2);
 		} else {
-			$this->writeln(_("Module ").$modulename._(" successfully disabled"));
+			$this->writeln(sprintf(_("Module %s successfully disabled"),$modulename));
 		}
 	}
 
@@ -789,7 +789,7 @@ class Moduleadmin extends Command {
 			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 			exit(2);
 		} else {
-			$this->writeln(_("Module ").$modulename._(" successfully enabled"));
+			$this->writeln(sprintf(_("Module %s successfully enabled"),$modulename));
 		}
 	}
 
@@ -799,50 +799,50 @@ class Moduleadmin extends Command {
 			$this->writeln(_("The following error(s) occured:"), "error", false);
 			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 		} else {
-			$this->writeln(_("Module ").$modulename._(" successfully enabled"));
+			$this->writeln(sprintf(_("Module %s successfully enabled"),$modulename));
 		}
 	}
 
 	private function showHelp(){
-		$help = '<info>Module Administration Help:'.PHP_EOL;
-		$help .= 'Usage: fwconsole modadmin [-f][-R reponame][-R reponame][action][arg1][arg2][arg...]</info>' . PHP_EOL;
-		$help .= 'Flags:' . PHP_EOL;
+		$help = '<info>'._('Module Administration Help').':'.PHP_EOL;
+		$help .= _('Usage').': fwconsole modadmin [-f][-R reponame][-R reponame][action][arg1][arg2][arg...]</info>' . PHP_EOL;
+		$help .= _('Flags').':' . PHP_EOL;
 		$help .= '-f - FORCE' . PHP_EOL;
 		$help .= '-R - REPO, accepts reponame as a single argument' . PHP_EOL;
 
-		$help .= '<question>Module Actions:</question>' . PHP_EOL;
-		$rows[] = array('checkdepends','Checks dependencies for provided module[s], accepts argument module[s] ');
-		$rows[] = array('disable','Disables module[s] accepts argument module[s]');
-		$rows[] = array('download','Download module[s], accepts argument module[s] or URLs');
-		$rows[] = array('downloadinstall','Download and install module[s], accepts argument module[s] or URLs');
-		$rows[] = array('delete','Deleted module[s], accepts argument module[s]');
-		$rows[] = array('enable','Enable module[s], accepts argument module[s]');
-		$rows[] = array('install','Installs module[s], accepts argument module[s]');
-		$rows[] = array('installlocal','Install local module[s], accepts argument module[s]');
-		$rows[] = array('uninstall','Uninstalls module[s], accepts argument module[s]');
-		$rows[] = array('upgrade','Upgrade module[s], accepts argument module[s]');
+		$help .= '<question>'._('Module Actions').':</question>' . PHP_EOL;
+		$rows[] = array('checkdepends',_('Checks dependencies for provided module[s], accepts argument module[s]'));
+		$rows[] = array('disable',_('Disables module[s] accepts argument module[s]'));
+		$rows[] = array('download',_('Download module[s], accepts argument module[s] or URLs'));
+		$rows[] = array('downloadinstall',_('Download and install module[s], accepts argument module[s] or URLs'));
+		$rows[] = array('delete',_('Deleted module[s], accepts argument module[s]'));
+		$rows[] = array('enable',_('Enable module[s], accepts argument module[s]'));
+		$rows[] = array('install',_('Installs module[s], accepts argument module[s]'));
+		$rows[] = array('installlocal',_('Install local module[s], accepts argument module[s]'));
+		$rows[] = array('uninstall',_('Uninstalls module[s], accepts argument module[s]'));
+		$rows[] = array('upgrade',_('Upgrade module[s], accepts argument module[s]'));
 		foreach($rows as $k => $v){
 			$help .= '<info>'.$v[0].'</info> : <comment>' . $v[1] . '</comment>'. PHP_EOL;
 		}
 		unset($rows);
 		$rows = array();
-		$help .= '<question>All inclusive Module Actions:</question>' . PHP_EOL;
-		$rows[] = array('installall','Installs all modules, accepts no arguments');
-		$rows[] = array('enableall','Trys to enable all modules, accepts no arguments');
-		$rows[] = array('upgradeall','Upgrades all modules, accepts no arguments');
+		$help .= '<question>'._('All inclusive Module Actions').':</question>' . PHP_EOL;
+		$rows[] = array('installall',_('Installs all modules, accepts no arguments'));
+		$rows[] = array('enableall',_('Trys to enable all modules, accepts no arguments'));
+		$rows[] = array('upgradeall',_('Upgrades all modules, accepts no arguments'));
 		foreach($rows as $k => $v){
 			$help .= '<info>'.$v[0].'</info> : <comment>' . $v[1] . '</comment>'. PHP_EOL;
 		}
 		unset($rows);
 		$rows = array();
 		$help .= '<question>Repository Actions:</question>' . PHP_EOL;
-		$rows[] = array('disablerepo','Disables repo, accepts argument repo[s]');
-		$rows[] = array('enablerepo','Enables repo, accepts argument repo[s]');
-		$rows[] = array('list','List all local modules, accepts no arguments');
-		$rows[] = array('listonline','List online modules, accepts no arguments');
-		$rows[] = array('showupgrades','Shows a list of modules that may be updated, accepts no arguments');
-		$rows[] = array('i18n','Shows translation information for supplied modules, accepts argument module[s]');
-		$rows[] = array('refreshsignatures',' ReDownloads all modules that have invalid signatures');
+		$rows[] = array('disablerepo',_('Disables repo, accepts argument repo[s]'));
+		$rows[] = array('enablerepo',_('Enables repo, accepts argument repo[s]'));
+		$rows[] = array('list',_('List all local modules, accepts no arguments'));
+		$rows[] = array('listonline',_('List online modules, accepts no arguments'));
+		$rows[] = array('showupgrades',_('Shows a list of modules that may be updated, accepts no arguments'));
+		$rows[] = array('i18n',_('Shows translation information for supplied modules, accepts argument module[s]'));
+		$rows[] = array('refreshsignatures',_('ReDownloads all modules that have invalid signatures'));
 		foreach($rows as $k => $v){
 			$help .= '<info>'.$v[0].'</info> : <comment>' . $v[1] . '</comment>'. PHP_EOL;
 		}
@@ -860,7 +860,7 @@ class Moduleadmin extends Command {
 			break;
 			case 'install':
 				if(empty($args)){
-					fatal("Missing module name");
+					fatal(_("Missing module name"));
 				}
 				foreach($args as $module){
 					$this->doInstall($module, $this->force);
@@ -881,7 +881,7 @@ class Moduleadmin extends Command {
 				break;
 			case 'uninstall':
 				if(empty($args)){
-					fatal("Missing module name");
+					fatal(_("Missing module name"));
 				}
 				foreach($args as $module){
 					$this->doUninstall($module, $this->force);
@@ -890,7 +890,7 @@ class Moduleadmin extends Command {
 				break;
 			case 'download':
 				if(empty($args)){
-					fatal("Missing module name or URL");
+					fatal(_("Missing module name or URL"));
 				}
 				$this->check_active_repos();
 				foreach($args as $module){
@@ -904,7 +904,7 @@ class Moduleadmin extends Command {
 				break;
 			case 'downloadinstall':
 				if(empty($args)){
-					fatal("Missing module name or URL");
+					fatal(_("Missing module name or URL"));
 				}
 				$this->check_active_repos();
 				foreach($args as $module){
@@ -913,7 +913,7 @@ class Moduleadmin extends Command {
 						if(!empty($this->mf->downloadedRawname)) {
 							$this->doInstall($this->mf->downloadedRawname, $this->force);
 						} else {
-							fatal("Could not determine module name");
+							fatal(_("Could not determine module name"));
 						}
 					} else {
 						$this->doDownload($module, $this->force);
@@ -926,7 +926,7 @@ class Moduleadmin extends Command {
 			case 'upgrade':
 			case 'update':
 				if(empty($args)){
-					fatal("Missing module name");
+					fatal(_("Missing module name"));
 				}
 				$this->check_active_repos();
 				foreach($args as $module){
@@ -951,7 +951,7 @@ class Moduleadmin extends Command {
 				break;
 			case 'reversedepends':
 				if(empty($args)){
-					fatal("Missing module name");
+					fatal(_("Missing module name"));
 				}
 				foreach($args as $module){
 					$this->showReverseDepends($module);
@@ -959,7 +959,7 @@ class Moduleadmin extends Command {
 				break;
 			case 'enablerepo':
 				if(empty($args)){
-					fatal("Missing repo name");
+					fatal(_("Missing repo name"));
 				}
 				foreach($args as $repo){
 					$this->enableRepo($repo);
@@ -967,7 +967,7 @@ class Moduleadmin extends Command {
 				break;
 			case 'disablerepo':
 				if(empty($args)){
-					fatal("Missing repo name");
+					fatal(_("Missing repo name"));
 				}
 				foreach($args as $repo){
 					$this->disableRepo($repo);
@@ -978,7 +978,7 @@ class Moduleadmin extends Command {
 				break;
 			case 'checkdepends':
 				if(empty($args)){
-					fatal("Missing module name");
+					fatal(_("Missing module name"));
 				}
 				foreach($args as $module){
 					$this->showCheckDepends($module);
@@ -987,7 +987,7 @@ class Moduleadmin extends Command {
 			case 'remove':
 			case 'delete':
 				if(empty($args)){
-					fatal("Missing module name");
+					fatal(_("Missing module name"));
 				}
 				foreach($args as $module){
 					$this->doDelete($module, $this->force);
@@ -997,7 +997,7 @@ class Moduleadmin extends Command {
 				break;
 			case 'disable':
 				if(empty($args)){
-					fatal("Missing module name");
+					fatal(_("Missing module name"));
 				}
 				foreach($args as $module){
 					$this->doDisable($module, $this->force);
@@ -1006,7 +1006,7 @@ class Moduleadmin extends Command {
 				break;
 			case 'enable':
 				if(empty($args)){
-					fatal("Missing module name");
+					fatal(_("Missing module name"));
 				}
 				foreach($args as $module){
 					$this->doEnable($module, $this->force);
@@ -1016,11 +1016,11 @@ class Moduleadmin extends Command {
 			case 'enableall':
 				$modules = $this->listDisabled();
 				foreach($modules as $module){
-					$this->writeln('Attempting to Enable '. $module );
+					$this->writeln(sprintf(_('Attempting to Enable %s'),$module));
 					$this->tryEnable($module, $this->force);
 				}
-				$this->writeln('This action understands somethings may be disabled for a reason.');
-				$this->writeln('Please review the output above for any errors while enabling modules');
+				$this->writeln(_('This action understands somethings may be disabled for a reason.'));
+				$this->writeln(_('Please review the output above for any errors while enabling modules'));
 				$this->updateHooks();
 				break;
 			case 'showupgrade':
@@ -1030,7 +1030,7 @@ class Moduleadmin extends Command {
 				break;
 			case 'i18n':
 				if(empty($args)){
-					fatal("Missing module name");
+					fatal(_("Missing module name"));
 				}
 				foreach($args as $module){
 					$this->showi18n($module);
@@ -1047,7 +1047,7 @@ class Moduleadmin extends Command {
 			case 'h':
 			case '?':
 			default:
-				$this->writeln('Unknown Command! ('.$$action.')', "error", false);
+				$this->writeln(sprintf(_('Unknown Command! (%s)'),$$action), "error", false);
 				break;
 		}
 	}

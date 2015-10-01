@@ -22,7 +22,7 @@ class Stop extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output){
 		if(posix_geteuid() != 0) {
-			$output->writeln("<error>You need to be root to run this command</error>");
+			$output->writeln("<error>"._("You need to be root to run this command")."</error>");
 			exit(1);
 		}
 		$output->writeln(_('Running FreePBX shutdown...'));
@@ -50,8 +50,8 @@ class Stop extends Command {
 			}else{
 				$output->writeln('');
 				$output->writeln(_('Shutting down Asterisk Gracefully...'));
-				$output->writeln(_('Press C to Cancel'));
-				$output->writeln(_('Press N to shut down NOW'));
+				$output->writeln(sprintf(_('Press %s to Cancel'),'C'));
+				$output->writeln(sprintf(_('Press %s to shut down NOW'),'N'));
 				$progress = new ProgressBar($output, 120);
 				$this->stopAsterisk($output, 'gracefully');
 				$progress->start();
@@ -98,7 +98,7 @@ class Stop extends Command {
 				}
 				system("stty '" . $term[0] . "'");
 				if(!$userov){
-					$output->writeln(_('Grace timed out'));
+					$output->writeln(_('Grace Period timed out'));
 					$this->stopAsterisk($output, 'now');
 				}
 			}

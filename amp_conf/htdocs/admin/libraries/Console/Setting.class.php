@@ -39,7 +39,7 @@ class Setting extends Command {
 				$fs->dumpFile($filename,$configjson);
 				return true;
 			} catch (IOExceptionInterface $e){
-				echo _("Could not write to ").$filename;
+				$output->writeln(sprintf(_("Could not write to %s"),$filename));
 				return false;
 			}
 		}
@@ -49,11 +49,11 @@ class Setting extends Command {
 			$settings = json_decode(file_get_contents($filename));
 			foreach($settings as $key => $val){
 				if($this->FreePBXConf->conf_setting_exists($key)){
-					$output->writeln(_('Changing ') . $key . _(' to ') . $val);
-					$this->FreePBXConf->set_conf_values(array($key => $val),true,true);	
+					$output->writeln(sprintf(_('Changing %s to %s'),$key,$val));
+					$this->FreePBXConf->set_conf_values(array($key => $val),true,true);
 				}else{
-					$output->writeln(_('The setting ') . $key . _(' was not found!')); 
-				}				
+					$output->writeln(sprintf(_('The setting %s was not found!'),$key));
+				}
 			}
 			return true;
 		}
@@ -79,16 +79,16 @@ class Setting extends Command {
 			if($args){
 				foreach($args as $arg){
 					$dialog = $this->getHelper('dialog');
-					if($dialog->askConfirmation($output, '<question>'._('Are you sure you want to set ') . $arg . _(' to its default?').'</question>',false)){ 
+					if($dialog->askConfirmation($output, '<question>'.sprintf(_('Are you sure you want to set %s to its default?'),$arg).'</question>',false)){
 						if($this->FreePBXConf->conf_setting_exists($arg)){
 							$default = $this->FreePBXConf->get_conf_default_setting($arg);
 							$output->writeln('Changing ' . $arg . ' to ' . $default);
-							$this->FreePBXConf->set_conf_values(array($arg => $default),true,true);	
+							$this->FreePBXConf->set_conf_values(array($arg => $default),true,true);
 						}else{
-							$output->writeln(_('The setting ') . $arg . _(' was not found!')); 
+							$output->writeln(sprintf(_('The setting %s was not found!'),$arg));
 						}
 					}else{
-						$output->writeln(_('Current setting for ') . $arg . _(' left in place'));
+						$output->writeln(sprintf(_('Current setting for %s left in place'),$arg));
 					}
 				}
 			}
@@ -97,11 +97,11 @@ class Setting extends Command {
 			$setting = $args[0];
 			$value = $args[1];
 			if($this->FreePBXConf->conf_setting_exists($setting)){
-				$output->writeln(_('Changing ') . $setting . _(' to ') . $value);
-				$this->FreePBXConf->set_conf_values(array($setting => $value),true,true);	
+				$output->writeln(sprintf(_('Changing %s to %s'),$setting,$value));
+				$this->FreePBXConf->set_conf_values(array($setting => $value),true,true);
 			}else{
-				$output->writeln(_('The setting ') . $arg . _(' was not found!')); 
-			}			
+				$output->writeln(sprintf(_('The setting %s was not found!'),$arg));
+			}
 		}
 	}
 }

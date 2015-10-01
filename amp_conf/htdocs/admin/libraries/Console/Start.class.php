@@ -31,7 +31,7 @@ class Start extends Command {
 		$output->writeln(_('Checking Asterisk Status...'));
 		$aststat = $this->asteriskProcess();
 		if($aststat[0]){
-			$output->writeln(_('Asterisk Seems to be running on PID: ').'<info>'. $aststat[0] . '</info>'. _(' and has been running for ').'<info>' . trim($aststat[1]). '</info>');
+			$output->writeln(sprintf(_('Asterisk Seems to be running on PID %s and has been running for %s'),$aststat[0], trim($aststat[1])));
 			$output->writeln('<info>'._('Not running Pre-Asterisk Hooks.').'</info>');
 		}else{
 			$output->writeln(_('Run Pre-Asterisk Hooks'));
@@ -49,13 +49,13 @@ class Start extends Command {
 			if($aststat[0]){
 				$progress->finish();
 				$output->writeln('');
-				$output->writeln(_('Asterisk Started on ').'<info>' . $aststat[0] . '</info>');
+				$output->writeln(sprintf(_('Asterisk Started on %s'),$aststat[0]));
 				$output->writeln('');
 				$output->writeln(_('Running Post-Asterisk Scripts'));
 				$this->postAsteriskHooks($output);
 			} else {
 				$progress->finish();
-				$output->writeln('<error>Asterisk Failed to Start</error>');
+				$output->writeln('<error>'._("Asterisk Failed to Start").'</error>');
 			}
 		}
 	}

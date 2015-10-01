@@ -27,12 +27,12 @@ class Chown extends Command {
 	}
 	protected function execute(InputInterface $input, OutputInterface $output, $quiet=false){
 		if(posix_geteuid() != 0) {
-			$output->writeln("<error>You need to be root to run this command</error>");
+			$output->writeln("<error>"._("You need to be root to run this command")."</error>");
 			exit(1);
 		}
 		$this->quiet = $quiet;
 		if(!$this->quiet) {
-			$output->writeln("Setting Permissions...");
+			$output->writeln(_("Setting Permissions")."...");
 		}
 		$freepbx_conf = \freepbx_conf::create();
 		$conf = $freepbx_conf->get_conf_settings();
@@ -359,8 +359,8 @@ class Chown extends Command {
 		if(($mode>>9) == 0){
 			return true;
 		}else{
-			$this->errors[] = $file . _(' Likely will not work as expected');
-			$this->errors[] = _('Permissions should be set with a leading 0, example 644 should be 0644 File:') . $file . _(' Permission set as: ') . $mode ;
+			$this->errors[] = sprintf(_('%s Likely will not work as expected'),$file);
+			$this->errors[] = sprintf(_('Permissions should be set with a leading 0, example 644 should be 0644 File: %s Permission set as: %s'),$file,$mode);
 			return false;
 		}
 	}
