@@ -499,14 +499,14 @@ class Moduleadmin extends Command {
 		$modules = $this->mf->getinfo($modulename);
 		if (!isset($modules[$modulename])) {
 			//TODO: what?
-			fatal($modulename.' not found');
+			fatal(sprintf(_('%s not found'),$modulename));
 		}
 		if (($errors = $this->mf->checkdepends($modules[$modulename])) !== true) {
 			$this->writeln(_("The following dependencies are not met:"), "error", false);
 			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 			exit(1);
 		} else {
-			$this->writeln(_("All dependencies met for module ").$modulename);
+			$this->writeln(sprintf(_("All dependencies met for module %s"),$modulename));
 		}
 	}
 

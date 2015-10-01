@@ -419,7 +419,7 @@ class module_functions {
 			$extext = "";
 			foreach($exposures as $m => $vinfo) {
 				$extext .= sprintf(
-					_("%s (Cur v. %s) should be upgraded to v. %s to fix security issues: %s\n"),
+					_("%s (Cur v. %s) should be upgraded to v. %s to fix security issues: %s")."\n",
 					$m, $vinfo['curver'], $vinfo['minver'], implode($vinfo['vul'],', ')
 				);
 			}

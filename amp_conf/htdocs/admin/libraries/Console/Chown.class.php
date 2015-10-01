@@ -316,12 +316,12 @@ class Chown extends Command {
 					$this->fs->chmod($file,$perms);
 				} catch (IOExceptionInterface $e) {
 					if($file){
-						$this->errors[] = _('An error occurred while changing permissions on file') . $file;
+						$this->errors[] = sprintf(_('An error occurred while changing permissions on file %s'),$file);
 					}
 				}
 			break;
 			default:
-				throw new \Exception(_("Unknown filetype of:").$filetype."[".$file."]");
+				throw new \Exception(sprintf(_("Unknown filetype of: %s[%s]"),$filetype,$file));
 			break;
 		}
 	}
@@ -330,7 +330,7 @@ class Chown extends Command {
 			$this->fs->chmod($dir,$perms, 0000, true);
 		} catch (IOExceptionInterface $e) {
 			if($dir){
-				$this->errors[] = _('An error occurred while changing permissions ') . $dir;
+				$this->errors[] = sprintf(_('An error occurred while changing permissions %s'),$dir);
 			}
 		}
 	}
