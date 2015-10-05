@@ -21,6 +21,7 @@ return array(
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Symfony\\Component\\BrowserKit\\' => array($vendorDir . '/symfony/browser-kit'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
+    'PicoFeed' => array($vendorDir . '/fguillot/picofeed/lib'),
     'PhpConsole' => array($vendorDir . '/php-console/php-console/src'),
     'Guzzle\\Tests' => array($vendorDir . '/guzzlehttp/guzzle/tests'),
     'Guzzle' => array($vendorDir . '/guzzlehttp/guzzle/src'),
