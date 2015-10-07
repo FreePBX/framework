@@ -25,4 +25,5 @@ return array(
     'PhpConsole' => array($vendorDir . '/php-console/php-console/src'),
     'Guzzle\\Tests' => array($vendorDir . '/guzzlehttp/guzzle/tests'),
     'Guzzle' => array($vendorDir . '/guzzlehttp/guzzle/src'),
+    'Detection' => array($vendorDir . '/mobiledetect/mobiledetectlib/namespaced'),
 );

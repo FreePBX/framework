@@ -16,6 +16,7 @@ spl_autoload_register(function ($class) {
  * Deals with converting to various formats
  * Also deals with generating HTML5 formats
  */
+use Sinergi\BrowserDetector\Browser;
 class Media extends DB_Helper{
 	private $file;
 	private $path;
@@ -44,18 +45,23 @@ class Media extends DB_Helper{
 	 * @return array Return array of formats
 	 */
 	public function getSupportedHTML5Formats() {
+		$browser = $this->detectSupportedFormats();
 		$formats = $this->getSupportedFormats();
-		$html5 = array("oga", "wav", "mp3", "m4a");
+		$html5 = array("oga", "mp3", "m4a", "wav");
 		$final = array();
-		$nt = notifications::create();
 		$missing = array();
+		$unsupported = array();
 		foreach($html5 as $i) {
-			if(in_array($i,$formats['out'])) {
+			if(in_array($i,$browser) && in_array($i,$formats['out'])) {
 				$final[] = $i;
-			} else {
+			} elseif(in_array($i,$browser) && !in_array($i,$formats['out'])) {
 				$missing[] = $i;
+			} else {
+				$unsupported[] = $i;
 			}
 		}
+
+		$nt = notifications::create();
 		$mmm = $this->getConfig('mediamissingmessage');
 		if(!empty($missing) && empty($mmm)) {
 			$brand = $this->FreePBX->Config->get("DASHBOARD_FREEPBX_BRAND");
@@ -65,7 +71,7 @@ class Media extends DB_Helper{
 			$nt->delete("framework", "missing_html5");
 			$this->setConfig('mediamissingmessage', false);
 		}
-		return $final;
+		return !empty($final[0]) ? array($final[0]) : array();
 	}
 
 	/**
@@ -136,22 +142,35 @@ class Media extends DB_Helper{
 		$md5 = md5_file($this->path);
 		$path_parts = pathinfo(basename($this->path));
 		$name = $path_parts['filename'];
+		$supportedFormats = $this->getSupportedHTML5Formats();
+		//because ogg and oga are interchangeable
+		if(in_array('oga',$supportedFormats)) {
+			$supportedFormats = array("ogg");
+		}
 		$formats = $f = array("mp3" => "mp3","wav" => "wav","ogg" => "ogg","mp4" => "mp4");
 		$file = $dir."/".$name."-".$md5;
 		$file = str_replace(".","_",$file);
 		$converted = array();
 		foreach($f as $format) {
-			if(file_exists($file.".".$format)) {
-				unset($formats[$format]);
+			if(in_array($format,$supportedFormats)) {
+				if(file_exists($file.".".$format)) {
+					unset($formats[$format]);
+				}
+				$converted[$format] = basename($file.".".$format);
 			}
-			$converted[$format] = basename($file.".".$format);
+		}
+		//because ogg and oga are interchangeable
+		if(isset($converted['ogg'])) {
+			$converted['oga'] = $converted['ogg'];
+			unset($converted['ogg']);
 		}
 
-		$supported = $this->getSupportedFormats();
 		/** This is broken for some stupid reason **/
 		//$this->generateImage($dir."/".$name."-".$md5.".png");
-		$this->convertMultiple($file,array_intersect($formats,$supported['out']));
-
+		$convert = array_intersect($formats,$supportedFormats);
+		if(!empty($convert)) {
+			$this->convertMultiple($file,$convert);
+		}
 		return $converted;
 	}
 
@@ -173,7 +192,7 @@ class Media extends DB_Helper{
 		if (is_file($filename)){
 			switch($format) {
 				case "mp3":
-					$ct = "audio/x-mpeg-3";
+					$ct = "audio/mpeg";
 				break;
 				case "m4a":
 					$ct = "audio/mp4";
@@ -295,5 +314,73 @@ class Media extends DB_Helper{
 				fclose($fp);
 			}
 		}
+	}
+
+	/**
+	 * Detect what this browser supports to minimize processing
+	 * Sort by priority of codec to use
+	 * -Patent Unencumbered first
+	 * -Patent encumbered in the middle, first m4a as it's not as bad as mp3
+	 * -Wav always last (as it's filesize is HUGE)
+	 * Used: html5test.com/results/search.html
+	 * @return array array of browser supported formats
+	 */
+	private function detectSupportedFormats() {
+		$browser = new Browser();
+		$formats = array();
+		switch($browser->getName()) {
+			case Browser::OPERA:
+			case Browser::KONQUEROR:
+			case Browser::FIREBIRD:
+			case Browser::FIREFOX:
+			case Browser::SEAMONKEY:
+			case Browser::ICEWEASEL:
+			case Browser::MOZILLA:
+			case Browser::CHROME:
+			case Browser::BLACKBERRY:
+				$formats = array("oga", "m4a", "mp3", "wav");
+			break;
+			case Browser::ICAB:
+			case Browser::NOKIA_S60:
+			case Browser::NOKIA:
+			case Browser::EDGE:
+			case Browser::YANDEX:
+			case Browser::PHOENIX:
+			case Browser::SAFARI:
+				$formats = array("m4a","mp3","wav");
+			break;
+			case Browser::VIVALDI:
+			case Browser::SHIRETOKO:
+			case Browser::ICECAT:
+				$formats = array("oga","wav");
+			break;
+			case Browser::IE:
+			case Browser::POCKET_IE:
+				$formats = array("m4a","mp3");
+			break;
+			case Browser::OMNIWEB:
+				$formats = array("mp3","wav");
+			break;
+			case Browser::WEBTV:
+			case Browser::OPERA_MINI:
+			case Browser::AMAYA:
+			case Browser::LYNX:
+			case Browser::NAVIGATOR:
+			case Browser::NETSCAPE_NAVIGATOR:
+			case Browser::GOOGLEBOT:
+			case Browser::SLURP:
+			case Browser::W3CVALIDATOR:
+			case Browser::MSNBOT:
+			case Browser::GALEON:
+			case Browser::MSN:
+			case Browser::NETPOSITIVE:
+			case Browser::GSA:
+				$formats = array();
+			break;
+			default: //not sure of the browser type so just do them all
+				$formats = array("oga", "wav", "mp3", "m4a");
+			break;
+		}
+		return $formats;
 	}
 }
