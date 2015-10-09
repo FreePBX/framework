@@ -77,11 +77,11 @@ class ModulesConf {
 
 		if (is_array($module)) {
 			foreach($module as $m) {
-				if (!in_array($m, $current['modules']['preload']))
+				if (!is_array($current['modules']['preload']) || !in_array($m, $current['modules']['preload']))
 					$this->conf->addEntry("modules", "preload=$m");
 			}
 		} else {
-			if (!in_array($module, $current['modules']['preload']))
+			if (!is_array($current['modules']['preload']) || !in_array($module, $current['modules']['preload']))
 				$this->conf->addEntry("modules", "preload=$module");
 		}
 	}
@@ -111,12 +111,12 @@ class ModulesConf {
 
 		if (is_array($module)) {
 			foreach($module as $m) {
-				if (!in_array($m, $current['modules']['load'])) {
+				if (!is_array($current['modules']['load']) || !in_array($m, $current['modules']['load'])) {
 					$this->conf->addEntry("modules", "load=$m");
 				}
 			}
 		} else {
-			if (!in_array($module, $current['modules']['load'])) {
+			if (!is_array($current['modules']['noload']) || !in_array($module, $current['modules']['load'])) {
 				$this->conf->addEntry("modules", "load=$module");
 			}
 		}
