@@ -36,18 +36,15 @@ class ModulesConf {
 		if ($module == null)
 			throw new \Exception("Wasn't given a module to noload");
 
-		// Add module(s) to noload.
-		$mods = array();
-
-		$current = $this->conf->config->ProcessedConfig;
+		$current = $this->conf->config->ProcessedConfig['modules'];
 
 		if (is_array($module)) {
 			foreach($module as $m) {
-				if (!is_array($current['modules']['noload']) || !in_array($m, $current['modules']['noload']))
+				if (!isset($current['noload']) || !is_array($current['noload']) || !in_array($m, $current['noload']))
 					$this->conf->addEntry("modules", "noload=$m");
 			}
 		} else {
-			if (!is_array($current['modules']['noload']) || !in_array($module, $current['modules']['noload']))
+			if (!isset($current['noload']) || !is_array($current['noload']) || !in_array($module, $current['noload']))
 				$this->conf->addEntry("modules", "noload=$module");
 		}
 	}
@@ -70,18 +67,15 @@ class ModulesConf {
 		if ($module == null)
 			throw new \Exception("Wasn't given a module to preload");
 
-		// Add module(s) to preload.
-		$mods = array();
-
-		$current = $this->conf->config->ProcessedConfig;
+		$current = $this->conf->config->ProcessedConfig['modules'];
 
 		if (is_array($module)) {
 			foreach($module as $m) {
-				if (!in_array($m, $current['modules']['preload']))
+				if (!isset($current['preload']) || !is_array($current['preload']) || !in_array($m, $current['preload']))
 					$this->conf->addEntry("modules", "preload=$m");
 			}
 		} else {
-			if (!in_array($module, $current['modules']['preload']))
+			if (!isset($current['preload']) || !is_array($current['preload']) || !in_array($module, $current['preload']))
 				$this->conf->addEntry("modules", "preload=$module");
 		}
 	}
@@ -104,19 +98,16 @@ class ModulesConf {
 		if ($module == null)
 			throw new Exception("Wasn't given a module to load");
 
-		// Add module(s) to preload.
-		$mods = array();
-
-		$current = $this->conf->config->ProcessedConfig;
+		$current = $this->conf->config->ProcessedConfig['modules'];
 
 		if (is_array($module)) {
 			foreach($module as $m) {
-				if (!in_array($m, $current['modules']['load'])) {
+				if (!isset($current['load']) || !is_array($current['load']) || !in_array($m, $current['load'])) {
 					$this->conf->addEntry("modules", "load=$m");
 				}
 			}
 		} else {
-			if (!in_array($module, $current['modules']['load'])) {
+			if (!isset($current['load']) || !is_array($current['load']) || !in_array($module, $current['load'])) {
 				$this->conf->addEntry("modules", "load=$module");
 			}
 		}
