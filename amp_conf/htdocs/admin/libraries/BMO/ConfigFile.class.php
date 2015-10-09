@@ -90,7 +90,7 @@ class ConfigFile {
 
 				$this->config->ProcessedConfig[$section][$key] = array_filter(
 					$this->config->ProcessedConfig[$section][$key],
-					function($v) {global $val; return ($v != $val);}
+					function($v) (use $val) {return ($v != $val);}
 				);
 
 				// Have we deleted everything from that $key?
