@@ -38,14 +38,14 @@ msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-08 13:01-0700\n"
-"PO-Revision-Date: 2015-10-01 06:56+0200\n"
+"PO-Revision-Date: 2015-10-13 21:15+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
-"Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
-"framework/ja_JP/>\n"
+"Language-Team: Japanese "
+"<http://weblate.freepbx.org/projects/freepbx/framework/ja_JP/>\n"
+"Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 2.2-dev\n"
 
@@ -3929,19 +3929,19 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/welcome.php:40
 msgid ""
 "If you're seeing this page, it means that your Dashboard module is disabled."
-msgstr ""
+msgstr "ダッシュボードモジュールが無効されているため、このページを表示しています。"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:21
 msgid "Import settings from file"
-msgstr ""
+msgstr "ファイルから設定をインポート"
 
 #: ../core/views/routing/form.php:263
 msgid "Import/Export Patterns"
-msgstr ""
+msgstr "パターンをインポート・エクスポート"
 
 #: ../core/functions.inc/drivers/Sip.class.php:248
 msgid "In band audio (Not recommended)"
-msgstr ""
+msgstr "バンド内オーディオ (非推奨)"
 
 #: ../core/views/trunks/trunk_header.php:7
 msgid "In use by"
@@ -3949,7 +3949,7 @@ msgstr "使用中"
 
 #: ../core/install.php:15
 msgid "In-Call Asterisk Attended Transfer"
-msgstr "通話中Asterisk在席転送"
+msgstr "通話中Asterisk取次転送"
 
 #: ../core/install.php:14
 msgid "In-Call Asterisk Blind Transfer"
@@ -3965,11 +3965,11 @@ msgstr "通話中Asterisk通話録音切り替え"
 
 #: ../core/views/trunks/pjsip.php:219
 msgid "Inband"
-msgstr ""
+msgstr "バンド内"
 
 #: ../core/views/trunks/pjsip.php:87
 msgid "Inbound"
-msgstr ""
+msgstr "インバウンド"
 
 #: ../core/functions.inc.php:6262
 msgid "Inbound External Calls"
@@ -3982,7 +3982,7 @@ msgstr "内部着信コール"
 #: ../core/functions.inc.php:4615
 #, php-format
 msgid "Inbound Route: %s (%s)"
-msgstr "インバウンドルート： %s (%s)"
+msgstr "インバウンドルート: %s (%s)"
 
 #: amp.i18n.php:22 ../core/page.did.php:119
 msgid "Inbound Routes"
@@ -3990,25 +3990,25 @@ msgstr "インバウンドルート"
 
 #: ../core/views/did/rnav.php:1
 msgid "Inbound Routes List"
-msgstr ""
+msgstr "インバウンドルート一覧"
 
 #: ../core/views/trunks/sip.php:9
 msgid "Incoming"
-msgstr ""
+msgstr "インバウンド"
 
 #: ../core/Core.class.php:2129 ../core/Core.class.php:2130
 msgid "Incoming DID"
-msgstr ""
+msgstr "インバウンドDID"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1759
 #, php-format
 msgid "Incorrect Number of Directories for %s"
-msgstr ""
+msgstr "%s のディレクトリ数は間違っています"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:152
 #: ../core/views/trunks/pjsip.php:220
 msgid "Info"
-msgstr ""
+msgstr "情報"
 
 #: amp_conf/htdocs/admin/views/obe.php:8
 #: amp_conf/htdocs/admin/views/oobe.php:5
@@ -4017,7 +4017,7 @@ msgstr "初期設定"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:75
 msgid "Initialize freepbx_conf settings.."
-msgstr ""
+msgstr "freepbx_confの設定を初期化しています…"
 
 #: ../core/install.php:1004
 msgid "Inserted ALLOW_SIP_ANON fine"
@@ -4025,7 +4025,7 @@ msgstr "ALLOW_SIP_ANONを挿入できました"
 
 #: upgrades/2.11.0rc1/migration.php:23
 msgid "Inserted interim RTPSTART and RTPEND settings"
-msgstr ""
+msgstr "RTPSTART・RTPENDの暫定的設定を挿入しました"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:272
 #: amp_conf/htdocs/admin/views/module_admin/main.php:321
@@ -4034,7 +4034,7 @@ msgstr "インストール"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:821
 msgid "Install local module[s], accepts argument module[s]"
-msgstr ""
+msgstr "ローカルモジュールをインストール。モジュール名のパラメータを指定できます。"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:764
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:779
@@ -6778,16 +6778,12 @@ msgid ""
 "certificates have been generated and configured. If you are using websockets "
 "(such as WebRTC) then you must select an option that includes WS"
 msgstr ""
-"このセットは、このデバイスに対する許可された転送設定であり、発信の為のデフォ"
-"ルト（プライマリ）転送。レジストレーション(登録)が行われるまで、デフォルト転"
-"送はアウトバウンドメッセージにのみ使用されます。ピアのレジストレーション（登"
-"録）の間、もしピアがそうリクエストする場合には、転送タイプは他のサポートされ"
-"た転送タイプに変更される可能性があります。ほとんどの共通ケースでは、ほとんど"
-"のデバイスの登録はhost=dynamic設定と競合する為、これを変更する必要はありませ"
-"ん。もしTCP とTLS、または TLS を使用している場合、一般のSIP設定でシステムがそ"
-"れらのモードで動作するように、またTLSについても設定されており、適切な証明書が"
-"生成され設定されているかどうかを確認する必要があります。もしwebsockets(WebRTC"
-"等）を使用している場合には、WSのオプションを選択する必要があります"
+"このデバイスに対する許可された通信プロトコル。発信の為のデフォルト（プライマリ）プロトコルを定義します。レジストレーション(登録)が行われるまで、デフォル"
+"トプロトコルはアウトバウンドメッセージにのみ使用されます。ピアのレジストレーション（登録）するときに、ピアからリクエストがあった場合には、他のサポートされ"
+"たプロトコルに変更することが可能です。一般的には、ほとんどのデバイスの登録はhost=dynamic設定で行われるため、この設定を変更する必要はありません"
+"。TCPやTLSを使用している場合、一般のSIP設定でシステムがそれらのモードで動作することを保証するために、例えばTLSの適切な証明書が生成され設定され"
+"ているかどうかを確認する必要があります。Websockets "
+"(WebRTC等）を使用している場合には、Websocketsのオプションを選択する必要があります。"
 
 #: ../core/views/trunks/trunk_header.php:24
 msgid ""
