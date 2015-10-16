@@ -27,14 +27,6 @@ global $_item_sort;
 				</ul>
 			</div>
 			<div class="navbar-header stuck-right">
-				<?php if (isset($display) && $display != "noauth" && $display != "noaccess") { ?>
-				<div class="nav-search">
-					<div class="" id='fpbxsearch'>
-						<i class="fa fa-search"></i>
-						<input type="text" class="form-control typeahead" placeholder="<?php echo _('Search')?>">
-					</div>
-				</div>
-				<?php } ?>
 				<?php if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) { ?>
 					<?php if($amp_conf['SHOWLANGUAGE']) { ?>
 						<li class="dropdown">
@@ -60,6 +52,12 @@ global $_item_sort;
 					</li>
 				<?php } ?>
 			</div>
+			<?php if (isset($display) && $display != "noauth" && $display != "noaccess") { ?>
+				<div class="" id='fpbxsearch'>
+					<i class="fa fa-search"></i>
+					<input type="text" class="form-control typeahead" placeholder="<?php echo _('Search')?>">
+				</div>
+			<?php } ?>
 		</div>
 	</nav>
 </div>

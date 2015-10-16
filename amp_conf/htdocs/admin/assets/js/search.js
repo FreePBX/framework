@@ -35,7 +35,10 @@ var SearchC = Class.extend({
     }, {
       name: 'moduleSearch',
       displayKey: 'value',
-      source: this.moduleSearch.ttAdapter()
+      source: this.moduleSearch.ttAdapter(),
+      templates: {
+        suggestion: self.genItemHtml,
+      }
     }, {
       name: 'itemSearch',
       displayKey: 'value',
@@ -102,7 +105,7 @@ var SearchC = Class.extend({
     if (o.o.type == "text") {
       return "<div>"+o.value+"</div>";
     } else {
-      return "<div class='tt-suggestion'><p>"+o.value+"</p></div>";
+      return "<div>"+o.value+"</div>";
     }
   },
 });

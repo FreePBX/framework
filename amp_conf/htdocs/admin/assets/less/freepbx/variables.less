@@ -1,43 +1,48 @@
+@base-color: rgb(215, 235, 249); //#D7F9D9;
+@background-color: @base-color;
+@text-color: darken(@background-color, 50%);
+@border-color: darken(@background-color, 10%);
+
 /*Module Admin Table Display*/
 @modulelist-table-background-color: #fff;
-@modulelist-table-border-color: #aed0ea;
+@modulelist-table-border-color: @border-color;
 
 /* Table */
-@table-striped-even-background-color: #DEEDF7;
+@table-striped-even-background-color: @background-color;
 @table-striped-even-color: black;
 @table-striped-odd-background-color: #fff;
 @table-striped-odd-color: black;
-@table-th-background-color: #DBF1FF;
+@table-th-background-color: @background-color;
 @table-th-color: black;
 
 /*Link Colors*/
-@a-color-default: #2779AA;
-@a-color-visited: #2779AA;
-@a-color-hover: #80cef5;
+@a-color-default: @text-color;
+@a-color-visited: @text-color;
+@a-color-hover: @text-color;
 
 /*Menu Item Colors*/
-@menu-item-color-default: #DEEDF7;
-@menu-item-color-hover: #DEEDF7;
-@menu-item-color-active: #DEEDF7;
+@menu-item-color-default: @background-color;
+@menu-item-color-hover: @background-color;
+@menu-item-color-active: @background-color;
 
 /*Help (?) Display */
 @help-background-color: #0070a3;
 @help-color: white;
 
 /*Help Hover Boxes */
-@help-box-border-color: #AED0EA;
-@help-box-background-color: #DEEDF7;
-@help-box-color: #2779AA;
+@help-box-border-color: @border-color;
+@help-box-background-color: @background-color;
+@help-box-color: @text-color;
 
 /* hr colors */
-@hr-background-color: #DEEDF7;
-@hr-border-color: #AED0EA;
+@hr-background-color: @background-color;
+@hr-border-color: @border-color;
 
 /* For menu */
-@button-background-color-default: #d7ebf9;
-@button-background-color-active: #d7ebf9;
-@button-background-color-hover: #d7ebf9;
-@button-background-color-disabled: #d7ebf9;
+@button-background-color-default: @background-color;
+@button-background-color-active: @background-color;
+@button-background-color-hover: @background-color;
+@button-background-color-disabled: @background-color;
 
 @button-gradient: false;
 @button-background-gradient-top-default: "";
@@ -55,10 +60,10 @@
 @button-border-gradient-top-hover: "";
 @button-border-gradient-bottom-hover: "";
 
-@button-color-default: 		      #0070a3;
-@button-color-active: 	     	  #ffffff;
-@button-color-hover:			      #0070a3;
-@button-color-disabled: 	      #2779aa;
+@button-color-default: 		      @text-color;
+@button-color-active: 	     	  @text-color;
+@button-color-hover:			      @text-color;
+@button-color-disabled: 	      @text-color;
 
 @chosen-sprite: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAAlCAQAAACn+wJeAAAB4UlEQVRIx+2XsWtTURTGrwouLQQDwYLFzT3yJBDoYoVvySQoKFShSHe7qAgqiMn9rcUibnVwEARBl0AgUIh/QXBxFIpKJHAhUBz0HQcf4U0xtZwu+r3l8t4758fHPe/jvhBcRIUuWbFuMKAWnEB9jEQWAk0SRt8LtMo+RmKdhDGiHrzEChOMHGPsiAkhBDbIMXKu+2KaJUfZwcsXD4RJrJFKKHaw6fVmRnmNT5ydC9TDSDRCIGOMMfh9u8pegRmzNKP8NUZvzu+oR6NY19mddqVVgG7MKL5SvHPrcJu3g/F2xvMqowKUOHMYUJXhrAa8Ku1j90/dVFFXxaypoYFqfzFR80h9mZKyENRUkskrgrSqfZmS1pVkGskvG7SiiUy5TGP5RpA2lMuUyzeC1Cw5yrwxSWtKrij1ZEpqhKBMY5kGXqCKeioiSHXtain817+k9gLLLD887ozhLl8xjGG86onZxuIe99jCsHjTCRMvYvF9+1QIIcTz8RuTzmkfP0+jdaYJHW9jXPYBvYj5/ZNlf06HxvgEYzoC8Tk5l1xAnXP8IHVam8faC3GTn3x5cMJr6q5h0fjI5+L4suU24PFCfMkHhvExHQyL20eQEfERhsVncdEfdYfvGK2jcPUOK/+A/QJb5yp50uoC6QAAAABJRU5ErkJggg==";
 @chosen-sprite-2x: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAAlCAQAAACn+wJeAAAB4UlEQVRIx+2XsWtTURTGrwouLQQDwYLFzT3yJBDoYoVvySQoKFShSHe7qAgqiMn9rcUibnVwEARBl0AgUIh/QXBxFIpKJHAhUBz0HQcf4U0xtZwu+r3l8t4758fHPe/jvhBcRIUuWbFuMKAWnEB9jEQWAk0SRt8LtMo+RmKdhDGiHrzEChOMHGPsiAkhBDbIMXKu+2KaJUfZwcsXD4RJrJFKKHaw6fVmRnmNT5ydC9TDSDRCIGOMMfh9u8pegRmzNKP8NUZvzu+oR6NY19mddqVVgG7MKL5SvHPrcJu3g/F2xvMqowKUOHMYUJXhrAa8Ku1j90/dVFFXxaypoYFqfzFR80h9mZKyENRUkskrgrSqfZmS1pVkGskvG7SiiUy5TGP5RpA2lMuUyzeC1Cw5yrwxSWtKrij1ZEpqhKBMY5kGXqCKeioiSHXtain817+k9gLLLD887ozhLl8xjGG86onZxuIe99jCsHjTCRMvYvF9+1QIIcTz8RuTzmkfP0+jdaYJHW9jXPYBvYj5/ZNlf06HxvgEYzoC8Tk5l1xAnXP8IHVam8faC3GTn3x5cMJr6q5h0fjI5+L4suU24PFCfMkHhvExHQyL20eQEfERhsVncdEfdYfvGK2jcPUOK/+A/QJb5yp50uoC6QAAAABJRU5ErkJggg==";
@@ -68,12 +73,16 @@
 @button-image-active: 	     	  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAGQEAIAAACwqkHPAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAjklEQVRIx2NImrp798smJgYGBgYGhlFqlBqlRqlRiubUzWXv3/9KZGLsZlzNaMHEUsnYxFDPxHKHaQ1jHxOLHdN1htlMrCxMuozbIdQOJtZ05giGo0xs6UzhjMfQ5FgWMjExrGRitWO6zjibobj/sMTr90xMgYyMjKFMjMkM2gx8g8PTo9QoNUqNUgNHAQAy4iFUVISQBwAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxMy0wNS0wM1QwOToyMToxOC0wNzowMNCzho0AAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTMtMDUtMDNUMDk6MjE6MTgtMDc6MDCh7j4xAAAAAElFTkSuQmCC";
 @button-image-hover:			      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAGQEAIAAACwqkHPAAAABmJLR0T///////8JWPfcAAAACXBIWXMAAABIAAAASABGyWs+AAAAnElEQVRIx+3PrQrCYBiG4ed50SSIUbC6MLa4ZNFiMC6sCnoinoGYLIs7iBWTxeBhOJN/fIP9wPaBwWMQDW+62g03XodqZ/cCAICiKIrybZBlxjQNrmHutj1hgQ3GwgG3cIUeYvjCNVMEuM2LWfvA/Vh2rYPntDzbpXDFFAGM1BN7Qr6oL7YSeozpf2KOMGGEoWCEPjp/Ma0oivJD3kmDL+OlYr6CAAAAJXRFWHRkYXRlOmNyZWF0ZQAyMDEzLTA1LTAzVDA5OjIxOjE4LTA3OjAw0LOGjQAAACV0RVh0ZGF0ZTptb2RpZnkAMjAxMy0wNS0wM1QwOToyMToxOC0wNzowMKHuPjEAAAAASUVORK5CYII=";
 
-@button-border-default:   #aed0ea;
-@button-border-active:    #2694e8;
-@button-border-hover:     #74b2e2;
+@button-border-default:   @border-color;
+@button-border-active:    @border-color;
+@button-border-hover:     @border-color;
 
 @button-has-error: #a94442;
 @button-has-warning: #8a6d3b;
 @button-has-success: #3c763d;
 
 @button-border-radius: 6px;
+
+@navbar-height: 34px;
+@menu-item-color: @text-color;
+@menu-breakpoint: 991px;

@@ -30,13 +30,13 @@ $html .= '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
 //http to https
 $html .= '<meta name="referrer" content="always">';
 
+$html .= '<link href="assets/css/bootstrap-table-1.8.1.css'.$version_tag.'" rel="stylesheet" type="text/css">';
+
 //CSS First THEN JS (http://uxmovement.com/content/why-you-should-place-style-sheets-before-scripts/)
 //less compiled into css
 foreach($compiled_less_files as $file) {
 	$html .= '<link href="assets/less/'.$file.'" rel="stylesheet" type="text/css">';
 }
-
-$html .= '<link href="assets/css/bootstrap-table-1.8.1.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 
 if(!empty($amp_conf['BRAND_CSS_ALT_MAINSTYLE'])) {
 	$css_ver = '.' . filectime($amp_conf['BRAND_CSS_ALT_MAINSTYLE']);

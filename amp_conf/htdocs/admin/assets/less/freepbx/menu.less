@@ -1,6 +1,3 @@
-@navbar-height: 34px;
-@menu-item-color: #2779aa;
-@menu-breakpoint: 991px;
 .freepbx-navbar {
 	@media only screen and (min-width : @menu-breakpoint) {
     /* Make Navigation Toggle on Desktop Hover */
@@ -15,8 +12,8 @@
 	}
 	.navbar {
 		margin-bottom: 10px;
-		border: 1px solid #aed0ea;
-		background-color: #D7EBF9;
+		border: 1px solid @border-color;
+		background-color: @background-color;
 		min-height: @navbar-height;
 		.stuck-right {
 			position: absolute;
@@ -38,17 +35,18 @@
 				color: #FFFFFF;
 			}
 			.nav-button {
-				top: -7px;
+				top: 3px;
 				padding: 5px 7px;
 				height: 27px;
 				outline: 0;
+				min-height: 27px;
 				.fa-language {
-					font-size: 23px;
+					font-size: 20px;
 					margin-top: -3px;
 				}
 				.fa-cog {
-					margin-top: -2px;
-					font-size: 25px;
+					margin-top: -2.59px;
+					font-size: 21px;
 				}
 			}
 			.dropdown-menu {
@@ -58,17 +56,6 @@
 				top: 91%;
 				border-top-left-radius: 0px;
 				border-top-right-radius: 0px;
-			}
-			.nav-search {
-				display:inline-block;
-				top: 3px;
-				position: relative;
-				input {
-					height: 27px;
-				}
-				.tt-suggestion {
-					padding: 0px;
-				}
 			}
 		}
 		@media (max-width: @menu-breakpoint) {
@@ -116,9 +103,9 @@
 			}
 		}
 		.navbar-header .navbar-toggle {
-			border: 1px solid #aed0ea;
+			border: 1px solid @border-color;
 			color: #FFFFFF;
-			background-color: #358BC8;
+			background-color: @background-color;
 			.icon-bar {
 				background-color: #FFFFFF;
 			}
@@ -148,7 +135,7 @@
 				> a {
 					line-height: inherit;
 					height: (@navbar-height - 7);
-					border: 1px solid #aed0ea;
+					border: 1px solid @border-color;
 					font-weight: bold;
 					color: @menu-item-color;
 					border-radius: 4px;
