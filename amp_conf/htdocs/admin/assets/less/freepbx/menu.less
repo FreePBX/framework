@@ -31,7 +31,8 @@
 				list-style: none;
 			}
 			.dropdown.open > button {
-				background: #358BC8;
+				background-color: darken(@background-color,50%);
+				border-color: darken(@border-color,20%);
 				color: #FFFFFF;
 			}
 			.nav-button {
@@ -66,6 +67,8 @@
 	    }
 	    .navbar-toggle {
 	        display: block;
+					padding: 5px 7px;
+					margin-top: 3px;
 	    }
 	    .navbar-collapse {
 	        border-top: 1px solid transparent;
@@ -97,9 +100,9 @@
 			overflow-x: hidden;
 		}
 		.navbar-header .navbar-toggle.collapsed {
-			background-color: #D7EBF9;
+			background-color: @background-color;
 			.icon-bar {
-				background-color: @menu-item-color;
+				background-color: @text-color;
 			}
 		}
 		.navbar-header .navbar-toggle {
@@ -113,12 +116,13 @@
 		.navbar-header .navbar-toggle:hover {
 			background-color: #EBF7FF;
 			.icon-bar {
-				background-color: @menu-item-color;
+				background-color: @background-color;
 			}
 		}
 		.navbar-header .navbar-toggle:active {
 			color: #FFFFFF;
-			background-color: #358BC8;
+			background-color: darken(@background-color,50%);
+			border-color: darken(@border-color,20%);
 			.icon-bar {
 				background-color: #FFFFFF;
 			}
@@ -137,15 +141,15 @@
 					height: (@navbar-height - 7);
 					border: 1px solid @border-color;
 					font-weight: bold;
-					color: @menu-item-color;
+					color: @text-color;
 					border-radius: 4px;
 					padding-top: 3px;
 				}
 				> a:hover {
-					background-color: #EBF7FF;
+					background-color: lighten(@background-color,5%);
 				}
 				> a:active {
-					background-color: #358BC8;
+					background-color: darken(@background-color,50%);
 					color: #FFFFFF;
 				}
 				> a.reload-btn {
@@ -156,7 +160,8 @@
 			}
 			> li.open {
 				> a {
-					background: #358BC8;
+					background-color: darken(@background-color,50%);
+					border-color: darken(@border-color,20%);
 					color: #FFFFFF;
 				}
 			}
@@ -176,7 +181,8 @@
 			position: relative;
 			height: @navbar-height;
 			img {
-				height: 27px;
+				height: 22px;
+				margin-top: 2px;
 			}
 		}
 		@media (max-width: 767px) {
@@ -189,6 +195,6 @@
 
 
 .freepbx-navbar .dropdown-menu > li > a.active {
-  background-color: rgb(215, 235, 249);
+  background-color: @background-color;
   font-weight: bold;
 }

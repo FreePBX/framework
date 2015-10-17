@@ -26,7 +26,7 @@
 		i {
 			font-size: 500%;
 			margin-left: 38%;
-			color: @help-background-color;
+			color: @text-color;
 		}
 	}
 }
@@ -85,7 +85,7 @@
 			}
 		}
 		table {
-			border: 1px solid @modulelist-table-border-color;
+			border: 1px solid @border-color;
 			border-radius: 6px;
 		}
 		.moduleheader {
@@ -171,13 +171,13 @@
 			}
 		}
 		.modulelicense {
+			position: absolute;
+			left: 590px;
+			margin-top: 3px;
 			a {
 				cursor: help;
 				text-decoration: none;
 			}
-			position:absolute;
-			left: 590px;
-			margin-top: 3px;
 		}
 		.modulevul {
 			position:absolute;
@@ -190,8 +190,8 @@
 		}
 		div.moduleinfopane {
 			display:none;
-			background: @modulelist-table-background-color;
-			border-top: 1px dashed @modulelist-table-border-color;
+			background: #fff;
+			border-top: 1px dashed @border-color;
 			padding-bottom: 15px;
 			pre {
 				white-space: pre-wrap;

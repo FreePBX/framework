@@ -93,20 +93,41 @@ input[type=email]:invalid {
 	border: 2px solid red;
 }
 
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+  border-color: @border-color;
+  box-shadow: 0 1px 1px rgba(0,0,0,.075) inset, 0 0 8px fadeout(darken(@background-color, 50%),40%);
+  outline: 0 none;
+}
+
 a {
 	text-decoration:none;
-	color:@a-color-default;
+	color:@text-color;
 }
 a:visited {
-	color:@a-color-visited;
+	color:@text-color;
 }
 a:hover {
-	color:@a-color-hover;
+	color:@text-color;
 }
 
 hr {
-	background-color: @hr-background-color;
-	border: 1px solid @hr-border-color;
+	background-color: @background-color;
+	border: 1px solid @border-color;
 	height: 3px;
 	border-radius: 5px;
 	margin-top: 0px;
@@ -266,7 +287,7 @@ a.info:link, a.info:hover {
 }
 
 .help {
-	color: @help-background-color;
+	color: @text-color;
 	cursor: pointer;
 	height: 10px;
 	width: 10px;
@@ -287,9 +308,9 @@ a.info:link, a.info:hover {
 	left:60px;
 	width:35em;
 	margin-top:22px;
-	border:1px solid @help-box-border-color;
-	background-color:@help-box-background-color;
-	color:@help-box-color;
+	border:1px solid @border-color;
+	background-color:@background-color;
+	color:@text-color;
 	text-align:justify;
 	font-size:15px;
 	font-weight:normal;
@@ -304,10 +325,11 @@ a.info:link, a.info:hover {
 	position: relative;
 	margin-top:10px;
 	margin-left: 2%;
+	font-weight: bold;
 	ul {
 		max-height: 450px;
 		overflow-y: auto;
-		border: 1px solid #ddd;
+		border: 1px solid @border-color;
 		border-radius: 4px;
 		list-style-type: none;
 		padding: 0px;
@@ -320,7 +342,7 @@ a.info:link, a.info:hover {
 			background-color: #fff;
 		}
 		li > a {
-			border-bottom: 1px solid #ddd;
+			border-bottom: 1px solid @border-color;
 		}
 		li:first-child > a {
 			border-top-right-radius: 4px;
@@ -333,26 +355,25 @@ a.info:link, a.info:hover {
 			border-bottom: none;
 		}
 		li > a:hover {
-			text-decoration: none;
-			color: #555;
-			background-color: #f5f5f5;
+			background-color: lighten(@background-color,5%);
 		}
 	}
 }
 .bootnav {
+	font-weight: bold;
 	.list-group {
 		max-height: 450px;
 		overflow-y: auto;
-		border: 1px solid #ddd;
+		border: 1px solid @border-color;
 		border-radius: 4px;
 		font-size: 12px;
 	}
 	.list-group-item:first-child {
 		border-top: none;
-		border-bottom: 1px solid #ddd;
+		border-bottom: 1px solid @border-color;
 	}
 	.list-group-item:last-child {
-		border-top: 1px solid #ddd;
+		border-top: 1px solid @border-color;
 		border-bottom: none;
 	}
 	.list-group-item:only-child {
@@ -360,14 +381,18 @@ a.info:link, a.info:hover {
 	}
 	.list-group-item {
 		border: none;
-		border-top: 1px solid #ddd;
-		border-bottom: 1px solid #ddd;
+		border-top: 1px solid @border-color;
+		border-bottom: 1px solid @border-color;
 	}
 	a.list-group-item {
-		color: #555;
+		color: @text-color;
 	}
 	a.list-group-item.active {
 		color: #fff;
+	}
+	a.list-group-item:hover,
+	a.list-group-item:focus {
+		background-color: lighten(@background-color,5%);
 	}
 }
 #reloadbox {
@@ -492,34 +517,32 @@ div.attention {
 /**
  * Nav tab colouring
  */
-.nav-tabs {
+.nav.nav-tabs {
 	padding: 3px 0 0 3px;
 	> li {
 		> a {
 			font-weight: bold;
 			padding: 5px 18px;
 			background: #ffffff;
-			border: 1px solid #aed0ea;
-			border-bottom-color: #ddd;
+			border: 1px solid @border-color;
+			border-bottom-color: @border-color;
 			border-top-right-radius: .5em;
 			border-top-left-radius: .5em;
 		}
 		> a:hover {
-			border-color: rgba(168, 168, 168, 0.45);
-			border-bottom-color: #ddd;
+			border: 1px solid @border-color;
+			background-color: lighten(@background-color,5%);
+			color: lighten(@text-color,5%);
+		}
+		> a:active, > a:focus, > a:visited {
+			border: 1px solid @border-color;
 		}
 	}
 
 	> li.active > a, > li.active > a:hover, > li.active > a:focus {
-		background: #d9edf7; /* Old browsers */
-		background: -moz-linear-gradient(top,  #d9edf7 0%, #ffffff 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d9edf7), color-stop(100%,#ffffff)); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top,  #d9edf7 0%,#ffffff 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top,  #d9edf7 0%,#ffffff 100%); /* Opera 11.10+ */
-		background: -ms-linear-gradient(top,  #d9edf7 0%,#ffffff 100%); /* IE10+ */
-		background: linear-gradient(to bottom,  #d9edf7 0%,#ffffff 100%); /* W3C */
-		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d9edf7', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+		.gradient (@background-color, #ffffff);
 		border-bottom-color: white;
+		color: @text-color;
 	}
 }
 
@@ -605,7 +628,7 @@ div.attention {
 		padding: 7px;
 		background-color: #fff;
 		height: 35px;
-		border-bottom: 1px solid #DDDDDD;
+		border-bottom: 1px solid @border-color;
 		i {
 			display: none;
 			cursor: pointer;
