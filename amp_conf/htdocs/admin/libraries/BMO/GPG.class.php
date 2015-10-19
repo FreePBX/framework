@@ -136,24 +136,22 @@ class GPG {
 			return array("status" => GPG::STATE_UNSIGNED, "details" => array(_("unsigned")));
 		}
 
-		// Check the signature on the module.sig
 		$module = $this->checkSig($file);
-		if (isset($module['status'])) {
-			return array("status" => $module['status'], "details" => array(sprintf(_("module.sig check failed! %s"), $module['trustdetails'][0])));
+		// Is this a local module?
+		if (isset($module['parsedout']) && $module['parsedout']['config']['version'] > "1" && $module['parsedout']['config']['type'] == "local") {
+			// We need to actually validate the LOCAL SECURE module
+			$module = $this->processLocalSig($modulename, $module['parsedout']);
+		} else {
+			// Check the signature on the module.sig
+			if (isset($module['status'])) {
+				return array("status" => $module['status'], "details" => array(sprintf(_("module.sig check failed! %s"), $module['trustdetails'][0])));
+			}
 		}
 
 		// OK, signature is valid. Let's look at the files we know
 		// about, and make sure they haven't been touched.
 		$retarr['status'] = GPG::STATE_GOOD | GPG::STATE_TRUSTED;
 		$retarr['details'] = array();
-
-		// Is this a local module?
-		if ($module['config']['version'] > "1") {
-			if ($module['config']['type'] == "local") {
-				// We need to actually validate the LOCAL SECURE module
-				$module = $this->processLocalSig($modulename, $module);
-			}
-		}
 
 		foreach ($module['hashes'] as $file => $hash) {
 			$dest = \FreePBX::Installer()->getDestination($modulename, $file, true);
@@ -228,14 +226,15 @@ class GPG {
 		$vhash = $modsig['hashes']["$modname.sig"];
 		$localhash = hash_file("sha256", $sigfile);
 		if ($vhash !== $localhash) {
-			throw new \Exception("Local hash validation failed");
+			throw new \Exception("Local hash validation failed ($vhash != $localhash)");
 		}
 		$localsig = $this->checkSig($sigfile);
 
 		if ($localsig['rawstatus']['signedby'] !== $modsig['rawstatus']['signedby']) {
 			throw new \Exception("Module signatories differ");
 		}
-		return $localsig;
+		$modsig['hashes'] = $localsig['parsedout']['hashes'];
+		return $modsig;
 	}
 
 
@@ -571,10 +570,11 @@ class GPG {
 		$status = $this->checkStatus($out['status']);
 		if (!$status['trust']) {
 			$longkey = substr($this->freepbxkey, -16);
-			$out = $this->runGPG("--keyid-format long --with-colons --check-sigs ".$status['signedby']);
-			if(preg_match('/^rev:!::1:'.$longkey.'/m',$out['stdout'])) {
+			$sigout = $this->runGPG("--keyid-format long --with-colons --check-sigs ".$status['signedby']);
+			if(preg_match('/^rev:!::1:'.$longkey.'/m',$sigout['stdout'])) {
 				return array("status" => self::STATE_REVOKED, 'trustdetails' => array("Signed by Revoked Key"));
 			}
+			$status['parsedout'] = @parse_ini_string($out['stdout'], true);
 			return $status;
 		}
 		// Silence warnings about '# not a valid comment'.
@@ -615,6 +615,7 @@ class GPG {
 			if (strpos($l, "[GNUPG:] TRUST_UNDEFINED") === 0) {
 				$retarr['trustdetails'][] = "Signed by unknown, untrusted key.";
 				$retarr['status'] |= GPG::STATE_TAMPERED;
+				$retarr['status'] |= GPG::STATE_INVALID;
 			}
 			if (strpos($l, "[GNUPG:] ERRSIG") === 0) {
 				$retarr['trustdetails'][] = "Unknown Signature ($l)";
