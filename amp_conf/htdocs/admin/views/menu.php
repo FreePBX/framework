@@ -26,7 +26,7 @@ global $_item_sort;
 					<?php } ?>
 				</ul>
 			</div>
-			<div class="navbar-header stuck-right">
+			<div class="stuck-right">
 				<?php if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) { ?>
 					<?php if($amp_conf['SHOWLANGUAGE']) { ?>
 						<li class="dropdown">
