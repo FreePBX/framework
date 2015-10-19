@@ -15,6 +15,25 @@ if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
 }
 
 $html = '';
+
+//If we have the info... then we add the floating nav bar and the button for the user to click
+$user_info = true;
+if($user_info){
+	$html .= '<button type="button" class="fixed-list-button btn btn-primary"><i class="fa fa-list"></i></button>';
+
+	$html .= '<div class="floating-nav-bar col-sm-3 bootnav">
+			<div class="list-group">
+				<a href="?display=extensions" class="list-group-item"><i class="fa fa-list"></i> List Extensions</a>
+				<a href="?display=extensions&amp;tech_hardware=custom_custom" class="list-group-item">Add New Custom Extension</a>
+				<a href="?display=extensions&amp;tech_hardware=dahdi_generic" class="list-group-item">Add New DAHDi Extension</a>
+				<a href="?display=extensions&amp;tech_hardware=iax2_generic" class="list-group-item">Add New IAX2 Extension</a>
+				<a href="?display=extensions&amp;tech_hardware=pjsip_generic" class="list-group-item">Add New PJSIP Extension</a>
+				<a href="?display=extensions&amp;tech_hardware=sip_generic" class="list-group-item">Add New Chan_SIP Extension</a>
+				<a href="?display=extensions&amp;tech_hardware=virtual" class="list-group-item">Add New Virtual Extension</a>
+			</div>
+		  </div>';
+}
+
 $html .= '</div></div>';//page_body
 $html .= '<div id="footer">';
 // If displaying footer content, force the <hr /> tag to enforce clear separation of page vs. footer

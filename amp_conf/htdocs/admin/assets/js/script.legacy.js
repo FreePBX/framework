@@ -1445,6 +1445,10 @@ $(document).ready(function() {
 		window.open($(this).data("brand_image_freepbx_link_left"), "_newtab");
 	});
 
+	$(".fixed-list-button").click(function(){
+		$(".floating-nav-bar").toggleClass("show");
+	});
+
 	/**
 	 * Search for fields marked as class .extdisplay or the common button types.
 	 * Add a span so we can warn when they are using a duplicate extension,

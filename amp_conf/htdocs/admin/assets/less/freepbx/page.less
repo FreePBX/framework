@@ -653,3 +653,29 @@ div.attention {
 .clickable {
 	cursor: pointer;
 }
+
+.floating-nav-bar {
+  transition: right .5s linear;
+  right: -25%;
+  position: absolute;
+  margin-top: 8px;
+  background-color: @background-color;
+  top: 117px;
+  padding-top: 9px;
+  z-index: 500;
+  border-radius: 7px 0 0 7px;
+  .box-shadow(2px 1px 5px 4px @background-color);
+  border: 1px solid @border-color;
+}
+
+.floating-nav-bar.show{
+	right: 0;
+}
+
+.fixed-list-button{
+  position: fixed;
+  top: 87px;
+  right: -15px;
+  padding-left: 10px;
+  padding-right: 30px;
+}
