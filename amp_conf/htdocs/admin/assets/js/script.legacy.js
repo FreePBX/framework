@@ -1467,6 +1467,18 @@ $(document).ready(function() {
 		$("#floating-nav-bar").toggleClass("show");
 	});
 
+	$(".navbar-toggle").click(function(){
+		if($(this).data("target") == "#fpbx-menu-collapse"){
+			if(!$(this).hasClass("collapsed")){
+				$("#fpbxsearch").show();
+				$(".stuck-right").show();
+			}else {
+				$("#fpbxsearch").hide();
+				$(".stuck-right").hide();
+			}
+		}
+	});
+
 	/**
 	 * Search for fields marked as class .extdisplay or the common button types.
 	 * Add a span so we can warn when they are using a duplicate extension,
