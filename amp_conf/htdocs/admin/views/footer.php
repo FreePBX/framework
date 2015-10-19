@@ -145,7 +145,7 @@ $html .= '<script type="text/javascript" src="assets/js/modernizr.js'.$version_t
 //Removed google CDN because we are using custom libraries for bootstrap and jqueryui so that buttons work together
 $html .= '<script src="assets/js/bootstrap-3.3.4.custom.min.js'.$version_tag.'"></script>';
 
-$html .= '<script src="assets/js/bootstrap-table-1.8.1.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/bootstrap-table-1.9.0.js'.$version_tag.'"></script>';
 
 $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-en-US.js'.$version_tag.'"></script>';
 if($lang != "en_US") {
@@ -161,8 +161,9 @@ if($lang != "en_US") {
   }
 }
 
-$html .= '<script src="assets/js/bootstrap-table-cookie.min.js'.$version_tag.'"></script>';
-
+$html .= '<script src="assets/js/bootstrap-table-cookie.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/bootstrap-table-mobile.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/bootstrap-table-toolbar.js'.$version_tag.'"></script>';
 
 $html .= '<script src="assets/js/bootstrap-multiselect.js'.$version_tag.'"></script>';
 
