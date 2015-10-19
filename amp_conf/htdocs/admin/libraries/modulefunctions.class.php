@@ -3054,21 +3054,17 @@ class module_functions {
 	* @param {string} $modulename Raw Module Name
 	*/
 	public function updateSignature($modulename) {
-		try {
-			$mod = FreePBX::GPG()->verifyModule($modulename);
+		$mod = FreePBX::GPG()->verifyModule($modulename);
 
-			$revoked = $mod['status'] & FreePBX\GPG::STATE_REVOKED;
-			//if revoked then disable
-			if($revoked) {
-				$this->disable($modulename);
-			}
-
-			$sql = "UPDATE `modules` SET signature = ? WHERE modulename = ?";
-			$sth = FreePBX::Database()->prepare($sql);
-			$sth->execute(array(json_encode($mod),$modulename));
-		} catch(\Exception $e) {
-			$mod = null;
+		$revoked = $mod['status'] & FreePBX\GPG::STATE_REVOKED;
+		//if revoked then disable
+		if($revoked) {
+			$this->disable($modulename);
 		}
+
+		$sql = "UPDATE `modules` SET signature = ? WHERE modulename = ?";
+		$sth = FreePBX::Database()->prepare($sql);
+		$sth->execute(array(json_encode($mod),$modulename));
 		return $mod;
 	}
 }

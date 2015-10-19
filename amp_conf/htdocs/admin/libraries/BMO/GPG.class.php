@@ -147,6 +147,14 @@ class GPG {
 		$retarr['status'] = GPG::STATE_GOOD | GPG::STATE_TRUSTED;
 		$retarr['details'] = array();
 
+		// Is this a local module?
+		if ($module['config']['version'] > "1") {
+			if ($module['config']['type'] == "local") {
+				// We need to actually validate the LOCAL SECURE module
+				$module = $this->processLocalSig($modulename, $module);
+			}
+		}
+
 		foreach ($module['hashes'] as $file => $hash) {
 			$dest = \FreePBX::Installer()->getDestination($modulename, $file, true);
 			if ($dest === false) {
@@ -172,6 +180,64 @@ class GPG {
 		// Reminder for people doing i18n.
 		if (false) { echo _("If you're i18n-ing this file, read the comment about 'altered' and 'missing'"); }
 	}
+
+	/**
+	 * Process a *locally* signed module
+	 *
+	 * This is called when the module.sig says that the module is signed locally. Several
+	 * integrity checks are done, including validating file ownership, and ensuring that
+	 * both files are signed by the same key.
+	 *
+	 * @param string $modname Module rawname
+	 * @param array $localmod Contents of module.sig to be validated against /etc/freepbx.secure/modulename.sig.
+	 *
+	 * @return array $config
+	 */
+
+	private function processLocalSig($modname, $modsig) {
+		// Start by validating the local secure directory
+		$sec = "/etc/freepbx.secure";
+		if (is_link($sec)) {
+			throw new \Exception("Secure directory ($sec) is a link");
+		}
+		if (!is_dir($sec)) {
+			// well, wat. 
+			return $modsig;
+		}
+		$stat = stat($sec);
+		if ($stat['uid'] !== 0) {
+			throw new \Exception("Secure directory ($sec) is not owned by root");
+		}
+
+		// Validate the file
+		$sigfile = "$sec/$modname.sig";
+
+		if (is_link($sigfile)) {
+			throw new \Exception("Local module signature file ($sigfile) is a link");
+		}
+
+		$sigstat = stat($sigfile);
+		if ($sigstat['uid'] !== 0) {
+			throw new \Exception("Local module signature file ($sigfile) is not owned by root");
+		}
+
+		// Now that everything looks sane, we can process with validating the contents of the files.
+		if (!isset($modsig['hashes']["$modname.sig"])) {
+			throw new \Exception("Can't find validation key in module.sig");
+		}
+		$vhash = $modsig['hashes']["$modname.sig"];
+		$localhash = hash_file("sha256", $sigfile);
+		if ($vhash !== $localhash) {
+			throw new \Exception("Local hash validation failed");
+		}
+		$localsig = $this->checkSig($sigfile);
+
+		if ($localsig['rawstatus']['signedby'] !== $modsig['rawstatus']['signedby']) {
+			throw new \Exception("Module signatories differ");
+		}
+		return $localsig;
+	}
+
 
 	/**
 	 * getKey function to download and install a specified key
@@ -514,6 +580,7 @@ class GPG {
 		// Silence warnings about '# not a valid comment'.
 		// This should be removed after 12beta is finished.
 		$modules = @parse_ini_string($out['stdout'], true);
+		$modules['rawstatus'] = $status;
 		return $modules;
 	}
 
