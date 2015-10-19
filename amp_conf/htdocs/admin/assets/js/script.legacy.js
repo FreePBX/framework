@@ -1190,6 +1190,39 @@ function checkPassword(el) {
 	}
 }
 
+/**
+* Lock the action bar to the bottom of the screen
+* @author Bryan Walters <bryan ! walters (at) schmoozecom (dot) com
+*/
+function positionActionBar() {
+	if ($("#action-bar").length > 0) {
+		$("#action-bar").removeClass("locked");
+
+		var css = {},
+			pageHeight = parseInt($("#page").innerHeight()),
+			actionBarOffset = parseInt($("#action-bar").offset().top) + parseInt($("#action-bar").innerHeight()) + parseInt($("#footer").innerHeight()) + parseInt($("#action-bar").css("padding-bottom"));
+
+		if (pageHeight - actionBarOffset <= 0) {
+			$("#action-bar").addClass("locked");
+		}
+	}
+}
+
+function resizeRightNav() {
+	if ($("#floating-nav-bar").length > 0) {
+		$("#floating-nav-bar").removeClass("locked");
+		$("#fixed-list-button").removeClass("locked");
+		var win = $(window).height(),
+							pageHeight = parseInt($("#page").innerHeight()),
+							actionBarOffset = parseInt($("#floating-nav-bar").offset().top) + parseInt($("#floating-nav-bar").innerHeight()) + parseInt($("#footer").innerHeight()) + parseInt($("#floating-nav-bar").css("padding-bottom")) + parseInt($("#action-bar").innerHeight());
+		$("#floating-nav-bar").css("max-height",(win-197)+"px");
+		if (pageHeight - actionBarOffset <= 0) {
+			$("#floating-nav-bar").addClass("locked");
+			$("#fixed-list-button").addClass("locked");
+		}
+	}
+}
+
 $(document).ready(function() {
 	//when clicking the magnifying glass on the search bar focus on the search input
 	$("#fpbxsearch .fa-search").click(function() {
@@ -1242,31 +1275,16 @@ $(document).ready(function() {
 		});
 	}
 
-	/**
-	* Lock the action bar to the bottom of the screen
-	* @author Bryan Walters <bryan ! walters (at) schmoozecom (dot) com
-	*/
-	function positionActionBar() {
-		if ($("#action-bar").length > 0) {
-			$("#action-bar").removeClass("locked");
-
-			var css = {},
-				pageHeight = parseInt($("#page").innerHeight()),
-				actionBarOffset = parseInt($("#action-bar").offset().top) + parseInt($("#action-bar").innerHeight()) + parseInt($("#footer").innerHeight()) + parseInt($("#action-bar").css("padding-bottom"));
-
-			if (pageHeight - actionBarOffset <= 0) {
-				$("#action-bar").addClass("locked");
-			}
-		}
-	}
-
 	positionActionBar();
+	resizeRightNav();
 
 	$(window).scroll(function() {
 		positionActionBar();
+		resizeRightNav();
 	});
 	$(window).resize(function() {
 		positionActionBar();
+		resizeRightNav();
 	});
 
 	$(document).on("shown.bs.tab", 'a[data-toggle="tab"]', function(e) {
@@ -1445,8 +1463,8 @@ $(document).ready(function() {
 		window.open($(this).data("brand_image_freepbx_link_left"), "_newtab");
 	});
 
-	$(".fixed-list-button").click(function(){
-		$(".floating-nav-bar").toggleClass("show");
+	$("#fixed-list-button").click(function(){
+		$("#floating-nav-bar").toggleClass("show");
 	});
 
 	/**

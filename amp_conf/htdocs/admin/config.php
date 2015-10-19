@@ -711,5 +711,15 @@ if ($quietmode) {
 	} catch (Exception $e) {
 		//TODO: Log me
 	}
+	$footer['nav_bar'] = null;
+	//See if we should provide an action bar
+	try {
+		$bmomodule_name = $bmo->Modules->cleanModuleName($module_name);
+		if($bmo->Modules->moduleHasMethod($bmomodule_name,"getRightNavBar")) {
+			$footer['nav_bar'] = $bmo->$bmomodule_name->getRightNavBar($_REQUEST);
+		}
+	} catch (Exception $e) {
+		//TODO: Log me
+	}
 	echo load_view($amp_conf['VIEW_FOOTER'], $footer);
 }
