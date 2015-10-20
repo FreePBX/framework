@@ -78,10 +78,10 @@ class Chown extends Command {
 														'perms' => 0744);
 			$this->modfiles['framework'][] = array('type' => 'file',
 														'path' => '/etc/amportal.conf',
-														'perms' => 0644);
+														'perms' => 0640);
 			$this->modfiles['framework'][] = array('type' => 'file',
 														'path' => '/etc/freepbx.conf',
-														'perms' => 0644);
+														'perms' => 0640);
 			$this->modfiles['framework'][] = array('type' => 'dir',
 														'path' => $ASTRUNDIR,
 														'perms' => 0755);
@@ -91,7 +91,7 @@ class Chown extends Command {
 			//we may wish to declare these manually or through some automated fashion
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $ASTETCDIR,
-														'perms' => 0755);
+														'perms' => 0750);
 			$this->modfiles['framework'][] = array('type' => 'file',
 														'path' => $ASTVARLIBDIR . '/.ssh/id_rsa',
 														'perms' => 0600);
