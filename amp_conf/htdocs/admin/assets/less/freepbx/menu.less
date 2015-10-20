@@ -16,12 +16,17 @@
 		background-color: @background-color;
 		min-height: @navbar-height;
 		.stuck-right {
-			position: absolute;
-			top: 0px;
-			right: 22px;
+            float: right;
+            width: 114px;
+            text-align: right;
+            @media (max-width: @menu-breakpoint) {
+              padding-top: 4px;
+            }
+
 			@media only screen and (min-width : @menu-breakpoint) {
 				right: 6px;
 			}
+
 			.form-control {
 				display: inline;
 				width: initial;
@@ -36,7 +41,6 @@
 				color: #FFFFFF;
 			}
 			.nav-button {
-				top: 3px;
 				padding: 5px 7px;
 				height: 27px;
 				outline: 0;
@@ -51,17 +55,17 @@
 				}
 			}
 			.dropdown-menu {
-				right: 0px;
+				right: 8px;
 				left: inherit;
 				text-align: right;
-				top: 91%;
+				top: 23px;
 				border-top-left-radius: 0px;
 				border-top-right-radius: 0px;
 			}
 		}
 		@media (max-width: @menu-breakpoint) {
 	    .navbar-header {
-	        float: none;
+               float: left;
 					margin-right: -15px;
 					margin-left: -15px;
 	    }
@@ -78,8 +82,9 @@
 	        display: none!important;
 	    }
 	    .navbar-nav {
-	        float: none!important;
 	        margin: 7.5px -15px;
+            width: 97%;
+            padding-left: 20px;
 	    }
 	    .navbar-nav>li {
 	        float: none;

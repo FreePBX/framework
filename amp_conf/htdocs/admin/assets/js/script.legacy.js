@@ -1216,6 +1216,7 @@ function resizeRightNav() {
 							pageHeight = parseInt($("#page").innerHeight()),
 							actionBarOffset = parseInt($("#floating-nav-bar").offset().top) + parseInt($("#floating-nav-bar").innerHeight()) + parseInt($("#footer").innerHeight()) + parseInt($("#floating-nav-bar").css("padding-bottom")) + parseInt($("#action-bar").innerHeight());
 		$("#floating-nav-bar").css("max-height",(win-197)+"px");
+		$("#floating-nav-bar .floating-nav-bar-contents").css("max-height",(win-200)+"px");
 		if (pageHeight - actionBarOffset <= 0) {
 			$("#floating-nav-bar").addClass("locked");
 			$("#fixed-list-button").addClass("locked");
@@ -1465,6 +1466,18 @@ $(document).ready(function() {
 
 	$("#fixed-list-button").click(function(){
 		$("#floating-nav-bar").toggleClass("show");
+	});
+
+	$(".navbar-toggle").click(function(){
+		if($(this).data("target") == "#fpbx-menu-collapse"){
+			if(!$(this).hasClass("collapsed")){
+				$("#fpbxsearch").show();
+				$(".stuck-right").show();
+			}else {
+				$("#fpbxsearch").hide();
+				$(".stuck-right").hide();
+			}
+		}
 	});
 
 	/**

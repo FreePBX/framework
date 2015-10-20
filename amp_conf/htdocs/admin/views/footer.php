@@ -25,9 +25,7 @@ if ($footer_content) {
 
 //If we have the info... then we add the floating nav bar and the button for the user to click
 if(!$covert && !empty($nav_bar)){
-	$html .= '<button id="fixed-list-button" type="button" class="btn btn-primary"><i class="fa fa-list"></i></button>';
-
-	$html .= '<div id="floating-nav-bar"><div><input></div>'.$nav_bar.'</div>';
+	$html .= '<div id="floating-nav-bar" class="col-xs-6"><button id="fixed-list-button" type="button" class="btn btn-primary"><i class="fa fa-list"></i></button><div class="floating-nav-bar-contents">'.$nav_bar.'</div></div>';
 }
 
 //Action Bar

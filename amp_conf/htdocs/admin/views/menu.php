@@ -26,7 +26,7 @@ global $_item_sort;
 					<?php } else { ?>
 						<li><a class="navbar-btn reload-btn"><?php echo _('Can Not Connect to Asterisk'); ?></a></li>
 					<?php } ?>
-				</u>
+				</ul>
 			</div>
 			<div class="stuck-right">
 				<?php if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) { ?>

@@ -58,6 +58,14 @@ span.twitter-typeahead {
 
 #fpbxsearch {
   height: 30px;
+  position: relative;
+  width: 88%;
+  float: left;
+
+  @media (max-width: @menu-breakpoint) {
+    width: 100%;
+  }
+
   input {
     height: 28px;
   }
@@ -70,8 +78,8 @@ span.twitter-typeahead {
     padding-left: 3px;
     padding-right: 4px;
     padding-top: 4px;
-    top: 37px;
-    right: 19px;
+    top: 3px;
+    right: 10px;
   }
   i.fa-search.animate-flicker {
      -webkit-animation: flickerAnimation 1s infinite;
