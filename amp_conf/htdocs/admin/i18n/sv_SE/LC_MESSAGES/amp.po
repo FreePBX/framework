@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX amp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-20 09:14-0700\n"
+"POT-Creation-Date: 2015-10-20 10:53-0700\n"
 "PO-Revision-Date: 2010-06-27 18:43+0100\n"
 "Last-Translator: Mikael Carlsson <mickecamino@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -26,7 +26,7 @@ msgid ""
 "authors."
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:98
+#: amp_conf/htdocs/admin/views/footer.php:104
 msgid ""
 " error(s) occurred, you should view the notification log on the dashboard or "
 "main screen to check for more details."
@@ -34,7 +34,7 @@ msgstr ""
 "fel uppstod, du bör kontrollera noteringsloggen på instrumentpanelen eller "
 "huvudmenyn för mer detaljer."
 
-#: amp_conf/htdocs/admin/views/footer.php:108
+#: amp_conf/htdocs/admin/views/footer.php:114
 msgid " extension number already in use by: "
 msgstr ""
 
@@ -354,7 +354,7 @@ msgstr ""
 msgid "%s removed successfully"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:291
+#: amp_conf/htdocs/admin/views/footer.php:298
 #, php-format
 msgid ""
 "%s requires a new browser to function correctly. You can still use %s with "
@@ -685,12 +685,13 @@ msgstr "Lägg till Inkommande väg"
 msgid "Add Module"
 msgstr ""
 
-#: ../core/page.devices.php:106
+#: ../core/views/rnav.php:59 ../core/views/rnav.php:77
 #, php-format
 msgid "Add New %s Device"
 msgstr ""
 
-#: ../core/page.extensions.php:82 ../core/views/rnav.php:3
+#: ../core/page.extensions.php:82 ../core/views/rnav.php:7
+#: ../core/views/rnav.php:22
 #, php-format
 msgid "Add New %s Extension"
 msgstr ""
@@ -709,7 +710,7 @@ msgstr "Lägg till trunk"
 
 #: ../core/functions.inc.php:6109 ../core/functions.inc.php:6500
 #: ../core/page.ampusers.php:97 ../core/page.ampusers.php:99
-#: ../core/page.users.php:74
+#: ../core/views/rnav.php:33 ../core/views/rnav.php:48
 msgid "Add User"
 msgstr "Lägg till användare"
 
@@ -978,7 +979,7 @@ msgstr ""
 msgid "Apply Changes Bar"
 msgstr "Spara ändringar"
 
-#: amp_conf/htdocs/admin/views/menu.php:23
+#: amp_conf/htdocs/admin/views/menu.php:25
 msgid "Apply Config"
 msgstr ""
 
@@ -989,7 +990,7 @@ msgid ""
 "propagate the new settings)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:111
+#: amp_conf/htdocs/admin/views/footer.php:117
 msgid ""
 "Are you sure you don't want to provide an email address where update "
 "notifications will be sent. This email will never be transmitted off the "
@@ -997,11 +998,11 @@ msgid ""
 "detected."
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:109
+#: amp_conf/htdocs/admin/views/footer.php:115
 msgid "Are you sure you want to delete this?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:110
+#: amp_conf/htdocs/admin/views/footer.php:116
 msgid ""
 "Are you sure you want to disable automatic update notifications? This could "
 "leave your system at risk to serious security vulnerabilities. Enabling "
@@ -1283,27 +1284,27 @@ msgstr ""
 msgid "Call Forward Ring Time"
 msgstr ""
 
-#: ../core/page.extensions.php:206 ../core/page.users.php:91
+#: ../core/page.extensions.php:206 ../core/page.users.php:83
 msgid "Call Forwarding Busy is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:206 ../core/page.users.php:91
+#: ../core/page.extensions.php:206 ../core/page.users.php:83
 msgid "Call Forwarding Busy is enabled"
 msgstr ""
 
-#: ../core/page.extensions.php:209 ../core/page.users.php:94
+#: ../core/page.extensions.php:209 ../core/page.users.php:86
 msgid "Call Forwarding Unconditional is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:209 ../core/page.users.php:94
+#: ../core/page.extensions.php:209 ../core/page.users.php:86
 msgid "Call Forwarding Unconditional is enabled"
 msgstr ""
 
-#: ../core/page.extensions.php:203 ../core/page.users.php:88
+#: ../core/page.extensions.php:203 ../core/page.users.php:80
 msgid "Call Forwarding is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:203 ../core/page.users.php:88
+#: ../core/page.extensions.php:203 ../core/page.users.php:80
 msgid "Call Forwarding is enabled"
 msgstr ""
 
@@ -1336,11 +1337,11 @@ msgstr ""
 msgid "Call Waiting"
 msgstr "Samtal väntar"
 
-#: ../core/page.extensions.php:200 ../core/page.users.php:85
+#: ../core/page.extensions.php:200 ../core/page.users.php:77
 msgid "Call Waiting is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:200 ../core/page.users.php:85
+#: ../core/page.extensions.php:200 ../core/page.users.php:77
 msgid "Call Waiting is enabled"
 msgstr ""
 
@@ -1396,7 +1397,7 @@ msgstr ""
 msgid "Calling Out Route: %s"
 msgstr "Ringer ut väg: %s"
 
-#: amp_conf/htdocs/admin/views/menu.php:25
+#: amp_conf/htdocs/admin/views/menu.php:27
 msgid "Can Not Connect to Asterisk"
 msgstr ""
 
@@ -1451,7 +1452,7 @@ msgid "Can't sign unnamed key"
 msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:640
-#: amp_conf/htdocs/admin/views/footer.php:101
+#: amp_conf/htdocs/admin/views/footer.php:107
 msgid "Cancel"
 msgstr "Avbryt"
 
@@ -1675,7 +1676,7 @@ msgstr ""
 msgid "Client URI"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:99
+#: amp_conf/htdocs/admin/views/footer.php:105
 #: ../core/views/routing/form.php:615 ../core/views/trunks/trunk_footer.php:83
 msgid "Close"
 msgstr "Stäng"
@@ -1770,7 +1771,7 @@ msgstr ""
 msgid "Context to send the Inbound Call to."
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:100
+#: amp_conf/htdocs/admin/views/footer.php:106
 msgid "Continue"
 msgstr ""
 
@@ -1993,7 +1994,7 @@ msgstr ""
 msgid "Custom Dial String"
 msgstr "Anpassad nummerslagningssträng"
 
-#: amp_conf/htdocs/admin/views/footer.php:115
+#: amp_conf/htdocs/admin/views/footer.php:121
 msgid ""
 "Custom Goto contexts must contain the string \"custom-\".  ie: custom-app,s,1"
 msgstr ""
@@ -2186,7 +2187,7 @@ msgstr ""
 #: ../core/functions.inc.php:6474 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:36 ../core/views/did/didgrid.php:19
-#: ../core/views/did/routeform.php:87
+#: ../core/views/did/routeform.php:87 ../core/views/rnav.php:67
 msgid "Description"
 msgstr "Beskrivning"
 
@@ -2270,6 +2271,7 @@ msgstr ""
 
 #: ../core/Core.class.php:43 ../core/functions.inc.php:6417
 #: ../core/page.devices.php:63 ../core/page.devices.php:84
+#: ../core/views/rnav.php:66
 msgid "Device"
 msgstr "Enhet"
 
@@ -2465,11 +2467,11 @@ msgid ""
 "to"
 msgstr ""
 
-#: ../core/page.extensions.php:197 ../core/page.users.php:82
+#: ../core/page.extensions.php:197 ../core/page.users.php:74
 msgid "Do Not Disturb is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:197 ../core/page.users.php:82
+#: ../core/page.extensions.php:197 ../core/page.users.php:74
 msgid "Do Not Disturb is enabled"
 msgstr ""
 
@@ -2975,7 +2977,7 @@ msgstr ""
 msgid "Error(s) uninstalling %s"
 msgstr "Fel vid avinstallation av %s"
 
-#: amp_conf/htdocs/admin/views/footer.php:112
+#: amp_conf/htdocs/admin/views/footer.php:118
 msgid "Error: Did not receive valid response from server"
 msgstr "Fel: Inget giltigt svar från servern"
 
@@ -3041,7 +3043,7 @@ msgstr ""
 #: ../core/Core.class.php:31 ../core/Core.class.php:2200
 #: ../core/Core.class.php:2201 ../core/functions.inc.php:6057
 #: ../core/page.did.php:89 ../core/page.extensions.php:65
-#: ../core/page.extensions.php:91 ../core/views/rnav.php:10
+#: ../core/page.extensions.php:91 ../core/views/rnav.php:13
 msgid "Extension"
 msgstr "Anknytning"
 
@@ -3238,11 +3240,11 @@ msgstr ""
 msgid "File upload stopped by extension"
 msgstr ""
 
-#: ../core/page.extensions.php:212 ../core/page.users.php:97
+#: ../core/page.extensions.php:212 ../core/page.users.php:89
 msgid "Find Me/Follow Me is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:212 ../core/page.users.php:97
+#: ../core/page.extensions.php:212 ../core/page.users.php:89
 msgid "Find Me/Follow Me is enabled"
 msgstr ""
 
@@ -3569,7 +3571,7 @@ msgstr ""
 msgid "Hangup"
 msgstr "Lägg på luren"
 
-#: amp_conf/htdocs/admin/views/menu.php:56
+#: amp_conf/htdocs/admin/views/menu.php:50
 msgid "Hello, "
 msgstr ""
 
@@ -3998,7 +4000,7 @@ msgid "Invalid description"
 msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:25
-#: amp_conf/htdocs/admin/views/footer.php:105
+#: amp_conf/htdocs/admin/views/footer.php:111
 msgid "Invalid email address"
 msgstr ""
 
@@ -4075,7 +4077,11 @@ msgstr ""
 msgid "Licensed"
 msgstr ""
 
-#: ../core/page.devices.php:103
+#: ../core/views/rnav.php:5
+msgid "List All Extensions"
+msgstr ""
+
+#: ../core/views/rnav.php:56 ../core/views/rnav.php:74
 msgid "List Devices"
 msgstr ""
 
@@ -4083,7 +4089,7 @@ msgstr ""
 msgid "List Routes"
 msgstr ""
 
-#: ../core/page.users.php:73
+#: ../core/views/rnav.php:32 ../core/views/rnav.php:47
 msgid "List Users"
 msgstr ""
 
@@ -4107,7 +4113,7 @@ msgstr ""
 msgid "Locally Choosen FreePBX module from your system"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/menu.php:58
+#: amp_conf/htdocs/admin/views/menu.php:52
 msgid "Logout"
 msgstr "Logga ut"
 
@@ -4580,8 +4586,9 @@ msgstr ""
 
 #: ../core/Core.class.php:2204 ../core/Core.class.php:2205
 #: ../core/page.extensions.php:66 ../core/page.extensions.php:92
-#: ../core/page.users.php:54 ../core/views/rnav.php:11
-#: ../core/views/routing/grid.php:72 ../core/views/trunks/trunkgrid.php:18
+#: ../core/page.users.php:54 ../core/views/rnav.php:14
+#: ../core/views/rnav.php:40 ../core/views/routing/grid.php:72
+#: ../core/views/trunks/trunkgrid.php:18
 msgid "Name"
 msgstr ""
 
@@ -5285,7 +5292,7 @@ msgstr ""
 msgid "Please review the output above for any errors while enabling modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:114
+#: amp_conf/htdocs/admin/views/footer.php:120
 msgid "Please select a \"Destination\""
 msgstr "Välj en \"Destination\""
 
@@ -5593,7 +5600,7 @@ msgstr ""
 msgid "Retrieved Module XML Was Empty"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:102
+#: amp_conf/htdocs/admin/views/footer.php:108
 msgid "Retry"
 msgstr "Försök igen"
 
@@ -5727,7 +5734,7 @@ msgstr ""
 msgid "SUSPECT LINK:"
 msgstr "MISSTÄNKT LÄNK"
 
-#: amp_conf/htdocs/admin/views/footer.php:104
+#: amp_conf/htdocs/admin/views/footer.php:110
 msgid "Save"
 msgstr ""
 
@@ -5739,7 +5746,7 @@ msgstr "Sålla samtal: Kom ihåg"
 msgid "Screen Caller: No Memory"
 msgstr "Sålla samtal: Kom inte ihåg"
 
-#: amp_conf/htdocs/admin/views/menu.php:34
+#: amp_conf/htdocs/admin/views/menu.php:60
 msgid "Search"
 msgstr ""
 
@@ -5759,7 +5766,7 @@ msgstr ""
 msgid "Security"
 msgstr "Säkerhet"
 
-#: amp_conf/htdocs/admin/views/footer.php:107
+#: amp_conf/htdocs/admin/views/footer.php:113
 msgid "Security Issue"
 msgstr ""
 
@@ -6292,11 +6299,11 @@ msgstr ""
 "vanliga analoga linjer som behöver lite tid för att få en kopplingston. De "
 "flesta användare bör lämna detta fält tomt."
 
-#: amp_conf/htdocs/admin/views/footer.php:116
+#: amp_conf/htdocs/admin/views/footer.php:122
 msgid "The secret must be at minimum six characters in length."
 msgstr "Lösenordet måste innehålla minst sex tecken"
 
-#: amp_conf/htdocs/admin/views/footer.php:117
+#: amp_conf/htdocs/admin/views/footer.php:123
 msgid "The secret must contain at least two numbers and two letters."
 msgstr "Lösenordet måste åtminstone innehålla två siffror och två bokstäver"
 
@@ -6866,16 +6873,16 @@ msgstr "Packar upp (untarring).."
 msgid "Up to date."
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:103
+#: amp_conf/htdocs/admin/views/footer.php:109
 #: amp_conf/htdocs/admin/views/welcome.php:12
 msgid "Update"
 msgstr "Uppdatering"
 
-#: amp_conf/htdocs/admin/views/footer.php:106
+#: amp_conf/htdocs/admin/views/footer.php:112
 msgid "Update Notifications"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:291
+#: amp_conf/htdocs/admin/views/footer.php:298
 msgid "Update my browser now"
 msgstr ""
 
@@ -6979,7 +6986,7 @@ msgstr "Används som destination av %s %s"
 
 #: ../core/Core.class.php:55 ../core/functions.inc.php:6071
 #: ../core/page.devices.php:66 ../core/page.devices.php:87
-#: ../core/page.did.php:86 ../core/page.users.php:53
+#: ../core/page.did.php:86 ../core/page.users.php:53 ../core/views/rnav.php:39
 msgid "User"
 msgstr "Användare"
 
@@ -7585,7 +7592,7 @@ msgid ""
 "reload this page"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:290
+#: amp_conf/htdocs/admin/views/footer.php:297
 msgid "Your browser is out-of-date!"
 msgstr ""
 
