@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX v2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-15 21:01-0700\n"
+"POT-Creation-Date: 2015-10-20 09:14-0700\n"
 "PO-Revision-Date: 2014-07-22 14:52+0200\n"
 "Last-Translator: Chavdar <chavdar_75@yahoo.com>\n"
 "Language-Team: Bulgarian <http://git.freepbx.org/projects/freepbx/framework/"
@@ -347,7 +347,7 @@ msgstr ""
 msgid "%s prepared"
 msgstr ""
 
-#: ../core/Core.class.php:2160
+#: ../core/Core.class.php:2268
 #, php-format
 msgid "%s records failed validation"
 msgstr ""
@@ -544,7 +544,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "Вече съществува маршрут за този DID/CID!"
 
-#: ../core/Core.class.php:1723 ../core/functions.inc.php:4753
+#: ../core/Core.class.php:1831 ../core/functions.inc.php:4753
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "Маршрут с този DID/CID: %s/%s вече се използва"
@@ -625,7 +625,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/functions.inc.php:441 ../core/page.astmodules.php:140
-#: ../core/page.extensions.php:82 ../core/views/trunks/trunk_header.php:2
+#: ../core/views/trunks/trunk_header.php:2
 msgid "Add"
 msgstr "Добави"
 
@@ -687,7 +687,7 @@ msgstr ""
 msgid "Add New %s Device"
 msgstr ""
 
-#: ../core/page.extensions.php:159
+#: ../core/page.extensions.php:82 ../core/views/rnav.php:3
 #, php-format
 msgid "Add New %s Extension"
 msgstr ""
@@ -1085,7 +1085,7 @@ msgid ""
 "voicemail module. Only change this on devices that may have special needs."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:588
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:656
 #, php-format
 msgid ""
 "Asterisk home dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. "
@@ -1280,27 +1280,27 @@ msgstr ""
 msgid "Call Forward Ring Time"
 msgstr ""
 
-#: ../core/page.extensions.php:218 ../core/page.users.php:91
+#: ../core/page.extensions.php:206 ../core/page.users.php:91
 msgid "Call Forwarding Busy is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:218 ../core/page.users.php:91
+#: ../core/page.extensions.php:206 ../core/page.users.php:91
 msgid "Call Forwarding Busy is enabled"
 msgstr ""
 
-#: ../core/page.extensions.php:221 ../core/page.users.php:94
+#: ../core/page.extensions.php:209 ../core/page.users.php:94
 msgid "Call Forwarding Unconditional is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:221 ../core/page.users.php:94
+#: ../core/page.extensions.php:209 ../core/page.users.php:94
 msgid "Call Forwarding Unconditional is enabled"
 msgstr ""
 
-#: ../core/page.extensions.php:215 ../core/page.users.php:88
+#: ../core/page.extensions.php:203 ../core/page.users.php:88
 msgid "Call Forwarding is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:215 ../core/page.users.php:88
+#: ../core/page.extensions.php:203 ../core/page.users.php:88
 msgid "Call Forwarding is enabled"
 msgstr ""
 
@@ -1333,11 +1333,11 @@ msgstr ""
 msgid "Call Waiting"
 msgstr "Чакащо Повикване"
 
-#: ../core/page.extensions.php:212 ../core/page.users.php:85
+#: ../core/page.extensions.php:200 ../core/page.users.php:85
 msgid "Call Waiting is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:212 ../core/page.users.php:85
+#: ../core/page.extensions.php:200 ../core/page.users.php:85
 msgid "Call Waiting is enabled"
 msgstr ""
 
@@ -1349,11 +1349,11 @@ msgid ""
 "(caller or callee) determines the policy."
 msgstr ""
 
-#: ../core/Core.class.php:2133
+#: ../core/Core.class.php:2241
 msgid "Caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:2134
+#: ../core/Core.class.php:2242
 msgid "Caller ID Number"
 msgstr "CallerID Номер"
 
@@ -2061,11 +2061,11 @@ msgstr "DID Описание"
 msgid "DID Number"
 msgstr "DID Номер"
 
-#: ../core/Core.class.php:2080
+#: ../core/Core.class.php:2188
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:2081
+#: ../core/Core.class.php:2189
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
@@ -2143,10 +2143,10 @@ msgstr ""
 "всякаква или без DID информация.<br><br>Също така можете да използвате модел "
 "за съвпадения (като _2[345]X) който да отговаря на диапазон от номера"
 
-#: ../core/Core.class.php:424 ../core/Core.class.php:447
-#: ../core/Core.class.php:471 ../core/Core.class.php:509
-#: ../core/Core.class.php:530 ../core/Core.class.php:555
-#: ../core/Core.class.php:585 ../core/Core.class.php:615
+#: ../core/Core.class.php:532 ../core/Core.class.php:555
+#: ../core/Core.class.php:579 ../core/Core.class.php:617
+#: ../core/Core.class.php:638 ../core/Core.class.php:663
+#: ../core/Core.class.php:693 ../core/Core.class.php:723
 #: ../core/page.devices.php:56 ../core/page.devices.php:76
 #: ../core/page.extensions.php:58 ../core/page.extensions.php:84
 #: ../core/page.users.php:46
@@ -2181,8 +2181,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/main.php:179
-#: ../core/Core.class.php:2100 ../core/Core.class.php:2101
-#: ../core/Core.class.php:2125 ../core/Core.class.php:2126
+#: ../core/Core.class.php:2208 ../core/Core.class.php:2209
+#: ../core/Core.class.php:2233 ../core/Core.class.php:2234
 #: ../core/functions.inc.php:6474 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:36 ../core/views/did/didgrid.php:19
@@ -2194,7 +2194,7 @@ msgstr "Описание"
 msgid "Descriptive Name for this Trunk"
 msgstr ""
 
-#: ../core/Core.class.php:2137 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:2245 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr ""
 
@@ -2261,7 +2261,7 @@ msgstr ""
 msgid "Device"
 msgstr "Устройство"
 
-#: ../core/Core.class.php:1298
+#: ../core/Core.class.php:1406
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
@@ -2278,7 +2278,7 @@ msgstr "Информация за Устройство"
 msgid "Device Options"
 msgstr "Опции на Устройство"
 
-#: ../core/Core.class.php:2105 ../core/Core.class.php:2106
+#: ../core/Core.class.php:2213 ../core/Core.class.php:2214
 msgid "Device Technology"
 msgstr ""
 
@@ -2287,11 +2287,11 @@ msgstr ""
 msgid "Device Type"
 msgstr "Тип на Устройство"
 
-#: ../core/Core.class.php:2189
+#: ../core/Core.class.php:2297
 msgid "Device could not be added."
 msgstr ""
 
-#: ../core/Core.class.php:358
+#: ../core/Core.class.php:466
 msgid "Device was not added!"
 msgstr ""
 
@@ -2351,7 +2351,7 @@ msgstr ""
 msgid "Directed Call Pickup"
 msgstr "Директно Изтегляне на Обаждане"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:611
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:679
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it (getGpgLocation)."
 msgstr ""
@@ -2361,7 +2361,7 @@ msgstr ""
 msgid "Directory %s doesn't exist, and I can't make it."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:635
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:703
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
 msgstr ""
@@ -2440,7 +2440,7 @@ msgstr ""
 msgid "Display Name"
 msgstr "Представящо Име"
 
-#: ../core/Core.class.php:332
+#: ../core/Core.class.php:440
 msgid "Display Name can not be blank!"
 msgstr ""
 
@@ -2450,11 +2450,11 @@ msgid ""
 "to"
 msgstr ""
 
-#: ../core/page.extensions.php:209 ../core/page.users.php:82
+#: ../core/page.extensions.php:197 ../core/page.users.php:82
 msgid "Do Not Disturb is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:209 ../core/page.users.php:82
+#: ../core/page.extensions.php:197 ../core/page.users.php:82
 msgid "Do Not Disturb is enabled"
 msgstr ""
 
@@ -2470,7 +2470,7 @@ msgstr ""
 msgid "Don't Care"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:618
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:686
 #, php-format
 msgid "Don't have permission/can't write to %s"
 msgstr ""
@@ -2584,7 +2584,7 @@ msgstr ""
 msgid "Dump Configs"
 msgstr ""
 
-#: ../core/Core.class.php:560 ../core/Core.class.php:590
+#: ../core/Core.class.php:668 ../core/Core.class.php:698
 msgid "Duplicate"
 msgstr ""
 
@@ -2867,7 +2867,8 @@ msgstr "Грешка при създаване на временна дирек�
 msgid "Error deleting directory %s (code %d)"
 msgstr "Грешка при изтриване на директория %s (код %d)"
 
-#: ../core/Core.class.php:1029 ../core/page.trunks.php:323
+#: ../core/Core.class.php:361 ../core/Core.class.php:1137
+#: ../core/page.trunks.php:323
 msgid "Error fetching prefix list for: "
 msgstr "Грешка при вмъкване на префиксите за: "
 
@@ -3023,10 +3024,10 @@ msgstr ""
 msgid "Extended"
 msgstr ""
 
-#: ../core/Core.class.php:31 ../core/Core.class.php:2092
-#: ../core/Core.class.php:2093 ../core/functions.inc.php:6057
+#: ../core/Core.class.php:31 ../core/Core.class.php:2200
+#: ../core/Core.class.php:2201 ../core/functions.inc.php:6057
 #: ../core/page.did.php:89 ../core/page.extensions.php:65
-#: ../core/page.extensions.php:91
+#: ../core/page.extensions.php:91 ../core/views/rnav.php:10
 msgid "Extension"
 msgstr "Вътрешна Линия"
 
@@ -3042,15 +3043,15 @@ msgstr ""
 msgid "Extension Options"
 msgstr "Опции на Вътрешна Линия"
 
-#: ../core/Core.class.php:332
+#: ../core/Core.class.php:440
 msgid "Extension already in use!"
 msgstr ""
 
-#: ../core/Core.class.php:332
+#: ../core/Core.class.php:440
 msgid "Extension can not be blank!"
 msgstr ""
 
-#: ../core/Core.class.php:2176
+#: ../core/Core.class.php:2284
 msgid "Extension is not numeric."
 msgstr ""
 
@@ -3058,11 +3059,11 @@ msgstr ""
 msgid "Extension number conflict, please choose another."
 msgstr ""
 
-#: ../core/Core.class.php:353
+#: ../core/Core.class.php:461
 msgid "Extension was not numeric!"
 msgstr ""
 
-#: amp.i18n.php:16 ../core/Core.class.php:2076 ../core/Core.class.php:2077
+#: amp.i18n.php:16 ../core/Core.class.php:2184 ../core/Core.class.php:2185
 msgid "Extensions"
 msgstr "Вътрешни Линии"
 
@@ -3223,11 +3224,11 @@ msgstr ""
 msgid "File upload stopped by extension"
 msgstr ""
 
-#: ../core/page.extensions.php:224 ../core/page.users.php:97
+#: ../core/page.extensions.php:212 ../core/page.users.php:97
 msgid "Find Me/Follow Me is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:224 ../core/page.users.php:97
+#: ../core/page.extensions.php:212 ../core/page.users.php:97
 msgid "Find Me/Follow Me is enabled"
 msgstr ""
 
@@ -3419,7 +3420,7 @@ msgstr ""
 msgid "From User"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:366
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:431
 #, php-format
 msgid "GPG took too long to run the command: [%s]"
 msgstr ""
@@ -3573,7 +3574,7 @@ msgstr ""
 msgid "Hide the outbound Caller ID, The same as adding hidden to Outbound CID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:601
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:669
 #, php-format
 msgid "Home directory %s doesn't exist, and I can't create it"
 msgstr ""
@@ -3612,11 +3613,11 @@ msgid ""
 "joe@somedomain.com"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:306
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:371
 msgid "I can only do .gpg files at the moment"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:573
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:641
 msgid "I don't know who I should be running GPG as."
 msgstr ""
 
@@ -3624,7 +3625,7 @@ msgstr ""
 msgid "I don't know who I should be running OpenSSL as."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:579
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:647
 #, php-format
 msgid ""
 "I tried to find out about %s, but the system doesn't think that user exists"
@@ -3733,7 +3734,7 @@ msgstr ""
 "чрез анонимни SIP обаждания, въведете лесно име което да се използва в "
 "добавка на потребителския вътрешен номер."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:173
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:179
 msgid ""
 "If you're i18n-ing this file, read the comment about 'altered' and 'missing'"
 msgstr ""
@@ -3808,7 +3809,7 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: ../core/Core.class.php:2129 ../core/Core.class.php:2130
+#: ../core/Core.class.php:2237 ../core/Core.class.php:2238
 msgid "Incoming DID"
 msgstr ""
 
@@ -3978,7 +3979,8 @@ msgstr ""
 msgid "Invalid email address"
 msgstr ""
 
-#: ../core/Core.class.php:1033 ../core/page.trunks.php:328
+#: ../core/Core.class.php:365 ../core/Core.class.php:1141
+#: ../core/page.trunks.php:328
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "Неправилен формат за NPA-NXX код (трябва да е във формат: NXXNXX)"
 
@@ -4023,7 +4025,7 @@ msgstr ""
 msgid "KEYWORD"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:203
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:268
 #, php-format
 msgid "Key provided - %s - is not hex"
 msgstr ""
@@ -4052,10 +4054,6 @@ msgstr ""
 
 #: ../core/page.devices.php:103
 msgid "List Devices"
-msgstr ""
-
-#: ../core/page.extensions.php:155
-msgid "List Extensions"
 msgstr ""
 
 #: ../core/views/routing/bootnav.php:1
@@ -4558,10 +4556,10 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
-#: ../core/Core.class.php:2096 ../core/Core.class.php:2097
+#: ../core/Core.class.php:2204 ../core/Core.class.php:2205
 #: ../core/page.extensions.php:66 ../core/page.extensions.php:92
-#: ../core/page.users.php:54 ../core/views/routing/grid.php:72
-#: ../core/views/trunks/trunkgrid.php:18
+#: ../core/page.users.php:54 ../core/views/rnav.php:11
+#: ../core/views/routing/grid.php:72 ../core/views/trunks/trunkgrid.php:18
 msgid "Name"
 msgstr ""
 
@@ -4710,7 +4708,7 @@ msgstr "Няма модули за показване."
 msgid "No name for this CA"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:528
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:595
 msgid "No status was given to checkStatus"
 msgstr ""
 
@@ -5111,8 +5109,8 @@ msgid ""
 "by the PBX if left blank"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:650
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:664
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:718
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:732
 #, php-format
 msgid "Permissions error on %s - please re-run as root to automatically repair"
 msgstr ""
@@ -5541,11 +5539,11 @@ msgstr "Изисква се един от следните инструмент�
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:37
 #: amp_conf/htdocs/admin/views/module_admin/main.php:433
-#: ../core/Core.class.php:429 ../core/Core.class.php:452
-#: ../core/Core.class.php:476 ../core/Core.class.php:495
-#: ../core/Core.class.php:514 ../core/Core.class.php:535
-#: ../core/Core.class.php:565 ../core/Core.class.php:595
-#: ../core/Core.class.php:620
+#: ../core/Core.class.php:537 ../core/Core.class.php:560
+#: ../core/Core.class.php:584 ../core/Core.class.php:603
+#: ../core/Core.class.php:622 ../core/Core.class.php:643
+#: ../core/Core.class.php:673 ../core/Core.class.php:703
+#: ../core/Core.class.php:728
 msgid "Reset"
 msgstr "Изчисти"
 
@@ -5956,11 +5954,11 @@ msgstr ""
 msgid "Stream files for debugging"
 msgstr ""
 
-#: ../core/Core.class.php:434 ../core/Core.class.php:457
-#: ../core/Core.class.php:481 ../core/Core.class.php:500
-#: ../core/Core.class.php:519 ../core/Core.class.php:540
-#: ../core/Core.class.php:570 ../core/Core.class.php:600
-#: ../core/Core.class.php:625
+#: ../core/Core.class.php:542 ../core/Core.class.php:565
+#: ../core/Core.class.php:589 ../core/Core.class.php:608
+#: ../core/Core.class.php:627 ../core/Core.class.php:648
+#: ../core/Core.class.php:678 ../core/Core.class.php:708
+#: ../core/Core.class.php:733
 msgid "Submit"
 msgstr "Приеми"
 
@@ -6152,7 +6150,7 @@ msgstr ""
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
-#: ../core/Core.class.php:2138
+#: ../core/Core.class.php:2246
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -6397,7 +6395,7 @@ msgstr ""
 msgid "This action understands somethings may be disabled for a reason."
 msgstr ""
 
-#: ../core/Core.class.php:1305
+#: ../core/Core.class.php:1413
 msgid "This device id is already in use"
 msgstr "ID на устройството вече се използва"
 
@@ -6501,7 +6499,7 @@ msgid ""
 "setup that uses it."
 msgstr ""
 
-#: ../core/Core.class.php:1707
+#: ../core/Core.class.php:1815
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "Потребителят/вътрешната линия %s вече се използва"
@@ -6648,7 +6646,7 @@ msgstr ""
 msgid "Unable to create %s config file"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:240
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:305
 #, php-format
 msgid "Unable to download GPG key %s, or find %s or %s"
 msgstr ""
@@ -6690,7 +6688,7 @@ msgstr ""
 msgid "Unable to save %s"
 msgstr "Не мога да запиша %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:358
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:423
 #, php-format
 msgid "Unable to start GPG, the command was: [%s]"
 msgstr ""
@@ -6699,12 +6697,12 @@ msgstr ""
 msgid "Unable to start OpenSSL"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:313
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:378
 #, php-format
 msgid "Unable to strip signature - result was: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:282
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:347
 #, php-format
 msgid "Unable to trust the FreePBX Key! -- %s"
 msgstr ""
@@ -6981,11 +6979,11 @@ msgstr ""
 msgid "User Password"
 msgstr "Парола"
 
-#: ../core/Core.class.php:2207
+#: ../core/Core.class.php:2315
 msgid "User could not be added."
 msgstr ""
 
-#: ../core/Core.class.php:369
+#: ../core/Core.class.php:477
 msgid "User was not added!"
 msgstr ""
 
@@ -7497,7 +7495,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:1699
+#: ../core/Core.class.php:1807
 msgid "You must put in an extension (or user) number"
 msgstr "Трябва да въведете номер на вътрешна линия (или потребител)"
 
@@ -7639,7 +7637,7 @@ msgstr ""
 msgid "already there"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:165
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:171
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2952
 msgid "altered"
 msgstr ""
@@ -7676,7 +7674,7 @@ msgstr ""
 msgid "changed %s settings"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:487
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:552
 #, php-format
 msgid "checkSig was given %s, which is not a file"
 msgstr ""
@@ -7928,12 +7926,12 @@ msgid ""
 "database?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:443
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:508
 #, php-format
 msgid "getHashes was given %s which is not a directory!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:256
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:321
 #, php-format
 msgid "gpg --export-ownertrust didn't return sane stuff - %s"
 msgstr ""
@@ -8078,7 +8076,7 @@ msgstr ""
 msgid "migrating.."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:157
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:163
 msgid "missing"
 msgstr ""
 
@@ -8097,7 +8095,7 @@ msgstr ""
 msgid "missing value and/or defaultval required for [%s]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:142
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:147
 #, php-format
 msgid "module.sig check failed! %s"
 msgstr ""
@@ -8292,7 +8290,7 @@ msgstr ""
 msgid "unknown"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1163
+#: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1164
 #, php-format
 msgid "unknown type: [%s]"
 msgstr ""
