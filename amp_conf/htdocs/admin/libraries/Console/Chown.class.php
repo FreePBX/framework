@@ -94,7 +94,7 @@ class Chown extends Command {
 														'perms' => 0755);
 			$this->modfiles['framework'][] = array('type' => 'file',
 														'path' => $ASTVARLIBDIR . '/.ssh/id_rsa',
-														'perms' => 0644);
+														'perms' => 0600);
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $ASTLOGDIR,
 														'perms' => 0755);
