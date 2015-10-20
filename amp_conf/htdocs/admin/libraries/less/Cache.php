@@ -186,7 +186,9 @@ class Less_Cache{
 		//save the file list
 		$temp = array(Less_Version::cache_version);
 		foreach($files as $file){
-			$temp[] = filemtime($file)."\t".filesize($file)."\t".$file;
+			if(file_exists($file)) {
+				$temp[] = filemtime($file)."\t".filesize($file)."\t".$file;
+			}
 		}
 
 		return 'lessphp_'.sha1(json_encode($temp)).'.css';
