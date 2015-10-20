@@ -1021,10 +1021,10 @@ class Freepbx_conf {
 		  foreach ($keys as $n) {
 			  $sql .= ":$n,";
 		  }
-		  $sql = substr($sql, 0, -1).") ON DUPLICATE KEY UPDATE `value`=VALUES(`value`), `name`=VALUES(`name`), 
-		   `level`=VALUES(`level`), `description`=VALUES(`description`), `type`=VALUES(`type`), 
-		   `options`=VALUES(`options`), `defaultval`=VALUES(`defaultval`), `readonly`=VALUES(`readonly`), 
-		   `hidden`=VALUES(`hidden`), `category`=VALUES(`category`), `module`=VALUES(`module`), 
+		  $sql = substr($sql, 0, -1).") ON DUPLICATE KEY UPDATE `value`=VALUES(`value`), `name`=VALUES(`name`),
+		   `level`=VALUES(`level`), `description`=VALUES(`description`), `type`=VALUES(`type`),
+		   `options`=VALUES(`options`), `defaultval`=VALUES(`defaultval`), `readonly`=VALUES(`readonly`),
+		   `hidden`=VALUES(`hidden`), `category`=VALUES(`category`), `module`=VALUES(`module`),
 		   `emptyok`=VALUES(`emptyok`), `sortorder`=VALUES(`sortorder`)";
 		  $p = $db->prepare($sql);
 		  foreach ($update_array as $row) {
@@ -1160,7 +1160,8 @@ class Freepbx_conf {
       break;
 
     default:
-      die_freepbx(sprintf(_("unknown type: [%s]"),$type));
+      $this->_last_update_status['validated'] = false;
+      freepbx_log(FPBX_LOG_ERROR,sprintf(_("unknown type: [%s]"),$type));
       break;
     }
     $this->_last_update_status['saved_value'] = $ret;

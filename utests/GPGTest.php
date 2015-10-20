@@ -82,4 +82,52 @@ class GPGTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($f->GPG()->verifyFile("/tmp/verifyfile.php"), "Locally trusted file is trusted, it shouldn't be.");
 
 	}
+
+	public function testLocalValidation() {
+		$gpg = \FreePBX::GPG();
+
+		$modulexml = base64_decode("PG1vZHVsZT4KCTxyYXduYW1lPmdwZ3Rlc3Q8L3Jhd25hbWU+Cgk8bmFtZT5Vbml0IFRlc3QgTW9kdWxlPC9uYW1lPgoJPHZlcnNpb24+MTMuMC4xPC92ZXJzaW9uPgoJPHB1Ymxpc2hlcj5TYW5nb21hIFRlY2hub2xvZ2llcyBDb3Jwb3JhdGlvbjwvcHVibGlzaGVyPgoJPGxpY2Vuc2U+QUdQTHYzKzwvbGljZW5zZT4KCTxsaWNlbnNlbGluaz5odHRwOi8vd3d3LmdudS5vcmcvbGljZW5zZXMvYWdwbC0zLjAudHh0PC9saWNlbnNlbGluaz4KCTxkZXNjcmlwdGlvbj5Vc2VkIG9ubHkgZm9yIFVuaXQgVGVzdGluZzwvZGVzY3JpcHRpb24+Cgk8Y2hhbmdlbG9nPioxMy4wLjEqIFJlbGVhc2U8L2NoYW5nZWxvZz4KCTxtZW51aXRlbXM+PGdwZ3Rlc3Q+RmlyZXdhbGw8L2dwZ3Rlc3Q+PC9tZW51aXRlbXM+Cgk8c3VwcG9ydGVkPjx2ZXJzaW9uPjEzLjA8L3ZlcnNpb24+PC9zdXBwb3J0ZWQ+CjwvbW9kdWxlPgo=");
+		$finc = base64_decode("PD9waHAKLy8gdGhpcyBmaWxlIGRvZXMgbm90aGluZwpyZXR1cm4gZmFsc2U7Cg==");
+		$root = "/var/www/html/admin/modules/gpgtest";
+		`rm -rf $root`;
+		@unlink("/etc/freepbx.secure/gpgtest.sig");
+		mkdir($root);
+		file_put_contents("$root/module.xml", $modulexml);
+		file_put_contents("$root/functions.inc.php", $finc);
+
+		// Various module.sig files
+		$unsigned = gzuncompress(base64_decode("eJydUk1z2jAQvetXKJNLOy3ENvJXOj44YBsIeOwYktBMDpIlG8VGBn+Aya+vCXR6aC/NXqTV7tu3+7S9Xmd3jjfxYeAFMJp4vjOCcyeKbM85xXpgjKv1LYzGtgzAj+v/tA4BL+aWjAV3z3Be0CZnMOKpwHVTMujyzv1t15/jGBVQFDXEec1KWK8ZjAtRM1FXsEg6n1cw6ViuIJwkZ44/j7A7a7zZspJReOD1+vtHgc25zQPP8wsiwTyHe5xzimteCIgFhaRLxGXWIXEFufiIXn12DvDSdZ3w9BXsWVl1FJYC1p36VrXGiqqBqpOM0VOLFpJUw1A0TTds3XSH6BIjR+t06W/XW1CybWFtsGhwDkp8EHjDrHSb1qyqQX3cMmvbkJzH4OVEwapXkDQiPg1WneDQgmqMsWnGipwQrOIBlSRGVUKoyQxTxgM16XxkyirRJJ3pxJBkZCBNi3VNkk2iUnCWsN9u8q7agCWIUZ0SwyBU1lSDGURLKNUGKFExijVk6FjRTF2WqSbhmMYmolhhSKKJTFT59AOOoKD398bai+XDZVkfz8LdQk80gQf3Sl/qywh+8fzlzYyLpv0KAJ8eHDt0hra9cu18lUfz0B6mWRi6fPhTcCGMaLpLA9NdzSovJJm7coyqGZRqGXtLFbXgzTve8OLQTldOkSqRsvHfA7YW+uJOT1Fr5Hq0dx9yubLps1OjZZu4bVNk95Nj1EYkIE9gqr/76Ml73+TOOHNjKQsP99Wu3uW1F38bJdq0Sxr5AxaWM+Y/zH3XLHePQsyq1Cmni7cV8Bd2lqqr4GmYHe/8uSHCwgLWWLjJWR/HH/1LnV+kbBsi"));
+		$signed = gzuncompress(base64_decode("eJydU8m2ozYQ3fMV9OlNcpz3DJixc7wAgw0eGIzx1KcXEgiQLQYz2OCvD+73crJINunaSKWrqlt1pXp7G0wzFpZNuwuX9q2Fbej0xvB9dWG8sDfKBHX6jfZNlaWoP7/+Txsi6E+bVwi52pHeFFFLEO3jJAdNWyF6jgf3b/v6axx6QedFQwPSoIpuUkSHRd6gvKnpIh58XNPxwPKFpq34g+OfQ3pYG5CVqEIR/cBN+sfPBNlHmQ9MyGdEDDCh74DgCDS4yGmQRzQcLoLqOkSCmsb5T/TLr/ZBfR+qjnHyg7qjqh4ophyVDupP6xRwgkjVg2QoepU4Fdi5oImyzgmsIOgz7ROD/fS1eS/TkqpQWUwzkLeAUBV45CBD06RMGlQ3VNOXaFq2kOCQ+v6iQPUPKm7z8NVY/Y7z8JWCntJCCICihBwbQyCAScQwKBIgjBQkKyyYCPHg8worQJGRkARlhuVlXhRDSWRYBQoR9SHje5eRIdsExTyKpAjKMoxYUZCRDMU4isQJHwuAD0VelgAnKhLLRiIDwihU+AhwiGeimIUC+3oFI4+ot3//WnUXbD8/7P5DvG/0Im/dBX3n3pl3lqd/W9jBeI3ztvudorBnhZpqaGqiLjRveVgespmqFktjbrJNwZD5frJu9MIdcwXXrgRVAbdtse5GaZss6o2qUZtj2dlaeb6O2AFlDM2SDhlhrw5YZlDk+EWRBHYN1+VT6O2+bAyF3aRYZYm6ZHoTXCnbAS0h50dKVi3UFen23G7llb4OknrLna18LK12mcKoj3N0XWnShb0gL/Bl7cS36Y3cV1TceMsJYNeCWp+a2wRXx/6CZ7hBfGV2MQHbw7X2yEyThf345OzIk+G7p3/f9+vzVT8edWq8D4gQBSdptwHczeuN8f4wI7Ml2s8T09QUrRdEdbxtH5cSL8KOiWCXqdDLVSkweei2lHme8ZV7Xx0IvlnAPekSmB3O+8XBGSUrfHd7eEPsg3Q+xMTxb+DCe/2xjcx43ey32zFPabITVgGL0hmYhfXD0Wc+a6lj4iELx9bWNLYwcff71lm5zGh1uUsJQVJd+SN86khfzSllJpx7ZhxG6fNZqZuVXU3yYx+NjaM4OimGzcLqWjo53lTc/O4Y8CCWwXUeS92t5ws1PlFNmV6SKjhcU8jsi+OukcKk6opwXhXqfIUXpv0s8lsEL1Z/ljlzLW28UNcgWiqlkTe7lupF9uobGPoP+Q4fQdD1cng/+tpVarCKrEc8dmUmK0DlWcX6JNlmGU5GT9/xt66ztrYJVd55qdTZ2y3QeeNY4drLJbteZgrgZa8xS4tj5t7tpCtHxR1JTS1Uu72Tb0h8dqJN5iZUpxG5KtV0lmvpLludbCHVqGnAVYuPOTFs/b+m5C+M4chs"));
+
+		$localsecure = gzuncompress(base64_decode("eJydUstymzAU3esrlMmmndYOYJ7psIAYE6cxfhDbMZksJCRAMRYEgV9fXxy700W7ac5Gujq699x7pE6nhev5wwBO/AkMh37g9eHIC0PH905cB9wjkd3C8N6RAfhx/Z9oM+AFg4rSifsMRwVpcgpDlnJUNxWFA9aGv3H9OY1+AXlRQ5TXtIJ1RmFc8JryWsAiaWMmYNKqXEE4TM4afw5hu9ZoU9KKErhjdfb9o8Dm3OaO5fklI0Esh1uUM4JqVnCIOIG4vYiqdZuJBGT8g7367Bzgpe06Yekr2NJKtBK2ArLWfVtkSNF0IFrLKDm1aKuSZpqKrhumY1iDO/XC4YN92nTLrAQVLQt7g3iDclChHUcbaqdlWlNRg/pQUjsv4pZ6OSlQ8QqShsenuUSX8fhUAdpQixGyrFiRE4w01COSRImGMbGoacmopyVtrFqyhnXJoAY2JVk1VV2PDV2SLawRcHaxu9/kbbUeTVRKDIJNExNZ10xqYj0hRO+piYbUWFdNAym6Zcgy0SUUk9hSCVKoKpFExpp8egSPE9D5+9M6T/PZ5b8uzt7dQp83Ex9ula7UlVX4xQ/mN4+MN/uvALCHnedMvTvHWQ2cfJVHSuzcpevpdMDuIs44N8P+ejr5NpamaSXGkirezc2TNWrenfCngg3grpVy6bG5G1izkHvbanus6pCjfd8VmeiVRvOsHKPigcz8BW4Wbrb0ZDRbvg0CYj37mQXG/fJ4GAbHN+wQfbhcYS1/6HE/XtfNIZX0d+vejTyFaonYPw6LtIyWZmA2kTGIhHZTH/cgOLqHUZnSSHubL4zZWPq2soGNNsXk7I8X9P/lzi+vixtj"));
+		$modsecure = gzuncompress(base64_decode("eJydUstymzAU3esrlMmmndYPMC+nwwI7gJ3ExDYktpPJQoAAxbLAILDp11eO3emi3TRno/s+955RpyMwst2pB+fuHPpT17Nv4cz2fcu1T7kOmKAqu4H+xJIA+HH9nxAd8AKnxHg+WsNZHtcUQ5+kDPG6xNAhwv2N689x3OaQ5RwiynEJeYZhlDOOGa9gngifVDARLFcQTpMzx58gFC9HuwKXOIYHwrPvHwN25zUPhNJLR4IIhQ2iJEac5AwiFsNQFKJyKzpRBQn7yF599g7wKrZOSPoGGlxWgsKUQSbUN6sMyaoGKiEZjk8rmkpfNQxZ03TD0ofOWLnkwtY8Gd0iK0CJi9ykeYQo4G2BL+braSCu3kBapBxXvCvqoQlRiA1Jj/VEDYfISFSkRNpADbVkYCiSgmRZiuJBrISKpsu6hOIwEXF1GA+URB7Kugw6f38kK3haXv7Q8/meG+iyeu7CRu72u5ICv7jeU++BsPr4FQByd7CthT22rI1j0Q19kSNrnG4XC4eMXxhhzFhmqTXv4R5a5a6GDO19Pw3KPgtWW/3FaQFV0ju9T1SvlB4SNzvaQU2dcE+dxA3qb/Lo57E/3tgsraPGdatq+Gi14WwfqdnaP8zSbwNQSOSeT+VBMm4X4VHymkheFV6zTb2A7lz/zp748W5tl/WuQZMHZRJy7ljLvvMetvrg3dkAun4eNe1qHuyz+2Vv2D7NFiYwe/rj7qyP7d3+S51f1s75KA=="));
+
+		// Now put them in place and check their status.
+		file_put_contents("$root/module.sig", $unsigned);
+		$check = $gpg->verifyModule("gpgtest");
+		$this->assertTrue(($check['status'] & FreePBX\GPG::STATE_TAMPERED) == FreePBX\GPG::STATE_TAMPERED, "Not Tampered");
+		file_put_contents("$root/module.sig", $signed);
+		$check = $gpg->verifyModule("gpgtest");
+		$good = FreePBX\GPG::STATE_GOOD | FreePBX\GPG::STATE_TRUSTED;
+		$this->assertTrue($check['status'] === $good, "Not trusted");
+		file_put_contents("$root/module.sig", $modsecure);
+		try {
+			$check = $gpg->verifyModule("gpgtest", true);
+			$this->assertFalse($check['status'] === $good, "Local shouldn't be trusted, but it is");
+			$this->fail("This shouldn't have been reached");
+		} catch (\Exception $e) {
+			// Passed
+			$this->assertTrue(true, "threw when it should have");
+		}
+		file_put_contents("/etc/freepbx.secure/gpgtest.sig", $localsecure);
+		$check = $gpg->verifyModule("gpgtest");
+		$this->assertTrue($check['status'] === $good, "Local Not trusted when it should be");
+		// Check tampered status
+		file_put_contents("$root/functions.inc.php", "$finc\n\n");
+		$check = $gpg->verifyModule("gpgtest", true);
+		$this->assertTrue(($check['status'] & FreePBX\GPG::STATE_TAMPERED) == FreePBX\GPG::STATE_TAMPERED, "Not Tampered");
+		file_put_contents("$root/module.sig", $signed);
+		$check = $gpg->verifyModule("gpgtest");
+		$this->assertTrue(($check['status'] & FreePBX\GPG::STATE_TAMPERED) == FreePBX\GPG::STATE_TAMPERED, "Not Tampered");
+	}
 }
