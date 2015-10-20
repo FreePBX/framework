@@ -11,6 +11,15 @@ class GPGTest extends PHPUnit_Framework_TestCase {
 	public static function setUpBeforeClass() {
 		include 'setuptests.php';
 		self::$f = FreePBX::create();
+		// Ensure that our /etc/freepbx.secure directory exists
+		if (!is_dir("/etc/freepbx.secure")) {
+			if (posix_geteuid() !== 0) {
+				throw new \Exception("Can't create /etc/freepbx.secure, not runnign tests as root");
+			} else {
+				mkdir("/etc/freepbx.secure");
+			}
+		}
+		chmod("/etc/freepbx.secure", 0644);
 	}
 
 	public function testGPG() {
@@ -129,5 +138,6 @@ class GPGTest extends PHPUnit_Framework_TestCase {
 		file_put_contents("$root/module.sig", $signed);
 		$check = $gpg->verifyModule("gpgtest");
 		$this->assertTrue(($check['status'] & FreePBX\GPG::STATE_TAMPERED) == FreePBX\GPG::STATE_TAMPERED, "Not Tampered");
+		unlink("/etc/freepbx.secure/gpgtest.sig");
 	}
 }
