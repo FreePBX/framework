@@ -715,8 +715,8 @@ if ($quietmode) {
 	//See if we should provide an action bar
 	try {
 		$bmomodule_name = $bmo->Modules->cleanModuleName($module_name);
-		if($bmo->Modules->moduleHasMethod($bmomodule_name,"getRightNavBar")) {
-			$footer['nav_bar'] = $bmo->$bmomodule_name->getRightNavBar($_REQUEST);
+		if($bmo->Modules->moduleHasMethod($bmomodule_name,"getRightNav")) {
+			$footer['nav_bar'] = $bmo->$bmomodule_name->getRightNav($_REQUEST);
 		}
 	} catch (Exception $e) {
 		//TODO: Log me
