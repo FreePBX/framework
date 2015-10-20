@@ -671,7 +671,7 @@ switch ($action) {
 	break;
 	case 'online':
 	default:
-		uasort($modules, function($a, $b) {
+		@uasort($modules, function($a, $b) {
 			if(is_array($a['category']) || is_array($b['category']) || is_array($a['name']) || is_array($b['name'])) {
 				//bad module xml
 				return 0;
