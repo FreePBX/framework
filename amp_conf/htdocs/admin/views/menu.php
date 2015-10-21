@@ -54,7 +54,7 @@ global $_item_sort;
 					</li>
 				<?php } ?>
 			</div>
-			<?php if (isset($display) && $display != "noauth" && $display != "noaccess") { ?>
+			<?php if (isset($display) && $display != "noauth") { ?>
 				<div class="" id='fpbxsearch'>
 					<i class="fa fa-search"></i>
 					<input type="text" class="form-control typeahead" placeholder="<?php echo _('Search')?>">
