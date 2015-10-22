@@ -1210,17 +1210,12 @@ function positionActionBar() {
 
 function resizeRightNav() {
 	if ($("#floating-nav-bar").length > 0) {
-		$("#floating-nav-bar").removeClass("locked");
-		$("#fixed-list-button").removeClass("locked");
-		var win = $(window).height(),
-							pageHeight = parseInt($("#page").innerHeight()),
-							actionBarOffset = parseInt($("#floating-nav-bar").offset().top) + parseInt($("#floating-nav-bar").innerHeight()) + parseInt($("#footer").innerHeight()) + parseInt($("#floating-nav-bar").css("padding-bottom")) + parseInt($("#action-bar").innerHeight());
-		$("#floating-nav-bar").css("max-height",(win-197)+"px");
-		$("#floating-nav-bar .floating-nav-bar-contents").css("max-height",(win-200)+"px");
-		if (pageHeight - actionBarOffset <= 0) {
-			$("#floating-nav-bar").addClass("locked");
-			$("#fixed-list-button").addClass("locked");
+		var win = $(window).height() - $(".freepbx-navbar .navbar").outerHeight() - 100;
+		if ($("#action-bar").length > 0) {
+			win = win - $("#action-buttons").outerHeight();
 		}
+		$("#floating-nav-bar").css("max-height",(win)+"px");
+		$("#floating-nav-bar .floating-nav-bar-contents").css("max-height",(win-3)+"px");
 	}
 }
 

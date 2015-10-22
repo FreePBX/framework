@@ -246,7 +246,7 @@ span.twitter-typeahead .tt-dropdown-menu {
 		position: fixed;
 		right: 0px;
 		bottom: 10px;
-		z-index: 5;
+		z-index: 300;
 		white-space: nowrap;
 		overflow: hidden;
 		#action-bar-hide {
@@ -607,12 +607,12 @@ div.attention {
 	}
 	.scroller-right{
 		position: absolute;
-		z-index: 500;
+		z-index: 200;
 		right: 18px;
 	}
 	.scroller-left {
 		position: absolute;
-		z-index: 500;
+		z-index: 200;
 		left: 20px;
 	}
 }
@@ -653,12 +653,6 @@ div.attention {
 		.box-shadow(-3px 3px 10px -2px darken(@background-color, 50%));
 		outline: 0;
 		border-right: none;
-	}
-
-	#fixed-list-button.locked {
-		position: absolute;
-		bottom: 454px;
-		top: inherit;
 	}
 }
 #floating-nav-bar.locked {
