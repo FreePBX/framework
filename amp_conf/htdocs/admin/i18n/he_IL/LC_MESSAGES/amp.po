@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-20 10:53-0700\n"
+"POT-Creation-Date: 2015-10-22 07:59-0700\n"
 "PO-Revision-Date: 2006-09-28 17:30+0300\n"
 "Last-Translator: Moshe Brevda mbrevda => gmail ! com\n"
 "MIME-Version: 1.0\n"
@@ -327,7 +327,7 @@ msgstr ""
 msgid "%s prepared"
 msgstr ""
 
-#: ../core/Core.class.php:2268
+#: ../core/Core.class.php:2267
 #, php-format
 msgid "%s records failed validation"
 msgstr ""
@@ -337,7 +337,7 @@ msgstr ""
 msgid "%s removed successfully"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:298
+#: amp_conf/htdocs/admin/views/footer.php:299
 #, php-format
 msgid ""
 "%s requires a new browser to function correctly. You can still use %s with "
@@ -490,11 +490,11 @@ msgid ""
 "acted on."
 msgstr ""
 
-#: ../core/functions.inc.php:6224
+#: ../core/functions.inc.php:6235
 msgid "A description for this DID, such as \"Fax\""
 msgstr ""
 
-#: ../core/functions.inc.php:6225
+#: ../core/functions.inc.php:6236
 msgid ""
 "A direct DID that is associated with this extension. The DID should be in "
 "the same format as provided by the provider (e.g. full number, 4 digits for "
@@ -516,11 +516,11 @@ msgid ""
 "from the CLI): 1) fwconsole ma install %s 2) fwconsole ma enable %s"
 msgstr ""
 
-#: ../core/functions.inc.php:4101 ../core/functions.inc.php:4200
+#: ../core/functions.inc.php:4112 ../core/functions.inc.php:4211
 msgid "A route for this DID/CID already exists!"
 msgstr ""
 
-#: ../core/Core.class.php:1831 ../core/functions.inc.php:4753
+#: ../core/Core.class.php:1830 ../core/functions.inc.php:4764
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr ""
@@ -529,7 +529,7 @@ msgstr ""
 msgid "A useful description describing this channel"
 msgstr ""
 
-#: ../core/functions.inc.php:6118
+#: ../core/functions.inc.php:6129
 msgid "A user will enter this password when logging onto a device."
 msgstr ""
 
@@ -564,12 +564,12 @@ msgstr ""
 msgid "Access Restrictions"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:177
+#: ../core/functions.inc/drivers/PJSip.class.php:181
 #: ../core/functions.inc/drivers/Sip.class.php:379
 msgid "Account Code"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:176
+#: ../core/functions.inc/drivers/PJSip.class.php:180
 msgid "Account Code for this extension"
 msgstr ""
 
@@ -586,7 +586,7 @@ msgid "Action"
 msgstr ""
 
 #: ../core/page.devices.php:68 ../core/page.devices.php:88
-#: ../core/page.extensions.php:74 ../core/page.extensions.php:99
+#: ../core/page.extensions.php:82 ../core/page.extensions.php:107
 #: ../core/page.users.php:61 ../core/views/dahdichandids/changrid.php:39
 #: ../core/views/did/didgrid.php:21 ../core/views/routing/grid.php:75
 #: ../core/views/trunks/trunkgrid.php:22
@@ -604,12 +604,12 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: ../core/functions.inc.php:6440
+#: ../core/functions.inc.php:6451
 #, php-format
 msgid "Add %s Device"
 msgstr ""
 
-#: ../core/functions.inc.php:6442
+#: ../core/functions.inc.php:6453
 #, php-format
 msgid "Add %s Extension"
 msgstr ""
@@ -629,19 +629,21 @@ msgid "Add DAHDI DID"
 msgstr ""
 
 #: ../core/page.ampusers.php:145 ../core/page.ampusers.php:168
+#: ../core/views/rnav.php:60
 msgid "Add Device"
 msgstr ""
 
-#: ../core/functions.inc.php:6107 ../core/functions.inc.php:6498
+#: ../core/functions.inc.php:6118 ../core/functions.inc.php:6509
 #: ../core/page.ampusers.php:145 ../core/page.ampusers.php:168
+#: ../core/page.extensions.php:57 ../core/views/rnav.php:6
 msgid "Add Extension"
 msgstr ""
 
-#: ../core/functions.inc.php:6226
+#: ../core/functions.inc.php:6237
 msgid "Add Inbound CID"
 msgstr ""
 
-#: ../core/functions.inc.php:6225
+#: ../core/functions.inc.php:6236
 msgid "Add Inbound DID"
 msgstr ""
 
@@ -657,13 +659,13 @@ msgstr ""
 msgid "Add Module"
 msgstr ""
 
-#: ../core/views/rnav.php:59 ../core/views/rnav.php:77
+#: ../core/views/rnav.php:65 ../core/views/rnav.php:83
 #, php-format
 msgid "Add New %s Device"
 msgstr ""
 
-#: ../core/page.extensions.php:82 ../core/views/rnav.php:7
-#: ../core/views/rnav.php:22
+#: ../core/page.extensions.php:61 ../core/page.extensions.php:90
+#: ../core/views/rnav.php:10 ../core/views/rnav.php:27
 #, php-format
 msgid "Add New %s Extension"
 msgstr ""
@@ -680,21 +682,21 @@ msgstr ""
 msgid "Add Trunk"
 msgstr ""
 
-#: ../core/functions.inc.php:6109 ../core/functions.inc.php:6500
+#: ../core/functions.inc.php:6120 ../core/functions.inc.php:6511
 #: ../core/page.ampusers.php:97 ../core/page.ampusers.php:99
-#: ../core/views/rnav.php:33 ../core/views/rnav.php:48
+#: ../core/views/rnav.php:37 ../core/views/rnav.php:51
 msgid "Add User"
 msgstr ""
 
-#: ../core/functions.inc.php:6086
+#: ../core/functions.inc.php:6097
 msgid "Add User/Extension"
 msgstr ""
 
-#: ../core/functions.inc.php:6394
+#: ../core/functions.inc.php:6405
 msgid "Add Virtual Extension"
 msgstr ""
 
-#: ../core/functions.inc.php:6226
+#: ../core/functions.inc.php:6237
 msgid ""
 "Add a CID for more specific DID + CID routing. A DID must be specified in "
 "the above Add DID box. In addition to standard dial sequences, you can also "
@@ -739,7 +741,7 @@ msgstr ""
 msgid "Additional Settings"
 msgstr ""
 
-#: ../core/functions.inc.php:6368
+#: ../core/functions.inc.php:6379
 msgid "Adhoc"
 msgstr ""
 
@@ -779,7 +781,7 @@ msgstr ""
 msgid "Advanced Settings"
 msgstr "הגדרות מתקדמות"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:206
+#: ../core/functions.inc/drivers/PJSip.class.php:213
 msgid "Aggregate MWI"
 msgstr ""
 
@@ -850,7 +852,7 @@ msgstr ""
 msgid "Allow Any CID"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:193
+#: ../core/functions.inc/drivers/PJSip.class.php:197
 msgid "Allow Contact header to be rewritten with the source IP address-port"
 msgstr ""
 
@@ -871,7 +873,7 @@ msgstr ""
 msgid "Already Migrated!"
 msgstr ""
 
-#: ../core/functions.inc.php:5983
+#: ../core/functions.inc.php:5994
 msgid "Always"
 msgstr ""
 
@@ -935,7 +937,7 @@ msgid ""
 "would like them to be able to seize the line."
 msgstr ""
 
-#: ../core/functions.inc.php:6238
+#: ../core/functions.inc.php:6249
 msgid "Any DID"
 msgstr ""
 
@@ -987,11 +989,11 @@ msgstr ""
 msgid "Asked for raw contents of a file, but was never asked to read a file"
 msgstr ""
 
-#: ../core/functions.inc.php:6222
+#: ../core/functions.inc.php:6233
 msgid "Assigned DID/CID"
 msgstr ""
 
-#: ../core/functions.inc.php:6190
+#: ../core/functions.inc.php:6201
 msgid "Asterisk Dial Options"
 msgstr ""
 
@@ -1174,11 +1176,11 @@ msgstr ""
 msgid "Broken"
 msgstr "שבור"
 
-#: ../core/functions.inc.php:849 ../core/functions.inc.php:6293
+#: ../core/functions.inc.php:849 ../core/functions.inc.php:6304
 msgid "Busy"
 msgstr ""
 
-#: ../core/functions.inc.php:6292
+#: ../core/functions.inc.php:6303
 msgid "Busy Voicemail if Enabled"
 msgstr ""
 
@@ -1199,17 +1201,17 @@ msgstr ""
 msgid "CA key already exists, reusing"
 msgstr ""
 
-#: ../core/page.extensions.php:70 ../core/page.extensions.php:96
+#: ../core/page.extensions.php:78 ../core/page.extensions.php:104
 #: ../core/page.users.php:58
 msgid "CF"
 msgstr ""
 
-#: ../core/page.extensions.php:71 ../core/page.extensions.php:97
+#: ../core/page.extensions.php:79 ../core/page.extensions.php:105
 #: ../core/page.users.php:59
 msgid "CFB"
 msgstr ""
 
-#: ../core/page.extensions.php:72 ../core/page.extensions.php:98
+#: ../core/page.extensions.php:80 ../core/page.extensions.php:106
 #: ../core/page.users.php:60
 msgid "CFU"
 msgstr ""
@@ -1218,7 +1220,7 @@ msgstr ""
 msgid "CID"
 msgstr ""
 
-#: ../core/functions.inc.php:6153
+#: ../core/functions.inc.php:6164
 msgid "CID Num Alias"
 msgstr ""
 
@@ -1226,8 +1228,8 @@ msgstr ""
 msgid "CID Options"
 msgstr ""
 
-#: ../core/functions.inc.php:6285 ../core/functions.inc.php:6294
-#: ../core/functions.inc.php:6299
+#: ../core/functions.inc.php:6296 ../core/functions.inc.php:6305
+#: ../core/functions.inc.php:6310
 msgid "CID Prefix"
 msgstr ""
 
@@ -1243,36 +1245,36 @@ msgstr ""
 msgid "CRITICAL ERROR"
 msgstr ""
 
-#: ../core/page.extensions.php:67 ../core/page.extensions.php:93
+#: ../core/page.extensions.php:75 ../core/page.extensions.php:101
 #: ../core/page.users.php:55
 msgid "CW"
 msgstr ""
 
-#: ../core/functions.inc.php:6201
+#: ../core/functions.inc.php:6212
 msgid "Call Forward Ring Time"
 msgstr ""
 
-#: ../core/page.extensions.php:206 ../core/page.users.php:83
+#: ../core/page.extensions.php:214 ../core/page.users.php:83
 msgid "Call Forwarding Busy is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:206 ../core/page.users.php:83
+#: ../core/page.extensions.php:214 ../core/page.users.php:83
 msgid "Call Forwarding Busy is enabled"
 msgstr ""
 
-#: ../core/page.extensions.php:209 ../core/page.users.php:86
+#: ../core/page.extensions.php:217 ../core/page.users.php:86
 msgid "Call Forwarding Unconditional is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:209 ../core/page.users.php:86
+#: ../core/page.extensions.php:217 ../core/page.users.php:86
 msgid "Call Forwarding Unconditional is enabled"
 msgstr ""
 
-#: ../core/page.extensions.php:203 ../core/page.users.php:80
+#: ../core/page.extensions.php:211 ../core/page.users.php:80
 msgid "Call Forwarding is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:203 ../core/page.users.php:80
+#: ../core/page.extensions.php:211 ../core/page.users.php:80
 msgid "Call Forwarding is enabled"
 msgstr ""
 
@@ -1280,15 +1282,15 @@ msgstr ""
 msgid "Call Groups"
 msgstr ""
 
-#: ../core/functions.inc.php:1042
+#: ../core/functions.inc.php:1046
 msgid "Call Recording Module Not Enabled"
 msgstr ""
 
-#: ../core/functions.inc.php:6218
+#: ../core/functions.inc.php:6229
 msgid "Call Screening"
 msgstr ""
 
-#: ../core/functions.inc.php:6218
+#: ../core/functions.inc.php:6229
 msgid ""
 "Call Screening requires external callers to say their name, which will be "
 "played back to the user and allow the user to accept or reject the call.  "
@@ -1301,19 +1303,19 @@ msgid ""
 "the caller's CallerID."
 msgstr ""
 
-#: ../core/functions.inc.php:6213
+#: ../core/functions.inc.php:6224
 msgid "Call Waiting"
 msgstr ""
 
-#: ../core/page.extensions.php:200 ../core/page.users.php:77
+#: ../core/page.extensions.php:208 ../core/page.users.php:77
 msgid "Call Waiting is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:200 ../core/page.users.php:77
+#: ../core/page.extensions.php:208 ../core/page.users.php:77
 msgid "Call Waiting is enabled"
 msgstr ""
 
-#: ../core/functions.inc.php:6267
+#: ../core/functions.inc.php:6278
 msgid ""
 "Call recording policy priority relative to other extensions when there is a "
 "conflict between an extension wanting recording and the other not wanting "
@@ -1321,11 +1323,11 @@ msgid ""
 "(caller or callee) determines the policy."
 msgstr ""
 
-#: ../core/Core.class.php:2241
+#: ../core/Core.class.php:2240
 msgid "Caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:2242
+#: ../core/Core.class.php:2241
 msgid "Caller ID Number"
 msgstr ""
 
@@ -1360,7 +1362,7 @@ msgid ""
 "g. '1,3-5' would be in groups 1,3,4,5."
 msgstr ""
 
-#: ../core/functions.inc.php:2127
+#: ../core/functions.inc.php:2131
 #, php-format
 msgid "Calling Out Route: %s"
 msgstr ""
@@ -1697,7 +1699,7 @@ msgstr ""
 msgid "Confirm Password"
 msgstr ""
 
-#: ../core/functions.inc.php:6136
+#: ../core/functions.inc.php:6147
 msgid "Conflicting Extensions"
 msgstr ""
 
@@ -1916,7 +1918,7 @@ msgstr ""
 msgid "Cronmanager encountered %s Errors"
 msgstr ""
 
-#: ../core/functions.inc.php:6190
+#: ../core/functions.inc.php:6201
 msgid ""
 "Cryptic Asterisk Dial Options, check to customize for this extension or un-"
 "check to use system defaults set in Advanced Options. These will not apply "
@@ -2008,11 +2010,11 @@ msgstr ""
 msgid "DID"
 msgstr ""
 
-#: ../core/functions.inc.php:6234
+#: ../core/functions.inc.php:6245
 msgid "DID / CID"
 msgstr ""
 
-#: ../core/functions.inc.php:6224
+#: ../core/functions.inc.php:6235
 msgid "DID Description"
 msgstr ""
 
@@ -2020,20 +2022,20 @@ msgstr ""
 msgid "DID Number"
 msgstr ""
 
-#: ../core/Core.class.php:2188
+#: ../core/Core.class.php:2187
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:2189
+#: ../core/Core.class.php:2188
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
-#: ../core/page.extensions.php:68 ../core/page.extensions.php:94
+#: ../core/page.extensions.php:76 ../core/page.extensions.php:102
 #: ../core/page.users.php:56
 msgid "DND"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:211
+#: ../core/functions.inc/drivers/PJSip.class.php:218
 msgid "DTLS-SRTP"
 msgstr ""
 
@@ -2065,7 +2067,7 @@ msgstr ""
 msgid "Debug"
 msgstr ""
 
-#: ../core/functions.inc.php:5981 ../core/functions.inc.php:5982
+#: ../core/functions.inc.php:5992 ../core/functions.inc.php:5993
 #: ../core/views/did/routeform.php:9
 msgid "Default"
 msgstr ""
@@ -2074,7 +2076,7 @@ msgstr ""
 msgid "Default Asterisk Manager Password Used"
 msgstr ""
 
-#: ../core/functions.inc.php:6477
+#: ../core/functions.inc.php:6488
 msgid "Default User"
 msgstr ""
 
@@ -2103,12 +2105,12 @@ msgstr ""
 #: ../core/Core.class.php:638 ../core/Core.class.php:663
 #: ../core/Core.class.php:693 ../core/Core.class.php:723
 #: ../core/page.devices.php:56 ../core/page.devices.php:76
-#: ../core/page.extensions.php:58 ../core/page.extensions.php:84
+#: ../core/page.extensions.php:66 ../core/page.extensions.php:92
 #: ../core/page.users.php:46
 msgid "Delete"
 msgstr ""
 
-#: ../core/functions.inc.php:6420
+#: ../core/functions.inc.php:6431
 #, php-format
 msgid "Delete Device %s"
 msgstr ""
@@ -2136,12 +2138,12 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/main.php:179
-#: ../core/Core.class.php:2208 ../core/Core.class.php:2209
-#: ../core/Core.class.php:2233 ../core/Core.class.php:2234
-#: ../core/functions.inc.php:6474 ../core/page.devices.php:64
+#: ../core/Core.class.php:2207 ../core/Core.class.php:2208
+#: ../core/Core.class.php:2232 ../core/Core.class.php:2233
+#: ../core/functions.inc.php:6485 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:36 ../core/views/did/didgrid.php:19
-#: ../core/views/did/routeform.php:87 ../core/views/rnav.php:67
+#: ../core/views/did/routeform.php:87 ../core/views/rnav.php:73
 msgid "Description"
 msgstr "תאור"
 
@@ -2149,7 +2151,7 @@ msgstr "תאור"
 msgid "Descriptive Name for this Trunk"
 msgstr ""
 
-#: ../core/Core.class.php:2245 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:2244 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr ""
 
@@ -2192,7 +2194,7 @@ msgid ""
 "extension/device."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:218
+#: ../core/functions.inc/drivers/PJSip.class.php:225
 msgid ""
 "Determines whether encryption should be used if possible but does not "
 "terminate the session if not achieved. This option only applies if Media "
@@ -2205,15 +2207,15 @@ msgid ""
 "failures."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:188
+#: ../core/functions.inc/drivers/PJSip.class.php:192
 msgid ""
 "Determines whether res_pjsip will use the media transport received in the "
 "offer SDP in the corresponding answer SDP."
 msgstr ""
 
-#: ../core/Core.class.php:43 ../core/functions.inc.php:6417
+#: ../core/Core.class.php:43 ../core/functions.inc.php:6428
 #: ../core/page.devices.php:63 ../core/page.devices.php:84
-#: ../core/views/rnav.php:66
+#: ../core/views/rnav.php:72
 msgid "Device"
 msgstr ""
 
@@ -2221,29 +2223,29 @@ msgstr ""
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
-#: ../core/functions.inc.php:6472
+#: ../core/functions.inc.php:6483
 msgid "Device ID"
 msgstr ""
 
-#: ../core/functions.inc.php:6468
+#: ../core/functions.inc.php:6479
 msgid "Device Info"
 msgstr ""
 
-#: ../core/functions.inc.php:6486
+#: ../core/functions.inc.php:6497
 #: ../core/functions.inc/drivers/Sip.class.php:213
 msgid "Device Options"
 msgstr ""
 
-#: ../core/Core.class.php:2213 ../core/Core.class.php:2214
+#: ../core/Core.class.php:2212 ../core/Core.class.php:2213
 msgid "Device Technology"
 msgstr ""
 
-#: ../core/functions.inc.php:6476 ../core/page.devices.php:65
+#: ../core/functions.inc.php:6487 ../core/page.devices.php:65
 #: ../core/page.devices.php:86
 msgid "Device Type"
 msgstr ""
 
-#: ../core/Core.class.php:2297
+#: ../core/Core.class.php:2294
 msgid "Device could not be added."
 msgstr ""
 
@@ -2255,7 +2257,7 @@ msgstr ""
 msgid "Devices"
 msgstr "התקנים"
 
-#: ../core/functions.inc.php:6476
+#: ../core/functions.inc.php:6487
 msgid ""
 "Devices can be fixed or adhoc. Fixed devices are always associated to the "
 "same extension/user. Adhoc devices can be logged into and logged out of by "
@@ -2320,9 +2322,9 @@ msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:352
-#: ../core/functions.inc.php:5957 ../core/functions.inc.php:5963
-#: ../core/functions.inc.php:5967 ../core/functions.inc.php:5972
-#: ../core/functions.inc.php:5976
+#: ../core/functions.inc.php:5968 ../core/functions.inc.php:5974
+#: ../core/functions.inc.php:5978 ../core/functions.inc.php:5983
+#: ../core/functions.inc.php:5987
 msgid "Disable"
 msgstr ""
 
@@ -2389,7 +2391,7 @@ msgstr ""
 msgid "Discontinued logging type %s changing to %s.."
 msgstr ""
 
-#: ../core/functions.inc.php:6151 ../core/views/quickCreate.php:59
+#: ../core/functions.inc.php:6162 ../core/views/quickCreate.php:59
 msgid "Display Name"
 msgstr ""
 
@@ -2403,11 +2405,11 @@ msgid ""
 "to"
 msgstr ""
 
-#: ../core/page.extensions.php:197 ../core/page.users.php:74
+#: ../core/page.extensions.php:205 ../core/page.users.php:74
 msgid "Do Not Disturb is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:197 ../core/page.users.php:74
+#: ../core/page.extensions.php:205 ../core/page.users.php:74
 msgid "Do Not Disturb is enabled"
 msgstr ""
 
@@ -2419,7 +2421,7 @@ msgstr ""
 msgid "Domain to use in From header for requests to this trunk"
 msgstr ""
 
-#: ../core/functions.inc.php:5948
+#: ../core/functions.inc.php:5959
 msgid "Don't Care"
 msgstr ""
 
@@ -2599,16 +2601,16 @@ msgstr ""
 msgid "Edit Administrator"
 msgstr ""
 
-#: ../core/functions.inc.php:6426
+#: ../core/functions.inc.php:6437
 #, php-format
 msgid "Edit Default User: %s"
 msgstr ""
 
-#: ../core/functions.inc.php:6107 ../core/functions.inc.php:6498
+#: ../core/functions.inc.php:6118 ../core/functions.inc.php:6509
 msgid "Edit Extension"
 msgstr ""
 
-#: ../core/functions.inc.php:6426
+#: ../core/functions.inc.php:6437
 #, php-format
 msgid "Edit Fixed User: %s"
 msgstr ""
@@ -2617,11 +2619,11 @@ msgstr ""
 msgid "Edit Route"
 msgstr ""
 
-#: ../core/functions.inc.php:6109 ../core/functions.inc.php:6500
+#: ../core/functions.inc.php:6120 ../core/functions.inc.php:6511
 msgid "Edit User"
 msgstr ""
 
-#: ../core/functions.inc.php:6170
+#: ../core/functions.inc.php:6181
 msgid "Edit:"
 msgstr ""
 
@@ -2646,7 +2648,7 @@ msgstr ""
 msgid "Emergency"
 msgstr ""
 
-#: ../core/functions.inc.php:6475 ../core/functions.inc.php:6480
+#: ../core/functions.inc.php:6486 ../core/functions.inc.php:6491
 msgid "Emergency CID"
 msgstr ""
 
@@ -2659,8 +2661,8 @@ msgid "Empty value not allowed for this field"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:284
-#: ../core/functions.inc.php:5958 ../core/functions.inc.php:5962
-#: ../core/functions.inc.php:5973
+#: ../core/functions.inc.php:5969 ../core/functions.inc.php:5973
+#: ../core/functions.inc.php:5984
 msgid "Enable"
 msgstr ""
 
@@ -2688,7 +2690,7 @@ msgstr ""
 msgid "Enable module[s], accepts argument module[s]"
 msgstr ""
 
-#: ../core/functions.inc.php:6266
+#: ../core/functions.inc.php:6277
 msgid ""
 "Enable or disable the ability to do on demand (one-touch) recording. The "
 "overall calling policy rules still apply and if calls are already being "
@@ -2726,7 +2728,7 @@ msgstr ""
 msgid "Enabling Missing Dependency of: %s %s"
 msgstr ""
 
-#: ../core/functions.inc.php:6220
+#: ../core/functions.inc.php:6231
 msgid ""
 "Enabling Pinless Dialing will allow this extension to bypass any pin codes "
 "normally required on outbound calls"
@@ -2750,7 +2752,7 @@ msgid ""
 "may used 5061 for the second port."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:191
+#: ../core/functions.inc/drivers/PJSip.class.php:195
 msgid ""
 "Enforce that RTP must be symmetric. If this device is natting in it is "
 "usually a good idea to enable this. Disable only if you are having issues."
@@ -2772,7 +2774,7 @@ msgstr ""
 msgid "Error"
 msgstr "שגיאה"
 
-#: ../core/functions.inc.php:4804
+#: ../core/functions.inc.php:4815
 msgid "Error Duplicate Channel Entry"
 msgstr ""
 
@@ -2970,10 +2972,10 @@ msgstr ""
 msgid "Extended"
 msgstr ""
 
-#: ../core/Core.class.php:31 ../core/Core.class.php:2200
-#: ../core/Core.class.php:2201 ../core/functions.inc.php:6057
-#: ../core/page.did.php:89 ../core/page.extensions.php:65
-#: ../core/page.extensions.php:91 ../core/views/rnav.php:13
+#: ../core/Core.class.php:31 ../core/Core.class.php:2199
+#: ../core/Core.class.php:2200 ../core/functions.inc.php:6068
+#: ../core/page.did.php:89 ../core/page.extensions.php:73
+#: ../core/page.extensions.php:99 ../core/views/rnav.php:18
 msgid "Extension"
 msgstr ""
 
@@ -2985,7 +2987,7 @@ msgstr ""
 msgid "Extension Numbering Duplicate Conflict Detected"
 msgstr ""
 
-#: ../core/functions.inc.php:6184 ../core/functions.inc.php:6479
+#: ../core/functions.inc.php:6195 ../core/functions.inc.php:6490
 msgid "Extension Options"
 msgstr ""
 
@@ -2997,11 +2999,11 @@ msgstr ""
 msgid "Extension can not be blank!"
 msgstr ""
 
-#: ../core/Core.class.php:2284
+#: ../core/Core.class.php:2283
 msgid "Extension is not numeric."
 msgstr ""
 
-#: ../core/functions.inc.php:6146
+#: ../core/functions.inc.php:6157
 msgid "Extension number conflict, please choose another."
 msgstr ""
 
@@ -3009,7 +3011,7 @@ msgstr ""
 msgid "Extension was not numeric!"
 msgstr ""
 
-#: amp.i18n.php:16 ../core/Core.class.php:2184 ../core/Core.class.php:2185
+#: amp.i18n.php:16 ../core/Core.class.php:2183 ../core/Core.class.php:2184
 msgid "Extensions"
 msgstr "שלוחות"
 
@@ -3031,7 +3033,7 @@ msgstr ""
 msgid "FATAL, migration failed"
 msgstr ""
 
-#: ../core/page.extensions.php:69 ../core/page.extensions.php:95
+#: ../core/page.extensions.php:77 ../core/page.extensions.php:103
 #: ../core/page.users.php:57
 msgid "FMFM"
 msgstr ""
@@ -3077,7 +3079,7 @@ msgstr ""
 msgid "Failed to get remote file, mirror site may be down: %s"
 msgstr ""
 
-#: ../core/functions.inc.php:5917
+#: ../core/functions.inc.php:5928
 #, php-format
 msgid ""
 "Failed to open %s for writing, aborting attempt to write the country "
@@ -3119,7 +3121,7 @@ msgstr ""
 msgid "Failed to write file to disk"
 msgstr ""
 
-#: ../core/functions.inc.php:5918
+#: ../core/functions.inc.php:5929
 msgid "Failed to write indications.conf"
 msgstr ""
 
@@ -3167,11 +3169,11 @@ msgstr ""
 msgid "File upload stopped by extension"
 msgstr ""
 
-#: ../core/page.extensions.php:212 ../core/page.users.php:89
+#: ../core/page.extensions.php:220 ../core/page.users.php:89
 msgid "Find Me/Follow Me is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:212 ../core/page.users.php:89
+#: ../core/page.extensions.php:220 ../core/page.users.php:89
 msgid "Find Me/Follow Me is enabled"
 msgstr ""
 
@@ -3184,11 +3186,11 @@ msgstr ""
 msgid "First before %s"
 msgstr ""
 
-#: ../core/functions.inc.php:6367
+#: ../core/functions.inc.php:6378
 msgid "Fixed"
 msgstr ""
 
-#: ../core/functions.inc.php:6477
+#: ../core/functions.inc.php:6488
 msgid ""
 "Fixed devices will always mapped to this user.  Adhoc devices will be mapped "
 "to this user by default.<br><br>If selecting 'New User', a new User "
@@ -3203,7 +3205,7 @@ msgstr ""
 msgid "Flags"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:199
+#: ../core/functions.inc/drivers/PJSip.class.php:206
 msgid ""
 "For Message Waiting indicators there are two types: Solicited and "
 "Unsolicited. Solicited means Subscribe 200 then Notify 200. Unsolicited "
@@ -3219,7 +3221,7 @@ msgstr ""
 msgid "Forbidden Retry Interval"
 msgstr ""
 
-#: ../core/functions.inc.php:5946
+#: ../core/functions.inc.php:5957
 msgid "Force"
 msgstr ""
 
@@ -3261,9 +3263,17 @@ msgid ""
 "warning> Use at your own risk, modules have dependencies for a reason!"
 msgstr ""
 
+#: ../core/functions.inc/drivers/PJSip.class.php:200
+msgid "Force rport"
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:294
 #, php-format
 msgid "Force rport - (%s)"
+msgstr ""
+
+#: ../core/functions.inc/drivers/PJSip.class.php:199
+msgid "Force use of return port."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2900
@@ -3436,7 +3446,7 @@ msgid ""
 "trunk context within asterisk"
 msgstr ""
 
-#: ../core/functions.inc.php:6472
+#: ../core/functions.inc.php:6483
 msgid ""
 "Give your device a unique integer ID.  The device will use this ID to "
 "authenticate to the system."
@@ -3641,7 +3651,7 @@ msgid ""
 "then it will always be available."
 msgstr ""
 
-#: ../core/functions.inc.php:6154
+#: ../core/functions.inc.php:6165
 msgid ""
 "If you want to support direct sip dialing of users internally or through "
 "anonymous sip calls, you can supply a friendly name that can be used in "
@@ -3698,15 +3708,15 @@ msgstr ""
 msgid "Inbound"
 msgstr ""
 
-#: ../core/functions.inc.php:6262
+#: ../core/functions.inc.php:6273
 msgid "Inbound External Calls"
 msgstr ""
 
-#: ../core/functions.inc.php:6264
+#: ../core/functions.inc.php:6275
 msgid "Inbound Internal Calls"
 msgstr ""
 
-#: ../core/functions.inc.php:4615
+#: ../core/functions.inc.php:4626
 #, php-format
 msgid "Inbound Route: %s (%s)"
 msgstr ""
@@ -3723,7 +3733,7 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: ../core/Core.class.php:2237 ../core/Core.class.php:2238
+#: ../core/Core.class.php:2236 ../core/Core.class.php:2237
 msgid "Incoming DID"
 msgstr ""
 
@@ -3810,7 +3820,7 @@ msgid ""
 "VoIP telephony sessions between servers and to terminal devices"
 msgstr ""
 
-#: ../core/functions.inc.php:5968
+#: ../core/functions.inc.php:5979
 msgid "Intercom"
 msgstr ""
 
@@ -3818,7 +3828,7 @@ msgstr ""
 msgid "Interface"
 msgstr ""
 
-#: ../core/functions.inc.php:6216
+#: ../core/functions.inc.php:6227
 msgid "Internal Auto Answer"
 msgstr ""
 
@@ -3852,7 +3862,7 @@ msgid ""
 "name."
 msgstr ""
 
-#: ../core/functions.inc.php:4788
+#: ../core/functions.inc.php:4799
 msgid "Invalid Channel Number, must be numeric and not blank"
 msgstr ""
 
@@ -3860,7 +3870,7 @@ msgstr ""
 msgid "Invalid Custom Dial String entered"
 msgstr ""
 
-#: ../core/functions.inc.php:4792
+#: ../core/functions.inc.php:4803
 msgid "Invalid DID, must be a non-blank DID"
 msgstr ""
 
@@ -3966,11 +3976,11 @@ msgstr ""
 msgid "Licensed"
 msgstr ""
 
-#: ../core/views/rnav.php:5
+#: ../core/views/rnav.php:13
 msgid "List All Extensions"
 msgstr ""
 
-#: ../core/views/rnav.php:56 ../core/views/rnav.php:74
+#: ../core/views/rnav.php:62 ../core/views/rnav.php:80
 msgid "List Devices"
 msgstr ""
 
@@ -3978,7 +3988,7 @@ msgstr ""
 msgid "List Routes"
 msgstr ""
 
-#: ../core/views/rnav.php:32 ../core/views/rnav.php:47
+#: ../core/views/rnav.php:36 ../core/views/rnav.php:50
 msgid "List Users"
 msgstr ""
 
@@ -4018,7 +4028,7 @@ msgstr ""
 msgid "MAC Address"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:200
+#: ../core/functions.inc/drivers/PJSip.class.php:207
 msgid "MWI Subscription Type"
 msgstr ""
 
@@ -4068,12 +4078,12 @@ msgstr "ניהול מודולים המקומי"
 msgid "Manually Loaded Modules"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:223
+#: ../core/functions.inc/drivers/PJSip.class.php:230
 #: ../core/views/trunks/pjsip.php:563
 msgid "Match (Permit)"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:180
+#: ../core/functions.inc/drivers/PJSip.class.php:184
 msgid "Max Contacts"
 msgstr ""
 
@@ -4089,15 +4099,15 @@ msgstr ""
 msgid "Maximum Channels"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:227
+#: ../core/functions.inc/drivers/PJSip.class.php:234
 msgid "Maximum Expiration"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:179
+#: ../core/functions.inc/drivers/PJSip.class.php:183
 msgid "Maximum number of Endpoints that can associate with this Device"
 msgstr ""
 
-#: ../core/functions.inc.php:6211
+#: ../core/functions.inc.php:6222
 msgid ""
 "Maximum number of outbound simultaneous calls that an extension can make. "
 "This is also very useful as a Security Protection against a system that has "
@@ -4105,7 +4115,7 @@ msgid ""
 "made on the compromised extension."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:226
+#: ../core/functions.inc/drivers/PJSip.class.php:233
 msgid "Maximum time to keep an AoR"
 msgstr ""
 
@@ -4113,17 +4123,17 @@ msgstr ""
 msgid "May be invalid Check your spelling"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:212
+#: ../core/functions.inc/drivers/PJSip.class.php:219
 msgid ""
 "Media (RTP) Encryption. Normally you would use None, unless you have "
 "explicitly set up SDP or DTLS."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:213
+#: ../core/functions.inc/drivers/PJSip.class.php:220
 msgid "Media Encryption"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:219
+#: ../core/functions.inc/drivers/PJSip.class.php:226
 msgid "Media Encryption Optimistic"
 msgstr ""
 
@@ -4131,7 +4141,7 @@ msgstr ""
 msgid "Media Only"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:189
+#: ../core/functions.inc/drivers/PJSip.class.php:193
 msgid "Media Use Received Transport"
 msgstr ""
 
@@ -4147,7 +4157,7 @@ msgstr ""
 msgid "Min Length"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:231
+#: ../core/functions.inc/drivers/PJSip.class.php:238
 msgid "Minimum Expiration"
 msgstr ""
 
@@ -4157,7 +4167,7 @@ msgid ""
 "valid"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:230
+#: ../core/functions.inc/drivers/PJSip.class.php:237
 msgid "Minimum time to keep an AoR"
 msgstr ""
 
@@ -4461,10 +4471,10 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
-#: ../core/Core.class.php:2204 ../core/Core.class.php:2205
-#: ../core/page.extensions.php:66 ../core/page.extensions.php:92
-#: ../core/page.users.php:54 ../core/views/rnav.php:14
-#: ../core/views/rnav.php:40 ../core/views/routing/grid.php:72
+#: ../core/Core.class.php:2203 ../core/Core.class.php:2204
+#: ../core/page.extensions.php:74 ../core/page.extensions.php:100
+#: ../core/page.users.php:54 ../core/views/rnav.php:19
+#: ../core/views/rnav.php:43 ../core/views/routing/grid.php:72
 #: ../core/views/trunks/trunkgrid.php:18
 msgid "Name"
 msgstr ""
@@ -4479,7 +4489,7 @@ msgstr ""
 msgid "Need to be instantiated with a FreePBX Object"
 msgstr ""
 
-#: ../core/functions.inc.php:5950
+#: ../core/functions.inc.php:5961
 msgid "Never"
 msgstr ""
 
@@ -4488,7 +4498,7 @@ msgstr ""
 msgid "Never - (%s)"
 msgstr ""
 
-#: ../core/functions.inc.php:6372
+#: ../core/functions.inc.php:6383
 msgid "New User"
 msgstr ""
 
@@ -4502,15 +4512,15 @@ msgstr ""
 msgid "Nightly"
 msgstr ""
 
-#: ../core/functions.inc.php:5949
+#: ../core/functions.inc.php:5960
 #: ../core/functions.inc/drivers/Dahdi.class.php:58
 #: ../core/functions.inc/drivers/Dahdi.class.php:69
 #: ../core/functions.inc/drivers/Dahdi.class.php:78
 #: ../core/functions.inc/drivers/Dahdi.class.php:87
 #: ../core/functions.inc/drivers/Iax2.class.php:111
 #: ../core/functions.inc/drivers/Iax2.class.php:149
-#: ../core/functions.inc/drivers/PJSip.class.php:203
-#: ../core/functions.inc/drivers/PJSip.class.php:216
+#: ../core/functions.inc/drivers/PJSip.class.php:210
+#: ../core/functions.inc/drivers/PJSip.class.php:223
 #: ../core/functions.inc/drivers/Sip.class.php:254
 #: ../core/functions.inc/drivers/Sip.class.php:267
 #: ../core/functions.inc/drivers/Sip.class.php:273
@@ -4537,7 +4547,7 @@ msgstr ""
 msgid "No Action"
 msgstr ""
 
-#: ../core/functions.inc.php:6284
+#: ../core/functions.inc.php:6295
 msgid "No Answer"
 msgstr ""
 
@@ -4558,7 +4568,7 @@ msgstr ""
 msgid "No Description Provided"
 msgstr ""
 
-#: ../core/functions.inc.php:5984
+#: ../core/functions.inc.php:5995
 msgid "No Limit"
 msgstr ""
 
@@ -4616,7 +4626,7 @@ msgstr ""
 msgid "No status was given to checkStatus"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:209
+#: ../core/functions.inc/drivers/PJSip.class.php:216
 #: ../core/views/trunks/pjsip.php:91 ../core/views/trunks/pjsip.php:110
 #: ../core/views/trunks/pjsip.php:221
 msgid "None"
@@ -4656,7 +4666,7 @@ msgstr ""
 msgid "Not Installed (Locally available: %s)"
 msgstr ""
 
-#: ../core/functions.inc.php:6298
+#: ../core/functions.inc.php:6309
 msgid "Not Reachable"
 msgstr ""
 
@@ -4692,7 +4702,7 @@ msgstr ""
 msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr ""
 
-#: ../core/functions.inc.php:6201
+#: ../core/functions.inc.php:6212
 msgid ""
 "Number of seconds to ring during a Call Forward, Call Forward Busy or Call "
 "Forward Unavailable call prior to continuing to voicemail or specified "
@@ -4701,7 +4711,7 @@ msgid ""
 "their is not destination specified, it will be forced into Always mode"
 msgstr ""
 
-#: ../core/functions.inc.php:6192
+#: ../core/functions.inc.php:6203
 msgid ""
 "Number of seconds to ring prior to going to voicemail. Default will use the "
 "value set in Advanced Settings. If no voicemail is configured this will be "
@@ -4720,7 +4730,7 @@ msgstr ""
 msgid "Obtain Free License"
 msgstr ""
 
-#: ../core/functions.inc.php:6266
+#: ../core/functions.inc.php:6277
 msgid "On Demand Recording"
 msgstr ""
 
@@ -4771,16 +4781,16 @@ msgstr ""
 msgid "Operator Panel"
 msgstr ""
 
-#: ../core/functions.inc.php:6294
+#: ../core/functions.inc.php:6305
 msgid "Optional CID Prefix to add before sending to this busy destination."
 msgstr ""
 
-#: ../core/functions.inc.php:6285
+#: ../core/functions.inc.php:6296
 msgid ""
 "Optional CID Prefix to add before sending to this no answer destination."
 msgstr ""
 
-#: ../core/functions.inc.php:6299
+#: ../core/functions.inc.php:6310
 msgid ""
 "Optional CID Prefix to add before sending to this not reachable destination."
 msgstr ""
@@ -4789,7 +4799,7 @@ msgstr ""
 msgid "Optional Destination on Congestion"
 msgstr ""
 
-#: ../core/functions.inc.php:6269
+#: ../core/functions.inc.php:6280
 msgid "Optional Destinations"
 msgstr ""
 
@@ -4805,24 +4815,24 @@ msgid ""
 "li><li>Extension/User CIDs if checked</li></ul>"
 msgstr ""
 
-#: ../core/functions.inc.php:6279
+#: ../core/functions.inc.php:6290
 msgid ""
 "Optional destination call is routed to when the call is not answered on an "
 "otherwise idle phone. If the phone is in use and the call is simply ignored, "
 "then the busy destination will be used."
 msgstr ""
 
-#: ../core/functions.inc.php:6281
+#: ../core/functions.inc.php:6292
 msgid "Optional destination call is routed to when the call is not answered."
 msgstr ""
 
-#: ../core/functions.inc.php:6290
+#: ../core/functions.inc.php:6301
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user."
 msgstr ""
 
-#: ../core/functions.inc.php:6288
+#: ../core/functions.inc.php:6299
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user. This destination is also used on an unanswered "
@@ -4830,7 +4840,7 @@ msgid ""
 "call."
 msgstr ""
 
-#: ../core/functions.inc.php:6296
+#: ../core/functions.inc.php:6307
 msgid ""
 "Optional destination the call is routed to when the phone is offline, such "
 "as a softphone currently off or a phone unplugged."
@@ -4873,7 +4883,7 @@ msgstr ""
 msgid "Outbound"
 msgstr ""
 
-#: ../core/functions.inc.php:6182 ../core/views/routing/grid.php:73
+#: ../core/functions.inc.php:6193 ../core/views/routing/grid.php:73
 msgid "Outbound CID"
 msgstr ""
 
@@ -4885,7 +4895,7 @@ msgstr ""
 msgid "Outbound CallerID"
 msgstr ""
 
-#: ../core/functions.inc.php:6211
+#: ../core/functions.inc.php:6222
 msgid "Outbound Concurrency Limit"
 msgstr ""
 
@@ -4893,11 +4903,11 @@ msgstr ""
 msgid "Outbound Dial Prefix"
 msgstr ""
 
-#: ../core/functions.inc.php:6263
+#: ../core/functions.inc.php:6274
 msgid "Outbound External Calls"
 msgstr ""
 
-#: ../core/functions.inc.php:6265
+#: ../core/functions.inc.php:6276
 msgid "Outbound Internal Calls"
 msgstr ""
 
@@ -4905,7 +4915,7 @@ msgstr ""
 msgid "Outbound Proxy"
 msgstr ""
 
-#: ../core/functions.inc.php:5773
+#: ../core/functions.inc.php:5784
 #, php-format
 msgid "Outbound Route: %s"
 msgstr ""
@@ -4922,7 +4932,7 @@ msgstr ""
 msgid "Output debug messages to the console (be super chatty)"
 msgstr ""
 
-#: ../core/functions.inc.php:5959 ../core/functions.inc.php:6190
+#: ../core/functions.inc.php:5970 ../core/functions.inc.php:6201
 #: ../core/views/trunks/trunk_header.php:389
 msgid "Override"
 msgstr ""
@@ -4935,7 +4945,7 @@ msgstr ""
 msgid "Overrides Extension CID"
 msgstr ""
 
-#: ../core/functions.inc.php:6182 ../core/views/quickCreate.php:89
+#: ../core/functions.inc.php:6193 ../core/views/quickCreate.php:89
 msgid ""
 "Overrides the CallerID when dialing out a trunk. Any setting here will "
 "override the common outbound CallerID set in the Trunks admin."
@@ -5055,12 +5065,16 @@ msgid ""
 "in a group to be able to pickup calls from that group."
 msgstr ""
 
-#: ../core/functions.inc.php:6220
+#: ../core/functions.inc.php:6231
 msgid "Pinless Dialing"
 msgstr ""
 
 #: ../core/functions.inc.php:850
 msgid "Play SIT Tone (Zapateller)"
+msgstr ""
+
+#: ../core/functions.inc.php:853
+msgid "Play no service message"
 msgstr ""
 
 #: ../core/functions.inc.php:852
@@ -5083,13 +5097,13 @@ msgstr ""
 msgid "Please correct the following errors:"
 msgstr ""
 
-#: ../core/functions.inc.php:6490
+#: ../core/functions.inc.php:6501
 #: ../core/functions.inc/drivers/Iax2.class.php:102
 #: ../core/functions.inc/drivers/Sip.class.php:208
 msgid "Please enter a Secret for this device"
 msgstr ""
 
-#: ../core/functions.inc.php:6458
+#: ../core/functions.inc.php:6469
 msgid "Please enter a device id."
 msgstr ""
 
@@ -5097,46 +5111,46 @@ msgstr ""
 msgid "Please enter a username"
 msgstr ""
 
-#: ../core/functions.inc.php:6094
+#: ../core/functions.inc.php:6105
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
 msgstr ""
 
-#: ../core/functions.inc.php:6100
+#: ../core/functions.inc.php:6111
 msgid ""
 "Please enter a valid CallerID Number or leave it blank for your Assigned DID/"
 "CID pair"
 msgstr ""
 
-#: ../core/functions.inc.php:6459
+#: ../core/functions.inc.php:6470
 msgid "Please enter a valid Description for this device"
 msgstr ""
 
-#: ../core/functions.inc.php:6096
+#: ../core/functions.inc.php:6107
 msgid "Please enter a valid Display Name"
 msgstr ""
 
-#: ../core/functions.inc.php:6460
+#: ../core/functions.inc.php:6471
 msgid "Please enter a valid Emergency CID"
 msgstr ""
 
-#: ../core/functions.inc.php:6097
+#: ../core/functions.inc.php:6108
 msgid "Please enter a valid Outbound CID"
 msgstr ""
 
-#: ../core/functions.inc.php:6093 ../core/functions.inc.php:6461
+#: ../core/functions.inc.php:6104 ../core/functions.inc.php:6472
 msgid "Please enter a valid extension number."
 msgstr ""
 
-#: ../core/functions.inc.php:6098
+#: ../core/functions.inc.php:6109
 msgid "Please enter a valid pause time in seconds, using digits only"
 msgstr ""
 
-#: ../core/functions.inc.php:6488
+#: ../core/functions.inc.php:6499
 #: ../core/functions.inc/drivers/Dahdi.class.php:49
 msgid "Please enter the channel for this device"
 msgstr ""
 
-#: ../core/functions.inc.php:6095
+#: ../core/functions.inc.php:6106
 msgid "Please enter valid User Password using numbers only"
 msgstr ""
 
@@ -5261,7 +5275,7 @@ msgstr ""
 msgid "Qualify Frequency"
 msgstr ""
 
-#: ../core/page.extensions.php:56 ../core/page.extensions.php:115
+#: ../core/page.extensions.php:64 ../core/page.extensions.php:123
 msgid "Quick Create Extension"
 msgstr ""
 
@@ -5273,7 +5287,7 @@ msgstr ""
 msgid "RFC 4733"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:192
+#: ../core/functions.inc/drivers/PJSip.class.php:196
 msgid "RTP Symmetric"
 msgstr ""
 
@@ -5296,27 +5310,27 @@ msgstr ""
 msgid "Receive"
 msgstr ""
 
-#: ../core/functions.inc.php:6267
+#: ../core/functions.inc.php:6278
 msgid "Record Priority Policy"
 msgstr ""
 
-#: ../core/functions.inc.php:6254
+#: ../core/functions.inc.php:6265
 msgid "Recording Options"
 msgstr ""
 
-#: ../core/functions.inc.php:6265
+#: ../core/functions.inc.php:6276
 msgid "Recording of calls made to other extensions on the system."
 msgstr ""
 
-#: ../core/functions.inc.php:6264
+#: ../core/functions.inc.php:6275
 msgid "Recording of calls received from other extensions on the system."
 msgstr ""
 
-#: ../core/functions.inc.php:6262
+#: ../core/functions.inc.php:6273
 msgid "Recording of inbound calls from external sources."
 msgstr ""
 
-#: ../core/functions.inc.php:6263
+#: ../core/functions.inc.php:6274
 msgid "Recording of outbound calls to external sources."
 msgstr ""
 
@@ -5468,11 +5482,11 @@ msgstr ""
 msgid "Return"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:194
+#: ../core/functions.inc/drivers/PJSip.class.php:198
 msgid "Rewrite Contact"
 msgstr ""
 
-#: ../core/functions.inc.php:6192
+#: ../core/functions.inc.php:6203
 msgid "Ring Time"
 msgstr ""
 
@@ -5551,7 +5565,7 @@ msgstr ""
 msgid "SIP (%s)"
 msgstr ""
 
-#: ../core/functions.inc.php:6154
+#: ../core/functions.inc.php:6165
 msgid "SIP Alias"
 msgstr ""
 
@@ -5586,7 +5600,7 @@ msgid ""
 "generated by the PBX if left blank"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:210
+#: ../core/functions.inc/drivers/PJSip.class.php:217
 msgid "SRTP via in-SDP"
 msgstr ""
 
@@ -5598,11 +5612,11 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../core/functions.inc.php:5978
+#: ../core/functions.inc.php:5989
 msgid "Screen Caller: Memory"
 msgstr ""
 
-#: ../core/functions.inc.php:5977
+#: ../core/functions.inc.php:5988
 msgid "Screen Caller: No Memory"
 msgstr ""
 
@@ -5681,7 +5695,7 @@ msgstr ""
 msgid "Set the Repos. -R Commercial -R Contributed"
 msgstr ""
 
-#: ../core/functions.inc.php:6213
+#: ../core/functions.inc.php:6224
 msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr ""
 
@@ -5784,7 +5798,7 @@ msgstr ""
 msgid "Simulate Incoming Call"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:197
+#: ../core/functions.inc/drivers/PJSip.class.php:204
 msgid "Solicited"
 msgstr ""
 
@@ -5902,7 +5916,7 @@ msgstr ""
 msgid "Terminate Call"
 msgstr ""
 
-#: ../core/functions.inc.php:6153
+#: ../core/functions.inc.php:6164
 msgid ""
 "The CID Number to use for internal calls, if different from the extension "
 "number. This is used to masquerade as a different user. A common example is "
@@ -5911,20 +5925,20 @@ msgid ""
 "on external calls."
 msgstr ""
 
-#: ../core/functions.inc.php:1042
+#: ../core/functions.inc.php:1046
 msgid ""
 "The Call Recording module is not enabled. Since this feature is required for "
 "call recording you may not be able to record calls until the module is "
 "installed and enabled."
 msgstr ""
 
-#: ../core/functions.inc.php:6151 ../core/views/quickCreate.php:69
+#: ../core/functions.inc.php:6162 ../core/views/quickCreate.php:69
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
 msgstr ""
 
-#: ../core/functions.inc.php:6474
+#: ../core/functions.inc.php:6485
 msgid ""
 "The CallerID name for this device will be set to this description until it "
 "is logged into."
@@ -6026,7 +6040,7 @@ msgstr ""
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
-#: ../core/Core.class.php:2246
+#: ../core/Core.class.php:2245
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -6039,7 +6053,7 @@ msgid ""
 "the trunks"
 msgstr ""
 
-#: ../core/functions.inc.php:6115 ../core/views/quickCreate.php:49
+#: ../core/functions.inc.php:6126 ../core/views/quickCreate.php:49
 msgid "The extension number to dial to reach this user."
 msgstr ""
 
@@ -6178,7 +6192,7 @@ msgstr ""
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:222
+#: ../core/functions.inc/drivers/PJSip.class.php:229
 msgid ""
 "The value is a comma-delimited list of IP addresses. IP addresses may have a "
 "subnet mask appended. The subnet mask may be written in either CIDR or dot-"
@@ -6241,7 +6255,7 @@ msgid ""
 "are optional."
 msgstr ""
 
-#: ../core/functions.inc.php:6475 ../core/functions.inc.php:6480
+#: ../core/functions.inc.php:6486 ../core/functions.inc.php:6491
 msgid ""
 "This CallerID will always be set when dialing out an Outbound Route flagged "
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
@@ -6347,7 +6361,7 @@ msgid ""
 "setup that uses it."
 msgstr ""
 
-#: ../core/Core.class.php:1815
+#: ../core/Core.class.php:1814
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr ""
@@ -6408,7 +6422,7 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr ""
 
-#: ../core/functions.inc.php:952
+#: ../core/functions.inc.php:953
 #, php-format
 msgid "Trunk: %s (%s)"
 msgstr ""
@@ -6426,7 +6440,7 @@ msgid "Trys to enable all modules, accepts no arguments"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:9
-#: ../core/page.extensions.php:73 ../core/views/quickCreate.php:7
+#: ../core/page.extensions.php:81 ../core/views/quickCreate.php:7
 msgid "Type"
 msgstr ""
 
@@ -6561,7 +6575,7 @@ msgstr ""
 msgid "Unable to work with GPG file, message was: %s"
 msgstr ""
 
-#: ../core/functions.inc.php:6283 ../core/functions.inc.php:6297
+#: ../core/functions.inc.php:6294 ../core/functions.inc.php:6308
 msgid "Unavail Voicemail if Enabled"
 msgstr ""
 
@@ -6652,7 +6666,7 @@ msgstr ""
 msgid "Unsigned Module(s)"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:198
+#: ../core/functions.inc/drivers/PJSip.class.php:205
 msgid "Unsolicited"
 msgstr ""
 
@@ -6682,7 +6696,7 @@ msgstr ""
 msgid "Update Notifications"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:298
+#: amp_conf/htdocs/admin/views/footer.php:299
 msgid "Update my browser now"
 msgstr ""
 
@@ -6779,9 +6793,9 @@ msgstr ""
 msgid "Used as Destination by %s %s"
 msgstr ""
 
-#: ../core/Core.class.php:55 ../core/functions.inc.php:6071
+#: ../core/Core.class.php:55 ../core/functions.inc.php:6082
 #: ../core/page.devices.php:66 ../core/page.devices.php:87
-#: ../core/page.did.php:86 ../core/page.users.php:53 ../core/views/rnav.php:39
+#: ../core/page.did.php:86 ../core/page.users.php:53 ../core/views/rnav.php:42
 msgid "User"
 msgstr ""
 
@@ -6793,20 +6807,20 @@ msgstr ""
 msgid "User Control Panel"
 msgstr ""
 
-#: ../core/functions.inc.php:6159
+#: ../core/functions.inc.php:6170
 msgid "User Devices"
 msgstr ""
 
-#: ../core/functions.inc.php:6115
+#: ../core/functions.inc.php:6126
 msgid "User Extension"
 msgstr ""
 
-#: ../core/functions.inc.php:937
+#: ../core/functions.inc.php:938
 #, php-format
 msgid "User Extension %s: %s"
 msgstr ""
 
-#: ../core/functions.inc.php:4584
+#: ../core/functions.inc.php:4595
 msgid "User Extension: "
 msgstr ""
 
@@ -6822,11 +6836,11 @@ msgstr ""
 msgid "User Panel"
 msgstr "לוח משתמש"
 
-#: ../core/functions.inc.php:6118
+#: ../core/functions.inc.php:6129
 msgid "User Password"
 msgstr ""
 
-#: ../core/Core.class.php:2315
+#: ../core/Core.class.php:2312
 msgid "User could not be added."
 msgstr ""
 
@@ -6946,7 +6960,7 @@ msgstr ""
 msgid "Warning"
 msgstr "אזהרה"
 
-#: ../core/functions.inc.php:6315
+#: ../core/functions.inc.php:6326
 msgid "Warning! Extension"
 msgstr ""
 
@@ -7006,14 +7020,14 @@ msgstr ""
 msgid "What Does this Mean?"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:205
+#: ../core/functions.inc/drivers/PJSip.class.php:212
 msgid ""
 "When enabled, Asterisk condenses message waiting notifications from multiple "
 "mailboxes into a single NOTIFY. If it is disabled, individual NOTIFYs are "
 "sent for each mailbox."
 msgstr ""
 
-#: ../core/functions.inc.php:6216
+#: ../core/functions.inc.php:6227
 msgid ""
 "When set to Intercom, calls to this extension/user from other internal users "
 "act as if they were intercom calls meaning they will be auto-answered if the "
@@ -7071,15 +7085,15 @@ msgid ""
 "See DAHDi documentation for details."
 msgstr ""
 
-#: ../core/functions.inc.php:5947
+#: ../core/functions.inc.php:5958
 #: ../core/functions.inc/drivers/Dahdi.class.php:57
 #: ../core/functions.inc/drivers/Dahdi.class.php:68
 #: ../core/functions.inc/drivers/Dahdi.class.php:77
 #: ../core/functions.inc/drivers/Dahdi.class.php:86
 #: ../core/functions.inc/drivers/Iax2.class.php:110
 #: ../core/functions.inc/drivers/Iax2.class.php:148
-#: ../core/functions.inc/drivers/PJSip.class.php:204
-#: ../core/functions.inc/drivers/PJSip.class.php:217
+#: ../core/functions.inc/drivers/PJSip.class.php:211
+#: ../core/functions.inc/drivers/PJSip.class.php:224
 #: ../core/functions.inc/drivers/Sip.class.php:255
 #: ../core/functions.inc/drivers/Sip.class.php:268
 #: ../core/functions.inc/drivers/Sip.class.php:340
@@ -7237,7 +7251,7 @@ msgid ""
 "Chrome Extension or you are not using Chrome"
 msgstr ""
 
-#: ../core/functions.inc.php:6099
+#: ../core/functions.inc.php:6110
 msgid ""
 "You have entered a non-standard dialpattern for your DID. You can only enter "
 "standard dialpatterns. You must use the inbound routing form to enter non-"
@@ -7251,7 +7265,7 @@ msgid ""
 "runs under that assumption"
 msgstr ""
 
-#: ../core/functions.inc.php:6489
+#: ../core/functions.inc.php:6500
 #: ../core/functions.inc/drivers/Iax2.class.php:101
 #: ../core/functions.inc/drivers/Sip.class.php:207
 msgid ""
@@ -7367,7 +7381,7 @@ msgid ""
 "reload this page"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:297
+#: amp_conf/htdocs/admin/views/footer.php:298
 msgid "Your browser is out-of-date!"
 msgstr ""
 
@@ -7591,7 +7605,7 @@ msgstr ""
 msgid "default"
 msgstr ""
 
-#: ../core/functions.inc.php:6036 ../core/functions.inc.php:6406
+#: ../core/functions.inc.php:6047 ../core/functions.inc.php:6417
 #: ../core/page.did.php:8
 msgid "deleted"
 msgstr ""
@@ -7788,7 +7802,7 @@ msgstr ""
 msgid "is disabled"
 msgstr ""
 
-#: ../core/functions.inc.php:6315
+#: ../core/functions.inc.php:6326
 msgid "is not allowed for your account"
 msgstr ""
 
@@ -7825,11 +7839,11 @@ msgstr "מודול הניהול המקומי"
 msgid "logger file removed, core upgrade will provide new file"
 msgstr ""
 
-#: ../core/functions.inc.php:6118 ../core/functions.inc.php:6476
+#: ../core/functions.inc.php:6129 ../core/functions.inc.php:6487
 msgid "logs into a device."
 msgstr ""
 
-#: ../core/functions.inc.php:6118 ../core/functions.inc.php:6476
+#: ../core/functions.inc.php:6129 ../core/functions.inc.php:6487
 msgid "logs out of a device."
 msgstr ""
 
@@ -7938,7 +7952,7 @@ msgstr ""
 msgid "no logger file to remove"
 msgstr ""
 
-#: ../core/functions.inc.php:6371 ../core/views/routing/moh.php:8
+#: ../core/functions.inc.php:6382 ../core/views/routing/moh.php:8
 msgid "none"
 msgstr ""
 
