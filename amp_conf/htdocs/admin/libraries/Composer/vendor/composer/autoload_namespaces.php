@@ -20,6 +20,7 @@ return array(
     'Symfony\\Component\\CssSelector\\' => array($vendorDir . '/symfony/css-selector'),
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Symfony\\Component\\BrowserKit\\' => array($vendorDir . '/symfony/browser-kit'),
+    'Requests' => array($vendorDir . '/rmccue/requests/library'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'PicoFeed' => array($vendorDir . '/fguillot/picofeed/lib'),
     'PhpConsole' => array($vendorDir . '/php-console/php-console/src'),
