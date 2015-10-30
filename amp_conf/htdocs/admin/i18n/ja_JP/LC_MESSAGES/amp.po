@@ -38,14 +38,14 @@ msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-10-22 07:59-0700\n"
-"PO-Revision-Date: 2015-10-13 21:15+0200\n"
+"PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
-"Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
-"framework/ja_JP/>\n"
+"Language-Team: Japanese "
+"<http://weblate.freepbx.org/projects/freepbx/framework/ja_JP/>\n"
+"Language: ja_JP\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: ja_JP\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 2.2-dev\n"
 
@@ -213,17 +213,17 @@ msgstr "%s チャネル %s"
 #: ../core/page.devices.php:45
 #, php-format
 msgid "%s Devices"
-msgstr ""
+msgstr "%s デバイス"
 
 #: ../core/page.extensions.php:46
 #, php-format
 msgid "%s Extensions"
-msgstr ""
+msgstr "%s 内線"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:362
 #, php-format
 msgid "%s Likely will not work as expected"
-msgstr ""
+msgstr "%s は正しく動作しない可能性があります"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:345
 #, php-format
@@ -287,8 +287,7 @@ msgstr ""
 msgid ""
 "%s cannot be installed: %s Please try again after the dependencies have been "
 "installed."
-msgstr ""
-"%sのインストール失敗：%s 依存関係をインストール後に再度実行して下さい。"
+msgstr "%sのインストール失敗：%s 依存関係をインストール後に再度実行してください。"
 
 #: amp_conf/htdocs/admin/page.modules.php:580
 #, php-format
@@ -383,7 +382,7 @@ msgstr "%s は登録商標"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:732
 #, php-format
 msgid "%s not found"
-msgstr ""
+msgstr "%s は見つかりません"
 
 #: ../core/install.php:861
 #, php-format
@@ -393,7 +392,7 @@ msgstr "%s 準備しました"
 #: ../core/Core.class.php:2267
 #, php-format
 msgid "%s records failed validation"
-msgstr ""
+msgstr "%s のレコードは認証に失敗しました"
 
 #: amp_conf/htdocs/admin/page.modules.php:334
 #, php-format
@@ -407,11 +406,13 @@ msgid ""
 "the browser you currently have but your experience may be diminished and is "
 "not supported"
 msgstr ""
+"%s は最近のブラウザにしか対応していません。現在利用しているブラウザでも %s "
+"が使えますが、正しく動作しない可能性があり、サポート対象外となりますのでご了承ください。"
 
 #: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:74
 #, php-format
 msgid "%s rows in set (%s sec)"
-msgstr ""
+msgstr "セットには %s 行 (%s 秒)"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:306
 #, php-format
@@ -470,7 +471,7 @@ msgstr "---変更なし---"
 
 #: ../core/views/routing/timecond.php:12
 msgid "---Permanent Route---"
-msgstr "---永続的なルート---"
+msgstr "---固定したルート---"
 
 #: amp_conf/htdocs/admin/config.php:200
 msgid ".htaccess files are disable on this webserver. Please enable them"
@@ -496,11 +497,11 @@ msgstr "0 アドミン"
 
 #: ../core/views/routing/form.php:596 ../core/views/trunks/trunk_footer.php:64
 msgid "10 Digit Patterns"
-msgstr ""
+msgstr "10桁のパターン"
 
 #: ../core/views/routing/form.php:598 ../core/views/trunks/trunk_footer.php:66
 msgid "11 Digit Patterns"
-msgstr ""
+msgstr "11桁のパターン"
 
 #: amp_conf/htdocs/admin/config.php:544
 #, php-format
@@ -509,7 +510,7 @@ msgstr "404 見つかりませんでした (%s)"
 
 #: ../core/views/routing/form.php:594 ../core/views/trunks/trunk_footer.php:62
 msgid "7 Digit Patterns"
-msgstr ""
+msgstr "7桁のパターン"
 
 #: ../core/functions.inc/drivers/Sip.class.php:192
 #, php-format
@@ -537,7 +538,7 @@ msgstr "%s バージョン %s が必要です。あなたのシステム %s"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1089
 #, php-format
 msgid "A %s version newer than %s required, you have %s"
-msgstr "%s バージョンが必要です。(%sより新しい)。あなたのシステム %s"
+msgstr "%s バージョンが必要です。(%sより新しい)。現在のバージョンは %s"
 
 #: ../core/views/routing/form.php:63
 msgid ""
@@ -579,10 +580,8 @@ msgid ""
 "10x4, etc).<br><br>Format should be: <b>XXXXXXXXXX</b><br><br>.An optional "
 "CID can also be associated with this DID by setting the next box"
 msgstr ""
-"この内線に割り当てられたダイレクトDID。DIDはプロバイダーから提供される同"
-"フォーマットで設定します(例：フルナンバー、4桁 10x4、等)。<br><br>フォーマッ"
-"ト形式は以下：<b>XXXXXXXXXX</b><br><br>次のボックスの設定でオプションCIDと、"
-"このDIDと関連付けができます"
+"この内線に割り当てられたDID。DIDはプロバイダーから提供される同フォーマットで設定します(例：フルナンバー、4桁 10x4、等)。<br><br>フォ"
+"ーマット形式は以下：<b>XXXXXXXXXX</b><br><br>次のボックスの設定でオプションCIDと、このDIDと関連付けができます"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:40
 msgid ""
@@ -632,7 +631,7 @@ msgstr "AMI失敗の詳細:"
 
 #: ../core/views/did/routeform.php:115 ../core/views/did/routeform.php:139
 msgid "ANY"
-msgstr ""
+msgstr "いずれも"
 
 #: ../core/views/trunks/pjsip.php:540
 msgid "AOR Contact"
@@ -640,7 +639,7 @@ msgstr "AORコンタクト"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:131
 msgid "Aborting Shutdown"
-msgstr ""
+msgstr "シャットダウンを中断します"
 
 #: ../core/page.ampusers.php:253
 msgid "Access Restrictions"
@@ -653,7 +652,7 @@ msgstr "アカウントコード"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:180
 msgid "Account Code for this extension"
-msgstr ""
+msgstr "この内線のアカウントコード"
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:93
 #: ../core/functions.inc/drivers/Iax2.class.php:138
@@ -673,13 +672,13 @@ msgstr "アクション"
 #: ../core/views/did/didgrid.php:21 ../core/views/routing/grid.php:75
 #: ../core/views/trunks/trunkgrid.php:22
 msgid "Actions"
-msgstr ""
+msgstr "アクション"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:261
 msgid ""
 "Actions to preform in regards to this module. This usually contains "
 "installation and maintenance operations at an administration level"
-msgstr ""
+msgstr "このモジュールに対するアクション。管理者が使うインストールやメンテナンスの作業が含まれます。"
 
 #: amp_conf/htdocs/admin/functions.inc.php:441 ../core/page.astmodules.php:140
 #: ../core/views/trunks/trunk_header.php:2
@@ -708,7 +707,7 @@ msgstr "管理者を追加"
 #: ../core/views/dahdichandids/bootnav.php:3
 #: ../core/views/dahdichandids/changrid.php:21
 msgid "Add DAHDI DID"
-msgstr ""
+msgstr "DAHDI DIDを追加"
 
 #: ../core/page.ampusers.php:145 ../core/page.ampusers.php:168
 #: ../core/views/rnav.php:60
@@ -731,34 +730,34 @@ msgstr "インバウンドDIDを追加"
 
 #: ../core/views/did/didgrid.php:2
 msgid "Add Inbound Route"
-msgstr ""
+msgstr "インバウンドルートを追加"
 
 #: ../core/page.did.php:28 ../core/page.did.php:72
 msgid "Add Incoming Route"
-msgstr "着信経路を追加"
+msgstr "インバウンドルートを追加"
 
 #: ../core/page.astmodules.php:138
 msgid "Add Module"
-msgstr ""
+msgstr "モジュールを追加"
 
 #: ../core/views/rnav.php:65 ../core/views/rnav.php:83
 #, php-format
 msgid "Add New %s Device"
-msgstr ""
+msgstr "新しい %s デバイスを追加"
 
 #: ../core/page.extensions.php:61 ../core/page.extensions.php:90
 #: ../core/views/rnav.php:10 ../core/views/rnav.php:27
 #, php-format
 msgid "Add New %s Extension"
-msgstr ""
+msgstr "新しい %s 内線を追加"
 
 #: ../core/views/routing/grid.php:58
 msgid "Add Outbound Route"
-msgstr ""
+msgstr "アウトバウンドルートを追加"
 
 #: ../core/page.routing.php:12
 msgid "Add Route"
-msgstr "経路の追加"
+msgstr "ルートを追加"
 
 #: ../core/views/trunks/trunkgrid.php:4
 msgid "Add Trunk"
@@ -768,15 +767,15 @@ msgstr "トランクを追加"
 #: ../core/page.ampusers.php:97 ../core/page.ampusers.php:99
 #: ../core/views/rnav.php:37 ../core/views/rnav.php:51
 msgid "Add User"
-msgstr "ユーザー追加"
+msgstr "ユーザを追加"
 
 #: ../core/functions.inc.php:6097
 msgid "Add User/Extension"
-msgstr "ユーザー/内線の追加"
+msgstr "ユーザ/内線を追加"
 
 #: ../core/functions.inc.php:6405
 msgid "Add Virtual Extension"
-msgstr ""
+msgstr "仮想内線を追加"
 
 #: ../core/functions.inc.php:6237
 msgid ""
@@ -786,6 +785,9 @@ msgid ""
 "Unavailable in order to catch these special cases if the Telco transmits "
 "them."
 msgstr ""
+"CIDを追加することによって、より具体的なコールフローのルーティングが可能になります。DIDは上の枠に予め定義する必要があります。"
+"通常のダイヤルシーケンスに加えて Private, Blocked, Unknown, Restricted, Anonymous, Withheld, "
+"またはUnavailableを設定することで、キャリアからこれらの信号を受信した場合に処理することが可能です。"
 
 #: amp_conf/htdocs/admin/helpers/freepbx_helpers.php:115
 #, php-format
@@ -817,11 +819,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/noaccess.php:48
 msgid "Additional Information"
-msgstr ""
+msgstr "詳細情報"
 
 #: ../core/views/routing/form.php:51
 msgid "Additional Settings"
-msgstr "追加設定"
+msgstr "詳細設定"
 
 #: ../core/functions.inc.php:6379
 msgid "Adhoc"
@@ -838,17 +840,17 @@ msgstr "管理者アクセス"
 #: amp_conf/htdocs/admin/views/obe.php:54
 #: amp_conf/htdocs/admin/views/oobe.php:10
 msgid "Admin Email address"
-msgstr "アドミンEメールアドレス"
+msgstr "管理者のメールアドレス"
 
 #: amp_conf/htdocs/admin/views/obe.php:30
 #: amp_conf/htdocs/admin/views/oobe.php:9
 msgid "Admin password"
-msgstr "アドミンパスワード"
+msgstr "管理者パスワード"
 
 #: amp_conf/htdocs/admin/views/obe.php:20
 #: amp_conf/htdocs/admin/views/oobe.php:8
 msgid "Admin user name"
-msgstr "アドミンユーザー名"
+msgstr "管理者ユーザー名"
 
 #: amp.i18n.php:36
 msgid "Administrators"
@@ -857,7 +859,7 @@ msgstr "管理者"
 #: amp_conf/htdocs/admin/libraries/components.class.php:52
 #: ../core/views/did/routeform.php:63 ../core/views/trunks/pjsip.php:38
 msgid "Advanced"
-msgstr ""
+msgstr "高度な設定"
 
 #: amp.i18n.php:32
 msgid "Advanced Settings"
@@ -885,23 +887,23 @@ msgstr "全て - UDP Primary"
 
 #: ../core/functions.inc/drivers/Sip.class.php:324
 msgid "All - WS Primary"
-msgstr "全て - WS プライマリ"
+msgstr "全て - WS Primary"
 
 #: ../core/functions.inc/drivers/Sip.class.php:325
 msgid "All - WSS Primary"
-msgstr ""
+msgstr "全て - WSS Primary"
 
 #: ../core/page.devices.php:39
 msgid "All Devices"
-msgstr ""
+msgstr "全てのデバイス"
 
 #: ../core/page.extensions.php:40
 msgid "All Extensions"
-msgstr ""
+msgstr "全ての内線"
 
 #: ../core/page.users.php:38
 msgid "All Users"
-msgstr ""
+msgstr "全てのユーザ"
 
 #: amp_conf/htdocs/admin/page.modules.php:967
 msgid "All available modules are up-to-date and installed."
@@ -910,7 +912,7 @@ msgstr "全ての利用可能なモジュールは最新でインストールさ
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:509
 #, php-format
 msgid "All dependencies met for module %s"
-msgstr ""
+msgstr "モジュール %sの依存関係を満たしました"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:829
 msgid "All inclusive Module Actions"
@@ -919,7 +921,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:343
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:578
 msgid "All modules up to date."
-msgstr ""
+msgstr "全てのモジュールは最新です。"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:453
 msgid ""
@@ -928,11 +930,11 @@ msgstr "すべての設定はFreePBXでアクセス可能な詳細設定ペー�
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:402
 msgid "All upgrades done!"
-msgstr ""
+msgstr "全てのアップグレードが完了しました。"
 
 #: ../core/views/trunks/trunk_header.php:332
 msgid "Allow Any CID"
-msgstr "いかなるCIDも許可"
+msgstr "どのCIDも許可"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:197
 msgid "Allow Contact header to be rewritten with the source IP address-port"
@@ -981,22 +983,22 @@ msgstr "%s への非証明モジュール情報のメールは送信できませ
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:287
 #, php-format
 msgid "An error occurred while changing group %s"
-msgstr ""
+msgstr "グループ %s を変更中にエラーが発生しました"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:253
 #, php-format
 msgid "An error occurred while changing groups %s"
-msgstr ""
+msgstr "グループ %s を変更中にエラーが発生しました"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:271
 #, php-format
 msgid "An error occurred while changing ownership %s"
-msgstr ""
+msgstr "所有権 %s を変更中にエラーが発生しました"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:237
 #, php-format
 msgid "An error occurred while changing ownership on %s"
-msgstr ""
+msgstr "%sの所有権を変更中にエラーが発生しました"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:333
 #, php-format
@@ -4251,7 +4253,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:49
 #: amp_conf/htdocs/admin/views/module_admin/main.php:162
 msgid "License"
-msgstr ""
+msgstr "ライセンス"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:217
 msgid "Licensed"
@@ -5983,7 +5985,7 @@ msgstr "発信者スクリーニング：記録しない"
 
 #: amp_conf/htdocs/admin/views/menu.php:60
 msgid "Search"
-msgstr ""
+msgstr "検索"
 
 #: ../core/views/trunks/pjsip.php:272 ../core/views/trunks/pjsip.php:299
 #: ../core/views/trunks/pjsip.php:326 ../core/views/trunks/pjsip.php:377
@@ -6201,11 +6203,11 @@ msgstr "指定されたモジュールが見つかりません"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:19
 msgid "Stable"
-msgstr ""
+msgstr "安定版"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:13
 msgid "Standard"
-msgstr ""
+msgstr "標準"
 
 #: amp_conf/htdocs/admin/libraries/Console/Restart.class.php:17
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:19
@@ -6224,7 +6226,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:50
 #: ../core/views/trunks/trunkgrid.php:21
 msgid "Status"
-msgstr ""
+msgstr "ステータス"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:17
 msgid "Stop Asterisk and run other needed FreePBX commands"
@@ -6264,7 +6266,7 @@ msgstr "リロード成功"
 #: amp_conf/htdocs/admin/views/module_admin/main.php:347
 #, php-format
 msgid "Switch to Stable and Download and Install %s"
-msgstr ""
+msgstr "安定版のトラックに切り替えて、%sをダウンロードしてインストールする"
 
 #: amp_conf/htdocs/admin/views/menu_items.php:37
 msgid "Syntax error in your freepbx_menu.conf file"
@@ -6854,7 +6856,7 @@ msgstr "トレースバック"
 #: amp_conf/htdocs/admin/views/module_admin/main.php:51
 #: amp_conf/htdocs/admin/views/module_admin/main.php:238
 msgid "Track"
-msgstr ""
+msgstr "トラック"
 
 #: ../core/functions.inc/drivers/Sip.class.php:335
 #: ../core/views/trunks/pjsip.php:184
