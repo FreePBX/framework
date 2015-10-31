@@ -1076,8 +1076,7 @@ function freepbx_reload_error(txt) {
 function toggle_reload_button(action) {
 	switch (action) {
 		case "show":
-			//weird css is needed to keep the button from "jumping" a bit out of place
-			$("#button_reload").show().css("display", "inline-block");
+			$("#button_reload").show();
 		break;
 		case "hide":
 			$("#button_reload").hide();
@@ -1222,7 +1221,31 @@ function resizeRightNav() {
 $(document).ready(function() {
 	//when clicking the magnifying glass on the search bar focus on the search input
 	$("#fpbxsearch .fa-search").click(function() {
-		$("#fpbxsearch .typeahead").focus()
+		$("#fpbxsearch .typeahead").focus();
+	});
+	$("#fpbxsearch input").blur(function() {
+		$("#fpbxsearch").removeClass("in");
+	});
+	$("#search-btn").click(function() {
+		if(!$("#fpbxsearch").hasClass("in")) {
+			$("#fpbxsearch").one("transitionend", function() {
+				$("#fpbxsearch input").focus();
+			});
+			$("#fpbxsearch").addClass("in");
+		}
+	});
+	$(window).keydown(function(e){
+		if (e.keyCode === 114 || ((e.ctrlKey || e.metaKey) && e.keyCode === 70)) {
+			if(!$("#fpbxsearch").hasClass("in")) {
+				$("#fpbxsearch").one("transitionend", function() {
+					$("#fpbxsearch input").focus();
+				});
+				$("#fpbxsearch").addClass("in");
+				e.preventDefault();
+			} else {
+				$("#fpbxsearch").removeClass("in");
+			}
+		}
 	});
 	if ($(".fpbx-container").length > 0) {
 		//Show tab if location hash matches data-name
