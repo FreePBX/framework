@@ -1243,8 +1243,11 @@ $(document).ready(function() {
 				$("#fpbxsearch").addClass("in");
 				e.preventDefault();
 			} else {
-				$("#fpbxsearch").removeClass("in");
+				$("#fpbxsearch input").blur();
 			}
+		} else if(e.keyCode === 27) {
+			$("#fpbxsearch input").blur();
+			$("#floating-nav-bar").removeClass("show");
 		}
 	});
 	if ($(".fpbx-container").length > 0) {
