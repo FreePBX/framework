@@ -1617,7 +1617,7 @@ class module_functions {
 		fclose($dp);
 		fclose($fp);
 
-		$errors = $this->_process_archive($filename);
+		$errors = $this->_process_archive($filename,$progress_callback);
 		if(count($errors)) {
 			return $errors;
 		}
@@ -1682,7 +1682,7 @@ class module_functions {
 		return true;
 	}
 
-	function _process_archive($filename) {
+	function _process_archive($filename,$progress_callback='') {
 		global $amp_conf;
 
 		if (is_readable($filename) !== TRUE ) {
