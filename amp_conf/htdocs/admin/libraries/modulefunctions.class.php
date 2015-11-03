@@ -1690,10 +1690,12 @@ class module_functions {
 		}
 
 		// invoke progress callback
-		if (!is_array($progress_callback) && function_exists($progress_callback)) {
-			$progress_callback('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
-		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-			$progress_callback[0]->$progress_callback[1]('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
+		if(isset($progress_callback)) {
+			if (!is_array($progress_callback) && function_exists($progress_callback)) {
+				$progress_callback('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
+			} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
+				$progress_callback[0]->$progress_callback[1]('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
+			}
 		}
 
 		$temppath = $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.uniqid("upload");
@@ -1801,10 +1803,12 @@ class module_functions {
 		}
 
 		// invoke progress_callback
-		if (!is_array($progress_callback) && function_exists($progress_callback)) {
-			$progress_callback('done', array('module'=>$modulename));
-		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-			$progress_callback[0]->$progress_callback[1]('done', array('module'=>$modulename));
+		if(isset($progress_callback)) {
+			if (!is_array($progress_callback) && function_exists($progress_callback)) {
+				$progress_callback('done', array('module'=>$modulename));
+			} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
+				$progress_callback[0]->$progress_callback[1]('done', array('module'=>$modulename));
+			}
 		}
 		return true;
 	}
