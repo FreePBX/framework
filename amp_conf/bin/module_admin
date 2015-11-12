@@ -330,7 +330,12 @@ function showi18n($modulename) {
 	//special case core so that we have everything we need for localizations
 	$modules = module_getinfo($modulename);
 
-	$modulesProcessed = array();
+	$modulesProcessed = array(
+		'name' => array(),
+		'category' => array(),
+		'description' => array(),
+		'menuitem' => array()
+	);
 	foreach ($modules as $rawname => $mod) {
 		if (!isset($modules[$rawname])) {
 			fatal($rawname.' not found');
