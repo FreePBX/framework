@@ -136,6 +136,7 @@ class Media {
 				break;
 			}
 		}
+
 		if(!empty($intermediary['wav']['path']) && file_exists($intermediary['wav']['path'])) {
 			unlink($intermediary['wav']['path']);
 		}
@@ -235,8 +236,11 @@ class Media {
 		if(\Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln48","in")) {
 			$type = "sln48";
 			$samplerate = 48000;
-		} else {
+		} elseif(\Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln16","in")) {
 			$type = "sln16";
+			$samplerate = 16000;
+		} else {
+			$type = "wav16";
 			$samplerate = 16000;
 		}
 
@@ -244,7 +248,7 @@ class Media {
 		$nt = \notifications::create();
 		if(version_compare_freepbx($ver,"13.0","ge") && !\Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln48","in")) {
 			//something is wacky here
-			$nt->add_warning("FRAMEWORK", "UNSUPPORTED_SLN48", _("The file format sln48 is not supported on your system"), _("The file format sln48 is not supported by Asterisk when it should be in your Asterisk version"));
+			$nt->add_warning("FRAMEWORK", "UNSUPPORTED_SLN48", _("The file format sln48 is not supported on your system"), _("The file format sln48 is not supported by Asterisk when it should be. Audio conversion quality will be limited to 16k instead of 48k"));
 		} else {
 			$nt->delete("FRAMEWORK", "UNSUPPORTED_SLN48");
 		}

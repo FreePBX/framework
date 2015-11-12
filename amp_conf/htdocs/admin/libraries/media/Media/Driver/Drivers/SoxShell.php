@@ -146,6 +146,9 @@ class SoxShell extends \Media\Driver\Driver {
 					case "sln192":
 						$process = new Process($this->binary.' -t raw -s -b 16 -r 192000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
 					break;
+					case "wav16":
+						$process = new Process($this->binary.' -t wav -s -b 16 -r 16000 '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
+					break;
 					default:
 						$process = new Process($this->binary.' '.$this->track.' -r '.$this->options['samplerate'].' -b '.$this->options['bitdepth'].' -c 1 '.$newFilename);
 					break;
@@ -177,6 +180,9 @@ class SoxShell extends \Media\Driver\Driver {
 			break;
 			case "sln192":
 				$process = new Process($this->binary.' '.$this->track.' -t raw -b 16 -r 192000 -c 1 '.$newFilename);
+			break;
+			case "wav16":
+				$process = new Process($this->binary.' '.$this->track.' -t wav -b 16 -r 16000 -c 1 '.$newFilename);
 			break;
 			default:
 				$process = new Process($this->binary.' '.$this->track.' -c 1 '.$newFilename);
