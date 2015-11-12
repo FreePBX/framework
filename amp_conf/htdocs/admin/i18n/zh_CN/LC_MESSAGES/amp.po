@@ -21,12 +21,16 @@ msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-11-07 08:37-0800\n"
-"PO-Revision-Date: \n"
-"Last-Translator: Mikael Carlsson <mickecamino@gmail.com>\n"
-"Language-Team: EdwardBadBoy <zhougongjizhe@163.com>\n"
+"PO-Revision-Date: 2015-11-10 07:45+0200\n"
+"Last-Translator: james <zhulizhong@gmail.com>\n"
+"Language-Team: Simplified Chinese "
+"<http://weblate.freepbx.org/projects/freepbx/framework/zh_CN/>\n"
+"Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Weblate 2.2-dev\n"
 "X-Poedit-Language: Chinese\n"
 "X-Poedit-Country: CHINA\n"
 "X-Poedit-SourceCharset: utf-8\n"
@@ -39,6 +43,8 @@ msgid ""
 "supported by the %s team but may receive some level of support by the "
 "authors."
 msgstr ""
+" 这些模块是拓展模块，不是经常使用，可能不会做太多的技术支持。Unsupported repository "
+"数据仓库的模块已经不再支持，可能开发人员会提供一定的技术支持。"
 
 #: amp_conf/htdocs/admin/views/footer.php:104
 msgid ""
@@ -52,31 +58,31 @@ msgstr " 分机已被占用 "
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:434
 msgid " not found"
-msgstr ""
+msgstr " 没有发现"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:297
 msgid " successfully deleted"
-msgstr ""
+msgstr " 成功删除"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:173
 msgid " successfully disabled"
-msgstr ""
+msgstr " 成功关闭"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:171
 msgid " successfully disabled, but was not found in the remote list"
-msgstr ""
+msgstr " 成功关闭，但是没有在远端列表中找到"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:161
 msgid " successfully enabled"
-msgstr ""
+msgstr " 成功开启"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:159
 msgid " successfully enabled, but was not found in the remote list"
-msgstr ""
+msgstr " 成功开启，但是没有在远端列表中找到"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:308
 msgid " successfully uninstalled"
-msgstr ""
+msgstr " 成功卸载"
 
 #: ../core/views/trunks/trunk_header.php:2
 #, php-format
@@ -86,7 +92,7 @@ msgstr "%s %s 中继"
 #: amp_conf/htdocs/admin/views/footer_content.php:29
 #, php-format
 msgid "%s %s is licensed under the %s"
-msgstr ""
+msgstr "%s %s 授权在 %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:553
 #, php-format
@@ -102,7 +108,7 @@ msgstr "%s %s 将降级到在线版本%s"
 #, php-format
 msgid ""
 "%s %s will be downgraded to online version %s and switched to the %s track"
-msgstr ""
+msgstr "%s %s 将会将为在线版本 %s 并且转换到 %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:519
 #, php-format
@@ -112,12 +118,12 @@ msgstr "%s %s 将被下载并安装"
 #: amp_conf/htdocs/admin/page.modules.php:512
 #, php-format
 msgid "%s %s will be downloaded and installed and switched to the %s track"
-msgstr ""
+msgstr "%s %s 将降为，安装切换到%s"
 
 #: amp_conf/htdocs/admin/page.modules.php:443
 #, php-format
 msgid "%s %s will be downloaded and rolled back to %s"
-msgstr ""
+msgstr "%s %s 降级回退到 %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:544
 #, php-format
@@ -138,12 +144,12 @@ msgstr "%s %s 将重新安装最新的在线版本 %s"
 #, php-format
 msgid ""
 "%s %s will be re-installed to online version %s and switched to the %s track"
-msgstr ""
+msgstr "%s %s 重新安装在线版本%s 并且切换到%s"
 
 #: amp_conf/htdocs/admin/page.modules.php:583
 #, php-format
 msgid "%s %s will be reinstalled"
-msgstr ""
+msgstr "%s %s 重新安装"
 
 #: amp_conf/htdocs/admin/page.modules.php:563
 #, php-format
@@ -164,12 +170,12 @@ msgstr "%s %s 将被更新为在线版本 %s"
 #, php-format
 msgid ""
 "%s %s will be upgraded to online version %s and switched to the %s track"
-msgstr ""
+msgstr "%s %s 更新到在线版本%s 并且切换到 %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:422
 #, php-format
 msgid "%s (Cur v. %s) should be upgraded to v. %s to fix security issues: %s"
-msgstr ""
+msgstr "%s (Cur v. %s) 应该更新到 v. %s 解决安全问题: %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:393
 #, php-format
@@ -179,22 +185,22 @@ msgstr "%s （当前：%s）"
 #: ../core/page.trunks.php:439
 #, php-format
 msgid "%s Channel %s"
-msgstr ""
+msgstr "%s 通道 %s"
 
 #: ../core/page.devices.php:45
 #, php-format
 msgid "%s Devices"
-msgstr ""
+msgstr "%s 设备"
 
 #: ../core/page.extensions.php:46
 #, php-format
 msgid "%s Extensions"
-msgstr ""
+msgstr "%s 分机"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:362
 #, php-format
 msgid "%s Likely will not work as expected"
-msgstr ""
+msgstr "%s 可能不工作"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:345
 #, php-format
@@ -204,34 +210,34 @@ msgstr "%s 个新模块可用"
 #: amp_conf/htdocs/admin/views/module_admin/main.php:100
 #, php-format
 msgid "%s Online %s upgrade available (%s)"
-msgstr ""
+msgstr "%s 在线 %s 升级可用 (%s)"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:102
 #, php-format
 msgid "%s Online upgrade available (%s)"
-msgstr ""
+msgstr "%s 在线升级可用 (%s)"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:103
 #: amp_conf/htdocs/admin/views/module_admin/main.php:109
 #: amp_conf/htdocs/admin/views/module_admin/main.php:111
 #, php-format
 msgid "%s Upgrade Available (%s)"
-msgstr ""
+msgstr "%s 可升级到 (%s)"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2986
 #, php-format
 msgid "%s [not enabled]"
-msgstr ""
+msgstr "%s [没有开启]"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:119
 #, php-format
 msgid "%s admins"
-msgstr ""
+msgstr "%s 管理员"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:171
 #, php-format
 msgid "%s already exists"
-msgstr ""
+msgstr "%s 已存在"
 
 #: amp_conf/htdocs/admin/page.modules.php:550
 #, php-format
@@ -261,20 +267,20 @@ msgstr "无法安装 %s ：%s 请在安装好所有的依赖项后重试。"
 msgid ""
 "%s cannot be reinstalled because the following modules depend on it: %s "
 "Please disable those modules first then try again."
-msgstr ""
+msgstr "%s 不能重新安装，因为这个模块依赖于: %s 请关闭这些模块，然后重试。"
 
 #: amp_conf/htdocs/admin/page.modules.php:570
 #, php-format
 msgid ""
 "%s cannot be removed because the following modules depend on it: %s Please "
 "disable those modules first then try again."
-msgstr ""
+msgstr "%s 不能被删除，因为这个模块依赖于: %s 请关闭这些模块重试。"
 
 #: amp_conf/htdocs/admin/page.modules.php:425
 #: amp_conf/htdocs/admin/page.modules.php:436
 #, php-format
 msgid "%s cannot be rolledback, version %s is missing"
-msgstr ""
+msgstr "%s 不能回退，版本 %s 丢失"
 
 #: amp_conf/htdocs/admin/page.modules.php:560
 #, php-format
@@ -289,7 +295,7 @@ msgstr "无法卸载 %s ，以下模块依赖于本模块：%s 禁用这些模�
 msgid ""
 "%s cannot be upgraded to %s: The release track of %s does not exist for this "
 "module"
-msgstr ""
+msgstr "%s 不能升级到 %s:  发布版 %s 的跟踪信息不存在"
 
 #: amp_conf/htdocs/admin/page.modules.php:440
 #: amp_conf/htdocs/admin/page.modules.php:463
@@ -304,12 +310,12 @@ msgstr "无法升级 %s ：%s 请在安装好所有的依赖项后重试。"
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:144
 #, php-format
 msgid "%s contains .."
-msgstr ""
+msgstr "%s 包含 .."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:141
 #, php-format
 msgid "%s contains a /"
-msgstr ""
+msgstr "%s 包含 a /"
 
 #: amp_conf/htdocs/admin/page.modules.php:311
 #, php-format
@@ -339,7 +345,7 @@ msgstr "%s 是注册商标，属于"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:732
 #, php-format
 msgid "%s not found"
-msgstr ""
+msgstr "没有找到%s"
 
 #: ../core/install.php:861
 #, php-format
@@ -349,7 +355,7 @@ msgstr "%s 已准备好"
 #: ../core/Core.class.php:2352
 #, php-format
 msgid "%s records failed validation"
-msgstr ""
+msgstr "%s 记录验证失败"
 
 #: amp_conf/htdocs/admin/page.modules.php:334
 #, php-format
@@ -362,7 +368,7 @@ msgid ""
 "%s requires a new browser to function correctly. You can still use %s with "
 "the browser you currently have but your experience may be diminished and is "
 "not supported"
-msgstr ""
+msgstr "%s 需要新浏览器支持。用户仍然可以当前的浏览器 %s ，但是可能丢失其他的功能支持"
 
 #: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:74
 #, php-format
@@ -408,7 +414,7 @@ msgstr "%s: 最新安全提示 (%s)"
 #: amp_conf/bin/freepbx-cron-scheduler.php:75
 #, php-format
 msgid "%s: New Unsigned Modules Notifications (%s)"
-msgstr ""
+msgstr "%s: 新的未核实的模块提示 (%s)"
 
 #: install.php:13
 #, php-format
@@ -429,19 +435,19 @@ msgstr "永久路由"
 
 #: amp_conf/htdocs/admin/config.php:200
 msgid ".htaccess files are disable on this webserver. Please enable them"
-msgstr ""
+msgstr ".htaccess 被页面服务器关闭，请开启"
 
 #: amp_conf/htdocs/admin/config.php:213
 msgid ".htaccess files are not supported on this webserver."
-msgstr ""
+msgstr "页面服务器不支持.htaccess 文件。"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:175
 msgid "/etc/asterisk/freepbx.conf already exists"
-msgstr ""
+msgstr "/etc/asterisk/freepbx.conf 已经存在"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:173
 msgid "/etc/freepbx.conf already exists"
-msgstr ""
+msgstr "/etc/freepbx.conf 已存在"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:112
 msgid "0 admins"
@@ -449,11 +455,11 @@ msgstr ""
 
 #: ../core/views/routing/form.php:596 ../core/views/trunks/trunk_footer.php:59
 msgid "10 Digit Patterns"
-msgstr ""
+msgstr "10 数字模式"
 
 #: ../core/views/routing/form.php:598 ../core/views/trunks/trunk_footer.php:61
 msgid "11 Digit Patterns"
-msgstr ""
+msgstr "11 数字模式"
 
 #: amp_conf/htdocs/admin/config.php:544
 #, php-format
@@ -469,7 +475,7 @@ msgstr ""
 msgid ""
 "<strong>CRITICAL ERROR!</strong> Required Service %s is disabled! This "
 "device is unusable!"
-msgstr ""
+msgstr "<strong>CRITICAL ERROR!</strong> 请求服务 %s 被关闭！此设备不可用!"
 
 #: ../core/views/trunks/pjsip.php:113
 msgid ""
@@ -479,6 +485,8 @@ msgid ""
 "blocking the machine trying to register. Do not change this unless you "
 "control both servers, and are sure it is required!"
 msgstr ""
+"<strong>Warning:</strong> 如果用户选择了 'None', 注册需要的Username 和密码将被拒绝. "
+"设置错误可能导致防火墙服务检测为一个网络攻击，会屏蔽此机器的注册。不要修改此设置，除非用户了解此设置的功能!"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1083
 #, php-format
@@ -512,6 +520,8 @@ msgid ""
 "first matched rule will be executed and the remaining rules will not be "
 "acted on."
 msgstr ""
+"拨号规则来控制如何通过此中继呼叫。可以添加或者移除号码前缀。注意，拨号模式如果没有 + 或者 | (添加或者移除前缀) "
+"w将不会发生任何改变，但是将创建一个新的匹配。仅执行第一个匹配的拨号规则，其他的不再执行。"
 
 #: ../core/functions.inc.php:6232
 msgid "A description for this DID, such as \"Fax\""
@@ -533,7 +543,7 @@ msgid ""
 "A new SIP channel driver for Asterisk, chan_pjsip is built on the PJSIP SIP "
 "stack. A collection of resource modules provides the bulk of the SIP "
 "functionality"
-msgstr ""
+msgstr "新的SIP通信接口驱动，chan_pjsip 是基于PJSIP的 SIP协议栈。 多个模块来提供多个特定的功能"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
 #, php-format
@@ -541,6 +551,8 @@ msgid ""
 "A required module might be disabled or uninstalled. Recommended steps (run "
 "from the CLI): 1) fwconsole ma install %s 2) fwconsole ma enable %s"
 msgstr ""
+"一个依赖模块可能被关闭或者卸载。通过以下方式安装或者开启(从Linux 环境执行CLI命令): 1) fwconsole ma install %s 2)"
+" fwconsole ma enable %s"
 
 #: ../core/functions.inc.php:4110 ../core/functions.inc.php:4209
 msgid "A route for this DID/CID already exists!"
@@ -549,11 +561,11 @@ msgstr "一条接收这个DID/CID的线路以存在。"
 #: ../core/Core.class.php:1915 ../core/functions.inc.php:4762
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
-msgstr "一条接收这个DID/CID（%s/%s）的线路以存在。"
+msgstr "一条接收这个DID/CID（%s/%s）的线路已存在"
 
 #: ../core/views/dahdichandids/didForm.php:48
 msgid "A useful description describing this channel"
-msgstr "对这个频道的有意义的描述"
+msgstr "对此通道的描述"
 
 #: ../core/functions.inc.php:6126
 msgid "A user will enter this password when logging onto a device."
@@ -572,11 +584,11 @@ msgstr "所有区域"
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1260
 #, php-format
 msgid "AMI failure details:"
-msgstr ""
+msgstr "AMI失败信息："
 
 #: ../core/views/did/routeform.php:115 ../core/views/did/routeform.php:139
 msgid "ANY"
-msgstr ""
+msgstr "任何"
 
 #: ../core/views/trunks/pjsip.php:540
 msgid "AOR Contact"
@@ -617,13 +629,13 @@ msgstr "操作"
 #: ../core/views/did/didgrid.php:21 ../core/views/routing/grid.php:75
 #: ../core/views/trunks/trunkgrid.php:22
 msgid "Actions"
-msgstr ""
+msgstr "操作"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:261
 msgid ""
 "Actions to preform in regards to this module. This usually contains "
 "installation and maintenance operations at an administration level"
-msgstr ""
+msgstr "对此模块执行操作。通常包括安装维护操作"
 
 #: amp_conf/htdocs/admin/functions.inc.php:441 ../core/page.astmodules.php:140
 #: ../core/views/trunks/trunk_header.php:2
@@ -651,11 +663,11 @@ msgstr "添加管理员"
 
 #: ../core/views/dahdichandids/changrid.php:21
 msgid "Add DAHDI DID"
-msgstr ""
+msgstr "添加DAHDI DID"
 
 #: ../core/views/dahdichandids/bootnav.php:3
 msgid "Add DAHDi DID"
-msgstr ""
+msgstr "添加 DAHDi DID"
 
 #: ../core/page.ampusers.php:130 ../core/page.ampusers.php:153
 #: ../core/views/rnav.php:60
@@ -678,34 +690,34 @@ msgstr "添加入局DID"
 
 #: ../core/views/did/didgrid.php:2 ../core/views/did/rnav.php:2
 msgid "Add Inbound Route"
-msgstr ""
+msgstr "添加呼入路由"
 
 #: ../core/page.did.php:28 ../core/page.did.php:72
 msgid "Add Incoming Route"
-msgstr "添加入局线路"
+msgstr "添加呼入路由"
 
 #: ../core/page.astmodules.php:138
 msgid "Add Module"
-msgstr ""
+msgstr "添加模块"
 
 #: ../core/views/rnav.php:65 ../core/views/rnav.php:83
 #, php-format
 msgid "Add New %s Device"
-msgstr ""
+msgstr "添加新 %s 设备"
 
 #: ../core/page.extensions.php:61 ../core/page.extensions.php:90
 #: ../core/views/rnav.php:10 ../core/views/rnav.php:27
 #, php-format
 msgid "Add New %s Extension"
-msgstr ""
+msgstr "添加新%s 分机"
 
 #: ../core/views/routing/bootnav.php:3 ../core/views/routing/grid.php:58
 msgid "Add Outbound Route"
-msgstr ""
+msgstr "添加呼出路由设置"
 
 #: ../core/page.routing.php:12
 msgid "Add Route"
-msgstr "添加线路"
+msgstr "添加路由"
 
 #: ../core/views/trunks/bootnav.php:4 ../core/views/trunks/trunkgrid.php:4
 msgid "Add Trunk"
@@ -723,7 +735,7 @@ msgstr "添加用户/分机"
 
 #: ../core/functions.inc.php:6402
 msgid "Add Virtual Extension"
-msgstr ""
+msgstr "添加虚拟分机"
 
 #: ../core/functions.inc.php:6234
 msgid ""
@@ -737,7 +749,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/helpers/freepbx_helpers.php:115
 #, php-format
 msgid "Add new %s &#133"
-msgstr ""
+msgstr "添加新 %s &#133"
 
 #: amp_conf/htdocs/admin/page.modules.php:83
 #, php-format
@@ -752,7 +764,7 @@ msgstr ""
 
 #: ../core/install.php:506
 msgid "Added pmmaxretries and pmminlength"
-msgstr ""
+msgstr "添加 pmmaxretries 和 pmminlength"
 
 #: ../core/install.php:570
 msgid "Adding index to extensions field in the users"
@@ -764,11 +776,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/noaccess.php:48
 msgid "Additional Information"
-msgstr ""
+msgstr "其他信息"
 
 #: ../core/views/routing/form.php:51
 msgid "Additional Settings"
-msgstr "额外设置"
+msgstr "其他设置"
 
 #: ../core/functions.inc.php:6376
 msgid "Adhoc"
@@ -780,22 +792,22 @@ msgstr "管理"
 
 #: ../core/page.ampusers.php:246
 msgid "Admin Access"
-msgstr ""
+msgstr "管理员访问"
 
 #: amp_conf/htdocs/admin/views/obe.php:54
 #: amp_conf/htdocs/admin/views/oobe.php:10
 msgid "Admin Email address"
-msgstr ""
+msgstr "管理员邮箱"
 
 #: amp_conf/htdocs/admin/views/obe.php:30
 #: amp_conf/htdocs/admin/views/oobe.php:9
 msgid "Admin password"
-msgstr ""
+msgstr "管理员密码"
 
 #: amp_conf/htdocs/admin/views/obe.php:20
 #: amp_conf/htdocs/admin/views/oobe.php:8
 msgid "Admin user name"
-msgstr ""
+msgstr "管理员用户名"
 
 #: amp.i18n.php:36
 msgid "Administrators"
@@ -804,7 +816,7 @@ msgstr "管理员"
 #: amp_conf/htdocs/admin/libraries/components.class.php:52
 #: ../core/views/did/routeform.php:63 ../core/views/trunks/pjsip.php:38
 msgid "Advanced"
-msgstr ""
+msgstr "高级"
 
 #: amp.i18n.php:32
 msgid "Advanced Settings"
@@ -812,7 +824,7 @@ msgstr "高级设置"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:213
 msgid "Aggregate MWI"
-msgstr ""
+msgstr "聚合 MWI"
 
 #: ../core/views/did/routeform.php:186
 msgid "Alert Info"
@@ -840,15 +852,15 @@ msgstr ""
 
 #: ../core/page.devices.php:39
 msgid "All Devices"
-msgstr ""
+msgstr "所有设备"
 
 #: ../core/page.extensions.php:40
 msgid "All Extensions"
-msgstr ""
+msgstr "所有分机"
 
 #: ../core/page.users.php:38
 msgid "All Users"
-msgstr ""
+msgstr "所有用户"
 
 #: amp_conf/htdocs/admin/page.modules.php:967
 msgid "All available modules are up-to-date and installed."
@@ -857,7 +869,7 @@ msgstr "所有可用的模块都更新到了最新版本。"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:509
 #, php-format
 msgid "All dependencies met for module %s"
-msgstr ""
+msgstr "支持模块 %s的依赖包"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:829
 msgid "All inclusive Module Actions"
@@ -866,16 +878,16 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:343
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:578
 msgid "All modules up to date."
-msgstr ""
+msgstr "所有模块已更新。"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:453
 msgid ""
 "All settings can be set from the Advanced Settings page accessible in FreePBX"
-msgstr ""
+msgstr "所有设置可以通过FreePBX的高级设置来设置"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:402
 msgid "All upgrades done!"
-msgstr ""
+msgstr "所有更新已完成！"
 
 #: ../core/views/trunks/trunk_header.php:332
 msgid "Allow Any CID"
@@ -883,7 +895,7 @@ msgstr "允许任何CID"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:197
 msgid "Allow Contact header to be rewritten with the source IP address-port"
-msgstr ""
+msgstr "所有Contact header 被 源IP地址端口重写"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:134
 #: ../core/functions.inc/drivers/Sip.class.php:374
@@ -900,7 +912,7 @@ msgstr ""
 #: upgrades/2.8.0/custom-context.php:55
 #: upgrades/2.8.0rc1/custom-context.php:55
 msgid "Already Migrated!"
-msgstr ""
+msgstr "已经合并！"
 
 #: ../core/functions.inc.php:5991
 msgid "Always"
@@ -925,27 +937,27 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:287
 #, php-format
 msgid "An error occurred while changing group %s"
-msgstr ""
+msgstr "修改组%s 时发生错误"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:253
 #, php-format
 msgid "An error occurred while changing groups %s"
-msgstr ""
+msgstr "修改组%s 错误"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:271
 #, php-format
 msgid "An error occurred while changing ownership %s"
-msgstr ""
+msgstr "修改权限%s的错误"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:237
 #, php-format
 msgid "An error occurred while changing ownership on %s"
-msgstr ""
+msgstr "修改权限时%s错误"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:333
 #, php-format
 msgid "An error occurred while changing permissions %s"
-msgstr ""
+msgstr "修改权限时%s 错误"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:319
 #, php-format
@@ -990,7 +1002,7 @@ msgid ""
 "Are you Sure you want to Change the SIP Channel Driver? (The Page will "
 "Refresh, then you MUST hit submit to resave the device when you are done to "
 "propagate the new settings)"
-msgstr ""
+msgstr "你确认修改SIP通信接口吗？ (页面将被刷新，然后单击subbmit按钮保存设置)"
 
 #: amp_conf/htdocs/admin/views/footer.php:117
 msgid ""
@@ -1002,7 +1014,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/footer.php:115
 msgid "Are you sure you want to delete this?"
-msgstr ""
+msgstr "确认要删除此设置？"
 
 #: amp_conf/htdocs/admin/views/footer.php:116
 msgid ""
@@ -1015,7 +1027,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:82
 #, php-format
 msgid "Are you sure you want to set %s to its default?"
-msgstr ""
+msgstr "确认要设置%s为默认设置？"
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:97
 msgid "Asked for raw contents of a file, but was never asked to read a file"
@@ -1034,11 +1046,11 @@ msgid ""
 "Asterisk Dial command options to be used when calling out this trunk. To "
 "override the Advanced Settings default, check the box and then provide the "
 "required options for this trunk"
-msgstr ""
+msgstr "Asterisk Dial 命令用来支持通过此中继呼出。覆盖默认的高级设置，勾选，然后输入相应的中继配置信息"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:58
 msgid "Asterisk Failed to Start"
-msgstr ""
+msgstr "Asterisk启动失败"
 
 #: ../core/install.php:13
 msgid "Asterisk General Call Pickup"
@@ -1050,21 +1062,21 @@ msgstr "Asterisk 模块"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:33
 msgid "Asterisk Seems to be NOT running"
-msgstr ""
+msgstr "Asterisk可能没有运行"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:34
 #, php-format
 msgid "Asterisk Seems to be running on PID %s and has been running for %s"
-msgstr ""
+msgstr "Asterisk的PID%s 已经运行，运行了%s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:52
 #, php-format
 msgid "Asterisk Started on %s"
-msgstr ""
+msgstr "Asterisk 启动 %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:70
 msgid "Asterisk Stopped Successfuly"
-msgstr ""
+msgstr "Asterisk成功停止"
 
 #: ../core/views/trunks/trunk_header.php:382
 msgid "Asterisk Trunk Dial Options"
@@ -1073,7 +1085,7 @@ msgstr "Asterisk中继拨号选项"
 #: ../core/functions.inc/drivers/Iax2.class.php:125
 #: ../core/functions.inc/drivers/Sip.class.php:286
 msgid "Asterisk connection type, usually friend for endpoints."
-msgstr ""
+msgstr "Asterisk的连接类型，通常是friend 或者endpoints."
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:53
 #: ../core/functions.inc/drivers/Iax2.class.php:116
@@ -1115,11 +1127,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1019
 #, php-format
 msgid "Attempting to Enable %s"
-msgstr ""
+msgstr "试图开启%s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:61
 msgid "Attempting to repair MySQL Tables this may take a while"
-msgstr ""
+msgstr "尝试修复MySQL表，可能需要一点时间"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:148
 msgid "Attention"
@@ -1127,15 +1139,15 @@ msgstr "注意"
 
 #: ../core/views/routing/grid.php:74
 msgid "Attributes"
-msgstr ""
+msgstr "属性"
 
 #: ../core/views/trunks/pjsip.php:80
 msgid "Authentication"
-msgstr ""
+msgstr "认证"
 
 #: ../core/views/trunks/pjsip.php:650
 msgid "Authentication Disabled"
-msgstr ""
+msgstr "关闭认证"
 
 #: ../core/page.ampusers.php:123
 msgid ""
@@ -1173,7 +1185,7 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:300
 #, php-format
 msgid "Automatic Force rport - (%s)"
-msgstr ""
+msgstr "自动强制使用rport- (%s)"
 
 #: ../core/functions.inc/drivers/Sip.class.php:301
 #, php-format
@@ -1192,11 +1204,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:20
 msgid "Beta"
-msgstr ""
+msgstr "测试"
 
 #: ../core/views/trunks/trunk_header.php:334
 msgid "Block Foreign CIDs"
-msgstr "过滤国外CID号码"
+msgstr "屏蔽国外CID号码"
 
 #: ../core/views/trunks/pjsip.php:89
 msgid "Both"
@@ -1308,7 +1320,7 @@ msgstr ""
 
 #: ../core/page.extensions.php:211 ../core/page.users.php:80
 msgid "Call Forwarding is enabled"
-msgstr ""
+msgstr "已开启呼叫前转"
 
 #: ../core/functions.inc/drivers/Sip.class.php:369
 msgid "Call Groups"
@@ -1316,11 +1328,11 @@ msgstr "呼叫组"
 
 #: ../core/functions.inc.php:1037
 msgid "Call Recording Module Not Enabled"
-msgstr ""
+msgstr "没有开启呼叫录音模块"
 
 #: ../core/functions.inc.php:6226
 msgid "Call Screening"
-msgstr "来电显示"
+msgstr ""
 
 #: ../core/functions.inc.php:6226
 msgid ""
@@ -1341,11 +1353,11 @@ msgstr "呼叫等待"
 
 #: ../core/page.extensions.php:208 ../core/page.users.php:77
 msgid "Call Waiting is disabled"
-msgstr ""
+msgstr "已关闭呼叫等待"
 
 #: ../core/page.extensions.php:208 ../core/page.users.php:77
 msgid "Call Waiting is enabled"
-msgstr ""
+msgstr "已关闭呼叫等待"
 
 #: ../core/functions.inc.php:6275
 msgid ""
@@ -1397,11 +1409,11 @@ msgstr ""
 #: ../core/functions.inc.php:2122
 #, php-format
 msgid "Calling Out Route: %s"
-msgstr ""
+msgstr "呼出路由: %s"
 
 #: amp_conf/htdocs/admin/views/menu.php:27
 msgid "Can Not Connect to Asterisk"
-msgstr ""
+msgstr "不能连接Asterisk"
 
 #: ../core/functions.inc/drivers/Sip.class.php:258
 msgid "Can Reinvite"
@@ -1460,7 +1472,7 @@ msgstr "取消"
 
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:5
 msgid "Cannot connect to Asterisk Manager with "
-msgstr "无法连接到Asterisk管理器"
+msgstr "无法连接到Asterisk manager.. "
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2092
 #, php-format
@@ -1478,7 +1490,7 @@ msgstr "无法找到模块"
 
 #: install.php:168
 msgid "Cant Find Framework XML"
-msgstr ""
+msgstr "没有找到 Framework XML"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:700
 msgid "Cant Reach Online Server"
@@ -1504,20 +1516,20 @@ msgstr "ChanSpy"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:374
 msgid "Change Log for version"
-msgstr ""
+msgstr "此版本的 change log"
 
 #: ../core/functions.inc/drivers/Sip.class.php:232
 msgid "Change SIP Driver"
-msgstr ""
+msgstr "修改SIP通道接口"
 
 #: ../core/functions.inc/drivers/Sip.class.php:229
 #, php-format
 msgid "Change To %s Driver"
-msgstr ""
+msgstr "修改到%s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:21
 msgid "Change ownership of files"
-msgstr ""
+msgstr "修改文件所有权"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:373
 msgid "Changelog"
@@ -1536,7 +1548,7 @@ msgstr ""
 #: ../core/views/dahdichandids/changrid.php:36
 #: ../core/views/dahdichandids/didForm.php:12
 msgid "Channel"
-msgstr "中继"
+msgstr "通道"
 
 #: ../core/page.trunks.php:357
 #, php-format
@@ -1554,29 +1566,29 @@ msgstr "在线检测"
 #: ../core/views/trunks/pjsip.php:584
 msgid ""
 "Check the desired codecs, all others will be disabled. Drag to re-order."
-msgstr ""
+msgstr "检查需要的编码，所有其他的编码被禁止。可以使用拖拉来重新排序。"
 
 #: ../core/views/trunks/trunk_header.php:454
 msgid "Check this to disable this trunk in all routes where it is used."
-msgstr "钩选此项会在所有使用了此中继的线路上禁用它"
+msgstr "钩选此项会在所有使用了此中继的线路上禁用它。"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:708
 #, php-format
 msgid "Checking %s..."
-msgstr ""
+msgstr "检查 %s..."
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:31
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:30
 msgid "Checking Asterisk Status..."
-msgstr ""
+msgstr "检查Asterisk状态。。。"
 
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:39
 msgid "Checking Online, Please Wait..."
-msgstr ""
+msgstr "检查在线状态，请等待。。。"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:705
 msgid "Checking Signatures of Modules..."
-msgstr ""
+msgstr "检查模块签名。。。"
 
 #: upgrades/2.9.0alpha1/tables.php:40 upgrades/2.9.0alpha1/tables.php:56
 #: ../core/install.php:518 ../core/install.php:534
@@ -1586,11 +1598,11 @@ msgstr ""
 
 #: ../core/install.php:856
 msgid "Checking for General Setting migrations.."
-msgstr ""
+msgstr "检查基本设置合并。。"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:19
 msgid "Checking for freepbx_settings table.."
-msgstr ""
+msgstr "检查 freepbx_settings 表.."
 
 #: upgrades/2.9.0alpha1/tables.php:37
 msgid "Checking for schema changes for core's users table."
@@ -1635,11 +1647,11 @@ msgstr ""
 
 #: ../core/views/routing/form.php:506
 msgid "Choose File"
-msgstr ""
+msgstr "选择文件"
 
 #: ../core/Console/Trunks.class.php:64
 msgid "Choose an ID to enable/disable"
-msgstr ""
+msgstr "选择一个ID开启或关闭"
 
 #: amp_conf/htdocs/admin/page.modules.php:1147
 msgid ""
@@ -1652,7 +1664,7 @@ msgstr ""
 
 #: ../core/assets/js/trunks/trunks.js:245
 msgid "Click here to insert a new pattern before this pattern"
-msgstr ""
+msgstr "点击这里添加一个新模式"
 
 #: ../core/assets/js/trunks/trunks.js:246
 msgid "Click here to remove this pattern"
@@ -1661,11 +1673,11 @@ msgstr "点击这里删除这个模式"
 #: ../core/views/trunks/trunk_header.php:25
 msgid ""
 "Click on <a href='?display=routing'>Outbound Routes</a> to setup routing."
-msgstr ""
+msgstr "点击 <a href='?display=routing'>呼出路由</a>来设置路由。"
 
 #: amp_conf/htdocs/admin/views/module_admin/header.php:23
 msgid "Click to configure Update Notifications"
-msgstr ""
+msgstr "点击配置 Update Notifications"
 
 #: ../core/views/trunks/pjsip.php:504
 msgid ""
@@ -1693,7 +1705,7 @@ msgstr "代码错误 - don't understand '%s' from %s"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:413
 msgid "Combined"
-msgstr ""
+msgstr "合并"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:190
 #, php-format
@@ -1702,17 +1714,17 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:15
 msgid "Commercial"
-msgstr ""
+msgstr "商业"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:199
 msgid "Commercial Status"
-msgstr ""
+msgstr "商业信息"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:199
 msgid ""
 "Commercial Status of this module. Commercial Modules are maintained and "
 "supported through Schmoozecom, INC"
-msgstr ""
+msgstr "此模块的商业许可证信息。商业模块由 Schmoozecom, INC 维护支持"
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:16
 msgid "Common utilities"
@@ -1724,12 +1736,12 @@ msgstr "确认"
 
 #: amp_conf/htdocs/admin/views/obe.php:65
 msgid "Confirm Email address"
-msgstr ""
+msgstr "确认邮件地址"
 
 #: amp_conf/htdocs/admin/views/obe.php:42
 #: amp_conf/htdocs/admin/views/oobe.php:9
 msgid "Confirm Password"
-msgstr ""
+msgstr "确认密码"
 
 #: ../core/functions.inc.php:6144
 msgid "Conflicting Extensions"
@@ -1741,19 +1753,19 @@ msgstr "拥塞"
 
 #: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:30
 msgid "Connected"
-msgstr ""
+msgstr "已连接"
 
 #: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:23
 msgid "Connecting to the Database..."
-msgstr ""
+msgstr "连接数据库。。。"
 
 #: ../core/functions.inc/drivers/Sip.class.php:287
 msgid "Connection Type"
-msgstr ""
+msgstr "连接类型"
 
 #: amp.i18n.php:24 amp_conf/htdocs/admin/views/menu_items.php:46
 msgid "Connectivity"
-msgstr ""
+msgstr "通信接口连接"
 
 #: ../core/views/trunks/pjsip.php:422
 msgid "Contact User"
@@ -1783,7 +1795,7 @@ msgstr "遇忙继续"
 #: upgrades/2.8.0/custom-context.php:86
 #: upgrades/2.8.0rc1/custom-context.php:87
 msgid "Continuing..."
-msgstr ""
+msgstr "继续。。。"
 
 #: ../core/views/trunks/trunk_header.php:34
 msgid ""
@@ -1802,9 +1814,8 @@ msgid ""
 "the auto-generated context: %s as the inbound trunk's context. (see "
 "extensions_additional.conf) Leave blank to specify no maximum."
 msgstr ""
-"控制在这个中继上的出局频道的最大值（即同时呼叫数）。要对这个最大值统计入局呼"
-"叫数，可以使用自动生成的上下文：%s ，作为入局中继的上下文。（参考"
-"extensions_additional.conf。）此项不填内容表示无限制。"
+"控制在这个中继上的出局通道的最大值（即同时呼叫数）。要对这个最大值统计入局呼叫数，可以使用自动生成的上下文：%s "
+"，作为入局中继的上下文。（参考extensions_additional.conf。）此项不填内容表示无限制。"
 
 #: ../core/install.php:928
 msgid "Converting IAX notransfer to transfer if needed.."
@@ -1829,21 +1840,21 @@ msgstr ""
 #: upgrades/2.9.0beta2/logger_migrate.php:73
 #, php-format
 msgid "Could not delete %s"
-msgstr ""
+msgstr "不能删除%s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:916
 msgid "Could not determine module name"
-msgstr ""
+msgstr "不能判断模块名称"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1474
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1718
 #, php-format
 msgid "Could not find extracted module: %s"
-msgstr ""
+msgstr "找不到解压的模块: %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:720
 msgid "Could not find signed module on remote server!"
-msgstr ""
+msgstr "远端服务器找不到已签模块！"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1344
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1526
@@ -1867,7 +1878,7 @@ msgstr "无法为安装 %s 的新版本而移除老版本"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1782
 #, php-format
 msgid "Could not remove old module %s to install new version"
-msgstr "无法为安装 %s 的新版本而移除老版本"
+msgstr "无法移除旧版本，所以不能安装 %s 的新版本"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1795
 #, php-format
