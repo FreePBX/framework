@@ -946,15 +946,25 @@ function install_cron_scheduler() {
 			}
 		} else {
 			$userArray = posix_getpwuid(posix_geteuid());
+			$nt = \notifications::create();
 			if ($userArray['name'] != $amp_conf['AMPASTERISKWEBUSER']) {
 				//we arent the user we need to be
 				//and we aren't root so nothing we can do
+				$nt->add_critical("FRAMEWORK", "CRON_UPDATE", _("Unable to create or update cron jobs"), sprintf(_("The PBX is running as %s but according to Advanced Settings it should be running as %. Therefore no cron jobs have been created. This can cause serious problems with your PBX in the future if it is not resolved"),$userArray['name'],$amp_conf['AMPASTERISKWEBUSER']));
 				return true;
+			} else {
+				$nt->delete("FRAMEWORK", "CRON_UPDATE");
 			}
 		}
 		$exists = false;
 		foreach($freepbxCron->getAll() as $cron) {
 			$str = str_replace("/", "\/", $amp_conf['AMPBIN']."/freepbx-cron-scheduler.php");
+			if(preg_match("/freepbx-cron-scheduler.php$/",$cron)) {
+				if(!preg_match("/".$str."$/i",$cron)) {
+					$freepbxCron->remove($cron);
+				}
+			}
+
 			if(preg_match("/".$str."/i",$cron,$matches)) {
 				if($exists) {
 					//remove multiple entries (if any)
@@ -973,6 +983,12 @@ function install_cron_scheduler() {
 		$exists = false;
 		foreach($freepbxCron->getAll() as $cron) {
 			$str = str_replace("/", "\/", $amp_conf['AMPSBIN']."/fwconsole util cleanplaybackcache -q");
+			if(preg_match("/fwconsole util cleanplaybackcache -q$/",$cron)) {
+				if(!preg_match("/".$str."$/i",$cron)) {
+					$freepbxCron->remove($cron);
+				}
+			}
+
 			if(preg_match("/".$str."/i",$cron,$matches)) {
 				if($exists) {
 					//remove multiple entries (if any)
