@@ -232,14 +232,23 @@ class Media {
 			throw new \Exception("Unable to find an intermediay converter");
 		}
 
-		$ver = \FreePBX::Config()->get("ASTVERSION");
-		if(version_compare_freepbx($ver,"13.0","ge")) {
+		if(\Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln48","in")) {
 			$type = "sln48";
 			$samplerate = 48000;
 		} else {
 			$type = "sln16";
 			$samplerate = 16000;
 		}
+
+		$ver = \FreePBX::Config()->get("ASTVERSION");
+		$nt = \notifications::create();
+		if(version_compare_freepbx($ver,"13.0","ge") && !\Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln48","in")) {
+			//something is wacky here
+			$nt->add_warning("FRAMEWORK", "UNSUPPORTED_SLN48", _("The file format sln48 is not supported on your system"), _("The file format sln48 is not supported by Asterisk when it should be in your Asterisk version"));
+		} else {
+			$nt->delete("FRAMEWORK", "UNSUPPORTED_SLN48");
+		}
+
 		//Now transform into a raw audio file
 		$d = new $soxClass($intermediary['wav']['path'],$intermediary['wav']['extension'],$intermediary['wav']['mime'],$samplerate,1,16);
 		$d->convert($this->tempDir."/temp.".$ts.".".$type,$type,"audio/x-raw");
