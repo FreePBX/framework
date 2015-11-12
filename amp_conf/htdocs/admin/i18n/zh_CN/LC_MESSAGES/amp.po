@@ -20,15 +20,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-07 08:37-0800\n"
+"POT-Creation-Date: 2015-11-11 18:08-0800\n"
 "PO-Revision-Date: 2015-11-10 07:45+0200\n"
 "Last-Translator: james <zhulizhong@gmail.com>\n"
-"Language-Team: Simplified Chinese "
-"<http://weblate.freepbx.org/projects/freepbx/framework/zh_CN/>\n"
-"Language: zh_CN\n"
+"Language-Team: Simplified Chinese <http://weblate.freepbx.org/projects/"
+"freepbx/framework/zh_CN/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Weblate 2.2-dev\n"
 "X-Poedit-Language: Chinese\n"
@@ -43,8 +43,8 @@ msgid ""
 "supported by the %s team but may receive some level of support by the "
 "authors."
 msgstr ""
-" 这些模块是拓展模块，不是经常使用，可能不会做太多的技术支持。Unsupported repository "
-"数据仓库的模块已经不再支持，可能开发人员会提供一定的技术支持。"
+" 这些模块是拓展模块，不是经常使用，可能不会做太多的技术支持。Unsupported "
+"repository 数据仓库的模块已经不再支持，可能开发人员会提供一定的技术支持。"
 
 #: amp_conf/htdocs/admin/views/footer.php:104
 msgid ""
@@ -352,7 +352,7 @@ msgstr "没有找到%s"
 msgid "%s prepared"
 msgstr "%s 已准备好"
 
-#: ../core/Core.class.php:2352
+#: ../core/Core.class.php:2383
 #, php-format
 msgid "%s records failed validation"
 msgstr "%s 记录验证失败"
@@ -368,7 +368,8 @@ msgid ""
 "%s requires a new browser to function correctly. You can still use %s with "
 "the browser you currently have but your experience may be diminished and is "
 "not supported"
-msgstr "%s 需要新浏览器支持。用户仍然可以当前的浏览器 %s ，但是可能丢失其他的功能支持"
+msgstr ""
+"%s 需要新浏览器支持。用户仍然可以当前的浏览器 %s ，但是可能丢失其他的功能支持"
 
 #: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:74
 #, php-format
@@ -485,8 +486,9 @@ msgid ""
 "blocking the machine trying to register. Do not change this unless you "
 "control both servers, and are sure it is required!"
 msgstr ""
-"<strong>Warning:</strong> 如果用户选择了 'None', 注册需要的Username 和密码将被拒绝. "
-"设置错误可能导致防火墙服务检测为一个网络攻击，会屏蔽此机器的注册。不要修改此设置，除非用户了解此设置的功能!"
+"<strong>Warning:</strong> 如果用户选择了 'None', 注册需要的Username 和密码将"
+"被拒绝. 设置错误可能导致防火墙服务检测为一个网络攻击，会屏蔽此机器的注册。不"
+"要修改此设置，除非用户了解此设置的功能!"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1083
 #, php-format
@@ -520,8 +522,9 @@ msgid ""
 "first matched rule will be executed and the remaining rules will not be "
 "acted on."
 msgstr ""
-"拨号规则来控制如何通过此中继呼叫。可以添加或者移除号码前缀。注意，拨号模式如果没有 + 或者 | (添加或者移除前缀) "
-"w将不会发生任何改变，但是将创建一个新的匹配。仅执行第一个匹配的拨号规则，其他的不再执行。"
+"拨号规则来控制如何通过此中继呼叫。可以添加或者移除号码前缀。注意，拨号模式如"
+"果没有 + 或者 | (添加或者移除前缀) w将不会发生任何改变，但是将创建一个新的匹"
+"配。仅执行第一个匹配的拨号规则，其他的不再执行。"
 
 #: ../core/functions.inc.php:6232
 msgid "A description for this DID, such as \"Fax\""
@@ -543,7 +546,9 @@ msgid ""
 "A new SIP channel driver for Asterisk, chan_pjsip is built on the PJSIP SIP "
 "stack. A collection of resource modules provides the bulk of the SIP "
 "functionality"
-msgstr "新的SIP通信接口驱动，chan_pjsip 是基于PJSIP的 SIP协议栈。 多个模块来提供多个特定的功能"
+msgstr ""
+"新的SIP通信接口驱动，chan_pjsip 是基于PJSIP的 SIP协议栈。 多个模块来提供多个"
+"特定的功能"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
 #, php-format
@@ -551,14 +556,14 @@ msgid ""
 "A required module might be disabled or uninstalled. Recommended steps (run "
 "from the CLI): 1) fwconsole ma install %s 2) fwconsole ma enable %s"
 msgstr ""
-"一个依赖模块可能被关闭或者卸载。通过以下方式安装或者开启(从Linux 环境执行CLI命令): 1) fwconsole ma install %s 2)"
-" fwconsole ma enable %s"
+"一个依赖模块可能被关闭或者卸载。通过以下方式安装或者开启(从Linux 环境执行CLI"
+"命令): 1) fwconsole ma install %s 2) fwconsole ma enable %s"
 
 #: ../core/functions.inc.php:4110 ../core/functions.inc.php:4209
 msgid "A route for this DID/CID already exists!"
 msgstr "一条接收这个DID/CID的线路以存在。"
 
-#: ../core/Core.class.php:1915 ../core/functions.inc.php:4762
+#: ../core/Core.class.php:1946 ../core/functions.inc.php:4762
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "一条接收这个DID/CID（%s/%s）的线路已存在"
@@ -1046,7 +1051,9 @@ msgid ""
 "Asterisk Dial command options to be used when calling out this trunk. To "
 "override the Advanced Settings default, check the box and then provide the "
 "required options for this trunk"
-msgstr "Asterisk Dial 命令用来支持通过此中继呼出。覆盖默认的高级设置，勾选，然后输入相应的中继配置信息"
+msgstr ""
+"Asterisk Dial 命令用来支持通过此中继呼出。覆盖默认的高级设置，勾选，然后输入"
+"相应的中继配置信息"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:58
 msgid "Asterisk Failed to Start"
@@ -1145,7 +1152,7 @@ msgstr "属性"
 msgid "Authentication"
 msgstr "认证"
 
-#: ../core/views/trunks/pjsip.php:650
+#: ../core/views/trunks/pjsip.php:760
 msgid "Authentication Disabled"
 msgstr "关闭认证"
 
@@ -1367,11 +1374,11 @@ msgid ""
 "(caller or callee) determines the policy."
 msgstr ""
 
-#: ../core/Core.class.php:2325
+#: ../core/Core.class.php:2356
 msgid "Caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:2326
+#: ../core/Core.class.php:2357
 msgid "Caller ID Number"
 msgstr "主叫ID号码"
 
@@ -1563,7 +1570,7 @@ msgstr ""
 msgid "Check Online"
 msgstr "在线检测"
 
-#: ../core/views/trunks/pjsip.php:584
+#: ../core/views/trunks/pjsip.php:694
 msgid ""
 "Check the desired codecs, all others will be disabled. Drag to re-order."
 msgstr "检查需要的编码，所有其他的编码被禁止。可以使用拖拉来重新排序。"
@@ -1814,8 +1821,9 @@ msgid ""
 "the auto-generated context: %s as the inbound trunk's context. (see "
 "extensions_additional.conf) Leave blank to specify no maximum."
 msgstr ""
-"控制在这个中继上的出局通道的最大值（即同时呼叫数）。要对这个最大值统计入局呼叫数，可以使用自动生成的上下文：%s "
-"，作为入局中继的上下文。（参考extensions_additional.conf。）此项不填内容表示无限制。"
+"控制在这个中继上的出局通道的最大值（即同时呼叫数）。要对这个最大值统计入局呼"
+"叫数，可以使用自动生成的上下文：%s ，作为入局中继的上下文。（参考"
+"extensions_additional.conf。）此项不填内容表示无限制。"
 
 #: ../core/install.php:928
 msgid "Converting IAX notransfer to transfer if needed.."
@@ -2079,11 +2087,11 @@ msgstr "DID号码"
 msgid "DID/CID"
 msgstr ""
 
-#: ../core/Core.class.php:2272
+#: ../core/Core.class.php:2303
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:2273
+#: ../core/Core.class.php:2304
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
@@ -2160,10 +2168,10 @@ msgstr ""
 "没有DID的呼叫通过，就不填此项。<br /><br />你也可以使用模式匹配（比如 _2[345]"
 "X）来匹配一个范围内的DID号码。"
 
-#: ../core/Core.class.php:577 ../core/Core.class.php:600
-#: ../core/Core.class.php:624 ../core/Core.class.php:662
-#: ../core/Core.class.php:683 ../core/Core.class.php:708
-#: ../core/Core.class.php:738 ../core/Core.class.php:768
+#: ../core/Core.class.php:608 ../core/Core.class.php:631
+#: ../core/Core.class.php:655 ../core/Core.class.php:693
+#: ../core/Core.class.php:714 ../core/Core.class.php:739
+#: ../core/Core.class.php:769 ../core/Core.class.php:799
 #: ../core/page.devices.php:56 ../core/page.devices.php:76
 #: ../core/page.extensions.php:66 ../core/page.extensions.php:92
 #: ../core/page.users.php:46
@@ -2198,8 +2206,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/main.php:179
-#: ../core/Core.class.php:2292 ../core/Core.class.php:2293
-#: ../core/Core.class.php:2317 ../core/Core.class.php:2318
+#: ../core/Core.class.php:2323 ../core/Core.class.php:2324
+#: ../core/Core.class.php:2348 ../core/Core.class.php:2349
 #: ../core/functions.inc.php:6482 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:36 ../core/views/did/didgrid.php:19
@@ -2211,7 +2219,7 @@ msgstr "描述"
 msgid "Descriptive Name for this Trunk"
 msgstr "中继名称"
 
-#: ../core/Core.class.php:2329 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:2360 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr ""
 
@@ -2273,13 +2281,13 @@ msgid ""
 "offer SDP in the corresponding answer SDP."
 msgstr ""
 
-#: ../core/Core.class.php:43 ../core/functions.inc.php:6425
+#: ../core/Core.class.php:42 ../core/functions.inc.php:6425
 #: ../core/page.devices.php:63 ../core/page.devices.php:84
 #: ../core/views/rnav.php:72
 msgid "Device"
 msgstr "设备"
 
-#: ../core/Core.class.php:1451
+#: ../core/Core.class.php:1482
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
@@ -2296,7 +2304,7 @@ msgstr "设备信息"
 msgid "Device Options"
 msgstr "设备选项"
 
-#: ../core/Core.class.php:2297 ../core/Core.class.php:2298
+#: ../core/Core.class.php:2328 ../core/Core.class.php:2329
 msgid "Device Technology"
 msgstr ""
 
@@ -2305,11 +2313,11 @@ msgstr ""
 msgid "Device Type"
 msgstr "设备类型"
 
-#: ../core/Core.class.php:2379
+#: ../core/Core.class.php:2410
 msgid "Device could not be added."
 msgstr ""
 
-#: ../core/Core.class.php:511
+#: ../core/Core.class.php:542
 msgid "Device was not added!"
 msgstr ""
 
@@ -2459,7 +2467,7 @@ msgstr ""
 msgid "Display Name"
 msgstr "显示名"
 
-#: ../core/Core.class.php:485
+#: ../core/Core.class.php:516
 msgid "Display Name can not be blank!"
 msgstr ""
 
@@ -2603,7 +2611,7 @@ msgstr ""
 msgid "Dump Configs"
 msgstr ""
 
-#: ../core/Core.class.php:713 ../core/Core.class.php:743
+#: ../core/Core.class.php:744 ../core/Core.class.php:774
 msgid "Duplicate"
 msgstr ""
 
@@ -2882,7 +2890,7 @@ msgstr "在创建临时目录时发生了错误：%s"
 msgid "Error deleting directory %s (code %d)"
 msgstr "无法删除目录 %s （错误代码 %d）"
 
-#: ../core/Core.class.php:406 ../core/Core.class.php:1182
+#: ../core/Core.class.php:437 ../core/Core.class.php:1213
 #: ../core/page.trunks.php:323
 msgid "Error fetching prefix list for: "
 msgstr "在获取前缀列表时发生错误："
@@ -3036,8 +3044,8 @@ msgstr ""
 msgid "Extended"
 msgstr ""
 
-#: ../core/Core.class.php:31 ../core/Core.class.php:2284
-#: ../core/Core.class.php:2285 ../core/functions.inc.php:6065
+#: ../core/Core.class.php:30 ../core/Core.class.php:2315
+#: ../core/Core.class.php:2316 ../core/functions.inc.php:6065
 #: ../core/page.did.php:89 ../core/page.extensions.php:73
 #: ../core/page.extensions.php:99 ../core/views/rnav.php:18
 msgid "Extension"
@@ -3055,15 +3063,15 @@ msgstr ""
 msgid "Extension Options"
 msgstr "分机选项"
 
-#: ../core/Core.class.php:485
+#: ../core/Core.class.php:516
 msgid "Extension already in use!"
 msgstr ""
 
-#: ../core/Core.class.php:485
+#: ../core/Core.class.php:516
 msgid "Extension can not be blank!"
 msgstr ""
 
-#: ../core/Core.class.php:2368
+#: ../core/Core.class.php:2399
 msgid "Extension is not numeric."
 msgstr ""
 
@@ -3071,11 +3079,11 @@ msgstr ""
 msgid "Extension number conflict, please choose another."
 msgstr ""
 
-#: ../core/Core.class.php:506
+#: ../core/Core.class.php:537
 msgid "Extension was not numeric!"
 msgstr ""
 
-#: amp.i18n.php:16 ../core/Core.class.php:2268 ../core/Core.class.php:2269
+#: amp.i18n.php:16 ../core/Core.class.php:2299 ../core/Core.class.php:2300
 msgid "Extensions"
 msgstr "分机"
 
@@ -3197,6 +3205,10 @@ msgstr ""
 
 #: ../core/install.php:905
 msgid "Fatal DB error trying to delete globals, trying to carry on"
+msgstr ""
+
+#: ../core/views/trunks/pjsip.php:669
+msgid "Fax Detect"
 msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:529
@@ -3358,6 +3370,10 @@ msgstr "强制降级和重新安装:"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:24
 #, php-format
 msgid "Format can be: %s"
+msgstr ""
+
+#: ../core/views/trunks/pjsip.php:620
+msgid "Forward"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1915
@@ -3819,7 +3835,7 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: ../core/Core.class.php:2321 ../core/Core.class.php:2322
+#: ../core/Core.class.php:2352 ../core/Core.class.php:2353
 msgid "Incoming DID"
 msgstr ""
 
@@ -3989,7 +4005,7 @@ msgstr ""
 msgid "Invalid email address"
 msgstr ""
 
-#: ../core/Core.class.php:410 ../core/Core.class.php:1186
+#: ../core/Core.class.php:441 ../core/Core.class.php:1217
 #: ../core/page.trunks.php:328
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "无效的 NPA-NXX 代码（正确格式是：NXXNXX）"
@@ -4577,7 +4593,7 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
-#: ../core/Core.class.php:2288 ../core/Core.class.php:2289
+#: ../core/Core.class.php:2319 ../core/Core.class.php:2320
 #: ../core/page.extensions.php:74 ../core/page.extensions.php:100
 #: ../core/page.users.php:54 ../core/views/rnav.php:19
 #: ../core/views/rnav.php:43 ../core/views/routing/grid.php:72
@@ -4639,7 +4655,8 @@ msgstr ""
 #: ../core/page.advancedsettings.php:82 ../core/views/did/routeform.php:166
 #: ../core/views/did/routeform.php:268 ../core/views/did/routeform.php:295
 #: ../core/views/did/routeform.php:349 ../core/views/routing/form.php:332
-#: ../core/views/trunks/trunk_header.php:68
+#: ../core/views/trunks/pjsip.php:593 ../core/views/trunks/pjsip.php:649
+#: ../core/views/trunks/pjsip.php:676 ../core/views/trunks/trunk_header.php:68
 #: ../core/views/trunks/trunk_header.php:280
 #: ../core/views/trunks/trunk_header.php:419
 #: ../core/views/trunks/trunk_header.php:446
@@ -4736,7 +4753,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:216
 #: ../core/views/trunks/pjsip.php:91 ../core/views/trunks/pjsip.php:110
-#: ../core/views/trunks/pjsip.php:221
+#: ../core/views/trunks/pjsip.php:221 ../core/views/trunks/pjsip.php:618
 msgid "None"
 msgstr ""
 
@@ -5444,6 +5461,10 @@ msgstr ""
 msgid "Recording of outbound calls to external sources."
 msgstr ""
 
+#: ../core/views/trunks/pjsip.php:622
+msgid "Redundancy"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:712
 #, php-format
 msgid "Refreshing %s"
@@ -5562,11 +5583,11 @@ msgstr "需要以下的任一引擎： %s ，你安装的是： %s"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:37
 #: amp_conf/htdocs/admin/views/module_admin/main.php:433
-#: ../core/Core.class.php:582 ../core/Core.class.php:605
-#: ../core/Core.class.php:629 ../core/Core.class.php:648
-#: ../core/Core.class.php:667 ../core/Core.class.php:688
-#: ../core/Core.class.php:718 ../core/Core.class.php:748
-#: ../core/Core.class.php:773
+#: ../core/Core.class.php:613 ../core/Core.class.php:636
+#: ../core/Core.class.php:660 ../core/Core.class.php:679
+#: ../core/Core.class.php:698 ../core/Core.class.php:719
+#: ../core/Core.class.php:749 ../core/Core.class.php:779
+#: ../core/Core.class.php:804
 msgid "Reset"
 msgstr "重置"
 
@@ -5671,7 +5692,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr ""
 
-#: ../core/Core.class.php:2496 ../core/Core.class.php:2497
+#: ../core/Core.class.php:2527 ../core/Core.class.php:2528
 #, php-format
 msgid "SIP (%s)"
 msgstr ""
@@ -5974,11 +5995,11 @@ msgstr ""
 msgid "Stream files for debugging"
 msgstr ""
 
-#: ../core/Core.class.php:587 ../core/Core.class.php:610
-#: ../core/Core.class.php:634 ../core/Core.class.php:653
-#: ../core/Core.class.php:672 ../core/Core.class.php:693
-#: ../core/Core.class.php:723 ../core/Core.class.php:753
-#: ../core/Core.class.php:778
+#: ../core/Core.class.php:618 ../core/Core.class.php:641
+#: ../core/Core.class.php:665 ../core/Core.class.php:684
+#: ../core/Core.class.php:703 ../core/Core.class.php:724
+#: ../core/Core.class.php:754 ../core/Core.class.php:784
+#: ../core/Core.class.php:809
 msgid "Submit"
 msgstr "提交"
 
@@ -5995,6 +6016,10 @@ msgstr ""
 msgid "Successfully reloaded"
 msgstr "重启成功"
 
+#: ../core/views/trunks/pjsip.php:586
+msgid "Support T.38 UDPTL"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/main.php:347
 #, php-format
 msgid "Switch to Stable and Download and Install %s"
@@ -6006,6 +6031,18 @@ msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:391
 msgid "System"
+msgstr ""
+
+#: ../core/views/trunks/pjsip.php:613
+msgid "T.38 UDPTL Error Correction"
+msgstr ""
+
+#: ../core/views/trunks/pjsip.php:642
+msgid "T.38 UDPTL NAT"
+msgstr ""
+
+#: ../core/views/trunks/pjsip.php:630
+msgid "T.38 UDPTL error correction method"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:328
@@ -6164,7 +6201,7 @@ msgstr ""
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
-#: ../core/Core.class.php:2330
+#: ../core/Core.class.php:2361
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -6403,7 +6440,7 @@ msgstr ""
 msgid "This action understands somethings may be disabled for a reason."
 msgstr ""
 
-#: ../core/Core.class.php:1458
+#: ../core/Core.class.php:1489
 msgid "This device id is already in use"
 msgstr "设备id已存在"
 
@@ -6472,6 +6509,12 @@ msgstr ""
 msgid "This notification was generated by the %s Server identified as '%s'."
 msgstr ""
 
+#: ../core/views/trunks/pjsip.php:684
+msgid ""
+"This option can be set to send the session to the fax extension when a CNG "
+"tone is detected."
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/beta_notice.php:8
 msgid "This page is currently BETA"
 msgstr ""
@@ -6504,7 +6547,7 @@ msgid ""
 "setup that uses it."
 msgstr ""
 
-#: ../core/Core.class.php:1899
+#: ../core/Core.class.php:1930
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "此用户/分机 %s 已存在"
@@ -6936,7 +6979,7 @@ msgstr ""
 msgid "Used as Destination by %s %s"
 msgstr "由 %s %s 用作目的地"
 
-#: ../core/Core.class.php:55 ../core/functions.inc.php:6079
+#: ../core/Core.class.php:54 ../core/functions.inc.php:6079
 #: ../core/page.devices.php:66 ../core/page.devices.php:87
 #: ../core/page.did.php:86 ../core/page.users.php:53 ../core/views/rnav.php:42
 msgid "User"
@@ -6983,11 +7026,11 @@ msgstr ""
 msgid "User Password"
 msgstr "用户密码"
 
-#: ../core/Core.class.php:2397
+#: ../core/Core.class.php:2428
 msgid "User could not be added."
 msgstr ""
 
-#: ../core/Core.class.php:522
+#: ../core/Core.class.php:553
 msgid "User was not added!"
 msgstr ""
 
@@ -7001,7 +7044,7 @@ msgstr "用户"
 msgid "Username"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:668
+#: ../core/views/trunks/pjsip.php:778
 msgid "Username is trunk name"
 msgstr ""
 
@@ -7199,6 +7242,14 @@ msgid ""
 "endpoint."
 msgstr ""
 
+#: ../core/views/trunks/pjsip.php:657
+msgid "Whether NAT support is enabled on UDPTL sessions"
+msgstr ""
+
+#: ../core/views/trunks/pjsip.php:601
+msgid "Whether T.38 UDPTL support is enabled or not"
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:341
 msgid ""
 "Whether to Enable AVPF. Defaults to no. The WebRTC standard has selected "
@@ -7245,7 +7296,8 @@ msgstr ""
 #: ../core/page.advancedsettings.php:80 ../core/views/did/routeform.php:164
 #: ../core/views/did/routeform.php:266 ../core/views/did/routeform.php:293
 #: ../core/views/did/routeform.php:347 ../core/views/routing/form.php:330
-#: ../core/views/trunks/trunk_header.php:66
+#: ../core/views/trunks/pjsip.php:591 ../core/views/trunks/pjsip.php:647
+#: ../core/views/trunks/pjsip.php:674 ../core/views/trunks/trunk_header.php:66
 #: ../core/views/trunks/trunk_header.php:278
 #: ../core/views/trunks/trunk_header.php:417
 #: ../core/views/trunks/trunk_header.php:444
@@ -7495,7 +7547,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:1892
+#: ../core/Core.class.php:1923
 msgid "You must put in an extension (or user) number"
 msgstr "你必须输入一个分机（或用户）号码"
 
