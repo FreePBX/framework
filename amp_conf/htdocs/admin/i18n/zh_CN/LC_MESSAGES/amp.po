@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-11 18:08-0800\n"
+"POT-Creation-Date: 2015-11-12 14:29-0800\n"
 "PO-Revision-Date: 2015-11-10 07:45+0200\n"
 "Last-Translator: james <zhulizhong@gmail.com>\n"
 "Language-Team: Simplified Chinese <http://weblate.freepbx.org/projects/"
@@ -791,7 +791,8 @@ msgstr "其他设置"
 msgid "Adhoc"
 msgstr "自组织"
 
-#: amp.i18n.php:38 amp_conf/htdocs/admin/views/menu_items.php:44
+#: amp.i18n.php:6 amp.i18n.php:44
+#: amp_conf/htdocs/admin/views/menu_items.php:44
 msgid "Admin"
 msgstr "管理"
 
@@ -814,7 +815,7 @@ msgstr "管理员密码"
 msgid "Admin user name"
 msgstr "管理员用户名"
 
-#: amp.i18n.php:36
+#: amp.i18n.php:42
 msgid "Administrators"
 msgstr "管理员"
 
@@ -823,7 +824,7 @@ msgstr "管理员"
 msgid "Advanced"
 msgstr "高级"
 
-#: amp.i18n.php:32
+#: amp.i18n.php:38
 msgid "Advanced Settings"
 msgstr "高级设置"
 
@@ -990,7 +991,7 @@ msgstr ""
 msgid "Any DID"
 msgstr "任何DID"
 
-#: amp.i18n.php:14 amp_conf/htdocs/admin/views/menu_items.php:45
+#: amp.i18n.php:20 amp_conf/htdocs/admin/views/menu_items.php:45
 msgid "Applications"
 msgstr "应用配置"
 
@@ -1063,7 +1064,7 @@ msgstr "Asterisk启动失败"
 msgid "Asterisk General Call Pickup"
 msgstr "Asterisk一般来电接听"
 
-#: amp.i18n.php:40 ../core/page.astmodules.php:49
+#: amp.i18n.php:46 ../core/page.astmodules.php:49
 msgid "Asterisk Modules"
 msgstr "Asterisk 模块"
 
@@ -1770,7 +1771,7 @@ msgstr "连接数据库。。。"
 msgid "Connection Type"
 msgstr "连接类型"
 
-#: amp.i18n.php:24 amp_conf/htdocs/admin/views/menu_items.php:46
+#: amp.i18n.php:30 amp_conf/htdocs/admin/views/menu_items.php:46
 msgid "Connectivity"
 msgstr "通信接口连接"
 
@@ -1829,7 +1830,7 @@ msgstr ""
 msgid "Converting IAX notransfer to transfer if needed.."
 msgstr ""
 
-#: amp.i18n.php:12 ../core/install.php:6
+#: amp.i18n.php:18 ../core/install.php:6
 msgid "Core"
 msgstr "核心"
 
@@ -2021,7 +2022,7 @@ msgstr "自定义的 Goto 上下文必须包含字符串“custom-”。例如�
 msgid "DAHDI Channel"
 msgstr ""
 
-#: amp.i18n.php:26 ../core/views/dahdichandids/general.php:5
+#: amp.i18n.php:32 ../core/views/dahdichandids/general.php:5
 #: ../core/views/dahdichandids/view.php:6
 msgid "DAHDI Channel DIDs"
 msgstr "语音板卡通道DID"
@@ -2321,7 +2322,7 @@ msgstr ""
 msgid "Device was not added!"
 msgstr ""
 
-#: amp.i18n.php:20
+#: amp.i18n.php:26
 msgid "Devices"
 msgstr "设备"
 
@@ -3083,7 +3084,7 @@ msgstr ""
 msgid "Extension was not numeric!"
 msgstr ""
 
-#: amp.i18n.php:16 ../core/Core.class.php:2299 ../core/Core.class.php:2300
+#: amp.i18n.php:22 ../core/Core.class.php:2299 ../core/Core.class.php:2300
 msgid "Extensions"
 msgstr "分机"
 
@@ -3389,12 +3390,16 @@ msgstr "FreePBX 管理员"
 msgid "FreePBX Advanced Settings"
 msgstr "FreePBX 高级设置"
 
+#: amp.i18n.php:4
+msgid "FreePBX Framework"
+msgstr "FreePBX 框架"
+
 #: install.php:5
 #, php-format
 msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
 msgstr ""
 
-#: amp.i18n.php:42
+#: amp.i18n.php:48
 msgid "FreePBX Support"
 msgstr "FreePBX技术支持"
 
@@ -3823,7 +3828,7 @@ msgstr "对分机呼入到分机录音"
 msgid "Inbound Route: %s (%s)"
 msgstr "入局线路：%s （%s）"
 
-#: amp.i18n.php:22 ../core/page.did.php:119
+#: amp.i18n.php:28 ../core/page.did.php:119
 msgid "Inbound Routes"
 msgstr "入局线路"
 
@@ -5045,7 +5050,7 @@ msgstr ""
 msgid "Outbound Route: %s"
 msgstr "呼出路由: %s"
 
-#: amp.i18n.php:28 ../core/page.routing.php:90
+#: amp.i18n.php:34 ../core/page.routing.php:90
 msgid "Outbound Routes"
 msgstr "出局线路"
 
@@ -5874,7 +5879,7 @@ msgid ""
 "keep NAT pinholes open."
 msgstr ""
 
-#: amp.i18n.php:34 amp_conf/htdocs/admin/views/menu_items.php:48
+#: amp.i18n.php:40 amp_conf/htdocs/admin/views/menu_items.php:48
 #: ../core/functions.inc/drivers/Iax2.class.php:98
 #: ../core/functions.inc/drivers/Sip.class.php:160
 #: ../core/views/trunks/trunk_header.php:236
@@ -6031,6 +6036,10 @@ msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:391
 msgid "System"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/media/Media/Driver/Drivers/SoxShell.php:81
+msgid "System is missing SOX"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:613
@@ -6219,6 +6228,16 @@ msgstr ""
 #: ../core/functions.inc.php:6123 ../core/views/quickCreate.php:49
 msgid "The extension number to dial to reach this user."
 msgstr "这个用户的分机号码"
+
+#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:251
+msgid ""
+"The file format sln48 is not supported by Asterisk when it should be. Audio "
+"conversion quality will be limited to 16k instead of 48k"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:251
+msgid "The file format sln48 is not supported on your system"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/cronmanager.class.php:177
 msgid "The following commands failed with the listed error"
@@ -6504,6 +6523,12 @@ msgid ""
 "to have permission to access it."
 msgstr ""
 
+#: amp.i18n.php:8
+msgid ""
+"This module provides a facility to install bug fixes to the framework code "
+"that is not otherwise housed in a module"
+msgstr ""
+
 #: amp_conf/bin/freepbx-cron-scheduler.php:46
 #, php-format
 msgid "This notification was generated by the %s Server identified as '%s'."
@@ -6570,6 +6595,12 @@ msgstr ""
 msgid "To get started, please enter your credentials:"
 msgstr "请输入密码"
 
+#: amp_conf/htdocs/admin/libraries/media/Media/Driver/Drivers/SoxShell.php:81
+msgid ""
+"To perform the minimal amount of file conversions for HTML5 support and "
+"conversion support you need to at least install SOX"
+msgstr ""
+
 #: amp_conf/htdocs/admin/config.php:201
 #, php-format
 msgid ""
@@ -6609,7 +6640,7 @@ msgstr "匹配中继顺序"
 msgid "Trunk: %s (%s)"
 msgstr "中继: %s (%s)"
 
-#: amp.i18n.php:30 ../core/views/trunks/bootnav.php:20
+#: amp.i18n.php:36 ../core/views/trunks/bootnav.php:20
 #: ../core/views/trunks/main.php:2
 msgid "Trunks"
 msgstr "中继"
@@ -7052,7 +7083,7 @@ msgstr ""
 msgid "Username to use in From header for requests to this trunk"
 msgstr ""
 
-#: amp.i18n.php:18
+#: amp.i18n.php:24
 msgid "Users"
 msgstr "用户"
 
@@ -8952,9 +8983,6 @@ msgstr ""
 
 #~ msgid "FreePBX"
 #~ msgstr "PBX配置工具FreePBX"
-
-#~ msgid "FreePBX Framework"
-#~ msgstr "FreePBX 框架"
 
 #~ msgid "FreePBX Log File"
 #~ msgstr "FreePBX 日志文件"

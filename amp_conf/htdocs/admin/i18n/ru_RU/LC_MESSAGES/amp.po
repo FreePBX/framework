@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-11 18:08-0800\n"
+"POT-Creation-Date: 2015-11-12 14:29-0800\n"
 "PO-Revision-Date: 2015-07-21 16:36+0200\n"
 "Last-Translator: Yuriy <alliancesko@gmail.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -781,7 +781,8 @@ msgstr "Дополнительные установки"
 msgid "Adhoc"
 msgstr "Периодическое"
 
-#: amp.i18n.php:38 amp_conf/htdocs/admin/views/menu_items.php:44
+#: amp.i18n.php:6 amp.i18n.php:44
+#: amp_conf/htdocs/admin/views/menu_items.php:44
 msgid "Admin"
 msgstr "Администратор"
 
@@ -804,7 +805,7 @@ msgstr ""
 msgid "Admin user name"
 msgstr ""
 
-#: amp.i18n.php:36
+#: amp.i18n.php:42
 msgid "Administrators"
 msgstr "Администраторы"
 
@@ -813,7 +814,7 @@ msgstr "Администраторы"
 msgid "Advanced"
 msgstr ""
 
-#: amp.i18n.php:32
+#: amp.i18n.php:38
 msgid "Advanced Settings"
 msgstr "Дополнительные настройки"
 
@@ -986,7 +987,7 @@ msgstr ""
 msgid "Any DID"
 msgstr "Любой DID"
 
-#: amp.i18n.php:14 amp_conf/htdocs/admin/views/menu_items.php:45
+#: amp.i18n.php:20 amp_conf/htdocs/admin/views/menu_items.php:45
 msgid "Applications"
 msgstr "Приложения"
 
@@ -1057,7 +1058,7 @@ msgstr ""
 msgid "Asterisk General Call Pickup"
 msgstr "Основной перехват звонка"
 
-#: amp.i18n.php:40 ../core/page.astmodules.php:49
+#: amp.i18n.php:46 ../core/page.astmodules.php:49
 msgid "Asterisk Modules"
 msgstr ""
 
@@ -1789,7 +1790,7 @@ msgstr ""
 msgid "Connection Type"
 msgstr ""
 
-#: amp.i18n.php:24 amp_conf/htdocs/admin/views/menu_items.php:46
+#: amp.i18n.php:30 amp_conf/htdocs/admin/views/menu_items.php:46
 msgid "Connectivity"
 msgstr "Подключения"
 
@@ -1853,7 +1854,7 @@ msgstr ""
 msgid "Converting IAX notransfer to transfer if needed.."
 msgstr "Конвертируем IAX нетрансферы в трансферы, если требуется.."
 
-#: amp.i18n.php:12 ../core/install.php:6
+#: amp.i18n.php:18 ../core/install.php:6
 msgid "Core"
 msgstr "База"
 
@@ -2047,7 +2048,7 @@ msgstr ""
 msgid "DAHDI Channel"
 msgstr ""
 
-#: amp.i18n.php:26 ../core/views/dahdichandids/general.php:5
+#: amp.i18n.php:32 ../core/views/dahdichandids/general.php:5
 #: ../core/views/dahdichandids/view.php:6
 msgid "DAHDI Channel DIDs"
 msgstr ""
@@ -2376,7 +2377,7 @@ msgstr ""
 msgid "Device was not added!"
 msgstr ""
 
-#: amp.i18n.php:20
+#: amp.i18n.php:26
 msgid "Devices"
 msgstr "Устройства"
 
@@ -3162,7 +3163,7 @@ msgstr "Конфликт внутренних номеров, пожалуйст
 msgid "Extension was not numeric!"
 msgstr ""
 
-#: amp.i18n.php:16 ../core/Core.class.php:2299 ../core/Core.class.php:2300
+#: amp.i18n.php:22 ../core/Core.class.php:2299 ../core/Core.class.php:2300
 msgid "Extensions"
 msgstr "Внутренние номера"
 
@@ -3472,12 +3473,16 @@ msgstr "Администрирование FreePBX"
 msgid "FreePBX Advanced Settings"
 msgstr "Расширенные установки FreePBX"
 
+#: amp.i18n.php:4
+msgid "FreePBX Framework"
+msgstr "Основа FreePBX"
+
 #: install.php:5
 #, php-format
 msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
 msgstr ""
 
-#: amp.i18n.php:42
+#: amp.i18n.php:48
 msgid "FreePBX Support"
 msgstr "Поддержка FreePBX"
 
@@ -3946,7 +3951,7 @@ msgstr "Контроль внутренних входящих соединен�
 msgid "Inbound Route: %s (%s)"
 msgstr "Входящий маршрут: %s (%s)"
 
-#: amp.i18n.php:22 ../core/page.did.php:119
+#: amp.i18n.php:28 ../core/page.did.php:119
 msgid "Inbound Routes"
 msgstr "Входящая маршрутизация"
 
@@ -5226,7 +5231,7 @@ msgstr ""
 msgid "Outbound Route: %s"
 msgstr "Исходящий маршрут: %s"
 
-#: amp.i18n.php:28 ../core/page.routing.php:90
+#: amp.i18n.php:34 ../core/page.routing.php:90
 msgid "Outbound Routes"
 msgstr "Исходящая маршрутизация"
 
@@ -6092,7 +6097,7 @@ msgstr ""
 "установить в no, то эта опция выключена. Также помогает поддерживать "
 "динамические трансляции NAT."
 
-#: amp.i18n.php:34 amp_conf/htdocs/admin/views/menu_items.php:48
+#: amp.i18n.php:40 amp_conf/htdocs/admin/views/menu_items.php:48
 #: ../core/functions.inc/drivers/Iax2.class.php:98
 #: ../core/functions.inc/drivers/Sip.class.php:160
 #: ../core/views/trunks/trunk_header.php:236
@@ -6251,6 +6256,10 @@ msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:391
 msgid "System"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/media/Media/Driver/Drivers/SoxShell.php:81
+msgid "System is missing SOX"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:613
@@ -6449,6 +6458,16 @@ msgstr ""
 #: ../core/functions.inc.php:6123 ../core/views/quickCreate.php:49
 msgid "The extension number to dial to reach this user."
 msgstr "Внутренний номер, по которому можно найти пользователя."
+
+#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:251
+msgid ""
+"The file format sln48 is not supported by Asterisk when it should be. Audio "
+"conversion quality will be limited to 16k instead of 48k"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:251
+msgid "The file format sln48 is not supported on your system"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/cronmanager.class.php:177
 msgid "The following commands failed with the listed error"
@@ -6764,6 +6783,14 @@ msgid ""
 "to have permission to access it."
 msgstr ""
 
+#: amp.i18n.php:8
+msgid ""
+"This module provides a facility to install bug fixes to the framework code "
+"that is not otherwise housed in a module"
+msgstr ""
+"Этот модуль даёт возможность быстро инсталлировать обновления и исправления "
+"в основном коде, которые так или иначе скрыты в модуле"
+
 #: amp_conf/bin/freepbx-cron-scheduler.php:46
 #, php-format
 msgid "This notification was generated by the %s Server identified as '%s'."
@@ -6830,6 +6857,12 @@ msgstr ""
 msgid "To get started, please enter your credentials:"
 msgstr "Чтобы войти, пожалуйста, введите Ваши учётные данные:"
 
+#: amp_conf/htdocs/admin/libraries/media/Media/Driver/Drivers/SoxShell.php:81
+msgid ""
+"To perform the minimal amount of file conversions for HTML5 support and "
+"conversion support you need to at least install SOX"
+msgstr ""
+
 #: amp_conf/htdocs/admin/config.php:201
 #, php-format
 msgid ""
@@ -6870,7 +6903,7 @@ msgstr "Последовательность транков для совпав�
 msgid "Trunk: %s (%s)"
 msgstr "Транк: %s (%s)"
 
-#: amp.i18n.php:30 ../core/views/trunks/bootnav.php:20
+#: amp.i18n.php:36 ../core/views/trunks/bootnav.php:20
 #: ../core/views/trunks/main.php:2
 msgid "Trunks"
 msgstr "Транки"
@@ -7317,7 +7350,7 @@ msgstr ""
 msgid "Username to use in From header for requests to this trunk"
 msgstr ""
 
-#: amp.i18n.php:18
+#: amp.i18n.php:24
 msgid "Users"
 msgstr "Пользователи"
 
@@ -9916,9 +9949,6 @@ msgstr ""
 #~ msgid "FreePBX"
 #~ msgstr "FreePBX"
 
-#~ msgid "FreePBX Framework"
-#~ msgstr "Основа FreePBX"
-
 #~ msgid "FreePBX Log File"
 #~ msgstr "Файл журнала FreePBX"
 
@@ -11526,13 +11556,6 @@ msgstr ""
 #~ "только для номеров Северной Америки) и определение -  можете ли вы "
 #~ "набирать 7, 10 или 11 цифр (т. е. 5551234, 6135551234 или 16135551234) "
 #~ "для использования этим маршрутом."
-
-#~ msgid ""
-#~ "This module provides a facility to install bug fixes to the framework "
-#~ "code that is not otherwise housed in a module"
-#~ msgstr ""
-#~ "Этот модуль даёт возможность быстро инсталлировать обновления и "
-#~ "исправления в основном коде, которые так или иначе скрыты в модуле"
 
 #~ msgid ""
 #~ "This sets the allowed transport settings for this device and the default "
