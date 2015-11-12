@@ -946,7 +946,6 @@ function install_cron_scheduler() {
 			}
 		} else {
 			$userArray = posix_getpwuid(posix_geteuid());
-			$nt = \notifications::create();
 			if ($userArray['name'] != $amp_conf['AMPASTERISKWEBUSER']) {
 				//we arent the user we need to be
 				//and we aren't root so nothing we can do
