@@ -17,8 +17,10 @@ class Media {
 
 	public function __construct($filename) {
 		$this->loadTrack($filename);
-		$tempDir = sys_get_temp_dir();
-		$this->tempDir = !empty($tempDir) ? $tempDir : "/tmp";
+		$this->tempDir = \FreePBX::Config()->get("ASTSPOOLDIR") . "/tmp";
+		if(!file_exists($this->tempDir)) {
+			mkdir($this->tempDir,0777,true);
+		}
 	}
 	/**
 	 * Cast the track to a string
