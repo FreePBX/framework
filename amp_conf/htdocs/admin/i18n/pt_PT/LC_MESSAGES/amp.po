@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GpwmPOT-Creation-Date: 2005-08-17 10:15-0300\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-13 10:51-0800\n"
+"POT-Creation-Date: 2015-11-13 16:00-0800\n"
 "PO-Revision-Date: 2015-04-24 19:56+0200\n"
 "Last-Translator: Paulo <paulop1975@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) <http://weblate.freepbx.org/projects/"
@@ -597,7 +597,7 @@ msgstr ""
 msgid "AOR Contact"
 msgstr "Contacto AOR"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:131
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:166
 msgid "Aborting Shutdown"
 msgstr ""
 
@@ -1087,7 +1087,7 @@ msgstr ""
 "Para evitar os valores por defeito das Configurações Avançadas, selecione "
 "esta caixa e preencha as opções necessárias para este trunk"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:58
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:93
 msgid "Asterisk Failed to Start"
 msgstr ""
 
@@ -1099,21 +1099,21 @@ msgstr "Atendimento Geral de Chamada do Asterisk"
 msgid "Asterisk Modules"
 msgstr "Módulos do Asterisk"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:33
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:67
 msgid "Asterisk Seems to be NOT running"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:34
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:69
 #, php-format
 msgid "Asterisk Seems to be running on PID %s and has been running for %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:52
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:87
 #, php-format
 msgid "Asterisk Started on %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:70
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:104
 msgid "Asterisk Stopped Successfuly"
 msgstr ""
 
@@ -1641,8 +1641,8 @@ msgstr ""
 msgid "Checking %s..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:31
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:30
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:66
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:64
 msgid "Checking Asterisk Status..."
 msgstr ""
 
@@ -3639,7 +3639,7 @@ msgstr ""
 msgid "Good"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:101
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:135
 msgid "Grace Period timed out"
 msgstr ""
 
@@ -4884,11 +4884,11 @@ msgstr ""
 msgid "Not an array"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:35
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:70
 msgid "Not running Pre-Asterisk Hooks."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:34
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:68
 msgid "Not running Pre-Asterisk Shutdown Hooks."
 msgstr ""
 
@@ -5428,12 +5428,12 @@ msgstr ""
 msgid "Preloaded Modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:53
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:87
 #, php-format
 msgid "Press %s to Cancel"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:54
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:88
 #, php-format
 msgid "Press %s to shut down NOW"
 msgstr ""
@@ -5757,27 +5757,28 @@ msgstr ""
 msgid "Rules:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:37
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:72
 msgid "Run Pre-Asterisk Hooks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:36
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:70
 msgid "Run Pre-Asterisk Shutdown Hooks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:28
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:64
+#, php-format
+msgid "Running %s startup..."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:62
 msgid "Running FreePBX shutdown..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:29
-msgid "Running FreePBX startup..."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:54
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:89
 msgid "Running Post-Asterisk Scripts"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:109
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:143
 msgid "Running Post-Asterisk Stop Scripts"
 msgstr ""
 
@@ -6005,11 +6006,11 @@ msgstr ""
 msgid "Shutdown NOW rather than convieniently"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:52
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:86
 msgid "Shutting down Asterisk Gracefully..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:39
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:73
 msgid "Shutting down NOW..."
 msgstr ""
 
@@ -6059,7 +6060,7 @@ msgstr ""
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:69
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:105
 msgid "Starting Asterisk..."
 msgstr ""
 
@@ -6077,7 +6078,7 @@ msgstr ""
 msgid "Stop Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:121
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:156
 msgid "Stopping Asterisk..."
 msgstr ""
 
@@ -6365,7 +6366,7 @@ msgid ""
 "the right to remove this notice."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:45
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:79
 msgid "The immediate shutdown did not go as planned... Trying again..."
 msgstr ""
 
@@ -6610,6 +6611,22 @@ msgstr ""
 msgid "This page is used to manage your outbound routing."
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:52
+msgid "This service must be started after Asterisk has started"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:41
+msgid "This service must be started before Asterisk has started"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:51
+msgid "This service must be stopped after Asterisk has stopped"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:40
+msgid "This service must be stopped before Asterisk has stopped"
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:334
 msgid ""
 "This sets the allowed transport settings for this device and the default "
@@ -6783,6 +6800,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:305
 #, php-format
 msgid "Unable to download GPG key %s, or find %s or %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:60
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:59
+msgid "Unable to find service to start"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:117

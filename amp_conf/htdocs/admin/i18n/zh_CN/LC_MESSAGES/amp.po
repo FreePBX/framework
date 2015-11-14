@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-13 10:51-0800\n"
+"POT-Creation-Date: 2015-11-13 16:00-0800\n"
 "PO-Revision-Date: 2015-11-10 07:45+0200\n"
 "Last-Translator: james <zhulizhong@gmail.com>\n"
 "Language-Team: Simplified Chinese <http://weblate.freepbx.org/projects/"
@@ -599,7 +599,7 @@ msgstr "任何"
 msgid "AOR Contact"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:131
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:166
 msgid "Aborting Shutdown"
 msgstr ""
 
@@ -1056,7 +1056,7 @@ msgstr ""
 "Asterisk Dial 命令用来支持通过此中继呼出。覆盖默认的高级设置，勾选，然后输入"
 "相应的中继配置信息"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:58
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:93
 msgid "Asterisk Failed to Start"
 msgstr "Asterisk启动失败"
 
@@ -1068,21 +1068,21 @@ msgstr "Asterisk一般来电接听"
 msgid "Asterisk Modules"
 msgstr "Asterisk 模块"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:33
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:67
 msgid "Asterisk Seems to be NOT running"
 msgstr "Asterisk可能没有运行"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:34
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:69
 #, php-format
 msgid "Asterisk Seems to be running on PID %s and has been running for %s"
 msgstr "Asterisk的PID%s 已经运行，运行了%s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:52
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:87
 #, php-format
 msgid "Asterisk Started on %s"
 msgstr "Asterisk 启动 %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:70
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:104
 msgid "Asterisk Stopped Successfuly"
 msgstr "Asterisk成功停止"
 
@@ -1585,8 +1585,8 @@ msgstr "钩选此项会在所有使用了此中继的线路上禁用它。"
 msgid "Checking %s..."
 msgstr "检查 %s..."
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:31
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:30
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:66
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:64
 msgid "Checking Asterisk Status..."
 msgstr "检查Asterisk状态。。。"
 
@@ -3572,7 +3572,7 @@ msgstr ""
 msgid "Good"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:101
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:135
 msgid "Grace Period timed out"
 msgstr ""
 
@@ -4815,11 +4815,11 @@ msgstr ""
 msgid "Not an array"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:35
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:70
 msgid "Not running Pre-Asterisk Hooks."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:34
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:68
 msgid "Not running Pre-Asterisk Shutdown Hooks."
 msgstr ""
 
@@ -5345,12 +5345,12 @@ msgstr ""
 msgid "Preloaded Modules"
 msgstr "预加载的模块"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:53
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:87
 #, php-format
 msgid "Press %s to Cancel"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:54
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:88
 #, php-format
 msgid "Press %s to shut down NOW"
 msgstr ""
@@ -5672,27 +5672,28 @@ msgstr "路由类型"
 msgid "Rules:"
 msgstr "规则"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:37
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:72
 msgid "Run Pre-Asterisk Hooks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:36
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:70
 msgid "Run Pre-Asterisk Shutdown Hooks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:28
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:64
+#, php-format
+msgid "Running %s startup..."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:62
 msgid "Running FreePBX shutdown..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:29
-msgid "Running FreePBX startup..."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:54
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:89
 msgid "Running Post-Asterisk Scripts"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:109
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:143
 msgid "Running Post-Asterisk Stop Scripts"
 msgstr ""
 
@@ -5920,11 +5921,11 @@ msgstr ""
 msgid "Shutdown NOW rather than convieniently"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:52
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:86
 msgid "Shutting down Asterisk Gracefully..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:39
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:73
 msgid "Shutting down NOW..."
 msgstr ""
 
@@ -5977,7 +5978,7 @@ msgstr ""
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:69
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:105
 msgid "Starting Asterisk..."
 msgstr ""
 
@@ -5995,7 +5996,7 @@ msgstr ""
 msgid "Stop Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:121
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:156
 msgid "Stopping Asterisk..."
 msgstr ""
 
@@ -6293,7 +6294,7 @@ msgid ""
 "the right to remove this notice."
 msgstr "现在提供了以下的新模块的下载。点击右侧的“删除”图标可以隐藏本提示。"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:45
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:79
 msgid "The immediate shutdown did not go as planned... Trying again..."
 msgstr ""
 
@@ -6555,6 +6556,22 @@ msgstr ""
 msgid "This page is used to manage your outbound routing."
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:52
+msgid "This service must be started after Asterisk has started"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:41
+msgid "This service must be started before Asterisk has started"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:51
+msgid "This service must be stopped after Asterisk has stopped"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:40
+msgid "This service must be stopped before Asterisk has stopped"
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:334
 msgid ""
 "This sets the allowed transport settings for this device and the default "
@@ -6728,6 +6745,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:305
 #, php-format
 msgid "Unable to download GPG key %s, or find %s or %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:60
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:59
+msgid "Unable to find service to start"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:117
