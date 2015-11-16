@@ -59,7 +59,8 @@ class Stop extends Command {
 				$output->writeln("<error>"._('Unable to find service to start')."</error>");
 			}
 		} else {
-			$output->writeln(_('Running FreePBX shutdown...'));
+			$brand = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
+			$output->writeln(sprintf(_('Running %s shutdown...'),$brand));
 			$output->writeln('');
 			$output->writeln(_('Checking Asterisk Status...'));
 			$aststat = $this->asteriskProcess();
