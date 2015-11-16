@@ -61,7 +61,7 @@ global $_item_sort;
 <?php if (isset($display) && $display != "noauth") { ?>
 	<div class="in" id='fpbxsearch'>
 		<i class="fa fa-search"></i>
-		<input type="text" class="form-control typeahead" placeholder="<?php echo _('Search')?>">
+		<input type="text" class="form-control typeahead" placeholder="<?php echo _('Search')?>" title="<?php echo _("Quick Search '/'")?>">
 	</div>
 <?php } ?>
 <div id="page_body">

@@ -1235,17 +1235,12 @@ $(document).ready(function() {
 		}
 	});
 	$(window).keydown(function(e){
-		if (e.keyCode === 114 || ((e.ctrlKey || e.metaKey) && e.keyCode === 70)) {
-			if(!$("#fpbxsearch").hasClass("in")) {
-				$("#fpbxsearch").one("transitionend", function() {
-					$("#fpbxsearch input").focus();
-				});
-				$("#fpbxsearch").addClass("in");
-				e.preventDefault();
-			} else {
-				$("#fpbxsearch input").blur();
-			}
-		} else if(e.keyCode === 27) {
+		if (e.keyCode === 191 && !$("#fpbxsearch").hasClass("in")) {
+			$("#fpbxsearch").one("transitionend", function() {
+				$("#fpbxsearch input").focus();
+			});
+			$("#fpbxsearch").addClass("in");
+		} else if(e.keyCode === 27 && $("#fpbxsearch").hasClass("in")) {
 			$("#fpbxsearch input").blur();
 			$("#floating-nav-bar").removeClass("show");
 		}
