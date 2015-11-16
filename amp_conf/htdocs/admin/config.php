@@ -706,7 +706,27 @@ if ($quietmode) {
 	try {
 		$bmomodule_name = $bmo->Modules->cleanModuleName($module_name);
 		if($bmo->Modules->moduleHasMethod($bmomodule_name,"getActionBar")) {
-			$footer['action_bar'] = $bmo->$bmomodule_name->getActionBar($_REQUEST);
+			$ab = $bmo->$bmomodule_name->getActionBar($_REQUEST);
+			//submit, duplicate, reset, delete.
+			//http://issues.freepbx.org/browse/FREEPBX-10611
+			uksort($ab, function($a, $b) {
+				$order = array(
+					"submit",
+					"duplicate",
+					"reset",
+					"delete"
+				);
+				$posA = array_search($a, $order);
+				if($posA === false) {
+					$posA = 999;
+				}
+				$posB = array_search($b, $order);
+				if($posB === false) {
+					$posB = 999;
+				}
+				return ($posA < $posB) ? -1 : 1;
+			});
+			$footer['action_bar'] = $ab;
 		}
 	} catch (Exception $e) {
 		//TODO: Log me
