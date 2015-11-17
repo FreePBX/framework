@@ -192,6 +192,8 @@ $html .= '<script type="text/javascript" src="assets/js/Sortable.min.js'.$versio
 
 $html .= '<script type="text/javascript" src="assets/js/toastr-2.1.2.js'.$version_tag.'"></script>';
 
+$html .= '<script type="text/javascript" src="assets/js/jquery.form.min.js'.$version_tag.'"></script>';
+
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below
 if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
