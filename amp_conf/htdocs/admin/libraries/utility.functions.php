@@ -947,7 +947,10 @@ function fpbx_which($app) {
 		}
 	}
 
-	if(!empty($location)) {
+	if(!empty($location) && $freepbx_conf->conf_setting_exists('WHICH_' . $app)) {
+		$freepbx_conf->set_conf_values(array('WHICH_' . $app => $location), true,true);
+		return $location;
+	} elseif(!empty($location) && !$freepbx_conf->conf_setting_exists('WHICH_' . $app)) {
 		//if we have a path add it to freepbx settings
 		$set = array(
 				'value'			=> $location,
@@ -966,8 +969,23 @@ function fpbx_which($app) {
 		$freepbx_conf->commit_conf_settings();
 
 		//return the path
-		return $path[0];
-	} else {
+		return 	$location;
+	} elseif(empty($location) && !$freepbx_conf->conf_setting_exists('WHICH_' . $app)) {
+		$set = array(
+				'value'			=> "",
+				'defaultval'	=> "",
+				'readonly'		=> 1,
+				'hidden'		=> 0,
+				'level'			=> 2,
+				'module'		=> '',
+				'category'		=> 'System Apps',
+				'emptyok'		=> 1,
+				'name'			=> 'Path for ' . $app,
+				'description'	=> 'The path to ' . $app . ' as auto-determined by the system. Overwrite as necessary.',
+				'type'			=> CONF_TYPE_TEXT
+		);
+		$freepbx_conf->define_conf_setting('WHICH_' . $app, $set);
+		$freepbx_conf->commit_conf_settings();
 		return false;
 	}
 }
