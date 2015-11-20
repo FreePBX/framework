@@ -631,7 +631,7 @@ div.attention {
   background-color: white;
   top: 117px;
   z-index: 500;
-  border-radius: 7px 0 0 7px;
+	border-bottom-left-radius: 7px;
   .box-shadow(-3px 3px 10px -2px darken(@background-color, 50%));
   border: 1px solid @border-color;
 	max-height: 274px;
@@ -644,16 +644,20 @@ div.attention {
 	}
 	#fixed-list-button{
 		position: absolute;
-		top: 50%;
+		top: -1px;
+		height: 35px;
+		width: 55px;
 		padding-left: 7px;
 		padding-right: 19px;
+		padding-top: 4px;
 		z-index: 500;
-		left: -45px;
+		left: -55px;
 		border-top-right-radius: 0px;
 		border-bottom-right-radius: 0px;
 		.box-shadow(-3px 3px 10px -2px darken(@background-color, 50%));
 		outline: 0;
 		border-right: none;
+		font-size: 20px;
 	}
 }
 #floating-nav-bar.locked {
