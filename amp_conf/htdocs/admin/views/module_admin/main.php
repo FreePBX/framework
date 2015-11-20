@@ -312,6 +312,8 @@ if($online) { ?>
 																				<label class="installabel" for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Download and %s to %s'), $uptype, $module['raw']['online']['version'])?></label>
 																			<?php } ?>
 																		<?php } ?>
+																		<input type="radio" id="uninstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="uninstall" />
+																		<label for="uninstall_<?php echo prep_id($module['name'])?>"><?php echo _('Uninstall')?></label>
 																	<?php }
 																break;
 																case MODULE_STATUS_BROKEN:
