@@ -22,10 +22,7 @@ if (!isset($_SESSION['AMP_user'])) {
 		case 'webserver':
 			// handler for apache doing authentication
 			$_SESSION['AMP_user'] = new ampuser($_SERVER['PHP_AUTH_USER']);
-			if (!empty($_SESSION['AMP_user']->username)) {
-				// admin user, grant full access
-				$_SESSION['AMP_user']->setAdmin();
-			} else {
+			if (empty($_SESSION['AMP_user']->username)) {
 				unset($_SESSION['AMP_user']);
 				$no_auth = true;
 			}
