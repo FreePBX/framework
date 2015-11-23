@@ -527,9 +527,13 @@ switch($display) {
 				}
 				if(isset($gpgstatus['status']) && ($gpgstatus['status'] & FreePBX\GPG::STATE_REVOKED)) {
 					echo sprintf(_("File %s has a revoked signature. Can not load"),$module_file);
+					break;
 				} else {
 					// load language info if available
 					modgettext::textdomain($module_name);
+					if ( isset($currentcomponent) ) {
+						$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
+					}
 					if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
 						$bmo->Performance->Start("hooks-$module_name-$module_file");
 						$bmo->GuiHooks->doIntercept($module_name, $module_file);
@@ -550,7 +554,6 @@ switch($display) {
 			// global component
 			if ( isset($currentcomponent) ) {
 				modgettext::textdomain($module_name);
-				$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
 				echo  $currentcomponent->generateconfigpage();
 			}
 		}
