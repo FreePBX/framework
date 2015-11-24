@@ -143,23 +143,27 @@
 					height: (@navbar-height - 7);
 					border: 1px solid @border-color;
 					font-weight: bold;
-					color: @text-color;
+					color: @button-text-color;
 					border-radius: 4px;
 					padding-top: 3px;
+					background-color: @button-background-color;
 				}
 				> a:hover {
-					background-color: lighten(@background-color,5%);
+					background-color: @button-hover-background-color;
+					border-color: @button-hover-border-color;
+					color: @button-hover-text-color;
 				}
 				> a:active {
-					background-color: darken(@background-color,50%);
-					color: #FFFFFF;
+					background-color: @button-active-background-color;
+					color: @button-active-text-color;
+					border-color: @button-active-border-color;
 				}
 			}
 			> li.open {
 				> a {
-					background-color: darken(@background-color,50%);
-					border-color: darken(@border-color,20%);
-					color: #FFFFFF;
+					background-color: @button-active-background-color;
+					border-color: @button-active-border-color;
+					color: @button-active-text-color;
 				}
 			}
 		}

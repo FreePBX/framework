@@ -1,6 +1,6 @@
 /** Button Borders **/
 .button-border(@gradient, @color) when (@gradient = false) {
-	border: 1px solid @border-color;
+	border: 1px solid @button-border-color;
 }
 .button-border (@gradient, @color) when (default()) {
 	border: none;
@@ -36,11 +36,11 @@
 }
 
 .button-layout() {
-	.button-border(@button-gradient, @border-color);
+	.button-border(@button-gradient, @button-border-color);
 	.button-border-gradient(@button-gradient, @button-border-gradient-top-default, @button-border-gradient-bottom-default);
-	.button-background(@button-gradient, @background-color, @button-image-default);
+	.button-background(@button-gradient, @button-background-color, @button-image-default);
 	.button-background-gradient(@button-gradient, @button-background-gradient-top-default, @button-background-gradient-bottom-default);
-	color: @text-color;
+	color: @button-text-color;
 	display: inline-block;
 	position: relative;
 	line-height: 1.42857143;
@@ -60,34 +60,34 @@
 }
 
 .button-hover() {
-	.button-border(@button-gradient, @border-color);
+	.button-border(@button-gradient, @button-border-color);
 	.button-border-gradient(@button-gradient, @button-border-gradient-top-hover, @button-border-gradient-bottom-hover);
-	.button-background(@button-gradient, @background-color, @button-image-hover);
+	.button-background(@button-gradient, @button-background-color, @button-image-hover);
 	.button-background-gradient(@button-gradient, @button-background-gradient-top-hover, @button-background-gradient-bottom-hover);
-	color: @text-color;
-	background-color: lighten(@background-color,5%);
-	border-color: lighten(@border-color,5%);
+	color: @button-hover-text-color;
+	background-color: @button-hover-background-color;
+	border-color: @button-hover-border-color;
 }
 
 .button-active() {
-	.button-border(@button-gradient, @border-color);
+	.button-border(@button-gradient, @button-border-color);
 	.button-border-gradient(@button-gradient, @button-border-gradient-top-active, @button-border-gradient-bottom-active);
-	.button-background(@button-gradient, @background-color, @button-image-active);
+	.button-background(@button-gradient, @button-background-color, @button-image-active);
 	.button-background-gradient(@button-gradient, @button-background-gradient-top-active, @button-background-gradient-bottom-active);
-	color: #FFFFFF;
-	background-color: darken(@background-color,50%);
-	border-color: darken(@border-color,20%);
+	color: @button-active-text-color;
+	background-color: @button-active-background-color;
+	border-color: @button-active-border-color;
 }
 
 .button-disabled() {
 	opacity: .35;
 	filter: Alpha(Opacity=35);
-	.button-background(@button-gradient, @background-color, @button-image-default);
+	.button-background(@button-gradient, @button-background-color, @button-image-default);
 	.button-background-gradient(@button-gradient, @button-background-gradient-top-default, @button-background-gradient-bottom-default);
-	.button-border(@button-gradient, @border-color);
+	.button-border(@button-gradient, @button-border-color);
 	.button-border-gradient(@button-gradient, @button-border-gradient-top-default, @button-border-gradient-bottom-default);
 	cursor: not-allowed;
-	color: @border-color;
+	color: @button-border-color;
 }
 
 /* BUTTON CSS STATES */

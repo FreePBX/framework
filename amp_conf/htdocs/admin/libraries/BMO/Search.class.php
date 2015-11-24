@@ -48,6 +48,16 @@ class Search extends FreePBX_Helpers {
 			}
 		}
 
+		$hooks = $this->FreePBX->Hooks->returnHooks();
+		foreach($hooks as $hook) {
+			$mod = $hook['module'];
+			$hook = $hook['method'];
+			$out = \FreePBX::$mod()->$hook($retarr);
+			if(!empty($out)) {
+				$retarr = $out;
+			}
+		}
+
 		return $retarr;
 	}
 

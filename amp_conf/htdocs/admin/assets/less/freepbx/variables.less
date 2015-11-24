@@ -1,3 +1,4 @@
+/* Base Colors */
 @base-color: rgb(215, 235, 249); //#D7F9D9;
 @background-color: @base-color;
 @text-color: darken(@background-color, 50%);
@@ -5,12 +6,44 @@
 
 /* Table */
 @table-striped-even-background-color: @background-color;
-@table-striped-even-color: black;
+@table-striped-even-text-color: black;
 @table-striped-odd-background-color: #fff;
-@table-striped-odd-color: black;
+@table-striped-odd-text-color: black;
 @table-th-background-color: @background-color;
-@table-th-color: black;
+@table-th-text-color: black;
+@table-row-hover-background-color: @background-color;
+@table-row-hover-text-color: black;
 
+/* Buttons */
+@button-background-color: @background-color;
+@button-text-color: @text-color;
+@button-border-color: @border-color;
+
+@button-active-background-color: darken(@button-background-color,50%);
+@button-active-text-color: #FFFFFF;
+@button-active-border-color: darken(@button-border-color,20%);
+
+@button-hover-background-color: lighten(@button-background-color,5%);
+@button-hover-text-color: @text-color;
+@button-hover-border-color: lighten(@button-border-color,5%);
+
+/** Action Bar **/
+@action-bar-background-color: @background-color;
+@action-bar-border-color: @border-color;
+@action-bar-text-color: @text-color;
+
+/** Menu **/
+@navbar-height: 34px;
+@menu-breakpoint: 991px;
+
+/** Nav Tabs **/
+@nav-active-background-color: @background-color;
+@nav-active-text-color: @text-color;
+
+@nav-hover-background-color: lighten(@background-color,5%);
+@nav-hover-text-color: @text-color;
+
+/** OLD **/
 @button-gradient: false;
 @button-background-gradient-top-default: "";
 @button-background-gradient-bottom-default: "";
@@ -37,6 +70,3 @@
 @button-has-error: #a94442;
 @button-has-warning: #8a6d3b;
 @button-has-success: #3c763d;
-
-@navbar-height: 34px;
-@menu-breakpoint: 991px;
