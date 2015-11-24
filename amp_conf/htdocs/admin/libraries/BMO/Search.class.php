@@ -33,7 +33,7 @@ class Search extends FreePBX_Helpers {
 		$mode = \FreePBX::Config()->get('AMPEXTENSIONS');
 
 		$retarr = array();
-		foreach ($modules as $m) {
+		foreach ($modules as $rawname => $m) {
 			if (isset($m['items'])) {
 				foreach ($m['items'] as $k => $v) {
 					if ($mode == "deviceanduser" && $v['name'] == "Extensions") {
@@ -42,7 +42,7 @@ class Search extends FreePBX_Helpers {
 						continue;
 					}
 					\modgettext::push_textdomain(strtolower($m['rawname']));
-					$retarr[] = array("text" => _($v['name']), "type" => "get", "dest" => !empty($v['href']) ? $v['href'] : "?display=$k");
+					$retarr[] = array("rawname" => $rawname, "rawtext" => $v['name'], "text" => _($v['name']), "type" => "get", "dest" => !empty($v['href']) ? $v['href'] : "?display=$k");
 					\modgettext::pop_textdomain();
 				}
 			}
