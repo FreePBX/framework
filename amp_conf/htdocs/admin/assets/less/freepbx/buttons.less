@@ -7,10 +7,7 @@
 }
 
 .button-border-gradient (@gradient, @top, @bottom) when (@gradient = true) {
-	border: 1px;
-	border-image: -webkit-linear-gradient(@top,@bottom) 1 1;
-	border-image: linear-gradient(to bottom, @top, @bottom) 1 1;
-	border-image: -o-linear-gradient(top, @top, @bottom) 1 1;
+	.border-gradient(@top, @bottom);
 }
 .button-border-gradient (@gradient, @top, @bottom) when (default()) {
 }
@@ -24,12 +21,7 @@
 }
 
 .button-background-gradient (@gradient, @top, @bottom) when (@gradient = true) {
-	background: @top;
-	background: -webkit-linear-gradient(top,  @top 0%,@bottom 100%);
-	background: -o-linear-gradient(top,  @top 0%,@bottom 100%);
-	background: -ms-linear-gradient(top,  @top 0%,@bottom 100%);
-	background: linear-gradient(to bottom,  @top 0%,@bottom 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@top', endColorstr='@bottom',GradientType=0 );
+	.gradient (@top, @bottom);
 }
 
 .button-background-gradient (@gradient, @top, @bottom) when (default()) {
@@ -37,9 +29,9 @@
 
 .button-layout() {
 	.button-border(@button-gradient, @button-border-color);
-	.button-border-gradient(@button-gradient, @button-border-gradient-top-default, @button-border-gradient-bottom-default);
-	.button-background(@button-gradient, @button-background-color, @button-image-default);
-	.button-background-gradient(@button-gradient, @button-background-gradient-top-default, @button-background-gradient-bottom-default);
+	.button-border-gradient(@button-gradient, @button-border-gradient-top, @button-border-gradient-bottom);
+	.button-background(@button-gradient, @button-background-color, @button-image);
+	.button-background-gradient(@button-gradient, @button-background-gradient-top, @button-background-gradient-bottom);
 	color: @button-text-color;
 	display: inline-block;
 	position: relative;
@@ -60,20 +52,20 @@
 }
 
 .button-hover() {
-	.button-border(@button-gradient, @button-border-color);
-	.button-border-gradient(@button-gradient, @button-border-gradient-top-hover, @button-border-gradient-bottom-hover);
-	.button-background(@button-gradient, @button-background-color, @button-image-hover);
-	.button-background-gradient(@button-gradient, @button-background-gradient-top-hover, @button-background-gradient-bottom-hover);
+	.button-border(@button-gradient, @button-hover-border-color);
+	.button-border-gradient(@button-gradient, @button-hover-border-gradient-top, @button-hover-border-gradient-bottom);
+	.button-background(@button-gradient, @button-hover-background-color, @button-hover-image);
+	.button-background-gradient(@button-gradient, @button-hover-background-gradient-top, @button-hover-background-gradient-bottom);
 	color: @button-hover-text-color;
 	background-color: @button-hover-background-color;
 	border-color: @button-hover-border-color;
 }
 
 .button-active() {
-	.button-border(@button-gradient, @button-border-color);
-	.button-border-gradient(@button-gradient, @button-border-gradient-top-active, @button-border-gradient-bottom-active);
-	.button-background(@button-gradient, @button-background-color, @button-image-active);
-	.button-background-gradient(@button-gradient, @button-background-gradient-top-active, @button-background-gradient-bottom-active);
+	.button-border(@button-gradient, @button-active-border-color);
+	.button-border-gradient(@button-gradient, @button-active-border-gradient-top, @button-active-border-gradient-bottom);
+	.button-background(@button-gradient, @button-active-background-color, @button-active-image);
+	.button-background-gradient(@button-gradient, @button-active-background-gradient-top, @button-active-background-gradient-bottom);
 	color: @button-active-text-color;
 	background-color: @button-active-background-color;
 	border-color: @button-active-border-color;
@@ -82,10 +74,10 @@
 .button-disabled() {
 	opacity: .35;
 	filter: Alpha(Opacity=35);
-	.button-background(@button-gradient, @button-background-color, @button-image-default);
-	.button-background-gradient(@button-gradient, @button-background-gradient-top-default, @button-background-gradient-bottom-default);
+	.button-background(@button-gradient, @button-background-color, @button-image);
+	.button-background-gradient(@button-gradient, @button-background-gradient-top, @button-background-gradient-bottom);
 	.button-border(@button-gradient, @button-border-color);
-	.button-border-gradient(@button-gradient, @button-border-gradient-top-default, @button-border-gradient-bottom-default);
+	.button-border-gradient(@button-gradient, @button-border-gradient-top, @button-border-gradient-bottom);
 	cursor: not-allowed;
 	color: @button-border-color;
 }
@@ -101,7 +93,7 @@ input[type="button"]:visited,
 input[type="reset"]:visited,
 input[type="submit"]:visited {
 	.button-layout();
-	border-radius: 4px;
+	border-radius: @button-radius;
 }
 
 .ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.ui-state-hover,
@@ -174,13 +166,13 @@ input[type="submit"]:disabled{
 }
 .radioset input[type="radio"] + label:first-of-type,
 .radioset input[type="checkbox"] ~ label:first-of-type {
-	border-top-left-radius: 4px;
-	border-bottom-left-radius: 4px;
+	border-top-left-radius: @button-radius;
+	border-bottom-left-radius: @button-radius;
 }
 .radioset input[type="radio"] + label:last-of-type,
 .radioset input[type="checkbox"] ~ label:last-of-type {
-	border-top-right-radius: 4px;
-	border-bottom-right-radius: 4px;
+	border-top-right-radius: @button-radius;
+	border-bottom-right-radius: @button-radius;
 }
 .radioset input[type="radio"] + label:hover,
 .radioset input[type="checkbox"] ~ label:hover {
@@ -437,6 +429,6 @@ fieldset[disabled] .btn-success:hover {
 	padding: 2px 10px;
 	font-size: 12px;
 	line-height: 1.5;
-	border-radius: 3px;
+	border-radius: @button-radius - 1px;
 	min-height: 24px;
 }

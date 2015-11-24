@@ -9,6 +9,13 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='@startColor', endColorstr='@endColor',GradientType=0 );
 }
 
+.border-gradient (@startColor: #eee, @endColor: white) {
+	border: 1px;
+	border-image: -webkit-linear-gradient(@startColor, @endColor) 1 1;
+	border-image: linear-gradient(to bottom, @startColor, @endColor) 1 1;
+	border-image: -o-linear-gradient(top, @startColor, @endColor) 1 1;
+}
+
 .text-shadow (@string: 0 1px 3px rgba(0, 0, 0, 0.25)) {
 	text-shadow: @string;
 }
