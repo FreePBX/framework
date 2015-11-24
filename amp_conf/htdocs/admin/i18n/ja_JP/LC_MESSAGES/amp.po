@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-17 11:32-0800\n"
+"POT-Creation-Date: 2015-11-23 16:10-0800\n"
 "PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -215,7 +215,7 @@ msgstr "%s チャネル %s"
 msgid "%s Devices"
 msgstr "%s デバイス"
 
-#: ../core/page.extensions.php:46
+#: ../core/page.extensions.php:53
 #, php-format
 msgid "%s Extensions"
 msgstr "%s 内線"
@@ -505,7 +505,7 @@ msgstr "10桁のパターン"
 msgid "11 Digit Patterns"
 msgstr "11桁のパターン"
 
-#: amp_conf/htdocs/admin/config.php:544
+#: amp_conf/htdocs/admin/config.php:548
 #, php-format
 msgid "404 Not found (%s)"
 msgstr "404 見つかりませんでした (%s)"
@@ -671,7 +671,7 @@ msgid "Action"
 msgstr "アクション"
 
 #: ../core/page.devices.php:68 ../core/page.devices.php:88
-#: ../core/page.extensions.php:82 ../core/page.extensions.php:107
+#: ../core/page.extensions.php:89 ../core/page.extensions.php:114
 #: ../core/page.users.php:61 ../core/views/dahdichandids/changrid.php:39
 #: ../core/views/did/didgrid.php:21 ../core/views/routing/grid.php:75
 #: ../core/views/trunks/trunkgrid.php:22
@@ -725,7 +725,7 @@ msgstr "デバイスを追加"
 
 #: ../core/functions.inc.php:6115 ../core/functions.inc.php:6506
 #: ../core/page.ampusers.php:130 ../core/page.ampusers.php:153
-#: ../core/page.extensions.php:57 ../core/views/rnav.php:6
+#: ../core/page.extensions.php:64 ../core/views/rnav.php:6
 msgid "Add Extension"
 msgstr "内線追加"
 
@@ -754,8 +754,9 @@ msgstr "モジュールを追加"
 msgid "Add New %s Device"
 msgstr "新しい %s デバイスを追加"
 
-#: ../core/page.extensions.php:61 ../core/page.extensions.php:90
-#: ../core/views/rnav.php:10 ../core/views/rnav.php:27
+#: ../core/page.extensions.php:9 ../core/page.extensions.php:68
+#: ../core/page.extensions.php:97 ../core/views/rnav.php:10
+#: ../core/views/rnav.php:27
 #, php-format
 msgid "Add New %s Extension"
 msgstr "新しい %s 内線を追加"
@@ -909,7 +910,7 @@ msgstr "全て - WSS Primary"
 msgid "All Devices"
 msgstr "全てのデバイス"
 
-#: ../core/page.extensions.php:40
+#: ../core/page.extensions.php:47
 msgid "All Extensions"
 msgstr "全ての内線"
 
@@ -1117,7 +1118,7 @@ msgstr ""
 "この設定を置き換えるには、ボックスにチェックを入れ、このトランクに必要なオプ"
 "ションを提供してください"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:93
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:95
 msgid "Asterisk Failed to Start"
 msgstr ""
 
@@ -1133,12 +1134,12 @@ msgstr "Asteriskモジュール"
 msgid "Asterisk Seems to be NOT running"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:69
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:71
 #, php-format
 msgid "Asterisk Seems to be running on PID %s and has been running for %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:87
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:89
 #, php-format
 msgid "Asterisk Started on %s"
 msgstr ""
@@ -1324,17 +1325,17 @@ msgstr "CA証明書が既に存在するため再利用します"
 msgid "CA key already exists, reusing"
 msgstr "CA鍵が既に存在するため再利用します"
 
-#: ../core/page.extensions.php:78 ../core/page.extensions.php:104
+#: ../core/page.extensions.php:85 ../core/page.extensions.php:111
 #: ../core/page.users.php:58
 msgid "CF"
 msgstr ""
 
-#: ../core/page.extensions.php:79 ../core/page.extensions.php:105
+#: ../core/page.extensions.php:86 ../core/page.extensions.php:112
 #: ../core/page.users.php:59
 msgid "CFB"
 msgstr ""
 
-#: ../core/page.extensions.php:80 ../core/page.extensions.php:106
+#: ../core/page.extensions.php:87 ../core/page.extensions.php:113
 #: ../core/page.users.php:60
 msgid "CFU"
 msgstr ""
@@ -1368,7 +1369,7 @@ msgstr "CID名プリフィックス"
 msgid "CRITICAL ERROR"
 msgstr "クリティカルエラー"
 
-#: ../core/page.extensions.php:75 ../core/page.extensions.php:101
+#: ../core/page.extensions.php:82 ../core/page.extensions.php:108
 #: ../core/page.users.php:55
 msgid "CW"
 msgstr ""
@@ -1377,27 +1378,27 @@ msgstr ""
 msgid "Call Forward Ring Time"
 msgstr "転送呼出秒数"
 
-#: ../core/page.extensions.php:214 ../core/page.users.php:83
+#: ../core/page.extensions.php:221 ../core/page.users.php:83
 msgid "Call Forwarding Busy is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:214 ../core/page.users.php:83
+#: ../core/page.extensions.php:221 ../core/page.users.php:83
 msgid "Call Forwarding Busy is enabled"
 msgstr ""
 
-#: ../core/page.extensions.php:217 ../core/page.users.php:86
+#: ../core/page.extensions.php:224 ../core/page.users.php:86
 msgid "Call Forwarding Unconditional is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:217 ../core/page.users.php:86
+#: ../core/page.extensions.php:224 ../core/page.users.php:86
 msgid "Call Forwarding Unconditional is enabled"
 msgstr ""
 
-#: ../core/page.extensions.php:211 ../core/page.users.php:80
+#: ../core/page.extensions.php:218 ../core/page.users.php:80
 msgid "Call Forwarding is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:211 ../core/page.users.php:80
+#: ../core/page.extensions.php:218 ../core/page.users.php:80
 msgid "Call Forwarding is enabled"
 msgstr ""
 
@@ -1439,11 +1440,11 @@ msgstr ""
 msgid "Call Waiting"
 msgstr "コールウェイティング"
 
-#: ../core/page.extensions.php:208 ../core/page.users.php:77
+#: ../core/page.extensions.php:215 ../core/page.users.php:77
 msgid "Call Waiting is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:208 ../core/page.users.php:77
+#: ../core/page.extensions.php:215 ../core/page.users.php:77
 msgid "Call Waiting is enabled"
 msgstr ""
 
@@ -1613,7 +1614,7 @@ msgstr ""
 msgid "ChanSpy"
 msgstr "ChanSpy"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:374
+#: amp_conf/htdocs/admin/views/module_admin/main.php:376
 msgid "Change Log for version"
 msgstr "バージョンのチェンジログ:"
 
@@ -1630,7 +1631,7 @@ msgstr "%s ドライバーに変更"
 msgid "Change ownership of files"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:373
+#: amp_conf/htdocs/admin/views/module_admin/main.php:375
 msgid "Changelog"
 msgstr "変更履歴"
 
@@ -1678,7 +1679,7 @@ msgstr ""
 msgid "Checking %s..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:66
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:68
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:65
 msgid "Checking Asterisk Status..."
 msgstr ""
@@ -1804,7 +1805,7 @@ msgstr "コーデック"
 msgid "Coding Error - don't understand '%s' from %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:413
+#: amp_conf/htdocs/admin/views/module_admin/main.php:415
 msgid "Combined"
 msgstr ""
 
@@ -2217,7 +2218,7 @@ msgstr ""
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
-#: ../core/page.extensions.php:76 ../core/page.extensions.php:102
+#: ../core/page.extensions.php:83 ../core/page.extensions.php:109
 #: ../core/page.users.php:56
 msgid "DND"
 msgstr ""
@@ -2251,7 +2252,7 @@ msgstr "修正日"
 msgid "Date Reported"
 msgstr "報告日"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:402
+#: amp_conf/htdocs/admin/views/module_admin/main.php:404
 msgid "Debug"
 msgstr "デバッグ"
 
@@ -2302,7 +2303,7 @@ msgstr ""
 #: ../core/Core.class.php:714 ../core/Core.class.php:739
 #: ../core/Core.class.php:769 ../core/Core.class.php:799
 #: ../core/page.devices.php:56 ../core/page.devices.php:76
-#: ../core/page.extensions.php:66 ../core/page.extensions.php:92
+#: ../core/page.extensions.php:73 ../core/page.extensions.php:99
 #: ../core/page.users.php:46
 msgid "Delete"
 msgstr "削除"
@@ -2532,7 +2533,7 @@ msgstr ""
 msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:352
+#: amp_conf/htdocs/admin/views/module_admin/main.php:354
 #: ../core/functions.inc.php:5965 ../core/functions.inc.php:5971
 #: ../core/functions.inc.php:5975 ../core/functions.inc.php:5980
 #: ../core/functions.inc.php:5984
@@ -2621,11 +2622,11 @@ msgstr ""
 "FreePBXによって自動生成されるファイルなので、編集しないでください。全て>の変"
 "更"
 
-#: ../core/page.extensions.php:205 ../core/page.users.php:74
+#: ../core/page.extensions.php:212 ../core/page.users.php:74
 msgid "Do Not Disturb is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:205 ../core/page.users.php:74
+#: ../core/page.extensions.php:212 ../core/page.users.php:74
 msgid "Do Not Disturb is enabled"
 msgstr ""
 
@@ -2698,7 +2699,7 @@ msgid "Download Remote Module"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:34
-#: amp_conf/htdocs/admin/views/module_admin/main.php:430
+#: amp_conf/htdocs/admin/views/module_admin/main.php:432
 msgid "Download all"
 msgstr "全てダウンロード"
 
@@ -2711,7 +2712,7 @@ msgstr ""
 msgid "Download and Install"
 msgstr "ダウンロードしインストール"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:337
+#: amp_conf/htdocs/admin/views/module_admin/main.php:339
 #, php-format
 msgid "Download and Upgrade to %s"
 msgstr "ダウンロードし %s へアップグレード"
@@ -2983,7 +2984,7 @@ msgid ""
 "usually a good idea to enable this. Disable only if you are having issues."
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:669
+#: amp_conf/htdocs/admin/config.php:673
 msgid "English"
 msgstr "英語"
 
@@ -3210,8 +3211,8 @@ msgstr "拡張"
 
 #: ../core/Core.class.php:30 ../core/Core.class.php:2315
 #: ../core/Core.class.php:2316 ../core/functions.inc.php:6065
-#: ../core/page.did.php:89 ../core/page.extensions.php:73
-#: ../core/page.extensions.php:99 ../core/views/rnav.php:18
+#: ../core/page.did.php:89 ../core/page.extensions.php:80
+#: ../core/page.extensions.php:106 ../core/views/rnav.php:18
 msgid "Extension"
 msgstr "内線"
 
@@ -3269,11 +3270,11 @@ msgstr ""
 msgid "FATAL, migration failed"
 msgstr ""
 
-#: ../core/page.extensions.php:77 ../core/page.users.php:57
+#: ../core/page.extensions.php:84 ../core/page.users.php:57
 msgid "FM/FM"
 msgstr ""
 
-#: ../core/page.extensions.php:103
+#: ../core/page.extensions.php:110
 msgid "FMFM"
 msgstr ""
 
@@ -3423,11 +3424,11 @@ msgstr ""
 msgid "File upload stopped by extension"
 msgstr ""
 
-#: ../core/page.extensions.php:220 ../core/page.users.php:89
+#: ../core/page.extensions.php:227 ../core/page.users.php:89
 msgid "Find Me/Follow Me is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:220 ../core/page.users.php:89
+#: ../core/page.extensions.php:227 ../core/page.users.php:89
 msgid "Find Me/Follow Me is enabled"
 msgstr ""
 
@@ -3497,12 +3498,12 @@ msgstr ""
 msgid "Force Disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:339
+#: amp_conf/htdocs/admin/views/module_admin/main.php:341
 #, php-format
 msgid "Force Download and Downgrade to %s"
 msgstr "強制的にダウンロードし、%sにダウングレード"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:339
+#: amp_conf/htdocs/admin/views/module_admin/main.php:341
 #, php-format
 msgid "Force Download and Install %s"
 msgstr "強制的にダウンロードしインストール %s"
@@ -4080,7 +4081,7 @@ msgid "Inserted interim RTPSTART and RTPEND settings"
 msgstr "RTPSTART・RTPENDの暫定的設定を挿入しました"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:272
-#: amp_conf/htdocs/admin/views/module_admin/main.php:321
+#: amp_conf/htdocs/admin/views/module_admin/main.php:323
 msgid "Install"
 msgstr "インストール"
 
@@ -4823,7 +4824,7 @@ msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
 #: ../core/Core.class.php:2319 ../core/Core.class.php:2320
-#: ../core/page.extensions.php:74 ../core/page.extensions.php:100
+#: ../core/page.extensions.php:81 ../core/page.extensions.php:107
 #: ../core/page.users.php:54 ../core/views/rnav.php:19
 #: ../core/views/rnav.php:43 ../core/views/routing/grid.php:72
 #: ../core/views/trunks/trunkgrid.php:18
@@ -4914,7 +4915,7 @@ msgstr ""
 msgid "No Change Log"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:388
+#: amp_conf/htdocs/admin/views/module_admin/main.php:390
 msgid "No Description"
 msgstr ""
 
@@ -5040,7 +5041,7 @@ msgstr ""
 msgid "Not an array"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:70
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:72
 msgid "Not running Pre-Asterisk Hooks."
 msgstr ""
 
@@ -5112,7 +5113,7 @@ msgstr "オンラインアップデートが無効です"
 msgid "Online Version"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:408
+#: amp_conf/htdocs/admin/views/module_admin/main.php:410
 msgid "Online info"
 msgstr ""
 
@@ -5629,11 +5630,11 @@ msgstr ""
 msgid "Press %s to shut down NOW"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:379
+#: amp_conf/htdocs/admin/views/module_admin/main.php:381
 msgid "Previous"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:380
+#: amp_conf/htdocs/admin/views/module_admin/main.php:382
 msgid "Previous Releases"
 msgstr ""
 
@@ -5658,7 +5659,7 @@ msgid "Privacy Manager"
 msgstr "プライバシーマネージャー"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:38
-#: amp_conf/htdocs/admin/views/module_admin/main.php:434
+#: amp_conf/htdocs/admin/views/module_admin/main.php:436
 msgid "Process"
 msgstr "進む"
 
@@ -5684,7 +5685,7 @@ msgstr ""
 msgid "Qualify Frequency"
 msgstr ""
 
-#: ../core/page.extensions.php:64 ../core/page.extensions.php:123
+#: ../core/page.extensions.php:71 ../core/page.extensions.php:129
 msgid "Quick Create Extension"
 msgstr ""
 
@@ -5765,7 +5766,7 @@ msgstr "レジスト文字列"
 msgid "Registration"
 msgstr "レジストレーション"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:362
+#: amp_conf/htdocs/admin/views/module_admin/main.php:364
 msgid "Reinstall"
 msgstr ""
 
@@ -5806,7 +5807,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:274
 #: amp_conf/htdocs/admin/views/module_admin/main.php:298
-#: amp_conf/htdocs/admin/views/module_admin/main.php:358
+#: amp_conf/htdocs/admin/views/module_admin/main.php:360
 msgid "Remove"
 msgstr ""
 
@@ -5869,7 +5870,7 @@ msgid "Requires one of the following engines: %s; you have: %s"
 msgstr "次のエンジンのどれかが必要です： %s；あなたのシステム %s"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:37
-#: amp_conf/htdocs/admin/views/module_admin/main.php:433
+#: amp_conf/htdocs/admin/views/module_admin/main.php:435
 #: ../core/Core.class.php:613 ../core/Core.class.php:636
 #: ../core/Core.class.php:660 ../core/Core.class.php:679
 #: ../core/Core.class.php:698 ../core/Core.class.php:719
@@ -5953,7 +5954,7 @@ msgstr "経路タイプ"
 msgid "Rules:"
 msgstr "ルール："
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:72
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:74
 msgid "Run Pre-Asterisk Hooks"
 msgstr ""
 
@@ -5971,7 +5972,7 @@ msgstr ""
 msgid "Running %s startup..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:89
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:91
 msgid "Running Post-Asterisk Scripts"
 msgstr ""
 
@@ -6274,7 +6275,7 @@ msgstr "標準"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:105
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:107
 msgid "Starting Asterisk..."
 msgstr ""
 
@@ -6327,7 +6328,7 @@ msgstr "リロード成功"
 msgid "Support T.38 UDPTL"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:347
+#: amp_conf/htdocs/admin/views/module_admin/main.php:349
 #, php-format
 msgid "Switch to Stable and Download and Install %s"
 msgstr "安定版のトラックに切り替えて、%sをダウンロードしてインストールする"
@@ -7020,7 +7021,7 @@ msgid "Trys to enable all modules, accepts no arguments"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:9
-#: ../core/page.extensions.php:81 ../core/views/quickCreate.php:7
+#: ../core/page.extensions.php:88 ../core/views/quickCreate.php:7
 msgid "Type"
 msgstr "タイプ"
 
@@ -7169,8 +7170,9 @@ msgid "Undefined Category"
 msgstr "定義されていないカテゴリ"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:296
-#: amp_conf/htdocs/admin/views/module_admin/main.php:324
-#: amp_conf/htdocs/admin/views/module_admin/main.php:356
+#: amp_conf/htdocs/admin/views/module_admin/main.php:316
+#: amp_conf/htdocs/admin/views/module_admin/main.php:326
+#: amp_conf/htdocs/admin/views/module_admin/main.php:358
 msgid "Uninstall"
 msgstr "アンインストール"
 
@@ -7305,7 +7307,7 @@ msgid "Upgrade"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:35
-#: amp_conf/htdocs/admin/views/module_admin/main.php:431
+#: amp_conf/htdocs/admin/views/module_admin/main.php:433
 msgid "Upgrade all"
 msgstr "全てアップグレード"
 

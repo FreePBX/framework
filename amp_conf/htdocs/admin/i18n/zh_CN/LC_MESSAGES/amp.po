@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-17 11:32-0800\n"
+"POT-Creation-Date: 2015-11-23 16:10-0800\n"
 "PO-Revision-Date: 2015-11-17 09:04+0200\n"
 "Last-Translator: james <zhulizhong@gmail.com>\n"
 "Language-Team: Simplified Chinese <http://weblate.freepbx.org/projects/"
@@ -192,7 +192,7 @@ msgstr "%s 通道 %s"
 msgid "%s Devices"
 msgstr "%s 设备"
 
-#: ../core/page.extensions.php:46
+#: ../core/page.extensions.php:53
 #, php-format
 msgid "%s Extensions"
 msgstr "%s 分机"
@@ -462,7 +462,7 @@ msgstr "10 数字模式"
 msgid "11 Digit Patterns"
 msgstr "11 数字模式"
 
-#: amp_conf/htdocs/admin/config.php:544
+#: amp_conf/htdocs/admin/config.php:548
 #, php-format
 msgid "404 Not found (%s)"
 msgstr ""
@@ -629,7 +629,7 @@ msgid "Action"
 msgstr "操作"
 
 #: ../core/page.devices.php:68 ../core/page.devices.php:88
-#: ../core/page.extensions.php:82 ../core/page.extensions.php:107
+#: ../core/page.extensions.php:89 ../core/page.extensions.php:114
 #: ../core/page.users.php:61 ../core/views/dahdichandids/changrid.php:39
 #: ../core/views/did/didgrid.php:21 ../core/views/routing/grid.php:75
 #: ../core/views/trunks/trunkgrid.php:22
@@ -681,7 +681,7 @@ msgstr "添加设备"
 
 #: ../core/functions.inc.php:6115 ../core/functions.inc.php:6506
 #: ../core/page.ampusers.php:130 ../core/page.ampusers.php:153
-#: ../core/page.extensions.php:57 ../core/views/rnav.php:6
+#: ../core/page.extensions.php:64 ../core/views/rnav.php:6
 msgid "Add Extension"
 msgstr "添加分机"
 
@@ -710,8 +710,9 @@ msgstr "添加模块"
 msgid "Add New %s Device"
 msgstr "添加新 %s 设备"
 
-#: ../core/page.extensions.php:61 ../core/page.extensions.php:90
-#: ../core/views/rnav.php:10 ../core/views/rnav.php:27
+#: ../core/page.extensions.php:9 ../core/page.extensions.php:68
+#: ../core/page.extensions.php:97 ../core/views/rnav.php:10
+#: ../core/views/rnav.php:27
 #, php-format
 msgid "Add New %s Extension"
 msgstr "添加新%s 分机"
@@ -860,7 +861,7 @@ msgstr ""
 msgid "All Devices"
 msgstr "所有设备"
 
-#: ../core/page.extensions.php:40
+#: ../core/page.extensions.php:47
 msgid "All Extensions"
 msgstr "所有分机"
 
@@ -1056,7 +1057,7 @@ msgstr ""
 "Asterisk Dial 命令用来支持通过此中继呼出。覆盖默认的高级设置，勾选，然后输入"
 "相应的中继配置信息"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:93
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:95
 msgid "Asterisk Failed to Start"
 msgstr "Asterisk启动失败"
 
@@ -1072,12 +1073,12 @@ msgstr "Asterisk 模块"
 msgid "Asterisk Seems to be NOT running"
 msgstr "Asterisk可能没有运行"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:69
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:71
 #, php-format
 msgid "Asterisk Seems to be running on PID %s and has been running for %s"
 msgstr "Asterisk的PID%s 已经运行，运行了%s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:87
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:89
 #, php-format
 msgid "Asterisk Started on %s"
 msgstr "Asterisk 启动 %s"
@@ -1253,17 +1254,17 @@ msgstr ""
 msgid "CA key already exists, reusing"
 msgstr ""
 
-#: ../core/page.extensions.php:78 ../core/page.extensions.php:104
+#: ../core/page.extensions.php:85 ../core/page.extensions.php:111
 #: ../core/page.users.php:58
 msgid "CF"
 msgstr "呼叫前转"
 
-#: ../core/page.extensions.php:79 ../core/page.extensions.php:105
+#: ../core/page.extensions.php:86 ../core/page.extensions.php:112
 #: ../core/page.users.php:59
 msgid "CFB"
 msgstr "呼叫前转忙"
 
-#: ../core/page.extensions.php:80 ../core/page.extensions.php:106
+#: ../core/page.extensions.php:87 ../core/page.extensions.php:113
 #: ../core/page.users.php:60
 msgid "CFU"
 msgstr "呼叫无条件前转"
@@ -1297,7 +1298,7 @@ msgstr "CID名字前缀"
 msgid "CRITICAL ERROR"
 msgstr "严重错误"
 
-#: ../core/page.extensions.php:75 ../core/page.extensions.php:101
+#: ../core/page.extensions.php:82 ../core/page.extensions.php:108
 #: ../core/page.users.php:55
 msgid "CW"
 msgstr "呼叫等待"
@@ -1306,27 +1307,27 @@ msgstr "呼叫等待"
 msgid "Call Forward Ring Time"
 msgstr "呼叫前转振铃时间"
 
-#: ../core/page.extensions.php:214 ../core/page.users.php:83
+#: ../core/page.extensions.php:221 ../core/page.users.php:83
 msgid "Call Forwarding Busy is disabled"
 msgstr "呼叫前转忙关闭"
 
-#: ../core/page.extensions.php:214 ../core/page.users.php:83
+#: ../core/page.extensions.php:221 ../core/page.users.php:83
 msgid "Call Forwarding Busy is enabled"
 msgstr "呼叫前转忙开启"
 
-#: ../core/page.extensions.php:217 ../core/page.users.php:86
+#: ../core/page.extensions.php:224 ../core/page.users.php:86
 msgid "Call Forwarding Unconditional is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:217 ../core/page.users.php:86
+#: ../core/page.extensions.php:224 ../core/page.users.php:86
 msgid "Call Forwarding Unconditional is enabled"
 msgstr ""
 
-#: ../core/page.extensions.php:211 ../core/page.users.php:80
+#: ../core/page.extensions.php:218 ../core/page.users.php:80
 msgid "Call Forwarding is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:211 ../core/page.users.php:80
+#: ../core/page.extensions.php:218 ../core/page.users.php:80
 msgid "Call Forwarding is enabled"
 msgstr "已开启呼叫前转"
 
@@ -1359,11 +1360,11 @@ msgstr ""
 msgid "Call Waiting"
 msgstr "呼叫等待"
 
-#: ../core/page.extensions.php:208 ../core/page.users.php:77
+#: ../core/page.extensions.php:215 ../core/page.users.php:77
 msgid "Call Waiting is disabled"
 msgstr "已关闭呼叫等待"
 
-#: ../core/page.extensions.php:208 ../core/page.users.php:77
+#: ../core/page.extensions.php:215 ../core/page.users.php:77
 msgid "Call Waiting is enabled"
 msgstr "已关闭呼叫等待"
 
@@ -1522,7 +1523,7 @@ msgstr ""
 msgid "ChanSpy"
 msgstr "ChanSpy"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:374
+#: amp_conf/htdocs/admin/views/module_admin/main.php:376
 msgid "Change Log for version"
 msgstr "此版本的 change log"
 
@@ -1539,7 +1540,7 @@ msgstr "修改到%s"
 msgid "Change ownership of files"
 msgstr "修改文件所有权"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:373
+#: amp_conf/htdocs/admin/views/module_admin/main.php:375
 msgid "Changelog"
 msgstr "更改日志"
 
@@ -1585,7 +1586,7 @@ msgstr "钩选此项会在所有使用了此中继的线路上禁用它。"
 msgid "Checking %s..."
 msgstr "检查 %s..."
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:66
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:68
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:65
 msgid "Checking Asterisk Status..."
 msgstr "检查Asterisk状态。。。"
@@ -1711,7 +1712,7 @@ msgstr "编码"
 msgid "Coding Error - don't understand '%s' from %s"
 msgstr "代码错误 - don't understand '%s' from %s"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:413
+#: amp_conf/htdocs/admin/views/module_admin/main.php:415
 msgid "Combined"
 msgstr "合并"
 
@@ -2096,7 +2097,7 @@ msgstr ""
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
-#: ../core/page.extensions.php:76 ../core/page.extensions.php:102
+#: ../core/page.extensions.php:83 ../core/page.extensions.php:109
 #: ../core/page.users.php:56
 msgid "DND"
 msgstr "免打扰"
@@ -2129,7 +2130,7 @@ msgstr ""
 msgid "Date Reported"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:402
+#: amp_conf/htdocs/admin/views/module_admin/main.php:404
 msgid "Debug"
 msgstr "调试"
 
@@ -2174,7 +2175,7 @@ msgstr ""
 #: ../core/Core.class.php:714 ../core/Core.class.php:739
 #: ../core/Core.class.php:769 ../core/Core.class.php:799
 #: ../core/page.devices.php:56 ../core/page.devices.php:76
-#: ../core/page.extensions.php:66 ../core/page.extensions.php:92
+#: ../core/page.extensions.php:73 ../core/page.extensions.php:99
 #: ../core/page.users.php:46
 msgid "Delete"
 msgstr "删除"
@@ -2394,7 +2395,7 @@ msgstr ""
 msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:352
+#: amp_conf/htdocs/admin/views/module_admin/main.php:354
 #: ../core/functions.inc.php:5965 ../core/functions.inc.php:5971
 #: ../core/functions.inc.php:5975 ../core/functions.inc.php:5980
 #: ../core/functions.inc.php:5984
@@ -2478,11 +2479,11 @@ msgid ""
 "to"
 msgstr ""
 
-#: ../core/page.extensions.php:205 ../core/page.users.php:74
+#: ../core/page.extensions.php:212 ../core/page.users.php:74
 msgid "Do Not Disturb is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:205 ../core/page.users.php:74
+#: ../core/page.extensions.php:212 ../core/page.users.php:74
 msgid "Do Not Disturb is enabled"
 msgstr ""
 
@@ -2555,7 +2556,7 @@ msgid "Download Remote Module"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:34
-#: amp_conf/htdocs/admin/views/module_admin/main.php:430
+#: amp_conf/htdocs/admin/views/module_admin/main.php:432
 msgid "Download all"
 msgstr "全部下载"
 
@@ -2568,7 +2569,7 @@ msgstr ""
 msgid "Download and Install"
 msgstr "下载并安装"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:337
+#: amp_conf/htdocs/admin/views/module_admin/main.php:339
 #, php-format
 msgid "Download and Upgrade to %s"
 msgstr "下载并升级到 %s"
@@ -2831,7 +2832,7 @@ msgid ""
 "usually a good idea to enable this. Disable only if you are having issues."
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:669
+#: amp_conf/htdocs/admin/config.php:673
 msgid "English"
 msgstr "英文"
 
@@ -3047,8 +3048,8 @@ msgstr "拓展的"
 
 #: ../core/Core.class.php:30 ../core/Core.class.php:2315
 #: ../core/Core.class.php:2316 ../core/functions.inc.php:6065
-#: ../core/page.did.php:89 ../core/page.extensions.php:73
-#: ../core/page.extensions.php:99 ../core/views/rnav.php:18
+#: ../core/page.did.php:89 ../core/page.extensions.php:80
+#: ../core/page.extensions.php:106 ../core/views/rnav.php:18
 msgid "Extension"
 msgstr "分机"
 
@@ -3106,11 +3107,11 @@ msgstr ""
 msgid "FATAL, migration failed"
 msgstr ""
 
-#: ../core/page.extensions.php:77 ../core/page.users.php:57
+#: ../core/page.extensions.php:84 ../core/page.users.php:57
 msgid "FM/FM"
 msgstr ""
 
-#: ../core/page.extensions.php:103
+#: ../core/page.extensions.php:110
 msgid "FMFM"
 msgstr ""
 
@@ -3251,11 +3252,11 @@ msgstr "文件不存在"
 msgid "File upload stopped by extension"
 msgstr "分机停止文件上传"
 
-#: ../core/page.extensions.php:220 ../core/page.users.php:89
+#: ../core/page.extensions.php:227 ../core/page.users.php:89
 msgid "Find Me/Follow Me is disabled"
 msgstr "已关闭分机随行"
 
-#: ../core/page.extensions.php:220 ../core/page.users.php:89
+#: ../core/page.extensions.php:227 ../core/page.users.php:89
 msgid "Find Me/Follow Me is enabled"
 msgstr "已开启分机随行"
 
@@ -3324,12 +3325,12 @@ msgstr ""
 msgid "Force Disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:339
+#: amp_conf/htdocs/admin/views/module_admin/main.php:341
 #, php-format
 msgid "Force Download and Downgrade to %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:339
+#: amp_conf/htdocs/admin/views/module_admin/main.php:341
 #, php-format
 msgid "Force Download and Install %s"
 msgstr "强制下载和安装 %s"
@@ -3875,7 +3876,7 @@ msgid "Inserted interim RTPSTART and RTPEND settings"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:272
-#: amp_conf/htdocs/admin/views/module_admin/main.php:321
+#: amp_conf/htdocs/admin/views/module_admin/main.php:323
 msgid "Install"
 msgstr "安装"
 
@@ -4602,7 +4603,7 @@ msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
 #: ../core/Core.class.php:2319 ../core/Core.class.php:2320
-#: ../core/page.extensions.php:74 ../core/page.extensions.php:100
+#: ../core/page.extensions.php:81 ../core/page.extensions.php:107
 #: ../core/page.users.php:54 ../core/views/rnav.php:19
 #: ../core/views/rnav.php:43 ../core/views/routing/grid.php:72
 #: ../core/views/trunks/trunkgrid.php:18
@@ -4693,7 +4694,7 @@ msgstr ""
 msgid "No Change Log"
 msgstr "无修改日志"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:388
+#: amp_conf/htdocs/admin/views/module_admin/main.php:390
 msgid "No Description"
 msgstr ""
 
@@ -4815,7 +4816,7 @@ msgstr ""
 msgid "Not an array"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:70
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:72
 msgid "Not running Pre-Asterisk Hooks."
 msgstr ""
 
@@ -4882,7 +4883,7 @@ msgstr "在线升级已关闭"
 msgid "Online Version"
 msgstr "在线版本"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:408
+#: amp_conf/htdocs/admin/views/module_admin/main.php:410
 msgid "Online info"
 msgstr "在线信息"
 
@@ -5355,11 +5356,11 @@ msgstr "摁 %s 取消"
 msgid "Press %s to shut down NOW"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:379
+#: amp_conf/htdocs/admin/views/module_admin/main.php:381
 msgid "Previous"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:380
+#: amp_conf/htdocs/admin/views/module_admin/main.php:382
 msgid "Previous Releases"
 msgstr ""
 
@@ -5384,7 +5385,7 @@ msgid "Privacy Manager"
 msgstr "隐私管理器"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:38
-#: amp_conf/htdocs/admin/views/module_admin/main.php:434
+#: amp_conf/htdocs/admin/views/module_admin/main.php:436
 msgid "Process"
 msgstr "处理"
 
@@ -5410,7 +5411,7 @@ msgstr ""
 msgid "Qualify Frequency"
 msgstr ""
 
-#: ../core/page.extensions.php:64 ../core/page.extensions.php:123
+#: ../core/page.extensions.php:71 ../core/page.extensions.php:129
 msgid "Quick Create Extension"
 msgstr ""
 
@@ -5490,7 +5491,7 @@ msgstr "注册字符串"
 msgid "Registration"
 msgstr "注册"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:362
+#: amp_conf/htdocs/admin/views/module_admin/main.php:364
 msgid "Reinstall"
 msgstr "重装"
 
@@ -5531,7 +5532,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:274
 #: amp_conf/htdocs/admin/views/module_admin/main.php:298
-#: amp_conf/htdocs/admin/views/module_admin/main.php:358
+#: amp_conf/htdocs/admin/views/module_admin/main.php:360
 msgid "Remove"
 msgstr "删除"
 
@@ -5594,7 +5595,7 @@ msgid "Requires one of the following engines: %s; you have: %s"
 msgstr "需要以下的任一引擎： %s ，你安装的是： %s"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:37
-#: amp_conf/htdocs/admin/views/module_admin/main.php:433
+#: amp_conf/htdocs/admin/views/module_admin/main.php:435
 #: ../core/Core.class.php:613 ../core/Core.class.php:636
 #: ../core/Core.class.php:660 ../core/Core.class.php:679
 #: ../core/Core.class.php:698 ../core/Core.class.php:719
@@ -5676,7 +5677,7 @@ msgstr "路由类型"
 msgid "Rules:"
 msgstr "规则"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:72
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:74
 msgid "Run Pre-Asterisk Hooks"
 msgstr ""
 
@@ -5694,7 +5695,7 @@ msgstr ""
 msgid "Running %s startup..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:89
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:91
 msgid "Running Post-Asterisk Scripts"
 msgstr ""
 
@@ -5983,7 +5984,7 @@ msgstr "标准"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "启动Asterisk和其他的应用需要使用FreePBX命令"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:105
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:107
 msgid "Starting Asterisk..."
 msgstr "启动Asterisk。。。"
 
@@ -6034,7 +6035,7 @@ msgstr "重启成功"
 msgid "Support T.38 UDPTL"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:347
+#: amp_conf/htdocs/admin/views/module_admin/main.php:349
 #, php-format
 msgid "Switch to Stable and Download and Install %s"
 msgstr ""
@@ -6679,7 +6680,7 @@ msgid "Trys to enable all modules, accepts no arguments"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:9
-#: ../core/page.extensions.php:81 ../core/views/quickCreate.php:7
+#: ../core/page.extensions.php:88 ../core/views/quickCreate.php:7
 msgid "Type"
 msgstr ""
 
@@ -6828,8 +6829,9 @@ msgid "Undefined Category"
 msgstr "未定义分组"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:296
-#: amp_conf/htdocs/admin/views/module_admin/main.php:324
-#: amp_conf/htdocs/admin/views/module_admin/main.php:356
+#: amp_conf/htdocs/admin/views/module_admin/main.php:316
+#: amp_conf/htdocs/admin/views/module_admin/main.php:326
+#: amp_conf/htdocs/admin/views/module_admin/main.php:358
 msgid "Uninstall"
 msgstr "卸载"
 
@@ -6964,7 +6966,7 @@ msgid "Upgrade"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:35
-#: amp_conf/htdocs/admin/views/module_admin/main.php:431
+#: amp_conf/htdocs/admin/views/module_admin/main.php:433
 msgid "Upgrade all"
 msgstr "全部升级"
 
