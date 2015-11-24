@@ -1274,6 +1274,7 @@ $(document).ready(function() {
 		});
 
 		//Help for input boxes
+		/*
 		$(".fpbx-container .form-control").focus(function() {
 			$(".fpbx-help-block").removeClass("active");
 			var id = $(this).prop("id");
@@ -1290,6 +1291,7 @@ $(document).ready(function() {
 				$(this).removeClass("active").css("display","");
 			});
 		});
+		*/
 	}
 
 	positionActionBar();
