@@ -135,6 +135,9 @@ class Media {
 			if($class::installed() && $class::isCodecSupported($extension,"out")) {
 				$driver = new $class($i['path'],$i['extension'],$i['mime']);
 				$driver->convert($newFilename,$extension,$mime);
+				if(!file_exists($newFilename)) {
+					throw new \Exception("File was not converted");
+				}
 				break;
 			}
 		}
