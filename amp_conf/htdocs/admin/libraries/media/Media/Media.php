@@ -238,7 +238,10 @@ class Media {
 			throw new \Exception("Unable to find an intermediay converter");
 		}
 
-		if(\Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln48","in")) {
+		//Asterisk 11 should support sln48 but it doesnt, it says it does but then complains
+		//It might be a bug, regardless this is fixed in 13 people should just use it
+		$ver = \FreePBX::Config()->get("ASTVERSION");
+		if(version_compare_freepbx($ver,"13.0","ge") && \Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln48","in")) {
 			$type = "sln48";
 			$samplerate = 48000;
 		} elseif(\Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln16","in")) {
@@ -249,7 +252,6 @@ class Media {
 			$samplerate = 16000;
 		}
 
-		$ver = \FreePBX::Config()->get("ASTVERSION");
 		$nt = \notifications::create();
 		if(version_compare_freepbx($ver,"13.0","ge") && !\Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln48","in")) {
 			//something is wacky here
