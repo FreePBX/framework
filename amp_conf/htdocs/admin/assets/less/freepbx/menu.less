@@ -1,5 +1,5 @@
 .freepbx-navbar {
-	@media only screen and (min-width : @menu-breakpoint) {
+	@media (min-width : @menu-breakpoint) {
     /* Make Navigation Toggle on Desktop Hover */
     .dropdown:hover .dropdown-menu {
         display: block;
@@ -8,6 +8,9 @@
 			max-height: 594px;
 			overflow-y: auto;
 			overflow-x: hidden;
+		}
+		.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
+			margin-left: -15px;
 		}
 	}
 	.navbar {
@@ -62,7 +65,7 @@
 		}
 		@media (max-width: @menu-breakpoint) {
 	    .navbar-header {
-               float: left;
+          float: left;
 					margin-right: -15px;
 					margin-left: -15px;
 	    }
@@ -196,9 +199,14 @@
 				margin-top: 2px;
 			}
 		}
-		@media (max-width: 767px) {
+		@media (max-width: @menu-breakpoint) {
 			.navbar-brand {
 				left: -15px
+			}
+		}
+		@media (min-width: @menu-breakpoint) {
+			.navbar-brand {
+				margin-left: 0px;
 			}
 		}
 	}
