@@ -73,6 +73,17 @@ class Chown extends Command {
 				$this->modfiles[$mod] = array_merge_recursive($this->modfiles[$mod],$current);
 			}
 		}else{
+			$webuser = \FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
+			$web = posix_getpwnam($webuser);
+			if (!$web) {
+				throw new \Exception(sprintf(_("I tried to find out about %s, but the system doesn't think that user exists"),$webuser));
+			}
+			$home = trim($web['dir']);
+			if (is_dir($home)) {
+				$this->modfiles['framework'][] = array('type' => 'rdir',
+															'path' => $home,
+															'perms' => 0744);
+			}
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $sessdir,
 														'perms' => 0744);
