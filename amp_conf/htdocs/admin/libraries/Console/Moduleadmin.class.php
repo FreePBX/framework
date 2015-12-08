@@ -518,7 +518,7 @@ class Moduleadmin extends Command {
 	}
 
 	private function setPerms($action,$args) {
-		if (0 == posix_getuid()) {
+		if (posix_getuid() == 0) {
 			$chown = new Chown();
 			switch ($action) {
 				case 'install':
