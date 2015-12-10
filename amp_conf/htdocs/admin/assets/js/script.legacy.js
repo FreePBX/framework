@@ -1517,6 +1517,10 @@ $(document).ready(function() {
 	});
 	$(document).on('keyup', 'input.extdisplay.form-control,input[type=text][name=extension].form-control,input[type=number][name=extension].form-control,input[type=text][name=extdisplay].form-control,input[type=text][name=account].form-control', function() {
 		var val = $(this).val(), data = $(this).data("extdisplay"), $this = this;
+		var lskip = $(this).data("no-duplicate-check");
+		if(lskip){
+			return true;
+		}
 		if(typeof val !== "undefined" && val !== "") {
 			if(typeof extmap[val] == "undefined" || $(this).data("extdisplay") == val) {
 				$(this).removeClass("duplicate-exten").parents(".form-group").removeClass("has-warning").find(".input-warn").remove();
