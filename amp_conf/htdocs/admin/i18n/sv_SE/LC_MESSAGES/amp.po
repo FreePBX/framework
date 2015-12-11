@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX amp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-11 10:01-0800\n"
+"POT-Creation-Date: 2015-12-11 11:26-0800\n"
 "PO-Revision-Date: 2010-06-27 18:43+0100\n"
 "Last-Translator: Mikael Carlsson <mickecamino@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -179,7 +179,7 @@ msgstr ""
 msgid "%s Extensions"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:373
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:375
 #, php-format
 msgid "%s Likely will not work as expected"
 msgstr ""
@@ -445,11 +445,11 @@ msgstr ""
 msgid "0 admins"
 msgstr ""
 
-#: ../core/views/routing/form.php:596 ../core/views/trunks/trunk_footer.php:59
+#: ../core/views/routing/form.php:598 ../core/views/trunks/trunk_footer.php:59
 msgid "10 Digit Patterns"
 msgstr ""
 
-#: ../core/views/routing/form.php:598 ../core/views/trunks/trunk_footer.php:61
+#: ../core/views/routing/form.php:600 ../core/views/trunks/trunk_footer.php:61
 msgid "11 Digit Patterns"
 msgstr ""
 
@@ -458,7 +458,7 @@ msgstr ""
 msgid "404 Not found (%s)"
 msgstr ""
 
-#: ../core/views/routing/form.php:594 ../core/views/trunks/trunk_footer.php:57
+#: ../core/views/routing/form.php:596 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
 msgstr ""
 
@@ -615,7 +615,7 @@ msgstr "Val"
 
 #: ../core/page.devices.php:68 ../core/page.devices.php:88
 #: ../core/page.extensions.php:89 ../core/page.extensions.php:114
-#: ../core/page.users.php:61 ../core/views/dahdichandids/changrid.php:39
+#: ../core/page.users.php:62 ../core/views/dahdichandids/changrid.php:39
 #: ../core/views/did/didgrid.php:21 ../core/views/routing/grid.php:75
 #: ../core/views/trunks/trunkgrid.php:22
 msgid "Actions"
@@ -715,8 +715,8 @@ msgid "Add Trunk"
 msgstr "Lägg till trunk"
 
 #: ../core/functions.inc.php:6117 ../core/functions.inc.php:6508
-#: ../core/views/ampusers/bootnav.php:2 ../core/views/rnav.php:37
-#: ../core/views/rnav.php:51
+#: ../core/page.users.php:48 ../core/views/ampusers/bootnav.php:2
+#: ../core/views/rnav.php:37 ../core/views/rnav.php:51
 msgid "Add User"
 msgstr "Lägg till användare"
 
@@ -926,37 +926,37 @@ msgid ""
 "An attempt to send email to: %s with unsigned modules notifications failed"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:298
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:300
 #, php-format
 msgid "An error occurred while changing group %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:264
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:266
 #, php-format
 msgid "An error occurred while changing groups %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:282
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:284
 #, php-format
 msgid "An error occurred while changing ownership %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:248
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:250
 #, php-format
 msgid "An error occurred while changing ownership on %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:344
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:346
 #, php-format
 msgid "An error occurred while changing permissions %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:330
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:332
 #, php-format
 msgid "An error occurred while changing permissions on file %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:311
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:313
 #, php-format
 msgid ""
 "An error occurred while changing permissions on link %s which points to %s"
@@ -1240,17 +1240,17 @@ msgid "CA key already exists, reusing"
 msgstr ""
 
 #: ../core/page.extensions.php:85 ../core/page.extensions.php:111
-#: ../core/page.users.php:58
+#: ../core/page.users.php:59
 msgid "CF"
 msgstr ""
 
 #: ../core/page.extensions.php:86 ../core/page.extensions.php:112
-#: ../core/page.users.php:59
+#: ../core/page.users.php:60
 msgid "CFB"
 msgstr ""
 
 #: ../core/page.extensions.php:87 ../core/page.extensions.php:113
-#: ../core/page.users.php:60
+#: ../core/page.users.php:61
 msgid "CFU"
 msgstr ""
 
@@ -1284,7 +1284,7 @@ msgid "CRITICAL ERROR"
 msgstr ""
 
 #: ../core/page.extensions.php:82 ../core/page.extensions.php:108
-#: ../core/page.users.php:55
+#: ../core/page.users.php:56
 msgid "CW"
 msgstr ""
 
@@ -1292,27 +1292,27 @@ msgstr ""
 msgid "Call Forward Ring Time"
 msgstr ""
 
-#: ../core/page.extensions.php:221 ../core/page.users.php:83
+#: ../core/page.extensions.php:221 ../core/page.users.php:84
 msgid "Call Forwarding Busy is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:221 ../core/page.users.php:83
+#: ../core/page.extensions.php:221 ../core/page.users.php:84
 msgid "Call Forwarding Busy is enabled"
 msgstr ""
 
-#: ../core/page.extensions.php:224 ../core/page.users.php:86
+#: ../core/page.extensions.php:224 ../core/page.users.php:87
 msgid "Call Forwarding Unconditional is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:224 ../core/page.users.php:86
+#: ../core/page.extensions.php:224 ../core/page.users.php:87
 msgid "Call Forwarding Unconditional is enabled"
 msgstr ""
 
-#: ../core/page.extensions.php:218 ../core/page.users.php:80
+#: ../core/page.extensions.php:218 ../core/page.users.php:81
 msgid "Call Forwarding is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:218 ../core/page.users.php:80
+#: ../core/page.extensions.php:218 ../core/page.users.php:81
 msgid "Call Forwarding is enabled"
 msgstr ""
 
@@ -1345,11 +1345,11 @@ msgstr ""
 msgid "Call Waiting"
 msgstr "Samtal väntar"
 
-#: ../core/page.extensions.php:215 ../core/page.users.php:77
+#: ../core/page.extensions.php:215 ../core/page.users.php:78
 msgid "Call Waiting is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:215 ../core/page.users.php:77
+#: ../core/page.extensions.php:215 ../core/page.users.php:78
 msgid "Call Waiting is enabled"
 msgstr ""
 
@@ -1640,7 +1640,7 @@ msgstr ""
 msgid "Checks dependencies for provided module[s], accepts argument module[s]"
 msgstr ""
 
-#: ../core/views/routing/form.php:506
+#: ../core/views/routing/form.php:508
 msgid "Choose File"
 msgstr ""
 
@@ -1685,7 +1685,7 @@ msgid "Client URI"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/footer.php:105
-#: ../core/views/routing/form.php:615 ../core/views/trunks/trunk_footer.php:78
+#: ../core/views/routing/form.php:617 ../core/views/trunks/trunk_footer.php:78
 msgid "Close"
 msgstr "Stäng"
 
@@ -2088,7 +2088,7 @@ msgid "DIDs / Inbound Routes"
 msgstr ""
 
 #: ../core/page.extensions.php:83 ../core/page.extensions.php:109
-#: ../core/page.users.php:56
+#: ../core/page.users.php:57
 msgid "DND"
 msgstr ""
 
@@ -2361,7 +2361,7 @@ msgstr "Nummermönster som denna väg kommer att använda"
 msgid "Dial pattern is invalid"
 msgstr "Nummermönstret är ogiltigt"
 
-#: ../core/views/routing/form.php:487 ../core/views/routing/form.php:573
+#: ../core/views/routing/form.php:488 ../core/views/routing/form.php:575
 #: ../core/views/trunks/trunk_footer.php:36
 #: ../core/views/trunks/trunk_header.php:97
 msgid "Dial patterns wizards"
@@ -2484,11 +2484,11 @@ msgid ""
 "to"
 msgstr ""
 
-#: ../core/page.extensions.php:212 ../core/page.users.php:74
+#: ../core/page.extensions.php:212 ../core/page.users.php:75
 msgid "Do Not Disturb is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:212 ../core/page.users.php:74
+#: ../core/page.extensions.php:212 ../core/page.users.php:75
 msgid "Do Not Disturb is enabled"
 msgstr ""
 
@@ -2552,7 +2552,7 @@ msgstr "Ladda ner %s, behåll avaktiverad"
 msgid "Download (From Web)"
 msgstr ""
 
-#: ../core/views/routing/form.php:590 ../core/views/trunks/trunk_footer.php:53
+#: ../core/views/routing/form.php:592 ../core/views/trunks/trunk_footer.php:53
 msgid "Download Local Patterns"
 msgstr ""
 
@@ -2583,7 +2583,7 @@ msgstr "Ladda ner och uppgradera till %s"
 msgid "Download and install module[s], accepts argument module[s] or URLs"
 msgstr ""
 
-#: ../core/views/routing/form.php:579 ../core/views/trunks/trunk_footer.php:42
+#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:42
 msgid "Download local prefixes"
 msgstr ""
 
@@ -3038,11 +3038,11 @@ msgstr ""
 msgid "Expiration time for registrations in seconds."
 msgstr ""
 
-#: ../core/views/routing/form.php:526
+#: ../core/views/routing/form.php:528
 msgid "Export Dialplans as CSV"
 msgstr ""
 
-#: ../core/views/routing/form.php:538
+#: ../core/views/routing/form.php:540
 #, php-format
 msgid ""
 "Export patterns as a CSV file with headers listed as: %s, %s, %s and %s in "
@@ -3118,7 +3118,7 @@ msgstr ""
 msgid "FATAL, migration failed"
 msgstr ""
 
-#: ../core/page.extensions.php:84 ../core/page.users.php:57
+#: ../core/page.extensions.php:84 ../core/page.users.php:58
 msgid "FM/FM"
 msgstr ""
 
@@ -3264,11 +3264,11 @@ msgstr ""
 msgid "File upload stopped by extension"
 msgstr ""
 
-#: ../core/page.extensions.php:227 ../core/page.users.php:89
+#: ../core/page.extensions.php:227 ../core/page.users.php:90
 msgid "Find Me/Follow Me is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:227 ../core/page.users.php:89
+#: ../core/page.extensions.php:227 ../core/page.users.php:90
 msgid "Find Me/Follow Me is enabled"
 msgstr ""
 
@@ -3496,11 +3496,11 @@ msgstr "Generella inställningar"
 msgid "General Settings migrated"
 msgstr ""
 
-#: ../core/views/routing/form.php:580 ../core/views/trunks/trunk_footer.php:43
+#: ../core/views/routing/form.php:582 ../core/views/trunks/trunk_footer.php:43
 msgid "Generate Buttons"
 msgstr ""
 
-#: ../core/views/routing/form.php:616 ../core/views/trunks/trunk_footer.php:79
+#: ../core/views/routing/form.php:618 ../core/views/trunks/trunk_footer.php:79
 msgid "Generate Routes"
 msgstr ""
 
@@ -3528,7 +3528,7 @@ msgstr ""
 msgid "Generic PJSIP Device"
 msgstr ""
 
-#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:44
+#: ../core/views/routing/form.php:583 ../core/views/trunks/trunk_footer.php:44
 msgid "Generic Patterns"
 msgstr ""
 
@@ -3679,7 +3679,7 @@ msgid "I don't know who I should be running OpenSSL as."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:647
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:79
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:80
 #, php-format
 msgid ""
 "I tried to find out about %s, but the system doesn't think that user exists"
@@ -4096,7 +4096,7 @@ msgstr ""
 msgid "Key provided - %s - is not hex"
 msgstr ""
 
-#: ../core/views/routing/form.php:561 ../core/views/trunks/trunk_footer.php:24
+#: ../core/views/routing/form.php:563 ../core/views/trunks/trunk_footer.php:24
 msgid "LOADING ROUTES"
 msgstr ""
 
@@ -4166,7 +4166,7 @@ msgstr ""
 msgid "Logout"
 msgstr "Logga ut"
 
-#: ../core/views/routing/form.php:610 ../core/views/trunks/trunk_footer.php:73
+#: ../core/views/routing/form.php:612 ../core/views/trunks/trunk_footer.php:73
 msgid "Long Distance"
 msgstr ""
 
@@ -4639,7 +4639,7 @@ msgstr ""
 
 #: ../core/Core.class.php:2333 ../core/Core.class.php:2334
 #: ../core/page.extensions.php:81 ../core/page.extensions.php:107
-#: ../core/page.users.php:54 ../core/views/rnav.php:19
+#: ../core/page.users.php:55 ../core/views/rnav.php:19
 #: ../core/views/rnav.php:43 ../core/views/routing/grid.php:72
 #: ../core/views/trunks/trunkgrid.php:18
 msgid "Name"
@@ -5219,7 +5219,7 @@ msgid ""
 "Permissions error on file %s - please re-run as root to automatically repair"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:374
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:376
 #, php-format
 msgid ""
 "Permissions should be set with a leading 0, example 644 should be 0644 File: "
@@ -5599,7 +5599,7 @@ msgstr ""
 msgid "Removing %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:317
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:319
 #, php-format
 msgid ""
 "Removing dangling symlink %s which points to a file that no longer exists"
@@ -5909,7 +5909,7 @@ msgstr ""
 msgid "Setting MOHDIR to mohmp3 consistent with old default"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:35
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:36
 msgid "Setting Permissions"
 msgstr ""
 
@@ -6496,7 +6496,7 @@ msgstr ""
 msgid "There were no settings to update"
 msgstr ""
 
-#: ../core/views/routing/form.php:577 ../core/views/trunks/trunk_footer.php:40
+#: ../core/views/routing/form.php:579 ../core/views/trunks/trunk_footer.php:40
 msgid ""
 "These options provide a quick way to add outbound dialing rules. Follow the "
 "prompts for each."
@@ -6591,7 +6591,7 @@ msgstr ""
 "i den lokala dundi.conf-filen. Detta kräver manuell konfiguration av DUNDi "
 "för att använda denna trunk."
 
-#: ../core/views/routing/form.php:579 ../core/views/trunks/trunk_footer.php:42
+#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:42
 msgid ""
 "This looks up your local number on www.localcallingguide.com (NA-only), and "
 "sets up so you can dial either 7, 10 or 11 digits (5551234, 6135551234, "
@@ -6778,19 +6778,19 @@ msgstr ""
 msgid "UPDATE NOTICE:"
 msgstr ""
 
-#: ../core/views/routing/form.php:606 ../core/views/trunks/trunk_footer.php:69
+#: ../core/views/routing/form.php:608 ../core/views/trunks/trunk_footer.php:69
 msgid "US Emergency"
 msgstr ""
 
-#: ../core/views/routing/form.php:604 ../core/views/trunks/trunk_footer.php:67
+#: ../core/views/routing/form.php:606 ../core/views/trunks/trunk_footer.php:67
 msgid "US Information"
 msgstr ""
 
-#: ../core/views/routing/form.php:608 ../core/views/trunks/trunk_footer.php:71
+#: ../core/views/routing/form.php:610 ../core/views/trunks/trunk_footer.php:71
 msgid "US International"
 msgstr ""
 
-#: ../core/views/routing/form.php:602 ../core/views/trunks/trunk_footer.php:65
+#: ../core/views/routing/form.php:604 ../core/views/trunks/trunk_footer.php:65
 msgid "US Toll Free Patterns"
 msgstr ""
 
@@ -6953,7 +6953,7 @@ msgid ""
 "Unknown file format of %s for %s, supported formats: tar,tgz,tar.gz,zip,bzip"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:335
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:337
 #, php-format
 msgid "Unknown filetype of: %s[%s]"
 msgstr ""
@@ -7080,7 +7080,7 @@ msgstr ""
 msgid "Upload Local Module"
 msgstr ""
 
-#: ../core/views/routing/form.php:501
+#: ../core/views/routing/form.php:503
 msgid "Upload from CSV"
 msgstr "Ladda upp från CSV"
 
@@ -7092,7 +7092,7 @@ msgstr "Ladda upp modul"
 msgid "Upload modules"
 msgstr ""
 
-#: ../core/views/routing/form.php:516
+#: ../core/views/routing/form.php:518
 #, php-format
 msgid ""
 "Upload patterns from a CSV file replacing existing entries. If there are no "
@@ -7122,7 +7122,7 @@ msgstr "Används som destination av %s %s"
 
 #: ../core/Core.class.php:54 ../core/functions.inc.php:6079
 #: ../core/page.devices.php:66 ../core/page.devices.php:87
-#: ../core/page.did.php:86 ../core/page.users.php:53 ../core/views/rnav.php:42
+#: ../core/page.did.php:86 ../core/page.users.php:54 ../core/views/rnav.php:42
 msgid "User"
 msgstr "Användare"
 
@@ -7648,7 +7648,7 @@ msgid ""
 "alert icon in the top right hand corner of the page."
 msgstr ""
 
-#: ../core/views/routing/form.php:580 ../core/views/trunks/trunk_footer.php:43
+#: ../core/views/routing/form.php:582 ../core/views/trunks/trunk_footer.php:43
 msgid ""
 "You may choose 7,10,11 digit patterns as your provider allows. If you do not "
 "choose 'Download' this will add a generic 7,10 or ll digit pattern"
@@ -7662,7 +7662,7 @@ msgstr ""
 "Du kan bekräfta de återstående valen för att sedan försöka igen för de "
 "listade problemen när förutsättningarna har rättats till:"
 
-#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:44
+#: ../core/views/routing/form.php:583 ../core/views/trunks/trunk_footer.php:44
 msgid ""
 "You may select to allow toll free calls such as 800,877 etc as well as "
 "Directory assistance, International dialing and long distance"
@@ -7701,7 +7701,7 @@ msgstr ""
 msgid "You must put in an extension (or user) number"
 msgstr "Du måste ange ett nummer för anknytningen (eller användaren)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:30
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:31
 #: amp_conf/htdocs/admin/libraries/Console/Restart.class.php:25
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:25
 msgid "You need to be root to run this command"

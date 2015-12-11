@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-11 10:01-0800\n"
+"POT-Creation-Date: 2015-12-11 11:26-0800\n"
 "PO-Revision-Date: 2015-07-17 00:00+0200\n"
 "Last-Translator: Ernesto <ecasas@sangoma.com>\n"
 "Language-Team: Spanish <http://weblate.freepbx.org/projects/freepbx/"
@@ -182,7 +182,7 @@ msgstr ""
 msgid "%s Extensions"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:373
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:375
 #, php-format
 msgid "%s Likely will not work as expected"
 msgstr ""
@@ -456,11 +456,11 @@ msgstr "/etc/freepbx.conf ya existe"
 msgid "0 admins"
 msgstr "0 administradores"
 
-#: ../core/views/routing/form.php:596 ../core/views/trunks/trunk_footer.php:59
+#: ../core/views/routing/form.php:598 ../core/views/trunks/trunk_footer.php:59
 msgid "10 Digit Patterns"
 msgstr ""
 
-#: ../core/views/routing/form.php:598 ../core/views/trunks/trunk_footer.php:61
+#: ../core/views/routing/form.php:600 ../core/views/trunks/trunk_footer.php:61
 msgid "11 Digit Patterns"
 msgstr ""
 
@@ -469,7 +469,7 @@ msgstr ""
 msgid "404 Not found (%s)"
 msgstr "404 No encontrado (%s)"
 
-#: ../core/views/routing/form.php:594 ../core/views/trunks/trunk_footer.php:57
+#: ../core/views/routing/form.php:596 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
 msgstr ""
 
@@ -636,7 +636,7 @@ msgstr "Acción"
 
 #: ../core/page.devices.php:68 ../core/page.devices.php:88
 #: ../core/page.extensions.php:89 ../core/page.extensions.php:114
-#: ../core/page.users.php:61 ../core/views/dahdichandids/changrid.php:39
+#: ../core/page.users.php:62 ../core/views/dahdichandids/changrid.php:39
 #: ../core/views/did/didgrid.php:21 ../core/views/routing/grid.php:75
 #: ../core/views/trunks/trunkgrid.php:22
 msgid "Actions"
@@ -739,8 +739,8 @@ msgid "Add Trunk"
 msgstr "Añadir Línea"
 
 #: ../core/functions.inc.php:6117 ../core/functions.inc.php:6508
-#: ../core/views/ampusers/bootnav.php:2 ../core/views/rnav.php:37
-#: ../core/views/rnav.php:51
+#: ../core/page.users.php:48 ../core/views/ampusers/bootnav.php:2
+#: ../core/views/rnav.php:37 ../core/views/rnav.php:51
 msgid "Add User"
 msgstr "Añadir Usuario"
 
@@ -977,37 +977,37 @@ msgstr ""
 "Un intento de enviar un correo a: %s con notificación de módulos no firmas "
 "ha fallado"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:298
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:300
 #, php-format
 msgid "An error occurred while changing group %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:264
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:266
 #, php-format
 msgid "An error occurred while changing groups %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:282
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:284
 #, php-format
 msgid "An error occurred while changing ownership %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:248
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:250
 #, php-format
 msgid "An error occurred while changing ownership on %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:344
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:346
 #, php-format
 msgid "An error occurred while changing permissions %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:330
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:332
 #, php-format
 msgid "An error occurred while changing permissions on file %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:311
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:313
 #, php-format
 msgid ""
 "An error occurred while changing permissions on link %s which points to %s"
@@ -1316,17 +1316,17 @@ msgid "CA key already exists, reusing"
 msgstr "Ya existe clave CA, reutilizando"
 
 #: ../core/page.extensions.php:85 ../core/page.extensions.php:111
-#: ../core/page.users.php:58
+#: ../core/page.users.php:59
 msgid "CF"
 msgstr ""
 
 #: ../core/page.extensions.php:86 ../core/page.extensions.php:112
-#: ../core/page.users.php:59
+#: ../core/page.users.php:60
 msgid "CFB"
 msgstr ""
 
 #: ../core/page.extensions.php:87 ../core/page.extensions.php:113
-#: ../core/page.users.php:60
+#: ../core/page.users.php:61
 msgid "CFU"
 msgstr ""
 
@@ -1360,7 +1360,7 @@ msgid "CRITICAL ERROR"
 msgstr "ERROR CRITICO"
 
 #: ../core/page.extensions.php:82 ../core/page.extensions.php:108
-#: ../core/page.users.php:55
+#: ../core/page.users.php:56
 msgid "CW"
 msgstr ""
 
@@ -1368,27 +1368,27 @@ msgstr ""
 msgid "Call Forward Ring Time"
 msgstr "Desvío de llamada Tiempo de Timbre"
 
-#: ../core/page.extensions.php:221 ../core/page.users.php:83
+#: ../core/page.extensions.php:221 ../core/page.users.php:84
 msgid "Call Forwarding Busy is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:221 ../core/page.users.php:83
+#: ../core/page.extensions.php:221 ../core/page.users.php:84
 msgid "Call Forwarding Busy is enabled"
 msgstr ""
 
-#: ../core/page.extensions.php:224 ../core/page.users.php:86
+#: ../core/page.extensions.php:224 ../core/page.users.php:87
 msgid "Call Forwarding Unconditional is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:224 ../core/page.users.php:86
+#: ../core/page.extensions.php:224 ../core/page.users.php:87
 msgid "Call Forwarding Unconditional is enabled"
 msgstr ""
 
-#: ../core/page.extensions.php:218 ../core/page.users.php:80
+#: ../core/page.extensions.php:218 ../core/page.users.php:81
 msgid "Call Forwarding is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:218 ../core/page.users.php:80
+#: ../core/page.extensions.php:218 ../core/page.users.php:81
 msgid "Call Forwarding is enabled"
 msgstr ""
 
@@ -1432,11 +1432,11 @@ msgstr ""
 msgid "Call Waiting"
 msgstr "Llamada en Espera"
 
-#: ../core/page.extensions.php:215 ../core/page.users.php:77
+#: ../core/page.extensions.php:215 ../core/page.users.php:78
 msgid "Call Waiting is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:215 ../core/page.users.php:77
+#: ../core/page.extensions.php:215 ../core/page.users.php:78
 msgid "Call Waiting is enabled"
 msgstr ""
 
@@ -1756,7 +1756,7 @@ msgstr "Comprobación número de usuarios administradores.."
 msgid "Checks dependencies for provided module[s], accepts argument module[s]"
 msgstr ""
 
-#: ../core/views/routing/form.php:506
+#: ../core/views/routing/form.php:508
 msgid "Choose File"
 msgstr ""
 
@@ -1807,7 +1807,7 @@ msgid "Client URI"
 msgstr "Cliente URI"
 
 #: amp_conf/htdocs/admin/views/footer.php:105
-#: ../core/views/routing/form.php:615 ../core/views/trunks/trunk_footer.php:78
+#: ../core/views/routing/form.php:617 ../core/views/trunks/trunk_footer.php:78
 msgid "Close"
 msgstr "Cerrar"
 
@@ -2242,7 +2242,7 @@ msgid "DIDs / Inbound Routes"
 msgstr ""
 
 #: ../core/page.extensions.php:83 ../core/page.extensions.php:109
-#: ../core/page.users.php:56
+#: ../core/page.users.php:57
 msgid "DND"
 msgstr ""
 
@@ -2529,7 +2529,7 @@ msgstr "Patrones de Marcación que usará esta Ruta"
 msgid "Dial pattern is invalid"
 msgstr "Patrón de Marcación no es válido"
 
-#: ../core/views/routing/form.php:487 ../core/views/routing/form.php:573
+#: ../core/views/routing/form.php:488 ../core/views/routing/form.php:575
 #: ../core/views/trunks/trunk_footer.php:36
 #: ../core/views/trunks/trunk_header.php:97
 msgid "Dial patterns wizards"
@@ -2658,11 +2658,11 @@ msgstr ""
 "NO edite este archivo ya que es autogenerado por FreePBX. Todas las "
 "modificaciones a"
 
-#: ../core/page.extensions.php:212 ../core/page.users.php:74
+#: ../core/page.extensions.php:212 ../core/page.users.php:75
 msgid "Do Not Disturb is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:212 ../core/page.users.php:74
+#: ../core/page.extensions.php:212 ../core/page.users.php:75
 msgid "Do Not Disturb is enabled"
 msgstr ""
 
@@ -2726,7 +2726,7 @@ msgstr "Bajar %s, mantener Deshabilitado"
 msgid "Download (From Web)"
 msgstr "Bajar (de la Web)"
 
-#: ../core/views/routing/form.php:590 ../core/views/trunks/trunk_footer.php:53
+#: ../core/views/routing/form.php:592 ../core/views/trunks/trunk_footer.php:53
 msgid "Download Local Patterns"
 msgstr ""
 
@@ -2757,7 +2757,7 @@ msgstr "Bajar e Instalar en %s"
 msgid "Download and install module[s], accepts argument module[s] or URLs"
 msgstr ""
 
-#: ../core/views/routing/form.php:579 ../core/views/trunks/trunk_footer.php:42
+#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:42
 msgid "Download local prefixes"
 msgstr ""
 
@@ -3233,11 +3233,11 @@ msgstr "Caducidad"
 msgid "Expiration time for registrations in seconds."
 msgstr "Fecha de caducidad para los registros en segundos."
 
-#: ../core/views/routing/form.php:526
+#: ../core/views/routing/form.php:528
 msgid "Export Dialplans as CSV"
 msgstr "Exportar Plan de Marcación como CSV"
 
-#: ../core/views/routing/form.php:538
+#: ../core/views/routing/form.php:540
 #, php-format
 msgid ""
 "Export patterns as a CSV file with headers listed as: %s, %s, %s and %s in "
@@ -3315,7 +3315,7 @@ msgstr "FATAL error de escritura %s"
 msgid "FATAL, migration failed"
 msgstr "FATAL, migración fallida"
 
-#: ../core/page.extensions.php:84 ../core/page.users.php:57
+#: ../core/page.extensions.php:84 ../core/page.users.php:58
 msgid "FM/FM"
 msgstr ""
 
@@ -3477,11 +3477,11 @@ msgstr ""
 msgid "File upload stopped by extension"
 msgstr "Carga de archivos se detuvo por extensión"
 
-#: ../core/page.extensions.php:227 ../core/page.users.php:89
+#: ../core/page.extensions.php:227 ../core/page.users.php:90
 msgid "Find Me/Follow Me is disabled"
 msgstr ""
 
-#: ../core/page.extensions.php:227 ../core/page.users.php:89
+#: ../core/page.extensions.php:227 ../core/page.users.php:90
 msgid "Find Me/Follow Me is enabled"
 msgstr ""
 
@@ -3719,11 +3719,11 @@ msgstr "Configuraciones Generales"
 msgid "General Settings migrated"
 msgstr "Configuración General Migrada"
 
-#: ../core/views/routing/form.php:580 ../core/views/trunks/trunk_footer.php:43
+#: ../core/views/routing/form.php:582 ../core/views/trunks/trunk_footer.php:43
 msgid "Generate Buttons"
 msgstr ""
 
-#: ../core/views/routing/form.php:616 ../core/views/trunks/trunk_footer.php:79
+#: ../core/views/routing/form.php:618 ../core/views/trunks/trunk_footer.php:79
 msgid "Generate Routes"
 msgstr ""
 
@@ -3751,7 +3751,7 @@ msgstr ""
 msgid "Generic PJSIP Device"
 msgstr "Dispositivo Genérico PJSIP"
 
-#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:44
+#: ../core/views/routing/form.php:583 ../core/views/trunks/trunk_footer.php:44
 msgid "Generic Patterns"
 msgstr ""
 
@@ -3909,7 +3909,7 @@ msgid "I don't know who I should be running OpenSSL as."
 msgstr "Yo no sé quién debería estar corriendo como OpenSSL."
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:647
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:79
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:80
 #, php-format
 msgid ""
 "I tried to find out about %s, but the system doesn't think that user exists"
@@ -4360,7 +4360,7 @@ msgstr ""
 msgid "Key provided - %s - is not hex"
 msgstr "Clave proporcionada -%s - no es hex"
 
-#: ../core/views/routing/form.php:561 ../core/views/trunks/trunk_footer.php:24
+#: ../core/views/routing/form.php:563 ../core/views/trunks/trunk_footer.php:24
 msgid "LOADING ROUTES"
 msgstr ""
 
@@ -4430,7 +4430,7 @@ msgstr "Localmente Elegido módulo FreePBX de su sistema"
 msgid "Logout"
 msgstr "Salir"
 
-#: ../core/views/routing/form.php:610 ../core/views/trunks/trunk_footer.php:73
+#: ../core/views/routing/form.php:612 ../core/views/trunks/trunk_footer.php:73
 msgid "Long Distance"
 msgstr ""
 
@@ -4931,7 +4931,7 @@ msgstr ""
 
 #: ../core/Core.class.php:2333 ../core/Core.class.php:2334
 #: ../core/page.extensions.php:81 ../core/page.extensions.php:107
-#: ../core/page.users.php:54 ../core/views/rnav.php:19
+#: ../core/page.users.php:55 ../core/views/rnav.php:19
 #: ../core/views/rnav.php:43 ../core/views/routing/grid.php:72
 #: ../core/views/trunks/trunkgrid.php:18
 msgid "Name"
@@ -5580,7 +5580,7 @@ msgstr ""
 "Permisos de error en el archivo %s - por favor vuelva a ejecutar como root "
 "para reparar de forma automática"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:374
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:376
 #, php-format
 msgid ""
 "Permissions should be set with a leading 0, example 644 should be 0644 File: "
@@ -5982,7 +5982,7 @@ msgstr "Directorio Eliminado"
 msgid "Removing %s"
 msgstr "Eliminando %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:317
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:319
 #, php-format
 msgid ""
 "Removing dangling symlink %s which points to a file that no longer exists"
@@ -6295,7 +6295,7 @@ msgstr "Ajuste AUTHTYPE a ninguno coherente con la antigua por defecto"
 msgid "Setting MOHDIR to mohmp3 consistent with old default"
 msgstr "Configuración MOHDIR a mohmp3 coherente con la antigua por defecto"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:35
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:36
 msgid "Setting Permissions"
 msgstr ""
 
@@ -6933,7 +6933,7 @@ msgstr ""
 msgid "There were no settings to update"
 msgstr "No hubo ajustes para actualizar"
 
-#: ../core/views/routing/form.php:577 ../core/views/trunks/trunk_footer.php:40
+#: ../core/views/routing/form.php:579 ../core/views/trunks/trunk_footer.php:40
 msgid ""
 "These options provide a quick way to add outbound dialing rules. Follow the "
 "prompts for each."
@@ -7031,7 +7031,7 @@ msgstr ""
 "'include' de los detalles de pares en el archivo dundi.conf local. Esto "
 "requiere la configuración manual de DUNDi para utilizar esta línea."
 
-#: ../core/views/routing/form.php:579 ../core/views/trunks/trunk_footer.php:42
+#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:42
 msgid ""
 "This looks up your local number on www.localcallingguide.com (NA-only), and "
 "sets up so you can dial either 7, 10 or 11 digits (5551234, 6135551234, "
@@ -7242,19 +7242,19 @@ msgstr "NOTIFICACION MODULOS NO FIRMADOS:"
 msgid "UPDATE NOTICE:"
 msgstr "AVISO ACTUALIZACIÓN:"
 
-#: ../core/views/routing/form.php:606 ../core/views/trunks/trunk_footer.php:69
+#: ../core/views/routing/form.php:608 ../core/views/trunks/trunk_footer.php:69
 msgid "US Emergency"
 msgstr ""
 
-#: ../core/views/routing/form.php:604 ../core/views/trunks/trunk_footer.php:67
+#: ../core/views/routing/form.php:606 ../core/views/trunks/trunk_footer.php:67
 msgid "US Information"
 msgstr ""
 
-#: ../core/views/routing/form.php:608 ../core/views/trunks/trunk_footer.php:71
+#: ../core/views/routing/form.php:610 ../core/views/trunks/trunk_footer.php:71
 msgid "US International"
 msgstr ""
 
-#: ../core/views/routing/form.php:602 ../core/views/trunks/trunk_footer.php:65
+#: ../core/views/routing/form.php:604 ../core/views/trunks/trunk_footer.php:65
 msgid "US Toll Free Patterns"
 msgstr ""
 
@@ -7422,7 +7422,7 @@ msgstr ""
 "Desconocido formato de archivo de %s para %s, los formatos soportados son: "
 "tar,tgz,tar.gz,zip,bzip"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:335
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:337
 #, php-format
 msgid "Unknown filetype of: %s[%s]"
 msgstr ""
@@ -7549,7 +7549,7 @@ msgstr "Cargar (desde el Disco Duro)"
 msgid "Upload Local Module"
 msgstr "Cargar Módulo Local"
 
-#: ../core/views/routing/form.php:501
+#: ../core/views/routing/form.php:503
 msgid "Upload from CSV"
 msgstr "Cargar desde CSV"
 
@@ -7561,7 +7561,7 @@ msgstr "Cargar Módulo"
 msgid "Upload modules"
 msgstr "Cargar Módulos"
 
-#: ../core/views/routing/form.php:516
+#: ../core/views/routing/form.php:518
 #, php-format
 msgid ""
 "Upload patterns from a CSV file replacing existing entries. If there are no "
@@ -7591,7 +7591,7 @@ msgstr "Utilizado como Destino por %s %s"
 
 #: ../core/Core.class.php:54 ../core/functions.inc.php:6079
 #: ../core/page.devices.php:66 ../core/page.devices.php:87
-#: ../core/page.did.php:86 ../core/page.users.php:53 ../core/views/rnav.php:42
+#: ../core/page.did.php:86 ../core/page.users.php:54 ../core/views/rnav.php:42
 msgid "User"
 msgstr "Usuario"
 
@@ -8174,7 +8174,7 @@ msgstr ""
 "haciendo clic en el icono de alerta en la esquina superior derecha de la "
 "página."
 
-#: ../core/views/routing/form.php:580 ../core/views/trunks/trunk_footer.php:43
+#: ../core/views/routing/form.php:582 ../core/views/trunks/trunk_footer.php:43
 msgid ""
 "You may choose 7,10,11 digit patterns as your provider allows. If you do not "
 "choose 'Download' this will add a generic 7,10 or ll digit pattern"
@@ -8189,7 +8189,7 @@ msgstr ""
 "cuestiones enumeradas una vez que se han cumplido las dependencias "
 "necesarias:"
 
-#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:44
+#: ../core/views/routing/form.php:583 ../core/views/trunks/trunk_footer.php:44
 msgid ""
 "You may select to allow toll free calls such as 800,877 etc as well as "
 "Directory assistance, International dialing and long distance"
@@ -8229,7 +8229,7 @@ msgstr "Usted debe tener un archivo freepbx.conf adecuado para proceder"
 msgid "You must put in an extension (or user) number"
 msgstr "Usted debe poner un número de extensión (o usuario)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:30
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:31
 #: amp_conf/htdocs/admin/libraries/Console/Restart.class.php:25
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:25
 msgid "You need to be root to run this command"
