@@ -1792,6 +1792,15 @@ class Installer {
 	'sortorder' => 20,
 	);
 
+	$settings[$category]['DEVICE_SIP_DTMF'] = array(
+	'value' => 'rfc2833',
+	'options' => array('rfc2833', 'auto', 'shortinfo', 'info', 'inband'),
+	'name' => 'SIP DTMF Signaling',
+	'description' => 'The DTMF signaling mode used by this device, usually RFC for most phones. (Note: For PJSIP devices RFC-4733 supercedes the older RFC-2833 and will be used when RFC-2833 is selected for PJSIP devices)',
+	'type' => CONF_TYPE_SELECT,
+	'sortorder' => 20,
+	);
+
 	$settings[$category]['DEVICE_SIP_TRUSTRPID'] = array(
 	'value' => 'yes',
 	'options' => array('no', 'yes'),
