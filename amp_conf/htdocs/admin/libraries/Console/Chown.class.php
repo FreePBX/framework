@@ -23,7 +23,8 @@ class Chown extends Command {
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 		$this->fs = new Filesystem();
 		$this->modfiles = array();
-		$this->actions = array();
+		$this->actions = new \SplQueue();
+		$this->actions->setIteratorMode(\SplDoublyLinkedList::IT_MODE_FIFO | \SplDoublyLinkedList::IT_MODE_DELETE);
 	}
 	protected function execute(InputInterface $input, OutputInterface $output, $quiet=false){
 		if(posix_geteuid() != 0) {
@@ -172,25 +173,25 @@ class Chown extends Command {
 				switch($file['type']){
 					case 'file':
 					case 'dir':
-						$this->actions[] = array($file['path'],$owner,$group,$file['perms']);
+						$this->actions->enqueue(json_encode(array($file['path'],$owner,$group,$file['perms'])));
 						break;
 					case 'rdir':
 						$fileperms = $this->stripExecute($file['perms']);
 						$files = $this->recursiveDirList($file['path']);
-						$this->actions[] = array($file['path'], $owner, $group, $file['perms']);
+						$this->actions->enqueue(json_encode(array($file['path'], $owner, $group, $file['perms'])));
 						foreach($files as $f){
 							if(is_dir($f)){
-								$this->actions[] = array($f, $owner, $group, $file['perms']);
+								$this->actions->enqueue(json_encode(array($f, $owner, $group, $file['perms'])));
 							}else{
-								$this->actions[] = array($f, $owner, $group, $fileperms);
+								$this->actions->enqueue(json_encode(array($f, $owner, $group, $fileperms)));
 							}
 						}
 						break;
 					case 'execdir':
 						$files = $this->recursiveDirList($file['path']);
-						$this->actions[] = array($file['path'], $owner, $group, $file['perms']);
+						$this->actions->enqueue(json_encode(array($file['path'], $owner, $group, $file['perms'])));
 						foreach($files as $f){
-							$this->actions[] = array($f, $owner, $group, $file['perms']);
+							$this->actions->enqueue(json_encode(array($f, $owner, $group, $file['perms'])));
 						}
 						break;
 				}
@@ -203,6 +204,7 @@ class Chown extends Command {
 			$progress->start();
 		}
 		foreach($this->actions as $action){
+			$action = json_decode($action,true);
 			//Ignore call files, Asterisk may process/delete them before we get to them.
 			if(pathinfo($action[0], PATHINFO_EXTENSION) == 'call'){
 				continue;
