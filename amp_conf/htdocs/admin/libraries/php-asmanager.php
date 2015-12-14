@@ -234,6 +234,9 @@ class AGI_AsteriskManager {
 		$req .= "\r\n";
 		$this->log("Sending Request down socket:",10);
 		$this->log($req,10);
+		if(!$this->connected()) {
+			throw new Exception("Asterisk is not connected");
+		}
 		fwrite($this->socket, $req);
 		$response = $this->wait_response();
 
@@ -243,6 +246,9 @@ class AGI_AsteriskManager {
 			$this->log("Unexpected failure executing command: $action, reconnecting to manager and retrying: $reconnects");
 			$this->disconnect();
 			if ($this->connect($this->server.':'.$this->port, $this->username, $this->secret, $this->events) !== false) {
+				if(!$this->connected()) {
+					throw new Exception("Asterisk is not connected");
+				}
 				fwrite($this->socket, $req);
 				$response = $this->wait_response();
 			} else {
