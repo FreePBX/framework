@@ -1,5 +1,5 @@
 .freepbx-navbar {
-	@media (min-width : @menu-breakpoint) {
+	@media (min-width : (@menu-breakpoint + 1)) {
     /* Make Navigation Toggle on Desktop Hover */
     .dropdown:hover .dropdown-menu {
         display: block;
@@ -8,9 +8,6 @@
 			max-height: 594px;
 			overflow-y: auto;
 			overflow-x: hidden;
-		}
-		.navbar>.container .navbar-brand, .navbar>.container-fluid .navbar-brand {
-			margin-left: -15px;
 		}
 	}
 	.navbar {
@@ -63,9 +60,76 @@
 				color: #FFFFFF;
 			}
 		}
+		@media (min-width: (@menu-breakpoint + 1)) {
+			.navbar-right .dropdown-menu {
+				right: 0;
+				left: auto;
+			}
+			.navbar-right .dropdown-menu-left {
+				right: auto;
+				left: 0;
+			}
+			.navbar {
+				border-radius: 4px;
+			}
+			.navbar-header {
+				float: left;
+			}
+			.navbar-text {
+				float: left;
+				margin-right: 15px;
+				margin-left: 15px;
+			}
+			.navbar-left {
+				float: left !important;
+			}
+			.navbar-right {
+				float: right !important;
+				margin-right: -15px;
+			}
+			.navbar-right ~ .navbar-right {
+				margin-right: 0;
+			}
+		}
 		@media (max-width: @menu-breakpoint) {
+			.navbar-nav .open .dropdown-menu > li > a {
+				color: #777;
+			}
+			.navbar-nav .open .dropdown-menu > li > a:hover,
+			.navbar-nav .open .dropdown-menu > li > a:focus {
+				color: #333;
+				background-color: transparent;
+			}
+			.navbar-nav .open .dropdown-menu > .active > a,
+			.navbar-nav .open .dropdown-menu > .active > a:hover,
+			.navbar-nav .open .dropdown-menu > .active > a:focus {
+				color: #555;
+				background-color: #e7e7e7;
+			}
+			.navbar-nav .open .dropdown-menu > .disabled > a,
+			.navbar-nav .open .dropdown-menu > .disabled > a:hover,
+			.navbar-nav .open .dropdown-menu > .disabled > a:focus {
+				color: #ccc;
+				background-color: transparent;
+			}
+			.navbar-form .form-group {
+				margin-bottom: 5px;
+			}
+			.navbar-form .form-group:last-child {
+				margin-bottom: 0;
+			}
+			.navbar-nav .open .dropdown-menu {
+		    position: static;
+		    float: none;
+		    width: auto;
+		    margin-top: 0;
+		    background-color: transparent;
+		    border: 0;
+		    -webkit-box-shadow: none;
+		    box-shadow: none;
+			}
 	    .navbar-header {
-          float: left;
+          //float: left;
 					margin-right: -15px;
 					margin-left: -15px;
 	    }
@@ -82,7 +146,8 @@
 	        display: none!important;
 	    }
 	    .navbar-nav {
-	        margin: 7.5px -15px;
+				margin: 5.5px -36px;
+				margin-top: -2px;
             width: 97%;
             padding-left: 20px;
 	    }
@@ -201,12 +266,12 @@
 		}
 		@media (max-width: @menu-breakpoint) {
 			.navbar-brand {
-				left: -15px
+				//left: -15px
 			}
 		}
 		@media (min-width: @menu-breakpoint) {
 			.navbar-brand {
-				margin-left: 0px;
+				//margin-left: 0px;
 			}
 		}
 	}
