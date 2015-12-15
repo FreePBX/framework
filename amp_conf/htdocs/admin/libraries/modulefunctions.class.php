@@ -2131,10 +2131,12 @@ class module_functions {
 		if (file_exists($xmlfile)) {
 			ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
 			$data = file_get_contents($xmlfile);
-			//$parser = new xml2ModuleArray($data);
-			//$xmlarray = $parser->parseModulesXML($data);
-			$parser = new xml2Array($data);
-			$xmlarray = $parser->data;
+			try {
+				$parser = new xml2Array($data);
+				$xmlarray = $parser->data;
+			} catch(\Exception $e) {
+				$xmlarray = array();
+			}
 			if (isset($xmlarray['module'])) {
 				// add a couple fields first
 				$xmlarray['module']['name'] = str_replace("\n&\n","&",$xmlarray['module']['name']);
