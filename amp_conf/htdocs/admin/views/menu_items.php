@@ -62,6 +62,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 
 	$count = 0;
 	$menu = is_array($menu) ? $menu : array();
+	$mods = array();
 	foreach($menu as $t => $cat) { //categories
 		if (count($cat) == 1) {
 			if (isset($cat[0]['hidden']) && $cat[0]['hidden'] == 'true') {
