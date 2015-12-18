@@ -1241,7 +1241,7 @@ function generate_message_banner($message,$type='info',$details=array(),$link=''
  * allows FreePBX to update the manager credentials primarily used by Advanced Settings and Backup and Restore.
  */
 function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
-	global $amp_conf, $astman, $db;
+	global $amp_conf, $astman, $db, $bootstrap_settings;
 	$conf_file = $amp_conf['ASTETCDIR'] . '/manager.conf';
 	$ret = $ret2 = $ret3 = 0;
 	$output = array();
@@ -1301,7 +1301,7 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 		dbug("aborting early because previous errors");
 		return false;
 	}
-	if (!empty($astman)) {
+	if ($astman->connected()) {
 		$ast_ret = $astman->Command('module reload manager');
 	} else {
 		unset($output);
@@ -1310,6 +1310,16 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 		if ($ret2) {
 			freepbx_log(FPBX_LOG_ERROR,_("Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx 'module reload manager']"));
 		}
+	}
+	if ($astman->connected()) {
+		$astman->disconnect();
+	}
+	if (!$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], $bootstrap_settings['astman_events'])) {
+		// couldn't connect at all
+		freepbx_log(FPBX_LOG_CRITICAL,"Connection attmempt to AMI failed");
+	} else {
+		$bmo = FreePBX::create();
+		$bmo->astman = $astman;
 	}
 	return true;
 }
