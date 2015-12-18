@@ -173,25 +173,43 @@ class Chown extends Command {
 				switch($file['type']){
 					case 'file':
 					case 'dir':
-						$this->actions->enqueue(json_encode(array($file['path'],$owner,$group,$file['perms'])));
+						$path = \ForceUTF8\Encoding::toLatin1($file['path']);
+						$owner = \ForceUTF8\Encoding::toLatin1($owner);
+						$group = \ForceUTF8\Encoding::toLatin1($group);
+						$this->actions->enqueue(json_encode(array($path,$owner,$group,$file['perms'])));
 						break;
 					case 'rdir':
 						$fileperms = $this->stripExecute($file['perms']);
 						$files = $this->recursiveDirList($file['path']);
-						$this->actions->enqueue(json_encode(array($file['path'], $owner, $group, $file['perms'])));
+						$path = \ForceUTF8\Encoding::toLatin1($file['path']);
+						$owner = \ForceUTF8\Encoding::toLatin1($owner);
+						$group = \ForceUTF8\Encoding::toLatin1($group);
+						$this->actions->enqueue(json_encode(array($path, $owner, $group, $file['perms'])));
 						foreach($files as $f){
 							if(is_dir($f)){
-								$this->actions->enqueue(json_encode(array($f, $owner, $group, $file['perms'])));
+								$path = \ForceUTF8\Encoding::toLatin1($f);
+								$owner = \ForceUTF8\Encoding::toLatin1($owner);
+								$group = \ForceUTF8\Encoding::toLatin1($group);
+								$this->actions->enqueue(json_encode(array($path, $owner, $group, $file['perms'])));
 							}else{
-								$this->actions->enqueue(json_encode(array($f, $owner, $group, $fileperms)));
+								$path = \ForceUTF8\Encoding::toLatin1($f);
+								$owner = \ForceUTF8\Encoding::toLatin1($owner);
+								$group = \ForceUTF8\Encoding::toLatin1($group);
+								$this->actions->enqueue(json_encode(array($path, $owner, $group, $fileperms)));
 							}
 						}
 						break;
 					case 'execdir':
 						$files = $this->recursiveDirList($file['path']);
-						$this->actions->enqueue(json_encode(array($file['path'], $owner, $group, $file['perms'])));
+						$path = \ForceUTF8\Encoding::toLatin1($file['path']);
+						$owner = \ForceUTF8\Encoding::toLatin1($owner);
+						$group = \ForceUTF8\Encoding::toLatin1($group);
+						$this->actions->enqueue(json_encode(array($path, $owner, $group, $file['perms'])));
 						foreach($files as $f){
-							$this->actions->enqueue(json_encode(array($f, $owner, $group, $file['perms'])));
+							$path = \ForceUTF8\Encoding::toLatin1($f);
+							$owner = \ForceUTF8\Encoding::toLatin1($owner);
+							$group = \ForceUTF8\Encoding::toLatin1($group);
+							$this->actions->enqueue(json_encode(array($path, $owner, $group, $file['perms'])));
 						}
 						break;
 				}
@@ -302,6 +320,10 @@ class Chown extends Command {
 		}
 	}
 	private function singlePerms($file, $perms){
+		if(!trim($file)){
+			$this->errors[] = _('We received an empty string for a file name. Some files may not have the proper permissions');
+			return false;
+		}
 		$filetype = filetype($file);
 		switch($filetype){
 			case 'link':
