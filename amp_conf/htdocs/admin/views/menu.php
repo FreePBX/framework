@@ -59,7 +59,7 @@ global $_item_sort;
 	</nav>
 </div>
 <?php if (isset($display) && $display != "noauth") { ?>
-	<div class="in" id='fpbxsearch'>
+	<div class="<?php echo empty($_COOKIE['searchHide']) ? 'in' : ''?>" id='fpbxsearch'>
 		<i class="fa fa-search"></i>
 		<input type="text" class="form-control typeahead" placeholder="<?php echo _('Search')?>" title="<?php echo _("Quick Search '/'")?>">
 	</div>

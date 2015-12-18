@@ -1225,6 +1225,7 @@ $(document).ready(function() {
 	});
 	$("#fpbxsearch input").blur(function() {
 		$("#fpbxsearch").removeClass("in");
+		$.cookie("searchHide",1);
 	});
 	$("#search-btn").click(function() {
 		if(!$("#fpbxsearch").hasClass("in")) {
@@ -1232,17 +1233,14 @@ $(document).ready(function() {
 				$("#fpbxsearch input").focus();
 			});
 			$("#fpbxsearch").addClass("in");
+			$.cookie("searchHide",0);
 		}
 	});
 	$(window).keydown(function(e){
-		if (e.keyCode === 191 && !$("#fpbxsearch").hasClass("in")) {
-			$("#fpbxsearch").one("transitionend", function() {
-				$("#fpbxsearch input").focus();
-			});
-			$("#fpbxsearch").addClass("in");
-		} else if(e.keyCode === 27 && $("#fpbxsearch").hasClass("in")) {
+		if(e.keyCode === 27 && $("#fpbxsearch").hasClass("in")) {
 			$("#fpbxsearch input").blur();
 			$("#floating-nav-bar").removeClass("show");
+			$.cookie("searchHide",1);
 		}
 	});
 	if ($(".fpbx-container").length > 0) {
