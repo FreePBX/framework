@@ -234,7 +234,7 @@ class Media {
 				break;
 			}
 		}
-		if(!file_exists($this->track)) {
+		if(!file_exists($intermediary['wav']['path'])) {
 			throw new \Exception("Unable to find an intermediay converter");
 		}
 
