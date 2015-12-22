@@ -59,7 +59,7 @@ class AsteriskShell extends \Media\Driver\Driver {
 				$l = trim($matches[1]);
 				$codecs = explode("|",$matches[1]);
 				foreach($codecs as $codec) {
-					if(!in_array($codec,array('gsm', 'g722', 'alaw', 'ulaw', 'sln', 'wav16', 'wav49', 'g719', 'sln12', 'sln16', 'sln24', 'sln32', 'sln44', 'sln48', 'sln96', 'sln192'))) {
+					if(!in_array($codec,array('gsm', 'g722', 'alaw', 'ulaw', 'sln', 'wav16', 'WAV', 'sln12', 'sln16', 'sln24', 'sln32', 'sln44', 'sln48', 'sln96', 'sln192'))) {
 						continue;
 					}
 					$formats["in"][$codec] = $codec;
