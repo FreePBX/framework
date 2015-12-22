@@ -408,7 +408,9 @@ class AGI_AsteriskManager {
 	* @example examples/sip_show_peer.php Get information about a sip peer
 	*/
 	function disconnect() {
-		$this->logoff();
+		if($this->connected()) {
+			$this->logoff();
+		}
 		fclose($this->socket);
 	}
 
@@ -417,7 +419,7 @@ class AGI_AsteriskManager {
 	*
 	*/
 	function connected() {
-		return (bool)$this->socket;
+		return is_resource($this->socket) && !feof($this->socket);
 	}
 
 	/**
