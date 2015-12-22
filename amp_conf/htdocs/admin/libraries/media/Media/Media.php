@@ -234,8 +234,8 @@ class Media {
 				break;
 			}
 		}
-		if(!file_exists($intermediary['wav']['path'])) {
-			throw new \Exception("Unable to find an intermediay converter");
+		if(!isset($intermediary['wav']['path']) || !file_exists($intermediary['wav']['path'])) {
+			throw new \Exception(sprintf(_("Unable to find an intermediary converter for %s"),$this->track));
 		}
 
 		//Asterisk 11 should support sln48 but it doesnt, it says it does but then complains
