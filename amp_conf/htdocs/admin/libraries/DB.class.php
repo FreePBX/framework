@@ -491,6 +491,7 @@ class DB {
 	 */
 	public function executeMultiple($stmt, $data = array()) {
 		try {
+			$data = is_array($data) ? $data : array();
 			foreach($data as $row) {
 				if(is_array($row) && !isset($row[0])) {
 					$stmt->execute(array_values($row));
