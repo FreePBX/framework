@@ -176,7 +176,13 @@ class Chown extends Command {
 						$path = \ForceUTF8\Encoding::toLatin1($file['path']);
 						$owner = \ForceUTF8\Encoding::toLatin1($owner);
 						$group = \ForceUTF8\Encoding::toLatin1($group);
-						$this->actions->enqueue(json_encode(array($path,$owner,$group,$file['perms'])));
+						$json = @json_encode(array($path,$owner,$group,$file['perms']));
+						$err = $this->jsonError();
+						if(empty($err)) {
+							$this->actions->enqueue($json);
+						} else {
+							$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+						}
 						break;
 					case 'rdir':
 						$fileperms = $this->stripExecute($file['perms']);
@@ -184,18 +190,36 @@ class Chown extends Command {
 						$path = \ForceUTF8\Encoding::toLatin1($file['path']);
 						$owner = \ForceUTF8\Encoding::toLatin1($owner);
 						$group = \ForceUTF8\Encoding::toLatin1($group);
-						$this->actions->enqueue(json_encode(array($path, $owner, $group, $file['perms'])));
+						$json = @json_encode(array($path, $owner, $group, $file['perms']));
+						$err = $this->jsonError();
+						if(empty($err)) {
+							$this->actions->enqueue($json);
+						} else {
+							$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+						}
 						foreach($files as $f){
 							if(is_dir($f)){
 								$path = \ForceUTF8\Encoding::toLatin1($f);
 								$owner = \ForceUTF8\Encoding::toLatin1($owner);
 								$group = \ForceUTF8\Encoding::toLatin1($group);
-								$this->actions->enqueue(json_encode(array($path, $owner, $group, $file['perms'])));
+								$json = @json_encode(array($path, $owner, $group, $file['perms']));
+								$err = $this->jsonError();
+								if(empty($err)) {
+									$this->actions->enqueue($json);
+								} else {
+									$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+								}
 							}else{
 								$path = \ForceUTF8\Encoding::toLatin1($f);
 								$owner = \ForceUTF8\Encoding::toLatin1($owner);
 								$group = \ForceUTF8\Encoding::toLatin1($group);
-								$this->actions->enqueue(json_encode(array($path, $owner, $group, $fileperms)));
+								$json = @json_encode(array($path, $owner, $group, $fileperms));
+								$err = $this->jsonError();
+								if(empty($err)) {
+									$this->actions->enqueue($json);
+								} else {
+									$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+								}
 							}
 						}
 						break;
@@ -204,12 +228,24 @@ class Chown extends Command {
 						$path = \ForceUTF8\Encoding::toLatin1($file['path']);
 						$owner = \ForceUTF8\Encoding::toLatin1($owner);
 						$group = \ForceUTF8\Encoding::toLatin1($group);
-						$this->actions->enqueue(json_encode(array($path, $owner, $group, $file['perms'])));
+						$json = @json_encode(array($path, $owner, $group, $file['perms']));
+						$err = $this->jsonError();
+						if(empty($err)) {
+							$this->actions->enqueue($json);
+						} else {
+							$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+						}
 						foreach($files as $f){
 							$path = \ForceUTF8\Encoding::toLatin1($f);
 							$owner = \ForceUTF8\Encoding::toLatin1($owner);
 							$group = \ForceUTF8\Encoding::toLatin1($group);
-							$this->actions->enqueue(json_encode(array($path, $owner, $group, $file['perms'])));
+							$json = @json_encode(array($path, $owner, $group, $file['perms']));
+							$err = $this->jsonError();
+							if(empty($err)) {
+								$this->actions->enqueue($json);
+							} else {
+								$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+							}
 						}
 						break;
 				}
@@ -403,5 +439,31 @@ class Chown extends Command {
 	private function fwcChownFiles(){
 		$modules = \FreePBX::Hooks()->processHooks();
 		return $modules;
+	}
+
+	private function jsonError() {
+		switch (json_last_error()) {
+			case JSON_ERROR_NONE:
+				return false;
+			break;
+			case JSON_ERROR_DEPTH:
+				return 'Maximum stack depth exceeded';
+			break;
+			case JSON_ERROR_STATE_MISMATCH:
+				return 'Underflow or the modes mismatch';
+			break;
+			case JSON_ERROR_CTRL_CHAR:
+				return 'Unexpected control character found';
+			break;
+			case JSON_ERROR_SYNTAX:
+				return 'Syntax error, malformed JSON';
+			break;
+			case JSON_ERROR_UTF8:
+				return 'Malformed UTF-8 characters, possibly incorrectly encoded';
+			break;
+			default:
+				return 'Unknown error';
+			break;
+			}
 	}
 }

@@ -32,6 +32,19 @@ class Media {
 	}
 
 	/**
+	 * Turn all spaces into underscores and remove all utf8
+	 * from filenames
+	 * @param  string $name The filename
+	 * @return string       The cleaned filename
+	 */
+	public static function cleanFileName($name) {
+		$name = str_replace(" ","-",$name);
+		$name = preg_replace("/\s+|'+|`+|\"+|<+|>+|\?+|\*|\.+|&+/","-",strtolower($name));
+		$name = preg_replace('/[\x00-\x1F\x80-\xFF]/u', '', $name);
+		return $name;
+	}
+
+	/**
 	 * Load a track for processing
 	 * @param  string $track The full path to the track
 	 */

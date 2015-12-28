@@ -80,7 +80,7 @@ class LameShell extends \Media\Driver\Driver {
 	public function convert($newFilename,$extension,$mime) {
 		switch($extension) {
 			case "mp3":
-				$process = new Process($this->binary.' -V3 '.$this->track.' '.$newFilename);
+				$process = new Process($this->binary.' -V3 "'.$this->track.'" "'.$newFilename.'"');
 			break;
 			default:
 				throw new \Exception("Invalid type of $extension sent to LAME");
