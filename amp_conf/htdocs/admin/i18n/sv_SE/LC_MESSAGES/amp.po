@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX amp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-12-23 14:33-0800\n"
+"POT-Creation-Date: 2015-12-28 12:10-0800\n"
 "PO-Revision-Date: 2010-06-27 18:43+0100\n"
 "Last-Translator: Mikael Carlsson <mickecamino@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -179,7 +179,7 @@ msgstr ""
 msgid "%s Extensions"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:397
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:433
 #, php-format
 msgid "%s Likely will not work as expected"
 msgstr ""
@@ -926,37 +926,47 @@ msgid ""
 "An attempt to send email to: %s with unsigned modules notifications failed"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:318
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:184
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:198
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:210
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:221
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:236
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:247
 #, php-format
-msgid "An error occurred while changing group %s"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:284
-#, php-format
-msgid "An error occurred while changing groups %s"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:302
-#, php-format
-msgid "An error occurred while changing ownership %s"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:268
-#, php-format
-msgid "An error occurred while changing ownership on %s"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:368
-#, php-format
-msgid "An error occurred while changing permissions %s"
+msgid "An error occurred while adding file %s because %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:354
 #, php-format
+msgid "An error occurred while changing group %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:320
+#, php-format
+msgid "An error occurred while changing groups %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:338
+#, php-format
+msgid "An error occurred while changing ownership %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:304
+#, php-format
+msgid "An error occurred while changing ownership on %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:404
+#, php-format
+msgid "An error occurred while changing permissions %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:390
+#, php-format
 msgid "An error occurred while changing permissions on file %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:335
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:371
 #, php-format
 msgid ""
 "An error occurred while changing permissions on link %s which points to %s"
@@ -5219,7 +5229,7 @@ msgid ""
 "Permissions error on file %s - please re-run as root to automatically repair"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:398
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:434
 #, php-format
 msgid ""
 "Permissions should be set with a leading 0, example 644 should be 0644 File: "
@@ -5599,7 +5609,7 @@ msgstr ""
 msgid "Removing %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:341
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:377
 #, php-format
 msgid ""
 "Removing dangling symlink %s which points to a file that no longer exists"
@@ -6291,13 +6301,13 @@ msgstr ""
 msgid "The extension number to dial to reach this user."
 msgstr "Anknytningsnumret att slå för att nå denna användare."
 
-#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:258
+#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:271
 msgid ""
 "The file format sln48 is not supported by Asterisk when it should be. Audio "
 "conversion quality will be limited to 16k instead of 48k"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:258
+#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:271
 msgid "The file format sln48 is not supported on your system"
 msgstr ""
 
@@ -6829,7 +6839,7 @@ msgstr ""
 msgid "Unable to download GPG key %s, or find %s or %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:238
+#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:251
 #, php-format
 msgid "Unable to find an intermediary converter for %s"
 msgstr ""
@@ -6958,7 +6968,7 @@ msgid ""
 "Unknown file format of %s for %s, supported formats: tar,tgz,tar.gz,zip,bzip"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:359
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:395
 #, php-format
 msgid "Unknown filetype of: %s[%s]"
 msgstr ""
@@ -7325,7 +7335,7 @@ msgstr ""
 msgid "We hope you enjoy using %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:324
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:360
 msgid ""
 "We received an empty string for a file name. Some files may not have the "
 "proper permissions"
