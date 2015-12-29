@@ -11,6 +11,13 @@ class View {
 	private $queryString = "";
 	private $replaceState = false;
 
+	public function __construct($freepbx = null) {
+		if ($freepbx == null) {
+			throw new Exception("Not given a FreePBX Object");
+		}
+		$this->freepbx = $freepbx;
+	}
+
 	/**
 	 * This is a replace of the old redirect standard.
 	 * It emulates the same functionality but instead using HTML5 pushState
@@ -56,5 +63,42 @@ class View {
 	 */
 	public function getQueryString() {
 		return $this->queryString;
+	}
+
+	public function alertInfoDrawSelect($id, $value = '', $class = '', $allowNone = true, $disable = false, $required = false) {
+		$display = !empty($_REQUEST['display']) ? $_REQUEST['display'] : '';
+		$options = array(
+			"create" => true,
+			"allowEmptyOption" => $allowNone
+		);
+		$optionshtml = '';
+		if($allowNone) {
+			$optionshtml = '<option>'._("None").'</option>';
+		}
+
+		$hooks = $this->freepbx->Hooks->returnHooks();
+		$selected = false;
+		$hooks = is_array($hooks) ? $hooks : array();
+		foreach($hooks as $hook) {
+			$mod = $hook['module'];
+			$meth = $hook['method'];
+			$items = $this->freepbx->$mod->$meth($display);
+			if(!is_array($items)) {
+				continue;
+			}
+			foreach($items as $key => $item) {
+				if($item['value'] == $value) {
+					$selected = true;
+				}
+				$optionshtml .= '<option value="'.$item['value'].'" data-id="'.$mod.'-'.$key.'" data-playback="'.(!empty($item['playback']) ? 'true' : 'false').'" '.($item['value'] == $value ? 'selected' : '').'>'.$item['name'].'</option>';
+			}
+
+		}
+
+		if(!$selected && trim($value) != '') {
+			$optionshtml = '<option value="'.$value.'" selected>'.$value.'</option>'.$optionshtml;
+		}
+
+		return '<div class="alertinfoselect"><select id="'.$id.'" name="'.$id.'" class="form-control '.$class.'" '.($required ? 'required' : '').' '.($disable ? 'disabled' : '').'>'.$optionshtml.'</select><div class="play hidden"><i class="fa fa-play"></i></div><script>$(function() {$("#'.$id.'").removeClass("form-control");$("#'.$id.'").selectize('.json_encode($options).');});</script></div>';
 	}
 }
