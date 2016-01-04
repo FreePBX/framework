@@ -691,30 +691,6 @@ class Installer {
 	'type' => CONF_TYPE_SELECT,
 	);
 
-	$settings[$category]['INTERNALALERTINFO'] = array(
-	'value' => 'inherit',
-	'options' => array("inherit","ring1","ring2","ring3","ring4","ring5"),
-	'name' => 'Internal Alert Info',
-	'description' => "Alert Info to use on Extension to Extension Calls. 'Inherit' will use the previously set Alert Info",
-	'type' => CONF_TYPE_SELECT,
-	);
-
-	$settings[$category]['ATTTRANSALERTINFO'] = array(
-	'value' => 'inherit',
-	'options' => array("inherit","ring1","ring2","ring3","ring4","ring5"),
-	'name' => 'Attended Transfer Alert Info',
-	'description' => "Alert Info to use on Attended Transfer Calls. 'Inherit' will use the previously set Alert Info. Note: Attended Transfer detection only works in Asterisk 12 or higher",
-	'type' => CONF_TYPE_SELECT,
-	);
-
-	$settings[$category]['BLINDTRANSALERTINFO'] = array(
-	'value' => 'inherit',
-	'options' => array("inherit","ring1","ring2","ring3","ring4","ring5"),
-	'name' => 'Blind Transfer Alert Info',
-	'description' => "Alert Info to use on Blind Transfer Calls. 'Inherit' will use the previously set Alert Info",
-	'type' => CONF_TYPE_SELECT,
-	);
-
 	$settings[$category]['ASTSTOPPOLLINT'] = array(
 	'value' => '2',
 	'options' => array(1,2,3,5,10),
