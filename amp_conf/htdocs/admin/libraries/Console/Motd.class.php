@@ -59,7 +59,7 @@ class Motd extends Command {
 		$iflist = array();
 		$ifs = scandir('/sys/class/net/');		
 		foreach($ifs as $if){
-			if($if == '.' || $if == '..'){
+			if($if == '.' || $if == '..' || !is_dir("/sys/class/net/$if")) {
 				continue;
 			}
 			$iftype = file_get_contents('/sys/class/net/' . $if . '/type');
@@ -70,7 +70,14 @@ class Motd extends Command {
 			$MAC = strtoupper($MAC);
 			$ipv6 = trim(shell_exec("/sbin/ip -o addr show " . $if ." | grep -Po 'inet6 \K[\da-f:]+'"));
 			$ipv4 = trim(shell_exec("/sbin/ip -o addr show " . $if ." | grep -Po 'inet \K[\d.]+'"));
-			$iflist[$if] = array('mac' => $MAC, 'ip' => "$ipv4\n$ipv6");
+			// If this interface has an ipv4 address AND an ipv6 address,
+			// display them both
+			if ($ipv4 && $ipv6) {
+				$ipstr = "$ipv4\n$ipv6";
+			} else {
+				$ipstr = $ipv4 ? $ipv4 : $ipv6;
+			}
+			$iflist[$if] = array('mac' => $MAC, 'ip' => $ipstr);
 		}
 		return $iflist;
 	}	
