@@ -84,6 +84,14 @@ class Chown extends Command {
 				$this->modfiles['framework'][] = array('type' => 'rdir',
 															'path' => $home,
 															'perms' => 0744);
+				// SSH folder needs specific permissions otherwise ssh refuses to work
+				$this->modfiles['framework'][] = array('type' => 'dir',
+															'path' => "$home/.ssh",
+															'perms' => 0700);
+				$this->modfiles['framework'][] = array('type' => 'file',
+															'path' => "$home/.ssh/id_rsa",
+															'perms' => 0700);
+
 			}
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $sessdir,
