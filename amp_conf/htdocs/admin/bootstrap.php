@@ -194,6 +194,13 @@ switch($amp_conf['PHP_ERROR_LEVEL']) {
 	case "ALL_NOSTRICTNOTICEWARNINGDEPRECIATED":
 		error_reporting(E_ALL & ~E_STRICT & ~E_NOTICE & ~E_USER_NOTICE & ~E_WARNING & ~E_USER_WARNING & ~E_DEPRECATED & ~E_USER_DEPRECATED);
 	break;
+	case "NONE":
+		error_reporting(0);
+		restore_error_handler();
+		if(is_object($whoops) && is_a($whoops,"\Whoops\Run")) {
+			$whoops->unregister();
+		}
+	break;
 	case "ALL_NOSTRICTNOTICE":
 	default;
 		error_reporting(E_ALL & ~E_STRICT & ~E_NOTICE & ~E_USER_NOTICE);

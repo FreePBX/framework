@@ -303,7 +303,7 @@ class Installer {
 
 	$settings[$category]['PHP_ERROR_LEVEL'] = array(
 	'value' => 'ALL_NOSTRICTNOTICE',
-	'options' => array('ALL','ALL_NOSTRICT','ALL_NOSTRICTNOTICE','ALL_NOSTRICTNOTICEWARNING','ALL_NOSTRICTNOTICEWARNINGDEPRECIATED'),
+	'options' => array('ALL','ALL_NOSTRICT','ALL_NOSTRICTNOTICE','ALL_NOSTRICTNOTICEWARNING','ALL_NOSTRICTNOTICEWARNINGDEPRECIATED', 'NONE'),
 	'name' => 'PHP Error Level',
 	'description' => "Sets which PHP errors are reported",
 	'sortorder' => -139,

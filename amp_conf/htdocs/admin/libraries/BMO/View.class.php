@@ -65,6 +65,15 @@ class View {
 		return $this->queryString;
 	}
 
+	/**
+	 * Alert Info Hookable Draw Select
+	 * @param  sting $id        The id of the select box and javascripts
+	 * @param  string $value     The selected value
+	 * @param  string $class     Additional classes to add
+	 * @param  bool $allowNone Allow none to be a selectable item
+	 * @param  bool $disable   Disable the element
+	 * @param  bool $required  Is this a required element
+	 */
 	public function alertInfoDrawSelect($id, $value = '', $class = '', $allowNone = true, $disable = false, $required = false) {
 		$display = !empty($_REQUEST['display']) ? $_REQUEST['display'] : '';
 		$options = array(
@@ -73,7 +82,7 @@ class View {
 		);
 		$optionshtml = '';
 		if($allowNone) {
-			$optionshtml = '<option>'._("None").'</option>';
+			$optionshtml = '<option value=" ">'._("None").'</option>';
 		}
 
 		$hooks = $this->freepbx->Hooks->returnHooks();
@@ -90,7 +99,7 @@ class View {
 				if($item['value'] == $value) {
 					$selected = true;
 				}
-				$optionshtml .= '<option value="'.$item['value'].'" data-id="'.$mod.'-'.$key.'" data-playback="'.(!empty($item['playback']) ? 'true' : 'false').'" '.($item['value'] == $value ? 'selected' : '').'>'.$item['name'].'</option>';
+				$optionshtml .= '<option value="'.$item['value'].'" data-id="'.$mod.'-'.$key.'" data-playback="'.(!empty($item['playback']) ? 'true' : 'false').'" '.($item['value'] == $value ? 'selected' : '').' '.($required ? 'required' : '').'>'.$item['name'].'</option>';
 			}
 
 		}

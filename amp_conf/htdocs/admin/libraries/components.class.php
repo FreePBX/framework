@@ -999,6 +999,34 @@ class gui_button extends guiinput {
 	}
 }
 
+class gui_alertinfodrawselects extends guiinput {
+
+	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
+		if(is_array($elemname)) {
+			extract($elemname);
+		}
+
+		// currently no validation fucntions availble for select boxes
+		// using the normal $canbeempty to flag if a blank option is provided
+		parent::__construct($elemname, $currentvalue, $prompttext, $helptext);
+
+		$this->html_input = $this->buildselectbox($currentvalue, $canbeempty, $onchange, $disable, $class);
+		$this->type = "selectbox";
+	}
+
+	// Build select box
+	function buildselectbox($currentvalue, $canbeempty, $onchange, $disable, $class='') {
+		$output = '';
+
+		//TODO someone needs to fix this. Seems sort of irrelevant right now though
+		$onchange = ($onchange != '') ? " onchange=\"$onchange\"" : '';
+
+		$output = \FreePBX::View()->alertInfoDrawSelect($this->_elemname, $currentvalue, $class, $canbeempty, $disable);
+
+		return $output;
+	}
+}
+
 class gui_drawselects extends guiinput {
 
 	public function __construct($elemname, $index = '', $dest = '', $prompttext = '', $helptext = '', $required = false, $failvalidationmsg='', $nodest_msg='', $disable=false, $class='') {
