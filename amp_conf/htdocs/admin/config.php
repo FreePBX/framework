@@ -371,7 +371,7 @@ switch($display) {
 		include 'page.modules.php';
 		break;
 	case 'noaccess':
-		show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf' => &$amp_conf));
+		show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf' => &$amp_conf, 'display' => $display));
 		break;
 	case 'noauth':
 		// If we're a new install..
