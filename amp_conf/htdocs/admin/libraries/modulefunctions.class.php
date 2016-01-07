@@ -605,7 +605,7 @@ class module_functions {
 			}
 
 			// query to get just this one
-			$sql = 'SELECT * FROM modules WHERE modulename = "'.$module.'"';
+			$sql = 'SELECT * FROM modules WHERE modulename = ?';
 		} else {
 			// create the modulelist so it is static and does not need to be recreated
 			// in subsequent calls
@@ -656,10 +656,13 @@ class module_functions {
 		// modulename should match the directory name
 
 		if ($module || !$modulelist->is_loaded()) {
-			$results = $db->getAll($sql,DB_FETCHMODE_ASSOC);
-			if(DB::IsError($results)) {
-				die_freepbx($sql."<br>\n".$results->getMessage());
+			$sth = FreePBX::Database()->prepare($sql);
+			if($module) {
+				$sth->execute(array($module));
+			} else {
+				$sth->execute();
 			}
+			$results = $sth->fetchAll(\PDO::FETCH_ASSOC);
 
 			if (is_array($results)) {
 				foreach($results as $row) {
