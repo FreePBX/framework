@@ -1301,7 +1301,7 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 		dbug("aborting early because previous errors");
 		return false;
 	}
-	if ($astman->connected()) {
+	if (is_object($astman) && method_exists($astman, "connected") && $astman->connected()) {
 		$ast_ret = $astman->Command('module reload manager');
 	} else {
 		unset($output);
@@ -1311,8 +1311,12 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 			freepbx_log(FPBX_LOG_ERROR,_("Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx 'module reload manager']"));
 		}
 	}
-	if ($astman->connected()) {
+	if (is_object($astman) && method_exists($astman, "connected") && $astman->connected()) {
 		$astman->disconnect();
+	}
+	if (!is_object($astman) || !method_exists($astman, "connected")) {
+		//astman isn't initiated so escape
+		return true;
 	}
 	if (!$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], $bootstrap_settings['astman_events'])) {
 		// couldn't connect at all
