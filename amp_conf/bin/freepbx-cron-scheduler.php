@@ -1,4 +1,4 @@
-#!/usr/bin/php -q
+#!/usr/bin/env php
 <?php
 //include bootstrap
 //	License for all code of this FreePBX module can be found in the license file inside the module directory
@@ -129,3 +129,4 @@ if ($email) {
 } else {
 	$nt->add_notice('freepbx', 'NOEMAIL', _('No email address for online update checks'), _('You are automatically checking for online updates nightly but you have no email address setup to send the results. This can be set in Module Admin. They will continue to show up here.'), 'config.php?display=modules#email', 'PASSIVE', false);
 }
+?>

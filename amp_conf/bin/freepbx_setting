@@ -1,4 +1,4 @@
-#!/usr/bin/php -q
+#!/usr/bin/env php
 <?php
 // Command-line freepbx_setting script
 //	License for all code of this FreePBX module can be found in the license file inside the module directory
@@ -78,3 +78,4 @@ $freepbx_conf->commit_conf_settings();
 
 out(sprintf(_("[%s] changed from previous value: [%s] to new value: [%s]"),$keyword, $cur_value, $value));
 out('');
+?>
