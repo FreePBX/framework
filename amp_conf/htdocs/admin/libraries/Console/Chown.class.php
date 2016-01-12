@@ -150,6 +150,9 @@ class Chown extends Command {
 			'path' => $AMPBIN,
 			'perms' => 0755);
 			$this->modfiles['framework'][] = array('type' => 'execdir',
+			'path' => $AMPSBIN,
+			'perms' => 0755);
+			$this->modfiles['framework'][] = array('type' => 'execdir',
 			'path' => $ASTAGIDIR,
 			'perms' => 0755);
 			//Merge static files and hook files, then act on them as a single unit
