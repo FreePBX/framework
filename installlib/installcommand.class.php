@@ -92,6 +92,7 @@ class FreePBXInstallCommand extends Command {
 			$this->settings['astetcdir']['default'] = '/usr/local/etc/asterisk';
 			$this->settings['astmoddir']['default'] = '/usr/local/lib/asterisk/modules';
 			$this->settings['astvarlibdir']['default'] = '/usr/local/share/asterisk';
+			$this->settings['astvarlibplayback']['default'] = '/var/spool/asterisk/playback';
 			$this->settings['astagidir']['default'] = '/usr/local/share/asterisk/agi-bin';
 			$this->settings['ampbin']['default'] = '/usr/local/freepbx/bin';
 			$this->settings['ampsbin']['default'] = '/usr/local/freepbx/sbin';
@@ -213,6 +214,9 @@ class FreePBXInstallCommand extends Command {
 		}
 		if (isset($answers['astvarlibdir'])) {
 			$astconf['ASTVARLIBDIR'] = $answers['astvarlibdir'];
+		}
+		if (isset($answers['astvarlibplayback'])) {
+			$astconf['ASTVARLIBPLAYBACK'] = $answers['astvarlibplayback'];
 		}
 		if (isset($answers['astagidir'])) {
 			$astconf['ASTAGIDIR'] = $answers['astagidir'];
