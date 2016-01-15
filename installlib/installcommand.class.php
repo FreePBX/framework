@@ -48,7 +48,58 @@ class FreePBXInstallCommand extends Command {
 			'default' => '/var/www/html',
 	 		'description' => 'Filesystem location from which FreePBX files will be served'
 		),
+		'astetcdir' => array(
+			'default' => '/etc/asterisk',
+			'description' => 'Filesystem location from which Asterisk configuration files will be served'
+		),
+		'astmoddir' => array(
+			'default' => '/usr/lib/asterisk/modules',
+			'description' => 'Filesystem location for Asterisk modules'
+		),
+		'astvarlibdir' => array(
+			'default' => '/var/lib/asterisk',
+			'description' => 'Filesystem location for Asterisk lib files'
+		),
+		'astagidir' => array(
+			'default' => '/var/lib/asterisk/agi-bin',
+			'description' => 'Filesystem location for Asterisk agi files'
+		),
+		'ampbin' => array(
+			'default' => '/var/lib/asterisk/bin',
+			'description' => 'Location of the FreePBX command line scripts'
+		),
+		'ampsbin' => array(
+			'default' => '/usr/sbin',
+			'description' => 'Location of the FreePBX (root) command line scripts'
+		),
+		'astspooldir' => array(
+			'default' => '/var/spool/asterisk',
+			'description' => 'Location of the Asterisk spool directory'
+		),
+		'astrundir' => array(
+			'default' => '/var/run/asterisk',
+			'description' => 'Location of the Asterisk run directory'
+		),
+		'astlogdir' => array(
+			'default' => '/var/log/asterisk',
+			'description' => 'Location of the Asterisk log files'
+		),
 	);
+
+	public function __construct($name = null) {
+		parent::__construct($name);
+		if (PHP_OS == 'FreeBSD') {
+			$this->settings['astetcdir']['default'] = '/usr/local/etc/asterisk';
+			$this->settings['astmoddir']['default'] = '/usr/local/lib/asterisk/modules';
+			$this->settings['astvarlibdir']['default'] = '/usr/local/share/asterisk';
+			$this->settings['astagidir']['default'] = '/usr/local/share/asterisk/agi-bin';
+			$this->settings['ampbin']['default'] = '/usr/local/freepbx/bin';
+			$this->settings['ampsbin']['default'] = '/usr/local/freepbx/sbin';
+			$this->settings['webroot']['default'] = '/usr/local/www/freepbx';
+		} else {
+			$this->settings['astmoddir']['default'] = file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules';
+		}
+	}
 
 	protected function configure() {
 		$this
@@ -150,6 +201,29 @@ class FreePBXInstallCommand extends Command {
 		require_once('installlib/installer.class.php');
 		$installer = new Installer($input, $output);
 
+		$astconf = array();
+		if (isset($answers['astetcdir'])) {
+			$astconf['ASTETCDIR'] = $answers['astetcdir'];
+		}
+		if (isset($answers['astmoddir'])) {
+			$astconf['ASTMODDIR'] = $answers['astmoddir'];
+		}
+		if (isset($answers['astvarlibdir'])) {
+			$astconf['ASTVARLIBDIR'] = $answers['astvarlibdir'];
+		}
+		if (isset($answers['astagidir'])) {
+			$astconf['ASTAGIDIR'] = $answers['astagidir'];
+		}
+		if (isset($answers['astspooldir'])) {
+			$astconf['ASTSPOOLDIR'] = $answers['astspooldir'];
+		}
+		if (isset($answers['astrundir'])) {
+			$astconf['ASTRUNDIR'] = $answers['astrundir'];
+		}
+		if (isset($answers['astlogdir'])) {
+			$astconf['ASTLOGDIR'] = $answers['astlogdir'];
+		}
+
 		// Copy asterisk.conf
 		if (!file_exists(ASTERISK_CONF)) {
 			$output->write("No ".ASTERISK_CONF." file detected. Installing...");
@@ -159,10 +233,6 @@ class FreePBXInstallCommand extends Command {
 				$output->writeln("<error>Unable to read " . FILES_DIR . "/asterisk.conf or it was missing a directories section</error>");
 				exit(1);
 			}
-			$aconf['directories']['astmoddir'] = file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules';
-			$installer->asterisk_conf_write(ASTERISK_CONF, $aconf);
-			$asterisk_conf = $aconf['directories'];
-			$output->writeln("Done!");
 		} else {
 			$output->write("Reading ".ASTERISK_CONF."...");
 			$aconf = $installer->asterisk_conf_read(ASTERISK_CONF);
@@ -172,24 +242,33 @@ class FreePBXInstallCommand extends Command {
 				exit(1);
 			}
 			$output->writeln("Done");
-			$asterisk_conf = $aconf['directories'];
-
-			$asterisk_defaults_conf = array(
-				'astetcdir' => '/etc/asterisk',
-				'astmoddir' => file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules',
-				'astvarlibdir' => '/var/lib/asterisk',
-				'astagidir' => '/var/lib/asterisk/agi-bin',
-				'astspooldir' => '/var/spool/asterisk',
-				'astrundir' => '/var/run/asterisk',
-				'astlogdir' => '/var/log/asterisk',
-			);
-
-			foreach ($asterisk_defaults_conf as $key => $value) {
-				if (!isset($asterisk_conf[$key])) {
-					$asterisk_conf[$key] = $value;
-				}
-			}
 		}
+
+		if(isset($astconf['ASTETCDIR'])) {
+			$aconf['directories']['astetcdir'] = $astconf['ASTETCDIR'];
+		}
+		if(isset($astconf['ASTMODDIR'])) {
+			$aconf['directories']['astmoddir'] = $astconf['ASTMODDIR'];
+		}
+		if(isset($astconf['ASTVARLIBDIR'])) {
+			$aconf['directories']['astvarlibdir'] = $astconf['ASTVARLIBDIR'];
+		}
+		if(isset($astconf['ASTAGIDIR'])) {
+			$aconf['directories']['astagidir'] = $astconf['ASTAGIDIR'];
+		}
+		if(isset($astconf['ASTSPOOLDIR'])) {
+			$aconf['directories']['astspooldir'] = $astconf['ASTSPOOLDIR'];
+		}
+		if(isset($astconf['ASTRUNDIR'])) {
+			$aconf['directories']['astrundir'] = $astconf['ASTRUNDIR'];
+		}
+		if(isset($astconf['ASTLOGDIR'])) {
+			$aconf['directories']['astlogdir'] = $astconf['ASTLOGDIR'];
+		}
+		$output->write("Writing ".ASTERISK_CONF."...");
+		$installer->asterisk_conf_write(ASTERISK_CONF, $aconf);
+		$asterisk_conf = $aconf['directories'];
+		$output->writeln("Done");
 
 		//Check Asterisk (before file writes)
 		$output->write("Checking if Asterisk is running and we can talk to it as the '".$answers['user']."' user...");
@@ -230,7 +309,7 @@ class FreePBXInstallCommand extends Command {
 			$output->writeln("<error>Error!</error>");
 			$output->writeln("<error>Could not determine Asterisk version (got: " . $astver . "). Please report this.</error>");
 		}
-		$output->writeln("Done!");
+		$output->writeln("Done");
 
 		if((file_exists(FREEPBX_CONF) && !file_exists(AMP_CONF)) || (!file_exists(FREEPBX_CONF) && file_exists(AMP_CONF))) {
 			if(file_exists(FREEPBX_CONF)) {
@@ -267,6 +346,12 @@ class FreePBXInstallCommand extends Command {
 		}
 		if (isset($answers['cdrdbname'])) {
 			$amp_conf['CDRDBNAME'] = $answers['cdrdbname'];
+		}
+		if (isset($answers['ampbin'])) {
+			$amp_conf['AMPBIN'] = $answers['ampbin'];
+		}
+		if (isset($answers['ampsbin'])) {
+			$amp_conf['AMPSBIN'] = $answers['ampsbin'];
 		}
 		if (isset($answers['webroot'])) {
 			$amp_conf['AMPWEBROOT'] = $answers['webroot'];
