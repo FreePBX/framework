@@ -92,6 +92,7 @@ class FreePBXInstallCommand extends Command {
 			$this->settings['astetcdir']['default'] = '/usr/local/etc/asterisk';
 			$this->settings['astmoddir']['default'] = '/usr/local/lib/asterisk/modules';
 			$this->settings['astvarlibdir']['default'] = '/usr/local/share/asterisk';
+			$this->settings['astvarlibplayback']['default'] = '/var/spool/asterisk/playback';
 			$this->settings['astagidir']['default'] = '/usr/local/share/asterisk/agi-bin';
 			$this->settings['ampbin']['default'] = '/usr/local/freepbx/bin';
 			$this->settings['ampsbin']['default'] = '/usr/local/freepbx/sbin';
@@ -106,7 +107,6 @@ class FreePBXInstallCommand extends Command {
 			->setName('install')
 			->setDescription('FreePBX Installation Utility')
 			;
-
 		foreach ($this->settings as $key => $setting) {
 			if (isset($setting['default'])) {
 				$this->addOption($key, null, InputOption::VALUE_REQUIRED, $setting['description'], $setting['default']);
@@ -147,7 +147,11 @@ class FreePBXInstallCommand extends Command {
 		//STATIC???
 		define("AMP_CONF", "/etc/amportal.conf");
 		define("ODBC_INI", "/etc/odbc.ini");
-		define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
+		if (PHP_OS == "FreeBSD") {
+			define("ASTERISK_CONF", "/usr/local/etc/asterisk/asterisk.conf");
+		} else {
+			define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
+		}
 		define("FREEPBX_CONF", "/etc/freepbx.conf");
 		define("FILES_DIR",$this->rootPath."/installlib/files");
 		define("SQL_DIR", $this->rootPath."/installlib/SQL");
@@ -210,6 +214,9 @@ class FreePBXInstallCommand extends Command {
 		}
 		if (isset($answers['astvarlibdir'])) {
 			$astconf['ASTVARLIBDIR'] = $answers['astvarlibdir'];
+		}
+		if (isset($answers['astvarlibplayback'])) {
+			$astconf['ASTVARLIBPLAYBACK'] = $answers['astvarlibplayback'];
 		}
 		if (isset($answers['astagidir'])) {
 			$astconf['ASTAGIDIR'] = $answers['astagidir'];
@@ -505,7 +512,7 @@ class FreePBXInstallCommand extends Command {
 		$installer->freepbx_settings_init(true);
 
 		// Use the installer defined amp_conf settings
-		$freepbx_conf =& \freepbx_conf::create();
+		$freepbx_conf = \freepbx_conf::create();
 		foreach ($installer_amp_conf as $keyword => $value) {
 			if ($freepbx_conf->conf_setting_exists($keyword) && $amp_conf[$keyword] != $value) {
 				$output->writeln("\tChanging ".$keyword." to match what was given at install time");
@@ -539,6 +546,17 @@ class FreePBXInstallCommand extends Command {
 		//Last minute symlinks
 		$sbin = \FreePBX::Config()->get("AMPSBIN");
 		$bin = \FreePBX::Config()->get("AMPBIN");
+
+		$output->writeln("bin is: $bin");
+		if(!file_exists($bin)) {
+			$output->writeln("Directory $bin missing, creating.");
+			mkdir($bin, 0755);
+		}
+		$output->writeln("sbin is: $sbin");
+		if(!file_exists($sbin)) {
+			$output->writeln("Directory $sbin missing, creating.");
+			mkdir($sbin, 0755);
+		}
 
 		//Put new fwconsole into place
 		if(!file_exists($sbin."/fwconsole")) {
@@ -591,10 +609,7 @@ class FreePBXInstallCommand extends Command {
 			}
 		}
 
-		// Create dirs
-		// 	/var/www/html/admin/modules/framework/
-		// 	/var/www/html/admin/modules/_cache/
-		//	./amp_conf/htdocs/admin/modules/_cache/
+		// Create additional dirs
 		$extraDirs = array(
 			$amp_conf['AMPWEBROOT'] . "/admin/modules/_cache" => 0777,
 			$amp_conf['AMPWEBROOT'] . "/admin/modules/framework" => 0777,
@@ -632,7 +647,7 @@ class FreePBXInstallCommand extends Command {
 		$output->write("Creating missing #include files...");
 		foreach(glob($amp_conf['ASTETCDIR'] . "/*.conf") as $file) {
 			$data = file_get_contents($file);
-			if(preg_match_all("/#include\s(.*)/",$data,$matches)) {
+			if(preg_match_all("/^#include\s(.*)/",$data,$matches)) {
 				if(!empty($matches[1])) {
 					foreach($matches[1] as $include) {
 						if (!file_exists($amp_conf['ASTETCDIR'] . "/".$include)) {
@@ -710,6 +725,7 @@ class FreePBXInstallCommand extends Command {
 \$amp_conf['datasource'] = ''; //for sqlite3
 
 require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
+?>
 ";
 			$output->write("Writing out ".FREEPBX_CONF."...");
 			if(!file_put_contents(FREEPBX_CONF, $conf)) {
@@ -718,6 +734,15 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 				exit(1);
 			}
 			$output->writeln("Done");
+		}
+
+		// Sanity check - trap error as reported in
+		// http://issues.freepbx.org/browse/FREEPBX-9898
+		if (!array_key_exists("AMPBIN", $amp_conf)) {
+			$output->writeln("No amp_conf[AMPBIN] value exists!");
+			$output->writeln("Giving up!");
+			$output->writeln("");
+			exit;
 		}
 
 		//run this here so that we make sure everything is square for asterisk

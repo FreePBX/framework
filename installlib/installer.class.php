@@ -205,7 +205,7 @@ class Installer {
 		include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/freepbx_conf.class.php');
 	}
 
-	$freepbx_conf =& \freepbx_conf::create();
+	$freepbx_conf = \freepbx_conf::create();
 
 
 	$category = 'Advanced Settings Details';
@@ -884,7 +884,7 @@ class Installer {
 	);
 
 	$settings[$category]['AMPCGIBIN'] = array(
-	'value' => '/var/www/cgi-bin ',
+	'value' => '/var/www/cgi-bin',
 	'options' => '',
 	'name' => 'CGI Dir',
 	'description' => 'The path to Apache cgi-bin dir (leave off trailing slash).',
@@ -912,7 +912,6 @@ class Installer {
 	'type' => CONF_TYPE_DIR,
 	'level' => 4,
 	);
-
 
 	$category = 'GUI Behavior';
 
