@@ -64,14 +64,6 @@ class FreePBXInstallCommand extends Command {
 			'default' => '/var/lib/asterisk/agi-bin',
 			'description' => 'Filesystem location for Asterisk agi files'
 		),
-		'ampbin' => array(
-			'default' => '/var/lib/asterisk/bin',
-			'description' => 'Location of the FreePBX command line scripts'
-		),
-		'ampsbin' => array(
-			'default' => '/usr/sbin',
-			'description' => 'Location of the FreePBX (root) command line scripts'
-		),
 		'astspooldir' => array(
 			'default' => '/var/spool/asterisk',
 			'description' => 'Location of the Asterisk spool directory'
@@ -84,10 +76,22 @@ class FreePBXInstallCommand extends Command {
 			'default' => '/var/log/asterisk',
 			'description' => 'Location of the Asterisk log files'
 		),
+		'ampbin' => array(
+			'default' => '/var/lib/asterisk/bin',
+			'description' => 'Location of the FreePBX command line scripts'
+		),
+		'ampsbin' => array(
+			'default' => '/usr/sbin',
+			'description' => 'Location of the FreePBX (root) command line scripts'
+		),
 	);
 
-	public function __construct($name = null) {
-		parent::__construct($name);
+	protected function configure() {
+		$this
+			->setName('install')
+			->setDescription('FreePBX Installation Utility')
+			;
+
 		if (PHP_OS == 'FreeBSD') {
 			$this->settings['astetcdir']['default'] = '/usr/local/etc/asterisk';
 			$this->settings['astmoddir']['default'] = '/usr/local/lib/asterisk/modules';
@@ -99,13 +103,6 @@ class FreePBXInstallCommand extends Command {
 		} else {
 			$this->settings['astmoddir']['default'] = file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules';
 		}
-	}
-
-	protected function configure() {
-		$this
-			->setName('install')
-			->setDescription('FreePBX Installation Utility')
-			;
 
 		foreach ($this->settings as $key => $setting) {
 			if (isset($setting['default'])) {
@@ -201,29 +198,6 @@ class FreePBXInstallCommand extends Command {
 		require_once('installlib/installer.class.php');
 		$installer = new Installer($input, $output);
 
-		$astconf = array();
-		if (isset($answers['astetcdir'])) {
-			$astconf['ASTETCDIR'] = $answers['astetcdir'];
-		}
-		if (isset($answers['astmoddir'])) {
-			$astconf['ASTMODDIR'] = $answers['astmoddir'];
-		}
-		if (isset($answers['astvarlibdir'])) {
-			$astconf['ASTVARLIBDIR'] = $answers['astvarlibdir'];
-		}
-		if (isset($answers['astagidir'])) {
-			$astconf['ASTAGIDIR'] = $answers['astagidir'];
-		}
-		if (isset($answers['astspooldir'])) {
-			$astconf['ASTSPOOLDIR'] = $answers['astspooldir'];
-		}
-		if (isset($answers['astrundir'])) {
-			$astconf['ASTRUNDIR'] = $answers['astrundir'];
-		}
-		if (isset($answers['astlogdir'])) {
-			$astconf['ASTLOGDIR'] = $answers['astlogdir'];
-		}
-
 		// Copy asterisk.conf
 		if (!file_exists(ASTERISK_CONF)) {
 			$output->write("No ".ASTERISK_CONF." file detected. Installing...");
@@ -244,31 +218,35 @@ class FreePBXInstallCommand extends Command {
 			$output->writeln("Done");
 		}
 
-		if(isset($astconf['ASTETCDIR'])) {
-			$aconf['directories']['astetcdir'] = $astconf['ASTETCDIR'];
+		if(!file_exists(ASTERISK_CONF) || $force) {
+			if(isset($astconf['ASTETCDIR'])) {
+				$aconf['directories']['astetcdir'] = !empty($answers['ASTETCDIR']) ? $answers['ASTETCDIR'] : "/etc/asterisk";
+			}
+			if(isset($astconf['ASTMODDIR'])) {
+				$aconf['directories']['astmoddir'] = !empty($answers['ASTMODDIR']) ? $answers['ASTMODDIR'] : (file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules');
+			}
+			if(isset($astconf['ASTVARLIBDIR'])) {
+				$aconf['directories']['astvarlibdir'] = !empty($answers['ASTVARLIBDIR']) ? $answers['ASTVARLIBDIR'] : "/var/lib/asterisk";
+			}
+			if(isset($astconf['ASTAGIDIR'])) {
+				$aconf['directories']['astagidir'] = !empty($answers['ASTAGIDIR']) ? $answers['ASTAGIDIR'] : "/var/lib/asterisk/agi-bin";
+			}
+			if(isset($astconf['ASTSPOOLDIR'])) {
+				$aconf['directories']['astspooldir'] = !empty($answers['ASTSPOOLDIR']) ? $answers['ASTSPOOLDIR'] : "/var/spool/asterisk";
+			}
+			if(isset($astconf['ASTRUNDIR'])) {
+				$aconf['directories']['astrundir'] = !empty($answers['ASTRUNDIR']) ? $answers['ASTRUNDIR'] : "/var/run/asterisk";
+			}
+			if(isset($astconf['ASTLOGDIR'])) {
+				$aconf['directories']['astlogdir'] = !empty($answers['ASTLOGDIR']) ? $answers['ASTLOGDIR'] : "/var/log/asterisk";
+			}
+
+			$output->write("Writing ".ASTERISK_CONF."...");
+			$installer->asterisk_conf_write(ASTERISK_CONF, $aconf);
+			$output->writeln("Done");
 		}
-		if(isset($astconf['ASTMODDIR'])) {
-			$aconf['directories']['astmoddir'] = $astconf['ASTMODDIR'];
-		}
-		if(isset($astconf['ASTVARLIBDIR'])) {
-			$aconf['directories']['astvarlibdir'] = $astconf['ASTVARLIBDIR'];
-		}
-		if(isset($astconf['ASTAGIDIR'])) {
-			$aconf['directories']['astagidir'] = $astconf['ASTAGIDIR'];
-		}
-		if(isset($astconf['ASTSPOOLDIR'])) {
-			$aconf['directories']['astspooldir'] = $astconf['ASTSPOOLDIR'];
-		}
-		if(isset($astconf['ASTRUNDIR'])) {
-			$aconf['directories']['astrundir'] = $astconf['ASTRUNDIR'];
-		}
-		if(isset($astconf['ASTLOGDIR'])) {
-			$aconf['directories']['astlogdir'] = $astconf['ASTLOGDIR'];
-		}
-		$output->write("Writing ".ASTERISK_CONF."...");
-		$installer->asterisk_conf_write(ASTERISK_CONF, $aconf);
+
 		$asterisk_conf = $aconf['directories'];
-		$output->writeln("Done");
 
 		//Check Asterisk (before file writes)
 		$output->write("Checking if Asterisk is running and we can talk to it as the '".$answers['user']."' user...");
