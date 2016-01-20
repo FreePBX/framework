@@ -618,22 +618,6 @@ class FreePBXInstallCommand extends Command {
 		}
 		$output->writeln("Done!");
 
-		// Create missing #include files.
-		$output->write("Creating missing #include files...");
-		foreach(glob($amp_conf['ASTETCDIR'] . "/*.conf") as $file) {
-			$data = file_get_contents($file);
-			if(preg_match_all("/^\s*#include\s(.*)/",$data,$matches)) {
-				if(!empty($matches[1])) {
-					foreach($matches[1] as $include) {
-						if (!file_exists($amp_conf['ASTETCDIR'] . "/".$include)) {
-							touch($amp_conf['ASTETCDIR'] . "/".$include);
-						}
-					}
-				}
-			}
-		}
-		$output->writeln("Done");
-
 		//File variable replacement
 		$rfiles = array(
 			$amp_conf['ASTETCDIR'] . "/manager.conf",
@@ -656,6 +640,22 @@ class FreePBXInstallCommand extends Command {
 			);
 			$conf = str_replace(array_keys($replace), array_values($replace), $conf);
 			file_put_contents($file, $conf);
+		}
+		$output->writeln("Done");
+
+		// Create missing #include files.
+		$output->write("Creating missing #include files...");
+		foreach(glob($amp_conf['ASTETCDIR'] . "/*.conf") as $file) {
+			$data = file_get_contents($file);
+			if(preg_match_all("/^\s*#include\s(.*)/",$data,$matches)) {
+				if(!empty($matches[1])) {
+					foreach($matches[1] as $include) {
+						if (!file_exists($amp_conf['ASTETCDIR'] . "/".$include)) {
+							touch($amp_conf['ASTETCDIR'] . "/".$include);
+						}
+					}
+				}
+			}
 		}
 		$output->writeln("Done");
 
