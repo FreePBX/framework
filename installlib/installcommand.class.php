@@ -84,6 +84,14 @@ class FreePBXInstallCommand extends Command {
 			'default' => '/usr/sbin',
 			'description' => 'Location of the FreePBX (root) command line scripts'
 		),
+		'ampcgibin' => array(
+			'default' => '/var/www/cgi-bin',
+			'description' => 'Location of the Apache cgi-bin executables'
+		),
+		'ampplayback' => array(
+			'default' => '/var/lib/asterisk/playback',
+			'description' => 'Directory for FreePBX html5 playback files'
+		),
 	);
 
 	protected function configure() {
@@ -99,6 +107,8 @@ class FreePBXInstallCommand extends Command {
 			$this->settings['astagidir']['default'] = '/usr/local/share/asterisk/agi-bin';
 			$this->settings['ampbin']['default'] = '/usr/local/freepbx/bin';
 			$this->settings['ampsbin']['default'] = '/usr/local/freepbx/sbin';
+			$this->settings['ampcgibin']['default'] = '/usr/local/www/apache24/cgi-bin';
+			$this->settings['ampplayback']['default'] = '/var/spool/asterisk/playback';
 			$this->settings['webroot']['default'] = '/usr/local/www/freepbx';
 		} else {
 			$this->settings['astmoddir']['default'] = file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules';
@@ -334,6 +344,12 @@ class FreePBXInstallCommand extends Command {
 		}
 		if (isset($answers['ampsbin'])) {
 			$amp_conf['AMPSBIN'] = $answers['ampsbin'];
+		}
+		if (isset($answers['ampcgibin'])) {
+			$amp_conf['AMPCGIBIN'] = $answers['ampcgibin'];
+		}
+		if (isset($answers['ampplayback'])) {
+			$amp_conf['AMPPLAYBACK'] = $answers['ampplayback'];
 		}
 		if (isset($answers['webroot'])) {
 			$amp_conf['AMPWEBROOT'] = $answers['webroot'];
