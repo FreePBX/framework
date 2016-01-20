@@ -29,7 +29,7 @@ class Media extends DB_Helper{
 		}
 		$this->FreePBX = $freepbx;
 
-		$dir = $this->FreePBX->Config->get("ASTVARLIBPLAYBACK");
+		$dir = $this->FreePBX->Config->get("AMPPLAYBACK");
 		if(!file_exists($dir)) {
 			mkdir($dir);
 			$ampowner = $this->FreePBX->Config->get('AMPASTERISKWEBUSER');

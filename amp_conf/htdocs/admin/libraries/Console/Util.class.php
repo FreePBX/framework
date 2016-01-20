@@ -25,7 +25,7 @@ class Util extends Command {
 				$output->writeln(_("Starting Cache cleanup"));
 				$days = \FreePBX::Config()->get("CACHE_CLEANUP_DAYS");
 				$time = $days*24*60*60;
-				$path = \FreePBX::Config()->get("ASTVARLIBPLAYBACK");
+				$path = \FreePBX::Config()->get("AMPPLAYBACK");
 				$path = trim($path);
 				$user = \FreePBX::Config()->get("AMPASTERISKWEBUSER");
 				$formats = \FreePBX::Media()->getSupportedHTML5Formats();

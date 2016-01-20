@@ -873,7 +873,7 @@ class Installer {
 	'level' => 4,
 	);
 
-	$settings[$category]['ASTVARLIBPLAYBACK'] = array(
+	$settings[$category]['AMPPLAYBACK'] = array(
 	'value' => '/var/lib/asterisk/playback',
 	'options' => '',
 	'name' => 'Browser Playback Cache Directory',
