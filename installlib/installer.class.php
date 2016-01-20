@@ -703,7 +703,7 @@ class Installer {
 	'value' => true,
 	'options' => '',
 	'name' => 'Only Use Last CID Prepend',
-	'description' => "Some modules allow the CNAM to be prepended. If a previous prepend was done, the default behavior is to remove the previous prepend and only use the most recent one. Setting this to false will turn that off allowing all prepends to be 'starcked' in front of one another.",
+	'description' => "Some modules allow the CNAM to be prepended. If a previous prepend was done, the default behavior is to remove the previous prepend and only use the most recent one. Setting this to false will turn that off allowing all prepends to be 'stacked' in front of one another.",
 	'type' => CONF_TYPE_BOOL,
 	);
 
