@@ -89,7 +89,7 @@ class Chown extends Command {
 			if(isset($conf['custom'][''])){
 				$conf['custom']['execdir'] = is_array($conf['custom']['execdir'])?$conf['custom']['execdir']:array($conf['custom']['execdir']);
 				foreach (	$conf['custom']['execdir']  as $edir) {
-					$edir = parse_conf_line($rdir);
+					$edir = $this->parse_conf_line($rdir);
 					if($edir === false){continue;}
 					$this->modfiles['byconfig'][] = array('type' => 'execdir',
 							'path' => $edir['path'],
@@ -103,7 +103,7 @@ class Chown extends Command {
 		}
 
 	}
-	private function parse_conf_line($line = ''){
+	private function parse_conf_line($line){
 		$line = explode(",", $line);
 		if(count($line) !== 4){
 			return false;
