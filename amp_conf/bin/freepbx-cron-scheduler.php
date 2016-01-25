@@ -86,7 +86,7 @@ if ($email) {
 	$security = $nt->list_security();
 	if (count($security)) {
 		$send_email = true;
-		$text = $htext;
+		$text = $htext . "\n";
 		$text .= _("SECURITY NOTICE:")."\n\n";
 		foreach ($security as $item) {
 			$text .= $item['display_text']."\n";
@@ -110,7 +110,7 @@ if ($email) {
 	$updates = $nt->list_update();
 	if (count($updates)) {
 		$send_email = true;
-		$text = $htext;
+		$text = $htext . "\n";
 		$text .= _("UPDATE NOTICE:")."\n\n";
 		foreach ($updates as $item) {
 			$text .= $item['display_text']."\n";
