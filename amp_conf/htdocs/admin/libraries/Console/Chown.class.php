@@ -14,17 +14,102 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 class Chown extends Command {
 	private $errors = array();
 	private $infos = array();
+	private $blacklist = array();
 	private $quiet = false;
 	public $moduleName = '';
 	protected function configure(){
 		$this->setName('chown')
 		->setDescription(_('Change ownership of files'))
 		->setDefinition(array(
+			new InputOption('full', 'f', InputOption::VALUE_NONE, 'Chown all files'),
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 		$this->fs = new Filesystem();
 		$this->modfiles = array();
 		$this->actions = new \SplQueue();
 		$this->actions->setIteratorMode(\SplDoublyLinkedList::IT_MODE_FIFO | \SplDoublyLinkedList::IT_MODE_DELETE);
+		$this->loadChownConf();
+	}
+	private function loadChownConf(){
+		$etcdir = \FreePBX::Config()->get('ASTETCDIR');
+		if(!file_exists($etcdir.'/freepbx_chown.conf')){
+			return;
+		}
+		$conf  = \FreePBX::LoadConfig()->getConfig("freepbx_chown.conf");
+		if(isset($conf['blacklist'])){
+			if(isset($conf['blacklist']['item'])){
+				$conf['blacklist']['item'] = is_array($conf['blacklist']['item'])?$conf['blacklist']['item']:array($conf['blacklist']['item']);
+				foreach ($conf['blacklist']['item'] as $item) {
+					$this->blacklist[] = $item;
+				}
+			}
+		}
+		if(isset($conf['custom'])){
+			if(isset($conf['custom']['file'])){
+				$conf['custom']['file'] = is_array($conf['custom']['file'])?$conf['custom']['file']:array($conf['custom']['file']);
+				foreach (	$conf['custom']['file'] as $file) {
+					$file = $this->parse_conf_line($file);
+					if($file === false){continue;}
+					$this->modfiles['byconfig'][] = array('type' => 'file',
+							'path' => $file['path'],
+							'perms' => $file['perms'],
+							'owner' => $file['owner'],
+							'group' => $file['group']
+						);
+				}
+			}
+
+			if(isset($conf['custom']['dir'])){
+				$conf['custom']['dir'] = is_array($conf['custom']['dir'])?$conf['custom']['dir']:array($conf['custom']['dir']);
+				foreach (	$conf['custom']['dir']  as $dir) {
+					$dir = $this->parse_conf_line($dir);
+					if($dir === false){continue;}
+					$this->modfiles['byconfig'][] = array('type' => 'dir',
+							'path' => $dir['path'],
+							'perms' => $dir['perms'],
+							'owner' => $dir['owner'],
+							'group' => $dir['group'],
+							'always' => true
+						);
+				}
+			}
+			if(isset($conf['custom'][''])){
+				$conf['custom']['rdir'] = is_array($conf['custom']['rdir'])?$conf['custom']['rdir']:array($conf['custom']['rdir']);
+				foreach (	$conf['custom']['rdir']  as $rdir) {
+					$rdir = $this->parse_conf_line($rdir);
+					if($rdir === false){continue;}
+					$this->modfiles['byconfig'][] = array('type' => 'rdir',
+							'path' => $rdir['path'],
+							'perms' => $rdir['perms'],
+							'owner' => $rdir['owner'],
+							'group' => $rdir['group'],
+							'always' => true
+						);
+				}
+			}
+			if(isset($conf['custom'][''])){
+				$conf['custom']['execdir'] = is_array($conf['custom']['execdir'])?$conf['custom']['execdir']:array($conf['custom']['execdir']);
+				foreach (	$conf['custom']['execdir']  as $edir) {
+					$edir = $this->parse_conf_line($rdir);
+					if($edir === false){continue;}
+					$this->modfiles['byconfig'][] = array('type' => 'execdir',
+							'path' => $edir['path'],
+							'perms' => $edir['perms'],
+							'owner' => $edir['owner'],
+							'group' => $edir['group'],
+							'always' => true
+						);
+				}
+			}
+		}
+
+	}
+	private function parse_conf_line($line){
+		$line = explode(",", $line);
+		if(count($line) !== 4){
+			return false;
+		}
+		$ret = array('path' => $line[0], 'perms' => $line[1], 'owner' => $line[2], 'group' => $line[3]);
+		return $ret;
 	}
 	protected function execute(InputInterface $input, OutputInterface $output, $quiet=false){
 		if(posix_geteuid() != 0) {
@@ -92,29 +177,36 @@ class Chown extends Command {
 			}
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $sessdir,
-														'perms' => 0744);
+														'perms' => 0744,
+														'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'file',
 														'path' => '/etc/amportal.conf',
-														'perms' => 0640);
+														'perms' => 0640,
+														'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'file',
 														'path' => '/etc/freepbx.conf',
-														'perms' => 0640);
+														'perms' => 0640,
+														'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'dir',
 														'path' => $ASTRUNDIR,
-														'perms' => 0755);
+														'perms' => 0755,
+														'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => \FreePBX::GPG()->getGpgLocation(),
-														'perms' => 0755);
+														'perms' => 0755,
+														'always' => true);
 			//we may wish to declare these manually or through some automated fashion
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $ASTETCDIR,
-														'perms' => 0750);
+														'perms' => 0750,
+														'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'file',
 														'path' => $ASTVARLIBDIR . '/.ssh/id_rsa',
 														'perms' => 0600);
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $ASTLOGDIR,
-														'perms' => 0755);
+														'perms' => 0755,
+														'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $ASTSPOOLDIR,
 														'perms' => 0755);
@@ -148,10 +240,12 @@ class Chown extends Command {
 			//So that we dont get overwritten by ampwebroot
 			$this->modfiles['framework'][] = array('type' => 'execdir',
 			'path' => $AMPBIN,
-			'perms' => 0755);
+			'perms' => 0755,
+			'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'execdir',
 			'path' => $ASTAGIDIR,
-			'perms' => 0755);
+			'perms' => 0755,
+			'always' => true);
 			//Merge static files and hook files, then act on them as a single unit
 			$fwcCF = $this->fwcChownFiles();
 			if(!empty($this->modfiles) && !empty($fwcCF)){
@@ -164,10 +258,19 @@ class Chown extends Command {
 		 * than the Asterisk user we provide permissions that allow both.
 		 */
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
+		$blacklist = $this->blacklist;
 		foreach($this->modfiles as $moduleName => $modfilelist){
 			foreach($modfilelist as $file){
+				$full = $input->getOption('full');
 				if(!isset($file['path']) || !isset($file['perms']) || !file_exists($file['path'])){
 						continue;
+				}
+				//If the "--full is not passes we will not process any files that don't have always set"
+				if(!$full && !isset($file['always'])){continue;}
+				//If path is in the blacklist we move on.
+				if(in_array($file['path'], $blacklist) == true){
+					$this->infos[] = sprintf(_('%s skipped by configuration'), $file['path']);
+					continue;
 				}
 				//Handle custom ownership (optional)
 				$owner = isset($file['owner'])?$file['owner']:$ampowner;
@@ -266,6 +369,11 @@ class Chown extends Command {
 			$action = json_decode($action,true);
 			//Ignore call files, Asterisk may process/delete them before we get to them.
 			if(pathinfo($action[0], PATHINFO_EXTENSION) == 'call'){
+				continue;
+			}
+			//If path is in the blacklist we move on.
+			if(in_array($action[0], $this->blacklist) == true){
+				$this->infos[] = sprintf(_('%s skipped by configuration'), $action[0]);
 				continue;
 			}
 			$this->singleChown($action[0],$action[1],$action[2]);
