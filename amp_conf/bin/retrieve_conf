@@ -1,4 +1,4 @@
-#!/usr/bin/php -q
+#!/usr/bin/env php
 <?php
 //	License for all code of this FreePBX module can be found in the license file inside the module directory
 //	Copyright 2013 Schmooze Com Inc.
@@ -63,21 +63,24 @@ class connectdirs {
 	}
 
 	function connectdirs() {
-    global $amp_conf;
-    global $db;
-    $this->symlink_dirs['bin']    		= $amp_conf['AMPBIN'];
-    $this->symlink_dirs['etc']    		= $amp_conf['ASTETCDIR'];
-    $this->symlink_dirs['images'] 		= $amp_conf['AMPWEBROOT'] . "/admin/images";
-    $this->symlink_dirs['ari/modules']	= $amp_conf['AMPWEBROOT'] . "/recordings/modules";
-    $this->symlink_dirs['ari/theme'] 	= $amp_conf['AMPWEBROOT'] . "/recordings/theme";
-    $this->symlink_dirs['ari/js']		= $amp_conf['AMPWEBROOT'] . "/recordings/theme/js";
-    $this->symlink_dirs['ari/images']	= $amp_conf['AMPWEBROOT'] . "/recordings/theme/images";
-
-    $this->symlink_sound_dirs['sounds'] 		= $amp_conf['ASTVARLIBDIR'] . '/sounds';
-
-    $this->cp_dirs['agi-bin'] 			= $amp_conf['ASTAGIDIR'];
-
-    $this->nt = notifications::create($db);
+		global $amp_conf;
+		global $db;
+		$this->symlink_dirs['bin']	= $amp_conf['AMPBIN'];
+		$this->symlink_dirs['etc'] 	= $amp_conf['ASTETCDIR'];
+		$this->symlink_dirs['images'] 	=
+			$amp_conf['AMPWEBROOT'] . "/admin/images";
+		$this->symlink_dirs['ari/modules']	=
+			$amp_conf['AMPWEBROOT'] . "/recordings/modules";
+		$this->symlink_dirs['ari/theme'] 	=
+			$amp_conf['AMPWEBROOT'] . "/recordings/theme";
+		$this->symlink_dirs['ari/js']		=
+			$amp_conf['AMPWEBROOT'] . "/recordings/theme/js";
+		$this->symlink_dirs['ari/images']	=
+			$amp_conf['AMPWEBROOT'] . "/recordings/theme/images";
+		$this->symlink_sound_dirs['sounds'] 	=
+			$amp_conf['ASTVARLIBDIR'] . '/sounds';
+		$this->cp_dirs['agi-bin'] 	= $amp_conf['ASTAGIDIR'];
+		$this->nt = notifications::create($db);
 	}
 
 	function symlink_assets($module) {
@@ -89,8 +92,8 @@ class connectdirs {
 		$srcdir = $amp_conf['AMPWEBROOT'] . '/admin/modules/' . $module . '/assets';
 		$targetdir = $amp_conf['AMPWEBROOT'] . "/admin/assets/" . $module;
 
-		// if assets does not exists in the module then there's no need to have
-		// a link to it.
+		// if assets does not exist in the module then there is
+		// no need to have a link to it.
 		if (!is_dir($srcdir)) {
 			if (is_link($targetdir)) {
 				$this->err_unlink($targetdir);
@@ -131,64 +134,67 @@ class connectdirs {
 		}
 	}
 
-  function generate_less($module) {
-    // e.g. /var/www/html/admin/modules/ringgroups/assets
-    // e.g. /var/www/html/admin/assets/ringgroups
-    //
-    FreePBX::create()->Less->generateModuleStyles($module);
-  }
+	function generate_less($module) {
+		// e.g. /var/www/html/admin/modules/ringgroups/assets
+		// e.g. /var/www/html/admin/assets/ringgroups
+		FreePBX::create()->Less->generateModuleStyles($module);
+	}
 
-  function symlink_sound_dirs($moduledir) {
-    $language_dirs = array();
-    foreach ($this->symlink_sound_dirs as $subdir => $targetdir) {
-		  $dir = addslash($moduledir).$subdir;
-		  if (is_dir($dir)) {
-			  $d = opendir($dir);
-			  while ($file = readdir($d)) {
-				  if ($file[0] != '.') {
-            // If this is a directory, then put it on the list of language directories to process
-            // otherwise symlink it
-            //
-            if (is_dir(addslash($dir).$file)) {
-              $language_dirs[] = $file;
-            } else {
-              $this->do_symlink(addslash($dir).$file, addslash($targetdir).$file, $subdir, $moduledir);
-            }
-				  }
-			  }
-			  closedir($d);
-        // Now if we have any langauge directories, then check if they are installed on the target and
-        // if so symlink them over.
-        foreach ($language_dirs as $lang) {
-          if (is_dir(addslash($targetdir).$lang)) {
-			      $d = opendir(addslash($dir).$lang);
-            while ($file = readdir($d)) {
-				      if ($file[0] != '.') {
-                $this->do_symlink(addslash($dir).addslash($lang).$file, addslash($targetdir).addslash($lang).$file, $subdir, $moduledir);
-              }
-            }
-          } else {
-            //out(sprintf(_("found language dir %s for %s, not installed on system, skipping"),$lang,basename($moduledir)));
-          }
-        }
-		  }
-	  }
-  }
+	function symlink_sound_dirs($moduledir) {
+		$language_dirs = array();
+		foreach ($this->symlink_sound_dirs as $subdir => $targetdir) {
+			$dir = addslash($moduledir).$subdir;
+			if (!is_dir($dir)) {
+				continue;
+			}
+			$d = opendir($dir);
+			while ($file = readdir($d)) {
+				if ($file[0] != '.') {
+					// If this is a directory, then put
+					// it on the list of language
+					// directories to process,
+					// otherwise symlink it
+					if (is_dir(addslash($dir).$file)) {
+						$language_dirs[] = $file;
+					} else {
+						$this->do_symlink(addslash($dir).$file, addslash($targetdir).$file, $subdir, $moduledir);
+					}
+				}
+			}
+			closedir($d);
+		        // If we found any langauge directories, then
+			// check if they are installed on the target and
+			// if so symlink them over.
+		        foreach ($language_dirs as $lang) {
+				if (!is_dir(addslash($targetdir).$lang)) {
+					// out(sprintf(_("found language dir %s for %s, not installed on system, skipping"),$lang,basename($moduledir)));
+					continue;
+				}
+				$d = opendir(addslash($dir).$lang);
+				while ($file = readdir($d)) {
+					if ($file[0] != '.') {
+						$this->do_symlink(addslash($dir).addslash($lang).$file, addslash($targetdir).addslash($lang).$file, $subdir, $moduledir);
+					}
+				}
+				closedir($d);
+			}
+		}
+	}
 
-  function symlink_subdirs($moduledir) {
-    foreach ($this->symlink_dirs as $subdir => $targetdir) {
-		  $dir = addslash($moduledir).$subdir;
-		  if (is_dir($dir)) {
-			  $d = opendir($dir);
-			  while ($file = readdir($d)) {
-				  if ($file[0] != '.') {
-            $this->do_symlink(addslash($dir).$file, addslash($targetdir).$file, $subdir, $moduledir);
-				  }
-			  }
-			  closedir($d);
-		  }
-	  }
-  }
+	function symlink_subdirs($moduledir) {
+		foreach ($this->symlink_dirs as $subdir => $targetdir) {
+			$dir = addslash($moduledir).$subdir;
+			if (is_dir($dir)) {
+				$d = opendir($dir);
+					while ($file = readdir($d)) {
+					if ($file[0] != '.') {
+						$this->do_symlink(addslash($dir).$file, addslash($targetdir).$file, $subdir, $moduledir);
+					}
+				}
+				closedir($d);
+			}
+		}
+	}
 
   function do_symlink($src, $dest, $subdir, $moduledir) {
 	global $amp_conf;

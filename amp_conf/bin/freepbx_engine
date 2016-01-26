@@ -15,8 +15,7 @@ E_NOTROOT=67 # Non-root exit error
 
 echo
 # check to see if we are root
-if [ "$UID" -ne "$ROOT_UID" ]
-then
+if [ "$UID" -ne "$ROOT_UID" ]; then
 	echo "Sorry, you must be root to run this script."
 	echo
 	exit $E_NOTROOT
@@ -28,10 +27,10 @@ move_freepbxconf() {
 		echo moving /etc/asterisk/freepbx.conf to /etc/freepbx.conf
 		mv /etc/asterisk/freepbx.conf /etc/
 	  	if [ "$?" -ne "0" ]; then
-				echo "unable to move, FreePBX will function fine but you will"
-				echo "get this error until the file can be successfully moved"
-			else
-				FREEPBX_CONF="/etc/freepbx.conf"
+			echo "unable to move, FreePBX will function fine but you will"
+			echo "get this error until the file can be successfully moved"
+		else
+			FREEPBX_CONF="/etc/freepbx.conf"
 	  	fi
 	fi
 }
@@ -42,7 +41,7 @@ if [ -z "$FREEPBX_CONF" ]; then
 		FREEPBX_CONF="/etc/freepbx.conf"
 	elif [ -e "/etc/asterisk/freepbx.conf" ]; then
 		FREEPBX_CONF="/etc/asterisk/freepbx.conf"
-		 move_freepbxconf
+		move_freepbxconf
 	else
 		FREEPBX_CONF="/etc/freepbx.conf"
 	fi
@@ -57,7 +56,11 @@ AMPASTERISKGROUP=asterisk
 AMPASTERISKWEBUSER=$AMPASTERISKUSER
 AMPASTERISKWEBGROUP=$AMPASTERISKGROUP
 AMPVMUMASK=077
-ASTETCDIR=/etc/asterisk
+if [ -d /usr/local/etc/asterisk ]; then
+	ASTETCDIR=/usr/local/etc/asterisk
+else
+	ASTETCDIR=/etc/asterisk
+fi
 FPBXDBUGFILE=/var/log/asterisk/freepbx_debug
 ASTSTOPTIMEOUT=120
 ASTSTOPPOLLINT=2
@@ -71,20 +74,50 @@ write_freepbxconf() {
 		\$amp_conf['AMPDBHOST']	= '$AMPDBHOST';
 		\$amp_conf['AMPDBNAME']	= '$AMPDBNAME';
 		\$amp_conf['AMPDBENGINE'] = '$AMPDBENGINE';
-		\$amp_conf['datasource']	= ''; //for sqlite3
+		\$amp_conf['datasource'] = ''; // for sqlite3
 
 		require_once('${AMPWEBROOT}/admin/bootstrap.php');
 
 		EOF
 	fi
-	if [ -e /etc/asterisk/freepbx.conf -a ! -e /etc/freepbx.conf ]; then
-		echo moving /etc/asterisk/freepbx.conf to /etc/freepbx.conf
-		mv /etc/asterisk/freepbx.conf /etc/
-  	if [ "$?" -ne "0" ]; then
-			echo "unable to move, FreePBX will function fine but you will"
-			echo "get this error until the file can be successfully moved"
-  	fi
+	move_freepbxconf
+}
+
+do_syncmanger() {
+	`php -r '
+	$bootstrap_settings["freepbx_auth"] = false;
+	$bootstrap_settings["skip_astman"] = true;
+	$restrict_mods = true;
+	if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) {
+		include_once("/etc/asterisk/freepbx.conf");
+	}
+	fpbx_ami_update(true,true,true);
+	'`
+	if [[ $? = 0 ]]; then
+		echo 'Manager ReSynced, restarting Asterisk'
+		$AMPBIN/fwconsole stop
+		call_hook stop_asterisk
+		sleep 1
+		$AMPBIN/fwconsole chown
+		$AMPBIN/fwconsole start
+		call_hook run_asterisk
+	else
+		echo 'um, something went wrong...'
 	fi
+}
+
+do_genunlockkey() {
+	echo "If REMOTEUNLOCK is enabled, you will receive a value for KEY."
+	echo "You can use that as a parameter to config.php, thus:"
+	echo "http://192.168.1.1/admin/config.php?unlock=abc123def... "
+	echo ""
+	php -r '
+	$bootstrap_settings["freepbx_auth"] = false; $bootstrap_settings["skip_astman"] = true; $restrict_mods = true;
+	if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) {
+		include_once("/etc/asterisk/freepbx.conf");
+	}
+	print "KEY=".$bmo->Unlock->genUnlockKey()."\n";
+	'
 }
 
 # get settings from db/config file
@@ -98,18 +131,20 @@ if [[ -e $FREEPBX_CONF && -w "/etc/amportal.conf" && -z "$FORCE_AMPORTAL_CONF" ]
         gen_path=$PWD
         cd $sv_pwd
 	`$gen_path/gen_amp_conf.php`
-elif [ -e "/etc/amportal.conf" ]; then # Check if file exists, if it does read it and then write out /etc/freepbx.conf
+elif [ -e "/etc/amportal.conf" ]; then
+	# Check if this setting file exists, if so
+	# read it and then write out /etc/freepbx.conf
 	. /etc/amportal.conf
 	write_freepbxconf
 else
-	echo;
-    echo "FreePBX config file not found!";
-	echo "Have you installed FreePBX?";
-	exit;
+	echo
+	echo "FreePBX config file not found!"
+	echo "Have you installed FreePBX?"
+	exit
 fi
 
 if [ -z $PIDOF ]; then
-    PIDOF=pidof
+	PIDOF=pidof
 fi
 
 if [ -e $AMPBIN/amportal ]; then
@@ -131,30 +166,28 @@ if [ -e $AMPBIN/amportal ]; then
 	fi
 fi
 
-if [ "$ASTRUNDIR" = "/var/run" ]
-  then
-    echo "**** ERROR IN CONFIGURATION ****"
-    echo "astrundir in '$ASTETCDIR' is set to '/var/run' - THIS IS WRONG."
-    echo "Please change it to something sensible (eg, '/var/run/asterisk') and re-run"
-    echo "install"
-    exit;
+if [ "$ASTRUNDIR" = "/var/run" ]; then
+	echo "**** ERROR IN CONFIGURATION ****"
+	echo "astrundir in '$ASTETCDIR' is set to '/var/run' - THIS IS WRONG."
+	echo "Please change it to something sensible (eg, '/var/run/asterisk')"
+	echo "and re-run install"
+	exit
 fi
 
-if [ ! -d "$ASTRUNDIR" ]
-  then
-    echo "**** WARNING: ERROR IN CONFIGURATION ****"
-    echo "astrundir in '$ASTETCDIR' is set to $ASTRUNDIR but the directory"
-		echo "does not exists. Attempting to create it with: 'mkdir -p $ASTRUNDIR'"
-		echo
-		mkdir -p $ASTRUNDIR
-		RET=$?
-		if [ $RET != 0 ]
-		then
-    	echo "**** ERROR: COULD NOT CREATE $ASTRUNDIR ****"
-			echo "Attempt to execute 'mkdir -p $ASTRUNDIR' failed with an exit code of $RET"
-    	echo "You must create this directory and the try again."
-			exit
-		fi
+if [ ! -d "$ASTRUNDIR" ]; then
+	echo "**** WARNING: ERROR IN CONFIGURATION ****"
+	echo "astrundir in '$ASTETCDIR' is set to $ASTRUNDIR but the directory"
+	echo "does not exist. Attempting to create it with:"
+	echo "  'mkdir -p $ASTRUNDIR'"
+	echo
+	mkdir -p $ASTRUNDIR
+	RET=$?
+	if [ $RET != 0 ]; then
+		echo "**** ERROR: COULD NOT CREATE $ASTRUNDIR ****"
+		echo "Attempt to execute 'mkdir -p $ASTRUNDIR' failed with an exit code of $RET"
+		echo "You must create this directory and the try again."
+		exit
+	fi
 fi
 
 ############ freepbx_engine_hooks #########################
@@ -171,14 +204,14 @@ fi
 #
 # call_hook
 #
-# takes as argument the name of a function and checks if there are any hooks declared
-# in the form of NAME_hook_* and if so will execute those. This is used in conjunction
-# with the various operaitonal built in commands  such as start, stop, restart, etc.
-# for functions such as a module that may need a daemon started and stopped when Asterisk
-# is started and stopped, such as FOP with op_server.pl
+# takes as argument the name of a function and checks if there are
+# any hooks declared in the form of NAME_hook_* and if so will execute
+# those. This is used in conjunction with the various operational
+# built in commands such as start, stop, restart, etc.  for functions
+# such as a module that may need a daemon started and stopped when
+# Asterisk is started and stopped, such as FOP with op_server.pl
 #
 call_hook() {
-
 	HOOKPRE=${1}_hook_;
 	HOOKLEN=${#HOOKPRE}
 	RETCODE=1
@@ -198,7 +231,7 @@ call_hook() {
 }
 
 CURDIR="$( cd -P "$( dirname "$0" )" && pwd )"
-for VAR in `ls ${CURDIR}/freepbx_engine_hook_* 2>/dev/null`
+for VAR in $(ls ${CURDIR}/freepbx_engine_hook_* 2>/dev/null)
 do
 	. ${VAR}
 done
@@ -217,152 +250,128 @@ echo -e "\033[38;5;148m!!!!amportal is depreciated. Please use fwconsole!!!!\033
 echo "forwarding all commands to 'fwconsole'"
 case "$1" in
 	start)
-	$AMPBIN/fwconsole start
-	call_hook run_asterisk
-	exit;
-	;;
+		$AMPBIN/fwconsole start
+		call_hook run_asterisk
+		exit
+		;;
 	stop)
-	$AMPBIN/fwconsole stop
-	call_hook stop_asterisk
-	exit;
-	;;
+		$AMPBIN/fwconsole stop
+		call_hook stop_asterisk
+		exit
+		;;
 	restart)
-	call_hook stop_asterisk
-	$AMPBIN/fwconsole restart
-	call_hook run_asterisk
-	exit;
-	;;
+		call_hook stop_asterisk
+		$AMPBIN/fwconsole restart
+		call_hook run_asterisk
+		exit
+		;;
 	reload)
-	$AMPBIN/fwconsole reload
-	exit;
-	;;
-	chown)
-	$AMPBIN/fwconsole chown
-	exit;
-	;;
-	kill)
-	$AMPBIN/fwconsole kill
-	call_hook kill_amp
-	exit;
-	;;
-	#Added some admin/dev oriented options:
-	#see usage in help text below
-	admin|a)
-	case "$2" in
-		reload|r)
 		$AMPBIN/fwconsole reload
-		exit;
+		exit
 		;;
-		context|ctx)
-		$AMPBIN/fwconsole context $3
-		exit;
-		;;
-		userman)
-		case $3 in
-			migrate|m)
-			$AMPBIN/fwconsole userman migrate
-			exit;
-			;;
-			*)
-			$AMPBIN/fwconsole userman --help
-			exit;
-			;;
-		esac
-		;;
-		ucp)
-		case $3 in
-			enableall|ea)
-			$AMPBIN/fwconsole ucp enableall
-			exit;
-			;;
-			unlock|u)
-			$AMPBIN/fwconsole ucp $4 $5
-			exit;
-			;;
-			*)
-			$AMPBIN/fwconsole ucp --help
-			exit;
-			;;
-		esac
-		;;
-		modadmin|ma)
-		$AMPBIN/fwconsole moduleadmin $3 $4
-		exit;
-		;;
-		freepbx_setting|fs)
-		$AMPBIN/fwconsole setting $3 $4
-		exit;
-		;;
-		auth_database|ad)
-		$AMPBIN/fwconsole setting AUTHTYPE database
-		exit;
-		;;
-		auth_none|an)
-		$AMPBIN/fwconsole setting AUTHTYPE none
-		exit;
-		;;
-		externalip|extip)
-		$AMPBIN/fwconsole extip
-		exit;
-		;;
-		dbug)
-		$AMPBIN/fwconsole dbug
-		exit;
-		;;
-		mysql|m)
-		$AMPBIN/fwconsole mysql
-		;;
-		syncmanager|s)
-		`php -r '
-		$bootstrap_settings["freepbx_auth"] = false;
-		$bootstrap_settings["skip_astman"] = true;
-		$restrict_mods = true;
-		if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) {
-			include_once("/etc/asterisk/freepbx.conf");
-		}
-		fpbx_ami_update(true,true,true);
-		'`
-		if [[ $? = 0 ]]; then
-			echo 'Manager ReSynced, restarting Asterisk'
-			$AMPBIN/fwconsole stop
-			call_hook stop_asterisk
-			sleep 1
-			$AMPBIN/fwconsole chown
-			$AMPBIN/fwconsole start
-			call_hook run_asterisk
-		else
-			echo 'um, something went wrong...'
-		fi
-		exit;
-		;;
-		unlock|u)
-		$AMPBIN/fwconsole unlock $3
-		exit;
-		;;
-		genunlockkey)
-		echo "If REMOTEUNLOCK is enabled, you will receive a value for KEY. You can use"
-		echo "that as a parameter to config.php, thus:"
-		echo "http://192.168.1.1/admin/config.php?unlock=abc123def... "
-		echo ""
-		env php -r '$bootstrap_settings["freepbx_auth"] = false; $bootstrap_settings["skip_astman"] = true; $restrict_mods = true;
-		if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) { include_once("/etc/asterisk/freepbx.conf"); }
-			print "KEY=".$bmo->Unlock->genUnlockKey()."\n";'
-		exit;
-		;;
-		rmsymlinks)
+	chown)
 		$AMPBIN/fwconsole chown
-		exit;
+		exit
 		;;
-		*)
-		$AMPBIN/fwconsole
-		exit;
+	kill)
+		$AMPBIN/fwconsole kill
+		call_hook kill_amp
+		exit
 		;;
+	admin|a)
+		# Added some admin/dev oriented options:
+		#see usage in help text below
+		case "$2" in
+			reload|r)
+				$AMPBIN/fwconsole reload
+				exit
+			;;
+			context|ctx)
+				$AMPBIN/fwconsole context $3
+				exit
+			;;
+			userman)
+				case $3 in
+					migrate|m)
+						$AMPBIN/fwconsole userman migrate
+						exit
+						;;
+					*)
+						$AMPBIN/fwconsole userman --help
+						exit
+						;;
+				esac
+				;;
+
+			ucp)
+				case $3 in
+					enableall|ea)
+						$AMPBIN/fwconsole ucp enableall
+						exit
+						;;
+					unlock|u)
+						$AMPBIN/fwconsole ucp $4 $5
+						exit
+						;;
+					*)
+						$AMPBIN/fwconsole ucp --help
+						exit
+						;;
+				esac
+				;;
+			modadmin|ma)
+				$AMPBIN/fwconsole moduleadmin $3 $4
+				exit
+				;;
+			freepbx_setting|fs)
+				$AMPBIN/fwconsole setting $3 $4
+				exit
+				;;
+			auth_database|ad)
+				$AMPBIN/fwconsole setting AUTHTYPE database
+				exit
+				;;
+			auth_none|an)
+				$AMPBIN/fwconsole setting AUTHTYPE none
+				exit
+				;;
+			externalip|extip)
+				$AMPBIN/fwconsole extip
+				exit
+				;;
+			dbug)
+				$AMPBIN/fwconsole dbug
+				exit
+				;;
+			mysql|m)
+				$AMPBIN/fwconsole mysql
+				;;
+			syncmanager|s)
+				do_syncmanger
+				exit
+				;;
+			unlock|u)
+				$AMPBIN/fwconsole unlock $3
+				exit
+				;;
+			genunlockkey)
+				do_genunlockkey
+				exit
+				;;
+			rmsymlinks)
+				$AMPBIN/fwconsole chown
+				exit
+				;;
+			*)
+				$AMPBIN/fwconsole
+				exit
+				;;
 		esac
 		;;
-		*)
+	*)
 		$AMPBIN/fwconsole "$@"
-		exit;
+		exit
 		;;
-	esac
+esac
 echo ""
 echo -e "\033[38;5;148m!!!!amportal is depreciated. Please use 'fwconsole $@'!!!!\033[39m"

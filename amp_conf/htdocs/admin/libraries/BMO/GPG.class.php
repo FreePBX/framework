@@ -36,8 +36,8 @@ class GPG {
 	// This is the FreePBX Master Key.
 	private $freepbxkey = '2016349F5BC6F49340FCCAF99F9169F4B33B4659';
 
-	// Our path to GPG.
-	private $gpg = "/usr/bin/gpg";
+	// Will hold path to 'gpg' binary
+	private $gpg;
 	// Default options.
 	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true,timeout=5";
 
@@ -54,6 +54,17 @@ class GPG {
 	// This may need to be tuned on things like the pi.
 	public $timeout = 3;
 
+	// Constructor, to provide some per-OS values
+	// Fail if gpg isn't in an expected place
+	function __construct() {
+		if (file_exists('/usr/local/bin/gpg')) {
+			$this->gpg = '/usr/local/bin/gpg';
+		} elseif (file_exists('/usr/bin/gpg')) {
+			$this->gpg = '/usr/bin/gpg';
+		} else {
+			throw new Exception(_("Could not find gpg command!"));
+		}
+	}
 
 	/**
 	 * Validate a file using WoT

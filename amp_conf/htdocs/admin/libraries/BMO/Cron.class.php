@@ -60,7 +60,11 @@ class Cron {
 	 */
 	public function getAll() {
 		exec('/usr/bin/crontab '.$this->uoption.' -l 2>&1', $output, $ret);
+		// Linux output
 		if (preg_match('/^no crontab for/', $output[0]))
+			return array();
+		// FreeBSD output
+		if (preg_match('/^crontab: no crontab for/', $output[0]))
 			return array();
 
 		return $output;

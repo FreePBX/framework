@@ -89,10 +89,10 @@ class cronmanager {
 						";
 		}
 		sql($sql);
-		$nt =& notifications::create();
+		$nt = notifications::create();
 		$nt->delete('core', 'UPDATES_OFF');
 
-		$freepbx_conf =& freepbx_conf::create();
+		$freepbx_conf = freepbx_conf::create();
 		//Make sure we don't set the value again because we dont need to do that
 		//also to prevent against loops
 		if(!$freepbx_conf->get_conf_setting('CRONMAN_UPDATES_CHECK')) {

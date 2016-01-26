@@ -1,4 +1,4 @@
-#!/usr/bin/php -q
+#!/usr/bin/env php
 <?php
 //	License for all code of this FreePBX module can be found in the license file inside the module directory
 //	Copyright 2006-2014 Schmooze Com Inc.
@@ -379,16 +379,19 @@ function showi18n($modulename) {
 	$settingsProcessed = array();
 	foreach ($conf as $keyword => $settings) {
 		//we don't need hidden settings as the user never sees them
-		if ($settings['hidden'] != true && ($rawname == 'framework' && $settings['module'] == '') || $settings['module'] == $modulename) {
-			if (!in_array($settings['name'], $settingsProcessed['name'])) {
+		if ($settings['hidden'] == true) {
+			continue;
+		} elseif (($rawname == 'framework' && $settings['module'] == '') ||
+			$settings['module'] == $modulename) {
+			if (!in_array($settings['name'], $settingsProcessed)) {
 				$settingsProcessed['name'][] = $settings['name'];
 				echo "# Setting name - $keyword:\n_(\"".$settings['name']."\");\n";
 			}
-			if (!in_array($settings['category'], $settingsProcessed['category'])) {
+			if (!in_array($settings['category'], $settingsProcessed)) {
 				$settingsProcessed['category'][] = $settings['category'];
 				echo "# Setting category - $keyword:\n_(\"".$settings['category']."\");\n";
 			}
-			if (!in_array($settings['description'], $settingsProcessed['description'])) {
+			if (!in_array($settings['description'], $settingsProcessed)) {
 				$settingsProcessed['description'][] = $settings['description'];
 				echo "# Setting description - $keyword:\n_(\"".$settings['description']."\");\n";
 			}
@@ -931,3 +934,4 @@ switch ($operation ) {
 }
 
 exit(0);
+?>
