@@ -21,7 +21,6 @@ class Chown extends Command {
 		$this->setName('chown')
 		->setDescription(_('Change ownership of files'))
 		->setDefinition(array(
-			new InputOption('full', 'f', InputOption::VALUE_NONE, 'Chown all files'),
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 		$this->fs = new Filesystem();
 		$this->modfiles = array();
@@ -261,12 +260,9 @@ class Chown extends Command {
 		$blacklist = $this->blacklist;
 		foreach($this->modfiles as $moduleName => $modfilelist){
 			foreach($modfilelist as $file){
-				$full = $input->getOption('full');
 				if(!isset($file['path']) || !isset($file['perms']) || !file_exists($file['path'])){
 						continue;
 				}
-				//If the "--full is not passes we will not process any files that don't have always set"
-				if(!$full && !isset($file['always'])){continue;}
 				//If path is in the blacklist we move on.
 				if(in_array($file['path'], $blacklist) == true){
 					$this->infos[] = sprintf(_('%s skipped by configuration'), $file['path']);
