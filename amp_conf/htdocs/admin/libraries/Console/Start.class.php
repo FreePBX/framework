@@ -18,6 +18,7 @@ class Start extends Command {
 		$this->setName('start')
 			->setDescription(_('Start Asterisk and run other needed FreePBX commands'))
 			->setDefinition(array(
+				new InputOption('full', 'f', InputOption::VALUE_NONE, 'Chown all files'),
 				new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 	}
 
