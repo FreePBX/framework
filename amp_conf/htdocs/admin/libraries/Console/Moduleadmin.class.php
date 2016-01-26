@@ -19,7 +19,6 @@ class Moduleadmin extends Command {
 		->setAliases(array('moduleadmin'))
 		->setDescription('Module Administration')
 		->setDefinition(array(
-			new InputOption('full', '', InputOption::VALUE_NONE, 'Chown all files'),
 			new InputOption('force', 'f', InputOption::VALUE_NONE, _('Force operation (skips dependency and status checks) <warning>WARNING:</warning> Use at your own risk, modules have dependencies for a reason!')),
 			new InputOption('debug', 'd', InputOption::VALUE_NONE, _('Output debug messages to the console (be super chatty)')),
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'json, jsonpretty')),

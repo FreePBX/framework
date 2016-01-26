@@ -117,6 +117,7 @@ class Chown extends Command {
 		}
 		$this->quiet = $quiet;
 		if(!$this->quiet) {
+			$output->writeln("<info>".sprintf(_("Taking too long? Customize the chown command, See %s"),"http://wiki.freepbx.org/display/FOP/FreePBX+Chown+Conf")."</info>");
 			$output->writeln(_("Setting Permissions")."...");
 		}
 		$freepbx_conf = \freepbx_conf::create();
