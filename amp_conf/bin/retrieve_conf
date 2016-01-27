@@ -196,111 +196,115 @@ class connectdirs {
 		}
 	}
 
-  function do_symlink($src, $dest, $subdir, $moduledir) {
-	global $amp_conf;
-    if (file_exists_wrapper($dest)) {
-      if ((!is_link($dest) || readlink($dest) != $src) && file_exists($src) && file_exists($dest) && (md5_file($src) == md5_file($dest))) {
-        // dbug('retrieve-conf', "Can't symlink $src to $dest but files are the same so ignoring");
-      } else if (!is_link($dest)) {
-		//If the symlink error is coming from the etc directory then we move those files to backup
-		if(preg_match('/^'.str_replace("/","\/",$amp_conf['ASTETCDIR']).'/',$dest) && is_writable($dest)) {
-			if(!file_exists($amp_conf['ASTETCDIR'].'/backup')) {
-				mkdir($amp_conf['ASTETCDIR'].'/backup');
-			}
-			$f = $amp_conf['ASTETCDIR'].'/backup/'.basename($dest).".bk.".time();
-			rename($dest,$f);
-			if (!symlink($src, $dest)) {
-				freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
-			} else {
-				$this->symlink_notice_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
+	function do_symlink($src, $dest, $subdir, $moduledir) {
+		global $amp_conf;
+		if (file_exists_wrapper($dest)) {
+			if ((!is_link($dest) || readlink($dest) != $src) && file_exists($src) && file_exists($dest) && (md5_file($src) == md5_file($dest))) {
+				// dbug('retrieve-conf', "Can't symlink $src to $dest but files are the same so ignoring");
+			} else if (!is_link($dest)) {
+				//If the symlink error is coming from the etc directory then we move those files to backup
+				if(preg_match('/^'.str_replace("/","\/",$amp_conf['ASTETCDIR']).'/',$dest) && is_writable($dest)) {
+					if(!file_exists($amp_conf['ASTETCDIR'].'/backup')) {
+						mkdir($amp_conf['ASTETCDIR'].'/backup');
+					}
+					$f = $amp_conf['ASTETCDIR'].'/backup/'.basename($dest).".bk.".time();
+					rename($dest,$f);
+					if (!symlink($src, $dest)) {
+						freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
+					} else {
+						$this->symlink_notice_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
+					}
+				} else {
+					freepbx_log(FPBX_LOG_ERROR, sprintf(_('%s already exists, and is not a symlink!'),$dest));
+					$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (Already exists, not a link)"),$dest,basename($moduledir),$subdir);
+				}
+			} else if (readlink($dest) != $src) {
+				//users need to be aware of symlink conflicts. We should attempt to resolve them properly though. So lets do that.
+				freepbx_log(FPBX_LOG_ERROR, $dest.' already exists, and is linked to something else!');
+				$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (Already exists, linked to something else)"),$dest,basename($moduledir),$subdir);
 			}
 		} else {
-        	freepbx_log(FPBX_LOG_ERROR, sprintf(_('%s already exists, and is not a symlink!'),$dest));
-        	$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (Already exists, not a link)"),$dest,basename($moduledir),$subdir);
+			$targetdir = dirname($dest);
+			if (!is_dir($targetdir)) {
+				freepbx_log(FPBX_LOG_ERROR, sprintf(_("Tried to link %s to %s, but %s doesn't exist"),$src,$dest,$targetdir));
+			} else {
+				if (!symlink($src, $dest)) {
+					freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
+				}
+			}
 		}
-      } else if (readlink($dest) != $src) {
-		//users need to be aware of symlink conflicts. We should attempt to resolve them properly though. So lets do that.
-        freepbx_log(FPBX_LOG_ERROR, $dest.' already exists, and is linked to something else!');
-        $this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (Already exists, linked to something else)"),$dest,basename($moduledir),$subdir);
-      }
-    } else {
-      $targetdir = dirname($dest);
-      if (!is_dir($targetdir)) {
-        freepbx_log(FPBX_LOG_ERROR, sprintf(_("Tried to link %s to %s, but %s doesn't exist"),$src,$dest,$targetdir));
-      } else {
-        if (!symlink($src, $dest)) {
-          freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
-        }
-      }
-    }
-  }
-
-  function symlink_check_errors() {
-	global $amp_conf;
-    if ($this->symlink_error_modules) {
-		$this->nt->add_error('retrieve_conf', 'SYMLINK', _("Symlink from modules failed"), sprintf(_("retrieve_conf failed to sym link: %s<br \>This can result in FATAL failures to your PBX. If the target file exists and not identical, the symlink will not occur and you should rename the target file to allow the automatic sym link to occur and remove this error, unless this is an intentional customization."),$this->symlink_error_modules));
-	} else {
-		$this->nt->delete('retrieve_conf', 'SYMLINK');
 	}
-	if($this->symlink_notice_modules) {
-		$this->nt->add_notice('retrieve_conf', 'SYMLINKNOTICE', _("Symlink Conflict Resolved"),sprintf(_("retrieve_conf resolved a symlink with %s<br \>This is a notice to let you know that the original file was moved to %s, there is nothing more you need to do"),$this->symlink_notice_modules,$amp_conf['ASTETCDIR'].'/backup'));
-	}
-  }
 
-  function cp_subdirs($moduledir) {
+	function symlink_check_errors() {
 		global $amp_conf;
-    foreach ($this->cp_dirs as $subdir => $targetdir) {
-		  $dir = addslash($moduledir).$subdir;
-		  if(is_dir($dir)){
-			  foreach(listdir($dir) as $idx => $file){
-				  $sourcefile = $file;
-				  $filesubdir=str_replace($dir.'/', '', $file);
-				  $targetfile = addslash($targetdir).$filesubdir;
+		if ($this->symlink_error_modules) {
+			$this->nt->add_error('retrieve_conf', 'SYMLINK', _("Symlink from modules failed"), sprintf(_("retrieve_conf failed to sym link: %s<br \>This can result in FATAL failures to your PBX. If the target file exists and not identical, the symlink will not occur and you should rename the target file to allow the automatic sym link to occur and remove this error, unless this is an intentional customization."),$this->symlink_error_modules));
+		} else {
+			$this->nt->delete('retrieve_conf', 'SYMLINK');
+		}
+		if($this->symlink_notice_modules) {
+			$this->nt->add_notice('retrieve_conf', 'SYMLINKNOTICE', _("Symlink Conflict Resolved"),sprintf(_("retrieve_conf resolved a symlink with %s<br \>This is a notice to let you know that the original file was moved to %s, there is nothing more you need to do"),$this->symlink_notice_modules,$amp_conf['ASTETCDIR'].'/backup'));
+		}
+	}
 
-				  if (file_exists_wrapper($targetfile)) {
-					  if (is_link($targetfile)) {
-              if (!$this->err_unlink($targetfile)) {
-							  freepbx_log(FPBX_LOG_ERROR, sprintf(_("%s is a symbolic link, failed to unlink!"),$targetfile));
-							  break;
-						  }
-					  }
-				  }
-				  // OK, now either the file is a regular file or isn't there, so proceed
-				  //
-          if ($this->err_copy($sourcefile,$targetfile)) {
-					  // copy was successful, make sure it has execute permissions
-					  chmod($targetfile,0755);
+	function cp_subdirs($moduledir) {
+		global $amp_conf;
+		foreach ($this->cp_dirs as $subdir => $targetdir) {
+			$dir = addslash($moduledir).$subdir;
+			if(is_dir($dir)){
+				foreach(listdir($dir) as $idx => $file){
+					$sourcefile = $file;
+					$filesubdir=str_replace($dir.'/', '', $file);
+					$targetfile = addslash($targetdir).$filesubdir;
+
+					if (file_exists_wrapper($targetfile)) {
+						if (is_link($targetfile)) {
+							if (!$this->err_unlink($targetfile)) {
+								freepbx_log(FPBX_LOG_ERROR, sprintf(_("%s is a symbolic link, failed to unlink!"),$targetfile));
+								break;
+							}
+						}
+					}
+					// OK, now either the file is a regular file or
+					// isn't there, so proceed
+					if ($this->err_copy($sourcefile,$targetfile)) {
+						// copy was successful, make sure it has execute permissions
+						chmod($targetfile,0755);
 						$ampowner = $amp_conf['AMPASTERISKWEBUSER'];
-						/* Address concerns carried over from amportal in FREEPBX-8268. If the apache user is different
-						 * than the Asterisk user we provide permissions that allow both.
+						/* Address concerns carried over from amportal
+						 * in FREEPBX-8268. If the apache user is different
+						 * than the Asterisk user we provide permissions
+						 * that allow both.
 						 */
 						$ampgroup =  $amp_conf['AMPASTERISKWEBUSER'] != $amp_conf['AMPASTERISKUSER'] ? $amp_conf['AMPASTERISKGROUP'] : $amp_conf['AMPASTERISKWEBGROUP'];
 						chown($targetfile, $ampowner);
 						chgrp($targetfile, $ampgroup);
-				  } else {
-					  freepbx_log(FPBX_LOG_ERROR, sprintf(_("%s failed to copy from module directory"),$targetfile));
-				  }
-			  }
-		  }
-	  }
-  }
-  function cp_check_errors() {
-    if ($this->cp_errors) {
-      $this->nt->add_error('retrieve_conf', 'CPAGIBIN', _("Failed to copy from module agi-bin"), sprintf(_("Retrieve conf failed to copy file(s) from a module's agi-bin dir: %s"),$this->cp_errors));
-	  } else {
-      $this->nt->delete('retrieve_conf', 'CPAGIBIN');
-	  }
-  }
-  function add_cp_error($string) {
-    $this->cp_errors .= $string;
-  }
+					} else {
+						freepbx_log(FPBX_LOG_ERROR, sprintf(_("%s failed to copy from module directory"),$targetfile));
+					}
+				}
+			}
+		}
+	}
 
-  // wrap copy with error handler
-  //
+	function cp_check_errors() {
+		if ($this->cp_errors) {
+			$this->nt->add_error('retrieve_conf', 'CPAGIBIN', _("Failed to copy from module agi-bin"), sprintf(_("Retrieve conf failed to copy file(s) from a module's agi-bin dir: %s"),$this->cp_errors));
+		} else {
+			$this->nt->delete('retrieve_conf', 'CPAGIBIN');
+		}
+	}
+
+	function add_cp_error($string) {
+		$this->cp_errors .= $string;
+	}
+
+	// wrap copy with error handler
+	//
 	function err_copy($source, $dest) {
 		$ret = false;
 		set_error_handler("report_errors");
-		  //if were copying a directory, just mkdir the directory
+		//if were copying a directory, just mkdir the directory
 		if (!is_link($dest) && !is_dir($dest)) {
 			if(is_dir($source)){
 				$ret = mkdir($dest,0754);
@@ -312,25 +316,24 @@ class connectdirs {
 		return $ret;
 	  }
 
-  // wrap unlink with error handler
-  //
-  function err_unlink($dest) {
-	  set_error_handler("report_errors");
-	  $ret = unlink($dest);
-	  restore_error_handler();
-	  return $ret;
-  }
+	// wrap unlink with error handler
+	function err_unlink($dest) {
+		set_error_handler("report_errors");
+		$ret = unlink($dest);
+		restore_error_handler();
+		return $ret;
+	}
 }
 
 // I don't think this can be part of the class since it is called by an
 // error function as a callback (otherwise, can move it into above).
 //
 function report_errors($errno, $errstr, $errfile, $errline) {
-  global $db;
-  $escaped_string = $db->escapeSimple($errstr);
+	global $db;
+	$escaped_string = $db->escapeSimple($errstr);
 	freepbx_log(FPBX_LOG_ERROR, sprintf(_("php reported: '%s' after copy or unlink attempt!"),$escaped_string));
-  $conn_dirs = connectdirs::create();
-  $conn_dirs->add_cp_error($errstr."\n");
+	$conn_dirs = connectdirs::create();
+	$conn_dirs->add_cp_error($errstr."\n");
 }
 
 //define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
@@ -343,8 +346,7 @@ function showHelp() {
 	out("  --dry-run                "._("Don't actually do anything"),false);
 }
 
-/** Adds a trailing slash to a directory, if it doesn't already have one
- */
+// Adds a trailing slash to a directory, if it doesn't already have one
 function addslash($dir) {
 	return (($dir[ strlen($dir)-1 ] == '/') ? $dir : $dir.'/');
 }
