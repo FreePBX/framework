@@ -249,7 +249,10 @@ class Chown extends Command {
 			//Merge static files and hook files, then act on them as a single unit
 			$fwcCF = $this->fwcChownFiles();
 			if(!empty($this->modfiles) && !empty($fwcCF)){
-				$this->modfiles = array_merge_recursive($this->modfiles,$fwcCF);
+				foreach ($fwcCF as $key => $value) {
+					$this->modfiles[$key] = $value;
+				}
+				//$this->modfiles = array_merge_recursive($this->modfiles,$fwcCF);
 			}
 		}
 
@@ -260,7 +263,7 @@ class Chown extends Command {
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
 		$blacklist = $this->blacklist;
 		foreach($this->modfiles as $moduleName => $modfilelist){
-			foreach($modfilelist as $file){
+				foreach($modfilelist as $file){
 				if(!isset($file['path']) || !isset($file['perms']) || !file_exists($file['path'])){
 						continue;
 				}
