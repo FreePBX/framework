@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-01-26 12:24-0800\n"
-"PO-Revision-Date: 2016-01-25 07:35+0200\n"
+"PO-Revision-Date: 2016-01-28 18:32+0200\n"
 "Last-Translator: Nicolas <forums@riendeau.org>\n"
-"Language-Team: French <http://weblate.freepbx.org/projects/freepbx/framework/"
-"fr_FR/>\n"
+"Language-Team: French "
+"<http://weblate.freepbx.org/projects/freepbx/framework/fr_FR/>\n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 2.2-dev\n"
 
@@ -217,7 +217,7 @@ msgstr "%s [pas activé]"
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:119
 #, php-format
 msgid "%s admins"
-msgstr ""
+msgstr "%s administrateurs"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:171
 #, php-format
@@ -259,6 +259,8 @@ msgid ""
 "%s cannot be reinstalled because the following modules depend on it: %s "
 "Please disable those modules first then try again."
 msgstr ""
+"%s ne peut pas être réinstallé, car le(s) module(s) suivant(s) en dépendent :"
+" %s. S'il vous plaît désactiver ce(s) module(s) et essayer de nouveau."
 
 #: amp_conf/htdocs/admin/page.modules.php:570
 #, php-format
@@ -266,6 +268,8 @@ msgid ""
 "%s cannot be removed because the following modules depend on it: %s Please "
 "disable those modules first then try again."
 msgstr ""
+"%s ne peut pas être supprimé, car le(s) module(s) suivant(s) en dépendent : %"
+"s. S'il vous plaît désactiver ce(s) module(s) et essayer de nouveau."
 
 #: amp_conf/htdocs/admin/page.modules.php:425
 #: amp_conf/htdocs/admin/page.modules.php:436
@@ -305,7 +309,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:144
 #, php-format
 msgid "%s contains .."
-msgstr ""
+msgstr "%s contient .."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:141
 #, php-format
@@ -400,22 +404,22 @@ msgstr "La version %s %s ou plus est requise. Celle installée est %s"
 #: amp_conf/htdocs/admin/page.modules.php:573
 #, php-format
 msgid "%s will be removed from the hard disk"
-msgstr ""
+msgstr "%s sera supprimé du disque dur"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:123
 #, php-format
 msgid "%s: New Online Updates Available (%s)"
-msgstr ""
+msgstr "%s : Nouvelle(s) mise(s) à jour offerte(s) (%s)"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:100
 #, php-format
 msgid "%s: New Security Notifications (%s)"
-msgstr ""
+msgstr "%s : Nouvelle(s) notification(s) de sécurité (%s)"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:75
 #, php-format
 msgid "%s: New Unsigned Modules Notifications (%s)"
-msgstr ""
+msgstr "%s : Nouvelle(s) notification(s) de module(s) non signé(s) (%s)"
 
 #: install.php:13
 #, php-format
@@ -428,31 +432,33 @@ msgstr "**CODE FONCTION MANQUANT**"
 
 #: ../core/views/routing/form.php:39
 msgid "---No Change---"
-msgstr ""
+msgstr "---Pas de changement---"
 
 #: ../core/views/routing/timecond.php:12
 msgid "---Permanent Route---"
-msgstr ""
+msgstr "---Route permanente---"
 
 #: amp_conf/htdocs/admin/config.php:200
 msgid ".htaccess files are disable on this webserver. Please enable them"
 msgstr ""
+"Les fichiers .htaccess sont désactivés sur ce serveur web. S'il vous plaît, "
+"activez-les"
 
 #: amp_conf/htdocs/admin/config.php:213
 msgid ".htaccess files are not supported on this webserver."
-msgstr ""
+msgstr "Les fichiers .htaccess ne sont pas supportés sur ce serveur web."
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:175
 msgid "/etc/asterisk/freepbx.conf already exists"
-msgstr ""
+msgstr "/etc/asterisk/freepbx.conf existe déjà"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:173
 msgid "/etc/freepbx.conf already exists"
-msgstr ""
+msgstr "/etc/freepbx.conf existe déjà"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:112
 msgid "0 admins"
-msgstr ""
+msgstr "0 administrateurs"
 
 #: ../core/views/routing/form.php:599 ../core/views/trunks/trunk_footer.php:59
 msgid "10 Digit Patterns"
@@ -465,7 +471,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/config.php:548
 #, php-format
 msgid "404 Not found (%s)"
-msgstr ""
+msgstr "404 Non trouvé (%s)"
 
 #: ../core/views/routing/form.php:597 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
@@ -660,7 +666,7 @@ msgstr "Ajout Administrateur"
 
 #: ../core/views/dahdichandids/changrid.php:21
 msgid "Add DAHDI DID"
-msgstr ""
+msgstr "Ajouter un DID DAHDI"
 
 #: ../core/views/dahdichandids/bootnav.php:3
 msgid "Add DAHDi DID"
@@ -669,13 +675,13 @@ msgstr ""
 #: ../core/page.ampusers.php:130 ../core/page.ampusers.php:153
 #: ../core/views/rnav.php:60
 msgid "Add Device"
-msgstr "Ajout Périphérique"
+msgstr "Ajouter un dispositif"
 
 #: ../core/functions.inc.php:6035 ../core/functions.inc.php:6426
 #: ../core/page.ampusers.php:130 ../core/page.ampusers.php:153
 #: ../core/page.extensions.php:64 ../core/views/rnav.php:6
 msgid "Add Extension"
-msgstr "Ajout Extension"
+msgstr "Ajouter un poste"
 
 #: ../core/functions.inc.php:6154
 msgid "Add Inbound CID"
@@ -6010,11 +6016,11 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:162
 #: ../core/views/trunks/trunk_header.php:236
 msgid "Settings"
-msgstr ""
+msgstr "Paramètres"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:12
 msgid "Severity"
-msgstr ""
+msgstr "Sévérité"
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:11
 msgid "Short for 'Digium Asterisk Hardware Device Interface'"
@@ -6027,6 +6033,8 @@ msgstr "Ne montrer que les mises à jour"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:843
 msgid "Shows a list of modules that may be updated, accepts no arguments"
 msgstr ""
+"Affiche une liste de modules qui peuvent être mis à jour, n'accepte pas "
+"d'arguments"
 
 #: amp_conf/htdocs/admin/libraries/Console/Context.class.php:15
 msgid "Shows the specified context from the dialplan"
@@ -6057,7 +6065,7 @@ msgstr "Signal de sonnerie"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:710
 msgid "Signature Invalid"
-msgstr ""
+msgstr "Signature invalide"
 
 #: ../core/install.php:11
 msgid "Simulate Incoming Call"
@@ -6065,7 +6073,7 @@ msgstr "Simule un appels entrant"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:208
 msgid "Solicited"
-msgstr ""
+msgstr "Solicité"
 
 #: ../core/views/did/routeform.php:276
 msgid ""
@@ -6080,7 +6088,7 @@ msgstr ""
 
 #: ../core/page.advancedsettings.php:281
 msgid "Some of these settings can render your system inoperable."
-msgstr ""
+msgstr "Certains de ces paramètres peuvent rendre votre système inutilisable."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1976
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2008
@@ -6090,11 +6098,11 @@ msgstr "Module demandé non trouvé"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:19
 msgid "Stable"
-msgstr ""
+msgstr "Stable"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:13
 msgid "Standard"
-msgstr ""
+msgstr "Standard"
 
 #: amp_conf/htdocs/admin/libraries/Console/Restart.class.php:17
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:19
@@ -6103,7 +6111,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:107
 msgid "Starting Asterisk..."
-msgstr ""
+msgstr "Démarrage d’Asterisk..."
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:25
 msgid "Starting Cache cleanup"
@@ -6113,7 +6121,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:50
 #: ../core/views/trunks/trunkgrid.php:21
 msgid "Status"
-msgstr ""
+msgstr "Statut"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:17
 msgid "Stop Asterisk and run other needed FreePBX commands"
@@ -6121,7 +6129,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:157
 msgid "Stopping Asterisk..."
-msgstr ""
+msgstr "Arrêt d'Asterisk..."
 
 #: amp_conf/htdocs/admin/libraries/Console/Debug.class.php:23
 msgid "Stream files for debugging"
@@ -6144,7 +6152,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:76
 msgid "Successfully executed"
-msgstr ""
+msgstr "Exécuté avec succès"
 
 #: amp_conf/htdocs/admin/functions.inc.php:406
 msgid "Successfully reloaded"
@@ -6165,7 +6173,7 @@ msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:391
 msgid "System"
-msgstr ""
+msgstr "Système"
 
 #: amp_conf/htdocs/admin/libraries/media/Media/Driver/Drivers/SoxShell.php:81
 msgid "System is missing SOX"
@@ -6185,15 +6193,15 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:333
 msgid "TCP Only"
-msgstr ""
+msgstr "TCP seulement"
 
 #: ../core/Console/Trunks.class.php:55 ../core/Console/Trunks.class.php:62
 msgid "TECH"
-msgstr ""
+msgstr "TECH"
 
 #: ../core/functions.inc/drivers/Sip.class.php:334
 msgid "TLS Only"
-msgstr ""
+msgstr "TLS seulement"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:120
 #, php-format
@@ -6202,7 +6210,7 @@ msgstr ""
 
 #: ../core/views/trunks/trunkgrid.php:19
 msgid "Tech"
-msgstr ""
+msgstr "Tech"
 
 #: ../core/page.devices.php:67
 msgid "Tech Type"
@@ -6257,7 +6265,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:101
 msgid "The DAHDi channel number for this port."
-msgstr ""
+msgstr "Le numéro de canal DAHDi pour ce port."
 
 #: ../core/views/dahdichandids/didForm.php:73
 msgid ""
@@ -6286,7 +6294,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1025
 #, php-format
 msgid "The File \"%s\" must exist."
-msgstr ""
+msgstr "Le fichier \"%s\" doit exister."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:995
 #, php-format
@@ -6325,7 +6333,7 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:198
 msgid "The Transport to use for connection"
-msgstr ""
+msgstr "Le transport à utiliser pour cette connexion"
 
 #: ../core/views/routing/form.php:452
 msgid ""
@@ -7531,12 +7539,12 @@ msgstr "Oui"
 
 #: ../core/functions.inc/drivers/Sip.class.php:369
 msgid "Yes (SRTP only)"
-msgstr ""
+msgstr "Oui (SRTP seulement)"
 
 #: ../core/functions.inc/drivers/Sip.class.php:295
 #, php-format
 msgid "Yes - (%s)"
-msgstr ""
+msgstr "Oui - (%s)"
 
 #: ../core/views/trunks/trunk_footer.php:97
 msgid "You Must define a Server URI"
