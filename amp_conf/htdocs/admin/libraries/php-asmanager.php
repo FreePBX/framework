@@ -972,7 +972,7 @@ class AGI_AsteriskManager {
 	* @param string $priority
 	* @param integer $timeout
 	* @param string $callerid
-	* @param string $variable
+	* @param string $variable (Supports an array of values)
 	* @param string $account
 	* @param string $application
 	* @param string $data
