@@ -385,7 +385,7 @@ class Media extends DB_Helper{
 	}
 	public function getMIMEtype($file){
 		$mimetype = 'application/octet-stream';
-		$fileExt = substr(strrchr($file, "."), 1);
+		$fileExt = pathinfo($file, PATHINFO_EXTENSION);
 		$astMIME = array(
 		  'mp3' => 'audio/mpeg',
 		  'g723' => 'audio/G723',
