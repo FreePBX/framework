@@ -2022,9 +2022,9 @@ class Installer {
 		'type' => CONF_TYPE_TEXT,
 	);
 
-	$settings[$category]['DEFAULT_OVERRIDE'] = array(
+	$settings[$category]['DASHBOARD_OVERRIDE'] = array(
 		'description' => 'When no params specified, use this module',
-		'name' => 'DEFAULT_OVERRIDE',
+		'name' => 'DASHBOARD_OVERRIDE',
 		'value' => '', 
 		'options' => '',
 		'readonly' => 1,
