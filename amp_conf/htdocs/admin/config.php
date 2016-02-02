@@ -329,6 +329,18 @@ if (!$quietmode && isset($fpbx_menu["extensions"])) {
 		}
 }
 
+// If it's index, do we have an override?
+if ($display === "index") {
+	$override = $bmo->Config()->get('DEFAULT_OVERRIDE');
+
+	// Does this user have permission to use this?
+	if (is_array($active_modules) && isset($active_modules[$override])) {
+		// Yes.
+		$display = $override;
+		$cur_menuitem = $fpbx_menu[$display];
+	}
+}
+
 ob_start();
 // Run all the pre-processing for the page that's been requested.
 if (!empty($display) && $display != 'badrefer') {

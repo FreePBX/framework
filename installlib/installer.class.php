@@ -2022,6 +2022,19 @@ class Installer {
 		'type' => CONF_TYPE_TEXT,
 	);
 
+	$settings[$category]['DEFAULT_OVERRIDE'] = array(
+		'description' => 'When no params specified, use this module',
+		'name' => 'DEFAULT_OVERRIDE',
+		'value' => '', 
+		'options' => '',
+		'readonly' => 1,
+		'hidden' => 1,
+		'level' => 10,
+		'emptyok' => 1,
+		'sortorder' => 180,
+		'type' => CONF_TYPE_TEXT
+	);
+
 	// The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we
 	// retain their values until the individual modules are updated and their install scripts run where a full
 	// configuration (descriptions, defaults, etc.) will be provided and maintained. This provides just enough to
