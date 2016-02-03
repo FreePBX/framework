@@ -793,7 +793,12 @@ class ext_resetcdr extends extension {
 
 class ext_nocdr extends extension {
 	function output() {
-		return "NoCDR()";
+		global $version;
+		if(version_compare($version,"12.0","ge")) {
+			return "CDR_PROP(disable)";
+		}else{
+			return "NoCDR()";
+		}
 	}
 }
 
