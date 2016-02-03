@@ -26,11 +26,16 @@ class Chown extends Command {
 		$this->modfiles = array();
 		$this->actions = new \SplQueue();
 		$this->actions->setIteratorMode(\SplDoublyLinkedList::IT_MODE_FIFO | \SplDoublyLinkedList::IT_MODE_DELETE);
-		$this->loadChownConf();
 	}
-	private function loadChownConf(){
+	private function loadChownConf(OutputInterface $output){
 		$etcdir = \FreePBX::Config()->get('ASTETCDIR');
 		if(!file_exists($etcdir.'/freepbx_chown.conf')){
+			return;
+		}
+		$stat = stat($etcdir.'/freepbx_chown.conf');
+		print_r((fileperms($etcdir.'/freepbx_chown.conf') & 0777) === 0777);
+		if($stat['uid'] !== 0) {
+			$output->writeln("<error>".sprintf(_("For security reasons %s needs to be owned by the root user. Skipping conf file until resolved."),$etcdir.'/freepbx_chown.conf')."</error>");
 			return;
 		}
 		$conf  = \FreePBX::LoadConfig()->getConfig("freepbx_chown.conf");
@@ -115,6 +120,7 @@ class Chown extends Command {
 			$output->writeln("<error>"._("You need to be root to run this command")."</error>");
 			exit(1);
 		}
+		$this->loadChownConf($output);
 		$this->quiet = $quiet;
 		if(!$this->quiet) {
 			$output->writeln("<info>".sprintf(_("Taking too long? Customize the chown command, See %s"),"http://wiki.freepbx.org/display/FOP/FreePBX+Chown+Conf")."</info>");
