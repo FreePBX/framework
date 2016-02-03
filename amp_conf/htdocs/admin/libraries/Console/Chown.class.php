@@ -14,7 +14,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 class Chown extends Command {
 	private $errors = array();
 	private $infos = array();
-	private $blacklist = array();
+	private $blacklist = array('files' => array(), 'dirs' => array());
 	private $quiet = false;
 	public $moduleName = '';
 	protected function configure(){
@@ -38,7 +38,14 @@ class Chown extends Command {
 			if(isset($conf['blacklist']['item'])){
 				$conf['blacklist']['item'] = is_array($conf['blacklist']['item'])?$conf['blacklist']['item']:array($conf['blacklist']['item']);
 				foreach ($conf['blacklist']['item'] as $item) {
-					$this->blacklist[] = $item;
+					$this->blacklist['files'][] = $item;
+				}
+			}
+			if(isset($conf['blacklist']['directory'])){
+				$conf['blacklist']['directory'] = is_array($conf['blacklist']['directory'])?$conf['blacklist']['directory']:array($conf['blacklist']['directory']);
+				foreach ($conf['blacklist']['directory'] as $dir) {
+					$dir = rtrim($dir, '/');
+					$this->blacklist['dirs'][] = $dir;
 				}
 			}
 		}
@@ -261,17 +268,12 @@ class Chown extends Command {
 		 * than the Asterisk user we provide permissions that allow both.
 		 */
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
-		$blacklist = $this->blacklist;
 		foreach($this->modfiles as $moduleName => $modfilelist){
 				foreach($modfilelist as $file){
 				if(!isset($file['path']) || !isset($file['perms']) || !file_exists($file['path'])){
 						continue;
 				}
-				//If path is in the blacklist we move on.
-				if(in_array($file['path'], $blacklist) == true){
-					$this->infos[] = sprintf(_('%s skipped by configuration'), $file['path']);
-					continue;
-				}
+
 				//Handle custom ownership (optional)
 				$owner = isset($file['owner'])?$file['owner']:$ampowner;
 				$group = isset($file['group'])?$file['group']:$ampgroup;
@@ -287,7 +289,11 @@ class Chown extends Command {
 						$json = @json_encode(array($path,$owner,$group,$file['perms']));
 						$err = $this->jsonError();
 						if(empty($err)) {
-							$this->actions->enqueue($json);
+							if($this->checkBlacklist($path)){
+								$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+							}else{
+								$this->actions->enqueue($json);
+							}
 						} else {
 							$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
 						}
@@ -313,7 +319,11 @@ class Chown extends Command {
 								$json = @json_encode(array($path, $owner, $group, $file['perms']));
 								$err = $this->jsonError();
 								if(empty($err)) {
-									$this->actions->enqueue($json);
+									if($this->checkBlacklist($path)){
+										$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+									}else{
+										$this->actions->enqueue($json);
+									}
 								} else {
 									$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
 								}
@@ -324,7 +334,11 @@ class Chown extends Command {
 								$json = @json_encode(array($path, $owner, $group, $fileperms));
 								$err = $this->jsonError();
 								if(empty($err)) {
-									$this->actions->enqueue($json);
+									if($this->checkBlacklist($path)){
+										$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+									}else{
+										$this->actions->enqueue($json);
+									}
 								} else {
 									$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
 								}
@@ -350,7 +364,11 @@ class Chown extends Command {
 							$json = @json_encode(array($path, $owner, $group, $file['perms']));
 							$err = $this->jsonError();
 							if(empty($err)) {
-								$this->actions->enqueue($json);
+								if($this->checkBlacklist($path)){
+									$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+								}else{
+									$this->actions->enqueue($json);
+								}
 							} else {
 								$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
 							}
@@ -386,13 +404,26 @@ class Chown extends Command {
 			$progress->finish();
 			$output->writeln("");
 			$output->writeln("Finished setting permissions");
-			foreach($this->errors as $error) {
+			$errors = array_unique($this->errors);
+			foreach($errors as $error) {
 				$output->writeln("<error>".$error."</error>");
 			}
-			foreach($this->infos as $error) {
+			$infos = array_unique($this->infos);
+			foreach($infos as $error) {
 				$output->writeln("<info>".$error."</info>");
 			}
 		}
+	}
+	private function checkBlacklist($file){
+		//If path is in the blacklist we move on.
+		$filepath = pathinfo($file,PATHINFO_DIRNAME);
+		if(in_array($file, $this->blacklist['files'])){
+			return true;
+		}
+		if(in_array($filepath, $this->blacklist['dirs'])){
+			return true;
+		}
+		return false;
 	}
 	private function stripExecute($mask){
 		$mask = ($mask & ~(1<<0));
@@ -524,6 +555,10 @@ class Chown extends Command {
 		foreach($files as $file){
 			if ($file == '.' || $file == '..'){
 				continue;
+			}
+			if($this->checkBlacklist($path)){
+				$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+				return array();
 			}
 			$fullpath = $path . '/' . $file;
 			$filetype = filetype($fullpath);
