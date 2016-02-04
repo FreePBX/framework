@@ -795,7 +795,7 @@ class ext_nocdr extends extension {
 	function output() {
 		global $version;
 		if(version_compare($version,"12.0","ge")) {
-			return "CDR_PROP(disable)";
+			return "Set(CDR_PROP(disable)=true)";
 		}else{
 			return "NoCDR()";
 		}
