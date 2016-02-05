@@ -150,7 +150,8 @@ class Chown extends Command {
 		$args = array();
 		if($input){
 			$args = $input->getArgument('args');
-			$this->moduleName = !empty($this->moduleName) ? $this->moduleName : strtolower($args[0]);
+			$mname = isset($args[0])?$args[0]:'';
+			$this->moduleName = !empty($this->moduleName) ? $this->moduleName : strtolower($mname);
 		}
 		// Always update hooks before running a Chown
 		\FreePBX::Hooks()->updateBMOHooks();
