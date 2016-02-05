@@ -31,7 +31,7 @@ class Media extends DB_Helper{
 
 		$dir = $this->FreePBX->Config->get("AMPPLAYBACK");
 		if(!file_exists($dir)) {
-			mkdir($dir);
+			mkdir($dir,0777,true);
 			$ampowner = $this->FreePBX->Config->get('AMPASTERISKWEBUSER');
 			$ampgroup =  $ampowner != $this->FreePBX->Config->get('AMPASTERISKUSER') ? $this->FreePBX->Config->get('AMPASTERISKGROUP') : $ampowner;
 			chown($dir, $ampowner);
