@@ -866,8 +866,8 @@ switch ($action) {
 			$numdisplayed++;
 
 			if ($category !== $modules[$name]['category']) {
-				$category = $modules[$name]['category'];
-				$module_display[$category]['name'] = $modules[$name]['category'];
+				$category = !empty($modules[$name]['category']) ? $modules[$name]['category'] : "other";
+				$module_display[$category]['name'] = $category;
 			}
 
 			$module_display[$category]['data'][$name] = $modules[$name];
