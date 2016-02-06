@@ -65,7 +65,7 @@ class Stop extends Command {
 			$output->writeln(_('Checking Asterisk Status...'));
 			$aststat = $this->asteriskProcess();
 			if(!$aststat[0]){
-				$output->writeln(_('Asterisk Seems to be NOT running'));
+				$output->writeln(_('Asterisk seems NOT to be running'));
 				$output->writeln('<info>'._('Not running Pre-Asterisk Shutdown Hooks.').'</info>');
 			}else{
 				$output->writeln(_('Run Pre-Asterisk Shutdown Hooks'));
