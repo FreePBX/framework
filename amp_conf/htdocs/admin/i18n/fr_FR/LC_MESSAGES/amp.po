@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-03 15:41-0800\n"
-"PO-Revision-Date: 2016-02-06 20:42+0200\n"
+"PO-Revision-Date: 2016-02-07 02:23+0200\n"
 "Last-Translator: Nicolas Riendeau <freepbx@riendeau.org>\n"
 "Language-Team: French "
 "<http://weblate.freepbx.org/projects/freepbx/framework/fr_FR/>\n"
@@ -355,7 +355,7 @@ msgstr "%s préparé"
 #: ../core/Core.class.php:2531
 #, php-format
 msgid "%s records failed validation"
-msgstr ""
+msgstr "%s enregistrements ont échoué la validation"
 
 #: amp_conf/htdocs/admin/page.modules.php:334
 #, php-format
@@ -369,6 +369,9 @@ msgid ""
 "the browser you currently have but your experience may be diminished and is "
 "not supported"
 msgstr ""
+"%s requiert un nouveau navigateur pour fonctionner correctement. Vous pouvez "
+"encore utiliser %s avec le navigateur que vous avez actuellement, mais votre "
+"expérience peut être diminuée et ce n'est pas supporté"
 
 #: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:74
 #, php-format
@@ -383,7 +386,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:306
 #, php-format
 msgid "%s to %s and Enable"
-msgstr ""
+msgstr "%s vers %s et active"
 
 #: amp_conf/htdocs/admin/page.modules.php:323
 #: amp_conf/htdocs/admin/page.modules.php:345
@@ -462,11 +465,11 @@ msgstr "0 administrateurs"
 
 #: ../core/views/routing/form.php:599 ../core/views/trunks/trunk_footer.php:59
 msgid "10 Digit Patterns"
-msgstr ""
+msgstr "Modèles de 10 chiffres"
 
 #: ../core/views/routing/form.php:601 ../core/views/trunks/trunk_footer.php:61
 msgid "11 Digit Patterns"
-msgstr ""
+msgstr "Modèles de 11 chiffres"
 
 #: amp_conf/htdocs/admin/config.php:560
 #, php-format
@@ -475,7 +478,7 @@ msgstr "404 Non trouvé (%s)"
 
 #: ../core/views/routing/form.php:597 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
-msgstr ""
+msgstr "Modèles de 7 chiffres"
 
 #: ../core/functions.inc/drivers/Sip.class.php:194
 #, php-format
@@ -483,6 +486,8 @@ msgid ""
 "<strong>CRITICAL ERROR!</strong> Required Service %s is disabled! This "
 "device is unusable!"
 msgstr ""
+"<strong>ERREUR CRITIQUE !</strong> Le service %s est requis, mais désactivé "
+"! Ce dispositif est inutilisable !"
 
 #: ../core/views/trunks/pjsip.php:113
 msgid ""
@@ -1159,7 +1164,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:95
 msgid "Asterisk Failed to Start"
-msgstr ""
+msgstr "Asterisk n'a pas pu démarrer"
 
 #: ../core/install.php:13
 msgid "Asterisk General Call Pickup"
