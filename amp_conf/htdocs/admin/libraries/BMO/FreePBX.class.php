@@ -15,6 +15,8 @@ class Request_Helper extends FreePBX\Request_Helper {};
 class DB_Helper extends FreePBX\DB_Helper {};
 class Freepbx_conf extends FreePBX\Freepbx_conf {};
 
+use Symfony\Component\EventDispatcher\EventDispatcher;
+
 /**
  * This is the FreePBX Big Module Object.
  *
@@ -26,6 +28,9 @@ class FreePBX extends FreePBX\FreePBX_Helpers {
 	// Static Object used for self-referencing.
 	private static $obj;
 	public static $conf;
+
+	// Global Event Handler
+	public $EventDispatcher;
 
 	/**
 	 * Constructor
@@ -70,6 +75,9 @@ class FreePBX extends FreePBX\FreePBX_Helpers {
 		}
 		set_include_path($oldIncludePath);
 		$this->astman = $astman;
+
+		// Insert our global Event Handler
+		$this->EventDispatcher = new EventDispatcher();
 	}
 
 	/**

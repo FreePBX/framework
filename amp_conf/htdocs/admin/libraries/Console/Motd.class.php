@@ -10,6 +10,8 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
+use Symfony\Component\EventDispatcher\GenericEvent;
+
 class Motd extends Command {
 	private $errors = array();
 	protected function configure(){
@@ -23,6 +25,11 @@ class Motd extends Command {
 		$this->FreePBX = \FreePBX::Create();
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
+
+		// Start MOTD event
+		$event = new GenericEvent();
+		$this->FreePBX->EventDispatcher->dispatch('freepbx.motd.start', $event);
+
 		$alerts = $this->FreePBX->Notifications->get_num_active();
 		$output->write(base64_decode($this->banner));
 		$output->writeln("");
@@ -54,6 +61,7 @@ class Motd extends Command {
 		$output->writeln(_("For support please visit: "));
 		$output->writeln("    ".$this->supporturl);
 		$output->writeln("");
+		$this->FreePBX->EventDispatcher->dispatch('freepbx.motd.end', $event);
 	}
 	private function listIFS(){
 		$iflist = array();
