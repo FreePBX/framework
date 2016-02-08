@@ -3,16 +3,17 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>13.0.58</version>
+	<version>13.0.59</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*13.0.59* FREEPBX-11523 Globally search for strings on install for included files
 		*13.0.58* FREEPBX-11487 Create media dir if not exist
 		*13.0.57* FREEPBX-11482 CDR_PROP to set
-		*13.0.56* FREEPBX-11423 In asterisk 12+ use CDR_PROP instead of NOCDR, FREEPBX-11459 Add directory option to freepbx_chown.conf blacklist, FREEPBX-11466 Use framwork media method to determine mime type			
+		*13.0.56* FREEPBX-11423 In asterisk 12+ use CDR_PROP instead of NOCDR, FREEPBX-11459 Add directory option to freepbx_chown.conf blacklist, FREEPBX-11466 Use framwork media method to determine mime type
 		*13.0.55* FREEPBX-11437 fix chown hooks
 		*13.0.54* Remove --full from chown. Only use the conf ignore file
 		*13.0.53* Fixes FREEPBX-11417 missing full param
