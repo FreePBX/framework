@@ -7,14 +7,14 @@ msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-03 15:41-0800\n"
-"PO-Revision-Date: 2016-02-05 11:17+0200\n"
+"PO-Revision-Date: 2016-02-08 05:11+0200\n"
 "Last-Translator: Nicolas Riendeau <freepbx@riendeau.org>\n"
-"Language-Team: French <http://weblate.freepbx.org/projects/freepbx/framework/"
-"fr_FR/>\n"
+"Language-Team: French "
+"<http://weblate.freepbx.org/projects/freepbx/framework/fr_FR/>\n"
+"Language: fr_FR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Generator: Weblate 2.2-dev\n"
 
@@ -355,7 +355,7 @@ msgstr "%s préparé"
 #: ../core/Core.class.php:2531
 #, php-format
 msgid "%s records failed validation"
-msgstr ""
+msgstr "%s enregistrements ont échoué la validation"
 
 #: amp_conf/htdocs/admin/page.modules.php:334
 #, php-format
@@ -369,6 +369,9 @@ msgid ""
 "the browser you currently have but your experience may be diminished and is "
 "not supported"
 msgstr ""
+"%s requiert un nouveau navigateur pour fonctionner correctement. Vous pouvez "
+"encore utiliser %s avec le navigateur que vous avez actuellement, mais votre "
+"expérience peut être diminuée et ce n'est pas supporté"
 
 #: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:74
 #, php-format
@@ -383,7 +386,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:306
 #, php-format
 msgid "%s to %s and Enable"
-msgstr ""
+msgstr "%s vers %s et active"
 
 #: amp_conf/htdocs/admin/page.modules.php:323
 #: amp_conf/htdocs/admin/page.modules.php:345
@@ -462,11 +465,11 @@ msgstr "0 administrateurs"
 
 #: ../core/views/routing/form.php:599 ../core/views/trunks/trunk_footer.php:59
 msgid "10 Digit Patterns"
-msgstr ""
+msgstr "Modèles de 10 chiffres"
 
 #: ../core/views/routing/form.php:601 ../core/views/trunks/trunk_footer.php:61
 msgid "11 Digit Patterns"
-msgstr ""
+msgstr "Modèles de 11 chiffres"
 
 #: amp_conf/htdocs/admin/config.php:560
 #, php-format
@@ -475,7 +478,7 @@ msgstr "404 Non trouvé (%s)"
 
 #: ../core/views/routing/form.php:597 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
-msgstr ""
+msgstr "Modèles de 7 chiffres"
 
 #: ../core/functions.inc/drivers/Sip.class.php:194
 #, php-format
@@ -483,6 +486,8 @@ msgid ""
 "<strong>CRITICAL ERROR!</strong> Required Service %s is disabled! This "
 "device is unusable!"
 msgstr ""
+"<strong>ERREUR CRITIQUE !</strong> Le service %s est requis, mais désactivé "
+"! Ce dispositif est inutilisable !"
 
 #: ../core/views/trunks/pjsip.php:113
 msgid ""
@@ -1084,7 +1089,7 @@ msgstr "Barre d'application des changements"
 
 #: amp_conf/htdocs/admin/views/menu.php:26
 msgid "Apply Config"
-msgstr ""
+msgstr "Appliquer la configuration"
 
 #: ../core/functions.inc/drivers/Sip.class.php:395
 msgid ""
@@ -1103,7 +1108,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/footer.php:115
 msgid "Are you sure you want to delete this?"
-msgstr ""
+msgstr "Êtes-vous sûr de vouloir supprimer ceci ?"
 
 #: amp_conf/htdocs/admin/views/footer.php:116
 msgid ""
@@ -1132,6 +1137,9 @@ msgid ""
 "for building Asterisk based applications. This will enable the ARI server as "
 "long as the HTTP server is enabled as well."
 msgstr ""
+"Asterisk 12 introduit l'interface REST Asterisk , un ensemble d'API RESTful "
+"pour la création d'applications basé sur Asterisk . Ceci activera le serveur "
+"ARI tant que le serveur HTTP est aussi activé ."
 
 #: amp.i18n.php:526
 msgid "Asterisk AGI Dir"
@@ -1141,11 +1149,11 @@ msgstr ""
 #: amp.i18n.php:54 amp.i18n.php:60 amp.i18n.php:66 amp.i18n.php:72
 #: amp.i18n.php:78 amp.i18n.php:84
 msgid "Asterisk Builtin mini-HTTP server"
-msgstr ""
+msgstr "Mini serveur HTTP intégré d'Asterisk"
 
 #: amp.i18n.php:322 ../core/functions.inc.php:6121
 msgid "Asterisk Dial Options"
-msgstr ""
+msgstr "Options de composition d'Asterisk"
 
 #: ../core/views/trunks/trunk_header.php:400
 msgid ""
@@ -1156,7 +1164,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:95
 msgid "Asterisk Failed to Start"
-msgstr ""
+msgstr "Asterisk n'a pas pu démarrer"
 
 #: ../core/install.php:13
 msgid "Asterisk General Call Pickup"
@@ -1164,24 +1172,24 @@ msgstr "Interception général d'appel Asterisk"
 
 #: amp.i18n.php:544
 msgid "Asterisk Log Dir"
-msgstr ""
+msgstr "Répertoire de journalisation d'Asterisk"
 
 #: amp.i18n.php:90 amp.i18n.php:96 amp.i18n.php:102 amp.i18n.php:108
 #: amp.i18n.php:114 amp.i18n.php:120
 msgid "Asterisk Manager"
-msgstr ""
+msgstr "Gestionnaire Asterisk"
 
 #: amp.i18n.php:88
 msgid "Asterisk Manager Host"
-msgstr ""
+msgstr "Hôte du gestionnaire d'Asterisk"
 
 #: amp.i18n.php:94
 msgid "Asterisk Manager Password"
-msgstr ""
+msgstr "Mot de passe du gestionnaire d'Asterisk"
 
 #: amp.i18n.php:100
 msgid "Asterisk Manager Port"
-msgstr ""
+msgstr "Port du gestionnaire d'Asterisk"
 
 #: amp.i18n.php:106
 msgid "Asterisk Manager Proxy Port"
@@ -1189,7 +1197,7 @@ msgstr ""
 
 #: amp.i18n.php:112
 msgid "Asterisk Manager User"
-msgstr ""
+msgstr "Utilisateur du gestionnaire d'Asterisk"
 
 #: amp.i18n.php:118
 msgid "Asterisk Manager Write Timeout"
@@ -1197,11 +1205,11 @@ msgstr ""
 
 #: amp.i18n.php:1244 ../core/page.astmodules.php:49
 msgid "Asterisk Modules"
-msgstr ""
+msgstr "Modules d'Asterisk"
 
 #: amp.i18n.php:550
 msgid "Asterisk Modules Dir"
-msgstr ""
+msgstr "Répertoire des modules d'Asterisk"
 
 #: amp.i18n.php:328
 msgid "Asterisk Outbound Trunk Dial Options"
@@ -1209,11 +1217,11 @@ msgstr ""
 
 #: amp.i18n.php:126 amp.i18n.php:132
 msgid "Asterisk REST Interface"
-msgstr ""
+msgstr "Interface REST d'Asterisk"
 
 #: amp.i18n.php:556
 msgid "Asterisk Run Dir"
-msgstr ""
+msgstr "Répertoire d'exécution d'Asterisk"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:68
 msgid "Asterisk Seems to be NOT running"
@@ -1306,7 +1314,7 @@ msgstr ""
 
 #: amp.i18n.php:334
 msgid "Attended Transfer Alert Info"
-msgstr ""
+msgstr "Alert-Info de transfert supervisé"
 
 # msgid "DID Number"
 # msgstr "Num&eacute;ro DID"
@@ -1321,15 +1329,15 @@ msgstr "Attention"
 
 #: ../core/views/routing/grid.php:74
 msgid "Attributes"
-msgstr ""
+msgstr "Attributs"
 
 #: ../core/views/trunks/pjsip.php:80
 msgid "Authentication"
-msgstr ""
+msgstr "Authentification"
 
 #: ../core/views/trunks/pjsip.php:760
 msgid "Authentication Disabled"
-msgstr ""
+msgstr "Authentification désactivée"
 
 #: amp.i18n.php:1028
 msgid ""
@@ -1344,7 +1352,7 @@ msgstr ""
 
 #: amp.i18n.php:1024
 msgid "Authorization Type"
-msgstr ""
+msgstr "Type d'autorisation"
 
 #: ../core/page.ampusers.php:123
 msgid ""
@@ -1367,7 +1375,7 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:244
 #: ../core/functions.inc/drivers/Sip.class.php:248
 msgid "Auto"
-msgstr ""
+msgstr "Auto"
 
 #: amp_conf/htdocs/admin/functions.inc.php:232
 msgid ""
@@ -1406,15 +1414,15 @@ msgstr ""
 #: ../core/views/routing/form.php:41
 #, php-format
 msgid "Before %s"
-msgstr ""
+msgstr "Avant %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:20
 msgid "Beta"
-msgstr ""
+msgstr "Bêta"
 
 #: amp.i18n.php:340
 msgid "Blind Transfer Alert Info"
-msgstr ""
+msgstr "Alert-Info de transfert sans préavis"
 
 #: amp.i18n.php:346
 msgid "Block CNAM on External Trunks"
@@ -1426,7 +1434,7 @@ msgstr "Bloque les CIDs étrangers"
 
 #: ../core/views/trunks/pjsip.php:89
 msgid "Both"
-msgstr ""
+msgstr "Les deux"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:657
 #: amp_conf/htdocs/admin/page.modules.php:779
@@ -1456,20 +1464,21 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:212
 msgid "Buy"
-msgstr ""
+msgstr "Acheter"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:346
 #, php-format
 msgid "CA %s Doesn't exist"
-msgstr ""
+msgstr "L'autorité de certification %s n'existe pas"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:136
 msgid "CA certificate already exists, reusing"
 msgstr ""
+"Le certificat de l'autorité de certification existe déjà et sera réutilisé"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:121
 msgid "CA key already exists, reusing"
-msgstr ""
+msgstr "La clé de l'autorité de certification existe déjà et sera réutilisée"
 
 #: ../core/page.extensions.php:86 ../core/page.extensions.php:112
 #: ../core/page.users.php:59
@@ -1488,11 +1497,11 @@ msgstr ""
 
 #: amp.i18n.php:580
 msgid "CGI Dir"
-msgstr ""
+msgstr "Répertoire CGI"
 
 #: ../core/views/did/didgrid.php:18
 msgid "CID"
-msgstr ""
+msgstr "ID Appelant"
 
 #: ../core/functions.inc.php:6084
 msgid "CID Num Alias"
@@ -1505,7 +1514,7 @@ msgstr "Options CID"
 #: ../core/functions.inc.php:6216 ../core/functions.inc.php:6225
 #: ../core/functions.inc.php:6230
 msgid "CID Prefix"
-msgstr ""
+msgstr "Préfixe de l'ID appelant"
 
 #: ../core/views/did/routeform.php:159
 msgid "CID Priority Route"
@@ -1517,7 +1526,7 @@ msgstr "Préfixe au CID"
 
 #: ../core/install.php:1030
 msgid "CRITICAL ERROR"
-msgstr ""
+msgstr "ERREUR CRITIQUE"
 
 #: ../core/page.extensions.php:83 ../core/page.extensions.php:109
 #: ../core/page.users.php:56
@@ -1562,11 +1571,11 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:375
 msgid "Call Groups"
-msgstr ""
+msgstr "Groupes d'appel"
 
 #: amp.i18n.php:1054
 msgid "Call Recording Format"
-msgstr ""
+msgstr "Format d'enregistrement des appels"
 
 #: ../core/functions.inc.php:1041
 msgid "Call Recording Module Not Enabled"
@@ -1585,7 +1594,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:6149
 msgid "Call Screening"
-msgstr "Call Screening"
+msgstr "Filtrage d'appel"
 
 #: ../core/functions.inc.php:6149
 msgid ""
@@ -1602,15 +1611,15 @@ msgstr ""
 
 #: ../core/functions.inc.php:6144
 msgid "Call Waiting"
-msgstr "Attente appel"
+msgstr "Appel en attente"
 
 #: ../core/page.extensions.php:217 ../core/page.users.php:78
 msgid "Call Waiting is disabled"
-msgstr ""
+msgstr "Appel en attente désactivé"
 
 #: ../core/page.extensions.php:217 ../core/page.users.php:78
 msgid "Call Waiting is enabled"
-msgstr ""
+msgstr "Appel en attente activé"
 
 #: ../core/functions.inc.php:6198
 msgid ""
@@ -1630,16 +1639,16 @@ msgstr "Numéro CID"
 
 #: ../core/views/quickCreate.php:82
 msgid "Caller Name"
-msgstr ""
+msgstr "Nom de l'appelant"
 
 #: ../core/views/routing/form.php:91 ../core/views/trunks/trunk_header.php:102
 #: ../core/views/trunks/trunkgrid.php:20
 msgid "CallerID"
-msgstr ""
+msgstr "ID appelant"
 
 #: ../core/views/did/routeform.php:135
 msgid "CallerID Number"
-msgstr ""
+msgstr "Numéro de l'appelant"
 
 #: ../core/views/trunks/trunk_header.php:312
 msgid ""
@@ -1671,7 +1680,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/menu.php:28
 msgid "Can Not Connect to Asterisk"
-msgstr ""
+msgstr "Impossible de se connecter à Asterisk"
 
 #: ../core/functions.inc/drivers/Sip.class.php:263
 msgid "Can Reinvite"
@@ -1713,15 +1722,15 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:312
 #, php-format
 msgid "Can't create key, no idea why. %s"
-msgstr ""
+msgstr "Impossible de créer la clé pour une raison inconnue. %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:286
 msgid "Can't generate unnamed key"
-msgstr ""
+msgstr "Impossible de générer une clé sans nom"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:334
 msgid "Can't sign unnamed key"
-msgstr ""
+msgstr "Impossible de signer une clé sans nom"
 
 #: amp_conf/htdocs/admin/page.modules.php:640
 #: amp_conf/htdocs/admin/views/footer.php:107
@@ -1730,7 +1739,7 @@ msgstr "Annuler"
 
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:5
 msgid "Cannot connect to Asterisk Manager with "
-msgstr "Ne peut se connecter au gestionnaire Asterisk avec "
+msgstr "Impossible de se connecter à Asterisk Manager avec "
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2095
 #, php-format
@@ -1740,7 +1749,7 @@ msgstr "Ne peut supprimer le répertoire %s"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1985
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2017
 msgid "Cannot disable: The following modules depend on this one: "
-msgstr "Ne peut désactivé: les modules suivants en dépendent:"
+msgstr "Ce module ne peut être désactivé. Les modules suivants en dépendent : "
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1839
 msgid "Cannot find module"
@@ -1856,7 +1865,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:705
 msgid "Checking Signatures of Modules..."
-msgstr ""
+msgstr "Vérification des signatures des modules..."
 
 #: upgrades/2.9.0alpha1/tables.php:40 upgrades/2.9.0alpha1/tables.php:56
 #: ../core/install.php:529 ../core/install.php:545
@@ -2931,24 +2940,24 @@ msgstr "Interception d'appel"
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:690
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it (getGpgLocation)."
-msgstr ""
+msgstr "Le répertoire %s n'existe pas et je ne peux le créer (getGpgLocation)."
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:610
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it."
-msgstr ""
+msgstr "Le répertoire %s n'existe pas et je ne peux le créer."
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:714
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
-msgstr ""
+msgstr "Le répertoire %s n'existe pas et je ne peux le créer (checkPermissions)"
 
 #: amp.i18n.php:528 amp.i18n.php:534 amp.i18n.php:540 amp.i18n.php:546
 #: amp.i18n.php:552 amp.i18n.php:558 amp.i18n.php:564 amp.i18n.php:570
 #: amp.i18n.php:576 amp.i18n.php:582 amp.i18n.php:588 amp.i18n.php:594
 #: amp.i18n.php:600 amp.i18n.php:606 amp.i18n.php:612
 msgid "Directory Layout"
-msgstr ""
+msgstr "Structure de répertoire"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:354
 #: ../core/functions.inc.php:5888 ../core/functions.inc.php:5894
@@ -2967,7 +2976,7 @@ msgstr ""
 
 #: amp.i18n.php:160
 msgid "Disable FreePBX dbug Logging"
-msgstr ""
+msgstr "Désactiver la journalisation dbug de FreePBX"
 
 #: amp.i18n.php:166
 msgid "Disable Mainstyle CSS Compression"
@@ -2996,11 +3005,11 @@ msgstr "Désactivé"
 #: amp_conf/htdocs/admin/views/module_admin/main.php:76
 #, php-format
 msgid "Disabled; Pending %s to %s"
-msgstr ""
+msgstr "Désactivé; En attente %s vers %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:654
 msgid "Disabled; Pending upgrade to "
-msgstr ""
+msgstr "Désactivé; En attente de mise à jour vers "
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:109
 msgid "Disabled; up to date"
@@ -3070,7 +3079,7 @@ msgstr ""
 
 #: amp.i18n.php:16
 msgid "Display Readonly Settings"
-msgstr ""
+msgstr "Afficher les paramètres en lecture seule"
 
 #: amp.i18n.php:212
 msgid "Display debug output for script used if POST_RELOAD is used."
