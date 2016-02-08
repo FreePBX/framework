@@ -233,26 +233,26 @@ class FreePBXInstallCommand extends Command {
 		}
 
 		if(!file_exists(ASTERISK_CONF) || $force) {
-			if(isset($astconf['ASTETCDIR'])) {
-				$aconf['directories']['astetcdir'] = !empty($answers['ASTETCDIR']) ? $answers['ASTETCDIR'] : "/etc/asterisk";
+			if(isset($aconf['directories']['astetcdir'])) {
+				$aconf['directories']['astetcdir'] = !empty($answers['astetcdir']) ? $answers['astetcdir'] : "/etc/asterisk";
 			}
-			if(isset($astconf['ASTMODDIR'])) {
-				$aconf['directories']['astmoddir'] = !empty($answers['ASTMODDIR']) ? $answers['ASTMODDIR'] : (file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules');
+			if(isset($aconf['directories']['astmoddir'])) {
+				$aconf['directories']['astmoddir'] = !empty($answers['astmoddir']) ? $answers['astmoddir'] : (file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules');
 			}
-			if(isset($astconf['ASTVARLIBDIR'])) {
-				$aconf['directories']['astvarlibdir'] = !empty($answers['ASTVARLIBDIR']) ? $answers['ASTVARLIBDIR'] : "/var/lib/asterisk";
+			if(isset($$aconf['directories']['astvarlibdir'])) {
+				$aconf['directories']['astvarlibdir'] = !empty($answers['astvarlibdir']) ? $answers['astvarlibdir'] : "/var/lib/asterisk";
 			}
-			if(isset($astconf['ASTAGIDIR'])) {
-				$aconf['directories']['astagidir'] = !empty($answers['ASTAGIDIR']) ? $answers['ASTAGIDIR'] : "/var/lib/asterisk/agi-bin";
+			if(isset($aconf['directories']['astagidir'])) {
+				$aconf['directories']['astagidir'] = !empty($answers['astagidir']) ? $answers['astagidir'] : "/var/lib/asterisk/agi-bin";
 			}
-			if(isset($astconf['ASTSPOOLDIR'])) {
-				$aconf['directories']['astspooldir'] = !empty($answers['ASTSPOOLDIR']) ? $answers['ASTSPOOLDIR'] : "/var/spool/asterisk";
+			if(isset($aconf['directories']['astspooldir'])) {
+				$aconf['directories']['astspooldir'] = !empty($answers['astspooldir']) ? $answers['astspooldir'] : "/var/spool/asterisk";
 			}
-			if(isset($astconf['ASTRUNDIR'])) {
-				$aconf['directories']['astrundir'] = !empty($answers['ASTRUNDIR']) ? $answers['ASTRUNDIR'] : "/var/run/asterisk";
+			if(isset($aconf['directories']['astrundir'])) {
+				$aconf['directories']['astrundir'] = !empty($answers['astrundir']) ? $answers['astrundir'] : "/var/run/asterisk";
 			}
-			if(isset($astconf['ASTLOGDIR'])) {
-				$aconf['directories']['astlogdir'] = !empty($answers['ASTLOGDIR']) ? $answers['ASTLOGDIR'] : "/var/log/asterisk";
+			if(isset($aconf['directories']['astlogdir'])) {
+				$aconf['directories']['astlogdir'] = !empty($answers['astlogdir']) ? $answers['astlogdir'] : "/var/log/asterisk";
 			}
 
 			$output->write("Writing ".ASTERISK_CONF."...");
