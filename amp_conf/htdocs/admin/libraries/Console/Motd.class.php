@@ -17,9 +17,11 @@ class Motd extends Command {
 		->setDescription(_('Prints MOTD'))
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
-		//banners should be base64 encoded, Why? Because php likes to randomly shift multiline variables. Also makes it all look super cryptic :-/ 
+
+		//banners should be base64 encoded, Why? Because php likes to randomly shift multiline variables. Also makes it all look super cryptic :-/
 		$this->banner = "IF9fX19fICAgICAgICAgICAgICBfX19fICBfX19fX18gIF9fDQp8ICBfX198IF9fIF9fXyAgX19ffCAgXyBcfCBfXyApIFwvIC8NCnwgfF8gfCAnX18vIF8gXC8gXyBcIHxfKSB8ICBfIFxcICAvIA0KfCAgX3x8IHwgfCAgX18vICBfXy8gIF9fL3wgfF8pIC8gIFwgDQp8X3wgIHxffCAgXF9fX3xcX19ffF98ICAgfF9fX18vXy9cX1wgICAgIA==";
 		$this->supporturl = 'http://www.freepbx.org/support-and-professional-services';
+		$this->updateVars();
 		$this->FreePBX = \FreePBX::Create();
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
@@ -42,11 +44,14 @@ class Motd extends Command {
 			$table
 				->setHeaders(array(_('Interface'), _('MAC Address'), _('IP Addresses')))
 				->setRows($rows);
-			$table->render();	
+			$table->render();
 		}else{
-			$output->writeln("-------------------");	
-			$output->writeln(_("No interfaces found"));	
-			$output->writeln("-------------------");	
+			$output->writeln("-------------------");
+			$output->writeln(_("No interfaces found"));
+			$output->writeln("-------------------");
+		}
+		foreach($this->externalMessages() as $o){
+			$output->writeln($o);
 		}
 		$output->writeln("");
 		$output->writeln(_("Please note most tasks should be handled through the GUI."));
@@ -57,7 +62,7 @@ class Motd extends Command {
 	}
 	private function listIFS(){
 		$iflist = array();
-		$ifs = scandir('/sys/class/net/');		
+		$ifs = scandir('/sys/class/net/');
 		foreach($ifs as $if){
 			if($if == '.' || $if == '..' || !is_dir("/sys/class/net/$if")) {
 				continue;
@@ -80,5 +85,29 @@ class Motd extends Command {
 			$iflist[$if] = array('mac' => $MAC, 'ip' => $ipstr);
 		}
 		return $iflist;
-	}	
+	}
+	public function updateVars(){
+		$hooks = \FreePBX::Hooks()->processHooks();
+		foreach($hooks as $hook){
+			if(is_array($hook)){
+				foreach($hook as $k => $v ){
+					if(isset($this->$k)){
+						$this->$k = $v;
+					}
+				}
+			}
+		}
+	}
+	public function externalMessages(){
+		$ret = array();
+		$hooks = \FreePBX::Hooks()->processHooks();
+		foreach($hooks as $hook){
+			if(is_array($hook)){
+				foreach($hook as $message ){
+					$ret[] = $message;
+				}
+			}
+		}
+		return $ret;
+	}
 }
