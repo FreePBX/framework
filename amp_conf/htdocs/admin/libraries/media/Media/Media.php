@@ -38,6 +38,7 @@ class Media {
 	 * @return string       The cleaned filename
 	 */
 	public static function cleanFileName($name) {
+		$name = pathinfo($name,PATHINFO_FILENAME);
 		$name = str_replace(" ","-",$name);
 		$name = preg_replace("/\s+|'+|`+|\"+|<+|>+|\?+|\*|\.+|&+/","-",strtolower($name));
 		$name = preg_replace('/[\x00-\x1F\x80-\xFF]/u', '', $name);
