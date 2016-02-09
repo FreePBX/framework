@@ -12,6 +12,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class Motd extends Command {
 	private $errors = array();
+
 	protected function configure(){
 		$this->setName('motd')
 		->setDescription(_('Prints MOTD'))
@@ -21,11 +22,10 @@ class Motd extends Command {
 		//banners should be base64 encoded, Why? Because php likes to randomly shift multiline variables. Also makes it all look super cryptic :-/
 		$this->banner = "IF9fX19fICAgICAgICAgICAgICBfX19fICBfX19fX18gIF9fDQp8ICBfX198IF9fIF9fXyAgX19ffCAgXyBcfCBfXyApIFwvIC8NCnwgfF8gfCAnX18vIF8gXC8gXyBcIHxfKSB8ICBfIFxcICAvIA0KfCAgX3x8IHwgfCAgX18vICBfXy8gIF9fL3wgfF8pIC8gIFwgDQp8X3wgIHxffCAgXF9fX3xcX19ffF98ICAgfF9fX18vXy9cX1wgICAgIA==";
 		$this->supporturl = 'http://www.freepbx.org/support-and-professional-services';
-		$this->updateVars();
-		$this->FreePBX = \FreePBX::Create();
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
-		$alerts = $this->FreePBX->Notifications->get_num_active();
+		$this->updateVars();
+		$alerts = \FreePBX::Notifications()->get_num_active();
 		$output->write(base64_decode($this->banner));
 		$output->writeln("");
 		$output->writeln("");
@@ -50,15 +50,29 @@ class Motd extends Command {
 			$output->writeln(_("No interfaces found"));
 			$output->writeln("-------------------");
 		}
-		foreach($this->externalMessages() as $o){
-			$output->writeln($o);
+
+		$messages = $this->externalMessages();
+		if (isset($messages['pre'])) {
+			foreach($messages['pre'] as $o) {
+				$output->writeln($o);
+			}
 		}
-		$output->writeln("");
-		$output->writeln(_("Please note most tasks should be handled through the GUI."));
-		$output->writeln(_("You can access the GUI by typing one of the above IPs in to your web browser."));
-		$output->writeln(_("For support please visit: "));
-		$output->writeln("    ".$this->supporturl);
-		$output->writeln("");
+
+		if (!$messages['cancel']) {
+			$output->writeln("");
+			$output->writeln(_("Please note most tasks should be handled through the GUI."));
+			$output->writeln(_("You can access the GUI by typing one of the above IPs in to your web browser."));
+			$output->writeln(_("For support please visit: "));
+			$output->writeln("    ".$this->supporturl);
+			$output->writeln("");
+		}
+
+		if (isset($messages['post'])) {
+			foreach($messages['post'] as $o) {
+				$output->writeln($o);
+			}
+		}
+
 	}
 	private function listIFS(){
 		$iflist = array();
@@ -99,12 +113,31 @@ class Motd extends Command {
 		}
 	}
 	public function externalMessages(){
-		$ret = array();
+		$ret = array('pre' => array(), 'post' => array(), 'cancel' => false);
 		$hooks = \FreePBX::Hooks()->processHooks();
 		foreach($hooks as $hook){
 			if(is_array($hook)){
-				foreach($hook as $message ){
-					$ret[] = $message;
+				if (isset($hook['pre'])) {
+					if (is_array($hook['pre'])) {
+						foreach ($hook['pre'] as $o) {
+							$ret['pre'][] = $o;
+						}
+					} else {
+						$ret['pre'][] = $hook['pre'];
+					}
+				}
+				if (isset($hook['post'])) {
+					if (is_array($hook['post'])) {
+						foreach ($hook['post'] as $o) {
+							$ret['post'][] = $o;
+						}
+					} else {
+						$ret['post'][] = $hook['post'];
+					}
+				}
+
+				if (isset($hook['cancel'])) {
+					$ret['cancel'] = true;
 				}
 			}
 		}
