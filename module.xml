@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>13.0.61.2</version>
+	<version>13.0.61.3</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*13.0.61.3* Framework should not depend on itself
 		*13.0.61.2* FREEPBX-11494 "fwconsole chown" doesn't work in Kickstart script
 		*13.0.61.1* Fix remote unlock compatibility issue
 		*13.0.61* FREEPBX-11518 remove extension when cleaning up the filename
@@ -239,7 +240,6 @@
 	</description>
 	<depends>
 		<phpversion>5.3.0</phpversion>
-		<version>13.0</version>
 	</depends>
 	<supported>
 		<version>13.0</version>
