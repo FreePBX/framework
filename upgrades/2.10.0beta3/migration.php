@@ -32,7 +32,7 @@ if (is_dir($cdr_dir) && !is_link($cdr_dir)) {
 //
 $db_creds = parse_ini_file($amp_conf['ASTETCDIR'] . '/cdr_mysql.conf');
 if ($db_creds === false) {
-	out(_("Error parsing cdr_mysql.conf no migration done"));
+	out(_("Error parsing cdr_mysql.conf, no migration done"));
 } else {
 	$db_creds['hostname'] = !empty($db_creds['hostname']) ? $db_creds['hostname'] : 'localhost';
 	$datasource = 'mysql://'
@@ -45,7 +45,7 @@ if ($db_creds === false) {
 		. $db_creds['dbname'];
 	$db_cdr = DB::connect($datasource); // attempt connection
 	if (DB::IsError($db_cdr)) { 
-		out(_("ERROR connectng to CDR DB to migrate, not done!"));
+		out(_("ERROR connecting to CDR DB to migrate, not done!"));
 		freepbx_log(FPBX_LOG_ERROR,"failed to open CDR DB to add recordingfile and did fields");
 	} else {
 		$sql = "SELECT recordingfile FROM cdr";
