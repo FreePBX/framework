@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GpwmPOT-Creation-Date: 2005-08-17 10:15-0300\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-10 15:54-0800\n"
+"POT-Creation-Date: 2016-02-11 14:20-0800\n"
 "PO-Revision-Date: 2015-04-24 19:56+0200\n"
 "Last-Translator: Paulo <paulop1975@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) <http://weblate.freepbx.org/projects/"
@@ -1255,15 +1255,6 @@ msgstr "Interface REST do Asterisk"
 msgid "Asterisk Run Dir"
 msgstr "Dir Run do Asterisk"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:68
-msgid "Asterisk Seems to be NOT running"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:71
-#, php-format
-msgid "Asterisk Seems to be running on PID %s and has been running for %s"
-msgstr ""
-
 #: amp.i18n.php:562
 msgid "Asterisk Spool Dir"
 msgstr "Dir Spool do Asterisk"
@@ -1331,6 +1322,15 @@ msgstr "Dir home do Asterisk (%s) e ASTSPOOLDIR inexistentes. Abortando"
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:7
 msgid "Asterisk may not be running."
 msgstr "O Asterisk pode não estar em execução."
+
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:68
+msgid "Asterisk seems NOT to be running"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:71
+#, php-format
+msgid "Asterisk seems to be running on PID %s and has been running for %s"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:221
 #, php-format
@@ -1453,7 +1453,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:123
 #, php-format
-msgid "BMO Objects must have their first letter captialized. You provided %s"
+msgid "BMO Objects must have their first letter capitalized. You provided %s"
 msgstr ""
 
 #: ../core/views/routing/form.php:41
@@ -3331,7 +3331,7 @@ msgid "ERROR - could not drop table"
 msgstr ""
 
 #: upgrades/2.10.0beta3/migration.php:48
-msgid "ERROR connectng to CDR DB to migrate, not done!"
+msgid "ERROR connecting to CDR DB to migrate, not done!"
 msgstr ""
 
 #: ../core/install.php:200
@@ -3728,7 +3728,7 @@ msgid "Error opening %s for writing"
 msgstr ""
 
 #: upgrades/2.10.0beta3/migration.php:35
-msgid "Error parsing cdr_mysql.conf no migration done"
+msgid "Error parsing cdr_mysql.conf, no migration done"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1911

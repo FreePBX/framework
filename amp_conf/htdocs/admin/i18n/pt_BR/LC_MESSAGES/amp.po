@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-10 15:54-0800\n"
+"POT-Creation-Date: 2016-02-11 14:20-0800\n"
 "PO-Revision-Date: 2015-12-22 03:43+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -1287,15 +1287,6 @@ msgstr "Interface REST Asterisk"
 msgid "Asterisk Run Dir"
 msgstr "Dir Execução Asterisk"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:68
-msgid "Asterisk Seems to be NOT running"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:71
-#, php-format
-msgid "Asterisk Seems to be running on PID %s and has been running for %s"
-msgstr ""
-
 #: amp.i18n.php:562
 msgid "Asterisk Spool Dir"
 msgstr "Dir Spool Asterisk"
@@ -1365,6 +1356,15 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:7
 msgid "Asterisk may not be running."
 msgstr "Asterisk pode não estar rodando."
+
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:68
+msgid "Asterisk seems NOT to be running"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:71
+#, php-format
+msgid "Asterisk seems to be running on PID %s and has been running for %s"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:221
 #, php-format
@@ -1488,7 +1488,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:123
 #, php-format
-msgid "BMO Objects must have their first letter captialized. You provided %s"
+msgid "BMO Objects must have their first letter capitalized. You provided %s"
 msgstr ""
 
 #: ../core/views/routing/form.php:41
@@ -3504,8 +3504,8 @@ msgid "ERROR - could not drop table"
 msgstr "ERRO - Não foi possível apagar tabela"
 
 #: upgrades/2.10.0beta3/migration.php:48
-msgid "ERROR connectng to CDR DB to migrate, not done!"
-msgstr "ERRO conectando ao BD CDR para migrar, não feito!"
+msgid "ERROR connecting to CDR DB to migrate, not done!"
+msgstr ""
 
 #: ../core/install.php:200
 msgid ""
@@ -3924,8 +3924,8 @@ msgid "Error opening %s for writing"
 msgstr "Erro abrindo %s para gravação"
 
 #: upgrades/2.10.0beta3/migration.php:35
-msgid "Error parsing cdr_mysql.conf no migration done"
-msgstr "Erro de análise cdr_mysql.conf, nenhuma migração feita"
+msgid "Error parsing cdr_mysql.conf, no migration done"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1911
 #, php-format
@@ -11253,6 +11253,12 @@ msgstr ""
 #: ../core/install.php:1084
 msgid "zap devices migrated"
 msgstr ""
+
+#~ msgid "ERROR connectng to CDR DB to migrate, not done!"
+#~ msgstr "ERRO conectando ao BD CDR para migrar, não feito!"
+
+#~ msgid "Error parsing cdr_mysql.conf no migration done"
+#~ msgstr "Erro de análise cdr_mysql.conf, nenhuma migração feita"
 
 #~ msgid ""
 #~ "Callgroup(s) that this device is part of, can be one or more callgroups, "

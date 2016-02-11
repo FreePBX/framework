@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-10 15:54-0800\n"
+"POT-Creation-Date: 2016-02-11 14:20-0800\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1228,15 +1228,6 @@ msgstr ""
 msgid "Asterisk Run Dir"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:68
-msgid "Asterisk Seems to be NOT running"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:71
-#, php-format
-msgid "Asterisk Seems to be running on PID %s and has been running for %s"
-msgstr ""
-
 #: amp.i18n.php:562
 msgid "Asterisk Spool Dir"
 msgstr ""
@@ -1296,6 +1287,15 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:7
 msgid "Asterisk may not be running."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:68
+msgid "Asterisk seems NOT to be running"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:71
+#, php-format
+msgid "Asterisk seems to be running on PID %s and has been running for %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:221
@@ -1406,7 +1406,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:123
 #, php-format
-msgid "BMO Objects must have their first letter captialized. You provided %s"
+msgid "BMO Objects must have their first letter capitalized. You provided %s"
 msgstr ""
 
 #: ../core/views/routing/form.php:41
@@ -3317,7 +3317,7 @@ msgid "ERROR - could not drop table"
 msgstr ""
 
 #: upgrades/2.10.0beta3/migration.php:48
-msgid "ERROR connectng to CDR DB to migrate, not done!"
+msgid "ERROR connecting to CDR DB to migrate, not done!"
 msgstr ""
 
 #: ../core/install.php:200
@@ -3712,7 +3712,7 @@ msgid "Error opening %s for writing"
 msgstr ""
 
 #: upgrades/2.10.0beta3/migration.php:35
-msgid "Error parsing cdr_mysql.conf no migration done"
+msgid "Error parsing cdr_mysql.conf, no migration done"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1911
