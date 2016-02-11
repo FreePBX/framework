@@ -126,8 +126,8 @@ a:hover {
 }
 
 hr {
-	background-color: @background-color;
-	border: 1px solid @border-color;
+	background-color: @hr-background-color;
+	border: 1px solid @hr-border-color;
 	height: 3px;
 	border-radius: 5px;
 	margin-top: 0px;
@@ -489,7 +489,7 @@ div.attention {
 	padding: 3px 0 0 3px;
 	border-bottom-color: @border-color;
 	> li {
-		> a {
+		> a, > a:visited {
 			font-weight: bold;
 			padding: 5px 18px;
 			background: #ffffff;
@@ -503,7 +503,7 @@ div.attention {
 			color: @nav-hover-text-color;
 			border: 1px solid @border-color;
 		}
-		> a:active, > a:focus, > a:visited {
+		> a:active, > a:focus {
 			.gradient (@nav-active-background-color, #ffffff);
 			color: @nav-active-text-color;
 			border: 1px solid @border-color;
@@ -731,4 +731,9 @@ div.attention {
 	color: @button-hover-text-color;
 	background-color: @button-hover-background-color;;
 	border-color: @button-hover-border-color;
+}
+
+.progress-bar {
+	background-color: @button-active-background-color;
+	color: @button-active-text-color;
 }
