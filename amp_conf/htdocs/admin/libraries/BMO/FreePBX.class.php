@@ -66,7 +66,7 @@ class FreePBX extends FreePBX\FreePBX_Helpers {
 				include "$lib.class.php";
 			}
 			$class = '\\FreePBX\\'.$lib;
-			$this->$lib = new $class($this,true);
+			$this->$lib = new $class($this);
 		}
 		set_include_path($oldIncludePath);
 		$this->astman = $astman;
