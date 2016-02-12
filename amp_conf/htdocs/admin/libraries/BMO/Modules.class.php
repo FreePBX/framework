@@ -29,7 +29,7 @@ class Modules {
 		}
 
 		$this->modclass = \module_functions::create();
-		$this->getActiveModules();
+		//$this->getActiveModules();
 	}
 
 	/**
@@ -38,11 +38,20 @@ class Modules {
 	public function getActiveModules() {
 		// If session isn't authenticated, we don't care about modules.
 		if (!defined('FREEPBX_IS_AUTH') || !FREEPBX_IS_AUTH) {
-			return array();
+			$modules = $this->modclass->getinfo(false,MODULE_STATUS_ENABLED);
+			$final = array();
+			foreach($modules as $rawname => $data) {
+				if(isset($data['authentication']) && $data['authentication'] == 'false') {
+					$final[$rawname] = $data;
+				}
+			}
+			$this->active_modules = $final;
+		} else {
+			if(empty($this->active_modules)) {
+				$this->active_modules = $this->modclass->getinfo(false, MODULE_STATUS_ENABLED);
+			}
 		}
-		if(empty($this->active_modules)) {
-			$this->active_modules = $this->modclass->getinfo(false, MODULE_STATUS_ENABLED);
-		}
+
 		return $this->active_modules;
 	}
 

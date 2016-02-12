@@ -205,6 +205,7 @@ class Hooks extends DB_Helper {
 		$return = array();
 
 		$sortedHooks = array();
+
 		if(!empty($hooks['ModuleHooks'][$callingClass]) && !empty($hooks['ModuleHooks'][$callingClass][$callingMethod])) {
 			foreach($hooks['ModuleHooks'][$callingClass][$callingMethod] as $module => $hooks) {
 				if(isset($this->activemods[$module])) {
