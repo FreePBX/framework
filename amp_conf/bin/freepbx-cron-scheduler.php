@@ -30,7 +30,7 @@ if(function_exists('sysadmin_get_storage_email')){
 }
 
 //Send email with our mail class
-function chron_scheduler_send_message($to,$from,$subject,$message){
+function cron_scheduler_send_message($to,$from,$subject,$message){
 	$em = new \CI_Email();
 	$em->from($from);
 	$em->to($to);
@@ -72,7 +72,7 @@ if ($email) {
 
 		if ($send_email && (! $cm->check_hash('update_sigemail', $text))) {
 			$cm->save_hash('update_sigemail', $text);
-			if (chron_scheduler_send_message($email, $from_email, sprintf(_("%s: New Unsigned Modules Notifications (%s)"),$brand, $mid), $text)) {
+			if (cron_scheduler_send_message($email, $from_email, sprintf(_("%s: New Unsigned Modules Notifications (%s)"),$brand, $mid), $text)) {
 				$nt->delete('freepbx', 'SIGEMAILFAIL');
 			} else {
 				$nt->add_error('freepbx', 'SIGEMAILFAIL', _('Failed to send unsigned modules notification email'), sprintf(_('An attempt to send email to: %s with unsigned modules notifications failed'),$email));
@@ -97,7 +97,7 @@ if ($email) {
 
 	if ($send_email && (! $cm->check_hash('update_semail', $text))) {
 		$cm->save_hash('update_semail', $text);
-		if (chron_scheduler_send_message($email, $from_email, sprintf(_("%s: New Security Notifications (%s)"),$brand, $mid), $text)) {
+		if (cron_scheduler_send_message($email, $from_email, sprintf(_("%s: New Security Notifications (%s)"),$brand, $mid), $text)) {
 			$nt->delete('freepbx', 'SEMAILFAIL');
 		} else {
 			$nt->add_error('freepbx', 'SEMAILFAIL', _('Failed to send security notification email'), sprintf(_('An attempt to send email to: %s with security notifications failed'),$email));
@@ -120,7 +120,7 @@ if ($email) {
 
 	if ($send_email && (! $cm->check_hash('update_email', $text))) {
 		$cm->save_hash('update_email', $text);
-		if (chron_scheduler_send_message($email, $from_email, sprintf(_("%s: New Online Updates Available (%s)"),$brand,$mid), $text)) {
+		if (cron_scheduler_send_message($email, $from_email, sprintf(_("%s: New Online Updates Available (%s)"),$brand,$mid), $text)) {
 			$nt->delete('freepbx', 'EMAILFAIL');
 		} else {
 			$nt->add_error('freepbx', 'EMAILFAIL', _('Failed to send online update email'), sprintf(_('An attempt to send email to: %s with online update status failed'),$email));
