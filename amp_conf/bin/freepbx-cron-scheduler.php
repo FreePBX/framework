@@ -62,10 +62,10 @@ if ($email) {
 		if (count($unsigned)) {
 			$send_email = true;
 			$text = $htext;
-			$text .= _("UNSIGNED MODULES NOTICE:")."\n\n";
+			$text .= "\n" . _("UNSIGNED MODULES NOTICE:")."\n\n";
 			foreach ($unsigned as $item) {
-				$text .= $item['display_text']."\n";
-				$text .= $item['extended_text']."\n\n";
+				$text .= $item['display_text'].":\n";
+				$text .= $item['extended_text']."\n";
 			}
 		}
 		$text .= "\n\n";
@@ -89,8 +89,8 @@ if ($email) {
 		$text = $htext . "\n";
 		$text .= _("SECURITY NOTICE:")."\n\n";
 		foreach ($security as $item) {
-			$text .= $item['display_text']."\n";
-			$text .= $item['extended_text']."\n\n";
+			$text .= $item['display_text'].":\n";
+			$text .= $item['extended_text']."\n";
 		}
 	}
 	$text .= "\n\n";
