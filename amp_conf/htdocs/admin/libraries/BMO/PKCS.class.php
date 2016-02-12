@@ -385,10 +385,16 @@ default_md = sha256
 		// We need to ensure that our environment variables are sane.
 		// Luckily, we know just the right things to say...
 		if (!isset($this->opensslenv)) {
-			$this->opensslenv['PATH'] = "/bin:/usr/bin";
+			$this->opensslenv['PATH'] = "/bin:/usr/bin:/usr/local/bin";
 			$this->opensslenv['USER'] = $webuser;
 			$this->opensslenv['HOME'] = $keyloc;
-			$this->opensslenv['SHELL'] = "/bin/bash";
+			if (file_exists('/bin/bash')) {
+				$this->opensslenv['SHELL'] = "/bin/bash";
+			} elseif (file_exists('/usr/local/bin/bash')) {
+				$this->opensslenv['SHELL'] = "/usr/local/bin/bash";
+			} else {
+				$this->opensslenv['SHELL'] = "/bin/sh";
+			}
 		}
 
 		$cmd = $this->openssl. " $params";

@@ -418,10 +418,16 @@ class GPG {
 		// We need to ensure that our environment variables are sane.
 		// Luckily, we know just the right things to say...
 		if (!isset($this->gpgenv)) {
-			$this->gpgenv['PATH'] = "/bin:/usr/bin";
+			$this->gpgenv['PATH'] = "/bin:/usr/bin:/usr/local/bin";
 			$this->gpgenv['USER'] = $webuser;
 			$this->gpgenv['HOME'] = sys_get_temp_dir();
-			$this->gpgenv['SHELL'] = "/bin/bash";
+			if (file_exists('/bin/bash')) {
+				$this->gpgenv['SHELL'] = "/bin/bash";
+			} elseif (file_exists('/usr/local/bin/bash')) {
+				$this->gpgenv['SHELL'] = "/usr/local/bin/bash";
+			} else {
+				$this->gpgenv['SHELL'] = "/bin/sh";
+			}
 		}
 
 		$homedir = "--homedir $home";
