@@ -933,8 +933,10 @@ function listdir($directory, $recursive=true) {
 	return array_reverse($array_items);//reverse so that we get directories BEFORE the files that are in them
 }
 
-/** Check if there is a job running, if one is found then all is good, if one is not found, it will be added and a
- *  notification will be sent.
+/** Check if there is a cron job scheduled to run.
+ *  If the scheduling job is found then all is good.
+ *  If the scheduling job is not found, it will be added
+ *  and a notification will be sent.
  */
 function install_cron_scheduler() {
 	global $amp_conf;
@@ -955,8 +957,9 @@ function install_cron_scheduler() {
 		} else {
 			$userArray = posix_getpwuid(posix_geteuid());
 			if ($userArray['name'] != $amp_conf['AMPASTERISKWEBUSER']) {
-				//we arent the user we need to be
-				//and we aren't root so nothing we can do
+				// we are not the user we need to be,
+				// and we aren't root, so there is nothing
+				// we can do but report the error condition
 				$nt->add_critical("FRAMEWORK", "CRON_UPDATE", _("Unable to create or update cron jobs"), sprintf(_("The PBX is running as %s but according to Advanced Settings it should be running as %. Therefore no cron jobs have been created. This can cause serious problems with your PBX in the future if it is not resolved"),$userArray['name'],$amp_conf['AMPASTERISKWEBUSER']));
 				return true;
 			} else {
