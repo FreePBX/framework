@@ -413,14 +413,16 @@ class GPG {
 		}
 
 		$webuser = \FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
-		$home = $this->getGpgLocation();
+		$gpgdir = $this->getGpgLocation();
+		$homediropt = "--homedir $gpgdir";
+		$home = preg_replace('/\/\.gnupg$/', '', $gpgdir);
 
 		// We need to ensure that our environment variables are sane.
 		// Luckily, we know just the right things to say...
 		if (!isset($this->gpgenv)) {
 			$this->gpgenv['PATH'] = "/bin:/usr/bin:/usr/local/bin";
 			$this->gpgenv['USER'] = $webuser;
-			$this->gpgenv['HOME'] = sys_get_temp_dir();
+			$this->gpgenv['HOME'] = $home;
 			if (file_exists('/bin/bash')) {
 				$this->gpgenv['SHELL'] = "/bin/bash";
 			} elseif (file_exists('/usr/local/bin/bash')) {
@@ -430,9 +432,7 @@ class GPG {
 			}
 		}
 
-		$homedir = "--homedir $home";
-
-		$cmd = $this->gpg." $homedir ".$this->gpgopts." --status-fd 3 $params";
+		$cmd = $this->gpg." $homediropt ".$this->gpgopts." --status-fd 3 $params";
 		$proc = proc_open($cmd, $fds, $pipes, "/tmp", $this->gpgenv);
 
 		if (!is_resource($proc)) { // Unable to start!
