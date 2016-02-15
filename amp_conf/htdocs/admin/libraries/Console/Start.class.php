@@ -175,7 +175,7 @@ class Start extends Command {
 			return false;
 		}
 		// There's an asterisk process. Is it ready?
-		$out = `asterisk -rx 'core show sysinfo' 2>&1`;
+		$out = `/usr/bin/env asterisk -rx 'core show sysinfo' 2>&1`;
 		// This is the same as "return (strpos(...)===false);"
 		if (strpos($out, 'System Statistics') === false) {
 			return false;
