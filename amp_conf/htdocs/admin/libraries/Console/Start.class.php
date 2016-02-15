@@ -103,8 +103,6 @@ class Start extends Command {
 				$startasterisk = false;
 			} else {
 				foreach($pre as $pri => $data) {
-					// Debug startup by uncommenting this line
-					// print "Doing $pri .. ".json_encode($data)."\n";
 					$bmo->$data['module']->$data['method']($output);
 				}
 			}
