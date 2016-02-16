@@ -94,9 +94,8 @@ class Modules {
 	public function loadAllFunctionsInc() {
 		$path = $this->FreePBX->Config->get("AMPWEBROOT");
 		$modules = $this->getActiveModules();
-		$ifiles = get_included_files();
-		$destinations = array();
 		foreach($modules as $rawname => $data) {
+			$ifiles = get_included_files();
 			$relative = $rawname."/functions.inc.php";
 			$absolute = $path."/admin/modules/".$relative;
 			$needs_zend = isset($data['depends']['phpcomponent']) && stristr($data['depends']['phpcomponent'], 'zend');
