@@ -747,7 +747,7 @@ class module_functions {
 					$this->getinfo(false,false,false);
 					$m = $this->getinfo($module);
 					if(!empty($m[$module])) {
-						if((!empty($m['dbversion']) && version_compare_freepbx($m['dbversion'],$version,'<')) || version_compare_freepbx($m['version'],$version,'<')) {
+						if((!empty($m[$module]['dbversion']) && version_compare_freepbx($m[$module]['dbversion'],$version,'<')) || version_compare_freepbx($m[$module]['version'],$version,'<')) {
 							out(sprintf(_("Downloading Missing Dependency of: %s %s"),$module,$version));
 							if (is_array($errors = $this->download($module,$force,$callback))) {
 								out(_("The following error(s) occured:"));
@@ -767,6 +767,8 @@ class module_functions {
 									out(sprintf(_("Installed Missing Dependency of: %s %s"),$module,$version));
 								}
 							}
+						} elseif(version_compare_freepbx($m[$module]['version'],$version,'>=')) {
+							out(sprintf(_("Found local Dependency of: %s %s"),$module,$m[$module]['version']));
 						}
 						if(!$this->resolveDependencies($module,$callback)) {
 							return false;
@@ -3034,19 +3036,21 @@ class module_functions {
 						$sth = FreePBX::Database()->prepare("SELECT value FROM admin WHERE variable = 'unsigned' LIMIT 1");
 						$sth->execute();
 						$o = $sth->fetch();
-						if (empty($o) || ($o['value'] != $hash)) {
-							$nt->add_signature_unsigned('freepbx', 'FW_'.strtoupper($type), sprintf(_('You have %s %s modules'),count($modules['statuses'][$type]),$name), implode("\n",$modules['statuses'][$type]),'',true,true);
-							if (empty($o)) {
-								sql("INSERT INTO admin (variable, value) VALUE ('unsigned', '$hash')");
-							} else {
-								$sth = FreePBX::Database()->prepare("UPDATE admin SET value = ? WHERE variable = 'unsigned'");
-								$sth->execute(array($hash));
-							}
+						if(empty($o)) {
+							$nt->add_signature_unsigned('freepbx', 'FW_'.strtoupper($type), sprintf(_('You have %s unsigned modules'),count($modules['statuses'][$type])), implode("<br>",$modules['statuses'][$type]),'',true,true);
+							sql("INSERT INTO admin (variable, value) VALUE ('unsigned', '$hash')");
+						} elseif($o['value'] != $hash) {
+							$nt->add_signature_unsigned('freepbx', 'FW_'.strtoupper($type), sprintf(_('You have %s unsigned modules'),count($modules['statuses'][$type])), implode("<br>",$modules['statuses'][$type]),'',true,true);
+							$sth = FreePBX::Database()->prepare("UPDATE admin SET value = ? WHERE variable = 'unsigned'");
+							$sth->execute(array($hash));
 						}
-						break;
+					break;
+					case 'tampered':
+						$nt->add_security('freepbx', 'FW_'.strtoupper($type), sprintf(_('You have %s tampered files'),count($modules['statuses'][$type])), implode("<br>",$modules['statuses'][$type]));
+					break;
 					default:
-						$nt->add_security('freepbx', 'FW_'.strtoupper($type), sprintf(_('You have %s %s modules'),count($modules['statuses'][$type]),$name), implode("\n",$modules['statuses'][$type]));
-						break;
+						$nt->add_security('freepbx', 'FW_'.strtoupper($type), sprintf(_('You have %s %s modules'),count($modules['statuses'][$type]),$name), implode("<br>",$modules['statuses'][$type]));
+					break;
 				}
 			} else {
 				$nt->delete('freepbx', 'FW_'.strtoupper($type));

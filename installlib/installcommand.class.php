@@ -976,12 +976,12 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 				//
 				switch ($up_module) {
 					case 'framework':
-						system($amp_conf['AMPBIN']."/fwconsole ma --force install $up_module");
+						system($amp_conf['AMPBIN']."/fwconsole ma install $up_module");
 					break;
 					default:
-						system($amp_conf['AMPBIN']."/fwconsole ma --force install $up_module");
-
-						exec($amp_conf['AMPBIN']."/fwconsole ma --force enable $up_module", $output, $retval);
+						system($amp_conf['AMPBIN']."/fwconsole ma install $up_module");
+						//TODO not sure why we do this
+						exec($amp_conf['AMPBIN']."/fwconsole ma enable $up_module", $output, $retval);
 						unset($output);
 				}
 				unset($modules[$id]);
