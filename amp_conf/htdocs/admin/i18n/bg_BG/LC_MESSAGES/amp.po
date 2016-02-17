@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX v2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-17 10:23-0800\n"
+"POT-Creation-Date: 2016-02-17 11:50-0800\n"
 "PO-Revision-Date: 2014-07-22 14:52+0200\n"
 "Last-Translator: Chavdar <chavdar_75@yahoo.com>\n"
 "Language-Team: Bulgarian <http://git.freepbx.org/projects/freepbx/framework/"
@@ -342,7 +342,7 @@ msgstr ""
 msgid "%s not found"
 msgstr ""
 
-#: ../core/install.php:872
+#: ../core/install.php:877
 #, php-format
 msgid "%s prepared"
 msgstr ""
@@ -571,9 +571,9 @@ msgstr ""
 msgid "ALL SECTIONS"
 msgstr "ВСИЧКИ СЕКЦИИ"
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1259
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1271
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1296
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1195
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1207
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1232
 #, php-format
 msgid "AMI failure details:"
 msgstr ""
@@ -767,15 +767,15 @@ msgid ""
 "notifications to avoid costly security vulnerabilities."
 msgstr ""
 
-#: ../core/install.php:517
+#: ../core/install.php:518
 msgid "Added pmmaxretries and pmminlength"
 msgstr ""
 
-#: ../core/install.php:581
+#: ../core/install.php:586
 msgid "Adding index to extensions field in the users"
 msgstr ""
 
-#: ../core/install.php:568
+#: ../core/install.php:573
 msgid "Adding index to tech field in the devices"
 msgstr ""
 
@@ -1495,7 +1495,7 @@ msgstr "Приоритет на CID Маршрут"
 msgid "CID name prefix"
 msgstr "Префикс на CID име"
 
-#: ../core/install.php:1030
+#: ../core/install.php:1035
 msgid "CRITICAL ERROR"
 msgstr ""
 
@@ -1840,12 +1840,12 @@ msgid "Checking Signatures of Modules..."
 msgstr ""
 
 #: upgrades/2.9.0alpha1/tables.php:40 upgrades/2.9.0alpha1/tables.php:56
-#: ../core/install.php:529 ../core/install.php:545
+#: ../core/install.php:530 ../core/install.php:548
 #, php-format
 msgid "Checking for %s field.."
 msgstr ""
 
-#: ../core/install.php:867
+#: ../core/install.php:872
 msgid "Checking for General Setting migrations.."
 msgstr ""
 
@@ -1853,7 +1853,7 @@ msgstr ""
 msgid "Checking for freepbx_settings table.."
 msgstr ""
 
-#: ../core/install.php:1135
+#: ../core/install.php:1140
 msgid "Checking for possibly invalid emergency caller id fields.."
 msgstr ""
 
@@ -2095,7 +2095,7 @@ msgstr ""
 msgid "Convert ZAP Settings to DAHDi"
 msgstr ""
 
-#: ../core/install.php:939
+#: ../core/install.php:944
 msgid "Converting IAX notransfer to transfer if needed.."
 msgstr ""
 
@@ -2172,7 +2172,7 @@ msgstr ""
 msgid "Could not remove temporary location %s"
 msgstr ""
 
-#: ../core/install.php:1031
+#: ../core/install.php:1036
 msgid ""
 "Could not rename table, if no dahdichandids table present FATAL errors will "
 "occur"
@@ -2473,7 +2473,7 @@ msgstr ""
 msgid "Default"
 msgstr "По-Подразбиране"
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1281
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1217
 msgid "Default Asterisk Manager Password Used"
 msgstr ""
 
@@ -2655,7 +2655,7 @@ msgstr ""
 msgid "Deleting the modules.conf file will reset this to defaults."
 msgstr ""
 
-#: ../core/install.php:912
+#: ../core/install.php:917
 msgid "Deleting unused globals.."
 msgstr ""
 
@@ -2774,7 +2774,7 @@ msgstr ""
 msgid "Device"
 msgstr "Устройство"
 
-#: ../core/install.php:1147
+#: ../core/install.php:1152
 #, php-format
 msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
@@ -2995,7 +2995,7 @@ msgid ""
 "'allow' setting, or just disallow specific codecs separated by '&'."
 msgstr ""
 
-#: upgrades/2.9.0alpha1/migrate_ampconf.php:155 ../core/install.php:927
+#: upgrades/2.9.0alpha1/migrate_ampconf.php:155 ../core/install.php:932
 #, php-format
 msgid "Discontinued logging type %s changing to %s.."
 msgstr ""
@@ -3208,7 +3208,7 @@ msgstr ""
 "ГРЕШКА: нямам достъп до потребителската таблица за преместване на directdids "
 "във входящата таблица, прекратявам"
 
-#: ../core/install.php:1013
+#: ../core/install.php:1018
 msgid ""
 "ERROR: could not insert previous value for ALLOW_SIP_ANON, it may already "
 "exist"
@@ -3303,7 +3303,7 @@ msgstr "Спешни Случаи"
 msgid "Emergency CID"
 msgstr "CID за Спешни Случаи"
 
-#: ../core/install.php:1151
+#: ../core/install.php:1156
 msgid "Emergency CID set to blank for one or more extensions"
 msgstr ""
 
@@ -3536,7 +3536,7 @@ msgstr ""
 msgid "Error Signing Cert with '%s': %s"
 msgstr ""
 
-#: ../core/install.php:1071
+#: ../core/install.php:1076
 msgid "Error converting zap to dahdi in devices table and AstDB"
 msgstr ""
 
@@ -3789,17 +3789,17 @@ msgstr ""
 msgid "FOP Web Root Dir"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1269
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1205
 #, php-format
 msgid "Failed changing AMI password to [%s], internal failure details follow:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1257
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1193
 #, php-format
 msgid "Failed changing AMI user to [%s], internal failure details follow:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1294
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1230
 #, php-format
 msgid ""
 "Failed changing AMI writetimout to [%s], internal failure details follow:"
@@ -3825,7 +3825,7 @@ msgid "Failed to get remote file, error was:"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2899
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:561
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:497
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
 msgstr ""
@@ -3844,7 +3844,7 @@ msgstr ""
 msgid "Failed to read manager file to add writetimeout"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1311
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1247
 msgid ""
 "Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx "
 "'module reload manager']"
@@ -3883,7 +3883,7 @@ msgstr "Грешка при запис на indications.conf"
 msgid "Fallback Welcome Page"
 msgstr ""
 
-#: ../core/install.php:916
+#: ../core/install.php:921
 msgid "Fatal DB error trying to delete globals, trying to carry on"
 msgstr ""
 
@@ -4070,7 +4070,7 @@ msgid "Force use of return port."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2911
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:573
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:509
 #, php-format
 msgid "Forced %s to true"
 msgstr ""
@@ -4105,7 +4105,7 @@ msgstr ""
 msgid "Found local Dependency of: %s %s"
 msgstr ""
 
-#: ../core/install.php:1144
+#: ../core/install.php:1149
 msgid "Found what appear to be invalid emergency callerid entries."
 msgstr ""
 
@@ -4289,7 +4289,7 @@ msgstr ""
 msgid "General Settings"
 msgstr "Общи Настройки"
 
-#: ../core/install.php:910
+#: ../core/install.php:915
 msgid "General Settings migrated"
 msgstr ""
 
@@ -4828,7 +4828,7 @@ msgstr ""
 msgid "Initialize freepbx_conf settings.."
 msgstr ""
 
-#: ../core/install.php:1015
+#: ../core/install.php:1020
 msgid "Inserted ALLOW_SIP_ANON fine"
 msgstr ""
 
@@ -8206,7 +8206,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2912
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:574
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:510
 #, php-format
 msgid ""
 "The system detected a problem trying to access external server data and "
@@ -8628,10 +8628,6 @@ msgid ""
 "information see: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:220
-msgid "Trace Back"
-msgstr ""
-
 #: amp_conf/htdocs/admin/views/module_admin/main.php:51
 #: amp_conf/htdocs/admin/views/module_admin/main.php:238
 msgid "Track"
@@ -8723,11 +8719,11 @@ msgstr "USER Контекст"
 msgid "USER Details"
 msgstr "USER Детайли"
 
-#: ../core/install.php:578
+#: ../core/install.php:583
 msgid "Unable to add index to extensions field in users"
 msgstr ""
 
-#: ../core/install.php:565
+#: ../core/install.php:570
 msgid "Unable to add index to tech field in devices"
 msgstr ""
 
@@ -8886,10 +8882,6 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1667
 msgid "Unknown upload error"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:203
-msgid "Unknown!"
 msgstr ""
 
 #: ../core/page.advancedsettings.php:281
@@ -9384,7 +9376,7 @@ msgstr ""
 msgid "Welcome to %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1227
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1163
 msgid "What Does this Mean?"
 msgstr ""
 
@@ -9680,7 +9672,7 @@ msgstr ""
 msgid "You are urged to backup before making any changes."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1281
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1217
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
 "you should set a secure password"
@@ -9977,8 +9969,8 @@ msgstr ""
 #: upgrades/2.10.0beta3/migration.php:61 upgrades/2.10.0beta3/migration.php:76
 #: upgrades/2.9.0alpha1/tables.php:48 upgrades/2.9.0alpha1/tables.php:64
 #: ../core/install.php:250 ../core/install.php:267 ../core/install.php:283
-#: ../core/install.php:537 ../core/install.php:553 ../core/install.php:970
-#: ../core/install.php:986
+#: ../core/install.php:540 ../core/install.php:558 ../core/install.php:975
+#: ../core/install.php:991
 msgid "added"
 msgstr "добавени"
 
@@ -10003,9 +9995,9 @@ msgstr "вече е направено"
 #: upgrades/2.6.0beta1/tables.php:336 upgrades/2.8.0alpha2/tables.php:56
 #: upgrades/2.8.0alpha2/tables.php:172 upgrades/2.9.0alpha1/tables.php:50
 #: upgrades/2.9.0alpha1/tables.php:66 ../core/install.php:253
-#: ../core/install.php:270 ../core/install.php:286 ../core/install.php:520
-#: ../core/install.php:539 ../core/install.php:555 ../core/install.php:973
-#: ../core/install.php:989
+#: ../core/install.php:270 ../core/install.php:286 ../core/install.php:521
+#: ../core/install.php:542 ../core/install.php:560 ../core/install.php:978
+#: ../core/install.php:994
 msgid "already exists"
 msgstr "вече съществуват"
 
@@ -10070,7 +10062,7 @@ msgstr ""
 msgid "checking %s .."
 msgstr ""
 
-#: ../core/install.php:976
+#: ../core/install.php:981
 msgid "checking for continue field in trunks.."
 msgstr ""
 
@@ -10078,7 +10070,7 @@ msgstr ""
 msgid "checking for delay_answer field .."
 msgstr "проверка за delay_answer поле .."
 
-#: ../core/install.php:960
+#: ../core/install.php:965
 msgid "checking for dest field in outbound_routes.."
 msgstr ""
 
@@ -10128,7 +10120,7 @@ msgstr ""
 msgid "continuing.."
 msgstr ""
 
-#: ../core/install.php:1006
+#: ../core/install.php:1011
 msgid "could not delete"
 msgstr ""
 
@@ -10147,7 +10139,7 @@ msgstr ""
 msgid "custom modifications, details at:"
 msgstr ""
 
-#: ../core/install.php:1054
+#: ../core/install.php:1059
 msgid "dahdi table not empty, can't migrate zap data there"
 msgstr ""
 
@@ -10160,17 +10152,17 @@ msgstr ""
 msgid "deleted"
 msgstr "изтрити"
 
-#: ../core/install.php:1001
+#: ../core/install.php:1006
 msgid "deleting ALLOW_SIP_ANON from globals.."
 msgstr ""
 
-#: ../core/install.php:951
+#: ../core/install.php:956
 msgid "deleting obsoleted record_in and record_out entries.."
 msgstr ""
 
 #: install.php:90 install.php:101 install.php:111
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:505
-#: ../core/install.php:918 ../core/install.php:1004
+#: ../core/install.php:923 ../core/install.php:1009
 msgid "done"
 msgstr ""
 
@@ -10191,7 +10183,7 @@ msgstr ""
 msgid "email address"
 msgstr ""
 
-#: ../core/install.php:1051
+#: ../core/install.php:1056
 msgid ""
 "error checking dahdi table size to determine if zap table contents can be "
 "migrated"
@@ -10201,19 +10193,19 @@ msgstr ""
 msgid "error could not move it"
 msgstr ""
 
-#: ../core/install.php:1046 ../core/install.php:1065
+#: ../core/install.php:1051 ../core/install.php:1070
 msgid "error dropping table"
 msgstr ""
 
-#: ../core/install.php:1090
+#: ../core/install.php:1095
 msgid "error migrating table"
 msgstr ""
 
-#: ../core/install.php:1102
+#: ../core/install.php:1107
 msgid "error occured"
 msgstr ""
 
-#: ../core/install.php:1086
+#: ../core/install.php:1091
 msgid "error occured updating devices table"
 msgstr ""
 
@@ -10266,6 +10258,10 @@ msgstr ""
 msgid "fatal error"
 msgstr "фатална грешка"
 
+#: ../core/install.php:515
+msgid "fatal error adding fields to incoming table"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:957
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:982
 #, php-format
@@ -10276,7 +10272,7 @@ msgstr ""
 msgid "fatal error reading freepbx_settings"
 msgstr ""
 
-#: ../core/install.php:967 ../core/install.php:983
+#: ../core/install.php:972 ../core/install.php:988
 msgid "fatal error trying to add field"
 msgstr ""
 
@@ -10449,7 +10445,7 @@ msgid ""
 "setting value [%s], error msg if supplied [%s]"
 msgstr ""
 
-#: ../core/install.php:1110
+#: ../core/install.php:1115
 msgid "migrated username column to allow for longer usernames"
 msgstr ""
 
@@ -10462,7 +10458,7 @@ msgstr ""
 msgid "migrating rules.."
 msgstr ""
 
-#: ../core/install.php:1056
+#: ../core/install.php:1061
 msgid "migrating zap table contents to dahdi table.."
 msgstr ""
 
@@ -10515,7 +10511,7 @@ msgstr ""
 msgid "none"
 msgstr "няма"
 
-#: ../core/install.php:1156
+#: ../core/install.php:1161
 msgid "none found"
 msgstr ""
 
@@ -10525,7 +10521,7 @@ msgstr ""
 
 #: upgrades/2.6.0beta1/tables.php:319 upgrades/2.8.0/custom-context.php:109
 #: upgrades/2.8.0rc1/custom-context.php:110 ../core/install.php:235
-#: ../core/install.php:507 ../core/install.php:877 ../core/install.php:947
+#: ../core/install.php:507 ../core/install.php:882 ../core/install.php:952
 msgid "not needed"
 msgstr "не е необходимо"
 
@@ -10541,9 +10537,9 @@ msgstr ""
 #: upgrades/2.8.0/modules-conf.php:58 upgrades/2.8.0alpha2/tables.php:112
 #: upgrades/2.8.0alpha2/tables.php:119
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:77
-#: upgrades/2.9.0alpha1/migrate_ampconf.php:157 ../core/install.php:929
-#: ../core/install.php:956 ../core/install.php:1028 ../core/install.php:1044
-#: ../core/install.php:1059 ../core/install.php:1063 ../core/install.php:1100
+#: upgrades/2.9.0alpha1/migrate_ampconf.php:157 ../core/install.php:934
+#: ../core/install.php:961 ../core/install.php:1033 ../core/install.php:1049
+#: ../core/install.php:1064 ../core/install.php:1068 ../core/install.php:1105
 msgid "ok"
 msgstr ""
 
@@ -10565,11 +10561,11 @@ msgstr ""
 msgid "prefix:"
 msgstr ""
 
-#: ../core/install.php:869
+#: ../core/install.php:874
 msgid "preparing"
 msgstr ""
 
-#: ../core/install.php:1077
+#: ../core/install.php:1082
 #, php-format
 msgid "preparing device %s dial to %s"
 msgstr ""
@@ -10618,11 +10614,11 @@ msgstr ""
 msgid "removing rtp.conf it will be symlinked from core"
 msgstr ""
 
-#: ../core/install.php:1041 ../core/install.php:1060
+#: ../core/install.php:1046 ../core/install.php:1065
 msgid "removing zap table.."
 msgstr ""
 
-#: ../core/install.php:1025
+#: ../core/install.php:1030
 msgid "renaming table zapchandids to dahdichandids.."
 msgstr ""
 
@@ -10713,7 +10709,7 @@ msgstr ""
 msgid "updated %s callgroups, %s pickupgroups"
 msgstr "обновени %s групи на избиране, %s групи на изтегляне"
 
-#: ../core/install.php:947
+#: ../core/install.php:952
 #, php-format
 msgid "updated %s records"
 msgstr ""
@@ -10722,7 +10718,7 @@ msgstr ""
 msgid "updating zap callgroup, pickupgroup.."
 msgstr "обновяване на zap групи на избиране, групи на изтегляне.."
 
-#: ../core/install.php:1097
+#: ../core/install.php:1102
 msgid "upgrading any zap trunks to dahdi if found.."
 msgstr ""
 
@@ -10771,7 +10767,7 @@ msgid ""
 "manually"
 msgstr ""
 
-#: ../core/install.php:1084
+#: ../core/install.php:1089
 msgid "zap devices migrated"
 msgstr ""
 
