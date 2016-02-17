@@ -95,26 +95,38 @@ class Media {
 	 * Get all supported formats
 	 * @return array Array of supported audio formats
 	 */
-	public static function getSupportedFormats() {
+	public static function getSupportedFormats($driver=null) {
 		$formats = array(
 			"out" => array(),
 			"in" => array()
 		);
-		if(Driver\Drivers\AsteriskShell::installed()) {
-			$formats = Driver\Drivers\AsteriskShell::supportedCodecs($formats);
+		if(empty($driver)) {
+			if(Driver\Drivers\AsteriskShell::installed()) {
+				$formats = Driver\Drivers\AsteriskShell::supportedCodecs($formats);
+			}
+			if(Driver\Drivers\SoxShell::installed()) {
+				$formats = Driver\Drivers\SoxShell::supportedCodecs($formats);
+			}
+			if(Driver\Drivers\Mpg123Shell::installed()) {
+				$formats = Driver\Drivers\Mpg123Shell::supportedCodecs($formats);
+			}
+			if(Driver\Drivers\FfmpegShell::installed()) {
+				$formats = Driver\Drivers\FfmpegShell::supportedCodecs($formats);
+			}
+			if(Driver\Drivers\LameShell::installed()) {
+				$formats = Driver\Drivers\LameShell::supportedCodecs($formats);
+			}
+		} else {
+			$class = 'Media\Driver\Drivers\\'.$driver;
+			if(class_exists($class) && $class::installed()) {
+				$formats = $class::supportedCodecs($formats);
+			} elseif(!class_exists($class)) {
+				throw new \Exception("Driver not avalible");
+			} else {
+				//not installed...
+			}
 		}
-		if(Driver\Drivers\SoxShell::installed()) {
-			$formats = Driver\Drivers\SoxShell::supportedCodecs($formats);
-		}
-		if(Driver\Drivers\Mpg123Shell::installed()) {
-			$formats = Driver\Drivers\Mpg123Shell::supportedCodecs($formats);
-		}
-		if(Driver\Drivers\FfmpegShell::installed()) {
-			$formats = Driver\Drivers\FfmpegShell::supportedCodecs($formats);
-		}
-		if(Driver\Drivers\LameShell::installed()) {
-			$formats = Driver\Drivers\LameShell::supportedCodecs($formats);
-		}
+
 		return $formats;
 	}
 
