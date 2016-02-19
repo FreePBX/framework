@@ -803,6 +803,13 @@ function bind_dests_double_selects() {
 						var id = $(this).data("id");
 						//dropdown 1
 						var par = $("#goto" + id).data("last");
+						//reset the original option to the first in the list *if* it wasn't
+						//previously selected. This is so we dont get random 'white' (empty)
+						//options selected when coming back from a canceled popover
+						var name = $("#goto"+id).val();
+						if(par !== name) {
+							$("#"+name+id)[0].selectedIndex = 0;
+						}
 						$("#goto" + id).val(par).change();
 						if (par !== "") { //Get dropdown2
 							var par_id = par.concat(id);
