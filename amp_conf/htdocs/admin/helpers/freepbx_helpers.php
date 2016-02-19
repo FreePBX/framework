@@ -81,16 +81,30 @@ function fpbx_form_input_check($data = '', $value = '', $extra = '', $label = 'E
 }
 // ------------------------------------------------------------------------
 
-/*
- * $goto is the current goto destination setting
- * $i is the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
- * ensure that any form that includes this calls the setDestinations() javascript function on submit.
- * ie: if the form name is "edit", and drawselects has been called with $i=2 then use onsubmit="setDestinations(edit,2)"
- * $table specifies if the destinations will be drawn in a new <tr> and <td>
+/**
+ * Destination drawselects.
  *
+ * This is where the magic happens. Query all modules for valid destinations
+ * Then build a javascript based multi-select box.
+ * Hide the second select box until the first is selected.
+ * Auto-populate the second based on the first.
+ *
+ * The first is almost always a module name, though it can be custom as well.
+ * The second is the actually destination
+ *
+ * @param  string $goto             The current goto destination setting. EG: ext-local,2000,1
+ * @param  int $i                   the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
+ * @param  array $restrict_modules  Array of modules to restrict getting destinations from
+ * @param  bool $table              Wrap this in a table row using <tr> and <td> (depreciated should not be used in 13+)
+ * @param  string $nodest_msg       No Destination selected message
+ * @param  bool $required           Whether the destination is required to be set
+ * @param  bool $output_array       Output an array instead of html (you will need to make sure the html is correct later on for the functionality of this to work correctly)
+ * @param  bool $reset              Reset the drawselect_* globals (Unsure of reasoning for this)
+ * @param  bool $disable            Set html element to disabled on creation
+ * @param  string $class            String of classes to add to to the html element (class="<string>")
+ * @return mixed                    Array if $output_array is true otherwise a string of html
  */
-
-function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='', $required = false, $output_array = false, $reset = false, $disable=false, $class='') {
+function drawselects($goto, $i, $restrict_modules=false, $table=true, $nodest_msg='', $required = false, $output_array = false, $reset = false, $disable=false, $class='') {
 	global $tabindex, $active_modules, $drawselect_destinations, $drawselects_module_hash, $fw_popover;
 	static $drawselects_id_hash;
 
@@ -117,6 +131,9 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 		$add_a_new = _('Add new %s &#133');
 		//check for module-specific destination functions
 		foreach($active_modules as $rawmod => $module){
+			if(is_array($restrict_modules) && !in_array($rawmod,$restrict_modules)) {
+				continue;
+			}
 			$funct = strtolower($rawmod.'_destinations');
 			$popover_hash = array();
 
