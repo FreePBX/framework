@@ -915,6 +915,17 @@ class Installer {
 
 	$category = 'GUI Behavior';
 
+	$settings[$category]['FPBXOPMODE'] = array(
+	'value' => 'advanced',
+	'options' => 'basic,advanced',
+	'name' => 'GUI Operation Mode',
+	'description' => 'Determines the mode to use while navigating the PBX. Defaults to "Advanced". If a module does not support "Basic" mode it will default to "Advanced"',
+	'sortorder' => -135,
+	'readonly' => 1,
+	'hidden' => 1,
+	'type' => CONF_TYPE_SELECT,
+	);
+
 	$settings[$category]['CHECKREFERER'] = array(
 	'value' => true,
 	'options' => '',
