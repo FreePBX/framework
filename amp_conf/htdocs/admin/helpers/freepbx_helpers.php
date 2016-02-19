@@ -94,7 +94,7 @@ function fpbx_form_input_check($data = '', $value = '', $extra = '', $label = 'E
  *
  * @param  string $goto             The current goto destination setting. EG: ext-local,2000,1
  * @param  int $i                   the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
- * @param  array $restrict_modules  Array of modules or array of modules with categories to restrict getting destinations from
+ * @param  array $restrict_modules  Array of modules or array of modules with ids to restrict getting destinations from
  * @param  bool $table              Wrap this in a table row using <tr> and <td> (deprecated should not be used in 13+)
  * @param  string $nodest_msg       No Destination selected message
  * @param  bool $required           Whether the destination is required to be set
