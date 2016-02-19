@@ -29,7 +29,7 @@ foreach ($vars as $k => $v) {
 	// page.<some_module>.php (which usually uses $var or $vars)
 	$config_vars[$k] = $$k = isset($_REQUEST[$k]) ? $_REQUEST[$k] : $v;
 
-	//special handeling
+	//special handling
 	switch ($k) {
 	case 'extdisplay':
 		$extdisplay = (isset($extdisplay) && $extdisplay !== false)
