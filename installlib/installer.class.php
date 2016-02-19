@@ -2025,7 +2025,7 @@ class Installer {
 	$settings[$category]['DASHBOARD_OVERRIDE'] = array(
 		'description' => 'When no params specified, use this module',
 		'name' => 'DASHBOARD_OVERRIDE',
-		'value' => '', 
+		'value' => '',
 		'options' => '',
 		'readonly' => 1,
 		'hidden' => 1,

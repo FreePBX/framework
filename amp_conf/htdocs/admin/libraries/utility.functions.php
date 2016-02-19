@@ -189,7 +189,6 @@ function compress_framework_css() {
  * @param string $type The message type (Optional)
  */
 function die_freepbx($text, $extended_text="", $type="FATAL") {
-	global $amp_conf;
 	if(is_object($extended_text) && method_exists($extended_text,"getMessage")) {
 		$e = $extended_text;
 		$extended_text = htmlentities($e->getMessage());
