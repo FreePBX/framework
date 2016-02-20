@@ -193,9 +193,12 @@ function drawselects($goto, $i, $restrict_modules=false, $table=true, $nodest_ms
 			}
 		}
 		//sort destination alphabetically
-
-		ksort($drawselect_destinations);
-		ksort($drawselects_module_hash);
+		if(is_array($drawselect_destinations)) {
+			ksort($drawselect_destinations);
+		}
+		if(is_array($drawselects_module_hash)) {
+			ksort($drawselects_module_hash);
+		}
 	}
 
 	$ds_array = $drawselect_destinations;
