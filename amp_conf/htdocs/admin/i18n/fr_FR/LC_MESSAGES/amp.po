@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-19 16:25-0800\n"
-"PO-Revision-Date: 2016-02-21 05:18+0200\n"
+"PO-Revision-Date: 2016-02-21 07:52+0200\n"
 "Last-Translator: Nicolas Riendeau <freepbx@riendeau.org>\n"
 "Language-Team: French "
 "<http://weblate.freepbx.org/projects/freepbx/framework/fr_FR/>\n"
@@ -6074,12 +6074,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:664
 #, php-format
 msgid "Online upgrade available (%s)"
-msgstr "Mise à jour réseau disponible (%s)"
+msgstr "Mise à jour en ligne disponible (%s)"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1100
 #, php-format
 msgid "Only %s version %s is compatible, you have %s"
-msgstr "Seule la version %s %s est compatible. Celle installée est %s"
+msgstr "Seule la version %s de %s est compatible. Celle installée est %s"
 
 #: amp.i18n.php:478
 msgid "Only Use Last CID Prepend"
@@ -6148,12 +6148,16 @@ msgstr ""
 #: ../core/functions.inc.php:6213
 msgid "Optional destination call is routed to when the call is not answered."
 msgstr ""
+"Destination optionnelle vers laquelle l'appel est acheminé s'il n'est pas "
+"répondu."
 
 #: ../core/functions.inc.php:6222
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user."
 msgstr ""
+"Destination optionnelle vers laquelle l'appel est acheminé lorsque la ligne "
+"est occupée ou que l'appel est refusé par l'utilisateur."
 
 #: ../core/functions.inc.php:6220
 msgid ""
@@ -6162,6 +6166,10 @@ msgid ""
 "call if the phone is in use and the user chooses not to pickup the second "
 "call."
 msgstr ""
+"Destination optionnelle vers laquelle l'appel est acheminé lorsque la ligne "
+"est occupée ou que l'appel est refusé par l'utilisateur. Cette destination "
+"est aussi utilisée pour les appels non répondus si la ligne est occupée et "
+"que l'utilisateur choisit de ne pas répondre au deuxième appel."
 
 #: ../core/functions.inc.php:6228
 msgid ""
@@ -6449,47 +6457,47 @@ msgstr "Chemin pour openssl"
 
 #: amp.i18n.php:892
 msgid "Path for ps"
-msgstr ""
+msgstr "Chemin pour ps"
 
 #: amp.i18n.php:898
 msgid "Path for route"
-msgstr ""
+msgstr "Chemin pour route"
 
 #: amp.i18n.php:904
 msgid "Path for rsync"
-msgstr ""
+msgstr "Chemin pour rsync"
 
 #: amp.i18n.php:910
 msgid "Path for sox"
-msgstr ""
+msgstr "Chemin pour sox"
 
 #: amp.i18n.php:916
 msgid "Path for ssh"
-msgstr ""
+msgstr "Chemin pour ssh"
 
 #: amp.i18n.php:922
 msgid "Path for tail"
-msgstr ""
+msgstr "Chemin pour tail"
 
 #: amp.i18n.php:928
 msgid "Path for tar"
-msgstr ""
+msgstr "Chemin pour tar"
 
 #: amp.i18n.php:934
 msgid "Path for tiff2pdf"
-msgstr ""
+msgstr "Chemin pour tiff2pdf"
 
 #: amp.i18n.php:940
 msgid "Path for tiffcp"
-msgstr ""
+msgstr "Chemin pour tiffcp"
 
 #: amp.i18n.php:946
 msgid "Path for tiffinfo"
-msgstr ""
+msgstr "Chemin pour tiffinfo"
 
 #: amp.i18n.php:952
 msgid "Path for touch"
-msgstr ""
+msgstr "Chemin pour touch"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:139
 msgid "Path given to verifyModule. Only provide a module name"
