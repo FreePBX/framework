@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-19 16:25-0800\n"
-"PO-Revision-Date: 2016-02-21 20:57+0200\n"
+"PO-Revision-Date: 2016-02-22 08:39+0200\n"
 "Last-Translator: Nicolas Riendeau <freepbx@riendeau.org>\n"
 "Language-Team: French "
 "<http://weblate.freepbx.org/projects/freepbx/framework/fr_FR/>\n"
@@ -5057,12 +5057,12 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2151
 msgid "Invalid description"
-msgstr ""
+msgstr "Description invalide"
 
 #: amp_conf/htdocs/admin/page.modules.php:25
 #: amp_conf/htdocs/admin/views/footer.php:111
 msgid "Invalid email address"
-msgstr ""
+msgstr "Adresse de courriel invalide"
 
 #: ../core/Core.class.php:442 ../core/Core.class.php:1232
 #: ../core/page.trunks.php:328
@@ -5072,16 +5072,18 @@ msgstr "Format invalide pour le code NPA-NXX (format doit être; <b>NXXNXX</b>)"
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:142
 msgid "Invalid password supplied - less than 8 characters"
 msgstr ""
+"Le mot de passe fourni est invalide, car il comporte moins de 8 caractères"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:179
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:299
 msgid "Invalid password supplied - less than 8 chars"
 msgstr ""
+"Le mot de passe fourni est invalide, car il comporte moins de 8 caractères"
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:33
 #, php-format
 msgid "Invalid path %s"
-msgstr ""
+msgstr "Chemin %s invalide"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1078
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1097
@@ -6599,26 +6601,25 @@ msgstr "Merci de confirmer les actions suivantes:"
 #: amp_conf/htdocs/admin/views/obe.php:15
 #: amp_conf/htdocs/admin/views/oobe.php:7
 msgid "Please correct the following errors:"
-msgstr "S'il vous plaît, corrigez les erreurs suivantes :"
+msgstr "Veuillez corriger les erreurs suivantes :"
 
 #: ../core/functions.inc.php:6422
 #: ../core/functions.inc/drivers/Iax2.class.php:102
 #: ../core/functions.inc/drivers/Sip.class.php:210
 msgid "Please enter a Secret for this device"
-msgstr "S'il vous plaît, entrez un mot de passe (secret) pour ce dispositif"
+msgstr "Veuillez entrer un mot de passe (secret) pour ce dispositif"
 
 #: ../core/functions.inc.php:6390
 msgid "Please enter a device id."
-msgstr "S'il vous plaît, entrez un identifiant pour de dispositif."
+msgstr "Veuillez entrer un identifiant pour de dispositif."
 
 #: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:226
 msgid "Please enter a username"
-msgstr "S'il vous plaît, entrez un nom d'usager"
+msgstr "Veuiilez entrer un nom d'usager"
 
 #: ../core/functions.inc.php:6026
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
-msgstr ""
-"S'il vous plaît, entrez un \\'Numéro SDA\\' valide( uniquement des chiffres)."
+msgstr "Veuillez entrer un alias d'ID appelant valide (seulement des chiffres)."
 
 #: ../core/functions.inc.php:6032
 msgid ""
@@ -6628,47 +6629,46 @@ msgstr ""
 
 #: ../core/functions.inc.php:6391
 msgid "Please enter a valid Description for this device"
-msgstr "S'il vous plaît, entrez une description de dispositif valide"
+msgstr "Veuillez entrer une description de dispositif valide"
 
 #: ../core/functions.inc.php:6028
 msgid "Please enter a valid Display Name"
-msgstr "SVP, entrez un \\'Nom Affiché (CID)\\' valide."
+msgstr "Veuillez entrer un 'Nom affiché' valide"
 
 #: ../core/functions.inc.php:6392
 msgid "Please enter a valid Emergency CID"
-msgstr "S'il vous plaît, entrez un ID appelant d'urgence valide"
+msgstr "Veuillez entrer un ID appelant d'urgence valide"
 
 #: ../core/functions.inc.php:6029
 msgid "Please enter a valid Outbound CID"
-msgstr "SVP, entrez un CID Sortant valide."
+msgstr "Veuillez entrer un ID appelant sortant valide"
 
 # ATTENTION: Les messages suivants sont des alertes: pas d'accent, pas de caracteres de control sont admis... le fichier script.js est traite plus haut
 #: ../core/functions.inc.php:6025 ../core/functions.inc.php:6393
 msgid "Please enter a valid extension number."
-msgstr "S'il vous plaît, entrez un numéro de poste valide."
+msgstr "Veuillez entrer un numéro de poste valide."
 
 #: ../core/functions.inc.php:6030
 msgid "Please enter a valid pause time in seconds, using digits only"
 msgstr ""
-"S'il vous plaît, entrez un temps de pause valide (en utilisant des chiffres "
+"Veuillez entrer un temps de pause valide (en utilisant des chiffres "
 "seulement)."
 
 #: ../core/functions.inc.php:6420
 #: ../core/functions.inc/drivers/Dahdi.class.php:99
 msgid "Please enter the channel for this device"
-msgstr "S'il vous plaît, entrez le canal pour ce dispositif"
+msgstr "Veuillez entrer le canal pour ce dispositif"
 
 #: ../core/functions.inc.php:6027
 msgid "Please enter valid User Password using numbers only"
 msgstr ""
-"SVP, entrez un mot de passe utilisateur valide utilisant des chiffres "
+"Veuillez entrer un mot de passe utilisateur valide utilisant des chiffres "
 "seulement."
 
 #: amp_conf/htdocs/admin/libraries/view.functions.php:67
 msgid "Please install gettext so that the PBX can properly translate itself"
 msgstr ""
-"S'il vous plaît, veuillez installer gettext pour que le PBX puisse être "
-"correctement traduit"
+"Veuillez installer gettext pour que le PBX puisse être correctement traduit"
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:63
 msgid "Please note most tasks should be handled through the GUI."
@@ -7776,7 +7776,7 @@ msgstr "Téléchargement réussi"
 
 #: ../core/views/trunks/pjsip.php:586
 msgid "Support T.38 UDPTL"
-msgstr ""
+msgstr "Supporte T.38 UDPTL"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:349
 #, php-format
@@ -7785,7 +7785,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/menu_items.php:37
 msgid "Syntax error in your freepbx_menu.conf file"
-msgstr ""
+msgstr "Erreur de syntaxe dans votre fichier freepbx_menu.conf"
 
 #: ../core/views/trunks/trunk_header.php:391
 msgid "System"
@@ -7797,27 +7797,27 @@ msgstr "Système"
 #: amp.i18n.php:912 amp.i18n.php:918 amp.i18n.php:924 amp.i18n.php:930
 #: amp.i18n.php:936 amp.i18n.php:942 amp.i18n.php:948 amp.i18n.php:954
 msgid "System Apps"
-msgstr ""
+msgstr "Applications système"
 
 #: amp.i18n.php:1114
 msgid "System Asterisk Group"
-msgstr ""
+msgstr "Groupe système Asterisk"
 
 #: amp.i18n.php:1120
 msgid "System Asterisk User"
-msgstr ""
+msgstr "Utilisateur système Asterisk"
 
 #: amp.i18n.php:1126
 msgid "System Device Group"
-msgstr ""
+msgstr "Groupe de dispositif système"
 
 #: amp.i18n.php:1132
 msgid "System Device User"
-msgstr ""
+msgstr "Utilisateur de dispositif système"
 
 #: amp.i18n.php:1138
 msgid "System Identity"
-msgstr ""
+msgstr "Identité système"
 
 #: amp.i18n.php:960 amp.i18n.php:966 amp.i18n.php:972 amp.i18n.php:978
 #: amp.i18n.php:984 amp.i18n.php:990 amp.i18n.php:996 amp.i18n.php:1002
@@ -7829,15 +7829,15 @@ msgstr ""
 #: amp.i18n.php:1128 amp.i18n.php:1134 amp.i18n.php:1140 amp.i18n.php:1146
 #: amp.i18n.php:1152 amp.i18n.php:1158 amp.i18n.php:1164 amp.i18n.php:1170
 msgid "System Setup"
-msgstr ""
+msgstr "Configuration système"
 
 #: amp.i18n.php:1144
 msgid "System Web Group"
-msgstr ""
+msgstr "Groupe Web système"
 
 #: amp.i18n.php:1150
 msgid "System Web User"
-msgstr ""
+msgstr "Utilisateur Web système"
 
 #: amp_conf/htdocs/admin/libraries/media/Media/Driver/Drivers/SoxShell.php:81
 msgid "System is missing SOX"
@@ -7886,7 +7886,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:850
 msgid "Terminate Call"
-msgstr "Fin appel"
+msgstr "Terminer l'appel"
 
 #: amp.i18n.php:500
 msgid ""
