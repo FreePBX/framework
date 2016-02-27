@@ -6,13 +6,14 @@
  * License for all code of this FreePBX module can be found in the license file inside the module directory
  * Copyright 2006-2014 Schmooze Com Inc.
  */
-
+namespace FreePBX;
 class Curl {
 
 	public $pesthandles = array();
+	private $caches = array();
 
 	public function getProxySettings() {
-		$conf = FreePBX::Config();
+		$conf = \FreePBX::Config();
 		if ($conf->get('PROXY_ENABLED')) {
 			$url = trim($conf->get('PROXY_ADDRESS'));
 			if (!$url) {
@@ -42,6 +43,11 @@ class Curl {
 		}
 	}
 
+	/**
+	 * Get Proxy based PEST object
+	 * @param  string $url The URL to pass
+	 * @return object     PEST object supporting proxy
+	 */
 	public function pest($url = false) {
 		if (!$url) {
 			throw new \Exception("Invalid URL");
@@ -77,6 +83,42 @@ class Curl {
 		return $this->pesthandles[$url];
 	}
 
+	public function get($url, $headers = array(), $options = array()) {
+		$headers = $this->addHeaders($headers);
+		$options = $this->addOptions($options);
+		return \Requests::get($url, $headers, $options);
+	}
+
+	public function head($url, $headers = array(), $options = array()) {
+		$headers = $this->addHeaders($headers);
+		$options = $this->addOptions($options);
+		return \Requests::head($url, $headers, $options);
+	}
+
+	public function delete($url, $headers = array(), $options = array()) {
+		$headers = $this->addHeaders($headers);
+		$options = $this->addOptions($options);
+		return \Requests::delete($url, $headers, $options);
+	}
+
+	public function post($url, $headers = array(), $options = array()) {
+		$headers = $this->addHeaders($headers);
+		$options = $this->addOptions($options);
+		return \Requests::post($url, $headers, $options);
+	}
+
+	public function put($url, $headers = array(), $options = array()) {
+		$headers = $this->addHeaders($headers);
+		$options = $this->addOptions($options);
+		return \Requests::put($url, $headers, $options);
+	}
+
+	public function patch($url, $headers = array(), $options = array()) {
+		$headers = $this->addHeaders($headers);
+		$options = $this->addOptions($options);
+		return \Requests::patch($url, $headers, $options);
+	}
+
 	public function setEnvVariables() {
 		$p = $this->getProxySettings();
 		if (!$p['enabled']) {
@@ -92,5 +134,25 @@ class Curl {
 		putenv("http_proxy=$url");
 		putenv("no_proxy=localhost,127.0.0.1,:1");
 		return;
+	}
+
+	private function addOptions($options) {
+		$proxy = $this->getProxySettings();
+		if($proxy['enabled']) {
+			if(!empty($proxy['username'])) {
+				$options = array(
+					'proxy' => array( $proxy['host'], $proxy['username'], $proxy['password'] )
+				);
+			} else {
+				$options = array(
+					'proxy' => $proxy['host']
+				);
+			}
+		}
+		return $options;
+	}
+
+	private function addHeaders($headers) {
+		return $headers;
 	}
 }

@@ -449,16 +449,6 @@ function drawListMenu($results, $skip=null, $type=null, $dispnum, $extdisplay, $
 	echo "</ul>\n";
 }
 
-// this function returns true if $astman is defined and set to something (implying a current connection, false otherwise.
-// this function no longer puts out an error message, it is up to the caller to handle the situation.
-// Should probably be changed (at least name) to check if a connection is available to the current engine)
-//
-function checkAstMan() {
-	global $astman;
-
-	return ($astman)?true:false;
-}
-
 /* merge_ext_followme($dest) {
  *
  * The purpose of this function is to take a destination
