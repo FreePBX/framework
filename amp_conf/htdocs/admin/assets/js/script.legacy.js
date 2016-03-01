@@ -2042,3 +2042,14 @@ function fpbxToast(message,title,level){
 
 	}
 }
+
+/**
+ * https://github.com/CSS-Tricks/Relevant-Dropdowns
+ */
+yepnope({
+	test : (!Modernizr.input.list),
+	yep : [
+		'assets/js/jquery.relevant-dropdown.js',
+		'assets/js/load-fallbacks.js'
+	]
+});

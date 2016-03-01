@@ -76,14 +76,9 @@ class View {
 	 */
 	public function alertInfoDrawSelect($id, $value = '', $class = '', $allowNone = true, $disable = false, $required = false) {
 		$display = !empty($_REQUEST['display']) ? $_REQUEST['display'] : '';
-		$options = array(
-			"create" => true,
-			"allowEmptyOption" => $allowNone
-		);
 		$optionshtml = '';
-		if($allowNone) {
-			$optionshtml = '<option value=" ">'._("None").'</option>';
-		}
+
+		$value = trim($value);
 
 		$hooks = $this->freepbx->Hooks->returnHooks();
 		$selected = false;
@@ -99,15 +94,11 @@ class View {
 				if($item['value'] == $value) {
 					$selected = true;
 				}
-				$optionshtml .= '<option value="'.$item['value'].'" data-id="'.$mod.'-'.$key.'" data-playback="'.(!empty($item['playback']) ? 'true' : 'false').'" '.($item['value'] == $value ? 'selected' : '').' '.($required ? 'required' : '').'>'.$item['name'].'</option>';
+				$optionshtml .= '<option label="'.$item['name'].'" value="'.$item['value'].'" data-id="'.$mod.'-'.$key.'" data-playback="'.(!empty($item['playback']) ? 'true' : 'false').'">'.$item['name'].'</option>';
 			}
 
 		}
 
-		if(!$selected && trim($value) != '') {
-			$optionshtml = '<option value="'.$value.'" selected>'.$value.'</option>'.$optionshtml;
-		}
-
-		return '<div class="alertinfoselect"><select id="'.$id.'" name="'.$id.'" class="form-control '.$class.'" '.($required ? 'required' : '').' '.($disable ? 'disabled' : '').'>'.$optionshtml.'</select><div class="play hidden"><i class="fa fa-play"></i></div><script>$(function() {$("#'.$id.'").removeClass("form-control");$("#'.$id.'").selectize('.json_encode($options).');});</script></div>';
+		return '<input id="'.$id.'" type="search" name="'.$id.'" placeholder="'._("Double-Click to see options or type freeform").'" class="form-control '.$class.'" list="'.$id.'-list" '.($required ? 'required' : '').' '.($disable ? 'disabled' : '').' value="'.$value.'"><datalist id="'.$id.'-list">'.$optionshtml.'</datalist>';
 	}
 }
