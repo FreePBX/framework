@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-19 16:25-0800\n"
+"POT-Creation-Date: 2016-02-29 18:33-0800\n"
 "PO-Revision-Date: 2015-11-17 09:04+0200\n"
 "Last-Translator: james <zhulizhong@gmail.com>\n"
 "Language-Team: Simplified Chinese <http://weblate.freepbx.org/projects/"
@@ -362,7 +362,7 @@ msgstr "%s 记录验证失败"
 msgid "%s removed successfully"
 msgstr "成功删除%s"
 
-#: amp_conf/htdocs/admin/views/footer.php:305
+#: amp_conf/htdocs/admin/views/footer.php:303
 #, php-format
 msgid ""
 "%s requires a new browser to function correctly. You can still use %s with "
@@ -3120,6 +3120,11 @@ msgstr ""
 msgid "Done. All modules installed."
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:102
+#: ../core/page.advancedsettings.php:184
+msgid "Double-Click to see options or type freeform"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/main.php:75
 #: amp_conf/htdocs/admin/views/module_admin/main.php:304
 msgid "Downgrade"
@@ -4125,7 +4130,7 @@ msgstr ""
 msgid "FreePBX Administration"
 msgstr "FreePBX 管理员"
 
-#: ../core/page.advancedsettings.php:276
+#: ../core/page.advancedsettings.php:263
 msgid "FreePBX Advanced Settings"
 msgstr "FreePBX 高级设置"
 
@@ -4235,8 +4240,8 @@ msgid "Frequency in seconds to send qualify messages to the endpoint."
 msgstr ""
 
 #: ../core/page.advancedsettings.php:112 ../core/page.advancedsettings.php:137
-#: ../core/page.advancedsettings.php:166 ../core/page.advancedsettings.php:208
-#: ../core/page.advancedsettings.php:238 ../core/page.advancedsettings.php:262
+#: ../core/page.advancedsettings.php:166 ../core/page.advancedsettings.php:195
+#: ../core/page.advancedsettings.php:225 ../core/page.advancedsettings.php:249
 msgid "Friendly Name"
 msgstr ""
 
@@ -4558,7 +4563,7 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:278
+#: ../core/page.advancedsettings.php:265
 msgid "IMPORTANT:"
 msgstr ""
 
@@ -5029,8 +5034,8 @@ msgstr ""
 
 #: ../core/page.advancedsettings.php:86 ../core/page.advancedsettings.php:110
 #: ../core/page.advancedsettings.php:135 ../core/page.advancedsettings.php:164
-#: ../core/page.advancedsettings.php:206 ../core/page.advancedsettings.php:236
-#: ../core/page.advancedsettings.php:260
+#: ../core/page.advancedsettings.php:193 ../core/page.advancedsettings.php:223
+#: ../core/page.advancedsettings.php:247
 msgid "KEYWORD"
 msgstr ""
 
@@ -5805,7 +5810,6 @@ msgstr ""
 msgid "NoOp Traces in Dialplan"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:85
 #: ../core/functions.inc/drivers/PJSip.class.php:228
 #: ../core/views/trunks/pjsip.php:91 ../core/views/trunks/pjsip.php:110
 #: ../core/views/trunks/pjsip.php:221 ../core/views/trunks/pjsip.php:618
@@ -6788,7 +6792,7 @@ msgstr ""
 msgid "ReDownloads all modules that have invalid signatures"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:281
+#: ../core/page.advancedsettings.php:268
 msgid ""
 "Readonly settings are usually more volatile, they can be changed by changing "
 "'Override Readonly Settings' to Yes."
@@ -7577,7 +7581,7 @@ msgid ""
 "higher the number the more detailed level of trace NoOp()s will be generated"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:281
+#: ../core/page.advancedsettings.php:268
 msgid "Some of these settings can render your system inoperable."
 msgstr ""
 
@@ -8865,7 +8869,7 @@ msgstr ""
 msgid "Unknown upload error"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:281
+#: ../core/page.advancedsettings.php:268
 msgid ""
 "Unlike previous versions of this module you now save changes as a group."
 msgstr ""
@@ -8917,7 +8921,7 @@ msgstr "升级"
 msgid "Update Notifications"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:305
+#: amp_conf/htdocs/admin/views/footer.php:303
 msgid "Update my browser now"
 msgstr ""
 
@@ -9028,7 +9032,7 @@ msgstr ""
 msgid "Use bad-number Context"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:278
+#: ../core/page.advancedsettings.php:265
 msgid "Use extreme caution when making changes!"
 msgstr ""
 
@@ -9651,7 +9655,7 @@ msgid ""
 "your browser."
 msgstr ""
 
-#: ../core/page.advancedsettings.php:281
+#: ../core/page.advancedsettings.php:268
 msgid "You are urged to backup before making any changes."
 msgstr ""
 
@@ -9688,7 +9692,7 @@ msgid ""
 "extensions that ring."
 msgstr ""
 
-#: ../core/page.advancedsettings.php:281
+#: ../core/page.advancedsettings.php:268
 #, php-format
 msgid ""
 "You can restore the default setting by clicking on the %s icon to the left "
@@ -9886,7 +9890,7 @@ msgid ""
 "reload this page"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:304
+#: amp_conf/htdocs/admin/views/footer.php:302
 msgid "Your browser is out-of-date!"
 msgstr ""
 
