@@ -2053,3 +2053,11 @@ yepnope({
 		'assets/js/load-fallbacks.js'
 	]
 });
+
+// Add class that sets an input to readonly until the user clicks on it. This should prevent autofilling of things like passwords and usernames.
+$( document ).ready(function() {
+	$('.clicktoedit').prop('readonly',true);
+});
+$(document).on('click','.clicktoedit',function(){
+	$(this).prop('readonly',false);
+});
