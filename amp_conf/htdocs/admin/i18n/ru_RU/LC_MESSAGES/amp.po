@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-01 15:34-0800\n"
+"POT-Creation-Date: 2016-03-02 17:17-0800\n"
 "PO-Revision-Date: 2015-07-21 16:36+0200\n"
 "Last-Translator: Yuriy <alliancesko@gmail.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -4346,7 +4346,7 @@ msgstr ""
 msgid "FreePBX Administration"
 msgstr "Администрирование FreePBX"
 
-#: ../core/page.advancedsettings.php:263
+#: ../core/page.advancedsettings.php:264
 msgid "FreePBX Advanced Settings"
 msgstr "Расширенные установки FreePBX"
 
@@ -4476,8 +4476,8 @@ msgid "Frequency in seconds to send qualify messages to the endpoint."
 msgstr "Частота посылок сообщений qualify конечным устройствам, в секундах."
 
 #: ../core/page.advancedsettings.php:112 ../core/page.advancedsettings.php:137
-#: ../core/page.advancedsettings.php:166 ../core/page.advancedsettings.php:195
-#: ../core/page.advancedsettings.php:225 ../core/page.advancedsettings.php:249
+#: ../core/page.advancedsettings.php:166 ../core/page.advancedsettings.php:196
+#: ../core/page.advancedsettings.php:226 ../core/page.advancedsettings.php:250
 msgid "Friendly Name"
 msgstr ""
 
@@ -4723,6 +4723,14 @@ msgstr ""
 msgid "Hide the outbound Caller ID, The same as adding hidden to Outbound CID"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
+msgid "Hit the play symbol to listen"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:108
+msgid "Hit the red record button to start recording from your browser"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:686
 #, php-format
 msgid "Home directory %s doesn't exist, and I can't create it"
@@ -4821,7 +4829,7 @@ msgstr "Возможности трансферов IAX, см. документ�
 msgid "ID"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:265
+#: ../core/page.advancedsettings.php:266
 msgid "IMPORTANT:"
 msgstr ""
 
@@ -5352,8 +5360,8 @@ msgstr ""
 
 #: ../core/page.advancedsettings.php:86 ../core/page.advancedsettings.php:110
 #: ../core/page.advancedsettings.php:135 ../core/page.advancedsettings.php:164
-#: ../core/page.advancedsettings.php:193 ../core/page.advancedsettings.php:223
-#: ../core/page.advancedsettings.php:247
+#: ../core/page.advancedsettings.php:194 ../core/page.advancedsettings.php:224
+#: ../core/page.advancedsettings.php:248
 msgid "KEYWORD"
 msgstr ""
 
@@ -7224,7 +7232,7 @@ msgstr ""
 msgid "ReDownloads all modules that have invalid signatures"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:268
+#: ../core/page.advancedsettings.php:269
 msgid ""
 "Readonly settings are usually more volatile, they can be changed by changing "
 "'Override Readonly Settings' to Yes."
@@ -8063,7 +8071,7 @@ msgstr ""
 "то можно установить параметр в 0. Уровни выше нуля будут увеличивать "
 "детализацию трейсов добавлением NoOp() в разные части диал-плана"
 
-#: ../core/page.advancedsettings.php:268
+#: ../core/page.advancedsettings.php:269
 msgid "Some of these settings can render your system inoperable."
 msgstr ""
 
@@ -9186,6 +9194,13 @@ msgid ""
 "conversion support you need to at least install SOX"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:146
+#, php-format
+msgid ""
+"To play the media you will need to either update your browser to a recent "
+"version or update your %s"
+msgstr ""
+
 #: amp_conf/htdocs/admin/config.php:201
 #, php-format
 msgid ""
@@ -9451,7 +9466,7 @@ msgstr ""
 msgid "Unknown upload error"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:268
+#: ../core/page.advancedsettings.php:269
 msgid ""
 "Unlike previous versions of this module you now save changes as a group."
 msgstr ""
@@ -9501,6 +9516,10 @@ msgstr "Обновления"
 
 #: amp.i18n.php:1162 amp_conf/htdocs/admin/views/footer.php:112
 msgid "Update Notifications"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:145
+msgid "Update Required"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/footer.php:305
@@ -9616,7 +9635,7 @@ msgstr "Использовать пакет библиотеки Javascript "
 msgid "Use bad-number Context"
 msgstr "Использовать контекст bad-numbers"
 
-#: ../core/page.advancedsettings.php:265
+#: ../core/page.advancedsettings.php:266
 msgid "Use extreme caution when making changes!"
 msgstr ""
 
@@ -10327,7 +10346,7 @@ msgid ""
 "your browser."
 msgstr ""
 
-#: ../core/page.advancedsettings.php:268
+#: ../core/page.advancedsettings.php:269
 msgid "You are urged to backup before making any changes."
 msgstr ""
 
@@ -10370,7 +10389,7 @@ msgstr ""
 "идентификатор \"Sales:\", Звонок от John Doe будет выглядеть как \"Sales: "
 "John Doe\" на звонящем внутреннем номере."
 
-#: ../core/page.advancedsettings.php:268
+#: ../core/page.advancedsettings.php:269
 #, php-format
 msgid ""
 "You can restore the default setting by clicking on the %s icon to the left "
