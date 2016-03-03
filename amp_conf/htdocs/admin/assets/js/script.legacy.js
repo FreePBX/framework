@@ -2060,4 +2060,5 @@ $( document ).ready(function() {
 });
 $(document).on('click','.clicktoedit',function(){
 	$(this).prop('readonly',false);
+	$(this).focus();
 });
