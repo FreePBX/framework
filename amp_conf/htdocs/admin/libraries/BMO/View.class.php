@@ -101,4 +101,60 @@ class View {
 
 		return '<input id="'.$id.'" type="search" name="'.$id.'" placeholder="'._("Double-Click to see options or type freeform").'" class="form-control '.$class.'" list="'.$id.'-list" '.($required ? 'required' : '').' '.($disable ? 'disabled' : '').' value="'.$value.'"><datalist id="'.$id.'-list">'.$optionshtml.'</datalist>';
 	}
+
+	public function mediaControls($id, $title='', $class='', $hidden=false, $record=false) {
+		$class .= ($hidden) ? " hidden" : "";
+		if(empty($title) && $record) {
+			$title = _("Hit the red record button to start recording from your browser");
+		} elseif(empty($title) && !$record) {
+			$title = _("Hit the play symbol to listen");
+		}
+		$html = '';
+		$type = (!$record) ? "player" : "recorder";
+		$html .= '<div id="'.$id.'-media-container" class="media-'.$type.'-container '.$class.'">';
+			$html .= '<div id="'.$id.'-media-controls" class="controls">';
+				$html .= '<div id="'.$id.'-player" class="jp-jplayer"></div>';
+				$html .= '<div id="'.$id.'-player-container" data-player="'.$id.'-player" class="jp-audio-freepbx" role="application" aria-label="media player">';
+					$html .= '<div class="jp-type-single">';
+						$html .= '<div class="jp-gui jp-interface">';
+							$html .= '<div class="jp-controls">';
+								$html .= '<i class="fa fa-play jp-play"></i>';
+								if($record) {
+									$html .= '<i id="record" class="fa fa-circle"></i>';
+								} else {
+									$html .= '<i class="fa fa-undo"></i>';
+								}
+							$html .= '</div>';
+						$html .= '</div>';
+						$html .= '<div class="jp-progress">';
+							$html .= '<div class="jp-seek-bar progress">';
+								$html .= '<div class="jp-current-time" role="timer" aria-label="time">&nbsp;</div>';
+								$html .= '<div class="progress-bar progress-bar-striped active" style="width: 100%;"></div>';
+								$html .= '<div class="jp-play-bar progress-bar"></div><div class="jp-ball"></div></div>';
+								$html .= '<div class="jp-duration" role="timer" aria-label="duration">&nbsp;</div>';
+							$html .= '</div>';
+						$html .= '</div>';
+						$html .= '<div class="jp-volume-controls">';
+							$html .= '<i class="fa fa-volume-up jp-mute"></i>';
+							$html .= '<i class="fa fa-volume-off jp-unmute"></i>';
+						$html .= '</div>';
+						$html .= '<div class="jp-details">';
+							$html .= '<div class="jp-title" aria-label="title">'.$title.'</div>';
+						$html .= '</div>';
+						$html .= '<div class="jp-no-solution">';
+							$html .= '<span>'._("Update Required").'</span>';
+							$html .= sprintf(_("To play the media you will need to either update your browser to a recent version or update your %s"),'<a href="http://get.adobe.com/flashplayer/" target="_blank">Flash plugin</a>');
+						$html .= '</div>';
+					$html .= '</div>';
+				$html .= '</div>';
+			$html .= '</div>';
+			if($record) {
+				$html .= '<div id="'.$id.'-media-progress" class="progress fade hidden">';
+					$html .= '<div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 0%;">';
+					$html .= '</div>';
+				$html .= '</div>';
+			}
+		$html .= '</div>';
+		return $html;
+	}
 }
