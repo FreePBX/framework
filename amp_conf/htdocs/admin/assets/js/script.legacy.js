@@ -799,25 +799,27 @@ function bind_dests_double_selects() {
 						$("body").scrollTop(0).css({ overflow: "hidden" });
 					},
 					close: function(e) {
-						//cheating by puttin a data-id on the modal box
-						var id = $(this).data("id");
-						//dropdown 1
-						var par = $("#goto" + id).data("last");
-						//reset the original option to the first in the list *if* it wasn't
-						//previously selected. This is so we dont get random 'white' (empty)
-						//options selected when coming back from a canceled popover
-						var name = $("#goto"+id).val();
-						if(par !== name) {
-							$("#"+name+id)[0].selectedIndex = 0;
+						if(!runningPopOverActions) {
+							//cheating by puttin a data-id on the modal box
+							var id = $(this).data("id");
+							//dropdown 1
+							var par = $("#goto" + id).data("last");
+							//reset the original option to the first in the list *if* it wasn't
+							//previously selected. This is so we dont get random 'white' (empty)
+							//options selected when coming back from a canceled popover
+							var name = $("#goto"+id).val();
+							if(par !== name) {
+								$("#"+name+id)[0].selectedIndex = 0;
+							}
+							$("#goto" + id).val(par).change();
+							if (par !== "") { //Get dropdown2
+								var par_id = par.concat(id);
+								$("#" + par_id).val($("#" + par_id).data("last")).change();
+							}
+							$("#popover-frame").contents().find("body").remove();
+							$("#popover-box-id").html("");
+							$("body").css({ overflow: "inherit" });
 						}
-						$("#goto" + id).val(par).change();
-						if (par !== "") { //Get dropdown2
-							var par_id = par.concat(id);
-							$("#" + par_id).val($("#" + par_id).data("last")).change();
-						}
-						$("#popover-frame").contents().find("body").remove();
-						$("#popover-box-id").html("");
-						$("body").css({ overflow: "inherit" });
 						$(e.target).dialog("destroy").remove();
 					},
 					buttons: [
@@ -875,7 +877,9 @@ $('form').on('reset', function() {
  * Close Popover Window
  * @param {string} drawselects The draw select to replace with new data
  */
+var runningPopOverActions = false;
 function closePopOver(drawselects) {
+	runningPopOverActions = true;
 	var options = $("." + popover_box_class + " option", $("<div>" + drawselects + "</div>"));
 	$("." + popover_box_class).each(function() {
 		if (this.id == popover_select_id) {
@@ -906,7 +910,8 @@ function closePopOver(drawselects) {
 
 	$("body").css({ overflow: "inherit" });
 	$("#popover-box-id").html("");
-	popover_box.dialog("destroy");
+	popover_box.dialog("close");
+	runningPopOverActions = false;
 }
 
 /**
