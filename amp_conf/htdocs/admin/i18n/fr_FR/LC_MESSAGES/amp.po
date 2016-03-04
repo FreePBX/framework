@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-02 17:17-0800\n"
+"POT-Creation-Date: 2016-03-04 15:14-0800\n"
 "PO-Revision-Date: 2016-02-27 18:59+0200\n"
 "Last-Translator: Nicolas Riendeau <freepbx@riendeau.org>\n"
 "Language-Team: French <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -577,7 +577,7 @@ msgid "A user will enter this password when logging onto a device."
 msgstr ""
 "Un utilisateur entrera ce mot de passe pour s'identifier sur un périphérique."
 
-#: ../core/views/did/routeform.php:198
+#: ../core/views/did/advanced_form.php:198
 msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
 msgstr ""
 "ALERT_INFO peut-être utilisé pour des sonneries distinctes avec des "
@@ -598,7 +598,9 @@ msgstr ""
 msgid "AMPLOCALBIN Dir for retrieve_conf"
 msgstr ""
 
-#: ../core/views/did/routeform.php:115 ../core/views/did/routeform.php:139
+#: ../core/views/did/advanced_form.php:115
+#: ../core/views/did/advanced_form.php:139 ../core/views/did/basic_form.php:48
+#: ../core/views/did/basic_form.php:72
 msgid "ANY"
 msgstr ""
 
@@ -842,7 +844,7 @@ msgid "Administrators"
 msgstr "Administrateurs"
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:52
-#: ../core/views/did/routeform.php:63 ../core/views/trunks/pjsip.php:38
+#: ../core/views/did/advanced_form.php:63 ../core/views/trunks/pjsip.php:38
 msgid "Advanced"
 msgstr ""
 
@@ -862,7 +864,7 @@ msgstr ""
 msgid "Aggresively Check for Duplicate Extensions"
 msgstr ""
 
-#: ../core/views/did/routeform.php:186
+#: ../core/views/did/advanced_form.php:186
 msgid "Alert Info"
 msgstr "Alert Info"
 
@@ -1063,7 +1065,8 @@ msgid ""
 "An error occurred while changing permissions on link %s which points to %s"
 msgstr ""
 
-#: ../core/views/did/routeform.php:327
+#: ../core/views/did/advanced_form.php:327
+#: ../core/views/did/basic_form.php:207
 msgid ""
 "An optional delay to wait before processing this route. Setting this value "
 "will delay the channel from answering the call. This may be handy if "
@@ -1516,11 +1519,11 @@ msgstr "Options CID"
 msgid "CID Prefix"
 msgstr "Préfixe de l'ID appelant"
 
-#: ../core/views/did/routeform.php:159
+#: ../core/views/did/advanced_form.php:159
 msgid "CID Priority Route"
 msgstr "Priorité de la route"
 
-#: ../core/views/did/routeform.php:210
+#: ../core/views/did/advanced_form.php:210
 msgid "CID name prefix"
 msgstr "Préfixe au CID"
 
@@ -1646,7 +1649,7 @@ msgstr "Nom de l'appelant"
 msgid "CallerID"
 msgstr "ID appelant"
 
-#: ../core/views/did/routeform.php:135
+#: ../core/views/did/advanced_form.php:135 ../core/views/did/basic_form.php:68
 msgid "CallerID Number"
 msgstr "Numéro de l'appelant"
 
@@ -2390,7 +2393,7 @@ msgstr "DID / CID"
 msgid "DID Description"
 msgstr "Description DID"
 
-#: ../core/views/did/routeform.php:111
+#: ../core/views/did/advanced_form.php:111 ../core/views/did/basic_form.php:44
 msgid "DID Number"
 msgstr "Numéro DID"
 
@@ -2502,7 +2505,7 @@ msgid "Debug File"
 msgstr "Fichier de débogage"
 
 #: ../core/functions.inc.php:5891 ../core/functions.inc.php:5892
-#: ../core/views/did/routeform.php:9
+#: ../core/views/did/advanced_form.php:9
 msgid "Default"
 msgstr "Par défaut"
 
@@ -2641,7 +2644,7 @@ msgid ""
 "have to be manually changed."
 msgstr ""
 
-#: ../core/views/did/routeform.php:147
+#: ../core/views/did/advanced_form.php:147 ../core/views/did/basic_form.php:80
 msgid ""
 "Define the CallerID Number to be matched on incoming calls.<br><br>Leave "
 "this field blank to match any or no CID info. In addition to standard dial "
@@ -2654,7 +2657,7 @@ msgstr ""
 msgid "Define the custom Dial String.  Include the token"
 msgstr "Définit la chaîne de numérotation Personnalisée. Incluez le jeton"
 
-#: ../core/views/did/routeform.php:123
+#: ../core/views/did/advanced_form.php:123 ../core/views/did/basic_form.php:56
 msgid ""
 "Define the expected DID Number if your trunk passes DID on incoming calls. "
 "<br><br>Leave this blank to match calls with any or no DID info.<br><br>You "
@@ -2679,6 +2682,10 @@ msgstr "Supprimer"
 #, php-format
 msgid "Delete Device %s"
 msgstr "Suppression Périphérique %s"
+
+#: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:21
+msgid "Delete notification"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:818
 msgid "Deleted module[s], accepts argument module[s]"
@@ -2707,8 +2714,9 @@ msgstr ""
 #: ../core/Core.class.php:2500 ../core/Core.class.php:2501
 #: ../core/functions.inc.php:6384 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:37
-#: ../core/views/dahdichandids/didForm.php:37 ../core/views/did/didgrid.php:19
-#: ../core/views/did/routeform.php:87 ../core/views/rnav.php:73
+#: ../core/views/dahdichandids/didForm.php:37
+#: ../core/views/did/advanced_form.php:87 ../core/views/did/basic_form.php:20
+#: ../core/views/did/didgrid.php:19 ../core/views/rnav.php:73
 msgid "Description"
 msgstr "Description"
 
@@ -2720,7 +2728,8 @@ msgstr "Nom descriptif de ce trunk"
 msgid "Destination"
 msgstr ""
 
-#: ../core/views/did/routeform.php:247
+#: ../core/views/did/advanced_form.php:247
+#: ../core/views/did/basic_form.php:128
 msgid "Destination for route"
 msgstr ""
 
@@ -4355,7 +4364,7 @@ msgid "GUI Behavior"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:50
-#: ../core/views/did/routeform.php:58 ../core/views/trunks/pjsip.php:33
+#: ../core/views/did/advanced_form.php:58 ../core/views/trunks/pjsip.php:33
 #: ../core/views/trunks/trunk_header.php:226
 msgid "General"
 msgstr ""
@@ -4733,7 +4742,8 @@ msgid ""
 "should be moved into the new custom apps registry."
 msgstr ""
 
-#: ../core/views/did/routeform.php:357
+#: ../core/views/did/advanced_form.php:357
+#: ../core/views/did/basic_form.php:234
 msgid ""
 "If no CallerID has been received, Privacy Manager will ask the caller to "
 "enter their phone number. If an user/extension has Call Screening enabled, "
@@ -4878,7 +4888,7 @@ msgstr ""
 msgid "Inbound Route: %s (%s)"
 msgstr "Route Entrante: %s (%s)"
 
-#: amp.i18n.php:1232 ../core/page.did.php:119
+#: amp.i18n.php:1232 ../core/page.did.php:118
 msgid "Inbound Routes"
 msgstr "Routes Entrantes"
 
@@ -5291,6 +5301,10 @@ msgstr ""
 msgid "Manage local modules"
 msgstr "Gestion des modules locaux"
 
+#: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:17
+msgid "Manage notifications"
+msgstr ""
+
 #: ../core/page.astmodules.php:72
 msgid "Manually Loaded Modules"
 msgstr ""
@@ -5308,7 +5322,8 @@ msgstr ""
 msgid "Max Retries"
 msgstr ""
 
-#: ../core/views/did/routeform.php:369
+#: ../core/views/did/advanced_form.php:369
+#: ../core/views/did/basic_form.php:246
 msgid "Max attempts"
 msgstr "Nombre d'essais maximum"
 
@@ -5378,7 +5393,8 @@ msgstr ""
 msgid "Migrating pickup groups to named pickup groups"
 msgstr ""
 
-#: ../core/views/did/routeform.php:394
+#: ../core/views/did/advanced_form.php:394
+#: ../core/views/did/basic_form.php:271
 msgid "Min Length"
 msgstr "Longueur minimum"
 
@@ -5386,7 +5402,8 @@ msgstr "Longueur minimum"
 msgid "Minimum Expiration"
 msgstr ""
 
-#: ../core/views/did/routeform.php:407
+#: ../core/views/did/advanced_form.php:407
+#: ../core/views/did/basic_form.php:284
 msgid ""
 "Minimum amount of digits CallerID needs to contain in order to be considered "
 "valid"
@@ -5699,7 +5716,7 @@ msgid ""
 "write this."
 msgstr ""
 
-#: ../core/views/did/routeform.php:13
+#: ../core/views/did/advanced_form.php:13
 msgid "Music On Hold"
 msgstr "Musique d'attente"
 
@@ -5800,9 +5817,13 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:353
 #: ../core/functions.inc/drivers/Sip.class.php:361
 #: ../core/functions.inc/drivers/Sip.class.php:368
-#: ../core/page.advancedsettings.php:82 ../core/views/did/routeform.php:166
-#: ../core/views/did/routeform.php:268 ../core/views/did/routeform.php:295
-#: ../core/views/did/routeform.php:349 ../core/views/routing/form.php:333
+#: ../core/page.advancedsettings.php:82
+#: ../core/views/did/advanced_form.php:166
+#: ../core/views/did/advanced_form.php:268
+#: ../core/views/did/advanced_form.php:295
+#: ../core/views/did/advanced_form.php:349
+#: ../core/views/did/basic_form.php:148 ../core/views/did/basic_form.php:175
+#: ../core/views/did/basic_form.php:226 ../core/views/routing/form.php:333
 #: ../core/views/trunks/pjsip.php:593 ../core/views/trunks/pjsip.php:649
 #: ../core/views/trunks/pjsip.php:676 ../core/views/trunks/trunk_header.php:68
 #: ../core/views/trunks/trunk_header.php:280
@@ -5845,7 +5866,7 @@ msgstr ""
 msgid "No Limit"
 msgstr ""
 
-#: ../core/views/did/routeform.php:8
+#: ../core/views/did/advanced_form.php:8
 msgid "No Music"
 msgstr "Pas de musique"
 
@@ -6006,7 +6027,8 @@ msgstr "Prenez note qu'il s’agit de modules ASTERISK, pas de modules FreePBX."
 msgid "Notice"
 msgstr "Remarque"
 
-#: ../core/views/did/routeform.php:382
+#: ../core/views/did/advanced_form.php:382
+#: ../core/views/did/basic_form.php:259
 msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr "Nombre d'essais qu'à l'appelant pour entrer un CallerID valide"
 
@@ -6049,7 +6071,8 @@ msgstr ""
 msgid "On Demand Recording"
 msgstr "Enregistrement sur demande"
 
-#: ../core/views/did/routeform.php:303
+#: ../core/views/did/advanced_form.php:303
+#: ../core/views/did/basic_form.php:183
 msgid ""
 "On PRI channels the carrier will send a signal if the caller indicates a "
 "billing reversal. When checked this route will reject calls that indicate a "
@@ -6252,7 +6275,7 @@ msgstr "Orphelin"
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:54
 #: amp_conf/htdocs/admin/views/menu_items.php:50
-#: ../core/views/did/routeform.php:74
+#: ../core/views/did/advanced_form.php:74
 msgid "Other"
 msgstr "Autre"
 
@@ -6527,7 +6550,8 @@ msgstr ""
 msgid "Pattern Help"
 msgstr ""
 
-#: ../core/views/did/routeform.php:315
+#: ../core/views/did/advanced_form.php:315
+#: ../core/views/did/basic_form.php:195
 msgid "Pause Before Answer"
 msgstr "Pause avant réponse"
 
@@ -6809,11 +6833,12 @@ msgstr ""
 msgid "Priority needs to be either 'true', 'false' or a number"
 msgstr ""
 
-#: ../core/views/did/routeform.php:68
+#: ../core/views/did/advanced_form.php:68
 msgid "Privacy"
 msgstr "Protection"
 
-#: ../core/views/did/routeform.php:342
+#: ../core/views/did/advanced_form.php:342
+#: ../core/views/did/basic_form.php:219
 msgid "Privacy Manager"
 msgstr "Gestion de la protection"
 
@@ -6826,7 +6851,7 @@ msgstr "Exécution"
 msgid "Provide Verbose Tracebacks"
 msgstr ""
 
-#: ../core/views/did/routeform.php:99
+#: ../core/views/did/advanced_form.php:99 ../core/views/did/basic_form.php:32
 msgid "Provide a meaningful description of what this incoming route is"
 msgstr "Donnez une description précise de la route entrante"
 
@@ -6964,7 +6989,8 @@ msgstr "Enregistrement"
 msgid "Reinstall"
 msgstr ""
 
-#: ../core/views/did/routeform.php:288
+#: ../core/views/did/advanced_form.php:288
+#: ../core/views/did/basic_form.php:168
 msgid "Reject Reverse Charges"
 msgstr ""
 
@@ -7165,6 +7191,10 @@ msgstr ""
 #: ../core/functions.inc.php:6102
 msgid "Ring Time"
 msgstr "Temps de sonnerie"
+
+#: ../core/views/did/basic_form.php:92
+msgid "Ring Tone"
+msgstr ""
 
 #: amp.i18n.php:490
 msgid "Ringtime Default"
@@ -7388,6 +7418,12 @@ msgstr ""
 msgid "Security Warning"
 msgstr ""
 
+#: ../core/views/did/basic_form.php:104
+msgid ""
+"Select a Ring Tone from the list of options above. This will determine how "
+"your phone sounds when it is rung from this group."
+msgstr ""
+
 #: ../core/page.ampusers.php:288
 msgid "Select the Admin Sections this user should have access to."
 msgstr ""
@@ -7432,11 +7468,12 @@ msgstr ""
 msgid "Session Timeout"
 msgstr ""
 
-#: ../core/views/did/routeform.php:235
+#: ../core/views/did/advanced_form.php:235
+#: ../core/views/did/basic_form.php:116
 msgid "Set Destination"
 msgstr "Choix Destination"
 
-#: ../core/views/did/routeform.php:14
+#: ../core/views/did/advanced_form.php:14
 msgid ""
 "Set the MoH class that will be used for calls that come in on this route. "
 "For example, choose a type appropriate for routes coming in from a country "
@@ -7644,7 +7681,8 @@ msgstr ""
 msgid "Shutting down NOW..."
 msgstr ""
 
-#: ../core/views/did/routeform.php:261
+#: ../core/views/did/advanced_form.php:261
+#: ../core/views/did/basic_form.php:141
 msgid "Signal RINGING"
 msgstr "Signal de sonnerie"
 
@@ -7675,7 +7713,8 @@ msgid ""
 "keep CNAM information, though most carriers ignore CNAM."
 msgstr ""
 
-#: ../core/views/did/routeform.php:276
+#: ../core/views/did/advanced_form.php:276
+#: ../core/views/did/basic_form.php:156
 msgid ""
 "Some devices or providers require RINGING to be sent before ANSWER. You'll "
 "notice this happening if you can send calls directly to a phone, but if you "
@@ -8549,7 +8588,7 @@ msgstr "Ce périphérique est déjà utilisé"
 msgid "This device uses %s technology %s"
 msgstr ""
 
-#: ../core/views/did/routeform.php:174
+#: ../core/views/did/advanced_form.php:174
 msgid ""
 "This effects CID ONLY routes where no DID is specified. If checked, calls "
 "with this CID will be routed to this route, even if there is a route to the "
@@ -9827,9 +9866,13 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:346
 #: ../core/functions.inc/drivers/Sip.class.php:354
 #: ../core/functions.inc/drivers/Sip.class.php:362
-#: ../core/page.advancedsettings.php:80 ../core/views/did/routeform.php:164
-#: ../core/views/did/routeform.php:266 ../core/views/did/routeform.php:293
-#: ../core/views/did/routeform.php:347 ../core/views/routing/form.php:331
+#: ../core/page.advancedsettings.php:80
+#: ../core/views/did/advanced_form.php:164
+#: ../core/views/did/advanced_form.php:266
+#: ../core/views/did/advanced_form.php:293
+#: ../core/views/did/advanced_form.php:347
+#: ../core/views/did/basic_form.php:146 ../core/views/did/basic_form.php:173
+#: ../core/views/did/basic_form.php:224 ../core/views/routing/form.php:331
 #: ../core/views/trunks/pjsip.php:591 ../core/views/trunks/pjsip.php:647
 #: ../core/views/trunks/pjsip.php:674 ../core/views/trunks/trunk_header.php:66
 #: ../core/views/trunks/trunk_header.php:278
@@ -9920,7 +9963,7 @@ msgstr ""
 "un type pour un pays de destination qui comprendra une annonce dans la "
 "langue du pays."
 
-#: ../core/views/did/routeform.php:222
+#: ../core/views/did/advanced_form.php:222
 msgid ""
 "You can optionally prefix the CallerID name. ie: If you prefix with \"Sales:"
 "\", a call from John Doe would display as \"Sales:John Doe\" on the "
@@ -10514,6 +10557,7 @@ msgstr ""
 msgid "format list as json"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:20
 #: ../core/Console/Trunks.class.php:23
 msgid "format list as xml"
 msgstr ""
@@ -10596,6 +10640,10 @@ msgstr ""
 
 #: amp.i18n.php:818
 msgid "link to follow when clicking on sponsor logo"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:19
+msgid "list notifications"
 msgstr ""
 
 #: ../core/Console/Trunks.class.php:21
