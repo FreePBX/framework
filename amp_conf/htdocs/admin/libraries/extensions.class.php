@@ -180,6 +180,7 @@ class extensions {
 		if($priority == 0) {
 			$basetag = '1';
 			if (!isset($this->_exts[$section][$extension][0])) {
+				$db = debug_backtrace();
 				throw new Exception("died in splice $section $extension");
 			}
 			// we'll be defining a new pri "1", so change existing "1" to "n"
