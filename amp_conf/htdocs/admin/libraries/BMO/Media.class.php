@@ -156,7 +156,8 @@ class Media extends DB_Helper{
 				if(file_exists($file.".".$format)) {
 					unset($formats[$format]);
 				}
-				$converted[$format] = basename($file.".".$format);
+				//FREEPBX-11538: url encode
+				$converted[$format] = urlencode(basename($file.".".$format));
 			}
 		}
 		//because ogg and oga are interchangeable
