@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-07 15:47-0800\n"
+"POT-Creation-Date: 2016-03-08 12:48-0800\n"
 "PO-Revision-Date: 2016-02-27 18:59+0200\n"
 "Last-Translator: Nicolas Riendeau <freepbx@riendeau.org>\n"
 "Language-Team: French <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -2399,7 +2399,7 @@ msgstr "Description DID"
 msgid "DID Number"
 msgstr "Numéro DID"
 
-#: ../core/Core.class.php:2618
+#: ../core/Core.class.php:2624
 msgid "DID already exists"
 msgstr "Ce DID existe déjà"
 
@@ -2846,6 +2846,10 @@ msgstr "Périphérique"
 msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 
+#: ../core/Core.class.php:2565
+msgid "Device 'name' can not be blank."
+msgstr ""
+
 #: ../core/Core.class.php:1511
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
@@ -2879,7 +2883,7 @@ msgstr "Technologie du dispositif"
 msgid "Device Type"
 msgstr "Type de dispositif"
 
-#: ../core/Core.class.php:2581
+#: ../core/Core.class.php:2587
 msgid "Device could not be added."
 msgstr "Le dispositif n'a pu être ajouté."
 
@@ -7277,7 +7281,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr ""
 
-#: ../core/Core.class.php:2748 ../core/Core.class.php:2749
+#: ../core/Core.class.php:2754 ../core/Core.class.php:2755
 #, php-format
 msgid "SIP (%s)"
 msgstr ""
@@ -7935,6 +7939,10 @@ msgstr "Tech"
 #: ../core/page.devices.php:67
 msgid "Tech Type"
 msgstr "Type de technologie"
+
+#: ../core/Core.class.php:2562
+msgid "Technology of device is undefined. Please specify a 'tech'"
+msgstr ""
 
 #: amp.i18n.php:1156
 msgid "Telephony Engine"
@@ -9393,7 +9401,7 @@ msgstr "Panneau utilisateur"
 msgid "User Password"
 msgstr "Mot de Passe Utilisateur"
 
-#: ../core/Core.class.php:2599
+#: ../core/Core.class.php:2605
 msgid "User could not be added."
 msgstr "L'utilisateur n'a pu être ajouté."
 
