@@ -42,7 +42,6 @@ if [[ -e $FREEPBX_CONF && -w "/etc/amportal.conf" && -z "$FORCE_AMPORTAL_CONF" ]
 			}
 		}
 		'`
-		exit;
 	elif [ -e "/var/lib/asterisk/bin/gen_amp_conf.php" ]; then
 		echo "Fetching FreePBX settings with gen_amp_conf.php..."
 		`/var/lib/asterisk/bin/gen_amp_conf.php`
