@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx-2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-09 16:29-0800\n"
+"POT-Creation-Date: 2016-03-11 00:01-0800\n"
 "PO-Revision-Date: 2007-10-09 16:16+0100\n"
 "Last-Translator: Lónyai Gergely <alephlg@gmail.com>\n"
 "Language-Team: Aleph <alephlg@gmail.com>\n"
@@ -8557,7 +8557,10 @@ msgid ""
 msgstr ""
 
 #: amp.i18n.php:1100
-msgid "Timezone that should be used by PHP. Empty value will use PHP defaults"
+msgid ""
+"Timezone that should be used by PHP. Empty value will use PHP defaults. List "
+"of value Timezones: <a href='http://php.net/manual/en/timezones.php'>http://"
+"php.net/manual/en/timezones.php</a>"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/login.php:9
@@ -8748,6 +8751,18 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1694
 #, php-format
 msgid "Unable to save %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/bootstrap.php:271
+msgid "Unable to set timezone"
+msgstr ""
+
+#: amp_conf/htdocs/admin/bootstrap.php:271
+#, php-format
+msgid ""
+"Unable to set timezone to %s because PHP does not support that timezone, the "
+"timezone has been temporarily changed to UTC. Please set the timezone in "
+"Advanced Settings."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:440
