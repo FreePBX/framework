@@ -159,8 +159,17 @@ $db = new DB();
 
 // get settings
 $freepbx_conf = $bmo->Freepbx_conf();
+
+//set this before we run date functions
+date_default_timezone_set('UTC');
 $phptimezone = $freepbx_conf->get('PHPTIMEZONE');
+$invalidtimezone = false;
 if(!empty($phptimezone)) {
+	$tzi = \DateTimeZone::listIdentifiers();
+	if(!in_array($phptimezone,$tzi)) {
+		$invalidtimezone = $phptimezone;
+		$timezone = 'UTC';
+	}
 	date_default_timezone_set($phptimezone);
 }
 
@@ -257,6 +266,12 @@ if (!$bootstrap_settings['skip_astman']) {
 
 //Because BMO was moved upward we have to inject this lower
 FreePBX::create()->astman = $astman;
+$nt = notifications::create();
+if(!empty($invalidtimezone)) {
+	$nt->add_warning("framework", "TIMEZONE", _("Unable to set timezone"), sprintf(_("Unable to set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."),$invalidtimezone), "config.php?display=advancedsettings", true, true);
+} else {
+	$nt->delete("framework", "TIMEZONE");
+}
 
 //include gui functions + auth if nesesarry
 // If set to freepbx_auth but we are in a cli mode, then don't bother authenticating either way.
