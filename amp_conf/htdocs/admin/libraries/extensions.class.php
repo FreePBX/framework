@@ -531,6 +531,20 @@ class ext_gosubif extends extension {
 	}
 }
 
+class ext_stasis extends extension {
+	var $app_name;
+	var $args;
+
+	function ext_stasis($app_name, $args='') {
+		$this->app_name = $app_name;
+		$this->args = $args;
+	}
+
+	function output() {
+		return "Stasis(".$this->app_name.",".$this->args.")";
+	}
+}
+
 class ext_goto extends extension {
 	var $pri;
 	var $ext;
