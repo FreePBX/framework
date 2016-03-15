@@ -80,6 +80,7 @@ class connectdirs {
 		$this->symlink_sound_dirs['sounds'] 	=
 			$amp_conf['ASTVARLIBDIR'] . '/sounds';
 		$this->cp_dirs['agi-bin'] 	= $amp_conf['ASTAGIDIR'];
+		$this->cp_dirs['bin'] 		= $amp_conf['ASTVARLIBDIR'] . "/bin";;
 		$this->nt = notifications::create($db);
 	}
 
@@ -445,7 +446,7 @@ if (array_key_exists('core', $active_modules)) {
 // $active_modules is provided by bootstrap now
 //
 $bmo->Performance->Start("Working with active modules");
-if(is_array($active_modules)){
+if (is_array($active_modules)) {
 	foreach($active_modules as $key => $module) {
 		$module_list[] = $key;
 
@@ -456,38 +457,29 @@ if(is_array($active_modules)){
 		}
 
 		// create symlinks for files in appropriate sub directories
-		// don't symlink framework files, it is a special case module that happens to have
-		// some conflicting names
+		// don't symlink framework files, it is a special case module
+		// that happens to have some conflicting names
 		//
-    switch ($key) {
-      // TODO: these will go away once repositories are up-to-date but leave until 2.10
-      //       at that time the modtype tag will determine this
-      case 'framework':
-      case 'fw_ari':
-      case 'fw_langpacks':
-      break;
-      default:
-        if (isset($module['modtype']) && $module['modtype'] == 'framework') {
-          // don't copy or symlink from framework type modules as they are not real modules
-          break;
-        }
-				try {
-					$bmo->Performance->Stamp("Symlinking files for ".$key);
-	        $con_dirs->symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
-	        $con_dirs->symlink_sound_dirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
-	        $con_dirs->symlink_assets($key);
-					$bmo->Performance->Stamp("Finished symlinking");
-					$bmo->Performance->Stamp("Copying Files for ".$key);
-	        $con_dirs->cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
-					$bmo->Performance->Stamp("Finished Copying Files");
-					$bmo->Performance->Stamp("Generating CSS from LESS for ".$key);
-					$con_dirs->generate_less($key); //generate less for said module if needed
-					$bmo->Performance->Stamp("Finished Generating Less");
-				} catch(\Exception $e) {
-					echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine());
-					exit(255);
-				}
-      break;
+		if (isset($module['modtype']) && $module['modtype'] == 'framework') {
+			// don't copy or symlink from framework type
+			// modules as they are not real modules
+			break;
+		}
+		try {
+			$bmo->Performance->Stamp("Symlinking files for ".$key);
+			$con_dirs->symlink_subdirs($amp_conf['AMPWEBROOT'].'/admin/modules/'.$key);
+			$con_dirs->symlink_sound_dirs($amp_conf['AMPWEBROOT'].'/admin/modules/'.$key);
+			$con_dirs->symlink_assets($key);
+			$bmo->Performance->Stamp("Finished symlinking");
+			$bmo->Performance->Stamp("Copying Files for ".$key);
+			$con_dirs->cp_subdirs($amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+			$bmo->Performance->Stamp("Finished Copying Files");
+			$bmo->Performance->Stamp("Generating CSS from LESS for ".$key);
+			$con_dirs->generate_less($key); //generate less for said module if needed
+			$bmo->Performance->Stamp("Finished Generating Less");
+		} catch(\Exception $e) {
+			echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine());
+			exit(255);
 		}
 	}
 }
