@@ -80,7 +80,7 @@ class connectdirs {
 		$this->symlink_sound_dirs['sounds'] 	=
 			$amp_conf['ASTVARLIBDIR'] . '/sounds';
 		$this->cp_dirs['agi-bin'] 	= $amp_conf['ASTAGIDIR'];
-		$this->cp_dirs['bin'] 		= $amp_conf['ASTVARLIBDIR'] . "/bin";;
+		$this->cp_dirs['bin'] = $amp_conf['ASTVARLIBDIR'] . "/bin";
 		$this->nt = notifications::create($db);
 	}
 
@@ -446,7 +446,7 @@ if (array_key_exists('core', $active_modules)) {
 // $active_modules is provided by bootstrap now
 //
 $bmo->Performance->Start("Working with active modules");
-if (is_array($active_modules)) {
+if(is_array($active_modules)){
 	foreach($active_modules as $key => $module) {
 		$module_list[] = $key;
 
@@ -460,27 +460,26 @@ if (is_array($active_modules)) {
 		// don't symlink framework files, it is a special case module
 		// that happens to have some conflicting names
 		//
-		if (isset($module['modtype']) && $module['modtype'] == 'framework') {
-			// don't copy or symlink from framework type
-			// modules as they are not real modules
-			break;
+		if (!isset($module['modtype']) || $module['modtype'] != 'framework') {
+			// don't copy or symlink from framework type modules as they are not real modules
+			try {
+				$bmo->Performance->Stamp("Symlinking files for ".$key);
+				$con_dirs->symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+				$con_dirs->symlink_sound_dirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+				$con_dirs->symlink_assets($key);
+				$bmo->Performance->Stamp("Finished symlinking");
+				$bmo->Performance->Stamp("Copying Files for ".$key);
+				$con_dirs->cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+				$bmo->Performance->Stamp("Finished Copying Files");
+				$bmo->Performance->Stamp("Generating CSS from LESS for ".$key);
+				$con_dirs->generate_less($key); //generate less for said module if needed
+				$bmo->Performance->Stamp("Finished Generating Less");
+			} catch(\Exception $e) {
+				echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine());
+				exit(255);
+			}
 		}
-		try {
-			$bmo->Performance->Stamp("Symlinking files for ".$key);
-			$con_dirs->symlink_subdirs($amp_conf['AMPWEBROOT'].'/admin/modules/'.$key);
-			$con_dirs->symlink_sound_dirs($amp_conf['AMPWEBROOT'].'/admin/modules/'.$key);
-			$con_dirs->symlink_assets($key);
-			$bmo->Performance->Stamp("Finished symlinking");
-			$bmo->Performance->Stamp("Copying Files for ".$key);
-			$con_dirs->cp_subdirs($amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
-			$bmo->Performance->Stamp("Finished Copying Files");
-			$bmo->Performance->Stamp("Generating CSS from LESS for ".$key);
-			$con_dirs->generate_less($key); //generate less for said module if needed
-			$bmo->Performance->Stamp("Finished Generating Less");
-		} catch(\Exception $e) {
-			echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine());
-			exit(255);
-		}
+
 	}
 }
 $bmo->Performance->Stop();
@@ -1090,11 +1089,9 @@ if(!FreePBX::Config()->get('SIGNATURECHECK')) {
 	$nt->add_notice('freepbx', 'SIGNATURE_CHECK', _('Signature checking is disabled'), _('FreePBX Module Signature checking has been disabled. Your system could be exposed to security vulnerabilities from compromised or tampered code'));
 } else {
 	$nt->delete('freepbx', 'SIGNATURE_CHECK');
-	
 	$bmo->Performance->Start("Signature Checks");
 	module_functions::create()->getAllSignatures(false);
 	$bmo->Performance->Stop();
-
 }
 
 $nt->delete('retrieve_conf', 'FATAL');
