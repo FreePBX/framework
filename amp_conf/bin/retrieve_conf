@@ -1086,14 +1086,15 @@ else
 	out(_("Please update your modules and reload Asterisk by browsing to your server."),false);
 }
 
-$bmo->Performance->Start("Signature Checks");
-module_functions::create()->getAllSignatures(false);
-$bmo->Performance->Stop();
-
 if(!FreePBX::Config()->get('SIGNATURECHECK')) {
 	$nt->add_notice('freepbx', 'SIGNATURE_CHECK', _('Signature checking is disabled'), _('FreePBX Module Signature checking has been disabled. Your system could be exposed to security vulnerabilities from compromised or tampered code'));
 } else {
 	$nt->delete('freepbx', 'SIGNATURE_CHECK');
+	
+	$bmo->Performance->Start("Signature Checks");
+	module_functions::create()->getAllSignatures(false);
+	$bmo->Performance->Stop();
+
 }
 
 $nt->delete('retrieve_conf', 'FATAL');
