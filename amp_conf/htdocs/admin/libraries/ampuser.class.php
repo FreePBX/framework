@@ -6,8 +6,8 @@ class ampuser {
 	public $username;
 	public $id;
 	private $password;
-	private $extension_high;
-	private $extension_low;
+	public $extension_high;
+	public $extension_low;
 	private $sections;
 	private $mode = "database";
 

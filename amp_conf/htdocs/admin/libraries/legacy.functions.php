@@ -7,8 +7,8 @@
  * @param int $extension Extension number
  */
 function checkRange($extension){
-	$low = isset($_SESSION["AMP_user"]->_extension_low)?$_SESSION["AMP_user"]->_extension_low:'';
-	$high = isset($_SESSION["AMP_user"]->_extension_high)?$_SESSION["AMP_user"]->_extension_high:'';
+	$low = isset($_SESSION["AMP_user"]->extension_low)?$_SESSION["AMP_user"]->extension_low:'';
+	$high = isset($_SESSION["AMP_user"]->extension_high)?$_SESSION["AMP_user"]->extension_high:'';
 
 	if ((($extension >= $low) && ($extension <= $high)) || ($low == '' && $high == ''))
 		return true;
