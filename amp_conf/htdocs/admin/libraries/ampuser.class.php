@@ -6,8 +6,8 @@ class ampuser {
 	public $username;
 	public $id;
 	private $password;
-	public $extension_high;
-	public $extension_low;
+	private $extension_high;
+	private $extension_low;
 	private $sections;
 	private $mode = "database";
 
@@ -144,5 +144,11 @@ class ampuser {
 			}
 		}
 		return $status;
+	}
+	public function getExtensionHigh(){
+		return isset($this->extension_high)?$this->extension_high:'';
+	}
+	public function getExtensionLow(){
+		return isset($this->extension_low)?$this->extension_low:'';
 	}
 }
