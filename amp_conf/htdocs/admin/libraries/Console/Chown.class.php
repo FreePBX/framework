@@ -254,6 +254,10 @@ class Chown extends Command {
 			'path' => $ASTAGIDIR,
 			'perms' => 0755,
 			'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'execdir',
+			'path' => $ASTVARLIBDIR. "/bin",
+			'perms' => 0755,
+			'always' => true);
 			//Merge static files and hook files, then act on them as a single unit
 			$fwcCF = $this->fwcChownFiles();
 			if(!empty($this->modfiles) && !empty($fwcCF)){
