@@ -24,6 +24,7 @@ class Moduleadmin extends Command {
 		->setDefinition(array(
 			new InputOption('force', 'f', InputOption::VALUE_NONE, _('Force operation (skips dependency and status checks) <warning>WARNING:</warning> Use at your own risk, modules have dependencies for a reason!')),
 			new InputOption('debug', 'd', InputOption::VALUE_NONE, _('Output debug messages to the console (be super chatty)')),
+			new InputOption('nopromptdisabled', '', InputOption::VALUE_NONE, _('Don\'t ask to enable disabled modules')),
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'json, jsonpretty')),
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
@@ -194,7 +195,7 @@ class Moduleadmin extends Command {
 		\FreePBX::Modules()->loadAllFunctionsInc();
 		$module = $this->mf->getinfo($modulename);
 		$modulestatus = isset($module[$modulename]['status'])?$module[$modulename]['status']:false;
-		if($modulestatus === 1){
+		if($modulestatus === 1 && !$this->input->getOption('nopromptdisabled')){
 			$helper = $this->getHelper('question');
 			$question = new ChoiceQuestion(sprintf(_("%s appears to be disabled. What would you like to do?"),$modulename),array(_("Continue"), _("Enable"),_("Cancel")),0);
 			$question->setErrorMessage('Choice %s is invalid');
