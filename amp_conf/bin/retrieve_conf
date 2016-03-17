@@ -269,8 +269,9 @@ class connectdirs {
 		} else {
 			$targetdir = dirname($dest);
 			if (!is_dir($targetdir)) {
+				//The directory does not exist which can/could be bad but isn't.
+				//It's mainly fw_ari old cruft here
 				freepbx_log(FPBX_LOG_ERROR, sprintf(_("Tried to link %s to %s, but %s doesn't exist"),$src,$dest,$targetdir));
-				$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (%s doesn't exist)"),$dest,basename($moduledir),$subdir,$targetdir);
 			} else {
 				if (!symlink($src, $dest)) {
 					freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
