@@ -79,8 +79,10 @@ class connectdirs {
 			$amp_conf['AMPWEBROOT'] . "/recordings/theme/images";
 		$this->symlink_sound_dirs['sounds'] 	=
 			$amp_conf['ASTVARLIBDIR'] . '/sounds';
+			//TODO agi-bin needs to be symlinked in the future
 		$this->cp_dirs['agi-bin'] 	= $amp_conf['ASTAGIDIR'];
-		$this->cp_dirs['bin'] = $amp_conf['ASTVARLIBDIR'] . "/bin";
+		/** BIN IS SYMLINKED **/
+		//$this->cp_dirs['bin'] = $amp_conf['AMPBIN'];
 		$this->nt = notifications::create($db);
 	}
 
@@ -202,6 +204,13 @@ class connectdirs {
 		if (file_exists_wrapper($dest)) {
 			if ((!is_link($dest) || readlink($dest) != $src) && file_exists($src) && file_exists($dest) && (md5_file($src) == md5_file($dest))) {
 				// dbug('retrieve-conf', "Can't symlink $src to $dest but files are the same so ignoring");
+				unlink($dest);
+				if (!symlink($src, $dest)) {
+					freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
+					$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (Bad Permissions)"),$dest,basename($moduledir),$subdir);
+				} else {
+					$this->symlink_notice_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
+				}
 			} else if (!is_link($dest)) {
 				//If the symlink error is coming from the etc directory then we move those files to backup
 				if(preg_match('/^'.str_replace("/","\/",$amp_conf['ASTETCDIR']).'/',$dest) && is_writable($dest)) {
@@ -212,6 +221,31 @@ class connectdirs {
 					rename($dest,$f);
 					if (!symlink($src, $dest)) {
 						freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
+						$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (Bad Permissions)"),$dest,basename($moduledir),$subdir);
+					} else {
+						$this->symlink_notice_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
+					}
+				} else if(preg_match('/^'.str_replace("/","\/",$amp_conf['AMPBIN']).'/',$dest) && is_writable($dest)) {
+					if(!file_exists($amp_conf['AMPBIN'].'/backup')) {
+						mkdir($amp_conf['AMPBIN'].'/backup');
+					}
+					$f = $amp_conf['AMPBIN'].'/backup/'.basename($dest).".bk.".time();
+					rename($dest,$f);
+					if (!symlink($src, $dest)) {
+						freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
+						$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (Bad Permissions)"),$dest,basename($moduledir),$subdir);
+					} else {
+						$this->symlink_notice_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
+					}
+				} else if(preg_match('/^'.str_replace("/","\/",$amp_conf['ASTAGIDIR']).'/',$dest) && is_writable($dest)) {
+					if(!file_exists($amp_conf['ASTAGIDIR'].'/backup')) {
+						mkdir($amp_conf['ASTAGIDIR'].'/backup');
+					}
+					$f = $amp_conf['ASTAGIDIR'].'/backup/'.basename($dest).".bk.".time();
+					rename($dest,$f);
+					if (!symlink($src, $dest)) {
+						freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
+						$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (Bad Permissions)"),$dest,basename($moduledir),$subdir);
 					} else {
 						$this->symlink_notice_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
 					}
@@ -228,9 +262,11 @@ class connectdirs {
 			$targetdir = dirname($dest);
 			if (!is_dir($targetdir)) {
 				freepbx_log(FPBX_LOG_ERROR, sprintf(_("Tried to link %s to %s, but %s doesn't exist"),$src,$dest,$targetdir));
+				$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (%s doesn't exist)"),$dest,basename($moduledir),$subdir,$targetdir);
 			} else {
 				if (!symlink($src, $dest)) {
 					freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
+					$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (Bad Permissions)"),$dest,basename($moduledir),$subdir);
 				}
 			}
 		}
