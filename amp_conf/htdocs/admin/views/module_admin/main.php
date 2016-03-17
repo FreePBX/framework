@@ -268,8 +268,8 @@ if($online) { ?>
 																case MODULE_STATUS_NOTINSTALLED:
 																	if (!$module['blocked']['status'] && !EXTERNAL_PACKAGE_MANAGEMENT) {
 																		if (!empty($module['raw']['local'])) {?>
-																			<input type="radio" id="install_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="install" />
-																			<label class="installabel" for="install_<?php echo prep_id($module['name'])?>"><?php echo _('Install')?></label>
+																			<input type="radio" id="install_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="<?php echo (isset($module['raw']['online']['version']) && version_compare_freepbx($module['raw']['local']['version'], $module['raw']['online']['version'], ">")) ? 'install' : 'upgrade'?>" />
+																			<label class="installabel" for="install_<?php echo prep_id($module['name'])?>"><?php echo (isset($module['raw']['online']['version']) && version_compare_freepbx($module['raw']['local']['version'], $module['raw']['online']['version'], ">")) ? _('Install') : sprintf(_('Upgrade to %s and Enable'),$module['raw']['online']['version'])?></label>
 																			<input type="radio" id="remove_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="remove" />
 																			<label class="removelabel" for="remove_<?php echo prep_id($module['name'])?>"><?php echo _('Remove')?></label>
 																		<?php } else { ?>
@@ -285,7 +285,7 @@ if($online) { ?>
 																	<?php } ?>
 																	<?php if (!EXTERNAL_PACKAGE_MANAGEMENT) { ?>
 																		<?php if (isset($module['raw']['online']['version'])) {
-																			$vercomp = version_compare_freepbx($module['raw']['local']['version'], $module['raw']['online'][$name]['version']);
+																			$vercomp = version_compare_freepbx($module['raw']['local']['version'], $module['raw']['online']['version']);
 																			if ($vercomp < 0) { ?>
 																				<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="upgrade" />
 																				<label for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Download %s, keep Disabled'),$module['raw']['online']['version'])?></label>
