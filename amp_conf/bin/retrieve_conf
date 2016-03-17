@@ -201,15 +201,23 @@ class connectdirs {
 
 	function do_symlink($src, $dest, $subdir, $moduledir) {
 		global $amp_conf;
+		$f = basename($dest);
+		if(in_array($f,array('amportal','fwconsole','module_admin','retrieve_conf','freepbx_setting','freepbx_engine','freepbx-cron-scheduler.php','gen_amp_conf.php'))) {
+			$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("Cannot replace reserved file %s from module %s (Not allowed)"),$f, basename($moduledir));
+			return;
+		}
 		if (file_exists_wrapper($dest)) {
-			if ((!is_link($dest) || readlink($dest) != $src) && file_exists($src) && file_exists($dest) && (md5_file($src) == md5_file($dest))) {
-				// dbug('retrieve-conf', "Can't symlink $src to $dest but files are the same so ignoring");
-				unlink($dest);
-				if (!symlink($src, $dest)) {
-					freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
-					$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (Bad Permissions)"),$dest,basename($moduledir),$subdir);
+			if ((!is_link($dest) || readlink($dest) != $src) && file_exists($src) && file_exists($dest) && !is_dir($dest) && (md5_file($src) == md5_file($dest))) {
+				if(!@unlink($dest)) {
+					freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot remove conflicting file %s. Check Permissions?'),$dest));
+					$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("Cannot remove conflicting file %s (Bad Permissions)"),$dest);
 				} else {
-					$this->symlink_notice_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
+					if (!symlink($src, $dest)) {
+						freepbx_log(FPBX_LOG_ERROR, sprintf(_('Cannot symlink %s to %s. Check Permissions?'),$src,$dest));
+						$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("%s from %s/%s (Bad Permissions)"),$dest,basename($moduledir),$subdir);
+					} else {
+						$this->symlink_notice_modules .= "<br />&nbsp;&nbsp;&nbsp;".$dest;
+					}
 				}
 			} else if (!is_link($dest)) {
 				//If the symlink error is coming from the etc directory then we move those files to backup
