@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-16 14:11-0700\n"
+"POT-Creation-Date: 2016-03-17 16:45-0700\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -4866,18 +4866,15 @@ msgstr "Период попыток истёк"
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:90
 #, php-format
-msgid "HANDLED-ERROR: %s should exist, but it doesn't. This is a bug"
+msgid "HANDLED-ERROR: %s should exist, but it doesn't. This is a bug in %s"
 msgstr ""
-"ОБРАБАТЫВАЕМАЯ ОШИБКА:%s должно существовать, но не существует. Это ошибка."
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:101
 #, php-format
 msgid ""
 "HANDLED-ERROR: %s->doDialplanHook() isn't there, but the module is saying it "
-"wants to hook. This is a bug"
+"wants to hook. This is a bug in %s"
 msgstr ""
-"HANDLED-ERROR: Отсутствует %s->doDialplanHook(),но модуль сообщает,что ему "
-"нужен этот обработчик. Это ошибка"
 
 #: amp.i18n.php:46
 msgid "HTTP Bind Address"
@@ -10034,6 +10031,11 @@ msgstr "Обновить все"
 msgid "Upgrade module[s], accepts argument module[s]"
 msgstr "Обновить модуль(-ли), принимая аргументы модуля(-лей)"
 
+#: amp_conf/htdocs/admin/views/module_admin/main.php:272
+#, php-format
+msgid "Upgrade to %s and Enable"
+msgstr "Обновить до %s и активировать"
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:832
 msgid "Upgrades all modules, accepts no arguments"
 msgstr "Обновить все модули, принимая без аргументов"
@@ -12071,6 +12073,18 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr "Устройства ZAP перенесены"
 
+#~ msgid "HANDLED-ERROR: %s should exist, but it doesn't. This is a bug"
+#~ msgstr ""
+#~ "ОБРАБАТЫВАЕМАЯ ОШИБКА:%s должно существовать, но не существует. Это "
+#~ "ошибка."
+
+#~ msgid ""
+#~ "HANDLED-ERROR: %s->doDialplanHook() isn't there, but the module is saying "
+#~ "it wants to hook. This is a bug"
+#~ msgstr ""
+#~ "HANDLED-ERROR: Отсутствует %s->doDialplanHook(),но модуль сообщает,что "
+#~ "ему нужен этот обработчик. Это ошибка"
+
 #~ msgid "Dial pattern is invalid"
 #~ msgstr "Неверный шаблон номера"
 
@@ -13740,9 +13754,6 @@ msgstr "Устройства ZAP перенесены"
 
 #~ msgid "Update Email"
 #~ msgstr "Адрес эл. почты для обновлений"
-
-#~ msgid "Upgrade to %s and Enable"
-#~ msgstr "Обновить до %s и активировать"
 
 #~ msgid ""
 #~ "Upload patterns from a CSV file replacing existing entries. If there are "

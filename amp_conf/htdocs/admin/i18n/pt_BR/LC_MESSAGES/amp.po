@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-16 14:11-0700\n"
+"POT-Creation-Date: 2016-03-17 16:45-0700\n"
 "PO-Revision-Date: 2015-12-22 03:43+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -4837,14 +4837,14 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:90
 #, php-format
-msgid "HANDLED-ERROR: %s should exist, but it doesn't. This is a bug"
+msgid "HANDLED-ERROR: %s should exist, but it doesn't. This is a bug in %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:101
 #, php-format
 msgid ""
 "HANDLED-ERROR: %s->doDialplanHook() isn't there, but the module is saying it "
-"wants to hook. This is a bug"
+"wants to hook. This is a bug in %s"
 msgstr ""
 
 #: amp.i18n.php:46
@@ -9609,6 +9609,11 @@ msgstr "Atualizar todos"
 msgid "Upgrade module[s], accepts argument module[s]"
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/module_admin/main.php:272
+#, php-format
+msgid "Upgrade to %s and Enable"
+msgstr "Atualizar para %s e Habilitar"
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:832
 msgid "Upgrades all modules, accepts no arguments"
 msgstr ""
@@ -12644,9 +12649,6 @@ msgstr ""
 
 #~ msgid "Update Email"
 #~ msgstr "Atualizar e-mail"
-
-#~ msgid "Upgrade to %s and Enable"
-#~ msgstr "Atualizar para %s e Habilitar"
 
 #~ msgid ""
 #~ "Use the specified amount of gain when recording the voicemail message."
