@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-17 16:45-0700\n"
+"POT-Creation-Date: 2016-03-18 15:09-0700\n"
 "PO-Revision-Date: 2015-11-17 09:04+0200\n"
 "Last-Translator: james <zhulizhong@gmail.com>\n"
 "Language-Team: Simplified Chinese <http://weblate.freepbx.org/projects/"
@@ -181,6 +181,11 @@ msgstr "%s (Cur v. %s) 应该更新到 v. %s 解决安全问题: %s"
 #, php-format
 msgid "%s (current: %s)"
 msgstr "%s （当前：%s）"
+
+#: ../core/page.advancedsettings.php:264
+#, php-format
+msgid "%s Advanced Settings"
+msgstr ""
 
 #: ../core/page.trunks.php:439
 #, php-format
@@ -375,11 +380,6 @@ msgid ""
 "not supported"
 msgstr ""
 "%s 需要新浏览器支持。用户仍然可以当前的浏览器 %s ，但是可能丢失其他的功能支持"
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:74
-#, php-format
-msgid "%s rows in set (%s sec)"
-msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:399
 #, php-format
@@ -2049,11 +2049,7 @@ msgstr "分机冲突"
 msgid "Congestion"
 msgstr "拥塞"
 
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:30
-msgid "Connected"
-msgstr "已连接"
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:23
+#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:37
 msgid "Connecting to the Database..."
 msgstr "连接数据库。。。"
 
@@ -4147,10 +4143,6 @@ msgstr ""
 msgid "FreePBX Administration"
 msgstr "FreePBX 管理员"
 
-#: ../core/page.advancedsettings.php:264
-msgid "FreePBX Advanced Settings"
-msgstr "FreePBX 高级设置"
-
 #: amp.i18n.php:4
 msgid "FreePBX Framework"
 msgstr "FreePBX 框架"
@@ -6054,6 +6046,10 @@ msgstr "只兼容 %s （版本为 %s ），你安装的是 %s "
 msgid "Only Use Last CID Prepend"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:28
+msgid "Only mysql is supported"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:418
 #, php-format
 msgid "OpenSSL took too long to run the command '%s'"
@@ -7757,10 +7753,6 @@ msgid ""
 "Successful reload, but could not clear reload flag due to a database error: "
 msgstr "重启成功，但是由于数据库发生错误，无法清除重启标志："
 
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:76
-msgid "Successfully executed"
-msgstr ""
-
 #: amp_conf/htdocs/admin/functions.inc.php:406
 msgid "Successfully reloaded"
 msgstr "重启成功"
@@ -8835,10 +8827,6 @@ msgstr ""
 
 #: ../core/install.php:570
 msgid "Unable to add index to tech field in devices"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:27
-msgid "Unable to connect to database!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1396
@@ -10910,6 +10898,12 @@ msgstr ""
 #: ../core/install.php:1089
 msgid "zap devices migrated"
 msgstr ""
+
+#~ msgid "Connected"
+#~ msgstr "已连接"
+
+#~ msgid "FreePBX Advanced Settings"
+#~ msgstr "FreePBX 高级设置"
 
 #~ msgid "Dial pattern is invalid"
 #~ msgstr "无效的拨号模式"

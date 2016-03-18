@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-17 16:45-0700\n"
+"POT-Creation-Date: 2016-03-18 15:09-0700\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -173,6 +173,11 @@ msgstr ""
 #, php-format
 msgid "%s (current: %s)"
 msgstr "%s (текущий: %s)"
+
+#: ../core/page.advancedsettings.php:264
+#, php-format
+msgid "%s Advanced Settings"
+msgstr ""
 
 #: ../core/page.trunks.php:439
 #, php-format
@@ -384,11 +389,6 @@ msgstr ""
 "%s требует новый браузер для правильного функционирования. Можно по-прежнему "
 "использовать %s с текущим браузером, но ваш опыт может уменьшиться если это "
 "не поддерживать как следует."
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:74
-#, php-format
-msgid "%s rows in set (%s sec)"
-msgstr "%s рядов в установке (%s сек)"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:399
 #, php-format
@@ -2200,11 +2200,7 @@ msgstr "Конфликтующие внутренние номера"
 msgid "Congestion"
 msgstr "Перегрузка"
 
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:30
-msgid "Connected"
-msgstr "Подключено"
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:23
+#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:37
 msgid "Connecting to the Database..."
 msgstr "Подключаемся к базе данных..."
 
@@ -4548,10 +4544,6 @@ msgstr "Обнаружена платформа, установка версии
 msgid "FreePBX Administration"
 msgstr "Администрирование FreePBX"
 
-#: ../core/page.advancedsettings.php:264
-msgid "FreePBX Advanced Settings"
-msgstr "Расширенные установки FreePBX"
-
 #: amp.i18n.php:4
 msgid "FreePBX Framework"
 msgstr "Основа FreePBX"
@@ -6676,6 +6668,10 @@ msgstr "Только %s версии %s совместима, в наличии 
 msgid "Only Use Last CID Prepend"
 msgstr "Использовать только последний идентификатор CID"
 
+#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:28
+msgid "Only mysql is supported"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:418
 #, php-format
 msgid "OpenSSL took too long to run the command '%s'"
@@ -8532,10 +8528,6 @@ msgstr ""
 "Благополучно перезагружено, не невозможно завершить процесс ввиду ошибки "
 "базы данных: "
 
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:76
-msgid "Successfully executed"
-msgstr "Успешно выполнено"
-
 #: amp_conf/htdocs/admin/functions.inc.php:406
 msgid "Successfully reloaded"
 msgstr "Благополучно перезагружено"
@@ -9768,10 +9760,6 @@ msgstr ""
 #: ../core/install.php:570
 msgid "Unable to add index to tech field in devices"
 msgstr "Невозможно добавить индекс в в поле Технология выбранного устройства"
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:27
-msgid "Unable to connect to database!"
-msgstr "Невозможно подключиться к базе данных!"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1396
 #, php-format
@@ -12072,6 +12060,21 @@ msgstr ""
 #: ../core/install.php:1089
 msgid "zap devices migrated"
 msgstr "Устройства ZAP перенесены"
+
+#~ msgid "%s rows in set (%s sec)"
+#~ msgstr "%s рядов в установке (%s сек)"
+
+#~ msgid "Connected"
+#~ msgstr "Подключено"
+
+#~ msgid "FreePBX Advanced Settings"
+#~ msgstr "Расширенные установки FreePBX"
+
+#~ msgid "Successfully executed"
+#~ msgstr "Успешно выполнено"
+
+#~ msgid "Unable to connect to database!"
+#~ msgstr "Невозможно подключиться к базе данных!"
 
 #~ msgid "HANDLED-ERROR: %s should exist, but it doesn't. This is a bug"
 #~ msgstr ""

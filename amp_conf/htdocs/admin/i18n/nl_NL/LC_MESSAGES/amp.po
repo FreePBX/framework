@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-17 16:45-0700\n"
+"POT-Creation-Date: 2016-03-18 15:09-0700\n"
 "PO-Revision-Date: 2015-03-23 21:06+0200\n"
 "Last-Translator: Jan Peter <jpveldhuizen@gmail.com>\n"
 "Language-Team: Dutch <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -169,6 +169,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:393
 #, php-format
 msgid "%s (current: %s)"
+msgstr ""
+
+#: ../core/page.advancedsettings.php:264
+#, php-format
+msgid "%s Advanced Settings"
 msgstr ""
 
 #: ../core/page.trunks.php:439
@@ -362,11 +367,6 @@ msgid ""
 "%s requires a new browser to function correctly. You can still use %s with "
 "the browser you currently have but your experience may be diminished and is "
 "not supported"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:74
-#, php-format
-msgid "%s rows in set (%s sec)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:399
@@ -2176,11 +2176,7 @@ msgstr "Conflicterende extensies"
 msgid "Congestion"
 msgstr "Congestie"
 
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:30
-msgid "Connected"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:23
+#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:37
 msgid "Connecting to the Database..."
 msgstr ""
 
@@ -4261,10 +4257,6 @@ msgstr ""
 msgid "FreePBX Administration"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:264
-msgid "FreePBX Advanced Settings"
-msgstr ""
-
 #: amp.i18n.php:4
 msgid "FreePBX Framework"
 msgstr ""
@@ -6141,6 +6133,10 @@ msgstr ""
 msgid "Only Use Last CID Prepend"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:28
+msgid "Only mysql is supported"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:418
 #, php-format
 msgid "OpenSSL took too long to run the command '%s'"
@@ -7837,10 +7833,6 @@ msgid ""
 "Successful reload, but could not clear reload flag due to a database error: "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:76
-msgid "Successfully executed"
-msgstr ""
-
 #: amp_conf/htdocs/admin/functions.inc.php:406
 msgid "Successfully reloaded"
 msgstr ""
@@ -8888,10 +8880,6 @@ msgstr ""
 
 #: ../core/install.php:570
 msgid "Unable to add index to tech field in devices"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:27
-msgid "Unable to connect to database!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1396

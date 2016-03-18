@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-17 16:45-0700\n"
+"POT-Creation-Date: 2016-03-18 15:09-0700\n"
 "PO-Revision-Date: 2015-07-17 00:00+0200\n"
 "Last-Translator: Ernesto <ecasas@sangoma.com>\n"
 "Language-Team: Spanish <http://weblate.freepbx.org/projects/freepbx/"
@@ -166,6 +166,11 @@ msgstr ""
 #, php-format
 msgid "%s (current: %s)"
 msgstr "%s (actual: %s)"
+
+#: ../core/page.advancedsettings.php:264
+#, php-format
+msgid "%s Advanced Settings"
+msgstr ""
 
 #: ../core/page.trunks.php:439
 #, php-format
@@ -374,11 +379,6 @@ msgid ""
 "%s requires a new browser to function correctly. You can still use %s with "
 "the browser you currently have but your experience may be diminished and is "
 "not supported"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:74
-#, php-format
-msgid "%s rows in set (%s sec)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:399
@@ -2156,11 +2156,7 @@ msgstr "Extensiones en conflicto"
 msgid "Congestion"
 msgstr "Congestión"
 
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:30
-msgid "Connected"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:23
+#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:37
 msgid "Connecting to the Database..."
 msgstr ""
 
@@ -4382,10 +4378,6 @@ msgstr "Framework detectado, Configurando Versión FreePBX a %s"
 msgid "FreePBX Administration"
 msgstr "Administración FreePBX"
 
-#: ../core/page.advancedsettings.php:264
-msgid "FreePBX Advanced Settings"
-msgstr "Configuración Avanzada FreePBX"
-
 #: amp.i18n.php:4
 msgid "FreePBX Framework"
 msgstr "Framework FreePBX"
@@ -6411,6 +6403,10 @@ msgstr "Sólo %s versión %s es compatible, usted tiene %s"
 msgid "Only Use Last CID Prepend"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:28
+msgid "Only mysql is supported"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:418
 #, php-format
 msgid "OpenSSL took too long to run the command '%s'"
@@ -8224,10 +8220,6 @@ msgstr ""
 "Recarga Exitosa, pero no se pudo limpiar la bandera de recarga debido a un "
 "error de base de datos: "
 
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:76
-msgid "Successfully executed"
-msgstr ""
-
 #: amp_conf/htdocs/admin/functions.inc.php:406
 msgid "Successfully reloaded"
 msgstr "Recargado con Exito"
@@ -9417,10 +9409,6 @@ msgstr "No fue posible agregar índice al campo de extensiones en usuarios"
 #: ../core/install.php:570
 msgid "Unable to add index to tech field in devices"
 msgstr "No fue posible agregar índice al campo tech en dispositivos"
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:27
-msgid "Unable to connect to database!"
-msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1396
 #, php-format
@@ -11623,6 +11611,9 @@ msgstr ""
 #: ../core/install.php:1089
 msgid "zap devices migrated"
 msgstr "dispositivos zap migrados"
+
+#~ msgid "FreePBX Advanced Settings"
+#~ msgstr "Configuración Avanzada FreePBX"
 
 #~ msgid "Dial pattern is invalid"
 #~ msgstr "Patrón de Marcación no es válido"

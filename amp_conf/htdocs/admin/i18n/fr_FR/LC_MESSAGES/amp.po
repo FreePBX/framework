@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-17 16:45-0700\n"
+"POT-Creation-Date: 2016-03-18 15:09-0700\n"
 "PO-Revision-Date: 2016-02-27 18:59+0200\n"
 "Last-Translator: Nicolas Riendeau <freepbx@riendeau.org>\n"
 "Language-Team: French <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -166,6 +166,11 @@ msgstr ""
 #, php-format
 msgid "%s (current: %s)"
 msgstr "%s (actuellement: %s)"
+
+#: ../core/page.advancedsettings.php:264
+#, php-format
+msgid "%s Advanced Settings"
+msgstr ""
 
 #: ../core/page.trunks.php:439
 #, php-format
@@ -377,11 +382,6 @@ msgstr ""
 "%s requiert un nouveau navigateur pour fonctionner correctement. Vous pouvez "
 "encore utiliser %s avec le navigateur que vous avez actuellement, mais votre "
 "expérience peut être diminuée et ce n'est pas supporté"
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:74
-#, php-format
-msgid "%s rows in set (%s sec)"
-msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:399
 #, php-format
@@ -2063,11 +2063,7 @@ msgstr "Conflit d'extensions"
 msgid "Congestion"
 msgstr "Congestion"
 
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:30
-msgid "Connected"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:23
+#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:37
 msgid "Connecting to the Database..."
 msgstr ""
 
@@ -4215,10 +4211,6 @@ msgstr "Cadriciel détecté. La version de FreePBX est %s"
 msgid "FreePBX Administration"
 msgstr "Administration de FreePBX"
 
-#: ../core/page.advancedsettings.php:264
-msgid "FreePBX Advanced Settings"
-msgstr "Paramètres avancés de FreePBX"
-
 #: amp.i18n.php:4
 msgid "FreePBX Framework"
 msgstr "Cadriciel FreePBX"
@@ -6143,6 +6135,10 @@ msgstr "Seule la version %s de %s est compatible. Celle installée est %s"
 msgid "Only Use Last CID Prepend"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:28
+msgid "Only mysql is supported"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:418
 #, php-format
 msgid "OpenSSL took too long to run the command '%s'"
@@ -7873,10 +7869,6 @@ msgstr ""
 "Rechargement réussi mais impossible d'effacer le flag de rechargement à "
 "cause d'une erreur de la base données"
 
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:76
-msgid "Successfully executed"
-msgstr "Exécuté avec succès"
-
 #: amp_conf/htdocs/admin/functions.inc.php:406
 msgid "Successfully reloaded"
 msgstr "Téléchargement réussi"
@@ -9027,10 +9019,6 @@ msgstr ""
 
 #: ../core/install.php:570
 msgid "Unable to add index to tech field in devices"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:27
-msgid "Unable to connect to database!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1396
@@ -11137,6 +11125,12 @@ msgstr ""
 #: ../core/install.php:1089
 msgid "zap devices migrated"
 msgstr "dispositifs zap migrés"
+
+#~ msgid "FreePBX Advanced Settings"
+#~ msgstr "Paramètres avancés de FreePBX"
+
+#~ msgid "Successfully executed"
+#~ msgstr "Exécuté avec succès"
 
 #~ msgid "Dial pattern is invalid"
 #~ msgstr "Le \\'Masque de Numerotation\\' est invalide."

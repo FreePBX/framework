@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-17 16:45-0700\n"
+"POT-Creation-Date: 2016-03-18 15:09-0700\n"
 "PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -204,6 +204,11 @@ msgstr ""
 #, php-format
 msgid "%s (current: %s)"
 msgstr "%s (現状： %s)"
+
+#: ../core/page.advancedsettings.php:264
+#, php-format
+msgid "%s Advanced Settings"
+msgstr ""
 
 #: ../core/page.trunks.php:439
 #, php-format
@@ -415,11 +420,6 @@ msgstr ""
 "%s は最近のブラウザにしか対応していません。現在利用しているブラウザでも %s が"
 "使えますが、正しく動作しない可能性があり、サポート対象外となりますのでご了承"
 "ください。"
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:74
-#, php-format
-msgid "%s rows in set (%s sec)"
-msgstr "セットには %s 行 (%s 秒)"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:399
 #, php-format
@@ -2156,11 +2156,7 @@ msgstr "内線の競合"
 msgid "Congestion"
 msgstr "混雑"
 
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:30
-msgid "Connected"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:23
+#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:37
 msgid "Connecting to the Database..."
 msgstr ""
 
@@ -4426,10 +4422,6 @@ msgstr ""
 msgid "FreePBX Administration"
 msgstr "FreePBX 管理ページ"
 
-#: ../core/page.advancedsettings.php:264
-msgid "FreePBX Advanced Settings"
-msgstr "FreePBX 高度な設定"
-
 #: amp.i18n.php:4
 msgid "FreePBX Framework"
 msgstr "FreePBXフレームワーク"
@@ -6472,6 +6464,10 @@ msgstr "%s バージョン %s のみ互換性があります。あなたのお�
 msgid "Only Use Last CID Prepend"
 msgstr "最後のCIDを前に付与のみ使用"
 
+#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:28
+msgid "Only mysql is supported"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:418
 #, php-format
 msgid "OpenSSL took too long to run the command '%s'"
@@ -8302,10 +8298,6 @@ msgstr ""
 "リロード成功、データベースエラーによりリロードフラグをクリアにできませんでし"
 "た： "
 
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:76
-msgid "Successfully executed"
-msgstr ""
-
 #: amp_conf/htdocs/admin/functions.inc.php:406
 msgid "Successfully reloaded"
 msgstr "リロード成功"
@@ -9464,10 +9456,6 @@ msgstr ""
 
 #: ../core/install.php:570
 msgid "Unable to add index to tech field in devices"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:27
-msgid "Unable to connect to database!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1396
@@ -11655,6 +11643,12 @@ msgstr ""
 #: ../core/install.php:1089
 msgid "zap devices migrated"
 msgstr "zapでバイスが移行されました"
+
+#~ msgid "%s rows in set (%s sec)"
+#~ msgstr "セットには %s 行 (%s 秒)"
+
+#~ msgid "FreePBX Advanced Settings"
+#~ msgstr "FreePBX 高度な設定"
 
 #~ msgid "Dial pattern is invalid"
 #~ msgstr "ダイヤルパターンが無効です"
