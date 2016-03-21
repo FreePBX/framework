@@ -147,7 +147,7 @@ function freepbx_log($level, $message) {
 				$size = file_exists($log_file) ? sprintf("%u", filesize($log_file)) + strlen($txt) : 0;
 				if ($size < 2000000000) {
 					$bn = basename($log_file);
-					if(file_exists($log_file) && is_writable($log_file) || (!file_exists($log_file) && is_dir($bn) && is_writable($bn))) {
+					if((file_exists($log_file) && is_writable($log_file)) || (!file_exists($log_file) && is_dir($bn) && is_writable($bn))) {
 						file_put_contents($log_file, "[$tstamp] $txt", FILE_APPEND);
 					} else {
 						return false;
