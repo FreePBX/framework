@@ -13,6 +13,7 @@ class Moduleadmin extends Command {
 	private $setRepos = false;
 	private $format = 'plain';
 	private $pretty = false;
+	private $skipchown = false;
 
 	protected function configure(){
 		$this->setName('ma')
@@ -21,6 +22,7 @@ class Moduleadmin extends Command {
 		->setDefinition(array(
 			new InputOption('force', 'f', InputOption::VALUE_NONE, _('Force operation (skips dependency and status checks) <warning>WARNING:</warning> Use at your own risk, modules have dependencies for a reason!')),
 			new InputOption('debug', 'd', InputOption::VALUE_NONE, _('Output debug messages to the console (be super chatty)')),
+			new InputOption('skipchown', '', InputOption::VALUE_NONE, _('Skip the chown operation')),
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'json, jsonpretty')),
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
@@ -32,6 +34,9 @@ class Moduleadmin extends Command {
 		$this->out = $output;
 		$this->input = $input;
 		$args = $input->getArgument('args');
+		if($input->getOption('skipchown')) {
+			$this->skipchown = true;
+		}
 		if ($input->getOption('debug')) {
 			$this->DEBUG = True;
 		} else {
@@ -518,6 +523,9 @@ class Moduleadmin extends Command {
 	}
 
 	private function setPerms($action,$args) {
+		if($this->skipchown) {
+			return;
+		}
 		if (posix_getuid() == 0) {
 			$chown = new Chown();
 			switch ($action) {

@@ -740,7 +740,6 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		passthru($amp_conf['AMPSBIN'] . "/fwconsole chown");
 
 		if (!$answers['dev-links']) {
-			// install_modules()
 			$included_modules = array();
 			/* read modules list from MODULE_DIR */
 			if(file_exists(MODULE_DIR)) {
@@ -752,14 +751,14 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 				}
 				closedir($dir);
 				$output->write("Installing all modules...");
-				$this->install_modules($included_modules);
+				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal --skipchown");
 				$output->writeln("Done installing modules");
 			}
 		}
 
 		// module_admin install framework
 		$output->writeln("Installing framework...");
-		$this->install_modules(array('framework'));
+		system($amp_conf['AMPSBIN']."/fwconsole ma install framework --skipchown");
 		$output->writeln("Done");
 
 		// generate_configs();
@@ -946,46 +945,5 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		// diff, ignore whitespace and be quiet
 		exec("diff -wq ".escapeshellarg($file2)." ".escapeshellarg($file1), $tmpout, $retVal);
 		return ($retVal != 0);
-	}
-
-	private function install_modules($modules) {
-		global $amp_conf;
-
-		$output = array();
-		$keep_checking = true;
-		$num_modules = false;
-		while ($keep_checking && count($modules)) {
-			if ($num_modules === count($modules)) {
-				$keep_checking = false;
-			} else {
-				$num_modules = count($modules);
-			}
-			foreach ($modules as $id => $up_module) {
-				// if $keep_checking then check dependencies first and skip if not met
-				// otherwise we will install anyhow even if some dependencies are not met
-				// since it is included. This keeps us strictly local
-				//
-				if ($keep_checking) {
-					exec($amp_conf['AMPBIN']."/fwconsole ma checkdepends $up_module", $output, $retval);
-					unset($output);
-					if ($retval) {
-						continue;
-					}
-				}
-				// Framework modules cannot be enabled, only installed.
-				//
-				switch ($up_module) {
-					case 'framework':
-						system($amp_conf['AMPBIN']."/fwconsole ma install $up_module");
-					break;
-					default:
-						system($amp_conf['AMPBIN']."/fwconsole ma install $up_module");
-						//TODO not sure why we do this
-						exec($amp_conf['AMPBIN']."/fwconsole ma enable $up_module", $output, $retval);
-						unset($output);
-				}
-				unset($modules[$id]);
-			}
-		}
 	}
 }
