@@ -942,6 +942,14 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
+	$settings[$category]['MODULEADMINEDGE'] = array(
+	'value' => false,
+	'options' => '',
+	'name' => 'Set Module Admin to Edge mode',
+	'description' => 'Setting module admin to edge mode allows you to vet new module releases before they are deemed stable. This process helps the developers so we encourage you to enable it. If you want a more stable system please leave this set to no',
+	'type' => CONF_TYPE_BOOL,
+	);
+
 	$settings[$category]['SHOWLANGUAGE'] = array(
 	'value' => false,
 	'options' => '',

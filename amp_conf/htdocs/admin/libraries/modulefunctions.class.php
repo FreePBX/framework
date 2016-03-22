@@ -74,6 +74,10 @@ class module_functions {
 		if(!empty($result['data'])) {
 			$beta = json_decode($result['data'],true);
 		}
+		$result = sql("SELECT * FROM module_xml WHERE id = 'edge'",'getRow',DB_FETCHMODE_ASSOC);
+		if(!empty($result['data'])) {
+			$edge = json_decode($result['data'],true);
+		}
 		$result = sql("SELECT * FROM module_xml WHERE id = 'security'",'getRow',DB_FETCHMODE_ASSOC);
 		if(!empty($result['data'])) {
 			$security = json_decode($result['data'],true);
@@ -139,11 +143,21 @@ class module_functions {
 				$data4sql = $db->escapeSimple(json_encode($modules));
 				sql("REPLACE INTO module_xml (id,time,data) VALUES('modules',".time().",'".$data4sql."')");
 			}
+			if(!empty($allxml['xml']['edge'])) {
+				$edge = $allxml['xml']['edge'];
+				// update the db with the new xml
+				$data4sql = $db->escapeSimple(json_encode($edge));
+				sql("REPLACE INTO module_xml (id,time,data) VALUES('edge',".time().",'".$data4sql."')");
+			} else {
+				sql("REPLACE INTO module_xml (id,time,data) VALUES('edge',".time().",'')");
+			}
 			if(!empty($allxml['xml']['beta'])) {
 				$beta = $allxml['xml']['beta'];
 				// update the db with the new xml
 				$data4sql = $db->escapeSimple(json_encode($beta));
 				sql("REPLACE INTO module_xml (id,time,data) VALUES('beta',".time().",'".$data4sql."')");
+			} else {
+				sql("REPLACE INTO module_xml (id,time,data) VALUES('beta',".time().",'')");
 			}
 			if(!empty($allxml['xml']['security'])) {
 				$security = $allxml['xml']['security'];
@@ -181,6 +195,9 @@ class module_functions {
 			if ($module != false) {
 				foreach ($modules as $mod) {
 					if ($module == $mod['rawname']) {
+						if(!empty($edge[$module]) && (isset($amp_conf['MODULEADMINEDGE']) && $amp_conf['MODULEADMINEDGE'])) {
+							$mod = $edge[$module];
+						}
 						$releases = !empty($previous[$module]['releases']['module']) ? $previous[$module]['releases']['module'] : array();
 						$mod['previous'] = isset($releases['rawname']) ? array($releases) : $releases;
 						if(!empty($beta[$module])) {
@@ -206,6 +223,9 @@ class module_functions {
 			} else {
 				$final = array();
 				foreach ($modules as $mod) {
+					if(!empty($edge[$mod['rawname']]) && (isset($amp_conf['MODULEADMINEDGE']) && $amp_conf['MODULEADMINEDGE'])) {
+						$mod = $edge[$mod['rawname']];
+					}
 					$final[$mod['rawname']] = $mod;
 					if (isset($exposures[$mod['rawname']])) {
 						$final[$mod['rawname']]['vulnerabilities'] = $exposures[$mod['rawname']];
