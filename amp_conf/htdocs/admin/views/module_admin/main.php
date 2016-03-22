@@ -157,6 +157,12 @@ if($online) { ?>
 												<td><?php echo $module['publisher']?></td>
 											</tr>
 											<?php } ?>
+											<?php if(!empty($module['raw']['online']['packaged'])) {?>
+											<tr>
+												<td><?php echo _("Packaged (Released)")?>:</td>
+												<td class="packagedDate"><?php echo date('m/d/y',$module['raw']['online']['packaged'])?></td>
+											</tr>
+											<?php } ?>
 											<?php if(!empty($module['license'])) {?>
 											<tr>
 												<td><?php echo _("License")?>:</td>

@@ -122,6 +122,7 @@ $(document).ready(function(){
 		$('#fullmodule_'+module+' .moduletrack').html(track.capitalize());
 		$('#fullmodule_'+module+' .moduletrack').removeClass(previous_track.toLowerCase());
 		$('#fullmodule_'+module+' .moduletrack').addClass(track.toLowerCase());
+		//$('#fullmodule_'+module+' .modulequickinfo .packagedDate').text(si.packaged);
 
 		var label = $('#fullmodule_'+module+' .modulestatus span.text').html().replace(pi.version,si.version);
 		$('#fullmodule_'+module+' .modulestatus span.text').html(label);

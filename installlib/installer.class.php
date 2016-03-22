@@ -946,7 +946,7 @@ class Installer {
 	'value' => false,
 	'options' => '',
 	'name' => 'Set Module Admin to Edge mode',
-	'description' => 'Setting module admin to edge mode allows you to vet new module releases before they are deemed stable. This process helps the developers so we encourage you to enable it. If you want a more stable system please leave this set to no',
+	'description' => 'Setting module admin to edge mode allows you to vet new module releases before they are deemed stable. This process helps the developers so we encourage you to enable it. If you want a more stable system please leave this set to no. See http://wiki.freepbx.org/x/boi3Aw for more details',
 	'type' => CONF_TYPE_BOOL,
 	);
 
