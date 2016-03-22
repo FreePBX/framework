@@ -163,9 +163,25 @@ class WriteConfig {
 		}
 
 		// Now I have a string, and can write it out.
-		// print "Writing: ".$this->getHeader().$header.$output."\n";
 		$freepbxHeader = ($generateHeader) ? $this->getHeader() : '';
 		file_put_contents($filename, $freepbxHeader.$header.$output);
+
+		//Now chown
+		$AMPASTERISKWEBUSER = $this->freepbx->Config->get("AMPASTERISKWEBUSER");
+		$AMPASTERISKWEBGROUP = $this->freepbx->Config->get("AMPASTERISKWEBGROUP");
+		$AMPASTERISKUSER = $this->freepbx->Config->get("AMPASTERISKUSER");
+		$AMPASTERISKGROUP = $this->freepbx->Config->get("AMPASTERISKGROUP");
+
+		//Chown User
+		$ampowner = $AMPASTERISKWEBUSER;
+		chown($filename, $ampowner);
+
+		/* Address concerns carried over from amportal in FREEPBX-8268. If the apache user is different
+		 * than the Asterisk user we provide permissions that allow both.
+		 */
+		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
+		chgrp($filename, $ampgroup);
+
 		return true;
 	}
 
