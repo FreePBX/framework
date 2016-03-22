@@ -759,11 +759,11 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		$output->writeln("Done");
 
 		//run this here so that we make sure everything is square for asterisk
-		passthru($amp_conf['AMPSBIN'] . "/fwconsole chown");
+		system($amp_conf['AMPSBIN'] . "/fwconsole chown");
 
 		// generate_configs();
 		$output->writeln("Generating default configurations...");
-		passthru("sudo -u " . $amp_conf['AMPASTERISKUSER'] . " " . $amp_conf["AMPBIN"] . "/retrieve_conf --skip-registry-checks");
+		system("sudo -u " . $amp_conf['AMPASTERISKUSER'] . " " . $amp_conf["AMPSBIN"] . "/fwconsole reload");
 		$output->writeln("Finished generating default configurations");
 
 		// GPG setup - trustFreePBX();
