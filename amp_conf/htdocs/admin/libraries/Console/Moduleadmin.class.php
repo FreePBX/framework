@@ -14,6 +14,7 @@ class Moduleadmin extends Command {
 	private $format = 'plain';
 	private $pretty = false;
 	private $skipchown = false;
+	private $previousEdge = 0;
 
 	protected function configure(){
 		$this->setName('ma')
@@ -22,6 +23,7 @@ class Moduleadmin extends Command {
 		->setDefinition(array(
 			new InputOption('force', 'f', InputOption::VALUE_NONE, _('Force operation (skips dependency and status checks) <warning>WARNING:</warning> Use at your own risk, modules have dependencies for a reason!')),
 			new InputOption('debug', 'd', InputOption::VALUE_NONE, _('Output debug messages to the console (be super chatty)')),
+			new InputOption('edge', '', InputOption::VALUE_NONE, _('Download/Upgrade forcing edge mode')),
 			new InputOption('skipchown', '', InputOption::VALUE_NONE, _('Skip the chown operation')),
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'json, jsonpretty')),
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
@@ -36,6 +38,11 @@ class Moduleadmin extends Command {
 		$args = $input->getArgument('args');
 		if($input->getOption('skipchown')) {
 			$this->skipchown = true;
+		}
+		if($input->getOption('edge')) {
+			$this->writeln('<info>'._('Edge repository temporarily enabled').'</info>');
+			$this->previousEdge = \FreePBX::Config()->get('MODULEADMINEDGE');
+			\FreePBX::Config()->update('MODULEADMINEDGE',1);
 		}
 		if ($input->getOption('debug')) {
 			$this->DEBUG = True;
@@ -92,6 +99,9 @@ class Moduleadmin extends Command {
 			$this->handleArgs($args);
 		} else {
 			$this->writeln($this->showHelp());
+		}
+		if($input->getOption('edge')) {
+			\FreePBX::Config()->update('MODULEADMINEDGE',$this->previousEdge);
 		}
 	}
 
