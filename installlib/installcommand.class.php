@@ -166,8 +166,7 @@ class FreePBXInstallCommand extends Command {
 		define("UPGRADE_DIR", $this->rootPath . "/upgrades");
 
 		// Fail if !root
-		$euid = posix_getpwuid(posix_geteuid());
-		if ($euid['name'] != 'root') {
+		if (posix_geteuid() !== 0) {
 			$output->writeln("<error>".$this->getName() . " must be run as root</error>");
 			exit(1);
 		}
@@ -736,9 +735,6 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			exit;
 		}
 
-		//run this here so that we make sure everything is square for asterisk
-		passthru($amp_conf['AMPSBIN'] . "/fwconsole chown");
-
 		if (!$answers['dev-links']) {
 			$included_modules = array();
 			/* read modules list from MODULE_DIR */
@@ -751,6 +747,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 				}
 				closedir($dir);
 				$output->write("Installing all modules...");
+				system($amp_conf['AMPSBIN']."/fwconsole ma install core --skipchown");
 				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal --skipchown");
 				$output->writeln("Done installing modules");
 			}
@@ -761,9 +758,12 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		system($amp_conf['AMPSBIN']."/fwconsole ma install framework --skipchown");
 		$output->writeln("Done");
 
+		//run this here so that we make sure everything is square for asterisk
+		system($amp_conf['AMPSBIN'] . "/fwconsole chown");
+
 		// generate_configs();
 		$output->writeln("Generating default configurations...");
-		passthru("sudo -u " . $amp_conf['AMPASTERISKUSER'] . " " . $amp_conf["AMPBIN"] . "/retrieve_conf --skip-registry-checks");
+		system("sudo -u " . $amp_conf['AMPASTERISKUSER'] . " " . $amp_conf["AMPSBIN"] . "/fwconsole reload");
 		$output->writeln("Finished generating default configurations");
 
 		// GPG setup - trustFreePBX();
@@ -777,8 +777,6 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		}
 		$output->writeln("Trusted");
 
-		//run this here so that we make sure everything is square for asterisk
-		passthru($amp_conf['AMPSBIN'] . "/fwconsole chown");
 		$output->writeln("<info>You have successfully installed FreePBX</info>");
 	}
 
