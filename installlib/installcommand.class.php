@@ -747,6 +747,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 				}
 				closedir($dir);
 				$output->write("Installing all modules...");
+				system($amp_conf['AMPSBIN']."/fwconsole ma install core --skipchown");
 				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal --skipchown");
 				$output->writeln("Done installing modules");
 			}
