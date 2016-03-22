@@ -54,6 +54,19 @@ function set_language() {
 		} else {
 			$lang = $amp_conf['UIDEFAULTLANG']?$amp_conf['UIDEFAULTLANG']:'en_US';
 		}
+		//cleanup for certain langs that only have one locale
+		switch($lang) {
+			case "he_IL":
+				$_SESSION['langdirection'] = 'rtl';
+			break;
+			case "fa":
+				$lang = "fa_IR";
+				$_SESSION['langdirection'] = 'rtl';
+			break;
+			default:
+				$_SESSION['langdirection'] = 'ltr';
+			break;
+		}
 		putenv('LC_ALL='.$lang);
 		putenv('LANG='.$lang);
 		putenv('LANGUAGE='.$lang);
