@@ -163,9 +163,11 @@ function drawselects($goto, $i, $restrict_modules=false, $table=true, $nodest_ms
 					if (function_exists($funct)) {
 						$protos = $funct();
 						foreach ($protos as $ds_id => $cat) {
-							$popover_hash[$ds_id] = $cat;
-							$drawselects_module_hash[$cat] = $rawmod;
-							$drawselects_id_hash[$cat] = $ds_id;
+							if (empty($restrict_modules[$rawmod]) || (is_array($restrict_modules[$rawmod]) && in_array($ds_id, $restrict_modules[$rawmod]))) {
+								$popover_hash[$ds_id] = $cat;
+								$drawselects_module_hash[$cat] = $rawmod;
+								$drawselects_id_hash[$cat] = $ds_id;
+							}
 						}
 					} else if (empty($destArray)) {
 						// We have popovers in XML, there were no destinations, and no mod_destination_popovers()
