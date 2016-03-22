@@ -140,17 +140,23 @@ function freepbx_log($level, $message) {
 					$tz = 'America/Los_Angeles';
 				}
 				date_default_timezone_set($tz);
-				$tstamp		= date("Y-M-d H:i:s");
+				$tstamp = date("Y-M-d H:i:s");
 
-        // Don't append if the file is greater than ~2G since some systems fail
-        //
-        $size = file_exists($log_file) ? sprintf("%u", filesize($log_file)) + strlen($txt) : 0;
-        if ($size < 2000000000) {
-          file_put_contents($log_file, "[$tstamp] $txt", FILE_APPEND);
-        }
+				// Don't append if the file is greater than ~2G since some systems fail
+				//
+				$size = file_exists($log_file) ? sprintf("%u", filesize($log_file)) + strlen($txt) : 0;
+				if ($size < 2000000000) {
+					$dn = dirname($log_file);
+					if((file_exists($log_file) && is_writable($log_file)) || (!file_exists($log_file) && is_dir($dn) && is_writable($dn))) {
+						file_put_contents($log_file, "[$tstamp] $txt", FILE_APPEND);
+					} else {
+						return false;
+					}
+				}
 				break;
 		}
 	}
+	return true;
 }
 
 /**
