@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-03-21 19:35-0700\n"
+"POT-Creation-Date: 2016-03-22 15:53-0700\n"
 "PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -73,31 +73,31 @@ msgstr ""
 msgid " extension number already in use by: "
 msgstr " 内線番号はこのユーザーが既に使用しています： "
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:439
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:449
 msgid " not found"
 msgstr " 見つかりません"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:302
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:312
 msgid " successfully deleted"
 msgstr " 削除しました"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:178
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:188
 msgid " successfully disabled"
 msgstr " 無効にしました"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:176
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:186
 msgid " successfully disabled, but was not found in the remote list"
 msgstr " 無効にしましたが、リモートリストには見つかりません"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:166
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:176
 msgid " successfully enabled"
 msgstr " 有効にしました"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:164
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:174
 msgid " successfully enabled, but was not found in the remote list"
 msgstr " 有効にしましたが、リモートリストには見つかりません"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:313
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:323
 msgid " successfully uninstalled"
 msgstr " アンインストールしました"
 
@@ -195,12 +195,12 @@ msgstr ""
 "%s %s はオンラインバージョンの %s にアップグレードして %s トラックに切り替え"
 "ます"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:422
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:442
 #, php-format
 msgid "%s (Cur v. %s) should be upgraded to v. %s to fix security issues: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:393
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:413
 #, php-format
 msgid "%s (current: %s)"
 msgstr "%s (現状： %s)"
@@ -230,7 +230,7 @@ msgstr "%s 内線"
 msgid "%s Likely will not work as expected"
 msgstr "%s は正しく動作しない可能性があります"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:345
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:365
 #, php-format
 msgid "%s New modules are available"
 msgstr "%s 新しいモジュールが利用可能"
@@ -252,7 +252,7 @@ msgstr "%s オンラインアップグレード利用可能 (%s)"
 msgid "%s Upgrade Available (%s)"
 msgstr "%s アップグレード利用可能 (%s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2993
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3013
 #, php-format
 msgid "%s [not enabled]"
 msgstr "%s [無効]"
@@ -389,8 +389,8 @@ msgstr "%s は登録商標"
 msgid "%s is already in use sip.conf. Can not continue"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:507
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:740
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:517
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:750
 #, php-format
 msgid "%s not found"
 msgstr "%s は見つかりません"
@@ -426,7 +426,7 @@ msgstr ""
 msgid "%s skipped by configuration"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:306
+#: amp_conf/htdocs/admin/views/module_admin/main.php:312
 #, php-format
 msgid "%s to %s and Enable"
 msgstr "%s %s にして有効化する"
@@ -437,12 +437,12 @@ msgstr "%s %s にして有効化する"
 msgid "%s uninstalled successfully"
 msgstr "%s のアンインストールに成功しました"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1091
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1111
 #, php-format
 msgid "%s version %s or below is required, you have %s"
 msgstr "%s バージョン %s が必要です。あなたのシステム %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1104
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1124
 #, php-format
 msgid "%s version %s or higher is required, you have %s"
 msgstr ""
@@ -542,12 +542,12 @@ msgid ""
 "control both servers, and are sure it is required!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1088
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1108
 #, php-format
 msgid "A %s version below %s is required, you have %s"
 msgstr "%s バージョン %s が必要です。あなたのシステム %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1094
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1114
 #, php-format
 msgid "A %s version newer than %s required, you have %s"
 msgstr "%s バージョンが必要です。(%sより新しい)。現在のバージョンは %s"
@@ -688,7 +688,7 @@ msgstr "この内線のアカウントコード"
 msgid "Accountcode for this device."
 msgstr "このデバイスのアカウントコード。"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:261
+#: amp_conf/htdocs/admin/views/module_admin/main.php:267
 #: ../core/page.ampusers.php:265 ../core/page.astmodules.php:91
 #: ../core/page.astmodules.php:108 ../core/page.astmodules.php:125
 msgid "Action"
@@ -703,7 +703,7 @@ msgstr "アクション"
 msgid "Actions"
 msgstr "アクション"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:261
+#: amp_conf/htdocs/admin/views/module_admin/main.php:267
 msgid ""
 "Actions to preform in regards to this module. This usually contains "
 "installation and maintenance operations at an administration level"
@@ -872,7 +872,7 @@ msgstr ""
 msgid "Adhoc"
 msgstr "アドホック"
 
-#: amp.i18n.php:6 amp.i18n.php:1266
+#: amp.i18n.php:6 amp.i18n.php:1272
 #: amp_conf/htdocs/admin/views/menu_items.php:44
 msgid "Admin"
 msgstr "アドミン"
@@ -896,7 +896,7 @@ msgstr "管理者パスワード"
 msgid "Admin user name"
 msgstr "管理者ユーザー名"
 
-#: amp.i18n.php:1264
+#: amp.i18n.php:1270
 msgid "Administrators"
 msgstr "管理者"
 
@@ -905,7 +905,7 @@ msgstr "管理者"
 msgid "Advanced"
 msgstr "高度な設定"
 
-#: amp.i18n.php:1260
+#: amp.i18n.php:1266
 msgid "Advanced Settings"
 msgstr "高度な設定"
 
@@ -917,7 +917,7 @@ msgstr "高度な設定の詳細"
 msgid "Aggregate MWI"
 msgstr ""
 
-#: amp.i18n.php:1030
+#: amp.i18n.php:1036
 msgid "Aggresively Check for Duplicate Extensions"
 msgstr "重複内線防止"
 
@@ -980,17 +980,17 @@ msgstr "全てのユーザ"
 msgid "All available modules are up-to-date and installed."
 msgstr "全ての利用可能なモジュールは最新でインストールされています。"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:514
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:524
 #, php-format
 msgid "All dependencies met for module %s"
 msgstr "モジュール %sの依存関係を満たしました"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:837
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:847
 msgid "All inclusive Module Actions"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:348
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:586
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:358
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:596
 msgid "All modules up to date."
 msgstr "全てのモジュールは最新です。"
 
@@ -999,7 +999,7 @@ msgid ""
 "All settings can be set from the Advanced Settings page accessible in FreePBX"
 msgstr "すべての設定はFreePBXでアクセス可能な詳細設定ページから設定できます"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:407
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:417
 msgid "All upgrades done!"
 msgstr "全てのアップグレードが完了しました。"
 
@@ -1011,7 +1011,7 @@ msgstr "どのCIDも許可"
 msgid "Allow Contact header to be rewritten with the source IP address-port"
 msgstr ""
 
-#: amp.i18n.php:1054
+#: amp.i18n.php:1060
 msgid "Allow Login With DB Credentials"
 msgstr "DB資格情報でログインを許可"
 
@@ -1035,11 +1035,11 @@ msgstr "許可コーデック"
 msgid "Already Migrated!"
 msgstr "既に移行済み！"
 
-#: amp.i18n.php:808 amp.i18n.php:814
+#: amp.i18n.php:814 amp.i18n.php:820
 msgid "Alt for Footer Logo"
 msgstr "フッターロゴのAlt"
 
-#: amp.i18n.php:802
+#: amp.i18n.php:808
 msgid "Alt for Left Logo"
 msgstr "左ロゴのAlt"
 
@@ -1051,13 +1051,13 @@ msgstr "常に"
 msgid "Always Download Web Assets"
 msgstr "常にWebアセットをダウンロード"
 
-#: amp.i18n.php:710
+#: amp.i18n.php:716
 msgid ""
 "Amount of days to keep browser playback (HTML5 audio files) cache. Set this "
 "to a lower value to conserve disk space."
 msgstr ""
 
-#: amp.i18n.php:716
+#: amp.i18n.php:722
 msgid ""
 "Amount of seconds to allow a session to stay open before logging a user out. "
 "For unlimited clear this box and save."
@@ -1142,7 +1142,7 @@ msgstr ""
 msgid "Any DID"
 msgstr "DIDいづれでも"
 
-#: amp.i18n.php:1242 amp_conf/htdocs/admin/views/menu_items.php:45
+#: amp.i18n.php:1248 amp_conf/htdocs/admin/views/menu_items.php:45
 msgid "Applications"
 msgstr "アプリケーション"
 
@@ -1274,7 +1274,7 @@ msgstr "Asteriskマネージャーユーザー"
 msgid "Asterisk Manager Write Timeout"
 msgstr "Asteriskマネージャー書き込みタイムアウト"
 
-#: amp.i18n.php:1268 ../core/page.astmodules.php:49
+#: amp.i18n.php:1274 ../core/page.astmodules.php:49
 msgid "Asterisk Modules"
 msgstr "Asteriskモジュール"
 
@@ -1311,7 +1311,7 @@ msgstr ""
 msgid "Asterisk Trunk Dial Options"
 msgstr "Asteriskトランクダイヤルオプション:"
 
-#: amp.i18n.php:1066
+#: amp.i18n.php:1072
 msgid "Asterisk VMU Mask"
 msgstr "Asterisk VMU マスク"
 
@@ -1382,7 +1382,7 @@ msgstr ""
 msgid "Attempted to load %s with a hint of %s and it didn't exist"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1027
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1037
 #, php-format
 msgid "Attempting to Enable %s"
 msgstr ""
@@ -1411,7 +1411,7 @@ msgstr ""
 msgid "Authentication Disabled"
 msgstr ""
 
-#: amp.i18n.php:1052
+#: amp.i18n.php:1058
 msgid ""
 "Authentication type to use for web admin. If type set to <b>database</b>, "
 "the primary AMP admin credentials will be the AMPDBUSER/AMPDBPASS above. "
@@ -1428,7 +1428,7 @@ msgstr ""
 "バー</b>設定は、FreePBXはapache側の認証となりますが、ユーザーの証明書を取得し"
 "データベースモード制限が適用されます。"
 
-#: amp.i18n.php:1048
+#: amp.i18n.php:1054
 msgid "Authorization Type"
 msgstr "認証タイプ"
 
@@ -1520,7 +1520,7 @@ msgstr "不明なCIDをブロック"
 msgid "Both"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:665
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:675
 #: amp_conf/htdocs/admin/page.modules.php:779
 #: amp_conf/htdocs/admin/views/module_admin/main.php:79
 msgid "Broken"
@@ -1530,11 +1530,11 @@ msgstr "破損"
 msgid "Browser Playback Cache Directory"
 msgstr ""
 
-#: amp.i18n.php:706
+#: amp.i18n.php:712
 msgid "Browser Playback Day Cache"
 msgstr ""
 
-#: amp.i18n.php:1072
+#: amp.i18n.php:1078
 msgid "Browser Stats"
 msgstr "ブラウザー統計"
 
@@ -1546,7 +1546,7 @@ msgstr "ビジー"
 msgid "Busy Voicemail if Enabled"
 msgstr "有効な場合にビジーのボイスメール"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:212
+#: amp_conf/htdocs/admin/views/module_admin/main.php:218
 msgid "Buy"
 msgstr "購入"
 
@@ -1656,7 +1656,7 @@ msgstr ""
 msgid "Call Groups"
 msgstr "コールグループ"
 
-#: amp.i18n.php:1078
+#: amp.i18n.php:1084
 msgid "Call Recording Format"
 msgstr "通話録音形式："
 
@@ -1844,17 +1844,17 @@ msgstr "キャンセル"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "接続できません。Asteriskマネージャー "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2097
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2117
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "%s ディレクトリの削除ができません"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1987
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2019
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2007
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2039
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr "無効化できません：次とこのモジュールが依存関係です： "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1841
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1861
 msgid "Cannot find module"
 msgstr "モジュールを見つけられません"
 
@@ -1862,18 +1862,18 @@ msgstr "モジュールを見つけられません"
 msgid "Cant Find Framework XML"
 msgstr "フレームワークXMLが見つかりません"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:708
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:718
 msgid "Cant Reach Online Server"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1467
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1487
 #, php-format
 msgid ""
 "Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: "
 "%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1464
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1484
 #, php-format
 msgid ""
 "Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: "
@@ -1888,7 +1888,7 @@ msgstr "証明書の保存先"
 msgid "ChanSpy"
 msgstr "ChanSpy"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:376
+#: amp_conf/htdocs/admin/views/module_admin/main.php:382
 msgid "Change Log for version"
 msgstr "バージョンのチェンジログ:"
 
@@ -1905,7 +1905,7 @@ msgstr "%s ドライバーに変更"
 msgid "Change ownership of files"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:375
+#: amp_conf/htdocs/admin/views/module_admin/main.php:381
 msgid "Changelog"
 msgstr "変更履歴"
 
@@ -1952,7 +1952,7 @@ msgstr ""
 "使用されている全てのルートでこのトランクを無効にする場合はこれをチェックして"
 "ください。"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:716
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:726
 #, php-format
 msgid "Checking %s..."
 msgstr ""
@@ -1966,7 +1966,7 @@ msgstr ""
 msgid "Checking Online, Please Wait..."
 msgstr "オンラインで確認中、お待ちください…"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:713
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:723
 msgid "Checking Signatures of Modules..."
 msgstr ""
 
@@ -2025,11 +2025,11 @@ msgstr "trunk_dialpatternsテーブルの存在を確認中.."
 msgid "Checking number of admin users.."
 msgstr "管理者の数を確認中.."
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:822
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:832
 msgid "Checks dependencies for provided module[s], accepts argument module[s]"
 msgstr ""
 
-#: amp.i18n.php:1094
+#: amp.i18n.php:1100
 msgid ""
 "Checks to make sure modules and their files are validly signed. Will display "
 "a notice on any module page that is not correctly verified."
@@ -2102,7 +2102,7 @@ msgstr "コーデック"
 msgid "Coding Error - don't understand '%s' from %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:415
+#: amp_conf/htdocs/admin/views/module_admin/main.php:421
 msgid "Combined"
 msgstr ""
 
@@ -2115,11 +2115,11 @@ msgstr ""
 msgid "Commercial"
 msgstr "有料"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:199
+#: amp_conf/htdocs/admin/views/module_admin/main.php:205
 msgid "Commercial Status"
 msgstr "有償クラス"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:199
+#: amp_conf/htdocs/admin/views/module_admin/main.php:205
 msgid ""
 "Commercial Status of this module. Commercial Modules are maintained and "
 "supported through Schmoozecom, INC"
@@ -2164,7 +2164,7 @@ msgstr ""
 msgid "Connection Type"
 msgstr "接続タイプ"
 
-#: amp.i18n.php:1252 amp_conf/htdocs/admin/views/menu_items.php:46
+#: amp.i18n.php:1258 amp_conf/htdocs/admin/views/menu_items.php:46
 msgid "Connectivity"
 msgstr "接続"
 
@@ -2230,13 +2230,13 @@ msgstr "ZAP設定をDAHDiへコンバート"
 msgid "Converting IAX notransfer to transfer if needed.."
 msgstr "必要に応じてIAX notransfer を transfer にコンバート中.."
 
-#: amp.i18n.php:1240 ../core/install.php:6
+#: amp.i18n.php:1246 ../core/install.php:6
 msgid "Core"
 msgstr "コア"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1236
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1549
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1638
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1256
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1569
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1658
 #, php-format
 msgid "Could Not Create Cache Folder: %s"
 msgstr "キャッシュフォルダは作成できませんでした: %s"
@@ -2251,12 +2251,12 @@ msgstr "Asterisk鍵フォルダは作成できませんでした: %s"
 msgid "Could not delete %s"
 msgstr "%s を削除できませんでした"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:924
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:934
 msgid "Could not determine module name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1479
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1723
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1499
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1743
 #, php-format
 msgid "Could not find extracted module: %s"
 msgstr "展開済みモジュール %s が見つかりません"
@@ -2265,42 +2265,42 @@ msgstr "展開済みモジュール %s が見つかりません"
 msgid "Could not find gpg command!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:728
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:738
 msgid "Could not find signed module on remote server!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1349
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1531
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1802
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1369
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1551
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1822
 #, php-format
 msgid "Could not move %s to %s"
 msgstr "%s を %s に移動できませんでした"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1847
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1867
 msgid "Could not read module.xml"
 msgstr "module.xmlを読み込むことができませんでした"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1331
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1513
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1351
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1533
 #, php-format
 msgid "Could not remove %s to install new version"
 msgstr "新バージョンをインストールするために、 %s を削除できませんでした"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1345
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1527
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1787
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1365
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1547
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1807
 #, php-format
 msgid "Could not remove old module %s to install new version"
 msgstr ""
 "新バージョンをインストールするために、古いモジュール %s を削除できませんでし"
 "た"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1800
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1820
 #, php-format
 msgid "Could not remove temp storage at %s"
 msgstr "%s の一時的ストレージを削除できませんでした"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1807
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1827
 #, php-format
 msgid "Could not remove temporary location %s"
 msgstr "一時的ロケーション %s は削除できませんでした"
@@ -2323,8 +2323,8 @@ msgstr "%s スクリプトを実行することができませんでした。"
 msgid "Could not understand DSN for connect"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1336
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1518
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1356
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1538
 #, php-format
 msgid "Could not untar %s to %s"
 msgstr "%s を %s へ解凍できませんでした"
@@ -2368,7 +2368,7 @@ msgstr "%s 署名リクエストを生成中"
 msgid "Critical"
 msgstr "クリティカル"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3000
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3020
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
@@ -2439,7 +2439,7 @@ msgstr ""
 msgid "DAHDI Channel"
 msgstr ""
 
-#: amp.i18n.php:1254 ../core/views/dahdichandids/general.php:5
+#: amp.i18n.php:1260 ../core/views/dahdichandids/general.php:5
 #: ../core/views/dahdichandids/view.php:6
 msgid "DAHDI Channel DIDs"
 msgstr "DAHDIチャネルDID"
@@ -2536,7 +2536,7 @@ msgstr ""
 msgid "DND"
 msgstr ""
 
-#: amp.i18n.php:776
+#: amp.i18n.php:782
 msgid ""
 "DO NOT set this unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX. Defaults to your configured "
@@ -2546,7 +2546,7 @@ msgstr ""
 "フォルト値を使用しない時だけ使用します。<br>設定したAMDBENGINEのデフォルト"
 "値。"
 
-#: amp.i18n.php:770
+#: amp.i18n.php:776
 msgid ""
 "DO NOT set this unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX. Name of the table in the db "
@@ -2556,7 +2556,7 @@ msgstr ""
 "フォルト値を使用しない時だけ使用します。<br>cdrが保存されるdbのテーブル名。"
 "cdrはデフォルトです。"
 
-#: amp.i18n.php:782
+#: amp.i18n.php:788
 msgid ""
 "DO NOT set this unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX. Username to connect to db with "
@@ -2566,7 +2566,7 @@ msgstr ""
 "だけ使用してください。AMPDBUSERと同じでない場合の、データベースに接続する為の"
 "ユーザー名。"
 
-#: amp.i18n.php:746
+#: amp.i18n.php:752
 msgid ""
 "DO NOT set this unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX.<br>Hostname of db server if not "
@@ -2576,7 +2576,7 @@ msgstr ""
 "だけ使用してください。<br>AMPDBHOSTとDBサーバーが異なる場合のDBサーバーホスト"
 "名。"
 
-#: amp.i18n.php:752
+#: amp.i18n.php:758
 msgid ""
 "DO NOT set this unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX.<br>Name of database used for cdr "
@@ -2585,7 +2585,7 @@ msgstr ""
 "使い方が不明な場合は設定しないでください。FreePBXのデフォルト値を使用しない時"
 "だけ使用してください。<br>cdrレコードで使用されるデータベース名。"
 
-#: amp.i18n.php:758
+#: amp.i18n.php:764
 msgid ""
 "DO NOT set this unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX.<br>Password for connecting to db "
@@ -2595,7 +2595,7 @@ msgstr ""
 "フォルト値を使用しない時だけ使用します。<br>AMDBPASSと異なる場合のdb接続パス"
 "ワード。"
 
-#: amp.i18n.php:764
+#: amp.i18n.php:770
 msgid ""
 "DO NOT set this unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX.<br>Port number for db host."
@@ -2632,7 +2632,7 @@ msgstr "修正日"
 msgid "Date Reported"
 msgstr "報告日"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:404
+#: amp_conf/htdocs/admin/views/module_admin/main.php:410
 msgid "Debug"
 msgstr "デバッグ"
 
@@ -2653,7 +2653,7 @@ msgstr "Asteriskマネージャーの初期パスワードを使用"
 msgid "Default User"
 msgstr "デフォルトユーザー"
 
-#: amp.i18n.php:1084
+#: amp.i18n.php:1090
 msgid "Default language"
 msgstr "デフォルト言語"
 
@@ -2824,7 +2824,7 @@ msgstr ""
 "からのコールはまだ通常どおり着信します。無効にされた場合、電話は普通の電話機"
 "として着信します。"
 
-#: amp.i18n.php:1070
+#: amp.i18n.php:1076
 msgid ""
 "Defaults to 077 allowing only the asterisk user to have any permission on VM "
 "files. If set to something like 007, it would allow the group to have "
@@ -2882,7 +2882,7 @@ msgstr "デバイスを削除 %s"
 msgid "Delete notification"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:826
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:836
 msgid "Deleted module[s], accepts argument module[s]"
 msgstr ""
 
@@ -2898,13 +2898,13 @@ msgstr "不要なグローバルを削除中.."
 msgid "Deny"
 msgstr "拒否"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:831
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:851
 #, php-format
 msgid "Dependency %s has an unknown state of : %s %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
-#: amp_conf/htdocs/admin/views/module_admin/main.php:179
+#: amp_conf/htdocs/admin/views/module_admin/main.php:185
 #: ../core/Core.class.php:2506 ../core/Core.class.php:2507
 #: ../core/Core.class.php:2531 ../core/Core.class.php:2532
 #: ../core/functions.inc.php:6410 ../core/page.devices.php:64
@@ -2944,12 +2944,12 @@ msgstr ""
 msgid "Destroying session"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:746
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:766
 #, php-format
 msgid "Detected Missing Dependency of: %s %s"
 msgstr ""
 
-#: amp.i18n.php:980
+#: amp.i18n.php:986
 msgid ""
 "Determine where to send log information if the log is enabled ('Disable "
 "FreePBX Log' (AMPDISABLELOG) false. There are two places to route the log "
@@ -2965,7 +2965,7 @@ msgstr ""
 "ベルでsyslogに設定されます。Syslogの設定は、それぞれ別レベルのものを異なる場"
 "所へ出力が可能です。詳細はsyslogのマニュアル(man syslog)を確認してください。"
 
-#: amp.i18n.php:1040
+#: amp.i18n.php:1046
 msgid ""
 "Determines the mode to use while using popovers (popovers appear when "
 "selecting "
@@ -3077,7 +3077,7 @@ msgstr ""
 msgid "Device was not added!"
 msgstr ""
 
-#: amp.i18n.php:1248
+#: amp.i18n.php:1254
 msgid "Devices"
 msgstr "デバイス"
 
@@ -3165,7 +3165,7 @@ msgstr ""
 msgid "Directory Layout"
 msgstr "ディレクトリ構成"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:354
+#: amp_conf/htdocs/admin/views/module_admin/main.php:360
 #: ../core/functions.inc.php:5892 ../core/functions.inc.php:5898
 #: ../core/functions.inc.php:5902 ../core/functions.inc.php:5907
 #: ../core/functions.inc.php:5911
@@ -3176,7 +3176,7 @@ msgstr "無効"
 msgid "Disable -custom Context Includes"
 msgstr "-customコンテキストを含むのを無効にする"
 
-#: amp.i18n.php:982
+#: amp.i18n.php:988
 msgid "Disable FreePBX Log"
 msgstr "FreePBXログを無効"
 
@@ -3200,7 +3200,7 @@ msgstr "トランクを無効にする"
 msgid "Disable given trunk"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:659
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:669
 #: amp_conf/htdocs/admin/views/module_admin/main.php:83
 #: amp_conf/htdocs/admin/views/module_admin/main.php:121
 #: ../core/Console/Trunks.class.php:55 ../core/Console/Trunks.class.php:62
@@ -3213,7 +3213,7 @@ msgstr "無効"
 msgid "Disabled; Pending %s to %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:662
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:672
 msgid "Disabled; Pending upgrade to "
 msgstr ""
 
@@ -3221,11 +3221,11 @@ msgstr ""
 msgid "Disabled; up to date"
 msgstr "無効/最新"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:823
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:833
 msgid "Disables module[s] accepts argument module[s]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:847
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:857
 msgid "Disables repo, accepts argument repo[s]"
 msgstr ""
 
@@ -3346,22 +3346,22 @@ msgstr ""
 msgid "Don't know about modules yet. It needs to be handed to me"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:73
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:161
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:174
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:556
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:711
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:726
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:734
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:756
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1964
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:80
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:171
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:184
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:566
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:721
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:736
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:744
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:766
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1984
 #: amp_conf/htdocs/admin/page.modules.php:375
 #: amp_conf/htdocs/admin/page.modules.php:1058 ../core/install.php:1512
 msgid "Done"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:346
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:584
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:356
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:594
 msgid "Done. All modules installed."
 msgstr ""
 
@@ -3371,11 +3371,11 @@ msgid "Double-Click to see options or type freeform"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:75
-#: amp_conf/htdocs/admin/views/module_admin/main.php:304
+#: amp_conf/htdocs/admin/views/module_admin/main.php:310
 msgid "Downgrade"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:291
+#: amp_conf/htdocs/admin/views/module_admin/main.php:297
 #, php-format
 msgid "Download %s, keep Disabled"
 msgstr "%sをダウンロードし、無効な状態を保つ"
@@ -3394,25 +3394,25 @@ msgid "Download Remote Module"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:34
-#: amp_conf/htdocs/admin/views/module_admin/main.php:432
+#: amp_conf/htdocs/admin/views/module_admin/main.php:438
 msgid "Download all"
 msgstr "全てダウンロード"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:312
+#: amp_conf/htdocs/admin/views/module_admin/main.php:318
 #, php-format
 msgid "Download and %s to %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:277
+#: amp_conf/htdocs/admin/views/module_admin/main.php:283
 msgid "Download and Install"
 msgstr "ダウンロードしインストール"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:339
+#: amp_conf/htdocs/admin/views/module_admin/main.php:345
 #, php-format
 msgid "Download and Upgrade to %s"
 msgstr "ダウンロードし %s へアップグレード"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:825
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:835
 msgid "Download and install module[s], accepts argument module[s] or URLs"
 msgstr ""
 
@@ -3420,8 +3420,12 @@ msgstr ""
 msgid "Download local prefixes"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:824
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:834
 msgid "Download module[s], accepts argument module[s] or URLs"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:26
+msgid "Download/Upgrade forcing edge mode"
 msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:204
@@ -3431,13 +3435,13 @@ msgstr ""
 msgid "Downloading %s"
 msgstr "ダウンロード中 %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:578
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:588
 msgid "Downloading & Installing "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:751
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:807
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:836
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:771
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:827
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:856
 #, php-format
 msgid "Downloading Missing Dependency of: %s %s"
 msgstr ""
@@ -3503,6 +3507,10 @@ msgid ""
 "Echo training requirements of this card. See DAHDi documentation for details."
 msgstr ""
 "このカードのエコートレーニング要件。詳細はDAHDiドキュメントを参照ください。"
+
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:43
+msgid "Edge repository temporarily enabled"
+msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:2
 msgid "Edit"
@@ -3587,7 +3595,7 @@ msgstr ""
 msgid "Empty value not allowed for this field"
 msgstr "このフィールドに空の値は許可されていません"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:284
+#: amp_conf/htdocs/admin/views/module_admin/main.php:290
 #: ../core/functions.inc.php:5893 ../core/functions.inc.php:5897
 #: ../core/functions.inc.php:5908
 msgid "Enable"
@@ -3605,11 +3613,11 @@ msgstr ""
 msgid "Enable ICE Support"
 msgstr ""
 
-#: amp.i18n.php:1090
+#: amp.i18n.php:1096
 msgid "Enable Module Signature Checking"
 msgstr ""
 
-#: amp.i18n.php:1096
+#: amp.i18n.php:1102
 msgid "Enable Module Tracks"
 msgstr ""
 
@@ -3617,7 +3625,7 @@ msgstr ""
 msgid "Enable Performance Logging"
 msgstr ""
 
-#: amp.i18n.php:1102
+#: amp.i18n.php:1108
 msgid "Enable Remote Unlocking"
 msgstr ""
 
@@ -3662,7 +3670,7 @@ msgstr ""
 msgid "Enable jQuery Migrate"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:827
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:837
 msgid "Enable module[s], accepts argument module[s]"
 msgstr ""
 
@@ -3686,24 +3694,24 @@ msgstr ""
 msgid "Enable the mini-HTTP Server"
 msgstr ""
 
-#: amp.i18n.php:722
+#: amp.i18n.php:728
 msgid ""
 "Enable this to send outbound HTTP and HTTPS requests via a proxy. This does "
 "not affect Voice or Video traffic."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:682
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:692
 #: amp_conf/htdocs/admin/views/module_admin/main.php:123
 #: ../core/views/trunks/pjsip.php:246 ../core/views/trunks/trunkgrid.php:44
 msgid "Enabled"
 msgstr "有効"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:676
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:686
 #: amp_conf/htdocs/admin/views/module_admin/main.php:111
 msgid "Enabled and up to date"
 msgstr "有効/最新"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:680
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:690
 #: amp_conf/htdocs/admin/views/module_admin/main.php:119
 msgid "Enabled; Not available online"
 msgstr "有効；オンラインが利用できません"
@@ -3715,7 +3723,7 @@ msgid ""
 "irrelevant for accessing core FreePBX settings. Default is no."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:848
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:858
 msgid "Enables repo, accepts argument repo[s]"
 msgstr ""
 
@@ -3724,7 +3732,7 @@ msgstr ""
 msgid "Enabling %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:788
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:808
 #, php-format
 msgid "Enabling Missing Dependency of: %s %s"
 msgstr ""
@@ -3741,7 +3749,7 @@ msgstr ""
 msgid "Enabling Trunk "
 msgstr ""
 
-#: amp.i18n.php:1106
+#: amp.i18n.php:1112
 msgid ""
 "Enabling this option will allow a remote user to automatically authenticate "
 "as an admin via use of a one-time key generated by "
@@ -3781,7 +3789,7 @@ msgstr ""
 msgid "Enter name"
 msgstr ""
 
-#: amp.i18n.php:728
+#: amp.i18n.php:734
 msgid ""
 "Enter the address of the outbound proxy. This will be similar to "
 "http://10.1.1.1:3128"
@@ -3821,17 +3829,17 @@ msgid "Error converting zap to dahdi in devices table and AstDB"
 msgstr ""
 "デバイステーブル及びAstDBにおいて、zapをdahdiへ変換中にエラーが発生しました"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1793
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1813
 #, php-format
 msgid "Error creating module directory: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1708
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1728
 #, php-format
 msgid "Error creating temporary directory: %s"
 msgstr "テンポラリディレクトリの作成に失敗： %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2104
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2124
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "ディレクトリ %s の削除エラー (コード %d)"
@@ -3841,30 +3849,30 @@ msgstr "ディレクトリ %s の削除エラー (コード %d)"
 msgid "Error fetching prefix list for: "
 msgstr "エラー プリフィックスリスト取得： "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1674
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1694
 msgid ""
 "Error finding uploaded file - check your PHP and/or web server configuration"
 msgstr ""
 "アップロードファイルを見つけられませんでした - PHP および／または、ウェブサー"
 "バーの設定を確認してください"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1734
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1744
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1750
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1754
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1764
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1770
 #, php-format
 msgid "Error from %s: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1430
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1433
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1602
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1605
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1450
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1453
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1622
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1625
 #, php-format
 msgid "Error opening %s for reading"
 msgstr "読み込みエラー %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1371
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1578
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1391
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1598
 #, php-format
 msgid "Error opening %s for writing"
 msgstr "書き込みエラー %s"
@@ -3873,12 +3881,12 @@ msgstr "書き込みエラー %s"
 msgid "Error parsing cdr_mysql.conf, no migration done"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1913
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1933
 #, php-format
 msgid "Error updating database. Command was: %s; error was: %s "
 msgstr "データベースのアップデートエラー。コマンド；%s エラー：%s "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2042
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2062
 msgid "Error updating database: "
 msgstr "データベースアップデートエラー： "
 
@@ -3904,7 +3912,7 @@ msgstr "%s のダウンロードエラー"
 msgid "Error(s) enabling %s"
 msgstr "%s を有効にできませんでした"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:185
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:195
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:23
 msgid "Error(s) have occured, the following is the retrieve_conf output:"
 msgstr ""
@@ -4044,7 +4052,7 @@ msgstr "内線番号の競合、他の番号を選択してください。"
 msgid "Extension was not numeric!"
 msgstr ""
 
-#: amp.i18n.php:1244 ../core/Core.class.php:2482 ../core/Core.class.php:2483
+#: amp.i18n.php:1250 ../core/Core.class.php:2482 ../core/Core.class.php:2483
 #: ../core/page.extensions.php:17
 msgid "Extensions"
 msgstr "内線"
@@ -4097,8 +4105,8 @@ msgid ""
 msgstr ""
 "AMI writetimout　の [%s] への変更に失敗しました。問題の詳細は次のとおりです:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1393
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1574
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1413
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1594
 #, php-format
 msgid "Failed download module tarball from %s, server may be down"
 msgstr ""
@@ -4113,12 +4121,12 @@ msgstr ""
 msgid "Failed to Remove directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2886
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2906
 #, php-format
 msgid "Failed to get remote file, error was:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2899
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2919
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:502
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -4147,12 +4155,12 @@ msgstr ""
 "AMIの再読み込みに失敗した為、手動で再読み込みする必要があります。コマンド:"
 "[asterisk -rx 'module reload manager']を実行してみてください"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1885
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1899
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1905
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1919
 msgid "Failed to run installation scripts"
 msgstr "インストールスクリプトの実行に失敗"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2046
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2066
 msgid "Failed to run un-installation scripts"
 msgstr "アンインストールスクリプトの実行に失敗しました"
 
@@ -4168,7 +4176,7 @@ msgstr ""
 msgid "Failed to send unsigned modules notification email"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1661
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1681
 msgid "Failed to write file to disk"
 msgstr ""
 
@@ -4198,25 +4206,25 @@ msgstr "キーコードビープオンリー"
 msgid "File %s has a revoked signature. Can not load"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1474
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1718
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1494
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1738
 #, php-format
 msgid "File Integrity failed for %s - aborting (Cause: %s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1471
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1715
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1491
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1735
 #, php-format
 msgid "File Integrity failed for %s - aborting (GPG Verify File check failed)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1490
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1510
 #, php-format
 msgid "File Integrity failed for %s - aborting (md5sum did not match)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1460
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1498
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1480
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1518
 #, php-format
 msgid "File Integrity failed for %s - aborting (sha1 did not match)"
 msgstr ""
@@ -4225,7 +4233,7 @@ msgstr ""
 msgid "File does not exist"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1664
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1684
 msgid "File upload stopped by extension"
 msgstr ""
 
@@ -4261,11 +4269,11 @@ msgstr ""
 "した場合、同じデバイスIDの新規ユーザー内線がデフォルトユーザーとしてセットさ"
 "れます。"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:174
+#: amp_conf/htdocs/admin/views/module_admin/main.php:180
 msgid "Fixes Vulnerabilities"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:817
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:827
 msgid "Flags"
 msgstr ""
 
@@ -4317,25 +4325,25 @@ msgstr ""
 msgid "Force All Internal Auto Answer"
 msgstr "全ての内部自動応答を強制"
 
-#: amp.i18n.php:1060
+#: amp.i18n.php:1066
 msgid "Force Asterisk Version"
 msgstr "Asteriskバージョンを強制上書き"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:66
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:73
 msgid "Force Disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:341
+#: amp_conf/htdocs/admin/views/module_admin/main.php:347
 #, php-format
 msgid "Force Download and Downgrade to %s"
 msgstr "強制的にダウンロードし、%sにダウングレード"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:341
+#: amp_conf/htdocs/admin/views/module_admin/main.php:347
 #, php-format
 msgid "Force Download and Install %s"
 msgstr "強制的にダウンロードしインストール %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:61
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:68
 msgid "Force Enabled"
 msgstr ""
 
@@ -4352,7 +4360,7 @@ msgstr ""
 "強制的に全ての内線が、個別設定にかかわらず内部の自動応答モードで動くようにし"
 "ます。より多くの情報を入手するには、'内部自動応答デフォルト'を参照ください。"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:23
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:24
 msgid ""
 "Force operation (skips dependency and status checks) <warning>WARNING:</"
 "warning> Use at your own risk, modules have dependencies for a reason!"
@@ -4371,7 +4379,7 @@ msgstr ""
 msgid "Force use of return port."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2911
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2931
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:514
 #, php-format
 msgid "Forced %s to true"
@@ -4387,12 +4395,12 @@ msgid ""
 "even when not necessary."
 msgstr "必要がない時でも、'設定変更を実行'を常に表示する。"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:26
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:28
 #, php-format
 msgid "Format can be: %s"
 msgstr ""
 
-#: amp.i18n.php:1082
+#: amp.i18n.php:1088
 msgid ""
 "Format to save recoreded calls for most call recording unless specified "
 "differently in specific applications."
@@ -4404,7 +4412,7 @@ msgstr ""
 msgid "Forward"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:771
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:791
 #, php-format
 msgid "Found local Dependency of: %s %s"
 msgstr ""
@@ -4413,7 +4421,7 @@ msgstr ""
 msgid "Found what appear to be invalid emergency callerid entries."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1920
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1940
 #, php-format
 msgid "Framework Detected, Setting FreePBX Version to %s"
 msgstr ""
@@ -4426,11 +4434,11 @@ msgstr "FreePBX 管理ページ"
 msgid "FreePBX Framework"
 msgstr "FreePBXフレームワーク"
 
-#: amp.i18n.php:1000
+#: amp.i18n.php:1006
 msgid "FreePBX Log File"
 msgstr "FreePBX ログファイル"
 
-#: amp.i18n.php:976
+#: amp.i18n.php:982
 msgid "FreePBX Log Routing"
 msgstr "FreePBXログルーティング"
 
@@ -4439,11 +4447,11 @@ msgstr "FreePBXログルーティング"
 msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
 msgstr ""
 
-#: amp.i18n.php:1270
+#: amp.i18n.php:1276
 msgid "FreePBX Support"
 msgstr "FreePBX サポート"
 
-#: amp.i18n.php:1108
+#: amp.i18n.php:1114
 msgid "FreePBX Web Address"
 msgstr "FreePBX ウェブアドレス"
 
@@ -4451,7 +4459,7 @@ msgstr "FreePBX ウェブアドレス"
 msgid "FreePBX Web Root Dir"
 msgstr "FreePBX Web Root ディレクトリ"
 
-#: amp.i18n.php:1184
+#: amp.i18n.php:1190
 msgid ""
 "FreePBX allows you to automatically check for updates online. The updates "
 "will NOT be automatically installed. It is STRONGYLY advised that you keep "
@@ -4481,7 +4489,7 @@ msgstr ""
 msgid "FreePBX bin Dir"
 msgstr "FreePBX bin ディレクトリ"
 
-#: amp.i18n.php:992
+#: amp.i18n.php:998
 msgid ""
 "FreePBX has many verbose and useful messages displayed to users during "
 "module installation, system installations, loading configurations and other "
@@ -4573,7 +4581,7 @@ msgid ""
 msgstr ""
 "FreePBXデバッグファイルのフルパス名。開発者によってdbug()関数で使われます。"
 
-#: amp.i18n.php:1004
+#: amp.i18n.php:1010
 msgid ""
 "Full path and name of the FreePBX Log File used in conjunction with the "
 "Syslog Level (AMPSYSLOGLEVEL) being set to FILE, not used otherwise. Initial "
@@ -4591,7 +4599,7 @@ msgstr ""
 
 #: amp.i18n.php:642 amp.i18n.php:648 amp.i18n.php:654 amp.i18n.php:660
 #: amp.i18n.php:666 amp.i18n.php:672 amp.i18n.php:678 amp.i18n.php:684
-#: amp.i18n.php:690 amp.i18n.php:696 amp.i18n.php:702
+#: amp.i18n.php:690 amp.i18n.php:696 amp.i18n.php:702 amp.i18n.php:708
 msgid "GUI Behavior"
 msgstr "GUI挙動"
 
@@ -4635,7 +4643,7 @@ msgstr ""
 "生するという効果があります。もし、いくつかのグランドストリームの電話上でアー"
 "リーダイヤルキーコードを使用する場合は、これをfalseにしたいはずです。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1956
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1976
 msgid "Generating CSS..."
 msgstr ""
 
@@ -4671,7 +4679,7 @@ msgstr ""
 msgid "Get Support"
 msgstr "サポート"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:192
+#: amp_conf/htdocs/admin/views/module_admin/main.php:198
 #, php-format
 msgid "Get help for %s"
 msgstr "%s のヘルプを表示"
@@ -4680,14 +4688,14 @@ msgstr "%s のヘルプを表示"
 msgid "Gettext is not installed"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:705
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:715
 msgid "Getting Data from Online Server..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:71
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:159
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:172
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:553
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:78
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:169
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:182
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:563
 msgid "Getting Remote Repo list..."
 msgstr ""
 
@@ -4717,7 +4725,7 @@ msgstr ""
 msgid "Go to Module Admin to re-enable this module"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:731
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:741
 #: amp_conf/htdocs/admin/page.modules.php:924
 msgid "Good"
 msgstr ""
@@ -5084,7 +5092,7 @@ msgid ""
 "b> set in the [options] section."
 msgstr ""
 
-#: amp.i18n.php:734 amp.i18n.php:740
+#: amp.i18n.php:740 amp.i18n.php:746
 msgid ""
 "If you need to authenticate to the proxy server, you must enter both a "
 "username and password. Leaving either (or both) blank disables Proxy "
@@ -5112,11 +5120,11 @@ msgid ""
 msgstr ""
 "ダッシュボードモジュールが無効されているため、このページを表示しています。"
 
-#: amp.i18n.php:790 amp.i18n.php:796
+#: amp.i18n.php:796 amp.i18n.php:802
 msgid "Image: Footer"
 msgstr "画像： フッター"
 
-#: amp.i18n.php:784
+#: amp.i18n.php:790
 msgid "Image: Left Upper"
 msgstr "画像： 左上"
 
@@ -5177,7 +5185,7 @@ msgstr ""
 msgid "Inbound Route: %s (%s)"
 msgstr "インバウンドルート: %s (%s)"
 
-#: amp.i18n.php:1250 ../core/page.did.php:118
+#: amp.i18n.php:1256 ../core/page.did.php:118
 msgid "Inbound Routes"
 msgstr "インバウンドルート"
 
@@ -5197,7 +5205,7 @@ msgstr "インバウンド"
 msgid "Incoming DID"
 msgstr "インバウンドDID"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1766
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1786
 #, php-format
 msgid "Incorrect Number of Directories for %s"
 msgstr "%s のディレクトリ数は間違っています"
@@ -5224,21 +5232,21 @@ msgstr "ALLOW_SIP_ANONを挿入できました"
 msgid "Inserted interim RTPSTART and RTPEND settings"
 msgstr "RTPSTART・RTPENDの暫定的設定を挿入しました"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:272
-#: amp_conf/htdocs/admin/views/module_admin/main.php:323
+#: amp_conf/htdocs/admin/views/module_admin/main.php:278
+#: amp_conf/htdocs/admin/views/module_admin/main.php:329
 msgid "Install"
 msgstr "インストール"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:829
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:839
 msgid "Install local module[s], accepts argument module[s]"
 msgstr ""
 "ローカルモジュールをインストール。モジュール名のパラメータを指定できます。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:767
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:784
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:803
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:787
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:804
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:823
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:852
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:843
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:872
 #, php-format
 msgid "Installed Missing Dependency of: %s %s"
 msgstr ""
@@ -5252,24 +5260,24 @@ msgstr ""
 msgid "Installing %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:761
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:778
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:797
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:781
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:798
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:817
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:846
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:837
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:866
 #, php-format
 msgid "Installing Missing Dependency of: %s %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:569
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:579
 msgid "Installing core..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:838
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:848
 msgid "Installs all modules, accepts no arguments"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:828
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:838
 msgid "Installs module[s], accepts argument module[s]"
 msgstr ""
 
@@ -5301,7 +5309,7 @@ msgstr "内部自動応答"
 msgid "Internal Auto Answer Default"
 msgstr "内部自動応答デフォルト"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1927
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1947
 msgid ""
 "Internal Error. Function getVersion did not match the Framework version, "
 "even after it was suppose to be applied"
@@ -5313,7 +5321,7 @@ msgid ""
 "version, even after it was suppose to be applied"
 msgstr ""
 
-#: amp.i18n.php:708 amp.i18n.php:714
+#: amp.i18n.php:714 amp.i18n.php:720
 msgid "Internal Use"
 msgstr "内部使用"
 
@@ -5367,7 +5375,7 @@ msgstr "無効なトランク名が入力されました"
 msgid "Invalid Username or Password"
 msgstr "無効なユーザー名かパスワード"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2151
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2171
 msgid "Invalid description"
 msgstr ""
 
@@ -5440,7 +5448,7 @@ msgstr ""
 msgid "Last after %s"
 msgstr "%s の後の最後"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:211
+#: amp_conf/htdocs/admin/views/module_admin/main.php:217
 msgid "Learn More"
 msgstr ""
 
@@ -5448,28 +5456,28 @@ msgstr ""
 msgid "Leave Reload Bar Up"
 msgstr "更新バーを表示したままにする"
 
-#: amp.i18n.php:788
+#: amp.i18n.php:794
 msgid "Left upper logo.Path is relative to admin."
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:49
-#: amp_conf/htdocs/admin/views/module_admin/main.php:162
+#: amp_conf/htdocs/admin/views/module_admin/main.php:168
 msgid "License"
 msgstr "ライセンス"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:217
+#: amp_conf/htdocs/admin/views/module_admin/main.php:223
 msgid "Licensed"
 msgstr ""
 
-#: amp.i18n.php:826
+#: amp.i18n.php:832
 msgid "Link for Footer Logo"
 msgstr "フッターロゴのリンク"
 
-#: amp.i18n.php:820
+#: amp.i18n.php:826
 msgid "Link for Left Logo"
 msgstr "左ロゴのリンク"
 
-#: amp.i18n.php:832
+#: amp.i18n.php:838
 msgid "Link for Sponsor Footer Logo"
 msgstr "フッターロゴのスポンサーへのリンク"
 
@@ -5497,7 +5505,7 @@ msgstr ""
 msgid "List Users"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:849
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:859
 msgid "List all local modules, accepts no arguments"
 msgstr ""
 
@@ -5505,11 +5513,11 @@ msgstr ""
 msgid "List all sessions"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:850
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:860
 msgid "List online modules, accepts no arguments"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:773
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:783
 msgid "Local Version"
 msgstr ""
 
@@ -5521,11 +5529,11 @@ msgstr ""
 msgid "Location of the FreePBX command line scripts."
 msgstr "FreePBXのコマンドラインスクリプトの場所。"
 
-#: amp.i18n.php:988
+#: amp.i18n.php:994
 msgid "Log Verbose Messages"
 msgstr "詳細ログメッセージ"
 
-#: amp.i18n.php:794 amp.i18n.php:800
+#: amp.i18n.php:800 amp.i18n.php:806
 msgid "Logo in footer.Path is relative to admin."
 msgstr ""
 
@@ -5713,7 +5721,7 @@ msgstr "正しく識別される為に、必要なコーラーIDの最小桁数"
 msgid "Minimum time to keep an AoR"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:794
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:814
 #, php-format
 msgid "Missing Dependency %s %s successfully enabled"
 msgstr ""
@@ -5726,32 +5734,32 @@ msgstr ""
 msgid "Missing O or CN. Can't create"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:226
+#: amp_conf/htdocs/admin/views/module_admin/main.php:232
 msgid "Missing Requirements"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1658
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1678
 msgid "Missing a temporary folder"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:871
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:892
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:937
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:962
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:989
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:998
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:881
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:902
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:947
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:972
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:999
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1008
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1017
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1041
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1018
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1027
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1051
 msgid "Missing module name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:901
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:915
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:911
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:925
 msgid "Missing module name or URL"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1774
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1794
 #, php-format
 msgid "Missing module.xml in %s"
 msgstr ""
@@ -5761,8 +5769,8 @@ msgstr ""
 msgid "Missing or unreadable config file [%s]...cannot continue"
 msgstr "存在しないか、読み込み不可能な設定ファイル [%s]...続行できません"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:970
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:978
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:980
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:988
 msgid "Missing repo name"
 msgstr ""
 
@@ -5788,52 +5796,52 @@ msgid "Modify the default USER connection parameters for your VoIP provider."
 msgstr ""
 "お使いのVoIPプロバイダーのデフォルトのユーザー接続パラメーターを修正します。"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:694
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:773
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:704
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:783
 #: amp_conf/htdocs/admin/views/module_admin/main.php:46
 #: ../core/page.astmodules.php:90 ../core/page.astmodules.php:107
 #: ../core/page.astmodules.php:124
 msgid "Module"
 msgstr "モジュール"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:302
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:313
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1173
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1178
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1184
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1852
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1858
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:312
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:323
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1193
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1198
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1204
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1872
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1878
 msgid "Module "
 msgstr "モジュール "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2980
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3000
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3002
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3022
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2995
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3015
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:789
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:799
 #, php-format
 msgid "Module %s successfully disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:219
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:233
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:229
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:243
 #, php-format
 msgid "Module %s successfully downloaded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:800
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:810
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:820
 #, php-format
 msgid "Module %s successfully enabled"
 msgstr ""
@@ -5847,7 +5855,7 @@ msgstr ""
 msgid "Module Access Denied"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:821
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:831
 msgid "Module Actions"
 msgstr ""
 
@@ -5869,7 +5877,7 @@ msgstr ""
 "イパスし、強制的にそれがサーバに毎回行くようにするには、これをtrueに設定して"
 "ください。これは通常、falseにする必要がありますが、テスト時に役立ちます。"
 
-#: amp.i18n.php:704
+#: amp.i18n.php:710
 msgid ""
 "Module Admin normally tries to get its online information through direct "
 "file open type calls to URLs that go back to the freepbx.org server. If it "
@@ -5895,7 +5903,7 @@ msgstr ""
 msgid "Module Administration"
 msgstr "モジュール管理"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:815
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:825
 msgid "Module Administration Help"
 msgstr ""
 
@@ -5915,7 +5923,7 @@ msgstr ""
 msgid "Module Information"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1781
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1801
 #, php-format
 msgid "Module Name is blank in %s"
 msgstr ""
@@ -5929,8 +5937,8 @@ msgstr ""
 msgid "Module Not Installed"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1221
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1231
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1241
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1251
 msgid "Module XML was not in the proper format"
 msgstr ""
 
@@ -5950,11 +5958,11 @@ msgstr ""
 msgid "Module is Unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1983
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2003
 msgid "Module not enabled: cannot disable"
 msgstr "モジュールは有効ではありません：無効化できません"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2015
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2035
 msgid "Module not installed: cannot uninstall"
 msgstr "モジュールがインストールされていません： アンインストールできません"
 
@@ -5967,19 +5975,19 @@ msgstr ""
 "モジュールのアップロードに成功しました。 モジュールを利用可能にするため>に"
 "は、%s を使用してモジュールを有効化する必要があります。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3016
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3036
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3010
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3030
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3008
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3028
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -5987,7 +5995,7 @@ msgid ""
 "did not just update FreePBX, your system may have been compromised)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:238
+#: amp_conf/htdocs/admin/views/module_admin/main.php:244
 msgid ""
 "Modules can have separate individual repos or tracks, these tracks can "
 "determine what type of updates this module receives. A prime example is that "
@@ -6001,7 +6009,7 @@ msgstr ""
 msgid "Monitor Trunk Failures"
 msgstr "トランク失敗をモニター"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:187
+#: amp_conf/htdocs/admin/views/module_admin/main.php:193
 msgid "More info"
 msgstr "詳しくは"
 
@@ -6106,7 +6114,7 @@ msgstr ""
 msgid "New User"
 msgstr "新規ユーザー"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:674
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:684
 #: amp_conf/htdocs/admin/views/module_admin/main.php:107
 #, php-format
 msgid "Newer than online version (%s)"
@@ -6152,7 +6160,7 @@ msgstr "いいえ"
 msgid "No - (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:265
+#: amp_conf/htdocs/admin/views/module_admin/main.php:271
 msgid "No Action"
 msgstr "何もしない"
 
@@ -6169,7 +6177,7 @@ msgstr ""
 msgid "No Change Log"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:390
+#: amp_conf/htdocs/admin/views/module_admin/main.php:396
 msgid "No Description"
 msgstr ""
 
@@ -6189,7 +6197,7 @@ msgstr "音楽なし"
 msgid "No actions to perform"
 msgstr "実行するアクションが存在しません"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:183
+#: amp_conf/htdocs/admin/views/module_admin/main.php:189
 msgid "No description is available."
 msgstr "利用できる説明がありません。"
 
@@ -6202,7 +6210,7 @@ msgstr "%s のディレクトリが存在しないため、インストールス
 msgid "No email address for online update checks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:747
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:757
 msgid "No enabled modules depend on this module."
 msgstr ""
 
@@ -6211,7 +6219,7 @@ msgstr ""
 msgid "No file given to load"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1655
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1675
 msgid "No file was uploaded"
 msgstr ""
 
@@ -6273,7 +6281,7 @@ msgstr ""
 "trueに設定することができます。もしそれをコメントアウトすれば、FreePBXはレガ"
 "シーの動作に戻りコンテキストをincludeするようになります。"
 
-#: amp.i18n.php:1064
+#: amp.i18n.php:1070
 msgid ""
 "Normally FreePBX gets the current Asterisk version directly from Asterisk. "
 "This is required to generate proper dialplan for a given version. When using "
@@ -6313,7 +6321,7 @@ msgstr ""
 "場合でも、呼が落ちた場合常に次の設定済みトランク、もしくは宛先で継続されま"
 "す。"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:655
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:665
 msgid "Not Installed (Available online: "
 msgstr ""
 
@@ -6322,7 +6330,7 @@ msgstr ""
 msgid "Not Installed (Available online: %s)"
 msgstr "未インストール(オンライン版が利用可能： %s)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:653
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:663
 msgid "Not Installed (Locally available)"
 msgstr "未インストール(ローカル版が利用可能)"
 
@@ -6401,7 +6409,7 @@ msgstr "オブジェクト"
 msgid "Objects"
 msgstr "オブジェクト"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:207
+#: amp_conf/htdocs/admin/views/module_admin/main.php:213
 msgid "Obtain Free License"
 msgstr ""
 
@@ -6433,11 +6441,11 @@ msgstr ""
 msgid "Online Updates are Disabled"
 msgstr "オンラインアップデートが無効です"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:773
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:783
 msgid "Online Version"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:410
+#: amp_conf/htdocs/admin/views/module_admin/main.php:416
 msgid "Online info"
 msgstr ""
 
@@ -6450,12 +6458,12 @@ msgid ""
 "the notification panel and log if enabled."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:672
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:682
 #, php-format
 msgid "Online upgrade available (%s)"
 msgstr "オンラインアップグレードが利用可能 (%s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1100
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1120
 #, php-format
 msgid "Only %s version %s is compatible, you have %s"
 msgstr "%s バージョン %s のみ互換性があります。あなたのお持ちのもの %s"
@@ -6477,7 +6485,7 @@ msgstr ""
 msgid "Operator Panel"
 msgstr "オペレーターパネル"
 
-#: amp.i18n.php:850
+#: amp.i18n.php:856
 msgid "Optional Additional CSS Stylesheet"
 msgstr "オプションの追加CSSスタイルシート"
 
@@ -6516,7 +6524,7 @@ msgid ""
 "li><li>Extension/User CIDs if checked</li></ul>"
 msgstr ""
 
-#: amp.i18n.php:854
+#: amp.i18n.php:860
 msgid ""
 "Optional custom CSS style sheet included after the primary one and any "
 "module specific ones are loaded, relative to admin."
@@ -6701,7 +6709,7 @@ msgstr ""
 msgid "Outbound Route: %s"
 msgstr "アウトバウンド経路： %s"
 
-#: amp.i18n.php:1256 ../core/page.routing.php:90
+#: amp.i18n.php:1262 ../core/page.routing.php:90
 msgid "Outbound Routes"
 msgstr "アウトバウンドルート"
 
@@ -6709,7 +6717,7 @@ msgstr "アウトバウンドルート"
 msgid "Outgoing"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:24
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:25
 msgid "Output debug messages to the console (be super chatty)"
 msgstr ""
 
@@ -6759,12 +6767,12 @@ msgstr ""
 msgid "PEER Details"
 msgstr "ピア詳細"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:961
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:981
 #, php-format
 msgid "PHP Component %s is required but missing from you PHP installation."
 msgstr "PHPコンポーネント %s が必要ですが、インストールされておりません。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:963
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:983
 #, php-format
 msgid ""
 "PHP Component %s version %s is required but missing from you PHP "
@@ -6773,7 +6781,7 @@ msgstr ""
 "PHPコンポーネント %s バージョン %s が必要ですが、インストールされておりませ"
 "ん。"
 
-#: amp.i18n.php:1006
+#: amp.i18n.php:1012
 msgid "PHP Console"
 msgstr ""
 
@@ -6781,19 +6789,19 @@ msgstr ""
 msgid "PHP Console Enabled but not installed"
 msgstr ""
 
-#: amp.i18n.php:1012
+#: amp.i18n.php:1018
 msgid "PHP Console Password"
 msgstr ""
 
-#: amp.i18n.php:1024
+#: amp.i18n.php:1030
 msgid "PHP Error Level"
 msgstr ""
 
-#: amp.i18n.php:1018
+#: amp.i18n.php:1024
 msgid "PHP Error Log Output"
 msgstr "PHPエラーログ出力"
 
-#: amp.i18n.php:1114
+#: amp.i18n.php:1120
 msgid "PHP Timezone"
 msgstr ""
 
@@ -6812,6 +6820,10 @@ msgstr "POST_RELOAD スクリプト"
 #: amp.i18n.php:238
 msgid "PRE_RELOAD Script"
 msgstr "PRE_RELOAD スクリプト"
+
+#: amp_conf/htdocs/admin/views/module_admin/main.php:162
+msgid "Packaged (Released)"
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:30
 #: amp_conf/htdocs/admin/views/oobe.php:9 ../core/page.ampusers.php:223
@@ -6847,83 +6859,83 @@ msgstr ""
 msgid "Password too short"
 msgstr ""
 
-#: amp.i18n.php:856
+#: amp.i18n.php:862
 msgid "Path for asterisk"
 msgstr ""
 
-#: amp.i18n.php:862
+#: amp.i18n.php:868
 msgid "Path for cp"
 msgstr ""
 
-#: amp.i18n.php:868
+#: amp.i18n.php:874
 msgid "Path for ffmpeg"
 msgstr ""
 
-#: amp.i18n.php:874
+#: amp.i18n.php:880
 msgid "Path for grep"
 msgstr ""
 
-#: amp.i18n.php:880
+#: amp.i18n.php:886
 msgid "Path for gs"
 msgstr ""
 
-#: amp.i18n.php:886
+#: amp.i18n.php:892
 msgid "Path for lame"
 msgstr ""
 
-#: amp.i18n.php:892
+#: amp.i18n.php:898
 msgid "Path for mpg123"
 msgstr ""
 
-#: amp.i18n.php:898
+#: amp.i18n.php:904
 msgid "Path for mysqldump"
 msgstr "mysqldumpのパス"
 
-#: amp.i18n.php:904
+#: amp.i18n.php:910
 msgid "Path for openssl"
 msgstr ""
 
-#: amp.i18n.php:910
+#: amp.i18n.php:916
 msgid "Path for ps"
 msgstr ""
 
-#: amp.i18n.php:916
+#: amp.i18n.php:922
 msgid "Path for route"
 msgstr ""
 
-#: amp.i18n.php:922
+#: amp.i18n.php:928
 msgid "Path for rsync"
 msgstr ""
 
-#: amp.i18n.php:928
+#: amp.i18n.php:934
 msgid "Path for sox"
 msgstr ""
 
-#: amp.i18n.php:934
+#: amp.i18n.php:940
 msgid "Path for ssh"
 msgstr "sshのパス"
 
-#: amp.i18n.php:940
+#: amp.i18n.php:946
 msgid "Path for tail"
 msgstr "tail のパス"
 
-#: amp.i18n.php:946
+#: amp.i18n.php:952
 msgid "Path for tar"
 msgstr ""
 
-#: amp.i18n.php:952
+#: amp.i18n.php:958
 msgid "Path for tiff2pdf"
 msgstr ""
 
-#: amp.i18n.php:958
+#: amp.i18n.php:964
 msgid "Path for tiffcp"
 msgstr ""
 
-#: amp.i18n.php:964
+#: amp.i18n.php:970
 msgid "Path for tiffinfo"
 msgstr ""
 
-#: amp.i18n.php:970
+#: amp.i18n.php:976
 msgid "Path for touch"
 msgstr "touch のパス"
 
@@ -7109,7 +7121,7 @@ msgid ""
 "system"
 msgstr "システム管理で使われるユーザ名とパスワードを入力してください。"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1031
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1041
 msgid "Please review the output above for any errors while enabling modules"
 msgstr ""
 
@@ -7137,7 +7149,7 @@ msgstr "モジュールアクションが完了するまでお待ちください
 msgid "Polling Interval for Stopping Asterisk"
 msgstr "停止中Asteriskへのポーリング間隔"
 
-#: amp.i18n.php:1036
+#: amp.i18n.php:1042
 msgid "Popover Mode"
 msgstr ""
 
@@ -7197,19 +7209,19 @@ msgstr ""
 msgid "Pretty Print JSON Responses"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:381
+#: amp_conf/htdocs/admin/views/module_admin/main.php:387
 msgid "Previous"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:382
+#: amp_conf/htdocs/admin/views/module_admin/main.php:388
 msgid "Previous Releases"
 msgstr ""
 
-#: amp.i18n.php:844
+#: amp.i18n.php:850
 msgid "Primary CSS Popover Stylesheet Addtion"
 msgstr "プライマリーCSSポップオーバースタイルシート追加"
 
-#: amp.i18n.php:838
+#: amp.i18n.php:844
 msgid "Primary CSS Stylesheet"
 msgstr "メインのCSSスタイルシート"
 
@@ -7235,7 +7247,7 @@ msgid "Privacy Manager"
 msgstr "プライバシーマネージャー"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:38
-#: amp_conf/htdocs/admin/views/module_admin/main.php:436
+#: amp_conf/htdocs/admin/views/module_admin/main.php:442
 msgid "Process"
 msgstr "進む"
 
@@ -7255,19 +7267,19 @@ msgstr ""
 "die_freepbx()が呼び出されたときに、トレースバックないに存在している場合は拡張"
 "オブジェクト詳細を含むとても冗長なトレースバックを提供します。"
 
-#: amp.i18n.php:724
+#: amp.i18n.php:730
 msgid "Proxy Address"
 msgstr ""
 
-#: amp.i18n.php:736
+#: amp.i18n.php:742
 msgid "Proxy Password"
 msgstr ""
 
-#: amp.i18n.php:720 amp.i18n.php:726 amp.i18n.php:732 amp.i18n.php:738
+#: amp.i18n.php:726 amp.i18n.php:732 amp.i18n.php:738 amp.i18n.php:744
 msgid "Proxy Settings"
 msgstr ""
 
-#: amp.i18n.php:730
+#: amp.i18n.php:736
 msgid "Proxy Username"
 msgstr ""
 
@@ -7305,11 +7317,11 @@ msgstr "RFC 2833"
 msgid "RFC 4733"
 msgstr ""
 
-#: amp.i18n.php:1120
+#: amp.i18n.php:1126
 msgid "RSS Feeds"
 msgstr ""
 
-#: amp.i18n.php:1124
+#: amp.i18n.php:1130
 msgid ""
 "RSS Feeds that are displayed in UCP and Dashboard. Separate each feed by a "
 "new line. Supported feeds are Atom 1.0 and RSS 0.91, 0.92, 1.0 and 2.0"
@@ -7325,7 +7337,7 @@ msgid ""
 msgstr ""
 "このデバイスのRe-Inviteポリシー、詳細はAsteriskドキュメントを参照ください。"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:853
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:863
 msgid "ReDownloads all modules that have invalid signatures"
 msgstr ""
 
@@ -7367,7 +7379,7 @@ msgstr "外部ソースへの発信コールを記録します。"
 msgid "Redundancy"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:720
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:730
 #, php-format
 msgid "Refreshing %s"
 msgstr ""
@@ -7380,7 +7392,7 @@ msgstr "レジスト文字列"
 msgid "Registration"
 msgstr "レジストレーション"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:364
+#: amp_conf/htdocs/admin/views/module_admin/main.php:370
 msgid "Reinstall"
 msgstr ""
 
@@ -7420,42 +7432,42 @@ msgstr "リロード失敗retrieve_conf エラー： %s"
 msgid "Reloading FreePBX"
 msgstr ""
 
-#: amp.i18n.php:742
+#: amp.i18n.php:748
 msgid "Remote CDR DB Host"
 msgstr "リモート CDR DB ホスト"
 
-#: amp.i18n.php:748
+#: amp.i18n.php:754
 msgid "Remote CDR DB Name"
 msgstr "リモート CDR DB名"
 
-#: amp.i18n.php:754
+#: amp.i18n.php:760
 msgid "Remote CDR DB Password"
 msgstr "リモート CDR DBパスワード"
 
-#: amp.i18n.php:760
+#: amp.i18n.php:766
 msgid "Remote CDR DB Port"
 msgstr "リモート CDR DB ポート"
 
-#: amp.i18n.php:766
+#: amp.i18n.php:772
 msgid "Remote CDR DB Table"
 msgstr "リモート CDR DB テーブル"
 
-#: amp.i18n.php:772
+#: amp.i18n.php:778
 msgid "Remote CDR DB Type"
 msgstr "リモート CDR DB タイプ"
 
-#: amp.i18n.php:778
+#: amp.i18n.php:784
 msgid "Remote CDR DB User"
 msgstr "リモート CDR DB ユーザー"
 
-#: amp.i18n.php:744 amp.i18n.php:750 amp.i18n.php:756 amp.i18n.php:762
-#: amp.i18n.php:768 amp.i18n.php:774 amp.i18n.php:780
+#: amp.i18n.php:750 amp.i18n.php:756 amp.i18n.php:762 amp.i18n.php:768
+#: amp.i18n.php:774 amp.i18n.php:780 amp.i18n.php:786
 msgid "Remote CDR Database"
 msgstr "リモート CDR データベース"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:274
-#: amp_conf/htdocs/admin/views/module_admin/main.php:298
-#: amp_conf/htdocs/admin/views/module_admin/main.php:360
+#: amp_conf/htdocs/admin/views/module_admin/main.php:280
+#: amp_conf/htdocs/admin/views/module_admin/main.php:304
+#: amp_conf/htdocs/admin/views/module_admin/main.php:366
 msgid "Remove"
 msgstr ""
 
@@ -7496,10 +7508,10 @@ msgstr "フィールド %s をユーザーテーブルから削除します.."
 msgid "Removing file %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:164
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:166
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:174
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:176
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:178
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:186
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:188
 msgid "Repo "
 msgstr ""
 
@@ -7541,18 +7553,18 @@ msgstr ""
 "が実際に弱いとみなして、より厳密な制約を含む他の制約を設けたい場合には無効に"
 "することができます。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1071
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1091
 #, php-format
 msgid "Requires engine %s, you have: %s"
 msgstr "必要なエンジン %s, あなたの環境のエンジン： %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1073
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1093
 #, php-format
 msgid "Requires one of the following engines: %s; you have: %s"
 msgstr "次のエンジンのどれかが必要です： %s；あなたのシステム %s"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:37
-#: amp_conf/htdocs/admin/views/module_admin/main.php:435
+#: amp_conf/htdocs/admin/views/module_admin/main.php:441
 #: ../core/Core.class.php:640 ../core/Core.class.php:663
 #: ../core/Core.class.php:687 ../core/Core.class.php:706
 #: ../core/Core.class.php:725 ../core/Core.class.php:746
@@ -7573,7 +7585,7 @@ msgstr ""
 "再びメニューアイテムにアクセスするためAsteriskを再起動し、ブラウザを更新して"
 "ください。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1242
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1262
 msgid "Retrieved Module XML Was Empty"
 msgstr ""
 
@@ -7837,7 +7849,7 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: amp.i18n.php:994
+#: amp.i18n.php:1000
 msgid "Send Dashboard Notifications to Log"
 msgstr "ダッシュボード通知をログに出力"
 
@@ -7853,7 +7865,7 @@ msgstr ""
 msgid "Send Remote-Party-ID header"
 msgstr "Remote-Party-IDヘッダー送信"
 
-#: amp.i18n.php:1126
+#: amp.i18n.php:1132
 msgid "Send unsigned module email notifications"
 msgstr ""
 
@@ -7877,7 +7889,7 @@ msgstr ""
 msgid "Session Should be unlocked now"
 msgstr ""
 
-#: amp.i18n.php:712
+#: amp.i18n.php:718
 msgid "Session Timeout"
 msgstr ""
 
@@ -7885,6 +7897,10 @@ msgstr ""
 #: ../core/views/did/basic_form.php:116
 msgid "Set Destination"
 msgstr "宛先をセット"
+
+#: amp.i18n.php:682
+msgid "Set Module Admin to Edge mode"
+msgstr ""
 
 #: ../core/views/did/advanced_form.php:14
 msgid ""
@@ -7896,7 +7912,7 @@ msgstr ""
 "が設定されたアナウンスを持つ国から入ってくるルートに適切なタイプを選択しま"
 "す。"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:27
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:29
 msgid "Set the Repos. -R Commercial -R Contributed"
 msgstr ""
 
@@ -7905,7 +7921,7 @@ msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr ""
 "このユーザーの内線への初期/現在の コールウェイティングステータスを設定します"
 
-#: amp.i18n.php:842
+#: amp.i18n.php:848
 msgid ""
 "Set this to replace the default mainstyle.css style sheet with your own, "
 "relative to admin."
@@ -7913,7 +7929,7 @@ msgstr ""
 "独自のスタイルシートをデフォルトのmainstyle.cssと置き換える場合に設定します。"
 "adminからの相対パス。"
 
-#: amp.i18n.php:848
+#: amp.i18n.php:854
 msgid ""
 "Set this to replace the default popover.css style sheet with your own, "
 "relative to admin."
@@ -7937,7 +7953,7 @@ msgstr ""
 msgid "Set up my Account"
 msgstr "アカウントを設定する"
 
-#: amp.i18n.php:1046
+#: amp.i18n.php:1052
 msgid ""
 "Sets the extension behavior in FreePBX.If set to <b>extensions</b>, Devices "
 "and Users are administered together as a unified Extension, and appear on a "
@@ -7956,7 +7972,7 @@ msgstr ""
 msgid "Sets the path to the HTTPS server certificate. This is required if "
 msgstr ""
 
-#: amp.i18n.php:1028
+#: amp.i18n.php:1034
 msgid "Sets which PHP errors are reported"
 msgstr ""
 
@@ -7984,6 +8000,14 @@ msgstr ""
 "許可するほうが良い場合がほとんどですが、より厳密な挙動を望む場合は設定してく"
 "ださい。"
 
+#: amp.i18n.php:686
+msgid ""
+"Setting module admin to edge mode allows you to vet new module releases "
+"before they are deemed stable. This process helps the developers so we "
+"encourage you to enable it. If you want a more stable system please leave "
+"this set to no"
+msgstr ""
+
 #: install.php:201
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
@@ -8005,7 +8029,7 @@ msgstr ""
 "場合は、この設定を有効にしないでください。これに関してはGoogle FAQをお読みく"
 "ださい。:<b>http://code.google.com/speed/public-dns/faq.html#privacy</b>."
 
-#: amp.i18n.php:1076
+#: amp.i18n.php:1082
 msgid ""
 "Setting this to true will allow the development team to use google analytics "
 "to anonymously analyze browser information to help make better development "
@@ -8028,7 +8052,7 @@ msgstr ""
 msgid "Setting this to true will expose the "
 msgstr "この設定を true にすることで、その表示をさせます "
 
-#: amp.i18n.php:1190
+#: amp.i18n.php:1196
 msgid ""
 "Setting this to true will fetch system javascript libraries such as jQuery "
 "and jQuery-ui from ajax.googleapis.com. This can be advantageous if "
@@ -8076,7 +8100,7 @@ msgstr ""
 "え」にするとこれがオフになります。NATピンホールをオープンに保つのにも役立ちま"
 "す。"
 
-#: amp.i18n.php:1262 amp_conf/htdocs/admin/views/menu_items.php:48
+#: amp.i18n.php:1268 amp_conf/htdocs/admin/views/menu_items.php:48
 #: ../core/functions.inc/drivers/Iax2.class.php:98
 #: ../core/functions.inc/drivers/Sip.class.php:162
 #: ../core/views/trunks/trunk_header.php:236
@@ -8091,11 +8115,11 @@ msgstr "重大さ"
 msgid "Short for 'Digium Asterisk Hardware Device Interface'"
 msgstr ""
 
-#: amp.i18n.php:682
+#: amp.i18n.php:688
 msgid "Show Language setting"
 msgstr "言語設定を表示する"
 
-#: amp.i18n.php:686
+#: amp.i18n.php:692
 msgid "Show Language setting on menu . Defaults = false"
 msgstr "メニューで言語の設定を表示する。デフォルトはfalse"
 
@@ -8103,7 +8127,7 @@ msgstr "メニューで言語の設定を表示する。デフォルトはfalse"
 msgid "Show only upgradeable"
 msgstr "アップグレード可能なもののみ表示"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:851
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:861
 msgid "Shows a list of modules that may be updated, accepts no arguments"
 msgstr ""
 
@@ -8111,7 +8135,7 @@ msgstr ""
 msgid "Shows the specified context from the dialplan"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:852
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:862
 msgid ""
 "Shows translation information for supplied modules, accepts argument module"
 "[s]"
@@ -8135,7 +8159,7 @@ msgstr ""
 msgid "Signal RINGING"
 msgstr "RINGINGシグナル"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:718
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:728
 msgid "Signature Invalid"
 msgstr ""
 
@@ -8143,11 +8167,11 @@ msgstr ""
 msgid "Simulate Incoming Call"
 msgstr "着信コールをシミュレートする"
 
-#: amp.i18n.php:688
+#: amp.i18n.php:694
 msgid "Size of generated sip secrets"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:25
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:27
 msgid "Skip the chown operation"
 msgstr ""
 
@@ -8210,9 +8234,9 @@ msgstr ""
 msgid "Some of these settings can render your system inoperable."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1978
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2010
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2083
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1998
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2030
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2103
 msgid "Specified module not found"
 msgstr "指定されたモジュールが見つかりません"
 
@@ -8255,7 +8279,7 @@ msgstr ""
 msgid "Starting Cache cleanup"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:694
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:704
 #: amp_conf/htdocs/admin/views/module_admin/main.php:50
 #: ../core/views/trunks/trunkgrid.php:34
 msgid "Status"
@@ -8281,9 +8305,9 @@ msgstr ""
 msgid "Stream files for debugging"
 msgstr ""
 
-#: amp.i18n.php:786 amp.i18n.php:792 amp.i18n.php:798 amp.i18n.php:804
-#: amp.i18n.php:810 amp.i18n.php:816 amp.i18n.php:822 amp.i18n.php:828
-#: amp.i18n.php:834 amp.i18n.php:840 amp.i18n.php:846 amp.i18n.php:852
+#: amp.i18n.php:792 amp.i18n.php:798 amp.i18n.php:804 amp.i18n.php:810
+#: amp.i18n.php:816 amp.i18n.php:822 amp.i18n.php:828 amp.i18n.php:834
+#: amp.i18n.php:840 amp.i18n.php:846 amp.i18n.php:852 amp.i18n.php:858
 msgid "Styling and Logos"
 msgstr "スタイリングとロゴ"
 
@@ -8310,7 +8334,7 @@ msgstr "リロード成功"
 msgid "Support T.38 UDPTL"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:349
+#: amp_conf/htdocs/admin/views/module_admin/main.php:355
 #, php-format
 msgid "Switch to Stable and Download and Install %s"
 msgstr "安定版のトラックに切り替えて、%sをダウンロードしてインストールする"
@@ -8323,51 +8347,51 @@ msgstr ""
 msgid "System"
 msgstr ""
 
-#: amp.i18n.php:858 amp.i18n.php:864 amp.i18n.php:870 amp.i18n.php:876
-#: amp.i18n.php:882 amp.i18n.php:888 amp.i18n.php:894 amp.i18n.php:900
-#: amp.i18n.php:906 amp.i18n.php:912 amp.i18n.php:918 amp.i18n.php:924
-#: amp.i18n.php:930 amp.i18n.php:936 amp.i18n.php:942 amp.i18n.php:948
-#: amp.i18n.php:954 amp.i18n.php:960 amp.i18n.php:966 amp.i18n.php:972
+#: amp.i18n.php:864 amp.i18n.php:870 amp.i18n.php:876 amp.i18n.php:882
+#: amp.i18n.php:888 amp.i18n.php:894 amp.i18n.php:900 amp.i18n.php:906
+#: amp.i18n.php:912 amp.i18n.php:918 amp.i18n.php:924 amp.i18n.php:930
+#: amp.i18n.php:936 amp.i18n.php:942 amp.i18n.php:948 amp.i18n.php:954
+#: amp.i18n.php:960 amp.i18n.php:966 amp.i18n.php:972 amp.i18n.php:978
 msgid "System Apps"
 msgstr "システムアプリ"
 
-#: amp.i18n.php:1132
+#: amp.i18n.php:1138
 msgid "System Asterisk Group"
 msgstr "システムAsteriskグループ"
 
-#: amp.i18n.php:1138
+#: amp.i18n.php:1144
 msgid "System Asterisk User"
 msgstr "システムAstersikユーザー"
 
-#: amp.i18n.php:1144
+#: amp.i18n.php:1150
 msgid "System Device Group"
 msgstr "システムデバイスグループ"
 
-#: amp.i18n.php:1150
+#: amp.i18n.php:1156
 msgid "System Device User"
 msgstr "システムデバイスユーザー"
 
-#: amp.i18n.php:1156
+#: amp.i18n.php:1162
 msgid "System Identity"
 msgstr ""
 
-#: amp.i18n.php:978 amp.i18n.php:984 amp.i18n.php:990 amp.i18n.php:996
-#: amp.i18n.php:1002 amp.i18n.php:1008 amp.i18n.php:1014 amp.i18n.php:1020
-#: amp.i18n.php:1026 amp.i18n.php:1032 amp.i18n.php:1038 amp.i18n.php:1044
-#: amp.i18n.php:1050 amp.i18n.php:1056 amp.i18n.php:1062 amp.i18n.php:1068
-#: amp.i18n.php:1074 amp.i18n.php:1080 amp.i18n.php:1086 amp.i18n.php:1092
-#: amp.i18n.php:1098 amp.i18n.php:1104 amp.i18n.php:1110 amp.i18n.php:1116
-#: amp.i18n.php:1122 amp.i18n.php:1128 amp.i18n.php:1134 amp.i18n.php:1140
-#: amp.i18n.php:1146 amp.i18n.php:1152 amp.i18n.php:1158 amp.i18n.php:1164
-#: amp.i18n.php:1170 amp.i18n.php:1176 amp.i18n.php:1182 amp.i18n.php:1188
+#: amp.i18n.php:984 amp.i18n.php:990 amp.i18n.php:996 amp.i18n.php:1002
+#: amp.i18n.php:1008 amp.i18n.php:1014 amp.i18n.php:1020 amp.i18n.php:1026
+#: amp.i18n.php:1032 amp.i18n.php:1038 amp.i18n.php:1044 amp.i18n.php:1050
+#: amp.i18n.php:1056 amp.i18n.php:1062 amp.i18n.php:1068 amp.i18n.php:1074
+#: amp.i18n.php:1080 amp.i18n.php:1086 amp.i18n.php:1092 amp.i18n.php:1098
+#: amp.i18n.php:1104 amp.i18n.php:1110 amp.i18n.php:1116 amp.i18n.php:1122
+#: amp.i18n.php:1128 amp.i18n.php:1134 amp.i18n.php:1140 amp.i18n.php:1146
+#: amp.i18n.php:1152 amp.i18n.php:1158 amp.i18n.php:1164 amp.i18n.php:1170
+#: amp.i18n.php:1176 amp.i18n.php:1182 amp.i18n.php:1188 amp.i18n.php:1194
 msgid "System Setup"
 msgstr "システムセットアップ"
 
-#: amp.i18n.php:1162
+#: amp.i18n.php:1168
 msgid "System Web Group"
 msgstr "システムウェブグループ"
 
-#: amp.i18n.php:1168
+#: amp.i18n.php:1174
 msgid "System Web User"
 msgstr "システムウェブユーザー"
 
@@ -8416,7 +8440,7 @@ msgstr ""
 msgid "Technology of device is undefined. Please specify a 'tech'"
 msgstr ""
 
-#: amp.i18n.php:1174
+#: amp.i18n.php:1180
 msgid "Telephony Engine"
 msgstr "テレフォニーエンジン"
 
@@ -8513,36 +8537,36 @@ msgid ""
 "sent as SIP INFO packets.</li></ul>"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1027
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1047
 #, php-format
 msgid "The File \"%s\" must exist."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:997
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1017
 #, php-format
 msgid ""
 "The Module Named \"%s\" is required, but yours is broken. You should "
 "reinstall it and try again."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1005
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1025
 #, php-format
 msgid ""
 "The Module Named \"%s\" is required, but yours is disabled because it needs "
 "to be upgraded. Please upgrade %s first, and then try again."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1001
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1021
 #, php-format
 msgid "The Module Named \"%s\" is required, but yours is disabled."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1010
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1030
 #, php-format
 msgid "The Module Named \"%s\" is required, yours is not installed."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1016
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1036
 #, php-format
 msgid "The Module Named \"%s\" is required."
 msgstr ""
@@ -8583,7 +8607,7 @@ msgstr ""
 msgid "The autoloader is damaged. Please run: "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1740
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1760
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
@@ -8593,7 +8617,7 @@ msgid ""
 "app-daynight,0,1"
 msgstr ""
 
-#: amp.i18n.php:1088
+#: amp.i18n.php:1094
 msgid "The default language used in the webUI"
 msgstr ""
 
@@ -8624,26 +8648,26 @@ msgstr ""
 msgid "The following commands failed with the listed error"
 msgstr "次のコマンドは列挙されたエラーで失敗しました"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:510
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:520
 msgid "The following dependencies are not met:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:215
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:229
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:298
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:309
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:785
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:796
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:807
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:753
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:763
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:780
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:790
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:799
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:809
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:225
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:239
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:308
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:319
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:795
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:806
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:817
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:773
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:783
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:800
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:810
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:819
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:838
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:848
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:829
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:839
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:858
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:868
 msgid "The following error(s) occured:"
 msgstr ""
 
@@ -8652,20 +8676,20 @@ msgstr ""
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr "アップロードされたファイルを処理中に次のエラーが発生しました： %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2544
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2564
 msgid "The following modules are disabled because they are broken:"
 msgstr "次のモジュールは壊れているため無効になります："
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2536
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2556
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "次のモジュールはアップグレードが必要なため無効になります。"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:744
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:754
 #, php-format
 msgid "The following modules depend on this one: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:334
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:354
 msgid ""
 "The following new modules are available for download. Click delete icon on "
 "the right to remove this notice."
@@ -8730,107 +8754,107 @@ msgstr "Apacheのcgi-binディレクトリパス(スラッシュを最後に使�
 msgid "The path to Apache webroot (leave off trailing slash)."
 msgstr "Apacheのwebrootパス(スラッシュを最後につけないでください)。"
 
-#: amp.i18n.php:860
+#: amp.i18n.php:866
 msgid ""
 "The path to asterisk as auto-determined by the system. Overwrite as "
 "necessary."
 msgstr ""
 
-#: amp.i18n.php:866
+#: amp.i18n.php:872
 msgid ""
 "The path to cp as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:872
+#: amp.i18n.php:878
 msgid ""
 "The path to ffmpeg as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:878
+#: amp.i18n.php:884
 msgid ""
 "The path to grep as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:884
+#: amp.i18n.php:890
 msgid ""
 "The path to gs as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:890
+#: amp.i18n.php:896
 msgid ""
 "The path to lame as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:896
+#: amp.i18n.php:902
 msgid ""
 "The path to mpg123 as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:902
+#: amp.i18n.php:908
 msgid ""
 "The path to mysqldump as auto-determined by the system. Overwrite as "
 "necessary."
 msgstr "システムのデフォルトmysqldumpへのパス。必要で上書きします。"
 
-#: amp.i18n.php:908
+#: amp.i18n.php:914
 msgid ""
 "The path to openssl as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:914
+#: amp.i18n.php:920
 msgid ""
 "The path to ps as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:920
+#: amp.i18n.php:926
 msgid ""
 "The path to route as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:926
+#: amp.i18n.php:932
 msgid ""
 "The path to rsync as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:932
+#: amp.i18n.php:938
 msgid ""
 "The path to sox as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:938
+#: amp.i18n.php:944
 msgid ""
 "The path to ssh as auto-determined by the system. Overwrite as necessary."
 msgstr "システムのデフォルトsshへのパス。必要で上書きします。"
 
-#: amp.i18n.php:944
+#: amp.i18n.php:950
 msgid ""
 "The path to tail as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 "システムで自動的に設定されるtailのパス。必要に応じて上書きしてください。"
 
-#: amp.i18n.php:950
+#: amp.i18n.php:956
 msgid ""
 "The path to tar as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:956
+#: amp.i18n.php:962
 msgid ""
 "The path to tiff2pdf as auto-determined by the system. Overwrite as "
 "necessary."
 msgstr ""
 
-#: amp.i18n.php:962
+#: amp.i18n.php:968
 msgid ""
 "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:968
+#: amp.i18n.php:974
 msgid ""
 "The path to tiffinfo as auto-determined by the system. Overwrite as "
 "necessary."
 msgstr ""
 
-#: amp.i18n.php:974
+#: amp.i18n.php:980
 msgid ""
 "The path to touch as auto-determined by the system. Overwrite as necessary."
 msgstr "システムのデフォルトtouchへのパス。必要に応じて上書きしてください。"
@@ -8863,7 +8887,7 @@ msgstr ""
 "ドを実行するつもりがない場合は、設定が変更されてしまうため、進めないでくだ>さ"
 "い。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2912
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2932
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:515
 #, php-format
 msgid ""
@@ -8875,27 +8899,27 @@ msgstr ""
 "ドミンでwgetを使用)を「はい」に変更しました。より詳細な情報は高度な設定のツー"
 "ルチップを参照ください。"
 
-#: amp.i18n.php:1178
+#: amp.i18n.php:1184
 msgid ""
 "The telephony backend engine being used, asterisk is the only option "
 "currently."
 msgstr "使用されるテレフォニーバックエンドエンジン。現時点ではasteriskのみ。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1649
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1669
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1646
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1666
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1652
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1672
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: amp.i18n.php:1142
+#: amp.i18n.php:1148
 msgid ""
 "The user Asterisk should be running as, used by freepbx_engine. Most systems "
 "should not change this."
@@ -8903,7 +8927,7 @@ msgstr ""
 "Asteriskを起動しているユーザー、freepbx_engineに使用されます。ほとんどのシス"
 "テムでは変更すべきではありません。"
 
-#: amp.i18n.php:1136
+#: amp.i18n.php:1142
 msgid ""
 "The user group Asterisk should be running as, used by freepbx_engine. Most "
 "systems should not change this."
@@ -8911,7 +8935,7 @@ msgstr ""
 "Asteriskを実行するユーザーグループ。freepbx_engineに使用されます。ほとんどの"
 "システムではこの値を変更する必要はありません。"
 
-#: amp.i18n.php:1148
+#: amp.i18n.php:1154
 msgid ""
 "The user group that various device directories should be set to, used by "
 "freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
@@ -8921,7 +8945,7 @@ msgstr ""
 "て使用されます。例えば/dev/zap,/dev/dahdi,/dev/misdn,/dev/mISDNと/dev/dspが含"
 "まれます。ほとんどのシステムではこれを変更するべきではありません。"
 
-#: amp.i18n.php:1166
+#: amp.i18n.php:1172
 msgid ""
 "The user group your httpd should be running as, used by freepbx_engine. Most "
 "systems should not change this."
@@ -8934,7 +8958,7 @@ msgstr ""
 msgid "The user name %s is already in use"
 msgstr ""
 
-#: amp.i18n.php:1154
+#: amp.i18n.php:1160
 msgid ""
 "The user that various device directories should be set to, used by "
 "freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
@@ -8944,7 +8968,7 @@ msgstr ""
 "れます。例えば/dev/zap,/dev/dahdi,/dev/misdn,/dev/mISDNと/dev/dspが含まれま"
 "す。ほとんどのシステムではこれを変更するべきではありません。"
 
-#: amp.i18n.php:1172
+#: amp.i18n.php:1178
 msgid ""
 "The user your httpd should be running as, used by freepbx_engine. Most "
 "systems should not change this."
@@ -8959,21 +8983,21 @@ msgid ""
 "decimal notation. Separate the IP address and subnet mask with a slash ('/')"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:389
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:409
 #, php-format
 msgid "There are %s modules available for online upgrades"
 msgstr "オンラインアップグレードで利用可能なモジュールが%s個存在します"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:417
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:437
 #, php-format
 msgid "There are %s modules vulnerable to security threats"
 msgstr "セキュリティ上脆弱性のあるモジュールが %s あります"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:387
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:407
 msgid "There is 1 module available for online upgrade"
 msgstr "オンラインアップグレードで利用可能なモジュールが1つ存在します"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:415
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:435
 msgid "There is 1 module vulnerable to security threats"
 msgstr "セキュリティ上脆弱性のあるモジュールが1つあります"
 
@@ -9041,7 +9065,7 @@ msgstr ""
 msgid "This Module has been deprecated"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1030
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1040
 msgid "This action understands somethings may be disabled for a reason."
 msgstr ""
 
@@ -9078,7 +9102,7 @@ msgstr ""
 "者向けのいくつかのデバッグ機能を有効にし、、オリジナルのCSSファイルの使用や他"
 "の将来的な機能が有効になります。"
 
-#: amp.i18n.php:1100
+#: amp.i18n.php:1106
 msgid ""
 "This enables the setting of module tracks (sub repositories of modules). "
 "Whereas a user could select a beta release track of a module or keep it on "
@@ -9100,7 +9124,7 @@ msgstr ""
 "は番号です。<br><br>このユーザーコンテキストは以下のユーザー詳細を定義するた"
 "めに使用されます。"
 
-#: amp.i18n.php:1112
+#: amp.i18n.php:1118
 msgid ""
 "This is the address of your Web Server. It is mostly obsolete and derived "
 "when not supplied and will be phased out, but there are still some areas "
@@ -9212,7 +9236,7 @@ msgstr ""
 "このモジュールは他のモジュールで含まれないフレームワークコードへのバグフィッ"
 "クスをインストールする機能を提供します"
 
-#: amp.i18n.php:1160
+#: amp.i18n.php:1166
 msgid ""
 "This name will be used to help identify this machine in emails or alerts"
 msgstr ""
@@ -9327,7 +9351,7 @@ msgid ""
 "frequently"
 msgstr "Asteriskが頻繁に切断する場合の timeouts の時間(ms)"
 
-#: amp.i18n.php:1118
+#: amp.i18n.php:1124
 msgid ""
 "Timezone that should be used by PHP. Empty value will use PHP defaults. List "
 "of value Timezones: <a href='http://php.net/manual/en/timezones.php'>http://"
@@ -9360,7 +9384,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:51
-#: amp_conf/htdocs/admin/views/module_admin/main.php:238
+#: amp_conf/htdocs/admin/views/module_admin/main.php:244
 msgid "Track"
 msgstr "トラック"
 
@@ -9394,7 +9418,7 @@ msgstr ""
 msgid "Trunk: %s (%s)"
 msgstr "トランク： %s (%s)"
 
-#: amp.i18n.php:1258 ../core/views/trunks/bootnav.php:20
+#: amp.i18n.php:1264 ../core/views/trunks/bootnav.php:20
 #: ../core/views/trunks/main.php:2
 msgid "Trunks"
 msgstr "トランク"
@@ -9403,7 +9427,7 @@ msgstr "トランク"
 msgid "Trust RPID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:839
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:849
 msgid "Trys to enable all modules, accepts no arguments"
 msgstr ""
 
@@ -9462,7 +9486,7 @@ msgstr ""
 msgid "Unable to add index to tech field in devices"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1396
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1416
 #, php-format
 msgid "Unable to connect to servers from URLs provided: %s"
 msgstr "提供されたURL:%s サーバーへの接続が出来ません"
@@ -9513,13 +9537,13 @@ msgstr ""
 msgid "Unable to remove tmp.cfg"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:198
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:208
 #, php-format
 msgid "Unable to resolve dependencies for module %s:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1455
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1694
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1475
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1714
 #, php-format
 msgid "Unable to save %s"
 msgstr "%s の保存できません"
@@ -9555,8 +9579,8 @@ msgstr ""
 msgid "Unable to trust the FreePBX Key! -- %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1482
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1727
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1502
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1747
 #, php-format
 msgid "Unable to work with GPG file, message was: %s"
 msgstr ""
@@ -9569,10 +9593,10 @@ msgstr "有効な場合に利用できないボイスメール"
 msgid "Undefined Category"
 msgstr "定義されていないカテゴリ"
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:296
-#: amp_conf/htdocs/admin/views/module_admin/main.php:316
-#: amp_conf/htdocs/admin/views/module_admin/main.php:326
-#: amp_conf/htdocs/admin/views/module_admin/main.php:358
+#: amp_conf/htdocs/admin/views/module_admin/main.php:302
+#: amp_conf/htdocs/admin/views/module_admin/main.php:322
+#: amp_conf/htdocs/admin/views/module_admin/main.php:332
+#: amp_conf/htdocs/admin/views/module_admin/main.php:364
 msgid "Uninstall"
 msgstr "アンインストール"
 
@@ -9582,7 +9606,7 @@ msgstr "アンインストール"
 msgid "Uninstalling %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:830
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:840
 msgid "Uninstalls module[s], accepts argument module[s]"
 msgstr ""
 
@@ -9590,7 +9614,7 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1058
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1068
 #, php-format
 msgid "Unknown Command! (%s)"
 msgstr ""
@@ -9612,7 +9636,7 @@ msgstr ""
 msgid "Unknown error fetching Custom Context table data or no data to migrate"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1754
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1774
 #, php-format
 msgid ""
 "Unknown file format of %s for %s, supported formats: tar,tgz,tar.gz,zip,bzip"
@@ -9623,7 +9647,7 @@ msgstr ""
 msgid "Unknown filetype of: %s[%s]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1667
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1687
 msgid "Unknown upload error"
 msgstr ""
 
@@ -9665,8 +9689,8 @@ msgstr ""
 msgid "Untarring.."
 msgstr "展開中.."
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:409
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:778
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:419
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:788
 msgid "Up to date."
 msgstr ""
 
@@ -9675,7 +9699,7 @@ msgstr ""
 msgid "Update"
 msgstr "アップデート"
 
-#: amp.i18n.php:1180 amp_conf/htdocs/admin/views/footer.php:112
+#: amp.i18n.php:1186 amp_conf/htdocs/admin/views/footer.php:112
 msgid "Update Notifications"
 msgstr "アップデート通知"
 
@@ -9687,7 +9711,7 @@ msgstr ""
 msgid "Update my browser now"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:752
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:762
 #: amp_conf/htdocs/admin/page.modules.php:371
 msgid "Updating Hooks..."
 msgstr ""
@@ -9696,31 +9720,31 @@ msgstr ""
 msgid "Updating prepared settings.."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:762
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:772
 msgid "Upgradable: "
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:75
-#: amp_conf/htdocs/admin/views/module_admin/main.php:204
-#: amp_conf/htdocs/admin/views/module_admin/main.php:304
+#: amp_conf/htdocs/admin/views/module_admin/main.php:210
+#: amp_conf/htdocs/admin/views/module_admin/main.php:310
 msgid "Upgrade"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:35
-#: amp_conf/htdocs/admin/views/module_admin/main.php:433
+#: amp_conf/htdocs/admin/views/module_admin/main.php:439
 msgid "Upgrade all"
 msgstr "全てアップグレード"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:831
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:841
 msgid "Upgrade module[s], accepts argument module[s]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/module_admin/main.php:272
+#: amp_conf/htdocs/admin/views/module_admin/main.php:278
 #, php-format
 msgid "Upgrade to %s and Enable"
 msgstr "%s へアップグレードし有効にする"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:840
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:850
 msgid "Upgrades all modules, accepts no arguments"
 msgstr ""
 
@@ -9728,7 +9752,7 @@ msgstr ""
 msgid "Upgrades, installs, enables and disables:"
 msgstr "アップグレード、インストール、有効、無効："
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:404
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:414
 msgid "Upgrading "
 msgstr ""
 
@@ -9737,7 +9761,7 @@ msgstr ""
 msgid "Upgrading %s to %s from track %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:402
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:412
 msgid "Upgrading: "
 msgstr ""
 
@@ -9776,7 +9800,7 @@ msgstr ""
 "要があります。あなたはヘッダーを提供することも可能です: 最初の行に%s, %s, %"
 "s, %s。認識できるヘッダーが4つ以下の場合は残りのカラムは空白になります"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:816
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:826
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
 msgid "Usage"
 msgstr ""
@@ -9785,11 +9809,11 @@ msgstr ""
 msgid "Use Google DNS for Enum"
 msgstr "EnumにGoogle DNSを使用"
 
-#: amp.i18n.php:1186
+#: amp.i18n.php:1192
 msgid "Use Google Distribution Network for js Downloads"
 msgstr "jsのダウンロードでGoogle Distribution Networkを使用する"
 
-#: amp.i18n.php:718
+#: amp.i18n.php:724
 msgid "Use HTTP(S) Proxy"
 msgstr ""
 
@@ -9805,11 +9829,11 @@ msgstr "不正な番号のコンテキストを使用"
 msgid "Use extreme caution when making changes!"
 msgstr ""
 
-#: amp.i18n.php:694
+#: amp.i18n.php:700
 msgid "Use freepbx_menu.conf Configuration"
 msgstr "freepbx_menu.confの設定を使用する"
 
-#: amp.i18n.php:700
+#: amp.i18n.php:706
 msgid "Use wget For Module Admin"
 msgstr "モジュールアドミンでwgetを使用する"
 
@@ -9818,7 +9842,7 @@ msgstr "モジュールアドミンでwgetを使用する"
 msgid "Used as Destination by %s %s"
 msgstr "%sによって宛先として使用されています。 %s"
 
-#: amp.i18n.php:1196 amp.i18n.php:1220
+#: amp.i18n.php:1202 amp.i18n.php:1226
 msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this."
@@ -9827,7 +9851,7 @@ msgstr ""
 "ます。これの使用方法を完全に理解しているかダイヤルプランをチェックしてくださ"
 "い。"
 
-#: amp.i18n.php:1226 amp.i18n.php:1232 amp.i18n.php:1238
+#: amp.i18n.php:1232 amp.i18n.php:1238 amp.i18n.php:1244
 msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this. "
@@ -9841,7 +9865,7 @@ msgstr ""
 "意味する#を押した際に、発信者が送られるデフォルトのロケーションです。ボイス"
 "メールへ行くには'dovm'をセットしてください(デフォルト)。"
 
-#: amp.i18n.php:1202 amp.i18n.php:1208 amp.i18n.php:1214
+#: amp.i18n.php:1208 amp.i18n.php:1214 amp.i18n.php:1220
 msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this. "
@@ -9853,7 +9877,7 @@ msgstr ""
 "い。発信者が最大ループカウントで定義されている数以上、無効なオプションを押し"
 "た時に、発信者が送られるデフォルトのロケーションです。"
 
-#: amp.i18n.php:1016
+#: amp.i18n.php:1022
 msgid ""
 "Used when PHP Console is enabled for error debugging https://github.com/"
 "barbushin/php-console"
@@ -9865,7 +9889,7 @@ msgstr ""
 msgid "User"
 msgstr "ユーザー"
 
-#: amp.i18n.php:1042
+#: amp.i18n.php:1048
 msgid "User & Devices Mode"
 msgstr "ユーザー&デバイスモード"
 
@@ -9944,11 +9968,11 @@ msgstr ""
 msgid "Username to use in From header for requests to this trunk"
 msgstr ""
 
-#: amp.i18n.php:1246
+#: amp.i18n.php:1252
 msgid "Users"
 msgstr "ユーザー"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:558
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:568
 #, php-format
 msgid "Using repos: [%s]"
 msgstr ""
@@ -9961,35 +9985,35 @@ msgid ""
 "unauthenticated. <strong>Setting this to 'None' may be insecure!</strong>"
 msgstr ""
 
-#: amp.i18n.php:1192
+#: amp.i18n.php:1198
 msgid "VMX Default Context"
 msgstr "VMX デフォルトコンテキスト"
 
-#: amp.i18n.php:1198
+#: amp.i18n.php:1204
 msgid "VMX Default Loop Exceed Context"
 msgstr "VMX デフォルトループ超過 コンテキスト"
 
-#: amp.i18n.php:1204
+#: amp.i18n.php:1210
 msgid "VMX Default Loop Exceed Extension"
 msgstr "VMX デフォルトループ超過 内線"
 
-#: amp.i18n.php:1210
+#: amp.i18n.php:1216
 msgid "VMX Default Loop Exceed Priority"
 msgstr "VMX デフォルトループ超過 優先度"
 
-#: amp.i18n.php:1216
+#: amp.i18n.php:1222
 msgid "VMX Default Priority"
 msgstr "VMX デフォルト優先度"
 
-#: amp.i18n.php:1222
+#: amp.i18n.php:1228
 msgid "VMX Default Timeout Context"
 msgstr "VMX デフォルトタイムアウトコンテキスト"
 
-#: amp.i18n.php:1228
+#: amp.i18n.php:1234
 msgid "VMX Default Timeout Extension"
 msgstr "VMX デフォルトタイムアウト内線"
 
-#: amp.i18n.php:1234
+#: amp.i18n.php:1240
 msgid "VMX Default Timeout Priority"
 msgstr "VMX デフォルトタイムアウト優先度"
 
@@ -10003,11 +10027,11 @@ msgstr "値 [%s] が範囲外です、[%s]に変更されました"
 msgid "Value must be between 1 and 63"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:724
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:734
 msgid "Verifying GPG..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:694
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:704
 #: amp_conf/htdocs/admin/views/module_admin/main.php:47
 msgid "Version"
 msgstr "バージョン"
@@ -10028,8 +10052,8 @@ msgstr ""
 msgid "Virtual"
 msgstr ""
 
-#: amp.i18n.php:1194 amp.i18n.php:1200 amp.i18n.php:1206 amp.i18n.php:1212
-#: amp.i18n.php:1218 amp.i18n.php:1224 amp.i18n.php:1230 amp.i18n.php:1236
+#: amp.i18n.php:1200 amp.i18n.php:1206 amp.i18n.php:1212 amp.i18n.php:1218
+#: amp.i18n.php:1224 amp.i18n.php:1230 amp.i18n.php:1236 amp.i18n.php:1242
 msgid "VmX Locater"
 msgstr "VmX ロケーター"
 
@@ -10177,7 +10201,7 @@ msgstr ""
 "こでは、Asteriskがシャットダウンし、カウントダウンタイマーを更新するかどうか"
 "をチェックするためのポーリング間隔を設定します。"
 
-#: amp.i18n.php:1058
+#: amp.i18n.php:1064
 msgid ""
 "When Set to True, admin access to the FreePBX GUI will be allowed using the "
 "FreePBX configured AMPDBUSER and AMPDBPASS credentials. This only applies "
@@ -10187,13 +10211,13 @@ msgstr ""
 "AMPDBUSERとAMPDBPASS資格情報を使用することが許可されます。これは、認証タイプ"
 "が'データベース'モードの時のみ適用されます。"
 
-#: amp.i18n.php:692
+#: amp.i18n.php:698
 msgid ""
 "When creating a new sip extension this sets the max size of the generated "
 "secret. This generally should be default."
 msgstr ""
 
-#: amp.i18n.php:998
+#: amp.i18n.php:1004
 msgid ""
 "When enabled all notification updates to the Dashboard notification panel "
 "will also be logged into the specified log file when enabled."
@@ -10201,7 +10225,7 @@ msgstr ""
 "はい　を設定すると、ダッシュボード通知パネルに表示される全ての通知が指定され"
 "たログファイルに出力されます。"
 
-#: amp.i18n.php:1010
+#: amp.i18n.php:1016
 msgid ""
 "When enabled will turn on PHP Console for error debugging https://github.com/"
 "barbushin/php-console"
@@ -10251,7 +10275,7 @@ msgstr ""
 "このフィールドをfalseに変更することが許可される可能性がある設定の変更が可能な"
 "URLに正当に入ることを防止する効果があります。"
 
-#: amp.i18n.php:1034
+#: amp.i18n.php:1040
 msgid ""
 "When set to true FreePBX will update its extension map every page load. This "
 "is used to check for duplicate extension numbers in the client side "
@@ -10312,7 +10336,7 @@ msgstr ""
 "中とファインドミーフォローをアクティブ/非アクティブにした場合、確認メッセージ"
 "の代わりにビープ音が再生されます。"
 
-#: amp.i18n.php:698
+#: amp.i18n.php:704
 msgid ""
 "When set to true, the system will check for a freepbx_menu.conf file amongst "
 "the normal configuraiton files and if found, it will be used to define and "
@@ -10329,7 +10353,7 @@ msgid "Where to insert this route or relocate it relative to the other routes."
 msgstr ""
 "このルートをどこに挿入するか、や他のルートと相対的にどこに再配置するか。"
 
-#: amp.i18n.php:1022
+#: amp.i18n.php:1028
 msgid ""
 "Where to send PHP errors, warnings and notices by the FreePBX PHP error "
 "handler. Set to 'dbug', they will go to the Debug File regardless of whether "
@@ -10375,11 +10399,11 @@ msgstr ""
 msgid "Whether T.38 UDPTL support is enabled or not"
 msgstr ""
 
-#: amp.i18n.php:986
+#: amp.i18n.php:992
 msgid "Whether or not to invoke the FreePBX log facility."
 msgstr "FreePBXのログファシリティ呼び出の有無。"
 
-#: amp.i18n.php:1130
+#: amp.i18n.php:1136
 msgid ""
 "Whether or not to send unsigned module email notifications. If disabled "
 "unsigned module emails will never be sent"
@@ -10578,37 +10602,37 @@ msgstr ""
 msgid "You can't set the default to the default"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3052
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3072
 #, php-format
 msgid "You have %s %s modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2543
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2563
 #, php-format
 msgid "You have %s broken modules"
 msgstr "壊れたモジュール%s個が存在します"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2535
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2555
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "%s個のモジュールが無効になっています"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3049
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3069
 #, php-format
 msgid "You have %s tampered files"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3040
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3043
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3060
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3063
 #, php-format
 msgid "You have %s unsigned modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2543
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2563
 msgid "You have a broken module"
 msgstr "壊れたモジュールが1個存在します"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2535
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2555
 msgid "You have a disabled module"
 msgstr "1つのモジュールが無効になってます"
 
@@ -10747,12 +10771,12 @@ msgstr ""
 msgid "You should fix the problem or select another file and %s."
 msgstr "問題を解決するか、他のファイル又は %s を選択してください。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2537
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2545
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2557
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2565
 msgid "You should go to the module admin page to fix these."
 msgstr "これらを解決するためにモジュール管理ページへ移動してください。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1097
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1117
 #, php-format
 msgid "Your %s version (%s) is incompatible."
 msgstr "あなたのお持ちの %s バージョン (%s) は互換性がありません。"
@@ -10863,7 +10887,7 @@ msgstr ""
 msgid "already there"
 msgstr ""
 
-#: amp.i18n.php:806 amp.i18n.php:812 amp.i18n.php:818
+#: amp.i18n.php:812 amp.i18n.php:818 amp.i18n.php:824
 msgid ""
 "alt attribute to use in place of image and title hover value. Defaults to "
 "FreePBX"
@@ -10871,7 +10895,7 @@ msgstr ""
 "画像やタイトルにマウスを乗せた際に使用されるalt属性。デフォルトではFreePBX"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:182
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2963
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2983
 msgid "altered"
 msgstr ""
 
@@ -11092,23 +11116,23 @@ msgstr ""
 msgid "failed reading %s, file not being removed"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1340
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1522
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1760
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1360
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1542
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1780
 #, php-format
 msgid "failed to delete %s from cache directory after opening module archive."
 msgstr ""
 "モジュールアーカイブをオープン後にキャッシュディレクトリから %s を削除できま"
 "せんでした。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2285
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2291
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2305
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2311
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr "%s を %s 中に、%s モジュールの取り込みに失敗しました。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1335
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1517
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1355
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1537
 #, php-format
 msgid "failed to open %s module archive into _cache directory."
 msgstr ""
@@ -11225,12 +11249,12 @@ msgstr ""
 msgid "is unknown"
 msgstr ""
 
-#: amp.i18n.php:824 amp.i18n.php:830
+#: amp.i18n.php:830 amp.i18n.php:836
 msgid ""
 "link to follow when clicking on logo, defaults to http://www.freepbx.org"
 msgstr "ロゴをクリックした際のリンク先。デフォルトではhttp://www.freepbx.org"
 
-#: amp.i18n.php:836
+#: amp.i18n.php:842
 msgid "link to follow when clicking on sponsor logo"
 msgstr "スポンサーロゴクリック時のリンク先"
 
@@ -11500,7 +11524,7 @@ msgstr "テーブル名zapchanidsをdahdichandidsに変更中.."
 msgid "retrieve_conf failed, config not applied"
 msgstr "retrieve_conf失敗、設定が適用されませんでした"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3027
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3047
 msgid "revoked"
 msgstr ""
 
@@ -11532,7 +11556,7 @@ msgstr ""
 msgid "starting migration"
 msgstr "移行開始"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3025
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3045
 msgid "tampered"
 msgstr ""
 
@@ -11557,7 +11581,7 @@ msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr ""
 "初期化されていない設定でキーワード [%s] を [%s] に設定しようとしています"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3026
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3046
 msgid "unknown"
 msgstr ""
 
@@ -11572,11 +11596,11 @@ msgid "unrecognized rule: %s discarding"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:147
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3024
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3044
 msgid "unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3023
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3043
 msgid "untrusted"
 msgstr ""
 
