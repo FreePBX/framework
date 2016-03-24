@@ -26,4 +26,8 @@ SetEnv HTACCESS on
 		Require all granted
 	</FilesMatch>
 </IfModule>
-php_value max_input_vars 5000
+
+<IfModule php5_module>
+	php_value max_input_vars 5000
+</IfModule>
+
