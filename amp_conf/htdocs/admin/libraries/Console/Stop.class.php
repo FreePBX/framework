@@ -92,7 +92,7 @@ class Stop extends Command {
 					$progress->start();
 					$i = 0;
 					$stdin = fopen('php://stdin', 'r');
-					stream_set_blocking ($stdin,0);
+					stream_set_blocking($stdin,0);
 					exec('stty -g', $term);
 					system("stty -icanon");
 					while ($stdin) {
@@ -111,7 +111,6 @@ class Stop extends Command {
 							$progress->finish();
 							$output->writeln('');
 							$this->abortShutdown($output);
-							fclose($stdin);
 							$userov = True;
 							break;
 						}
@@ -119,7 +118,6 @@ class Stop extends Command {
 							$progress->finish();
 							$output->writeln('');
 							$this->stopAsterisk($output, 'now');
-							fclose($stdin);
 							$userov = True;
 							break;
 						}
@@ -127,10 +125,13 @@ class Stop extends Command {
 						$progress->advance(1);
 						$i++;
 						if($i == 120){
-							fclose($stdin);
 							break;
 						}
 					}
+					//re-block the stream
+					stream_set_blocking($stdin,1);
+					fclose($stdin);
+
 					system("stty '" . $term[0] . "'");
 					if(!$userov){
 						$output->writeln(_('Grace Period timed out'));
