@@ -51,6 +51,9 @@ class Util extends Command {
 				}
 				$output->writeln(_("Finished cleaning up cache"));
 			break;
+			case 'signaturecheck':
+				\module_functions::create()->getAllSignatures(false,true);
+			break;
 			case 'tablefix':
 				if(posix_geteuid() != 0) {
 					$output->writeln("<error>You need to be root to run this command</error>");

@@ -1141,7 +1141,21 @@ if(!FreePBX::Config()->get('SIGNATURECHECK')) {
 } else {
 	$nt->delete('freepbx', 'SIGNATURE_CHECK');
 	$bmo->Performance->Start("Signature Checks");
-	module_functions::create()->getAllSignatures(false);
+	$external = true;
+	if(file_exists($amp_conf['AMPBIN']."/fwconsole")) {
+		if(!is_executable($amp_conf['AMPBIN']."/fwconsole")) {
+			if(!@chmod($amp_conf['AMPBIN']."/fwconsole", 0755)) {
+				$external = false;
+			}
+		}
+	} else {
+		$external = false;
+	}
+	if($external) {
+		exec($amp_conf['AMPBIN']."/fwconsole util signaturecheck > /dev/null 2>&1 &");
+	} else {
+		module_functions::create()->getAllSignatures(false);
+	}
 	$bmo->Performance->Stop();
 }
 
