@@ -432,14 +432,16 @@ switch($display) {
 		break;
 	default:
 
-		$obecomplete = $bmo->OOBE->isComplete();
-		if (!$obecomplete) {
-			$ret = $bmo->OOBE->showOOBE();
-		} else {
-			$ret = false;
+		$showpage = true;
+		if (!$fw_popover) {
+			/* Don't show OOBE in a popover. */
+			$obecomplete = $bmo->OOBE->isComplete();
+			if (!$obecomplete) {
+				$showpage = $bmo->OOBE->showOOBE();
+			}
 		}
 
-		if ($obecomplete || $ret === true) {
+		if ($showpage === true) {
 
 			//display the appropriate module page
 			$module_name = $cur_menuitem['module']['rawname'];
