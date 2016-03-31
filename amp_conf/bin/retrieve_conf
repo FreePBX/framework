@@ -13,6 +13,12 @@ if (!$bootstrap_settings['astman_connected']) {
 	throw new \Exception(sprintf(_("Unable to connect to Asterisk Manager from %s, aborting"),__FILE__));
 }
 
+$meminfo = getSystemMemInfo();
+if(!empty($meminfo['MemTotal'])) {
+	$mem = preg_replace("/\D/","",$meminfo['MemTotal']);
+	ini_set('memory_limit',$mem.'K');
+}
+
 $freepbx_conf =& freepbx_conf::create();
 
 $loc = fpbx_which("asterisk");

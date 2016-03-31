@@ -179,7 +179,6 @@ if(!empty($phptimezone)) {
 $bootstrap_settings['amportal_conf_initialized'] = false;
 $amp_conf = $freepbx_conf->parse_amportal_conf("/etc/amportal.conf",$amp_conf);
 
-
 if($amp_conf['PHP_CONSOLE']) {
 	$connector = PhpConsole\Connector::getInstance();
 	if(!empty($amp_conf['PHP_CONSOLE_PASSWORD'])) {
@@ -286,6 +285,19 @@ if (!$bootstrap_settings['freepbx_auth'] || (php_sapi_name() == 'cli')) {
 } else {
 	require($dirname . '/libraries/gui_auth.php');
 	frameworkPasswordCheck();
+	// Check and increase php memory_limit if needed and if allowed on the system
+	//
+	$current_memory_limit = rtrim(ini_get('memory_limit'),'M');
+	$proper_memory_limit = '100';
+	if ($current_memory_limit < $proper_memory_limit) {
+		if (ini_set('memory_limit',$proper_memory_limit.'M') !== false) {
+			$nt->add_notice('core', 'MEMLIMIT', _("Memory Limit Changed"), sprintf(_("Your memory_limit, %sM, is set too low and has been increased to %sM. You may want to change this in you php.ini config file"),$current_memory_limit,$proper_memory_limit));
+		} else {
+			$nt->add_warning('core', 'MEMERR', _("Low Memory Limit"), sprintf(_("Your memory_limit, %sM, is set too low and may cause problems. FreePBX is not able to change this on your system. You should increase this to %sM in you php.ini config file"),$current_memory_limit,$proper_memory_limit),'http://wiki.freepbx.org/x/lgK3AQ');
+		}
+	} else {
+		$nt->delete('core', 'MEMLIMIT');
+	}
 }
 if (!isset($no_auth) && !defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }//we should never need this, just another line of defence
 bootstrap_include_hooks('pre_module_load', 'all_mods');

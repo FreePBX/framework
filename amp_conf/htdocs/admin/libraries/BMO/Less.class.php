@@ -21,8 +21,6 @@ class Less extends \Less_Parser {
 		$this->FreePBX = $freepbx;
 
 		parent::__construct($env);
-
-		ini_set('memory_limit', '512M'); //boo
 	}
 
 	/**
