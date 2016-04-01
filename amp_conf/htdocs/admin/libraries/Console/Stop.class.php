@@ -135,7 +135,7 @@ class Stop extends Command {
 							break;
 						}
 					}
-					if ($output->isQuiet()) {
+					if (!$output->isQuiet()) {
 						//re-block the stream
 						stream_set_blocking($stdin,1);
 						fclose($stdin);
