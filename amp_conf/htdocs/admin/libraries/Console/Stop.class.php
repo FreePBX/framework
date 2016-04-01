@@ -85,19 +85,25 @@ class Stop extends Command {
 				}else{
 					$output->writeln('');
 					$output->writeln(_('Shutting down Asterisk Gracefully...'));
-					$output->writeln(sprintf(_('Press %s to Cancel'),'C'));
-					$output->writeln(sprintf(_('Press %s to shut down NOW'),'N'));
+					if (!$output->isQuiet()) {
+						$output->writeln(sprintf(_('Press %s to Cancel'),'C'));
+						$output->writeln(sprintf(_('Press %s to shut down NOW'),'N'));
+					}
 					$progress = new ProgressBar($output, 120);
 					$this->stopAsterisk($output, 'gracefully');
 					$progress->start();
 					$i = 0;
-					$stdin = fopen('php://stdin', 'r');
-					stream_set_blocking($stdin,0);
-					exec('stty -g', $term);
-					system("stty -icanon");
+					if (!$output->isQuiet()) {
+						$stdin = fopen('php://stdin', 'r');
+						stream_set_blocking($stdin,0);
+						exec('stty -g', $term);
+						system("stty -icanon");
+					}
 					while ($stdin) {
-						$res = fgetc ($stdin);
-						echo $res;
+						if (!$output->isQuiet()) {
+							$res = fgetc ($stdin);
+							echo $res;
+						}
 						$aststat = $this->asteriskProcess();
 						if(!$aststat[0]){
 							$progress->finish();
@@ -106,20 +112,21 @@ class Stop extends Command {
 							$userov = True;
 							break;
 						}
-
-						if (strtolower($res) == 'c'){
-							$progress->finish();
-							$output->writeln('');
-							$this->abortShutdown($output);
-							$userov = True;
-							break;
-						}
-						if (strtolower($res) == 'n'){
-							$progress->finish();
-							$output->writeln('');
-							$this->stopAsterisk($output, 'now');
-							$userov = True;
-							break;
+						if (!$output->isQuiet()) {
+							if (strtolower($res) == 'c'){
+								$progress->finish();
+								$output->writeln('');
+								$this->abortShutdown($output);
+								$userov = True;
+								break;
+							}
+							if (strtolower($res) == 'n'){
+								$progress->finish();
+								$output->writeln('');
+								$this->stopAsterisk($output, 'now');
+								$userov = True;
+								break;
+							}
 						}
 						sleep(1);
 						$progress->advance(1);
@@ -128,11 +135,13 @@ class Stop extends Command {
 							break;
 						}
 					}
-					//re-block the stream
-					stream_set_blocking($stdin,1);
-					fclose($stdin);
+					if ($output->isQuiet()) {
+						//re-block the stream
+						stream_set_blocking($stdin,1);
+						fclose($stdin);
 
-					system("stty '" . $term[0] . "'");
+						system("stty '" . $term[0] . "'");
+					}
 					if(!$userov){
 						$output->writeln(_('Grace Period timed out'));
 						$this->stopAsterisk($output, 'now');
