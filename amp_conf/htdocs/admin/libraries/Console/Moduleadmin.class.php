@@ -7,6 +7,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Question\ChoiceQuestion;
+
 class Moduleadmin extends Command {
 	private $activeRepos = array();
 	private $mf = null;
@@ -25,6 +28,7 @@ class Moduleadmin extends Command {
 			new InputOption('debug', 'd', InputOption::VALUE_NONE, _('Output debug messages to the console (be super chatty)')),
 			new InputOption('edge', '', InputOption::VALUE_NONE, _('Download/Upgrade forcing edge mode')),
 			new InputOption('skipchown', '', InputOption::VALUE_NONE, _('Skip the chown operation')),
+			new InputOption('nopromptdisabled', '', InputOption::VALUE_NONE, _('Don\'t ask to enable disabled modules')),
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'json, jsonpretty')),
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
@@ -204,6 +208,22 @@ class Moduleadmin extends Command {
 
 	private function doInstall($modulename, $force) {
 		\FreePBX::Modules()->loadAllFunctionsInc();
+		$module = $this->mf->getinfo($modulename);
+		$modulestatus = isset($module[$modulename]['status'])?$module[$modulename]['status']:false;
+		if($modulestatus === 1 && !$this->input->getOption('nopromptdisabled')){
+			$helper = $this->getHelper('question');
+			$question = new ChoiceQuestion(sprintf(_("%s appears to be disabled. What would you like to do?"),$modulename),array(_("Continue"), _("Enable"),_("Cancel")),0);
+			$question->setErrorMessage('Choice %s is invalid');
+			$action = $helper->ask($this->input,$this->out,$question);
+			switch($action){
+				case _("Enable"):
+					$this->mf->enable($modulename, $force);
+				break;
+				case _("Cancel"):
+					exit;
+				break;
+			}
+		}
 		if(!$force && !$this->mf->resolveDependencies($modulename,array($this,'progress'))) {
 			$this->writeln(sprintf(_("Unable to resolve dependencies for module %s:"),$modulename), "error", false);
 			return false;

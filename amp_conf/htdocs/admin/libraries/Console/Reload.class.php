@@ -27,6 +27,13 @@ class Reload extends Command {
 				$output->writeln("<error>".$line."</error>");
 			};
 		} else {
+			if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+				$retrieve_array = explode('<br/>',$result['retrieve_conf_verbose']);
+				foreach ($retrieve_array as $line) {
+					$line = preg_replace('#<br\s*/?>#i','', $line);
+					$output->writeln("\t".$line);
+				};
+			}
 			$output->writeln($result['message']);
 		}
 	}
