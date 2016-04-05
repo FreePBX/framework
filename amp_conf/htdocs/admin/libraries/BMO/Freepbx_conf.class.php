@@ -40,6 +40,7 @@ define("CONF_TYPE_DIR",    'dir');
 define("CONF_TYPE_INT",    'int');
 define("CONF_TYPE_SELECT", 'select');
 define("CONF_TYPE_FSELECT",'fselect');
+define("CONF_TYPE_CSELECT", 'cselect'); //custom entry select
 
 // For translation (need to be in english in the DB, translated when pulled out
 // TODO: is there a better place to put these like in install script?
@@ -267,6 +268,10 @@ class Freepbx_conf {
 
   public function get($keyword, $passthru=false) {
       return $this->get_conf_setting($keyword, $passthru);
+  }
+
+  public function conf_setting($keyword) {
+    return !empty($this->db_conf_store[$keyword]) ? $this->db_conf_store[$keyword] : array();
   }
 
   /** This method returns a copy of the conf hash that is equivalent to the $amp_conf configuration
@@ -818,6 +823,7 @@ class Freepbx_conf {
       $attributes['type'] = $vars['type'];
     }
     switch ($vars['type']) {
+    case CONF_TYPE_CSELECT:
     case CONF_TYPE_SELECT:
       if (!isset($vars['options']) || $vars['options'] == '') {
         die_freepbx(sprintf(_("missing options for keyword [%s] required if type is select"),$keyword));
@@ -1095,8 +1101,16 @@ class Freepbx_conf {
         // NOTE: returning from function early!
         return $ret;
       }
-      break;
-
+    break;
+    case CONF_TYPE_CSELECT:
+      if ($value == '' && !$emptyok) {
+        $this->_last_update_status['validated'] = false;
+        $this->_last_update_status['msg'] = _("Empty value not allowed for this field");
+      } else {
+        $ret = $value;
+        $this->_last_update_status['validated'] = true;
+      }
+    break;
     case CONF_TYPE_DIR:
       // we don't consider trailing '/' in a directory an error for validation purposes
       $value = rtrim($value,'/');

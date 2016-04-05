@@ -151,6 +151,7 @@ $html .= '<script type="text/javascript" src="assets/js/modernizr.js'.$version_t
 //Removed google CDN because we are using custom libraries for bootstrap and jqueryui so that buttons work together
 $html .= '<script src="assets/js/bootstrap-3.3.4.custom.min.js'.$version_tag.'"></script>';
 $html .= '<script src="assets/js/tableExport.min.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/jquery.tablednd.min.js'.$version_tag.'"></script>';
 $html .= '<script src="assets/js/bootstrap-table-1.9.0.js'.$version_tag.'"></script>';
 
 $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-en-US.js'.$version_tag.'"></script>';
@@ -171,6 +172,7 @@ $html .= '<script src="assets/js/bootstrap-table-cookie.js'.$version_tag.'"></sc
 $html .= '<script src="assets/js/bootstrap-table-mobile.js'.$version_tag.'"></script>';
 $html .= '<script src="assets/js/bootstrap-table-export.js'.$version_tag.'"></script>';
 $html .= '<script src="assets/js/bootstrap-table-toolbar.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/bootstrap-table-reorder-rows.js'.$version_tag.'"></script>';
 
 $html .= '<script src="assets/js/bootstrap-multiselect.js'.$version_tag.'"></script>';
 
@@ -191,6 +193,10 @@ $html .= '<script type="text/javascript" src="assets/js/jquery.jplayer.min.js'.$
 $html .= '<script type="text/javascript" src="assets/js/Sortable.min.js'.$version_tag.'"></script>';
 
 $html .= '<script type="text/javascript" src="assets/js/toastr-2.1.2.js'.$version_tag.'"></script>';
+
+$html .= '<script type="text/javascript" src="assets/js/jquery.form.min.js'.$version_tag.'"></script>';
+
+$html .= '<script type="text/javascript" src="assets/js/recorder.js'.$version_tag.'"></script>';
 
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below

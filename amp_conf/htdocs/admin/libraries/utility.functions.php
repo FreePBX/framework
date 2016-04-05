@@ -32,6 +32,24 @@ function SPLAutoloadBroken() {
 	}
 	return true;
 }
+
+/** In PHP 5.5 **/
+if (!function_exists('json_last_error_msg')) {
+	function json_last_error_msg() {
+		static $ERRORS = array(
+			JSON_ERROR_NONE => 'No error',
+			JSON_ERROR_DEPTH => 'Maximum stack depth exceeded',
+			JSON_ERROR_STATE_MISMATCH => 'State mismatch (invalid or malformed JSON)',
+			JSON_ERROR_CTRL_CHAR => 'Control character error, possibly incorrectly encoded',
+			JSON_ERROR_SYNTAX => 'Syntax error',
+			JSON_ERROR_UTF8 => 'Malformed UTF-8 characters, possibly incorrectly encoded'
+		);
+
+		$error = json_last_error();
+		return isset($ERRORS[$error]) ? $ERRORS[$error] : 'Unknown error';
+	}
+}
+
 /**
  * Log a message to the freepbx security file
  * @param  {string} $message the message
@@ -122,17 +140,23 @@ function freepbx_log($level, $message) {
 					$tz = 'America/Los_Angeles';
 				}
 				date_default_timezone_set($tz);
-				$tstamp		= date("Y-M-d H:i:s");
+				$tstamp = date("Y-M-d H:i:s");
 
-        // Don't append if the file is greater than ~2G since some systems fail
-        //
-        $size = file_exists($log_file) ? sprintf("%u", filesize($log_file)) + strlen($txt) : 0;
-        if ($size < 2000000000) {
-          file_put_contents($log_file, "[$tstamp] $txt", FILE_APPEND);
-        }
+				// Don't append if the file is greater than ~2G since some systems fail
+				//
+				$size = file_exists($log_file) ? sprintf("%u", filesize($log_file)) + strlen($txt) : 0;
+				if ($size < 2000000000) {
+					$dn = dirname($log_file);
+					if((file_exists($log_file) && is_writable($log_file)) || (!file_exists($log_file) && is_dir($dn) && is_writable($dn))) {
+						file_put_contents($log_file, "[$tstamp] $txt", FILE_APPEND);
+					} else {
+						return false;
+					}
+				}
 				break;
 		}
 	}
+	return true;
 }
 
 /**
@@ -171,80 +195,15 @@ function compress_framework_css() {
  * @param string $type The message type (Optional)
  */
 function die_freepbx($text, $extended_text="", $type="FATAL") {
-	global $amp_conf;
-
-	if(is_object($extended_text)) {
+	if(is_object($extended_text) && method_exists($extended_text,"getMessage")) {
 		$e = $extended_text;
-		$bt = array();
-		if(method_exists($e,"getMessage")) {
-			$extended_text = htmlentities($e->getMessage());
-			do {
-				$bt = array_merge($bt,$e->getTrace());
-			} while($e = $e->getPrevious());
-		} else {
-			$extended_text = _("Unknown!");
-		}
+		$extended_text = htmlentities($e->getMessage());
+		$code = $e->getCode();
+		throw new \Exception($text . "::" . $extended_text,$code,$e);
 	} else {
 		$extended_text = htmlentities($extended_text);
-		$bt = debug_backtrace();
+		throw new \Exception($text . "::" . $extended_text);
 	}
-	$text = htmlentities($text);
-
-	freepbx_log(FPBX_LOG_FATAL, "die_freepbx(): ".$text);
-
-	if (isset($_SERVER['REQUEST_METHOD'])) {
-		// running in webserver
-		$trace =  "<h1>".$type." ERROR</h1>\n";
-		$trace .= "<h3>".$text."</h3>\n";
-		if (!empty($extended_text)) {
-			$trace .= "<p>".$extended_text."</p>\n";
-		}
-		$trace .= "<h4>"._("Trace Back")."</h4>";
-
-		$main_fmt = "%s:%s %s()<br />\n";
-		$arg_fmt = "&nbsp;&nbsp;[%s]: %s<br />\n";
-		$separator = "<br />\n";
-		$tail = "<br />\n";
-		$f = 'htmlspecialchars';
-	} else {
-		// CLI
-		$trace =  "[$type] ".$text." ".$extended_text."\n\n";
-		$trace .= "Trace Back:\n\n";
-
-		$main_fmt = "%s:%s %s()\n";
-		$arg_fmt = " [%s]: %s\n";
-		$separator = "\n";
-		$tail = "";
-		$f = 'trim';
-	}
-
-	foreach ($bt as $l) {
-		$cl = isset($l['class']) ? $f($l['class']) : '';
-		$ty = isset($l['type']) ? $f($l['type']) : '';
-		$func = $f($cl . $ty . $l['function']);
-		$trace .= sprintf($main_fmt, $l['file'], $l['line'], $func);
-		if (isset($l['args'])) foreach ($l['args'] as $i => $a) {
-			if(is_array($a)) {
-			} elseif(is_object($a)) {
-			} else {
-				$trace .= sprintf($arg_fmt, $i, $f($a));
-			}
-		}
-		$trace .= $separator;
-	}
-	echo $trace . $tail;
-
-	if ($amp_conf['DIE_FREEPBX_VERBOSE']) {
-		$trace = print_r($bt,true);
-		if (isset($_SERVER['REQUEST_METHOD'])) {
-			echo '<pre>' .$trace. '</pre>';
-		} else {
-			echo $trace;
-		}
-	}
-
-	// Now die!
-	exit(1);
 }
 
 /**
@@ -929,7 +888,10 @@ function fpbx_which($app) {
 		}
 	}
 
-	if(!empty($location)) {
+	if(!empty($location) && $freepbx_conf->conf_setting_exists('WHICH_' . $app)) {
+		$freepbx_conf->set_conf_values(array('WHICH_' . $app => $location), true,true);
+		return $location;
+	} elseif(!empty($location) && !$freepbx_conf->conf_setting_exists('WHICH_' . $app)) {
 		//if we have a path add it to freepbx settings
 		$set = array(
 				'value'			=> $location,
@@ -948,8 +910,23 @@ function fpbx_which($app) {
 		$freepbx_conf->commit_conf_settings();
 
 		//return the path
-		return $path[0];
-	} else {
+		return 	$location;
+	} elseif(empty($location) && !$freepbx_conf->conf_setting_exists('WHICH_' . $app)) {
+		$set = array(
+				'value'			=> "",
+				'defaultval'	=> "",
+				'readonly'		=> 1,
+				'hidden'		=> 0,
+				'level'			=> 2,
+				'module'		=> '',
+				'category'		=> 'System Apps',
+				'emptyok'		=> 1,
+				'name'			=> 'Path for ' . $app,
+				'description'	=> 'The path to ' . $app . ' as auto-determined by the system. Overwrite as necessary.',
+				'type'			=> CONF_TYPE_TEXT
+		);
+		$freepbx_conf->define_conf_setting('WHICH_' . $app, $set);
+		$freepbx_conf->commit_conf_settings();
 		return false;
 	}
 }
@@ -1205,7 +1182,7 @@ function generate_message_banner($message,$type='info',$details=array(),$link=''
  * allows FreePBX to update the manager credentials primarily used by Advanced Settings and Backup and Restore.
  */
 function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
-	global $amp_conf, $astman, $db;
+	global $amp_conf, $astman, $db, $bootstrap_settings;
 	$conf_file = $amp_conf['ASTETCDIR'] . '/manager.conf';
 	$ret = $ret2 = $ret3 = 0;
 	$output = array();
@@ -1265,7 +1242,7 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 		dbug("aborting early because previous errors");
 		return false;
 	}
-	if (!empty($astman)) {
+	if (is_object($astman) && method_exists($astman, "connected") && $astman->connected()) {
 		$ast_ret = $astman->Command('module reload manager');
 	} else {
 		unset($output);
@@ -1274,6 +1251,20 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 		if ($ret2) {
 			freepbx_log(FPBX_LOG_ERROR,_("Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx 'module reload manager']"));
 		}
+	}
+	if (is_object($astman) && method_exists($astman, "connected") && $astman->connected()) {
+		$astman->disconnect();
+	}
+	if (!is_object($astman) || !method_exists($astman, "connected")) {
+		//astman isn't initiated so escape
+		return true;
+	}
+	if (!$res = $astman->connect($amp_conf["ASTMANAGERHOST"] . ":" . $amp_conf["ASTMANAGERPORT"], $amp_conf["AMPMGRUSER"] , $amp_conf["AMPMGRPASS"], $bootstrap_settings['astman_events'])) {
+		// couldn't connect at all
+		freepbx_log(FPBX_LOG_CRITICAL,"Connection attmempt to AMI failed");
+	} else {
+		$bmo = FreePBX::create();
+		$bmo->astman = $astman;
 	}
 	return true;
 }
@@ -1430,4 +1421,14 @@ function varsub($string, $del = '$') {
 	}
 
 	return $string;
+}
+
+function getSystemMemInfo() {       
+	$data = explode("\n", file_get_contents("/proc/meminfo"));
+	$meminfo = array();
+	foreach ($data as $line) {
+		list($key, $val) = explode(":", $line);
+		$meminfo[$key] = trim($val);
+	}
+	return $meminfo;
 }

@@ -799,18 +799,27 @@ function bind_dests_double_selects() {
 						$("body").scrollTop(0).css({ overflow: "hidden" });
 					},
 					close: function(e) {
-						//cheating by puttin a data-id on the modal box
-						var id = $(this).data("id");
-						//dropdown 1
-						var par = $("#goto" + id).data("last");
-						$("#goto" + id).val(par).change();
-						if (par !== "") { //Get dropdown2
-							var par_id = par.concat(id);
-							$("#" + par_id).val($("#" + par_id).data("last")).change();
+						if(!runningPopOverActions) {
+							//cheating by puttin a data-id on the modal box
+							var id = $(this).data("id");
+							//dropdown 1
+							var par = $("#goto" + id).data("last");
+							//reset the original option to the first in the list *if* it wasn't
+							//previously selected. This is so we dont get random 'white' (empty)
+							//options selected when coming back from a canceled popover
+							var name = $("#goto"+id).val();
+							if(par !== name) {
+								$("#"+name+id)[0].selectedIndex = 0;
+							}
+							$("#goto" + id).val(par).change();
+							if (par !== "") { //Get dropdown2
+								var par_id = par.concat(id);
+								$("#" + par_id).val($("#" + par_id).data("last")).change();
+							}
+							$("#popover-frame").contents().find("body").remove();
+							$("#popover-box-id").html("");
+							$("body").css({ overflow: "inherit" });
 						}
-						$("#popover-frame").contents().find("body").remove();
-						$("#popover-box-id").html("");
-						$("body").css({ overflow: "inherit" });
 						$(e.target).dialog("destroy").remove();
 					},
 					buttons: [
@@ -868,7 +877,9 @@ $('form').on('reset', function() {
  * Close Popover Window
  * @param {string} drawselects The draw select to replace with new data
  */
+var runningPopOverActions = false;
 function closePopOver(drawselects) {
+	runningPopOverActions = true;
 	var options = $("." + popover_box_class + " option", $("<div>" + drawselects + "</div>"));
 	$("." + popover_box_class).each(function() {
 		if (this.id == popover_select_id) {
@@ -899,7 +910,8 @@ function closePopOver(drawselects) {
 
 	$("body").css({ overflow: "inherit" });
 	$("#popover-box-id").html("");
-	popover_box.dialog("destroy");
+	popover_box.dialog("close");
+	runningPopOverActions = false;
 }
 
 /**
@@ -1076,8 +1088,7 @@ function freepbx_reload_error(txt) {
 function toggle_reload_button(action) {
 	switch (action) {
 		case "show":
-			//weird css is needed to keep the button from "jumping" a bit out of place
-			$("#button_reload").show().css("display", "inline-block");
+			$("#button_reload").show();
 		break;
 		case "hide":
 			$("#button_reload").hide();
@@ -1222,7 +1233,27 @@ function resizeRightNav() {
 $(document).ready(function() {
 	//when clicking the magnifying glass on the search bar focus on the search input
 	$("#fpbxsearch .fa-search").click(function() {
-		$("#fpbxsearch .typeahead").focus()
+		$("#fpbxsearch .typeahead").focus();
+	});
+	$("#fpbxsearch input").blur(function() {
+		$("#fpbxsearch").removeClass("in");
+		$.cookie("searchHide",1);
+	});
+	$("#search-btn").click(function() {
+		if(!$("#fpbxsearch").hasClass("in")) {
+			$("#fpbxsearch").one("transitionend", function() {
+				$("#fpbxsearch input").focus();
+			});
+			$("#fpbxsearch").addClass("in");
+			$.cookie("searchHide",0);
+		}
+	});
+	$(window).keydown(function(e){
+		if(e.keyCode === 27 && $("#fpbxsearch").hasClass("in")) {
+			$("#fpbxsearch input").blur();
+			$("#floating-nav-bar").removeClass("show");
+			$.cookie("searchHide",1);
+		}
 	});
 	if ($(".fpbx-container").length > 0) {
 		//Show tab if location hash matches data-name
@@ -1253,6 +1284,7 @@ $(document).ready(function() {
 		});
 
 		//Help for input boxes
+		/*
 		$(".fpbx-container .form-control").focus(function() {
 			$(".fpbx-help-block").removeClass("active");
 			var id = $(this).prop("id");
@@ -1269,6 +1301,7 @@ $(document).ready(function() {
 				$(this).removeClass("active").css("display","");
 			});
 		});
+		*/
 	}
 
 	positionActionBar();
@@ -1494,6 +1527,10 @@ $(document).ready(function() {
 	});
 	$(document).on('keyup', 'input.extdisplay.form-control,input[type=text][name=extension].form-control,input[type=number][name=extension].form-control,input[type=text][name=extdisplay].form-control,input[type=text][name=account].form-control', function() {
 		var val = $(this).val(), data = $(this).data("extdisplay"), $this = this;
+		var lskip = $(this).data("no-duplicate-check");
+		if(lskip){
+			return true;
+		}
 		if(typeof val !== "undefined" && val !== "") {
 			if(typeof extmap[val] == "undefined" || $(this).data("extdisplay") == val) {
 				$(this).removeClass("duplicate-exten").parents(".form-group").removeClass("has-warning").find(".input-warn").remove();
@@ -2010,3 +2047,23 @@ function fpbxToast(message,title,level){
 
 	}
 }
+
+/**
+ * https://github.com/CSS-Tricks/Relevant-Dropdowns
+ */
+yepnope({
+	test : (!Modernizr.input.list),
+	yep : [
+		'assets/js/jquery.relevant-dropdown.js',
+		'assets/js/load-fallbacks.js'
+	]
+});
+
+// Add class that sets an input to readonly until the user clicks on it. This should prevent autofilling of things like passwords and usernames.
+$( document ).ready(function() {
+	$('.clicktoedit').prop('readonly',true);
+});
+$(document).on('click','.clicktoedit',function(){
+	$(this).prop('readonly',false);
+	$(this).focus();
+});

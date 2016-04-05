@@ -85,7 +85,7 @@ class Unlock extends FreePBX_Helpers {
 		// Delete this key, it's been used now.
 		$this->setConfig('unlockkey');
 
-		$_SESSION["AMP_user"] = new ampuser(FreePBX::$conf["AMPDBUSER"]);
+		$_SESSION["AMP_user"] = new \ampuser('admin');
 		$_SESSION["AMP_user"]->setAdmin();
 		define('FREEPBX_IS_AUTH', 'TRUE');
 

@@ -205,7 +205,7 @@ class Installer {
 		include_once ($amp_conf['AMPWEBROOT'].'/admin/libraries/freepbx_conf.class.php');
 	}
 
-	$freepbx_conf =& \freepbx_conf::create();
+	$freepbx_conf = \freepbx_conf::create();
 
 
 	$category = 'Advanced Settings Details';
@@ -303,7 +303,7 @@ class Installer {
 
 	$settings[$category]['PHP_ERROR_LEVEL'] = array(
 	'value' => 'ALL_NOSTRICTNOTICE',
-	'options' => array('ALL','ALL_NOSTRICT','ALL_NOSTRICTNOTICE','ALL_NOSTRICTNOTICEWARNING','ALL_NOSTRICTNOTICEWARNINGDEPRECIATED'),
+	'options' => array('ALL','ALL_NOSTRICT','ALL_NOSTRICTNOTICE','ALL_NOSTRICTNOTICEWARNING','ALL_NOSTRICTNOTICEWARNINGDEPRECIATED', 'NONE'),
 	'name' => 'PHP Error Level',
 	'description' => "Sets which PHP errors are reported",
 	'sortorder' => -139,
@@ -703,7 +703,7 @@ class Installer {
 	'value' => true,
 	'options' => '',
 	'name' => 'Only Use Last CID Prepend',
-	'description' => "Some modules allow the CNAM to be prepended. If a previous prepend was done, the default behavior is to remove the previous prepend and only use the most recent one. Setting this to false will turn that off allowing all prepends to be 'starcked' in front of one another.",
+	'description' => "Some modules allow the CNAM to be prepended. If a previous prepend was done, the default behavior is to remove the previous prepend and only use the most recent one. Setting this to false will turn that off allowing all prepends to be 'stacked' in front of one another.",
 	'type' => CONF_TYPE_BOOL,
 	);
 
@@ -727,7 +727,7 @@ class Installer {
 	'value' => 'app_confbridge',
 	'options' => array('app_meetme', 'app_confbridge'),
 	'name' => 'Conference Room App',
-	'description' => 'The asterisk application to use for conferencing. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The app_confbridge application is considered "experimental" with known issues and does not work on Asterisk 10 where it was completely rewritten and changed from the version on 1.6 and 1.8.',
+	'description' => 'The asterisk application to use for conferencing. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The app_meetme application is considered "depreciated" and should no longer be used',
 	'type' => CONF_TYPE_SELECT,
 	);
 
@@ -873,7 +873,7 @@ class Installer {
 	'level' => 4,
 	);
 
-	$settings[$category]['ASTVARLIBPLAYBACK'] = array(
+	$settings[$category]['AMPPLAYBACK'] = array(
 	'value' => '/var/lib/asterisk/playback',
 	'options' => '',
 	'name' => 'Browser Playback Cache Directory',
@@ -884,7 +884,7 @@ class Installer {
 	);
 
 	$settings[$category]['AMPCGIBIN'] = array(
-	'value' => '/var/www/cgi-bin ',
+	'value' => '/var/www/cgi-bin',
 	'options' => '',
 	'name' => 'CGI Dir',
 	'description' => 'The path to Apache cgi-bin dir (leave off trailing slash).',
@@ -913,8 +913,18 @@ class Installer {
 	'level' => 4,
 	);
 
-
 	$category = 'GUI Behavior';
+
+	$settings[$category]['FPBXOPMODE'] = array(
+	'value' => 'advanced',
+	'options' => 'basic,advanced',
+	'name' => 'GUI Operation Mode',
+	'description' => 'Determines the mode to use while navigating the PBX. Defaults to "Advanced". If a module does not support "Basic" mode it will default to "Advanced"',
+	'sortorder' => -135,
+	'readonly' => 1,
+	'hidden' => 1,
+	'type' => CONF_TYPE_SELECT,
+	);
 
 	$settings[$category]['CHECKREFERER'] = array(
 	'value' => true,
@@ -929,6 +939,14 @@ class Installer {
 	'options' => '',
 	'name' => 'Use wget For Module Admin',
 	'description' => 'Module Admin normally tries to get its online information through direct file open type calls to URLs that go back to the freepbx.org server. If it fails, typically because of content filters in firewalls that do not like the way PHP formats the requests, the code will fall back and try a wget to pull the information. This will often solve the problem. However, in such environment there can be a significant timeout before the failed file open calls to the URLs return and there are often 2-3 of these that occur. Setting this value will force FreePBX to avoid the attempt to open the URL and go straight to the wget calls.',
+	'type' => CONF_TYPE_BOOL,
+	);
+
+	$settings[$category]['MODULEADMINEDGE'] = array(
+	'value' => false,
+	'options' => '',
+	'name' => 'Set Module Admin to Edge mode',
+	'description' => 'Setting module admin to edge mode allows you to vet new module releases before they are deemed stable. This process helps the developers so we encourage you to enable it. If you want a more stable system please leave this set to no. See http://wiki.freepbx.org/x/boi3Aw for more details',
 	'type' => CONF_TYPE_BOOL,
 	);
 
@@ -1792,6 +1810,15 @@ class Installer {
 	'sortorder' => 20,
 	);
 
+	$settings[$category]['DEVICE_SIP_DTMF'] = array(
+	'value' => 'rfc2833',
+	'options' => array('rfc2833', 'auto', 'shortinfo', 'info', 'inband'),
+	'name' => 'SIP DTMF Signaling',
+	'description' => 'The DTMF signaling mode used by this device, usually RFC for most phones. (Note: For PJSIP devices RFC-4733 supercedes the older RFC-2833 and will be used when RFC-2833 is selected for PJSIP devices)',
+	'type' => CONF_TYPE_SELECT,
+	'sortorder' => 20,
+	);
+
 	$settings[$category]['DEVICE_SIP_TRUSTRPID'] = array(
 	'value' => 'yes',
 	'options' => array('no', 'yes'),
@@ -2012,6 +2039,19 @@ class Installer {
 		'readonly' => 0,
 		'sortorder' => 4,
 		'type' => CONF_TYPE_TEXT,
+	);
+
+	$settings[$category]['DASHBOARD_OVERRIDE'] = array(
+		'description' => 'When no params specified, use this module',
+		'name' => 'DASHBOARD_OVERRIDE',
+		'value' => '',
+		'options' => '',
+		'readonly' => 1,
+		'hidden' => 1,
+		'level' => 10,
+		'emptyok' => 1,
+		'sortorder' => 180,
+		'type' => CONF_TYPE_TEXT
 	);
 
 	// The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we

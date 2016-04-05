@@ -349,7 +349,7 @@ class component {
 		$this->sorted_processfuncs = true;
 	}
 
-	function generateconfigpage($loadView=null) {
+	function generateconfigpage($loadView=null, $variables = array()) {
 		if(empty($loadView)) {
 			$loadView = dirname(__DIR__) . "/views/currentcomponent.php";
 		}
@@ -436,7 +436,9 @@ class component {
 			$action = isset($this->opts['form_action']) ? $this->opts['form_action'] : "";
 			$display = !empty($_REQUEST['display']) ? $_REQUEST['display'] : rand(0,10);
 			$showTabs = count($html['middle']) > 1;
-			return load_view($loadView, array("tabtranslations" => $this->tabtranslations, "showtabs" => $showTabs, "display" => $display, "active" => $active, "hiddens" => $hiddens, "action" => $action, "html" => $html, "jsfuncs" => $jsfuncs));
+			$vars = array("tabtranslations" => $this->tabtranslations, "showtabs" => $showTabs, "display" => $display, "active" => $active, "hiddens" => $hiddens, "action" => $action, "html" => $html, "jsfuncs" => $jsfuncs);
+			$finalVars = !empty($variables) ? array_merge($variables, $vars) : $vars;
+			return load_view($loadView, $finalVars);
 		} else {
 			return '';
 		}
@@ -555,6 +557,9 @@ class guielement {
  */
 class gui_hidden extends guielement {
 	function gui_hidden($elemname, $currentvalue = '', $table=true) {
+		if(is_array($elemname)) {
+			extract($elemname);
+		}
 		// call parent class contructor
 		parent::__construct($elemname, '', '');
 
@@ -996,6 +1001,34 @@ class gui_button extends guiinput {
 		$tabindex = guielement::gettabindex();
 		$this->html_input = "<button type=\"button\" name=\"$this->_elemname\" class=\"btn form-control ".$class."\" id=\"$this->_elemname\" $disable_state tabindex=\"$tabindex\" value=\"$value\" $js_onclick_include/>$post_text</button>\n";
 		$this->type = "button";
+	}
+}
+
+class gui_alertinfodrawselects extends guiinput {
+
+	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
+		if(is_array($elemname)) {
+			extract($elemname);
+		}
+
+		// currently no validation fucntions availble for select boxes
+		// using the normal $canbeempty to flag if a blank option is provided
+		parent::__construct($elemname, $currentvalue, $prompttext, $helptext);
+
+		$this->html_input = $this->buildselectbox($currentvalue, $canbeempty, $onchange, $disable, $class);
+		$this->type = "selectbox";
+	}
+
+	// Build select box
+	function buildselectbox($currentvalue, $canbeempty, $onchange, $disable, $class='') {
+		$output = '';
+
+		//TODO someone needs to fix this. Seems sort of irrelevant right now though
+		$onchange = ($onchange != '') ? " onchange=\"$onchange\"" : '';
+
+		$output = \FreePBX::View()->alertInfoDrawSelect($this->_elemname, $currentvalue, $class, $canbeempty, $disable);
+
+		return $output;
 	}
 }
 

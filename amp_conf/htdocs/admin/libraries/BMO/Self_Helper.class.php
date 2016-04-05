@@ -120,7 +120,7 @@ class Self_Helper extends DB_Helper {
 			if (class_exists($class,false)) {
 
 				if($var[0] != strtoupper($var[0])) {
-					throw new \Exception(sprintf(_("BMO Objects must have their first letter captialized. You provided %s"),$var));
+					throw new \Exception(sprintf(_("BMO Objects must have their first letter capitalized. You provided %s"),$var));
 				}
 				$this->$var = new $class($this);
 			} else {

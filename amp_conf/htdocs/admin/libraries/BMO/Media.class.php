@@ -29,9 +29,9 @@ class Media extends DB_Helper{
 		}
 		$this->FreePBX = $freepbx;
 
-		$dir = $this->FreePBX->Config->get("ASTVARLIBPLAYBACK");
+		$dir = $this->FreePBX->Config->get("AMPPLAYBACK");
 		if(!file_exists($dir)) {
-			mkdir($dir);
+			mkdir($dir,0777,true);
 			$ampowner = $this->FreePBX->Config->get('AMPASTERISKWEBUSER');
 			$ampgroup =  $ampowner != $this->FreePBX->Config->get('AMPASTERISKUSER') ? $this->FreePBX->Config->get('AMPASTERISKGROUP') : $ampowner;
 			chown($dir, $ampowner);
@@ -156,7 +156,8 @@ class Media extends DB_Helper{
 				if(file_exists($file.".".$format)) {
 					unset($formats[$format]);
 				}
-				$converted[$format] = basename($file.".".$format);
+				//FREEPBX-11538: url encode
+				$converted[$format] = urlencode(basename($file.".".$format));
 			}
 		}
 		//because ogg and oga are interchangeable
@@ -382,5 +383,51 @@ class Media extends DB_Helper{
 			break;
 		}
 		return $formats;
+	}
+	public function getMIMEtype($file){
+		$mimetype = 'application/octet-stream';
+		$fileExt = pathinfo($file, PATHINFO_EXTENSION);
+		$astMIME = array(
+		  'mp3' => 'audio/mpeg',
+		  'g723' => 'audio/G723',
+		  'g723sf' => 'audio/G723',
+		  'gsm' => 'audio/GSM',
+		  'sln192' => 'audio/sln-192',
+		  'sln96' => 'audio/sln-96',
+		  'sln48' => 'audio/sln-48',
+		  'sln44' => 'audio/sln-44',
+		  'sln32' => 'audio/sln-32',
+		  'sln24' => 'audio/sln-24',
+		  'sln16' => 'audio/sln-16',
+		  'sln12' => 'audio/sln-12',
+		  'sln' => 'audio/sln',
+		  'raw' => 'audio/x-raw',
+		  'sirin14' => 'audio/siren7',
+		  'sirin14' => 'audio/siren14',
+		  'WAV' => 'audio/L16',
+		  'wav49' => 'audio/GSM',
+		  'wav16' => 'audio/L16',
+		  'wav' => 'audio/x-wav',
+		  'g719' => 'audio/G719',
+		  'g726-16' => 'audio/G726-16',
+		  'g726-24' => 'audio/G726-24',
+		  'g726-32' => 'audio/G726-32',
+		  'g726-40' => 'audio/G726-40',
+		  'g722' => 'audio/G722',
+		  'au' => 'audio/basic',
+		  'alaw' => 'audio/x-alaw-basic',
+		  'al' => 'audio/x-alaw-basic',
+		  'alw' => 'audio/x-alaw-basic',
+		  'pcm' => 'audio/basic',
+		  'ulaw' => 'audio/basic',
+		  'ul' => 'audio/basic',
+		  'mu' => 'audio/basic',
+		  'ulw' => 'audio/basic',
+		  'ogg' => 'audio/ogg',
+		);
+		if (array_key_exists($fileExt, $astMIME)) {
+    	$mimetype = $astMIME[$fileExt];
+		}
+		return $mimetype;
 	}
 }

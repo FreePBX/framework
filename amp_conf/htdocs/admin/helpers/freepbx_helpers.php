@@ -1,4 +1,8 @@
 <?php
+/**
+ * TODO: This needs to go away in 14. Remove useless functions
+ * move drawselects to utilities or view (pref view)
+ */
 
 /**
  * short FreePBX Label generator
@@ -11,7 +15,6 @@
  * @return string
  * @todo change format to take advantage of html's data attribute. No need for spans!
  *
- * {@source }
  */
 function fpbx_label($text, $help = '') {
 	if ($help) {
@@ -34,7 +37,6 @@ function fpbx_label($text, $help = '') {
  * @author Philippe Lindheimer
  * @param string $text
  * @return string
- * {@source }
  */
 function fpbx_section_header($text) {
 	return '<br><h5>' . $text . '<hr></h5>';
@@ -79,23 +81,37 @@ function fpbx_form_input_check($data = '', $value = '', $extra = '', $label = 'E
 }
 // ------------------------------------------------------------------------
 
-/*
- * $goto is the current goto destination setting
- * $i is the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
- * ensure that any form that includes this calls the setDestinations() javascript function on submit.
- * ie: if the form name is "edit", and drawselects has been called with $i=2 then use onsubmit="setDestinations(edit,2)"
- * $table specifies if the destinations will be drawn in a new <tr> and <td>
+/**
+ * Destination drawselects.
  *
+ * This is where the magic happens. Query all modules for valid destinations
+ * Then build a javascript based multi-select box.
+ * Hide the second select box until the first is selected.
+ * Auto-populate the second based on the first.
+ *
+ * The first is almost always a module name, though it can be custom as well.
+ * The second is the actually destination
+ *
+ * @param  string $goto             The current goto destination setting. EG: ext-local,2000,1
+ * @param  int $i                   the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
+ * @param  array $restrict_modules  Array of modules or array of modules with ids to restrict getting destinations from
+ * @param  bool $table              Wrap this in a table row using <tr> and <td> (deprecated should not be used in 13+)
+ * @param  string $nodest_msg       No Destination selected message
+ * @param  bool $required           Whether the destination is required to be set
+ * @param  bool $output_array       Output an array instead of html (you will need to make sure the html is correct later on for the functionality of this to work correctly)
+ * @param  bool $reset              Reset the drawselect_* globals (useful when using multiple destination dropdowns on a page, each with their own restricted modules)
+ * @param  bool $disable            Set html element to disabled on creation
+ * @param  string $class            String of classes to add to to the html element (class="<string>")
+ * @return mixed                    Array if $output_array is true otherwise a string of html
  */
-
-function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='', $required = false, $output_array = false, $reset = false, $disable=false, $class='') {
+function drawselects($goto, $i, $restrict_modules=false, $table=true, $nodest_msg='', $required = false, $output_array = false, $reset = false, $disable=false, $class='') {
 	global $tabindex, $active_modules, $drawselect_destinations, $drawselects_module_hash, $fw_popover;
 	static $drawselects_id_hash;
 
 	if ($reset) {
 		unset($drawselect_destinations);
-		unset($drawselect_module_hash);
-		unset($drawselect_id_hash);
+		unset($drawselects_module_hash);
+		unset($drawselects_id_hash);
 	}
 	//php session last_dest
 	$fw_popover = isset($fw_popover) ? $fw_popover : FALSE;
@@ -115,6 +131,9 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 		$add_a_new = _('Add new %s &#133');
 		//check for module-specific destination functions
 		foreach($active_modules as $rawmod => $module){
+			if(is_array($restrict_modules) && !in_array($rawmod,$restrict_modules) && !isset($restrict_modules[$rawmod])) {
+				continue;
+			}
 			$funct = strtolower($rawmod.'_destinations');
 			$popover_hash = array();
 
@@ -129,10 +148,12 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 						$cat = str_replace(array("|"),"",$cat);
 						$cat = str_replace("&",_("and"),$cat);
 						$ds_id = (isset($dest['id']) ? $dest['id'] : $rawmod);
-						$popover_hash[$ds_id] = $cat;
-						$drawselect_destinations[$cat][] = $dest;
-						$drawselects_module_hash[$cat] = $rawmod;
-						$drawselects_id_hash[$cat] = $ds_id;
+						if (empty($restrict_modules[$rawmod]) || (is_array($restrict_modules[$rawmod]) && in_array($ds_id, $restrict_modules[$rawmod]))) {
+							$popover_hash[$ds_id] = $cat;
+							$drawselect_destinations[$cat][] = $dest;
+							$drawselects_module_hash[$cat] = $rawmod;
+							$drawselects_id_hash[$cat] = $ds_id;
+						}
 					}
 				}
 				if (isset($module['popovers']) && !$fw_popover) {
@@ -142,9 +163,11 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 					if (function_exists($funct)) {
 						$protos = $funct();
 						foreach ($protos as $ds_id => $cat) {
-							$popover_hash[$ds_id] = $cat;
-							$drawselects_module_hash[$cat] = $rawmod;
-							$drawselects_id_hash[$cat] = $ds_id;
+							if (empty($restrict_modules[$rawmod]) || (is_array($restrict_modules[$rawmod]) && in_array($ds_id, $restrict_modules[$rawmod]))) {
+								$popover_hash[$ds_id] = $cat;
+								$drawselects_module_hash[$cat] = $rawmod;
+								$drawselects_id_hash[$cat] = $ds_id;
+							}
 						}
 					} else if (empty($destArray)) {
 						// We have popovers in XML, there were no destinations, and no mod_destination_popovers()
@@ -172,9 +195,12 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 			}
 		}
 		//sort destination alphabetically
-
-		ksort($drawselect_destinations);
-		ksort($drawselects_module_hash);
+		if(is_array($drawselect_destinations)) {
+			ksort($drawselect_destinations);
+		}
+		if(is_array($drawselects_module_hash)) {
+			ksort($drawselects_module_hash);
+		}
 	}
 
 	$ds_array = $drawselect_destinations;
@@ -288,24 +314,31 @@ function drawselects($goto, $i, $show_custom=false, $table=true, $nodest_msg='',
 	return $output_array ? $ds_array : $html;
 }
 
-// This function will get the MySQL field size of the specified fieldname
-// It's useful for finding out the limit of certain fields in MySQL so that
-// we can do validation checks on strings to make sure they aren't too long.
-// This will help prevent MySQL from needing to do auto chopping on lengthy strings
-// which causes problems with multibyte characters getting cut off abruptly.
-// The third argument defaultsize is just to futureproof in case someone decides
-// to change things in MySQL in the future that would otherwise just pass null back
-// and cause a bug.
+
+/**
+ * This function will get the MySQL field size of the specified fieldname
+ * It's useful for finding out the limit of certain fields in MySQL so that
+ * we can do validation checks on strings to make sure they aren't too long.
+ * This will help prevent MySQL from needing to do auto chopping on lengthy strings
+ * which causes problems with multibyte characters getting cut off abruptly.
+ * The third argument defaultsize is just to futureproof in case someone decides
+ * to change things in MySQL in the future that would otherwise just pass null back
+ * and cause a bug.
+ * @param  string $tablename   The table name
+ * @param  string $fieldname   The fieldname
+ * @param  string $defaultsize Default Size of the field
+ * @return string              The default size
+ */
 function module_get_field_size($tablename, $fieldname, $defaultsize) {
-        global $db;
+	global $db;
 
-        $sql = "SELECT character_maximum_length FROM information_schema.columns WHERE table_name = ? AND column_name = ?";
+	$sql = "SELECT character_maximum_length FROM information_schema.columns WHERE table_name = ? AND column_name = ?";
 
-        $results = $db->getAll($sql, array($tablename, $fieldname));
+	$results = $db->getAll($sql, array($tablename, $fieldname));
 
-        if(DB::IsError($results)) {
-                $results = null;
-        }
+	if(DB::IsError($results)) {
+		$results = null;
+	}
 
-        return isset($results)?$results[0][0]:$defaultsize;
+	return isset($results)?$results[0][0]:$defaultsize;
 }

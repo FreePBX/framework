@@ -160,12 +160,24 @@ $db = new DB();
 // get settings
 $freepbx_conf = $bmo->Freepbx_conf();
 
+//set this before we run date functions
+date_default_timezone_set('UTC');
+$phptimezone = $freepbx_conf->get('PHPTIMEZONE');
+$invalidtimezone = false;
+if(!empty($phptimezone)) {
+	$tzi = \DateTimeZone::listIdentifiers();
+	if(!in_array($phptimezone,$tzi)) {
+		$invalidtimezone = $phptimezone;
+		$timezone = 'UTC';
+	}
+	date_default_timezone_set($phptimezone);
+}
+
 // passing by reference, this means that the $amp_conf available to everyone is the same one as present
 // within the class, which is probably a direction we want to go to use the class.
 //
 $bootstrap_settings['amportal_conf_initialized'] = false;
 $amp_conf = $freepbx_conf->parse_amportal_conf("/etc/amportal.conf",$amp_conf);
-
 
 if($amp_conf['PHP_CONSOLE']) {
 	$connector = PhpConsole\Connector::getInstance();
@@ -189,6 +201,13 @@ switch($amp_conf['PHP_ERROR_LEVEL']) {
 	break;
 	case "ALL_NOSTRICTNOTICEWARNINGDEPRECIATED":
 		error_reporting(E_ALL & ~E_STRICT & ~E_NOTICE & ~E_USER_NOTICE & ~E_WARNING & ~E_USER_WARNING & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+	break;
+	case "NONE":
+		error_reporting(0);
+		restore_error_handler();
+		if(is_object($whoops) && is_a($whoops,"\Whoops\Run")) {
+			$whoops->unregister();
+		}
 	break;
 	case "ALL_NOSTRICTNOTICE":
 	default;
@@ -246,6 +265,12 @@ if (!$bootstrap_settings['skip_astman']) {
 
 //Because BMO was moved upward we have to inject this lower
 FreePBX::create()->astman = $astman;
+$nt = notifications::create();
+if(!empty($invalidtimezone)) {
+	$nt->add_warning("framework", "TIMEZONE", _("Unable to set timezone"), sprintf(_("Unable to set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."),$invalidtimezone), "config.php?display=advancedsettings", true, true);
+} else {
+	$nt->delete("framework", "TIMEZONE");
+}
 
 //include gui functions + auth if nesesarry
 // If set to freepbx_auth but we are in a cli mode, then don't bother authenticating either way.
@@ -260,6 +285,19 @@ if (!$bootstrap_settings['freepbx_auth'] || (php_sapi_name() == 'cli')) {
 } else {
 	require($dirname . '/libraries/gui_auth.php');
 	frameworkPasswordCheck();
+	// Check and increase php memory_limit if needed and if allowed on the system
+	//
+	$current_memory_limit = rtrim(ini_get('memory_limit'),'M');
+	$proper_memory_limit = '100';
+	if ($current_memory_limit < $proper_memory_limit) {
+		if (ini_set('memory_limit',$proper_memory_limit.'M') !== false) {
+			$nt->add_notice('core', 'MEMLIMIT', _("Memory Limit Changed"), sprintf(_("Your memory_limit, %sM, is set too low and has been increased to %sM. You may want to change this in you php.ini config file"),$current_memory_limit,$proper_memory_limit));
+		} else {
+			$nt->add_warning('core', 'MEMERR', _("Low Memory Limit"), sprintf(_("Your memory_limit, %sM, is set too low and may cause problems. FreePBX is not able to change this on your system. You should increase this to %sM in you php.ini config file"),$current_memory_limit,$proper_memory_limit),'http://wiki.freepbx.org/x/lgK3AQ');
+		}
+	} else {
+		$nt->delete('core', 'MEMLIMIT');
+	}
 }
 if (!isset($no_auth) && !defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }//we should never need this, just another line of defence
 bootstrap_include_hooks('pre_module_load', 'all_mods');

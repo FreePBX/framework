@@ -7,7 +7,7 @@ global $_item_sort;
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle navbar-left collapsed" data-toggle="collapse" data-target="#fpbx-menu-collapse">
-					<span class="sr-only">Toggle navigation</span>
+					<span class="sr-only"><php echo _("Toggle navigation")?></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
@@ -20,18 +20,16 @@ global $_item_sort;
 				<ul class="nav navbar-nav navbar-left">
 					<?php include_once(__DIR__ . '/menu_items.php'); ?>
 				</ul>
-				<ul class="nav navbar-nav navbar-right">
-					<?php if(FreePBX::create()->astman->connected()) {?>
-						<li><a id="button_reload" class="navbar-btn reload-btn"><?php echo _('Apply Config'); ?></a></li>
-					<?php } else { ?>
-						<li><a class="navbar-btn reload-btn"><?php echo _('Can Not Connect to Asterisk'); ?></a></li>
-					<?php } ?>
-				</ul>
 			</div>
-			<div class="stuck-right">
-				<?php if ( isset($_SESSION['AMP_user']) && ($authtype != 'none')) { ?>
+			<ul class="stuck-right">
+				<?php if(FreePBX::create()->astman->connected()) {?>
+					<li><a id="button_reload" class="btn btn-danger nav-button reload-btn"><?php echo _('Apply Config'); ?></a></li>
+				<?php } else { ?>
+					<li><a class="btn btn-danger nav-button reload-btn"><?php echo _('Can Not Connect to Asterisk'); ?></a></li>
+				<?php } ?>
+				<?php if ( isset($_SESSION['AMP_user']) ) { ?>
 					<?php if($amp_conf['SHOWLANGUAGE']) { ?>
-						<li class="dropdown">
+						<li class="dropdown admin-btn">
 							<button class="btn dropdown-toggle nav-button" data-toggle="dropdown"><i class="fa fa-language"></i></button>
 							<ul id="fpbx_lang" class="dropdown-menu" role="menu">
 								<?php foreach ($language as $langKey => $lang) {
@@ -44,23 +42,26 @@ global $_item_sort;
 							</ul>
 						</li>
 					<?php } ?>
-					<li class="dropdown">
-						<button class="btn dropdown-toggle nav-button" data-toggle="dropdown"><i id="settings-cog" class="fa fa-cog"></i></button>
-						<ul class="dropdown-menu" role="menu">
-							<li role="presentation" ><a><?php echo _('Hello, ') . (isset($_SESSION['AMP_user']->username) ? $_SESSION['AMP_user']->username : 'ERROR'); ?></a></li>
-							<li role="presentation" class="divider"></li>
-							<li><a id="user_logout" href="#"><?php echo _('Logout'); ?></a>
-						</ul>
-					</li>
+					<button id="search-btn" class="btn nav-button"><i class="fa fa-search"></i></button>
+					<?php if($authtype != 'none') {?>
+						<li class="dropdown admin-btn">
+							<button class="btn dropdown-toggle nav-button" data-toggle="dropdown"><i id="settings-cog" class="fa fa-cog"></i></button>
+							<ul class="dropdown-menu" role="menu">
+								<li role="presentation" ><a><?php echo _('Hello, ') . (isset($_SESSION['AMP_user']->username) ? $_SESSION['AMP_user']->username : 'ERROR'); ?></a></li>
+								<li role="presentation" class="divider"></li>
+								<li><a id="user_logout" href="#"><?php echo _('Logout'); ?></a>
+							</ul>
+						</li>
+					<?php } ?>
 				<?php } ?>
-			</div>
-			<?php if (isset($display) && $display != "noauth") { ?>
-				<div class="" id='fpbxsearch'>
-					<i class="fa fa-search"></i>
-					<input type="text" class="form-control typeahead" placeholder="<?php echo _('Search')?>">
-				</div>
-			<?php } ?>
+			</ul>
 		</div>
 	</nav>
 </div>
+<?php if (isset($display) && $display != "noauth") { ?>
+	<div class="<?php echo empty($_COOKIE['searchHide']) ? 'in' : ''?>" id='fpbxsearch'>
+		<i class="fa fa-search"></i>
+		<input type="text" class="form-control typeahead" placeholder="<?php echo _('Search')?>" title="<?php echo _("Quick Search '/'")?>">
+	</div>
+<?php } ?>
 <div id="page_body">

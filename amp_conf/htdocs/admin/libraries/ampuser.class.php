@@ -145,4 +145,10 @@ class ampuser {
 		}
 		return $status;
 	}
+	public function getExtensionHigh(){
+		return isset($this->extension_high)?$this->extension_high:'';
+	}
+	public function getExtensionLow(){
+		return isset($this->extension_low)?$this->extension_low:'';
+	}
 }

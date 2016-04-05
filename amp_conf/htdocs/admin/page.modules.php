@@ -753,11 +753,23 @@ switch ($action) {
 
 		$category = false;
 		$numdisplayed = 0;
-		$fd = $amp_conf['ASTETCDIR'].'/freepbx_module_admin.conf';
-		if (file_exists($fd)) {
-			$module_filter = parse_ini_file($fd);
+		if ($amp_conf['USE_FREEPBX_MENU_CONF']) {
+			$fd = $amp_conf['ASTETCDIR'].'/freepbx_menu.conf';
 		} else {
-			$module_filter = array();
+			$fd = $amp_conf['ASTETCDIR'].'/freepbx_module_admin.conf';
+		}
+		$module_filter = array();
+		$module_filter_new = array();
+		if (file_exists($fd)) {
+			$module_filter = @parse_ini_file($fd,true);
+			if(count($module_filter) == 1 && !empty($module_filter['general'])) {
+				$module_filter = $module_filter['general'];
+			} elseif(count($module_filter) > 1) {
+				$module_filter_new = $module_filter;
+				$module_filter = array();
+			} else {
+				$module_filter = array();
+			}
 		}
 		$module_display = array();
 		$category = null;
@@ -769,6 +781,18 @@ switch ($action) {
 			}
 			if (isset($module_filter[$name]) && strtolower(trim($module_filter[$name])) == 'hidden') {
 				continue;
+			}
+
+			if (isset($module_filter_new[$name])) {
+				if(isset($module_filter_new[$name]['hidden']) && strtolower($module_filter_new[$name]['hidden']) == "yes") {
+					continue;
+				}
+				if(isset($module_filter_new[$name]['category'])) {
+					$modules[$name]['category'] = $module_filter_new[$name]['category'];
+				}
+				if(isset($module_filter_new[$name]['name'])) {
+					$modules[$name]['name'] = $module_filter_new[$name]['name'];
+				}
 			}
 
 			// Theory: module is not in the defined repos, and since it is not local (meaning we loaded it at some point) then we
@@ -842,8 +866,8 @@ switch ($action) {
 			$numdisplayed++;
 
 			if ($category !== $modules[$name]['category']) {
-				$category = $modules[$name]['category'];
-				$module_display[$category]['name'] = $modules[$name]['category'];
+				$category = !empty($modules[$name]['category']) ? $modules[$name]['category'] : "other";
+				$module_display[$category]['name'] = $category;
 			}
 
 			$module_display[$category]['data'][$name] = $modules[$name];

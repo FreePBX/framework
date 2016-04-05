@@ -130,7 +130,7 @@ DROP TABLE IF EXISTS `devices`;
 CREATE TABLE `devices` (
   `id` varchar(20) NOT NULL DEFAULT '',
   `tech` varchar(10) NOT NULL DEFAULT '',
-  `dial` varchar(50) NOT NULL DEFAULT '',
+  `dial` varchar(255) NOT NULL DEFAULT '',
   `devicetype` varchar(5) NOT NULL DEFAULT '',
   `user` varchar(50) DEFAULT NULL,
   `description` varchar(50) DEFAULT NULL,

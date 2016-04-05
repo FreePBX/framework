@@ -25,89 +25,135 @@ class Stop extends Command {
 			$output->writeln("<error>"._("You need to be root to run this command")."</error>");
 			exit(1);
 		}
-		$output->writeln(_('Running FreePBX shutdown...'));
-		$output->writeln('');
-		$output->writeln(_('Checking Asterisk Status...'));
-		$aststat = $this->asteriskProcess();
-		if(!$aststat[0]){
-			$output->writeln(_('Asterisk Seems to be NOT running'));
-			$output->writeln('<info>'._('Not running Pre-Asterisk Shutdown Hooks.').'</info>');
-		}else{
-			$output->writeln(_('Run Pre-Asterisk Shutdown Hooks'));
-			$this->preAsteriskHooks($output);
-			if($input->getOption('immediate')){
-				$output->writeln(_('Shutting down NOW...'));
-				$this->stopAsterisk($output, now);
-				$aststat = $this->asteriskProcess();
-				sleep(2);
-				while($i++ < 3){
-					if($aststat[0]){
-						$output->writeln(_('The immediate shutdown did not go as planned... Trying again...'));
-						$this->stopAsterisk($output, now);
-						sleep(2);
-					}
-				}
-			}else{
-				$output->writeln('');
-				$output->writeln(_('Shutting down Asterisk Gracefully...'));
-				$output->writeln(sprintf(_('Press %s to Cancel'),'C'));
-				$output->writeln(sprintf(_('Press %s to shut down NOW'),'N'));
-				$progress = new ProgressBar($output, 120);
-				$this->stopAsterisk($output, 'gracefully');
-				$progress->start();
-				$i = 0;
-				$stdin = fopen('php://stdin', 'r');
-				stream_set_blocking ($stdin,0);
-				exec('stty -g', $term);
-				system("stty -icanon");
-				while ($stdin) {
-					$res = fgetc ($stdin);
-					echo $res;
-					$aststat = $this->asteriskProcess();
-					if(!$aststat[0]){
-						$progress->finish();
-						$output->writeln('');
-						$output->writeln(_('Asterisk Stopped Successfuly'));
-						$userov = True;
+		$args = $input->getArgument('args');
+		if(!empty($args)) {
+			$pre = $this->preAsteriskHooks($output,false);
+			$post = $this->postAsteriskHooks($output,false);
+			$aststat = $this->asteriskProcess();
+			$asteriskrunning = ($aststat[0]);
+			$bmo = \FreePBX::create();
+			$found = false;
+			foreach($pre as $pri => $data) {
+				if(strtolower($data['module']) == $args[0]) {
+					$found = true;
+					if(!$asteriskrunning) {
+						$output->writeln("<error>"._('This service must be stopped before Asterisk has stopped')."</error>");
 						break;
 					}
-
-					if (strtolower($res) == 'c'){
-						$progress->finish();
-						$output->writeln('');
-						$this->abortShutdown($output);
-						fclose($stdin);
-						$userov = True;
-						break;
-					}
-					if (strtolower($res) == 'n'){
-						$progress->finish();
-						$output->writeln('');
-						$this->stopAsterisk($output, 'now');
-						fclose($stdin);
-						$userov = True;
-						break;
-					}
-					sleep(1);
-					$progress->advance(1);
-					$i++;
-					if($i == 120){
-						fclose($stdin);
-						break;
-					}
-				}
-				system("stty '" . $term[0] . "'");
-				if(!$userov){
-					$output->writeln(_('Grace Period timed out'));
-					$this->stopAsterisk($output, 'now');
+					$bmo->$data['module']->$data['method']($output);
+					break;
 				}
 			}
+			foreach($post as $pri => $data) {
+				if(strtolower($data['module']) == $args[0]) {
+					$found = true;
+					if($asteriskrunning) {
+						$output->writeln("<error>"._('This service must be stopped after Asterisk has stopped')."</error>");
+						break;
+					}
+					$bmo->$data['module']->$data['method']($output);
+					break;
+				}
+			}
+			if(!$found) {
+				$output->writeln("<error>"._('Unable to find service to start')."</error>");
+			}
+		} else {
+			$brand = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
+			$output->writeln(sprintf(_('Running %s shutdown...'),$brand));
+			$output->writeln('');
+			$output->writeln(_('Checking Asterisk Status...'));
 			$aststat = $this->asteriskProcess();
-			sleep(1);
 			if(!$aststat[0]){
-				$output->writeln('');
-				$output->writeln(_('Running Post-Asterisk Stop Scripts'));
-				$this->postAsteriskHooks($output);
+				$output->writeln(_('Asterisk seems NOT to be running'));
+				$output->writeln('<info>'._('Not running Pre-Asterisk Shutdown Hooks.').'</info>');
+			}else{
+				$output->writeln(_('Run Pre-Asterisk Shutdown Hooks'));
+				$this->preAsteriskHooks($output);
+				if($input->getOption('immediate')){
+					$output->writeln(_('Shutting down NOW...'));
+					$this->stopAsterisk($output, now);
+					$aststat = $this->asteriskProcess();
+					sleep(2);
+					while($i++ < 3){
+						if($aststat[0]){
+							$output->writeln(_('The immediate shutdown did not go as planned... Trying again...'));
+							$this->stopAsterisk($output, now);
+							sleep(2);
+						}
+					}
+				}else{
+					$output->writeln('');
+					$output->writeln(_('Shutting down Asterisk Gracefully...'));
+					if (!$output->isQuiet()) {
+						$output->writeln(sprintf(_('Press %s to Cancel'),'C'));
+						$output->writeln(sprintf(_('Press %s to shut down NOW'),'N'));
+					}
+					$progress = new ProgressBar($output, 120);
+					$this->stopAsterisk($output, 'gracefully');
+					$progress->start();
+					$i = 0;
+					if (!$output->isQuiet()) {
+						$stdin = fopen('php://stdin', 'r');
+						stream_set_blocking($stdin,0);
+						exec('stty -g', $term);
+						system("stty -icanon");
+					}
+					while ($stdin) {
+						if (!$output->isQuiet()) {
+							$res = fgetc ($stdin);
+							echo $res;
+						}
+						$aststat = $this->asteriskProcess();
+						if(!$aststat[0]){
+							$progress->finish();
+							$output->writeln('');
+							$output->writeln(_('Asterisk Stopped Successfuly'));
+							$userov = True;
+							break;
+						}
+						if (!$output->isQuiet()) {
+							if (strtolower($res) == 'c'){
+								$progress->finish();
+								$output->writeln('');
+								$this->abortShutdown($output);
+								$userov = True;
+								break;
+							}
+							if (strtolower($res) == 'n'){
+								$progress->finish();
+								$output->writeln('');
+								$this->stopAsterisk($output, 'now');
+								$userov = True;
+								break;
+							}
+						}
+						sleep(1);
+						$progress->advance(1);
+						$i++;
+						if($i == 120){
+							break;
+						}
+					}
+					if (!$output->isQuiet()) {
+						//re-block the stream
+						stream_set_blocking($stdin,1);
+						fclose($stdin);
+
+						system("stty '" . $term[0] . "'");
+					}
+					if(!$userov){
+						$output->writeln(_('Grace Period timed out'));
+						$this->stopAsterisk($output, 'now');
+					}
+				}
+				$aststat = $this->asteriskProcess();
+				sleep(1);
+				if(!$aststat[0]){
+					$output->writeln('');
+					$output->writeln(_('Running Post-Asterisk Stop Scripts'));
+					$this->postAsteriskHooks($output);
+				}
 			}
 		}
 	}
@@ -132,11 +178,17 @@ class Stop extends Command {
 			$astman->send_request('Command',array('Command'=>'core abort shutdown'));
 		}
 	}
-	private function preAsteriskHooks($output){
+	private function preAsteriskHooks($output,$execute=true){
+		if(!$execute) {
+			return \FreePBX::Hooks()->returnHooks();
+		}
 		\FreePBX::Hooks()->processHooks($output);
 		return;
 	}
-	private function postAsteriskHooks($output){
+	private function postAsteriskHooks($output,$execute=true){
+		if(!$execute) {
+			return \FreePBX::Hooks()->returnHooks();
+		}
 		\FreePBX::Hooks()->processHooks($output);
 		return;
 	}

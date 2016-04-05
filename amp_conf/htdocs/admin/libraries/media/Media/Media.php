@@ -17,8 +17,10 @@ class Media {
 
 	public function __construct($filename) {
 		$this->loadTrack($filename);
-		$tempDir = sys_get_temp_dir();
-		$this->tempDir = !empty($tempDir) ? $tempDir : "/tmp";
+		$this->tempDir = \FreePBX::Config()->get("ASTSPOOLDIR") . "/tmp";
+		if(!file_exists($this->tempDir)) {
+			mkdir($this->tempDir,0777,true);
+		}
 	}
 	/**
 	 * Cast the track to a string
@@ -27,6 +29,20 @@ class Media {
 	 */
 	public function __toString() {
 		return $this->track;
+	}
+
+	/**
+	 * Turn all spaces into underscores and remove all utf8
+	 * from filenames
+	 * @param  string $name The filename
+	 * @return string       The cleaned filename
+	 */
+	public static function cleanFileName($name) {
+		$name = pathinfo($name,PATHINFO_FILENAME);
+		$name = str_replace(" ","-",$name);
+		$name = preg_replace("/\s+|'+|`+|\"+|<+|>+|\?+|\*|\.+|&+/","-",strtolower($name));
+		$name = preg_replace('/[\x00-\x1F\x80-\xFF]/u', '', $name);
+		return $name;
 	}
 
 	/**
@@ -79,26 +95,38 @@ class Media {
 	 * Get all supported formats
 	 * @return array Array of supported audio formats
 	 */
-	public static function getSupportedFormats() {
+	public static function getSupportedFormats($driver=null) {
 		$formats = array(
 			"out" => array(),
 			"in" => array()
 		);
-		if(Driver\Drivers\AsteriskShell::installed()) {
-			$formats = Driver\Drivers\AsteriskShell::supportedCodecs($formats);
+		if(empty($driver)) {
+			if(Driver\Drivers\AsteriskShell::installed()) {
+				$formats = Driver\Drivers\AsteriskShell::supportedCodecs($formats);
+			}
+			if(Driver\Drivers\SoxShell::installed()) {
+				$formats = Driver\Drivers\SoxShell::supportedCodecs($formats);
+			}
+			if(Driver\Drivers\Mpg123Shell::installed()) {
+				$formats = Driver\Drivers\Mpg123Shell::supportedCodecs($formats);
+			}
+			if(Driver\Drivers\FfmpegShell::installed()) {
+				$formats = Driver\Drivers\FfmpegShell::supportedCodecs($formats);
+			}
+			if(Driver\Drivers\LameShell::installed()) {
+				$formats = Driver\Drivers\LameShell::supportedCodecs($formats);
+			}
+		} else {
+			$class = 'Media\Driver\Drivers\\'.$driver;
+			if(class_exists($class) && $class::installed()) {
+				$formats = $class::supportedCodecs($formats);
+			} elseif(!class_exists($class)) {
+				throw new \Exception("Driver not avalible");
+			} else {
+				//not installed...
+			}
 		}
-		if(Driver\Drivers\SoxShell::installed()) {
-			$formats = Driver\Drivers\SoxShell::supportedCodecs($formats);
-		}
-		if(Driver\Drivers\Mpg123Shell::installed()) {
-			$formats = Driver\Drivers\Mpg123Shell::supportedCodecs($formats);
-		}
-		if(Driver\Drivers\FfmpegShell::installed()) {
-			$formats = Driver\Drivers\FfmpegShell::supportedCodecs($formats);
-		}
-		if(Driver\Drivers\LameShell::installed()) {
-			$formats = Driver\Drivers\LameShell::supportedCodecs($formats);
-		}
+
 		return $formats;
 	}
 
@@ -133,9 +161,13 @@ class Media {
 			if($class::installed() && $class::isCodecSupported($extension,"out")) {
 				$driver = new $class($i['path'],$i['extension'],$i['mime']);
 				$driver->convert($newFilename,$extension,$mime);
+				if(!file_exists($newFilename)) {
+					throw new \Exception("File was not converted");
+				}
 				break;
 			}
 		}
+
 		if(!empty($intermediary['wav']['path']) && file_exists($intermediary['wav']['path'])) {
 			unlink($intermediary['wav']['path']);
 		}
@@ -228,18 +260,32 @@ class Media {
 				break;
 			}
 		}
-		if(!file_exists($this->track)) {
-			throw new \Exception("Unable to find an intermediay converter");
+		if(!isset($intermediary['wav']['path']) || !file_exists($intermediary['wav']['path'])) {
+			throw new \Exception(sprintf(_("Unable to find an intermediary converter for %s"),$this->track));
 		}
 
+		//Asterisk 11 should support sln48 but it doesnt, it says it does but then complains
+		//It might be a bug, regardless this is fixed in 13 people should just use it
 		$ver = \FreePBX::Config()->get("ASTVERSION");
-		if(version_compare_freepbx($ver,"13.0","ge")) {
+		if(version_compare_freepbx($ver,"13.0","ge") && \Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln48","in")) {
 			$type = "sln48";
 			$samplerate = 48000;
-		} else {
+		} elseif(\Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln16","in")) {
 			$type = "sln16";
 			$samplerate = 16000;
+		} else {
+			$type = "wav16";
+			$samplerate = 16000;
 		}
+
+		$nt = \notifications::create();
+		if(version_compare_freepbx($ver,"13.0","ge") && !\Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln48","in")) {
+			//something is wacky here
+			$nt->add_warning("FRAMEWORK", "UNSUPPORTED_SLN48", _("The file format sln48 is not supported on your system"), _("The file format sln48 is not supported by Asterisk when it should be. Audio conversion quality will be limited to 16k instead of 48k"));
+		} else {
+			$nt->delete("FRAMEWORK", "UNSUPPORTED_SLN48");
+		}
+
 		//Now transform into a raw audio file
 		$d = new $soxClass($intermediary['wav']['path'],$intermediary['wav']['extension'],$intermediary['wav']['mime'],$samplerate,1,16);
 		$d->convert($this->tempDir."/temp.".$ts.".".$type,$type,"audio/x-raw");

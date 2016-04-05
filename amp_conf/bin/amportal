@@ -4,40 +4,35 @@
 #
 ROOT_UID=0	 # root uid is 0
 E_NOTROOT=67	 # Non-root exit error
-# define freepbx config file if not alreaddy set
+
+# define freepbx config file if not already set
 if [ -z "$FREEPBX_CONF" ]; then
-	if [ -e "/etc/freepbx.conf" ]; then
-		FREEPBX_CONF="/etc/freepbx.conf"
-	elif [ -e "/etc/asterisk/freepbx.conf" ]; then
+	FREEPBX_CONF="/etc/freepbx.conf"
+	if [ -e "/etc/asterisk/freepbx.conf" ]; then
 		FREEPBX_CONF="/etc/asterisk/freepbx.conf"
-	else
-		FREEPBX_CONF="/etc/freepbx.conf"
 	fi
 fi
+export FREEPBX_CONF
 
 echo
 # check to see if we are root
-if [ "$UID" -ne "$ROOT_UID" ]
-then
+if [ "$UID" -ne "$ROOT_UID" ]; then
 	echo "Sorry, you must be root to run this script."
 	echo
 	exit $E_NOTROOT
 fi
 
 # get settings from db/config file
-
 if [[ -e $FREEPBX_CONF && -w "/etc/amportal.conf" && -z "$FORCE_AMPORTAL_CONF" ]]; then        # Check if file exists.
 
-	php -r > /dev/null 2>&1
+	php -v > /dev/null 2>&1
 	if [ $? -eq 0 ]; then
 		echo "Please wait..."
   		`php -r '
 		$bootstrap_settings["freepbx_auth"] = false;
 		$bootstrap_settings["skip_astman"] = true;
 		$restrict_mods = true;
-		if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) {
-			include_once("/etc/asterisk/freepbx.conf");
-		}
+		include_once(getenv("FREEPBX_CONF"));
 		foreach($amp_conf as $key => $val) {
 			$val = str_replace(array("\r", "\n", "\r\n"), ",", $val);
 			if (is_bool($val)) {
@@ -48,32 +43,37 @@ if [[ -e $FREEPBX_CONF && -w "/etc/amportal.conf" && -z "$FORCE_AMPORTAL_CONF" ]
 		}
 		'`
 	elif [ -e "/var/lib/asterisk/bin/gen_amp_conf.php" ]; then
-		echo "Fetching FreePBX settings with gen_amp_conf.php.."
+		echo "Fetching FreePBX settings with gen_amp_conf.php..."
 		`/var/lib/asterisk/bin/gen_amp_conf.php`
+	elif [ -e "/usr/local/freepbx/bin/gen_amp_conf.php" ]; then
+		echo "Fetching FreePBX settings with gen_amp_conf.php..."
+		`/usr/local/freepbx/bin/gen_amp_conf.php`
 	elif [ -e "/etc/amportal.conf" ]; then # Check if file exists.
-		echo "Fetching settings from amportal.conf file.."
+		echo "Fetching settings from amportal.conf file..."
 		. /etc/amportal.conf
 	else
-		echo;
-		echo "FreePBX settings could not be fetched and no backup config file found!";
-		echo "Have you installed FreePBX?";
-		exit;
+		echo
+		echo "FreePBX settings could not be fetched and no backup config file found!"
+		echo "Have you installed FreePBX?"
+		exit
 	fi
 elif [ -e "/etc/amportal.conf" ]; then # Check if file exists.
 	. /etc/amportal.conf
 else
-	echo;
-	echo "FreePBX config file not found!";
-	echo "Have you installed FreePBX?";
-	exit;
+	echo
+	echo "FreePBX config file not found!"
+	echo "Have you installed FreePBX?"
+	exit
 fi
 
-if [ -x ${AMPBIN}/freepbx_engine ]; then
-	${AMPBIN}/freepbx_engine $@
-elif [ -x ${ASTVARLIBDIR}/bin/freepbx_engine ]; then
-	${ASTVARLIBDIR}/bin/freepbx_engine $@
-elif [ -x /var/lib/asterisk/bin/freepbx_engine ]; then
-	/var/lib/asterisk/bin/freepbx_engine $@
-else
-	echo "FATAL: can not find freepbx_engine to start Asterisk"
-fi
+for dir in ${AMPBIN} ${ASTVARLIBDIR}/bin /var/lib/asterisk/bin /usr/local/freepbx/bin
+do
+	# exec the first one we find
+	if [ -x "$dir"/freepbx_engine ]; then
+		exec "$dir"/freepbx_engine $@
+	fi
+done
+
+# if we got here, we could not find a freepbx_engine to run
+echo "FATAL: can not find freepbx_engine to start Asterisk"
+exit 1

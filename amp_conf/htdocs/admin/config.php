@@ -29,7 +29,7 @@ foreach ($vars as $k => $v) {
 	// page.<some_module>.php (which usually uses $var or $vars)
 	$config_vars[$k] = $$k = isset($_REQUEST[$k]) ? $_REQUEST[$k] : $v;
 
-	//special handeling
+	//special handling
 	switch ($k) {
 	case 'extdisplay':
 		$extdisplay = (isset($extdisplay) && $extdisplay !== false)
@@ -329,6 +329,18 @@ if (!$quietmode && isset($fpbx_menu["extensions"])) {
 		}
 }
 
+// If it's index, do we have an override?
+if ($display === "index") {
+	$override = $bmo->Config()->get('DASHBOARD_OVERRIDE');
+
+	// Does this user have permission to use this?
+	if (is_array($active_modules) && isset($active_modules[$override])) {
+		// Yes.
+		$display = $override;
+		$cur_menuitem = $fpbx_menu[$display];
+	}
+}
+
 ob_start();
 // Run all the pre-processing for the page that's been requested.
 if (!empty($display) && $display != 'badrefer') {
@@ -371,7 +383,7 @@ switch($display) {
 		include 'page.modules.php';
 		break;
 	case 'noaccess':
-		show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf' => &$amp_conf));
+		show_view($amp_conf['VIEW_NOACCESS'], array('amp_conf' => &$amp_conf, 'display' => $display));
 		break;
 	case 'noauth':
 		// If we're a new install..
@@ -420,14 +432,16 @@ switch($display) {
 		break;
 	default:
 
-		$obecomplete = $bmo->OOBE->isComplete();
-		if (!$obecomplete) {
-			$ret = $bmo->OOBE->showOOBE();
-		} else {
-			$ret = false;
+		$showpage = true;
+		if (!$fw_popover) {
+			/* Don't show OOBE in a popover. */
+			$obecomplete = $bmo->OOBE->isComplete();
+			if (!$obecomplete) {
+				$showpage = $bmo->OOBE->showOOBE();
+			}
 		}
 
-		if ($obecomplete || $ret === true) {
+		if ($showpage === true) {
 
 			//display the appropriate module page
 			$module_name = $cur_menuitem['module']['rawname'];
@@ -527,9 +541,13 @@ switch($display) {
 				}
 				if(isset($gpgstatus['status']) && ($gpgstatus['status'] & FreePBX\GPG::STATE_REVOKED)) {
 					echo sprintf(_("File %s has a revoked signature. Can not load"),$module_file);
+					break;
 				} else {
 					// load language info if available
 					modgettext::textdomain($module_name);
+					if ( isset($currentcomponent) ) {
+						$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
+					}
 					if ($bmo->GuiHooks->needsIntercept($module_name, $module_file)) {
 						$bmo->Performance->Start("hooks-$module_name-$module_file");
 						$bmo->GuiHooks->doIntercept($module_name, $module_file);
@@ -550,7 +568,6 @@ switch($display) {
 			// global component
 			if ( isset($currentcomponent) ) {
 				modgettext::textdomain($module_name);
-				$bmo->GuiHooks->doGUIHooks($module_name, $currentcomponent);
 				echo  $currentcomponent->generateconfigpage();
 			}
 		}
@@ -607,7 +624,8 @@ if ($quietmode) {
 
 	//send footer
 	$footer['js_content'] = load_view($amp_conf['VIEW_POPOVER_JS'], $popover_args);
-	$footer['lang'] = $language;
+	$footer['lang'] = set_language();
+	$footer['covert'] 		= in_array($display, array('noauth', 'badrefer')) ? true : false;
 	$footer['extmap'] 				= !$footer['covert']
 		? framework_get_extmap(true)
 		: json_encode(array());
@@ -706,7 +724,31 @@ if ($quietmode) {
 	try {
 		$bmomodule_name = $bmo->Modules->cleanModuleName($module_name);
 		if($bmo->Modules->moduleHasMethod($bmomodule_name,"getActionBar")) {
-			$footer['action_bar'] = $bmo->$bmomodule_name->getActionBar($_REQUEST);
+			$ab = $bmo->$bmomodule_name->getActionBar($_REQUEST);
+			if(is_array($ab)) {
+				//submit, duplicate, reset, delete.
+				//http://issues.freepbx.org/browse/FREEPBX-10611
+				uksort($ab, function($a, $b) {
+					$order = array(
+						"submit",
+						"duplicate",
+						"reset",
+						"delete"
+					);
+					$posA = array_search($a, $order);
+					if($posA === false) {
+						$posA = 999;
+					}
+					$posB = array_search($b, $order);
+					if($posB === false) {
+						$posB = 999;
+					}
+					return ($posA < $posB) ? -1 : 1;
+				});
+				$footer['action_bar'] = $ab;
+			} else {
+				$footer['action_bar'] = array();
+			}
 		}
 	} catch (Exception $e) {
 		//TODO: Log me

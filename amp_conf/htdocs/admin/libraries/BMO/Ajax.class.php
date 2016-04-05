@@ -35,7 +35,7 @@ class Ajax extends FreePBX_Helpers {
 			throw new \Exception("Module or Command were null. Check your code.");
 		}
 
-		if (class_exists(ucfirst($module))) {
+		if (class_exists(ucfirst($module)) && $module != "directory") {
 			throw new \Exception("The class $module already existed. Ajax MUST load it, for security reasons");
 		}
 

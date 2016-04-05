@@ -74,6 +74,10 @@ class module_functions {
 		if(!empty($result['data'])) {
 			$beta = json_decode($result['data'],true);
 		}
+		$result = sql("SELECT * FROM module_xml WHERE id = 'edge'",'getRow',DB_FETCHMODE_ASSOC);
+		if(!empty($result['data'])) {
+			$edge = json_decode($result['data'],true);
+		}
 		$result = sql("SELECT * FROM module_xml WHERE id = 'security'",'getRow',DB_FETCHMODE_ASSOC);
 		if(!empty($result['data'])) {
 			$security = json_decode($result['data'],true);
@@ -139,11 +143,21 @@ class module_functions {
 				$data4sql = $db->escapeSimple(json_encode($modules));
 				sql("REPLACE INTO module_xml (id,time,data) VALUES('modules',".time().",'".$data4sql."')");
 			}
+			if(!empty($allxml['xml']['edge'])) {
+				$edge = $allxml['xml']['edge'];
+				// update the db with the new xml
+				$data4sql = $db->escapeSimple(json_encode($edge));
+				sql("REPLACE INTO module_xml (id,time,data) VALUES('edge',".time().",'".$data4sql."')");
+			} else {
+				sql("REPLACE INTO module_xml (id,time,data) VALUES('edge',".time().",'')");
+			}
 			if(!empty($allxml['xml']['beta'])) {
 				$beta = $allxml['xml']['beta'];
 				// update the db with the new xml
 				$data4sql = $db->escapeSimple(json_encode($beta));
 				sql("REPLACE INTO module_xml (id,time,data) VALUES('beta',".time().",'".$data4sql."')");
+			} else {
+				sql("REPLACE INTO module_xml (id,time,data) VALUES('beta',".time().",'')");
 			}
 			if(!empty($allxml['xml']['security'])) {
 				$security = $allxml['xml']['security'];
@@ -181,6 +195,9 @@ class module_functions {
 			if ($module != false) {
 				foreach ($modules as $mod) {
 					if ($module == $mod['rawname']) {
+						if(!empty($edge[$module]) && (isset($amp_conf['MODULEADMINEDGE']) && $amp_conf['MODULEADMINEDGE'])) {
+							$mod = $edge[$module];
+						}
 						$releases = !empty($previous[$module]['releases']['module']) ? $previous[$module]['releases']['module'] : array();
 						$mod['previous'] = isset($releases['rawname']) ? array($releases) : $releases;
 						if(!empty($beta[$module])) {
@@ -206,6 +223,9 @@ class module_functions {
 			} else {
 				$final = array();
 				foreach ($modules as $mod) {
+					if(!empty($edge[$mod['rawname']]) && (isset($amp_conf['MODULEADMINEDGE']) && $amp_conf['MODULEADMINEDGE'])) {
+						$mod = $edge[$mod['rawname']];
+					}
 					$final[$mod['rawname']] = $mod;
 					if (isset($exposures[$mod['rawname']])) {
 						$final[$mod['rawname']]['vulnerabilities'] = $exposures[$mod['rawname']];
@@ -605,7 +625,7 @@ class module_functions {
 			}
 
 			// query to get just this one
-			$sql = 'SELECT * FROM modules WHERE modulename = "'.$module.'"';
+			$sql = 'SELECT * FROM modules WHERE modulename = ?';
 		} else {
 			// create the modulelist so it is static and does not need to be recreated
 			// in subsequent calls
@@ -656,10 +676,13 @@ class module_functions {
 		// modulename should match the directory name
 
 		if ($module || !$modulelist->is_loaded()) {
-			$results = $db->getAll($sql,DB_FETCHMODE_ASSOC);
-			if(DB::IsError($results)) {
-				die_freepbx($sql."<br>\n".$results->getMessage());
+			$sth = FreePBX::Database()->prepare($sql);
+			if($module) {
+				$sth->execute(array($module));
+			} else {
+				$sth->execute();
 			}
+			$results = $sth->fetchAll(\PDO::FETCH_ASSOC);
 
 			if (is_array($results)) {
 				foreach($results as $row) {
@@ -744,7 +767,7 @@ class module_functions {
 					$this->getinfo(false,false,false);
 					$m = $this->getinfo($module);
 					if(!empty($m[$module])) {
-						if((!empty($m['dbversion']) && version_compare_freepbx($m['dbversion'],$version,'<')) || version_compare_freepbx($m['version'],$version,'<')) {
+						if((!empty($m[$module]['dbversion']) && version_compare_freepbx($m[$module]['dbversion'],$version,'<')) || version_compare_freepbx($m[$module]['version'],$version,'<')) {
 							out(sprintf(_("Downloading Missing Dependency of: %s %s"),$module,$version));
 							if (is_array($errors = $this->download($module,$force,$callback))) {
 								out(_("The following error(s) occured:"));
@@ -764,6 +787,8 @@ class module_functions {
 									out(sprintf(_("Installed Missing Dependency of: %s %s"),$module,$version));
 								}
 							}
+						} elseif(version_compare_freepbx($m[$module]['version'],$version,'>=')) {
+							out(sprintf(_("Found local Dependency of: %s %s"),$module,$m[$module]['version']));
 						}
 						if(!$this->resolveDependencies($module,$callback)) {
 							return false;
@@ -1617,7 +1642,7 @@ class module_functions {
 		fclose($dp);
 		fclose($fp);
 
-		$errors = $this->_process_archive($filename);
+		$errors = $this->_process_archive($filename,$progress_callback);
 		if(count($errors)) {
 			return $errors;
 		}
@@ -1682,7 +1707,7 @@ class module_functions {
 		return true;
 	}
 
-	function _process_archive($filename) {
+	function _process_archive($filename,$progress_callback='') {
 		global $amp_conf;
 
 		if (is_readable($filename) !== TRUE ) {
@@ -1690,10 +1715,12 @@ class module_functions {
 		}
 
 		// invoke progress callback
-		if (!is_array($progress_callback) && function_exists($progress_callback)) {
-			$progress_callback('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
-		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-			$progress_callback[0]->$progress_callback[1]('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
+		if(isset($progress_callback)) {
+			if (!is_array($progress_callback) && function_exists($progress_callback)) {
+				$progress_callback('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
+			} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
+				$progress_callback[0]->$progress_callback[1]('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
+			}
 		}
 
 		$temppath = $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.uniqid("upload");
@@ -1801,10 +1828,12 @@ class module_functions {
 		}
 
 		// invoke progress_callback
-		if (!is_array($progress_callback) && function_exists($progress_callback)) {
-			$progress_callback('done', array('module'=>$modulename));
-		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-			$progress_callback[0]->$progress_callback[1]('done', array('module'=>$modulename));
+		if(isset($progress_callback)) {
+			if (!is_array($progress_callback) && function_exists($progress_callback)) {
+				$progress_callback('done', array('module'=>$modulename));
+			} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
+				$progress_callback[0]->$progress_callback[1]('done', array('module'=>$modulename));
+			}
 		}
 		return true;
 	}
@@ -2127,10 +2156,12 @@ class module_functions {
 		if (file_exists($xmlfile)) {
 			ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
 			$data = file_get_contents($xmlfile);
-			//$parser = new xml2ModuleArray($data);
-			//$xmlarray = $parser->parseModulesXML($data);
-			$parser = new xml2Array($data);
-			$xmlarray = $parser->data;
+			try {
+				$parser = new xml2Array($data);
+				$xmlarray = $parser->data;
+			} catch(\Exception $e) {
+				$xmlarray = array();
+			}
 			if (isset($xmlarray['module'])) {
 				// add a couple fields first
 				$xmlarray['module']['name'] = str_replace("\n&\n","&",$xmlarray['module']['name']);

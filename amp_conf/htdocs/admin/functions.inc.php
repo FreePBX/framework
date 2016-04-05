@@ -370,10 +370,9 @@ function do_reload($passthru=false) {
 
 	$retrieve = $setting_ampbin . '/retrieve_conf 2>&1';
 	//exec($retrieve.'&>'.$asterisk_conf['astlogdir'].'/freepbx-retrieve.log', $output, $exit_val);
-	exec($retrieve, $output, $exit_val);
-
+	$o = exec($retrieve, $output, $exit_val);
 	// retrieve_conf html output
-	$return['retrieve_conf'] = 'exit: '.$exit_val.'<br/>'.implode('<br/>',$output);
+	$return['retrieve_conf_verbose'] = $return['retrieve_conf'] = 'exit: '.$exit_val.'<br/>'.implode('<br/>',$output);
 
 	if ($exit_val != 0) {
 		$return['status'] = false;
@@ -392,15 +391,10 @@ function do_reload($passthru=false) {
 	}
 	$notify->delete('freepbx', 'RCONFFAIL');
 
-	//reload MOH to get around 'reload' not actually doing that.
-
 	//reload asterisk
-  if (version_compare($version,'1.4','lt')) {
-		$astman->send_request('Command', array('Command'=>'moh reload'));
-	  $astman->send_request('Command', array('Command'=>'reload'));
-  } else {
-  	$astman->Reload();
-  }
+	FreePBX::Performance()->Start("Reload Asterisk");
+	$astman->Reload();
+	FreePBX::Performance()->Stop();
 
 	$return['status'] = true;
 	$return['message'] = _('Successfully reloaded');

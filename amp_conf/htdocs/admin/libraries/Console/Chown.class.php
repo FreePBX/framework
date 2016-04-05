@@ -14,6 +14,7 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 class Chown extends Command {
 	private $errors = array();
 	private $infos = array();
+	private $blacklist = array('files' => array(), 'dirs' => array());
 	private $quiet = false;
 	public $moduleName = '';
 	protected function configure(){
@@ -23,7 +24,98 @@ class Chown extends Command {
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 		$this->fs = new Filesystem();
 		$this->modfiles = array();
-		$this->actions = array();
+		$this->actions = new \SplQueue();
+		$this->actions->setIteratorMode(\SplDoublyLinkedList::IT_MODE_FIFO | \SplDoublyLinkedList::IT_MODE_DELETE);
+		$this->loadChownConf();
+	}
+	private function loadChownConf(){
+		$etcdir = \FreePBX::Config()->get('ASTETCDIR');
+		if(!file_exists($etcdir.'/freepbx_chown.conf')){
+			return;
+		}
+		$conf  = \FreePBX::LoadConfig()->getConfig("freepbx_chown.conf");
+		if(isset($conf['blacklist'])){
+			if(isset($conf['blacklist']['item'])){
+				$conf['blacklist']['item'] = is_array($conf['blacklist']['item'])?$conf['blacklist']['item']:array($conf['blacklist']['item']);
+				foreach ($conf['blacklist']['item'] as $item) {
+					$this->blacklist['files'][] = $item;
+				}
+			}
+			if(isset($conf['blacklist']['directory'])){
+				$conf['blacklist']['directory'] = is_array($conf['blacklist']['directory'])?$conf['blacklist']['directory']:array($conf['blacklist']['directory']);
+				foreach ($conf['blacklist']['directory'] as $dir) {
+					$dir = rtrim($dir, '/');
+					$this->blacklist['dirs'][] = $dir;
+				}
+			}
+		}
+		if(isset($conf['custom'])){
+			if(isset($conf['custom']['file'])){
+				$conf['custom']['file'] = is_array($conf['custom']['file'])?$conf['custom']['file']:array($conf['custom']['file']);
+				foreach (	$conf['custom']['file'] as $file) {
+					$file = $this->parse_conf_line($file);
+					if($file === false){continue;}
+					$this->modfiles['byconfig'][] = array('type' => 'file',
+							'path' => $file['path'],
+							'perms' => $file['perms'],
+							'owner' => $file['owner'],
+							'group' => $file['group']
+						);
+				}
+			}
+
+			if(isset($conf['custom']['dir'])){
+				$conf['custom']['dir'] = is_array($conf['custom']['dir'])?$conf['custom']['dir']:array($conf['custom']['dir']);
+				foreach (	$conf['custom']['dir']  as $dir) {
+					$dir = $this->parse_conf_line($dir);
+					if($dir === false){continue;}
+					$this->modfiles['byconfig'][] = array('type' => 'dir',
+							'path' => $dir['path'],
+							'perms' => $dir['perms'],
+							'owner' => $dir['owner'],
+							'group' => $dir['group'],
+							'always' => true
+						);
+				}
+			}
+			if(isset($conf['custom'][''])){
+				$conf['custom']['rdir'] = is_array($conf['custom']['rdir'])?$conf['custom']['rdir']:array($conf['custom']['rdir']);
+				foreach (	$conf['custom']['rdir']  as $rdir) {
+					$rdir = $this->parse_conf_line($rdir);
+					if($rdir === false){continue;}
+					$this->modfiles['byconfig'][] = array('type' => 'rdir',
+							'path' => $rdir['path'],
+							'perms' => $rdir['perms'],
+							'owner' => $rdir['owner'],
+							'group' => $rdir['group'],
+							'always' => true
+						);
+				}
+			}
+			if(isset($conf['custom'][''])){
+				$conf['custom']['execdir'] = is_array($conf['custom']['execdir'])?$conf['custom']['execdir']:array($conf['custom']['execdir']);
+				foreach (	$conf['custom']['execdir']  as $edir) {
+					$edir = $this->parse_conf_line($rdir);
+					if($edir === false){continue;}
+					$this->modfiles['byconfig'][] = array('type' => 'execdir',
+							'path' => $edir['path'],
+							'perms' => $edir['perms'],
+							'owner' => $edir['owner'],
+							'group' => $edir['group'],
+							'always' => true
+						);
+				}
+			}
+		}
+
+	}
+	private function parse_conf_line($line){
+		$line = explode(",", $line);
+		if(count($line) !== 4){
+			return false;
+		}
+		$ret = array('path' => $line[0], 'perms' => $line[1], 'owner' => $line[2], 'group' => $line[3]);
+		return $ret;
 	}
 	protected function execute(InputInterface $input, OutputInterface $output, $quiet=false){
 		if(posix_geteuid() != 0) {
@@ -32,6 +124,7 @@ class Chown extends Command {
 		}
 		$this->quiet = $quiet;
 		if(!$this->quiet) {
+			$output->writeln("<info>".sprintf(_("Taking too long? Customize the chown command, See %s"),"http://wiki.freepbx.org/display/FOP/FreePBX+Chown+Conf")."</info>");
 			$output->writeln(_("Setting Permissions")."...");
 		}
 		$freepbx_conf = \freepbx_conf::create();
@@ -57,7 +150,8 @@ class Chown extends Command {
 		$args = array();
 		if($input){
 			$args = $input->getArgument('args');
-			$this->moduleName = !empty($this->moduleName) ? $this->moduleName : strtolower($args[0]);
+			$mname = isset($args[0])?$args[0]:'';
+			$this->moduleName = !empty($this->moduleName) ? $this->moduleName : strtolower($mname);
 		}
 		// Always update hooks before running a Chown
 		\FreePBX::Hooks()->updateBMOHooks();
@@ -73,31 +167,54 @@ class Chown extends Command {
 				$this->modfiles[$mod] = array_merge_recursive($this->modfiles[$mod],$current);
 			}
 		}else{
+			$webuser = \FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
+			$web = posix_getpwnam($webuser);
+			if (!$web) {
+				throw new \Exception(sprintf(_("I tried to find out about %s, but the system doesn't think that user exists"),$webuser));
+			}
+			$home = trim($web['dir']);
+			if (is_dir($home)) {
+				$this->modfiles['framework'][] = array('type' => 'rdir',
+															'path' => $home,
+															'perms' => 0755);
+				// SSH folder needs non-world-readable permissions (otherwise ssh complains, and refuses to work)
+				$this->modfiles['framework'][] = array('type' => 'rdir',
+															'path' => "$home/.ssh",
+															'perms' => 0700);
+
+			}
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $sessdir,
-														'perms' => 0744);
+														'perms' => 0744,
+														'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'file',
 														'path' => '/etc/amportal.conf',
-														'perms' => 0640);
+														'perms' => 0640,
+														'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'file',
 														'path' => '/etc/freepbx.conf',
-														'perms' => 0640);
+														'perms' => 0640,
+														'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'dir',
 														'path' => $ASTRUNDIR,
-														'perms' => 0755);
+														'perms' => 0755,
+														'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => \FreePBX::GPG()->getGpgLocation(),
-														'perms' => 0755);
+														'perms' => 0755,
+														'always' => true);
 			//we may wish to declare these manually or through some automated fashion
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $ASTETCDIR,
-														'perms' => 0750);
+														'perms' => 0750,
+														'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'file',
 														'path' => $ASTVARLIBDIR . '/.ssh/id_rsa',
 														'perms' => 0600);
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $ASTLOGDIR,
-														'perms' => 0755);
+														'perms' => 0755,
+														'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $ASTSPOOLDIR,
 														'perms' => 0755);
@@ -131,14 +248,23 @@ class Chown extends Command {
 			//So that we dont get overwritten by ampwebroot
 			$this->modfiles['framework'][] = array('type' => 'execdir',
 			'path' => $AMPBIN,
-			'perms' => 0755);
+			'perms' => 0755,
+			'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'execdir',
 			'path' => $ASTAGIDIR,
-			'perms' => 0755);
+			'perms' => 0755,
+			'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'execdir',
+			'path' => $ASTVARLIBDIR. "/bin",
+			'perms' => 0755,
+			'always' => true);
 			//Merge static files and hook files, then act on them as a single unit
 			$fwcCF = $this->fwcChownFiles();
 			if(!empty($this->modfiles) && !empty($fwcCF)){
-				$this->modfiles = array_merge_recursive($this->modfiles,$fwcCF);
+				foreach ($fwcCF as $key => $value) {
+					$this->modfiles[$key] = $value;
+				}
+				//$this->modfiles = array_merge_recursive($this->modfiles,$fwcCF);
 			}
 		}
 
@@ -148,10 +274,11 @@ class Chown extends Command {
 		 */
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
 		foreach($this->modfiles as $moduleName => $modfilelist){
-			foreach($modfilelist as $file){
+				foreach($modfilelist as $file){
 				if(!isset($file['path']) || !isset($file['perms']) || !file_exists($file['path'])){
 						continue;
 				}
+
 				//Handle custom ownership (optional)
 				$owner = isset($file['owner'])?$file['owner']:$ampowner;
 				$group = isset($file['group'])?$file['group']:$ampgroup;
@@ -161,25 +288,95 @@ class Chown extends Command {
 				switch($file['type']){
 					case 'file':
 					case 'dir':
-						$this->actions[] = array($file['path'],$owner,$group,$file['perms']);
+						$path = \ForceUTF8\Encoding::toLatin1($file['path']);
+						$owner = \ForceUTF8\Encoding::toLatin1($owner);
+						$group = \ForceUTF8\Encoding::toLatin1($group);
+						$json = @json_encode(array($path,$owner,$group,$file['perms']));
+						$err = $this->jsonError();
+						if(empty($err)) {
+							if($this->checkBlacklist($path)){
+								$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+							}else{
+								$this->actions->enqueue($json);
+							}
+						} else {
+							$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+						}
 						break;
 					case 'rdir':
 						$fileperms = $this->stripExecute($file['perms']);
 						$files = $this->recursiveDirList($file['path']);
-						$this->actions[] = array($file['path'], $owner, $group, $file['perms']);
+						$path = \ForceUTF8\Encoding::toLatin1($file['path']);
+						$owner = \ForceUTF8\Encoding::toLatin1($owner);
+						$group = \ForceUTF8\Encoding::toLatin1($group);
+						$json = @json_encode(array($path, $owner, $group, $file['perms']));
+						$err = $this->jsonError();
+						if(empty($err)) {
+							$this->actions->enqueue($json);
+						} else {
+							$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+						}
 						foreach($files as $f){
 							if(is_dir($f)){
-								$this->actions[] = array($f, $owner, $group, $file['perms']);
+								$path = \ForceUTF8\Encoding::toLatin1($f);
+								$owner = \ForceUTF8\Encoding::toLatin1($owner);
+								$group = \ForceUTF8\Encoding::toLatin1($group);
+								$json = @json_encode(array($path, $owner, $group, $file['perms']));
+								$err = $this->jsonError();
+								if(empty($err)) {
+									if($this->checkBlacklist($path)){
+										$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+									}else{
+										$this->actions->enqueue($json);
+									}
+								} else {
+									$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+								}
 							}else{
-								$this->actions[] = array($f, $owner, $group, $fileperms);
+								$path = \ForceUTF8\Encoding::toLatin1($f);
+								$owner = \ForceUTF8\Encoding::toLatin1($owner);
+								$group = \ForceUTF8\Encoding::toLatin1($group);
+								$json = @json_encode(array($path, $owner, $group, $fileperms));
+								$err = $this->jsonError();
+								if(empty($err)) {
+									if($this->checkBlacklist($path)){
+										$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+									}else{
+										$this->actions->enqueue($json);
+									}
+								} else {
+									$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+								}
 							}
 						}
 						break;
 					case 'execdir':
 						$files = $this->recursiveDirList($file['path']);
-						$this->actions[] = array($file['path'], $owner, $group, $file['perms']);
+						$path = \ForceUTF8\Encoding::toLatin1($file['path']);
+						$owner = \ForceUTF8\Encoding::toLatin1($owner);
+						$group = \ForceUTF8\Encoding::toLatin1($group);
+						$json = @json_encode(array($path, $owner, $group, $file['perms']));
+						$err = $this->jsonError();
+						if(empty($err)) {
+							$this->actions->enqueue($json);
+						} else {
+							$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+						}
 						foreach($files as $f){
-							$this->actions[] = array($f, $owner, $group, $file['perms']);
+							$path = \ForceUTF8\Encoding::toLatin1($f);
+							$owner = \ForceUTF8\Encoding::toLatin1($owner);
+							$group = \ForceUTF8\Encoding::toLatin1($group);
+							$json = @json_encode(array($path, $owner, $group, $file['perms']));
+							$err = $this->jsonError();
+							if(empty($err)) {
+								if($this->checkBlacklist($path)){
+									$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+								}else{
+									$this->actions->enqueue($json);
+								}
+							} else {
+								$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+							}
 						}
 						break;
 				}
@@ -192,8 +389,14 @@ class Chown extends Command {
 			$progress->start();
 		}
 		foreach($this->actions as $action){
+			$action = json_decode($action,true);
 			//Ignore call files, Asterisk may process/delete them before we get to them.
 			if(pathinfo($action[0], PATHINFO_EXTENSION) == 'call'){
+				continue;
+			}
+			//If path is in the blacklist we move on.
+			if(in_array($action[0], $this->blacklist) == true){
+				$this->infos[] = sprintf(_('%s skipped by configuration'), $action[0]);
 				continue;
 			}
 			$this->singleChown($action[0],$action[1],$action[2]);
@@ -206,13 +409,26 @@ class Chown extends Command {
 			$progress->finish();
 			$output->writeln("");
 			$output->writeln("Finished setting permissions");
-			foreach($this->errors as $error) {
+			$errors = array_unique($this->errors);
+			foreach($errors as $error) {
 				$output->writeln("<error>".$error."</error>");
 			}
-			foreach($this->infos as $error) {
+			$infos = array_unique($this->infos);
+			foreach($infos as $error) {
 				$output->writeln("<info>".$error."</info>");
 			}
 		}
+	}
+	private function checkBlacklist($file){
+		//If path is in the blacklist we move on.
+		$filepath = pathinfo($file,PATHINFO_DIRNAME);
+		if(in_array($file, $this->blacklist['files'])){
+			return true;
+		}
+		if(in_array($filepath, $this->blacklist['dirs'])){
+			return true;
+		}
+		return false;
 	}
 	private function stripExecute($mask){
 		$mask = ($mask & ~(1<<0));
@@ -289,6 +505,10 @@ class Chown extends Command {
 		}
 	}
 	private function singlePerms($file, $perms){
+		if(!trim($file)){
+			$this->errors[] = _('We received an empty string for a file name. Some files may not have the proper permissions');
+			return false;
+		}
 		$filetype = filetype($file);
 		switch($filetype){
 			case 'link':
@@ -341,6 +561,10 @@ class Chown extends Command {
 			if ($file == '.' || $file == '..'){
 				continue;
 			}
+			if($this->checkBlacklist($path)){
+				$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+				return array();
+			}
 			$fullpath = $path . '/' . $file;
 			$filetype = filetype($fullpath);
 			if($filetype == 'dir'){
@@ -368,5 +592,31 @@ class Chown extends Command {
 	private function fwcChownFiles(){
 		$modules = \FreePBX::Hooks()->processHooks();
 		return $modules;
+	}
+
+	private function jsonError() {
+		switch (json_last_error()) {
+			case JSON_ERROR_NONE:
+				return false;
+			break;
+			case JSON_ERROR_DEPTH:
+				return 'Maximum stack depth exceeded';
+			break;
+			case JSON_ERROR_STATE_MISMATCH:
+				return 'Underflow or the modes mismatch';
+			break;
+			case JSON_ERROR_CTRL_CHAR:
+				return 'Unexpected control character found';
+			break;
+			case JSON_ERROR_SYNTAX:
+				return 'Syntax error, malformed JSON';
+			break;
+			case JSON_ERROR_UTF8:
+				return 'Malformed UTF-8 characters, possibly incorrectly encoded';
+			break;
+			default:
+				return 'Unknown error';
+			break;
+			}
 	}
 }

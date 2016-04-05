@@ -57,15 +57,23 @@ span.twitter-typeahead {
 }
 
 #fpbxsearch {
-  height: 30px;
-  position: relative;
-  width: 87%;
-  float: left;
-
+  height: 34px;
+  position: fixed;
+  width: 25%;
   @media (max-width: @menu-breakpoint) {
     width: 100%;
   }
-
+  top: 0px;
+  transition: top 1s;
+  background-color: @background-color;
+  padding-top: 3px;
+  padding-left: 4px;
+  padding-right: 5px;
+  border-bottom: 1px solid @border-color;
+  border-left: 1px solid @border-color;
+  border-right: 1px solid @border-color;
+  right: 0;
+  z-index: 1010;
   input {
     height: 28px;
   }
@@ -78,7 +86,7 @@ span.twitter-typeahead {
     padding-left: 3px;
     padding-right: 4px;
     padding-top: 4px;
-    top: 3px;
+    top: 6px;
     right: 10px;
   }
   i.fa-search.animate-flicker {
@@ -87,6 +95,18 @@ span.twitter-typeahead {
      -o-animation: flickerAnimation 1s infinite;
       animation: flickerAnimation 1s infinite;
   }
+}
+#fpbxsearch.in {
+  top: 35px;
+}
+#search-btn {
+  padding: 2px 7px;
+  padding-top: 0px;
+  font-size: 17px;
+  height: 27px;
+  outline: 0;
+  min-height: 27px;
+  min-width: 2px;
 }
 
 @keyframes flickerAnimation {

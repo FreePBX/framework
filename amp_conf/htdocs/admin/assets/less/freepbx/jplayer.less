@@ -29,7 +29,7 @@ outline: none;
 .jp-video-freepbx {
 	font-size: 16px;
 	line-height: 1.6;
-	color: #666;
+	color: #000;
 	border: 1px solid #CCCCCC;
 	box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
 	background-color: white;
@@ -40,9 +40,17 @@ outline: none;
 	.jp-play,
 	.jp-repeat,
 	.jp-mute,
-	.jp-unmute {
-		color: #0070A3;
+	.jp-unmute,
+	.jp-restart {
+		color: @button-active-background-color;
 		padding: 2px;
+	}
+	.jp-play:hover,
+	.jp-repeat:hover,
+	.jp-mute:hover,
+	.jp-unmute:hover,
+	.jp-restart:hover {
+		color: darken(@button-active-background-color,20%);
 	}
 	.jp-unmute {
 		display: none;
@@ -117,7 +125,7 @@ outline: none;
 					transition: none;
 					-webkit-transition: none;
 					-o-transition: none;
-					background-color: #D7EBF9;
+					background-color: @button-background-color;
 					-webkit-box-shadow: inset 0 -1px 0 rgba(170,210,239,0.15);
 					box-shadow: inset 0 -1px 0 rgba(170,210,239,0.15);
 				}

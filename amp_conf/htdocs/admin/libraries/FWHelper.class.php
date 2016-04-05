@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FWHelpCommand extends HelpCommand {
 	private $command;
 
-	public function setCommand(FreePBXInstallCommand $command) {
+	public function setCommand($command) {
 		$this->command = $command;
 	}
 	protected function execute(InputInterface $input, OutputInterface $output) {

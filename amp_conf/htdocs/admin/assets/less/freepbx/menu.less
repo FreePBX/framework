@@ -1,5 +1,5 @@
 .freepbx-navbar {
-	@media only screen and (min-width : @menu-breakpoint) {
+	@media (min-width : (@menu-breakpoint + 1)) {
     /* Make Navigation Toggle on Desktop Hover */
     .dropdown:hover .dropdown-menu {
         display: block;
@@ -16,56 +16,120 @@
 		background-color: @background-color;
 		min-height: @navbar-height;
 		.stuck-right {
-            float: right;
-            width: 114px;
-            text-align: right;
-            @media (max-width: @menu-breakpoint) {
-              padding-top: 4px;
-            }
-
-			@media only screen and (min-width : @menu-breakpoint) {
-				right: 6px;
+			position: absolute;
+			right: 0;
+			top: 3px;
+			.btn {
+				margin-right: 2px;
 			}
-
-			.form-control {
-				display: inline;
-				width: initial;
-			}
-			.dropdown {
+			li {
 				display: inline;
 				list-style: none;
+				.nav-button {
+					padding: 5px 7px;
+					height: 27px;
+					outline: 0;
+					min-height: 27px;
+					.fa-language {
+						font-size: 20px;
+						margin-top: -3px;
+					}
+					.fa-cog {
+						margin-top: -2.59px;
+						font-size: 21px;
+					}
+				}
+				> a.reload-btn {
+					background: red;
+			    color: white;
+			    padding-top: 3px;
+			    border: none;
+				}
+				.dropdown-menu {
+					right: 5px;
+					left: inherit;
+					text-align: right;
+					top: 23px;
+					border-top-left-radius: 0px;
+					border-top-right-radius: 0px;
+				}
 			}
-			.dropdown.open > button {
+			li.dropdown.open > button {
 				background-color: darken(@background-color,50%);
 				border-color: darken(@border-color,20%);
 				color: #FFFFFF;
 			}
-			.nav-button {
-				padding: 5px 7px;
-				height: 27px;
-				outline: 0;
-				min-height: 27px;
-				.fa-language {
-					font-size: 20px;
-					margin-top: -3px;
-				}
-				.fa-cog {
-					margin-top: -2.59px;
-					font-size: 21px;
-				}
+		}
+		@media (min-width: (@menu-breakpoint + 1)) {
+			.navbar-right .dropdown-menu {
+				right: 0;
+				left: auto;
 			}
-			.dropdown-menu {
-				right: 8px;
-				left: inherit;
-				text-align: right;
-				top: 23px;
-				border-top-left-radius: 0px;
-				border-top-right-radius: 0px;
+			.navbar-right .dropdown-menu-left {
+				right: auto;
+				left: 0;
+			}
+			.navbar {
+				border-radius: 4px;
+			}
+			.navbar-header {
+				float: left;
+			}
+			.navbar-text {
+				float: left;
+				margin-right: 15px;
+				margin-left: 15px;
+			}
+			.navbar-left {
+				float: left !important;
+			}
+			.navbar-right {
+				float: right !important;
+				margin-right: -15px;
+			}
+			.navbar-right ~ .navbar-right {
+				margin-right: 0;
 			}
 		}
 		@media (max-width: @menu-breakpoint) {
+			.navbar-nav .open .dropdown-menu > li > a {
+				color: #777;
+			}
+			.navbar-nav .open .dropdown-menu > li > a:hover,
+			.navbar-nav .open .dropdown-menu > li > a:focus {
+				color: #333;
+				background-color: transparent;
+			}
+			.navbar-nav .open .dropdown-menu > .active > a,
+			.navbar-nav .open .dropdown-menu > .active > a:hover,
+			.navbar-nav .open .dropdown-menu > .active > a:focus {
+				color: #555;
+				background-color: #e7e7e7;
+			}
+			.navbar-nav .open .dropdown-menu > .disabled > a,
+			.navbar-nav .open .dropdown-menu > .disabled > a:hover,
+			.navbar-nav .open .dropdown-menu > .disabled > a:focus {
+				color: #ccc;
+				background-color: transparent;
+			}
+			.navbar-form .form-group {
+				margin-bottom: 5px;
+			}
+			.navbar-form .form-group:last-child {
+				margin-bottom: 0;
+			}
+			.navbar-nav .open .dropdown-menu {
+		    position: static;
+		    float: none;
+		    width: auto;
+		    margin-top: 0;
+		    background-color: transparent;
+		    border: 0;
+		    -webkit-box-shadow: none;
+		    box-shadow: none;
+			}
 	    .navbar-header {
-               float: left;
+          //float: left;
 					margin-right: -15px;
 					margin-left: -15px;
 	    }
@@ -82,7 +146,8 @@
 	        display: none!important;
 	    }
 	    .navbar-nav {
-	        margin: 7.5px -15px;
+				margin: 5.5px -36px;
+				margin-top: -2px;
             width: 97%;
             padding-left: 20px;
 	    }
@@ -146,28 +211,37 @@
 					height: (@navbar-height - 7);
 					border: 1px solid @border-color;
 					font-weight: bold;
-					color: @text-color;
+					color: @button-text-color;
 					border-radius: 4px;
 					padding-top: 3px;
+					background-color: @button-background-color;
+					.button-border(@button-gradient, @button-border-color);
+					.button-border-gradient(@button-gradient, @button-border-gradient-top, @button-border-gradient-bottom);
+					.button-background(@button-gradient, @button-background-color, @button-image);
+					.button-background-gradient(@button-gradient, @button-background-gradient-top, @button-background-gradient-bottom);
 				}
 				> a:hover {
-					background-color: lighten(@background-color,5%);
+					color: @button-hover-text-color;
+					.button-border(@button-gradient, @button-hover-border-color);
+					.button-border-gradient(@button-gradient, @button-hover-border-gradient-top, @button-hover-border-gradient-bottom);
+					.button-background(@button-gradient, @button-hover-background-color, @button-hover-image);
+					.button-background-gradient(@button-gradient, @button-hover-background-gradient-top, @button-hover-background-gradient-bottom);
 				}
 				> a:active {
-					background-color: darken(@background-color,50%);
-					color: #FFFFFF;
-				}
-				> a.reload-btn {
-					background: red;
-					color: white;
-					border-color: red;
+					color: @button-active-text-color;
+					.button-border(@button-gradient, @button-active-border-color);
+					.button-border-gradient(@button-gradient, @button-active-border-gradient-top, @button-active-border-gradient-bottom);
+					.button-background(@button-gradient, @button-active-background-color, @button-active-image);
+					.button-background-gradient(@button-gradient, @button-active-background-gradient-top, @button-active-background-gradient-bottom);
 				}
 			}
 			> li.open {
 				> a {
-					background-color: darken(@background-color,50%);
-					border-color: darken(@border-color,20%);
-					color: #FFFFFF;
+					color: @button-active-text-color;
+					.button-border(@button-gradient, @button-active-border-color);
+					.button-border-gradient(@button-gradient, @button-active-border-gradient-top, @button-active-border-gradient-bottom);
+					.button-background(@button-gradient, @button-active-background-color, @button-active-image);
+					.button-background-gradient(@button-gradient, @button-active-background-gradient-top, @button-active-background-gradient-bottom);
 				}
 			}
 		}
@@ -190,9 +264,14 @@
 				margin-top: 2px;
 			}
 		}
-		@media (max-width: 767px) {
+		@media (max-width: @menu-breakpoint) {
 			.navbar-brand {
-				left: -15px
+				//left: -15px
+			}
+		}
+		@media (min-width: @menu-breakpoint) {
+			.navbar-brand {
+				//margin-left: 0px;
 			}
 		}
 	}

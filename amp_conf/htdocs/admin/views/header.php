@@ -30,7 +30,12 @@ $html .= '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
 //http to https
 $html .= '<meta name="referrer" content="always">';
 
+$html .= '<link href="assets/css/bootstrap-3.3.5.min.css'.$version_tag.'" rel="stylesheet" type="text/css">';
+$html .= '<link href="assets/css/font-awesome.min-4.5.0.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 $html .= '<link href="assets/css/bootstrap-table-1.9.0.css'.$version_tag.'" rel="stylesheet" type="text/css">';
+$html .= '<link href="assets/css/bootstrap-table-reorder-rows.css'.$version_tag.'" rel="stylesheet" type="text/css">';
+$html .= '<link href="assets/css/jquery-ui-1.10.3.custom.css'.$version_tag.'" rel="stylesheet" type="text/css">';
+$html .= '<link href="assets/css/typehead.js-bootstrap3-0.2.3.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 
 //CSS First THEN JS (http://uxmovement.com/content/why-you-should-place-style-sheets-before-scripts/)
 //less compiled into css
@@ -51,14 +56,15 @@ if ($use_popover_css) {
 	$html .= '<link href="' . $popover_css.$version_tag . '" rel="stylesheet" type="text/css">';
 }
 
-//include rtl stylesheet if using a right to left langauge
-if (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], array('he_IL'))) {
-	$html .= '<link href="assets/css/mainstyle-rtl.css" rel="stylesheet" type="text/css" />';
-}
-
 // Insert a custom CSS sheet if specified (this can change what is in the main CSS)
 if ($amp_conf['BRAND_CSS_CUSTOM']) {
 	$html .= '<link href="' . $amp_conf['BRAND_CSS_CUSTOM'] . $version_tag . '" rel="stylesheet" type="text/css">';
+}
+
+//include rtl stylesheet if using a right to left langauge
+if (isset($_SESSION['langdirection']) && ($_SESSION['langdirection'] == 'rtl')) {
+	$html .= '<link href="assets/css/bootstrap-rtl.css'.$version_tag.'" rel="stylesheet" type="text/css" />';
+	$html .= '<link href="assets/css/mainstyle-rtl.css'.$version_tag.'" rel="stylesheet" type="text/css" />';
 }
 
 $html .= '<link rel="stylesheet" href="assets/css/outdatedbrowser.min.css'.$version_tag.'">';

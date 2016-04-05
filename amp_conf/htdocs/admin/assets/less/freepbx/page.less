@@ -39,6 +39,11 @@ html {
 	}
 }
 
+input[type=search].form-control {
+	width: 98.5%;
+	height: 24px;
+}
+
 h4 {
 	font-size: 100%;
 }
@@ -68,7 +73,7 @@ table {
 	border-spacing: 2px;
 	th {
 		background-color: @table-th-background-color;
-		color: @table-th-color;
+		color: @table-th-text-color;
 	}
 }
 
@@ -126,8 +131,8 @@ a:hover {
 }
 
 hr {
-	background-color: @background-color;
-	border: 1px solid @border-color;
+	background-color: @hr-background-color;
+	border: 1px solid @hr-border-color;
 	height: 3px;
 	border-radius: 5px;
 	margin-top: 0px;
@@ -145,12 +150,12 @@ span.twitter-typeahead .tt-dropdown-menu {
 .table-striped &>tbody &>tr:nth-child(even) &>td,
 .table-striped &>tbody &>tr:nth-child(even) &>th {
 	background-color: @table-striped-even-background-color;
-	color: @table-striped-even-color;
+	color: @table-striped-even-text-color;
 }
 .table-striped &>tbody &>tr:nth-child(odd) &>td,
 .table-striped &>tbody &>tr:nth-child(odd) &>th {
 	background-color: @table-striped-odd-background-color;
-	color: @table-striped-odd-color;
+	color: @table-striped-odd-text-color;
 }
 
 #page {
@@ -195,7 +200,7 @@ span.twitter-typeahead .tt-dropdown-menu {
 	max-width: 1920px;
 }
 #page_body {
-	padding-top: 80px;
+	padding-top: 40px;
 	padding-bottom:110px;
 	width: 95%;
 	margin-left: auto;
@@ -274,13 +279,14 @@ span.twitter-typeahead .tt-dropdown-menu {
 	}
 }
 #action-buttons {
-	background-color: rgb(229, 244, 255);
+	background-color: @action-bar-background-color;
 	padding: 5px;
 	border-top-left-radius: 5px;
 	border-bottom-left-radius: 5px;
 	padding-right: 5px;
-	border: 1px solid rgba(53, 139, 200, 0.49);
+	border: 1px solid @border-color;
 	border-right: none;
+	color: @action-bar-text-color;
 }
 a.info:link, a.info:hover {
 	cursor:text;
@@ -486,8 +492,9 @@ div.attention {
  */
 .nav.nav-tabs {
 	padding: 3px 0 0 3px;
+	border-bottom-color: @border-color;
 	> li {
-		> a {
+		> a, > a:visited {
 			font-weight: bold;
 			padding: 5px 18px;
 			background: #ffffff;
@@ -497,19 +504,22 @@ div.attention {
 			border-top-left-radius: .5em;
 		}
 		> a:hover {
+			background-color: @nav-hover-background-color;
+			color: @nav-hover-text-color;
 			border: 1px solid @border-color;
-			background-color: lighten(@background-color,5%);
-			color: lighten(@text-color,5%);
 		}
-		> a:active, > a:focus, > a:visited {
+		> a:active, > a:focus {
+			.gradient (@nav-active-background-color, #ffffff);
+			color: @nav-active-text-color;
 			border: 1px solid @border-color;
 		}
 	}
 
 	> li.active > a, > li.active > a:hover, > li.active > a:focus {
-		.gradient (@background-color, #ffffff);
+		.gradient (@nav-active-background-color, #ffffff);
+		color: @nav-active-text-color;
+		border: 1px solid @border-color;
 		border-bottom-color: white;
-		color: @text-color;
 	}
 }
 
@@ -624,13 +634,14 @@ div.attention {
 #floating-nav-bar {
 	font-size: 14px;
   transition: right .5s linear;
-	right: -51%;
+	right: -33.9%;
+	width: 33%;
 	position: fixed;
   margin-top: 8px;
   background-color: white;
   top: 117px;
   z-index: 500;
-  border-radius: 7px 0 0 7px;
+	border-bottom-left-radius: 7px;
   .box-shadow(-3px 3px 10px -2px darken(@background-color, 50%));
   border: 1px solid @border-color;
 	max-height: 274px;
@@ -643,16 +654,20 @@ div.attention {
 	}
 	#fixed-list-button{
 		position: absolute;
-		top: 50%;
+		top: -1px;
+		height: 35px;
+		width: 55px;
 		padding-left: 7px;
 		padding-right: 19px;
+		padding-top: 4px;
 		z-index: 500;
-		left: -45px;
+		left: -55px;
 		border-top-right-radius: 0px;
 		border-bottom-right-radius: 0px;
 		.box-shadow(-3px 3px 10px -2px darken(@background-color, 50%));
 		outline: 0;
 		border-right: none;
+		font-size: 20px;
 	}
 }
 #floating-nav-bar.locked {
@@ -698,6 +713,44 @@ div.attention {
 	}
 	a.list-group-item:hover,
 	a.list-group-item:focus {
-		background-color: lighten(@background-color,5%);
+		background-color: @table-row-hover-background-color;
 	}
+}
+
+
+.pagination > .active > a,
+.pagination > .active > span,
+.pagination > .active > a:hover,
+.pagination > .active > span:hover,
+.pagination > .active > a:focus,
+.pagination > .active > span:focus {
+	color: @button-active-text-color;
+	background-color: @button-active-background-color;
+	border-color: @button-active-border-color;
+}
+
+.pagination > li > a:hover,
+.pagination > li > span:hover,
+.pagination > li > a:focus,
+.pagination > li > span:focus {
+	color: @button-hover-text-color;
+	background-color: @button-hover-background-color;;
+	border-color: @button-hover-border-color;
+}
+
+.progress-bar {
+	background-color: @button-active-background-color;
+	color: @button-active-text-color;
+}
+
+/**
+* Click to edit fields so they don't appear disabled
+*/
+.clicktoedit:read-only{
+	background-color: white;
+	cursor: text;
+}
+.clicktoedit:-moz-read-only{
+	background-color: white;
+	cursor: text;
 }

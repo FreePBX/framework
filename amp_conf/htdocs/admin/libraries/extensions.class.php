@@ -180,6 +180,7 @@ class extensions {
 		if($priority == 0) {
 			$basetag = '1';
 			if (!isset($this->_exts[$section][$extension][0])) {
+				$db = debug_backtrace();
 				throw new Exception("died in splice $section $extension");
 			}
 			// we'll be defining a new pri "1", so change existing "1" to "n"
@@ -229,7 +230,7 @@ class extensions {
 			// a bug in the module, but may not be. Either way, set it to the
 			// priority requested, and then add it to the beginning.
 			if ($priority > 1) {
-				log(sprintf(_("Critical error when splicing into %s. I was asked to splice into an empty section with a priority greater than 1. This is always a bug in a module. I was asked to add %s"), $section, json_encode($var)));
+				freepbx_log(FPBX_LOG_WARNING, sprintf(_("Critical error when splicing into %s. I was asked to splice into an empty section with a priority greater than 1. This is always a bug in a module. I was asked to add %s"), $section, json_encode($var)));
 			throw new \Exception(sprintf(_("Critical error when splicing into %s. I was asked to splice into an empty section with a priority greater than 1. This is always a bug in a module. I was asked to add %s"), $section, json_encode($var)));
 			}
 			$val['basetag'] = $priority;
@@ -530,6 +531,20 @@ class ext_gosubif extends extension {
 	}
 }
 
+class ext_stasis extends extension {
+	var $app_name;
+	var $args;
+
+	function ext_stasis($app_name, $args='') {
+		$this->app_name = $app_name;
+		$this->args = $args;
+	}
+
+	function output() {
+		return "Stasis(".$this->app_name.",".$this->args.")";
+	}
+}
+
 class ext_goto extends extension {
 	var $pri;
 	var $ext;
@@ -793,7 +808,12 @@ class ext_resetcdr extends extension {
 
 class ext_nocdr extends extension {
 	function output() {
-		return "NoCDR()";
+		global $version;
+		if(version_compare($version,"12.0","ge")) {
+			return "Set(CDR_PROP(disable)=true)";
+		}else{
+			return "NoCDR()";
+		}
 	}
 }
 

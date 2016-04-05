@@ -87,7 +87,7 @@ class DialplanHooks {
 							if (isset($x[$funcarr[0]]) && $x[$funcarr[0]]['license'] == "Commercial") {
 								continue;
 							} else {
-								out(_("HANDLED-ERROR: %s should exist, but it doesn't. This is a bug"), $func);
+								out(sprintf(_("HANDLED-ERROR: %s should exist, but it doesn't. This is a bug in %s"), $func,$funcarr[0]));
 								continue;
 							}
 						}
@@ -98,7 +98,7 @@ class DialplanHooks {
 						// This is a new BMO Object!
 						$class = $cmd['Class'];
 						if (!method_exists($this->FreePBX->$class, "doDialplanHook")) {
-							out(_("HANDLED-ERROR: %s->doDialplanHook() isn't there, but the module is saying it wants to hook. This is a bug"), $class);
+							out(sprintf(_("HANDLED-ERROR: %s->doDialplanHook() isn't there, but the module is saying it wants to hook. This is a bug in %s"), $class, $class));
 							continue;
 						}
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_start");

@@ -234,6 +234,9 @@ class AGI_AsteriskManager {
 		$req .= "\r\n";
 		$this->log("Sending Request down socket:",10);
 		$this->log($req,10);
+		if(!$this->connected()) {
+			throw new Exception("Asterisk is not connected");
+		}
 		fwrite($this->socket, $req);
 		$response = $this->wait_response();
 
@@ -243,6 +246,9 @@ class AGI_AsteriskManager {
 			$this->log("Unexpected failure executing command: $action, reconnecting to manager and retrying: $reconnects");
 			$this->disconnect();
 			if ($this->connect($this->server.':'.$this->port, $this->username, $this->secret, $this->events) !== false) {
+				if(!$this->connected()) {
+					throw new Exception("Asterisk is not connected");
+				}
 				fwrite($this->socket, $req);
 				$response = $this->wait_response();
 			} else {
@@ -402,7 +408,9 @@ class AGI_AsteriskManager {
 	* @example examples/sip_show_peer.php Get information about a sip peer
 	*/
 	function disconnect() {
-		$this->logoff();
+		if($this->connected()) {
+			$this->logoff();
+		}
 		fclose($this->socket);
 	}
 
@@ -411,7 +419,7 @@ class AGI_AsteriskManager {
 	*
 	*/
 	function connected() {
-		return (bool)$this->socket;
+		return is_resource($this->socket) && !feof($this->socket);
 	}
 
 	/**
@@ -964,7 +972,7 @@ class AGI_AsteriskManager {
 	* @param string $priority
 	* @param integer $timeout
 	* @param string $callerid
-	* @param string $variable
+	* @param string $variable (Supports an array of values)
 	* @param string $account
 	* @param string $application
 	* @param string $data

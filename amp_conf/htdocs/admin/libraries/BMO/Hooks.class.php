@@ -117,6 +117,81 @@ class Hooks extends DB_Helper {
 	}
 
 	/**
+	 * Get priority sorted hook for a class and method
+	 * @param  string $class  The class
+	 * @param  string $method The method
+	 * @return array         Sorted hooks
+	 */
+	public function returnHooksByClassMethod($class, $method) {
+		$callingMethod = $method;
+		$callingClass = $class;
+
+		$this->activemods = $this->FreePBX->Modules->getActiveModules();
+		$hooks = $this->getAllHooks();
+		$return = array();
+
+		$sortedHooks = array();
+		if(!empty($hooks['ModuleHooks'][$callingClass]) && !empty($hooks['ModuleHooks'][$callingClass][$callingMethod])) {
+			foreach($hooks['ModuleHooks'][$callingClass][$callingMethod] as $module => $hooks) {
+				if(isset($this->activemods[$module])) {
+					foreach($hooks as $priority => $hook) {
+						$hook['module'] = ucfirst(strtolower($module));
+						$hook['namespace'] = !empty($hook['namespace']) ? $hook['namespace'] . '\\' : '';
+						if(isset($sortedHooks[$priority])) {
+							while(isset($sortedHooks[$priority])) {
+								$priority++;
+							}
+							$sortedHooks[$priority] = $hook;
+						} else {
+							$sortedHooks[$priority] = $hook;
+						}
+					}
+				}
+			}
+		}
+		ksort($sortedHooks);
+		return $sortedHooks;
+	}
+
+	/**
+	 * Call a hook from another method
+	 * @param  string $class  The class name
+	 * @param  string $method The method name
+	 * @param  array $args   Args to pass to the function
+	 */
+	public function processHooksByClassMethod($class, $method, $args) {
+		$sortedHooks = $this->returnHooksByClassMethod($class, $method);
+		$return = array();
+		if(!empty($sortedHooks)) {
+			foreach($sortedHooks as $hook) {
+				$module = $hook['module'];
+				$namespace = $hook['namespace'];
+				if(!class_exists($namespace.$hook['class'])) {
+					//its active so lets get BMO to load it
+					//basically we are hoping the module itself will load the right class
+					//follow FreePBX BMO naming Schema
+					try {
+						$this->FreePBX->$module;
+						if(!class_exists($namespace.$hook['class'])) {
+							//Ok we really couln't find it. Give up
+							throw new \Exception('Cant find '.$namespace.$hook['class']);
+						}
+					} catch(\Exception $e) {
+						throw new \Exception('Cant find '.$namespace.$hook['class']."::: ".$e->getMessage());
+					}
+				}
+				$meth = $hook['method'];
+				//now send the method from that class the data!
+				\modgettext::push_textdomain(strtolower($module));
+				$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), $args);
+				\modgettext::pop_textdomain();
+			}
+		}
+		//return the data from that class
+		return $return;
+	}
+
+	/**
 	 * Return all of the hooks sorted as an array
 	 * @param integer $level Level of backtrace to do to discover the calling module
 	 */
@@ -130,6 +205,7 @@ class Hooks extends DB_Helper {
 		$return = array();
 
 		$sortedHooks = array();
+
 		if(!empty($hooks['ModuleHooks'][$callingClass]) && !empty($hooks['ModuleHooks'][$callingClass][$callingMethod])) {
 			foreach($hooks['ModuleHooks'][$callingClass][$callingMethod] as $module => $hooks) {
 				if(isset($this->activemods[$module])) {
