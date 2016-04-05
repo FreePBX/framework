@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-04 11:55-0700\n"
+"POT-Creation-Date: 2016-04-05 13:57-0700\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -495,7 +495,7 @@ msgstr "404 Не найдено (%s)"
 msgid "7 Digit Patterns"
 msgstr "7-ми значный шаблон"
 
-#: ../core/functions.inc/drivers/Sip.class.php:194
+#: ../core/functions.inc/drivers/Sip.class.php:202
 #, php-format
 msgid ""
 "<strong>CRITICAL ERROR!</strong> Required Service %s is disabled! This "
@@ -664,7 +664,7 @@ msgid "Access Restrictions"
 msgstr "Ограничение доступа"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:193
-#: ../core/functions.inc/drivers/Sip.class.php:385
+#: ../core/functions.inc/drivers/Sip.class.php:393
 msgid "Account Code"
 msgstr "Аккаунта код"
 
@@ -674,7 +674,7 @@ msgstr "Аккаунт код для этого внутреннего номе�
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:143
 #: ../core/functions.inc/drivers/Iax2.class.php:138
-#: ../core/functions.inc/drivers/Sip.class.php:384
+#: ../core/functions.inc/drivers/Sip.class.php:392
 msgid "Accountcode for this device."
 msgstr "Параметр доступа для этого устройства."
 
@@ -943,23 +943,23 @@ msgid ""
 "previously set Alert Info"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:326
+#: ../core/functions.inc/drivers/Sip.class.php:334
 msgid "All - TCP Primary"
 msgstr "Все - TCP приоритет"
 
-#: ../core/functions.inc/drivers/Sip.class.php:327
+#: ../core/functions.inc/drivers/Sip.class.php:335
 msgid "All - TLS Primary"
 msgstr "Все - TLS приоритет"
 
-#: ../core/functions.inc/drivers/Sip.class.php:325
+#: ../core/functions.inc/drivers/Sip.class.php:333
 msgid "All - UDP Primary"
 msgstr "Все - UDP приортет"
 
-#: ../core/functions.inc/drivers/Sip.class.php:329
+#: ../core/functions.inc/drivers/Sip.class.php:337
 msgid "All - WS Primary"
 msgstr "Все - WS  первичный"
 
-#: ../core/functions.inc/drivers/Sip.class.php:330
+#: ../core/functions.inc/drivers/Sip.class.php:338
 msgid "All - WSS Primary"
 msgstr "Все - WSS  первичный"
 
@@ -1019,7 +1019,7 @@ msgid "Allow Login With DB Credentials"
 msgstr "Разрешить вход с параметрами доступа базы данных"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:134
-#: ../core/functions.inc/drivers/Sip.class.php:380
+#: ../core/functions.inc/drivers/Sip.class.php:388
 msgid ""
 "Allow specific codecs, separated by the '&' sign and in priority order. E.g. "
 "'ulaw&g729'. Codecs allowed in the general settings will also be allowed "
@@ -1029,7 +1029,7 @@ msgstr ""
 "Например, 'ulaw&g729'. Кодеки, указанные в основных настройках также "
 "разрешены до тех пор, пока не отменить их директивой 'disallow'."
 
-#: ../core/functions.inc/drivers/Sip.class.php:381
+#: ../core/functions.inc/drivers/Sip.class.php:389
 msgid "Allowed Codecs"
 msgstr "Разрешённые кодеки"
 
@@ -1161,7 +1161,7 @@ msgstr "Применить изменения"
 msgid "Apply Config"
 msgstr "Применить изменения"
 
-#: ../core/functions.inc/drivers/Sip.class.php:395
+#: ../core/functions.inc/drivers/Sip.class.php:403
 msgid ""
 "Are you Sure you want to Change the SIP Channel Driver? (The Page will "
 "Refresh, then you MUST hit submit to resave the device when you are done to "
@@ -1331,14 +1331,14 @@ msgid "Asterisk bin Dir"
 msgstr "Директория bin Астериск"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:125
-#: ../core/functions.inc/drivers/Sip.class.php:291
+#: ../core/functions.inc/drivers/Sip.class.php:299
 msgid "Asterisk connection type, usually friend for endpoints."
 msgstr ""
 "Тип подключений пиров к Астериск, обычно - friend для конечного оборудования."
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:103
 #: ../core/functions.inc/drivers/Iax2.class.php:116
-#: ../core/functions.inc/drivers/Sip.class.php:265
+#: ../core/functions.inc/drivers/Sip.class.php:273
 msgid ""
 "Asterisk context this device will send calls to. Only change this is you "
 "know what you are doing."
@@ -1346,7 +1346,7 @@ msgstr ""
 "Контекст Астериск для этого устройства, где будет обработан этот вызов. "
 "Изменяйте только в случае, если вы точно понимаете что делаете."
 
-#: ../core/functions.inc/drivers/Sip.class.php:388
+#: ../core/functions.inc/drivers/Sip.class.php:396
 msgid ""
 "Asterisk dialplan extension to reach voicemail for this device. Some devices "
 "use this to auto-program the voicemail button on the endpoint. If left "
@@ -1477,8 +1477,8 @@ msgstr ""
 "имена пользователей не существуют в Менеджере Пользователя."
 
 #: ../core/functions.inc/drivers/Iax2.class.php:150
-#: ../core/functions.inc/drivers/Sip.class.php:244
-#: ../core/functions.inc/drivers/Sip.class.php:248
+#: ../core/functions.inc/drivers/Sip.class.php:252
+#: ../core/functions.inc/drivers/Sip.class.php:256
 msgid "Auto"
 msgstr "Авто"
 
@@ -1490,17 +1490,17 @@ msgstr ""
 "Автоустановка ZAP2DAHDICOMPAT в значение ИСТИНА т.к мы запустили версию "
 "Asterisk выше,чем 1.4.21"
 
-#: ../core/functions.inc/drivers/Sip.class.php:304
+#: ../core/functions.inc/drivers/Sip.class.php:312
 #, php-format
 msgid "Automatic Force Both - (%s)"
 msgstr "Автоматически запустить Both- (%s)"
 
-#: ../core/functions.inc/drivers/Sip.class.php:305
+#: ../core/functions.inc/drivers/Sip.class.php:313
 #, php-format
 msgid "Automatic Force rport - (%s)"
 msgstr "Автоматически запустить rport - (%s)"
 
-#: ../core/functions.inc/drivers/Sip.class.php:306
+#: ../core/functions.inc/drivers/Sip.class.php:314
 #, php-format
 msgid "Automatic comedia - (%s)"
 msgstr "Автоматически запустить comedia- (%s)"
@@ -1679,7 +1679,7 @@ msgstr "Перевод вызова  отключен"
 msgid "Call Forwarding is enabled"
 msgstr "Перевод вызова  включен"
 
-#: ../core/functions.inc/drivers/Sip.class.php:375
+#: ../core/functions.inc/drivers/Sip.class.php:383
 msgid "Call Groups"
 msgstr "Группы вызова"
 
@@ -1788,7 +1788,7 @@ msgstr ""
 msgid "CallerID:"
 msgstr "ID звонящего (CID):"
 
-#: ../core/functions.inc/drivers/Sip.class.php:374
+#: ../core/functions.inc/drivers/Sip.class.php:382
 msgid ""
 "Callgroup(s) that this device is part of, can be one or more alpha/numeric "
 "callgroups, e.g. '1,3000-3005,sales,sales2'."
@@ -1809,7 +1809,7 @@ msgstr "Маршрут вызова: %s"
 msgid "Can Not Connect to Asterisk"
 msgstr "Может не быть подключенным в Астериск"
 
-#: ../core/functions.inc/drivers/Sip.class.php:263
+#: ../core/functions.inc/drivers/Sip.class.php:271
 msgid "Can Reinvite"
 msgstr "Может вызывать через Reinvite"
 
@@ -1929,11 +1929,11 @@ msgstr "Шпионский канал"
 msgid "Change Log for version"
 msgstr "Изменить лог для версии"
 
-#: ../core/functions.inc/drivers/Sip.class.php:234
+#: ../core/functions.inc/drivers/Sip.class.php:242
 msgid "Change SIP Driver"
 msgstr "Изменить SIP драйвер"
 
-#: ../core/functions.inc/drivers/Sip.class.php:231
+#: ../core/functions.inc/drivers/Sip.class.php:239
 #, php-format
 msgid "Change To %s Driver"
 msgstr "Перейти на %s Драйвер"
@@ -1952,7 +1952,7 @@ msgstr "Изменения"
 msgid "Changing %s to %s"
 msgstr "Замена %s на %s"
 
-#: ../core/functions.inc/drivers/Sip.class.php:237
+#: ../core/functions.inc/drivers/Sip.class.php:245
 msgid "Changing SIP Driver unavailable"
 msgstr "Замена SIP-драйвера недоступна"
 
@@ -2211,7 +2211,7 @@ msgstr "Перегрузка"
 msgid "Connecting to the Database..."
 msgstr "Подключаемся к базе данных..."
 
-#: ../core/functions.inc/drivers/Sip.class.php:292
+#: ../core/functions.inc/drivers/Sip.class.php:300
 msgid "Connection Type"
 msgstr "Тип подключения"
 
@@ -2227,7 +2227,7 @@ msgstr "Контактная персона"
 msgid "Contact User to use in request."
 msgstr "Контактная персона при запросе"
 
-#: ../core/functions.inc/drivers/Sip.class.php:266
+#: ../core/functions.inc/drivers/Sip.class.php:274
 #: ../core/views/trunks/pjsip.php:160
 msgid "Context"
 msgstr "Контекст"
@@ -2674,7 +2674,7 @@ msgstr ""
 msgid "DTMF Mode"
 msgstr "Режим DTMF"
 
-#: ../core/functions.inc/drivers/Sip.class.php:255
+#: ../core/functions.inc/drivers/Sip.class.php:263
 msgid "DTMF Signaling"
 msgstr "Сигнализация DTMF"
 
@@ -2974,7 +2974,7 @@ msgstr ""
 msgid "Deleting unused globals.."
 msgstr "Удаление неиспользуемых глобальных определений."
 
-#: ../core/functions.inc/drivers/Sip.class.php:391
+#: ../core/functions.inc/drivers/Sip.class.php:399
 msgid "Deny"
 msgstr "Отказано"
 
@@ -3145,7 +3145,7 @@ msgid "Device ID"
 msgstr "ИД устройства"
 
 #: ../core/functions.inc.php:6430
-#: ../core/functions.inc/drivers/Sip.class.php:215
+#: ../core/functions.inc/drivers/Sip.class.php:223
 msgid "Device Options"
 msgstr "Опции устройства"
 
@@ -3188,7 +3188,7 @@ msgstr ""
 "Случайные устройства могут быть зарегистрироваными, а могут и нет."
 
 #: ../core/functions.inc/drivers/Custom.class.php:37
-#: ../core/functions.inc/drivers/Sip.class.php:383
+#: ../core/functions.inc/drivers/Sip.class.php:391
 msgid "Dial"
 msgstr "Набор"
 
@@ -3337,12 +3337,12 @@ msgstr "Отключение %s"
 msgid "Disabling Trunk "
 msgstr "Отключение транка"
 
-#: ../core/functions.inc/drivers/Sip.class.php:379
+#: ../core/functions.inc/drivers/Sip.class.php:387
 msgid "Disallowed Codecs"
 msgstr "Запрещённые кодеки"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:132
-#: ../core/functions.inc/drivers/Sip.class.php:378
+#: ../core/functions.inc/drivers/Sip.class.php:386
 msgid ""
 "Disallowed codecs. Set this to all to remove all codecs defined in the "
 "general settings and then specify specific codecs separated by '&' on the "
@@ -3712,15 +3712,15 @@ msgstr "Не допускается пустое значение для это�
 msgid "Enable"
 msgstr "Включить"
 
-#: ../core/functions.inc/drivers/Sip.class.php:348
+#: ../core/functions.inc/drivers/Sip.class.php:356
 msgid "Enable AVPF"
 msgstr "Включить AVPF"
 
-#: ../core/functions.inc/drivers/Sip.class.php:371
+#: ../core/functions.inc/drivers/Sip.class.php:379
 msgid "Enable Encryption"
 msgstr "Включить шифрование"
 
-#: ../core/functions.inc/drivers/Sip.class.php:364
+#: ../core/functions.inc/drivers/Sip.class.php:372
 msgid "Enable ICE Support"
 msgstr "Включить поддержку  ICE"
 
@@ -3879,7 +3879,7 @@ msgstr "Конечный пункт"
 msgid "Endpoint port number to use, usually 4569."
 msgstr "Номер порта для использования конечных устройств, обычно 4569."
 
-#: ../core/functions.inc/drivers/Sip.class.php:315
+#: ../core/functions.inc/drivers/Sip.class.php:323
 msgid ""
 "Endpoint port number to use, usually 5060. Some 2 ports devices such as ATA "
 "may used 5061 for the second port."
@@ -4442,7 +4442,7 @@ msgstr "Интервал повтора при запрете"
 msgid "Force"
 msgstr "Принудительно"
 
-#: ../core/functions.inc/drivers/Sip.class.php:355
+#: ../core/functions.inc/drivers/Sip.class.php:363
 msgid ""
 "Force 'RTP/AVP', 'RTP/AVPF', 'RTP/SAVP', and 'RTP/SAVPF' to be used for "
 "media streams when appropriate, even if a DTLS stream is present."
@@ -4451,7 +4451,7 @@ msgstr ""
 "используется для медиапотоков в соответсвующих случаях, даже если имеется  "
 "DTLS-поток"
 
-#: ../core/functions.inc/drivers/Sip.class.php:356
+#: ../core/functions.inc/drivers/Sip.class.php:364
 msgid "Force AVP"
 msgstr "Принудительно запустить AVP"
 
@@ -4508,7 +4508,7 @@ msgstr ""
 msgid "Force rport"
 msgstr "Принудительно установить rport"
 
-#: ../core/functions.inc/drivers/Sip.class.php:299
+#: ../core/functions.inc/drivers/Sip.class.php:307
 #, php-format
 msgid "Force rport - (%s)"
 msgstr "Принудительно установить rport - (%s)"
@@ -4687,7 +4687,7 @@ msgstr ""
 msgid "FreePBX sbin Dir"
 msgstr "Директория sbin F>reePBX"
 
-#: ../core/functions.inc/drivers/Sip.class.php:320
+#: ../core/functions.inc/drivers/Sip.class.php:328
 msgid "Frequency in seconds to send qualify messages to the endpoint."
 msgstr "Частота посылок сообщений qualify конечным устройствам, в секундах."
 
@@ -4957,12 +4957,12 @@ msgstr ""
 msgid "Home directory %s doesn't exist, and I can't create it"
 msgstr "Домашняя директория %s не существует, и  невозможно создать её."
 
-#: ../core/functions.inc/drivers/Sip.class.php:269
+#: ../core/functions.inc/drivers/Sip.class.php:277
 msgid "Host"
 msgstr "Хост"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:118
-#: ../core/functions.inc/drivers/Sip.class.php:268
+#: ../core/functions.inc/drivers/Sip.class.php:276
 msgid "Host settings for this device, almost always dynamic for endpoints."
 msgstr ""
 "Настройки адреса хоста для устройства, чаще всего просто динамические для "
@@ -4994,7 +4994,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:141
 #: ../core/functions.inc/drivers/Iax2.class.php:136
-#: ../core/functions.inc/drivers/Sip.class.php:382
+#: ../core/functions.inc/drivers/Sip.class.php:390
 msgid ""
 "How to dial this device, this should not be changed unless you know what you "
 "are doing."
@@ -5059,7 +5059,7 @@ msgid "IMPORTANT:"
 msgstr "ВАЖНО:"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:144
-#: ../core/functions.inc/drivers/Sip.class.php:392
+#: ../core/functions.inc/drivers/Sip.class.php:400
 msgid ""
 "IP Address range to allow access to, in the form of network/netmask. This "
 "can be a very useful security option when dealing with remote extensions "
@@ -5073,7 +5073,7 @@ msgstr ""
 "в случае домашних офисов."
 
 #: ../core/functions.inc/drivers/Iax2.class.php:142
-#: ../core/functions.inc/drivers/Sip.class.php:390
+#: ../core/functions.inc/drivers/Sip.class.php:398
 msgid "IP Address range to deny access to, in the form of network/netmask."
 msgstr "Диапазон запрещённых для доступа ИП адресов в формате сеть/маска сети."
 
@@ -5305,7 +5305,7 @@ msgstr "Импортировать настройки из файла"
 msgid "Import/Export Patterns"
 msgstr "Шаблоны Импорта/Экспорта"
 
-#: ../core/functions.inc/drivers/Sip.class.php:253
+#: ../core/functions.inc/drivers/Sip.class.php:261
 msgid "In band audio (Not recommended)"
 msgstr "Внутриполосное аудио(не рекомендуется)"
 
@@ -5743,13 +5743,13 @@ msgstr "Идентификационный номер машины"
 msgid "Magic Quotes GPC"
 msgstr "Магические квоты GPC"
 
-#: ../core/functions.inc/drivers/Sip.class.php:387
+#: ../core/functions.inc/drivers/Sip.class.php:395
 msgid "Mailbox"
 msgstr "Почтовый ящик"
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:149
 #: ../core/functions.inc/drivers/Iax2.class.php:140
-#: ../core/functions.inc/drivers/Sip.class.php:386
+#: ../core/functions.inc/drivers/Sip.class.php:394
 msgid ""
 "Mailbox for this device. This should not be changed unless you know what you "
 "are doing."
@@ -6258,11 +6258,11 @@ msgstr "Таблица MySQL восстановлена"
 msgid "MySQL table repair Failed: %s"
 msgstr "Ошибка восстановления таблицы MySQL : %s"
 
-#: ../core/functions.inc/drivers/Sip.class.php:313
+#: ../core/functions.inc/drivers/Sip.class.php:321
 msgid "NAT Mode"
 msgstr "Режим NAT"
 
-#: ../core/functions.inc/drivers/Sip.class.php:312
+#: ../core/functions.inc/drivers/Sip.class.php:320
 msgid ""
 "NAT setting, see Asterisk documentation for details. Yes usually works for "
 "both internal and external devices. Set to No if the device will always be "
@@ -6305,7 +6305,7 @@ msgstr "Необходимо создание экземпляра объект�
 msgid "Never"
 msgstr "Никогда"
 
-#: ../core/functions.inc/drivers/Sip.class.php:309
+#: ../core/functions.inc/drivers/Sip.class.php:317
 #, php-format
 msgid "Never - (%s)"
 msgstr "Никогда - (%s)"
@@ -6333,13 +6333,13 @@ msgstr "Каждую ночь"
 #: ../core/functions.inc/drivers/Iax2.class.php:149
 #: ../core/functions.inc/drivers/PJSip.class.php:222
 #: ../core/functions.inc/drivers/PJSip.class.php:235
-#: ../core/functions.inc/drivers/Sip.class.php:259
-#: ../core/functions.inc/drivers/Sip.class.php:272
-#: ../core/functions.inc/drivers/Sip.class.php:278
-#: ../core/functions.inc/drivers/Sip.class.php:345
+#: ../core/functions.inc/drivers/Sip.class.php:267
+#: ../core/functions.inc/drivers/Sip.class.php:280
+#: ../core/functions.inc/drivers/Sip.class.php:286
 #: ../core/functions.inc/drivers/Sip.class.php:353
 #: ../core/functions.inc/drivers/Sip.class.php:361
-#: ../core/functions.inc/drivers/Sip.class.php:368
+#: ../core/functions.inc/drivers/Sip.class.php:369
+#: ../core/functions.inc/drivers/Sip.class.php:376
 #: ../core/page.advancedsettings.php:82
 #: ../core/views/did/advanced_form.php:166
 #: ../core/views/did/advanced_form.php:268
@@ -6355,7 +6355,7 @@ msgstr "Каждую ночь"
 msgid "No"
 msgstr "Нет"
 
-#: ../core/functions.inc/drivers/Sip.class.php:296
+#: ../core/functions.inc/drivers/Sip.class.php:304
 #, php-format
 msgid "No - (%s)"
 msgstr "Нет - (%s)"
@@ -7054,7 +7054,7 @@ msgid "Password"
 msgstr "Пароль"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:106
-#: ../core/functions.inc/drivers/Sip.class.php:212
+#: ../core/functions.inc/drivers/Sip.class.php:220
 msgid ""
 "Password (secret) configured for the device. Should be alphanumeric with at "
 "least 2 letters and numbers to keep secure."
@@ -7225,16 +7225,16 @@ msgstr ""
 "Числовое значение прав доступа должно начинаться с 0 .Например 644 должно "
 "быть записано 0644.   Файл: %s Права доступа установлены как : %s"
 
-#: ../core/functions.inc/drivers/Sip.class.php:393
+#: ../core/functions.inc/drivers/Sip.class.php:401
 msgid "Permit"
 msgstr "Разрешить"
 
-#: ../core/functions.inc/drivers/Sip.class.php:377
+#: ../core/functions.inc/drivers/Sip.class.php:385
 msgid "Pickup Groups"
 msgstr "Группа перехвата"
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:147
-#: ../core/functions.inc/drivers/Sip.class.php:376
+#: ../core/functions.inc/drivers/Sip.class.php:384
 msgid ""
 "Pickupgroups(s) that this device can pickup calls from, can be one or more "
 "alpha/numeric callgroups, e.g. '1,3000-3005,sales,sales2'. Device does not "
@@ -7277,7 +7277,7 @@ msgstr "Пожалуйста исправьте следующие ошибки"
 
 #: ../core/functions.inc.php:6434
 #: ../core/functions.inc/drivers/Iax2.class.php:102
-#: ../core/functions.inc/drivers/Sip.class.php:210
+#: ../core/functions.inc/drivers/Sip.class.php:218
 msgid "Please enter a Secret for this device"
 msgstr "Введите пароль для этого устройства"
 
@@ -7386,7 +7386,7 @@ msgstr "Интервал опроса для останова Астериск"
 msgid "Popover Mode"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:316
+#: ../core/functions.inc/drivers/Sip.class.php:324
 msgid "Port"
 msgstr "Порт"
 
@@ -7527,11 +7527,11 @@ msgstr "Издатель"
 msgid "Put caller on hold forever"
 msgstr "Поставить позвонившего на постоянное ожидание"
 
-#: ../core/functions.inc/drivers/Sip.class.php:318
+#: ../core/functions.inc/drivers/Sip.class.php:326
 msgid "Qualify"
 msgstr "Квалифицировать"
 
-#: ../core/functions.inc/drivers/Sip.class.php:321
+#: ../core/functions.inc/drivers/Sip.class.php:329
 #: ../core/views/trunks/pjsip.php:371
 msgid "Qualify Frequency"
 msgstr "Частота запросов Qualify"
@@ -7544,11 +7544,11 @@ msgstr "Быстрое создание внутреннего номера"
 msgid "Quick Search '/'"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:247
+#: ../core/functions.inc/drivers/Sip.class.php:255
 msgid "RFC 2833"
 msgstr "RFC 2833"
 
-#: ../core/functions.inc/drivers/Sip.class.php:242
+#: ../core/functions.inc/drivers/Sip.class.php:250
 msgid "RFC 4733"
 msgstr "RFC 4733"
 
@@ -7566,7 +7566,7 @@ msgstr ""
 msgid "RTP Symmetric"
 msgstr "Симметричный RTP"
 
-#: ../core/functions.inc/drivers/Sip.class.php:258
+#: ../core/functions.inc/drivers/Sip.class.php:266
 msgid ""
 "Re-Invite policy for this device, see Asterisk documentation for details."
 msgstr ""
@@ -7863,7 +7863,7 @@ msgstr "Откатить назад %s к %s"
 msgid "Route"
 msgstr "Маршрут"
 
-#: ../core/functions.inc/drivers/Sip.class.php:310
+#: ../core/functions.inc/drivers/Sip.class.php:318
 #, php-format
 msgid "Route - (%s)"
 msgstr "Маршрут - (%s)"
@@ -7943,11 +7943,11 @@ msgstr ""
 msgid "SIP DTMF Signaling"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:249
+#: ../core/functions.inc/drivers/Sip.class.php:257
 msgid "SIP INFO (application/dtmf)"
 msgstr "SIP INFO (приложения/dtmf)"
 
-#: ../core/functions.inc/drivers/Sip.class.php:252
+#: ../core/functions.inc/drivers/Sip.class.php:260
 msgid "SIP INFO (application/dtmf-relay)"
 msgstr "SIP информация(приложение/dtmf-релей)"
 
@@ -8054,13 +8054,13 @@ msgid "Seconds"
 msgstr "Секунды"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:107
-#: ../core/functions.inc/drivers/Sip.class.php:213
-#: ../core/functions.inc/drivers/Sip.class.php:429
+#: ../core/functions.inc/drivers/Sip.class.php:221
+#: ../core/functions.inc/drivers/Sip.class.php:437
 #: ../core/views/trunks/pjsip.php:68
 msgid "Secret"
 msgstr "Секрет"
 
-#: ../core/functions.inc/drivers/Sip.class.php:429
+#: ../core/functions.inc/drivers/Sip.class.php:437
 #, php-format
 msgid "Secret [Enter \"%s\" to regenerate]"
 msgstr ""
@@ -8100,15 +8100,15 @@ msgstr "Послать"
 msgid "Send Dashboard Notifications to Log"
 msgstr "Отпралять сообщения панели управления в журнал"
 
-#: ../core/functions.inc/drivers/Sip.class.php:282
+#: ../core/functions.inc/drivers/Sip.class.php:290
 msgid "Send P-Asserted-Identity header"
 msgstr "Посылать заголовок P-Asserted-Identity"
 
-#: ../core/functions.inc/drivers/Sip.class.php:285
+#: ../core/functions.inc/drivers/Sip.class.php:293
 msgid "Send RPID"
 msgstr "Посылка RPID"
 
-#: ../core/functions.inc/drivers/Sip.class.php:279
+#: ../core/functions.inc/drivers/Sip.class.php:287
 msgid "Send Remote-Party-ID header"
 msgstr "Посылать заголовок ИД-Удалённой-стороны (RPID)"
 
@@ -8311,7 +8311,7 @@ msgid ""
 "available."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:317
+#: ../core/functions.inc/drivers/Sip.class.php:325
 msgid ""
 "Setting to yes (equivalent to 2000 msec) will send an OPTIONS packet to the "
 "endpoint periodically (default every minute). Used to monitor the health of "
@@ -8655,7 +8655,7 @@ msgstr "T.38 UDPTL NAT"
 msgid "T.38 UDPTL error correction method"
 msgstr "T.38 UDPTL-метод коррекции"
 
-#: ../core/functions.inc/drivers/Sip.class.php:333
+#: ../core/functions.inc/drivers/Sip.class.php:341
 msgid "TCP Only"
 msgstr "Только TCP"
 
@@ -8663,7 +8663,7 @@ msgstr "Только TCP"
 msgid "TECH"
 msgstr "Технология"
 
-#: ../core/functions.inc/drivers/Sip.class.php:334
+#: ../core/functions.inc/drivers/Sip.class.php:342
 msgid "TLS Only"
 msgstr "Только TLS"
 
@@ -8761,7 +8761,7 @@ msgstr ""
 "поступать с этим указаным номером и далее будут обрабатываться в секции "
 "Входящая маршрутизация"
 
-#: ../core/functions.inc/drivers/Sip.class.php:254
+#: ../core/functions.inc/drivers/Sip.class.php:262
 msgid ""
 "The DTMF signaling mode used by this device, usually RFC for most phones."
 msgstr ""
@@ -9358,7 +9358,7 @@ msgstr ""
 msgid "This device id is already in use"
 msgstr "Этот номер устройства уже используется"
 
-#: ../core/functions.inc/drivers/Sip.class.php:179
+#: ../core/functions.inc/drivers/Sip.class.php:185
 #, php-format
 msgid "This device uses %s technology %s"
 msgstr "Это устройство использует %s технологию %s"
@@ -9588,7 +9588,7 @@ msgstr "Этот сервис должен  закончить работу  п�
 msgid "This service must be stopped before Asterisk has stopped"
 msgstr "Этот сервис должен  закончить работу до остановки  Asterisk"
 
-#: ../core/functions.inc/drivers/Sip.class.php:340
+#: ../core/functions.inc/drivers/Sip.class.php:348
 msgid ""
 "This sets the allowed transport settings for this device and the default "
 "(Primary) transport for outgoing. The default transport is only used for "
@@ -9701,7 +9701,7 @@ msgstr ""
 msgid "Track"
 msgstr "Трек"
 
-#: ../core/functions.inc/drivers/Sip.class.php:341
+#: ../core/functions.inc/drivers/Sip.class.php:349
 #: ../core/views/trunks/pjsip.php:184
 msgid "Transport"
 msgstr "Транспорт"
@@ -9737,7 +9737,7 @@ msgstr "Транк: %s (%s)"
 msgid "Trunks"
 msgstr "Транки"
 
-#: ../core/functions.inc/drivers/Sip.class.php:275
+#: ../core/functions.inc/drivers/Sip.class.php:283
 msgid "Trust RPID"
 msgstr "Доверительные RPID"
 
@@ -9758,7 +9758,7 @@ msgstr ""
 "Обычно прямой адрес к пакету модуля, откуда FreePBX будет пытаться скачать "
 "удалённо, и куда закачивать локально"
 
-#: ../core/functions.inc/drivers/Sip.class.php:332
+#: ../core/functions.inc/drivers/Sip.class.php:340
 msgid "UDP Only"
 msgstr "Только UDP"
 
@@ -10355,7 +10355,7 @@ msgstr "Приоритет по умолчанию для выхода по та
 msgid "Value [%s] out of range, changed to [%s]"
 msgstr "Значение [%s] выходит за допустимые пределы, изменено на [%s]"
 
-#: ../core/functions.inc/drivers/Sip.class.php:415
+#: ../core/functions.inc/drivers/Sip.class.php:423
 msgid "Value must be between 1 and 63"
 msgstr "Значение должно быть между 1 и 63"
 
@@ -10393,7 +10393,7 @@ msgstr "VmX Локатор"
 msgid "Voicemail"
 msgstr "Голосовая почта"
 
-#: ../core/functions.inc/drivers/Sip.class.php:389
+#: ../core/functions.inc/drivers/Sip.class.php:397
 msgid "Voicemail Extension"
 msgstr "Голосовая почта - внутренний номер"
 
@@ -10423,15 +10423,15 @@ msgstr ""
 msgid "WARNING: This trunk is not used by any routes!"
 msgstr "ПРЕДУПРЕЖДЕНИЕ: Этот транк не используется никакими маршрутами!"
 
-#: ../core/functions.inc/drivers/Sip.class.php:336
+#: ../core/functions.inc/drivers/Sip.class.php:344
 msgid "WS Only"
 msgstr "Только WS"
 
-#: ../core/functions.inc/drivers/Sip.class.php:338
+#: ../core/functions.inc/drivers/Sip.class.php:346
 msgid "WS, WSS Only - WSS Primary"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:337
+#: ../core/functions.inc/drivers/Sip.class.php:345
 msgid "WSS Only"
 msgstr "Только WSS"
 
@@ -10713,7 +10713,7 @@ msgstr ""
 "журналирование или нет. Установка в 'freepbxlog' будет посылать сообщения в "
 "журнал FreePBX. Установка в 'off' будет игнорировать все такие сообщения."
 
-#: ../core/functions.inc/drivers/Sip.class.php:284
+#: ../core/functions.inc/drivers/Sip.class.php:292
 msgid ""
 "Whether Asterisk should send RPID (or PAI) info to the device. Usually "
 "should be enabled to the settings used by your device for CONNECTEDLINE() "
@@ -10729,7 +10729,7 @@ msgid ""
 "CSS, javascript, etc.). Default is no."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:274
+#: ../core/functions.inc/drivers/Sip.class.php:282
 msgid ""
 "Whether Asterisk should trust the RPID settings from this device. Usually "
 "should be yes for CONNECTEDLINE() functionality to work if supported by the "
@@ -10764,7 +10764,7 @@ msgid ""
 "is irrelevant for accessing core FreePBX settings. Default is no."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:347
+#: ../core/functions.inc/drivers/Sip.class.php:355
 msgid ""
 "Whether to Enable AVPF. Defaults to no. The WebRTC standard has selected "
 "AVPF as the audio video profile to use for media streams. This is not the "
@@ -10776,7 +10776,7 @@ msgstr ""
 "умолчанию,используемый Asterisk. Поэтому следующее должно быть включено для "
 "использования WebRTC"
 
-#: ../core/functions.inc/drivers/Sip.class.php:363
+#: ../core/functions.inc/drivers/Sip.class.php:371
 msgid ""
 "Whether to Enable ICE Support. Defaults to no. ICE (Interactive Connectivity "
 "Establishment) is a protocol for Network Address Translator(NAT) traversal "
@@ -10788,7 +10788,7 @@ msgstr ""
 "установленных с использованием модели предложение/ответ. Эта опция обычно "
 "включена в настройках WebRTC."
 
-#: ../core/functions.inc/drivers/Sip.class.php:370
+#: ../core/functions.inc/drivers/Sip.class.php:378
 msgid ""
 "Whether to offer SRTP encrypted media (and only SRTP encrypted media) on "
 "outgoing calls to a peer. Calls will fail with HANGUPCAUSE=58 if the peer "
@@ -10816,11 +10816,11 @@ msgstr ""
 #: ../core/functions.inc/drivers/Iax2.class.php:148
 #: ../core/functions.inc/drivers/PJSip.class.php:223
 #: ../core/functions.inc/drivers/PJSip.class.php:236
-#: ../core/functions.inc/drivers/Sip.class.php:260
-#: ../core/functions.inc/drivers/Sip.class.php:273
-#: ../core/functions.inc/drivers/Sip.class.php:346
+#: ../core/functions.inc/drivers/Sip.class.php:268
+#: ../core/functions.inc/drivers/Sip.class.php:281
 #: ../core/functions.inc/drivers/Sip.class.php:354
 #: ../core/functions.inc/drivers/Sip.class.php:362
+#: ../core/functions.inc/drivers/Sip.class.php:370
 #: ../core/page.advancedsettings.php:80
 #: ../core/views/did/advanced_form.php:164
 #: ../core/views/did/advanced_form.php:266
@@ -10836,11 +10836,11 @@ msgstr ""
 msgid "Yes"
 msgstr "Да"
 
-#: ../core/functions.inc/drivers/Sip.class.php:369
+#: ../core/functions.inc/drivers/Sip.class.php:377
 msgid "Yes (SRTP only)"
 msgstr "Да (только SRTP)"
 
-#: ../core/functions.inc/drivers/Sip.class.php:295
+#: ../core/functions.inc/drivers/Sip.class.php:303
 #, php-format
 msgid "Yes - (%s)"
 msgstr "Да - (%s)"
@@ -11038,7 +11038,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:6433
 #: ../core/functions.inc/drivers/Iax2.class.php:101
-#: ../core/functions.inc/drivers/Sip.class.php:209
+#: ../core/functions.inc/drivers/Sip.class.php:217
 msgid ""
 "You have not entered a Secret for this device, although this is possible it "
 "is generally bad practice to not assign a Secret to a device. Are you sure "
@@ -11065,8 +11065,8 @@ msgid ""
 msgstr ""
 "Несколько модулей %s повреждено. Мы советуем принять меры как можно скорее:"
 
-#: ../core/functions.inc/drivers/Sip.class.php:390
-#: ../core/functions.inc/drivers/Sip.class.php:392
+#: ../core/functions.inc/drivers/Sip.class.php:398
+#: ../core/functions.inc/drivers/Sip.class.php:400
 msgid "You may add multiple subnets, separate them with an &amp;."
 msgstr ""
 
@@ -11392,7 +11392,7 @@ msgstr "проверка необходимости переноса   res_odbc.
 msgid "choose one"
 msgstr "выбрать что-либо"
 
-#: ../core/functions.inc/drivers/Sip.class.php:300
+#: ../core/functions.inc/drivers/Sip.class.php:308
 #, php-format
 msgid "comedia - (%s)"
 msgstr "comedia - (%s)"
@@ -11676,7 +11676,7 @@ msgstr ""
 msgid "list trunks"
 msgstr "список транков"
 
-#: ../core/functions.inc/drivers/Sip.class.php:178
+#: ../core/functions.inc/drivers/Sip.class.php:184
 #, php-format
 msgid "listening on <strong>%s</strong>"
 msgstr "слушает на  <strong>%s</strong>"
