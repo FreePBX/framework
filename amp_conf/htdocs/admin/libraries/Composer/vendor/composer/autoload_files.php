@@ -6,5 +6,5 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    $vendorDir . '/ramsey/array_column/src/array_column.php',
+    '8cd2fca4db21bffce1ad0612f7caeec4' => $vendorDir . '/ramsey/array_column/src/array_column.php',
 );
