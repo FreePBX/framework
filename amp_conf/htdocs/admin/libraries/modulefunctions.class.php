@@ -2867,7 +2867,7 @@ class module_functions {
 			$options['distrover'] = $distro_info['pbx_version'];
 			$options['pbxver'] = getversion();
 			if (function_exists('core_users_list')) {
-				$options['ucount'] = count(core_users_list());
+				$options['ucount'] = count(core_users_list(true));
 			}
 
 			// Other modules may need to add 'get' paramters to the call to the repo. Check and add them
