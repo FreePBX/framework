@@ -57,7 +57,6 @@ function set_language() {
 		if(!preg_match("/_/",$lang)) {
 			$lang = $lang."_".strtoupper($lang);
 		}
-		$nt = notifications::create();
 		if($lang != 'en_US') {
 			exec('locale -a',$output);
 			if(!empty($output) && !in_array($lang,$output)) {
