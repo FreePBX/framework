@@ -61,7 +61,7 @@ function set_language() {
 		if($lang != 'en_US') {
 			exec('locale -a',$output);
 			if(!empty($output) && !in_array($lang,$output)) {
-				$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolved this in advanced settings"),$lang), "?display=advancedsettings");
+				$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"),$lang), "?display=advancedsettings");
 				$lang = 'en_US';
 			} else {
 				$nt->delete('framework', 'LANG_INVALID');
