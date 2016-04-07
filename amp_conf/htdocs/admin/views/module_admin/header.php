@@ -22,3 +22,6 @@
 <div id="shield_link_div">
 	<a href="#" id="show_auto_update" title="<?php echo _("Click to configure Update Notifications") ?>"><span id="shield_link" class="<?php echo $shield_class ?>"></span></a>
 </div>
+<?php if($edgemode){
+	echo show_help(sprintf(_("This system has edge mode enabled. This means you will get modules as they are released and may encounter bugs not seen in general availibility modules.</br> For more information visit %s"),'<a href="http://wiki.freepbx.org/x/boi3Aw">http://wiki.freepbx.org/x/boi3Aw</a>'),_("EDGE MODE"));
+}

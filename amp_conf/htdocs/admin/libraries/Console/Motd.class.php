@@ -25,12 +25,16 @@ class Motd extends Command {
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$this->updateVars();
+		$edgemode = \FreePBX::Config()->get('MODULEADMINEDGE');
 		$alerts = \FreePBX::Notifications()->get_num_active();
 		$output->write(base64_decode($this->banner));
 		$output->writeln("");
 		$output->writeln("");
 		if($alerts != 0) {
 			$output->writeln("<fg=red>".sprintf(_("NOTICE! You have %s notifications! Please log into the UI to see them!"), $alerts)."</fg=red>");
+		}
+		if($edgemode == 1){
+			$output->writeln("<fg=red>".sprintf(_("NOTICE! This system had EDGE mode enabled. For more information visit %s"), 'http://wiki.freepbx.org/x/boi3Aw')."</fg=red>");
 		}
 		$output->writeln("");
 		$output->writeln("<info>"._("Current Network Configuration")."</info>");
