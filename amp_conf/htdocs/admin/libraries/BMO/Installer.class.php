@@ -84,7 +84,13 @@ class Installer {
 		} elseif (substr($file,0,16) == "amp_conf/sounds/") {
 			return $this->soundsdir.substr($file,16);
 		} elseif (substr($file,0,13) == "amp_conf/moh/") {
-			return $this->mohdir.substr($file,13);
+			// If we're validating, then we don't want to check ANY of these files,
+			// as they will get modified
+			if ($validation) {
+				return false;
+			} else {
+				return $this->mohdir.substr($file,13);
+			}
 		} elseif (substr($file,0,14) == "amp_conf/sbin/") {
 			return $this->sbindir.substr($file,14);
 		} elseif (substr($file,0,13) == "amp_conf/bin/") {
