@@ -288,7 +288,7 @@ if (!$bootstrap_settings['freepbx_auth'] || (php_sapi_name() == 'cli')) {
 	// Check and increase php memory_limit if needed and if allowed on the system
 	//
 	$current_memory_limit = rtrim(ini_get('memory_limit'),'M');
-	$proper_memory_limit = '100';
+	$proper_memory_limit = '256';
 	if ($current_memory_limit < $proper_memory_limit) {
 		if (ini_set('memory_limit',$proper_memory_limit.'M') !== false) {
 			$nt->add_notice('core', 'MEMLIMIT', _("Memory Limit Changed"), sprintf(_("Your memory_limit, %sM, is set too low and has been increased to %sM. You may want to change this in you php.ini config file"),$current_memory_limit,$proper_memory_limit));
