@@ -33,7 +33,7 @@ class Start extends Command {
 		$pre = $this->preAsteriskHooks($output,false);
 		$post = $this->postAsteriskHooks($output,false);
 		$aststat = $this->asteriskProcess();
-		$asteriskrunning = ($aststat[0]);
+		$asteriskrunning = !empty($aststat);
 		$bmo = \FreePBX::create();
 
 		// We were asked to only run the pre-start hooks?
@@ -50,11 +50,6 @@ class Start extends Command {
 			$startasterisk = false;
 			$runpost = "force";
 		} else {
-			if ($asteriskrunning) {
-				$output->writeln("<error>Asterisk already running</error>");
-				exit(1);
-			}
-			// Run both
 			$runpre = true;
 			$startasterisk = true;
 			$runpost = true;
@@ -66,6 +61,7 @@ class Start extends Command {
 			// we've been asked to do.
 			$newpre = array();
 			$newpost = array();
+			$startasterisk = false;
 			foreach ($args as $v) {
 				if ($runpre) {
 					foreach ($pre as $pri => $data) {
@@ -86,6 +82,11 @@ class Start extends Command {
 			// And overwrite our hooks to run later
 			$pre = $newpre;
 			$post = $newpost;
+		}
+
+		if ($startasterisk && $asteriskrunning) {
+			$output->writeln("<error>Asterisk already running</error>");
+			exit(1);
 		}
 
 		// Now we're ready to go.  
@@ -124,12 +125,12 @@ class Start extends Command {
 			}
 		}
 	}
+
 	private function asteriskProcess(){
-		$ps = '/usr/bin/env ps';
-		$cmd = $ps . " -C asterisk --no-headers -o '%p|%t'";
-		$stat = exec($cmd);
-		return explode('|',$stat);
+		$pid = `/usr/bin/env pidof asterisk`;
+		return $pid;
 	}
+
 	private function startAsterisk($output){
 		$output->writeln(_('Starting Asterisk...'));
 		$astbin = '/usr/bin/env safe_asterisk -U '.\FreePBX::Config()->get('AMPASTERISKUSER').' -G '.\FreePBX::Config()->get('AMPASTERISKGROUP').' > /dev/null 2>&1 &';
@@ -169,7 +170,7 @@ class Start extends Command {
 
 	private function asteriskIsReady() {
 		$aststat = $this->asteriskProcess();
-		if (!$aststat[0]) {
+		if (empty($aststat)) {
 			return false;
 		}
 		// There's an asterisk process. Is it ready?

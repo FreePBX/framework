@@ -71,6 +71,7 @@ class Stop extends Command {
 		if ($args) {
 			// We do. Create a temporary array with our hooks, using the ones
 			// we've been asked to do.
+			$stopasterisk = false;
 			$newpre = array();
 			$newpost = array();
 			foreach ($args as $v) {
