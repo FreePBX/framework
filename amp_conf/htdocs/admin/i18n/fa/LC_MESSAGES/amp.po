@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-08 16:22-0700\n"
+"POT-Creation-Date: 2016-04-08 18:37-0700\n"
 "PO-Revision-Date: 2016-04-07 12:28+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian <http://weblate.freepbx.org/projects/freepbx/"
@@ -594,7 +594,7 @@ msgstr "لفو تولید پیکربندی در مقصد نادرست"
 msgid "Abort Config Gen on Exten Conflict"
 msgstr "لفو تولید پیکربندی داخلی در تلاقی داخلی ها"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:143
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:144
 msgid "Aborting Shutdown. Asterisk is still running"
 msgstr ""
 
@@ -1199,7 +1199,7 @@ msgstr "دایرکتوری اجرایی استریسک"
 msgid "Asterisk Spool Dir"
 msgstr "دایرکتوری spool استریسک"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:114
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:115
 msgid "Asterisk Started"
 msgstr ""
 
@@ -1251,7 +1251,7 @@ msgstr ""
 msgid "Asterisk may not be running."
 msgstr "استریسک ممکن است اجرا نشده باشد."
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:101
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:102
 #, php-format
 msgid "Asterisk seems to be running on PID %s and has been running for %s"
 msgstr ""
@@ -4042,19 +4042,19 @@ msgstr "تحمیل rport"
 msgid "Force rport - (%s)"
 msgstr "تحمیل rport - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:190
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:191
 msgid "Force run post-start asterisk hooks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:230
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:231
 msgid "Force run post-stop asterisk hooks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:189
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:190
 msgid "Force run pre-start asterisk hooks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:229
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:230
 msgid "Force run pre-stop asterisk hooks"
 msgstr ""
 
@@ -5017,8 +5017,8 @@ msgstr "کلید واژه"
 msgid "Key provided - %s - is not hex"
 msgstr "ارائه کلید - %s  - هگزا نیست"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:149
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:175
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:150
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:176
 msgid "Killing asterisk forcefully."
 msgstr ""
 
@@ -5216,7 +5216,7 @@ msgstr "بیشترین کانالها"
 msgid "Maximum Expiration"
 msgstr "بیشترین انقضا"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:231
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:232
 msgid "Maximum amount of time (in seconds) to wait for asterisk to shut down"
 msgstr ""
 
@@ -5895,7 +5895,7 @@ msgstr "انتخاب نشده"
 msgid "Not an array"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:102
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:103
 msgid "Not running Pre-Asterisk Hooks."
 msgstr ""
 
@@ -6678,12 +6678,12 @@ msgstr ""
 msgid "Preloaded Modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:117
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:118
 #, php-format
 msgid "Press %s to Cancel"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:118
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:119
 #, php-format
 msgid "Press %s to shut down NOW"
 msgstr ""
@@ -7129,16 +7129,16 @@ msgstr "نوع مسیر"
 msgid "Rules:"
 msgstr "قواعد:"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:228
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:229
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:101
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:102
 #, php-format
 msgid "Running %s shutdown..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:93
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:94
 #, php-format
 msgid "Running %s startup..."
 msgstr ""
@@ -7452,7 +7452,7 @@ msgid ""
 "Setting module admin to edge mode allows you to vet new module releases "
 "before they are deemed stable. This process helps the developers so we "
 "encourage you to enable it. If you want a more stable system please leave "
-"this set to no"
+"this set to no. See http://wiki.freepbx.org/x/boi3Aw for more details"
 msgstr ""
 
 #: install.php:203
@@ -7566,13 +7566,13 @@ msgstr ""
 msgid "Shutdown NOW rather than convieniently"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:115
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:116
 #, php-format
 msgid ""
 "Shutting down Asterisk Gracefully. Will forcefully kill after %s seconds."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:112
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:113
 msgid "Shutting down Asterisk Immediately..."
 msgstr ""
 
@@ -7678,7 +7678,7 @@ msgstr ""
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:134
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:135
 msgid "Starting Asterisk..."
 msgstr ""
 
@@ -8823,7 +8823,7 @@ msgid ""
 "Advanced Settings."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:117
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:118
 msgid "Unable to start Asterisk!"
 msgstr ""
 
@@ -9065,8 +9065,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:846
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:187
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:226
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:188
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:227
 msgid "Usage"
 msgstr ""
 
