@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-08 18:37-0700\n"
-"PO-Revision-Date: 2016-04-11 13:11+0300\n"
+"PO-Revision-Date: 2016-04-11 15:47+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian "
 "<http://weblate.freepbx.org/projects/freepbx/framework/fa/>\n"
@@ -29,8 +29,8 @@ msgid ""
 "supported by the %s team but may receive some level of support by the "
 "authors."
 msgstr ""
-"The modules in the Extended repository are less common and may receive lower "
-"levels of support. The Unsupported repository has modules that are not "
+" The modules in the Extended repository are less  common and may receive "
+"lower levels of support. The Unsupported repository has modules that are not "
 "supported by the %s team but may receive some level of support by the "
 "authors."
 
@@ -39,8 +39,8 @@ msgid ""
 " error(s) occurred, you should view the notification log on the dashboard or "
 "main screen to check for more details."
 msgstr ""
-"error(s) occurred, you  should view the notification log on the dashboard or "
-"main screen to check for more details."
+" error(s) occurred, you  should view the notification log on the dashboard "
+"or main screen to check for more details."
 
 #: amp_conf/htdocs/admin/views/footer.php:114
 msgid " extension number already in use by: "
@@ -855,6 +855,7 @@ msgid "Address to bind to. Default is 0.0.0.0"
 msgstr "Address  to bind to. Default is 0.0.0.0"
 
 #: ../core/functions.inc.php:6312
+#, fuzzy
 msgid "Adhoc"
 msgstr "Adhoc"
 
@@ -2204,7 +2205,7 @@ msgstr "اطلاعات تماس کاربر برای استفاده در این �
 #: ../core/functions.inc/drivers/Sip.class.php:274
 #: ../core/views/trunks/pjsip.php:160
 msgid "Context"
-msgstr "متن"
+msgstr "زمینه"
 
 #: ../core/views/trunks/pjsip.php:172
 msgid "Context to send the Inbound Call to."
@@ -2633,7 +2634,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:230
 msgid "DTLS-SRTP (not recommended)"
-msgstr "DTLS-SRTP (not recommended)"
+msgstr "DTLS-SRTP (توصیه نمیشود)"
 
 #: ../core/views/trunks/pjsip.php:213
 msgid "DTMF Mode"
@@ -4796,8 +4797,8 @@ msgid ""
 "Give this trunk a unique name.  Example: myiaxtel. Note this is uses as the "
 "trunk context within asterisk"
 msgstr ""
-"اختصاص یک نام منحصر به فرد به ترانک. Example: myiaxtel. Note this is uses as "
-"the trunk context within asterisk"
+"اختصاص یک نام منحصر به فرد به ترانک. مثل: myiaxtel. نکته این نام جهت زمینه "
+"ترانک در استریسک استفاده میشود"
 
 #: ../core/functions.inc.php:6416
 msgid ""
@@ -5537,7 +5538,7 @@ msgstr "مقدار انتخابی نادرست"
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1133
 #, php-format
 msgid "Invalid value supplied violates the validation regex: %s"
-msgstr "Invalid value supplied violates the validation regex: %s"
+msgstr "Invalid value  supplied violates the validation regex: %s"
 
 #: ../core/views/trunks/trunk_footer.php:96
 msgid ""
@@ -5545,9 +5546,9 @@ msgid ""
 "undefined behavior can result when nothing is specified. The CID Options can "
 "control when this CID is used. Do you still want to continue?"
 msgstr ""
-"It is highly recommended that you define an Outbound CallerID on all trunks, "
-"undefined behavior can result when nothing is specified. The CID Options can "
-"control when this CID is used. Do you still want to continue?"
+"It is highly recommended that you define an Outbound CallerID on all  "
+"trunks, undefined behavior can result when nothing is specified. The CID "
+"Options can control when this CID is used. Do you still want to continue?"
 
 #: ../core/page.astmodules.php:53
 msgid "It is unlikely you'll need to change anything here."
@@ -6146,6 +6147,9 @@ msgid ""
 "'fwconsole chown' and then 'fwconsole reload' to clear this message. If you "
 "did not just update FreePBX, your system may have been compromised)"
 msgstr ""
+"Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
+"'fwconsole chown' and  then 'fwconsole reload' to clear this message. If you "
+"did not just update FreePBX, your system may have been compromised)"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:244
 msgid ""
@@ -6156,6 +6160,12 @@ msgid ""
 "will only have one track. Tracks can be disabled in Advanced Settings."
 "<br>Tracks can only be changed after checking online"
 msgstr ""
+"Modules can have separate individual repos or tracks, these tracks can "
+"determine what  type of updates this module receives. A prime example is "
+"that of the beta track. You can select the beta track for this module and "
+"FreePBX will give you the highest updates in the beta track or stable. Some "
+"Modules will only have one track. Tracks can be disabled in Advanced "
+"Settings.<br>Tracks can only be changed after checking online"
 
 #: ../core/views/trunks/trunk_header.php:53
 msgid "Monitor Trunk Failures"
@@ -6173,16 +6183,23 @@ msgid ""
 "number, ex: username:password@switch.voipprovider.com/didnumber in order for "
 "any DID matching to work."
 msgstr ""
+"Most VoIP providers require  your system to REGISTER with theirs. Enter the "
+"registration line here.<br><br>example:<br><br>username:password@switch.voipp"
+"rovider.com.<br><br>Many providers will require you to provide a DID number, "
+"ex: username:password@switch.voipprovider.com/didnumber in order for any DID "
+"matching to work."
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:34
 msgid "Multiple hooks unimplemented"
-msgstr ""
+msgstr "چندین هوک اجرا نشده"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:112
 msgid ""
 "Multiple params to autoload (__call) not supported. Don't do that. Or re-"
 "write this."
 msgstr ""
+"Multiple params  to autoload (__call) not supported. Don't do that. Or re-"
+"write this."
 
 #: ../core/views/did/advanced_form.php:13
 msgid "Music On Hold"
@@ -6215,6 +6232,9 @@ msgid ""
 "both internal and external devices. Set to No if the device will always be "
 "internal."
 msgstr ""
+"NAT setting, see Asterisk  documentation for details. Yes usually works for "
+"both internal and external devices. Set to No if the device will always be "
+"internal."
 
 #: ../core/page.ampusers.php:125 ../core/page.ampusers.php:127
 msgid "NOTE"
@@ -6238,6 +6258,8 @@ msgid ""
 "Name of this route. Should be used to describe what type of calls this route "
 "matches (for example, 'local' or 'longdistance')."
 msgstr ""
+"Name of this route. Should be used to  describe what type of calls this "
+"route matches (for example, 'local' or 'longdistance')."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:33
 msgid "Need to be instantiated with a FreePBX Object"
@@ -6387,7 +6409,7 @@ msgstr "وضعیتی برای checkStatus مشخص نشده است"
 
 #: amp.i18n.php:484
 msgid "NoOp Traces in Dialplan"
-msgstr ""
+msgstr "آثار NoOp در نقشه تماس"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:228
 #: ../core/views/trunks/pjsip.php:91 ../core/views/trunks/pjsip.php:110
@@ -6414,6 +6436,14 @@ msgid ""
 "includes, you can set this to true. If you comment it out FreePBX will "
 "revert to legacy behavior and include the contexts."
 msgstr ""
+"Normally FreePBX auto-generates a custom context that  may be usable for "
+"adding custom dialplan to modify the normal behavior of FreePBX. It takes a "
+"good understanding of how Asterisk processes these includes to use this and "
+"in many of the cases, there is no useful application. All includes will "
+"result in a WARNING in the Asterisk log if there is no context found to  "
+"include though it results in no errors. If you know that you want the "
+"includes, you can set this to true. If you comment it out FreePBX will "
+"revert to legacy behavior and include the contexts."
 
 #: amp.i18n.php:1070
 msgid ""
@@ -6424,6 +6454,12 @@ msgid ""
 "will override what is read from Asterisk. This SHOULD be left blank unless "
 "you know what you are doing."
 msgstr ""
+"Normally FreePBX gets the current Asterisk version directly from Asterisk. "
+"This is  required to generate proper dialplan for a given version. When "
+"using some custom Asterisk builds, the version may not be properly parsed "
+"and improper dialplan generated. Setting this to an equivalent Asterisk "
+"version will override what is read from  Asterisk. This SHOULD be left blank "
+"unless you know what you are doing."
 
 #: amp.i18n.php:14
 msgid ""
@@ -10799,11 +10835,11 @@ msgstr "حذف شد"
 
 #: ../core/install.php:1006
 msgid "deleting ALLOW_SIP_ANON from globals.."
-msgstr "deleting ALLOW_SIP_ANON from globals.."
+msgstr "deleting ALLOW_SIP_ANON from  globals.."
 
 #: ../core/install.php:956
 msgid "deleting obsoleted record_in and record_out entries.."
-msgstr "deleting obsoleted record_in and record_out entries.."
+msgstr "deleting  obsoleted record_in and record_out entries.."
 
 #: install.php:90 install.php:102 install.php:113
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:505
@@ -11322,6 +11358,7 @@ msgstr "setting AMP_ACCESS_DB_CREDS to  true"
 
 #: ../core/views/trunks/pjsip.php:504 ../core/views/trunks/pjsip.php:528
 #: ../core/views/trunks/pjsip.php:552
+#, fuzzy
 msgid "sip:[username]@[ip]:[port]"
 msgstr "sip:[username]@[ip]:[port]"
 
