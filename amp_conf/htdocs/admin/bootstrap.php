@@ -163,6 +163,7 @@ $freepbx_conf = $bmo->Freepbx_conf();
 //set this before we run date functions
 date_default_timezone_set('UTC');
 $phptimezone = $freepbx_conf->get('PHPTIMEZONE');
+$phptimezone = trim($phptimezone);
 $invalidtimezone = false;
 if(!empty($phptimezone)) {
 	$tzi = \DateTimeZone::listIdentifiers();
