@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-11 10:54-0700\n"
+"POT-Creation-Date: 2016-04-13 13:17-0700\n"
 "PO-Revision-Date: 2016-04-11 20:58+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian <http://weblate.freepbx.org/projects/freepbx/"
@@ -645,7 +645,7 @@ msgstr "لفو تولید پیکربندی در مقصد نادرست"
 msgid "Abort Config Gen on Exten Conflict"
 msgstr "لفو تولید پیکربندی داخلی در تلاقی داخلی ها"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:144
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:148
 msgid "Aborting Shutdown. Asterisk is still running"
 msgstr "لغو خاموش کردن. استریسک هنوز در حال اجراست"
 
@@ -1299,7 +1299,7 @@ msgstr "دایرکتوری اجرایی استریسک"
 msgid "Asterisk Spool Dir"
 msgstr "دایرکتوری spool استریسک"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:115
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:113
 msgid "Asterisk Started"
 msgstr "استریسک اجرا شده"
 
@@ -1358,11 +1358,6 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:7
 msgid "Asterisk may not be running."
 msgstr "استریسک ممکن است اجرا نشده باشد."
-
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:102
-#, php-format
-msgid "Asterisk seems to be running on PID %s and has been running for %s"
-msgstr "Asterisk seems  to be running on PID %s and has been running for %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:221
 #, php-format
@@ -4446,19 +4441,19 @@ msgstr "تحمیل rport"
 msgid "Force rport - (%s)"
 msgstr "تحمیل rport - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:191
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:197
 msgid "Force run post-start asterisk hooks"
 msgstr "Force run  post-start asterisk hooks"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:231
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:236
 msgid "Force run post-stop asterisk hooks"
 msgstr "Force  run post-stop asterisk hooks"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:190
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:196
 msgid "Force run pre-start asterisk hooks"
 msgstr "Force  run pre-start asterisk hooks"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:230
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:235
 msgid "Force run pre-stop asterisk hooks"
 msgstr "Force  run pre-stop asterisk hooks"
 
@@ -5569,8 +5564,8 @@ msgstr "کلید واژه"
 msgid "Key provided - %s - is not hex"
 msgstr "ارائه کلید - %s  - هگزا نیست"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:150
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:176
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:154
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:181
 msgid "Killing asterisk forcefully."
 msgstr "متوقف کردن اجباری استریسک."
 
@@ -5769,7 +5764,7 @@ msgstr "بیشترین کانالها"
 msgid "Maximum Expiration"
 msgstr "بیشترین انقضا"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:232
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:237
 msgid "Maximum amount of time (in seconds) to wait for asterisk to shut down"
 msgstr "بیشترین زمان انتظار (بر ثانیه) برای خاموش شدن استریسک"
 
@@ -6521,10 +6516,6 @@ msgstr "انتخاب نشده"
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:228
 msgid "Not an array"
 msgstr "یک آرایه نیست"
-
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:103
-msgid "Not running Pre-Asterisk Hooks."
-msgstr "Not  running Pre-Asterisk Hooks."
 
 #: ../core/page.astmodules.php:51
 msgid "Note that this is for ASTERISK modules, not FreePBX Modules."
@@ -7407,12 +7398,12 @@ msgstr ""
 msgid "Preloaded Modules"
 msgstr "ماژول هایی که از قبل بارگذاری شده اند"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:118
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:119
 #, php-format
 msgid "Press %s to Cancel"
 msgstr "برای لغو %s را فشار دهید"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:119
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:120
 #, php-format
 msgid "Press %s to shut down NOW"
 msgstr "برای خاموش کردن %s را فشار دهید"
@@ -7875,16 +7866,16 @@ msgstr "نوع مسیر"
 msgid "Rules:"
 msgstr "قواعد:"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:229
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:234
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
 msgstr "Run an  immediate shutdown. Defaults to 'when convenient'"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:102
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:103
 #, php-format
 msgid "Running %s shutdown..."
 msgstr "Running %s  shutdown..."
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:94
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:93
 #, php-format
 msgid "Running %s startup..."
 msgstr "Running %s  startup..."
@@ -8378,14 +8369,14 @@ msgstr ""
 msgid "Shutdown NOW rather than convieniently"
 msgstr "Shutdown NOW rather  than convieniently"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:116
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:117
 #, php-format
 msgid ""
 "Shutting down Asterisk Gracefully. Will forcefully kill after %s seconds."
 msgstr ""
 "Shutting down  Asterisk Gracefully. Will forcefully kill after %s seconds."
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:113
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:114
 msgid "Shutting down Asterisk Immediately..."
 msgstr "Shutting down  Asterisk Immediately..."
 
@@ -8516,7 +8507,7 @@ msgstr "استاندارد"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "آغاز استریسک و اجرای دستورات لازم FreePBX"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:135
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:141
 msgid "Starting Asterisk..."
 msgstr "استریسک در حال اجرا..."
 
@@ -9858,6 +9849,13 @@ msgstr "عدم توانایی حذف tmp.cfg"
 msgid "Unable to resolve dependencies for module %s:"
 msgstr "عدم توانایی حل وابستگی ها برای ماژول %s:"
 
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:101
+#, php-format
+msgid ""
+"Unable to run Pre-Asterisk hooks, because Asterisk is already running on PID "
+"%s and has been running for %s"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1475
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1714
 #, php-format
@@ -9879,7 +9877,7 @@ msgstr ""
 "the timezone has been temporarily changed to UTC. Please set the timezone in "
 "Advanced Settings."
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:118
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:116
 msgid "Unable to start Asterisk!"
 msgstr "عدم اجرای استریسک!"
 
@@ -10129,8 +10127,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:846
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:188
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:227
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:194
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:232
 msgid "Usage"
 msgstr "استفاده"
 
@@ -12111,6 +12109,12 @@ msgstr ""
 #: ../core/install.php:1089
 msgid "zap devices migrated"
 msgstr "وسایل zap منتقل شدند"
+
+#~ msgid "Asterisk seems to be running on PID %s and has been running for %s"
+#~ msgstr "Asterisk seems  to be running on PID %s and has been running for %s"
+
+#~ msgid "Not running Pre-Asterisk Hooks."
+#~ msgstr "Not  running Pre-Asterisk Hooks."
 
 #~ msgid "Aborting Shutdown"
 #~ msgstr "لغو خاموش کردن"
