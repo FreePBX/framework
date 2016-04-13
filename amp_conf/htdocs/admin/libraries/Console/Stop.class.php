@@ -57,10 +57,6 @@ class Stop extends Command {
 			$stopasterisk = false;
 			$runpost = true;
 		} else {
-			if (!$asteriskrunning) {
-				$output->writeln("<error>Asterisk not currently running</error>");
-				exit(1);
-			}
 			// Run both
 			$runpre = true;
 			$stopasterisk = true;
@@ -96,6 +92,11 @@ class Stop extends Command {
 			$post = $newpost;
 		}
 
+		if ($stopasterisk && !$asteriskrunning) {
+			$output->writeln("<error>Asterisk not currently running</error>");
+			$stopasterisk = false;
+		}
+
 		// Now we're ready to go.  
 		$brand = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
 
@@ -125,30 +126,34 @@ class Stop extends Command {
 				// we recalculate.
 				$pct = 100/($killafter - $starttime);
 
-				stream_set_blocking(STDIN,0);
-				$term = `stty -g`;
-				system("stty -icanon -echo");
+				if (!$output->isQuiet()) {
+					stream_set_blocking(STDIN,0);
+					$term = `stty -g`;
+					system("stty -icanon -echo");
+				}
 
 				$progress = new ProgressBar($output, 100);
 				$this->stopAsterisk($output, 'gracefully');
 				$progress->start();
 				$isrunning = true;
 
-				do {
-					$res = fread(STDIN,1);
-					if ($res) {
-						if (strtolower($res) === "c") {
-							$progress->setProgress(100);
-							$progress->finish();
-							print "\n";
-							$output->writeln(_('Aborting Shutdown. Asterisk is still running'));
-							$this->abortShutdown($output);
-							system("stty $term");
-							exit(1);
-						} elseif (strtolower($res) === "n") {
-							print "\n";
-							$output->writeln(_('Killing asterisk forcefully.'));
-							$this->stopAsterisk($output, 'now');
+				while ( time() < $killafter ) {
+					if (!$output->isQuiet()) {
+						$res = fread(STDIN,1);
+						if ($res) {
+							if (strtolower($res) === "c") {
+								$progress->setProgress(100);
+								$progress->finish();
+								print "\n";
+								$output->writeln(_('Aborting Shutdown. Asterisk is still running'));
+								$this->abortShutdown($output);
+								system("stty $term");
+								exit(1);
+							} elseif (strtolower($res) === "n") {
+								print "\n";
+								$output->writeln(_('Killing asterisk forcefully.'));
+								$this->stopAsterisk($output, 'now');
+							}
 						}
 					}
 					$current =  (int) (time() - $starttime) * $pct;
@@ -162,23 +167,23 @@ class Stop extends Command {
 					}
 					fflush(STDOUT);
 					usleep(10000);
-
-
-				} while ( time() < $killafter);
+				}
 
 				$progress->finish();
 				// Re-block the stream
-				stream_set_blocking(STDIN,1);
-				system("stty $term");
+				if (!$output->isQuiet()) {
+					stream_set_blocking(STDIN,1);
+					system("stty $term");
+				}
 
 				if ($isrunning) {
-					print "\n";
+					$output->writeln("");
 					$output->writeln(_('Killing asterisk forcefully.'));
 					$this->stopAsterisk($output, 'now');
 				}
 			}
 		}
-		print "\n";
+		$output->writeln("");
 
 		if ($runpost) {
 			foreach($post as $pri => $data) {
