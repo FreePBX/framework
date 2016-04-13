@@ -98,9 +98,8 @@ class Start extends Command {
 				$chown->execute($input, $output);
 			}
 
-			if ($aststat[0] && $runpre !== "force") {
-				$output->writeln(sprintf(_('Asterisk seems to be running on PID %s and has been running for %s'),$aststat[0], trim($aststat[1])));
-				$output->writeln('<info>'._('Not running Pre-Asterisk Hooks.').'</info>');
+			if ($aststat) {
+				$output->writeln(sprintf(_('Unable to run Pre-Asterisk hooks, because Asterisk is already running on PID %s and has been running for %s'),$aststat, $this->asteriskUptime()));
 				$startasterisk = false;
 			} else {
 				foreach($pre as $pri => $data) {
@@ -126,9 +125,17 @@ class Start extends Command {
 		}
 	}
 
-	private function asteriskProcess(){
+	private function asteriskProcess() {
 		$pid = `/usr/bin/env pidof asterisk`;
-		return $pid;
+		return trim($pid);
+	}
+
+	private function asteriskUptime() {
+		$uptime = `asterisk -rx 'core show sysinfo' | grep Uptime`;
+		if (!preg_match('/System Uptime:(.+)/', $uptime, $out)) {
+			return "ERROR";
+		}
+		return trim($out[1]);
 	}
 
 	private function startAsterisk($output){
