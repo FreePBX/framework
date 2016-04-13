@@ -131,8 +131,8 @@ class Start extends Command {
 	}
 
 	private function asteriskUptime() {
-		$uptime = `asterisk -rx 'core show sysinfo' | grep Uptime`;
-		if (!preg_match('/System Uptime:(.+)/', $uptime, $out)) {
+		$uptime = `asterisk -rx 'core show uptime' | grep uptime`;
+		if (!preg_match('/System uptime:(.+)/', $uptime, $out)) {
 			return "ERROR";
 		}
 		return trim($out[1]);
