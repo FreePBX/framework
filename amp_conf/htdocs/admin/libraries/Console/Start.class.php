@@ -86,7 +86,6 @@ class Start extends Command {
 
 		if ($startasterisk && $asteriskrunning) {
 			$output->writeln("<error>Asterisk already running</error>");
-			exit(1);
 		}
 
 		// Now we're ready to go.  
