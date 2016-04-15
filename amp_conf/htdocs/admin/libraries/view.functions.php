@@ -42,11 +42,8 @@ function set_language() {
 		}
 		//cleanup for certain langs that only have one locale
 		switch($lang) {
+			case "fa_IR":
 			case "he_IL":
-				$_SESSION['langdirection'] = 'rtl';
-			break;
-			case "fa":
-				$lang = "fa_IR";
 				$_SESSION['langdirection'] = 'rtl';
 			break;
 			default:
