@@ -228,7 +228,7 @@ EOF;
 			throw new \Exception(_("Not an array"));
 		}
 
-		if (!isset($params['O']) || !isset($params['CN'])) {
+		if (empty($params['O']) || empty($params['CN'])) {
 			throw new \Exception(_("Missing O or CN. Can't create"));
 		}
 
@@ -237,7 +237,7 @@ EOF;
 
 		// Load defaults if they're not provided.
 		foreach ($defaults as $k => $v) {
-			if (!isset($params[$k])) {
+			if (empty($params[$k])) {
 				$params[$k] = $v;
 			}
 		}
@@ -672,7 +672,7 @@ default_md = sha256
 			// Hostname is valid
 			return trim($output[0]);
 		}
-		// It errored for some reason. 
+		// It errored for some reason.
 		// Just return whatever 'hostname' thinks it is, without FQDN.
 		exec("hostname", $raw, $ret);
 		if ($ret !== 0 || empty($raw[0])) {
