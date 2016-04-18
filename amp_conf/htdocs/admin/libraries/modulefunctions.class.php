@@ -195,7 +195,7 @@ class module_functions {
 			if ($module != false) {
 				foreach ($modules as $mod) {
 					if ($module == $mod['rawname']) {
-						if(!empty($edge[$module]) && (isset($amp_conf['MODULEADMINEDGE']) && $amp_conf['MODULEADMINEDGE'])) {
+						if(!empty($edge[$module]) && (isset($amp_conf['MODULEADMINEDGE']) && $amp_conf['MODULEADMINEDGE']) && version_compare_freepbx($mod['version'],$edge[$module]['version'],'<')) {
 							$mod = $edge[$module];
 						}
 						$releases = !empty($previous[$module]['releases']['module']) ? $previous[$module]['releases']['module'] : array();
@@ -223,7 +223,7 @@ class module_functions {
 			} else {
 				$final = array();
 				foreach ($modules as $mod) {
-					if(!empty($edge[$mod['rawname']]) && (isset($amp_conf['MODULEADMINEDGE']) && $amp_conf['MODULEADMINEDGE'])) {
+					if(!empty($edge[$mod['rawname']]) && (isset($amp_conf['MODULEADMINEDGE']) && $amp_conf['MODULEADMINEDGE']) && version_compare_freepbx($mod['version'],$edge[$mod['rawname']]['version'],'<')) {
 						$mod = $edge[$mod['rawname']];
 					}
 					$final[$mod['rawname']] = $mod;
