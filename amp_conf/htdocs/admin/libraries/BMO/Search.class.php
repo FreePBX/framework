@@ -11,8 +11,8 @@ namespace FreePBX;
 class Search extends FreePBX_Helpers {
 
 	public function ajaxRequest($cmd, &$settings) {
-		$settings['allowremote'] = true;
-		$settings['authenticate'] = false;
+		//$settings['allowremote'] = true;
+		//$settings['authenticate'] = false;
 		return true;
 	}
 
