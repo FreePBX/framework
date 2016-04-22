@@ -9,9 +9,11 @@
 function checkRange($extension){
 	$high = '';
 	$low = '';
-	if(is_object($_SESSION["AMP_user"])){
+	if(isset($_SESSION["AMP_user"]) && is_object($_SESSION["AMP_user"])){
 		$low = $_SESSION["AMP_user"]->getExtensionLow();
 		$high = $_SESSION["AMP_user"]->getExtensionHigh();
+	} else {
+		return true;
 	}
 	if ((($extension >= $low) && ($extension <= $high)) || ($low == '' && $high == '')){
 		return true;
