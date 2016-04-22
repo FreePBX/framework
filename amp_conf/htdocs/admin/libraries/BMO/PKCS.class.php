@@ -625,19 +625,70 @@ default_md = sha256
 	}
 
 	//Old functions for backwards compatibility with old certman
+	/**
+	 * DEPRECIATED FUNCTION
+	 * @return [type] [description]
+	 */
 	public function getAllAuthorityFiles() {
-		return array();
+		$keyloc = $this->getKeysLocation();
+		$cas = array();
+		$files = $this->getFileList($keyloc);
+		foreach($files as $file) {
+			if(preg_match('/ca\.crt/',$file) || preg_match('/ca\d\.crt/',$file)) {
+				if(in_array('ca.key',$files)) {
+					$cas[] = $file;
+					$cas[] = 'ca.key';
+				}
+			}
+		}
+		return $cas;
 	}
 
+	/**
+	 * DEPRECIATED FUNCTION
+	 * @return [type] [description]
+	 */
 	public function removeCert($base) {
-		return false;
+		$location = $this->getKeysLocation();
+		foreach($this->getAllCertificates() as $file) {
+			if(preg_match('/^'.$base.'/',$file)) {
+				if(!unlink($location . "/" . $file)) {
+					throw new \Exception(sprintf(_('Unable to remove %s'),$file));
+				}
+			}
+		}
 	}
 
+	/**
+	 * DEPRECIATED FUNCTION
+	 * @return [type] [description]
+	 */
 	public function removeCA() {
-		return false;
+		$location = $this->getKeysLocation();
+		foreach($this->getAllAuthorityFiles() as $file) {
+			if(!unlink($location . "/" . $file)) {
+				throw new \Exception(sprintf(_('Unable to remove %s'),$file));
+			}
+		}
+		return true;
 	}
 
+	/**
+	 * DEPRECIATED FUNCTION
+	 * @return [type] [description]
+	 */
 	public function removeConfig() {
-		return false;
+		$location = $this->getKeysLocation();
+		if(file_exists($location . "/ca.cfg")) {
+			if(!unlink($location . "/ca.cfg")) {
+				throw new \Exception(_('Unable to remove ca.cfg'));
+			}
+		}
+		if(file_exists($location . "/tmp.cfg")) {
+			if(!unlink($location . "/tmp.cfg")) {
+				throw new \Exception(_('Unable to remove tmp.cfg'));
+			}
+		}
+		return true;
 	}
 }
