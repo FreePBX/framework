@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-22 14:54-0700\n"
+"POT-Creation-Date: 2016-04-22 16:32-0700\n"
 "PO-Revision-Date: 2015-07-17 00:00+0200\n"
 "Last-Translator: Ernesto <ecasas@sangoma.com>\n"
 "Language-Team: Spanish <http://weblate.freepbx.org/projects/freepbx/"
@@ -9550,6 +9550,20 @@ msgstr "No se puede localizar la Clase FreePBX BMO '%s'"
 msgid "Unable to open file %s"
 msgstr "No se puede abrir archivo %s"
 
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:656
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:670
+#, php-format
+msgid "Unable to remove %s"
+msgstr "No se puede eliminar %s"
+
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:684
+msgid "Unable to remove ca.cfg"
+msgstr "No se puede eliminar ca.cfg"
+
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:689
+msgid "Unable to remove tmp.cfg"
+msgstr "No se puede eliminar tmp.cfg"
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:228
 #, php-format
 msgid "Unable to resolve dependencies for module %s:"
@@ -11729,15 +11743,6 @@ msgstr ""
 #: ../core/install.php:1105
 msgid "zap devices migrated"
 msgstr "dispositivos zap migrados"
-
-#~ msgid "Unable to remove %s"
-#~ msgstr "No se puede eliminar %s"
-
-#~ msgid "Unable to remove ca.cfg"
-#~ msgstr "No se puede eliminar ca.cfg"
-
-#~ msgid "Unable to remove tmp.cfg"
-#~ msgstr "No se puede eliminar tmp.cfg"
 
 #~ msgid "Device Info"
 #~ msgstr "Info Dispositivo"

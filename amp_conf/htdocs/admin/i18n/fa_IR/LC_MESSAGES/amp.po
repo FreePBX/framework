@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-22 14:54-0700\n"
+"POT-Creation-Date: 2016-04-22 16:32-0700\n"
 "PO-Revision-Date: 2016-04-20 11:35+0200\n"
 "Last-Translator: psdk <hyavari26@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -9893,6 +9893,20 @@ msgstr "Unable to  locate the FreePBX BMO Class '%s'"
 msgid "Unable to open file %s"
 msgstr "عدم توانایی بازکردن فایل %s"
 
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:656
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:670
+#, php-format
+msgid "Unable to remove %s"
+msgstr "عدم توانایی حذف %s"
+
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:684
+msgid "Unable to remove ca.cfg"
+msgstr "عدم توانایی حذف ca.cfg"
+
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:689
+msgid "Unable to remove tmp.cfg"
+msgstr "عدم توانایی حذف tmp.cfg"
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:228
 #, php-format
 msgid "Unable to resolve dependencies for module %s:"
@@ -12207,15 +12221,6 @@ msgstr "وسایل zap منتقل شدند"
 #~ "transfer a call with ##. It is HIGHLY DISCOURAGED to use the r option "
 #~ "here as this will prevent early media from being delivered from the PSTN "
 #~ "and can result in the inability to interact with some external IVRs"
-
-#~ msgid "Unable to remove %s"
-#~ msgstr "عدم توانایی حذف %s"
-
-#~ msgid "Unable to remove ca.cfg"
-#~ msgstr "عدم توانایی حذف ca.cfg"
-
-#~ msgid "Unable to remove tmp.cfg"
-#~ msgstr "عدم توانایی حذف tmp.cfg"
 
 #~ msgid "Asterisk seems to be running on PID %s and has been running for %s"
 #~ msgstr "Asterisk seems  to be running on PID %s and has been running for %s"

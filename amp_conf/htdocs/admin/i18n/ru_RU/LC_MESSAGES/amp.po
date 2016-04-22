@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-04-22 14:54-0700\n"
+"POT-Creation-Date: 2016-04-22 16:32-0700\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -9898,6 +9898,20 @@ msgstr "Невозможно найти класс FreePBX BMO %s"
 msgid "Unable to open file %s"
 msgstr "Невозможно открыть файл %s"
 
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:656
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:670
+#, php-format
+msgid "Unable to remove %s"
+msgstr "Невозможно удалить %s"
+
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:684
+msgid "Unable to remove ca.cfg"
+msgstr "Невозможно удалить ca.cfg"
+
+#: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:689
+msgid "Unable to remove tmp.cfg"
+msgstr "Невозможно удалить tmp.cfg"
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:228
 #, php-format
 msgid "Unable to resolve dependencies for module %s:"
@@ -12179,15 +12193,6 @@ msgstr "Устройства ZAP перенесены"
 
 #~ msgid "List Routes"
 #~ msgstr "Список маршрутов"
-
-#~ msgid "Unable to remove %s"
-#~ msgstr "Невозможно удалить %s"
-
-#~ msgid "Unable to remove ca.cfg"
-#~ msgstr "Невозможно удалить ca.cfg"
-
-#~ msgid "Unable to remove tmp.cfg"
-#~ msgstr "Невозможно удалить tmp.cfg"
 
 #~ msgid "Not running Pre-Asterisk Hooks."
 #~ msgstr "Не запущены обработчики  Pre-Asterisk."
