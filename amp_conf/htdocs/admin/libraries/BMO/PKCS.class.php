@@ -623,4 +623,21 @@ default_md = sha256
 		}
 		return trim($raw[0]);
 	}
+
+	//Old functions for backwards compatibility with old certman
+	public function getAllAuthorityFiles() {
+		return array();
+	}
+
+	public function removeCert($base) {
+		return false;
+	}
+
+	public function removeCA() {
+		return false;
+	}
+
+	public function removeConfig() {
+		return false;
+	}
 }
