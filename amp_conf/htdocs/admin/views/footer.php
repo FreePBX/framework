@@ -309,9 +309,15 @@ addLoadEvent(function(){
   <script>
   $(window.console).ready(function(){
     console.log(("%c%s"), "color: green; font-size: large","'. $amp_conf['DASHBOARD_FREEPBX_BRAND'].'");
-    console.log("Thankyou for using FreePBX");
+    console.log(("Thankyou for using %s"),"'.$amp_conf['DASHBOARD_FREEPBX_BRAND'].'");
+    ';
+  if($amp_conf['DASHBOARD_FREEPBX_BRAND'] == 'FreePBX'){
+  $consolealert .= '
     console.log("If you find bugs you may file a report at http://issues.freepbx.org");
     console.log("For developer resources visit: http://wiki.freepbx.org/x/BAAQ");
+    ';
+  }
+  $consolealert .='
     console.log(("Framework: %s"),"'. $version .'");
     console.log(("Module Name: %s"),"'. $module_name .'");
     console.log(("Module Version: %s"),"'. $active_modules[$module_name]["version"].'");
