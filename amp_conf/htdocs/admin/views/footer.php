@@ -304,6 +304,23 @@ addLoadEvent(function(){
   <h6><?php echo _("Your browser is out-of-date!")?></h6>
   <p><?php echo sprintf(_("%s requires a new browser to function correctly. You can still use %s with the browser you currently have but your experience may be diminished and is not supported"),FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND"),FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND"))?><a id="btnUpdateBrowser" href="http://outdatedbrowser.com/"><?php echo _("Update my browser now")?></a></p>
   <p class="last"><a href="#" id="btnCloseUpdateBrowser" title="Close">&times;</a></p>
+  <?php
+  $consolealert = '
+  <script>
+  $(window.console).ready(function(){
+    console.log(("%c%s"), "color: green; font-size: large","'. $amp_conf['DASHBOARD_FREEPBX_BRAND'].'");
+    console.log("Thankyou for using FreePBX");
+    console.log("If you find bugs you may file a report at http://issues.freepbx.org");
+    console.log("For developer resources visit: http://wiki.freepbx.org/x/BAAQ");
+    console.log(("Framework: %s"),"'. $version .'");
+    console.log(("Module Name: %s"),"'. $module_name .'");
+    console.log(("Module Version: %s"),"'. $active_modules[$module_name]["version"].'");
+  });
+  </script>';
+  if (isset($_SESSION['AMP_user']) ){
+    echo $consolealert;
+  }
+?>
 </div>
 </body>
 </html>
