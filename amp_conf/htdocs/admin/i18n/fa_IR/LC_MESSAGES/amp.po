@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-04-22 16:32-0700\n"
-"PO-Revision-Date: 2016-04-20 11:35+0200\n"
-"Last-Translator: psdk <hyavari26@gmail.com>\n"
-"Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
-"framework/fa_IR/>\n"
+"PO-Revision-Date: 2016-04-26 04:22+0200\n"
+"Last-Translator: Media <mousavi.media@gmail.com>\n"
+"Language-Team: Persian (Iran) "
+"<http://weblate.freepbx.org/projects/freepbx/framework/fa_IR/>\n"
+"Language: fa_IR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fa_IR\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.4\n"
 
@@ -650,7 +650,7 @@ msgstr "لغو خاموش کردن. استریسک هنوز در حال اجرا
 
 #: ../core/functions.inc/drivers/Sip.class.php:311
 msgid "Accept"
-msgstr ""
+msgstr "قبول کردن"
 
 #: ../core/page.ampusers.php:240
 msgid "Access Restrictions"
@@ -3293,10 +3293,12 @@ msgid ""
 "Disallow transfer features (Normally ## and *2) for callers who passthrough "
 "inbound routes (Such as external callers)"
 msgstr ""
+"Disallow transfer features (Normally ## and *2) for callers who  passthrough "
+"inbound routes (Such as external callers)"
 
 #: amp.i18n.php:412
 msgid "Disallow transfer features for inbound callers"
-msgstr ""
+msgstr "نپذیرفتن جابجایی ویزگی ها برای تماسهای ورودی"
 
 #: ../core/functions.inc/drivers/Sip.class.php:410
 msgid "Disallowed Codecs"
@@ -3527,7 +3529,7 @@ msgstr "تولید پویای نکات"
 
 #: amp_conf/htdocs/admin/views/module_admin/header.php:26
 msgid "EDGE MODE"
-msgstr ""
+msgstr "حالت لبه"
 
 #: upgrades/2.8.0alpha2/tables.php:117
 msgid "ERROR - could not drop table"
@@ -3761,6 +3763,8 @@ msgid ""
 "Enable or disable video support for this extension. If set to inherit it "
 "will use the global value from SIP Settings. Default is inherit"
 msgstr ""
+"فعال و یا غیر فعال کردن پشتیبانی از ویدیو برای این داخلی.اگر به صورت موروثی "
+"تنظیم شود این مقدار از تنظیمات SIP استفاده میکند.پیشفرض موروثی است"
 
 #: amp.i18n.php:152
 msgid "Enable pretty-printing of the JSON responses from Asterisk"
@@ -4487,7 +4491,7 @@ msgstr "اجباری کردن استفاده از پورت بازگشتی."
 
 #: ../core/functions.inc/drivers/PJSip.class.php:243
 msgid "Forced"
-msgstr ""
+msgstr "اجباری"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2931
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:514
@@ -5361,7 +5365,7 @@ msgstr "اطلاعات"
 
 #: ../core/functions.inc/drivers/Sip.class.php:400
 msgid "Inherit"
-msgstr ""
+msgstr "ارثی"
 
 #: amp_conf/htdocs/admin/views/obe.php:8
 #: amp_conf/htdocs/admin/views/oobe.php:5
@@ -6271,6 +6275,7 @@ msgstr "یادداشت"
 msgid ""
 "NOTICE! This system had EDGE mode enabled. For more information visit %s"
 msgstr ""
+"نکته! این سیستم به حالت لبه تنظیم شده. برای اطلاعات بیشتر به %s مراجعه کنید"
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:34
 #, php-format
@@ -6858,6 +6863,15 @@ msgid ""
 "and sometimes needed in complex dialplan features that may otherwise result "
 "in silence to the caller."
 msgstr ""
+"Options to  be passed to the Asterisk Dial Command when making internal "
+"calls or for calls ringing internal phones. The options are documented in "
+"Asterisk documentation, a subset of which are described here. The default "
+"options T and t allow the calling and called users to transfer a call with ##"
+". If 'Disallow transfer features for inbound callers' is set to 'Yes' the T "
+"option is removed for inbound callers. The r option allows Asterisk to "
+"generate ringing back to the calling phones which is needed by some phones "
+"and sometimes needed in complex dialplan features that may otherwise result "
+"in silence to the caller."
 
 #: amp.i18n.php:350
 msgid ""
@@ -6869,6 +6883,13 @@ msgid ""
 "media from being delivered from the PSTN and can result in the inability to "
 "interact with some external IVRs"
 msgstr ""
+"Options  to be passed to the Asterisk Dial Command when making outbound "
+"calls on your trunks when not part of an Intra-Company Route. The options "
+"are documented in Asterisk documentation, a subset of which are described "
+"here. The default option T allows the calling user to transfer a call with ##"
+". It is HIGHLY DISCOURAGED to use the r option here as this will prevent "
+"early media from being delivered from the PSTN and can result in the "
+"inability to interact with some external IVRs"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:17
 msgid "Orphan"
@@ -6931,7 +6952,7 @@ msgstr "مسیرهای خروجی"
 
 #: ../core/views/routing/bootnav.php:3
 msgid "Outbound Routes List"
-msgstr ""
+msgstr "فهرست مسیرهای خروجی"
 
 #: ../core/views/trunks/sip.php:4
 msgid "Outgoing"
@@ -7621,7 +7642,7 @@ msgstr "بازنشانی %s"
 
 #: ../core/functions.inc/drivers/Sip.class.php:313
 msgid "Refuse"
-msgstr ""
+msgstr "قبول نکردن"
 
 #: ../core/views/trunks/sip.php:120
 msgid "Register String"
@@ -7783,7 +7804,7 @@ msgstr "Require  Strong Secrets"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:241
 msgid "Required"
-msgstr ""
+msgstr "ضروری"
 
 #: amp.i18n.php:260
 msgid ""
@@ -8136,7 +8157,7 @@ msgstr "وقفه جلسه"
 #: ../core/functions.inc/drivers/PJSip.class.php:245
 #: ../core/functions.inc/drivers/Sip.class.php:315
 msgid "Session Timers"
-msgstr ""
+msgstr "تایمر جلسه"
 
 #: ../core/views/did/advanced_form.php:235
 #: ../core/views/did/basic_form.php:116
@@ -9199,6 +9220,9 @@ msgid ""
 "negotiated interval. If a session refresh fails then all the entities that "
 "support Session-Timers clear their internal session state. Default is Accept."
 msgstr ""
+"The sessions  are kept alive by sending a RE-INVITE or UPDATE request at a "
+"negotiated interval. If a session refresh fails then all the entities that "
+"support Session-Timers clear their internal session state. Default is Accept."
 
 #: ../core/functions.inc/drivers/PJSip.class.php:244
 msgid ""
@@ -9206,6 +9230,9 @@ msgid ""
 "negotiated interval. If a session refresh fails then all the entities that "
 "support Session-Timers clear their internal session state. Default is Yes."
 msgstr ""
+"The sessions  are kept alive by sending a RE-INVITE or UPDATE request at a "
+"negotiated interval. If a session refresh fails then all the entities that "
+"support Session-Timers clear their internal session state. Default is Yes."
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:55
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:88
@@ -9666,6 +9693,9 @@ msgid ""
 "are released and may encounter bugs not seen in general availibility modules."
 "</br> For more information visit %s"
 msgstr ""
+"This system  has edge mode enabled. This means you will get modules as they "
+"are released and may encounter bugs not seen in general availibility "
+"modules.</br> For more information visit %s"
 
 #: ../core/views/trunks/trunk_header.php:24
 msgid ""
@@ -9918,6 +9948,8 @@ msgid ""
 "Unable to run Pre-Asterisk hooks, because Asterisk is already running on PID "
 "%s and has been running for %s"
 msgstr ""
+"Unable  to run Pre-Asterisk hooks, because Asterisk is already running on "
+"PID %s and has been running for %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1475
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1714
@@ -10437,7 +10469,7 @@ msgstr "نسخه فریم ورک خالی است, نمیتوان ادامه دا
 
 #: ../core/functions.inc/drivers/Sip.class.php:402
 msgid "Video Support"
-msgstr ""
+msgstr "پشتیبانی ویدیو"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:20
 msgid "View"
@@ -11945,7 +11977,7 @@ msgstr "تایید منتقل شد"
 
 #: ../core/functions.inc/drivers/Sip.class.php:312
 msgid "originate"
-msgstr ""
+msgstr "ایجاد کردن"
 
 #: amp_conf/htdocs/admin/views/obe.php:36
 #: amp_conf/htdocs/admin/views/obe.php:48
