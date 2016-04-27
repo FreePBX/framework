@@ -504,6 +504,46 @@ class AGI_AsteriskManager {
 	}
 
 	/**
+	* Tell Asterisk to poll mailboxes for a change
+	*
+	* Normally, MWI indicators are only sent when Asterisk itself changes a mailbox.
+	* With external programs that modify the content of a mailbox from outside the
+	* application, an option exists called pollmailboxes that will cause voicemail
+	* to continually scan all mailboxes on a system for changes. This can cause a
+	* large amount of load on a system. This command allows external applications
+	* to signal when a particular mailbox has changed, thus permitting external
+	* applications to modify mailboxes and MWI to work without introducing
+	* considerable CPU load.
+	*
+	* If Context is not specified, all mailboxes on the system will be polled for
+	* changes. If Context is specified, but Mailbox is omitted, then all mailboxes
+	* within Context will be polled. Otherwise, only a single mailbox will be
+	* polled for changes.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+12+ManagerAction_VoicemailRefresh
+	* @param string $context
+	* @param string $mailbox
+	* @param string $actionid ActionID for this transaction. Will be returned.
+	*/
+	function VoicemailRefresh($context=NULL,$mailbox=NULL, $actionid=NULL) {
+		global $amp_conf;
+		if(version_compare($amp_conf['ASTVERSION'], "12.0", "lt")) {
+			return false;
+		}
+		$parameters = array();
+		if(!empty($context)) {
+			$parameters['Context'] = $context;
+		}
+		if(!empty($mailbox)) {
+			$parameters['Mailbox'] = $mailbox;
+		}
+		if(!empty($actionid)) {
+			$parameters['ActionID'] = $actionid;
+		}
+		return $this->send_request('VoicemailRefresh', $parameters);
+	}
+
+	/**
 	 * Get and parse codecs
 	 * @param {string} $type='audio' Type of codec to look up
 	 */
