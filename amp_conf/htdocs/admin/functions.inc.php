@@ -396,6 +396,14 @@ function do_reload($passthru=false) {
 	$astman->Reload();
 	FreePBX::Performance()->Stop();
 
+	//Until https://issues.asterisk.org/jira/browse/ASTERISK-25966 is fixed
+	FreePBX::Performance()->Start("Reload Asterisk Dialplan");
+	$a = fpbx_which("asterisk");
+	if(!empty($a)) {
+		exec($a . " -rx 'dialplan reload'");
+	}
+	FreePBX::Performance()->Stop();
+
 	$return['status'] = true;
 	$return['message'] = _('Successfully reloaded');
   $return['retrieve_conf'] = '';

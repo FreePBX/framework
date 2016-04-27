@@ -88,7 +88,7 @@ class Start extends Command {
 			$output->writeln("<error>Asterisk already running</error>");
 		}
 
-		// Now we're ready to go.  
+		// Now we're ready to go.
 		$brand = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
 		$output->writeln(sprintf(_('Running %s startup...'),$brand));
 		if ($runpre) {
@@ -111,6 +111,11 @@ class Start extends Command {
 			if ($this->startAsterisk($output)) {
 				$output->writeln('');
 				$output->writeln(_("Asterisk Started"));
+				//Until https://issues.asterisk.org/jira/browse/ASTERISK-25966 is fixed
+				$a = fpbx_which("asterisk");
+				if(!empty($a)) {
+					exec($a . " -rx 'dialplan reload'");
+				}
 			} else {
 				$output->writeln('');
 				$output->writeln(_("Unable to start Asterisk!"));
