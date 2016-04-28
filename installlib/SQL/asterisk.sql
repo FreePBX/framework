@@ -26,7 +26,7 @@ CREATE TABLE `admin` (
   `variable` varchar(20) NOT NULL DEFAULT '',
   `value` varchar(80) NOT NULL DEFAULT '',
   PRIMARY KEY (`variable`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -54,7 +54,7 @@ CREATE TABLE `ampusers` (
   `deptname` varchar(20) NOT NULL DEFAULT '',
   `sections` blob NOT NULL,
   PRIMARY KEY (`username`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -82,7 +82,7 @@ CREATE TABLE `cronmanager` (
   `lasttime` int(11) NOT NULL DEFAULT '0',
   `command` varchar(255) NOT NULL DEFAULT '',
   PRIMARY KEY (`module`,`id`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -108,7 +108,7 @@ CREATE TABLE `dahdi` (
   `data` varchar(255) NOT NULL DEFAULT '',
   `flags` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`,`keyword`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,7 +137,7 @@ CREATE TABLE `devices` (
   `emergency_cid` varchar(100) DEFAULT NULL,
   KEY `id` (`id`),
   KEY `tech` (`tech`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,7 +165,7 @@ CREATE TABLE `extensions` (
   `descr` text,
   `flags` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`context`,`extension`,`priority`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -196,7 +196,7 @@ CREATE TABLE `featurecodes` (
   `providedest` tinyint(4) NOT NULL DEFAULT '0',
   PRIMARY KEY (`modulename`,`featurename`),
   KEY `enabled` (`enabled`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -225,7 +225,7 @@ CREATE TABLE `freepbx_log` (
   `message` text NOT NULL,
   PRIMARY KEY (`id`),
   KEY `time` (`time`,`level`)
-) ENGINE=MyISAM AUTO_INCREMENT=3;
+) AUTO_INCREMENT=3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -260,7 +260,7 @@ CREATE TABLE `freepbx_settings` (
   `emptyok` tinyint(1) DEFAULT '1',
   `sortorder` int(11) DEFAULT '0',
   PRIMARY KEY (`keyword`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -274,7 +274,7 @@ CREATE TABLE `globals` (
   `variable` varchar(255) NOT NULL,
   `value` varchar(255) NOT NULL,
   PRIMARY KEY (`variable`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 LOCK TABLES `globals` WRITE;
@@ -295,7 +295,7 @@ CREATE TABLE `iax` (
   `data` varchar(255) NOT NULL,
   `flags` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`,`keyword`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -332,7 +332,7 @@ CREATE TABLE `incoming` (
   `pricid` varchar(20) DEFAULT NULL,
   `pmmaxretries` varchar(2) DEFAULT NULL,
   `pmminlength` varchar(2) DEFAULT NULL
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -356,7 +356,7 @@ CREATE TABLE `module_xml` (
   `time` int(11) NOT NULL DEFAULT '0',
   `data` longblob NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -373,7 +373,7 @@ CREATE TABLE `modules` (
   `enabled` tinyint(4) NOT NULL DEFAULT '0',
   `signature` blob,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1;
+) AUTO_INCREMENT=1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -394,7 +394,7 @@ CREATE TABLE `notifications` (
   `candelete` tinyint(4) NOT NULL DEFAULT '0',
   `timestamp` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`module`,`id`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -411,7 +411,7 @@ CREATE TABLE `outbound_route_patterns` (
   `match_cid` varchar(60) NOT NULL DEFAULT '',
   `prepend_digits` varchar(100) NOT NULL DEFAULT '',
   PRIMARY KEY (`route_id`,`match_pattern_prefix`,`match_pattern_pass`,`match_cid`,`prepend_digits`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -434,7 +434,7 @@ CREATE TABLE `outbound_route_sequence` (
   `route_id` int(11) NOT NULL,
   `seq` int(11) NOT NULL,
   PRIMARY KEY (`route_id`,`seq`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -458,7 +458,7 @@ CREATE TABLE `outbound_route_trunks` (
   `trunk_id` int(11) NOT NULL,
   `seq` int(11) NOT NULL,
   PRIMARY KEY (`route_id`,`trunk_id`,`seq`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -489,7 +489,7 @@ CREATE TABLE `outbound_routes` (
   `time_group_id` int(11) DEFAULT NULL,
   `dest` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`route_id`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -514,7 +514,7 @@ CREATE TABLE `sip` (
   `data` varchar(255) NOT NULL,
   `flags` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`,`keyword`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -539,7 +539,7 @@ CREATE TABLE `pjsip` (
   `data` varchar(255) NOT NULL,
   `flags` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`,`keyword`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -565,7 +565,7 @@ CREATE TABLE `trunk_dialpatterns` (
   `prepend_digits` varchar(50) NOT NULL DEFAULT '',
   `seq` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`trunkid`,`match_pattern_prefix`,`match_pattern_pass`,`prepend_digits`,`seq`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -599,7 +599,7 @@ CREATE TABLE `trunks` (
   `disabled` varchar(4) DEFAULT 'off',
   `continue` varchar(4) DEFAULT 'off',
   PRIMARY KEY (`trunkid`,`tech`,`channelid`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -637,7 +637,7 @@ CREATE TABLE `users` (
   `chanunavail_dest` varchar(255) NOT NULL DEFAULT '',
   `mohclass` varchar(80) DEFAULT 'default',
   KEY `extension` (`extension`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -661,7 +661,7 @@ CREATE TABLE `dahdichandids` (
   `description` varchar(40) NOT NULL DEFAULT '',
   `did` varchar(60) NOT NULL DEFAULT '',
   PRIMARY KEY (`channel`)
-) ENGINE=MyISAM;
+);
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
