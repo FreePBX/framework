@@ -582,6 +582,17 @@ class Freepbx_conf {
 		if(isset($this->depreciatedSettings[$keyword])) {
 			return $this->depreciatedSettings[$keyword];
 		}
+		if($keyword == "FPBXOPMODE" && is_object($_SESSION['AMP_user']) && method_exists($_SESSION['AMP_user'], "getOpMode")) {
+			switch($_SESSION['AMP_user']->getOpMode()) {
+				case "basic":
+					return "basic";
+				break;
+				case "advanced":
+					return "advanced";
+				break;
+				//passthru if not valid
+			}
+		}
 		if ($passthru) {
 			// This is a special case situation, do I need to confirm if the setting
 			// actually exists so I can return a boolean false if not?

@@ -10,6 +10,7 @@ class ampuser {
 	private $extension_low;
 	private $sections;
 	private $mode = "database";
+	private $opmode;
 
 	public function __construct($username, $mode="database") {
 		$this->username = $username;
@@ -20,6 +21,7 @@ class ampuser {
 			$this->extension_low = $user["extension_low"];
 			$this->sections = $user["sections"];
 			$this->id = isset($user['id']) ? $user['id'] : null;
+			$this->opmode = isset($user['opmode']) ? $user['opmode'] : null;
 		} else {
 			// user doesn't exist
 			$this->password = false;
@@ -37,6 +39,7 @@ class ampuser {
 		$this->extension_low = "";
 		$this->deptname = "";
 		$this->sections = array("*");
+		$this->opmode = "advanced";
 	}
 
 	/**
@@ -99,6 +102,7 @@ class ampuser {
 					$user["extension_high"] = (trim($pbh) !== "") ? $pbh : "";
 					$sections = FreePBX::Userman()->getCombinedGlobalSettingByID($um['id'],'pbx_modules');
 					$user["sections"] = !empty($sections) && is_array($sections) ? $sections : array();
+					$user["opmode"] = FreePBX::Userman()->getCombinedGlobalSettingByID($um['id'],'opmode');
 					return $user;
 				} catch(Exception $e) {}
 				//fail-through
@@ -150,5 +154,8 @@ class ampuser {
 	}
 	public function getExtensionLow(){
 		return isset($this->extension_low)?$this->extension_low:'';
+	}
+	public function getOpMode() {
+		return $this->opmode;
 	}
 }
