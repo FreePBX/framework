@@ -111,11 +111,6 @@ class Start extends Command {
 			if ($this->startAsterisk($output)) {
 				$output->writeln('');
 				$output->writeln(_("Asterisk Started"));
-				//Until https://issues.asterisk.org/jira/browse/ASTERISK-25966 is fixed
-				$a = fpbx_which("asterisk");
-				if(!empty($a)) {
-					exec($a . " -rx 'dialplan reload'");
-				}
 			} else {
 				$output->writeln('');
 				$output->writeln(_("Unable to start Asterisk!"));
