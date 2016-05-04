@@ -555,7 +555,6 @@ class AGI_AsteriskManager {
 			break;
 			case 'text':
 				$ret = $this->Command('core show codecs text');
-				dbug($ret['data']);
 			break;
 			case 'image':
 				$ret = $this->Command('core show codecs image');
@@ -1461,7 +1460,6 @@ class AGI_AsteriskManager {
 	 */
 	function database_put($family, $key, $value) {
 		$write_through = false;
-
 		if (!empty($this->memAstDB)){
 			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
 			if (!isset($this->memAstDB[$keyUsed]) || $this->memAstDB[$keyUsed] != $value) {
@@ -1510,12 +1508,13 @@ class AGI_AsteriskManager {
 	 * @return bool True if successful
 	 */
 	function database_del($family, $key) {
-		 if (!empty($this->memAstDB)){
+		$r = $this->command("database del ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
+		$status = (bool)strstr($r["data"], "removed");
+		if ($status && !empty($this->memAstDB)){
 			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
 			unset($this->memAstDB[$keyUsed]);
 		}
-		$r = $this->command("database del ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
-		return (bool)strstr($r["data"], "removed");
+		return $status;
 	}
 
 	/** Delete a family from the asterisk database
@@ -1523,12 +1522,18 @@ class AGI_AsteriskManager {
 	 * @return bool True if successful
 	 */
 	function database_deltree($family) {
-		if (!empty($this->memAstDB)){
-			$keyUsed="/".str_replace(" ","/",$family);
-			unset($this->memAstDB[$keyUsed]);
-		}
 		$r = $this->command("database deltree ".str_replace(" ","/",$family));
-		return (bool)strstr($r["data"], "removed");
+		$status = (bool)strstr($r["data"], "removed");
+		if ($status && !empty($this->memAstDB)){
+			$keyUsed="/".str_replace(" ","/",$family);
+			foreach($this->memAstDB as $key => $val) {
+				$reg = preg_quote($keyUsed,"/");
+				if(preg_match("/^".$reg.".*/",$key)) {
+					unset($this->memAstDB[$key]);
+				}
+			}
+		}
+		return $status;
 	}
 
 	/** Returns whether a give function exists in this Asterisk install
