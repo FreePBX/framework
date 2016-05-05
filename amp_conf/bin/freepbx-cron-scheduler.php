@@ -29,6 +29,11 @@ if(function_exists('sysadmin_get_storage_email')){
 	}
 }
 
+// If it's midnight local time, update our GPG keys
+if (date('G') == 0) {
+	\FreePBX::GPG()->refreshKeys();
+}
+
 //Send email with our mail class
 function cron_scheduler_send_message($to,$from,$subject,$message){
 	$em = new \CI_Email();
