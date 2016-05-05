@@ -775,6 +775,10 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			$output->writeln("<error>Error while trusting FreePBX: ".$e->getMessage()."</error>");
 			exit(1);
 		}
+
+		// Make sure we have the latest keys, if this install is out of date.
+		\FreePBX::GPG()->refreshKeys();
+
 		$output->writeln("Trusted");
 
 		$output->writeln("<info>You have successfully installed FreePBX</info>");
