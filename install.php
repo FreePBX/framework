@@ -213,5 +213,9 @@ if(function_exists("sql")) {
 }
 
 // Make sure our GPG keys are up to date
-\FreePBX::GPG()->refreshKeys();
+try {
+	\FreePBX::GPG()->refreshKeys();
+} catch (\Exception $e) {
+	out(sprintf(_("Error updating GPG Keys: %s"), $e->getMessage()));
+}
 
