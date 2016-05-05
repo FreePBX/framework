@@ -211,3 +211,7 @@ if (is_link("$wr/admin/images/notify_security.png")) {
 if(function_exists("sql")) {
 	sql("DELETE FROM module_xml WHERE id = 'modules'");
 }
+
+// Make sure our GPG keys are up to date
+\FreePBX::GPG()->refreshKeys();
+
