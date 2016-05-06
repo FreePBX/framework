@@ -31,7 +31,9 @@ class ModulesConf {
 			$this->conf->addEntry("modules", "noload=app_voicemail_odbcstorage.so");
 		}
 		//https://issues.asterisk.org/jira/browse/ASTERISK-25966
-		if(empty($this->ProcessedConfig['modules']['preload']) || !in_array("func_db.so",$this->ProcessedConfig['modules']['preload'])) {
+		if(empty($this->ProcessedConfig['modules']['preload'])
+			|| (is_array($this->ProcessedConfig['modules']['preload']) && !in_array("func_db.so",$this->ProcessedConfig['modules']['preload']))
+			|| (is_string($this->ProcessedConfig['modules']['preload']) && $this->ProcessedConfig['modules']['preload'] != "func_db.so")) {
 			$this->conf->addEntry("modules", "preload=func_db.so");
 		}
 	}
