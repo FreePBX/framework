@@ -1785,7 +1785,7 @@ $(document).ready(function(){
 		$(this).after('<span class="input-group-addon" id="basic-addon-'+curid+'">'+curl+'/'+maxl+'</span>');
 	});
 	//Enable textarea autosizer
-	$('textarea.autosize').autosize();
+	autosize($('textarea.autosize'));
 
 	//enable bootstrap multiselect
 	$('select[multiple].bsmultiselect').multiselect({
