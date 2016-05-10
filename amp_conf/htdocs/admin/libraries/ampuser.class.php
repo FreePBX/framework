@@ -39,7 +39,6 @@ class ampuser {
 		$this->extension_low = "";
 		$this->deptname = "";
 		$this->sections = array("*");
-		$this->opmode = "advanced";
 	}
 
 	/**

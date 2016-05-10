@@ -332,6 +332,12 @@ if (!$quietmode && isset($fpbx_menu["extensions"])) {
 // If it's index, do we have an override?
 if ($display === "index") {
 	$override = $bmo->Config()->get('DASHBOARD_OVERRIDE');
+	if (empty($override)) {
+		$opmode = $bmo->Config()->get('FPBXOPMODE');
+		if ($opmode == 'basic') {
+			$override = $bmo->Config()->get('DASHBOARD_OVERRIDE_BASIC');
+		}
+	}
 
 	// Does this user have permission to use this?
 	if (is_array($active_modules) && isset($active_modules[$override])) {

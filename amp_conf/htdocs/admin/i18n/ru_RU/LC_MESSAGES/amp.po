@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-06 18:43-0700\n"
+"POT-Creation-Date: 2016-05-10 11:08-0700\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -374,7 +374,7 @@ msgstr "%s не найден"
 msgid "%s prepared"
 msgstr "%s подготовлено"
 
-#: ../core/Core.class.php:2576
+#: ../core/Core.class.php:2577
 #, php-format
 msgid "%s records failed validation"
 msgstr "%s записей не прошли проверку"
@@ -486,7 +486,7 @@ msgstr "10-ти значный шаблон"
 msgid "11 Digit Patterns"
 msgstr "11-ти значный шаблон"
 
-#: amp_conf/htdocs/admin/config.php:562
+#: amp_conf/htdocs/admin/config.php:568
 #, php-format
 msgid "404 Not found (%s)"
 msgstr "404 Не найдено (%s)"
@@ -602,7 +602,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "Маршрут для этого DID/CID уже существует!"
 
-#: ../core/Core.class.php:2130 ../core/functions.inc.php:4725
+#: ../core/Core.class.php:2131 ../core/functions.inc.php:4725
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "Маршрут с таким DID/ИД: %s/%s уже существует"
@@ -1466,6 +1466,7 @@ msgstr ""
 #: ../core/functions.inc/drivers/Iax2.class.php:150
 #: ../core/functions.inc/drivers/Sip.class.php:260
 #: ../core/functions.inc/drivers/Sip.class.php:264
+#: ../core/views/trunks/pjsip.php:217
 msgid "Auto"
 msgstr "Авто"
 
@@ -1739,11 +1740,11 @@ msgstr ""
 "когда имеется конфликт между внутренним номером, требующим записывания, и не "
 "требующими."
 
-#: ../core/Core.class.php:2549
+#: ../core/Core.class.php:2550
 msgid "Caller ID"
 msgstr "Идентификационный номер вызывающей стороны(Caller ID)"
 
-#: ../core/Core.class.php:2550
+#: ../core/Core.class.php:2551
 msgid "Caller ID Number"
 msgstr "Номер  Caller ID"
 
@@ -2553,7 +2554,7 @@ msgstr "Описание DID"
 msgid "DID Number"
 msgstr "Номер DID"
 
-#: ../core/Core.class.php:2657
+#: ../core/Core.class.php:2659
 msgid "DID already exists"
 msgstr ""
 
@@ -2561,11 +2562,11 @@ msgstr ""
 msgid "DID/CID"
 msgstr "DID/CID"
 
-#: ../core/Core.class.php:2496
+#: ../core/Core.class.php:2497
 msgid "DIDs"
 msgstr "DID-ы"
 
-#: ../core/Core.class.php:2497
+#: ../core/Core.class.php:2498
 msgid "DIDs / Inbound Routes"
 msgstr "DID-ы / Входящие маршруты"
 
@@ -2652,7 +2653,7 @@ msgstr ""
 msgid "DTLS-SRTP (not recommended)"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:213
+#: ../core/views/trunks/pjsip.php:211
 msgid "DTMF Mode"
 msgstr "Режим DTMF"
 
@@ -2967,8 +2968,8 @@ msgstr "Зависимость %s  имеет неизвестный стату�
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/main.php:185
-#: ../core/Core.class.php:2516 ../core/Core.class.php:2517
-#: ../core/Core.class.php:2541 ../core/Core.class.php:2542
+#: ../core/Core.class.php:2517 ../core/Core.class.php:2518
+#: ../core/Core.class.php:2542 ../core/Core.class.php:2543
 #: ../core/functions.inc.php:6445 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:37
@@ -2981,7 +2982,7 @@ msgstr "Описание"
 msgid "Descriptive Name for this Trunk"
 msgstr "Понятное название для этого транка"
 
-#: ../core/Core.class.php:2553 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:2554 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "Назначение"
 
@@ -3114,11 +3115,11 @@ msgstr "Устройство"
 msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 
-#: ../core/Core.class.php:2598
+#: ../core/Core.class.php:2599
 msgid "Device 'name' can not be blank."
 msgstr ""
 
-#: ../core/Core.class.php:1528
+#: ../core/Core.class.php:1529
 msgid "Device Extension was blank or there were no settings defined"
 msgstr "Внутренний номер устройства не заполнен или не были указаны настройки."
 
@@ -3138,7 +3139,7 @@ msgstr "Опции устройства"
 msgid "Device Settings"
 msgstr "Установки устройства"
 
-#: ../core/Core.class.php:2521 ../core/Core.class.php:2522
+#: ../core/Core.class.php:2522 ../core/Core.class.php:2523
 msgid "Device Technology"
 msgstr "Технология устройства"
 
@@ -3147,7 +3148,7 @@ msgstr "Технология устройства"
 msgid "Device Type"
 msgstr "Тип устройства"
 
-#: ../core/Core.class.php:2620
+#: ../core/Core.class.php:2621
 msgid "Device could not be added."
 msgstr "Устройство не может быть добавлено."
 
@@ -3898,7 +3899,7 @@ msgstr ""
 "NAT,то хорошей идеей является включить эту опцию.Отключите её, если только у "
 "Вас есть какие-то проблемы."
 
-#: amp_conf/htdocs/admin/config.php:687
+#: amp_conf/htdocs/admin/config.php:693
 msgid "English"
 msgstr "Английский"
 
@@ -4133,8 +4134,8 @@ msgstr "Экспорт настроек в файл"
 msgid "Extended"
 msgstr "Дополнительный"
 
-#: ../core/Core.class.php:31 ../core/Core.class.php:2508
-#: ../core/Core.class.php:2509 ../core/functions.inc.php:6029
+#: ../core/Core.class.php:31 ../core/Core.class.php:2509
+#: ../core/Core.class.php:2510 ../core/functions.inc.php:6029
 #: ../core/page.did.php:89 ../core/page.extensions.php:28
 #: ../core/page.extensions.php:117 ../core/page.extensions.php:143
 #: ../core/views/rnav.php:18
@@ -4165,7 +4166,7 @@ msgstr "Внутренний номер уже используется!"
 msgid "Extension can not be blank!"
 msgstr "Внутренний номер не может быть пустым!"
 
-#: ../core/Core.class.php:2592
+#: ../core/Core.class.php:2593
 msgid "Extension is not numeric."
 msgstr "Внутренний номер не из цифр."
 
@@ -4177,7 +4178,7 @@ msgstr "Конфликт внутренних номеров, пожалуйст
 msgid "Extension was not numeric!"
 msgstr "Внутренний номер не содержал только цифры!"
 
-#: amp.i18n.php:1256 ../core/Core.class.php:2492 ../core/Core.class.php:2493
+#: amp.i18n.php:1256 ../core/Core.class.php:2493 ../core/Core.class.php:2494
 #: ../core/page.extensions.php:17
 msgid "Extensions"
 msgstr "Внутренние номера"
@@ -4330,7 +4331,7 @@ msgstr ""
 "Использовать только звуковой сигнал для подтверждения операций сервисных "
 "кодов"
 
-#: amp_conf/htdocs/admin/config.php:543
+#: amp_conf/htdocs/admin/config.php:549
 #, php-format
 msgid "File %s has a revoked signature. Can not load"
 msgstr "Файл %s имеет отозванную подпись. Не может быть загружен"
@@ -5352,7 +5353,7 @@ msgstr "Сброс входящего звонка"
 msgid "In-Call Asterisk Toggle Call Recording"
 msgstr "Запись входящего звонка по необходимости"
 
-#: ../core/views/trunks/pjsip.php:219
+#: ../core/views/trunks/pjsip.php:220
 msgid "Inband"
 msgstr "Внутриполосный"
 
@@ -5393,7 +5394,7 @@ msgstr "Включать имя сервера в браузере"
 msgid "Incoming"
 msgstr "Входящий"
 
-#: ../core/Core.class.php:2545 ../core/Core.class.php:2546
+#: ../core/Core.class.php:2546 ../core/Core.class.php:2547
 msgid "Incoming DID"
 msgstr "Входящий DID"
 
@@ -5403,7 +5404,7 @@ msgid "Incorrect Number of Directories for %s"
 msgstr "Неверный номер Директории для %s"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:152
-#: ../core/views/trunks/pjsip.php:220
+#: ../core/views/trunks/pjsip.php:221
 msgid "Info"
 msgstr "Информация"
 
@@ -5578,7 +5579,7 @@ msgstr "Неверный Исходящий Caller ID"
 msgid "Invalid Trunk Name entered"
 msgstr "Указано неверное имя транка"
 
-#: amp_conf/htdocs/admin/config.php:403
+#: amp_conf/htdocs/admin/config.php:409
 msgid "Invalid Username or Password"
 msgstr "Неверное имя пользователя или пароль"
 
@@ -6334,7 +6335,7 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr "Уведомление! У Вас %s уведомлений! Войдите в UI для просмотра!"
 
-#: ../core/Core.class.php:2512 ../core/Core.class.php:2513
+#: ../core/Core.class.php:2513 ../core/Core.class.php:2514
 #: ../core/page.extensions.php:29 ../core/page.extensions.php:118
 #: ../core/page.extensions.php:144 ../core/page.users.php:55
 #: ../core/views/rnav.php:19 ../core/views/rnav.php:43
@@ -6504,7 +6505,7 @@ msgstr "Трейсы NoOp в диал-плане"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:232
 #: ../core/views/trunks/pjsip.php:91 ../core/views/trunks/pjsip.php:110
-#: ../core/views/trunks/pjsip.php:221 ../core/views/trunks/pjsip.php:618
+#: ../core/views/trunks/pjsip.php:618
 msgid "None"
 msgstr "Нет"
 
@@ -7077,7 +7078,7 @@ msgstr ""
 msgid "PHP Console"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:537
+#: amp_conf/htdocs/admin/config.php:543
 msgid "PHP Console Enabled but not installed"
 msgstr "PHP-консоль включена, но не установлена"
 
@@ -7991,7 +7992,7 @@ msgstr "Выполняется запуск %s..."
 msgid "SECURITY NOTICE:"
 msgstr "ЗАМЕЧАНИЕ ПО БЕЗОПАСНОСТИ:"
 
-#: ../core/Core.class.php:2787 ../core/Core.class.php:2788
+#: ../core/Core.class.php:2789 ../core/Core.class.php:2790
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP (%s)"
@@ -8138,7 +8139,7 @@ msgstr "Безопасность"
 msgid "Security Issue"
 msgstr "Проблемы безопасности"
 
-#: amp_conf/htdocs/admin/config.php:529
+#: amp_conf/htdocs/admin/config.php:535
 msgid "Security Warning"
 msgstr "Предупреждения безопасности"
 
@@ -8748,7 +8749,7 @@ msgstr "Технический"
 msgid "Tech Type"
 msgstr "Тип технологии"
 
-#: ../core/Core.class.php:2595
+#: ../core/Core.class.php:2596
 msgid "Technology of device is undefined. Please specify a 'tech'"
 msgstr ""
 
@@ -8844,18 +8845,15 @@ msgid ""
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:230
+#, php-format
 msgid ""
 "The DTMF signaling mode used by this trunk, usually RFC for most "
-"trunks<ul><li>rfc4733 - DTMF is sent out of band of the main audio stream."
-"This supercedes the older RFC-2833 used within the older chan_sip.</"
-"li><li>inband - DTMF is sent as part of audio stream.</li><li>info - DTMF is "
-"sent as SIP INFO packets.</li></ul>"
+"trunks<ul><li>Auto [%s] - DTMF is sent as RFC 4733 if the other side "
+"supports it or as INBAND if not.</li><li>rfc4733 - DTMF is sent out of band "
+"of the main audio stream.This supercedes the older RFC-2833 used within the "
+"older chan_sip.</li><li>inband - DTMF is sent as part of audio stream.</"
+"li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
 msgstr ""
-"Режим DTMF используется эти транком,обычно RFC для большинства транков "
-"<ul><li>rfc4733 - DTMF посылается на пределами  основного звукового потока. "
-"Это заменяет более ранний  RFC-2833,используемый в старом chan_sip.</"
-"li><li>inband - DTMF посылается как часть звукового потока.</li><li>info - "
-"DTMF посылается   как пакеты  SIP INFO.</li></ul>"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1047
 #, php-format
@@ -8935,7 +8933,7 @@ msgstr "Автозагрузчик повреждён.Пожалуйста за�
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr "Unzip не установлен.Невозможно работать с zip-файлами"
 
-#: ../core/Core.class.php:2554
+#: ../core/Core.class.php:2555
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -9430,7 +9428,7 @@ msgid "This action understands somethings may be disabled for a reason."
 msgstr ""
 "Этим действием понимаем, что что-то может быть отключено по какой-то причине."
 
-#: ../core/Core.class.php:1535
+#: ../core/Core.class.php:1536
 msgid "This device id is already in use"
 msgstr "Этот номер устройства уже используется"
 
@@ -9689,7 +9687,7 @@ msgstr ""
 "Этот транк  не может быть использован для исходящих вызовов пока "
 "настраивается роут,который использует этот транк"
 
-#: ../core/Core.class.php:2114
+#: ../core/Core.class.php:2115
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "Этот пользователь/номер %s уже существует"
@@ -10065,7 +10063,7 @@ msgstr "Разблокируется:  %s"
 msgid "Unsigned"
 msgstr "Неподписано"
 
-#: amp_conf/htdocs/admin/config.php:532
+#: amp_conf/htdocs/admin/config.php:538
 msgid "Unsigned Module(s)"
 msgstr "Неподписанные модули"
 
@@ -10337,7 +10335,7 @@ msgstr "Интерфейс пользователей"
 msgid "User Password"
 msgstr "Пароль пользователя"
 
-#: ../core/Core.class.php:2638
+#: ../core/Core.class.php:2640
 msgid "User could not be added."
 msgstr "Пользователь не может быть добавлен"
 
@@ -11090,7 +11088,7 @@ msgstr "У вас повреждён модуль"
 msgid "You have a disabled module"
 msgstr "У вас тключен модуль"
 
-#: amp_conf/htdocs/admin/config.php:537
+#: amp_conf/htdocs/admin/config.php:543
 msgid ""
 "You have enabled PHP Console in Advanced settings but have not installed the "
 "Chrome Extension or you are not using Chrome"
@@ -11221,7 +11219,7 @@ msgstr "Необходимо указать клиентский URI"
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "Чтобы продолжить, необходим корректный файл  freepbx.conf "
 
-#: ../core/Core.class.php:2107
+#: ../core/Core.class.php:2108
 msgid "You must put in an extension (or user) number"
 msgstr "Вы должны ввести внутренний номер или номер пользователя"
 
@@ -11261,7 +11259,7 @@ msgstr "Необходимо зайти в Управление модулями
 msgid "Your %s version (%s) is incompatible."
 msgstr "Ваша %s версии (%s) несовместима."
 
-#: amp_conf/htdocs/admin/config.php:498
+#: amp_conf/htdocs/admin/config.php:504
 msgid ""
 "Your Zend Configuration is not fully setup. Please recitfy the problem and "
 "reload this page"
@@ -12195,6 +12193,19 @@ msgstr ""
 #: ../core/install.php:1105
 msgid "zap devices migrated"
 msgstr "Устройства ZAP перенесены"
+
+#~ msgid ""
+#~ "The DTMF signaling mode used by this trunk, usually RFC for most "
+#~ "trunks<ul><li>rfc4733 - DTMF is sent out of band of the main audio stream."
+#~ "This supercedes the older RFC-2833 used within the older chan_sip.</"
+#~ "li><li>inband - DTMF is sent as part of audio stream.</li><li>info - DTMF "
+#~ "is sent as SIP INFO packets.</li></ul>"
+#~ msgstr ""
+#~ "Режим DTMF используется эти транком,обычно RFC для большинства транков "
+#~ "<ul><li>rfc4733 - DTMF посылается на пределами  основного звукового "
+#~ "потока. Это заменяет более ранний  RFC-2833,используемый в старом "
+#~ "chan_sip.</li><li>inband - DTMF посылается как часть звукового потока.</"
+#~ "li><li>info - DTMF посылается   как пакеты  SIP INFO.</li></ul>"
 
 #~ msgid "List Routes"
 #~ msgstr "Список маршрутов"
