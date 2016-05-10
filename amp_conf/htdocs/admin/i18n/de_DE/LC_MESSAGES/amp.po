@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-06 18:43-0700\n"
+"POT-Creation-Date: 2016-05-10 11:08-0700\n"
 "PO-Revision-Date: 2015-12-11 20:11+0200\n"
 "Last-Translator: Matthias <it@mitterhuemer.at>\n"
 "Language-Team: German <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -351,7 +351,7 @@ msgstr ""
 msgid "%s prepared"
 msgstr ""
 
-#: ../core/Core.class.php:2576
+#: ../core/Core.class.php:2577
 #, php-format
 msgid "%s records failed validation"
 msgstr ""
@@ -460,7 +460,7 @@ msgstr ""
 msgid "11 Digit Patterns"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:562
+#: amp_conf/htdocs/admin/config.php:568
 #, php-format
 msgid "404 Not found (%s)"
 msgstr ""
@@ -544,7 +544,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "Eine Route f&uuml;r diese DID/CID besteht bereits!"
 
-#: ../core/Core.class.php:2130 ../core/functions.inc.php:4725
+#: ../core/Core.class.php:2131 ../core/functions.inc.php:4725
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr ""
@@ -1330,6 +1330,7 @@ msgstr ""
 #: ../core/functions.inc/drivers/Iax2.class.php:150
 #: ../core/functions.inc/drivers/Sip.class.php:260
 #: ../core/functions.inc/drivers/Sip.class.php:264
+#: ../core/views/trunks/pjsip.php:217
 msgid "Auto"
 msgstr ""
 
@@ -1584,11 +1585,11 @@ msgid ""
 "(caller or callee) determines the policy."
 msgstr ""
 
-#: ../core/Core.class.php:2549
+#: ../core/Core.class.php:2550
 msgid "Caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:2550
+#: ../core/Core.class.php:2551
 msgid "Caller ID Number"
 msgstr "Hauptleitungs-Nummer"
 
@@ -2328,7 +2329,7 @@ msgstr ""
 msgid "DID Number"
 msgstr ""
 
-#: ../core/Core.class.php:2657
+#: ../core/Core.class.php:2659
 msgid "DID already exists"
 msgstr ""
 
@@ -2336,11 +2337,11 @@ msgstr ""
 msgid "DID/CID"
 msgstr ""
 
-#: ../core/Core.class.php:2496
+#: ../core/Core.class.php:2497
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:2497
+#: ../core/Core.class.php:2498
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
@@ -2401,7 +2402,7 @@ msgstr ""
 msgid "DTLS-SRTP (not recommended)"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:213
+#: ../core/views/trunks/pjsip.php:211
 msgid "DTMF Mode"
 msgstr ""
 
@@ -2635,8 +2636,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/main.php:185
-#: ../core/Core.class.php:2516 ../core/Core.class.php:2517
-#: ../core/Core.class.php:2541 ../core/Core.class.php:2542
+#: ../core/Core.class.php:2517 ../core/Core.class.php:2518
+#: ../core/Core.class.php:2542 ../core/Core.class.php:2543
 #: ../core/functions.inc.php:6445 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:37
@@ -2649,7 +2650,7 @@ msgstr ""
 msgid "Descriptive Name for this Trunk"
 msgstr ""
 
-#: ../core/Core.class.php:2553 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:2554 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr ""
 
@@ -2752,11 +2753,11 @@ msgstr ""
 msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 
-#: ../core/Core.class.php:2598
+#: ../core/Core.class.php:2599
 msgid "Device 'name' can not be blank."
 msgstr ""
 
-#: ../core/Core.class.php:1528
+#: ../core/Core.class.php:1529
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
@@ -2776,7 +2777,7 @@ msgstr ""
 msgid "Device Settings"
 msgstr ""
 
-#: ../core/Core.class.php:2521 ../core/Core.class.php:2522
+#: ../core/Core.class.php:2522 ../core/Core.class.php:2523
 msgid "Device Technology"
 msgstr ""
 
@@ -2785,7 +2786,7 @@ msgstr ""
 msgid "Device Type"
 msgstr ""
 
-#: ../core/Core.class.php:2620
+#: ../core/Core.class.php:2621
 msgid "Device could not be added."
 msgstr ""
 
@@ -3491,7 +3492,7 @@ msgid ""
 "usually a good idea to enable this. Disable only if you are having issues."
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:687
+#: amp_conf/htdocs/admin/config.php:693
 msgid "English"
 msgstr ""
 
@@ -3716,8 +3717,8 @@ msgstr "Exportiere Einstellungen in Datei"
 msgid "Extended"
 msgstr ""
 
-#: ../core/Core.class.php:31 ../core/Core.class.php:2508
-#: ../core/Core.class.php:2509 ../core/functions.inc.php:6029
+#: ../core/Core.class.php:31 ../core/Core.class.php:2509
+#: ../core/Core.class.php:2510 ../core/functions.inc.php:6029
 #: ../core/page.did.php:89 ../core/page.extensions.php:28
 #: ../core/page.extensions.php:117 ../core/page.extensions.php:143
 #: ../core/views/rnav.php:18
@@ -3748,7 +3749,7 @@ msgstr ""
 msgid "Extension can not be blank!"
 msgstr ""
 
-#: ../core/Core.class.php:2592
+#: ../core/Core.class.php:2593
 msgid "Extension is not numeric."
 msgstr ""
 
@@ -3760,7 +3761,7 @@ msgstr ""
 msgid "Extension was not numeric!"
 msgstr ""
 
-#: amp.i18n.php:1256 ../core/Core.class.php:2492 ../core/Core.class.php:2493
+#: amp.i18n.php:1256 ../core/Core.class.php:2493 ../core/Core.class.php:2494
 #: ../core/page.extensions.php:17
 msgid "Extensions"
 msgstr "Nebenstellen"
@@ -3898,7 +3899,7 @@ msgstr ""
 msgid "Feature Codes Beep Only"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:543
+#: amp_conf/htdocs/admin/config.php:549
 #, php-format
 msgid "File %s has a revoked signature. Can not load"
 msgstr ""
@@ -4763,7 +4764,7 @@ msgstr ""
 msgid "In-Call Asterisk Toggle Call Recording"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:219
+#: ../core/views/trunks/pjsip.php:220
 msgid "Inband"
 msgstr ""
 
@@ -4804,7 +4805,7 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: ../core/Core.class.php:2545 ../core/Core.class.php:2546
+#: ../core/Core.class.php:2546 ../core/Core.class.php:2547
 msgid "Incoming DID"
 msgstr ""
 
@@ -4814,7 +4815,7 @@ msgid "Incorrect Number of Directories for %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:152
-#: ../core/views/trunks/pjsip.php:220
+#: ../core/views/trunks/pjsip.php:221
 msgid "Info"
 msgstr ""
 
@@ -4981,7 +4982,7 @@ msgstr ""
 msgid "Invalid Trunk Name entered"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:403
+#: amp_conf/htdocs/admin/config.php:409
 msgid "Invalid Username or Password"
 msgstr ""
 
@@ -5676,7 +5677,7 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
-#: ../core/Core.class.php:2512 ../core/Core.class.php:2513
+#: ../core/Core.class.php:2513 ../core/Core.class.php:2514
 #: ../core/page.extensions.php:29 ../core/page.extensions.php:118
 #: ../core/page.extensions.php:144 ../core/page.users.php:55
 #: ../core/views/rnav.php:19 ../core/views/rnav.php:43
@@ -5844,7 +5845,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:232
 #: ../core/views/trunks/pjsip.php:91 ../core/views/trunks/pjsip.php:110
-#: ../core/views/trunks/pjsip.php:221 ../core/views/trunks/pjsip.php:618
+#: ../core/views/trunks/pjsip.php:618
 msgid "None"
 msgstr ""
 
@@ -6319,7 +6320,7 @@ msgstr ""
 msgid "PHP Console"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:537
+#: amp_conf/htdocs/admin/config.php:543
 msgid "PHP Console Enabled but not installed"
 msgstr ""
 
@@ -7190,7 +7191,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr ""
 
-#: ../core/Core.class.php:2787 ../core/Core.class.php:2788
+#: ../core/Core.class.php:2789 ../core/Core.class.php:2790
 #, php-format
 msgid "SIP (%s)"
 msgstr ""
@@ -7331,7 +7332,7 @@ msgstr ""
 msgid "Security Issue"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:529
+#: amp_conf/htdocs/admin/config.php:535
 msgid "Security Warning"
 msgstr ""
 
@@ -7885,7 +7886,7 @@ msgstr ""
 msgid "Tech Type"
 msgstr ""
 
-#: ../core/Core.class.php:2595
+#: ../core/Core.class.php:2596
 msgid "Technology of device is undefined. Please specify a 'tech'"
 msgstr ""
 
@@ -7967,12 +7968,14 @@ msgid ""
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:230
+#, php-format
 msgid ""
 "The DTMF signaling mode used by this trunk, usually RFC for most "
-"trunks<ul><li>rfc4733 - DTMF is sent out of band of the main audio stream."
-"This supercedes the older RFC-2833 used within the older chan_sip.</"
-"li><li>inband - DTMF is sent as part of audio stream.</li><li>info - DTMF is "
-"sent as SIP INFO packets.</li></ul>"
+"trunks<ul><li>Auto [%s] - DTMF is sent as RFC 4733 if the other side "
+"supports it or as INBAND if not.</li><li>rfc4733 - DTMF is sent out of band "
+"of the main audio stream.This supercedes the older RFC-2833 used within the "
+"older chan_sip.</li><li>inband - DTMF is sent as part of audio stream.</"
+"li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1047
@@ -8043,7 +8046,7 @@ msgstr ""
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
-#: ../core/Core.class.php:2554
+#: ../core/Core.class.php:2555
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -8461,7 +8464,7 @@ msgstr ""
 msgid "This action understands somethings may be disabled for a reason."
 msgstr ""
 
-#: ../core/Core.class.php:1535
+#: ../core/Core.class.php:1536
 msgid "This device id is already in use"
 msgstr ""
 
@@ -8662,7 +8665,7 @@ msgid ""
 "setup that uses it."
 msgstr ""
 
-#: ../core/Core.class.php:2114
+#: ../core/Core.class.php:2115
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr ""
@@ -9018,7 +9021,7 @@ msgstr ""
 msgid "Unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:532
+#: amp_conf/htdocs/admin/config.php:538
 msgid "Unsigned Module(s)"
 msgstr ""
 
@@ -9269,7 +9272,7 @@ msgstr ""
 msgid "User Password"
 msgstr ""
 
-#: ../core/Core.class.php:2638
+#: ../core/Core.class.php:2640
 msgid "User could not be added."
 msgstr ""
 
@@ -9893,7 +9896,7 @@ msgstr ""
 msgid "You have a disabled module"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:537
+#: amp_conf/htdocs/admin/config.php:543
 msgid ""
 "You have enabled PHP Console in Advanced settings but have not installed the "
 "Chrome Extension or you are not using Chrome"
@@ -10001,7 +10004,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:2107
+#: ../core/Core.class.php:2108
 msgid "You must put in an extension (or user) number"
 msgstr ""
 
@@ -10035,7 +10038,7 @@ msgstr ""
 msgid "Your %s version (%s) is incompatible."
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:498
+#: amp_conf/htdocs/admin/config.php:504
 msgid ""
 "Your Zend Configuration is not fully setup. Please recitfy the problem and "
 "reload this page"
