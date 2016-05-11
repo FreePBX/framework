@@ -59,6 +59,7 @@ if ($email) {
 		$send_email = false;
 
 		$unsigned = $nt->list_signature_unsigned();
+		$text = '';
 		if (count($unsigned)) {
 			$send_email = true;
 			$text = $htext;
