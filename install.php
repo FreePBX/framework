@@ -98,7 +98,7 @@ if (is_link("$wr/admin/images/notify_security.png")) {
 		framework_print_errors($bin_source, $bin_dest, $out);
 		out(_("done, see errors below"));
 	} else {
-		exec("chmod +x $bin_source/*");
+		exec("chmod +x $bin_dest/*");
 		out(_("done"));
 	}
 
@@ -109,7 +109,7 @@ if (is_link("$wr/admin/images/notify_security.png")) {
 		framework_print_errors($agibin_source, $agibin_dest, $out);
 		out(_("done, see errors below"));
 	} else {
-		exec("chmod +x $agibin_source/*");
+		exec("chmod +x $agibin_dest/*");
 		out(_("done"));
 	}
 
