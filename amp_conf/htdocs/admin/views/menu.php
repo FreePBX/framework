@@ -7,7 +7,7 @@ global $_item_sort;
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle navbar-left collapsed" data-toggle="collapse" data-target="#fpbx-menu-collapse">
-					<span class="sr-only"><php echo _("Toggle navigation")?></span>
+					<span class="sr-only"><?php echo _("Toggle navigation")?></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
