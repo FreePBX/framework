@@ -1602,8 +1602,15 @@ class AGI_AsteriskManager {
 		}
 		if ($module) {
 			$parameters['Module'] = $module;
+			return $this->send_request('Reload', $parameters);
+		} else {
+			//Until https://issues.asterisk.org/jira/browse/ASTERISK-25996 is fixed
+			$a = function_exists("fpbx_which") ? fpbx_which("asterisk") : "asterisk";
+			if(!empty($a)) {
+				return exec($a . " -rx 'core reload'");
+			}
 		}
-		return $this->send_request('Reload', $parameters);
+
 	}
 
 	/** Starts mixmonitor
