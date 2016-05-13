@@ -349,7 +349,7 @@ if($online) { ?>
 																				<label class="installabel" for="force_upgrade_<?php echo prep_id($module['name'])?>"><?php echo $force_msg ?></label>
 																			<?php }
 																		}
-																	} elseif($track != "stable") {
+																	} elseif($track != "stable" && isset($module['raw']['online']['version'])) {
 																		?>
 																		<input type="radio" id="upgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="upgrade" />
 																		<label class="installabel" for="upgrade_<?php echo prep_id($module['name'])?>"><?php echo sprintf(_('Switch to Stable and Download and Install %s'), $module['raw']['online']['version'])?></label>
