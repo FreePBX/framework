@@ -1812,8 +1812,8 @@ class module_functions {
 		if (! @mkdir($amp_conf['AMPWEBROOT']."/admin/modules/".$modulename) ) {
 			return array(sprintf(_("Error creating module directory: %s"), $amp_conf['AMPWEBROOT']."/admin/modules/".$modulename));
 		}
-
-		exec("cp -R ".$archivepath."/* ".$amp_conf['AMPWEBROOT']."/admin/modules/".$modulename."/", $output, $exitcode);
+		//exec("cp -R ".$archivepath."/* ".$amp_conf['AMPWEBROOT']."/admin/modules/".$modulename."/", $output, $exitcode);
+		exec(sprintf("install -d -o %s -g %s %s %s",$amp_conf['AMPASTERISKWEBUSER'],$amp_conf['AMPASTERISKWEBGROUP'],$archivepath."/*",$amp_conf['AMPWEBROOT']."/admin/modules/".$modulename."/"),$output,$exitcode);
 		if ($exitcode != 0) {
 			exec("rm -Rf ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$time.'/'));
 			if ($exitcode != 0) {

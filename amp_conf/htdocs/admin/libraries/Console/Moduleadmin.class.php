@@ -558,14 +558,8 @@ class Moduleadmin extends Command {
 		}
 		if (posix_getuid() == 0) {
 			$chown = new Chown();
-			switch ($action) {
-				case 'install':
-				case 'upgrade':
-				case 'update':
-					if(sizeof($args) == 1){
-						$chown->moduleName = $args[0];
-					}
-				break;
+			if(sizeof($args) == 1){
+				$chown->moduleName = $args[0];
 			}
 			$chown->execute($this->input, $this->out, true);
 		}
