@@ -1829,10 +1829,10 @@ class Installer {
 	);
 
 	$settings[$category]['DEVICE_SIP_SENDRPID'] = array(
-	'value' => 'no',
+	'value' => 'pai',
 	'options' => array('no', 'yes', 'pai'),
 	'name' => 'SIP sendrpid',
-	'description' => "Default setting for SIP sendrpid. A value of 'yes' is equivalent to 'rpid' and will send the 'Remote-Party-ID' header. A value of 'pai' is only valid starting with Asterisk 1.8 and will send the 'P-Asserted-Identity' header. See Asterisk documentation for details.",
+	'description' => "Default setting for SIP sendrpid. A value of 'yes' is equivalent to 'rpid' and will send the 'Remote-Party-ID' header. A value of 'pai' will send the 'P-Asserted-Identity' header. See Asterisk documentation for details.",
 	'type' => CONF_TYPE_SELECT,
 	'sortorder' => 40,
 	);
