@@ -188,7 +188,8 @@ class Freepbx_conf {
 	private $depreciatedSettings = array(
 		"USEDEVSTATE" => 1,
 		"USEQUEUESTATE" => 1,
-		"ALWAYS_SHOW_DEVICE_DETAILS" => 1
+		"ALWAYS_SHOW_DEVICE_DETAILS" => 1,
+		"DYNAMICHINTS" => 0
 	);
 
 

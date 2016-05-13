@@ -574,15 +574,6 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
-	$settings[$category]['DYNAMICHINTS'] = array(
-	'value' => false,
-	'options' => '',
-	'name' => 'Dynamically Generate Hints',
-	'description' => 'If true, Core will not statically generate hints, but instead make a call to the AMPBIN php script, and generate_hints.php through an Asterisk #exec call. This requires asterisk.conf to be configured with <b>execincludes=yes</b> set in the [options] section.',
-	'readonly' => 1,
-	'type' => CONF_TYPE_BOOL,
-	);
-
 	$settings[$category]['ENABLECW'] = array(
 	'value' => true,
 	'options' => '',
