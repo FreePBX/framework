@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-05-10 16:07-0700\n"
+"POT-Creation-Date: 2016-05-12 17:47-0700\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -426,17 +426,17 @@ msgstr "Требуется %s версии %s или выше, в наличии
 msgid "%s will be removed from the hard disk"
 msgstr "%s будет удалён с диска"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:123
+#: amp_conf/bin/freepbx-cron-scheduler.php:124
 #, php-format
 msgid "%s: New Online Updates Available (%s)"
 msgstr "%s: доступно он-лайн обновление (%s)"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:100
+#: amp_conf/bin/freepbx-cron-scheduler.php:101
 #, php-format
 msgid "%s: New Security Notifications (%s)"
 msgstr "%s: Новое напоминание безопасности (%s)"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:75
+#: amp_conf/bin/freepbx-cron-scheduler.php:76
 #, php-format
 msgid "%s: New Unsigned Modules Notifications (%s)"
 msgstr "%s: Новое напоминание о неподписанных модулях (%s)"
@@ -705,7 +705,7 @@ msgstr ""
 "Действия, которые можно применить к этому модулю. Обычно это инсталляция и "
 "обслуживание на административном уровне."
 
-#: amp_conf/htdocs/admin/functions.inc.php:445 ../core/page.astmodules.php:140
+#: amp_conf/htdocs/admin/functions.inc.php:435 ../core/page.astmodules.php:140
 #: ../core/views/trunks/trunk_header.php:2
 msgid "Add"
 msgstr "Добавить"
@@ -1071,19 +1071,19 @@ msgid ""
 "For unlimited clear this box and save."
 msgstr ""
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:126
+#: amp_conf/bin/freepbx-cron-scheduler.php:127
 #, php-format
 msgid "An attempt to send email to: %s with online update status failed"
 msgstr ""
 "Неудачная попытка отправить Email-сообщение:%s о  статусе онлайн-обновления  "
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:103
+#: amp_conf/bin/freepbx-cron-scheduler.php:104
 #, php-format
 msgid "An attempt to send email to: %s with security notifications failed"
 msgstr ""
 "Неудачная попытка отправить Email-сообщение:%s об  оповещении о безопасности"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:78
+#: amp_conf/bin/freepbx-cron-scheduler.php:79
 #, php-format
 msgid ""
 "An attempt to send email to: %s with unsigned modules notifications failed"
@@ -2349,7 +2349,7 @@ msgstr ""
 "неизбежно произойдёт неустранимая ошибка"
 
 #: amp_conf/htdocs/admin/functions.inc.php:363
-#: amp_conf/htdocs/admin/functions.inc.php:426
+#: amp_conf/htdocs/admin/functions.inc.php:416
 #, php-format
 msgid "Could not run %s script."
 msgstr "Не удалось запустить скрипт %s."
@@ -4076,7 +4076,7 @@ msgid "Excluded Modules"
 msgstr "Исключенные модули"
 
 #: amp_conf/htdocs/admin/functions.inc.php:362
-#: amp_conf/htdocs/admin/functions.inc.php:425
+#: amp_conf/htdocs/admin/functions.inc.php:415
 #, php-format
 msgid "Exit code was %s and output was: %s"
 msgstr "Код ошибки %s и вывод %s"
@@ -4291,15 +4291,15 @@ msgstr "Ошибка при исполнении скрипта инсталля
 msgid "Failed to run un-installation scripts"
 msgstr "Ошибка при выполнении скрипта удаления"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:126
+#: amp_conf/bin/freepbx-cron-scheduler.php:127
 msgid "Failed to send online update email"
 msgstr "Ошибка отправки email об онлайн-обновлении"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:103
+#: amp_conf/bin/freepbx-cron-scheduler.php:104
 msgid "Failed to send security notification email"
 msgstr "Ошибка пи отправке на email уведомления о безопасности "
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:78
+#: amp_conf/bin/freepbx-cron-scheduler.php:79
 msgid "Failed to send unsigned modules notification email"
 msgstr "Ошибка отправки на email  уведомления о неподписанных модулях "
 
@@ -6462,7 +6462,7 @@ msgstr "Описание не доступно."
 msgid "No directory %s, install script not needed"
 msgstr "Нет директории %s, нет необходимости в установке скрипта"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:130
+#: amp_conf/bin/freepbx-cron-scheduler.php:131
 msgid "No email address for online update checks"
 msgstr "Не указан email-адрес для проверок онлайн-обновлений"
 
@@ -7992,7 +7992,7 @@ msgstr ""
 msgid "Running %s startup..."
 msgstr "Выполняется запуск %s..."
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:90
+#: amp_conf/bin/freepbx-cron-scheduler.php:91
 msgid "SECURITY NOTICE:"
 msgstr "ЗАМЕЧАНИЕ ПО БЕЗОПАСНОСТИ:"
 
@@ -8636,14 +8636,14 @@ msgstr "Стиль и логотипы"
 msgid "Submit"
 msgstr "Сохранить"
 
-#: amp_conf/htdocs/admin/functions.inc.php:417
+#: amp_conf/htdocs/admin/functions.inc.php:407
 msgid ""
 "Successful reload, but could not clear reload flag due to a database error: "
 msgstr ""
 "Благополучно перезагружено, не невозможно завершить процесс ввиду ошибки "
 "базы данных: "
 
-#: amp_conf/htdocs/admin/functions.inc.php:410
+#: amp_conf/htdocs/admin/functions.inc.php:400
 msgid "Successfully reloaded"
 msgstr "Благополучно перезагружено"
 
@@ -8962,7 +8962,7 @@ msgstr ""
 msgid "The extension number to dial to reach this user."
 msgstr "Внутренний номер, по которому можно найти пользователя."
 
-#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:284
+#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:285
 msgid ""
 "The file format sln48 is not supported by Asterisk when it should be. Audio "
 "conversion quality will be limited to 16k instead of 48k"
@@ -8970,7 +8970,7 @@ msgstr ""
 "Формат файла sln48 не поддерживается Asterisk. Качество преобразования "
 "звукового потока будет ограничено 16k вместо 48k"
 
-#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:284
+#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:285
 msgid "The file format sln48 is not supported on your system"
 msgstr "Формат файла sln48 не поддерживается в вашей системе"
 
@@ -9832,11 +9832,11 @@ msgstr ""
 msgid "UDP Only"
 msgstr "Только UDP"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:65
+#: amp_conf/bin/freepbx-cron-scheduler.php:66
 msgid "UNSIGNED MODULES NOTICE:"
 msgstr "ЗАМЕЧАНИЕ О НЕПОДПИСАННЫХ МОДУЛЯХ:"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:114
+#: amp_conf/bin/freepbx-cron-scheduler.php:115
 msgid "UPDATE NOTICE:"
 msgstr "ЗАМЕЧАНИЕ ОБ ОБНОВЛЕНИИ:"
 
@@ -9888,7 +9888,7 @@ msgstr "Невозможно создать %s конфигурационный 
 msgid "Unable to download GPG key %s, or find %s or %s"
 msgstr "Невозможно скачать ключ GPG %s, или найти %s, или %s"
 
-#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:264
+#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:265
 #, php-format
 msgid "Unable to find an intermediary converter for %s"
 msgstr ""
@@ -10959,7 +10959,7 @@ msgstr ""
 "получить доступ на этот ресурс, можно установить Check Server Referrer=false "
 "в модуле Дополнительные настройки чтобы выключить эту проверку безопасности"
 
-#: amp_conf/bin/freepbx-cron-scheduler.php:130
+#: amp_conf/bin/freepbx-cron-scheduler.php:131
 msgid ""
 "You are automatically checking for online updates nightly but you have no "
 "email address setup to send the results. This can be set in Module Admin. "
