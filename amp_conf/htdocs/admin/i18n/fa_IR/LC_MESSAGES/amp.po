@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-12 17:47-0700\n"
-"PO-Revision-Date: 2016-05-05 19:16+0200\n"
+"PO-Revision-Date: 2016-05-15 04:05+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
-"Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
-"framework/fa_IR/>\n"
+"Language-Team: Persian (Iran) "
+"<http://weblate.freepbx.org/projects/freepbx/framework/fa_IR/>\n"
+"Language: fa_IR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fa_IR\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.4\n"
 
@@ -855,7 +855,7 @@ msgstr "تنظیمات اضافی"
 
 #: amp.i18n.php:50 amp.i18n.php:68
 msgid "Address to bind to. Default is ::"
-msgstr ""
+msgstr "نشانی برای اتصال به. پیشفرض ::"
 
 #: ../core/functions.inc.php:6337
 msgid "Adhoc"
@@ -3977,7 +3977,7 @@ msgstr "خطا در تحلیل cdr_mysql.conf، منتقل نشد"
 #: install.php:219
 #, php-format
 msgid "Error updating GPG Keys: %s"
-msgstr ""
+msgstr "خطا در حال به روزرسانی کلیدهای GPG: %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1933
 #, php-format
@@ -7567,7 +7567,7 @@ msgstr "جستجو سریع '/'"
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:1096
 msgid "Quick Select"
-msgstr ""
+msgstr "انتخاب سریع"
 
 #: ../core/functions.inc/drivers/Sip.class.php:263
 msgid "RFC 2833"
@@ -8854,6 +8854,12 @@ msgid ""
 "older chan_sip.</li><li>inband - DTMF is sent as part of audio stream.</"
 "li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
 msgstr ""
+"The DTMF  signaling mode used by this trunk, usually RFC for most "
+"trunks<ul><li>Auto [%s] - DTMF is sent as RFC 4733 if the other side "
+"supports it or as INBAND if not.</li><li>rfc4733 - DTMF is sent out of band "
+"of the main audio stream.This supercedes the older RFC-2833 used within the "
+"older chan_sip.</li><li>inband - DTMF is sent as part of audio "
+"stream.</li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1047
 #, php-format
