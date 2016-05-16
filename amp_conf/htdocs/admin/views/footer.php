@@ -17,6 +17,7 @@ if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
 $html = '';
 
 $html .= '</div>';//page_body
+$html .= '</div>'; //page
 $html .= '<div id="footer">';
 // If displaying footer content, force the <hr /> tag to enforce clear separation of page vs. footer
 if ($footer_content) {
@@ -46,7 +47,6 @@ $html .= '<div id="footer_content" class="row">';
 $html .= $footer_content;
 $html .= '</div>'; //footer_content
 $html .= '</div>'; //footer
-$html .= '</div>'; //page
 //add javascript
 
 //localized strings and other javascript values that need to be set dynamically
