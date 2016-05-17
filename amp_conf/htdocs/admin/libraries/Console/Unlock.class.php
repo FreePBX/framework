@@ -26,7 +26,7 @@ class Unlock extends Command {
 		$args = $input->getArgument('args');
 		$file = $sp."/sess_".$args[0];
 		if(file_exists($file)) {
-			unlink($file);
+			unlink($file); //PHP gets pissy when I try to edit a session that's not mine
 		}
 		session_id($args[0]);
 		session_start();
