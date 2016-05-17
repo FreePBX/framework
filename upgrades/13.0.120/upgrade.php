@@ -9,6 +9,6 @@ $set['hidden'] = 1;
 $set['value'] = false;
 $set['defaultval'] = false;
 if ($freepbx_conf->conf_setting_exists('DYNAMICHINTS')) {
-	$freepbx_conf->set_conf_values(array('DYNAMICHINTS' => false), true);
-	$freepbx_conf->define_conf_setting('DYNAMICHINTS',$set,true);
+	//$freepbx_conf->set_conf_values(array('DYNAMICHINTS' => false), true);
+	//$freepbx_conf->define_conf_setting('DYNAMICHINTS',$set,true);
 }
