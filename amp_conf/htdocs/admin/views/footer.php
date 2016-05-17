@@ -235,24 +235,25 @@ if (isset($module_name) && $module_name != '') {
 }
 
 if ($amp_conf['BROWSER_STATS']) {
-	$ga = "<script type=\"text/javascript\">
-			var _gaq=_gaq||[];
-			_gaq.push(['_setAccount','UA-25724109-1'],
-					['_setCustomVar',1,'type',fpbx.conf.dist.pbx_type,2],
-					['_setCustomVar',2,'typever',fpbx.conf.dist.pbx_version,3],
-					['_setCustomVar',3,'astver',fpbx.conf.ASTVERSION,3],
-					['_setCustomVar',4,'fpbxver',fpbx.conf.ver,3],
-					['_setCustomVar',5,'display',$.urlParam('display'),3],
-					/*['_setCustomVar',1,'uniqueid',fpbx.conf.uniqueid,1],
-					['_setCustomVar',1,'lang',$.cookie('lang')||'en_US',3],
-					*/['_trackPageview']);
-			(function(){
-				var ga=document.createElement('script');ga.type='text/javascript';ga.async=true;
-				ga.src=('https:'==document.location.protocol
-							?'https://ssl':'http://www')
-							+'.google-analytics.com/ga.js';
-				var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(ga,s);
-			})();</script>";
+	$ga = "<script>
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+			ga('create', 'UA-25724109-1', 'auto');  // Replace with your property ID.
+
+			ga('set', 'type', fpbx.conf.dist.pbx_type);
+			ga('set', 'typever', fpbx.conf.dist.pbx_version);
+			ga('set', 'astver', fpbx.conf.ASTVERSION);
+			ga('set', 'fpbxver', fpbx.conf.ver);
+			ga('set', 'display', $.urlParam('display'));
+			ga('set', 'uniqueid', fpbx.conf.uniqueid);
+
+			ga('send', 'pageview');
+
+		</script>";
+
 	$html .= str_replace(array("\t", "\n"), '', $ga);
 }
 
