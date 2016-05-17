@@ -8,13 +8,10 @@ $baseDir = dirname($vendorDir);
 return array(
     'ZendXml\\' => array($vendorDir . '/zendframework/zendxml/library'),
     'Wrep\\Daemonizable\\' => array($vendorDir . '/wrep/daemonizable-command/src'),
-    'Whoops' => array($vendorDir . '/filp/whoops/src'),
     'Requests' => array($vendorDir . '/rmccue/requests/library'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'PicoFeed' => array($vendorDir . '/fguillot/picofeed/lib'),
     'PhpConsole' => array($vendorDir . '/php-console/php-console/src'),
-    'Guzzle\\Tests' => array($vendorDir . '/guzzlehttp/guzzle/tests'),
-    'Guzzle' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'ForceUTF8\\' => array($vendorDir . '/neitanod/forceutf8/src'),
     'Detection' => array($vendorDir . '/mobiledetect/mobiledetectlib/namespaced'),
 );

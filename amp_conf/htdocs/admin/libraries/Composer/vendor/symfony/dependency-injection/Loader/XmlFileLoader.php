@@ -148,11 +148,8 @@ class XmlFileLoader extends FileLoader
             $definition = new Definition();
         }
 
-        foreach (array('class', 'shared', 'public', 'factory-class', 'factory-method', 'factory-service', 'synthetic', 'lazy', 'abstract') as $key) {
+        foreach (array('class', 'shared', 'public', 'synthetic', 'lazy', 'abstract') as $key) {
             if ($value = $service->getAttribute($key)) {
-                if (in_array($key, array('factory-class', 'factory-method', 'factory-service'))) {
-                    @trigger_error(sprintf('The "%s" attribute of service "%s" in file "%s" is deprecated since version 2.6 and will be removed in 3.0. Use the "factory" element instead.', $key, (string) $service->getAttribute('id'), $file), E_USER_DEPRECATED);
-                }
                 $method = 'set'.str_replace('-', '', $key);
                 $definition->$method(XmlUtils::phpize($value));
             }
@@ -160,26 +157,6 @@ class XmlFileLoader extends FileLoader
 
         if ($value = $service->getAttribute('autowire')) {
             $definition->setAutowired(XmlUtils::phpize($value));
-        }
-
-        if ($value = $service->getAttribute('scope')) {
-            $triggerDeprecation = 'request' !== (string) $service->getAttribute('id');
-
-            if ($triggerDeprecation) {
-                @trigger_error(sprintf('The "scope" attribute of service "%s" in file "%s" is deprecated since version 2.8 and will be removed in 3.0.', (string) $service->getAttribute('id'), $file), E_USER_DEPRECATED);
-            }
-
-            $definition->setScope(XmlUtils::phpize($value), false);
-        }
-
-        if ($value = $service->getAttribute('synchronized')) {
-            $triggerDeprecation = 'request' !== (string) $service->getAttribute('id');
-
-            if ($triggerDeprecation) {
-                @trigger_error(sprintf('The "synchronized" attribute of service "%s" in file "%s" is deprecated since version 2.7 and will be removed in 3.0.', (string) $service->getAttribute('id'), $file), E_USER_DEPRECATED);
-            }
-
-            $definition->setSynchronized(XmlUtils::phpize($value), $triggerDeprecation);
         }
 
         if ($files = $this->getChildren($service, 'file')) {
@@ -245,7 +222,7 @@ class XmlFileLoader extends FileLoader
                 if (false !== strpos($name, '-') && false === strpos($name, '_') && !array_key_exists($normalizedName = str_replace('-', '_', $name), $parameters)) {
                     $parameters[$normalizedName] = XmlUtils::phpize($node->nodeValue);
                 }
-                // keep not normalized key for BC too
+                // keep not normalized key
                 $parameters[$name] = XmlUtils::phpize($node->nodeValue);
             }
 
@@ -335,10 +312,7 @@ class XmlFileLoader extends FileLoader
 
         // resolve definitions
         krsort($definitions);
-        foreach ($definitions as $id => $def) {
-            list($domElement, $file, $wild) = $def;
-
-
+        foreach ($definitions as $id => list($domElement, $file, $wild)) {
             if (null !== $definition = $this->parseDefinition($domElement, $file)) {
                 $this->container->setDefinition($id, $definition);
             }

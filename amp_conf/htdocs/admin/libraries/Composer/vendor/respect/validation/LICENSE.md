@@ -30,10 +30,10 @@ ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 ***
-
 See also:
 
 - [Contributing](CONTRIBUTING.md)
 - [Feature Guide](docs/README.md)
 - [Installation](docs/INSTALL.md)
 - [Validators](docs/VALIDATORS.md)
+- [Changelog](CHANGELOG.md)

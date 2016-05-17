@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Respect/Validation.
+ *
+ * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ *
+ * For the full copyright and license information, please view the "LICENSE.md"
+ * file that was distributed with this source code.
+ */
+
 namespace Respect\Validation\Rules;
 
 class Cnpj extends AbstractRule
@@ -7,7 +17,7 @@ class Cnpj extends AbstractRule
     {
         //Code ported from jsfromhell.com
         $c = preg_replace('/\D/', '', $input);
-        $b = array(6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2);
+        $b = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2];
 
         if (strlen($c) != 14) {
             return false;

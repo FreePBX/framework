@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Respect/Validation.
+ *
+ * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ *
+ * For the full copyright and license information, please view the "LICENSE.md"
+ * file that was distributed with this source code.
+ */
+
 namespace Respect\Validation\Rules;
 
 use Respect\Validation\Exceptions\ComponentException;
@@ -27,7 +37,7 @@ class Ip extends AbstractRule
             return;
         }
 
-        $range = array('min' => null, 'max' => null, 'mask' => null);
+        $range = ['min' => null, 'max' => null, 'mask' => null];
 
         if (strpos($input, '-') !== false) {
             list($range['min'], $range['max']) = explode('-', $input);
@@ -96,9 +106,9 @@ class Ip extends AbstractRule
         return (boolean) filter_var(
             $address,
             FILTER_VALIDATE_IP,
-            array(
+            [
                 'flags' => $this->ipOptions,
-            )
+            ]
         );
     }
 

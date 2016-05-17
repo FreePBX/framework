@@ -5,12 +5,13 @@
 Validates an even number.
 
 ```php
-v::int()->even()->validate(2); //true
+v::intVal()->even()->validate(2); // true
 ```
 
 Using `int()` before `even()` is a best practice.
 
-See also
+***
+See also:
 
   * [Odd](Odd.md)
   * [Multiple](Multiple.md)

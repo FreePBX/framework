@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Respect/Validation.
+ *
+ * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ *
+ * For the full copyright and license information, please view the "LICENSE.md"
+ * file that was distributed with this source code.
+ */
+
 namespace Respect\Validation\Rules;
 
 use DateTime;
@@ -22,18 +32,17 @@ class Date extends AbstractRule
             return false !== strtotime($input);
         }
 
-        $exceptionalFormats = array(
-            'c'     =>  'Y-m-d\TH:i:sP',
-            'r'     =>  'D, d M Y H:i:s O',
-        );
+        $exceptionalFormats = [
+            'c' => 'Y-m-d\TH:i:sP',
+            'r' => 'D, d M Y H:i:s O',
+        ];
 
         if (in_array($this->format, array_keys($exceptionalFormats))) {
             $this->format = $exceptionalFormats[ $this->format ];
         }
 
-        $dateFromFormat = DateTime::createFromFormat($this->format, $input);
+        $info = date_parse_from_format($this->format, $input);
 
-        return $dateFromFormat
-               && $input === $dateFromFormat->format($this->format);
+        return ($info['error_count'] === 0 && $info['warning_count'] === 0);
     }
 }

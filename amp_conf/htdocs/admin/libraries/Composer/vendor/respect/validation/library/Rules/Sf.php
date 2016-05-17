@@ -1,11 +1,21 @@
 <?php
+
+/*
+ * This file is part of Respect/Validation.
+ *
+ * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ *
+ * For the full copyright and license information, please view the "LICENSE.md"
+ * file that was distributed with this source code.
+ */
+
 namespace Respect\Validation\Rules;
 
 use ReflectionClass;
 use ReflectionException;
 use Respect\Validation\Exceptions\ComponentException;
-use Symfony\Component\Validator\Validation;
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Validation;
 
 class Sf extends AbstractRule
 {
@@ -13,13 +23,13 @@ class Sf extends AbstractRule
     public $name;
     private $constraint;
 
-    public function __construct($name, $params = array())
+    public function __construct($name, $params = [])
     {
         $this->name = ucfirst($name);
         $this->constraint = $this->createSymfonyConstraint($this->name, $params);
     }
 
-    private function createSymfonyConstraint($constraintName, $constraintConstructorParameters = array())
+    private function createSymfonyConstraint($constraintName, $constraintConstructorParameters = [])
     {
         $fullClassName = sprintf(self::SYMFONY_CONSTRAINT_NAMESPACE, $constraintName);
         try {

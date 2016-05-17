@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Respect/Validation.
+ *
+ * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ *
+ * For the full copyright and license information, please view the "LICENSE.md"
+ * file that was distributed with this source code.
+ */
+
 namespace Respect\Validation\Rules;
 
 use Respect\Validation\Exceptions\ValidationException;
@@ -6,7 +16,7 @@ use Respect\Validation\Exceptions\ValidationException;
 class Domain extends AbstractComposite
 {
     protected $tld;
-    protected $checks = array();
+    protected $checks = [];
     protected $otherParts;
 
     public function __construct($tldCheck = true)
@@ -25,7 +35,7 @@ class Domain extends AbstractComposite
                 new AllOf(
                     new StartsWith('xn--'),
                     new Callback(function ($str) {
-                        return substr_count($str, "--") == 1;
+                        return substr_count($str, '--') == 1;
                     })
                 )
             )
@@ -73,7 +83,7 @@ class Domain extends AbstractComposite
 
     public function assert($input)
     {
-        $e = array();
+        $e = [];
         foreach ($this->checks as $chk) {
             $this->collectAssertException($e, $chk, $input);
         }

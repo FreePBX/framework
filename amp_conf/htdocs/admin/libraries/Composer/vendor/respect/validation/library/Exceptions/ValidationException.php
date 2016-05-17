@@ -1,61 +1,191 @@
 <?php
+
+/*
+ * This file is part of Respect/Validation.
+ *
+ * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ *
+ * For the full copyright and license information, please view the "LICENSE.md"
+ * file that was distributed with this source code.
+ */
+
 namespace Respect\Validation\Exceptions;
 
 use DateTime;
+use Exception;
 use InvalidArgumentException;
+use Traversable;
 
-class ValidationException extends InvalidArgumentException implements ValidationExceptionInterface
+class ValidationException extends InvalidArgumentException implements ExceptionInterface
 {
     const MODE_DEFAULT = 1;
     const MODE_NEGATIVE = 2;
     const STANDARD = 0;
-    public static $defaultTemplates = array(
-        self::MODE_DEFAULT => array(
+    public static $defaultTemplates = [
+        self::MODE_DEFAULT => [
             self::STANDARD => 'Data validation failed for %s',
-        ),
-        self::MODE_NEGATIVE => array(
+        ],
+        self::MODE_NEGATIVE => [
             self::STANDARD => 'Data validation failed for %s',
-        ),
-    );
+        ],
+    ];
+
+    /**
+     * @var int
+     */
+    private static $maxDepthStringify = 5;
+
+    /**
+     * @var int
+     */
+    private static $maxCountStringify = 10;
+
+    /**
+     * @var string
+     */
+    private static $maxReplacementStringify = '...';
+
     protected $id = 'validation';
     protected $mode = self::MODE_DEFAULT;
     protected $name = '';
     protected $template = '';
-    protected $params = array();
+    protected $params = [];
+    private $customTemplate = false;
 
-    public static function format($template, array $vars = array())
+    public static function format($template, array $vars = [])
     {
         return preg_replace_callback(
             '/{{(\w+)}}/',
             function ($match) use ($vars) {
-                return isset($vars[$match[1]]) ? $vars[$match[1]] : $match[0];
+                if (!isset($vars[$match[1]])) {
+                    return $match[0];
+                }
+
+                $value = $vars[$match[1]];
+                if ('name' == $match[1]) {
+                    return $value;
+                }
+
+                return ValidationException::stringify($value);
             },
             $template
         );
     }
 
-    public static function stringify($value)
+    /**
+     * @param mixed $value
+     * @param int   $depth
+     *
+     * @return string
+     */
+    public static function stringify($value, $depth = 1)
     {
-        if (is_string($value)) {
-            return $value;
-        } elseif (is_array($value)) {
-            return 'Array'; //FIXME
-        } elseif (is_object($value)) {
-            return static::stringifyObject($value);
-        } else {
-            return (string) $value;
+        if ($depth >= self::$maxDepthStringify) {
+            return self::$maxReplacementStringify;
         }
+
+        if (is_array($value)) {
+            return static::stringifyArray($value, $depth);
+        }
+
+        if (is_object($value)) {
+            return static::stringifyObject($value, $depth);
+        }
+
+        if (is_resource($value)) {
+            return sprintf('`[resource] (%s)`', get_resource_type($value));
+        }
+
+        if (is_float($value)) {
+            if (is_infinite($value)) {
+                return ($value > 0 ? '' : '-').'INF';
+            }
+
+            if (is_nan($value)) {
+                return 'NaN';
+            }
+        }
+
+        return (@json_encode($value, (JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)) ?: $value);
     }
 
-    public static function stringifyObject($value)
+    /**
+     * @param array $value
+     * @param int   $depth
+     *
+     * @return string
+     */
+    public static function stringifyArray(array $value, $depth = 1)
     {
-        if (method_exists($value, '__toString')) {
-            return (string) $value;
-        } elseif ($value instanceof DateTime) {
-            return $value->format('Y-m-d H:i:s');
-        } else {
-            return "Object of class ".get_class($value);
+        $nextDepth = ($depth + 1);
+        if ($nextDepth >= self::$maxDepthStringify) {
+            return self::$maxReplacementStringify;
         }
+
+        if (empty($value)) {
+            return '{ }';
+        }
+
+        $total = count($value);
+        $string = '';
+        $current = 0;
+        foreach ($value as $childKey => $childValue) {
+            if ($current++ >= self::$maxCountStringify) {
+                $string .= self::$maxReplacementStringify;
+                break;
+            }
+
+            if (!is_int($childKey)) {
+                $string .= sprintf('%s: ', static::stringify($childKey, $nextDepth));
+            }
+
+            $string .= static::stringify($childValue, $nextDepth);
+
+            if ($current !== $total) {
+                $string .= ', ';
+            }
+        }
+
+        return sprintf('{ %s }', $string);
+    }
+
+    /**
+     * @param mixed $value
+     * @param int   $depth
+     *
+     * @return string
+     */
+    public static function stringifyObject($value, $depth = 2)
+    {
+        $nextDepth = $depth + 1;
+
+        if ($value instanceof DateTime) {
+            return sprintf('"%s"', $value->format('Y-m-d H:i:s'));
+        }
+
+        $class = get_class($value);
+
+        if ($value instanceof Traversable) {
+            return sprintf('`[traversable] (%s: %s)`', $class, static::stringify(iterator_to_array($value), $nextDepth));
+        }
+
+        if ($value instanceof Exception) {
+            $properties = [
+                'message' => $value->getMessage(),
+                'code' => $value->getCode(),
+                'file' => $value->getFile().':'.$value->getLine(),
+            ];
+
+            return sprintf('`[exception] (%s: %s)`', $class, static::stringify($properties, $nextDepth));
+        }
+
+        if (method_exists($value, '__toString')) {
+            return static::stringify($value->__toString(), $nextDepth);
+        }
+
+        $properties = static::stringify(get_object_vars($value), $nextDepth);
+
+        return sprintf('`[object] (%s: %s)`', $class, str_replace('`', '', $properties));
     }
 
     public function __toString()
@@ -68,12 +198,11 @@ class ValidationException extends InvalidArgumentException implements Validation
         return key(static::$defaultTemplates[$this->mode]);
     }
 
-    public function configure($name, array $params = array())
+    public function configure($name, array $params = [])
     {
         $this->setName($name);
-        $this->setParams($params);
-        $this->message = $this->getMainMessage();
         $this->setId($this->guessId());
+        $this->setParams($params);
 
         return $this;
     }
@@ -133,7 +262,7 @@ class ValidationException extends InvalidArgumentException implements Validation
 
     public function setName($name)
     {
-        $this->name = static::stringify($name);
+        $this->name = $name;
 
         return $this;
     }
@@ -143,12 +272,16 @@ class ValidationException extends InvalidArgumentException implements Validation
         $this->mode = $mode;
         $this->template = $this->buildTemplate();
 
+        $this->buildMessage();
+
         return $this;
     }
 
     public function setParam($key, $value)
     {
-        $this->params[$key] = ($key == 'translator') ? $value : static::stringify($value);
+        $this->params[$key] = $value;
+
+        $this->buildMessage();
 
         return $this;
     }
@@ -156,17 +289,32 @@ class ValidationException extends InvalidArgumentException implements Validation
     public function setParams(array $params)
     {
         foreach ($params as $key => $value) {
-            $this->setParam($key, $value);
+            $this->params[$key] = $value;
         }
+
+        $this->buildMessage();
 
         return $this;
     }
 
+    public function hasCustomTemplate()
+    {
+        return (true === $this->customTemplate);
+    }
+
     public function setTemplate($template)
     {
+        $this->customTemplate = true;
         $this->template = $template;
 
+        $this->buildMessage();
+
         return $this;
+    }
+
+    private function buildMessage()
+    {
+        $this->message = $this->getMainMessage();
     }
 
     protected function buildTemplate()

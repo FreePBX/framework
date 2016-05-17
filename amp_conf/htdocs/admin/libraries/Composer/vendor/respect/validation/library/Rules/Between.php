@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Respect/Validation.
+ *
+ * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ *
+ * For the full copyright and license information, please view the "LICENSE.md"
+ * file that was distributed with this source code.
+ */
+
 namespace Respect\Validation\Rules;
 
 use Respect\Validation\Exceptions\ComponentException;
@@ -8,7 +18,7 @@ class Between extends AllOf
     public $minValue;
     public $maxValue;
 
-    public function __construct($min = null, $max = null, $inclusive = false)
+    public function __construct($min = null, $max = null, $inclusive = true)
     {
         $this->minValue = $min;
         $this->maxValue = $max;

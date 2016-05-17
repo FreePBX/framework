@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Respect/Validation.
+ *
+ * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ *
+ * For the full copyright and license information, please view the "LICENSE.md"
+ * file that was distributed with this source code.
+ */
+
 namespace Respect\Validation\Rules;
 
 use ReflectionClass;
@@ -6,10 +16,10 @@ use Respect\Validation\Exceptions\ComponentException;
 
 class Zend extends AbstractRule
 {
-    protected $messages = array();
+    protected $messages = [];
     protected $zendValidator;
 
-    public function __construct($validator, $params = array())
+    public function __construct($validator, $params = [])
     {
         if (is_object($validator)) {
             return $this->zendValidator = $validator;
@@ -42,7 +52,7 @@ class Zend extends AbstractRule
             return true;
         }
 
-        $exceptions = array();
+        $exceptions = [];
         foreach ($validator->getMessages() as $m) {
             $exceptions[] = $this->reportError($m, get_object_vars($this));
         }

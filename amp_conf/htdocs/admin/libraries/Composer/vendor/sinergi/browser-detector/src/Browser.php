@@ -72,6 +72,16 @@ class Browser
     private $isChromeFrame = false;
 
     /**
+     * @var bool
+     */
+    private $isFacebookWebView = false;
+
+    /**
+     * @var bool
+     */
+    private $isCompatibilityMode = false;
+
+    /**
      * @param null|string|UserAgent $userAgent
      *
      * @throws \Sinergi\BrowserDetector\InvalidArgumentException
@@ -96,7 +106,7 @@ class Browser
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = (string)$name;
 
         return $this;
     }
@@ -136,7 +146,7 @@ class Browser
      */
     public function setVersion($version)
     {
-        $this->version = $version;
+        $this->version = (string)$version;
 
         return $this;
     }
@@ -152,7 +162,7 @@ class Browser
             BrowserDetector::detect($this, $this->getUserAgent());
         }
 
-        return $this->version;
+        return (string) $this->version;
     }
 
     /**
@@ -226,6 +236,40 @@ class Browser
     }
 
     /**
+     * @param bool $isFacebookWebView
+     *
+     * @return $this
+     */
+    public function setIsFacebookWebView($isFacebookWebView)
+    {
+        $this->isFacebookWebView = (bool) $isFacebookWebView;
+
+        return $this;
+    }
+
+    /**
+     * Used to determine if the browser is actually "facebook".
+     *
+     * @return bool
+     */
+    public function getIsFacebookWebView()
+    {
+        if (!isset($this->name)) {
+            BrowserDetector::detect($this, $this->getUserAgent());
+        }
+
+        return $this->isFacebookWebView;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFacebookWebView()
+    {
+        return $this->getIsFacebookWebView();
+    }
+
+    /**
      * @param UserAgent $userAgent
      *
      * @return $this
@@ -243,5 +287,33 @@ class Browser
     public function getUserAgent()
     {
         return $this->userAgent;
+    }
+
+    /**
+     * @param bool
+     *
+     * @return $this
+     */
+    public function setIsCompatibilityMode($isCompatibilityMode)
+    {
+        $this->isCompatibilityMode = $isCompatibilityMode;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCompatibilityMode()
+    {
+        return $this->isCompatibilityMode;
+    }
+
+    /**
+     * Render pages outside of IE's compatibility mode.
+     */
+    public function endCompatibilityMode()
+    {
+        header('X-UA-Compatible: IE=edge');
     }
 }

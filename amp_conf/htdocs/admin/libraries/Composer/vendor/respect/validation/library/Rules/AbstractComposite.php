@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * This file is part of Respect/Validation.
+ *
+ * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ *
+ * For the full copyright and license information, please view the "LICENSE.md"
+ * file that was distributed with this source code.
+ */
+
 namespace Respect\Validation\Rules;
 
 use Respect\Validation\Exceptions\ValidationException;
@@ -7,7 +17,7 @@ use Respect\Validation\Validator;
 
 abstract class AbstractComposite extends AbstractRule
 {
-    protected $rules = array();
+    protected $rules = [];
 
     public function __construct()
     {
@@ -29,7 +39,7 @@ abstract class AbstractComposite extends AbstractRule
         return parent::setName($name);
     }
 
-    public function addRule($validator, $arguments = array())
+    public function addRule($validator, $arguments = [])
     {
         if (!$validator instanceof Validatable) {
             $this->appendRule(Validator::buildRule($validator, $arguments));
@@ -42,7 +52,7 @@ abstract class AbstractComposite extends AbstractRule
 
     public function removeRules()
     {
-        $this->rules = array();
+        $this->rules = [];
     }
 
     public function addRules(array $validators)
@@ -90,7 +100,7 @@ abstract class AbstractComposite extends AbstractRule
 
     protected function appendRule(Validatable $validator)
     {
-        if (! $validator->getName() && $this->getName()) {
+        if (!$validator->getName() && $this->getName()) {
             $validator->setName($this->getName());
         }
 
@@ -100,7 +110,7 @@ abstract class AbstractComposite extends AbstractRule
     protected function validateRules($input)
     {
         $validators = $this->getRules();
-        $exceptions = array();
+        $exceptions = [];
         foreach ($validators as $v) {
             try {
                 $v->assert($input);

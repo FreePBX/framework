@@ -8,6 +8,8 @@ namespace Whoops\Handler;
 
 use InvalidArgumentException;
 use RuntimeException;
+use Symfony\Component\VarDumper\Cloner\AbstractCloner;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
 use UnexpectedValueException;
 use Whoops\Exception\Formatter;
 use Whoops\Util\Misc;
@@ -117,9 +119,29 @@ class PrettyPageHandler extends Handler
         // @todo: Make this more dynamic
         $helper = new TemplateHelper();
 
+        if (class_exists('Symfony\Component\VarDumper\Cloner\VarCloner')) {
+            $cloner = new VarCloner();
+            // Only dump object internals if a custom caster exists.
+            $cloner->addCasters(['*' => function ($obj, $a, $stub, $isNested, $filter = 0) {
+                $class = $stub->class;
+                $classes = [$class => $class] + class_parents($class) + class_implements($class);
+
+                foreach ($classes as $class) {
+                    if (isset(AbstractCloner::$defaultCasters[$class])) {
+                        return $a;
+                    }
+                }
+
+                // Remove all internals
+                return [];
+            }]);
+            $helper->setCloner($cloner);
+        }
+
         $templateFile = $this->getResource("views/layout.html.php");
         $cssFile      = $this->getResource("css/whoops.base.css");
         $zeptoFile    = $this->getResource("js/zepto.min.js");
+        $clipboard    = $this->getResource("js/clipboard.min.js");
         $jsFile       = $this->getResource("js/whoops.base.js");
 
         if ($this->customCss) {
@@ -143,6 +165,7 @@ class PrettyPageHandler extends Handler
             // @todo: Asset compiler
             "stylesheet" => file_get_contents($cssFile),
             "zepto"      => file_get_contents($zeptoFile),
+            "clipboard"  => file_get_contents($clipboard),
             "javascript" => file_get_contents($jsFile),
 
             // Template paths:
@@ -182,6 +205,10 @@ class PrettyPageHandler extends Handler
             return $table instanceof \Closure ? $table() : $table;
         }, $this->getDataTables());
         $vars["tables"] = array_merge($extraTables, $vars["tables"]);
+
+        if (\Whoops\Util\Misc::canSendHeaders()) {
+            header('Content-Type: text/html');
+        }
 
         $helper->setVariables($vars);
         $helper->render($templateFile);

@@ -5,8 +5,12 @@
 Validates roman numbers
 
 ```php
-v::roman()->validate('IV'); //true
+v::roman()->validate('IV'); // true
 ```
 
-This validator ignores empty values, use `notEmpty()` when
-appropriate.
+***
+See also:
+
+  * [In](In.md)
+  * [Regex](Regex.md)
+  * [Uppercase](Uppercase.md)

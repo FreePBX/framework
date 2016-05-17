@@ -1,11 +1,20 @@
 <?php
+
+/*
+ * This file is part of Respect/Validation.
+ *
+ * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ *
+ * For the full copyright and license information, please view the "LICENSE.md"
+ * file that was distributed with this source code.
+ */
+
 namespace Respect\Validation\Rules;
 
-use Traversable;
-use Respect\Validation\Validatable;
 use Respect\Validation\Exceptions\ValidationException;
+use Respect\Validation\Validatable;
 
-class Each extends AbstractRule
+class Each extends Iterable
 {
     public $itemValidator;
     public $keyValidator;
@@ -18,14 +27,10 @@ class Each extends AbstractRule
 
     public function assert($input)
     {
-        $exceptions = array();
+        $exceptions = [];
 
-        if (!is_array($input) || $input instanceof Traversable) {
+        if (!parent::validate($input)) {
             throw $this->reportError($input);
-        }
-
-        if (empty($input)) {
-            return true;
         }
 
         foreach ($input as $key => $item) {
@@ -55,11 +60,7 @@ class Each extends AbstractRule
 
     public function check($input)
     {
-        if (empty($input)) {
-            return true;
-        }
-
-        if (!is_array($input) || $input instanceof Traversable) {
+        if (!parent::validate($input)) {
             throw $this->reportError($input);
         }
 
@@ -78,12 +79,8 @@ class Each extends AbstractRule
 
     public function validate($input)
     {
-        if (!is_array($input) || $input instanceof Traversable) {
+        if (!parent::validate($input)) {
             return false;
-        }
-
-        if (empty($input)) {
-            return true;
         }
 
         foreach ($input as $key => $item) {

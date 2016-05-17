@@ -1,20 +1,30 @@
 <?php
+
+/*
+ * This file is part of Respect/Validation.
+ *
+ * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ *
+ * For the full copyright and license information, please view the "LICENSE.md"
+ * file that was distributed with this source code.
+ */
+
 namespace Respect\Validation\Exceptions;
 
 class MinException extends ValidationException
 {
     const INCLUSIVE = 1;
 
-    public static $defaultTemplates = array(
-        self::MODE_DEFAULT => array(
+    public static $defaultTemplates = [
+        self::MODE_DEFAULT => [
             self::STANDARD => '{{name}} must be greater than {{interval}}',
-            self::INCLUSIVE => '{{name}} must be greater than or equals {{interval}}',
-        ),
-        self::MODE_NEGATIVE => array(
+            self::INCLUSIVE => '{{name}} must be greater than or equal to {{interval}}',
+        ],
+        self::MODE_NEGATIVE => [
             self::STANDARD => '{{name}} must not be greater than {{interval}}',
-            self::INCLUSIVE => '{{name}} must not be greater than or equals {{interval}}',
-        ),
-    );
+            self::INCLUSIVE => '{{name}} must not be greater than or equal to {{interval}}',
+        ],
+    ];
 
     public function chooseTemplate()
     {

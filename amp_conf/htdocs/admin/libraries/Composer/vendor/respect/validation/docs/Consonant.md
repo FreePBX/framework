@@ -6,9 +6,10 @@
 Similar to `v::alnum()`. Validates strings that contain only consonants:
 
 ```php
-v::consonant()->validate('xkcd'); //true
+v::consonant()->validate('xkcd'); // true
 ```
 
+***
 See also:
 
   * [Alnum](Alnum.md)

@@ -1,11 +1,21 @@
 <?php
+
+/*
+ * This file is part of Respect/Validation.
+ *
+ * (c) Alexandre Gomes Gaigalas <alexandre@gaigalas.net>
+ *
+ * For the full copyright and license information, please view the "LICENSE.md"
+ * file that was distributed with this source code.
+ */
+
 namespace Respect\Validation\Rules;
 
 use Respect\Validation\Exceptions\ComponentException;
 
 abstract class AbstractFilterRule extends AbstractRule
 {
-    public $additionalChars = "";
+    public $additionalChars = '';
 
     abstract protected function validateClean($input);
 
@@ -29,7 +39,12 @@ abstract class AbstractFilterRule extends AbstractRule
             return false;
         }
 
-        $cleanInput = $this->filter((string) $input);
+        $stringInput = (string) $input;
+        if ('' === $stringInput) {
+            return false;
+        }
+
+        $cleanInput = $this->filter($stringInput);
 
         return $cleanInput === '' || $this->validateClean($cleanInput);
     }
