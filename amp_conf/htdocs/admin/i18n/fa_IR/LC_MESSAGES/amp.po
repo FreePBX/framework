@@ -10,14 +10,14 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-05-12 17:47-0700\n"
-"PO-Revision-Date: 2016-05-05 19:16+0200\n"
+"PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
-"Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
-"framework/fa_IR/>\n"
+"Language-Team: Persian (Iran) "
+"<http://weblate.freepbx.org/projects/freepbx/framework/fa_IR/>\n"
+"Language: fa_IR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fa_IR\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.4\n"
 
@@ -839,11 +839,11 @@ msgstr "Added pmmaxretries  and pmminlength"
 
 #: ../core/install.php:586
 msgid "Adding index to extensions field in the users"
-msgstr "Adding  index to extensions field in the users"
+msgstr "افزودن شاخص برای فیلد داخلی ها در کاربران"
 
 #: ../core/install.php:573
 msgid "Adding index to tech field in the devices"
-msgstr "Adding  index to tech field in the devices"
+msgstr "افزودن شاخص به فیلد تکنولوژی در وسایل"
 
 #: amp_conf/htdocs/admin/views/noaccess.php:54
 msgid "Additional Information"
@@ -855,7 +855,7 @@ msgstr "تنظیمات اضافی"
 
 #: amp.i18n.php:50 amp.i18n.php:68
 msgid "Address to bind to. Default is ::"
-msgstr ""
+msgstr "نشانی برای اتصال به. پیشفرض ::"
 
 #: ../core/functions.inc.php:6337
 msgid "Adhoc"
@@ -1676,9 +1676,8 @@ msgid ""
 "extensions when one wants a call recorded and the other does not, if both "
 "their priorities are also the same."
 msgstr ""
-"Call Recording Policy used to  resove the winner in a conflict between two "
-"extensions when one wants a call recorded and the other does not, if both "
-"their priorities are also the same."
+"سیاست ضبط تماس برای حل مشکل ضبط تماس دو داخلی که یکی میخواهد تماسش ضبط شده و "
+"دیگری خیر کاربردیست، اگر هر دو داخلی دارای اولویت یکسان باشند."
 
 #: ../core/functions.inc.php:6188
 msgid "Call Screening"
@@ -3977,7 +3976,7 @@ msgstr "خطا در تحلیل cdr_mysql.conf، منتقل نشد"
 #: install.php:219
 #, php-format
 msgid "Error updating GPG Keys: %s"
-msgstr ""
+msgstr "خطا در حال به روزرسانی کلیدهای GPG: %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1933
 #, php-format
@@ -7463,7 +7462,7 @@ msgstr "برای خاموش کردن %s را فشار دهید"
 
 #: amp.i18n.php:148
 msgid "Pretty Print JSON Responses"
-msgstr "Pretty  Print JSON Responses"
+msgstr "پرینت پاسخ های JSON"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:387
 msgid "Previous"
@@ -7567,7 +7566,7 @@ msgstr "جستجو سریع '/'"
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:1096
 msgid "Quick Select"
-msgstr ""
+msgstr "انتخاب سریع"
 
 #: ../core/functions.inc/drivers/Sip.class.php:263
 msgid "RFC 2833"
@@ -7625,11 +7624,11 @@ msgstr "گزینه های ضبط کردن"
 
 #: ../core/functions.inc.php:6235
 msgid "Recording of calls made to other extensions on the system."
-msgstr "Recording of  calls made to other extensions on the system."
+msgstr "ضبط کردن تماسها به دیگر داخلی ها در سیستم."
 
 #: ../core/functions.inc.php:6234
 msgid "Recording of calls received from other extensions on the system."
-msgstr "Recording of  calls received from other extensions on the system."
+msgstr "ضبط کردن تماسهای دریافتی از دیگر داخلی ها در سیستم."
 
 #: ../core/functions.inc.php:6232
 msgid "Recording of inbound calls from external sources."
@@ -8854,6 +8853,12 @@ msgid ""
 "older chan_sip.</li><li>inband - DTMF is sent as part of audio stream.</"
 "li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
 msgstr ""
+"The DTMF  signaling mode used by this trunk, usually RFC for most "
+"trunks<ul><li>Auto [%s] - DTMF is sent as RFC 4733 if the other side "
+"supports it or as INBAND if not.</li><li>rfc4733 - DTMF is sent out of band "
+"of the main audio stream.This supercedes the older RFC-2833 used within the "
+"older chan_sip.</li><li>inband - DTMF is sent as part of audio "
+"stream.</li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1047
 #, php-format
@@ -9890,11 +9895,11 @@ msgstr "جزییات کاربر"
 
 #: ../core/install.php:583
 msgid "Unable to add index to extensions field in users"
-msgstr "Unable to  add index to extensions field in users"
+msgstr "عدم توانایی درافزودن شاخص برای فیلد داخلی ها در کاربران"
 
 #: ../core/install.php:570
 msgid "Unable to add index to tech field in devices"
-msgstr "Unable to add  index to tech field in devices"
+msgstr "عدم توانایی درافزودن شاخص به فیلد تکنولوژی در وسایل"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1416
 #, php-format
