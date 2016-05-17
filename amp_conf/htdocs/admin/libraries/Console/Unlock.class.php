@@ -19,6 +19,8 @@ class Unlock extends Command {
 		$sp = session_save_path();
 		if(empty($sp)) {
 			$output->writeln("<error>"._("Session save path is undefined. This can cause undefined unlocks. Please set a 'session.save_path' in your php.ini file. It should match the same path that is set for the web portion of PHP")."</error>");
+			$sp = "/var/lib/php/session"; //hard coded but we warn above!
+			ini_set("session.save_path",$sp);
 		}
 		$FreePBX = \FreePBX::Create();
 		$args = $input->getArgument('args');
