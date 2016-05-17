@@ -132,9 +132,8 @@ class FreePBXInstallCommand extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		global $amp_conf; /* This makes pandas sad. :( */
 
-		if (version_compare(PHP_VERSION, '5.3.3', '<')) {
-			//charset=utf8 requires php 5.3.6 (http://php.net/manual/en/mysqlinfo.concepts.charset.php)
-			$output->writeln("<error>FreePBX Requires PHP Version 5.3.3 or Higher, you have: ".PHP_VERSION."</error>");
+		if (version_compare(PHP_VERSION, '5.6.19', '<')) {
+			$output->writeln("<error>FreePBX Requires PHP Version 5.6.19 or Higher, you have: ".PHP_VERSION."</error>");
 			return false;
 		}
 

@@ -1,8 +1,8 @@
 <?php
 if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 
-if (version_compare(PHP_VERSION, '5.3.3', '<')) {
-	out(sprintf(_("FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"),PHP_VERSION));
+if (version_compare(PHP_VERSION, '5.6.19', '<')) {
+	out(sprintf(_("FreePBX Requires PHP Version 5.6.19 or Higher, you have: %s"),PHP_VERSION));
 	return false;
 }
 
@@ -218,4 +218,3 @@ try {
 } catch (\Exception $e) {
 	out(sprintf(_("Error updating GPG Keys: %s"), $e->getMessage()));
 }
-
