@@ -173,7 +173,7 @@ class Handler {
 	 * @param int|array $ignoreTraceCalls Ignore tracing classes by name prefix `array('PhpConsole')` or fixed number of calls to ignore
 	 */
 	public function handleError($code = null, $text = null, $file = null, $line = null, $context = null, $ignoreTraceCalls = 0) {
-		if(!$this->isStarted || error_reporting() === 0 || $this->isHandlingDisabled()) {
+		if(!$this->isStarted || error_reporting() === 0 || $this->isHandlingDisabled() || ($this->errorsHandlerLevel && !($code & $this->errorsHandlerLevel))) {
 			return;
 		}
 		$this->onHandlingStart();
@@ -208,9 +208,9 @@ class Handler {
 
 	/**
 	 * Handle exception object
-	 * @param \Exception $exception
+	 * @param \Exception|\Throwable $exception
 	 */
-	public function handleException(\Exception $exception) {
+	public function handleException($exception) {
 		if(!$this->isStarted || $this->isHandlingDisabled()) {
 			return;
 		}
@@ -220,6 +220,9 @@ class Handler {
 			if($this->oldExceptionsHandler && $this->callOldHandlers) {
 				call_user_func($this->oldExceptionsHandler, $exception);
 			}
+		}
+		catch(\Throwable $internalException) {
+			$this->handleException($internalException);
 		}
 		catch(\Exception $internalException) {
 			$this->handleException($internalException);

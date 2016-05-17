@@ -2,21 +2,20 @@
 
 namespace PicoFeed\Filter;
 
-use DOMXpath;
+use DOMXPath;
+use PicoFeed\Base;
 use PicoFeed\Parser\XmlParser;
 
 /**
- * Tag Filter class
+ * Tag Filter class.
  *
  * @author  Frederic Guillot
- * @package Filter
  */
-class Tag
+class Tag extends Base
 {
     /**
-     * Tags blacklist (Xpath expressions)
+     * Tags blacklist (Xpath expressions).
      *
-     * @access private
      * @var array
      */
     private $tag_blacklist = array(
@@ -25,9 +24,8 @@ class Tag
     );
 
     /**
-     * Tags whitelist
+     * Tags whitelist.
      *
-     * @access private
      * @var array
      */
     private $tag_whitelist = array(
@@ -72,24 +70,24 @@ class Tag
     );
 
     /**
-     * Check if the tag is allowed and is not a pixel tracker
+     * Check if the tag is allowed and is not a pixel tracker.
      *
-     * @access public
-     * @param  string    $tag           Tag name
-     * @param  array     $attributes    Attributes dictionary
-     * @return boolean
+     * @param string $tag        Tag name
+     * @param array  $attributes Attributes dictionary
+     *
+     * @return bool
      */
     public function isAllowed($tag, array $attributes)
     {
-        return $this->isAllowedTag($tag) && ! $this->isPixelTracker($tag, $attributes);
+        return $this->isAllowedTag($tag) && !$this->isPixelTracker($tag, $attributes);
     }
 
     /**
-     * Return the HTML opening tag
+     * Return the HTML opening tag.
      *
-     * @access public
-     * @param  string    $tag           Tag name
-     * @param  string    $attributes    Attributes converted in html
+     * @param string $tag        Tag name
+     * @param string $attributes Attributes converted in html
+     *
      * @return string
      */
     public function openHtmlTag($tag, $attributes = '')
@@ -98,10 +96,10 @@ class Tag
     }
 
     /**
-     * Return the HTML closing tag
+     * Return the HTML closing tag.
      *
-     * @access public
-     * @param  string    $tag           Tag name
+     * @param string $tag Tag name
+     *
      * @return string
      */
     public function closeHtmlTag($tag)
@@ -110,11 +108,11 @@ class Tag
     }
 
     /**
-     * Return true is the tag is self-closing
+     * Return true is the tag is self-closing.
      *
-     * @access public
-     * @param  string    $tag           Tag name
-     * @return boolean
+     * @param string $tag Tag name
+     *
+     * @return bool
      */
     public function isSelfClosingTag($tag)
     {
@@ -122,24 +120,27 @@ class Tag
     }
 
     /**
-     * Check if a tag is on the whitelist
+     * Check if a tag is on the whitelist.
      *
-     * @access public
-     * @param  string     $tag    Tag name
-     * @return boolean
+     * @param string $tag Tag name
+     *
+     * @return bool
      */
     public function isAllowedTag($tag)
     {
-        return in_array($tag, $this->tag_whitelist);
+        return in_array($tag, array_merge(
+            $this->tag_whitelist,
+            array_keys($this->config->getFilterWhitelistedTags(array()))
+        ));
     }
 
     /**
-     * Detect if an image tag is a pixel tracker
+     * Detect if an image tag is a pixel tracker.
      *
-     * @access public
-     * @param  string  $tag         Tag name
-     * @param  array   $attributes  Tag attributes
-     * @return boolean
+     * @param string $tag        Tag name
+     * @param array  $attributes Tag attributes
+     *
+     * @return bool
      */
     public function isPixelTracker($tag, array $attributes)
     {
@@ -149,10 +150,10 @@ class Tag
     }
 
     /**
-     * Remove script tags
+     * Remove script tags.
      *
-     * @access public
-     * @param  string  $data  Input data
+     * @param string $data Input data
+     *
      * @return string
      */
     public function removeBlacklistedTags($data)
@@ -174,12 +175,11 @@ class Tag
         return $dom->saveXML();
     }
 
-
     /**
-     * Remove empty tags
+     * Remove empty tags.
      *
-     * @access public
-     * @param  string  $data  Input data
+     * @param string $data Input data
+     *
      * @return string
      */
     public function removeEmptyTags($data)
@@ -188,27 +188,28 @@ class Tag
     }
 
     /**
-     * Replace <br/><br/> by only one
+     * Replace <br/><br/> by only one.
      *
-     * @access public
-     * @param  string  $data  Input data
+     * @param string $data Input data
+     *
      * @return string
      */
     public function removeMultipleBreakTags($data)
     {
-        return preg_replace("/(<br\s*\/?>\s*)+/", "<br/>", $data);
+        return preg_replace("/(<br\s*\/?>\s*)+/", '<br/>', $data);
     }
 
     /**
-     * Set whitelisted tags adn attributes for each tag
+     * Set whitelisted tags adn attributes for each tag.
      *
-     * @access public
-     * @param  array   $values   List of tags: ['video' => ['src', 'cover'], 'img' => ['src']]
+     * @param array $values List of tags: ['video' => ['src', 'cover'], 'img' => ['src']]
+     *
      * @return Tag
      */
     public function setWhitelistedTags(array $values)
     {
         $this->tag_whitelist = $values ?: $this->tag_whitelist;
+
         return $this;
     }
 }

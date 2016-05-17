@@ -1231,9 +1231,12 @@ function resizeRightNav() {
 }
 
 $(document).ready(function() {
+	if($("#fpbxsearch").hasClass("in")) {
+		$("#fpbxsearch input").blur();
+	}
 	//when clicking the magnifying glass on the search bar focus on the search input
 	$("#fpbxsearch .fa-search").click(function() {
-		$("#fpbxsearch .typeahead").focus();
+		$("#fpbxsearch input").focus();
 	});
 	$("#fpbxsearch input").blur(function() {
 		$("#fpbxsearch").removeClass("in");
@@ -1782,7 +1785,7 @@ $(document).ready(function(){
 		$(this).after('<span class="input-group-addon" id="basic-addon-'+curid+'">'+curl+'/'+maxl+'</span>');
 	});
 	//Enable textarea autosizer
-	$('textarea.autosize').autosize();
+	autosize($('textarea.autosize'));
 
 	//enable bootstrap multiselect
 	$('select[multiple].bsmultiselect').multiselect({

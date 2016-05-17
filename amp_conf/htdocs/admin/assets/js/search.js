@@ -111,5 +111,7 @@ var SearchC = Class.extend({
 });
 
 $(document).ready(function() {
-  window.Search = new SearchC();
+	if(typeof fpbx !== "undefined" && typeof fpbx.conf.ver !== "undefined") {
+		window.Search = new SearchC();
+	}
 });

@@ -504,6 +504,46 @@ class AGI_AsteriskManager {
 	}
 
 	/**
+	* Tell Asterisk to poll mailboxes for a change
+	*
+	* Normally, MWI indicators are only sent when Asterisk itself changes a mailbox.
+	* With external programs that modify the content of a mailbox from outside the
+	* application, an option exists called pollmailboxes that will cause voicemail
+	* to continually scan all mailboxes on a system for changes. This can cause a
+	* large amount of load on a system. This command allows external applications
+	* to signal when a particular mailbox has changed, thus permitting external
+	* applications to modify mailboxes and MWI to work without introducing
+	* considerable CPU load.
+	*
+	* If Context is not specified, all mailboxes on the system will be polled for
+	* changes. If Context is specified, but Mailbox is omitted, then all mailboxes
+	* within Context will be polled. Otherwise, only a single mailbox will be
+	* polled for changes.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+12+ManagerAction_VoicemailRefresh
+	* @param string $context
+	* @param string $mailbox
+	* @param string $actionid ActionID for this transaction. Will be returned.
+	*/
+	function VoicemailRefresh($context=NULL,$mailbox=NULL, $actionid=NULL) {
+		global $amp_conf;
+		if(version_compare($amp_conf['ASTVERSION'], "12.0", "lt")) {
+			return false;
+		}
+		$parameters = array();
+		if(!empty($context)) {
+			$parameters['Context'] = $context;
+		}
+		if(!empty($mailbox)) {
+			$parameters['Mailbox'] = $mailbox;
+		}
+		if(!empty($actionid)) {
+			$parameters['ActionID'] = $actionid;
+		}
+		return $this->send_request('VoicemailRefresh', $parameters);
+	}
+
+	/**
 	 * Get and parse codecs
 	 * @param {string} $type='audio' Type of codec to look up
 	 */
@@ -515,7 +555,6 @@ class AGI_AsteriskManager {
 			break;
 			case 'text':
 				$ret = $this->Command('core show codecs text');
-				dbug($ret['data']);
 			break;
 			case 'image':
 				$ret = $this->Command('core show codecs image');
@@ -1421,7 +1460,6 @@ class AGI_AsteriskManager {
 	 */
 	function database_put($family, $key, $value) {
 		$write_through = false;
-
 		if (!empty($this->memAstDB)){
 			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
 			if (!isset($this->memAstDB[$keyUsed]) || $this->memAstDB[$keyUsed] != $value) {
@@ -1450,7 +1488,7 @@ class AGI_AsteriskManager {
 				$this->LoadAstDB();
 			}
 			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
-			if (array_key_exists($keyUsed,$this->memAstDB)){
+			if (isset($this->memAstDB[$keyUsed])){
 				return $this->memAstDB[$keyUsed];
 			}
 		} else {
@@ -1470,12 +1508,13 @@ class AGI_AsteriskManager {
 	 * @return bool True if successful
 	 */
 	function database_del($family, $key) {
-		 if (!empty($this->memAstDB)){
+		$r = $this->command("database del ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
+		$status = (bool)strstr($r["data"], "removed");
+		if ($status && !empty($this->memAstDB)){
 			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
 			unset($this->memAstDB[$keyUsed]);
 		}
-		$r = $this->command("database del ".str_replace(" ","/",$family)." ".str_replace(" ","/",$key));
-		return (bool)strstr($r["data"], "removed");
+		return $status;
 	}
 
 	/** Delete a family from the asterisk database
@@ -1483,12 +1522,18 @@ class AGI_AsteriskManager {
 	 * @return bool True if successful
 	 */
 	function database_deltree($family) {
-		if (!empty($this->memAstDB)){
-			$keyUsed="/".str_replace(" ","/",$family);
-			unset($this->memAstDB[$keyUsed]);
-		}
 		$r = $this->command("database deltree ".str_replace(" ","/",$family));
-		return (bool)strstr($r["data"], "removed");
+		$status = (bool)strstr($r["data"], "removed");
+		if ($status && !empty($this->memAstDB)){
+			$keyUsed="/".str_replace(" ","/",$family);
+			foreach($this->memAstDB as $key => $val) {
+				$reg = preg_quote($keyUsed,"/");
+				if(preg_match("/^".$reg.".*/",$key)) {
+					unset($this->memAstDB[$key]);
+				}
+			}
+		}
+		return $status;
 	}
 
 	/** Returns whether a give function exists in this Asterisk install
@@ -1557,8 +1602,15 @@ class AGI_AsteriskManager {
 		}
 		if ($module) {
 			$parameters['Module'] = $module;
+			return $this->send_request('Reload', $parameters);
+		} else {
+			//Until https://issues.asterisk.org/jira/browse/ASTERISK-25996 is fixed
+			$a = function_exists("fpbx_which") ? fpbx_which("asterisk") : "asterisk";
+			if(!empty($a)) {
+				return exec($a . " -rx 'core reload'");
+			}
 		}
-		return $this->send_request('Reload', $parameters);
+
 	}
 
 	/** Starts mixmonitor

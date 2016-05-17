@@ -3,18 +3,16 @@
 namespace PicoFeed\Parser;
 
 /**
- * Feed Item
+ * Feed Item.
  *
  * @author  Frederic Guillot
- * @package Parser
  */
 class Item
 {
     /**
-     * List of known RTL languages
+     * List of known RTL languages.
      *
-     * @access public
-     * @var public
+     * @var string[]
      */
     public $rtl = array(
         'ar',  // Arabic (ar-**)
@@ -28,109 +26,108 @@ class Item
     );
 
     /**
-     * Item id
+     * Item id.
      *
-     * @access public
      * @var string
      */
     public $id = '';
 
     /**
-     * Item title
+     * Item title.
      *
-     * @access public
      * @var string
      */
     public $title = '';
 
     /**
-     * Item url
+     * Item url.
      *
-     * @access public
      * @var string
      */
     public $url = '';
 
     /**
-     * Item author
+     * Item author.
      *
-     * @access public
      * @var string
      */
-    public $author= '';
+    public $author = '';
 
     /**
-     * Item date
+     * Item date.
      *
-     * @access public
      * @var \DateTime
      */
     public $date = null;
 
     /**
-     * Item content
+     * Item content.
      *
-     * @access public
      * @var string
      */
     public $content = '';
 
     /**
-     * Item enclosure url
+     * Item enclosure url.
      *
-     * @access public
      * @var string
      */
-    public $enclosure_url = '';
+    public $enclosureUrl = '';
 
     /**
-     * Item enclusure type
+     * Item enclusure type.
      *
-     * @access public
      * @var string
      */
-    public $enclosure_type = '';
+    public $enclosureType = '';
 
     /**
-     * Item language
+     * Item language.
      *
-     * @access public
      * @var string
      */
     public $language = '';
 
     /**
-     * Raw XML
+     * Raw XML.
      *
-     * @access public
      * @var \SimpleXMLElement
      */
     public $xml;
 
     /**
-     * List of namespaces
+     * List of namespaces.
      *
-     * @access public
      * @var array
      */
     public $namespaces = array();
 
     /**
-     * Get specific XML tag or attribute value
+     * Check if a XML namespace exists
      *
      * @access public
-     * @param  string  $tag           Tag name (examples: guid, media:content)
-     * @param  string  $attribute     Tag attribute
-     * @return array|false            Tag values or error
+     * @param  string $namespace
+     * @return bool
+     */
+    public function hasNamespace($namespace)
+    {
+        return array_key_exists($namespace, $this->namespaces);
+    }
+
+    /**
+     * Get specific XML tag or attribute value.
+     *
+     * @param string $tag       Tag name (examples: guid, media:content)
+     * @param string $attribute Tag attribute
+     *
+     * @return array|false Tag values or error
      */
     public function getTag($tag, $attribute = '')
     {
-        // convert to xPath attribute query
         if ($attribute !== '') {
             $attribute = '/@'.$attribute;
         }
 
-        // construct query
         $query = './/'.$tag.$attribute;
         $elements = XmlParser::getXPathResult($this->xml, $query, $this->namespaces);
 
@@ -142,16 +139,15 @@ class Item
     }
 
     /**
-     * Return item information
+     * Return item information.
      *
-     * @access public
-     * $return string
+     * @return string
      */
     public function __toString()
     {
         $output = '';
 
-        foreach (array('id', 'title', 'url', 'language', 'author', 'enclosure_url', 'enclosure_type') as $property) {
+        foreach (array('id', 'title', 'url', 'language', 'author', 'enclosureUrl', 'enclosureType') as $property) {
             $output .= 'Item::'.$property.' = '.$this->$property.PHP_EOL;
         }
 
@@ -163,10 +159,9 @@ class Item
     }
 
     /**
-     * Get title
+     * Get title.
      *
-     * @access public
-     * $return string
+     * @return string
      */
     public function getTitle()
     {
@@ -174,10 +169,10 @@ class Item
     }
 
     /**
-     * Get url
+     * Get URL
      *
      * @access public
-     * $return string
+     * @return string
      */
     public function getUrl()
     {
@@ -185,10 +180,22 @@ class Item
     }
 
     /**
-     * Get id
+     * Set URL
      *
      * @access public
-     * $return string
+     * @param  string $url
+     * @return Item
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+    /**
+     * Get id.
+     *
+     * @return string
      */
     public function getId()
     {
@@ -196,10 +203,9 @@ class Item
     }
 
     /**
-     * Get date
+     * Get date.
      *
-     * @access public
-     * $return \DateTime
+     * @return \DateTime
      */
     public function getDate()
     {
@@ -207,10 +213,9 @@ class Item
     }
 
     /**
-     * Get content
+     * Get content.
      *
-     * @access public
-     * $return string
+     * @return string
      */
     public function getContent()
     {
@@ -218,32 +223,42 @@ class Item
     }
 
     /**
-     * Get enclosure url
+     * Set content
      *
      * @access public
-     * $return string
+     * @param  string $value
+     * @return Item
+     */
+    public function setContent($value)
+    {
+        $this->content = $value;
+        return $this;
+    }
+
+    /**
+     * Get enclosure url.
+     *
+     * @return string
      */
     public function getEnclosureUrl()
     {
-        return $this->enclosure_url;
+        return $this->enclosureUrl;
     }
 
     /**
-     * Get enclosure type
+     * Get enclosure type.
      *
-     * @access public
-     * $return string
+     * @return string
      */
     public function getEnclosureType()
     {
-        return $this->enclosure_type;
+        return $this->enclosureType;
     }
 
     /**
-     * Get language
+     * Get language.
      *
-     * @access public
-     * $return string
+     * @return string
      */
     public function getLanguage()
     {
@@ -251,10 +266,9 @@ class Item
     }
 
     /**
-     * Get author
+     * Get author.
      *
-     * @access public
-     * $return string
+     * @return string
      */
     public function getAuthor()
     {
@@ -262,13 +276,140 @@ class Item
     }
 
     /**
-     * Return true if the item is "Right to Left"
+     * Return true if the item is "Right to Left".
      *
-     * @access public
      * @return bool
      */
     public function isRTL()
     {
         return Parser::isLanguageRTL($this->language);
+    }
+
+    /**
+     * Set item id.
+     *
+     * @param string $id
+     * @return Item
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    /**
+     * Set item title.
+     *
+     * @param string $title
+     * @return Item
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
+
+    /**
+     * Set author.
+     *
+     * @param string $author
+     * @return Item
+     */
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+        return $this;
+    }
+
+    /**
+     * Set item date.
+     *
+     * @param \DateTime $date
+     * @return Item
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+        return $this;
+    }
+
+    /**
+     * Set enclosure url.
+     *
+     * @param string $enclosureUrl
+     * @return Item
+     */
+    public function setEnclosureUrl($enclosureUrl)
+    {
+        $this->enclosureUrl = $enclosureUrl;
+        return $this;
+    }
+
+    /**
+     * Set enclosure type.
+     *
+     * @param string $enclosureType
+     * @return Item
+     */
+    public function setEnclosureType($enclosureType)
+    {
+        $this->enclosureType = $enclosureType;
+        return $this;
+    }
+
+    /**
+     * Set item language.
+     *
+     * @param string $language
+     * @return Item
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+        return $this;
+    }
+
+    /**
+     * Set raw XML.
+     *
+     * @param \SimpleXMLElement $xml
+     * @return Item
+     */
+    public function setXml($xml)
+    {
+        $this->xml = $xml;
+        return $this;
+    }
+
+    /**
+     * Get raw XML.
+     *
+     * @return \SimpleXMLElement
+     */
+    public function getXml()
+    {
+        return $this->xml;
+    }
+
+    /**
+     * Set XML namespaces.
+     *
+     * @param array $namespaces
+     * @return Item
+     */
+    public function setNamespaces($namespaces)
+    {
+        $this->namespaces = $namespaces;
+        return $this;
+    }
+
+    /**
+     * Get XML namespaces.
+     *
+     * @return array
+     */
+    public function getNamespaces()
+    {
+        return $this->namespaces;
     }
 }

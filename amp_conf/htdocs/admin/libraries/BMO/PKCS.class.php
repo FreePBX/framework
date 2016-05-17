@@ -196,14 +196,15 @@ EOF;
 
 
 	/**
-	 * Create a Certificate Signing Request.
-	 *
-	 * @param array Variables for the CSR. Must have at least 'OU' and 'CN'
-	 * @return string Returns the CSR
+	 * Create Certificate Signing Request
+	 * @param  string $name   The basename of the CSR (File System)
+	 * @param  array $params Variables for the CSR. Must have at least 'OU' and 'CN'
+	 * @param  bool $regen  Whether to regenerate the CSR if it already exists
+	 * @return bool
 	 */
 	public function createCSR($name = false, $params, $regen = false) {
 
-		$this->validateName($name);
+		$name = $this->validateName($name);
 
 		if (!$name) {
 			throw new \Exception(_("Must have a name for the CSR"));
@@ -228,7 +229,7 @@ EOF;
 			throw new \Exception(_("Not an array"));
 		}
 
-		if (!isset($params['O']) || !isset($params['CN'])) {
+		if (empty($params['O']) || empty($params['CN'])) {
 			throw new \Exception(_("Missing O or CN. Can't create"));
 		}
 
@@ -237,7 +238,7 @@ EOF;
 
 		// Load defaults if they're not provided.
 		foreach ($defaults as $k => $v) {
-			if (!isset($params[$k])) {
+			if (empty($params[$k])) {
 				$params[$k] = $v;
 			}
 		}
@@ -278,11 +279,11 @@ default_md = sha256
 	 * @return bool true/false if the key was created.
 	 */
 
-	public function generateKey($name = false, $password = false, $bits = 2048) {
+	public function generateKey($name, $password = false, $bits = 2048) {
 
-		$this->validateName($name);
+		$name = $this->validateName($name);
 
-		if (!$name) {
+		if (empty($name)) {
 			throw new \Exception(_("Can't generate unnamed key"));
 		}
 		$keyloc = $this->getKeysLocation();
@@ -325,10 +326,10 @@ default_md = sha256
 	 * @param string Password (if any) of the CA
 	 * @param int Serial number (default = 0001)
 	 */
-	public function selfSignCert($name = false, $caname = "ca", $password = false, $serial = "0001") {
+	public function selfSignCert($name, $caname = "ca", $password = false, $serial = "0001") {
 		$life = 3560; // Live for 10 years
 
-		$this->validateName($name);
+		$name = $this->validateName($name);
 
 		if (!$name) {
 			throw new \Exception(_("Can't sign unnamed key"));
@@ -413,6 +414,7 @@ default_md = sha256
 		// Wait $timeout seconds for it to finish.
 		$tmp = null;
 		$r = array($pipes[3]);
+		$otimeout = ini_get('max_execution_time');
 		set_time_limit($this->timeout); //more pis. <3 all the pis for taking so long
 		if (!stream_select($r , $tmp, $tmp, $this->timeout)) {
 			throw new \RuntimeException(sprintf(_("OpenSSL took too long to run the command '%s'"),$cmd));
@@ -425,7 +427,7 @@ default_md = sha256
 		$retarr['stderr'] = stream_get_contents($pipes[2]);
 		$exitcode = proc_close($proc);
 		$retarr['exitcode'] = $exitcode;
-
+		set_time_limit($otimeout); //reset
 		return $retarr;
 	}
 
@@ -436,67 +438,6 @@ default_md = sha256
 	public function getAllCertificates() {
 		$keyloc = $this->getKeysLocation();
 		return $this->getFileList($keyloc);
-	}
-
-	/**
-	* Return a list of all Certificates from the key folder
-	* @return array
-	*/
-	public function getAllAuthorityFiles() {
-		$keyloc = $this->getKeysLocation();
-		$cas = array();
-		$files = $this->getFileList($keyloc);
-		foreach($files as $file) {
-			if(preg_match('/ca\.crt/',$file) || preg_match('/ca\d\.crt/',$file)) {
-				if(in_array('ca.key',$files)) {
-					$cas[] = $file;
-					$cas[] = 'ca.key';
-				}
-			}
-		}
-		return $cas;
-	}
-
-	public function removeCert($base) {
-		$location = $this->getKeysLocation();
-		foreach($this->getAllCertificates() as $file) {
-			if(preg_match('/^'.$base.'/',$file)) {
-				if(!unlink($location . "/" . $file)) {
-					throw new \Exception(sprintf(_('Unable to remove %s'),$file));
-				}
-			}
-		}
-	}
-
-	/**
-	 * Remove all Certificate Authorities
-	 */
-	public function removeCA() {
-		$location = $this->getKeysLocation();
-		foreach($this->getAllAuthorityFiles() as $file) {
-			if(!unlink($location . "/" . $file)) {
-				throw new \Exception(sprintf(_('Unable to remove %s'),$file));
-			}
-		}
-		return true;
-	}
-
-	/**
-	 * Remove all Configuration Files
-	 */
-	public function removeConfig() {
-		$location = $this->getKeysLocation();
-		if(file_exists($location . "/ca.cfg")) {
-			if(!unlink($location . "/ca.cfg")) {
-				throw new \Exception(_('Unable to remove ca.cfg'));
-			}
-		}
-		if(file_exists($location . "/tmp.cfg")) {
-			if(!unlink($location . "/tmp.cfg")) {
-				throw new \Exception(_('Unable to remove tmp.cfg'));
-			}
-		}
-		return true;
 	}
 
 	/**
@@ -547,15 +488,17 @@ default_md = sha256
 		}
 	}
 
-	// Note: Passed by ref. Don't return.
-	private function validateName(&$name) {
+	private function validateName($name) {
 		// Remove any nasty characters
 		$name = str_replace( array('/', "'", '"', '\\', '&', ';', " "), "", $name);
+		return $name;
 	}
 
 	private function out($message,$level=1) {
 		if($level < $this->debug) {
 			echo $message . "\n";
+		} elseif(function_exists("dbug")) {
+			dbug($message);
 		}
 	}
 
@@ -563,7 +506,7 @@ default_md = sha256
 	 * Get list of files in a directory
 	 * @param string $dir The directory to get the file list of/from
 	 */
-	private function getFileList($dir) {
+	public function getFileList($dir) {
 		// When we require PHP5.4, use RecursiveDirectoryIterator.
 		// Until then..
 
@@ -672,12 +615,80 @@ default_md = sha256
 			// Hostname is valid
 			return trim($output[0]);
 		}
-		// It errored for some reason. 
+		// It errored for some reason.
 		// Just return whatever 'hostname' thinks it is, without FQDN.
 		exec("hostname", $raw, $ret);
 		if ($ret !== 0 || empty($raw[0])) {
 			throw new \Exception("Can not determine hostname. Critical error");
 		}
 		return trim($raw[0]);
+	}
+
+	//Old functions for backwards compatibility with old certman
+	/**
+	 * DEPRECIATED FUNCTION
+	 * @return [type] [description]
+	 */
+	public function getAllAuthorityFiles() {
+		$keyloc = $this->getKeysLocation();
+		$cas = array();
+		$files = $this->getFileList($keyloc);
+		foreach($files as $file) {
+			if(preg_match('/ca\.crt/',$file) || preg_match('/ca\d\.crt/',$file)) {
+				if(in_array('ca.key',$files)) {
+					$cas[] = $file;
+					$cas[] = 'ca.key';
+				}
+			}
+		}
+		return $cas;
+	}
+
+	/**
+	 * DEPRECIATED FUNCTION
+	 * @return [type] [description]
+	 */
+	public function removeCert($base) {
+		$location = $this->getKeysLocation();
+		foreach($this->getAllCertificates() as $file) {
+			if(preg_match('/^'.$base.'/',$file)) {
+				if(!unlink($location . "/" . $file)) {
+					throw new \Exception(sprintf(_('Unable to remove %s'),$file));
+				}
+			}
+		}
+	}
+
+	/**
+	 * DEPRECIATED FUNCTION
+	 * @return [type] [description]
+	 */
+	public function removeCA() {
+		$location = $this->getKeysLocation();
+		foreach($this->getAllAuthorityFiles() as $file) {
+			if(!unlink($location . "/" . $file)) {
+				throw new \Exception(sprintf(_('Unable to remove %s'),$file));
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * DEPRECIATED FUNCTION
+	 * @return [type] [description]
+	 */
+	public function removeConfig() {
+		$location = $this->getKeysLocation();
+		if(file_exists($location . "/ca.cfg")) {
+			if(!unlink($location . "/ca.cfg")) {
+				throw new \Exception(_('Unable to remove ca.cfg'));
+			}
+		}
+		if(file_exists($location . "/tmp.cfg")) {
+			if(!unlink($location . "/tmp.cfg")) {
+				throw new \Exception(_('Unable to remove tmp.cfg'));
+			}
+		}
+		return true;
 	}
 }

@@ -574,15 +574,6 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
-	$settings[$category]['DYNAMICHINTS'] = array(
-	'value' => false,
-	'options' => '',
-	'name' => 'Dynamically Generate Hints',
-	'description' => 'If true, Core will not statically generate hints, but instead make a call to the AMPBIN php script, and generate_hints.php through an Asterisk #exec call. This requires asterisk.conf to be configured with <b>execincludes=yes</b> set in the [options] section.',
-	'readonly' => 1,
-	'type' => CONF_TYPE_BOOL,
-	);
-
 	$settings[$category]['ENABLECW'] = array(
 	'value' => true,
 	'options' => '',
@@ -1829,10 +1820,10 @@ class Installer {
 	);
 
 	$settings[$category]['DEVICE_SIP_SENDRPID'] = array(
-	'value' => 'no',
+	'value' => 'pai',
 	'options' => array('no', 'yes', 'pai'),
 	'name' => 'SIP sendrpid',
-	'description' => "Default setting for SIP sendrpid. A value of 'yes' is equivalent to 'rpid' and will send the 'Remote-Party-ID' header. A value of 'pai' is only valid starting with Asterisk 1.8 and will send the 'P-Asserted-Identity' header. See Asterisk documentation for details.",
+	'description' => "Default setting for SIP sendrpid. A value of 'yes' is equivalent to 'rpid' and will send the 'Remote-Party-ID' header. A value of 'pai' will send the 'P-Asserted-Identity' header. See Asterisk documentation for details.",
 	'type' => CONF_TYPE_SELECT,
 	'sortorder' => 40,
 	);
@@ -2044,6 +2035,19 @@ class Installer {
 	$settings[$category]['DASHBOARD_OVERRIDE'] = array(
 		'description' => 'When no params specified, use this module',
 		'name' => 'DASHBOARD_OVERRIDE',
+		'value' => '',
+		'options' => '',
+		'readonly' => 1,
+		'hidden' => 1,
+		'level' => 10,
+		'emptyok' => 1,
+		'sortorder' => 180,
+		'type' => CONF_TYPE_TEXT
+	);
+
+	$settings[$category]['DASHBOARD_OVERRIDE_BASIC'] = array(
+		'description' => 'When no params specified, use this module in basic opmode',
+		'name' => 'DASHBOARD_OVERRIDE_BASIC',
 		'value' => '',
 		'options' => '',
 		'readonly' => 1,

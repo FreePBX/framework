@@ -41,6 +41,9 @@ class EvalProvider {
 		try {
 			$result->return = static::executeCode($code, $this->sharedVars);
 		}
+		catch(\Throwable $exception) {
+			$result->exception = $exception;
+		}
 		catch(\Exception $exception) {
 			$result->exception = $exception;
 		}
@@ -104,24 +107,21 @@ class EvalProvider {
 
 	/**
 	 * Execute code with shared vars
-	 * @param $code
-	 * @param array $sharedVars
+	 * @param $_code
+	 * @param array $_sharedVars
 	 * @return mixed
 	 */
-	protected static function executeCode($code, array $sharedVars) {
-		unset($code);
-		unset($sharedVars);
-
-		foreach(func_get_arg(1) as $var => $value) {
+	protected static function executeCode($_code, array $_sharedVars) {
+		foreach($_sharedVars as $var => $value) {
 			if(isset($GLOBALS[$var]) && $var[0] == '_') { // extract($this->sharedVars, EXTR_OVERWRITE) and $$var = $value do not overwrites global vars
 				$GLOBALS[$var] = $value;
 			}
-			else {
+			elseif(!isset($$var)) {
 				$$var = $value;
 			}
 		}
 
-		return eval(func_get_arg(0));
+		return eval($_code);
 	}
 
 	/**
@@ -211,7 +211,6 @@ class EvalProvider {
 	 * @param $name
 	 * @param $var
 	 * @throws \Exception
-	 * @internal param bool $asReference
 	 */
 	public function addSharedVar($name, $var) {
 		$this->addSharedVarReference($name, $var);
@@ -222,7 +221,6 @@ class EvalProvider {
 	 * @param $name
 	 * @param $var
 	 * @throws \Exception
-	 * @internal param bool $asReference
 	 */
 	public function addSharedVarReference($name, &$var) {
 		if(isset($this->sharedVars[$name])) {

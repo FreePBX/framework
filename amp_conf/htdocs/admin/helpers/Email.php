@@ -1153,7 +1153,7 @@ class CI_Email {
 				return FALSE;
 			}
 
-			$attachment[$z++] = chunk_split(base64_encode(fread($fp, $file)));
+			$attachment[$z++] = trim(chunk_split(base64_encode(fread($fp, $file))));
 			fclose($fp);
 		}
 

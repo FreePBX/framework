@@ -6,7 +6,7 @@ PHP Console allows you to handle PHP errors & exceptions, dump variables, execut
 
 * See [presentation video](http://www.youtube.com/watch?v=_4kG-Zrs2Io).
 * Install Google Chrome extension [PHP Console](https://chrome.google.com/webstore/detail/php-console/nfhmhhlpfleoednkpnnnkolmclajemef).
-* See how it works on [live demo](http://37.247.54.118/instance/examples) page.
+* See how it works on [live demo](http://php-console.com/instance/examples) page.
 * PHP Console extension [features list and screenshots](https://github.com/barbushin/php-console/wiki/PHP-Console-extension-features).
 * PHP Console server library [features list](https://github.com/barbushin/php-console/wiki/PHP-Console-server-features).
 
@@ -23,34 +23,16 @@ PHP Console allows you to handle PHP errors & exceptions, dump variables, execut
 
 	{
 		"require": {
-			"php-console/php-console": "3.*"
+			"php-console/php-console": "~3.0"
 		}
 	}
 
-This is the most recommended way, so PhpConsole will be autoloaded using Composer [PSR-0](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md) autoloader. Also it can be easy updated to last version using `composer update`.
+Or
 
-### GIT
+	$ composer require php-console/php-console ~3.0
 
-	git clone https://github.com/barbushin/php-console.git php-console
-
-### SVN
-
-	svn checkout https://github.com/barbushin/php-console/trunk php-console
-
-### Download .zip
-
-Download and extract repository [archive](https://github.com/barbushin/php-console/archive/master.zip). 
-Include in your project using:
-
-	require_once('/path/to/php-console/src/PhpConsole/__autoload.php');
-
-### Download .phar
-
-Download [PhpConsole.phar](http://37.247.54.118/instance/examples/utils/build_phar.php?download).
-Include in your project using:
-
-	require_once('phar:///var/www/path-to/PhpConsole.phar'); // autoload will be initialized automatically
-
+### Monolog handler
+https://github.com/Seldaek/monolog/blob/master/src/Monolog/Handler/PHPConsoleHandler.php
 
 ### Symfony framework bundle
 https://github.com/Vitre/php-console-bundle
@@ -58,21 +40,24 @@ https://github.com/Vitre/php-console-bundle
 ### Yii framework extension
 http://www.yiiframework.com/extension/php-console
 
+### Slim framework
+https://github.com/amenadiel/SlimPHPConsole (thanks to [@amenadiel](https://github.com/amenadiel))
+
 ### Silex framework service provider
 https://github.com/barbushin/php-console-silex (thanks to [@Chi-teck](https://github.com/Chi-teck))
 
-### Laravel framework service provider
+### Laravel 4.* & 5.* framework service provider
 https://github.com/barbushin/php-console-laravel
 
 ### Drupal CMS module
 https://drupal.org/project/pc (thanks to [@Chi-teck](https://github.com/Chi-teck))
 
 ### WordPress plugin
-https://github.com/nekojira/wp-php-console (thanks to [@nekojira](https://github.com/nekojira))
+https://github.com/unfulvio/wp-php-console (thanks to [@nekojira](https://github.com/unfulvio))
 
 # Usage
 
-You can try most of PHP Console features on [live demo](http://37.247.54.118/instance/examples) server.
+You can try most of PHP Console features on [live demo](http://php-console.com/instance/examples) server.
 
 ## Connector
 
@@ -84,7 +69,7 @@ Also it will be initialized when you call `PhpConsole\Handler::getInstance()` or
 
 ### Communication protocol
 
-PHP Console uses headers to communicate with client, so `PhpConsole\Connector::getInstance()` or `PhpConsole\Handler::getInstance()` must be called before any output. If headers are sent before script shut down or PHP Console response package size is out of web-server headers size limit, then PHP Console will store response data in [PhpConsole\Storage](src/PhpConsole/Storage.php) implementation and send it to client in STDOUT, in additional HTTP request. So there is no limits in PHP Console response package size.
+PHP Console uses headers to communicate with client, so `PhpConsole\Connector::getInstance()` or `PhpConsole\Handler::getInstance()` must be called before any output. If headers are sent before script shut down or PHP Console response package size is out of web-server headers size limit, then PHP Console will store response data in [PhpConsole\Storage](src/PhpConsole/Storage.php) implementation and send it to client in STDOUT, in additional HTTP request. So there is no limit in PHP Console response package size.
 
 ### Troubleshooting with $_SESSION handler overridden in some frameworks
 
@@ -117,11 +102,11 @@ PhpConsole server library is optimized for lazy initialization only for clients 
 
 ### Protect by password
 
-[![ScreenShot](http://37.247.54.118/res/screenshot/auth_420.png)](http://37.247.54.118/instance/examples/#protect_by_password)
+[![ScreenShot](http://php-console.com/res/screenshot/auth_420.png)](http://php-console.com/instance/examples/#protect_by_password)
 
 	$connector->setPassword('yohoho123', true);
 
-Clients will need to enter password to get access to PHP Console server data. All passwords are stored on client as SHA-256 hashes. Second argument says that PHP Console authorization token will depends on client IP.
+Clients will need to enter a password to get access to PHP Console server data. All passwords are stored on client as SHA-256 hashes. Second argument says that the PHP Console authorization token will depend on the client IP.
 
 ### SSL only connection mode
 
@@ -135,11 +120,11 @@ So all PHP Console clients will be automatically redirected to HTTPS.
 
 ## Handle errors
 
-[![ScreenShot](http://37.247.54.118/res/screenshot/errors_420.png)](http://37.247.54.118/instance/examples/#handle_errors)
+[![ScreenShot](http://php-console.com/res/screenshot/errors_420.png)](http://php-console.com/instance/examples/#handle_errors)
 
 There is a [PhpConsole\Handler](src/PhpConsole/Handler.php) class that initializes PHP errors & exceptions handlers and provides the next features:
 
-* Handle PHP errors(+fatal & memory limit errors) and exceptions.
+* Handle PHP errors (+fatal & memory limit errors) and exceptions.
 * Ignore repeated errors.
 * Call previously defined errors and exceptions handlers.
 * Handle caught exceptions using `$handler->handleException($exception)`.
@@ -158,7 +143,7 @@ Initialize `PhpConsole\Handler` in the top of your main project script:
 
 ## Debug vars
 
-[![ScreenShot](http://37.247.54.118/res/screenshot/debug_420.png)](http://37.247.54.118/instance/examples/#debug_vars)
+[![ScreenShot](http://php-console.com/res/screenshot/debug_420.png)](http://php-console.com/instance/examples/#debug_vars)
 
 PHP Console has multifunctional and smart vars dumper that allows to
 
@@ -203,7 +188,7 @@ PHP Console has multifunctional and smart vars dumper that allows to
 
 ## Remote PHP code execution
 
-[![ScreenShot](http://37.247.54.118/res/screenshot/eval_terminal_420.png)](http://37.247.54.118/instance/examples/#eval_terminal)
+[![ScreenShot](http://php-console.com/res/screenshot/eval_terminal_420.png)](http://php-console.com/instance/examples/#eval_terminal)
 
 PHP Console provide a way to execute PHP code on your server remotely, from Google Chrome extension terminal.
 

@@ -42,17 +42,30 @@ function set_language() {
 		}
 		//cleanup for certain langs that only have one locale
 		switch($lang) {
+			case "fa_IR":
 			case "he_IL":
-				$_SESSION['langdirection'] = 'rtl';
-			break;
-			case "fa":
-				$lang = "fa_IR";
 				$_SESSION['langdirection'] = 'rtl';
 			break;
 			default:
 				$_SESSION['langdirection'] = 'ltr';
 			break;
 		}
+		//I cant think of a time where there is a SINGLE locale
+		if(!preg_match("/_/",$lang)) {
+			$lang = $lang."_".strtoupper($lang);
+		}
+		if($lang != 'en_US') {
+			exec('locale -a',$output);
+			if(!empty($output) && !in_array($lang,$output)) {
+				$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"),$lang), "?display=advancedsettings");
+				$lang = 'en_US';
+			} else {
+				$nt->delete('framework', 'LANG_INVALID');
+			}
+		} else {
+			$nt->delete('framework', 'LANG_INVALID');
+		}
+
 		putenv('LC_ALL='.$lang);
 		putenv('LANG='.$lang);
 		putenv('LANGUAGE='.$lang);

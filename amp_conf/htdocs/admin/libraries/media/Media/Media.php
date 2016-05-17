@@ -70,7 +70,8 @@ class Media {
 			'file' => dirname(__DIR__).'/resources/glob.db'
 		));
 		$this->extension = Type::guessExtension($this->track);
-		if(empty($this->extension) || $this->extension == "bin") {
+		//sometimes files report themselfs as bin or ico. whatever man ignore it
+		if(empty($this->extension) || in_array($this->extension,array("bin","ico"))) {
 			$parts = pathinfo($this->track);
 			$this->extension = $parts['extension'];
 		}

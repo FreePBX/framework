@@ -4,27 +4,26 @@ namespace PicoFeed\Parser;
 
 use DateTime;
 use DateTimeZone;
+use PicoFeed\Base;
 
 /**
- * Date Parser
+ * Date Parser.
  *
  * @author  Frederic Guillot
- * @package Parser
  */
-class DateParser
+class DateParser extends Base
 {
     /**
-     * Timezone used to parse feed dates
+     * Timezone used to parse feed dates.
      *
-     * @access public
+     * @access private
      * @var string
      */
-    public $timezone = 'UTC';
+    private $timezone = 'UTC';
 
     /**
-     * Supported formats [ 'format' => length ]
+     * Supported formats [ 'format' => length ].
      *
-     * @access public
      * @var array
      */
     public $formats = array(
@@ -56,10 +55,10 @@ class DateParser
     );
 
     /**
-     * Try to parse all date format for broken feeds
+     * Try to parse all date format for broken feeds.
      *
-     * @access public
-     * @param  string  $value  Original date format
+     * @param string $value Original date format
+     *
      * @return DateTime
      */
     public function getDateTime($value)
@@ -67,7 +66,6 @@ class DateParser
         $value = trim($value);
 
         foreach ($this->formats as $format => $length) {
-
             $truncated_value = $value;
             if ($length !== null) {
                 $truncated_value = substr($truncated_value, 0, $length);
@@ -83,19 +81,18 @@ class DateParser
     }
 
     /**
-     * Get a valid date from a given format
+     * Get a valid date from a given format.
      *
-     * @access public
-     * @param  string  $format   Date format
-     * @param  string  $value    Original date value
-     * @return DateTime|boolean
+     * @param string $format Date format
+     * @param string $value  Original date value
+     *
+     * @return DateTime|bool
      */
     public function getValidDate($format, $value)
     {
-        $date = DateTime::createFromFormat($format, $value, new DateTimeZone($this->timezone));
+        $date = DateTime::createFromFormat($format, $value, $this->getTimeZone());
 
         if ($date !== false) {
-
             $errors = DateTime::getLastErrors();
 
             if ($errors['error_count'] === 0 && $errors['warning_count'] === 0) {
@@ -107,13 +104,23 @@ class DateParser
     }
 
     /**
-     * Get the current datetime
+     * Get the current datetime.
      *
-     * @access public
      * @return DateTime
      */
     public function getCurrentDateTime()
     {
-        return new DateTime('now', new DateTimeZone($this->timezone));
+        return new DateTime('now', $this->getTimeZone());
+    }
+
+    /**
+     * Get DateTimeZone instance
+     *
+     * @access public
+     * @return DateTimeZone
+     */
+    public function getTimeZone()
+    {
+        return new DateTimeZone($this->config->getTimezone() ?: $this->timezone);
     }
 }
