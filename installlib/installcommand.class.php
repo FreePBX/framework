@@ -934,7 +934,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 				$num_files += $tmp_num_files;
 				$num_copied += $tmp_num_copied;
 			}
-			if($progress->getStep() < $progress->getMaxSteps()) {
+			if($progress->getProgress() < $progress->getMaxSteps()) {
 				$progress->advance();
 			}
 		}
