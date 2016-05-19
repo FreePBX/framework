@@ -15,7 +15,9 @@
  */
 namespace FreePBX;
 class Database extends \PDO {
-
+	private $dConfig = null; //doctrine config
+	private $dsn = null; //pdo dsn
+	private $dConn = null; //docterine connection
 	/**
 	 * Connecting to the Database object
 	 * If you pass nothing to this it will assume the default database
@@ -44,18 +46,6 @@ class Database extends \PDO {
 			throw new \Exception("FreePBX class does not exist, and no amp_conf found.");
 		}
 
-		//Isset, not empty and is a string that's the only valid DSN we will accept here
-		if (isset($args[0]) && !empty($args[0]) && is_string($args[0])) {
-			$dsn = $args[0];
-		} else {
-			if(empty($amp_conf['AMPDBSOCK'])) {
-				$host = !empty($amp_conf['AMPDBHOST']) ? $amp_conf['AMPDBHOST'] : 'localhost';
-				$dsn = $amp_conf['AMPDBENGINE'].":host=".$host.";dbname=".$amp_conf['AMPDBNAME'].";charset=utf8";
-			} else {
-				$dsn = $amp_conf['AMPDBENGINE'].":unix_socket=".$amp_conf['AMPDBSOCK'].";dbname=".$amp_conf['AMPDBNAME'].";charset=utf8";
-			}
-		}
-
 		if (isset($args[1]) && !empty($args[0]) && is_string($args[0])) {
 			$username = $args[1];
 		} else {
@@ -68,6 +58,34 @@ class Database extends \PDO {
 			$password = $amp_conf['AMPDBPASS'];
 		}
 
+		//Isset, not empty and is a string that's the only valid DSN we will accept here
+		if (isset($args[0]) && !empty($args[0]) && is_string($args[0])) {
+			$this->dsn = $args[0];
+		} else {
+			if(empty($amp_conf['AMPDBSOCK'])) {
+				$host = !empty($amp_conf['AMPDBHOST']) ? $amp_conf['AMPDBHOST'] : 'localhost';
+				$this->dsn = $amp_conf['AMPDBENGINE'].":host=".$host.";dbname=".$amp_conf['AMPDBNAME'].";charset=utf8";
+				$this->dConfig = array(
+					'dbname' => $amp_conf['AMPDBNAME'],
+					'user' => $username,
+					'password' => $password,
+					'host' => $host,
+					'driver' => $this->doctrineEngineAlias($amp_conf['AMPDBENGINE']),
+					'charset' => 'utf8'
+				);
+			} else {
+				$this->dsn = $amp_conf['AMPDBENGINE'].":unix_socket=".$amp_conf['AMPDBSOCK'].";dbname=".$amp_conf['AMPDBNAME'].";charset=utf8";
+				$this->dConfig = array(
+					'dbname' => $amp_conf['AMPDBNAME'],
+					'user' => $username,
+					'password' => $password,
+					'unix_socket' => $amp_conf['AMPDBSOCK'],
+					'driver' => $this->doctrineEngineAlias($amp_conf['AMPDBENGINE']),
+					'charset' => 'utf8'
+				);
+			}
+		}
+
 		$options = isset($args[3]) ? $args[3] : array();
 		if (version_compare(PHP_VERSION, '5.3.6', '<')) {
 			$options[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES utf8';
@@ -75,14 +93,63 @@ class Database extends \PDO {
 
 		try {
 			if (!empty($options)) {
-				parent::__construct($dsn, $username, $password, $options);
+				parent::__construct($this->dsn, $username, $password, $options);
 			} else {
-				parent::__construct($dsn, $username, $password);
+				parent::__construct($this->dsn, $username, $password);
 			}
 		} catch(\Exception $e) {
 			die_freepbx($e->getMessage(), $e);
 		}
 		$this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+	}
+
+	public function migrate($table) {
+		if(!class_exists("FreePBX\Database\Migration",false)) {
+			include __DIR__."/Database/Migration.class.php";
+		}
+		if(empty($this->dConn)) {
+			$config = new \Doctrine\DBAL\Configuration();
+			$this->dConn = \Doctrine\DBAL\DriverManager::getConnection($this->dConfig, $config);
+
+			//http://wildlyinaccurate.com/doctrine-2-resolving-unknown-database-type-enum-requested/
+			$platform = $this->dConn->getDatabasePlatform();
+			$platform->registerDoctrineTypeMapping('enum', 'string');
+		}
+
+		return new Database\Migration($this->dConn, $table);
+	}
+
+	private function doctrineEngineAlias($engine) {
+		/*
+		db2: alias for ibm_db2
+		mssql: alias for pdo_sqlsrv
+		mysql/mysql2: alias for pdo_mysql
+		pgsql/postgres/postgresql: alias for pdo_pgsql
+		sqlite/sqlite3: alias for pdo_sqlite
+		 */
+		$final = $engine;
+		switch($engine) {
+			case "db2":
+				$final = 'ibm_db2';
+			break;
+			case "mssql":
+				$final = 'pdo_sqlsrv';
+			break;
+			case "mysql":
+			case "mysql2":
+				$final = 'pdo_mysql';
+			break;
+			case "pgsql":
+			case "postgres":
+			case "postgresql":
+				$final = 'pdo_pgsql';
+			break;
+			case "sqlite":
+			case "sqlite3":
+				$final = 'pdo_sqlite';
+			break;
+		}
+		return $final;
 	}
 
 	/**

@@ -13,5 +13,10 @@ return array(
     'PicoFeed' => array($vendorDir . '/fguillot/picofeed/lib'),
     'PhpConsole' => array($vendorDir . '/php-console/php-console/src'),
     'ForceUTF8\\' => array($vendorDir . '/neitanod/forceutf8/src'),
+    'Doctrine\\DBAL\\' => array($vendorDir . '/doctrine/dbal/lib'),
+    'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
+    'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib'),
+    'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib'),
+    'Doctrine\\Common\\Annotations\\' => array($vendorDir . '/doctrine/annotations/lib'),
     'Detection' => array($vendorDir . '/mobiledetect/mobiledetectlib/namespaced'),
 );

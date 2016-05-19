@@ -1077,12 +1077,13 @@ class gui_textarea extends guiinput {
 }
 
 class gui_textarea_select extends gui_textarea {
-	public function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $class='') {
+	public function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $class='',$select=array()) {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
 		parent::__construct($elemname, $currentvalue, $prompttext, $helptext, $jsvalidation, $failvalidationmsg, $canbeempty, $maxchars, $class);
 
+		$select = is_array($select) ? $select : array();
 		$disable_state = isset($disable) && $disable ? ' disabled' : '';
 		$list = explode("\n",$this->currentvalue);
 		$rows = count($list);

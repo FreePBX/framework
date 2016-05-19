@@ -189,7 +189,7 @@ class Freepbx_conf {
 		"USEDEVSTATE" => 1,
 		"USEQUEUESTATE" => 1,
 		"ALWAYS_SHOW_DEVICE_DETAILS" => 1,
-		"DYNAMICHINTS" => 0
+		/* "DYNAMICHINTS" => 0 */
 	);
 
 
