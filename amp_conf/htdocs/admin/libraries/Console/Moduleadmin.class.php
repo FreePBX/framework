@@ -302,9 +302,9 @@ class Moduleadmin extends Command {
 						$this->writeln("Downloading...");
 						$this->progress->start();
 					} elseif(isset($this->progress) && $data['read'] < $data['total']) {
-						$this->progress->setCurrent($data['read']);
+						$this->progress->setProgress($data['read']);
 					} elseif($data['read'] == $data['total']) {
-						if(isset($this->progress) && $this->progress->getStep() != $data['total']) {
+						if(isset($this->progress) && $this->progress->getProgress() != $data['total']) {
 							$this->progress->finish();
 							$this->writeln("");
 							$this->writeln("Finished downloading");
