@@ -4,9 +4,8 @@
 * @backupGlobals disabled
 * @backupStaticAttributes disabled
 */
-use Guzzle\Http\Client;
-use Guzzle\Plugin\Cookie\CookiePlugin;
-use Guzzle\Plugin\Cookie\CookieJar\ArrayCookieJar;
+use GuzzleHttp\Client;
+use GuzzleHttp\Cookie\CookieJar;
 use Symfony\Component\DomCrawler\Crawler;
 class WebTest extends PHPUnit_Framework_TestCase {
 
@@ -18,12 +17,13 @@ class WebTest extends PHPUnit_Framework_TestCase {
 	}
 
 	public function testLogin() {
-		$cookiePlugin = new CookiePlugin(new ArrayCookieJar());
-		$client = new Client('http://127.0.0.1/admin/');
-		$client->addSubscriber($cookiePlugin);
-		$request = $client->get('config.php');
-		$response = $request->send();
-		$crawler = new Crawler($response->getBody(true));
+		$jar = new CookieJar();
+		$client = new Client();
+		$res = $client->request('GET', 'http://127.0.0.1/admin/', ['cookies' => $jar]);
+		$body = $res->getBody();
+		$body = (string)$body;
+
+		$crawler = new Crawler($body);
 		$this->assertGreaterThan(
 			0,
 			$crawler->filter('html:contains("FreePBX Administration")')->count(),
@@ -40,8 +40,11 @@ class WebTest extends PHPUnit_Framework_TestCase {
 		$key = trim($key);
 		exec('fwconsole unlock '.$key);
 
-		$response = $request->send();
-		$crawler = new Crawler($response->getBody(true));
+                $res = $client->request('GET', 'http://127.0.0.1/admin/', ['cookies' => $jar]);
+                $body = $res->getBody();
+		$body = (string)$body;
+
+		$crawler = new Crawler($body);
 		$this->assertEquals(
 			0,
 			$crawler->filter('#key')->count(),
