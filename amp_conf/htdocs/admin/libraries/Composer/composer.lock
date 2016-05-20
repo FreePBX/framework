@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ef8dd8cc58d0f68d533f74cdad066fd2",
-    "content-hash": "fc8d82d87ddf9b1d91c3aa563912f89b",
+    "hash": "e87397f5607e291be2b10f55e7cd02d7",
+    "content-hash": "1f135c524224ad0e169aebc420e883f3",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -523,6 +523,69 @@
             "description": "Modern library to handle RSS/Atom feeds",
             "homepage": "https://github.com/fguillot/picoFeed",
             "time": "2016-04-17 22:31:55"
+        },
+        {
+            "name": "fightbulc/moment",
+            "version": "1.20.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fightbulc/moment.php.git",
+                "reference": "62b75abaf46e1eb4c5dfd66fb0ddb6a46da9ee05"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fightbulc/moment.php/zipball/62b75abaf46e1eb4c5dfd66fb0ddb6a46da9ee05",
+                "reference": "62b75abaf46e1eb4c5dfd66fb0ddb6a46da9ee05",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.2.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Moment\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ashish Tilara",
+                    "email": "ashish@itcutives.com",
+                    "role": "developer"
+                },
+                {
+                    "name": "Jaroslaw Kozak",
+                    "email": "jaroslaw.kozak68@gmail.com",
+                    "role": "developer"
+                },
+                {
+                    "name": "Tino Ehrich",
+                    "email": "tino@bigpun.me",
+                    "role": "developer"
+                }
+            ],
+            "description": "Parse, validate, manipulate, and display dates in PHP w/ i18n support. Inspired by moment.js",
+            "keywords": [
+                "date",
+                "display",
+                "format",
+                "i18n",
+                "locale",
+                "manipulate",
+                "moment",
+                "parse",
+                "time",
+                "translation",
+                "validate"
+            ],
+            "time": "2016-05-04 15:56:12"
         },
         {
             "name": "filp/whoops",
