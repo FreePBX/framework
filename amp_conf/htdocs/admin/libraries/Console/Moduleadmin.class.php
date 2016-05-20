@@ -27,6 +27,7 @@ class Moduleadmin extends Command {
 			new InputOption('force', 'f', InputOption::VALUE_NONE, _('Force operation (skips dependency and status checks) <warning>WARNING:</warning> Use at your own risk, modules have dependencies for a reason!')),
 			new InputOption('debug', 'd', InputOption::VALUE_NONE, _('Output debug messages to the console (be super chatty)')),
 			new InputOption('edge', '', InputOption::VALUE_NONE, _('Download/Upgrade forcing edge mode')),
+			new InputOption('color', '', InputOption::VALUE_NONE, _('Colorize table based list')),
 			new InputOption('skipchown', '', InputOption::VALUE_NONE, _('Skip the chown operation')),
 			new InputOption('nopromptdisabled', '', InputOption::VALUE_NONE, _('Don\'t ask to enable disabled modules')),
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'json, jsonpretty')),
@@ -39,9 +40,13 @@ class Moduleadmin extends Command {
 		$this->mf = \module_functions::create();
 		$this->out = $output;
 		$this->input = $input;
+		$this->colot = false;
 		$args = $input->getArgument('args');
 		if($input->getOption('skipchown')) {
 			$this->skipchown = true;
+		}
+		if($input->getOption('color')) {
+			$this->color = true;
 		}
 		if($input->getOption('edge')) {
 			$this->writeln('<info>'._('Edge repository temporarily enabled').'</info>');
@@ -354,6 +359,7 @@ class Moduleadmin extends Command {
 		//refresh module cache
 		$this->mf->getinfo(false,false,true);
 		$module_info=$this->mf->getinfo(false, MODULE_STATUS_NOTINSTALLED);
+		$modules = array();
 		foreach ($module_info as $module) {
 			if ($module['rawname'] != 'builtin') {
 				$modules[] = $module['rawname'];
@@ -377,6 +383,7 @@ class Moduleadmin extends Command {
 		} else {
 			$this->writeln(_("All modules up to date."));
 		}
+		return $modules;
 	}
 
 	/**
@@ -438,6 +445,7 @@ class Moduleadmin extends Command {
 		} else {
 			$this->writeln(_("Up to date."));
 		}
+		return $modules;
 	}
 
 	private function mirrorrepo(){
@@ -558,14 +566,8 @@ class Moduleadmin extends Command {
 		}
 		if (posix_getuid() == 0) {
 			$chown = new Chown();
-			switch ($action) {
-				case 'install':
-				case 'upgrade':
-				case 'update':
-					if(sizeof($args) == 1){
-						$chown->moduleName = $args[0];
-					}
-				break;
+			if(sizeof($args) == 1){
+				$chown->moduleName = $args[0];
 			}
 			$chown->execute($this->input, $this->out, true);
 		}
@@ -615,6 +617,7 @@ class Moduleadmin extends Command {
 		} else {
 			$this->writeln(_("All modules up to date."));
 		}
+		return $modules;
 	}
 
 	private function showInfo($modulename) {
@@ -684,15 +687,19 @@ class Moduleadmin extends Command {
 					} else {
 						$status = _('Not Installed (Available online: ').$modules_online[$name]['version'].')';
 					}
+					$status = ($this->color && $this->format != 'json')?'<comment>'.$status.'</comment>':$status;
 				break;
 				case MODULE_STATUS_DISABLED:
 					$status = _('Disabled');
+					$status = ($this->color && $this->format != 'json')?'<question>'.$status.'</question>':$status;
 				break;
 				case MODULE_STATUS_NEEDUPGRADE:
 					$status = _('Disabled; Pending upgrade to ').$modules[$name]['version'];
+					$status = ($this->color && $this->format != 'json')?'<question>'.$status.'</question>':$status;
 				break;
 				case MODULE_STATUS_BROKEN:
 					$status = _('Broken');
+					$status = ($this->color && $this->format != 'json')?'<error>'.$status.'</error>':$status;
 				break;
 				default:
 					// check for online upgrade
@@ -711,6 +718,8 @@ class Moduleadmin extends Command {
 					} else {
 						$status = _('Enabled');
 					}
+					$status = ($this->color && $this->format != 'json')?'<info>'.$status.'</info>':$status;
+
 				break;
 			}
 			$module_version = isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'';
@@ -741,6 +750,7 @@ class Moduleadmin extends Command {
 			$this->writeln(_("Done"));
 		}
 		$this->writeln(_("Checking Signatures of Modules..."));
+		$modules = array();
 		foreach($list as $m) {
 			//Check signature status, then if its online then if its signed online then redownload (through force)
 			$this->writeln(sprintf(_("Checking %s..."),$m['rawname']));
@@ -749,7 +759,7 @@ class Moduleadmin extends Command {
 				if(isset($modules_online[$m['rawname']]) && isset($modules_online[$m['rawname']]['signed'])) {
 					$this->writeln("\t".sprintf(_("Refreshing %s"),$m['rawname']));
 					$modulename = $m['rawname'];
-					$modules = $fpbxmodules->getinfo($modulename);
+					$modules[] = $modulename;
 					$this->doUpgrade($modulename,true);
 					$this->writeln("\t"._("Verifying GPG..."));
 					$this->mf->updateSignature($modulename);
@@ -762,6 +772,7 @@ class Moduleadmin extends Command {
 			}
 		}
 		$this->writeln(_("Done"));
+		return $modules;
 	}
 
 	private function showReverseDepends($modulename) {
@@ -908,14 +919,18 @@ class Moduleadmin extends Command {
 				break;
 			case 'installall':
 				$this->check_active_repos();
-				$this->doInstallAll(false);
+				$modules = $this->doInstallAll(false);
 				$this->updateHooks();
-				$this->setPerms($action,$args);
+				foreach($modules as $module) {
+					$this->setPerms($action,array($module));
+				}
 				break;
 			case 'installlocal':
-				$this->doInstallLocal(true);
+				$modules = $this->doInstallLocal(true);
 				$this->updateHooks();
-				$this->setPerms($action,$args);
+				foreach($modules as $module) {
+					$this->setPerms($action,array($module));
+				}
 				break;
 			case 'uninstall':
 				if(empty($args)){
@@ -976,9 +991,11 @@ class Moduleadmin extends Command {
 			case 'updateall':
 			case 'upgradeall':
 				$this->check_active_repos();
-				$this->doUpgradeAll($force);
+				$modules = $this->doUpgradeAll($force);
 				$this->updateHooks();
-				$this->setPerms($action,$args);
+				foreach($modules as $module) {
+					$this->setPerms($action,array($module));
+				}
 				break;
 			case 'list':
 				$this->showList();
@@ -1075,9 +1092,11 @@ class Moduleadmin extends Command {
 				}
 				break;
 			case 'refreshsignatures':
-				$this->refreshsignatures();
+				$modules = $this->refreshsignatures();
 				$this->updateHooks();
-				$this->setPerms($action,$args);
+				foreach($modules as $module) {
+					$this->setPerms($action,array($module));
+				}
 				break;
 			case 'updatexml':
 				break;
