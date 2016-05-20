@@ -27,6 +27,7 @@ class Moduleadmin extends Command {
 			new InputOption('force', 'f', InputOption::VALUE_NONE, _('Force operation (skips dependency and status checks) <warning>WARNING:</warning> Use at your own risk, modules have dependencies for a reason!')),
 			new InputOption('debug', 'd', InputOption::VALUE_NONE, _('Output debug messages to the console (be super chatty)')),
 			new InputOption('edge', '', InputOption::VALUE_NONE, _('Download/Upgrade forcing edge mode')),
+			new InputOption('color', '', InputOption::VALUE_NONE, _('Colorize table based list')),
 			new InputOption('skipchown', '', InputOption::VALUE_NONE, _('Skip the chown operation')),
 			new InputOption('nopromptdisabled', '', InputOption::VALUE_NONE, _('Don\'t ask to enable disabled modules')),
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'json, jsonpretty')),
@@ -39,9 +40,13 @@ class Moduleadmin extends Command {
 		$this->mf = \module_functions::create();
 		$this->out = $output;
 		$this->input = $input;
+		$this->colot = false;
 		$args = $input->getArgument('args');
 		if($input->getOption('skipchown')) {
 			$this->skipchown = true;
+		}
+		if($input->getOption('color')) {
+			$this->color = true;
 		}
 		if($input->getOption('edge')) {
 			$this->writeln('<info>'._('Edge repository temporarily enabled').'</info>');
@@ -684,15 +689,19 @@ class Moduleadmin extends Command {
 					} else {
 						$status = _('Not Installed (Available online: ').$modules_online[$name]['version'].')';
 					}
+					$status = ($this->color && $this->format != 'json')?'<comment>'.$status.'</comment>':$status;
 				break;
 				case MODULE_STATUS_DISABLED:
 					$status = _('Disabled');
+					$status = ($this->color && $this->format != 'json')?'<question>'.$status.'</question>':$status;
 				break;
 				case MODULE_STATUS_NEEDUPGRADE:
 					$status = _('Disabled; Pending upgrade to ').$modules[$name]['version'];
+					$status = ($this->color && $this->format != 'json')?'<question>'.$status.'</question>':$status;
 				break;
 				case MODULE_STATUS_BROKEN:
 					$status = _('Broken');
+					$status = ($this->color && $this->format != 'json')?'<error>'.$status.'</error>':$status;
 				break;
 				default:
 					// check for online upgrade
@@ -711,6 +720,8 @@ class Moduleadmin extends Command {
 					} else {
 						$status = _('Enabled');
 					}
+					$status = ($this->color && $this->format != 'json')?'<info>'.$status.'</info>':$status;
+
 				break;
 			}
 			$module_version = isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'';
