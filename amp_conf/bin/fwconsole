@@ -90,6 +90,13 @@ try {
 				include $ifile;
 				$classname = substr($class ,0,-10);
 				$class = 'FreePBX\\Console\\Command\\' . $classname;
+				$reflector = new ReflectionClass($class);
+				$props = $reflector->getDefaultProperties();
+				if(isset($props['requireroot']) && $props['requireroot']){
+					if(posix_getuid() != 0) {
+						continue;
+					}
+				}
 				$fbc->add(new $class);
 			}
 		}

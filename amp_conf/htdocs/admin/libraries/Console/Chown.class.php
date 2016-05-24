@@ -12,6 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class Chown extends Command {
+	private $requireroot = true;
 	private $errors = array();
 	private $infos = array();
 	private $blacklist = array('files' => array(), 'dirs' => array());
