@@ -192,7 +192,11 @@ $html .= '<script type="text/javascript" src="assets/js/jquery.jplayer.min.js'.$
 
 $html .= '<script type="text/javascript" src="assets/js/Sortable.min.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/toastr-2.1.2.js'.$version_tag.'"></script>';
+$html .= '<script type="text/javascript" src="assets/js/notie.js'.$version_tag.'"></script>';
+
+$html .= '<script type="text/javascript" src="assets/js/moment-with-locales.min.js'.$version_tag.'"></script>';
+
+$html .= '<script type="text/javascript" src="assets/js/moment-timezone.min.js'.$version_tag.'"></script>';
 
 $html .= '<script type="text/javascript" src="assets/js/jquery.form.min.js'.$version_tag.'"></script>';
 

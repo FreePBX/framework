@@ -2033,22 +2033,25 @@ function fpbxToast(message,title,level){
 	title = typeof title !== 'undefined'?title:'';
 	switch (level) {
 		case 'info':
-			toastr.info(message,title);
+			notie.alert(4,message,3);
 		break;
 		case 'warning':
-			toastr.warning(message,title);
+			notie.alert(2,message,3);
 		break;
 		case 'success':
-			toastr.success(message,title);
+			notie.alert(1,message,3);
 		break;
 		case 'error':
-			toastr.error(message,title);
+			notie.alert(3,message,3);
 		break;
 		case 'exception':
-			toastr.error(message,title, {timeOut: 30000});
+			notie.alert(3,message, 4);
 		break;
-
 	}
+}
+
+function fpbxConfirm(question, truetext, falsetext, callbackfn){
+	notie.confirm(question, truetext, falsetext, function(){callbackfn()});
 }
 
 /**
