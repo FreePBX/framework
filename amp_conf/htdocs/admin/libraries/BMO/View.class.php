@@ -157,4 +157,42 @@ class View {
 		$html .= '</div>';
 		return $html;
 	}
+	/**
+	 * This is used to generate a timezone select field using the timezones available
+	 * on the system. This will only show PHP supported timezones.
+	 * @param  string $id   The name and id of the form field
+	 * @param  string $value   The current value
+	 * @param  string $nonelabel  What you want shown if nothing is chosen
+	 * @return html input containing timezones
+	 */
+
+	function timezoneDrawSelect($id, $value='',$nonelabel=''){
+		$nonelabel = !empty($nonelabel)?$nonelabel:_("Select a Timezone");
+		$tzlist = array();
+		$timezones = \DateTimeZone::listIdentifiers();
+		foreach($timezones as $tz){
+		  $parts = explode('/', $tz,2);
+		  if(sizeof($parts) == 2){
+		    $tzlist[$parts[0]][$parts[1]] = $tz;
+		  }
+		}
+		$input = '<select name="'.$id.'" id="'.$id.'" class="form-control">';
+		$input .= '<option value="">'.$nonelabel.'</option>';
+		$selected = ('UTC' == $value)?'SELECTED':'';
+		$input .= '<option value="UTC" '.$selected.'>'._("UTC").'</option>';
+		foreach ($tzlist as $key => $val){
+		  $input .= '<optgroup label="'.$key.'">';
+		  foreach($val as $tzk => $tzv){
+				$selected = ($tzv == $value)?'SELECTED':'';
+		    $input .= '<option value = "'.$tzv.'" '.$selected.'>'.$tzk.'</option>';
+		  }
+		}
+		$input .= '</select>';
+		$input .= '<script type="text/javascript">';
+		$input .= '$(document).ready(function() {';
+	  $input .= '$("#'.$id.'").multiselect({enableCaseInsensitiveFiltering: true, inheritClass: true});';
+		$input .= '});';
+		$input .= '</script>';
+		return $input;
+	}
 }
