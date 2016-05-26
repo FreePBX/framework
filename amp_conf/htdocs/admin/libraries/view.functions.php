@@ -21,49 +21,61 @@ function frameworkPasswordCheck() {
 }
 
 // setup locale
-function set_language() {
+function set_language($details=false) {
 	global $amp_conf, $db;
+
+	$expression = '/^([a-z]*(?:_[A-Z]{2})?)(?:\.([a-z1-9]*))?(?:@([a-z1-9]*))?$/';
+	$default = "en_US";
+
 	$nt = notifications::create($db);
 	if (extension_loaded('gettext')) {
 		$nt->delete('core', 'GETTEXT');
 		if(php_sapi_name() !== 'cli') {
-			if (empty($_COOKIE['lang']) || !preg_match('/^[\w\._@-]+$/', $_COOKIE['lang'], $matches)) {
-				$lang = $amp_conf['UIDEFAULTLANG']?$amp_conf['UIDEFAULTLANG']:'en_US';
+			if (empty($_COOKIE['lang']) || !preg_match($expression, $_COOKIE['lang'])) {
+				$lang = !empty($amp_conf['UIDEFAULTLANG']) ? $amp_conf['UIDEFAULTLANG'] : $default;
 				if (empty($_COOKIE['lang'])) {
 					setcookie("lang", $lang);
+				} else {
+					$_COOKIE['lang'] = $lang;
 				}
 			} else {
-				preg_match('/^([\w\._@-]+)$/', $_COOKIE['lang'], $matches);
-				$lang = !empty($matches[1])?$matches[1]:'en_US';
+				$lang = $_COOKIE['lang'];
 			}
-			$_COOKIE['lang'] = $lang;
 		} else {
-			$lang = $amp_conf['UIDEFAULTLANG']?$amp_conf['UIDEFAULTLANG']:'en_US';
+			$lang = !empty($amp_conf['UIDEFAULTLANG']) ? $amp_conf['UIDEFAULTLANG'] : $default;
 		}
-		//cleanup for certain langs that only have one locale
-		switch($lang) {
-			case "fa_IR":
-			case "he_IL":
-				$_SESSION['langdirection'] = 'rtl';
-			break;
-			default:
-				$_SESSION['langdirection'] = 'ltr';
-			break;
+
+		//Break Locales apart for processing
+		preg_match($expression, $lang, $langParts);
+		//Get locale list
+		exec('locale -a',$locales, $out);
+		if($out != 0) {
+			$nt->add_warning('framework', 'LANG_MISSING', _("Language Support Unknown"), _("Unable to find the Locale binary. Your system may not support language changes!"), "?display=advancedsettings");
+		} else {
+			$nt->delete('framework', 'LANG_MISSING');
 		}
-		//I cant think of a time where there is a SINGLE locale
-		if(!preg_match("/_/",$lang)) {
-			$lang = $lang."_".strtoupper($lang);
+		$locales = is_array($locales) ? $locales : array();
+
+		if(php_sapi_name() !== 'cli') {
+			//Adjust for RTL languages
+			$rtl_locales = array( 'ar', 'ckb', 'fa_IR', 'he_IL', 'ug_CN' );
+			$_SESSION['langdirection'] = in_array($langParts[1],$rtl_locales) ? 'rtl' : 'ltr';
 		}
-		if($lang != 'en_US') {
-			exec('locale -a',$output);
-			if(!empty($output) && !in_array($lang,$output)) {
-				$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"),$lang), "?display=advancedsettings");
-				$lang = 'en_US';
-			} else {
-				$nt->delete('framework', 'LANG_INVALID');
-			}
+
+		if(!empty($locales) && !in_array($lang,$locales)) {
+			$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"),$lang), "?display=advancedsettings");
+			$lang = 'en_US';
 		} else {
 			$nt->delete('framework', 'LANG_INVALID');
+		}
+
+		//Lets see if utf8 codeset exists if not previously defined
+		if(empty($langParts[2])) {
+			$testString = !empty($langParts[3]) ? $langParts[1].".utf8@".$langParts[3] : $langParts[1].".utf8";
+			if(in_array($testString,$locales)) {
+				$langParts[2] = 'utf8';
+				$lang = $testString;
+			}
 		}
 
 		putenv('LC_ALL='.$lang);
@@ -74,11 +86,12 @@ function set_language() {
 		bindtextdomain('amp',$amp_conf['AMPWEBROOT'].'/admin/i18n');
 		bind_textdomain_codeset('amp', 'utf8');
 		textdomain('amp');
-		return $lang;
+
+		return $details ? array("full" => $lang, "name" => $langParts[1], "charmap" => $langParts[2], "modifiers" => $langParts[3]) : $langParts[1];
 	}
 	$nt->add_warning('core', 'GETTEXT', _("Gettext is not installed"), _("Please install gettext so that the PBX can properly translate itself"),'https://www.gnu.org/software/gettext/');
 
-	return 'en_US';
+	return $details ? array("full" => 'en_US', "name" => 'en_US', "charmap" => "", "modifiers" => "") : 'en_US';
 }
 
 //
