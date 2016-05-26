@@ -26,6 +26,10 @@ function set_language($details=false) {
 
 	$expression = '/^([a-z]*(?:_[A-Z]{2})?)(?:\.([a-z1-9]*))?(?:@([a-z1-9]*))?$/';
 	$default = "en_US";
+	$defaultParts = array(
+		'en_US',
+		'en_US'
+	);
 
 	$nt = notifications::create($db);
 	if (extension_loaded('gettext')) {
@@ -48,11 +52,8 @@ function set_language($details=false) {
 		//Break Locales apart for processing
 		if(!preg_match($expression, $lang, $langParts)) {
 			$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"),$lang), "?display=advancedsettings");
-			$lang = 'en_US';
-			$langParts = array(
-				'en_US',
-				'en_US'
-			);
+			$lang = $default;
+			$langParts = $defaultParts;
 		}
 		//Get locale list
 		exec('locale -a',$locales, $out);
@@ -71,11 +72,8 @@ function set_language($details=false) {
 
 		if(!empty($locales) && !in_array($lang,$locales)) {
 			$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"),$lang), "?display=advancedsettings");
-			$lang = 'en_US';
-			$langParts = array(
-				'en_US',
-				'en_US'
-			);
+			$lang = $default;
+			$langParts = $defaultParts;
 		} else {
 			$nt->delete('framework', 'LANG_INVALID');
 		}
@@ -102,7 +100,7 @@ function set_language($details=false) {
 	}
 	$nt->add_warning('core', 'GETTEXT', _("Gettext is not installed"), _("Please install gettext so that the PBX can properly translate itself"),'https://www.gnu.org/software/gettext/');
 
-	return $details ? array("full" => 'en_US', "name" => 'en_US', "charmap" => "", "modifiers" => "") : 'en_US';
+	return $details ? array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "") : $default;
 }
 
 //
