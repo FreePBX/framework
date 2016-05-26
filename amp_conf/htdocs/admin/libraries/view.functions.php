@@ -46,7 +46,14 @@ function set_language($details=false) {
 		}
 
 		//Break Locales apart for processing
-		preg_match($expression, $lang, $langParts);
+		if(!preg_match($expression, $lang, $langParts)) {
+			$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"),$lang), "?display=advancedsettings");
+			$lang = 'en_US';
+			$langParts = array(
+				'en_US',
+				'en_US'
+			);
+		}
 		//Get locale list
 		exec('locale -a',$locales, $out);
 		if($out != 0) {
