@@ -65,6 +65,10 @@ function set_language($details=false) {
 		if(!empty($locales) && !in_array($lang,$locales)) {
 			$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"),$lang), "?display=advancedsettings");
 			$lang = 'en_US';
+			$langParts = array(
+				'en_US',
+				'en_US'
+			);
 		} else {
 			$nt->delete('framework', 'LANG_INVALID');
 		}
