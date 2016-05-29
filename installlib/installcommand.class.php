@@ -762,7 +762,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 		// generate_configs();
 		$output->writeln("Generating default configurations...");
-		system("sudo -u " . $amp_conf['AMPASTERISKUSER'] . " " . $amp_conf["AMPSBIN"] . "/fwconsole reload");
+		system("sudo -u " . $amp_conf['AMPASTERISKUSER'] . " " . $amp_conf["AMPSBIN"] . "/fwconsole reload &>/dev/null");
 		$output->writeln("Finished generating default configurations");
 
 		// GPG setup - trustFreePBX();
