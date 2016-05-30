@@ -165,18 +165,18 @@ class DBHelperTest extends PHPUnit_Framework_TestCase {
 		// Ensure that a value overwrites a previous one
 		$f->setConfig('TESTVAR1');
 		$f->setConfig('TESTVAR1', 't1');
-		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` WHERE `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 		$f->setConfig('TESTVAR1', 't2');
-		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` WHERE `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 		$firsttestarr = array("this", "is" => "an", "annoying", 0, array("test", "of", "arrays"), false, true, -1);
 		$othertestarr = array("another" => "annoying", 0, array("test", "of", "arrays"), false, true, -1);
 		$f->setConfig('TESTVAR1', $firsttestarr);
-		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` WHERE `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 		$f->setConfig('TESTVAR1', $othertestarr);
-		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` WHERE `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 	}
 
@@ -186,18 +186,74 @@ class DBHelperTest extends PHPUnit_Framework_TestCase {
 		// Ensure that a value overwrites a previous one
 		$f->setConfig('TESTVAR1', false, "withid");
 		$f->setConfig('TESTVAR1', 't1', "withid");
-		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` where `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 		$f->setConfig('TESTVAR1', 't2', "withid");
-		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` where `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 		$firsttestarr = array("this", "is" => "an", "annoying", 0, array("test", "of", "arrays"), false, true, -1);
 		$othertestarr = array("another" => "annoying", 0, array("test", "of", "arrays"), false, true, -1);
 		$f->setConfig('TESTVAR1', $firsttestarr, "withid");
-		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` where `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 		$f->setConfig('TESTVAR1', $othertestarr, "withid");
-		$ret = $db->query("SELECT COUNT(`key`) FROM kvstore where `module`='FreePBX' and `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` where `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 	}
+
+	public function testMigration() {
+		$f = self::$f;
+		$db = self::$f->Database();
+		$kvstore = false;
+		// Skip this test if kvstore doesn't exist
+		try {
+			$db->query("SELECT * FROM `kvstore` LIMIT 1");
+			$kvstore = true;
+		} catch (\Exception $e) {
+			// Nothing
+		}
+
+		if (!$kvstore) {
+			return;
+		}
+
+		$db->query("DELETE FROM `kvstore` WHERE `module`='MigrationTest'");
+		$db->query("INSERT INTO `kvstore` VALUES ('MigrationTest', 'TESTVAR1', 'testcontents', NULL, 'noid')");
+		$f->classOverride = "MigrationTest";
+		$this->assertEquals("testcontents", $f->getConfig("TESTVAR1"), "TESTVAR1 wasn't migrated");
+		// Make sure that it's gone
+		$remains = $db->query("SELECT * FROM `kvstore` WHERE `module`='MigrationTest'")->fetchAll();
+		$this->assertEquals(array(), $remains, "Migration didn't remove old data from kvstore");
+		// Clean up
+		$db->query("DROP TABLE `kvstore_MigrationTest`");
+
+		// Multiple entry tests
+		$db->query("DELETE FROM `kvstore` WHERE `module`='MigrationTest2'");
+		$db->query("INSERT INTO `kvstore` VALUES ('MigrationTest2', 'TESTVAR1', 'moretestcontents', NULL, 'noid')");
+		$db->query("INSERT INTO `kvstore` VALUES ('MigrationTest2', 'TESTVAR2', '[1,2,3,4]', 'json-arr', 'noid')");
+		$db->query("INSERT INTO `kvstore` VALUES ('MigrationTest2', 'TESTVAR3', '{\"derp\":\"foo\"}', 'json-obj', 'noid')");
+		// Get the first one, which should migrate all of them
+		$f->classOverride = "MigrationTest2";
+		$this->assertEquals("moretestcontents", $f->getConfig("TESTVAR1"), "TESTVAR1 wasn't migrated");
+		$f->classOverride = "MigrationTest2";
+		$testvar = $f->getConfig('TESTVAR2');
+		$this->assertTrue(is_array($testvar), "TestVar2 isn't an array");
+		$f->classOverride = "MigrationTest2";
+		$testvar = $f->getConfig('TESTVAR3');
+		$this->assertTrue(is_object($testvar), "TestVar3 isn't an object");
+		// Make sure that it's gone
+		$remains = $db->query("SELECT * FROM `kvstore` WHERE `module`='MigrationTest2'")->fetchAll();
+		$this->assertEquals(array(), $remains, "Migration Test 2 didn't remove old data from kvstore");
+		// Clean up
+		$db->query("DROP TABLE `kvstore_MigrationTest2`");
+	}
+
+	public function testGetAllIds() {
+		$f = self::$f;
+		$f->setConfig("var1", "var1", "id1");
+		$this->assertTrue(in_array("id1", $f->getAllids()), "id1 wasn't in the list of ids");
+		$this->assertFalse(in_array("fakeid1", $f->getAllids()), "fakeid1 WAS in the list of ids??");
+	}
+
+
 }
