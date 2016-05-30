@@ -113,7 +113,7 @@ class DB_Helper {
 		$index['idindex'] = "ALTER TABLE `$tablename` ADD INDEX `idindex` (`id`(50))";
 
 		self::$db->query($create);
-		foreach ($indexes as $i) {
+		foreach ($index as $i) {
 			$res = self::$db->query($i);
 		}
 	}
