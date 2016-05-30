@@ -255,5 +255,18 @@ class DBHelperTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse(in_array("fakeid1", $f->getAllids()), "fakeid1 WAS in the list of ids??");
 	}
 
+	public function testBlobStorage() {
+		$f = self::$f;
+		$uuid = $f->insertBlob("this is text");
+		$retarr = $f->getBlob($uuid);
+		$this->assertEquals("raw", $retarr['type'], "Raw wasn't returned as the type");
+		$this->assertEquals("this is text", $retarr['content'], "Content wasn't returned correctly");
+		$f->deleteBlob($uuid);
+		$retarr = $f->getBlob($uuid);
+		$this->assertEquals(false, $retarr['type'], "Blob wasn't deleted - type not false");
+		$this->assertEquals("", $retarr['content'], "Content wasn't deleted - string not empty");
+	}
+
+
 
 }

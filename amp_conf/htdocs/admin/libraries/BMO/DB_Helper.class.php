@@ -68,6 +68,7 @@ class DB_Helper {
 			"dbGetLast" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key` DESC LIMIT 1"),
 			"dbEmpty" => self::$db->prepare("DELETE FROM `$tablename`"),
 			"dbGetAllIds" => self::$db->prepare("SELECT DISTINCT(`id`) FROM `$tablename` WHERE `id` <> 'noid'"),
+			"dbGetByType" => self::$db->prepare("SELECT * FROM `$tablename` WHERE `type` = :type"),
 		);
 		// Now this has run, everything IS JUST FINE.
 		return self::$checked[$tablename];
@@ -160,13 +161,22 @@ class DB_Helper {
 		$res = $p['dbGet']->fetchAll();
 
 		if (isset($res[0])) {
-			// Found!
-			if ($res[0]['type'] == "json-obj") {
-				return json_decode($res[0]['val']);
-			} elseif ($res[0]['type'] == "json-arr") {
-				return json_decode($res[0]['val'], true);
+			// Found it! Is it linked to a blob?
+			if ($res[0]['type'] == "blob") {
+				$tmparr = $this->getBlob($res[0]['val']);
+				$type = $tmparr['type'];
+				$val = $tmparr['content'];
 			} else {
-				return $res[0]['val'];
+				$type = $res[0]['type'];
+				$val = $res[0]['val'];
+			}
+
+			if ($type == "json-obj") {
+				return json_decode($val);
+			} elseif ($type == "json-arr") {
+				return json_decode($val, true);
+			} else {
+				return $val;
 			}
 		}
 
@@ -212,9 +222,20 @@ class DB_Helper {
 			$this->classOverride = false;
 		}
 
-		// Delete any that previously match
+		// Does this already exist?
 		try {
-			$p['dbDel']->execute($query);
+			$p['dbGet']->execute($query);
+			// Does this value already exist?
+			$check = $p['dbGet']->fetchAll();
+			if (isset($check[0])) {
+				// Yes it does. Is it a blob?
+				if ($check[0]['type'] == "blob") {
+					// Delete that blob
+					$this->deleteBlob($check[0]['val']);
+				}
+				// Now delete the row.
+				$p['dbDel']->execute($query);
+			}
 		} catch (\Exception $e) {
 			self::checkException($e);
 		}
@@ -232,6 +253,14 @@ class DB_Helper {
 		} else {
 			$query[':val'] = $val;
 			$query[':type'] = null;
+		}
+
+		// Is our value too large to store in the standard kvstore?
+		// If it is, store it as a blob, and link to it.
+		if (strlen($query[':val']) > 4000) {
+			$uuid = $this->insertBlob($query[':val'], $query[':type']);
+			$query[':type'] = "blob";
+			$query[':val'] = $uuid;
 		}
 
 		$p['dbAdd']->execute($query);
@@ -312,16 +341,25 @@ class DB_Helper {
 		// Our pretend __construct();
 		$p = self::checkDatabase($this);
 
+		$tablename = self::getTableName($self);
+
 		// Have we been asked to emulate another module? If so, reset.
 		if ($this->classOverride) {
 			$this->classOverride = false;
 		}
 
+		// Find any blobs and delete them
 		try {
-			$ret = $p['dbEmpty']->execute();
+			$p['dbGetByType']->execute(array("type" => "blob"));
+			$blobs = $p['dbGetByType']->fetchAll();
 		} catch (\Exception $e) {
 			self::checkException($e);
 		}
+
+		foreach ($blobs as $tmparr) {
+				$this->deleteBlob($tmparr['val']);
+		}
+
 		return $ret;
 	}
 
@@ -401,7 +439,23 @@ class DB_Helper {
 			$this->classOverride = false;
 		}
 
+		// Find any blobs and delete them
+		try {
+			$p['dbGetByType']->execute(array("type" => "blob"));
+			$blobs = $p['dbGetByType']->fetchAll();
+		} catch (\Exception $e) {
+			self::checkException($e);
+		}
+
+		foreach ($blobs as $tmparr) {
+			if ($tmparr['id'] === $id) {
+				$this->deleteBlob($tmparr['val']);
+			}
+		}
+
+		// Now delete everything else.
 		$query[':id'] = $id;
+
 		try {
 			$p['dbDelId']->execute($query);
 		} catch (\Exception $e) {
@@ -536,6 +590,116 @@ class DB_Helper {
 				self::checkException($e);
 			}
 		}
+		return true;
+	}
+
+	/**
+	 * Blob handling - Set
+	 *
+	 * If the value handed to setConfig is longer than 4kb, then a link
+	 * to this table is created instead. A UUID is generated, the value
+	 * is inserted, and that uuid is returned
+	 *
+	 * @param $value The contents of the blob
+	 * @param $type Hint to decode the blob when handed back
+	 * @return $uuid
+	 */
+	public function insertBlob($val = false, $type = "raw") {
+		if (!$val) {
+			throw new \Exception("No val");
+		}
+
+		// Generate a UUID
+		$data = openssl_random_pseudo_bytes(16);
+		$data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
+		$data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
+		$uuid = vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+
+		// Try to insert our value
+		$q = self::$db->prepare('INSERT INTO `kvblobstore` (`uuid`, `type`, `content`) VALUES (:uuid, :type, :data)');
+		$query = array("uuid" => $uuid, "data" => $val, "type" => $type);
+		try {
+			$q->execute($query);
+		} catch (\Exception $e) {
+			if ($e->getCode() == "42S02") { // Table does not exist, so we need to create it
+				$create = "CREATE TABLE `kvblobstore` ( `uuid` CHAR(36) PRIMARY KEY, `type` CHAR(32), `content` LONGBLOB )";
+				self::$db->query($create);
+				$q->execute($query);
+			} else {
+				throw $e;
+			}
+		}
+		return $uuid;
+	}
+
+	/**
+	 * Blob handling - Get
+	 *
+	 * Return the blob as it was handed to it, with the type
+	 * to assist in decoding. If the uuid doesn't exist,
+	 * type is set to (bool) false, and content is an empty
+	 * string.
+	 *
+	 * @param $uuid
+	 * @return array("content" => $value, "type" => as set)
+	 */
+	public function getBlob($uuid = false) {
+		if (!$uuid) {
+			throw new \Exception("No uuid");
+		}
+
+		// Try to get our value
+		$q = self::$db->prepare('SELECT * FROM `kvblobstore` WHERE `uuid`=:uuid');
+		$query = array("uuid" => $uuid);
+
+		try {
+			$q->execute($query);
+		} catch (\Exception $e) {
+			if ($e->getCode() == "42S02") { // Table does not exist? How did that even happen? But create it...
+				$create = "CREATE TABLE `kvblobstore` ( `uuid` CHAR(36) PRIMARY KEY, `type` CHAR(32), `content` LONGBLOB )";
+				self::$db->query($create);
+				return array("content" => "", "type" => false);
+			} else {
+				throw $e;
+			}
+		} 
+
+		// Did we get anything?
+		$res = $q->fetchAll();
+		if (!isset($res[0])) {
+			// No.
+			return array("content" => "", "type" => false);
+		}
+
+		return array("content" => $res[0]['content'], "type" => $res[0]['type']);
+	}
+
+	/**
+	 * Blob handling - Delete
+	 *
+	 * Deletes the blob, if it exists.
+	 *
+	 * @param $uuid
+	 */
+	public function deleteBlob($uuid = false) {
+		if (!$uuid) {
+			throw new \Exception("No uuid");
+		}
+
+		// Try to get our value
+		$q = self::$db->prepare('DELETE FROM `kvblobstore` WHERE `uuid`=:uuid');
+		$query = array("uuid" => $uuid);
+
+		try {
+			$q->execute($query);
+		} catch (\Exception $e) {
+			if ($e->getCode() == "42S02") { // Table does not exist? How did that even happen? But create it...
+				$create = "CREATE TABLE `kvblobstore` ( `uuid` CHAR(36) PRIMARY KEY, `type` CHAR(32), `content` LONGBLOB )";
+				self::$db->query($create);
+			} else {
+				throw $e;
+			}
+		} 
 		return true;
 	}
 }
