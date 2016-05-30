@@ -267,6 +267,27 @@ class DBHelperTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("", $retarr['content'], "Content wasn't deleted - string not empty");
 	}
 
-
-
+	public function testDbDelete() {
+		$f = self::$f;
+		$db = self::$f->Database();
+		$f->classOverride = "DBDelTest";
+		$f->setConfig("test1", "test1");
+		$res = $db->query("SELECT * FROM `kvstore_DBDelTest`")->fetchAll();
+		$this->assertTrue(isset($res[0]), "nothing written to kvstore_DBDelTest");
+		$f->classOverride = "DBDelTest";
+		$f->deleteAll();
+		// This must now throw, as the table should be deleted
+		try {
+			$res = $db->query("SELECT * FROM `kvstore_DBDelTest`")->fetchAll();
+			$this->fail("Table not dropped");
+		} catch (\Exception $e) {
+			// null
+		}
+		// Now make sure the data is gone, in case something crazy happened
+		$f->classOverride = "DBDelTest";
+		$this->assertFalse($f->getConfig("test1"), "test1 didn't return false");
+		// And delete it again
+		$f->classOverride = "DBDelTest";
+		$f->deleteAll();
+	}
 }

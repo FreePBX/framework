@@ -66,7 +66,7 @@ class DB_Helper {
 			"dbDelId" => self::$db->prepare("DELETE FROM `$tablename` WHERE `id` = :id"),
 			"dbGetFirst" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key` LIMIT 1"),
 			"dbGetLast" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key` DESC LIMIT 1"),
-			"dbEmpty" => self::$db->prepare("DELETE FROM `$tablename`"),
+			"dbEmpty" => self::$db->prepare("DROP TABLE `$tablename`"),
 			"dbGetAllIds" => self::$db->prepare("SELECT DISTINCT(`id`) FROM `$tablename` WHERE `id` <> 'noid'"),
 			"dbGetByType" => self::$db->prepare("SELECT * FROM `$tablename` WHERE `type` = :type"),
 		);
@@ -335,13 +335,15 @@ class DB_Helper {
 	}
 
 	/**
-	 * Delete All Keys from module
+	 * Delete All Keys from module, and drop the table
+	 *
+	 * Used when uninstalling a module.
 	 */
 	public function deleteAll() {
 		// Our pretend __construct();
 		$p = self::checkDatabase($this);
 
-		$tablename = self::getTableName($self);
+		$tablename = self::getTableName($this);
 
 		// Have we been asked to emulate another module? If so, reset.
 		if ($this->classOverride) {
@@ -359,6 +361,13 @@ class DB_Helper {
 		foreach ($blobs as $tmparr) {
 				$this->deleteBlob($tmparr['val']);
 		}
+
+		// And now drop the table.
+		$ret = $p['dbEmpty']->execute();
+
+		// We unset so if we're called again in the same session, 
+		// we will recreate the table.
+		unset(self::$checked[$tablename]);
 
 		return $ret;
 	}
