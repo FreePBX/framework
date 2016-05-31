@@ -27,6 +27,7 @@ return array(
     'Sinergi\\BrowserDetector\\' => array($vendorDir . '/sinergi/browser-detector/src'),
     'Respect\\Validation\\' => array($vendorDir . '/respect/validation/library'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
+    'Povils\\Figlet\\' => array($vendorDir . '/povils/figlet/src/Figlet'),
     'Moment\\' => array($vendorDir . '/fightbulc/moment/src'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
     'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),

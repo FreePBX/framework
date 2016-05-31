@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ea09965230c61798f48eab74598e1117",
-    "content-hash": "fb6b45cfcd2447ddc56013b4b822433d",
+    "hash": "069a6d7e900082e3c61bfb577c778f1d",
+    "content-hash": "22e7c701805331ec626bd4c6bd4ff393",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1004,6 +1004,57 @@
                 "php"
             ],
             "time": "2016-02-19 16:00:24"
+        },
+        {
+            "name": "povils/figlet",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/povils/figlet.git",
+                "reference": "bbf74a7e6cbfe74e2ddeca0c49a9454664a47445"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/povils/figlet/zipball/bbf74a7e6cbfe74e2ddeca0c49a9454664a47445",
+                "reference": "bbf74a7e6cbfe74e2ddeca0c49a9454664a47445",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Povils\\Figlet\\": "src/Figlet"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Povilas Susinskas",
+                    "email": "povilassusinskas@gmail.com"
+                }
+            ],
+            "description": "Figlet text generator - PHP",
+            "keywords": [
+                "ascii",
+                "figlet",
+                "github",
+                "php",
+                "text"
+            ],
+            "time": "2016-04-18 18:53:45"
         },
         {
             "name": "psr/http-message",
@@ -2409,7 +2460,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "povils/figlet": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

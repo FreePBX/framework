@@ -50,6 +50,7 @@ class ComposerStaticIniteed34d9d8733e39baaa15f2a55f59cd6
         'P' => 
         array (
             'Psr\\Http\\Message\\' => 17,
+            'Povils\\Figlet\\' => 14,
         ),
         'M' => 
         array (
@@ -152,6 +153,10 @@ class ComposerStaticIniteed34d9d8733e39baaa15f2a55f59cd6
         'Psr\\Http\\Message\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/http-message/src',
+        ),
+        'Povils\\Figlet\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/povils/figlet/src/Figlet',
         ),
         'Moment\\' => 
         array (

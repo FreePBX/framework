@@ -9,9 +9,17 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Povils\Figlet\Figlet;
 
 class Motd extends Command {
 	private $errors = array();
+	private $banner = array(
+		"font" => "big",
+		"color" => "green",
+		"background" => "black",
+		"text" => "FreePBX"
+	);
+	private $supporturl = 'http://www.freepbx.org/support-and-professional-services';
 
 	protected function configure(){
 		$this->setName('motd')
@@ -19,17 +27,30 @@ class Motd extends Command {
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 
-		//banners should be base64 encoded, Why? Because php likes to randomly shift multiline variables. Also makes it all look super cryptic :-/
-		$this->banner = "IF9fX19fICAgICAgICAgICAgICBfX19fICBfX19fX18gIF9fDQp8ICBfX198IF9fIF9fXyAgX19ffCAgXyBcfCBfXyApIFwvIC8NCnwgfF8gfCAnX18vIF8gXC8gXyBcIHxfKSB8ICBfIFxcICAvIA0KfCAgX3x8IHwgfCAgX18vICBfXy8gIF9fL3wgfF8pIC8gIFwgDQp8X3wgIHxffCAgXF9fX3xcX19ffF98ICAgfF9fX18vXy9cX1wgICAgIA==";
-		$this->supporturl = 'http://www.freepbx.org/support-and-professional-services';
+		$this->banner['text'] = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$this->updateVars();
 		$edgemode = \FreePBX::Config()->get('MODULEADMINEDGE');
 		$alerts = \FreePBX::Notifications()->get_num_active();
-		$output->write(base64_decode($this->banner));
-		$output->writeln("");
-		$output->writeln("");
+		if(is_array($this->banner)) {
+			//http://www.figlet.org/examples.html
+			$font = !empty($this->banner['font']) ? $this->banner['font'] : "big";
+			$color = !empty($this->banner['color']) ? $this->banner['color'] : "green";
+			$background = !empty($this->banner['background']) ? $this->banner['background'] : "black";
+			$text = !empty($this->banner['text']) ? $this->banner['text'] : \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
+
+			$figlet = new Figlet();
+			$banner = $figlet
+						->setFont($font)
+						->setFontColor($color)
+						->setBackgroundColor($background)
+						->render($text);
+			$output->write($banner);
+		} else {
+			$output->write(base64_decode($this->banner));
+		}
+
 		if($alerts != 0) {
 			$output->writeln("<fg=red>".sprintf(_("NOTICE! You have %s notifications! Please log into the UI to see them!"), $alerts)."</fg=red>");
 		}
