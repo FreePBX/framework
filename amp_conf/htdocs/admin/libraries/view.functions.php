@@ -84,6 +84,12 @@ function set_language($details=false) {
 			if(in_array($testString,$locales)) {
 				$langParts[2] = 'utf8';
 				$lang = $testString;
+			} else {
+				$testString = !empty($langParts[3]) ? $langParts[1].".UTF8@".$langParts[3] : $langParts[1].".UTF8";
+				if(in_array($testString,$locales)) {
+					$langParts[2] = 'UTF8';
+					$lang = $testString;
+				}
 			}
 		}
 
