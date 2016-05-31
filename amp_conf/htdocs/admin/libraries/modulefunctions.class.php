@@ -390,6 +390,7 @@ class module_functions {
 		$modules_local = $this->getinfo(false, $installed_status);
 
 		$modules_upgradable = array();
+		$modules_local = is_array($modules_local) ? $modules_local : array();
 		foreach (array_keys($modules_local) as $name) {
 			if (isset($new_modules[$name])) {
 				if (version_compare_freepbx($modules_local[$name]['version'], $new_modules[$name]['version']) < 0) {
@@ -736,6 +737,7 @@ class module_functions {
 				// make a one element array so we can use in_array below
 				$status = array($status);
 			}
+			$modules = is_array($modules) ? $modules : array();
 			foreach (array_keys($modules) as $name) {
 				if (!in_array($modules[$name]['status'], $status)) {
 					// not found in the $status array, remove it
@@ -1146,6 +1148,7 @@ class module_functions {
 
 		$depends = array();
 
+		$modules = is_array($modules) ? $modules : array();
 		foreach (array_keys($modules) as $name) {
 			if (!empty($modules[$name]['depends']) && is_array($modules[$name]['depends'])) {
 				foreach ($modules[$name]['depends'] as $type => $requirements) {
@@ -1812,11 +1815,11 @@ class module_functions {
 		if (! @mkdir($amp_conf['AMPWEBROOT']."/admin/modules/".$modulename) ) {
 			return array(sprintf(_("Error creating module directory: %s"), $amp_conf['AMPWEBROOT']."/admin/modules/".$modulename));
 		}
-		
+
 		$installBinary = fpbx_which("install");
 		exec(sprintf("%s -d -o %s -g %s %s %s",$installBinary, $amp_conf['AMPASTERISKWEBUSER'],$amp_conf['AMPASTERISKWEBGROUP'],$archivepath."/*",$amp_conf['AMPWEBROOT']."/admin/modules/".$modulename."/"),$output,$exitcode);
 		if ($exitcode != 0) {
-			$output = '';			
+			$output = '';
 			exec("cp -R ".$archivepath."/* ".$amp_conf['AMPWEBROOT']."/admin/modules/".$modulename."/", $output, $exitcode);
 		}
 		if ($exitcode != 0) {
