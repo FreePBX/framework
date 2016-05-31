@@ -758,7 +758,9 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		$output->writeln("Done");
 
 		//run this here so that we make sure everything is square for asterisk
-		system($amp_conf['AMPSBIN'] . "/fwconsole chown");
+		//Note this is redirected to /dev/tty so the progress bar will work properly.
+		system($amp_conf['AMPSBIN'] . "/fwconsole chown > /dev/tty");
+
 
 		// generate_configs();
 		$output->writeln("Generating default configurations...");
