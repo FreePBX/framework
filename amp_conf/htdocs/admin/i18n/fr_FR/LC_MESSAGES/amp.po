@@ -1786,6 +1786,10 @@ msgstr "Codecs"
 msgid "Coding Error - don't understand '%s' from %s"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:30
+msgid "Colorize table based list"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/main.php:421
 msgid "Combined"
 msgstr "Combiné"
@@ -2406,6 +2410,10 @@ msgstr ""
 
 #: amp.i18n.php:950
 msgid "Determine where to send log information if the log is enabled ('Disable FreePBX Log' (AMPDISABLELOG) false. There are two places to route the log messages. 'FILE' will send all log messages to the defined 'FreePBX Log File' (FPBX_LOG_FILE). All the other settings will route the log messages to your System Logging subsystem (syslog) using the specified log level. Syslog can be configured to route different levels to different locations. See 'syslog' documentation (man syslog) on your system for more details."
+msgstr ""
+
+#: amp.i18n.php:1052
+msgid "Determines the mode to use while using popovers (popovers appear when selecting "
 msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:346
@@ -5924,6 +5932,10 @@ msgstr "Merci de patienter: exécution en cours"
 
 #: amp.i18n.php:532
 msgid "Polling Interval for Stopping Asterisk"
+msgstr ""
+
+#: amp.i18n.php:1048
+msgid "Popover Mode"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:339
@@ -9559,16 +9571,41 @@ msgstr "vous pourriez avoir à ajouter la ligne 'preload => pbx_config.so' a vot
 msgid "zap devices migrated"
 msgstr "dispositifs zap migrés"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:30
-msgid "Colorize table based list"
+#: ../core/functions.inc/drivers/Sip.class.php:206
+#, php-format
+msgid "Interface %s, Port %s (%s - this is a <strong>NON STANDARD</strong> port)"
 msgstr ""
 
-#: amp.i18n.php:1052
-msgid "Determines the mode to use while using popovers (popovers appear when selecting "
+#: ../core/functions.inc/drivers/Sip.class.php:204
+#, php-format
+msgid "Interface %s, Port %s (%s)"
 msgstr ""
 
-#: amp.i18n.php:1048
-msgid "Popover Mode"
+#: amp_conf/htdocs/admin/libraries/view.functions.php:61
+msgid "Language Support Unknown"
+msgstr ""
+
+#: ../core/functions.inc/drivers/Sip.class.php:200
+#, php-format
+msgid "Port %s (%s - this is a <strong>NON STANDARD</strong> port)"
+msgstr ""
+
+#: ../core/functions.inc/drivers/Sip.class.php:198
+#, php-format
+msgid "Port %s (%s)"
+msgstr ""
+
+#: ../core/functions.inc/drivers/Sip.class.php:229
+msgid "The Asterisk SIP Setting Module is not installed or is disabled. Please install it."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/view.functions.php:61
+msgid "Unable to find the Locale binary. Your system may not support language changes!"
+msgstr ""
+
+#: ../core/functions.inc/drivers/Sip.class.php:224
+#, php-format
+msgid "listening on %s"
 msgstr ""
 
 #~ msgid " (toggle sort)"

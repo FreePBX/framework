@@ -1808,6 +1808,10 @@ msgstr "コーデック"
 msgid "Coding Error - don't understand '%s' from %s"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:30
+msgid "Colorize table based list"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/main.php:421
 msgid "Combined"
 msgstr ""
@@ -2428,6 +2432,10 @@ msgstr ""
 #: amp.i18n.php:950
 msgid "Determine where to send log information if the log is enabled ('Disable FreePBX Log' (AMPDISABLELOG) false. There are two places to route the log messages. 'FILE' will send all log messages to the defined 'FreePBX Log File' (FPBX_LOG_FILE). All the other settings will route the log messages to your System Logging subsystem (syslog) using the specified log level. Syslog can be configured to route different levels to different locations. See 'syslog' documentation (man syslog) on your system for more details."
 msgstr "ログが有効(「FreePBXログを無効にする」いいえ)の際、ログ情報を送信先を決定します。ログルーティングは2カ所あります。「FILE」を選択すると、定義されたFreePBXログファイル(FPBX_LOG_FILE)に全ログを出力します。他の全設定は指定されたログレベルでsyslogに設定されます。Syslogの設定は、それぞれ別レベルのものを異なる場所へ出力が可能です。詳細はsyslogのマニュアル(man syslog)を確認してください。"
+
+#: amp.i18n.php:1052
+msgid "Determines the mode to use while using popovers (popovers appear when selecting "
+msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:346
 msgid "Determines what CIDs will be allowed out this trunk. IMPORTANT: EMERGENCY CIDs defined on an extension/device will ALWAYS be used if this trunk is part of an EMERGENCY Route regardless of these settings.<br />Allow Any CID: all CIDs including foreign CIDS from forwarded external calls will be transmitted.<br />Block Foreign CIDs: blocks any CID that is the result of a forwarded call from off the system. CIDs defined for extensions/users are transmitted.<br />Remove CNAM: this will remove CNAM from any CID sent out this trunk<br />Force Trunk CID: Always use the CID defined for this trunk except if part of any EMERGENCY Route with an EMERGENCY CID defined for the extension/device."
@@ -3780,6 +3788,11 @@ msgstr "FreePBX ログファイル"
 #: amp.i18n.php:946
 msgid "FreePBX Log Routing"
 msgstr "FreePBXログルーティング"
+
+#: install.php:5
+#, php-format
+msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
+msgstr ""
 
 #: install.php:5
 #, php-format
@@ -5720,8 +5733,20 @@ msgstr ""
 msgid "Path for asterisk"
 msgstr ""
 
+#: amp.i18n.php:874
+msgid "Path for cp"
+msgstr ""
+
 #: amp.i18n.php:904
 msgid "Path for ffmpeg"
+msgstr ""
+
+#: amp.i18n.php:886
+msgid "Path for grep"
+msgstr ""
+
+#: amp.i18n.php:892
+msgid "Path for gs"
 msgstr ""
 
 #: amp.i18n.php:910
@@ -5740,8 +5765,36 @@ msgstr ""
 msgid "Path for openssl"
 msgstr ""
 
+#: amp.i18n.php:922
+msgid "Path for ps"
+msgstr ""
+
+#: amp.i18n.php:928
+msgid "Path for route"
+msgstr ""
+
+#: amp.i18n.php:934
+msgid "Path for rsync"
+msgstr ""
+
 #: amp.i18n.php:934
 msgid "Path for sox"
+msgstr ""
+
+#: amp.i18n.php:958
+msgid "Path for tar"
+msgstr ""
+
+#: amp.i18n.php:964
+msgid "Path for tiff2pdf"
+msgstr ""
+
+#: amp.i18n.php:970
+msgid "Path for tiffcp"
+msgstr ""
+
+#: amp.i18n.php:976
+msgid "Path for tiffinfo"
 msgstr ""
 
 #: amp.i18n.php:940
@@ -5928,6 +5981,10 @@ msgstr "モジュールアクションが完了するまでお待ちください
 #: amp.i18n.php:532
 msgid "Polling Interval for Stopping Asterisk"
 msgstr "停止中Asteriskへのポーリング間隔"
+
+#: amp.i18n.php:1048
+msgid "Popover Mode"
+msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:339
 msgid "Port"
@@ -7265,8 +7322,20 @@ msgstr "Apacheのwebrootパス(スラッシュを最後につけないでくだ�
 msgid "The path to asterisk as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
+#: amp.i18n.php:878
+msgid "The path to cp as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
 #: amp.i18n.php:908
 msgid "The path to ffmpeg as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:890
+msgid "The path to grep as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:896
+msgid "The path to gs as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
 #: amp.i18n.php:914
@@ -7285,8 +7354,36 @@ msgstr ""
 msgid "The path to openssl as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
+#: amp.i18n.php:926
+msgid "The path to ps as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:932
+msgid "The path to route as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:938
+msgid "The path to rsync as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
 #: amp.i18n.php:938
 msgid "The path to sox as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:962
+msgid "The path to tar as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:968
+msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:974
+msgid "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:980
+msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
 #: amp.i18n.php:944
@@ -9558,101 +9655,41 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr "zapでバイスが移行されました"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:30
-msgid "Colorize table based list"
-msgstr ""
-
-#: amp.i18n.php:1052
-msgid "Determines the mode to use while using popovers (popovers appear when selecting "
-msgstr ""
-
-#: install.php:5
+#: ../core/functions.inc/drivers/Sip.class.php:206
 #, php-format
-msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
+msgid "Interface %s, Port %s (%s - this is a <strong>NON STANDARD</strong> port)"
 msgstr ""
 
-#: amp.i18n.php:874
-msgid "Path for cp"
+#: ../core/functions.inc/drivers/Sip.class.php:204
+#, php-format
+msgid "Interface %s, Port %s (%s)"
 msgstr ""
 
-#: amp.i18n.php:886
-msgid "Path for grep"
+#: amp_conf/htdocs/admin/libraries/view.functions.php:61
+msgid "Language Support Unknown"
 msgstr ""
 
-#: amp.i18n.php:892
-msgid "Path for gs"
+#: ../core/functions.inc/drivers/Sip.class.php:200
+#, php-format
+msgid "Port %s (%s - this is a <strong>NON STANDARD</strong> port)"
 msgstr ""
 
-#: amp.i18n.php:922
-msgid "Path for ps"
+#: ../core/functions.inc/drivers/Sip.class.php:198
+#, php-format
+msgid "Port %s (%s)"
 msgstr ""
 
-#: amp.i18n.php:928
-msgid "Path for route"
+#: ../core/functions.inc/drivers/Sip.class.php:229
+msgid "The Asterisk SIP Setting Module is not installed or is disabled. Please install it."
 msgstr ""
 
-#: amp.i18n.php:934
-msgid "Path for rsync"
+#: amp_conf/htdocs/admin/libraries/view.functions.php:61
+msgid "Unable to find the Locale binary. Your system may not support language changes!"
 msgstr ""
 
-#: amp.i18n.php:958
-msgid "Path for tar"
-msgstr ""
-
-#: amp.i18n.php:964
-msgid "Path for tiff2pdf"
-msgstr ""
-
-#: amp.i18n.php:970
-msgid "Path for tiffcp"
-msgstr ""
-
-#: amp.i18n.php:976
-msgid "Path for tiffinfo"
-msgstr ""
-
-#: amp.i18n.php:1048
-msgid "Popover Mode"
-msgstr ""
-
-#: amp.i18n.php:878
-msgid "The path to cp as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:890
-msgid "The path to grep as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:896
-msgid "The path to gs as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:926
-msgid "The path to ps as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:932
-msgid "The path to route as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:938
-msgid "The path to rsync as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:962
-msgid "The path to tar as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:968
-msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:974
-msgid "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:980
-msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
+#: ../core/functions.inc/drivers/Sip.class.php:224
+#, php-format
+msgid "listening on %s"
 msgstr ""
 
 #~ msgid "\tCould not find signed module on remote server!"

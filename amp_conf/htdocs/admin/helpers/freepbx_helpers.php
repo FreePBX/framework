@@ -131,8 +131,9 @@ function drawselects($goto, $i, $restrict_modules=false, $table=true, $nodest_ms
 		$add_a_new = _('Add new %s &#133');
 		//check for module-specific destination functions
 		foreach($active_modules as $rawmod => $module){
+			$restricted = false;
 			if(is_array($restrict_modules) && !in_array($rawmod,$restrict_modules) && !isset($restrict_modules[$rawmod])) {
-				continue;
+				$restricted = true;
 			}
 			$funct = strtolower($rawmod.'_destinations');
 			$popover_hash = array();
@@ -148,6 +149,12 @@ function drawselects($goto, $i, $restrict_modules=false, $table=true, $nodest_ms
 						$cat = str_replace(array("|"),"",$cat);
 						$cat = str_replace("&",_("and"),$cat);
 						$ds_id = (isset($dest['id']) ? $dest['id'] : $rawmod);
+
+						// don't restrict the currently selected destination
+						if ($restricted && $dest['destination'] != $goto) {
+							continue;
+						}
+
 						if (empty($restrict_modules[$rawmod]) || (is_array($restrict_modules[$rawmod]) && in_array($ds_id, $restrict_modules[$rawmod]))) {
 							$popover_hash[$ds_id] = $cat;
 							$drawselect_destinations[$cat][] = $dest;
@@ -156,6 +163,11 @@ function drawselects($goto, $i, $restrict_modules=false, $table=true, $nodest_ms
 						}
 					}
 				}
+
+				if ($restricted) {
+					continue;
+				}
+
 				if (isset($module['popovers']) && !$fw_popover) {
 					modgettext::push_textdomain($rawmod);
 					$funct = strtolower($rawmod.'_destination_popovers');
@@ -221,8 +233,8 @@ function drawselects($goto, $i, $restrict_modules=false, $table=true, $nodest_ms
 			foreach($drawselect_destinations[$mod] as $destination){
 				if($goto==$destination['destination']){
 					$destmod=$mod;
-			  }
-		  }
+				}
+			}
 	  }
 	  if($destmod==''){//if we haven't found a match, display error dest
 		  $destmod='Error';

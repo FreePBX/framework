@@ -50,6 +50,8 @@ $m = new \Moment\Moment('now', 'Europe/Berlin');
 echo $m->format(); // e.g. 2012-10-03T12:00:00+0200
 ```
 
+-------------------------------------------------
+
 ### Accepted date formats
 
 Moment parses the following date formats as input:
@@ -69,7 +71,7 @@ const W3C = 'Y-m-d\TH:i:sP'; // 2005-08-15T15:52:01+00:00
 // Moment also tries to parse dates without timezone or without seconds
 
 const NO_TZ_MYSQL = 'Y-m-d H:i:s'; // 2005-08-15 15:52:01
-const NO_TZ_NO_SECS = 'Y-m-d H:i:s'; // 2005-08-15 15:52
+const NO_TZ_NO_SECS = 'Y-m-d H:i'; // 2005-08-15 15:52
 
 // time fractions ".000" will be automatically removed
 $timeWithFraction = '2016-05-04T10:00:00.000';
@@ -388,6 +390,17 @@ You can now run through the result and put it formatted into a drop-down field o
 -------------------------------------------------
 
 # Changelog
+
+### 1.20.4
+- fixed:
+    - Improved Polish locale (added Nominativ)
+
+### 1.20.3
+- fixed:
+    - Chinese locale
+
+### 1.20.2
+- added accepted formats to README
 
 ### 1.20.1
 - fixed:
