@@ -4381,6 +4381,16 @@ msgstr ""
 msgid "Interface"
 msgstr ""
 
+#: ../core/functions.inc/drivers/Sip.class.php:206
+#, php-format
+msgid "Interface %s, Port %s (%s - this is a <strong>NON STANDARD</strong> port)"
+msgstr ""
+
+#: ../core/functions.inc/drivers/Sip.class.php:204
+#, php-format
+msgid "Interface %s, Port %s (%s)"
+msgstr ""
+
 #: amp.i18n.php:502
 msgid "Internal Alert Info"
 msgstr ""
@@ -4518,6 +4528,10 @@ msgstr ""
 
 #: ../core/views/routing/form.php:560 ../core/views/trunks/trunk_footer.php:24
 msgid "LOADING ROUTES"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/view.functions.php:61
+msgid "Language Support Unknown"
 msgstr ""
 
 #: ../core/views/routing/form.php:45
@@ -5976,6 +5990,16 @@ msgstr ""
 msgid "Port"
 msgstr ""
 
+#: ../core/functions.inc/drivers/Sip.class.php:200
+#, php-format
+msgid "Port %s (%s - this is a <strong>NON STANDARD</strong> port)"
+msgstr ""
+
+#: ../core/functions.inc/drivers/Sip.class.php:198
+#, php-format
+msgid "Port %s (%s)"
+msgstr ""
+
 #: amp.i18n.php:122
 msgid "Port for the Asterisk Manager"
 msgstr ""
@@ -7092,6 +7116,10 @@ msgstr ""
 msgid "Terminate Call"
 msgstr "Прекрати Обаждане"
 
+#: ../core/functions.inc/drivers/Sip.class.php:229
+msgid "The Asterisk SIP Setting Module is not installed or is disabled. Please install it."
+msgstr ""
+
 #: amp.i18n.php:548
 msgid "The Asterisk channel driver to use for SIP. The default is both for Asterisk 12 and higher. For Asterisk 11 and lower the default will be chan_sip. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The chan_pjsip channel driver is considered "
 msgstr ""
@@ -7835,6 +7863,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/media/Media/Media.php:265
 #, php-format
 msgid "Unable to find an intermediary converter for %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/view.functions.php:61
+msgid "Unable to find the Locale binary. Your system may not support language changes!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:117
@@ -9267,6 +9299,11 @@ msgstr ""
 msgid "list trunks"
 msgstr ""
 
+#: ../core/functions.inc/drivers/Sip.class.php:224
+#, php-format
+msgid "listening on %s"
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:192
 #, php-format
 msgid "listening on <strong>%s</strong>"
@@ -9653,41 +9690,10 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:206
+#: amp_conf/htdocs/admin/libraries/view.functions.php:54
+#: amp_conf/htdocs/admin/libraries/view.functions.php:77
 #, php-format
-msgid "Interface %s, Port %s (%s - this is a <strong>NON STANDARD</strong> port)"
-msgstr ""
-
-#: ../core/functions.inc/drivers/Sip.class.php:204
-#, php-format
-msgid "Interface %s, Port %s (%s)"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/view.functions.php:61
-msgid "Language Support Unknown"
-msgstr ""
-
-#: ../core/functions.inc/drivers/Sip.class.php:200
-#, php-format
-msgid "Port %s (%s - this is a <strong>NON STANDARD</strong> port)"
-msgstr ""
-
-#: ../core/functions.inc/drivers/Sip.class.php:198
-#, php-format
-msgid "Port %s (%s)"
-msgstr ""
-
-#: ../core/functions.inc/drivers/Sip.class.php:229
-msgid "The Asterisk SIP Setting Module is not installed or is disabled. Please install it."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/view.functions.php:61
-msgid "Unable to find the Locale binary. Your system may not support language changes!"
-msgstr ""
-
-#: ../core/functions.inc/drivers/Sip.class.php:224
-#, php-format
-msgid "listening on %s"
+msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
 msgstr ""
 
 #~ msgid " (toggle sort)"

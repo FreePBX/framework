@@ -168,7 +168,7 @@ EOF;
 		}
 		//Creating signing request ${base}.csr
 		$this->out(sprintf(_("Creating signing request for %s"),$base));
-		$out = $this->runOpenSSL("req -batch -new -config " . $location . "/".$cabase.".cfg -key " . $location . "/" . $base . ".key -out " . $location . "/" . $base . ".csr");
+		$out = $this->runOpenSSL("req -batch -new -sha256 -config " . $location . "/".$cabase.".cfg -key " . $location . "/" . $base . ".key -out " . $location . "/" . $base . ".csr");
 		if($out['exitcode'] > 0) {
 			throw new \Exception(sprintf(_("Error Generating Signing Request: %s"),$out['stderr']));
 		}
@@ -260,7 +260,7 @@ default_md = sha256
 		$keyfile = "$keyloc/$name.key";
 		$csrconfig = "$csr-config";
 		file_put_contents($csrconfig, $config);
-		$out = $this->runOpenSSL("req -batch -new -key $keyfile -out $csr -config $csrconfig");
+		$out = $this->runOpenSSL("req -batch -new -sha256 -key $keyfile -out $csr -config $csrconfig");
 		if($out['exitcode'] != 0) {
 			throw new \Exception(sprintf(_("Can't create CSR, no idea why. $s"),json_encode($out)));
 		}

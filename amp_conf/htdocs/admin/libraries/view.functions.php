@@ -51,7 +51,7 @@ function set_language($details=false) {
 
 		//Break Locales apart for processing
 		if(!preg_match($expression, $lang, $langParts)) {
-			$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"),$lang), "?display=advancedsettings");
+			$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$lang,$default, "Expression Failure"), "?display=advancedsettings");
 			$lang = $default;
 			$langParts = $defaultParts;
 		}
@@ -71,9 +71,14 @@ function set_language($details=false) {
 		}
 
 		if(!empty($locales) && !in_array($lang,$locales)) {
-			$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"),$lang), "?display=advancedsettings");
 			$lang = $default;
 			$langParts = $defaultParts;
+			if(in_array("en_US",$locales)) {
+				$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$lang,$default, "Nonexistent in Locale"), "?display=advancedsettings");
+			} else {
+				$nt->delete('framework', 'LANG_INVALID');
+				return $details ? array("full" => $lang, "name" => $langParts[1], "charmap" => $langParts[2], "modifiers" => $langParts[3]) : $langParts[1];
+			}
 		} else {
 			$nt->delete('framework', 'LANG_INVALID');
 		}
