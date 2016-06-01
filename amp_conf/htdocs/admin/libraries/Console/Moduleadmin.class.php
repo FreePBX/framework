@@ -1048,7 +1048,6 @@ class Moduleadmin extends Command {
 					$this->doDelete($module, $this->force);
 				}
 				$this->updateHooks();
-				$this->setPerms($action,$args);
 				break;
 			case 'disable':
 				if(empty($args)){
