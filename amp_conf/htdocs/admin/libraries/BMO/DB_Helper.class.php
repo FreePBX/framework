@@ -13,25 +13,13 @@
 namespace FreePBX;
 class DB_Helper {
 
-	private static $db;
+	private static $db = false;
 	private static $dbname = "kvstore";
-	private static $getPrep;
 
 	private static $checked = false;
 
-	private static $dbGet;
-	private static $dbGetAll;
-	private static $dbDel;
-	private static $dbAdd;
-	private static $dbDelId;
-	private static $dbDelMod;
-
-	/* These are only added when required */
-	private static $dbGetFirst = false;
-	private static $dbGetLast = false;
-
 	/* Allow overriding of class detection */
-	private $classOverride = false;
+	public $classOverride = false;
 
 	/** Don't new DB_Helper */
 	public function __construct() {
@@ -39,73 +27,95 @@ class DB_Helper {
 	}
 
 	/** This is our pseudo-__construct, called whenever our public functions are called. */
-	private static function checkDatabase() {
+	private static function checkDatabase($self) {
 		// Have we already run?
-		if (self::$checked != false) {
-			return;
-		}
-
-		if (!isset(self::$db)) {
+		if (self::$checked === false) {
+			self::$checked = array();
 			self::$db = \FreePBX::create()->Database;
 		}
 
-		// Definitions
-		$create = "CREATE TABLE IF NOT EXISTS ".self::$dbname." ( `module` CHAR(64) NOT NULL, `key` CHAR(255) NOT NULL, `val` LONGBLOB, `type` CHAR(16) DEFAULT NULL, `id` CHAR(255) DEFAULT NULL)";
-		// These are limited to 50 chars as prefixes are limited to 255 chars in total (or 1000 in later versions
-		// of mysql), and UTF can cause that to overflow. 50 is plenty.
-		$index['index1'] = "ALTER TABLE ".self::$dbname." ADD INDEX index1 (`key`(50))";
-		$index['index3'] = "ALTER TABLE ".self::$dbname." ADD UNIQUE INDEX index3 (`module`, `key`(50), `id`(50))";
-		$index['index5'] = "ALTER TABLE ".self::$dbname." ADD INDEX index5 (`module`, `id`(50))";
+		// What table should I be using for this call?
+		$tablename = self::getTableName($self);
 
-		// Check to make sure our Key/Value table exists.
+		// Have I already validated it?
+		if (isset(self::$checked[$tablename])) {
+			// Yes.
+			return self::$checked[$tablename];
+		}
+
+		// Lets make sure it exists, and create it if it doesn't.
 		try {
-			$res = self::$db->query("SELECT * FROM `".self::$dbname."` LIMIT 1");
+			$res = self::$db->query("SELECT * FROM `$tablename` LIMIT 1");
 		} catch (\Exception $e) {
 			if ($e->getCode() == "42S02") { // Table does not exist
-				self::$db->query($create);
+				self::createTable($tablename);
 			} else {
 				self::checkException($e);
 			}
 		}
+		// Migrate anything from the old 'kvstore' table to the
+		// new 'kvstore_module_name' table. This can be removed
+		// in FreePBX 15.
+		self::migrateTable($self, $tablename);
 
-		// Check for indexes.
-		// TODO: This only works on MySQL
-		$res = self::$db->query("SHOW INDEX FROM `".self::$dbname."`");
-		$out = $res->fetchAll(\PDO::FETCH_COLUMN|\PDO::FETCH_GROUP, 2);
-		foreach ($out as $i => $null) {
-			// Do we not know about this index? (Are we upgrading?)
-			if (!isset($index[$i])) {
-				self::$db->query("ALTER TABLE ".self::$dbname." DROP INDEX $i");
-			}
-		}
-
-		// Now lets make sure all our indexes exist.
-		foreach ($index as $i => $sql) {
-			if (!isset($out[$i])) {
-				self::$db->query($sql);
-			}
-		}
-
-		// Add our stored procedures
-		self::$dbGet = self::$db->prepare("SELECT `val`, `type` FROM `".self::$dbname."` WHERE `module` = :mod AND `key` = :key AND `id` = :id");
-		self::$dbGetAll = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id ORDER BY `key`");
-		self::$dbDel = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod AND `key` = :key  AND `id` = :id");
-		self::$dbAdd = self::$db->prepare("INSERT INTO `".self::$dbname."` ( `module`, `key`, `val`, `type`, `id` ) VALUES ( :mod, :key, :val, :type, :id )");
-		self::$dbDelId = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id");
-		self::$dbDelMod = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod");
-
+		self::$checked[$tablename] = array(
+			"dbGet" => self::$db->prepare("SELECT `val`, `type` FROM `$tablename` WHERE `key` = :key AND `id` = :id"),
+			"dbGetAll" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key`"), 
+			"dbDel" => self::$db->prepare("DELETE FROM `$tablename` WHERE `key` = :key  AND `id` = :id"),
+			"dbAdd" => self::$db->prepare("INSERT INTO `$tablename` ( `key`, `val`, `type`, `id` ) VALUES ( :key, :val, :type, :id )"),
+			"dbDelId" => self::$db->prepare("DELETE FROM `$tablename` WHERE `id` = :id"),
+			"dbGetFirst" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key` LIMIT 1"),
+			"dbGetLast" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key` DESC LIMIT 1"),
+			"dbEmpty" => self::$db->prepare("DROP TABLE `$tablename`"),
+			"dbGetAllIds" => self::$db->prepare("SELECT DISTINCT(`id`) FROM `$tablename` WHERE `id` <> 'noid'"),
+			"dbGetByType" => self::$db->prepare("SELECT * FROM `$tablename` WHERE `type` = :type"),
+		);
 		// Now this has run, everything IS JUST FINE.
-		self::$checked = true;
+		return self::$checked[$tablename];
 	}
 
 	/**
 	 * Return the name of the table we're using.
 	 *
-	 * Just returns self::$dbname.
+	 * Will be 'kvstore_modulename'.  Backslashes, if the module is namespaced,
+	 * will be converted to underscores.
+	 *
+	 * @param $self object the '$this' object used in $this->getConfig or setConfig
+	 * @returns string database name
 	 */
+	public static function getTableName($self) {
+		if ($self->classOverride) {
+			$mod = $self->classOverride;
+		} else {
+			$mod = get_class($self);
+		}
+		$dbname = self::$dbname."_".str_replace('\\', '_', $mod);
+		return $dbname;
+	}
 
-	public function getTableName() {
-		return self::$dbname;
+	/**
+	 * Create the kvstore table for this module
+	 *
+	 * @param $tablename Table to create
+	 */
+	public static function createTable($tablename) {
+
+		if (strpos($tablename, '`') !== false) {
+			throw new \Exception("Table name contains a backtick, serious bug");
+		}
+
+		// Basic table definition
+		$create = "CREATE TABLE IF NOT EXISTS `$tablename` ( `key` CHAR(255) NOT NULL, `val` VARCHAR(4096), `type` CHAR(16) DEFAULT NULL, `id` CHAR(255) DEFAULT NULL)";
+		// These are limited to 50 chars as prefixes are limited to 255 chars in total (or 1000 in later versions
+		// of mysql), and UTF can cause that to overflow. 50 is plenty.
+		$index['uniqueindex'] = "ALTER TABLE `$tablename` ADD UNIQUE INDEX `uniqueindex` (`key`(50), `id`(50))";
+		$index['keyindex'] = "ALTER TABLE `$tablename` ADD INDEX `keyindex` (`key`(50))";
+		$index['idindex'] = "ALTER TABLE `$tablename` ADD INDEX `idindex` (`id`(50))";
+
+		self::$db->query($create);
+		foreach ($index as $i) {
+			$res = self::$db->query($i);
+		}
 	}
 
 	/**
@@ -128,36 +138,45 @@ class DB_Helper {
 			throw new \Exception("Can't getConfig for null");
 		}
 
-		// Call our pretend __construct
-		self::checkDatabase();
+		// Call our pretend __construct to get our prepared statements
+		$p = self::checkDatabase($this);
 
-		// Who's asking?
+		// Have we been asked to emulate another module? If so, reset.
 		if ($this->classOverride) {
-			$mod = $this->classOverride;
 			$this->classOverride = false;
+			// Preserve this to check for defaults
+			$mod = $this->classOverride;
 		} else {
 			$mod = get_class($this);
 		}
 
-		$query[':mod'] = $mod;
 		$query[':id'] = $id;
 		$query[':key'] = $var;
 
 		try {
-			self::$dbGet->execute($query);
+			$p['dbGet']->execute($query);
 		} catch (\Exception $e) {
 			self::checkException($e);
 		}
-		$res = self::$dbGet->fetchAll();
+		$res = $p['dbGet']->fetchAll();
 
 		if (isset($res[0])) {
-			// Found!
-			if ($res[0]['type'] == "json-obj") {
-				return json_decode($res[0]['val']);
-			} elseif ($res[0]['type'] == "json-arr") {
-				return json_decode($res[0]['val'], true);
+			// Found it! Is it linked to a blob?
+			if ($res[0]['type'] == "blob") {
+				$tmparr = $this->getBlob($res[0]['val']);
+				$type = $tmparr['type'];
+				$val = $tmparr['content'];
 			} else {
-				return $res[0]['val'];
+				$type = $res[0]['type'];
+				$val = $res[0]['val'];
+			}
+
+			if ($type == "json-obj") {
+				return json_decode($val);
+			} elseif ($type == "json-arr") {
+				return json_decode($val, true);
+			} else {
+				return $val;
 			}
 		}
 
@@ -192,31 +211,38 @@ class DB_Helper {
 			throw new \Exception("Can't setConfig null");
 
 		// Our pretend __construct();
-		self::checkDatabase();
+		$p = self::checkDatabase($this);
 
 		// Start building the query
 		$query[':key'] = $key;
 		$query[':id'] = $id;
 
-		// Which module is calling this?
+		// Have we been asked to emulate another module? If so, reset.
 		if ($this->classOverride) {
-			$mod = $this->classOverride;
 			$this->classOverride = false;
-		} else {
-			$mod = get_class($this);
 		}
 
-		$query[':mod'] = $mod;
-
-		// Delete any that previously match
+		// Does this already exist?
 		try {
-			$res = self::$dbDel->execute($query);
+			$p['dbGet']->execute($query);
+			// Does this value already exist?
+			$check = $p['dbGet']->fetchAll();
+			if (isset($check[0])) {
+				// Yes it does. Is it a blob?
+				if ($check[0]['type'] == "blob") {
+					// Delete that blob
+					$this->deleteBlob($check[0]['val']);
+				}
+				// Now delete the row.
+				$p['dbDel']->execute($query);
+			}
 		} catch (\Exception $e) {
 			self::checkException($e);
 		}
 
-		if ($val === false) // Just wanted to delete
+		if ($val === false) { // Just wanted to delete
 			return true;
+		}
 
 		if (is_array($val)) {
 			$query[':val'] = json_encode($val);
@@ -229,7 +255,15 @@ class DB_Helper {
 			$query[':type'] = null;
 		}
 
-		self::$dbAdd->execute($query);
+		// Is our value too large to store in the standard kvstore?
+		// If it is, store it as a blob, and link to it.
+		if (strlen($query[':val']) > 4000) {
+			$uuid = $this->insertBlob($query[':val'], $query[':type']);
+			$query[':type'] = "blob";
+			$query[':val'] = $uuid;
+		}
+
+		$p['dbAdd']->execute($query);
 		return true;
 	}
 
@@ -256,6 +290,12 @@ class DB_Helper {
 			throw new \Exception('setMultiConfig was not given an array');
 		}
 
+		// Have we been asked to emulate another module? If so, error
+		if ($this->classOverride) {
+			// It'll be reset after the first one.
+			throw new \Exception("Can't override with setMultiConfig");
+		}
+
 		self::$db->beginTransaction();
 		foreach ($keyval as $key => $val) {
 			$this->setConfig($key, $val, $id);
@@ -275,53 +315,60 @@ class DB_Helper {
 	public function getAll($id = "noid") {
 
 		// Our pretend __construct();
-		self::checkDatabase();
+		$p = self::checkDatabase($this);
 
-		// Basic fetchAll.
+		// Have we been asked to emulate another module? If so, error.
 		if ($this->classOverride) {
-			$mod = $this->classOverride;
-			$this->classOverride = false;
-		} else {
-			$mod = get_class($this);
+			// It'll be reset after the first one.
+			throw new \Exception("Can't override with getAll");
 		}
 
-		$query[':mod'] = $mod;
 		$query[':id'] = $id;
-
 		$out = $this->getAllKeys($id);
 
+		$retarr = array();
 		foreach ($out as $k) {
 			$retarr[$k] = $this->getConfig($k, $id);
 		}
 
-		if (isset($retarr)) {
-			return $retarr;
-		} else {
-			return array();
-		}
+		return $retarr;
 	}
 
 	/**
-	 * Delete All Keys from module
+	 * Delete All Keys from module, and drop the table
+	 *
+	 * Used when uninstalling a module.
 	 */
 	public function deleteAll() {
 		// Our pretend __construct();
-		self::checkDatabase();
+		$p = self::checkDatabase($this);
 
+		$tablename = self::getTableName($this);
+
+		// Have we been asked to emulate another module? If so, reset.
 		if ($this->classOverride) {
-			$mod = $this->classOverride;
 			$this->classOverride = false;
-		} else {
-			$mod = get_class($this);
 		}
 
-		$query[':mod'] = $mod;
-
+		// Find any blobs and delete them
 		try {
-			$ret = self::$dbDelMod->execute($query);
+			$p['dbGetByType']->execute(array("type" => "blob"));
+			$blobs = $p['dbGetByType']->fetchAll();
 		} catch (\Exception $e) {
 			self::checkException($e);
 		}
+
+		foreach ($blobs as $tmparr) {
+				$this->deleteBlob($tmparr['val']);
+		}
+
+		// And now drop the table.
+		$ret = $p['dbEmpty']->execute();
+
+		// We unset so if we're called again in the same session, 
+		// we will recreate the table.
+		unset(self::$checked[$tablename]);
+
 		return $ret;
 	}
 
@@ -337,46 +384,45 @@ class DB_Helper {
 	public function getAllKeys($id = "noid") {
 
 		// Our pretend __construct();
-		self::checkDatabase();
+		$p = self::checkDatabase($this);
 
-		// Basic fetchAll.
+		// Have we been asked to emulate another module? If so, reset.
 		if ($this->classOverride) {
-			$mod = $this->classOverride;
 			$this->classOverride = false;
-		} else {
-			$mod = get_class($this);
 		}
-		$query[':mod'] = $mod;
+
 		$query[':id'] = $id;
 
 		try {
-			self::$dbGetAll->execute($query);
+			$p['dbGetAll']->execute($query);
 		} catch (\Exception $e) {
 			self::checkException($e);
 		}
-		$ret = self::$dbGetAll->fetchAll(\PDO::FETCH_COLUMN, 0);
-
+		$ret = $p['dbGetAll']->fetchAll(\PDO::FETCH_COLUMN, 0);
 		return $ret;
 	}
 
 	/**
 	 * Returns a standard array of all IDs, excluding 'noid'.
-	 * Due to font ambiguity (with LL in lower case and I in upper case looking identical in some situations) this uses 'ids' in lower case.
+	 *
+	 * Due to font ambiguity (with LL in lower case and I in upper
+	 * case looking identical in some situations) this uses 'ids' in
+	 * lower case.
 	 *
 	 * @return array
 	 */
 	public function getAllids() {
 
 		// Our pretend __construct();
-		self::checkDatabase();
+		$p = self::checkDatabase($this);
 
+		// Have we been asked to emulate another module? If so, reset.
 		if ($this->classOverride) {
-			$mod = $this->classOverride;
 			$this->classOverride = false;
-		} else {
-			$mod = get_class($this);
 		}
-		$ret = self::$db->query("SELECT DISTINCT(`id`) FROM `".self::$dbname."` WHERE `module` = '$mod' AND `id` <> 'noid' ")->fetchAll(\PDO::FETCH_COLUMN, 0);
+
+		$p['dbGetAllIds']->execute();
+		$ret = $p['dbGetAllIds']->fetchAll(\PDO::FETCH_COLUMN, 0);
 		return $ret;
 	}
 
@@ -390,23 +436,37 @@ class DB_Helper {
 	 */
 	public function delById($id = null) {
 
-		self::checkDatabase();
+		// Our pretend __construct();
+		$p = self::checkDatabase($this);
 
 		if ($id === null) {
 			throw new \Exception("Coder error. You can't delete a blank ID");
 		}
 
+		// Have we been asked to emulate another module? If so, reset.
 		if ($this->classOverride) {
-			$mod = $this->classOverride;
 			$this->classOverride = false;
-		} else {
-			$mod = get_class($this);
 		}
 
-		$query[':mod']= $mod;
-		$query[':id'] = $id;
+		// Find any blobs and delete them
 		try {
-			self::$dbDelId->execute($query);
+			$p['dbGetByType']->execute(array("type" => "blob"));
+			$blobs = $p['dbGetByType']->fetchAll();
+		} catch (\Exception $e) {
+			self::checkException($e);
+		}
+
+		foreach ($blobs as $tmparr) {
+			if ($tmparr['id'] === $id) {
+				$this->deleteBlob($tmparr['val']);
+			}
+		}
+
+		// Now delete everything else.
+		$query[':id'] = $id;
+
+		try {
+			$p['dbDelId']->execute($query);
 		} catch (\Exception $e) {
 			self::checkException($e);
 		}
@@ -426,26 +486,20 @@ class DB_Helper {
 			throw new \Exception("Coder error. getFirst requires an ID");
 		}
 
-		self::checkDatabase();
+		$p = self::checkDatabase($this);
 
-		if (self::$dbGetFirst === false) {
-			self::$dbGetFirst = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id ORDER BY `key` LIMIT 1");
-		}
-
+		// Have we been asked to emulate another module? If so, reset.
 		if ($this->classOverride) {
-			$mod = $this->classOverride;
 			$this->classOverride = false;
-		} else {
-			$mod = get_class($this);
 		}
-		$query[':mod']= $mod;
+
 		$query[':id'] = $id;
 		try {
-			self::$dbGetFirst->execute($query);
+			$p['dbGetFirst']->execute($query);
 		} catch (\Exception $e) {
 			self::checkException($e);
 		}
-		$ret = self::$dbGetFirst->fetchAll(\PDO::FETCH_COLUMN, 0);
+		$ret = $p['dbGetFirst']->fetchAll(\PDO::FETCH_COLUMN, 0);
 		return $ret[0];
 	}
 
@@ -461,26 +515,21 @@ class DB_Helper {
 			throw new \Exception("Coder error. getFirst requires an ID");
 		}
 
-		self::checkDatabase();
+		$p = self::checkDatabase($this);
 
-		if (self::$dbGetLast === false) {
-			self::$dbGetLast = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id ORDER BY `key` DESC LIMIT 1");
-		}
-
+		// Have we been asked to emulate another module? If so, reset.
 		if ($this->classOverride) {
-			$mod = $this->classOverride;
 			$this->classOverride = false;
-		} else {
-			$mod = get_class($this);
 		}
-		$query[':mod']= $mod;
+
 		$query[':id'] = $id;
+
 		try {
-			self::$dbGetLast->execute($query);
+			$p['dbGetLast']->execute($query);
 		} catch (\Exception $e) {
 			self::checkException($e);
 		}
-		$ret = self::$dbGetLast->fetchAll(\PDO::FETCH_COLUMN, 0);
+		$ret = $p['dbGetLast']->fetchAll(\PDO::FETCH_COLUMN, 0);
 		return $ret[0];
 	}
 
@@ -506,4 +555,161 @@ class DB_Helper {
 			throw $e;
 		}
 	}
+
+	/**
+	 * Migrate table from old kvstore to new kvstore
+	 *
+	 * This should be removed in FreePBX 15
+	 *
+	 * @param $self the $this that is calling us
+	 * @param $tablename new table name to migrate to
+	 *
+	 */
+	public static function migrateTable($self, $tablename) {
+		// A simple query that inserts data into the NEW table from the OLD
+		// kvstore table, if it exists, and then deletes the contents that match
+
+		if ($self->classOverride) {
+			$mod = $self->classOverride;
+		} else {
+			$mod = get_class($self);
+		}
+		$p = self::$db->prepare("SELECT * FROM `kvstore` WHERE `module`=:mod LIMIT 1");
+		// Let's try to get it. If we throw, that means kvstore doesn't exists (eg, new
+		// install of FreePBX 14), or something else is bad.
+		$query = array("mod" => $mod);
+		try {
+			$p->execute($query);
+			// We made it here, kvstore exists.
+			$res = $p->fetchAll();
+			if (isset($res[0])) {
+				// There's data in that table for this module. Migrate it
+				$migrate = "INSERT IGNORE INTO `$tablename` (`key`, `val`, `type`, `id`) SELECT `key` AS `okey`, `val` AS `oval`, `type` AS `otype`, `id` AS `oid` FROM `kvstore` WHERE `kvstore`.`module`=:mod";
+				$m = self::$db->prepare($migrate);
+				$m->execute($query);
+				// And now delete it
+				$clean = "DELETE FROM `kvstore` WHERE `module`=:mod";
+				$c = self::$db->prepare($clean);
+				$c->execute($query);
+			}
+		} catch (\Exception $e) {
+			if ($e->getCode() == "42S02") { // kvstore table doesn't exist
+				return true;
+			} else {
+				self::checkException($e);
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Blob handling - Set
+	 *
+	 * If the value handed to setConfig is longer than 4kb, then a link
+	 * to this table is created instead. A UUID is generated, the value
+	 * is inserted, and that uuid is returned
+	 *
+	 * @param $value The contents of the blob
+	 * @param $type Hint to decode the blob when handed back
+	 * @return $uuid
+	 */
+	public function insertBlob($val = false, $type = "raw") {
+		if (!$val) {
+			throw new \Exception("No val");
+		}
+
+		// Generate a UUID
+		$data = openssl_random_pseudo_bytes(16);
+		$data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
+		$data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
+		$uuid = vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+
+		// Try to insert our value
+		$q = self::$db->prepare('INSERT INTO `kvblobstore` (`uuid`, `type`, `content`) VALUES (:uuid, :type, :data)');
+		$query = array("uuid" => $uuid, "data" => $val, "type" => $type);
+		try {
+			$q->execute($query);
+		} catch (\Exception $e) {
+			if ($e->getCode() == "42S02") { // Table does not exist, so we need to create it
+				$create = "CREATE TABLE `kvblobstore` ( `uuid` CHAR(36) PRIMARY KEY, `type` CHAR(32), `content` LONGBLOB )";
+				self::$db->query($create);
+				$q->execute($query);
+			} else {
+				throw $e;
+			}
+		}
+		return $uuid;
+	}
+
+	/**
+	 * Blob handling - Get
+	 *
+	 * Return the blob as it was handed to it, with the type
+	 * to assist in decoding. If the uuid doesn't exist,
+	 * type is set to (bool) false, and content is an empty
+	 * string.
+	 *
+	 * @param $uuid
+	 * @return array("content" => $value, "type" => as set)
+	 */
+	public function getBlob($uuid = false) {
+		if (!$uuid) {
+			throw new \Exception("No uuid");
+		}
+
+		// Try to get our value
+		$q = self::$db->prepare('SELECT * FROM `kvblobstore` WHERE `uuid`=:uuid');
+		$query = array("uuid" => $uuid);
+
+		try {
+			$q->execute($query);
+		} catch (\Exception $e) {
+			if ($e->getCode() == "42S02") { // Table does not exist? How did that even happen? But create it...
+				$create = "CREATE TABLE `kvblobstore` ( `uuid` CHAR(36) PRIMARY KEY, `type` CHAR(32), `content` LONGBLOB )";
+				self::$db->query($create);
+				return array("content" => "", "type" => false);
+			} else {
+				throw $e;
+			}
+		} 
+
+		// Did we get anything?
+		$res = $q->fetchAll();
+		if (!isset($res[0])) {
+			// No.
+			return array("content" => "", "type" => false);
+		}
+
+		return array("content" => $res[0]['content'], "type" => $res[0]['type']);
+	}
+
+	/**
+	 * Blob handling - Delete
+	 *
+	 * Deletes the blob, if it exists.
+	 *
+	 * @param $uuid
+	 */
+	public function deleteBlob($uuid = false) {
+		if (!$uuid) {
+			throw new \Exception("No uuid");
+		}
+
+		// Try to get our value
+		$q = self::$db->prepare('DELETE FROM `kvblobstore` WHERE `uuid`=:uuid');
+		$query = array("uuid" => $uuid);
+
+		try {
+			$q->execute($query);
+		} catch (\Exception $e) {
+			if ($e->getCode() == "42S02") { // Table does not exist? How did that even happen? But create it...
+				$create = "CREATE TABLE `kvblobstore` ( `uuid` CHAR(36) PRIMARY KEY, `type` CHAR(32), `content` LONGBLOB )";
+				self::$db->query($create);
+			} else {
+				throw $e;
+			}
+		} 
+		return true;
+	}
 }
+
