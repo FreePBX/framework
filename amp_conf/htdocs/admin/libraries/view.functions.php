@@ -51,7 +51,7 @@ function set_language($details=false) {
 
 		//Break Locales apart for processing
 		if(!preg_match($expression, $lang, $langParts)) {
-			$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"),$lang), "?display=advancedsettings");
+			$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings [%s]"),$lang, "Expression Failure"), "?display=advancedsettings");
 			$lang = $default;
 			$langParts = $defaultParts;
 		}
@@ -71,7 +71,7 @@ function set_language($details=false) {
 		}
 
 		if(!empty($locales) && !in_array($lang,$locales)) {
-			$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"),$lang), "?display=advancedsettings");
+			$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings [%s]"),$lang, "Nonexistent in Locale"), "?display=advancedsettings");
 			$lang = $default;
 			$langParts = $defaultParts;
 		} else {
