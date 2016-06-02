@@ -437,6 +437,7 @@ class Chown extends Command {
 		return $mask;
 	}
 	private function singleChown($file, $user, $group){
+		clearstatcache(true, $file);
 		try {
 			$filetype = filetype($file);
 			if($filetype == "link") {
@@ -471,6 +472,7 @@ class Chown extends Command {
 		}
 	}
 	private function recursiveChown($dir, $user, $group){
+		clearstatcache(true, $file);
 		try {
 			$filetype = filetype($dir);
 			if($filetype == "link") {
@@ -509,6 +511,7 @@ class Chown extends Command {
 			$this->errors[] = _('We received an empty string for a file name. Some files may not have the proper permissions');
 			return false;
 		}
+		clearstatcache(true, $file);
 		$filetype = filetype($file);
 		switch($filetype){
 			case 'link':
@@ -566,6 +569,7 @@ class Chown extends Command {
 				return array();
 			}
 			$fullpath = $path . '/' . $file;
+			clearstatcache(true, $fullpath);
 			$filetype = filetype($fullpath);
 			if($filetype == 'dir'){
 				$list[] = $fullpath;
