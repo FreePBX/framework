@@ -472,7 +472,7 @@ class Chown extends Command {
 		}
 	}
 	private function recursiveChown($dir, $user, $group){
-		clearstatcache(true, $file);
+		clearstatcache(true, $dir);
 		try {
 			$filetype = filetype($dir);
 			if($filetype == "link") {
