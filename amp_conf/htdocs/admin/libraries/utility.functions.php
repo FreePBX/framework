@@ -366,54 +366,52 @@ function dbug(){
 
 //http://php.net/manual/en/function.set-error-handler.php
 function freepbx_error_handler($errno, $errstr, $errfile, $errline,  $errcontext) {
-				global $amp_conf;
+	global $amp_conf;
 
-				//for pre 5.2
-				if (!defined('E_RECOVERABLE_ERROR')) {
-								define('E_RECOVERABLE_ERROR', '');
-				}
-				$errortype = array (
-								E_ERROR                                 => 'ERROR',
-								E_WARNING                               => 'WARNING',
-								E_PARSE                                 => 'PARSE_ERROR',
-								E_NOTICE                                => 'NOTICE',
-								E_CORE_ERROR                    => 'CORE_ERROR',
-								E_CORE_WARNING                  => 'CORE_WARNING',
-								E_COMPILE_ERROR                 => 'COMPILE_ERROR',
-								E_COMPILE_WARNING               => 'COMPILE_WARNING',
-		E_DEPRECATED			=> 'DEPRECATION_WARNING',
-								E_USER_ERROR                    => 'USER_ERROR',
-								E_USER_WARNING                  => 'USER_WARNING',
-								E_USER_NOTICE                   => 'USER_NOTICE',
-								E_STRICT                                => 'RUNTIM_NOTICE',
-								E_RECOVERABLE_ERROR     => 'CATCHABLE_FATAL_ERROR',
-								);
+	//for pre 5.2
+	if (!defined('E_RECOVERABLE_ERROR')) {
+		define('E_RECOVERABLE_ERROR', '');
+	}
+	$errortype = array (
+		E_ERROR => 'ERROR',
+		E_WARNING => 'WARNING',
+		E_PARSE => 'PARSE_ERROR',
+		E_NOTICE => 'NOTICE',
+		E_CORE_ERROR => 'CORE_ERROR',
+		E_CORE_WARNING => 'CORE_WARNING',
+		E_COMPILE_ERROR => 'COMPILE_ERROR',
+		E_COMPILE_WARNING => 'COMPILE_WARNING',
+		E_DEPRECATED => 'DEPRECATION_WARNING',
+		E_USER_ERROR => 'USER_ERROR',
+		E_USER_WARNING => 'USER_WARNING',
+		E_USER_NOTICE => 'USER_NOTICE',
+		E_STRICT => 'RUNTIM_NOTICE',
+		E_RECOVERABLE_ERROR => 'CATCHABLE_FATAL_ERROR',
+	);
 
-				if (!isset($amp_conf['PHP_ERROR_HANDLER_OUTPUT'])) {
-								$amp_conf['PHP_ERROR_HANDLER_OUTPUT'] = 'dbug';
-				}
+	if (!isset($amp_conf['PHP_ERROR_HANDLER_OUTPUT'])) {
+		$amp_conf['PHP_ERROR_HANDLER_OUTPUT'] = 'dbug';
+	}
 
-				switch($amp_conf['PHP_ERROR_HANDLER_OUTPUT']) {
-								case 'freepbxlog':
-												$txt = sprintf("%s] (%s:%s) - %s", $errortype[$errno], $errfile, $errline, $errstr);
-												freepbx_log(FPBX_LOG_PHP,$txt);
-												break;
-								case 'off':
-												break;
-								case 'dbug':
-												default:
-						$errormsg = isset($errortype[$errno])
-									? $errortype[$errno]
-									: 'Undefined Error';
-												$txt = date("Y-M-d H:i:s")
-																. "\t" . $errfile . ':' . $errline
-																. "\n"
-																. '[' . $errormsg . ']: '
-																. $errstr
-																. "\n\n";
-																dbug_write($txt, $check='');
-																break;
-												}
+	switch($amp_conf['PHP_ERROR_HANDLER_OUTPUT']) {
+		case 'freepbxlog':
+			$txt = sprintf("%s] (%s:%s) - %s", $errortype[$errno], $errfile, $errline, $errstr);
+			freepbx_log(FPBX_LOG_PHP,$txt);
+		break;
+		case 'off':
+		break;
+		case 'dbug':
+		default:
+			$errormsg = isset($errortype[$errno]) ? $errortype[$errno] : 'Undefined Error';
+			$txt = date("Y-M-d H:i:s")
+				. "\t" . $errfile . ':' . $errline
+				. "\n"
+				. '[' . $errormsg . ']: '
+				. $errstr
+				. "\n\n";
+			dbug_write($txt, $check='');
+		break;
+	}
 }
 
 
@@ -428,7 +426,7 @@ function out($text,$log=true) {
 		$outn_function_buffer .= $text;
 		freepbx_log(FPBX_LOG_INFO,$outn_function_buffer);
 		$outn_function_buffer = '';
-	 }
+	}
 }
 
 function outn($text,$log=true) {
@@ -843,7 +841,7 @@ function dbug_printtree($dir, $indent = "\t") {
  */
 function fpbx_which($app) {
 	$freepbx_conf = freepbx_conf::create();
-	 $which = $freepbx_conf->get_conf_setting('WHICH_' . $app);
+	$which = $freepbx_conf->get_conf_setting('WHICH_' . $app);
 
 	//if we have the location cached return it
 	if (!empty($which) && file_exists($which) && is_executable($which)) {
@@ -1130,44 +1128,44 @@ function generate_message_banner($message,$type='info',$details=array(),$link=''
 	}
 
 	$ts = rand();
-		if(empty($message)) {
-				return '';
-		}
-		switch($type) {
-				case 'danger':
-				case 'warning':
-						$message = '<i class="fa fa-exclamation-triangle"></i> '.$message;
-				case 'info':
-				case 'success':
-				break;
-				default:
-						$type = 'info';
-				break;
-		}
-		if(!empty($details)) {
-				$dt = $details;
-				$details = '<div class="panel-group" id="message-'.$ts.'" data-toggle="collapse" data-parent="#message-'.$ts.'" href="#collapseOne-'.$ts.'">
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<span class="panel-title">
-							Details
-					</span>
-				</div>
-				<div id="collapseOne-'.$ts.'" class="panel-collapse collapse">
-					<div class="panel-body">';
-					foreach($dt as $d) {
-							$details .= $d . "<br>";
-					}
-					$details .= '</div>
-				</div>
+	if(empty($message)) {
+		return '';
+	}
+	switch($type) {
+		case 'danger':
+		case 'warning':
+				$message = '<i class="fa fa-exclamation-triangle"></i> '.$message;
+		case 'info':
+		case 'success':
+		break;
+		default:
+				$type = 'info';
+		break;
+	}
+	if(!empty($details)) {
+			$dt = $details;
+			$details = '<div class="panel-group" id="message-'.$ts.'" data-toggle="collapse" data-parent="#message-'.$ts.'" href="#collapseOne-'.$ts.'">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="panel-title">
+						Details
+				</span>
 			</div>
-		 </div>';
-		 } else {
-				 $details = '';
-		 }
-		$link = !empty($link) ? " <a class='alert-link' href='".$link."' target='_blank'>("._('What Does this Mean?').")</a>" : '';
+			<div id="collapseOne-'.$ts.'" class="panel-collapse collapse">
+				<div class="panel-body">';
+				foreach($dt as $d) {
+						$details .= $d . "<br>";
+				}
+				$details .= '</div>
+			</div>
+		</div>
+	</div>';
+	} else {
+		$details = '';
+	}
+	$link = !empty($link) ? " <a class='alert-link' href='".$link."' target='_blank'>("._('What Does this Mean?').")</a>" : '';
 	$close = ($closeable) ? '<i class="fa fa-times close" data-hash="'.$full_hash.'" data-dismiss="alert" aria-hidden="true"></i>' : '';
-		return '<div class="global-message-banner alert signature alert-'.$type.' alert-dismissable text-center">'.$close.'<h2><strong>'.$message.'</strong></h2>'.$details.$link.'</div>';
+	return '<div class="global-message-banner alert signature alert-'.$type.' alert-dismissable text-center">'.$close.'<h2><strong>'.$message.'</strong></h2>'.$details.$link.'</div>';
 }
 
 /**
@@ -1298,12 +1296,13 @@ function sanitize_outbound_callerid($cid) {
  */
 function rrmdir($dir) {
 	foreach(glob($dir . '/*') as $file) {
-		if(is_dir($file))
+		if(is_dir($file)) {
 			rrmdir($file);
-		else
+		} else {
 			unlink($file);
 		}
-		rmdir($dir);
+	}
+	rmdir($dir);
 
 	return !is_dir($dir);
 }
@@ -1335,7 +1334,6 @@ function bootstrap_include_hooks($hook_type, $module) {
 			} elseif(file_exists($amp_conf['AMPWEBROOT'] . '/admin/' . $hook)) {
 				require_once($amp_conf['AMPWEBROOT'] . '/admin/' . $hook);
 			}
-
 		}
 	}
 
@@ -1361,7 +1359,7 @@ function _bootstrap_parse_hooks() {
 
 							$hooks[$type]['all_mods'] = isset($hooks[$type]['all_mods'])
 														? array_merge($hooks[$type]['all_mods'],
-														 (array)$type_mods['all_mods'])
+														(array)$type_mods['all_mods'])
 														: (array)$type_mods['all_mods'];
 							unset($type_mods['all_mods']);
 						}
