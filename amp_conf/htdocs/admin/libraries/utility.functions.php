@@ -1512,6 +1512,9 @@ function freepbx_filesize($file) {
 	//https://github.com/jkuchar/BigFileTools/blob/master/src/Driver/CurlDriver.php
 	//https://github.com/jkuchar/BigFileTools#drivers
 	// ^--- cURL is faster than stat, really what?
+	if (!function_exists("curl_init")) {
+		throw new Exception("32-bit PBX systems require the cURL extension to be loaded in PHP");
+	}
 	$ch = curl_init("file://" . rawurlencode($path));
 	curl_setopt($ch, CURLOPT_NOBODY, true);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
