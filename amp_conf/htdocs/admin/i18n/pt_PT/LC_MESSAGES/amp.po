@@ -8724,6 +8724,12 @@ msgstr ""
 msgid "You have not entered a User Password.  While this is acceptable, this user will not be able to login to an AdHoc user.\\n\\nAre you sure you wish to leave the User Password empty?"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/view.functions.php:54
+#: amp_conf/htdocs/admin/libraries/view.functions.php:77
+#, php-format
+msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/view.functions.php:60
 #, php-format
 msgid "You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"
@@ -9647,11 +9653,50 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr "migrados dispositivos zap"
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:54
-#: amp_conf/htdocs/admin/libraries/view.functions.php:77
-#, php-format
-msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:32
+msgid "Automatically enable disabled modules without prompting"
 msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:33
+msgid "Don't ask to enable disabled modules assume no."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:234
+#, php-format
+msgid "Enabling %s because autoenable was passed at the command line"
+msgstr ""
+
+#: amp.i18n.php:898
+msgid "Path for ifconfig"
+msgstr ""
+
+#: amp.i18n.php:902
+msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#~ msgid "Path for route"
+#~ msgstr "Caminho para route"
+
+#~ msgid "Path for tiff2pdf"
+#~ msgstr "Caminho para tiff2pdf"
+
+#~ msgid "Path for tiffcp"
+#~ msgstr "Caminho para tiffcp"
+
+#~ msgid "Path for tiffinfo"
+#~ msgstr "Caminho para tiffinfo"
+
+#~ msgid "The path to route as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "O caminho para route conforme determinado pelo sistema. Substituir conforme necessário."
+
+#~ msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "O caminho para tiff2pdf conforme determinado pelo sistema. Substituir conforme necessário."
+
+#~ msgid "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "O caminho para tiffcp conforme determinado pelo sistema. Substituir conforme necessário."
+
+#~ msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "O caminho para tiffinfo conforme determinado pelo sistema. Substituir conforme necessário."
 
 #~ msgid "(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)"
 #~ msgstr "(Ex. NXXNXXXXXX para marcação US/CAN de 10-digitos, NXXXXXX para 7-digitos)"
@@ -9794,18 +9839,6 @@ msgstr ""
 #~ msgid "Path for gs"
 #~ msgstr "Caminho para gs"
 
-#~ msgid "Path for route"
-#~ msgstr "Caminho para route"
-
-#~ msgid "Path for tiff2pdf"
-#~ msgstr "Caminho para tiff2pdf"
-
-#~ msgid "Path for tiffcp"
-#~ msgstr "Caminho para tiffcp"
-
-#~ msgid "Path for tiffinfo"
-#~ msgstr "Caminho para tiffinfo"
-
 #~ msgid "Please select your Device below then click Submit"
 #~ msgstr "Selecione o Dispositivo abaixo e clique em Submeter"
 
@@ -9826,18 +9859,6 @@ msgstr ""
 
 #~ msgid "The path to gs as auto-determined by the system. Overwrite as necessary."
 #~ msgstr "O caminho para gs conforme determinado pelo sistema. Substituir conforme necessário."
-
-#~ msgid "The path to route as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "O caminho para route conforme determinado pelo sistema. Substituir conforme necessário."
-
-#~ msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "O caminho para tiff2pdf conforme determinado pelo sistema. Substituir conforme necessário."
-
-#~ msgid "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "O caminho para tiffcp conforme determinado pelo sistema. Substituir conforme necessário."
-
-#~ msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "O caminho para tiffinfo conforme determinado pelo sistema. Substituir conforme necessário."
 
 #~ msgid "Tools"
 #~ msgstr "Ferramientas"

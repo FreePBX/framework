@@ -8734,6 +8734,12 @@ msgstr "Вы не ввели пароль для этого устройства
 msgid "You have not entered a User Password.  While this is acceptable, this user will not be able to login to an AdHoc user.\\n\\nAre you sure you wish to leave the User Password empty?"
 msgstr "Вы не ввели пользовательский пароль. Пока это разрешено,этот пользователь не будет иметь возможности авторизоваться как AdHoc.\\n\\nВы уверены, что хотите оставить пароль пустым?"
 
+#: amp_conf/htdocs/admin/libraries/view.functions.php:54
+#: amp_conf/htdocs/admin/libraries/view.functions.php:77
+#, php-format
+msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/view.functions.php:60
 #, php-format
 msgid "You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"
@@ -9654,11 +9660,44 @@ msgstr "возможно Вам понадобиться вручную  доб�
 msgid "zap devices migrated"
 msgstr "Устройства ZAP перенесены"
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:54
-#: amp_conf/htdocs/admin/libraries/view.functions.php:77
-#, php-format
-msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:32
+msgid "Automatically enable disabled modules without prompting"
 msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:33
+msgid "Don't ask to enable disabled modules assume no."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:234
+#, php-format
+msgid "Enabling %s because autoenable was passed at the command line"
+msgstr ""
+
+#: amp.i18n.php:898
+msgid "Path for ifconfig"
+msgstr ""
+
+#: amp.i18n.php:902
+msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#~ msgid "Path for mysqldump"
+#~ msgstr "Путь к mysqldump"
+
+#~ msgid "Path for ssh"
+#~ msgstr "Путь к ssh"
+
+#~ msgid "Path for tar"
+#~ msgstr "Путь к tar"
+
+#~ msgid "The path to mysqldump as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Путь к mysqldump, автоопределенный системой. Переустановите, если необходимо."
+
+#~ msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Путь к ssh, автоопределенный системой. Переустановите, если необходимо."
+
+#~ msgid "The path to tar as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Путь к tar, автоопределенный системой. Переустановите, если необходимо."
 
 #~ msgid " (toggle sort)"
 #~ msgstr " (поменять сортировку)"
@@ -10481,15 +10520,6 @@ msgstr ""
 #~ msgid "Password<span>Create a password for this new user</span>"
 #~ msgstr "Пароль<span>Создать пароль для нового пользователя</span>"
 
-#~ msgid "Path for mysqldump"
-#~ msgstr "Путь к mysqldump"
-
-#~ msgid "Path for ssh"
-#~ msgstr "Путь к ssh"
-
-#~ msgid "Path for tar"
-#~ msgstr "Путь к tar"
-
 #~ msgid "Path for which"
 #~ msgstr "Путь к which"
 
@@ -10720,15 +10750,6 @@ msgstr ""
 
 #~ msgid "The immediate shutdown did not go as planned... Trying again..."
 #~ msgstr "Немедленное отлючение не отработало как было запланировано... Повтор попытки.."
-
-#~ msgid "The path to mysqldump as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Путь к mysqldump, автоопределенный системой. Переустановите, если необходимо."
-
-#~ msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Путь к ssh, автоопределенный системой. Переустановите, если необходимо."
-
-#~ msgid "The path to tar as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Путь к tar, автоопределенный системой. Переустановите, если необходимо."
 
 #~ msgid "The path to which as auto-determined by the system. Overwrite as necessary."
 #~ msgstr "Путь к which, автоопределенный системой. Переустановите, если необходимо."

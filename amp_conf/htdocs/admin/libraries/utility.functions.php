@@ -108,7 +108,7 @@ function freepbx_log($level, $message) {
 		$txt = sprintf("[%s-%s\n", $level, $message);
 	}
 
-  // if it is not set, it's probably an initial installation so we want to log something
+	// if it is not set, it's probably an initial installation so we want to log something
 	if (!isset($amp_conf['AMPDISABLELOG']) || !$amp_conf['AMPDISABLELOG']) {
 		$log_type = isset($amp_conf['AMPSYSLOGLEVEL']) ? $amp_conf['AMPSYSLOGLEVEL'] : 'FILE';
 		switch ($log_type) {
@@ -366,54 +366,52 @@ function dbug(){
 
 //http://php.net/manual/en/function.set-error-handler.php
 function freepbx_error_handler($errno, $errstr, $errfile, $errline,  $errcontext) {
-        global $amp_conf;
+	global $amp_conf;
 
-        //for pre 5.2
-        if (!defined('E_RECOVERABLE_ERROR')) {
-                define('E_RECOVERABLE_ERROR', '');
-        }
-        $errortype = array (
-                E_ERROR                                 => 'ERROR',
-                E_WARNING                               => 'WARNING',
-                E_PARSE                                 => 'PARSE_ERROR',
-                E_NOTICE                                => 'NOTICE',
-                E_CORE_ERROR                    => 'CORE_ERROR',
-                E_CORE_WARNING                  => 'CORE_WARNING',
-                E_COMPILE_ERROR                 => 'COMPILE_ERROR',
-                E_COMPILE_WARNING               => 'COMPILE_WARNING',
-		E_DEPRECATED			=> 'DEPRECATION_WARNING',
-                E_USER_ERROR                    => 'USER_ERROR',
-                E_USER_WARNING                  => 'USER_WARNING',
-                E_USER_NOTICE                   => 'USER_NOTICE',
-                E_STRICT                                => 'RUNTIM_NOTICE',
-                E_RECOVERABLE_ERROR     => 'CATCHABLE_FATAL_ERROR',
-                );
+	//for pre 5.2
+	if (!defined('E_RECOVERABLE_ERROR')) {
+		define('E_RECOVERABLE_ERROR', '');
+	}
+	$errortype = array (
+		E_ERROR => 'ERROR',
+		E_WARNING => 'WARNING',
+		E_PARSE => 'PARSE_ERROR',
+		E_NOTICE => 'NOTICE',
+		E_CORE_ERROR => 'CORE_ERROR',
+		E_CORE_WARNING => 'CORE_WARNING',
+		E_COMPILE_ERROR => 'COMPILE_ERROR',
+		E_COMPILE_WARNING => 'COMPILE_WARNING',
+		E_DEPRECATED => 'DEPRECATION_WARNING',
+		E_USER_ERROR => 'USER_ERROR',
+		E_USER_WARNING => 'USER_WARNING',
+		E_USER_NOTICE => 'USER_NOTICE',
+		E_STRICT => 'RUNTIM_NOTICE',
+		E_RECOVERABLE_ERROR => 'CATCHABLE_FATAL_ERROR',
+	);
 
-        if (!isset($amp_conf['PHP_ERROR_HANDLER_OUTPUT'])) {
-                $amp_conf['PHP_ERROR_HANDLER_OUTPUT'] = 'dbug';
-        }
+	if (!isset($amp_conf['PHP_ERROR_HANDLER_OUTPUT'])) {
+		$amp_conf['PHP_ERROR_HANDLER_OUTPUT'] = 'dbug';
+	}
 
-        switch($amp_conf['PHP_ERROR_HANDLER_OUTPUT']) {
-                case 'freepbxlog':
-                        $txt = sprintf("%s] (%s:%s) - %s", $errortype[$errno], $errfile, $errline, $errstr);
-                        freepbx_log(FPBX_LOG_PHP,$txt);
-                        break;
-                case 'off':
-                        break;
-                case 'dbug':
-                        default:
-						$errormsg = isset($errortype[$errno])
-									? $errortype[$errno]
-									: 'Undefined Error';
-                        $txt = date("Y-M-d H:i:s")
-                                . "\t" . $errfile . ':' . $errline
-                                . "\n"
-                                . '[' . $errormsg . ']: '
-                                . $errstr
-                                . "\n\n";
-                                dbug_write($txt, $check='');
-                                break;
-                        }
+	switch($amp_conf['PHP_ERROR_HANDLER_OUTPUT']) {
+		case 'freepbxlog':
+			$txt = sprintf("%s] (%s:%s) - %s", $errortype[$errno], $errfile, $errline, $errstr);
+			freepbx_log(FPBX_LOG_PHP,$txt);
+		break;
+		case 'off':
+		break;
+		case 'dbug':
+		default:
+			$errormsg = isset($errortype[$errno]) ? $errortype[$errno] : 'Undefined Error';
+			$txt = date("Y-M-d H:i:s")
+				. "\t" . $errfile . ':' . $errline
+				. "\n"
+				. '[' . $errormsg . ']: '
+				. $errstr
+				. "\n\n";
+			dbug_write($txt, $check='');
+		break;
+	}
 }
 
 
@@ -428,7 +426,7 @@ function out($text,$log=true) {
 		$outn_function_buffer .= $text;
 		freepbx_log(FPBX_LOG_INFO,$outn_function_buffer);
 		$outn_function_buffer = '';
- 	}
+	}
 }
 
 function outn($text,$log=true) {
@@ -843,7 +841,7 @@ function dbug_printtree($dir, $indent = "\t") {
  */
 function fpbx_which($app) {
 	$freepbx_conf = freepbx_conf::create();
- 	$which = $freepbx_conf->get_conf_setting('WHICH_' . $app);
+	$which = $freepbx_conf->get_conf_setting('WHICH_' . $app);
 
 	//if we have the location cached return it
 	if (!empty($which) && file_exists($which) && is_executable($which)) {
@@ -950,7 +948,7 @@ function fpbx_which($app) {
  * http://www.ntu.beautifulworldco.com/weblog/?p=526
  */
 function _getopt($short_option, $long_option = array()) {
-    return getopt($short_option, $long_option);
+		return getopt($short_option, $long_option);
 }
 
 /**
@@ -961,8 +959,8 @@ function _getopt($short_option, $long_option = array()) {
  * @retruns string
  */
 function bytes2string($size){
-    $unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
-    return round($size / pow(1024, ($i = floor(log($size, 1024))))) . ' ' . $unit[$i];
+		$unit = array('b', 'kb', 'mb', 'gb', 'tb', 'pb');
+		return round($size / pow(1024, ($i = floor(log($size, 1024))))) . ' ' . $unit[$i];
  }
 
 /**
@@ -980,7 +978,7 @@ function string2bytes($str, $type = ''){
 		$str	= $str[0];
 	}
 
-    $units	= array(
+		$units	= array(
 					'b'		=> 1,
 					'kb'	=> 1024,
 					'mb'	=> 1024 * 1024,
@@ -989,7 +987,7 @@ function string2bytes($str, $type = ''){
 					'pb'	=> 1024 * 1024 * 1024 * 1024 * 1024
 			);
 
-    return isset($str, $units[$type])
+		return isset($str, $units[$type])
 			? round($str * $units[$type])
 			: false;
  }
@@ -1130,44 +1128,44 @@ function generate_message_banner($message,$type='info',$details=array(),$link=''
 	}
 
 	$ts = rand();
-    if(empty($message)) {
-        return '';
-    }
-    switch($type) {
-        case 'danger':
-        case 'warning':
-            $message = '<i class="fa fa-exclamation-triangle"></i> '.$message;
-        case 'info':
-        case 'success':
-        break;
-        default:
-            $type = 'info';
-        break;
-    }
-    if(!empty($details)) {
-        $dt = $details;
-        $details = '<div class="panel-group" id="message-'.$ts.'" data-toggle="collapse" data-parent="#message-'.$ts.'" href="#collapseOne-'.$ts.'">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <span class="panel-title">
-              Details
-          </span>
-        </div>
-        <div id="collapseOne-'.$ts.'" class="panel-collapse collapse">
-          <div class="panel-body">';
-          foreach($dt as $d) {
-              $details .= $d . "<br>";
-          }
-          $details .= '</div>
-        </div>
-      </div>
-     </div>';
-     } else {
-         $details = '';
-     }
-    $link = !empty($link) ? " <a class='alert-link' href='".$link."' target='_blank'>("._('What Does this Mean?').")</a>" : '';
+	if(empty($message)) {
+		return '';
+	}
+	switch($type) {
+		case 'danger':
+		case 'warning':
+				$message = '<i class="fa fa-exclamation-triangle"></i> '.$message;
+		case 'info':
+		case 'success':
+		break;
+		default:
+				$type = 'info';
+		break;
+	}
+	if(!empty($details)) {
+			$dt = $details;
+			$details = '<div class="panel-group" id="message-'.$ts.'" data-toggle="collapse" data-parent="#message-'.$ts.'" href="#collapseOne-'.$ts.'">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<span class="panel-title">
+						Details
+				</span>
+			</div>
+			<div id="collapseOne-'.$ts.'" class="panel-collapse collapse">
+				<div class="panel-body">';
+				foreach($dt as $d) {
+						$details .= $d . "<br>";
+				}
+				$details .= '</div>
+			</div>
+		</div>
+	</div>';
+	} else {
+		$details = '';
+	}
+	$link = !empty($link) ? " <a class='alert-link' href='".$link."' target='_blank'>("._('What Does this Mean?').")</a>" : '';
 	$close = ($closeable) ? '<i class="fa fa-times close" data-hash="'.$full_hash.'" data-dismiss="alert" aria-hidden="true"></i>' : '';
-    return '<div class="global-message-banner alert signature alert-'.$type.' alert-dismissable text-center">'.$close.'<h2><strong>'.$message.'</strong></h2>'.$details.$link.'</div>';
+	return '<div class="global-message-banner alert signature alert-'.$type.' alert-dismissable text-center">'.$close.'<h2><strong>'.$message.'</strong></h2>'.$details.$link.'</div>';
 }
 
 /**
@@ -1218,9 +1216,9 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 		$nt = notifications::create($db);
 		$freepbx_conf =& freepbx_conf::create();
 		if ($amp_conf['AMPMGRPASS'] == $freepbx_conf->get_conf_default_setting('AMPMGRPASS')) {
-  		if (!$nt->exists('core', 'AMPMGRPASS')) {
-	  		$nt->add_warning('core', 'AMPMGRPASS', _("Default Asterisk Manager Password Used"), _("You are using the default Asterisk Manager password that is widely known, you should set a secure password"));
-  		}
+			if (!$nt->exists('core', 'AMPMGRPASS')) {
+				$nt->add_warning('core', 'AMPMGRPASS', _("Default Asterisk Manager Password Used"), _("You are using the default Asterisk Manager password that is widely known, you should set a secure password"));
+			}
 		} else {
 			$nt->delete('core', 'AMPMGRPASS');
 		}
@@ -1298,12 +1296,13 @@ function sanitize_outbound_callerid($cid) {
  */
 function rrmdir($dir) {
 	foreach(glob($dir . '/*') as $file) {
-		if(is_dir($file))
+		if(is_dir($file)) {
 			rrmdir($file);
-		else
+		} else {
 			unlink($file);
-    }
-    rmdir($dir);
+		}
+	}
+	rmdir($dir);
 
 	return !is_dir($dir);
 }
@@ -1335,7 +1334,6 @@ function bootstrap_include_hooks($hook_type, $module) {
 			} elseif(file_exists($amp_conf['AMPWEBROOT'] . '/admin/' . $hook)) {
 				require_once($amp_conf['AMPWEBROOT'] . '/admin/' . $hook);
 			}
-
 		}
 	}
 
@@ -1361,7 +1359,7 @@ function _bootstrap_parse_hooks() {
 
 							$hooks[$type]['all_mods'] = isset($hooks[$type]['all_mods'])
 														? array_merge($hooks[$type]['all_mods'],
-														 (array)$type_mods['all_mods'])
+														(array)$type_mods['all_mods'])
 														: (array)$type_mods['all_mods'];
 							unset($type_mods['all_mods']);
 						}
@@ -1436,4 +1434,95 @@ function getSystemMemInfo() {
 		}
 	}
 	return $meminfo;
+}
+
+/**
+ * Check filetype of files.
+ * PHP Built in functions fail on files over 2G in size on 32-bit machines
+ * @param  string $file file/dir path
+ * @return string or bool       Returns file type if known ot false
+ */
+function freepbx_filetype($file){
+	if(PHP_INT_SIZE == 8) { //64bit machine
+		return filetype($file);
+	}
+	// > 2GB files not affected
+	if(is_link($file)) {
+		return 'link';
+	}
+	// > 2GB files not affected
+	if(is_dir($file)) {
+		return 'dir';
+	}
+	$size = freepbx_filesize($file);
+	//If less than 1.9 gig run normal filetype
+	if($size < 1.9e+9) {
+		return filetype($file);
+	}
+	$file = escapeshellarg($file);
+	$command = 'stat -c %f '.$file;
+	if (in_array(PHP_OS, array('FreeBSD','Darwin','NetBSD'))){
+		$command = 'stat -f %Xp '.$file;
+	}
+	$hex = hexdec(trim(`$command`));
+	$S_FMT = 0170000;
+	$S_IFLNK = 0120000;
+	$S_IFREG = 0100000;
+	$S_IFBLK = 0060000;
+	$S_IFDIR = 0040000;
+	$S_IFCHR = 0020000;
+	$S_IFIFO = 0010000;
+	$type = false;
+	switch (($hex & $S_FMT)) {
+		case $S_IFLNK:
+			$type = 'link';
+		break;
+		case $S_IFREG:
+			$type = 'file';
+		break;
+		case $S_IFBLK:
+			$type = 'block';
+		break;
+		case $S_IFDIR:
+			$type = 'dir';
+		break;
+		case $S_IFCHR:
+			$type = 'char';
+		break;
+		case $S_IFIFO:
+			$type = 'fifo';
+		break;
+		default:
+			$type = false;
+		break;
+	}
+	return $type;
+}
+
+/**
+ * Return semi-accurate filesize for files
+ * PHP Built in functions fail on files over 2G in size on 32-bit machines
+ * @param  string $file file/dir path
+ * @return string or bool       Returns file size
+ */
+function freepbx_filesize($file) {
+	if(PHP_INT_SIZE == 8) { //64bit machine
+		return filesize($file);
+	}
+	//https://github.com/jkuchar/BigFileTools/blob/master/src/Driver/CurlDriver.php
+	//https://github.com/jkuchar/BigFileTools#drivers
+	// ^--- cURL is faster than stat, really what?
+	if (!function_exists("curl_init")) {
+		throw new Exception("32-bit PBX systems require the cURL extension to be loaded in PHP");
+	}
+	$ch = curl_init("file://" . rawurlencode($path));
+	curl_setopt($ch, CURLOPT_NOBODY, true);
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_HEADER, true);
+	$data = curl_exec($ch);
+	curl_close($ch);
+	if ($data !== false && preg_match('/Content-Length: (\d+)/', $data, $matches)) {
+		return $matches[1];
+	}
+	return 0; //unknown
 }

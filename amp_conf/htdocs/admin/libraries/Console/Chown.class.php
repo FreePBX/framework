@@ -12,6 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class Chown extends Command {
+	private $requireroot = true;
 	private $errors = array();
 	private $infos = array();
 	private $blacklist = array('files' => array(), 'dirs' => array());
@@ -437,8 +438,9 @@ class Chown extends Command {
 		return $mask;
 	}
 	private function singleChown($file, $user, $group){
+		clearstatcache(true, $file);
 		try {
-			$filetype = filetype($file);
+			$filetype = \freepbx_filetype($file);
 			if($filetype == "link") {
 				$link = readlink($file);
 				if(file_exists($link)) {
@@ -454,7 +456,7 @@ class Chown extends Command {
 			}
 		}
 		try {
-			$filetype = filetype($file);
+			$filetype = \freepbx_filetype($file);
 			if($filetype == "link") {
 				$link = readlink($file);
 				if(file_exists($link)) {
@@ -471,8 +473,9 @@ class Chown extends Command {
 		}
 	}
 	private function recursiveChown($dir, $user, $group){
+		clearstatcache(true, $dir);
 		try {
-			$filetype = filetype($dir);
+			$filetype = \freepbx_filetype($dir);
 			if($filetype == "link") {
 				$link = readlink($dir);
 				if(file_exists($link)) {
@@ -488,7 +491,7 @@ class Chown extends Command {
 			}
 		}
 		try {
-			$filetype = filetype($dir);
+			$filetype = \freepbx_filetype($dir);
 			if($filetype == "link") {
 				$link = readlink($dir);
 				if(file_exists($link)) {
@@ -509,7 +512,8 @@ class Chown extends Command {
 			$this->errors[] = _('We received an empty string for a file name. Some files may not have the proper permissions');
 			return false;
 		}
-		$filetype = filetype($file);
+		clearstatcache(true, $file);
+		$filetype = \freepbx_filetype($file);
 		switch($filetype){
 			case 'link':
 				$realfile = readlink($file);
@@ -566,7 +570,8 @@ class Chown extends Command {
 				return array();
 			}
 			$fullpath = $path . '/' . $file;
-			$filetype = filetype($fullpath);
+			clearstatcache(true, $fullpath);
+			$filetype = \freepbx_filetype($fullpath);
 			if($filetype == 'dir'){
 				$list[] = $fullpath;
 				$getFiles = $this->recursiveDirList($fullpath);

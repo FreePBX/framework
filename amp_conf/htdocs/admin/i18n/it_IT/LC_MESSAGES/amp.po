@@ -8764,6 +8764,12 @@ msgstr "Non è stata inserita nessuna password (secret) per questo apparato, anc
 msgid "You have not entered a User Password.  While this is acceptable, this user will not be able to login to an AdHoc user.\\n\\nAre you sure you wish to leave the User Password empty?"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/view.functions.php:54
+#: amp_conf/htdocs/admin/libraries/view.functions.php:77
+#, php-format
+msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/view.functions.php:60
 #, php-format
 msgid "You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"
@@ -9684,10 +9690,25 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:54
-#: amp_conf/htdocs/admin/libraries/view.functions.php:77
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:32
+msgid "Automatically enable disabled modules without prompting"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:33
+msgid "Don't ask to enable disabled modules assume no."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:234
 #, php-format
-msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
+msgid "Enabling %s because autoenable was passed at the command line"
+msgstr ""
+
+#: amp.i18n.php:898
+msgid "Path for ifconfig"
+msgstr ""
+
+#: amp.i18n.php:902
+msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
 #~ msgid "Add an Extension"

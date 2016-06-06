@@ -8772,6 +8772,12 @@ msgstr "あなたはこのデバイスのシークレットを入力してませ
 msgid "You have not entered a User Password.  While this is acceptable, this user will not be able to login to an AdHoc user.\\n\\nAre you sure you wish to leave the User Password empty?"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/view.functions.php:54
+#: amp_conf/htdocs/admin/libraries/view.functions.php:77
+#, php-format
+msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/view.functions.php:60
 #, php-format
 msgid "You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"
@@ -9692,11 +9698,44 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr "zapでバイスが移行されました"
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:54
-#: amp_conf/htdocs/admin/libraries/view.functions.php:77
-#, php-format
-msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:32
+msgid "Automatically enable disabled modules without prompting"
 msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:33
+msgid "Don't ask to enable disabled modules assume no."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:234
+#, php-format
+msgid "Enabling %s because autoenable was passed at the command line"
+msgstr ""
+
+#: amp.i18n.php:898
+msgid "Path for ifconfig"
+msgstr ""
+
+#: amp.i18n.php:902
+msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#~ msgid "Path for mysqldump"
+#~ msgstr "mysqldumpのパス"
+
+#~ msgid "Path for ssh"
+#~ msgstr "sshのパス"
+
+#~ msgid "Path for tail"
+#~ msgstr "tail のパス"
+
+#~ msgid "The path to mysqldump as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "システムのデフォルトmysqldumpへのパス。必要で上書きします。"
+
+#~ msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "システムのデフォルトsshへのパス。必要で上書きします。"
+
+#~ msgid "The path to tail as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "システムで自動的に設定されるtailのパス。必要に応じて上書きしてください。"
 
 #~ msgid "\tCould not find signed module on remote server!"
 #~ msgstr "\tリモートサーバに署名済みのモジュールが見つかりません！"
@@ -10560,17 +10599,8 @@ msgstr ""
 #~ msgid "Passwords dont match"
 #~ msgstr "パスワードが一致しません"
 
-#~ msgid "Path for mysqldump"
-#~ msgstr "mysqldumpのパス"
-
 #~ msgid "Path for rm"
 #~ msgstr "rm のパス"
-
-#~ msgid "Path for ssh"
-#~ msgstr "sshのパス"
-
-#~ msgid "Path for tail"
-#~ msgstr "tail のパス"
 
 #~ msgid "Pick the format in which to save recorded calls"
 #~ msgstr "録音された通話を保存する際のフォーマットを選択"
@@ -10776,17 +10806,8 @@ msgstr ""
 #~ msgid "The dialed number will be compared against the <b>prefix</b> plus this pattern. Upon a match, this portion of the number will be sent to the trunks after removing the <b>prefix</b> and appending the <b>prepend</b> digits"
 #~ msgstr "ダイヤルされた番号が<b>プリフィックス</b>か、このパターンが比較されます。一致した場合、番号のこの部分は<b>プリフィックス</b>を削除して<b>前付与</b>桁を追加した後にトランクに送信されます"
 
-#~ msgid "The path to mysqldump as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "システムのデフォルトmysqldumpへのパス。必要で上書きします。"
-
 #~ msgid "The path to rm as auto-determined by the system. Overwrite as necessary."
 #~ msgstr "システムのデフォルトrmへのパス。必要に応じて上書きしてください。"
-
-#~ msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "システムのデフォルトsshへのパス。必要で上書きします。"
-
-#~ msgid "The path to tail as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "システムで自動的に設定されるtailのパス。必要に応じて上書きしてください。"
 
 #~ msgid "The section you requested does not exist or you do not have access to it."
 #~ msgstr "セクションは存在しません、若しくはアクセスできません。"

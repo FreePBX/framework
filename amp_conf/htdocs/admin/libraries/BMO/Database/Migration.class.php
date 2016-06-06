@@ -16,7 +16,7 @@ class Migration {
 		$this->table = $table;
 	}
 
-	public function modify($columns=array(),$indexes=array()) {
+	public function modify($columns=array(),$indexes=array(),$dryrun=false) {
 		$synchronizer = new \Doctrine\DBAL\Schema\Synchronizer\SingleDatabaseSynchronizer($this->conn);
 		$schema = new \Doctrine\DBAL\Schema\Schema();
 		$table = $schema->createTable($this->table);
@@ -48,12 +48,18 @@ class Migration {
 				case "index":
 					$table->addIndex($columns,$name);
 				break;
+				case "fulltext":
+					$table->addIndex($columns,$name,array("fulltext"));
+				break;
 			}
 		}
+
 		//with true to prevent drops
-		//$sql = $synchronizer->getUpdateSchema($schema, true);
-		//print_r($sql);
-		$synchronizer->updateSchema($schema, true);
+		if($dryrun) {
+			return $synchronizer->getUpdateSchema($schema, true);
+		} else {
+			return $synchronizer->updateSchema($schema, true);
+		}
 	}
 
 	public function drop($tables=array()) {

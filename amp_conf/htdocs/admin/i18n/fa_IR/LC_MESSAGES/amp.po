@@ -4370,15 +4370,15 @@ msgstr "Inter-Asterisk eXchange (IAX) is  a communications protocol native to th
 msgid "Interface"
 msgstr "رابط"
 
-#: ../core/functions.inc/drivers/Sip.class.php:206
+#: ../core/functions.inc/drivers/Sip.class.php:205
 #, php-format
 msgid "Interface %s, Port %s (%s - this is a <strong>NON STANDARD</strong> port)"
-msgstr ""
+msgstr "اینترفیس %s، پورت %s (%s - هست  <strong>غیر استاندارد</strong> پورت)"
 
-#: ../core/functions.inc/drivers/Sip.class.php:204
+#: ../core/functions.inc/drivers/Sip.class.php:203
 #, php-format
 msgid "Interface %s, Port %s (%s)"
-msgstr ""
+msgstr "اینترفیس %s، پورت %s (%s)"
 
 #: amp.i18n.php:502
 msgid "Internal Alert Info"
@@ -4521,7 +4521,7 @@ msgstr "بارگذاری مسیرها"
 
 #: amp_conf/htdocs/admin/libraries/view.functions.php:61
 msgid "Language Support Unknown"
-msgstr ""
+msgstr "پشتیبانی زبان ناشناس"
 
 #: ../core/views/routing/form.php:45
 #, php-format
@@ -5923,15 +5923,15 @@ msgstr "Polling Interval for  Stopping Asterisk"
 msgid "Port"
 msgstr "پورت"
 
-#: ../core/functions.inc/drivers/Sip.class.php:200
+#: ../core/functions.inc/drivers/Sip.class.php:199
 #, php-format
 msgid "Port %s (%s - this is a <strong>NON STANDARD</strong> port)"
-msgstr ""
+msgstr "پورت %s (%s - هست <strong>غیر استاندارد</strong> پورت)"
 
-#: ../core/functions.inc/drivers/Sip.class.php:198
+#: ../core/functions.inc/drivers/Sip.class.php:197
 #, php-format
 msgid "Port %s (%s)"
-msgstr ""
+msgstr "پورت %s (%s)"
 
 #: amp.i18n.php:122
 msgid "Port for the Asterisk Manager"
@@ -7049,9 +7049,9 @@ msgstr "موتور تلفن"
 msgid "Terminate Call"
 msgstr "پایان دادن تماس"
 
-#: ../core/functions.inc/drivers/Sip.class.php:229
+#: ../core/functions.inc/drivers/Sip.class.php:228
 msgid "The Asterisk SIP Setting Module is not installed or is disabled. Please install it."
-msgstr ""
+msgstr "ماژول تنظیمات سیپ استریسک نصب نشده یا غیر فعال است. لطفا آن را نصب کنید."
 
 #: amp.i18n.php:548
 msgid "The Asterisk channel driver to use for SIP. The default is both for Asterisk 12 and higher. For Asterisk 11 and lower the default will be chan_sip. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The chan_pjsip channel driver is considered "
@@ -7748,7 +7748,7 @@ msgstr "Unable  to find an intermediary converter for %s"
 
 #: amp_conf/htdocs/admin/libraries/view.functions.php:61
 msgid "Unable to find the Locale binary. Your system may not support language changes!"
-msgstr ""
+msgstr "فایل باینری محلی پیدا نشد. سیستم شما از تغییر زبان پشتیبانی نمیکند!"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:117
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:127
@@ -8651,6 +8651,12 @@ msgstr "You have  not entered a Secret for this device, although this is possibl
 msgid "You have not entered a User Password.  While this is acceptable, this user will not be able to login to an AdHoc user.\\n\\nAre you sure you wish to leave the User Password empty?"
 msgstr "You have  not entered a User Password.  While this is acceptable, this user will not be able to login to an AdHoc user.\\n\\nAre you sure you wish to leave the User Password empty?"
 
+#: amp_conf/htdocs/admin/libraries/view.functions.php:54
+#: amp_conf/htdocs/admin/libraries/view.functions.php:77
+#, php-format
+msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
+msgstr "شما زبان نادرستی انتخاب کرده اید '%s' به صورت خودکار به '%s' برمیگردد این مورد در بخش تنظیمات پیشرفته قابل رفع میباشد [%s]"
+
 #: amp_conf/htdocs/admin/libraries/view.functions.php:60
 #, php-format
 msgid "You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"
@@ -9180,10 +9186,10 @@ msgstr "فهرست هشدارها"
 msgid "list trunks"
 msgstr "فهرست ترانک ها"
 
-#: ../core/functions.inc/drivers/Sip.class.php:224
+#: ../core/functions.inc/drivers/Sip.class.php:223
 #, php-format
 msgid "listening on %s"
-msgstr ""
+msgstr "شنیدن در %s"
 
 #: ../core/functions.inc/drivers/Sip.class.php:192
 #, php-format
@@ -9571,62 +9577,29 @@ msgstr "شما باید دستی خط 'preload => pbx_config.so' را به فا�
 msgid "zap devices migrated"
 msgstr "وسایل zap منتقل شدند"
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:54
-#: amp_conf/htdocs/admin/libraries/view.functions.php:77
-#, php-format
-msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:32
+msgid "Automatically enable disabled modules without prompting"
 msgstr ""
 
-#~ msgid "Aborting Shutdown"
-#~ msgstr "لغو خاموش کردن"
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:33
+msgid "Don't ask to enable disabled modules assume no."
+msgstr ""
 
-#~ msgid "Address to bind to. Default is 0.0.0.0"
-#~ msgstr "Address  to bind to. Default is 0.0.0.0"
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:234
+#, php-format
+msgid "Enabling %s because autoenable was passed at the command line"
+msgstr ""
 
-#~ msgid "Asterisk Failed to Start"
-#~ msgstr "اجرای استریسک با شکست روبرو شد"
+#: amp.i18n.php:898
+msgid "Path for ifconfig"
+msgstr "مسیر ifconfig"
 
-#~ msgid "Asterisk Started on %s"
-#~ msgstr "استریسک آغاز شد در %s"
-
-#~ msgid "Asterisk Stopped Successfuly"
-#~ msgstr "استریسک با موفقیت متوقف شد"
-
-#~ msgid "Asterisk seems NOT to be running"
-#~ msgstr "به نظر میرسد استریسک اجرا نشده است"
-
-#~ msgid "Asterisk seems to be running on PID %s and has been running for %s"
-#~ msgstr "Asterisk seems  to be running on PID %s and has been running for %s"
-
-#~ msgid "Checking Asterisk Status..."
-#~ msgstr "بررسی کردن وضعیت استریسک..."
-
-#~ msgid "Default setting for SIP sendrpid. A value of 'yes' is equivalent to 'rpid' and will send the 'Remote-Party-ID' header. A value of 'pai' is only valid starting with Asterisk 1.8 and will send the 'P-Asserted-Identity' header. See Asterisk documentation for details."
-#~ msgstr "Default setting for SIP  sendrpid. A value of 'yes' is equivalent to 'rpid' and will send the 'Remote-Party-ID' header. A value of 'pai' is only valid starting with Asterisk 1.8 and will send the 'P-Asserted-Identity' header. See Asterisk documentation for details."
+#: amp.i18n.php:902
+msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
+msgstr "مسیر ifconfig توسط سیستم تعریف میشود. تغییر مسیر در صورت نیاز."
 
 #~ msgid "Determines the mode to use while using popovers (popovers appear when selecting "
 #~ msgstr "Determines the  mode to use while using popovers (popovers appear when selecting "
-
-#~ msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
-#~ msgstr "مرکزتماس رایگان به PHP نسخه 5.3.3 یا بالاتر احتیاج دارد، نسخه شما: %s"
-
-#~ msgid "Intercom"
-#~ msgstr "تماس داخلی"
-
-#~ msgid "Internal Auto Answer"
-#~ msgstr "پاسخ خودکار داخلی"
-
-#~ msgid "List Routes"
-#~ msgstr "فهرست مسیرها"
-
-#~ msgid "Not running Pre-Asterisk Hooks."
-#~ msgstr "Not  running Pre-Asterisk Hooks."
-
-#~ msgid "Options to be passed to the Asterisk Dial Command when making internal calls or for calls ringing internal phones. The options are documented in Asterisk documentation, a subset of which are described here. The default options T and t allow the calling and called users to transfer a call with ##. The r option allows Asterisk to generate ringing back to the calling phones which is needed by some phones and sometimes needed in complex dialplan features that may otherwise result in silence to the caller."
-#~ msgstr "Options to be passed  to the Asterisk Dial Command when making internal calls or for calls ringing internal phones. The options are documented in Asterisk documentation, a subset of which are described here. The default options T and t allow the calling and called users to transfer a call with ##. The r option allows Asterisk to generate ringing back to the calling phones which is needed by some phones and sometimes needed in complex dialplan features that may otherwise result in silence to the caller."
-
-#~ msgid "Options to be passed to the Asterisk Dial Command when making outbound calls on your trunks when not part of an Intra-Company Route. The options are documented in Asterisk documentation, a subset of which are described here. The default options T and t allow the calling and called users to transfer a call with ##. It is HIGHLY DISCOURAGED to use the r option here as this will prevent early media from being delivered from the PSTN and can result in the inability to interact with some external IVRs"
-#~ msgstr "Options to be passed to  the Asterisk Dial Command when making outbound calls on your trunks when not part of an Intra-Company Route. The options are documented in Asterisk documentation, a subset of which are described here. The default options T and t allow the calling and called users to transfer a call with ##. It is HIGHLY DISCOURAGED to use the r option here as this will prevent early media from being delivered from the PSTN and can result in the inability to interact with some external IVRs"
 
 #~ msgid "Path for cp"
 #~ msgstr "مسیر برای cp"
@@ -9670,18 +9643,6 @@ msgstr ""
 #~ msgid "Popover Mode"
 #~ msgstr "حالت پیش نما"
 
-#~ msgid "The DTMF signaling mode used by this trunk, usually RFC for most trunks<ul><li>rfc4733 - DTMF is sent out of band of the main audio stream.This supercedes the older RFC-2833 used within the older chan_sip.</li><li>inband - DTMF is sent as part of audio stream.</li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
-#~ msgstr "The DTMF signaling  mode used by this trunk, usually RFC for most trunks<ul><li>rfc4733 - DTMF is sent out of band of the main audio stream.This supercedes the older RFC-2833 used within the older chan_sip.</li><li>inband - DTMF is sent as part of audio stream.</li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
-
-#~ msgid "The path to cp as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "The path to  cp as auto-determined by the system. Overwrite as necessary."
-
-#~ msgid "The path to grep as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "The path to  grep as auto-determined by the system. Overwrite as necessary."
-
-#~ msgid "The path to gs as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "The path to  gs as auto-determined by the system. Overwrite as necessary."
-
 #~ msgid "The path to mysqldump as auto-determined by the system. Overwrite as necessary."
 #~ msgstr "The path to  mysqldump as auto-determined by the system. Overwrite as necessary."
 
@@ -9711,6 +9672,66 @@ msgstr ""
 
 #~ msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
 #~ msgstr "The path to  tiffinfo as auto-determined by the system. Overwrite as necessary."
+
+#~ msgid "Aborting Shutdown"
+#~ msgstr "لغو خاموش کردن"
+
+#~ msgid "Address to bind to. Default is 0.0.0.0"
+#~ msgstr "Address  to bind to. Default is 0.0.0.0"
+
+#~ msgid "Asterisk Failed to Start"
+#~ msgstr "اجرای استریسک با شکست روبرو شد"
+
+#~ msgid "Asterisk Started on %s"
+#~ msgstr "استریسک آغاز شد در %s"
+
+#~ msgid "Asterisk Stopped Successfuly"
+#~ msgstr "استریسک با موفقیت متوقف شد"
+
+#~ msgid "Asterisk seems NOT to be running"
+#~ msgstr "به نظر میرسد استریسک اجرا نشده است"
+
+#~ msgid "Asterisk seems to be running on PID %s and has been running for %s"
+#~ msgstr "Asterisk seems  to be running on PID %s and has been running for %s"
+
+#~ msgid "Checking Asterisk Status..."
+#~ msgstr "بررسی کردن وضعیت استریسک..."
+
+#~ msgid "Default setting for SIP sendrpid. A value of 'yes' is equivalent to 'rpid' and will send the 'Remote-Party-ID' header. A value of 'pai' is only valid starting with Asterisk 1.8 and will send the 'P-Asserted-Identity' header. See Asterisk documentation for details."
+#~ msgstr "Default setting for SIP  sendrpid. A value of 'yes' is equivalent to 'rpid' and will send the 'Remote-Party-ID' header. A value of 'pai' is only valid starting with Asterisk 1.8 and will send the 'P-Asserted-Identity' header. See Asterisk documentation for details."
+
+#~ msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
+#~ msgstr "مرکزتماس رایگان به PHP نسخه 5.3.3 یا بالاتر احتیاج دارد، نسخه شما: %s"
+
+#~ msgid "Intercom"
+#~ msgstr "تماس داخلی"
+
+#~ msgid "Internal Auto Answer"
+#~ msgstr "پاسخ خودکار داخلی"
+
+#~ msgid "List Routes"
+#~ msgstr "فهرست مسیرها"
+
+#~ msgid "Not running Pre-Asterisk Hooks."
+#~ msgstr "Not  running Pre-Asterisk Hooks."
+
+#~ msgid "Options to be passed to the Asterisk Dial Command when making internal calls or for calls ringing internal phones. The options are documented in Asterisk documentation, a subset of which are described here. The default options T and t allow the calling and called users to transfer a call with ##. The r option allows Asterisk to generate ringing back to the calling phones which is needed by some phones and sometimes needed in complex dialplan features that may otherwise result in silence to the caller."
+#~ msgstr "Options to be passed  to the Asterisk Dial Command when making internal calls or for calls ringing internal phones. The options are documented in Asterisk documentation, a subset of which are described here. The default options T and t allow the calling and called users to transfer a call with ##. The r option allows Asterisk to generate ringing back to the calling phones which is needed by some phones and sometimes needed in complex dialplan features that may otherwise result in silence to the caller."
+
+#~ msgid "Options to be passed to the Asterisk Dial Command when making outbound calls on your trunks when not part of an Intra-Company Route. The options are documented in Asterisk documentation, a subset of which are described here. The default options T and t allow the calling and called users to transfer a call with ##. It is HIGHLY DISCOURAGED to use the r option here as this will prevent early media from being delivered from the PSTN and can result in the inability to interact with some external IVRs"
+#~ msgstr "Options to be passed to  the Asterisk Dial Command when making outbound calls on your trunks when not part of an Intra-Company Route. The options are documented in Asterisk documentation, a subset of which are described here. The default options T and t allow the calling and called users to transfer a call with ##. It is HIGHLY DISCOURAGED to use the r option here as this will prevent early media from being delivered from the PSTN and can result in the inability to interact with some external IVRs"
+
+#~ msgid "The DTMF signaling mode used by this trunk, usually RFC for most trunks<ul><li>rfc4733 - DTMF is sent out of band of the main audio stream.This supercedes the older RFC-2833 used within the older chan_sip.</li><li>inband - DTMF is sent as part of audio stream.</li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
+#~ msgstr "The DTMF signaling  mode used by this trunk, usually RFC for most trunks<ul><li>rfc4733 - DTMF is sent out of band of the main audio stream.This supercedes the older RFC-2833 used within the older chan_sip.</li><li>inband - DTMF is sent as part of audio stream.</li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
+
+#~ msgid "The path to cp as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "The path to  cp as auto-determined by the system. Overwrite as necessary."
+
+#~ msgid "The path to grep as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "The path to  grep as auto-determined by the system. Overwrite as necessary."
+
+#~ msgid "The path to gs as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "The path to  gs as auto-determined by the system. Overwrite as necessary."
 
 #~ msgid "When set to Intercom, calls to this extension/user from other internal users act as if they were intercom calls meaning they will be auto-answered if the endpoint supports this feature and the system is configured to operate in this mode. All the normal white list and black list settings will be honored if they are set. External calls will still ring as normal, as will certain other circumstances such as blind transfers and when a Follow Me is configured and enabled. If Disabled, the phone rings as a normal phone."
 #~ msgstr "When set to Intercom, calls to this extension/user from other internal users  act as if they were intercom calls meaning they will be auto-answered if the endpoint supports this feature and the system is configured to operate in this mode. All the normal white list and black list settings will be honored if they are set. External calls will still ring as normal, as will certain other circumstances such as blind transfers and when a Follow Me is configured and enabled. If Disabled, the phone rings as a normal phone."

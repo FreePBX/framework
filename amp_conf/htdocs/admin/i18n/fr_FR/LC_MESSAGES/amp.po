@@ -8688,6 +8688,12 @@ msgstr "Vous n\\'avez pas entré de mot de passe dans le champ \\'secret\\' de c
 msgid "You have not entered a User Password.  While this is acceptable, this user will not be able to login to an AdHoc user.\\n\\nAre you sure you wish to leave the User Password empty?"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/view.functions.php:54
+#: amp_conf/htdocs/admin/libraries/view.functions.php:77
+#, php-format
+msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/view.functions.php:60
 #, php-format
 msgid "You have selected an invalid language '%s' this has been automatically switched back to 'en_US' please resolve this in advanced settings"
@@ -9608,11 +9614,95 @@ msgstr "vous pourriez avoir à ajouter la ligne 'preload => pbx_config.so' a vot
 msgid "zap devices migrated"
 msgstr "dispositifs zap migrés"
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:54
-#: amp_conf/htdocs/admin/libraries/view.functions.php:77
-#, php-format
-msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:32
+msgid "Automatically enable disabled modules without prompting"
 msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:33
+msgid "Don't ask to enable disabled modules assume no."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:234
+#, php-format
+msgid "Enabling %s because autoenable was passed at the command line"
+msgstr ""
+
+#: amp.i18n.php:898
+msgid "Path for ifconfig"
+msgstr ""
+
+#: amp.i18n.php:902
+msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#~ msgid "Path for cp"
+#~ msgstr "Chemin pour cp"
+
+#~ msgid "Path for grep"
+#~ msgstr "Chemin pour grep"
+
+#~ msgid "Path for gs"
+#~ msgstr "Chemin pour gs"
+
+#~ msgid "Path for mysqldump"
+#~ msgstr "Chemin pour mysqldump"
+
+#~ msgid "Path for ps"
+#~ msgstr "Chemin pour ps"
+
+#~ msgid "Path for route"
+#~ msgstr "Chemin pour route"
+
+#~ msgid "Path for rsync"
+#~ msgstr "Chemin pour rsync"
+
+#~ msgid "Path for ssh"
+#~ msgstr "Chemin pour ssh"
+
+#~ msgid "Path for tail"
+#~ msgstr "Chemin pour tail"
+
+#~ msgid "Path for tar"
+#~ msgstr "Chemin pour tar"
+
+#~ msgid "Path for tiff2pdf"
+#~ msgstr "Chemin pour tiff2pdf"
+
+#~ msgid "Path for tiffcp"
+#~ msgstr "Chemin pour tiffcp"
+
+#~ msgid "Path for tiffinfo"
+#~ msgstr "Chemin pour tiffinfo"
+
+#~ msgid "The path to mysqldump as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers mysqldump tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#~ msgid "The path to ps as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers ps tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#~ msgid "The path to route as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers route tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#~ msgid "The path to rsync as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers rsync tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#~ msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers ssh tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#~ msgid "The path to tail as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers tail tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#~ msgid "The path to tar as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers tar tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#~ msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers tiff2pdf tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#~ msgid "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers tiffcp tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#~ msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers tiffinfo tel que déterminé automatiquement par le système. Modifier au besoin."
 
 #~ msgid " (toggle sort)"
 #~ msgstr "(Choix tri)"
@@ -10163,45 +10253,6 @@ msgstr ""
 #~ msgid "Password<span>Create a password for this new user</span>"
 #~ msgstr "Mot de Passe<span>Mot de passe pour cet administrateur</span>"
 
-#~ msgid "Path for cp"
-#~ msgstr "Chemin pour cp"
-
-#~ msgid "Path for grep"
-#~ msgstr "Chemin pour grep"
-
-#~ msgid "Path for gs"
-#~ msgstr "Chemin pour gs"
-
-#~ msgid "Path for mysqldump"
-#~ msgstr "Chemin pour mysqldump"
-
-#~ msgid "Path for ps"
-#~ msgstr "Chemin pour ps"
-
-#~ msgid "Path for route"
-#~ msgstr "Chemin pour route"
-
-#~ msgid "Path for rsync"
-#~ msgstr "Chemin pour rsync"
-
-#~ msgid "Path for ssh"
-#~ msgstr "Chemin pour ssh"
-
-#~ msgid "Path for tail"
-#~ msgstr "Chemin pour tail"
-
-#~ msgid "Path for tar"
-#~ msgstr "Chemin pour tar"
-
-#~ msgid "Path for tiff2pdf"
-#~ msgstr "Chemin pour tiff2pdf"
-
-#~ msgid "Path for tiffcp"
-#~ msgstr "Chemin pour tiffcp"
-
-#~ msgid "Path for tiffinfo"
-#~ msgstr "Chemin pour tiffinfo"
-
 #~ msgid "Pick the format in which to save recorded calls"
 #~ msgstr "Format de sauvegarde des appels enregistrés"
 
@@ -10342,36 +10393,6 @@ msgstr ""
 
 #~ msgid "The path to gs as auto-determined by the system. Overwrite as necessary."
 #~ msgstr "Le chemin vers gs tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to mysqldump as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers mysqldump tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to ps as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers ps tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to route as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers route tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to rsync as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers rsync tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers ssh tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to tail as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers tail tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to tar as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers tar tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers tiff2pdf tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers tiffcp tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers tiffinfo tel que déterminé automatiquement par le système. Modifier au besoin."
 
 #~ msgid "The section you requested does not exist or you do not have access to it."
 #~ msgstr "La section demandée n'existe pas ou vous n'y avez pas accès."
