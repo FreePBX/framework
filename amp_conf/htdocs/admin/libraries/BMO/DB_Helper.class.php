@@ -181,7 +181,7 @@ class DB_Helper {
 		}
 
 		// We don't have a result. Maybe there's a default?
-		if (property_exists($mod, "dbDefaults")) {
+		if (class_exists($mod) && property_exists($mod, "dbDefaults")) {
 			$def = $mod::$dbDefaults;
 			if (isset($def[$var]))
 				return $def[$var];
