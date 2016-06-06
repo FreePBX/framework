@@ -165,18 +165,18 @@ class DBHelperTest extends PHPUnit_Framework_TestCase {
 		// Ensure that a value overwrites a previous one
 		$f->setConfig('TESTVAR1');
 		$f->setConfig('TESTVAR1', 't1');
-		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` WHERE `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX` WHERE `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 		$f->setConfig('TESTVAR1', 't2');
-		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` WHERE `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX` WHERE `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 		$firsttestarr = array("this", "is" => "an", "annoying", 0, array("test", "of", "arrays"), false, true, -1);
 		$othertestarr = array("another" => "annoying", 0, array("test", "of", "arrays"), false, true, -1);
 		$f->setConfig('TESTVAR1', $firsttestarr);
-		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` WHERE `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX` WHERE `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 		$f->setConfig('TESTVAR1', $othertestarr);
-		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` WHERE `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX` WHERE `key`='TESTVAR1' and `id`='noid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 	}
 
@@ -186,18 +186,18 @@ class DBHelperTest extends PHPUnit_Framework_TestCase {
 		// Ensure that a value overwrites a previous one
 		$f->setConfig('TESTVAR1', false, "withid");
 		$f->setConfig('TESTVAR1', 't1', "withid");
-		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` where `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX` where `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 		$f->setConfig('TESTVAR1', 't2', "withid");
-		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` where `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX` where `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 		$firsttestarr = array("this", "is" => "an", "annoying", 0, array("test", "of", "arrays"), false, true, -1);
 		$othertestarr = array("another" => "annoying", 0, array("test", "of", "arrays"), false, true, -1);
 		$f->setConfig('TESTVAR1', $firsttestarr, "withid");
-		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` where `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX` where `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 		$f->setConfig('TESTVAR1', $othertestarr, "withid");
-		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX_DB_Helper` where `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
+		$ret = $db->query("SELECT COUNT(`key`) FROM `kvstore_FreePBX` where `key`='TESTVAR1' and `id`='withid'")->fetchAll(PDO::FETCH_COLUMN, 0);
 		$this->assertEquals(1, $ret[0], "One value set, but didn't find one row");
 	}
 
