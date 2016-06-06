@@ -439,7 +439,7 @@ class Chown extends Command {
 	private function singleChown($file, $user, $group){
 		clearstatcache(true, $file);
 		try {
-			$filetype = filetype($file);
+			$filetype = \freepbx_filetype($file);
 			if($filetype == "link") {
 				$link = readlink($file);
 				if(file_exists($link)) {
@@ -455,7 +455,7 @@ class Chown extends Command {
 			}
 		}
 		try {
-			$filetype = filetype($file);
+			$filetype = \freepbx_filetype($file);
 			if($filetype == "link") {
 				$link = readlink($file);
 				if(file_exists($link)) {
@@ -474,7 +474,7 @@ class Chown extends Command {
 	private function recursiveChown($dir, $user, $group){
 		clearstatcache(true, $dir);
 		try {
-			$filetype = filetype($dir);
+			$filetype = \freepbx_filetype($dir);
 			if($filetype == "link") {
 				$link = readlink($dir);
 				if(file_exists($link)) {
@@ -490,7 +490,7 @@ class Chown extends Command {
 			}
 		}
 		try {
-			$filetype = filetype($dir);
+			$filetype = \freepbx_filetype($dir);
 			if($filetype == "link") {
 				$link = readlink($dir);
 				if(file_exists($link)) {
@@ -512,7 +512,7 @@ class Chown extends Command {
 			return false;
 		}
 		clearstatcache(true, $file);
-		$filetype = filetype($file);
+		$filetype = \freepbx_filetype($file);
 		switch($filetype){
 			case 'link':
 				$realfile = readlink($file);
@@ -570,7 +570,7 @@ class Chown extends Command {
 			}
 			$fullpath = $path . '/' . $file;
 			clearstatcache(true, $fullpath);
-			$filetype = filetype($fullpath);
+			$filetype = \freepbx_filetype($fullpath);
 			if($filetype == 'dir'){
 				$list[] = $fullpath;
 				$getFiles = $this->recursiveDirList($fullpath);

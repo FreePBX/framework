@@ -1437,3 +1437,41 @@ function getSystemMemInfo() {
 	}
 	return $meminfo;
 }
+
+/**
+ * Check filetype of files.
+ * PHP Built in functions fail on files over 2G in size
+ * @param  string $file file/dir path
+ * @return string or bool       Returns file type if known ot false
+ */
+function freepbx_filetype($file){
+  $file = escapeshellarg($file);
+  $command = 'stat -c %f '.$file;
+  if (in_array(PHP_OS, array('FreeBSD','Darwin','NetBSD'))){
+    $command = 'stat -f %Xp '.$file;
+  }
+  $hex = hexdec(trim(`$command`));
+  $S_FMT = 0170000;
+  $S_IFLNK = 0120000;
+  $S_IFREG = 0100000;
+  $S_IFBLK = 0060000;
+  $S_IFDIR = 0040000;
+  $S_IFCHR = 0020000;
+  $S_IFIFO = 0010000;
+  switch (($hex & $S_FMT)) {
+    case $S_IFLNK:
+      return 'link';
+    case $S_IFREG:
+      return 'file';
+    case $S_IFBLK:
+      return 'block';
+    case $S_IFDIR:
+      return 'dir';
+    case $S_IFCHR:
+      return 'char';
+    case $S_IFIFO:
+      return 'fifo';
+    default:
+      return false;
+  }
+}
