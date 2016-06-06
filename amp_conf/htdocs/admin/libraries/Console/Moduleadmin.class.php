@@ -29,7 +29,8 @@ class Moduleadmin extends Command {
 			new InputOption('edge', '', InputOption::VALUE_NONE, _('Download/Upgrade forcing edge mode')),
 			new InputOption('color', '', InputOption::VALUE_NONE, _('Colorize table based list')),
 			new InputOption('skipchown', '', InputOption::VALUE_NONE, _('Skip the chown operation')),
-			new InputOption('nopromptdisabled', '', InputOption::VALUE_NONE, _('Don\'t ask to enable disabled modules')),
+			new InputOption('autoenable', 'e', InputOption::VALUE_NONE, _('Automatically enable disabled modules without prompting')),
+			new InputOption('skipdisabled', '', InputOption::VALUE_NONE, _('Don\'t ask to enable disabled modules assume no.')),
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'json, jsonpretty')),
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
@@ -215,7 +216,7 @@ class Moduleadmin extends Command {
 		\FreePBX::Modules()->loadAllFunctionsInc();
 		$module = $this->mf->getinfo($modulename);
 		$modulestatus = isset($module[$modulename]['status'])?$module[$modulename]['status']:false;
-		if($modulestatus === 1 && !$this->input->getOption('nopromptdisabled')){
+		if($modulestatus === 1 && !$this->input->getOption('skipdisabled') && !$this->input->getOption('autoenable')){
 			$helper = $this->getHelper('question');
 			$question = new ChoiceQuestion(sprintf(_("%s appears to be disabled. What would you like to do?"),$modulename),array(_("Continue"), _("Enable"),_("Cancel")),0);
 			$question->setErrorMessage('Choice %s is invalid');
@@ -228,6 +229,10 @@ class Moduleadmin extends Command {
 					exit;
 				break;
 			}
+		}
+		if($this->input->getOption('autoenable') && $modulestatus === 1){
+			$this->writeln(sprintf(_("Enabling %s because autoenable was passed at the command line"),$modulename));
+			$this->mf->enable($modulename, $force);
 		}
 		if(!$force && !$this->mf->resolveDependencies($modulename,array($this,'progress'))) {
 			$this->writeln(sprintf(_("Unable to resolve dependencies for module %s:"),$modulename), "error", false);
