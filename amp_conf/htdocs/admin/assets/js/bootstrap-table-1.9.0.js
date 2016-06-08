@@ -267,7 +267,7 @@
         totalRows: 0, // server side need to set
         pageNumber: 1,
         pageSize: 10,
-        pageList: [10, 25, 50, 100, 500, "ALL"],
+        pageList: [10, 25, 50, 100, 500, 1000, 5000, 10000],
         paginationHAlign: 'right', //right, left
         paginationVAlign: 'bottom', //bottom, top, both
         paginationDetailHAlign: 'left', //right, left
