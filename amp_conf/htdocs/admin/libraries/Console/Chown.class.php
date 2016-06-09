@@ -585,7 +585,7 @@ class Chown extends Command {
 		return array_unique($list);
 	}
 	private function padPermissions($file, $mode){
-		if(($mode>>9) == 0){
+		if((intval($mode, 8)>>9) == 0){
 			return true;
 		}else{
 			$this->errors[] = sprintf(_('%s Likely will not work as expected'),$file);
