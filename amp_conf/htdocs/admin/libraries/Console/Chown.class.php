@@ -147,7 +147,7 @@ class Chown extends Command {
 		 * 		execdir:	Same as rdir but the execute bit is not stripped.
 		 */
 		$sessdir = session_save_path();
-		$sessdir = !empty($session) ? $session : '/var/lib/php/session';
+		$sessdir = !empty($sessdir) ? $sessdir : '/var/lib/php/session';
 		$args = array();
 		if($input){
 			$args = $input->getArgument('args');
