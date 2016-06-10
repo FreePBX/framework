@@ -115,7 +115,7 @@ class Chown extends Command {
 		if(count($line) !== 4){
 			return false;
 		}
-		$ret = array('path' => $line[0], 'perms' => $line[1], 'owner' => $line[2], 'group' => $line[3]);
+		$ret = array('path' => $line[0], 'perms' => intval($line[1], 8), 'owner' => $line[2], 'group' => $line[3]);
 		return $ret;
 	}
 	protected function execute(InputInterface $input, OutputInterface $output, $quiet=false){
