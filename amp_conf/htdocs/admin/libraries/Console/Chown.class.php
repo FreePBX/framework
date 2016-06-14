@@ -50,6 +50,7 @@ class Chown extends Command {
 				}
 			}
 		}
+		$this->modfiles['byconfig'] = array();
 		if(isset($conf['custom'])){
 			if(isset($conf['custom']['file'])){
 				$conf['custom']['file'] = is_array($conf['custom']['file'])?$conf['custom']['file']:array($conf['custom']['file']);
@@ -268,6 +269,14 @@ class Chown extends Command {
 				//$this->modfiles = array_merge_recursive($this->modfiles,$fwcCF);
 			}
 		}
+		//Let's move the custom array to the end so it happens last
+		//FREEPBX-12515
+		//Store in a temporary variable. If Null we make it an empty array
+		$holdarray = $this->modfiles['byconfig'];
+		//Unset it from the array
+		unset($this->modfiles['byconfig']);
+		//Add it back to the array
+		$this->modfiles['byconfig'] = $holdarray;
 
 		$ampowner = $AMPASTERISKWEBUSER;
 		/* Address concerns carried over from amportal in FREEPBX-8268. If the apache user is different
