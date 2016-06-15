@@ -1491,7 +1491,13 @@ class module_functions {
 				}
 				try {
 					if(!FreePBX::GPG()->verifyFile($filename)) {
+						if(!FreePBX::GPG()->refreshKeys() || !FreePBX::GPG()->trustFreePBX()) {
 							return array(sprintf(_('File Integrity failed for %s - aborting (GPG Verify File check failed)'), $filename));
+						} else {
+							if(!FreePBX::GPG()->verifyFile($filename)) {
+								return array(sprintf(_('File Integrity failed for %s - aborting (GPG Verify File check failed)'), $filename));
+							}
+						}
 					}
 				}catch(\Exception $e) {
 					return array(sprintf(_('File Integrity failed for %s - aborting (Cause: %s)'), $filename, $e->getMessage()));
@@ -2991,6 +2997,7 @@ class module_functions {
 		$fwconsole = FreePBX::Config()->get('AMPSBIN')."/fwconsole "._("altered");
 		if(!$cached && $online) {
 			FreePBX::GPG()->refreshKeys();
+			FreePBX::GPG()->trustFreePBX();
 		}
 		foreach($res as $mod) {
 			// Ignore ARI for the moment.
