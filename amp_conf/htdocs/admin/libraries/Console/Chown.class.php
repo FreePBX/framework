@@ -293,119 +293,99 @@ class Chown extends Command {
 			$output->write("\t"._("Collecting Files..."));
 		}
 		$exclusive = $input->getOption('file');
+		$process = array();
 		foreach($this->modfiles as $moduleName => $modfilelist) {
 			foreach($modfilelist as $file) {
 				switch($file['type']){
 					case 'file':
 					case 'dir':
-						$fcount++;
+						if(empty($exclusive) || $exclusive == $file['path']) {
+							$file['files'] = array($file['path']);
+							$fcount++;
+						} else {
+							continue 2;
+						}
 					break;
 					case 'execdir':
 					case 'rdir':
-						$fcount++;
 						$files = $this->recursiveDirList($file['path']);
-						foreach($files as $f){
+						$children = false;
+						if(empty($exclusive) || $exclusive == $file['path']) {
+							$file['files'] = array($file['path']);
 							$fcount++;
+							$children = true;
+						}
+						foreach($files as $f){
+							if(empty($exclusive) || $children || $exclusive == $f) {
+								$file['files'][] = $f;
+								$fcount++;
+							} else {
+								continue;
+							}
+						}
+						if(empty($file['files'])) {
+							continue 2;
 						}
 					break;
 				}
+				$process[$file['type']][] = $file;
 			}
 		}
+		$verbose = $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
 		if(!$this->quiet) {
 			$output->writeln(_("Done"));
-			$progress = new ProgressBar($output, $fcount);
-			$progress->setRedrawFrequency(100);
-			$progress->start();
+			if(!$verbose) {
+				$progress = new ProgressBar($output, $fcount);
+				$progress->setRedrawFrequency(100);
+				$progress->start();
+			}
+
 		}
-		foreach($this->modfiles as $moduleName => $modfilelist) {
+		foreach($process as $type => $modfilelist) {
 			foreach($modfilelist as $file) {
 				if(!isset($file['path']) || !isset($file['perms']) || !file_exists($file['path'])){
-					if(!$this->quiet) {
+					if(!$this->quiet && !$verbose) {
 						$progress->advance();
 					}
 					continue;
 				}
-
 				//Handle custom ownership (optional)
 				$owner = isset($file['owner'])?$file['owner']:$ampowner;
 				$group = isset($file['group'])?$file['group']:$ampgroup;
-				//Set warning for bad permissions and move on
-				$this->padPermissions($file['path'],$file['perms']);
-				$file['type'] = isset($file['type'])?$file['type']:'file';
-				switch($file['type']){
-					case 'file':
-					case 'dir':
-						$path = \ForceUTF8\Encoding::toLatin1($file['path']);
-						$owner = \ForceUTF8\Encoding::toLatin1($owner);
-						$group = \ForceUTF8\Encoding::toLatin1($group);
-						if($this->checkBlacklist($path)){
-							$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
-						}else{
+				$owner = \ForceUTF8\Encoding::toLatin1($owner);
+				$group = \ForceUTF8\Encoding::toLatin1($group);
+				foreach($file['files'] as $path) {
+					if($this->checkBlacklist($path)){
+						$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+						continue;
+					}
+					$path = \ForceUTF8\Encoding::toLatin1($path);
+					switch($file['type']){
+						case 'file':
+						case 'dir':
 							$this->setPermissions(array($path,$owner,$group,$file['perms']));
-						}
-						if(!$this->quiet) {
-							$progress->advance();
-						}
 						break;
-					case 'rdir':
-						$fileperms = $this->stripExecute($file['perms']);
-						$files = $this->recursiveDirList($file['path']);
-						$path = \ForceUTF8\Encoding::toLatin1($file['path']);
-						$owner = \ForceUTF8\Encoding::toLatin1($owner);
-						$group = \ForceUTF8\Encoding::toLatin1($group);
-						$this->setPermissions(array($path, $owner, $group, $file['perms']));
-						foreach($files as $f){
-							if(is_dir($f)){
-								$path = \ForceUTF8\Encoding::toLatin1($f);
-								$owner = \ForceUTF8\Encoding::toLatin1($owner);
-								$group = \ForceUTF8\Encoding::toLatin1($group);
-								if($this->checkBlacklist($path)){
-									$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
-								}else{
-									$this->setPermissions(array($path, $owner, $group, $file['perms']));
-								}
-							}else{
-								$path = \ForceUTF8\Encoding::toLatin1($f);
-								$owner = \ForceUTF8\Encoding::toLatin1($owner);
-								$group = \ForceUTF8\Encoding::toLatin1($group);
-								if($this->checkBlacklist($path)){
-									$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
-								}else{
-									$this->setPermissions(array($path, $owner, $group, $fileperms));
-								}
-							}
-							if(!$this->quiet) {
-								$progress->advance();
-							}
-						}
-						break;
-					case 'execdir':
-						$files = $this->recursiveDirList($file['path']);
-						$path = \ForceUTF8\Encoding::toLatin1($file['path']);
-						$owner = \ForceUTF8\Encoding::toLatin1($owner);
-						$group = \ForceUTF8\Encoding::toLatin1($group);
-						$this->setPermissions(array($path, $owner, $group, $file['perms']));
-						foreach($files as $f){
-							$path = \ForceUTF8\Encoding::toLatin1($f);
-							$owner = \ForceUTF8\Encoding::toLatin1($owner);
-							$group = \ForceUTF8\Encoding::toLatin1($group);
-							if($this->checkBlacklist($path)){
-								$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
-							}else{
+						case 'rdir':
+							if(is_dir($path)){
 								$this->setPermissions(array($path, $owner, $group, $file['perms']));
+							}else{
+								$fileperms = $this->stripExecute($file['perms']);
+								$this->setPermissions(array($path, $owner, $group, $fileperms));
 							}
-							if(!$this->quiet) {
-								$progress->advance();
-							}
-						}
 						break;
+						case 'execdir':
+							$this->setPermissions(array($path, $owner, $group, $file['perms']));
+						break;
+					}
+					if(!$this->quiet && !$verbose) {
+						$progress->advance();
+					}
 				}
 			}
 		}
-		if(!$this->quiet) {
+		if(!$this->quiet && !$verbose) {
 			$progress->finish();
 		}
-
 		if(!$this->quiet) {
 			$output->writeln("");
 			$output->writeln("Finished setting permissions");
