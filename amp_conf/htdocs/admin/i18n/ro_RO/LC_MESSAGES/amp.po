@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-16 13:16-0700\n"
+"POT-Creation-Date: 2016-06-16 13:49-0700\n"
 "PO-Revision-Date: 2014-09-11 02:13+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Romanian <http://git.freepbx.org/projects/freepbx/framework/"
@@ -202,7 +202,7 @@ msgstr ""
 msgid "%s Extensions"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:575
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:528
 #, php-format
 msgid "%s Likely will not work as expected"
 msgstr ""
@@ -391,7 +391,7 @@ msgid ""
 "not supported"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:408
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:358
 #, php-format
 msgid "%s skipped by configuration"
 msgstr ""
@@ -1032,37 +1032,22 @@ msgid ""
 "An attempt to send email to: %s with unsigned modules notifications failed"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:500
-#, php-format
-msgid "An error occurred while changing group %s"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:464
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:459
 #, php-format
 msgid "An error occurred while changing groups %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:484
-#, php-format
-msgid "An error occurred while changing ownership %s"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:448
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:443
 #, php-format
 msgid "An error occurred while changing ownership on %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:553
-#, php-format
-msgid "An error occurred while changing permissions %s"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:538
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:497
 #, php-format
 msgid "An error occurred while changing permissions on file %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:519
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:478
 #, php-format
 msgid ""
 "An error occurred while changing permissions on link %s which points to %s"
@@ -6119,8 +6104,7 @@ msgid ""
 "billing reversal if supported"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:358
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:563
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:516
 msgid "One or more files skipped by configuration in freepbx_chown.conf"
 msgstr ""
 
@@ -6650,7 +6634,7 @@ msgid ""
 "Permissions error on file %s - please re-run as root to automatically repair"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:576
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:529
 #, php-format
 msgid ""
 "Permissions should be set with a leading 0, example 644 should be 0644 File: "
@@ -7163,7 +7147,7 @@ msgstr ""
 msgid "Removing %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:525
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:484
 #, php-format
 msgid ""
 "Removing dangling symlink %s which points to a file that no longer exists"
@@ -9228,7 +9212,7 @@ msgid ""
 "Unknown file format of %s for %s, supported formats: tar,tgz,tar.gz,zip,bzip"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:543
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:502
 #, php-format
 msgid "Unknown filetype of: %s[%s]"
 msgstr ""
@@ -9716,7 +9700,7 @@ msgstr ""
 msgid "We hope you enjoy using %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:507
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:466
 msgid ""
 "We received an empty string for a file name. Some files may not have the "
 "proper permissions"
