@@ -22,7 +22,8 @@ class Chown extends Command {
 		$this->setName('chown')
 		->setDescription(_('Change ownership of files'))
 		->setDefinition(array(
-			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
+			new InputOption('file', 'f', InputOption::VALUE_REQUIRED, _('Execute on only this file/dir')),
+			new InputArgument('args', InputArgument::IS_ARRAY, _('Set permissions on a specific module: <rawname>'), null),));
 		$this->fs = new Filesystem();
 		$this->modfiles = array();
 		$this->actions = new \SplQueue();
@@ -120,13 +121,17 @@ class Chown extends Command {
 		return $ret;
 	}
 	protected function execute(InputInterface $input, OutputInterface $output, $quiet=false){
+		$this->output = $output;
 		if(posix_geteuid() != 0) {
 			$output->writeln("<error>"._("You need to be root to run this command")."</error>");
 			exit(1);
 		}
 		$this->quiet = $quiet;
+		$etcdir = \FreePBX::Config()->get('ASTETCDIR');
 		if(!$this->quiet) {
-			$output->writeln("<info>".sprintf(_("Taking too long? Customize the chown command, See %s"),"http://wiki.freepbx.org/display/FOP/FreePBX+Chown+Conf")."</info>");
+			if(!file_exists($etcdir.'/freepbx_chown.conf')) {
+				$output->writeln("<info>".sprintf(_("Taking too long? Customize the chown command, See %s"),"http://wiki.freepbx.org/display/FOP/FreePBX+Chown+Conf")."</info>");
+			}
 			$output->writeln(_("Setting Permissions")."...");
 		}
 		$freepbx_conf = \freepbx_conf::create();
@@ -283,10 +288,42 @@ class Chown extends Command {
 		 * than the Asterisk user we provide permissions that allow both.
 		 */
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
-		foreach($this->modfiles as $moduleName => $modfilelist){
-				foreach($modfilelist as $file){
+		$fcount = 0;
+		if(!$this->quiet) {
+			$output->write("\t"._("Collecting Files..."));
+		}
+		$exclusive = $input->getOption('file');
+		foreach($this->modfiles as $moduleName => $modfilelist) {
+			foreach($modfilelist as $file) {
+				switch($file['type']){
+					case 'file':
+					case 'dir':
+						$fcount++;
+					break;
+					case 'execdir':
+					case 'rdir':
+						$fcount++;
+						$files = $this->recursiveDirList($file['path']);
+						foreach($files as $f){
+							$fcount++;
+						}
+					break;
+				}
+			}
+		}
+		if(!$this->quiet) {
+			$output->writeln(_("Done"));
+			$progress = new ProgressBar($output, $fcount);
+			$progress->setRedrawFrequency(100);
+			$progress->start();
+		}
+		foreach($this->modfiles as $moduleName => $modfilelist) {
+			foreach($modfilelist as $file) {
 				if(!isset($file['path']) || !isset($file['perms']) || !file_exists($file['path'])){
-						continue;
+					if(!$this->quiet) {
+						$progress->advance();
+					}
+					continue;
 				}
 
 				//Handle custom ownership (optional)
@@ -301,16 +338,13 @@ class Chown extends Command {
 						$path = \ForceUTF8\Encoding::toLatin1($file['path']);
 						$owner = \ForceUTF8\Encoding::toLatin1($owner);
 						$group = \ForceUTF8\Encoding::toLatin1($group);
-						$json = @json_encode(array($path,$owner,$group,$file['perms']));
-						$err = $this->jsonError();
-						if(empty($err)) {
-							if($this->checkBlacklist($path)){
-								$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
-							}else{
-								$this->actions->enqueue($json);
-							}
-						} else {
-							$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+						if($this->checkBlacklist($path)){
+							$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+						}else{
+							$this->setPermissions(array($path,$owner,$group,$file['perms']));
+						}
+						if(!$this->quiet) {
+							$progress->advance();
 						}
 						break;
 					case 'rdir':
@@ -319,44 +353,29 @@ class Chown extends Command {
 						$path = \ForceUTF8\Encoding::toLatin1($file['path']);
 						$owner = \ForceUTF8\Encoding::toLatin1($owner);
 						$group = \ForceUTF8\Encoding::toLatin1($group);
-						$json = @json_encode(array($path, $owner, $group, $file['perms']));
-						$err = $this->jsonError();
-						if(empty($err)) {
-							$this->actions->enqueue($json);
-						} else {
-							$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
-						}
+						$this->setPermissions(array($path, $owner, $group, $file['perms']));
 						foreach($files as $f){
 							if(is_dir($f)){
 								$path = \ForceUTF8\Encoding::toLatin1($f);
 								$owner = \ForceUTF8\Encoding::toLatin1($owner);
 								$group = \ForceUTF8\Encoding::toLatin1($group);
-								$json = @json_encode(array($path, $owner, $group, $file['perms']));
-								$err = $this->jsonError();
-								if(empty($err)) {
-									if($this->checkBlacklist($path)){
-										$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
-									}else{
-										$this->actions->enqueue($json);
-									}
-								} else {
-									$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+								if($this->checkBlacklist($path)){
+									$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+								}else{
+									$this->setPermissions(array($path, $owner, $group, $file['perms']));
 								}
 							}else{
 								$path = \ForceUTF8\Encoding::toLatin1($f);
 								$owner = \ForceUTF8\Encoding::toLatin1($owner);
 								$group = \ForceUTF8\Encoding::toLatin1($group);
-								$json = @json_encode(array($path, $owner, $group, $fileperms));
-								$err = $this->jsonError();
-								if(empty($err)) {
-									if($this->checkBlacklist($path)){
-										$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
-									}else{
-										$this->actions->enqueue($json);
-									}
-								} else {
-									$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+								if($this->checkBlacklist($path)){
+									$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+								}else{
+									$this->setPermissions(array($path, $owner, $group, $fileperms));
 								}
+							}
+							if(!$this->quiet) {
+								$progress->advance();
 							}
 						}
 						break;
@@ -365,58 +384,29 @@ class Chown extends Command {
 						$path = \ForceUTF8\Encoding::toLatin1($file['path']);
 						$owner = \ForceUTF8\Encoding::toLatin1($owner);
 						$group = \ForceUTF8\Encoding::toLatin1($group);
-						$json = @json_encode(array($path, $owner, $group, $file['perms']));
-						$err = $this->jsonError();
-						if(empty($err)) {
-							$this->actions->enqueue($json);
-						} else {
-							$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
-						}
+						$this->setPermissions(array($path, $owner, $group, $file['perms']));
 						foreach($files as $f){
 							$path = \ForceUTF8\Encoding::toLatin1($f);
 							$owner = \ForceUTF8\Encoding::toLatin1($owner);
 							$group = \ForceUTF8\Encoding::toLatin1($group);
-							$json = @json_encode(array($path, $owner, $group, $file['perms']));
-							$err = $this->jsonError();
-							if(empty($err)) {
-								if($this->checkBlacklist($path)){
-									$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
-								}else{
-									$this->actions->enqueue($json);
-								}
-							} else {
-								$this->errors[] = sprintf(_('An error occurred while adding file %s because %s'), $f, $err);
+							if($this->checkBlacklist($path)){
+								$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+							}else{
+								$this->setPermissions(array($path, $owner, $group, $file['perms']));
+							}
+							if(!$this->quiet) {
+								$progress->advance();
 							}
 						}
 						break;
 				}
 			}
 		}
-		$actioncount = count($this->actions);
-		if(!$this->quiet) {
-			$progress = new ProgressBar($output, $actioncount);
-			$progress->setRedrawFrequency(100);
-			$progress->start();
-		}
-		foreach($this->actions as $action){
-			$action = json_decode($action,true);
-			//Ignore call files, Asterisk may process/delete them before we get to them.
-			if(pathinfo($action[0], PATHINFO_EXTENSION) == 'call'){
-				continue;
-			}
-			//If path is in the blacklist we move on.
-			if(in_array($action[0], $this->blacklist) == true){
-				$this->infos[] = sprintf(_('%s skipped by configuration'), $action[0]);
-				continue;
-			}
-			$this->singleChown($action[0],$action[1],$action[2]);
-			$this->singlePerms($action[0], $action[3]);
-			if(!$this->quiet) {
-				$progress->advance();
-			}
-		}
 		if(!$this->quiet) {
 			$progress->finish();
+		}
+
+		if(!$this->quiet) {
 			$output->writeln("");
 			$output->writeln("Finished setting permissions");
 			$errors = array_unique($this->errors);
@@ -429,6 +419,21 @@ class Chown extends Command {
 			}
 		}
 	}
+
+	private function setPermissions($action) {
+		if(pathinfo($action[0], PATHINFO_EXTENSION) == 'call'){
+			return;
+		}
+		//If path is in the blacklist we move on.
+		if(in_array($action[0], $this->blacklist) == true){
+			$this->infos[] = sprintf(_('%s skipped by configuration'), $action[0]);
+			return;
+		}
+		$this->singleChown($action[0],$action[1],$action[2]);
+		$this->singlePerms($action[0], $action[3]);
+		$this->d("Setting ".$action[0]." owner to: ".$action[1].":".$action[2].", with permissions of: ".decoct($action[3]));
+	}
+
 	private function checkBlacklist($file){
 		//If path is in the blacklist we move on.
 		$filepath = pathinfo($file,PATHINFO_DIRNAME);
@@ -440,12 +445,14 @@ class Chown extends Command {
 		}
 		return false;
 	}
+
 	private function stripExecute($mask){
 		$mask = ($mask & ~(1<<0));
 		$mask = ($mask & ~(1<<3));
 		$mask = ($mask & ~(1<<6));
 		return $mask;
 	}
+
 	private function singleChown($file, $user, $group){
 		clearstatcache(true, $file);
 		try {
@@ -481,6 +488,7 @@ class Chown extends Command {
 			}
 		}
 	}
+
 	private function recursiveChown($dir, $user, $group){
 		clearstatcache(true, $dir);
 		try {
@@ -516,6 +524,7 @@ class Chown extends Command {
 			}
 		}
 	}
+
 	private function singlePerms($file, $perms){
 		if(!trim($file)){
 			$this->errors[] = _('We received an empty string for a file name. Some files may not have the proper permissions');
@@ -558,6 +567,7 @@ class Chown extends Command {
 			break;
 		}
 	}
+
 	private function recursivePerms($dir, $perms){
 		try {
 			$this->fs->chmod($dir,$perms, 0000, true);
@@ -567,32 +577,20 @@ class Chown extends Command {
 			}
 		}
 	}
+
 	private function recursiveDirList($path){
 		$list =  array();
-		$files = scandir($path);
-		foreach($files as $file){
-			if ($file == '.' || $file == '..'){
-				continue;
-			}
+		$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
+		foreach($objects as $path => $object){
 			if($this->checkBlacklist($path)){
 				$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
 				return array();
 			}
-			$fullpath = $path . '/' . $file;
-			clearstatcache(true, $fullpath);
-			$filetype = \freepbx_filetype($fullpath);
-			if($filetype == 'dir'){
-				$list[] = $fullpath;
-				$getFiles = $this->recursiveDirList($fullpath);
-				foreach($getFiles as $f){
-					$list[] = $f;
-				}
-			}else{
-				$list[] = $fullpath;
-			}
+			$list[] = $path;
 		}
 		return array_unique($list);
 	}
+
 	private function padPermissions($file, $mode){
 		if(($mode>>9) == 0){
 			return true;
@@ -600,6 +598,13 @@ class Chown extends Command {
 			$this->errors[] = sprintf(_('%s Likely will not work as expected'),$file);
 			$this->errors[] = sprintf(_('Permissions should be set with a leading 0, example 644 should be 0644 File: %s Permission set as: %s'),$file,$mode);
 			return false;
+		}
+	}
+
+	private function d($message) {
+		$debug = $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
+		if($debug && is_object($this->output)) {
+			$this->output->writeln($message);
 		}
 	}
 
