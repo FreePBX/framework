@@ -292,9 +292,12 @@ class Chown extends Command {
 		if(!$this->quiet) {
 			$output->write("\t"._("Collecting Files..."));
 		}
-		$exclusive = $input->getOption('file');
+		$exclusive = $input->hasOption('file') ? $input->getOption('file') : null;
 		$process = array();
 		foreach($this->modfiles as $moduleName => $modfilelist) {
+			if(!is_array($modfilelist)) {
+				continue;
+			}
 			foreach($modfilelist as $file) {
 				switch($file['type']){
 					case 'file':
