@@ -355,7 +355,7 @@ class Chown extends Command {
 				$group = \ForceUTF8\Encoding::toLatin1($group);
 				foreach($file['files'] as $path) {
 					if($this->checkBlacklist($path)){
-						$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
+						$this->infos[] = sprintf(_('%s skipped by configuration'), $path);
 						continue;
 					}
 					$path = \ForceUTF8\Encoding::toLatin1($path);
@@ -401,11 +401,6 @@ class Chown extends Command {
 
 	private function setPermissions($action) {
 		if(pathinfo($action[0], PATHINFO_EXTENSION) == 'call'){
-			return;
-		}
-		//If path is in the blacklist we move on.
-		if(in_array($action[0], $this->blacklist) == true){
-			$this->infos[] = sprintf(_('%s skipped by configuration'), $action[0]);
 			return;
 		}
 		$this->singleChown($action[0],$action[1],$action[2]);
@@ -466,42 +461,6 @@ class Chown extends Command {
 		}
 	}
 
-	private function recursiveChown($dir, $user, $group){
-		clearstatcache(true, $dir);
-		try {
-			$filetype = \freepbx_filetype($dir);
-			if($filetype == "link") {
-				$link = readlink($dir);
-				if(file_exists($link)) {
-					$this->fs->chown($link,$user, true);
-					$this->fs->chown($dir,$user, true);
-				}
-			} else {
-				$this->fs->chown($dir,$user, true);
-			}
-		} catch (IOExceptionInterface $e) {
-			if($dir){
-				$this->errors[] = sprintf(_('An error occurred while changing ownership %s'),$dir);
-			}
-		}
-		try {
-			$filetype = \freepbx_filetype($dir);
-			if($filetype == "link") {
-				$link = readlink($dir);
-				if(file_exists($link)) {
-					$this->fs->chgrp($link,$user, true);
-					$this->fs->chgrp($dir,$user, true);
-				}
-			} else {
-				$this->fs->chgrp($dir,$group, true);
-			}
-		} catch (IOExceptionInterface $e) {
-			if($file){
-				$this->errors[] = sprintf(_('An error occurred while changing group %s'),$dir);
-			}
-		}
-	}
-
 	private function singlePerms($file, $perms){
 		if(!trim($file)){
 			$this->errors[] = _('We received an empty string for a file name. Some files may not have the proper permissions');
@@ -545,17 +504,11 @@ class Chown extends Command {
 		}
 	}
 
-	private function recursivePerms($dir, $perms){
-		try {
-			$this->fs->chmod($dir,$perms, 0000, true);
-		} catch (IOExceptionInterface $e) {
-			if($dir){
-				$this->errors[] = sprintf(_('An error occurred while changing permissions %s'),$dir);
-			}
-		}
-	}
-
 	private function recursiveDirList($path){
+		clearstatcache(true, $path);
+		if(!file_exists($path)) {
+			return array();
+		}
 		$list =  array();
 		$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
 		foreach($objects as $path => $object){
@@ -588,31 +541,5 @@ class Chown extends Command {
 	private function fwcChownFiles(){
 		$modules = \FreePBX::Hooks()->processHooks();
 		return $modules;
-	}
-
-	private function jsonError() {
-		switch (json_last_error()) {
-			case JSON_ERROR_NONE:
-				return false;
-			break;
-			case JSON_ERROR_DEPTH:
-				return 'Maximum stack depth exceeded';
-			break;
-			case JSON_ERROR_STATE_MISMATCH:
-				return 'Underflow or the modes mismatch';
-			break;
-			case JSON_ERROR_CTRL_CHAR:
-				return 'Unexpected control character found';
-			break;
-			case JSON_ERROR_SYNTAX:
-				return 'Syntax error, malformed JSON';
-			break;
-			case JSON_ERROR_UTF8:
-				return 'Malformed UTF-8 characters, possibly incorrectly encoded';
-			break;
-			default:
-				return 'Unknown error';
-			break;
-			}
 	}
 }
