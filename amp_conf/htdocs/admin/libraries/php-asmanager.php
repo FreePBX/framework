@@ -1415,10 +1415,14 @@ class AGI_AsteriskManager {
 			if ($family == '') {
 				return $this->memAstDB;
 			} else {
-				 $key = '/'.$family;
+				$key = '/'.$family;
 				if (isset($this->memAstDB[$key])) {
 					return array($key => $this->memAstDB[$key]);
+				} elseif(isset($this->memAstDBArray[$key])) {
+					return $this->memAstDBArray[$key];
 				} else {
+					//TODO: this is intensive cache results
+					$k = $key;
 					$key .= '/';
 					$len = strlen($key);
 					$fam_arr = array();
@@ -1427,6 +1431,7 @@ class AGI_AsteriskManager {
 							$fam_arr[$this_key] = $value;
 						}
 					}
+					$this->memAstDBArray[$k] = $fam_arr;
 					return $fam_arr;
 				}
 			}
@@ -1465,6 +1470,9 @@ class AGI_AsteriskManager {
 			if (!isset($this->memAstDB[$keyUsed]) || $this->memAstDB[$keyUsed] != $value) {
 				$this->memAstDB[$keyUsed] = $value;
 				$write_through = true;
+			}
+			if(isset($this->memAstDBArray[$keyUsed])) {
+				unset($this->memAstDBArray[$keyUsed]);
 			}
 		} else {
 			$write_through = true;
@@ -1513,6 +1521,9 @@ class AGI_AsteriskManager {
 		if ($status && !empty($this->memAstDB)){
 			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
 			unset($this->memAstDB[$keyUsed]);
+			if(isset($this->memAstDBArray[$keyUsed])) {
+				unset($this->memAstDBArray[$keyUsed]);
+			}
 		}
 		return $status;
 	}
@@ -1530,6 +1541,9 @@ class AGI_AsteriskManager {
 				$reg = preg_quote($keyUsed,"/");
 				if(preg_match("/^".$reg.".*/",$key)) {
 					unset($this->memAstDB[$key]);
+					if(isset($this->memAstDBArray[$key])) {
+						unset($this->memAstDBArray[$key]);
+					}
 				}
 			}
 		}

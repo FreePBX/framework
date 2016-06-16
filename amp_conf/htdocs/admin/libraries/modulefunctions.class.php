@@ -29,6 +29,8 @@ class module_functions {
 	private $maxTimeLimit = 250;
 	private $onlineModules = null;
 
+	private $modXMLCache = array();
+
 	public static function create() {
 		static $obj;
 		if (!isset($obj) || !is_object($obj)) {
@@ -2168,6 +2170,9 @@ class module_functions {
 		}
 
 		if (file_exists($xmlfile)) {
+			if(isset($this->modXMLCache[$modulename])) {
+				return $this->modXMLCache[$modulename];
+			}
 			ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
 			$data = file_get_contents($xmlfile);
 			try {
@@ -2284,7 +2289,8 @@ class module_functions {
 						}
 					}
 				}
-				return $xmlarray['module'];
+				$this->modXMLCache[$modulename] = $xmlarray['module'];
+				return $this->modXMLCache[$modulename];
 			}
 		}
 		return null;
