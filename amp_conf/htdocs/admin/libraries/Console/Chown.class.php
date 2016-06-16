@@ -339,7 +339,6 @@ class Chown extends Command {
 				$progress->setRedrawFrequency(100);
 				$progress->start();
 			}
-
 		}
 		foreach($process as $type => $modfilelist) {
 			foreach($modfilelist as $file) {
@@ -427,9 +426,7 @@ class Chown extends Command {
 	}
 
 	private function stripExecute($mask){
-		$mask = ($mask & ~(1<<0));
-		$mask = ($mask & ~(1<<3));
-		$mask = ($mask & ~(1<<6));
+		$mask = ( $mask ^ 0111 );
 		return $mask;
 	}
 
