@@ -21,6 +21,7 @@ class Start extends Command {
 			->addOption('pre', null, InputOption::VALUE_NONE, _('Only run pre-start hooks'))
 			->addOption('post', null, InputOption::VALUE_NONE, _('Only run post-start hooks'))
 			->setHelp($this->showHelp());
+		$this->skipChown = false;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output){
@@ -93,8 +94,10 @@ class Start extends Command {
 		$output->writeln(sprintf(_('Running %s startup...'),$brand));
 		if ($runpre) {
 			if ($runpre !== "force") {
-				$chown = new Chown();
-				$chown->execute($input, $output);
+				if(!$this->skipChown){
+					$chown = new Chown();
+					$chown->execute($input, $output);
+				}
 			}
 
 			if ($aststat) {

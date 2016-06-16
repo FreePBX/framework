@@ -27,6 +27,7 @@ class Restart extends Command {
 		}
 		$start = new Start();
 		$stop = new Stop();
+		$start->skipChown = true;
 
 		$stop->execute($input, $output);
 		$start->execute($input, $output);
