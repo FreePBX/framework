@@ -394,24 +394,27 @@ class extensions {
 				// it outputs false (e.g. noop_trace), we need a pri 1 extension as the next one.
 				//
 				$last_base_tag = false;
-				if(!empty($extensions) && is_array($extensions)) {
+				if(is_array($extensions)) {
 					foreach ($extensions as $extension => $idxs) {
-						foreach($idxs as $ext) {
-							if ($last_base_tag && $ext['basetag'] = 'n') {
-								$ext['basetag'] = $last_base_tag;
-								$last_base_tag = false;
-							}
-							$this_cmd = $ext['cmd']->output();
-							if ($this_cmd !== false) {
-								$output .= "exten => ". trim($extension) .",".
-									$ext['basetag'].
-									($ext['addpri'] ? '+'.$ext['addpri'] : '').
-									($ext['tag'] ? '('.$ext['tag'].')' : '').
-									",". $this_cmd ."\n";
-							} else {
-								$last_base_tag = $ext['basetag'] == 1 ? 1 : false;
+						if(is_array($idxs)) {
+							foreach($idxs as $ext) {
+								if ($last_base_tag && $ext['basetag'] = 'n') {
+									$ext['basetag'] = $last_base_tag;
+									$last_base_tag = false;
+								}
+								$this_cmd = $ext['cmd']->output();
+								if ($this_cmd !== false) {
+									$output .= "exten => ". trim($extension) .",".
+										$ext['basetag'].
+										($ext['addpri'] ? '+'.$ext['addpri'] : '').
+										($ext['tag'] ? '('.$ext['tag'].')' : '').
+										",". $this_cmd ."\n";
+								} else {
+									$last_base_tag = $ext['basetag'] == 1 ? 1 : false;
+								}
 							}
 						}
+
 						if (!empty($this->_hints[$section][$extension]) && is_array($this->_hints[$section][$extension])) {
 							foreach ($this->_hints[$section][$extension] as $hint) {
 								$output .= "exten => ". trim($extension) .",hint,".$hint."\n";
