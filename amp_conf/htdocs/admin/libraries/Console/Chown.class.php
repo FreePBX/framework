@@ -424,7 +424,7 @@ class Chown extends Command {
 	}
 
 	private function stripExecute($mask){
-		$mask = ( $mask ^ 0111 );
+		$mask = ( $mask & ~0111 );
 		return $mask;
 	}
 
