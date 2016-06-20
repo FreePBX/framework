@@ -620,7 +620,7 @@ class module_functions {
 
 		if ($module) {
 			// get info on only one module
-			$xml = $this->_readxml($module);
+			$xml = $this->_readxml($module, !($forceload));
 			if (!is_null($xml)) {
 				$modules[$module] = $xml;
 				// if status is anything else, it will be updated below when we read the db
@@ -653,7 +653,7 @@ class module_functions {
 
 				// read the xml for each
 				foreach ($module_list as $file) {
-					$xml = $this->_readxml($file);
+					$xml = $this->_readxml($file, !($forceload));
 					if (!is_null($xml)) {
 						$modules[$file] = $xml;
 						// if status is anything else, it will be updated below when we read the db
@@ -2156,7 +2156,7 @@ class module_functions {
 		$modulelist->invalidate();
 	}
 
-	function _readxml($modulename) {
+	function _readxml($modulename, $cached = true) {
 		global $amp_conf;
 		switch ($modulename) {
 			case 'builtin': // special handling
@@ -2170,7 +2170,7 @@ class module_functions {
 		}
 
 		if (file_exists($xmlfile)) {
-			if(isset($this->modXMLCache[$modulename])) {
+			if(isset($this->modXMLCache[$modulename]) && $cached) {
 				return $this->modXMLCache[$modulename];
 			}
 			ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
