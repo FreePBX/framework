@@ -636,6 +636,7 @@ class module_functions {
 			$modulelist = modulelist::create($db);
 			if ($forceload) {
 				$modulelist->invalidate();
+				$this->modXMLCache = array();
 			}
 			if (!$modulelist->is_loaded()) {
 				// initialize list with "builtin" module
@@ -1868,8 +1869,6 @@ class module_functions {
 
 		set_time_limit($this->maxTimeLimit);
 
-		$modules = $this->getinfo($modulename);
-
 		// make sure we have a directory, to begin with
 		$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
 		if (!is_dir($dir)) {
@@ -1878,6 +1877,7 @@ class module_functions {
 		}
 
 		// read the module.xml file
+		$this->modXMLCache[$modulename] = null;
 		$modules = $this->getinfo($modulename);
 		if (!isset($modules[$modulename])) {
 			return array(_("Could not read module.xml"));
@@ -1967,6 +1967,7 @@ class module_functions {
 		// module is now installed & enabled, invalidate the modulelist class since it is now stale
 		$modulelist = modulelist::create($db);
 		$modulelist->invalidate();
+		$this->modXMLCache = array();
 
 		// edit the notification table to list any remaining upgrades available or clear
 		// it if none are left. It requres a copy of the most recent module_xml to compare
@@ -2154,6 +2155,7 @@ class module_functions {
 		}
 		$modulelist = modulelist::create($db);
 		$modulelist->invalidate();
+		$this->modXMLCache = array();
 	}
 
 	function _readxml($modulename, $cached = true) {
