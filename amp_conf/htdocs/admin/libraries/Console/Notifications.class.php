@@ -61,7 +61,7 @@ class Notifications extends Command {
 
 	private function showHelp(){
 		$help = '<info>'._('Notifications Help').':'.PHP_EOL;
-		$help .= _('Usage').': fwconsole notification [--list] [--delete rawname id]</info>' . PHP_EOL;
+		$help .= _('Usage').': fwconsole notification [--list] [--delete module id]</info>' . PHP_EOL;
 		return $help;
 	}
 }
