@@ -118,16 +118,7 @@ class modgettext {
 				bind_textdomain_codeset('amp', 'utf8');
 				self::$tdhash[$module] = 'amp';
 			}
-			if(php_sapi_name() !== 'cli') {
-				if (empty($_COOKIE['lang']) || !preg_match('/^[\w\._@-]+$/', $_COOKIE['lang'], $matches)) {
-					$lang = $amp_conf['UIDEFAULTLANG']?$amp_conf['UIDEFAULTLANG']:'en_US';
-				} else {
-					preg_match('/^([\w\._@-]+)$/', $_COOKIE['lang'], $matches);
-					$lang = !empty($matches[1])?$matches[1]:'en_US';
-				}
-			} else {
-				$lang = $amp_conf['UIDEFAULTLANG']?$amp_conf['UIDEFAULTLANG']:'en_US';
-			}
+			$lang = set_language();
 			$lang_parts = explode("_",$lang);
 			//if a user sets the system language to 'pt_BR', the system will look for any given string in pt_BR, then pt
 			if (isset($lang) && (is_dir($path.'/modules/' . $module . '/i18n/' . $lang) || is_dir($path.'/modules/' . $module . '/i18n/' . $lang_parts[0]))) {
