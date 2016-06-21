@@ -562,7 +562,7 @@ class ext_goto extends extension {
 	}
 
 	function gotoEmpty($value) {
-		return ($value != "0" && empty($value));
+		return ($value === "" || $value === null || $value === false);
 	}
 
 	function output() {
