@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-20 13:59-0700\n"
+"POT-Creation-Date: 2016-06-21 10:15-0700\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -988,7 +988,7 @@ msgstr "Все доступные модули обновлены и устан�
 msgid "All dependencies met for module %s"
 msgstr "Все зависимости, необходимые модулю %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:883
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:882
 msgid "All inclusive Module Actions"
 msgstr "Все включённые в модуль действия"
 
@@ -5426,9 +5426,9 @@ msgstr "Добавлены промежуточные настройки RTPSTAR
 msgid "Install"
 msgstr "Установить"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:875
-msgid "Install local module[s], accepts argument module[s]"
-msgstr "Установка локальных модулей, приём аргументов модулей"
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:886
+msgid "Install all local modules, accepts no arguments"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:792
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:809
@@ -5461,7 +5461,7 @@ msgstr "Установка ошибочных зависимостей:%s %s"
 msgid "Installing core..."
 msgstr "Инсталляция  ядра ..."
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:884
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:883
 msgid "Installs all modules, accepts no arguments"
 msgstr "Установка всех модулей,не принимающие аргументы"
 
@@ -9846,7 +9846,7 @@ msgstr "Транки"
 msgid "Trust RPID"
 msgstr "Доверительные RPID"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:885
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:884
 msgid "Trys to enable all modules, accepts no arguments"
 msgstr "Попытка водключить все модули, принимя все аргументы"
 
@@ -10040,7 +10040,7 @@ msgstr "Деинсталлировать"
 msgid "Uninstalling %s"
 msgstr "Деинсталлируется %s "
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:876
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:875
 msgid "Uninstalls module[s], accepts argument module[s]"
 msgstr "Деинсталлируюется модуль(-ли), принимая аргумент для моля(-лей)"
 
@@ -10174,7 +10174,7 @@ msgstr "Обновить"
 msgid "Upgrade all"
 msgstr "Обновить все"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:877
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:876
 msgid "Upgrade module[s], accepts argument module[s]"
 msgstr "Обновить модуль(-ли), принимая аргументы модуля(-лей)"
 
@@ -10183,7 +10183,7 @@ msgstr "Обновить модуль(-ли), принимая аргумент�
 msgid "Upgrade to %s and Enable"
 msgstr "Обновить до %s и активировать"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:886
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:885
 msgid "Upgrades all modules, accepts no arguments"
 msgstr "Обновить все модули, принимая без аргументов"
 
@@ -12220,6 +12220,9 @@ msgstr ""
 #: ../core/install.php:1105
 msgid "zap devices migrated"
 msgstr "Устройства ZAP перенесены"
+
+#~ msgid "Install local module[s], accepts argument module[s]"
+#~ msgstr "Установка локальных модулей, приём аргументов модулей"
 
 #~ msgid "An error occurred while changing group %s"
 #~ msgstr "Произошла ошибка при изменени группы %s"
