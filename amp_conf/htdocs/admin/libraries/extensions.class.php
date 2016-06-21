@@ -360,22 +360,23 @@ class extensions {
 			$output .= "\n;end of [globals]\n\n";
 		}
 
-		//now the rest of the contexts
 		if(!empty($this->_exts) && is_array($this->_exts)){
-			foreach (array_keys($this->_exts) as $section) {
-        $comment = isset($this->_section_comment[$section]) ? ' ; '.$this->_section_comment[$section] : '';
+			foreach($this->_exts as $section => $extensions) {
+				$comment = isset($this->_section_comment[$section]) ? ' ; '.$this->_section_comment[$section] : '';
 				$output .= "[$section]$comment\n";
 
 				//automatically include a -custom context unless no_custom is true
-        if (!$this->_disable_custom_contexts && (!isset($this->_section_no_custom[$section]) || $this->_section_no_custom[$section] == false)) {
-				  $output .= "include => {$section}-custom\n";
-        }
+				if (!$this->_disable_custom_contexts && (!isset($this->_section_no_custom[$section]) || $this->_section_no_custom[$section] == false)) {
+					$output .= "include => {$section}-custom\n";
+				}
+
 				//add requested includes for this context
 				if (isset($this->_includes[$section]) && is_array($this->_includes[$section])) {
 					foreach ($this->_includes[$section] as $include) {
 						$output .= "include => ".$include['include'] . ($include['comment'] != ''?' ; '.$include['comment']:'') . "\n";
 					}
 				}
+
 				if (isset($this->_switches[$section]) && is_array($this->_switches[$section])) {
 					foreach ($this->_switches[$section] as $include) {
 						$output .= "switch => ".$include."\n";
@@ -389,34 +390,31 @@ class extensions {
 					}
 				}
 
-        // probably a better way to do this. But ... if an extension happens to be the pri 1 extension, and then
-        // it outputs false (e.g. noop_trace), we need a pri 1 extension as the next one.
-        //
-        $last_base_tag = false;
-				if(!empty($this->_exts[$section]) && is_array($this->_exts[$section])) {
-					foreach (array_keys($this->_exts[$section]) as $extension) {
-	          if (is_array($this->_exts[$section][$extension])) foreach (array_keys($this->_exts[$section][$extension]) as $idx) {
-
-							$ext = $this->_exts[$section][$extension][$idx];
-
-							//echo "[$section] $extension $idx\n";
-							//var_dump($ext);
-
-	            if ($last_base_tag && $ext['basetag'] = 'n') {
-	              $ext['basetag'] = $last_base_tag;
-	              $last_base_tag = false;
-	            }
-	            $this_cmd = $ext['cmd']->output();
-	            if ($this_cmd !== false) {
-							  $output .= "exten => ". trim($extension) .",".
-								  $ext['basetag'].
-								  ($ext['addpri'] ? '+'.$ext['addpri'] : '').
-								  ($ext['tag'] ? '('.$ext['tag'].')' : '').
-								  ",". $this_cmd ."\n";
-	            } else {
-	              $last_base_tag = $ext['basetag'] == 1 ? 1 : false;
-	            }
+				// probably a better way to do this. But ... if an extension happens to be the pri 1 extension, and then
+				// it outputs false (e.g. noop_trace), we need a pri 1 extension as the next one.
+				//
+				$last_base_tag = false;
+				if(is_array($extensions)) {
+					foreach ($extensions as $extension => $idxs) {
+						if(is_array($idxs)) {
+							foreach($idxs as $ext) {
+								if ($last_base_tag && $ext['basetag'] = 'n') {
+									$ext['basetag'] = $last_base_tag;
+									$last_base_tag = false;
+								}
+								$this_cmd = $ext['cmd']->output();
+								if ($this_cmd !== false) {
+									$output .= "exten => ". trim($extension) .",".
+										$ext['basetag'].
+										($ext['addpri'] ? '+'.$ext['addpri'] : '').
+										($ext['tag'] ? '('.$ext['tag'].')' : '').
+										",". $this_cmd ."\n";
+								} else {
+									$last_base_tag = $ext['basetag'] == 1 ? 1 : false;
+								}
+							}
 						}
+
 						if (!empty($this->_hints[$section][$extension]) && is_array($this->_hints[$section][$extension])) {
 							foreach ($this->_hints[$section][$extension] as $hint) {
 								$output .= "exten => ". trim($extension) .",hint,".$hint."\n";
@@ -440,7 +438,6 @@ class extensions {
 				$output .= ";--== end of [".$section."] ==--;\n\n\n";
 			}
 		}
-
 		return $output;
 	}
 }

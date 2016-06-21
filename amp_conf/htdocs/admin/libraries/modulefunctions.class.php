@@ -29,6 +29,8 @@ class module_functions {
 	private $maxTimeLimit = 250;
 	private $onlineModules = null;
 
+	private $modXMLCache = array();
+
 	public static function create() {
 		static $obj;
 		if (!isset($obj) || !is_object($obj)) {
@@ -618,7 +620,7 @@ class module_functions {
 
 		if ($module) {
 			// get info on only one module
-			$xml = $this->_readxml($module);
+			$xml = $this->_readxml($module, !($forceload));
 			if (!is_null($xml)) {
 				$modules[$module] = $xml;
 				// if status is anything else, it will be updated below when we read the db
@@ -634,6 +636,7 @@ class module_functions {
 			$modulelist = modulelist::create($db);
 			if ($forceload) {
 				$modulelist->invalidate();
+				$this->modXMLCache = array();
 			}
 			if (!$modulelist->is_loaded()) {
 				// initialize list with "builtin" module
@@ -651,7 +654,7 @@ class module_functions {
 
 				// read the xml for each
 				foreach ($module_list as $file) {
-					$xml = $this->_readxml($file);
+					$xml = $this->_readxml($file, !($forceload));
 					if (!is_null($xml)) {
 						$modules[$file] = $xml;
 						// if status is anything else, it will be updated below when we read the db
@@ -1491,7 +1494,13 @@ class module_functions {
 				}
 				try {
 					if(!FreePBX::GPG()->verifyFile($filename)) {
+						if(!FreePBX::GPG()->refreshKeys() || !FreePBX::GPG()->trustFreePBX()) {
 							return array(sprintf(_('File Integrity failed for %s - aborting (GPG Verify File check failed)'), $filename));
+						} else {
+							if(!FreePBX::GPG()->verifyFile($filename)) {
+								return array(sprintf(_('File Integrity failed for %s - aborting (GPG Verify File check failed)'), $filename));
+							}
+						}
 					}
 				}catch(\Exception $e) {
 					return array(sprintf(_('File Integrity failed for %s - aborting (Cause: %s)'), $filename, $e->getMessage()));
@@ -1860,8 +1869,6 @@ class module_functions {
 
 		set_time_limit($this->maxTimeLimit);
 
-		$modules = $this->getinfo($modulename);
-
 		// make sure we have a directory, to begin with
 		$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
 		if (!is_dir($dir)) {
@@ -1870,6 +1877,7 @@ class module_functions {
 		}
 
 		// read the module.xml file
+		$this->modXMLCache[$modulename] = null;
 		$modules = $this->getinfo($modulename);
 		if (!isset($modules[$modulename])) {
 			return array(_("Could not read module.xml"));
@@ -1959,6 +1967,7 @@ class module_functions {
 		// module is now installed & enabled, invalidate the modulelist class since it is now stale
 		$modulelist = modulelist::create($db);
 		$modulelist->invalidate();
+		$this->modXMLCache = array();
 
 		// edit the notification table to list any remaining upgrades available or clear
 		// it if none are left. It requres a copy of the most recent module_xml to compare
@@ -2146,9 +2155,10 @@ class module_functions {
 		}
 		$modulelist = modulelist::create($db);
 		$modulelist->invalidate();
+		$this->modXMLCache = array();
 	}
 
-	function _readxml($modulename) {
+	function _readxml($modulename, $cached = true) {
 		global $amp_conf;
 		switch ($modulename) {
 			case 'builtin': // special handling
@@ -2162,6 +2172,9 @@ class module_functions {
 		}
 
 		if (file_exists($xmlfile)) {
+			if(isset($this->modXMLCache[$modulename]) && $cached) {
+				return $this->modXMLCache[$modulename];
+			}
 			ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
 			$data = file_get_contents($xmlfile);
 			try {
@@ -2278,7 +2291,8 @@ class module_functions {
 						}
 					}
 				}
-				return $xmlarray['module'];
+				$this->modXMLCache[$modulename] = $xmlarray['module'];
+				return $this->modXMLCache[$modulename];
 			}
 		}
 		return null;
@@ -2991,6 +3005,7 @@ class module_functions {
 		$fwconsole = FreePBX::Config()->get('AMPSBIN')."/fwconsole "._("altered");
 		if(!$cached && $online) {
 			FreePBX::GPG()->refreshKeys();
+			FreePBX::GPG()->trustFreePBX();
 		}
 		foreach($res as $mod) {
 			// Ignore ARI for the moment.

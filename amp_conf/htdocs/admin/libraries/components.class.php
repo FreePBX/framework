@@ -1177,6 +1177,78 @@ class guitext extends guielement {
 	}
 }
 
+/**
+ * Generate a bootstrap table
+ */
+class gui_table extends guitext {
+	public function __construct($elemname, $headers, $rows=array(), $options=array()) {
+		// call parent class contructor
+		parent::__construct($elemname, '');
+
+		$default = array(
+			"cache" => "false",
+			"cookie" => "true",
+			"cookie-id-table" => $this->_elemname,
+			"maintain-selected" => "true",
+			"show-columns" => "true",
+			"show-toggle" => "true",
+			"pagination" => "true",
+			"search" => "true"
+		);
+		foreach($default as $key => $value) {
+			if(!isset($options[$key])) {
+				$options[$key] = $value;
+			}
+		}
+
+		$html = '<table id="'.$this->_elemname.'" data-toggle="table" ';
+		foreach($options as $key => $value) {
+			$html .= "data-".$key."=".$value." ";
+		}
+		$html .= ' class="table table-striped">';
+		$html .= '<thead><tr>';
+		foreach($headers as $data) {
+			$html .= '<th ';
+			if(!empty($data['options'])) {
+				foreach($data['options'] as $key => $value) {
+					$html .= "data-".$key."=".$value." ";
+				}
+			}
+			$html .= '>'.$data['name'].'</th>';
+		}
+		$html .= '</tr></thead>';
+		if(!empty($rows)) {
+			$html .= '<tbody>';
+			foreach($rows as $row) {
+				$html .= '<tr>';
+				foreach($row as $cel) {
+					$html .= '<td>'.$cel.'</td>';
+				}
+				$html .= '</tr>';
+			}
+			$html .= '</tbody>';
+		}
+		$html .= '</table>';
+		$this->html_text = $html;
+		$this->type = "table";
+	}
+}
+
+/**
+ * Send HTML down the line directly into the component
+ */
+class gui_html extends guitext {
+	public function __construct($elemname, $html) {
+		// call parent class contructor
+		parent::__construct($elemname, $html);
+
+		// nothing really needed here as it's just whatever html was passed
+		// but suppose we should do something with the element name
+		$this->html_text = $html;
+		$this->type = "html";
+	}
+}
+
 // Label -- just text basically!
 class gui_label extends guitext {
 	public function __construct($elemname, $text, $uselang = true, $class='') {
