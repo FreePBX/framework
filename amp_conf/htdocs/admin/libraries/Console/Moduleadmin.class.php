@@ -442,6 +442,17 @@ class Moduleadmin extends Command {
 		$modules = $this->getUpgradableModules();
 		if (count($modules) > 0) {
 			$this->writeln(_("Upgrading: ").implode(', ',$modules));
+			//upgrade framework, core, sipsettings
+			//yes the array below is reversed on purpose
+			$prepend = array('sipsettings','core','framework');
+			foreach($prepend as $module) {
+				$key == array_search($module,$modules);
+				if($key !== false) {
+					unset($modules[$key]);
+					array_unshift($modules, $module);
+				}
+			}
+			$modules = array_values($modules);
 			foreach ($modules as $modulename) {
 				$this->writeln(_("Upgrading ").$modulename."..");
 				$this->doUpgrade($modulename, $this->force);
