@@ -1426,6 +1426,8 @@ function getSystemMemInfo() {
 	if (PHP_OS == "FreeBSD") {
 		$bytes = shell_exec("sysctl -n hw.usermem 2>/dev/null");
 		$meminfo["MemTotal"] = $bytes / 1024 ;
+		$bytes = shell_exec("sysctl -n vm.swap_total 2>/dev/null");
+		$meminfo["SwapTotal"] = $bytes / 1024 ;
 	} else {
 		$data = explode("\n", file_get_contents("/proc/meminfo"));
 		foreach ($data as $line) {
