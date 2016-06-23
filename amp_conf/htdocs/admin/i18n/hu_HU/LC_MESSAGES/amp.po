@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx-2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-21 10:15-0700\n"
+"POT-Creation-Date: 2016-06-23 16:10-0700\n"
 "PO-Revision-Date: 2007-10-09 16:16+0100\n"
 "Last-Translator: Lónyai Gergely <alephlg@gmail.com>\n"
 "Language-Team: Aleph <alephlg@gmail.com>\n"
@@ -37,7 +37,7 @@ msgstr ""
 msgid " extension number already in use by: "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:482
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:493
 msgid " not found"
 msgstr ""
 
@@ -163,7 +163,7 @@ msgstr ""
 msgid "%s (current: %s)"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:266
+#: ../core/page.advancedsettings.php:274
 #, php-format
 msgid "%s Advanced Settings"
 msgstr ""
@@ -337,8 +337,8 @@ msgstr ""
 msgid "%s is already in use sip.conf. Can not continue"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:550
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:786
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:561
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:797
 #, php-format
 msgid "%s not found"
 msgstr ""
@@ -511,11 +511,11 @@ msgid ""
 "acted on."
 msgstr ""
 
-#: ../core/functions.inc.php:6184
+#: ../core/functions.inc.php:6183
 msgid "A description for this DID, such as \"Fax\""
 msgstr ""
 
-#: ../core/functions.inc.php:6185
+#: ../core/functions.inc.php:6184
 msgid ""
 "A direct DID that is associated with this extension. The DID should be in "
 "the same format as provided by the provider (e.g. full number, 4 digits for "
@@ -537,11 +537,11 @@ msgid ""
 "from the CLI): 1) fwconsole ma install %s 2) fwconsole ma enable %s"
 msgstr ""
 
-#: ../core/functions.inc.php:4137 ../core/functions.inc.php:4166
+#: ../core/functions.inc.php:4136 ../core/functions.inc.php:4165
 msgid "A route for this DID/CID already exists!"
 msgstr "Egy útvonalban ez a DID/CID már meg lett adva!"
 
-#: ../core/Core.class.php:2133 ../core/functions.inc.php:4723
+#: ../core/Core.class.php:2133 ../core/functions.inc.php:4722
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr ""
@@ -550,7 +550,7 @@ msgstr ""
 msgid "A useful description describing this channel"
 msgstr ""
 
-#: ../core/functions.inc.php:6082
+#: ../core/functions.inc.php:6081
 msgid "A user will enter this password when logging onto a device."
 msgstr ""
 "A felhasználó ennek a jelszónak a megadásával tud bejelentkezni egy "
@@ -646,12 +646,12 @@ msgstr ""
 msgid "Add"
 msgstr ""
 
-#: ../core/functions.inc.php:6399
+#: ../core/functions.inc.php:6397
 #, php-format
 msgid "Add %s Device"
 msgstr ""
 
-#: ../core/functions.inc.php:6401
+#: ../core/functions.inc.php:6399
 #, php-format
 msgid "Add %s Extension"
 msgstr ""
@@ -678,18 +678,18 @@ msgstr ""
 msgid "Add Device"
 msgstr ""
 
-#: ../core/functions.inc.php:6071 ../core/functions.inc.php:6457
+#: ../core/functions.inc.php:6070 ../core/functions.inc.php:6455
 #: ../core/page.ampusers.php:132 ../core/page.ampusers.php:155
 #: ../core/page.extensions.php:19 ../core/page.extensions.php:101
 #: ../core/views/rnav.php:6
 msgid "Add Extension"
 msgstr ""
 
-#: ../core/functions.inc.php:6186
+#: ../core/functions.inc.php:6185
 msgid "Add Inbound CID"
 msgstr ""
 
-#: ../core/functions.inc.php:6185
+#: ../core/functions.inc.php:6184
 msgid "Add Inbound DID"
 msgstr ""
 
@@ -729,22 +729,22 @@ msgstr ""
 msgid "Add Trunk"
 msgstr ""
 
-#: ../core/functions.inc.php:6073 ../core/functions.inc.php:6427
-#: ../core/functions.inc.php:6459 ../core/page.users.php:48
+#: ../core/functions.inc.php:6072 ../core/functions.inc.php:6425
+#: ../core/functions.inc.php:6457 ../core/page.users.php:48
 #: ../core/views/ampusers/bootnav.php:2 ../core/views/rnav.php:37
 #: ../core/views/rnav.php:51
 msgid "Add User"
 msgstr "Felhasználó hozzáadása"
 
-#: ../core/functions.inc.php:6050
+#: ../core/functions.inc.php:6049
 msgid "Add User/Extension"
 msgstr ""
 
-#: ../core/functions.inc.php:6353
+#: ../core/functions.inc.php:6351
 msgid "Add Virtual Extension"
 msgstr ""
 
-#: ../core/functions.inc.php:6186
+#: ../core/functions.inc.php:6185
 msgid ""
 "Add a CID for more specific DID + CID routing. A DID must be specified in "
 "the above Add DID box. In addition to standard dial sequences, you can also "
@@ -793,7 +793,7 @@ msgstr ""
 msgid "Address to bind to. Default is ::"
 msgstr ""
 
-#: ../core/functions.inc.php:6327
+#: ../core/functions.inc.php:6326
 msgid "Adhoc"
 msgstr ""
 
@@ -905,17 +905,17 @@ msgstr ""
 msgid "All available modules are up-to-date and installed."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:557
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:568
 #, php-format
 msgid "All dependencies met for module %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:882
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:893
 msgid "All inclusive Module Actions"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:389
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:623
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:634
 msgid "All modules up to date."
 msgstr ""
 
@@ -924,7 +924,7 @@ msgid ""
 "All settings can be set from the Advanced Settings page accessible in FreePBX"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:449
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:460
 msgid "All upgrades done!"
 msgstr ""
 
@@ -965,7 +965,7 @@ msgstr ""
 msgid "Alt for Left Logo"
 msgstr ""
 
-#: ../core/functions.inc.php:5945
+#: ../core/functions.inc.php:5944
 #: ../core/functions.inc/drivers/PJSip.class.php:242
 msgid "Always"
 msgstr ""
@@ -1032,7 +1032,7 @@ msgid ""
 "would like them to be able to seize the line."
 msgstr ""
 
-#: ../core/functions.inc.php:6198
+#: ../core/functions.inc.php:6197
 msgid "Any DID"
 msgstr ""
 
@@ -1084,7 +1084,7 @@ msgstr ""
 msgid "Asked for raw contents of a file, but was never asked to read a file"
 msgstr ""
 
-#: ../core/functions.inc.php:6182
+#: ../core/functions.inc.php:6181
 msgid "Assigned DID/CID"
 msgstr ""
 
@@ -1106,7 +1106,7 @@ msgstr ""
 msgid "Asterisk Builtin mini-HTTP server"
 msgstr ""
 
-#: amp.i18n.php:340 ../core/functions.inc.php:6154
+#: amp.i18n.php:340 ../core/functions.inc.php:6153
 msgid "Asterisk Dial Options"
 msgstr ""
 
@@ -1240,7 +1240,7 @@ msgstr ""
 msgid "Attempted to load %s with a hint of %s and it didn't exist"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1078
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1089
 #, php-format
 msgid "Attempting to Enable %s"
 msgstr ""
@@ -1371,7 +1371,7 @@ msgstr ""
 msgid "Both"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:706
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:717
 #: amp_conf/htdocs/admin/page.modules.php:780
 #: amp_conf/htdocs/admin/views/module_admin/main.php:79
 msgid "Broken"
@@ -1389,11 +1389,11 @@ msgstr ""
 msgid "Browser Stats"
 msgstr ""
 
-#: ../core/functions.inc.php:890 ../core/functions.inc.php:6253
+#: ../core/functions.inc.php:890 ../core/functions.inc.php:6252
 msgid "Busy"
 msgstr "Foglalt"
 
-#: ../core/functions.inc.php:6252
+#: ../core/functions.inc.php:6251
 msgid "Busy Voicemail if Enabled"
 msgstr ""
 
@@ -1437,7 +1437,7 @@ msgstr ""
 msgid "CID"
 msgstr ""
 
-#: ../core/functions.inc.php:6117
+#: ../core/functions.inc.php:6116
 msgid "CID Num Alias"
 msgstr ""
 
@@ -1445,8 +1445,8 @@ msgstr ""
 msgid "CID Options"
 msgstr ""
 
-#: ../core/functions.inc.php:6245 ../core/functions.inc.php:6254
-#: ../core/functions.inc.php:6259
+#: ../core/functions.inc.php:6244 ../core/functions.inc.php:6253
+#: ../core/functions.inc.php:6258
 msgid "CID Prefix"
 msgstr ""
 
@@ -1471,7 +1471,7 @@ msgstr ""
 msgid "CW Enabled by Default"
 msgstr ""
 
-#: ../core/functions.inc.php:6165
+#: ../core/functions.inc.php:6164
 msgid "Call Forward Ring Time"
 msgstr ""
 
@@ -1526,11 +1526,11 @@ msgid ""
 "their priorities are also the same."
 msgstr ""
 
-#: ../core/functions.inc.php:6178
+#: ../core/functions.inc.php:6177
 msgid "Call Screening"
 msgstr ""
 
-#: ../core/functions.inc.php:6178
+#: ../core/functions.inc.php:6177
 msgid ""
 "Call Screening requires external callers to say their name, which will be "
 "played back to the user and allow the user to accept or reject the call.  "
@@ -1543,7 +1543,7 @@ msgid ""
 "the caller's CallerID."
 msgstr ""
 
-#: ../core/functions.inc.php:6177
+#: ../core/functions.inc.php:6176
 msgid "Call Waiting"
 msgstr ""
 
@@ -1555,7 +1555,7 @@ msgstr ""
 msgid "Call Waiting is enabled"
 msgstr ""
 
-#: ../core/functions.inc.php:6227
+#: ../core/functions.inc.php:6226
 msgid ""
 "Call recording policy priority relative to other extensions when there is a "
 "conflict between an extension wanting recording and the other not wanting "
@@ -1695,7 +1695,7 @@ msgstr "Nem található a modul"
 msgid "Cant Find Framework XML"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:752
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:763
 msgid "Cant Reach Online Server"
 msgstr ""
 
@@ -1783,7 +1783,7 @@ msgstr ""
 msgid "Check this to disable this trunk in all routes where it is used."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:761
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:772
 #, php-format
 msgid "Checking %s..."
 msgstr ""
@@ -1792,7 +1792,7 @@ msgstr ""
 msgid "Checking Online, Please Wait..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:757
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:768
 msgid "Checking Signatures of Modules..."
 msgstr ""
 
@@ -1851,7 +1851,7 @@ msgstr ""
 msgid "Checking number of admin users.."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:868
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:879
 msgid "Checks dependencies for provided module[s], accepts argument module[s]"
 msgstr ""
 
@@ -1978,7 +1978,7 @@ msgstr ""
 msgid "Confirm Password"
 msgstr ""
 
-#: ../core/functions.inc.php:6100
+#: ../core/functions.inc.php:6099
 msgid "Conflicting Extensions"
 msgstr ""
 
@@ -2074,7 +2074,7 @@ msgstr ""
 msgid "Could not delete %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:974
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:985
 msgid "Could not determine module name"
 msgstr ""
 
@@ -2088,7 +2088,7 @@ msgstr ""
 msgid "Could not find gpg command!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:773
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:784
 msgid "Could not find signed module on remote server!"
 msgstr ""
 
@@ -2206,7 +2206,7 @@ msgstr ""
 msgid "Cronmanager encountered %s Errors"
 msgstr ""
 
-#: ../core/functions.inc.php:6154
+#: ../core/functions.inc.php:6153
 msgid ""
 "Cryptic Asterisk Dial Options, check to customize for this extension or un-"
 "check to use system defaults set in Advanced Options. These will not apply "
@@ -2303,11 +2303,11 @@ msgstr ""
 msgid "DID"
 msgstr ""
 
-#: ../core/functions.inc.php:6194
+#: ../core/functions.inc.php:6193
 msgid "DID / CID"
 msgstr ""
 
-#: ../core/functions.inc.php:6184
+#: ../core/functions.inc.php:6183
 msgid "DID Description"
 msgstr ""
 
@@ -2420,7 +2420,7 @@ msgstr ""
 msgid "Debug File"
 msgstr ""
 
-#: ../core/functions.inc.php:5943 ../core/functions.inc.php:5944
+#: ../core/functions.inc.php:5942 ../core/functions.inc.php:5943
 #: ../core/views/did/advanced_form.php:9
 msgid "Default"
 msgstr "Alapértelmezett"
@@ -2429,7 +2429,7 @@ msgstr "Alapértelmezett"
 msgid "Default Asterisk Manager Password Used"
 msgstr ""
 
-#: ../core/functions.inc.php:6435
+#: ../core/functions.inc.php:6433
 msgid "Default User"
 msgstr ""
 
@@ -2589,7 +2589,7 @@ msgstr ""
 msgid "Delete"
 msgstr ""
 
-#: ../core/functions.inc.php:6379
+#: ../core/functions.inc.php:6377
 #, php-format
 msgid "Delete Device %s"
 msgstr ""
@@ -2598,7 +2598,7 @@ msgstr ""
 msgid "Delete notification"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:872
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:883
 msgid "Deleted module[s], accepts argument module[s]"
 msgstr ""
 
@@ -2623,7 +2623,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:185
 #: ../core/Core.class.php:2525 ../core/Core.class.php:2526
 #: ../core/Core.class.php:2550 ../core/Core.class.php:2551
-#: ../core/functions.inc.php:6433 ../core/page.devices.php:64
+#: ../core/functions.inc.php:6431 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:37
 #: ../core/views/did/advanced_form.php:87 ../core/views/did/basic_form.php:20
@@ -2727,7 +2727,7 @@ msgstr ""
 msgid "Developer and Customization"
 msgstr ""
 
-#: ../core/Core.class.php:43 ../core/functions.inc.php:6376
+#: ../core/Core.class.php:43 ../core/functions.inc.php:6374
 #: ../core/page.devices.php:63 ../core/page.devices.php:84
 #: ../core/views/rnav.php:72
 msgid "Device"
@@ -2746,11 +2746,11 @@ msgstr ""
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
-#: ../core/functions.inc.php:6431
+#: ../core/functions.inc.php:6429
 msgid "Device ID"
 msgstr ""
 
-#: ../core/functions.inc.php:6445
+#: ../core/functions.inc.php:6443
 #: ../core/functions.inc/drivers/Sip.class.php:266
 msgid "Device Options"
 msgstr ""
@@ -2766,7 +2766,7 @@ msgstr ""
 msgid "Device Technology"
 msgstr ""
 
-#: ../core/functions.inc.php:6434 ../core/page.devices.php:65
+#: ../core/functions.inc.php:6432 ../core/page.devices.php:65
 #: ../core/page.devices.php:86
 msgid "Device Type"
 msgstr ""
@@ -2783,7 +2783,7 @@ msgstr ""
 msgid "Devices"
 msgstr ""
 
-#: ../core/functions.inc.php:6434
+#: ../core/functions.inc.php:6432
 msgid ""
 "Devices can be fixed or adhoc. Fixed devices are always associated to the "
 "same extension/user. Adhoc devices can be logged into and logged out of by "
@@ -2866,8 +2866,8 @@ msgid "Directory Layout"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:360
-#: ../core/functions.inc.php:5925 ../core/functions.inc.php:5931
-#: ../core/functions.inc.php:5934 ../core/functions.inc.php:5938
+#: ../core/functions.inc.php:5924 ../core/functions.inc.php:5930
+#: ../core/functions.inc.php:5933 ../core/functions.inc.php:5937
 msgid "Disable"
 msgstr ""
 
@@ -2899,7 +2899,7 @@ msgstr ""
 msgid "Disable given trunk"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:698
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:709
 #: amp_conf/htdocs/admin/views/module_admin/main.php:83
 #: amp_conf/htdocs/admin/views/module_admin/main.php:121
 #: ../core/Console/Trunks.class.php:55 ../core/Console/Trunks.class.php:62
@@ -2912,7 +2912,7 @@ msgstr ""
 msgid "Disabled; Pending %s to %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:702
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:713
 msgid "Disabled; Pending upgrade to "
 msgstr ""
 
@@ -2920,11 +2920,11 @@ msgstr ""
 msgid "Disabled; up to date"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:869
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:880
 msgid "Disables module[s] accepts argument module[s]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:893
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:904
 msgid "Disables repo, accepts argument repo[s]"
 msgstr ""
 
@@ -2980,7 +2980,7 @@ msgstr ""
 msgid "Display Monitor Trunk Failures Option"
 msgstr ""
 
-#: ../core/functions.inc.php:6115 ../core/views/quickCreate.php:59
+#: ../core/functions.inc.php:6114 ../core/views/quickCreate.php:59
 msgid "Display Name"
 msgstr ""
 
@@ -3030,7 +3030,7 @@ msgstr ""
 msgid "Domain to use in From header for requests to this trunk"
 msgstr ""
 
-#: ../core/functions.inc.php:5916
+#: ../core/functions.inc.php:5915
 msgid "Don't Care"
 msgstr ""
 
@@ -3056,11 +3056,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:90
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:181
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:194
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:593
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:755
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:771
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:779
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:802
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:604
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:766
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:782
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:790
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:813
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2001
 #: amp_conf/htdocs/admin/page.modules.php:376
 #: amp_conf/htdocs/admin/page.modules.php:1059 ../core/install.php:1528
@@ -3068,12 +3068,12 @@ msgid "Done"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:387
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:621
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:632
 msgid "Done. All modules installed."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:102
-#: ../core/page.advancedsettings.php:186
+#: ../core/page.advancedsettings.php:194
 msgid "Double-Click to see options or type freeform"
 msgstr ""
 
@@ -3119,7 +3119,7 @@ msgstr ""
 msgid "Download and Upgrade to %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:871
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:882
 msgid "Download and install module[s], accepts argument module[s] or URLs"
 msgstr ""
 
@@ -3127,7 +3127,7 @@ msgstr ""
 msgid "Download local prefixes"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:870
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:881
 msgid "Download module[s], accepts argument module[s] or URLs"
 msgstr ""
 
@@ -3142,7 +3142,7 @@ msgstr ""
 msgid "Downloading %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:615
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:626
 msgid "Downloading & Installing "
 msgstr ""
 
@@ -3236,16 +3236,16 @@ msgstr ""
 msgid "Edit Administrator"
 msgstr ""
 
-#: ../core/functions.inc.php:6385
+#: ../core/functions.inc.php:6383
 #, php-format
 msgid "Edit Default User: %s"
 msgstr ""
 
-#: ../core/functions.inc.php:6071 ../core/functions.inc.php:6457
+#: ../core/functions.inc.php:6070 ../core/functions.inc.php:6455
 msgid "Edit Extension"
 msgstr ""
 
-#: ../core/functions.inc.php:6385
+#: ../core/functions.inc.php:6383
 #, php-format
 msgid "Edit Fixed User: %s"
 msgstr ""
@@ -3254,12 +3254,12 @@ msgstr ""
 msgid "Edit Route"
 msgstr "Útvonal szerkesztése"
 
-#: ../core/functions.inc.php:6073 ../core/functions.inc.php:6427
-#: ../core/functions.inc.php:6459
+#: ../core/functions.inc.php:6072 ../core/functions.inc.php:6425
+#: ../core/functions.inc.php:6457
 msgid "Edit User"
 msgstr ""
 
-#: ../core/functions.inc.php:6134
+#: ../core/functions.inc.php:6133
 msgid "Edit:"
 msgstr ""
 
@@ -3284,7 +3284,7 @@ msgstr ""
 msgid "Emergency"
 msgstr "Vészhelyzet"
 
-#: ../core/functions.inc.php:6436 ../core/functions.inc.php:6439
+#: ../core/functions.inc.php:6434 ../core/functions.inc.php:6437
 msgid "Emergency CID"
 msgstr ""
 
@@ -3304,8 +3304,8 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:221
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:225
 #: amp_conf/htdocs/admin/views/module_admin/main.php:290
-#: ../core/functions.inc.php:5926 ../core/functions.inc.php:5930
-#: ../core/functions.inc.php:5935
+#: ../core/functions.inc.php:5925 ../core/functions.inc.php:5929
+#: ../core/functions.inc.php:5934
 msgid "Enable"
 msgstr ""
 
@@ -3371,11 +3371,11 @@ msgstr ""
 msgid "Enable jQuery Migrate"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:873
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:884
 msgid "Enable module[s], accepts argument module[s]"
 msgstr ""
 
-#: ../core/functions.inc.php:6226
+#: ../core/functions.inc.php:6225
 msgid ""
 "Enable or disable the ability to do on demand (one-touch) recording. The "
 "overall calling policy rules still apply and if calls are already being "
@@ -3407,18 +3407,18 @@ msgid ""
 "not affect Voice or Video traffic."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:724
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:735
 #: amp_conf/htdocs/admin/views/module_admin/main.php:123
 #: ../core/views/trunks/pjsip.php:246 ../core/views/trunks/trunkgrid.php:44
 msgid "Enabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:718
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:729
 #: amp_conf/htdocs/admin/views/module_admin/main.php:111
 msgid "Enabled and up to date"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:722
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:733
 #: amp_conf/htdocs/admin/views/module_admin/main.php:119
 msgid "Enabled; Not available online"
 msgstr ""
@@ -3430,7 +3430,7 @@ msgid ""
 "irrelevant for accessing core FreePBX settings. Default is no."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:894
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:905
 msgid "Enables repo, accepts argument repo[s]"
 msgstr ""
 
@@ -3449,7 +3449,7 @@ msgstr ""
 msgid "Enabling Missing Dependency of: %s %s"
 msgstr ""
 
-#: ../core/functions.inc.php:6180
+#: ../core/functions.inc.php:6179
 msgid ""
 "Enabling Pinless Dialing will allow this extension to bypass any pin codes "
 "normally required on outbound calls"
@@ -3507,7 +3507,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: ../core/functions.inc.php:4774
+#: ../core/functions.inc.php:4773
 msgid "Error Duplicate Channel Entry"
 msgstr ""
 
@@ -3715,7 +3715,7 @@ msgid "Extended"
 msgstr ""
 
 #: ../core/Core.class.php:31 ../core/Core.class.php:2517
-#: ../core/Core.class.php:2518 ../core/functions.inc.php:6021
+#: ../core/Core.class.php:2518 ../core/functions.inc.php:6020
 #: ../core/page.did.php:89 ../core/page.extensions.php:28
 #: ../core/page.extensions.php:117 ../core/page.extensions.php:143
 #: ../core/views/rnav.php:18
@@ -3734,7 +3734,7 @@ msgstr ""
 msgid "Extension Numbering Duplicate Conflict Detected"
 msgstr ""
 
-#: ../core/functions.inc.php:6148 ../core/functions.inc.php:6438
+#: ../core/functions.inc.php:6147 ../core/functions.inc.php:6436
 msgid "Extension Options"
 msgstr ""
 
@@ -3750,7 +3750,7 @@ msgstr ""
 msgid "Extension is not numeric."
 msgstr ""
 
-#: ../core/functions.inc.php:6110
+#: ../core/functions.inc.php:6109
 msgid "Extension number conflict, please choose another."
 msgstr ""
 
@@ -3834,7 +3834,7 @@ msgstr ""
 msgid "Failed to get remote file, mirror site may be down: %s"
 msgstr ""
 
-#: ../core/functions.inc.php:5885
+#: ../core/functions.inc.php:5884
 #, php-format
 msgid ""
 "Failed to open %s for writing, aborting attempt to write the country "
@@ -3876,7 +3876,7 @@ msgstr ""
 msgid "Failed to write file to disk"
 msgstr ""
 
-#: ../core/functions.inc.php:5886
+#: ../core/functions.inc.php:5885
 msgid "Failed to write indications.conf"
 msgstr ""
 
@@ -3950,11 +3950,11 @@ msgstr ""
 msgid "First before %s"
 msgstr ""
 
-#: ../core/functions.inc.php:6326
+#: ../core/functions.inc.php:6325
 msgid "Fixed"
 msgstr ""
 
-#: ../core/functions.inc.php:6435
+#: ../core/functions.inc.php:6433
 msgid ""
 "Fixed devices will always mapped to this user.  Adhoc devices will be mapped "
 "to this user by default.<br><br>If selecting 'New User', a new User "
@@ -3965,7 +3965,7 @@ msgstr ""
 msgid "Fixes Vulnerabilities"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:863
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:874
 msgid "Flags"
 msgstr ""
 
@@ -3996,7 +3996,7 @@ msgstr ""
 msgid "Forbidden Retry Interval"
 msgstr ""
 
-#: ../core/functions.inc.php:5914
+#: ../core/functions.inc.php:5913
 msgid "Force"
 msgstr ""
 
@@ -4230,9 +4230,9 @@ msgstr ""
 msgid "Frequency in seconds to send qualify messages to the endpoint."
 msgstr ""
 
-#: ../core/page.advancedsettings.php:114 ../core/page.advancedsettings.php:139
-#: ../core/page.advancedsettings.php:168 ../core/page.advancedsettings.php:198
-#: ../core/page.advancedsettings.php:228 ../core/page.advancedsettings.php:252
+#: ../core/page.advancedsettings.php:122 ../core/page.advancedsettings.php:147
+#: ../core/page.advancedsettings.php:176 ../core/page.advancedsettings.php:206
+#: ../core/page.advancedsettings.php:236 ../core/page.advancedsettings.php:260
 msgid "Friendly Name"
 msgstr ""
 
@@ -4355,14 +4355,14 @@ msgstr ""
 msgid "Gettext is not installed"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:749
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:760
 msgid "Getting Data from Online Server..."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:88
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:179
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:192
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:590
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:601
 msgid "Getting Remote Repo list..."
 msgstr ""
 
@@ -4372,7 +4372,7 @@ msgid ""
 "trunk context within asterisk"
 msgstr ""
 
-#: ../core/functions.inc.php:6431
+#: ../core/functions.inc.php:6429
 msgid ""
 "Give your device a unique integer ID.  The device will use this ID to "
 "authenticate to the system."
@@ -4390,7 +4390,7 @@ msgstr ""
 msgid "Go to Module Admin to re-enable this module"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:776
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:787
 #: amp_conf/htdocs/admin/page.modules.php:925
 msgid "Good"
 msgstr ""
@@ -4558,7 +4558,7 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:268
+#: ../core/page.advancedsettings.php:276
 msgid "IMPORTANT:"
 msgstr ""
 
@@ -4705,7 +4705,7 @@ msgid ""
 "Authentication"
 msgstr ""
 
-#: ../core/functions.inc.php:6118
+#: ../core/functions.inc.php:6117
 msgid ""
 "If you want to support direct sip dialing of users internally or through "
 "anonymous sip calls, you can supply a friendly name that can be used in "
@@ -4770,11 +4770,11 @@ msgstr ""
 msgid "Inbound"
 msgstr ""
 
-#: ../core/functions.inc.php:6222
+#: ../core/functions.inc.php:6221
 msgid "Inbound External Calls"
 msgstr ""
 
-#: ../core/functions.inc.php:6224
+#: ../core/functions.inc.php:6223
 msgid "Inbound Internal Calls"
 msgstr ""
 
@@ -4782,7 +4782,7 @@ msgstr ""
 msgid "Inbound Route:"
 msgstr ""
 
-#: ../core/functions.inc.php:4585
+#: ../core/functions.inc.php:4584
 #, php-format
 msgid "Inbound Route: %s (%s)"
 msgstr ""
@@ -4843,7 +4843,7 @@ msgstr ""
 msgid "Install"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:886
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:897
 msgid "Install all local modules, accepts no arguments"
 msgstr ""
 
@@ -4874,15 +4874,15 @@ msgstr ""
 msgid "Installing Missing Dependency of: %s %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:606
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:617
 msgid "Installing core..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:883
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:894
 msgid "Installs all modules, accepts no arguments"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:874
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:885
 msgid "Installs module[s], accepts argument module[s]"
 msgstr ""
 
@@ -4951,7 +4951,7 @@ msgid ""
 "name."
 msgstr ""
 
-#: ../core/functions.inc.php:4758
+#: ../core/functions.inc.php:4757
 msgid "Invalid Channel Number, must be numeric and not blank"
 msgstr ""
 
@@ -4959,7 +4959,7 @@ msgstr ""
 msgid "Invalid Custom Dial String entered"
 msgstr ""
 
-#: ../core/functions.inc.php:4762
+#: ../core/functions.inc.php:4761
 msgid "Invalid DID, must be a non-blank DID"
 msgstr ""
 
@@ -5037,10 +5037,10 @@ msgstr ""
 msgid "It is unlikely you'll need to change anything here."
 msgstr ""
 
-#: ../core/page.advancedsettings.php:88 ../core/page.advancedsettings.php:112
-#: ../core/page.advancedsettings.php:137 ../core/page.advancedsettings.php:166
-#: ../core/page.advancedsettings.php:196 ../core/page.advancedsettings.php:226
-#: ../core/page.advancedsettings.php:250
+#: ../core/page.advancedsettings.php:88 ../core/page.advancedsettings.php:120
+#: ../core/page.advancedsettings.php:145 ../core/page.advancedsettings.php:174
+#: ../core/page.advancedsettings.php:204 ../core/page.advancedsettings.php:234
+#: ../core/page.advancedsettings.php:258
 msgid "KEYWORD"
 msgstr ""
 
@@ -5120,7 +5120,7 @@ msgstr ""
 msgid "List Users"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:895
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:906
 msgid "List all local modules, accepts no arguments"
 msgstr ""
 
@@ -5128,11 +5128,11 @@ msgstr ""
 msgid "List all sessions"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:896
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:907
 msgid "List online modules, accepts no arguments"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:819
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:830
 msgid "Local Version"
 msgstr ""
 
@@ -5256,7 +5256,7 @@ msgstr ""
 msgid "Maximum number of Endpoints that can associate with this Device"
 msgstr ""
 
-#: ../core/functions.inc.php:6175
+#: ../core/functions.inc.php:6174
 msgid ""
 "Maximum number of outbound simultaneous calls that an extension can make. "
 "This is also very useful as a Security Protection against a system that has "
@@ -5362,20 +5362,20 @@ msgstr ""
 msgid "Missing a temporary folder"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:917
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:942
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:987
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1014
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1041
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1050
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1059
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1068
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1092
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:928
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:953
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:998
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1025
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1052
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1061
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1070
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1079
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1103
 msgid "Missing module name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:951
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:965
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:962
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:976
 msgid "Missing module name or URL"
 msgstr ""
 
@@ -5389,8 +5389,8 @@ msgstr ""
 msgid "Missing or unreadable config file [%s]...cannot continue"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1022
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1030
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1033
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1041
 msgid "Missing repo name"
 msgstr ""
 
@@ -5411,8 +5411,8 @@ msgstr ""
 msgid "Modify the default USER connection parameters for your VoIP provider."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:738
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:819
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:749
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:830
 #: amp_conf/htdocs/admin/views/module_admin/main.php:46
 #: ../core/page.astmodules.php:90 ../core/page.astmodules.php:107
 #: ../core/page.astmodules.php:124
@@ -5444,7 +5444,7 @@ msgstr ""
 msgid "Module \"%s\" signed by an invalid key."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:835
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:846
 #, php-format
 msgid "Module %s successfully disabled"
 msgstr ""
@@ -5455,8 +5455,8 @@ msgstr ""
 msgid "Module %s successfully downloaded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:846
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:856
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:857
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:867
 #, php-format
 msgid "Module %s successfully enabled"
 msgstr ""
@@ -5470,7 +5470,7 @@ msgstr ""
 msgid "Module Access Denied"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:867
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:878
 msgid "Module Actions"
 msgstr ""
 
@@ -5504,7 +5504,7 @@ msgstr ""
 msgid "Module Administration"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:861
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:872
 msgid "Module Administration Help"
 msgstr ""
 
@@ -5705,7 +5705,7 @@ msgstr ""
 msgid "Need to be instantiated with a FreePBX Object"
 msgstr ""
 
-#: ../core/functions.inc.php:5918
+#: ../core/functions.inc.php:5917
 msgid "Never"
 msgstr ""
 
@@ -5714,11 +5714,7 @@ msgstr ""
 msgid "Never - (%s)"
 msgstr ""
 
-#: ../core/functions.inc.php:6331
-msgid "New User"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:716
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:727
 #: amp_conf/htdocs/admin/views/module_admin/main.php:107
 #, php-format
 msgid "Newer than online version (%s)"
@@ -5728,7 +5724,7 @@ msgstr ""
 msgid "Nightly"
 msgstr ""
 
-#: ../core/functions.inc.php:5917
+#: ../core/functions.inc.php:5916
 #: ../core/functions.inc/drivers/Dahdi.class.php:108
 #: ../core/functions.inc/drivers/Dahdi.class.php:119
 #: ../core/functions.inc/drivers/Dahdi.class.php:128
@@ -5770,7 +5766,7 @@ msgstr ""
 msgid "No Action"
 msgstr ""
 
-#: ../core/functions.inc.php:6244
+#: ../core/functions.inc.php:6243
 msgid "No Answer"
 msgstr ""
 
@@ -5791,7 +5787,7 @@ msgstr ""
 msgid "No Description Provided"
 msgstr ""
 
-#: ../core/functions.inc.php:5946
+#: ../core/functions.inc.php:5945
 msgid "No Limit"
 msgstr ""
 
@@ -5816,7 +5812,7 @@ msgstr ""
 msgid "No email address for online update checks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:793
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:804
 msgid "No enabled modules depend on this module."
 msgstr ""
 
@@ -5905,7 +5901,7 @@ msgid ""
 "reports BUSY or INVALID NUMBER."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:693
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:704
 msgid "Not Installed (Available online: "
 msgstr ""
 
@@ -5914,7 +5910,7 @@ msgstr ""
 msgid "Not Installed (Available online: %s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:691
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:702
 msgid "Not Installed (Locally available)"
 msgstr ""
 
@@ -5923,7 +5919,7 @@ msgstr ""
 msgid "Not Installed (Locally available: %s)"
 msgstr ""
 
-#: ../core/functions.inc.php:6258
+#: ../core/functions.inc.php:6257
 msgid "Not Reachable"
 msgstr ""
 
@@ -5956,7 +5952,7 @@ msgstr ""
 msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr ""
 
-#: ../core/functions.inc.php:6165
+#: ../core/functions.inc.php:6164
 msgid ""
 "Number of seconds to ring during a Call Forward, Call Forward Busy or Call "
 "Forward Unavailable call prior to continuing to voicemail or specified "
@@ -5965,7 +5961,7 @@ msgid ""
 "their is not destination specified, it will be forced into Always mode"
 msgstr ""
 
-#: ../core/functions.inc.php:6156
+#: ../core/functions.inc.php:6155
 msgid ""
 "Number of seconds to ring prior to going to voicemail. Default will use the "
 "value set in Advanced Settings. If no voicemail is configured this will be "
@@ -5988,7 +5984,7 @@ msgstr ""
 msgid "Occupied Lines CW Busy"
 msgstr ""
 
-#: ../core/functions.inc.php:6226
+#: ../core/functions.inc.php:6225
 msgid "On Demand Recording"
 msgstr ""
 
@@ -6008,7 +6004,7 @@ msgstr ""
 msgid "Online Updates are Disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:819
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:830
 msgid "Online Version"
 msgstr ""
 
@@ -6025,7 +6021,7 @@ msgid ""
 "the notification panel and log if enabled."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:714
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:725
 #, php-format
 msgid "Online upgrade available (%s)"
 msgstr ""
@@ -6072,16 +6068,16 @@ msgstr ""
 msgid "Optional Additional CSS Stylesheet"
 msgstr ""
 
-#: ../core/functions.inc.php:6254
+#: ../core/functions.inc.php:6253
 msgid "Optional CID Prefix to add before sending to this busy destination."
 msgstr ""
 
-#: ../core/functions.inc.php:6245
+#: ../core/functions.inc.php:6244
 msgid ""
 "Optional CID Prefix to add before sending to this no answer destination."
 msgstr ""
 
-#: ../core/functions.inc.php:6259
+#: ../core/functions.inc.php:6258
 msgid ""
 "Optional CID Prefix to add before sending to this not reachable destination."
 msgstr ""
@@ -6090,7 +6086,7 @@ msgstr ""
 msgid "Optional Destination on Congestion"
 msgstr ""
 
-#: ../core/functions.inc.php:6229
+#: ../core/functions.inc.php:6228
 msgid "Optional Destinations"
 msgstr ""
 
@@ -6112,24 +6108,24 @@ msgid ""
 "module specific ones are loaded, relative to admin."
 msgstr ""
 
-#: ../core/functions.inc.php:6239
+#: ../core/functions.inc.php:6238
 msgid ""
 "Optional destination call is routed to when the call is not answered on an "
 "otherwise idle phone. If the phone is in use and the call is simply ignored, "
 "then the busy destination will be used."
 msgstr ""
 
-#: ../core/functions.inc.php:6241
+#: ../core/functions.inc.php:6240
 msgid "Optional destination call is routed to when the call is not answered."
 msgstr ""
 
-#: ../core/functions.inc.php:6250
+#: ../core/functions.inc.php:6249
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user."
 msgstr ""
 
-#: ../core/functions.inc.php:6248
+#: ../core/functions.inc.php:6247
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user. This destination is also used on an unanswered "
@@ -6137,7 +6133,7 @@ msgid ""
 "call."
 msgstr ""
 
-#: ../core/functions.inc.php:6256
+#: ../core/functions.inc.php:6255
 msgid ""
 "Optional destination the call is routed to when the phone is offline, such "
 "as a softphone currently off or a phone unplugged."
@@ -6214,7 +6210,7 @@ msgstr ""
 msgid "Outbound"
 msgstr ""
 
-#: ../core/functions.inc.php:6146 ../core/views/routing/grid.php:71
+#: ../core/functions.inc.php:6145 ../core/views/routing/grid.php:71
 msgid "Outbound CID"
 msgstr ""
 
@@ -6226,7 +6222,7 @@ msgstr ""
 msgid "Outbound CallerID"
 msgstr ""
 
-#: ../core/functions.inc.php:6175
+#: ../core/functions.inc.php:6174
 msgid "Outbound Concurrency Limit"
 msgstr ""
 
@@ -6234,11 +6230,11 @@ msgstr ""
 msgid "Outbound Dial Prefix"
 msgstr ""
 
-#: ../core/functions.inc.php:6223
+#: ../core/functions.inc.php:6222
 msgid "Outbound External Calls"
 msgstr ""
 
-#: ../core/functions.inc.php:6225
+#: ../core/functions.inc.php:6224
 msgid "Outbound Internal Calls"
 msgstr ""
 
@@ -6250,7 +6246,7 @@ msgstr ""
 msgid "Outbound Route:"
 msgstr ""
 
-#: ../core/functions.inc.php:5741
+#: ../core/functions.inc.php:5740
 #, php-format
 msgid "Outbound Route: %s"
 msgstr ""
@@ -6271,7 +6267,7 @@ msgstr ""
 msgid "Output debug messages to the console (be super chatty)"
 msgstr ""
 
-#: ../core/functions.inc.php:5927 ../core/functions.inc.php:6154
+#: ../core/functions.inc.php:5926 ../core/functions.inc.php:6153
 #: ../core/views/trunks/trunk_header.php:389
 msgid "Override"
 msgstr ""
@@ -6298,7 +6294,7 @@ msgstr ""
 msgid "Overrides Extension CID"
 msgstr ""
 
-#: ../core/functions.inc.php:6146 ../core/views/quickCreate.php:89
+#: ../core/functions.inc.php:6145 ../core/views/quickCreate.php:89
 msgid ""
 "Overrides the CallerID when dialing out a trunk. Any setting here will "
 "override the common outbound CallerID set in the Trunks admin."
@@ -6551,7 +6547,7 @@ msgid ""
 "have to be in a group to be able to pickup calls from that group."
 msgstr ""
 
-#: ../core/functions.inc.php:6180
+#: ../core/functions.inc.php:6179
 msgid "Pinless Dialing"
 msgstr ""
 
@@ -6583,13 +6579,13 @@ msgstr ""
 msgid "Please correct the following errors:"
 msgstr ""
 
-#: ../core/functions.inc.php:6449
+#: ../core/functions.inc.php:6447
 #: ../core/functions.inc/drivers/Iax2.class.php:102
 #: ../core/functions.inc/drivers/Sip.class.php:261
 msgid "Please enter a Secret for this device"
 msgstr ""
 
-#: ../core/functions.inc.php:6417
+#: ../core/functions.inc.php:6415
 msgid "Please enter a device id."
 msgstr ""
 
@@ -6597,46 +6593,46 @@ msgstr ""
 msgid "Please enter a username"
 msgstr ""
 
-#: ../core/functions.inc.php:6058
+#: ../core/functions.inc.php:6057
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
 msgstr ""
 
-#: ../core/functions.inc.php:6064
+#: ../core/functions.inc.php:6063
 msgid ""
 "Please enter a valid CallerID Number or leave it blank for your Assigned DID/"
 "CID pair"
 msgstr ""
 
-#: ../core/functions.inc.php:6418
+#: ../core/functions.inc.php:6416
 msgid "Please enter a valid Description for this device"
 msgstr ""
 
-#: ../core/functions.inc.php:6060
+#: ../core/functions.inc.php:6059
 msgid "Please enter a valid Display Name"
 msgstr ""
 
-#: ../core/functions.inc.php:6419
+#: ../core/functions.inc.php:6417
 msgid "Please enter a valid Emergency CID"
 msgstr ""
 
-#: ../core/functions.inc.php:6061
+#: ../core/functions.inc.php:6060
 msgid "Please enter a valid Outbound CID"
 msgstr ""
 
-#: ../core/functions.inc.php:6057 ../core/functions.inc.php:6420
+#: ../core/functions.inc.php:6056 ../core/functions.inc.php:6418
 msgid "Please enter a valid extension number."
 msgstr ""
 
-#: ../core/functions.inc.php:6062
+#: ../core/functions.inc.php:6061
 msgid "Please enter a valid pause time in seconds, using digits only"
 msgstr ""
 
-#: ../core/functions.inc.php:6447
+#: ../core/functions.inc.php:6445
 #: ../core/functions.inc/drivers/Dahdi.class.php:99
 msgid "Please enter the channel for this device"
 msgstr ""
 
-#: ../core/functions.inc.php:6059
+#: ../core/functions.inc.php:6058
 msgid "Please enter valid User Password using numbers only"
 msgstr ""
 
@@ -6655,7 +6651,7 @@ msgid ""
 "system"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1082
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1093
 msgid "Please review the output above for any errors while enabling modules"
 msgstr ""
 
@@ -6879,11 +6875,11 @@ msgid ""
 "Re-Invite policy for this device, see Asterisk documentation for details."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:899
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:910
 msgid "ReDownloads all modules that have invalid signatures"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:271
+#: ../core/page.advancedsettings.php:279
 msgid ""
 "Readonly settings are usually more volatile, they can be changed by changing "
 "'Override Readonly Settings' to Yes."
@@ -6893,27 +6889,27 @@ msgstr ""
 msgid "Receive"
 msgstr ""
 
-#: ../core/functions.inc.php:6227
+#: ../core/functions.inc.php:6226
 msgid "Record Priority Policy"
 msgstr ""
 
-#: ../core/functions.inc.php:6214
+#: ../core/functions.inc.php:6213
 msgid "Recording Options"
 msgstr ""
 
-#: ../core/functions.inc.php:6225
+#: ../core/functions.inc.php:6224
 msgid "Recording of calls made to other extensions on the system."
 msgstr ""
 
-#: ../core/functions.inc.php:6224
+#: ../core/functions.inc.php:6223
 msgid "Recording of calls received from other extensions on the system."
 msgstr ""
 
-#: ../core/functions.inc.php:6222
+#: ../core/functions.inc.php:6221
 msgid "Recording of inbound calls from external sources."
 msgstr ""
 
-#: ../core/functions.inc.php:6223
+#: ../core/functions.inc.php:6222
 msgid "Recording of outbound calls to external sources."
 msgstr ""
 
@@ -6921,7 +6917,7 @@ msgstr ""
 msgid "Redundancy"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:765
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:776
 #, php-format
 msgid "Refreshing %s"
 msgstr ""
@@ -7144,7 +7140,7 @@ msgstr ""
 msgid "Rewrite Contact"
 msgstr ""
 
-#: ../core/functions.inc.php:6156
+#: ../core/functions.inc.php:6155
 msgid "Ring Time"
 msgstr ""
 
@@ -7222,7 +7218,7 @@ msgstr ""
 msgid "SIP (%s)"
 msgstr ""
 
-#: ../core/functions.inc.php:6118
+#: ../core/functions.inc.php:6117
 msgid "SIP Alias"
 msgstr ""
 
@@ -7321,11 +7317,11 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: ../core/functions.inc.php:5940
+#: ../core/functions.inc.php:5939
 msgid "Screen Caller: Memory"
 msgstr ""
 
-#: ../core/functions.inc.php:5939
+#: ../core/functions.inc.php:5938
 msgid "Screen Caller: No Memory"
 msgstr ""
 
@@ -7453,7 +7449,7 @@ msgstr ""
 msgid "Set the Repos. -R Commercial -R Contributed"
 msgstr ""
 
-#: ../core/functions.inc.php:6177
+#: ../core/functions.inc.php:6176
 msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr ""
 
@@ -7626,7 +7622,7 @@ msgstr ""
 msgid "Show only upgradeable"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:897
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:908
 msgid "Shows a list of modules that may be updated, accepts no arguments"
 msgstr ""
 
@@ -7634,7 +7630,7 @@ msgstr ""
 msgid "Shows the specified context from the dialplan"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:898
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:909
 msgid ""
 "Shows translation information for supplied modules, accepts argument module"
 "[s]"
@@ -7660,7 +7656,7 @@ msgstr ""
 msgid "Signal RINGING"
 msgstr "Csörgés-jelzés"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:763
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:774
 msgid "Signature Invalid"
 msgstr ""
 
@@ -7720,7 +7716,7 @@ msgid ""
 "higher the number the more detailed level of trace NoOp()s will be generated"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:271
+#: ../core/page.advancedsettings.php:279
 msgid "Some of these settings can render your system inoperable."
 msgstr ""
 
@@ -7769,7 +7765,7 @@ msgstr ""
 msgid "Starting Cache cleanup"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:738
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:749
 #: amp_conf/htdocs/admin/views/module_admin/main.php:50
 #: ../core/views/trunks/trunkgrid.php:34
 msgid "Status"
@@ -7945,7 +7941,7 @@ msgid ""
 "value if set wrong. The chan_pjsip channel driver is considered "
 msgstr ""
 
-#: ../core/functions.inc.php:6117
+#: ../core/functions.inc.php:6116
 msgid ""
 "The CID Number to use for internal calls, if different from the extension "
 "number. This is used to masquerade as a different user. A common example is "
@@ -7961,13 +7957,13 @@ msgid ""
 "installed and enabled."
 msgstr ""
 
-#: ../core/functions.inc.php:6115 ../core/views/quickCreate.php:69
+#: ../core/functions.inc.php:6114 ../core/views/quickCreate.php:69
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
 msgstr ""
 
-#: ../core/functions.inc.php:6433
+#: ../core/functions.inc.php:6431
 msgid ""
 "The CallerID name for this device will be set to this description until it "
 "is logged into."
@@ -8109,7 +8105,7 @@ msgid ""
 "the trunks"
 msgstr ""
 
-#: ../core/functions.inc.php:6079 ../core/views/quickCreate.php:49
+#: ../core/functions.inc.php:6078 ../core/views/quickCreate.php:49
 msgid "The extension number to dial to reach this user."
 msgstr ""
 
@@ -8127,7 +8123,7 @@ msgstr ""
 msgid "The following commands failed with the listed error"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:553
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:564
 msgid "The following dependencies are not met:"
 msgstr ""
 
@@ -8135,9 +8131,9 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:269
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:338
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:349
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:831
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:842
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:853
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:864
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:778
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:788
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:805
@@ -8163,7 +8159,7 @@ msgstr ""
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:790
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:801
 #, php-format
 msgid "The following modules depend on this one: %s"
 msgstr ""
@@ -8505,7 +8501,7 @@ msgid ""
 "are optional."
 msgstr ""
 
-#: ../core/functions.inc.php:6436 ../core/functions.inc.php:6439
+#: ../core/functions.inc.php:6434 ../core/functions.inc.php:6437
 msgid ""
 "This CallerID will always be set when dialing out an Outbound Route flagged "
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
@@ -8515,7 +8511,7 @@ msgstr ""
 msgid "This Module has been deprecated"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1081
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1092
 msgid "This action understands somethings may be disabled for a reason."
 msgstr ""
 
@@ -8831,7 +8827,7 @@ msgstr ""
 msgid "Trust RPID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:884
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:895
 msgid "Trys to enable all modules, accepts no arguments"
 msgstr ""
 
@@ -9001,7 +8997,7 @@ msgstr ""
 msgid "Unable to work with GPG file, message was: %s"
 msgstr ""
 
-#: ../core/functions.inc.php:6243 ../core/functions.inc.php:6257
+#: ../core/functions.inc.php:6242 ../core/functions.inc.php:6256
 msgid "Unavail Voicemail if Enabled"
 msgstr ""
 
@@ -9022,7 +9018,7 @@ msgstr ""
 msgid "Uninstalling %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:875
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:886
 msgid "Uninstalls module[s], accepts argument module[s]"
 msgstr ""
 
@@ -9030,7 +9026,7 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1111
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1122
 #, php-format
 msgid "Unknown Command! (%s)"
 msgstr ""
@@ -9067,7 +9063,7 @@ msgstr ""
 msgid "Unknown upload error"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:271
+#: ../core/page.advancedsettings.php:279
 msgid ""
 "Unlike previous versions of this module you now save changes as a group."
 msgstr ""
@@ -9105,8 +9101,8 @@ msgstr ""
 msgid "Untarring.."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:451
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:824
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:462
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:835
 msgid "Up to date."
 msgstr ""
 
@@ -9127,7 +9123,7 @@ msgstr ""
 msgid "Update my browser now"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:798
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:809
 #: amp_conf/htdocs/admin/page.modules.php:372
 msgid "Updating Hooks..."
 msgstr ""
@@ -9136,7 +9132,7 @@ msgstr ""
 msgid "Updating prepared settings.."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:808
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:819
 msgid "Upgradable: "
 msgstr ""
 
@@ -9151,7 +9147,7 @@ msgstr ""
 msgid "Upgrade all"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:876
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:887
 msgid "Upgrade module[s], accepts argument module[s]"
 msgstr ""
 
@@ -9160,7 +9156,7 @@ msgstr ""
 msgid "Upgrade to %s and Enable"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:885
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:896
 msgid "Upgrades all modules, accepts no arguments"
 msgstr ""
 
@@ -9168,7 +9164,7 @@ msgstr ""
 msgid "Upgrades, installs, enables and disables:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:446
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:457
 msgid "Upgrading "
 msgstr ""
 
@@ -9212,7 +9208,7 @@ msgid ""
 "be blank"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:862
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:873
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:197
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:232
@@ -9239,7 +9235,7 @@ msgstr ""
 msgid "Use bad-number Context"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:268
+#: ../core/page.advancedsettings.php:276
 msgid "Use extreme caution when making changes!"
 msgstr ""
 
@@ -9285,7 +9281,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:55 ../core/functions.inc.php:6035
+#: ../core/Core.class.php:55 ../core/functions.inc.php:6034
 #: ../core/page.devices.php:66 ../core/page.devices.php:87
 #: ../core/page.did.php:86 ../core/page.users.php:54 ../core/views/rnav.php:42
 msgid "User"
@@ -9303,11 +9299,11 @@ msgstr ""
 msgid "User Control Panel"
 msgstr ""
 
-#: ../core/functions.inc.php:6123
+#: ../core/functions.inc.php:6122
 msgid "User Devices"
 msgstr ""
 
-#: ../core/functions.inc.php:6079
+#: ../core/functions.inc.php:6078
 msgid "User Extension"
 msgstr ""
 
@@ -9316,7 +9312,7 @@ msgstr ""
 msgid "User Extension %s: %s"
 msgstr ""
 
-#: ../core/functions.inc.php:4554
+#: ../core/functions.inc.php:4553
 msgid "User Extension: "
 msgstr ""
 
@@ -9332,7 +9328,7 @@ msgstr ""
 msgid "User Panel"
 msgstr ""
 
-#: ../core/functions.inc.php:6082
+#: ../core/functions.inc.php:6081
 msgid "User Password"
 msgstr ""
 
@@ -9372,7 +9368,7 @@ msgstr ""
 msgid "Users"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:595
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:606
 #, php-format
 msgid "Using repos: [%s]"
 msgstr ""
@@ -9427,11 +9423,11 @@ msgstr ""
 msgid "Value must be between 1 and 63"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:769
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:780
 msgid "Verifying GPG..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:738
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:749
 #: amp_conf/htdocs/admin/views/module_admin/main.php:47
 msgid "Version"
 msgstr ""
@@ -9511,7 +9507,7 @@ msgstr ""
 msgid "Warning"
 msgstr ""
 
-#: ../core/functions.inc.php:6275
+#: ../core/functions.inc.php:6274
 msgid "Warning! Extension"
 msgstr "Figyelem! Mellék"
 
@@ -9782,7 +9778,7 @@ msgid ""
 "See DAHDi documentation for details."
 msgstr ""
 
-#: ../core/functions.inc.php:5915
+#: ../core/functions.inc.php:5914
 #: ../core/functions.inc/drivers/Dahdi.class.php:107
 #: ../core/functions.inc/drivers/Dahdi.class.php:118
 #: ../core/functions.inc/drivers/Dahdi.class.php:127
@@ -9861,7 +9857,7 @@ msgid ""
 "your browser."
 msgstr ""
 
-#: ../core/page.advancedsettings.php:271
+#: ../core/page.advancedsettings.php:279
 msgid "You are urged to backup before making any changes."
 msgstr ""
 
@@ -9897,7 +9893,7 @@ msgid ""
 "extensions that ring."
 msgstr ""
 
-#: ../core/page.advancedsettings.php:271
+#: ../core/page.advancedsettings.php:279
 #, php-format
 msgid ""
 "You can restore the default setting by clicking on the %s icon to the left "
@@ -9955,7 +9951,7 @@ msgid ""
 "Chrome Extension or you are not using Chrome"
 msgstr ""
 
-#: ../core/functions.inc.php:6063
+#: ../core/functions.inc.php:6062
 msgid ""
 "You have entered a non-standard dialpattern for your DID. You can only enter "
 "standard dialpatterns. You must use the inbound routing form to enter non-"
@@ -9969,7 +9965,7 @@ msgid ""
 "runs under that assumption"
 msgstr ""
 
-#: ../core/functions.inc.php:6448
+#: ../core/functions.inc.php:6446
 #: ../core/functions.inc/drivers/Iax2.class.php:101
 #: ../core/functions.inc/drivers/Sip.class.php:260
 msgid ""
@@ -10331,7 +10327,7 @@ msgstr ""
 msgid "default"
 msgstr ""
 
-#: ../core/functions.inc.php:6000 ../core/functions.inc.php:6365
+#: ../core/functions.inc.php:5999 ../core/functions.inc.php:6363
 #: ../core/page.did.php:8
 msgid "deleted"
 msgstr "tötölt"
@@ -10533,7 +10529,7 @@ msgstr ""
 msgid "is disabled"
 msgstr ""
 
-#: ../core/functions.inc.php:6275
+#: ../core/functions.inc.php:6274
 msgid "is not allowed for your account"
 msgstr "nincs elfogadva a hozzáférésed"
 
@@ -10583,11 +10579,11 @@ msgstr ""
 msgid "logger file removed, core upgrade will provide new file"
 msgstr ""
 
-#: ../core/functions.inc.php:6082 ../core/functions.inc.php:6434
+#: ../core/functions.inc.php:6081 ../core/functions.inc.php:6432
 msgid "logs into a device."
 msgstr "napló fogadása egy eszközről."
 
-#: ../core/functions.inc.php:6082 ../core/functions.inc.php:6434
+#: ../core/functions.inc.php:6081 ../core/functions.inc.php:6432
 msgid "logs out of a device."
 msgstr "naplózás egy eszközre."
 
@@ -10696,7 +10692,7 @@ msgstr ""
 msgid "no logger file to remove"
 msgstr ""
 
-#: ../core/functions.inc.php:6330 ../core/views/routing/moh.php:8
+#: ../core/functions.inc.php:6329 ../core/views/routing/moh.php:8
 msgid "none"
 msgstr ""
 
