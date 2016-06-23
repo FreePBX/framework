@@ -363,7 +363,7 @@ class Moduleadmin extends Command {
 	private function doInstallLocal($force) {
 		//refresh module cache
 		$this->mf->getinfo(false,false,true);
-		$module_info=$this->mf->getinfo(false, MODULE_STATUS_NOTINSTALLED);
+		$module_info=$this->mf->getinfo(false, array(MODULE_STATUS_NOTINSTALLED,MODULE_STATUS_NEEDUPGRADE));
 		$modules = array();
 		foreach ($module_info as $module) {
 			if ($module['rawname'] != 'builtin') {
@@ -416,13 +416,13 @@ class Moduleadmin extends Command {
 	 * @param bool Controls if a simple (names only) or extended (array of name,versions) array is returned
 	 */
 	private function getUpgradableModules($extarray = false) {
-		$modules_local = $this->mf->getinfo(false, MODULE_STATUS_ENABLED);
+		$modules_local = $this->mf->getinfo(false, array(MODULE_STATUS_ENABLED,MODULE_STATUS_NEEDUPGRADE));
 		$modules_online = $this->mf->getonlinexml();
 		$modules_upgradable = array();
 		$this->check_active_repos();
 		foreach (array_keys($modules_local) as $name) {
 			if (isset($modules_online[$name])) {
-				if (version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']) < 0) {
+				if (($modules_local[$name]['status'] == MODULE_STATUS_NEEDUPGRADE) || version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']) < 0) {
 					if ($extarray) {
 						$modules_upgradable[] = array(
 							'name' => $name,
@@ -442,6 +442,17 @@ class Moduleadmin extends Command {
 		$modules = $this->getUpgradableModules();
 		if (count($modules) > 0) {
 			$this->writeln(_("Upgrading: ").implode(', ',$modules));
+			//upgrade framework, core, sipsettings
+			//yes the array below is reversed on purpose
+			$prepend = array('sipsettings','core','framework');
+			foreach($prepend as $module) {
+				$key == array_search($module,$modules);
+				if($key !== false) {
+					unset($modules[$key]);
+					array_unshift($modules, $module);
+				}
+			}
+			$modules = array_values($modules);
 			foreach ($modules as $modulename) {
 				$this->writeln(_("Upgrading ").$modulename."..");
 				$this->doUpgrade($modulename, $this->force);
@@ -872,7 +883,6 @@ class Moduleadmin extends Command {
 		$rows[] = array('delete',_('Deleted module[s], accepts argument module[s]'));
 		$rows[] = array('enable',_('Enable module[s], accepts argument module[s]'));
 		$rows[] = array('install',_('Installs module[s], accepts argument module[s]'));
-		$rows[] = array('installlocal',_('Install local module[s], accepts argument module[s]'));
 		$rows[] = array('uninstall',_('Uninstalls module[s], accepts argument module[s]'));
 		$rows[] = array('upgrade',_('Upgrade module[s], accepts argument module[s]'));
 		foreach($rows as $k => $v){
@@ -884,6 +894,7 @@ class Moduleadmin extends Command {
 		$rows[] = array('installall',_('Installs all modules, accepts no arguments'));
 		$rows[] = array('enableall',_('Trys to enable all modules, accepts no arguments'));
 		$rows[] = array('upgradeall',_('Upgrades all modules, accepts no arguments'));
+		$rows[] = array('installlocal',_('Install all local modules, accepts no arguments'));
 		foreach($rows as $k => $v){
 			$help .= '<info>'.$v[0].'</info> : <comment>' . $v[1] . '</comment>'. PHP_EOL;
 		}
