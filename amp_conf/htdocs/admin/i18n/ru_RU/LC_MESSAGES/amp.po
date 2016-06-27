@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-23 16:10-0700\n"
+"POT-Creation-Date: 2016-06-27 10:37-0700\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -667,12 +667,12 @@ msgstr ""
 msgid "Access Restrictions"
 msgstr "Ограничение доступа"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:197
+#: ../core/functions.inc/drivers/PJSip.class.php:201
 #: ../core/functions.inc/drivers/Sip.class.php:451
 msgid "Account Code"
 msgstr "Аккаунта код"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:196
+#: ../core/functions.inc/drivers/PJSip.class.php:200
 msgid "Account Code for this extension"
 msgstr "Аккаунт код для этого внутреннего номера"
 
@@ -916,7 +916,7 @@ msgstr "Дополнительные настройки"
 msgid "Advanced Settings Details"
 msgstr "Дополнительные возможности - подробней"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:229
+#: ../core/functions.inc/drivers/PJSip.class.php:233
 msgid "Aggregate MWI"
 msgstr "Агрегированные MWI"
 
@@ -1012,7 +1012,7 @@ msgstr "Все обновления произведены!"
 msgid "Allow Any CID"
 msgstr "Разрешить любые CID"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:213
+#: ../core/functions.inc/drivers/PJSip.class.php:217
 msgid "Allow Contact header to be rewritten with the source IP address-port"
 msgstr ""
 "Разрешить заголовку Контакт быть перезаписанным значением IP-адрес-порт "
@@ -1051,7 +1051,7 @@ msgid "Alt for Left Logo"
 msgstr "Всплывающий комментарий для левого логотипа"
 
 #: ../core/functions.inc.php:5944
-#: ../core/functions.inc/drivers/PJSip.class.php:242
+#: ../core/functions.inc/drivers/PJSip.class.php:246
 msgid "Always"
 msgstr "Всегда"
 
@@ -2636,7 +2636,7 @@ msgstr ""
 "используются по каким то причинам.<br>Номер порта хоста для подключения к "
 "сторонней базе CDR."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:234
+#: ../core/functions.inc/drivers/PJSip.class.php:238
 msgid "DTLS-SRTP (not recommended)"
 msgstr ""
 
@@ -3049,7 +3049,7 @@ msgstr ""
 "служб с определённым для этого внутреннего номера/устройства специального "
 "CID."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:250
+#: ../core/functions.inc/drivers/PJSip.class.php:254
 msgid ""
 "Determines whether encryption should be used if possible but does not "
 "terminate the session if not achieved. This option only applies if Media "
@@ -3066,7 +3066,7 @@ msgid ""
 msgstr ""
 "Определяет,будут ли ошибки аутентификации интерпретироваться как постоянные."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:208
+#: ../core/functions.inc/drivers/PJSip.class.php:212
 msgid ""
 "Determines whether res_pjsip will use the media transport received in the "
 "offer SDP in the corresponding answer SDP."
@@ -3120,6 +3120,10 @@ msgstr "Опции устройства"
 #: amp.i18n.php:330 amp.i18n.php:336
 msgid "Device Settings"
 msgstr "Установки устройства"
+
+#: ../core/functions.inc/drivers/PJSip.class.php:258
+msgid "Device State Busy at"
+msgstr ""
 
 #: ../core/Core.class.php:2530 ../core/Core.class.php:2531
 msgid "Device Technology"
@@ -3877,7 +3881,7 @@ msgstr ""
 "Номер порта конечного устройства, обычно 5060. Иногда 2-х портовые "
 "устройства, такие как АТА, могут использовать 5061 для второго FXS порта."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:211
+#: ../core/functions.inc/drivers/PJSip.class.php:215
 msgid ""
 "Enforce that RTP must be symmetric. If this device is natting in it is "
 "usually a good idea to enable this. Disable only if you are having issues."
@@ -4405,7 +4409,7 @@ msgstr "Флаги"
 msgid "Flash Operator Panel"
 msgstr "Флэш Панель Оператора"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:222
+#: ../core/functions.inc/drivers/PJSip.class.php:226
 msgid ""
 "For Message Waiting indicators there are two types: Solicited and "
 "Unsolicited. Solicited means Subscribe 200 then Notify 200. Unsolicited "
@@ -4504,7 +4508,7 @@ msgstr ""
 "<warning>Предупреждение:</warning>Используйте на свой страх и риск, модули "
 "имеют зависимости не просто так!"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:216
+#: ../core/functions.inc/drivers/PJSip.class.php:220
 msgid "Force rport"
 msgstr "Принудительно установить rport"
 
@@ -4529,11 +4533,11 @@ msgstr ""
 msgid "Force run pre-stop asterisk hooks"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:215
+#: ../core/functions.inc/drivers/PJSip.class.php:219
 msgid "Force use of return port."
 msgstr "Запуск использования обратного порта"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:243
+#: ../core/functions.inc/drivers/PJSip.class.php:247
 msgid "Forced"
 msgstr ""
 
@@ -4843,7 +4847,7 @@ msgstr "Получить поддержку"
 msgid "Get help for %s"
 msgstr "Получить помощь для %s"
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:112
+#: amp_conf/htdocs/admin/libraries/view.functions.php:123
 msgid "Gettext is not installed"
 msgstr "Gettext не установлен"
 
@@ -4948,7 +4952,7 @@ msgstr "Положить трубку"
 msgid "Hello, "
 msgstr "Привет,"
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:561
+#: amp_conf/htdocs/admin/libraries/view.functions.php:573
 msgid "Helpful Information"
 msgstr "Полезная информация"
 
@@ -5558,8 +5562,8 @@ msgstr "Неверный DID, не должен быть пустым"
 msgid "Invalid Dial Rules"
 msgstr "Неверное правило набора"
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:54
-#: amp_conf/htdocs/admin/libraries/view.functions.php:77
+#: amp_conf/htdocs/admin/libraries/view.functions.php:56
+#: amp_conf/htdocs/admin/libraries/view.functions.php:85
 msgid "Invalid Language"
 msgstr ""
 
@@ -5654,7 +5658,7 @@ msgstr ""
 msgid "LOADING ROUTES"
 msgstr "ЗАГРУЗКА  МАРШРУТОВ"
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:61
+#: amp_conf/htdocs/admin/libraries/view.functions.php:66
 msgid "Language Support Unknown"
 msgstr ""
 
@@ -5764,7 +5768,7 @@ msgstr "Ниижний лимит памяти"
 msgid "MAC Address"
 msgstr "MAC-адрес"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:223
+#: ../core/functions.inc/drivers/PJSip.class.php:227
 msgid "MWI Subscription Type"
 msgstr "Тип подписки MWI"
 
@@ -5820,12 +5824,12 @@ msgstr ""
 msgid "Manually Loaded Modules"
 msgstr "Модули,загруженные вручную"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:255
+#: ../core/functions.inc/drivers/PJSip.class.php:263
 #: ../core/views/trunks/pjsip.php:563
 msgid "Match (Permit)"
 msgstr "Совпадать(Разрешить)"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:200
+#: ../core/functions.inc/drivers/PJSip.class.php:204
 msgid "Max Contacts"
 msgstr "Максимальное количество Контактов"
 
@@ -5842,7 +5846,7 @@ msgstr "Попыток максимально"
 msgid "Maximum Channels"
 msgstr "Максимально каналов"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:259
+#: ../core/functions.inc/drivers/PJSip.class.php:267
 msgid "Maximum Expiration"
 msgstr "Максимальный срок истечения"
 
@@ -5850,7 +5854,7 @@ msgstr "Максимальный срок истечения"
 msgid "Maximum amount of time (in seconds) to wait for asterisk to shut down"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:199
+#: ../core/functions.inc/drivers/PJSip.class.php:203
 msgid "Maximum number of Endpoints that can associate with this Device"
 msgstr ""
 "Максимальное количество оконечных пунктов,которые можно связать с этим "
@@ -5874,7 +5878,7 @@ msgid ""
 "30 seconds"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:258
+#: ../core/functions.inc/drivers/PJSip.class.php:266
 msgid "Maximum time to keep an AoR"
 msgstr "Максимальное время хранения AoR"
 
@@ -5882,7 +5886,7 @@ msgstr "Максимальное время хранения AoR"
 msgid "May be invalid Check your spelling"
 msgstr "Возможна неверная проверка Вашего произношения"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:235
+#: ../core/functions.inc/drivers/PJSip.class.php:239
 msgid ""
 "Media (RTP) Encryption. Normally you would use None, unless you have "
 "explicitly set up SDP or DTLS."
@@ -5890,7 +5894,7 @@ msgstr ""
 "Шифрование медиа(RTP). Обычно Вы не будете использовать, пока явно не "
 "установлено в SDP или DTLS."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:236
+#: ../core/functions.inc/drivers/PJSip.class.php:240
 msgid "Media Encryption"
 msgstr "Шифрование медиаданных"
 
@@ -5898,7 +5902,7 @@ msgstr "Шифрование медиаданных"
 msgid "Media Only"
 msgstr "Только медиа"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:209
+#: ../core/functions.inc/drivers/PJSip.class.php:213
 msgid "Media Use Received Transport"
 msgstr "Медиа поток использует полученный траспортный протокол"
 
@@ -5932,7 +5936,7 @@ msgstr ""
 msgid "Min Length"
 msgstr "Минимальная длина"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:263
+#: ../core/functions.inc/drivers/PJSip.class.php:271
 msgid "Minimum Expiration"
 msgstr "Минимальный срок истечения"
 
@@ -5945,7 +5949,7 @@ msgstr ""
 "Минимальное количество цифр в Caller ID (CID), необходимое для принятия "
 "решения, что он верный"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:262
+#: ../core/functions.inc/drivers/PJSip.class.php:270
 msgid "Minimum time to keep an AoR"
 msgstr "Минимальное время хранения AoR"
 
@@ -6385,9 +6389,9 @@ msgstr "Каждую ночь"
 #: ../core/functions.inc/drivers/Dahdi.class.php:137
 #: ../core/functions.inc/drivers/Iax2.class.php:111
 #: ../core/functions.inc/drivers/Iax2.class.php:149
-#: ../core/functions.inc/drivers/PJSip.class.php:226
-#: ../core/functions.inc/drivers/PJSip.class.php:239
-#: ../core/functions.inc/drivers/PJSip.class.php:248
+#: ../core/functions.inc/drivers/PJSip.class.php:230
+#: ../core/functions.inc/drivers/PJSip.class.php:243
+#: ../core/functions.inc/drivers/PJSip.class.php:252
 #: ../core/functions.inc/drivers/Sip.class.php:310
 #: ../core/functions.inc/drivers/Sip.class.php:323
 #: ../core/functions.inc/drivers/Sip.class.php:329
@@ -6503,7 +6507,7 @@ msgstr "Не указан статус для checkStatus"
 msgid "NoOp Traces in Dialplan"
 msgstr "Трейсы NoOp в диал-плане"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:232
+#: ../core/functions.inc/drivers/PJSip.class.php:236
 #: ../core/views/trunks/pjsip.php:91 ../core/views/trunks/pjsip.php:110
 #: ../core/views/trunks/pjsip.php:618
 msgid "None"
@@ -7404,7 +7408,7 @@ msgstr "Введите канал для этого устройства"
 msgid "Please enter valid User Password using numbers only"
 msgstr "Пожалуйста, введите пароль пользователя состоящий только из цифр"
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:112
+#: amp_conf/htdocs/admin/libraries/view.functions.php:123
 msgid "Please install gettext so that the PBX can properly translate itself"
 msgstr ""
 "Пожалуйста установите gettext чтобы PBX могла корректно выполнять перевод."
@@ -7646,7 +7650,7 @@ msgid ""
 "new line. Supported feeds are Atom 1.0 and RSS 0.91, 0.92, 1.0 and 2.0"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:212
+#: ../core/functions.inc/drivers/PJSip.class.php:216
 msgid "RTP Symmetric"
 msgstr "Симметричный RTP"
 
@@ -7859,7 +7863,7 @@ msgstr "Репозитории"
 msgid "Require Confirm with Apply Changes"
 msgstr "Требуется подтверждение при применении изменений"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:251
+#: ../core/functions.inc/drivers/PJSip.class.php:255
 msgid "Require RTP (Media) Encryption"
 msgstr ""
 
@@ -7867,7 +7871,7 @@ msgstr ""
 msgid "Require Strong Secrets"
 msgstr "Требуется сложный пароль"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:241
+#: ../core/functions.inc/drivers/PJSip.class.php:245
 msgid "Required"
 msgstr ""
 
@@ -7929,7 +7933,7 @@ msgstr "Повторить"
 msgid "Return"
 msgstr "Вернуться"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:214
+#: ../core/functions.inc/drivers/PJSip.class.php:218
 msgid "Rewrite Contact"
 msgstr "Перезаписать контактные данные"
 
@@ -8104,7 +8108,7 @@ msgstr "SIP SENDPRID"
 msgid "SIP trustrpid"
 msgstr "SIP TRUSTRPID"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:233
+#: ../core/functions.inc/drivers/PJSip.class.php:237
 msgid "SRTP via in-SDP (recommended)"
 msgstr ""
 
@@ -8220,7 +8224,7 @@ msgstr "Сессия должна быть сейчас разблокирова
 msgid "Session Timeout"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:245
+#: ../core/functions.inc/drivers/PJSip.class.php:249
 #: ../core/functions.inc/drivers/Sip.class.php:350
 msgid "Session Timers"
 msgstr ""
@@ -8514,7 +8518,7 @@ msgstr ""
 msgid "Skip the chown operation"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:220
+#: ../core/functions.inc/drivers/PJSip.class.php:224
 msgid "Solicited"
 msgstr "Затребовано"
 
@@ -9073,6 +9077,12 @@ msgstr ""
 "Модуль, к которму Вы пытаетесь получить доступ,был отключен ожидающим "
 "изменением версии."
 
+#: ../core/functions.inc/drivers/PJSip.class.php:257
+msgid ""
+"The number of in-use channels which will cause busy to be returned as device "
+"state. This should be left at 0 unless you know what you are doing"
+msgstr ""
+
 #: ../core/views/trunks/pjsip.php:308
 msgid ""
 "The number of seconds Asterisk will wait before attempting to send another "
@@ -9234,7 +9244,7 @@ msgid ""
 "support Session-Timers clear their internal session state. Default is Accept."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:244
+#: ../core/functions.inc/drivers/PJSip.class.php:248
 msgid ""
 "The sessions are kept alive by sending a RE-INVITE or UPDATE request at a "
 "negotiated interval. If a session refresh fails then all the entities that "
@@ -9356,7 +9366,7 @@ msgstr ""
 "используют скрипт freepbx_engine. Для большинства систем это значение не "
 "надо менять."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:254
+#: ../core/functions.inc/drivers/PJSip.class.php:262
 msgid ""
 "The value is a comma-delimited list of IP addresses. IP addresses may have a "
 "subnet mask appended. The subnet mask may be written in either CIDR or dot-"
@@ -9450,7 +9460,7 @@ msgstr ""
 "промаркированые как экстренные. Caller ID экстренных служб переопределяет "
 "все остальные Caller ID."
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:590
+#: amp_conf/htdocs/admin/libraries/view.functions.php:602
 msgid "This Module has been deprecated"
 msgstr "Этот модуль устарел"
 
@@ -9924,7 +9934,7 @@ msgstr "Невозможно скачать ключ GPG %s, или найти %
 msgid "Unable to find an intermediary converter for %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:61
+#: amp_conf/htdocs/admin/libraries/view.functions.php:66
 msgid ""
 "Unable to find the Locale binary. Your system may not support language "
 "changes!"
@@ -10108,7 +10118,7 @@ msgstr "Неподписано"
 msgid "Unsigned Module(s)"
 msgstr "Неподписанные модули"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:221
+#: ../core/functions.inc/drivers/PJSip.class.php:225
 msgid "Unsolicited"
 msgstr "Незапрошенные"
 
@@ -10689,7 +10699,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:228
+#: ../core/functions.inc/drivers/PJSip.class.php:232
 msgid ""
 "When enabled, Asterisk condenses message waiting notifications from multiple "
 "mailboxes into a single NOTIFY. If it is disabled, individual NOTIFYs are "
@@ -10914,9 +10924,9 @@ msgstr ""
 #: ../core/functions.inc/drivers/Dahdi.class.php:136
 #: ../core/functions.inc/drivers/Iax2.class.php:110
 #: ../core/functions.inc/drivers/Iax2.class.php:148
-#: ../core/functions.inc/drivers/PJSip.class.php:227
-#: ../core/functions.inc/drivers/PJSip.class.php:240
-#: ../core/functions.inc/drivers/PJSip.class.php:249
+#: ../core/functions.inc/drivers/PJSip.class.php:231
+#: ../core/functions.inc/drivers/PJSip.class.php:244
+#: ../core/functions.inc/drivers/PJSip.class.php:253
 #: ../core/functions.inc/drivers/Sip.class.php:311
 #: ../core/functions.inc/drivers/Sip.class.php:324
 #: ../core/functions.inc/drivers/Sip.class.php:404
@@ -11159,8 +11169,8 @@ msgstr ""
 "будет иметь возможности авторизоваться как AdHoc.\\n\\nВы уверены, что "
 "хотите оставить пароль пустым?"
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:54
-#: amp_conf/htdocs/admin/libraries/view.functions.php:77
+#: amp_conf/htdocs/admin/libraries/view.functions.php:56
+#: amp_conf/htdocs/admin/libraries/view.functions.php:85
 #, php-format
 msgid ""
 "You have selected an invalid language '%s' this has been automatically "
