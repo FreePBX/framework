@@ -22,7 +22,7 @@ function frameworkPasswordCheck() {
 
 // setup locale
 function set_language($details=false) {
-	global $amp_conf, $db;
+	global $amp_conf, $db, $addedWarning;
 
 	$expression = '/^([a-z]*(?:_[A-Z]{2})?)(?:\.([a-z1-9]*))?(?:@([a-z1-9]*))?$/';
 	$default = "en_US";
@@ -51,14 +51,20 @@ function set_language($details=false) {
 
 		//Break Locales apart for processing
 		if(!preg_match($expression, $lang, $langParts)) {
-			$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$lang,$default, "Expression Failure"), "?display=advancedsettings");
+			if(empty($addedWarning)) {
+				$addedWarning = true;
+				$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$lang,$default, "Expression Failure"), "?display=advancedsettings");
+			}
 			$lang = $default;
 			$langParts = $defaultParts;
 		}
 		//Get locale list
 		exec('locale -a',$locales, $out);
 		if($out != 0) {
-			$nt->add_warning('framework', 'LANG_MISSING', _("Language Support Unknown"), _("Unable to find the Locale binary. Your system may not support language changes!"), "?display=advancedsettings");
+			if(empty($addedWarning)) {
+				$addedWarning = true;
+				$nt->add_warning('framework', 'LANG_MISSING', _("Language Support Unknown"), _("Unable to find the Locale binary. Your system may not support language changes!"), "?display=advancedsettings");
+			}
 		} else {
 			$nt->delete('framework', 'LANG_MISSING');
 		}
@@ -74,7 +80,10 @@ function set_language($details=false) {
 			$lang = $default;
 			$langParts = $defaultParts;
 			if(in_array("en_US",$locales)) {
-				$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$lang,$default, "Nonexistent in Locale"), "?display=advancedsettings");
+				if(empty($addedWarning)) {
+					$addedWarning = true;
+					$nt->add_warning('framework', 'LANG_INVALID', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$lang,$default, "Nonexistent in Locale"), "?display=advancedsettings");
+				}
 			} else {
 				$nt->delete('framework', 'LANG_INVALID');
 				return $details ? array("full" => $lang, "name" => $langParts[1], "charmap" => $langParts[2], "modifiers" => $langParts[3]) : $langParts[1];
@@ -109,7 +118,10 @@ function set_language($details=false) {
 
 		return $details ? array("full" => $lang, "name" => $langParts[1], "charmap" => $langParts[2], "modifiers" => $langParts[3]) : $langParts[1];
 	}
-	$nt->add_warning('core', 'GETTEXT', _("Gettext is not installed"), _("Please install gettext so that the PBX can properly translate itself"),'https://www.gnu.org/software/gettext/');
+	if(empty($addedWarning)) {
+		$addedWarning = true;
+		$nt->add_warning('core', 'GETTEXT', _("Gettext is not installed"), _("Please install gettext so that the PBX can properly translate itself"),'https://www.gnu.org/software/gettext/');
+	}
 
 	return $details ? array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "") : $default;
 }
