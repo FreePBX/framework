@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-06-27 10:37-0700\n"
+"POT-Creation-Date: 2016-06-27 11:43-0700\n"
 "PO-Revision-Date: 2008-11-09 19:43+0100\n"
 "Last-Translator: Francesco Romano <francesco.romano@alteclab.it>\n"
 "Language-Team: Italian\n"
@@ -3081,7 +3081,7 @@ msgstr ""
 msgid "Done. All modules installed."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:102
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:216
 #: ../core/page.advancedsettings.php:194
 msgid "Double-Click to see options or type freeform"
 msgstr ""
@@ -4368,7 +4368,7 @@ msgstr ""
 msgid "Get help for %s"
 msgstr "Richiedi aiuto per %s"
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:123
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:88
 msgid "Gettext is not installed"
 msgstr ""
 
@@ -4468,7 +4468,7 @@ msgstr ""
 msgid "Hello, "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:573
+#: amp_conf/htdocs/admin/libraries/view.functions.php:472
 msgid "Helpful Information"
 msgstr ""
 
@@ -4480,11 +4480,11 @@ msgstr ""
 msgid "Hide the outbound Caller ID, The same as adding hidden to Outbound CID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:224
 msgid "Hit the play symbol to listen"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:108
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:222
 msgid "Hit the red record button to start recording from your browser"
 msgstr ""
 
@@ -4990,8 +4990,9 @@ msgstr "Selezione Passante non valida, il campo non deve essere vuoto"
 msgid "Invalid Dial Rules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:56
-#: amp_conf/htdocs/admin/libraries/view.functions.php:85
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:112
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:142
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:145
 msgid "Invalid Language"
 msgstr ""
 
@@ -5081,7 +5082,7 @@ msgstr ""
 msgid "LOADING ROUTES"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:66
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:124
 msgid "Language Support Unknown"
 msgstr ""
 
@@ -6659,7 +6660,7 @@ msgstr "Prego immettere il canale per questo apparato"
 msgid "Please enter valid User Password using numbers only"
 msgstr "Prego immettere una Password Utente utilizzando solo numeri."
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:123
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:88
 msgid "Please install gettext so that the PBX can properly translate itself"
 msgstr ""
 
@@ -8565,7 +8566,7 @@ msgid ""
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:602
+#: amp_conf/htdocs/admin/libraries/view.functions.php:501
 msgid "This Module has been deprecated"
 msgstr ""
 
@@ -8834,7 +8835,7 @@ msgid ""
 "conversion support you need to at least install SOX"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:146
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:260
 #, php-format
 msgid ""
 "To play the media you will need to either update your browser to a recent "
@@ -8977,7 +8978,7 @@ msgstr ""
 msgid "Unable to find an intermediary converter for %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:66
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:124
 msgid ""
 "Unable to find the Locale binary. Your system may not support language "
 "changes!"
@@ -9186,7 +9187,7 @@ msgstr "Aggiornamento"
 msgid "Update Notifications"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:145
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:259
 msgid "Update Required"
 msgstr ""
 
@@ -10067,8 +10068,15 @@ msgid ""
 "leave the User Password empty?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:56
-#: amp_conf/htdocs/admin/libraries/view.functions.php:85
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:145
+#, php-format
+msgid ""
+"You have selected an invalid language '%s' and we were unable to fallback to "
+"'%s' please resolve this in advanced settings [%s]"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:112
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:142
 #, php-format
 msgid ""
 "You have selected an invalid language '%s' this has been automatically "
