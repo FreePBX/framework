@@ -148,10 +148,11 @@ class View {
 
 		if(!empty($locales) && !in_array($lang,$locales)) {
 			if(in_array($default,$locales)) { //found en_US in the array!
+				$elang = $lang;
 				$lang = $default;
 				$langParts = $defaultParts;
 				$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
-				$nt->add_warning('framework', 'LANG_INVALID2', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$lang,$default, "Nonexistent in Locale"), "?display=advancedsettings");
+				$nt->add_warning('framework', 'LANG_INVALID2', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$elang,$default, "Nonexistent in Locale"), "?display=advancedsettings");
 			} else {
 				$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
 				$nt->add_warning('framework', 'LANG_INVALID2', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"),$lang,$default,$default.".utf8", "Nonexistent in Locale, Missing ".$default), "?display=advancedsettings");
