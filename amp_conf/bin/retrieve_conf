@@ -25,8 +25,8 @@ $mems = isset($meminfo['SwapTotal']) ? preg_replace("/\D/","",$meminfo['SwapTota
 if(empty($mems)) {
 	$nt->add_warning('core', 'SWAP', _("No Swap"), _("Your system has no swap space. This should be fixed as soon as possible. Once fixed issue a reload to remove this message"));
 } else {
-	if($mems < $memt) {
-		$nt->add_warning('core', 'SWAP', _("No Swap"), sprintf(_("The swap space (%s KB) of your system is lower than your total RAM (%s KB). This should be fixed as soon as possible. Once fixed issue a reload to remove this message"),$mems,$memt));
+	if($mems < 200000) {
+		$nt->add_warning('core', 'SWAP', _("No Swap"), sprintf(_("The swap space of your system is too low (%s KB). You should have at least %s KB of swap space. This should be fixed as soon as possible. Once fixed issue a reload to remove this message"),$mems,200000));
 	} else {
 		$nt->delete('core', 'SWAP');
 	}
