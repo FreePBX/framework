@@ -23,10 +23,10 @@ if(!empty($meminfo['MemTotal'])) {
 $nt = notifications::create($db);
 $mems = isset($meminfo['SwapTotal']) ? preg_replace("/\D/","",$meminfo['SwapTotal']) : '';
 if(empty($mems)) {
-	$nt->add_warning('core', 'SWAP', _("No Swap"), _("Your system has no swap space. This should be fixed as soon as possible"));
+	$nt->add_warning('core', 'SWAP', _("No Swap"), _("Your system has no swap space. This should be fixed as soon as possible. Once fixed issue a reload to remove this message"));
 } else {
 	if($mems < $memt) {
-		$nt->add_warning('core', 'SWAP', _("No Swap"), sprintf(_("The swap space (%s KB) of your system is lower than your total RAM (%s KB). This should be fixed as soon as possible"),$mems,$memt));
+		$nt->add_warning('core', 'SWAP', _("No Swap"), sprintf(_("The swap space (%s KB) of your system is lower than your total RAM (%s KB). This should be fixed as soon as possible. Once fixed issue a reload to remove this message"),$mems,$memt));
 	} else {
 		$nt->delete('core', 'SWAP');
 	}
