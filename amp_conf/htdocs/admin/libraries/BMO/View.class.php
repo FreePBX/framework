@@ -10,6 +10,7 @@ namespace FreePBX;
 class View {
 	private $queryString = "";
 	private $replaceState = false;
+	private $lang = array();
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {
@@ -63,6 +64,116 @@ class View {
 	 */
 	public function getQueryString() {
 		return $this->queryString;
+	}
+
+	/**
+	 * Set System Language
+	 * @param boolean $details If we should return details or just the name
+	 */
+	public function setLanguage($details=false) {
+		if(!empty($this->lang)) {
+			return $details ? $this->lang : $this->lang['name'];
+		}
+		$UIDEFAULTLANG = $this->freepbx->Config->get("UIDEFAULTLANG");
+		$expression = '/^([a-z]*(?:_[A-Z]{2})?)(?:\.([a-z1-9]*))?(?:@([a-z1-9]*))?$/';
+		$default = "en_US";
+		$defaultParts = array(
+			'en_US',
+			'en_US'
+		);
+
+		$nt = $this->freepbx->Notifications;
+		if (!extension_loaded('gettext')) {
+			$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
+			$nt->add_warning('core', 'GETTEXT', _("Gettext is not installed"), _("Please install gettext so that the PBX can properly translate itself"),'https://www.gnu.org/software/gettext/');
+			return $details ? $this->lang : $this->lang['name'];
+		}
+		$nt->delete('core', 'GETTEXT');
+		if(php_sapi_name() !== 'cli') {
+			if (empty($_COOKIE['lang']) || !preg_match($expression, $_COOKIE['lang'])) {
+				$lang = !empty($UIDEFAULTLANG) ? $UIDEFAULTLANG : $default;
+				if (empty($_COOKIE['lang'])) {
+					setcookie("lang", $lang);
+				} else {
+					$_COOKIE['lang'] = $lang;
+				}
+			} else {
+				$lang = $_COOKIE['lang'];
+			}
+		} else {
+			$lang = !empty($UIDEFAULTLANG) ? $UIDEFAULTLANG : $default;
+		}
+
+		//Break Locales apart for processing
+		if(!preg_match($expression, $lang, $langParts)) {
+			$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
+			$nt->add_warning('framework', 'LANG_INVALID1', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$lang,$default, "Expression Failure"), "?display=advancedsettings");
+			$lang = $default;
+			$langParts = $defaultParts;
+		} else {
+			$nt->delete('framework', 'LANG_INVALID1');
+		}
+
+		//Get locale list
+		exec('locale -a',$locales, $out);
+		if($out != 0) { //could not execute locale -a
+			$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
+			$nt->add_warning('framework', 'LANG_MISSING', _("Language Support Unknown"), _("Unable to find the Locale binary. Your system may not support language changes!"), "?display=advancedsettings");
+			return $details ? $this->lang : $this->lang['name'];
+		} else {
+			$nt->delete('framework', 'LANG_MISSING');
+		}
+		$locales = is_array($locales) ? $locales : array();
+
+		if(php_sapi_name() !== 'cli') {
+			//Adjust for RTL languages
+			$rtl_locales = array( 'ar', 'ckb', 'fa_IR', 'he_IL', 'ug_CN' );
+			$_SESSION['langdirection'] = in_array($langParts[1],$rtl_locales) ? 'rtl' : 'ltr';
+		}
+
+		//Lets see if utf8 codeset exists if not previously defined
+		if(empty($langParts[2])) {
+			$testString = !empty($langParts[3]) ? $langParts[1].".utf8@".$langParts[3] : $langParts[1].".utf8";
+			if(in_array($testString,$locales)) {
+				$langParts[2] = 'utf8';
+				$lang = $testString;
+			} else {
+				$testString = !empty($langParts[3]) ? $langParts[1].".UTF8@".$langParts[3] : $langParts[1].".UTF8";
+				if(in_array($testString,$locales)) {
+					$langParts[2] = 'UTF8';
+					$lang = $testString;
+				}
+			}
+		}
+
+		if(!empty($locales) && !in_array($lang,$locales)) {
+			if(in_array($default,$locales)) { //found en_US in the array!
+				$elang = $lang;
+				$lang = $default;
+				$langParts = $defaultParts;
+				$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
+				$nt->add_warning('framework', 'LANG_INVALID2', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$elang,$default, "Nonexistent in Locale"), "?display=advancedsettings");
+			} else {
+				$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
+				$nt->add_warning('framework', 'LANG_INVALID2', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"),$lang,$default,$default.".utf8", "Nonexistent in Locale, Missing ".$default), "?display=advancedsettings");
+				return $details ? $this->lang : $this->lang['name'];
+			}
+		} else {
+			$nt->delete('framework', 'LANG_INVALID2');
+		}
+
+		putenv('LC_ALL='.$lang);
+		putenv('LANG='.$lang);
+		putenv('LANGUAGE='.$lang);
+		setlocale(LC_ALL, $lang);
+
+		bindtextdomain('amp',$this->freepbx->Config->get("AMPWEBROOT").'/admin/i18n');
+		bind_textdomain_codeset('amp', 'utf8');
+		textdomain('amp');
+
+		$this->lang = array("full" => $lang, "name" => $langParts[1], "charmap" => $langParts[2], "modifiers" => $langParts[3]);
+
+		return $details ? $this->lang : $this->lang['name'];
 	}
 
 	/**

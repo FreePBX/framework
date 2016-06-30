@@ -1766,7 +1766,7 @@ msgstr "Coding  Error - don't understand '%s' from %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:293
 msgid "Collecting Files..."
-msgstr ""
+msgstr "جمع آوری فایل ها..."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:30
 msgid "Colorize table based list"
@@ -3309,7 +3309,7 @@ msgstr "به غیر از ماژول های"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:25
 msgid "Execute on only this file/dir"
-msgstr ""
+msgstr "فقط در این فایل/دایرکتوری اجرا شود"
 
 #: amp_conf/htdocs/admin/functions.inc.php:362
 #: amp_conf/htdocs/admin/functions.inc.php:415
@@ -4322,6 +4322,10 @@ msgstr "افزودن موقت RTPSTART و تنظیمات RTPEND"
 #: amp_conf/htdocs/admin/views/module_admin/main.php:329
 msgid "Install"
 msgstr "نصب"
+
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:897
+msgid "Install all local modules, accepts no arguments"
+msgstr "نصب تمامی ماژولهای محلی، بدون قبول آرگومانها"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:875
 msgid "Install local module[s], accepts argument module[s]"
@@ -6682,7 +6686,7 @@ msgstr "تنظیم ماژول مدیریت به حالت Edge"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:26
 msgid "Set permissions on a specific module: <rawname>"
-msgstr ""
+msgstr "تنظیم دسترسی در یک ماژول مشخص: <rawname>"
 
 #: ../core/views/did/advanced_form.php:14
 msgid "Set the MoH class that will be used for calls that come in on this route. For example, choose a type appropriate for routes coming in from a country which may have announcements in their language."
@@ -9626,8 +9630,17 @@ msgstr "شما باید دستی خط 'preload => pbx_config.so' را به فا�
 msgid "zap devices migrated"
 msgstr "وسایل zap منتقل شدند"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:897
-msgid "Install all local modules, accepts no arguments"
+#: ../core/functions.inc/drivers/PJSip.class.php:258
+msgid "Device State Busy at"
+msgstr ""
+
+#: ../core/functions.inc/drivers/PJSip.class.php:257
+msgid "The number of in-use channels which will cause busy to be returned as device state. This should be left at 0 unless you know what you are doing"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:158
+#, php-format
+msgid "You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"
 msgstr ""
 
 #~ msgid "Aborting Shutdown"

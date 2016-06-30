@@ -361,7 +361,6 @@ class Chown extends Command {
 						$this->infos[] = sprintf(_('%s skipped by configuration'), $path);
 						continue;
 					}
-					$path = \ForceUTF8\Encoding::toLatin1($path);
 					switch($file['type']){
 						case 'file':
 						case 'dir':
