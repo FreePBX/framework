@@ -765,7 +765,7 @@ function bind_dests_double_selects() {
 
 		$("[data-id=" + id + "].destdropdown2").addClass("hidden");
 		dd2 = $("#" + dest + id + ".destdropdown2");
-		cur_val = dd2.removeClass("hidden").val();
+		cur_val = dd2.removeClass("hidden").prop("disabled", false).val();
 
 		// This was added because a cancel can leave dd2 cur_val to popover
 		// even when there are other choices so we force it to 'none'
