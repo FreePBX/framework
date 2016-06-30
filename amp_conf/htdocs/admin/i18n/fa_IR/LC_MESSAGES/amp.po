@@ -2461,6 +2461,10 @@ msgstr "گزینه های وسیله"
 msgid "Device Settings"
 msgstr "تنظیمات وسیله"
 
+#: ../core/functions.inc/drivers/PJSip.class.php:258
+msgid "Device State Busy at"
+msgstr "وضعیت دستگاه مشغول است در"
+
 #: ../core/Core.class.php:2530 ../core/Core.class.php:2531
 msgid "Device Technology"
 msgstr "فن آوری وسیله"
@@ -7284,6 +7288,10 @@ msgstr "ماژولی که میخواهید توسط مدیر غیرفعال شد
 msgid "The module you are trying to access has been disabled pending a version change."
 msgstr "ماژولی که میخواهید برای تغییر نسخه غیرفعال شده است."
 
+#: ../core/functions.inc/drivers/PJSip.class.php:257
+msgid "The number of in-use channels which will cause busy to be returned as device state. This should be left at 0 unless you know what you are doing"
+msgstr "تعداد کانالهای مورد استفاده که باعث نمایش مشغول بودن وسیله خواهد شد. این مقدار باید 0 باشد مگر اینکه از تنظیمات خود کاملا مطمئنید"
+
 #: ../core/views/trunks/pjsip.php:308
 msgid "The number of seconds Asterisk will wait before attempting to send another REGISTER request to the registrar"
 msgstr "The number of seconds Asterisk  will wait before attempting to send another REGISTER request to the registrar"
@@ -8714,6 +8722,11 @@ msgstr "You have  not entered a Secret for this device, although this is possibl
 msgid "You have not entered a User Password.  While this is acceptable, this user will not be able to login to an AdHoc user.\\n\\nAre you sure you wish to leave the User Password empty?"
 msgstr "You have  not entered a User Password.  While this is acceptable, this user will not be able to login to an AdHoc user.\\n\\nAre you sure you wish to leave the User Password empty?"
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:158
+#, php-format
+msgid "You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"
+msgstr "شما زبان نا درستی را انتخاب کردید '%s' و ما نمیتوانیم به '%s' یا '%s' برگردیم لطفا این مشکل را از طریق تنظیمات پیشرفته حل کنید [%s]"
+
 #: amp_conf/htdocs/admin/libraries/view.functions.php:54
 #: amp_conf/htdocs/admin/libraries/view.functions.php:77
 #, php-format
@@ -9629,19 +9642,6 @@ msgstr "شما باید دستی خط 'preload => pbx_config.so' را به فا�
 #: ../core/install.php:1105
 msgid "zap devices migrated"
 msgstr "وسایل zap منتقل شدند"
-
-#: ../core/functions.inc/drivers/PJSip.class.php:258
-msgid "Device State Busy at"
-msgstr ""
-
-#: ../core/functions.inc/drivers/PJSip.class.php:257
-msgid "The number of in-use channels which will cause busy to be returned as device state. This should be left at 0 unless you know what you are doing"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:158
-#, php-format
-msgid "You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"
-msgstr ""
 
 #~ msgid "Aborting Shutdown"
 #~ msgstr "لغو خاموش کردن"
