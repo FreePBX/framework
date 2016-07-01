@@ -66,6 +66,51 @@ class View {
 		return $this->queryString;
 	}
 
+	public function getTimezone($userid=null) {
+		$tz = $this->freepbx->Config->get("PHPTIMEZONE");
+		return !empty($tz) ? $tz : date_default_timezone_get();
+	}
+
+	public function getDate($timestamp=null,$userid=null) {
+		$timestamp = !empty($timestamp) ? $timestamp : time();
+		$m = new \Moment\Moment('@'.$timestamp, $this->getTimezone());
+		try {
+			\Moment\Moment::setLocale($this->setLanguage());
+		} catch(\Exception $e) {}
+
+		//TODO: check for valid input
+		return $m->format($this->freepbx->Config->get("MDATEFORMAT"), new \Moment\CustomFormats\MomentJs());
+	}
+
+	public function getTime($timestamp=null,$userid=null) {
+		$timestamp = !empty($timestamp) ? $timestamp : time();
+		$m = new \Moment\Moment('@'.$timestamp, $this->getTimezone());
+		try {
+			\Moment\Moment::setLocale($this->setLanguage());
+		} catch(\Exception $e) {}
+
+		//TODO: check for valid input
+		return $m->format($this->freepbx->Config->get("MTIMEFORMAT"), new \Moment\CustomFormats\MomentJs());
+	}
+
+	public function getDateTime($timestamp=null,$userid=null) {
+		$timestamp = !empty($timestamp) ? $timestamp : time();
+		$m = new \Moment\Moment('@'.$timestamp, $this->getTimezone());
+		try {
+			\Moment\Moment::setLocale($this->setLanguage());
+		} catch(\Exception $e) {}
+
+		//TODO: check for valid input
+		return $m->format($this->freepbx->Config->get("MDATETIMEFORMAT"), new \Moment\CustomFormats\MomentJs());
+	}
+
+	public function getLocale($userid=null) {
+		if(!empty($this->lang)) {
+			$this->setLanguage();
+		}
+		return $this->lang['name'];
+	}
+
 	/**
 	 * Set System Language
 	 * @param boolean $details If we should return details or just the name

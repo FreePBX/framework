@@ -283,6 +283,34 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
+	//Prefixed with 'M' because we are using the moments lib
+	$settings[$category]['MDATETIMEFORMAT'] = array(
+	'value' => 'llll',
+	'options' => '',
+	'name' => 'Date and Time Format',
+	'description' => 'The format dates and times should display in. The default of "llll" is locale aware. For more formats please see: http://momentjs.com/docs/#/displaying/format/',
+	'sortorder' => -150,
+	'type' => CONF_TYPE_TEXT,
+	);
+
+	$settings[$category]['MDATEFORMAT'] = array(
+	'value' => 'l',
+	'options' => '',
+	'name' => 'Date Format',
+	'description' => 'The format dates should display in. The default of "l" is locale aware. For more formats please see: http://momentjs.com/docs/#/displaying/format/',
+	'sortorder' => -150,
+	'type' => CONF_TYPE_TEXT,
+	);
+
+	$settings[$category]['MTIMEFORMAT'] = array(
+	'value' => 'LT',
+	'options' => '',
+	'name' => 'Time Format',
+	'description' => 'The format times should display in. The default of "LT" is local aware. For more formats please see: http://momentjs.com/docs/#/displaying/format/',
+	'sortorder' => -150,
+	'type' => CONF_TYPE_TEXT,
+	);
+
 	$settings[$category]['FPBX_LOG_FILE'] = array(
 	'value' => $amp_conf['ASTLOGDIR'] . '/freepbx.log',
 	'options' => '',
