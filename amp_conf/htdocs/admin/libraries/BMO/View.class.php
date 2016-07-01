@@ -11,12 +11,14 @@ class View {
 	private $queryString = "";
 	private $replaceState = false;
 	private $lang = array();
+	private $tz = '';
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {
 			throw new Exception("Not given a FreePBX Object");
 		}
 		$this->freepbx = $freepbx;
+		$this->nt = $this->freepbx->Notifications;
 	}
 
 	/**
@@ -66,44 +68,117 @@ class View {
 		return $this->queryString;
 	}
 
+	/**
+	 * Set System Timezone
+	 */
+	public function setTimezone() {
+		date_default_timezone_set('UTC');
+		$phptimezone = $this->freepbx->Config->get('PHPTIMEZONE');
+		$phptimezone = trim($phptimezone);
+		$invalidtimezone = false;
+		if(!empty($phptimezone)) {
+			$tzi = \DateTimeZone::listIdentifiers();
+			if(!in_array($phptimezone,$tzi)) {
+				$invalidtimezone = $phptimezone;
+				$timezone = 'UTC';
+			}
+			date_default_timezone_set($phptimezone);
+		}
+		if(!empty($invalidtimezone)) {
+			$this->nt->add_warning("framework", "TIMEZONE", _("Unable to set timezone"), sprintf(_("Unable to set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."),$invalidtimezone), "config.php?display=advancedsettings", true, true);
+		} else {
+			$this->nt->delete("framework", "TIMEZONE");
+		}
+		$this->tz = date_default_timezone_get();
+		return $this->tz;
+	}
+
+	/**
+	 * Get User or System Timezone
+	 * @param  int $userid The User Manager ID, if not supplied try to infere it
+	 * @return string         The Timezone
+	 */
 	public function getTimezone($userid=null) {
-		$tz = $this->freepbx->Config->get("PHPTIMEZONE");
-		return !empty($tz) ? $tz : date_default_timezone_get();
+		if(empty($this->tz)) {
+			$this->setTimezone();
+		}
+		$tz = $this->tz;
+		return $tz;
 	}
 
+	/**
+	 * Get Formatted Date String
+	 * @param  integer $timestamp Unix Timestamp, if empty then NOW
+	 * @param  integer $userid    The User Manager ID, if not supplied try to infere it
+	 * @return string            The date string
+	 */
 	public function getDate($timestamp=null,$userid=null) {
-		$timestamp = !empty($timestamp) ? $timestamp : time();
-		$m = new \Moment\Moment('@'.$timestamp, $this->getTimezone());
-		try {
-			\Moment\Moment::setLocale($this->setLanguage());
-		} catch(\Exception $e) {}
+		$m = $this->getMoment($timestamp,$userid);
 
-		//TODO: check for valid input
-		return $m->format($this->freepbx->Config->get("MDATEFORMAT"), new \Moment\CustomFormats\MomentJs());
+		try{
+			$out = $m->format($this->freepbx->Config->get("MDATEFORMAT"), new \Moment\CustomFormats\MomentJs());
+		} catch(\Exception $e) {
+			$out = $m->format("l", new \Moment\CustomFormats\MomentJs());
+		}
+
+		return $out;
 	}
 
+	/**
+	 * Get Formatted Time String
+	 * @param  integer $timestamp Unix Timestamp, if empty then NOW
+	 * @param  integer $userid    The User Manager ID, if not supplied try to infere it
+	 * @return string            The time string
+	 */
 	public function getTime($timestamp=null,$userid=null) {
-		$timestamp = !empty($timestamp) ? $timestamp : time();
-		$m = new \Moment\Moment('@'.$timestamp, $this->getTimezone());
-		try {
-			\Moment\Moment::setLocale($this->setLanguage());
-		} catch(\Exception $e) {}
+		$m = $this->getMoment($timestamp,$userid);
 
-		//TODO: check for valid input
-		return $m->format($this->freepbx->Config->get("MTIMEFORMAT"), new \Moment\CustomFormats\MomentJs());
+		try{
+			$out = $m->format($this->freepbx->Config->get("MTIMEFORMAT"), new \Moment\CustomFormats\MomentJs());
+		} catch(\Exception $e) {
+			//TODO: invalid format
+			$out = $m->format("LT", new \Moment\CustomFormats\MomentJs());
+		}
+		return $out;
 	}
 
+	/**
+	 * Get Formatted Date/Time String
+	 * @param  integer $timestamp Unix Timestamp, if empty then NOW
+	 * @param  integer $userid    The User Manager ID, if not supplied try to infere it
+	 * @return string            The formatted date/time string
+	 */
 	public function getDateTime($timestamp=null,$userid=null) {
+		$m = $this->getMoment($timestamp,$userid);
+
+		try{
+			$out = $m->format($this->freepbx->Config->get("MDATETIMEFORMAT"), new \Moment\CustomFormats\MomentJs());
+		} catch(\Exception $e) {
+			//TODO: invalid format
+			$out = $m->format("llll", new \Moment\CustomFormats\MomentJs());
+		}
+
+		return $out;
+	}
+
+
+	private function getMoment($timestamp=null,$userid=null) {
 		$timestamp = !empty($timestamp) ? $timestamp : time();
 		$m = new \Moment\Moment('@'.$timestamp, $this->getTimezone());
 		try {
 			\Moment\Moment::setLocale($this->setLanguage());
-		} catch(\Exception $e) {}
-
-		//TODO: check for valid input
-		return $m->format($this->freepbx->Config->get("MDATETIMEFORMAT"), new \Moment\CustomFormats\MomentJs());
+		} catch(\Exception $e) {
+			//invalid locale. Not all locales are supported though
+			\Moment\Moment::setLocale('en_US');
+		}
+		return $m;
 	}
 
+	/**
+	 * Get Locale
+	 * @param  integer $userid    The User Manager ID, if not supplied try to infere it
+	 * @return string            The locale  (en_US)
+	 */
 	public function getLocale($userid=null) {
 		if(!empty($this->lang)) {
 			$this->setLanguage();
@@ -313,6 +388,7 @@ class View {
 		$html .= '</div>';
 		return $html;
 	}
+
 	/**
 	 * This is used to generate a timezone select field using the timezones available
 	 * on the system. This will only show PHP supported timezones.
@@ -347,6 +423,38 @@ class View {
 		$input .= '<script type="text/javascript">';
 		$input .= '$(document).ready(function() {';
 	  $input .= '$("#'.$id.'").multiselect({enableCaseInsensitiveFiltering: true, inheritClass: true});';
+		$input .= '});';
+		$input .= '</script>';
+		return $input;
+	}
+
+	/**
+	 * This is used to generate a timezone select field using the timezones available
+	 * on the system. This will only show PHP supported timezones.
+	 * @param  string $id   The name and id of the form field
+	 * @param  string $value   The current value
+	 * @param  string $nonelabel  What you want shown if nothing is chosen
+	 * @return html input containing timezones
+	 */
+
+	function languageDrawSelect($id, $value='',$nonelabel=''){
+		$nonelabel = !empty($nonelabel)?$nonelabel:_("Select a Language");
+		$langlist = array();
+		$langlist['en_US'] = function_exists('locale_get_display_name') ? locale_get_display_name('en_US', $this->getLocale()) : 'en_US';
+		foreach(glob($this->freepbx->Config->get("AMPWEBROOT")."/admin/i18n/*",GLOB_ONLYDIR) as $langDir) {
+			$lang = basename($langDir);
+			$langlist[$lang] = function_exists('locale_get_display_name') ? locale_get_display_name($lang, $this->getLocale()) : $lang;
+		}
+
+		$input = '<select name="'.$id.'" id="'.$id.'" class="form-control">';
+		$input .= '<option value="">'.$nonelabel.'</option>';
+		foreach($langlist as $lang => $display) {
+			$input .= '<option value="'.$lang.'" '.(($lang == $value) ? 'selected' : '').'>'.$display.'</option>';
+		}
+		$input .= '</select>';
+		$input .= '<script type="text/javascript">';
+		$input .= '$(document).ready(function() {';
+		$input .= '$("#'.$id.'").multiselect({enableCaseInsensitiveFiltering: true, inheritClass: true});';
 		$input .= '});';
 		$input .= '</script>';
 		return $input;

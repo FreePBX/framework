@@ -198,6 +198,8 @@ $html .= '<script type="text/javascript" src="assets/js/moment-with-locales.min.
 
 $html .= '<script type="text/javascript" src="assets/js/moment-timezone.min.js'.$version_tag.'"></script>';
 
+$html .= '<script type="text/javascript" src="assets/js/browser-locale.min.js'.$version_tag.'"></script>';
+
 $html .= '<script type="text/javascript" src="assets/js/jquery.form.min.js'.$version_tag.'"></script>';
 
 $html .= '<script type="text/javascript" src="assets/js/recorder.js'.$version_tag.'"></script>';
