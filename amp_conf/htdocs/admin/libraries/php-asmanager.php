@@ -462,17 +462,27 @@ class AGI_AsteriskManager {
 		return $this->send_request('AgentLogoff');
 	}
 
+	function AGI($channel, $command, $commandid) {
+		return $this->send_request('AGI', array('Channel'=>$channel, 'Command'=>$command, "CommandID" => $commandid));
+	}
+
 	/**
-	* Add an AGI command to execute by Async AGI.
+	* Send an arbitrary event.
 	*
-	* Add an AGI command to the execute queue of the channel in Async AGI.
+	* Send an event to manager sessions.
 	*
-	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_AGI
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_UserEvent
 	* @param string $channel
 	* @param string $file
 	*/
-	function AGI($channel, $command, $commandid) {
-		return $this->send_request('AGI', array('Channel'=>$channel, 'Command'=>$command, "CommandID" => $commandid));
+	function UserEvent($event, $headers=array()) {
+		$d = array('UserEvent'=>$event);
+		$i = 1;
+		foreach($headers as $header) {
+			$d['Header'.$i] = $header;
+			$i++;
+		}
+		return $this->send_request('UserEvent', $d);
 	}
 
 	/**

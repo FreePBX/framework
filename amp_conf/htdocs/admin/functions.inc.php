@@ -395,6 +395,10 @@ function do_reload($passthru=false) {
 	FreePBX::Performance()->Start("Reload Asterisk");
 	$astman->Reload();
 	FreePBX::Performance()->Stop();
+	if(version_compare($version,'12','lt')) {
+		$astman->UserEvent("reload");
+	}
+
 
 	$return['status'] = true;
 	$return['message'] = _('Successfully reloaded');
