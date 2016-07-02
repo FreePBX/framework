@@ -72,8 +72,15 @@ class View {
 	 * Set System Timezone
 	 */
 	public function setTimezone() {
+		if(!empty($this->tz)) {
+			return $this->tz;
+		}
 		date_default_timezone_set('UTC');
 		$phptimezone = $this->freepbx->Config->get('PHPTIMEZONE');
+		if(php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->tz)) {
+			//userman mode
+			$phptimezone = $_SESSION['AMP_user']->tz;
+		}
 		$phptimezone = trim($phptimezone);
 		$invalidtimezone = false;
 		if(!empty($phptimezone)) {
@@ -98,7 +105,7 @@ class View {
 	 * @param  int $userid The User Manager ID, if not supplied try to infere it
 	 * @return string         The Timezone
 	 */
-	public function getTimezone($userid=null) {
+	public function getTimezone() {
 		if(empty($this->tz)) {
 			$this->setTimezone();
 		}
@@ -112,11 +119,12 @@ class View {
 	 * @param  integer $userid    The User Manager ID, if not supplied try to infere it
 	 * @return string            The date string
 	 */
-	public function getDate($timestamp=null,$userid=null) {
-		$m = $this->getMoment($timestamp,$userid);
+	public function getDate($timestamp=null) {
+		$m = $this->getMoment($timestamp);
 
 		try{
-			$out = $m->format($this->freepbx->Config->get("MDATEFORMAT"), new \Moment\CustomFormats\MomentJs());
+			$format = (php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->dateformat)) ? $_SESSION['AMP_user']->dateformat : $this->freepbx->Config->get("MDATEFORMAT");
+			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
 		} catch(\Exception $e) {
 			$out = $m->format("l", new \Moment\CustomFormats\MomentJs());
 		}
@@ -130,11 +138,12 @@ class View {
 	 * @param  integer $userid    The User Manager ID, if not supplied try to infere it
 	 * @return string            The time string
 	 */
-	public function getTime($timestamp=null,$userid=null) {
-		$m = $this->getMoment($timestamp,$userid);
+	public function getTime($timestamp=null) {
+		$m = $this->getMoment($timestamp);
 
 		try{
-			$out = $m->format($this->freepbx->Config->get("MTIMEFORMAT"), new \Moment\CustomFormats\MomentJs());
+			$format = (php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->timeformat)) ? $_SESSION['AMP_user']->timeformat : $this->freepbx->Config->get("MTIMEFORMAT");
+			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
 		} catch(\Exception $e) {
 			//TODO: invalid format
 			$out = $m->format("LT", new \Moment\CustomFormats\MomentJs());
@@ -148,11 +157,12 @@ class View {
 	 * @param  integer $userid    The User Manager ID, if not supplied try to infere it
 	 * @return string            The formatted date/time string
 	 */
-	public function getDateTime($timestamp=null,$userid=null) {
-		$m = $this->getMoment($timestamp,$userid);
+	public function getDateTime($timestamp=null) {
+		$m = $this->getMoment($timestamp);
 
 		try{
-			$out = $m->format($this->freepbx->Config->get("MDATETIMEFORMAT"), new \Moment\CustomFormats\MomentJs());
+			$format = (php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->datetimeformat)) ? $_SESSION['AMP_user']->datetimeformat : $this->freepbx->Config->get("MDATETIMEFORMAT");
+			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
 		} catch(\Exception $e) {
 			//TODO: invalid format
 			$out = $m->format("llll", new \Moment\CustomFormats\MomentJs());
@@ -161,8 +171,12 @@ class View {
 		return $out;
 	}
 
-
-	private function getMoment($timestamp=null,$userid=null) {
+	/**
+	 * Get the moment object at time
+	 * @param  integer $timestamp Unix Timestamp, if empty then NOW
+	 * @return object            The moment object
+	 */
+	public function getMoment($timestamp=null) {
 		$timestamp = !empty($timestamp) ? $timestamp : time();
 		$m = new \Moment\Moment('@'.$timestamp, $this->getTimezone());
 		try {
@@ -179,7 +193,7 @@ class View {
 	 * @param  integer $userid    The User Manager ID, if not supplied try to infere it
 	 * @return string            The locale  (en_US)
 	 */
-	public function getLocale($userid=null) {
+	public function getLocale() {
 		if(!empty($this->lang)) {
 			$this->setLanguage();
 		}
@@ -210,15 +224,20 @@ class View {
 		}
 		$nt->delete('core', 'GETTEXT');
 		if(php_sapi_name() !== 'cli') {
-			if (empty($_COOKIE['lang']) || !preg_match($expression, $_COOKIE['lang'])) {
-				$lang = !empty($UIDEFAULTLANG) ? $UIDEFAULTLANG : $default;
-				if (empty($_COOKIE['lang'])) {
-					setcookie("lang", $lang);
-				} else {
-					$_COOKIE['lang'] = $lang;
-				}
+			if(!empty($_SESSION['AMP_user']->lang) && preg_match($expression, $_SESSION['AMP_user']->lang)) {
+				$lang = $_SESSION['AMP_user']->lang;
+				setcookie("lang", "", time()-3600);
 			} else {
-				$lang = $_COOKIE['lang'];
+				if (empty($_COOKIE['lang']) || !preg_match($expression, $_COOKIE['lang'])) {
+					$lang = !empty($UIDEFAULTLANG) ? $UIDEFAULTLANG : $default;
+					if (empty($_COOKIE['lang'])) {
+						setcookie("lang", $lang);
+					} else {
+						$_COOKIE['lang'] = $lang;
+					}
+				} else {
+					$lang = $_COOKIE['lang'];
+				}
 			}
 		} else {
 			$lang = !empty($UIDEFAULTLANG) ? $UIDEFAULTLANG : $default;

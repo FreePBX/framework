@@ -95,8 +95,6 @@ class Ajax extends FreePBX_Helpers {
 			// TODO: We should add tokens in here, as we're still vulnerable to CSRF via XSS.
 		}
 
-		session_start();
-
 		// If we haven't been asked to NOT close the session, close it.
 		// It's still readable, but you can't change it. We do this so that
 		// it's not locked, and multiple things can ajax at the same time.
@@ -104,13 +102,13 @@ class Ajax extends FreePBX_Helpers {
 			session_write_close();
 		}
 
-                // If the request has come from this machine then no need to authenticate.
-                $request_from_ip = $_SERVER['REMOTE_ADDR'];
-                if (($request_from_ip == '127.0.0.1') || ($request_from_ip == '::1')) {
-                    $this->settings['authenticate'] = false;
-                }
+		// If the request has come from this machine then no need to authenticate.
+		$request_from_ip = $_SERVER['REMOTE_ADDR'];
+		if (($request_from_ip == '127.0.0.1') || ($request_from_ip == '::1')) {
+			$this->settings['authenticate'] = false;
+		}
 
-                // Check authentication if set to
+		// Check authentication if set to
 		if ($this->settings['authenticate']) {
 			if (!isset($_SESSION['AMP_user'])) {
 				$this->ajaxError(401, 'Not Authenticated');
