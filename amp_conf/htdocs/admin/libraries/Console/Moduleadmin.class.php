@@ -446,7 +446,7 @@ class Moduleadmin extends Command {
 			//yes the array below is reversed on purpose
 			$prepend = array('sipsettings','core','framework');
 			foreach($prepend as $module) {
-				$key == array_search($module,$modules);
+				$key = array_search($module,$modules);
 				if($key !== false) {
 					unset($modules[$key]);
 					array_unshift($modules, $module);
