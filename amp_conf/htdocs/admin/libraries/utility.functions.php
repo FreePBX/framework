@@ -1517,7 +1517,7 @@ function freepbx_filesize($file) {
 	if (!function_exists("curl_init")) {
 		throw new Exception("32-bit PBX systems require the cURL extension to be loaded in PHP");
 	}
-	$ch = curl_init("file://" . rawurlencode($path));
+	$ch = curl_init("file://" . rawurlencode($file));
 	curl_setopt($ch, CURLOPT_NOBODY, true);
 	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 	curl_setopt($ch, CURLOPT_HEADER, true);
