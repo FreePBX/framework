@@ -111,6 +111,10 @@ if(function_exists('SPLAutoloadBroken') && SPLAutoloadBroken()) {
 	die_freepbx(_("The autoloader is damaged. Please run: ".$amp_conf['AMPBIN']."/fwconsole --fix_zend"));
 }
 
+$d = FreePBX::View()->setAdminLocales();
+$timezone = $d['timezone'];
+$language = $d['language'];
+
 // At this point, we have a session, and BMO was created in bootstrap, so we can check to
 // see if someone's trying to programatically log in.
 if ($unlock) {
@@ -630,7 +634,7 @@ if ($quietmode) {
 
 	//send footer
 	$footer['js_content'] = load_view($amp_conf['VIEW_POPOVER_JS'], $popover_args);
-	$footer['lang'] = set_language();
+	$footer['lang'] = $language;
 	$footer['covert'] 		= in_array($display, array('noauth', 'badrefer')) ? true : false;
 	$footer['extmap'] 				= !$footer['covert']
 		? framework_get_extmap(true)
@@ -680,9 +684,6 @@ if ($quietmode) {
 	if (isset($module_name)) {
 			echo framework_include_css();
 	}
-
-	// set the language so local module languages take
-	$language = set_language();
 
 	// send menu
 	$menu['fpbx_menu']		= $fpbx_menu; //array of modules & settings

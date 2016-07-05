@@ -206,7 +206,8 @@ switch($amp_conf['PHP_ERROR_LEVEL']) {
 }
 
 // set the language so local module languages take
-set_language();
+$bmo->View->setLanguage();
+$bmo->View->setTimezone();
 
 // For performance tuning, or, for assistance in debugging a white screen,
 // you can turn this on for a full trace of functions, memory use, and time

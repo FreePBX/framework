@@ -17,12 +17,6 @@ function frameworkPasswordCheck() {
 	} else {
 		$nt->delete('core', 'MQGPC');
 	}
-
-}
-
-// setup locale
-function set_language($details=false) {
-	return \FreePBX::View()->setLanguage($details);
 }
 
 //

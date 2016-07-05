@@ -12,6 +12,9 @@ class View {
 	private $replaceState = false;
 	private $lang = array();
 	private $tz = '';
+	private $dateformat = '';
+	private $timeformat = '';
+	private $datetimeformat = '';
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {
@@ -68,19 +71,28 @@ class View {
 		return $this->queryString;
 	}
 
+	public function setDateTimeFormat($format) {
+		$this->datetimeformat = $format;
+	}
+
+	public function setTimeFormat($format) {
+		$this->timeformat = $format;
+	}
+
+	public function setDateFormat($format) {
+		$this->dateformat = $format;
+	}
+
 	/**
 	 * Set System Timezone
 	 */
-	public function setTimezone() {
-		if(!empty($this->tz)) {
+	public function setTimezone($timezone=null) {
+		if(empty($timezone) && !empty($this->tz)) {
 			return $this->tz;
 		}
 		date_default_timezone_set('UTC');
-		$phptimezone = $this->freepbx->Config->get('PHPTIMEZONE');
-		if(php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->tz)) {
-			//userman mode
-			$phptimezone = $_SESSION['AMP_user']->tz;
-		}
+		$freepbxtimezone = $this->freepbx->Config->get('PHPTIMEZONE');
+		$phptimezone = !empty($timezone) ? $timezone : $freepbxtimezone;
 		$phptimezone = trim($phptimezone);
 		$invalidtimezone = false;
 		if(!empty($phptimezone)) {
@@ -92,9 +104,9 @@ class View {
 			date_default_timezone_set($phptimezone);
 		}
 		if(!empty($invalidtimezone)) {
-			$this->nt->add_warning("framework", "TIMEZONE", _("Unable to set timezone"), sprintf(_("Unable to set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."),$invalidtimezone), "config.php?display=advancedsettings", true, true);
+			//$this->nt->add_warning("framework", "TIMEZONE", _("Unable to set timezone"), sprintf(_("Unable to set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."),$invalidtimezone), "config.php?display=advancedsettings", true, true);
 		} else {
-			$this->nt->delete("framework", "TIMEZONE");
+			//$this->nt->delete("framework", "TIMEZONE");
 		}
 		$this->tz = date_default_timezone_get();
 		return $this->tz;
@@ -123,11 +135,14 @@ class View {
 		$m = $this->getMoment($timestamp);
 
 		try{
-			$format = (php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->dateformat)) ? $_SESSION['AMP_user']->dateformat : $this->freepbx->Config->get("MDATEFORMAT");
+			//$format = (php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->dateformat)) ? $_SESSION['AMP_user']->dateformat : $this->freepbx->Config->get("MDATEFORMAT");
+			$format = !empty($this->dateformat) ? $this->dateformat : $this->freepbx->Config->get("MDATEFORMAT");
 			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
 		} catch(\Exception $e) {
-			$out = $m->format("l", new \Moment\CustomFormats\MomentJs());
+			$format = "l";
+			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
 		}
+		$this->dateformat = $format;
 
 		return $out;
 	}
@@ -142,12 +157,15 @@ class View {
 		$m = $this->getMoment($timestamp);
 
 		try{
-			$format = (php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->timeformat)) ? $_SESSION['AMP_user']->timeformat : $this->freepbx->Config->get("MTIMEFORMAT");
+			//$format = (php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->timeformat)) ? $_SESSION['AMP_user']->timeformat : $this->freepbx->Config->get("MTIMEFORMAT");
+			$format = !empty($this->timeformat) ? $this->timeformat : $this->freepbx->Config->get("MTIMEFORMAT");
 			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
 		} catch(\Exception $e) {
-			//TODO: invalid format
-			$out = $m->format("LT", new \Moment\CustomFormats\MomentJs());
+			$format = "LT";
+			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
 		}
+		$this->dateformat = $format;
+
 		return $out;
 	}
 
@@ -161,12 +179,14 @@ class View {
 		$m = $this->getMoment($timestamp);
 
 		try{
-			$format = (php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->datetimeformat)) ? $_SESSION['AMP_user']->datetimeformat : $this->freepbx->Config->get("MDATETIMEFORMAT");
+			//$format = (php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->datetimeformat)) ? $_SESSION['AMP_user']->datetimeformat : $this->freepbx->Config->get("MDATETIMEFORMAT");
+			$format = !empty($this->datetimeformat) ? $this->datetimeformat : $this->freepbx->Config->get("MDATETIMEFORMAT");
 			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
 		} catch(\Exception $e) {
-			//TODO: invalid format
-			$out = $m->format("llll", new \Moment\CustomFormats\MomentJs());
+			$format = "llll";
+			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
 		}
+		$this->dateformat = $format;
 
 		return $out;
 	}
@@ -180,7 +200,7 @@ class View {
 		$timestamp = !empty($timestamp) ? $timestamp : time();
 		$m = new \Moment\Moment('@'.$timestamp, $this->getTimezone());
 		try {
-			\Moment\Moment::setLocale($this->setLanguage());
+			\Moment\Moment::setLocale($this->setLanguage(false));
 		} catch(\Exception $e) {
 			//invalid locale. Not all locales are supported though
 			\Moment\Moment::setLocale('en_US');
@@ -194,7 +214,7 @@ class View {
 	 * @return string            The locale  (en_US)
 	 */
 	public function getLocale() {
-		if(!empty($this->lang)) {
+		if(empty($this->lang)) {
 			$this->setLanguage();
 		}
 		return $this->lang['name'];
@@ -204,11 +224,13 @@ class View {
 	 * Set System Language
 	 * @param boolean $details If we should return details or just the name
 	 */
-	public function setLanguage($details=false) {
-		if(!empty($this->lang)) {
+	public function setLanguage($language=null,$details=false) {
+		if(empty($language) && !empty($this->lang)) {
 			return $details ? $this->lang : $this->lang['name'];
 		}
+
 		$UIDEFAULTLANG = $this->freepbx->Config->get("UIDEFAULTLANG");
+		$lang = !empty($language) ? $language : $UIDEFAULTLANG;
 		$expression = '/^([a-z]*(?:_[A-Z]{2})?)(?:\.([a-z1-9]*))?(?:@([a-z1-9]*))?$/';
 		$default = "en_US";
 		$defaultParts = array(
@@ -219,48 +241,29 @@ class View {
 		$nt = $this->freepbx->Notifications;
 		if (!extension_loaded('gettext')) {
 			$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
-			$nt->add_warning('core', 'GETTEXT', _("Gettext is not installed"), _("Please install gettext so that the PBX can properly translate itself"),'https://www.gnu.org/software/gettext/');
+			//$nt->add_warning('core', 'GETTEXT', _("Gettext is not installed"), _("Please install gettext so that the PBX can properly translate itself"),'https://www.gnu.org/software/gettext/');
 			return $details ? $this->lang : $this->lang['name'];
 		}
 		$nt->delete('core', 'GETTEXT');
-		if(php_sapi_name() !== 'cli') {
-			if(!empty($_SESSION['AMP_user']->lang) && preg_match($expression, $_SESSION['AMP_user']->lang)) {
-				$lang = $_SESSION['AMP_user']->lang;
-				setcookie("lang", "", time()-3600);
-			} else {
-				if (empty($_COOKIE['lang']) || !preg_match($expression, $_COOKIE['lang'])) {
-					$lang = !empty($UIDEFAULTLANG) ? $UIDEFAULTLANG : $default;
-					if (empty($_COOKIE['lang'])) {
-						setcookie("lang", $lang);
-					} else {
-						$_COOKIE['lang'] = $lang;
-					}
-				} else {
-					$lang = $_COOKIE['lang'];
-				}
-			}
-		} else {
-			$lang = !empty($UIDEFAULTLANG) ? $UIDEFAULTLANG : $default;
-		}
 
 		//Break Locales apart for processing
 		if(!preg_match($expression, $lang, $langParts)) {
 			$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
-			$nt->add_warning('framework', 'LANG_INVALID1', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$lang,$default, "Expression Failure"), "?display=advancedsettings");
+			//$nt->add_warning('framework', 'LANG_INVALID1', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$lang,$default, "Expression Failure"), "?display=advancedsettings");
 			$lang = $default;
 			$langParts = $defaultParts;
 		} else {
-			$nt->delete('framework', 'LANG_INVALID1');
+			//$nt->delete('framework', 'LANG_INVALID1');
 		}
 
 		//Get locale list
 		exec('locale -a',$locales, $out);
 		if($out != 0) { //could not execute locale -a
 			$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
-			$nt->add_warning('framework', 'LANG_MISSING', _("Language Support Unknown"), _("Unable to find the Locale binary. Your system may not support language changes!"), "?display=advancedsettings");
+			//$nt->add_warning('framework', 'LANG_MISSING', _("Language Support Unknown"), _("Unable to find the Locale binary. Your system may not support language changes!"), "?display=advancedsettings");
 			return $details ? $this->lang : $this->lang['name'];
 		} else {
-			$nt->delete('framework', 'LANG_MISSING');
+			//$nt->delete('framework', 'LANG_MISSING');
 		}
 		$locales = is_array($locales) ? $locales : array();
 
@@ -291,14 +294,14 @@ class View {
 				$lang = $default;
 				$langParts = $defaultParts;
 				$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
-				$nt->add_warning('framework', 'LANG_INVALID2', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$elang,$default, "Nonexistent in Locale"), "?display=advancedsettings");
+				//$nt->add_warning('framework', 'LANG_INVALID2', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"),$elang,$default, "Nonexistent in Locale"), "?display=advancedsettings");
 			} else {
 				$this->lang = array("full" => $default, "name" => $default, "charmap" => "", "modifiers" => "");
-				$nt->add_warning('framework', 'LANG_INVALID2', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"),$lang,$default,$default.".utf8", "Nonexistent in Locale, Missing ".$default), "?display=advancedsettings");
+				//$nt->add_warning('framework', 'LANG_INVALID2', _("Invalid Language"), sprintf(_("You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"),$lang,$default,$default.".utf8", "Nonexistent in Locale, Missing ".$default), "?display=advancedsettings");
 				return $details ? $this->lang : $this->lang['name'];
 			}
 		} else {
-			$nt->delete('framework', 'LANG_INVALID2');
+			//$nt->delete('framework', 'LANG_INVALID2');
 		}
 
 		putenv('LC_ALL='.$lang);
@@ -310,9 +313,50 @@ class View {
 		bind_textdomain_codeset('amp', 'utf8');
 		textdomain('amp');
 
-		$this->lang = array("full" => $lang, "name" => $langParts[1], "charmap" => $langParts[2], "modifiers" => $langParts[3]);
+		$this->lang = array("full" => $lang, "name" => (isset($langParts[1]) ? $langParts[1] : ''), "charmap" => (isset($langParts[2]) ? $langParts[2] : ''), "modifiers" => (isset($langParts[3]) ? $langParts[3] : ''));
 
 		return $details ? $this->lang : $this->lang['name'];
+	}
+
+
+	public function setAdminLocales() {
+		// set the language so local module languages take
+		$lang = '';
+		if(php_sapi_name() !== 'cli') {
+			if(!empty($_SESSION['AMP_user']->lang)) {
+				$lang = $_SESSION['AMP_user']->lang;
+			} elseif (!empty($_COOKIE['lang'])) {
+				$lang = $_COOKIE['lang'];
+			}
+		}
+		$lang = $this->setLanguage($lang);
+		if(php_sapi_name() !== 'cli') {
+			setcookie("lang", $lang);
+			$_COOKIE['lang'] = $lang;
+		}
+		$language = $lang;
+		//set this before we run date functions
+		if(php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->tz)) {
+			//userman mode
+			$phptimezone = $_SESSION['AMP_user']->tz;
+		} else {
+			$phptimezone = '';
+		}
+		$timezone = $this->setTimezone($phptimezone);
+
+		if(php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->datetimeformat)) {
+			$this->setDateTimeFormat($_SESSION['AMP_user']->datetimeformat);
+		}
+
+		if(php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->timeformat)) {
+			$this->setTimeFormat($_SESSION['AMP_user']->timeformat);
+		}
+
+		if(php_sapi_name() !== 'cli' && !empty($_SESSION['AMP_user']->dateformat)) {
+			$this->setDateFormat($_SESSION['AMP_user']->dateformat);
+		}
+
+		return array("timezone" => $timezone, "language" => $language, "datetimeformat" => "", "timeformat" => "", "dateformat" => "");
 	}
 
 	/**

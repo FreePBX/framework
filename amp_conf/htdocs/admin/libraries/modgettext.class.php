@@ -118,7 +118,7 @@ class modgettext {
 				bind_textdomain_codeset('amp', 'utf8');
 				self::$tdhash[$module] = 'amp';
 			}
-			$lang = set_language();
+			$lang = FreePBX::View()->getLocale();
 			$lang_parts = explode("_",$lang);
 			//if a user sets the system language to 'pt_BR', the system will look for any given string in pt_BR, then pt
 			if (isset($lang) && (is_dir($path.'/modules/' . $module . '/i18n/' . $lang) || is_dir($path.'/modules/' . $module . '/i18n/' . $lang_parts[0]))) {
