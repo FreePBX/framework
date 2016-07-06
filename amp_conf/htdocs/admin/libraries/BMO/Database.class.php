@@ -116,7 +116,7 @@ class Database extends \PDO {
 			$platform->registerDoctrineTypeMapping('enum', 'string');
 		}
 
-		return new Database\Migration($this->dConn, $table);
+		return new Database\Migration($this->dConn, $table, $this->dConfig['driver'], $this->getAttribute(constant("PDO::ATTR_SERVER_VERSION")));
 	}
 
 	private function doctrineEngineAlias($engine) {
