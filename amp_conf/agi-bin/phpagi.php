@@ -364,6 +364,16 @@
       return $this->evaluate("GET VARIABLE $variable");
     }
 
+    /**
+     * https://wiki.asterisk.org/wiki/display/AST/AGICommand_get+full+variable
+     * @param string $variable name
+     * @return array, see evaluate for return information. ['result'] is 0 if variable hasn't been set, 1 if it has. ['data'] holds the value.
+     */
+    function get_full_variable($variable)
+    {
+      return $this->evaluate("GET FULL VARIABLE $variable");
+    }
+
    /**
     * Hangup the specified channel. If no channel name is given, hang up the current channel.
     *
