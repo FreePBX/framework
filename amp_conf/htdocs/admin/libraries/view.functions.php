@@ -19,6 +19,12 @@ function frameworkPasswordCheck() {
 	}
 }
 
+// setup locale
+// old... don't use!!
+function set_language($details=false) {
+	return \FreePBX::View()->setLanguage(null,$details);
+}
+
 //
 function fileRequestHandler($handler, $module = false, $file = false){
 	if (empty($_SESSION['AMP_user']) || !is_object($_SESSION['AMP_user'])) {
