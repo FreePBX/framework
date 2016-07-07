@@ -9,8 +9,15 @@
 namespace FreePBX;
 class Curl {
 
+	public $requestshandles = array();
 	public $pesthandles = array();
-	private $caches = array();
+	private $options = array();
+	private $headers = array();
+	private $hooks = array();
+
+	public function __construct($freepbx=null) {
+		$this->hooks = new Requests_Hooks();
+	}
 
 	public function getProxySettings() {
 		$conf = \FreePBX::Config();
@@ -83,40 +90,75 @@ class Curl {
 		return $this->pesthandles[$url];
 	}
 
-	public function get($url, $headers = array(), $options = array()) {
-		$headers = $this->addHeaders($headers);
-		$options = $this->addOptions($options);
-		return \Requests::get($url, $headers, $options);
+	/**
+	 * Get Proxy based Requests object
+	 * @param  string $url The URL to pass
+	 * @return object     PEST object supporting proxy
+	 */
+	public function requests($url = false) {
+		if (!$url) {
+			throw new \Exception("Invalid URL");
+		}
+		if (!isset($this->requestshandles[$url])) {
+			$session = new Requests_Session($url);
+			$this->setProxy();
+			$session->options = $this->options;
+			$this->requestshandles[$url] = $session;
+		}
+		return $this->requestshandles[$url];
 	}
 
-	public function head($url, $headers = array(), $options = array()) {
-		$headers = $this->addHeaders($headers);
-		$options = $this->addOptions($options);
-		return \Requests::head($url, $headers, $options);
+	public function get($url) {
+		$this->setProxy();
+		return \Requests::delete($url, $this->headers, $this->options);
 	}
 
-	public function delete($url, $headers = array(), $options = array()) {
-		$headers = $this->addHeaders($headers);
-		$options = $this->addOptions($options);
-		return \Requests::delete($url, $headers, $options);
+	public function head($url) {
+		$this->setProxy();
+		return \Requests::delete($url, $this->headers, $this->options);
 	}
 
-	public function post($url, $headers = array(), $options = array()) {
-		$headers = $this->addHeaders($headers);
-		$options = $this->addOptions($options);
-		return \Requests::post($url, $headers, $options);
+	public function delete($url) {
+		$this->setProxy();
+		return \Requests::delete($url, $this->headers, $this->options);
 	}
 
-	public function put($url, $headers = array(), $options = array()) {
-		$headers = $this->addHeaders($headers);
-		$options = $this->addOptions($options);
-		return \Requests::put($url, $headers, $options);
+	public function post($url, $data = array()) {
+		$this->setProxy();
+		return \Requests::post($url, $this->headers, $data, $this->options);
 	}
 
-	public function patch($url, $headers = array(), $options = array()) {
-		$headers = $this->addHeaders($headers);
-		$options = $this->addOptions($options);
-		return \Requests::patch($url, $headers, $options);
+	public function put($url, $data = array()) {
+		$this->setProxy();
+		return \Requests::put($url, $this->headers, $data, $this->options);
+	}
+
+	public function patch($url, $data = array()) {
+		$this->setProxy();
+		return \Requests::patch($url, $this->headers, $data, $this->options);
+	}
+
+	public function progressCallback($method) {
+		$this->addHook('request.progress', $method);
+	}
+
+	public function addHook($name, $data) {
+		$hooks->register($name, $data);
+		$this->options['hooks'] = $this->hooks;
+	}
+
+	public function addHeader($key, $value) {
+		$this->headers[$key] = $vlaue;
+	}
+
+	public function addOption($key, $value) {
+		$this->options[$key] = $vlaue;
+	}
+
+	public function reset() {
+		$this->options = array();
+		$this->headers = array();
+		$this->hooks = new Requests_Hooks();
 	}
 
 	public function setEnvVariables() {
@@ -136,19 +178,14 @@ class Curl {
 		return;
 	}
 
-	private function addOptions($options) {
+	private function setProxy() {
 		$proxy = $this->getProxySettings();
 		if($proxy['enabled']) {
 			if(!empty($proxy['username'])) {
-				$options['proxy'] = array( $proxy['host'], $proxy['username'], $proxy['password'] );
+				$this->options['proxy'] = array( $proxy['host'], $proxy['username'], $proxy['password'] );
 			} else {
-				$options['proxy'] = $proxy['host'];
+				$this->options['proxy'] = $proxy['host'];
 			}
 		}
-		return $options;
-	}
-
-	private function addHeaders($headers) {
-		return $headers;
 	}
 }
