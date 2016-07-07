@@ -978,6 +978,14 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
+	$settings[$category]['AUTOSECURITYUPDATES'] = array(
+	'value' => true,
+	'options' => '',
+	'name' => 'Allow Automatic Security Updates',
+	'description' => 'If set to yes the system will automatically upgrade any modules which have been marked as security releases nightly. It will then send an email letting the administrator know the update has been applied. Setting this to no will revert to the old behavior of alerting the administrator that a security update is pending and needs to be downloaded and installed',
+	'type' => CONF_TYPE_BOOL,
+	);
+
 	$settings[$category]['SHOWLANGUAGE'] = array(
 	'value' => false,
 	'options' => '',
