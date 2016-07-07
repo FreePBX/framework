@@ -16,7 +16,7 @@ class Curl {
 	private $hooks = array();
 
 	public function __construct($freepbx=null) {
-		$this->hooks = new Requests_Hooks();
+		$this->hooks = new \Requests_Hooks();
 	}
 
 	public function getProxySettings() {
@@ -100,7 +100,7 @@ class Curl {
 			throw new \Exception("Invalid URL");
 		}
 		if (!isset($this->requestshandles[$url])) {
-			$session = new Requests_Session($url);
+			$session = new \Requests_Session($url);
 			$this->setProxy();
 			$session->options = $this->options;
 			$this->requestshandles[$url] = $session;
@@ -158,7 +158,7 @@ class Curl {
 	public function reset() {
 		$this->options = array();
 		$this->headers = array();
-		$this->hooks = new Requests_Hooks();
+		$this->hooks = new \Requests_Hooks();
 	}
 
 	public function setEnvVariables() {
