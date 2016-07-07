@@ -38,6 +38,73 @@ function cron_scheduler_send_message($to,$from,$subject,$message){
 	$em->message($message);
 	return $em->send();
 }
+if(FreePBX::Config()->get('AUTOSECURITYUPDATES')) {
+	$mf = module_functions::create();
+	$mods = $mf->get_security();
+	$mods = is_array($mods) ? $mods : array();
+	$security = $nt->list_security();
+	$ampsbin = FreePBX::Config()->get('AMPSBIN');
+	$errorvuls = array();
+	foreach($mods as $rawname => $info) {
+		$mi = $mf->getinfo($rawname);
+		if(!isset($mi[$rawname])) {
+			//module doesnt exist on this system
+			continue;
+		}
+		switch($mi[$rawname]['status']) {
+			case MODULE_STATUS_NOTINSTALLED:
+			case MODULE_STATUS_DISABLED:
+			case MODULE_STATUS_BROKEN:
+				$action = "download";
+			break;
+			case MODULE_STATUS_ENABLED:
+			case MODULE_STATUS_NEEDUPGRADE:
+				$action = "upgrade";
+			break;
+			default:
+				$action = "";
+			break;
+		}
+		if(empty($action)) {
+			//not sure what to do???
+			$errorvuls[$rawname] = $info;
+			continue;
+		}
+		exec($ampsbin."/fwconsole ma ".escapeshellarg($action)." ".escapeshellarg($rawname)." --format=json",$out,$ret);
+		if($ret != 0) {
+			$errorvuls[$rawname] = $info;
+		}
+	}
+	$nt->delete("freepbx", "VULNERABILITIES");
+	if(!empty($errorvuls)) {
+		//unable to automatically update these modules
+		if (!empty($errorvuls)) {
+			$cnt = count($errorvuls);
+			if ($cnt == 1) {
+				$text = _("There is 1 module vulnerable to security threats");
+			} else {
+				$text = sprintf(_("There are %s modules vulnerable to security threats"), $cnt);
+			}
+			$extext = "";
+			foreach($errorvuls as $m => $vinfo) {
+				$extext .= sprintf(
+					_("%s (Cur v. %s) should be upgraded to v. %s to fix security issues: %s")."\n",
+					$m, $vinfo['curver'], $vinfo['minver'], implode($vinfo['vul'],', ')
+				);
+			}
+			$notifications->add_security('freepbx', 'VULNERABILITIES', $text, $extext, 'config.php?display=modules');
+		}
+	} else {
+		$text = _("Modules vulnerable to security threats have been updated");
+		foreach($mods as $m => $vinfo) {
+			$extext .= sprintf(
+				_("%s has been automatically upgraded to fix security issues: %s")."\n",
+				$m, implode($vinfo['vul'],', ')
+			);
+		}
+		$nt->add_notice('freepbx', 'AUTOVULNUPDATE', $text, $extext, 'config.php?display=modules',true,true);
+	}
+}
 $brand = $amp_conf['DASHBOARD_FREEPBX_BRAND']?$amp_conf['DASHBOARD_FREEPBX_BRAND']:'FreePBX';
 $email = $cm->get_email();
 if ($email) {
@@ -130,4 +197,3 @@ if ($email) {
 } else {
 	$nt->add_notice('freepbx', 'NOEMAIL', _('No email address for online update checks'), _('You are automatically checking for online updates nightly but you have no email address setup to send the results. This can be set in Module Admin. They will continue to show up here.'), 'config.php?display=modules#email', 'PASSIVE', false);
 }
-?>

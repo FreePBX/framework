@@ -266,7 +266,16 @@ class module_functions {
 	* @param string the current base version of freepbx if already available, or leave out
 	* @return array an array of vulnerable modules along with some vulnerability data
 	*/
-	function get_security($xmlarray, $base_version=null) {
+	function get_security($xmlarray=null, $base_version=null) {
+
+		if($xmlarray === null) {
+			$result = sql("SELECT * FROM module_xml WHERE id = 'security'",'getRow',DB_FETCHMODE_ASSOC);
+			if(!empty($result['data'])) {
+				$xmlarray = json_decode($result['data'],true);
+			} else {
+				return array();
+			}
+		}
 
 		if ($base_version === null) {
 			$version = getversion();
