@@ -42,7 +42,6 @@ if(FreePBX::Config()->get('AUTOSECURITYUPDATES')) {
 	$mf = module_functions::create();
 	$mods = $mf->get_security();
 	$mods = is_array($mods) ? $mods : array();
-	$security = $nt->list_security();
 	$ampsbin = FreePBX::Config()->get('AMPSBIN');
 	$errorvuls = array();
 	foreach($mods as $rawname => $info) {
