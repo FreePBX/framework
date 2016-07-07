@@ -366,7 +366,7 @@ class FreePBXInstallCommand extends Command {
 			$amp_conf['AMPMANAGERHOST'] = 'localhost';
 		}
 
-		$dbencoding = '';
+		$dbencoding = 'utf8'; //jic
 		if ($newinstall || $force) {
 			$amp_conf['AMPMGRUSER'] = 'admin';
 			$amp_conf['AMPMGRPASS'] = md5(uniqid());
