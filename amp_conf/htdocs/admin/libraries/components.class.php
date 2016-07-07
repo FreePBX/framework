@@ -1085,6 +1085,7 @@ class gui_textarea_select extends gui_textarea {
 
 		$select = is_array($select) ? $select : array();
 		$disable_state = isset($disable) && $disable ? ' disabled' : '';
+		$maxlength = ($maxchars > 0) ? " maxlength=\"$maxchars\"" : '';
 		$list = explode("\n",$this->currentvalue);
 		$rows = count($list);
 		$rows = (($rows > 20) ? 20 : $rows);
