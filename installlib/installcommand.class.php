@@ -366,6 +366,7 @@ class FreePBXInstallCommand extends Command {
 			$amp_conf['AMPMANAGERHOST'] = 'localhost';
 		}
 
+		$dbencoding = '';
 		if ($newinstall || $force) {
 			$amp_conf['AMPMGRUSER'] = 'admin';
 			$amp_conf['AMPMGRPASS'] = md5(uniqid());
@@ -387,6 +388,7 @@ class FreePBXInstallCommand extends Command {
 				$output->writeln("<error>Invalid Database Permissions. The error was: ".$e->getMessage()."</error>");
 				exit(1);
 			}
+			$dbencoding = version_compare($pdodb->getAttribute(constant("PDO::ATTR_SERVER_VERSION")), "5.5.3", "ge") ? "utf8mb4" : "utf8";
 			$output->writeln("Connected!");
 		}
 
@@ -453,7 +455,7 @@ class FreePBXInstallCommand extends Command {
 				if($force) {
 					$pdodb->query("DROP DATABASE IF EXISTS ".$amp_conf['AMPDBNAME']);
 				}
-				$pdodb->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['AMPDBNAME']." DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci");
+				$pdodb->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['AMPDBNAME']." DEFAULT CHARACTER SET ".$dbencoding." DEFAULT COLLATE ".$dbencoding."_unicode_ci");
 				$sql = "GRANT ALL PRIVILEGES ON ".$amp_conf['AMPDBNAME'].".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
 				$pdodb->query($sql);
 			} else {
@@ -476,7 +478,7 @@ class FreePBXInstallCommand extends Command {
 				if($force) {
 					$db->query("DROP DATABASE IF EXISTS ".$amp_conf['CDRDBNAME']);
 				}
-				$db->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['CDRDBNAME']." DEFAULT CHARACTER SET utf8 DEFAULT COLLATE utf8_unicode_ci");
+				$db->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['CDRDBNAME']." DEFAULT CHARACTER SET ".$dbencoding." DEFAULT COLLATE ".$dbencoding."_unicode_ci");
 				$sql = "GRANT ALL PRIVILEGES ON ".$amp_conf['CDRDBNAME'].".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
 				$db->query($sql);
 			} else {
