@@ -140,13 +140,9 @@ class Curl {
 		$proxy = $this->getProxySettings();
 		if($proxy['enabled']) {
 			if(!empty($proxy['username'])) {
-				$options = array(
-					'proxy' => array( $proxy['host'], $proxy['username'], $proxy['password'] )
-				);
+				$options['proxy'] = array( $proxy['host'], $proxy['username'], $proxy['password'] );
 			} else {
-				$options = array(
-					'proxy' => $proxy['host']
-				);
+				$options['proxy'] = $proxy['host'];
 			}
 		}
 		return $options;
