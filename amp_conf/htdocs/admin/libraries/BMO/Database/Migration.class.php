@@ -11,9 +11,14 @@ namespace FreePBX\Database;
 class Migration {
 	private $conn;
 	private $table;
-	public function __construct($conn, $table) {
+	private $version;
+	private $driver;
+
+	public function __construct($conn, $table, $driver, $version) {
 		$this->conn = $conn;
 		$this->table = $table;
+		$this->version = $version;
+		$this->driver = $driver;
 	}
 
 	public function modify($columns=array(),$indexes=array(),$dryrun=false) {
@@ -49,6 +54,9 @@ class Migration {
 					$table->addIndex($columns,$name);
 				break;
 				case "fulltext":
+					if($this->driver == "pdo_mysql" && version_compare($this->version, "5.6", "le")) {
+						$table->addOption('engine' , 'MyISAM');
+					}
 					$table->addIndex($columns,$name,array("fulltext"));
 				break;
 			}
