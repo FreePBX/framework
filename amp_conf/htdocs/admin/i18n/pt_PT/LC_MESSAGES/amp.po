@@ -2396,6 +2396,10 @@ msgstr ""
 msgid "Determine where to send log information if the log is enabled ('Disable FreePBX Log' (AMPDISABLELOG) false. There are two places to route the log messages. 'FILE' will send all log messages to the defined 'FreePBX Log File' (FPBX_LOG_FILE). All the other settings will route the log messages to your System Logging subsystem (syslog) using the specified log level. Syslog can be configured to route different levels to different locations. See 'syslog' documentation (man syslog) on your system for more details."
 msgstr ""
 
+#: amp.i18n.php:1058
+msgid "Determines the mode to use while using popovers (popovers appear when selecting "
+msgstr ""
+
 #: ../core/views/trunks/trunk_header.php:346
 msgid "Determines what CIDs will be allowed out this trunk. IMPORTANT: EMERGENCY CIDs defined on an extension/device will ALWAYS be used if this trunk is part of an EMERGENCY Route regardless of these settings.<br />Allow Any CID: all CIDs including foreign CIDS from forwarded external calls will be transmitted.<br />Block Foreign CIDs: blocks any CID that is the result of a forwarded call from off the system. CIDs defined for extensions/users are transmitted.<br />Remove CNAM: this will remove CNAM from any CID sent out this trunk<br />Force Trunk CID: Always use the CID defined for this trunk except if part of any EMERGENCY Route with an EMERGENCY CID defined for the extension/device."
 msgstr ""
@@ -2458,6 +2462,10 @@ msgstr "Opções do Dispositivo"
 #: amp.i18n.php:354 amp.i18n.php:360
 msgid "Device Settings"
 msgstr "Configurações do Dispositivo"
+
+#: ../core/functions.inc/drivers/PJSip.class.php:258
+msgid "Device State Busy at"
+msgstr ""
 
 #: ../core/Core.class.php:2530 ../core/Core.class.php:2531
 msgid "Device Technology"
@@ -3757,6 +3765,11 @@ msgstr "Ficheiro de Log do FreePBX"
 
 #: amp.i18n.php:976
 msgid "FreePBX Log Routing"
+msgstr ""
+
+#: install.php:5
+#, php-format
+msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
 msgstr ""
 
 #: install.php:5
@@ -5722,6 +5735,10 @@ msgstr ""
 msgid "Path for grep"
 msgstr ""
 
+#: amp.i18n.php:898
+msgid "Path for ifconfig"
+msgstr ""
+
 #: amp.i18n.php:922
 msgid "Path for lame"
 msgstr ""
@@ -5742,8 +5759,20 @@ msgstr ""
 msgid "Path for openssl"
 msgstr "Caminho para openssl"
 
+#: amp.i18n.php:928
+msgid "Path for ps"
+msgstr ""
+
+#: amp.i18n.php:940
+msgid "Path for rsync"
+msgstr ""
+
 #: amp.i18n.php:952
 msgid "Path for sox"
+msgstr ""
+
+#: amp.i18n.php:952
+msgid "Path for ssh"
 msgstr ""
 
 #: amp.i18n.php:958
@@ -5937,6 +5966,10 @@ msgstr ""
 
 #: amp.i18n.php:532
 msgid "Polling Interval for Stopping Asterisk"
+msgstr ""
+
+#: amp.i18n.php:1054
+msgid "Popover Mode"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:374
@@ -7279,6 +7312,10 @@ msgstr ""
 msgid "The module you are trying to access has been disabled pending a version change."
 msgstr ""
 
+#: ../core/functions.inc/drivers/PJSip.class.php:257
+msgid "The number of in-use channels which will cause busy to be returned as device state. This should be left at 0 unless you know what you are doing"
+msgstr ""
+
 #: ../core/views/trunks/pjsip.php:308
 msgid "The number of seconds Asterisk will wait before attempting to send another REGISTER request to the registrar"
 msgstr ""
@@ -7311,6 +7348,10 @@ msgstr ""
 msgid "The path to grep as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
+#: amp.i18n.php:902
+msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
 #: amp.i18n.php:926
 msgid "The path to lame as auto-determined by the system. Overwrite as necessary."
 msgstr ""
@@ -7331,8 +7372,20 @@ msgstr ""
 msgid "The path to openssl as auto-determined by the system. Overwrite as necessary."
 msgstr "O caminho para openssl conforme determinado pelo sistema. Substituir conforme necessário."
 
+#: amp.i18n.php:932
+msgid "The path to ps as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:944
+msgid "The path to rsync as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
 #: amp.i18n.php:956
 msgid "The path to sox as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:956
+msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
 #: amp.i18n.php:962
@@ -9630,59 +9683,6 @@ msgstr ""
 #: ../core/install.php:1105
 msgid "zap devices migrated"
 msgstr "migrados dispositivos zap"
-
-#: amp.i18n.php:1058
-msgid "Determines the mode to use while using popovers (popovers appear when selecting "
-msgstr ""
-
-#: ../core/functions.inc/drivers/PJSip.class.php:258
-msgid "Device State Busy at"
-msgstr ""
-
-#: install.php:5
-#, php-format
-msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
-msgstr ""
-
-#: amp.i18n.php:898
-msgid "Path for ifconfig"
-msgstr ""
-
-#: amp.i18n.php:928
-msgid "Path for ps"
-msgstr ""
-
-#: amp.i18n.php:940
-msgid "Path for rsync"
-msgstr ""
-
-#: amp.i18n.php:952
-msgid "Path for ssh"
-msgstr ""
-
-#: amp.i18n.php:1054
-msgid "Popover Mode"
-msgstr ""
-
-#: ../core/functions.inc/drivers/PJSip.class.php:257
-msgid "The number of in-use channels which will cause busy to be returned as device state. This should be left at 0 unless you know what you are doing"
-msgstr ""
-
-#: amp.i18n.php:902
-msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:932
-msgid "The path to ps as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:944
-msgid "The path to rsync as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:956
-msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
-msgstr ""
 
 #~ msgid "(ie. NXXNXXXXXX for US/CAN 10-digit dialing, NXXXXXX for 7-digit)"
 #~ msgstr "(Ex. NXXNXXXXXX para marcação US/CAN de 10-digitos, NXXXXXX para 7-digitos)"

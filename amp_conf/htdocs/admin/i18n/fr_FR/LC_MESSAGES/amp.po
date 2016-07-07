@@ -2405,6 +2405,10 @@ msgstr ""
 msgid "Determine where to send log information if the log is enabled ('Disable FreePBX Log' (AMPDISABLELOG) false. There are two places to route the log messages. 'FILE' will send all log messages to the defined 'FreePBX Log File' (FPBX_LOG_FILE). All the other settings will route the log messages to your System Logging subsystem (syslog) using the specified log level. Syslog can be configured to route different levels to different locations. See 'syslog' documentation (man syslog) on your system for more details."
 msgstr ""
 
+#: amp.i18n.php:1058
+msgid "Determines the mode to use while using popovers (popovers appear when selecting "
+msgstr ""
+
 #: ../core/views/trunks/trunk_header.php:346
 msgid "Determines what CIDs will be allowed out this trunk. IMPORTANT: EMERGENCY CIDs defined on an extension/device will ALWAYS be used if this trunk is part of an EMERGENCY Route regardless of these settings.<br />Allow Any CID: all CIDs including foreign CIDS from forwarded external calls will be transmitted.<br />Block Foreign CIDs: blocks any CID that is the result of a forwarded call from off the system. CIDs defined for extensions/users are transmitted.<br />Remove CNAM: this will remove CNAM from any CID sent out this trunk<br />Force Trunk CID: Always use the CID defined for this trunk except if part of any EMERGENCY Route with an EMERGENCY CID defined for the extension/device."
 msgstr "Détermine quels sont les CIDs autorisés sur ce trunk. IMPORTANT: les CIDS de SECOURS définis pour une extension/terminal seront TOUJOURS utilisés si ce trunk fait partie d'une route SECOURS indépendamment de ces paramètres.<br />Autorise tout CID: tous les CIDs incluant les CIDs étrangers d'appels extérieurs transferrés seront transmis.<br />Bloque les CIDs étrangers: bloque tout CID qui résulte d'un transfert d'appel du système. Les CIDs définis comme extensions/utilisateurs sont transmis.<br />Supprime le CNAM: cela retire le CNAM de tout CID envoyé sur ce trunk<br />Force le CID du trunk: utilise toujours le CID défini pour ce trunk sauf si faisant parti d'une route SECOURS avec un CID SECOURS défini pour cette extension/terminal."
@@ -2474,6 +2478,10 @@ msgstr "Options du dispositif"
 #: amp.i18n.php:354 amp.i18n.php:360
 msgid "Device Settings"
 msgstr "Paramètres du dispositif"
+
+#: ../core/functions.inc/drivers/PJSip.class.php:258
+msgid "Device State Busy at"
+msgstr ""
 
 #: ../core/Core.class.php:2530 ../core/Core.class.php:2531
 msgid "Device Technology"
@@ -5748,6 +5756,10 @@ msgstr "Chemin pour ffmpeg"
 msgid "Path for grep"
 msgstr "Chemin pour grep"
 
+#: amp.i18n.php:898
+msgid "Path for ifconfig"
+msgstr ""
+
 #: amp.i18n.php:922
 msgid "Path for lame"
 msgstr "Chemin pour lame"
@@ -5964,6 +5976,10 @@ msgstr "Merci de patienter: exécution en cours"
 
 #: amp.i18n.php:532
 msgid "Polling Interval for Stopping Asterisk"
+msgstr ""
+
+#: amp.i18n.php:1054
+msgid "Popover Mode"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:374
@@ -7306,6 +7322,10 @@ msgstr "Le module que vous tentez d'accéder a été désactivé par un administ
 msgid "The module you are trying to access has been disabled pending a version change."
 msgstr "Le module que vous tentez d'accéder a été désactivé en attente d'un changement de version."
 
+#: ../core/functions.inc/drivers/PJSip.class.php:257
+msgid "The number of in-use channels which will cause busy to be returned as device state. This should be left at 0 unless you know what you are doing"
+msgstr ""
+
 #: ../core/views/trunks/pjsip.php:308
 msgid "The number of seconds Asterisk will wait before attempting to send another REGISTER request to the registrar"
 msgstr "Le nombre de secondes qu'Asterisk va attendre avant de tenter d'envoyer une autre requête REGISTER au registraire"
@@ -7337,6 +7357,10 @@ msgstr "Le chemin vers ffmpeg tel que déterminé automatiquement par le systèm
 #: amp.i18n.php:920
 msgid "The path to grep as auto-determined by the system. Overwrite as necessary."
 msgstr "Le chemin vers grep tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#: amp.i18n.php:902
+msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
+msgstr ""
 
 #: amp.i18n.php:926
 msgid "The path to lame as auto-determined by the system. Overwrite as necessary."
@@ -9660,30 +9684,6 @@ msgstr "vous pourriez avoir à ajouter la ligne 'preload => pbx_config.so' a vot
 #: ../core/install.php:1105
 msgid "zap devices migrated"
 msgstr "dispositifs zap migrés"
-
-#: amp.i18n.php:1058
-msgid "Determines the mode to use while using popovers (popovers appear when selecting "
-msgstr ""
-
-#: ../core/functions.inc/drivers/PJSip.class.php:258
-msgid "Device State Busy at"
-msgstr ""
-
-#: amp.i18n.php:898
-msgid "Path for ifconfig"
-msgstr ""
-
-#: amp.i18n.php:1054
-msgid "Popover Mode"
-msgstr ""
-
-#: ../core/functions.inc/drivers/PJSip.class.php:257
-msgid "The number of in-use channels which will cause busy to be returned as device state. This should be left at 0 unless you know what you are doing"
-msgstr ""
-
-#: amp.i18n.php:902
-msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
-msgstr ""
 
 #~ msgid " (toggle sort)"
 #~ msgstr "(Choix tri)"
