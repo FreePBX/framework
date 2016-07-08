@@ -7,7 +7,7 @@
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
+/*!40101 SET NAMES utf8mb4 */;
 /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
 /*!40103 SET TIME_ZONE='+00:00' */;
 /*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS `ampusers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `ampusers` (
-  `username` varchar(255) NOT NULL,
+  `username` varchar(190) NOT NULL,
   `password_sha1` varchar(40) NOT NULL,
   `extension_low` varchar(20) NOT NULL DEFAULT '',
   `extension_high` varchar(20) NOT NULL DEFAULT '',
@@ -271,7 +271,7 @@ DROP TABLE IF EXISTS `globals`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `globals` (
-  `variable` varchar(255) NOT NULL,
+  `variable` varchar(190) NOT NULL,
   `value` varchar(255) NOT NULL,
   PRIMARY KEY (`variable`)
 );
@@ -593,7 +593,7 @@ CREATE TABLE `trunks` (
   `maxchans` varchar(6) DEFAULT '',
   `failscript` varchar(255) NOT NULL DEFAULT '',
   `dialoutprefix` varchar(255) NOT NULL DEFAULT '',
-  `channelid` varchar(255) NOT NULL DEFAULT '',
+  `channelid` varchar(190) NOT NULL DEFAULT '',
   `usercontext` varchar(255) DEFAULT NULL,
   `provider` varchar(40) DEFAULT NULL,
   `disabled` varchar(4) DEFAULT 'off',
