@@ -193,6 +193,10 @@ class SoxShell extends \Media\Driver\Driver {
 			if (!$process->isSuccessful()) {
 				throw new \RuntimeException($process->getErrorOutput());
 			}
+			if(!file_exists($newFilename)) {
+				$o = $process->getOutput();
+				throw new \RuntimeException($o);
+			}
 		} else {
 			$process->start();
 			if (!$process->isRunning()) {
