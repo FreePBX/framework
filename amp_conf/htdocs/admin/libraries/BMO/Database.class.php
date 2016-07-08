@@ -18,6 +18,7 @@ class Database extends \PDO {
 	private $dConfig = null; //doctrine config
 	private $dsn = null; //pdo dsn
 	private $dConn = null; //docterine connection
+	private $dVersion = null; //driver version
 	/**
 	 * Connecting to the Database object
 	 * If you pass nothing to this it will assume the default database
@@ -101,6 +102,7 @@ class Database extends \PDO {
 			die_freepbx($e->getMessage(), $e);
 		}
 		$this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+		$this->dVersion = $this->getAttribute(\PDO::ATTR_SERVER_VERSION);
 	}
 
 	public function migrate($table) {
@@ -116,7 +118,7 @@ class Database extends \PDO {
 			$platform->registerDoctrineTypeMapping('enum', 'string');
 		}
 
-		return new Database\Migration($this->dConn, $table, $this->dConfig['driver'], $this->getAttribute(constant("PDO::ATTR_SERVER_VERSION")));
+		return new Database\Migration($this->dConn, $table, $this->dConfig['driver'], $this->dVersion);
 	}
 
 	private function doctrineEngineAlias($engine) {
