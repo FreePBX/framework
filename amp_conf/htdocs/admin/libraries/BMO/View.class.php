@@ -71,14 +71,62 @@ class View {
 		return $this->queryString;
 	}
 
+	/**
+	 * Get Moment Date/Time Format
+	 *
+	 * Tests the format before returning it
+	 *
+	 * @return string Format
+	 */
+	public function getDateTimeFormat() {
+		$this->getDateTime();
+		return $this->datetimeformat;
+	}
+
+	/**
+	 * Get Moment Date/Time Format
+	 *
+	 * Tests the format before returning it
+	 *
+	 * @return string Format
+	 */
+	public function getTimeFormat() {
+		$this->getTime();
+		return $this->timeformat;
+	}
+
+	/**
+	 * Get Moment Date/Time Format
+	 *
+	 * Tests the format before returning it
+	 *
+	 * @return string Format
+	 */
+	public function getDateFormat() {
+		$this->getDate();
+		return $this->dateformat;
+	}
+
+	/**
+	 * Set Date/Time Format
+	 * @param string $format The Format to use
+	 */
 	public function setDateTimeFormat($format) {
 		$this->datetimeformat = $format;
 	}
 
+	/**
+	 * Set Date/Time Format
+	 * @param string $format The Format to use
+	 */
 	public function setTimeFormat($format) {
 		$this->timeformat = $format;
 	}
 
+	/**
+	 * Set Date/Time Format
+	 * @param string $format The Format to use
+	 */
 	public function setDateFormat($format) {
 		$this->dateformat = $format;
 	}
@@ -164,7 +212,7 @@ class View {
 			$format = "LT";
 			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
 		}
-		$this->dateformat = $format;
+		$this->timeformat = $format;
 
 		return $out;
 	}
@@ -186,7 +234,7 @@ class View {
 			$format = "llll";
 			$out = $m->format($format, new \Moment\CustomFormats\MomentJs());
 		}
-		$this->dateformat = $format;
+		$this->datetimeformat = $format;
 
 		return $out;
 	}
@@ -318,7 +366,9 @@ class View {
 		return $details ? $this->lang : $this->lang['name'];
 	}
 
-
+	/**
+	 * Set Locales for the Admin interface
+	 */
 	public function setAdminLocales() {
 		// set the language so local module languages take
 		$lang = '';
