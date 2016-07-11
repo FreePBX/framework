@@ -429,8 +429,11 @@ class Chown extends Command {
 
 	private function singleChown($file, $user, $group){
 		clearstatcache(true, $file);
+		if(!file_exists($file)) {
+			return false;
+		}
+		$filetype = \freepbx_filetype($file);
 		try {
-			$filetype = \freepbx_filetype($file);
 			if($filetype == "link") {
 				$link = readlink($file);
 				if(file_exists($link)) {
@@ -446,7 +449,6 @@ class Chown extends Command {
 			}
 		}
 		try {
-			$filetype = \freepbx_filetype($file);
 			if($filetype == "link") {
 				$link = readlink($file);
 				if(file_exists($link)) {
@@ -469,6 +471,9 @@ class Chown extends Command {
 			return false;
 		}
 		clearstatcache(true, $file);
+		if(!file_exists($file)) {
+			return false;
+		}
 		$filetype = \freepbx_filetype($file);
 		switch($filetype){
 			case 'link':
