@@ -1460,7 +1460,7 @@ class module_functions {
 		if ($amp_conf['MODULEADMINWGET'] || !$dp = @fopen($url,'r',false,$streamcontext)) {
 			$p = (!empty($urls['query'])) ? "--post-data '".$urls['query']."'" : "";
 			FreePBX::Curl()->setEnvVariables();
-			exec("wget --tries=1 --timeout=600 $p -O $filename $url > /dev/null 2>&1 &", $filedata, $retcode);
+			exec("wget --tries=1 --timeout=600 $p -O $filename $url 2> /dev/null", $filedata, $retcode);
 			usleep(5000); //wait for file to be placed
 			if ($retcode != 0) {
 				return array(sprintf(_("Error opening %s for reading"), $url));

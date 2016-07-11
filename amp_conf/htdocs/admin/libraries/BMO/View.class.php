@@ -332,6 +332,8 @@ class View {
 				if(in_array($testString,$locales)) {
 					$langParts[2] = 'UTF8';
 					$lang = $testString;
+				} else {
+					$langParts[2] = '';
 				}
 			}
 		}
@@ -350,6 +352,10 @@ class View {
 			}
 		} else {
 			//$nt->delete('framework', 'LANG_INVALID2');
+		}
+
+		if(empty($langParts[3])) {
+			$langParts[3] = '';
 		}
 
 		putenv('LC_ALL='.$lang);
