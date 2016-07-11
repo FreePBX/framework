@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>13.0.154</version>
+	<version>13.0.155</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*13.0.155* Prevent looping upgrades that drain ram
 		*13.0.154* AGI get full variable support
 		*13.0.153* Fix for filesize function
 		*13.0.152* Send user event after reload if Asterisk 11
