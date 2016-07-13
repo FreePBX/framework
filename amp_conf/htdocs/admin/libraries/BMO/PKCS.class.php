@@ -571,7 +571,7 @@ default_md = sha256
 		if ($uid != $stat['uid'] || $gid != $stat['gid']) {
 			// Permissions are wrong on the keys directory. Hopefully, I'm root, so I can fix them.
 			if (posix_geteuid() !== 0) {
-				throw new \Exception(sprintf(_("Permissions error on directory %s - please re-run as root to automatically repair"),$dir));
+				throw new \Exception(sprintf(_("Permissions error on directory %s (is %s:%s, should be %s:%s)- please run 'fwconsole chown' as root to repair"),$dir, $stat['uid'], $stat['gid'], $uid, $gid));
 			}
 			// We're root. Yay.
 			chown($dir, $uid);
