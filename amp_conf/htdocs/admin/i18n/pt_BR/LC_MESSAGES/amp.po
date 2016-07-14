@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-13 10:01-0700\n"
+"POT-Creation-Date: 2016-07-14 12:14-0700\n"
 "PO-Revision-Date: 2015-12-22 03:43+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -7077,17 +7077,18 @@ msgid ""
 "by the PBX if left blank"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:735
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:749
 #, php-format
-msgid "Permissions error on %s - please re-run as root to automatically repair"
+msgid ""
+"Permissions error on %s - please run 'fwconsole chown' as root to repair"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:735
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:574
 #, php-format
 msgid ""
-"Permissions error on directory %s - please re-run as root to automatically "
-"repair"
+"Permissions error on directory %s (is %s:%s, should be %s:%s)- please run "
+"'fwconsole chown' as root to repair"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:594

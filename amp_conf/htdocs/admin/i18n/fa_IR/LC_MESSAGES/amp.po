@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-13 10:01-0700\n"
+"POT-Creation-Date: 2016-07-14 12:14-0700\n"
 "PO-Revision-Date: 2016-06-30 16:11+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -7224,21 +7224,19 @@ msgstr ""
 "Permanent  contacts assigned to AoR. This setting is automatically generated "
 "by the PBX if left blank"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:735
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:749
 #, php-format
-msgid "Permissions error on %s - please re-run as root to automatically repair"
+msgid ""
+"Permissions error on %s - please run 'fwconsole chown' as root to repair"
 msgstr ""
-"Permissions  error on %s - please re-run as root to automatically repair"
 
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:735
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:574
 #, php-format
 msgid ""
-"Permissions error on directory %s - please re-run as root to automatically "
-"repair"
+"Permissions error on directory %s (is %s:%s, should be %s:%s)- please run "
+"'fwconsole chown' as root to repair"
 msgstr ""
-"Permissions  error on directory %s - please re-run as root to automatically "
-"repair"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:594
 #, php-format
@@ -12279,6 +12277,18 @@ msgstr ""
 #: ../core/install.php:1105
 msgid "zap devices migrated"
 msgstr "وسایل zap منتقل شدند"
+
+#~ msgid ""
+#~ "Permissions error on %s - please re-run as root to automatically repair"
+#~ msgstr ""
+#~ "Permissions  error on %s - please re-run as root to automatically repair"
+
+#~ msgid ""
+#~ "Permissions error on directory %s - please re-run as root to "
+#~ "automatically repair"
+#~ msgstr ""
+#~ "Permissions  error on directory %s - please re-run as root to "
+#~ "automatically repair"
 
 #~ msgid "New User"
 #~ msgstr "کاربر جدید"

@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-13 10:01-0700\n"
+"POT-Creation-Date: 2016-07-14 12:14-0700\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -7267,22 +7267,19 @@ msgstr ""
 "Постоянные контакты,назначенные для AoR. Если не указано,то эти установки "
 "FreePBX создаёт автоматически."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:735
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:749
 #, php-format
-msgid "Permissions error on %s - please re-run as root to automatically repair"
+msgid ""
+"Permissions error on %s - please run 'fwconsole chown' as root to repair"
 msgstr ""
-"Ошибка прав доступа к %s - пожалуйста запустите от пользователя root для "
-"автоматического восстановления"
 
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:735
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:574
 #, php-format
 msgid ""
-"Permissions error on directory %s - please re-run as root to automatically "
-"repair"
+"Permissions error on directory %s (is %s:%s, should be %s:%s)- please run "
+"'fwconsole chown' as root to repair"
 msgstr ""
-"Ошибка прав доступа к  директории %s - пожалуйста запустите от пользователя "
-"root для автоматического восстановления"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:594
 #, php-format
@@ -12243,6 +12240,19 @@ msgstr ""
 #: ../core/install.php:1105
 msgid "zap devices migrated"
 msgstr "Устройства ZAP перенесены"
+
+#~ msgid ""
+#~ "Permissions error on %s - please re-run as root to automatically repair"
+#~ msgstr ""
+#~ "Ошибка прав доступа к %s - пожалуйста запустите от пользователя root для "
+#~ "автоматического восстановления"
+
+#~ msgid ""
+#~ "Permissions error on directory %s - please re-run as root to "
+#~ "automatically repair"
+#~ msgstr ""
+#~ "Ошибка прав доступа к  директории %s - пожалуйста запустите от "
+#~ "пользователя root для автоматического восстановления"
 
 #~ msgid "New User"
 #~ msgstr "Новый пользователь"

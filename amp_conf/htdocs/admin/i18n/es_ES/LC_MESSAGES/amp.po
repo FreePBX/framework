@@ -2,15 +2,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-13 10:01-0700\n"
+"POT-Creation-Date: 2016-07-14 12:14-0700\n"
 "PO-Revision-Date: 2016-07-14 06:05+0200\n"
 "Last-Translator: The <james.finstrom@schmoozecom.com>\n"
-"Language-Team: Spanish "
-"<http://weblate.freepbx.org/projects/freepbx/framework/es_ES/>\n"
-"Language: es_ES\n"
+"Language-Team: Spanish <http://weblate.freepbx.org/projects/freepbx/"
+"framework/es_ES/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: es_ES\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.4\n"
 
@@ -560,9 +560,9 @@ msgid ""
 msgstr ""
 "Un DID directo que se asocia con esta extensión. El DID debe estar en el "
 "mismo formato que el proporcionado por el proveedor (por ejemplo, número "
-"completo, 4 dígitos para 10x4, etc) <br><br>Formato debe ser: "
-"<b>XXXXXXXXXX</b><br>. Un CID opcional también puede estar asociado a este "
-"DID estableciendo el siguiente cuadro"
+"completo, 4 dígitos para 10x4, etc) <br><br>Formato debe ser: <b>XXXXXXXXXX</"
+"b><br>. Un CID opcional también puede estar asociado a este DID "
+"estableciendo el siguiente cuadro"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:40
 msgid ""
@@ -6997,22 +6997,19 @@ msgid ""
 "by the PBX if left blank"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:735
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:749
 #, php-format
-msgid "Permissions error on %s - please re-run as root to automatically repair"
+msgid ""
+"Permissions error on %s - please run 'fwconsole chown' as root to repair"
 msgstr ""
-"Permisos de error en %s - por favor vuelva a ejecutar como root para reparar "
-"de forma automática"
 
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:735
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:574
 #, php-format
 msgid ""
-"Permissions error on directory %s - please re-run as root to automatically "
-"repair"
+"Permissions error on directory %s (is %s:%s, should be %s:%s)- please run "
+"'fwconsole chown' as root to repair"
 msgstr ""
-"Permisos de error en el directorio %s - por favor vuelva a ejecutar como "
-"root para reparar de forma automática"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:594
 #, php-format
@@ -11804,6 +11801,19 @@ msgstr ""
 #: ../core/install.php:1105
 msgid "zap devices migrated"
 msgstr "dispositivos zap migrados"
+
+#~ msgid ""
+#~ "Permissions error on %s - please re-run as root to automatically repair"
+#~ msgstr ""
+#~ "Permisos de error en %s - por favor vuelva a ejecutar como root para "
+#~ "reparar de forma automática"
+
+#~ msgid ""
+#~ "Permissions error on directory %s - please re-run as root to "
+#~ "automatically repair"
+#~ msgstr ""
+#~ "Permisos de error en el directorio %s - por favor vuelva a ejecutar como "
+#~ "root para reparar de forma automática"
 
 #~ msgid "New User"
 #~ msgstr "Nuevo Usuario"
