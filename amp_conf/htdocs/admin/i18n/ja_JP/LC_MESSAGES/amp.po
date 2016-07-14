@@ -2444,6 +2444,10 @@ msgstr ""
 msgid "Determine where to send log information if the log is enabled ('Disable FreePBX Log' (AMPDISABLELOG) false. There are two places to route the log messages. 'FILE' will send all log messages to the defined 'FreePBX Log File' (FPBX_LOG_FILE). All the other settings will route the log messages to your System Logging subsystem (syslog) using the specified log level. Syslog can be configured to route different levels to different locations. See 'syslog' documentation (man syslog) on your system for more details."
 msgstr "ログが有効(「FreePBXログを無効にする」いいえ)の際、ログ情報を送信先を決定します。ログルーティングは2カ所あります。「FILE」を選択すると、定義されたFreePBXログファイル(FPBX_LOG_FILE)に全ログを出力します。他の全設定は指定されたログレベルでsyslogに設定されます。Syslogの設定は、それぞれ別レベルのものを異なる場所へ出力が可能です。詳細はsyslogのマニュアル(man syslog)を確認してください。"
 
+#: amp.i18n.php:1058
+msgid "Determines the mode to use while using popovers (popovers appear when selecting "
+msgstr ""
+
 #: ../core/views/trunks/trunk_header.php:346
 msgid "Determines what CIDs will be allowed out this trunk. IMPORTANT: EMERGENCY CIDs defined on an extension/device will ALWAYS be used if this trunk is part of an EMERGENCY Route regardless of these settings.<br />Allow Any CID: all CIDs including foreign CIDS from forwarded external calls will be transmitted.<br />Block Foreign CIDs: blocks any CID that is the result of a forwarded call from off the system. CIDs defined for extensions/users are transmitted.<br />Remove CNAM: this will remove CNAM from any CID sent out this trunk<br />Force Trunk CID: Always use the CID defined for this trunk except if part of any EMERGENCY Route with an EMERGENCY CID defined for the extension/device."
 msgstr "このトランクから発信されるどのようなCIDが許可されるかを決定します。重要: 内線/デバイスで定義される緊急CIDは、もしこのトランクが緊急ルートの一部である場合はこれらの設定にかかわらず常に使用されます。<br />どのようなCIDも許可: 外部からの転送コールからの海外CIDを含む全てのCIDは送信されます。<br />不明なCIDをブロック: システム外からのコールを転送された結果のいかなるCIDもブロックします。内線/ユーザーのために定義されたCIDは送信されます。<br />CNAMを削除: このトランク外から送信されたいかなるCIDからのCNAMも削除します。<br />トランクCIDを強制: 内線/デバイスのために定義された緊急CIDを持つ緊急ルートの一部である場合を除き、このトランクのために定義されたCIDを常に使用。"
@@ -3813,6 +3817,11 @@ msgstr "FreePBXログルーティング"
 
 #: install.php:5
 #, php-format
+msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
+msgstr ""
+
+#: install.php:5
+#, php-format
 msgid "FreePBX Requires PHP Version 5.6.19 or Higher, you have: %s"
 msgstr ""
 
@@ -3972,6 +3981,10 @@ msgstr "サポート"
 #, php-format
 msgid "Get help for %s"
 msgstr "%s のヘルプを表示"
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:88
+msgid "Gettext is not installed"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:760
 msgid "Getting Data from Online Server..."
@@ -4487,6 +4500,12 @@ msgstr "無効なDID、空白でないDIDでなければなりません"
 msgid "Invalid Dial Rules"
 msgstr "無効なダイヤルルール"
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
+msgid "Invalid Language"
+msgstr ""
+
 #: ../core/views/trunks/trunk_footer.php:88
 msgid "Invalid Maximum Channels"
 msgstr "無効な最大チャネル"
@@ -4568,6 +4587,10 @@ msgstr ""
 
 #: ../core/views/routing/form.php:560 ../core/views/trunks/trunk_footer.php:24
 msgid "LOADING ROUTES"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
+msgid "Language Support Unknown"
 msgstr ""
 
 #: ../core/views/routing/form.php:45
@@ -5765,6 +5788,14 @@ msgstr ""
 msgid "Path for grep"
 msgstr ""
 
+#: amp.i18n.php:892
+msgid "Path for gs"
+msgstr ""
+
+#: amp.i18n.php:898
+msgid "Path for ifconfig"
+msgstr ""
+
 #: amp.i18n.php:928
 msgid "Path for lame"
 msgstr ""
@@ -5785,8 +5816,16 @@ msgstr ""
 msgid "Path for openssl"
 msgstr ""
 
+#: amp.i18n.php:928
+msgid "Path for ps"
+msgstr ""
+
 #: amp.i18n.php:958
 msgid "Path for route"
+msgstr ""
+
+#: amp.i18n.php:940
+msgid "Path for rsync"
 msgstr ""
 
 #: amp.i18n.php:964
@@ -5799,6 +5838,18 @@ msgstr "tail のパス"
 
 #: amp.i18n.php:976
 msgid "Path for tar"
+msgstr ""
+
+#: amp.i18n.php:970
+msgid "Path for tiff2pdf"
+msgstr ""
+
+#: amp.i18n.php:976
+msgid "Path for tiffcp"
+msgstr ""
+
+#: amp.i18n.php:982
+msgid "Path for tiffinfo"
 msgstr ""
 
 #: amp.i18n.php:982
@@ -5949,6 +6000,10 @@ msgstr "このデバイスのチャネルを入力してください"
 msgid "Please enter valid User Password using numbers only"
 msgstr "数字のみで有効なユーザーパスワードを入力してください"
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:88
+msgid "Please install gettext so that the PBX can properly translate itself"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:88
 msgid "Please note most tasks should be handled through the GUI."
 msgstr ""
@@ -5981,6 +6036,10 @@ msgstr "モジュールアクションが完了するまでお待ちください
 #: amp.i18n.php:532
 msgid "Polling Interval for Stopping Asterisk"
 msgstr "停止中Asteriskへのポーリング間隔"
+
+#: amp.i18n.php:1054
+msgid "Popover Mode"
+msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:374
 msgid "Port"
@@ -7375,6 +7434,14 @@ msgstr ""
 msgid "The path to grep as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
+#: amp.i18n.php:896
+msgid "The path to gs as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:902
+msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
 #: amp.i18n.php:932
 msgid "The path to lame as auto-determined by the system. Overwrite as necessary."
 msgstr ""
@@ -7395,8 +7462,16 @@ msgstr ""
 msgid "The path to openssl as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
+#: amp.i18n.php:932
+msgid "The path to ps as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
 #: amp.i18n.php:962
 msgid "The path to route as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:944
+msgid "The path to rsync as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
 #: amp.i18n.php:968
@@ -7409,6 +7484,18 @@ msgstr "システムで自動的に設定されるtailのパス。必要に応�
 
 #: amp.i18n.php:980
 msgid "The path to tar as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:974
+msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:980
+msgid "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:986
+msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
 #: amp.i18n.php:986
@@ -7874,6 +7961,10 @@ msgstr ""
 msgid "Unable to find an intermediary converter for %s"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
+msgid "Unable to find the Locale binary. Your system may not support language changes!"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:117
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:127
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
@@ -7915,6 +8006,15 @@ msgstr ""
 #, php-format
 msgid "Unable to save %s"
 msgstr "%s の保存できません"
+
+#: amp_conf/htdocs/admin/bootstrap.php:271
+msgid "Unable to set timezone"
+msgstr ""
+
+#: amp_conf/htdocs/admin/bootstrap.php:271
+#, php-format
+msgid "Unable to set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:119
 msgid "Unable to start Asterisk!"
@@ -8768,6 +8868,17 @@ msgstr "あなたはこのデバイスのシークレットを入力してませ
 
 #: ../core/views/users.php:91
 msgid "You have not entered a User Password.  While this is acceptable, this user will not be able to login to an AdHoc user.\\n\\nAre you sure you wish to leave the User Password empty?"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
+#, php-format
+msgid "You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
+#, php-format
+msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:20
@@ -9680,115 +9791,9 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr "zapでバイスが移行されました"
 
-#: amp.i18n.php:1058
-msgid "Determines the mode to use while using popovers (popovers appear when selecting "
-msgstr ""
-
-#: install.php:5
-#, php-format
-msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:88
-msgid "Gettext is not installed"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
-msgid "Invalid Language"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
-msgid "Language Support Unknown"
-msgstr ""
-
-#: amp.i18n.php:892
-msgid "Path for gs"
-msgstr ""
-
-#: amp.i18n.php:898
-msgid "Path for ifconfig"
-msgstr ""
-
-#: amp.i18n.php:928
-msgid "Path for ps"
-msgstr ""
-
-#: amp.i18n.php:940
-msgid "Path for rsync"
-msgstr ""
-
-#: amp.i18n.php:970
-msgid "Path for tiff2pdf"
-msgstr ""
-
-#: amp.i18n.php:976
-msgid "Path for tiffcp"
-msgstr ""
-
-#: amp.i18n.php:982
-msgid "Path for tiffinfo"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:88
-msgid "Please install gettext so that the PBX can properly translate itself"
-msgstr ""
-
-#: amp.i18n.php:1054
-msgid "Popover Mode"
-msgstr ""
-
-#: amp.i18n.php:896
-msgid "The path to gs as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:902
-msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:932
-msgid "The path to ps as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:944
-msgid "The path to rsync as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:974
-msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:980
-msgid "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:986
-msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
-msgid "Unable to find the Locale binary. Your system may not support language changes!"
-msgstr ""
-
-#: amp_conf/htdocs/admin/bootstrap.php:271
-msgid "Unable to set timezone"
-msgstr ""
-
-#: amp_conf/htdocs/admin/bootstrap.php:271
-#, php-format
-msgid "Unable to set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
 #, php-format
-msgid "You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
-#, php-format
-msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
+msgid "The default language of '%s' or '%s' was not found on this system. Please resolve this in advanced settings by changing the system language or installing the default locales [%s]"
 msgstr ""
 
 #~ msgid "\tCould not find signed module on remote server!"

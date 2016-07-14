@@ -9652,14 +9652,13 @@ msgstr "شما باید دستی خط 'preload => pbx_config.so' را به فا�
 msgid "zap devices migrated"
 msgstr "وسایل zap منتقل شدند"
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
+#, php-format
+msgid "The default language of '%s' or '%s' was not found on this system. Please resolve this in advanced settings by changing the system language or installing the default locales [%s]"
+msgstr ""
+
 #~ msgid "Invalid Language"
 #~ msgstr "زبان نامعتبر"
-
-#~ msgid "Unable to set timezone"
-#~ msgstr "عدم توانایی تنظیم منطقه زمانی"
-
-#~ msgid "Unable to set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."
-#~ msgstr "Unable to  set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."
 
 #~ msgid "You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"
 #~ msgstr "شما زبان نا درستی را انتخاب کردید '%s' و ما نمیتوانیم به '%s' یا '%s' برگردیم لطفا این مشکل را از طریق تنظیمات پیشرفته حل کنید [%s]"
@@ -9804,6 +9803,12 @@ msgstr "وسایل zap منتقل شدند"
 
 #~ msgid "Unable to find the Locale binary. Your system may not support language changes!"
 #~ msgstr "فایل باینری محلی پیدا نشد. سیستم شما از تغییر زبان پشتیبانی نمیکند!"
+
+#~ msgid "Unable to set timezone"
+#~ msgstr "عدم توانایی تنظیم منطقه زمانی"
+
+#~ msgid "Unable to set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."
+#~ msgstr "Unable to  set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."
 
 #~ msgid "When set to Intercom, calls to this extension/user from other internal users act as if they were intercom calls meaning they will be auto-answered if the endpoint supports this feature and the system is configured to operate in this mode. All the normal white list and black list settings will be honored if they are set. External calls will still ring as normal, as will certain other circumstances such as blind transfers and when a Follow Me is configured and enabled. If Disabled, the phone rings as a normal phone."
 #~ msgstr "When set to Intercom, calls to this extension/user from other internal users  act as if they were intercom calls meaning they will be auto-answered if the endpoint supports this feature and the system is configured to operate in this mode. All the normal white list and black list settings will be honored if they are set. External calls will still ring as normal, as will certain other circumstances such as blind transfers and when a Follow Me is configured and enabled. If Disabled, the phone rings as a normal phone."
