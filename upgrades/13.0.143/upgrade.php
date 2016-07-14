@@ -9,6 +9,9 @@ if(!file_exists($lock)) {
 	if(is_array($modules)) {
 		foreach($modules as $module) {
 			$rawn = $module['rawname'];
+			if($rawn == "framework") {
+				continue;
+			}
 			exec($sbin."/fwconsole ma install $rawn --force");
 		}
 	}
