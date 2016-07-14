@@ -568,7 +568,7 @@ default_md = sha256
 
 		// What are the permissions of the keys directory?
 		$stat = stat($dir);
-		if ($uid != $stat['uid'] || $gid != $stat['gid']) {
+		if ($uid != $stat['uid']) {
 			// Permissions are wrong on the keys directory. Hopefully, I'm root, so I can fix them.
 			if (posix_geteuid() !== 0) {
 				throw new \Exception(sprintf(_("Permissions error on directory %s (is %s:%s, should be %s:%s)- please run 'fwconsole chown' as root to repair"),$dir, $stat['uid'], $stat['gid'], $uid, $gid));
@@ -588,7 +588,7 @@ default_md = sha256
 				continue;
 			}
 			$stat = stat($file);
-			if ($uid != $stat['uid'] || $gid != $stat['gid']) {
+			if ($uid != $stat['uid']) {
 				// Permissions are wrong on the keys directory. Hopefully, I'm root, so I can fix them.
 				if (posix_geteuid() !== 0) {
 					throw new \Exception(sprintf(_("Permissions error on file %s - please re-run as root to automatically repair"),$file));
