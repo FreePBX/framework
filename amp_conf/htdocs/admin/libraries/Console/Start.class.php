@@ -171,9 +171,8 @@ class Start extends Command {
 		$astman->add_event_handler("FullyBooted", array($this, "fullyBooted"));
 		while(!$this->booted) {
 			$astman->wait_response(true,true);
-			usleep(100000);
 			$i++;
-			if($i >= 1000) {
+			if($i >= 1000) { //should this be 1000??
 				$this->booted = true;
 				break; //we never got the fully booted response? But let's continue anyways.
 			}
