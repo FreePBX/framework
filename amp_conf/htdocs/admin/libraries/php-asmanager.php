@@ -268,12 +268,14 @@ class AGI_AsteriskManager {
 	* Wait for a response
 	*
 	* If a request was just sent, this will return the response.
-	* Otherwise, it will loop forever, handling events.
+	* Otherwise, it will loop forever, handling events
+	* unless $return_on_event is set to true
 	*
 	* @param boolean $allow_timeout if the socket times out, return an empty array
+	* @param boolean $return_on_event return on event as if it was a message or response
 	* @return array of parameters, empty on timeout
 	*/
-	function wait_response($allow_timeout = false) {
+	function wait_response($allow_timeout = false, $return_on_event = false) {
 		$timeout = false;
 
 		set_error_handler("phpasmanager_error_handler");
@@ -324,7 +326,7 @@ class AGI_AsteriskManager {
 					$this->log('Unhandled response packet ('.$type.') from Manager: ' . print_r($parameters, true));
 					break;
 			}
-		} while($type != 'response' && $type != 'message' && !$timeout);
+		} while($type != 'response' && $type != 'message' && !$timeout && (!$return_on_event && $type != 'event'));
 		$this->log("returning from wait_response with with type: $type",10);
 		$this->log('$parmaters: '.print_r($parameters,true),10);
 		$this->log('$buffer: '.print_r($buffer,true),10);
@@ -336,6 +338,56 @@ class AGI_AsteriskManager {
 	}
 
 	/**
+	 * Attempt to reconnect to Asterisk
+	 * @param string $events whether events are on or off for this connection
+	 */
+	function reconnect($events = null) {
+		if($this->connected()) {
+			return true; //we are already connected
+		}
+		$this->events = !empty($events) ? $events : $this->events;
+		set_error_handler("phpasmanager_error_handler");
+		if(empty($this->username) || empty($this->secret) || empty($this->server)) {
+			throw new \Exception("Unable to reconnect, try using connect first");
+		}
+
+		// connect the socket
+		$errno = $errstr = NULL;
+
+		$this->socket = stream_socket_client("tcp://".$this->server.":".$this->port, $errno, $errstr);
+		stream_set_timeout($this->socket,30);
+		if(!$this->socket) {
+			$this->log("Unable to connect to manager {$this->server}:{$this->port} ($errno): $errstr");
+			restore_error_handler();
+			return false;
+		}
+
+		// read the header
+		$str = fgets($this->socket);
+		if($str == false) {
+			// a problem.
+			$this->log("Asterisk Manager header not received.");
+			restore_error_handler();
+			return false;
+		} else {
+			// note: don't $this->log($str) until someone looks to see why it mangles the logging
+		}
+
+		// login
+		$res = $this->send_request('login',
+							array('Username'=>$this->username, 'Secret'=>$this->secret, 'Events'=>$events),
+							false);
+		if($res['Response'] != 'Success') {
+			$this->log("Failed to login.");
+			$this->disconnect();
+			restore_error_handler();
+			return false;
+		}
+		restore_error_handler();
+		return true;
+	}
+
+	/**
 	* Connect to Asterisk
 	*
 	* @example examples/sip_show_peer.php Get information about a sip peer
@@ -343,6 +395,7 @@ class AGI_AsteriskManager {
 	* @param string $server
 	* @param string $username
 	* @param string $secret
+	* @param string $events whether events are on or off for this connection
 	* @return boolean true on success
 	*/
 	function connect($server=NULL, $username=NULL, $secret=NULL, $events='on') {

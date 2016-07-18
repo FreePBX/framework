@@ -97,7 +97,7 @@ class Stop extends Command {
 			$stopasterisk = false;
 		}
 
-		// Now we're ready to go.  
+		// Now we're ready to go.
 		$brand = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
 
 		$output->writeln(sprintf(_('Running %s shutdown...'),$brand));
@@ -132,7 +132,8 @@ class Stop extends Command {
 					system("stty -icanon -echo");
 				}
 
-				$progress = new ProgressBar($output, 100);
+				$progress = new ProgressBar($output, 0);
+				$progress->setFormat('[%bar%] %elapsed%');
 				$this->stopAsterisk($output, 'gracefully');
 				$progress->start();
 				$isrunning = true;
@@ -142,7 +143,6 @@ class Stop extends Command {
 						$res = fread(STDIN,1);
 						if ($res) {
 							if (strtolower($res) === "c") {
-								$progress->setProgress(100);
 								$progress->finish();
 								print "\n";
 								$output->writeln(_('Aborting Shutdown. Asterisk is still running'));
