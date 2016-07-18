@@ -15,7 +15,7 @@ use Symfony\Component\Process\Process;
 
 class Start extends Command {
 	private $booted = false;
-	private $skipChown = false;
+	public $skipChown = false;
 
 	protected function configure(){
 		$this->setName('start')
