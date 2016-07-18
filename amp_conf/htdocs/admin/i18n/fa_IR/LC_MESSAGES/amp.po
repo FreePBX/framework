@@ -9,15 +9,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-14 12:14-0700\n"
+"POT-Creation-Date: 2016-07-18 11:42-0700\n"
 "PO-Revision-Date: 2016-07-17 10:17+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
-"Language-Team: Persian (Iran) "
-"<http://weblate.freepbx.org/projects/freepbx/framework/fa_IR/>\n"
-"Language: fa_IR\n"
+"Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
+"framework/fa_IR/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: fa_IR\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.4\n"
 
@@ -1278,7 +1278,7 @@ msgstr "دایرکتوری اجرایی استریسک"
 msgid "Asterisk Spool Dir"
 msgstr "دایرکتوری spool استریسک"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:116
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:120
 msgid "Asterisk Started"
 msgstr "استریسک اجرا شده"
 
@@ -4473,7 +4473,7 @@ msgstr "تحمیل rport"
 msgid "Force rport - (%s)"
 msgstr "تحمیل rport - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:200
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:220
 msgid "Force run post-start asterisk hooks"
 msgstr "Force run  post-start asterisk hooks"
 
@@ -4481,7 +4481,7 @@ msgstr "Force run  post-start asterisk hooks"
 msgid "Force run post-stop asterisk hooks"
 msgstr "Force  run post-stop asterisk hooks"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:199
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:219
 msgid "Force run pre-start asterisk hooks"
 msgstr "Force  run pre-start asterisk hooks"
 
@@ -6148,7 +6148,7 @@ msgstr "ماژول دستکاری شده. مجدد دانلود کنید"
 msgid "Module is Unsigned"
 msgstr "ماژول تایید نشده"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:20
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:23
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:22
 msgid "Module names"
 msgstr "نام ماژول"
@@ -6690,7 +6690,7 @@ msgstr "Only  Use Last CID Prepend"
 msgid "Only mysql is supported"
 msgstr "تنها mysql پشتیبانی میشود"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:22
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:25
 msgid "Only run post-start hooks"
 msgstr "Only  run post-start hooks"
 
@@ -6698,7 +6698,7 @@ msgstr "Only  run post-start hooks"
 msgid "Only run post-stop hooks"
 msgstr "Only  run post-stop hooks"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:21
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:24
 msgid "Only run pre-start hooks"
 msgstr "Only  run pre-start hooks"
 
@@ -7960,7 +7960,7 @@ msgstr "Run an  immediate shutdown. Defaults to 'when convenient'"
 msgid "Running %s shutdown..."
 msgstr "Running %s  shutdown..."
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:94
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:98
 #, php-format
 msgid "Running %s startup..."
 msgstr "Running %s  startup..."
@@ -8491,6 +8491,14 @@ msgstr "شبیه سازی تماس ورودی"
 msgid "Size of generated sip secrets"
 msgstr "اندازه رمز تولید شده sip"
 
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:26
+msgid "Skip Chowning"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:221
+msgid "Skip Chowning of files"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:31
 msgid "Skip the chown operation"
 msgstr "لغو عملیات مالکیت لینوکس"
@@ -8597,11 +8605,11 @@ msgid "Standard"
 msgstr "استاندارد"
 
 #: amp_conf/htdocs/admin/libraries/Console/Restart.class.php:17
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:19
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:22
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "آغاز استریسک و اجرای دستورات لازم FreePBX"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:144
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:148
 msgid "Starting Asterisk..."
 msgstr "استریسک در حال اجرا..."
 
@@ -10020,7 +10028,7 @@ msgstr "عدم توانایی حذف tmp.cfg"
 msgid "Unable to resolve dependencies for module %s:"
 msgstr "عدم توانایی حل وابستگی ها برای ماژول %s:"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:104
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:108
 #, php-format
 msgid ""
 "Unable to run Pre-Asterisk hooks, because Asterisk is already running on PID "
@@ -10050,7 +10058,7 @@ msgstr ""
 "the timezone has been temporarily changed to UTC. Please set the timezone in "
 "Advanced Settings."
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:119
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:123
 msgid "Unable to start Asterisk!"
 msgstr "عدم اجرای استریسک!"
 
@@ -10300,7 +10308,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:873
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:197
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:217
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:232
 msgid "Usage"
 msgstr "استفاده"

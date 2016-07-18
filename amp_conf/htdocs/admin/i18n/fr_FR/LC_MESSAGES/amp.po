@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-07-14 12:14-0700\n"
+"POT-Creation-Date: 2016-07-18 11:42-0700\n"
 "PO-Revision-Date: 2016-02-27 18:59+0200\n"
 "Last-Translator: Nicolas Riendeau <freepbx@riendeau.org>\n"
 "Language-Team: French <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -1220,7 +1220,7 @@ msgstr "Répertoire d'exécution d'Asterisk"
 msgid "Asterisk Spool Dir"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:116
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:120
 msgid "Asterisk Started"
 msgstr ""
 
@@ -4188,7 +4188,7 @@ msgstr ""
 msgid "Force rport - (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:200
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:220
 msgid "Force run post-start asterisk hooks"
 msgstr ""
 
@@ -4196,7 +4196,7 @@ msgstr ""
 msgid "Force run post-stop asterisk hooks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:199
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:219
 msgid "Force run pre-start asterisk hooks"
 msgstr ""
 
@@ -5723,7 +5723,7 @@ msgstr ""
 msgid "Module is Unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:20
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:23
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:22
 msgid "Module names"
 msgstr ""
@@ -6215,7 +6215,7 @@ msgstr ""
 msgid "Only mysql is supported"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:22
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:25
 msgid "Only run post-start hooks"
 msgstr ""
 
@@ -6223,7 +6223,7 @@ msgstr ""
 msgid "Only run post-stop hooks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:21
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:24
 msgid "Only run pre-start hooks"
 msgstr ""
 
@@ -7402,7 +7402,7 @@ msgstr ""
 msgid "Running %s shutdown..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:94
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:98
 #, php-format
 msgid "Running %s startup..."
 msgstr ""
@@ -7871,6 +7871,14 @@ msgstr "Simule un appels entrant"
 msgid "Size of generated sip secrets"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:26
+msgid "Skip Chowning"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:221
+msgid "Skip Chowning of files"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:31
 msgid "Skip the chown operation"
 msgstr ""
@@ -7956,11 +7964,11 @@ msgid "Standard"
 msgstr "Standard"
 
 #: amp_conf/htdocs/admin/libraries/Console/Restart.class.php:17
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:19
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:22
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:144
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:148
 msgid "Starting Asterisk..."
 msgstr "Démarrage d’Asterisk..."
 
@@ -9253,7 +9261,7 @@ msgstr ""
 msgid "Unable to resolve dependencies for module %s:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:104
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:108
 #, php-format
 msgid ""
 "Unable to run Pre-Asterisk hooks, because Asterisk is already running on PID "
@@ -9278,7 +9286,7 @@ msgid ""
 "Advanced Settings."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:119
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:123
 msgid "Unable to start Asterisk!"
 msgstr ""
 
@@ -9524,7 +9532,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:873
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:197
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:217
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:232
 msgid "Usage"
 msgstr ""
