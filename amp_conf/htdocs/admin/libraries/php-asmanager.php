@@ -326,7 +326,7 @@ class AGI_AsteriskManager {
 					$this->log('Unhandled response packet ('.$type.') from Manager: ' . print_r($parameters, true));
 					break;
 			}
-		} while($type != 'response' && $type != 'message' && !$timeout && (!$return_on_event && $type != 'event'));
+		} while(($return_on_event && ($type != 'event' && $type != 'response' && $type != 'message' && !$timeout)) || (!$return_on_event && ($type != 'response' && $type != 'message' && !$timeout)));
 		$this->log("returning from wait_response with with type: $type",10);
 		$this->log('$parmaters: '.print_r($parameters,true),10);
 		$this->log('$buffer: '.print_r($buffer,true),10);
