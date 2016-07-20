@@ -110,6 +110,8 @@ class Stop extends Command {
 		}
 
 		if ($stopasterisk) {
+			$astman = \FreePBX::create()->astman;
+			$astman->disconnect();
 			if ($options['immediate']) {
 				$output->writeln(_('Shutting down Asterisk Immediately...'));
 				$this->stopAsterisk($output, 'now');
