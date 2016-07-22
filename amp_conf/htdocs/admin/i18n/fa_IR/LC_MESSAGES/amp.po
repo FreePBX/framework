@@ -6873,6 +6873,14 @@ msgstr "شبیه سازی تماس ورودی"
 msgid "Size of generated sip secrets"
 msgstr "اندازه رمز تولید شده sip"
 
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:26
+msgid "Skip Chowning"
+msgstr "لغو مالکیت"
+
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:220
+msgid "Skip Chowning of files"
+msgstr "لغو مالکیت از فایلها"
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:31
 msgid "Skip the chown operation"
 msgstr "لغو عملیات مالکیت لینوکس"
@@ -7209,6 +7217,11 @@ msgstr "The binary  unzip is not installed. Unable to work with zip file"
 #: ../core/Core.class.php:2563
 msgid "The context, extension, priority to go to when this DID is matched. Example: app-daynight,0,1"
 msgstr "The context, extension, priority  to go to when this DID is matched. Example: app-daynight,0,1"
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
+#, php-format
+msgid "The default language of '%s' or '%s' was not found on this system. Please resolve this in advanced settings by changing the system language or installing the default locales [%s]"
+msgstr "زبان پیش فرض برای '%s' یا '%s' در این سیستم یافت نشد. لطفا این مشکل را در قسمت تنظیمات پیشرفته با تغییر زبان سیستم و یا نصب زبان های محلی پیش فرض [%s] حل کنید"
 
 #: amp.i18n.php:1112
 msgid "The default language used in the webUI"
@@ -9651,19 +9664,6 @@ msgstr "شما باید دستی خط 'preload => pbx_config.so' را به فا�
 #: ../core/install.php:1105
 msgid "zap devices migrated"
 msgstr "وسایل zap منتقل شدند"
-
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:26
-msgid "Skip Chowning"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:220
-msgid "Skip Chowning of files"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
-#, php-format
-msgid "The default language of '%s' or '%s' was not found on this system. Please resolve this in advanced settings by changing the system language or installing the default locales [%s]"
-msgstr "زبان پیش فرض برای '%s' یا '%s' در این سیستم یافت نشد. لطفا این مشکل را در قسمت تنظیمات پیشرفته با تغییر زبان سیستم و یا نصب زبان های محلی پیش فرض [%s] حل کنید"
 
 #~ msgid "Aborting Shutdown"
 #~ msgstr "لغو خاموش کردن"
