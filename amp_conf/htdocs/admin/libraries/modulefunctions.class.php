@@ -26,7 +26,7 @@ class module_functions {
 	public $notFound = false;
 	public $downloadedRawname = "";
 	//Max Execution Time Limit
-	private $maxTimeLimit = 250;
+	private $maxTimeLimit = 750;
 	private $onlineModules = null;
 
 	private $modXMLCache = array();

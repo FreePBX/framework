@@ -254,13 +254,15 @@ class OOBE extends FreePBX_Helpers {
 
 		$sth = $db->prepare("INSERT INTO `ampusers` (`username`, `password_sha1`, `sections`) VALUES ( ?, ?, '*')");
 
-		$sth->execute(array($settings['username'], sha1($settings['password'])));
+		$username = htmlentities(strip_tags($settings['username']));
+
+		$sth->execute(array($username, sha1($settings['password'])));
 
 		// TODO: REMOVE IN FREEPBX 14 - ARI is deprecated as of FreePBX 12
 		// set ari password
 		$freepbx_conf = FreePBX::Freepbx_conf();
 		if ($freepbx_conf->conf_setting_exists('ARI_ADMIN_USERNAME') && $freepbx_conf->conf_setting_exists('ARI_ADMIN_PASSWORD')) {
-			$freepbx_conf->set_conf_values( array('ARI_ADMIN_USERNAME' => $settings['username'], 'ARI_ADMIN_PASSWORD' => $settings['password']), true);
+			$freepbx_conf->set_conf_values( array('ARI_ADMIN_USERNAME' => $username, 'ARI_ADMIN_PASSWORD' => $settings['password']), true);
 		}
 		//set email address
 		$cm =& cronmanager::create($db);

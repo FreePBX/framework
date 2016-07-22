@@ -472,7 +472,7 @@ default_md = sha256
 
 		// We need to ensure that we can actually read the Key files.
 		$keyloc = \FreePBX::Freepbx_conf()->get('CERTKEYLOC');
-		$keyloc = !empty($keyloc) ? $keyloc : FreePBX::Freepbx_conf()->get('ASTETCDIR') . "/keys";
+		$keyloc = !empty($keyloc) ? $keyloc : \FreePBX::Freepbx_conf()->get('ASTETCDIR') . "/keys";
 		if (!file_exists($keyloc)) {
 			if(!mkdir($keyloc)) {
 				throw new \Exception(sprintf(_("Could Not Create the Asterisk Keys Folder: %s"),$keyloc));

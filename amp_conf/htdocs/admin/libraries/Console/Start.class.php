@@ -14,14 +14,17 @@ use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Process\Process;
 
 class Start extends Command {
+	private $booted = false;
+	public $skipChown = false;
+
 	protected function configure(){
 		$this->setName('start')
 			->setDescription(_('Start Asterisk and run other needed FreePBX commands'))
 			->addArgument('args', InputArgument::IS_ARRAY, _('Module names'))
 			->addOption('pre', null, InputOption::VALUE_NONE, _('Only run pre-start hooks'))
 			->addOption('post', null, InputOption::VALUE_NONE, _('Only run post-start hooks'))
+			->addOption('skipchown', null, InputOption::VALUE_NONE, _('Skip Chowning'))
 			->setHelp($this->showHelp());
-		$this->skipChown = false;
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output){
@@ -30,6 +33,7 @@ class Start extends Command {
 			exit(1);
 		}
 		$options = $input->getOptions();
+		$this->skipChown = $options['skipchown'] ? true : $this->skipChown;
 		$args = $input->getArgument('args');
 		$pre = $this->preAsteriskHooks($output,false);
 		$post = $this->postAsteriskHooks($output,false);
@@ -133,7 +137,7 @@ class Start extends Command {
 	}
 
 	private function asteriskUptime() {
-		$uptime = `asterisk -rx 'core show uptime' | grep uptime`;
+		$uptime = `/usr/bin/env asterisk -rx 'core show uptime' | grep uptime`;
 		if (!preg_match('/System uptime:(.+)/', $uptime, $out)) {
 			return "ERROR";
 		}
@@ -143,23 +147,43 @@ class Start extends Command {
 	private function startAsterisk($output){
 		$output->writeln(_('Starting Asterisk...'));
 		$astbin = '/usr/bin/env safe_asterisk -U '.\FreePBX::Config()->get('AMPASTERISKUSER').' -G '.\FreePBX::Config()->get('AMPASTERISKGROUP').' > /dev/null 2>&1 &';
-		exec($astbin);
-		// Wait for it to start. Give it up to 10 seconds.
-		$progress = new ProgressBar($output, 100);
+		$process = new Process($astbin);
+		try {
+			$process->mustRun();
+		} catch (ProcessFailedException $e) {
+			throw new \Exception($e->getMessage());
+		}
+		$astman = \FreePBX::create()->astman;
+		$progress = new ProgressBar($output, 0);
+		$progress->setFormat('[%bar%] %elapsed%');
 		$progress->start();
-		$i = 100;
-		while ($i--) {
-			$x = (int) (cos($i/64)*100);
-			$progress->setProgress($x);
-			if ($this->asteriskIsReady()) {
-				$progress->setProgress(100);
-				return true;
-			}
+		$i = 0;
+		while(!$this->asteriskIsReady()) {
+			$astman->reconnect('on');
 			usleep(100000);
+			$i++;
+			if($i >= 100) {
+				throw new \Exception("Unable to connect to Asterisk. Did it start?");
+			}
+			$progress->setProgress($i);
 		}
 
-		// Hmm. Didn't start.
-		return false;
+		$astman->add_event_handler("FullyBooted", array($this, "fullyBooted"));
+		while(!$this->booted) {
+			$astman->wait_response(true,true);
+			$i++;
+			if($i >= 1000) { //should this be 1000??
+				$this->booted = true;
+				break; //we never got the fully booted response? But let's continue anyways.
+			}
+			$progress->setProgress($i);
+		}
+		$progress->finish();
+		return true;
+	}
+
+	public function fullyBooted() {
+		$this->booted = true;
 	}
 
 	private function preAsteriskHooks($output,$execute=true){
@@ -182,22 +206,18 @@ class Start extends Command {
 		if (empty($aststat)) {
 			return false;
 		}
-		// There's an asterisk process. Is it ready?
-		$out = `/usr/bin/env asterisk -rx 'core show sysinfo' 2>&1`;
-		// This is the same as "return (strpos(...)===false);"
-		if (strpos($out, 'System Statistics') === false) {
-			return false;
-		} else {
-			return true;
-		}
+
+		$astman = \FreePBX::create()->astman;
+		return $astman->connected();
 	}
 
 
 	private function showHelp() {
-		$help = "<info>"._('Usage').": fwconsole start [--pre|--post] [modulename] [modulename...]</info>".PHP_EOL;
+		$help = "<info>"._('Usage').": fwconsole start [--pre|--post|--skipchown] [modulename] [modulename...]</info>".PHP_EOL;
 		$options = array(
 			"--pre" => _("Force run pre-start asterisk hooks"),
 			"--post" => _("Force run post-start asterisk hooks"),
+			"--skipchown" => _("Skip Chowning of files"),
 		);
 		foreach ($options as $o => $t) {
 			$help .= "<info>$o</info> : <comment>$t</comment>".PHP_EOL;
