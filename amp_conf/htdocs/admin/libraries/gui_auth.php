@@ -1,7 +1,21 @@
 <?php
 //promt for a password if there there is no user set
 if (!isset($_SESSION['AMP_user'])) {
-
+	//Adapted from http://stackoverflow.com/a/28844136
+	function getRemoteIp(){
+	    $return = false;
+	    switch(true){
+	      case (!empty($_SERVER['HTTP_X_REAL_IP'])) : $return = $_SERVER['HTTP_X_REAL_IP'];
+				break;
+	      case (!empty($_SERVER['HTTP_CLIENT_IP'])) : $return = $_SERVER['HTTP_CLIENT_IP'];
+				break;
+				case (!empty($_SERVER['HTTP_X_FORWARDED_FOR'])) : $return = $_SERVER['HTTP_X_FORWARDED_FOR'];
+				break;
+				default : $return = $_SERVER['REMOTE_ADDR'];
+	    }
+	    //Return the IP or false if it is invalid or local
+	    return filter_var($return, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE);
+	 }
 	//|| (isset($_SESSION['AMP_user']->username) && $_SESSION['AMP_user']->username != $_SERVER['PHP_AUTH_USER'])) {
 	//if we dont have a username/pass prompt for one
 	if (!$username || !$password) {
@@ -73,7 +87,11 @@ if (!isset($_SESSION['AMP_user'])) {
 					$no_auth = true;
 					//for now because of how freepbx works
 					if(!empty($username)) {
+						$ip = getRemoteIp();
 						freepbx_log_security('Authentication failure for '.(!empty($username) ? $username : 'unknown').' from '.$_SERVER['REMOTE_ADDR']);
+						if( $ip !== $_SERVER['REMOTE_ADDR']){
+							freepbx_log_security('Possible proxy detected, forwarded headers for'.(!empty($username) ? $username : 'unknown').' set to '.$ip);
+						}
 					}
 				}
 			}
