@@ -18,6 +18,11 @@ class Unlock extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$FreePBX = \FreePBX::Create();
 		$args = $input->getArgument('args');
+		//If we don't have a session file, it is probably not a valid session
+		if(!file_exists(session_save_path().'/sess_'.$args[0])){
+			$output->writeln(sprintf(_('Unlocking: %s Failed, Invalid session'),$args[0]));
+			return;
+		}
 		session_id($args[0]);
 		session_start();
 		$output->writeln(sprintf(_('Unlocking: %s'),$args[0]));
