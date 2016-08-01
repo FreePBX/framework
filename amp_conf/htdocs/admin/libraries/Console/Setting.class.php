@@ -100,7 +100,7 @@ class Setting extends Command {
 				$output->writeln(sprintf(_('Changing %s to %s'),$setting,$value));
 				$this->FreePBXConf->set_conf_values(array($setting => $value),true,true);
 			}else{
-				$output->writeln(sprintf(_('The setting %s was not found!'),$arg));
+				$output->writeln(sprintf(_('The setting %s was not found!'),$setting));
 			}
 		}
 	}

@@ -25,7 +25,11 @@ class Unlock extends Command {
 		$FreePBX = \FreePBX::Create();
 		$args = $input->getArgument('args');
 		$file = $sp."/sess_".$args[0];
-		if(file_exists($file)) {
+		//If we don't have a session file, it is probably not a valid session
+		if(!file_exists($file)){
+			$output->writeln(sprintf(_('Unlocking: %s Failed, Invalid session'),$args[0]));
+			return;
+		} else {
 			unlink($file); //PHP gets pissy when I try to edit a session that's not mine
 		}
 		session_id($args[0]);
