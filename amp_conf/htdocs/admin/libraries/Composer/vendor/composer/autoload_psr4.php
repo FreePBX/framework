@@ -27,6 +27,7 @@ return array(
     'Symfony\\Component\\BrowserKit\\' => array($vendorDir . '/symfony/browser-kit'),
     'Sinergi\\BrowserDetector\\' => array($vendorDir . '/sinergi/browser-detector/src'),
     'Respect\\Validation\\' => array($vendorDir . '/respect/validation/library'),
+    'Ramsey\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Povils\\Figlet\\' => array($vendorDir . '/povils/figlet/src/Figlet'),
     'Moment\\' => array($vendorDir . '/fightbulc/moment/src'),

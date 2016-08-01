@@ -47,6 +47,7 @@ class ComposerStaticIniteed34d9d8733e39baaa15f2a55f59cd6
         'R' => 
         array (
             'Respect\\Validation\\' => 19,
+            'Ramsey\\Uuid\\' => 12,
         ),
         'P' => 
         array (
@@ -154,6 +155,10 @@ class ComposerStaticIniteed34d9d8733e39baaa15f2a55f59cd6
         'Respect\\Validation\\' => 
         array (
             0 => __DIR__ . '/..' . '/respect/validation/library',
+        ),
+        'Ramsey\\Uuid\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/ramsey/uuid/src',
         ),
         'Psr\\Http\\Message\\' => 
         array (
