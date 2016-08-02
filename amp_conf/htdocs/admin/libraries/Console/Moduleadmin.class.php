@@ -739,14 +739,15 @@ class Moduleadmin extends Command {
 				break;
 			}
 			$module_version = isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'';
-			array_push($rows,array($name, $module_version, $status));
+			$module_license = isset($modules[$name]['license'])?$modules[$name]['license']:'';
+			array_push($rows,array($name, $module_version, $status, $module_license));
 		}
 		if($this->format == 'json') {
 			$this->writeln($rows);
 		} else {
 			$table = new Table($this->out);
 			$table
-				->setHeaders(array(_('Module'), _('Version'), _('Status')))
+				->setHeaders(array(_('Module'), _('Version'), _('Status'),_('License')))
 				->setRows($rows);
 			$table->render();
 		}
