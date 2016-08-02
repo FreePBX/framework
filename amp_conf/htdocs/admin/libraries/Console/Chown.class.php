@@ -420,6 +420,13 @@ class Chown extends Command {
 		if(in_array($file, $this->blacklist['files']) || in_array($file, $this->blacklist['dirs'])){
 			return true;
 		}
+		//recursively ignore files
+		foreach($this->blacklist['dirs'] as $dir) {
+			if(preg_match("/^".preg_quote($dir,'/')."/",$file)) {
+				return true;
+			}
+		}
+
 		return false;
 	}
 
