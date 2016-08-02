@@ -28,6 +28,7 @@ class ComposerStaticIniteed34d9d8733e39baaa15f2a55f59cd6
             'Symfony\\Polyfill\\Php70\\' => 23,
             'Symfony\\Polyfill\\Php56\\' => 23,
             'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Symfony\\Component\\Translation\\' => 30,
             'Symfony\\Component\\Security\\' => 27,
             'Symfony\\Component\\PropertyAccess\\' => 33,
             'Symfony\\Component\\Process\\' => 26,
@@ -69,6 +70,10 @@ class ComposerStaticIniteed34d9d8733e39baaa15f2a55f59cd6
             'Doctrine\\Common\\Cache\\' => 22,
             'Doctrine\\Common\\' => 16,
         ),
+        'C' => 
+        array (
+            'Carbon\\' => 7,
+        ),
     );
 
     public static $prefixDirsPsr4 = array (
@@ -91,6 +96,10 @@ class ComposerStaticIniteed34d9d8733e39baaa15f2a55f59cd6
         'Symfony\\Polyfill\\Mbstring\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Symfony\\Component\\Translation\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/translation',
         ),
         'Symfony\\Component\\Security\\' => 
         array (
@@ -192,6 +201,10 @@ class ComposerStaticIniteed34d9d8733e39baaa15f2a55f59cd6
         array (
             0 => __DIR__ . '/..' . '/doctrine/common/lib/Doctrine/Common',
         ),
+        'Carbon\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -229,6 +242,13 @@ class ComposerStaticIniteed34d9d8733e39baaa15f2a55f59cd6
             'PhpConsole' => 
             array (
                 0 => __DIR__ . '/..' . '/php-console/php-console/src',
+            ),
+        ),
+        'M' => 
+        array (
+            'Moontoast\\Math' => 
+            array (
+                0 => __DIR__ . '/..' . '/moontoast/math/src',
             ),
         ),
         'F' => 
