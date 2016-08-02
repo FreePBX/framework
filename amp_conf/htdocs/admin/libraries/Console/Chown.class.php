@@ -410,18 +410,24 @@ class Chown extends Command {
 		$this->d("Setting ".$action[0]." owner to: ".$action[1].":".$action[2].", with permissions of: ".decoct($action[3]));
 	}
 
+	/**
+	 * Check blacklist to see if file/dir is blacklisted
+	 * @param  string $file The file/dir
+	 * @return boolean       True if blacklisted/false if not
+	 */
 	private function checkBlacklist($file){
 		//If path is in the blacklist we move on.
-		$filepath = pathinfo($file,PATHINFO_DIRNAME);
-		if(in_array($file, $this->blacklist['files'])){
-			return true;
-		}
-		if(in_array($filepath, $this->blacklist['dirs'])){
+		if(in_array($file, $this->blacklist['files']) || in_array($file, $this->blacklist['dirs'])){
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * Strip execute bit off of chown
+	 * @param  bit $mask The bitmask
+	 * @return bit       Bitmask
+	 */
 	private function stripExecute($mask){
 		$mask = ( $mask & ~0111 );
 		return $mask;
@@ -518,12 +524,16 @@ class Chown extends Command {
 		}
 		$list =  array();
 		$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
+		$skipped = false;
 		foreach($objects as $path => $object){
 			if($this->checkBlacklist($path)){
-				$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
-				return array();
+				$skipped = true;
+				continue;
 			}
 			$list[] = $path;
+		}
+		if($skipped) {
+			$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
 		}
 		return array_unique($list);
 	}
