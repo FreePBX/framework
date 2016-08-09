@@ -88,38 +88,38 @@ class FfmpegShell extends \Media\Driver\Driver {
 	public function convert($newFilename,$extension,$mime) {
 		switch($extension) {
 			case "sln":
-				$process = new Process($this->binary.' -i "'.$this->track.'" -ar 8000 -ac 1 -y -acodec pcm_s16le -f s16le "'.$newFilename.'"');
+				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 8000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln12":
-				$process = new Process($this->binary.' -i "'.$this->track.'" -ar 12000 -ac 1 -y -acodec pcm_s16le -f s16le "'.$newFilename.'"');
+				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 12000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln16":
-				$process = new Process($this->binary.' -i "'.$this->track.'" -ar 16000 -ac 1 -y -acodec pcm_s16le -f s16le "'.$newFilename.'"');
+				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 16000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln24":
-				$process = new Process($this->binary.' -i "'.$this->track.'" -ar 24000 -ac 1 -y -acodec pcm_s16le -f s16le "'.$newFilename.'"');
+				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 24000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln32":
-				$process = new Process($this->binary.' -i "'.$this->track.'" -ar 32000 -ac 1 -y -acodec pcm_s16le -f s16le "'.$newFilename.'"');
+				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 32000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln44":
-				$process = new Process($this->binary.' -i "'.$this->track.'" -ar 44000 -ac 1 -y -acodec pcm_s16le -f s16le "'.$newFilename.'"');
+				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 44000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln48":
-				$process = new Process($this->binary.' -i "'.$this->track.'" -ar 48000 -ac 1 -y -acodec pcm_s16le -f s16le "'.$newFilename.'"');
+				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 48000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln96":
-				$process = new Process($this->binary.' -i "'.$this->track.'" -ar 96000 -ac 1 -y -acodec pcm_s16le -f s16le "'.$newFilename.'"');
+				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 96000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "sln192":
-				$process = new Process($this->binary.' -i "'.$this->track.'" -ar 192000 -ac 1 -y -acodec pcm_s16le -f s16le "'.$newFilename.'"');
+				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar 192000 -ac 1 -y -acodec pcm_s16le -f s16le '.escapeshellarg($newFilename).'');
 			break;
 			case "wav":
-				$process = new Process($this->binary.' -i "'.$this->track.'" -ar '.$this->options['samplerate'].' -ac 1 -y "'.$newFilename.'"');
+				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -ar '.escapeshellarg($this->options['samplerate']).' -ac 1 -y '.escapeshellarg($newFilename).'');
 			break;
 			case "mp4":
 			case "m4a":
-				$process = new Process($this->binary.' -i "'.$this->track.'" -acodec libfaac -ar '.$this->options['samplerate'].' -y "'.$newFilename.'"');
+				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -acodec libfaac -ar '.escapeshellarg($this->options['samplerate']).' -y '.escapeshellarg($newFilename).'');
 			break;
 			default:
 				throw new \Exception("Invalid type of $extension sent to FFMPEG");
