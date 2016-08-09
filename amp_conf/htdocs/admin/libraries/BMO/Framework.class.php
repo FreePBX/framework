@@ -25,21 +25,9 @@ class Framework extends FreePBX_Helpers implements BMO {
 	}
 
 	public function ajaxRequest($req, &$setting) {
-		if ($req == "unset" || $req == "pubkey") {
-			$setting['authenticate'] = false;
-			$setting['allowremote'] = false;
-			return true;
-		}
-		return false; // Returning false, or anything APART from (bool) true will abort the request
+		return false;
 	}
 
 	public function ajaxHandler() {
-		if ($_REQUEST['command'] == "pubkey") {
-			print "Json encoded public key.\n";
-			exit;
-		} else {
-			print "You didn't ask for anything. What were you expecting?\n";
-			exit;
-		}
 	}
 }
