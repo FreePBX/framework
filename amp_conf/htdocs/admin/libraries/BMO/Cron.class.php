@@ -59,7 +59,7 @@ class Cron {
 			if ($userArray['name'] != $user)
 				throw new \Exception("Trying to edit user $user, when I'm running as ".$userArray['name']);
 		} else {
-			$this->uoption = "-u ".$this->user." ";
+			$this->uoption = "-u ".escapeshellarg($this->user)." ";
 		}
 
 	}
