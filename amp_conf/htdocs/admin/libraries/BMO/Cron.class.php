@@ -28,10 +28,14 @@ class Cron {
 
 	/**
 	 * Constructor for Cron Tab Manager Class
+	 *
+	 * This allows either Cron($freepbxobject, $username) or Cron($username),
+	 * which is why it looks slightly confusing below.
+	 *
 	 * @param  {mixed} $var1 = 'asterisk' Can either be a FreePBX object or just a username to manage crons for
 	 * @param  {string} $var2 = 'asterisk' Username to manage crons for
 	 */
-	public function __construct($var1 = 'asterisk', $var2 = 'asterisk') {
+	public function __construct($var1 = false, $var2 = false) {
 
 		// Lets figure out if we were given a FreePBX Object, or a user.
 		if (is_object($var1)) {
@@ -39,6 +43,12 @@ class Cron {
 			$user = $var2;
 		} else {
 			$user = $var1;
+		}
+
+		// Were we given a user?
+		if (!$user) {
+			// No. Default to AMPASTERISKWEBUSER (probably 'asterisk', but may be something else)
+			$user = \FreePBX::Config()->get('AMPASTERISKWEBUSER');
 		}
 
 		$this->user = $user;
