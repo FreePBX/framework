@@ -76,7 +76,7 @@ class GPG {
 			throw new Exception(sprintf(_("Unable to open file %s"),$filename));
 		}
 
-		$out = $this->runGPG("--verify $filename");
+		$out = $this->runGPG("--verify ".escapeshellarg($filename));
 		if (strpos($out['status'][0], "[GNUPG:] BADSIG") === 0) {
 			// File has been tampered.
 			return false;
@@ -106,7 +106,7 @@ class GPG {
 			$validline = explode(" ", array_pop($out['status']));
 			$thissig = $validline[2];
 			$longkey = substr($this->freepbxkey, -16);
-			$allsigs = $this->runGPG("--keyid-format long --with-colons --check-sigs $thissig");
+			$allsigs = $this->runGPG("--keyid-format long --with-colons --check-sigs ".escapeshellarg($thissig));
 			$isvalid = false;
 			foreach (explode("\n", $allsigs['stdout']) as $line) {
 				if (!$line) {
@@ -210,7 +210,7 @@ class GPG {
 			throw new \Exception("Secure directory ($sec) is a link");
 		}
 		if (!is_dir($sec)) {
-			// well, wat. 
+			// well, wat.
 			return $modsig;
 		}
 		$stat = stat($sec);
@@ -569,7 +569,7 @@ class GPG {
 			throw new \Exception(sprintf(_("checkSig was given %s, which is not a file"),$sigfile));
 		}
 
-		$out = $this->runGPG("--output - $sigfile");
+		$out = $this->runGPG("--output - ".escapeshellarg($sigfile));
 
 		// Check to see if we don't know about this signature..
 		if (isset($out['status'][2]) && preg_match('/NO_PUBKEY (.+)/', $out['status'][2], $keyarr)) {
@@ -581,7 +581,7 @@ class GPG {
 				return array("status" => self::STATE_INVALID);
 			}
 			// And now run the validation again.
-			$out = $this->runGPG("--output - $sigfile");
+			$out = $this->runGPG("--output - ".escapeshellarg($sigfile));
 		}
 
 		$status = $this->checkStatus($out['status']);

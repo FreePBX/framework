@@ -75,7 +75,7 @@ class View {
 			return $details ? $this->lang : $this->lang['name'];
 		}
 		$UIDEFAULTLANG = $this->freepbx->Config->get("UIDEFAULTLANG");
-		$expression = '/^([a-z]*(?:_[A-Z]{2})?)(?:\.([a-zA-Z0-9\-]*))?(?:@([a-z1-9]*))?$/';
+		$expression = '/^([a-z]*(?:_[A-Z]{2})?)(?:\.([a-z1-9]*))?(?:@([a-z1-9]*))?$/';
 		$default = "en_US";
 		$defaultParts = array(
 			'en_US',

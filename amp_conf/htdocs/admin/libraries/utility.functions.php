@@ -1018,7 +1018,7 @@ function download_file($file, $name = '', $type = '', $force_download = false) {
 				$finfo = new finfo(FILEINFO_MIME);
 				$type = $finfo->file($file);
 			} else {
-				exec(fpbx_which('file') . ' -ib ' . $file, $res);
+				exec(fpbx_which('file') . ' -ib ' . escapeshellarg($file), $res);
 				$type = $res[0];
 			}
 		}
