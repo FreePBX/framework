@@ -1,20 +1,20 @@
 <?php
 
 class modulelist{
-	var $_loaded = false;
-	var $module_array = array();
-	var $_db;
+	public $_loaded = false;
+	public $module_array = array();
+	private $_db;
 
 	private static $obj = false;
 
-	public static function create($db) {
+	public static public function create($db) {
 		if (!self::$obj) {
 			self::$obj = new modulelist($db);
 		}
 		return self::$obj;
 	}
 
-	function modulelist(&$db) {
+	public function __construct(&$db) {
 		$this->_db =& $db;
 		$module_serialized = sql("SELECT `data` FROM `module_xml` WHERE `id` = 'mod_serialized'","getOne");
 		if (isset($module_serialized) && $module_serialized) {
@@ -22,10 +22,10 @@ class modulelist{
 			$this->_loaded = true;
 		}
 	}
-	function is_loaded() {
+	public function is_loaded() {
 		return $this->_loaded;
 	}
-	function initialize(&$module_list) {
+	public function initialize(&$module_list) {
 		$this->module_array = $module_list;
 		// strip out extraneous fields (help especially when printing out debugs
 		//
@@ -56,7 +56,7 @@ class modulelist{
 		sql("REPLACE INTO `module_xml` (`id`, `time`, `data`) VALUES ('mod_serialized', '".time()."','".$module_serialized."')");
 		$this->_loaded = true;
 	}
-	function invalidate() {
+	public function invalidate() {
 		unset($this->module_array);
 		sql("DELETE FROM `module_xml` WHERE `id` = 'mod_serialized'");
 		$this->_loaded = false;
