@@ -7,7 +7,7 @@ class modulelist{
 
 	private static $obj = false;
 
-	public static public function create($db) {
+	public static function create($db) {
 		if (!self::$obj) {
 			self::$obj = new modulelist($db);
 		}
