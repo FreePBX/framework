@@ -29,7 +29,7 @@ class component {
 
 	private $translations = array();
 
-	function __construct($compname) {
+	public function __construct($compname) {
 		$this->compname = $compname;
 
 		$this->sorted_guielems = true;
@@ -55,11 +55,11 @@ class component {
 		);
 	}
 
-	function setRedirectURL($url) {
+	public function setRedirectURL($url) {
 		$this->redirecturl = $url;
 	}
 
-	function addTabTranslation($category,$translation) {
+	public function addTabTranslation($category,$translation) {
 		$this->tabtranslations[$category] = $translation;
 	}
 
@@ -68,14 +68,14 @@ class component {
 	 * true = open, false = closed
 	 * wont over write a users settings
 	 */
-	function sectionToggle($section, $state = false) {
+	public function sectionToggle($section, $state = false) {
 		$section = preg_replace('/[^A-Za-z]/', '' ,$section);
 		if (!isset($this->opts[$section]['guielToggle'])) {
 			$this->opts[$section]['guielToggle'] = $state;
 		}
 	}
 
-	function addguielem($section, $guielem, $sortorder = 5, $placement = null, $category="other") {
+	public function addguielem($section, $guielem, $sortorder = 5, $placement = null, $category="other") {
 		if(!ctype_digit($sortorder) && is_string($sortorder)) {
 			$category = $sortorder;
 			$sortorder = 5;
@@ -112,7 +112,7 @@ class component {
 		$this->sorted_guielems = false;
 	}
 
-	function delguielem($section, $elemname, $category="other") {
+	public function delguielem($section, $elemname, $category="other") {
 		$category = strtolower(trim($category));
 		switch ($section) {
 			case '_top':
@@ -150,7 +150,7 @@ class component {
 		return false;
 	}
 
-	function addjsfunc($function, $jstext, $sortorder = 5) {
+	public function addjsfunc($function, $jstext, $sortorder = 5) {
 		if ( $sortorder < 0 || $sortorder > 9 ) {
 			trigger_error('$sortorder must be between 0 and 9 in component->addjsfunc()');
 			return;
@@ -161,7 +161,7 @@ class component {
 		$this->sorted_jsfuncs = false;
 	}
 
-	function addguifunc($function, $sortorder = 5) {
+	public function addguifunc($function, $sortorder = 5) {
 		if ( $sortorder < 0 || $sortorder > 9 ) {
 			trigger_error('$sortorder must be between 0 and 9 in component->addguifunc()');
 			return;
@@ -176,7 +176,7 @@ class component {
 		$this->sorted_guifuncs = false;
 	}
 
-	function addprocessfunc($function, $sortorder = 5) {
+	public function addprocessfunc($function, $sortorder = 5) {
 		if ( $sortorder < 0 || $sortorder > 9 ) {
 			trigger_error('$sortorder must be between 0 and 9 in component->addprocessfunc()');
 			return;
@@ -191,7 +191,7 @@ class component {
 		$this->sorted_processfuncs = false;
 	}
 
-	function addoptlist($listname, $sort = true) {
+	public function addoptlist($listname, $sort = true) {
 		if ( (isset($listname) ? $listname : '') == '') {
 			trigger_error('missing $listname in component->addoptlist()');
 			return;
@@ -205,11 +205,11 @@ class component {
 		$this->lists[$listname]['array'] = array();
 	}
 
-	function setoptlistopts($listname, $opt, $val) {
+	public function setoptlistopts($listname, $opt, $val) {
 		$this->lists[$opt] = $val;
 	}
 
-	function addoptlistitem($listname, $value, $text, $uselang = true) {
+	public function addoptlistitem($listname, $value, $text, $uselang = true) {
 		// must add the list before using it
 		if ( !isset($this->lists[$listname]) ) {
 			$this->addoptlist($listname, false);
@@ -219,7 +219,7 @@ class component {
 		$this->lists[$listname]['array'][] = array('text' => $text, 'value' => $value);
 	}
 
-	function getoptlist($listname) {
+	public function getoptlist($listname) {
 		if ( isset($this->lists[$listname]['array']) ) {
 			// sort the array by text
 			if ( $this->lists[$listname]['sort'] ) {
@@ -234,7 +234,7 @@ class component {
 		}
 	}
 
-	function addgeneralarray($arrayname) {
+	public function addgeneralarray($arrayname) {
 		if ( (isset($arrayname) ? $arrayname : '') == '') {
 			trigger_error('missing $arrayname in component->addarray()');
 			return;
@@ -246,7 +246,7 @@ class component {
 		$this->lists[$arrayname] = array();
 	}
 
-	function addgeneralarrayitem($arrayname, $arraykey, $item) {
+	public function addgeneralarrayitem($arrayname, $arraykey, $item) {
 		if ( !isset($this->lists[$arrayname]) ) {
 			$this->addgeneralarray($arrayname);
 		}
@@ -254,7 +254,7 @@ class component {
 		$this->lists[$arrayname][$arraykey] = $item;
 	}
 
-	function getgeneralarray($arrayname) {
+	public function getgeneralarray($arrayname) {
 		if ( isset($this->lists[$arrayname]) ) {
 			return $this->lists[$arrayname];
 		} else {
@@ -263,7 +263,7 @@ class component {
 		}
 	}
 
-	function getgeneralarrayitem($arrayname, $arraykey) {
+	public function getgeneralarrayitem($arrayname, $arraykey) {
 		if ( isset($this->lists[$arrayname][$arraykey]) ) {
 			return $this->lists[$arrayname][$arraykey];
 		} else {
@@ -272,7 +272,7 @@ class component {
 		}
 	}
 
-	function sortguielems() {
+	public function sortguielems() {
 		// sort top gui elements
 
 		if (is_array($this->guielems_top)) {
@@ -319,7 +319,7 @@ class component {
 		$this->sorted_guielems = true;
 	}
 
-	function sortjsfuncts() {
+	public function sortjsfuncts() {
 		// sort js funcs
 		if ( is_array($this->jsfuncs) ) {
 			foreach ( array_keys($this->jsfuncs) as $function ) {
@@ -331,7 +331,7 @@ class component {
 		$this->sorted_jsfuncs = true;
 	}
 
-	function sortguifuncs() {
+	public function sortguifuncs() {
 		// sort process functions
 		if ( is_array($this->guifuncs) ) {
 			ksort($this->guifuncs);
@@ -340,7 +340,7 @@ class component {
 		$this->sorted_guifuncs = true;
 	}
 
-	function sortprocessfuncs() {
+	public function sortprocessfuncs() {
 		// sort process functions
 		if ( is_array($this->processfuncs) ) {
 			ksort($this->processfuncs);
@@ -349,7 +349,7 @@ class component {
 		$this->sorted_processfuncs = true;
 	}
 
-	function generateconfigpage($loadView=null, $variables = array()) {
+	public function generateconfigpage($loadView=null, $variables = array()) {
 		if(empty($loadView)) {
 			$loadView = dirname(__DIR__) . "/views/currentcomponent.php";
 		}
@@ -445,7 +445,7 @@ class component {
 
 	}
 
-	function processconfigpage() {
+	public function processconfigpage() {
 		if ( !$this->sorted_processfuncs ) {
 			$this->sortprocessfuncs();
 		}
@@ -463,7 +463,7 @@ class component {
 		}
 	}
 
-	function buildconfigpage() {
+	public function buildconfigpage() {
 		if ( !$this->sorted_guifuncs ) {
 			$this->sortguifuncs();
 		}
@@ -486,7 +486,7 @@ class component {
 		}
 	}
 
-	function isequal($compname, $type) {
+	public function isequal($compname, $type) {
 		return $this->compname == $compname;
 	}
 }
@@ -497,7 +497,7 @@ class guielement {
 	protected $_javascript;
 	protected $_opts;
 
-	function __construct($elemname, $html = '', $javascript = '') {
+	public function __construct($elemname, $html = '', $javascript = '') {
 		global $CC;
 		// name that will be the id tag
 		$this->_elemname = $elemname;
@@ -528,22 +528,22 @@ class guielement {
 		return $this->_html;
 	}
 
-	function generatevalidation() {
+	public function generatevalidation() {
 		return $this->_javascript;
 	}
-	function gettabindex() {
+	public function gettabindex() {
 		global $_guielement_tabindex;
 		return $_guielement_tabindex;
 	}
-	function settabindex($new_tab) {
+	public function settabindex($new_tab) {
 		global $_guielement_tabindex;
 		$_guielement_tabindex = $new_tab;
 	}
-	function incrementfields() {
+	public function incrementfields() {
 		global $_guielement_formfields;
 		$_guielement_formfields++;
 	}
-	function getformfields() {
+	public function getformfields() {
 		global $_guielement_formfields;
 		return $_guielement_formfields;
 	}
@@ -556,7 +556,7 @@ class guielement {
  * @param $table bool if this element is in a table or not, Default is true.
  */
 class gui_hidden extends guielement {
-	function gui_hidden($elemname, $currentvalue = '', $table=true) {
+	public function gui_hidden($elemname, $currentvalue = '', $table=true) {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -590,7 +590,7 @@ class guiinput extends guielement {
 
 	protected $html_input = null;
 
-	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $jsvalidationtest='') {
+	public function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $jsvalidationtest='') {
 
 		// call parent class contructor
 		parent::__construct($elemname, '', '');
@@ -660,7 +660,7 @@ class guiinput extends guielement {
 		return $output;
 	}
 
-	function getRawArray() {
+	public function getRawArray() {
 		return array(
 			'helptext' => $this->helptext,
 			'prompttext' => $this->prompttext,
@@ -670,7 +670,7 @@ class guiinput extends guielement {
 		);
 	}
 
-	function generatehtml($section = '') {
+	public function generatehtml($section = '') {
 		// this effectivly creates the template using the prompttext and html_input
 		// we would expect the $html_input to be set by the child class
 
@@ -713,7 +713,7 @@ class guiinput extends guielement {
 // Textbox
 class gui_textbox extends guiinput {
 
-	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $inputgroup = false, $class = '', $autocomplete = true) {
+	public function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $inputgroup = false, $class = '', $autocomplete = true) {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -736,7 +736,7 @@ class gui_textbox extends guiinput {
 // Textbox with Enable/Disable Check after
 class gui_textbox_check extends gui_textbox {
 
-	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $cblabel='Enable', $disabled_value='DEFAULT', $check_enables='true', $cbdisable = false, $class='', $cbclass='') {
+	public function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $cblabel='Enable', $disabled_value='DEFAULT', $check_enables='true', $cbdisable = false, $class='', $cbclass='') {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -783,7 +783,7 @@ class gui_textbox_check extends gui_textbox {
 // Password
 class gui_password extends guiinput {
 
-	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $class='',$passwordToggle=false) {
+	public function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $jsvalidation = '', $failvalidationmsg = '', $canbeempty = true, $maxchars = 0, $disable=false, $class='',$passwordToggle=false) {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -811,7 +811,7 @@ class gui_password extends guiinput {
 }
 
 class gui_multiselectbox extends guiinput {
-	function __construct($elemname, $valarray = array(), $currentvalue = array(), $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
+	public function __construct($elemname, $valarray = array(), $currentvalue = array(), $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -828,7 +828,7 @@ class gui_multiselectbox extends guiinput {
 	}
 
 	// Build select box
-	function buildselectbox($valarray, $currentvalue, $canbeempty, $onchange, $disable, $class='') {
+	public function buildselectbox($valarray, $currentvalue, $canbeempty, $onchange, $disable, $class='') {
 		$output = '';
 		$onchange = ($onchange != '') ? " onchange=\"$onchange\"" : '';
 
@@ -856,7 +856,7 @@ class gui_multiselectbox extends guiinput {
 // Select box
 class gui_selectbox extends guiinput {
 
-	function __construct($elemname, $valarray = array(), $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
+	public function __construct($elemname, $valarray = array(), $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -873,7 +873,7 @@ class gui_selectbox extends guiinput {
 	}
 
 	// Build select box
-	function buildselectbox($valarray, $currentvalue, $canbeempty, $onchange, $disable, $class='') {
+	public function buildselectbox($valarray, $currentvalue, $canbeempty, $onchange, $disable, $class='') {
 		$output = '';
 		$onchange = ($onchange != '') ? " onchange=\"$onchange\"" : '';
 
@@ -899,7 +899,7 @@ class gui_selectbox extends guiinput {
 }
 
 class gui_checkbox extends guiinput {
-	function __construct($elemname, $checked=false, $prompttext='', $helptext='', $value='on', $post_text = '', $jsonclick = '', $disable=false, $class = '') {
+	public function __construct($elemname, $checked=false, $prompttext='', $helptext='', $value='on', $post_text = '', $jsonclick = '', $disable=false, $class = '') {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -1006,7 +1006,7 @@ class gui_button extends guiinput {
 
 class gui_alertinfodrawselects extends guiinput {
 
-	function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
+	public function __construct($elemname, $currentvalue = '', $prompttext = '', $helptext = '', $canbeempty = true, $onchange = '', $disable=false, $class = '') {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
@@ -1020,7 +1020,7 @@ class gui_alertinfodrawselects extends guiinput {
 	}
 
 	// Build select box
-	function buildselectbox($currentvalue, $canbeempty, $onchange, $disable, $class='') {
+	public function buildselectbox($currentvalue, $canbeempty, $onchange, $disable, $class='') {
 		$output = '';
 
 		//TODO someone needs to fix this. Seems sort of irrelevant right now though
