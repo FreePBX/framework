@@ -1639,7 +1639,7 @@ class module_functions {
 		//
 		if ($amp_conf['MODULEADMINWGET'] || !$dp = @fopen($module_location,'r')) {
 			FreePBX::Curl()->setEnvVariables();
-			exec("wget --tries=1 --timeout=600 -O $filename $module_location 2> /dev/null", $filedata, $retcode);
+			exec("wget --tries=1 --timeout=600 -O ".escapeshellarg($filename)." ".escapeshellarg($module_location)." 2> /dev/null", $filedata, $retcode);
 			if ($retcode != 0) {
 				return array(sprintf(_("Error opening %s for reading"), $url));
 			} else {
