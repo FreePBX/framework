@@ -70,7 +70,7 @@ class Media {
 			'file' => dirname(__DIR__).'/resources/glob.db'
 		));
 		$this->extension = Type::guessExtension($this->track);
-		//sometimes files report themselfs as bin or ico. whatever man ignore it
+		//sometimes files report themselves as bin or ico. whatever man ignore it
 		if(empty($this->extension) || in_array($this->extension,array("bin","ico"))) {
 			$parts = pathinfo($this->track);
 			$this->extension = $parts['extension'];
@@ -117,6 +117,9 @@ class Media {
 			if(Driver\Drivers\LameShell::installed()) {
 				$formats = Driver\Drivers\LameShell::supportedCodecs($formats);
 			}
+			if(Driver\Drivers\SangomaRingtone::installed()) {
+				$formats = Driver\Drivers\SangomaRingtone::supportedCodecs($formats);
+			}
 		} else {
 			$class = 'Media\Driver\Drivers\\'.$driver;
 			if(class_exists($class) && $class::installed()) {
@@ -154,10 +157,16 @@ class Media {
 		//generate final file
 		foreach($this->getDrivers() as $driver) {
 			$class = "Media\\Driver\\Drivers\\".$driver;
-			if($driver == "AsteriskShell") {
+			switch ($driver) {
+			case "AsteriskShell":
 				$i = $intermediary['sln'];
-			} else {
+				break;
+			case "SangomaRingtone":
+				$i = $intermediary['ulaw'];
+				break;
+			default:
 				$i = $intermediary['wav'];
+				break;
 			}
 			if($class::installed() && $class::isCodecSupported($extension,"out")) {
 				$driver = new $class($i['path'],$i['extension'],$i['mime']);
@@ -174,6 +183,9 @@ class Media {
 		}
 		if(!empty($intermediary['sln']['path']) && file_exists($intermediary['sln']['path'])) {
 			unlink($intermediary['sln']['path']);
+		}
+		if(!empty($intermediary['ulaw']['path']) && file_exists($intermediary['ulaw']['path'])) {
+			unlink($intermediary['ulaw']['path']);
 		}
 		unset($intermediary);
 
@@ -209,10 +221,16 @@ class Media {
 			$mime = Type::guessType($file);
 			foreach($this->getDrivers() as $driver) {
 				$class = "Media\\Driver\\Drivers\\".$driver;
-				if($driver == "AsteriskShell") {
+				switch ($driver) {
+				case "AsteriskShell":
 					$i = $intermediary['sln'];
-				} else {
+					break;
+				case "SangomaRingtone":
+					$i = $intermediary['ulaw'];
+					break;
+				default:
 					$i = $intermediary['wav'];
+					break;
 				}
 				if($class::installed() && $class::isCodecSupported($extension,"out")) {
 					$driver = new $class($i['path'],$i['extension'],$i['mime']);
@@ -230,6 +248,9 @@ class Media {
 		if(!empty($intermediary['sln']['path']) && file_exists($intermediary['sln']['path'])) {
 			unlink($intermediary['sln']['path']);
 		}
+		if(!empty($intermediary['ulaw']['path']) && file_exists($intermediary['ulaw']['path'])) {
+			unlink($intermediary['ulaw']['path']);
+		}
 		unset($intermediary);
 
 		return file_exists($newFilename);
@@ -239,6 +260,7 @@ class Media {
 		//generate intermediary file
 		$ts = time().rand(0,1000);
 
+		$asteriskClass = "Media\\Driver\\Drivers\\AsteriskShell";
 		$soxClass = "Media\\Driver\\Drivers\\SoxShell";
 		if(!$soxClass::installed()) {
 			throw new \Exception("Sox needs to be installed");
@@ -293,6 +315,12 @@ class Media {
 		$intermediary['sln']['path'] = $this->tempDir."/temp.".$ts.".".$type;
 		$intermediary['sln']['extension'] = $type;
 		$intermediary['sln']['mime'] = "audio/x-raw";
+
+		$d = new $asteriskClass($intermediary['sln']['path'],$intermediary['sln']['extension'],$intermediary['sln']['mime'],$samplerate,1,16);
+		$d->convert($this->tempDir."/temp.".$ts.".ulaw","ulaw","audio/x-basic");
+		$intermediary['ulaw']['path'] = $this->tempDir."/temp.".$ts.".ulaw";
+		$intermediary['ulaw']['extension'] = "ulaw";
+		$intermediary['ulaw']['mime'] = "audio/basic";
 
 		if(empty($intermediary)) {
 			throw new \Exception("No Driver found for ".$this->extension);

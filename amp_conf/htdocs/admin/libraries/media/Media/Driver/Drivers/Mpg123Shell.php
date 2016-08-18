@@ -8,7 +8,7 @@ class Mpg123Shell extends \Media\Driver\Driver {
 	private $version;
 	private $mime;
 	private $extension;
-	private $optons = array(
+	private $options = array(
 		"samplerate" => 48000, //-r
 		"channels" => 2 //--mono --stereo
 	);

@@ -8,7 +8,7 @@ class FfmpegShell extends \Media\Driver\Driver {
 	private $version;
 	private $mime;
 	private $extension;
-	private $optons = array(
+	private $options = array(
 		"samplerate" => 48000, //-ar
 		"channels" => 1, //-ac
 	);
