@@ -634,6 +634,12 @@ class ext_continuewhile extends extension {
 	}
 }
 
+class ext_dumpchan extends extension {
+	function output() {
+		return "DumpChan";
+	}
+}
+
 class ext_noop extends extension {
 	function output() {
 		return "Noop(".$this->data.")";
