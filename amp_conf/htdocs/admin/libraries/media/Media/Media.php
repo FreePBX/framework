@@ -316,7 +316,7 @@ class Media {
 		$intermediary['sln']['extension'] = $type;
 		$intermediary['sln']['mime'] = "audio/x-raw";
 
-		$d = new $asteriskClass($intermediary['sln']['path'],$intermediary['sln']['extension'],$intermediary['sln']['mime'],$samplerate,1,16);
+		$d = new $asteriskClass($intermediary['sln']['path'],$intermediary['sln']['extension'],$intermediary['sln']['mime']);
 		$d->convert($this->tempDir."/temp.".$ts.".ulaw","ulaw","audio/x-basic");
 		$intermediary['ulaw']['path'] = $this->tempDir."/temp.".$ts.".ulaw";
 		$intermediary['ulaw']['extension'] = "ulaw";
