@@ -298,7 +298,7 @@ function recursive_copy($dirsourceparent, $dirdest, &$md5sums, $dirsource = "") 
 
 
 			// configurable in amportal.conf
-			$destination=preg_replace("/^\/htdocs\//i",trim($amp_conf["AMPWEBROOT"])."/",$destination);
+			$destination=preg_replace("_^/htdocs(/)?_i",trim($amp_conf["AMPWEBROOT"])."/",$destination);
 			if(strpos($dirsource, 'modules') === false) $destination=str_replace("/bin",trim($amp_conf["AMPBIN"]),$destination);
 			$destination=str_replace("/sbin",trim($amp_conf["AMPSBIN"]),$destination);
 
