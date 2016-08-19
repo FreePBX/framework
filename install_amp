@@ -231,7 +231,11 @@ function generate_configs() {
 		//
 		// TODO: Should check if Asterisk is running and/or try to start it.
 		//
+        //parse_amportal_conf from libraries/BMO/Freepbx_conf.class.php needs amportal.conf RO to be parsed
+        //avoid AMPMGRPASS warning at first run
+		passthru("chmod 440 /etc/amportal.conf");
 		passthru("sudo -u $runas_uid ".trim($amp_conf["AMPBIN"])."/retrieve_conf --run-install --skip-registry-checks ".($debug ? ' --debug' : ''));
+		passthru("chmod 660 /etc/amportal.conf");
 	}
 }
 
