@@ -164,6 +164,8 @@ function write_amportal_conf($filename, $conf) {
 
 function ask_overwrite($file1, $file2) {
 	global $check_md5s;
+	#Force Overwrite option
+	if( $check_md5s == false ); return true;
 	do {
 		out($file2." has been changed from the original version.");
 		outn("Overwrite (y=yes/a=all/n=no/d=diff/s=shell/x=exit)? ");
