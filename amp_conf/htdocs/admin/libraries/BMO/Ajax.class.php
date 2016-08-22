@@ -428,14 +428,14 @@ class Ajax extends FreePBX_Helpers {
 				case "text/json":
 				case "application/json":
 				default:
-					$this->addHeader('Content-Type', 'text/json');
+					$this->addHeader('Content-Type', 'application/json');
 					return json_encode($body);
 					break;
 			}
 		}
 
 		//If nothing is defined then just default to showing json
-		$this->addHeader('Content-Type', 'text/json');
+		$this->addHeader('Content-Type', 'application/json');
 		return json_encode($body);
 	}
 
