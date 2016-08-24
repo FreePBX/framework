@@ -61,7 +61,19 @@ class Database extends \PDO {
 
 		//Isset, not empty and is a string that's the only valid DSN we will accept here
 		if (isset($args[0]) && !empty($args[0]) && is_string($args[0])) {
+			dbug($args[0]);
 			$this->dsn = $args[0];
+			if($tmpconf = $this->dsntoArray($args[0])){
+				$host = !empty($amp_conf['AMPDBHOST']) ? $amp_conf['AMPDBHOST'] : 'localhost';
+				$this->dConfig = array(
+					'user' => $username,
+					'password' => $password,
+					'driver' => $this->doctrineEngineAlias($amp_conf['AMPDBENGINE']),
+				);
+				$this->dConfig['dbname'] = isset($tmpconf['dbname'])?$tmpconf['dbname']:$amp_conf['AMPDBNAME'];
+				$this->dConfig['host'] = isset($tmpconf['mysql:host'])?$tmpconf['mysql:host']:$host;
+				$this->dConfig['charset'] = isset($tmpconf['charset'])?$tmpconf['charset']:'utf8';
+			}
 		} else {
 			if(empty($amp_conf['AMPDBSOCK'])) {
 				$host = !empty($amp_conf['AMPDBHOST']) ? $amp_conf['AMPDBHOST'] : 'localhost';
@@ -279,5 +291,21 @@ class Database extends \PDO {
 			throw new \Exception("No SQL given to getOne");
 
 		return $this->sql_getOne($sql);
+	}
+	/**
+	 * Parses dsn string in to an array
+	 * @param  string $string a formatted DSN string.
+	 * @return array or bool   Returns an array or false.
+	 */
+	public function dsntoArray($string){
+		$string = explode(';', $string);
+		$return = array();
+		foreach ($string as $setting) {
+			$tmp = explode('=',$setting);
+			if(is_array($tmp) && count($tmp) === 2){
+				$return[$tmp[0]] = $tmp[1];
+			}
+		}
+		return !empty($return)?$return:false;
 	}
 }
