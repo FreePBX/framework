@@ -270,7 +270,7 @@ chown_asterisk() {
 	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT
 	chown $AMPASTERISKWEBUSER:$AMPASTERISKWEBGROUP $AMPWEBROOT/* 2>/dev/null # Silence dangling symlink errors, cleared later
 
-	chown $AMPASTERISKUSER:$AMPASTERISKGROUP /usr/local/sbin/amportal
+	chown $AMPASTERISKUSER:$AMPASTERISKGROUP $AMPSBIN/amportal
 
 	ASTHOME=`sudo -u $AMPASTERISKUSER -H -s eval 'echo $HOME'`
 	if [ -n "$ASTHOME" ] && [ -d "$ASTHOME" ]
