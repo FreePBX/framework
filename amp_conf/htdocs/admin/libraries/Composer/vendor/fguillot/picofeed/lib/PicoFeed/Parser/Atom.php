@@ -9,6 +9,7 @@ use PicoFeed\Client\Url;
 /**
  * Atom parser.
  *
+ * @package PicoFeed\Parser
  * @author  Frederic Guillot
  */
 class Atom extends Parser
@@ -154,30 +155,33 @@ class Atom extends Parser
     }
 
     /**
-     * Find the item date.
+     * Find the item published date.
      *
      * @param SimpleXMLElement      $entry Feed item
      * @param Item                  $item  Item object
      * @param \PicoFeed\Parser\Feed $feed  Feed object
      */
-    public function findItemDate(SimpleXMLElement $entry, Item $item, Feed $feed)
+    public function findItemPublishedDate(SimpleXMLElement $entry, Item $item, Feed $feed)
     {
-        $published = XmlParser::getXPathResult($entry, 'atom:published', $this->namespaces)
-                     ?: XmlParser::getXPathResult($entry, 'published');
+        $date = XmlParser::getXPathResult($entry, 'atom:published', $this->namespaces)
+            ?: XmlParser::getXPathResult($entry, 'published');
 
-        $updated = XmlParser::getXPathResult($entry, 'atom:updated', $this->namespaces)
-                   ?: XmlParser::getXPathResult($entry, 'updated');
+        $item->setPublishedDate(!empty($date) ? $this->getDateParser()->getDateTime((string) current($date)) : null);
+    }
 
-        $published = !empty($published) ? $this->getDateParser()->getDateTime((string) current($published)) : null;
-        $updated = !empty($updated) ? $this->getDateParser()->getDateTime((string) current($updated)) : null;
+    /**
+     * Find the item updated date.
+     *
+     * @param SimpleXMLElement      $entry Feed item
+     * @param Item                  $item  Item object
+     * @param \PicoFeed\Parser\Feed $feed  Feed object
+     */
+    public function findItemUpdatedDate(SimpleXMLElement $entry, Item $item, Feed $feed)
+    {
+        $date = XmlParser::getXPathResult($entry, 'atom:updated', $this->namespaces)
+            ?: XmlParser::getXPathResult($entry, 'updated');
 
-        if ($published === null && $updated === null) {
-            $item->setDate($feed->getDate()); // We use the feed date if there is no date for the item
-        } elseif ($published !== null && $updated !== null) {
-            $item->setDate(max($published, $updated)); // We use the most recent date between published and updated
-        } else {
-            $item->setDate($updated ?: $published);
-        }
+        $item->setUpdatedDate(!empty($date) ? $this->getDateParser()->getDateTime((string) current($date)) : null);
     }
 
     /**

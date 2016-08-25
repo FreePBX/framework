@@ -5,6 +5,7 @@ namespace PicoFeed\Parser;
 /**
  * Feed Item.
  *
+ * @package PicoFeed\Parser
  * @author  Frederic Guillot
  */
 class Item
@@ -59,6 +60,20 @@ class Item
      * @var \DateTime
      */
     public $date = null;
+
+    /**
+     * Item published date.
+     *
+     * @var \DateTime
+     */
+    public $publishedDate = null;
+
+    /**
+     * Item updated date.
+     *
+     * @var \DateTime
+     */
+    public $updatedDate = null;
 
     /**
      * Item content.
@@ -151,7 +166,12 @@ class Item
             $output .= 'Item::'.$property.' = '.$this->$property.PHP_EOL;
         }
 
+        $publishedDate = $this->publishedDate != null ? $this->publishedDate->format(DATE_RFC822) : null;
+        $updatedDate = $this->updatedDate != null ? $this->updatedDate->format(DATE_RFC822) : null;
+
         $output .= 'Item::date = '.$this->date->format(DATE_RFC822).PHP_EOL;
+        $output .= 'Item::publishedDate = '.$publishedDate.PHP_EOL;
+        $output .= 'Item::updatedDate = '.$updatedDate.PHP_EOL;
         $output .= 'Item::isRTL() = '.($this->isRTL() ? 'true' : 'false').PHP_EOL;
         $output .= 'Item::content = '.strlen($this->content).' bytes'.PHP_EOL;
 
@@ -210,6 +230,26 @@ class Item
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * Get published date.
+     *
+     * @return \DateTime
+     */
+    public function getPublishedDate()
+    {
+        return $this->publishedDate;
+    }
+
+    /**
+     * Get updated date.
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedDate()
+    {
+        return $this->updatedDate;
     }
 
     /**
@@ -330,6 +370,30 @@ class Item
     public function setDate($date)
     {
         $this->date = $date;
+        return $this;
+    }
+
+    /**
+     * Set item published date.
+     *
+     * @param \DateTime $publishedDate
+     * @return Item
+     */
+    public function setPublishedDate($publishedDate)
+    {
+        $this->publishedDate = $publishedDate;
+        return $this;
+    }
+
+    /**
+     * Set item updated date.
+     *
+     * @param \DateTime $updatedDate
+     * @return Item
+     */
+    public function setUpdatedDate($updatedDate)
+    {
+        $this->updatedDate = $updatedDate;
         return $this;
     }
 

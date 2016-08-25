@@ -8,6 +8,7 @@ use PicoFeed\Filter\Filter;
 /**
  * RSS 1.0 parser.
  *
+ * @package PicoFeed\Parser
  * @author  Frederic Guillot
  */
 class Rss10 extends Parser
@@ -157,17 +158,32 @@ class Rss10 extends Parser
     }
 
     /**
-     * Find the item date.
+     * Find the item published date.
      *
      * @param SimpleXMLElement      $entry Feed item
      * @param Item                  $item  Item object
      * @param \PicoFeed\Parser\Feed $feed  Feed object
      */
-    public function findItemDate(SimpleXMLElement $entry, Item $item, Feed $feed)
+    public function findItemPublishedDate(SimpleXMLElement $entry, Item $item, Feed $feed)
     {
         $date = XmlParser::getXPathResult($entry, 'dc:date', $this->namespaces);
 
-        $item->setDate(empty($date) ? $feed->getDate() : $this->getDateParser()->getDateTime(XmlParser::getValue($date)));
+        $item->setPublishedDate(!empty($date) ? $this->getDateParser()->getDateTime(XmlParser::getValue($date)) : null);
+    }
+
+    /**
+     * Find the item updated date.
+     *
+     * @param SimpleXMLElement      $entry Feed item
+     * @param Item                  $item  Item object
+     * @param \PicoFeed\Parser\Feed $feed  Feed object
+     */
+    public function findItemUpdatedDate(SimpleXMLElement $entry, Item $item, Feed $feed)
+    {
+        if ($item->publishedDate === null) {
+            $this->findItemPublishedDate($entry, $item, $feed);
+        }
+        $item->setUpdatedDate($item->getPublishedDate()); // No updated date in RSS 1.0 specifications
     }
 
     /**

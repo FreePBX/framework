@@ -9,6 +9,7 @@ use PicoFeed\Base;
 /**
  * Date Parser.
  *
+ * @package PicoFeed\Parser
  * @author  Frederic Guillot
  */
 class DateParser extends Base

@@ -99,7 +99,9 @@ class OsDetector implements DetectorInterface
      */
     private static function checkChromeOs(Os $os, UserAgent $userAgent)
     {
-        if (stripos($userAgent->getUserAgentString(), 'CrOS') !== false) {
+        if (stripos($userAgent->getUserAgentString(), ' CrOS') !== false ||
+            stripos($userAgent->getUserAgentString(), 'CrOS ') !== false
+        ) {
             $os->setName($os::CHROME_OS);
             if (preg_match('/Chrome\/([\d\.]*)/i', $userAgent->getUserAgentString(), $matches)) {
                 $os->setVersion($matches[1]);
@@ -222,6 +224,7 @@ class OsDetector implements DetectorInterface
     private static function checkWindowsPhone(Os $os, UserAgent $userAgent)
     {
         if (stripos($userAgent->getUserAgentString(), 'Windows Phone') !== false) {
+            $os->setIsMobile(true);
             $os->setName($os::WINDOWS_PHONE);
             // Windows version
             if (preg_match('/Windows Phone ([\d\.]*)/i', $userAgent->getUserAgentString(), $matches)) {
@@ -307,6 +310,18 @@ class OsDetector implements DetectorInterface
     {
         if (stripos($userAgent->getUserAgentString(), 'BlackBerry') !== false) {
             $os->setVersion($os::VERSION_UNKNOWN);
+            $os->setName($os::BLACKBERRY);
+            $os->setIsMobile(true);
+
+            return true;
+        } elseif (stripos($userAgent->getUserAgentString(), 'BB10') !== false) {
+            $aresult = explode('Version/10.', $userAgent->getUserAgentString());
+            if (isset($aresult[1])) {
+                $aversion = explode(' ', $aresult[1]);
+                $os->setVersion('10.' . $aversion[0]);
+            } else {
+                $os->setVersion('10');
+            }
             $os->setName($os::BLACKBERRY);
             $os->setIsMobile(true);
 

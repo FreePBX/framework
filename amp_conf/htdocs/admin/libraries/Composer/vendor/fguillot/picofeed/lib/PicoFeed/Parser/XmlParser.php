@@ -2,9 +2,9 @@
 
 namespace PicoFeed\Parser;
 
-use DomDocument;
-use SimpleXmlElement;
-
+use DOMDocument;
+use SimpleXMLElement;
+use ZendXml\Exception\RuntimeException;
 use ZendXml\Security;
 
 /**
@@ -12,6 +12,7 @@ use ZendXml\Security;
  *
  * Checks for XML eXternal Entity (XXE) and XML Entity Expansion (XEE) attacks on XML documents
  *
+ * @package PicoFeed\Parser
  * @author  Frederic Guillot
  */
 class XmlParser
@@ -33,7 +34,7 @@ class XmlParser
      *
      * @static
      * @param string $input XML content
-     * @return \DOMDocument
+     * @return DOMDocument
      */
     public static function getDomDocument($input)
     {
@@ -52,18 +53,20 @@ class XmlParser
     }
 
     /**
-     * Small wrapper around ZendXml to turn their exceptions into picoFeed
-     * exceptions
+     * Small wrapper around ZendXml to turn their exceptions into PicoFeed exceptions
      *
-     * @param $input the xml to load
-     * @param $dom   pass in a dom document or use null/omit if simpleXml should
-     * be used
+     * @static
+     * @access private
+     * @param  string      $input
+     * @param  DOMDocument $dom
+     * @throws XmlEntityException
+     * @return SimpleXMLElement|DomDocument|boolean
      */
     private static function scan($input, $dom = null)
     {
         try {
             return Security::scan($input, $dom);
-        } catch(\ZendXml\Exception\RuntimeException $e) {
+        } catch(RuntimeException $e) {
             throw new XmlEntityException($e->getMessage());
         }
     }
@@ -72,8 +75,9 @@ class XmlParser
      * Load HTML document by using a DomDocument instance or return false on failure.
      *
      * @static
-     * @param string $input XML content
-     * @return \DOMDocument
+     * @access public
+     * @param  string $input XML content
+     * @return DOMDocument
      */
     public static function getHtmlDocument($input)
     {
@@ -98,9 +102,8 @@ class XmlParser
      * Convert a HTML document to XML.
      *
      * @static
-     *
-     * @param string $html HTML document
-     *
+     * @access public
+     * @param  string $html HTML document
      * @return string
      */
     public static function htmlToXml($html)
@@ -113,6 +116,7 @@ class XmlParser
      * Get XML parser errors.
      *
      * @static
+     * @access public
      * @return string
      */
     public static function getErrors()
@@ -135,7 +139,8 @@ class XmlParser
      * Get the encoding from a xml tag.
      *
      * @static
-     * @param string $data Input data
+     * @access public
+     * @param  string $data Input data
      * @return string
      */
     public static function getEncodingFromXmlTag($data)
@@ -162,7 +167,8 @@ class XmlParser
      * Get the charset from a meta tag.
      *
      * @static
-     * @param string $data Input data
+     * @access public
+     * @param  string $data Input data
      * @return string
      */
     public static function getEncodingFromMetaTag($data)
@@ -179,6 +185,8 @@ class XmlParser
     /**
      * Rewrite XPath query to use namespace-uri and local-name derived from prefix.
      *
+     * @static
+     * @access public
      * @param string $query XPath query
      * @param array  $ns    Prefix to namespace URI mapping
      * @return string
@@ -199,10 +207,12 @@ class XmlParser
     /**
      * Get the result elements of a XPath query.
      *
-     * @param \SimpleXMLElement $xml   XML element
-     * @param string            $query XPath query
-     * @param array             $ns    Prefix to namespace URI mapping
-     * @return \SimpleXMLElement[]
+     * @static
+     * @access public
+     * @param  SimpleXMLElement  $xml   XML element
+     * @param  string            $query XPath query
+     * @param  array             $ns    Prefix to namespace URI mapping
+     * @return SimpleXMLElement[]
      */
     public static function getXPathResult(SimpleXMLElement $xml, $query, array $ns = array())
     {

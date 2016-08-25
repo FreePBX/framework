@@ -329,7 +329,7 @@ class PropertyAccessor implements PropertyAccessorInterface
      * @param int                   $lastIndex            The index up to which should be read
      * @param bool                  $ignoreInvalidIndices Whether to ignore invalid indices or throw an exception
      *
-     * @return array The values read in the path.
+     * @return array The values read in the path
      *
      * @throws UnexpectedTypeException If a value within the path is neither object nor array.
      * @throws NoSuchIndexException    If a non-existing index is accessed
@@ -445,7 +445,7 @@ class PropertyAccessor implements PropertyAccessorInterface
      * Reads the a property from an object.
      *
      * @param array  $zval     The array containing the object to read from
-     * @param string $property The property to read.
+     * @param string $property The property to read
      *
      * @return array The array containing the value of the property
      *
@@ -715,6 +715,17 @@ class PropertyAccessor implements PropertyAccessorInterface
                     // we call the getter and hope the __call do the job
                     $access[self::ACCESS_TYPE] = self::ACCESS_TYPE_MAGIC;
                     $access[self::ACCESS_NAME] = $setter;
+                } elseif (null !== $methods = $this->findAdderAndRemover($reflClass, $singulars)) {
+                    $access[self::ACCESS_TYPE] = self::ACCESS_TYPE_NOT_FOUND;
+                    $access[self::ACCESS_NAME] = sprintf(
+                        'The property "%s" in class "%s" can be defined with the methods "%s()" but '.
+                        'the new value must be an array or an instance of \Traversable, '.
+                        '"%s" given.',
+                        $property,
+                        $reflClass->name,
+                        implode('()", "', $methods),
+                        is_object($value) ? get_class($value) : gettype($value)
+                    );
                 } else {
                     $access[self::ACCESS_TYPE] = self::ACCESS_TYPE_NOT_FOUND;
                     $access[self::ACCESS_NAME] = sprintf(

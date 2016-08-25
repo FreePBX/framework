@@ -96,6 +96,7 @@ echo $m->format('[Wochentag:] l'); // e.g. Wochentag: Mittwoch
 
 __Supported languages so far:__
 
+```ar_TN``` Arabic (Tunisia)  
 ```ca_ES``` Catalan  
 ```zh_CN``` Chinese  
 ```zh_TW``` Chinese (traditional)  
@@ -390,6 +391,34 @@ You can now run through the result and put it formatted into a drop-down field o
 -------------------------------------------------
 
 # Changelog
+
+### 1.21.0
+ - added:
+    - Arabic locale
+    - Custom format on locale level
+
+### 1.20.9
+ - fixed:
+    - Russian locale
+ - added:
+    - Russian locale tests
+
+### 1.20.8
+ - fixed:
+    - Polish locale
+    - Calculation of seconds
+    
+### 1.20.7
+- fixed:
+    - Russian: more relative time fixes
+
+### 1.20.6
+- fixed:
+    - Russian locale relative time: day handling
+
+### 1.20.5
+- fixed:
+    - missing immutable handling
 
 ### 1.20.4
 - fixed:
