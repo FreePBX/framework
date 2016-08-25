@@ -8,7 +8,7 @@ class LameShell extends \Media\Driver\Driver {
 	private $version;
 	private $mime;
 	private $extension;
-	private $optons = array(
+	private $options = array(
 		"bitrate" => 128, //-r
 		"samplerate" => 48000 //--resample
 	);

@@ -10,7 +10,7 @@ class AsteriskShell extends \Media\Driver\Driver {
 	private $extension;
 	public $background = false;
 	static $supported;
-	private $optons = array(
+	private $options = array(
 		"samplerate" => 48000
 	);
 	private $binary = 'asterisk';

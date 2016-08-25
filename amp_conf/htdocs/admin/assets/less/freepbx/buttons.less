@@ -72,8 +72,8 @@
 }
 
 .button-disabled() {
-	opacity: .35;
-	filter: Alpha(Opacity=35);
+	opacity: .50;
+	filter: Alpha(Opacity=50);
 	.button-background(@button-gradient, @button-background-color, @button-image);
 	.button-background-gradient(@button-gradient, @button-background-gradient-top, @button-background-gradient-bottom);
 	.button-border(@button-gradient, @button-border-color);
@@ -199,6 +199,10 @@ input[type="submit"]:disabled{
 
 .radioset input[type="radio"]:disabled + label, .radioset input[type="checkbox"]:disabled + label {
 	.button-disabled();
+}
+
+.radioset input[type="radio"]:disabled:checked + label, .radioset input[type="checkbox"]:disabled:checked + label {
+	background-color: darken(@button-background-color,10%);
 }
 
 .has-error {
