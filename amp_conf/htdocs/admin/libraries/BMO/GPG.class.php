@@ -447,7 +447,7 @@ class GPG {
 		$tmp = null;
 		$r = array($pipes[3]);
 		if (!stream_select($r , $tmp, $tmp, $this->timeout)) {
-			freepbx_log(FPBX_LOG_FATAL, "Tried to run command and failed: " . $cmd);
+			freepbx_log(FPBX_LOG_FATAL, "GPG command took too long to run. Command was '$cmd'");
 			throw new \RuntimeException(sprintf(_("GPG took too long to run the command: [%s]"),$cmd));
 		}
 		// We grab stdout and stderr first, as the status fd won't
