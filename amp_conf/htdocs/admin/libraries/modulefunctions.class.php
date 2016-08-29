@@ -1578,11 +1578,11 @@ class module_functions {
 		if (is_dir("$dest/signatures")) {
 			// Find all the key files in there and copy them to the GPG key folder
 			$gpg = \FreePBX::GPG();
-			$dest = $gpg->keydir;
-			if (is_dir($keydir)) {
+			// Don't bother if there isn't a keydir.
+			if (is_dir($gpg->keydir)) {
 				$keys = glob("$dest/signatures/*.key");
 				foreach ($keys as $k) {
-					copy($k, $keydir);
+					copy($k, $gpg->keydir);
 				}
 			}
 		}
