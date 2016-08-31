@@ -298,7 +298,7 @@ class AGI_AsteriskManager {
 				if($a) {
 					if(!count($parameters)) {// first line in a response?
 						$type = strtolower(substr($buffer, 0, $a));
-						if((substr($buffer, $a + 2) == 'Follows')) {
+						if(substr($buffer, $a + 2) == 'Follows') {
 							// A 'follows' response means there is a muiltiline field that follows.
 							$parameters['data'] = '';
 							$buff = fgets($this->socket, 4096);
