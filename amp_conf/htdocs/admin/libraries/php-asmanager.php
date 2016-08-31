@@ -261,6 +261,10 @@ class AGI_AsteriskManager {
 			}
 			$reconnects--;
 		}
+		if($action == 'Command' && empty($response['data']) && !empty($response['Output'])) {
+			$response['data'] = $response['Output'];
+			unset($response['Output']);
+		}
 		return $response;
 	}
 
@@ -295,13 +299,25 @@ class AGI_AsteriskManager {
 					if(!count($parameters)) {// first line in a response?
 						$type = strtolower(substr($buffer, 0, $a));
 						if(substr($buffer, $a + 2) == 'Follows') {
-							// A follows response means there is a miltiline field that follows.
+							// A 'follows' response means there is a muiltiline field that follows.
 							$parameters['data'] = '';
 							$buff = fgets($this->socket, 4096);
 							while(substr($buff, 0, 6) != '--END ') {
 								$parameters['data'] .= $buff;
 								$buff = fgets($this->socket, 4096);
 							}
+						}
+					} elseif(count($parameters) == 2) {
+						if($parameters['Response'] == "Success" && isset($parameters['Message']) && $parameters['Message'] == 'Command output follows') {
+							// A 'Command output follows' response means there is a muiltiline field that follows.
+							$parameters['data'] = preg_replace("/^Output:\s*/","",$buffer);
+							$buff = fgets($this->socket, 4096);
+							while($buff !== "\r\n") {
+								$buff = preg_replace("/^Output:\s*/","",$buff);
+								$parameters['data'] .= $buff;
+								$buff = fgets($this->socket, 4096);
+							}
+							break;
 						}
 					}
 

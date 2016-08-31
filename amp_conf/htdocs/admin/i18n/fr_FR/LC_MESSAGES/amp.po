@@ -2427,6 +2427,10 @@ msgstr ""
 msgid "Determine where to send log information if the log is enabled ('Disable FreePBX Log' (AMPDISABLELOG) false. There are two places to route the log messages. 'FILE' will send all log messages to the defined 'FreePBX Log File' (FPBX_LOG_FILE). All the other settings will route the log messages to your System Logging subsystem (syslog) using the specified log level. Syslog can be configured to route different levels to different locations. See 'syslog' documentation (man syslog) on your system for more details."
 msgstr ""
 
+#: amp.i18n.php:1058
+msgid "Determines the mode to use while using popovers (popovers appear when selecting "
+msgstr ""
+
 #: ../core/views/trunks/trunk_header.php:346
 msgid "Determines what CIDs will be allowed out this trunk. IMPORTANT: EMERGENCY CIDs defined on an extension/device will ALWAYS be used if this trunk is part of an EMERGENCY Route regardless of these settings.<br />Allow Any CID: all CIDs including foreign CIDS from forwarded external calls will be transmitted.<br />Block Foreign CIDs: blocks any CID that is the result of a forwarded call from off the system. CIDs defined for extensions/users are transmitted.<br />Remove CNAM: this will remove CNAM from any CID sent out this trunk<br />Force Trunk CID: Always use the CID defined for this trunk except if part of any EMERGENCY Route with an EMERGENCY CID defined for the extension/device."
 msgstr "Détermine quels sont les CIDs autorisés sur ce trunk. IMPORTANT: les CIDS de SECOURS définis pour une extension/terminal seront TOUJOURS utilisés si ce trunk fait partie d'une route SECOURS indépendamment de ces paramètres.<br />Autorise tout CID: tous les CIDs incluant les CIDs étrangers d'appels extérieurs transferrés seront transmis.<br />Bloque les CIDs étrangers: bloque tout CID qui résulte d'un transfert d'appel du système. Les CIDs définis comme extensions/utilisateurs sont transmis.<br />Supprime le CNAM: cela retire le CNAM de tout CID envoyé sur ce trunk<br />Force le CID du trunk: utilise toujours le CID défini pour ce trunk sauf si faisant parti d'une route SECOURS avec un CID SECOURS défini pour cette extension/terminal."
@@ -4487,6 +4491,13 @@ msgstr "SDA invalide, ne peut être vide"
 msgid "Invalid Dial Rules"
 msgstr "\\'Règles de Composition\\' invalide"
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
+msgid "Invalid Language"
+msgstr ""
+
 #: ../core/views/trunks/trunk_footer.php:88
 msgid "Invalid Maximum Channels"
 msgstr "\\'Nombre maximal de Canaux\\' invalide"
@@ -4572,6 +4583,10 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:120
 msgid "Language Code"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
+msgid "Language Support Unknown"
 msgstr ""
 
 #: ../core/views/routing/form.php:45
@@ -5766,6 +5781,10 @@ msgstr "Chemin pour ffmpeg"
 msgid "Path for grep"
 msgstr "Chemin pour grep"
 
+#: amp.i18n.php:898
+msgid "Path for ifconfig"
+msgstr ""
+
 #: amp.i18n.php:928
 msgid "Path for lame"
 msgstr "Chemin pour lame"
@@ -5982,6 +6001,10 @@ msgstr "Merci de patienter: exécution en cours"
 
 #: amp.i18n.php:532
 msgid "Polling Interval for Stopping Asterisk"
+msgstr ""
+
+#: amp.i18n.php:1054
+msgid "Popover Mode"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:374
@@ -7248,6 +7271,11 @@ msgstr "Le programme unzip n'est pas installé. Incapable de traiter le fichier 
 msgid "The context, extension, priority to go to when this DID is matched. Example: app-daynight,0,1"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
+#, php-format
+msgid "The default language of '%s' or '%s' was not found on this system. Please resolve this in advanced settings by changing the system language or installing the default locales [%s]"
+msgstr ""
+
 #: amp.i18n.php:1112
 msgid "The default language used in the webUI"
 msgstr "La langue par défaut à utiliser dans l'interface web"
@@ -7384,6 +7412,10 @@ msgstr "Le chemin vers ffmpeg tel que déterminé automatiquement par le systèm
 #: amp.i18n.php:926
 msgid "The path to grep as auto-determined by the system. Overwrite as necessary."
 msgstr "Le chemin vers grep tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#: amp.i18n.php:902
+msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
+msgstr ""
 
 #: amp.i18n.php:932
 msgid "The path to lame as auto-determined by the system. Overwrite as necessary."
@@ -7888,6 +7920,10 @@ msgstr ""
 msgid "Unable to find an intermediary converter for %s"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
+msgid "Unable to find the Locale binary. Your system may not support language changes!"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:117
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:127
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
@@ -7929,6 +7965,15 @@ msgstr ""
 #, php-format
 msgid "Unable to save %s"
 msgstr "Impossible de sauvegarder %s"
+
+#: amp_conf/htdocs/admin/bootstrap.php:271
+msgid "Unable to set timezone"
+msgstr ""
+
+#: amp_conf/htdocs/admin/bootstrap.php:271
+#, php-format
+msgid "Unable to set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:123
 msgid "Unable to start Asterisk!"
@@ -8791,6 +8836,17 @@ msgstr "Vous n\\'avez pas entré de mot de passe dans le champ \\'secret\\' de c
 
 #: ../core/views/users.php:91
 msgid "You have not entered a User Password.  While this is acceptable, this user will not be able to login to an AdHoc user.\\n\\nAre you sure you wish to leave the User Password empty?"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
+#, php-format
+msgid "You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
+#, php-format
+msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:20
@@ -9702,62 +9758,6 @@ msgstr "vous pourriez avoir à ajouter la ligne 'preload => pbx_config.so' a vot
 #: ../core/install.php:1105
 msgid "zap devices migrated"
 msgstr "dispositifs zap migrés"
-
-#: amp.i18n.php:1058
-msgid "Determines the mode to use while using popovers (popovers appear when selecting "
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
-msgid "Invalid Language"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
-msgid "Language Support Unknown"
-msgstr ""
-
-#: amp.i18n.php:898
-msgid "Path for ifconfig"
-msgstr ""
-
-#: amp.i18n.php:1054
-msgid "Popover Mode"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
-#, php-format
-msgid "The default language of '%s' or '%s' was not found on this system. Please resolve this in advanced settings by changing the system language or installing the default locales [%s]"
-msgstr ""
-
-#: amp.i18n.php:902
-msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
-msgid "Unable to find the Locale binary. Your system may not support language changes!"
-msgstr ""
-
-#: amp_conf/htdocs/admin/bootstrap.php:271
-msgid "Unable to set timezone"
-msgstr ""
-
-#: amp_conf/htdocs/admin/bootstrap.php:271
-#, php-format
-msgid "Unable to set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
-#, php-format
-msgid "You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
-#, php-format
-msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
-msgstr ""
 
 #~ msgid " (toggle sort)"
 #~ msgstr "(Choix tri)"
