@@ -310,15 +310,12 @@ class AGI_AsteriskManager {
 					} elseif(count($parameters) == 2) {
 						if($parameters['Response'] == "Success" && isset($parameters['Message']) && $parameters['Message'] == 'Command output follows') {
 							// A 'Command output follows' response means there is a muiltiline field that follows.
-							$parameters['data'] = '';
+							$parameters['data'] = preg_replace("/^Output:\s*/","",$buffer);
 							$buff = fgets($this->socket, 4096);
 							while($buff !== "\r\n") {
 								$buff = preg_replace("/^Output:\s*/","",$buff);
 								$parameters['data'] .= $buff;
 								$buff = fgets($this->socket, 4096);
-							}
-							if(empty($parameters['data'])) {
-								$parameters['data'] = preg_replace("/^Output:\s*/","",$buffer);
 							}
 							break;
 						}
