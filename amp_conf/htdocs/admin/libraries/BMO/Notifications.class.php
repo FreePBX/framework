@@ -479,7 +479,7 @@ class Notifications {
 		if ($allow_filtering) {
 			//Use process hooks to allow us to filter out the data
 			$filter = \FreePBX::Hooks()->processHooks($list);
-			$filter = $this->_filterProcessHooks($filter);
+			$filter = $this->filterProcessHooks($filter);
 
 			if (!empty($filter)) {
 				return $filter;
@@ -525,8 +525,8 @@ class Notifications {
 	 * @param  array $list A list of notifications that is returned by process hooks
 	 * @return array
 	 */
-	function _filterProcessHooks($list) {
-		//I don't want to refilter here but there is no optiont o not care about the
+	private function filterProcessHooks($list) {
+		//I don't want to refilter here but there is no option to not care about the
 		//module name in process hooks at the moment
 		$filtered = array();
 		foreach ($list as $mod => $notifications) {
@@ -549,7 +549,7 @@ class Notifications {
 	 *         Example: array('sipsettings' => array('BINDPORT'))
 	 * @return array
 	 */
-	function filterByWhitelist($list, $filter = array()) {
+	public function filterByWhitelist($list, $filter = array()) {
 		if (empty($filter)) {
 			return $list;
 		}
