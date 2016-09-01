@@ -103,8 +103,11 @@ class Database extends \PDO {
 			$dsnarr['unix_socket'] = $amp_conf['AMPDBSOCK'];
 		}
 
-		// Always utf8. This should be utf8mb on a newer mysql.
-		$dsnarr['charset'] = "utf8";
+		// Always utf8. 
+		// TODO:  This should default to utf8mb on a newer mysql, or newer FreePBX?
+		if (!isset($dsnarr['charset'])) {
+			$dsnarr['charset'] = "utf8";
+		}
 
 		// This DSN array is now suitable for building into a valid DSN!
 		// Note - http_build_query() is just a shortcut to change a key=>value array
