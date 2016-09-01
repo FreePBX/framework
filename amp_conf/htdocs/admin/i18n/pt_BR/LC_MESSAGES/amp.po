@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-08-31 16:32-0700\n"
+"POT-Creation-Date: 2016-09-01 16:02-0700\n"
 "PO-Revision-Date: 2015-12-22 03:43+0200\n"
 "Last-Translator: Renato <fiuza@tecnologia.inf.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -501,7 +501,7 @@ msgstr ""
 msgid "11 Digit Patterns"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:569
+#: amp_conf/htdocs/admin/config.php:565
 #, php-format
 msgid "404 Not found (%s)"
 msgstr "404 Não Encontrado (%s)"
@@ -2643,6 +2643,10 @@ msgstr ""
 "Erro de Banco de Dados detectado. Reparo automático iniciado. Por favor "
 "tente novamente"
 
+#: amp_conf/htdocs/admin/libraries/Console/Doctrine.class.php:17
+msgid "Database name"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:21
 msgid "Date Fixed"
 msgstr "Data Corrigida"
@@ -3864,7 +3868,7 @@ msgstr ""
 "normalmente uma boa ideia habilita-lo. Desabilite apenas se você estiver "
 "tendo problemas."
 
-#: amp_conf/htdocs/admin/config.php:694
+#: amp_conf/htdocs/admin/config.php:690
 msgid "English"
 msgstr "Inglês"
 
@@ -4298,7 +4302,7 @@ msgstr ""
 msgid "Feature Codes Beep Only"
 msgstr "Códigos de Recurso Apenas Beep"
 
-#: amp_conf/htdocs/admin/config.php:550
+#: amp_conf/htdocs/admin/config.php:546
 #, php-format
 msgid "File %s has a revoked signature. Can not load"
 msgstr "O Arquivo %s tem uma assinatura revogada. Não é possível carregar"
@@ -4527,6 +4531,7 @@ msgstr ""
 "Força a barra recarregar 'Aplicar Mudanças de Configuração' para sempre "
 "estar presente mesmo quando não necessária."
 
+#: amp_conf/htdocs/admin/libraries/Console/Doctrine.class.php:18
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:34
 #, php-format
 msgid "Format can be: %s"
@@ -6897,7 +6902,7 @@ msgstr ""
 msgid "PHP Console"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:544
+#: amp_conf/htdocs/admin/config.php:540
 msgid "PHP Console Enabled but not installed"
 msgstr ""
 
@@ -7933,7 +7938,7 @@ msgstr "Segurança"
 msgid "Security Issue"
 msgstr "Problema de Segurança"
 
-#: amp_conf/htdocs/admin/config.php:536
+#: amp_conf/htdocs/admin/config.php:532
 msgid "Security Warning"
 msgstr "Aviso de Segurança"
 
@@ -9732,7 +9737,7 @@ msgstr ""
 msgid "Unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:539
+#: amp_conf/htdocs/admin/config.php:535
 msgid "Unsigned Module(s)"
 msgstr ""
 
@@ -10604,7 +10609,7 @@ msgstr "Existem um módulo quebrado"
 msgid "You have a disabled module"
 msgstr "Existe um módulo desabilitado"
 
-#: amp_conf/htdocs/admin/config.php:544
+#: amp_conf/htdocs/admin/config.php:540
 msgid ""
 "You have enabled PHP Console in Advanced settings but have not installed the "
 "Chrome Extension or you are not using Chrome"
@@ -10764,7 +10769,7 @@ msgstr "Você deve ir para página Admin Módulos para corrigir isto."
 msgid "Your %s version (%s) is incompatible."
 msgstr "A versão (%s) do seu %s é incompatível."
 
-#: amp_conf/htdocs/admin/config.php:505
+#: amp_conf/htdocs/admin/config.php:501
 msgid ""
 "Your Zend Configuration is not fully setup. Please recitfy the problem and "
 "reload this page"
