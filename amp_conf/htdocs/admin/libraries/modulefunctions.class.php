@@ -1449,9 +1449,9 @@ class module_functions {
 		// Check MODULEADMINWGET first so we don't execute the fopen() if set
 		//
 		if ($amp_conf['MODULEADMINWGET'] || !$dp = @fopen($url,'r',false,$streamcontext)) {
-			$p = (!empty($urls['query'])) ? "--post-data '".$urls['query']."'" : "";
+			$p = (!empty($urls['query'])) ? "--post-data ".escapeshellarg($urls['query']) : "";
 			FreePBX::Curl()->setEnvVariables();
-			exec("wget --tries=1 --timeout=600 $p -O $filename $url 2> /dev/null", $filedata, $retcode);
+			exec("wget --tries=1 --timeout=600 $p -O ".escapeshellarg($filename)." ".escapeshellarg($url)." 2> /dev/null", $filedata, $retcode);
 			usleep(5000); //wait for file to be placed
 			if ($retcode != 0) {
 				return array(sprintf(_("Error opening %s for reading"), $url));
