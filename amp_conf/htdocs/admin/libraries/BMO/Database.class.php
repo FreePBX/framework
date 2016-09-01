@@ -38,6 +38,9 @@ class Database extends \PDO {
 			array_shift($args);
 		}
 
+		// This is used for Bootstrapping the Database object.
+		//
+		// You can NOT USE \FreePBX::Config() here, as THAT depends on *this*.
 		if (class_exists("FreePBX")) {
 			$amp_conf = \FreePBX::$conf;
 		} else if (is_array($args[0]) && !empty($args[0])) {
@@ -59,41 +62,72 @@ class Database extends \PDO {
 			$password = $amp_conf['AMPDBPASS'];
 		}
 
-		//Isset, not empty and is a string that's the only valid DSN we will accept here
+		// If the first param still exists, it should be a DSN.
 		if (isset($args[0]) && !empty($args[0]) && is_string($args[0])) {
-			$this->dsn = $args[0];
+			$dsnarr = $this->dsnToArray($args[0]);
 		} else {
-			if(empty($amp_conf['AMPDBSOCK'])) {
-				$host = !empty($amp_conf['AMPDBHOST']) ? $amp_conf['AMPDBHOST'] : 'localhost';
-				$this->dsn = $amp_conf['AMPDBENGINE'].":host=".$host.";dbname=".$amp_conf['AMPDBNAME'].";charset=utf8";
-				$this->dConfig = array(
-					'dbname' => $amp_conf['AMPDBNAME'],
-					'user' => $username,
-					'password' => $password,
-					'host' => $host,
-					'driver' => $this->doctrineEngineAlias($amp_conf['AMPDBENGINE']),
-					'charset' => 'utf8'
-				);
-			} else {
-				$this->dsn = $amp_conf['AMPDBENGINE'].":unix_socket=".$amp_conf['AMPDBSOCK'].";dbname=".$amp_conf['AMPDBNAME'].";charset=utf8";
-				$this->dConfig = array(
-					'dbname' => $amp_conf['AMPDBNAME'],
-					'user' => $username,
-					'password' => $password,
-					'unix_socket' => $amp_conf['AMPDBSOCK'],
-					'driver' => $this->doctrineEngineAlias($amp_conf['AMPDBENGINE']),
-					'charset' => 'utf8'
-				);
+			$dsnarr = array();
+		}
+
+		// Now go through and put anything in place that was missing
+		if (!isset($dsnarr['host'])) {
+			$dsnarr['host'] = isset($amp_conf['AMPDBHOST'])?$amp_conf['AMPDBHOST']:'localhost';
+		}
+
+		if (!isset($dsnarr['dbname'])) {
+			$dsnarr['dbname'] = isset($amp_conf['AMPDBNAME'])?$amp_conf['AMPDBNAME']:'asterisk';
+		}
+
+		// Note the inverse logic. We REMOVE engine from dsnarr if it exists, because that
+		// isn't technically part of the DSN.
+		if (isset($dsnarr['engine'])) {
+			$engine = $dsnarr['engine'];
+			unset ($dsnarr['engine']);
+		} else {
+			$engine = isset($amp_conf['AMPDBENGINE'])?$amp_conf['AMPDBENGINE']:'mysql';
+		}
+
+		// We only want to add port to the DSN if it's actually defined.
+		if (isset($amp_conf['AMPDBPORT'])) {
+			// Make sure this is an int
+			$port = (int) $amp_conf['AMPDBPORT'];
+			if ($port > 1024) {
+				$dsnarr['port'] = $port;
 			}
 		}
 
+		// If there's a socket defined, we don't want host or port defined
+		if (isset($amp_conf['AMPDBSOCK'])) {
+			unset($dsnarr['host']);
+			unset($dsnarr['port']);
+			$dsnarr['unix_socket'] = $amp_conf['AMPDBSOCK'];
+		}
+
+		// Always utf8. 
+		// TODO:  This should default to utf8mb on a newer mysql, or newer FreePBX?
+		if (!isset($dsnarr['charset'])) {
+			$dsnarr['charset'] = "utf8";
+		}
+
+		// This DSN array is now suitable for building into a valid DSN!
+		// Note - http_build_query() is just a shortcut to change a key=>value array
+		// to a string.
+		$this->dsn = "$engine:".http_build_query($dsnarr, '', ';');
+
+		// Create dConfig
+		$this->dConfig = $dsnarr;
+		$this->dConfig['driver'] = $this->doctrineEngineAlias($engine);
+		$this->dConfig['user'] = $username;
+		$this->dConfig['password'] = $password;
+
+		// Were there any PDO options?
 		$options = isset($args[3]) ? $args[3] : array();
 		if (version_compare(PHP_VERSION, '5.3.6', '<')) {
 			$options[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES utf8';
 		}
 
 		try {
-			if (!empty($options)) {
+			if ($options) {
 				parent::__construct($this->dsn, $username, $password, $options);
 			} else {
 				parent::__construct($this->dsn, $username, $password);
@@ -279,5 +313,31 @@ class Database extends \PDO {
 			throw new \Exception("No SQL given to getOne");
 
 		return $this->sql_getOne($sql);
+	}
+
+	/**
+	 * Parses DSN string in to an array
+	 * @param  string $dsn a formatted DSN string.
+	 * @return array  Returns an array containing the parsed DSN
+	 */
+	public function dsnToArray($dsn) {
+
+		$tmparr = explode(':', $dsn);
+
+		if (!isset($tmparr[1])) {
+			throw new \Exception("Unable to parse DSN string '$dsn'");
+		}
+
+		$retarr = array('engine' => $tmparr[0]);
+		$sections = explode(';', $tmparr[1]);
+		foreach ($sections as $setting) {
+			$tmparr = explode('=',$setting);
+			if(count($tmparr) === 2) {
+				$retarr[$tmparr[0]] = $tmparr[1];
+			} else {
+				throw new \Exception("Section '$setting' can not be parsed");
+			}
+		}
+		return $retarr;
 	}
 }
