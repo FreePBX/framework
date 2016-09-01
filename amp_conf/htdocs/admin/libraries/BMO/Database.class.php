@@ -64,7 +64,7 @@ class Database extends \PDO {
 
 		// If the first param still exists, it should be a DSN.
 		if (isset($args[0]) && !empty($args[0]) && is_string($args[0])) {
-			$dsnarr = $this->dsnToArray($this->dsn);
+			$dsnarr = $this->dsnToArray($args[0]);
 		} else {
 			$dsnarr = array();
 		}
@@ -329,8 +329,8 @@ class Database extends \PDO {
 		$sections = explode(';', $tmparr[1]);
 		foreach ($sections as $setting) {
 			$tmparr = explode('=',$setting);
-			if(count($tmp) === 2) {
-				$retarr[$tmp[0]] = $tmp[1];
+			if(count($tmparr) === 2) {
+				$retarr[$tmparr[0]] = $tmparr[1];
 			} else {
 				throw new \Exception("Section '$setting' can not be parsed");
 			}
