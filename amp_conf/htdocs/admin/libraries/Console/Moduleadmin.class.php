@@ -355,9 +355,20 @@ class Moduleadmin extends Command {
 	}
 
 	private function doUpgrade($modulename, $force) {
-		// either will exit() if there's a problem
 		$this->doDownload($modulename, $this->force);
-		$this->doInstall($modulename, $this->force);
+		//fork out to prevent classing issues within module subsystem
+		$descriptorspec = array(
+			0 => array("pipe","r"),
+			1 => STDOUT,
+			2 => STDERR
+		);
+		$process = proc_open("fwconsole ma install ".escapeshellarg($modulename), $descriptorspec, $pipes);
+		if( is_resource( $process ) ) {
+			// Close stdin
+			fclose($pipes[0]);
+			// Now we can just wait for the process to finish
+			$result = proc_close($process);
+		}
 	}
 
 	private function doInstallLocal($force) {

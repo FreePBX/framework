@@ -60,16 +60,15 @@ class Doctrine extends Command {
 				case 'tinyint':
 					$export[$table['Field']]['type'] = 'boolean';
 				break;
+				case 'text':
 				case 'glob':
 					$export[$table['Field']]['type'] = 'text';
 					if(isset($field['length'])){
 						$export[$table['Field']]['length'] = $field['length'];
 					}
 				break;
-				case 'datetime':
-					$export[$table['Field']]['type'] = 'date';
-				break;
 				case 'datetime/timestamp':
+				case 'datetime':
 					$export[$table['Field']]['type'] = 'datetime';
 				break;
 				case 'smallint':
@@ -83,7 +82,7 @@ class Doctrine extends Command {
 				default:
 					throw new \Exception("Unknown Col Type: ".$field['type']);
 			}
-			if($table['Type'] == "PRI"){
+			if($table['Key'] == "PRI"){
 				$export[$table['Field']]['primaryKey'] = true;
 			}
 			if($table['Null'] != "NO"){
@@ -111,6 +110,9 @@ class Doctrine extends Command {
 		$table_indexes = $q->fetchAll(\PDO::FETCH_ASSOC);
 		$expindexes = array();
 		foreach($table_indexes as $idx){
+			if($idx['Key_name'] == 'PRIMARY') {
+				continue;
+			}
 			if($idx['Non_unique'] === 1){
 				$expindexes[$idx['Key_name']]['type'] = 'index';
 			}else{
@@ -120,6 +122,16 @@ class Doctrine extends Command {
 				$expindexes[$idx['Key_name']]['cols'] = array();
 			}
 			$expindexes[$idx['Key_name']]['cols'][] = $idx['Column_name'];
+		}
+
+		$table = \FreePBX::Database()->migrate($args[0]);
+		$test = $table->modify($export, $expindexes, true);
+		if(!empty($test)) {
+			print_r("Cols");
+			print_r($export);
+			print_r("Indexes");
+			print_r($expindexes);
+			throw new \Exception("Error: Table did not accurately match generation. Aborting. Modification string should be empty but returned: '".implode("; ",$test)."'");
 		}
 
 		switch($this->format) {
@@ -179,12 +191,12 @@ class Doctrine extends Command {
 				$output->writeln($string);
 			break;
 			case "php":
-				$output->writeln('$table = FreePBX::Database()->migrate("'.$args[0].'");');
+				$output->writeln('$table = \FreePBX::Database()->migrate("'.$args[0].'");');
 				$output->writeln('$cols = '.var_export($export,true).';');
 				$output->writeln(PHP_EOL);
 
 				$output->writeln('$indexes = '.var_export($expindexes,true).';');
-				$output->writeln('$table->modify($cols);');
+				$output->writeln('$table->modify($cols, $indexes);');
 				$output->writeln('unset($table);');
 			break;
 		}
