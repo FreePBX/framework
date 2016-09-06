@@ -181,6 +181,7 @@ class Media extends DB_Helper{
 	 * @param  boolean $download Whether to stream or download
 	 */
 	public function getHTML5File($filename, $download=false) {
+		$filename = basename($filename);
 		//Session write close because Safari slams us with requests
 		//asking for 2 bytes before proceeding to then request the full file.
 		//As is the case with PHP sessions are locked until the previous session

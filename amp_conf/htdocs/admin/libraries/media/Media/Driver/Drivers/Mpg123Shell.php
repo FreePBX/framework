@@ -81,7 +81,7 @@ class Mpg123Shell extends \Media\Driver\Driver {
 	public function convert($newFilename,$extension,$mime) {
 		switch($extension) {
 			case "wav":
-				$process = new Process($this->binary.' -r '.$this->options['samplerate'].' -m -w '.escapeshellarg($newFilename).' '.escapeshellarg($this->track));
+				$process = new Process($this->binary.' -r '.escapeshellarg($this->options['samplerate']).' -m -w '.escapeshellarg($newFilename).' '.escapeshellarg($this->track));
 			break;
 			default:
 				throw new \Exception("Invalid type of $extension sent to MPG123");
