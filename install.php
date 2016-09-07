@@ -58,11 +58,21 @@ foreach($files as $file) {
 		unlink($file);
 	}
 }
+
+
 if (is_link("$wr/admin/images/notify_critical.png")) {
 	unlink("$wr/admin/images/notify_critical.png");
 }
 if (is_link("$wr/admin/images/notify_security.png")) {
 	unlink("$wr/admin/images/notify_security.png");
+}
+
+if (file_exists("$wr/admin/xml.php")) {
+	unlink("$wr/admin/xml.php");
+}
+
+if (file_exists("$wr/admin/libraries/pest/index.php")) {
+	unlink("$wr/admin/libraries/pest/index.php");
 }
 
 /*
