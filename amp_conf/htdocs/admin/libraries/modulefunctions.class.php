@@ -2889,10 +2889,10 @@ class module_functions {
 			$options['distro'] = $distro_info['pbx_type'];
 			$options['distrover'] = $distro_info['pbx_version'];
 			$options['pbxver'] = getversion();
-			if (function_exists('core_users_list')) {
-				$options['ucount'] = count(core_users_list(true));
+			if (FreePBX::Modules()->moduleHasMethod('Core','listUsers');) {
+				$options['ucount'] = count(FreePBX::Core()->listUsers());
 			}
-
+			
 			// Other modules may need to add 'get' paramters to the call to the repo. Check and add them
 			// here if we are adding paramters. The module should return an array of key/value pairs each of which
 			// is to be appended to the GET parameters. The variable name will be prepended with the module name

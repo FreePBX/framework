@@ -565,7 +565,7 @@ function runModuleSQL($moddir,$type){
 //'dept' => can be used to tag with a department for checkDept($dept)
 //	this defaults to false for disabled modules.
 function freepbx_get_contexts() {
-	$modules = module_getinfo(false, array(MODULE_STATUS_ENABLED, MODULE_STATUS_DISABLED, MODULE_STATUS_NEEDUPGRADE));
+  $modules = FreePBX::Modules()->getInfo(false, array(MODULE_STATUS_ENABLED, MODULE_STATUS_DISABLED, MODULE_STATUS_NEEDUPGRADE));
 
 	$contexts = array();
 

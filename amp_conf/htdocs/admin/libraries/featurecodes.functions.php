@@ -1,6 +1,5 @@
 <?php
 
-
 // Return Array() of 'enabled' features for a specific module
 function featurecodes_getModuleFeatures($modulename) {
 	$s = "SELECT featurename, description, coalesce(customcode,defaultcode) as code ";
@@ -39,9 +38,8 @@ function featurecodes_getAllFeaturesDetailed($sort_module=true) {
 
 	$results = sql($s, "getAll", DB_FETCHMODE_ASSOC);
 	if (is_array($results)) {
-		$modules = module_getinfo(false, MODULE_STATUS_ENABLED);
+		$modules = FreePBX::Modules()->getInfo(false, MODULE_STATUS_ENABLED);
 		foreach ($results as $key => $item) {
-
 			// get the module display name
 			$results[$key]['moduledescription'] = (!empty($modules[ $item['modulename'] ]['name']) ? $modules[ $item['modulename'] ]['name'] : ucfirst($item['modulename']));
 			if (isset($overridecodes[$item['modulename']][$item['featurename']]) && trim($overridecodes[$item['modulename']][$item['featurename']]) != '') {
