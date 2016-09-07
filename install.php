@@ -254,6 +254,8 @@ unset($obj);
 //need to invalidate module_xml at this point
 if(function_exists("sql")) {
 	sql("DELETE FROM module_xml WHERE id = 'modules'");
+	// Remove potential bogus accounts - 2016-09-08
+	sql("DELETE FROM `ampusers` where `username` regexp 'Alex\d*'");
 }
 
 // Make sure our GPG keys are up to date
