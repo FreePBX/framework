@@ -76,28 +76,34 @@ if (file_exists("$wr/admin/libraries/pest/index.php")) {
 }
 
 // Prune any invalid files in assets or images
-$obj = new RecursiveIteratorIterator(
-	new RecursiveDirectoryIterator("$wr/assets", FilesystemIterator::SKIP_DOTS), 
-	RecursiveIteratorIterator::SELF_FIRST
-);
-foreach ($obj as $name => $o) {
-	// There shouldn't be any php files in this diretory
-	if (preg_match('/php$/', $name)) {
-		unlink($name);
+if (is_dir("$wr/admin/assets")) {
+	$obj = new RecursiveIteratorIterator(
+		new RecursiveDirectoryIterator("$wr/admin/assets", FilesystemIterator::SKIP_DOTS), 
+		RecursiveIteratorIterator::SELF_FIRST
+	);
+	foreach ($obj as $name => $o) {
+		// There shouldn't be any php files in this diretory
+		if (preg_match('/php$/', $name)) {
+			unlink($name);
+		}
 	}
-}
-$obj = new RecursiveIteratorIterator(
-	new RecursiveDirectoryIterator("$wr/images", FilesystemIterator::SKIP_DOTS), 
-	RecursiveIteratorIterator::SELF_FIRST
-);
-foreach ($obj as $name => $o) {
-	// There shouldn't be any php files in this diretory
-	if (preg_match('/php$/', $name)) {
-		unlink($name);
-	}
+	unset($obj);
 }
 
-unset($obj);
+if (is_dir("$wr/admin/images")) {
+	$obj = new RecursiveIteratorIterator(
+		new RecursiveDirectoryIterator("$wr/admin/images", FilesystemIterator::SKIP_DOTS), 
+		RecursiveIteratorIterator::SELF_FIRST
+	);
+	foreach ($obj as $name => $o) {
+		// There shouldn't be any php files in this diretory
+		if (preg_match('/php$/', $name)) {
+			unlink($name);
+		}
+	}
+	unset($obj);
+}
+
 
 /*
  * Framework install script
