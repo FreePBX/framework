@@ -2230,6 +2230,10 @@ msgstr ""
 msgid "Database Error detected. Automatic repair started. Please retry"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Doctrine.class.php:17
+msgid "Database name"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:21
 msgid "Date Fixed"
 msgstr ""
@@ -2431,6 +2435,10 @@ msgstr ""
 
 #: amp.i18n.php:992
 msgid "Determine where to send log information if the log is enabled ('Disable FreePBX Log' (AMPDISABLELOG) false. There are two places to route the log messages. 'FILE' will send all log messages to the defined 'FreePBX Log File' (FPBX_LOG_FILE). All the other settings will route the log messages to your System Logging subsystem (syslog) using the specified log level. Syslog can be configured to route different levels to different locations. See 'syslog' documentation (man syslog) on your system for more details."
+msgstr ""
+
+#: amp.i18n.php:1058
+msgid "Determines the mode to use while using popovers (popovers appear when selecting "
 msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:346
@@ -3802,6 +3810,11 @@ msgstr ""
 
 #: install.php:5
 #, php-format
+msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
+msgstr ""
+
+#: install.php:5
+#, php-format
 msgid "FreePBX Requires PHP Version 5.6.19 or Higher, you have: %s"
 msgstr ""
 
@@ -3961,6 +3974,10 @@ msgstr ""
 #, php-format
 msgid "Get help for %s"
 msgstr "Obtine ajutor pentru %s"
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:88
+msgid "Gettext is not installed"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:761
 msgid "Getting Data from Online Server..."
@@ -4476,6 +4493,13 @@ msgstr "DID invalid, nu trebuie sa fie necompletat"
 msgid "Invalid Dial Rules"
 msgstr "Regula de apelare invalida"
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
+msgid "Invalid Language"
+msgstr ""
+
 #: ../core/views/trunks/trunk_footer.php:88
 msgid "Invalid Maximum Channels"
 msgstr "Numar Maxim de Canale invalid"
@@ -4561,6 +4585,10 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:120
 msgid "Language Code"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
+msgid "Language Support Unknown"
 msgstr ""
 
 #: ../core/views/routing/form.php:45
@@ -5755,6 +5783,14 @@ msgstr ""
 msgid "Path for grep"
 msgstr ""
 
+#: amp.i18n.php:892
+msgid "Path for gs"
+msgstr ""
+
+#: amp.i18n.php:898
+msgid "Path for ifconfig"
+msgstr ""
+
 #: amp.i18n.php:928
 msgid "Path for lame"
 msgstr ""
@@ -5775,12 +5811,24 @@ msgstr ""
 msgid "Path for openssl"
 msgstr ""
 
+#: amp.i18n.php:928
+msgid "Path for ps"
+msgstr ""
+
 #: amp.i18n.php:958
 msgid "Path for route"
 msgstr ""
 
+#: amp.i18n.php:940
+msgid "Path for rsync"
+msgstr ""
+
 #: amp.i18n.php:964
 msgid "Path for sox"
+msgstr ""
+
+#: amp.i18n.php:952
+msgid "Path for ssh"
 msgstr ""
 
 #: amp.i18n.php:970
@@ -5789,6 +5837,18 @@ msgstr ""
 
 #: amp.i18n.php:976
 msgid "Path for tar"
+msgstr ""
+
+#: amp.i18n.php:970
+msgid "Path for tiff2pdf"
+msgstr ""
+
+#: amp.i18n.php:976
+msgid "Path for tiffcp"
+msgstr ""
+
+#: amp.i18n.php:982
+msgid "Path for tiffinfo"
 msgstr ""
 
 #: amp.i18n.php:982
@@ -5939,6 +5999,10 @@ msgstr "Va rugam sa introduceti canalul pentru acest aparat"
 msgid "Please enter valid User Password using numbers only"
 msgstr "Va rugam sa introduceti o parola valida, utilizand doar cifre."
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:88
+msgid "Please install gettext so that the PBX can properly translate itself"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:88
 msgid "Please note most tasks should be handled through the GUI."
 msgstr ""
@@ -5970,6 +6034,10 @@ msgstr "Asteptati ... proces in executie"
 
 #: amp.i18n.php:532
 msgid "Polling Interval for Stopping Asterisk"
+msgstr ""
+
+#: amp.i18n.php:1054
+msgid "Popover Mode"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:374
@@ -7236,6 +7304,11 @@ msgstr ""
 msgid "The context, extension, priority to go to when this DID is matched. Example: app-daynight,0,1"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
+#, php-format
+msgid "The default language of '%s' or '%s' was not found on this system. Please resolve this in advanced settings by changing the system language or installing the default locales [%s]"
+msgstr ""
+
 #: amp.i18n.php:1112
 msgid "The default language used in the webUI"
 msgstr ""
@@ -7373,6 +7446,14 @@ msgstr ""
 msgid "The path to grep as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
+#: amp.i18n.php:896
+msgid "The path to gs as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:902
+msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
 #: amp.i18n.php:932
 msgid "The path to lame as auto-determined by the system. Overwrite as necessary."
 msgstr ""
@@ -7393,12 +7474,24 @@ msgstr ""
 msgid "The path to openssl as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
+#: amp.i18n.php:932
+msgid "The path to ps as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
 #: amp.i18n.php:962
 msgid "The path to route as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
+#: amp.i18n.php:944
+msgid "The path to rsync as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
 #: amp.i18n.php:968
 msgid "The path to sox as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:956
+msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
 #: amp.i18n.php:974
@@ -7407,6 +7500,18 @@ msgstr ""
 
 #: amp.i18n.php:980
 msgid "The path to tar as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:974
+msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:980
+msgid "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:986
+msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
 #: amp.i18n.php:986
@@ -7874,6 +7979,10 @@ msgstr ""
 msgid "Unable to find an intermediary converter for %s"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
+msgid "Unable to find the Locale binary. Your system may not support language changes!"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:117
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:127
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
@@ -7915,6 +8024,15 @@ msgstr ""
 #, php-format
 msgid "Unable to save %s"
 msgstr "Nu se poate salva %s"
+
+#: amp_conf/htdocs/admin/bootstrap.php:271
+msgid "Unable to set timezone"
+msgstr ""
+
+#: amp_conf/htdocs/admin/bootstrap.php:271
+#, php-format
+msgid "Unable to set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:123
 msgid "Unable to start Asterisk!"
@@ -8773,6 +8891,17 @@ msgstr "Nu ati introdus nici o parola (secret) pentru acest aparat , desi e posi
 
 #: ../core/views/users.php:91
 msgid "You have not entered a User Password.  While this is acceptable, this user will not be able to login to an AdHoc user.\\n\\nAre you sure you wish to leave the User Password empty?"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
+#, php-format
+msgid "You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
+#, php-format
+msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:20
@@ -9685,133 +9814,20 @@ msgstr ""
 msgid "zap devices migrated"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Doctrine.class.php:17
-msgid "Database name"
+#: amp.i18n.php:964
+msgid "Path for scp"
 msgstr ""
 
-#: amp.i18n.php:1058
-msgid "Determines the mode to use while using popovers (popovers appear when selecting "
+#: amp.i18n.php:994
+msgid "Path for wanrouter"
 msgstr ""
 
-#: install.php:5
-#, php-format
-msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
+#: amp.i18n.php:968
+msgid "The path to scp as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:88
-msgid "Gettext is not installed"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
-msgid "Invalid Language"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
-msgid "Language Support Unknown"
-msgstr ""
-
-#: amp.i18n.php:892
-msgid "Path for gs"
-msgstr ""
-
-#: amp.i18n.php:898
-msgid "Path for ifconfig"
-msgstr ""
-
-#: amp.i18n.php:928
-msgid "Path for ps"
-msgstr ""
-
-#: amp.i18n.php:940
-msgid "Path for rsync"
-msgstr ""
-
-#: amp.i18n.php:952
-msgid "Path for ssh"
-msgstr ""
-
-#: amp.i18n.php:970
-msgid "Path for tiff2pdf"
-msgstr ""
-
-#: amp.i18n.php:976
-msgid "Path for tiffcp"
-msgstr ""
-
-#: amp.i18n.php:982
-msgid "Path for tiffinfo"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:88
-msgid "Please install gettext so that the PBX can properly translate itself"
-msgstr ""
-
-#: amp.i18n.php:1054
-msgid "Popover Mode"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
-#, php-format
-msgid "The default language of '%s' or '%s' was not found on this system. Please resolve this in advanced settings by changing the system language or installing the default locales [%s]"
-msgstr ""
-
-#: amp.i18n.php:896
-msgid "The path to gs as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:902
-msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:932
-msgid "The path to ps as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:944
-msgid "The path to rsync as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:956
-msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:974
-msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:980
-msgid "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:986
-msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
-msgid "Unable to find the Locale binary. Your system may not support language changes!"
-msgstr ""
-
-#: amp_conf/htdocs/admin/bootstrap.php:271
-msgid "Unable to set timezone"
-msgstr ""
-
-#: amp_conf/htdocs/admin/bootstrap.php:271
-#, php-format
-msgid "Unable to set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
-#, php-format
-msgid "You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
-#, php-format
-msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
+#: amp.i18n.php:998
+msgid "The path to wanrouter as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
 #~ msgid " (toggle sort)"

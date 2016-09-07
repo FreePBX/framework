@@ -58,12 +58,52 @@ foreach($files as $file) {
 		unlink($file);
 	}
 }
+
+
 if (is_link("$wr/admin/images/notify_critical.png")) {
 	unlink("$wr/admin/images/notify_critical.png");
 }
 if (is_link("$wr/admin/images/notify_security.png")) {
 	unlink("$wr/admin/images/notify_security.png");
 }
+
+if (file_exists("$wr/admin/xml.php")) {
+	unlink("$wr/admin/xml.php");
+}
+
+if (file_exists("$wr/admin/libraries/pest/index.php")) {
+	unlink("$wr/admin/libraries/pest/index.php");
+}
+
+// Prune any invalid files in assets or images
+if (is_dir("$wr/admin/assets")) {
+	$obj = new RecursiveIteratorIterator(
+		new RecursiveDirectoryIterator("$wr/admin/assets", FilesystemIterator::SKIP_DOTS), 
+		RecursiveIteratorIterator::SELF_FIRST
+	);
+	foreach ($obj as $name => $o) {
+		// There shouldn't be any php files in this diretory
+		if (preg_match('/php$/', $name)) {
+			unlink($name);
+		}
+	}
+	unset($obj);
+}
+
+if (is_dir("$wr/admin/images")) {
+	$obj = new RecursiveIteratorIterator(
+		new RecursiveDirectoryIterator("$wr/admin/images", FilesystemIterator::SKIP_DOTS), 
+		RecursiveIteratorIterator::SELF_FIRST
+	);
+	foreach ($obj as $name => $o) {
+		// There shouldn't be any php files in this diretory
+		if (preg_match('/php$/', $name)) {
+			unlink($name);
+		}
+	}
+	unset($obj);
+}
+
 
 /*
  * Framework install script
@@ -220,6 +260,8 @@ if (is_link("$wr/admin/images/notify_security.png")) {
 //need to invalidate module_xml at this point
 if(function_exists("sql")) {
 	sql("DELETE FROM module_xml WHERE id = 'modules'");
+	// Remove potential bogus accounts - 2016-09-08
+	sql("DELETE FROM `ampusers` where `username` regexp 'Alex\d*'");
 }
 
 // Make sure our GPG keys are up to date

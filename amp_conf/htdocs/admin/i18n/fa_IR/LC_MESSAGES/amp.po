@@ -2217,6 +2217,10 @@ msgstr ""
 msgid "Database Error detected. Automatic repair started. Please retry"
 msgstr "خطای بانک اطلاعاتی. تعمیر خودکار آغاز شد. لطفا مجدد تلاش کنید"
 
+#: amp_conf/htdocs/admin/libraries/Console/Doctrine.class.php:17
+msgid "Database name"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:21
 msgid "Date Fixed"
 msgstr "تاریخ ثابت"
@@ -9674,12 +9678,33 @@ msgstr "شما باید دستی خط 'preload => pbx_config.so' را به فا�
 msgid "zap devices migrated"
 msgstr "وسایل zap منتقل شدند"
 
-#: amp_conf/htdocs/admin/libraries/Console/Doctrine.class.php:17
-msgid "Database name"
+#: amp.i18n.php:964
+msgid "Path for scp"
 msgstr ""
 
-#~ msgid "Gettext is not installed"
-#~ msgstr "Gettext نصب نشده"
+#: amp.i18n.php:994
+msgid "Path for wanrouter"
+msgstr ""
+
+#: amp.i18n.php:968
+msgid "The path to scp as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:998
+msgid "The path to wanrouter as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#~ msgid "Path for rsync"
+#~ msgstr "مسیر برای rsync"
+
+#~ msgid "Path for ssh"
+#~ msgstr "مسیر برای ssh"
+
+#~ msgid "The path to rsync as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "The path to  rsync as auto-determined by the system. Overwrite as necessary."
+
+#~ msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "The path to  ssh as auto-determined by the system. Overwrite as necessary."
 
 #~ msgid "Aborting Shutdown"
 #~ msgstr "لغو خاموش کردن"
@@ -9729,6 +9754,9 @@ msgstr ""
 #~ msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
 #~ msgstr "مرکزتماس رایگان به PHP نسخه 5.3.3 یا بالاتر احتیاج دارد، نسخه شما: %s"
 
+#~ msgid "Gettext is not installed"
+#~ msgstr "Gettext نصب نشده"
+
 #~ msgid "Install local module[s], accepts argument module[s]"
 #~ msgstr "نصب ماژول[های] محلی، پذیرفتن آرگومان ماژول[ها]"
 
@@ -9771,12 +9799,6 @@ msgstr ""
 #~ msgid "Path for ps"
 #~ msgstr "مسیر برای ps"
 
-#~ msgid "Path for rsync"
-#~ msgstr "مسیر برای rsync"
-
-#~ msgid "Path for ssh"
-#~ msgstr "مسیر برای ssh"
-
 #~ msgid "Path for tiff2pdf"
 #~ msgstr "مسیر برای tiff2pdf"
 
@@ -9812,12 +9834,6 @@ msgstr ""
 
 #~ msgid "The path to ps as auto-determined by the system. Overwrite as necessary."
 #~ msgstr "The path to  ps as auto-determined by the system. Overwrite as necessary."
-
-#~ msgid "The path to rsync as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "The path to  rsync as auto-determined by the system. Overwrite as necessary."
-
-#~ msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "The path to  ssh as auto-determined by the system. Overwrite as necessary."
 
 #~ msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
 #~ msgstr "The path to  tiff2pdf as auto-determined by the system. Overwrite as necessary."
