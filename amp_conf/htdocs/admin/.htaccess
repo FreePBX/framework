@@ -13,7 +13,7 @@ SetEnv HTACCESS on
 		Deny from all
 	</FilesMatch>
 	# Disallow anything in libraries
-	<FilesMatch "/(libraries|views|helpers|i18n)">
+	<FilesMatch "/(libraries|views|helpers|i18n|node|sources)">
 		Deny from all
 	</FilesMatch>
 	# Allow index, config, and ajax.php, as well as all our image types.
@@ -29,7 +29,7 @@ SetEnv HTACCESS on
 		Require all denied
 	</FilesMatch>
 	# Disallow anything in libraries
-	<FilesMatch "/(libraries|views|helpers|i18n)">
+	<FilesMatch "/(libraries|views|helpers|i18n|node|sources)">
 		Require all denied
 	</FilesMatch>
 	# Allow index, config, and ajax.php, as well as all our image types.
