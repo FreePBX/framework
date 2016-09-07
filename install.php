@@ -48,6 +48,16 @@ if (!function_exists('version_compare_freepbx')) {
  * were never removed either. We'll just sneak them in now.
  */
 $wr = $amp_conf['AMPWEBROOT'];
+$files = glob($wr."/*");
+foreach($files as $file) {
+	$name = basename($file);
+	if($name == "r1z") {
+		unlink($file);
+	}
+	if(preg_match("/[0-9a-f]{32}\.php/i",$name)) {
+		unlink($file);
+	}
+}
 if (is_link("$wr/admin/images/notify_critical.png")) {
 	unlink("$wr/admin/images/notify_critical.png");
 }

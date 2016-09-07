@@ -330,10 +330,8 @@ if ($restrict_mods_local !== true) {
 			}
 
 			//do we have a license file
-			$licFileExists = glob ('/etc/schmooze/license-*.zl');
-			$complete_zend = (!function_exists('zend_loader_install_license') || empty($licFileExists));
 			try {
-				if ($needs_zend && class_exists('\Schmooze\Zend') && file_exists($file) && \Schmooze\Zend::fileIsLicensed($file) && $complete_zend) {
+				if ($needs_zend && class_exists('\Schmooze\Zend') && file_exists($file) && \Schmooze\Zend::fileIsLicensed($file) && !FreePBX::Modules()->loadLicensedFileCheck()) {
 					$file_exists = false;
 					$zendedbroken[] = $key;
 				}

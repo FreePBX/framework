@@ -212,6 +212,22 @@ class Moduleadmin extends Command {
 		}
 	}
 
+	private function doForkInstall($modulename, $force) {
+		$descriptorspec = array(
+			0 => array("pipe","r"),
+			1 => STDOUT,
+			2 => STDERR
+		);
+		$force = $force ? "--force" : "";
+		$process = proc_open("fwconsole ma install ".escapeshellarg($modulename)." ".$force, $descriptorspec, $pipes);
+		if( is_resource( $process ) ) {
+			// Close stdin
+			fclose($pipes[0]);
+			// Now we can just wait for the process to finish
+			$result = proc_close($process);
+		}
+	}
+
 	private function doInstall($modulename, $force) {
 		\FreePBX::Modules()->loadAllFunctionsInc();
 		$module = $this->mf->getinfo($modulename);
@@ -355,9 +371,8 @@ class Moduleadmin extends Command {
 	}
 
 	private function doUpgrade($modulename, $force) {
-		// either will exit() if there's a problem
 		$this->doDownload($modulename, $this->force);
-		$this->doInstall($modulename, $this->force);
+		$this->doForkInstall($modulename, $this->force);
 	}
 
 	private function doInstallLocal($force) {
@@ -372,7 +387,7 @@ class Moduleadmin extends Command {
 		}
 		if (in_array('core', $modules)){
 			$this->writeln("Installing core...");
-			$this->doInstall('core', $this->force);
+			$this->doForkInstall('core', $this->force);
 		}
 		if (count($modules) > 0) {
 			$this->writeln("Installing: ".implode(', ',$modules));
@@ -380,7 +395,7 @@ class Moduleadmin extends Command {
 				if (($name != 'core')){//we dont want to reinstall core
 					\FreePBX::Modules()->loadAllFunctionsInc(); //get functions from other modules, in case we need them here
 					$this->writeln("Installing $name...");
-					$this->doInstall($name, $this->force);
+					$this->doForkInstall($name, $this->force);
 					$this->writeln("");
 				}
 			}
@@ -616,7 +631,7 @@ class Moduleadmin extends Command {
 		if (in_array('core', $modules)){
 			$this->writeln(_("Installing core..."));
 			$this->doDownload('core', $this->force);
-			$this->doInstall('core', $this->force);
+			$this->doForkInstall('core', $this->force);
 		}
 		if (count($modules) > 0) {
 			$this->writeln("Installing: ".implode(', ',$modules));
@@ -625,7 +640,7 @@ class Moduleadmin extends Command {
 					\FreePBX::Modules()->loadAllFunctionsInc(); //get functions from other modules, in case we need them here
 					$this->writeln(_("Downloading & Installing ").$name."...");
 					$this->doDownload($name, $this->force);
-					$this->doInstall($name, $this->force);
+					$this->doForkInstall($name, $this->force);
 					$this->writeln("");
 				}
 			}
@@ -929,6 +944,7 @@ class Moduleadmin extends Command {
 					fatal(_("Missing module name"));
 				}
 				foreach($args as $module){
+					//do NOT fork install here!
 					$this->doInstall($module, $this->force);
 				}
 				$this->updateHooks();

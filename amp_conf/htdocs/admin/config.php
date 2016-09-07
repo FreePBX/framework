@@ -491,16 +491,12 @@ switch($display) {
 			// be used.
 			$bmo->GuiHooks->getPreDisplay($module_name, $_REQUEST);
 
-
-			$licFileExists = glob ('/etc/schmooze/license-*.zl');
-			$complete_zend = !(!function_exists('zend_loader_install_license') || empty($licFileExists));
-
 			// include the module page
 			if (isset($cur_menuitem['disabled']) && $cur_menuitem['disabled']) {
 				show_view($amp_conf['VIEW_MENUITEM_DISABLED'], $cur_menuitem);
 				break; // we break here to avoid the generateconfigpage() below
 				//
-			} else if (file_exists($module_file) && class_exists('\Schmooze\Zend') && \Schmooze\Zend::fileIsLicensed($module_file) && $complete_zend) {
+			} else if (file_exists($module_file) && class_exists('\Schmooze\Zend') && \Schmooze\Zend::fileIsLicensed($module_file) && !FreePBX::Modules()->loadLicensedFileCheck()) {
 				$amp_conf['VIEW_ZEND_CONFIG'] = empty($amp_conf['VIEW_ZEND_CONFIG']) ? 'views/zend_config.php' : $amp_conf['VIEW_ZEND_CONFIG'];
 
 				if (file_exists($amp_conf['VIEW_ZEND_CONFIG'])) {

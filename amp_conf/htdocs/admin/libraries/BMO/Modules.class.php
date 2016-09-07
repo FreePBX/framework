@@ -13,6 +13,7 @@ class Modules {
 
 	public $active_modules;
 	private $moduleMethods = array();
+	private $validLicense = null;
 
 	// Cache for XML objects
 	private $modulexml = array();
@@ -99,10 +100,8 @@ class Modules {
 			$relative = $rawname."/functions.inc.php";
 			$absolute = $path."/admin/modules/".$relative;
 			$needs_zend = isset($data['depends']['phpcomponent']) && stristr($data['depends']['phpcomponent'], 'zend');
-			$licFileExists = glob ('/etc/schmooze/license-*.zl');
-			$complete_zend = (!function_exists('zend_loader_install_license') || empty($licFileExists));
 			if(file_exists($absolute)) {
-				if ($needs_zend && class_exists('\Schmooze\Zend',false) && \Schmooze\Zend::fileIsLicensed($absolute) && $complete_zend) {
+				if ($needs_zend && class_exists('\Schmooze\Zend',false) && \Schmooze\Zend::fileIsLicensed($absolute) && !$this->loadLicensedFileCheck()) {
 					continue;
 				}
 				$include = true;
@@ -131,10 +130,8 @@ class Modules {
 			$absolute = $path."/admin/modules/".$relative;
 			$data = \FreePBX::Modules()->getInfo($module);
 			$needs_zend = isset($data[$module]['depends']['phpcomponent']) && stristr($data[$module]['depends']['phpcomponent'], 'zend');
-			$licFileExists = glob ('/etc/schmooze/license-*.zl');
-			$complete_zend = (!function_exists('zend_loader_install_license') || empty($licFileExists));
 			if(file_exists($absolute)) {
-				if ($needs_zend && class_exists('\Schmooze\Zend',false) && \Schmooze\Zend::fileIsLicensed($absolute) && $complete_zend) {
+				if ($needs_zend && class_exists('\Schmooze\Zend',false) && \Schmooze\Zend::fileIsLicensed($absolute) && !$this->loadLicensedFileCheck()) {
 					return false;
 				}
 				$include = true;
@@ -149,6 +146,40 @@ class Modules {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Check to make sure we have a valid license on the system if it's needed
+	 * This is so that commercial modules wont crash the system
+	 * @return boolean True if we can load the file, false otherwise
+	 */
+	public function loadLicensedFileCheck() {
+		if(!is_null($this->validLicense)) {
+			return $this->validLicense;
+		}
+		$licFileExists = glob ('/etc/schmooze/license-*.zl');
+		if(!function_exists('zend_loader_install_license') || empty($licFileExists)) {
+			$this->validLicense = false;
+			return false;
+		}
+
+		$path = $this->FreePBX->Config->get("AMPWEBROOT");
+		$sclass = $path."/admin/modules/sysadmin/functions.inc/Schmooze.class.php";
+		if (file_exists($sclass) && !class_exists('\Schmooze\Zend',false)) {
+			$this->validLicense = false;
+			include $sclass;
+		}
+		if (!class_exists('\Schmooze\Zend')) {
+			// Schmooze class is broken somehow. Accidentally deleted, possibly?
+			$this->validLicense = false;
+			return false;
+		}
+		if (!\Schmooze\Zend::hasValidLic()) {
+			$this->validLicense = false;
+			return false;
+		}
+		$this->validLicense = true;
+		return true;
 	}
 
 	/**
