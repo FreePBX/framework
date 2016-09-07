@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-06 12:12-0700\n"
+"POT-Creation-Date: 2016-09-06 17:08-0700\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -1862,7 +1862,7 @@ msgstr "Не отключить: Выбранный модуль зависит 
 msgid "Cannot find module"
 msgstr "Модуль не найден"
 
-#: install.php:169
+#: install.php:179
 msgid "Cant Find Framework XML"
 msgstr "Невозможно найти XML-фреймворк"
 
@@ -4001,7 +4001,7 @@ msgstr "Ошибка в открытии %s для записи"
 msgid "Error parsing cdr_mysql.conf, no migration done"
 msgstr ""
 
-#: install.php:219
+#: install.php:229
 #, php-format
 msgid "Error updating GPG Keys: %s"
 msgstr ""
@@ -5524,7 +5524,7 @@ msgid ""
 msgstr ""
 "Внутренняя ошибка.Функция getVersion не соответствовала версии платформы."
 
-#: install.php:182
+#: install.php:192
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -6469,7 +6469,7 @@ msgstr "Никаких действий не производить"
 msgid "No description is available."
 msgstr "Описание не доступно."
 
-#: install.php:68
+#: install.php:78
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr "Нет директории %s, нет необходимости в установке скрипта"
@@ -8353,7 +8353,7 @@ msgid ""
 "this set to no. See http://wiki.freepbx.org/x/boi3Aw for more details"
 msgstr ""
 
-#: install.php:203
+#: install.php:213
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr "Установка sbin в правильном месте: %s"
@@ -10525,7 +10525,7 @@ msgstr "GPПроверка G..."
 msgid "Version"
 msgstr "Версия"
 
-#: install.php:186
+#: install.php:196
 msgid "Version from Framework was empty, cant continue"
 msgstr "Версия структуры не найдена, продолжение невозможно"
 
@@ -11460,7 +11460,7 @@ msgstr ""
 msgid "altered"
 msgstr "изменён"
 
-#: install.php:149
+#: install.php:159
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr "ошибка при удалении файла/директории пакетов  :%s "
@@ -11604,7 +11604,7 @@ msgstr "удаление ALLOW_SIP_ANON из глобальных определ
 msgid "deleting obsoleted record_in and record_out entries.."
 msgstr "удаление устаревших данных obsoleted record_in и  record_out..."
 
-#: install.php:90 install.php:102 install.php:113
+#: install.php:100 install.php:112 install.php:123
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:505
 #: ../core/install.php:939 ../core/install.php:1025 ../core/install.php:1670
 msgid "done"
@@ -11617,7 +11617,7 @@ msgstr ""
 "завершено! Перезагрузите FreePBX для обновления всех установок  "
 "Пользовательских Контекстов."
 
-#: install.php:88 install.php:99 install.php:110
+#: install.php:98 install.php:109 install.php:120
 msgid "done, see errors below"
 msgstr "завершено,смотрите информацию об ошибках ниже"
 
@@ -11727,7 +11727,7 @@ msgstr "неустранимая ошибка при считывании уст
 msgid "fatal error trying to add field"
 msgstr "критическая ошибка при попытке добавить поле"
 
-#: install.php:151
+#: install.php:161
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr "файл/директория:%s удален(-а) успешно"
@@ -11746,7 +11746,7 @@ msgstr "список форматов в xml"
 msgid "framework couldn't copy file to %s"
 msgstr "платформа  не может копировать файл в %s"
 
-#: install.php:137
+#: install.php:147
 msgid "framework file install done, removing packages from module"
 msgstr "закончена установка файла платформы, удаление пакетов из модуля"
 
@@ -11787,7 +11787,7 @@ msgstr ""
 msgid "insert"
 msgstr "вставить"
 
-#: install.php:81
+#: install.php:91
 #, php-format
 msgid "installing files to %s.."
 msgstr "установка файлов в %s.."
