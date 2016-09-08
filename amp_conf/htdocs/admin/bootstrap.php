@@ -145,7 +145,7 @@ if (file_exists($bmo)) {
 /** TODO Remove this when all modules are finally NOT referencing it like this **/
 class Database extends FreePBX\Database {};
 
-//Not available until PHP 5
+//Not available until PHP 5.4
 if(!defined("ENT_HTML401")) {
 	define("ENT_HTML401", 0);
 }
@@ -162,6 +162,20 @@ $freepbx_conf = $bmo->Freepbx_conf();
 
 //set this before we run date functions
 $timezone = $bmo->View->setTimezone();
+
+if(!empty($_POST)) {
+	$p = $_POST;
+	if(isset($p['secret'])) {
+		unset($p['secret']);
+	}
+	if(isset($p['password'])) {
+		unset($p['password']);
+	}
+	if (isset($p['devinfo_secret_origional'])) {
+		unset($p['devinfo_secret_origional']);
+	}
+	freepbx_log(FPBX_LOG_INFO,json_encode($p));
+}
 
 // passing by reference, this means that the $amp_conf available to everyone is the same one as present
 // within the class, which is probably a direction we want to go to use the class.
