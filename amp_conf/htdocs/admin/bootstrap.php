@@ -150,6 +150,21 @@ if(!defined("ENT_HTML401")) {
 	define("ENT_HTML401", 0);
 }
 
+if(!empty($_POST)) {
+	$p = $_POST;
+	if(isset($p['secret'])) {
+		unset($p['secret']);
+	}
+	if(isset($p['password'])) {
+		unset($p['password']);
+	}
+	if (isset($p['devinfo_secret_origional'])) {
+		unset($p['devinfo_secret_origional']);
+	}
+	freepbx_log(FPBX_LOG_INFO,json_encode($p));
+}
+
+
 // bootstrap.php should always be called from freepbx.conf so
 // database conifguration already included, connect to database:
 //
