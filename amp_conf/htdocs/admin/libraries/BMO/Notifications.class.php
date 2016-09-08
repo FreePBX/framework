@@ -157,73 +157,81 @@ class Notifications {
 	 * List all Critical Messages
 	 *
 	 * @param bool $show_reset Show resettable messages
+	 * @param bool $allow_filtering Allow us to filter results
 	 * @return array Returns the list of Messages
 	 */
-	function list_critical($show_reset=false) {
-		return $this->_list(NOTIFICATION_TYPE_CRITICAL, $show_reset);
+	function list_critical($show_reset=false, $allow_filtering=true) {
+		return $this->_list(NOTIFICATION_TYPE_CRITICAL, $show_reset, $allow_filtering);
 	}
 	/**
 	* List all Unsigned Module Notification Messages
 	*
 	* @param bool $show_reset Show resettable messages
+	* @param bool $allow_filtering Allow us to filter results
 	* @return array Returns the list of Messages
 	*/
-	function list_signature_unsigned($show_reset=false) {
-		return $this->_list(NOTIFICATION_TYPE_SIGNATURE_UNSIGNED, $show_reset);
+	function list_signature_unsigned($show_reset=false, $allow_filtering=true) {
+		return $this->_list(NOTIFICATION_TYPE_SIGNATURE_UNSIGNED, $show_reset, $allow_filtering);
 	}
 	/**
 	 * List all Security Messages
 	 *
 	 * @param bool $show_reset Show resettable messages
+	* @param bool $allow_filtering Allow us to filter results
 	 * @return array Returns the list of Messages
 	 */
-	function list_security($show_reset=false) {
-		return $this->_list(NOTIFICATION_TYPE_SECURITY, $show_reset);
+	function list_security($show_reset=false, $allow_filtering=true) {
+		return $this->_list(NOTIFICATION_TYPE_SECURITY, $show_reset, $allow_filtering);
 	}
 	/**
 	 * List all Update Messages
 	 *
 	 * @param bool $show_reset Show resettable messages
+	 * @param bool $allow_filtering Allow us to filter results
 	 * @return array Returns the list of Messages
 	 */
-	function list_update($show_reset=false) {
-		return $this->_list(NOTIFICATION_TYPE_UPDATE, $show_reset);
+	function list_update($show_reset=false, $allow_filtering=true) {
+		return $this->_list(NOTIFICATION_TYPE_UPDATE, $show_reset, $allow_filtering);
 	}
 	/**
 	 * List all Error Messages
 	 *
 	 * @param bool $show_reset Show resettable messages
+	 * @param bool $allow_filtering Allow us to filter results
 	 * @return array Returns the list of Messages
 	 */
-	function list_error($show_reset=false) {
-		return $this->_list(NOTIFICATION_TYPE_ERROR, $show_reset);
+	function list_error($show_reset=false, $allow_filtering=true) {
+		return $this->_list(NOTIFICATION_TYPE_ERROR, $show_reset, $allow_filtering);
 	}
 	/**
 	 * List all Warning Messages
 	 *
 	 * @param bool $show_reset Show resettable messages
+	 * @param bool $allow_filtering Allow us to filter results
 	 * @return array Returns the list of Messages
 	 */
-	function list_warning($show_reset=false) {
-		return $this->_list(NOTIFICATION_TYPE_WARNING, $show_reset);
+	function list_warning($show_reset=false, $allow_filtering=true) {
+		return $this->_list(NOTIFICATION_TYPE_WARNING, $show_reset, $allow_filtering);
 	}
 	/**
 	 * List all Notice Messages
 	 *
 	 * @param bool $show_reset Show resettable messages
+	 * @param bool $allow_filtering Allow us to filter results
 	 * @return array Returns the list of Messages
 	 */
-	function list_notice($show_reset=false) {
-		return $this->_list(NOTIFICATION_TYPE_NOTICE, $show_reset);
+	function list_notice($show_reset=false, $allow_filtering=true) {
+		return $this->_list(NOTIFICATION_TYPE_NOTICE, $show_reset, $allow_filtering);
 	}
 	/**
 	 * List all Messages
 	 *
 	 * @param bool $show_reset Show resettable messages
+	 * @param bool $allow_filtering Allow us to filter results
 	 * @return array Returns the list of Messages
 	 */
-	function list_all($show_reset=false) {
-		return $this->_list("", $show_reset);
+	function list_all($show_reset=false, $allow_filtering=true) {
+		return $this->_list("", $show_reset, $allow_filtering);
 	}
 
 
@@ -435,10 +443,11 @@ class Notifications {
 	 *
 	 * @param const $level Notification Level to show (can be blank for all)
 	 * @param bool $show_reset Show resettable messages
+	 * @param bool $allow_filtering Filtering should only happen on areas were we display info
 	 * @return array Returns the list of Messages
 	 * @ignore
 	 */
-	function _list($level, $show_reset=false) {
+	function _list($level, $show_reset=false, $allow_filtering=false) {
 
 		$where = array();
 
@@ -466,6 +475,17 @@ class Notifications {
 		$sql .= " ORDER BY level, module";
 
 		$list = sql($sql,"getAll",DB_FETCHMODE_ASSOC);
+
+		if ($allow_filtering) {
+			//Use process hooks to allow us to filter out the data
+			$filter = \FreePBX::Hooks()->processHooks($list);
+			$filter = $this->filterProcessHooks($filter);
+
+			if (!empty($filter)) {
+				return $filter;
+			}
+		}
+
 		return $list;
 	}
 
@@ -495,5 +515,63 @@ class Notifications {
 	function get_num_active() {
 		$sql = "SELECT COUNT(id) FROM notifications WHERE reset = 0";
 		return sql($sql,'getOne');
+	}
+
+	/**
+	 * Because process hooks returns back an array which is keyed by the module
+	 * name, we need to ensure we aren't duplicating alerts here by looping
+	 * through all the modules and putting together and authoritiative list
+	 *
+	 * @param  array $list A list of notifications that is returned by process hooks
+	 * @return array
+	 */
+	private function filterProcessHooks($list) {
+		//I don't want to refilter here but there is no option to not care about the
+		//module name in process hooks at the moment
+		$filtered = array();
+		foreach ($list as $mod => $notifications) {
+			if (isset($notifications['_filtered'])) {
+				foreach ($notifications['_filtered'] as $hash => $notice) {
+					if (!isset($filtered[$hash])) {
+						$filtered[$hash] = $notice;
+					}
+				}
+			}
+		}
+
+		return $filtered;
+	}
+
+	/**
+	 * Filter our notifications based on process hooks
+	 * @param  array $list An array of notifications
+	 * @param  array $filter=array() A white list of notifications to allow
+	 *         Example: array('sipsettings' => array('BINDPORT'))
+	 * @return array
+	 */
+	public function filterByWhitelist($list, $filter = array()) {
+		if (empty($filter)) {
+			return $list;
+		}
+
+		$filteredNotifications = (isset($list['_filtered'])) ? $list['_filtered'] : array();
+
+		//Only allow modules and id's we care about
+		foreach ($list as $notification) {
+			$hash = sha1($notification['module'].'-'.$notification['id'].'-'.$notification['timestamp']);
+
+			if (isset($filter[$notification['module']]) && in_array($notification['id'], $filter[$notification['module']]) && !isset($filteredNotifications[$hash])) {
+				$filteredNotifications[$hash] = $notification;
+			//Always show tampered notices for security purposes
+			} else if ($notification['module'] == 'freepbx' && $notification['id'] == 'FW_TAMPERED' && !isset($filteredNotifications[$hash])) {
+				$filteredNotifications[$hash] = $notification;
+			}
+		}
+
+		if (!empty($filteredNotifications)) {
+			$list['_filtered'] = $filteredNotifications;
+		}
+
+		return $list;
 	}
 }
