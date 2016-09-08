@@ -97,7 +97,7 @@ class Doctrine extends Command {
 				}
 			}
 
-			if(!in_array($field['type'],array("datetime","datetime/timestamp")) && isset($table['Default']) && trim($table['Default']) !== ""){
+			if(!in_array($field['type'],array("datetime","datetime/timestamp")) && isset($table['Default']) && !is_null($table['Default'])){
 				$export[$table['Field']]['default'] = $table['Default'];
 			}
 			if($table['Extra'] == 'auto_increment'){
