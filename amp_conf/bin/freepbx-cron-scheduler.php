@@ -102,6 +102,7 @@ if(FreePBX::Config()->get('AUTOSECURITYUPDATES')) {
 					$m, implode($vinfo['vul'],', ')
 				);
 			}
+			$extext = $extext.". "._("You can disable this in advanced settings under 'Allow Automatic Security Updates'");
 			$nt->add_notice('freepbx', 'AUTOVULNUPDATE', $text, $extext, 'config.php?display=modules',true,true);
 		}
 	}
