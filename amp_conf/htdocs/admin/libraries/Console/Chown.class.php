@@ -183,7 +183,7 @@ class Chown extends Command {
 			if (is_dir($home)) {
 				$this->modfiles['framework'][] = array('type' => 'rdir',
 															'path' => $home,
-															'perms' => 0775);
+															'perms' => 0755);
 				// SSH folder needs non-world-readable permissions (otherwise ssh complains, and refuses to work)
 				$this->modfiles['framework'][] = array('type' => 'rdir',
 															'path' => "$home/.ssh",
