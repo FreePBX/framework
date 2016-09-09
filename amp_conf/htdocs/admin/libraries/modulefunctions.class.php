@@ -1948,9 +1948,11 @@ class module_functions {
 		if ($modules[$modulename]['status'] == MODULE_STATUS_NOTINSTALLED) {
 			// customize INSERT query
 			$sql = "INSERT INTO modules (modulename, version, enabled) values ('".$db->escapeSimple($modules[$modulename]['rawname'])."','".$db->escapeSimple($modules[$modulename]['version'])."', 1);";
+			freepbx_log(FPBX_LOG_UPDATE,sprintf(_("Module: %s installed at version %s"),$modules[$modulename]['rawname'],$modules[$modulename]['version']));
 		} else {
 			// just need to update the version
 			$sql = "UPDATE modules SET version='".$db->escapeSimple($modules[$modulename]['version'])."' WHERE modulename = '".$db->escapeSimple($modules[$modulename]['rawname'])."'";
+			freepbx_log(FPBX_LOG_UPDATE,sprintf(_("Module: %s Updated to version %s"),$modules[$modulename]['rawname'],$modules[$modulename]['version']));
 		}
 
 		// run query
