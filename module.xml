@@ -3,19 +3,20 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>13.0.184</version>
+	<version>13.0.185</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*13.0.185* #13118 - More mod_rewrite additions. Note that mod_rewrite is REQUIRED as of 13.0.177.
 		*13.0.184* FREEI-333
 		*13.0.183* More logging
 		*13.0.182* Remove overly restrictive htaccess
 		*13.0.181* More filename cleanup
 		*13.0.179* Better htaccess tweaks
-		*13.0.177* htaccess tweaks
+		*13.0.177* htaccess tweaks, mod_rewrite is required as of this release
 		*13.0.176* Cleanup
 		*13.0.175* Update media libraries
 		*13.0.174* Fix zend detection
