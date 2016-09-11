@@ -233,7 +233,7 @@ $asterisk_conf = $freepbx_conf->get_asterisk_conf();
 $bootstrap_settings['amportal_conf_initialized'] = true;
 
 if(!empty($_POST)) {
-	$p = $_POST;
+	$p = $_REQUEST;
 	if(isset($p['secret'])) {
 		unset($p['secret']);
 	}

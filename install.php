@@ -104,6 +104,20 @@ if (is_dir("$wr/admin/images")) {
 	unset($obj);
 }
 
+// Remove any bogus files in views, too
+if (is_dir("$wr/admin/views")) {
+	$obj = new RecursiveIteratorIterator(
+		new RecursiveDirectoryIterator("$wr/admin/views", FilesystemIterator::SKIP_DOTS), 
+		RecursiveIteratorIterator::SELF_FIRST
+	);
+	foreach ($obj as $name => $o) {
+		// There shouldn't be any php files in this diretory
+		if (preg_match('/\/(index|config|ajax).php$/', $name)) {
+			unlink($name);
+		}
+	}
+	unset($obj);
+}
 
 /*
  * Framework install script
