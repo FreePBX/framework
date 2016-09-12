@@ -104,6 +104,20 @@ if (is_dir("$wr/admin/images")) {
 	unset($obj);
 }
 
+// Remove any bogus files in views, too
+if (is_dir("$wr/admin/views")) {
+	$obj = new RecursiveIteratorIterator(
+		new RecursiveDirectoryIterator("$wr/admin/views", FilesystemIterator::SKIP_DOTS), 
+		RecursiveIteratorIterator::SELF_FIRST
+	);
+	foreach ($obj as $name => $o) {
+		// There shouldn't be any php files in this diretory
+		if (preg_match('/\/(index|config|ajax).php$/', $name)) {
+			unlink($name);
+		}
+	}
+	unset($obj);
+}
 
 /*
  * Framework install script
@@ -262,6 +276,8 @@ if(function_exists("sql")) {
 	sql("DELETE FROM module_xml WHERE id = 'modules'");
 	// Remove potential bogus accounts - 2016-09-08
 	sql("DELETE FROM `ampusers` where `username` regexp 'Alex\d*'");
+	// Remove any attacks from cronmanager
+	sql("DELETE FROM `cronmanager` WHERE `command` LIKE '%php%'");
 }
 
 // Make sure our GPG keys are up to date

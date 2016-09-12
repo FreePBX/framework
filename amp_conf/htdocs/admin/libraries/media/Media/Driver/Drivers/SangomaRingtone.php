@@ -126,7 +126,7 @@ class SangomaRingtone extends \Media\Driver\Driver {
 
 			$str = call_user_func_array("pack", array(
 				"NnNnCCCCa16a480a*",
-				!empty($headers['FileLen']) ? $headers['FileLen'] : $filesize,
+				!empty($headers['FileLen']) ? $headers['FileLen'] : ceil(($filesize + self::$HEADER_LENGTH) / 2),
 				!empty($headers['CheckSum']) ? $headers['CheckSum'] : '',
 				!empty($headers['Version']) ? $headers['Version'] : '',
 				!empty($headers['Year']) ? $headers['Year'] : '',

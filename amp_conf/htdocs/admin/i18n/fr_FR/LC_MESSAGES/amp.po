@@ -2431,6 +2431,10 @@ msgstr ""
 msgid "Determine where to send log information if the log is enabled ('Disable FreePBX Log' (AMPDISABLELOG) false. There are two places to route the log messages. 'FILE' will send all log messages to the defined 'FreePBX Log File' (FPBX_LOG_FILE). All the other settings will route the log messages to your System Logging subsystem (syslog) using the specified log level. Syslog can be configured to route different levels to different locations. See 'syslog' documentation (man syslog) on your system for more details."
 msgstr ""
 
+#: amp.i18n.php:1058
+msgid "Determines the mode to use while using popovers (popovers appear when selecting "
+msgstr ""
+
 #: ../core/views/trunks/trunk_header.php:346
 msgid "Determines what CIDs will be allowed out this trunk. IMPORTANT: EMERGENCY CIDs defined on an extension/device will ALWAYS be used if this trunk is part of an EMERGENCY Route regardless of these settings.<br />Allow Any CID: all CIDs including foreign CIDS from forwarded external calls will be transmitted.<br />Block Foreign CIDs: blocks any CID that is the result of a forwarded call from off the system. CIDs defined for extensions/users are transmitted.<br />Remove CNAM: this will remove CNAM from any CID sent out this trunk<br />Force Trunk CID: Always use the CID defined for this trunk except if part of any EMERGENCY Route with an EMERGENCY CID defined for the extension/device."
 msgstr "Détermine quels sont les CIDs autorisés sur ce trunk. IMPORTANT: les CIDS de SECOURS définis pour une extension/terminal seront TOUJOURS utilisés si ce trunk fait partie d'une route SECOURS indépendamment de ces paramètres.<br />Autorise tout CID: tous les CIDs incluant les CIDs étrangers d'appels extérieurs transferrés seront transmis.<br />Bloque les CIDs étrangers: bloque tout CID qui résulte d'un transfert d'appel du système. Les CIDs définis comme extensions/utilisateurs sont transmis.<br />Supprime le CNAM: cela retire le CNAM de tout CID envoyé sur ce trunk<br />Force le CID du trunk: utilise toujours le CID défini pour ce trunk sauf si faisant parti d'une route SECOURS avec un CID SECOURS défini pour cette extension/terminal."
@@ -4492,6 +4496,13 @@ msgstr "SDA invalide, ne peut être vide"
 msgid "Invalid Dial Rules"
 msgstr "\\'Règles de Composition\\' invalide"
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
+msgid "Invalid Language"
+msgstr ""
+
 #: ../core/views/trunks/trunk_footer.php:88
 msgid "Invalid Maximum Channels"
 msgstr "\\'Nombre maximal de Canaux\\' invalide"
@@ -4577,6 +4588,10 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:120
 msgid "Language Code"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
+msgid "Language Support Unknown"
 msgstr ""
 
 #: ../core/views/routing/form.php:45
@@ -5771,6 +5786,10 @@ msgstr "Chemin pour ffmpeg"
 msgid "Path for grep"
 msgstr "Chemin pour grep"
 
+#: amp.i18n.php:898
+msgid "Path for ifconfig"
+msgstr ""
+
 #: amp.i18n.php:928
 msgid "Path for lame"
 msgstr "Chemin pour lame"
@@ -5796,6 +5815,10 @@ msgid "Path for route"
 msgstr "Chemin pour route"
 
 #: amp.i18n.php:964
+msgid "Path for scp"
+msgstr ""
+
+#: amp.i18n.php:964
 msgid "Path for sox"
 msgstr "Chemin pour sox"
 
@@ -5810,6 +5833,10 @@ msgstr "Chemin pour tar"
 #: amp.i18n.php:982
 msgid "Path for touch"
 msgstr "Chemin pour touch"
+
+#: amp.i18n.php:994
+msgid "Path for wanrouter"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:139
 msgid "Path given to verifyModule. Only provide a module name"
@@ -5987,6 +6014,10 @@ msgstr "Merci de patienter: exécution en cours"
 
 #: amp.i18n.php:532
 msgid "Polling Interval for Stopping Asterisk"
+msgstr ""
+
+#: amp.i18n.php:1054
+msgid "Popover Mode"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:374
@@ -7253,6 +7284,11 @@ msgstr "Le programme unzip n'est pas installé. Incapable de traiter le fichier 
 msgid "The context, extension, priority to go to when this DID is matched. Example: app-daynight,0,1"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
+#, php-format
+msgid "The default language of '%s' or '%s' was not found on this system. Please resolve this in advanced settings by changing the system language or installing the default locales [%s]"
+msgstr ""
+
 #: amp.i18n.php:1112
 msgid "The default language used in the webUI"
 msgstr "La langue par défaut à utiliser dans l'interface web"
@@ -7390,6 +7426,10 @@ msgstr "Le chemin vers ffmpeg tel que déterminé automatiquement par le systèm
 msgid "The path to grep as auto-determined by the system. Overwrite as necessary."
 msgstr "Le chemin vers grep tel que déterminé automatiquement par le système. Modifier au besoin."
 
+#: amp.i18n.php:902
+msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
 #: amp.i18n.php:932
 msgid "The path to lame as auto-determined by the system. Overwrite as necessary."
 msgstr "Le chemin vers lame tel que déterminé automatiquement par le système. Modifier au besoin."
@@ -7415,6 +7455,10 @@ msgid "The path to route as auto-determined by the system. Overwrite as necessar
 msgstr "Le chemin vers route tel que déterminé automatiquement par le système. Modifier au besoin."
 
 #: amp.i18n.php:968
+msgid "The path to scp as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+
+#: amp.i18n.php:968
 msgid "The path to sox as auto-determined by the system. Overwrite as necessary."
 msgstr "Le chemin vers sox tel que déterminé automatiquement par le système. Modifier au besoin."
 
@@ -7429,6 +7473,10 @@ msgstr "Le chemin vers tar tel que déterminé automatiquement par le système. 
 #: amp.i18n.php:986
 msgid "The path to touch as auto-determined by the system. Overwrite as necessary."
 msgstr "Le chemin vers touch tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#: amp.i18n.php:998
+msgid "The path to wanrouter as auto-determined by the system. Overwrite as necessary."
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/footer.php:122
 msgid "The secret must be at minimum six characters in length."
@@ -7893,6 +7941,10 @@ msgstr ""
 msgid "Unable to find an intermediary converter for %s"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
+msgid "Unable to find the Locale binary. Your system may not support language changes!"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:117
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:127
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
@@ -7934,6 +7986,15 @@ msgstr ""
 #, php-format
 msgid "Unable to save %s"
 msgstr "Impossible de sauvegarder %s"
+
+#: amp_conf/htdocs/admin/bootstrap.php:285
+msgid "Unable to set timezone"
+msgstr ""
+
+#: amp_conf/htdocs/admin/bootstrap.php:285
+#, php-format
+msgid "Unable to set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:123
 msgid "Unable to start Asterisk!"
@@ -8796,6 +8857,17 @@ msgstr "Vous n\\'avez pas entré de mot de passe dans le champ \\'secret\\' de c
 
 #: ../core/views/users.php:91
 msgid "You have not entered a User Password.  While this is acceptable, this user will not be able to login to an AdHoc user.\\n\\nAre you sure you wish to leave the User Password empty?"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
+#, php-format
+msgid "You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
+#, php-format
+msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:20
@@ -9708,120 +9780,6 @@ msgstr "vous pourriez avoir à ajouter la ligne 'preload => pbx_config.so' a vot
 msgid "zap devices migrated"
 msgstr "dispositifs zap migrés"
 
-#: amp.i18n.php:1058
-msgid "Determines the mode to use while using popovers (popovers appear when selecting "
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
-msgid "Invalid Language"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
-msgid "Language Support Unknown"
-msgstr ""
-
-#: amp.i18n.php:898
-msgid "Path for ifconfig"
-msgstr ""
-
-#: amp.i18n.php:1054
-msgid "Popover Mode"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
-#, php-format
-msgid "The default language of '%s' or '%s' was not found on this system. Please resolve this in advanced settings by changing the system language or installing the default locales [%s]"
-msgstr ""
-
-#: amp.i18n.php:902
-msgid "The path to ifconfig as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
-msgid "Unable to find the Locale binary. Your system may not support language changes!"
-msgstr ""
-
-#: amp_conf/htdocs/admin/bootstrap.php:285
-msgid "Unable to set timezone"
-msgstr ""
-
-#: amp_conf/htdocs/admin/bootstrap.php:285
-#, php-format
-msgid "Unable to set timezone to %s because PHP does not support that timezone, the timezone has been temporarily changed to UTC. Please set the timezone in Advanced Settings."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
-#, php-format
-msgid "You have selected an invalid language '%s' and we were unable to fallback to '%s' or '%s' please resolve this in advanced settings [%s]"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
-#, php-format
-msgid "You have selected an invalid language '%s' this has been automatically switched back to '%s' please resolve this in advanced settings [%s]"
-msgstr ""
-
-#: amp.i18n.php:964
-msgid "Path for scp"
-msgstr ""
-
-#: amp.i18n.php:994
-msgid "Path for wanrouter"
-msgstr ""
-
-#: amp.i18n.php:968
-msgid "The path to scp as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:998
-msgid "The path to wanrouter as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#~ msgid "Path for gs"
-#~ msgstr "Chemin pour gs"
-
-#~ msgid "Path for ps"
-#~ msgstr "Chemin pour ps"
-
-#~ msgid "Path for rsync"
-#~ msgstr "Chemin pour rsync"
-
-#~ msgid "Path for ssh"
-#~ msgstr "Chemin pour ssh"
-
-#~ msgid "Path for tiff2pdf"
-#~ msgstr "Chemin pour tiff2pdf"
-
-#~ msgid "Path for tiffcp"
-#~ msgstr "Chemin pour tiffcp"
-
-#~ msgid "Path for tiffinfo"
-#~ msgstr "Chemin pour tiffinfo"
-
-#~ msgid "The path to gs as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers gs tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to ps as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers ps tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to rsync as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers rsync tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers ssh tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers tiff2pdf tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers tiffcp tel que déterminé automatiquement par le système. Modifier au besoin."
-
-#~ msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
-#~ msgstr "Le chemin vers tiffinfo tel que déterminé automatiquement par le système. Modifier au besoin."
-
 #~ msgid " (toggle sort)"
 #~ msgstr "(Choix tri)"
 
@@ -10377,6 +10335,27 @@ msgstr ""
 #~ msgid "Password<span>Create a password for this new user</span>"
 #~ msgstr "Mot de Passe<span>Mot de passe pour cet administrateur</span>"
 
+#~ msgid "Path for gs"
+#~ msgstr "Chemin pour gs"
+
+#~ msgid "Path for ps"
+#~ msgstr "Chemin pour ps"
+
+#~ msgid "Path for rsync"
+#~ msgstr "Chemin pour rsync"
+
+#~ msgid "Path for ssh"
+#~ msgstr "Chemin pour ssh"
+
+#~ msgid "Path for tiff2pdf"
+#~ msgstr "Chemin pour tiff2pdf"
+
+#~ msgid "Path for tiffcp"
+#~ msgstr "Chemin pour tiffcp"
+
+#~ msgid "Path for tiffinfo"
+#~ msgstr "Chemin pour tiffinfo"
+
 #~ msgid "Pick the format in which to save recorded calls"
 #~ msgstr "Format de sauvegarde des appels enregistrés"
 
@@ -10511,6 +10490,27 @@ msgstr ""
 
 #~ msgid "The following extension numbers are in conflict, you can click on the item(s) below to edit the conflicting entity."
 #~ msgstr "Les extensions suivantes sont en conflit. Vous pouvez cliquer et éditer les entités en conflit."
+
+#~ msgid "The path to gs as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers gs tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#~ msgid "The path to ps as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers ps tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#~ msgid "The path to rsync as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers rsync tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#~ msgid "The path to ssh as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers ssh tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#~ msgid "The path to tiff2pdf as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers tiff2pdf tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#~ msgid "The path to tiffcp as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers tiffcp tel que déterminé automatiquement par le système. Modifier au besoin."
+
+#~ msgid "The path to tiffinfo as auto-determined by the system. Overwrite as necessary."
+#~ msgstr "Le chemin vers tiffinfo tel que déterminé automatiquement par le système. Modifier au besoin."
 
 #~ msgid "The section you requested does not exist or you do not have access to it."
 #~ msgstr "La section demandée n'existe pas ou vous n'y avez pas accès."

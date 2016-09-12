@@ -163,20 +163,6 @@ $freepbx_conf = $bmo->Freepbx_conf();
 //set this before we run date functions
 $timezone = $bmo->View->setTimezone();
 
-if(!empty($_POST)) {
-	$p = $_POST;
-	if(isset($p['secret'])) {
-		unset($p['secret']);
-	}
-	if(isset($p['password'])) {
-		unset($p['password']);
-	}
-	if (isset($p['devinfo_secret_origional'])) {
-		unset($p['devinfo_secret_origional']);
-	}
-	freepbx_log(FPBX_LOG_INFO,json_encode($p));
-}
-
 // passing by reference, this means that the $amp_conf available to everyone is the same one as present
 // within the class, which is probably a direction we want to go to use the class.
 //
@@ -235,6 +221,20 @@ if(!empty($amp_conf['FPBXPERFLOGGING'])) {
 
 $asterisk_conf = $freepbx_conf->get_asterisk_conf();
 $bootstrap_settings['amportal_conf_initialized'] = true;
+
+if(!empty($_POST)) {
+	$p = $_REQUEST;
+	if(isset($p['secret'])) {
+		unset($p['secret']);
+	}
+	if(isset($p['password'])) {
+		unset($p['password']);
+	}
+	if (isset($p['devinfo_secret_origional'])) {
+		unset($p['devinfo_secret_origional']);
+	}
+	freepbx_log_security(json_encode($p));
+}
 
 //connect to cdrdb if requestes
 if ($bootstrap_settings['cdrdb']) {
