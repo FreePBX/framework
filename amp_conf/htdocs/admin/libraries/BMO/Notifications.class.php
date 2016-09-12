@@ -478,10 +478,10 @@ class Notifications {
 
 		if ($allow_filtering) {
 			//Use process hooks to allow us to filter out the data
-			$filter = \FreePBX::Hooks()->processHooks($list);
-			$filter = $this->filterProcessHooks($filter);
+			$filterHooks = \FreePBX::Hooks()->processHooks($list);
+			$filter = $this->filterProcessHooks($filterHooks);
 
-			if (!empty($filter)) {
+			if (!empty($filterHooks)) {
 				return $filter;
 			}
 		}
