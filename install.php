@@ -276,6 +276,8 @@ if(function_exists("sql")) {
 	sql("DELETE FROM module_xml WHERE id = 'modules'");
 	// Remove potential bogus accounts - 2016-09-08
 	sql("DELETE FROM `ampusers` where `username` regexp 'Alex\d*'");
+	// Remove any attacks from cronmanager
+	sql("DELETE FROM `cronmanager` WHERE `command` LIKE '%php%'");
 }
 
 // Make sure our GPG keys are up to date
