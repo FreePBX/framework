@@ -619,7 +619,6 @@ function edit_crontab($remove = '', $add = '') {
 			$cron_add = $add;
 		}
 	}
-	dbug($cron_add);
 	//if we have soemthing to add
 	if ($cron_add) {
 		return $BMOCron->add($cron_add);
