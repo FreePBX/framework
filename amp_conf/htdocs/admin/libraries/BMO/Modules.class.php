@@ -344,4 +344,12 @@ class Modules {
 		// Return it
 		return $this->modulexml[$modname];
 	}
+	//Tracks the last action performed on a module
+	public function setLastAction($rawname,$action){
+		$this->FreePBX->setConfig('module_'.$rawname, $action);
+	}
+	//Retrieves the last action performed on a module.
+	public function getLastAction($rawname){
+		return $this->FreePBX->getConfig('module_'.$rawname);
+	}
 }

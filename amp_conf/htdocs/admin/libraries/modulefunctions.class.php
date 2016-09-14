@@ -1229,6 +1229,7 @@ class module_functions {
 		$this->_setenabled($modulename, true);
 		needreload();
 		modulelist::create($db)->invalidate();
+		FreePBX::Modules()->setLastAction($modulename,'enabled');
 		return true;
 	}
 
@@ -2027,6 +2028,7 @@ class module_functions {
 			}
 		}catch(\Exception $e) {}
 		out(_("Done"));
+		FreePBX::Modules()->setLastAction($modulename,'install');
 		return true;
 	}
 
@@ -2057,6 +2059,7 @@ class module_functions {
 		needreload();
 		//invalidate the modulelist class since it is now stale
 		modulelist::create($db)->invalidate();
+		FreePBX::Modules()->setLastAction($modulename,'disable');
 		return true;
 	}
 
@@ -2131,6 +2134,7 @@ class module_functions {
 			$sth = FreePBX::Database()->prepare("DELETE FROM `kvstore` WHERE `module` = :mod OR `module` = :class");
 			$sth->execute(array(":mod" => $modulename, ":class" => "FreePBX\modules\\".$modulename));
 		} catch(\Exception $e) {}
+			FreePBX::Modules()->setLastAction($modulename,'uninstall');
 		return true;
 	}
 
@@ -2168,7 +2172,7 @@ class module_functions {
 		if ($exitcode != 0) {
 			return array(sprintf(_("Error deleting directory %s (code %d)"), $dir, $exitcode));
 		}
-
+		FreePBX::Modules()->setLastAction($modulename,'delete');
 		// uninstall will have called needreload() if necessary, also invalidate
 		return true;
 	}
