@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-12 11:57-0700\n"
+"POT-Creation-Date: 2016-09-14 14:27-0700\n"
 "PO-Revision-Date: 2016-08-07 07:04+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -221,7 +221,7 @@ msgstr "%s به روزرسانی آنلاین وجود دارد (%s)"
 msgid "%s Upgrade Available (%s)"
 msgstr "%s به روزرسانی در دسترس است (%s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3037
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3053
 #, php-format
 msgid "%s [not enabled]"
 msgstr "%s [فعال نشده]"
@@ -1329,7 +1329,7 @@ msgstr ""
 msgid "Asterisk etc Dir"
 msgstr "دایرکتوری etc استریسک"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:673
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:676
 #, php-format
 msgid ""
 "Asterisk home dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. "
@@ -1839,17 +1839,17 @@ msgstr "لغو"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "عدم اتصال به مدیر استریسک با "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2135
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2151
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "عدم توانایی حذف دایرکتوری %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2025
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2057
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2041
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2073
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr "غیرفعال نمیشود: وابستگی ماژول به: "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1877
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1893
 msgid "Cannot find module"
 msgstr "ماژول پیدا نشد"
 
@@ -2251,8 +2251,8 @@ msgid "Core"
 msgstr "هسته"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1262
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1582
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1671
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1598
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1687
 #, php-format
 msgid "Could Not Create Cache Folder: %s"
 msgstr "نمیتواند فولدر کش ایجاد کند: %s"
@@ -2272,12 +2272,12 @@ msgid "Could not determine module name"
 msgstr "عدم توانایی تشخیص نام ماژول"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1512
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1756
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1772
 #, php-format
 msgid "Could not find extracted module: %s"
 msgstr "نمیتواند ماژول استخراج شده را پیدا کند: %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:65
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:69
 msgid "Could not find gpg command!"
 msgstr "نمیتواند دستور gpg را پیدا کند!"
 
@@ -2286,13 +2286,13 @@ msgid "Could not find signed module on remote server!"
 msgstr "عدم توانایی برای پیدا کردن ماژول تایید شده به روی سرور خارجی!"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1375
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1564
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1840
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1566
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1856
 #, php-format
 msgid "Could not move %s to %s"
 msgstr "نمیتواند %s را به %s منتقل کند"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1884
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1900
 msgid "Could not read module.xml"
 msgstr "نمیتواند module.xml را بخواند"
 
@@ -2303,18 +2303,18 @@ msgid "Could not remove %s to install new version"
 msgstr "نمیتواند %s را حذف کند تا نسخه جدید نصب کند"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1371
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1560
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1820
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1562
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1836
 #, php-format
 msgid "Could not remove old module %s to install new version"
 msgstr "نمیتواند ماژول قدیمی %s را حذف کرده و نسخه جدید نصب کند"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1838
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1854
 #, php-format
 msgid "Could not remove temp storage at %s"
 msgstr "نمیتواند حافظه موقت را از %s حذف کند"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1845
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1861
 #, php-format
 msgid "Could not remove temporary location %s"
 msgstr "نمیتواند محل موقت %s را حذف کند"
@@ -2382,7 +2382,7 @@ msgstr "ایجاد درخواست امضا شده برای %s"
 msgid "Critical"
 msgstr "بحرانی"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3044
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3060
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr "ماژول اساسی \"%s\" تایید نشده، فورا دانلود مجدد کنید"
@@ -3190,7 +3190,7 @@ msgstr ""
 msgid "Directed Call Pickup"
 msgstr "برداشتن مستقیم تماس"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:696
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:699
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it (getGpgLocation)."
 msgstr "دایرکتوری %s وجود ندادر، و نمیتوان آن را ساخت (getGpgLocation)."
@@ -3200,7 +3200,7 @@ msgstr "دایرکتوری %s وجود ندادر، و نمیتوان آن را 
 msgid "Directory %s doesn't exist, and I can't make it."
 msgstr "دایرکتوری %s وجود ندارد، و نمیتواند ساخته شود."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:720
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:723
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
 msgstr "دایرکتوری %s وجود ندارد، و نمیتواند ساخته شود.(بررسی دسترسی ها)"
@@ -3392,7 +3392,7 @@ msgstr "مهم نیست"
 msgid "Don't ask to enable disabled modules assume no."
 msgstr "با فرض پاسخ منفی از پرسش برای فعال کردن ماژولهای غیر فعال خودداری کن."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:703
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:706
 #, php-format
 msgid "Don't have permission/can't write to %s"
 msgstr "دسترسی لازم را ندارید/نمیتوانید بنویسید در %s"
@@ -3415,7 +3415,7 @@ msgstr "هنوز پیزی درباره ماژولها نمیدانید. بسپا
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:798
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:806
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:829
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2002
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2018
 #: amp_conf/htdocs/admin/page.modules.php:376
 #: amp_conf/htdocs/admin/page.modules.php:1059 ../core/install.php:1528
 msgid "Done"
@@ -3925,17 +3925,17 @@ msgstr "Error  Signing Cert with '%s': %s"
 msgid "Error converting zap to dahdi in devices table and AstDB"
 msgstr "خطا در تبدیل zap به dahdi در جدول وسایل و بانک اطلاعاتی استریسک"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1826
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1842
 #, php-format
 msgid "Error creating module directory: %s"
 msgstr "خطا در ایجاد دایرکتوری ماژول: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1741
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1757
 #, php-format
 msgid "Error creating temporary directory: %s"
 msgstr "خطا در ایجاد دایرکتوری موقت: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2142
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2158
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "خطا حذف دایرکتوری %s (کد %d)"
@@ -3945,28 +3945,28 @@ msgstr "خطا حذف دایرکتوری %s (کد %d)"
 msgid "Error fetching prefix list for: "
 msgstr "خطا در دریافت فهرست پیش شماره ها برای: "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1707
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1723
 msgid ""
 "Error finding uploaded file - check your PHP and/or web server configuration"
 msgstr "خطا در یافتن فایل بارگذاری شده - پیکربندی PHP و/یا وب سرور را چک کنید"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1767
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1777
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1783
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1793
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1799
 #, php-format
 msgid "Error from %s: %s"
 msgstr "خطا از %s: %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1457
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1460
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1635
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1638
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1651
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1654
 #, php-format
 msgid "Error opening %s for reading"
 msgstr "خطا در بازکردن %s برای خواندن"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1397
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1611
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1627
 #, php-format
 msgid "Error opening %s for writing"
 msgstr "خطا در بازکردن %s برای نوشتن"
@@ -3980,12 +3980,12 @@ msgstr "خطا در تحلیل cdr_mysql.conf، منتقل نشد"
 msgid "Error updating GPG Keys: %s"
 msgstr "خطا در حال به روزرسانی کلیدهای GPG: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1950
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1966
 #, php-format
 msgid "Error updating database. Command was: %s; error was: %s "
 msgstr "خطا در به روزرسانی بانک اطلاعاتی. دستور: %s; خطا: %s "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2080
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2096
 msgid "Error updating database: "
 msgstr "خطا در به روزرسانی بانک اطلاعاتی: "
 
@@ -4207,7 +4207,7 @@ msgid ""
 msgstr "شکست در تغییر وقفه نوشتاری AMI به [%s]، جزییات شکست داخلی:"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1419
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1607
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1623
 #, php-format
 msgid "Failed download module tarball from %s, server may be down"
 msgstr "شکست در دانلود فایل فشرده ماژول از %s، ممکن است سرور در دسترس نباشد"
@@ -4220,12 +4220,12 @@ msgstr "حذف ناموفق"
 msgid "Failed to Remove directory"
 msgstr "حذف ناموفق دایرکتوری"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2929
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2945
 #, php-format
 msgid "Failed to get remote file, error was:"
 msgstr "شکست در دریافت فایل خارجی، خطا:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2942
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2958
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:500
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -4252,12 +4252,12 @@ msgstr ""
 "Failed to  reload AMI, manual reload will be necessary, try: [asterisk -rx "
 "'module reload manager']"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1922
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1936
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1938
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1952
 msgid "Failed to run installation scripts"
 msgstr "شکست در اجرای اسکریپت های نصب"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2084
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2100
 msgid "Failed to run un-installation scripts"
 msgstr "شکست در اجرای اسکریپت های عزل"
 
@@ -4273,7 +4273,7 @@ msgstr "شکست در ارسال ایمیل هشدار امنیتی"
 msgid "Failed to send unsigned modules notification email"
 msgstr "شکست در ارسال ایمیل هشدارهای ماژول های تایید نشده"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1694
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1710
 msgid "Failed to write file to disk"
 msgstr "شکست در نوشتن فایل در دیسک"
 
@@ -4303,14 +4303,14 @@ msgid "File %s has a revoked signature. Can not load"
 msgstr "File %s has a  revoked signature. Can not load"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1507
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1751
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1767
 #, php-format
 msgid "File Integrity failed for %s - aborting (Cause: %s)"
 msgstr "File Integrity  failed for %s - aborting (Cause: %s)"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1499
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1502
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1748
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1764
 #, php-format
 msgid "File Integrity failed for %s - aborting (GPG Verify File check failed)"
 msgstr ""
@@ -4331,7 +4331,7 @@ msgstr "File  Integrity failed for %s - aborting (sha1 did not match)"
 msgid "File does not exist"
 msgstr "فایل موجود نیست"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1697
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1713
 msgid "File upload stopped by extension"
 msgstr "بارگذاری فایل به وسیله داخلی متوقف شد"
 
@@ -4505,7 +4505,7 @@ msgstr "اجباری کردن استفاده از پورت بازگشتی."
 msgid "Forced"
 msgstr "اجباری"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2954
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2970
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:512
 #, php-format
 msgid "Forced %s to true"
@@ -4550,7 +4550,7 @@ msgstr "یافتن وابستگی محلی از: %s %s"
 msgid "Found what appear to be invalid emergency callerid entries."
 msgstr "Found  what appear to be invalid emergency callerid entries."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1957
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1973
 #, php-format
 msgid "Framework Detected, Setting FreePBX Version to %s"
 msgstr "تشخیص فریم ورک، تنظیمات نسخه FreePBX به %s"
@@ -4724,7 +4724,7 @@ msgstr ""
 "installs may have some early logging sent to /tmp/freepbx_pre_install.log "
 "when it is first bootstrapping the installer."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:448
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:451
 #, php-format
 msgid "GPG took too long to run the command: [%s]"
 msgstr "GPG took too  long to run the command: [%s]"
@@ -4775,7 +4775,7 @@ msgstr ""
 "code and plays a message to the effect. If you use the Early Dial feature on "
 "some Grandstream phones, you will want to set this to false."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1994
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2010
 msgid "Generating CSS..."
 msgstr "تولید CSS..."
 
@@ -4943,7 +4943,7 @@ msgstr "برای شنیدن روی کلید اجرا کلیک کنید"
 msgid "Hit the red record button to start recording from your browser"
 msgstr "برای ضبط از مرورگر روی کلید قرمز کلیک کنید"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:686
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:689
 #, php-format
 msgid "Home directory %s doesn't exist, and I can't create it"
 msgstr "دایرکتوری خانگی %s وجود ندارد، و نمیتواند ایجاد شود"
@@ -5005,11 +5005,11 @@ msgstr ""
 "custom device which is really a remote SIP URI might be configured such as "
 "SIP/joe@somedomain.com"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:382
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:385
 msgid "I can only do .gpg files at the moment"
 msgstr "I can  only do .gpg files at the moment"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:658
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:661
 msgid "I don't know who I should be running GPG as."
 msgstr "I don't know  who I should be running GPG as."
 
@@ -5017,7 +5017,7 @@ msgstr "I don't know  who I should be running GPG as."
 msgid "I don't know who I should be running OpenSSL as."
 msgstr "I don't know  who I should be running OpenSSL as."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:664
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:667
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:180
 #, php-format
 msgid ""
@@ -5268,7 +5268,7 @@ msgstr ""
 "anonymous sip calls, you can supply a friendly name that can be used in "
 "addition to the users extension to call them."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:190
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:203
 msgid ""
 "If you're i18n-ing this file, read the comment about 'altered' and 'missing'"
 msgstr ""
@@ -5364,7 +5364,7 @@ msgstr "ورودی"
 msgid "Incoming DID"
 msgstr "داخلی مستقیم ورودی"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1799
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1815
 #, php-format
 msgid "Incorrect Number of Directories for %s"
 msgstr "شماره نادرست از دایرکتوریها برای %s"
@@ -5478,7 +5478,7 @@ msgstr "اطلاعات هشدار داخلی"
 msgid "Internal Auto Answer Default"
 msgstr "پاسخ خودکار داخلی پیشفرض"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1964
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1980
 msgid ""
 "Internal Error. Function getVersion did not match the Framework version, "
 "even after it was suppose to be applied"
@@ -5553,7 +5553,7 @@ msgstr "نام ترانک وارد شده نامعتبر"
 msgid "Invalid Username or Password"
 msgstr "نام کاربری یا کلمه عبور نامعتبر است"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2193
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2209
 msgid "Invalid description"
 msgstr "توضیحات نامعتبر"
 
@@ -5612,7 +5612,7 @@ msgstr "شما نیاز به تغییر چندانی در این بخش ندار
 msgid "KEYWORD"
 msgstr "کلید واژه"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:279
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:292
 #, php-format
 msgid "Key provided - %s - is not hex"
 msgstr "ارائه کلید - %s  - هگزا نیست"
@@ -5932,7 +5932,7 @@ msgstr "Missing O or CN. Can't  create"
 msgid "Missing Requirements"
 msgstr "ملزومات گمشده"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1691
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1707
 msgid "Missing a temporary folder"
 msgstr "گمشدن فولدر موقت"
 
@@ -5953,7 +5953,7 @@ msgstr "گمشدن نام ماژول"
 msgid "Missing module name or URL"
 msgstr "گمشدن نام ماژول یا URL"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1807
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1823
 #, php-format
 msgid "Missing module.xml in %s"
 msgstr "گمشدنmodule.xml در %s"
@@ -6005,22 +6005,22 @@ msgstr "ماژول"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1199
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1204
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1210
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1889
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1895
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1905
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1911
 msgid "Module "
 msgstr "ماژول "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3024
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3040
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr "ماژول \"%s\" وضعیت تایید خود را از دست داده است."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3046
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3062
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr "ماژول \"%s\" تایید نشده باید مجدد دانلود شود"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3039
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3055
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr "ماژول \"%s\" با کلید نادرستی تایید شده."
@@ -6119,7 +6119,7 @@ msgstr "ماژول غیر فعال شده - نیاز به بروزشدن دار�
 msgid "Module Information"
 msgstr "اطلاعات ماژول"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1814
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1830
 #, php-format
 msgid "Module Name is blank in %s"
 msgstr "نام ماژول خالی است در %s"
@@ -6159,11 +6159,11 @@ msgstr "ماژول تایید نشده"
 msgid "Module names"
 msgstr "نام ماژول"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2021
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2037
 msgid "Module not enabled: cannot disable"
 msgstr "ماژول فعال نشده: نمیتواند غیرفعال شود"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2053
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2069
 msgid "Module not installed: cannot uninstall"
 msgstr "ماژول نصب نشده: نمیتواند عزل شود"
 
@@ -6174,7 +6174,7 @@ msgid ""
 "it available."
 msgstr "ماژول با موفقیت به روزشد. برای اطمینان باید ماژول %s را فعال کنید."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3060
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3076
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
@@ -6183,12 +6183,12 @@ msgstr ""
 "Module: \"%s\"'s signature  has been revoked. Module has been automatically "
 "disabled"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3054
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3070
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr "ماژول: \"%s\", فایل: \"%s\""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3052
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3068
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -6440,7 +6440,7 @@ msgstr "ماژول فعالی به این ماژول وابسته نیست."
 msgid "No file given to load"
 msgstr "فایلی برای اجرا نیست"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1688
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1704
 msgid "No file was uploaded"
 msgstr "فایلی برای بارگذاری نیست"
 
@@ -6448,7 +6448,7 @@ msgstr "فایلی برای بارگذاری نیست"
 msgid "No interfaces found"
 msgstr "رابط ها یافت نشدند"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:135
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:148
 msgid "No module to check"
 msgstr "ماژولی برای بررسی نیست"
 
@@ -6460,7 +6460,7 @@ msgstr "ماژولی برای نمایش نیست."
 msgid "No name for this CA"
 msgstr "بدون نام برای این CA"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:612
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:615
 msgid "No status was given to checkStatus"
 msgstr "وضعیتی برای checkStatus مشخص نشده است"
 
@@ -7197,7 +7197,7 @@ msgstr "مسیر برای tiffinfo"
 msgid "Path for touch"
 msgstr "مسیر برای touch"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:139
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:152
 msgid "Path given to verifyModule. Only provide a module name"
 msgstr "Path given to verifyModule. Only provide  a module name"
 
@@ -7230,7 +7230,7 @@ msgstr ""
 "Permanent  contacts assigned to AoR. This setting is automatically generated "
 "by the PBX if left blank"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:749
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:752
 #, php-format
 msgid ""
 "Permissions error on %s - please run 'fwconsole chown' as root to repair"
@@ -7238,7 +7238,7 @@ msgstr ""
 "خطا در سطوح دسترسی %s - لطفا دستور 'fwconsole chown' را با دسترسی روت اجرا "
 "کنید"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:735
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:738
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:574
 #, php-format
 msgid ""
@@ -8572,9 +8572,9 @@ msgstr ""
 msgid "Some of these settings can render your system inoperable."
 msgstr "Some of these  settings can render your system inoperable."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2016
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2048
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2121
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2032
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2064
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2137
 msgid "Specified module not found"
 msgstr "ماژول مشخص شده یافت نشد"
 
@@ -8985,7 +8985,7 @@ msgstr ""
 msgid "The autoloader is damaged. Please run: "
 msgstr "The autoloader is  damaged. Please run: "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1773
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1789
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr "The binary  unzip is not installed. Unable to work with zip file"
 
@@ -9026,7 +9026,7 @@ msgstr ""
 msgid "The extension number to dial to reach this user."
 msgstr "شماره داخلی برای دسترسی به این کاربر."
 
-#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:307
+#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:310
 msgid ""
 "The file format sln48 is not supported by Asterisk when it should be. Audio "
 "conversion quality will be limited to 16k instead of 48k"
@@ -9034,7 +9034,7 @@ msgstr ""
 "The file format sln48 is not  supported by Asterisk when it should be. Audio "
 "conversion quality will be limited to 16k instead of 48k"
 
-#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:307
+#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:310
 msgid "The file format sln48 is not supported on your system"
 msgstr "فایل فرمت sln48 در سیستم شما پشتیبانی نمیشود"
 
@@ -9070,11 +9070,11 @@ msgstr "خطا(های) زیر رخ داده:"
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr "خطا(های) زیر در فایل بارگذاری شده رخ داده: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2587
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2603
 msgid "The following modules are disabled because they are broken:"
 msgstr "The following modules  are disabled because they are broken:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2579
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2595
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "ماژول های زیر غیرفعال هستند زیرا باید به روز شوند:"
 
@@ -9335,7 +9335,7 @@ msgstr ""
 "you did not intended to execute this command as it may result in changes to "
 "your configuration."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2955
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2971
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:513
 #, php-format
 msgid ""
@@ -9355,7 +9355,7 @@ msgstr ""
 "The telephony backend engine  being used, asterisk is the only option "
 "currently."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1682
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1698
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
@@ -9363,12 +9363,12 @@ msgstr ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive  that was specified in "
 "the HTML form"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1679
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1695
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
 "The uploaded file exceeds the upload_max_filesize  directive in php.ini"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1685
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1701
 msgid "The uploaded file was only partially uploaded"
 msgstr "The uploaded file  was only partially uploaded"
 
@@ -9995,12 +9995,12 @@ msgstr "عدم توانایی اتصال به سرورها از آدرس های:
 msgid "Unable to create %s config file"
 msgstr "عدم توانایی ایجاد فایل پیکربندی %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:316
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:319
 #, php-format
 msgid "Unable to download GPG key %s, or find %s or %s"
 msgstr "Unable to  download GPG key %s, or find %s or %s"
 
-#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:287
+#: amp_conf/htdocs/admin/libraries/media/Media/Media.php:290
 #, php-format
 msgid "Unable to find an intermediary converter for %s"
 msgstr "Unable  to find an intermediary converter for %s"
@@ -10018,7 +10018,7 @@ msgstr "فایل باینری محلی پیدا نشد. سیستم شما از �
 msgid "Unable to locate the FreePBX BMO Class '%s'"
 msgstr "Unable to  locate the FreePBX BMO Class '%s'"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:76
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:89
 #, php-format
 msgid "Unable to open file %s"
 msgstr "عدم توانایی بازکردن فایل %s"
@@ -10052,7 +10052,7 @@ msgstr ""
 "PID %s and has been running for %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1482
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1727
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1743
 #, php-format
 msgid "Unable to save %s"
 msgstr "عدم توانایی ذخیره %s"
@@ -10076,7 +10076,7 @@ msgstr ""
 msgid "Unable to start Asterisk!"
 msgstr "عدم اجرای استریسک!"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:440
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:443
 #, php-format
 msgid "Unable to start GPG, the command was: [%s]"
 msgstr "Unable to  start GPG, the command was: [%s]"
@@ -10085,18 +10085,18 @@ msgstr "Unable to  start GPG, the command was: [%s]"
 msgid "Unable to start OpenSSL"
 msgstr "عدم توانایی اجرای OpenSSL"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:389
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:392
 #, php-format
 msgid "Unable to strip signature - result was: %s"
 msgstr "Unable to  strip signature - result was: %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:358
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:361
 #, php-format
 msgid "Unable to trust the FreePBX Key! -- %s"
 msgstr "Unable to  trust the FreePBX Key! -- %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1515
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1760
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1776
 #, php-format
 msgid "Unable to work with GPG file, message was: %s"
 msgstr "Unable to work  with GPG file, message was: %s"
@@ -10153,7 +10153,7 @@ msgid "Unknown error fetching Custom Context table data or no data to migrate"
 msgstr ""
 "Unknown error  fetching Custom Context table data or no data to migrate"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1787
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1803
 #, php-format
 msgid ""
 "Unknown file format of %s for %s, supported formats: tar,tgz,tar.gz,zip,bzip"
@@ -10165,7 +10165,7 @@ msgstr ""
 msgid "Unknown filetype of: %s[%s]"
 msgstr "نوع فایل ناشناخته از：%s[%s]"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1700
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1716
 msgid "Unknown upload error"
 msgstr "خطا بارگذاری ناشناخته"
 
@@ -11179,37 +11179,37 @@ msgstr ""
 msgid "You can't set the default to the default"
 msgstr "You can't set the default  to the default"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3096
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3112
 #, php-format
 msgid "You have %s %s modules"
 msgstr "You  have %s %s modules"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2586
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2602
 #, php-format
 msgid "You have %s broken modules"
 msgstr "You  have %s broken modules"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2578
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2594
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "شما %s ماژول غیرفعال دارید"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3093
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3109
 #, php-format
 msgid "You have %s tampered files"
 msgstr "You  have %s tampered files"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3084
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3087
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3100
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3103
 #, php-format
 msgid "You have %s unsigned modules"
 msgstr "You  have %s unsigned modules"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2586
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2602
 msgid "You have a broken module"
 msgstr "You have  a broken module"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2578
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2594
 msgid "You have a disabled module"
 msgstr "شما ماژول غیر فعال دارید"
 
@@ -11387,8 +11387,8 @@ msgstr ""
 msgid "You should fix the problem or select another file and %s."
 msgstr "شما باید مشکل را برطرف کرده یا فایل دیگری انتخاب کنید و %s."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2580
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2588
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2596
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2604
 msgid "You should go to the module admin page to fix these."
 msgstr "برای حل این مورد باید به صفحه مدیریت ماژول بروید."
 
@@ -11518,8 +11518,8 @@ msgstr ""
 "alt attribute to use in  place of image and title hover value. Defaults to "
 "FreePBX"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:182
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3006
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:195
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3022
 msgid "altered"
 msgstr "تغییر داده شد"
 
@@ -11557,7 +11557,7 @@ msgstr "called set_conf_values with  a non-array"
 msgid "changed %s settings"
 msgstr "تنظیمات %s تغییر کرد"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:569
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:572
 #, php-format
 msgid "checkSig was given %s, which is not a file"
 msgstr "checkSig was  given %s, which is not a file"
@@ -11744,14 +11744,14 @@ msgstr "failed  reading %s, file not being removed"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1366
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1555
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1793
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1809
 #, php-format
 msgid "failed to delete %s from cache directory after opening module archive."
 msgstr ""
 "failed to  delete %s from cache directory after opening module archive."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2328
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2334
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2344
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2350
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr "failed to  include %s during %s of the %s module."
@@ -11819,12 +11819,12 @@ msgstr ""
 "freepbx setting  ZAP2DAHDICOMPAT not found, somethng  is corrupt in the conf "
 "database?"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:525
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:528
 #, php-format
 msgid "getHashes was given %s which is not a directory!"
 msgstr "getHashes was  given %s which is not a directory!"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:332
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:335
 #, php-format
 msgid "gpg --export-ownertrust didn't return sane stuff - %s"
 msgstr "gpg --export-ownertrust didn't  return sane stuff - %s"
@@ -11992,7 +11992,7 @@ msgstr "در حال انتقال محتوای جدول zap به جدول dahdi..
 msgid "migrating.."
 msgstr "در حال انتقال.."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:174
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:187
 msgid "missing"
 msgstr "از دست دادن"
 
@@ -12011,7 +12011,7 @@ msgstr "missing options  for keyword [%s] required if type is select"
 msgid "missing value and/or defaultval required for [%s]"
 msgstr "از دست دادن مقدار و/یا مقدار اولیه لازم برای [%s]"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:158
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:171
 #, php-format
 msgid "module.sig check failed! %s"
 msgstr "module.sig check  failed! %s"
@@ -12159,7 +12159,7 @@ msgstr "renaming table  zapchandids to dahdichandids.."
 msgid "retrieve_conf failed, config not applied"
 msgstr "شکست retrieve_conf، تنظیمات اعمال نشد"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3071
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3087
 msgid "revoked"
 msgstr "لغو شده"
 
@@ -12194,7 +12194,7 @@ msgstr "sip :[username]@[ip]:[port]"
 msgid "starting migration"
 msgstr "آغاز منتقل کردن"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3069
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3085
 msgid "tampered"
 msgstr "دستکاری"
 
@@ -12217,7 +12217,7 @@ msgstr "trying to  move res_odbc.conf to res_odbc_custom.conf"
 msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr "trying to set  keyword [%s] to [%s] on uninitialized setting"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3070
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3086
 msgid "unknown"
 msgstr "ناشناخته"
 
@@ -12231,12 +12231,12 @@ msgstr "نوع ناشناخته: [%s]"
 msgid "unrecognized rule: %s discarding"
 msgstr "unrecognized  rule: %s discarding"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:147
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3068
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:160
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3084
 msgid "unsigned"
 msgstr "بدون امضا"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3067
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3083
 msgid "untrusted"
 msgstr "غیر قابل اطمینان"
 
