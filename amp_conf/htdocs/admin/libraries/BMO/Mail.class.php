@@ -12,7 +12,7 @@ namespace FreePBX;
 class Mail {
 	public function __construct() {
     //TODO: Get configs from sysadmin if available
-    $transport = \Swift_SmtpTransport::newInstance('localhost', 25);
+    $transport = $this->getTransport();
     $this->mailer = \Swift_Mailer::newInstance($transport);
     $from_email = \get_current_user() . '@' . \gethostname();
     if(function_exists('\\sysadmin_get_storage_email')){
@@ -75,6 +75,57 @@ class Mail {
       return $this->mailer->send($this->mail);
     }else{
       throw new Exception("Recipient and message must be set", 1);
+    }
+  }
+  private function getTransport(){
+    if(function_exists('\\sysadmin_get_email_setup')){
+      $emailsettings = \sysadmin_get_storage_email();
+    }else{
+      return \Swift_SmtpTransport::newInstance('localhost', 25);
+    }
+    switch ($emailsettings['email_setup_server']) {
+      case 'internal':
+        return \Swift_SmtpTransport::newInstance('localhost', 25);
+      break;
+      case 'external':
+        switch ($emailsettings['email_setup_provider']) {
+          case 'gmail':
+            $transport = \Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, 'ssl');
+            $transport->setUsername($emailsettings['email_setup_username']);
+            $transport->setPassword($emailsettings['email_setup_password']);
+            return $transport;
+          break;
+          case 'o365':
+          $transport = \Swift_SmtpTransport::newInstance('smtp.office365.com', 587, 'tls');
+          $transport->setUsername($emailsettings['email_setup_username']);
+          $transport->setPassword($emailsettings['email_setup_password']);
+          return $transport;
+          break;
+          case 'other':
+          default:
+            $transport = \Swift_SmtpTransport::newInstance('localhost', 25);
+            if(isset($emailsettings['email_setup_smtp_setver']) && !empty($emailsettings['email_setup_smtp_setver'])){
+              $transport->setHost($emailsettings['email_setup_smtp_setver']);
+            }
+            if(isset($emailsettings['email_setup_auth']) && $emailsettings['email_setup_auth'] === 'yes'){
+              if(isset($emailsettings['email_setup_username']) && !empty($emailsettings['email_setup_username'])){
+                $transport->setUsername($emailsettings['email_setup_username']);
+              }
+              if(isset($emailsettings['email_setup_password']) && !empty($emailsettings['email_setup_password'])){
+                $transport->setPassword($emailsettings['email_setup_password']);
+              }
+            }
+            if(isset($emailsettings['email_setup_tls']) && $emailsettings['email_setup_tls'] === 'yes'){
+              $transport->setPort(587);
+              $transport->setEncryption('tls');
+            }
+            return $transport;
+          break;
+        }
+      break;
+      default:
+        return \Swift_SmtpTransport::newInstance('localhost', 25);
+      break;
     }
   }
 }
