@@ -54,15 +54,28 @@ class GPG {
 	// This may need to be tuned on things like the pi.
 	public $timeout = 3;
 
+	// Manually loaded keys are here (This gets initialized in
+	// __construct, below, because PHP)
+	public $keydir;
+
 	// Constructor, to provide some per-OS values
 	// Fail if gpg isn't in an expected place
-	function __construct() {
+	public function __construct() {
 		if (file_exists('/usr/local/bin/gpg')) {
 			$this->gpg = '/usr/local/bin/gpg';
 		} elseif (file_exists('/usr/bin/gpg')) {
 			$this->gpg = '/usr/bin/gpg';
 		} else {
 			throw new Exception(_("Could not find gpg command!"));
+		}
+
+		$this->keydir = __DIR__."/signatures";
+
+		// Try to make our Signatures directory, for module-installed keyfiles
+		if (!is_dir($this->keydir)) {
+			// It doesn't exit. Try weakly to make it, it doesn't
+			// really matter if we can't.
+			@mkdir($this->keydir);
 		}
 	}
 
@@ -279,6 +292,12 @@ class GPG {
 			throw new \Exception(sprintf(_("Key provided - %s - is not hex"),$key));
 		}
 
+		// Before we try online, Do we have this key in a local file?
+		if ($this->getKeyFromFs($key)) {
+			return true;
+		}
+
+		// No. OK, so try online.
 		foreach ($this->keyservers as $ks) {
 			try {
 				$retarr = $this->runGPG("--keyserver $ks --recv-keys $key");
@@ -292,22 +311,6 @@ class GPG {
 				continue;
 			}
 			// We found it. And loaded it. Yay!
-			$this->checkPermissions();
-			return true;
-		}
-
-		// Do we have this key in a local file?
-		$longkey = __DIR__."/${key}.key";
-		if (file_exists($longkey)) {
-			$out = $this->runGPG("--import $longkey");
-			$this->checkPermissions();
-			return true;
-		}
-
-		// Maybe a shorter version of it?
-		$shortkey = __DIR__."/".substr($key, -8).".key";
-		if (file_exists($shortkey)) {
-			$out = $this->runGPG("--import $shortkey");
 			$this->checkPermissions();
 			return true;
 		}
@@ -753,5 +756,39 @@ class GPG {
 				chgrp($file, $gid);
 			}
 		}
+	}
+
+	private function getKeyFromFs($key) {
+		// Try in the BMO directory first
+		$longkey = __DIR__."/${key}.key";
+		if (file_exists($longkey)) {
+			$out = $this->runGPG("--import $longkey");
+			$this->checkPermissions();
+			return true;
+		}
+		// Short?
+		$shortkey = __DIR__."/".substr($key, -8).".key";
+		if (file_exists($shortkey)) {
+			$out = $this->runGPG("--import $shortkey");
+			$this->checkPermissions();
+			return true;
+		}
+		//  OK, now look in the proper directory
+		$longkey = $this->keydir."/${key}.key";
+		if (file_exists($longkey)) {
+			$out = $this->runGPG("--import $longkey");
+			$this->checkPermissions();
+			return true;
+		}
+		// Short?
+		$shortkey = $this->keydir."/".substr($key, -8).".key";
+		if (file_exists($shortkey)) {
+			$out = $this->runGPG("--import $shortkey");
+			$this->checkPermissions();
+			return true;
+		}
+
+		// Didn't find it on the filesystem. Continue on..
+		return false;
 	}
 }

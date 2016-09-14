@@ -40,6 +40,9 @@ class Media {
 	public static function cleanFileName($name) {
 		$name = pathinfo($name,PATHINFO_FILENAME);
 		$name = str_replace(" ","-",$name);
+		if(function_exists('iconv')) {
+			$name = iconv("UTF-8", "ISO-8859-1//TRANSLIT", $name);
+		}
 		$name = preg_replace('/\s+|\'+|\\\+|\$+|`+|\"+|<+|>+|\?+|\*+|,+|\.+|&+|;+|\/+/','-',strtolower($name));
 		$name = preg_replace('/[\x00-\x1F\x80-\xFF]/u', '', $name);
 		return $name;

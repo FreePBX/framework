@@ -1208,7 +1208,7 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 		exec("sed -i.bak $sed_arg $conf_file", $output2, $ret2);
 		if ($ret2) {
 			freepbx_log(FPBX_LOG_ERROR,sprintf(_("Failed changing AMI password to [%s], internal failure details follow:"),$amp_conf['AMPMGRPASS']));
-			foreach ($output as $line) {
+			foreach ($output2 as $line) {
 				freepbx_log(FPBX_LOG_ERROR,sprintf(_("AMI failure details:"),$line));
 			}
 		}
@@ -1233,7 +1233,7 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 		exec("sed -i.bak $sed_arg $conf_file", $output3, $ret3);
 		if ($ret3) {
 			freepbx_log(FPBX_LOG_ERROR,sprintf(_("Failed changing AMI writetimout to [%s], internal failure details follow:"),$amp_conf['ASTMGRWRITETIMEOUT']));
-			foreach ($output as $line) {
+			foreach ($output3 as $line) {
 				freepbx_log(FPBX_LOG_ERROR,sprintf(_("AMI failure details:"),$line));
 			}
 		}
