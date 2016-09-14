@@ -1564,13 +1564,15 @@ class module_functions {
 				freepbx_log(FPBX_LOG_WARNING,sprintf(_("failed to delete %s from cache directory after opening module archive."),$filename));
 			}
 		}
-		exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
+
+		$dest = $amp_conf['AMPWEBROOT']."/admin/modules/$modulename";
+		exec("rm -rf $dest", $output, $exitcode);
 		if ($exitcode != 0) {
-			return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename));
+			return array(sprintf(_('Could not remove old module %s to install new version'), $dest));
 		}
-		exec("mv ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename ".$amp_conf['AMPWEBROOT']."/admin/modules/$modulename", $output, $exitcode);
+		exec("mv ".$amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename $dest", $output, $exitcode);
 		if ($exitcode != 0) {
-			return array(sprintf(_('Could not move %s to %s'), $amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename", $amp_conf['AMPWEBROOT'].'/admin/modules/'));
+			return array(sprintf(_('Could not move %s to %s'), $amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename", $dest));
 		}
 
 		// invoke progress_callback
@@ -1578,6 +1580,20 @@ class module_functions {
 			$progress_callback('done', array('module'=>$modulename));
 		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
 			$progress_callback[0]->$progress_callback[1]('done', array('module'=>$modulename));
+		}
+
+		// See if there is a signature folder in the module directory, and if there is, add any GPG keys
+		// that are in there to our signature folder
+		if (is_dir("$dest/signatures")) {
+			// Find all the key files in there and copy them to the GPG key folder
+			$gpg = \FreePBX::GPG();
+			// Don't bother if there isn't a keydir.
+			if (is_dir($gpg->keydir)) {
+				$keys = glob("$dest/signatures/*.key");
+				foreach ($keys as $k) {
+					copy($k, $gpg->keydir);
+				}
+			}
 		}
 
 		return true;
