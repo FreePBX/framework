@@ -636,7 +636,7 @@ class Moduleadmin extends Command {
 		if (count($modules) > 0) {
 			$this->writeln("Installing: ".implode(', ',$modules));
 			foreach ($modules as $module => $name) {
-				if(\FreePBX::Modules->getLastAction($name) === 'uninstall'){
+				if(\FreePBX::Modules()->getLastAction($name) === 'uninstall'){
 					$this->writeln(_("Skipping previously uninstalled module ").$name."...");
 					continue;
 				}
