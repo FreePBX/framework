@@ -1956,6 +1956,43 @@ class module_functions {
 			return $rejects;
 		}
 
+		$xml = simplexml_load_file($dir.'/module.xml');
+		if(!empty($xml->database)) {
+			foreach($xml->database->table as $table) {
+				$tname = (string)$table->attributes()->name;
+				$cols = array();
+				$indexes = array();
+				foreach($table->field as $field) {
+					$name = (string)$field->attributes()->name;
+					$cols[$name] = array();
+					foreach($field->attributes() as $key => $value) {
+						if($key == "name") {
+							continue;
+						}
+						$cols[$name][$key] = (string)$value;
+					}
+				}
+				if(!empty($table->key)) {
+					foreach($table->key as $field) {
+						$name = (string)$field->attributes()->name;
+						$indexes[$name] = array();
+						foreach($field->attributes() as $key => $value) {
+							if($key == "name") {
+								continue;
+							}
+							$indexes[$name][$key] = (string)$value;
+						}
+						$indexes[$name]['cols'] = array();
+						foreach($field->column as $col) {
+							$indexes[$name]['cols'][] = (string)$col->attributes()->name;
+						}
+					}
+				}
+				$table = \FreePBX::Database()->migrate($name);
+				$table->modify($cols, $indexes);
+			}
+		}
+
 		// run the scripts
 		if (!$this->_runscripts($modulename, 'install', $modules)) {
 			return array(_("Failed to run installation scripts"));
@@ -2099,6 +2136,18 @@ class module_functions {
 		}
 		if (!empty($rejects)) {
 			return $rejects;
+		}
+
+		$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
+		if(file_exists($dir.'/module.xml')) {
+			$xml = simplexml_load_file($dir.'/module.xml');
+			if(!empty($xml->database)) {
+				foreach($xml->database->table as $table) {
+					$tname = (string)$table->attributes()->name;
+					$sth = FreePBX::Database()->prepare("DROP TABLE IF EXISTS ".$tname);
+					$sth->execute();
+				}
+			}
 		}
 
 		$sql = "DELETE FROM modules WHERE modulename = '".$db->escapeSimple($modulename)."'";

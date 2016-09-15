@@ -168,7 +168,7 @@ class Doctrine extends Command {
 					}
 
 					if(isset($data['autoincrement'])) {
-						$c->addAttribute('primaryKey', $data['autoincrement'] ? 'true' : 'false');
+						$c->addAttribute('autoincrement', $data['autoincrement'] ? 'true' : 'false');
 					}
 				}
 				foreach($expindexes as $index => $data) {
