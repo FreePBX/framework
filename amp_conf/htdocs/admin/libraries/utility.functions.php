@@ -542,7 +542,6 @@ function edit_crontab($remove = '', $add = '') {
 	$cron_out = array();
 	$cron_add = false;
 	$BMOCron = FreePBX::Cron();
-
 	//if were running as root (i.e. uid === 0), use the asterisk users crontab. If were running as the asterisk user,
 	//that will happen automatically. If were anyone else, this cron entry will go the current user
 	//and run as them
@@ -620,17 +619,16 @@ function edit_crontab($remove = '', $add = '') {
 			$cron_add = $add;
 		}
 	}
-
 	//if we have soemthing to add
 	if ($cron_add) {
-		$cron_out[] = $cron_add;
+		return $BMOCron->add($cron_add);
 	}
 
 	//write out crontab
 	//$exec = '/bin/echo "' . implode("\n", $cron_out) . '" | /usr/bin/crontab ' . $cron_user . '-';
 	//dbug('writing crontab', $exec);
 	//exec($exec, $out_arr, $ret);
-	return $BMOCron->add($cron_out);
+	return false;
 
 }
 
