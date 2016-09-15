@@ -1653,12 +1653,12 @@ $(document).ready(function() {
 	$( document ).ajaxError(function(event, jqxhr, settings, thrownError) {
 		// Some modules *expect* errors, so we need to be able to disable
 		// alerts when this happens
-		if (typeof window.supresserrors !== 'undefined' && window.supresserrors === true) {
+		if ((typeof jqxhr.suppresserrors !== 'undefined' && jqxhr.suppresserrors === true) || (typeof window.supresserrors !== 'undefined' && window.supresserrors === true)) {
 			return;
 		}
 		if(typeof jqxhr.responseJSON !== "undefined" && jqxhr.responseJSON !== null) {
 			if(typeof jqxhr.responseJSON.error.message !== "undefined") {
-				fpbxToast(jqxhr.responseJSON.error.message+"<br>File:"+jqxhr.responseJSON.error.file+":"+jqxhr.responseJSON.error.line,jqxhr.responseJSON.error.type,"exception");
+				fpbxToast(jqxhr.responseJSON.error.message+"<br>"+_("File")+":"+jqxhr.responseJSON.error.file+":"+jqxhr.responseJSON.error.line,jqxhr.responseJSON.error.type,"exception");
 
 			} else {
 				fpbxToast(jqxhr.responseJSON.error,_("Error"),"exception");
