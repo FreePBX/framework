@@ -33,6 +33,7 @@ class Mail {
 		$this->attachmentset = false;
 		$this->multipart = false;
 		$this->mail->setPriority(3); //Normal
+		$this->addHeader('Auto-Submitted', 'auto-generated');
 	}
 
 	public function setFrom($email,$name){
