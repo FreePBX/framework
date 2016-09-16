@@ -41,7 +41,7 @@ class Moduleadmin extends Command {
 		$this->mf = \module_functions::create();
 		$this->out = $output;
 		$this->input = $input;
-		$this->colot = false;
+		$this->color = false;
 		$args = $input->getArgument('args');
 		if($input->getOption('skipchown')) {
 			$this->skipchown = true;
