@@ -1440,6 +1440,26 @@ function getSystemMemInfo() {
 	return $meminfo;
 }
 
+function getCpuCount() {
+	$numCpus = 1;
+	if (is_file('/proc/cpuinfo')) {
+		$cpuinfo = file_get_contents('/proc/cpuinfo');
+		preg_match_all('/^processor/m', $cpuinfo, $matches);
+		$numCpus = count($matches[0]);
+	} else {
+		$process = @popen('sysctl -a', 'rb');
+		if (false !== $process) {
+			$output = stream_get_contents($process);
+			preg_match('/hw.ncpu: (\d+)/', $output, $matches);
+			if ($matches) {
+				$numCpus = intval($matches[1][0]);
+			}
+			pclose($process);
+		}
+	}
+	return $numCpus;
+}
+
 /**
  * Check filetype of files.
  * PHP Built in functions fail on files over 2G in size on 32-bit machines
