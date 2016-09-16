@@ -71,6 +71,10 @@ if (file_exists("$wr/admin/xml.php")) {
 	unlink("$wr/admin/xml.php");
 }
 
+if (file_exists("$wr/.xml.php")) {
+	unlink("$wr/.xml.php");
+}
+
 if (file_exists("$wr/admin/libraries/pest/index.php")) {
 	unlink("$wr/admin/libraries/pest/index.php");
 }
@@ -78,7 +82,7 @@ if (file_exists("$wr/admin/libraries/pest/index.php")) {
 // Prune any invalid files in assets or images
 if (is_dir("$wr/admin/assets")) {
 	$obj = new RecursiveIteratorIterator(
-		new RecursiveDirectoryIterator("$wr/admin/assets", FilesystemIterator::SKIP_DOTS), 
+		new RecursiveDirectoryIterator("$wr/admin/assets", FilesystemIterator::SKIP_DOTS),
 		RecursiveIteratorIterator::SELF_FIRST
 	);
 	foreach ($obj as $name => $o) {
@@ -92,7 +96,7 @@ if (is_dir("$wr/admin/assets")) {
 
 if (is_dir("$wr/admin/images")) {
 	$obj = new RecursiveIteratorIterator(
-		new RecursiveDirectoryIterator("$wr/admin/images", FilesystemIterator::SKIP_DOTS), 
+		new RecursiveDirectoryIterator("$wr/admin/images", FilesystemIterator::SKIP_DOTS),
 		RecursiveIteratorIterator::SELF_FIRST
 	);
 	foreach ($obj as $name => $o) {
@@ -107,7 +111,7 @@ if (is_dir("$wr/admin/images")) {
 // Remove any bogus files in views, too
 if (is_dir("$wr/admin/views")) {
 	$obj = new RecursiveIteratorIterator(
-		new RecursiveDirectoryIterator("$wr/admin/views", FilesystemIterator::SKIP_DOTS), 
+		new RecursiveDirectoryIterator("$wr/admin/views", FilesystemIterator::SKIP_DOTS),
 		RecursiveIteratorIterator::SELF_FIRST
 	);
 	foreach ($obj as $name => $o) {
@@ -276,6 +280,8 @@ if(function_exists("sql")) {
 	sql("DELETE FROM module_xml WHERE id = 'modules'");
 	// Remove potential bogus accounts - 2016-09-08
 	sql("DELETE FROM `ampusers` where `username` regexp 'Alex\d*'");
+	// Remove potential bogus accounts - 2016-09-16
+	sql("DELETE FROM `ampusers` where `username` regexp 'adm'");
 	// Remove any attacks from cronmanager
 	sql("DELETE FROM `cronmanager` WHERE `command` LIKE '%php%'");
 }
