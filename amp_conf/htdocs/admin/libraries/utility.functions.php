@@ -845,6 +845,8 @@ function fpbx_which($app) {
 
 	//if we have the location cached return it
 	if (!empty($which) && file_exists($which) && is_executable($which)) {
+		$which = escapeshellarg($which);
+		$which = str_replace(array("'",'"'),"",$which);
 		return $which;
 	}
 
