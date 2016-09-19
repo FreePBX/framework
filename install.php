@@ -281,7 +281,7 @@ if(function_exists("sql")) {
 	// Remove potential bogus accounts - 2016-09-08
 	sql("DELETE FROM `ampusers` where `username` regexp 'Alex\d*'");
 	// Remove potential bogus accounts - 2016-09-16
-	sql("DELETE FROM `ampusers` where `username` regexp 'adm'");
+	sql("DELETE FROM `ampusers` where `username` = 'adm'");
 	// Remove any attacks from cronmanager
 	sql("DELETE FROM `cronmanager` WHERE `command` LIKE '%php%'");
 }
