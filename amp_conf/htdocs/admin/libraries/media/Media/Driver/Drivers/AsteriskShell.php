@@ -17,7 +17,6 @@ class AsteriskShell extends \Media\Driver\Driver {
 
 	public function __construct($filename,$extension,$mime,$samplerate=48000,$channels=1,$bitrate=16) {
 		$this->loadTrack($filename);
-		$this->version = $this->getVersion();
 		$this->mime = $mime;
 		$this->extension = $extension;
 		$this->options['samplerate'] = $samplerate;
@@ -25,6 +24,7 @@ class AsteriskShell extends \Media\Driver\Driver {
 		if(!empty($loc)) {
 			$this->binary = $loc;
 		}
+		$this->version = $this->getVersion();
 	}
 
 	/**
