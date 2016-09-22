@@ -25,23 +25,20 @@ class Migration {
 		$synchronizer = new \Doctrine\DBAL\Schema\Synchronizer\SingleDatabaseSynchronizer($this->conn);
 		$schema = new \Doctrine\DBAL\Schema\Schema();
 		$table = $schema->createTable($this->table);
-		$primaryKey = '';
+		$primaryKey = array();
 		foreach($columns as $name => $options) {
 			$type = $options['type'];
 			unset($options['type']);
 			if(isset($options['primaryKey'])) {
 				if($options['primaryKey']) {
-					if(!empty($primaryKey)) {
-						throw new \Exception(_("Multiple Primary Keys defined"));
-					}
-					$primaryKey = $name;
+					$primaryKey[] = $name;
 				}
 				unset($options['primaryKey']);
 			}
 			$table->addColumn($name, $type, $options);
 		}
 		if(!empty($primaryKey)) {
-			$table->setPrimaryKey(array($primaryKey));
+			$table->setPrimaryKey($primaryKey);
 		}
 		foreach($indexes as $name => $data) {
 			$type = $data['type'];
