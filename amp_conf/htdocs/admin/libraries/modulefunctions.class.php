@@ -1988,7 +1988,7 @@ class module_functions {
 						}
 					}
 				}
-				$table = \FreePBX::Database()->migrate($name);
+				$table = \FreePBX::Database()->migrate($tname);
 				$table->modify($cols, $indexes);
 			}
 		}
