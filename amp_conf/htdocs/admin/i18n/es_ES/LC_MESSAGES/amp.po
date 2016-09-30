@@ -571,7 +571,7 @@ msgstr ""
 msgid "Abort Config Gen on Exten Conflict"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:150
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:149
 msgid "Aborting Shutdown. Asterisk is still running"
 msgstr ""
 
@@ -1206,6 +1206,10 @@ msgstr ""
 msgid ""
 "Asterisk home dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. "
 "Aborting"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:189
+msgid "Asterisk is still running and we can't stop it!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:7
@@ -4054,7 +4058,7 @@ msgstr ""
 msgid "Force run post-start asterisk hooks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:238
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:253
 msgid "Force run post-stop asterisk hooks"
 msgstr ""
 
@@ -4062,7 +4066,7 @@ msgstr ""
 msgid "Force run pre-start asterisk hooks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:237
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:252
 msgid "Force run pre-stop asterisk hooks"
 msgstr ""
 
@@ -5040,8 +5044,8 @@ msgstr ""
 msgid "Key provided - %s - is not hex"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:156
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:183
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:155
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:181
 msgid "Killing asterisk forcefully."
 msgstr ""
 
@@ -5244,7 +5248,7 @@ msgstr ""
 msgid "Maximum Expiration"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:239
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:254
 msgid "Maximum amount of time (in seconds) to wait for asterisk to shut down"
 msgstr ""
 
@@ -5614,10 +5618,6 @@ msgid ""
 "voipprovider.com.<br><br>Many providers will require you to provide a DID "
 "number, ex: username:password@switch.voipprovider.com/didnumber in order for "
 "any DID matching to work."
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/BMO/Database/Migration.class.php:35
-msgid "Multiple Primary Keys defined"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:34
@@ -6721,12 +6721,12 @@ msgstr ""
 msgid "Preloaded Modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:121
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:120
 #, php-format
 msgid "Press %s to Cancel"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:122
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:121
 #, php-format
 msgid "Press %s to shut down NOW"
 msgstr ""
@@ -7184,11 +7184,11 @@ msgstr ""
 msgid "Rules:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:236
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:251
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:103
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:102
 #, php-format
 msgid "Running %s shutdown..."
 msgstr ""
@@ -7630,13 +7630,13 @@ msgstr ""
 msgid "Shutdown NOW rather than convieniently"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:119
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:118
 #, php-format
 msgid ""
 "Shutting down Asterisk Gracefully. Will forcefully kill after %s seconds."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:116
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:115
 msgid "Shutting down Asterisk Immediately..."
 msgstr ""
 
@@ -9217,7 +9217,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:889
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:216
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:234
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:249
 msgid "Usage"
 msgstr ""
 

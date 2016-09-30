@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-16 16:27-0700\n"
+"POT-Creation-Date: 2016-09-30 12:28-0700\n"
 "PO-Revision-Date: 2016-08-07 07:04+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -644,7 +644,7 @@ msgstr "لفو تولید پیکربندی در مقصد نادرست"
 msgid "Abort Config Gen on Exten Conflict"
 msgstr "لفو تولید پیکربندی داخلی در تلاقی داخلی ها"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:150
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:149
 msgid "Aborting Shutdown. Asterisk is still running"
 msgstr "لغو خاموش کردن. استریسک هنوز در حال اجراست"
 
@@ -1337,6 +1337,10 @@ msgid ""
 msgstr ""
 "Asterisk home  dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. "
 "Aborting"
+
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:189
+msgid "Asterisk is still running and we can't stop it!"
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:7
 msgid "Asterisk may not be running."
@@ -4486,7 +4490,7 @@ msgstr "تحمیل rport - (%s)"
 msgid "Force run post-start asterisk hooks"
 msgstr "Force run  post-start asterisk hooks"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:238
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:253
 msgid "Force run post-stop asterisk hooks"
 msgstr "Force  run post-stop asterisk hooks"
 
@@ -4494,7 +4498,7 @@ msgstr "Force  run post-stop asterisk hooks"
 msgid "Force run pre-start asterisk hooks"
 msgstr "Force  run pre-start asterisk hooks"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:237
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:252
 msgid "Force run pre-stop asterisk hooks"
 msgstr "Force  run pre-stop asterisk hooks"
 
@@ -5618,8 +5622,8 @@ msgstr "کلید واژه"
 msgid "Key provided - %s - is not hex"
 msgstr "ارائه کلید - %s  - هگزا نیست"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:156
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:183
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:155
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:181
 msgid "Killing asterisk forcefully."
 msgstr "متوقف کردن اجباری استریسک."
 
@@ -5823,7 +5827,7 @@ msgstr "بیشترین کانالها"
 msgid "Maximum Expiration"
 msgstr "بیشترین انقضا"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:239
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:254
 msgid "Maximum amount of time (in seconds) to wait for asterisk to shut down"
 msgstr "بیشترین زمان انتظار (بر ثانیه) برای خاموش شدن استریسک"
 
@@ -6237,10 +6241,6 @@ msgstr ""
 "voipprovider.com.<br><br>Many providers will require you to provide a DID "
 "number, ex: username:password@switch.voipprovider.com/didnumber in order for "
 "any DID matching to work."
-
-#: amp_conf/htdocs/admin/libraries/BMO/Database/Migration.class.php:35
-msgid "Multiple Primary Keys defined"
-msgstr "تعریف کلیدهای اصلی چندگانه"
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:34
 msgid "Multiple hooks unimplemented"
@@ -7478,12 +7478,12 @@ msgstr ""
 msgid "Preloaded Modules"
 msgstr "ماژول هایی که از قبل بارگذاری شده اند"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:121
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:120
 #, php-format
 msgid "Press %s to Cancel"
 msgstr "برای لغو %s را فشار دهید"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:122
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:121
 #, php-format
 msgid "Press %s to shut down NOW"
 msgstr "برای خاموش کردن %s را فشار دهید"
@@ -7958,11 +7958,11 @@ msgstr "نوع مسیر"
 msgid "Rules:"
 msgstr "قواعد:"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:236
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:251
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
 msgstr "Run an  immediate shutdown. Defaults to 'when convenient'"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:103
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:102
 #, php-format
 msgid "Running %s shutdown..."
 msgstr "Running %s  shutdown..."
@@ -8470,14 +8470,14 @@ msgstr ""
 msgid "Shutdown NOW rather than convieniently"
 msgstr "Shutdown NOW rather  than convieniently"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:119
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:118
 #, php-format
 msgid ""
 "Shutting down Asterisk Gracefully. Will forcefully kill after %s seconds."
 msgstr ""
 "Shutting down  Asterisk Gracefully. Will forcefully kill after %s seconds."
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:116
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:115
 msgid "Shutting down Asterisk Immediately..."
 msgstr "Shutting down  Asterisk Immediately..."
 
@@ -10329,7 +10329,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:889
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:216
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:234
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:249
 msgid "Usage"
 msgstr "استفاده"
 
@@ -12312,6 +12312,9 @@ msgstr ""
 #: ../core/install.php:1105
 msgid "zap devices migrated"
 msgstr "وسایل zap منتقل شدند"
+
+#~ msgid "Multiple Primary Keys defined"
+#~ msgstr "تعریف کلیدهای اصلی چندگانه"
 
 #~ msgid ""
 #~ "Media (RTP) Encryption. Normally you would use None, unless you have "
