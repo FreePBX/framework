@@ -72,12 +72,19 @@ class Media {
 			'adapter' => 'Freedesktop',
 			'file' => dirname(__DIR__).'/resources/glob.db'
 		));
-		$this->extension = Type::guessExtension($this->track);
-		//sometimes files report themselves as bin or ico. whatever man ignore it
-		if(empty($this->extension) || in_array($this->extension,array("bin","ico"))) {
-			$parts = pathinfo($this->track);
+		$parts = pathinfo($this->track);
+		if(!in_array($parts['extension'],array('g722','wav16','sln12', 'sln16', 'sln24', 'sln32', 'sln44', 'sln48', 'sln96', 'sln192'))) {
+			$this->extension = Type::guessExtension($this->track);
+			//sometimes files report themselves as bin or ico or m. whatever man ignore it
+			//we should probably remove the guessExtension db it's stupid as hell
+			if(empty($this->extension) || in_array($this->extension,array("bin","ico","m"))) {
+				$parts = pathinfo($this->track);
+				$this->extension = $parts['extension'];
+			}
+		} else {
 			$this->extension = $parts['extension'];
 		}
+
 		$this->mime = Type::guessType($this->track);
 	}
 
@@ -286,6 +293,7 @@ class Media {
 				break;
 			}
 		}
+		dbug($intermediary);
 		if(!isset($intermediary['wav']['path']) || !file_exists($intermediary['wav']['path'])) {
 			throw new \Exception(sprintf(_("Unable to find an intermediary converter for %s"),$this->track));
 		}

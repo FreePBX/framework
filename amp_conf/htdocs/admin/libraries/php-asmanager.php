@@ -310,11 +310,13 @@ class AGI_AsteriskManager {
 					} elseif(count($parameters) == 2) {
 						if($parameters['Response'] == "Success" && isset($parameters['Message']) && $parameters['Message'] == 'Command output follows') {
 							// A 'Command output follows' response means there is a muiltiline field that follows.
-							$parameters['data'] = preg_replace("/^Output:\s*/","",$buffer);
+							// This is Asterisk 14 Logic:
+							$parameters['data'] = "Privilege: Command\n"; //Add this to make Asterisk 14 look/work like < 13
+							$parameters['data'] .= preg_replace("/^Output:\s*/","",$buffer)."\n";
 							$buff = fgets($this->socket, 4096);
 							while($buff !== "\r\n") {
 								$buff = preg_replace("/^Output:\s*/","",$buff);
-								$parameters['data'] .= $buff;
+								$parameters['data'] .= trim($buff)."\n";
 								$buff = fgets($this->socket, 4096);
 							}
 							break;
@@ -1643,8 +1645,8 @@ class AGI_AsteriskManager {
 	 * @return bool True if if it exists
 	 */
 	function app_exists($app) {
-		$r = $this->command("core show application $app");
-		return (strpos($r['data'],"Your application(s) is (are) not registered") === false);
+		$r = $this->command("core show applications like $app");
+		return (strpos($r['data'],"0 Applications Matching") === false);
 	}
 
 	/** Returns whether a give channeltype exists in this Asterisk install

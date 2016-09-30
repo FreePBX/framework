@@ -546,6 +546,7 @@ if(is_array($active_modules)){
 				$bmo->Performance->Stamp("Finished Generating Less");
 			} catch(\Exception $e) {
 				echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine());
+				echo $e->getTraceAsString();
 				exit(255);
 			}
 		}
@@ -854,7 +855,7 @@ try {
 	$hooks = $bmo->DialplanHooks->getAllHooks($active_modules);
 } catch(\Exception $e) {
 	echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine())."\n";
-	echo
+	echo $e->getTraceAsString();
 	exit(255);
 }
 $bmo->Performance->Stop();
@@ -865,7 +866,7 @@ if (is_array($hooks)) {
 		$bmo->DialplanHooks->processHooks($engine, $hooks);
 	} catch(\Exception $e) {
 		echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine())."\n";
-		echo
+		echo $e->getTraceAsString();
 		exit(255);
 	}
 }
@@ -882,6 +883,7 @@ try {
 	$bmo->WriteConfig->writeConfig($ext->get_filename(), $ext->generateConf());
 } catch(\Exception $e) {
 	echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine());
+	echo $e->getTraceAsString();
 	exit(255);
 }
 $bmo->Performance->Stop();

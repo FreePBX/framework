@@ -542,7 +542,6 @@ function edit_crontab($remove = '', $add = '') {
 	$cron_out = array();
 	$cron_add = false;
 	$BMOCron = FreePBX::Cron();
-
 	//if were running as root (i.e. uid === 0), use the asterisk users crontab. If were running as the asterisk user,
 	//that will happen automatically. If were anyone else, this cron entry will go the current user
 	//and run as them
@@ -620,17 +619,16 @@ function edit_crontab($remove = '', $add = '') {
 			$cron_add = $add;
 		}
 	}
-
 	//if we have soemthing to add
 	if ($cron_add) {
-		$cron_out[] = $cron_add;
+		return $BMOCron->add($cron_add);
 	}
 
 	//write out crontab
 	//$exec = '/bin/echo "' . implode("\n", $cron_out) . '" | /usr/bin/crontab ' . $cron_user . '-';
 	//dbug('writing crontab', $exec);
 	//exec($exec, $out_arr, $ret);
-	return $BMOCron->add($cron_out);
+	return false;
 
 }
 
@@ -847,6 +845,8 @@ function fpbx_which($app) {
 
 	//if we have the location cached return it
 	if (!empty($which) && file_exists($which) && is_executable($which)) {
+		$which = escapeshellarg($which);
+		$which = str_replace(array("'",'"'),"",$which);
 		return $which;
 	}
 
@@ -1440,6 +1440,26 @@ function getSystemMemInfo() {
 		}
 	}
 	return $meminfo;
+}
+
+function getCpuCount() {
+	$numCpus = 1;
+	if (is_file('/proc/cpuinfo')) {
+		$cpuinfo = file_get_contents('/proc/cpuinfo');
+		preg_match_all('/^processor/m', $cpuinfo, $matches);
+		$numCpus = count($matches[0]);
+	} else {
+		$process = @popen('sysctl -a', 'rb');
+		if (false !== $process) {
+			$output = stream_get_contents($process);
+			preg_match('/hw.ncpu: (\d+)/', $output, $matches);
+			if ($matches) {
+				$numCpus = intval($matches[1][0]);
+			}
+			pclose($process);
+		}
+	}
+	return $numCpus;
 }
 
 /**

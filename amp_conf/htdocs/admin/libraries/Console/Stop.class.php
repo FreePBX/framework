@@ -33,7 +33,6 @@ class Stop extends Command {
 		$pre = $this->preAsteriskHooks($output,false);
 		$post = $this->postAsteriskHooks($output,false);
 		$aststat = $this->asteriskProcess();
-		$asteriskrunning = ($aststat[0]);
 		$bmo = \FreePBX::create();
 		$maxwait = (int) $options['maxwait'];
 		if ($maxwait < 5) {
@@ -92,7 +91,7 @@ class Stop extends Command {
 			$post = $newpost;
 		}
 
-		if ($stopasterisk && !$asteriskrunning) {
+		if ($stopasterisk && empty($aststat)) {
 			$output->writeln("<error>Asterisk not currently running</error>");
 			$stopasterisk = false;
 		}
@@ -161,8 +160,7 @@ class Stop extends Command {
 					$current =  (int) (time() - $starttime) * $pct;
 					$progress->setProgress($current);
 					$aststat = $this->asteriskProcess();
-					$asteriskrunning = ($aststat[0]);
-					if (!$asteriskrunning) {
+					if (empty($aststat)) {
 						$progress->setProgress(100);
 						$isrunning = false;
 						break;
@@ -182,6 +180,17 @@ class Stop extends Command {
 					$output->writeln("");
 					$output->writeln(_('Killing asterisk forcefully.'));
 					$this->stopAsterisk($output, 'now');
+					$aststat = $this->asteriskProcess();
+					if(!empty($aststat)) {
+						//OK it still hasnt stopped... geesh
+						$this->stopAsterisk($output, 'force');
+						sleep(1);
+						$aststat = $this->asteriskProcess();
+						if(!empty($aststat)) {
+							$output->writeln(_("Asterisk is still running and we can't stop it!"));
+							exit(1);
+						}
+					}
 				}
 			}
 		}
@@ -194,19 +203,29 @@ class Stop extends Command {
 		}
 	}
 
-	private function asteriskProcess(){
-		$ps = '/usr/bin/env ps';
-		$cmd = $ps . " -C asterisk --no-headers -o '%p|%t'";
-		$stat = exec($cmd);
-		return explode('|',$stat);
+	private function asteriskProcess() {
+		$pid = `/usr/bin/env pidof asterisk`;
+		return trim($pid);
 	}
+
 	private function stopAsterisk($output, $method){
-		if ($method === "now") {
-			$sastbin = '/usr/bin/env killall safe_asterisk > /dev/null 2>&1';
-			exec($sastbin);
+		switch($method) {
+			case "force":
+				//not sure if this is needed
+				$sastbin = '/usr/bin/env killall safe_asterisk > /dev/null 2>&1';
+				exec($sastbin);
+
+				$sastbin = '/usr/bin/env killall asterisk > /dev/null 2>&1';
+				exec($sastbin);
+			break;
+			case "now":
+				$sastbin = '/usr/bin/env killall safe_asterisk > /dev/null 2>&1';
+				exec($sastbin);
+			case "force":
+				$astbin = '/usr/bin/env asterisk -rx "core stop ' . $method .'" &>/dev/null &';
+				shell_exec($astbin);
+			break;
 		}
-		$astbin = '/usr/bin/env asterisk -rx "core stop ' . $method .'" &>/dev/null &';
-		shell_exec($astbin);
 	}
 	private function abortShutdown($output){
 		$freepbx = \FreePBX::Create();

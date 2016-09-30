@@ -17,7 +17,6 @@ class AsteriskShell extends \Media\Driver\Driver {
 
 	public function __construct($filename,$extension,$mime,$samplerate=48000,$channels=1,$bitrate=16) {
 		$this->loadTrack($filename);
-		$this->version = $this->getVersion();
 		$this->mime = $mime;
 		$this->extension = $extension;
 		$this->options['samplerate'] = $samplerate;
@@ -25,6 +24,7 @@ class AsteriskShell extends \Media\Driver\Driver {
 		if(!empty($loc)) {
 			$this->binary = $loc;
 		}
+		$this->version = $this->getVersion();
 	}
 
 	/**
@@ -52,6 +52,7 @@ class AsteriskShell extends \Media\Driver\Driver {
 		if(!empty(self::$supported)) {
 			return self::$supported;
 		}
+		$ver = \FreePBX::Config()->get("ASTVERSION");
 		$loc = fpbx_which("asterisk");
 		exec($loc." -rx 'core show file formats'",$lines,$ret);
 		foreach($lines as $line) {
@@ -60,6 +61,11 @@ class AsteriskShell extends \Media\Driver\Driver {
 				$codecs = explode("|",$matches[1]);
 				foreach($codecs as $codec) {
 					if(!in_array($codec,array('gsm', 'g722', 'alaw', 'ulaw', 'sln', 'wav16', 'WAV', 'sln12', 'sln16', 'sln24', 'sln32', 'sln44', 'sln48', 'sln96', 'sln192'))) {
+						continue;
+					}
+					//Asterisk 11 should support sln48 but it doesnt, it says it does but then complains
+					//It might be a bug, regardless this is fixed in 13 people should just use it
+					if(version_compare_freepbx($ver,"13.0","lt") && $codec == 'sln48') {
 						continue;
 					}
 					$formats["in"][$codec] = $codec;
