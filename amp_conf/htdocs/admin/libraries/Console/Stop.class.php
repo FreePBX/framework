@@ -184,6 +184,7 @@ class Stop extends Command {
 					if(!empty($aststat)) {
 						//OK it still hasnt stopped... geesh
 						$this->stopAsterisk($output, 'force');
+						sleep(1);
 						$aststat = $this->asteriskProcess();
 						if(!empty($aststat)) {
 							$output->writeln(_("Asterisk is still running and we can't stop it!"));
@@ -210,7 +211,10 @@ class Stop extends Command {
 	private function stopAsterisk($output, $method){
 		switch($method) {
 			case "force":
-				//Note: Safe Asterisk should already be dead here
+				//not sure if this is needed
+				$sastbin = '/usr/bin/env killall safe_asterisk > /dev/null 2>&1';
+				exec($sastbin);
+
 				$sastbin = '/usr/bin/env killall asterisk > /dev/null 2>&1';
 				exec($sastbin);
 			break;
