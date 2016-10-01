@@ -144,15 +144,68 @@ $html .= "\n" . '<script type="text/javascript">'
 		. ';$(document).click();' //TODO: this should be cleaned up eventually as right now it prevents the nav bar from not being fully displayed
  		. '</script>';
 
-//Javascripts
-$html .= '<script src="assets/js/modernizr-3.3.1.min.js'.$version_tag.'"></script>';
+// Production versions should include the packed consolidated javascript library but if it
+// is not present (useful for development, then include each individual library below
+if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
+	$pbxlibver = '.' . filectime("assets/js/pbxlib.js");
+	$html .= '<script src="assets/js/pbxlib.js'. $version_tag . $pbxlibver . '"></script>';
+} else {
+	$html .= '<script src="assets/js/modernizr-3.3.1.min.js'.$version_tag.'"></script>';
 
-//Removed google CDN because we are using custom libraries for bootstrap and jqueryui so that buttons work together
-$html .= '<script src="assets/js/bootstrap-3.3.4.custom.min.js'.$version_tag.'"></script>';
-$html .= '<script src="assets/js/tableexport-3.2.10.min.js'.$version_tag.'"></script>';
-$html .= '<script src="assets/js/bootstrap-table-1.11.0.min.js'.$version_tag.'"></script>';
+	//Removed google CDN because we are using custom libraries for bootstrap and jqueryui so that buttons work together
+	$html .= '<script src="assets/js/bootstrap-3.3.4.custom.min.js'.$version_tag.'"></script>';
+	$html .= '<script src="assets/js/tableexport-3.2.10.min.js'.$version_tag.'"></script>';
+	$html .= '<script src="assets/js/bootstrap-table-1.11.0.min.js'.$version_tag.'"></script>';
 
-$html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-en-US.js'.$version_tag.'"></script>';
+	$html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-en-US.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-cookie.min.js'.$version_tag.'"></script>';
+	$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-mobile.min.js'.$version_tag.'"></script>';
+	$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-export.min.js'.$version_tag.'"></script>';
+	$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-toolbar.min.js'.$version_tag.'"></script>';
+	$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-reorder-rows.min.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/jquery.tablednd-0.9.1.min.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/bootstrap-multiselect-0.9.13.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/chosen.jquery-1.6.2.min.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/jquery.smartWizard-3.3.1.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/jquery-ui-1.12.1.min.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/jquery.iframe-transport-9.12.5.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/jquery.fileupload-9.12.5.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/jquery.fileupload-process-9.12.5.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/jquery.jplayer-2.9.2.min.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/Sortable-1.4.0.min.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/notie-3.9.4.min.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/moment-with-locales-2.15.1.min.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/moment-timezone-with-data-2010-2020-0.5.5.min.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/browser-locale-1.0.0.min.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/jquery.form-3.51.min.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/recorder.js'.$version_tag.'"></script>';
+
+	$html .= '<script src="assets/js/jquery.hotkeys-0.2.0.js' . $version_tag . '"></script>'
+		. '<script src="assets/js/jquery.numeric-1.4.1.min.js' . $version_tag . '"></script>'
+		. '<script src="assets/js/js.cookie-2.1.3.min.js' . $version_tag . '"></script>'
+		. '<script src="assets/js/autosize-3.0.17.min.js' . $version_tag . '"></script>'
+		. '<script src="assets/js/script.legacy.js' . $version_tag . '"></script>';
+
+	$html .= '<script src="assets/js/typeahead.bundle-0.10.5.min.js'.$version_tag.'"></script>';
+	$html .= '<script src="assets/js/search.js'.$version_tag.'"></script>';
+}
 if($lang != "en_US") {
   switch($lang) {
     case "es_ES":
@@ -165,71 +218,10 @@ if($lang != "en_US") {
     break;
   }
 }
-
-$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-cookie.min.js'.$version_tag.'"></script>';
-$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-mobile.min.js'.$version_tag.'"></script>';
-$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-export.min.js'.$version_tag.'"></script>';
-$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-toolbar.min.js'.$version_tag.'"></script>';
-$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-reorder-rows.min.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/jquery.tablednd-0.9.1.min.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/bootstrap-multiselect-0.9.13.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/chosen.jquery-1.6.2.min.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/jquery.smartWizard-3.3.1.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/jquery-ui-1.12.1.min.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/jquery.iframe-transport-9.12.5.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/jquery.fileupload-9.12.5.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/jquery.fileupload-process-9.12.5.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/jquery.jplayer-2.9.2.min.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/Sortable-1.4.0.min.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/notie-3.9.4.min.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/moment-with-locales-2.15.1.min.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/moment-timezone-with-data-2010-2020-0.5.5.min.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/browser-locale-1.0.0.min.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/jquery.form-3.51.min.js'.$version_tag.'"></script>';
-
-$html .= '<script src="assets/js/recorder.js'.$version_tag.'"></script>';
-
-// Production versions should include the packed consolidated javascript library but if it
-// is not present (useful for development, then include each individual library below
-if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
-	$pbxlibver = '.' . filectime("assets/js/pbxlib.js");
-	$html .= '<script src="assets/js/pbxlib.js'. $version_tag . $pbxlibver . '"></script>';
-} else {
-	/*
-	 * files below:
-	 * menu.js - The FreePBX Top Navigation Bar, utilizes jqueryUI
-	 * jquery.hotkeys.js - a plug-in that lets you easily add and remove handlers for keyboard events anywhere in your code supporting almost any key combination. (https://github.com/jeresig/jquery.hotkeys)
-	 * jquery.cookie.js - for setting cookies (https://github.com/carhartl/jquery-cookie)
-	 * script.legacy.js - freepbx library
-	 * tabber-minimized.js - sed for module admin (hiding content)
-	 */
-	$html .= '<script src="assets/js/jquery.hotkeys-0.2.0.js' . $version_tag . '"></script>'
-		. '<script src="assets/js/jquery.numeric-1.4.1.min.js' . $version_tag . '"></script>'
-		. '<script src="assets/js/js.cookie-2.1.3.min.js' . $version_tag . '"></script>'
-		. '<script src="assets/js/autosize-3.0.17.min.js' . $version_tag . '"></script>'
-		. '<script src="assets/js/script.legacy.js' . $version_tag . '"></script>';
-}
 //Please see the BMO View class for more information about this
 if(FreePBX::View()->replaceState()) {
   $html .= '<script>history.replaceState(null, null, "'.FreePBX::View()->getQueryString().'");</script>';
 }
-$html .= '<script src="assets/js/typeahead.bundle-0.10.5.min.js'.$version_tag.'"></script>';
-$html .= '<script src="assets/js/search.js'.$version_tag.'"></script>';
 if ($amp_conf['BRAND_ALT_JS']) {
 	$html .= '<script src="' . $amp_conf['BRAND_ALT_JS'] . $version_tag . '"></script>';
 }
