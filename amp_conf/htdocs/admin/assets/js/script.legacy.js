@@ -1240,7 +1240,7 @@ $(document).ready(function() {
 	});
 	$("#fpbxsearch input").blur(function() {
 		$("#fpbxsearch").removeClass("in");
-		$.cookie("searchHide",1);
+		Cookies.set("searchHide",1);
 	});
 	$("#search-btn").click(function() {
 		if(!$("#fpbxsearch").hasClass("in")) {
@@ -1248,14 +1248,14 @@ $(document).ready(function() {
 				$("#fpbxsearch input").focus();
 			});
 			$("#fpbxsearch").addClass("in");
-			$.cookie("searchHide",0);
+			Cookies.set("searchHide",0);
 		}
 	});
 	$(window).keydown(function(e){
 		if(e.keyCode === 27 && $("#fpbxsearch").hasClass("in")) {
 			$("#fpbxsearch input").blur();
 			$("#floating-nav-bar").removeClass("show");
-			$.cookie("searchHide",1);
+			Cookies.set("searchHide",1);
 		}
 	});
 	if ($(".fpbx-container").length > 0) {
@@ -1381,14 +1381,14 @@ $(document).ready(function() {
 	});
 
 	$(".global-message-banner .close").click(function() {
-		var hash = $(this).data("hash"), m = $.cookie("bannerMessages"), messages = [];
+		var hash = $(this).data("hash"), m = Cookies.get("bannerMessages"), messages = [];
 		if (typeof m != "undefined") {
 			messages = JSON.parse(m);
 			messages.push(hash);
 		} else {
 			messages = [ hash ];
 		}
-		$.cookie("bannerMessages", JSON.stringify(messages), { expires: 365 });
+		Cookies.set("bannerMessages", JSON.stringify(messages), { expires: 365 });
 	});
 	bind_dests_double_selects();
 
@@ -1437,19 +1437,19 @@ $(document).ready(function() {
 				$("." + el).hide();
 
 				//set cookie of hidden section
-				guielToggle = $.parseJSON($.cookie("guielToggle")) || {};
+				guielToggle = $.parseJSON(Cookies.get("guielToggle")) || {};
 				guielToggle[section] = false;
-				$.cookie("guielToggle", JSON.stringify(guielToggle));
+				Cookies.set("guielToggle", JSON.stringify(guielToggle));
 			break;
 			case "+":
 				txt.text("-  ");
 				$("." + el).show();
 
 				//set cookie of hidden section
-				guielToggle = $.parseJSON($.cookie("guielToggle")) || {};
+				guielToggle = $.parseJSON(Cookies.get("guielToggle")) || {};
 				if (guielToggle.hasOwnProperty(section)){
 					guielToggle[section] = true;
-					$.cookie("guielToggle", JSON.stringify(guielToggle));
+					Cookies.set("guielToggle", JSON.stringify(guielToggle));
 				}
 			break;
 		}
@@ -1457,7 +1457,7 @@ $(document).ready(function() {
 
 	//set language on click
 	$("#fpbx_lang > li").click(function() {
-		$.cookie("lang", $(this).data("lang"));
+		Cookies.set("lang", $(this).data("lang"));
 		window.location.reload();
 	});
 
@@ -2053,17 +2053,6 @@ function fpbxToast(message,title,level){
 function fpbxConfirm(question, truetext, falsetext, callbackfn){
 	notie.confirm(question, truetext, falsetext, function(){callbackfn()});
 }
-
-/**
- * https://github.com/CSS-Tricks/Relevant-Dropdowns
- */
-yepnope({
-	test : (!Modernizr.input.list),
-	yep : [
-		'assets/js/jquery.relevant-dropdown.js',
-		'assets/js/load-fallbacks.js'
-	]
-});
 
 // Add class that sets an input to readonly until the user clicks on it. This should prevent autofilling of things like passwords and usernames.
 $( document ).ready(function() {

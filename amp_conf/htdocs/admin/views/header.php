@@ -69,49 +69,17 @@ if (isset($_SESSION['langdirection']) && ($_SESSION['langdirection'] == 'rtl')) 
 }
 
 $html .= '<link rel="stylesheet" href="assets/css/outdatedbrowser.min.css'.$version_tag.'">';
-$html .= '<script type="text/javascript" src="assets/js/outdatedbrowser.min.js'.$version_tag.'"></script>';
-
-//TODO: Remove "firsttypeofselector" at some point.
-$html .= "<script>var firsttypeofselector = true</script>";
-
-if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
-	//shivs/shims/polyfills for crappy IE
-	$html .= '<!--[if lte IE 9]>';
-	$html .= '<script src="assets/js/XMLHttpRequest.js"></script>';
-	$html .= '<![endif]-->';
-	$html .= '<!--[if lt IE 9]>';
-	$html .= '<script src="assets/js/html5shiv.js"></script>';
-	$html .= '<script src="assets/js/respond.min.js"></script>';
-	//IE8 has no "forEach" so we fake one with a pollyfill
-	$html .= '<script type="text/javascript">Array.prototype.forEach = function(callback, thisArg) {
-	if(typeof(callback) !== "function") {
-		throw new TypeError(callback + " is not a function!");
-	}
-	var len = this.length;
-	for(var i = 0; i < len; i++) {
-		callback.call(thisArg, this[i], i, this)
-	}
-}</script>';
-	$html .= '<![endif]-->';
-	$html .= '<!--[if (gte IE 6)&(lte IE 8)]>';
-	$html .= '<script type="text/javascript" src="assets/js/selectivizr.js"></script>';
-	$html .= '<![endif]-->';
-}
+$html .= '<script type="text/javascript" src="assets/js/outdatedbrowser-1.1.3.min.js'.$version_tag.'"></script>';
 
 //it seems extremely difficult to put jquery in the footer with the other scripts
-$html .= '<script type="text/javascript" src="assets/js/jquery-1.11.3.min.js'.$version_tag.'"></script>';
-$html .= '<script type="text/javascript" src="assets/js/selector-set-1.0.6.js'.$version_tag.'"></script>';
-$html .= '<script type="text/javascript" src="assets/js/jquery.selector-set-0.1.8.js'.$version_tag.'"></script>';
-
-//development
-if($amp_conf['JQMIGRATE']) {
-	$html .= '<script type="text/javascript" src="assets/js/jquery-migrate-1.2.1.js'.$version_tag.'"></script>';
-}
+$html .= '<script type="text/javascript" src="assets/js/jquery-3.1.1.min.js'.$version_tag.'"></script>';
+$html .= '<script type="text/javascript" src="assets/js/selector-set-1.1.0.js'.$version_tag.'"></script>';
+$html .= '<script type="text/javascript" src="assets/js/jquery.selector-set-0.2.2.js'.$version_tag.'"></script>';
 
 // As we have code in the header acting as a class, this has to be up here.
 $html .= '<script type="text/javascript" src="assets/js/class.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jed.js' . $version_tag . '"></script>';
+$html .= '<script type="text/javascript" src="assets/js/jed-1.1.1.js' . $version_tag . '"></script>';
 
 $html .= '<script type="text/javascript" src="assets/js/modgettext.js' . $version_tag . '"></script>';
 

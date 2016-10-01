@@ -1,18 +1,24 @@
 // jQuery SelectorSet
-//
-//= require jquery
-//= require selector-set
 
-(function(window, $) {
+(function(root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(['jquery', 'selector-set'], factory);
+  } else if (typeof exports === 'object') {
+    var jQuery = require('jquery');
+    var SelectorSet = require('selector-set');
+    module.exports = factory(jQuery, SelectorSet);
+  } else {
+    factory(root.jQuery, root.SelectorSet);
+  }
+})(this, function($, SelectorSet) {
   var document = window.document;
-  var SelectorSet = window.SelectorSet;
   var originalEventAdd = $.event.add;
   var originalEventRemove = $.event.remove;
   var handleObjs = {};
 
   // Throw an error if SelectorSet dependency is undefined.
   if (!SelectorSet) {
-    throw "SelectorSet undefined - https://github.com/josh/jquery-selector-set";
+    throw 'SelectorSet undefined - https://github.com/josh/jquery-selector-set';
   }
 
   // Internal: Compute event propagation path using SelectorSet's fast match.
@@ -36,7 +42,7 @@
       if (matches.length) {
         handlerQueue.push({elem: cur, handlers: matches});
       }
-    } while (cur = cur.parentElement);
+    } while (cur = cur.parentNode);
 
     return handlerQueue;
   }
@@ -137,4 +143,4 @@
     }
     originalEventRemove.call(this, elem, types, handler, selector, mappedTypes);
   };
-})(window, jQuery);
+});

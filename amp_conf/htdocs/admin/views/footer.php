@@ -145,14 +145,12 @@ $html .= "\n" . '<script type="text/javascript">'
  		. '</script>';
 
 //Javascripts
-$html .= '<script type="text/javascript" src="assets/js/modernizr.js'.$version_tag.'"></script>';
-//$html .= '<script type="text/javascript" src="assets/js/browser-support.js"></script>';
+$html .= '<script src="assets/js/modernizr-3.3.1.min.js'.$version_tag.'"></script>';
 
 //Removed google CDN because we are using custom libraries for bootstrap and jqueryui so that buttons work together
 $html .= '<script src="assets/js/bootstrap-3.3.4.custom.min.js'.$version_tag.'"></script>';
-$html .= '<script src="assets/js/tableExport.min.js'.$version_tag.'"></script>';
-$html .= '<script src="assets/js/jquery.tablednd.min.js'.$version_tag.'"></script>';
-$html .= '<script src="assets/js/bootstrap-table-1.9.0.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/tableexport-3.2.10.min.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/bootstrap-table-1.11.0.min.js'.$version_tag.'"></script>';
 
 $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-en-US.js'.$version_tag.'"></script>';
 if($lang != "en_US") {
@@ -168,47 +166,49 @@ if($lang != "en_US") {
   }
 }
 
-$html .= '<script src="assets/js/bootstrap-table-cookie.js'.$version_tag.'"></script>';
-$html .= '<script src="assets/js/bootstrap-table-mobile.js'.$version_tag.'"></script>';
-$html .= '<script src="assets/js/bootstrap-table-export.js'.$version_tag.'"></script>';
-$html .= '<script src="assets/js/bootstrap-table-toolbar.js'.$version_tag.'"></script>';
-$html .= '<script src="assets/js/bootstrap-table-reorder-rows.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-cookie.min.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-mobile.min.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-export.min.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-toolbar.min.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-reorder-rows.min.js'.$version_tag.'"></script>';
 
-$html .= '<script src="assets/js/bootstrap-multiselect.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/jquery.tablednd-0.9.1.min.js'.$version_tag.'"></script>';
 
-$html .= '<script src="assets/js/chosen.jquery.min.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/bootstrap-multiselect-0.9.13.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery.smartWizard.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/chosen.jquery-1.6.2.min.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery-ui-1.11.4.custom.min.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/jquery.smartWizard-3.3.1.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery.iframe-transport.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/jquery-ui-1.12.1.min.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/jquery.iframe-transport-9.12.5.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery.fileupload-process.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/jquery.fileupload-9.12.5.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery.jplayer.min.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/jquery.fileupload-process-9.12.5.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/Sortable.min.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/jquery.jplayer-2.9.2.min.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/notie.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/Sortable-1.4.0.min.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/moment-with-locales.min.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/notie-3.9.4.min.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/moment-timezone.min.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/moment-with-locales-2.15.1.min.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/browser-locale.min.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/moment-timezone-with-data-2010-2020-0.5.5.min.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/jquery.form.min.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/browser-locale-1.0.0.min.js'.$version_tag.'"></script>';
 
-$html .= '<script type="text/javascript" src="assets/js/recorder.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/jquery.form-3.51.min.js'.$version_tag.'"></script>';
+
+$html .= '<script src="assets/js/recorder.js'.$version_tag.'"></script>';
 
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below
 if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	$pbxlibver = '.' . filectime("assets/js/pbxlib.js");
-	$html .= '<script type="text/javascript" src="assets/js/pbxlib.js'. $version_tag . $pbxlibver . '"></script>';
+	$html .= '<script src="assets/js/pbxlib.js'. $version_tag . $pbxlibver . '"></script>';
 } else {
 	/*
 	 * files below:
@@ -218,22 +218,20 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	 * script.legacy.js - freepbx library
 	 * tabber-minimized.js - sed for module admin (hiding content)
 	 */
-	$html .= '<script type="text/javascript" src="assets/js/jquery.hotkeys.js' . $version_tag . '"></script>'
-    . '<script type="text/javascript" src="assets/js/jquery.numeric.js' . $version_tag . '"></script>'
-	 	. '<script type="text/javascript" src="assets/js/jquery.cookie.js' . $version_tag . '"></script>'
-	 	. '<script type="text/javascript" src="assets/js/script.legacy.js' . $version_tag . '"></script>'
-		. '<script type="text/javascript" src="assets/js/jquery.autosize.min.js' . $version_tag . '"></script>'
-    . '<script type="text/javascript" src="assets/js/history.js' . $version_tag . '"></script>'
-		. '<script type="text/javascript" src="assets/js/tabber-minimized.js' . $version_tag . '"></script>';
+	$html .= '<script src="assets/js/jquery.hotkeys-0.2.0.js' . $version_tag . '"></script>'
+		. '<script src="assets/js/jquery.numeric-1.4.1.min.js' . $version_tag . '"></script>'
+		. '<script src="assets/js/js.cookie-2.1.3.min.js' . $version_tag . '"></script>'
+		. '<script src="assets/js/autosize-3.0.17.min.js' . $version_tag . '"></script>'
+		. '<script src="assets/js/script.legacy.js' . $version_tag . '"></script>';
 }
 //Please see the BMO View class for more information about this
 if(FreePBX::View()->replaceState()) {
   $html .= '<script>history.replaceState(null, null, "'.FreePBX::View()->getQueryString().'");</script>';
 }
-$html .= '<script type="text/javascript" src="assets/js/typeahead.bundle.min.js'.$version_tag.'"></script>';
-$html .= '<script type="text/javascript" src="assets/js/search.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/typeahead.bundle-0.10.5.min.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/search.js'.$version_tag.'"></script>';
 if ($amp_conf['BRAND_ALT_JS']) {
-	$html .= '<script type="text/javascript" src="' . $amp_conf['BRAND_ALT_JS'] . $version_tag . '"></script>';
+	$html .= '<script src="' . $amp_conf['BRAND_ALT_JS'] . $version_tag . '"></script>';
 }
 
 if (isset($module_name) && $module_name != '') {
@@ -267,13 +265,10 @@ if (!empty($js_content)) {
 	$html .= $js_content;
 }
 
-//add IE specifc styling polyfills
+//add IE specifc polyfills
 if (strpos($_SERVER['HTTP_USER_AGENT'], 'MSIE') !== false) {
-	$html .= '<!--[if lte IE 10]>';
-	$html .= '<link rel="stylesheet" href="assets/css/progress-polyfill.css" type="text/css">';
-	$html .= '<script type="text/javascript" src="assets/js/progress-polyfill.min.js"></script>';
-	$html .= '<![endif]-->';
-  $html .= '<script type="text/javascript" src="assets/js/eventsource.min.js"></script>';
+	//http://caniuse.com/#search=eventsource
+	$html .= '<script src="assets/js/eventsource.min.js"></script>';
 }
 
 //TODO: This should move to a hook similar to framework_include_js
@@ -302,7 +297,7 @@ addLoadEvent(function(){
   outdatedBrowser({
     bgColor: '#f25648',
     color: '#ffffff',
-    lowerThan: 'IE9',
+    lowerThan: 'IE10',
     languagePath: ''
   })
 });
