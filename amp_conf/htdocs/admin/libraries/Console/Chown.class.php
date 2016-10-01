@@ -81,7 +81,7 @@ class Chown extends Command {
 						);
 				}
 			}
-			if(isset($conf['custom'][''])){
+			if(isset($conf['custom']['rdir'])){
 				$conf['custom']['rdir'] = is_array($conf['custom']['rdir'])?$conf['custom']['rdir']:array($conf['custom']['rdir']);
 				foreach (	$conf['custom']['rdir']  as $rdir) {
 					$rdir = $this->parse_conf_line($rdir);
@@ -95,7 +95,7 @@ class Chown extends Command {
 						);
 				}
 			}
-			if(isset($conf['custom'][''])){
+			if(isset($conf['custom']['execdir'])){
 				$conf['custom']['execdir'] = is_array($conf['custom']['execdir'])?$conf['custom']['execdir']:array($conf['custom']['execdir']);
 				foreach (	$conf['custom']['execdir']  as $edir) {
 					$edir = $this->parse_conf_line($rdir);
