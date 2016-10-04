@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-09-30 12:28-0700\n"
+"POT-Creation-Date: 2016-10-04 11:09-0700\n"
 "PO-Revision-Date: 2016-08-07 07:04+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -1338,7 +1338,7 @@ msgstr ""
 "Asterisk home  dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. "
 "Aborting"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:189
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:190
 msgid "Asterisk is still running and we can't stop it!"
 msgstr ""
 
@@ -1913,8 +1913,12 @@ msgstr "تغییر مالک فایل ها"
 msgid "Changelog"
 msgstr "تغییرات"
 
+#: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:101
+#, php-format
+msgid "Changing \"%s\" from [%s] to [%s]"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:52
-#: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:100
 #, php-format
 msgid "Changing %s to %s"
 msgstr "تغییر %s به %s"
@@ -4490,7 +4494,7 @@ msgstr "تحمیل rport - (%s)"
 msgid "Force run post-start asterisk hooks"
 msgstr "Force run  post-start asterisk hooks"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:253
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:257
 msgid "Force run post-stop asterisk hooks"
 msgstr "Force  run post-stop asterisk hooks"
 
@@ -4498,7 +4502,7 @@ msgstr "Force  run post-stop asterisk hooks"
 msgid "Force run pre-start asterisk hooks"
 msgstr "Force  run pre-start asterisk hooks"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:252
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:256
 msgid "Force run pre-stop asterisk hooks"
 msgstr "Force  run pre-stop asterisk hooks"
 
@@ -5827,7 +5831,7 @@ msgstr "بیشترین کانالها"
 msgid "Maximum Expiration"
 msgstr "بیشترین انقضا"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:254
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:258
 msgid "Maximum amount of time (in seconds) to wait for asterisk to shut down"
 msgstr "بیشترین زمان انتظار (بر ثانیه) برای خاموش شدن استریسک"
 
@@ -7958,7 +7962,7 @@ msgstr "نوع مسیر"
 msgid "Rules:"
 msgstr "قواعد:"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:251
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:255
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
 msgstr "Run an  immediate shutdown. Defaults to 'when convenient'"
 
@@ -9319,7 +9323,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:55
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:88
-#: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:103
+#: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:104
 #, php-format
 msgid "The setting %s was not found!"
 msgstr "تنظیمات %s یافت نشد!"
@@ -10329,7 +10333,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:889
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:216
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:249
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:253
 msgid "Usage"
 msgstr "استفاده"
 
