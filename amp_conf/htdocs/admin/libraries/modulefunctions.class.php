@@ -124,8 +124,13 @@ class module_functions {
 				//
 				$all = $this->get_remote_contents("/all-" . $base_version . ".xml", true);
 				if(!empty($all)) {
-					$parser = new xml2ModuleArray($all);
-					$allxml = $parser->parseAdvanced($all);
+					try {
+						$parser = new xml2ModuleArray($all);
+						$allxml = $parser->parseAdvanced($all);
+					} catch(\Exception $e) {
+						freepbx_log(FPBX_LOG_ERROR,sprintf(_("Invalid Response from Mirror server: %s"),$all));;
+						throw new \Exception("Unable to Parse XML response from Mirror. See the log for more details");
+					}
 				} else {
 					$module_getonlinexml_error = true;
 				}
