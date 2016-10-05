@@ -1,5 +1,7 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
+namespace FreePBX;
+
 /**
  * This is part of the FreePBX Big Module Object.
  *
@@ -29,7 +31,7 @@ class Realtime extends FreePBX_Helpers {
 		if (!file_exists("/etc/asterisk/extconfig.conf")) {
 			touch("/etc/asterisk/extconfig.conf");
 		}
-		$current = \FreePBX::create()->ConfigFile("extconfig.conf");
+		$current = $this->ConfigFile("extconfig.conf");
 		$this->updateQueueSettings($current);
 	}
 
@@ -37,6 +39,9 @@ class Realtime extends FreePBX_Helpers {
 		if ($this->getConfig("queuelog")) {
 			$tmparr = $this->getConfig("queuelog-conf");
 			$str = join(",", [ $tmparr['driver'], $tmparr['dbname'], $tmparr['table'] ]);
+			if (isset($current->config->ProcessedConfig['settings']['queue_log'])) {
+				unset($current->config->ProcessedConfig['settings']['queue_log']);
+			}
 			$current->addEntry('settings', [ 'queue_log' => $str ]);
 		} else {
 			if (!isset($current->config->ProcessedConfig['settings'])) {
