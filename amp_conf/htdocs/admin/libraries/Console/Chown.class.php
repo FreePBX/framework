@@ -202,7 +202,7 @@ class Chown extends Command {
 														'path' => '/etc/freepbx.conf',
 														'perms' => 0660,
 														'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'dir',
+			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $ASTRUNDIR,
 														'perms' => 0775,
 														'always' => true);
@@ -213,7 +213,7 @@ class Chown extends Command {
 			//we may wish to declare these manually or through some automated fashion
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $ASTETCDIR,
-														'perms' => 0770,
+														'perms' => 0775,
 														'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'file',
 														'path' => $ASTVARLIBDIR . '/.ssh/id_rsa',
