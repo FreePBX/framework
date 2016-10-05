@@ -8,9 +8,6 @@
 class RealtimeTest extends PHPUnit_Framework_TestCase {
 
 	protected static $f;
-	private static $config_file;
-	private static $config_file2;
-	private static $config_dir;
 
 	public static function setUpBeforeClass() {
 		include "setuptests.php";
