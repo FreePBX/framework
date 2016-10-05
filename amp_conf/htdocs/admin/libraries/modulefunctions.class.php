@@ -1969,7 +1969,19 @@ class module_functions {
 						if($key == "name") {
 							continue;
 						}
-						$cols[$name][$key] = (string)$value;
+						switch ($key) {
+							case 'notnull':
+							case 'primaryKey':
+							case 'autoincrement':
+							case 'unique':
+							case 'fixed':
+								$bval = ($value === strtolower("true"));
+							 	$cols[$name][$key] = $bval;
+							break;
+							default:
+								$cols[$name][$key] = (string)$value;
+							break;
+						}
 					}
 				}
 				if(!empty($table->key)) {
