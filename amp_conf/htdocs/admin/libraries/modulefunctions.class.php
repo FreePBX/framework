@@ -1966,6 +1966,7 @@ class module_functions {
 					$name = (string)$field->attributes()->name;
 					$cols[$name] = array();
 					foreach($field->attributes() as $key => $value) {
+						$value = (string)$value;
 						if($key == "name") {
 							continue;
 						}
@@ -1975,8 +1976,7 @@ class module_functions {
 							case 'autoincrement':
 							case 'unique':
 							case 'fixed':
-								$bval = ($value === strtolower("true"));
-							 	$cols[$name][$key] = $bval;
+							 	$cols[$name][$key] = ($value === strtolower("true"));
 							break;
 							default:
 								$cols[$name][$key] = (string)$value;
