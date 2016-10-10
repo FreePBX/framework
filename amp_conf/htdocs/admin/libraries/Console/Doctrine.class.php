@@ -113,7 +113,7 @@ class Doctrine extends Command {
 			if($idx['Key_name'] == 'PRIMARY') {
 				continue;
 			}
-			if($idx['Non_unique'] === 1){
+			if($idx['Non_unique'] === "1"){
 				$expindexes[$idx['Key_name']]['type'] = 'index';
 			}else{
 				$expindexes[$idx['Key_name']]['type'] = 'unique';
