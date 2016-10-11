@@ -77,7 +77,11 @@ class Cron {
 		if (preg_match('/^crontab: no crontab for/', $output[0]))
 			return array();
 
-		return $output;
+		// Sanity: If any line has a null in it, it's broken. Remove
+		// that line.
+		return array_filter($output, function($line) {
+			return (strpos($line, "\x00") === false);
+		});
 	}
 
 	/**
