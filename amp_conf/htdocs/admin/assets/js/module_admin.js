@@ -143,16 +143,16 @@ $(document).ready(function(){
 	});
 	$('#local-type').change(function(e) {
 		if($(this).val() == 'download') {
-			$.cookie('local-type','download');
+			Cookies.set('local-type','download');
 			$('#download-group').show();
 			$('#upload-group').hide();
 		} else {
-			$.cookie('local-type','upload');
+			Cookies.set('local-type','upload');
 			$('#download-group').hide();
 			$('#upload-group').show();
 		}
 	});
-	if($.cookie('local-type') == 'upload') {
+	if(Cookies.get('local-type') == 'upload') {
 		$('#local-type').val('upload');
 		$('#download-group').hide();
 		$('#upload-group').show();
