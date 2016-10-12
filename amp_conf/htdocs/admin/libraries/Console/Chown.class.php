@@ -81,7 +81,7 @@ class Chown extends Command {
 						);
 				}
 			}
-			if(isset($conf['custom'][''])){
+			if(isset($conf['custom']['rdir'])){
 				$conf['custom']['rdir'] = is_array($conf['custom']['rdir'])?$conf['custom']['rdir']:array($conf['custom']['rdir']);
 				foreach (	$conf['custom']['rdir']  as $rdir) {
 					$rdir = $this->parse_conf_line($rdir);
@@ -95,7 +95,7 @@ class Chown extends Command {
 						);
 				}
 			}
-			if(isset($conf['custom'][''])){
+			if(isset($conf['custom']['execdir'])){
 				$conf['custom']['execdir'] = is_array($conf['custom']['execdir'])?$conf['custom']['execdir']:array($conf['custom']['execdir']);
 				foreach (	$conf['custom']['execdir']  as $edir) {
 					$edir = $this->parse_conf_line($rdir);
@@ -202,7 +202,7 @@ class Chown extends Command {
 														'path' => '/etc/freepbx.conf',
 														'perms' => 0660,
 														'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'dir',
+			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $ASTRUNDIR,
 														'perms' => 0775,
 														'always' => true);
@@ -213,7 +213,7 @@ class Chown extends Command {
 			//we may wish to declare these manually or through some automated fashion
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $ASTETCDIR,
-														'perms' => 0770,
+														'perms' => 0775,
 														'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'file',
 														'path' => $ASTVARLIBDIR . '/.ssh/id_rsa',

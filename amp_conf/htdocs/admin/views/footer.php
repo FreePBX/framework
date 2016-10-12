@@ -312,7 +312,7 @@ addLoadEvent(function(){
     console.log("For developer resources visit: http://wiki.freepbx.org/x/BAAQ");
     ';
   }
-  if(!empty($module_name)){
+  if(!empty($module_name) && isset($active_modules[$module_name])){
   $consolealert .='
     console.log(("Framework: %s"),"'. $version .'");
     console.log(("Module Name: %s"),"'. $module_name .'");

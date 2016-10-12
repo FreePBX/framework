@@ -97,7 +97,8 @@ class Setting extends Command {
 			$setting = $args[0];
 			$value = $args[1];
 			if($this->FreePBXConf->conf_setting_exists($setting)){
-				$output->writeln(sprintf(_('Changing %s to %s'),$setting,$value));
+				$old = $this->FreePBXConf->get($setting);
+				$output->writeln(sprintf(_('Changing "%s" from [%s] to [%s]'),$setting,$old,$value));
 				$this->FreePBXConf->set_conf_values(array($setting => $value),true,true);
 			}else{
 				$output->writeln(sprintf(_('The setting %s was not found!'),$setting));
