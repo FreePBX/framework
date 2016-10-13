@@ -189,7 +189,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 
 	$html .= '<script src="assets/js/moment-with-locales-2.15.1.min.js'.$version_tag.'"></script>';
 
-	$html .= '<script src="assets/js/moment-timezone-with-data-2010-2020-0.5.5.min.js'.$version_tag.'"></script>';
+	$html .= '<script src="assets/js/moment-timezone-with-data-2010-2020-0.5.6.min.js'.$version_tag.'"></script>';
 
 	$html .= '<script src="assets/js/browser-locale-1.0.0.min.js'.$version_tag.'"></script>';
 
