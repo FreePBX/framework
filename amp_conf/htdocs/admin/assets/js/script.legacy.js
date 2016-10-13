@@ -2051,6 +2051,12 @@ function fpbxToast(message,title,level){
 	}
 }
 
+$(".custom-select").change(function() {
+	if($(this).is("select") && $(this).val() == "custom") {
+		$(this).replaceWith('<input type="text" id="'+$(this).attr("id")+'" name="'+$(this).attr("id")+'" value="" class="form-control">');
+	}
+});
+
 /**
  * https://github.com/CSS-Tricks/Relevant-Dropdowns
  */
