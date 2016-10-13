@@ -220,7 +220,7 @@ class View {
 			}
 		}
 		if(trim($value) != "" && !$selected) {
-			$optionshtml .= '<option value="'.$value.'" selected>'.$value.'</option>';
+			$optionshtml .= '<option value="'.$value.'" selected>'.htmlentities($value).'</option>';
 		}
 
 		$optionshtml .= '<option value="custom">['._("Custom").']</option>';
