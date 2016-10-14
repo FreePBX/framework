@@ -65,7 +65,7 @@ class cronmanager {
 	}
 
 	function enable_updates($freq=24) {
-		global $amp_conf;
+		global $amp_conf,$db;
 
 		$night_time = array(19,20,21,22,23,0,1,2,3,4,5);
 		$run_time = $night_time[rand(0,10)];
