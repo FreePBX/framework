@@ -117,7 +117,7 @@ function install_parse_asterisk_conf($filename) {
 	$file = file($filename);
 	foreach ($file as $line) {
 		if (preg_match("/^\s*([a-zA-Z0-9]+)\s* (?:=>|=) \s*(.*)\s*([;#].*)?/",$line,$matches)) {
-			$conf[ $matches[1] ] = $matches[2];
+			$asterisk_conf[ $matches[1] ] = $matches[2];
 		}
 	}
 	// Now set defaults if not set (although asterisk should fail if not set but at least
@@ -131,7 +131,7 @@ function install_parse_asterisk_conf($filename) {
 	if (!isset($asterisk_conf['astrundir']))    { $asterisk_conf['astrundir']    = "/var/run/asterisk"; }
 	if (!isset($asterisk_conf['astlogdir']))    { $asterisk_conf['astlogdir']    = "/var/log/asterisk"; }
 
-	return $conf;
+	return $asterisk_conf;
 }
 
 function write_amportal_conf($filename, $conf) {
