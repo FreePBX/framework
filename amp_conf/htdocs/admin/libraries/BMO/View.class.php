@@ -216,7 +216,7 @@ class View {
 				if($item['value'] == $value) {
 					$selected = true;
 				}
-				$optionshtml .= '<option value="'.$item['value'].'" data-id="'.$mod.'-'.$key.'" data-playback="'.(!empty($item['playback']) ? 'true' : 'false').'" '.(($item['value'] == $value) ? "selected" : "").'>'.$item['name'].'</option>';
+				$optionshtml .= '<option value="'.$item['value'].'" data-id="'.$mod.'-'.$key.'" data-playback="'.(!empty($item['playback']) ? 'true' : 'false').'" '.(($item['value'] == $value) ? "selected" : "").'>'.htmlentities($item['name']).'</option>';
 			}
 		}
 		if(trim($value) != "" && !$selected) {
@@ -225,7 +225,7 @@ class View {
 
 		$optionshtml .= '<option value="custom">['._("Custom").']</option>';
 
-		return '<select id="'.$id.'" name="'.$id.'" class="form-control '.$class.' custom-select" '.($required ? 'required' : '').' '.($disable ? 'disabled' : '').' value="'.$value.'">'.$optionshtml.'</select>';
+		return '<select id="'.$id.'" name="'.$id.'" class="form-control '.$class.' custom-select" '.($required ? 'required' : '').' '.($disable ? 'disabled' : '').'>'.$optionshtml.'</select>';
 	}
 
 	public function mediaControls($id, $title='', $class='', $hidden=false, $record=false) {
