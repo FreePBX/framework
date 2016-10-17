@@ -1653,6 +1653,15 @@ $(document).ready(function() {
 	$( document ).ajaxError(function(event, jqxhr, settings, thrownError) {
 		// Some modules *expect* errors, so we need to be able to disable
 		// alerts when this happens
+		if ( jqxhr.status== 401 ) {
+			var url = window.location.pathname;
+			$.get(url + "?logout=true", function() {
+				$.removeCookie("PHPSESSID", { path: "/" });
+				window.location = url;
+			});
+			return;
+		}
+
 		if ((typeof jqxhr.suppresserrors !== 'undefined' && jqxhr.suppresserrors === true) || (typeof window.supresserrors !== 'undefined' && window.supresserrors === true)) {
 			return;
 		}
@@ -2076,3 +2085,11 @@ $(document).on('click','.clicktoedit',function(){
 	$(this).prop('readonly',false);
 	$(this).focus();
 });
+
+(function poll(){
+	setTimeout(function(){
+		if($('.admin-btn').length > 1){
+			$.get('ajax.php?command=authping');
+		}
+	}, 130000);
+})();
