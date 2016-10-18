@@ -6,6 +6,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
@@ -78,8 +79,9 @@ class Setting extends Command {
 			$FLAGS = True;
 			if($args){
 				foreach($args as $arg){
-					$dialog = $this->getHelper('dialog');
-					if($dialog->askConfirmation($output, '<question>'.sprintf(_('Are you sure you want to set %s to its default?'),$arg).'</question>',false)){
+					$helper = $this->getHelper('question');
+					$question = new ConfirmationQuestion('<question>'.sprintf(_('Are you sure you want to set %s to its default?'),$arg).'</question>', true);
+					if($helper->ask($input,$output,$question)){
 						if($this->FreePBXConf->conf_setting_exists($arg)){
 							$default = $this->FreePBXConf->get_conf_default_setting($arg);
 							$output->writeln('Changing ' . $arg . ' to ' . $default);
