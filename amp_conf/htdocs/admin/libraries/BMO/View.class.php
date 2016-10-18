@@ -582,12 +582,14 @@ class View {
 		$input .= '</script>';
 		return $input;
 	}
-	public function drawClock($time = null, $tz = null){
-		$thisid = 'clock'.mt_rand();
+	public function drawClock($time = null, $tz = null, $id = null, $label = null, $errormsg = null){
+		$thisid = !empty($id)?$id:'clock'.mt_rand();
+		$label = !empty($label)?$label:_("Server time:")
+		$errormsg = !empty($errormsg)?$errormsg:_("Not received")
 		$time = !empty($time)?$time:time();
 		$tz = !empty($tz)?$tz:date("e");
 		$html = '<span class="btn btn-default disabled">';
-		$html .= '<b>'. _("Server time:").'</b> <span id="'.$thisid.'" data-time="'.$time.'" data-zone="'.$tz.'">'. _("Not received").'</span>';
+		$html .= '<b>'.$label.'</b> <span id="'.$thisid.'" data-time="'.$time.'" data-zone="'.$tz.'">'.$errormsg.'</span>';
 		$html .= '</span>';
 		$html .= '<script>';
 		$html .= 'if($("#'.$thisid.'").length) {';
