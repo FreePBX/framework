@@ -1227,7 +1227,7 @@ class Moduleadmin extends Command {
 			$o = json_decode($o,true);
 			if(json_last_error() == JSON_ERROR_NONE && !empty($o)) {
 				//Append a download url to the module xml array
-				$o['downloadurl'] = $url.'/modules/'.$o['xml']['location'];
+				$o['downloadurl'] = $url.'/modules/'.$o['location'];
 				return $o;
 			}
 		}
