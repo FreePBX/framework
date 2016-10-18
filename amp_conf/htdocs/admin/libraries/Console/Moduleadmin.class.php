@@ -774,6 +774,7 @@ class Moduleadmin extends Command {
 		$fpbxmodules = \FreePBX::Modules();
 		$list = $fpbxmodules->getActiveModules();
 		$this->writeln(_("Getting Data from Online Server..."));
+		//Leaving this here so that we at least know we can get to the mirror server
 		$modules_online = $this->mf->getonlinexml();
 		if(empty($modules_online)) {
 			$this->writeln(_('Cant Reach Online Server'));
@@ -791,8 +792,9 @@ class Moduleadmin extends Command {
 				if(isset($modules_online[$m['rawname']]) && isset($modules_online[$m['rawname']]['signed'])) {
 					$this->writeln("\t".sprintf(_("Refreshing %s"),$m['rawname']));
 					$modulename = $m['rawname'];
+					$moduleversion = $m['version'];
 					$modules[] = $modulename;
-					$this->doUpgrade($modulename,true);
+					$this->doInstallByModuleAndVersion($modulename, $moduleversion, true);
 					$this->writeln("\t"._("Verifying GPG..."));
 					$this->mf->updateSignature($modulename);
 					$this->writeln(_("Done"));
@@ -1195,4 +1197,60 @@ class Moduleadmin extends Command {
 		}
 		return $result;
 	}
+
+	/**
+	 * Get the module xml for a specific module version and generate a download link
+	 * @param string $modulename The module rawname
+	 * @param string $moduleversion The module release version we want to download and install
+	 * @return array
+	 */
+	private function getModuleDownloadByModuleNameAndVersion($modulename, $moduleversion) {
+		global $amp_conf;
+		$xml = array();
+
+		// We need to know the freepbx major version we have running (ie: 12.0.1 is 12.0)
+		$fw_version = getversion();
+		preg_match('/(\d+\.\d+)/',$fw_version,$matches);
+		$base_version = $matches[1];
+
+		$options = array(
+			'phpver' => phpversion(),
+			'rawname' => $modulename,
+			'tag' => $moduleversion,
+			'framework' => $base_version
+		);
+
+		$repos = explode(',', $amp_conf['MODULE_REPO']);
+		foreach($repos as $url) {
+			//TODO: This is a placeholder URL and should be changed
+			$o = $this->mf->url_get_contents($url, '/mversion.php', 'post', $options);
+			$o = json_decode($o,true);
+			if(json_last_error() == JSON_ERROR_NONE && !empty($o)) {
+				//Append a download url to the module xml array
+				$o['downloadurl'] = $url.'/modules/'.$o['xml']['location'];
+				return $o;
+			}
+		}
+		return $xml;
+	}
+
+	/**
+	 * Do a remote download of a specific module version after getting the module
+	 * xml back from the mirror server
+	 * @param string $modulename The module rawname
+	 * @param string $moduleversion The module release version we want to reinstall
+	 * @return boolean
+	 */
+	private function doInstallByModuleAndVersion($modulename, $moduleversion) {
+		$xml = $this->getModuleDownloadByModuleNameAndVersion($modulename, $moduleversion);
+		if (empty($xml)) {
+			$this->writeln("Unable to update module ${modulename} - ${$moduleversion}:", "error", false);
+			return false;
+		}
+
+		$this->doRemoteDownload($xml['downloadurl']);
+		$this->doForkInstall($modulename, $this->force);
+		return true;
+	}
+
 }
