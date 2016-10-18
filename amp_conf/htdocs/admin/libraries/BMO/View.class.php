@@ -584,8 +584,8 @@ class View {
 	}
 	public function drawClock($time = null, $tz = null, $id = null, $label = null, $errormsg = null){
 		$thisid = !empty($id)?$id:'clock'.mt_rand();
-		$label = !empty($label)?$label:_("Server time:")
-		$errormsg = !empty($errormsg)?$errormsg:_("Not received")
+		$label = !empty($label)?$label:_("Server time:");
+		$errormsg = !empty($errormsg)?$errormsg:_("Not received");
 		$time = !empty($time)?$time:time();
 		$tz = !empty($tz)?$tz:date("e");
 		$html = '<span class="btn btn-default disabled">';
