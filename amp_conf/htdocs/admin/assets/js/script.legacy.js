@@ -2051,8 +2051,14 @@ function fpbxToast(message,title,level){
 }
 
 function fpbxConfirm(question, truetext, falsetext, callbackfn){
-	notie.confirm(question, truetext, falsetext, function(){callbackfn()});
+	notie.confirm(question, truetext, falsetext, callbackfn);
 }
+
+$(".custom-select").change(function() {
+	if($(this).is("select") && $(this).val() == "custom") {
+		$(this).replaceWith('<input type="text" id="'+$(this).attr("id")+'" name="'+$(this).attr("id")+'" value="" class="form-control">');
+	}
+});
 
 // Add class that sets an input to readonly until the user clicks on it. This should prevent autofilling of things like passwords and usernames.
 $( document ).ready(function() {

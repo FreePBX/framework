@@ -437,6 +437,7 @@ class View {
 		$hooks = $this->freepbx->Hooks->returnHooks();
 		$selected = false;
 		$hooks = is_array($hooks) ? $hooks : array();
+		$optionshtml .= '<option value="">'._('None').'</option>';
 		foreach($hooks as $hook) {
 			$mod = $hook['module'];
 			$meth = $hook['method'];
@@ -448,12 +449,16 @@ class View {
 				if($item['value'] == $value) {
 					$selected = true;
 				}
-				$optionshtml .= '<option label="'.$item['name'].'" value="'.$item['value'].'" data-id="'.$mod.'-'.$key.'" data-playback="'.(!empty($item['playback']) ? 'true' : 'false').'">'.$item['name'].'</option>';
+				$optionshtml .= '<option value="'.$item['value'].'" data-id="'.$mod.'-'.$key.'" data-playback="'.(!empty($item['playback']) ? 'true' : 'false').'" '.(($item['value'] == $value) ? "selected" : "").'>'.htmlentities($item['name']).'</option>';
 			}
-
+		}
+		if(trim($value) != "" && !$selected) {
+			$optionshtml .= '<option value="'.$value.'" selected>'.htmlentities($value).'</option>';
 		}
 
-		return '<input id="'.$id.'" type="search" name="'.$id.'" placeholder="'._("Double-Click to see options or type freeform").'" class="form-control '.$class.'" list="'.$id.'-list" '.($required ? 'required' : '').' '.($disable ? 'disabled' : '').' value="'.$value.'"><datalist id="'.$id.'-list">'.$optionshtml.'</datalist>';
+		$optionshtml .= '<option value="custom">['._("Custom").']</option>';
+
+		return '<select id="'.$id.'" name="'.$id.'" class="form-control '.$class.' custom-select" '.($required ? 'required' : '').' '.($disable ? 'disabled' : '').'>'.$optionshtml.'</select>';
 	}
 
 	public function mediaControls($id, $title='', $class='', $hidden=false, $record=false) {
