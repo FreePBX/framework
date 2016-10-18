@@ -3151,7 +3151,6 @@ class module_functions {
 	 * @return array
 	 */
 	function getModuleDownloadByModuleNameAndVersion($modulename, $moduleversion) {
-		global $amp_conf;
 		$xml = array();
 
 		// We need to know the freepbx major version we have running (ie: 12.0.1 is 12.0)
@@ -3166,7 +3165,7 @@ class module_functions {
 			'framework' => $base_version
 		);
 
-		$repos = explode(',', $amp_conf['MODULE_REPO']);
+		$repos = explode(',', \FreePBX::Config()->get('MODULE_REPO'));
 		foreach($repos as $url) {
 			//TODO: This is a placeholder URL and should be changed
 			$o = $this->url_get_contents($url, '/mversion.php', 'post', $options);
