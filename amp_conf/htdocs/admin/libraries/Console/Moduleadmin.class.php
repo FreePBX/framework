@@ -1199,42 +1199,6 @@ class Moduleadmin extends Command {
 	}
 
 	/**
-	 * Get the module xml for a specific module version and generate a download link
-	 * @param string $modulename The module rawname
-	 * @param string $moduleversion The module release version we want to download and install
-	 * @return array
-	 */
-	private function getModuleDownloadByModuleNameAndVersion($modulename, $moduleversion) {
-		global $amp_conf;
-		$xml = array();
-
-		// We need to know the freepbx major version we have running (ie: 12.0.1 is 12.0)
-		$fw_version = getversion();
-		preg_match('/(\d+\.\d+)/',$fw_version,$matches);
-		$base_version = $matches[1];
-
-		$options = array(
-			'phpver' => phpversion(),
-			'rawname' => $modulename,
-			'tag' => $moduleversion,
-			'framework' => $base_version
-		);
-
-		$repos = explode(',', $amp_conf['MODULE_REPO']);
-		foreach($repos as $url) {
-			//TODO: This is a placeholder URL and should be changed
-			$o = $this->mf->url_get_contents($url, '/mversion.php', 'post', $options);
-			$o = json_decode($o,true);
-			if(json_last_error() == JSON_ERROR_NONE && !empty($o)) {
-				//Append a download url to the module xml array
-				$o['downloadurl'] = $url.'/modules/'.$o['location'];
-				return $o;
-			}
-		}
-		return $xml;
-	}
-
-	/**
 	 * Do a remote download of a specific module version after getting the module
 	 * xml back from the mirror server
 	 * @param string $modulename The module rawname
@@ -1242,12 +1206,13 @@ class Moduleadmin extends Command {
 	 * @return boolean
 	 */
 	private function doInstallByModuleAndVersion($modulename, $moduleversion) {
-		$xml = $this->getModuleDownloadByModuleNameAndVersion($modulename, $moduleversion);
+		$xml = $this->mf->getModuleDownloadByModuleNameAndVersion($modulename, $moduleversion);
 		if (empty($xml)) {
 			$this->writeln("Unable to update module ${modulename} - ${$moduleversion}:", "error", false);
 			return false;
 		}
 
+		\FreePBX::Modules()->loadAllFunctionsInc();
 		$this->doRemoteDownload($xml['downloadurl']);
 		$this->doForkInstall($modulename, $this->force);
 		return true;
