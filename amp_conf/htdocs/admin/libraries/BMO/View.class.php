@@ -582,4 +582,25 @@ class View {
 		$input .= '</script>';
 		return $input;
 	}
+	public function drawClock($time = null, $tz = null){
+		$thisid = 'clock'.mt_rand();
+		$time = !empty($time)?$time:time();
+		$tz = !empty($tz)?$tz:date("e");
+		$html = '<span class="btn btn-default disabled">';
+		$html .= '<b>'. _("Server time:").'</b> <span id="'.$thisid.'" data-time="'.$time.'" data-zone="'.$tz.'">'. _("Not received").'</span>';
+		$html .= '</span>';
+		$html .= '<script>';
+		$html .= 'if($("#'.$thisid.'").length) {';
+		$html .=	'var time = $("#'.$thisid.'").data("time");';
+		$html .=	'var timezone = $("#'.$thisid.'").data("zone");';
+		$html .=	'var updateTime = function() {';
+		$html .=		'$("#'.$thisid.'").text(moment.unix(time).tz(timezone).format(\'HH:mm:ss z\'));';
+		$html .=		'time = time + 1;';
+		$html .=	'};';
+		$html .=	'setInterval(updateTime,1000);';
+		$html .= '}';
+		$html .= '</script>';
+
+		return $html;
+	}
 }
