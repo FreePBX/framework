@@ -3151,8 +3151,6 @@ class module_functions {
 	 * @return array
 	 */
 	function getModuleDownloadByModuleNameAndVersion($modulename, $moduleversion) {
-		$xml = array();
-
 		// We need to know the freepbx major version we have running (ie: 12.0.1 is 12.0)
 		$fw_version = getversion();
 		preg_match('/(\d+\.\d+)/',$fw_version,$matches);
@@ -3176,6 +3174,6 @@ class module_functions {
 				return $o;
 			}
 		}
-		return $xml;
+		return array();
 	}
 }
