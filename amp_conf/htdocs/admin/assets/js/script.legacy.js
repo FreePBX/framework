@@ -1142,7 +1142,7 @@ $(document).on('keyup', '.password-meter', function() {
 	if(typeof zxcvbn === "undefined" && !loadingzxcvbn) {
 		loadingzxcvbn = true;
 		$($this).after('<i id="password-meter-load" class="fa fa-circle-o-notch fa-spin"></i>');
-		$.cachedScript( "assets/js/zxcvbn.js" ).done(function( script, textStatus ) {
+		$.cachedScript( "assets/js/zxcvbn-4.4.0.min.js" ).done(function( script, textStatus ) {
 			$("#password-meter-load").remove();
 			checkPassword($this);
 		});
@@ -1159,7 +1159,7 @@ $(document).on('focus', '.password-meter', function() {
 	if(typeof zxcvbn === "undefined" && !loadingzxcvbn) {
 		loadingzxcvbn = true;
 		$($this).after('<i id="password-meter-load" class="fa fa-circle-o-notch fa-spin"></i>');
-		$.cachedScript( "assets/js/zxcvbn.js" ).done(function( script, textStatus ) {
+		$.cachedScript( "assets/js/zxcvbn-4.4.0.min.js" ).done(function( script, textStatus ) {
 			$("#password-meter-load").remove();
 			checkPassword($this);
 		});
