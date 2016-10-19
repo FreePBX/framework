@@ -18,6 +18,7 @@ class Moduleadmin extends Command {
 	private $pretty = false;
 	private $skipchown = false;
 	private $previousEdge = 0;
+	private $tag = null;
 
 	protected function configure(){
 		$this->setName('ma')
@@ -33,6 +34,7 @@ class Moduleadmin extends Command {
 			new InputOption('skipdisabled', '', InputOption::VALUE_NONE, _('Don\'t ask to enable disabled modules assume no.')),
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'json, jsonpretty')),
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
+			new InputArgument('tag', 't', InputOption::VALUE_NONE, _('Download/Upgrade to a specific tag')),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
 		->setHelp($this->showHelp());
 	}
@@ -48,6 +50,9 @@ class Moduleadmin extends Command {
 		}
 		if($input->getOption('color')) {
 			$this->color = true;
+		}
+		if ($input->getOption('tag');) {
+			$this->tag = $input->getOption('tag');
 		}
 		if($input->getOption('edge')) {
 			$this->writeln('<info>'._('Edge repository temporarily enabled').'</info>');
@@ -280,6 +285,15 @@ class Moduleadmin extends Command {
 	private function doDownload($modulename, $force) {
 		global $modulexml_path;
 		global $modulerepository_path;
+		//If we have a tag, use it
+		if (isset($this->tag)) {
+			$xml = $this->mf->getModuleDownloadByModuleNameAndVersion($modulename, $this->tag);
+			if (empty($xml)) {
+				$this->writeln("Unable to update module ${modulename} - ".$this->tag.":", "error", false);
+				return false;
+			}
+			return $this->doRemoteDownload($xml['downloadurl']);
+		}
 		$this->writeln("Starting ".$modulename." download..");
 		if (is_array($errors = $this->mf->download($modulename, $this->force, array($this,'progress'), $modulerepository_path, $modulexml_path))) {
 			$this->writeln(_("The following error(s) occured:"), "error", false);
