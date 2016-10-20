@@ -18,6 +18,7 @@ class Moduleadmin extends Command {
 	private $pretty = false;
 	private $skipchown = false;
 	private $previousEdge = 0;
+	private $tag = null;
 
 	protected function configure(){
 		$this->setName('ma')
@@ -33,6 +34,7 @@ class Moduleadmin extends Command {
 			new InputOption('skipdisabled', '', InputOption::VALUE_NONE, _('Don\'t ask to enable disabled modules assume no.')),
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'json, jsonpretty')),
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
+			new InputArgument('tag', 't', InputOption::VALUE_NONE, _('Download/Upgrade to a specific tag')),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
 		->setHelp($this->showHelp());
 	}
@@ -48,6 +50,9 @@ class Moduleadmin extends Command {
 		}
 		if($input->getOption('color')) {
 			$this->color = true;
+		}
+		if ($input->getOption('tag');) {
+			$this->tag = $input->getOption('tag');
 		}
 		if($input->getOption('edge')) {
 			$this->writeln('<info>'._('Edge repository temporarily enabled').'</info>');
@@ -280,6 +285,15 @@ class Moduleadmin extends Command {
 	private function doDownload($modulename, $force) {
 		global $modulexml_path;
 		global $modulerepository_path;
+		//If we have a tag, use it
+		if (isset($this->tag)) {
+			$xml = $this->mf->getModuleDownloadByModuleNameAndVersion($modulename, $this->tag);
+			if (empty($xml)) {
+				$this->writeln("Unable to update module ${modulename} - ".$this->tag.":", "error", false);
+				return false;
+			}
+			return $this->doRemoteDownload($xml['downloadurl']);
+		}
 		$this->writeln("Starting ".$modulename." download..");
 		if (is_array($errors = $this->mf->download($modulename, $this->force, array($this,'progress'), $modulerepository_path, $modulexml_path))) {
 			$this->writeln(_("The following error(s) occured:"), "error", false);
@@ -774,6 +788,7 @@ class Moduleadmin extends Command {
 		$fpbxmodules = \FreePBX::Modules();
 		$list = $fpbxmodules->getActiveModules();
 		$this->writeln(_("Getting Data from Online Server..."));
+		//Leaving this here so that we at least know we can get to the mirror server
 		$modules_online = $this->mf->getonlinexml();
 		if(empty($modules_online)) {
 			$this->writeln(_('Cant Reach Online Server'));
@@ -791,8 +806,9 @@ class Moduleadmin extends Command {
 				if(isset($modules_online[$m['rawname']]) && isset($modules_online[$m['rawname']]['signed'])) {
 					$this->writeln("\t".sprintf(_("Refreshing %s"),$m['rawname']));
 					$modulename = $m['rawname'];
+					$moduleversion = $m['version'];
 					$modules[] = $modulename;
-					$this->doUpgrade($modulename,true);
+					$this->doInstallByModuleAndVersion($modulename, $moduleversion, true);
 					$this->writeln("\t"._("Verifying GPG..."));
 					$this->mf->updateSignature($modulename);
 					$this->writeln(_("Done"));
@@ -1195,4 +1211,25 @@ class Moduleadmin extends Command {
 		}
 		return $result;
 	}
+
+	/**
+	 * Do a remote download of a specific module version after getting the module
+	 * xml back from the mirror server
+	 * @param string $modulename The module rawname
+	 * @param string $moduleversion The module release version we want to reinstall
+	 * @return boolean
+	 */
+	private function doInstallByModuleAndVersion($modulename, $moduleversion) {
+		$xml = $this->mf->getModuleDownloadByModuleNameAndVersion($modulename, $moduleversion);
+		if (empty($xml)) {
+			$this->writeln("Unable to update module ${modulename} - ${$moduleversion}:", "error", false);
+			return false;
+		}
+
+		\FreePBX::Modules()->loadAllFunctionsInc();
+		$this->doRemoteDownload($xml['downloadurl']);
+		$this->doForkInstall($modulename, $this->force);
+		return true;
+	}
+
 }

@@ -3143,4 +3143,37 @@ class module_functions {
 		$sth->execute(array(json_encode($mod),$modulename));
 		return $mod;
 	}
+
+	/**
+	 * Get the module xml for a specific module version and generate a download link
+	 * @param string $modulename The module rawname
+	 * @param string $moduleversion The module release version we want to download and install
+	 * @return array
+	 */
+	function getModuleDownloadByModuleNameAndVersion($modulename, $moduleversion) {
+		// We need to know the freepbx major version we have running (ie: 12.0.1 is 12.0)
+		$fw_version = getversion();
+		preg_match('/(\d+\.\d+)/',$fw_version,$matches);
+		$base_version = $matches[1];
+
+		$options = array(
+			'phpver' => phpversion(),
+			'rawname' => $modulename,
+			'tag' => $moduleversion,
+			'framework' => $base_version
+		);
+
+		$repos = explode(',', \FreePBX::Config()->get('MODULE_REPO'));
+		foreach($repos as $url) {
+			//TODO: This is a placeholder URL and should be changed
+			$o = $this->url_get_contents($url, '/mversion.php', 'post', $options);
+			$o = json_decode($o,true);
+			if(json_last_error() == JSON_ERROR_NONE && !empty($o)) {
+				//Append a download url to the module xml array
+				$o['downloadurl'] = $url.'/modules/'.$o['location'];
+				return $o;
+			}
+		}
+		return array();
+	}
 }
