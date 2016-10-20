@@ -51,7 +51,7 @@ class Moduleadmin extends Command {
 		if($input->getOption('color')) {
 			$this->color = true;
 		}
-		if ($input->getOption('tag');) {
+		if ($input->getOption('tag')) {
 			$this->tag = $input->getOption('tag');
 		}
 		if($input->getOption('edge')) {
