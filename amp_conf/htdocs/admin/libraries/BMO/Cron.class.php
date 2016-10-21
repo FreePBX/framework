@@ -217,6 +217,10 @@ class Cron {
 		$crontab = $this->getAll();
 		$changed = false;
 		foreach ($crontab as $i => $v) {
+			// Ignore if it's an empty line
+			if (!$v) {
+				continue;
+			}
 			if (preg_match("/^#/", $v))
 				continue;
 			$cronline = preg_split("/\s/", $v);
