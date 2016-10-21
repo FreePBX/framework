@@ -159,7 +159,7 @@ class Hooks extends DB_Helper {
 	 * @param  string $method The method name
 	 * @param  array $args   Args to pass to the function
 	 */
-	public function processHooksByClassMethod($class, $method, $args) {
+	public function processHooksByClassMethod($class, $method, $args=array()) {
 		$sortedHooks = $this->returnHooksByClassMethod($class, $method);
 		$return = array();
 		if(!empty($sortedHooks)) {
