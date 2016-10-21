@@ -5,7 +5,7 @@
 * @backupStaticAttributes disabled
 */
 
-class RealtimeTest extends PHPUnit_Framework_TestCase {
+class ViewsTest extends PHPUnit_Framework_TestCase {
 
 	protected static $f;
 	protected static $o;
