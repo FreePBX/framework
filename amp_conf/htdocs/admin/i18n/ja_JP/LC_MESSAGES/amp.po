@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-10-20 15:19-0700\n"
+"POT-Creation-Date: 2016-10-21 11:31-0700\n"
 "PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -602,7 +602,7 @@ msgstr ""
 "<b>XXXXXXXXXX</b><br><br>次のボックスの設定でオプションCIDと、このDIDと関連付"
 "けができます"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:46
+#: ../core/functions.inc/drivers/PJSip.class.php:41
 msgid ""
 "A new SIP channel driver for Asterisk, chan_pjsip is built on the PJSIP SIP "
 "stack. A collection of resource modules provides the bulk of the SIP "
@@ -682,12 +682,12 @@ msgstr ""
 msgid "Access Restrictions"
 msgstr "アクセス制限"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:207
+#: ../core/functions.inc/drivers/PJSip.class.php:202
 #: ../core/functions.inc/drivers/Sip.class.php:451
 msgid "Account Code"
 msgstr "アカウントコード"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:206
+#: ../core/functions.inc/drivers/PJSip.class.php:201
 msgid "Account Code for this extension"
 msgstr "この内線のアカウントコード"
 
@@ -720,7 +720,7 @@ msgstr ""
 "このモジュールに対するアクション。管理者が使うインストールやメンテナンスの作"
 "業が含まれます。"
 
-#: amp_conf/htdocs/admin/functions.inc.php:439 ../core/page.astmodules.php:140
+#: amp_conf/htdocs/admin/functions.inc.php:441 ../core/page.astmodules.php:140
 #: ../core/views/trunks/trunk_header.php:2
 msgid "Add"
 msgstr "追加"
@@ -922,7 +922,7 @@ msgstr "高度な設定"
 msgid "Advanced Settings Details"
 msgstr "高度な設定の詳細"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:239
+#: ../core/functions.inc/drivers/PJSip.class.php:234
 msgid "Aggregate MWI"
 msgstr ""
 
@@ -1016,7 +1016,7 @@ msgstr "全てのアップグレードが完了しました。"
 msgid "Allow Any CID"
 msgstr "どのCIDも許可"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:223
+#: ../core/functions.inc/drivers/PJSip.class.php:218
 msgid "Allow Contact header to be rewritten with the source IP address-port"
 msgstr ""
 
@@ -1024,7 +1024,7 @@ msgstr ""
 msgid "Allow Login With DB Credentials"
 msgstr "DB資格情報でログインを許可"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:245
+#: ../core/functions.inc/drivers/PJSip.class.php:240
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP) "
 msgstr ""
 
@@ -1057,7 +1057,7 @@ msgid "Alt for Left Logo"
 msgstr "左ロゴのAlt"
 
 #: ../core/functions.inc.php:5799
-#: ../core/functions.inc/drivers/PJSip.class.php:252
+#: ../core/functions.inc/drivers/PJSip.class.php:247
 msgid "Always"
 msgstr "常に"
 
@@ -2305,7 +2305,7 @@ msgstr ""
 "は、致命的なエラーが発生します"
 
 #: amp_conf/htdocs/admin/functions.inc.php:363
-#: amp_conf/htdocs/admin/functions.inc.php:420
+#: amp_conf/htdocs/admin/functions.inc.php:422
 #, php-format
 msgid "Could not run %s script."
 msgstr "%s スクリプトを実行することができませんでした。"
@@ -2596,7 +2596,7 @@ msgstr ""
 "使い方がわからない場合は設定しないでください。FreePBXによって提供されているデ"
 "フォルト値を使用しない時だけ使用します。<br>dbホストのポート番号。"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:244
+#: ../core/functions.inc/drivers/PJSip.class.php:239
 msgid "DTLS-SRTP (not recommended)"
 msgstr ""
 
@@ -2986,7 +2986,7 @@ msgstr ""
 "を強制: 内線/デバイスのために定義された緊急CIDを持つ緊急ルートの一部である場"
 "合を除き、このトランクのために定義されたCIDを常に使用。"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:260
+#: ../core/functions.inc/drivers/PJSip.class.php:255
 msgid ""
 "Determines whether encryption should be used if possible but does not "
 "terminate the session if not achieved. This option only applies if Media "
@@ -2999,7 +2999,7 @@ msgid ""
 "failures."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:218
+#: ../core/functions.inc/drivers/PJSip.class.php:213
 msgid ""
 "Determines whether res_pjsip will use the media transport received in the "
 "offer SDP in the corresponding answer SDP."
@@ -3052,7 +3052,7 @@ msgstr "デバイスオプション"
 msgid "Device Settings"
 msgstr "デバイス設定"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:264
+#: ../core/functions.inc/drivers/PJSip.class.php:259
 msgid "Device State Busy at"
 msgstr ""
 
@@ -3797,7 +3797,7 @@ msgstr ""
 "エンドポイントの使用するポート番号、通常5060。ATAのような2ポートデバイスはセ"
 "カンドポートで5061を使用します。"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:221
+#: ../core/functions.inc/drivers/PJSip.class.php:216
 msgid ""
 "Enforce that RTP must be symmetric. If this device is natting in it is "
 "usually a good idea to enable this. Disable only if you are having issues."
@@ -3985,7 +3985,7 @@ msgid "Execute on only this file/dir"
 msgstr ""
 
 #: amp_conf/htdocs/admin/functions.inc.php:362
-#: amp_conf/htdocs/admin/functions.inc.php:419
+#: amp_conf/htdocs/admin/functions.inc.php:421
 #, php-format
 msgid "Exit code was %s and output was: %s"
 msgstr "終了コード %s 出力 %s"
@@ -4317,7 +4317,7 @@ msgstr ""
 msgid "Flash Operator Panel"
 msgstr "Flash オペレータ パネル"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:232
+#: ../core/functions.inc/drivers/PJSip.class.php:227
 msgid ""
 "For Message Waiting indicators there are two types: Solicited and "
 "Unsolicited. Solicited means Subscribe 200 then Notify 200. Unsolicited "
@@ -4402,7 +4402,7 @@ msgid ""
 "warning> Use at your own risk, modules have dependencies for a reason!"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:226
+#: ../core/functions.inc/drivers/PJSip.class.php:221
 msgid "Force rport"
 msgstr ""
 
@@ -4427,11 +4427,11 @@ msgstr ""
 msgid "Force run pre-stop asterisk hooks"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:225
+#: ../core/functions.inc/drivers/PJSip.class.php:220
 msgid "Force use of return port."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:253
+#: ../core/functions.inc/drivers/PJSip.class.php:248
 msgid "Forced"
 msgstr ""
 
@@ -4720,7 +4720,7 @@ msgstr ""
 msgid "Generic IAX2 Driver"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:44
+#: ../core/functions.inc/drivers/PJSip.class.php:39
 msgid "Generic PJSIP Device"
 msgstr ""
 
@@ -5638,7 +5638,7 @@ msgstr "低すぎるMemory Limit値"
 msgid "MAC Address"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:233
+#: ../core/functions.inc/drivers/PJSip.class.php:228
 msgid "MWI Subscription Type"
 msgstr ""
 
@@ -5694,12 +5694,12 @@ msgstr ""
 msgid "Manually Loaded Modules"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:269
+#: ../core/functions.inc/drivers/PJSip.class.php:264
 #: ../core/views/trunks/pjsip.php:587
 msgid "Match (Permit)"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:210
+#: ../core/functions.inc/drivers/PJSip.class.php:205
 msgid "Max Contacts"
 msgstr ""
 
@@ -5716,7 +5716,7 @@ msgstr "最大試行数"
 msgid "Maximum Channels"
 msgstr "最大チャネル数"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:273
+#: ../core/functions.inc/drivers/PJSip.class.php:268
 msgid "Maximum Expiration"
 msgstr ""
 
@@ -5724,7 +5724,7 @@ msgstr ""
 msgid "Maximum amount of time (in seconds) to wait for asterisk to shut down"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:209
+#: ../core/functions.inc/drivers/PJSip.class.php:204
 msgid "Maximum number of Endpoints that can associate with this Device"
 msgstr "最大でこのデバイスと連動できる端末の数"
 
@@ -5745,7 +5745,7 @@ msgid ""
 "30 seconds"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:272
+#: ../core/functions.inc/drivers/PJSip.class.php:267
 msgid "Maximum time to keep an AoR"
 msgstr ""
 
@@ -5753,7 +5753,7 @@ msgstr ""
 msgid "May be invalid Check your spelling"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:246
+#: ../core/functions.inc/drivers/PJSip.class.php:241
 msgid "Media Encryption"
 msgstr ""
 
@@ -5761,7 +5761,7 @@ msgstr ""
 msgid "Media Only"
 msgstr "メディアのみ"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:219
+#: ../core/functions.inc/drivers/PJSip.class.php:214
 msgid "Media Use Received Transport"
 msgstr ""
 
@@ -5795,7 +5795,7 @@ msgstr ""
 msgid "Min Length"
 msgstr "最小長"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:277
+#: ../core/functions.inc/drivers/PJSip.class.php:272
 msgid "Minimum Expiration"
 msgstr ""
 
@@ -5806,7 +5806,7 @@ msgid ""
 "valid"
 msgstr "正しく識別される為に、必要なコーラーIDの最小桁数"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:276
+#: ../core/functions.inc/drivers/PJSip.class.php:271
 msgid "Minimum time to keep an AoR"
 msgstr ""
 
@@ -6227,9 +6227,9 @@ msgstr ""
 #: ../core/functions.inc/drivers/Dahdi.class.php:137
 #: ../core/functions.inc/drivers/Iax2.class.php:111
 #: ../core/functions.inc/drivers/Iax2.class.php:149
-#: ../core/functions.inc/drivers/PJSip.class.php:236
-#: ../core/functions.inc/drivers/PJSip.class.php:249
-#: ../core/functions.inc/drivers/PJSip.class.php:258
+#: ../core/functions.inc/drivers/PJSip.class.php:231
+#: ../core/functions.inc/drivers/PJSip.class.php:244
+#: ../core/functions.inc/drivers/PJSip.class.php:253
 #: ../core/functions.inc/drivers/Sip.class.php:310
 #: ../core/functions.inc/drivers/Sip.class.php:323
 #: ../core/functions.inc/drivers/Sip.class.php:329
@@ -6348,7 +6348,7 @@ msgstr "ダイヤルプラン内でNoOpをトレース"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:207
 #: ../core/functions.inc.php:5792
-#: ../core/functions.inc/drivers/PJSip.class.php:242
+#: ../core/functions.inc/drivers/PJSip.class.php:237
 #: ../core/views/did/advanced_form.php:215
 #: ../core/views/did/basic_form.php:120 ../core/views/trunks/pjsip.php:91
 #: ../core/views/trunks/pjsip.php:110 ../core/views/trunks/pjsip.php:642
@@ -7460,7 +7460,7 @@ msgid ""
 "new line. Supported feeds are Atom 1.0 and RSS 0.91, 0.92, 1.0 and 2.0"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:222
+#: ../core/functions.inc/drivers/PJSip.class.php:217
 msgid "RTP Symmetric"
 msgstr ""
 
@@ -7668,7 +7668,7 @@ msgstr "リポジトリ"
 msgid "Require Confirm with Apply Changes"
 msgstr "変更の適用に確認を要求する"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:261
+#: ../core/functions.inc/drivers/PJSip.class.php:256
 msgid "Require RTP (Media) Encryption"
 msgstr ""
 
@@ -7676,7 +7676,7 @@ msgstr ""
 msgid "Require Strong Secrets"
 msgstr "強いシークレットを必要とする"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:251
+#: ../core/functions.inc/drivers/PJSip.class.php:246
 msgid "Required"
 msgstr ""
 
@@ -7742,7 +7742,7 @@ msgstr "戻る"
 msgid "Return key to unlock session remotely"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:224
+#: ../core/functions.inc/drivers/PJSip.class.php:219
 msgid "Rewrite Contact"
 msgstr ""
 
@@ -7916,7 +7916,7 @@ msgstr "SIP sendrpid"
 msgid "SIP trustrpid"
 msgstr "SIP trustrpid"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:243
+#: ../core/functions.inc/drivers/PJSip.class.php:238
 msgid "SRTP via in-SDP (recommended)"
 msgstr ""
 
@@ -8039,7 +8039,7 @@ msgstr ""
 msgid "Session Timeout"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:255
+#: ../core/functions.inc/drivers/PJSip.class.php:250
 #: ../core/functions.inc/drivers/Sip.class.php:350
 msgid "Session Timers"
 msgstr ""
@@ -8340,7 +8340,7 @@ msgstr ""
 msgid "Skip the chown operation"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:230
+#: ../core/functions.inc/drivers/PJSip.class.php:225
 msgid "Solicited"
 msgstr ""
 
@@ -8480,14 +8480,14 @@ msgstr "スタイリングとロゴ"
 msgid "Submit"
 msgstr "送信"
 
-#: amp_conf/htdocs/admin/functions.inc.php:411
+#: amp_conf/htdocs/admin/functions.inc.php:413
 msgid ""
 "Successful reload, but could not clear reload flag due to a database error: "
 msgstr ""
 "リロード成功、データベースエラーによりリロードフラグをクリアにできませんでし"
 "た： "
 
-#: amp_conf/htdocs/admin/functions.inc.php:404
+#: amp_conf/htdocs/admin/functions.inc.php:406
 msgid "Successfully reloaded"
 msgstr "リロード成功"
 
@@ -8897,7 +8897,7 @@ msgid ""
 "change."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:263
+#: ../core/functions.inc/drivers/PJSip.class.php:258
 msgid ""
 "The number of in-use channels which will cause busy to be returned as device "
 "state. This should be left at 0 unless you know what you are doing"
@@ -9061,7 +9061,7 @@ msgid ""
 "support Session-Timers clear their internal session state. Default is Accept."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:254
+#: ../core/functions.inc/drivers/PJSip.class.php:249
 msgid ""
 "The sessions are kept alive by sending a RE-INVITE or UPDATE request at a "
 "negotiated interval. If a session refresh fails then all the entities that "
@@ -9176,7 +9176,7 @@ msgstr ""
 "httpdを起動しているユーザー、freepbx_engineに使用されます。ほとんどのシステム"
 "では変更すべきではありません。"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:268
+#: ../core/functions.inc/drivers/PJSip.class.php:263
 msgid ""
 "The value is a comma-delimited list of IP addresses. IP addresses may have a "
 "subnet mask appended. The subnet mask may be written in either CIDR or dot-"
@@ -9892,7 +9892,7 @@ msgstr ""
 msgid "Unsigned Module(s)"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:231
+#: ../core/functions.inc/drivers/PJSip.class.php:226
 msgid "Unsolicited"
 msgstr ""
 
@@ -10456,7 +10456,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:238
+#: ../core/functions.inc/drivers/PJSip.class.php:233
 msgid ""
 "When enabled, Asterisk condenses message waiting notifications from multiple "
 "mailboxes into a single NOTIFY. If it is disabled, individual NOTIFYs are "
@@ -10672,9 +10672,9 @@ msgstr ""
 #: ../core/functions.inc/drivers/Dahdi.class.php:136
 #: ../core/functions.inc/drivers/Iax2.class.php:110
 #: ../core/functions.inc/drivers/Iax2.class.php:148
-#: ../core/functions.inc/drivers/PJSip.class.php:237
-#: ../core/functions.inc/drivers/PJSip.class.php:250
-#: ../core/functions.inc/drivers/PJSip.class.php:259
+#: ../core/functions.inc/drivers/PJSip.class.php:232
+#: ../core/functions.inc/drivers/PJSip.class.php:245
+#: ../core/functions.inc/drivers/PJSip.class.php:254
 #: ../core/functions.inc/drivers/Sip.class.php:311
 #: ../core/functions.inc/drivers/Sip.class.php:324
 #: ../core/functions.inc/drivers/Sip.class.php:404
