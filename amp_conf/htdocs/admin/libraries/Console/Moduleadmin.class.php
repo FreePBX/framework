@@ -1222,7 +1222,7 @@ class Moduleadmin extends Command {
 	private function doInstallByModuleAndVersion($modulename, $moduleversion) {
 		$xml = $this->mf->getModuleDownloadByModuleNameAndVersion($modulename, $moduleversion);
 		if (empty($xml)) {
-			$this->writeln("Unable to update module ${modulename} - ${$moduleversion}:", "error", false);
+			$this->writeln("Unable to update module ${modulename} - ${moduleversion}:", "error", false);
 			return false;
 		}
 
