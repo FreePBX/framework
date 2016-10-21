@@ -2086,10 +2086,11 @@ $(document).on('click','.clicktoedit',function(){
 	$(this).focus();
 });
 
-(function poll(){
+(function authPing(){
 	setTimeout(function(){
 		if($('.admin-btn').length > 1){
 			$.get('ajax.php?command=authping');
+			authPing(); //loop
 		}
 	}, 130000);
 })();
