@@ -252,7 +252,7 @@ class DB_Helper {
 			$query[':type'] = "json-obj";
 		} elseif (json_decode($val) && json_last_error() == JSON_ERROR_NONE) {
 			$query[':val'] = $val;
-			$query[':type'] = "json-obj";
+			$query[':type'] = "json-arr";
 		} else {
 			$query[':val'] = $val;
 			$query[':type'] = null;
