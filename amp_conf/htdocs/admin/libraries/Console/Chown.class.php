@@ -113,6 +113,9 @@ class Chown extends Command {
 
 	}
 	private function parse_conf_line($line){
+		if(!is_string($line)) {
+			throw new \Exception("freepbx_chown.conf has malformed data. Please fix the file");
+		}
 		$line = explode(",", $line);
 		if(count($line) !== 4){
 			return false;
