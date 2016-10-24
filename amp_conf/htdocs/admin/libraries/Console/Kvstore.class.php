@@ -61,6 +61,11 @@ class Kvstore extends Command {
           }
           $c->delById($key);
         break;
+        case 'set':
+            if($c->setConfig($key, $value)) {
+                $output->writeln("Key stored successfully");
+            }
+        break;
         default:
           $output->writeln("Invalid or no command provided");
         break;
