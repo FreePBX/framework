@@ -44,7 +44,7 @@ class Media extends DB_Helper{
 	 * Get supported HTML5 formats
 	 * @return array Return array of formats
 	 */
-	public function getSupportedHTML5Formats() {
+	public function getSupportedHTML5Formats($returnAll=false) {
 		$browser = $this->detectSupportedFormats();
 		$formats = $this->getSupportedFormats();
 		$html5 = array("oga", "mp3", "m4a", "wav");
@@ -71,7 +71,11 @@ class Media extends DB_Helper{
 			$nt->delete("framework", "missing_html5");
 			$this->setConfig('mediamissingmessage', false);
 		}
-		return !empty($final[0]) ? array($final[0]) : array();
+		if($returnAll) {
+			return !empty($final) ? $final : array();
+		} else {
+			return !empty($final[0]) ? array($final[0]) : array();
+		}
 	}
 
 	/**
@@ -131,9 +135,10 @@ class Media extends DB_Helper{
 	/**
 	 * Generate HTML5 formats
 	 * @param  string $dir Directory to output to, if not set will use default
+	 * @param  boolean $multiple Generate multiple files
 	 * @return array      Array of converted files
 	 */
-	public function generateHTML5($dir='') {
+	public function generateHTML5($dir='',$multiple=false) {
 		session_write_close();
 		$dir = !empty($dir) ? $dir : $this->html5Path;
 		if(!is_writable($dir)) {
@@ -142,10 +147,11 @@ class Media extends DB_Helper{
 		$md5 = md5_file($this->path);
 		$path_parts = pathinfo(basename($this->path));
 		$name = $path_parts['filename'];
-		$supportedFormats = $this->getSupportedHTML5Formats();
+		$supportedFormats = $this->getSupportedHTML5Formats($multiple);
 		//because ogg and oga are interchangeable
 		if(in_array('oga',$supportedFormats)) {
-			$supportedFormats = array("ogg");
+			$k = array_search("oga",$supportedFormats);
+			$supportedFormats[$k] = "ogg";
 		}
 		$formats = $f = array("mp3" => "mp3","wav" => "wav","ogg" => "ogg","mp4" => "mp4");
 		$file = $dir."/".$name."-".$md5;
