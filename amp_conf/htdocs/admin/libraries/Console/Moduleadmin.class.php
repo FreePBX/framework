@@ -801,7 +801,10 @@ class Moduleadmin extends Command {
 		foreach($list as $m) {
 			//Check signature status, then if its online then if its signed online then redownload (through force)
 			$this->writeln(sprintf(_("Checking %s..."),$m['rawname']));
-			if(isset($m['signature']['status']) && (~$m['signature']['status'] & \FreePBX\GPG::STATE_GOOD)) {
+			$msig = \FreePBX::GPG()->verifyModule($m['rawname']);
+
+			// Check to see if the STATE_GOOD bit is NOT set.
+			if(~$msig['status'] & \FreePBX\GPG::STATE_GOOD) {
 				$this->writeln(_("Signature Invalid"));
 				if(isset($modules_online[$m['rawname']]) && isset($modules_online[$m['rawname']]['signed'])) {
 					$this->writeln("\t".sprintf(_("Refreshing %s"),$m['rawname']));
