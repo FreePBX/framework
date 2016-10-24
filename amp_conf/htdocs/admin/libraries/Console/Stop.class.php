@@ -221,7 +221,7 @@ class Stop extends Command {
 			case "now":
 				$sastbin = '/usr/bin/env killall safe_asterisk > /dev/null 2>&1';
 				exec($sastbin);
-			case "force":
+			case "gracefully":
 				$astbin = '/usr/bin/env asterisk -rx "core stop ' . $method .'" &>/dev/null &';
 				shell_exec($astbin);
 			break;
