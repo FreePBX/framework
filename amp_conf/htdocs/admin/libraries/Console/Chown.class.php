@@ -55,7 +55,7 @@ class Chown extends Command {
 		if(isset($conf['custom'])){
 			if(isset($conf['custom']['file'])){
 				$conf['custom']['file'] = is_array($conf['custom']['file'])?$conf['custom']['file']:array($conf['custom']['file']);
-				foreach (	$conf['custom']['file'] as $file) {
+				foreach ($conf['custom']['file'] as $file) {
 					$file = $this->parse_conf_line($file);
 					if($file === false){continue;}
 					$this->modfiles['byconfig'][] = array('type' => 'file',
@@ -69,7 +69,7 @@ class Chown extends Command {
 
 			if(isset($conf['custom']['dir'])){
 				$conf['custom']['dir'] = is_array($conf['custom']['dir'])?$conf['custom']['dir']:array($conf['custom']['dir']);
-				foreach (	$conf['custom']['dir']  as $dir) {
+				foreach ($conf['custom']['dir']  as $dir) {
 					$dir = $this->parse_conf_line($dir);
 					if($dir === false){continue;}
 					$this->modfiles['byconfig'][] = array('type' => 'dir',
@@ -83,7 +83,7 @@ class Chown extends Command {
 			}
 			if(isset($conf['custom']['rdir'])){
 				$conf['custom']['rdir'] = is_array($conf['custom']['rdir'])?$conf['custom']['rdir']:array($conf['custom']['rdir']);
-				foreach (	$conf['custom']['rdir']  as $rdir) {
+				foreach ($conf['custom']['rdir']  as $rdir) {
 					$rdir = $this->parse_conf_line($rdir);
 					if($rdir === false){continue;}
 					$this->modfiles['byconfig'][] = array('type' => 'rdir',
@@ -97,8 +97,8 @@ class Chown extends Command {
 			}
 			if(isset($conf['custom']['execdir'])){
 				$conf['custom']['execdir'] = is_array($conf['custom']['execdir'])?$conf['custom']['execdir']:array($conf['custom']['execdir']);
-				foreach (	$conf['custom']['execdir']  as $edir) {
-					$edir = $this->parse_conf_line($rdir);
+				foreach ($conf['custom']['execdir']  as $edir) {
+					$edir = $this->parse_conf_line($edir);
 					if($edir === false){continue;}
 					$this->modfiles['byconfig'][] = array('type' => 'execdir',
 							'path' => $edir['path'],
@@ -113,6 +113,9 @@ class Chown extends Command {
 
 	}
 	private function parse_conf_line($line){
+		if(!is_string($line)) {
+			throw new \Exception("freepbx_chown.conf has malformed data. Please fix the file");
+		}
 		$line = explode(",", $line);
 		if(count($line) !== 4){
 			return false;

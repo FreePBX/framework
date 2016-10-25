@@ -392,12 +392,14 @@ function do_reload($passthru=false) {
 	$notify->delete('freepbx', 'RCONFFAIL');
 
 	//reload asterisk
+	FreePBX::Hooks()->processHooksByClassMethod('FreePBX\Reload', 'preReload');
 	FreePBX::Performance()->Start("Reload Asterisk");
 	$astman->Reload();
 	FreePBX::Performance()->Stop();
 	if(version_compare($version,'12','lt')) {
 		$astman->UserEvent("reload");
 	}
+	FreePBX::Hooks()->processHooksByClassMethod('FreePBX\Reload', 'postReload');
 
 
 	$return['status'] = true;

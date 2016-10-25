@@ -549,8 +549,11 @@ class AGI_AsteriskManager {
 	function UserEvent($event, $headers=array()) {
 		$d = array('UserEvent'=>$event);
 		$i = 1;
-		foreach($headers as $header) {
-			$d['Header'.$i] = $header;
+		foreach($headers as $key => $value) {
+			if($key == 'UserEvent') {
+				continue;
+			}
+			$d[$key] = $value;
 			$i++;
 		}
 		return $this->send_request('UserEvent', $d);

@@ -293,7 +293,6 @@ class Media {
 				break;
 			}
 		}
-		dbug($intermediary);
 		if(!isset($intermediary['wav']['path']) || !file_exists($intermediary['wav']['path'])) {
 			throw new \Exception(sprintf(_("Unable to find an intermediary converter for %s"),$this->track));
 		}
