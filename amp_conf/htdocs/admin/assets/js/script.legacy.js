@@ -1618,7 +1618,7 @@ $(document).ready(function() {
 	$("#user_logout").click(function() {
 		url = window.location.pathname;
 		$.get(url + "?logout=true", function() {
-			$.removeCookie("PHPSESSID", { path: "/" });
+			Cookies.remove("PHPSESSID");
 			window.location = url;
 		});
 	});
