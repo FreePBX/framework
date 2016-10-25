@@ -188,8 +188,8 @@ DROP TABLE IF EXISTS `featurecodes`;
 CREATE TABLE `featurecodes` (
   `modulename` varchar(50) NOT NULL DEFAULT '',
   `featurename` varchar(50) NOT NULL DEFAULT '',
-  `description` varchar(200) NOT NULL DEFAULT '',
-  `helptext` varchar(250) NOT NULL DEFAULT '',
+  `description` varchar(500) NOT NULL DEFAULT '',
+  `helptext` varchar(500) NOT NULL DEFAULT '',
   `defaultcode` varchar(20) DEFAULT NULL,
   `customcode` varchar(20) DEFAULT NULL,
   `enabled` tinyint(4) NOT NULL DEFAULT '0',
