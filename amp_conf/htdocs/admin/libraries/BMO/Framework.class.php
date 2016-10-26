@@ -25,9 +25,18 @@ class Framework extends FreePBX_Helpers implements BMO {
 	}
 
 	public function ajaxRequest($req, &$setting) {
+		switch ($req) {
+			case 'authping':
+			return true;
+		}
 		return false;
 	}
 
 	public function ajaxHandler() {
+		switch ($_REQUEST['command']) {
+			case 'authping':
+			return 'authpong';
+		}
+		return false;
 	}
 }
