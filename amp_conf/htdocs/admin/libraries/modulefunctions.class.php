@@ -1835,30 +1835,38 @@ class module_functions {
 			return array(sprintf(_('Module Name is blank in %s'),$filename));
 		}
 
-		if(file_exists($amp_conf['AMPWEBROOT']."/admin/modules/".$modulename)) {
-			exec("rm -rf ".$amp_conf['AMPWEBROOT']."/admin/modules/".$modulename, $output, $exitcode);
+		$dest = $amp_conf['AMPWEBROOT']."/admin/modules/".$modulename;
+
+		if(file_exists($dest)) {
+			exec("rm -rf $dest 2>&1", $output, $exitcode);
 			if ($exitcode != 0) {
-				return array(sprintf(_('Could not remove old module %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename));
+				return array(sprintf(_('Could not remove old module %s to install new version'), $dest), implode("\n", $output));
 			}
 		}
 
 		//we just deleted it, if we cant recreate it then we have some serious issues going on
-		if (! @mkdir($amp_conf['AMPWEBROOT']."/admin/modules/".$modulename) ) {
-			return array(sprintf(_("Error creating module directory: %s"), $amp_conf['AMPWEBROOT']."/admin/modules/".$modulename));
+		if (! @mkdir($dest) ) {
+			return array(sprintf(_("Error creating module directory: %s"), $dest));
 		}
 
-		$installBinary = fpbx_which("install");
-		exec(sprintf("%s -d -o %s -g %s %s %s",$installBinary, $amp_conf['AMPASTERISKWEBUSER'],$amp_conf['AMPASTERISKWEBGROUP'],$archivepath."/*",$amp_conf['AMPWEBROOT']."/admin/modules/".$modulename."/"),$output,$exitcode);
+		exec("cp -R $archivepath/* $dest 2>&1", $output, $exitcode);
+		// Why would this ever fail?
 		if ($exitcode != 0) {
-			$output = '';
-			exec("cp -R ".$archivepath."/* ".$amp_conf['AMPWEBROOT']."/admin/modules/".$modulename."/", $output, $exitcode);
+			return $output
 		}
-		if ($exitcode != 0) {
-			exec("rm -Rf ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$time.'/'));
-			if ($exitcode != 0) {
-				return array(sprintf(_('Could not remove temp storage at %s'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$time));
+
+		// Fix default ownership, in case this was run as root
+		exec("chown -R ".$amp_conf['AMPASTERISKWEBUSER'].".".$amp_conf['AMPASTERISKWEBGROUP']." $dest");
+
+		// Set our permissions sanely (this may be updated later, but this is a good starting point)
+		exec("chmod -R 0644 $dest");
+
+		// These are 'binary' directories. If they exist, set them and their contents to executables.
+		$bindirs = array("bin", "hooks", "agi-bin");
+		foreach ($bindirs as $bindir) {
+			if (is_dir("$dest/$bindir")) {
+				exec("chmod -R 0755 $dest/$bindir");
 			}
-			return array(sprintf(_('Could not move %s to %s'), $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$time."/".$modulename, $amp_conf['AMPWEBROOT'].'/admin/modules/'));
 		}
 
 		exec("rm -rf $temppath", $output, $exitcode);
