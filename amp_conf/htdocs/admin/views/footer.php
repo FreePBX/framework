@@ -146,66 +146,52 @@ $html .= "\n" . '<script type="text/javascript">'
 
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below
+
 if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	$pbxlibver = '.' . filectime("assets/js/pbxlib.js");
 	$html .= '<script src="assets/js/pbxlib.js'. $version_tag . $pbxlibver . '"></script>';
 } else {
-	$html .= '<script src="assets/js/modernizr-3.3.1.min.js'.$version_tag.'"></script>';
-
-	//Removed google CDN because we are using custom libraries for bootstrap and jqueryui so that buttons work together
-	$html .= '<script src="assets/js/bootstrap-3.3.4.custom.min.js'.$version_tag.'"></script>';
-	$html .= '<script src="assets/js/tableexport-3.2.10.min.js'.$version_tag.'"></script>';
-	$html .= '<script src="assets/js/bootstrap-table-1.11.0.min.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-en-US.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-cookie.min.js'.$version_tag.'"></script>';
-	$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-mobile.min.js'.$version_tag.'"></script>';
-	$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-export.min.js'.$version_tag.'"></script>';
-	$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-toolbar.min.js'.$version_tag.'"></script>';
-	$html .= '<script src="assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-reorder-rows.min.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/jquery.tablednd-0.9.1.min.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/bootstrap-multiselect-0.9.13.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/chosen.jquery-1.6.2.min.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/jquery.smartWizard-3.3.1.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/jquery-ui-1.12.1.min.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/jquery.iframe-transport-9.12.5.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/jquery.fileupload-9.12.5.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/jquery.fileupload-process-9.12.5.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/jquery.jplayer-2.9.2.min.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/Sortable-1.4.0.min.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/notie-3.9.4.min.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/moment-with-locales-2.15.1.min.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/moment-timezone-with-data-2010-2020-0.5.6.min.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/browser-locale-1.0.0.min.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/jquery.form-3.51.min.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/recorder.js'.$version_tag.'"></script>';
-
-	$html .= '<script src="assets/js/jquery.hotkeys-0.2.0.js' . $version_tag . '"></script>'
-		. '<script src="assets/js/jquery.numeric-1.4.1.min.js' . $version_tag . '"></script>'
-		. '<script src="assets/js/js.cookie-2.1.3.min.js' . $version_tag . '"></script>'
-		. '<script src="assets/js/autosize-3.0.17.min.js' . $version_tag . '"></script>'
-		. '<script src="assets/js/script.legacy.js' . $version_tag . '"></script>';
-
-	$html .= '<script src="assets/js/typeahead.bundle-0.10.5.min.js'.$version_tag.'"></script>';
-	$html .= '<script src="assets/js/search.js'.$version_tag.'"></script>';
+	$files = array(
+		"assets/js/moment-with-locales-2.15.1.min.js",
+		"assets/js/script.legacy.js",
+		"assets/js/Sortable-1.4.0.min.js",
+		"assets/js/autosize-3.0.17.min.js",
+		"assets/js/bootstrap-3.3.4.custom.min.js",
+		"assets/js/bootstrap-multiselect-0.9.13.js",
+		"assets/js/bootstrap-table-1.11.0.min.js",
+		"assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-cookie.min.js",
+		"assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-export.min.js",
+		"assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-mobile.min.js",
+		"assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-reorder-rows.min.js",
+		"assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-toolbar.min.js",
+		"assets/js/browser-locale-1.0.0.min.js",
+		"assets/js/browser-support.js",
+		"assets/js/chosen.jquery-1.6.2.min.js",
+		"assets/js/jquery-ui-1.12.1.min.js",
+		"assets/js/jquery.fileupload-9.12.5.js",
+		"assets/js/jquery.fileupload-process-9.12.5.js",
+		"assets/js/jquery.form-3.51.min.js",
+		"assets/js/jquery.hotkeys-0.2.0.js",
+		"assets/js/jquery.iframe-transport-9.12.5.js",
+		"assets/js/jquery.jplayer-2.9.2.min.js",
+		"assets/js/jquery.numeric-1.4.1.min.js",
+		"assets/js/jquery.smartWizard-3.3.1.js",
+		"assets/js/jquery.tablednd-0.9.1.min.js",
+		"assets/js/js.cookie-2.1.3.min.js",
+		"assets/js/modernizr-3.3.1.min.js",
+		"assets/js/moment-timezone-with-data-2010-2020-0.5.6.min.js",
+		"assets/js/notie-3.9.4.min.js",
+		"assets/js/recorder.js",
+		"assets/js/recorderWorker.js",
+		"assets/js/search.js",
+		"assets/js/tableexport-3.2.10.min.js",
+		"assets/js/typeahead.bundle-0.10.5.min.js",
+	);
+	foreach($files as $f) {
+		$html .= '<script src="'.$f.$version_tag.'"></script>';
+	}
 }
+
 if($lang != "en_US") {
   switch($lang) {
     case "es_ES":
