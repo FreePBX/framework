@@ -1861,7 +1861,7 @@ class module_functions {
 		exec("cp -R $archivepath/* $dest 2>&1", $output, $exitcode);
 		// Why would this ever fail?
 		if ($exitcode != 0) {
-			return $output
+			return $output;
 		}
 
 		// Fix default ownership, in case this was run as root. (We don't care if this
