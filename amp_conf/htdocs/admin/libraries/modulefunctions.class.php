@@ -1855,13 +1855,12 @@ class module_functions {
 			return $output
 		}
 
-		// Fix default ownership, in case this was run as root
+		// Fix default ownership, in case this was run as root. (We don't care if this
+		// errors)
 		exec("chown -R ".$amp_conf['AMPASTERISKWEBUSER'].".".$amp_conf['AMPASTERISKWEBGROUP']." $dest");
 
-		// Set our permissions sanely (this may be updated later, but this is a good starting point)
-		exec("chmod -R 0644 $dest");
-
-		// These are 'binary' directories. If they exist, set them and their contents to executables.
+		// These are known 'binary' directories. If they exist, always set them and their
+		// contents to be executable.
 		$bindirs = array("bin", "hooks", "agi-bin");
 		foreach ($bindirs as $bindir) {
 			if (is_dir("$dest/$bindir")) {
