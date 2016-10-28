@@ -151,12 +151,12 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	$pbxlibver = '.' . filectime("assets/js/pbxlib.js");
 	$html .= '<script src="assets/js/pbxlib.js'. $version_tag . $pbxlibver . '"></script>';
 } else {
-	$files = array(
+	array(
 		"assets/js/moment-with-locales-2.15.1.min.js",
 		"assets/js/script.legacy.js",
 		"assets/js/Sortable-1.4.0.min.js",
 		"assets/js/autosize-3.0.17.min.js",
-		"assets/js/bootstrap-3.3.4.custom.min.js",
+		"assets/js/bootstrap-3.3.7.custom.min.js",
 		"assets/js/bootstrap-multiselect-0.9.13.js",
 		"assets/js/bootstrap-table-1.11.0.min.js",
 		"assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-cookie.min.js",
@@ -186,7 +186,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 		"assets/js/search.js",
 		"assets/js/tableexport-3.2.10.min.js",
 		"assets/js/typeahead.bundle-0.10.5.min.js",
-	);
+);
 	foreach($files as $f) {
 		$html .= '<script src="'.$f.$version_tag.'"></script>';
 	}

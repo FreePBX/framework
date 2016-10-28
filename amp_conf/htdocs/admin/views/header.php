@@ -30,8 +30,8 @@ $html .= '<meta http-equiv="Content-Type" content="text/html;charset=utf-8">'
 //http to https
 $html .= '<meta name="referrer" content="always">';
 
-$html .= '<link href="assets/css/bootstrap-3.3.5.min.css'.$version_tag.'" rel="stylesheet" type="text/css">';
-$html .= '<link href="assets/css/font-awesome.min-4.5.0.css'.$version_tag.'" rel="stylesheet" type="text/css">';
+$html .= '<link href="assets/css/bootstrap-3.3.7.min.css'.$version_tag.'" rel="stylesheet" type="text/css">';
+$html .= '<link href="assets/css/font-awesome.min-4.7.0.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 $html .= '<link href="assets/css/bootstrap-table-1.9.0.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 $html .= '<link href="assets/css/bootstrap-table-reorder-rows.css'.$version_tag.'" rel="stylesheet" type="text/css">';
 $html .= '<link href="assets/css/jquery-ui-1.10.3.custom.css'.$version_tag.'" rel="stylesheet" type="text/css">';
