@@ -151,7 +151,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	$pbxlibver = '.' . filectime("assets/js/pbxlib.js");
 	$html .= '<script src="assets/js/pbxlib.js'. $version_tag . $pbxlibver . '"></script>';
 } else {
-	array(
+	$files = array(
 		"assets/js/moment-with-locales-2.15.1.min.js",
 		"assets/js/script.legacy.js",
 		"assets/js/Sortable-1.4.0.min.js",
@@ -167,6 +167,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 		"assets/js/browser-locale-1.0.0.min.js",
 		"assets/js/browser-support.js",
 		"assets/js/chosen.jquery-1.6.2.min.js",
+		"assets/js/jquery-migrate-3.0.0.js",
 		"assets/js/jquery-ui-1.12.1.min.js",
 		"assets/js/jquery.fileupload-9.12.5.js",
 		"assets/js/jquery.fileupload-process-9.12.5.js",
