@@ -1015,8 +1015,7 @@ function fpbx_reload() {
 				$(document).trigger( "fpbx_reload", {status: "error", complete: true, errors: {type: "object", status: true, data: data}} );
 				// there was a problem
 				var r = "<h3>" + data.message + "<\/h3>" +
-				"<a href=\"#\" id=\"error_more_info\">" + _("click here for more info") + "</a>" +
-				"<pre style=\"display:none;max-height:200px\">" + data.retrieve_conf + "<\/pre>";
+				"<pre style=\"max-height:200px\">" + data.retrieve_conf + "<\/pre>";
 				if (data.num_errors) {
 					r += "<p>" + data.num_errors + fpbx.msg.framework.reload_unidentified_error + "<\/p>";
 				}
