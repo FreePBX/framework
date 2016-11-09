@@ -12,9 +12,7 @@ $bootstrap_settings['freepbx_auth'] = false;
 // a system.
 //
 //$restrict_mods = true;
-if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
-	include_once('/etc/asterisk/freepbx.conf');
-}
+include '/etc/freepbx.conf';
 
 // Force autoloader to load all the includes since Zend issues can break and make this fail when this is run
 //

@@ -17,9 +17,7 @@
 if (!isset($bootstrap_settings['amportal_conf_initialized']) || !$bootstrap_settings['amportal_conf_initialized']) {
 	$bootstrap_settings['skip_astman'] = true;
 	$restrict_mods = true;
-	if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
-		include_once('/etc/asterisk/freepbx.conf');
-	}
+	include '/etc/freepbx.conf';
 }
 
 define('AST_CONFIG_DIR', $amp_conf['ASTETCDIR']);
