@@ -218,13 +218,38 @@ class Moduleadmin extends Command {
 	}
 
 	private function doForkInstall($modulename, $force) {
+		static $fwconsole = false;
+		if (!$fwconsole) {
+			// Try to find our fwconsole.
+			try {
+				$fwconsole = \FreePBX::Config()->get('AMPSBIN')."/fwconsole";
+			} catch (\Exception $e) {
+				$fwconsole = "/usr/sbin/fwconsole";
+			}
+			if (!file_exists($fwconsole)) {
+				$attempts = array ("/var/lib/asterisk/bin/fwconsole", "/usr/sbin/fwconsole", "/usr/local/sbin/fwconsole", "/var/www/html/admin/modules/framework/amp_conf/bin/fwconsole", "/usr/local/bin/fwconsole");
+				$found = false;
+				foreach ($attempts as $f) {
+					if (file_exists($f)) {
+						$found = true;
+						$fwconsole = $f;
+						break;
+					}
+				}
+				if (!$found) {
+					// Well.. Just hope it's in the path somehwere.
+					$fwconsole = "fwconsole";
+				}
+			}
+		}
+
 		$descriptorspec = array(
 			0 => array("pipe","r"),
 			1 => STDOUT,
 			2 => STDERR
 		);
 		$force = $force ? "--force" : "";
-		$process = proc_open("fwconsole ma install ".escapeshellarg($modulename)." ".$force, $descriptorspec, $pipes);
+		$process = proc_open("$fwconsole ma install ".escapeshellarg($modulename)." ".$force, $descriptorspec, $pipes);
 		if( is_resource( $process ) ) {
 			// Close stdin
 			fclose($pipes[0]);
