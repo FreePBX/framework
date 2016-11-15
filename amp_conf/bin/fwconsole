@@ -9,7 +9,7 @@ $bootstrap_settings['freepbx_auth'] = false;
 $bootstrap_settings['fix_zend'] = isset($options['fix_zend']);
 //Wrapped in a global try catch incase of zend errors
 try {
-	include '/etc/freepbx.conf';
+	include_once '/etc/freepbx.conf';
 } catch(\Exception $e) {
 	if(!isset($options['fix_zend']) && function_exists('SPLAutoloadBroken') && SPLAutoloadBroken()) {
 		modgettext::push_textdomain("amp");

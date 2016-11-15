@@ -324,7 +324,7 @@ class FreePBXInstallCommand extends Command {
 			$output->writeln("No (".AMP_CONF." file detected)");
 			$bootstrap_settings['freepbx_auth'] = false;
 			$restrict_mods = true;
-			include '/etc/freepbx.conf';
+			include_once $freepbx_conf_path;
 		}
 
 		if (isset($answers['dbengine'])) {

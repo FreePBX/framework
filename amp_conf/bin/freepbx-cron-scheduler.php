@@ -5,7 +5,7 @@
 //	Copyright 2013-2015 Schmooze Com Inc.
 //
 $bootstrap_settings['freepbx_auth'] = false;
-include '/etc/freepbx.conf';
+include_once '/etc/freepbx.conf';
 // Define the notification class for logging to the dashboard
 //
 $nt = notifications::create($db);

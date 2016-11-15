@@ -8,7 +8,7 @@
 //include bootstrap
 $bootstrap_settings['freepbx_auth'] = false;
 $bootstrap_settings['cdrdb'] = true;
-include '/etc/freepbx.conf';
+include_once '/etc/freepbx.conf';
 
 // TODO hard coded, get this out of bootstrap now?
 //

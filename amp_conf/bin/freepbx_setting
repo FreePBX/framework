@@ -8,7 +8,7 @@
 $restrict_mods = true;
 $bootstrap_settings['freepbx_auth'] = false;
 $bootstrap_settings['skip_astman'] = true;
-include '/etc/freepbx.conf';
+include_once '/etc/freepbx.conf';
 
 if ($argc != 3) {
   out(_("Usage:"),false);
