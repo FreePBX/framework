@@ -25,16 +25,32 @@ class ModulesConf {
 			$this->conf->addEntry("modules", "preload=chan_local.so");
 			$this->conf->addEntry("modules", "preload=res_mwi_blf.so");
 			$this->conf->addEntry("modules", "preload=func_db.so");
+			$this->conf->addEntry("modules", "preload=res_odbc.so");
+			$this->conf->addEntry("modules", "preload=res_config_odbc.so");
+			$this->conf->addEntry("modules", "preload=cdr_adaptive_odbc.so");
 			$this->conf->addEntry("modules", "noload=chan_also.so");
 			$this->conf->addEntry("modules", "noload=chan_oss.so");
 			$this->conf->addEntry("modules", "noload=app_directory_odbcstorage.so");
 			$this->conf->addEntry("modules", "noload=app_voicemail_odbcstorage.so");
 		}
-		//https://issues.asterisk.org/jira/browse/ASTERISK-25966
-		if(empty($this->ProcessedConfig['modules']['preload'])
-			|| (is_array($this->ProcessedConfig['modules']['preload']) && !in_array("func_db.so",$this->ProcessedConfig['modules']['preload']))
-			|| (is_string($this->ProcessedConfig['modules']['preload']) && $this->ProcessedConfig['modules']['preload'] != "func_db.so")) {
+		// https://issues.asterisk.org/jira/browse/ASTERISK-25966
+		//  and
+		// https://issues.asterisk.org/jira/browse/ASTERISK-25957
+		if(empty($this->ProcessedConfig['modules']['preload'])) {
 			$this->conf->addEntry("modules", "preload=func_db.so");
+			$this->conf->addEntry("modules", "preload=res_odbc.so");
+			$this->conf->addEntry("modules", "preload=res_config_odbc.so");
+			$this->conf->addEntry("modules", "preload=cdr_adaptive_odbc.so");
+		} else {
+			// Make sure all of our mandatory preloads are there.
+			$mandatory = array("func_db.so", "res_odbc.so", "res_config_odbc.so", "cdr_adaptive_odbc.so");
+			foreach ($mandatory as $m) {
+				if ( 
+					(is_array($this->ProcessedConfig['modules']['preload']) && !in_array($m, $this->ProcessedConfig['modules']['preload'])) ||
+				   	(is_string($this->ProcessedConfig['modules']['preload']) && $this->ProcessedConfig['modules']['preload'] != $m)) {
+						$this->conf->addEntry("modules", "preload=$m");
+					}
+			}
 		}
 	}
 
