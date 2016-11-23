@@ -67,16 +67,31 @@ if (is_link("$wr/admin/images/notify_security.png")) {
 	unlink("$wr/admin/images/notify_security.png");
 }
 
-if (file_exists("$wr/admin/xml.php")) {
-	unlink("$wr/admin/xml.php");
+$cleanups = array("$wr/admin/xml.php", "$wr/.xml.php", "$wr/admin/libraries/pest/index.php",
+	"$wr/restapps/.-", "$wr/restapps/.htaccess", "/var/lib/asterisk/images/...");
+
+foreach ($cleanups as $f) {
+	if (file_exists($f)) {
+		// If we can't unlink the file, we want it to throw an error here
+		$ret = @unlink($f);
+		if (!$ret) {
+			throw new \Exception("Known bad file '$f' found, unable to remove. Critical security error.");
+		}
+	}
 }
 
-if (file_exists("$wr/.xml.php")) {
-	unlink("$wr/.xml.php");
-}
+// Known bad contents of extensions_custom.conf
+$knownbad = array (
+	"4fa57266a3fc2d63ae83ca793b53c5d686b67780b0b5c74ee25b498555a04320" => "thanku-outcall",
+);
 
-if (file_exists("$wr/admin/libraries/pest/index.php")) {
-	unlink("$wr/admin/libraries/pest/index.php");
+$ecc = @file_get_contents("/etc/asterisk/extensions_custom.conf");
+$ecchash = hash("sha256", $ecc);
+if (isset($knownbad[$ecchash])) {
+	date_default_timezone_set("UTC");
+	$ecc = "# Known bad file found (".$knownbad[$ecchash]." - $ecchash)\n# Removed automatically by framework ".date("Y-m-d H:i:s")." UTC\n";
+	file_put_contents("/etc/asterisk/extensions_custom.conf", $ecc);
+	out("WARNING: Known bad extensions_custom.conf automatically replaced (contained ".$knownbad[$ecchash].")");
 }
 
 // Prune any invalid files in assets or images
