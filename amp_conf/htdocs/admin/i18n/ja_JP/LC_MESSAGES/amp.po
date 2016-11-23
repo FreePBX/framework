@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-22 15:37+1000\n"
+"POT-Creation-Date: 2016-11-23 15:05+1000\n"
 "PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -1860,7 +1860,7 @@ msgstr "無効化できません：次とこのモジュールが依存関係で
 msgid "Cannot find module"
 msgstr "モジュールを見つけられません"
 
-#: install.php:237
+#: install.php:252
 msgid "Cant Find Framework XML"
 msgstr "フレームワークXMLが見つかりません"
 
@@ -3924,7 +3924,7 @@ msgstr "書き込みエラー %s"
 msgid "Error parsing cdr_mysql.conf, no migration done"
 msgstr ""
 
-#: install.php:293
+#: install.php:308
 #, php-format
 msgid "Error updating GPG Keys: %s"
 msgstr ""
@@ -5395,7 +5395,7 @@ msgid ""
 "even after it was suppose to be applied"
 msgstr ""
 
-#: install.php:250
+#: install.php:265
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -6317,7 +6317,7 @@ msgstr "実行するアクションが存在しません"
 msgid "No description is available."
 msgstr "利用できる説明がありません。"
 
-#: install.php:136
+#: install.php:151
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr "%s のディレクトリが存在しないため、インストールスクリプトは不要です"
@@ -8173,7 +8173,7 @@ msgid ""
 "this set to no. See http://wiki.freepbx.org/x/boi3Aw for more details"
 msgstr ""
 
-#: install.php:271
+#: install.php:286
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr ""
@@ -10256,7 +10256,7 @@ msgstr ""
 msgid "Version"
 msgstr "バージョン"
 
-#: install.php:254
+#: install.php:269
 msgid "Version from Framework was empty, cant continue"
 msgstr ""
 
@@ -11131,7 +11131,7 @@ msgstr ""
 msgid "altered"
 msgstr ""
 
-#: install.php:217
+#: install.php:232
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr "パッケージ ファイル/ディレクトリーの削除に失敗しました: %s"
@@ -11271,7 +11271,7 @@ msgstr "ALLOW_SIP_ANONをグローバルから削除中.."
 msgid "deleting obsoleted record_in and record_out entries.."
 msgstr "廃止したrecord_in、record_outのエントリーを削除中.."
 
-#: install.php:158 install.php:170 install.php:181
+#: install.php:173 install.php:185 install.php:196
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:505
 #: ../core/install.php:954 ../core/install.php:1040 ../core/install.php:1685
 msgid "done"
@@ -11282,7 +11282,7 @@ msgstr "完了"
 msgid "done! Reload FreePBX to update all Custom Context settings."
 msgstr ""
 
-#: install.php:156 install.php:167 install.php:178
+#: install.php:171 install.php:182 install.php:193
 msgid "done, see errors below"
 msgstr "完了しました。以下のエラーを確認してください："
 
@@ -11392,7 +11392,7 @@ msgstr "freepbx_settingsの読み込みの致命的なエラー"
 msgid "fatal error trying to add field"
 msgstr "フィールドを追加中に致命的なエラーが発生しました"
 
-#: install.php:219
+#: install.php:234
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr "ファイル/ディレクトリー:%s の削除に成功しました"
@@ -11411,7 +11411,7 @@ msgstr ""
 msgid "framework couldn't copy file to %s"
 msgstr "frameworkは、ファイルを %s にコピーできませんでした"
 
-#: install.php:205
+#: install.php:220
 msgid "framework file install done, removing packages from module"
 msgstr ""
 "framework ファイルのインストールが完了し、パッケージをモジュールから削除して"
@@ -11455,7 +11455,7 @@ msgstr ""
 msgid "insert"
 msgstr "挿入"
 
-#: install.php:149
+#: install.php:164
 #, php-format
 msgid "installing files to %s.."
 msgstr "%s にファイルをインストール中.."
