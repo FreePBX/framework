@@ -18,6 +18,8 @@ class Util extends Command {
 				new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
+		global $amp_conf;
+
 		$args = $input->getArgument('args');
 		$command = isset($args[0])?$args[0]:'';
 		switch ($command) {
@@ -55,17 +57,14 @@ class Util extends Command {
 				\module_functions::create()->getAllSignatures(false,true);
 			break;
 			case 'tablefix':
-				if(posix_geteuid() != 0) {
-					$output->writeln("<error>You need to be root to run this command</error>");
-					exit(1);
-				}
-				$process = new Process('mysqlcheck --repair --all-databases');
+				$cmd = 'mysqlcheck -u'.$amp_conf['AMPDBUSER'].' -p'.$amp_conf['AMPDBPASS'].' --repair --all-databases --optimize';
+				$process = new Process($cmd);
 				try {
-					$output->writeln(_("Attempting to repair MySQL Tables this may take a while"));
+					$output->writeln(_("Attempting to repair MySQL Tables (this may take some time)"));
 					$process->mustRun();
 					$output->writeln(_("MySQL Tables Repaired"));
 				} catch (ProcessFailedException $e) {
-						$output->writeln(sprintf(_("MySQL table repair Failed: %s"),$e->getMessage()));
+					$output->writeln(sprintf(_("MySQL table repair Failed: %s"),$e->getMessage()));
 				}
 			break;
 			case "zendid":
