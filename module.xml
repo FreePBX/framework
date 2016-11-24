@@ -3,7 +3,7 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>14.0.1alpha34</version>
+	<version>14.0.1alpha35</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
@@ -23,5 +23,6 @@
 	</supported>
 	<category>Admin</category>
 	<!-- System level bugfixes are below. These are checked by individual packages -->
+	<!-- This is processed by the command 'xmlstarlet sel -t -v 'module/bugfix [@id="FD7-23"]' module.xml' -->
 	<bugfix id='FD7-23'>http://issues.freepbx.org/browse/FD7-23</bugfix>
 </module>
