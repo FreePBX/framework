@@ -5,7 +5,8 @@
 //	Copyright 2013 Schmooze Com Inc.
 //	Copyright 2016 Sangoma Technology Corp.
 //
-/** Controls if online module and install/uninstall options are available.
+/**
+ * Controls if online module and install/uninstall options are available.
  * This is meant for when using external packaging systems (eg, deb or rpm) to manage
  * modules. Package maintainers should set AMPEXTERNPACKAGES to true in /etc/amportal.conf.
  * Optionally, the other way is to remove the below lines, and instead just define
@@ -16,7 +17,6 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 } else {
 	define('EXTERNAL_PACKAGE_MANAGEMENT', 1);
 }
-$edgemode = ($amp_conf['MODULEADMINEDGE'] == 1)?true:false;
 $modulef = module_functions::create();
 
 // Handle the ajax post back of an update online updates email array and status
@@ -161,7 +161,6 @@ if ($online) {
 }
 
 if (!$quietmode) {
-	$displayvars['edgemode'] = $edgemode;
 	show_view('views/module_admin/header.php',$displayvars);
 }
 
@@ -1004,7 +1003,12 @@ default:
 	$displayvars['trackenable'] = $amp_conf['AMPTRACKENABLE'];
 	$displayvars['brand'] = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
 	$displayvars['broken_module_list'] = $broken_module_list;
-	show_view('views/module_admin/main.php',$displayvars);
+	show_view('views/module_admin/tabwrapper.php');
+	$summary = array( "edgemode" => ($amp_conf['MODULEADMINEDGE'] == 1) );
+	show_view('views/module_admin/tab-summary.php', $summary);
+	show_view('views/module_admin/tab-modules.php',$displayvars);
+	show_view('views/module_admin/tab-systemupdates.php');
+	show_view('views/module_admin/tabfooter.php');
 	break;
 }
 if (!$quietmode) {

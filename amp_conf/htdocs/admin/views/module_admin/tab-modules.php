@@ -1,19 +1,25 @@
 <?php
 // vim: :set filetype=php tabstop=4 shiftwidth=4 autoindent smartindent:
-if($online) { ?>
-	<?php if(!empty($announcements)) {?>
-		<div class='announcements'><?php echo $announcements?></div>
-	<?php } ?>
-	<?php if (!EXTERNAL_PACKAGE_MANAGEMENT) {?>
-		<?php echo $repo_select?>
-	<?php } ?>
-<?php } else { ?>
-	<?php if (!EXTERNAL_PACKAGE_MANAGEMENT) {?>
-		<?php echo $repo_select?>
-	<?php } else { ?>
-		| <a href='config.php?display=modules&amp;action=upload'><?php echo _("Upload module")?></a><br />
-	<?php } ?>
-<?php } ?>
+?>
+<div role="tabpanel" class="tab-pane" id="modulestab">
+<?php
+
+if($online) {
+	if(!empty($announcements)) {
+		echo "<div class='announcements'>$announcements</div>\n";
+	}
+	if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+		echo $repo_select;
+	}
+} else {
+	if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+		echo $repo_select;
+	} else {
+		echo "| <a href='config.php?display=modules&amp;action=upload'>"._("Upload module")."</a><br />";
+	}
+}
+?>
+
 
 <div id="module-listing-container">
 	<?php if(!empty($broken_module_list) && !$online) {?>
@@ -447,3 +453,5 @@ if($online) { ?>
 </script>
 </div>
 </div>
+
+</div> <!-- tab-pane display active? -->
