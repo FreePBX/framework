@@ -17,6 +17,7 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 } else {
 	define('EXTERNAL_PACKAGE_MANAGEMENT', 1);
 }
+
 $modulef = module_functions::create();
 
 // Handle the ajax post back of an update online updates email array and status
@@ -116,7 +117,6 @@ if (!$quietmode) {
 
 $modules_local = $modulef->getinfo(false,false,true);
 
-
 if ($online) {
 	$security_issues_to_report = array();
 	$modules_online = $modulef->getonlinexml();
@@ -169,9 +169,7 @@ if (!isset($modules)) {
 }
 
 //Hide the only module that would end up confusing people
-if(isset($modules['builtin'])) {
-	unset($modules['builtin']);
-}
+unset($modules['builtin']);
 
 //--------------------------------------------------------------------------------------------------------
 switch ($action) {
@@ -1004,7 +1002,18 @@ default:
 	$displayvars['brand'] = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
 	$displayvars['broken_module_list'] = $broken_module_list;
 	show_view('views/module_admin/tabwrapper.php');
-	$summary = array( "edgemode" => ($amp_conf['MODULEADMINEDGE'] == 1) );
+	$summary = array(
+		"edgemode" => ($amp_conf['MODULEADMINEDGE'] == 1),
+		"totalmodules" => count($modules),
+		"activemodules" => count($modules),
+		"lastonlinecheck" => new \DateTime(),
+		"pendingupgradesmodules" => "TBD",
+		"pendingupgradessystem" => "TBD",
+		"pbxversion" => @file_get_contents("/etc/sangoma/pbx-version"),
+	);
+	if (empty($summary['pbxversion'])) {
+		$summary['pbxversion'] = "Unknown";
+	}
 	show_view('views/module_admin/tab-summary.php', $summary);
 	show_view('views/module_admin/tab-modules.php',$displayvars);
 	show_view('views/module_admin/tab-systemupdates.php');
