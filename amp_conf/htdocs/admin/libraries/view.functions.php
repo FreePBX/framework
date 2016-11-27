@@ -469,9 +469,9 @@ function show_help($message, $title='' ,$collapse=false, $collapseable=true, $cl
 	$html = "<div class='panel panel-$class'>";
 	$html .= '<div class="panel-heading">';
 	if($title){
-		$html .= '<h3 style="margin-bottom: 0px"><i class="fa fa-info-circle"></i> '.$title.'</h3>';
+		$html .= '<h3 class="panel-title"><i class="fa fa-info-circle"></i> '.$title.'</h3>';
 	}else{
-		$html .= '<h3 style="margin-bottom: 0px"><i class="fa fa-info-circle"></i> '._("Helpful Information").'</h3>';
+		$html .= '<h3 class="panel-title"><i class="fa fa-info-circle"></i> '._("Helpful Information").'</h3>';
 	}
 	if ($collapseable) {
 		if($collapse) {
