@@ -1014,8 +1014,9 @@ default:
 	if (empty($summary['pbxversion'])) {
 		$summary['pbxversion'] = "Unknown";
 	}
+	$updates = new \FreePBX\Builtin\UpdateManager();
 	show_view('views/module_admin/tab-summary.php', $summary);
-	show_view('views/module_admin/tab-scheduler.php', $summary);
+	show_view('views/module_admin/tab-scheduler.php', $updates->getCurrentUpdateSettings());
 	show_view('views/module_admin/tab-modules.php',$displayvars);
 	show_view('views/module_admin/tab-systemupdates.php');
 	show_view('views/module_admin/tabfooter.php');

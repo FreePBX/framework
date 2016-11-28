@@ -1,4 +1,6 @@
 $(document).ready(function(){
+	// Scheduler update button
+	$("#saveschedule").on("click", saveUpdateScheduler);
 	$('.repo_boxes').find('input[type=checkbox]').click(function() {
 		var id = $(this).attr('id');
 		var selected = $(this).prop('checked') ? 1 : 0;
@@ -88,9 +90,6 @@ $(document).ready(function(){
 			} ]
 		});
 	});
-	if(window.location.hash == '#email'){
-		$('#show_auto_update').click();
-	}
 	$('.modulevul_tag').click(function(e) {
 		e.preventDefault();
 		e.stopPropagation();
@@ -294,4 +293,39 @@ function toggleScreenDoor() {
 
 String.prototype.capitalize = function() {
     return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
+
+function saveUpdateScheduler(e) {
+	// There shouldn't be a default event, but...
+	e.preventDefault();
+
+	// Create our ajax request
+	ajaxdata = {
+		notification_emails: $("#notemail").val(),
+		system_ident: $("#sysident").val(),
+		auto_system_updates: $("input[name='auto_system_updates']:checked").val(),
+		auto_module_updates: $("input[name='auto_module_updates']:checked").val(),
+		update_every: $("#update_every").val(),
+		update_period: $("#update_period").val(),
+		module: "framework",
+		command: "scheduler",
+		action: "updatescheduler"
+	};
+
+	var s = $("#saveschedule");
+	s.text(_("Saving...")).prop("disabled", true);
+
+	$.ajax({
+		url: window.ajaxurl,
+		method: "POST",
+		data: ajaxdata,
+		success: function(data) {
+		       	$.each(data, function(i,v) {
+				var selector = "input[name='"+i+"']";
+				$(selector).val(v);
+			});
+	       	},
+		complete: function(data) { s.text("Save").prop("disabled", false); },
+	});
 }
