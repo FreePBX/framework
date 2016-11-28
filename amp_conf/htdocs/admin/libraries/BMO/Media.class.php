@@ -96,7 +96,7 @@ class Media extends DB_Helper{
 	 */
 	public function load($filename) {
 		if(!file_exists($filename)) {
-			throw new \Exception(_("File does not exist"));
+			throw new \Exception(sprintf(_("File '%s' does not exist"), $filename));
 		}
 		$this->path = $filename;
 		$this->file = new \Media\Media($filename);
