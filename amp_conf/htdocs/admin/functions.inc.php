@@ -99,6 +99,7 @@ function fpbx_framework_autoloader($class) {
 
 	$maps = [
 		// Static maps to files
+		'CI_Email' => 'helpers/Email.php',
 		'CITable' => 'helpers/Table.php',
 		'ampuser' => 'libraries/ampuser.class.php',
 		'CssMin' => 'libraries/cssmin.class.php',
