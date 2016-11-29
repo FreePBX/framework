@@ -158,7 +158,7 @@ class FreePBXInstallCommand extends Command {
 		} else {
 			define("ASTERISK_CONF", "/etc/asterisk/asterisk.conf");
 		}
-		define("FREEPBX_CONF", "/etc/freepbx.conf");
+		$freepbx_conf_path = "/etc/freepbx.conf";
 		define("FILES_DIR",$this->rootPath."/installlib/files");
 		define("SQL_DIR", $this->rootPath."/installlib/SQL");
 		define("MODULE_DIR", $this->rootPath."/amp_conf/htdocs/admin/modules");
@@ -301,13 +301,13 @@ class FreePBXInstallCommand extends Command {
 		}
 		$output->writeln("Done");
 
-		if((file_exists(FREEPBX_CONF) && !file_exists(AMP_CONF)) || (!file_exists(FREEPBX_CONF) && file_exists(AMP_CONF))) {
-			if(file_exists(FREEPBX_CONF)) {
+		if((file_exists($freepbx_conf_path) && !file_exists(AMP_CONF)) || (!file_exists($freepbx_conf_path) && file_exists(AMP_CONF))) {
+			if(file_exists($freepbx_conf_path)) {
 				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Half-baked install previously detected. ".FREEPBX_CONF." should not exist if ".AMP_CONF." does not exist</error>");
+				$output->writeln("<error>Half-baked install previously detected. ".$freepbx_conf_path." should not exist if ".AMP_CONF." does not exist</error>");
 			} else {
 				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Half-baked install previously detected. ".AMP_CONF." should not exist if ".FREEPBX_CONF." does not exist</error>");
+				$output->writeln("<error>Half-baked install previously detected. ".AMP_CONF." should not exist if ".$freepbx_conf_path." does not exist</error>");
 			}
 			exit(1);
 		}
@@ -323,9 +323,7 @@ class FreePBXInstallCommand extends Command {
 			$output->writeln("No (".AMP_CONF." file detected)");
 			$bootstrap_settings['freepbx_auth'] = false;
 			$restrict_mods = true;
-			if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
-				include_once('/etc/asterisk/freepbx.conf');
-			}
+			include_once $freepbx_conf_path;
 		}
 
 		if (isset($answers['dbengine'])) {
@@ -718,8 +716,8 @@ class FreePBXInstallCommand extends Command {
 require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 ?>
 ";
-			$output->write("Writing out ".FREEPBX_CONF."...");
-			if(!file_put_contents(FREEPBX_CONF, $conf)) {
+			$output->write("Writing out ".$freepbx_conf_path."...");
+			if(!file_put_contents($freepbx_conf_path, $conf)) {
 				$output->writeln("<error>Error!</error>");
 				$output->writeln("<error>Unable to write to file</error>");
 				exit(1);
