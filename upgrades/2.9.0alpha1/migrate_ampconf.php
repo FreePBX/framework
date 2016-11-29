@@ -166,20 +166,12 @@ $freepbx_conf->define_conf_setting('AMPSYSLOGLEVEL',$set,true);
 // build freepbx.conf if it doesnt already exists
 outn(_("checking for freepbx.conf.."));
 
-$freepbx_conf = getenv('FREEPBX_CONF');
+$freepbx_conf = '/etc/freepbx.conf';
 if ($freepbx_conf && file_exists($freepbx_conf)) {
 	out(sprintf(_("%s already exists"),$freepbx_conf));
-} else if (file_exists('/etc/freepbx.conf')) {
-	out(_("/etc/freepbx.conf already exists"));
-} else if (file_exists('/etc/asterisk/freepbx.conf')) {
-	out(_("/etc/asterisk/freepbx.conf already exists"));
 } else {
 
-if ($freepbx_conf) {
 	$filename = $freepbx_conf;
-} else {
-	$filename = is_writable('/etc') ? '/etc/freepbx.conf' : '/etc/asterisk/freepbx.conf';
-}
 	
 	$txt = '';
 	$txt .= '<?php' . "\n";

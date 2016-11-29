@@ -38,9 +38,7 @@ $bootstrap_settings['whoops_handler'] = 'JsonResponseHandler';
 $restrict_mods = true;
 
 // Bootstrap!
-if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
-	include_once('/etc/asterisk/freepbx.conf');
-}
+include_once '/etc/freepbx.conf';
 
 // We may remove this, but for the moment, ajax should be
 // 100% error and warning free.
