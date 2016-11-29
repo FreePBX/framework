@@ -2988,7 +2988,7 @@ class module_functions {
 			$options['distro'] = $distro_info['pbx_type'];
 			$options['distrover'] = $distro_info['pbx_version'];
 			$options['pbxver'] = getversion();
-			if (FreePBX::Modules()->moduleHasMethod('Core','listUsers');) {
+			if (FreePBX::Modules()->moduleHasMethod('Core','listUsers')) {
 				$options['ucount'] = count(FreePBX::Core()->listUsers());
 			}
 			
