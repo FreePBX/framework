@@ -287,8 +287,8 @@ class Modules {
 	/**
 	 * Pass-through to modules_class->getinfo
 	 */
-	public function getInfo($modname) {
-		return $this->modclass->getinfo($modname);
+	public function getInfo($modname, $status = false, $forceload = false) {
+		return $this->modclass->getinfo($modname, $status, $forceload);
 	}
 
 	/**
