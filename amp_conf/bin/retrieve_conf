@@ -3,14 +3,26 @@
 //	License for all code of this FreePBX module can be found in the license file inside the module directory
 //	Copyright 2013 Schmooze Com Inc.
 //
-
 //include bootstrapper
+
+function writeout($string,$exit=false){
+	$shell = isset($_SERVER['SHELL']);
+	if($shell){
+		echo $string.PHP_EOL;
+	}else{
+		echo json_encode(array('message'=>$string));
+	}
+	if($exit !== false){
+		exit($exit);
+	}
+}
 $bootstrap_settings['freepbx_auth'] = false;
 if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
 	include_once('/etc/asterisk/freepbx.conf');
 }
+
 if (!$bootstrap_settings['astman_connected']) {
-	throw new \Exception(sprintf(_("Unable to connect to Asterisk Manager from %s, aborting"),__FILE__));
+	writeout(sprintf(_("Unable to connect to Asterisk Manager from %s, aborting"),__FILE__),1);
 }
 
 $meminfo = getSystemMemInfo();
@@ -36,11 +48,11 @@ $freepbx_conf =& freepbx_conf::create();
 
 $loc = fpbx_which("asterisk");
 if(empty($loc)) {
-	throw new \Exception(_("Unable to find the Asterisk binary"));
+	writeout(_("Unable to find the Asterisk binary"),1);
 } else {
 	exec($loc . " -rx 'core show version'",$out,$ret);
 	if($ret != 0) {
-		throw new \Exception(_("Unable to connect to Asterisk through the CLI"));
+		writeout(_("Unable to connect to Asterisk through the CLI"),1);
 	}
 }
 // Load the BMO Object
@@ -143,7 +155,7 @@ class connectdirs {
 
 			// We're here because the link already exists. Make sure that the symlink is linking to the correct place.
 			if (!is_link($targetdir)) {
-				throw new \Exception(_("Symlink error - %s should be linked to %s, and it isn't a link"),$targetdir,$srcdir);
+				writeout(sprintf(_("Symlink error - %s should be linked to %s, and it isn't a link"),$targetdir,$srcdir),1);
 				exit(255);
 			}
 
