@@ -21,17 +21,9 @@ class Sendemails extends Command {
 		$this->FreePBX = \FreePBX::Create();
 		$this->brand = $this->FreePBX->Config()->get('DASHBOARD_FREEPBX_BRAND');
 
-		$this->nt = \notifications::create($this->FreePBX->Database);
-
 		$this->setName('sendemails')
 			->setDescription(_('Generates and sends Scheduled Notification emails'));
 
-		$this->updatemanager = new \FreePBX\Builtin\UpdateManager();
-		$settings = $this->updatemanager->getCurrentUpdateSettings(false); // Don't html encode the output
-		$this->email_to = $settings['notification_emails'];
-		$this->machine_id = $settings['system_ident'];
-
-		$this->email_from = $this->getFromEmail();
 	}
 
 	private function getFromEmail() {
@@ -51,12 +43,15 @@ class Sendemails extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		// TODO: Remove cronmanager
-		$cm = \cronmanager::create($this->FreePBX->Database);
-		$cm->run_jobs();
-		print "Ran jobs\n";
+		$this->nt = \notifications::create($this->FreePBX->Database);
+		$this->updatemanager = new \FreePBX\Builtin\UpdateManager();
+		$settings = $this->updatemanager->getCurrentUpdateSettings(false); // Don't html encode the output
+		$this->email_to = $settings['notification_emails'];
+		$this->machine_id = $settings['system_ident'];
 
-		if ($this->email) {
+		$this->email_from = $this->getFromEmail();
+
+		if ($this->email_from) {
 			// Clear out any warnings about emails
 			$nt->delete('freepbx', 'NOEMAIL');
 		} else {
@@ -66,7 +61,6 @@ class Sendemails extends Command {
 
 		// Check for security vulnerabilities and upddate
 		$this->updateSecurity();
-		print "Past security\n";
 
 		// Generate (and potentially send) our emails
 		$this->unsignedEmail();
