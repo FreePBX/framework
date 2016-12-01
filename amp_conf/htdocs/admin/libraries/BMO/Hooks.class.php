@@ -250,7 +250,7 @@ class Hooks extends DB_Helper {
 							throw new \Exception('Cant find '.$namespace.$hook['class']);
 						}
 					} catch(\Exception $e) {
-						throw new \Exception('Cant find '.$namespace.$hook['class']."::: ".$e->getMessage());
+						throw new \Exception('Error From Module '.$namespace.$hook['class'].": '".$e->getMessage()."'");
 					}
 				}
 				$meth = $hook['method'];
