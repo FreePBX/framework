@@ -44,7 +44,7 @@ class UpdateManager {
 			"notification_emails" => "",
 			"system_ident" => "",
 			"auto_system_updates" => "emailonly", // This is ignored if not on a supported OS
-			"auto_module_updates" => "true",
+			"auto_module_updates" => "enabled",
 			"update_every" => "saturday",
 			"update_period" => "4to8",
 		];
@@ -212,8 +212,13 @@ class UpdateManager {
 	 * @param string $from
 	 * @param string $subject
 	 * @param string $body
+	 * @param int $priority
 	 */
-	public function sendEmail($tag, $to, $from, $subject, $message) {
+	public function sendEmail($tag, $to, $from, $subject, $message, $priority = 4) {
+		// If there's no 'to' address, give up.
+		if (!$to) {
+			return false;
+		}
 		// Grab the FreePBX Object
 		$fpbx = \FreePBX::create();
 
@@ -223,17 +228,18 @@ class UpdateManager {
 		$previoushash = $fpbx->getConfig($tag, "emailhash");
 		$lastsent = (int) $fpbx->getConfig($tag, "emailtimestamp");
 
-		if ($currenthash === $previoushash || $lastsent > time() - 604800) {
+		if ($currenthash === $previoushash && $lastsent > time() - 604800) {
 			// Not sending, it's a dupe and it's too soon. Pretend we did.
 			return true;
 		}
 
-		// Otherwise we're good to go.
-		$em = new \CI_Email();
-		$em->from($from);
-		$em->to($to);
-		$em->subject($subject);
-		$em->message($message);
+		// TODO: Should this be moved to Builtin?
+		$em = new Email();
+		$em->setTo(array($to));
+		$em->setFrom($from);
+		$em->setSubject($subject);
+		$em->setBodyPlainText($message);
+		$em->setPriority($priority);
 		$result = $em->send();
 		if ($result) {
 			// Successfully sent!
