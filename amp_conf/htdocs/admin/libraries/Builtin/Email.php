@@ -49,7 +49,6 @@ class Email {
 		$em->subject($this->getSubject());
 		$em->message($this->getBodyPlainText());
 		$em->set_priority($this->priority);
-		print_r($this->getBodyPlainText());
 		return $em->send();
 	}
 
