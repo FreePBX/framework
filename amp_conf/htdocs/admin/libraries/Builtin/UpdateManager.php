@@ -214,7 +214,8 @@ class UpdateManager {
 	 * @param string $body
 	 * @param int $priority
 	 */
-	public function sendEmail($tag, $to, $from, $subject, $message, $priority = 4) {
+	public function sendEmail($tag, $to, $from, $subject, $message, $priority = 4, $force = false) {
+		if ($force) { print "Forcing\n"; }
 		// If there's no 'to' address, give up.
 		if (!$to) {
 			return false;
@@ -228,12 +229,12 @@ class UpdateManager {
 		$previoushash = $fpbx->getConfig($tag, "emailhash");
 		$lastsent = (int) $fpbx->getConfig($tag, "emailtimestamp");
 
-		if ($currenthash === $previoushash && $lastsent > time() - 604800) {
+		if (!$force && $currenthash === $previoushash && ($lastsent > time() - 604800)) {
 			// Not sending, it's a dupe and it's too soon. Pretend we did.
+			print "Not sending\n";
 			return true;
 		}
 
-		// TODO: Should this be moved to Builtin?
 		$em = new Email();
 		$em->setTo(array($to));
 		$em->setFrom($from);

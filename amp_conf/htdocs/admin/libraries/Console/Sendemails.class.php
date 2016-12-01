@@ -15,15 +15,17 @@ class Sendemails extends Command {
 	private $updatemanager;
 	private $email_to;
 	private $machine_id;
-
+	private $forcesend;
 
 	protected function configure() {
 		$this->FreePBX = \FreePBX::Create();
 		$this->brand = $this->FreePBX->Config()->get('DASHBOARD_FREEPBX_BRAND');
 
 		$this->setName('sendemails')
+			->setDefinition([
+				new InputOption('force', 'f', InputOption::VALUE_NONE, _('Force email sending')),
+			])
 			->setDescription(_('Generates and sends Scheduled Notification emails'));
-
 	}
 
 	private function getFromEmail() {
@@ -48,12 +50,13 @@ class Sendemails extends Command {
 		$settings = $this->updatemanager->getCurrentUpdateSettings(false); // Don't html encode the output
 		$this->email_to = $settings['notification_emails'];
 		$this->machine_id = $settings['system_ident'];
+		$this->force = $input->getOption('force');
 
 		$this->email_from = $this->getFromEmail();
 
 		if ($this->email_from) {
 			// Clear out any warnings about emails
-			$nt->delete('freepbx', 'NOEMAIL');
+			$this->nt->delete('freepbx', 'NOEMAIL');
 		} else {
 			// Add our notificaiton about not having an email.
 			$this->nt->add_notice('freepbx', 'NOEMAIL', _('No email address for online update checks'), _('There is no email address configured to send the results of updates and security issues.'), 'config.php?display=modules#email', 'PASSIVE', false);
@@ -169,7 +172,7 @@ class Sendemails extends Command {
 			}
 		}
 		$this->nt->add_security('freepbx', 'VULNERABILITIES', $notification_title, $notification_body, 'config.php?display=modules');
-		$this->updatemanager->sendEmail("vulnerabilities", $this->email_to, $this->email_from, $email_subject, $email_body);
+		$this->updatemanager->sendEmail("vulnerabilities", $this->email_to, $this->email_from, $email_subject, $email_body, 4, $this->force);
 	}
 
 	private function getUnsignedEmailBody() {
@@ -211,7 +214,7 @@ class Sendemails extends Command {
 		$email_subject = sprintf(_("%s Unsigned Module Alert (%s)"), $this->brand, $this->machine_id);
 
 		// Send an email if we need to.
-		$sent = $this->updatemanager->sendEmail("unsigned", $this->email_to, $this->email_from, $email_subject, $email_body);
+		$sent = $this->updatemanager->sendEmail("unsigned", $this->email_to, $this->email_from, $email_subject, $email_body, 4, $this->force);
 		
 		if (!$sent) {
 			$this->nt->add_error('freepbx', 'SIGEMAIL', _('Failed to send unsigned modules notification email'), sprintf(_('An attempt to send an email to "%s" with an alert about unsigned modules notifications failed'),$this->email_to));
@@ -236,7 +239,7 @@ class Sendemails extends Command {
 		$email_body .= "\n\n";
 
 		// Send an email if we need to.
-		$sent = $this->updatemanager->sendEmail("security", $this->email_to, $this->email_from, $email_subject, $email_body);
+		$sent = $this->updatemanager->sendEmail("security", $this->email_to, $this->email_from, $email_subject, $email_body, 4, $this->force);
 		
 		if (!$sent) {
 			$this->nt->add_error('freepbx', 'SECEMAIL', _('Failed to send security notification email'), sprintf(_('An attempt to send an email to "%s" with security notifications failed'),$this->email_to));
@@ -260,7 +263,7 @@ class Sendemails extends Command {
 		}
 
 		// Send an email if we need to.
-		$sent = $this->updatemanager->sendEmail("updates", $this->email_to, $this->email_from, $email_subject, $email_body);
+		$sent = $this->updatemanager->sendEmail("updates", $this->email_to, $this->email_from, $email_subject, $email_body, 4, $this->force);
 		
 		if ($sent) {
 			$this->nt->delete('freepbx', 'UPDATEEMAIL');
@@ -281,7 +284,7 @@ class Sendemails extends Command {
 			$priority = isset($value['priority'])?$value['priority']:3;
 			$hashkey = $key."_email";
 
-			if ($this->updatemanager->sendEmail($hashkey, $to, $this->email_from, $subject, $message, $priority)) {
+			if ($this->updatemanager->sendEmail($hashkey, $to, $this->email_from, $subject, $message, $priority, 4, $this->force)) {
 				$this->nt->delete('freepbx', 'EMAILFAIL');
 			} else {
 				$this->nt->add_error('freepbx', 'EMAILFAIL', _('Failed to send online hook email'), sprintf(_('An attempt to send email to "%s" from "%s" failed'),$this->email_to, $key));
