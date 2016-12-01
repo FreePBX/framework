@@ -359,8 +359,9 @@ function do_reload($passthru=false) {
 	$retrieve = $setting_ampbin . '/retrieve_conf 2>&1';
 	//exec($retrieve.'&>'.$asterisk_conf['astlogdir'].'/freepbx-retrieve.log', $output, $exit_val);
 	$o = exec($retrieve, $output, $exit_val);
+  $output = json_decode(implode($output,PHP_EOL),true);
 	// retrieve_conf html output
-	$return['retrieve_conf_verbose'] = $return['retrieve_conf'] = 'exit: '.$exit_val.'<br/>'.implode('<br/>',$output);
+	$return['retrieve_conf_verbose'] = $return['retrieve_conf'] = 'exit: '.$exit_val.'<br/>'.$output['message'];
 
 	if ($exit_val != 0) {
 		$return['status'] = false;
@@ -545,7 +546,7 @@ function runModuleSQL($moddir,$type){
 //'dept' => can be used to tag with a department for checkDept($dept)
 //	this defaults to false for disabled modules.
 function freepbx_get_contexts() {
-	$modules = module_getinfo(false, array(MODULE_STATUS_ENABLED, MODULE_STATUS_DISABLED, MODULE_STATUS_NEEDUPGRADE));
+  $modules = FreePBX::Modules()->getInfo(false, array(MODULE_STATUS_ENABLED, MODULE_STATUS_DISABLED, MODULE_STATUS_NEEDUPGRADE));
 
 	$contexts = array();
 

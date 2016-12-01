@@ -8,9 +8,7 @@
 //include bootstrap
 $bootstrap_settings['freepbx_auth'] = false;
 $bootstrap_settings['cdrdb'] = true;
-if (!@include_once(getenv('FREEPBX_CONF') ? getenv('FREEPBX_CONF') : '/etc/freepbx.conf')) {
-	include_once('/etc/asterisk/freepbx.conf');
-}
+include_once '/etc/freepbx.conf';
 
 // TODO hard coded, get this out of bootstrap now?
 //

@@ -5,7 +5,7 @@ if(empty($display) || $display == 'noaccess') {
 	$links = '';
 } else {
 	$dis = isset($_REQUEST['display'])?$_REQUEST['display']:false;
-	$modinfo = \module_getinfo($dis);
+	$modinfo = FreePBX::Modules()->getInfo($dis);
 	$status = isset($modinfo[$dis]['status'])?$modinfo[$dis]['status']:'';
 	switch ($status) {
 		case MODULE_STATUS_NOTINSTALLED:
