@@ -117,6 +117,7 @@ function fpbx_framework_autoloader($class) {
 
 		// Namespaces
 		'FreePBX\\Builtin\\' => 'libraries/Builtin',
+		'FreePBX\\Console\\Command\\' => 'libraries/Console',
 	];
 
 	// Is it a direct mapping?
@@ -161,18 +162,25 @@ function fpbx_framework_autoloader($class) {
 	// the class, we're using the new autoloader. Note it doesn't support proper
 	// PSR4 autoloading, you'll need to manually define classes in maps, above.
 	if (strpos($class, '\\') !== false) {
+		// Explode it to figure out the namespace and class name
 		$sections = explode('\\', $class);
 		$classname = array_pop($sections);
 		$namespace = join('\\', $sections).'\\';
-		// Explode it 
+
 		if (isset($maps[$namespace])) {
 			$file = __DIR__."/".$maps[$namespace]."/$classname.php";
-			if (!file_exists($file)) {
-				throw new \Exception("Bug: Explicitly know about $namespace, asked for $class, but $file doesn't exist");
+			if (file_exists($file)) {
+				// print "Loaded class $class from $file\n";
+				include $file;
+				return;
 			}
-			// Debugging
+			// Old .class.php?
+			$oldfile = __DIR__."/".$maps[$namespace]."/$classname.class.php";
+			if (!file_exists($oldfile)) {
+				throw new \Exception("Bug: Explicitly know about $namespace, asked for $class, but $file (or $classname.class.php) doesn't exist");
+			}
 			// print "Loaded class $class from $file\n";
-			include $file;
+			include $oldfile;
 		}
 	}
 }
