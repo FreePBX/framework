@@ -89,6 +89,8 @@ require_once($dirname . '/helpers/form_helper.php');
 //freepbx autoloader
 function fpbx_framework_autoloader($class) {
 	if ($class === true) {
+		return false;
+
 		throw new \Exception("Bug: Can not call autoloader with bool true");
 	}
 
