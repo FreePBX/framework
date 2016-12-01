@@ -7,7 +7,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Extnotify extends Command {
+class Sendemails extends Command {
 
 	private $FreePBX;
 	private $brand;
@@ -23,9 +23,8 @@ class Extnotify extends Command {
 
 		$this->nt = \notifications::create($this->FreePBX->Database);
 
-		$this->setName('extnotify')
-			->setDescription(_('Generates and sends Scheduled Notifications'))
-			->setDefinition([ new InputArgument('args', InputArgument::IS_ARRAY, null, null) ]);
+		$this->setName('sendemails')
+			->setDescription(_('Generates and sends Scheduled Notification emails'));
 
 		$this->updatemanager = new \FreePBX\Builtin\UpdateManager();
 		$settings = $this->updatemanager->getCurrentUpdateSettings(false); // Don't html encode the output
