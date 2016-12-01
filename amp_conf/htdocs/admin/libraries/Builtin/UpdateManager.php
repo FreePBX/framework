@@ -215,7 +215,6 @@ class UpdateManager {
 	 * @param int $priority
 	 */
 	public function sendEmail($tag, $to, $from, $subject, $message, $priority = 4, $force = false) {
-		if ($force) { print "Forcing\n"; }
 		// If there's no 'to' address, give up.
 		if (!$to) {
 			return false;
@@ -231,7 +230,6 @@ class UpdateManager {
 
 		if (!$force && $currenthash === $previoushash && ($lastsent > time() - 604800)) {
 			// Not sending, it's a dupe and it's too soon. Pretend we did.
-			print "Not sending\n";
 			return true;
 		}
 
