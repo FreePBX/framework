@@ -11,7 +11,7 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 
 class Moduleadmin extends Command {
-	private $activeRepos = array();
+	private $activeRepos = [];
 	private $mf = null;
 	private $setRepos = false;
 	private $format = 'plain';
@@ -19,6 +19,32 @@ class Moduleadmin extends Command {
 	private $skipchown = false;
 	private $previousEdge = 0;
 	private $tag = null;
+	private $send_email = false;
+	private $email_to = false;
+	private $email_from = false;
+	private $email_subject = false;
+	private $emailbody = [];
+	private $brand = false;
+	private $updatemanager;
+
+	public function __destruct() {
+		if (!$this->send_email) {
+			return;
+		}
+		if (!$this->emailbody) {
+			return;
+		}
+
+		// We are sending an email.
+		$body = array_merge([
+			sprintf(_("This is an automatic notification from your %s server."), $this->brand),
+			_("This machine has automatically detected and upgraded the following modules:"),
+			"",
+		], $this->emailbody);
+
+		// Note this is force = true, as we always want to send it.
+		$this->updatemanager->sendEmail("autoupdates", $this->email_to, $this->email_from, $this->email_subject, implode("\n", $body), 4, true);
+	}
 
 	protected function configure(){
 		$this->setName('ma')
@@ -35,6 +61,7 @@ class Moduleadmin extends Command {
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'json, jsonpretty')),
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
 			new InputOption('tag', 't', InputOption::VALUE_NONE, _('Download/Upgrade to a specific tag')),
+			new InputOption('onlystdout', '', InputOption::VALUE_NONE, _('Only send results to stdout.')),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
 		->setHelp($this->showHelp());
 	}
@@ -106,6 +133,31 @@ class Moduleadmin extends Command {
 				}
 			}
 		}
+
+		if (!$input->getOption('onlystdout')) {
+			$this->updatemanager = new \FreePBX\Builtin\UpdateManager();
+			$sendemails = new Sendemails();
+
+			$settings = $this->updatemanager->getCurrentUpdateSettings(false); // Don't html encode the output
+			$email_to = $settings['notification_emails'];
+			$machine_id = $settings['system_ident'];
+			$email_from = $sendemails->getFromEmail();
+			if($this->DEBUG) {
+				$this->writeln(sprintf("email_to: %s, machine_id: %s, fromemail: %s\n", $email_to, $machine_id, $email_from));
+			}
+			if ($email_to) {
+				$this->send_email = true;
+				$this->email_to = $email_to;
+				$this->email_from = $email_from;
+				$this->email_subject = sprintf(_("%s Automatic Upgrade Notifications (%s)"), "FreePBX", $machine_id);
+		      		$this->brand = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
+			} else {
+				if($this->DEBUG) {
+					$this->writeln("Not sending email, no email_to");
+				}
+			}
+		}
+
 
 		if(!empty($args)){
 			if($this->DEBUG){
@@ -249,12 +301,17 @@ class Moduleadmin extends Command {
 			2 => STDERR
 		);
 		$force = $force ? "--force" : "";
-		$process = proc_open("$fwconsole ma install ".escapeshellarg($modulename)." ".$force, $descriptorspec, $pipes);
+		$cmd = "$fwconsole ma install ".escapeshellarg($modulename)." ".$force;
+		$process = proc_open($cmd, $descriptorspec, $pipes);
 		if( is_resource( $process ) ) {
 			// Close stdin
 			fclose($pipes[0]);
 			// Now we can just wait for the process to finish
 			$result = proc_close($process);
+			return $result;
+		} else {
+			print "Error, unable to proc_open '$cmd'\n";
+			return false;
 		}
 	}
 
@@ -310,8 +367,9 @@ class Moduleadmin extends Command {
 	private function doDownload($modulename, $force) {
 		global $modulexml_path;
 		global $modulerepository_path;
-		//If we have a tag, use it
-		if (isset($this->tag)) {
+
+		// If we have a version tag, use it
+		if ($this->tag) {
 			$xml = $this->mf->getModuleDownloadByModuleNameAndVersion($modulename, $this->tag);
 			if (empty($xml)) {
 				$this->writeln("Unable to update module ${modulename} - ".$this->tag.":", "error", false);
@@ -319,14 +377,30 @@ class Moduleadmin extends Command {
 			}
 			return $this->doRemoteDownload($xml['downloadurl']);
 		}
-		$this->writeln("Starting ".$modulename." download..");
-		if (is_array($errors = $this->mf->download($modulename, $this->force, array($this,'progress'), $modulerepository_path, $modulexml_path))) {
-			$this->writeln(_("The following error(s) occured:"), "error", false);
-			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
+
+		$line = sprintf(_("Downloading module '%s'"), $modulename);
+		$this->writeln($line);
+
+		// Try to get the module
+		$start = time();
+		$result = $this->mf->download($modulename, $this->force, array($this,'progress'), $modulerepository_path, $modulexml_path);
+		$end = time();
+
+		$elapsed = $end - $start;
+
+		if ($result !== true) {
+			$this->addToEmail(sprintf(_("Downloading module '%s' failed after %s seconds!"), $modulename, $elapsed));
+			$line = _("The following error(s) occured:");
+			$this->writeln($line, "error", false);
+			$this->addToEmail($line);
+			$this->writeln(' - '.implode("\n - ",$result), "error", false);
+			$this->addToEmail(' - '.implode("\n - ",$result));
+			$this->addToEmail(_("The automatic upgrade was aborted, and will be automatically retried in the future. You can manually re-run the upgrade with 'fwconsole ma installall' after resolving the error."));
 			exit(2);
-		} else {
-			$this->writeln(sprintf(_("Module %s successfully downloaded"),$modulename));
 		}
+
+		$this->writeln(sprintf(_("Download complete (Took %s seconds)"), $elapsed));
+		$this->addToEmail(sprintf(_("Module %s successfully downloaded (Took %s seconds)"),$modulename, $elapsed));
 		return true;
 	}
 
@@ -446,9 +520,10 @@ class Moduleadmin extends Command {
 	}
 
 	/**
-	 * @param bool Controls if a simple (names only) or extended (array of name,versions) array is returned
+	 * Get all installable modules.
+	 *
 	 */
-	private function getInstallableModules($extarray = false) {
+	private function getInstallableModules() {
 		$modules_online = $this->mf->getonlinexml();
 		$module_info = $this->mf->getinfo(false);
 		$modules_installable = array();
@@ -460,16 +535,18 @@ class Moduleadmin extends Command {
 				continue;
 			}
 			if ((!isset($module_info[$name['rawname']]['status'])) || ($module_info[$name['rawname']]['status'] == MODULE_STATUS_NEEDUPGRADE) || ($module_info[$name['rawname']]['status'] == MODULE_STATUS_NOTINSTALLED)){
-				$modules_installable[]=$name['rawname'];
+				$modules_installable[$name['rawname']]=$name['rawname'];
 			}
 		}
 		return $modules_installable;
 	}
 
 	/**
-	 * @param bool Controls if a simple (names only) or extended (array of name,versions) array is returned
+	 * Returns a list of modules to be upgraded
+	 *
+	 * @return array [ name: => [array], name: => array, ... ]
 	 */
-	private function getUpgradableModules($extarray = false) {
+	private function getUpgradableModules() {
 		$modules_local = $this->mf->getinfo(false, array(MODULE_STATUS_ENABLED,MODULE_STATUS_NEEDUPGRADE));
 		$modules_online = $this->mf->getonlinexml();
 		$modules_upgradable = array();
@@ -477,57 +554,60 @@ class Moduleadmin extends Command {
 		foreach (array_keys($modules_local) as $name) {
 			if (isset($modules_online[$name])) {
 				if (($modules_local[$name]['status'] == MODULE_STATUS_NEEDUPGRADE) || version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']) < 0) {
-					if ($extarray) {
-						$modules_upgradable[] = array(
-							'name' => $name,
-							'local_version' => $modules_local[$name]['version'],
-							'online_version' => $modules_online[$name]['version'],
-						);
-					} else {
-						$modules_upgradable[] = $name;
-					}
+					$modules_upgradable[$name] = [
+						'name' => $name,
+						'local_version' => $modules_local[$name]['version'],
+						'online_version' => $modules_online[$name]['version'],
+					];
 				}
 			}
 		}
 		return $modules_upgradable;
 	}
 
+	/**
+	 * This upgrades all modules that need upgrading.
+	 *
+	 * This is called by the automatica updater, so its output
+	 * is saved for sendemail to possibly use
+	 */
 	private function doUpgradeAll($force) {
 		$modules = $this->getUpgradableModules();
-		if (count($modules) > 0) {
-			$this->writeln(_("Upgrading: ").implode(', ',$modules));
-			//upgrade framework, core, sipsettings
-			//yes the array below is reversed on purpose
-			$prepend = array('sipsettings','core','framework');
-			foreach($prepend as $module) {
-				$key = array_search($module,$modules);
-				if($key !== false) {
-					unset($modules[$key]);
-					array_unshift($modules, $module);
+		if ($modules) {
+			$line = sprintf("Modules to upgrade: %s", implode(", ", array_keys($modules)));
+			$this->addToEmail($line);
+			$this->writeln($line);
+
+			// Upgrade framework, core, and sipsettings, first!
+			$prepend = ['framework' => 'framework', 'core' => 'core', 'sipsettings' => 'sipsettings'];
+
+
+			foreach($prepend as $m) {
+				if (isset($modules[$m])) {
+					$prepend[$m] = $modules[$m];
+					unset($modules[$m]);
+				} else {
+					unset($prepend[$m]);
 				}
 			}
-			$modules = array_values($modules);
-			foreach ($modules as $modulename) {
-				$this->writeln(_("Upgrading ").$modulename."..");
-				$this->doUpgrade($modulename, $this->force);
+
+			$upgrades = $prepend + $modules;
+			foreach ($upgrades as $name => $arr) {
+				$line = sprintf(_("Upgrading module '%s' from %s to %s"), $name, $arr['local_version'], $arr['online_version']);
+				$this->writeln($line);
+				$this->addToEmail($line);
+				$this->doUpgrade($name, $this->force);
 			}
-			$this->writeln(_("All upgrades done!"));
+			$line = _("All upgrades completed successfully!");
+			$this->writeln($line);
+			$this->addToEmail($line);
+			$this->addToEmail("");
 		} else {
+			// We don't add to email here, as people don't need to know that
+			// nothing happened.
 			$this->writeln(_("Up to date."));
 		}
 		return $modules;
-	}
-
-	private function mirrorrepo(){
-		doInstallAll(true);
-		$modules_online = $this->mf->getonlinexml();
-		$modules_local = $this->mf->getinfo();
-		unset($modules_local['builtin']); //builtin never gets deleted, so remove it from the list
-		foreach ($modules_local as $localmod){
-			if (!$this->mf->getonlinexml($localmod['rawname'])){
-				$this->doDelete($localmod['rawname'],1);
-			}
-		}
 	}
 
 	private function showi18n($modulename) {
@@ -664,27 +744,54 @@ class Moduleadmin extends Command {
 		}
 	}
 
-	private function doInstallAll($force) {
+	/**
+	 * This is run by the automatic updater
+	 *
+	 * It makes sure that all available modules are up to date and
+	 * installed on this machine. (It installs newly available modules
+	 * so that old, deprecated, or broken modules, can be automatically
+	 * repaired or removed)
+	 */
+	private function doInstallAll() {
 		$this->doUpgradeAll(true);
 		$modules = $this->getInstallableModules();
-		if (in_array('core', $modules)){
+
+		// Belt-and-suspenders check. This makes sure that core is
+		// installed, just in case it somehow failed in the doUpgradeAll
+		// function, above. Rare, but has happened.
+		if (isset($modules['core'])) {
 			$this->writeln(_("Installing core..."));
 			$this->doDownload('core', $this->force);
 			$this->doForkInstall('core', $this->force);
+			unset($modules['core']);
 		}
-		if (count($modules) > 0) {
-			$this->writeln("Installing: ".implode(', ',$modules));
-			foreach ($modules as $module => $name) {
-				if (($name != 'core')){//we dont want to reinstall core
-					\FreePBX::Modules()->loadAllFunctionsInc(); //get functions from other modules, in case we need them here
-					$this->writeln(_("Downloading & Installing ").$name."...");
-					$this->doDownload($name, $this->force);
-					$this->doForkInstall($name, $this->force);
-					$this->writeln("");
-				}
+
+		if ($modules) {
+			$line = sprintf(_("Installing missing modules: %s"), implode(', ',$modules));
+			$this->writeln($line);
+			$this->addToEmail($line);
+
+			foreach ($modules as $i => $name) {
+
+				// Get functions from other modules, in case we need them here.
+				//
+				// FreePBX 14: This should go away, eventually, as we move to 
+				// autoloaded and OO code. However, it's here for the foreseeable
+				// future. Sigh.
+				//
+				\FreePBX::Modules()->loadAllFunctionsInc();
+				$line = sprintf(_("Downloading & Installing '%s'"), $name);
+				$this->writeln($line);
+				$this->doDownload($name, $this->force);
+				$this->doForkInstall($name, $this->force);
+				$this->addToEmail(sprintf(_("Module %s installed"), $name), $line);
+				$this->writeln("");
 			}
-			$this->writeln(_("Done. All modules installed."));
+			$line = _("Done. All modules installed.");
+			$this->writeln($line);
+			$this->addToEmail($line);
 		} else {
+			// No email needed if no changes.
 			$this->writeln(_("All modules up to date."));
 		}
 		return $modules;
@@ -875,7 +982,7 @@ class Moduleadmin extends Command {
 
 	private function showUpgrades() {
 		$modules = $this->getUpgradableModules(true);
-		if (count($modules) > 0) {
+		if ($modules) {
 			$this->writeln(_("Upgradable: "));
 			$rows = array();
 			foreach ($modules as $mod) {
@@ -996,7 +1103,7 @@ class Moduleadmin extends Command {
 				break;
 			case 'installall':
 				$this->check_active_repos();
-				$modules = $this->doInstallAll(false);
+				$modules = $this->doInstallAll();
 				$this->updateHooks();
 				foreach($modules as $module) {
 					$this->setPerms($action,array($module));
@@ -1258,6 +1365,17 @@ class Moduleadmin extends Command {
 		$this->doRemoteDownload($xml['downloadurl']);
 		$this->doForkInstall($modulename, $this->force);
 		return true;
+	}
+
+	/**
+	 * Capture text for sending via email
+	 *
+	 * This is used when --sendemail is set.
+	 *
+	 * @param string $line
+	 */
+	private function addToEmail($line) {
+		$this->emailbody[] = $line;
 	}
 
 }

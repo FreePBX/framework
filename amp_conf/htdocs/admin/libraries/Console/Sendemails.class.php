@@ -28,7 +28,7 @@ class Sendemails extends Command {
 			->setDescription(_('Generates and sends Scheduled Notification emails'));
 	}
 
-	private function getFromEmail() {
+	public function getFromEmail() {
 		// This is our default
 		$fromemail = get_current_user() . '@' . gethostname();
 
