@@ -38,7 +38,6 @@ class Moduleadmin extends Command {
 		// We are sending an email.
 		$body = array_merge([
 			sprintf(_("This is an automatic notification from your %s server."), $this->brand),
-			_("This machine has automatically detected and upgraded the following modules:"),
 			"",
 		], $this->emailbody);
 
@@ -149,7 +148,7 @@ class Moduleadmin extends Command {
 				$this->send_email = true;
 				$this->email_to = $email_to;
 				$this->email_from = $email_from;
-				$this->email_subject = sprintf(_("%s Automatic Upgrade Notifications (%s)"), "FreePBX", $machine_id);
+				$this->email_subject = sprintf(_("%s Upgrade Notifications (%s)"), "FreePBX", $machine_id);
 		      		$this->brand = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
 			} else {
 				if($this->DEBUG) {
@@ -301,7 +300,7 @@ class Moduleadmin extends Command {
 			2 => STDERR
 		);
 		$force = $force ? "--force" : "";
-		$cmd = "$fwconsole ma install ".escapeshellarg($modulename)." ".$force;
+		$cmd = "$fwconsole --onlystdout ma install ".escapeshellarg($modulename)." ".$force;
 		$process = proc_open($cmd, $descriptorspec, $pipes);
 		if( is_resource( $process ) ) {
 			// Close stdin
@@ -316,6 +315,7 @@ class Moduleadmin extends Command {
 	}
 
 	private function doInstall($modulename, $force) {
+		$start = time();
 		\FreePBX::Modules()->loadAllFunctionsInc();
 		$module = $this->mf->getinfo($modulename);
 		$modulestatus = isset($module[$modulename]['status'])?$module[$modulename]['status']:false;
@@ -339,14 +339,17 @@ class Moduleadmin extends Command {
 		}
 		if(!$force && !$this->mf->resolveDependencies($modulename,array($this,'progress'))) {
 			$this->writeln(sprintf(_("Unable to resolve dependencies for module %s:"),$modulename), "error", false);
+			$this->addToEmail(sprintf(_("Module %s installation failed, could not resolve dependencies"), $name));
 			return false;
 		} else {
 			if (is_array($errors = $this->mf->install($modulename, $force))) {
 				$this->writeln("Unable to install module ${modulename}:", "error", false);
 				$this->writeln(' - '.implode("\n - ",$errors), "error", false);
+				$this->addToEmail(sprintf(_("Module %s installation failed with errors: %s"), $modulename, implode("\n -", $errors)));
 				return false;
 			} else {
 				$this->writeln("Module ".$modulename." successfully installed");
+				$this->addToEmail(sprintf(_("Module %s installation completed in %s seconds"), $modulename, time()-$start));
 			}
 		}
 		return true;
@@ -399,8 +402,8 @@ class Moduleadmin extends Command {
 			exit(2);
 		}
 
-		$this->writeln(sprintf(_("Download complete (Took %s seconds)"), $elapsed));
-		$this->addToEmail(sprintf(_("Module %s successfully downloaded (Took %s seconds)"),$modulename, $elapsed));
+		$this->writeln(sprintf(_("Download completed in %s seconds"), $elapsed));
+		$this->addToEmail(sprintf(_("Module %s successfully downloaded in %s seconds"),$modulename, $elapsed));
 		return true;
 	}
 
@@ -574,13 +577,12 @@ class Moduleadmin extends Command {
 	private function doUpgradeAll($force) {
 		$modules = $this->getUpgradableModules();
 		if ($modules) {
-			$line = sprintf("Modules to upgrade: %s", implode(", ", array_keys($modules)));
+			$line = sprintf("Module(s) requiring upgrades: %s", implode(", ", array_keys($modules)));
 			$this->addToEmail($line);
 			$this->writeln($line);
 
 			// Upgrade framework, core, and sipsettings, first!
 			$prepend = ['framework' => 'framework', 'core' => 'core', 'sipsettings' => 'sipsettings'];
-
 
 			foreach($prepend as $m) {
 				if (isset($modules[$m])) {
@@ -783,8 +785,11 @@ class Moduleadmin extends Command {
 				$line = sprintf(_("Downloading & Installing '%s'"), $name);
 				$this->writeln($line);
 				$this->doDownload($name, $this->force);
+				$start = time();
+				// Note this will addToEmail if it fails.
 				$this->doForkInstall($name, $this->force);
-				$this->addToEmail(sprintf(_("Module %s installed"), $name), $line);
+				$elapsed = time() - $start;
+				$this->addToEmail(sprintf(_("Module %s installation completed in %s seconds"), $name, $elapsed), $line);
 				$this->writeln("");
 			}
 			$line = _("Done. All modules installed.");
