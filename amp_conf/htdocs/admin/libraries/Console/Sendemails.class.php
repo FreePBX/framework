@@ -24,6 +24,8 @@ class Sendemails extends Command {
 		$this->setName('sendemails')
 			->setDefinition([
 				new InputOption('force', 'f', InputOption::VALUE_NONE, _('Force email sending')),
+				new InputOption('securityonly', '', InputOption::VALUE_NONE, _('Only process security emails')),
+				new InputOption('willupdate', '', InputOption::VALUE_NONE, _('Adds a warning in the email that modules will be updated in one hour')),
 			])
 			->setDescription(_('Generates and sends Scheduled Notification emails'));
 	}
@@ -62,13 +64,15 @@ class Sendemails extends Command {
 			$this->nt->add_notice('freepbx', 'NOEMAIL', _('No email address for online update checks'), _('There is no email address configured to send the results of updates and security issues.'), 'config.php?display=modules#email', 'PASSIVE', false);
 		}
 
-		// Check for security vulnerabilities and upddate
+		// Check for security vulnerabilities and update
 		$this->updateSecurity();
 
 		// Generate (and potentially send) our emails
-		$this->unsignedEmail();
-		$this->securityEmail();
-		$this->updateEmail();
+		if (!$input->getOption('securityonly')) {
+			$this->unsignedEmail();
+			$this->securityEmail();
+			$this->updateEmail($input->getOption("willupdate"));
+		}
 		$this->hookEmails();
 	}
 
@@ -246,7 +250,7 @@ class Sendemails extends Command {
 		}
 	}
 
-	protected function updateEmail() {
+	protected function updateEmail($willupdate = false) {
 
 		$updates = $this->nt->list_update();
 		if (!$updates) {
@@ -256,7 +260,9 @@ class Sendemails extends Command {
 		$email_subject = sprintf(_("%s Updates Notification (%s)"), $this->brand, $this->machine_id);
 		$email_body = _("Module updates are available.")."\n\n";
 		$email_body .= $this->getUnsignedEmailBody()."\n";
-		$email_body .= _("If you have automatic upgrades turned on, these modules will be updated automatically at the selected time.")."\n\n";
+		if ($willupdate) {
+			$email_body .= "\n"._("Automatic updates are enabled!  These modules will be automatically updated in one hours time.")."\n\n";
+		}
 		foreach ($updates as $item) {
 			$email_body .= $item['display_text']."\n";
 			$email_body .= $item['extended_text']."\n\n";

@@ -165,21 +165,38 @@ class UpdateManager {
 		// Pick a random minute
 		$min = mt_rand(0, 59);
 
-		// Build our string to be used in the cron job
-		$exec = \FreePBX::Config()->get('AMPBIN')."/module_admin";
-		$cmd = "[ -e $exec ] && $exec listonline > /dev/null 2>&1";
-
-		// Now install our crontab
+		// Start by deleting any fwconsole commands in cron
 		$cron = \FreePBX::Cron();
+		$fwconsole = \FreePBX::Config()->get('AMPSBIN')."/fwconsole" ;
+		$cron->removeAll($fwconsole);
+
+		// Are our updates enabled?
+		if ($settings['auto_module_updates'] === "enabled") {
+			$cmd = "[ -e $exec ] && $exec ma --sendemails --willupdate listonline > /dev/null 2>&1";
+		} elseif ($settings['auto_module_updates'] === "disabled") {
+			// Only send security emails
+			$cmd = "[ -e $exec ] && $exec ma --sendemails --securityonly listonline > /dev/null 2>&1";
+		} else {
+			$cmd = "[ -e $exec ] && $exec ma --sendemails listonline > /dev/null 2>&1";
+		}
 
 		// LEGACY: Make sure our old scheduler is gone - WIP
 		// $cron->removeAll("/var/lib/asterisk/bin/freepbx-cron-scheduler.php");
 
-		// Remove the old job, if it exists
-		$cron->removeAll($exec);
+		// Add the new job to check for updates.
+		$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "day" => $day ]);
 
-		// Add the new job.
-		return $cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "day" => $day ]);
+		// If we are auto-installing, then run the update job an hour later.
+		if ($settings['auto_module_updates'] === "enabled") {
+			$cmd = "[ -e $exec ] && $exec ma installall > /dev/null 2>&1";
+			if ($hour == 23) {
+				$hour = 0;
+				$day++;
+			} else {
+				$hour++;
+			}
+			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "day" => $day ]);
+		}
 	}
 
 

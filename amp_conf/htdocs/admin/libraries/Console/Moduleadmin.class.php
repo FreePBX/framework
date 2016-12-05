@@ -26,6 +26,7 @@ class Moduleadmin extends Command {
 	private $emailbody = [];
 	private $brand = false;
 	private $updatemanager;
+	private $willupdate = false;
 
 	public function __destruct() {
 		if (!$this->send_email) {
@@ -61,6 +62,9 @@ class Moduleadmin extends Command {
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
 			new InputOption('tag', 't', InputOption::VALUE_NONE, _('Download/Upgrade to a specific tag')),
 			new InputOption('onlystdout', '', InputOption::VALUE_NONE, _('Only send results to stdout.')),
+			new InputOption('willupdate', '', InputOption::VALUE_NONE, _('Add "This machine will automatically update in 1 hour" to the email sent.')),
+			new InputOption('securityonly', '', InputOption::VALUE_NONE, _('Only automatically update security issues.')),
+			new InputOption('sendemails', '', InputOption::VALUE_NONE, _('Send emails when running listonline')),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
 		->setHelp($this->showHelp());
 	}
@@ -157,6 +161,9 @@ class Moduleadmin extends Command {
 			}
 		}
 
+		$this->willupdate = $input->getOption('willupdate');
+		$this->sendemails = $input->getOption('sendemails');
+		$this->securityonly = $input->getOption('securityonly');
 
 		if(!empty($args)){
 			if($this->DEBUG){
@@ -169,6 +176,7 @@ class Moduleadmin extends Command {
 		if($input->getOption('edge')) {
 			\FreePBX::Config()->update('MODULEADMINEDGE',$this->previousEdge);
 		}
+
 	}
 
 	private function writeln($data, $type = 'message', $status = true) {
@@ -268,7 +276,7 @@ class Moduleadmin extends Command {
 		}
 	}
 
-	private function doForkInstall($modulename, $force) {
+	private function getFwconsolePath() {
 		static $fwconsole = false;
 		if (!$fwconsole) {
 			// Try to find our fwconsole.
@@ -293,6 +301,12 @@ class Moduleadmin extends Command {
 				}
 			}
 		}
+		return $fwconsole;
+	}
+
+	private function doForkInstall($modulename, $force) {
+
+		$fwconsole = $this->getFwconsolePath();
 
 		$descriptorspec = array(
 			0 => array("pipe","r"),
@@ -916,6 +930,20 @@ class Moduleadmin extends Command {
 				->setHeaders(array(_('Module'), _('Version'), _('Status'),_('License')))
 				->setRows($rows);
 			$table->render();
+		}
+
+		// Send any emails if we've been requested to.
+		if ($this->sendemails) {
+			$fwconsole = $this->getFwconsolePath();
+			if ($this->securityonly) {
+				$cmd = "$fwconsole --securityonly sendemail";
+			}
+			$cmd = "$fwconsole sendemail";
+			if ($this->willupdate) {
+				$cmd .= " --willupdate";
+			}
+			print "Running $cmd\n";
+			exec($cmd);
 		}
 
 	}
