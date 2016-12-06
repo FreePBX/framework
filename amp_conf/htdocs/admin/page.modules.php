@@ -1001,7 +1001,6 @@ default:
 	$displayvars['trackenable'] = $amp_conf['AMPTRACKENABLE'];
 	$displayvars['brand'] = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
 	$displayvars['broken_module_list'] = $broken_module_list;
-	show_view('views/module_admin/tabheader.php');
 	$summary = array(
 		"edgemode" => ($amp_conf['MODULEADMINEDGE'] == 1),
 		"totalmodules" => count($modules),
@@ -1014,8 +1013,17 @@ default:
 	if (empty($summary['pbxversion'])) {
 		$summary['pbxversion'] = "Unknown";
 	}
-	$updates = new \FreePBX\Builtin\UpdateManager();
+	// Which tab should be active?
+	if ($module_page === "modules") {
+		$summary['activetab'] = 'modules';
+		$displayvars['activetab'] = 'modules';
+	} else {
+		$summary['activetab'] = 'summary';
+		$displayvars['activetab'] = 'summary';
+	}
+	show_view('views/module_admin/tabheader.php', $summary);
 	show_view('views/module_admin/tab-summary.php', $summary);
+	$updates = new \FreePBX\Builtin\UpdateManager();
 	show_view('views/module_admin/tab-scheduler.php', $updates->getCurrentUpdateSettings());
 	show_view('views/module_admin/tab-modules.php',$displayvars);
 	show_view('views/module_admin/tab-systemupdates.php');

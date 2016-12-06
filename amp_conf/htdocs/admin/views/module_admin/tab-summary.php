@@ -1,8 +1,12 @@
 <?php
 // vim: :set filetype=php tabstop=4 shiftwidth=4 autoindent smartindent:
+if ($activetab == "summary") {
+	$c = 'class="tab-pane active"';
+} else {
+	$c = 'class="tab-pane"';
+}
 ?>
-
-<div role="tabpanel" class="tab-pane active" id="summarytab" style='padding-top: 1em'>
+<div role="tabpanel" <?php echo $c; ?> id="summarytab" style='padding-top: 1em'>
 <?php
 if($edgemode) {
 	print "<div class='container-fluid'>";

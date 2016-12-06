@@ -1,7 +1,12 @@
 <?php
 // vim: :set filetype=php tabstop=4 shiftwidth=4 autoindent smartindent:
+if ($activetab == "modules") {
+	$c = 'class="tab-pane active"';
+} else {
+	$c = 'class="tab-pane"';
+}
 ?>
-<div role="tabpanel" class="tab-pane" id="modulestab">
+<div role="tabpanel" <?php echo $c; ?> id="modulestab">
 <?php
 
 if($online) {
