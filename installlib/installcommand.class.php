@@ -818,7 +818,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 	public function getFilesToCopy($path, $newinstall) {
 		// PHP 5.4+ Required
-		$dir = new \RecursiveDirectoryIterator($path);
+		$dir = new \RecursiveDirectoryIterator($path, \FilesystemIterator::FOLLOW_SYMLINKS);
 		$moh_subdir = $path."/moh";
 
 		$filter = new \RecursiveCallbackFilterIterator($dir, function ($current, $key, $iterator) use ($newinstall, $moh_subdir) {
