@@ -62,9 +62,10 @@ class module_functions {
 	*
 	* @param string $module rawname of module to get xml for
 	* @param bool $override_xml Different xml path to use for repos instead of the included default
-	* @return mixed combined module xml array if true, null if no data
+	* @param bool $never_refresh Never look at the mirror server.  This is used when there may be several rapid calls to getonlinexml
+	* @return array combined module xml array or empty array
 	*/
-	function getonlinexml($module = false, $override_xml = false) { // was getModuleXml()
+	function getonlinexml($module = false, $override_xml = false, $never_refresh = false) { // was getModuleXml()
 		global $amp_conf, $db, $module_getonlinexml_error;  // okay, yeah, this sucks, but there's no other good way to do it without breaking BC
 		$module_getonlinexml_error = false;
 		$got_new = false;
@@ -114,7 +115,7 @@ class module_functions {
 		// we need to know the freepbx major version we have running (ie: 12.0.1 is 12.0)
 		preg_match('/(\d+\.\d+)/',$version,$matches);
 		$base_version = $matches[1];
-		if((time() - $result['time']) > 300 || $skip_cache || empty($modules) ) {
+		if(!$never_refresh && ( (time() - $result['time']) > 300 || $skip_cache || empty($modules) ) ) {
 			set_time_limit($this->maxTimeLimit);
 			if ($override_xml) {
 				$data = $this->get_url_contents($override_xml,"/modules-" . $base_version . ".xml");
@@ -182,7 +183,7 @@ class module_functions {
 
 		if (empty($modules)) {
 			// no data, probably couldn't connect online, and nothing cached
-			return null;
+			return array();
 		}
 
 		if(!empty($security)) {
@@ -226,7 +227,7 @@ class module_functions {
 						return $mod;
 					}
 				}
-				return null;
+				return array();
 			} else {
 				$final = array();
 				foreach ($modules as $mod) {
@@ -260,7 +261,7 @@ class module_functions {
 				return $final;
 			}
 		}
-		return null;
+		return array();
 	}
 
 	/**
@@ -395,38 +396,20 @@ class module_functions {
 	* @param array $new_modules New Module XML
 	* @param array $passive Whether to allow notification to be reset
 	*/
-	function upgrade_notifications(&$new_modules, $passive_value) {
+	function upgrade_notifications($new_modules, $passive_value) {
 		global $db;
 		$notifications = notifications::create($db);
 
-		//$installed_status = array(MODULE_STATUS_ENABLED, MODULE_STATUS_DISABLED);
-		//http://issues.freepbx.org/browse/FREEPBX-8628
-		//http://issues.freepbx.org/browse/FREEPBX-8380
-		$installed_status = array(MODULE_STATUS_ENABLED);
-		$modules_local = $this->getinfo(false, $installed_status);
-
-		$modules_upgradable = array();
-		$modules_local = is_array($modules_local) ? $modules_local : array();
-		foreach (array_keys($modules_local) as $name) {
-			if (isset($new_modules[$name])) {
-				if (version_compare_freepbx($modules_local[$name]['version'], $new_modules[$name]['version']) < 0) {
-					$modules_upgradable[] = array(
-						'name' => $name,
-						'local_version' => $modules_local[$name]['version'],
-						'online_version' => $new_modules[$name]['version'],
-					);
-				}
-			}
-		}
-		$cnt = count($modules_upgradable);
-		if ($cnt) {
+		$modules_upgradeable = \FreePBX::Modules()->getUpgradeableModules($new_modules);
+		if ($modules_upgradeable) {
+			$cnt = count($modules_upgradable);
 			if ($cnt == 1) {
 				$text = _("There is 1 module available for online upgrade");
 			} else {
 				$text = sprintf(_("There are %s modules available for online upgrades"),$cnt);
 			}
 			$extext = "";
-			foreach ($modules_upgradable as $mod) {
+			foreach ($modules_upgradable as $name => $mod) {
 				$extext .= sprintf(_("%s (current: %s)"), $mod['name'].' '.$mod['online_version'], $mod['local_version'])."\n";
 			}
 			$notifications->add_update('freepbx', 'NEWUPDATES', $text, $extext, 'config.php?display=modules', $passive_value);

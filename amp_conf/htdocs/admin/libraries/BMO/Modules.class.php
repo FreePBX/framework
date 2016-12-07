@@ -344,4 +344,51 @@ class Modules {
 		// Return it
 		return $this->modulexml[$modname];
 	}
+
+	/**
+	 * Get the CACHED data from the last online check
+	 *
+	 * This will never request an update, no matter what.
+	 *
+	 * @return array
+	 */
+	public function getCachedOnlineData() {
+		$modules = $this->modclass->getonlinexml(false, false, true);
+		// Also grab the timestamp for when this was last updated
+		$res = \FreePBX::Database()->query("select `time` FROM `module_xml` WHERE id = 'previous'")->fetchAll(\PDO::FETCH_ASSOC);
+		if (!isset($res[0])) {
+			$time = 0;
+		} else {
+			$time = $res[0]['time'];
+		}
+		$time = new \DateTime("@$time");
+		return [ "timestamp" => $time, "modules" => $modules ];
+	}
+
+	public function getUpgradeableModules($onlinemodules) {
+		// Our current modules on the filesystem
+		//
+		// Don't check for disabled modules. Refer to
+		//    http://issues.freepbx.org/browse/FREEPBX-8380
+		//    http://issues.freepbx.org/browse/FREEPBX-8628
+		$local = (array) $this->getinfo(false, [\MODULE_STATUS_ENABLED, \MODULE_STATUS_NEEDUPGRADE, \MODULE_STATUS_BROKEN], true);
+		$upgrades = [];
+
+		// Loop through our current ones and see if new ones are available online
+		foreach ($local as $name => $cur) {
+			if (isset($onlinemodules[$name])) {
+				$new = $onlinemodules[$name];
+				// If our current version is lower than the new version
+				if (version_compare_freepbx($cur['version'], $new['version']) < 0) {
+					// It's upgradeable.
+					$upgrades[$name] = [
+						'name' => $name,
+						'local_version' => $cur['version'],
+						'online_version' => $new['version'],
+					];
+				}
+			}
+		}
+		return $upgrades;
+	}
 }
