@@ -50,24 +50,26 @@ class Hooks extends DB_Helper {
 		$allhooks = array();
 		foreach ($bmomodules as $mod) {
 			$rawname = strtolower(str_replace("FreePBX\\modules\\","",$mod));
+			$name = ucfirst($rawname);
 			if(!in_array($rawname,$am)) {
 				continue;
 			}
+
 			// Find GUI Hooks
 			if (method_exists($mod, "myGuiHooks")) {
-				$allhooks['GuiHooks'][$mod] = $this->FreePBX->$mod->myGuiHooks();
+				$allhooks['GuiHooks'][$mod] = $this->FreePBX->$name->myGuiHooks();
 			}
 
 			// Find Dialplan hooks (eg, called when retrieve_conf is run),
 			// to modify the $ext object.
 			if (method_exists($mod, "myDialplanHooks")) {
-				$allhooks['DialplanHooks'][$mod] = $this->FreePBX->$mod->myDialplanHooks();
+				$allhooks['DialplanHooks'][$mod] = $this->FreePBX->$name->myDialplanHooks();
 			}
 
 			// Find ConfigPageInit hooks (called before the page is displayed,
 			// used to catch 'submit' POST/GETs, or as an alternative to guihooks.
 			if (method_exists($mod, "myConfigPageInits")) {
-				$allhooks['ConfigPageInits'][$mod] = $this->FreePBX->$mod->myConfigPageInits();
+				$allhooks['ConfigPageInits'][$mod] = $this->FreePBX->$name->myConfigPageInits();
 			}
 
 			// Discover if the module wants to write to any other files, which
