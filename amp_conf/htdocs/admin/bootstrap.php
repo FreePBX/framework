@@ -169,7 +169,7 @@ if(!empty($phptimezone)) {
 	$tzi = \DateTimeZone::listIdentifiers();
 	if(!in_array($phptimezone,$tzi)) {
 		$invalidtimezone = $phptimezone;
-		$timezone = 'UTC';
+		$phptimezone = 'UTC';
 	}
 	date_default_timezone_set($phptimezone);
 }
