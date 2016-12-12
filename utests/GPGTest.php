@@ -9,7 +9,6 @@ class GPGTest extends PHPUnit_Framework_TestCase {
 	protected static $f;
 
 	public static function setUpBeforeClass() {
-		include 'setuptests.php';
 		self::$f = FreePBX::create();
 		// Ensure that our /etc/freepbx.secure directory exists
 		if (!is_dir("/etc/freepbx.secure")) {

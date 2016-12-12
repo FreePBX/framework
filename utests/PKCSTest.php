@@ -9,7 +9,6 @@ class PKCSTest extends PHPUnit_Framework_TestCase {
 	protected static $p;
 
 	public static function setUpBeforeClass() {
-		include 'setuptests.php';
 		self::$p = FreePBX::PKCS();
 		`rm -rf /tmp/ssltest`;
 		`mkdir /tmp/ssltest`;

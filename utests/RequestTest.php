@@ -10,7 +10,6 @@ class RequestTest extends PHPUnit_Framework_TestCase {
 	public static $reqDefaults = array( "test5" => "default" );
 
 	public static function setUpBeforeClass() {
-		include 'setuptests.php';
 		self::$f = FreePBX::create();
 		$_REQUEST['test1'] = 1;
 		$_REQUEST['test2'] = "two";

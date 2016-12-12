@@ -100,9 +100,7 @@ foreach ($bootstrap_defaults as $key => $default_value) {
 }
 
 // include base functions
-if(!class_exists("Composer\Autoload\ClassLoader")) {
-	include $dirname .'/libraries/Composer/vendor/autoload.php';
-}
+include $dirname .'/libraries/Composer/vendor/autoload.php';
 
 $bootstrap_settings['framework_functions_included'] = false;
 //load all freepbx functions
