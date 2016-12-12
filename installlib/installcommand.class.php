@@ -863,7 +863,6 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 		// And now do the magic.
 		foreach ($iterator as $z) {
-			$num_files++;
 			$src = $z->getPathname();
 			// Note: I did some performance testing with substr vs str_replace, and str_replace was faster. By 100msec.
 			$dest = $bmoinst->getDestination('framework', str_replace($this->rootPath."/","",$src));
@@ -873,10 +872,11 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 				mkdir(dirname($dest), 0755, true);
 			}
 
+			//TODO: modules that symlink break everything
 			// Is the source ALREADY a link? If so, we don't want to link to a link.
-			if (is_link($src)) {
-				$src = readlink($src);
-			}
+			//if (is_link($src)) {
+				//$src = readlink($src);
+			//}
 
 			// Delete the file we're about to replace
 			if (file_exists($dest)) {
