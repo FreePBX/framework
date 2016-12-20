@@ -402,14 +402,14 @@ class module_functions {
 
 		$modules_upgradeable = \FreePBX::Modules()->getUpgradeableModules($new_modules);
 		if ($modules_upgradeable) {
-			$cnt = count($modules_upgradable);
+			$cnt = count($modules_upgradeable);
 			if ($cnt == 1) {
 				$text = _("There is 1 module available for online upgrade");
 			} else {
 				$text = sprintf(_("There are %s modules available for online upgrades"),$cnt);
 			}
 			$extext = "";
-			foreach ($modules_upgradable as $name => $mod) {
+			foreach ($modules_upgradeable as $name => $mod) {
 				$extext .= sprintf(_("%s (current: %s)"), $mod['name'].' '.$mod['online_version'], $mod['local_version'])."\n";
 			}
 			$notifications->add_update('freepbx', 'NEWUPDATES', $text, $extext, 'config.php?display=modules', $passive_value);
@@ -2974,7 +2974,7 @@ class module_functions {
 			if (FreePBX::Modules()->moduleHasMethod('Core','listUsers')) {
 				$options['ucount'] = count(FreePBX::Core()->listUsers());
 			}
-			
+
 			// Other modules may need to add 'get' paramters to the call to the repo. Check and add them
 			// here if we are adding paramters. The module should return an array of key/value pairs each of which
 			// is to be appended to the GET parameters. The variable name will be prepended with the module name
