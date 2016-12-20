@@ -8,10 +8,6 @@
 	position: fixed;
 }
 
-.ui-dialog .ui-dialog-content {
-	padding: .5em 1em 0em;
-}
-
 ul.sortable.ui-sortable {
 	border: 1px solid #ddd;
 	border-radius: 4px;
@@ -55,6 +51,9 @@ ul.sortable.ui-sortable {
 
 .ui-dialog {
 	padding: 0;
+	.ui-dialog-content {
+		padding: .5em 1em 0em;
+	}
 	.ui-dialog-title {
 		float: none;
 		color: gray;
@@ -73,6 +72,7 @@ ul.sortable.ui-sortable {
 		background-color: #fff;
 	}
 	.ui-dialog-titlebar-close {
+		overflow: hidden;
 		span.ui-button-text {
 			position: absolute;
 			top: 0px;
@@ -82,6 +82,10 @@ ul.sortable.ui-sortable {
 		span.ui-button-icon-primary.ui-icon.ui-icon-closethick {
 			float: right;
 		}
+	}
+	.ui-dialog-titlebar-close:hover,
+	.ui-dialog-titlebar-close:focus {
+		outline: 0;
 	}
 }
 
