@@ -13,7 +13,6 @@ class LoadConfigTest extends PHPUnit_Framework_TestCase {
 	private static $config_dir;
 
 	public static function setUpBeforeClass() {
-		include "setuptests.php";
 		self::$f = FreePBX::create();
 		self::$config_file = basename(tempnam(sys_get_temp_dir(), "utest"));
 		self::$config_file2 = basename(tempnam(sys_get_temp_dir(), "utest"));

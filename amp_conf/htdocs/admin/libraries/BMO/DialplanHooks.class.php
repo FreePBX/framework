@@ -97,12 +97,14 @@ class DialplanHooks {
 					} elseif (isset($cmd['Class'])) {
 						// This is a new BMO Object!
 						$class = $cmd['Class'];
-						if (!method_exists($this->FreePBX->$class, "doDialplanHook")) {
+						$rawname = strtolower(str_replace("FreePBX\\modules\\","",$class));
+						$name = ucfirst($rawname);
+						if (!method_exists($this->FreePBX->$name, "doDialplanHook")) {
 							out(sprintf(_("HANDLED-ERROR: %s->doDialplanHook() isn't there, but the module is saying it wants to hook. This is a bug in %s"), $class, $class));
 							continue;
 						}
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_start");
-						$this->FreePBX->$class->doDialplanHook($ext, $engine, $pri);
+						$this->FreePBX->$name->doDialplanHook($ext, $engine, $pri);
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_stop");
 					} else {
 						// I have no idea what this is.

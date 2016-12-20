@@ -289,6 +289,9 @@ function engine_getinfo($force_read=false) {
 			} elseif (preg_match('/Asterisk [C].(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
 				$engine_info = array('engine'=>'asterisk', 'version' => '1.4', 'additional' => $matches[3], 'raw' => $verinfo);
         $gotinfo = true;
+                        } elseif (preg_match('/Asterisk certified\/(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
+                                $engine_info = array('engine'=>'asterisk', 'version' => $matches[1] . $matches[3], 'additional' => $matches[3], 'raw' => $verinfo);
+        $gotinfo = true;
 			}
 
       if (!$gotinfo) {

@@ -12,7 +12,6 @@ class WebTest extends PHPUnit_Framework_TestCase {
 	protected static $f;
 
 	public static function setUpBeforeClass() {
-		include 'setuptests.php';
 		self::$f = FreePBX::create();
 	}
 

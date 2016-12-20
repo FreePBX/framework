@@ -1,18 +1,14 @@
 <?php
 
 /**
-
 * https://blogs.kent.ac.uk/webdev/2011/07/14/phpunit-and-unserialized-pdo-instances/
-
 * @backupGlobals disabled
-
 */
 class AstmanTest extends PHPUnit_Framework_TestCase {
 
 	protected static $c;
 
 	public static function setUpBeforeClass() {
-		include 'setuptests.php';
 		self::$c = \FreePBX::create()->astman;
 	}
 

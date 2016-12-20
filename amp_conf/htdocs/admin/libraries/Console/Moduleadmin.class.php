@@ -34,7 +34,7 @@ class Moduleadmin extends Command {
 			new InputOption('skipdisabled', '', InputOption::VALUE_NONE, _('Don\'t ask to enable disabled modules assume no.')),
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'json, jsonpretty')),
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
-			new InputOption('tag', 't', InputOption::VALUE_NONE, _('Download/Upgrade to a specific tag')),
+			new InputOption('tag', 't', InputOption::VALUE_REQUIRED, _('Download/Upgrade to a specific tag')),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
 		->setHelp($this->showHelp());
 	}
