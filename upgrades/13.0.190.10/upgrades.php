@@ -2,6 +2,6 @@
 global $db;
 
 if (!$db->getAll('SHOW COLUMNS FROM incoming WHERE FIELD = "id"')) {
-	$sql = "ALTER TABLE `incoming` ADD COlUMN `id` int(11) NOT NULL AUTO_INCREMENT";
+	$sql = "ALTER TABLE `incoming` ADD COLUMN `id` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`id`)";
 	$result = $db->query($sql);
 }
