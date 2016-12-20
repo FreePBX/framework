@@ -31,11 +31,32 @@ if($edgemode) {
     </div>
 
     <div class='row'>
-      <div class='col-xs-5 col-sm-4 col-md-3'><?php echo _("Active Module Count:"); ?></div>
+      <div class='col-xs-5 col-sm-4 col-md-3'><?php echo _("Enabled:"); ?></div>
       <div class='col-xs-7 col-sm-8'><?php echo $activemodules; ?></div>
     </div>
 
-	<p style='padding-top: .5em'><?php echo _("The numbers below may be inaccurate, as they are taken from Cached data:"); ?></p>
+<?php if ($disabledmodules) { ?>
+    <div class='row'>
+      <div class='col-xs-5 col-sm-4 col-md-3'><?php echo _("Disabled:"); ?></div>
+      <div class='col-xs-7 col-sm-8'><?php echo $disabledmodules; ?></div>
+    </div>
+<?php } ?>
+
+<?php if ($brokenmodules) { ?>
+    <div class='row'>
+      <div class='col-xs-5 col-sm-4 col-md-3'><?php echo _("Broken:"); ?></div>
+      <div class='col-xs-7 col-sm-8'><?php echo $brokenmodules; ?></div>
+    </div>
+<?php } ?>
+
+<?php if ($needsupgrade) { ?>
+    <div class='row'>
+      <div class='col-xs-5 col-sm-4 col-md-3'><?php echo _("Needs Upgrade:"); ?></div>
+      <div class='col-xs-7 col-sm-8'><?php echo $needsupgrademodules; ?></div>
+    </div>
+<?php } ?>
+
+	<p style='padding-top: .5em'><?php echo _("The numbers below may be inaccurate if new modules have been released since the last check:"); ?></p>
 
     <div class='row'>
       <div class='col-xs-5 col-sm-4 col-md-3'><?php echo _("Last online check:"); ?></div>
@@ -44,7 +65,14 @@ if($edgemode) {
 
     <div class='row'>
       <div class='col-xs-5 col-sm-4 col-md-3'><?php echo _("Modules with Upgrades:"); ?></div>
-      <div class='col-xs-7 col-sm-8'><?php echo $pendingupgradesmodules; ?></div>
+	  <div class='col-xs-7 col-sm-8'>
+	  <?php
+echo count($availupdates);
+if ($availupdates) {
+	print " (".implode(", ", array_keys($availupdates)).") ";
+}
+?>
+	  </div>
     </div>
 
     <div class='row'>

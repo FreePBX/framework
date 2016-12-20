@@ -849,6 +849,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 	private function recursive_copy(InputInterface $input, OutputInterface $output, ProgressBar $progress, $iterator, $make_links = false) {
 		global $amp_conf;
+		$num_files = 0;
 
 		// These are modified by apply_conf.sh, and should never be symlinked
 		$never_symlink = array(

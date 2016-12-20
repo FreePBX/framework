@@ -1004,9 +1004,6 @@ default:
 	$summary = array(
 		"edgemode" => ($amp_conf['MODULEADMINEDGE'] == 1),
 		"totalmodules" => count($modules),
-		"activemodules" => count($modules),
-		"lastonlinecheck" => new \DateTime(),
-		"pendingupgradesmodules" => "TBD",
 		"pendingupgradessystem" => "TBD",
 		"pbxversion" => @file_get_contents("/etc/sangoma/pbx-version"),
 	);
@@ -1021,6 +1018,16 @@ default:
 		$summary['activetab'] = 'summary';
 		$displayvars['activetab'] = 'summary';
 	}
+
+	// Figure out the counts for our summary page.
+	$summary["activemodules"] = count($modulef->getinfo(false, \MODULE_STATUS_ENABLED));
+	$summary["disabledmodules"] = count($modulef->getinfo(false, \MODULE_STATUS_DISABLED));
+	$summary["brokenmodules"] = count($modulef->getinfo(false, \MODULE_STATUS_BROKEN));
+	$summary["needsupgrademodules"] = count($modulef->getinfo(false, \MODULE_STATUS_BROKEN));
+	$cachedonline = \FreePBX::Modules()->getCachedOnlineData();
+	$summary["availupdates"] = \FreePBX::Modules()->getUpgradeableModules($cachedonline['modules']);
+	$summary["lastonlinecheck"] = $cachedonline['timestamp'];
+
 	show_view('views/module_admin/tabheader.php', $summary);
 	show_view('views/module_admin/tab-summary.php', $summary);
 	$updates = new \FreePBX\Builtin\UpdateManager();
