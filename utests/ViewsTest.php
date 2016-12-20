@@ -11,7 +11,6 @@ class ViewsTest extends PHPUnit_Framework_TestCase {
 	protected static $o;
 
 	public static function setUpBeforeClass() {
-		include "setuptests.php";
 		self::$f = FreePBX::create();
 		self::$o = self::$f->View();
 	}
