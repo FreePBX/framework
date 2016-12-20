@@ -385,6 +385,7 @@ if ($display == 'index' && ($cur_menuitem['module']['rawname'] == 'builtin')) {
 
 // show the appropriate page
 switch($display) {
+	case 'updates':
 	case 'modules':
 		// set these to avoid undefined variable warnings later
 		//

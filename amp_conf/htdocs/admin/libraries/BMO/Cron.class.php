@@ -114,7 +114,7 @@ class Cron {
 				return true;
 			// It didn't stick. WTF? Put our original one back.
 			$this->installCrontab($backup);
-			throw new \Exception("Cron line added didn't remain in crontab on final check");
+			throw new \Exception("Cron line added didn't remain in crontab on final check. Check /tmp/cron.error for reason.");
 		} else {
 			// It was already there.
 			return true;

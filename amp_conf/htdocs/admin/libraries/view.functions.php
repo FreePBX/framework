@@ -464,19 +464,21 @@ function framework_server_name() {
 
 	return $title;
 }
-function show_help($message, $title='' ,$collapse=false){
+function show_help($message, $title='' ,$collapse=false, $collapseable=true, $class='default') {
 	$thisid = uniqid();
-	$html = '<div class="panel panel-default">';
+	$html = "<div class='panel panel-$class'>";
 	$html .= '<div class="panel-heading">';
-	if(empty($title)){
-		$html .= '<h3><i class="fa fa-info-circle"></i> '._("Helpful Information");
+	if($title){
+		$html .= '<h3 class="panel-title"><i class="fa fa-info-circle"></i> '.$title.'</h3>';
 	}else{
-		$html .= '<h3><i class="fa fa-info-circle"></i> '.$title;
+		$html .= '<h3 class="panel-title"><i class="fa fa-info-circle"></i> '._("Helpful Information").'</h3>';
 	}
-	if($collapse){
-		$html .= '<span class="pull-right"><a href="#'.$thisid.'" data-target="#'.$thisid.'" data-toggle="collapse" ><i class="fa fa-plus" id="toggle'.$thisid.'"></i></a></span></h3>';
-	}else{
-		$html .= '<span class="pull-right"><a href="#'.$thisid.'" data-target="#'.$thisid.'" data-toggle="collapse" ><i class="fa fa-minus" id="toggle'.$thisid.'"></i></a></span></h3>';
+	if ($collapseable) {
+		if($collapse) {
+			$html .= '<span class="pull-right"><a href="#'.$thisid.'" data-target="#'.$thisid.'" data-toggle="collapse" ><i class="fa fa-plus" id="toggle'.$thisid.'"></i></a></span></h3>';
+		}else{
+			$html .= '<span class="pull-right"><a href="#'.$thisid.'" data-target="#'.$thisid.'" data-toggle="collapse" ><i class="fa fa-minus" id="toggle'.$thisid.'"></i></a></span></h3>';
+		}
 	}
 	$html .= '</div>';
 	$html .= '<div class="panel-body '.($collapse?'collapse':'').'" id="'.$thisid.'">';

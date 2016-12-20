@@ -29,7 +29,7 @@ class FWHelpCommand extends HelpCommand {
 		if (null === $this->command) {
 			$this->command = $this->getApplication()->find($input->getArgument('command_name'));
 		}
-		if ($input->getOption('xml')) {
+        	if ($input->hasOption('xml') && $input->getOption('xml')) {
 			$input->setOption('format', 'xml');
 		}
 		$helper = new DescriptorHelper();

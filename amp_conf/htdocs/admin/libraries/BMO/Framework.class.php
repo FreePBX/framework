@@ -27,6 +27,7 @@ class Framework extends FreePBX_Helpers implements BMO {
 	public function ajaxRequest($req, &$setting) {
 		switch ($req) {
 			case 'authping':
+			case 'scheduler':
 			return true;
 		}
 		return false;
@@ -34,8 +35,11 @@ class Framework extends FreePBX_Helpers implements BMO {
 
 	public function ajaxHandler() {
 		switch ($_REQUEST['command']) {
-			case 'authping':
+		case 'authping':
 			return 'authpong';
+		case 'scheduler':
+			$s = new Builtin\UpdateManager();
+			return $s->ajax($_REQUEST);
 		}
 		return false;
 	}

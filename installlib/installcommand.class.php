@@ -522,11 +522,11 @@ class FreePBXInstallCommand extends Command {
 		$verb = $answers['dev-links'] ? "Linking" : "Copying";
 		$output->writeln($verb." files (this may take a bit)....");
 		if (is_dir($this->rootPath."/amp_conf")) {
-			$total_files = $this->getFileCount($this->rootPath."/amp_conf");
-			$progress = new ProgressBar($output, $total_files);
+			$iterator = $this->getFilesToCopy($this->rootPath."/amp_conf", $newinstall);
+			$progress = new ProgressBar($output, iterator_count($iterator));
 			$progress->setRedrawFrequency(100);
 			$progress->start();
-			$this->recursive_copy($input, $output, $progress, $this->rootPath."/amp_conf", "", $newinstall, $answers['dev-links']);
+			$this->recursive_copy($input, $output, $progress, $iterator, $answers['dev-links']);
 			$progress->finish();
 		}
 		$output->writeln("");
@@ -816,137 +816,87 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		}
 	}
 
-	function getFileCount($path) {
-		$size = 0;
-		$ignore = array('.','..','CVS','.svn','.git');
-		$files = scandir($path);
-		foreach($files as $t) {
-				if(in_array($t, $ignore)) continue;
-				if (is_dir(rtrim($path, '/') . '/' . $t)) {
-						$size += $this->getFileCount(rtrim($path, '/') . '/' . $t);
-				} else {
-						$size++;
-				}
-		}
-		return $size;
-}
+	public function getFilesToCopy($path, $newinstall) {
+		// PHP 5.4+ Required
+		$dir = new \RecursiveDirectoryIterator($path, \FilesystemIterator::FOLLOW_SYMLINKS);
+		$moh_subdir = $path."/moh";
 
-	private function recursive_copy(InputInterface $input, OutputInterface $output, ProgressBar $progress, $dirsourceparent, $dirsource = "", $newinstall = true, $make_links = false) {
+		$filter = new \RecursiveCallbackFilterIterator($dir, function ($current, $key, $iterator) use ($newinstall, $moh_subdir) {
+			// Skip files we never want to copy
+			$file = $current->getFilename();
+			switch ($file) {
+			case ".":
+			case "..":
+			case "CVS":
+			case ".svn":
+			case ".git":
+				return false;
+			}
+
+			// Is this file in the MOH folder?
+			if ($current->getBasename() === $moh_subdir) {
+				// Only copy it if it's NOT a new install.
+				return !$newinstall;
+			}
+
+			// Everything else, we're fine.
+			return true;
+		});
+
+		// Now return our iterator thats using the filter
+		return new \RecursiveIteratorIterator($filter);
+	}
+
+	private function recursive_copy(InputInterface $input, OutputInterface $output, ProgressBar $progress, $iterator, $make_links = false) {
 		global $amp_conf;
 
+		// These are modified by apply_conf.sh, and should never be symlinked
+		$never_symlink = array(
+			"/etc/asterisk/cdr_adaptive_odbc.conf" => true,
+			"/etc/asterisk/indications.conf" => true,
+			"/etc/asterisk/manager.conf" => true,
+			"/etc/asterisk/modules.conf" => true,
+		);
+
+		// Our installer knows where everything should go.
 		$bmoinst = \FreePBX::create()->Installer;
 
-		$moh_subdir = isset($amp_conf['MOHDIR']) ? trim(trim($amp_conf['MOHDIR']),'/') : 'moh';
+		// And now do the magic.
+		foreach ($iterator as $z) {
+			$src = $z->getPathname();
+			// Note: I did some performance testing with substr vs str_replace, and str_replace was faster. By 100msec.
+			$dest = $bmoinst->getDestination('framework', str_replace($this->rootPath."/","",$src));
 
-		// total # files, # actually copied
-		$num_files = $num_copied = 0;
-
-		if ($dirsource && ($dirsource[0] != "/")) $dirsource = "/".$dirsource;
-
-		if (is_dir($dirsourceparent.$dirsource)) $dir_handle = opendir($dirsourceparent.$dirsource);
-
-		while (isset($dir_handle) && ($file = readdir($dir_handle))) {
-			if (($file==".") || ($file=="..") || ($file == "CVS") || ($file == ".svn") || ($file == ".git")) {
-				continue;
+			// Does the directory for this file already exist?
+			if (!is_dir(dirname($dest))) {
+				mkdir(dirname($dest), 0755, true);
 			}
 
-			if ($dirsource == "" && $file == "moh" && !$newinstall) {
-				// skip to the next dir
-				continue;
-			}
+			//TODO: modules that symlink break everything
+			// Is the source ALREADY a link? If so, we don't want to link to a link.
+			//if (is_link($src)) {
+				//$src = readlink($src);
+			//}
 
-			$source = $dirsourceparent.$dirsource."/".$file;
-
-			if (!is_dir($source)) {
-				$destination = $bmoinst->getDestination('framework', str_replace($this->rootPath."/","",$source));
-				// These are modified by apply_conf.sh, there may be others that fit in this category also. This keeps these from
-				// being symlinked and then developers inadvertently checking in the changes when they should not have.
-				//
-				$never_symlink = array(
-					"cdr_adaptive_odbc.conf",
-					"indications.conf",
-					"manager.conf",
-					"modules.conf"
-				);
-
-				$num_files++;
-				if ($make_links && !in_array(basename($source),$never_symlink)) {
-					// symlink, unlike copy, doesn't overwrite - have to delete first
-					// ^^ lies! :(
-					if (is_link($destination) || file_exists($destination)) {
-						if(!is_dir($destination)) {
-							unlink($destination);
-						}
-					}
-
-					if(file_exists($source)) {
-						if ($output->isDebug()) {
-							$output->writeln("Linking ".basename($source)." to ".dirname($destination));
-						}
-						@symlink($source, $destination);
-					}
+			// Delete the file we're about to replace
+			if (file_exists($dest)) {
+				if (is_dir($dest)) {
+					`/bin/rm -rf $dest`; // TODO: Directoryiterator again?
 				} else {
-					$ow = false;
-					if(file_exists($destination) && !is_link($destination)) {
-						if ($input->isInteractive() && $this->check_diff($source, $destination) && !$make_links) {
-							$output->writeln($destination." has been changed from the original version.");
-							$ow = $this->ask_overwrite($input, $output, $source, $destination);
-						} elseif (!$input->isInteractive() && $this->check_diff($source, $destination) && !$make_links) {
-							if(basename($source) == "manager.conf") {
-								$ow = false;
-							} else {
-								$output->writeln($destination." has been changed from the original version.");
-								$ow = true;
-							}
-						}
-					} else {
-						$ow = true;
-					}
-					if($ow) {
-						//Copy will not overwrite a symlink, phpnesssss
-						if(file_exists($destination) && is_link($destination)) {
-							if(!is_dir($destination)) {
-								unlink($destination);
-							}
-						}
-						if ($output->isDebug()) {
-							$output->writeln("Copying ".basename($source)." to ".dirname($destination));
-						}
-						copy($source, $destination);
-					} else {
-						continue;
-					}
+					unlink($dest);
 				}
-				$num_copied++;
-			} else {
-				$destination = $bmoinst->getDestination('framework', str_replace($this->rootPath."/","",$source) . "/");
-
-				// if this is a directory, ensure destination exists
-				if (!file_exists($destination)) {
-					if ($destination != "") {
-						if ($output->isDebug()) {
-							$output->writeln("Creating ".$destination);
-						}
-						@mkdir($destination, "0750", true);
-					}
-				}
-
-				list($tmp_num_files, $tmp_num_copied) = $this->recursive_copy($input, $output, $progress, $dirsourceparent, $dirsource."/".$file, $newinstall, $make_links);
-				$num_files += $tmp_num_files;
-				$num_copied += $tmp_num_copied;
 			}
+
+			// Copy, or link, the source to the destination.
+			if ($make_links && !isset($never_symlink[$dest])) {
+				symlink($src, $dest);
+			} else {
+				copy($src, $dest);
+			}
+
 			if($progress->getProgress() < $progress->getMaxSteps()) {
 				$progress->advance();
 			}
 		}
-
-		if (isset($dir_handle)) closedir($dir_handle);
-		return array($num_files, $num_copied);
-	}
-
-	private function check_diff($file1, $file2) {
-		// diff, ignore whitespace and be quiet
-		exec("diff -wq ".escapeshellarg($file2)." ".escapeshellarg($file1), $tmpout, $retVal);
-		return ($retVal != 0);
 	}
 }

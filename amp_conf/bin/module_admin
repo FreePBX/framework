@@ -12,11 +12,7 @@ $bootstrap_settings['freepbx_auth'] = false;
 // a system.
 //
 //$restrict_mods = true;
-include_once '/etc/freepbx.conf';
-
-// Force autoloader to load all the includes since Zend issues can break and make this fail when this is run
-//
-fpbx_framework_autoloader(true);
+include '/etc/freepbx.conf';
 
 function doReload() {
 	$result = do_reload();
@@ -932,4 +928,4 @@ switch ($operation ) {
 }
 
 exit(0);
-?>
+

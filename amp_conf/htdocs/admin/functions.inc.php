@@ -88,115 +88,103 @@ require_once($dirname . '/helpers/form_helper.php');
 
 //freepbx autoloader
 function fpbx_framework_autoloader($class) {
-	global $amp_conf;
-	$dirname = dirname(__FILE__);
+	if ($class === true) {
+		return false;
+
+		throw new \Exception("Bug: Can not call autoloader with bool true");
+	}
+
+	// Handle guielements
 	if (substr($class, 0, 3) == 'gui') {
 		$class = 'component';
 	}
 
-	/* Special case of TRUE forces all classes to be loaded. Make sure to add new classes to this array
-	 * as they are added to the autoloader. This was added because the presence of Zend enabled modules
-	 * can result in the autoloader function failing.
-	 *
-	 * Don't force ampuser though it is always loaded in advance
-	 *
-	 * Basically, every 'case' below should have a corresponding entry in the $class array below.
-	 */
-	if ($class === true) {
-		$class = array(
-				'CI_Email',
-				'CI_Table',
-				'CssMin',
-				'component',
-				'featurecode',
-				'cronmanager',
-				'moduleHook',
-				'modulelist',
-				'notifications',
-				'xml2Array',
-				'modgettext',
-				'fwmsg'
-			);
-	} else {
-		$class = array($class);
+	$maps = [
+		// Static maps to files
+		'CI_Email' => 'helpers/Email.php',
+		'CITable' => 'helpers/Table.php',
+		'ampuser' => 'libraries/ampuser.class.php',
+		'CssMin' => 'libraries/cssmin.class.php',
+		'component' => 'libraries/components.class.php',
+		'featurecode' => 'libraries/featurecodes.class.php',
+		'cronmanager' => 'libraries/cronmanager.class.php',
+		'moduleHook' => 'libraries/moduleHook.class.php',
+		'modulelist' => 'libraries/modulelist.class.php',
+		'modgettext' => 'libraries/modgettext.class.php',
+		'notifications' => 'libraries/notifications.class.php',
+		'xml2Array' =>  'libraries/xml2Array.class.php',
+		'fwmsg' => 'libraries/fwmsg.class.php',
+
+		// Namespaces
+		'FreePBX\\Builtin\\' => 'libraries/Builtin',
+		'FreePBX\\Console\\Command\\' => 'libraries/Console',
+	];
+
+	// Is it a direct mapping?
+	if (isset($maps[$class])) {
+		// Special handling for CI_Email and CI_Table
+		//
+		// TODO: ci_def and ci_lan_def are defined in bootstrap,
+		//       do we need to define them here, too?
+		//
+		if ($class === "CI_Email" || $class === "CI_Table") {
+			if (!function_exists('log_message')) {
+				function log_message(){};
+			}
+			if (!function_exists('get_instance')) {
+				function get_instance(){return new ci_def();}
+			}
+			if (!class_exists('ci_def', false)) {
+				class ci_def {function __construct(){
+					$this->lang = new ci_lan_def();}}
+			}
+			if (!class_exists('ci_lan_def', false)) {
+				class ci_lan_def {function load(){return false;}
+					function line(){return false;}}
+			}
+			if (!defined('BASEPATH')){
+				define('BASEPATH', '');
+			}
+			if (!defined('FOPEN_READ')) {
+				define('FOPEN_READ', 'rb');
+			}
+		}
+		if (!file_exists(__DIR__."/".$maps[$class])) {
+			throw new \Exception("Bug: Autoloader says $class is at ".$maps[$class].", but file doesn't exist");
+		}
+		// Debugging
+		// print "Loaded class $class from ".$maps[$class]."\n";
+		include __DIR__."/".$maps[$class];
+		return;
 	}
 
-	foreach ($class as $this_class) {
-		if (class_exists($this_class)) {
-			continue;
-		}
-		switch($this_class){
-			case 'ampuser':
-				require_once($dirname . '/libraries/ampuser.class.php');
-				break;
-			case 'CI_Email':
-				//make upstream scripts happy - for $CI_Email->_set_error_message()
-				if (!function_exists('log_message')) {
-					function log_message(){};
-				}
-				if (!function_exists('get_instance')) {
-					function get_instance(){return new ci_def();}
-				}
-				if (!class_exists('ci_def')) {
-					class ci_def {function __construct(){
-						$this->lang = new ci_lan_def();}}
-				}
-				if (!class_exists('ci_lan_def')) {
-					class ci_lan_def {function load(){return false;}
-						function line(){return false;}}
-				}
-				if (!defined('BASEPATH')){
-					define('BASEPATH', '');
-				}
-				if (!defined('FOPEN_READ')) {
-					define('FOPEN_READ', 'rb');
-				}
-				require_once($dirname . '/helpers/Email.php');
-				break;
-			case 'CI_Table':
-				//make upstream scripts happy
-				if (!function_exists('log_message')) {
-					function log_message(){};
-				}
-				if (!defined('BASEPATH')){define('BASEPATH', '');}
-				require_once($dirname . '/helpers/Table.php');
-				break;
-			case 'CssMin':
-				require_once($dirname . '/libraries/cssmin.class.php');
-				break;
-			case 'component':
-				require_once($dirname . '/libraries/components.class.php');
-				break;
-			case 'featurecode':
-				require_once($dirname . '/libraries/featurecodes.class.php');
-				break;
-			case 'cronmanager':
-				require_once($dirname . '/libraries/cronmanager.class.php');
-				break;
-			case 'moduleHook':
-				require_once($dirname . '/libraries/moduleHook.class.php');
-				break;
-			case 'modulelist':
-				require_once($dirname . '/libraries/modulelist.class.php');
-				break;
-			case 'modgettext':
-				require_once($dirname . '/libraries/modgettext.class.php');
-				break;
-			case 'notifications':
-				require_once($dirname . '/libraries/notifications.class.php');
-				break;
-			case 'xml2Array':
-				require_once($dirname . '/libraries/xml2Array.class.php');
-				break;
-			case 'fwmsg':
-				require_once($dirname . '/libraries/fwmsg.class.php');
-				break;
-			default:
-				//TODO: enable some logging here
-				break;
+	// Check to see if this is a new autoloader request.  If it has a backslash in
+	// the class, we're using the new autoloader. Note it doesn't support proper
+	// PSR4 autoloading, you'll need to manually define classes in maps, above.
+	if (strpos($class, '\\') !== false) {
+		// Explode it to figure out the namespace and class name
+		$sections = explode('\\', $class);
+		$classname = array_pop($sections);
+		$namespace = join('\\', $sections).'\\';
+
+		if (isset($maps[$namespace])) {
+			$file = __DIR__."/".$maps[$namespace]."/$classname.php";
+			if (file_exists($file)) {
+				// print "Loaded class $class from $file\n";
+				include $file;
+				return;
+			}
+			// Old .class.php?
+			$oldfile = __DIR__."/".$maps[$namespace]."/$classname.class.php";
+			if (!file_exists($oldfile)) {
+				throw new \Exception("Bug: Explicitly know about $namespace, asked for $class, but $file (or $classname.class.php) doesn't exist");
+			}
+			// print "Loaded class $class from $file\n";
+			include $oldfile;
 		}
 	}
 }
+
 /**
  * returns true if asterisk is running with chan_dahdi
  *
