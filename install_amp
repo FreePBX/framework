@@ -1500,21 +1500,6 @@ if ($install_files) {
 	if (!is_dir("/var/spool/asterisk/voicemail/device")) amp_mkdir("/var/spool/asterisk/voicemail/device", "0755", true);
 	$copy_lang = ($make_links) ? "linked" : "copied";
 	out("OK (".$num_copied." files ".$copy_lang.", ".($num_files-$num_copied)." skipped)");
-
-	// link the packed js library for ARI, if there the error will indicate that
-	$libfreepbx = $amp_conf['AMPWEBROOT'].'/admin/common/libfreepbx.javascripts.js';
-	$dest_libfreepbx = $amp_conf['AMPWEBROOT'].'/recordings/theme/js/libfreepbx.javascripts.js';
-	if (!file_exists($amp_conf['AMPWEBROOT'].'/recordings/theme/js')) {
-		mkdir($amp_conf['AMPWEBROOT'].'/recordings/theme/js',0755, true);
-	}
-	if (file_exists($libfreepbx) && !file_exists($dest_libfreepbx)) {
-		outn(_("linking libfreepbx.javascripts.js to theme/js.."));
-		if (link($libfreepbx, $dest_libfreepbx)) {
-			out(_("ok"));
-		} else {
-			out(_("possible error - check warning message"));
-		}
-	}
 }
 
 if (!$dryrun) {
