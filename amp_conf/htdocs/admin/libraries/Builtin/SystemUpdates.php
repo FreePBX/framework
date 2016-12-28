@@ -18,5 +18,20 @@ class SystemUpdates {
 		$lic = sysadmin_get_license();
 		return (isset($lic['hostid']));
 	}
+
+	/**
+	 * Return the current list of pending updates.
+	 *
+	 * @return array [ 	'lasttimestamp' => int, 'status' => {complete|inprogress|unknown}, 'rpms' => [ ... ] ]
+	 */
+	public function getPendingUpdates() {
+		return [ 'lasttimestamp' => time(),
+			'status' => 'unknown',
+			'rpms' => []
+		];
+	}
+
+
+
 }
 

@@ -1,32 +1,50 @@
-#!/bin/bash
+#!/bin/bash -x
 
-YUMCMD="check-updates"
-RESULTS=/dev/shm/yum-check-updates
+OUTDIR=/dev/shm/yumwrapper
+mkdir -p $OUTDIR
+config="logfile $OUTDIR/output.log
+logfile flush 1
+log on
+logtstamp on
+logtstamp after 1
+logtstamp string \"[ %t: %Y-%m-%d %c:%s ]\012\"
+"
 
-# Make sure we're not already running
-if [ -e /var/run/yum.pid ]; then
-	PID=$(cat /var/run/yum.pid)
-	if [ -e /proc/$PID ]; then
-		echo "## ERROR ## - $(date) - '$YUMCMD' - Yum already running" | tee /dev/shm/yum.error
-		exit
-	fi
-fi
+# The script automatically cleans up BEFORE itself,
+# as there's no need for any of it to hang around.
+script='#!/bin/bash
+# Function to wait for a lock to be available
+# Waits for $2 seconds, default is 30.
+function lock() {
+	local defaultwait=30
+	local lockfile='${OUTDIR}'/${1}.lock
+	local waittime=${2:-$defaultwait}
+	eval "exec 10>$lockfile"
+	while [[ $waittime > 0 ]]; do
+		# Try to get a lock on our lockfile
+		flock -w 1 10 && return 0
+		waittime=$(( $waittime - 1 ))
+		sleep 1
+	done
+	return 1
+}
+TMPDIR=$(dirname $0)
+cd /tmp
+rm -rf $TMPDIR
+lock yum 300  # Wait for up to 5 mins.
+echo START: yum-clean-metadata
+#yum clean metadata
+echo STOP: yum-clean-metadata $?
+echo START: yum-check-updates
+yum -q check-updates
+echo STOP: yum-check-updates $?
+'
 
-rm -f $RESULTS
-echo START=$(/bin/date '+%s') > $RESULTS
-chmod 644 $RESULTS
+# Create our tmpdir, and put our config and script in there.
+T=$(mktemp -d)
 
-OUTPUT=$(/usr/bin/yum --setopt=exit_on_lock=true $YUMCMD 2>&1)
-EXITCODE=$?
-ENCODED=$(echo "$OUTPUT" | base64 -w0)
-
-if [ "$EXITCODE" -ne "0" -a "$EXITCODE" -ne "100" ]; then
-	echo "## ERROR ## - $(date) - '$YUMCMD' - Exitcode $EXITCODE - Ouput $ENCODED" | tee /dev/shm/yum.error
-	echo STATUS=error >> $RESULTS
-else
-	echo STATUS=complete >> $RESULTS
-fi
-echo EXITCODE=$EXITCODE >> $RESULTS
-echo OUTPUT=$ENCODED >> $RESULTS
-echo END=$(/bin/date '+%s') >> $RESULTS
+echo "$config" > $T/command.conf
+echo "$script" > $T/script.sh
+chmod 755 $T/script.sh
+screen -c $T/command.conf -dmSL 'freepbx' $T/script.sh
 
