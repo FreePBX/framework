@@ -4,6 +4,10 @@ namespace FreePBX\Builtin;
 
 class SystemUpdates {
 
+	// See framework/hooks/yum-* commands where these files are defined
+	private $lockfile = "/dev/shm/yumwrapper/yum.lock";
+	private $logfile = "/dev/shm/yumwrapper/output.log";
+
 	/**
 	 * This checks to make sure we have the Sysadmin module, and that the
 	 * sysadmin module is activated. If neither of these things are true,
@@ -17,6 +21,137 @@ class SystemUpdates {
 		}
 		$lic = sysadmin_get_license();
 		return (isset($lic['hostid']));
+	}
+
+	/**
+	 * Is a yum command in progress?
+	 *
+	 * We check to see if the yum.lock file exists. If we have
+	 * issues with the screen command crashing, we may need to revisit
+	 * this, and do more work than just checking if the file exists.
+	 *
+	 * @return bool
+	 */
+	public function isYumRunning() {
+		return file_exists($this->lockfile);
+	}
+
+
+	/**
+	 * Start yum-check-updates if it's not already
+	 * running
+	 *
+	 */
+	public function startCheckUpdates() {
+		if ($this->isYumRunning()) {
+			return true;
+		}
+		if (!is_dir("/var/spool/asterisk/incron")) {
+			// Something's broken with this machine.
+			throw new \Exception("Incron not configured, unable to manage system updates");
+		}
+		// incron hook
+		touch("/var/spool/asterisk/incron/framework.yum-check-updates");
+		// Wait up to 5 seconds for it to start
+		$endafter = time()+5;
+		while (time() < $endafter) {
+			if ($this->isYumRunning()) {
+				return true;
+			}
+			usleep(100000); // 1/10th of a second.
+		}
+
+		// If we made it here, the updates never started
+		return false;
+	}
+
+	/**
+	 * Parse the output of a yum command
+	 *
+	 * Returns an array of useful stuff.
+	 *
+	 * @return array [ ... ]
+	 */
+	public function parseYumOutput($filename = false) {
+		if (!$filename) {
+			throw new \Exception("No file to parse");
+		}
+
+		$retarr = [
+			"timestamp" => 0,
+			"commands" => [ ],
+		];
+		// Grab the contents of the output file
+		if (file_exists($filename)) {
+			$logfile = file($filename, FILE_IGNORE_NEW_LINES);
+		} else {
+			$logfile = [];
+		}
+
+		// Now find the important parts 
+		foreach ($logfile as $lineno => $line) {
+
+			// Was this a timestamp?
+			if (strpos($line, "[") === 0) {
+				$retarr['timestamp'] = $this->parseTimestamp($line);
+				continue;
+			}
+
+			// Start of a command?
+			if (strpos($line, "START") === 0) {
+				if (!preg_match("/^START (\d+) (.+)/", $line, $out)) {
+					// How?
+					continue;
+				}
+				$retarr['commands'][$out[2]] = [ 'started' => $out[1] ];
+				continue;
+			}
+
+			// Completion of a command?
+			if (strpos($line, "STOP") === 0) {
+				// STOP 1482988046 yum-check-updates 100 CnNhbmdvbWEtcGJ4Lm5vYXJjaCAgICAgICAgICAgICAgICAgICAgIDE2MTItMS5zbmc3ICAgICAgICAgICAgICAgICAgICAgIHNuZy1wa2dzCg==
+				if (!preg_match("/^STOP (\d+) ([^\s]+) (\d+)(.*)$/", $line, $out)) {
+					// ... Even more how?
+					continue;
+				}
+				if (!is_array($retarr['commands'][$out[2]])) {
+					throw new \Exception("Found a STOP before a START, error in $filename");
+				}
+				$retarr['commands'][$out[2]]['completed'] = $out[1];
+				$retarr['commands'][$out[2]]['exitcode'] = $out[3];
+				if (!empty($out[4])) {
+					$retarr['commands'][$out[2]]['output'] = base64_decode(trim($out[4]));
+				} else {
+					$retarr['commands'][$out[2]]['output'] = "";
+				}
+				continue;
+			}
+
+			// Unknown line in file
+			throw new \Exception("Unknown line '$line' on line number $lineno in file $filename");
+		}
+
+		// Completed parsing file
+		return $retarr;
+	}
+
+	/**
+	 * Parse a timestamp line, and return an (int) utime
+	 *
+	 * Timestamp lines look like this:
+	 * [ timestamp: 2016-12-29 05:52:00 ] 
+	 *
+	 * @return int, will be zero if unable to parse.
+	 */
+	public function parseTimestamp($line) {
+		if (!preg_match("/\[ timestamp: ([0-9:\-\s]+) \]/", $line, $out)) {
+			return 0;
+		}
+		$dateint = strtotime($out[1]);
+		if (!$dateint) {
+			return 0;
+		} // else
+		return $dateint;
 	}
 
 	/**

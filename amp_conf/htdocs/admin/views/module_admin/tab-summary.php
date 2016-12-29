@@ -66,12 +66,7 @@ if($edgemode) {
     <div class='row'>
       <div class='col-xs-5 col-sm-4 col-md-3'><?php echo _("Modules with Upgrades:"); ?></div>
 	  <div class='col-xs-7 col-sm-8'>
-	  <?php
-echo count($availupdates);
-if ($availupdates) {
-	print " (".implode(", ", array_keys($availupdates)).") ";
-}
-?>
+	  <?php echo count($availupdates); ?>
 	  </div>
     </div>
 

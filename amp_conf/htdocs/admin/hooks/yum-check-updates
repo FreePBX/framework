@@ -1,24 +1,34 @@
 #!/bin/bash -x
 
 OUTDIR=/dev/shm/yumwrapper
+# Note that this is also referenced in Builtin/SystemUpdates
+LOCKFILE=${OUTDIR}/yum.lock
+
+if [ -e $LOCKFILE ] ; then
+	echo "Lockfile $LOCKFILE present, not attempting to start"
+	exit
+fi
+
 mkdir -p $OUTDIR
 config="logfile $OUTDIR/output.log
 logfile flush 1
 log on
 logtstamp on
 logtstamp after 1
-logtstamp string \"[ %t: %Y-%m-%d %c:%s ]\012\"
+logtstamp string \"[ timestamp: %Y-%m-%d %0c:%s ]\012\"
 "
 
 # The script automatically cleans up BEFORE itself,
 # as there's no need for any of it to hang around.
 script='#!/bin/bash
 # Function to wait for a lock to be available
-# Waits for $2 seconds, default is 30.
+# Waits for $1 seconds, default is 30.
+lockfile='${LOCKFILE}'
+logfile='${OUTDIR}'/output.log
+
 function lock() {
 	local defaultwait=30
-	local lockfile='${OUTDIR}'/${1}.lock
-	local waittime=${2:-$defaultwait}
+	local waittime=${1:-$defaultwait}
 	eval "exec 10>$lockfile"
 	while [[ $waittime > 0 ]]; do
 		# Try to get a lock on our lockfile
@@ -31,13 +41,18 @@ function lock() {
 TMPDIR=$(dirname $0)
 cd /tmp
 rm -rf $TMPDIR
-lock yum 300  # Wait for up to 5 mins.
-echo START: yum-clean-metadata
-#yum clean metadata
-echo STOP: yum-clean-metadata $?
-echo START: yum-check-updates
-yum -q check-updates
-echo STOP: yum-check-updates $?
+lock 300  # Wait for up to 5 mins.
+# Remove anything in the current output logfile
+true > $logfile
+echo START $(date +%s) yum-clean-metadata
+TMPOUT=$(yum clean metadata 2>&1)
+EXITVAL=$?
+echo STOP $(date +%s) yum-clean-metadata $EXITVAL $(echo "$TMPOUT"|base64 -w0)
+echo START $(date +%s) yum-check-updates
+TMPOUT=$(yum -q check-updates 2>&1)
+EXITVAL=$?
+echo STOP $(date +%s) yum-check-updates $EXITVAL $(echo "$TMPOUT"|base64 -w0)
+rm -f $lockfile
 '
 
 # Create our tmpdir, and put our config and script in there.
