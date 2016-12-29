@@ -157,16 +157,50 @@ class SystemUpdates {
 	/**
 	 * Return the current list of pending updates.
 	 *
-	 * @return array [ 	'lasttimestamp' => int, 'status' => {complete|inprogress|unknown}, 'rpms' => [ ... ] ]
+	 * @return array [ 	'lasttimestamp' => int, 'status' => {complete|inprogress|unknown}, 'updatesavail' => bool, 'rpms' => [ ... ] ]
 	 */
 	public function getPendingUpdates() {
-		return [ 'lasttimestamp' => time(),
+		$updates = $this->parseYumOutput("/dev/shm/yumwrapper/output.log");
+		$retarr = [ 'lasttimestamp' => $updates['timestamp'],
 			'status' => 'unknown',
+			'updatesavail' => false,
 			'rpms' => []
 		];
+
+		// Do we have a start for 'yum-clean-metadata'?
+		if (empty($updates['commands']['yum-clean-metadata'])) {
+			// We don't know what's going on, just return unknown
+			return $retarr;
+		}
+
+		// We have a start, so it's in progress.
+		$retarr['status'] = 'inprogress';
+
+		// Do we have a stdout for yum-check-updates?
+		if (empty($updates['commands']['yum-check-updates']['output'])) {
+			// no. Still in progress
+			return $retarr;
+		}
+
+		// We do!
+		$retarr['status'] = 'complete';
+
+		// Are there any updates?
+		$retarr['updatesavail'] = ($updates['commands']['yum-check-updates']['exitcode'] == 100);
+
+		// Now we just need to parse that output into a list of RPMs to return.
+		$retarr['rpms'] = $this->parseUpdates($updates['commands']['yum-check-updates']['output']);
+
+		return $retarr;
 	}
 
-
+	/**
+	 * Parse theoutput of yum-check-updates
+	 *
+	 * @return array
+	 */
+	public function parseUpdates($str) {
+		return [];
+	}
 
 }
-
