@@ -111,7 +111,7 @@ class Moduleadmin extends Command {
 			if($this->DEBUG){
 				print_r($args);
 			}
-			$this->handleArgs($args);
+			$this->handleArgs($args,$output);
 		} else {
 			$this->writeln($this->showHelp());
 		}
@@ -977,7 +977,7 @@ class Moduleadmin extends Command {
 
 	}
 
-	private function handleArgs($args){
+	private function handleArgs($args,$output){
 		$action = array_shift($args);
 		switch($action){
 			case 'updatekeys':

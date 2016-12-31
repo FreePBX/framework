@@ -1861,6 +1861,7 @@ class module_functions {
 
 		// These are known 'binary' directories. If they exist, always set them and their
 		// contents to be executable.
+		// NOTE: this is also done in fwconsole chown class!
 		$bindirs = array("bin", "hooks", "agi-bin");
 		foreach ($bindirs as $bindir) {
 			if (is_dir("$dest/$bindir")) {
