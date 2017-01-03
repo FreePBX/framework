@@ -217,6 +217,7 @@ class Chown extends Command {
 			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $AMPBIN, 'perms' => 0775, 'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $ASTAGIDIR, 'perms' => 0775, 'always' => true);
 			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $ASTVARLIBDIR. "/bin", 'perms' => 0775, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $AMPWEBROOT."/admin/modules/framework/hooks", 'perms' => 0755, 'always' => true);
 
 			//Merge static files and hook files, then act on them as a single unit
 			$fwcCF = $this->fwcChownFiles();
