@@ -184,93 +184,43 @@ class Chown extends Command {
 			}
 			$home = trim($web['dir']);
 			if (is_dir($home)) {
-				$this->modfiles['framework'][] = array('type' => 'rdir',
-															'path' => $home,
-															'perms' => 0755);
+				$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $home, 'perms' => 0755);
 				// SSH folder needs non-world-readable permissions (otherwise ssh complains, and refuses to work)
-				$this->modfiles['framework'][] = array('type' => 'rdir',
-															'path' => "$home/.ssh",
-															'perms' => 0700);
-
+				$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => "$home/.ssh", 'perms' => 0700);
 			}
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-														'path' => $sessdir,
-														'perms' => 0774,
-														'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'file',
-														'path' => '/etc/amportal.conf',
-														'perms' => 0660,
-														'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'file',
-														'path' => '/etc/freepbx.conf',
-														'perms' => 0660,
-														'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-														'path' => $ASTRUNDIR,
-														'perms' => 0775,
-														'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-														'path' => \FreePBX::GPG()->getGpgLocation(),
-														'perms' => 0775,
-														'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $sessdir, 'perms' => 0774, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => '/etc/amportal.conf', 'perms' => 0660, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => '/etc/freepbx.conf', 'perms' => 0660, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $ASTRUNDIR, 'perms' => 0775, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => \FreePBX::GPG()->getGpgLocation(), 'perms' => 0775, 'always' => true);
+
 			//we may wish to declare these manually or through some automated fashion
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-														'path' => $ASTETCDIR,
-														'perms' => 0775,
-														'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'file',
-														'path' => $ASTVARLIBDIR . '/.ssh/id_rsa',
-														'perms' => 0600);
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-														'path' => $ASTLOGDIR,
-														'perms' => 0775,
-														'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-														'path' => $ASTSPOOLDIR,
-														'perms' => 0775);
+			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $ASTETCDIR, 'perms' => 0775, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => $ASTVARLIBDIR . '/.ssh/id_rsa', 'perms' => 0600);
+			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $ASTLOGDIR, 'perms' => 0775, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $ASTSPOOLDIR, 'perms' => 0775);
 
-			//I have added these below individually,
-			$this->modfiles['framework'][] = array('type' => 'file',
-												   'path' => $FPBXDBUGFILE,
-												   'perms' => 0664);
-			$this->modfiles['framework'][] = array('type' => 'file',
-												   'path' => $FPBX_LOG_FILE,
-												   'perms' => 0664);
+			// Logfiles.
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => $FPBXDBUGFILE, 'perms' => 0664);
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => $FPBX_LOG_FILE, 'perms' => 0664);
+
 			//We may wish to declare files individually rather than touching everything
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-												   'path' => $ASTVARLIBDIR . '/' . $MOHDIR,
-												   'perms' => 0775);
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-												   'path' => $ASTVARLIBDIR . '/sounds',
-												   'perms' => 0775);
-			$this->modfiles['framework'][] = array('type' => 'file',
-												   'path' => '/etc/obdc.ini',
-												   'perms' => 0664);
-			//we were doing a recursive on this which I think is not needed.
-			//Changed to just be the directory
-			//^ Needs to be the whole shebang, doesnt work otherwise
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-												   'path' => $AMPWEBROOT,
-												   'perms' => 0775);
+			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $ASTVARLIBDIR . '/' . $MOHDIR, 'perms' => 0775);
+			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $ASTVARLIBDIR . '/sounds', 'perms' => 0775);
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => '/etc/obdc.ini', 'perms' => 0664);
 
-			//Anything in bin and agi-bin should be exec'd
-			//Should be after everything except but before hooks
-			//So that we dont get overwritten by ampwebroot
-			$this->modfiles['framework'][] = array('type' => 'execdir',
-			'path' => $AMPBIN,
-			'perms' => 0775,
-			'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'execdir',
-			'path' => $ASTAGIDIR,
-			'perms' => 0775,
-			'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'execdir',
-			'path' => $ASTVARLIBDIR. "/bin",
-			'perms' => 0775,
-			'always' => true);
+			// Recursive webroot is required
+			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $AMPWEBROOT, 'perms' => 0775);
+
+			// Anything in bin, agi-bin, and roothooks should be exec'd
+			// Should be after everything except but before hooks so that we dont get overwritten by ampwebroot
+			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $AMPBIN, 'perms' => 0775, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $ASTAGIDIR, 'perms' => 0775, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $ASTVARLIBDIR. "/bin", 'perms' => 0775, 'always' => true);
+
 			//Merge static files and hook files, then act on them as a single unit
 			$fwcCF = $this->fwcChownFiles();
-			if(!empty($this->modfiles) && !empty($fwcCF)){
+			if(!empty($fwcCF)){
 				foreach ($fwcCF as $key => $value) {
 					$this->modfiles[$key] = $value;
 				}
