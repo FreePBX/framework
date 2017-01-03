@@ -180,7 +180,9 @@ $(document).ready(function(){
 	// Tab 'summary' page javascript hooks
 	// 'Modules with Upgrades': Display the update modal.
 	$("#moduleupdatecount").on('click', show_modules_modal);
-	console.log("OK");
+
+	// Tab 'System Update' javascript hooks
+	// $("#refreshsu").on('click', reload_system_updates_tab);
 
 })
 function check_upgrade_all() {
@@ -361,4 +363,16 @@ function show_modules_modal(e) {
 		},
 	});
 }
+
+
+function reload_system_updates_tab() {
+	$.ajax({
+		url: window.ajaxurl,
+		data: { module: "framework", command: "sysupdate", action: "getsysupdatepage" },
+		success: function(data) {
+			$("#systext").html(data.result);
+		},
+	});
+}
+
 

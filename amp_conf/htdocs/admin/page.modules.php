@@ -1001,15 +1001,29 @@ default:
 	$displayvars['trackenable'] = $amp_conf['AMPTRACKENABLE'];
 	$displayvars['brand'] = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
 	$displayvars['broken_module_list'] = $broken_module_list;
+
+	// System Updates are only usable on FreePBX Distro style machines
+	$su = new \FreePBX\Builtin\SystemUpdates();
+
 	$summary = array(
 		"edgemode" => ($amp_conf['MODULEADMINEDGE'] == 1),
 		"totalmodules" => count($modules),
-		"pendingupgradessystem" => "TBD",
-		"pbxversion" => @file_get_contents("/etc/sangoma/pbx-version"),
+		"pbxversion" => $su->getDistroVersion(),
 	);
-	if (empty($summary['pbxversion'])) {
-		$summary['pbxversion'] = "Unknown";
+
+	// If we're not compatible with SU, don't try to do anything.
+	if (!$su->canDoSystemUpdates()) {
+		$summary['candosystemupdates'] = false;
+		$summary['sustemupdates'] = [];
+		$summary['systemupdateavail'] = false;
+		$summary['pendingupgradessystem'] = _("Integrated System Updates not available on this platform");
+	} else {
+		$summary['candosystemupdates'] = true;
+		$summary['systemupdates'] = $su->getPendingUpdates();
+		$summary['systemupdateavail'] = $summary['systemupdates']['pbxupdateavail'];
+		$summary['pendingupgradessystem'] = count($summary['systemupdates']['rpms']);
 	}
+
 	// Which tab should be active?
 	if ($module_page === "modules") {
 		$summary['activetab'] = 'modules';
@@ -1028,12 +1042,18 @@ default:
 	$summary["availupdates"] = \FreePBX::Modules()->getUpgradeableModules($cachedonline['modules']);
 	$summary["lastonlinecheck"] = $cachedonline['timestamp'];
 
+
 	show_view('views/module_admin/tabheader.php', $summary);
 	show_view('views/module_admin/tab-summary.php', $summary);
 	$updates = new \FreePBX\Builtin\UpdateManager();
 	show_view('views/module_admin/tab-scheduler.php', $updates->getCurrentUpdateSettings());
 	show_view('views/module_admin/tab-modules.php',$displayvars);
-	show_view('views/module_admin/tab-systemupdates.php');
+	if ($summary['candosystemupdates']) {
+		$summary['sysupdatepage'] = $su->getSystemUpdatesPage($summary['systemupdates']);
+		show_view('views/module_admin/tab-systemupdates.php', $summary);
+	} else {
+		show_view('views/module_admin/unable-to-sysupdate.php');
+	}
 	show_view('views/module_admin/tabfooter.php');
 	break;
 }

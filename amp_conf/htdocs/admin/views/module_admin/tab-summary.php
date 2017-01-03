@@ -22,7 +22,12 @@ if($edgemode) {
 
     <div class='row'>
       <div class='col-xs-5 col-sm-4 col-md-3'><?php echo _("Current System Version:"); ?></div>
-      <div class='col-xs-7 col-sm-8'><?php echo $pbxversion; ?></div>
+	  <div class='col-xs-7 col-sm-8'><?php echo $pbxversion; ?> &nbsp; 
+<?php if ($systemupdateavail) {
+	echo "<span class='sysupdateavail'>".sprintf(_("Notice: System Upgrade (%s) available!"), $systemupdateavail)."</span>";
+}
+?>
+	  </div>
     </div>
 
     <div class='row'>

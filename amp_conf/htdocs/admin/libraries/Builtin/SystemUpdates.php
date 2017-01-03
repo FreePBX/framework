@@ -164,6 +164,7 @@ class SystemUpdates {
 		$retarr = [ 'lasttimestamp' => $updates['timestamp'],
 			'status' => 'unknown',
 			'updatesavail' => false,
+			'pbxupdateavail' => false,
 			'rpms' => []
 		];
 
@@ -191,11 +192,14 @@ class SystemUpdates {
 		// Now we just need to parse that output into a list of RPMs to return.
 		$retarr['rpms'] = $this->parseUpdates($updates['commands']['yum-check-updates']['output']);
 
+		// If there is a 'sangoma-pbx.noarch' RPM, we have a PBX upgrade available
+		$retarr['pbxupdateavail'] = isset($retarr['rpms']['sangoma-pbx.noarch'])?$retarr['rpms']['sangoma-pbx.noarch']['newvers']:false;
+
 		return $retarr;
 	}
 
 	/**
-	 * Parse theoutput of yum-check-updates
+	 * Parse the output of yum-check-updates
 	 *
 	 * @return array
 	 */
@@ -230,7 +234,7 @@ class SystemUpdates {
 	 *
 	 * @param array $rpms List of RPMS to query
 	 *
-	 * @retun array Key/Val
+	 * @return array Key/Val
 	 */
 	public function getInstalledRpmVersions(array $rpms) {
 		$retarr = [];
@@ -264,5 +268,34 @@ class SystemUpdates {
 			$retarr[$name] = $output[$i];
 		}
 		return $retarr;
+	}
+
+	/**
+	 * Get the Distro Version
+	 */
+	public function getDistroVersion() {
+		if (!file_exists("/etc/sangoma/pbx-version")) {
+			return "Unknown";
+		}
+		$vers = file("/etc/sangoma/pbx-version");
+		// If it's empty, return an error
+		if (!$vers || empty(trim($vers[0]))) {
+			return "Error reading /etc/sangoma/pbx-version";
+		}
+		return trim($vers[0]);
+	}
+
+	/**
+	 * Render what is displayed in the System Updates tab
+	 *
+	 * This is used both in page.modules as well as ajax when it's asking for updates.
+	 *
+	 * @return string html to be displayed
+	 */
+	public function getSystemUpdatesPage() {
+		$html = "<h3>"._("System Update Details")."</h3>";
+		$html .= "<p><button class='btn btn-default' id='refreshsu' onclick='reload_system_updates_tab()'>Reload  page</button></p>";
+		$html .= "<p> Random number: ".md5(mt_rand(0, 1))."</p>";
+		return $html;
 	}
 }
