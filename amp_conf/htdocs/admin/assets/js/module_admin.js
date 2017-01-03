@@ -30,7 +30,7 @@ $(document).ready(function(){
 		setTimeout(function() {
 			form.submit();
 		}, 200);
-});
+	});
 	$('#show_auto_update').click(function() {
 		autoupdate_box = $('#db_online').dialog({
 			title: fpbx.msg.framework.updatenotifications,
@@ -58,11 +58,11 @@ $(document).ready(function(){
 							}
 						}
 						$.ajax({
-	  						type: 'POST',
-	  						url: "config.php",
+							type: 'POST',
+							url: "config.php",
 							data: {quietmode: 1, skip_astman: 1, display: "modules", update_email: update_email, machine_id: machine_id },
-	  						dataType: 'json',
-	  						success: function(data) {
+							dataType: 'json',
+							success: function(data) {
 								if (data.status == true) {
 									$('#update_email').attr('saved-value', $('#update_email').val());
 									if ($('[name="online_updates"]:checked').val() == 'no') {
@@ -75,10 +75,10 @@ $(document).ready(function(){
 									alert(data.status)
 									$('#update_email').focus();
 								}
-	  						},
-	  						error: function(data) {
+							},
+							error: function(data) {
 								alert(fpbx.msg.framework.invalid_response);
-	  						}
+							}
 						});
 					}
 				}
@@ -243,45 +243,45 @@ function process_module_actions(modules) {
 		urlStr = "config.php?display=modules&action=process&quietmode=1&online=1&"+$.param( {"modules":modules} );
 	}
 	box = $('<div id="moduledialogwrapper"></div>')
-			.dialog({
-				title: 'Status',
-				resizable: false,
-				modal: true,
-				width: 410,
-				height: 325,
-				open: function (e) {
-					$('#moduledialogwrapper').html(_('Loading..' ) + '<i class="fa fa-spinner fa-spin fa-2x">');
-					var xhr = new XMLHttpRequest(),
-					timer = null;
-					xhr.open('POST', urlStr, true);
-					xhr.send(null);
-					timer = window.setInterval(function() {
-						if (xhr.readyState == XMLHttpRequest.DONE) {
-							window.clearTimeout(timer);
-						}
-						if (xhr.responseText.length > 0) {
-							if ($('#moduledialogwrapper').html().trim() != xhr.responseText.trim()) {
-								$('#moduledialogwrapper').html(xhr.responseText);
-								$('#moduleprogress').scrollTop(1E10);
-							}
-						}
-						if (xhr.readyState == XMLHttpRequest.DONE) {
-							$("#moduleprogress").css("overflow", "auto");
-							$('#moduleprogress').scrollTop(1E10);
-							$("#moduleBoxContents a").focus();
-						}
-					}, 500);
-				},
-				close: function(e) {
-					close_module_actions(true);
-					$(e.target).dialog("destroy").remove();
+	.dialog({
+		title: 'Status',
+		resizable: false,
+		modal: true,
+		width: 410,
+		height: 325,
+		open: function (e) {
+			$('#moduledialogwrapper').html(_('Loading..' ) + '<i class="fa fa-spinner fa-spin fa-2x">');
+			var xhr = new XMLHttpRequest(),
+				timer = null;
+			xhr.open('POST', urlStr, true);
+			xhr.send(null);
+			timer = window.setInterval(function() {
+				if (xhr.readyState == XMLHttpRequest.DONE) {
+					window.clearTimeout(timer);
 				}
-			});
+				if (xhr.responseText.length > 0) {
+					if ($('#moduledialogwrapper').html().trim() != xhr.responseText.trim()) {
+						$('#moduledialogwrapper').html(xhr.responseText);
+						$('#moduleprogress').scrollTop(1E10);
+					}
+				}
+				if (xhr.readyState == XMLHttpRequest.DONE) {
+					$("#moduleprogress").css("overflow", "auto");
+					$('#moduleprogress').scrollTop(1E10);
+					$("#moduleBoxContents a").focus();
+				}
+			}, 500);
+		},
+		close: function(e) {
+			close_module_actions(true);
+			$(e.target).dialog("destroy").remove();
+		}
+	});
 }
 function close_module_actions(goback) {
 	box.dialog("destroy").remove();
 	if (goback) {
-  		location.href = 'config.php?display=modules';
+		location.href = 'config.php?display=modules';
 	}
 }
 
@@ -292,7 +292,7 @@ function toggleScreenDoor() {
 }
 
 String.prototype.capitalize = function() {
-    return this.charAt(0).toUpperCase() + this.slice(1);
+	return this.charAt(0).toUpperCase() + this.slice(1);
 }
 
 
@@ -321,11 +321,11 @@ function saveUpdateScheduler(e) {
 		method: "POST",
 		data: ajaxdata,
 		success: function(data) {
-		       	$.each(data, function(i,v) {
+			$.each(data, function(i,v) {
 				var selector = "input[name='"+i+"']";
 				$(selector).val(v);
 			});
-	       	},
+		},
 		complete: function(data) { s.text("Save").prop("disabled", false); },
 	});
 }
