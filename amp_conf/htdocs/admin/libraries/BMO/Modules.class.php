@@ -371,7 +371,7 @@ class Modules {
 		// Don't check for disabled modules. Refer to
 		//    http://issues.freepbx.org/browse/FREEPBX-8380
 		//    http://issues.freepbx.org/browse/FREEPBX-8628
-		$local = (array) $this->getinfo(false, [\MODULE_STATUS_ENABLED, \MODULE_STATUS_NEEDUPGRADE, \MODULE_STATUS_BROKEN], true);
+		$local = $this->getInfo(false, [\MODULE_STATUS_ENABLED, \MODULE_STATUS_NEEDUPGRADE, \MODULE_STATUS_BROKEN], true);
 		$upgrades = [];
 
 		// Loop through our current ones and see if new ones are available online
@@ -385,6 +385,7 @@ class Modules {
 						'name' => $name,
 						'local_version' => $cur['version'],
 						'online_version' => $new['version'],
+						'descr_name' => $new['name'],
 					];
 				}
 			}

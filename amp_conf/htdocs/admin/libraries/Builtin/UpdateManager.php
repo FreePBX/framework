@@ -15,6 +15,8 @@ class UpdateManager {
 			throw new \Exception("No action");
 		}
 		switch ($req['action']) {
+		case "getmoduleupdates":
+			return [ "status" => true, "result" => $this->getAvailModules() ];
 		case "getsystemupdates":
 			$s = new SystemUpdates();
 			if (!$s->canDoSystemUpdates()) {
@@ -268,6 +270,30 @@ class UpdateManager {
 	/** Clean up HTML in emails */
 	public function cleanHtml($string) {
 		return "    ".str_replace("<br>", "\n    ", $string);
+	}
+
+	/** Return summary of module updates */
+	public function getAvailModules() {
+		$cachedonline = \FreePBX::Modules()->getCachedOnlineData();
+
+		// TODO: use $cachedonline['timestamp'] to figure this out
+		$html = "<h3>"._("Last module update check: ")."1234 seconds ago</h3>";
+
+		// Get our list of upgradeable modules (if any)
+		$upgradeable = \FreePBX::Modules()->getUpgradeableModules($cachedonline['modules']);
+
+		if (!$upgradeable) {
+			$html .= _("No pending module updates.");
+			return $html;
+		}
+		// We have modules. Create our table
+		$html .= "<table class='table'><tr><th>"._("Module Name")."</th><th>"._("Current Version")."</th><th>"._("New Version")."</th></tr>\n";
+		foreach ($upgradeable as $row) {
+			$html .= "<tr><td>".$row['descr_name']."</td><td>".$row['local_version']."</td><td>".$row['online_version']."</td></tr>\n";
+		}
+		$html .= "</table>";
+
+		return $html;
 	}
 }
 

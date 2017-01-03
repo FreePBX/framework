@@ -65,14 +65,12 @@ if($edgemode) {
 
     <div class='row'>
       <div class='col-xs-5 col-sm-4 col-md-3'><?php echo _("Modules with Upgrades:"); ?></div>
-	  <div class='col-xs-7 col-sm-8'>
-	  <?php echo count($availupdates); ?>
-	  </div>
+	  <div class='col-xs-7 col-sm-8'><a class='clickable' id='moduleupdatecount'><?php echo count($availupdates); ?></a></div>
     </div>
 
     <div class='row'>
       <div class='col-xs-5 col-sm-4 col-md-3'><?php echo _("System Upgrades Available:"); ?></div>
-      <div class='col-xs-7 col-sm-8'><?php echo $pendingupgradessystem; ?></div>
+	  <div class='col-xs-7 col-sm-8'><a class='clickable showsystemupdatestab'><?php echo $pendingupgradessystem; ?></a></div>
     </div>
 
   </div>

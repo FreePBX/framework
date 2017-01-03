@@ -176,6 +176,12 @@ $(document).ready(function(){
 	if(!fpbx.conf.AMPTRACKENABLE) {
 		$('#modulelist .moduletrack').hide();
 	}
+
+	// Tab 'summary' page javascript hooks
+	// 'Modules with Upgrades': Display the update modal.
+	$("#moduleupdatecount").on('click', show_modules_modal);
+	console.log("OK");
+
 })
 function check_upgrade_all() {
 	$( ".modulefunctionradios :radio" ).each(function( index ) {
@@ -329,3 +335,30 @@ function saveUpdateScheduler(e) {
 		complete: function(data) { s.text("Save").prop("disabled", false); },
 	});
 }
+
+/*
+ * This resets the module admin modal to blank, and makes sure it's hidden
+ */
+function clean_modadmin_modal() {
+	// Make sure it's hidden
+	$("#updatesmodal").modal('hide');
+	// Remove title and body
+	$(".modal-title,.modal-body", "#updatesmodal").text("");
+}
+
+function show_modules_modal(e) {
+	e.preventDefault;
+	clean_modadmin_modal();
+	$(".modal-title", "#updatesmodal").text(_("Available Module Updates"));
+	$(".modal-body", "#updatesmodal").text(_("Loading, please wait ..."));
+	$("#updatesmodal").modal('show');
+	// Run an ajax request to get the details of the modules that need upgrading.
+	$.ajax({
+		url: window.ajaxurl,
+		data: { module: "framework", command: "scheduler", action: "getmoduleupdates" },
+		success: function(data) {
+			$(".modal-body", "#updatesmodal").html(data.result);
+		},
+	});
+}
+
