@@ -200,7 +200,69 @@ class SystemUpdates {
 	 * @return array
 	 */
 	public function parseUpdates($str) {
-		return [];
+		$lines = explode("\n", $str);
+		$rpms = [];
+		foreach ($lines as $line) {
+			if (!$line) {
+				continue;
+			}
+			$linearr = preg_split("/\s+/", $line);
+			$rpms[escapeshellcmd($linearr[0])] =  [ "newvers" => $linearr[1], "repo" => $linearr[2] ];
+		}
+		// Get our current versions
+		$current = $this->getInstalledRpmVersions(array_keys($rpms));
+		foreach ($current as $name => $ver) {
+			if ($ver === false) {
+				$rpms[$name]['installed'] = false;
+				continue;
+			}
+			$rpms[$name]['installed'] = true;
+			$rpms[$name]['currentversion'] = $ver;
+		}
+		return $rpms;
 	}
 
+	/**
+	 * Run rpm to get the list of current versions
+	 *
+	 * Hand it an array of RPMs with the format of name.arch,
+	 * and it returns the current version on the system
+	 *
+	 * @param array $rpms List of RPMS to query
+	 *
+	 * @retun array Key/Val
+	 */
+	public function getInstalledRpmVersions(array $rpms) {
+		$retarr = [];
+		// If this is an empty array, we don't need to do anything
+		if (!$rpms) {
+			return $retarr;
+		}
+
+		// Our RPM Command
+		$cmd = '/usr/bin/rpm -q --queryformat "%{VERSION}.%{RELEASE}\n" '.join(" ", $rpms);
+		exec($cmd, $output, $ret);
+		if ($ret !== 0) {
+			throw new \Exception("RPM command errored, tried to run '$cmd', exited with error $ret");
+		}
+
+		// Now go through our RPMs and match them with the output
+		foreach ($rpms as $i => $name) {
+			if (!isset($output[$i])) {
+				throw new \Exception("Couldn't find entry $i for $name in output: ".json_encode($output));
+			}
+			$line = $output[$i];
+			// Is this RPM not currently installed?
+			// TODO: i18n of system? Will this break?
+			if (strpos($line, "is not installed") !== false) {
+				$retarr[$name] = false;
+				continue;
+			}
+			// We explicitly don't ask for the RPM *name*, because rpms that "provide" the package, but aren't
+			// called that, will return the wrong name. So we just blindly assume that the RPM version of
+			// whatever was returned is correct. This may be wildly wrong, but it shouldn't affect any usability
+			$retarr[$name] = $output[$i];
+		}
+		return $retarr;
+	}
 }
