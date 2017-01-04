@@ -181,9 +181,6 @@ $(document).ready(function(){
 	// 'Modules with Upgrades': Display the update modal.
 	$("#moduleupdatecount").on('click', show_modules_modal);
 
-	// Tab 'System Update' javascript hooks
-	// $("#refreshsu").on('click', reload_system_updates_tab);
-
 })
 function check_upgrade_all() {
 	$( ".modulefunctionradios :radio" ).each(function( index ) {
@@ -365,14 +362,41 @@ function show_modules_modal(e) {
 }
 
 
+// This is triggered by an onclick tag generated in Builtin/SystemUpdates::getSystemUpdatesPage()
+// Updates the systemupdate tab.
 function reload_system_updates_tab() {
+	// When we're reloading, set the 'Refresh' button to say 'Loading', so that
+	// people see something happening.
+	$("#refreshpagebutton").attr('disabled', true).text(_("Loading..."));
+	
 	$.ajax({
 		url: window.ajaxurl,
 		data: { module: "framework", command: "sysupdate", action: "getsysupdatepage" },
 		success: function(data) {
-			$("#systext").html(data.result);
+			$("#systext").html(data.message);
+		},
+		complete: function() {
+			$("#refreshpagebutton").attr('disabled', false).text(_("Refresh Page"));
+			// If we're not complete, AND we're visible, poll for updates in a second.
+			if ($("#refreshpagebutton:visible").length == 1) {
+				if ($("#pendingstatus").data('value') !== "complete") {
+					window.setTimeout(reload_system_updates_tab, 1000);
+				}
+			}
 		},
 	});
 }
 
-
+// This is triggered by an onclick tag generated in Builtin/SystemUpdates::getSystemUpdatesPage()
+// Runs the roothook yum-checkonline to see if there's any updates.
+function run_yum_checkonline() {
+	$("#checkonlinebutton").attr('disabled', true).text(_("Starting..."));
+	$.ajax({
+		url: window.ajaxurl,
+		data: { module: "framework", command: "sysupdate", action: "startcheckupdates" },
+		complete: function() {
+			$("#checkonlinebutton").attr('disabled', false).text(_("Loading..."));
+			window.setTimeout(reload_system_updates_tab, 500);
+		}
+	});
+}

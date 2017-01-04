@@ -43,7 +43,7 @@ class Framework extends FreePBX_Helpers implements BMO {
 			return $s->ajax($_REQUEST);
 		case 'sysupdate':
 			$s = new Builtin\SystemUpdates();
-			return [ "status" => "ok", "result" => $s->getSystemUpdatesPage() ];
+			return $s->ajax($_REQUEST);
 		}
 		return false;
 	}

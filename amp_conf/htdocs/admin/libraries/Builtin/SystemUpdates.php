@@ -9,6 +9,24 @@ class SystemUpdates {
 	private $logfile = "/dev/shm/yumwrapper/output.log";
 
 	/**
+	 * Ajax handler.
+	 */
+	public function ajax($req) {
+		if (!isset($req['action'])) {
+			throw new \Exception("No action");
+		}
+		switch ($req['action']) {
+		case 'getsysupdatepage':
+			return $this->getSystemUpdatesPage();
+		case 'startcheckupdates':
+			return $this->startCheckUpdates();
+		case 'startsysupdate':
+			return $this->startSystemUpdate();
+		}
+		throw new \Exception("Unknown action");
+	}
+
+	/**
 	 * This checks to make sure we have the Sysadmin module, and that the
 	 * sysadmin module is activated. If neither of these things are true,
 	 * this machine can't do system updates.
@@ -193,7 +211,11 @@ class SystemUpdates {
 		$retarr['rpms'] = $this->parseUpdates($updates['commands']['yum-check-updates']['output']);
 
 		// If there is a 'sangoma-pbx.noarch' RPM, we have a PBX upgrade available
-		$retarr['pbxupdateavail'] = isset($retarr['rpms']['sangoma-pbx.noarch'])?'sangoma-pbx.noarch':false;
+		if (isset($retarr['rpms']['sangoma-pbx.noarch'])) {
+			$retarr['pbxupdateavail'] = [ "name" => 'sangoma-pbx.noarch', "version" => $retarr['rpms']['sangoma-pbx.noarch']['newvers'] ];
+		} else {
+			$retarr['pbxupdateavail'] = false;
+		}
 
 		return $retarr;
 	}
@@ -290,6 +312,12 @@ class SystemUpdates {
 	 *
 	 * This is used both in page.modules as well as ajax when it's asking for updates.
 	 *
+	 * Note: This generates onclick=... HTML. There is a valid (but, possibly, poor) reason for
+	 * this, in that the elements are deleted on every reload, and I'd have to REMAP each one
+	 * of them, every time the page is loaded.  This could easily lead to memory leaks, or,
+	 * forgetting to map a new one when it's created.  So I made the decision to use onclick,
+	 * and you can yell at me about it if you want.  --xrobau 2017-01-03
+	 *
 	 * @return string html to be displayed
 	 */
 	public function getSystemUpdatesPage() {
@@ -300,13 +328,13 @@ class SystemUpdates {
 		$pending = $this->getPendingUpdates();
 		$html .= "<div class='row'>
 			<div class='col-xs-3'>"._("Last Check Status:")."</div>
-			<div class='col-xs-5'>".$strarr[$pending['status']]."</div>
-			<div class='col-xs-4'><button class='btn btn-default pull-right' onclick='run_yum_checkonline()'>"._("Check for Updates")."</button></div>
+			<div class='col-xs-5' id='pendingstatus' data-value='".$pending['status']."'>".$strarr[$pending['status']]."</div>
+			<div class='col-xs-4'><button id='checkonlinebutton' class='btn btn-default pull-right' onclick='run_yum_checkonline()'>"._("Check Online")."</button></div>
 		</div>\n";
 		$html .= "<div class='row'>
 			<div class='col-xs-3'>"._("Last Online Check:")."</div>
 			<div class='col-xs-5'>".\FreePBX::View()->humanDiff($pending['lasttimestamp'])."</div>
-			<div class='col-xs-4'><button class='btn btn-default pull-right' onclick='reload_system_updates_tab()'>"._("Refresh page")."</button></div>
+			<div class='col-xs-4'><button id='refreshpagebutton' class='btn btn-default pull-right' onclick='reload_system_updates_tab()'>"._("Refresh page")."</button></div>
 		</div>\n";
 
 		// If it's not complete, don't bother with anything else.
@@ -316,13 +344,12 @@ class SystemUpdates {
 		$rpmcount = count($pending['rpms']);
 		$html .= "<div class='row'>
 			<div class='col-xs-3'>"._("Updates Available:")."</div>
-			<div class='col-xs-5'>$rpmcount</div>";
+			<div class='col-xs-5'>$rpmcount</div>
+		</div>";
 
 		if ($rpmcount == 0) {
-			$html .= "</div>\n";
 			return $html;
 		}
-		$html .= "<div class='col-xs-4'><button class='btn btn-default pull-right' onclick='update_rpms()'>"._("Update System")."</button></div></div>\n";
 
 		// We're here because we have some RPMS available. Lets display them.
 		$html .= "<table class='table'><tr><th>"._("RPM Name")."</th><th>"._("New Version")."</th><th>"._("Installed Version")."</th></tr>\n";
@@ -330,7 +357,7 @@ class SystemUpdates {
 			if (!$tmparr['installed']) {
 				$html .= "<tr><td>$rpmname</td><td>".$tmparr['newvers']."</td><td>"._("New Package")."</td></tr>";
 			} else {
-				if ($pending['pbxupdateavail'] == $rpmname) {
+				if ($pending['pbxupdateavail'] && $pending['pbxupdateavail']['name'] == $rpmname) {
 					// Make it stand out as a major upgrade
 					$style = 'style="background: #FEE"';
 				} else {
@@ -340,9 +367,9 @@ class SystemUpdates {
 			}
 		}
 		$html .= "</table>";
-
-
-
+		$html .= "<div class='row'>
+			<div class='col-xs-12'><button id='updatesystembutton' class='btn btn-default pull-right' onclick='update_rpms()'>"._("Update System")."</button></div>
+		</div>\n";
 		return $html;
 	}
 }
