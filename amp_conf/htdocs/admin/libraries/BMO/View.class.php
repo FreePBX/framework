@@ -7,6 +7,7 @@
 * Copyright 2006-2014 Schmooze Com Inc.
 */
 namespace FreePBX;
+use Carbon\Carbon;
 class View {
 	private $queryString = "";
 	private $replaceState = false;
@@ -247,12 +248,6 @@ class View {
 	public function getMoment($timestamp=null) {
 		$timestamp = !empty($timestamp) ? $timestamp : time();
 		$m = new \Moment\Moment('@'.$timestamp, $this->getTimezone());
-		try {
-			\Moment\Moment::setLocale($this->setLanguage(false));
-		} catch(\Exception $e) {
-			//invalid locale. Not all locales are supported though
-			\Moment\Moment::setLocale('en_US');
-		}
 		return $m;
 	}
 
@@ -366,6 +361,22 @@ class View {
 		putenv('LANG='.$lang);
 		putenv('LANGUAGE='.$lang);
 		setlocale(LC_ALL, $lang);
+
+		//Set Carbon Locale
+		if(!Carbon::setLocale($lang)) {
+			$ps = explode("_",$lang);
+			if(!Carbon::setLocale($ps[0])) {
+				Carbon::setLocale('en');
+			}
+		}
+
+		//Set Moment Locale
+		try {
+			\Moment\Moment::setLocale($lang);
+		} catch(\Exception $e) {
+			//invalid locale. Not all locales are supported though
+			\Moment\Moment::setLocale('en_US');
+		}
 
 		bindtextdomain('amp',$this->freepbx->Config->get("AMPWEBROOT").'/admin/i18n');
 		bind_textdomain_codeset('amp', 'utf8');
@@ -587,6 +598,17 @@ class View {
 		$input .= '</script>';
 		return $input;
 	}
+
+	/**
+	 * Draw a clock on the page
+	 * @method drawClock
+	 * @param  [type]    $time     [description]
+	 * @param  [type]    $tz       [description]
+	 * @param  [type]    $id       [description]
+	 * @param  [type]    $label    [description]
+	 * @param  [type]    $errormsg [description]
+	 * @return [type]              [description]
+	 */
 	public function drawClock($time = null, $tz = null, $id = null, $label = null, $errormsg = null){
 		$thisid = !empty($id)?$id:'clock'.mt_rand();
 		$label = !empty($label)?$label:_("Server time:");
@@ -609,5 +631,27 @@ class View {
 		$html .= '</script>';
 
 		return $html;
+	}
+
+	/**
+	 * Send this function a timestamp and it will generate:
+	 * 		5 months ago
+	 * @method humanDiff
+	 * @param  string    $timestamp String timestamp
+	 * @return string               The date. Ago or before
+	 */
+	public function humanDiff($timestamp) {
+		return Carbon::createFromTimestamp($timestamp)->diffForHumans();
+	}
+
+	/**
+	 * Send this function a DateTime Object and it will generate:
+	 * 		5 months ago
+	 * @method humanDiff
+	 * @param  object    $ts        DateTime Object
+	 * @return string               The date. Ago.
+	 */
+	public function humanDiffObject(\DateTime $dt) {
+		return Carbon::instance($dt)->diffForHumans();
 	}
 }
