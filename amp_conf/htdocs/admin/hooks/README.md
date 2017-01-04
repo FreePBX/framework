@@ -33,3 +33,4 @@ An example of a system level hook is below, as a base64'd tgz.
 
 Extract that file and then run "touch /usr/local/asterisk/incron/SYSTEM.testsig" which will run the test command as root.
 
+Note that files in this directory are moved to $AMPWEBROOT/admin/modules/framework/hooks explicitly (See BMO::Install)

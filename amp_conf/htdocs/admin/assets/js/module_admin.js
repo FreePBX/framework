@@ -377,6 +377,11 @@ function reload_system_updates_tab() {
 		},
 		complete: function() {
 			$("#refreshpagebutton").attr('disabled', false).text(_("Refresh Page"));
+			// If the systemupdate modal is being displayed, don't refresh, as that
+			// modal is probably refreshing for us.
+			if ($("#updatesmodal:visible").length == 1) {
+				return;
+			}
 			// If we're not complete, AND we're visible, poll for updates in a second.
 			if ($("#refreshpagebutton:visible").length == 1) {
 				if ($("#pendingstatus").data('value') !== "complete") {
@@ -399,4 +404,38 @@ function run_yum_checkonline() {
 			window.setTimeout(reload_system_updates_tab, 500);
 		}
 	});
+}
+
+// This is triggered by an onclick tag generated in Builtin/SystemUpdates::getSystemUpdatesPage()
+// Loads and displays the system updates modal
+function show_sysupdate_modal() {
+	clean_modadmin_modal();
+	$(".modal-title", "#updatesmodal").text(_("Operating System Updates"));
+	$(".modal-body", "#updatesmodal").text(_("Loading, please wait ..."));
+	// Do we have a window.currentupdates that we can stick in there to start with?
+	if (typeof window.currentupdatelog !== undefined) {
+		render_updates_in_modal(window.currentupdatelog);
+	}
+	$("#updatesmodal").modal('show');
+}
+
+
+function render_updates_in_modal(output) {
+	// If we don't have our wrapper div in modal-body, add it
+	if ($("#modal-wrapper").length == 0) {
+		$(".modal-body", "#updatesmodal").html("<div id='modal-wrapper'></div>");
+	}
+	// Loop through output, and if there isn't a n'th element, append it.
+	var wrapper = $("#modal-wrapper");
+	for (var i = 0; i < output.length; i++) {
+		// Avoiding jquery here, let's just use native
+		console.log("#modal-wrapper .outputline:nth-child("+i+")");
+		var e = document.querySelector("#modal-wrapper .outputline:nth-child("+i+")");
+		if (e == null) {
+			// Add this line to modal-wrapper
+			wrapper.append("<tt class='outputline'>"+output[i]+"</tt><br/>");
+		}
+	}
+
+
 }

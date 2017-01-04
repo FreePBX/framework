@@ -96,6 +96,8 @@ class SystemUpdates {
 		}
 
 		$retarr = [
+			"title" => false,
+			"begintimestamp" => 0,
 			"timestamp" => 0,
 			"commands" => [ ],
 		];
@@ -108,6 +110,22 @@ class SystemUpdates {
 
 		// Now find the important parts 
 		foreach ($logfile as $lineno => $line) {
+
+			// Title?
+			if (strpos($line, "TITLE ") === 0) {
+				if (!preg_match('/^TITLE (\d+) (.+)$/', $line, $out)) {
+					continue;
+				}
+				$retarr['begintimestamp'] = $out[1];
+				$retarr['title'] = $out[2];
+				continue;
+			}
+
+			// Finish?
+			if (strpos($line, "FINISH ") === 0) {
+				$retarr['finishtimestamp'] = substr($line, 7);
+				continue;
+			}
 
 			// Was this a timestamp?
 			if (strpos($line, "[") === 0) {
@@ -178,13 +196,20 @@ class SystemUpdates {
 	 * @return array [ 	'lasttimestamp' => int, 'status' => {complete|inprogress|unknown}, 'updatesavail' => bool, 'rpms' => [ ... ] ]
 	 */
 	public function getPendingUpdates() {
-		$updates = $this->parseYumOutput("/dev/shm/yumwrapper/output.log");
+		$updates = $this->parseYumOutput("/dev/shm/yumwrapper/yum-check-updates.log");
 		$retarr = [ 'lasttimestamp' => $updates['timestamp'],
 			'status' => 'unknown',
 			'updatesavail' => false,
 			'pbxupdateavail' => false,
 			'rpms' => []
 		];
+
+		// Do we have a title? If not, it was never run
+		if ($updates['title'] !== 'yum-check-updates') {
+			// Tell the browser to refresh after 5 secs.
+			$retarr['retryafter'] = 5000;
+			return $retarr;
+		}
 
 		// Do we have a start for 'yum-clean-metadata'?
 		if (empty($updates['commands']['yum-clean-metadata'])) {
@@ -308,6 +333,40 @@ class SystemUpdates {
 	}
 
 	/**
+	 * Get the status of yum update
+	 */
+	public function getYumUpdateStatus() {
+		$updates = $this->parseYumOutput("/dev/shm/yumwrapper/yum-update.log");
+		$retarr = [ 
+			'lasttimestamp' => $updates['timestamp'],
+			'status' => 'unknown',
+			'currentlog' => [],
+		];
+
+		// If we have a title, it started.
+		if ($updates['title']) {
+			$retarr['status'] = "inprogress";
+		} else {
+			// Nothing.
+			return $retarr;
+		}
+
+		// We should have some output that can be displayed to the user
+		if (file_exists("/dev/shm/yumwrapper/current.log")) {
+			$retarr['currentlog'] = file("/dev/shm/yumwrapper/current.log", FILE_IGNORE_NEW_LINES);
+		}
+
+		// Has it finished?
+		if (empty($updates['finishtimestamp'])) {
+			// It's not finished, reload the page after 1 sec.
+			$retarr['retryafter'] = 1000;
+		} else {
+			$retarr['status'] = "complete";
+		}
+		return $retarr;
+	}
+
+	/**
 	 * Render what is displayed in the System Updates tab
 	 *
 	 * This is used both in page.modules as well as ajax when it's asking for updates.
@@ -325,29 +384,70 @@ class SystemUpdates {
 		$strarr = [ "complete" => _("Complete"), "unknown" => _("Unknown"), "inprogress" => _("In Progress") ];
 		$html = "<h3>"._("System Update Details")."</h3>";
 		$html .= "<p> Random number: ".md5(mt_rand())."</p>";
+		$yumstatus = $this->getYumUpdateStatus();
 		$pending = $this->getPendingUpdates();
+		// Are we idle, or are we doing something?
+		if ($yumstatus['status'] !== "inprogress" && $pending['status'] !== "inprogress") {
+			$idle = true;
+			$currentstatus = _("Idle");
+		} else {
+			$idle = false;
+			$currentstatus = _("Working");
+		}
 		$html .= "<div class='row'>
-			<div class='col-xs-3'>"._("Last Check Status:")."</div>
-			<div class='col-xs-5' id='pendingstatus' data-value='".$pending['status']."'>".$strarr[$pending['status']]."</div>
-			<div class='col-xs-4'><button id='checkonlinebutton' class='btn btn-default pull-right' onclick='run_yum_checkonline()'>"._("Check Online")."</button></div>
-		</div>\n";
-		$html .= "<div class='row'>
-			<div class='col-xs-3'>"._("Last Online Check:")."</div>
-			<div class='col-xs-5'>".\FreePBX::View()->humanDiff($pending['lasttimestamp'])."</div>
+			<div class='col-xs-3'>"._("Current System Update Status:")."</div>
+			<div class='col-xs-5'>$currentstatus</div>
 			<div class='col-xs-4'><button id='refreshpagebutton' class='btn btn-default pull-right' onclick='reload_system_updates_tab()'>"._("Refresh page")."</button></div>
 		</div>\n";
+		$html .= "<div class='row'>
+			<div class='col-xs-3'>"._("Last Online Check Status:")."</div>
+			<div class='col-xs-5' id='pendingstatus' data-value='".$pending['status']."'>".$strarr[$pending['status']]." (".\FreePBX::View()->humanDiff($pending['lasttimestamp']).")</div>
+		</div>\n";
+		$html .= "<div class='row'>
+			<div class='col-xs-3'>"._("Last System Update:")."</div>";
+		// If lasttimestamp isn't false, we should have updates for the user to watch.
+		if ($yumstatus['lasttimestamp']) {
+			$html .= "<div class='col-xs-5'><a class='clickable' onclick='show_sysupdate_modal()'>".$strarr[$yumstatus['status']]." (".\FreePBX::View()->humanDiff($yumstatus['lasttimestamp']).")</a></div>";
+		} else {
+			$html .= "<div class='col-xs-5'>"._("Unknown (System updates not run since last reboot)")."</div>";
+		}
 
-		// If it's not complete, don't bother with anything else.
-		if ($pending['status'] !== "complete") {
+		$html .= "</div>\n";
+
+		// If we have a yum update log, make it available
+		if ($yumstatus['currentlog']) {
+			$html .= "<script>window.currentupdatelog = ".json_encode($yumstatus['currentlog'])."</script>\n";
+		}
+
+		// If we're not idle, don't bother with anything else.
+		if (!$idle) {
 			return $html;
 		}
+
 		$rpmcount = count($pending['rpms']);
+		if ($rpmcount == 0) {
+			$rpmtext = _("No updates currently required!");
+		} else {
+			if ($rpmcount == 1) {
+				$rpmtext = _("1 RPM available for upgrade");
+			} else {
+				$rpmtext = sprintf(_("%s RPMs available for upgrade"), $rpmcount);
+			}
+		}
 		$html .= "<div class='row'>
 			<div class='col-xs-3'>"._("Updates Available:")."</div>
-			<div class='col-xs-5'>$rpmcount</div>
+			<div class='col-xs-5'>$rpmtext</div>
 		</div>";
 
 		if ($rpmcount == 0) {
+			// Add the 'Check Online' button.
+			$html .= "<div class='row'>
+				<div class='col-xs-12'>
+					<span class='pull-right'>
+						<button id='checkonlinebutton' class='btn btn-default pull-right' onclick='run_yum_checkonline()'>"._("Check Online")."</button>
+					</span>
+				</div>
+			</div>\n";
 			return $html;
 		}
 
@@ -368,7 +468,12 @@ class SystemUpdates {
 		}
 		$html .= "</table>";
 		$html .= "<div class='row'>
-			<div class='col-xs-12'><button id='updatesystembutton' class='btn btn-default pull-right' onclick='update_rpms()'>"._("Update System")."</button></div>
+			<div class='col-xs-12'>
+				<span class='pull-right'>
+					<button id='updatesystembutton' class='btn btn-default pull-right' onclick='update_rpms()'>"._("Update System")."</button>
+					<button id='checkonlinebutton' class='btn btn-default pull-right' onclick='run_yum_checkonline()'>"._("Check Online")."</button>
+				</span>
+			</div>
 		</div>\n";
 		return $html;
 	}
