@@ -13,6 +13,8 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/povils/figlet/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/povils/figlet/?branch=master)
 [![Total Downloads](https://poser.pugx.org/povils/figlet/downloads)](https://packagist.org/packages/povils/figlet)
 [![License](https://poser.pugx.org/povils/figlet/license)](https://packagist.org/packages/povils/figlet)
+[![Build Status](https://travis-ci.org/povils/figlet.svg?branch=master)](https://travis-ci.org/povils/figlet)
+[![Coverage Status](https://coveralls.io/repos/github/povils/figlet/badge.svg?branch=master)](https://coveralls.io/github/povils/figlet?branch=master)
 
 ## Installation
 
@@ -53,6 +55,19 @@ $figlet
 //Returns rendered string.
 $renderedFiglet = $figlet->render('Another Figlet')
 
-- setFontDir(__DIR_ . '/fonts') //changes default font directory
+- setFontDir(__DIR_ . '/fonts') // Change default font directory
 - setFontStretching(3) // Add spaces between letters
+```
+
+#### Also there is figlet command line. Usage is quite straightforward.
+```bash
+    ./figlet 'some figlet text' --font block --color yellow
+```
+
+##### To make figlet executable from everywhere
+ - (Linux and OSX) Symlink figlet script file to one of the $PATH (e.g /usr/local/bin/figlet)
+
+##### For more options:
+```bash
+    figlet -h
 ```

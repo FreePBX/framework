@@ -67,9 +67,6 @@ class Figlet implements FigletInterface
      */
     private $characters = [];
 
-    /**
-     * Figlet constructor.
-     */
     public function __construct()
     {
         $this->fontDir = __DIR__ . DIRECTORY_SEPARATOR . 'fonts' . DIRECTORY_SEPARATOR;
@@ -158,8 +155,7 @@ class Figlet implements FigletInterface
      */
     public function clear()
     {
-        unset($this->characters);
-        unset($this->font);
+        unset($this->characters, $this->font);
     }
 
     /**
@@ -234,8 +230,6 @@ class Figlet implements FigletInterface
     }
 
     /**
-     * Combines Figlet characters to one.
-     *
      * @param array $figletCharacters
      *
      * @return string
@@ -310,9 +304,7 @@ class Figlet implements FigletInterface
      */
     private function removeNewlines($singleLine)
     {
-        $singleLine = preg_replace('/[\\r\\n]*/', '', $singleLine);
-
-        return $singleLine;
+       return preg_replace('/[\\r\\n]*/', '', $singleLine);
     }
 
     /**
@@ -322,7 +314,7 @@ class Figlet implements FigletInterface
      */
     private function addStretching()
     {
-        if (is_int($this->stretching) && 0 < $this->stretching) {
+        if (is_numeric($this->stretching) && 0 < $this->stretching) {
             $stretchingSpace = ' ';
         } else {
             $stretchingSpace = '';

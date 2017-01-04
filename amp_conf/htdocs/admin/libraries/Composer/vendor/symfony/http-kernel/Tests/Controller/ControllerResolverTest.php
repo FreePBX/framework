@@ -13,6 +13,7 @@ namespace Symfony\Component\HttpKernel\Tests\Controller;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\Controller\ControllerResolver;
+use Symfony\Component\HttpKernel\Tests\Fixtures\Controller\NullableController;
 use Symfony\Component\HttpKernel\Tests\Fixtures\Controller\VariadicController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -224,6 +225,50 @@ class ControllerResolverTest extends \PHPUnit_Framework_TestCase
         $request = Request::create('/');
         $request->attributes->set('_controller', 'foobar');
         $mock->getController($request);
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @group legacy
+     */
+    public function testIfExceptionIsThrownWhenMissingAnArgument()
+    {
+        $resolver = new ControllerResolver();
+        $request = Request::create('/');
+
+        $controller = array($this, 'controllerMethod1');
+
+        $resolver->getArguments($request, $controller);
+    }
+
+    /**
+     * @requires PHP 7.1
+     * @group legacy
+     */
+    public function testGetNullableArguments()
+    {
+        $resolver = new ControllerResolver();
+
+        $request = Request::create('/');
+        $request->attributes->set('foo', 'foo');
+        $request->attributes->set('bar', new \stdClass());
+        $request->attributes->set('mandatory', 'mandatory');
+        $controller = array(new NullableController(), 'action');
+        $this->assertEquals(array('foo', new \stdClass(), 'value', 'mandatory'), $resolver->getArguments($request, $controller));
+    }
+
+    /**
+     * @requires PHP 7.1
+     * @group legacy
+     */
+    public function testGetNullableArgumentsWithDefaults()
+    {
+        $resolver = new ControllerResolver();
+
+        $request = Request::create('/');
+        $request->attributes->set('mandatory', 'mandatory');
+        $controller = array(new NullableController(), 'action');
+        $this->assertEquals(array(null, null, 'value', 'mandatory'), $resolver->getArguments($request, $controller));
     }
 
     protected function createControllerResolver(LoggerInterface $logger = null)

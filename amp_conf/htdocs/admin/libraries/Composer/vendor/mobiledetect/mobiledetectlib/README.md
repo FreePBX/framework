@@ -180,7 +180,7 @@ Special thanks to the community :+1: for donations, [BrowserStack](https://www.b
   <td>
   <p><a href="https://github.com/iamsalnikov/MobileDetect">Yii Extension</a> - Mobile detect plugin for Yii framework.
   Made by <a href="https://github.com/iamsalnikov">Alexey Salnikov</a>.</p>
-
+  <p><a href="https://github.com/candasm/yii1-mobile-detect-component">Yii Extension</a> - Mobile detect component for Yii framework 1.x version which supports composer package manager. Made by <a href="https://github.com/candasm">Candas Minareci</a>.</p>
   <p><a href="https://github.com/alexandernst/yii2-device-detect/">Yii2 Device Detect</a> - Yii2 extension for Mobile-Detect library. Made by <a href="https://github.com/alexandernst">Alexander Nestorov</a></p>
 
   </td>
@@ -273,6 +273,11 @@ Based on browscap, Mobile_Detect and ua-parser. Created for high traffic website
 <tr>
   <td>Craft CMS</td>
   <td><p><a href="https://github.com/lewisjenkins/craft-lj-mobiledetect">LJ Mobile Detect</a> is a simple implementation of Mobile Detect for Craft CMS. Made by <a href="https://github.com/lewisjenkins">Lewis Jenkins</a></p></td>
+</tr>
+
+<tr>
+  <td>Grav CMS</td>
+  <td><p><a href="https://github.com/dimitrilongo/grav-plugin-mobile-detect/">Grav Plugin Mobile Detect</a> is a simple implementation of Mobile Detect for Grav CMS. Made by <a href="https://github.com/dimitrilongo">Dimitri Longo</a></p></td>
 </tr>
 
 </table>

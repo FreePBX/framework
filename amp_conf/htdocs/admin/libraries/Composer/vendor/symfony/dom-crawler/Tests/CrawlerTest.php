@@ -238,7 +238,13 @@ EOF
         $crawler = new Crawler();
         $crawler->addContent('<html><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /><span>中文</span></html>');
         $this->assertEquals('中文', $crawler->filterXPath('//span')->text(), '->addContent() guess wrong charset');
+    }
 
+    /**
+     * @requires extension iconv
+     */
+    public function testAddContentNonUtf8()
+    {
         $crawler = new Crawler();
         $crawler->addContent(iconv('UTF-8', 'SJIS', '<html><head><meta charset="Shift_JIS"></head><body>日本語</body></html>'));
         $this->assertEquals('日本語', $crawler->filterXPath('//body')->text(), '->addContent() can recognize "Shift_JIS" in html5 meta charset tag');
@@ -430,6 +436,7 @@ EOF
         $this->assertCount(5, $crawler->filterXPath('(//a | //div)//img'));
         $this->assertCount(7, $crawler->filterXPath('((//a | //div)//img | //ul)'));
         $this->assertCount(7, $crawler->filterXPath('( ( //a | //div )//img | //ul )'));
+        $this->assertCount(1, $crawler->filterXPath("//a[./@href][((./@id = 'Klausi|Claudiu' or normalize-space(string(.)) = 'Klausi|Claudiu' or ./@title = 'Klausi|Claudiu' or ./@rel = 'Klausi|Claudiu') or .//img[./@alt = 'Klausi|Claudiu'])]"));
     }
 
     public function testFilterXPath()
@@ -596,7 +603,7 @@ EOF
 
         $this->assertCount(0, $crawler->filterXPath('self::a'), 'The fake root node has no "real" element name');
         $this->assertCount(0, $crawler->filterXPath('self::a/img'), 'The fake root node has no "real" element name');
-        $this->assertCount(9, $crawler->filterXPath('self::*/a'));
+        $this->assertCount(10, $crawler->filterXPath('self::*/a'));
     }
 
     public function testFilter()
@@ -1061,6 +1068,51 @@ HTML;
         $this->assertCount(1, $crawler->filter('li:contains("List item 1")'));
     }
 
+    public function testEvaluateReturnsTypedResultOfXPathExpressionOnADocumentSubset()
+    {
+        $crawler = $this->createTestCrawler();
+
+        $result = $crawler->filterXPath('//form/input')->evaluate('substring-before(@name, "Name")');
+
+        $this->assertSame(array('Text', 'Foo', 'Bar'), $result);
+    }
+
+    public function testEvaluateReturnsTypedResultOfNamespacedXPathExpressionOnADocumentSubset()
+    {
+        $crawler = $this->createTestXmlCrawler();
+
+        $result = $crawler->filterXPath('//yt:accessControl/@action')->evaluate('string(.)');
+
+        $this->assertSame(array('comment', 'videoRespond'), $result);
+    }
+
+    public function testEvaluateReturnsTypedResultOfNamespacedXPathExpression()
+    {
+        $crawler = $this->createTestXmlCrawler();
+        $crawler->registerNamespace('youtube', 'http://gdata.youtube.com/schemas/2007');
+
+        $result = $crawler->evaluate('string(//youtube:accessControl/@action)');
+
+        $this->assertSame(array('comment'), $result);
+    }
+
+    public function testEvaluateReturnsACrawlerIfXPathExpressionEvaluatesToANode()
+    {
+        $crawler = $this->createTestCrawler()->evaluate('//form/input[1]');
+
+        $this->assertInstanceOf(Crawler::class, $crawler);
+        $this->assertCount(1, $crawler);
+        $this->assertSame('input', $crawler->first()->nodeName());
+    }
+
+    /**
+     * @expectedException \LogicException
+     */
+    public function testEvaluateThrowsAnExceptionIfDocumentIsEmpty()
+    {
+        (new Crawler())->evaluate('//form/input[1]');
+    }
+
     public function createTestCrawler($uri = null)
     {
         $dom = new \DOMDocument();
@@ -1078,6 +1130,8 @@ HTML;
                     <a href="/bar"><img alt="\' Fabien&quot;s Bar"/></a>
 
                     <a href="?get=param">GetLink</a>
+
+                    <a href="/example">Klausi|Claudiu</a>
 
                     <form action="foo" id="FooFormId">
                         <input type="text" value="TextValue" name="TextName" />

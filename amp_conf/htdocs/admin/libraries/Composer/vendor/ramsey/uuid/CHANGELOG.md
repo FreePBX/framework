@@ -1,5 +1,18 @@
 # ramsey/uuid Changelog
 
+## 3.5.2
+
+_Released: 2016-11-22_
+
+  * Improved test coverage.
+
+## 3.5.1
+
+_Released: 2016-10-02_
+
+  * Fixed issue where same UUIDs were not treated as equal with mixed case ([#131](https://github.com/ramsey/uuid/issues/131), [#137](https://github.com/ramsey/uuid/pull/137)).
+  * Test cleanup.
+
 ## 3.5.0
 
 _Released: 2016-08-02_

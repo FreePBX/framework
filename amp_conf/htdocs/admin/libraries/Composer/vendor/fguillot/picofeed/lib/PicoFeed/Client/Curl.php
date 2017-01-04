@@ -11,6 +11,8 @@ use PicoFeed\Logging\Logger;
  */
 class Curl extends Client
 {
+    protected $nbRedirects = 0;
+
     /**
      * HTTP response body.
      *
@@ -136,6 +138,7 @@ class Curl extends Client
 
         if ($this->etag) {
             $headers[] = 'If-None-Match: '.$this->etag;
+            $headers[] = 'A-IM: feed';
         }
 
         if ($this->last_modified) {
@@ -199,6 +202,9 @@ class Curl extends Client
      */
     private function prepareDownloadMode($ch)
     {
+        $this->body = '';
+        $this->response_headers = array();
+        $this->response_headers_count = 0;
         $write_function = 'readBody';
         $header_function = 'readHeaders';
 
@@ -304,12 +310,11 @@ class Curl extends Client
      * Handle HTTP redirects
      *
      * @param string $location Redirected URL
-     *
      * @return array
+     * @throws MaxRedirectException
      */
     private function handleRedirection($location)
     {
-        $nb_redirects = 0;
         $result = array();
         $this->url = Url::resolve($location, $this->url);
         $this->body = '';
@@ -318,9 +323,9 @@ class Curl extends Client
         $this->response_headers_count = 0;
 
         while (true) {
-            ++$nb_redirects;
+            $this->nbRedirects++;
 
-            if ($nb_redirects >= $this->max_redirects) {
+            if ($this->nbRedirects >= $this->max_redirects) {
                 throw new MaxRedirectException('Maximum number of redirections reached');
             }
 

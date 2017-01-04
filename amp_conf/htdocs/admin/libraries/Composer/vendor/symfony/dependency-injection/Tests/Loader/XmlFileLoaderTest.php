@@ -11,10 +11,8 @@
 
 namespace Symfony\Component\DependencyInjection\Tests\Loader;
 
-use Symfony\Bridge\PhpUnit\ErrorAssert;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
@@ -133,8 +131,8 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $container = new ContainerBuilder();
         $resolver = new LoaderResolver(array(
-            new IniFileLoader($container, new FileLocator(self::$fixturesPath.'/xml')),
-            new YamlFileLoader($container, new FileLocator(self::$fixturesPath.'/xml')),
+            new IniFileLoader($container, new FileLocator(self::$fixturesPath.'/ini')),
+            new YamlFileLoader($container, new FileLocator(self::$fixturesPath.'/yml')),
             $loader = new XmlFileLoader($container, new FileLocator(self::$fixturesPath.'/xml')),
         ));
         $loader->setResolver($resolver);
@@ -166,6 +164,7 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(array_keys($expected), array_keys($actual), '->load() imports and merges imported files');
+        $this->assertTrue($actual['imported_from_ini']);
 
         // Bad import throws no exception due to ignore_errors value.
         $loader->load('services4_bad_import.xml');
@@ -559,23 +558,26 @@ class XmlFileLoaderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @group legacy
-     * @requires function Symfony\Bridge\PhpUnit\ErrorAssert::assertDeprecationsAreTriggered
+     * @expectedDeprecation Using the attribute "class" is deprecated for the service "bar" which is defined as an alias %s.
+     * @expectedDeprecation Using the element "tag" is deprecated for the service "bar" which is defined as an alias %s.
+     * @expectedDeprecation Using the element "factory" is deprecated for the service "bar" which is defined as an alias %s.
      */
     public function testAliasDefinitionContainsUnsupportedElements()
     {
-        $deprecations = array(
-            'Using the attribute "class" is deprecated for alias definition "bar"',
-            'Using the element "tag" is deprecated for alias definition "bar"',
-            'Using the element "factory" is deprecated for alias definition "bar"',
-        );
+        $container = new ContainerBuilder();
+        $loader = new XmlFileLoader($container, new FileLocator(self::$fixturesPath.'/xml'));
 
-        ErrorAssert::assertDeprecationsAreTriggered($deprecations, function () {
-            $container = new ContainerBuilder();
-            $loader = new XmlFileLoader($container, new FileLocator(self::$fixturesPath.'/xml'));
+        $loader->load('legacy_invalid_alias_definition.xml');
 
-            $loader->load('legacy_invalid_alias_definition.xml');
+        $this->assertTrue($container->has('bar'));
+    }
 
-            $this->assertTrue($container->has('bar'));
-        });
+    public function testArgumentWithKeyOutsideCollection()
+    {
+        $container = new ContainerBuilder();
+        $loader = new XmlFileLoader($container, new FileLocator(self::$fixturesPath.'/xml'));
+        $loader->load('with_key_outside_collection.xml');
+
+        $this->assertSame(array('type' => 'foo', 'bar'), $container->getDefinition('foo')->getArguments());
     }
 }

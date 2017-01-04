@@ -107,15 +107,20 @@ __Supported languages so far:__
 ```en_US``` English (American)  
 ```fr_FR``` French (Europe)  
 ```de_DE``` German (Germany)  
+```hu_HU``` Hungarian    
 ```in_ID``` Indonesian  
 ```it_IT``` Italian  
 ```ja_JP``` Japanese  
+```oc_LNC``` Lengadocian    
+```pl_PL``` Polish  
 ```pl_PL``` Polish  
 ```pt_BR``` Portuguese (Brazil)  
 ```ru_RU``` Russian (Basic version)  
 ```es_ES``` Spanish (Europe)  
 ```se_SV``` Swedish  
+```uk_UA``` Ukrainian  
 ```th_TH``` Thai  
+```vi_VN``` Vietnamese  
 
 -------------------------------------------------
 
@@ -125,6 +130,16 @@ __Supported languages so far:__
 $m = new \Moment\Moment('2012-04-25T03:00:00', 'CET');
 echo $m->setTimezone('UTC')->format(); // 2012-04-25T01:00:00+0000
 ```
+
+#### Change default timezone
+
+```php
+\Moment\Moment::setDefaultTimezone('CET');
+
+$m = new \Moment\Moment('2016-09-13T14:32:06');
+echo $m->format(); // 2016-09-13T14:32:06+0100
+```
+
 
 -------------------------------------------------
 
@@ -152,6 +167,8 @@ $m = new \Moment\Moment('2012-04-25T03:00:00', 'CET');
 // format with moment.js definitions
 echo $m->format('LLLL', new \Moment\CustomFormats\MomentJs()); // Wednesday, April 25th 2012 3:00 AM
 ```
+
+`Custom formats` can also come as part of every `Locale`. If it does not exist for your locale yet go ahead and add it. See an example for the [French locale](https://github.com/fightbulc/moment.php/blob/master/src/Locales/fr_FR.php). 
 
 #### III. Easy text escaping
 
@@ -392,6 +409,29 @@ You can now run through the result and put it formatted into a drop-down field o
 
 # Changelog
 
+### 1.25
+ - added:
+    - Ukrainian locale  
+
+### 1.24
+ - added:
+    - Hungarian locale  
+
+### 1.23.1
+ - fixed:
+    - Lengadocian locale  
+
+### 1.23.0
+ - added:
+    - Vietnamese locale
+    - Lengadocian locale  
+
+### 1.22.0
+ - added:
+    - Change default timezone
+- fixed:
+    - FormatsInterface docs
+    
 ### 1.21.0
  - added:
     - Arabic locale

@@ -34,6 +34,7 @@ class Command
     private $processTitle;
     private $aliases = array();
     private $definition;
+    private $hidden = false;
     private $help;
     private $description;
     private $ignoreValidationErrors = false;
@@ -201,8 +202,6 @@ class Command
      * @param OutputInterface $output An OutputInterface instance
      *
      * @return int The command exit code
-     *
-     * @throws \Exception
      *
      * @see setCode()
      * @see execute()
@@ -447,6 +446,26 @@ class Command
     }
 
     /**
+     * @param bool $hidden Whether or not the command should be hidden from the list of commands
+     *
+     * @return Command The current instance
+     */
+    public function setHidden($hidden)
+    {
+        $this->hidden = (bool) $hidden;
+
+        return $this;
+    }
+
+    /**
+     * @return bool Whether the command should be publicly shown or not.
+     */
+    public function isHidden()
+    {
+        return $this->hidden;
+    }
+
+    /**
      * Sets the description for the command.
      *
      * @param string $description The description for the command
@@ -572,6 +591,8 @@ class Command
      * Add a command usage example.
      *
      * @param string $usage The usage, it'll be prefixed with the command name
+     *
+     * @return Command The current instance
      */
     public function addUsage($usage)
     {

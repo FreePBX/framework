@@ -81,7 +81,7 @@ class GraphvizDumper extends Dumper
             }
         }
 
-        return $this->startDot().$this->addNodes().$this->addEdges().$this->endDot();
+        return $this->container->resolveEnvPlaceholders($this->startDot().$this->addNodes().$this->addEdges().$this->endDot(), '__ENV_%s__');
     }
 
     /**
@@ -128,7 +128,7 @@ class GraphvizDumper extends Dumper
      *
      * @return array An array of edges
      */
-    private function findEdges($id, $arguments, $required, $name)
+    private function findEdges($id, array $arguments, $required, $name)
     {
         $edges = array();
         foreach ($arguments as $argument) {
@@ -180,14 +180,12 @@ class GraphvizDumper extends Dumper
         }
 
         foreach ($container->getServiceIds() as $id) {
-            $service = $container->get($id);
-
             if (array_key_exists($id, $container->getAliases())) {
                 continue;
             }
 
             if (!$container->hasDefinition($id)) {
-                $class = ('service_container' === $id) ? get_class($this->container) : get_class($service);
+                $class = get_class('service_container' === $id ? $this->container : $container->get($id));
                 $nodes[$id] = array('class' => str_replace('\\', '\\\\', $class), 'attributes' => $this->options['node.instance']);
             }
         }
@@ -241,7 +239,7 @@ class GraphvizDumper extends Dumper
      *
      * @return string A comma separated list of attributes
      */
-    private function addAttributes($attributes)
+    private function addAttributes(array $attributes)
     {
         $code = array();
         foreach ($attributes as $k => $v) {
@@ -258,7 +256,7 @@ class GraphvizDumper extends Dumper
      *
      * @return string A space separated list of options
      */
-    private function addOptions($options)
+    private function addOptions(array $options)
     {
         $code = array();
         foreach ($options as $k => $v) {

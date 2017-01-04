@@ -42,9 +42,7 @@ class FontManager
     public function loadFont($fontName, $fontDirectory)
     {
         if ($this->needLoad($fontName)) {
-            $font = $this->createFont($fontName, $fontDirectory);
-
-            return $font;
+           return $this->createFont($fontName, $fontDirectory);
         }
 
         return $this->currentFont();

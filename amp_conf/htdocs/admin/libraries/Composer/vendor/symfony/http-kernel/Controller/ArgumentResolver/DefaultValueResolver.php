@@ -27,7 +27,7 @@ final class DefaultValueResolver implements ArgumentValueResolverInterface
      */
     public function supports(Request $request, ArgumentMetadata $argument)
     {
-        return $argument->hasDefaultValue();
+        return $argument->hasDefaultValue() || (null !== $argument->getType() && $argument->isNullable() && !$argument->isVariadic());
     }
 
     /**
@@ -35,6 +35,6 @@ final class DefaultValueResolver implements ArgumentValueResolverInterface
      */
     public function resolve(Request $request, ArgumentMetadata $argument)
     {
-        yield $argument->getDefaultValue();
+        yield $argument->hasDefaultValue() ? $argument->getDefaultValue() : null;
     }
 }

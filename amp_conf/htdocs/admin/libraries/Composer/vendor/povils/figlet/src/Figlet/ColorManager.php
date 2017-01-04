@@ -52,8 +52,6 @@ class ColorManager
     ];
 
     /**
-     * Colorize Figlet text.
-     *
      * @param string      $text
      * @param string|null $fontColor
      * @param string|null $backgroundColor
@@ -79,8 +77,6 @@ class ColorManager
     }
 
     /**
-     * Colorize font color.
-     *
      * @param string $fontColor
      * @param string $coloredText
      *
@@ -90,9 +86,7 @@ class ColorManager
     private function colorizeFont($fontColor, $coloredText)
     {
         if (isset($this->fontColors[$fontColor])) {
-            $coloredText = $this->addColorCode($coloredText, $this->fontColors[$fontColor]);
-
-            return $coloredText;
+           return $this->addColorCode($coloredText, $this->fontColors[$fontColor]);
         } else {
             throw new \InvalidArgumentException(
                 'Font color "' . $fontColor . '" doesn\'t exist' . PHP_EOL .
@@ -102,8 +96,6 @@ class ColorManager
     }
 
     /**
-     * Colorize background color.
-     *
      * @param string $backgroundColor
      * @param string $coloredText
      *
@@ -113,9 +105,7 @@ class ColorManager
     private function colorizeBackground($backgroundColor, $coloredText)
     {
         if (isset($this->backgroundColors[$backgroundColor])) {
-            $coloredText = $this->addColorCode($coloredText, $this->backgroundColors[$backgroundColor]);
-
-            return $coloredText;
+           return $this->addColorCode($coloredText, $this->backgroundColors[$backgroundColor]);
         } else {
             throw new \InvalidArgumentException(
                 'Background color "' . $backgroundColor . '" doesn\'t exist ' . PHP_EOL .

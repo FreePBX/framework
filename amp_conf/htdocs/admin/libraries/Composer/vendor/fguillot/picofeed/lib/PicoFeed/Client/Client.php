@@ -2,6 +2,7 @@
 
 namespace PicoFeed\Client;
 
+use DateTime;
 use LogicException;
 use PicoFeed\Logging\Logger;
 use PicoFeed\Config\Config;
@@ -54,6 +55,13 @@ abstract class Client
      * @var string
      */
     protected $last_modified = '';
+
+    /**
+     * Expiration DateTime
+     *
+     * @var DateTime
+     */
+    protected $expiration = null;
 
     /**
      * Proxy hostname.
@@ -214,6 +222,9 @@ abstract class Client
         $this->handleErrorResponse($response);
         $this->handleNormalResponse($response);
 
+        $this->expiration = $this->parseExpiration($response['headers']);
+        Logger::setMessage(get_called_class().' Expiration: '.$this->expiration->format(DATE_ISO8601));
+
         return $this;
     }
 
@@ -241,6 +252,9 @@ abstract class Client
      * Handle Http Error codes
      *
      * @param array $response Client response
+     * @throws ForbiddenException
+     * @throws InvalidUrlException
+     * @throws UnauthorizedException
      */
     protected function handleErrorResponse(array $response)
     {
@@ -402,13 +416,12 @@ abstract class Client
     /**
      * Set the url.
      *
+     * @param  $url
      * @return string
-     * @return \PicoFeed\Client\Client
      */
     public function setUrl($url)
     {
         $this->url = $url;
-
         return $this;
     }
 
@@ -669,5 +682,32 @@ abstract class Client
     public function isRedirection($code)
     {
         return $code == 301 || $code == 302 || $code == 303 || $code == 307;
+    }
+
+    public function parseExpiration(HttpHeaders $headers)
+    {
+        if (isset($headers['Cache-Control'])) {
+            if (preg_match('/s-maxage=(\d+)/', $headers['Cache-Control'], $matches)) {
+                return new DateTime('+' . $matches[1] . ' seconds');
+            } else if (preg_match('/max-age=(\d+)/', $headers['Cache-Control'], $matches)) {
+                return new DateTime('+' . $matches[1] . ' seconds');
+            }
+        }
+
+        if (! empty($headers['Expires'])) {
+            return new DateTime($headers['Expires']);
+        }
+
+        return new DateTime();
+    }
+
+    /**
+     * Get expiration date time from "Expires" or "Cache-Control" headers
+     *
+     * @return DateTime
+     */
+    public function getExpiration()
+    {
+        return $this->expiration ?: new DateTime();
     }
 }

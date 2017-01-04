@@ -45,21 +45,15 @@ class AutowirePass implements CompilerPassInterface
                     $this->completeDefinition($id, $definition);
                 }
             }
-        } catch (\Exception $e) {
-        } catch (\Throwable $e) {
-        }
+        } finally {
+            spl_autoload_unregister($throwingAutoloader);
 
-        spl_autoload_unregister($throwingAutoloader);
-
-        // Free memory and remove circular reference to container
-        $this->container = null;
-        $this->reflectionClasses = array();
-        $this->definedTypes = array();
-        $this->types = null;
-        $this->ambiguousServiceTypes = array();
-
-        if (isset($e)) {
-            throw $e;
+            // Free memory and remove circular reference to container
+            $this->container = null;
+            $this->reflectionClasses = array();
+            $this->definedTypes = array();
+            $this->types = null;
+            $this->ambiguousServiceTypes = array();
         }
     }
 
@@ -78,15 +72,8 @@ class AutowirePass implements CompilerPassInterface
             $metadata['__construct'] = self::getResourceMetadataForMethod($constructor);
         }
 
-        // todo - when #17608 is merged, could refactor to private function to remove duplication
-        // of determining valid "setter" methods
-        foreach ($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $reflectionMethod) {
-            $name = $reflectionMethod->getName();
-            if ($reflectionMethod->isStatic() || 1 !== $reflectionMethod->getNumberOfParameters() || 0 !== strpos($name, 'set')) {
-                continue;
-            }
-
-            $metadata[$name] = self::getResourceMetadataForMethod($reflectionMethod);
+        foreach (self::getSetters($reflectionClass) as $reflectionMethod) {
+            $metadata[$reflectionMethod->name] = self::getResourceMetadataForMethod($reflectionMethod);
         }
 
         return new AutowireServiceResource($reflectionClass->name, $reflectionClass->getFileName(), $metadata);
@@ -331,6 +318,20 @@ class AutowirePass implements CompilerPassInterface
             );
         }
         $this->ambiguousServiceTypes[$type][] = $id;
+    }
+
+    /**
+     * @param \ReflectionClass $reflectionClass
+     *
+     * @return \ReflectionMethod[]
+     */
+    private static function getSetters(\ReflectionClass $reflectionClass)
+    {
+        foreach ($reflectionClass->getMethods(\ReflectionMethod::IS_PUBLIC) as $reflectionMethod) {
+            if (!$reflectionMethod->isStatic() && 1 === $reflectionMethod->getNumberOfParameters() && 0 === strpos($reflectionMethod->name, 'set')) {
+                yield $reflectionMethod;
+            }
+        }
     }
 
     private static function getResourceMetadataForMethod(\ReflectionMethod $method)

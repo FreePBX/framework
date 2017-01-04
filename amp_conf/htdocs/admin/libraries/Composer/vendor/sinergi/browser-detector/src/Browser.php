@@ -25,7 +25,9 @@ class Browser
     const MOZILLA = 'Mozilla';
     const AMAYA = 'Amaya';
     const LYNX = 'Lynx';
+    const WKHTMLTOPDF = 'wkhtmltopdf';
     const SAFARI = 'Safari';
+    const SAMSUNG_BROWSER = 'SamsungBrowser';
     const CHROME = 'Chrome';
     const NAVIGATOR = 'Navigator';
     const GOOGLEBOT = 'GoogleBot';

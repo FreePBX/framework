@@ -19,6 +19,30 @@ namespace Symfony\Component\HttpKernel\ControllerMetadata;
 final class ArgumentMetadataFactory implements ArgumentMetadataFactoryInterface
 {
     /**
+     * If the ...$arg functionality is available.
+     *
+     * Requires at least PHP 5.6.0 or HHVM 3.9.1
+     *
+     * @var bool
+     */
+    private $supportsVariadic;
+
+    /**
+     * If the reflection supports the getType() method to resolve types.
+     *
+     * Requires at least PHP 7.0.0 or HHVM 3.11.0
+     *
+     * @var bool
+     */
+    private $supportsParameterType;
+
+    public function __construct()
+    {
+        $this->supportsVariadic = method_exists('ReflectionParameter', 'isVariadic');
+        $this->supportsParameterType = method_exists('ReflectionParameter', 'getType');
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function createArgumentMetadata($controller)
@@ -34,7 +58,7 @@ final class ArgumentMetadataFactory implements ArgumentMetadataFactoryInterface
         }
 
         foreach ($reflection->getParameters() as $param) {
-            $arguments[] = new ArgumentMetadata($param->getName(), $this->getType($param), $this->isVariadic($param), $this->hasDefaultValue($param), $this->getDefaultValue($param));
+            $arguments[] = new ArgumentMetadata($param->getName(), $this->getType($param), $this->isVariadic($param), $this->hasDefaultValue($param), $this->getDefaultValue($param), $param->allowsNull());
         }
 
         return $arguments;
@@ -49,7 +73,7 @@ final class ArgumentMetadataFactory implements ArgumentMetadataFactoryInterface
      */
     private function isVariadic(\ReflectionParameter $parameter)
     {
-        return PHP_VERSION_ID >= 50600 && $parameter->isVariadic();
+        return $this->supportsVariadic && $parameter->isVariadic();
     }
 
     /**
@@ -85,25 +109,21 @@ final class ArgumentMetadataFactory implements ArgumentMetadataFactoryInterface
      */
     private function getType(\ReflectionParameter $parameter)
     {
-        if (PHP_VERSION_ID >= 70000) {
-            return $parameter->hasType() ? (string) $parameter->getType() : null;
+        if ($this->supportsParameterType) {
+            if (!$type = $parameter->getType()) {
+                return;
+            }
+            $typeName = $type instanceof \ReflectionNamedType ? $type->getName() : $type->__toString();
+            if ('array' === $typeName && !$type->isBuiltin()) {
+                // Special case for HHVM with variadics
+                return;
+            }
+
+            return $typeName;
         }
 
-        if ($parameter->isArray()) {
-            return 'array';
+        if (preg_match('/^(?:[^ ]++ ){4}([a-zA-Z_\x7F-\xFF][^ ]++)/', $parameter, $info)) {
+            return $info[1];
         }
-
-        if ($parameter->isCallable()) {
-            return 'callable';
-        }
-
-        try {
-            $refClass = $parameter->getClass();
-        } catch (\ReflectionException $e) {
-            // mandatory; extract it from the exception message
-            return str_replace(array('Class ', ' does not exist'), '', $e->getMessage());
-        }
-
-        return $refClass ? $refClass->getName() : null;
     }
 }

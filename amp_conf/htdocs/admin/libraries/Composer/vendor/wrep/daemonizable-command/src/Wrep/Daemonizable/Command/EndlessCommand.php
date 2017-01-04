@@ -28,7 +28,7 @@ abstract class EndlessCommand extends Command
 	{
 		// Construct our context
 		$this->shutdownRequested = false;
-		$this->setTimeout(self::DEFAULT_TIMEOUT);
+		$this->setTimeout(static::DEFAULT_TIMEOUT);
 		$this->setReturnCode(0);
 
 		$this->lastUsage = 0;
@@ -68,9 +68,9 @@ abstract class EndlessCommand extends Command
 	}
 
 	/**
-	 * Handle proces signals.
+	 * Handle process signals.
 	 *
-	 * @param int The signalcode to handle
+	 * @param int $signal The signal code to handle
 	 */
 	public function handleSignal($signal)
 	{
@@ -250,7 +250,7 @@ abstract class EndlessCommand extends Command
 	/**
 	 * Set the timeout of this command.
 	 *
-	 * @param int Timeout between two iterations in seconds
+	 * @param int $timeout Timeout between two iterations in seconds
 	 *
 	 * @return Command The current instance
 	 *

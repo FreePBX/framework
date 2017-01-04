@@ -222,18 +222,20 @@ abstract class Parser implements ParserInterface
     public function findItemDate(SimpleXMLElement $entry, Item $item, Feed $feed)
     {
         $this->findItemPublishedDate($entry, $item, $feed);
-        $published = $item->getPublishedDate();
-
         $this->findItemUpdatedDate($entry, $item, $feed);
-        $updated = $item->getUpdatedDate();
 
-        if ($published === null && $updated === null) {
-            $item->setDate($feed->getDate()); // We use the feed date if there is no date for the item
-        } elseif ($published !== null && $updated !== null) {
-            $item->setDate(max($published, $updated)); // We use the most recent date between published and updated
-        } else {
-            $item->setDate($updated ?: $published);
+        if ($item->getPublishedDate() === null) {
+            // Use the updated date if available, otherwise use the feed date
+            $item->setPublishedDate($item->getUpdatedDate() ?: $feed->getDate());
         }
+
+        if ($item->getUpdatedDate() === null) {
+            // Use the published date as fallback
+            $item->setUpdatedDate($item->getPublishedDate());
+        }
+
+        // Use the most recent of published and updated dates
+        $item->setDate(max($item->getPublishedDate(), $item->getUpdatedDate()));
     }
 
     /**

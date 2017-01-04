@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpKernel\Tests\DataCollector;
 
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\HttpKernel\Controller\ArgumentResolverInterface;
@@ -23,6 +24,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\VarDumper\Cloner\Data;
+use Symfony\Component\VarDumper\Cloner\VarCloner;
 
 class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,29 +33,40 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
     {
         $c = new RequestDataCollector();
 
-        $c->collect($this->createRequest(), $this->createResponse());
+        $c->collect($request = $this->createRequest(), $this->createResponse());
 
+        $cloner = new VarCloner();
         $attributes = $c->getRequestAttributes();
 
         $this->assertSame('request', $c->getName());
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\HeaderBag', $c->getRequestHeaders());
+        $this->assertInstanceOf('Symfony\Component\HttpFoundation\ParameterBag', $c->getRequestHeaders());
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\ParameterBag', $c->getRequestServer());
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\ParameterBag', $c->getRequestCookies());
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\ParameterBag', $attributes);
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\ParameterBag', $c->getRequestRequest());
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\ParameterBag', $c->getRequestQuery());
         $this->assertSame('html', $c->getFormat());
-        $this->assertSame('foobar', $c->getRoute());
-        $this->assertSame(array('name' => 'foo'), $c->getRouteParams());
+        $this->assertEquals('foobar', $c->getRoute());
+        $this->assertEquals(array('name' => $cloner->cloneVar(array('name' => 'foo'))->seek('name')), $c->getRouteParams());
         $this->assertSame(array(), $c->getSessionAttributes());
         $this->assertSame('en', $c->getLocale());
-        $this->assertRegExp('/Resource\(stream#\d+\)/', $attributes->get('resource'));
-        $this->assertSame('Object(stdClass)', $attributes->get('object'));
+        $this->assertEquals($cloner->cloneVar($request->attributes->get('resource')), $attributes->get('resource'));
+        $this->assertEquals($cloner->cloneVar($request->attributes->get('object')), $attributes->get('object'));
 
-        $this->assertInstanceOf('Symfony\Component\HttpFoundation\HeaderBag', $c->getResponseHeaders());
+        $this->assertInstanceOf('Symfony\Component\HttpFoundation\ParameterBag', $c->getResponseHeaders());
         $this->assertSame('OK', $c->getStatusText());
         $this->assertSame(200, $c->getStatusCode());
         $this->assertSame('application/json', $c->getContentType());
+    }
+
+    public function testCollectWithoutRouteParams()
+    {
+        $request = $this->createRequest(array());
+
+        $c = new RequestDataCollector();
+        $c->collect($request, $this->createResponse());
+
+        $this->assertEquals(array(), $c->getRouteParams());
     }
 
     public function testKernelResponseDoesNotStartSession()
@@ -70,16 +84,28 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test various types of controller callables.
+     * @dataProvider provideControllerCallables
      */
-    public function testControllerInspection()
+    public function testControllerInspection($name, $callable, $expected)
+    {
+        $c = new RequestDataCollector();
+        $request = $this->createRequest();
+        $response = $this->createResponse();
+        $this->injectController($c, $callable, $request);
+        $c->collect($request, $response);
+
+        $this->assertSame($expected, $c->getController(), sprintf('Testing: %s', $name));
+    }
+
+    public function provideControllerCallables()
     {
         // make sure we always match the line number
         $r1 = new \ReflectionMethod($this, 'testControllerInspection');
         $r2 = new \ReflectionMethod($this, 'staticControllerMethod');
         $r3 = new \ReflectionClass($this);
+
         // test name, callable, expected
-        $controllerTests = array(
+        return array(
             array(
                 '"Regular" callable',
                 array($this, 'testControllerInspection'),
@@ -168,25 +194,37 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
                 ),
             ),
         );
-
-        $c = new RequestDataCollector();
-        $request = $this->createRequest();
-        $response = $this->createResponse();
-        foreach ($controllerTests as $controllerTest) {
-            $this->injectController($c, $controllerTest[1], $request);
-            $c->collect($request, $response);
-            $this->assertSame($controllerTest[2], $c->getController(), sprintf('Testing: %s', $controllerTest[0]));
-        }
     }
 
-    protected function createRequest()
+    public function testItIgnoresInvalidCallables()
+    {
+        $request = $this->createRequestWithSession();
+        $response = new RedirectResponse('/');
+
+        $c = new RequestDataCollector();
+        $c->collect($request, $response);
+
+        $this->assertSame('n/a', $c->getController());
+    }
+
+    protected function createRequest($routeParams = array('name' => 'foo'))
     {
         $request = Request::create('http://test.com/foo?bar=baz');
         $request->attributes->set('foo', 'bar');
         $request->attributes->set('_route', 'foobar');
-        $request->attributes->set('_route_params', array('name' => 'foo'));
+        $request->attributes->set('_route_params', $routeParams);
         $request->attributes->set('resource', fopen(__FILE__, 'r'));
         $request->attributes->set('object', new \stdClass());
+
+        return $request;
+    }
+
+    private function createRequestWithSession()
+    {
+        $request = $this->createRequest();
+        $request->attributes->set('_controller', 'Foo::bar');
+        $request->setSession(new Session(new MockArraySessionStorage()));
+        $request->getSession()->start();
 
         return $request;
     }
@@ -196,6 +234,7 @@ class RequestDataCollectorTest extends \PHPUnit_Framework_TestCase
         $response = new Response();
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', 'application/json');
+        $response->headers->set('X-Foo-Bar', null);
         $response->headers->setCookie(new Cookie('foo', 'bar', 1, '/foo', 'localhost', true, true));
         $response->headers->setCookie(new Cookie('bar', 'foo', new \DateTime('@946684800')));
         $response->headers->setCookie(new Cookie('bazz', 'foo', '2000-12-12'));

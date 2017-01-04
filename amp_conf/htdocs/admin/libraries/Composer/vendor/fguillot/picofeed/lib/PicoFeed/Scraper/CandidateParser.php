@@ -244,6 +244,16 @@ class CandidateParser implements ParserInterface
     }
 
     /**
+     * Find link for next page of the article.
+     *
+     * @return string
+     */
+    public function findNextLink()
+    {
+        return null;
+    }
+
+    /**
      * Return false if the node should not be removed.
      *
      * @param DomDocument $dom
