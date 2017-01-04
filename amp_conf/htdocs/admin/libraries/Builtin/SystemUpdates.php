@@ -193,7 +193,7 @@ class SystemUpdates {
 		$retarr['rpms'] = $this->parseUpdates($updates['commands']['yum-check-updates']['output']);
 
 		// If there is a 'sangoma-pbx.noarch' RPM, we have a PBX upgrade available
-		$retarr['pbxupdateavail'] = isset($retarr['rpms']['sangoma-pbx.noarch'])?$retarr['rpms']['sangoma-pbx.noarch']['newvers']:false;
+		$retarr['pbxupdateavail'] = isset($retarr['rpms']['sangoma-pbx.noarch'])?'sangoma-pbx.noarch':false;
 
 		return $retarr;
 	}
@@ -293,9 +293,56 @@ class SystemUpdates {
 	 * @return string html to be displayed
 	 */
 	public function getSystemUpdatesPage() {
+		//  i18n
+		$strarr = [ "complete" => _("Complete"), "unknown" => _("Unknown"), "inprogress" => _("In Progress") ];
 		$html = "<h3>"._("System Update Details")."</h3>";
-		$html .= "<p><button class='btn btn-default' id='refreshsu' onclick='reload_system_updates_tab()'>Reload  page</button></p>";
-		$html .= "<p> Random number: ".md5(mt_rand(0, 1))."</p>";
+		$html .= "<p> Random number: ".md5(mt_rand())."</p>";
+		$pending = $this->getPendingUpdates();
+		$html .= "<div class='row'>
+			<div class='col-xs-3'>"._("Last Check Status:")."</div>
+			<div class='col-xs-5'>".$strarr[$pending['status']]."</div>
+			<div class='col-xs-4'><button class='btn btn-default pull-right' onclick='run_yum_checkonline()'>"._("Check for Updates")."</button></div>
+		</div>\n";
+		$html .= "<div class='row'>
+			<div class='col-xs-3'>"._("Last Online Check:")."</div>
+			<div class='col-xs-5'>".\FreePBX::View()->humanDiff($pending['lasttimestamp'])."</div>
+			<div class='col-xs-4'><button class='btn btn-default pull-right' onclick='reload_system_updates_tab()'>"._("Refresh page")."</button></div>
+		</div>\n";
+
+		// If it's not complete, don't bother with anything else.
+		if ($pending['status'] !== "complete") {
+			return $html;
+		}
+		$rpmcount = count($pending['rpms']);
+		$html .= "<div class='row'>
+			<div class='col-xs-3'>"._("Updates Available:")."</div>
+			<div class='col-xs-5'>$rpmcount</div>";
+
+		if ($rpmcount == 0) {
+			$html .= "</div>\n";
+			return $html;
+		}
+		$html .= "<div class='col-xs-4'><button class='btn btn-default pull-right' onclick='update_rpms()'>"._("Update System")."</button></div></div>\n";
+
+		// We're here because we have some RPMS available. Lets display them.
+		$html .= "<table class='table'><tr><th>"._("RPM Name")."</th><th>"._("New Version")."</th><th>"._("Installed Version")."</th></tr>\n";
+		foreach ($pending['rpms'] as $rpmname => $tmparr) {
+			if (!$tmparr['installed']) {
+				$html .= "<tr><td>$rpmname</td><td>".$tmparr['newvers']."</td><td>"._("New Package")."</td></tr>";
+			} else {
+				if ($pending['pbxupdateavail'] == $rpmname) {
+					// Make it stand out as a major upgrade
+					$style = 'style="background: #FEE"';
+				} else {
+					$style = "";
+				}
+				$html .= "<tr $style><td>$rpmname</td><td>".$tmparr['newvers']."</td><td>".$tmparr['currentversion']."</td></tr>";
+			}
+		}
+		$html .= "</table>";
+
+
+
 		return $html;
 	}
 }
