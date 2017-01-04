@@ -1,22 +1,26 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# This file is part of FreePBX.
+#
+# For licensing information, please see the file named LICENSE located in the module directory
+#
+# FreePBX language template for amp
+# Copyright (C) 2008-2016 Sangoma, Inc.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: freepbx-2.3.0\n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-12-31 12:28-0800\n"
-"PO-Revision-Date: 2007-10-09 16:16+0100\n"
-"Last-Translator: Lónyai Gergely <alephlg@gmail.com>\n"
-"Language-Team: Aleph <alephlg@gmail.com>\n"
+"PO-Revision-Date: 2016-12-14 17:29+0200\n"
+"Last-Translator: Maxim <maxim@ua.fm>\n"
+"Language-Team: Ukrainian <http://weblate.freepbx.org/projects/freepbx/"
+"framework/uk_UA/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Poedit-Language: Hungarian\n"
-"X-Poedit-Country: HUNGARY\n"
-"X-Poedit-SourceCharset: utf-8\n"
+"Language: uk_UA\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%"
+"10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 2.4\n"
 
 #: amp_conf/htdocs/admin/page.modules.php:1179
 #, php-format
@@ -39,46 +43,46 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:547
 msgid " not found"
-msgstr ""
+msgstr " не знайдено"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:397
 msgid " successfully deleted"
-msgstr ""
+msgstr " успішно видалений"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:203
 msgid " successfully disabled"
-msgstr ""
+msgstr " успішно вимкнений"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:201
 msgid " successfully disabled, but was not found in the remote list"
-msgstr ""
+msgstr " успішно відключений, але не був знайдений в віддаленому списку"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:191
 msgid " successfully enabled"
-msgstr ""
+msgstr " успішно ввімкнутий"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:189
 msgid " successfully enabled, but was not found in the remote list"
-msgstr ""
+msgstr " успішно ввімкнений, але не був виявлений в віддаленому списку"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:408
 msgid " successfully uninstalled"
-msgstr ""
+msgstr " успішно видалений"
 
 #: ../core/views/trunks/trunk_header.php:2
 #, php-format
 msgid "%s %s Trunk"
-msgstr ""
+msgstr "%s %s Транк"
 
 #: amp_conf/htdocs/admin/views/footer_content.php:29
 #, php-format
 msgid "%s %s is licensed under the %s"
-msgstr ""
+msgstr "%s %s поширюється під ліцензією %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:560
 #, php-format
 msgid "%s %s will be disabled"
-msgstr "A(z) %s %s tiltva"
+msgstr "%s %s буде відключений"
 
 #: amp_conf/htdocs/admin/page.modules.php:498
 #, php-format
@@ -186,12 +190,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:584
 #, php-format
 msgid "%s Likely will not work as expected"
-msgstr ""
+msgstr "%s ймовірно, не буде працювати, як очікується"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:372
 #, php-format
 msgid "%s New modules are available"
-msgstr ""
+msgstr "%s Нові модулі доступні"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:100
 #, php-format
@@ -218,7 +222,7 @@ msgstr ""
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:119
 #, php-format
 msgid "%s admins"
-msgstr ""
+msgstr "%s адміністратори"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:171
 #, php-format
@@ -228,7 +232,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:267
 #, php-format
 msgid "%s appears to be disabled. What would you like to do?"
-msgstr ""
+msgstr "%s здається відключений. Що б ви хотіли зробити?"
 
 #: amp_conf/htdocs/admin/page.modules.php:557
 #, php-format
@@ -301,12 +305,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:144
 #, php-format
 msgid "%s contains .."
-msgstr ""
+msgstr "%s містить .."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:141
 #, php-format
 msgid "%s contains a /"
-msgstr ""
+msgstr "%s містить /"
 
 #: amp_conf/htdocs/admin/page.modules.php:312
 #, php-format
@@ -316,7 +320,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:301
 #, php-format
 msgid "%s enabled successfully"
-msgstr ""
+msgstr "%s активований успішно"
 
 #: amp_conf/htdocs/admin/page.modules.php:220
 #: amp_conf/htdocs/admin/page.modules.php:250
@@ -325,12 +329,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:356
 #, php-format
 msgid "%s installed successfully"
-msgstr ""
+msgstr "%s встановлений успішно"
 
 #: amp_conf/htdocs/admin/views/footer_content.php:28
 #, php-format
 msgid "%s is a registered trademark of"
-msgstr ""
+msgstr "%s є зареєстрованою торговою маркою"
 
 #: ../core/functions.inc.php:539
 #, php-format
@@ -365,6 +369,9 @@ msgid ""
 "the browser you currently have but your experience may be diminished and is "
 "not supported"
 msgstr ""
+"%s вимагає новий браузер для коректної роботи. Ви все ще можете "
+"використовувати %s з браузером який у Вас є, але ваш досвід може бути "
+"зменшений і не підтримуватись"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:395
 #, php-format
@@ -385,7 +392,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1121
 #, php-format
 msgid "%s version %s or below is required, you have %s"
-msgstr ""
+msgstr "%s версії %s або нижче потрібно, ви маєте %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1134
 #, php-format
@@ -423,11 +430,11 @@ msgstr ""
 
 #: ../core/views/routing/form.php:39
 msgid "---No Change---"
-msgstr ""
+msgstr "---Без змін---"
 
 #: ../core/views/routing/timecond.php:12
 msgid "---Permanent Route---"
-msgstr ""
+msgstr "---Постійний маршрут---"
 
 #: amp_conf/htdocs/admin/config.php:200
 msgid ".htaccess files are disable on this webserver. Please enable them"
@@ -439,7 +446,7 @@ msgstr ""
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:112
 msgid "0 admins"
-msgstr ""
+msgstr "0 адміністраторів"
 
 #: ../core/views/routing/form.php:596 ../core/views/trunks/trunk_footer.php:59
 msgid "10 Digit Patterns"
@@ -452,7 +459,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/config.php:564
 #, php-format
 msgid "404 Not found (%s)"
-msgstr ""
+msgstr "404 Не знайдено (%s)"
 
 #: ../core/views/routing/form.php:594 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
@@ -531,7 +538,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:3971 ../core/functions.inc.php:4000
 msgid "A route for this DID/CID already exists!"
-msgstr "Egy útvonalban ez a DID/CID már meg lett adva!"
+msgstr ""
 
 #: ../core/Core.class.php:2087 ../core/functions.inc.php:4566
 #, php-format
@@ -545,8 +552,6 @@ msgstr ""
 #: ../core/functions.inc.php:5931
 msgid "A user will enter this password when logging onto a device."
 msgstr ""
-"A felhasználó ennek a jelszónak a megadásával tud bejelentkezni egy "
-"készülékbe."
 
 #: ../core/views/did/advanced_form.php:198
 msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
@@ -554,7 +559,7 @@ msgstr ""
 
 #: ../core/page.ampusers.php:159
 msgid "ALL SECTIONS"
-msgstr "MINDEN SZEKCIÓ"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1200
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1212
@@ -616,7 +621,7 @@ msgstr ""
 #: ../core/page.ampusers.php:266 ../core/page.astmodules.php:91
 #: ../core/page.astmodules.php:108 ../core/page.astmodules.php:125
 msgid "Action"
-msgstr ""
+msgstr "Дія"
 
 #: ../core/page.devices.php:68 ../core/page.devices.php:88
 #: ../core/page.extensions.php:30 ../core/page.extensions.php:126
@@ -625,7 +630,7 @@ msgstr ""
 #: ../core/views/did/didgrid.php:21 ../core/views/routing/grid.php:73
 #: ../core/views/trunks/trunkgrid.php:35
 msgid "Actions"
-msgstr ""
+msgstr "Дії"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:267
 msgid ""
@@ -636,26 +641,26 @@ msgstr ""
 #: amp_conf/htdocs/admin/functions.inc.php:444 ../core/page.astmodules.php:140
 #: ../core/views/trunks/trunk_header.php:2
 msgid "Add"
-msgstr ""
+msgstr "Додати"
 
 #: ../core/functions.inc.php:6248
 #, php-format
 msgid "Add %s Device"
-msgstr ""
+msgstr "Додати %s пристрій"
 
 #: ../core/functions.inc.php:6250
 #, php-format
 msgid "Add %s Extension"
-msgstr ""
+msgstr "Додати %s додатковий номер"
 
 #: ../core/views/trunks/bootnav.php:9 ../core/views/trunks/trunkgrid.php:9
 #, php-format
 msgid "Add %s Trunk"
-msgstr ""
+msgstr "Додати %s транк"
 
 #: ../core/page.ampusers.php:102
 msgid "Add Administrator"
-msgstr ""
+msgstr "Додати адміністратора"
 
 #: ../core/views/dahdichandids/changrid.php:21
 msgid "Add DAHDI DID"
@@ -668,14 +673,14 @@ msgstr ""
 #: ../core/page.ampusers.php:133 ../core/page.ampusers.php:156
 #: ../core/views/rnav.php:60
 msgid "Add Device"
-msgstr ""
+msgstr "Додати пристрій"
 
 #: ../core/functions.inc.php:5920 ../core/functions.inc.php:6306
 #: ../core/page.ampusers.php:133 ../core/page.ampusers.php:156
 #: ../core/page.extensions.php:19 ../core/page.extensions.php:101
 #: ../core/views/rnav.php:6
 msgid "Add Extension"
-msgstr ""
+msgstr "Додати додатковий номер"
 
 #: ../core/functions.inc.php:6036
 msgid "Add Inbound CID"
@@ -695,7 +700,7 @@ msgstr ""
 
 #: ../core/page.astmodules.php:138
 msgid "Add Module"
-msgstr ""
+msgstr "Додати модуль"
 
 #: ../core/views/rnav.php:65 ../core/views/rnav.php:83
 #, php-format
@@ -726,7 +731,7 @@ msgstr ""
 #: ../core/views/ampusers/bootnav.php:2 ../core/views/rnav.php:37
 #: ../core/views/rnav.php:51
 msgid "Add User"
-msgstr "Felhasználó hozzáadása"
+msgstr "Додати користувача"
 
 #: ../core/functions.inc.php:5899
 msgid "Add User/Extension"
@@ -775,11 +780,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/noaccess.php:54
 msgid "Additional Information"
-msgstr ""
+msgstr "Додаткова інформація"
 
 #: ../core/views/routing/form.php:51
 msgid "Additional Settings"
-msgstr ""
+msgstr "Додаткові налаштування"
 
 #: amp.i18n.php:50 amp.i18n.php:68
 msgid "Address to bind to. Default is ::"
@@ -792,7 +797,7 @@ msgstr ""
 #: amp.i18n.php:6 amp.i18n.php:1296
 #: amp_conf/htdocs/admin/views/menu_items.php:44
 msgid "Admin"
-msgstr ""
+msgstr "Адміністратор"
 
 #: ../core/page.ampusers.php:249
 msgid "Admin Access"
@@ -815,16 +820,16 @@ msgstr ""
 
 #: amp.i18n.php:1294
 msgid "Administrators"
-msgstr ""
+msgstr "Адміністратори"
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:52
 #: ../core/views/did/advanced_form.php:63 ../core/views/trunks/pjsip.php:38
 msgid "Advanced"
-msgstr ""
+msgstr "Розширений"
 
 #: amp.i18n.php:1290
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Розширені налаштування"
 
 #: amp.i18n.php:12 amp.i18n.php:18 amp.i18n.php:24
 msgid "Advanced Settings Details"
@@ -836,7 +841,7 @@ msgstr ""
 
 #: amp.i18n.php:1054
 msgid "Aggresively Check for Duplicate Extensions"
-msgstr ""
+msgstr "Агресивна перевірка дублікатів додаткових номерів"
 
 #: ../core/views/did/advanced_form.php:186
 msgid "Alert Info"
@@ -863,39 +868,39 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:395
 msgid "All - TCP Primary"
-msgstr ""
+msgstr "Всі - TCP первинний"
 
 #: ../core/functions.inc/drivers/Sip.class.php:396
 msgid "All - TLS Primary"
-msgstr ""
+msgstr "Всі - TLS первинний"
 
 #: ../core/functions.inc/drivers/Sip.class.php:394
 msgid "All - UDP Primary"
-msgstr ""
+msgstr "Всі - UDP первинний"
 
 #: ../core/functions.inc/drivers/Sip.class.php:398
 msgid "All - WS Primary"
-msgstr ""
+msgstr "Всі - WS первинний"
 
 #: ../core/functions.inc/drivers/Sip.class.php:399
 msgid "All - WSS Primary"
-msgstr ""
+msgstr "Всі - WSS первинний"
 
 #: ../core/page.devices.php:39
 msgid "All Devices"
-msgstr ""
+msgstr "Всі пристрої"
 
 #: ../core/page.extensions.php:84
 msgid "All Extensions"
-msgstr ""
+msgstr "Всі додаткові номери"
 
 #: ../core/page.users.php:38
 msgid "All Users"
-msgstr ""
+msgstr "Всі користувачі"
 
 #: amp_conf/htdocs/admin/page.modules.php:998
 msgid "All available modules are up-to-date and installed."
-msgstr ""
+msgstr "Всі доступні модулі оновлені та встановлені."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:622
 #, php-format
@@ -946,7 +951,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:458
 msgid "Allowed Codecs"
-msgstr ""
+msgstr "Дозволені кодеки"
 
 #: upgrades/2.8.0/custom-context.php:55
 #: upgrades/2.8.0rc1/custom-context.php:55
@@ -964,7 +969,7 @@ msgstr ""
 #: ../core/functions.inc.php:5794
 #: ../core/functions.inc/drivers/PJSip.class.php:247
 msgid "Always"
-msgstr ""
+msgstr "Завжди"
 
 #: amp.i18n.php:154
 msgid "Always Download Web Assets"
@@ -1034,15 +1039,15 @@ msgstr ""
 
 #: amp.i18n.php:1272 amp_conf/htdocs/admin/views/menu_items.php:45
 msgid "Applications"
-msgstr ""
+msgstr "Додатки"
 
 #: ../core/page.ampusers.php:134 ../core/page.ampusers.php:153
 msgid "Apply Changes Bar"
-msgstr "Változtatások érvényesítése gomb"
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/menu.php:26
 msgid "Apply Config"
-msgstr ""
+msgstr "Застосувати конфігурацію"
 
 #: ../core/functions.inc/drivers/Sip.class.php:472
 msgid ""
@@ -1152,7 +1157,7 @@ msgstr ""
 
 #: amp.i18n.php:1298 ../core/page.astmodules.php:49
 msgid "Asterisk Modules"
-msgstr ""
+msgstr "Модулі Астеріску"
 
 #: amp.i18n.php:574
 msgid "Asterisk Modules Dir"
@@ -1255,19 +1260,19 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:148
 msgid "Attention"
-msgstr ""
+msgstr "Увага"
 
 #: ../core/views/routing/grid.php:72
 msgid "Attributes"
-msgstr ""
+msgstr "Атрибути"
 
 #: ../core/views/trunks/pjsip.php:80
 msgid "Authentication"
-msgstr ""
+msgstr "Засвідчення справжності"
 
 #: ../core/views/trunks/pjsip.php:811
 msgid "Authentication Disabled"
-msgstr ""
+msgstr "Засвідчення справжності вимкнене"
 
 #: amp.i18n.php:1082
 msgid ""
@@ -1306,7 +1311,7 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:307
 #: ../core/views/trunks/pjsip.php:241
 msgid "Auto"
-msgstr ""
+msgstr "Автоматично"
 
 #: amp_conf/htdocs/admin/functions.inc.php:232
 msgid ""
@@ -1369,13 +1374,13 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:89
 msgid "Both"
-msgstr ""
+msgstr "Обидва"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:771
 #: amp_conf/htdocs/admin/page.modules.php:786
 #: amp_conf/htdocs/admin/views/module_admin/main.php:79
 msgid "Broken"
-msgstr ""
+msgstr "Зламаний"
 
 #: amp.i18n.php:592
 msgid "Browser Playback Cache Directory"
@@ -1392,7 +1397,7 @@ msgstr ""
 #: ../core/functions.inc.php:823 ../core/functions.inc.php:4427
 #: ../core/functions.inc.php:6103
 msgid "Busy"
-msgstr "Foglalt"
+msgstr ""
 
 #: ../core/functions.inc.php:6102
 msgid "Busy Voicemail if Enabled"
@@ -1400,7 +1405,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:218
 msgid "Buy"
-msgstr ""
+msgstr "Купити"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:347
 #, php-format
@@ -1672,7 +1677,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:647
 #: amp_conf/htdocs/admin/views/footer.php:107
 msgid "Cancel"
-msgstr ""
+msgstr "Скасувати"
 
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:5
 msgid "Cannot connect to Asterisk Manager with "
@@ -1681,16 +1686,16 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2164
 #, php-format
 msgid "Cannot delete directory %s"
-msgstr "Nem törölhető könyvtár: %s"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2054
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2086
 msgid "Cannot disable: The following modules depend on this one: "
-msgstr "Nem tiltható. Az alábbi modulok függnek tőle:"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1906
 msgid "Cannot find module"
-msgstr "Nem található a modul"
+msgstr ""
 
 #: install.php:252
 msgid "Cant Find Framework XML"
@@ -1741,7 +1746,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:381
 msgid "Changelog"
-msgstr ""
+msgstr "Зміни"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:103
 #, php-format
@@ -1760,16 +1765,16 @@ msgstr ""
 #: ../core/views/dahdichandids/changrid.php:36
 #: ../core/views/dahdichandids/didForm.php:13
 msgid "Channel"
-msgstr ""
+msgstr "Канал"
 
 #: ../core/page.trunks.php:358
 #, php-format
 msgid "Channel %s"
-msgstr ""
+msgstr "Канал %s"
 
 #: ../core/Console/Trunks.class.php:55 ../core/Console/Trunks.class.php:62
 msgid "Channel ID"
-msgstr ""
+msgstr "ID каналу"
 
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:27
 msgid "Check Online"
@@ -1868,7 +1873,7 @@ msgstr ""
 
 #: ../core/views/routing/form.php:506
 msgid "Choose File"
-msgstr ""
+msgstr "Виберіть файл"
 
 #: ../core/Console/Trunks.class.php:64
 msgid "Choose an ID to enable/disable"
@@ -1920,11 +1925,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/footer.php:105
 #: ../core/views/routing/form.php:615 ../core/views/trunks/trunk_footer.php:78
 msgid "Close"
-msgstr ""
+msgstr "Закрити"
 
 #: ../core/views/trunks/pjsip.php:43
 msgid "Codecs"
-msgstr ""
+msgstr "Кодеки"
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:324
 #, php-format
@@ -1950,7 +1955,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:15
 msgid "Commercial"
-msgstr ""
+msgstr "Комерційний"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:205
 msgid "Commercial Status"
@@ -1972,7 +1977,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:641
 msgid "Confirm"
-msgstr ""
+msgstr "Підтвердити"
 
 #: amp_conf/htdocs/admin/views/obe.php:65
 msgid "Confirm Email address"
@@ -1989,7 +1994,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:822 ../core/functions.inc.php:4426
 msgid "Congestion"
-msgstr ""
+msgstr "Перенавантаження"
 
 #: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:37
 msgid "Connecting to the Database..."
@@ -2001,7 +2006,7 @@ msgstr ""
 
 #: amp.i18n.php:1282 amp_conf/htdocs/admin/views/menu_items.php:46
 msgid "Connectivity"
-msgstr ""
+msgstr "Зв'язок"
 
 #: ../core/views/trunks/pjsip.php:446
 msgid "Contact User"
@@ -2014,7 +2019,7 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:325
 #: ../core/views/trunks/pjsip.php:184
 msgid "Context"
-msgstr ""
+msgstr "Контекст"
 
 #: ../core/views/trunks/pjsip.php:196
 msgid "Context to send the Inbound Call to."
@@ -2023,16 +2028,16 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:267
 #: amp_conf/htdocs/admin/views/footer.php:106
 msgid "Continue"
-msgstr ""
+msgstr "Далі"
 
 #: ../core/views/trunks/trunk_header.php:412
 msgid "Continue if Busy"
-msgstr ""
+msgstr "Далі якщо зайнято"
 
 #: upgrades/2.8.0/custom-context.php:86
 #: upgrades/2.8.0rc1/custom-context.php:87
 msgid "Continuing..."
-msgstr ""
+msgstr "Продовження..."
 
 #: ../core/views/trunks/trunk_header.php:34
 msgid ""
@@ -2060,7 +2065,7 @@ msgstr ""
 
 #: amp.i18n.php:1270 ../core/install.php:6
 msgid "Core"
-msgstr ""
+msgstr "Ядро"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1267
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1603
@@ -2091,21 +2096,21 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:69
 msgid "Could not find gpg command!"
-msgstr ""
+msgstr "Не вдалося знайти команду gpg!"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:844
 msgid "Could not find signed module on remote server!"
-msgstr ""
+msgstr "Не вдалося знайти підписаний модуль на віддаленому сервері!"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1380
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1571
 #, php-format
 msgid "Could not move %s to %s"
-msgstr ""
+msgstr "Не вдалося перемістити %s в %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1913
 msgid "Could not read module.xml"
-msgstr "A module.xml nem olvasható"
+msgstr "Неможливо прочитати module.xml"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1362
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1551
@@ -2302,7 +2307,7 @@ msgstr ""
 #: ../core/views/dahdichandids/changrid.php:38
 #: ../core/views/dahdichandids/didForm.php:61 ../core/views/did/didgrid.php:17
 msgid "DID"
-msgstr ""
+msgstr "DID"
 
 #: ../core/functions.inc.php:6044
 msgid "DID / CID"
@@ -2335,7 +2340,7 @@ msgstr ""
 #: ../core/page.extensions.php:120 ../core/page.extensions.php:146
 #: ../core/page.users.php:57
 msgid "DND"
-msgstr ""
+msgstr "DND"
 
 #: amp.i18n.php:788
 msgid ""
@@ -2387,15 +2392,15 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:239
 msgid "DTLS-SRTP (not recommended)"
-msgstr ""
+msgstr "DTLS-SRTP (не рекомендується)"
 
 #: ../core/views/trunks/pjsip.php:235
 msgid "DTMF Mode"
-msgstr ""
+msgstr "Режим DTMF"
 
 #: ../core/functions.inc/drivers/Sip.class.php:314
 msgid "DTMF Signaling"
-msgstr ""
+msgstr "Сигналізація DTMF"
 
 #: ../core/views/trunks/dundi.php:9
 msgid "DUNDi Mapping"
@@ -2404,10 +2409,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/DB_Helper.class.php:501
 msgid "Database Error detected. Automatic repair started. Please retry"
 msgstr ""
+"Виявлена помилка бази даних. Автоматичне відновлення почалося. Будь ласка, "
+"спробуйте ще раз"
 
 #: amp_conf/htdocs/admin/libraries/Console/Doctrine.class.php:17
 msgid "Database name"
-msgstr ""
+msgstr "Ім'я бази даних"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:21
 msgid "Date Fixed"
@@ -2419,7 +2426,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:410
 msgid "Debug"
-msgstr ""
+msgstr "Відлагоджувати"
 
 #: amp.i18n.php:166
 msgid "Debug File"
@@ -2428,7 +2435,7 @@ msgstr ""
 #: ../core/functions.inc.php:5792 ../core/functions.inc.php:5793
 #: ../core/views/did/advanced_form.php:9 ../core/views/trunks/pjsip.php:127
 msgid "Default"
-msgstr "Alapértelmezett"
+msgstr "За замовчанням"
 
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1222
 msgid "Default Asterisk Manager Password Used"
@@ -2437,11 +2444,11 @@ msgstr ""
 #: ../core/functions.inc.php:6284
 #: ../core/functions.inc/drivers/Sip.class.php:331
 msgid "Default User"
-msgstr ""
+msgstr "Користувач за замовчанням"
 
 #: amp.i18n.php:1114
 msgid "Default language"
-msgstr ""
+msgstr "Мова за замовчанням"
 
 #: amp.i18n.php:458
 msgid ""
@@ -2600,12 +2607,12 @@ msgstr ""
 #: ../core/page.extensions.php:21 ../core/page.extensions.php:110
 #: ../core/page.extensions.php:136 ../core/page.users.php:46
 msgid "Delete"
-msgstr ""
+msgstr "Видалити"
 
 #: ../core/functions.inc.php:6228
 #, php-format
 msgid "Delete Device %s"
-msgstr ""
+msgstr "Видалити пристрій %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:21
 msgid "Delete notification"
@@ -2625,7 +2632,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:468
 msgid "Deny"
-msgstr ""
+msgstr "Відмовлено"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:861
 #, php-format
@@ -2642,7 +2649,7 @@ msgstr ""
 #: ../core/views/did/advanced_form.php:87 ../core/views/did/basic_form.php:20
 #: ../core/views/did/didgrid.php:19 ../core/views/rnav.php:73
 msgid "Description"
-msgstr ""
+msgstr "Опис"
 
 #: ../core/views/trunks/trunk_header.php:261
 msgid "Descriptive Name for this Trunk"
@@ -2650,12 +2657,12 @@ msgstr ""
 
 #: ../core/Core.class.php:2529 ../core/views/did/didgrid.php:20
 msgid "Destination"
-msgstr ""
+msgstr "Призначення"
 
 #: ../core/views/did/advanced_form.php:276
 #: ../core/views/did/basic_form.php:155
 msgid "Destination for route"
-msgstr ""
+msgstr "Призначення для маршруту"
 
 #: amp_conf/htdocs/admin/libraries/Console/Session.class.php:16
 msgid "Destroy Session"
@@ -2744,7 +2751,7 @@ msgstr ""
 #: ../core/page.devices.php:63 ../core/page.devices.php:84
 #: ../core/views/rnav.php:72
 msgid "Device"
-msgstr "Eszköz"
+msgstr "Пристрій"
 
 #: ../core/install.php:1183
 #, php-format
@@ -2794,11 +2801,11 @@ msgstr ""
 
 #: ../core/Core.class.php:170
 msgid "Device was not added!"
-msgstr ""
+msgstr "Пристрій не додано!"
 
 #: amp.i18n.php:1278
 msgid "Devices"
-msgstr ""
+msgstr "Пристрої"
 
 #: ../core/functions.inc.php:6283
 msgid ""
@@ -2806,14 +2813,11 @@ msgid ""
 "same extension/user. Adhoc devices can be logged into and logged out of by "
 "users."
 msgstr ""
-"Egy készülék fix és ad-hoc is lehet. A fix eszközön a felhasznál/mellék "
-"állandóra van definiálva. Az ad-hoc eszközökön a felhasználók ki és be "
-"tudnak jelentkezni."
 
 #: ../core/functions.inc/drivers/Custom.class.php:37
 #: ../core/functions.inc/drivers/Sip.class.php:460
 msgid "Dial"
-msgstr ""
+msgstr "Набирати"
 
 #: ../core/views/trunks/trunk_header.php:464
 msgid "Dial Number Manipulation Rules"
@@ -2886,7 +2890,7 @@ msgstr ""
 #: ../core/functions.inc.php:5768 ../core/functions.inc.php:5774
 #: ../core/functions.inc.php:5777 ../core/functions.inc.php:5781
 msgid "Disable"
-msgstr ""
+msgstr "Відключено"
 
 #: amp.i18n.php:406
 msgid "Disable -custom Context Includes"
@@ -2922,7 +2926,7 @@ msgstr ""
 #: ../core/Console/Trunks.class.php:55 ../core/Console/Trunks.class.php:62
 #: ../core/views/trunks/trunkgrid.php:44
 msgid "Disabled"
-msgstr ""
+msgstr "Відключено"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:76
 #, php-format
@@ -2948,11 +2952,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:305
 #, php-format
 msgid "Disabling %s"
-msgstr ""
+msgstr "Відключення %s"
 
 #: ../core/Console/Trunks.class.php:36 ../core/Console/Trunks.class.php:69
 msgid "Disabling Trunk "
-msgstr ""
+msgstr "Відключення транку "
 
 #: amp.i18n.php:416
 msgid ""
@@ -2966,7 +2970,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:456
 msgid "Disallowed Codecs"
-msgstr ""
+msgstr "Заборонені кодеки"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:132
 #: ../core/functions.inc/drivers/Sip.class.php:455
@@ -3033,11 +3037,11 @@ msgstr ""
 
 #: ../core/page.extensions.php:250 ../core/page.users.php:75
 msgid "Do Not Disturb is disabled"
-msgstr ""
+msgstr "\"Не турбувати\" вимкнено"
 
 #: ../core/page.extensions.php:250 ../core/page.users.php:75
 msgid "Do Not Disturb is enabled"
-msgstr ""
+msgstr "\"Не турбувати\" ввімкнено"
 
 #: amp_conf/htdocs/admin/libraries/Console/Debug.class.php:26
 msgid "Do not tail standard freepbx.log"
@@ -3083,12 +3087,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:382
 #: amp_conf/htdocs/admin/page.modules.php:1065 ../core/install.php:1543
 msgid "Done"
-msgstr ""
+msgstr "Зроблено"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:441
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:686
 msgid "Done. All modules installed."
-msgstr ""
+msgstr "Готово. Всі модулі встановлені."
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:75
 #: amp_conf/htdocs/admin/views/module_admin/main.php:310
@@ -3116,7 +3120,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:34
 #: amp_conf/htdocs/admin/views/module_admin/main.php:438
 msgid "Download all"
-msgstr ""
+msgstr "Завантажити все"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:318
 #, php-format
@@ -3125,7 +3129,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:283
 msgid "Download and Install"
-msgstr ""
+msgstr "Завантажити та встановити"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:345
 #, php-format
@@ -3157,11 +3161,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:262
 #, php-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Завантажується %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:680
 msgid "Downloading & Installing "
-msgstr ""
+msgstr "Завантажується та встановлюється "
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:781
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:837
@@ -3181,7 +3185,7 @@ msgstr ""
 
 #: ../core/Core.class.php:372 ../core/Core.class.php:402
 msgid "Duplicate"
-msgstr ""
+msgstr "Дублювати"
 
 #: amp.i18n.php:448
 msgid "Dynamically Generate Hints"
@@ -3237,21 +3241,21 @@ msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:2
 msgid "Edit"
-msgstr ""
+msgstr "Редагувати"
 
 #: ../core/page.did.php:94
 #, php-format
 msgid "Edit %s"
-msgstr ""
+msgstr "Редагувати %s"
 
 #: ../core/page.did.php:94
 #, php-format
 msgid "Edit %s %s (%s)"
-msgstr ""
+msgstr "Редагувати %s %s (%s)"
 
 #: ../core/page.ampusers.php:111
 msgid "Edit Administrator"
-msgstr ""
+msgstr "Редагувати адміністратора"
 
 #: ../core/functions.inc.php:6234
 #, php-format
@@ -3260,7 +3264,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:5920 ../core/functions.inc.php:6306
 msgid "Edit Extension"
-msgstr ""
+msgstr "Редагувати додатковий номер"
 
 #: ../core/functions.inc.php:6234
 #, php-format
@@ -3269,24 +3273,24 @@ msgstr ""
 
 #: ../core/page.routing.php:10
 msgid "Edit Route"
-msgstr "Útvonal szerkesztése"
+msgstr "Редагувати маршрут"
 
 #: ../core/functions.inc.php:5922 ../core/functions.inc.php:6276
 #: ../core/functions.inc.php:6308
 msgid "Edit User"
-msgstr ""
+msgstr "Редагувати користувача"
 
 #: ../core/functions.inc.php:5983
 msgid "Edit:"
-msgstr ""
+msgstr "Редагувати:"
 
 #: amp_conf/htdocs/admin/views/module_admin/header.php:7
 msgid "Email"
-msgstr ""
+msgstr "Електронна пошта"
 
 #: amp_conf/htdocs/admin/views/oobe.php:10 ../core/views/quickCreate.php:101
 msgid "Email Address"
-msgstr ""
+msgstr "Адреса електронної пошти"
 
 #: ../core/views/quickCreate.php:109
 msgid ""
@@ -3299,7 +3303,7 @@ msgstr ""
 
 #: ../core/views/routing/form.php:384
 msgid "Emergency"
-msgstr "Vészhelyzet"
+msgstr ""
 
 #: ../core/functions.inc.php:6285 ../core/functions.inc.php:6288
 msgid "Emergency CID"
@@ -3316,7 +3320,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1120
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1137
 msgid "Empty value not allowed for this field"
-msgstr ""
+msgstr "Порожнє значення не допускається для цього поля"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:267
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:271
@@ -3324,27 +3328,27 @@ msgstr ""
 #: ../core/functions.inc.php:5769 ../core/functions.inc.php:5773
 #: ../core/functions.inc.php:5778
 msgid "Enable"
-msgstr ""
+msgstr "Ввімкнути"
 
 #: ../core/functions.inc/drivers/Sip.class.php:417
 msgid "Enable AVPF"
-msgstr ""
+msgstr "Ввімкнути AVPF"
 
 #: ../core/functions.inc/drivers/Sip.class.php:440
 msgid "Enable Encryption"
-msgstr ""
+msgstr "Ввімкнути шифрування"
 
 #: ../core/functions.inc/drivers/Sip.class.php:433
 msgid "Enable ICE Support"
-msgstr ""
+msgstr "Ввімкнути підтримку ICE"
 
 #: amp.i18n.php:1120
 msgid "Enable Module Signature Checking"
-msgstr ""
+msgstr "Включити модуль перевірки сигнатур"
 
 #: amp.i18n.php:1126
 msgid "Enable Module Tracks"
-msgstr ""
+msgstr "Включення модуля записів"
 
 #: amp.i18n.php:208
 msgid "Enable Performance Logging"
@@ -3360,7 +3364,7 @@ msgstr ""
 
 #: amp.i18n.php:40
 msgid "Enable TLS for the mini-HTTP Server"
-msgstr ""
+msgstr "Ввімкнути TLS для міні-HTTP серверу"
 
 #: amp.i18n.php:664
 msgid "Enable The Old Style FreePBX Dial Patterns Textarea"
@@ -3428,7 +3432,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:123
 #: ../core/views/trunks/pjsip.php:270 ../core/views/trunks/trunkgrid.php:44
 msgid "Enabled"
-msgstr ""
+msgstr "Ввімкнене"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:783
 #: amp_conf/htdocs/admin/views/module_admin/main.php:111
@@ -3504,11 +3508,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:689
 msgid "English"
-msgstr ""
+msgstr "Англійська"
 
 #: ../core/views/quickCreate.php:56
 msgid "Enter Extension"
-msgstr ""
+msgstr "Введіть додатковий номер"
 
 #: ../core/views/quickCreate.php:72
 msgid "Enter name"
@@ -3522,7 +3526,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/welcome.php:13
 msgid "Error"
-msgstr ""
+msgstr "Помилка"
 
 #: ../core/functions.inc.php:4617
 msgid "Error Duplicate Channel Entry"
@@ -3566,7 +3570,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2171
 #, php-format
 msgid "Error deleting directory %s (code %d)"
-msgstr "Hiba a %s könyvtár törlésekor (kód: %d)"
+msgstr ""
 
 #: ../core/Core.class.php:780 ../core/Core.class.php:1181
 #: ../core/page.trunks.php:324
@@ -3591,7 +3595,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1659
 #, php-format
 msgid "Error opening %s for reading"
-msgstr "Hiba a %s olvasásra nyitásakor"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1402
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1632
@@ -3611,11 +3615,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1979
 #, php-format
 msgid "Error updating database. Command was: %s; error was: %s "
-msgstr "Hiba az adatbázis frissítésekor. Az parancs (%s) hibája: %s"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2109
 msgid "Error updating database: "
-msgstr "Hiba az adatbázis frissítésekor:"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:209
 #, php-format
@@ -3747,7 +3751,7 @@ msgstr ""
 #: ../core/page.extensions.php:117 ../core/page.extensions.php:143
 #: ../core/views/rnav.php:18
 msgid "Extension"
-msgstr "Mellék"
+msgstr ""
 
 #: amp.i18n.php:454
 msgid "Extension Concurrency Limit"
@@ -3788,7 +3792,7 @@ msgstr ""
 #: amp.i18n.php:1274 ../core/Core.class.php:2463 ../core/Core.class.php:2464
 #: ../core/page.extensions.php:17
 msgid "Extensions"
-msgstr ""
+msgstr "Додаткові номери"
 
 #: upgrades/2.8.0/modules-conf.php:41 upgrades/2.8.0/modules-conf.php:55
 msgid "FAILED"
@@ -3881,11 +3885,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1951
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1965
 msgid "Failed to run installation scripts"
-msgstr "Hiba a telepítőszkript futtatásakor"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2113
 msgid "Failed to run un-installation scripts"
-msgstr "Az uninstalláló script futtatása sikertelen"
+msgstr ""
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:125
 msgid "Failed to send online update email"
@@ -4112,7 +4116,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:248
 msgid "Forced"
-msgstr ""
+msgstr "Примусовий"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2983
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:512
@@ -4183,7 +4187,7 @@ msgstr ""
 
 #: amp.i18n.php:1300
 msgid "FreePBX Support"
-msgstr ""
+msgstr "Підтримка FreePBX"
 
 #: amp.i18n.php:1138
 msgid "FreePBX Web Address"
@@ -4306,7 +4310,7 @@ msgstr ""
 #: ../core/views/did/advanced_form.php:58 ../core/views/trunks/pjsip.php:33
 #: ../core/views/trunks/trunk_header.php:226
 msgid "General"
-msgstr ""
+msgstr "Загальні"
 
 #: ../core/views/trunks/pjsip.php:317
 msgid "General Retry Interval"
@@ -4373,7 +4377,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/login.php:42
 msgid "Get Support"
-msgstr ""
+msgstr "Отримати підтримку"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:198
 #, php-format
@@ -4422,7 +4426,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:847
 #: amp_conf/htdocs/admin/page.modules.php:931
 msgid "Good"
-msgstr ""
+msgstr "Добре"
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:90
 #, php-format
@@ -4472,11 +4476,11 @@ msgstr ""
 
 #: ../core/functions.inc.php:821 ../core/functions.inc.php:4425
 msgid "Hangup"
-msgstr ""
+msgstr "Покласти слухавку"
 
 #: amp_conf/htdocs/admin/views/menu.php:50
 msgid "Hello, "
-msgstr ""
+msgstr "Вітаю, "
 
 #: amp_conf/htdocs/admin/libraries/view.functions.php:472
 msgid "Helpful Information"
@@ -4585,11 +4589,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:6
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: ../core/page.advancedsettings.php:290
 msgid "IMPORTANT:"
-msgstr ""
+msgstr "ВАЖЛИВО:"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:144
 #: ../core/functions.inc/drivers/Sip.class.php:469
@@ -4599,15 +4603,20 @@ msgid ""
 "that are at a known location (such as a branch office) or within a known ISP "
 "range for some home office situations."
 msgstr ""
+"Діапазон IP-адрес, яким дозволено доступ, у вигляді мережі/маска мережі. Це "
+"може бути дуже корисною опцією безпеки при роботі з віддаленими додатковими "
+"номерами, які перебувають у відомому місці (наприклад, філія) або в межах "
+"відомого діапазону адрес інтернет-провайдера для деяких домашніх офісів."
 
 #: ../core/functions.inc/drivers/Iax2.class.php:142
 #: ../core/functions.inc/drivers/Sip.class.php:467
 msgid "IP Address range to deny access to, in the form of network/netmask."
 msgstr ""
+"Діапазон IP-адрес, яким заборонено доступ, у вигляді мережі/маска мережі."
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:49
 msgid "IP Addresses"
-msgstr ""
+msgstr "IP адреси"
 
 #: ../core/views/trunks/pjsip.php:599
 msgid ""
@@ -4777,7 +4786,7 @@ msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:7
 msgid "In use by"
-msgstr ""
+msgstr "Використовується"
 
 #: ../core/install.php:15
 msgid "In-Call Asterisk Attended Transfer"
@@ -4797,11 +4806,11 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:244
 msgid "Inband"
-msgstr ""
+msgstr "Смуга частот"
 
 #: ../core/views/trunks/pjsip.php:87
 msgid "Inbound"
-msgstr ""
+msgstr "Прибуваючий"
 
 #: ../core/functions.inc.php:6072
 msgid "Inbound External Calls"
@@ -4834,7 +4843,7 @@ msgstr ""
 
 #: ../core/views/trunks/sip.php:9
 msgid "Incoming"
-msgstr ""
+msgstr "Вхідний"
 
 #: ../core/Core.class.php:2521 ../core/Core.class.php:2522
 msgid "Incoming DID"
@@ -4848,7 +4857,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:152
 #: ../core/views/trunks/pjsip.php:245
 msgid "Info"
-msgstr ""
+msgstr "Інформація"
 
 #: ../core/functions.inc/drivers/Sip.class.php:446
 msgid "Inherit"
@@ -4964,7 +4973,7 @@ msgstr ""
 
 #: amp.i18n.php:720 amp.i18n.php:726
 msgid "Internal Use"
-msgstr ""
+msgstr "Внутрішнє використання"
 
 #: ../core/views/trunks/pjsip.php:410
 msgid "Interval at which to qualify."
@@ -5005,11 +5014,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
 msgid "Invalid Language"
-msgstr ""
+msgstr "Невірна мова"
 
 #: ../core/views/trunks/trunk_footer.php:88
 msgid "Invalid Maximum Channels"
-msgstr ""
+msgstr "Невірний максимум каналів"
 
 #: ../core/views/trunks/trunk_footer.php:87
 msgid "Invalid Outbound CallerID"
@@ -5100,7 +5109,7 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:120
 msgid "Language Code"
-msgstr ""
+msgstr "Код мови"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
 msgid "Language Support Unknown"
@@ -5127,11 +5136,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:49
 #: amp_conf/htdocs/admin/views/module_admin/main.php:168
 msgid "License"
-msgstr ""
+msgstr "Ліцензія"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:223
 msgid "Licensed"
-msgstr ""
+msgstr "Ліцензований"
 
 #: amp.i18n.php:838
 msgid "Link for Footer Logo"
@@ -5147,7 +5156,7 @@ msgstr ""
 
 #: ../core/views/rnav.php:13
 msgid "List All Extensions"
-msgstr ""
+msgstr "Список всіх додаткових номерів"
 
 #: ../core/views/dahdichandids/bootnav.php:2
 msgid "List DAHDi DIDs"
@@ -5199,7 +5208,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/menu.php:52
 msgid "Logout"
-msgstr ""
+msgstr "Вийти"
 
 #: ../core/views/routing/form.php:610 ../core/views/trunks/trunk_footer.php:73
 msgid "Long Distance"
@@ -5211,7 +5220,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:49
 msgid "MAC Address"
-msgstr ""
+msgstr "MAC-адреса"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:228
 msgid "MWI Subscription Type"
@@ -5227,7 +5236,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:464
 msgid "Mailbox"
-msgstr ""
+msgstr "Поштова скринька"
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:149
 #: ../core/functions.inc/drivers/Iax2.class.php:140
@@ -5236,6 +5245,8 @@ msgid ""
 "Mailbox for this device. This should not be changed unless you know what you "
 "are doing."
 msgstr ""
+"Поштова скринька для даного пристрою. Не потрібно це змінювати, якщо ви не "
+"знаєте, що ви робите."
 
 #: amp_conf/htdocs/admin/views/noaccess.php:43
 msgid "Make sure the module is installed and enabled."
@@ -5257,7 +5268,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:1168
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:30
 msgid "Manage local modules"
-msgstr "Helyi modulok kezelése"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:17
 msgid "Manage notifications"
@@ -5456,7 +5467,7 @@ msgstr ""
 #: ../core/page.astmodules.php:90 ../core/page.astmodules.php:107
 #: ../core/page.astmodules.php:124
 msgid "Module"
-msgstr ""
+msgstr "Модуль"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:397
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:408
@@ -5466,7 +5477,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1918
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1924
 msgid "Module "
-msgstr ""
+msgstr "Модуль "
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3053
 #, php-format
@@ -5498,7 +5509,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:927
 #, php-format
 msgid "Module %s successfully enabled"
-msgstr ""
+msgstr "Модуль %s успішно ввімкнено"
 
 #: amp_conf/htdocs/admin/page.modules.php:859
 #, php-format
@@ -5515,7 +5526,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/welcome.php:45
 msgid "Module Admin"
-msgstr ""
+msgstr "Адміністрування модулів"
 
 #: amp.i18n.php:194
 msgid ""
@@ -5553,7 +5564,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/noaccess.php:22
 msgid "Module Disabled"
-msgstr ""
+msgstr "Модуль відключено"
 
 #: amp_conf/htdocs/admin/views/noaccess.php:17
 msgid "Module Disabled - Needs Upgrade"
@@ -5605,11 +5616,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2050
 msgid "Module not enabled: cannot disable"
-msgstr "A modul nem engedélyezhető: nincs letiltva"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2082
 msgid "Module not installed: cannot uninstall"
-msgstr "A modul nem telepíthető: nincs uninstallálva"
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:15
 #, php-format
@@ -5626,9 +5637,9 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3083
-#, php-format
+#, fuzzy, php-format
 msgid "Module: \"%s\", File: \"%s\""
-msgstr ""
+msgstr "Модуль: \"%s\", Файл: \"%s\""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3081
 #, php-format
@@ -5654,7 +5665,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:193
 msgid "More info"
-msgstr ""
+msgstr "Більше інформації"
 
 #: ../core/views/trunks/sip.php:132
 msgid ""
@@ -5698,7 +5709,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:382
 msgid "NAT Mode"
-msgstr ""
+msgstr "Режим трансляції мережевих адрес (NAT)"
 
 #: ../core/functions.inc/drivers/Sip.class.php:381
 msgid ""
@@ -5706,10 +5717,14 @@ msgid ""
 "both internal and external devices. Set to No if the device will always be "
 "internal."
 msgstr ""
+"Налаштування трансляції мережевих адрес (NAT), см. документацію Астеріск для "
+"додаткової інформації. <b>Так</b>, як правило, працює як для внутрішніх, так "
+"і зовнішніх пристроїв. Встановіть значення <b>Ні</b>, якщо пристрій завжди "
+"буде внутрішнім."
 
 #: ../core/page.ampusers.php:126 ../core/page.ampusers.php:128
 msgid "NOTE"
-msgstr ""
+msgstr "Примітка"
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:37
 #, php-format
@@ -5728,7 +5743,7 @@ msgstr ""
 #: ../core/views/rnav.php:19 ../core/views/rnav.php:43
 #: ../core/views/routing/grid.php:70 ../core/views/trunks/trunkgrid.php:31
 msgid "Name"
-msgstr ""
+msgstr "Ім'я"
 
 #: ../core/views/routing/form.php:285
 msgid ""
@@ -5742,12 +5757,12 @@ msgstr ""
 
 #: ../core/functions.inc.php:5761
 msgid "Never"
-msgstr ""
+msgstr "Ніколи"
 
 #: ../core/functions.inc/drivers/Sip.class.php:378
 #, php-format
 msgid "Never - (%s)"
-msgstr ""
+msgstr "Ніколи - (%s)"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:781
 #: amp_conf/htdocs/admin/views/module_admin/main.php:107
@@ -5757,7 +5772,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:21
 msgid "Nightly"
-msgstr ""
+msgstr "Щоночі"
 
 #: ../core/functions.inc.php:5760
 #: ../core/functions.inc/drivers/Dahdi.class.php:108
@@ -5791,16 +5806,16 @@ msgstr ""
 #: ../core/views/trunks/trunk_header.php:419
 #: ../core/views/trunks/trunk_header.php:446
 msgid "No"
-msgstr "No"
+msgstr "Ні"
 
 #: ../core/functions.inc/drivers/Sip.class.php:365
 #, php-format
 msgid "No - (%s)"
-msgstr ""
+msgstr "Ні - (%s)"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:271
 msgid "No Action"
-msgstr ""
+msgstr "Немає дії"
 
 #: ../core/functions.inc.php:6094
 msgid "No Answer"
@@ -5825,11 +5840,11 @@ msgstr ""
 
 #: ../core/functions.inc.php:5795
 msgid "No Limit"
-msgstr ""
+msgstr "Без обмежень"
 
 #: ../core/views/did/advanced_form.php:8
 msgid "No Music"
-msgstr ""
+msgstr "Без музики"
 
 #: amp_conf/htdocs/admin/page.modules.php:643
 msgid "No actions to perform"
@@ -5855,7 +5870,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:63
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:116
 msgid "No file given to load"
-msgstr ""
+msgstr "Не вказано файл для завантаження"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1709
 msgid "No file was uploaded"
@@ -5892,11 +5907,11 @@ msgstr ""
 #: ../core/views/did/basic_form.php:120 ../core/views/trunks/pjsip.php:91
 #: ../core/views/trunks/pjsip.php:110 ../core/views/trunks/pjsip.php:642
 msgid "None"
-msgstr ""
+msgstr "Жоден"
 
 #: ../core/functions.inc/drivers/Virtual.class.php:9
 msgid "None (virtual exten)"
-msgstr ""
+msgstr "Жоден (віртуальний додатковий номер)"
 
 #: ../core/views/routing/form.php:464
 msgid "Normal Congestion"
@@ -5942,16 +5957,16 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:758
 msgid "Not Installed (Available online: "
-msgstr ""
+msgstr "Не встановлено (доступно на сайті: "
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:69
 #, php-format
 msgid "Not Installed (Available online: %s)"
-msgstr ""
+msgstr "Не встановлено (доступно на сайті: %s)"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:756
 msgid "Not Installed (Locally available)"
-msgstr ""
+msgstr "Не встановлено (доступно локально)"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:71
 #, php-format
@@ -5968,7 +5983,7 @@ msgstr ""
 
 #: ../core/page.ampusers.php:274
 msgid "Not Selected"
-msgstr ""
+msgstr "Не вибрано"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:229
 msgid "Not an array"
@@ -5980,7 +5995,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/welcome.php:15
 msgid "Notice"
-msgstr ""
+msgstr "Замітка"
 
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:63
 msgid "Notifications Help"
@@ -6009,15 +6024,15 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:253
 msgid "Object"
-msgstr ""
+msgstr "Об'єкт"
 
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:253
 msgid "Objects"
-msgstr ""
+msgstr "Об'єкти"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:213
 msgid "Obtain Free License"
-msgstr ""
+msgstr "Отримайте безкоштовну ліцензію"
 
 #: amp.i18n.php:496
 msgid "Occupied Lines CW Busy"
@@ -6101,7 +6116,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/login.php:35
 msgid "Operator Panel"
-msgstr ""
+msgstr "Панель оператора"
 
 #: amp.i18n.php:862
 msgid "Optional Additional CSS Stylesheet"
@@ -6237,13 +6252,13 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:17
 msgid "Orphan"
-msgstr ""
+msgstr "Сирота"
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:54
 #: amp_conf/htdocs/admin/views/menu_items.php:50
 #: ../core/views/did/advanced_form.php:74
 msgid "Other"
-msgstr ""
+msgstr "Інше"
 
 #: ../core/views/trunks/pjsip.php:85
 msgid "Outbound"
@@ -6301,16 +6316,16 @@ msgstr ""
 
 #: ../core/views/trunks/sip.php:4
 msgid "Outgoing"
-msgstr ""
+msgstr "Вихідний"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:29
 msgid "Output debug messages to the console (be super chatty)"
-msgstr ""
+msgstr "Вивід налагоджувальних повідомлень до консолі (супер балакучий)"
 
 #: ../core/functions.inc.php:5770 ../core/functions.inc.php:6003
 #: ../core/views/trunks/trunk_header.php:389
 msgid "Override"
-msgstr ""
+msgstr "Замістити"
 
 #: amp.i18n.php:634
 msgid "Override Call Recording Location"
@@ -6419,7 +6434,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/obe.php:30
 #: amp_conf/htdocs/admin/views/oobe.php:9 ../core/page.ampusers.php:224
 msgid "Password"
-msgstr ""
+msgstr "Пароль"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:106
 #: ../core/functions.inc/drivers/Sip.class.php:271
@@ -6427,6 +6442,8 @@ msgid ""
 "Password (secret) configured for the device. Should be alphanumeric with at "
 "least 2 letters and numbers to keep secure."
 msgstr ""
+"Пароль (секретний), сконфігурований для даного пристрою. Повинен бути "
+"буквено-цифровим, і складатись що найменш з 2-х букв і цифр, для безпеки."
 
 #: ../core/views/routing/grid.php:26 ../core/views/routing/grid.php:28
 msgid "Password Protected"
@@ -6444,95 +6461,95 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:234
 msgid "Password too short"
-msgstr ""
+msgstr "Пароль замалий"
 
 #: amp.i18n.php:868
 msgid "Path for asterisk"
-msgstr ""
+msgstr "Шлях для asterisk"
 
 #: amp.i18n.php:874
 msgid "Path for cp"
-msgstr ""
+msgstr "Шлях для cp"
 
 #: amp.i18n.php:880
 msgid "Path for ffmpeg"
-msgstr ""
+msgstr "Шлях для ffmpeg"
 
 #: amp.i18n.php:886
 msgid "Path for grep"
-msgstr ""
+msgstr "Шлях для grep"
 
 #: amp.i18n.php:892
 msgid "Path for gs"
-msgstr ""
+msgstr "Шлях для gs"
 
 #: amp.i18n.php:898
 msgid "Path for ifconfig"
-msgstr ""
+msgstr "Шлях для ifconfig"
 
 #: amp.i18n.php:904
 msgid "Path for install"
-msgstr ""
+msgstr "Шлях для install"
 
 #: amp.i18n.php:910
 msgid "Path for lame"
-msgstr ""
+msgstr "Шлях для lame"
 
 #: amp.i18n.php:916
 msgid "Path for mpg123"
-msgstr ""
+msgstr "Шлях для mpg123"
 
 #: amp.i18n.php:922
 msgid "Path for mysqldump"
-msgstr ""
+msgstr "Шлях для mysqldump"
 
 #: amp.i18n.php:928
 msgid "Path for openssl"
-msgstr ""
+msgstr "Шлях для openssl"
 
 #: amp.i18n.php:934
 msgid "Path for ps"
-msgstr ""
+msgstr "Шлях для ps"
 
 #: amp.i18n.php:940
 msgid "Path for route"
-msgstr ""
+msgstr "Шлях для route"
 
 #: amp.i18n.php:946
 msgid "Path for rsync"
-msgstr ""
+msgstr "Шлях для rsync"
 
 #: amp.i18n.php:952
 msgid "Path for sox"
-msgstr ""
+msgstr "Шлях для sox"
 
 #: amp.i18n.php:958
 msgid "Path for ssh"
-msgstr ""
+msgstr "Шлях для ssh"
 
 #: amp.i18n.php:964
 msgid "Path for tail"
-msgstr ""
+msgstr "Шлях для tail"
 
 #: amp.i18n.php:970
 msgid "Path for tar"
-msgstr ""
+msgstr "Шлях для tar"
 
 #: amp.i18n.php:976
 msgid "Path for tiff2pdf"
-msgstr ""
+msgstr "Шлях для tiff2pdf"
 
 #: amp.i18n.php:982
 msgid "Path for tiffcp"
-msgstr ""
+msgstr "Шлях для tiffcp"
 
 #: amp.i18n.php:988
 msgid "Path for tiffinfo"
-msgstr ""
+msgstr "Шлях для tiffinfo"
 
 #: amp.i18n.php:994
 msgid "Path for touch"
-msgstr ""
+msgstr "Шлях для touch"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:152
 msgid "Path given to verifyModule. Only provide a module name"
@@ -6592,7 +6609,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:470
 msgid "Permit"
-msgstr ""
+msgstr "Дозволити"
 
 #: ../core/functions.inc/drivers/Sip.class.php:454
 msgid "Pickup Groups"
@@ -6650,7 +6667,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:226
 msgid "Please enter a username"
-msgstr ""
+msgstr "Будь ласка, введіть ім'я користувача"
 
 #: ../core/functions.inc.php:5907
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
@@ -6716,15 +6733,13 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/footer.php:120
 msgid "Please select a \"Destination\""
-msgstr "Válaszd ki a \"célpontot\""
+msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:644
 msgid ""
 "Please select at least one action to perform by clicking on the module, and "
 "selecting an action on the \"Action\" tab."
 msgstr ""
-"Kérlek egy akció kiválasztásához klikkelj egy modulra, és vválassz ki egy "
-"akciót az \"Akció\" fülre kattintva."
 
 #: ../core/views/quickCreate.php:39
 msgid "Please select the type of device you want to create"
@@ -6732,7 +6747,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:188
 msgid "Please wait while module actions are performed"
-msgstr "Kérlek várj, hogy a kiadott utasítás lefusson"
+msgstr ""
 
 #: amp.i18n.php:508
 msgid "Polling Interval for Stopping Asterisk"
@@ -6744,29 +6759,29 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:385
 msgid "Port"
-msgstr ""
+msgstr "Порт"
 
 #: ../core/functions.inc/drivers/Sip.class.php:207
 #, php-format
 msgid "Port %s (%s - this is a <strong>NON STANDARD</strong> port)"
-msgstr ""
+msgstr "Порт %s (%s - це <strong>НЕ СТАНДАРТНИЙ</strong> порт)"
 
 #: ../core/functions.inc/drivers/Sip.class.php:205
 #, php-format
 msgid "Port %s (%s)"
-msgstr ""
+msgstr "Порт %s (%s)"
 
 #: amp.i18n.php:122
 msgid "Port for the Asterisk Manager"
-msgstr ""
+msgstr "Порт для Asterisk Manager"
 
 #: amp.i18n.php:56
 msgid "Port to bind to. Default is 8088"
-msgstr ""
+msgstr "Порт для зв'язування. За замовчуванням 8088"
 
 #: amp.i18n.php:74
 msgid "Port to bind to. Default is 8089"
-msgstr ""
+msgstr "Порт для зв'язування. За замовчуванням 8089"
 
 #: amp.i18n.php:220
 msgid "Post Call Recording Script"
@@ -6789,12 +6804,12 @@ msgstr ""
 
 #: ../core/page.astmodules.php:77
 msgid "Preloaded Modules"
-msgstr ""
+msgstr "Попередньо завантажені модулі"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:120
 #, php-format
 msgid "Press %s to Cancel"
-msgstr ""
+msgstr "Для скасування натисніть %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:121
 #, php-format
@@ -6827,11 +6842,11 @@ msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:15
 msgid "Priority"
-msgstr ""
+msgstr "Пріоритет"
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:49
 msgid "Priority needs to be either 'true', 'false' or a number"
-msgstr ""
+msgstr "Пріоритет повинен бути або \"істина\", \"брехня\" або номером"
 
 #: ../core/views/did/advanced_form.php:68
 msgid "Privacy"
@@ -6863,24 +6878,24 @@ msgstr ""
 
 #: amp.i18n.php:736
 msgid "Proxy Address"
-msgstr ""
+msgstr "Адреса проксі-сервера"
 
 #: amp.i18n.php:748
 msgid "Proxy Password"
-msgstr ""
+msgstr "Пароль проксі-сервера"
 
 #: amp.i18n.php:732 amp.i18n.php:738 amp.i18n.php:744 amp.i18n.php:750
 msgid "Proxy Settings"
-msgstr ""
+msgstr "Налаштування проксі-сервера"
 
 #: amp.i18n.php:742
 msgid "Proxy Username"
-msgstr ""
+msgstr "Ім'я користувача проксі-сервера"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:48
 #: amp_conf/htdocs/admin/views/module_admin/main.php:156
 msgid "Publisher"
-msgstr ""
+msgstr "Видавник"
 
 #: ../core/functions.inc.php:825 ../core/functions.inc.php:4429
 msgid "Put caller on hold forever"
@@ -6888,46 +6903,49 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:387
 msgid "Qualify"
-msgstr ""
+msgstr "Кваліфікувати"
 
 #: ../core/functions.inc/drivers/Sip.class.php:390
 #: ../core/views/trunks/pjsip.php:395
 msgid "Qualify Frequency"
-msgstr ""
+msgstr "Частота кваліфікації"
 
 #: ../core/page.extensions.php:108 ../core/page.extensions.php:166
 msgid "Quick Create Extension"
-msgstr ""
+msgstr "Швидке створення додаткового номеру"
 
 #: amp_conf/htdocs/admin/views/menu.php:64
 msgid "Quick Search '/'"
-msgstr ""
+msgstr "Швидкий пошук '/'"
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:1098
 msgid "Quick Select"
-msgstr ""
+msgstr "Швидкий вибір"
 
 #: ../core/functions.inc/drivers/Sip.class.php:306
 msgid "RFC 2833"
-msgstr ""
+msgstr "RFC 2833"
 
 #: ../core/functions.inc/drivers/Sip.class.php:301
 msgid "RFC 4733"
-msgstr ""
+msgstr "RFC 4733"
 
 #: amp.i18n.php:1150
 msgid "RSS Feeds"
-msgstr ""
+msgstr "RSS-канали"
 
 #: amp.i18n.php:1154
 msgid ""
 "RSS Feeds that are displayed in UCP and Dashboard. Separate each feed by a "
 "new line. Supported feeds are Atom 1.0 and RSS 0.91, 0.92, 1.0 and 2.0"
 msgstr ""
+"RSS-канали, які відображаються в UCP та головної сторінки. Відокремити кожен "
+"канал можна за допомогою нової лінії. Підтримувані канали - Atom 1.0 і RSS "
+"0.91, 0.92, 1.0 та 2.0"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:217
 msgid "RTP Symmetric"
-msgstr ""
+msgstr "Симетричний RTP"
 
 #: ../core/functions.inc/drivers/Sip.class.php:317
 msgid ""
@@ -6966,7 +6984,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:6072
 msgid "Recording of inbound calls from external sources."
-msgstr ""
+msgstr "Запис вхідних дзвінків з зовнішніх джерел."
 
 #: ../core/functions.inc.php:6073
 msgid "Recording of outbound calls to external sources."
@@ -6974,7 +6992,7 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:646
 msgid "Redundancy"
-msgstr ""
+msgstr "Надмірність"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:835
 #, php-format
@@ -6983,7 +7001,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:359
 msgid "Refuse"
-msgstr ""
+msgstr "Відмовлятись"
 
 #: ../core/views/trunks/sip.php:120
 msgid "Register String"
@@ -7016,7 +7034,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:14
 msgid "Reload Configs"
-msgstr ""
+msgstr "Перезавантажити конфігурацію"
 
 #: amp_conf/htdocs/admin/functions.inc.php:390
 #, php-format
@@ -7070,7 +7088,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:304
 #: amp_conf/htdocs/admin/views/module_admin/main.php:366
 msgid "Remove"
-msgstr ""
+msgstr "Прибрати"
 
 #: ../core/views/trunks/trunk_header.php:336
 msgid "Remove CNAM"
@@ -7122,7 +7140,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/menu_items.php:47
 msgid "Reports"
-msgstr "Jelentések"
+msgstr "Звіти"
 
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:8
 msgid "Repositories"
@@ -7142,7 +7160,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:246
 msgid "Required"
-msgstr ""
+msgstr "Необхідний"
 
 #: amp.i18n.php:260
 msgid ""
@@ -7156,12 +7174,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1101
 #, php-format
 msgid "Requires engine %s, you have: %s"
-msgstr "A %s motornak követelménye a %s"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1103
 #, php-format
 msgid "Requires one of the following engines: %s; you have: %s"
-msgstr "A %s motor a követelmény. Neked a %s van meg."
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:37
 #: amp_conf/htdocs/admin/views/module_admin/main.php:441
@@ -7171,7 +7189,7 @@ msgstr "A %s motor a követelmény. Neked a %s van meg."
 #: ../core/Core.class.php:377 ../core/Core.class.php:407
 #: ../core/Core.class.php:432
 msgid "Reset"
-msgstr ""
+msgstr "Скинути"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:21
 msgid "Reset to defailt"
@@ -7189,11 +7207,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/footer.php:108
 msgid "Retry"
-msgstr ""
+msgstr "Повторити"
 
 #: amp_conf/htdocs/admin/page.modules.php:386
 msgid "Return"
-msgstr ""
+msgstr "Повернутись"
 
 #: amp_conf/htdocs/admin/libraries/Console/RemoteUnlock.class.php:12
 msgid "Return key to unlock session remotely"
@@ -7228,12 +7246,12 @@ msgstr ""
 #: ../core/page.did.php:43 ../core/views/routing/bootnav.php:9
 #: ../core/views/trunks/trunk_header.php:15
 msgid "Route"
-msgstr "Útvonal"
+msgstr "Маршрут"
 
 #: ../core/functions.inc/drivers/Sip.class.php:379
 #, php-format
 msgid "Route - (%s)"
-msgstr ""
+msgstr "Маршрут - (%s)"
 
 #: ../core/views/routing/form.php:297
 msgid "Route CID"
@@ -7241,11 +7259,11 @@ msgstr ""
 
 #: ../core/views/routing/form.php:273
 msgid "Route Name"
-msgstr "Útvonal neve"
+msgstr ""
 
 #: ../core/views/routing/form.php:350
 msgid "Route Password"
-msgstr "Útvonaljelszó"
+msgstr ""
 
 #: ../core/views/routing/form.php:410
 msgid "Route Position"
@@ -7261,7 +7279,7 @@ msgstr ""
 
 #: ../core/views/routing/form.php:64 ../core/views/trunks/trunk_header.php:85
 msgid "Rules:"
-msgstr "Szabályok:"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:255
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
@@ -7284,7 +7302,7 @@ msgstr ""
 #: ../core/Core.class.php:2808 ../core/Core.class.php:2809
 #, php-format
 msgid "SIP (%s)"
-msgstr ""
+msgstr "SIP (%s)"
 
 #: ../core/functions.inc.php:5967
 msgid "SIP Alias"
@@ -7308,7 +7326,7 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:146
 msgid "SIP Server"
-msgstr ""
+msgstr "SIP-сервер"
 
 #: ../core/views/trunks/pjsip.php:154
 msgid ""
@@ -7317,7 +7335,7 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:164
 msgid "SIP Server Port"
-msgstr ""
+msgstr "Порт SIP-серверу"
 
 #: ../core/views/trunks/pjsip.php:172
 msgid "SIP Server Port. This is ignored when Registration is set to 'Receive'."
@@ -7339,11 +7357,11 @@ msgstr ""
 
 #: amp.i18n.php:316
 msgid "SIP and IAX allow"
-msgstr ""
+msgstr "SIP та IAX дозволено"
 
 #: amp.i18n.php:322
 msgid "SIP and IAX disallow"
-msgstr ""
+msgstr "SIP та IAX заборонено"
 
 #: amp.i18n.php:310
 msgid "SIP and IAX qualify"
@@ -7355,11 +7373,11 @@ msgstr ""
 
 #: amp.i18n.php:298
 msgid "SIP encryption"
-msgstr ""
+msgstr "Шифрування SIP"
 
 #: amp.i18n.php:292
 msgid "SIP nat"
-msgstr ""
+msgstr "Трансляція мережевих адрес SIP (NAT)"
 
 #: amp.i18n.php:304
 msgid "SIP qualifyfreq"
@@ -7375,7 +7393,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:238
 msgid "SRTP via in-SDP (recommended)"
-msgstr ""
+msgstr "SRTP за допомогою in-SDP (рекомендується)"
 
 #: amp_conf/htdocs/admin/views/bad_refferer.php:19
 msgid "SUSPECT LINK:"
@@ -7383,7 +7401,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/footer.php:110
 msgid "Save"
-msgstr ""
+msgstr "Зберегти"
 
 #: ../core/functions.inc.php:5783
 msgid "Screen Caller: Memory"
@@ -7395,12 +7413,12 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/menu.php:64
 msgid "Search"
-msgstr ""
+msgstr "Пошук"
 
 #: ../core/views/trunks/pjsip.php:296 ../core/views/trunks/pjsip.php:323
 #: ../core/views/trunks/pjsip.php:350 ../core/views/trunks/pjsip.php:401
 msgid "Seconds"
-msgstr ""
+msgstr "Секунд"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:107
 #: ../core/functions.inc/drivers/Sip.class.php:272
@@ -7438,11 +7456,11 @@ msgstr ""
 
 #: ../core/page.ampusers.php:257
 msgid "Selected"
-msgstr ""
+msgstr "Обраний"
 
 #: ../core/views/trunks/pjsip.php:106
 msgid "Send"
-msgstr ""
+msgstr "Надіслати"
 
 #: amp.i18n.php:1018
 msgid "Send Dashboard Notifications to Log"
@@ -7474,7 +7492,7 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:540
 msgid "Server URI"
-msgstr ""
+msgstr "URI серверу"
 
 #: amp.i18n.php:88
 msgid "Session Inactivity "
@@ -7504,7 +7522,7 @@ msgstr ""
 #: ../core/views/did/advanced_form.php:264
 #: ../core/views/did/basic_form.php:143
 msgid "Set Destination"
-msgstr "Cél beállítása"
+msgstr "Встановити призначення"
 
 #: amp.i18n.php:688
 msgid "Set Module Admin to Edge mode"
@@ -7680,19 +7698,19 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:178
 #: ../core/views/trunks/trunk_header.php:236
 msgid "Settings"
-msgstr ""
+msgstr "Налаштування"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:12
 msgid "Severity"
-msgstr ""
+msgstr "Суворість"
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:11
 msgid "Short for 'Digium Asterisk Hardware Device Interface'"
-msgstr ""
+msgstr "Скорочення для 'Digium Asterisk Hardware Device Interface'"
 
 #: amp.i18n.php:694
 msgid "Show Language setting"
-msgstr ""
+msgstr "Налаштування відображення мови"
 
 #: amp.i18n.php:698
 msgid "Show Language setting on menu . Defaults = false"
@@ -7734,7 +7752,7 @@ msgstr ""
 #: ../core/views/did/advanced_form.php:290
 #: ../core/views/did/basic_form.php:168
 msgid "Signal RINGING"
-msgstr "Csörgés-jelzés"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:833
 msgid "Signature Invalid"
@@ -7782,10 +7800,6 @@ msgid ""
 "notice this happening if you can send calls directly to a phone, but if you "
 "send it to an IVR, it won't connect the call."
 msgstr ""
-"Néhány készüléken vagy szolgáltatónál megkövetelt, hogy VÁLASZ előtt "
-"KICSÖRGÉS is legyen.  Ezt nem szükséges beállítani, ha egy telefonszámot "
-"közvetlenül egy készülékre irányítassz, de egy IVR-re történő irányításnál "
-"nagyon hasznos."
 
 #: amp.i18n.php:506
 msgid ""
@@ -7812,7 +7826,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2077
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2150
 msgid "Specified module not found"
-msgstr "A megadott modul nem található"
+msgstr ""
 
 #: amp.i18n.php:104
 msgid ""
@@ -7834,20 +7848,20 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:19
 msgid "Stable"
-msgstr ""
+msgstr "Стабільний"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:13
 msgid "Standard"
-msgstr ""
+msgstr "Стандартний"
 
 #: amp_conf/htdocs/admin/libraries/Console/Restart.class.php:17
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:22
 msgid "Start Asterisk and run other needed FreePBX commands"
-msgstr ""
+msgstr "Запустити Asterisk і запустити інші необхідні команди FreePBX"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:148
 msgid "Starting Asterisk..."
-msgstr ""
+msgstr "Запуск Asterisk..."
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:27
 msgid "Starting Cache cleanup"
@@ -7857,7 +7871,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:50
 #: ../core/views/trunks/trunkgrid.php:34
 msgid "Status"
-msgstr ""
+msgstr "Стан"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:17
 msgid "Stop Asterisk and run other needed FreePBX commands"
@@ -7885,7 +7899,7 @@ msgstr ""
 #: ../core/Core.class.php:382 ../core/Core.class.php:412
 #: ../core/Core.class.php:437
 msgid "Submit"
-msgstr "Elküld"
+msgstr "Застосувати"
 
 #: amp_conf/htdocs/admin/functions.inc.php:416
 msgid ""
@@ -7911,7 +7925,7 @@ msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:391
 msgid "System"
-msgstr ""
+msgstr "Система"
 
 #: amp.i18n.php:870 amp.i18n.php:876 amp.i18n.php:882 amp.i18n.php:888
 #: amp.i18n.php:894 amp.i18n.php:900 amp.i18n.php:906 amp.i18n.php:912
@@ -7920,7 +7934,7 @@ msgstr ""
 #: amp.i18n.php:966 amp.i18n.php:972 amp.i18n.php:978 amp.i18n.php:984
 #: amp.i18n.php:990 amp.i18n.php:996
 msgid "System Apps"
-msgstr ""
+msgstr "Системні додатки"
 
 #: amp.i18n.php:1162
 msgid "System Asterisk Group"
@@ -7953,7 +7967,7 @@ msgstr ""
 #: amp.i18n.php:1194 amp.i18n.php:1200 amp.i18n.php:1206 amp.i18n.php:1212
 #: amp.i18n.php:1218
 msgid "System Setup"
-msgstr ""
+msgstr "Налаштування системи"
 
 #: amp.i18n.php:1192
 msgid "System Web Group"
@@ -7981,7 +7995,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:402
 msgid "TCP Only"
-msgstr ""
+msgstr "Лише TCP"
 
 #: ../core/Console/Trunks.class.php:55 ../core/Console/Trunks.class.php:62
 msgid "TECH"
@@ -7989,7 +8003,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:403
 msgid "TLS Only"
-msgstr ""
+msgstr "Лише TLS"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:144
 #, php-format
@@ -8154,13 +8168,6 @@ msgid ""
 "long distance (ie, VoIP trunks first) followed by more expensive routes "
 "(POTS lines)."
 msgstr ""
-"A trunk sorozat kontrollálja a trunk-ök hívásbeli sorrendjét. A trunk-ökben "
-"meghatározott tárcsázási minták a trunk sorozatban meghatározott rendben "
-"lesz megvizsgálva.<br><br>Például ha egy távolsági hívást kezdeményeznek, "
-"akkor a fontossági sorrend elsőnek a VoIP szolgáltatók, hisz azok ilyen "
-"esetekben lényegesen alacsonyabb árakat tudnak felmutatni, lejebb viszont "
-"szerepelhetnek PSTN szolgáltatók arra az esetre, ha a hívást nem tudják "
-"fogadni, vagy továbbítani a trunk-ök."
 
 #: amp.i18n.php:386
 msgid ""
@@ -8193,7 +8200,7 @@ msgstr ""
 
 #: amp.i18n.php:1118
 msgid "The default language used in the webUI"
-msgstr ""
+msgstr "Мова за замовчуванням використовується в WebUI"
 
 #: ../core/views/routing/form.php:79
 msgid ""
@@ -8241,7 +8248,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:868
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:878
 msgid "The following error(s) occured:"
-msgstr ""
+msgstr "Виникли наступні помилки:"
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:7
 #, php-format
@@ -8269,7 +8276,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:22
 msgid "The legacy SIP channel driver in Asterisk"
-msgstr ""
+msgstr "Застарілий драйвер SIP каналу в Asterisk"
 
 #: amp.i18n.php:602
 msgid "The location for Asterisk Certificates"
@@ -8313,11 +8320,11 @@ msgstr ""
 
 #: amp.i18n.php:608
 msgid "The path to Apache cgi-bin dir (leave off trailing slash)."
-msgstr ""
+msgstr "Шлях до директорії cgi-bin Apache (без кінцевого слешу)."
 
 #: amp.i18n.php:626
 msgid "The path to Apache webroot (leave off trailing slash)."
-msgstr ""
+msgstr "Шлях до директорії Apache (без кінцевого слешу)."
 
 #: amp.i18n.php:872
 msgid ""
@@ -8575,9 +8582,6 @@ msgid ""
 "Forum</a> where you can post\n"
 "questions and search for answers for any problems you may be having."
 msgstr ""
-"A közözzég gyakran találkozik a <a href='%s' target='_new'>FreePBX Web "
-"Fórumon</a>, ahol a kérdéseket és válaszokat bár picit lassabban beszélik "
-"meg, de maradandóak, és bármikor segítségedre lehetnek."
 
 #: ../core/install.php:185
 #, php-format
@@ -8617,7 +8621,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/view.functions.php:501
 msgid "This Module has been deprecated"
-msgstr ""
+msgstr "Цей модуль застарів"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1153
 msgid "This action understands somethings may be disabled for a reason."
@@ -8666,8 +8670,6 @@ msgid ""
 "This is most often the account name or number your provider expects."
 "<br><br>This USER Context will be used to define the below user details."
 msgstr ""
-"Változtasd meg a hozzáférés nevét, vagy számát a szolgáltatódnak megfelelőre."
-"<br><br>Ezt a USER kontextust fogod részletezni lejjebb."
 
 #: amp.i18n.php:1142
 msgid ""
@@ -8747,7 +8749,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/noaccess.php:29
 msgid "This module appears to be broken"
-msgstr ""
+msgstr "Цей модуль був зламаний"
 
 #: amp_conf/htdocs/admin/views/noaccess.php:36
 msgid ""
@@ -8986,7 +8988,7 @@ msgstr ""
 
 #: ../core/views/trunks/sip.php:72
 msgid "USER Context"
-msgstr "USER kontextus"
+msgstr ""
 
 #: ../core/views/trunks/sip.php:96
 msgid "USER Details"
@@ -9404,7 +9406,7 @@ msgstr ""
 #: ../core/page.devices.php:66 ../core/page.devices.php:87
 #: ../core/page.did.php:88 ../core/page.users.php:54 ../core/views/rnav.php:42
 msgid "User"
-msgstr "Felhasználó"
+msgstr ""
 
 #: amp.i18n.php:1066
 msgid "User & Devices Mode"
@@ -9628,7 +9630,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:6125
 msgid "Warning! Extension"
-msgstr "Figyelem! Mellék"
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:2
 msgid "Warning:"
@@ -9927,7 +9929,7 @@ msgstr ""
 #: ../core/views/trunks/trunk_header.php:417
 #: ../core/views/trunks/trunk_header.php:444
 msgid "Yes"
-msgstr "Yes"
+msgstr "Так"
 
 #: ../core/functions.inc/drivers/Sip.class.php:438
 msgid "Yes (SRTP only)"
@@ -9936,7 +9938,7 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:364
 #, php-format
 msgid "Yes - (%s)"
-msgstr ""
+msgstr "Так - (%s)"
 
 #: ../core/views/trunks/trunk_footer.php:97
 msgid "You Must define a Server URI"
@@ -10217,7 +10219,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1127
 #, php-format
 msgid "Your %s version (%s) is incompatible."
-msgstr "A te %s verziód inkompatibilis (%s)."
+msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:500
 msgid ""
@@ -10250,9 +10252,6 @@ msgid ""
 "(which is defined in zapata.conf).  <br><br>The default setting is <b>g0</b> "
 "(group zero)."
 msgstr ""
-"A ZAP azonosító a a csoport vagy csatornaszámot határozza meg (a zapata.conf-"
-"ban van meghatározva). <br><br>Az alapértelmezett érték: <b>g0</b> (group "
-"zero)."
 
 #: ../core/views/trunks/zap.php:9
 msgid "Zap Identifier"
@@ -10461,7 +10460,7 @@ msgstr ""
 #: ../core/functions.inc.php:5849 ../core/functions.inc.php:6214
 #: ../core/page.did.php:8
 msgid "deleted"
-msgstr "tötölt"
+msgstr ""
 
 #: ../core/install.php:1037
 msgid "deleting ALLOW_SIP_ANON from globals.."
@@ -10666,7 +10665,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:6125
 msgid "is not allowed for your account"
-msgstr "nincs elfogadva a hozzáférésed"
+msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:857
 msgid "is not installed"
@@ -10716,11 +10715,11 @@ msgstr ""
 
 #: ../core/functions.inc.php:5931 ../core/functions.inc.php:6283
 msgid "logs into a device."
-msgstr "napló fogadása egy eszközről."
+msgstr ""
 
 #: ../core/functions.inc.php:5931 ../core/functions.inc.php:6283
 msgid "logs out of a device."
-msgstr "naplózás egy eszközre."
+msgstr ""
 
 #: ../core/views/trunks/misdn.php:20 ../core/views/trunks/misdn.php:34
 msgid "mISDN Group/Port"
@@ -10743,15 +10742,15 @@ msgstr ""
 
 #: ../core/views/routing/form.php:66 ../core/views/trunks/trunk_header.php:86
 msgid "matches any digit from 0-9"
-msgstr "illeszkedik minden számra 0-9-ig"
+msgstr ""
 
 #: ../core/views/routing/form.php:67 ../core/views/trunks/trunk_header.php:87
 msgid "matches any digit from 1-9"
-msgstr "illeszkedik minden számra 1-9-ig"
+msgstr ""
 
 #: ../core/views/routing/form.php:68 ../core/views/trunks/trunk_header.php:88
 msgid "matches any digit from 2-9"
-msgstr "illeszkedik minden számra 2-9-ig"
+msgstr ""
 
 #: ../core/views/routing/form.php:69 ../core/views/trunks/trunk_header.php:89
 msgid ""
@@ -10957,11 +10956,11 @@ msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:7
 msgid "route"
-msgstr "útvonal"
+msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:7
 msgid "routes"
-msgstr "útvonal"
+msgstr ""
 
 #: ../core/views/routing/form.php:73
 msgid ""
@@ -11094,159 +11093,3 @@ msgstr ""
 #: ../core/install.php:1120
 msgid "zap devices migrated"
 msgstr ""
-
-#~ msgid "\")"
-#~ msgstr "\")"
-
-#~ msgid "** WARNING **"
-#~ msgstr "**FIGYELMEZTETÉS**"
-
-#~ msgid "24-hour format"
-#~ msgstr "24 órás időalak használata"
-
-#~ msgid "Add Custom Trunk"
-#~ msgstr "Egyéni trunk felvétele"
-
-#~ msgid "Add ENUM Trunk"
-#~ msgstr "ENUM-trunk hozzáadása"
-
-#~ msgid "Add IAX2 Trunk"
-#~ msgstr "IAX2-trunk hozzáadása"
-
-#~ msgid "Add SIP Trunk"
-#~ msgstr "SIP-trunk hozzáadása"
-
-#~ msgid ""
-#~ "Admin Access<span>Select the Admin Sections this user should have access "
-#~ "to.</span>"
-#~ msgstr ""
-#~ "Adminjogok<span>Válaszd ki azokat a területeket, ahol jogokad adnál ennek "
-#~ "az adsminisztrátornak.</span>"
-
-#~ msgid "Allow Anonymous Inbound SIP Calls?"
-#~ msgstr "Fogadod a bejövő névtelen SIP hívásokat?"
-
-#~ msgid "Department name cannot have a space"
-#~ msgstr "Az osztály neve nem lehet \"üres\""
-
-#~ msgid "Edit Incoming Route"
-#~ msgstr "Bejövő útvonal szerkesztése"
-
-#~ msgid "For security reasons, you cannot use the department name default"
-#~ msgstr "Biztonsági okokból az osztály nevének ne add meg a default-ot"
-
-#~ msgid "FreePBX"
-#~ msgstr "FreePBX"
-
-#~ msgid "Give this trunk a unique name.  Example: myiaxtel"
-#~ msgstr "Add meg a trunk egyedi nevét. Például: iaxtel"
-
-#~ msgid ""
-#~ "If you're new to FreePBX, Welcome. Here are some quick instructions to "
-#~ "get you started"
-#~ msgstr ""
-#~ "Ha új vagy itt a FreePBX-ben, akkor üdvözöllek, és bemutatnék neked "
-#~ "néhány hasznos dolgot az elindulásodhoz"
-
-#~ msgid "Please enter a valid number for Pause after answer"
-#~ msgstr "Kérlek adj meg egy érvényes számot a várakoztatás utáni válaszhoz"
-
-#~ msgid "Remove prefix from local numbers"
-#~ msgstr "Levágja a helyi számoknál"
-
-#~ msgid "Route name is invalid, please try again"
-#~ msgstr "Az útvonal neve nem érvényes, kérlek adj meg egy másikat"
-
-#~ msgid "Security Settings"
-#~ msgstr "Biztnsági beállítások"
-
-#~ msgid "Sequence"
-#~ msgstr "Sorozat"
-
-#~ msgid "Submit Changes"
-#~ msgstr "Változtatások elküldése"
-
-#~ msgid ""
-#~ "The section you requested does not exist or you do not have access to it."
-#~ msgstr "Az általad kért szekció nem létezik, vagy nincs jogod megnézni."
-
-#~ msgid "This trunk is not used by any routes!"
-#~ msgstr "Ezt a trunk-öt nem használja egy útvonal sem!"
-
-#~ msgid ""
-#~ "Username cannot start with a number, and can only contain letters and "
-#~ "numbers"
-#~ msgstr ""
-#~ "A felhasználónév nem kezdődhet számmal, és csak betűket és számokat "
-#~ "tartalmazhat"
-
-#~ msgid "Username must not be blank"
-#~ msgstr "A felhasználó neve nem lehet \"üres\""
-
-#~ msgid "We hope you enjoy using FreePBX!"
-#~ msgstr "Remélem, hogy a FreePBX-et élvezettel használod!"
-
-#~ msgid "Welcome to FreePBX."
-#~ msgstr "Ödvözöllek a FreePBX-ben"
-
-#~ msgid "What is the dialing pattern for local numbers after"
-#~ msgstr "Milyen tárcsázási minták legyenek a helyi számokhoz után"
-
-#~ msgid ""
-#~ "What is the local dialing pattern?\\n\\n(ie. NXXNXXXXXX for US/CAN 10-"
-#~ "digit dialing, NXXXXXX for 7-digit)"
-#~ msgstr ""
-#~ "Mi a helyi hívások mintája?\\n\\n(pl. NXXNXXXXXX az US/CAN 10 számjegyes, "
-#~ "és NXXXXXX a 7 számjegyes tárcsázás)"
-
-#~ msgid ""
-#~ "What is your areacode + prefix (NPA-NXX)?\\n\\n(Note: this database "
-#~ "contains North American numbers only, and is not guaranteed to be 100% "
-#~ "accurate. You will still have the option of modifying results.)\\n\\nThis "
-#~ "may take a few seconds."
-#~ msgstr ""
-#~ "Mi a területkódod, és az előtárcsázási szám (NPA-NXX)?\\n\\n(Megjegyzés: "
-#~ "az adatbázis csak az észak-amerikai számokkal tud dolgozni, és az sem "
-#~ "100%-os. Nagy eséllyel utánna kell nézned, hogy az eredmény helyes-e.)\\n"
-#~ "\\nEz a művelet pár másodpercig fog tartani."
-
-#~ msgid ""
-#~ "What prefix should be added to the dialing pattern?\\n\\n(ie. for US/CAN, "
-#~ "1+areacode, ie, \\'1613\\')?"
-#~ msgstr ""
-#~ "Legyen egy előtárcsázási szám hozzáadva a tárcsázási mintához?\\n\\n(pl. "
-#~ "egy US/CAN 1+területkód: \\'1613\\')"
-
-#~ msgid ""
-#~ "What prefix should be removed from the number?\\n\\n(ie. for US/CAN, 1"
-#~ "+areacode, ie, \\'1613\\')"
-#~ msgstr ""
-#~ "Legyen egy előtárcsázási szám levágva a tárcsázási mintában?\\n\\n(pl. "
-#~ "egy US/CAN 1+területkód: \\'1613\\')"
-
-#~ msgid ""
-#~ "You have not entered a User Password.  While this is acceptable, this "
-#~ "user will not be able to login to an AdHoc device.\\n\\nAre you sure you "
-#~ "wish to leave the User Password empty?"
-#~ msgstr ""
-#~ "Nem adtál meg Felhasználó jelszót. Ha ezt elfogadod, akkor a felhasználó "
-#~ "nem fog tudni bejelentkezni az ad-hoc készülékekre.\\n\\nÜresen akarod "
-#~ "hagyni a Felhasználó jelszót?"
-
-#~ msgid "any CID"
-#~ msgstr "Minden CID"
-
-#~ msgid "any DID"
-#~ msgstr "Minden DID"
-
-#~ msgid "be upgraded. Please upgrade %s first, and then try again."
-#~ msgstr ""
-#~ "frissítve. Kérlek elősször frissítsd a %s-t, és utánna próbáld még "
-#~ "egyszer."
-
-#~ msgid ""
-#~ "is useful for VoIP trunks, where if a number is dialed as \"5551234\", it "
-#~ "can be converted to \"16135551234\"."
-#~ msgstr ""
-#~ "nagyon előnyös a VoIP trunk-öknél, ha a tárcsázott szám \"5551234\", de "
-#~ "át kell konvertálni \"16135551234\"-re."

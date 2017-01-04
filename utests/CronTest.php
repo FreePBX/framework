@@ -10,7 +10,6 @@ class CronTest extends PHPUnit_Framework_TestCase {
 	protected static $c;
 
 	public static function setUpBeforeClass() {
-		include 'setuptests.php';
 		self::$c = FreePBX::create()->Cron;
 	}
 

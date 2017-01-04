@@ -100,9 +100,7 @@ foreach ($bootstrap_defaults as $key => $default_value) {
 }
 
 // include base functions
-if(!class_exists("Composer\Autoload\ClassLoader")) {
-	include $dirname .'/libraries/Composer/vendor/autoload.php';
-}
+include $dirname .'/libraries/Composer/vendor/autoload.php';
 
 $bootstrap_settings['framework_functions_included'] = false;
 //load all freepbx functions
@@ -169,7 +167,7 @@ if(!empty($phptimezone)) {
 	$tzi = \DateTimeZone::listIdentifiers();
 	if(!in_array($phptimezone,$tzi)) {
 		$invalidtimezone = $phptimezone;
-		$timezone = 'UTC';
+		$phptimezone = 'UTC';
 	}
 	date_default_timezone_set($phptimezone);
 }

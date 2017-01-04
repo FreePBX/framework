@@ -9,7 +9,6 @@ class InstallerTest extends PHPUnit_Framework_TestCase {
 	protected static $i;
 
 	public static function setUpBeforeClass() {
-		include 'setuptests.php';
 		self::$i = FreePBX::Installer();
 	}
 

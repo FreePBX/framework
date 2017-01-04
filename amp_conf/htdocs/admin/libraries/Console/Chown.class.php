@@ -12,11 +12,10 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class Chown extends Command {
-	private $requireroot = true;
+	//private $requireroot = true;  //commented out: http://issues.freepbx.org/browse/FREEPBX-13793
 	private $errors = array();
 	private $infos = array();
 	private $blacklist = array('files' => array(), 'dirs' => array());
-	private $quiet = false;
 	public $moduleName = '';
 	protected function configure(){
 		$this->setName('chown')
@@ -124,19 +123,27 @@ class Chown extends Command {
 		return $ret;
 	}
 	protected function execute(InputInterface $input, OutputInterface $output, $quiet=false){
+		if($quiet) {
+			$output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
+		}
 		$this->output = $output;
-		if(posix_geteuid() != 0) {
+		$args = array();
+		if($input){
+			$args = $input->getArgument('args');
+			$mname = isset($args[0])?$args[0]:'';
+			$this->moduleName = !empty($this->moduleName) ? $this->moduleName : strtolower($mname);
+		}
+
+		if((empty($this->moduleName) || $this->moduleName == 'framework') && posix_geteuid() != 0) {
 			$output->writeln("<error>"._("You need to be root to run this command")."</error>");
 			exit(1);
 		}
-		$this->quiet = $quiet;
+
 		$etcdir = \FreePBX::Config()->get('ASTETCDIR');
-		if(!$this->quiet) {
-			if(!file_exists($etcdir.'/freepbx_chown.conf')) {
-				$output->writeln("<info>".sprintf(_("Taking too long? Customize the chown command, See %s"),"http://wiki.freepbx.org/display/FOP/FreePBX+Chown+Conf")."</info>");
-			}
-			$output->writeln(_("Setting Permissions")."...");
+		if(!file_exists($etcdir.'/freepbx_chown.conf')) {
+			$output->writeln("<info>".sprintf(_("Taking too long? Customize the chown command, See %s"),"http://wiki.freepbx.org/display/FOP/FreePBX+Chown+Conf")."</info>");
 		}
+		$output->writeln(_("Setting Permissions")."...");
 		$freepbx_conf = \freepbx_conf::create();
 		$conf = $freepbx_conf->get_conf_settings();
 		foreach ($conf as $key => $val){
@@ -157,14 +164,7 @@ class Chown extends Command {
 		 */
 		$sessdir = session_save_path();
 		$sessdir = !empty($sessdir) ? $sessdir : '/var/lib/php/session';
-		$args = array();
-		if($input){
-			$args = $input->getArgument('args');
-			$mname = isset($args[0])?$args[0]:'';
-			$this->moduleName = !empty($this->moduleName) ? $this->moduleName : strtolower($mname);
-		}
-		// Always update hooks before running a Chown
-		\FreePBX::Hooks()->updateBMOHooks();
+
 		if (!empty($this->moduleName) && $this->moduleName != 'framework') {
 			$mod = $this->moduleName;
 			$this->modfiles[$mod][] = array('type' => 'rdir',
@@ -175,6 +175,27 @@ class Chown extends Command {
 			$current = isset($hooks[ucfirst($mod)]) ? $hooks[ucfirst($mod)] : false;
 			if(is_array($current)){
 				$this->modfiles[$mod] = array_merge_recursive($this->modfiles[$mod],$current);
+			}
+			// These are known 'binary' directories. If they exist, always set them and their contents to be executable.
+			$bindirs = array("bin", "hooks", "agi-bin");
+			foreach ($bindirs as $bindir) {
+				if (is_dir($AMPWEBROOT."/admin/modules/".$mod."/".$bindir)) {
+					$this->modfiles[$mod][] = array('type' => 'execdir',
+									'path' => $AMPWEBROOT."/admin/modules/".$mod."/".$bindir,
+									'perms' => 0755);
+				}
+			}
+			if(posix_geteuid() != 0) {
+				//only allow changes on our current path if we aren't root!
+				$pth = $AMPWEBROOT.'/admin/modules/'.$mod;
+				$esc = preg_quote($pth,"/");
+				$tmp = $this->modfiles[$mod];
+				foreach($tmp as $key => $item) {
+					if(!preg_match("/^".$esc."/",$item['path'])) {
+						unset($this->modfiles[$mod][$key]);
+					}
+				}
+				$this->modfiles[$mod] = array_values($this->modfiles[$mod]);
 			}
 		}else{
 			$webuser = \FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
@@ -274,7 +295,21 @@ class Chown extends Command {
 				foreach ($fwcCF as $key => $value) {
 					$this->modfiles[$key] = $value;
 				}
-				//$this->modfiles = array_merge_recursive($this->modfiles,$fwcCF);
+			}
+			// These are known 'binary' directories. If they exist, always set them and their contents to be executable.
+			$mods = array_keys(\FreePBX::Modules()->getActiveModules());
+			$bindirs = array("bin", "hooks", "agi-bin");
+			foreach($mods as $mod) {
+				if(in_array($mod,array("framework","builtin"))) {
+					continue;
+				}
+				foreach ($bindirs as $bindir) {
+					if (is_dir($AMPWEBROOT."/admin/modules/".$mod."/".$bindir)) {
+						$this->modfiles[$mod][] = array('type' => 'execdir',
+										'path' => $AMPWEBROOT."/admin/modules/".$mod."/".$bindir,
+										'perms' => 0755);
+					}
+				}
 			}
 		}
 		//Let's move the custom array to the end so it happens last
@@ -292,9 +327,7 @@ class Chown extends Command {
 		 */
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
 		$fcount = 0;
-		if(!$this->quiet) {
-			$output->write("\t"._("Collecting Files..."));
-		}
+		$output->write("\t"._("Collecting Files..."));
 		$exclusive = $input->hasOption('file') ? $input->getOption('file') : null;
 		$process = array();
 		foreach($this->modfiles as $moduleName => $modfilelist) {
@@ -338,18 +371,16 @@ class Chown extends Command {
 			}
 		}
 		$verbose = $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
-		if(!$this->quiet) {
-			$output->writeln(_("Done"));
-			if(!$verbose) {
-				$progress = new ProgressBar($output, $fcount);
-				$progress->setRedrawFrequency(100);
-				$progress->start();
-			}
+		$output->writeln(_("Done"));
+		if(!$verbose) {
+			$progress = new ProgressBar($output, $fcount);
+			$progress->setRedrawFrequency(100);
+			$progress->start();
 		}
 		foreach($process as $type => $modfilelist) {
 			foreach($modfilelist as $file) {
 				if(!isset($file['path']) || !isset($file['perms']) || !file_exists($file['path'])){
-					if(!$this->quiet && !$verbose) {
+					if(!$verbose) {
 						$progress->advance();
 					}
 					continue;
@@ -381,26 +412,24 @@ class Chown extends Command {
 							$this->setPermissions(array($path, $owner, $group, $file['perms']));
 						break;
 					}
-					if(!$this->quiet && !$verbose) {
+					if(!$verbose) {
 						$progress->advance();
 					}
 				}
 			}
 		}
-		if(!$this->quiet && !$verbose) {
+		if(!$verbose) {
 			$progress->finish();
 		}
-		if(!$this->quiet) {
-			$output->writeln("");
-			$output->writeln("Finished setting permissions");
-			$errors = array_unique($this->errors);
-			foreach($errors as $error) {
-				$output->writeln("<error>".$error."</error>");
-			}
-			$infos = array_unique($this->infos);
-			foreach($infos as $error) {
-				$output->writeln("<info>".$error."</info>");
-			}
+		$output->writeln("");
+		$output->writeln("Finished setting permissions");
+		$errors = array_unique($this->errors);
+		foreach($errors as $error) {
+			$output->writeln("<error>".$error."</error>");
+		}
+		$infos = array_unique($this->infos);
+		foreach($infos as $error) {
+			$output->writeln("<info>".$error."</info>");
 		}
 	}
 

@@ -374,6 +374,12 @@ switch ($action) {
 			\FreePBX::Hooks()->updateBMOHooks();
 		}catch(\Exception $e) {}
 		echo _("Done")."<br />";
+		echo _("Setting Permissions...");
+		try {
+			$pth = \FreePBX::Config()->get('AMPBIN');
+			exec($pth."/fwconsole chown ".escapeshellarg($modulename)." -q");
+		}catch(\Exception $e) {}
+		echo _("Done")."<br />";
 		echo "</div>";
 		echo "<hr /><br />";
 		if ($quietmode) {
@@ -765,7 +771,7 @@ switch ($action) {
 			$module_filter = @parse_ini_file($fd,true);
 			if(count($module_filter) == 1 && !empty($module_filter['general'])) {
 				$module_filter = $module_filter['general'];
-			} elseif(count($module_filter) > 1) {
+			} elseif(count($module_filter) >= 1) {
 				$module_filter_new = $module_filter;
 				$module_filter = array();
 			} else {

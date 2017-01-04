@@ -315,6 +315,7 @@ DROP TABLE IF EXISTS `incoming`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `incoming` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `cidnum` varchar(20) DEFAULT NULL,
   `extension` varchar(50) NOT NULL,
   `destination` varchar(50) DEFAULT NULL,
@@ -331,7 +332,8 @@ CREATE TABLE `incoming` (
   `delay_answer` int(2) DEFAULT NULL,
   `pricid` varchar(20) DEFAULT NULL,
   `pmmaxretries` varchar(2) DEFAULT NULL,
-  `pmminlength` varchar(2) DEFAULT NULL
+  `pmminlength` varchar(2) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 );
 /*!40101 SET character_set_client = @saved_cs_client */;
 
