@@ -27,6 +27,8 @@ class SystemUpdates {
 			return $this->getSystemUpdatesPage();
 		case 'startcheckupdates':
 			return $this->startCheckUpdates();
+		case 'startyumupdate':
+			return $this->startYumUpdate();
 		case 'startsysupdate':
 			return $this->startSystemUpdate();
 		case 'getsysupdatestatus':
@@ -65,9 +67,7 @@ class SystemUpdates {
 
 
 	/**
-	 * Start yum-check-updates if it's not already
-	 * running
-	 *
+	 * Start yum-check-updates if it's not already running
 	 */
 	public function startCheckUpdates() {
 		if ($this->isYumRunning()) {
@@ -89,8 +89,38 @@ class SystemUpdates {
 		}
 
 		// If we made it here, the updates never started
-		return false;
+		throw new \Exception("Updates did not start. Incron error?");
 	}
+
+	/**
+	 * Start yum-update if it's not already running
+	 */
+	public function startYumUpdate() {
+		if ($this->isYumRunning()) {
+			return true;
+		}
+		if (!is_dir("/var/spool/asterisk/incron")) {
+			// Something's broken with this machine.
+			throw new \Exception("Incron not configured, unable to manage system updates");
+		}
+		// incron hook
+		touch("/var/spool/asterisk/incron/framework.yum-update-system");
+		// Wait up to 5 seconds for it to start
+		$endafter = time()+5;
+		while (time() < $endafter) {
+			if ($this->isYumRunning()) {
+				return true;
+			}
+			usleep(100000); // 1/10th of a second.
+		}
+
+		// If we made it here, the updates never started
+		throw new \Exception("Updates did not start. Incron error?");
+	}
+
+	/**
+	 * Parse the output of a yum command
+	 *
 
 	/**
 	 * Parse the output of a yum command
@@ -425,9 +455,9 @@ class SystemUpdates {
 			<div class='col-xs-3'>"._("Last System Update:")."</div>";
 		// If lasttimestamp isn't false, we should have updates for the user to watch.
 		if ($yumstatus['lasttimestamp']) {
-			$html .= "<div class='col-xs-5'><a class='clickable' onclick='show_sysupdate_modal()'>".\FreePBX::View()->humanDiff($yumstatus['lasttimestamp'])." &nbsp; ".$this->strarr[$yumstatus['status']]."</a></div>";
+			$html .= "<div class='col-xs-5' id='yumstatus' data-value='".$yumstatus['status']."'><a class='clickable' onclick='show_sysupdate_modal()'>".\FreePBX::View()->humanDiff($yumstatus['lasttimestamp'])." &nbsp; ".$this->strarr[$yumstatus['status']]."</a></div>";
 		} else {
-			$html .= "<div class='col-xs-5'>"._("Unknown (System updates not run since last reboot)")."</div>";
+			$html .= "<div class='col-xs-5' id='yumstatus' data-value='complete'>"._("Unknown (System updates not run since last reboot)")."</div>";
 		}
 
 		$html .= "</div>\n";

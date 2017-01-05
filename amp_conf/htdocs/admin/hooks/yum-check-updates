@@ -9,6 +9,13 @@ if [ -e $LOCKFILE ] ; then
 	exit
 fi
 
+# Have we been told NOT to clean up?
+if [ "$1" == "--noclean" ]; then
+	NOCLEAN="true"
+else
+	NOCLEAN="false"
+fi
+
 mkdir -p $OUTDIR
 config="logfile $OUTDIR/yum-check-updates.log
 logfile flush 1
@@ -30,6 +37,7 @@ set -o pipefail
 lockfile='${LOCKFILE}'
 logfile='${OUTDIR}'/yum-check-updates.log
 currentfile='${OUTDIR}'/yum-check-updates-current.log
+noclean='${NOCLEAN}'
 
 function lock() {
 	local defaultwait=30
@@ -50,9 +58,14 @@ lock 300  # Wait for up to 5 mins.
 # Remove anything in the current output logfile
 echo TITLE $(date +%s) yum-check-updates > $logfile
 echo START $(date +%s) yum-clean-metadata
-TMPOUT=$(/usr/bin/stdbuf -i0 -o0 -e0 /usr/bin/yum clean metadata 2>&1 | tee $currentfile)
-EXITVAL=$?
-echo STOP $(date +%s) yum-clean-metadata $EXITVAL $(echo "$TMPOUT"|base64 -w0)
+if [ "$noclean" != "true" ]; then
+	TMPOUT=$(/usr/bin/stdbuf -i0 -o0 -e0 /usr/bin/yum clean metadata 2>&1 | tee $currentfile)
+	EXITVAL=$?
+	echo STOP $(date +%s) yum-clean-metadata $EXITVAL $(echo "$TMPOUT"|base64 -w0)
+else
+	echo STOP $(date +%s) yum-clean-metadata 0 $(echo "yum-clean-skipped"|base64 -w0)
+fi
+
 echo START $(date +%s) yum-check-updates
 TMPOUT=$(/usr/bin/stdbuf -i0 -o0 -e0 /usr/bin/yum -q check-updates 2>&1 | tee $currentfile)
 EXITVAL=$?

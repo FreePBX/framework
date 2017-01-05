@@ -192,7 +192,7 @@ $(document).ready(function(){
 		if ($("#systemupdatestab.active").length !== 1) {
 			return;
 		}
-		update_sysupdate_modal();
+		reload_system_updates_tab();
 	});
 })
 
@@ -353,10 +353,10 @@ function saveUpdateScheduler(e) {
  * This resets the module admin modal to blank, and makes sure it's hidden
  */
 function clean_modadmin_modal() {
-	// Make sure it's hidden
-	$("#updatesmodal").modal('hide');
 	// Remove title and body
 	$(".modal-title,.modal-body", "#updatesmodal").text("");
+	// Make sure we don't think we've scrolled
+	delete window.userhasscrolled;
 }
 
 function show_modules_modal(e) {
@@ -398,7 +398,7 @@ function reload_system_updates_tab() {
 			}
 			// If we're not complete, AND we're visible, poll for updates in a second.
 			if ($("#refreshpagebutton:visible").length == 1) {
-				if ($("#pendingstatus").data('value') !== "complete") {
+				if ($("#pendingstatus").data('value') !== "complete" || $("#yumstatus").data('value') !== "complete") {
 					window.setTimeout(reload_system_updates_tab, 1000);
 				}
 			}
@@ -442,6 +442,12 @@ function update_sysupdate_modal() {
 		url: window.ajaxurl,
 		data: { module: "framework", command: "sysupdate", action: "getsysupdatestatus" },
 		success: function(data) { window.currentupdate = data; },
+		error: function(d) {
+			// Errored. Possibly because httpd is restarting?
+			d.suppresserrors = true;
+			$("#statusspan").text(_("(Error! Retrying...)"));
+		       	window.setTimeout(update_sysupdate_modal, 1000);
+	       	},
 		complete: function() {
 			if (typeof window.currentupdate === "undefined") {
 				// It failed? Shouldn't have happened.
@@ -477,6 +483,13 @@ function render_updates_in_modal(dorefresh) {
 	// If we don't have our wrapper div in modal-body, add it
 	if ($("#modal-wrapper").length == 0) {
 		$(".modal-body", "#updatesmodal").html("<div id='modal-wrapper'></div>");
+	}
+
+	// Have we got LESS lines than are in the modal wrapper? That means the old
+	// update wasn't cleaned up correctly.  Nuke it.
+	if ($("#modal-wrapper>.outputline").length > output.length) {
+		$(".modal-body", "#updatesmodal").html("<div id='modal-wrapper'></div>");
+		delete window.userhasscrolled;
 	}
 
 	// Autoscrolling manager
@@ -548,7 +561,8 @@ function update_rpms() {
 		url: window.ajaxurl,
 		data: { module: "framework", command: "sysupdate", action: "startyumupdate" },
 		success: function(data) {
-			// If it worked, it's started. Show our modal!
+			// If it worked, it's started. Clean and show our modal!
+			clean_modadmin_modal();
 			// This will auto-refresh until it's complete.
 			show_sysupdate_modal();
 		},
