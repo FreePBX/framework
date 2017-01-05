@@ -40,13 +40,13 @@
 </div>
 
 <div class="modal fade" id='updatesmodal' tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
+  <div class="modal-dialog modal-lg" role="document" style="overflow-y: initial !important">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title">This should be cleared before being shown</h4>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" style="height: calc(80vh - 100px);  overflow-y: auto">
         <p>If you can see this, there is a bug.</p>
       </div>
       <div class="modal-footer">

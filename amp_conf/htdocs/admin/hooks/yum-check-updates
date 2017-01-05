@@ -29,7 +29,7 @@ set -o pipefail
 # Waits for $1 seconds, default is 30.
 lockfile='${LOCKFILE}'
 logfile='${OUTDIR}'/yum-check-updates.log
-currentfile='${OUTDIR}'/current.log
+currentfile='${OUTDIR}'/yum-check-updates-current.log
 
 function lock() {
 	local defaultwait=30

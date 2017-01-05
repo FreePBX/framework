@@ -181,6 +181,11 @@ $(document).ready(function(){
 	// 'Modules with Upgrades': Display the update modal.
 	$("#moduleupdatecount").on('click', show_modules_modal);
 
+	// When the updatesmodal is shown, always set the scroll position to be top left
+	$("#updatesmodal").on('shown.bs.modal', function() {
+		$(".modal-body", "#updatesmodal").scrollTop(0).scrollLeft(0);
+	});
+
 })
 function check_upgrade_all() {
 	$( ".modulefunctionradios :radio" ).each(function( index ) {
@@ -410,32 +415,86 @@ function run_yum_checkonline() {
 // Loads and displays the system updates modal
 function show_sysupdate_modal() {
 	clean_modadmin_modal();
-	$(".modal-title", "#updatesmodal").text(_("Operating System Updates"));
+	$(".modal-title", "#updatesmodal").html(_("Operating System Updates")+" &nbsp; <span id='statusspan'></span>");
 	$(".modal-body", "#updatesmodal").text(_("Loading, please wait ..."));
-	// Do we have a window.currentupdates that we can stick in there to start with?
-	if (typeof window.currentupdatelog !== undefined) {
-		render_updates_in_modal(window.currentupdatelog);
-	}
+	// Try to render any updates that may already exist. 'window.currentupdate' may have been
+	// generated with a <script> tag inside SystemUpdates
+	render_updates_in_modal(false); // false == don't refresh, we're doing it two lines down.
 	$("#updatesmodal").modal('show');
+	// Now trigger an update, to try to refresh update the page
+	update_sysupdate_modal();
+}
+
+function update_sysupdate_modal() {
+	// Empty currentupdate
+	delete window.currentupdate;
+	$("#statusspan").text(_("(Updating...)"));
+	$.ajax({
+		url: window.ajaxurl,
+		data: { module: "framework", command: "sysupdate", action: "getsysupdatestatus" },
+		success: function(data) { window.currentupdate = data; },
+		complete: function() {
+			if (typeof window.currentupdate === undefined) {
+				// It failed? Shouldn't have happened.
+				return;
+			}
+			$("#statusspan").text("");
+			render_updates_in_modal();
+		}
+	});
 }
 
 
-function render_updates_in_modal(output) {
+// Dorefresh = false stops a reload from happening, as one is
+// going to happen next in the code path.
+function render_updates_in_modal(dorefresh) {
+	if (dorefresh === undefined) {
+		dorefresh = true;
+	}
+	// Do we have anything in currentupdate?
+	if (typeof window.currentupdate === "undefined") {
+		// Nope. Don't do anything
+		return;
+	}
+
+	// Do we have any output?
+	if (typeof window.currentupdate.currentlog === "undefined") {
+		// No? How did that happen?
+		return;
+	}
+
+	var output = window.currentupdate.currentlog;
+
 	// If we don't have our wrapper div in modal-body, add it
 	if ($("#modal-wrapper").length == 0) {
 		$(".modal-body", "#updatesmodal").html("<div id='modal-wrapper'></div>");
 	}
 	// Loop through output, and if there isn't a n'th element, append it.
 	var wrapper = $("#modal-wrapper");
+
 	for (var i = 0; i < output.length; i++) {
 		// Avoiding jquery here, let's just use native
-		console.log("#modal-wrapper .outputline:nth-child("+i+")");
-		var e = document.querySelector("#modal-wrapper .outputline:nth-child("+i+")");
+		var e = document.querySelector("#modal-wrapper>.outputline:nth-of-type("+(i+1)+")");
 		if (e == null) {
 			// Add this line to modal-wrapper
-			wrapper.append("<tt class='outputline'>"+output[i]+"</tt><br/>");
+			wrapper.append("<tt class='outputline' style='white-space: pre'>"+output[i]+"</tt><br/>");
 		}
 	}
 
+	// Update the status
+	$("#statusspan").text(window.currentupdate.i18nstatus);
+
+	// Am I allowed to check for a refresh?
+	if (!dorefresh) {
+		return;
+	}
+
+	if (typeof window.currentupdate.retryafter !== "undefined") {
+		// If there was, somehow, already a reload even pending, kill it.
+		if (typeof window.refreshtimeout !== "undefined") {
+			clearTimeout(window.refreshtimeout);
+		}
+		window.refreshtimeout = setTimeout(update_sysupdate_modal, window.currentupdate.retryafter);
+	}
 
 }

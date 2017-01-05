@@ -7,6 +7,13 @@ class SystemUpdates {
 	// See framework/hooks/yum-* commands where these files are defined
 	private $lockfile = "/dev/shm/yumwrapper/yum.lock";
 	private $logfile = "/dev/shm/yumwrapper/output.log";
+	//  i18n
+	private $strarr = false; // This is overwritten in __construct
+
+	public function __construct() {
+		// Can't use functions in class definitions
+		$this->strarr = [ "complete" => _("(Complete)"), "unknown" => _("(Unknown)"), "inprogress" => _("(In Progress)") ];
+	}
 
 	/**
 	 * Ajax handler.
@@ -22,6 +29,8 @@ class SystemUpdates {
 			return $this->startCheckUpdates();
 		case 'startsysupdate':
 			return $this->startSystemUpdate();
+		case 'getsysupdatestatus':
+			return $this->getYumUpdateStatus();
 		}
 		throw new \Exception("Unknown action");
 	}
@@ -199,16 +208,23 @@ class SystemUpdates {
 		$updates = $this->parseYumOutput("/dev/shm/yumwrapper/yum-check-updates.log");
 		$retarr = [ 'lasttimestamp' => $updates['timestamp'],
 			'status' => 'unknown',
+			'i18nstatus' => $this->strarr['unknown'],
 			'updatesavail' => false,
 			'pbxupdateavail' => false,
+			'currentlog' => [],
 			'rpms' => []
 		];
 
 		// Do we have a title? If not, it was never run
 		if ($updates['title'] !== 'yum-check-updates') {
-			// Tell the browser to refresh after 5 secs.
-			$retarr['retryafter'] = 5000;
+			// Tell the browser to refresh after 1 sec.
+			$retarr['retryafter'] = 1000;
 			return $retarr;
+		}
+
+		// We should have some output that can be displayed to the user
+		if (file_exists("/dev/shm/yumwrapper/yum-check-updates-current.log")) {
+			$retarr['currentlog'] = file("/dev/shm/yumwrapper/yum-check-updates-current.log", FILE_IGNORE_NEW_LINES);
 		}
 
 		// Do we have a start for 'yum-clean-metadata'?
@@ -223,6 +239,7 @@ class SystemUpdates {
 		// Do we have a stdout for yum-check-updates?
 		if (empty($updates['commands']['yum-check-updates']['output'])) {
 			// no. Still in progress
+			$retarr['i18nstatus'] = $this->strarr[$retarr['status']];
 			return $retarr;
 		}
 
@@ -242,6 +259,7 @@ class SystemUpdates {
 			$retarr['pbxupdateavail'] = false;
 		}
 
+		$retarr['i18nstatus'] = $this->strarr[$retarr['status']];
 		return $retarr;
 	}
 
@@ -340,6 +358,7 @@ class SystemUpdates {
 		$retarr = [ 
 			'lasttimestamp' => $updates['timestamp'],
 			'status' => 'unknown',
+			'i18nstatus' => $this->strarr['unknown'],
 			'currentlog' => [],
 		];
 
@@ -352,8 +371,8 @@ class SystemUpdates {
 		}
 
 		// We should have some output that can be displayed to the user
-		if (file_exists("/dev/shm/yumwrapper/current.log")) {
-			$retarr['currentlog'] = file("/dev/shm/yumwrapper/current.log", FILE_IGNORE_NEW_LINES);
+		if (file_exists("/dev/shm/yumwrapper/yum-update-current.log")) {
+			$retarr['currentlog'] = file("/dev/shm/yumwrapper/yum-update-current.log", FILE_IGNORE_NEW_LINES);
 		}
 
 		// Has it finished?
@@ -363,6 +382,7 @@ class SystemUpdates {
 		} else {
 			$retarr['status'] = "complete";
 		}
+		$retarr['i18nstatus'] = $this->strarr[$retarr['status']];
 		return $retarr;
 	}
 
@@ -380,8 +400,6 @@ class SystemUpdates {
 	 * @return string html to be displayed
 	 */
 	public function getSystemUpdatesPage() {
-		//  i18n
-		$strarr = [ "complete" => _("Complete"), "unknown" => _("Unknown"), "inprogress" => _("In Progress") ];
 		$html = "<h3>"._("System Update Details")."</h3>";
 		$html .= "<p> Random number: ".md5(mt_rand())."</p>";
 		$yumstatus = $this->getYumUpdateStatus();
@@ -401,13 +419,13 @@ class SystemUpdates {
 		</div>\n";
 		$html .= "<div class='row'>
 			<div class='col-xs-3'>"._("Last Online Check Status:")."</div>
-			<div class='col-xs-5' id='pendingstatus' data-value='".$pending['status']."'>".$strarr[$pending['status']]." (".\FreePBX::View()->humanDiff($pending['lasttimestamp']).")</div>
+			<div class='col-xs-5' id='pendingstatus' data-value='".$pending['status']."'>".\FreePBX::View()->humanDiff($pending['lasttimestamp'])." &nbsp; ".$this->strarr[$pending['status']]."</div>
 		</div>\n";
 		$html .= "<div class='row'>
 			<div class='col-xs-3'>"._("Last System Update:")."</div>";
 		// If lasttimestamp isn't false, we should have updates for the user to watch.
 		if ($yumstatus['lasttimestamp']) {
-			$html .= "<div class='col-xs-5'><a class='clickable' onclick='show_sysupdate_modal()'>".$strarr[$yumstatus['status']]." (".\FreePBX::View()->humanDiff($yumstatus['lasttimestamp']).")</a></div>";
+			$html .= "<div class='col-xs-5'><a class='clickable' onclick='show_sysupdate_modal()'>".\FreePBX::View()->humanDiff($yumstatus['lasttimestamp'])." &nbsp; ".$this->strarr[$yumstatus['status']]."</a></div>";
 		} else {
 			$html .= "<div class='col-xs-5'>"._("Unknown (System updates not run since last reboot)")."</div>";
 		}
@@ -416,7 +434,7 @@ class SystemUpdates {
 
 		// If we have a yum update log, make it available
 		if ($yumstatus['currentlog']) {
-			$html .= "<script>window.currentupdatelog = ".json_encode($yumstatus['currentlog'])."</script>\n";
+			$html .= "<script>window.currentupdate = ".json_encode($yumstatus)."</script>\n";
 		}
 
 		// If we're not idle, don't bother with anything else.
