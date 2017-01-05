@@ -434,7 +434,7 @@ function update_sysupdate_modal() {
 		data: { module: "framework", command: "sysupdate", action: "getsysupdatestatus" },
 		success: function(data) { window.currentupdate = data; },
 		complete: function() {
-			if (typeof window.currentupdate === undefined) {
+			if (typeof window.currentupdate === "undefined") {
 				// It failed? Shouldn't have happened.
 				return;
 			}
@@ -496,5 +496,23 @@ function render_updates_in_modal(dorefresh) {
 		}
 		window.refreshtimeout = setTimeout(update_sysupdate_modal, window.currentupdate.retryafter);
 	}
-
 }
+
+// This is triggered by an onclick tag generated in Builtin/SystemUpdates::getSystemUpdatesPage()
+// Request that 'yum update' is run
+function update_rpms() {
+	$("#updatesystembutton").text(_("Starting...")).prop("disabled", true);
+	$.ajax({
+		url: window.ajaxurl,
+		data: { module: "framework", command: "sysupdate", action: "startyumupdate" },
+		success: function(data) {
+			// If it worked, it's started. Show our modal!
+			// This will auto-refresh until it's complete.
+			show_sysupdate_modal();
+		},
+		complete: function() {
+			$("#updatesystembutton").text(_("Update System")).prop("disabled", false);
+		},
+	});
+}
+
