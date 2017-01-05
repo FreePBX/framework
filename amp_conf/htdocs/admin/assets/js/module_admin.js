@@ -186,7 +186,16 @@ $(document).ready(function(){
 		$(".modal-body", "#updatesmodal").scrollTop(0).scrollLeft(0);
 	});
 
+	// When the updatesmodal is hidden, reload the sysupdate page, if we're ON
+	// the sysupdates page.
+	$("#updatesmodal").on('hide.bs.modal', function() {
+		if ($("#systemupdatestab.active").length !== 1) {
+			return;
+		}
+		update_sysupdate_modal();
+	});
 })
+
 function check_upgrade_all() {
 	$( ".modulefunctionradios :radio" ).each(function( index ) {
 		if($(this).val() == 'upgrade') {
@@ -469,6 +478,35 @@ function render_updates_in_modal(dorefresh) {
 	if ($("#modal-wrapper").length == 0) {
 		$(".modal-body", "#updatesmodal").html("<div id='modal-wrapper'></div>");
 	}
+
+	// Autoscrolling manager
+	var body = $(".modal-body");
+	var autoscroll = false;
+	
+	// Has the user NOT scrolled at all? Then always autoscroll
+	if (typeof window.userhasscrolled === "undefined" && body[0].scrollTop === 0) {
+		autoscroll = true;
+		// console.log("Autoscrolling because.");
+	} else {
+		// Autoscroll.
+		window.userhasscrolled = true;
+		// Are we at the bottom of the current scroll window? If we are, then autoscroll to the bottom.
+		//
+		// We figure this out by taking the scrollheight (How much scroll is AVAILABLE), and
+		// then subtracting scrollTop from it. If this is less than the actual height of the
+		// window+31 (padding) we are at the bottom of the viewport, and want to scroll.
+		//
+		// Debugging left in here, for anyone who can think of a better way.
+		// console.log("scrollHeight", body[0].scrollHeight);
+		// console.log("scrollTop", body.scrollTop());
+		// console.log("sum", body[0].scrollHeight - body.scrollTop());
+		// console.log("height+31", body.height()+31);
+		if (body[0].scrollHeight - body.scrollTop() <= body.height()+31) {
+			autoscroll = true;
+			// console.log("autoscrolling");
+		}
+	}
+
 	// Loop through output, and if there isn't a n'th element, append it.
 	var wrapper = $("#modal-wrapper");
 
@@ -479,6 +517,10 @@ function render_updates_in_modal(dorefresh) {
 			// Add this line to modal-wrapper
 			wrapper.append("<tt class='outputline' style='white-space: pre'>"+output[i]+"</tt><br/>");
 		}
+	}
+
+	if (autoscroll) {
+		body.scrollTop(10E100);
 	}
 
 	// Update the status
