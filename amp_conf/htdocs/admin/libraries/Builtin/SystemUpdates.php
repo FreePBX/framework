@@ -431,7 +431,6 @@ class SystemUpdates {
 	 */
 	public function getSystemUpdatesPage() {
 		$html = "<h3>"._("System Update Details")."</h3>";
-		$html .= "<p> Random number: ".md5(mt_rand())."</p>";
 		$yumstatus = $this->getYumUpdateStatus();
 		$pending = $this->getPendingUpdates();
 		// Are we idle, or are we doing something?
