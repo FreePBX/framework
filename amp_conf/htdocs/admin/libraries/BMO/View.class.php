@@ -561,7 +561,7 @@ class View {
 		$input .= '</select>';
 		$input .= '<script type="text/javascript">';
 		$input .= '$(document).ready(function() {';
-	  $input .= '$("#'.$id.'").multiselect({enableCaseInsensitiveFiltering: true, inheritClass: true});';
+	  $input .= '$("#'.$id.'").multiselect({enableCaseInsensitiveFiltering: true, inheritClass: true, onChange: function(element, checked) { $("#'.$id.'").trigger("onchange",[element, checked]) }});';
 		$input .= '});';
 		$input .= '</script>';
 		return $input;
@@ -593,7 +593,7 @@ class View {
 		$input .= '</select>';
 		$input .= '<script type="text/javascript">';
 		$input .= '$(document).ready(function() {';
-		$input .= '$("#'.$id.'").multiselect({enableCaseInsensitiveFiltering: true, inheritClass: true});';
+		$input .= '$("#'.$id.'").multiselect({enableCaseInsensitiveFiltering: true, inheritClass: true, onChange: function(element, checked) { $("#'.$id.'").trigger("onchange",[element, checked]) }});';
 		$input .= '});';
 		$input .= '</script>';
 		return $input;

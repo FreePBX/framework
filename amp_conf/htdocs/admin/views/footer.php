@@ -133,6 +133,18 @@ if ($covert) {
 			);
 }
 
+?>
+<script>
+var timezone = '<?php echo FreePBX::View()->getTimezone() ?>';
+var language = '<?php echo FreePBX::View()->getLocale() ?>';
+var UIDEFAULTLANG = '<?php echo FreePBX::Config()->get('UIDEFAULTLANG')?>';
+var PHPTIMEZONE = '<?php echo FreePBX::Config()->get('PHPTIMEZONE')?>';
+var datetimeformat = '<?php echo FreePBX::View()->getDateTimeFormat() ?>';
+var dateformat = '<?php echo FreePBX::View()->getDateFormat() ?>';
+var timeformat = '<?php echo FreePBX::View()->getTimeFormat() ?>';
+</script>
+<?php
+
 $html .= "\n" . '<script type="text/javascript">'
 		. 'var fpbx='
 		. json_encode($fpbx)
@@ -186,6 +198,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 		"assets/js/recorderWorker.js",
 		"assets/js/search.js",
 		"assets/js/tableexport-3.2.10.min.js",
+		"assets/js/timeutils.js",
 		"assets/js/typeahead.bundle-0.10.5.min.js",
 );
 	foreach($files as $f) {
@@ -205,6 +218,7 @@ if($lang != "en_US") {
     break;
   }
 }
+$html .= "<script>moment.locale('".$lang."');</script>";
 //Please see the BMO View class for more information about this
 if(FreePBX::View()->replaceState()) {
   $html .= '<script>history.replaceState(null, null, "'.FreePBX::View()->getQueryString().'");</script>';
