@@ -979,9 +979,9 @@ class Moduleadmin extends Command {
 
 	private function isUrl($str){
 		if (parse_url($str, PHP_URL_SCHEME)) {
-			return TRUE;
+			return true;
 		}
-		return FALSE;
+		return false;
 	}
 
 	private function handleArgs($args,$output){
