@@ -296,7 +296,7 @@ class Moduleadmin extends Command {
 	}
 
 	private function doRemoteDownload($modulelocation) {
-		$this->writeln("Starting ".basename($modulelocation)." download..");
+		$this->writeln("Starting module download from {$modulelocation} ...");
 		if (is_array($errors = $this->mf->handledownload($modulelocation, array($this,'progress')))) {
 			$this->writeln(_("The following error(s) occured:"), "error", false);
 			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
@@ -977,6 +977,13 @@ class Moduleadmin extends Command {
 
 	}
 
+	private function isUrl($str){
+		if (parse_url($str, PHP_URL_SCHEME)) {
+			return true;
+		}
+		return false;
+	}
+
 	private function handleArgs($args,$output){
 		$action = array_shift($args);
 		switch($action){
@@ -1024,7 +1031,7 @@ class Moduleadmin extends Command {
 				}
 				$this->check_active_repos();
 				foreach($args as $module){
-					if(preg_match('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',$module)) {
+					if($this->isUrl($module)) {
 						$this->doRemoteDownload($module);
 					} else {
 						$this->doDownload($module, $this->force);
@@ -1038,7 +1045,7 @@ class Moduleadmin extends Command {
 				}
 				$this->check_active_repos();
 				foreach($args as $module){
-					if(preg_match('/^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/',$module)) {
+					if($this->isUrl($module)) {
 						$this->doRemoteDownload($module);
 						if(!empty($this->mf->downloadedRawname)) {
 							$this->doInstall($this->mf->downloadedRawname, $this->force);
