@@ -301,12 +301,23 @@ class SystemUpdates {
 	public function parseUpdates($str) {
 		$lines = explode("\n", $str);
 		$rpms = [];
+		$wrapped = null; //https://bugzilla.redhat.com/show_bug.cgi?id=584525
 		foreach ($lines as $line) {
 			if (!$line) {
 				continue;
 			}
 			$linearr = preg_split("/\s+/", $line);
-			$rpms[escapeshellcmd($linearr[0])] =  [ "newvers" => (isset($linearr[1]) ? $linearr[1] : ""), "repo" => (isset($linearr[2]) ? $linearr[2] : "") ];
+			if(!isset($linearr[1])) {
+				$rpms[escapeshellcmd($linearr[0])] = [];
+				$wrapped = escapeshellcmd($linearr[0]);
+				continue;
+			}
+			if(!empty($wrapped)) {
+				$rpms[$wrapped] =  [ "newvers" => (isset($linearr[1]) ? $linearr[1] : ""), "repo" => (isset($linearr[2]) ? $linearr[2] : "") ];
+				$wrapped = null;
+			} else {
+				$rpms[escapeshellcmd($linearr[0])] =  [ "newvers" => (isset($linearr[1]) ? $linearr[1] : ""), "repo" => (isset($linearr[2]) ? $linearr[2] : "") ];
+			}
 		}
 		// Get our current versions
 		$current = $this->getInstalledRpmVersions(array_keys($rpms));
