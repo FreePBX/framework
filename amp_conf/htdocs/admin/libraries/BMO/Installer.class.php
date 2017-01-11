@@ -95,9 +95,6 @@ class Installer {
 			return $this->sbindir.substr($file,14);
 		} elseif (substr($file,0,13) == "amp_conf/bin/") {
 			return $this->bindir.substr($file,13);
-		} elseif (substr($file,0,28) == "amp_conf/htdocs/admin/hooks/") {
-			// Hooks are slightly special
-			return $this->webroot."admin/modules/framework/hooks/".substr($file, 28);
 		} elseif (substr($file,0,16) == "amp_conf/htdocs/") {
 			return $this->webroot.substr($file,16);
 		} elseif (substr($file,0,17) == "amp_conf/agi-bin/") {
