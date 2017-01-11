@@ -889,10 +889,12 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			}
 
 			// Copy, or link, the source to the destination.
-			if ($make_links && !isset($never_symlink[$dest])) {
-				symlink($src, $dest);
-			} else {
-				copy($src, $dest);
+			if(file_exists($src)) {
+				if ($make_links && !isset($never_symlink[$dest])) {
+					symlink($src, $dest);
+				} else {
+					copy($src, $dest);
+				}
 			}
 
 			if($progress->getProgress() < $progress->getMaxSteps()) {
