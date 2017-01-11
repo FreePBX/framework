@@ -22,6 +22,7 @@ logfile flush 1
 log on
 logtstamp on
 logtstamp after 1
+width 1024
 logtstamp string \"[ timestamp: %Y-%m-%d %0c:%s ]\012\"
 "
 
@@ -81,4 +82,3 @@ echo "$config" > $T/command.conf
 echo "$script" > $T/script.sh
 chmod 755 $T/script.sh
 screen -c $T/command.conf -dmSL 'freepbx' $T/script.sh
-

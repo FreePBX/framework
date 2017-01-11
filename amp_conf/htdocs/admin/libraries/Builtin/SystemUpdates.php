@@ -147,7 +147,7 @@ class SystemUpdates {
 			$logfile = [];
 		}
 
-		// Now find the important parts 
+		// Now find the important parts
 		foreach ($logfile as $lineno => $line) {
 
 			// Title?
@@ -214,7 +214,7 @@ class SystemUpdates {
 	 * Parse a timestamp line, and return an (int) utime
 	 *
 	 * Timestamp lines look like this:
-	 * [ timestamp: 2016-12-29 05:52:00 ] 
+	 * [ timestamp: 2016-12-29 05:52:00 ]
 	 *
 	 * @return int, will be zero if unable to parse.
 	 */
@@ -306,7 +306,7 @@ class SystemUpdates {
 				continue;
 			}
 			$linearr = preg_split("/\s+/", $line);
-			$rpms[escapeshellcmd($linearr[0])] =  [ "newvers" => $linearr[1], "repo" => $linearr[2] ];
+			$rpms[escapeshellcmd($linearr[0])] =  [ "newvers" => (isset($linearr[1]) ? $linearr[1] : ""), "repo" => (isset($linearr[2]) ? $linearr[2] : "") ];
 		}
 		// Get our current versions
 		$current = $this->getInstalledRpmVersions(array_keys($rpms));
@@ -385,7 +385,7 @@ class SystemUpdates {
 	 */
 	public function getYumUpdateStatus() {
 		$updates = $this->parseYumOutput("/dev/shm/yumwrapper/yum-update.log");
-		$retarr = [ 
+		$retarr = [
 			'lasttimestamp' => $updates['timestamp'],
 			'status' => 'unknown',
 			'i18nstatus' => $this->strarr['unknown'],
