@@ -382,7 +382,7 @@ function reload_system_updates_tab() {
 	// When we're reloading, set the 'Refresh' button to say 'Loading', so that
 	// people see something happening.
 	$("#refreshpagebutton").attr('disabled', true).text(_("Loading..."));
-	
+
 	$.ajax({
 		url: window.ajaxurl,
 		data: { module: "framework", command: "sysupdate", action: "getsysupdatepage" },
@@ -495,7 +495,7 @@ function render_updates_in_modal(dorefresh) {
 	// Autoscrolling manager
 	var body = $(".modal-body");
 	var autoscroll = false;
-	
+
 	// Has the user NOT scrolled at all? Then always autoscroll
 	if (typeof window.userhasscrolled === "undefined" && body[0].scrollTop === 0) {
 		autoscroll = true;
@@ -526,14 +526,14 @@ function render_updates_in_modal(dorefresh) {
 	for (var i = 0; i < output.length; i++) {
 		// Avoiding jquery here, let's just use native
 		var e = document.querySelector("#modal-wrapper>.outputline:nth-of-type("+(i+1)+")");
-		if (e == null) {
+		if (e === null) {
 			// Add this line to modal-wrapper
 			wrapper.append("<tt class='outputline' style='white-space: pre'>"+output[i]+"</tt><br/>");
 		}
 	}
 
 	if (autoscroll) {
-		body.scrollTop(10E100);
+		body.scrollTop($("#modal-wrapper").height());
 	}
 
 	// Update the status
@@ -571,4 +571,3 @@ function update_rpms() {
 		},
 	});
 }
-
