@@ -17,7 +17,7 @@ $(document).ready(function(){
 				alert(fpbx.msg.framework.invalid_response);
 			}
 		});
-	})
+	});
 	$( "form[name='onlineRepo']" ).submit(function( event ) {
 		toggleScreenDoor();
 		//The following is a workaround hack for safari
@@ -63,16 +63,16 @@ $(document).ready(function(){
 							data: {quietmode: 1, skip_astman: 1, display: "modules", update_email: update_email, machine_id: machine_id },
 							dataType: 'json',
 							success: function(data) {
-								if (data.status == true) {
+								if (data.status === true) {
 									$('#update_email').attr('saved-value', $('#update_email').val());
 									if ($('[name="online_updates"]:checked').val() == 'no') {
 										$('#shield_link').attr('class', 'updates_off');
 									} else {
 										$('#shield_link').attr('class', (isEmpty($('#update_email').val()) ? 'updates_partial' : 'updates_full'));
 									}
-									autoupdate_box.dialog("close")
+									autoupdate_box.dialog("close");
 								} else {
-									alert(data.status)
+									alert(data.status);
 									$('#update_email').focus();
 								}
 							},
@@ -163,11 +163,11 @@ $(document).ready(function(){
 		var module = $(this).data('module');
 		if($('#infopane_'+module).is(":visible")) {
 			$('#infopane_'+module).slideUp( "slow", function() {
-			})
+			});
 			$('#arrow_'+module).removeClass("fa-chevron-down").addClass("fa-chevron-right");
 		} else {
 			$('#infopane_'+module).slideDown( "slow", function() {
-			})
+			});
 			$('#arrow_'+module).removeClass("fa-chevron-right").addClass("fa-chevron-down");
 			$('#infopane_'+module+' .modulefunctionradios').addClass('radioset');
 			$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
@@ -459,7 +459,7 @@ function update_sysupdate_modal() {
 	});
 }
 
-
+var lastUpdate = moment().unix();
 // Dorefresh = false stops a reload from happening, as one is
 // going to happen next in the code path.
 function render_updates_in_modal(dorefresh) {
@@ -529,7 +529,24 @@ function render_updates_in_modal(dorefresh) {
 		if (e === null) {
 			// Add this line to modal-wrapper
 			wrapper.append("<tt class='outputline' style='white-space: pre'>"+output[i]+"</tt><br/>");
+			lastUpdate = moment().unix();
 		}
+	}
+
+	if((lastUpdate + 10) < moment().unix()) {
+		var upquips = [
+			_("The Upgrade Script is still alive"),
+			_("Upgrades are still being run"),
+			_("Progressing through upgrades"),
+			_("Sometimes this takes a while, but the script is still alive"),
+			_("Believe me, The script is still alive"),
+			"I'm doing Science and I'm still alive",
+			"I'm still alive",
+			"I feel fantastic and I'm still alive",
+			"Still alive",
+		];
+		wrapper.append("<tt class='quipline' style='white-space: pre'>"+upquips[Math.floor(Math.random() * upquips.length)]+"</tt><br/>");
+		lastUpdate = moment().unix();
 	}
 
 	if (autoscroll) {

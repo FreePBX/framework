@@ -121,10 +121,6 @@ class SystemUpdates {
 	/**
 	 * Parse the output of a yum command
 	 *
-
-	/**
-	 * Parse the output of a yum command
-	 *
 	 * Returns an array of useful stuff.
 	 *
 	 * @return array [ ... ]
