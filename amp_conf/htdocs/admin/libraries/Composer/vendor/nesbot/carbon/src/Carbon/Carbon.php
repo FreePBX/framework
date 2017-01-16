@@ -168,7 +168,7 @@ class Carbon extends DateTime
      *
      * @var array
      */
-    private static $lastErrors;
+    protected static $lastErrors;
 
     /**
      * Will UTF8 encoding be used to print localized date/time ?
@@ -1021,6 +1021,7 @@ class Carbon extends DateTime
      *   - A call to the static now() method, ex. Carbon::now()
      *   - When a null (or blank string) is passed to the constructor or parse(), ex. new Carbon(null)
      *   - When the string "now" is passed to the constructor or parse(), ex. new Carbon('now')
+     *   - When a string containing the desired time is passed to Carbon::parse().
      *
      * Note the timezone parameter was left out of the examples above and
      * has no affect as the mock value will be returned regardless of its value.
@@ -1028,11 +1029,11 @@ class Carbon extends DateTime
      * To clear the test instance call this method using the default
      * parameter of null.
      *
-     * @param \Carbon\Carbon|null $testNow
+     * @param \Carbon\Carbon|string|null $testNow
      */
-    public static function setTestNow(Carbon $testNow = null)
+    public static function setTestNow($testNow = null)
     {
-        static::$testNow = $testNow;
+        static::$testNow = is_string($testNow) ? static::parse($testNow) : $testNow;
     }
 
     /**
@@ -1138,8 +1139,8 @@ class Carbon extends DateTime
      */
     public static function setLocale($locale)
     {
-        $locale = preg_replace_callback('/([a-z]{2})[-_]([a-z]{2})/', function ($matches) {
-            return $matches[1].'_'.strtoupper($matches[2]);
+        $locale = preg_replace_callback('/\b([a-z]{2})[-_](?:([a-z]{4})[-_])?([a-z]{2})\b/', function ($matches) {
+            return $matches[1].'_'.(!empty($matches[2]) ? ucfirst($matches[2]).'_' : '').strtoupper($matches[3]);
         }, strtolower($locale));
 
         if (file_exists($filename = __DIR__.'/Lang/'.$locale.'.php')) {
@@ -1690,6 +1691,66 @@ class Carbon extends DateTime
     public function isTomorrow()
     {
         return $this->toDateString() === static::tomorrow($this->getTimezone())->toDateString();
+    }
+
+    /**
+     * Determines if the instance is within the next week
+     *
+     * @return bool
+     */
+    public function isNextWeek()
+    {
+        return $this->weekOfYear === static::now($this->getTimezone())->addWeek()->weekOfYear;
+    }
+
+    /**
+     * Determines if the instance is within the last week
+     *
+     * @return bool
+     */
+    public function isLastWeek()
+    {
+        return $this->weekOfYear === static::now($this->getTimezone())->subWeek()->weekOfYear;
+    }
+
+    /**
+     * Determines if the instance is within the next month
+     *
+     * @return bool
+     */
+    public function isNextMonth()
+    {
+        return $this->month === static::now($this->getTimezone())->addMonthNoOverflow()->month;
+    }
+
+    /**
+     * Determines if the instance is within the last month
+     *
+     * @return bool
+     */
+    public function isLastMonth()
+    {
+        return $this->month === static::now($this->getTimezone())->subMonthNoOverflow()->month;
+    }
+
+    /**
+     * Determines if the instance is within next year
+     *
+     * @return bool
+     */
+    public function isNextYear()
+    {
+        return $this->year === static::now($this->getTimezone())->addYear()->year;
+    }
+
+    /**
+     * Determines if the instance is within the previous year
+     *
+     * @return bool
+     */
+    public function isLastYear()
+    {
+        return $this->year === static::now($this->getTimezone())->subYear()->year;
     }
 
     /**
@@ -3258,6 +3319,36 @@ class Carbon extends DateTime
         $this->setTimezone('UTC');
         $instance = parent::modify($modify);
         $this->setTimezone($timezone);
+
+        return $instance;
+    }
+
+    /**
+     * Return a serialized string of the instance.
+     *
+     * @return string
+     */
+    public function serialize()
+    {
+        return serialize($this);
+    }
+
+    /**
+     * Create an instance form a serialized string.
+     *
+     * @param string $value
+     *
+     * @throws \InvalidArgumentException
+     *
+     * @return static
+     */
+    public static function fromSerialized($value)
+    {
+        $instance = @unserialize($value);
+
+        if (!$instance instanceof static) {
+            throw new InvalidArgumentException('Invalid serialized value.');
+        }
 
         return $instance;
     }

@@ -14,7 +14,7 @@ use Povils\Figlet\Figlet;
 class Motd extends Command {
 	private $errors = array();
 	private $banner = array(
-		"font" => "big",
+		"font" => "doom",
 		"color" => "green",
 		"background" => "black",
 		"text" => "FreePBX"
@@ -35,7 +35,7 @@ class Motd extends Command {
 		$alerts = \FreePBX::Notifications()->get_num_active();
 		if(is_array($this->banner)) {
 			//http://www.figlet.org/examples.html
-			$font = !empty($this->banner['font']) ? $this->banner['font'] : "big";
+			$font = !empty($this->banner['font']) ? $this->banner['font'] : "doom";
 			$color = !empty($this->banner['color']) ? $this->banner['color'] : "green";
 			$background = !empty($this->banner['background']) ? $this->banner['background'] : "black";
 			$text = !empty($this->banner['text']) ? $this->banner['text'] : \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
@@ -45,7 +45,19 @@ class Motd extends Command {
 						->setFont($font)
 						->setFontColor($color)
 						->setBackgroundColor($background)
+						->setFontStretching(0)
 						->render($text);
+			//this is because trim by itself wont work!! :-|
+			$lines = preg_split("/\n/m", $banner);
+			$banner = '';
+			foreach($lines as $l) {
+				$l = trim($l);
+				if(empty($l)) {
+					continue;
+				}
+				$banner .= $l . "\n";
+			}
+			//end trim operation
 			$output->write($banner);
 		} else {
 			$output->write(base64_decode($this->banner));
@@ -57,7 +69,6 @@ class Motd extends Command {
 		if($edgemode == 1){
 			$output->writeln("<fg=red>".sprintf(_("NOTICE! This system has EDGE mode enabled. For more information visit %s"), 'http://wiki.freepbx.org/x/boi3Aw')."</fg=red>");
 		}
-		$output->writeln("");
 		$output->writeln("<info>"._("Current Network Configuration")."</info>");
 		$iflist = $this->listIFS();
 		if($iflist){

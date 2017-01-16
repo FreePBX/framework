@@ -63,7 +63,7 @@ class Cookie
         } elseif (!is_numeric($expire)) {
             $expire = strtotime($expire);
 
-            if (false === $expire || -1 === $expire) {
+            if (false === $expire) {
                 throw new \InvalidArgumentException('The cookie expiration time is not valid.');
             }
         }
@@ -71,7 +71,7 @@ class Cookie
         $this->name = $name;
         $this->value = $value;
         $this->domain = $domain;
-        $this->expire = $expire;
+        $this->expire = 0 < $expire ? (int) $expire : 0;
         $this->path = empty($path) ? '/' : $path;
         $this->secure = (bool) $secure;
         $this->httpOnly = (bool) $httpOnly;
@@ -91,20 +91,20 @@ class Cookie
      */
     public function __toString()
     {
-        $str = urlencode($this->getName()).'=';
+        $str = ($this->isRaw() ? $this->getName() : urlencode($this->getName())).'=';
 
         if ('' === (string) $this->getValue()) {
             $str .= 'deleted; expires='.gmdate('D, d-M-Y H:i:s T', time() - 31536001);
         } else {
-            $str .= urlencode($this->getValue());
+            $str .= $this->isRaw() ? $this->getValue() : urlencode($this->getValue());
 
-            if ($this->getExpiresTime() !== 0) {
+            if (0 !== $this->getExpiresTime()) {
                 $str .= '; expires='.gmdate('D, d-M-Y H:i:s T', $this->getExpiresTime());
             }
         }
 
-        if ($this->path) {
-            $str .= '; path='.$this->path;
+        if ($this->getPath()) {
+            $str .= '; path='.$this->getPath();
         }
 
         if ($this->getDomain()) {
@@ -139,7 +139,7 @@ class Cookie
     /**
      * Gets the value of the cookie.
      *
-     * @return string
+     * @return string|null
      */
     public function getValue()
     {
@@ -149,7 +149,7 @@ class Cookie
     /**
      * Gets the domain that the cookie is available to.
      *
-     * @return string
+     * @return string|null
      */
     public function getDomain()
     {

@@ -329,6 +329,7 @@ abstract class Parser implements ParserInterface
     public function setConfig($config)
     {
         $this->config = $config;
+        $this->itemPostProcessor->setConfig($config);
         return $this;
     }
 

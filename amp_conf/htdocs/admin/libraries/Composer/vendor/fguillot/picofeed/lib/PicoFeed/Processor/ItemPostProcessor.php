@@ -5,6 +5,7 @@ namespace PicoFeed\Processor;
 use PicoFeed\Base;
 use PicoFeed\Parser\Feed;
 use PicoFeed\Parser\Item;
+use PicoFeed\Config\Config;
 
 /**
  * Item Post Processor
@@ -92,5 +93,14 @@ class ItemPostProcessor extends Base
     public function getProcessor($class)
     {
         return isset($this->processors[$class]) ? $this->processors[$class] : null;
+    }
+
+    public function setConfig(Config $config)
+    {
+        foreach ($this->processors as $processor) {
+            $processor->setConfig($config);
+        }
+
+        return false;
     }
 }

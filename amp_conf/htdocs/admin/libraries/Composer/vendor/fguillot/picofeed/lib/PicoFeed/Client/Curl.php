@@ -110,7 +110,10 @@ class Curl extends Client
                 return $this->handleRedirection($headers['Location']);
             }
 
-            header(':', true, $status);
+            // Do not work with PHP-FPM
+            if (strpos(PHP_SAPI, 'cgi') !== false) {
+                header(':', true, $status);
+            }
 
             if (isset($headers['Content-Type'])) {
                 header('Content-Type:' .$headers['Content-Type']);
@@ -354,6 +357,11 @@ class Curl extends Client
      * @see    http://curl.haxx.se/libcurl/c/libcurl-errors.html
      *
      * @param int $errno cURL error code
+     * @throws InvalidCertificateException
+     * @throws InvalidUrlException
+     * @throws MaxRedirectException
+     * @throws MaxSizeException
+     * @throws TimeoutException
      */
     private function handleError($errno)
     {
@@ -377,8 +385,7 @@ class Curl extends Client
             case 66: // CURLE_SSL_ENGINE_INITFAILED
             case 77: // CURLE_SSL_CACERT_BADFILE
             case 83: // CURLE_SSL_ISSUER_ERROR
-                $msg = 'Invalid SSL certificate caused by CURL error number ' .
-                        $errno;
+                $msg = 'Invalid SSL certificate caused by CURL error number ' . $errno;
                 throw new InvalidCertificateException($msg, $errno);
             case 47: // CURLE_TOO_MANY_REDIRECTS
                 throw new MaxRedirectException('Maximum number of redirections reached', $errno);
