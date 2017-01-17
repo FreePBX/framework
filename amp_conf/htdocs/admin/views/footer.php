@@ -170,6 +170,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 		"assets/js/autosize-3.0.17.min.js",
 		"assets/js/bootstrap-3.3.7.custom.min.js",
 		"assets/js/bootstrap-multiselect-0.9.13.js",
+		"assets/js/bootstrap-select-1.12.1.min.js",
 		"assets/js/bootstrap-table-1.11.0.min.js",
 		"assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-cookie.min.js",
 		"assets/js/bootstrap-table-extensions-1.11.0/bootstrap-table-export.min.js",
