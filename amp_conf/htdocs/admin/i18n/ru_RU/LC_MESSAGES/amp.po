@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-01-11 17:39-0800\n"
+"POT-Creation-Date: 2017-01-17 11:33-0800\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -421,7 +421,7 @@ msgstr "%s записей не прошли проверку"
 msgid "%s removed successfully"
 msgstr "%s удалено успешно"
 
-#: amp_conf/htdocs/admin/views/footer.php:300
+#: amp_conf/htdocs/admin/views/footer.php:301
 #, php-format
 msgid ""
 "%s requires a new browser to function correctly. You can still use %s with "
@@ -2565,7 +2565,7 @@ msgstr ""
 "настроек по умолчанию,установленные в дополнительных опциях. Это не "
 "применяется  к опциям транка, которые были  сконфигурированы с транком."
 
-#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:61
+#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:72
 msgid "Current Network Configuration"
 msgstr "Текущая конфигурация сети "
 
@@ -3266,7 +3266,7 @@ msgstr "Режим разработки"
 msgid "Developer and Customization"
 msgstr "Разработчикам и дизайнерам"
 
-#: ../core/Core.class.php:2880 ../core/functions.inc.php:6197
+#: ../core/Core.class.php:2872 ../core/functions.inc.php:6197
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:72
 msgid "Device"
@@ -4364,7 +4364,7 @@ msgid "Extended"
 msgstr "Дополнительный"
 
 #: ../core/Core.class.php:2513 ../core/Core.class.php:2514
-#: ../core/Core.class.php:2868 ../core/functions.inc.php:5842
+#: ../core/Core.class.php:2860 ../core/functions.inc.php:5842
 #: ../core/page.did.php:91 ../core/page.extensions.php:28
 #: ../core/page.extensions.php:119 ../core/page.extensions.php:145
 #: ../core/views/rnav.php:18
@@ -4679,7 +4679,7 @@ msgstr ""
 "голосовой почты BUSY). Если же установить этот флаг в НЕТ, то неотвеченные "
 "вызовы по второй линии будут отмечаться как <b>no-answer</b>."
 
-#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:90
+#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:101
 msgid "For support please visit: "
 msgstr "Для поддержки посетите:"
 
@@ -5352,7 +5352,7 @@ msgstr ""
 msgid "IP Address range to deny access to, in the form of network/netmask."
 msgstr "Диапазон запрещённых для доступа ИП адресов в формате сеть/маска сети."
 
-#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:70
+#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:81
 msgid "IP Addresses"
 msgstr "ИП адреса"
 
@@ -5643,7 +5643,7 @@ msgstr "Контроль внешних входящих соединений"
 msgid "Inbound Internal Calls"
 msgstr "Контроль внутренних входящих соединений"
 
-#: ../core/Core.class.php:2922 ../core/Core.class.php:2931
+#: ../core/Core.class.php:2914 ../core/Core.class.php:2923
 msgid "Inbound Route:"
 msgstr ""
 
@@ -5776,7 +5776,7 @@ msgstr ""
 "программными телефонами.Он используется для транспортировки VoIP-телефонных "
 "сессий между серверами и оконечными устройствами."
 
-#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:70
+#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:81
 msgid "Interface"
 msgstr "Интерфейс"
 
@@ -6072,7 +6072,7 @@ msgstr "Большое расстояние"
 msgid "Low Memory Limit"
 msgstr "Ниижний лимит памяти"
 
-#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:70
+#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:81
 msgid "MAC Address"
 msgstr "MAC-адрес"
 
@@ -6674,13 +6674,13 @@ msgstr ""
 msgid "NOTE"
 msgstr "Замечание"
 
-#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:58
+#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:70
 #, php-format
 msgid ""
 "NOTICE! This system has EDGE mode enabled. For more information visit %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:55
+#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:67
 #, php-format
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr "Уведомление! У Вас %s уведомлений! Войдите в UI для просмотра!"
@@ -6839,7 +6839,7 @@ msgstr "Не указан файл для загрузки"
 msgid "No file was uploaded"
 msgstr "Файл не загружен"
 
-#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:75
+#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:86
 msgid "No interfaces found"
 msgstr "Интерфейс не найден"
 
@@ -7384,7 +7384,7 @@ msgstr "Контроль внутренних исходящих соедине�
 msgid "Outbound Proxy"
 msgstr "Исходящий прокси"
 
-#: ../core/Core.class.php:2905
+#: ../core/Core.class.php:2897
 msgid "Outbound Route:"
 msgstr ""
 
@@ -7793,7 +7793,7 @@ msgstr "Введите канал для этого устройства"
 msgid "Please enter valid User Password using numbers only"
 msgstr "Пожалуйста, введите пароль пользователя состоящий только из цифр"
 
-#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:88
+#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:99
 msgid "Please note most tasks should be handled through the GUI."
 msgstr "Пожалуйста имейте ввиду,что большинство задач следует решать через GUI"
 
@@ -10347,7 +10347,7 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr "Последовательность транков для совпавших маршрутов"
 
-#: ../core/Core.class.php:2913
+#: ../core/Core.class.php:2905
 msgid "Trunk:"
 msgstr ""
 
@@ -10668,7 +10668,7 @@ msgstr ""
 msgid "Update System"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:300
+#: amp_conf/htdocs/admin/views/footer.php:301
 msgid "Update my browser now"
 msgstr "Обновить мой браузер сейчас"
 
@@ -10854,7 +10854,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:2892 ../core/functions.inc.php:5856
+#: ../core/Core.class.php:2884 ../core/functions.inc.php:5856
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:88 ../core/page.users.php:57 ../core/views/rnav.php:42
 msgid "User"
@@ -11579,7 +11579,7 @@ msgstr ""
 "Вы используете пароль по умолчанию для Менеджера Asterisk, который является "
 "общеизвестным,необходимо установить безопасный пароль"
 
-#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:89
+#: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:100
 msgid ""
 "You can access the GUI by typing one of the above IPs in to your web browser."
 msgstr ""
@@ -11848,7 +11848,7 @@ msgstr ""
 "Ваша конфигурация Zend настроена не полностью. Пожалуйста устраните проблему "
 "и перегрузите страницу."
 
-#: amp_conf/htdocs/admin/views/footer.php:299
+#: amp_conf/htdocs/admin/views/footer.php:300
 msgid "Your browser is out-of-date!"
 msgstr "Ваш браузер устарел!"
 
