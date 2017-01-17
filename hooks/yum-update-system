@@ -66,7 +66,7 @@ echo STOP $(date +%s) yum-update $EXITVAL $(echo "$TMPOUT"|base64 -w0)
 echo FINISH $(date +%s)
 #phpisms
 SESSIONPATH=$(php -r "echo session_save_path();")
-fwconsole chown --file=$SESSIONPATH
+fwconsole chown -q --file=$SESSIONPATH
 rm -f $lockfile
 echo "You can now close this window" >> $currentfile
 touch /var/spool/asterisk/incron/framework.yum-check-updates.--noclean
