@@ -97,20 +97,10 @@ class connectdirs {
 	function connectdirs() {
 		global $amp_conf;
 		global $db;
-		$this->symlink_dirs['bin']	= $amp_conf['AMPBIN'];
-		$this->symlink_dirs['etc'] 	= $amp_conf['ASTETCDIR'];
-		$this->symlink_dirs['images'] 	=
-			$amp_conf['AMPWEBROOT'] . "/admin/images";
-		$this->symlink_dirs['ari/modules']	=
-			$amp_conf['AMPWEBROOT'] . "/recordings/modules";
-		$this->symlink_dirs['ari/theme'] 	=
-			$amp_conf['AMPWEBROOT'] . "/recordings/theme";
-		$this->symlink_dirs['ari/js']		=
-			$amp_conf['AMPWEBROOT'] . "/recordings/theme/js";
-		$this->symlink_dirs['ari/images']	=
-			$amp_conf['AMPWEBROOT'] . "/recordings/theme/images";
-		$this->symlink_sound_dirs['sounds'] 	=
-			$amp_conf['ASTVARLIBDIR'] . '/sounds';
+		$this->symlink_dirs['bin'] = $amp_conf['AMPBIN'];
+		$this->symlink_dirs['etc'] = $amp_conf['ASTETCDIR'];
+		$this->symlink_dirs['images'] = $amp_conf['AMPWEBROOT'] . "/admin/images";
+		$this->symlink_sound_dirs['sounds'] = $amp_conf['ASTVARLIBDIR'] . '/sounds';
 			//TODO agi-bin needs to be symlinked in the future
 		$this->cp_dirs['agi-bin'] 	= $amp_conf['ASTAGIDIR'];
 		/** BIN IS SYMLINKED **/
