@@ -887,13 +887,13 @@ function closePopOver(drawselects) {
 			dv = options[0].value;
 			var currentValues = [];
 			for(i = 0; i < this.options.length; i++){
-			        currentValues.push(this.options[i].value);
+				currentValues.push(this.options[i].value);
 			}
 			for(i = 0; i < options.length; i++){
 				if ($.inArray(options[i].value, currentValues) == -1){
 					dv = options[i].value;
-			                break;
-			        }
+					break;
+				}
 			}
 		} 
 		$(this).empty().append(options.clone()).val(dv);
