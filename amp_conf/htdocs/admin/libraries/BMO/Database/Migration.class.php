@@ -56,6 +56,9 @@ class Migration {
 					}
 					$table->addIndex($columns,$name,array("fulltext"));
 				break;
+				case "foreign":
+					$table->addForeignKeyConstraint($data['foreigntable'], $columns, $data['foreigncols'], $data['options'], $name);
+				break;
 			}
 		}
 
