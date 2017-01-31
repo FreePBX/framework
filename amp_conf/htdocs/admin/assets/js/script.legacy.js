@@ -110,7 +110,7 @@ function warnInvalid(theField, s) {
 		} else if(field.is('select')) {
 			type = 'select';
 		}
-		field.before('<i class="fa fa-exclamation-triangle input-warn" data-type="' + type + '" data-toggle="tooltip" data-placement="left"></i>');
+		field.before('<i class="fa fa-exclamation-triangle input-warn" data-type="' + type + '" data-toggle="tooltip" data-placement="left" title="'+s+'"></i>');
 
 		field.one("propertychange change contextmenu keyup input paste", function() {
 			$(this).parents(".element-container").removeClass("has-error has-warning has-success");
