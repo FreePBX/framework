@@ -882,12 +882,21 @@ function closePopOver(drawselects) {
 	runningPopOverActions = true;
 	var options = $("." + popover_box_class + " option", $("<div>" + drawselects + "</div>"));
 	$("." + popover_box_class).each(function() {
+		dv = $(this).val();
 		if (this.id == popover_select_id) {
-			$(this).empty().append(options.clone());
-		} else {
-			dv = $(this).val();
-			$(this).empty().append(options.clone()).val(dv);
-		}
+			dv = options[0].value;
+			var currentValues = [];
+			for(i = 0; i < this.options.length; i++){
+				currentValues.push(this.options[i].value);
+			}
+			for(i = 0; i < options.length; i++){
+				if ($.inArray(options[i].value, currentValues) == -1){
+					dv = options[i].value;
+					break;
+				}
+			}
+		} 
+		$(this).empty().append(options.clone()).val(dv);
 	});
 
 	// In the case of multi-category destinations, we may have other options
