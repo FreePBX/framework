@@ -168,37 +168,40 @@ class Media {
 		foreach($this->getDrivers() as $driver) {
 			$class = "Media\\Driver\\Drivers\\".$driver;
 			switch ($driver) {
-			case "AsteriskShell":
-				$i = $intermediary['sln'];
+				case "AsteriskShell":
+					$i = !empty($intermediary['sln48']) ? $intermediary['sln48'] : (!empty($intermediary['sln16']) ? $intermediary['sln16'] : $intermediary['wav16']);
 				break;
-			case "SangomaRingtone":
-				$i = $intermediary['ulaw'];
+				case "SangomaRingtone":
+					$i = $intermediary['ulaw'];
 				break;
-			default:
-				$i = $intermediary['wav'];
+				default:
+					$i = $intermediary['wav16'];
 				break;
 			}
 			if($class::installed() && $class::isCodecSupported($extension,"out")) {
 				$driver = new $class($i['path'],$i['extension'],$i['mime']);
 				$driver->convert($newFilename,$extension,$mime);
-				if(!file_exists($newFilename)) {
+				if(!file_exists($newFilename) && $extension == 'sln48' && !empty($intermediary['sln16'])) {
+					$i = $intermediary['sln16'];
+					$driver = new $class($i['path'],$i['extension'],$i['mime']);
+					$driver->convert($newFilename,$extension,$mime);
+					if(!file_exists($newFilename)) {
+						throw new \Exception("File was not converted");
+					}
+				} elseif(!file_exists($newFilename)) {
 					throw new \Exception("File was not converted");
 				}
 				break;
 			}
 		}
 
-		if(!empty($intermediary['wav']['path']) && file_exists($intermediary['wav']['path'])) {
-			unlink($intermediary['wav']['path']);
+		foreach($intermediary as $int) {
+			if(!empty($int['path']) && file_exists($int['path'])) {
+				unlink($int['path']);
+			}
 		}
-		if(!empty($intermediary['sln']['path']) && file_exists($intermediary['sln']['path'])) {
-			unlink($intermediary['sln']['path']);
-		}
-		if(!empty($intermediary['ulaw']['path']) && file_exists($intermediary['ulaw']['path'])) {
-			unlink($intermediary['ulaw']['path']);
-		}
-		unset($intermediary);
 
+		unset($intermediary);
 		return file_exists($newFilename);
 	}
 
@@ -232,34 +235,37 @@ class Media {
 			foreach($this->getDrivers() as $driver) {
 				$class = "Media\\Driver\\Drivers\\".$driver;
 				switch ($driver) {
-				case "AsteriskShell":
-					$i = $intermediary['sln'];
+					case "AsteriskShell":
+						$i = !empty($intermediary['sln48']) ? $intermediary['sln48'] : (!empty($intermediary['sln16']) ? $intermediary['sln16'] : $intermediary['wav16']);
 					break;
-				case "SangomaRingtone":
-					$i = $intermediary['ulaw'];
+					case "SangomaRingtone":
+						$i = $intermediary['ulaw'];
 					break;
-				default:
-					$i = $intermediary['wav'];
+					default:
+						$i = $intermediary['wav16'];
 					break;
 				}
 				if($class::installed() && $class::isCodecSupported($extension,"out")) {
 					$driver = new $class($i['path'],$i['extension'],$i['mime']);
 					$driver->convert($file,$extension,$mime);
-					if(!file_exists($file)) {
+					if(!file_exists($file) && $extension == 'sln48' && !empty($intermediary['sln16'])) {
+						$i = $intermediary['sln16'];
+						$driver = new $class($i['path'],$i['extension'],$i['mime']);
+						$driver->convert($file,$extension,$mime);
+						if(!file_exists($file)) {
+							throw new \Exception("File was not converted");
+						}
+					} elseif(!file_exists($file)) {
 						throw new \Exception("File was not converted");
 					}
 					break;
 				}
 			}
 		}
-		if(!empty($intermediary['wav']['path']) && file_exists($intermediary['wav']['path'])) {
-			unlink($intermediary['wav']['path']);
-		}
-		if(!empty($intermediary['sln']['path']) && file_exists($intermediary['sln']['path'])) {
-			unlink($intermediary['sln']['path']);
-		}
-		if(!empty($intermediary['ulaw']['path']) && file_exists($intermediary['ulaw']['path'])) {
-			unlink($intermediary['ulaw']['path']);
+		foreach($intermediary as $int) {
+			if(!empty($int['path']) && file_exists($int['path'])) {
+				unlink($int['path']);
+			}
 		}
 		unset($intermediary);
 
@@ -300,16 +306,6 @@ class Media {
 		//Asterisk 11 should support sln48 but it doesnt, it says it does but then complains
 		//It might be a bug, regardless this is fixed in 13 people should just use it
 		$ver = \FreePBX::Config()->get("ASTVERSION");
-		if(version_compare_freepbx($ver,"13.0","ge") && \Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln48","in")) {
-			$type = "sln48";
-			$samplerate = 48000;
-		} elseif(\Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln16","in")) {
-			$type = "sln16";
-			$samplerate = 16000;
-		} else {
-			$type = "wav16";
-			$samplerate = 16000;
-		}
 
 		$nt = \notifications::create();
 		if(version_compare_freepbx($ver,"13.0","ge") && !\Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln48","in")) {
@@ -320,24 +316,55 @@ class Media {
 		}
 
 		//Now transform into a raw audio file
-		$d = new $soxClass($intermediary['wav']['path'],$intermediary['wav']['extension'],$intermediary['wav']['mime'],$samplerate,1,16);
-		$d->convert($this->tempDir."/temp.".$ts.".".$type,$type,"audio/x-raw");
-		$intermediary['sln']['path'] = $this->tempDir."/temp.".$ts.".".$type;
-		$intermediary['sln']['extension'] = $type;
-		$intermediary['sln']['mime'] = "audio/x-raw";
+		if(version_compare_freepbx($ver,"13.0","ge") && \Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln48","in")) {
+			$d = new $soxClass($intermediary['wav']['path'],$intermediary['wav']['extension'],$intermediary['wav']['mime'],48000,1,16);
+			$d->convert($this->tempDir."/temp.".$ts.".sln48",'sln48',"audio/x-raw");
+
+			if(!file_exists($$this->tempDir."/temp.".$ts.".sln48")) {
+				throw new \Exception("Intermediary files could not be created");
+			}
+
+			$intermediary['sln48']['path'] = $this->tempDir."/temp.".$ts.".sln48";
+			$intermediary['sln48']['extension'] = 'sln48';
+			$intermediary['sln48']['mime'] = "audio/x-raw";
+		}
+		if(\Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln16","in")) {
+			$d = new $soxClass($intermediary['wav']['path'],$intermediary['wav']['extension'],$intermediary['wav']['mime'],16000,1,16);
+			$d->convert($this->tempDir."/temp.".$ts.".sln16",'sln16',"audio/x-raw");
+
+			if(!file_exists($$this->tempDir."/temp.".$ts.".sln16")) {
+				throw new \Exception("Intermediary files could not be created");
+			}
+
+			$intermediary['sln16']['path'] = $this->tempDir."/temp.".$ts.".sln16";
+			$intermediary['sln16']['extension'] = 'sln16';
+			$intermediary['sln16']['mime'] = "audio/x-raw";
+		} else {
+			$d = new $soxClass($intermediary['wav']['path'],$intermediary['wav']['extension'],$intermediary['wav']['mime'],16000,1,16);
+			$d->convert($this->tempDir."/temp.".$ts.".wav16",'wav16',"audio/x-raw");
+
+			if(!file_exists($$this->tempDir."/temp.".$ts.".wav16")) {
+				throw new \Exception("Intermediary files could not be created");
+			}
+
+			$intermediary['wav16']['path'] = $this->tempDir."/temp.".$ts.".wav16";
+			$intermediary['wav16']['extension'] = 'wav16';
+			$intermediary['wav16']['mime'] = "audio/x-raw";
+		}
+
+
 
 		$d = new $asteriskClass($intermediary['sln']['path'],$intermediary['sln']['extension'],$intermediary['sln']['mime']);
 		$d->convert($this->tempDir."/temp.".$ts.".ulaw","ulaw","audio/x-basic");
+
+		if(!file_exists($$this->tempDir."/temp.".$ts.".ulaw")) {
+			throw new \Exception("Intermediary files could not be created");
+		}
+
 		$intermediary['ulaw']['path'] = $this->tempDir."/temp.".$ts.".ulaw";
 		$intermediary['ulaw']['extension'] = "ulaw";
 		$intermediary['ulaw']['mime'] = "audio/basic";
 
-		if(empty($intermediary)) {
-			throw new \Exception("No Driver found for ".$this->extension);
-		}
-		if(!file_exists($intermediary['wav']['path']) || !file_exists($intermediary['sln']['path'])) {
-			throw new \Exception("Intermediary files could not be created");
-		}
 		return $intermediary;
 	}
 }
