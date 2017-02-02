@@ -71,7 +71,9 @@ function freepbx_log_security($txt) {
 	if ($size > 2000000000) {
 		unlink($log_file);
 	}
-	file_put_contents($log_file, "[$tstamp] $txt\n", FILE_APPEND);
+	if(!FreePBX::Config()->get('AMPDISABLELOG') && FreePBX::Config()->get('LOG_OUT_MESSAGES')) {
+		file_put_contents($log_file, "[$tstamp] $txt\n", FILE_APPEND);
+	}
 }
 /**
  * FreePBX Logging facility to FILE or syslog

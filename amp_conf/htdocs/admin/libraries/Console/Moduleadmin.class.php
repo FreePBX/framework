@@ -630,14 +630,19 @@ class Moduleadmin extends Command {
 		//special case core so that we have everything we need for localizations
 		switch($modulename) {
 			case 'core':
-				$modules = $this->module_getinfo();
+				$modules = $this->mf->getinfo();
 			break;
 			default:
-				$modules = $this->module_getinfo($modulename);
+				$modules = $this->mf->getinfo($modulename);
 			break;
 		}
 
-		$modulesProcessed = array();
+		$modulesProcessed = array(
+			'name' => array(),
+			'category' => array(),
+			'description' => array(),
+			'menuitem' => array()
+		);
 		foreach ($modules as $rawname => $mod) {
 			if (!isset($modules[$rawname])) {
 				fatal($rawname._(' not found'));
@@ -674,7 +679,11 @@ class Moduleadmin extends Command {
 		//get our settings
 		$freepbx_conf = \freepbx_conf::create();
 		$conf = $freepbx_conf->get_conf_settings();
-		$settingsProcessed = array();
+		$settingsProcessed = array(
+			'name' => array(),
+			'category' => array(),
+			'description' => array()
+		);
 		foreach ($conf as $keyword => $settings) {
 			//we don't need hidden settings as the user never sees them
 			if ($settings['hidden'] != true && ($rawname == 'framework' && $settings['module'] == '') || $settings['module'] == $modulename) {
@@ -690,6 +699,16 @@ class Moduleadmin extends Command {
 					$settingsProcessed['description'][] = $settings['description'];
 					echo "# Setting description - $keyword:\n_(\"".$settings['description']."\");\n";
 				}
+			}
+		}
+
+		$codes = \featurecode::getAll($rawname);
+		foreach($codes as $code) {
+			if(!empty($code['description'])) {
+				echo "# Feature Code description - description:\n_(\"".$code['description']."\");\n";
+			}
+			if(!empty($code['helptext'])) {
+				echo "# Feature Code helptext - helptext:\n_(\"".$code['helptext']."\");\n";
 			}
 		}
 	}

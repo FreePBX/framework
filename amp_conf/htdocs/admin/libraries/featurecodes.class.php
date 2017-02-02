@@ -332,4 +332,12 @@ class featurecode {
 
 		return true;
 	}
+
+	public static function getAll($modulename) {
+		$sql = "SELECT * FROM featurecodes WHERE modulename = ?";
+		$db = FreePBX::Database();
+		$sth = $db->prepare($sql);
+		$sth->execute(array($modulename));
+		return $sth->fetchAll(\PDO::FETCH_ASSOC);
+	}
 }

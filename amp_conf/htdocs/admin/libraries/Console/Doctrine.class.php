@@ -67,17 +67,25 @@ class Doctrine extends Command {
 						$export[$table['Field']]['length'] = $field['length'];
 					}
 				break;
+				case 'date':
+					$export[$table['Field']]['type'] = 'date';
+				break;
 				case 'datetime/timestamp':
 				case 'datetime':
 					$export[$table['Field']]['type'] = 'datetime';
 				break;
 				case 'smallint':
 				case 'bigint':
-				case 'decimal':
 				case 'float':
 				case 'blob':
 				case 'time':
 					$export[$table['Field']]['type'] = $field['type'];
+				break;
+				case 'decimal':
+					$parts = explode(",",$field['length']);
+					$export[$table['Field']]['type'] = $field['type'];
+					$export[$table['Field']]['precision'] = $parts[0];
+					$export[$table['Field']]['scale'] = $parts[1];
 				break;
 				default:
 					throw new \Exception("Unknown Col Type: ".$field['type']);
