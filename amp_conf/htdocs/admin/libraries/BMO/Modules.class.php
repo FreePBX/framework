@@ -34,7 +34,7 @@ class Modules {
 
 		self::$count++;
 		if(self::$count > 1) {
-			throw new \Exception("The modules class has loaded more than once! This is a serious error!");
+			throw new \Exception("The 'Modules' class has loaded more than once! This is a serious error!");
 		}
 	}
 
@@ -242,6 +242,16 @@ class Modules {
 	}
 
 	/**
+	 * Get All Modules by module status
+	 * @method getModulesByStatus
+	 * @param  mixed            $status Can be: false, single status or arry of statuses
+	 * @return array                     Array of modules
+	 */
+	public function getModulesByStatus($status=false) {
+		return $this->modclass->getinfo(false, $status);
+	}
+
+	/**
 	 * Get all modules that have said method
 	 * @param {string} $method The method name to look for
 	 */
@@ -295,8 +305,8 @@ class Modules {
 	/**
 	 * Pass-through to modules_class->getinfo
 	 */
-	public function getInfo($modname) {
-		return $this->modclass->getinfo($modname);
+	public function getInfo($modname=false, $status = false, $forceload = false) {
+		return $this->modclass->getinfo($modname, $status, $forceload);
 	}
 
 	/**
