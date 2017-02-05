@@ -176,7 +176,7 @@ class Self_Helper extends DB_Helper {
 			$objname = $this->Modules->cleanModuleName($objname);
 			$path = $this->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/";
 
-			$active_modules = array_keys(\FreePBX::create()->Modules->getActiveModules());
+			$active_modules = array_keys($this->Modules->getActiveModules());
 			foreach ($active_modules as $module) {
 				// Lets try this one..
 				//TODO: this needs to look with dirname not from webroot
@@ -184,7 +184,7 @@ class Self_Helper extends DB_Helper {
 				if(file_exists($try)) {
 					//Now we need to make sure this is not a revoked module!
 					try {
-						$signature = \FreePBX::Modules()->getSignature($module);
+						$signature = $this->Modules->getSignature($module);
 						if(!empty($signature['status'])) {
 							$revoked = $signature['status'] & GPG::STATE_REVOKED;
 							if($revoked) {
@@ -193,7 +193,7 @@ class Self_Helper extends DB_Helper {
 						}
 					} catch(\Exception $e) {}
 
-					$info = \FreePBX::Modules()->getInfo($module);
+					$info = $this->Modules->getInfo($module);
 					$needs_zend = isset($info[$module]['depends']['phpcomponent']) && stristr($info[$module]['depends']['phpcomponent'], 'zend');
 					$licFileExists = glob ('/etc/schmooze/license-*.zl');
 					$complete_zend = (!function_exists('zend_loader_install_license') || empty($licFileExists));

@@ -1315,7 +1315,6 @@ class module_functions {
 						} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
 							$progress_callback[0]->$progress_callback[1]('verifying', array('module'=>$modulename, "status" => "redownload"));
 						}
-						unlink($filename);
 					}
 				} catch(\Exception $e) {
 					if (!is_array($progress_callback) && function_exists($progress_callback)) {

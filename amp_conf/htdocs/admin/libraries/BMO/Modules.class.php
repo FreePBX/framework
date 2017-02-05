@@ -11,6 +11,7 @@
 namespace FreePBX;
 class Modules {
 
+	private static $count = 0;
 	public $active_modules;
 	private $moduleMethods = array();
 	private $validLicense = null;
@@ -30,13 +31,20 @@ class Modules {
 		}
 
 		$this->modclass = \module_functions::create();
-		//$this->getActiveModules();
+
+		self::$count++;
+		if(self::$count > 1) {
+			throw new \Exception("The 'Modules' class has loaded more than once! This is a serious error!");
+		}
 	}
 
 	/**
 	 * Get all active modules
+	 * @method getActiveModules
+	 * @param  boolean          $cached Whether to cache the results.
+	 * @return array                   array of active modules
 	 */
-	public function getActiveModules() {
+	public function getActiveModules($cached=true) {
 		// If session isn't authenticated, we don't care about modules.
 		if (!defined('FREEPBX_IS_AUTH') || !FREEPBX_IS_AUTH) {
 			$modules = $this->modclass->getinfo(false,MODULE_STATUS_ENABLED);
@@ -48,7 +56,7 @@ class Modules {
 			}
 			$this->active_modules = $final;
 		} else {
-			if(empty($this->active_modules)) {
+			if(empty($this->active_modules) || !$cached) {
 				$this->active_modules = $this->modclass->getinfo(false, MODULE_STATUS_ENABLED);
 			}
 		}
@@ -63,7 +71,7 @@ class Modules {
 	 */
 	public function getDestinations() {
 		$this->loadAllFunctionsInc();
-		$modules = $this->getActiveModules();
+		$modules = $this->getActiveModules(false);
 		$destinations = array();
 		foreach($modules as $rawname => $data) {
 			$funct = strtolower($rawname.'_destinations');
@@ -94,7 +102,7 @@ class Modules {
 	 */
 	public function loadAllFunctionsInc() {
 		$path = $this->FreePBX->Config->get("AMPWEBROOT");
-		$modules = $this->getActiveModules();
+		$modules = $this->getActiveModules(false);
 		foreach($modules as $rawname => $data) {
 			$ifiles = get_included_files();
 			$relative = $rawname."/functions.inc.php";
@@ -207,7 +215,7 @@ class Modules {
 	 * @param {string} $method The method name
 	 */
 	public function moduleHasMethod($module, $method) {
-		$this->getActiveModules();
+		$this->getActiveModules(false);
 		$module = ucfirst(strtolower($module));
 		if(!empty($this->moduleMethods[$module]) && in_array($method, $this->moduleMethods[$module])) {
 			return true;
@@ -234,11 +242,21 @@ class Modules {
 	}
 
 	/**
+	 * Get All Modules by module status
+	 * @method getModulesByStatus
+	 * @param  mixed            $status Can be: false, single status or arry of statuses
+	 * @return array                     Array of modules
+	 */
+	public function getModulesByStatus($status=false) {
+		return $this->modclass->getinfo(false, $status);
+	}
+
+	/**
 	 * Get all modules that have said method
 	 * @param {string} $method The method name to look for
 	 */
 	public function getModulesByMethod($method) {
-		$this->getActiveModules();
+		$this->getActiveModules(false);
 		$amods = array();
 		if(is_array($this->active_modules)) {
 			foreach(array_keys($this->active_modules) as $mod) {
@@ -269,7 +287,7 @@ class Modules {
 			throw new \Exception("I can't find a module for a page that doesn't exist");
 
 		// Search through all active modules..
-		$mods = $this->getActiveModules();
+		$mods = $this->getActiveModules(false);
 		if(empty($mods)) {return false;}
 		foreach ($mods as $key => $mod) {
 			// ..and if we know about the menuitem that we've been asked..
@@ -287,7 +305,7 @@ class Modules {
 	/**
 	 * Pass-through to modules_class->getinfo
 	 */
-	public function getInfo($modname, $status = false, $forceload = false) {
+	public function getInfo($modname=false, $status = false, $forceload = false) {
 		return $this->modclass->getinfo($modname, $status, $forceload);
 	}
 

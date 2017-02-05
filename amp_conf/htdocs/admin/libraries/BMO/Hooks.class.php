@@ -33,7 +33,7 @@ class Hooks extends DB_Helper {
 	 * Update all cached hooks
 	 */
 	public function updateBMOHooks() {
-		$this->activemods = $this->FreePBX->Modules->getActiveModules();
+		$this->activemods = $this->FreePBX->Modules->getActiveModules(false);
 		$am = is_array($this->activemods) ? array_keys($this->activemods) : array();
 		// Find all BMO Modules, query them for GUI, Dialplan, and configpageinit hooks.
 		$this->preloadBMOModules();
@@ -128,7 +128,7 @@ class Hooks extends DB_Helper {
 		$callingMethod = $method;
 		$callingClass = $class;
 
-		$this->activemods = $this->FreePBX->Modules->getActiveModules();
+		$this->activemods = $this->FreePBX->Modules->getActiveModules(false);
 		$hooks = $this->getAllHooks();
 		$return = array();
 
@@ -198,7 +198,7 @@ class Hooks extends DB_Helper {
 	 * @param integer $level Level of backtrace to do to discover the calling module
 	 */
 	public function returnHooks($level=1) {
-		$this->activemods = $this->FreePBX->Modules->getActiveModules();
+		$this->activemods = $this->FreePBX->Modules->getActiveModules(false);
 		$hooks = $this->getAllHooks();
 		$o = debug_backtrace();
 		$callingMethod = !empty($o[$level]['function']) ? $o[$level]['function'] : '';
@@ -272,7 +272,7 @@ class Hooks extends DB_Helper {
 	 * This shouldn't happen on every page load.
 	 */
 	private function preloadBMOModules() {
-		$this->activemods = $this->FreePBX->Modules->getActiveModules();
+		$this->activemods = $this->FreePBX->Modules->getActiveModules(false);
 		foreach(array_keys($this->activemods) as $module) {
 			$path = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/";
 			if(file_exists($path.$module.'/'.ucfirst($module).'.class.php')) {
