@@ -299,10 +299,17 @@ class SystemUpdates {
 		$rpms = [];
 		$wrapped = null; //https://bugzilla.redhat.com/show_bug.cgi?id=584525
 		foreach ($lines as $line) {
-			if (!$line) {
+			// If the line is blank, or, starts with a space, ignore.
+			if (!$line || $line[0] === " ") {
 				continue;
 			}
 			$linearr = preg_split("/\s+/", $line);
+
+			// Ignore if it's an 'Obsoleting Packages' line
+			if ($linearr[0] === "Obsoleting") {
+				continue;
+			}
+
 			if(!isset($linearr[1])) {
 				$rpms[escapeshellcmd($linearr[0])] = [];
 				$wrapped = escapeshellcmd($linearr[0]);
