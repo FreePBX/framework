@@ -1,4 +1,4 @@
-var fpbx = Class.extend({
+var fpbxClass = Class.extend({
 	params: {},
 	init: function() {
 		var self = this;
@@ -22,4 +22,4 @@ var fpbx = Class.extend({
 		}
 	}
 });
-window.FreePBX = new fpbx();
+window.FreePBX = new fpbxClass();
