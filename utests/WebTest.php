@@ -48,6 +48,7 @@ class WebTest extends PHPUnit_Framework_TestCase {
 			// Not a FreePBX Distro machine. Assume port 80
 			$port = 80;
 		}
+
 		$jar = new CookieJar();
 		$client = new Client();
 		$res = $client->request('GET', "http://127.0.0.1:$port/admin/", ['cookies' => $jar]);
@@ -55,6 +56,7 @@ class WebTest extends PHPUnit_Framework_TestCase {
 		$body = (string)$body;
 
 		$crawler = new Crawler($body);
+
 		$this->assertGreaterThan(
 			0,
 			$crawler->filter('html:contains("FreePBX Administration")')->count(),

@@ -1609,7 +1609,7 @@ class module_functions {
 			$progress_callback[0]->$progress_callback[1]('getinfo', array('module'=>$modulename));
 		}
 
-		$file = basename($module_location);
+		$file = basename(parse_url($module_location, PHP_URL_PATH));
 		$filename = $amp_conf['AMPWEBROOT']."/admin/modules/_cache/".$file;
 
 		// Check each URL until get_headers_assoc() returns something intelligible. We then use
