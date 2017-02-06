@@ -120,7 +120,7 @@ if(isset($module_name) && !empty($module_name)) {
 
 // Add global variables to be used later
 $html .= "<script type='text/javascript'>
-	var fpbx = Class.extend({
+	var fpbxClass = Class.extend({
 		params: {},
 		init: function() {
 			var self = this;
@@ -148,7 +148,7 @@ $html .= "<script type='text/javascript'>
 			}
 		}
 	});
-	window.FreePBX = new fpbx();
+	window.FreePBX = new fpbxClass();
 </script>";
 
 $html .= '<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,maximum-scale=1">
