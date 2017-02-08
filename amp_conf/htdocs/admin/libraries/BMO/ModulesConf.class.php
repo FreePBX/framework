@@ -19,7 +19,7 @@ class ModulesConf {
 		$this->ProcessedConfig =& $this->conf->config->ProcessedConfig;
 
 		// Now, is it empty? We want some defaults..
-		if (sizeof($this->ProcessedConfig) == 0 ) {
+		if (!is_array($this->ProcessedConfig) || sizeof($this->ProcessedConfig) == 0 ) {
 			$this->conf->addEntry("modules", "autoload=yes");
 			$this->conf->addEntry("modules", "preload=pbx_config.so");
 			$this->conf->addEntry("modules", "preload=chan_local.so");
