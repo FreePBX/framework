@@ -329,7 +329,7 @@ addLoadEvent(function(){
   $consolealert .='
   });
   </script>';
-  if (isset($_SESSION['AMP_user']) ){
+  if (isset($_SESSION['AMP_user']) && !isset($_REQUEST['fw_popover'])){
     echo $consolealert;
   }
 ?>
