@@ -78,6 +78,9 @@ class SystemUpdates {
 			throw new \Exception("Incron not configured, unable to manage system updates");
 		}
 		// incron hook
+		if (file_exists("/var/spool/asterisk/incron/framework.yum-check-updates")) {
+			unlink("/var/spool/asterisk/incron/framework.yum-check-updates");
+		}
 		touch("/var/spool/asterisk/incron/framework.yum-check-updates");
 		// Wait up to 5 seconds for it to start
 		$endafter = time()+5;
@@ -104,6 +107,9 @@ class SystemUpdates {
 			throw new \Exception("Incron not configured, unable to manage system updates");
 		}
 		// incron hook
+		if (file_exists("/var/spool/asterisk/incron/framework.yum-update-system")) {
+			unlink("/var/spool/asterisk/incron/framework.yum-update-system");
+		}
 		touch("/var/spool/asterisk/incron/framework.yum-update-system");
 		// Wait up to 5 seconds for it to start
 		$endafter = time()+5;
