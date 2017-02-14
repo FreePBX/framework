@@ -1361,6 +1361,9 @@ class module_functions {
 					return array(sprintf(_('Could not remove %s to install new version'), $amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'.$modulename));
 				}
 				exec("tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($amp_conf['AMPWEBROOT'].'/admin/modules/_cache/'), $output, $exitcode);
+				if (posix_getuid() == 0) {
+					exec('chown -R '.escapeshellarg($amp_conf['AMPASTERISKWEBUSER'].":".$amp_conf['AMPASTERISKWEBGROUP']).' '.escapeshellarg($amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename"));
+				}
 				if ($exitcode != 0) {
 					freepbx_log(FPBX_LOG_ERROR,sprintf(_("failed to open %s module archive into _cache directory."),$filename));
 					return array(sprintf(_('Could not untar %s to %s'), $filename, $amp_conf['AMPWEBROOT'].'/admin/modules/_cache'));
