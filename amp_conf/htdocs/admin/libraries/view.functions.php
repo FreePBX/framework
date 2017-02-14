@@ -39,12 +39,6 @@ function fileRequestHandler($handler, $module = false, $file = false){
 	}
 
 	switch ($handler) {
-		case 'reload':
-				// AJAX handler for reload event
-				$response = do_reload();
-				header("Content-type: application/json");
-				echo json_encode($response);
-		break;
 		case 'file':
 			/** Handler to pass-through file requests
 			 * Looks for "module" and "file" variables, strips .. and only allows normal filename characters.
