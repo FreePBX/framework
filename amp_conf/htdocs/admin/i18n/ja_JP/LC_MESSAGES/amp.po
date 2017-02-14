@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-03 10:21-0800\n"
+"POT-Creation-Date: 2017-02-13 16:51-0800\n"
 "PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -252,7 +252,7 @@ msgstr "%s オンラインアップグレード利用可能 (%s)"
 msgid "%s Upgrade Available (%s)"
 msgstr "%s アップグレード利用可能 (%s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3065
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3068
 #, php-format
 msgid "%s [not enabled]"
 msgstr "%s [無効]"
@@ -674,12 +674,12 @@ msgstr ""
 msgid "Access Restrictions"
 msgstr "アクセス制限"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:202
+#: ../core/functions.inc/drivers/PJSip.class.php:198
 #: ../core/functions.inc/drivers/Sip.class.php:462
 msgid "Account Code"
 msgstr "アカウントコード"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:201
+#: ../core/functions.inc/drivers/PJSip.class.php:197
 msgid "Account Code for this extension"
 msgstr "この内線のアカウントコード"
 
@@ -914,7 +914,7 @@ msgstr "高度な設定"
 msgid "Advanced Settings Details"
 msgstr "高度な設定の詳細"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:234
+#: ../core/functions.inc/drivers/PJSip.class.php:230
 msgid "Aggregate MWI"
 msgstr ""
 
@@ -1008,7 +1008,7 @@ msgstr "全てのアップグレードが完了しました。"
 msgid "Allow Any CID"
 msgstr "どのCIDも許可"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:218
+#: ../core/functions.inc/drivers/PJSip.class.php:214
 msgid "Allow Contact header to be rewritten with the source IP address-port"
 msgstr ""
 
@@ -1016,7 +1016,7 @@ msgstr ""
 msgid "Allow Login With DB Credentials"
 msgstr "DB資格情報でログインを許可"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:240
+#: ../core/functions.inc/drivers/PJSip.class.php:236
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP) "
 msgstr ""
 
@@ -1049,7 +1049,7 @@ msgid "Alt for Left Logo"
 msgstr "左ロゴのAlt"
 
 #: ../core/functions.inc.php:5773
-#: ../core/functions.inc/drivers/PJSip.class.php:247
+#: ../core/functions.inc/drivers/PJSip.class.php:243
 msgid "Always"
 msgstr "常に"
 
@@ -1821,17 +1821,17 @@ msgstr "キャンセル"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "接続できません。Asteriskマネージャー "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2163
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2166
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "%s ディレクトリの削除ができません"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2053
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2085
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2056
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2088
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr "無効化できません：次とこのモジュールが依存関係です： "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1905
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1908
 msgid "Cannot find module"
 msgstr "モジュールを見つけられません"
 
@@ -1843,14 +1843,14 @@ msgstr "フレームワークXMLが見つかりません"
 msgid "Cant Reach Online Server"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1498
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1501
 #, php-format
 msgid ""
 "Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: "
 "%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1495
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1498
 #, php-format
 msgid ""
 "Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: "
@@ -2220,8 +2220,8 @@ msgid "Core"
 msgstr "コア"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1267
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1602
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1691
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1605
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1694
 #, php-format
 msgid "Could Not Create Cache Folder: %s"
 msgstr "キャッシュフォルダは作成できませんでした: %s"
@@ -2240,8 +2240,8 @@ msgstr "%s を削除できませんでした"
 msgid "Could not determine module name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1516
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1776
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1519
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1779
 #, php-format
 msgid "Could not find extracted module: %s"
 msgstr "展開済みモジュール %s が見つかりません"
@@ -2254,32 +2254,32 @@ msgstr ""
 msgid "Could not find signed module on remote server!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1379
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1570
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1382
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1573
 #, php-format
 msgid "Could not move %s to %s"
 msgstr "%s を %s に移動できませんでした"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1912
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1915
 msgid "Could not read module.xml"
 msgstr "module.xmlを読み込むことができませんでした"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1361
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1550
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1553
 #, php-format
 msgid "Could not remove %s to install new version"
 msgstr "新バージョンをインストールするために、 %s を削除できませんでした"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1375
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1566
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1842
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1378
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1569
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1845
 #, php-format
 msgid "Could not remove old module %s to install new version"
 msgstr ""
 "新バージョンをインストールするために、古いモジュール %s を削除できませんでし"
 "た"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1873
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1876
 #, php-format
 msgid "Could not remove temporary location %s"
 msgstr "一時的ロケーション %s は削除できませんでした"
@@ -2302,8 +2302,8 @@ msgstr "%s スクリプトを実行することができませんでした。"
 msgid "Could not understand DSN for connect"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1366
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1555
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1369
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1558
 #, php-format
 msgid "Could not untar %s to %s"
 msgstr "%s を %s へ解凍できませんでした"
@@ -2347,7 +2347,7 @@ msgstr "%s 署名リクエストを生成中"
 msgid "Critical"
 msgstr "クリティカル"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3072
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3075
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
@@ -2584,7 +2584,7 @@ msgstr ""
 "使い方がわからない場合は設定しないでください。FreePBXによって提供されているデ"
 "フォルト値を使用しない時だけ使用します。<br>dbホストのポート番号。"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:239
+#: ../core/functions.inc/drivers/PJSip.class.php:235
 msgid "DTLS-SRTP (not recommended)"
 msgstr ""
 
@@ -2986,7 +2986,7 @@ msgstr ""
 "を強制: 内線/デバイスのために定義された緊急CIDを持つ緊急ルートの一部である場"
 "合を除き、このトランクのために定義されたCIDを常に使用。"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:255
+#: ../core/functions.inc/drivers/PJSip.class.php:251
 msgid ""
 "Determines whether encryption should be used if possible but does not "
 "terminate the session if not achieved. This option only applies if Media "
@@ -2999,7 +2999,7 @@ msgid ""
 "failures."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:213
+#: ../core/functions.inc/drivers/PJSip.class.php:209
 msgid ""
 "Determines whether res_pjsip will use the media transport received in the "
 "offer SDP in the corresponding answer SDP."
@@ -3045,7 +3045,7 @@ msgstr "デバイスオプション"
 msgid "Device Settings"
 msgstr "デバイス設定"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:259
+#: ../core/functions.inc/drivers/PJSip.class.php:255
 msgid "Device State Busy at"
 msgstr ""
 
@@ -3346,7 +3346,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:861
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:869
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:892
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2030
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2033
 #: amp_conf/htdocs/admin/page.modules.php:376
 #: amp_conf/htdocs/admin/page.modules.php:382
 #: amp_conf/htdocs/admin/page.modules.php:1065 ../core/install.php:1543
@@ -3780,7 +3780,7 @@ msgstr ""
 "エンドポイントの使用するポート番号、通常5060。ATAのような2ポートデバイスはセ"
 "カンドポートで5061を使用します。"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:216
+#: ../core/functions.inc/drivers/PJSip.class.php:212
 msgid ""
 "Enforce that RTP must be symmetric. If this device is natting in it is "
 "usually a good idea to enable this. Disable only if you are having issues."
@@ -3838,17 +3838,17 @@ msgid "Error converting zap to dahdi in devices table and AstDB"
 msgstr ""
 "デバイステーブル及びAstDBにおいて、zapをdahdiへ変換中にエラーが発生しました"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1848
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1851
 #, php-format
 msgid "Error creating module directory: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1761
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1764
 #, php-format
 msgid "Error creating temporary directory: %s"
 msgstr "テンポラリディレクトリの作成に失敗： %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2170
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2173
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "ディレクトリ %s の削除エラー (コード %d)"
@@ -3858,30 +3858,30 @@ msgstr "ディレクトリ %s の削除エラー (コード %d)"
 msgid "Error fetching prefix list for: "
 msgstr "エラー プリフィックスリスト取得： "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1727
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1730
 msgid ""
 "Error finding uploaded file - check your PHP and/or web server configuration"
 msgstr ""
 "アップロードファイルを見つけられませんでした - PHP および／または、ウェブサー"
 "バーの設定を確認してください"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1787
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1797
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1803
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1790
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1800
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1806
 #, php-format
 msgid "Error from %s: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1461
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1464
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1655
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1467
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1658
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1661
 #, php-format
 msgid "Error opening %s for reading"
 msgstr "読み込みエラー %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1401
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1631
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1404
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1634
 #, php-format
 msgid "Error opening %s for writing"
 msgstr "書き込みエラー %s"
@@ -3895,12 +3895,12 @@ msgstr ""
 msgid "Error updating GPG Keys: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1978
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1981
 #, php-format
 msgid "Error updating database. Command was: %s; error was: %s "
 msgstr "データベースのアップデートエラー。コマンド；%s エラー：%s "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2108
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2111
 msgid "Error updating database: "
 msgstr "データベースアップデートエラー： "
 
@@ -4133,8 +4133,8 @@ msgid ""
 msgstr ""
 "AMI writetimout　の [%s] への変更に失敗しました。問題の詳細は次のとおりです:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1423
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1627
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1426
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1630
 #, php-format
 msgid "Failed download module tarball from %s, server may be down"
 msgstr ""
@@ -4149,12 +4149,12 @@ msgstr ""
 msgid "Failed to Remove directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2957
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2960
 #, php-format
 msgid "Failed to get remote file, error was:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2970
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2973
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:502
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -4183,12 +4183,12 @@ msgstr ""
 "AMIの再読み込みに失敗した為、手動で再読み込みする必要があります。コマンド:"
 "[asterisk -rx 'module reload manager']を実行してみてください"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1950
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1964
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1953
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1967
 msgid "Failed to run installation scripts"
 msgstr "インストールスクリプトの実行に失敗"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2112
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2115
 msgid "Failed to run un-installation scripts"
 msgstr "アンインストールスクリプトの実行に失敗しました"
 
@@ -4204,7 +4204,7 @@ msgstr ""
 msgid "Failed to send unsigned modules notification email"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1714
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1717
 msgid "Failed to write file to disk"
 msgstr ""
 
@@ -4239,31 +4239,31 @@ msgstr ""
 msgid "File '%s' does not exist"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1511
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1771
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1514
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1774
 #, php-format
 msgid "File Integrity failed for %s - aborting (Cause: %s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1503
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1506
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1768
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1509
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1771
 #, php-format
 msgid "File Integrity failed for %s - aborting (GPG Verify File check failed)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1527
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1530
 #, php-format
 msgid "File Integrity failed for %s - aborting (md5sum did not match)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1491
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1535
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1494
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1538
 #, php-format
 msgid "File Integrity failed for %s - aborting (sha1 did not match)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1717
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1720
 msgid "File upload stopped by extension"
 msgstr ""
 
@@ -4311,7 +4311,7 @@ msgstr ""
 msgid "Flash Operator Panel"
 msgstr "Flash オペレータ パネル"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:227
+#: ../core/functions.inc/drivers/PJSip.class.php:223
 msgid ""
 "For Message Waiting indicators there are two types: Solicited and "
 "Unsolicited. Solicited means Subscribe 200 then Notify 200. Unsolicited "
@@ -4396,7 +4396,7 @@ msgid ""
 "warning> Use at your own risk, modules have dependencies for a reason!"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:221
+#: ../core/functions.inc/drivers/PJSip.class.php:217
 msgid "Force rport"
 msgstr ""
 
@@ -4421,15 +4421,15 @@ msgstr ""
 msgid "Force run pre-stop asterisk hooks"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:220
+#: ../core/functions.inc/drivers/PJSip.class.php:216
 msgid "Force use of return port."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:248
+#: ../core/functions.inc/drivers/PJSip.class.php:244
 msgid "Forced"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2982
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2985
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:514
 #, php-format
 msgid "Forced %s to true"
@@ -4472,7 +4472,7 @@ msgstr ""
 msgid "Found what appear to be invalid emergency callerid entries."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1985
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1988
 #, php-format
 msgid "Framework Detected, Setting FreePBX Version to %s"
 msgstr ""
@@ -4692,7 +4692,7 @@ msgstr ""
 "生するという効果があります。もし、いくつかのグランドストリームの電話上でアー"
 "リーダイヤルキーコードを使用する場合は、これをfalseにしたいはずです。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2022
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2025
 msgid "Generating CSS..."
 msgstr ""
 
@@ -5254,7 +5254,7 @@ msgstr "インバウンド"
 msgid "Incoming DID"
 msgstr "インバウンドDID"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1819
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1822
 #, php-format
 msgid "Incorrect Number of Directories for %s"
 msgstr "%s のディレクトリ数は間違っています"
@@ -5364,7 +5364,7 @@ msgstr ""
 msgid "Internal Auto Answer Default"
 msgstr "内部自動応答デフォルト"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1992
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1995
 msgid ""
 "Internal Error. Function getVersion did not match the Framework version, "
 "even after it was suppose to be applied"
@@ -5442,7 +5442,7 @@ msgstr "無効なトランク名が入力されました"
 msgid "Invalid Username or Password"
 msgstr "無効なユーザー名かパスワード"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2221
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2224
 msgid "Invalid description"
 msgstr ""
 
@@ -5630,7 +5630,7 @@ msgstr "低すぎるMemory Limit値"
 msgid "MAC Address"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:228
+#: ../core/functions.inc/drivers/PJSip.class.php:224
 msgid "MWI Subscription Type"
 msgstr ""
 
@@ -5686,12 +5686,12 @@ msgstr ""
 msgid "Manually Loaded Modules"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:264
+#: ../core/functions.inc/drivers/PJSip.class.php:260
 #: ../core/views/trunks/pjsip.php:587
 msgid "Match (Permit)"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:205
+#: ../core/functions.inc/drivers/PJSip.class.php:201
 msgid "Max Contacts"
 msgstr ""
 
@@ -5708,7 +5708,7 @@ msgstr "最大試行数"
 msgid "Maximum Channels"
 msgstr "最大チャネル数"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:268
+#: ../core/functions.inc/drivers/PJSip.class.php:264
 msgid "Maximum Expiration"
 msgstr ""
 
@@ -5716,7 +5716,7 @@ msgstr ""
 msgid "Maximum amount of time (in seconds) to wait for asterisk to shut down"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:204
+#: ../core/functions.inc/drivers/PJSip.class.php:200
 msgid "Maximum number of Endpoints that can associate with this Device"
 msgstr "最大でこのデバイスと連動できる端末の数"
 
@@ -5737,7 +5737,7 @@ msgid ""
 "30 seconds"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:267
+#: ../core/functions.inc/drivers/PJSip.class.php:263
 msgid "Maximum time to keep an AoR"
 msgstr ""
 
@@ -5745,7 +5745,7 @@ msgstr ""
 msgid "May be invalid Check your spelling"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:241
+#: ../core/functions.inc/drivers/PJSip.class.php:237
 msgid "Media Encryption"
 msgstr ""
 
@@ -5753,7 +5753,7 @@ msgstr ""
 msgid "Media Only"
 msgstr "メディアのみ"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:214
+#: ../core/functions.inc/drivers/PJSip.class.php:210
 msgid "Media Use Received Transport"
 msgstr ""
 
@@ -5787,7 +5787,7 @@ msgstr ""
 msgid "Min Length"
 msgstr "最小長"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:272
+#: ../core/functions.inc/drivers/PJSip.class.php:268
 msgid "Minimum Expiration"
 msgstr ""
 
@@ -5798,7 +5798,7 @@ msgid ""
 "valid"
 msgstr "正しく識別される為に、必要なコーラーIDの最小桁数"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:271
+#: ../core/functions.inc/drivers/PJSip.class.php:267
 msgid "Minimum time to keep an AoR"
 msgstr ""
 
@@ -5819,7 +5819,7 @@ msgstr ""
 msgid "Missing Requirements"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1711
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1714
 msgid "Missing a temporary folder"
 msgstr ""
 
@@ -5840,7 +5840,7 @@ msgstr ""
 msgid "Missing module name or URL"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1827
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1830
 #, php-format
 msgid "Missing module.xml in %s"
 msgstr ""
@@ -5890,22 +5890,22 @@ msgstr "モジュール"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1204
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1209
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1215
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1917
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1923
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1920
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1926
 msgid "Module "
 msgstr "モジュール "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3052
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3055
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3074
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3077
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3067
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3070
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr ""
@@ -6004,7 +6004,7 @@ msgstr ""
 msgid "Module Information"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1834
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1837
 #, php-format
 msgid "Module Name is blank in %s"
 msgstr ""
@@ -6044,11 +6044,11 @@ msgstr ""
 msgid "Module names"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2049
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2052
 msgid "Module not enabled: cannot disable"
 msgstr "モジュールは有効ではありません：無効化できません"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2081
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2084
 msgid "Module not installed: cannot uninstall"
 msgstr "モジュールがインストールされていません： アンインストールできません"
 
@@ -6061,19 +6061,19 @@ msgstr ""
 "モジュールのアップロードに成功しました。 モジュールを利用可能にするため>に"
 "は、%s を使用してモジュールを有効化する必要があります。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3088
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3091
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3082
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3085
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3080
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3083
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -6219,9 +6219,9 @@ msgstr ""
 #: ../core/functions.inc/drivers/Dahdi.class.php:137
 #: ../core/functions.inc/drivers/Iax2.class.php:111
 #: ../core/functions.inc/drivers/Iax2.class.php:149
-#: ../core/functions.inc/drivers/PJSip.class.php:231
-#: ../core/functions.inc/drivers/PJSip.class.php:244
-#: ../core/functions.inc/drivers/PJSip.class.php:253
+#: ../core/functions.inc/drivers/PJSip.class.php:227
+#: ../core/functions.inc/drivers/PJSip.class.php:240
+#: ../core/functions.inc/drivers/PJSip.class.php:249
 #: ../core/functions.inc/drivers/Sip.class.php:318
 #: ../core/functions.inc/drivers/Sip.class.php:334
 #: ../core/functions.inc/drivers/Sip.class.php:340
@@ -6310,7 +6310,7 @@ msgstr ""
 msgid "No file given to load"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1708
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1711
 msgid "No file was uploaded"
 msgstr ""
 
@@ -6340,7 +6340,7 @@ msgstr "ダイヤルプラン内でNoOpをトレース"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:207
 #: ../core/functions.inc.php:5766
-#: ../core/functions.inc/drivers/PJSip.class.php:237
+#: ../core/functions.inc/drivers/PJSip.class.php:233
 #: ../core/views/did/advanced_form.php:215
 #: ../core/views/did/basic_form.php:120 ../core/views/trunks/pjsip.php:91
 #: ../core/views/trunks/pjsip.php:110 ../core/views/trunks/pjsip.php:642
@@ -6784,7 +6784,7 @@ msgstr "外部発信コール"
 msgid "Outbound Internal Calls"
 msgstr "内部発信コール"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:275
+#: ../core/functions.inc/drivers/PJSip.class.php:271
 #: ../core/views/trunks/pjsip.php:422 ../core/views/trunks/pjsip.php:434
 msgid "Outbound Proxy"
 msgstr ""
@@ -7461,7 +7461,7 @@ msgid ""
 "new line. Supported feeds are Atom 1.0 and RSS 0.91, 0.92, 1.0 and 2.0"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:217
+#: ../core/functions.inc/drivers/PJSip.class.php:213
 msgid "RTP Symmetric"
 msgstr ""
 
@@ -7668,7 +7668,7 @@ msgstr "リポジトリ"
 msgid "Require Confirm with Apply Changes"
 msgstr "変更の適用に確認を要求する"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:256
+#: ../core/functions.inc/drivers/PJSip.class.php:252
 msgid "Require RTP (Media) Encryption"
 msgstr ""
 
@@ -7676,7 +7676,7 @@ msgstr ""
 msgid "Require Strong Secrets"
 msgstr "強いシークレットを必要とする"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:246
+#: ../core/functions.inc/drivers/PJSip.class.php:242
 msgid "Required"
 msgstr ""
 
@@ -7742,7 +7742,7 @@ msgstr "戻る"
 msgid "Return key to unlock session remotely"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:219
+#: ../core/functions.inc/drivers/PJSip.class.php:215
 msgid "Rewrite Contact"
 msgstr ""
 
@@ -7916,7 +7916,7 @@ msgstr "SIP sendrpid"
 msgid "SIP trustrpid"
 msgstr "SIP trustrpid"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:238
+#: ../core/functions.inc/drivers/PJSip.class.php:234
 msgid "SRTP via in-SDP (recommended)"
 msgstr ""
 
@@ -8039,7 +8039,7 @@ msgstr ""
 msgid "Session Timeout"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:250
+#: ../core/functions.inc/drivers/PJSip.class.php:246
 #: ../core/functions.inc/drivers/Sip.class.php:361
 msgid "Session Timers"
 msgstr ""
@@ -8344,7 +8344,7 @@ msgstr ""
 msgid "Skip the chown operation"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:225
+#: ../core/functions.inc/drivers/PJSip.class.php:221
 msgid "Solicited"
 msgstr ""
 
@@ -8403,9 +8403,9 @@ msgstr ""
 msgid "Some of these settings can render your system inoperable."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2044
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2076
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2149
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2047
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2079
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2152
 msgid "Specified module not found"
 msgstr "指定されたモジュールが見つかりません"
 
@@ -8766,7 +8766,7 @@ msgstr ""
 msgid "The autoloader is damaged. Please run: "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1793
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1796
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
@@ -8843,11 +8843,11 @@ msgstr ""
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr "アップロードされたファイルを処理中に次のエラーが発生しました： %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2615
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2618
 msgid "The following modules are disabled because they are broken:"
 msgstr "次のモジュールは壊れているため無効になります："
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2607
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2610
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "次のモジュールはアップグレードが必要なため無効になります。"
 
@@ -8886,7 +8886,7 @@ msgid ""
 "change."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:258
+#: ../core/functions.inc/drivers/PJSip.class.php:254
 msgid ""
 "The number of in-use channels which will cause busy to be returned as device "
 "state. This should be left at 0 unless you know what you are doing"
@@ -9055,7 +9055,7 @@ msgid ""
 "support Session-Timers clear their internal session state. Default is Accept."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:249
+#: ../core/functions.inc/drivers/PJSip.class.php:245
 msgid ""
 "The sessions are kept alive by sending a RE-INVITE or UPDATE request at a "
 "negotiated interval. If a session refresh fails then all the entities that "
@@ -9081,7 +9081,7 @@ msgstr ""
 "ドを実行するつもりがない場合は、設定が変更されてしまうため、進めないでくだ>さ"
 "い。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2983
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2986
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:515
 #, php-format
 msgid ""
@@ -9099,17 +9099,17 @@ msgid ""
 "currently."
 msgstr "使用されるテレフォニーバックエンドエンジン。現時点ではasteriskのみ。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1702
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1705
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1699
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1702
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1705
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1708
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
@@ -9170,7 +9170,7 @@ msgstr ""
 "httpdを起動しているユーザー、freepbx_engineに使用されます。ほとんどのシステム"
 "では変更すべきではありません。"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:263
+#: ../core/functions.inc/drivers/PJSip.class.php:259
 msgid ""
 "The value is a comma-delimited list of IP addresses. IP addresses may have a "
 "subnet mask appended. The subnet mask may be written in either CIDR or dot-"
@@ -9682,7 +9682,7 @@ msgstr ""
 msgid "Unable to add index to tech field in devices"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1426
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1429
 #, php-format
 msgid "Unable to connect to servers from URLs provided: %s"
 msgstr "提供されたURL:%s サーバーへの接続が出来ません"
@@ -9746,8 +9746,8 @@ msgid ""
 "%s and has been running for %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1486
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1747
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1489
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1750
 #, php-format
 msgid "Unable to save %s"
 msgstr "%s の保存できません"
@@ -9787,8 +9787,8 @@ msgstr ""
 msgid "Unable to trust the FreePBX Key! -- %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1519
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1780
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1522
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1783
 #, php-format
 msgid "Unable to work with GPG file, message was: %s"
 msgstr ""
@@ -9844,7 +9844,7 @@ msgstr ""
 msgid "Unknown error fetching Custom Context table data or no data to migrate"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1807
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1810
 #, php-format
 msgid ""
 "Unknown file format of %s for %s, supported formats: tar,tgz,tar.gz,zip,bzip"
@@ -9855,7 +9855,7 @@ msgstr ""
 msgid "Unknown filetype of: %s[%s]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1720
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1723
 msgid "Unknown upload error"
 msgstr ""
 
@@ -9886,7 +9886,7 @@ msgstr ""
 msgid "Unsigned Module(s)"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:226
+#: ../core/functions.inc/drivers/PJSip.class.php:222
 msgid "Unsolicited"
 msgstr ""
 
@@ -10449,7 +10449,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:233
+#: ../core/functions.inc/drivers/PJSip.class.php:229
 msgid ""
 "When enabled, Asterisk condenses message waiting notifications from multiple "
 "mailboxes into a single NOTIFY. If it is disabled, individual NOTIFYs are "
@@ -10665,9 +10665,9 @@ msgstr ""
 #: ../core/functions.inc/drivers/Dahdi.class.php:136
 #: ../core/functions.inc/drivers/Iax2.class.php:110
 #: ../core/functions.inc/drivers/Iax2.class.php:148
-#: ../core/functions.inc/drivers/PJSip.class.php:232
-#: ../core/functions.inc/drivers/PJSip.class.php:245
-#: ../core/functions.inc/drivers/PJSip.class.php:254
+#: ../core/functions.inc/drivers/PJSip.class.php:228
+#: ../core/functions.inc/drivers/PJSip.class.php:241
+#: ../core/functions.inc/drivers/PJSip.class.php:250
 #: ../core/functions.inc/drivers/Sip.class.php:319
 #: ../core/functions.inc/drivers/Sip.class.php:335
 #: ../core/functions.inc/drivers/Sip.class.php:415
@@ -10809,37 +10809,37 @@ msgstr ""
 msgid "You can't set the default to the default"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3124
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3127
 #, php-format
 msgid "You have %s %s modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2614
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2617
 #, php-format
 msgid "You have %s broken modules"
 msgstr "壊れたモジュール%s個が存在します"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2606
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2609
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "%s個のモジュールが無効になっています"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3121
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3124
 #, php-format
 msgid "You have %s tampered files"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3112
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3115
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3118
 #, php-format
 msgid "You have %s unsigned modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2614
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2617
 msgid "You have a broken module"
 msgstr "壊れたモジュールが1個存在します"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2606
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2609
 msgid "You have a disabled module"
 msgstr "1つのモジュールが無効になってます"
 
@@ -10993,8 +10993,8 @@ msgstr ""
 msgid "You should fix the problem or select another file and %s."
 msgstr "問題を解決するか、他のファイル又は %s を選択してください。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2608
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2616
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2611
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2619
 msgid "You should go to the module admin page to fix these."
 msgstr "これらを解決するためにモジュール管理ページへ移動してください。"
 
@@ -11117,7 +11117,7 @@ msgstr ""
 "画像やタイトルにマウスを乗せた際に使用されるalt属性。デフォルトではFreePBX"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:195
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3034
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3037
 msgid "altered"
 msgstr ""
 
@@ -11338,23 +11338,23 @@ msgstr ""
 msgid "failed reading %s, file not being removed"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1370
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1559
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1813
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1373
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1562
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1816
 #, php-format
 msgid "failed to delete %s from cache directory after opening module archive."
 msgstr ""
 "モジュールアーカイブをオープン後にキャッシュディレクトリから %s を削除できま"
 "せんでした。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2356
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2362
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2359
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2365
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr "%s を %s 中に、%s モジュールの取り込みに失敗しました。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1365
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1554
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1368
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1557
 #, php-format
 msgid "failed to open %s module archive into _cache directory."
 msgstr ""
@@ -11754,7 +11754,7 @@ msgstr "テーブル名zapchanidsをdahdichandidsに変更中.."
 msgid "retrieve_conf failed, config not applied"
 msgstr "retrieve_conf失敗、設定が適用されませんでした"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3099
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3102
 msgid "revoked"
 msgstr ""
 
@@ -11786,7 +11786,7 @@ msgstr ""
 msgid "starting migration"
 msgstr "移行開始"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3097
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3100
 msgid "tampered"
 msgstr ""
 
@@ -11811,7 +11811,7 @@ msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr ""
 "初期化されていない設定でキーワード [%s] を [%s] に設定しようとしています"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3098
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3101
 msgid "unknown"
 msgstr ""
 
@@ -11826,11 +11826,11 @@ msgid "unrecognized rule: %s discarding"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:160
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3096
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3099
 msgid "unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3095
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3098
 msgid "untrusted"
 msgstr ""
 
