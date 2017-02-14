@@ -1563,6 +1563,10 @@ class module_functions {
 			}
 		}
 
+		if (posix_getuid() == 0) {
+			exec('chown -R '.escapeshellarg($amp_conf['AMPASTERISKWEBUSER'].":".$amp_conf['AMPASTERISKWEBGROUP']).' '.escapeshellarg($amp_conf['AMPWEBROOT']."/admin/modules/_cache/$modulename"));
+		}
+
 		$dest = $amp_conf['AMPWEBROOT']."/admin/modules/$modulename";
 		exec("rm -rf $dest", $output, $exitcode);
 		if ($exitcode != 0) {
@@ -1809,6 +1813,10 @@ class module_functions {
 			default:
 				return array(sprintf(_('Unknown file format of %s for %s, supported formats: tar,tgz,tar.gz,zip,bzip'),$extension,basename($filename)));
 			break;
+		}
+
+		if (posix_getuid() == 0) {
+			exec('chown -R '.escapeshellarg($amp_conf['AMPASTERISKWEBUSER'].":".$amp_conf['AMPASTERISKWEBGROUP']).' '.escapeshellarg($temppath));
 		}
 
 		// since untarring was successful, remvove the tarball so they do not accumulate
