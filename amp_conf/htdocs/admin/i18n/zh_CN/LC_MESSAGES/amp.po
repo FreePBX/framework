@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-13 16:51-0800\n"
+"POT-Creation-Date: 2017-02-13 17:52-0800\n"
 "PO-Revision-Date: 2015-11-17 09:04+0200\n"
 "Last-Translator: james <zhulizhong@gmail.com>\n"
 "Language-Team: Simplified Chinese <http://weblate.freepbx.org/projects/"
@@ -229,7 +229,7 @@ msgstr "%s 在线升级可用 (%s)"
 msgid "%s Upgrade Available (%s)"
 msgstr "%s 可升级到 (%s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3068
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3076
 #, php-format
 msgid "%s [not enabled]"
 msgstr "%s [没有开启]"
@@ -1720,17 +1720,17 @@ msgstr "取消"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "无法连接到Asterisk manager.. "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2166
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2174
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "无法删除目录 %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2056
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2088
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2064
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2096
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr "无法禁用：以下模块依赖于本模块："
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1908
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1916
 msgid "Cannot find module"
 msgstr "无法找到模块"
 
@@ -2110,8 +2110,8 @@ msgid "Core"
 msgstr "核心"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1267
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1605
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1694
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1609
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1698
 #, php-format
 msgid "Could Not Create Cache Folder: %s"
 msgstr ""
@@ -2131,7 +2131,7 @@ msgid "Could not determine module name"
 msgstr "不能判断模块名称"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1519
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1779
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1783
 #, php-format
 msgid "Could not find extracted module: %s"
 msgstr "找不到解压的模块: %s"
@@ -2145,12 +2145,12 @@ msgid "Could not find signed module on remote server!"
 msgstr "远端服务器找不到已签模块！"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1382
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1573
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1577
 #, php-format
 msgid "Could not move %s to %s"
 msgstr "无法把 %s 移动到 %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1915
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1923
 msgid "Could not read module.xml"
 msgstr "无法读取 module.xml"
 
@@ -2161,13 +2161,13 @@ msgid "Could not remove %s to install new version"
 msgstr "无法为安装 %s 的新版本而移除老版本"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1378
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1569
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1845
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1573
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1853
 #, php-format
 msgid "Could not remove old module %s to install new version"
 msgstr "无法移除旧版本，所以不能安装 %s 的新版本"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1876
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1884
 #, php-format
 msgid "Could not remove temporary location %s"
 msgstr ""
@@ -2233,7 +2233,7 @@ msgstr ""
 msgid "Critical"
 msgstr "严重"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3075
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3083
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
@@ -3115,7 +3115,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:861
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:869
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:892
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2033
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2041
 #: amp_conf/htdocs/admin/page.modules.php:376
 #: amp_conf/htdocs/admin/page.modules.php:382
 #: amp_conf/htdocs/admin/page.modules.php:1065 ../core/install.php:1543
@@ -3590,17 +3590,17 @@ msgstr ""
 msgid "Error converting zap to dahdi in devices table and AstDB"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1851
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1859
 #, php-format
 msgid "Error creating module directory: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1764
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1768
 #, php-format
 msgid "Error creating temporary directory: %s"
 msgstr "在创建临时目录时发生了错误：%s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2173
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2181
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "无法删除目录 %s （错误代码 %d）"
@@ -3610,28 +3610,28 @@ msgstr "无法删除目录 %s （错误代码 %d）"
 msgid "Error fetching prefix list for: "
 msgstr "在获取前缀列表时发生错误："
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1730
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1734
 msgid ""
 "Error finding uploaded file - check your PHP and/or web server configuration"
 msgstr "找不到上传的文件，请检查你的PHP和Web服务器的配置文件是否有错误"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1790
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1800
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1806
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1794
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1804
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1810
 #, php-format
 msgid "Error from %s: %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1464
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1467
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1658
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1661
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1662
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1665
 #, php-format
 msgid "Error opening %s for reading"
 msgstr "为执行读取操作而打开的 %s 文件失败"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1404
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1634
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1638
 #, php-format
 msgid "Error opening %s for writing"
 msgstr "为执行写入操作而打开的 %s 文件失败"
@@ -3645,12 +3645,12 @@ msgstr ""
 msgid "Error updating GPG Keys: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1981
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1989
 #, php-format
 msgid "Error updating database. Command was: %s; error was: %s "
 msgstr "更新数据库时发生错误。执行的命令是：%s；错误是：%s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2111
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2119
 msgid "Error updating database: "
 msgstr "更新数据库时发生错误："
 
@@ -3874,7 +3874,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1426
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1630
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1634
 #, php-format
 msgid "Failed download module tarball from %s, server may be down"
 msgstr ""
@@ -3887,12 +3887,12 @@ msgstr ""
 msgid "Failed to Remove directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2960
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2968
 #, php-format
 msgid "Failed to get remote file, error was:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2973
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2981
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:502
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -3917,12 +3917,12 @@ msgid ""
 "'module reload manager']"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1953
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1967
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1961
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1975
 msgid "Failed to run installation scripts"
 msgstr "无法运行安装脚本"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2115
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2123
 msgid "Failed to run un-installation scripts"
 msgstr "无法运行卸载脚本"
 
@@ -3938,7 +3938,7 @@ msgstr ""
 msgid "Failed to send unsigned modules notification email"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1717
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1721
 msgid "Failed to write file to disk"
 msgstr ""
 
@@ -3973,14 +3973,14 @@ msgid "File '%s' does not exist"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1514
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1774
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1778
 #, php-format
 msgid "File Integrity failed for %s - aborting (Cause: %s)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1506
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1509
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1771
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1775
 #, php-format
 msgid "File Integrity failed for %s - aborting (GPG Verify File check failed)"
 msgstr ""
@@ -3996,7 +3996,7 @@ msgstr ""
 msgid "File Integrity failed for %s - aborting (sha1 did not match)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1720
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1724
 msgid "File upload stopped by extension"
 msgstr "分机停止文件上传"
 
@@ -4156,7 +4156,7 @@ msgstr ""
 msgid "Forced"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2985
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2993
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:514
 #, php-format
 msgid "Forced %s to true"
@@ -4197,7 +4197,7 @@ msgstr ""
 msgid "Found what appear to be invalid emergency callerid entries."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1988
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1996
 #, php-format
 msgid "Framework Detected, Setting FreePBX Version to %s"
 msgstr ""
@@ -4389,7 +4389,7 @@ msgid ""
 "Grandstream phones, you will want to set this to false."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2025
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2033
 msgid "Generating CSS..."
 msgstr ""
 
@@ -4897,7 +4897,7 @@ msgstr "呼入"
 msgid "Incoming DID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1822
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1830
 #, php-format
 msgid "Incorrect Number of Directories for %s"
 msgstr ""
@@ -5007,7 +5007,7 @@ msgstr ""
 msgid "Internal Auto Answer Default"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1995
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2003
 msgid ""
 "Internal Error. Function getVersion did not match the Framework version, "
 "even after it was suppose to be applied"
@@ -5085,7 +5085,7 @@ msgstr "输入了无效的中继名"
 msgid "Invalid Username or Password"
 msgstr "无效用户名或密码"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2224
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2232
 msgid "Invalid description"
 msgstr "无效描述"
 
@@ -5454,7 +5454,7 @@ msgstr ""
 msgid "Missing Requirements"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1714
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1718
 msgid "Missing a temporary folder"
 msgstr ""
 
@@ -5475,7 +5475,7 @@ msgstr ""
 msgid "Missing module name or URL"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1830
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1838
 #, php-format
 msgid "Missing module.xml in %s"
 msgstr ""
@@ -5524,22 +5524,22 @@ msgstr "模块"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1204
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1209
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1215
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1920
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1926
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1928
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1934
 msgid "Module "
 msgstr "模块"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3055
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3063
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3077
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3085
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3070
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3078
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr ""
@@ -5624,7 +5624,7 @@ msgstr "模块已关闭，需要升级"
 msgid "Module Information"
 msgstr "模块信息"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1837
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1845
 #, php-format
 msgid "Module Name is blank in %s"
 msgstr "模块名称是空白 %s"
@@ -5664,11 +5664,11 @@ msgstr "模块未签名"
 msgid "Module names"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2052
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2060
 msgid "Module not enabled: cannot disable"
 msgstr "未曾启用模块：不能禁用"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2084
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2092
 msgid "Module not installed: cannot uninstall"
 msgstr "模块未安装：无法卸载"
 
@@ -5679,19 +5679,19 @@ msgid ""
 "it available."
 msgstr "成功上传模块。你需要启用此模块，用 %s 来启用它。"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3091
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3099
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3085
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3093
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3083
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3091
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -5924,7 +5924,7 @@ msgstr ""
 msgid "No file given to load"
 msgstr "没有文件加载"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1711
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1715
 msgid "No file was uploaded"
 msgstr "没有文件上传"
 
@@ -7879,9 +7879,9 @@ msgstr ""
 msgid "Some of these settings can render your system inoperable."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2047
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2079
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2152
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2055
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2087
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2160
 msgid "Specified module not found"
 msgstr "无法找到指定的模块"
 
@@ -8229,7 +8229,7 @@ msgstr ""
 msgid "The autoloader is damaged. Please run: "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1796
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1800
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
@@ -8306,11 +8306,11 @@ msgstr ""
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr "在处理上传的文件时发生了以下错误： %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2618
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2626
 msgid "The following modules are disabled because they are broken:"
 msgstr "下列模块已损坏，因此已被禁用"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2610
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2618
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "下列模块需要升级，因此已被禁用"
 
@@ -8534,7 +8534,7 @@ msgid ""
 "configuration."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2986
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2994
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:515
 #, php-format
 msgid ""
@@ -8549,17 +8549,17 @@ msgid ""
 "currently."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1705
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1709
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1702
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1706
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1708
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1712
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
@@ -9135,7 +9135,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1489
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1750
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1754
 #, php-format
 msgid "Unable to save %s"
 msgstr "无法保存 %s"
@@ -9176,7 +9176,7 @@ msgid "Unable to trust the FreePBX Key! -- %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1522
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1783
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1787
 #, php-format
 msgid "Unable to work with GPG file, message was: %s"
 msgstr ""
@@ -9232,7 +9232,7 @@ msgstr ""
 msgid "Unknown error fetching Custom Context table data or no data to migrate"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1810
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1814
 #, php-format
 msgid ""
 "Unknown file format of %s for %s, supported formats: tar,tgz,tar.gz,zip,bzip"
@@ -9243,7 +9243,7 @@ msgstr ""
 msgid "Unknown filetype of: %s[%s]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1723
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1727
 msgid "Unknown upload error"
 msgstr ""
 
@@ -10110,37 +10110,37 @@ msgstr ""
 msgid "You can't set the default to the default"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3127
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3135
 #, php-format
 msgid "You have %s %s modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2617
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2625
 #, php-format
 msgid "You have %s broken modules"
 msgstr "有 %s 个损坏的模块"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2609
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2617
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "已禁用 %s 个模块"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3124
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3132
 #, php-format
 msgid "You have %s tampered files"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3115
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3118
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3123
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3126
 #, php-format
 msgid "You have %s unsigned modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2617
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2625
 msgid "You have a broken module"
 msgstr "有1个损坏的模块"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2609
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2617
 msgid "You have a disabled module"
 msgstr "已禁用1个模块"
 
@@ -10292,8 +10292,8 @@ msgstr ""
 msgid "You should fix the problem or select another file and %s."
 msgstr "请更正此错误或者选择别的文件并 %s "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2611
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2619
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2627
 msgid "You should go to the module admin page to fix these."
 msgstr "请在模块管理页面中更正这些错误。"
 
@@ -10413,7 +10413,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:195
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3037
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3045
 msgid "altered"
 msgstr ""
 
@@ -10634,13 +10634,13 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1373
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1562
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1816
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1824
 #, php-format
 msgid "failed to delete %s from cache directory after opening module archive."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2359
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2365
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2367
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2373
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr ""
@@ -11037,7 +11037,7 @@ msgstr ""
 msgid "retrieve_conf failed, config not applied"
 msgstr "retrieve_conf 函数执行失败，配置未生效"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3102
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3110
 msgid "revoked"
 msgstr ""
 
@@ -11069,7 +11069,7 @@ msgstr ""
 msgid "starting migration"
 msgstr "开始转移"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3100
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3108
 msgid "tampered"
 msgstr ""
 
@@ -11091,7 +11091,7 @@ msgstr ""
 msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3101
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3109
 msgid "unknown"
 msgstr ""
 
@@ -11106,11 +11106,11 @@ msgid "unrecognized rule: %s discarding"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:160
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3099
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3107
 msgid "unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3098
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3106
 msgid "untrusted"
 msgstr ""
 
