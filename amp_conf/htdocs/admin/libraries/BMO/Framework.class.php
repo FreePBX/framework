@@ -27,6 +27,7 @@ class Framework extends FreePBX_Helpers implements BMO {
 	public function ajaxRequest($req, &$setting) {
 		switch ($req) {
 			case 'authping':
+			case 'reload':
 			return true;
 		}
 		return false;
@@ -36,6 +37,10 @@ class Framework extends FreePBX_Helpers implements BMO {
 		switch ($_REQUEST['command']) {
 			case 'authping':
 			return 'authpong';
+			case 'reload':
+				\FreePBX::Modules()->loadFunctionsInc('framework');
+				return do_reload();
+			break;
 		}
 		return false;
 	}
