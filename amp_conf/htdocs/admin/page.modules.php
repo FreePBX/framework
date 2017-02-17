@@ -129,6 +129,19 @@ if ($online) {
 		$online = 0;
 		unset($modules_online);
 	} else {
+		// check for local-only modules and see if they have online update data
+		foreach(array_diff(array_keys($modules_local), array_keys($modules_online)) as $name) {
+			if ($name === "builtin" || empty($modules_local[$name]['updateurl'])) {
+				continue;
+			}
+			if (parse_url($modules_local[$name]['updateurl'], PHP_URL_SCHEME) === 'https') {
+				$module_update_json = $modulef->url_get_contents($modules_local[$name]['updateurl'], "");
+				if ($module_update_json && $module_update_data = json_decode($module_update_json, true)) {
+					$modules_online[$name] = $module_update_data;
+				}
+			}
+		}
+
 		// combine online and local modules
 		$modules = $modules_online;
 		foreach (array_keys($modules) as $name) {
