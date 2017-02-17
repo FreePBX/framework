@@ -64,8 +64,11 @@ TMPOUT=$(/usr/bin/stdbuf -i0 -o0 -e0 /usr/bin/yum -y update 2>&1 | tee $currentf
 EXITVAL=$?
 echo STOP $(date +%s) yum-update $EXITVAL $(echo "$TMPOUT"|base64 -w0)
 echo FINISH $(date +%s)
-#phpisms
-SESSIONPATH=$(php -r "echo session_save_path();")
+# phpisms
+SESSIONPATH=$(/usr/bin/php -r "echo session_save_path();")
+# Make sure its not blank, assume sane defaults if it is
+[ "$SESSIONPATH" == "" ] && SESSIONPATH="/var/lib/php/session"
+
 fwconsole chown -q --file=$SESSIONPATH
 rm -f $lockfile
 echo "You can now close this window" >> $currentfile
