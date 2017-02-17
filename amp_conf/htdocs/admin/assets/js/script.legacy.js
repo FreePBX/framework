@@ -895,7 +895,7 @@ function closePopOver(drawselects) {
 					break;
 				}
 			}
-		} 
+		}
 		$(this).empty().append(options.clone()).val(dv);
 	});
 
@@ -1015,8 +1015,7 @@ function fpbx_reload() {
 		});
 	$.ajax({
 		type: "POST",
-		url: document.location.pathname,
-		data: "handler=reload",
+		url: 'ajax.php?command=reload',
 		dataType: "json",
 		success: function(data) {
 			box.dialog("destroy").remove();

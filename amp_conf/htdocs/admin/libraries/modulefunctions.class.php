@@ -1399,9 +1399,14 @@ class module_functions {
 		if ($override_svn) {
 			$url_list = array($override_svn.$modulexml['location']);
 		} else {
-			$urls = $this->generate_remote_urls("/modules/".$modulexml['location'], true);
-			foreach($urls['mirrors'] as $url) {
-				$url_list[] = $url.$urls['path'];
+			if (parse_url($modulexml["location"], PHP_URL_SCHEME) === 'https') {
+				// absolute https URL was provided
+				$url_list = array($modulexml['location']);
+			} else {
+				$urls = $this->generate_remote_urls("/modules/".$modulexml['location'], true);
+				foreach($urls['mirrors'] as $url) {
+					$url_list[] = $url.$urls['path'];
+				}
 			}
 		}
 

@@ -84,12 +84,8 @@ if (isset($_REQUEST['handler'])) {
 	if ($restrict_mods === false) {
 		$restrict_mods = true;
 	}
-	// I think reload is the only handler that requires astman, so skip it
-	//for others
 	switch ($_REQUEST['handler']) {
 	case 'api':
-		break;
-		case 'reload';
 		break;
 	default:
 		// If we didn't provide skip_astman in the $_REQUEST[] array it will be boolean false and for handlers, this should default

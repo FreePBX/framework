@@ -29,6 +29,7 @@ class Framework extends FreePBX_Helpers implements BMO {
 			case 'authping':
 			case 'scheduler':
 			case 'sysupdate':
+			case 'reload':
 			return true;
 		}
 		return false;
@@ -44,6 +45,9 @@ class Framework extends FreePBX_Helpers implements BMO {
 		case 'sysupdate':
 			$s = new Builtin\SystemUpdates();
 			return $s->ajax($_REQUEST);
+		case 'reload':
+			\FreePBX::Modules()->loadFunctionsInc('framework');
+			return do_reload();
 		}
 		return false;
 	}
