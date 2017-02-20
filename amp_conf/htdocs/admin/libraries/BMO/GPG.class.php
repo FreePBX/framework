@@ -64,7 +64,7 @@ class GPG {
 	public function __construct() {
 		// Make sure that the system location is checked first. It's possible
 		// that anything in /usr/local/bin could be malicious.
-		$locations = array("/usr/bin/gpg", "/usr/local/bin/gpg");
+		$locations = array("/usr/bin/gpg", "/usr/bin/gpg2", "/usr/local/bin/gpg");
 
 		// Loop through our GPG locations, and make sure they exist,
 		// and they're a file.
