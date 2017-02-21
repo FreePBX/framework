@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-15 10:23+1100\n"
-"PO-Revision-Date: 2017-02-20 18:37+0200\n"
+"PO-Revision-Date: 2017-02-21 00:59+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -2726,7 +2726,7 @@ msgstr "Mapeamento DUNDi"
 
 #: amp.i18n.php:778
 msgid "Data Retention"
-msgstr ""
+msgstr "Retenção de Dados"
 
 #: amp_conf/htdocs/admin/libraries/BMO/DB_Helper.class.php:501
 msgid "Database Error detected. Automatic repair started. Please retry"
@@ -2736,7 +2736,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Doctrine.class.php:17
 msgid "Database name"
-msgstr ""
+msgstr "Nome do banco de dados"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:21
 msgid "Date Fixed"
@@ -2891,6 +2891,10 @@ msgid ""
 "and will send the 'Remote-Party-ID' header. A value of 'pai' will send the "
 "'P-Asserted-Identity' header. See Asterisk documentation for details."
 msgstr ""
+"Configuração padrão para SIP sendrpid. Um valor de 'sim' é equivalente a "
+"'rpid' e enviará o cabeçalho 'Remote-Party-ID'. Um valor de 'pai' enviará o "
+"cabeçalho 'P-Asserted-Identity'. Consulte a documentação do Asterisk para "
+"obter detalhes."
 
 #: amp.i18n.php:308
 msgid ""
@@ -2948,6 +2952,9 @@ msgid ""
 "endpoints or equals to extension number for multiple endpoints residing on "
 "the same IP (VoIP Gateways)."
 msgstr ""
+"Configuração de usuário padrão para este dispositivo, quase sempre vazia "
+"para pontos de extremidade dinâmicos ou igual ao número de ramal para vários "
+"pontos de extremidade que residem no mesmo IP (VoIP Gateways)."
 
 #: amp.i18n.php:1100
 msgid ""
@@ -3011,11 +3018,11 @@ msgstr "Excluir Dispositivo %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:21
 msgid "Delete notification"
-msgstr ""
+msgstr "Apagar notificação"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:962
 msgid "Deleted module[s], accepts argument module[s]"
-msgstr ""
+msgstr "Módulo[s] excluído, aceita módulo[s] de argumento"
 
 #: ../core/page.astmodules.php:57
 msgid "Deleting the modules.conf file will reset this to defaults."
@@ -3052,28 +3059,28 @@ msgstr "Nome Descritivo para este Tronco"
 
 #: ../core/Core.class.php:2529 ../core/views/did/didgrid.php:20
 msgid "Destination"
-msgstr ""
+msgstr "Destino"
 
 #: ../core/views/did/advanced_form.php:276
 #: ../core/views/did/basic_form.php:155
 msgid "Destination for route"
-msgstr ""
+msgstr "Destino da rota"
 
 #: amp_conf/htdocs/admin/libraries/Console/Session.class.php:16
 msgid "Destroy Session"
-msgstr ""
+msgstr "Destruir Sessão"
 
 #: amp_conf/htdocs/admin/libraries/Console/Session.class.php:17
 msgid "Destroy all sessions"
-msgstr ""
+msgstr "Destruir todas as sessões"
 
 #: amp_conf/htdocs/admin/libraries/Console/Session.class.php:44
 msgid "Destroying "
-msgstr ""
+msgstr "Destruindo "
 
 #: amp_conf/htdocs/admin/libraries/Console/Session.class.php:35
 msgid "Destroying session"
-msgstr ""
+msgstr "Destruindo sessão"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:776
 #, php-format
@@ -3131,6 +3138,9 @@ msgid ""
 "terminate the session if not achieved. This option only applies if Media "
 "Encryption is set to SRTP via in-SDP or DTLS-SRTP."
 msgstr ""
+"Determina se a criptografia deve ser usada se possível, mas não encerrar a "
+"sessão se não for alcançada. Esta opção só se aplica se o Media Encryption "
+"estiver definido como SRTP via in-SDP ou DTLS-SRTP."
 
 #: ../core/views/trunks/pjsip.php:278
 msgid ""
@@ -3170,14 +3180,18 @@ msgstr "Dispositivo"
 #, php-format
 msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
+"O dispositivo %s (%s) teve um chamador de emergência inválido e o definimos "
+"em branco"
 
 #: ../core/Core.class.php:2589
 msgid "Device 'name' can not be blank."
-msgstr ""
+msgstr "O 'nome' do dispositivo não pode ficar em branco."
 
 #: ../core/Core.class.php:1466
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
+"A extensão do dispositivo estava em branco ou não havia configurações "
+"definidas"
 
 #: ../core/functions.inc.php:6280
 msgid "Device ID"
@@ -3197,11 +3211,11 @@ msgstr "Configurações de Dispositivo"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:259
 msgid "Device State Busy at"
-msgstr ""
+msgstr "Estado do Dispositivo Ocupado em"
 
 #: ../core/Core.class.php:2497 ../core/Core.class.php:2498
 msgid "Device Technology"
-msgstr ""
+msgstr "Tecnologia de Dispositivos"
 
 #: ../core/functions.inc.php:6283 ../core/page.devices.php:65
 #: ../core/page.devices.php:86
@@ -3210,11 +3224,11 @@ msgstr "Tipo de dispositivo"
 
 #: ../core/Core.class.php:2611
 msgid "Device could not be added."
-msgstr ""
+msgstr "Não foi possível adicionar o dispositivo."
 
 #: ../core/Core.class.php:170
 msgid "Device was not added!"
-msgstr ""
+msgstr "O dispositivo não foi adicionado!"
 
 #: amp.i18n.php:1278
 msgid "Devices"
@@ -3241,7 +3255,7 @@ msgstr "Regras de Manipulação de Número de Discagem"
 
 #: ../core/views/routing/form.php:259
 msgid "Dial Patterns"
-msgstr ""
+msgstr "Padrões de Discagem"
 
 #: ../core/views/routing/form.php:55
 msgid "Dial Patterns that will use this Route"
@@ -3337,7 +3351,7 @@ msgstr "Desabilitar Tronco"
 
 #: ../core/Console/Trunks.class.php:20
 msgid "Disable given trunk"
-msgstr ""
+msgstr "Desativar tronco determinado"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:782
 #: amp_conf/htdocs/admin/views/module_admin/main.php:83
@@ -3354,7 +3368,7 @@ msgstr "Desabilitado, Pendente %s para %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:786
 msgid "Disabled; Pending upgrade to "
-msgstr ""
+msgstr "Desativado; Atualização pendente para "
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:109
 msgid "Disabled; up to date"
@@ -3362,11 +3376,11 @@ msgstr "Desabilitado; atualizado"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:959
 msgid "Disables module[s] accepts argument module[s]"
-msgstr ""
+msgstr "Desativa o módulo[s] aceita o módulo[s] de argumento"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:983
 msgid "Disables repo, accepts argument repo[s]"
-msgstr ""
+msgstr "Desativa repo, aceita argumento repo[s]"
 
 #: amp_conf/htdocs/admin/page.modules.php:305
 #, php-format
@@ -3375,17 +3389,19 @@ msgstr "Desabilitando %s"
 
 #: ../core/Console/Trunks.class.php:36 ../core/Console/Trunks.class.php:69
 msgid "Disabling Trunk "
-msgstr ""
+msgstr "Desativando Tronco "
 
 #: amp.i18n.php:440
 msgid ""
 "Disallow transfer features (Normally ## and *2) for callers who passthrough "
 "inbound routes (Such as external callers)"
 msgstr ""
+"Desativar recursos de transferência (normalmente ## e *2) para chamadores "
+"que passam através de rotas de entrada (como chamadores externos)"
 
 #: amp.i18n.php:436
 msgid "Disallow transfer features for inbound callers"
-msgstr ""
+msgstr "Impedir recursos de transferência para chamadas de entrada"
 
 #: ../core/functions.inc/drivers/Sip.class.php:452
 msgid "Disallowed Codecs"
@@ -3430,7 +3446,7 @@ msgstr "Nome de Exibição"
 
 #: ../core/Core.class.php:144
 msgid "Display Name can not be blank!"
-msgstr ""
+msgstr "O Nome de exibição não pode ficar em branco!"
 
 #: amp.i18n.php:454
 msgid "Display Presence State of Callee"
@@ -3462,19 +3478,20 @@ msgstr ""
 
 #: ../core/page.extensions.php:250 ../core/page.users.php:75
 msgid "Do Not Disturb is disabled"
-msgstr ""
+msgstr "Não Perturbe está desativado"
 
 #: ../core/page.extensions.php:250 ../core/page.users.php:75
 msgid "Do Not Disturb is enabled"
-msgstr ""
+msgstr "Não Perturbe está ativado"
 
 #: amp_conf/htdocs/admin/libraries/Console/Debug.class.php:26
 msgid "Do not tail standard freepbx.log"
-msgstr ""
+msgstr "Não cair padrão freepbx.log"
 
 #: ../core/views/trunks/pjsip.php:482
 msgid "Domain to use in From header for requests to this trunk"
 msgstr ""
+"Domínio a ser usado no cabeçalho From para solicitações para este tronco"
 
 #: ../core/functions.inc.php:5759
 msgid "Don't Care"
@@ -3482,7 +3499,7 @@ msgstr "Não Importa"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:34
 msgid "Don't ask to enable disabled modules assume no."
-msgstr ""
+msgstr "Não pergunte para ativar módulos desativados assumir não."
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:706
 #, php-format
@@ -3517,7 +3534,7 @@ msgstr "Feito"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:441
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:705
 msgid "Done. All modules installed."
-msgstr ""
+msgstr "Feito. Todos os módulos instalados."
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:75
 #: amp_conf/htdocs/admin/views/module_admin/main.php:310
@@ -3536,7 +3553,7 @@ msgstr "Baixar (Da Web)"
 
 #: ../core/views/routing/form.php:590 ../core/views/trunks/trunk_footer.php:53
 msgid "Download Local Patterns"
-msgstr ""
+msgstr "Download Padrões Locais"
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:37
 msgid "Download Remote Module"
@@ -3563,23 +3580,23 @@ msgstr "Baixar e atualizar para %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:961
 msgid "Download and install module[s], accepts argument module[s] or URLs"
-msgstr ""
+msgstr "Baixar e instalar o módulo[s], aceitar o módulo[s] de argumento ou URLs"
 
 #: ../core/views/routing/form.php:579 ../core/views/trunks/trunk_footer.php:42
 msgid "Download local prefixes"
-msgstr ""
+msgstr "Baixar prefixos locais"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:960
 msgid "Download module[s], accepts argument module[s] or URLs"
-msgstr ""
+msgstr "Baixar módulo[s], aceita módulo[s] de argumento ou URLs"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:30
 msgid "Download/Upgrade forcing edge mode"
-msgstr ""
+msgstr "Baxar/Atualização do modo de limite forçado"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:37
 msgid "Download/Upgrade to a specific tag"
-msgstr ""
+msgstr "Baixar/Atualizar para uma tag específica"
 
 #: amp_conf/htdocs/admin/page.modules.php:205
 #: amp_conf/htdocs/admin/page.modules.php:235
@@ -3590,7 +3607,7 @@ msgstr "Baixando %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:699
 msgid "Downloading & Installing "
-msgstr ""
+msgstr "Baixando & Instalando "
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:781
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:837
@@ -3610,7 +3627,7 @@ msgstr ""
 
 #: ../core/Core.class.php:372 ../core/Core.class.php:402
 msgid "Duplicate"
-msgstr ""
+msgstr "Duplicado"
 
 #: amp.i18n.php:472
 msgid "Dynamically Generate Hints"
@@ -3618,7 +3635,7 @@ msgstr "Gerar Dicas Dinamicamente"
 
 #: amp_conf/htdocs/admin/views/module_admin/header.php:26
 msgid "EDGE MODE"
-msgstr ""
+msgstr "MODO EDGE"
 
 #: upgrades/2.8.0alpha2/tables.php:117
 msgid "ERROR - could not drop table"
@@ -3626,7 +3643,7 @@ msgstr "ERRO - Não foi possível apagar tabela"
 
 #: upgrades/2.10.0beta3/migration.php:48
 msgid "ERROR connecting to CDR DB to migrate, not done!"
-msgstr ""
+msgstr "ERRO conectar a CDR DB para migrar, não feito!"
 
 #: ../core/install.php:200
 msgid ""
@@ -3670,7 +3687,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:58
 msgid "Edge repository temporarily enabled"
-msgstr ""
+msgstr "Repositório Edge temporariamente ativado"
 
 #: ../core/views/trunks/trunk_header.php:2
 msgid "Edit"
@@ -3729,6 +3746,8 @@ msgstr "Endereço de Email"
 msgid ""
 "Email address to use for services such as Voicemail, User Management and Fax"
 msgstr ""
+"Endereço de e-mail a ser usado para serviços como correio de voz, "
+"gerenciamento de usuários e Fax"
 
 #: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:240
 msgid "Email addresses error"
@@ -3744,11 +3763,11 @@ msgstr "CID de Emergência"
 
 #: ../core/install.php:1187
 msgid "Emergency CID set to blank for one or more extensions"
-msgstr ""
+msgstr "CID de emergência definido como em branco para uma ou mais extensões"
 
 #: ../core/views/routing/grid.php:16 ../core/views/routing/grid.php:18
 msgid "Emergency Route"
-msgstr ""
+msgstr "Rota de Emergência"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1120
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1137
@@ -3797,7 +3816,7 @@ msgstr "Habilitar Conteúdo Estático"
 
 #: amp.i18n.php:40
 msgid "Enable TLS for the mini-HTTP Server"
-msgstr ""
+msgstr "Ativar TLS para o servidor mini-HTTP"
 
 #: amp.i18n.php:688
 msgid "Enable The Old Style FreePBX Dial Patterns Textarea"
@@ -3806,7 +3825,7 @@ msgstr ""
 
 #: ../core/Console/Trunks.class.php:17
 msgid "Enable and disable trunks from the command line"
-msgstr ""
+msgstr "Ativar e desativar troncos da linha de comando"
 
 #: amp.i18n.php:428
 msgid ""
@@ -3826,7 +3845,7 @@ msgstr ""
 
 #: ../core/Console/Trunks.class.php:19
 msgid "Enable given trunk"
-msgstr ""
+msgstr "Ativar determinado tronco"
 
 #: amp.i18n.php:226
 msgid "Enable jQuery Migrate"
@@ -3834,7 +3853,7 @@ msgstr "Habilitar Migração jQuery"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:963
 msgid "Enable module[s], accepts argument module[s]"
-msgstr ""
+msgstr "Ativar módulo[s], aceita módulo[s] de argumento"
 
 #: ../core/functions.inc.php:6076
 msgid ""
@@ -3853,6 +3872,8 @@ msgid ""
 "Enable or disable video support for this extension. If set to inherit it "
 "will use the global value from SIP Settings. Default is inherit"
 msgstr ""
+"Ative ou desative o suporte de vídeo para esta extensão. Se definido para "
+"herdar, ele usará o valor global das Configurações SIP. O padrão é inherit"
 
 #: amp.i18n.php:170
 msgid "Enable pretty-printing of the JSON responses from Asterisk"
@@ -3896,10 +3917,14 @@ msgid ""
 "directly related for FreePBX usage and the value of this setting is "
 "irrelevant for accessing core FreePBX settings. Default is no."
 msgstr ""
+"Permite ouvir as conexões HTTPS. Isso é para o Asterisk, ele não está "
+"diretamente relacionado para o uso do FreePBX e o valor dessa configuração é "
+"irrelevante para acessar as configurações do FreePBX do núcleo. O padrão é "
+"não."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:984
 msgid "Enables repo, accepts argument repo[s]"
-msgstr ""
+msgstr "Ativa repo, aceita argumento repo[s]"
 
 #: amp_conf/htdocs/admin/page.modules.php:294
 #, php-format
@@ -3909,7 +3934,7 @@ msgstr "Habilitando %s"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:280
 #, php-format
 msgid "Enabling %s because autoenable was passed at the command line"
-msgstr ""
+msgstr "Ativando %s porque o autoenable foi passado na linha de comando"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:818
 #, php-format
@@ -3926,7 +3951,7 @@ msgstr ""
 
 #: ../core/Console/Trunks.class.php:42 ../core/Console/Trunks.class.php:73
 msgid "Enabling Trunk "
-msgstr ""
+msgstr "Ativando Tronco "
 
 #: amp.i18n.php:1136
 msgid ""
@@ -3938,7 +3963,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:53
 msgid "Endpoint"
-msgstr ""
+msgstr "Ponto final"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:128
 msgid "Endpoint port number to use, usually 4569."
@@ -3967,11 +3992,11 @@ msgstr "Inglês"
 
 #: ../core/views/quickCreate.php:56
 msgid "Enter Extension"
-msgstr ""
+msgstr "Inserir Extensão"
 
 #: ../core/views/quickCreate.php:72
 msgid "Enter name"
-msgstr ""
+msgstr "Insira o nome"
 
 #: amp.i18n.php:764
 msgid ""
@@ -4064,12 +4089,12 @@ msgstr "Erro abrindo %s para gravação"
 
 #: upgrades/2.10.0beta3/migration.php:35
 msgid "Error parsing cdr_mysql.conf, no migration done"
-msgstr ""
+msgstr "Erro ao analisar cdr_mysql.conf, nenhuma migração feita"
 
 #: install.php:308
 #, php-format
 msgid "Error updating GPG Keys: %s"
-msgstr ""
+msgstr "Erro ao atualizar chaves GPG: %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1989
 #, php-format
@@ -4083,7 +4108,7 @@ msgstr "Erro atualizando banco de dados: "
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:209
 #, php-format
 msgid "Error with the templating engine: %s"
-msgstr ""
+msgstr "Erro com o motor de modelos: %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:308
 #, php-format
@@ -4105,7 +4130,7 @@ msgstr "Erro(s) habilitando %s"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:210
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:23
 msgid "Error(s) have occured, the following is the retrieve_conf output:"
-msgstr ""
+msgstr "Ocorreu um erro, o seguinte é a saída retrieve_conf:"
 
 #: amp_conf/htdocs/admin/page.modules.php:215
 #: amp_conf/htdocs/admin/page.modules.php:245
@@ -4141,7 +4166,7 @@ msgstr "Módulos Excluídos"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:24
 msgid "Execute on only this file/dir"
-msgstr ""
+msgstr "Executar somente neste arquivo/dir"
 
 #: amp_conf/htdocs/admin/functions.inc.php:365
 #: amp_conf/htdocs/admin/functions.inc.php:424
@@ -4197,11 +4222,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:23
 msgid "Export settings to file"
-msgstr ""
+msgstr "Exportar configurações para o arquivo"
 
 #: amp.i18n.php:1072
 msgid "Expose All Feature Codes"
-msgstr ""
+msgstr "Expor todos os códigos de recurso"
 
 #: amp.i18n.php:1076
 msgid ""
