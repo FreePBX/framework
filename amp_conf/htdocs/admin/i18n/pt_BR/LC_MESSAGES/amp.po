@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-15 10:23+1100\n"
-"PO-Revision-Date: 2017-02-21 01:05+0200\n"
+"PO-Revision-Date: 2017-02-21 18:39+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -3623,7 +3623,7 @@ msgstr "Baixando e Instalando %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:20
 msgid "Dump Configs"
-msgstr ""
+msgstr "Configurações de despejo"
 
 #: ../core/Core.class.php:372 ../core/Core.class.php:402
 msgid "Duplicate"
@@ -4233,10 +4233,13 @@ msgid ""
 "Expose All Feature Codes settings in Feature Code Admin page. By default *11/"
 "*12 feature code setting will be hidden in Extension mode."
 msgstr ""
+"Expor todas as configurações de Funcionalidades na página de Funcionalidades "
+"via Admin. Por padrão, o código de funcionalidade *11/*12 será ocultado no "
+"modo de Ramais."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:14
 msgid "Extended"
-msgstr ""
+msgstr "Extendido"
 
 #: ../core/Core.class.php:2484 ../core/Core.class.php:2485
 #: ../core/Core.class.php:2839 ../core/functions.inc.php:5870
@@ -4573,7 +4576,7 @@ msgstr "Forçar Versão Asterisk"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:88
 msgid "Force Disabled"
-msgstr ""
+msgstr "Forçar Desabilitado"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:347
 #, php-format
@@ -4587,7 +4590,7 @@ msgstr "Forçar Baixar e Instalar %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:83
 msgid "Force Enabled"
-msgstr ""
+msgstr "Forçar Habilitado"
 
 #: ../core/views/trunks/trunk_header.php:338
 msgid "Force Trunk CID"
@@ -4608,39 +4611,46 @@ msgid ""
 "Force operation (skips dependency and status checks) <warning>WARNING:</"
 "warning> Use at your own risk, modules have dependencies for a reason!"
 msgstr ""
+"Forçar operação (pula dependências e verificação de status) "
+"<warning>AVISO:</warning> Use por sua conta em risco, módulos têm "
+"dependências por um motivo!"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:221
 msgid "Force rport"
-msgstr ""
+msgstr "Forçar rport"
 
 #: ../core/functions.inc/drivers/Sip.class.php:364
 #, php-format
 msgid "Force rport - (%s)"
-msgstr ""
+msgstr "Forçar rport - (%s)"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:219
+#, fuzzy
 msgid "Force run post-start asterisk hooks"
-msgstr ""
+msgstr "Forçar execução de rotinas asterisk post-start"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:257
+#, fuzzy
 msgid "Force run post-stop asterisk hooks"
-msgstr ""
+msgstr "Forçar execução de rotinas asterisk post-stop"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:218
+#, fuzzy
 msgid "Force run pre-start asterisk hooks"
-msgstr ""
+msgstr "Forçar execução de rotinas asterisk pre-start"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:256
+#, fuzzy
 msgid "Force run pre-stop asterisk hooks"
-msgstr ""
+msgstr "Forçar execução de rotinas asterisk pre-stop"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:220
 msgid "Force use of return port."
-msgstr ""
+msgstr "Forçar uso de porta de retorno."
 
 #: ../core/functions.inc/drivers/PJSip.class.php:248
 msgid "Forced"
-msgstr ""
+msgstr "Forçado"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2993
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:514
@@ -4650,7 +4660,7 @@ msgstr "%s forçado para verdadeiro"
 
 #: amp_conf/htdocs/admin/page.modules.php:634
 msgid "Forced downgrades and re-installs:"
-msgstr "Forçado voltar verões e reinstalar:"
+msgstr "Downgrade de versões forçado e reinstalar:"
 
 #: amp.i18n.php:242
 msgid ""
@@ -4664,7 +4674,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:35
 #, php-format
 msgid "Format can be: %s"
-msgstr ""
+msgstr "Formato pode ser: %s"
 
 #: amp.i18n.php:1112
 msgid ""
@@ -4681,11 +4691,13 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:801
 #, php-format
 msgid "Found local Dependency of: %s %s"
-msgstr ""
+msgstr "Encontrar dependência local de: %s %s"
 
 #: ../core/install.php:1180
 msgid "Found what appear to be invalid emergency callerid entries."
 msgstr ""
+"Encontrado o que parecem ser entradas inválidas de id de chamada de "
+"emergência."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1996
 #, php-format
@@ -4711,7 +4723,7 @@ msgstr "Roteamento Relatório FreePBX"
 #: install.php:5
 #, php-format
 msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
-msgstr ""
+msgstr "FreePBX requer Versão PHP 5.3.3 ou Superior, você tem: %s"
 
 #: amp.i18n.php:1300
 msgid "FreePBX Support"
@@ -4832,19 +4844,20 @@ msgstr "Frequência em segundos para enviar mensagens \"qualify\" ao endpoint."
 #: ../core/page.advancedsettings.php:186 ../core/page.advancedsettings.php:220
 #: ../core/page.advancedsettings.php:250 ../core/page.advancedsettings.php:274
 msgid "Friendly Name"
-msgstr ""
+msgstr "Nome amigável"
 
 #: ../core/page.advancedsettings.php:100
+#, fuzzy
 msgid "Friendy Name"
-msgstr ""
+msgstr "Nome amigável"
 
 #: ../core/views/trunks/pjsip.php:470
 msgid "From Domain"
-msgstr ""
+msgstr "Do domínio"
 
 #: ../core/views/trunks/pjsip.php:493
 msgid "From User"
-msgstr ""
+msgstr "Do usuário"
 
 #: amp.i18n.php:194
 msgid ""
@@ -4883,11 +4896,11 @@ msgstr "Comportamento Interface"
 #: ../core/views/did/advanced_form.php:58 ../core/views/trunks/pjsip.php:33
 #: ../core/views/trunks/trunk_header.php:226
 msgid "General"
-msgstr ""
+msgstr "Geral"
 
 #: ../core/views/trunks/pjsip.php:317
 msgid "General Retry Interval"
-msgstr ""
+msgstr "Intervalo Geral de Tentativa"
 
 #: ../core/page.ampusers.php:193
 msgid "General Settings"
@@ -4899,7 +4912,7 @@ msgstr "Configurações Gerais migradas"
 
 #: ../core/views/routing/form.php:580 ../core/views/trunks/trunk_footer.php:43
 msgid "Generate Buttons"
-msgstr ""
+msgstr "Gerar botões"
 
 #: amp.i18n.php:496
 msgid "Generate Diversion Headers"
@@ -4907,7 +4920,7 @@ msgstr "Gerar Cabeçalhos de Desvio"
 
 #: ../core/views/routing/form.php:616 ../core/views/trunks/trunk_footer.php:79
 msgid "Generate Routes"
-msgstr ""
+msgstr "Gerar Rotas"
 
 #: amp.i18n.php:560
 msgid ""
@@ -4926,19 +4939,19 @@ msgstr "Gerando CSS..."
 
 #: ../core/functions.inc/drivers/Sip.class.php:20
 msgid "Generic CHAN SIP Driver"
-msgstr ""
+msgstr "Driver Genérico CHAN SIP"
 
 #: ../core/functions.inc/drivers/Custom.class.php:9
 msgid "Generic Custom Driver"
-msgstr ""
+msgstr "Driver genérico personalizdo"
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:9
 msgid "Generic DAHDi Driver"
-msgstr ""
+msgstr "Driver Genérico DAHDi"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:9
 msgid "Generic IAX2 Driver"
-msgstr ""
+msgstr "Driver Genérico IAX2"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:39
 msgid "Generic PJSIP Device"
@@ -4946,11 +4959,11 @@ msgstr "Dispositivo PJSIP Genérico"
 
 #: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:44
 msgid "Generic Patterns"
-msgstr ""
+msgstr "Padrões Genéricos"
 
 #: amp_conf/htdocs/admin/libraries/Console/Extip.class.php:15
 msgid "Get External IP"
-msgstr ""
+msgstr "Obter IP Externo"
 
 #: amp_conf/htdocs/admin/views/login.php:42
 msgid "Get Support"
@@ -4967,20 +4980,22 @@ msgstr "Gettext não está instalado"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:834
 msgid "Getting Data from Online Server..."
-msgstr ""
+msgstr "Obtendo dados do servidor online..."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:93
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:184
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:197
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:674
 msgid "Getting Remote Repo list..."
-msgstr ""
+msgstr "Obtendo remotamente lista de repositórios..."
 
 #: ../core/views/trunks/sip.php:34
 msgid ""
 "Give this trunk a unique name.  Example: myiaxtel. Note this is uses as the "
 "trunk context within asterisk"
 msgstr ""
+"Defina um nome único para este tronco. Exemplo: meuteliax. Observe que isso "
+"é usado como o contexto do tronco dentro do asterisk"
 
 #: ../core/functions.inc.php:6280
 msgid ""
