@@ -32,6 +32,7 @@ class Moduleadmin extends Command {
 			new InputOption('skipchown', '', InputOption::VALUE_NONE, _('Skip the chown operation')),
 			new InputOption('autoenable', 'e', InputOption::VALUE_NONE, _('Automatically enable disabled modules without prompting')),
 			new InputOption('skipdisabled', '', InputOption::VALUE_NONE, _('Don\'t ask to enable disabled modules assume no.')),
+			new InputOption('snapshot', '', InputOption::VALUE_REQUIRED, _('Take a snapshot')),
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'json, jsonpretty')),
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
 			new InputOption('tag', 't', InputOption::VALUE_REQUIRED, _('Download/Upgrade to a specific tag')),
@@ -63,6 +64,22 @@ class Moduleadmin extends Command {
 			$this->DEBUG = True;
 		} else {
 			$this->DEBUG = False;
+		}
+		if(!empty($input->getOption('snapshot'))){
+			$ret = array();
+			$ret['repos'] = array();
+			$version = $input->getOption('snapshot');
+			$ret['version'] = $version;
+			$ret['modules'] = array();
+			$modules = $this->mf->getinfo(false, \MODULE_STATUS_ENABLED);
+			foreach ($modules as $mod => $modinfo) {
+				$ret['modules'][$mod] = $modinfo['version'];
+				$ret['repos'][$modinfo['repo']] = $modinfo['repo'];
+			}
+			$this->format = 'json';
+			$this->jsonpretty = true;
+			$this->writeln($ret);
+			return true;
 		}
 		switch($input->getOption('format')) {
 			case "jsonpretty":
