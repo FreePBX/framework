@@ -1971,47 +1971,9 @@ class module_functions {
 		if(!empty($xml->database)) {
 			foreach($xml->database->table as $table) {
 				$tname = (string)$table->attributes()->name;
-				$cols = array();
-				$indexes = array();
-				foreach($table->field as $field) {
-					$name = (string)$field->attributes()->name;
-					$cols[$name] = array();
-					foreach($field->attributes() as $key => $value) {
-						if($key == "name") {
-							continue;
-						}
-						switch ($key) {
-							case 'notnull':
-							case 'primaryKey':
-							case 'autoincrement':
-							case 'unique':
-							case 'fixed':
-							 	$cols[$name][$key] = ($value === true || "true" === strtolower($value));
-							break;
-							default:
-								$cols[$name][$key] = (string)$value;
-							break;
-						}
-					}
-				}
-				if(!empty($table->key)) {
-					foreach($table->key as $field) {
-						$name = (string)$field->attributes()->name;
-						$indexes[$name] = array();
-						foreach($field->attributes() as $key => $value) {
-							if($key == "name") {
-								continue;
-							}
-							$indexes[$name][$key] = (string)$value;
-						}
-						$indexes[$name]['cols'] = array();
-						foreach($field->column as $col) {
-							$indexes[$name]['cols'][] = (string)$col->attributes()->name;
-						}
-					}
-				}
-				$table = \FreePBX::Database()->migrate($tname);
-				$table->modify($cols, $indexes);
+				outn(sprintf(_("Updating table %s..."),$tname));
+				\FreePBX::Database()->migrateXML($table);
+				out(_("Done"));
 			}
 		}
 

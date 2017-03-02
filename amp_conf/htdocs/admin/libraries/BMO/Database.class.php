@@ -103,7 +103,7 @@ class Database extends \PDO {
 			$dsnarr['unix_socket'] = $amp_conf['AMPDBSOCK'];
 		}
 
-		// Always utf8. 
+		// Always utf8.
 		// TODO:  This should default to utf8mb on a newer mysql, or newer FreePBX?
 		if (!isset($dsnarr['charset'])) {
 			$dsnarr['charset'] = "utf8";
@@ -137,6 +137,51 @@ class Database extends \PDO {
 		}
 		$this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 		$this->dVersion = $this->getAttribute(\PDO::ATTR_SERVER_VERSION);
+	}
+
+	public function migrateXML(\SimpleXMLElement $table, $dryrun=false) {
+		$tname = (string)$table->attributes()->name;
+		$cols = array();
+		$indexes = array();
+		foreach($table->field as $field) {
+			$name = (string)$field->attributes()->name;
+			$cols[$name] = array();
+			foreach($field->attributes() as $key => $value) {
+				if($key == "name") {
+					continue;
+				}
+				switch ($key) {
+					case 'notnull':
+					case 'primaryKey':
+					case 'autoincrement':
+					case 'unique':
+					case 'fixed':
+						$cols[$name][$key] = ($value === true || "true" === strtolower($value));
+					break;
+					default:
+						$cols[$name][$key] = (string)$value;
+					break;
+				}
+			}
+		}
+		if(!empty($table->key)) {
+			foreach($table->key as $field) {
+				$name = (string)$field->attributes()->name;
+				$indexes[$name] = array();
+				foreach($field->attributes() as $key => $value) {
+					if($key == "name") {
+						continue;
+					}
+					$indexes[$name][$key] = (string)$value;
+				}
+				$indexes[$name]['cols'] = array();
+				foreach($field->column as $col) {
+					$indexes[$name]['cols'][] = (string)$col->attributes()->name;
+				}
+			}
+		}
+		$table = $this->migrate($tname);
+		return $table->modify($cols, $indexes, $dryrun);
 	}
 
 	public function migrate($table) {

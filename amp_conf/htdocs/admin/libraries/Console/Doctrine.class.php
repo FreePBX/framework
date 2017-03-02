@@ -132,16 +132,6 @@ class Doctrine extends Command {
 			$expindexes[$idx['Key_name']]['cols'][] = $idx['Column_name'];
 		}
 
-		$table = \FreePBX::Database()->migrate($args[0]);
-		$test = $table->modify($export, $expindexes, true);
-		if(!empty($test)) {
-			print_r("Cols");
-			print_r($export);
-			print_r("Indexes");
-			print_r($expindexes);
-			throw new \Exception("Error: Table did not accurately match generation. Aborting. Modification string should be empty but returned: '".implode("; ",$test)."'");
-		}
-
 		switch($this->format) {
 			case "xml":
 				$xml = new \SimpleXMLElement('<database/>');
@@ -196,9 +186,28 @@ class Doctrine extends Command {
 				$string = $domxml->saveXML();
 				$string = str_replace('<?xml version="1.0"?>','',$string);
 				$string = trim($string);
+
+				$xml = simplexml_load_string($string);
+				$test = \FreePBX::Database()->migrateXML($xml->table,true);
+				if(!empty($test)) {
+					print_r("Cols");
+					print_r($export);
+					print_r("Indexes");
+					print_r($expindexes);
+					throw new \Exception("Error: Table did not accurately match generation. Aborting. Modification string should be empty but returned: '".implode("; ",$test)."'");
+				}
 				$output->writeln($string);
 			break;
 			case "php":
+				$table = \FreePBX::Database()->migrate($args[0]);
+				$test = $table->modify($export, $expindexes, true);
+				if(!empty($test)) {
+					print_r("Cols");
+					print_r($export);
+					print_r("Indexes");
+					print_r($expindexes);
+					throw new \Exception("Error: Table did not accurately match generation. Aborting. Modification string should be empty but returned: '".implode("; ",$test)."'");
+				}
 				$output->writeln('$table = \FreePBX::Database()->migrate("'.$args[0].'");');
 				$output->writeln('$cols = '.var_export($export,true).';');
 				$output->writeln(PHP_EOL);
