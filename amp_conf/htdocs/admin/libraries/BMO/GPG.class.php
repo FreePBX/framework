@@ -37,7 +37,8 @@ class GPG {
 	private $freepbxkey = '2016349F5BC6F49340FCCAF99F9169F4B33B4659';
 
 	// Will hold path to 'gpg' binary
-	private $gpg;
+	private $gpg = false;
+
 	// Default options.
 	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true,timeout=5";
 
@@ -61,11 +62,21 @@ class GPG {
 	// Constructor, to provide some per-OS values
 	// Fail if gpg isn't in an expected place
 	public function __construct() {
-		if (file_exists('/usr/local/bin/gpg')) {
-			$this->gpg = '/usr/local/bin/gpg';
-		} elseif (file_exists('/usr/bin/gpg')) {
-			$this->gpg = '/usr/bin/gpg';
-		} else {
+		// Make sure that the system location is checked first. It's possible
+		// that anything in /usr/local/bin could be malicious.
+		$locations = array("/usr/bin/gpg", "/usr/bin/gpg2", "/usr/local/bin/gpg");
+
+		// Loop through our GPG locations, and make sure they exist,
+		// and they're a file.
+		foreach ($locations as $loc) {
+			if (!file_exists($loc) || filetype($loc) !== "file") {
+				continue;
+			}
+			$this->gpg = $loc;
+			break;
+		}
+
+		if (!$this->gpg) {
 			throw new Exception(_("Could not find gpg command!"));
 		}
 
