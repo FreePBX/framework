@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-15 10:23+1100\n"
-"PO-Revision-Date: 2017-02-24 18:17+0200\n"
+"PO-Revision-Date: 2017-03-02 18:35+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -5903,7 +5903,7 @@ msgstr "Registrar Mensagens Detalhadas"
 
 #: amp.i18n.php:836 amp.i18n.php:842
 msgid "Logo in footer.Path is relative to admin."
-msgstr ""
+msgstr "Logo em footer.Path é relativo a admin."
 
 #: amp_conf/htdocs/admin/views/menu.php:52
 msgid "Logout"
@@ -5911,7 +5911,7 @@ msgstr "Sair"
 
 #: ../core/views/routing/form.php:610 ../core/views/trunks/trunk_footer.php:73
 msgid "Long Distance"
-msgstr ""
+msgstr "Longa Distância"
 
 #: amp_conf/htdocs/admin/bootstrap.php:309
 msgid "Low Memory Limit"
@@ -5919,15 +5919,15 @@ msgstr "Limite baixo de Memória"
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:49
 msgid "MAC Address"
-msgstr ""
+msgstr "Endereço MAC"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:228
 msgid "MWI Subscription Type"
-msgstr ""
+msgstr "MWI Tipo de Inscrição"
 
 #: amp_conf/htdocs/admin/views/module_admin/header.php:13
 msgid "Machine ID"
-msgstr ""
+msgstr "ID da Máquina"
 
 #: amp_conf/htdocs/admin/libraries/view.functions.php:16
 msgid "Magic Quotes GPC"
@@ -5935,7 +5935,7 @@ msgstr "GPC Magic Quotes"
 
 #: ../core/functions.inc/drivers/Sip.class.php:460
 msgid "Mailbox"
-msgstr ""
+msgstr "Caixa de Correio"
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:149
 #: ../core/functions.inc/drivers/Iax2.class.php:140
@@ -5944,22 +5944,24 @@ msgid ""
 "Mailbox for this device. This should not be changed unless you know what you "
 "are doing."
 msgstr ""
+"Caixa de correio para este dispositivo. Isso não deve ser alterado a menos "
+"que você saiba o que está fazendo."
 
 #: amp_conf/htdocs/admin/views/noaccess.php:43
 msgid "Make sure the module is installed and enabled."
-msgstr ""
+msgstr "Verifique se o módulo está instalado e ativado."
 
 #: amp_conf/htdocs/admin/views/noaccess.php:42
 msgid "Make sure you entered the address correctly."
-msgstr ""
+msgstr "Certifique-se de que introduziu o endereço corretamente."
 
 #: amp_conf/htdocs/admin/views/noaccess.php:37
 msgid "Make sure you have access to this item."
-msgstr ""
+msgstr "Certifique-se de que tem acesso a este item."
 
 #: amp_conf/htdocs/admin/libraries/Console/Session.class.php:13
 msgid "Manage Session"
-msgstr ""
+msgstr "Gerenciar Sessão"
 
 #: amp_conf/htdocs/admin/page.modules.php:662
 #: amp_conf/htdocs/admin/page.modules.php:1168
@@ -5969,29 +5971,29 @@ msgstr "Gerenciar módulos locais"
 
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:17
 msgid "Manage notifications"
-msgstr ""
+msgstr "Gerenciar notificações"
 
 #: ../core/page.astmodules.php:72
 msgid "Manually Loaded Modules"
-msgstr ""
+msgstr "Módulos Carregados Manualmente"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:264
 #: ../core/views/trunks/pjsip.php:587
 msgid "Match (Permit)"
-msgstr ""
+msgstr "Correspondência (Permissão)"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:205
 msgid "Max Contacts"
-msgstr ""
+msgstr "Máximo de Contatos"
 
 #: ../core/views/trunks/pjsip.php:371
 msgid "Max Retries"
-msgstr ""
+msgstr "Máximo de Tentativas"
 
 #: ../core/views/did/advanced_form.php:398
 #: ../core/views/did/basic_form.php:273
 msgid "Max attempts"
-msgstr ""
+msgstr "Máximo de Tentativas"
 
 #: ../core/views/trunks/trunk_header.php:358
 msgid "Maximum Channels"
@@ -5999,15 +6001,19 @@ msgstr "Máximo de canais"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:268
 msgid "Maximum Expiration"
-msgstr ""
+msgstr "Prazo Máximo"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:258
 msgid "Maximum amount of time (in seconds) to wait for asterisk to shut down"
 msgstr ""
+"Quantidade máxima de tempo (em segundos) para aguardar o desligamento do "
+"asterisk"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:204
 msgid "Maximum number of Endpoints that can associate with this Device"
 msgstr ""
+"Número máximo de pontos de extremidade que podem ser associados a este "
+"dispositivo"
 
 #: ../core/functions.inc.php:6025
 msgid ""
@@ -6016,32 +6022,38 @@ msgid ""
 "been compromised. It will limit the number of simultaneous calls that can be "
 "made on the compromised extension."
 msgstr ""
+"Número máximo de chamadas simultâneas de saída que uma extensão pode fazer. "
+"Isso também é muito útil como uma proteção de segurança contra um sistema "
+"que foi comprometido. Limitará o número de chamadas simultâneas que podem "
+"ser feitas na extensão comprometida."
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:21
 msgid ""
 "Maximum time (in seconds) to wait for asterisk to stop gracefully. Default "
 "30 seconds"
 msgstr ""
+"Tempo máximo (em segundos) para aguardar que o asterisk pare graciosamente. "
+"Padrão 30 segundos"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:267
 msgid "Maximum time to keep an AoR"
-msgstr ""
+msgstr "Tempo máximo para manter um AoR"
 
 #: amp_conf/htdocs/admin/libraries/Console/Context.class.php:35
 msgid "May be invalid Check your spelling"
-msgstr ""
+msgstr "Pode ser inválido Verifique a ortografia"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:241
 msgid "Media Encryption"
-msgstr ""
+msgstr "Criptografia de Mídia"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:112
 msgid "Media Only"
-msgstr ""
+msgstr "Somente Mídia"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:214
 msgid "Media Use Received Transport"
-msgstr ""
+msgstr "Uso de Mídia Transporte Recebido"
 
 #: amp_conf/htdocs/admin/bootstrap.php:307
 msgid "Memory Limit Changed"
@@ -6049,33 +6061,33 @@ msgstr "Modificado limite de memória"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:123
 msgid "Migrate current values into freepbx_conf.."
-msgstr ""
+msgstr "Migrar valores atuais para freepbx_conf.."
 
 #: ../core/install.php:457
 msgid "Migrating call groups to named call groups"
-msgstr ""
+msgstr "Migrando grupos de chamadas para grupos de chamadas com nome"
 
 #: ../core/install.php:1697
 msgid "Migrating force_rport to the right default value..."
-msgstr ""
+msgstr "Migrando force_rport para o valor padrão correto..."
 
 #: ../core/install.php:1540
 #, php-format
 msgid "Migrating http setting '%s' to Advanced Settings..."
-msgstr ""
+msgstr "Migrando a configuração de http '%s' para Configurações Avançadas..."
 
 #: ../core/install.php:452
 msgid "Migrating pickup groups to named pickup groups"
-msgstr ""
+msgstr "Migrando grupos de captadores para grupos de captura nomeados"
 
 #: ../core/views/did/advanced_form.php:423
 #: ../core/views/did/basic_form.php:298
 msgid "Min Length"
-msgstr ""
+msgstr "Comprimento Mínimo"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:272
 msgid "Minimum Expiration"
-msgstr ""
+msgstr "Expiração Mínima"
 
 #: ../core/views/did/advanced_form.php:436
 #: ../core/views/did/basic_form.php:311
@@ -6083,31 +6095,33 @@ msgid ""
 "Minimum amount of digits CallerID needs to contain in order to be considered "
 "valid"
 msgstr ""
+"Quantidade mínima de dígitos que o CallerID precisa conter para ser "
+"considerado válido"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:271
 msgid "Minimum time to keep an AoR"
-msgstr ""
+msgstr "Tempo mínimo para manter AoR"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:824
 #, php-format
 msgid "Missing Dependency %s %s successfully enabled"
-msgstr ""
+msgstr "Dependência ausente %s %s habilitada com sucesso"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Media.class.php:68
 msgid "Missing HTML5 format converters"
-msgstr ""
+msgstr "Conversores de formato HTML5 ausentes"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:233
 msgid "Missing O or CN. Can't create"
-msgstr ""
+msgstr "Faltando O ou CN. Não foi possível criar"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:232
 msgid "Missing Requirements"
-msgstr ""
+msgstr "Requisitos ausentes"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1718
 msgid "Missing a temporary folder"
-msgstr ""
+msgstr "Faltando uma pasta temporária"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1014
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1040
@@ -6119,31 +6133,31 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1166
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1190
 msgid "Missing module name"
-msgstr ""
+msgstr "Nome do módulo ausente"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1049
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1063
 msgid "Missing module name or URL"
-msgstr ""
+msgstr "Faltando nome do módulo ou URL"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1838
 #, php-format
 msgid "Missing module.xml in %s"
-msgstr ""
+msgstr "Faltando module.xml em %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:348
 #, php-format
 msgid "Missing or unreadable config file [%s]...cannot continue"
-msgstr ""
+msgstr "Arquivo de configuração ausente ou ilegível [%s]... não pode continuar"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1120
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1128
 msgid "Missing repo name"
-msgstr ""
+msgstr "Nome de repositório ausente"
 
 #: amp.i18n.php:652
 msgid "MoH Subdirectory"
-msgstr ""
+msgstr "Subdiretório MoH"
 
 #: ../core/views/trunks/sip.php:58
 msgid ""
@@ -6180,52 +6194,52 @@ msgstr "Módulo"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1928
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1934
 msgid "Module "
-msgstr ""
+msgstr "Módulo "
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3063
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
-msgstr ""
+msgstr "Módulo \"%s\" está faltando seu status de assinatura."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3085
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
-msgstr ""
+msgstr "Módulo \"%s\" está sem assinatura e deve ser baixado novamente"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3078
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
-msgstr ""
+msgstr "Módulo \"%s\" assinado por uma chave inválida."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:925
 #, php-format
 msgid "Module %s successfully disabled"
-msgstr ""
+msgstr "Módulo %s desabilitado com sucesso"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:305
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:328
 #, php-format
 msgid "Module %s successfully downloaded"
-msgstr ""
+msgstr "Módulo %s baixado com sucesso"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:936
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:946
 #, php-format
 msgid "Module %s successfully enabled"
-msgstr ""
+msgstr "Módulo %s habilitado com sucesso"
 
 #: amp_conf/htdocs/admin/page.modules.php:859
 #, php-format
 msgid "Module <strong>%s</strong> is required, yours %s"
-msgstr ""
+msgstr "Módulo <strong>%s</strong> é requerido, seu %s"
 
 #: amp_conf/htdocs/admin/views/noaccess.php:35
 msgid "Module Access Denied"
-msgstr ""
+msgstr "Acesso ao módulo negado"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:957
 msgid "Module Actions"
-msgstr ""
+msgstr "Ações do módulo"
 
 #: amp_conf/htdocs/admin/views/welcome.php:45
 msgid "Module Admin"
@@ -6239,6 +6253,12 @@ msgid ""
 "it to go to the server each time, set this to True. This should normally be "
 "false but can be helpful during testing."
 msgstr ""
+"Módulo Admin mantém em cache uma cópia do documento XML online que descreve "
+"o que está disponível no servidor. As verificações de atualização online "
+"subsequentes usarão as informações armazenadas em cache se menores do que 5 "
+"minutos. Para ignorar o cache e forçá-lo a ir para o servidor cada vez, "
+"defina isso como Verdadeiro. Isso normalmente deve ser Falso, mas pode ser "
+"útil durante testes."
 
 #: amp.i18n.php:740
 msgid ""
@@ -6259,63 +6279,63 @@ msgstr "Administração de Módulos"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:951
 msgid "Module Administration Help"
-msgstr ""
+msgstr "Ajuda do Módulo Administrativo"
 
 #: amp_conf/htdocs/admin/views/noaccess.php:28
 msgid "Module Broken"
-msgstr ""
+msgstr "Módulo Quebrado"
 
 #: amp_conf/htdocs/admin/views/noaccess.php:22
 msgid "Module Disabled"
-msgstr ""
+msgstr "Módulo Desabilitado"
 
 #: amp_conf/htdocs/admin/views/noaccess.php:17
 msgid "Module Disabled - Needs Upgrade"
-msgstr ""
+msgstr "Módulo Desabilitado - Necessita de Upgrade"
 
 #: ../core/views/dahdichandids/view.php:7
 msgid "Module Information"
-msgstr ""
+msgstr "Informação do Módulo"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1845
 #, php-format
 msgid "Module Name is blank in %s"
-msgstr ""
+msgstr "Nome do módulo em branco em %s"
 
 #: amp_conf/htdocs/admin/views/noaccess.php:3
 #: amp_conf/htdocs/admin/views/noaccess.php:40
 msgid "Module Not Found"
-msgstr ""
+msgstr "Módulo não encontrado"
 
 #: amp_conf/htdocs/admin/views/noaccess.php:12
 msgid "Module Not Installed"
-msgstr ""
+msgstr "Módulo não instalado"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1252
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1262
 msgid "Module XML was not in the proper format"
-msgstr ""
+msgstr "Módulo XML não está no formato apropriado"
 
 #: amp_conf/htdocs/admin/page.modules.php:925
 msgid "Module has been revoked and can not be enabled"
-msgstr ""
+msgstr "O módulo foi revogado e não pode ser ativado"
 
 #: amp_conf/htdocs/admin/page.modules.php:921
 msgid "Module has been signed with an invalid key"
-msgstr ""
+msgstr "Módulo foi assinado com uma chave inválida"
 
 #: amp_conf/htdocs/admin/page.modules.php:913
 msgid "Module has been tampered. Please redownload"
-msgstr ""
+msgstr "O módulo foi adulterado. Por favor, baixe novamente"
 
 #: amp_conf/htdocs/admin/page.modules.php:917
 msgid "Module is Unsigned"
-msgstr ""
+msgstr "Módulo não assinado"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:23
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:22
 msgid "Module names"
-msgstr ""
+msgstr "Nomes de módulos"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2060
 msgid "Module not enabled: cannot disable"
@@ -6340,11 +6360,13 @@ msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr ""
+"Módulo: \"%s\"' assinatura foi revogada. Módulo foi automaticamente "
+"desabilitado"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3093
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
-msgstr ""
+msgstr "Módulo: \"%s\", Arquivo: \"%s\""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3091
 #, php-format
@@ -6353,6 +6375,10 @@ msgid ""
 "'fwconsole chown' and then 'fwconsole reload' to clear this message. If you "
 "did not just update FreePBX, your system may have been compromised)"
 msgstr ""
+"Módulo: '%s', Arquivo: '%s' (Se você acabou de atualizar o FreePBX, será "
+"necessário executar 'fwconsole chown' e então 'fwconsole reload' para limpar "
+"esta mensagem. Se você não acabou de atualizar o FreePBX, seu sistema pode "
+"ter sido comprometido)"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:244
 msgid ""
@@ -9583,11 +9609,11 @@ msgstr ""
 
 #: ../core/views/routing/timecond.php:8
 msgid "Time Group"
-msgstr ""
+msgstr "Grupo de Tempo"
 
 #: ../core/views/routing/grid.php:31 ../core/views/routing/grid.php:33
 msgid "Time Group Assigned"
-msgstr ""
+msgstr "Grupo de Tempo Associado"
 
 #: amp.i18n.php:140
 msgid ""
