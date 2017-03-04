@@ -20,13 +20,14 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-15 10:23+1100\n"
-"PO-Revision-Date: 2017-03-02 18:35+0200\n"
+"PO-Revision-Date: 2017-03-03 18:37+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
-"Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) "
+"<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.4\n"
 "X-Poedit-Language: Portuguese\n"
@@ -5069,6 +5070,13 @@ msgstr "Módulo: '%s', Arquivo: '%s' (Se você acabou de atualizar o FreePBX, se
 #: amp_conf/htdocs/admin/views/module_admin/main.php:244
 msgid "Modules can have separate individual repos or tracks, these tracks can determine what type of updates this module receives. A prime example is that of the beta track. You can select the beta track for this module and FreePBX will give you the highest updates in the beta track or stable. Some Modules will only have one track. Tracks can be disabled in Advanced Settings.<br>Tracks can only be changed after checking online"
 msgstr ""
+"Os módulos podem ter repositórios ou faixas individuais separadas, essas "
+"faixas podem determinar que tipo de atualizações este módulo recebe. Um bom "
+"exemplo é o da faixa beta. Você pode selecionar a faixa beta para este "
+"módulo e FreePBX lhe dará as atualizações mais altas na faixa beta ou "
+"estável. Alguns módulos terão apenas uma faixa. As faixas podem ser "
+"desativadas em Configurações avançadas. As faixas só podem ser alteradas "
+"após a verificação on-line"
 
 #: ../core/views/trunks/trunk_header.php:53
 msgid "Monitor Trunk Failures"
@@ -5083,12 +5091,15 @@ msgid "Most VoIP providers require your system to REGISTER with theirs. Enter th
 msgstr "A maioria dos provedores VoIP precisam que seu sistema se REGISTRE. Entre com os parametros de registro aqui.<br><br>exemplo:<br><br>username:password@switch.voipprovider.com. <br><br> Muito provedores vão exigir que você forneça um número de DID, ex:username:password@switch.voipprovider.com/numeroDID de maneira a que o DID funcione."
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:34
+#, fuzzy
 msgid "Multiple hooks unimplemented"
-msgstr ""
+msgstr "Ganchos múltiplos não implementado"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:112
 msgid "Multiple params to autoload (__call) not supported. Don't do that. Or re-write this."
 msgstr ""
+"Vários parâmetros para autoload (__call) não são suportados. Não faça isso "
+"ou reescreva isso."
 
 #: ../core/views/did/advanced_form.php:13
 msgid "Music On Hold"
@@ -5100,38 +5111,45 @@ msgstr "Música em Espera?"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:210
 msgid "Must have a name for the CSR"
-msgstr ""
+msgstr "Deve existir um nome para o CSR"
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:65
 msgid "MySQL Tables Repaired"
-msgstr ""
+msgstr "Tabelas MySQL Reparadas"
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:67
 #, php-format
 msgid "MySQL table repair Failed: %s"
-msgstr ""
+msgstr "Reparo da tabela MySQL Falhou: %s"
 
 #: ../core/functions.inc/drivers/Sip.class.php:378
 msgid "NAT Mode"
-msgstr ""
+msgstr "Modo NAT"
 
 #: ../core/functions.inc/drivers/Sip.class.php:377
 msgid "NAT setting, see Asterisk documentation for details. Yes usually works for both internal and external devices. Set to No if the device will always be internal."
 msgstr ""
+"Configurações NAT, veja a documentação Asterisk para detalhes. Sim "
+"normalmente funciona tanto para dispositivos internos como externos. Defina "
+"como Não se o dispositivo for sempre interno."
 
 #: ../core/page.ampusers.php:126 ../core/page.ampusers.php:128
 msgid "NOTE"
-msgstr ""
+msgstr "NOTA"
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:37
 #, php-format
 msgid "NOTICE! This system has EDGE mode enabled. For more information visit %s"
 msgstr ""
+"AVISO! Este sistema tem o modo EDGE ativado. Para obter mais informações, "
+"visite %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:34
 #, php-format
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
+"AVISO! Você possui %s notificações. Faça login na interface do usuário para "
+"vê-las!"
 
 #: ../core/Core.class.php:2488 ../core/Core.class.php:2489
 #: ../core/page.extensions.php:29 ../core/page.extensions.php:118
@@ -5139,15 +5157,17 @@ msgstr ""
 #: ../core/views/rnav.php:19 ../core/views/rnav.php:43
 #: ../core/views/routing/grid.php:70 ../core/views/trunks/trunkgrid.php:31
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: ../core/views/routing/form.php:285
 msgid "Name of this route. Should be used to describe what type of calls this route matches (for example, 'local' or 'longdistance')."
-msgstr "Nome desta rota. Pode ser usado para descrever que tipo de chamadas esta rota combina (por exemplo, 'local' o 'longa distância')."
+msgstr ""
+"Nome desta rota. Pode ser usado para descrever que tipo de chamadas esta "
+"rota combina (por exemplo, 'local' ou 'longa distância')."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:33
 msgid "Need to be instantiated with a FreePBX Object"
-msgstr ""
+msgstr "Precisa ser instanciado com um objeto FreePBX"
 
 #: ../core/functions.inc.php:5761
 msgid "Never"
@@ -5156,7 +5176,7 @@ msgstr "Nunca"
 #: ../core/functions.inc/drivers/Sip.class.php:374
 #, php-format
 msgid "Never - (%s)"
-msgstr ""
+msgstr "Nunca - (%s)"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:800
 #: amp_conf/htdocs/admin/views/module_admin/main.php:107
@@ -5166,7 +5186,7 @@ msgstr "Mais novo que a versão online (%s)"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:21
 msgid "Nightly"
-msgstr ""
+msgstr "Todas as noites"
 
 #: ../core/functions.inc.php:5760
 #: ../core/functions.inc/drivers/Dahdi.class.php:108
@@ -5205,7 +5225,7 @@ msgstr "Não"
 #: ../core/functions.inc/drivers/Sip.class.php:361
 #, php-format
 msgid "No - (%s)"
-msgstr ""
+msgstr "Não - (%s)"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:271
 msgid "No Action"
@@ -5213,7 +5233,7 @@ msgstr "Sem ação"
 
 #: ../core/functions.inc.php:6094
 msgid "No Answer"
-msgstr ""
+msgstr "Sem resposta"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:340
 #, php-format
