@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-15 10:23+1100\n"
-"PO-Revision-Date: 2017-03-03 18:37+0200\n"
+"PO-Revision-Date: 2017-03-06 18:34+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -5238,23 +5238,23 @@ msgstr "Sem resposta"
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:340
 #, php-format
 msgid "No Cert Signing Request for %s"
-msgstr ""
+msgstr "Nenhum pedido de assinatura de certificado para %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:974
 msgid "No Change Log"
-msgstr ""
+msgstr "Nenhum registro de alterações"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:396
 msgid "No Description"
-msgstr ""
+msgstr "Sem descrição"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:49
 msgid "No Description Provided"
-msgstr ""
+msgstr "Nenhuma descrição fornecida"
 
 #: ../core/functions.inc.php:5795
 msgid "No Limit"
-msgstr ""
+msgstr "Sem limite"
 
 #: ../core/views/did/advanced_form.php:8
 msgid "No Music"
@@ -5271,44 +5271,44 @@ msgstr "Sem descrição disponível."
 #: install.php:151
 #, php-format
 msgid "No directory %s, install script not needed"
-msgstr ""
+msgstr "Nenhum diretório %s, script de instalação não necessário"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:129
 msgid "No email address for online update checks"
-msgstr ""
+msgstr "Nenhum endereço de e-mail para verificação de atualizações online"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:883
 msgid "No enabled modules depend on this module."
-msgstr ""
+msgstr "Nenhum módulo habilitado depende deste módulo."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:63
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:116
 msgid "No file given to load"
-msgstr ""
+msgstr "Nenhum arquivo fornecido para carregar"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1715
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Nenhum arquivo foi enviado"
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:54
 msgid "No interfaces found"
-msgstr ""
+msgstr "Não foram encontradas interfaces"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:148
 msgid "No module to check"
-msgstr ""
+msgstr "Nenhum módulo para verificar"
 
 #: amp_conf/htdocs/admin/page.modules.php:998
 msgid "No modules to display."
-msgstr "Sem módulos para mostar."
+msgstr "Sem módulos para mostrar."
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:115
 msgid "No name for this CA"
-msgstr ""
+msgstr "Nenhum nome para esta CA"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:615
 msgid "No status was given to checkStatus"
-msgstr ""
+msgstr "Nenhum status foi dado para checkStatus"
 
 #: amp.i18n.php:514
 msgid "NoOp Traces in Dialplan"
@@ -5321,35 +5321,60 @@ msgstr ""
 #: ../core/views/did/basic_form.php:120 ../core/views/trunks/pjsip.php:91
 #: ../core/views/trunks/pjsip.php:110 ../core/views/trunks/pjsip.php:642
 msgid "None"
-msgstr ""
+msgstr "Nenhum"
 
 #: ../core/functions.inc/drivers/Virtual.class.php:9
 msgid "None (virtual exten)"
-msgstr ""
+msgstr "Nenhum (virtual exten)"
 
 #: ../core/views/routing/form.php:464
 msgid "Normal Congestion"
-msgstr ""
+msgstr "Congestionamento Normal"
 
 #: amp.i18n.php:434
+#, fuzzy
 msgid "Normally FreePBX auto-generates a custom context that may be usable for adding custom dialplan to modify the normal behavior of FreePBX. It takes a good understanding of how Asterisk processes these includes to use this and in many of the cases, there is no useful application. All includes will result in a WARNING in the Asterisk log if there is no context found to include though it results in no errors. If you know that you want the includes, you can set this to true. If you comment it out FreePBX will revert to legacy behavior and include the contexts."
 msgstr ""
+"Normalmente FreePBX gera automaticamente um contexto personalizado que pode "
+"ser útil para adicionar um dialplan personalizado para modificar o "
+"comportamento normal do FreePBX. É preciso um bom entendimento de como o "
+"Asterisk processa estes includes e os usa,  e em muitos dos casos, não há "
+"nenhuma aplicação útil. Todo include resultará em um AVISO no registro "
+"Asterisk se não houver nenhum contexto encontrado para incluir, embora não "
+"resulte em erros. Se você sabe que deseja incluir, pode definir isso como "
+"true. Se você comentar, o FreePBX reverterá para o comportamento legado e "
+"incluirá os contextos."
 
 #: amp.i18n.php:1094
 msgid "Normally FreePBX gets the current Asterisk version directly from Asterisk. This is required to generate proper dialplan for a given version. When using some custom Asterisk builds, the version may not be properly parsed and improper dialplan generated. Setting this to an equivalent Asterisk version will override what is read from Asterisk. This SHOULD be left blank unless you know what you are doing."
 msgstr ""
+"Normalmente o FreePBX obtém a versão atual do Asterisk diretamente do "
+"Asterisk . Isso é necessário para gerar o dialplan adequado para uma "
+"determinada versão. Quando usadas versões personalizadas do Asterisk, a "
+"versão pode não ser analisada corretamente e um dialplan incorreto gerado. "
+"Configurando isso para uma versão Asterisk equivalente substituirá o que é "
+"lido do Asterisk. Isso DEVE ser deixado em branco a menos que você saiba o "
+"que está fazendo."
 
 #: amp.i18n.php:14
 msgid "Normally the friendly names will be displayed on this page and the internal freepbx_conf configuration names are shown in the tooltip. If you prefer to view the configuration variables, and the friendly name in the tooltip, set this to false.."
 msgstr ""
+"Normalmente, os nomes amigáveis serão exibidos nesta página e os nomes de "
+"configuração freepbx_conf internos serão mostrados na dica de ferramenta. Se "
+"você preferir ver as variáveis de configuração e o nome amigável na dica de "
+"ferramenta, defina isso como Falso."
 
 #: ../core/views/trunks/trunk_header.php:427
 msgid "Normally the next trunk is only tried upon a trunk being 'Congested' in some form, or unavailable. Checking this box will force a failed call to always continue to the next configured trunk or destination even when the channel reports BUSY or INVALID NUMBER."
 msgstr ""
+"Normalmente, o próximo tronco só é testado quando um tronco é \""
+"Congestionado\" de alguma forma, ou indisponível. Marcar esta caixa forçará "
+"uma chamada com falha a sempre continuar para o próximo tronco ou destino "
+"configurado mesmo quando o canal retorna BUSY ou INVALID NUMBER."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:777
 msgid "Not Installed (Available online: "
-msgstr ""
+msgstr "Não instalado. Disponível online: "
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:69
 #, php-format
@@ -5363,27 +5388,27 @@ msgstr "Não Instalado (disponíval localmente)"
 #: amp_conf/htdocs/admin/views/module_admin/main.php:71
 #, php-format
 msgid "Not Installed (Locally available: %s)"
-msgstr ""
+msgstr "Não instalado (Disponível localmente: %s)"
 
 #: ../core/functions.inc.php:6108
 msgid "Not Reachable"
-msgstr ""
+msgstr "Inalcançavel"
 
 #: upgrades/2.5.0/removefiles.php:23
 msgid "Not Required"
-msgstr ""
+msgstr "Não Requerido"
 
 #: ../core/page.ampusers.php:274
 msgid "Not Selected"
-msgstr ""
+msgstr "Não selecionado"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:229
 msgid "Not an array"
-msgstr ""
+msgstr "Não é um array"
 
 #: ../core/page.astmodules.php:51
 msgid "Note that this is for ASTERISK modules, not FreePBX Modules."
-msgstr ""
+msgstr "Note que isso é para módulos ASTERISK, não para módulos FreePBX."
 
 #: amp_conf/htdocs/admin/views/welcome.php:15
 msgid "Notice"
@@ -5391,20 +5416,30 @@ msgstr "Notificação"
 
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:63
 msgid "Notifications Help"
-msgstr ""
+msgstr "Ajuda de Notificações"
 
 #: ../core/views/did/advanced_form.php:411
 #: ../core/views/did/basic_form.php:286
 msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr ""
+"Número de tentativas que o chamador tem para inserir um ID de chamada válido"
 
 #: ../core/functions.inc.php:6015
 msgid "Number of seconds to ring during a Call Forward, Call Forward Busy or Call Forward Unavailable call prior to continuing to voicemail or specified destination. Setting to Always will not return, it will just continue to ring. Default will use the current Ring Time. If voicemail is disabled and their is not destination specified, it will be forced into Always mode"
 msgstr ""
+"Número de segundos a tocar durante um Desvio de Chamada, Desvio de Chamada "
+"Ocupado ou Desvio de Chamada Indisponível antes de continuar para o correio "
+"de voz ou destino especificado. Definido como Sempre não irá retornar, "
+"continuará a tocar. O Padrão usará o tempo de toque atual. Se o correio de "
+"voz estiver desativado e seu destino não for especificado, ele será forçado "
+"para o modo Sempre"
 
 #: ../core/functions.inc.php:6005
 msgid "Number of seconds to ring prior to going to voicemail. Default will use the value set in Advanced Settings. If no voicemail is configured this will be ignored."
 msgstr ""
+"Número de segundos para tocar antes de ir para o correio de voz. O padrão "
+"usará o valor definido em Configurações avançadas. Se nenhum correio de voz "
+"estiver configurado, este será ignorado."
 
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:253
 msgid "Object"
@@ -5424,7 +5459,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:6076
 msgid "On Demand Recording"
-msgstr ""
+msgstr "Gravação sob demanda"
 
 #: ../core/views/did/advanced_form.php:332
 #: ../core/views/did/basic_form.php:210
@@ -5433,11 +5468,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:575
 msgid "One or more files skipped by configuration in freepbx_chown.conf"
-msgstr ""
+msgstr "Um ou mais arquivos ignorados pela configuração em freepbx_chown.conf"
 
 #: amp_conf/htdocs/admin/libraries/cronmanager.class.php:108
 msgid "Online Updates are Disabled"
-msgstr ""
+msgstr "Atualizações Online estão Desabilitadas"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:909
 msgid "Online Version"
