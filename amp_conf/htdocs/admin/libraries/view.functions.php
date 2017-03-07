@@ -355,7 +355,8 @@ function framework_include_css() {
 
 function framework_include_js($module_name, $module_page) {
 	global $amp_conf, $active_modules;
-	$version			= get_framework_version();
+	$mod_data = FreePBX::Modules()->getInfo($module_name);
+	$version = !empty($mod_data[$module_name]['version']) ? $mod_data[$module_name]['version'] : '';
 	$version_tag		= 'load_version=' . urlencode($version);
 	if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
 	  $this_time_append	= '.' . time();
