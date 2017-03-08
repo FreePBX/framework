@@ -459,7 +459,10 @@ function update_sysupdate_modal() {
 	});
 }
 
-var lastUpdate = moment().unix();
+var lastUpdate = 0;
+$(function() {
+	lastUpdate = moment().unix();
+});
 // Dorefresh = false stops a reload from happening, as one is
 // going to happen next in the code path.
 function render_updates_in_modal(dorefresh) {
