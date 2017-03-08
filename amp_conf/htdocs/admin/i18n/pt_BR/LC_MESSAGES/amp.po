@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-02-15 10:23+1100\n"
-"PO-Revision-Date: 2017-03-06 18:34+0200\n"
+"PO-Revision-Date: 2017-03-07 18:37+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -5476,15 +5476,21 @@ msgstr "Atualizações Online estão Desabilitadas"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:909
 msgid "Online Version"
-msgstr ""
+msgstr "Versão Online"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:416
 msgid "Online info"
-msgstr ""
+msgstr "Info Online"
 
 #: amp_conf/htdocs/admin/libraries/cronmanager.class.php:109
 msgid "Online updates are disabled in Advanced Settings. When disabled, you will not be notified of bug fixes and Security issues without manually checking for updates online. You are advised to enable the update checking. Updates are never downloaded automatically, they are only checked and reported in the notification panel and log if enabled."
 msgstr ""
+"Atualizações online estão desabilitadas nas Configurações Avançadas. Quando "
+"desabilitadas, você não será notificado sobre correções de bugs e problemas "
+"de segurança sem que verifique manualmente por atualizações online. É "
+"aconselhável ativar a verificação da atualizações. Atualizações nunca são "
+"baixadas automaticamente, elas só são verificados e relatadas no painel de "
+"notificação e log se ativado."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:798
 #, php-format
@@ -5498,11 +5504,11 @@ msgstr "Somente o %s versão %s é compatível, você possui %s"
 
 #: amp.i18n.php:526
 msgid "Only Use Last CID Prepend"
-msgstr ""
+msgstr "Usar apenas o último prefixo CID"
 
 #: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:28
 msgid "Only mysql is supported"
-msgstr ""
+msgstr "Somente mysql é suportado"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:25
 msgid "Only run post-start hooks"
@@ -5523,63 +5529,93 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:420
 #, php-format
 msgid "OpenSSL took too long to run the command '%s'"
-msgstr ""
+msgstr "OpenSSL demorou muito tempo para executar o comando '%s'"
 
 #: amp_conf/htdocs/admin/views/login.php:35
 msgid "Operator Panel"
-msgstr ""
+msgstr "Painel Operador"
 
 #: amp.i18n.php:892
 msgid "Optional Additional CSS Stylesheet"
-msgstr ""
+msgstr "Folha de estilos CSS adicional opcional"
 
 #: ../core/functions.inc.php:6104
 msgid "Optional CID Prefix to add before sending to this busy destination."
 msgstr ""
+"Prefixo CID opcional para adicionar antes de enviar para este destino "
+"ocupado."
 
 #: ../core/functions.inc.php:6095
 msgid "Optional CID Prefix to add before sending to this no answer destination."
 msgstr ""
+"Prefixo CID opcional para adicionar antes de enviar para este destino sem "
+"resposta."
 
 #: ../core/functions.inc.php:6109
 msgid "Optional CID Prefix to add before sending to this not reachable destination."
 msgstr ""
+"Prefixo CID opcional para adicionar antes de enviar para este destino não "
+"acessível."
 
 #: ../core/views/routing/form.php:460 ../core/views/routing/form.php:472
 msgid "Optional Destination on Congestion"
-msgstr ""
+msgstr "Destino opcional no congestionamento"
 
 #: ../core/functions.inc.php:6079
 msgid "Optional Destinations"
-msgstr ""
+msgstr "Destinos opcionais"
 
 #: ../core/views/routing/form.php:309
 msgid "Optional Route CID to be used for this route <br><br>Format: <b>&lt;#######&gt;</b>. You can also use the format: \"hidden\" <b>&lt;#######&gt;</b> to hide the CallerID sent out over Digital lines if supported (E1/T1/J1/BRI/SIP/IAX). <br/><br/>If set, this will override all CIDS specified except:<ul><li>extension/device EMERGENCY CIDs if this route is checked as an EMERGENCY Route</li><li>trunk CID if trunk is set to force it's CID</li><li>Forwarded call CIDs (CF, Follow Me, Ring Groups, etc)</li><li>Extension/User CIDs if checked</li></ul>"
 msgstr ""
+"Rota opcional CID a ser usado para esta rota <br><br>Formato: "
+"<b>&lt;#######&gt;</b>. Você também pode usar o formato: \"oculto\" "
+"<b>&lt;#######&gt;</b> para ocultar o identificador de chamada enviado sobre "
+"linhas digitais, se suportado (E1/T1/J1/BRI/SIP/IAX). <br/><br/> Se "
+"configurado, irá sobrescrever todos os CIDs especificados exceto: <ul><li>"
+"CIDs de EMERGÊNCIA ramal/dispositivo se esta rota está marcada como uma rota "
+"de EMERGÊNCIA</li><li>CID do tronco, se o tronco está definido para forçar "
+"seu CID</li><li>CIDs de Chamadas Encaminhadas (CF, Siga-me, Grupos de Toque, "
+"etc)</li><li>CID Ramal/Usuário se marcado</li></ul>"
 
 #: amp.i18n.php:896
 msgid "Optional custom CSS style sheet included after the primary one and any module specific ones are loaded, relative to admin."
 msgstr ""
+"Folha de estilo CSS personalizada opcional incluída após a primária e "
+"qualquer módulo específico carregados, em relação a admin."
 
 #: ../core/functions.inc.php:6089
 msgid "Optional destination call is routed to when the call is not answered on an otherwise idle phone. If the phone is in use and the call is simply ignored, then the busy destination will be used."
 msgstr ""
+"A chamada de destino opcional é encaminhada para quando a chamada não for "
+"atendida em um telefone ocioso. Se o telefone estiver em uso e a chamada for "
+"simplesmente ignorada, o destino ocupado será usado."
 
 #: ../core/functions.inc.php:6091
 msgid "Optional destination call is routed to when the call is not answered."
 msgstr ""
+"A chamada de destino opcional é encaminhada para quando a chamada não for "
+"atendida."
 
 #: ../core/functions.inc.php:6100
 msgid "Optional destination the call is routed to when the phone is busy or the call is rejected by the user."
 msgstr ""
+"Destino opcional ao qual a chamada é encaminhada quando o telefone está "
+"ocupado ou a chamada é rejeitada pelo usuário."
 
 #: ../core/functions.inc.php:6098
 msgid "Optional destination the call is routed to when the phone is busy or the call is rejected by the user. This destination is also used on an unanswered call if the phone is in use and the user chooses not to pickup the second call."
 msgstr ""
+"Destino opcional ao qual a chamada é encaminhada quando o telefone está "
+"ocupado ou a chamada é rejeitada pelo usuário. Este destino também é usado "
+"em uma chamada não atendida se o telefone estiver em uso e o usuário optar "
+"por não capturar a segunda chamada."
 
 #: ../core/functions.inc.php:6106
 msgid "Optional destination the call is routed to when the phone is offline, such as a softphone currently off or a phone unplugged."
 msgstr ""
+"Destino opcional ao qual a chamada é encaminhada quando o telefone está "
+"offline, tal como um softphone atualmente desligado ou um telefone desligado."
 
 #: amp.i18n.php:128
 msgid "Optional port for an Asterisk Manager Proxy"
