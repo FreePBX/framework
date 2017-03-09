@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-07 12:14-0800\n"
-"PO-Revision-Date: 2017-03-08 20:22+0200\n"
+"PO-Revision-Date: 2017-03-09 13:53+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -7628,23 +7628,23 @@ msgstr "Porta para o Asterisk Manager"
 
 #: amp.i18n.php:44
 msgid "Port to bind to. Default is 8088"
-msgstr "Porta para ligar. O padrão é 8088"
+msgstr "Porta para vincular. O padrão é 8088"
 
 #: amp.i18n.php:54
 msgid "Port to bind to. Default is 8089"
-msgstr ""
+msgstr "Porta para vincular. O padrão é 8089"
 
 #: amp.i18n.php:158
 msgid "Post Call Recording Script"
-msgstr ""
+msgstr "Script de Gravação Pós-Atendimento"
 
 #: amp_conf/htdocs/admin/views/bad_refferer.php:16
 msgid "Potential Security Breach"
-msgstr ""
+msgstr "Possível violação de segurança"
 
 #: amp.i18n.php:468
 msgid "Precede browser title with the server name."
-msgstr ""
+msgstr "Precede o título do navegador com o nome do servidor."
 
 #: ../core/views/routing/form.php:78
 msgid ""
@@ -7652,20 +7652,24 @@ msgid ""
 "this and the subsequent columns for a match. Upon a match, this prefix is "
 "removed from the dialed number before sending it to the trunks."
 msgstr ""
+"Prefixo para remover em uma correspondência bem-sucedida. O número discado é "
+"comparado a este e as colunas subsequentes para uma correspondência. Após "
+"uma correspondência, este prefixo é removido do número discado antes de "
+"enviá-lo para os troncos."
 
 #: ../core/page.astmodules.php:77
 msgid "Preloaded Modules"
-msgstr ""
+msgstr "Módulos pré-carregados"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:120
 #, php-format
 msgid "Press %s to Cancel"
-msgstr ""
+msgstr "Pressione %s para Cancelar"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:121
 #, php-format
 msgid "Press %s to shut down NOW"
-msgstr ""
+msgstr "Pressione %s para desligar agora"
 
 #: amp.i18n.php:108
 msgid "Pretty Print JSON Responses"
@@ -7673,11 +7677,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:387
 msgid "Previous"
-msgstr ""
+msgstr "Anterior"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:388
 msgid "Previous Releases"
-msgstr ""
+msgstr "Releases Anteriores"
 
 #: amp.i18n.php:590
 msgid "Primary CSS Popover Stylesheet Addtion"
@@ -7685,7 +7689,7 @@ msgstr ""
 
 #: amp.i18n.php:586
 msgid "Primary CSS Stylesheet"
-msgstr ""
+msgstr "Folha de estilos CSS principal"
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:18
 msgid "Prints MOTD"
@@ -7693,11 +7697,11 @@ msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:15
 msgid "Priority"
-msgstr ""
+msgstr "Prioridade"
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:49
 msgid "Priority needs to be either 'true', 'false' or a number"
-msgstr ""
+msgstr "A prioridade deve ser 'verdadeira', 'falsa' ou um número"
 
 #: ../core/views/did/advanced_form.php:68
 msgid "Privacy"
@@ -7714,8 +7718,9 @@ msgid "Process"
 msgstr "Processar"
 
 #: amp.i18n.php:174
+#, fuzzy
 msgid "Provide Verbose Tracebacks"
-msgstr ""
+msgstr "Fornecer Tracebacks Verbose"
 
 #: ../core/views/did/advanced_form.php:99 ../core/views/did/basic_form.php:32
 msgid "Provide a meaningful description of what this incoming route is"
@@ -7729,11 +7734,11 @@ msgstr ""
 
 #: amp.i18n.php:514
 msgid "Proxy Address"
-msgstr ""
+msgstr "Endereço de Proxy"
 
 #: amp.i18n.php:522
 msgid "Proxy Password"
-msgstr ""
+msgstr "Senha de Proxy"
 
 #: amp.i18n.php:510
 msgid "Proxy Settings"
@@ -7741,7 +7746,7 @@ msgstr "Configurações de Proxy"
 
 #: amp.i18n.php:518
 msgid "Proxy Username"
-msgstr ""
+msgstr "Nome de usuário do proxy"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:48
 #: amp_conf/htdocs/admin/views/module_admin/main.php:156
@@ -7754,7 +7759,7 @@ msgstr "Colocar originatário em espera para sempre"
 
 #: amp.i18n.php:526
 msgid "QXact Reports"
-msgstr ""
+msgstr "Relatórios QXact"
 
 #: ../core/functions.inc/drivers/Sip.class.php:387
 msgid "Qualify"
@@ -7767,15 +7772,15 @@ msgstr ""
 
 #: ../core/page.extensions.php:108 ../core/page.extensions.php:166
 msgid "Quick Create Extension"
-msgstr ""
+msgstr "Criar ramal rapidamente"
 
 #: amp_conf/htdocs/admin/views/menu.php:64
 msgid "Quick Search '/'"
-msgstr ""
+msgstr "Busca rápida '/'"
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:1098
 msgid "Quick Select"
-msgstr ""
+msgstr "Seleção rápida"
 
 #: ../core/functions.inc/drivers/Sip.class.php:306
 msgid "RFC 2833"
@@ -7794,33 +7799,39 @@ msgid ""
 "RSS Feeds that are displayed in UCP and Dashboard. Separate each feed by a "
 "new line. Supported feeds are Atom 1.0 and RSS 0.91, 0.92, 1.0 and 2.0"
 msgstr ""
+"Feeds RSS que são exibidos em UCP e Dashboard. Separe cada feed por uma nova "
+"linha. Os feeds suportados são Atom 1.0 e RSS 0.91, 0.92, 1.0 e 2.0"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:213
 msgid "RTP Symmetric"
-msgstr ""
+msgstr "RTP Simétrico"
 
 #: ../core/functions.inc/drivers/Sip.class.php:317
 msgid ""
 "Re-Invite policy for this device, see Asterisk documentation for details."
 msgstr ""
+"Politica Re-Invite para este dispositivo, veja a documentação Asterisk para "
+"detalhes."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:989
 msgid "ReDownloads all modules that have invalid signatures"
-msgstr ""
+msgstr "Baixar novamente todos os módulos com assinaturas inválidas"
 
 #: ../core/page.advancedsettings.php:293
 msgid ""
 "Readonly settings are usually more volatile, they can be changed by changing "
 "'Override Readonly Settings' to Yes."
 msgstr ""
+"As configurações somente leitura são geralmente mais voláteis, elas podem "
+"ser alteradas alterando 'Substituir configurações somente leitura' para Sim."
 
 #: ../core/views/trunks/pjsip.php:108
 msgid "Receive"
-msgstr ""
+msgstr "Receber"
 
 #: ../core/functions.inc.php:6057
 msgid "Record Priority Policy"
-msgstr ""
+msgstr "Política de prioridade de gravação"
 
 #: ../core/functions.inc.php:6044
 msgid "Recording Options"
@@ -7828,23 +7839,23 @@ msgstr "Opções de Gravação"
 
 #: ../core/functions.inc.php:6055
 msgid "Recording of calls made to other extensions on the system."
-msgstr ""
+msgstr "Gravação de chamadas feitas para outros ramais no sistema."
 
 #: ../core/functions.inc.php:6054
 msgid "Recording of calls received from other extensions on the system."
-msgstr ""
+msgstr "Gravação de chamadas recebidas de outros ramais no sistema."
 
 #: ../core/functions.inc.php:6052
 msgid "Recording of inbound calls from external sources."
-msgstr ""
+msgstr "Gravação de chamadas recebidas de fontes externas."
 
 #: ../core/functions.inc.php:6053
 msgid "Recording of outbound calls to external sources."
-msgstr ""
+msgstr "Gravação de chamadas de saída para fontes externas."
 
 #: ../core/views/trunks/pjsip.php:646
 msgid "Redundancy"
-msgstr ""
+msgstr "Redundância"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:854
 #, php-format
@@ -7853,7 +7864,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:359
 msgid "Refuse"
-msgstr ""
+msgstr "Recusar"
 
 #: ../core/views/trunks/sip.php:120
 msgid "Register String"
