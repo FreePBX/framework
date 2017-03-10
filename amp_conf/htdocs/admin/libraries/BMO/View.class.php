@@ -4,7 +4,7 @@
 * This is the FreePBX Big Module Object.
 *
 * License for all code of this FreePBX module can be found in the license file inside the module directory
-* Copyright 2006-2014 Schmooze Com Inc.
+* Copyright 2006-2017 Schmooze Com Inc.
 */
 namespace FreePBX;
 class View {
@@ -143,7 +143,13 @@ class View {
 					$langParts[2] = 'UTF8';
 					$lang = $testString;
 				} else {
-					$langParts[2] = '';
+					$testString = !empty($langParts[3]) ? $langParts[1].".UTF-8@".$langParts[3] : $langParts[1].".UTF-8";
+					if(in_array($testString,$locales)) {
+						$langParts[2] = 'UTF-8';
+						$lang = $testString;
+					} else {
+						$langParts[2] = '';
+					}
 				}
 			}
 		}
