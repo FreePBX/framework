@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-07 12:14-0800\n"
-"PO-Revision-Date: 2017-03-13 13:54+0200\n"
+"PO-Revision-Date: 2017-03-13 20:03+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -8379,28 +8379,28 @@ msgstr "URI do servidor"
 
 #: amp.i18n.php:64
 msgid "Session Inactivity "
-msgstr ""
+msgstr "Inatividade da Sessão "
 
 #: amp.i18n.php:68
 msgid "Session Keep Alive"
-msgstr ""
+msgstr "Manter Sessão Viva"
 
 #: amp.i18n.php:72
 msgid "Session Limit"
-msgstr ""
+msgstr "Limite de Sessão"
 
 #: amp_conf/htdocs/admin/libraries/Console/Unlock.class.php:32
 msgid "Session Should be unlocked now"
-msgstr ""
+msgstr "Sessão deve ser desbloqueado agora"
 
 #: amp.i18n.php:504
 msgid "Session Timeout"
-msgstr ""
+msgstr "Sessão Expirada"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:246
 #: ../core/functions.inc/drivers/Sip.class.php:361
 msgid "Session Timers"
-msgstr ""
+msgstr "Temporizadores de Sessão"
 
 #: ../core/views/did/advanced_form.php:264
 #: ../core/views/did/basic_form.php:143
@@ -8409,11 +8409,11 @@ msgstr "Configurar Destino"
 
 #: amp.i18n.php:478
 msgid "Set Module Admin to Edge mode"
-msgstr ""
+msgstr "Definir Module Admin para modo Edge"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:25
 msgid "Set permissions on a specific module: <rawname>"
-msgstr ""
+msgstr "Definir permissões em um módulo específico: <rawname>"
 
 #: ../core/views/did/advanced_form.php:14
 msgid ""
@@ -8427,7 +8427,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:36
 msgid "Set the Repos. -R Commercial -R Contributed"
-msgstr ""
+msgstr "Defina o Repos. -R Comercial -R Contribuição"
 
 #: ../core/functions.inc.php:6007
 msgid "Set the initial/current Call Waiting state for this user's extension"
@@ -8440,26 +8440,34 @@ msgid ""
 "Set this to replace the default mainstyle.css style sheet with your own, "
 "relative to admin."
 msgstr ""
+"Defina isso para substituir a folha de estilo mainstyle.css padrão com a sua "
+"própria, relativa a admin."
 
 #: amp.i18n.php:592
 msgid ""
 "Set this to replace the default popover.css style sheet with your own, "
 "relative to admin."
 msgstr ""
+"Defina isso para substituir a folha de estilo popover.css padrão com a sua "
+"própria, relativa a admin."
 
 #: amp.i18n.php:152
 msgid "Set to true to enable Advanced Performance Logging into the dbug file"
 msgstr ""
+"Defina como true para ativar o log de desempenho avançado no arquivo de "
+"depuração"
 
 #: amp.i18n.php:132
 msgid ""
 "Set to true to stop all dbug() calls from writing to the Debug File "
 "(FPBXDBUGFILE)"
 msgstr ""
+"Defina como true para parar todas as chamadas debug() de escrever para o "
+"arquivo de depuração (FPBXDBUGFILE)"
 
 #: amp_conf/htdocs/admin/views/obe.php:78
 msgid "Set up my Account"
-msgstr ""
+msgstr "Configurar minha conta"
 
 #: amp.i18n.php:736
 msgid ""
@@ -8471,34 +8479,44 @@ msgid ""
 "allowing association of one User to many Devices, or allowing Users to login "
 "and logout of Devices."
 msgstr ""
+"Define o comportamento da extensão no FreePBX.If definido como "
+"<b>extensions</b>, Dispositivos e usuários são administrados juntos como uma "
+"extensão unificada e aparecem em uma única página. Se definido como "
+"<b>deviceanduser</b>, Dispositivos e Usuários serão administrados "
+"separadamente. Dispositivos (por exemplo, cada linha individual num telefone "
+"SIP) e Utilizadores (e.g. <b>101</b>) serão configurados independentemente "
+"um do outro, permitindo a associação de um Utilizador a muitos Dispositivos "
+"ou permitindo que os Utilizadores iniciem e terminem sessão dos Dispositivos."
 
 #: amp.i18n.php:62
 msgid "Sets the path to the HTTPS private key. If this is not specified, the "
 msgstr ""
+"Define o caminho para a chave privada HTTPS. Se isso não for especificado, o "
 
 #: amp.i18n.php:58
 msgid "Sets the path to the HTTPS server certificate. This is required if "
 msgstr ""
+"Define o caminho para o certificado do servidor HTTPS. Isso é necessário se "
 
 #: amp.i18n.php:724
 msgid "Sets which PHP errors are reported"
-msgstr ""
+msgstr "Define quais erros do PHP são relatados"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:89
 msgid "Setting AUTHTYPE to none consistent with old default"
-msgstr ""
+msgstr "Definir AUTHTYPE para nenhum consistente com o padrão antigo"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:94
 msgid "Setting MOHDIR to mohmp3 consistent with old default"
-msgstr ""
+msgstr "Configurando MOHDIR para mohmp3 consistente com o padrão antigo"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:146
 msgid "Setting Permissions"
-msgstr ""
+msgstr "Definindo Permissões"
 
 #: amp_conf/htdocs/admin/page.modules.php:390
 msgid "Setting Permissions..."
-msgstr ""
+msgstr "Definindo Permissões..."
 
 #: amp.i18n.php:454
 msgid ""
@@ -8507,6 +8525,11 @@ msgid ""
 "It is usually better to allow the reload to go through and then correct the "
 "problem but these can be set if a more strict behavior is desired."
 msgstr ""
+"A definição de uma destas opções para true resultará em abortar "
+"retrieve_conf durante uma recarga se um conflito de extensão for detectado "
+"ou for detectado um destino. Normalmente, é melhor permitir que o "
+"recarregamento percorrer e, em seguida, corrigir o problema, mas estes podem "
+"ser definidos se um comportamento mais rigoroso é desejado."
 
 #: amp.i18n.php:480
 msgid ""
@@ -8515,11 +8538,16 @@ msgid ""
 "encourage you to enable it. If you want a more stable system please leave "
 "this set to no. See http://wiki.freepbx.org/x/boi3Aw for more details"
 msgstr ""
+"Configurando o módulo admin para o modo edge, você pode vetar novos módulos "
+"antes de serem considerados estáveis. Esse processo auxilia os "
+"desenvolvedores, por isso recomendamos que você o ative. Se você quiser um "
+"sistema mais estável, por favor deixe este conjunto para não. Veja "
+"http://wiki.freepbx.org/x/boi3Aw para mais detalhes"
 
 #: install.php:286
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
-msgstr ""
+msgstr "Configurando o sbin para a localização correta de: %s"
 
 #: amp.i18n.php:376
 msgid ""
@@ -8530,6 +8558,13 @@ msgid ""
 "not enable this setting. Please read Google FAQ about this: <b>http://code."
 "google.com/speed/public-dns/faq.html#privacy</b>."
 msgstr ""
+"A definição deste sinalizador irá gerar a variável global necessária para "
+"que o enumlookup.agi use o Google DNS 8.8.8.8 ao realizar uma pesquisa ENUM. "
+"Nem todos os DNS lida com registro NAPTR, mas o Google faz. Há uma "
+"desvantagem para isso como o Google controla todas as pesquisas. Se você não "
+"estiver confortável com isso, não ative essa configuração. Leia as Perguntas "
+"frequentes do Google sobre esta questão: <b>http://code.google.com/speed"
+"/public-dns/faq.html#privacy</b>."
 
 #: amp.i18n.php:760
 msgid ""
@@ -8537,6 +8572,9 @@ msgid ""
 "to anonymously analyze browser information to help make better development "
 "decisions."
 msgstr ""
+"Definir isso como true permitirá que a equipe de desenvolvimento use o "
+"google analytics para analisar anonimamente as informações do navegador para "
+"ajudar a tomar melhores decisões de desenvolvimento."
 
 #: amp.i18n.php:22
 msgid ""
@@ -8545,10 +8583,14 @@ msgid ""
 "have a high chance of breaking your system if you change them. Take extreme "
 "caution when electing to make such changes."
 msgstr ""
+"Definir isso como true permitirá que você substitua a configuração não-"
+"escondida somente leitura para alterá-los. As configurações que são readonly "
+"podem ser extremamente voláteis e têm uma alta chance de quebrar seu sistema "
+"se você alterá-las. Tenha extremo cuidado ao escolher fazer tais mudanças."
 
 #: amp.i18n.php:144
 msgid "Setting this to true will expose the "
-msgstr ""
+msgstr "Definir isto como verdadeiro expõe a "
 
 #: amp.i18n.php:836
 msgid ""
@@ -8560,6 +8602,13 @@ msgid ""
 "always fallback to the locally available libraries if the CDN is not "
 "available."
 msgstr ""
+"Definir isso como true buscará bibliotecas de javascript do sistema como "
+"jQuery e jQuery-ui de ajax.googleapis.com. Isso pode ser vantajoso se "
+"acessar sistemas remotos ou vários sistemas FreePBX diferentes, uma vez que "
+"as bibliotecas só são armazenadas em cache uma vez no navegador. Se as "
+"conexões externas à Internet forem problemáticas, a definição dessa verdade "
+"pode resultar em sistemas lentos. O FreePBX sempre retornará às bibliotecas "
+"disponíveis localmente se o CDN não estiver disponível."
 
 #: ../core/functions.inc/drivers/Sip.class.php:386
 msgid ""
@@ -8570,6 +8619,13 @@ msgid ""
 "the msec threshhold. Setting to no will turn this off. Can also be helpful "
 "to keep NAT pinholes open."
 msgstr ""
+"A definição para yes (equivalente a 2000 ms) enviará um pacote OPTIONS ao nó "
+"de extremidade periodicamente (padrão a cada minuto). Usado para monitorar a "
+"integridade do nó de extremidade. Se os atrasos forem mais longos do que o "
+"tempo de qualificação, o nó de extremidade será colocado offline e "
+"considerado inacessível. Pode ser definido para um valor que é o limiar "
+"msec. Definir como não irá desligar esta opção. Também pode ser útil para "
+"manter os furos de NAT abertos."
 
 #: ../core/functions.inc/drivers/Iax2.class.php:130
 msgid ""
@@ -8580,6 +8636,13 @@ msgid ""
 "the msec threshold. Setting to no will turn this off. Can also be helpful to "
 "keep NAT pinholes open."
 msgstr ""
+"A definição para yes (equivalente a 2000 ms) enviará um pacote OPTIONS ao nó "
+"de extremidade periodicamente (padrão a cada minuto). Usado para monitorar a "
+"integridade do nó de extremidade. Se os atrasos forem mais longos do que o "
+"tempo de qualificação, o nó de extremidade será colocado offline e "
+"considerado inacessível. Pode ser definido para um valor que é o limite "
+"msec. Definir como não irá desligar esta opção. Também pode ser útil para "
+"manter os furos de NAT abertos."
 
 #: amp.i18n.php:884 amp_conf/htdocs/admin/views/menu_items.php:48
 #: ../core/functions.inc/drivers/Iax2.class.php:98
@@ -8590,11 +8653,11 @@ msgstr "Configurações"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:12
 msgid "Severity"
-msgstr ""
+msgstr "Gravidade"
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:11
 msgid "Short for 'Digium Asterisk Hardware Device Interface'"
-msgstr ""
+msgstr "Curto para 'Digium Asterisk Hardware Device Interface'"
 
 #: amp.i18n.php:482
 msgid "Show Language setting"
@@ -8611,31 +8674,35 @@ msgstr "Mostrar apenas atualizáveis"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:987
 msgid "Shows a list of modules that may be updated, accepts no arguments"
 msgstr ""
+"Mostra uma lista de módulos que podem ser atualizados, não aceita argumentos"
 
 #: amp_conf/htdocs/admin/libraries/Console/Context.class.php:15
 msgid "Shows the specified context from the dialplan"
-msgstr ""
+msgstr "Mostra o contexto especificado a partir do plano de discagem"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:988
 msgid ""
 "Shows translation information for supplied modules, accepts argument module"
 "[s]"
 msgstr ""
+"Mostra informações de tradução para os módulos fornecidos, aceita o módulo[s]"
+" de argumento"
 
 #: amp_conf/htdocs/admin/libraries/Console/Restart.class.php:19
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:20
 msgid "Shutdown NOW rather than convieniently"
-msgstr ""
+msgstr "Desligar agora em vez de convenientemente"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:118
 #, php-format
 msgid ""
 "Shutting down Asterisk Gracefully. Will forcefully kill after %s seconds."
 msgstr ""
+"Desligando o Asterisk Graciosamente. Forçará a matar depois de %s segundos."
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:115
 msgid "Shutting down Asterisk Immediately..."
-msgstr ""
+msgstr "Desligando o Asterisk Imediatamente..."
 
 #: ../core/views/did/advanced_form.php:290
 #: ../core/views/did/basic_form.php:168
@@ -8644,7 +8711,7 @@ msgstr "Sinal RINGING"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:852
 msgid "Signature Invalid"
-msgstr ""
+msgstr "Assinatura Inválida"
 
 #: ../core/install.php:11
 msgid "Simulate Incoming Call"
@@ -8652,23 +8719,23 @@ msgstr "Simular chamada de entrada"
 
 #: amp.i18n.php:486
 msgid "Size of generated sip secrets"
-msgstr ""
+msgstr "Tamanho dos segredos gerados pelo gole"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:26
 msgid "Skip Chowning"
-msgstr ""
+msgstr "Pular Chowning"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:220
 msgid "Skip Chowning of files"
-msgstr ""
+msgstr "Pular Chowning de arquivos"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:32
 msgid "Skip the chown operation"
-msgstr ""
+msgstr "Ignorar a operação chown"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:221
 msgid "Solicited"
-msgstr ""
+msgstr "Solicitado"
 
 #: amp.i18n.php:260
 msgid ""
@@ -8680,6 +8747,13 @@ msgid ""
 "trunk in addition to globally if there are trunks where it is desirable to "
 "keep CNAM information, though most carriers ignore CNAM."
 msgstr ""
+"Algumas operadoras rejeitarão uma chamada se for apresentado um nome de "
+"CallerID (CNAM). Isso ocorre em várias áreas ao configurar CID no PBX usando "
+"o formato de 'CNAM' <CNUM>. Para remover a parte CNAM do CID em todos os "
+"troncos externos, defina esse valor como true. Isso NÃO removerá CNAM quando "
+"um tronco é chamado de uma rota intra-empresa. Isso pode ser feito em cada "
+"tronco individual, além de globalmente, se há troncos onde é desejável "
+"manter informações CNAM, embora a maioria das operadoras ignorar CNAM."
 
 #: ../core/views/did/advanced_form.php:305
 #: ../core/views/did/basic_form.php:183
@@ -8700,6 +8774,10 @@ msgid ""
 "recent one. Setting this to false will turn that off allowing all prepends "
 "to be 'stacked' in front of one another."
 msgstr ""
+"Alguns módulos permitem o pré-lançamento do CNAM. Se um precedente anterior "
+"foi feito, o comportamento padrão é remover o precedente anterior e usar "
+"apenas o mais recente. Definir isso como false irá desativar isso permitindo "
+"que todos os prepends sejam 'empilhados' na frente uns dos outros."
 
 #: amp.i18n.php:344
 msgid ""
@@ -8709,10 +8787,16 @@ msgid ""
 "want to see excessive NoOp()s in your dialplan you can set this to 0. The "
 "higher the number the more detailed level of trace NoOp()s will be generated"
 msgstr ""
+"Alguns módulos gerarão muitos comandos NoOp() seguidos por um "
+"[TRACE](trace_level) que pode ser usado durante o desenvolvimento ou ao "
+"tentar rastrear fluxos de chamadas. Estes comandos NoOp() não servem para "
+"outra finalidade, portanto, se você não quiser ver NoOp()s excessivos em seu "
+"dialplan, você pode definir isto como 0. Quanto maior o número, o nível mais "
+"detalhado de trace NoOp()s será gerado"
 
 #: ../core/page.advancedsettings.php:293
 msgid "Some of these settings can render your system inoperable."
-msgstr ""
+msgstr "Algumas dessas configurações podem tornar seu sistema inoperante."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2060
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2092
@@ -8725,39 +8809,47 @@ msgid ""
 "Specifies the maximum number of http sessions that will be allowed to exist "
 "at any given time."
 msgstr ""
+"Especifica o número máximo de sessões http que poderão existir a qualquer "
+"momento."
 
 #: amp.i18n.php:66
 msgid ""
 "Specifies the number of milliseconds to wait for more data over the HTTP "
 "connection before closing it. Set to 0 to disable session inactivity."
 msgstr ""
+"Especifica o número de milissegundos para aguardar mais dados sobre a "
+"conexão HTTP antes de fechá-la. Defina como 0 para desabilitar a inatividade "
+"da sessão."
 
 #: amp.i18n.php:70
 msgid ""
 "Specifies the number of milliseconds to wait for the next HTTP request over "
 "a persistent connection. Set to 0 to disable persistent HTTP connections."
 msgstr ""
+"Especifica o número de milissegundos para aguardar o próximo pedido HTTP "
+"sobre uma conexão persistente. Defina como 0 para desativar as conexões HTTP "
+"persistentes."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:19
 msgid "Stable"
-msgstr ""
+msgstr "Estável"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:13
 msgid "Standard"
-msgstr ""
+msgstr "Padrão"
 
 #: amp_conf/htdocs/admin/libraries/Console/Restart.class.php:17
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:22
 msgid "Start Asterisk and run other needed FreePBX commands"
-msgstr ""
+msgstr "Inicie o Asterisk e execute outros comandos necessários do FreePBX"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:148
 msgid "Starting Asterisk..."
-msgstr ""
+msgstr "Iniciando o Asterisk..."
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:27
 msgid "Starting Cache cleanup"
-msgstr ""
+msgstr "Iniciando a limpeza do cache"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:823
 #: amp_conf/htdocs/admin/views/module_admin/main.php:50
@@ -8767,21 +8859,23 @@ msgstr "Estado"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:17
 msgid "Stop Asterisk and run other needed FreePBX commands"
-msgstr ""
+msgstr "Pare o Asterisk e execute outros comandos necessários do FreePBX"
 
 #: amp.i18n.php:136
 msgid ""
 "Stops the automatic generation of a stripped CSS file that replaces the "
 "primary sheet, usually mainstyle.css."
 msgstr ""
+"Interrompe a geração automática de um arquivo CSS removido que substitui a "
+"planilha principal, geralmente mainstyle.css."
 
 #: amp_conf/htdocs/admin/libraries/Console/Debug.class.php:23
 msgid "Stream files for debugging"
-msgstr ""
+msgstr "Arquivos de fluxo para depuração"
 
 #: amp.i18n.php:562
 msgid "Styling and Logos"
-msgstr ""
+msgstr "Styling e Logos"
 
 #: ../core/Core.class.php:242 ../core/Core.class.php:265
 #: ../core/Core.class.php:289 ../core/Core.class.php:308
@@ -8804,89 +8898,89 @@ msgstr "Recarregado com sucesso"
 
 #: ../core/views/trunks/pjsip.php:610
 msgid "Support T.38 UDPTL"
-msgstr ""
+msgstr "Suporte T.38 UDPTL"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:355
 #, php-format
 msgid "Switch to Stable and Download and Install %s"
-msgstr ""
+msgstr "Mudar para estável e fazer download e instalar %s"
 
 #: amp_conf/htdocs/admin/views/menu_items.php:37
 msgid "Syntax error in your freepbx_menu.conf file"
-msgstr ""
+msgstr "Erro de sintaxe no arquivo freepbx_menu.conf"
 
 #: ../core/views/trunks/trunk_header.php:377
 msgid "System"
-msgstr ""
+msgstr "Sistema"
 
 #: amp.i18n.php:600
 msgid "System Apps"
-msgstr ""
+msgstr "Aplicativos do Sistema"
 
 #: amp.i18n.php:798
 msgid "System Asterisk Group"
-msgstr ""
+msgstr "Sistema Asterisk Group"
 
 #: amp.i18n.php:802
 msgid "System Asterisk User"
-msgstr ""
+msgstr "Usuário System Asterisk"
 
 #: amp.i18n.php:806
 msgid "System Device Group"
-msgstr ""
+msgstr "Grupo de Dispositivos do Sistema"
 
 #: amp.i18n.php:810
 msgid "System Device User"
-msgstr ""
+msgstr "Usuário do dispositivo do sistema"
 
 #: amp.i18n.php:814
 msgid "System Identity"
-msgstr ""
+msgstr "Identidade do Sistema"
 
 #: amp.i18n.php:690
 msgid "System Setup"
-msgstr ""
+msgstr "Configuração do Sistema"
 
 #: amp.i18n.php:818
 msgid "System Web Group"
-msgstr ""
+msgstr "Grupo Web do Sistema"
 
 #: amp.i18n.php:822
 msgid "System Web User"
-msgstr ""
+msgstr "Usuário da Web do Sistema"
 
 #: amp_conf/htdocs/admin/libraries/media/Media/Driver/Drivers/SoxShell.php:81
 msgid "System is missing SOX"
-msgstr ""
+msgstr "O sistema está faltando SOX"
 
 #: ../core/views/trunks/pjsip.php:637
 msgid "T.38 UDPTL Error Correction"
-msgstr ""
+msgstr "T.38 UDPTL correção de erros"
 
 #: ../core/views/trunks/pjsip.php:666
 msgid "T.38 UDPTL NAT"
-msgstr ""
+msgstr "T.38 UDPTL NAT"
 
 #: ../core/views/trunks/pjsip.php:654
 msgid "T.38 UDPTL error correction method"
-msgstr ""
+msgstr "T.38 UDPTL Método de correção de erros"
 
 #: ../core/functions.inc/drivers/Sip.class.php:402
 msgid "TCP Only"
-msgstr ""
+msgstr "Apenas TCP"
 
 #: ../core/Console/Trunks.class.php:55 ../core/Console/Trunks.class.php:62
 msgid "TECH"
-msgstr ""
+msgstr "TECH"
 
 #: ../core/functions.inc/drivers/Sip.class.php:403
 msgid "TLS Only"
-msgstr ""
+msgstr "Somente TLS"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:144
 #, php-format
 msgid "Taking too long? Customize the chown command, See %s"
-msgstr ""
+msgstr "Levando muito tempo? Personalizar o comando chown, Ver %s"
 
 #: ../core/views/trunks/trunkgrid.php:32
 msgid "Tech"
@@ -8894,15 +8988,15 @@ msgstr ""
 
 #: ../core/page.devices.php:67
 msgid "Tech Type"
-msgstr ""
+msgstr "Tipo de Type"
 
 #: ../core/Core.class.php:2640
 msgid "Technology of device is undefined. Please specify a 'tech'"
-msgstr ""
+msgstr "A tecnologia do dispositivo é indefinida. Especifique uma 'tech'"
 
 #: amp.i18n.php:826
 msgid "Telephony Engine"
-msgstr ""
+msgstr "Mecanismo de telefonia"
 
 #: ../core/functions.inc.php:820
 msgid "Terminate Call"
@@ -8913,6 +9007,8 @@ msgid ""
 "The Asterisk SIP Setting Module is not installed or is disabled. Please "
 "install it."
 msgstr ""
+"O módulo de configuração SIP do Asterisk não está instalado ou está "
+"desativado. Instale-o."
 
 #: amp.i18n.php:364
 msgid ""
@@ -8921,6 +9017,11 @@ msgid ""
 "only one is compiled into asterisk, FreePBX will auto detect and change this "
 "value if set wrong. The chan_pjsip channel driver is considered "
 msgstr ""
+"O driver de canal Asterisk para usar para SIP. O padrão é tanto para o "
+"Asterisk 12 quanto para o superior. Para o Asterisk 11 e inferior o padrão "
+"será chan_sip. Se apenas um for compilado em asterisco, o FreePBX detectará "
+"automaticamente e alterará esse valor se definido errado. O driver de canal "
+"chan_pjsip é considerado "
 
 #: ../core/functions.inc.php:5946
 msgid ""
@@ -8942,18 +9043,25 @@ msgid ""
 "call recording you may not be able to record calls until the module is "
 "installed and enabled."
 msgstr ""
+"O módulo Gravação de chamadas não está ativado. Uma vez que este recurso é "
+"necessário para a gravação de chamadas, você pode não ser capaz de gravar "
+"chamadas até que o módulo esteja instalado e habilitado."
 
 #: ../core/functions.inc.php:5944 ../core/views/quickCreate.php:77
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
 msgstr ""
+"O nome CallerID para chamadas deste usuário será definido para este nome. "
+"Digite somente o nome, NÃO o número."
 
 #: ../core/functions.inc.php:6262
 msgid ""
 "The CallerID name for this device will be set to this description until it "
 "is logged into."
 msgstr ""
+"O nome CallerID para este dispositivo será definido para esta descrição até "
+"que ele esteja conectado."
 
 #: amp_conf/htdocs/admin/page.modules.php:1193
 msgid ""
