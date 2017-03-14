@@ -59,19 +59,22 @@ class Doctrine extends Command {
 		foreach($table->getColumns() as $column) {
 			$data = $column->toArray();
 			$col = array();
-			switch($data['type']->getName()){
+			//https://github.com/doctrine/dbal/blob/master/lib/Doctrine/DBAL/Types/Type.php#L36
+			$type = $data['type']->getName();
+			switch($type){
 				case 'string':
 					$col['type'] = 'string';
 					$col['length'] = $data['length'];
 				break;
 				case 'integer':
-					$col['type'] = 'integer';
-				break;
 				case 'smallint':
-					$col['type'] = 'smallint';
+				case 'datetime':
+				case 'text':
+				case 'boolean':
+					$col['type'] = $type;
 				break;
 				default:
-					throw new \Exception("Unknown Col Type: ".$data['type']->getName());
+					throw new \Exception("Unknown Col Type: ".$type);
 			}
 			if(!is_null($data['default'])) {
 				$col['default'] = $data['default'];
