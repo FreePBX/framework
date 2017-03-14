@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-07 12:14-0800\n"
-"PO-Revision-Date: 2017-03-13 20:03+0200\n"
+"PO-Revision-Date: 2017-03-14 13:56+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -9068,14 +9068,16 @@ msgid ""
 "The Commercial repository is reserved for modules that are available for "
 "purchase and commercially supported."
 msgstr ""
+"O repositório Comercial é reservado para módulos que estão disponíveis para "
+"compra e comercialmente suportados."
 
 #: ../core/views/dahdichandids/didForm.php:25
 msgid "The DAHDI Channel number to map to a DID"
-msgstr ""
+msgstr "O número do canal DAHDI para mapear para um DID"
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:101
 msgid "The DAHDi channel number for this port."
-msgstr ""
+msgstr "O número do canal DAHDi para esta porta."
 
 #: ../core/views/dahdichandids/didForm.php:73
 msgid ""
@@ -9091,6 +9093,8 @@ msgstr ""
 msgid ""
 "The DTMF signaling mode used by this device, usually RFC for most phones."
 msgstr ""
+"O modo de sinalização DTMF usado por este dispositivo, geralmente RFC para a "
+"maioria dos telefones."
 
 #: amp.i18n.php:198
 msgid ""
@@ -9098,6 +9102,10 @@ msgid ""
 "(Note: For PJSIP devices RFC-4733 supercedes the older RFC-2833 and will be "
 "used when RFC-2833 is selected for PJSIP devices)"
 msgstr ""
+"O modo de sinalização DTMF usado por este dispositivo, geralmente RFC para a "
+"maioria dos telefones. (Nota: Para dispositivos PJSIP, a RFC-4733 substitui "
+"o RFC-2833 mais antigo e será usado quando RFC-2833 é selecionado para "
+"dispositivos PJSIP)"
 
 #: ../core/views/trunks/pjsip.php:254
 #, php-format
@@ -9109,11 +9117,18 @@ msgid ""
 "older chan_sip.</li><li>inband - DTMF is sent as part of audio stream.</"
 "li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
 msgstr ""
+"O modo de sinalização DTMF usado por este tronco, geralmente RFC para a "
+"maioria dos troncos<ul><li>Auto [%s] - DTMF é enviado como RFC-4733 se o "
+"outro lado o suporta, ou como INBAND se não.</li><li>rfc4733 - O DTMF é "
+"enviado para fora da faixa do fluxo de áudio principal. Isso substitui o RFC-"
+"2833 usado no chan_sip mais antigo.</li><li>inband - DTMF é enviado como "
+"parte do fluxo de áudio.</li><li>info - DTMF é enviado como pacote SIP "
+"INFO.</li></ul>"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1057
 #, php-format
 msgid "The File \"%s\" must exist."
-msgstr ""
+msgstr "O arquivo \"%s\" deve existir."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1027
 #, php-format
@@ -9130,31 +9145,35 @@ msgid ""
 "The Module Named \"%s\" is required, but yours is disabled because it needs "
 "to be upgraded. Please upgrade %s first, and then try again."
 msgstr ""
+"O módulo chamado \"%s\" é necessário, mas o seu está desativado porque ele "
+"precisa ser atualizado. Atualize %s primeiro e tente novamente."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1031
 #, php-format
 msgid "The Module Named \"%s\" is required, but yours is disabled."
-msgstr ""
+msgstr "O módulo chamado \"%s\" é necessário, mas o seu está desativado."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1040
 #, php-format
 msgid "The Module Named \"%s\" is required, yours is not installed."
-msgstr ""
+msgstr "O módulo chamado \"%s\" é necessário, o seu não está instalado."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1046
 #, php-format
 msgid "The Module Named \"%s\" is required."
-msgstr ""
+msgstr "O módulo chamado \"%s\" é necessário."
 
 #: ../core/views/trunks/trunk_footer.php:90
 msgid ""
 "The Outbound Dial Prefix contains non-standard characters. If these are "
 "intentional the press OK to continue."
 msgstr ""
+"O Prefixo de Discagem de Saída contém caracteres fora do padrão. Se estes "
+"forem intencionais, pressione OK para continuar."
 
 #: ../core/views/trunks/pjsip.php:222
 msgid "The Transport to use for connection"
-msgstr ""
+msgstr "O transporte a ser usado para conexão"
 
 #: ../core/views/routing/form.php:448
 msgid ""
@@ -9176,20 +9195,28 @@ msgid ""
 "into asterisk, FreePBX will auto detect and change this value if set wrong. "
 "The app_meetme application is considered "
 msgstr ""
+"O aplicativo do asterisk a ser usado para conferência. Se apenas um for "
+"compilado no asterisk, o FreePBX detectará automaticamente e alterará esse "
+"valor se definido errado. O aplicativo app_meetme é considerado "
 
 #: amp_conf/htdocs/admin/config.php:107
+#, fuzzy
 msgid "The autoloader is damaged. Please run: "
-msgstr ""
+msgstr "O autoloader está danificado. Por favor, execute: "
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1805
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
+"O binário unzip não está instalado. Não é possível trabalhar com o arquivo "
+"zip"
 
 #: ../core/Core.class.php:2584
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
 msgstr ""
+"O contexto, ramal, prioridade para ir para quando este DID é correspondido. "
+"Exemplo: app-daynight, 0,1"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
 #, php-format
@@ -9198,10 +9225,13 @@ msgid ""
 "resolve this in advanced settings by changing the system language or "
 "installing the default locales [%s]"
 msgstr ""
+"O idioma padrão de '%s' ou '%s' não foi encontrado neste sistema. Resolva "
+"isso nas configurações avançadas alterando o idioma do sistema ou instalando "
+"as localidades padrão [%s]"
 
 #: amp.i18n.php:768
 msgid "The default language used in the webUI"
-msgstr "O idioma padrão usado no webUI"
+msgstr "O idioma padrão usado na interface web"
 
 #: ../core/views/routing/form.php:79
 msgid ""
@@ -9209,6 +9239,9 @@ msgid ""
 "Upon a match, the match pattern portion of the dialed number will be sent to "
 "the trunks"
 msgstr ""
+"O número discado será comparado com o prefixo + este padrão de "
+"correspondência. Após uma correspondência, a parte de padrão de "
+"correspondência do número discado será enviada para os troncos"
 
 #: ../core/functions.inc.php:5908 ../core/views/quickCreate.php:61
 msgid "The extension number to dial to reach this user."
@@ -9219,10 +9252,12 @@ msgid ""
 "The file format sln48 is not supported by Asterisk when it should be. Audio "
 "conversion quality will be limited to 16k instead of 48k"
 msgstr ""
+"O formato de arquivo sln48 não é suportado pelo Asterisk quando deveria ser. "
+"A qualidade de conversão de áudio será limitada a 16k em vez de 48k"
 
 #: amp_conf/htdocs/admin/libraries/media/Media/Media.php:317
 msgid "The file format sln48 is not supported on your system"
-msgstr ""
+msgstr "O formato de arquivo sln48 não é suportado em seu sistema"
 
 #: amp_conf/htdocs/admin/libraries/cronmanager.class.php:177
 msgid "The following commands failed with the listed error"
@@ -9230,7 +9265,7 @@ msgstr "Os seguintes comandos falharam com os erros listados"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:637
 msgid "The following dependencies are not met:"
-msgstr ""
+msgstr "As seguintes dependências não são atendidas:"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:301
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:324
@@ -9249,7 +9284,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:868
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:878
 msgid "The following error(s) occured:"
-msgstr ""
+msgstr "Os seguintes erros ocorreram:"
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:7
 #, php-format
@@ -9269,7 +9304,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:880
 #, php-format
 msgid "The following modules depend on this one: %s"
-msgstr ""
+msgstr "Os seguintes módulos dependem deste: %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:361
 msgid ""
@@ -9281,31 +9316,38 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:22
 msgid "The legacy SIP channel driver in Asterisk"
-msgstr ""
+msgstr "O driver de canal SIP legado no Asterisk"
 
 #: amp.i18n.php:418
 msgid "The location for Asterisk Certificates"
-msgstr ""
+msgstr "O local para Certificados Asterisk"
 
 #: amp_conf/htdocs/admin/views/noaccess.php:13
 msgid "The module appears to be valid but is not currently installed"
-msgstr ""
+msgstr "O módulo parece ser válido, mas não está instalado no momento"
 
 #: amp_conf/htdocs/admin/views/noaccess.php:23
 msgid "The module you are trying to access has been disabled by an admin."
 msgstr ""
+"O módulo ao qual você está tentando acessar foi desativado por um "
+"administrador."
 
 #: amp_conf/htdocs/admin/views/noaccess.php:18
 msgid ""
 "The module you are trying to access has been disabled pending a version "
 "change."
 msgstr ""
+"O módulo que você está tentando acessar foi desativado na pendência de uma "
+"alteração de versão."
 
 #: ../core/functions.inc/drivers/PJSip.class.php:254
 msgid ""
 "The number of in-use channels which will cause busy to be returned as device "
 "state. This should be left at 0 unless you know what you are doing"
 msgstr ""
+"O número de canais em uso que fará com que ocupado seja retornado como "
+"estado do dispositivo. Isso deve ser deixado em 0 a menos que você saiba o "
+"que está fazendo"
 
 #: ../core/views/trunks/pjsip.php:332
 msgid ""
