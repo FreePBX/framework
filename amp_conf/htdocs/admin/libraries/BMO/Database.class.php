@@ -14,6 +14,8 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
+use Doctrine\DBAL\Configuration;
+use Doctrine\DBAL\DriverManager;
 class Database extends \PDO {
 	private $dConfig = null; //doctrine config
 	private $dsn = null; //pdo dsn
@@ -188,16 +190,21 @@ class Database extends \PDO {
 		if(!class_exists("FreePBX\Database\Migration",false)) {
 			include __DIR__."/Database/Migration.class.php";
 		}
+		$connection = $this->getDoctrineConnection();
+
+		return new Database\Migration($connection, $table, $this->dConfig['driver'], $this->dVersion);
+	}
+
+	public function getDoctrineConnection() {
 		if(empty($this->dConn)) {
-			$config = new \Doctrine\DBAL\Configuration();
-			$this->dConn = \Doctrine\DBAL\DriverManager::getConnection($this->dConfig, $config);
+			$config = new Configuration();
+			$this->dConn = DriverManager::getConnection($this->dConfig, $config);
 
 			//http://wildlyinaccurate.com/doctrine-2-resolving-unknown-database-type-enum-requested/
 			$platform = $this->dConn->getDatabasePlatform();
 			$platform->registerDoctrineTypeMapping('enum', 'string');
 		}
-
-		return new Database\Migration($this->dConn, $table, $this->dConfig['driver'], $this->dVersion);
+		return $this->dConn;
 	}
 
 	private function doctrineEngineAlias($engine) {

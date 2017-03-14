@@ -6,7 +6,9 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-
+use Doctrine\DBAL\Schema\Comparator;
+use Doctrine\DBAL\Schema\Synchronizer\SingleDatabaseSynchronizer;
+use Doctrine\DBAL\Schema\Schema;
 class Doctrine extends Command {
 	private $format = 'php';
 	private $database = '';
@@ -25,6 +27,8 @@ class Doctrine extends Command {
 			$output->writeln('<error>You MUST declare a table name!</error>');
 			return;
 		}
+		$table = $args[0];
+
 		$db = $input->getOption('database');
 		if(!empty($db)) {
 			$this->database = $db;
@@ -39,97 +43,81 @@ class Doctrine extends Command {
 			break;
 		}
 
-		$q = $dbh->prepare("DESCRIBE ".(!empty($this->database) ? $this->database.".":"").$args[0]);
-		$q->execute();
-		$table_fields = $q->fetchAll(\PDO::FETCH_ASSOC);
+		$connection = $dbh->getDoctrineConnection();
+		$synchronizer = new SingleDatabaseSynchronizer($connection);
+		$sm = $connection->getSchemaManager();
+		$fromSchema = $sm->createSchema();
+		$schema = new Schema();
+
+		$diff = Comparator::compareSchemas($schema,$fromSchema);
+		if(!isset($diff->newTables[$table])) {
+			throw new \Exception("Table does not exist");
+		}
+		$table = $diff->newTables[$table];
+
 		$export = array();
-		foreach($table_fields as $table){
-			$export[$table['Field']] = array();
-			preg_match('/(?P<type>\w+)($|\((?P<length>(\d+|(.*)))\))\s*(?P<extra>(\w*))/', $table['Type'], $field);
-			switch($field['type']){
-				case 'char':
-				case 'varchar':
-					$export[$table['Field']]['type'] = 'string';
-					if(isset($field['length'])){
-						$export[$table['Field']]['length'] = $field['length'];
-					}
+		foreach($table->getColumns() as $column) {
+			$data = $column->toArray();
+			$col = array();
+			switch($data['type']->getName()){
+				case 'string':
+					$col['type'] = 'string';
+					$col['length'] = $data['length'];
 				break;
-				case 'int':
-					$export[$table['Field']]['type'] = 'integer';
-				break;
-				case 'tinyint':
-					$export[$table['Field']]['type'] = 'boolean';
-				break;
-				case 'text':
-				case 'glob':
-					$export[$table['Field']]['type'] = 'text';
-					if(isset($field['length'])){
-						$export[$table['Field']]['length'] = $field['length'];
-					}
-				break;
-				case 'date':
-					$export[$table['Field']]['type'] = 'date';
-				break;
-				case 'datetime/timestamp':
-				case 'datetime':
-					$export[$table['Field']]['type'] = 'datetime';
+				case 'integer':
+					$col['type'] = 'integer';
 				break;
 				case 'smallint':
-				case 'bigint':
-				case 'float':
-				case 'blob':
-				case 'time':
-					$export[$table['Field']]['type'] = $field['type'];
-				break;
-				case 'decimal':
-					$parts = explode(",",$field['length']);
-					$export[$table['Field']]['type'] = $field['type'];
-					$export[$table['Field']]['precision'] = $parts[0];
-					$export[$table['Field']]['scale'] = $parts[1];
+					$col['type'] = 'smallint';
 				break;
 				default:
-					throw new \Exception("Unknown Col Type: ".$field['type']);
+					throw new \Exception("Unknown Col Type: ".$data['type']->getName());
 			}
-			if($table['Key'] == "PRI"){
-				$export[$table['Field']]['primaryKey'] = true;
+			if(!is_null($data['default'])) {
+				$col['default'] = $data['default'];
 			}
-			if($table['Null'] != "NO"){
-				$export[$table['Field']]['notnull'] = false;
+			if(!$data['notnull']){
+				$col['notnull'] = false;
 			}
-
-			if(!empty($field['extra'])) {
-				if($field['extra'] == 'unsigned') {
-					$export[$table['Field']]['unsigned'] = true;
-				} else {
-					throw new \Exception("Unknown field type");
-				}
+			if($data['unsigned']) {
+				$col['unsigned'] = true;
 			}
-
-			if(!in_array($field['type'],array("datetime","datetime/timestamp")) && isset($table['Default']) && !is_null($table['Default'])){
-				$export[$table['Field']]['default'] = $table['Default'];
+			if($data['autoincrement']) {
+				$col['autoincrement'] = true;
 			}
-			if($table['Extra'] == 'auto_increment'){
-				$export[$table['Field']]['autoincrement'] = true;
+			$export[$data['name']] = $col;
+		}
+		if ($table->hasPrimaryKey()) {
+			$pkCols = $table->getPrimaryKey()->getColumns();
+			foreach($pkCols as $c) {
+				$export[$c]['primaryKey'] = true;
 			}
 		}
 
-		$q = $dbh->prepare("SHOW INDEX FROM ".(!empty($this->database) ? $this->database.".":"").$args[0]);
-		$q->execute();
-		$table_indexes = $q->fetchAll(\PDO::FETCH_ASSOC);
 		$expindexes = array();
-		foreach($table_indexes as $idx){
-			if($idx['Key_name'] == 'PRIMARY') {
+		foreach($table->getIndexes() as $index) {
+			if($index->isPrimary()) {
 				continue;
 			}
-			if($idx['Non_unique'] === "1"){
-				$expindexes[$idx['Key_name']]['type'] = 'index';
+			$name = $index->getName();
+			$ind = array();
+
+			if($index->isUnique()){
+				$ind['type'] = 'unique';
 			}else{
-				$expindexes[$idx['Key_name']]['type'] = 'unique';
+				$ind['type'] = 'index';
 			}
-			if(!isset($expindexes[$idx['Key_name']]['cols'])){
-				$expindexes[$idx['Key_name']]['cols'] = array();
+			$ind['cols'] = array();
+			$cols = $index->getColumns();
+			foreach($cols as $c) {
+				$ind['cols'][] = $c;
 			}
-			$expindexes[$idx['Key_name']]['cols'][] = $idx['Column_name'];
+
+			$expindexes[$name] = $ind;
+		}
+
+		if(!empty($table->getForeignKeys())) {
+			throw new \Exception("Unable to handle foreign keys. Please help write the code!");
 		}
 
 		switch($this->format) {

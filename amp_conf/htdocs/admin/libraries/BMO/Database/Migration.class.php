@@ -8,6 +8,8 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX\Database;
+use Doctrine\DBAL\Schema\Synchronizer\SingleDatabaseSynchronizer;
+use Doctrine\DBAL\Schema\Schema;
 class Migration {
 	private $conn;
 	private $table;
@@ -22,8 +24,8 @@ class Migration {
 	}
 
 	public function modify($columns=array(),$indexes=array(),$dryrun=false) {
-		$synchronizer = new \Doctrine\DBAL\Schema\Synchronizer\SingleDatabaseSynchronizer($this->conn);
-		$schema = new \Doctrine\DBAL\Schema\Schema();
+		$synchronizer = new SingleDatabaseSynchronizer($this->conn);
+		$schema = new Schema();
 		$table = $schema->createTable($this->table);
 		$primaryKey = array();
 		foreach($columns as $name => $options) {
