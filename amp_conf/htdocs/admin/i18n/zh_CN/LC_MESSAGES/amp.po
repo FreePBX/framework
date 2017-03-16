@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-07 12:14-0800\n"
+"POT-Creation-Date: 2017-03-15 17:36-0700\n"
 "PO-Revision-Date: 2015-11-17 09:04+0200\n"
 "Last-Translator: james <zhulizhong@gmail.com>\n"
 "Language-Team: Simplified Chinese <http://weblate.freepbx.org/projects/"
@@ -533,11 +533,11 @@ msgstr ""
 "果没有 + 或者 | (添加或者移除前缀) w将不会发生任何改变，但是将创建一个新的匹"
 "配。仅执行第一个匹配的拨号规则，其他的不再执行。"
 
-#: ../core/functions.inc.php:6014
+#: ../core/functions.inc.php:6007
 msgid "A description for this DID, such as \"Fax\""
 msgstr "对此DID的描述，比如“传真”"
 
-#: ../core/functions.inc.php:6015
+#: ../core/functions.inc.php:6008
 msgid ""
 "A direct DID that is associated with this extension. The DID should be in "
 "the same format as provided by the provider (e.g. full number, 4 digits for "
@@ -579,7 +579,7 @@ msgstr "一条接收这个DID/CID（%s/%s）的线路已存在"
 msgid "A useful description describing this channel"
 msgstr "对此通道的描述"
 
-#: ../core/functions.inc.php:5911
+#: ../core/functions.inc.php:5904
 msgid "A user will enter this password when logging onto a device."
 msgstr "在登录设备时，用户需要输入的密码"
 
@@ -673,12 +673,12 @@ msgstr "对此模块执行操作。通常包括安装维护操作"
 msgid "Add"
 msgstr "添加"
 
-#: ../core/functions.inc.php:6228
+#: ../core/functions.inc.php:6221
 #, php-format
 msgid "Add %s Device"
 msgstr "添加 %s 设备"
 
-#: ../core/functions.inc.php:6230
+#: ../core/functions.inc.php:6223
 #, php-format
 msgid "Add %s Extension"
 msgstr "添加 %s 分机"
@@ -705,18 +705,18 @@ msgstr "添加 DAHDi DID"
 msgid "Add Device"
 msgstr "添加设备"
 
-#: ../core/functions.inc.php:5900 ../core/functions.inc.php:6286
+#: ../core/functions.inc.php:5893 ../core/functions.inc.php:6279
 #: ../core/page.ampusers.php:133 ../core/page.ampusers.php:156
 #: ../core/page.extensions.php:19 ../core/page.extensions.php:101
 #: ../core/views/rnav.php:6
 msgid "Add Extension"
 msgstr "添加分机"
 
-#: ../core/functions.inc.php:6016
+#: ../core/functions.inc.php:6009
 msgid "Add Inbound CID"
 msgstr "添加入局CID"
 
-#: ../core/functions.inc.php:6015
+#: ../core/functions.inc.php:6008
 msgid "Add Inbound DID"
 msgstr "添加入局DID"
 
@@ -756,22 +756,22 @@ msgstr "添加路由"
 msgid "Add Trunk"
 msgstr "添加中继"
 
-#: ../core/functions.inc.php:5902 ../core/functions.inc.php:6256
-#: ../core/functions.inc.php:6288 ../core/page.users.php:48
+#: ../core/functions.inc.php:5895 ../core/functions.inc.php:6249
+#: ../core/functions.inc.php:6281 ../core/page.users.php:48
 #: ../core/views/ampusers/bootnav.php:2 ../core/views/rnav.php:37
 #: ../core/views/rnav.php:51
 msgid "Add User"
 msgstr "添加用户"
 
-#: ../core/functions.inc.php:5879
+#: ../core/functions.inc.php:5872
 msgid "Add User/Extension"
 msgstr "添加用户/分机"
 
-#: ../core/functions.inc.php:6182
+#: ../core/functions.inc.php:6175
 msgid "Add Virtual Extension"
 msgstr "添加虚拟分机"
 
-#: ../core/functions.inc.php:6016
+#: ../core/functions.inc.php:6009
 msgid ""
 "Add a CID for more specific DID + CID routing. A DID must be specified in "
 "the above Add DID box. In addition to standard dial sequences, you can also "
@@ -820,7 +820,7 @@ msgstr "其他设置"
 msgid "Address to bind to. Default is ::"
 msgstr ""
 
-#: ../core/functions.inc.php:6157
+#: ../core/functions.inc.php:6150
 msgid "Adhoc"
 msgstr "自组织"
 
@@ -996,7 +996,7 @@ msgstr ""
 msgid "Alt for Left Logo"
 msgstr ""
 
-#: ../core/functions.inc.php:5774
+#: ../core/functions.inc.php:5767
 #: ../core/functions.inc/drivers/PJSip.class.php:243
 msgid "Always"
 msgstr "总是"
@@ -1072,7 +1072,7 @@ msgstr ""
 "呼叫的应答。这个设置对于并行安装的传真机或保安系统很实用，因为你可能希望他们"
 "有机会占有线路。"
 
-#: ../core/functions.inc.php:6028
+#: ../core/functions.inc.php:6021
 msgid "Any DID"
 msgstr "任何DID"
 
@@ -1124,7 +1124,7 @@ msgstr "确认要设置%s为默认设置？"
 msgid "Asked for raw contents of a file, but was never asked to read a file"
 msgstr ""
 
-#: ../core/functions.inc.php:6012
+#: ../core/functions.inc.php:6005
 msgid "Assigned DID/CID"
 msgstr "分配的 DID/CID"
 
@@ -1143,7 +1143,7 @@ msgstr "Asterisk AGI 路径"
 msgid "Asterisk Builtin mini-HTTP server"
 msgstr ""
 
-#: amp.i18n.php:240 ../core/functions.inc.php:5983
+#: amp.i18n.php:240 ../core/functions.inc.php:5976
 msgid "Asterisk Dial Options"
 msgstr "拨号选择参数"
 
@@ -1432,11 +1432,11 @@ msgid "Browser Stats"
 msgstr ""
 
 #: ../core/functions.inc.php:824 ../core/functions.inc.php:4429
-#: ../core/functions.inc.php:6083
+#: ../core/functions.inc.php:6076
 msgid "Busy"
 msgstr "忙"
 
-#: ../core/functions.inc.php:6082
+#: ../core/functions.inc.php:6075
 msgid "Busy Voicemail if Enabled"
 msgstr ""
 
@@ -1480,7 +1480,7 @@ msgstr "CGI 路径"
 msgid "CID"
 msgstr ""
 
-#: ../core/functions.inc.php:5946
+#: ../core/functions.inc.php:5939
 msgid "CID Num Alias"
 msgstr "CID号码"
 
@@ -1488,8 +1488,8 @@ msgstr "CID号码"
 msgid "CID Options"
 msgstr "CID 选项"
 
-#: ../core/functions.inc.php:6075 ../core/functions.inc.php:6084
-#: ../core/functions.inc.php:6089
+#: ../core/functions.inc.php:6068 ../core/functions.inc.php:6077
+#: ../core/functions.inc.php:6082
 msgid "CID Prefix"
 msgstr "CID前缀"
 
@@ -1514,7 +1514,7 @@ msgstr "呼叫等待"
 msgid "CW Enabled by Default"
 msgstr ""
 
-#: ../core/functions.inc.php:5995
+#: ../core/functions.inc.php:5988
 msgid "Call Forward Ring Time"
 msgstr "呼叫前转振铃时间"
 
@@ -1569,11 +1569,11 @@ msgid ""
 "their priorities are also the same."
 msgstr ""
 
-#: ../core/functions.inc.php:6008
+#: ../core/functions.inc.php:6001
 msgid "Call Screening"
 msgstr ""
 
-#: ../core/functions.inc.php:6008
+#: ../core/functions.inc.php:6001
 msgid ""
 "Call Screening requires external callers to say their name, which will be "
 "played back to the user and allow the user to accept or reject the call.  "
@@ -1586,7 +1586,7 @@ msgid ""
 "the caller's CallerID."
 msgstr ""
 
-#: ../core/functions.inc.php:6007
+#: ../core/functions.inc.php:6000
 msgid "Call Waiting"
 msgstr "呼叫等待"
 
@@ -1598,7 +1598,7 @@ msgstr "已关闭呼叫等待"
 msgid "Call Waiting is enabled"
 msgstr "已关闭呼叫等待"
 
-#: ../core/functions.inc.php:6057
+#: ../core/functions.inc.php:6050
 msgid ""
 "Call recording policy priority relative to other extensions when there is a "
 "conflict between an extension wanting recording and the other not wanting "
@@ -2025,7 +2025,7 @@ msgstr "确认邮件地址"
 msgid "Confirm Password"
 msgstr "确认密码"
 
-#: ../core/functions.inc.php:5929
+#: ../core/functions.inc.php:5922
 msgid "Conflicting Extensions"
 msgstr "分机冲突"
 
@@ -2252,7 +2252,7 @@ msgstr ""
 msgid "Cronmanager encountered %s Errors"
 msgstr "Cronmanager遇到了 %s 个错误"
 
-#: ../core/functions.inc.php:5983
+#: ../core/functions.inc.php:5976
 msgid ""
 "Cryptic Asterisk Dial Options, check to customize for this extension or un-"
 "check to use system defaults set in Advanced Options. These will not apply "
@@ -2351,11 +2351,11 @@ msgstr ""
 msgid "DID"
 msgstr "DID"
 
-#: ../core/functions.inc.php:6024
+#: ../core/functions.inc.php:6017
 msgid "DID / CID"
 msgstr "DID / CID"
 
-#: ../core/functions.inc.php:6014
+#: ../core/functions.inc.php:6007
 msgid "DID Description"
 msgstr "DID描述"
 
@@ -2476,7 +2476,7 @@ msgstr "调试"
 msgid "Debug File"
 msgstr "Debug 文件"
 
-#: ../core/functions.inc.php:5772 ../core/functions.inc.php:5773
+#: ../core/functions.inc.php:5765 ../core/functions.inc.php:5766
 #: ../core/views/did/advanced_form.php:9 ../core/views/trunks/pjsip.php:127
 msgid "Default"
 msgstr "默认"
@@ -2485,7 +2485,7 @@ msgstr "默认"
 msgid "Default Asterisk Manager Password Used"
 msgstr ""
 
-#: ../core/functions.inc.php:6264
+#: ../core/functions.inc.php:6257
 #: ../core/functions.inc/drivers/Sip.class.php:331
 msgid "Default User"
 msgstr "默认用户"
@@ -2656,7 +2656,7 @@ msgstr ""
 msgid "Delete"
 msgstr "删除"
 
-#: ../core/functions.inc.php:6208
+#: ../core/functions.inc.php:6201
 #, php-format
 msgid "Delete Device %s"
 msgstr "删除设备 %s"
@@ -2690,7 +2690,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:185
 #: ../core/Core.class.php:2546 ../core/Core.class.php:2547
 #: ../core/Core.class.php:2571 ../core/Core.class.php:2572
-#: ../core/functions.inc.php:6262 ../core/page.devices.php:64
+#: ../core/functions.inc.php:6255 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:37
 #: ../core/views/did/advanced_form.php:87 ../core/views/did/basic_form.php:20
@@ -2790,7 +2790,7 @@ msgstr "开发人员模式"
 msgid "Developer and Customization"
 msgstr "开发人员和自定义"
 
-#: ../core/Core.class.php:2897 ../core/functions.inc.php:6205
+#: ../core/Core.class.php:2897 ../core/functions.inc.php:6198
 #: ../core/page.devices.php:63 ../core/page.devices.php:84
 #: ../core/views/rnav.php:72
 msgid "Device"
@@ -2809,11 +2809,11 @@ msgstr ""
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
-#: ../core/functions.inc.php:6260
+#: ../core/functions.inc.php:6253
 msgid "Device ID"
 msgstr "设备ID"
 
-#: ../core/functions.inc.php:6274
+#: ../core/functions.inc.php:6267
 #: ../core/functions.inc/drivers/Sip.class.php:274
 msgid "Device Options"
 msgstr "设备选项"
@@ -2830,7 +2830,7 @@ msgstr ""
 msgid "Device Technology"
 msgstr ""
 
-#: ../core/functions.inc.php:6263 ../core/page.devices.php:65
+#: ../core/functions.inc.php:6256 ../core/page.devices.php:65
 #: ../core/page.devices.php:86
 msgid "Device Type"
 msgstr "设备类型"
@@ -2847,7 +2847,7 @@ msgstr ""
 msgid "Devices"
 msgstr "设备"
 
-#: ../core/functions.inc.php:6263
+#: ../core/functions.inc.php:6256
 msgid ""
 "Devices can be fixed or adhoc. Fixed devices are always associated to the "
 "same extension/user. Adhoc devices can be logged into and logged out of by "
@@ -2920,8 +2920,8 @@ msgid "Directory Layout"
 msgstr "目录布局"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:360
-#: ../core/functions.inc.php:5748 ../core/functions.inc.php:5754
-#: ../core/functions.inc.php:5757 ../core/functions.inc.php:5761
+#: ../core/functions.inc.php:5741 ../core/functions.inc.php:5747
+#: ../core/functions.inc.php:5750 ../core/functions.inc.php:5754
 msgid "Disable"
 msgstr "禁用"
 
@@ -2988,7 +2988,8 @@ msgid "Disabling %s"
 msgstr ""
 
 #: ../core/Console/Trunks.class.php:36 ../core/Console/Trunks.class.php:69
-msgid "Disabling Trunk "
+#, php-format
+msgid "Disabling Trunk %s"
 msgstr ""
 
 #: amp.i18n.php:292
@@ -3034,7 +3035,7 @@ msgstr "显示用户名称"
 msgid "Display Monitor Trunk Failures Option"
 msgstr ""
 
-#: ../core/functions.inc.php:5944 ../core/views/quickCreate.php:69
+#: ../core/functions.inc.php:5937 ../core/views/quickCreate.php:69
 msgid "Display Name"
 msgstr "显示名"
 
@@ -3084,7 +3085,7 @@ msgstr ""
 msgid "Domain to use in From header for requests to this trunk"
 msgstr ""
 
-#: ../core/functions.inc.php:5739
+#: ../core/functions.inc.php:5732
 msgid "Don't Care"
 msgstr ""
 
@@ -3290,16 +3291,16 @@ msgstr "编辑 %s %s （%s）"
 msgid "Edit Administrator"
 msgstr "编辑管理员"
 
-#: ../core/functions.inc.php:6214
+#: ../core/functions.inc.php:6207
 #, php-format
 msgid "Edit Default User: %s"
 msgstr "编辑默认用户：%s"
 
-#: ../core/functions.inc.php:5900 ../core/functions.inc.php:6286
+#: ../core/functions.inc.php:5893 ../core/functions.inc.php:6279
 msgid "Edit Extension"
 msgstr "编辑分机"
 
-#: ../core/functions.inc.php:6214
+#: ../core/functions.inc.php:6207
 #, php-format
 msgid "Edit Fixed User: %s"
 msgstr "编辑固定用户：%s"
@@ -3308,12 +3309,12 @@ msgstr "编辑固定用户：%s"
 msgid "Edit Route"
 msgstr "编辑线路"
 
-#: ../core/functions.inc.php:5902 ../core/functions.inc.php:6256
-#: ../core/functions.inc.php:6288
+#: ../core/functions.inc.php:5895 ../core/functions.inc.php:6249
+#: ../core/functions.inc.php:6281
 msgid "Edit User"
 msgstr "编辑用户"
 
-#: ../core/functions.inc.php:5963
+#: ../core/functions.inc.php:5956
 msgid "Edit:"
 msgstr "编辑："
 
@@ -3338,7 +3339,7 @@ msgstr "邮箱地址错误"
 msgid "Emergency"
 msgstr "紧急情况"
 
-#: ../core/functions.inc.php:6265 ../core/functions.inc.php:6268
+#: ../core/functions.inc.php:6258 ../core/functions.inc.php:6261
 msgid "Emergency CID"
 msgstr "紧急CID"
 
@@ -3358,8 +3359,8 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:267
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:271
 #: amp_conf/htdocs/admin/views/module_admin/main.php:290
-#: ../core/functions.inc.php:5749 ../core/functions.inc.php:5753
-#: ../core/functions.inc.php:5758
+#: ../core/functions.inc.php:5742 ../core/functions.inc.php:5746
+#: ../core/functions.inc.php:5751
 msgid "Enable"
 msgstr "启用"
 
@@ -3429,7 +3430,7 @@ msgstr ""
 msgid "Enable module[s], accepts argument module[s]"
 msgstr ""
 
-#: ../core/functions.inc.php:6056
+#: ../core/functions.inc.php:6049
 msgid ""
 "Enable or disable the ability to do on demand (one-touch) recording. The "
 "overall calling policy rules still apply and if calls are already being "
@@ -3467,6 +3468,11 @@ msgstr ""
 msgid "Enabled"
 msgstr "启用"
 
+#: ../core/Console/Trunks.class.php:71 ../core/Console/Trunks.class.php:79
+#, php-format
+msgid "Enabled Trunk %s Run fwconsole reload"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:802
 #: amp_conf/htdocs/admin/views/module_admin/main.php:111
 msgid "Enabled and up to date"
@@ -3503,15 +3509,20 @@ msgstr ""
 msgid "Enabling Missing Dependency of: %s %s"
 msgstr ""
 
-#: ../core/functions.inc.php:6010
+#: ../core/functions.inc.php:6003
 msgid ""
 "Enabling Pinless Dialing will allow this extension to bypass any pin codes "
 "normally required on outbound calls"
 msgstr "启用拨号绑定允许此分机忽略此出局线路上要求的任何PIN码"
 
-#: ../core/Console/Trunks.class.php:42 ../core/Console/Trunks.class.php:73
+#: ../core/Console/Trunks.class.php:77
 msgid "Enabling Trunk "
 msgstr "开启中继"
+
+#: ../core/Console/Trunks.class.php:42
+#, php-format
+msgid "Enabling Trunk %s"
+msgstr ""
 
 #: amp.i18n.php:780
 msgid ""
@@ -3779,7 +3790,7 @@ msgid "Extended"
 msgstr "拓展的"
 
 #: ../core/Core.class.php:2538 ../core/Core.class.php:2539
-#: ../core/Core.class.php:2885 ../core/functions.inc.php:5850
+#: ../core/Core.class.php:2885 ../core/functions.inc.php:5843
 #: ../core/page.did.php:91 ../core/page.extensions.php:28
 #: ../core/page.extensions.php:117 ../core/page.extensions.php:143
 #: ../core/views/rnav.php:18
@@ -3798,7 +3809,7 @@ msgstr "分机号码"
 msgid "Extension Numbering Duplicate Conflict Detected"
 msgstr ""
 
-#: ../core/functions.inc.php:5977 ../core/functions.inc.php:6267
+#: ../core/functions.inc.php:5970 ../core/functions.inc.php:6260
 msgid "Extension Options"
 msgstr "分机选项"
 
@@ -3814,7 +3825,7 @@ msgstr ""
 msgid "Extension is not numeric."
 msgstr ""
 
-#: ../core/functions.inc.php:5939
+#: ../core/functions.inc.php:5932
 msgid "Extension number conflict, please choose another."
 msgstr "分机号码冲突，请选择其他号码"
 
@@ -3898,7 +3909,7 @@ msgstr ""
 msgid "Failed to get remote file, mirror site may be down: %s"
 msgstr ""
 
-#: ../core/functions.inc.php:5708
+#: ../core/functions.inc.php:5701
 #, php-format
 msgid ""
 "Failed to open %s for writing, aborting attempt to write the country "
@@ -3942,7 +3953,7 @@ msgstr ""
 msgid "Failed to write file to disk"
 msgstr ""
 
-#: ../core/functions.inc.php:5709
+#: ../core/functions.inc.php:5702
 msgid "Failed to write indications.conf"
 msgstr "无法写入indications.conf"
 
@@ -4017,11 +4028,11 @@ msgstr "清理缓存"
 msgid "First before %s"
 msgstr ""
 
-#: ../core/functions.inc.php:6156
+#: ../core/functions.inc.php:6149
 msgid "Fixed"
 msgstr "固定的"
 
-#: ../core/functions.inc.php:6264
+#: ../core/functions.inc.php:6257
 msgid ""
 "Fixed devices will always mapped to this user.  Adhoc devices will be mapped "
 "to this user by default.<br><br>If selecting 'New User', a new User "
@@ -4066,7 +4077,7 @@ msgstr ""
 msgid "Forbidden Retry Interval"
 msgstr ""
 
-#: ../core/functions.inc.php:5737
+#: ../core/functions.inc.php:5730
 msgid "Force"
 msgstr ""
 
@@ -4451,7 +4462,7 @@ msgid ""
 "trunk context within asterisk"
 msgstr ""
 
-#: ../core/functions.inc.php:6260
+#: ../core/functions.inc.php:6253
 msgid ""
 "Give your device a unique integer ID.  The device will use this ID to "
 "authenticate to the system."
@@ -4793,7 +4804,7 @@ msgid ""
 "Authentication"
 msgstr ""
 
-#: ../core/functions.inc.php:5947
+#: ../core/functions.inc.php:5940
 msgid ""
 "If you want to support direct sip dialing of users internally or through "
 "anonymous sip calls, you can supply a friendly name that can be used in "
@@ -4860,11 +4871,11 @@ msgstr ""
 msgid "Inbound"
 msgstr ""
 
-#: ../core/functions.inc.php:6052
+#: ../core/functions.inc.php:6045
 msgid "Inbound External Calls"
 msgstr "对呼入录音"
 
-#: ../core/functions.inc.php:6054
+#: ../core/functions.inc.php:6047
 msgid "Inbound Internal Calls"
 msgstr "对分机呼入到分机录音"
 
@@ -5358,7 +5369,7 @@ msgstr ""
 msgid "Maximum number of Endpoints that can associate with this Device"
 msgstr ""
 
-#: ../core/functions.inc.php:6005
+#: ../core/functions.inc.php:5998
 msgid ""
 "Maximum number of outbound simultaneous calls that an extension can make. "
 "This is also very useful as a Security Protection against a system that has "
@@ -5807,7 +5818,7 @@ msgstr ""
 msgid "Need to be instantiated with a FreePBX Object"
 msgstr ""
 
-#: ../core/functions.inc.php:5741
+#: ../core/functions.inc.php:5734
 msgid "Never"
 msgstr "从不"
 
@@ -5826,7 +5837,7 @@ msgstr "比在线的版本（%s）还新"
 msgid "Nightly"
 msgstr "晚上"
 
-#: ../core/functions.inc.php:5740
+#: ../core/functions.inc.php:5733
 #: ../core/functions.inc/drivers/Dahdi.class.php:108
 #: ../core/functions.inc/drivers/Dahdi.class.php:119
 #: ../core/functions.inc/drivers/Dahdi.class.php:128
@@ -5869,7 +5880,7 @@ msgstr ""
 msgid "No Action"
 msgstr "无操作"
 
-#: ../core/functions.inc.php:6074
+#: ../core/functions.inc.php:6067
 msgid "No Answer"
 msgstr "无应答"
 
@@ -5890,7 +5901,7 @@ msgstr ""
 msgid "No Description Provided"
 msgstr "没有提供描述"
 
-#: ../core/functions.inc.php:5775
+#: ../core/functions.inc.php:5768
 msgid "No Limit"
 msgstr "无限制"
 
@@ -5953,7 +5964,7 @@ msgid "NoOp Traces in Dialplan"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:207
-#: ../core/functions.inc.php:5767
+#: ../core/functions.inc.php:5760
 #: ../core/functions.inc/drivers/PJSip.class.php:233
 #: ../core/views/did/advanced_form.php:215
 #: ../core/views/did/basic_form.php:120 ../core/views/trunks/pjsip.php:91
@@ -6025,7 +6036,7 @@ msgstr "未安装（在本地已可用）"
 msgid "Not Installed (Locally available: %s)"
 msgstr ""
 
-#: ../core/functions.inc.php:6088
+#: ../core/functions.inc.php:6081
 msgid "Not Reachable"
 msgstr "不可达"
 
@@ -6058,7 +6069,7 @@ msgstr ""
 msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr ""
 
-#: ../core/functions.inc.php:5995
+#: ../core/functions.inc.php:5988
 msgid ""
 "Number of seconds to ring during a Call Forward, Call Forward Busy or Call "
 "Forward Unavailable call prior to continuing to voicemail or specified "
@@ -6067,7 +6078,7 @@ msgid ""
 "their is not destination specified, it will be forced into Always mode"
 msgstr ""
 
-#: ../core/functions.inc.php:5985
+#: ../core/functions.inc.php:5978
 msgid ""
 "Number of seconds to ring prior to going to voicemail. Default will use the "
 "value set in Advanced Settings. If no voicemail is configured this will be "
@@ -6090,7 +6101,7 @@ msgstr ""
 msgid "Occupied Lines CW Busy"
 msgstr ""
 
-#: ../core/functions.inc.php:6056
+#: ../core/functions.inc.php:6049
 msgid "On Demand Recording"
 msgstr "按需录音"
 
@@ -6174,16 +6185,16 @@ msgstr "接线员面板"
 msgid "Optional Additional CSS Stylesheet"
 msgstr ""
 
-#: ../core/functions.inc.php:6084
+#: ../core/functions.inc.php:6077
 msgid "Optional CID Prefix to add before sending to this busy destination."
 msgstr ""
 
-#: ../core/functions.inc.php:6075
+#: ../core/functions.inc.php:6068
 msgid ""
 "Optional CID Prefix to add before sending to this no answer destination."
 msgstr ""
 
-#: ../core/functions.inc.php:6089
+#: ../core/functions.inc.php:6082
 msgid ""
 "Optional CID Prefix to add before sending to this not reachable destination."
 msgstr ""
@@ -6192,7 +6203,7 @@ msgstr ""
 msgid "Optional Destination on Congestion"
 msgstr "可选拥塞目的地"
 
-#: ../core/functions.inc.php:6059
+#: ../core/functions.inc.php:6052
 msgid "Optional Destinations"
 msgstr "可选目的地"
 
@@ -6214,24 +6225,24 @@ msgid ""
 "module specific ones are loaded, relative to admin."
 msgstr ""
 
-#: ../core/functions.inc.php:6069
+#: ../core/functions.inc.php:6062
 msgid ""
 "Optional destination call is routed to when the call is not answered on an "
 "otherwise idle phone. If the phone is in use and the call is simply ignored, "
 "then the busy destination will be used."
 msgstr ""
 
-#: ../core/functions.inc.php:6071
+#: ../core/functions.inc.php:6064
 msgid "Optional destination call is routed to when the call is not answered."
 msgstr ""
 
-#: ../core/functions.inc.php:6080
+#: ../core/functions.inc.php:6073
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user."
 msgstr ""
 
-#: ../core/functions.inc.php:6078
+#: ../core/functions.inc.php:6071
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user. This destination is also used on an unanswered "
@@ -6239,7 +6250,7 @@ msgid ""
 "call."
 msgstr ""
 
-#: ../core/functions.inc.php:6086
+#: ../core/functions.inc.php:6079
 msgid ""
 "Optional destination the call is routed to when the phone is offline, such "
 "as a softphone currently off or a phone unplugged."
@@ -6316,7 +6327,7 @@ msgstr ""
 msgid "Outbound"
 msgstr "呼出"
 
-#: ../core/functions.inc.php:5975 ../core/views/routing/grid.php:71
+#: ../core/functions.inc.php:5968 ../core/views/routing/grid.php:71
 msgid "Outbound CID"
 msgstr "出局CID"
 
@@ -6328,7 +6339,7 @@ msgstr "出局呼叫ID"
 msgid "Outbound CallerID"
 msgstr "呼出号码"
 
-#: ../core/functions.inc.php:6005
+#: ../core/functions.inc.php:5998
 msgid "Outbound Concurrency Limit"
 msgstr "呼出路由呼叫并发限制"
 
@@ -6336,11 +6347,11 @@ msgstr "呼出路由呼叫并发限制"
 msgid "Outbound Dial Prefix"
 msgstr "出局拨号前缀"
 
-#: ../core/functions.inc.php:6053
+#: ../core/functions.inc.php:6046
 msgid "Outbound External Calls"
 msgstr "对呼出录音"
 
-#: ../core/functions.inc.php:6055
+#: ../core/functions.inc.php:6048
 msgid "Outbound Internal Calls"
 msgstr "对分机呼出到分机录音"
 
@@ -6353,7 +6364,7 @@ msgstr ""
 msgid "Outbound Route:"
 msgstr ""
 
-#: ../core/functions.inc.php:5564
+#: ../core/functions.inc.php:5557
 #, php-format
 msgid "Outbound Route: %s"
 msgstr "呼出路由: %s"
@@ -6374,7 +6385,7 @@ msgstr ""
 msgid "Output debug messages to the console (be super chatty)"
 msgstr ""
 
-#: ../core/functions.inc.php:5750 ../core/functions.inc.php:5983
+#: ../core/functions.inc.php:5743 ../core/functions.inc.php:5976
 #: ../core/views/trunks/trunk_header.php:375
 msgid "Override"
 msgstr "覆盖"
@@ -6405,7 +6416,7 @@ msgid ""
 "time"
 msgstr ""
 
-#: ../core/functions.inc.php:5986
+#: ../core/functions.inc.php:5979
 msgid ""
 "Override the ringer volume. Note: This is only valid for Sangoma phones at "
 "this time"
@@ -6415,7 +6426,7 @@ msgstr ""
 msgid "Overrides Extension CID"
 msgstr ""
 
-#: ../core/functions.inc.php:5975 ../core/views/quickCreate.php:93
+#: ../core/functions.inc.php:5968 ../core/views/quickCreate.php:93
 msgid ""
 "Overrides the CallerID when dialing out a trunk. Any setting here will "
 "override the common outbound CallerID set in the Trunks admin."
@@ -6673,7 +6684,7 @@ msgid ""
 "have to be in a group to be able to pickup calls from that group."
 msgstr ""
 
-#: ../core/functions.inc.php:6010
+#: ../core/functions.inc.php:6003
 msgid "Pinless Dialing"
 msgstr "拨号绑定"
 
@@ -6705,13 +6716,13 @@ msgstr "请确认以下操作："
 msgid "Please correct the following errors:"
 msgstr ""
 
-#: ../core/functions.inc.php:6278
+#: ../core/functions.inc.php:6271
 #: ../core/functions.inc/drivers/Iax2.class.php:102
 #: ../core/functions.inc/drivers/Sip.class.php:269
 msgid "Please enter a Secret for this device"
 msgstr "请为此设备设置密码"
 
-#: ../core/functions.inc.php:6246
+#: ../core/functions.inc.php:6239
 msgid "Please enter a device id."
 msgstr "请输入一个设备id。"
 
@@ -6719,46 +6730,46 @@ msgstr "请输入一个设备id。"
 msgid "Please enter a username"
 msgstr ""
 
-#: ../core/functions.inc.php:5887
+#: ../core/functions.inc.php:5880
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
 msgstr "请输入有效的主叫ID（CID）号码（必须是数字）"
 
-#: ../core/functions.inc.php:5893
+#: ../core/functions.inc.php:5886
 msgid ""
 "Please enter a valid CallerID Number or leave it blank for your Assigned DID/"
 "CID pair"
 msgstr ""
 
-#: ../core/functions.inc.php:6247
+#: ../core/functions.inc.php:6240
 msgid "Please enter a valid Description for this device"
 msgstr "请为此设备输入有效的描述"
 
-#: ../core/functions.inc.php:5889
+#: ../core/functions.inc.php:5882
 msgid "Please enter a valid Display Name"
 msgstr "请输入有效的显示名"
 
-#: ../core/functions.inc.php:6248
+#: ../core/functions.inc.php:6241
 msgid "Please enter a valid Emergency CID"
 msgstr "请输入一个有效的紧急CID"
 
-#: ../core/functions.inc.php:5890
+#: ../core/functions.inc.php:5883
 msgid "Please enter a valid Outbound CID"
 msgstr "请输入有效的出局主叫ID（CID）"
 
-#: ../core/functions.inc.php:5886 ../core/functions.inc.php:6249
+#: ../core/functions.inc.php:5879 ../core/functions.inc.php:6242
 msgid "Please enter a valid extension number."
 msgstr "请输入有效的分机号码"
 
-#: ../core/functions.inc.php:5891
+#: ../core/functions.inc.php:5884
 msgid "Please enter a valid pause time in seconds, using digits only"
 msgstr "请输入有效的暂停时间，只能输入数字，单位为秒"
 
-#: ../core/functions.inc.php:6276
+#: ../core/functions.inc.php:6269
 #: ../core/functions.inc/drivers/Dahdi.class.php:99
 msgid "Please enter the channel for this device"
 msgstr "请输入此设备的频道"
 
-#: ../core/functions.inc.php:5888
+#: ../core/functions.inc.php:5881
 msgid "Please enter valid User Password using numbers only"
 msgstr "请输入有效的只包含数字的密码"
 
@@ -7019,27 +7030,27 @@ msgstr ""
 msgid "Receive"
 msgstr ""
 
-#: ../core/functions.inc.php:6057
+#: ../core/functions.inc.php:6050
 msgid "Record Priority Policy"
 msgstr "录音优先级策略"
 
-#: ../core/functions.inc.php:6044
+#: ../core/functions.inc.php:6037
 msgid "Recording Options"
 msgstr "录音选项"
 
-#: ../core/functions.inc.php:6055
+#: ../core/functions.inc.php:6048
 msgid "Recording of calls made to other extensions on the system."
 msgstr ""
 
-#: ../core/functions.inc.php:6054
+#: ../core/functions.inc.php:6047
 msgid "Recording of calls received from other extensions on the system."
 msgstr ""
 
-#: ../core/functions.inc.php:6052
+#: ../core/functions.inc.php:6045
 msgid "Recording of inbound calls from external sources."
 msgstr ""
 
-#: ../core/functions.inc.php:6053
+#: ../core/functions.inc.php:6046
 msgid "Recording of outbound calls to external sources."
 msgstr ""
 
@@ -7273,7 +7284,7 @@ msgstr ""
 msgid "Rewrite Contact"
 msgstr ""
 
-#: ../core/functions.inc.php:5985
+#: ../core/functions.inc.php:5978
 msgid "Ring Time"
 msgstr "振铃时间"
 
@@ -7281,7 +7292,7 @@ msgstr "振铃时间"
 msgid "Ring Tone"
 msgstr ""
 
-#: ../core/functions.inc.php:5986 ../core/views/did/advanced_form.php:210
+#: ../core/functions.inc.php:5979 ../core/views/did/advanced_form.php:210
 #: ../core/views/did/basic_form.php:115
 msgid "Ringer Volume Override"
 msgstr ""
@@ -7356,7 +7367,7 @@ msgstr "安全提示："
 msgid "SIP (%s)"
 msgstr ""
 
-#: ../core/functions.inc.php:5947
+#: ../core/functions.inc.php:5940
 msgid "SIP Alias"
 msgstr "SIP名称"
 
@@ -7455,11 +7466,11 @@ msgstr ""
 msgid "Save"
 msgstr "保存"
 
-#: ../core/functions.inc.php:5763
+#: ../core/functions.inc.php:5756
 msgid "Screen Caller: Memory"
 msgstr "来电显示：启用记忆功能"
 
-#: ../core/functions.inc.php:5762
+#: ../core/functions.inc.php:5755
 msgid "Screen Caller: No Memory"
 msgstr "来电显示：禁用记忆功能"
 
@@ -7597,7 +7608,7 @@ msgstr ""
 msgid "Set the Repos. -R Commercial -R Contributed"
 msgstr ""
 
-#: ../core/functions.inc.php:6007
+#: ../core/functions.inc.php:6000
 msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr "设置此用户的分机的初始/当前的呼叫等待状态"
 
@@ -8085,7 +8096,7 @@ msgid ""
 "value if set wrong. The chan_pjsip channel driver is considered "
 msgstr ""
 
-#: ../core/functions.inc.php:5946
+#: ../core/functions.inc.php:5939
 msgid ""
 "The CID Number to use for internal calls, if different from the extension "
 "number. This is used to masquerade as a different user. A common example is "
@@ -8104,13 +8115,13 @@ msgid ""
 "installed and enabled."
 msgstr ""
 
-#: ../core/functions.inc.php:5944 ../core/views/quickCreate.php:77
+#: ../core/functions.inc.php:5937 ../core/views/quickCreate.php:77
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
 msgstr ""
 
-#: ../core/functions.inc.php:6262
+#: ../core/functions.inc.php:6255
 msgid ""
 "The CallerID name for this device will be set to this description until it "
 "is logged into."
@@ -8260,7 +8271,7 @@ msgstr ""
 "拨打号码将对比 prefix+匹配模式。在这个匹配中，匹配模式的部分已拨号码将发送到"
 "中继。"
 
-#: ../core/functions.inc.php:5908 ../core/views/quickCreate.php:61
+#: ../core/functions.inc.php:5901 ../core/views/quickCreate.php:61
 msgid "The extension number to dial to reach this user."
 msgstr "这个用户的分机号码"
 
@@ -8676,7 +8687,7 @@ msgid ""
 "are optional."
 msgstr ""
 
-#: ../core/functions.inc.php:6265 ../core/functions.inc.php:6268
+#: ../core/functions.inc.php:6258 ../core/functions.inc.php:6261
 msgid ""
 "This CallerID will always be set when dialing out an Outbound Route flagged "
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
@@ -9089,6 +9100,11 @@ msgstr ""
 msgid "Unable to download GPG key %s, or find %s or %s"
 msgstr ""
 
+#: ../core/Console/Trunks.class.php:73 ../core/Console/Trunks.class.php:81
+#, php-format
+msgid "Unable to enable Trunk %s. This trunk type may not support this"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/media/Media/Media.php:297
 #, php-format
 msgid "Unable to find an intermediary converter for %s"
@@ -9185,7 +9201,7 @@ msgstr ""
 msgid "Unable to work with GPG file, message was: %s"
 msgstr ""
 
-#: ../core/functions.inc.php:6073 ../core/functions.inc.php:6087
+#: ../core/functions.inc.php:6066 ../core/functions.inc.php:6080
 msgid "Unavail Voicemail if Enabled"
 msgstr "无语音邮件"
 
@@ -9477,7 +9493,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:2909 ../core/functions.inc.php:5864
+#: ../core/Core.class.php:2909 ../core/functions.inc.php:5857
 #: ../core/page.devices.php:66 ../core/page.devices.php:87
 #: ../core/page.did.php:88 ../core/page.users.php:54 ../core/views/rnav.php:42
 msgid "User"
@@ -9495,11 +9511,11 @@ msgstr "由于用户上下文为空，用户详细信息将不会被保存！"
 msgid "User Control Panel"
 msgstr "用户控制界面"
 
-#: ../core/functions.inc.php:5952
+#: ../core/functions.inc.php:5945
 msgid "User Devices"
 msgstr "用户设备"
 
-#: ../core/functions.inc.php:5908
+#: ../core/functions.inc.php:5901
 msgid "User Extension"
 msgstr "用户分机号"
 
@@ -9524,7 +9540,7 @@ msgstr "用户登录"
 msgid "User Panel"
 msgstr ""
 
-#: ../core/functions.inc.php:5911
+#: ../core/functions.inc.php:5904
 msgid "User Password"
 msgstr "用户密码"
 
@@ -9698,7 +9714,7 @@ msgstr "等待停止Asterisk"
 msgid "Warning"
 msgstr "警告"
 
-#: ../core/functions.inc.php:6105
+#: ../core/functions.inc.php:6098
 msgid "Warning! Extension"
 msgstr "警告！你的帐号无权使用此分机号："
 
@@ -9969,7 +9985,7 @@ msgid ""
 "See DAHDi documentation for details."
 msgstr ""
 
-#: ../core/functions.inc.php:5738
+#: ../core/functions.inc.php:5731
 #: ../core/functions.inc/drivers/Dahdi.class.php:107
 #: ../core/functions.inc/drivers/Dahdi.class.php:118
 #: ../core/functions.inc/drivers/Dahdi.class.php:127
@@ -10150,7 +10166,7 @@ msgid ""
 "Chrome Extension or you are not using Chrome"
 msgstr ""
 
-#: ../core/functions.inc.php:5892
+#: ../core/functions.inc.php:5885
 msgid ""
 "You have entered a non-standard dialpattern for your DID. You can only enter "
 "standard dialpatterns. You must use the inbound routing form to enter non-"
@@ -10168,7 +10184,7 @@ msgstr ""
 "你在php.ini、http或.htaccess文件中打开了魔术引用的开关（magic_quotes_gpc），"
 "这会在某些模块中引起错误。FreePBX的正确运行要求关闭此项设置"
 
-#: ../core/functions.inc.php:6277
+#: ../core/functions.inc.php:6270
 #: ../core/functions.inc/drivers/Iax2.class.php:101
 #: ../core/functions.inc/drivers/Sip.class.php:268
 msgid ""
@@ -10544,7 +10560,7 @@ msgstr ""
 msgid "default"
 msgstr "默认"
 
-#: ../core/functions.inc.php:5829 ../core/functions.inc.php:6194
+#: ../core/functions.inc.php:5822 ../core/functions.inc.php:6187
 #: ../core/page.did.php:8
 msgid "deleted"
 msgstr "已删除"
@@ -10750,7 +10766,7 @@ msgstr ""
 msgid "is disabled"
 msgstr "被关闭"
 
-#: ../core/functions.inc.php:6105
+#: ../core/functions.inc.php:6098
 msgid "is not allowed for your account"
 msgstr " 。"
 
@@ -10800,11 +10816,11 @@ msgstr "本地模块管理"
 msgid "logger file removed, core upgrade will provide new file"
 msgstr ""
 
-#: ../core/functions.inc.php:5911 ../core/functions.inc.php:6263
+#: ../core/functions.inc.php:5904 ../core/functions.inc.php:6256
 msgid "logs into a device."
 msgstr "登录设备。"
 
-#: ../core/functions.inc.php:5911 ../core/functions.inc.php:6263
+#: ../core/functions.inc.php:5904 ../core/functions.inc.php:6256
 msgid "logs out of a device."
 msgstr "从设备注销"
 
@@ -10913,7 +10929,7 @@ msgstr ""
 msgid "no logger file to remove"
 msgstr ""
 
-#: ../core/functions.inc.php:6160 ../core/views/routing/moh.php:8
+#: ../core/functions.inc.php:6153 ../core/views/routing/moh.php:8
 msgid "none"
 msgstr "无"
 
