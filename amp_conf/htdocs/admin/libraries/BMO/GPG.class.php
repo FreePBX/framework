@@ -97,7 +97,7 @@ class GPG {
 	 */
 	public function verifyFile($filename, $retry = true) {
 		if (!file_exists($filename)) {
-			throw new Exception(sprintf(_("Unable to open file %s"),$filename));
+			throw new \Exception(sprintf(_("Unable to open file %s"),$filename));
 		}
 
 		$out = $this->runGPG("--verify ".escapeshellarg($filename));
@@ -156,11 +156,11 @@ class GPG {
 	 */
 	public function verifyModule($modulename = null) {
 		if (!$modulename) {
-			throw new Exception(_("No module to check"));
+			throw new \Exception(_("No module to check"));
 		}
 
 		if (strpos($modulename, "/") !== false) {
-			throw new Exception(_("Path given to verifyModule. Only provide a module name"));
+			throw new \Exception(_("Path given to verifyModule. Only provide a module name"));
 		}
 
 		// Get the module.sig file.
@@ -277,7 +277,7 @@ class GPG {
 	 * getKey function to download and install a specified key
 	 *
 	 * If no key is provided, install the FreePBX key.
-	 * Throws an exception if unable to find the key requested
+	 * Throws an \Exception if unable to find the key requested
 	 * @param string $key The key to get?
 	 */
 	public function getKey($key = null) {
@@ -384,7 +384,7 @@ class GPG {
 	 *
 	 * This saves the file, minus the .gpg extension, to the same directory
 	 * the .gpg file is in. It returns the filename of the output file if
-	 * valid, throws an exception if unable to validate
+	 * valid, throws an \Exception if unable to validate
 	 * @param string $filename The filename to check
 	 */
 	public function getFile($filename) {
