@@ -93,7 +93,7 @@ class Doctrine extends Command {
 		if ($table->hasPrimaryKey()) {
 			$pkCols = $table->getPrimaryKey()->getColumns();
 			foreach($pkCols as $c) {
-				$export[$c]['primaryKey'] = true;
+				$export[$c]['primarykey'] = true;
 			}
 		}
 
@@ -152,8 +152,8 @@ class Doctrine extends Command {
 						$c->addAttribute('notnull', $data['notnull'] ? 'true' : 'false');
 					}
 
-					if(isset($data['primaryKey'])) {
-						$c->addAttribute('primaryKey', $data['primaryKey'] ? 'true' : 'false');
+					if(isset($data['primarykey'])) {
+						$c->addAttribute('primarykey', $data['primarykey'] ? 'true' : 'false');
 					}
 
 					if(isset($data['autoincrement'])) {

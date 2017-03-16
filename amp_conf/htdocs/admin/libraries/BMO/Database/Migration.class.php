@@ -27,20 +27,20 @@ class Migration {
 		$synchronizer = new SingleDatabaseSynchronizer($this->conn);
 		$schema = new Schema();
 		$table = $schema->createTable($this->table);
-		$primaryKey = array();
+		$primaryKeys = array();
 		foreach($columns as $name => $options) {
 			$type = $options['type'];
 			unset($options['type']);
-			if(isset($options['primaryKey'])) {
-				if($options['primaryKey']) {
-					$primaryKey[] = $name;
+			$pk = isset($options['primaryKey']) ? $options['primaryKey'] : (isset($options['primarykey']) ? $options['primarykey'] : null);
+			if(!is_null($pk)) {
+				if($pk) {
+					$primaryKeys[] = $name;
 				}
-				unset($options['primaryKey']);
 			}
 			$table->addColumn($name, $type, $options);
 		}
-		if(!empty($primaryKey)) {
-			$table->setPrimaryKey($primaryKey);
+		if(!empty($primaryKeys)) {
+			$table->setPrimaryKey($primaryKeys);
 		}
 		foreach($indexes as $name => $data) {
 			$type = $data['type'];
