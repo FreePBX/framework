@@ -86,6 +86,20 @@ class AsteriskShell extends \Media\Driver\Driver {
 		$formats["in"]["wav"] = "wav";
 		$formats["in"]["WAV"] = "WAV";
 
+		if(isset($formats['out']['sln48']) && isset($formats['in']['sln48'])) {
+			exec($loc." -rx 'core show translation paths slin 48000'",$lines,$ret);
+			foreach($lines as $line) {
+				$line = trim($line);
+				if(preg_match('/slin:48000\s+To\s+slin:8000\s+:\s+(.*)/i',$line,$matches)) {
+					if(strtolower($matches[1]) == "no translation path") {
+						unset($formats['out']['sln48']);
+						unset($formats['in']['sln48']);
+					}
+					break;
+				}
+			}
+		}
+
 		self::$supported = $formats;
 		return self::$supported;
 	}

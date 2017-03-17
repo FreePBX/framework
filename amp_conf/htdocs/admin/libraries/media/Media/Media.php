@@ -314,7 +314,7 @@ class Media {
 		$nt = \notifications::create();
 		if(version_compare_freepbx($ver,"13.0","ge") && !\Media\Driver\Drivers\AsteriskShell::isCodecSupported("sln48","in")) {
 			//something is wacky here
-			$nt->add_warning("FRAMEWORK", "UNSUPPORTED_SLN48", _("The file format sln48 is not supported on your system"), _("The file format sln48 is not supported by Asterisk when it should be. Audio conversion quality will be limited to 16k instead of 48k"));
+			$nt->add_warning("FRAMEWORK", "UNSUPPORTED_SLN48", _("The file format sln48 is not supported on your system"), _("The file format sln48 is not supported by Asterisk when it should be. Audio conversion quality will be limited to 16k instead of 48k. This is probably the result of the missing Asterisk resample package"));
 		} else {
 			$nt->delete("FRAMEWORK", "UNSUPPORTED_SLN48");
 		}
