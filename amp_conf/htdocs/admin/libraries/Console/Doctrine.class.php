@@ -18,6 +18,7 @@ class Doctrine extends Command {
 		->setDefinition(array(
 			new InputOption('database', '', InputOption::VALUE_REQUIRED, _("Database name")),
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'xml,php')),
+			new InputOption('force', '', InputOption::VALUE_NONE, _('Force XML/PHP output even if there is an alter string after generation checks')),
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
@@ -66,7 +67,9 @@ class Doctrine extends Command {
 					$col['type'] = 'string';
 					$col['length'] = $data['length'];
 				break;
+				case 'blob':
 				case 'integer':
+				case 'bigint':
 				case 'smallint':
 				case 'datetime':
 				case 'text':
@@ -181,11 +184,18 @@ class Doctrine extends Command {
 				$xml = simplexml_load_string($string);
 				$test = \FreePBX::Database()->migrateXML($xml->table,true);
 				if(!empty($test)) {
-					print_r("Cols");
-					print_r($export);
-					print_r("Indexes");
-					print_r($expindexes);
-					throw new \Exception("Error: Table did not accurately match generation. Aborting. Modification string should be empty but returned: '".implode("; ",$test)."'");
+					if($input->getOption('force')) {
+						$output->writeln("<error>Table did not accurately match generation.</error>");
+						$output->writeln("<error>Modification string should be empty but returned: '".implode("; ",$test)."'.</error>");
+						$output->writeln("<error>You **MAY** LOSE DATA!!!!</error>");
+					} else {
+						print_r("Cols");
+						print_r($export);
+						print_r("Indexes");
+						print_r($expindexes);
+						throw new \Exception("Error: Table did not accurately match generation. Aborting. Modification string should be empty but returned: '".implode("; ",$test)."'");
+					}
+
 				}
 				$output->writeln($string);
 			break;

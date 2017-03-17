@@ -2128,7 +2128,9 @@ class module_functions {
 			if(!empty($xml->database)) {
 				foreach($xml->database->table as $table) {
 					$tname = (string)$table->attributes()->name;
+					outn(sprintf(_("Dropping table %s..."),$tname));
 					$sth = FreePBX::Database()->prepare("DROP TABLE IF EXISTS ".$tname);
+					out(_("Done"));
 					$sth->execute();
 				}
 			}
