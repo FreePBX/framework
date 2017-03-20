@@ -20,14 +20,14 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-15 17:36-0700\n"
-"PO-Revision-Date: 2017-03-15 13:44+0200\n"
+"PO-Revision-Date: 2017-03-20 13:58+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
-"Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
-"freepbx/framework/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) "
+"<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.4\n"
 "X-Poedit-Language: Portuguese\n"
@@ -9620,32 +9620,40 @@ msgid ""
 "The telephony backend engine being used, asterisk is the only option "
 "currently."
 msgstr ""
+"O mecanismo backend de telefonia que está sendo usado, asterisk é a única "
+"opção atualmente."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1714
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
+"O arquivo enviado excede o atributo MAX_FILE_SIZE que foi especificado no "
+"formulário HTML"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1711
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
-msgstr ""
+msgstr "O arquivo enviado excede o atributo upload_max_filesize no php.ini"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1717
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "O arquivo enviado foi parcialmente carregado"
 
 #: amp.i18n.php:804
 msgid ""
 "The user Asterisk should be running as, used by freepbx_engine. Most systems "
 "should not change this."
 msgstr ""
+"O usuário Asterisk deve ser executado como, usado por freepbx_engine. A "
+"maioria dos sistemas não deve mudar isso."
 
 #: amp.i18n.php:800
 msgid ""
 "The user group Asterisk should be running as, used by freepbx_engine. Most "
 "systems should not change this."
 msgstr ""
+"O grupo de usuários Asterisk deve ser executado como, usado por "
+"freepbx_engine. A maioria dos sistemas não deve mudar isso."
 
 #: amp.i18n.php:808
 msgid ""
@@ -9653,17 +9661,22 @@ msgid ""
 "freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
 "mISDN and /dev/dsp. Most systems should not change this."
 msgstr ""
+"O grupo de usuários que vários diretórios de dispositivo devem ser definidos "
+"para, usado por freepbx_engine. Exemplos incluem /dev/zap, /dev/dahdi, /dev/"
+"misdn, /dev/mISDN e /dev/dsp. A maioria dos sistemas não deve mudar isso."
 
 #: amp.i18n.php:820
 msgid ""
 "The user group your httpd should be running as, used by freepbx_engine. Most "
 "systems should not change this."
 msgstr ""
+"O grupo de usuários que seu httpd deve estar executando como, usado por "
+"freepbx_engine. A maioria dos sistemas não deve mudar isso."
 
 #: ../core/page.ampusers.php:71
 #, php-format
 msgid "The user name %s is already in use"
-msgstr ""
+msgstr "O nome de usuário %s já está em uso"
 
 #: amp.i18n.php:812
 msgid ""
@@ -9671,12 +9684,17 @@ msgid ""
 "freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
 "mISDN and /dev/dsp. Most systems should not change this."
 msgstr ""
+"O usuário que vários diretórios de dispositivo deve ser definidos para, "
+"usado por freepbx_engine. Exemplos incluem /dev/zap, /dev/dahdi, /dev/misdn, "
+"/dev/mISDN e /dev/dsp. A maioria dos sistemas não deve mudar isso."
 
 #: amp.i18n.php:824
 msgid ""
 "The user your httpd should be running as, used by freepbx_engine. Most "
 "systems should not change this."
 msgstr ""
+"O usuário que seu httpd deve estar executando como, usado por "
+"freepbx_engine. A maioria dos sistemas não deve mudar isso."
 
 #: ../core/functions.inc/drivers/PJSip.class.php:259
 msgid ""
@@ -9684,6 +9702,10 @@ msgid ""
 "subnet mask appended. The subnet mask may be written in either CIDR or dot-"
 "decimal notation. Separate the IP address and subnet mask with a slash ('/')"
 msgstr ""
+"O valor é uma lista delimitada por vírgulas de endereços IP. Os endereços IP "
+"podem ter uma máscara de sub-rede anexada. A máscara de sub-rede pode ser "
+"escrita em CIDR ou notação ponto-decimal. Separe o endereço IP e a máscara "
+"de sub-rede com uma barra ('/')"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:417
 #, php-format
@@ -9693,7 +9715,7 @@ msgstr "Existem %s módulos disponíveis para atualização online"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:445
 #, php-format
 msgid "There are %s modules vulnerable to security threats"
-msgstr ""
+msgstr "Existem %s módulos vulneráveis a ameaças de segurança"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:415
 msgid "There is 1 module available for online upgrade"
@@ -9701,7 +9723,7 @@ msgstr "Existe 1 módulo disponível para atualização online"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:443
 msgid "There is 1 module vulnerable to security threats"
-msgstr ""
+msgstr "Há 1 módulo vulnerável a ameaças de segurança"
 
 #: amp_conf/htdocs/admin/views/welcome.php:50
 #, php-format
@@ -9716,7 +9738,7 @@ msgstr ""
 
 #: ../core/Core.class.php:177
 msgid "There was an unknown error creating this extension"
-msgstr ""
+msgstr "Ocorreu um erro desconhecido ao criar este ramal"
 
 #: ../core/install.php:185
 #, php-format
@@ -9727,7 +9749,7 @@ msgstr ""
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:147
 msgid "There were no settings to update"
-msgstr ""
+msgstr "Não havia configurações para atualizar"
 
 #: ../core/views/routing/form.php:577 ../core/views/trunks/trunk_footer.php:40
 msgid ""
@@ -9750,20 +9772,33 @@ msgid ""
 "pattern</b> and the resulting number will be sent to the trunk. All fields "
 "are optional."
 msgstr ""
+"Essas regras podem manipular o número discado antes de enviá-lo para fora "
+"deste tronco. Se nenhuma regra se aplica, o número não é alterado. O número "
+"discado original é passado para baixo da rota onde alguma manipulação pode "
+"já ter ocorrido. Este tronco tem a opção de manipular mais o número. Se o "
+"número corresponder aos valores combinados nas casas <b>prefix</b> mais o <b>"
+"match pattern</b>, a regra será aplicada e todas as regras subsequentes "
+"serão ignoradas.<br/> Após uma correspondência, o <b>prefix</b>, se "
+"definido, será removido. Em seguida, o <b>prepend</b> será inserido na "
+"frente do <b>match pattern</b> e o número resultante será enviado para o "
+"tronco. Todos os campos são opcionais."
 
 #: ../core/functions.inc.php:6258 ../core/functions.inc.php:6261
 msgid ""
 "This CallerID will always be set when dialing out an Outbound Route flagged "
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
 msgstr ""
+"Este identificador de chamadas sempre será definido quando marcar uma Rota "
+"de Saída como Emergência. O CID de emergência substitui todas as outras "
+"configurações de identificador de chamadas."
 
 #: amp_conf/htdocs/admin/libraries/view.functions.php:496
 msgid "This Module has been deprecated"
-msgstr ""
+msgstr "Este módulo foi descontinuado"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1179
 msgid "This action understands somethings may be disabled for a reason."
-msgstr ""
+msgstr "Esta ação entende que algo pode ser desativado por um motivo."
 
 #: ../core/Core.class.php:1469
 msgid "This device id is already in use"
@@ -9772,7 +9807,7 @@ msgstr "Este dispositivo já está em uso"
 #: ../core/functions.inc/drivers/Sip.class.php:232
 #, php-format
 msgid "This device uses %s technology %s"
-msgstr ""
+msgstr "Este dispositivo usa %s tecnologia %s"
 
 #: ../core/views/did/advanced_form.php:174
 msgid ""
@@ -9794,6 +9829,10 @@ msgid ""
 "some page load timing information, some debug information in Module Admin, "
 "use of original CSS files and other future capabilities will be enabled."
 msgstr ""
+"Isso permite que vários recursos de depuração voltados para desenvolvedores, "
+"incluindo algumas informações de tempo de carregamento de página, algumas "
+"informações de depuração no Administrador de Módulos, o uso de arquivos CSS "
+"originais e outros recursos futuros sejam ativados."
 
 #: amp.i18n.php:776
 msgid ""
@@ -9802,20 +9841,26 @@ msgid ""
 "standard. Disabling this will force all modules into the stable track and "
 "disallow users to change the tracks"
 msgstr ""
+"Isso habilita a configuração de faixas de módulos (sub-repositórios de "
+"módulos). Considerando que um usuário poderia selecionar uma faixa de versão "
+"beta de um módulo ou mantê-lo em padrão. Desativar isso forçará todos os "
+"módulos na trilha estável e impedirá que os usuários alterem as faixas"
 
 #: amp_conf/htdocs/admin/views/noaccess.php:30
 msgid ""
 "This is generally a permissions issue. From a console run 'fwconsole chown'"
 msgstr ""
+"Isso geralmente é um problema de permissões. Execute o comando 'fwconsole "
+"chown' do console"
 
 #: ../core/views/trunks/sip.php:84
 msgid ""
 "This is most often the account name or number your provider expects."
 "<br><br>This USER Context will be used to define the below user details."
 msgstr ""
-"Este é, normalmente, o nome da conta e o numero assinalado pelo provedor."
-"<br><br>Este contexto USER sera usado para definir os detalhes de usuario "
-"aqui abaixo."
+"Este é, normalmente, o nome da conta ou número esperado pelo "
+"provedor.<br><br>Este contexto USER será usado para definir os detalhes de "
+"usuário abaixo."
 
 #: amp.i18n.php:784
 msgid ""
@@ -9824,10 +9869,14 @@ msgid ""
 "expecting a variable to be set and if you are using it this will migrate "
 "your value."
 msgstr ""
+"Este é o endereço do seu servidor Web. É na maioria das vezes obsoleto e "
+"derivado quando não fornecido e será eliminado, mas ainda há algumas áreas "
+"esperando uma variável para ser definida e se você estiver usando isso irá "
+"migrar o seu valor."
 
 #: amp.i18n.php:386
 msgid "This is the default directory for Asterisks agi files."
-msgstr ""
+msgstr "Este é o diretório padrão para os arquivos agi do Asterisk."
 
 #: amp.i18n.php:394
 msgid "This is the default directory for Asterisks configuration files."
