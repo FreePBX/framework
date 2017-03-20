@@ -468,7 +468,7 @@ class SystemUpdates {
 		</div>\n";
 		$html .= "<div class='row'>
 			<div class='col-xs-3'>"._("Last Online Check Status:")."</div>
-			<div class='col-xs-5' id='pendingstatus' data-value='".$pending['status']."'>".\FreePBX::View()->humanDiff($pending['lasttimestamp'])." &nbsp; ".$this->strarr[$pending['status']]."</div>
+			<div class='col-xs-5' id='pendingstatus' data-value='".$pending['status']."'>".($pending['lasttimestamp'] != 0 ? \FreePBX::View()->humanDiff($pending['lasttimestamp']) : _("Never"))." &nbsp; ".$this->strarr[$pending['status']]."</div>
 		</div>\n";
 		$html .= "<div class='row'>
 			<div class='col-xs-3'>"._("Last System Update:")."</div>";
