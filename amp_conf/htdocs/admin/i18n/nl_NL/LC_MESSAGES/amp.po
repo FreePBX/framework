@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-15 17:36-0700\n"
+"POT-Creation-Date: 2017-03-21 11:25-0700\n"
 "PO-Revision-Date: 2015-03-23 21:06+0200\n"
 "Last-Translator: Jan Peter <jpveldhuizen@gmail.com>\n"
 "Language-Team: Dutch <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -2399,7 +2399,7 @@ msgstr ""
 msgid "Current setting for %s left in place"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:226
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:232
 #: ../core/functions.inc/drivers/Custom.class.php:10
 #: ../core/page.advancedsettings.php:213
 msgid "Custom"
@@ -4655,11 +4655,11 @@ msgstr ""
 msgid "Hide the outbound Caller ID, The same as adding hidden to Outbound CID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:236
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:242
 msgid "Hit the play symbol to listen"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:234
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:240
 msgid "Hit the red record button to start recording from your browser"
 msgstr ""
 
@@ -5166,9 +5166,9 @@ msgid "Invalid Dial Rules"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:163
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:166
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:170
 msgid "Invalid Language"
 msgstr ""
 
@@ -6050,7 +6050,7 @@ msgstr ""
 msgid "NoOp Traces in Dialplan"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:207
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:213
 #: ../core/functions.inc.php:5760
 #: ../core/functions.inc/drivers/PJSip.class.php:233
 #: ../core/views/did/advanced_form.php:215
@@ -8158,10 +8158,6 @@ msgstr ""
 msgid "Telephony Engine"
 msgstr ""
 
-#: ../core/functions.inc.php:820
-msgid "Terminate Call"
-msgstr ""
-
 #: ../core/functions.inc/drivers/Sip.class.php:236
 msgid ""
 "The Asterisk SIP Setting Module is not installed or is disabled. Please "
@@ -8322,7 +8318,7 @@ msgid ""
 "app-daynight,0,1"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:166
 #, php-format
 msgid ""
 "The default language of '%s' or '%s' was not found on this system. Please "
@@ -8348,7 +8344,8 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/media/Media/Media.php:317
 msgid ""
 "The file format sln48 is not supported by Asterisk when it should be. Audio "
-"conversion quality will be limited to 16k instead of 48k"
+"conversion quality will be limited to 16k instead of 48k. This is probably "
+"the result of the missing Asterisk resample package"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/media/Media/Media.php:317
@@ -9016,7 +9013,7 @@ msgid ""
 "conversion support you need to at least install SOX"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:272
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:278
 #, php-format
 msgid ""
 "To play the media you will need to either update your browser to a recent "
@@ -9377,7 +9374,7 @@ msgstr ""
 msgid "Update Notifications"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:271
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:277
 msgid "Update Required"
 msgstr ""
 
@@ -10243,7 +10240,7 @@ msgid ""
 "leave the User Password empty?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:170
 #, php-format
 msgid ""
 "You have selected an invalid language '%s' and we were unable to fallback to "
@@ -10251,7 +10248,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:163
 #, php-format
 msgid ""
 "You have selected an invalid language '%s' this has been automatically "

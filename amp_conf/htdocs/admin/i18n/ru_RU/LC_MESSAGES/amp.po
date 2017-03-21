@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-15 17:36-0700\n"
+"POT-Creation-Date: 2017-03-21 11:25-0700\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -2440,7 +2440,7 @@ msgstr "Текущий модуль предоставлен по лицензи
 msgid "Current setting for %s left in place"
 msgstr "Текущая настройка для %s предосставлена"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:226
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:232
 #: ../core/functions.inc/drivers/Custom.class.php:10
 #: ../core/page.advancedsettings.php:213
 msgid "Custom"
@@ -4986,11 +4986,11 @@ msgstr "Скрыть CallerID"
 msgid "Hide the outbound Caller ID, The same as adding hidden to Outbound CID"
 msgstr "Скрыть исходящий CallerID, аналогично скрытию Outbound CID"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:236
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:242
 msgid "Hit the play symbol to listen"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:234
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:240
 msgid "Hit the red record button to start recording from your browser"
 msgstr ""
 
@@ -5589,9 +5589,9 @@ msgid "Invalid Dial Rules"
 msgstr "Неверное правило набора"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:163
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:166
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:170
 msgid "Invalid Language"
 msgstr ""
 
@@ -6534,7 +6534,7 @@ msgstr "Не указан статус для checkStatus"
 msgid "NoOp Traces in Dialplan"
 msgstr "Трейсы NoOp в диал-плане"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:207
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:213
 #: ../core/functions.inc.php:5760
 #: ../core/functions.inc/drivers/PJSip.class.php:233
 #: ../core/views/did/advanced_form.php:215
@@ -8843,10 +8843,6 @@ msgstr ""
 msgid "Telephony Engine"
 msgstr "Подсистема телефонии"
 
-#: ../core/functions.inc.php:820
-msgid "Terminate Call"
-msgstr "Терминировать звонок"
-
 #: ../core/functions.inc/drivers/Sip.class.php:236
 msgid ""
 "The Asterisk SIP Setting Module is not installed or is disabled. Please "
@@ -9033,7 +9029,7 @@ msgstr ""
 "Контекст, внутренний номер,приоритет, на который переходит вызов,если DID не "
 "соответствует.Пример: app-daynight,0,1"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:166
 #, php-format
 msgid ""
 "The default language of '%s' or '%s' was not found on this system. Please "
@@ -9061,10 +9057,9 @@ msgstr "Внутренний номер, по которому можно най
 #: amp_conf/htdocs/admin/libraries/media/Media/Media.php:317
 msgid ""
 "The file format sln48 is not supported by Asterisk when it should be. Audio "
-"conversion quality will be limited to 16k instead of 48k"
+"conversion quality will be limited to 16k instead of 48k. This is probably "
+"the result of the missing Asterisk resample package"
 msgstr ""
-"Формат файла sln48 не поддерживается Asterisk. Качество преобразования "
-"звукового потока будет ограничено 16k вместо 48k"
 
 #: amp_conf/htdocs/admin/libraries/media/Media/Media.php:317
 msgid "The file format sln48 is not supported on your system"
@@ -9871,7 +9866,7 @@ msgstr ""
 "Для выполнения минимального количества конвертаций файла для поддержки HTML5 "
 "и для поддержки конвертации Вам необходимо как минимум установить SOX"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:272
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:278
 #, php-format
 msgid ""
 "To play the media you will need to either update your browser to a recent "
@@ -10244,7 +10239,7 @@ msgstr "Обновления"
 msgid "Update Notifications"
 msgstr "Предупреждения об обновлении"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:271
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:277
 msgid "Update Required"
 msgstr ""
 
@@ -11265,7 +11260,7 @@ msgstr ""
 "будет иметь возможности авторизоваться как AdHoc.\\n\\nВы уверены, что "
 "хотите оставить пароль пустым?"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:170
 #, php-format
 msgid ""
 "You have selected an invalid language '%s' and we were unable to fallback to "
@@ -11273,7 +11268,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:163
 #, php-format
 msgid ""
 "You have selected an invalid language '%s' this has been automatically "
@@ -12333,6 +12328,16 @@ msgstr ""
 #: ../core/install.php:1120
 msgid "zap devices migrated"
 msgstr "Устройства ZAP перенесены"
+
+#~ msgid "Terminate Call"
+#~ msgstr "Терминировать звонок"
+
+#~ msgid ""
+#~ "The file format sln48 is not supported by Asterisk when it should be. "
+#~ "Audio conversion quality will be limited to 16k instead of 48k"
+#~ msgstr ""
+#~ "Формат файла sln48 не поддерживается Asterisk. Качество преобразования "
+#~ "звукового потока будет ограничено 16k вместо 48k"
 
 #~ msgid "Disabling Trunk "
 #~ msgstr "Отключение транка"

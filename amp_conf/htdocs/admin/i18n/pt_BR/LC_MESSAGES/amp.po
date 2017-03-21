@@ -19,15 +19,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-15 17:36-0700\n"
+"POT-Creation-Date: 2017-03-21 11:25-0700\n"
 "PO-Revision-Date: 2017-03-21 13:56+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
-"Language-Team: Portuguese (Brazil) "
-"<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
-"Language: pt_BR\n"
+"Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
+"freepbx/framework/pt_BR/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.4\n"
 "X-Poedit-Language: Portuguese\n"
@@ -2482,7 +2482,7 @@ msgstr "Módulo atual licenciado sob %s"
 msgid "Current setting for %s left in place"
 msgstr "Configuração atual para %s não modificada"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:226
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:232
 #: ../core/functions.inc/drivers/Custom.class.php:10
 #: ../core/page.advancedsettings.php:213
 msgid "Custom"
@@ -5057,11 +5057,11 @@ msgid "Hide the outbound Caller ID, The same as adding hidden to Outbound CID"
 msgstr ""
 "Ocultar o ID do chamador de saída, O mesmo que adicionar CID de saída oculto"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:236
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:242
 msgid "Hit the play symbol to listen"
 msgstr "Aperte o Play para ouvir"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:234
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:240
 msgid "Hit the red record button to start recording from your browser"
 msgstr ""
 "Aperte o botão de gravação vermelho para iniciar a gravação a partir do seu "
@@ -5676,9 +5676,9 @@ msgid "Invalid Dial Rules"
 msgstr "Regras de Discagem Inválidas"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:163
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:166
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:170
 msgid "Invalid Language"
 msgstr "Idioma Inválido"
 
@@ -6622,7 +6622,7 @@ msgstr "Nenhum status foi dado para checkStatus"
 msgid "NoOp Traces in Dialplan"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:207
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:213
 #: ../core/functions.inc.php:5760
 #: ../core/functions.inc/drivers/PJSip.class.php:233
 #: ../core/views/did/advanced_form.php:215
@@ -9009,10 +9009,6 @@ msgstr "A tecnologia do dispositivo é indefinida. Especifique uma 'tech'"
 msgid "Telephony Engine"
 msgstr "Mecanismo de telefonia"
 
-#: ../core/functions.inc.php:820
-msgid "Terminate Call"
-msgstr "Finalizar chamadas"
-
 #: ../core/functions.inc/drivers/Sip.class.php:236
 msgid ""
 "The Asterisk SIP Setting Module is not installed or is disabled. Please "
@@ -9229,7 +9225,7 @@ msgstr ""
 "O contexto, ramal, prioridade para ir para quando este DID é correspondido. "
 "Exemplo: app-daynight, 0,1"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:160
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:166
 #, php-format
 msgid ""
 "The default language of '%s' or '%s' was not found on this system. Please "
@@ -9261,10 +9257,9 @@ msgstr "Número do ramal a discar para alcançar este usuário."
 #: amp_conf/htdocs/admin/libraries/media/Media/Media.php:317
 msgid ""
 "The file format sln48 is not supported by Asterisk when it should be. Audio "
-"conversion quality will be limited to 16k instead of 48k"
+"conversion quality will be limited to 16k instead of 48k. This is probably "
+"the result of the missing Asterisk resample package"
 msgstr ""
-"O formato de arquivo sln48 não é suportado pelo Asterisk quando deveria ser. "
-"A qualidade de conversão de áudio será limitada a 16k em vez de 48k"
 
 #: amp_conf/htdocs/admin/libraries/media/Media/Media.php:317
 msgid "The file format sln48 is not supported on your system"
@@ -9685,8 +9680,8 @@ msgid ""
 "mISDN and /dev/dsp. Most systems should not change this."
 msgstr ""
 "O usuário que vários diretórios de dispositivo deve ser definidos para, "
-"usado por freepbx_engine. Exemplos incluem /dev/zap, /dev/dahdi, /dev/misdn, "
-"/dev/mISDN e /dev/dsp. A maioria dos sistemas não deve mudar isso."
+"usado por freepbx_engine. Exemplos incluem /dev/zap, /dev/dahdi, /dev/"
+"misdn, /dev/mISDN e /dev/dsp. A maioria dos sistemas não deve mudar isso."
 
 #: amp.i18n.php:824
 msgid ""
@@ -9776,8 +9771,8 @@ msgstr ""
 "deste tronco. Se nenhuma regra se aplica, o número não é alterado. O número "
 "discado original é passado para baixo da rota onde alguma manipulação pode "
 "já ter ocorrido. Este tronco tem a opção de manipular mais o número. Se o "
-"número corresponder aos valores combinados nas casas <b>prefix</b> mais o <b>"
-"match pattern</b>, a regra será aplicada e todas as regras subsequentes "
+"número corresponder aos valores combinados nas casas <b>prefix</b> mais o "
+"<b>match pattern</b>, a regra será aplicada e todas as regras subsequentes "
 "serão ignoradas.<br/> Após uma correspondência, o <b>prefix</b>, se "
 "definido, será removido. Em seguida, o <b>prepend</b> será inserido na "
 "frente do <b>match pattern</b> e o número resultante será enviado para o "
@@ -9858,9 +9853,9 @@ msgid ""
 "This is most often the account name or number your provider expects."
 "<br><br>This USER Context will be used to define the below user details."
 msgstr ""
-"Este é, normalmente, o nome da conta ou número esperado pelo "
-"provedor.<br><br>Este contexto USER será usado para definir os detalhes de "
-"usuário abaixo."
+"Este é, normalmente, o nome da conta ou número esperado pelo provedor."
+"<br><br>Este contexto USER será usado para definir os detalhes de usuário "
+"abaixo."
 
 #: amp.i18n.php:784
 msgid ""
@@ -9880,7 +9875,8 @@ msgstr "Este é o diretório padrão para os arquivos agi do Asterisk."
 
 #: amp.i18n.php:394
 msgid "This is the default directory for Asterisks configuration files."
-msgstr "Este é o diretório padrão para os arquivos de configuração do Asterisk."
+msgstr ""
+"Este é o diretório padrão para os arquivos de configuração do Asterisk."
 
 #: amp.i18n.php:390
 msgid "This is the default directory for Asterisks lib files."
@@ -10058,8 +10054,8 @@ msgid ""
 msgstr ""
 "Este sistema tem o modo edge ativado. Isso significa que você receberá "
 "módulos à medida que forem lançados e poderá encontrar bugs não vistos em "
-"módulos de disponibilidade gerais.</br> Para obter mais informações, visite "
-"%s"
+"módulos de disponibilidade gerais.</br> Para obter mais informações, visite %"
+"s"
 
 #: ../core/views/trunks/trunk_header.php:24
 msgid ""
@@ -10127,7 +10123,7 @@ msgid ""
 "conversion support you need to at least install SOX"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:272
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:278
 #, php-format
 msgid ""
 "To play the media you will need to either update your browser to a recent "
@@ -10490,7 +10486,7 @@ msgstr "Atualizar"
 msgid "Update Notifications"
 msgstr "Atualizar Notificações"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:271
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:277
 msgid "Update Required"
 msgstr ""
 
@@ -11372,7 +11368,7 @@ msgid ""
 "leave the User Password empty?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:170
 #, php-format
 msgid ""
 "You have selected an invalid language '%s' and we were unable to fallback to "
@@ -11380,7 +11376,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:157
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:163
 #, php-format
 msgid ""
 "You have selected an invalid language '%s' this has been automatically "
@@ -12370,6 +12366,16 @@ msgstr ""
 #: ../core/install.php:1120
 msgid "zap devices migrated"
 msgstr ""
+
+#~ msgid "Terminate Call"
+#~ msgstr "Finalizar chamadas"
+
+#~ msgid ""
+#~ "The file format sln48 is not supported by Asterisk when it should be. "
+#~ "Audio conversion quality will be limited to 16k instead of 48k"
+#~ msgstr ""
+#~ "O formato de arquivo sln48 não é suportado pelo Asterisk quando deveria "
+#~ "ser. A qualidade de conversão de áudio será limitada a 16k em vez de 48k"
 
 #~ msgid "Disabling Trunk "
 #~ msgstr "Desativando Tronco "
