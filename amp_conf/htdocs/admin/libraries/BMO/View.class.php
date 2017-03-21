@@ -143,7 +143,13 @@ class View {
 					$langParts[2] = 'UTF8';
 					$lang = $testString;
 				} else {
-					$langParts[2] = '';
+					$testString = !empty($langParts[3]) ? $langParts[1].".UTF-8@".$langParts[3] : $langParts[1].".UTF-8";
+					if(in_array($testString,$locales)) {
+						$langParts[2] = 'UTF-8';
+						$lang = $testString;
+					} else {
+						$langParts[2] = '';
+					}
 				}
 			}
 		}
