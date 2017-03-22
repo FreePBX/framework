@@ -92,12 +92,14 @@ $bootstrap_defaults = array('skip_config' => null,
 	'include_compress' => true,
 	'include_utility_functions' => true,
 	'include_framework_functions' =>true,
+	'report_error_link' => true
 );
 foreach ($bootstrap_defaults as $key => $default_value) {
 	if (!isset($bootstrap_settings[$key])) {
 		$bootstrap_settings[$key] = $default_value;
 	}
 }
+$GLOBALS['report_error_link'] = $bootstrap_settings['report_error_link'];
 
 // include base functions
 include $dirname .'/libraries/Composer/vendor/autoload.php';
@@ -124,9 +126,13 @@ if ($bootstrap_settings['freepbx_error_handler'] && empty($bootstrap_settings['f
 			if(php_sapi_name() == 'cli') {
 				$whoops->pushHandler(new \Whoops\Handler\PlainTextHandler);
 			} else {
-				$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+				$handler = new \Whoops\Handler\PrettyPageHandler;
+				$handler->setPageTitle("There was an error");
+				$handler->addResourcePath(__DIR__."/views/whoops");
+				$whoops->pushHandler($handler);
 			}
 		}
+
 		$whoops->register();
 	}
 }
