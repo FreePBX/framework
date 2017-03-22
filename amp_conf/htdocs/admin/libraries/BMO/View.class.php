@@ -274,7 +274,7 @@ class View {
 
 		$UIDEFAULTLANG = $this->freepbx->Config->get("UIDEFAULTLANG");
 		$lang = !empty($language) ? $language : $UIDEFAULTLANG;
-		$expression = '/^([a-z]*(?:_[A-Z]{2})?)(?:\.([a-z1-9]*))?(?:@([a-z1-9]*))?$/';
+		$expression = '/^([a-z]*(?:_[A-Z]{2})?)(?:\.([a-zA-Z1-9\-]*))?(?:@([a-z1-9]*))?$/';
 		$default = "en_US";
 		$defaultParts = array(
 			'en_US',
@@ -328,7 +328,13 @@ class View {
 					$langParts[2] = 'UTF8';
 					$lang = $testString;
 				} else {
-					$langParts[2] = '';
+					$testString = !empty($langParts[3]) ? $langParts[1].".UTF-8@".$langParts[3] : $langParts[1].".UTF-8";
+					if(in_array($testString,$locales)) {
+						$langParts[2] = 'UTF-8';
+						$lang = $testString;
+					} else {
+						$langParts[2] = '';
+					}
 				}
 			}
 		}
