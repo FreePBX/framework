@@ -10,6 +10,7 @@
 namespace FreePBX\Database;
 use Doctrine\DBAL\Schema\Synchronizer\SingleDatabaseSynchronizer;
 use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\SchemaConfig;
 class Migration {
 	private $conn;
 	private $table;
@@ -25,7 +26,14 @@ class Migration {
 
 	public function modify($columns=array(),$indexes=array(),$dryrun=false) {
 		$synchronizer = new SingleDatabaseSynchronizer($this->conn);
-		$schema = new Schema();
+		$schemaConfig = new SchemaConfig();
+		if($this->driver == "pdo_mysql" && version_compare($this->version, "5.5.3", "ge")) {
+			$schemaConfig->setDefaultTableOptions(array(
+				"collate"=>"utf8mb4_unicode_ci",
+				"charset"=>"utf8mb4"
+			));
+		}
+		$schema = new Schema(array(),array(),$schemaConfig);
 		$table = $schema->createTable($this->table);
 		$primaryKeys = array();
 		foreach($columns as $name => $options) {

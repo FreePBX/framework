@@ -89,6 +89,8 @@ class Database extends \PDO {
 			$engine = isset($amp_conf['AMPDBENGINE'])?$amp_conf['AMPDBENGINE']:'mysql';
 		}
 
+		$engine = ($engine == 'mariadb') ? 'mysql' : $engine;
+
 		// We only want to add port to the DSN if it's actually defined.
 		if (isset($amp_conf['AMPDBPORT'])) {
 			// Make sure this is an int
@@ -107,8 +109,16 @@ class Database extends \PDO {
 
 		// Always utf8.
 		// TODO:  This should default to utf8mb on a newer mysql, or newer FreePBX?
-		if (!isset($dsnarr['charset'])) {
-			$dsnarr['charset'] = "utf8";
+		$charset = "utf8";
+		$dsnarr['charset'] = isset($dsnarr['charset']) ? $dsnarr['charset'] : $charset;
+
+		// Were there any database options?
+		$options = isset($args[3]) ? $args[3] : array();
+		$dsnarr['driverOptions'] = $options;
+
+		//this id only for PDO
+		if ($engine == 'mysql') {
+			$options[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES '.$charset;
 		}
 
 		// This DSN array is now suitable for building into a valid DSN!
@@ -116,17 +126,16 @@ class Database extends \PDO {
 		// to a string.
 		$this->dsn = "$engine:".http_build_query($dsnarr, '', ';');
 
+		//this is only for docrine
+		if ($engine == 'mysql') {
+			$dsnarr['driverOptions'][\PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES '.$dsnarr['charset'];
+		}
+
 		// Create dConfig
 		$this->dConfig = $dsnarr;
 		$this->dConfig['driver'] = $this->doctrineEngineAlias($engine);
 		$this->dConfig['user'] = $username;
 		$this->dConfig['password'] = $password;
-
-		// Were there any PDO options?
-		$options = isset($args[3]) ? $args[3] : array();
-		if (version_compare(PHP_VERSION, '5.3.6', '<')) {
-			$options[\PDO::MYSQL_ATTR_INIT_COMMAND] = 'SET NAMES utf8';
-		}
 
 		try {
 			if ($options) {
