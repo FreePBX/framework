@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpKernel\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Config\EnvParametersResource;
@@ -21,7 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Tests\Fixtures\KernelForTest;
 use Symfony\Component\HttpKernel\Tests\Fixtures\KernelForOverrideName;
 
-class KernelTest extends \PHPUnit_Framework_TestCase
+class KernelTest extends TestCase
 {
     public function testConstructor()
     {
@@ -716,6 +717,14 @@ EOF;
 
         $kernel->boot();
         $kernel->terminate(Request::create('/'), new Response());
+    }
+
+    public function testKernelRootDirNameStartingWithANumber()
+    {
+        $dir = __DIR__.'/Fixtures/123';
+        require_once $dir.'/Kernel123.php';
+        $kernel = new \Symfony\Component\HttpKernel\Tests\Fixtures\_123\Kernel123('dev', true);
+        $this->assertEquals('_123', $kernel->getName());
     }
 
     /**

@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Debug\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Psr\Log\LogLevel;
 use Symfony\Component\Debug\BufferingLogger;
 use Symfony\Component\Debug\ErrorHandler;
@@ -23,7 +24,7 @@ use Symfony\Component\Debug\Exception\SilencedErrorContext;
  * @author Robert Schönthal <seroscho@googlemail.com>
  * @author Nicolas Grekas <p@tchwork.com>
  */
-class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
+class ErrorHandlerTest extends TestCase
 {
     public function testRegister()
     {
@@ -415,6 +416,25 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
             ->with(LogLevel::WARNING, 'Foo message', array('exception' => $exception));
 
         $handler->setLoggers(array(E_DEPRECATED => array($mockLogger, LogLevel::WARNING)));
+    }
+
+    public function testSettingLoggerWhenExceptionIsBuffered()
+    {
+        $bootLogger = new BufferingLogger();
+        $handler = new ErrorHandler($bootLogger);
+
+        $exception = new \Exception('Foo message');
+
+        $mockLogger = $this->getMockBuilder('Psr\Log\LoggerInterface')->getMock();
+        $mockLogger->expects($this->once())
+            ->method('log')
+            ->with(LogLevel::CRITICAL, 'Uncaught Exception: Foo message', array('exception' => $exception));
+
+        $handler->setExceptionHandler(function () use ($handler, $mockLogger) {
+            $handler->setDefaultLogger($mockLogger);
+        });
+
+        $handler->handleException($exception);
     }
 
     public function testHandleFatalError()

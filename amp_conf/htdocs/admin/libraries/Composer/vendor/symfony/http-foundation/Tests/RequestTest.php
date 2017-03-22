@@ -11,11 +11,12 @@
 
 namespace Symfony\Component\HttpFoundation\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
 
-class RequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends TestCase
 {
     public function testInitialize()
     {
@@ -1436,6 +1437,11 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $this->assertEquals('html', $request->getRequestFormat());
 
+        // Ensure that setting different default values over time is possible,
+        // aka. setRequestFormat determines the state.
+        $this->assertEquals('json', $request->getRequestFormat('json'));
+        $this->assertEquals('html', $request->getRequestFormat('html'));
+
         $request = new Request();
         $this->assertNull($request->getRequestFormat(null));
 
@@ -1935,7 +1941,13 @@ class RequestTest extends \PHPUnit_Framework_TestCase
                 $this->assertSame($expectedPort, $request->getPort());
             }
         } else {
-            $this->setExpectedException('UnexpectedValueException', 'Invalid Host');
+            if (method_exists($this, 'expectException')) {
+                $this->expectException('UnexpectedValueException');
+                $this->expectExceptionMessage('Invalid Host');
+            } else {
+                $this->setExpectedException('UnexpectedValueException', 'Invalid Host');
+            }
+
             $request->getHost();
         }
     }

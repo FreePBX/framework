@@ -11,15 +11,17 @@
 
 namespace Symfony\Component\HttpKernel\Tests\DependencyInjection;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\DependencyInjection\AddClassesToCachePass;
 
-class AddClassesToCachePassTest extends \PHPUnit_Framework_TestCase
+class AddClassesToCachePassTest extends TestCase
 {
     public function testExpandClasses()
     {
         $r = new \ReflectionClass(AddClassesToCachePass::class);
         $pass = $r->newInstanceWithoutConstructor();
         $r = new \ReflectionMethod(AddClassesToCachePass::class, 'expandClasses');
+        $r->setAccessible(true);
         $expand = $r->getClosure($pass);
 
         $this->assertSame('Foo', $expand(array('Foo'), array())[0]);

@@ -11,9 +11,10 @@
 
 namespace Symfony\Component\DependencyInjection\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Definition;
 
-class DefinitionTest extends \PHPUnit_Framework_TestCase
+class DefinitionTest extends TestCase
 {
     public function testConstructor()
     {
@@ -65,7 +66,14 @@ class DefinitionTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($def->getDecoratedService());
 
         $def = new Definition('stdClass');
-        $this->setExpectedException('InvalidArgumentException', 'The decorated service inner name for "foo" must be different than the service name itself.');
+
+        if (method_exists($this, 'expectException')) {
+            $this->expectException('InvalidArgumentException');
+            $this->expectExceptionMessage('The decorated service inner name for "foo" must be different than the service name itself.');
+        } else {
+            $this->setExpectedException('InvalidArgumentException', 'The decorated service inner name for "foo" must be different than the service name itself.');
+        }
+
         $def->setDecoratedService('foo', 'foo');
     }
 
@@ -257,6 +265,7 @@ class DefinitionTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \OutOfBoundsException
+     * @expectedExceptionMessage The index "1" is not in the range [0, 0].
      */
     public function testReplaceArgumentShouldCheckBounds()
     {
@@ -264,6 +273,16 @@ class DefinitionTest extends \PHPUnit_Framework_TestCase
 
         $def->addArgument('foo');
         $def->replaceArgument(1, 'bar');
+    }
+
+    /**
+     * @expectedException \OutOfBoundsException
+     * @expectedExceptionMessage Cannot replace arguments if none have been configured yet.
+     */
+    public function testReplaceArgumentWithoutExistingArgumentsShouldCheckBounds()
+    {
+        $def = new Definition('stdClass');
+        $def->replaceArgument(0, 'bar');
     }
 
     public function testSetGetProperties()

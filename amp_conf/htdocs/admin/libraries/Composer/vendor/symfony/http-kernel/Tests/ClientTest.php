@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\HttpKernel\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpKernel\Client;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -21,7 +22,7 @@ use Symfony\Component\HttpKernel\Tests\Fixtures\TestClient;
 /**
  * @group time-sensitive
  */
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends TestCase
 {
     public function testDoRequest()
     {
@@ -73,6 +74,8 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $domResponse = $m->invoke($client, $response);
         try {
             $this->assertEquals($expected31[0], $domResponse->getHeader('Set-Cookie'));
+        } catch (\PHPUnit\Framework\ExpectationFailedException $e) {
+            $this->assertEquals($expected33[0], $domResponse->getHeader('Set-Cookie'));
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $this->assertEquals($expected33[0], $domResponse->getHeader('Set-Cookie'));
         }
@@ -83,11 +86,15 @@ class ClientTest extends \PHPUnit_Framework_TestCase
         $domResponse = $m->invoke($client, $response);
         try {
             $this->assertEquals($expected31[0], $domResponse->getHeader('Set-Cookie'));
+        } catch (\PHPUnit\Framework\ExpectationFailedException $e) {
+            $this->assertEquals($expected33[0], $domResponse->getHeader('Set-Cookie'));
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $this->assertEquals($expected33[0], $domResponse->getHeader('Set-Cookie'));
         }
         try {
             $this->assertEquals($expected31, $domResponse->getHeader('Set-Cookie', false));
+        } catch (\PHPUnit\Framework\ExpectationFailedException $e) {
+            $this->assertEquals($expected33, $domResponse->getHeader('Set-Cookie', false));
         } catch (\PHPUnit_Framework_ExpectationFailedException $e) {
             $this->assertEquals($expected33, $domResponse->getHeader('Set-Cookie', false));
         }

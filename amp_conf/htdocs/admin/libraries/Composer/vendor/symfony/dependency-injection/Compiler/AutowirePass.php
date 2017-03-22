@@ -29,6 +29,7 @@ class AutowirePass implements CompilerPassInterface
     private $definedTypes = array();
     private $types;
     private $ambiguousServiceTypes = array();
+    private $usedTypes = array();
 
     /**
      * {@inheritdoc}
@@ -45,6 +46,15 @@ class AutowirePass implements CompilerPassInterface
                     $this->completeDefinition($id, $definition);
                 }
             }
+
+            foreach ($this->usedTypes as $type => $id) {
+                if (isset($this->usedTypes[$type]) && isset($this->ambiguousServiceTypes[$type])) {
+                    $classOrInterface = class_exists($type) ? 'class' : 'interface';
+                    $matchingServices = implode(', ', $this->ambiguousServiceTypes[$type]);
+
+                    throw new RuntimeException(sprintf('Unable to autowire argument of type "%s" for the service "%s". Multiple services exist for this %s (%s).', $type, $id, $classOrInterface, $matchingServices));
+                }
+            }
         } finally {
             spl_autoload_unregister($throwingAutoloader);
 
@@ -54,6 +64,7 @@ class AutowirePass implements CompilerPassInterface
             $this->definedTypes = array();
             $this->types = null;
             $this->ambiguousServiceTypes = array();
+            $this->usedTypes = array();
         }
     }
 
@@ -114,8 +125,10 @@ class AutowirePass implements CompilerPassInterface
                         throw new RuntimeException(sprintf('Unable to autowire argument index %d ($%s) for the service "%s". If this is an object, give it a type-hint. Otherwise, specify this argument\'s value explicitly.', $index, $parameter->name, $id));
                     }
 
-                    // specifically pass the default value
-                    $arguments[$index] = $parameter->getDefaultValue();
+                    if (!array_key_exists($index, $arguments)) {
+                        // specifically pass the default value
+                        $arguments[$index] = $parameter->getDefaultValue();
+                    }
 
                     continue;
                 }
@@ -126,9 +139,11 @@ class AutowirePass implements CompilerPassInterface
 
                 if (isset($this->types[$typeHint->name])) {
                     $value = new Reference($this->types[$typeHint->name]);
+                    $this->usedTypes[$typeHint->name] = $id;
                 } else {
                     try {
                         $value = $this->createAutowiredDefinition($typeHint, $id);
+                        $this->usedTypes[$typeHint->name] = $id;
                     } catch (RuntimeException $e) {
                         if ($parameter->allowsNull()) {
                             $value = null;
@@ -186,6 +201,7 @@ class AutowirePass implements CompilerPassInterface
         foreach ($definition->getAutowiringTypes() as $type) {
             $this->definedTypes[$type] = true;
             $this->types[$type] = $id;
+            unset($this->ambiguousServiceTypes[$type]);
         }
 
         if (!$reflectionClass = $this->getReflectionClass($id, $definition)) {
@@ -215,26 +231,24 @@ class AutowirePass implements CompilerPassInterface
 
         // is this already a type/class that is known to match multiple services?
         if (isset($this->ambiguousServiceTypes[$type])) {
-            $this->addServiceToAmbiguousType($id, $type);
+            $this->ambiguousServiceTypes[$type][] = $id;
 
             return;
         }
 
         // check to make sure the type doesn't match multiple services
-        if (isset($this->types[$type])) {
-            if ($this->types[$type] === $id) {
-                return;
-            }
-
-            // keep an array of all services matching this type
-            $this->addServiceToAmbiguousType($id, $type);
-
-            unset($this->types[$type]);
+        if (!isset($this->types[$type]) || $this->types[$type] === $id) {
+            $this->types[$type] = $id;
 
             return;
         }
 
-        $this->types[$type] = $id;
+        // keep an array of all services matching this type
+        if (!isset($this->ambiguousServiceTypes[$type])) {
+            $this->ambiguousServiceTypes[$type] = array($this->types[$type]);
+            unset($this->types[$type]);
+        }
+        $this->ambiguousServiceTypes[$type][] = $id;
     }
 
     /**
@@ -309,17 +323,6 @@ class AutowirePass implements CompilerPassInterface
         return $this->reflectionClasses[$id] = $reflector;
     }
 
-    private function addServiceToAmbiguousType($id, $type)
-    {
-        // keep an array of all services matching this type
-        if (!isset($this->ambiguousServiceTypes[$type])) {
-            $this->ambiguousServiceTypes[$type] = array(
-                $this->types[$type],
-            );
-        }
-        $this->ambiguousServiceTypes[$type][] = $id;
-    }
-
     /**
      * @param \ReflectionClass $reflectionClass
      *
@@ -345,10 +348,11 @@ class AutowirePass implements CompilerPassInterface
                 $class = false;
             }
 
+            $isVariadic = method_exists($parameter, 'isVariadic') && $parameter->isVariadic();
             $methodArgumentsMetadata[] = array(
                 'class' => $class,
                 'isOptional' => $parameter->isOptional(),
-                'defaultValue' => $parameter->isOptional() ? $parameter->getDefaultValue() : null,
+                'defaultValue' => ($parameter->isOptional() && !$isVariadic) ? $parameter->getDefaultValue() : null,
             );
         }
 
