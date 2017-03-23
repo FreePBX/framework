@@ -121,7 +121,11 @@ if ($bootstrap_settings['freepbx_error_handler'] && empty($bootstrap_settings['f
 		$whoops = new \Whoops\Run;
 		if(isset($bootstrap_settings['whoops_handler'])) {
 			$class = '\\Whoops\\Handler\\'.$bootstrap_settings['whoops_handler'];
-			$whoops->pushHandler(new $class);
+			$handler = new $class;
+			if($bootstrap_settings['whoops_handler'] == 'JsonResponseHandler') {
+				$handler->addTraceToOutput(true);
+			}
+			$whoops->pushHandler($handler);
 		} else {
 			if(php_sapi_name() == 'cli') {
 				$whoops->pushHandler(new \Whoops\Handler\PlainTextHandler);
