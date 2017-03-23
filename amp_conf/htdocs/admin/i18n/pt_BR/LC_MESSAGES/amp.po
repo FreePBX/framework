@@ -20,14 +20,14 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-21 11:25-0700\n"
-"PO-Revision-Date: 2017-03-21 13:56+0200\n"
+"PO-Revision-Date: 2017-03-23 13:55+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
-"Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
-"freepbx/framework/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) "
+"<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.4\n"
 "X-Poedit-Language: Portuguese\n"
@@ -10085,12 +10085,18 @@ msgid ""
 "internally used settings that are not of interest to most users. Since they "
 "are readonly they can only be viewed."
 msgstr ""
+"Isso exibirá as configurações que são somente leitura. Essas configurações "
+"são, frequentemente, configurações internamente usadas que não são de "
+"interesse para a maioria dos usuários. Como são somente leitura, podem "
+"somente ser vistos."
 
 #: amp_conf/htdocs/admin/views/welcome.php:41
 msgid ""
 "This won't cause you any problems, but it does make your system a little "
 "harder to use."
 msgstr ""
+"Isto não lhe causará nenhum problema, mas deixa seu sistema um pouco mais "
+"difícil de usar."
 
 #: ../core/views/routing/timecond.php:8
 msgid "Time Group"
@@ -10101,10 +10107,13 @@ msgid "Time Group Assigned"
 msgstr "Grupo de Tempo Associado"
 
 #: amp.i18n.php:100
+#, fuzzy
 msgid ""
 "Timeout, im ms, for write timeouts for cases where Asterisk disconnects "
 "frequently"
 msgstr ""
+"Tempo limite, em ms, para tempos limite em casos que o Asterisk se "
+"desconecta frequentemente"
 
 #: amp.i18n.php:788
 msgid ""
@@ -10112,16 +10121,21 @@ msgid ""
 "of value Timezones: <a href='http://php.net/manual/en/timezones.php'>http://"
 "php.net/manual/en/timezones.php</a>"
 msgstr ""
+"Fuso horário que deve ser usado pelo PHP. Um valor vazio usará os padrões do "
+"PHP. Lista de valores Fuso horário: <a href='http://php.net/manual/en/timezon"
+"es.php'>http://php.net/manual/en/timezones.php</a>"
 
 #: amp_conf/htdocs/admin/views/login.php:9
 msgid "To get started, please enter your credentials:"
-msgstr ""
+msgstr "Para começar, digite suas credenciais:"
 
 #: amp_conf/htdocs/admin/libraries/media/Media/Driver/Drivers/SoxShell.php:81
 msgid ""
 "To perform the minimal amount of file conversions for HTML5 support and "
 "conversion support you need to at least install SOX"
 msgstr ""
+"Para executar a quantidade mínima de conversões de arquivos para suporte a "
+"HTML5 e suporte de conversão, você precisa pelo menos instalar SOX"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:278
 #, php-format
@@ -10129,6 +10143,8 @@ msgid ""
 "To play the media you will need to either update your browser to a recent "
 "version or update your %s"
 msgstr ""
+"Para reproduzir a mídia, você precisará atualizar seu navegador para uma "
+"versão recente ou atualizar seu %s"
 
 #: amp_conf/htdocs/admin/config.php:197
 #, php-format
@@ -10137,10 +10153,13 @@ msgid ""
 "webserver's configuration file for the User Control Panel. For more "
 "information see: %s"
 msgstr ""
+"Para proteger a integridade do seu servidor, você deve permitir "
+"substituições no arquivo de configuração do seu servidor web para o Painel "
+"de Controle do Usuário. Para obter mais informações, consulte: %s"
 
 #: amp_conf/htdocs/admin/views/menu.php:10
 msgid "Toggle navigation"
-msgstr ""
+msgstr "Alternar navegação"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:51
 #: amp_conf/htdocs/admin/views/module_admin/main.php:244
@@ -10150,11 +10169,11 @@ msgstr "Faixa"
 #: ../core/functions.inc/drivers/Sip.class.php:410
 #: ../core/views/trunks/pjsip.php:208
 msgid "Transport"
-msgstr ""
+msgstr "Transporte"
 
 #: amp.i18n.php:366
 msgid "Trunk Dial Timeout"
-msgstr ""
+msgstr "Tempo limite de discagem do tronco"
 
 #: ../core/views/trunks/sip.php:22 ../core/views/trunks/trunk_header.php:235
 msgid "Trunk Name"
@@ -10168,16 +10187,16 @@ msgstr ""
 
 #: ../core/views/routing/form.php:436
 msgid "Trunk Sequence for Matched Routes"
-msgstr ""
+msgstr "Sequência de troncos para rotas combinadas"
 
 #: ../core/Core.class.php:2930
 msgid "Trunk:"
-msgstr ""
+msgstr "Tronco:"
 
 #: ../core/functions.inc.php:926
 #, php-format
 msgid "Trunk: %s (%s)"
-msgstr ""
+msgstr "Tronco: %s (%s)"
 
 #: amp.i18n.php:880 ../core/views/trunks/bootnav.php:20
 #: ../core/views/trunks/main.php:2
@@ -10189,39 +10208,42 @@ msgid "Trust RPID"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:974
+#, fuzzy
 msgid "Trys to enable all modules, accepts no arguments"
-msgstr ""
+msgstr "Tenta habilitar todos os módulos, não aceita argumentos"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:9
 #: ../core/page.extensions.php:125 ../core/views/quickCreate.php:5
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:37
 msgid ""
 "Typically the direct address of a module tarball where FreePBX will attempt "
 "to download remotely and upload locally"
 msgstr ""
+"Normalmente, o endereço direto de um módulo tarball onde FreePBX tentará "
+"baixar remotamente e fazer o upload localmente"
 
 #: ../core/functions.inc/drivers/Sip.class.php:401
 msgid "UDP Only"
-msgstr ""
+msgstr "Somente UDP"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:64
 msgid "UNSIGNED MODULES NOTICE:"
-msgstr ""
+msgstr "AVISO MÓDULOS NÃO ASSINADOS:"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:113
 msgid "UPDATE NOTICE:"
-msgstr ""
+msgstr "AVISO DE ATUALIZAÇÃO:"
 
 #: ../core/views/routing/form.php:606 ../core/views/trunks/trunk_footer.php:69
 msgid "US Emergency"
-msgstr ""
+msgstr "Emergência nos EUA"
 
 #: ../core/views/routing/form.php:604 ../core/views/trunks/trunk_footer.php:67
 msgid "US Information"
-msgstr ""
+msgstr "Informação dos EUA"
 
 #: ../core/views/routing/form.php:608 ../core/views/trunks/trunk_footer.php:71
 msgid "US International"
@@ -10241,73 +10263,77 @@ msgstr "Detalhes do usuário"
 
 #: ../core/install.php:598
 msgid "Unable to add index to extensions field in users"
-msgstr ""
+msgstr "Não é possível adicionar o índice ao campo ramais nos usuários"
 
 #: ../core/install.php:585
 msgid "Unable to add index to tech field in devices"
-msgstr ""
+msgstr "Não é possível adicionar índice ao campo tecnologia em dispositivos"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1434
 #, php-format
 msgid "Unable to connect to servers from URLs provided: %s"
-msgstr ""
+msgstr "Não é possível conectar a servidores a partir de URLs fornecidas: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:96
 #, php-format
 msgid "Unable to create %s config file"
-msgstr ""
+msgstr "Não é possível criar o arquivo de configuração %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:330
 #, php-format
 msgid "Unable to download GPG key %s, or find %s or %s"
-msgstr ""
+msgstr "Não é possível baixar a chave GPG %s, ou encontrar %s ou %s"
 
 #: ../core/Console/Trunks.class.php:73 ../core/Console/Trunks.class.php:81
 #, php-format
 msgid "Unable to enable Trunk %s. This trunk type may not support this"
 msgstr ""
+"Não foi possível habilitar o tronco %s. Esse tipo de tronco pode não ter "
+"suporte"
 
 #: amp_conf/htdocs/admin/libraries/media/Media/Media.php:297
 #, php-format
 msgid "Unable to find an intermediary converter for %s"
-msgstr ""
+msgstr "Não é possível encontrar um conversor intermediário para %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
 msgid ""
 "Unable to find the Locale binary. Your system may not support language "
 "changes!"
 msgstr ""
+"Não foi possível encontrar o binário Localidade. Seu sistema pode não "
+"suportar alterações de idioma!"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:117
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:127
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
 #, php-format
 msgid "Unable to locate the FreePBX BMO Class '%s'"
-msgstr ""
+msgstr "Não foi possível localizar a classe FreePBX BMO '%s'"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:100
 #, php-format
 msgid "Unable to open file %s"
-msgstr ""
+msgstr "Não foi possível abrir o arquivo %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:656
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:670
 #, php-format
 msgid "Unable to remove %s"
-msgstr ""
+msgstr "Não foi possível remover %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:684
 msgid "Unable to remove ca.cfg"
-msgstr ""
+msgstr "Não foi possível remover ca.cfg"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:689
 msgid "Unable to remove tmp.cfg"
-msgstr ""
+msgstr "Não foi possível remover tmp.cfg"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:284
 #, php-format
 msgid "Unable to resolve dependencies for module %s:"
-msgstr ""
+msgstr "Não foi possível resolver as dependências para o módulo %s:"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:108
 #, php-format
@@ -10315,6 +10341,8 @@ msgid ""
 "Unable to run Pre-Asterisk hooks, because Asterisk is already running on PID "
 "%s and has been running for %s"
 msgstr ""
+"Não foi possível executar ganchos Pré-Asterisk porque o Asterisk já está "
+"sendo executado no PID %s e está sendo executado para %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1494
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1759
@@ -10324,7 +10352,7 @@ msgstr "Impossível salvar %s"
 
 #: amp_conf/htdocs/admin/bootstrap.php:283
 msgid "Unable to set timezone"
-msgstr ""
+msgstr "Não foi possível definir fuso horário"
 
 #: amp_conf/htdocs/admin/bootstrap.php:283
 #, php-format
@@ -10333,35 +10361,38 @@ msgid ""
 "timezone has been temporarily changed to UTC. Please set the timezone in "
 "Advanced Settings."
 msgstr ""
+"Não foi possível definir fuso horário como %s porque o PHP não suporta esse "
+"fuso horário, o fuso horário foi temporariamente alterado para UTC. Defina o "
+"fuso horário em Configurações avançadas."
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:123
 msgid "Unable to start Asterisk!"
-msgstr ""
+msgstr "Não foi possível iniciar o Asterisk!"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:454
 #, php-format
 msgid "Unable to start GPG, the command was: [%s]"
-msgstr ""
+msgstr "Não foi possível iniciar o GPG, o comando foi: [%s]"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:405
 msgid "Unable to start OpenSSL"
-msgstr ""
+msgstr "Não foi possível iniciar o OpenSSL"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:403
-#, php-format
+#, fuzzy, php-format
 msgid "Unable to strip signature - result was: %s"
-msgstr ""
+msgstr "Não foi possível eliminar o resultado da assinatura: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:372
 #, php-format
 msgid "Unable to trust the FreePBX Key! -- %s"
-msgstr ""
+msgstr "Não foi possível confiar na chave FreePBX! -- %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1527
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1792
 #, php-format
 msgid "Unable to work with GPG file, message was: %s"
-msgstr ""
+msgstr "Não foi possível trabalhar com o arquivo GPG, a mensagem foi: %s"
 
 #: ../core/functions.inc.php:6066 ../core/functions.inc.php:6080
 msgid "Unavail Voicemail if Enabled"
