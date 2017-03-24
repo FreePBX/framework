@@ -20,14 +20,14 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-21 11:25-0700\n"
-"PO-Revision-Date: 2017-03-21 13:56+0200\n"
-"Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
-"Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
-"freepbx/framework/pt_BR/>\n"
+"PO-Revision-Date: 2017-03-24 13:16+0200\n"
+"Last-Translator: KNGVC <suporte@kingvoice.com.br>\n"
+"Language-Team: Portuguese (Brazil) "
+"<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.4\n"
 "X-Poedit-Language: Portuguese\n"
@@ -3590,7 +3590,7 @@ msgstr "Configurações de despejo"
 
 #: ../core/Core.class.php:368 ../core/Core.class.php:398
 msgid "Duplicate"
-msgstr "Duplicado"
+msgstr "Duplicar"
 
 #: amp.i18n.php:314
 msgid "Dynamically Generate Hints"
@@ -10085,12 +10085,18 @@ msgid ""
 "internally used settings that are not of interest to most users. Since they "
 "are readonly they can only be viewed."
 msgstr ""
+"Isso exibirá as configurações que são somente leitura. Essas configurações "
+"são, frequentemente, configurações internamente usadas que não são de "
+"interesse para a maioria dos usuários. Como são somente leitura, podem "
+"somente ser vistos."
 
 #: amp_conf/htdocs/admin/views/welcome.php:41
 msgid ""
 "This won't cause you any problems, but it does make your system a little "
 "harder to use."
 msgstr ""
+"Isto não lhe causará nenhum problema, mas deixa seu sistema um pouco mais "
+"difícil de usar."
 
 #: ../core/views/routing/timecond.php:8
 msgid "Time Group"
@@ -10101,10 +10107,13 @@ msgid "Time Group Assigned"
 msgstr "Grupo de Tempo Associado"
 
 #: amp.i18n.php:100
+#, fuzzy
 msgid ""
 "Timeout, im ms, for write timeouts for cases where Asterisk disconnects "
 "frequently"
 msgstr ""
+"Tempo limite, em ms, para tempos limite em casos que o Asterisk se "
+"desconecta frequentemente"
 
 #: amp.i18n.php:788
 msgid ""
@@ -10112,16 +10121,21 @@ msgid ""
 "of value Timezones: <a href='http://php.net/manual/en/timezones.php'>http://"
 "php.net/manual/en/timezones.php</a>"
 msgstr ""
+"Fuso horário que deve ser usado pelo PHP. Um valor vazio usará os padrões do "
+"PHP. Lista de valores Fuso horário: <a href='http://php.net/manual/en/timezon"
+"es.php'>http://php.net/manual/en/timezones.php</a>"
 
 #: amp_conf/htdocs/admin/views/login.php:9
 msgid "To get started, please enter your credentials:"
-msgstr ""
+msgstr "Para começar, digite suas credenciais:"
 
 #: amp_conf/htdocs/admin/libraries/media/Media/Driver/Drivers/SoxShell.php:81
 msgid ""
 "To perform the minimal amount of file conversions for HTML5 support and "
 "conversion support you need to at least install SOX"
 msgstr ""
+"Para executar a quantidade mínima de conversões de arquivos para suporte a "
+"HTML5 e suporte de conversão, você precisa pelo menos instalar SOX"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:278
 #, php-format
@@ -10129,6 +10143,8 @@ msgid ""
 "To play the media you will need to either update your browser to a recent "
 "version or update your %s"
 msgstr ""
+"Para reproduzir a mídia, você precisará atualizar seu navegador para uma "
+"versão recente ou atualizar seu %s"
 
 #: amp_conf/htdocs/admin/config.php:197
 #, php-format
@@ -10137,10 +10153,13 @@ msgid ""
 "webserver's configuration file for the User Control Panel. For more "
 "information see: %s"
 msgstr ""
+"Para proteger a integridade do seu servidor, você deve permitir "
+"substituições no arquivo de configuração do seu servidor web para o Painel "
+"de Controle do Usuário. Para obter mais informações, consulte: %s"
 
 #: amp_conf/htdocs/admin/views/menu.php:10
 msgid "Toggle navigation"
-msgstr ""
+msgstr "Alternar navegação"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:51
 #: amp_conf/htdocs/admin/views/module_admin/main.php:244
@@ -10150,11 +10169,11 @@ msgstr "Faixa"
 #: ../core/functions.inc/drivers/Sip.class.php:410
 #: ../core/views/trunks/pjsip.php:208
 msgid "Transport"
-msgstr ""
+msgstr "Transporte"
 
 #: amp.i18n.php:366
 msgid "Trunk Dial Timeout"
-msgstr ""
+msgstr "Tempo limite de discagem do tronco"
 
 #: ../core/views/trunks/sip.php:22 ../core/views/trunks/trunk_header.php:235
 msgid "Trunk Name"
@@ -10168,16 +10187,16 @@ msgstr ""
 
 #: ../core/views/routing/form.php:436
 msgid "Trunk Sequence for Matched Routes"
-msgstr ""
+msgstr "Sequência de troncos para rotas combinadas"
 
 #: ../core/Core.class.php:2930
 msgid "Trunk:"
-msgstr ""
+msgstr "Tronco:"
 
 #: ../core/functions.inc.php:926
 #, php-format
 msgid "Trunk: %s (%s)"
-msgstr ""
+msgstr "Tronco: %s (%s)"
 
 #: amp.i18n.php:880 ../core/views/trunks/bootnav.php:20
 #: ../core/views/trunks/main.php:2
@@ -10189,39 +10208,42 @@ msgid "Trust RPID"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:974
+#, fuzzy
 msgid "Trys to enable all modules, accepts no arguments"
-msgstr ""
+msgstr "Tenta habilitar todos os módulos, não aceita argumentos"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:9
 #: ../core/page.extensions.php:125 ../core/views/quickCreate.php:5
 msgid "Type"
-msgstr ""
+msgstr "Tipo"
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:37
 msgid ""
 "Typically the direct address of a module tarball where FreePBX will attempt "
 "to download remotely and upload locally"
 msgstr ""
+"Normalmente, o endereço direto de um módulo tarball onde FreePBX tentará "
+"baixar remotamente e fazer o upload localmente"
 
 #: ../core/functions.inc/drivers/Sip.class.php:401
 msgid "UDP Only"
-msgstr ""
+msgstr "Somente UDP"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:64
 msgid "UNSIGNED MODULES NOTICE:"
-msgstr ""
+msgstr "AVISO MÓDULOS NÃO ASSINADOS:"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:113
 msgid "UPDATE NOTICE:"
-msgstr ""
+msgstr "AVISO DE ATUALIZAÇÃO:"
 
 #: ../core/views/routing/form.php:606 ../core/views/trunks/trunk_footer.php:69
 msgid "US Emergency"
-msgstr ""
+msgstr "Emergência nos EUA"
 
 #: ../core/views/routing/form.php:604 ../core/views/trunks/trunk_footer.php:67
 msgid "US Information"
-msgstr ""
+msgstr "Informação dos EUA"
 
 #: ../core/views/routing/form.php:608 ../core/views/trunks/trunk_footer.php:71
 msgid "US International"
@@ -10241,73 +10263,77 @@ msgstr "Detalhes do usuário"
 
 #: ../core/install.php:598
 msgid "Unable to add index to extensions field in users"
-msgstr ""
+msgstr "Não é possível adicionar o índice ao campo ramais nos usuários"
 
 #: ../core/install.php:585
 msgid "Unable to add index to tech field in devices"
-msgstr ""
+msgstr "Não é possível adicionar índice ao campo tecnologia em dispositivos"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1434
 #, php-format
 msgid "Unable to connect to servers from URLs provided: %s"
-msgstr ""
+msgstr "Não é possível conectar a servidores a partir de URLs fornecidas: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:96
 #, php-format
 msgid "Unable to create %s config file"
-msgstr ""
+msgstr "Não é possível criar o arquivo de configuração %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:330
 #, php-format
 msgid "Unable to download GPG key %s, or find %s or %s"
-msgstr ""
+msgstr "Não é possível baixar a chave GPG %s, ou encontrar %s ou %s"
 
 #: ../core/Console/Trunks.class.php:73 ../core/Console/Trunks.class.php:81
 #, php-format
 msgid "Unable to enable Trunk %s. This trunk type may not support this"
 msgstr ""
+"Não foi possível habilitar o tronco %s. Esse tipo de tronco pode não ter "
+"suporte"
 
 #: amp_conf/htdocs/admin/libraries/media/Media/Media.php:297
 #, php-format
 msgid "Unable to find an intermediary converter for %s"
-msgstr ""
+msgstr "Não é possível encontrar um conversor intermediário para %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
 msgid ""
 "Unable to find the Locale binary. Your system may not support language "
 "changes!"
 msgstr ""
+"Não foi possível encontrar o binário Localidade. Seu sistema pode não "
+"suportar alterações de idioma!"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:117
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:127
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
 #, php-format
 msgid "Unable to locate the FreePBX BMO Class '%s'"
-msgstr ""
+msgstr "Não foi possível localizar a classe FreePBX BMO '%s'"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:100
 #, php-format
 msgid "Unable to open file %s"
-msgstr ""
+msgstr "Não foi possível abrir o arquivo %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:656
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:670
 #, php-format
 msgid "Unable to remove %s"
-msgstr ""
+msgstr "Não foi possível remover %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:684
 msgid "Unable to remove ca.cfg"
-msgstr ""
+msgstr "Não foi possível remover ca.cfg"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:689
 msgid "Unable to remove tmp.cfg"
-msgstr ""
+msgstr "Não foi possível remover tmp.cfg"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:284
 #, php-format
 msgid "Unable to resolve dependencies for module %s:"
-msgstr ""
+msgstr "Não foi possível resolver as dependências para o módulo %s:"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:108
 #, php-format
@@ -10315,6 +10341,8 @@ msgid ""
 "Unable to run Pre-Asterisk hooks, because Asterisk is already running on PID "
 "%s and has been running for %s"
 msgstr ""
+"Não foi possível executar ganchos Pré-Asterisk porque o Asterisk já está "
+"sendo executado no PID %s e está sendo executado para %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1494
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1759
@@ -10324,7 +10352,7 @@ msgstr "Impossível salvar %s"
 
 #: amp_conf/htdocs/admin/bootstrap.php:283
 msgid "Unable to set timezone"
-msgstr ""
+msgstr "Não foi possível definir fuso horário"
 
 #: amp_conf/htdocs/admin/bootstrap.php:283
 #, php-format
@@ -10333,43 +10361,46 @@ msgid ""
 "timezone has been temporarily changed to UTC. Please set the timezone in "
 "Advanced Settings."
 msgstr ""
+"Não foi possível definir fuso horário como %s porque o PHP não suporta esse "
+"fuso horário, o fuso horário foi temporariamente alterado para UTC. Defina o "
+"fuso horário em Configurações avançadas."
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:123
 msgid "Unable to start Asterisk!"
-msgstr ""
+msgstr "Não foi possível iniciar o Asterisk!"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:454
 #, php-format
 msgid "Unable to start GPG, the command was: [%s]"
-msgstr ""
+msgstr "Não foi possível iniciar o GPG, o comando foi: [%s]"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:405
 msgid "Unable to start OpenSSL"
-msgstr ""
+msgstr "Não foi possível iniciar o OpenSSL"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:403
-#, php-format
+#, fuzzy, php-format
 msgid "Unable to strip signature - result was: %s"
-msgstr ""
+msgstr "Não foi possível eliminar o resultado da assinatura: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:372
 #, php-format
 msgid "Unable to trust the FreePBX Key! -- %s"
-msgstr ""
+msgstr "Não foi possível confiar na chave FreePBX! -- %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1527
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1792
 #, php-format
 msgid "Unable to work with GPG file, message was: %s"
-msgstr ""
+msgstr "Não foi possível trabalhar com o arquivo GPG, a mensagem foi: %s"
 
 #: ../core/functions.inc.php:6066 ../core/functions.inc.php:6080
 msgid "Unavail Voicemail if Enabled"
-msgstr ""
+msgstr "Desativar o correio de voz se ativado"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:50
 msgid "Undefined Category"
-msgstr ""
+msgstr "Categoria indefinida"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:302
 #: amp_conf/htdocs/admin/views/module_admin/main.php:322
@@ -10382,100 +10413,106 @@ msgstr "Desinstalar"
 #: amp_conf/htdocs/admin/page.modules.php:352
 #, php-format
 msgid "Uninstalling %s"
-msgstr ""
+msgstr "Desinstalando %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:965
 msgid "Uninstalls module[s], accepts argument module[s]"
-msgstr ""
+msgstr "Desinstala o módulo[s], aceita argumento do módulo[s]"
 
 #: amp_conf/htdocs/admin/page.modules.php:947
 msgid "Unknown"
-msgstr ""
+msgstr "Desconhecido"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1209
 #, php-format
 msgid "Unknown Command! (%s)"
-msgstr ""
+msgstr "Comando desconhecido! (%s)"
 
 #: amp_conf/htdocs/admin/libraries/DB.class.php:716
 #, php-format
 msgid "Unknown Error Code %s"
-msgstr ""
+msgstr "Código de erro desconhecido %s"
 
 #: amp_conf/htdocs/admin/libraries/DB.class.php:553
 #: amp_conf/htdocs/admin/libraries/DB.class.php:593
 #: amp_conf/htdocs/admin/libraries/DB.class.php:679
 #, php-format
 msgid "Unknown SQL fetchmode of %s"
-msgstr ""
+msgstr "SQL fetchmode desconhecido %s"
 
 #: upgrades/2.8.0/custom-context.php:52
 #: upgrades/2.8.0rc1/custom-context.php:52
 msgid "Unknown error fetching Custom Context table data or no data to migrate"
 msgstr ""
+"Erro desconhecido ao buscar dados de tabela de Contexto Personalizado ou "
+"nenhum dado para migrar"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1819
 #, php-format
 msgid ""
 "Unknown file format of %s for %s, supported formats: tar,tgz,tar.gz,zip,bzip"
 msgstr ""
+"Formato de arquivo desconhecido de %s para %s, formatos suportados: tar, "
+"tgz, tar.gz, zip, bzip"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:554
 #, php-format
 msgid "Unknown filetype of: %s[%s]"
-msgstr ""
+msgstr "Tipo de arquivo desconhecido: %s[%s]"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1732
 msgid "Unknown upload error"
-msgstr ""
+msgstr "Erro de upload desconhecido"
 
 #: ../core/page.advancedsettings.php:293
 msgid ""
 "Unlike previous versions of this module you now save changes as a group."
 msgstr ""
+"Ao contrário das versões anteriores deste módulo, agora você salva as "
+"alterações como um grupo."
 
 #: amp_conf/htdocs/admin/libraries/Console/Unlock.class.php:14
 msgid "Unlock Session"
-msgstr ""
+msgstr "Desbloquear sessão"
 
 #: amp_conf/htdocs/admin/libraries/Console/Unlock.class.php:28
 #, php-format
 msgid "Unlocking: %s"
-msgstr ""
+msgstr "Desbloqueando: %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Unlock.class.php:23
 #, php-format
 msgid "Unlocking: %s Failed, Invalid session"
-msgstr ""
+msgstr "Desbloqueando: %s falhou, Sessão Inválida"
 
 #: amp_conf/htdocs/admin/views/welcome.php:16
 msgid "Unsigned"
-msgstr ""
+msgstr "Não assinado"
 
 #: amp_conf/htdocs/admin/config.php:530
 msgid "Unsigned Module(s)"
-msgstr ""
+msgstr "Módulo(s) não assinado(s)"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:222
 msgid "Unsolicited"
-msgstr ""
+msgstr "Não solicitado"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:16
 msgid "Unsupported"
-msgstr ""
+msgstr "Não suportado"
 
 #: amp_conf/htdocs/admin/libraries/DB.class.php:420
 msgid "Unsupported getAssoc Conversion mode"
-msgstr ""
+msgstr "Modo de conversão getAssoc não suportado"
 
 #: amp_conf/htdocs/admin/page.modules.php:1059
 msgid "Untarring.."
-msgstr "Destarrando..."
+msgstr "Descompactando..."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:516
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:914
 msgid "Up to date."
-msgstr ""
+msgstr "Atualizado."
 
 #: amp_conf/htdocs/admin/views/footer.php:109
 #: amp_conf/htdocs/admin/views/welcome.php:12
@@ -10488,11 +10525,11 @@ msgstr "Atualizar Notificações"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:277
 msgid "Update Required"
-msgstr ""
+msgstr "Atualização necessária"
 
 #: amp_conf/htdocs/admin/views/footer.php:306
 msgid "Update my browser now"
-msgstr ""
+msgstr "Atualizar meu navegador agora"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:888
 #: amp_conf/htdocs/admin/page.modules.php:385
@@ -10501,17 +10538,17 @@ msgstr ""
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:143
 msgid "Updating prepared settings.."
-msgstr ""
+msgstr "Atualizando configurações preparadas.."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:898
 msgid "Upgradable: "
-msgstr ""
+msgstr "Atualizável: "
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:75
 #: amp_conf/htdocs/admin/views/module_admin/main.php:210
 #: amp_conf/htdocs/admin/views/module_admin/main.php:310
 msgid "Upgrade"
-msgstr ""
+msgstr "Atualizar"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:35
 #: amp_conf/htdocs/admin/views/module_admin/main.php:439
@@ -10520,7 +10557,7 @@ msgstr "Atualizar todos"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:966
 msgid "Upgrade module[s], accepts argument module[s]"
-msgstr ""
+msgstr "Atualizar módulo[s], aceita argumento de módulo[s]"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:278
 #, php-format
@@ -10529,15 +10566,15 @@ msgstr "Atualizar para %s e Habilitar"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:975
 msgid "Upgrades all modules, accepts no arguments"
-msgstr ""
+msgstr "Atualiza todos os módulos, não aceita argumentos"
 
 #: amp_conf/htdocs/admin/page.modules.php:639
 msgid "Upgrades, installs, enables and disables:"
-msgstr ""
+msgstr "Atualiza, instala, habilita e desabilita:"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:511
 msgid "Upgrading "
-msgstr ""
+msgstr "Atualizando "
 
 #: amp_conf/htdocs/admin/page.modules.php:217
 #, php-format
@@ -10546,20 +10583,20 @@ msgstr "Atualizando %s para %s da faixa %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:498
 msgid "Upgrading: "
-msgstr ""
+msgstr "Atualizando: "
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:28
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:42
 msgid "Upload (From Hard Disk)"
-msgstr ""
+msgstr "Upload (do disco rígido)"
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:41
 msgid "Upload Local Module"
-msgstr ""
+msgstr "Carregar Módulo Local"
 
 #: ../core/views/routing/form.php:501
 msgid "Upload from CSV"
-msgstr ""
+msgstr "Upload de CSV"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:14
 msgid "Upload module"
@@ -10578,45 +10615,50 @@ msgid ""
 "If there are less then 4 recognized headers then the remaining columns will "
 "be blank"
 msgstr ""
+"Carregar padrões de um arquivo CSV substituindo entradas existentes. Se não "
+"houver cabeçalhos, então o arquivo deve ter 4 colunas de padrões na mesma "
+"ordem que na interface de usuário (GUI). Você também pode fornecer "
+"cabeçalhos: %s, %s, %s e %s na primeira linha. Se houver menos de 4 "
+"cabeçalhos reconhecidos, então as colunas restantes ficarão em branco"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:952
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:216
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:253
 msgid "Usage"
-msgstr ""
+msgstr "Uso"
 
 #: amp.i18n.php:374
 msgid "Use Google DNS for Enum"
-msgstr ""
+msgstr "Use o DNS do Google para Enum"
 
 #: amp.i18n.php:834
 msgid "Use Google Distribution Network for js Downloads"
-msgstr ""
+msgstr "Use a Rede de Distribuição do Google para baixar js"
 
 #: amp.i18n.php:508
 msgid "Use HTTP(S) Proxy"
-msgstr ""
+msgstr "Use Proxy HTTP(S)"
 
 #: amp.i18n.php:178
 msgid "Use Packaged Javascript Library "
-msgstr ""
+msgstr "Usar biblioteca JavaScript compactada "
 
 #: amp.i18n.php:370
 msgid "Use bad-number Context"
-msgstr ""
+msgstr "Usar contexto bad-number"
 
 #: ../core/page.advancedsettings.php:290
 msgid "Use extreme caution when making changes!"
-msgstr ""
+msgstr "Tenha extremo cuidado ao fazer alterações!"
 
 #: amp.i18n.php:490
 msgid "Use freepbx_menu.conf Configuration"
-msgstr ""
+msgstr "Usar configuração freepbx_menu.conf"
 
 #: amp.i18n.php:494
 msgid "Use wget For Module Admin"
-msgstr ""
+msgstr "Usar wget para Módulo Admin"
 
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:254
 #, php-format
@@ -10628,6 +10670,9 @@ msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this."
 msgstr ""
+"Usado para fazer mudanças extremamente avançadas e personalizadas para o "
+"localizador de macro-vm VmX. Verifique o plano de discagem para uma "
+"compreensão completa de como usar isso."
 
 #: amp.i18n.php:856
 msgid ""
@@ -10637,6 +10682,12 @@ msgid ""
 "(timeout) or press # which is interpreted as a timeout. Set this to 'dovm' "
 "to go to voicemail (default)."
 msgstr ""
+"Usado para fazer mudanças extremamente avançadas e personalizadas para o "
+"localizador de macro-vm VmX. Verifique o plano de discagem para uma "
+"compreensão completa de como usar isso. O local padrão que um chamador será "
+"enviado se não pressionar nenhuma tecla (tempo limite) ou pressione # que é "
+"interpretado como tempo final. Defina isso como 'dovm' para ir para o "
+"correio de voz (padrão)."
 
 #: amp.i18n.php:846
 msgid ""
@@ -10645,12 +10696,19 @@ msgid ""
 "The default location that a caller will be sent if they press an invalid "
 "options too many times, as defined by the Maximum Loops count."
 msgstr ""
+"Usado para fazer mudanças extremamente avançadas e personalizadas para o "
+"localizador de macro-vm VmX. Verifique o plano de discagem para uma "
+"compreensão completa de como usar isso. O local padrão que um chamador será "
+"enviado se pressionar muitas vezes uma opção inválida, conforme definido "
+"pela contagem máxima de ciclos."
 
 #: amp.i18n.php:716
 msgid ""
 "Used when PHP Console is enabled for error debugging https://github.com/"
 "barbushin/php-console"
 msgstr ""
+"Usado quando o Console PHP está habilitado para depuração de erros "
+"https://github.com/barbushin/php-console"
 
 #: ../core/Core.class.php:2909 ../core/functions.inc.php:5857
 #: ../core/page.devices.php:66 ../core/page.devices.php:87
@@ -10660,7 +10718,7 @@ msgstr "Usuário"
 
 #: amp.i18n.php:734
 msgid "User & Devices Mode"
-msgstr ""
+msgstr "Modo de usuário e dispositivos"
 
 #: ../core/views/trunks/trunk_footer.php:94
 msgid "User Context was left blank and User Details will not be saved!"
@@ -10670,7 +10728,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/login.php:28
 msgid "User Control Panel"
-msgstr ""
+msgstr "Painel de Controle do Usuário"
 
 #: ../core/functions.inc.php:5945
 msgid "User Devices"
@@ -10699,7 +10757,7 @@ msgstr "Logon do Usuário"
 
 #: amp_conf/htdocs/admin/views/menu_items.php:49
 msgid "User Panel"
-msgstr ""
+msgstr "Painel do Usuário"
 
 #: ../core/functions.inc.php:5904
 msgid "User Password"
@@ -10707,7 +10765,7 @@ msgstr "Senha do Usuário"
 
 #: ../core/Core.class.php:2683
 msgid "User could not be added."
-msgstr ""
+msgstr "O usuário não pôde ser adicionado."
 
 #: ../core/install.php:177
 msgid "User: "
@@ -10717,21 +10775,25 @@ msgstr "Usuário: "
 #: amp_conf/htdocs/admin/views/oobe.php:8 ../core/page.ampusers.php:202
 #: ../core/views/ampusers/bootnav.php:14 ../core/views/trunks/pjsip.php:54
 msgid "Username"
-msgstr "Usuário"
+msgstr "Nome de usuário"
 
 #: amp.i18n.php:96
 msgid ""
 "Username for accessing the Asterisk Manager Interface (AMI), this will be "
 "automatically updated in manager.conf."
 msgstr ""
+"Nome de usuário para acesso à Interface de Gerenciamento do Asterisk (AMI), "
+"este será atualizado automaticamente no manager.conf."
 
 #: ../core/views/trunks/pjsip.php:829
 msgid "Username is trunk name"
-msgstr ""
+msgstr "O nome de usuário é o nome do tronco"
 
 #: ../core/views/trunks/pjsip.php:505
 msgid "Username to use in From header for requests to this trunk"
 msgstr ""
+"Nome de usuário a ser usado no cabeçalho From para solicitações para este "
+"tronco"
 
 #: amp.i18n.php:868
 msgid "Users"
@@ -10740,7 +10802,7 @@ msgstr "Usuários"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:679
 #, php-format
 msgid "Using repos: [%s]"
-msgstr ""
+msgstr "Usando repositório: [%s]"
 
 #: ../core/views/trunks/pjsip.php:94
 msgid ""
@@ -10749,14 +10811,20 @@ msgid ""
 "select 'None', all calls from or to the specified SIP Server are "
 "unauthenticated. <strong>Setting this to 'None' may be insecure!</strong>"
 msgstr ""
+"Geralmente, isso será definido como 'Saída', que autentica chamadas que saem "
+"e permite chamadas não autenticadas do outro servidor. Se você selecionar "
+"'Nenhum', todas as chamadas de ou para o Servidor SIP especificado não serão "
+"autenticadas. <strong>Definir isto como \"Nenhum\" pode ser "
+"inseguro!</strong>"
 
 #: amp.i18n.php:838
 msgid "VMX Default Context"
-msgstr ""
+msgstr "Contexto Padrão VMX"
 
 #: amp.i18n.php:844
+#, fuzzy
 msgid "VMX Default Loop Exceed Context"
-msgstr ""
+msgstr "Contexto Excedente de Ciclo Padrão VMX"
 
 #: amp.i18n.php:848
 msgid "VMX Default Loop Exceed Extension"
@@ -10768,11 +10836,11 @@ msgstr ""
 
 #: amp.i18n.php:852
 msgid "VMX Default Priority"
-msgstr ""
+msgstr "Prioridade padrão do VMX"
 
 #: amp.i18n.php:854
 msgid "VMX Default Timeout Context"
-msgstr ""
+msgstr "Contexto de tempo final padrão do VMX"
 
 #: amp.i18n.php:858
 msgid "VMX Default Timeout Extension"
@@ -10786,11 +10854,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1177
 #, php-format
 msgid "Value [%s] out of range, changed to [%s]"
-msgstr ""
+msgstr "Valor [%s] fora do intervalo, alterado para [%s]"
 
 #: ../core/functions.inc/drivers/Sip.class.php:492
 msgid "Value must be between 1 and 63"
-msgstr ""
+msgstr "O valor deve estar entre 1 e 63"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:859
 msgid "Verifying GPG..."
