@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-03-21 11:25-0700\n"
+"POT-Creation-Date: 2017-03-24 15:27-0700\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -908,7 +908,7 @@ msgstr "Дополнительные настройки"
 msgid "Advanced Settings Details"
 msgstr "Дополнительные возможности - подробней"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:230
+#: ../core/functions.inc/drivers/PJSip.class.php:236
 msgid "Aggregate MWI"
 msgstr "Агрегированные MWI"
 
@@ -1014,7 +1014,7 @@ msgstr ""
 msgid "Allow Login With DB Credentials"
 msgstr "Разрешить вход с параметрами доступа базы данных"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:236
+#: ../core/functions.inc/drivers/PJSip.class.php:242
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP) "
 msgstr ""
 
@@ -1047,7 +1047,7 @@ msgid "Alt for Left Logo"
 msgstr "Всплывающий комментарий для левого логотипа"
 
 #: ../core/functions.inc.php:5767
-#: ../core/functions.inc/drivers/PJSip.class.php:243
+#: ../core/functions.inc/drivers/PJSip.class.php:249
 msgid "Always"
 msgstr "Всегда"
 
@@ -1441,6 +1441,7 @@ msgstr ""
 "имена пользователей не существуют в Менеджере Пользователя."
 
 #: ../core/functions.inc/drivers/Iax2.class.php:150
+#: ../core/functions.inc/drivers/PJSip.class.php:224
 #: ../core/functions.inc/drivers/Sip.class.php:303
 #: ../core/functions.inc/drivers/Sip.class.php:307
 #: ../core/views/trunks/pjsip.php:241
@@ -2639,7 +2640,7 @@ msgstr ""
 "используются по каким то причинам.<br>Номер порта хоста для подключения к "
 "сторонней базе CDR."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:235
+#: ../core/functions.inc/drivers/PJSip.class.php:241
 msgid "DTLS-SRTP (not recommended)"
 msgstr ""
 
@@ -3068,7 +3069,7 @@ msgstr ""
 "служб с определённым для этого внутреннего номера/устройства специального "
 "CID."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:251
+#: ../core/functions.inc/drivers/PJSip.class.php:257
 msgid ""
 "Determines whether encryption should be used if possible but does not "
 "terminate the session if not achieved. This option only applies if Media "
@@ -3133,7 +3134,7 @@ msgstr "Опции устройства"
 msgid "Device Settings"
 msgstr "Установки устройства"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:255
+#: ../core/functions.inc/drivers/PJSip.class.php:261
 msgid "Device State Busy at"
 msgstr ""
 
@@ -4432,18 +4433,22 @@ msgstr "Флаги"
 msgid "Flash Operator Panel"
 msgstr "Флэш Панель Оператора"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:223
+#: ../core/functions.inc/drivers/PJSip.class.php:226
+msgid ""
+"For Message Waiting indicators there are three types: Auto, Solicited and "
+"Unsolicited. Auto means the PBX will try to automatically determine the type "
+"of MWI the phone uses. Solicited means Subscribe 200 then Notify 200. "
+"Unsolicited means only Notify 200. No need to Subscribe. Auto is the default "
+"and should only be changed if you see errors in the Asterisk logs"
+msgstr ""
+
+#: ../core/functions.inc/drivers/PJSip.class.php:222
 msgid ""
 "For Message Waiting indicators there are two types: Solicited and "
 "Unsolicited. Solicited means Subscribe 200 then Notify 200. Unsolicited "
-"means only Notify 200. No need to Subscribe. Solicited is the default and "
+"means only Notify 200. No need to Subscribe. Unsolicited is the default and "
 "should only be changed if you see errors in the Asterisk logs"
 msgstr ""
-"Существуют два типа  индикаторов ожидающего сообщения: Запрошенный и "
-"Незапрошенный. \"Запрошенный\" означает  Оформить подписку для 200 и "
-"оповестить 200. \"Незапрошенный\"  означает только уведомить. Нет "
-"необходимости в оформлении подписки. \"Зарпошенный\" - значение по умолчанию "
-"и следует изменить если в лог-файлах  Asterisk появляются ошибки"
 
 #: amp.i18n.php:348
 msgid ""
@@ -4560,7 +4565,7 @@ msgstr ""
 msgid "Force use of return port."
 msgstr "Запуск использования обратного порта"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:244
+#: ../core/functions.inc/drivers/PJSip.class.php:250
 msgid "Forced"
 msgstr ""
 
@@ -5806,7 +5811,7 @@ msgstr "Ниижний лимит памяти"
 msgid "MAC Address"
 msgstr "MAC-адрес"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:224
+#: ../core/functions.inc/drivers/PJSip.class.php:230
 msgid "MWI Subscription Type"
 msgstr "Тип подписки MWI"
 
@@ -5862,7 +5867,7 @@ msgstr ""
 msgid "Manually Loaded Modules"
 msgstr "Модули,загруженные вручную"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:260
+#: ../core/functions.inc/drivers/PJSip.class.php:266
 #: ../core/views/trunks/pjsip.php:587
 msgid "Match (Permit)"
 msgstr "Совпадать(Разрешить)"
@@ -5884,7 +5889,7 @@ msgstr "Попыток максимально"
 msgid "Maximum Channels"
 msgstr "Максимально каналов"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:264
+#: ../core/functions.inc/drivers/PJSip.class.php:270
 msgid "Maximum Expiration"
 msgstr "Максимальный срок истечения"
 
@@ -5916,7 +5921,7 @@ msgid ""
 "30 seconds"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:263
+#: ../core/functions.inc/drivers/PJSip.class.php:269
 msgid "Maximum time to keep an AoR"
 msgstr "Максимальное время хранения AoR"
 
@@ -5924,7 +5929,7 @@ msgstr "Максимальное время хранения AoR"
 msgid "May be invalid Check your spelling"
 msgstr "Возможна неверная проверка Вашего произношения"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:237
+#: ../core/functions.inc/drivers/PJSip.class.php:243
 msgid "Media Encryption"
 msgstr "Шифрование медиаданных"
 
@@ -5966,7 +5971,7 @@ msgstr ""
 msgid "Min Length"
 msgstr "Минимальная длина"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:268
+#: ../core/functions.inc/drivers/PJSip.class.php:274
 msgid "Minimum Expiration"
 msgstr "Минимальный срок истечения"
 
@@ -5979,7 +5984,7 @@ msgstr ""
 "Минимальное количество цифр в Caller ID (CID), необходимое для принятия "
 "решения, что он верный"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:267
+#: ../core/functions.inc/drivers/PJSip.class.php:273
 msgid "Minimum time to keep an AoR"
 msgstr "Минимальное время хранения AoR"
 
@@ -6415,9 +6420,9 @@ msgstr "Каждую ночь"
 #: ../core/functions.inc/drivers/Dahdi.class.php:137
 #: ../core/functions.inc/drivers/Iax2.class.php:111
 #: ../core/functions.inc/drivers/Iax2.class.php:149
-#: ../core/functions.inc/drivers/PJSip.class.php:227
-#: ../core/functions.inc/drivers/PJSip.class.php:240
-#: ../core/functions.inc/drivers/PJSip.class.php:249
+#: ../core/functions.inc/drivers/PJSip.class.php:233
+#: ../core/functions.inc/drivers/PJSip.class.php:246
+#: ../core/functions.inc/drivers/PJSip.class.php:255
 #: ../core/functions.inc/drivers/Sip.class.php:318
 #: ../core/functions.inc/drivers/Sip.class.php:334
 #: ../core/functions.inc/drivers/Sip.class.php:340
@@ -6536,7 +6541,7 @@ msgstr "Трейсы NoOp в диал-плане"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:213
 #: ../core/functions.inc.php:5760
-#: ../core/functions.inc/drivers/PJSip.class.php:233
+#: ../core/functions.inc/drivers/PJSip.class.php:239
 #: ../core/views/did/advanced_form.php:215
 #: ../core/views/did/basic_form.php:120 ../core/views/trunks/pjsip.php:91
 #: ../core/views/trunks/pjsip.php:110 ../core/views/trunks/pjsip.php:642
@@ -7016,7 +7021,7 @@ msgstr "Контроль внешних исходящих соединений"
 msgid "Outbound Internal Calls"
 msgstr "Контроль внутренних исходящих соединений"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:271
+#: ../core/functions.inc/drivers/PJSip.class.php:277
 #: ../core/views/trunks/pjsip.php:422 ../core/views/trunks/pjsip.php:434
 msgid "Outbound Proxy"
 msgstr "Исходящий прокси"
@@ -7912,7 +7917,7 @@ msgstr "Репозитории"
 msgid "Require Confirm with Apply Changes"
 msgstr "Требуется подтверждение при применении изменений"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:252
+#: ../core/functions.inc/drivers/PJSip.class.php:258
 msgid "Require RTP (Media) Encryption"
 msgstr ""
 
@@ -7920,7 +7925,7 @@ msgstr ""
 msgid "Require Strong Secrets"
 msgstr "Требуется сложный пароль"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:242
+#: ../core/functions.inc/drivers/PJSip.class.php:248
 msgid "Required"
 msgstr ""
 
@@ -8166,7 +8171,7 @@ msgstr "SIP SENDPRID"
 msgid "SIP trustrpid"
 msgstr "SIP TRUSTRPID"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:234
+#: ../core/functions.inc/drivers/PJSip.class.php:240
 msgid "SRTP via in-SDP (recommended)"
 msgstr ""
 
@@ -8290,7 +8295,7 @@ msgstr "Сессия должна быть сейчас разблокирова
 msgid "Session Timeout"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:246
+#: ../core/functions.inc/drivers/PJSip.class.php:252
 #: ../core/functions.inc/drivers/Sip.class.php:361
 msgid "Session Timers"
 msgstr ""
@@ -8596,7 +8601,7 @@ msgstr ""
 msgid "Skip the chown operation"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:221
+#: ../core/functions.inc/drivers/PJSip.class.php:229
 msgid "Solicited"
 msgstr "Затребовано"
 
@@ -9143,7 +9148,7 @@ msgstr ""
 "Модуль, к которму Вы пытаетесь получить доступ,был отключен ожидающим "
 "изменением версии."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:254
+#: ../core/functions.inc/drivers/PJSip.class.php:260
 msgid ""
 "The number of in-use channels which will cause busy to be returned as device "
 "state. This should be left at 0 unless you know what you are doing"
@@ -9315,7 +9320,7 @@ msgid ""
 "support Session-Timers clear their internal session state. Default is Accept."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:245
+#: ../core/functions.inc/drivers/PJSip.class.php:251
 msgid ""
 "The sessions are kept alive by sending a RE-INVITE or UPDATE request at a "
 "negotiated interval. If a session refresh fails then all the entities that "
@@ -9437,7 +9442,7 @@ msgstr ""
 "используют скрипт freepbx_engine. Для большинства систем это значение не "
 "надо менять."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:259
+#: ../core/functions.inc/drivers/PJSip.class.php:265
 msgid ""
 "The value is a comma-delimited list of IP addresses. IP addresses may have a "
 "subnet mask appended. The subnet mask may be written in either CIDR or dot-"
@@ -10209,7 +10214,7 @@ msgstr "Неподписано"
 msgid "Unsigned Module(s)"
 msgstr "Неподписанные модули"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:222
+#: ../core/functions.inc/drivers/PJSip.class.php:228
 msgid "Unsolicited"
 msgstr "Незапрошенные"
 
@@ -10785,7 +10790,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:229
+#: ../core/functions.inc/drivers/PJSip.class.php:235
 msgid ""
 "When enabled, Asterisk condenses message waiting notifications from multiple "
 "mailboxes into a single NOTIFY. If it is disabled, individual NOTIFYs are "
@@ -11010,9 +11015,9 @@ msgstr ""
 #: ../core/functions.inc/drivers/Dahdi.class.php:136
 #: ../core/functions.inc/drivers/Iax2.class.php:110
 #: ../core/functions.inc/drivers/Iax2.class.php:148
-#: ../core/functions.inc/drivers/PJSip.class.php:228
-#: ../core/functions.inc/drivers/PJSip.class.php:241
-#: ../core/functions.inc/drivers/PJSip.class.php:250
+#: ../core/functions.inc/drivers/PJSip.class.php:234
+#: ../core/functions.inc/drivers/PJSip.class.php:247
+#: ../core/functions.inc/drivers/PJSip.class.php:256
 #: ../core/functions.inc/drivers/Sip.class.php:319
 #: ../core/functions.inc/drivers/Sip.class.php:335
 #: ../core/functions.inc/drivers/Sip.class.php:415
@@ -12328,6 +12333,18 @@ msgstr ""
 #: ../core/install.php:1120
 msgid "zap devices migrated"
 msgstr "Устройства ZAP перенесены"
+
+#~ msgid ""
+#~ "For Message Waiting indicators there are two types: Solicited and "
+#~ "Unsolicited. Solicited means Subscribe 200 then Notify 200. Unsolicited "
+#~ "means only Notify 200. No need to Subscribe. Solicited is the default and "
+#~ "should only be changed if you see errors in the Asterisk logs"
+#~ msgstr ""
+#~ "Существуют два типа  индикаторов ожидающего сообщения: Запрошенный и "
+#~ "Незапрошенный. \"Запрошенный\" означает  Оформить подписку для 200 и "
+#~ "оповестить 200. \"Незапрошенный\"  означает только уведомить. Нет "
+#~ "необходимости в оформлении подписки. \"Зарпошенный\" - значение по "
+#~ "умолчанию и следует изменить если в лог-файлах  Asterisk появляются ошибки"
 
 #~ msgid "Terminate Call"
 #~ msgstr "Терминировать звонок"
