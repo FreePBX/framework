@@ -26,7 +26,7 @@ class Motd extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$this->updateVars();
 		$edgemode = \FreePBX::Config()->get('MODULEADMINEDGE');
-		$alerts = \FreePBX::Notifications()->get_num_active();
+		$alerts = count(\FreePBX::Notifications()->list_all());
 		$output->write(base64_decode($this->banner));
 		$output->writeln("");
 		$output->writeln("");
