@@ -32,7 +32,7 @@ class Motd extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$this->updateVars();
 		$edgemode = \FreePBX::Config()->get('MODULEADMINEDGE');
-		$alerts = \FreePBX::Notifications()->get_num_active();
+		$alerts = count(\FreePBX::Notifications()->list_all());
 		if(is_array($this->banner)) {
 			//http://www.figlet.org/examples.html
 			$font = !empty($this->banner['font']) ? $this->banner['font'] : "doom";
@@ -62,7 +62,6 @@ class Motd extends Command {
 		} else {
 			$output->write(base64_decode($this->banner));
 		}
-
 		if($alerts != 0) {
 			$output->writeln("<fg=red>".sprintf(_("NOTICE! You have %s notifications! Please log into the UI to see them!"), $alerts)."</fg=red>");
 		}
