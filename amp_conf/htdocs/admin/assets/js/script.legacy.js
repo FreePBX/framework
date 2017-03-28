@@ -1247,7 +1247,7 @@ $(document).ready(function() {
 	});
 	$("#fpbxsearch input").blur(function() {
 		$("#fpbxsearch").removeClass("in");
-		Cookies.set("searchHide",1);
+		Cookies.set("searchHide",1,{ path: '' });
 	});
 	$("#search-btn").click(function() {
 		if(!$("#fpbxsearch").hasClass("in")) {
@@ -1255,14 +1255,14 @@ $(document).ready(function() {
 				$("#fpbxsearch input").focus();
 			});
 			$("#fpbxsearch").addClass("in");
-			Cookies.set("searchHide",0);
+			Cookies.set("searchHide",0,{ path: '' });
 		}
 	});
 	$(window).keydown(function(e){
 		if(e.keyCode === 27 && $("#fpbxsearch").hasClass("in")) {
 			$("#fpbxsearch input").blur();
 			$("#floating-nav-bar").removeClass("show");
-			Cookies.set("searchHide",1);
+			Cookies.set("searchHide",1,{ path: '' });
 		}
 	});
 	if ($(".fpbx-container").length > 0) {
@@ -1395,7 +1395,7 @@ $(document).ready(function() {
 		} else {
 			messages = [ hash ];
 		}
-		Cookies.set("bannerMessages", JSON.stringify(messages), { expires: 365 });
+		Cookies.set("bannerMessages", JSON.stringify(messages), { expires: 365 , path: '' });
 	});
 	bind_dests_double_selects();
 
@@ -1446,7 +1446,7 @@ $(document).ready(function() {
 				//set cookie of hidden section
 				guielToggle = $.parseJSON(Cookies.get("guielToggle")) || {};
 				guielToggle[section] = false;
-				Cookies.set("guielToggle", JSON.stringify(guielToggle));
+				Cookies.set("guielToggle", JSON.stringify(guielToggle),{ path: '' });
 			break;
 			case "+":
 				txt.text("-  ");
@@ -1456,7 +1456,7 @@ $(document).ready(function() {
 				guielToggle = $.parseJSON(Cookies.get("guielToggle")) || {};
 				if (guielToggle.hasOwnProperty(section)){
 					guielToggle[section] = true;
-					Cookies.set("guielToggle", JSON.stringify(guielToggle));
+					Cookies.set("guielToggle", JSON.stringify(guielToggle),{ path: '' });
 				}
 			break;
 		}
@@ -1464,7 +1464,7 @@ $(document).ready(function() {
 
 	//set language on click
 	$("#fpbx_lang > li").click(function() {
-		Cookies.set("lang", $(this).data("lang"));
+		Cookies.set("lang", $(this).data("lang"), { path: '' });
 		window.location.reload();
 	});
 
@@ -1649,7 +1649,7 @@ $(document).ready(function() {
 	//ajax spinner
 	$(document).ajaxStart(function() {
 		$("#settings-cog").addClass("fa-spin");
-		$("#settings-cog").css("color","")
+		$("#settings-cog").css("color","");
 		$("#settings-cog").prop("title","");
 	});
 
