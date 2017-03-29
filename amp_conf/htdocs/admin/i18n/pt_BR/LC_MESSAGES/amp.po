@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-24 15:27-0700\n"
-"PO-Revision-Date: 2017-03-27 15:26+0200\n"
+"PO-Revision-Date: 2017-03-29 17:50+0200\n"
 "Last-Translator: KNGVC <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -11166,6 +11166,15 @@ msgid ""
 "level will NOT be shown as these are foten analog line pauses (w) or other "
 "characters that distort the CNUM field on updates."
 msgstr ""
+"Quando definido como Verdadeiro e recursos CONNECTEDLINE() são configurados "
+"e suportados pelo seu aparelho, o número discado  será atualizado no seu "
+"aparelho no campo CNUM. Isso permite que você veja a manipulação final do "
+"número após a rota de saída e as regras de manipulação de discagem de tronco "
+"terem sido aplicadas. Por exemplo, se você tiver configurado a discagem de 7 "
+"dígitos em um dialplan da América do Norte, a transmissão final de 10 ou 11 "
+"dígitos será exibida. Quaisquer 'Prefixos de Discagem de Saída' configurados "
+"a nível de tronco NÃO serão mostrados, ou outros caracteres que distorcem o "
+"campo CNUM em atualizações."
 
 #: amp.i18n.php:324
 msgid ""
@@ -11173,6 +11182,9 @@ msgid ""
 "activating/de-activating: CallForward, CallWaiting, DayNight, DoNotDisturb "
 "and FindMeFollow."
 msgstr ""
+"Quando definido como Verdadeiro, é emitido um sinal sonoro em vez da "
+"mensagem de confirmação ao ativar/desativar: Encaminhamento de chamadas, "
+"Chamada em espera, DiaNoite, Não Perturbe e Siga-me."
 
 #: amp.i18n.php:492
 msgid ""
@@ -11181,14 +11193,18 @@ msgid ""
 "remap the menu tabs and contents. See http://wiki.freepbx.org/x/6YDGAg for "
 "more details"
 msgstr ""
+"Quando definido como Verdadeiro, o sistema verificará se existe um arquivo "
+"freepbx_menu.conf entre os arquivos normais de configuração e, se "
+"encontrado, ele será usado para definir e remapear as guias do menu e o "
+"conteúdo. Veja http://wiki.freepbx.org/x/6YDGAg para mais detalhes"
 
 #: amp.i18n.php:430
 msgid "Where (root) command line scripts are located."
-msgstr ""
+msgstr "Onde os scripts de linha de comando (root) estão localizados."
 
 #: ../core/views/routing/form.php:424
 msgid "Where to insert this route or relocate it relative to the other routes."
-msgstr ""
+msgstr "Onde inserir essa rota ou realocá-la em relação às outras rotas."
 
 #: amp.i18n.php:720
 msgid ""
@@ -11197,6 +11213,11 @@ msgid ""
 "dbug Loggin is disabled or not. Set to 'freepbxlog' will send them to the "
 "FreePBX Log. Set to 'off' and they will be ignored."
 msgstr ""
+"Onde enviar erros PHP, alertas e avisos pelo manipulador de erro FreePBX "
+"PHP. Definido para 'dbug', eles irão para o arquivo de depuração, "
+"independentemente se dbug Loggin está desativado ou não. Definido como "
+"'freepbxlog' irá enviá-los para o FreePBX Log. Defina para 'off' e eles "
+"serão ignorados."
 
 #: ../core/functions.inc/drivers/Sip.class.php:346
 msgid ""
@@ -11204,12 +11225,18 @@ msgid ""
 "should be enabled to the settings used by your device for CONNECTEDLINE() "
 "functionality to work if supported by the endpoint."
 msgstr ""
+"Se o Asterisk deve enviar informações RPID (ou PAI) para o dispositivo. "
+"Geralmente, deve ser habilitado para as configurações usadas pelo seu "
+"dispositivo para que a funcionalidade CONNECTEDLINE() funcione se suportada "
+"pelo nó de extremidade."
 
 #: amp.i18n.php:28
 msgid ""
 "Whether Asterisk should serve static content from http-static (HTML pages, "
 "CSS, javascript, etc.). Default is no."
 msgstr ""
+"Se o Asterisk deve fornecer conteúdo estático a partir de http-static ("
+"páginas HTML, CSS, javascript, etc.). O padrão é não."
 
 #: ../core/functions.inc/drivers/Sip.class.php:336
 msgid ""
@@ -11217,18 +11244,21 @@ msgid ""
 "should be yes for CONNECTEDLINE() functionality to work if supported by the "
 "endpoint."
 msgstr ""
+"Se o Asterisk deve confiar nas configurações RPID deste dispositivo. "
+"Geralmente deve ser sim para a funcionalidade CONNECTED LINE() funcionar se "
+"for suportada pelo nó de extremidade."
 
 #: ../core/views/trunks/pjsip.php:681
 msgid "Whether NAT support is enabled on UDPTL sessions"
-msgstr ""
+msgstr "Se o suporte NAT está habilitado em sessões UDPTL"
 
 #: ../core/views/trunks/pjsip.php:625
 msgid "Whether T.38 UDPTL support is enabled or not"
-msgstr ""
+msgstr "Se o suporte UDPTL T.38 está ativado ou não"
 
 #: amp.i18n.php:696
 msgid "Whether or not to invoke the FreePBX log facility."
-msgstr ""
+msgstr "Se deve ou não invocar a facilidade de log do FreePBX."
 
 #: amp.i18n.php:796
 msgid ""
