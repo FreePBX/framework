@@ -89,14 +89,36 @@ require_once($dirname . '/helpers/form_helper.php');
 //freepbx autoloader
 function fpbx_framework_autoloader($class) {
 	if ($class === true) {
+		// Deprecated - true USED to mean 'load all modules'
 		return false;
-
-		throw new \Exception("Bug: Can not call autoloader with bool true");
 	}
 
 	// Handle guielements
 	if (substr($class, 0, 3) == 'gui') {
 		$class = 'component';
+	}
+
+	// FreePBX Module autoloader
+	if (strpos($class, 'FreePBX\\modules\\') === 0) {
+		// Trim the front
+		$req = substr($class, 16);
+		// If there's ANOTHER slash in the request, we want to try to autoload
+		// the file.
+		$modarr = explode('\\', $req);
+		if (!isset($modarr[1])) {
+			// TODO: Add *real* module autoloader here in FreePBX 15, replacing the BMO __get() autoloader
+			return;
+		}
+		// This is a basic implementation of PSR4 under ..admin/modules/modulename/.. so that
+		// a request for \FreePBX\modules\Ucp\Widgets\Ponies would look for a file
+		// called ..admin/modules/ucp/Widgets/Ponies.php and then load it, if it exists.
+		$moddir = \FreePBX::Config()->get('AMPWEBROOT')."/admin/modules/".strtolower(array_shift($modarr))."/";
+		$filepath = $moddir.join("/", $modarr).".php";
+		if (file_exists($filepath)) {
+			include $filepath;
+		}
+		// Always return here, as there's nothing left to try.
+		return;
 	}
 
 	$maps = [
