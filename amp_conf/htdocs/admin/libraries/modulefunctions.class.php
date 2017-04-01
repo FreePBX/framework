@@ -1285,7 +1285,7 @@ class module_functions {
 		if (!is_array($progress_callback) && function_exists($progress_callback)) {
 			$progress_callback('getinfo', array('module'=>$modulename));
 		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-			$progress_callback[0]->$progress_callback[1]('getinfo', array('module'=>$modulename));
+			$progress_callback[0]->{$progress_callback[1]}('getinfo', array('module'=>$modulename));
 		}
 
 		$file = basename($modulexml['location']);
@@ -1295,7 +1295,7 @@ class module_functions {
 			if (!is_array($progress_callback) && function_exists($progress_callback)) {
 				$progress_callback('verifying', array('module'=>$modulename, 'status' => 'start'));
 			} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-				$progress_callback[0]->$progress_callback[1]('verifying', array('module'=>$modulename, 'status' => 'start'));
+				$progress_callback[0]->{$progress_callback[1]}('verifying', array('module'=>$modulename, 'status' => 'start'));
 			}
 			if(!empty($modulexml['signed']['type']) && $modulexml['signed']['type'] == 'gpg' && $modulexml['signed']['sha1'] == sha1_file($filename)) {
 				try {
@@ -1303,7 +1303,7 @@ class module_functions {
 						if (!is_array($progress_callback) && function_exists($progress_callback)) {
 							$progress_callback('verifying', array('module'=>$modulename, "status" => "redownload"));
 						} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-							$progress_callback[0]->$progress_callback[1]('verifying', array('module'=>$modulename, "status" => "redownload"));
+							$progress_callback[0]->{$progress_callback[1]}('verifying', array('module'=>$modulename, "status" => "redownload"));
 						}
 						unlink($filename);
 					}
@@ -1311,7 +1311,7 @@ class module_functions {
 					if (!is_array($progress_callback) && function_exists($progress_callback)) {
 						$progress_callback('verifying', array('module'=>$modulename, "status" => "redownload"));
 					} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-						$progress_callback[0]->$progress_callback[1]('verifying', array('module'=>$modulename, "status" => "redownload"));
+						$progress_callback[0]->{$progress_callback[1]}('verifying', array('module'=>$modulename, "status" => "redownload"));
 					}
 					unlink($filename);
 				}
@@ -1321,14 +1321,14 @@ class module_functions {
 						if (!is_array($progress_callback) && function_exists($progress_callback)) {
 							$progress_callback('verifying', array('module'=>$modulename, "status" => "redownload"));
 						} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-							$progress_callback[0]->$progress_callback[1]('verifying', array('module'=>$modulename, "status" => "redownload"));
+							$progress_callback[0]->{$progress_callback[1]}('verifying', array('module'=>$modulename, "status" => "redownload"));
 						}
 					}
 				} catch(\Exception $e) {
 					if (!is_array($progress_callback) && function_exists($progress_callback)) {
 						$progress_callback('verifying', array('module'=>$modulename, "status" => "redownload"));
 					} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-						$progress_callback[0]->$progress_callback[1]('verifying', array('module'=>$modulename, "status" => "redownload"));
+						$progress_callback[0]->{$progress_callback[1]}('verifying', array('module'=>$modulename, "status" => "redownload"));
 					}
 					unlink($filename);
 				}
@@ -1338,7 +1338,7 @@ class module_functions {
 				if (!is_array($progress_callback) && function_exists($progress_callback)) {
 					$progress_callback('verifying', array('module'=>$modulename, "status" => "verified"));
 				} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-					$progress_callback[0]->$progress_callback[1]('verifying', array('module'=>$modulename, "status" => "verified"));
+					$progress_callback[0]->{$progress_callback[1]}('verifying', array('module'=>$modulename, "status" => "verified"));
 				}
 				// Note, if there's no MD5 information, it will redownload
 				// every time. Otherwise theres no way to avoid a corrupt
@@ -1348,7 +1348,7 @@ class module_functions {
 				if (!is_array($progress_callback) && function_exists($progress_callback)) {
 					$progress_callback('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
 				} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-					$progress_callback[0]->$progress_callback[1]('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
+					$progress_callback[0]->{$progress_callback[1]}('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
 				}
 
 				/* We will explode the tarball in the cache directory and then once successful, remove the old module before before
@@ -1386,7 +1386,7 @@ class module_functions {
 				if (!is_array($progress_callback) && function_exists($progress_callback)) {
 					$progress_callback('done', array('module'=>$modulename));
 				} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-					$progress_callback[0]->$progress_callback[1]('done', array('module'=>$modulename));
+					$progress_callback[0]->{$progress_callback[1]}('done', array('module'=>$modulename));
 				}
 
 				return true;
@@ -1394,7 +1394,7 @@ class module_functions {
 				if (!is_array($progress_callback) && function_exists($progress_callback)) {
 					$progress_callback('verifying', array('module'=>$modulename, "status" => "redownload"));
 				} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-					$progress_callback[0]->$progress_callback[1]('verifying', array('module'=>$modulename, "status" => "redownload"));
+					$progress_callback[0]->{$progress_callback[1]}('verifying', array('module'=>$modulename, "status" => "redownload"));
 				}
 				unlink($filename);
 			}
@@ -1445,7 +1445,7 @@ class module_functions {
 		if (!is_array($progress_callback) && function_exists($progress_callback)) {
 			$progress_callback('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
 		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-			$progress_callback[0]->$progress_callback[1]('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
+			$progress_callback[0]->{$progress_callback[1]}('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
 		}
 
 		$streamopts = array(
@@ -1482,7 +1482,7 @@ class module_functions {
 			if (!is_array($progress_callback) && function_exists($progress_callback)) {
 				$progress_callback('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
 			} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-				$progress_callback[0]->$progress_callback[1]('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
+				$progress_callback[0]->{$progress_callback[1]}('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
 			}
 		}
 		fwrite($fp,$filedata);
@@ -1547,7 +1547,7 @@ class module_functions {
 		if (!is_array($progress_callback) && function_exists($progress_callback)) {
 			$progress_callback('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
 		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-			$progress_callback[0]->$progress_callback[1]('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
+			$progress_callback[0]->{$progress_callback[1]}('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
 		}
 
 		/* We will explode the tarball in the cache directory and then once successful, remove the old module before before
@@ -1586,7 +1586,7 @@ class module_functions {
 		if (!is_array($progress_callback) && function_exists($progress_callback)) {
 			$progress_callback('done', array('module'=>$modulename));
 		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-			$progress_callback[0]->$progress_callback[1]('done', array('module'=>$modulename));
+			$progress_callback[0]->{$progress_callback[1]}('done', array('module'=>$modulename));
 		}
 
 		// See if there is a signature folder in the module directory, and if there is, add any GPG keys
@@ -1626,7 +1626,7 @@ class module_functions {
 		if (!is_array($progress_callback) && function_exists($progress_callback)) {
 			$progress_callback('getinfo', array('module'=>$modulename));
 		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-			$progress_callback[0]->$progress_callback[1]('getinfo', array('module'=>$modulename));
+			$progress_callback[0]->{$progress_callback[1]}('getinfo', array('module'=>$modulename));
 		}
 
 		$file = basename(parse_url($module_location, PHP_URL_PATH));
@@ -1655,7 +1655,7 @@ class module_functions {
 		if (!is_array($progress_callback) && function_exists($progress_callback)) {
 			$progress_callback('downloading', array('read'=>$totalread, 'total'=>$headers['content-length']));
 		} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-			$progress_callback[0]->$progress_callback[1]('downloading', array('read'=>$totalread, 'total'=>$headers['content-length']));
+			$progress_callback[0]->{$progress_callback[1]}('downloading', array('read'=>$totalread, 'total'=>$headers['content-length']));
 		}
 
 		// Check MODULEADMINWGET first so we don't execute the fopen() if set
@@ -1680,7 +1680,7 @@ class module_functions {
 			if (!is_array($progress_callback) && function_exists($progress_callback)) {
 				$progress_callback('downloading', array('read'=>$totalread, 'total'=>$headers['content-length']));
 			} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-				$progress_callback[0]->$progress_callback[1]('downloading', array('read'=>$totalread, 'total'=>$headers['content-length']));
+				$progress_callback[0]->{$progress_callback[1]}('downloading', array('read'=>$totalread, 'total'=>$headers['content-length']));
 			}
 		}
 		fwrite($fp,$filedata);
@@ -1764,7 +1764,7 @@ class module_functions {
 			if (!is_array($progress_callback) && function_exists($progress_callback)) {
 				$progress_callback('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
 			} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-				$progress_callback[0]->$progress_callback[1]('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
+				$progress_callback[0]->{$progress_callback[1]}('untar', array('module'=>$modulename, 'size'=>filesize($filename)));
 			}
 		}
 
@@ -1894,7 +1894,7 @@ class module_functions {
 			if (!is_array($progress_callback) && function_exists($progress_callback)) {
 				$progress_callback('done', array('module'=>$modulename));
 			} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-				$progress_callback[0]->$progress_callback[1]('done', array('module'=>$modulename));
+				$progress_callback[0]->{$progress_callback[1]}('done', array('module'=>$modulename));
 			}
 		}
 		return true;

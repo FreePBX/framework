@@ -1473,7 +1473,7 @@ class AGI_AsteriskManager {
 			if(is_callable($handler)){
 				if (is_array($handler)) {
 					$this->log('Execute handler ' . get_class($handler[0]) . '::' . $handler[1]);
-					$ret = $handler[0]->$handler[1]($e, $parameters, $this->server, $this->port);
+					$ret = $handler[0]->{$handler[1]}($e, $parameters, $this->server, $this->port);
 				} else {
 					if(is_object($handler)) {
 						$this->log("Execute handler " . get_class($handler));
