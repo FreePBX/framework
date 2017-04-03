@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-24 15:27-0700\n"
-"PO-Revision-Date: 2017-03-29 17:50+0200\n"
+"PO-Revision-Date: 2017-04-03 15:01+0200\n"
 "Last-Translator: KNGVC <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -11265,6 +11265,8 @@ msgid ""
 "Whether or not to send unsigned module email notifications. If disabled "
 "unsigned module emails will never be sent"
 msgstr ""
+"Enviar ou não notificações por e-mail de módulos não assinados. Se "
+"desativado, e-mails de módulos não assinados nunca serão enviados"
 
 #: amp.i18n.php:32
 msgid ""
@@ -11272,6 +11274,10 @@ msgid ""
 "it is not directly related for FreePBX usage and the value of this setting "
 "is irrelevant for accessing core FreePBX settings. Default is no."
 msgstr ""
+"Se a interface HTTP do Asterisk está ativada ou não. Isso é para o Asterisk, "
+"ele não está diretamente relacionado para o uso do FreePBX e o valor dessa "
+"configuração é irrelevante para acessar as configurações do núcleo FreePBX. "
+"O padrão é não."
 
 #: ../core/functions.inc/drivers/Sip.class.php:416
 msgid ""
@@ -11280,6 +11286,10 @@ msgid ""
 "default profile in use by Asterisk. As a result the following must be "
 "enabled to use WebRTC"
 msgstr ""
+"Se deseja ativar o AVPF. O padrão é não. O padrão WebRTC selecionou AVPF "
+"como o perfil de áudio e vídeo para usar em fluxos de mídia. Este não é o "
+"perfil padrão em uso pelo Asterisk. Como resultado, o seguinte deve ser "
+"habilitado para usar WebRTC"
 
 #: ../core/functions.inc/drivers/Sip.class.php:432
 msgid ""
@@ -11288,6 +11298,10 @@ msgid ""
 "for UDP-based multimedia sessions established with the offer/answer model. "
 "This option is commonly enabled in WebRTC setups"
 msgstr ""
+"Ativar o suporte ao ICE. O padrão é não. O ICE (Interactive Connectivity "
+"Establishment) é um protocolo para o NAT (Network Address Translator) para "
+"sessões multimídia baseadas em UDP estabelecidas com o modelo de oferta/"
+"resposta. Esta opção é normalmente ativada em configurações WebRTC"
 
 #: ../core/functions.inc/drivers/Sip.class.php:439
 msgid ""
@@ -11295,12 +11309,17 @@ msgid ""
 "outgoing calls to a peer. Calls will fail with HANGUPCAUSE=58 if the peer "
 "does not support SRTP. Defaults to no."
 msgstr ""
+"Oferecer mídia criptografada SRTP (e apenas mídia criptografada SRTP) em "
+"chamadas de saída para um peer.  As chamadas falharão com HANGUPCAUSE=58 se "
+"o peer não suportar SRTP. O padrão é não."
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:120
 msgid ""
 "Whether to turn on echo cancellation when bridging between DAHDi channels. "
 "See DAHDi documentation for details."
 msgstr ""
+"Ativar o cancelamento de eco ao fazer a conexão entre canais DAHDi. Consulte "
+"a documentação DAHDi para obter detalhes."
 
 #: ../core/functions.inc.php:5731
 #: ../core/functions.inc/drivers/Dahdi.class.php:107
@@ -11336,16 +11355,16 @@ msgstr "Sim"
 
 #: ../core/functions.inc/drivers/Sip.class.php:438
 msgid "Yes (SRTP only)"
-msgstr ""
+msgstr "Sim (somente SRTP)"
 
 #: ../core/functions.inc/drivers/Sip.class.php:364
 #, php-format
 msgid "Yes - (%s)"
-msgstr ""
+msgstr "Sim - (%s)"
 
 #: ../core/views/trunks/trunk_footer.php:97
 msgid "You Must define a Server URI"
-msgstr ""
+msgstr "Você deve definir um servidor URI"
 
 #: amp_conf/htdocs/admin/views/zend_config.php:3
 msgid ""
@@ -11353,6 +11372,9 @@ msgid ""
 "Configuration. Please ensure you have Zend Guard installed on your system "
 "and have downloaded a license via the System Administration module."
 msgstr ""
+"Você está tentando carregar módulos licenciados sem uma configuração "
+"adequada do Zend Guard. Certifique-se de ter o Zend Guard instalado no seu "
+"sistema e ter baixado uma licença através do módulo Administração do Sistema."
 
 #: amp_conf/htdocs/admin/views/bad_refferer.php:17
 msgid ""
@@ -11363,6 +11385,12 @@ msgid ""
 "you can set Check Server Referrer=false in Advanced Settings to disable this "
 "security check"
 msgstr ""
+"Você está tentando modificar as configurações de um URL que não parece ter "
+"vindo de um link ou botão da página FreePBX. Isso pode ocorrer se você "
+"digitou manualmente na URL abaixo. Esta ação foi bloqueada porque o "
+"HTTP_REFERER não corresponde ao seu SERVIDOR atual. Se você precisar desse "
+"acesso, você pode definir Check Server Referrer=false emConfigurações "
+"Avançadas para desabilitar esta verificação de segurança"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:129
 msgid ""
@@ -11370,6 +11398,10 @@ msgid ""
 "email address setup to send the results. This can be set in Module Admin. "
 "They will continue to show up here."
 msgstr ""
+"Você está automaticamente verificando atualizações online todas as noites, "
+"mas você não tem configuração de endereço de e-mail para enviar os "
+"resultados. Isso pode ser definido no módulo Admin. Eles continuarão a "
+"aparecer aqui."
 
 #: amp_conf/htdocs/admin/libraries/BMO/Media.class.php:68
 #, php-format
@@ -11381,21 +11413,31 @@ msgid ""
 "can also safely ignore this message but browser playback might not work in "
 "your browser."
 msgstr ""
+"Está faltando suporte para os seguintes codecs HTML5: %s. Para suportar "
+"totalmente a reprodução do navegador em HTML5, você precisará instalar "
+"programas que não podem ser distribuídos com %s. Se você quiser instalar os "
+"binários necessários para essas conversões, clique em 'Resolver' no canto "
+"inferior esquerdo desta mensagem. Você também pode ignorar esta mensagem com "
+"segurança, mas a reprodução do navegador pode não funcionar no seu navegador."
 
 #: ../core/page.advancedsettings.php:293
 msgid "You are urged to backup before making any changes."
-msgstr ""
+msgstr "Você é solicitado a fazer o backup antes de fazer qualquer alteração."
 
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1224
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
 "you should set a secure password"
 msgstr ""
+"Você está usando a senha padrão do Asterisk Manager que é amplamente "
+"conhecida, você deve definir uma senha segura"
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:68
 msgid ""
 "You can access the GUI by typing one of the above IPs in to your web browser."
 msgstr ""
+"Você pode acessar a interface digitando um dos IPs acima em seu navegador "
+"web."
 
 #: ../core/views/trunks/trunk_header.php:95
 msgid ""
@@ -11403,6 +11445,9 @@ msgid ""
 "\"016065551234\" and dial it as \"0116065551234\" Note that the order does "
 "not matter, eg. 0|01+1ZXXXXXXXXX does the same thing."
 msgstr ""
+"Você também pode usar + e |, por exemplo: 01+0|1ZXXXXXXXXX corresponderia \""
+"016065551234\" e discar como \"0116065551234\" Note que a ordem não importa, "
+"por exemplo 0|01+1ZXXXXXXXXX faz a mesma coisa."
 
 #: ../core/views/routing/moh.php:36
 msgid ""
@@ -11420,6 +11465,9 @@ msgid ""
 "\", a call from John Doe would display as \"Sales:John Doe\" on the "
 "extensions that ring."
 msgstr ""
+"Você pode opcionalmente prefixar o nome para o identificador de chamadas. Ou "
+"seja: Se você prefixar com \"Vendas:\", uma chamada de John Doe iria mostrar "
+"como \"Vendas: John Doe\" sobre os ramais que tocam."
 
 #: ../core/page.advancedsettings.php:293
 #, php-format
@@ -11427,6 +11475,8 @@ msgid ""
 "You can restore the default setting by clicking on the %s icon to the left "
 "of the values if they are not set as default"
 msgstr ""
+"Você pode restaurar a configuração padrão clicando no ícone %s à esquerda "
+"dos valores se eles não estiverem definidos como padrão"
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:20
 msgid ""
@@ -11435,21 +11485,21 @@ msgid ""
 "overwritten."
 msgstr ""
 "É possível fazer o upload de um arquivo tar gzip contendo um módulo FreePBX "
-"apartir do seu sistema local. Se um módulo com o mesmo nome existir, será "
+"a partir do seu sistema local. Se um módulo com o mesmo nome existir, será "
 "sobrescrito."
 
 #: amp_conf/htdocs/admin/libraries/Console/RemoteUnlock.class.php:18
 msgid "You can use that as a parameter to config.php, thus:"
-msgstr ""
+msgstr "Você pode usar isso como um parâmetro para config.php, assim:"
 
 #: amp_conf/htdocs/admin/libraries/DB.class.php:545
 msgid "You can't set the default to the default"
-msgstr ""
+msgstr "Não é possível definir o padrão para o padrão"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3140
 #, php-format
 msgid "You have %s %s modules"
-msgstr ""
+msgstr "Você tem módulos %s %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2630
 #, php-format
@@ -11464,13 +11514,13 @@ msgstr "Existe(m) %s módulo(s) desabilitado(s)"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3137
 #, php-format
 msgid "You have %s tampered files"
-msgstr ""
+msgstr "Você tem %s arquivos adulterados"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3128
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3131
 #, php-format
 msgid "You have %s unsigned modules"
-msgstr ""
+msgstr "Você tem %s módulos não assinados"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2630
 msgid "You have a broken module"
@@ -11485,6 +11535,8 @@ msgid ""
 "You have enabled PHP Console in Advanced settings but have not installed the "
 "Chrome Extension or you are not using Chrome"
 msgstr ""
+"Você ativou o Console do PHP em Configurações avançadas, mas não instalou a "
+"Extensão do Chrome ou não está usando o Google Chrome"
 
 #: ../core/functions.inc.php:5885
 msgid ""
@@ -11523,6 +11575,10 @@ msgid ""
 "will not be able to login to an AdHoc user.\\n\\nAre you sure you wish to "
 "leave the User Password empty?"
 msgstr ""
+"Você não inseriu uma Senha do Usuário. Enquanto isto for aceitável, este "
+"utilizador não poderá realizar login num utilizador AdHoc. \\n"
+"\\n"
+"Tem certeza de que pretende deixar a  Senha do Usuário em branco?"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:170
 #, php-format
@@ -11530,6 +11586,8 @@ msgid ""
 "You have selected an invalid language '%s' and we were unable to fallback to "
 "'%s' or '%s' please resolve this in advanced settings [%s]"
 msgstr ""
+"Você selecionou uma linguagem inválida '%s' e não conseguimos substituir '%"
+"s' ou '%s', resolva isso nas configurações avançadas [%s]"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:163
@@ -11538,6 +11596,8 @@ msgid ""
 "You have selected an invalid language '%s' this has been automatically "
 "switched back to '%s' please resolve this in advanced settings [%s]"
 msgstr ""
+"Você selecionou um idioma inválido '%s' que foi trocado automaticamente para "
+"'%s', resolva isso nas configurações avançadas [%s]"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:20
 #, php-format
@@ -11545,6 +11605,8 @@ msgid ""
 "You have some broken %s Modules. We advise you take care of these as soon as "
 "possible: "
 msgstr ""
+"Você tem alguns módulos %s quebrados. Aconselhamos a cuidar destes o mais "
+"rapidamente possível: "
 
 #: ../core/functions.inc/drivers/Sip.class.php:467
 #: ../core/functions.inc/drivers/Sip.class.php:469
