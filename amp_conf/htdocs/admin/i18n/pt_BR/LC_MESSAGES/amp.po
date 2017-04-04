@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-24 15:27-0700\n"
-"PO-Revision-Date: 2017-04-03 15:01+0200\n"
+"PO-Revision-Date: 2017-04-04 17:40+0200\n"
 "Last-Translator: KNGVC <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -11611,19 +11611,24 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:467
 #: ../core/functions.inc/drivers/Sip.class.php:469
 msgid "You may add multiple subnets, separate them with an &amp;."
-msgstr ""
+msgstr "Você pode adicionar várias sub-redes, separe-as com um &amp;."
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:45
 msgid ""
 "You may change this designation in the module admin page, by clicking on the "
 "alert icon in the top right hand corner of the page."
 msgstr ""
+"Você pode alterar essa designação na página de administração do módulo, "
+"clicando no ícone de alerta no canto superior direito da página."
 
 #: ../core/views/routing/form.php:580 ../core/views/trunks/trunk_footer.php:43
 msgid ""
 "You may choose 7,10,11 digit patterns as your provider allows. If you do not "
 "choose 'Download' this will add a generic 7,10 or ll digit pattern"
 msgstr ""
+"Você pode escolher padrões de 7,10,11 dígitos como seu provedor permitir. Se "
+"você não escolher 'Download', isso adicionará um padrão genérico de 7,10 ou "
+"11 dígitos"
 
 #: amp_conf/htdocs/admin/page.modules.php:634
 msgid ""
@@ -11642,31 +11647,35 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/noaccess.php:31
 msgid "You may wish to redownload this module if the data is corrupted."
 msgstr ""
+"Você pode querer baixar novamente este módulo se os dados estiverem "
+"corrompidos."
 
 #: ../core/views/trunks/trunk_footer.php:101
 msgid "You must define a SIP Port"
-msgstr ""
+msgstr "Você deve definir uma porta SIP"
 
 #: ../core/views/trunks/trunk_footer.php:100
 msgid "You must define a SIP Server"
-msgstr ""
+msgstr "Você deve definir um Servidor SIP"
 
 #: ../core/views/trunks/trunk_footer.php:99
 msgid "You must define a(n) AOR Contact"
-msgstr ""
+msgstr "Você deve definir um Contato AOR"
 
 #: ../core/views/trunks/trunk_footer.php:95
 msgid ""
 "You must define an Outbound CallerID when Choosing this CID Options value"
 msgstr ""
+"Você deve definir um identificador de chamada de saída ao escolher este "
+"valor de Opções de CID"
 
 #: ../core/views/trunks/trunk_footer.php:98
 msgid "You must defined a Client URI"
-msgstr ""
+msgstr "Você deve definir um Cliente URI"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:189
 msgid "You must have a proper freepbx.conf file to proceed"
-msgstr ""
+msgstr "Você deve ter um arquivo freepbx.conf apropriado para prosseguir"
 
 #: ../core/Core.class.php:2118
 msgid "You must put in an extension (or user) number"
@@ -11676,7 +11685,7 @@ msgstr "Você deve colocar um número de ramal ou usuário"
 #: amp_conf/htdocs/admin/libraries/Console/Restart.class.php:25
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:28
 msgid "You need to be root to run this command"
-msgstr ""
+msgstr "Você precisa ser root para executar este comando"
 
 #: ../core/views/trunks/pjsip.php:113
 msgid ""
@@ -11686,6 +11695,12 @@ msgid ""
 "so this server can send calls to it. You would select <strong>None</strong> "
 "if both machines have a fixed address and do not require registration."
 msgstr ""
+"Você normalmente <strong>Envia</strong> registro, que informa ao servidor "
+"remoto para onde enviar suas chamadas. Se o outro servidor não estiver em um "
+"endereço fixo, ele precisará se registrar neste servidor "
+"(<strong>Recebe</strong>), para que este servidor possa enviar chamadas para "
+"ele. Você selecionaria <strong>Nenhum</strong> se ambas as máquinas tiverem "
+"um endereço fixo e não exigirem registro."
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:9
 #, php-format
@@ -11707,10 +11722,12 @@ msgid ""
 "Your Zend Configuration is not fully setup. Please recitfy the problem and "
 "reload this page"
 msgstr ""
+"Sua Configuração Zend não está totalmente configurada. Corrija o problema e "
+"recarregue esta página"
 
 #: amp_conf/htdocs/admin/views/footer.php:305
 msgid "Your browser is out-of-date!"
-msgstr ""
+msgstr "Seu navegador está desatualizado!"
 
 #: amp_conf/htdocs/admin/bootstrap.php:307
 #, php-format
@@ -11744,7 +11761,7 @@ msgstr ""
 
 #: ../core/views/trunks/zap.php:9
 msgid "Zap Identifier"
-msgstr ""
+msgstr "Identificador Zap"
 
 #: ../core/install.php:9
 msgid "ZapBarge"
@@ -11759,6 +11776,8 @@ msgid ""
 "[WARNING] this is a security risk, you should create an admin user and "
 "disable this vulnerability."
 msgstr ""
+"[AVISO] este é um risco de segurança, você deve criar um usuário "
+"administrador e desativar essa vulnerabilidade."
 
 #: amp_conf/htdocs/admin/views/menuitem_disabled.php:3
 #, php-format
@@ -11819,30 +11838,34 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:206
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3050
 msgid "altered"
-msgstr ""
+msgstr "Alterado"
 
 #: install.php:232
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
-msgstr ""
+msgstr "Ocorreu um erro ao remover arquivo/diretório: %s"
 
 #: upgrades/2.10.1/migration.php:58
 msgid "an error occurred trying to write out manager.conf changes"
-msgstr ""
+msgstr "Ocorreu um erro ao tentar escrever as alterações em manager.conf"
 
 #: amp_conf/htdocs/admin/helpers/freepbx_helpers.php:150
 msgid "and"
-msgstr ""
+msgstr "e"
 
 #: ../core/views/routing/form.php:74
+#, fuzzy
 msgid ""
 "appended to a dial pattern, matches a CallerID or CallerID pattern (for "
 "example, NXXXXXX/104 would match only if dialed by extension \"104\")"
 msgstr ""
+"Anexado a um padrão de discagem, corresponde a um identificador de chamadas "
+"padrão (por exemplo, NXXXXXX/104 corresponderia apenas se discado pelo ramal "
+"\"104\")"
 
 #: upgrades/2.9.0beta2/logger_migrate.php:84
 msgid "apply configuration settings after new core module loaded"
-msgstr ""
+msgstr "Aplicar configuração após novo núcleo de módulo carregado"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:666
 msgid "called set_conf_values with a non-array"
