@@ -81,7 +81,7 @@ class FileHooks {
 		$hooks = $this->FreePBX->Hooks->getAllHooks();
 		if(is_array($hooks['ConfigFiles'])) {
 			foreach ($hooks['ConfigFiles'] as $hook) {
-				$mod = str_replace("FreePBX\\modules\\","",$hook);
+				$mod = str_ireplace("FreePBX\\modules\\","",$hook);
 				\modgettext::push_textdomain(strtolower($mod));
 				$hparts = explode("\\",$hook);
 				if(count($hparts) > 0) {
