@@ -314,14 +314,37 @@ class FreePBXInstallCommand extends Command {
 		}
 
 		$output->writeln("Preliminary checks done. Starting FreePBX Installation");
-		// Copy default amportal.conf
+
 		$output->write("Checking if this is a new install...");
-		if (!file_exists(AMP_CONF) || $force) {
-			$output->writeln("Yes (No ".AMP_CONF." file detected)");
+		if(file_exists($answers['webroot']."/admin/bootstrap.php") && !is_link($answers['webroot']."/admin/bootstrap.php") && $answers['dev-links']) {
+			//Previous install, not in dev mode. We need to do cleanup
+			$output->writeln("No (Forcing dev-links)");
+			$bootstrap_settings['returnimmediately'] = true;
+			include_once $freepbx_conf_path;
+			unset($bootstrap_settings['returnimmediately']);
+			$newinstall = true;
+			require_once('amp_conf/htdocs/admin/functions.inc.php');
+		} elseif(file_exists($answers['webroot']."/admin/bootstrap.php") && is_link($answers['webroot']."/admin/bootstrap.php") && !$answers['dev-links']) {
+			//Previous install, was in dev mode. Now we need to do cleanup
+			$output->writeln("No (Un dev-linking this machine)");
+			$bootstrap_settings['returnimmediately'] = true;
+			include_once $freepbx_conf_path;
+			unset($bootstrap_settings['returnimmediately']);
+			$newinstall = true;
+			require_once('amp_conf/htdocs/admin/functions.inc.php');
+		} elseif(file_exists($freepbx_conf_path) && !file_exists($answers['webroot']."/admin/bootstrap.php")) {
+			$output->writeln("Partial");
+			$bootstrap_settings['returnimmediately'] = true;
+			include_once $freepbx_conf_path;
+			unset($bootstrap_settings['returnimmediately']);
+			$newinstall = true;
+			require_once('amp_conf/htdocs/admin/functions.inc.php');
+		} elseif (!file_exists($freepbx_conf_path) || $force) {
+			$output->writeln("Yes (No ".$freepbx_conf_path." file detected)");
 			$newinstall = true;
 			require_once('amp_conf/htdocs/admin/functions.inc.php');
 		} else {
-			$output->writeln("No (".AMP_CONF." file detected)");
+			$output->writeln("No (".$freepbx_conf_path." file detected)");
 			$bootstrap_settings['freepbx_auth'] = false;
 			$restrict_mods = true;
 			include_once $freepbx_conf_path;
@@ -440,10 +463,10 @@ class FreePBXInstallCommand extends Command {
 			require_once('amp_conf/htdocs/admin/libraries/BMO/FreePBX.class.php');
 			require_once('amp_conf/htdocs/admin/libraries/DB.class.php');
 
-			if($dbroot) {
+			if($dbroot && (empty($amp_conf['AMPDBUSER'])) && empty($amp_conf['AMPDBPASS'])) {
 				$amp_conf['AMPDBUSER'] = 'freepbxuser';
 				$amp_conf['AMPDBPASS'] = md5(uniqid());
-			} else {
+			} elseif((empty($amp_conf['AMPDBUSER'])) && empty($amp_conf['AMPDBPASS'])) {
 				$amp_conf['AMPDBUSER'] = $answers['dbuser'];
 				$amp_conf['AMPDBPASS'] = $answers['dbpass'];
 			}
@@ -517,6 +540,7 @@ class FreePBXInstallCommand extends Command {
 			throw new \Exception($amp_conf['AMPWEBROOT'] . " is NOT writable!");
 		}
 		chown($amp_conf['AMPWEBROOT'], $amp_conf['AMPASTERISKWEBUSER']);
+
 		// Copy amp_conf/
 		$verb = $answers['dev-links'] ? "Linking" : "Copying";
 		$output->writeln($verb." files (this may take a bit)....");
@@ -733,28 +757,18 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			exit;
 		}
 
-		if (!$answers['dev-links']) {
-			$included_modules = array();
-			/* read modules list from MODULE_DIR */
-			if(file_exists(MODULE_DIR)) {
-				$dir = opendir(MODULE_DIR);
-				while ($file = readdir($dir)) {
-					if ($file[0] != "." && $file[0] != "_" && is_dir(MODULE_DIR."/".$file)) {
-						$included_modules[] = $file;
-					}
-				}
-				closedir($dir);
-				$output->write("Installing all modules...");
-				system($amp_conf['AMPSBIN']."/fwconsole ma install core --skipchown");
-				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal --skipchown");
-				$output->writeln("Done installing modules");
-			}
-		}
-
 		// module_admin install framework
 		$output->writeln("Installing framework...");
 		system($amp_conf['AMPSBIN']."/fwconsole ma install framework --skipchown");
 		$output->writeln("Done");
+
+		/* read modules list from MODULE_DIR */
+		if(file_exists(MODULE_DIR) && $newinstall) {
+			$output->write("Installing all modules...");
+			system($amp_conf['AMPSBIN']."/fwconsole ma install core --skipchown");
+			system($amp_conf['AMPSBIN']."/fwconsole ma installlocal --skipchown");
+			$output->writeln("Done installing modules");
+		}
 
 		//run this here so that we make sure everything is square for asterisk
 		system($amp_conf['AMPSBIN'] . "/fwconsole chown");

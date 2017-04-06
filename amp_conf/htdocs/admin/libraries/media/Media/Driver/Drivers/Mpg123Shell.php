@@ -71,7 +71,7 @@ class Mpg123Shell extends \Media\Driver\Driver {
 			throw new \RuntimeException($process->getErrorOutput());
 		}
 		//mpg123 1.13.6
-		if(preg_match("/mpg123 (.*)/",$process->getOutput(),$matches)) {
+		if(preg_match("/mpg[123]{3}.*(\d+.\d+.\d+).*/",$process->getOutput(),$matches)) {
 			return $matches[1];
 		} else {
 			throw new \Exception("Unable to parse version");
