@@ -99,7 +99,7 @@ function fpbx_framework_autoloader($class) {
 	}
 
 	// FreePBX Module autoloader
-	if (strpos($class, 'FreePBX\\modules\\') === 0) {
+	if (stripos($class, 'FreePBX\\modules\\') === 0) {
 		// Trim the front
 		$req = substr($class, 16);
 		// If there's ANOTHER slash in the request, we want to try to autoload
