@@ -97,7 +97,7 @@ class DialplanHooks {
 					} elseif (isset($cmd['Class'])) {
 						// This is a new BMO Object!
 						$class = $cmd['Class'];
-						$rawname = strtolower(str_replace("FreePBX\\modules\\","",$class));
+						$rawname = strtolower(str_ireplace("FreePBX\\modules\\","",$class));
 						$name = ucfirst($rawname);
 						if (!method_exists($this->FreePBX->$name, "doDialplanHook")) {
 							out(sprintf(_("HANDLED-ERROR: %s->doDialplanHook() isn't there, but the module is saying it wants to hook. This is a bug in %s"), $class, $class));
