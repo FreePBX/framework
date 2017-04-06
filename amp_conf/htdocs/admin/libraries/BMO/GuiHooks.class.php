@@ -283,7 +283,7 @@ class GuiHooks {
 	}
 
 	private function doBMOConfigPage($class, $display) {
-		$mod = str_replace("FreePBX\\modules\\","",$class);
+		$mod = str_ireplace("FreePBX\\modules\\","",$class);
 		if (method_exists($this->FreePBX->$class, "doConfigPageInit")) {
 			$this->FreePBX->Performance->Stamp($class."->doConfigPageInit-$display"."_start");
 			\modgettext::push_textdomain(strtolower($mod));

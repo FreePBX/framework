@@ -139,7 +139,7 @@ class Self_Helper extends DB_Helper {
 	 * @return bool True if found or throws exception
 	 */
 	private function loadObject($objname, $hint = null) {
-		$objname = str_replace('FreePBX\\modules\\','',$objname);
+		$objname = str_ireplace('FreePBX\\modules\\','',$objname);
 		$class = class_exists($this->moduleNamespace.$objname,false) ? $this->moduleNamespace.$objname : (class_exists($this->freepbxNamespace.$objname,false) ? $this->freepbxNamespace.$objname : $objname);
 
 		// If it already exists, we're fine.

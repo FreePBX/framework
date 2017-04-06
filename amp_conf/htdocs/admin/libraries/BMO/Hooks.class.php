@@ -49,7 +49,7 @@ class Hooks extends DB_Helper {
 
 		$allhooks = array();
 		foreach ($bmomodules as $mod) {
-			$rawname = strtolower(str_replace("FreePBX\\modules\\","",$mod));
+			$rawname = strtolower(str_ireplace("FreePBX\\modules\\","",$mod));
 			$name = ucfirst($rawname);
 			if(!in_array($rawname,$am)) {
 				continue;
