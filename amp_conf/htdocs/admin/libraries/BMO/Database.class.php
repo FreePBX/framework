@@ -108,8 +108,15 @@ class Database extends \PDO {
 		}
 
 		// Always utf8.
-		// TODO:  This should default to utf8mb on a newer mysql, or newer FreePBX?
 		$charset = "utf8";
+		if ($engine == 'mysql') {
+			//we cant learn the server version BEFORE we connect. So we have to figure it out now
+			$output = exec('mysql --version 2>/dev/null');
+			if(preg_match('/Distrib\s*(\d+\.\d+\.\d+)/i',$output,$matches) && version_compare($matches[1],"5.5.3","ge")) {
+				$charset = 'utf8mb4';
+			}
+		}
+
 		$dsnarr['charset'] = isset($dsnarr['charset']) ? $dsnarr['charset'] : $charset;
 
 		// Were there any database options?

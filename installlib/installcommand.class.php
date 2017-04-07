@@ -409,7 +409,7 @@ class FreePBXInstallCommand extends Command {
 				$output->writeln("<error>Invalid Database Permissions. The error was: ".$e->getMessage()."</error>");
 				exit(1);
 			}
-			$dbencoding = version_compare($pdodb->getAttribute(constant("PDO::ATTR_SERVER_VERSION")), "5.5.3", "ge") ? "utf8mb4" : "utf8";
+			$dbencoding = version_compare($pdodb->getAttribute(\PDO::ATTR_SERVER_VERSION), "5.5.3", "ge") ? "utf8mb4" : "utf8";
 			$output->writeln("Connected!");
 		}
 
