@@ -208,12 +208,6 @@ class Start extends Command {
 		}
 
 		$astman = \FreePBX::create()->astman;
-		try {
-			$astman->send_request('Command', array('Command'=>'core show version'));
-		} catch (\Exception $e) {
-			// Ignore errors
-		}
-
 		return $astman->connected();
 	}
 
