@@ -22,12 +22,11 @@ msgstr ""
 "POT-Creation-Date: 2017-03-24 15:27-0700\n"
 "PO-Revision-Date: 2017-04-11 14:54+0200\n"
 "Last-Translator: KNGVC <suporte@kingvoice.com.br>\n"
-"Language-Team: Portuguese (Brazil) "
-"<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
-"Language: pt_BR\n"
+"Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.4\n"
 "X-Poedit-Language: Portuguese\n"
@@ -869,6 +868,10 @@ msgstr "Permitir Cabeçalho de contato se reescrito com o endereço-porta IP de 
 #: amp.i18n.php:746
 msgid "Allow Login With DB Credentials"
 msgstr "Permitir Logar Com Credenciar BD"
+
+#: ../core/functions.inc/drivers/PJSip.class.php:258
+msgid "Allow Non-Encrypted Media (Opportunistic SRTP)"
+msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:242
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP) "
@@ -5771,6 +5774,10 @@ msgstr "Caminho para mpg123"
 msgid "Path for mysqldump"
 msgstr "Caminho para mysqldump"
 
+#: amp.i18n.php:606
+msgid "Path for netstat"
+msgstr ""
+
 #: amp.i18n.php:640
 msgid "Path for openssl"
 msgstr "Caminho para openssl"
@@ -7415,6 +7422,10 @@ msgstr "O caminho para mpg123 como autodeterminado pelo sistema. Sobrescreva con
 #: amp.i18n.php:638
 msgid "The path to mysqldump as auto-determined by the system. Overwrite as necessary."
 msgstr "O caminho para mysqldump como autodeterminado pelo sistema. Sobrescreva conforme necessário."
+
+#: amp.i18n.php:608
+msgid "The path to netstat as auto-determined by the system. Overwrite as necessary."
+msgstr ""
 
 #: amp.i18n.php:642
 msgid "The path to openssl as auto-determined by the system. Overwrite as necessary."
@@ -9162,9 +9173,7 @@ msgstr "feito"
 #: upgrades/2.8.0/custom-context.php:104
 #: upgrades/2.8.0rc1/custom-context.php:105
 msgid "done! Reload FreePBX to update all Custom Context settings."
-msgstr ""
-"Feito! Recarregue o FreePBX para atualizar todas as configurações de "
-"Contexto Personalizado."
+msgstr "Feito! Recarregue o FreePBX para atualizar todas as configurações de Contexto Personalizado."
 
 #: install.php:171 install.php:182 install.php:193
 msgid "done, see errors below"
@@ -9180,9 +9189,7 @@ msgstr "endereço de email"
 
 #: ../core/install.php:1087
 msgid "error checking dahdi table size to determine if zap table contents can be migrated"
-msgstr ""
-"Erro ao verificar o tamanho da tabela dahdi para determinar se o conteúdo da "
-"tabela zap pode ser migrado"
+msgstr "Erro ao verificar o tamanho da tabela dahdi para determinar se o conteúdo da tabela zap pode ser migrado"
 
 #: upgrades/2.11.0rc1/migration.php:47
 msgid "error could not move it"
@@ -9301,9 +9308,7 @@ msgstr "free não implementado"
 
 #: amp_conf/htdocs/admin/functions.inc.php:234
 msgid "freepbx setting  ZAP2DAHDICOMPAT not found, somethng is corrupt in the conf database?"
-msgstr ""
-"Configuração Freepbx ZAP2DAHDICOMPAT não encontrada, algo está corrompido no "
-"banco de dados conf?"
+msgstr "Configuração Freepbx ZAP2DAHDICOMPAT não encontrada, algo está corrompido no banco de dados conf?"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:539
 #, php-format
@@ -9758,18 +9763,6 @@ msgstr ""
 
 #: ../core/install.php:1120
 msgid "zap devices migrated"
-msgstr ""
-
-#: ../core/functions.inc/drivers/PJSip.class.php:258
-msgid "Allow Non-Encrypted Media (Opportunistic SRTP)"
-msgstr ""
-
-#: amp.i18n.php:606
-msgid "Path for netstat"
-msgstr ""
-
-#: amp.i18n.php:608
-msgid "The path to netstat as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
 #~ msgid " (toggle sort)"
