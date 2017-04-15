@@ -42,6 +42,96 @@
 	<supported>
 		<version>14.0</version>
 	</supported>
+	<database>
+		<table name="admin">
+			<field name="variable" type="string" length="20" default="" primarykey="true"/>
+			<field name="value" type="string" length="80" default=""/>
+		</table>
+		<table name="ampusers">
+			<field name="username" type="string" length="255" primarykey="true"/>
+			<field name="password_sha1" type="string" length="40"/>
+			<field name="extension_low" type="string" length="20" default=""/>
+			<field name="extension_high" type="string" length="20" default=""/>
+			<field name="deptname" type="string" length="20" default=""/>
+			<field name="sections" type="blob"/>
+		</table>
+		<table name="cronmanager">
+			<field name="module" type="string" length="24" default="" primarykey="true"/>
+			<field name="id" type="string" length="24" default="" primarykey="true"/>
+			<field name="time" type="string" length="5" notnull="false"/>
+			<field name="freq" type="integer" default="0"/>
+			<field name="lasttime" type="integer" default="0"/>
+			<field name="command" type="string" length="255" default=""/>
+		</table>
+		<table name="featurecodes">
+			<field name="modulename" type="string" length="50" default="" primarykey="true"/>
+			<field name="featurename" type="string" length="50" default="" primarykey="true"/>
+			<field name="description" type="string" length="200" default=""/>
+			<field name="helptext" type="string" length="250" default=""/>
+			<field name="defaultcode" type="string" length="20" notnull="false"/>
+			<field name="customcode" type="string" length="20" notnull="false"/>
+			<field name="enabled" type="boolean" default="0"/>
+			<field name="providedest" type="boolean" default="0"/>
+			<key name="enabled" type="index">
+				<column name="enabled"/>
+			</key>
+		</table>
+		<table name="freepbx_log">
+			<field name="id" type="integer" primarykey="true" autoincrement="true"/>
+			<field name="time" type="datetime" default="0000-00-00 00:00:00"/>
+			<field name="section" type="string" length="50" notnull="false"/>
+			<field name="level" type="string" default="error"/>
+			<field name="status" type="integer" default="0"/>
+			<field name="message" type="text"/>
+			<key name="time" type="index">
+				<column name="time"/>
+				<column name="level"/>
+			</key>
+		</table>
+		<table name="freepbx_settings">
+			<field name="keyword" type="string" length="50" default="" primarykey="true"/>
+			<field name="value" type="string" length="255" notnull="false"/>
+			<field name="name" type="string" length="80" notnull="false"/>
+			<field name="level" type="boolean" default="0" notnull="false"/>
+			<field name="description" type="text" notnull="false"/>
+			<field name="type" type="string" length="25" notnull="false"/>
+			<field name="options" type="text" notnull="false"/>
+			<field name="defaultval" type="string" length="255" notnull="false"/>
+			<field name="readonly" type="boolean" default="0" notnull="false"/>
+			<field name="hidden" type="boolean" default="0" notnull="false"/>
+			<field name="category" type="string" length="50" notnull="false"/>
+			<field name="module" type="string" length="25" notnull="false"/>
+			<field name="emptyok" type="boolean" default="1" notnull="false"/>
+			<field name="sortorder" type="integer" default="0" notnull="false"/>
+		</table>
+		<table name="globals">
+			<field name="variable" type="string" length="255" primarykey="true"/>
+			<field name="value" type="string" length="255"/>
+		</table>
+		<table name="module_xml">
+			<field name="id" type="string" length="20" default="xml" primarykey="true"/>
+			<field name="time" type="integer" default="0"/>
+			<field name="data" type="blob" notnull="false"/>
+		</table>
+		<table name="modules">
+			<field name="id" type="integer" primarykey="true" autoincrement="true"/>
+			<field name="modulename" type="string" length="50" default=""/>
+			<field name="version" type="string" length="20" default=""/>
+			<field name="enabled" type="boolean" default="0"/>
+			<field name="signature" type="blob" notnull="false"/>
+		</table>
+		<table name="notifications">
+			<field name="module" type="string" length="24" default="" primarykey="true"/>
+			<field name="id" type="string" length="24" default="" primarykey="true"/>
+			<field name="level" type="integer" default="0"/>
+			<field name="display_text" type="string" length="255" default=""/>
+			<field name="extended_text" type="blob"/>
+			<field name="link" type="string" length="255" default=""/>
+			<field name="reset" type="boolean" default="0"/>
+			<field name="candelete" type="boolean" default="0"/>
+			<field name="timestamp" type="integer" default="0"/>
+		</table>
+	</database>
 	<category>Admin</category>
 	<!-- System level bugfixes are below. These are checked by individual packages -->
 	<!-- This is processed by the command 'xmlstarlet sel -t -v 'module/bugfix [@id="FD7-23"]' module.xml' -->

@@ -486,12 +486,26 @@ class FreePBXInstallCommand extends Command {
 			$bmo = new \FreePBX($amp_conf);
 
 			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'];
-			$db = new \DB(new \FreePBX\Database($dsn, $answers['dbuser'], $answers['dbpass']));
+			$fbxdb = new \FreePBX\Database($dsn, $answers['dbuser'], $answers['dbpass']);
+			$db = new \DB($fbxdb);
 
 			$db->query("USE ".$amp_conf['AMPDBNAME']);
 			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['AMPDBNAME']."';";
 			if (!$db->getOne($sql)) {
 				$output->writeln("Empty " . $amp_conf['AMPDBNAME'] . " Database going to populate it");
+
+				$xml = simplexml_load_file(dirname(__DIR__).'/module.xml');
+				if(!empty($xml->database)) {
+					foreach($xml->database->table as $table) {
+						$tname = (string)$table->attributes()->name;
+						outn(sprintf(_("Updating table %s..."),$tname));
+						$fbxdb->migrateXML($table);
+						out(_("Done"));
+					}
+				} else {
+					throw new \Exception("There's no default database information!");
+				}
+
 				$installer->install_sql_file(SQL_DIR . '/asterisk.sql');
 			}
 
