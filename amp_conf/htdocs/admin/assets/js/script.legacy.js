@@ -859,13 +859,19 @@ function bind_dests_double_selects() {
 //Reset second level desination drop downs when the form is reset
 $('form').on('reset', function() {
 	var $this = this;
+	var showing_list = new Array();
 	setTimeout(function(){
 		$($this).find(".destdropdown").each(function() {
 			var v = $(this).val(),
 					i = $(this).data("id");
 			if(v !== "") {
-				$(".destdropdown2").not("#" + v + i).addClass("hidden");
+				$(".destdropdown2").not("#" + v + i).each(function(){
+					if($.inArray(this.id, showing_list) == -1){
+						$(this).addClass("hidden");
+					}
+				});
 				$("#"+ v + i).removeClass("hidden");
+				showing_list[showing_list.length] = v + i;
 			} else {
 				$(".destdropdown2").addClass("hidden");
 			}
