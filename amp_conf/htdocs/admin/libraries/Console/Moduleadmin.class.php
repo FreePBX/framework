@@ -570,7 +570,7 @@ class Moduleadmin extends Command {
 					echo "# description:\n_(\"".trim(str_replace("\n","",$modules[$rawname]['description']))."\");\n";
 				}
 			}
-			if (isset($modules[$rawname]['menuitems'])) {
+			if (isset($modules[$rawname]['menuitems']) && !empty($modules[$rawname]['menuitems'])) {
 				foreach ($modules[$rawname]['menuitems'] as $key => $menuitem) {
 					if (!in_array($menuitem, $modulesProcessed['menuitem'])) {
 						$modulesProcessed['menuitem'][] = $menuitem;
