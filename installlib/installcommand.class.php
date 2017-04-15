@@ -463,7 +463,7 @@ class FreePBXInstallCommand extends Command {
 			require_once('amp_conf/htdocs/admin/libraries/BMO/FreePBX.class.php');
 			require_once('amp_conf/htdocs/admin/libraries/DB.class.php');
 
-			if($dbroot && (empty($amp_conf['AMPDBUSER'])) && empty($amp_conf['AMPDBPASS'])) {
+			if($dbroot && ($amp_conf['AMPDBUSER'] == 'root' && empty($amp_conf['AMPDBPASS']))) {
 				$amp_conf['AMPDBUSER'] = 'freepbxuser';
 				$amp_conf['AMPDBPASS'] = md5(uniqid());
 			} elseif((empty($amp_conf['AMPDBUSER'])) && empty($amp_conf['AMPDBPASS'])) {
