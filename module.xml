@@ -48,7 +48,7 @@
 			<field name="value" type="string" length="80" default=""/>
 		</table>
 		<table name="ampusers">
-			<field name="username" type="string" length="255" primarykey="true"/>
+			<field name="username" type="string" length="190" primarykey="true"/>
 			<field name="password_sha1" type="string" length="40"/>
 			<field name="extension_low" type="string" length="20" default=""/>
 			<field name="extension_high" type="string" length="20" default=""/>
@@ -105,7 +105,7 @@
 			<field name="sortorder" type="integer" default="0" notnull="false"/>
 		</table>
 		<table name="globals">
-			<field name="variable" type="string" length="255" primarykey="true"/>
+			<field name="variable" type="string" length="190" primarykey="true"/>
 			<field name="value" type="string" length="255"/>
 		</table>
 		<table name="module_xml">

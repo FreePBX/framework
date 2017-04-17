@@ -29,9 +29,9 @@ class FreePBXHelpCommand extends HelpCommand {
 		if (null === $this->command) {
 			$this->command = $this->getApplication()->find($input->getArgument('command_name'));
 		}
-		if ($input->getOption('xml')) {
-			$input->setOption('format', 'xml');
-		}
+		//if ($input->getOption('xml')) {
+		//	$input->setOption('format', 'xml');
+		//}
 		$helper = new DescriptorHelper();
 		$helper->describe($output, $this->command, array(
 			'format' => $input->getOption('format'),

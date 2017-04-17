@@ -44,6 +44,9 @@ class FreePBXInstallCommand extends Command {
 		'dev-links' => array(
 	 		'description' => 'Make links to files in the source directory instead of copying (developer option)'
 		),
+		'skip-install' => array(
+			'description' => 'Skip installing local modules (except Framework and Core)'
+		),
 		'webroot' => array(
 			'default' => '/var/www/html',
 	 		'description' => 'Filesystem location from which FreePBX files will be served'
@@ -483,6 +486,10 @@ class FreePBXInstallCommand extends Command {
 				//check collate
 			}
 
+			$fwxml = simplexml_load_file($this->rootPath.'/module.xml');
+			//setversion to whatever is in framework.xml forever for here on out.
+			$fwver = (string)$fwxml->version;
+
 			$bmo = new \FreePBX($amp_conf);
 
 			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'];
@@ -507,6 +514,7 @@ class FreePBXInstallCommand extends Command {
 				}
 
 				$installer->install_sql_file(SQL_DIR . '/asterisk.sql');
+				$db->query("INSERT INTO admin (variable,value) VALUES ('version','".$fwver."')");
 			}
 
 			if($dbroot) {
@@ -525,6 +533,7 @@ class FreePBXInstallCommand extends Command {
 				$output->writeln("Empty " . $amp_conf['CDRDBNAME'] . " Database going to populate it");
 				$installer->install_sql_file(SQL_DIR . '/cdr.sql');
 			}
+			unset($amp_conf['CDRDBNAME']);
 
 			$db->query("USE ".$amp_conf['AMPDBNAME']);
 		}
@@ -541,7 +550,7 @@ class FreePBXInstallCommand extends Command {
 		$freepbx_conf = \freepbx_conf::create();
 		foreach ($installer_amp_conf as $keyword => $value) {
 			if ($freepbx_conf->conf_setting_exists($keyword) && $amp_conf[$keyword] != $value) {
-				$output->writeln("\tChanging ".$keyword." to match what was given at install time");
+				$output->writeln("\tChanging ".$keyword." [".$amp_conf[$keyword]."] to match what was given at install time: ".$value);
 				$freepbx_conf->set_conf_values(array($keyword => $value), false, true);
 			}
 		}
@@ -727,9 +736,6 @@ class FreePBXInstallCommand extends Command {
 		$installer->install_upgrades($version);
 		$output->writeln("Finished upgrades");
 
-		$fwxml = simplexml_load_file($this->rootPath.'/module.xml');
-		//setversion to whatever is in framework.xml forever for here on out.
-		$fwver = (string)$fwxml->version;
 		$output->write("Setting FreePBX version to ".$fwver."...");
 		$installer->set_version($fwver);
 		$output->writeln("Done");
@@ -782,7 +788,9 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		if(file_exists(MODULE_DIR) && $newinstall) {
 			$output->write("Installing all modules...");
 			system($amp_conf['AMPSBIN']."/fwconsole ma install core --skipchown");
-			system($amp_conf['AMPSBIN']."/fwconsole ma installlocal --skipchown");
+			if(!$answers['skip-install']) {
+				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal --skipchown");
+			}
 			$output->writeln("Done installing modules");
 		}
 
