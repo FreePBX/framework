@@ -45,7 +45,7 @@ class FreePBXInstallCommand extends Command {
 	 		'description' => 'Make links to files in the source directory instead of copying (developer option)'
 		),
 		'skip-install' => array(
-			'description' => 'Skip installing local modules (except Framework and Core)'
+			'description' => 'Skip installing local modules (except Framework, Core and Dashboard)'
 		),
 		'webroot' => array(
 			'default' => '/var/www/html',
@@ -790,6 +790,8 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			system($amp_conf['AMPSBIN']."/fwconsole ma install core --skipchown");
 			if(!$answers['skip-install']) {
 				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal --skipchown");
+			} else {
+				system($amp_conf['AMPSBIN']."/fwconsole ma install dashboard --skipchown");
 			}
 			$output->writeln("Done installing modules");
 		}
