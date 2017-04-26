@@ -23,6 +23,9 @@ class Validate extends Command {
 		if(file_exists("/tmp/validate.phar.gz.sha1")) {
 			unlink("/tmp/validate.phar.gz.sha1");
 		}
+		if(file_exists("/tmp/validate.phar")) {
+			unlink("/tmp/validate.phar");
+		}
 		$progress = new ProgressBar($output);
 		$output->writeln("Downloading...");
 		$progress->setFormat('%bar%');
