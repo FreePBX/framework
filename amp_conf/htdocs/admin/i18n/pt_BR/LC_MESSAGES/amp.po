@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-24 15:27-0700\n"
-"PO-Revision-Date: 2017-04-20 14:45+0200\n"
+"PO-Revision-Date: 2017-04-26 14:34+0200\n"
 "Last-Translator: KNGVC <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -5080,7 +5080,6 @@ msgid "Most VoIP providers require your system to REGISTER with theirs. Enter th
 msgstr "A maioria dos provedores VoIP precisam que seu sistema se REGISTRE. Entre com os parametros de registro aqui.<br><br>exemplo:<br><br>username:password@switch.voipprovider.com. <br><br> Muito provedores vão exigir que você forneça um número de DID, ex:username:password@switch.voipprovider.com/numeroDID de maneira a que o DID funcione."
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:34
-#, fuzzy
 msgid "Multiple hooks unimplemented"
 msgstr "Ganchos múltiplos não implementado"
 
@@ -5310,9 +5309,17 @@ msgid "Normal Congestion"
 msgstr "Congestionamento Normal"
 
 #: amp.i18n.php:288
-#, fuzzy
 msgid "Normally FreePBX auto-generates a custom context that may be usable for adding custom dialplan to modify the normal behavior of FreePBX. It takes a good understanding of how Asterisk processes these includes to use this and in many of the cases, there is no useful application. All includes will result in a WARNING in the Asterisk log if there is no context found to include though it results in no errors. If you know that you want the includes, you can set this to true. If you comment it out FreePBX will revert to legacy behavior and include the contexts."
-msgstr "Normalmente FreePBX gera automaticamente um contexto personalizado que pode ser útil para adicionar um dialplan personalizado para modificar o comportamento normal do FreePBX. É preciso um bom entendimento de como o Asterisk processa estes includes e os usa,  e em muitos dos casos, não há nenhuma aplicação útil. Todo include resultará em um AVISO no registro Asterisk se não houver nenhum contexto encontrado para incluir, embora não resulte em erros. Se você sabe que deseja incluir, pode definir isso como true. Se você comentar, o FreePBX reverterá para o comportamento legado e incluirá os contextos."
+msgstr ""
+"Normalmente FreePBX gera automaticamente um contexto personalizado que pode "
+"ser útil para adicionar um dialplan personalizado para modificar o "
+"comportamento normal do FreePBX. É preciso um bom entendimento de como o "
+"Asterisk processa estes includes e os usa,  e em muitos dos casos, não há "
+"nenhuma aplicação útil. Todo include resultará em um AVISO no registro "
+"Asterisk se não houver nenhum contexto encontrado para incluir, embora não "
+"resulte em erros. Se você sabe que deseja incluir, pode definir isso como "
+"true. Se você comentar, o FreePBX reverterá para o comportamento legado e "
+"incluirá os contextos."
 
 #: amp.i18n.php:752
 msgid "Normally FreePBX gets the current Asterisk version directly from Asterisk. This is required to generate proper dialplan for a given version. When using some custom Asterisk builds, the version may not be properly parsed and improper dialplan generated. Setting this to an equivalent Asterisk version will override what is read from Asterisk. This SHOULD be left blank unless you know what you are doing."
