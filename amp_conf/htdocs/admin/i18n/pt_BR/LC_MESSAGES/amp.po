@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-24 15:27-0700\n"
-"PO-Revision-Date: 2017-04-26 14:34+0200\n"
+"PO-Revision-Date: 2017-04-26 16:47+0200\n"
 "Last-Translator: KNGVC <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) "
 "<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
@@ -5416,6 +5416,9 @@ msgstr "Gravação sob demanda"
 #: ../core/views/did/basic_form.php:210
 msgid "On PRI channels the carrier will send a signal if the caller indicates a billing reversal. When checked this route will reject calls that indicate a billing reversal if supported"
 msgstr ""
+"Em canais PRI, a operadora enviará um sinal se o chamador indicar uma "
+"inversão de faturamento. Quando marcada, esta rota irá rejeitar chamadas que "
+"indicam uma inversão de faturamento se suportada"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:575
 msgid "One or more files skipped by configuration in freepbx_chown.conf"
@@ -5457,19 +5460,21 @@ msgstr "Somente mysql é suportado"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:25
 msgid "Only run post-start hooks"
-msgstr ""
+msgstr "Somente executar gatilhos post-start"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:19
+#, fuzzy
 msgid "Only run post-stop hooks"
-msgstr ""
+msgstr "Somente executar gatilhos post-stop"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:24
 msgid "Only run pre-start hooks"
-msgstr ""
+msgstr "Somente executar gatilhos pre-start"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:18
+#, fuzzy
 msgid "Only run pre-stop hooks"
-msgstr ""
+msgstr "Somente executar gatilhos pre-stop"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:420
 #, php-format
@@ -5723,7 +5728,7 @@ msgstr "POST_RELOAD Script"
 
 #: amp.i18n.php:170
 msgid "PRE_RELOAD Script"
-msgstr ""
+msgstr "Script PRE_RELOAD"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:162
 msgid "Packaged (Released)"
@@ -5797,7 +5802,7 @@ msgstr "Caminho para mysqldump"
 
 #: amp.i18n.php:606
 msgid "Path for netstat"
-msgstr ""
+msgstr "Caminho para netstat"
 
 #: amp.i18n.php:640
 msgid "Path for openssl"
