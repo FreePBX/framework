@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-14 13:57-0400\n"
+"POT-Creation-Date: 2017-04-26 21:21-0400\n"
 "PO-Revision-Date: 2017-01-01 23:29+0200\n"
 "Last-Translator: Ernesto <ecasas@sangoma.com>\n"
 "Language-Team: Spanish <http://weblate.freepbx.org/projects/freepbx/"
@@ -216,7 +216,7 @@ msgstr "%s Actualización en línea disponible (%s)"
 msgid "%s Upgrade Available (%s)"
 msgstr "%s Actualización Disponible (%s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3081
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3091
 #, php-format
 msgid "%s [not enabled]"
 msgstr "%s [no habilitado]"
@@ -1142,6 +1142,12 @@ msgstr ""
 "este valor retrasará el canal de contestar la llamada. Esto puede ser útil "
 "si los equipos externos de fax o sistemas de seguridad se instalan en "
 "paralelo yle gustaría que fueran capaces de tomar la línea."
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+msgid ""
+"An unauthorzied system user account called 'ssh' was discovered in /etc/"
+"passwd. Remove this account as soon as possible"
+msgstr ""
 
 #: ../core/functions.inc.php:6021
 msgid "Any DID"
@@ -2420,7 +2426,7 @@ msgstr "Creando firma de solicitud para %s"
 msgid "Critical"
 msgstr "Crítico"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3088
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3098
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr "Módulo Crítico \"%s\" no está firmado, re-descargar inmediatamente"
@@ -4030,6 +4036,8 @@ msgstr ""
 msgid "Error from %s: %s"
 msgstr "Error de %s: %s"
 
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:103
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:106
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1469
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1472
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1667
@@ -4038,6 +4046,7 @@ msgstr "Error de %s: %s"
 msgid "Error opening %s for reading"
 msgstr "Error abriendo %s para lectura"
 
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:94
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1404
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1643
 #, php-format
@@ -4314,12 +4323,12 @@ msgstr "FAllo al Eliminar"
 msgid "Failed to Remove directory"
 msgstr "Fallo al Eliminar directorio"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2973
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2983
 #, php-format
 msgid "Failed to get remote file, error was:"
 msgstr "Fallo al obtener el archivo remoto, el error fue:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2986
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2996
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:502
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -4616,7 +4625,7 @@ msgstr "Forzar uso de return post."
 msgid "Forced"
 msgstr "Forzado"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2998
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3008
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:514
 #, php-format
 msgid "Forced %s to true"
@@ -6174,17 +6183,17 @@ msgstr "Módulo"
 msgid "Module "
 msgstr "Módulo "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3068
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3078
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr "Módulo \"%s\" no se encuentra su estado de firma."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3090
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3100
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr "Módulo \"%s\" no está firmado y debe volverse a descargar"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3083
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3093
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr "Módulo \"%s\", firmado por una clave inválida."
@@ -6342,7 +6351,7 @@ msgstr ""
 "Módulo subido correctamente. Es necesario activar el módulo usando %s para "
 "que esté disponible."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3104
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3114
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
@@ -6351,12 +6360,12 @@ msgstr ""
 "Módulo: \"%s\"'s la firma ha sido revocada. Módulo se ha desactivado "
 "automáticamente"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3098
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3108
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr "Módulo: \"%s\", Archivo: \"%s\""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3096
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3106
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -7739,6 +7748,10 @@ msgstr "Nombre de usuario Proxy"
 #: amp_conf/htdocs/admin/views/module_admin/main.php:156
 msgid "Publisher"
 msgstr "Editor"
+
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:19
+msgid "Purge and clean system"
+msgstr ""
 
 #: ../core/functions.inc.php:826 ../core/functions.inc.php:4431
 msgid "Put caller on hold forever"
@@ -9475,7 +9488,7 @@ msgstr ""
 "continúe con esto si no tiene intención de ejecutar este comando, ya que "
 "puede dar lugar a cambios en la configuración."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2999
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3009
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:515
 #, php-format
 msgid ""
@@ -10237,6 +10250,7 @@ msgstr ""
 "No se puede ejecutar los ganchos de Pre-Asterisk, ya que Asterisk ya se está "
 "ejecutando en PID %s y se ha estado ejecutando para %s"
 
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:127
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1494
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1759
 #, php-format
@@ -10286,6 +10300,10 @@ msgstr "No puede confiar en la Clave de FreePBX! -- %s"
 #, php-format
 msgid "Unable to work with GPG file, message was: %s"
 msgstr "Incapaz de trabajar con el archivo GPG, el mensaje fue: %s"
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+msgid "Unauthorized user"
+msgstr ""
 
 #: ../core/functions.inc.php:6066 ../core/functions.inc.php:6080
 msgid "Unavail Voicemail if Enabled"
@@ -10740,6 +10758,10 @@ msgstr "Extensión de tiempo predeterminado de VMX"
 #: amp.i18n.php:794
 msgid "VMX Default Timeout Priority"
 msgstr "Prioridad predeterminada de tiempo de espera de VMX"
+
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:17
+msgid "Validate your PBX against potential hacks"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1172
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1177
@@ -11390,7 +11412,7 @@ msgstr "Puedes usarlo como un parámetro en config.php, así:"
 msgid "You can't set the default to the default"
 msgstr "No puede establecer el valor predeterminado como predeterminado"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3140
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3150
 #, php-format
 msgid "You have %s %s modules"
 msgstr "Usted tiene %s %s modulos"
@@ -11405,13 +11427,13 @@ msgstr "Usted tiene  %s módulos rotos"
 msgid "You have %s disabled modules"
 msgstr "Usted tiene %s módulos deshabilitados"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3137
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3147
 #, php-format
 msgid "You have %s tampered files"
 msgstr "Usted tiene %s archivos alterados"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3128
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3131
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3138
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3141
 #, php-format
 msgid "You have %s unsigned modules"
 msgstr "Usted tiene %s módulos no firmados"
@@ -11737,7 +11759,7 @@ msgstr ""
 "título. Predeterminado a FreePBX"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:206
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3050
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3060
 msgid "altered"
 msgstr "alterado"
 
@@ -12398,7 +12420,7 @@ msgstr "cambiando de nombre de tabla zapchandids para  dahdichandids.."
 msgid "retrieve_conf failed, config not applied"
 msgstr "retrieve_conf fracasó, configuración no aplicada"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3115
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3125
 msgid "revoked"
 msgstr "revocado"
 
@@ -12433,7 +12455,7 @@ msgstr "sip:[username]@[ip]:[port]"
 msgid "starting migration"
 msgstr "Iniciando migración"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3113
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3123
 msgid "tampered"
 msgstr "alterado"
 
@@ -12459,7 +12481,7 @@ msgstr ""
 "intentando de establecer palabra clave [%s] a [%s] en el ajuste sin "
 "inicializar"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3114
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3124
 msgid "unknown"
 msgstr "desconocido"
 
@@ -12474,11 +12496,11 @@ msgid "unrecognized rule: %s discarding"
 msgstr "reglas no reconocidas: %s descartando"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:171
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3112
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3122
 msgid "unsigned"
 msgstr "no firmado"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3111
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3121
 msgid "untrusted"
 msgstr "no confiable"
 

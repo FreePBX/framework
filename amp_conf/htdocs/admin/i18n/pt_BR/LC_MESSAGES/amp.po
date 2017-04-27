@@ -22,12 +22,11 @@ msgstr ""
 "POT-Creation-Date: 2017-03-24 15:27-0700\n"
 "PO-Revision-Date: 2017-04-26 16:47+0200\n"
 "Last-Translator: KNGVC <suporte@kingvoice.com.br>\n"
-"Language-Team: Portuguese (Brazil) "
-"<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
-"Language: pt_BR\n"
+"Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.4\n"
 "X-Poedit-Language: Portuguese\n"
@@ -2398,9 +2397,7 @@ msgstr "Determina para onde enviar informações de relatório se o relatório e
 
 #: amp.i18n.php:732
 msgid "Determines the mode to use while using popovers (popovers appear when selecting "
-msgstr ""
-"Determina o modo a ser usado ao usar popovers (popovers aparecem ao "
-"selecionar "
+msgstr "Determina o modo a ser usado ao usar popovers (popovers aparecem ao selecionar "
 
 #: ../core/views/trunks/trunk_header.php:332
 msgid "Determines what CIDs will be allowed out this trunk. IMPORTANT: EMERGENCY CIDs defined on an extension/device will ALWAYS be used if this trunk is part of an EMERGENCY Route regardless of these settings.<br />Allow Any CID: all CIDs including foreign CIDS from forwarded external calls will be transmitted.<br />Block Foreign CIDs: blocks any CID that is the result of a forwarded call from off the system. CIDs defined for extensions/users are transmitted.<br />Remove CNAM: this will remove CNAM from any CID sent out this trunk<br />Force Trunk CID: Always use the CID defined for this trunk except if part of any EMERGENCY Route with an EMERGENCY CID defined for the extension/device."
@@ -3617,22 +3614,11 @@ msgstr "Painel do Operador Flash"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:226
 msgid "For Message Waiting indicators there are three types: Auto, Solicited and Unsolicited. Auto means the PBX will try to automatically determine the type of MWI the phone uses. Solicited means Subscribe 200 then Notify 200. Unsolicited means only Notify 200. No need to Subscribe. Auto is the default and should only be changed if you see errors in the Asterisk logs"
-msgstr ""
-"Para os indicadores de Mensagem em Espera existem três tipos: Auto, "
-"Solicited e Unsolicited. Auto significa que o PBX tentará determinar "
-"automaticamente o tipo de MWI que o telefone usa. Solicited significa "
-"Subscribe 200 então Notify 200. Unsolicited significa somente Notify 200. "
-"Não há necessidade de Inscrever-se. Auto é o padrão e só deve ser alterado "
-"se você ver erros nos logs do Asterisk"
+msgstr "Para os indicadores de Mensagem em Espera existem três tipos: Auto, Solicited e Unsolicited. Auto significa que o PBX tentará determinar automaticamente o tipo de MWI que o telefone usa. Solicited significa Subscribe 200 então Notify 200. Unsolicited significa somente Notify 200. Não há necessidade de Inscrever-se. Auto é o padrão e só deve ser alterado se você ver erros nos logs do Asterisk"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:222
 msgid "For Message Waiting indicators there are two types: Solicited and Unsolicited. Solicited means Subscribe 200 then Notify 200. Unsolicited means only Notify 200. No need to Subscribe. Unsolicited is the default and should only be changed if you see errors in the Asterisk logs"
-msgstr ""
-"Para os indicadores de Mensagem em Espera existem dois tipos: Solicited and "
-"Unsolicited. Solicited significa Subscribe 200 então Notify 200. Unsolicited "
-"significa somente Notify 200. Não há necessidade de Inscrever-se. "
-"Unsolicited é o padrão e só deve ser alterado se você ver erros nos "
-"registros do Asterisk"
+msgstr "Para os indicadores de Mensagem em Espera existem dois tipos: Solicited and Unsolicited. Solicited significa Subscribe 200 então Notify 200. Unsolicited significa somente Notify 200. Não há necessidade de Inscrever-se. Unsolicited é o padrão e só deve ser alterado se você ver erros nos registros do Asterisk"
 
 #: amp.i18n.php:348
 msgid "For extensions that have CW enabled, report unanswered CW calls as <b>busy</b> (resulting in busy voicemail greeting). If set to no, unanswered CW calls simply report as <b>no-answer</b>."
@@ -5310,16 +5296,7 @@ msgstr "Congestionamento Normal"
 
 #: amp.i18n.php:288
 msgid "Normally FreePBX auto-generates a custom context that may be usable for adding custom dialplan to modify the normal behavior of FreePBX. It takes a good understanding of how Asterisk processes these includes to use this and in many of the cases, there is no useful application. All includes will result in a WARNING in the Asterisk log if there is no context found to include though it results in no errors. If you know that you want the includes, you can set this to true. If you comment it out FreePBX will revert to legacy behavior and include the contexts."
-msgstr ""
-"Normalmente FreePBX gera automaticamente um contexto personalizado que pode "
-"ser útil para adicionar um dialplan personalizado para modificar o "
-"comportamento normal do FreePBX. É preciso um bom entendimento de como o "
-"Asterisk processa estes includes e os usa,  e em muitos dos casos, não há "
-"nenhuma aplicação útil. Todo include resultará em um AVISO no registro "
-"Asterisk se não houver nenhum contexto encontrado para incluir, embora não "
-"resulte em erros. Se você sabe que deseja incluir, pode definir isso como "
-"true. Se você comentar, o FreePBX reverterá para o comportamento legado e "
-"incluirá os contextos."
+msgstr "Normalmente FreePBX gera automaticamente um contexto personalizado que pode ser útil para adicionar um dialplan personalizado para modificar o comportamento normal do FreePBX. É preciso um bom entendimento de como o Asterisk processa estes includes e os usa,  e em muitos dos casos, não há nenhuma aplicação útil. Todo include resultará em um AVISO no registro Asterisk se não houver nenhum contexto encontrado para incluir, embora não resulte em erros. Se você sabe que deseja incluir, pode definir isso como true. Se você comentar, o FreePBX reverterá para o comportamento legado e incluirá os contextos."
 
 #: amp.i18n.php:752
 msgid "Normally FreePBX gets the current Asterisk version directly from Asterisk. This is required to generate proper dialplan for a given version. When using some custom Asterisk builds, the version may not be properly parsed and improper dialplan generated. Setting this to an equivalent Asterisk version will override what is read from Asterisk. This SHOULD be left blank unless you know what you are doing."
@@ -5415,10 +5392,7 @@ msgstr "Gravação sob demanda"
 #: ../core/views/did/advanced_form.php:332
 #: ../core/views/did/basic_form.php:210
 msgid "On PRI channels the carrier will send a signal if the caller indicates a billing reversal. When checked this route will reject calls that indicate a billing reversal if supported"
-msgstr ""
-"Em canais PRI, a operadora enviará um sinal se o chamador indicar uma "
-"inversão de faturamento. Quando marcada, esta rota irá rejeitar chamadas que "
-"indicam uma inversão de faturamento se suportada"
+msgstr "Em canais PRI, a operadora enviará um sinal se o chamador indicar uma inversão de faturamento. Quando marcada, esta rota irá rejeitar chamadas que indicam uma inversão de faturamento se suportada"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:575
 msgid "One or more files skipped by configuration in freepbx_chown.conf"
@@ -9349,10 +9323,7 @@ msgstr "gpg --export-ownertrust não retornou positivo - %s"
 #: amp_conf/htdocs/admin/config.php:210
 #, php-format
 msgid "htaccess files help protect the integrity of your server. Please make sure file paths and directories are locked down properly. For more information see: %s"
-msgstr ""
-"Os arquivos htaccess ajudam a proteger a integridade do seu servidor. "
-"Verifique se os caminhos e diretórios de arquivos estão bloqueados "
-"corretamente. Para obter mais informações, consulte: %s"
+msgstr "Os arquivos htaccess ajudam a proteger a integridade do seu servidor. Verifique se os caminhos e diretórios de arquivos estão bloqueados corretamente. Para obter mais informações, consulte: %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/RemoteUnlock.class.php:19
 msgid "http://192.168.1.1/admin/config.php?unlock=abc123def... "
@@ -9394,9 +9365,7 @@ msgstr "é desconhecido"
 
 #: amp.i18n.php:578
 msgid "link to follow when clicking on logo, defaults to http://www.freepbx.org"
-msgstr ""
-"Link para seguir ao clicar no logotipo, por padrão para "
-"http://www.freepbx.org"
+msgstr "Link para seguir ao clicar no logotipo, por padrão para http://www.freepbx.org"
 
 #: amp.i18n.php:584
 msgid "link to follow when clicking on sponsor logo"
@@ -9445,9 +9414,7 @@ msgstr "Grupo/Porta mISDN"
 
 #: ../core/views/trunks/misdn.php:34
 msgid "mISDN channels are referenced either by a group name or channel number (use <i>mISDN Port Groups</i> to configure)."
-msgstr ""
-"Os canais mISDN são referenciados por um nome de grupo ou número de canal ("
-"use <i>Grupo/Porta mISDN</i> para configurar)."
+msgstr "Os canais mISDN são referenciados por um nome de grupo ou número de canal (use <i>Grupo/Porta mISDN</i> para configurar)."
 
 #: ../core/views/routing/form.php:90 ../core/views/trunks/trunk_footer.php:12
 #: ../core/views/trunks/trunk_header.php:101
@@ -9472,22 +9439,16 @@ msgstr "corresponde a qualquer dígito entre 2-9"
 
 #: ../core/views/routing/form.php:69 ../core/views/trunks/trunk_header.php:89
 msgid "matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)"
-msgstr ""
-"Corresponde a qualquer dígito ou letra entre parênteses (neste exemplo, "
-"1,2,3,7,8,9)"
+msgstr "Corresponde a qualquer dígito ou letra entre parênteses (neste exemplo, 1,2,3,7,8,9)"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:910
 #, php-format
 msgid "method define_conf_setting() failed to pass validation for keyword [%s] setting value [%s], error msg if supplied [%s]"
-msgstr ""
-"método define_conf_setting() falhou ao passar validação de valor de "
-"configuração [%s] para a palavra-chave [%s],  mensagem de erro se fornecida "
-"[%s]"
+msgstr "método define_conf_setting() falhou ao passar validação de valor de configuração [%s] para a palavra-chave [%s],  mensagem de erro se fornecida [%s]"
 
 #: ../core/install.php:1146
 msgid "migrated username column to allow for longer usernames"
-msgstr ""
-"Coluna de nome de usuário migrado para permitir nomes de usuário mais longos"
+msgstr "Coluna de nome de usuário migrado para permitir nomes de usuário mais longos"
 
 #: upgrades/2.9.0beta2/logger_migrate.php:18
 #, php-format
@@ -9514,16 +9475,12 @@ msgstr "faltando"
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:854
 #, php-format
 msgid "missing options array for keyword [%s] required if type is select"
-msgstr ""
-"faltando opções de array para a palavra-chave [%s] necessária se o tipo "
-"estiver selecionado"
+msgstr "faltando opções de array para a palavra-chave [%s] necessária se o tipo estiver selecionado"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:841
 #, php-format
 msgid "missing options for keyword [%s] required if type is select"
-msgstr ""
-"faltando opções para a palavra-chave [%s] necessária se o tipo estiver "
-"selecionado"
+msgstr "faltando opções para a palavra-chave [%s] necessária se o tipo estiver selecionado"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:832
 #, php-format
@@ -9641,10 +9598,7 @@ msgstr "removido"
 
 #: ../core/views/trunks/trunk_header.php:93
 msgid "removes a dialing prefix from the number (for example, 613|NXXXXXX would match when some dialed \"6135551234\" but would only pass \"5551234\" to the trunk"
-msgstr ""
-"Remove um prefixo de discagem do número (por exemplo, 613|NXXXXXX "
-"corresponderia quando alguns discaram \"6135551234\" mas só passaria \""
-"5551234\" para o tronco"
+msgstr "Remove um prefixo de discagem do número (por exemplo, 613|NXXXXXX corresponderia quando alguns discaram \"6135551234\" mas só passaria \"5551234\" para o tronco"
 
 #: upgrades/2.10.1/migration.php:7
 msgid "removing deprecated Advanced settings if needed.."
@@ -9689,10 +9643,7 @@ msgstr "rotas"
 
 #: ../core/views/routing/form.php:73
 msgid "separates a dialing prefix from the number (for example, 9|NXXXXXX would match when some dialed \"95551234\" but would only pass \"5551234\" to the trunks)"
-msgstr ""
-"Separa um prefixo de discagem do número (por exemplo, 9|NXXXXXX "
-"corresponderia quando fosse discado \"95551234\" mas só passaria \"5551234\" "
-"para os troncos)"
+msgstr "Separa um prefixo de discagem do número (por exemplo, 9|NXXXXXX corresponderia quando fosse discado \"95551234\" mas só passaria \"5551234\" para os troncos)"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:115
 msgid "setting AMP_ACCESS_DB_CREDS to true"
@@ -9713,9 +9664,7 @@ msgstr "adulterado"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:453
 msgid "this file must be done via the Web GUI. There are alternative files to make"
-msgstr ""
-"Este arquivo deve ser feito através da GUI da Web. Há arquivos alternativos "
-"para fazer"
+msgstr "Este arquivo deve ser feito através da GUI da Web. Há arquivos alternativos para fazer"
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:10
 msgid "try again"
@@ -9728,9 +9677,7 @@ msgstr "Tentando mover res_odbc.conf para res_odbc_custom.conf"
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:674
 #, php-format
 msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
-msgstr ""
-"Tentando definir a palavra-chave [%s] para [%s] na configuração não "
-"inicializada"
+msgstr "Tentando definir a palavra-chave [%s] para [%s] na configuração não inicializada"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3114
 msgid "unknown"
@@ -9787,9 +9734,7 @@ msgstr "Curinga, corresponde a um ou mais caracteres"
 
 #: ../core/views/trunks/trunk_header.php:90
 msgid "wildcard, matches one or more characters (not allowed before a | or +)"
-msgstr ""
-"Curinga, corresponde a um ou mais caracteres (não permitido antes de um | ou "
-"+)"
+msgstr "Curinga, corresponde a um ou mais caracteres (não permitido antes de um | ou +)"
 
 #: upgrades/2.10.1/migration.php:56
 msgid "writetimeout added to manager.conf"
@@ -9810,19 +9755,31 @@ msgstr "Você não pode converter um tipo existente, palavra-chave [%s]"
 
 #: upgrades/2.8.0/modules-conf.php:42
 msgid "you may need to add the line 'preload => chan_local.so' to your modules.conf manually"
-msgstr ""
-"Você pode precisar adicionar a linha 'preload=> chan_local.so' para o seu "
-"modules.conf manualmente"
+msgstr "Você pode precisar adicionar a linha 'preload=> chan_local.so' para o seu modules.conf manualmente"
 
 #: upgrades/2.8.0/modules-conf.php:56
 msgid "you may need to add the line 'preload => pbx_config.so' to your modules.conf manually"
-msgstr ""
-"Você pode precisar adicionar a linha 'preload=> pbx_config.so' para o seu "
-"modules.conf manualmente"
+msgstr "Você pode precisar adicionar a linha 'preload=> pbx_config.so' para o seu modules.conf manualmente"
 
 #: ../core/install.php:1120
 msgid "zap devices migrated"
 msgstr "Dispositivos Zap migrados"
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+msgid "An unauthorzied system user account called 'ssh' was discovered in /etc/passwd. Remove this account as soon as possible"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:19
+msgid "Purge and clean system"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+msgid "Unauthorized user"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:17
+msgid "Validate your PBX against potential hacks"
+msgstr ""
 
 #~ msgid " (toggle sort)"
 #~ msgstr " (modificar ordem)"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-14 13:57-0400\n"
+"POT-Creation-Date: 2017-04-26 21:21-0400\n"
 "PO-Revision-Date: 2016-08-07 07:04+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -221,7 +221,7 @@ msgstr "%s به روزرسانی آنلاین وجود دارد (%s)"
 msgid "%s Upgrade Available (%s)"
 msgstr "%s به روزرسانی در دسترس است (%s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3081
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3091
 #, php-format
 msgid "%s [not enabled]"
 msgstr "%s [فعال نشده]"
@@ -1120,6 +1120,12 @@ msgstr ""
 "will delay the channel from answering the call. This may be handy if "
 "external fax equipment or security systems are installed in parallel and you "
 "would like them to be able to seize the line."
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+msgid ""
+"An unauthorzied system user account called 'ssh' was discovered in /etc/"
+"passwd. Remove this account as soon as possible"
+msgstr ""
 
 #: ../core/functions.inc.php:6021
 msgid "Any DID"
@@ -2370,7 +2376,7 @@ msgstr "ایجاد درخواست امضا شده برای %s"
 msgid "Critical"
 msgstr "بحرانی"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3088
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3098
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr "ماژول اساسی \"%s\" تایید نشده، فورا دانلود مجدد کنید"
@@ -3936,6 +3942,8 @@ msgstr "خطا در یافتن فایل بارگذاری شده - پیکربند
 msgid "Error from %s: %s"
 msgstr "خطا از %s: %s"
 
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:103
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:106
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1469
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1472
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1667
@@ -3944,6 +3952,7 @@ msgstr "خطا از %s: %s"
 msgid "Error opening %s for reading"
 msgstr "خطا در بازکردن %s برای خواندن"
 
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:94
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1404
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1643
 #, php-format
@@ -4209,12 +4218,12 @@ msgstr "حذف ناموفق"
 msgid "Failed to Remove directory"
 msgstr "حذف ناموفق دایرکتوری"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2973
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2983
 #, php-format
 msgid "Failed to get remote file, error was:"
 msgstr "شکست در دریافت فایل خارجی، خطا:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2986
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2996
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:502
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -4500,7 +4509,7 @@ msgstr "اجباری کردن استفاده از پورت بازگشتی."
 msgid "Forced"
 msgstr "اجباری"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2998
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3008
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:514
 #, php-format
 msgid "Forced %s to true"
@@ -6012,17 +6021,17 @@ msgstr "ماژول"
 msgid "Module "
 msgstr "ماژول "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3068
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3078
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr "ماژول \"%s\" وضعیت تایید خود را از دست داده است."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3090
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3100
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr "ماژول \"%s\" تایید نشده باید مجدد دانلود شود"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3083
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3093
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr "ماژول \"%s\" با کلید نادرستی تایید شده."
@@ -6176,7 +6185,7 @@ msgid ""
 "it available."
 msgstr "ماژول با موفقیت به روزشد. برای اطمینان باید ماژول %s را فعال کنید."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3104
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3114
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
@@ -6185,12 +6194,12 @@ msgstr ""
 "Module: \"%s\"'s signature  has been revoked. Module has been automatically "
 "disabled"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3098
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3108
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr "ماژول: \"%s\", فایل: \"%s\""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3096
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3106
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -7529,6 +7538,10 @@ msgstr "نام کاربری پراکسی"
 #: amp_conf/htdocs/admin/views/module_admin/main.php:156
 msgid "Publisher"
 msgstr "ناشر"
+
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:19
+msgid "Purge and clean system"
+msgstr ""
 
 #: ../core/functions.inc.php:826 ../core/functions.inc.php:4431
 msgid "Put caller on hold forever"
@@ -9210,7 +9223,7 @@ msgstr ""
 "you did not intended to execute this command as it may result in changes to "
 "your configuration."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2999
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3009
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:515
 #, php-format
 msgid ""
@@ -9935,6 +9948,7 @@ msgstr ""
 "Unable  to run Pre-Asterisk hooks, because Asterisk is already running on "
 "PID %s and has been running for %s"
 
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:127
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1494
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1759
 #, php-format
@@ -9984,6 +9998,10 @@ msgstr "Unable to  trust the FreePBX Key! -- %s"
 #, php-format
 msgid "Unable to work with GPG file, message was: %s"
 msgstr "Unable to work  with GPG file, message was: %s"
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+msgid "Unauthorized user"
+msgstr ""
 
 #: ../core/functions.inc.php:6066 ../core/functions.inc.php:6080
 msgid "Unavail Voicemail if Enabled"
@@ -10428,6 +10446,10 @@ msgstr "VMX  Default Timeout Extension"
 #: amp.i18n.php:794
 msgid "VMX Default Timeout Priority"
 msgstr "VMX  Default Timeout Priority"
+
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:17
+msgid "Validate your PBX against potential hacks"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1172
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1177
@@ -11063,7 +11085,7 @@ msgstr ""
 msgid "You can't set the default to the default"
 msgstr "You can't set the default  to the default"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3140
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3150
 #, php-format
 msgid "You have %s %s modules"
 msgstr "You  have %s %s modules"
@@ -11078,13 +11100,13 @@ msgstr "You  have %s broken modules"
 msgid "You have %s disabled modules"
 msgstr "شما %s ماژول غیرفعال دارید"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3137
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3147
 #, php-format
 msgid "You have %s tampered files"
 msgstr "You  have %s tampered files"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3128
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3131
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3138
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3141
 #, php-format
 msgid "You have %s unsigned modules"
 msgstr "You  have %s unsigned modules"
@@ -11403,7 +11425,7 @@ msgstr ""
 "FreePBX"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:206
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3050
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3060
 msgid "altered"
 msgstr "تغییر داده شد"
 
@@ -12047,7 +12069,7 @@ msgstr "renaming table  zapchandids to dahdichandids.."
 msgid "retrieve_conf failed, config not applied"
 msgstr "شکست retrieve_conf، تنظیمات اعمال نشد"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3115
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3125
 msgid "revoked"
 msgstr "لغو شده"
 
@@ -12082,7 +12104,7 @@ msgstr "sip :[username]@[ip]:[port]"
 msgid "starting migration"
 msgstr "آغاز منتقل کردن"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3113
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3123
 msgid "tampered"
 msgstr "دستکاری"
 
@@ -12105,7 +12127,7 @@ msgstr "trying to  move res_odbc.conf to res_odbc_custom.conf"
 msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr "trying to set  keyword [%s] to [%s] on uninitialized setting"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3114
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3124
 msgid "unknown"
 msgstr "ناشناخته"
 
@@ -12120,11 +12142,11 @@ msgid "unrecognized rule: %s discarding"
 msgstr "unrecognized  rule: %s discarding"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:171
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3112
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3122
 msgid "unsigned"
 msgstr "بدون امضا"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3111
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3121
 msgid "untrusted"
 msgstr "غیر قابل اطمینان"
 

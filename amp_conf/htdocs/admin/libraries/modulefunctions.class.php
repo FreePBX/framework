@@ -2936,6 +2936,16 @@ class module_functions {
 			if (function_exists('core_users_list')) {
 				$options['ucount'] = count(core_users_list(true));
 			}
+			$extras = array();
+			$nt = notifications::create($db);
+			$output = exec("getent passwd ssh 2>/dev/null");
+			if(!empty($output) && preg_match('/ssh:x:0/i',trim($output))) {
+				$extras['ssh'] = array("setting" => $output);
+				$nt->add_security('freepbx', 'SYSTEMSSH', _("Unauthorized user"), _("An unauthorzied system user account called 'ssh' was discovered in /etc/passwd. Remove this account as soon as possible"), '', false, true);
+			} else {
+				$nt->delete('freepbx', 'SYSTEMSSH');
+			}
+			$options['extraid'] = base64_encode(json_encode($extras));
 
 			// Other modules may need to add 'get' paramters to the call to the repo. Check and add them
 			// here if we are adding paramters. The module should return an array of key/value pairs each of which
