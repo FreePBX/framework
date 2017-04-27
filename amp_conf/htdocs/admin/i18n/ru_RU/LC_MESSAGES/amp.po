@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-14 13:57-0400\n"
+"POT-Creation-Date: 2017-04-26 21:21-0400\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -221,7 +221,7 @@ msgstr "%s Онлайн обновление доступно (%s)"
 msgid "%s Upgrade Available (%s)"
 msgstr "%s Обновление доступно (%s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3081
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3091
 #, php-format
 msgid "%s [not enabled]"
 msgstr "%s [не задействовано]"
@@ -1130,6 +1130,12 @@ msgstr ""
 "помогает дополнительному оборудованию, как факс-аппарат или система "
 "сигнализации, если оно подключено параллельно занять линию, по которой "
 "поступил звонок."
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+msgid ""
+"An unauthorzied system user account called 'ssh' was discovered in /etc/"
+"passwd. Remove this account as soon as possible"
+msgstr ""
 
 #: ../core/functions.inc.php:6021
 msgid "Any DID"
@@ -2385,7 +2391,7 @@ msgstr "Создать подписанный запрос для %s"
 msgid "Critical"
 msgstr "Критично"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3088
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3098
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
@@ -3967,6 +3973,8 @@ msgstr ""
 msgid "Error from %s: %s"
 msgstr "Ошибка от %s: %s"
 
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:103
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:106
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1469
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1472
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1667
@@ -3975,6 +3983,7 @@ msgstr "Ошибка от %s: %s"
 msgid "Error opening %s for reading"
 msgstr "Ошибка в открытии %s для чтения"
 
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:94
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1404
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1643
 #, php-format
@@ -4244,12 +4253,12 @@ msgstr "Не удалось удалить"
 msgid "Failed to Remove directory"
 msgstr "Ошибка перемещения директории"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2973
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2983
 #, php-format
 msgid "Failed to get remote file, error was:"
 msgstr "Ошибка получения удалённого файла, ошибка была:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2986
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2996
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:502
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -4548,7 +4557,7 @@ msgstr "Запуск использования обратного порта"
 msgid "Forced"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2998
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3008
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:514
 #, php-format
 msgid "Forced %s to true"
@@ -6063,17 +6072,17 @@ msgstr "Модуль"
 msgid "Module "
 msgstr "Модуль "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3068
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3078
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr "Неверный статус сигнатуры модуля %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3090
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3100
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr "Модуль \"%s\" не подписан и должен быть снова загружен"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3083
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3093
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr "Модуль \"%s\" подписан недействительным ключом"
@@ -6229,19 +6238,19 @@ msgstr ""
 "Модуль загружен успешно, Необходимо задействовать его используя %s чтобы "
 "сделать его доступным."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3104
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3114
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr "Модуль: \"%s\" сигнатура была отозвана. Модуль автоматически отключен"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3098
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3108
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr "Модуль: \"%s\", Файл: \"%s\""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3096
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3106
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -7576,6 +7585,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/main.php:156
 msgid "Publisher"
 msgstr "Издатель"
+
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:19
+msgid "Purge and clean system"
+msgstr ""
 
 #: ../core/functions.inc.php:826 ../core/functions.inc.php:4431
 msgid "Put caller on hold forever"
@@ -9185,7 +9198,7 @@ msgstr ""
 "сделать исполнением этой команды, то не стоит соверщать это действие, потому "
 "что это повлечёт изменения в конфигурации."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2999
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3009
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:515
 #, php-format
 msgid ""
@@ -9908,6 +9921,7 @@ msgid ""
 "%s and has been running for %s"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:127
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1494
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1759
 #, php-format
@@ -9954,6 +9968,10 @@ msgstr "Невозможно доверять ключу FreePBX -- %s"
 #, php-format
 msgid "Unable to work with GPG file, message was: %s"
 msgstr "Невозможно обработать GPG файл, сообщение: %s"
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+msgid "Unauthorized user"
+msgstr ""
 
 #: ../core/functions.inc.php:6066 ../core/functions.inc.php:6080
 msgid "Unavail Voicemail if Enabled"
@@ -10404,6 +10422,10 @@ msgstr "Внутренний номер по умолчанию для выхо�
 #: amp.i18n.php:794
 msgid "VMX Default Timeout Priority"
 msgstr "Приоритет по умолчанию для выхода по таймауту в VMX"
+
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:17
+msgid "Validate your PBX against potential hacks"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1172
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1177
@@ -11021,7 +11043,7 @@ msgstr ""
 msgid "You can't set the default to the default"
 msgstr "Вы не можете установить значение по умолчанию в значение по умолчанию"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3140
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3150
 #, php-format
 msgid "You have %s %s modules"
 msgstr "У Вас  %s %s модулей"
@@ -11036,13 +11058,13 @@ msgstr "У вас %s повреждённых модуля"
 msgid "You have %s disabled modules"
 msgstr "У вас отключено %s модулей"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3137
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3147
 #, php-format
 msgid "You have %s tampered files"
 msgstr "У Вас  %s  повреждённых файла"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3128
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3131
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3138
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3141
 #, php-format
 msgid "You have %s unsigned modules"
 msgstr "У Вас %s неподписанных модуля"
@@ -11359,7 +11381,7 @@ msgstr ""
 "умолчанию - FreePBX"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:206
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3050
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3060
 msgid "altered"
 msgstr "изменён"
 
@@ -12017,7 +12039,7 @@ msgstr "переименование таблицы zapchandids в  dahdichandid
 msgid "retrieve_conf failed, config not applied"
 msgstr "retrieve_conf не найден, конфигурация не применилась"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3115
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3125
 msgid "revoked"
 msgstr "отозван"
 
@@ -12051,7 +12073,7 @@ msgstr "sip:[username]@[ip]:[port]"
 msgid "starting migration"
 msgstr "начинаем перенос"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3113
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3123
 msgid "tampered"
 msgstr "повреждённый"
 
@@ -12077,7 +12099,7 @@ msgstr ""
 "попытаемся указать ключевое значение [%s] в [%s] при неинициализированных "
 "установках"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3114
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3124
 msgid "unknown"
 msgstr "неизвестный"
 
@@ -12092,11 +12114,11 @@ msgid "unrecognized rule: %s discarding"
 msgstr "неизвестное правило:%s отклоняется"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:171
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3112
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3122
 msgid "unsigned"
 msgstr "неподписанный"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3111
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3121
 msgid "untrusted"
 msgstr "недоверенный"
 
