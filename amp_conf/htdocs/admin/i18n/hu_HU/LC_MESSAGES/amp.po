@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx-2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-26 20:31-0700\n"
+"POT-Creation-Date: 2017-04-28 09:54-0700\n"
 "PO-Revision-Date: 2007-10-09 16:16+0100\n"
 "Last-Translator: Lónyai Gergely <alephlg@gmail.com>\n"
 "Language-Team: Aleph <alephlg@gmail.com>\n"
@@ -1084,8 +1084,9 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2962
 msgid ""
-"An unauthorzied system user account called 'ssh' was discovered in /etc/"
-"passwd. Remove this account as soon as possible"
+"An unauthorized system user account called 'ssh' was discovered in /etc/"
+"passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc "
+"and also remove the 'ssh' account as soon as possible"
 msgstr ""
 
 #: ../core/functions.inc.php:6001
