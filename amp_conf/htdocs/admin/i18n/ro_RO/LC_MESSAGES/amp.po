@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-26 21:21-0400\n"
+"POT-Creation-Date: 2017-04-28 12:47-0400\n"
 "PO-Revision-Date: 2014-09-11 02:13+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Romanian <http://git.freepbx.org/projects/freepbx/framework/"
@@ -819,7 +819,7 @@ msgstr ""
 msgid "Adhoc"
 msgstr "Adhoc"
 
-#: amp.i18n.php:6 amp.i18n.php:798
+#: amp.i18n.php:6 amp.i18n.php:822
 #: amp_conf/htdocs/admin/views/menu_items.php:44
 msgid "Admin"
 msgstr "Administrare"
@@ -1074,15 +1074,16 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
 msgid ""
-"An unauthorzied system user account called 'ssh' was discovered in /etc/"
-"passwd. Remove this account as soon as possible"
+"An unauthorized system user account called 'ssh' was discovered in /etc/"
+"passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc "
+"and also remove the 'ssh' account as soon as possible"
 msgstr ""
 
 #: ../core/functions.inc.php:6021
 msgid "Any DID"
 msgstr "Orice DID"
 
-#: amp_conf/htdocs/admin/views/menu_items.php:45
+#: amp.i18n.php:798 amp_conf/htdocs/admin/views/menu_items.php:45
 msgid "Applications"
 msgstr ""
 
@@ -1189,7 +1190,7 @@ msgstr ""
 msgid "Asterisk Manager Write Timeout"
 msgstr ""
 
-#: amp.i18n.php:822 ../core/page.astmodules.php:49
+#: amp.i18n.php:824 ../core/page.astmodules.php:49
 msgid "Asterisk Modules"
 msgstr ""
 
@@ -1300,7 +1301,7 @@ msgstr ""
 msgid "Authentication"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:811
+#: ../core/views/trunks/pjsip.php:839
 msgid "Authentication Disabled"
 msgstr ""
 
@@ -1815,7 +1816,7 @@ msgstr ""
 msgid "Check Server Referrer"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:745
+#: ../core/views/trunks/pjsip.php:773
 msgid ""
 "Check the desired codecs, all others will be disabled. Drag to re-order."
 msgstr ""
@@ -2769,6 +2770,11 @@ msgstr ""
 "prin acest trunchi<br />Forteaza Trunchi CID: Utilizeaza intotdeauna CID "
 "definit pentru acest trunchi cu exceptia cazurilor cand e parte din ruta de "
 "URGENTA avand CID de URGENTA definit pentru extensie/echipament."
+
+#: ../core/views/trunks/pjsip.php:762
+msgid ""
+"Determines whether chan_pjsip will indicate ringing using inband progress."
+msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:257
 msgid ""
@@ -4252,7 +4258,7 @@ msgstr ""
 msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
 msgstr ""
 
-#: amp.i18n.php:824
+#: amp.i18n.php:826
 msgid "FreePBX Support"
 msgstr "Suport FreePBX"
 
@@ -4874,6 +4880,10 @@ msgstr "Inregistrare durata apel"
 
 #: ../core/views/trunks/pjsip.php:244
 msgid "Inband"
+msgstr ""
+
+#: ../core/views/trunks/pjsip.php:747
+msgid "Inband Progress"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:87
@@ -5884,7 +5894,7 @@ msgstr ""
 #: ../core/views/did/basic_form.php:253 ../core/views/routing/form.php:329
 #: ../core/views/trunks/pjsip.php:617 ../core/views/trunks/pjsip.php:673
 #: ../core/views/trunks/pjsip.php:700 ../core/views/trunks/pjsip.php:727
-#: ../core/views/trunks/trunk_header.php:68
+#: ../core/views/trunks/pjsip.php:754 ../core/views/trunks/trunk_header.php:68
 #: ../core/views/trunks/trunk_header.php:266
 #: ../core/views/trunks/trunk_header.php:405
 #: ../core/views/trunks/trunk_header.php:432
@@ -9487,7 +9497,7 @@ msgid ""
 "automatically updated in manager.conf."
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:829
+#: ../core/views/trunks/pjsip.php:857
 msgid "Username is trunk name"
 msgstr ""
 
@@ -9937,7 +9947,7 @@ msgstr ""
 #: ../core/views/did/basic_form.php:251 ../core/views/routing/form.php:327
 #: ../core/views/trunks/pjsip.php:615 ../core/views/trunks/pjsip.php:671
 #: ../core/views/trunks/pjsip.php:698 ../core/views/trunks/pjsip.php:725
-#: ../core/views/trunks/trunk_header.php:66
+#: ../core/views/trunks/pjsip.php:752 ../core/views/trunks/trunk_header.php:66
 #: ../core/views/trunks/trunk_header.php:264
 #: ../core/views/trunks/trunk_header.php:403
 #: ../core/views/trunks/trunk_header.php:430

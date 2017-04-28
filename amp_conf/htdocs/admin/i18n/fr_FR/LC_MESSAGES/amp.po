@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-26 21:21-0400\n"
+"POT-Creation-Date: 2017-04-28 12:47-0400\n"
 "PO-Revision-Date: 2017-03-17 00:51+0200\n"
 "Last-Translator: Nicolas <freepbx@riendeau.org>\n"
 "Language-Team: French <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -824,7 +824,7 @@ msgstr ""
 msgid "Adhoc"
 msgstr "Adhoc"
 
-#: amp.i18n.php:6 amp.i18n.php:798
+#: amp.i18n.php:6 amp.i18n.php:822
 #: amp_conf/htdocs/admin/views/menu_items.php:44
 msgid "Admin"
 msgstr "Administrateur"
@@ -1081,15 +1081,16 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
 msgid ""
-"An unauthorzied system user account called 'ssh' was discovered in /etc/"
-"passwd. Remove this account as soon as possible"
+"An unauthorized system user account called 'ssh' was discovered in /etc/"
+"passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc "
+"and also remove the 'ssh' account as soon as possible"
 msgstr ""
 
 #: ../core/functions.inc.php:6021
 msgid "Any DID"
 msgstr "Tout SDA"
 
-#: amp_conf/htdocs/admin/views/menu_items.php:45
+#: amp.i18n.php:798 amp_conf/htdocs/admin/views/menu_items.php:45
 msgid "Applications"
 msgstr ""
 
@@ -1196,7 +1197,7 @@ msgstr "Utilisateur du gestionnaire d'Asterisk"
 msgid "Asterisk Manager Write Timeout"
 msgstr ""
 
-#: amp.i18n.php:822 ../core/page.astmodules.php:49
+#: amp.i18n.php:824 ../core/page.astmodules.php:49
 msgid "Asterisk Modules"
 msgstr "Modules d'Asterisk"
 
@@ -1314,7 +1315,7 @@ msgstr "Attributs"
 msgid "Authentication"
 msgstr "Authentification"
 
-#: ../core/views/trunks/pjsip.php:811
+#: ../core/views/trunks/pjsip.php:839
 msgid "Authentication Disabled"
 msgstr "Authentification désactivée"
 
@@ -1830,7 +1831,7 @@ msgstr ""
 msgid "Check Server Referrer"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:745
+#: ../core/views/trunks/pjsip.php:773
 msgid ""
 "Check the desired codecs, all others will be disabled. Drag to re-order."
 msgstr ""
@@ -2788,6 +2789,11 @@ msgstr ""
 "cela retire le CNAM de tout CID envoyé sur ce trunk<br />Force le CID du "
 "trunk: utilise toujours le CID défini pour ce trunk sauf si faisant parti "
 "d'une route SECOURS avec un CID SECOURS défini pour cette extension/terminal."
+
+#: ../core/views/trunks/pjsip.php:762
+msgid ""
+"Determines whether chan_pjsip will indicate ringing using inband progress."
+msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:257
 msgid ""
@@ -4299,7 +4305,7 @@ msgstr ""
 msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
 msgstr "FreePBX requiert PHP Version 5.3.3 ou plus récent, vous avez : %s"
 
-#: amp.i18n.php:824
+#: amp.i18n.php:826
 msgid "FreePBX Support"
 msgstr "Support FreePBX"
 
@@ -4938,6 +4944,10 @@ msgstr "Bascule enregistrement d'appel Asterisk"
 
 #: ../core/views/trunks/pjsip.php:244
 msgid "Inband"
+msgstr ""
+
+#: ../core/views/trunks/pjsip.php:747
+msgid "Inband Progress"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:87
@@ -5946,7 +5956,7 @@ msgstr ""
 #: ../core/views/did/basic_form.php:253 ../core/views/routing/form.php:329
 #: ../core/views/trunks/pjsip.php:617 ../core/views/trunks/pjsip.php:673
 #: ../core/views/trunks/pjsip.php:700 ../core/views/trunks/pjsip.php:727
-#: ../core/views/trunks/trunk_header.php:68
+#: ../core/views/trunks/pjsip.php:754 ../core/views/trunks/trunk_header.php:68
 #: ../core/views/trunks/trunk_header.php:266
 #: ../core/views/trunks/trunk_header.php:405
 #: ../core/views/trunks/trunk_header.php:432
@@ -9603,7 +9613,7 @@ msgid ""
 "automatically updated in manager.conf."
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:829
+#: ../core/views/trunks/pjsip.php:857
 msgid "Username is trunk name"
 msgstr "Le nom d'usager est le nom de la jonction"
 
@@ -10063,7 +10073,7 @@ msgstr ""
 #: ../core/views/did/basic_form.php:251 ../core/views/routing/form.php:327
 #: ../core/views/trunks/pjsip.php:615 ../core/views/trunks/pjsip.php:671
 #: ../core/views/trunks/pjsip.php:698 ../core/views/trunks/pjsip.php:725
-#: ../core/views/trunks/trunk_header.php:66
+#: ../core/views/trunks/pjsip.php:752 ../core/views/trunks/trunk_header.php:66
 #: ../core/views/trunks/trunk_header.php:264
 #: ../core/views/trunks/trunk_header.php:403
 #: ../core/views/trunks/trunk_header.php:430
