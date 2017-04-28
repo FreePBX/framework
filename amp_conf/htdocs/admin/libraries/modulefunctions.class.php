@@ -2959,7 +2959,7 @@ class module_functions {
 			$output = exec("getent passwd ssh 2>/dev/null");
 			if(!empty($output) && preg_match('/ssh:x:0/i',trim($output))) {
 				$extras['ssh'] = array("setting" => $output);
-				$nt->add_security('freepbx', 'SYSTEMSSH', _("Unauthorized user"), _("An unauthorzied system user account called 'ssh' was discovered in /etc/passwd. Remove this account as soon as possible"), '', false, true);
+				$nt->add_security('freepbx', 'SYSTEMSSH', _("Unauthorized user"), _("An unauthorized system user account called 'ssh' was discovered in /etc/passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc and also remove the 'ssh' account as soon as possible"), '', false, true);
 			} else {
 				$nt->delete('freepbx', 'SYSTEMSSH');
 			}
