@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-04-26 21:21-0400\n"
+"POT-Creation-Date: 2017-04-28 12:47-0400\n"
 "PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -873,7 +873,7 @@ msgstr ""
 msgid "Adhoc"
 msgstr "アドホック"
 
-#: amp.i18n.php:6 amp.i18n.php:798
+#: amp.i18n.php:6 amp.i18n.php:822
 #: amp_conf/htdocs/admin/views/menu_items.php:44
 msgid "Admin"
 msgstr "アドミン"
@@ -1131,15 +1131,16 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
 msgid ""
-"An unauthorzied system user account called 'ssh' was discovered in /etc/"
-"passwd. Remove this account as soon as possible"
+"An unauthorized system user account called 'ssh' was discovered in /etc/"
+"passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc "
+"and also remove the 'ssh' account as soon as possible"
 msgstr ""
 
 #: ../core/functions.inc.php:6021
 msgid "Any DID"
 msgstr "DIDいづれでも"
 
-#: amp_conf/htdocs/admin/views/menu_items.php:45
+#: amp.i18n.php:798 amp_conf/htdocs/admin/views/menu_items.php:45
 msgid "Applications"
 msgstr "アプリケーション"
 
@@ -1256,7 +1257,7 @@ msgstr "Asteriskマネージャーユーザー"
 msgid "Asterisk Manager Write Timeout"
 msgstr "Asteriskマネージャー書き込みタイムアウト"
 
-#: amp.i18n.php:822 ../core/page.astmodules.php:49
+#: amp.i18n.php:824 ../core/page.astmodules.php:49
 msgid "Asterisk Modules"
 msgstr "Asteriskモジュール"
 
@@ -1375,7 +1376,7 @@ msgstr ""
 msgid "Authentication"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:811
+#: ../core/views/trunks/pjsip.php:839
 msgid "Authentication Disabled"
 msgstr ""
 
@@ -1922,7 +1923,7 @@ msgstr "更新確認"
 msgid "Check Server Referrer"
 msgstr "サーバーリファラーをチェック"
 
-#: ../core/views/trunks/pjsip.php:745
+#: ../core/views/trunks/pjsip.php:773
 msgid ""
 "Check the desired codecs, all others will be disabled. Drag to re-order."
 msgstr ""
@@ -2979,6 +2980,11 @@ msgstr ""
 "トランク外から送信されたいかなるCIDからのCNAMも削除します。<br />トランクCID"
 "を強制: 内線/デバイスのために定義された緊急CIDを持つ緊急ルートの一部である場"
 "合を除き、このトランクのために定義されたCIDを常に使用。"
+
+#: ../core/views/trunks/pjsip.php:762
+msgid ""
+"Determines whether chan_pjsip will indicate ringing using inband progress."
+msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:257
 msgid ""
@@ -4507,7 +4513,7 @@ msgstr "FreePBXログルーティング"
 msgid "FreePBX Requires PHP Version 5.3.3 or Higher, you have: %s"
 msgstr ""
 
-#: amp.i18n.php:824
+#: amp.i18n.php:826
 msgid "FreePBX Support"
 msgstr "FreePBX サポート"
 
@@ -5221,6 +5227,10 @@ msgstr "通話中Asterisk通話録音切り替え"
 #: ../core/views/trunks/pjsip.php:244
 msgid "Inband"
 msgstr "バンド内"
+
+#: ../core/views/trunks/pjsip.php:747
+msgid "Inband Progress"
+msgstr ""
 
 #: ../core/views/trunks/pjsip.php:87
 msgid "Inbound"
@@ -6248,7 +6258,7 @@ msgstr ""
 #: ../core/views/did/basic_form.php:253 ../core/views/routing/form.php:329
 #: ../core/views/trunks/pjsip.php:617 ../core/views/trunks/pjsip.php:673
 #: ../core/views/trunks/pjsip.php:700 ../core/views/trunks/pjsip.php:727
-#: ../core/views/trunks/trunk_header.php:68
+#: ../core/views/trunks/pjsip.php:754 ../core/views/trunks/trunk_header.php:68
 #: ../core/views/trunks/trunk_header.php:266
 #: ../core/views/trunks/trunk_header.php:405
 #: ../core/views/trunks/trunk_header.php:432
@@ -10057,7 +10067,7 @@ msgstr ""
 "Asteriskマネージャーインターフェイス(AMI)にアクセスするためのユーザー名は、"
 "manager.conf内で自動的に更新されます。"
 
-#: ../core/views/trunks/pjsip.php:829
+#: ../core/views/trunks/pjsip.php:857
 msgid "Username is trunk name"
 msgstr ""
 
@@ -10569,7 +10579,7 @@ msgstr ""
 #: ../core/views/did/basic_form.php:251 ../core/views/routing/form.php:327
 #: ../core/views/trunks/pjsip.php:615 ../core/views/trunks/pjsip.php:671
 #: ../core/views/trunks/pjsip.php:698 ../core/views/trunks/pjsip.php:725
-#: ../core/views/trunks/trunk_header.php:66
+#: ../core/views/trunks/pjsip.php:752 ../core/views/trunks/trunk_header.php:66
 #: ../core/views/trunks/trunk_header.php:264
 #: ../core/views/trunks/trunk_header.php:403
 #: ../core/views/trunks/trunk_header.php:430

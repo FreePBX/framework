@@ -960,6 +960,10 @@ msgstr "Ocorreu um erro ao alterar permissões no link %s que aponta para %s"
 msgid "An optional delay to wait before processing this route. Setting this value will delay the channel from answering the call. This may be handy if external fax equipment or security systems are installed in parallel and you would like them to be able to seize the line."
 msgstr "Um atraso opcional a aguardar antes de processar esta rota. Configurando este valor atrasará o atendimento da chamada pelo canal. Isto pode ser útil se equipamento externo fax ou sistemas de segurança são instalados em paralelo e que você gostaria que elas sejam capazes de aproveitar a linha."
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+msgid "An unauthorzied system user account called 'ssh' was discovered in /etc/passwd. Remove this account as soon as possible"
+msgstr ""
+
 #: ../core/functions.inc.php:6021
 msgid "Any DID"
 msgstr "Qualquer DID"
@@ -6147,6 +6151,10 @@ msgstr "Nome de usuário do proxy"
 msgid "Publisher"
 msgstr "Publicador"
 
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:19
+msgid "Purge and clean system"
+msgstr ""
+
 #: ../core/functions.inc.php:826 ../core/functions.inc.php:4431
 msgid "Put caller on hold forever"
 msgstr "Colocar originatário em espera para sempre"
@@ -8019,6 +8027,10 @@ msgstr "Não foi possível confiar na chave FreePBX! -- %s"
 msgid "Unable to work with GPG file, message was: %s"
 msgstr "Não foi possível trabalhar com o arquivo GPG, a mensagem foi: %s"
 
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+msgid "Unauthorized user"
+msgstr ""
+
 #: ../core/functions.inc.php:6066 ../core/functions.inc.php:6080
 msgid "Unavail Voicemail if Enabled"
 msgstr "Desativar o correio de voz se ativado"
@@ -8409,6 +8421,10 @@ msgstr ""
 
 #: amp.i18n.php:860
 msgid "VMX Default Timeout Priority"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:17
+msgid "Validate your PBX against potential hacks"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1172
@@ -9766,19 +9782,15 @@ msgid "zap devices migrated"
 msgstr "Dispositivos Zap migrados"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
-msgid "An unauthorzied system user account called 'ssh' was discovered in /etc/passwd. Remove this account as soon as possible"
+msgid "An unauthorized system user account called 'ssh' was discovered in /etc/passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc and also remove the 'ssh' account as soon as possible"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:19
-msgid "Purge and clean system"
+#: ../core/views/trunks/pjsip.php:762
+msgid "Determines whether chan_pjsip will indicate ringing using inband progress."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
-msgid "Unauthorized user"
-msgstr ""
-
-#: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:17
-msgid "Validate your PBX against potential hacks"
+#: ../core/views/trunks/pjsip.php:747
+msgid "Inband Progress"
 msgstr ""
 
 #~ msgid " (toggle sort)"
