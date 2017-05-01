@@ -289,4 +289,22 @@ class View {
 		$html .= '</div>';
 		return $html;
 	}
+
+	public function destinationUsage($dest, $module_hash=false) {
+		$usage_list = framework_display_destination_usage($dest, $module_hash);
+		$html = '';
+		if(!empty($usage_list)){
+			$html = <<<HTML
+<div class="panel panel-default fpbx-usageinfo">
+	<div class="panel-heading">
+		$usage_list[text]
+	</div>
+	<div class="panel-body">
+		$usage_list[tooltip]
+	</div>
+</div>
+HTML;
+		}
+		return $html;
+	}
 }
