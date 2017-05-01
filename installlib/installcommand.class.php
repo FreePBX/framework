@@ -135,11 +135,6 @@ class FreePBXInstallCommand extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		global $amp_conf; /* This makes pandas sad. :( */
 
-		if (version_compare(PHP_VERSION, '5.6', '<')) {
-			$output->writeln("<error>FreePBX Requires PHP Version 5.6 or Higher, you have: ".PHP_VERSION."</error>");
-			return false;
-		}
-
 		//still needed for module_admin and retrieve_conf
 		$filePath = stream_resolve_include_path('Console/Getopt.php');
 		if ($filePath === false) {

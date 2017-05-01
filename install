@@ -2,6 +2,11 @@
 <?php
 namespace FreePBX\Install;
 
+if (version_compare(PHP_VERSION, '5.6', '<')) {
+	echo "FreePBX Requires PHP Version 5.6 or Higher, you have: ".PHP_VERSION."\n";
+	return false;
+}
+
 set_time_limit(0);
 
 require_once('amp_conf/htdocs/admin/libraries/Composer/vendor/autoload.php');
