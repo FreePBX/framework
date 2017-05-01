@@ -71,15 +71,6 @@ class Database extends \PDO {
 			$dsnarr = array();
 		}
 
-		// Now go through and put anything in place that was missing
-		if (!isset($dsnarr['host'])) {
-			$dsnarr['host'] = isset($amp_conf['AMPDBHOST'])?$amp_conf['AMPDBHOST']:'localhost';
-		}
-
-		if (!isset($dsnarr['dbname'])) {
-			$dsnarr['dbname'] = isset($amp_conf['AMPDBNAME'])?$amp_conf['AMPDBNAME']:'asterisk';
-		}
-
 		// Note the inverse logic. We REMOVE engine from dsnarr if it exists, because that
 		// isn't technically part of the DSN.
 		if (isset($dsnarr['engine'])) {
@@ -90,6 +81,22 @@ class Database extends \PDO {
 		}
 
 		$engine = ($engine == 'mariadb') ? 'mysql' : $engine;
+
+		// Now go through and put anything in place that was missing
+		switch($engine) {
+			case 'mysql':
+				if (!isset($dsnarr['host'])) {
+					$dsnarr['host'] = isset($amp_conf['AMPDBHOST'])?$amp_conf['AMPDBHOST']:'localhost';
+				}
+
+				if (!isset($dsnarr['dbname'])) {
+					$dsnarr['dbname'] = isset($amp_conf['AMPDBNAME'])?$amp_conf['AMPDBNAME']:'asterisk';
+				}
+			break;
+			case 'sqlite':
+				$dsnarr['path'] = isset($amp_conf['AMPDBLOCATION'])?$amp_conf['AMPDBLOCATION']:'/etc/asterisk/freepbx.db';
+			break;
+		}
 
 		// We only want to add port to the DSN if it's actually defined.
 		if (isset($amp_conf['AMPDBPORT'])) {
@@ -115,9 +122,8 @@ class Database extends \PDO {
 			if(preg_match('/Distrib\s*(\d+\.\d+\.\d+)/i',$output,$matches) && version_compare($matches[1],"5.5.3","ge")) {
 				$charset = 'utf8mb4';
 			}
+			$dsnarr['charset'] = isset($dsnarr['charset']) ? $dsnarr['charset'] : $charset;
 		}
-
-		$dsnarr['charset'] = isset($dsnarr['charset']) ? $dsnarr['charset'] : $charset;
 
 		// Were there any database options?
 		$options = isset($args[3]) ? $args[3] : array();
@@ -131,7 +137,8 @@ class Database extends \PDO {
 		// This DSN array is now suitable for building into a valid DSN!
 		// Note - http_build_query() is just a shortcut to change a key=>value array
 		// to a string.
-		$this->dsn = "$engine:".http_build_query($dsnarr, '', ';');
+		$this->dsn = "$engine:".urldecode(http_build_query($dsnarr, '', ';'));
+		$this->dsn = str_replace(":path=",":",$this->dsn);
 
 		//this is only for docrine
 		if ($engine == 'mysql') {
@@ -147,8 +154,10 @@ class Database extends \PDO {
 		try {
 			if ($options) {
 				parent::__construct($this->dsn, $username, $password, $options);
-			} else {
+			} elseif(!empty($username)) {
 				parent::__construct($this->dsn, $username, $password);
+			} else {
+				parent::__construct($this->dsn);
 			}
 		} catch(\Exception $e) {
 			die_freepbx($e->getMessage(), $e);
@@ -403,7 +412,7 @@ class Database extends \PDO {
 			if(count($tmparr) === 2) {
 				$retarr[$tmparr[0]] = $tmparr[1];
 			} else {
-				throw new \Exception("Section '$setting' can not be parsed");
+				$retarr['path'] = $tmparr[0];
 			}
 		}
 		return $retarr;

@@ -352,7 +352,20 @@ class FreePBXInstallCommand extends Command {
 			include_once $freepbx_conf_path;
 		}
 
+		$pdodrivers = \PDO::getAvailableDrivers();
 		if (isset($answers['dbengine'])) {
+			if(!in_array($answers['dbengine'],$pdodrivers)) {
+				//fallback
+				if(!in_array('sqlite',$pdodrivers)) {
+					$output->writeln("<error>Database driver of '".$answers['dbengine']."' is not valid!</error>");
+					exit(-1);
+				} else {
+					$answers['dbengine'] = 'sqlite';
+				}
+			}
+			if($answers['dbengine'] == 'sqlite') {
+				$output->writeln("<fg=black;bg=yellow;options=bold>Sqlite Database not recommended for productions servers due to single threaded writes!</>");
+			}
 			$amp_conf['AMPDBENGINE'] = $answers['dbengine'];
 		}
 		if (isset($answers['dbname'])) {
@@ -395,27 +408,47 @@ class FreePBXInstallCommand extends Command {
 			$amp_conf['AMPMGRUSER'] = 'admin';
 			$amp_conf['AMPMGRPASS'] = md5(uniqid());
 
-			$amp_conf['AMPDBUSER'] = $answers['dbuser'];
-			$amp_conf['AMPDBPASS'] = $answers['dbpass'];
-			$amp_conf['AMPDBHOST'] = 'localhost';
+			switch($amp_conf['AMPDBENGINE']) {
+				case 'mysql':
+					$amp_conf['AMPDBUSER'] = $answers['dbuser'];
+					$amp_conf['AMPDBPASS'] = $answers['dbpass'];
+					$amp_conf['AMPDBHOST'] = 'localhost';
 
-			if($dbroot) {
-				$output->write("Database Root installation checking credentials and permissions..");
-			} else {
-				$output->write("Database installation checking credentials and permissions..");
+					if($dbroot) {
+						$output->write("Database Root installation checking credentials and permissions..");
+					} else {
+						$output->write("Database installation checking credentials and permissions..");
+					}
+					$dsn = "mysql:host=" . $amp_conf['AMPDBHOST'];
+					try {
+						$pdodb = new \PDO($dsn, $amp_conf['AMPDBUSER'], $amp_conf['AMPDBPASS']);
+					} catch(\Exception $e) {
+						$output->writeln("<error>Error!</error>");
+						$output->writeln("<error>Invalid Database Permissions. The error was: ".$e->getMessage()."</error>");
+						exit(1);
+					}
+					$dbencoding = version_compare($pdodb->getAttribute(\PDO::ATTR_SERVER_VERSION), "5.5.3", "ge") ? "utf8mb4" : "utf8";
+					$output->writeln("Connected!");
+				break;
+				case 'sqlite':
+					$amp_conf['AMPDBLOCATION'] = '/etc/asterisk/freepbx.db';
+					$dsn = "sqlite:" . $amp_conf['AMPDBLOCATION'];
+					try {
+						$pdodb = new \PDO($dsn);
+					} catch(\Exception $e) {
+						$output->writeln("<error>Error!</error>");
+						$output->writeln("<error>Invalid Database Permissions. The error was: ".$e->getMessage()."</error>");
+						exit(1);
+					}
+				break;
+				default:
+					$output->writeln("<error>Unsupported database driver...but you could help fix this!</error>");
+					exit(-1);
+				break;
 			}
-			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'];
-			try {
-				$pdodb = new \PDO($dsn, $amp_conf['AMPDBUSER'], $amp_conf['AMPDBPASS']);
-			} catch(\Exception $e) {
-				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Invalid Database Permissions. The error was: ".$e->getMessage()."</error>");
-				exit(1);
-			}
-			$dbencoding = version_compare($pdodb->getAttribute(\PDO::ATTR_SERVER_VERSION), "5.5.3", "ge") ? "utf8mb4" : "utf8";
-			$output->writeln("Connected!");
 		}
 
+		//TODO: this is mysql only right now
 		if(!file_exists(ODBC_INI)) {
 			$output->write("No ".ODBC_INI." file detected. Installing...");
 			if(!copy(FILES_DIR . "/odbc.ini", ODBC_INI)) {
@@ -467,24 +500,36 @@ class FreePBXInstallCommand extends Command {
 			require_once('amp_conf/htdocs/admin/libraries/BMO/FreePBX.class.php');
 			require_once('amp_conf/htdocs/admin/libraries/DB.class.php');
 
-			if($dbroot) {
-				$amp_conf['AMPDBUSER'] = 'freepbxuser';
-				$amp_conf['AMPDBPASS'] = md5(uniqid());
-			} elseif((empty($amp_conf['AMPDBUSER'])) && empty($amp_conf['AMPDBPASS'])) {
-				$amp_conf['AMPDBUSER'] = $answers['dbuser'];
-				$amp_conf['AMPDBPASS'] = $answers['dbpass'];
+			switch($amp_conf['AMPDBENGINE']) {
+				case 'mysql':
+					if($dbroot) {
+						$amp_conf['AMPDBUSER'] = 'freepbxuser';
+						$amp_conf['AMPDBPASS'] = md5(uniqid());
+					} elseif((empty($amp_conf['AMPDBUSER'])) && empty($amp_conf['AMPDBPASS'])) {
+						$amp_conf['AMPDBUSER'] = $answers['dbuser'];
+						$amp_conf['AMPDBPASS'] = $answers['dbpass'];
+					}
+
+					if($dbroot) {
+						if($force) {
+							$pdodb->query("DROP DATABASE IF EXISTS ".$amp_conf['AMPDBNAME']);
+						}
+						$pdodb->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['AMPDBNAME']." DEFAULT CHARACTER SET ".$dbencoding." DEFAULT COLLATE ".$dbencoding."_unicode_ci");
+						$sql = "GRANT ALL PRIVILEGES ON ".$amp_conf['AMPDBNAME'].".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
+						$pdodb->query($sql);
+					} else {
+						//check collate
+					}
+				break;
+				case 'sqlite':
+					$amp_conf['AMPDBUSER'] = '';
+					$amp_conf['AMPDBPASS'] = '';
+					if($force) {
+						$pdodb->query("DROP DATABASE IF EXISTS ".$amp_conf['AMPDBNAME']);
+					}
+				break;
 			}
 
-			if($dbroot) {
-				if($force) {
-					$pdodb->query("DROP DATABASE IF EXISTS ".$amp_conf['AMPDBNAME']);
-				}
-				$pdodb->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['AMPDBNAME']." DEFAULT CHARACTER SET ".$dbencoding." DEFAULT COLLATE ".$dbencoding."_unicode_ci");
-				$sql = "GRANT ALL PRIVILEGES ON ".$amp_conf['AMPDBNAME'].".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
-				$pdodb->query($sql);
-			} else {
-				//check collate
-			}
 
 			$fwxml = simplexml_load_file($this->rootPath.'/module.xml');
 			//setversion to whatever is in framework.xml forever for here on out.
@@ -492,50 +537,79 @@ class FreePBXInstallCommand extends Command {
 
 			$bmo = new \FreePBX($amp_conf);
 
-			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'];
-			$fbxdb = new \FreePBX\Database($dsn, $answers['dbuser'], $answers['dbpass']);
-			$db = new \DB($fbxdb);
+			switch($amp_conf['AMPDBENGINE']) {
+				case 'mysql':
+					$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'];
+					$fbxdb = new \FreePBX\Database($dsn, $answers['dbuser'], $answers['dbpass']);
+					$db = new \DB($fbxdb);
+					$db->query("USE ".$amp_conf['AMPDBNAME']);
+					$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['AMPDBNAME']."';";
+					if (!$db->getOne($sql)) {
+						$output->writeln("Empty " . $amp_conf['AMPDBNAME'] . " Database going to populate it");
 
-			$db->query("USE ".$amp_conf['AMPDBNAME']);
-			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['AMPDBNAME']."';";
-			if (!$db->getOne($sql)) {
-				$output->writeln("Empty " . $amp_conf['AMPDBNAME'] . " Database going to populate it");
+						$xml = simplexml_load_file(dirname(__DIR__).'/module.xml');
+						if(!empty($xml->database)) {
+							foreach($xml->database->table as $table) {
+								$tname = (string)$table->attributes()->name;
+								outn(sprintf(_("Updating table %s..."),$tname));
+								$fbxdb->migrateXML($table);
+								out(_("Done"));
+							}
+						} else {
+							throw new \Exception("There's no default database information!");
+						}
 
-				$xml = simplexml_load_file(dirname(__DIR__).'/module.xml');
-				if(!empty($xml->database)) {
-					foreach($xml->database->table as $table) {
-						$tname = (string)$table->attributes()->name;
-						outn(sprintf(_("Updating table %s..."),$tname));
-						$fbxdb->migrateXML($table);
-						out(_("Done"));
+						$installer->install_sql_file(SQL_DIR . '/asterisk.sql');
+						$db->query("INSERT INTO admin (variable,value) VALUES ('version','".$fwver."')");
 					}
-				} else {
-					throw new \Exception("There's no default database information!");
-				}
 
-				$installer->install_sql_file(SQL_DIR . '/asterisk.sql');
-				$db->query("INSERT INTO admin (variable,value) VALUES ('version','".$fwver."')");
-			}
+					if($dbroot) {
+						if($force) {
+							$db->query("DROP DATABASE IF EXISTS ".$amp_conf['CDRDBNAME']);
+						}
+						$db->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['CDRDBNAME']." DEFAULT CHARACTER SET ".$dbencoding." DEFAULT COLLATE ".$dbencoding."_unicode_ci");
+						$sql = "GRANT ALL PRIVILEGES ON ".$amp_conf['CDRDBNAME'].".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
+						$db->query($sql);
+					} else {
+						//check collate
+					}
+					$db->query("USE ".$amp_conf['CDRDBNAME']);
+					$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['CDRDBNAME']."';";
+					if (!$db->getOne($sql)) {
+						$output->writeln("Empty " . $amp_conf['CDRDBNAME'] . " Database going to populate it");
+						$installer->install_sql_file(SQL_DIR . '/cdr.sql');
+					}
+					unset($amp_conf['CDRDBNAME']);
 
-			if($dbroot) {
-				if($force) {
-					$db->query("DROP DATABASE IF EXISTS ".$amp_conf['CDRDBNAME']);
-				}
-				$db->query("CREATE DATABASE IF NOT EXISTS ".$amp_conf['CDRDBNAME']." DEFAULT CHARACTER SET ".$dbencoding." DEFAULT COLLATE ".$dbencoding."_unicode_ci");
-				$sql = "GRANT ALL PRIVILEGES ON ".$amp_conf['CDRDBNAME'].".* TO '" . $amp_conf['AMPDBUSER'] . "'@'localhost' IDENTIFIED BY '" . $amp_conf['AMPDBPASS'] . "'";
-				$db->query($sql);
-			} else {
-				//check collate
-			}
-			$db->query("USE ".$amp_conf['CDRDBNAME']);
-			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['CDRDBNAME']."';";
-			if (!$db->getOne($sql)) {
-				$output->writeln("Empty " . $amp_conf['CDRDBNAME'] . " Database going to populate it");
-				$installer->install_sql_file(SQL_DIR . '/cdr.sql');
-			}
-			unset($amp_conf['CDRDBNAME']);
+					$db->query("USE ".$amp_conf['AMPDBNAME']);
+				break;
+				case 'sqlite':
+					$dsn = $dsn = "sqlite:" . $amp_conf['AMPDBLOCATION'];
+					$fbxdb = new \FreePBX\Database($dsn);
+					$db = new \DB($fbxdb);
+					$sql = "SELECT count(*) FROM sqlite_master ORDER BY name";
+					if (!$db->getOne($sql)) {
+						$output->writeln("Empty " . $amp_conf['AMPDBNAME'] . " Database going to populate it");
 
-			$db->query("USE ".$amp_conf['AMPDBNAME']);
+						$xml = simplexml_load_file(dirname(__DIR__).'/module.xml');
+						if(!empty($xml->database)) {
+							foreach($xml->database->table as $table) {
+								$tname = (string)$table->attributes()->name;
+								outn(sprintf(_("Updating table %s..."),$tname));
+								$fbxdb->migrateXML($table);
+								out(_("Done"));
+							}
+						} else {
+							throw new \Exception("There's no default database information!");
+						}
+
+						$installer->install_sql_file(SQL_DIR . '/asterisk.sql');
+						$db->query("INSERT INTO admin (variable,value) VALUES ('version','".$fwver."')");
+					}
+
+					$db->query("USE ".$amp_conf['AMPDBNAME']);
+				break;
+			}
 		}
 
 		// Get version of FreePBX.
