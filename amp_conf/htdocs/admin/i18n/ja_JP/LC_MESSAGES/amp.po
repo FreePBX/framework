@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-02 13:40-0400\n"
+"POT-Creation-Date: 2017-05-02 13:53-0400\n"
 "PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -477,10 +477,6 @@ msgstr "%s: 新しい非証明モジュールのお知らせ (%s)"
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
 msgstr "'cp -rf' 参照元: '%s' から 参照先: '%s'…詳細は次の通り："
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:314
-msgid "(Click to Expand)"
-msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/featurecodes.functions.php:76
 msgid "** MISSING FEATURE CODE **"
@@ -2053,6 +2049,10 @@ msgstr "クリックするとこのパターンを削除します"
 #: ../core/views/trunks/trunk_header.php:25
 msgid ""
 "Click on <a href='?display=routing'>Outbound Routes</a> to setup routing."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:321
+msgid "Click to Expand"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/header.php:23
@@ -6524,12 +6524,12 @@ msgid ""
 "ignored."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:312
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:319
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:253
 msgid "Object"
 msgstr "オブジェクト"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:312
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:319
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:253
 msgid "Objects"
 msgstr "オブジェクト"
@@ -10006,7 +10006,7 @@ msgstr "freepbx_menu.confの設定を使用する"
 msgid "Use wget For Module Admin"
 msgstr "モジュールアドミンでwgetを使用する"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:313
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:320
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:254
 #, php-format
 msgid "Used as Destination by %s %s"

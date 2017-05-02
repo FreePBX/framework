@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-02 13:40-0400\n"
+"POT-Creation-Date: 2017-05-02 13:53-0400\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -445,10 +445,6 @@ msgstr "%s: Новое напоминание о неподписанных мо
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
 msgstr "'cp -rf' from src: '%s' to dst: '%s'...детали ниже"
-
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:314
-msgid "(Click to Expand)"
-msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/featurecodes.functions.php:76
 msgid "** MISSING FEATURE CODE **"
@@ -2096,6 +2092,10 @@ msgid ""
 msgstr ""
 "Нажмите на <a href='?display=routing'>Исходящие маршруты</a> для настройки "
 "маршрутизации."
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:321
+msgid "Click to Expand"
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/header.php:23
 msgid "Click to configure Update Notifications"
@@ -6713,12 +6713,12 @@ msgstr ""
 "из расширенных установок.Если голосовая почта не настроена,то это будет "
 "проигнорировано."
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:312
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:319
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:253
 msgid "Object"
 msgstr "Объект"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:312
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:319
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:253
 msgid "Objects"
 msgstr "Объектов"
@@ -10306,7 +10306,7 @@ msgstr ""
 msgid "Use wget For Module Admin"
 msgstr "Использовать команду wget для Управления модулями"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:313
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:320
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:254
 #, php-format
 msgid "Used as Destination by %s %s"
