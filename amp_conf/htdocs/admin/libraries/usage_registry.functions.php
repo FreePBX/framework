@@ -248,9 +248,9 @@ function framework_display_destination_usage($dest, $module_hash=false) {
 			foreach ($mod_list as $details) {
 				$usage_count++;
 				if (!empty($details['edit_url'])) {
-					$str .= sprintf('<a href="%s">%s</a><br/>', $details['edit_url'], $details['description']);
+					$str .= sprintf('<a href="%s">%s</a><br/>', htmlspecialchars($details['edit_url']), htmlspecialchars($details['description']));
 				} else {
-					$str .= sprintf('%s<br/>', $details['description']);
+					$str .= sprintf('%s<br/>', htmlspecialchars($details['description']));
 				}
 			}
 		}
