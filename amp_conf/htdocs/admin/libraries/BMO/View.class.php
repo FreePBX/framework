@@ -291,20 +291,41 @@ class View {
 	}
 
 	public function destinationUsage($dest, $module_hash=false) {
-		$usage_list = framework_display_destination_usage($dest, $module_hash);
-		$html = '';
-		if(!empty($usage_list)){
+		if (!is_array($dest)) {
+			$dest = array($dest);
+		}
+		$usage_list = framework_check_destination_usage($dest, $module_hash);
+		$usage = array();
+		$usage_item = '';
+		if (!empty($usage_list)) {
+			$usage_count = 0;
+			foreach ($usage_list as $mod_list) {
+				foreach ($mod_list as $details) {
+					$usage_count++;
+					$usage_items .= !empty($details['edit_url']) ? '<a href="'.$details['edit_url'].'" target="_blank">'.$details['description'].'</a>' : $details['description']."<br/>";
+				}
+			}
+		}
+		if(!$usage_count) {
+			return '';
+		}
+		$object = $usage_count > 1 ? _("Objects"):_("Object");
+		$title = sprintf(dgettext('amp',"Used as Destination by %s %s"),$usage_count, dgettext('amp',$object));
+		$title .= " <small>"._("(Click to Expand)")."</small>";
+		$state = !empty($_COOKIE['destinationUsage']) ? 'in' : '';
+
 			$html = <<<HTML
 <div class="panel panel-default fpbx-usageinfo">
 	<div class="panel-heading">
-		$usage_list[text]
+		<a data-toggle="collapse" data-target="#collapseOne">$title</a>
 	</div>
-	<div class="panel-body">
-		$usage_list[tooltip]
+	<div id="collapseOne" class="panel-collapse collapse $state">
+		<div class="panel-body">
+			$usage_items
+		</div>
 	</div>
 </div>
 HTML;
-		}
 		return $html;
 	}
 }

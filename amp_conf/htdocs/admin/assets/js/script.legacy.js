@@ -1245,6 +1245,13 @@ function resizeRightNav() {
 }
 
 $(document).ready(function() {
+	$(".fpbx-usageinfo .panel-heading a").click(function() {
+		if($(this).hasClass("collapsed")) {
+			$.cookie("destinationUsage",1);
+		} else {
+			$.cookie("destinationUsage",0);
+		}
+	});
 	if($("#fpbxsearch").hasClass("in")) {
 		$("#fpbxsearch input").blur();
 	}

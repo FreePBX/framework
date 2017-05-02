@@ -774,3 +774,22 @@ div.attention {
 	border-radius: 0;
 	height: 100%;
 }
+
+.panel.fpbx-usageinfo {
+	.panel-heading {
+		a {
+			cursor: pointer;
+			color: inherit;
+			text-decoration: inherit;
+		}
+		a:after {
+			font-family:'Glyphicons Halflings';
+			content:"\e114";
+			float: right;
+			color: grey;
+		}
+		a.collapsed:after {
+			content:"\e080";
+		}
+	}
+}
