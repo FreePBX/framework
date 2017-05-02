@@ -290,6 +290,13 @@ class View {
 		return $html;
 	}
 
+	/**
+	 * Generate Destination Usage Panel
+	 * @method destinationUsage
+	 * @param  mixed           $dest         an array of destinations to check against, or if boolean true then return list of all destinations in use
+	 * @param  boolean          $module_hash a hash of module names to search for callbacks, otherwise global $active_modules is used
+	 * @return string                        The finalized HTML
+	 */
 	public function destinationUsage($dest, $module_hash=false) {
 		if (!is_array($dest)) {
 			$dest = array($dest);
@@ -311,7 +318,7 @@ class View {
 		}
 		$object = $usage_count > 1 ? _("Objects"):_("Object");
 		$title = sprintf(dgettext('amp',"Used as Destination by %s %s"),$usage_count, dgettext('amp',$object));
-		$title .= " <small>"._("(Click to Expand)")."</small>";
+		$title .= " <small>("._("Click to Expand").")</small>";
 		$state = !empty($_COOKIE['destinationUsage']) ? 'in' : '';
 
 			$html = <<<HTML
