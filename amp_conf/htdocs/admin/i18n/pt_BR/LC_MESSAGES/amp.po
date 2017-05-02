@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-01 21:39-0400\n"
+"POT-Creation-Date: 2017-05-02 13:40-0400\n"
 "PO-Revision-Date: 2017-04-20 14:45+0200\n"
 "Last-Translator: KNGVC <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -461,6 +461,10 @@ msgstr "%s: Novas Notificações de Módulos Não Assinados (%s)"
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
 msgstr "'cp -rf' de src: '%s' para dst: '%s'...detalhes seguintes"
+
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:314
+msgid "(Click to Expand)"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/featurecodes.functions.php:76
 msgid "** MISSING FEATURE CODE **"
@@ -6804,10 +6808,12 @@ msgstr ""
 "usará o valor definido em Configurações avançadas. Se nenhum correio de voz "
 "estiver configurado, este será ignorado."
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:312
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:253
 msgid "Object"
 msgstr "Objeto"
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:312
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:253
 msgid "Objects"
 msgstr "Objetos"
@@ -10575,6 +10581,7 @@ msgstr "Usar configuração freepbx_menu.conf"
 msgid "Use wget For Module Admin"
 msgstr "Usar wget para Módulo Admin"
 
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:313
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:254
 #, php-format
 msgid "Used as Destination by %s %s"
