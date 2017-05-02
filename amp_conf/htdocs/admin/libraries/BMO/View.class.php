@@ -302,7 +302,7 @@ class View {
 			foreach ($usage_list as $mod_list) {
 				foreach ($mod_list as $details) {
 					$usage_count++;
-					$usage_items .= !empty($details['edit_url']) ? '<a href="'.$details['edit_url'].'" target="_blank">'.$details['description'].'</a>' : $details['description']."<br/>";
+					$usage_items .= !empty($details['edit_url']) ? sprintf('<a href="%s">%s</a><br/>', htmlspecialchars($details['edit_url']), htmlspecialchars($details['description'])) : sprintf('%s<br/>', htmlspecialchars($details['description']));
 				}
 			}
 		}
