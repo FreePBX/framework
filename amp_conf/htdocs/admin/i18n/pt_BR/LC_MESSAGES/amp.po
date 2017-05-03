@@ -961,6 +961,10 @@ msgid "An optional delay to wait before processing this route. Setting this valu
 msgstr "Um atraso opcional a aguardar antes de processar esta rota. Configurando este valor atrasará o atendimento da chamada pelo canal. Isto pode ser útil se equipamento externo fax ou sistemas de segurança são instalados em paralelo e que você gostaria que elas sejam capazes de aproveitar a linha."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
+msgid "An unauthorized system user account called 'ssh' was discovered in /etc/passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc and also remove the 'ssh' account as soon as possible"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
 msgid "An unauthorzied system user account called 'ssh' was discovered in /etc/passwd. Remove this account as soon as possible"
 msgstr ""
 
@@ -2406,6 +2410,10 @@ msgstr "Determina o modo a ser usado ao usar popovers (popovers aparecem ao sele
 #: ../core/views/trunks/trunk_header.php:332
 msgid "Determines what CIDs will be allowed out this trunk. IMPORTANT: EMERGENCY CIDs defined on an extension/device will ALWAYS be used if this trunk is part of an EMERGENCY Route regardless of these settings.<br />Allow Any CID: all CIDs including foreign CIDS from forwarded external calls will be transmitted.<br />Block Foreign CIDs: blocks any CID that is the result of a forwarded call from off the system. CIDs defined for extensions/users are transmitted.<br />Remove CNAM: this will remove CNAM from any CID sent out this trunk<br />Force Trunk CID: Always use the CID defined for this trunk except if part of any EMERGENCY Route with an EMERGENCY CID defined for the extension/device."
 msgstr "Determina quais CIDs serão permitidos para este tronco. IMPORTANTE: CIDs de EMERGÊNCIA definidos no ramal/dispositivo serão SEMPRE usados se este tronco for parte de uma Rota de EMERGÊNCIA independente destas configurações.<br />Permitir Qualquer CID: todos os CIDs incluindo CIDs exteriores de chamadas externas encaminhadas serão transmitidos.<br />Bloqueio CIDs Exteriores: bloqueia todo CID que é o resultado de uma chamada encaminhada de fora do sistema. Os CIDs definidos para ramais/usuários serão transmitidos.<br />Remover CNAM: isto removerá CNAM de todo CID enviado fora deste tronco<br />Forçar CID Tronco: Sempre usará o CID definido para este tronco exceto se parte de uma Rota de EMERGÊNCIA com um CID de EMERGENCIA definido para ramal/dispositivo."
+
+#: ../core/views/trunks/pjsip.php:762
+msgid "Determines whether chan_pjsip will indicate ringing using inband progress."
+msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:257
 msgid "Determines whether encryption should be used if possible but does not terminate the session if not achieved. This option only applies if Media Encryption is set to SRTP via in-SDP or DTLS-SRTP."
@@ -4263,6 +4271,10 @@ msgstr "Configurar gravação em chamada"
 #: ../core/views/trunks/pjsip.php:244
 msgid "Inband"
 msgstr "Inband"
+
+#: ../core/views/trunks/pjsip.php:747
+msgid "Inband Progress"
+msgstr ""
 
 #: ../core/views/trunks/pjsip.php:87
 msgid "Inbound"
@@ -9781,16 +9793,16 @@ msgstr "Você pode precisar adicionar a linha 'preload=> pbx_config.so' para o s
 msgid "zap devices migrated"
 msgstr "Dispositivos Zap migrados"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
-msgid "An unauthorized system user account called 'ssh' was discovered in /etc/passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc and also remove the 'ssh' account as soon as possible"
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:321
+msgid "Click to Expand"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:762
-msgid "Determines whether chan_pjsip will indicate ringing using inband progress."
+#: ../core/functions.inc/drivers/Sip.class.php:445
+msgid "Enable rtcp Mux"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:747
-msgid "Inband Progress"
+#: ../core/functions.inc/drivers/Sip.class.php:444
+msgid "If enabled, then Asterisk will attempt to use rtcp-mux with whatever it communicates with. Asterisk follows the rules set forth in RFC 5761 with regards to falling back to standard RTCP behavior if the far end does not indicate support for rtcp-mux. As a result the following must be enabled to use WebRTC"
 msgstr ""
 
 #~ msgid " (toggle sort)"
