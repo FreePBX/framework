@@ -20,13 +20,14 @@ msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-03-24 15:27-0700\n"
-"PO-Revision-Date: 2017-04-26 16:47+0200\n"
+"PO-Revision-Date: 2017-05-08 21:45+0200\n"
 "Last-Translator: KNGVC <suporte@kingvoice.com.br>\n"
-"Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
+"Language-Team: Portuguese (Brazil) "
+"<http://weblate.freepbx.org/projects/freepbx/framework/pt_BR/>\n"
+"Language: pt_BR\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pt_BR\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: Weblate 2.4\n"
 "X-Poedit-Language: Portuguese\n"
@@ -963,10 +964,15 @@ msgstr "Um atraso opcional a aguardar antes de processar esta rota. Configurando
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
 msgid "An unauthorized system user account called 'ssh' was discovered in /etc/passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc and also remove the 'ssh' account as soon as possible"
 msgstr ""
+"Uma conta de usuário não autorizada do sistema chamada 'ssh' foi descoberta "
+"em  /etc/passwd. Remova todas as linhas de alias referenciando 'useradd' em "
+"/root/.bashrc e também remova a conta 'ssh' assim que possível"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2944
 msgid "An unauthorzied system user account called 'ssh' was discovered in /etc/passwd. Remove this account as soon as possible"
 msgstr ""
+"Uma conta de usuário não autorizada do sistema chamada 'ssh' foi descoberta "
+"em /etc/passwd. Remover esta conta o mais rapidamente possível"
 
 #: ../core/functions.inc.php:6021
 msgid "Any DID"
@@ -2413,7 +2419,7 @@ msgstr "Determina quais CIDs serão permitidos para este tronco. IMPORTANTE: CID
 
 #: ../core/views/trunks/pjsip.php:762
 msgid "Determines whether chan_pjsip will indicate ringing using inband progress."
-msgstr ""
+msgstr "Determina se chan_pjsip indicará tocando usando o progresso de banda."
 
 #: ../core/functions.inc/drivers/PJSip.class.php:257
 msgid "Determines whether encryption should be used if possible but does not terminate the session if not achieved. This option only applies if Media Encryption is set to SRTP via in-SDP or DTLS-SRTP."
@@ -6141,6 +6147,8 @@ msgstr "Provê uma descrição significativa para esta rota de entrada"
 #: amp.i18n.php:176
 msgid "Provides a very verbose traceback when die_freepbx() is called including extensive object details if present in the traceback."
 msgstr ""
+"Fornece um rastreamento detalhado quando die_freepbx() é chamado incluindo "
+"detalhes de objeto se presente no rastreamento."
 
 #: amp.i18n.php:514
 msgid "Proxy Address"
