@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-02 13:53-0400\n"
+"POT-Creation-Date: 2017-05-15 20:54-0400\n"
 "PO-Revision-Date: 2016-08-07 07:04+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -2067,11 +2067,11 @@ msgstr ""
 "to start with the Basic repository and update all modules, then go back and "
 "review the others."
 
-#: ../core/assets/js/trunks/trunks.js:229
+#: ../core/assets/js/trunks/trunks.js:231
 msgid "Click here to insert a new pattern before this pattern"
 msgstr "برای افزودن الگو جدید قبل از این الگو اینجا کلیک کنید"
 
-#: ../core/assets/js/trunks/trunks.js:230
+#: ../core/assets/js/trunks/trunks.js:232
 msgid "Click here to remove this pattern"
 msgstr "برای حذف این الگو اینجا کلیک کنید"
 
@@ -3825,10 +3825,8 @@ msgstr "فعال سازی وابستگی های از دست رفته از: %s %s
 #: ../core/functions.inc.php:6003
 msgid ""
 "Enabling Pinless Dialing will allow this extension to bypass any pin codes "
-"normally required on outbound calls"
+"set under routes password required on outbound calls."
 msgstr ""
-"Enabling Pinless  Dialing will allow this extension to bypass any pin codes "
-"normally required on outbound calls"
 
 #: ../core/Console/Trunks.class.php:77
 msgid "Enabling Trunk "
@@ -4947,9 +4945,10 @@ msgid "Hide CallerID"
 msgstr "محو کردن شناسه تماس گیرنده"
 
 #: ../core/views/trunks/trunk_header.php:274
-msgid "Hide the outbound Caller ID, The same as adding hidden to Outbound CID"
+msgid ""
+"Hide the outbound Caller ID, The same as adding hidden to Outbound CID. This "
+"option will work only if the 'CID Options' set as 'Force Trunk CID'."
 msgstr ""
-"Hide the outbound  Caller ID, The same as adding hidden to Outbound CID"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:242
 msgid "Hit the play symbol to listen"
@@ -6949,7 +6948,7 @@ msgstr ""
 msgid "Orphan"
 msgstr "بی اصل و نسب"
 
-#: amp_conf/htdocs/admin/libraries/components.class.php:54
+#: amp_conf/htdocs/admin/libraries/components.class.php:55
 #: amp_conf/htdocs/admin/views/menu_items.php:50
 #: ../core/views/did/advanced_form.php:74
 msgid "Other"
@@ -7306,6 +7305,10 @@ msgstr ""
 "alpha/numeric callgroups, e.g. '1,3000-3005,sales,sales2'. Device does not "
 "have to be in a group to be able to pickup calls from that group."
 
+#: amp_conf/htdocs/admin/libraries/components.class.php:54
+msgid "Pin Sets"
+msgstr ""
+
 #: ../core/functions.inc.php:6003
 msgid "Pinless Dialing"
 msgstr "شماره گیری بدون پین"
@@ -7614,7 +7617,7 @@ msgstr "ایجاد سریع داخلی"
 msgid "Quick Search '/'"
 msgstr "جستجو سریع '/'"
 
-#: amp_conf/htdocs/admin/libraries/components.class.php:1098
+#: amp_conf/htdocs/admin/libraries/components.class.php:1099
 msgid "Quick Select"
 msgstr "انتخاب سریع"
 
@@ -11826,7 +11829,7 @@ msgstr ""
 msgid "http://192.168.1.1/admin/config.php?unlock=abc123def... "
 msgstr ""
 
-#: ../core/assets/js/trunks/trunks.js:229
+#: ../core/assets/js/trunks/trunks.js:231
 msgid "insert"
 msgstr "قرار دادن"
 
@@ -12098,7 +12101,7 @@ msgstr "اضافه کردن"
 msgid "prepend:"
 msgstr "اضافه کردن:"
 
-#: ../core/assets/js/trunks/trunks.js:230
+#: ../core/assets/js/trunks/trunks.js:232
 msgid "remove"
 msgstr "حذف"
 
@@ -12297,6 +12300,18 @@ msgstr ""
 #: ../core/install.php:1120
 msgid "zap devices migrated"
 msgstr "وسایل zap منتقل شدند"
+
+#~ msgid ""
+#~ "Enabling Pinless Dialing will allow this extension to bypass any pin "
+#~ "codes normally required on outbound calls"
+#~ msgstr ""
+#~ "Enabling Pinless  Dialing will allow this extension to bypass any pin "
+#~ "codes normally required on outbound calls"
+
+#~ msgid ""
+#~ "Hide the outbound Caller ID, The same as adding hidden to Outbound CID"
+#~ msgstr ""
+#~ "Hide the outbound  Caller ID, The same as adding hidden to Outbound CID"
 
 #~ msgid ""
 #~ "Asterisk 12 introduces the Asterisk REST Interface, a set of RESTful "

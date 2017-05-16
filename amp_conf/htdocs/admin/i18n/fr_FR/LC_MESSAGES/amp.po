@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-02 13:53-0400\n"
+"POT-Creation-Date: 2017-05-15 20:54-0400\n"
 "PO-Revision-Date: 2017-03-17 00:51+0200\n"
 "Last-Translator: Nicolas <freepbx@riendeau.org>\n"
 "Language-Team: French <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -1944,11 +1944,11 @@ msgid ""
 "review the others."
 msgstr ""
 
-#: ../core/assets/js/trunks/trunks.js:229
+#: ../core/assets/js/trunks/trunks.js:231
 msgid "Click here to insert a new pattern before this pattern"
 msgstr ""
 
-#: ../core/assets/js/trunks/trunks.js:230
+#: ../core/assets/js/trunks/trunks.js:232
 msgid "Click here to remove this pattern"
 msgstr ""
 
@@ -3563,10 +3563,8 @@ msgstr "Activation de la dépendance manquante de : %s %s"
 #: ../core/functions.inc.php:6003
 msgid ""
 "Enabling Pinless Dialing will allow this extension to bypass any pin codes "
-"normally required on outbound calls"
+"set under routes password required on outbound calls."
 msgstr ""
-"Autoriser l'appel sans code Pin à cette extension pour ne pas taper les "
-"codes Pin normallement demandés pour les appels sortants"
 
 #: ../core/Console/Trunks.class.php:77
 msgid "Enabling Trunk "
@@ -4635,7 +4633,9 @@ msgid "Hide CallerID"
 msgstr "Cacher le ID appelant"
 
 #: ../core/views/trunks/trunk_header.php:274
-msgid "Hide the outbound Caller ID, The same as adding hidden to Outbound CID"
+msgid ""
+"Hide the outbound Caller ID, The same as adding hidden to Outbound CID. This "
+"option will work only if the 'CID Options' set as 'Force Trunk CID'."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:242
@@ -6441,7 +6441,7 @@ msgstr ""
 msgid "Orphan"
 msgstr "Orphelin"
 
-#: amp_conf/htdocs/admin/libraries/components.class.php:54
+#: amp_conf/htdocs/admin/libraries/components.class.php:55
 #: amp_conf/htdocs/admin/views/menu_items.php:50
 #: ../core/views/did/advanced_form.php:74
 msgid "Other"
@@ -6775,6 +6775,10 @@ msgid ""
 "have to be in a group to be able to pickup calls from that group."
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/components.class.php:54
+msgid "Pin Sets"
+msgstr ""
+
 #: ../core/functions.inc.php:6003
 msgid "Pinless Dialing"
 msgstr "Appel sans NIP"
@@ -7081,7 +7085,7 @@ msgstr ""
 msgid "Quick Search '/'"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/components.class.php:1098
+#: amp_conf/htdocs/admin/libraries/components.class.php:1099
 msgid "Quick Select"
 msgstr ""
 
@@ -10889,7 +10893,7 @@ msgstr ""
 msgid "http://192.168.1.1/admin/config.php?unlock=abc123def... "
 msgstr ""
 
-#: ../core/assets/js/trunks/trunks.js:229
+#: ../core/assets/js/trunks/trunks.js:231
 msgid "insert"
 msgstr ""
 
@@ -11154,7 +11158,7 @@ msgstr ""
 msgid "prepend:"
 msgstr ""
 
-#: ../core/assets/js/trunks/trunks.js:230
+#: ../core/assets/js/trunks/trunks.js:232
 msgid "remove"
 msgstr "supprime"
 
@@ -11347,6 +11351,13 @@ msgstr ""
 #: ../core/install.php:1120
 msgid "zap devices migrated"
 msgstr "dispositifs zap migrés"
+
+#~ msgid ""
+#~ "Enabling Pinless Dialing will allow this extension to bypass any pin "
+#~ "codes normally required on outbound calls"
+#~ msgstr ""
+#~ "Autoriser l'appel sans code Pin à cette extension pour ne pas taper les "
+#~ "codes Pin normallement demandés pour les appels sortants"
 
 #~ msgid ""
 #~ "Asterisk 12 introduces the Asterisk REST Interface, a set of RESTful "
