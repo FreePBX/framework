@@ -247,13 +247,18 @@ function framework_display_destination_usage($dest, $module_hash=false) {
 		foreach ($usage_list as $mod_list) {
 			foreach ($mod_list as $details) {
 				$usage_count++;
-				$str .= $details['description']."<br />";
+				if (!empty($details['edit_url'])) {
+					$str .= sprintf('<a href="%s">%s</a><br/>', htmlspecialchars($details['edit_url']), htmlspecialchars($details['description']));
+				} else {
+					$str .= sprintf('%s<br/>', htmlspecialchars($details['description']));
+				}
 			}
 		}
 		$object = $usage_count > 1 ? _("Objects"):_("Object");
-		return array('text' => '&nbsp;'.sprintf(dgettext('amp',"Used as Destination by %s %s"),$usage_count, dgettext('amp',$object)),
-		             'tooltip' => $str,
-							 	);
+		return array(
+			'text' => sprintf(dgettext('amp',"Used as Destination by %s %s"), $usage_count, dgettext('amp',$object)),
+			'tooltip' => $str,
+		);
 	} else {
 		return array();
 	}
