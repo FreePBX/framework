@@ -173,10 +173,10 @@
       // open audio if eagi detected
       if($this->request['agi_enhanced'] == '1.0')
       {
-        if(file_exists('/proc/' . getmypid() . '/fd/3'))
+	if (array_search('php',stream_get_wrappers())!==FALSE)
         {
           // this should work on linux
-          $this->audio = fopen('/proc/' . getmypid() . '/fd/3', 'r');
+          $this->audio = fopen('php://fd/' . AUDIO_FILENO, 'r');
         }
         elseif(file_exists('/dev/fd/3'))
         {
