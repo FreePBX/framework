@@ -10,6 +10,7 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 class Chown extends Command {
 	//private $requireroot = true;  //commented out: http://issues.freepbx.org/browse/FREEPBX-13793
@@ -270,10 +271,11 @@ class Chown extends Command {
 			//we were doing a recursive on this which I think is not needed.
 			//Changed to just be the directory
 			//^ Needs to be the whole shebang, doesnt work otherwise
+			/*
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 												   'path' => $AMPWEBROOT,
 												   'perms' => 0775);
-
+			*/
 			//Anything in bin and agi-bin should be exec'd
 			//Should be after everything except but before hooks
 			//So that we dont get overwritten by ampwebroot
@@ -326,6 +328,50 @@ class Chown extends Command {
 		 * than the Asterisk user we provide permissions that allow both.
 		 */
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
+		exec("chown -R ".$ampowner.":".$ampgroup." ".$AMPWEBROOT."/admin");
+		exec("chmod -R 0755 ".$AMPWEBROOT."/admin");
+		$progress = new ProgressBar($output);
+		$progress->setRedrawFrequency(100);
+		$progress->start();
+		foreach($this->modfiles as $moduleName => $modfilelist) {
+			$progress->advance();
+			if(!is_array($modfilelist)) {
+				continue;
+			}
+			foreach($modfilelist as $file) {
+				$owner = isset($file['owner'])?$file['owner']:$ampowner;
+				$group = isset($file['group'])?$file['group']:$ampgroup;
+				$owner = \ForceUTF8\Encoding::toLatin1($owner);
+				$group = \ForceUTF8\Encoding::toLatin1($group);
+				switch($file['type']){
+					case 'file':
+					case 'dir':
+						try {
+							$this->chmod($progress, $file['path'], $file['perms']);
+							$this->chown($progress, $file['path'], $owner);
+							$this->chgrp($progress, $file['path'], $group);
+						} catch(\Exception $e) {
+						}
+					break;
+					case 'rdir':
+						if(!is_dir($path)){
+							$file['perms'] = $this->stripExecute($file['perms']);
+						}
+					case 'execdir':
+						try {
+							$this->chmod($progress, $file['path'], $file['perms'], 0000, true);
+							$this->chown($progress, $file['path'], $owner, true);
+							$this->chgrp($progress, $file['path'], $group, true);
+						} catch(\Exception $e) {
+						}
+					break;
+				}
+			}
+		}
+		if(!$verbose) {
+			$progress->finish();
+		}
+		return;
 		$fcount = 0;
 		$output->write("\t"._("Collecting Files..."));
 		$exclusive = $input->hasOption('file') ? $input->getOption('file') : null;
@@ -597,5 +643,109 @@ class Chown extends Command {
 	private function fwcChownFiles(){
 		$modules = \FreePBX::Hooks()->processHooks();
 		return $modules;
+	}
+
+	/**
+	 * Change the group of an array of files or directories.
+	 *
+	 * @param string|array|\Traversable $files     A filename, an array of files, or a \Traversable instance to change group
+	 * @param string                    $group     The group name
+	 * @param bool                      $recursive Whether change the group recursively or not
+	 *
+	 * @throws IOException When the change fail
+	 */
+	public function chgrp($progress, $files, $group, $recursive = false) {
+		foreach ($this->toIterator($files) as $file) {
+			$progress->advance();
+			if($this->checkBlacklist($file)){
+				$this->d(sprintf(_('%s skipped by configuration'), $file));
+				continue;
+			}
+			if ($recursive && is_dir($file) && !is_link($file)) {
+				$this->chgrp($progress, new \FilesystemIterator($file), $group, true);
+			}
+			if (is_link($file) && function_exists('lchgrp')) {
+				$this->d("Setting ".$file." group owner: ".$group);
+				if (true !== @lchgrp($file, $group) || (defined('HHVM_VERSION') && !posix_getgrnam($group))) {
+					throw new IOException(sprintf('Failed to chgrp file "%s".', $file), 0, null, $file);
+				}
+			} else {
+				if (true !== @chgrp($file, $group)) {
+					$this->d("Setting ".$file." group owner: ".$group);
+					throw new IOException(sprintf('Failed to chgrp file "%s".', $file), 0, null, $file);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Change the owner of an array of files or directories.
+	 *
+	 * @param string|array|\Traversable $files     A filename, an array of files, or a \Traversable instance to change owner
+	 * @param string                    $user      The new owner user name
+	 * @param bool                      $recursive Whether change the owner recursively or not
+	 *
+	 * @throws IOException When the change fail
+	 */
+	public function chown($progress, $files, $user, $recursive = false) {
+		foreach ($this->toIterator($files) as $file) {
+			$progress->advance();
+			if($this->checkBlacklist($file)){
+				$this->d(sprintf(_('%s skipped by configuration'), $file));
+				continue;
+			}
+			if ($recursive && is_dir($file) && !is_link($file)) {
+				$this->chown($progress, new \FilesystemIterator($file), $user, true);
+			}
+			if (is_link($file) && function_exists('lchown')) {
+				$this->d("Setting ".$file." user owner: ".$user);
+				if (true !== @lchown($file, $user)) {
+					throw new IOException(sprintf('Failed to chown file "%s".', $file), 0, null, $file);
+				}
+			} else {
+				$this->d("Setting ".$file." user owner to: ".$user);
+				if (true !== @chown($file, $user)) {
+					throw new IOException(sprintf('Failed to chown file "%s".', $file), 0, null, $file);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Change mode for an array of files or directories.
+	 *
+	 * @param string|array|\Traversable $files     A filename, an array of files, or a \Traversable instance to change mode
+	 * @param int                       $mode      The new mode (octal)
+	 * @param int                       $umask     The mode mask (octal)
+	 * @param bool                      $recursive Whether change the mod recursively or not
+	 *
+	 * @throws IOException When the change fail
+	 */
+	public function chmod($progress, $files, $mode, $umask = 0000, $recursive = false)	{
+		foreach ($this->toIterator($files) as $file) {
+			$progress->advance();
+			if($this->checkBlacklist($file)){
+				$this->d(sprintf(_('%s skipped by configuration'), $file));
+				continue;
+			}
+			$this->d("Setting ".$file." to permissions of: ".decoct($mode & ~$umask));
+			if (true !== @chmod($file, $mode & ~$umask)) {
+				if(!is_link($file)) {
+					throw new IOException(sprintf('Failed to chmod file "%s".', $file), 0, null, $file);
+				} else {
+					@unlink($file);
+				}
+			}
+			if ($recursive && is_dir($file) && !is_link($file)) {
+				$this->chmod($progress, new \FilesystemIterator($file), $mode, $umask, true);
+			}
+		}
+	}
+
+	private function toIterator($files) {
+		if (!$files instanceof \Traversable) {
+			$files = new \ArrayObject(is_array($files) ? $files : array($files));
+		}
+		return $files;
 	}
 }
