@@ -26,103 +26,9 @@ class Chown extends Command {
 			new InputArgument('args', InputArgument::IS_ARRAY, _('Set permissions on a specific module: <rawname>'), null),));
 		$this->fs = new Filesystem();
 		$this->modfiles = array();
-		$this->actions = new \SplQueue();
-		$this->actions->setIteratorMode(\SplDoublyLinkedList::IT_MODE_FIFO | \SplDoublyLinkedList::IT_MODE_DELETE);
 		$this->loadChownConf();
 	}
-	private function loadChownConf(){
-		$etcdir = \FreePBX::Config()->get('ASTETCDIR');
-		if(!file_exists($etcdir.'/freepbx_chown.conf')){
-			return;
-		}
-		$conf  = \FreePBX::LoadConfig()->getConfig("freepbx_chown.conf");
-		if(isset($conf['blacklist'])){
-			if(isset($conf['blacklist']['item'])){
-				$conf['blacklist']['item'] = is_array($conf['blacklist']['item'])?$conf['blacklist']['item']:array($conf['blacklist']['item']);
-				foreach ($conf['blacklist']['item'] as $item) {
-					$this->blacklist['files'][] = $item;
-				}
-			}
-			if(isset($conf['blacklist']['directory'])){
-				$conf['blacklist']['directory'] = is_array($conf['blacklist']['directory'])?$conf['blacklist']['directory']:array($conf['blacklist']['directory']);
-				foreach ($conf['blacklist']['directory'] as $dir) {
-					$dir = rtrim($dir, '/');
-					$this->blacklist['dirs'][] = $dir;
-				}
-			}
-		}
-		$this->modfiles['byconfig'] = array();
-		if(isset($conf['custom'])){
-			if(isset($conf['custom']['file'])){
-				$conf['custom']['file'] = is_array($conf['custom']['file'])?$conf['custom']['file']:array($conf['custom']['file']);
-				foreach ($conf['custom']['file'] as $file) {
-					$file = $this->parse_conf_line($file);
-					if($file === false){continue;}
-					$this->modfiles['byconfig'][] = array('type' => 'file',
-							'path' => $file['path'],
-							'perms' => $file['perms'],
-							'owner' => $file['owner'],
-							'group' => $file['group']
-						);
-				}
-			}
 
-			if(isset($conf['custom']['dir'])){
-				$conf['custom']['dir'] = is_array($conf['custom']['dir'])?$conf['custom']['dir']:array($conf['custom']['dir']);
-				foreach ($conf['custom']['dir']  as $dir) {
-					$dir = $this->parse_conf_line($dir);
-					if($dir === false){continue;}
-					$this->modfiles['byconfig'][] = array('type' => 'dir',
-							'path' => $dir['path'],
-							'perms' => $dir['perms'],
-							'owner' => $dir['owner'],
-							'group' => $dir['group'],
-							'always' => true
-						);
-				}
-			}
-			if(isset($conf['custom']['rdir'])){
-				$conf['custom']['rdir'] = is_array($conf['custom']['rdir'])?$conf['custom']['rdir']:array($conf['custom']['rdir']);
-				foreach ($conf['custom']['rdir']  as $rdir) {
-					$rdir = $this->parse_conf_line($rdir);
-					if($rdir === false){continue;}
-					$this->modfiles['byconfig'][] = array('type' => 'rdir',
-							'path' => $rdir['path'],
-							'perms' => $rdir['perms'],
-							'owner' => $rdir['owner'],
-							'group' => $rdir['group'],
-							'always' => true
-						);
-				}
-			}
-			if(isset($conf['custom']['execdir'])){
-				$conf['custom']['execdir'] = is_array($conf['custom']['execdir'])?$conf['custom']['execdir']:array($conf['custom']['execdir']);
-				foreach ($conf['custom']['execdir']  as $edir) {
-					$edir = $this->parse_conf_line($edir);
-					if($edir === false){continue;}
-					$this->modfiles['byconfig'][] = array('type' => 'execdir',
-							'path' => $edir['path'],
-							'perms' => $edir['perms'],
-							'owner' => $edir['owner'],
-							'group' => $edir['group'],
-							'always' => true
-						);
-				}
-			}
-		}
-
-	}
-	private function parse_conf_line($line){
-		if(!is_string($line)) {
-			throw new \Exception("freepbx_chown.conf has malformed data. Please fix the file");
-		}
-		$line = explode(",", $line);
-		if(count($line) !== 4){
-			return false;
-		}
-		$ret = array('path' => $line[0], 'perms' => intval($line[1], 8), 'owner' => $line[2], 'group' => $line[3]);
-		return $ret;
-	}
 	protected function execute(InputInterface $input, OutputInterface $output, $quiet=false){
 		if($quiet) {
 			$output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
@@ -213,8 +119,8 @@ class Chown extends Command {
 				$this->modfiles['framework'][] = array('type' => 'rdir',
 															'path' => "$home/.ssh",
 															'perms' => 0700);
-
 			}
+
 			$this->modfiles['framework'][] = array('type' => 'rdir',
 														'path' => $sessdir,
 														'perms' => 0774,
@@ -243,14 +149,6 @@ class Chown extends Command {
 			$this->modfiles['framework'][] = array('type' => 'file',
 														'path' => $ASTVARLIBDIR . '/.ssh/id_rsa',
 														'perms' => 0600);
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-														'path' => $ASTLOGDIR,
-														'perms' => 0775,
-														'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-														'path' => $ASTSPOOLDIR,
-														'perms' => 0775);
-
 			//I have added these below individually,
 			$this->modfiles['framework'][] = array('type' => 'file',
 												   'path' => $FPBXDBUGFILE,
@@ -259,23 +157,9 @@ class Chown extends Command {
 												   'path' => $FPBX_LOG_FILE,
 												   'perms' => 0664);
 			//We may wish to declare files individually rather than touching everything
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-												   'path' => $ASTVARLIBDIR . '/' . $MOHDIR,
-												   'perms' => 0775);
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-												   'path' => $ASTVARLIBDIR . '/sounds',
-												   'perms' => 0775);
 			$this->modfiles['framework'][] = array('type' => 'file',
 												   'path' => '/etc/obdc.ini',
 												   'perms' => 0664);
-			//we were doing a recursive on this which I think is not needed.
-			//Changed to just be the directory
-			//^ Needs to be the whole shebang, doesnt work otherwise
-			/*
-			$this->modfiles['framework'][] = array('type' => 'rdir',
-												   'path' => $AMPWEBROOT,
-												   'perms' => 0775);
-			*/
 			//Anything in bin and agi-bin should be exec'd
 			//Should be after everything except but before hooks
 			//So that we dont get overwritten by ampwebroot
@@ -328,13 +212,30 @@ class Chown extends Command {
 		 * than the Asterisk user we provide permissions that allow both.
 		 */
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
-		exec("chown -R ".$ampowner.":".$ampgroup." ".$AMPWEBROOT."/admin");
-		exec("chmod -R 0755 ".$AMPWEBROOT."/admin");
-		$progress = new ProgressBar($output);
-		$progress->setRedrawFrequency(100);
-		$progress->start();
+
+		$output->write(_("Setting base permissions..."));
+
+		$this->systemSetRecursivePermissions($ASTVARLIBDIR . '/' . $MOHDIR, 0775, $ampowner, $ampowner, 'rdir');
+		$this->systemSetRecursivePermissions($ASTVARLIBDIR . '/sounds', 0775, $ampowner, $ampowner, 'rdir');
+		$this->systemSetRecursivePermissions($ASTLOGDIR, 0775, $ampowner, $ampowner, 'rdir');
+		$this->systemSetRecursivePermissions($ASTSPOOLDIR, 0775, $ampowner, $ampowner, 'rdir');
+		$this->systemSetRecursivePermissions($AMPWEBROOT, 0775, $ampowner, $ampowner, 'rdir');
+
+		$output->writeln(_("Done"));
+
+		$output->writeln(_("Setting specific permissions..."));
+
+		$verbose = $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
+		if(!$verbose) {
+			$progress = new ProgressBar($output);
+			$progress->setRedrawFrequency(100);
+			$progress->start();
+		}
+
 		foreach($this->modfiles as $moduleName => $modfilelist) {
-			$progress->advance();
+			if(!$verbose) {
+				$progress->advance();
+			}
 			if(!is_array($modfilelist)) {
 				continue;
 			}
@@ -347,6 +248,7 @@ class Chown extends Command {
 					case 'file':
 					case 'dir':
 						try {
+							$this->checkPermissions($file['path'], $file['perms']);
 							$this->chmod($progress, $file['path'], $file['perms']);
 							$this->chown($progress, $file['path'], $owner);
 							$this->chgrp($progress, $file['path'], $group);
@@ -354,113 +256,18 @@ class Chown extends Command {
 						}
 					break;
 					case 'rdir':
-						if(!is_dir($path)){
+						if((is_link($file['path']) && !is_dir(readlink($file['path'])) )|| !is_dir($file['path'])){
 							$file['perms'] = $this->stripExecute($file['perms']);
 						}
 					case 'execdir':
 						try {
+							$this->checkPermissions($file['path'], $file['perms']);
 							$this->chmod($progress, $file['path'], $file['perms'], 0000, true);
 							$this->chown($progress, $file['path'], $owner, true);
 							$this->chgrp($progress, $file['path'], $group, true);
 						} catch(\Exception $e) {
 						}
 					break;
-				}
-			}
-		}
-		if(!$verbose) {
-			$progress->finish();
-		}
-		return;
-		$fcount = 0;
-		$output->write("\t"._("Collecting Files..."));
-		$exclusive = $input->hasOption('file') ? $input->getOption('file') : null;
-		$process = array();
-		foreach($this->modfiles as $moduleName => $modfilelist) {
-			if(!is_array($modfilelist)) {
-				continue;
-			}
-			foreach($modfilelist as $file) {
-				switch($file['type']){
-					case 'file':
-					case 'dir':
-						if(empty($exclusive) || $exclusive == $file['path']) {
-							$file['files'] = array($file['path']);
-							$fcount++;
-						} else {
-							continue 2;
-						}
-					break;
-					case 'execdir':
-					case 'rdir':
-						$files = $this->recursiveDirList($file['path']);
-						$children = false;
-						if(empty($exclusive) || $exclusive == $file['path']) {
-							$file['files'] = array($file['path']);
-							$fcount++;
-							$children = true;
-						}
-						foreach($files as $f){
-							if(empty($exclusive) || $children || $exclusive == $f) {
-								$file['files'][] = $f;
-								$fcount++;
-							} else {
-								continue;
-							}
-						}
-						if(empty($file['files'])) {
-							continue 2;
-						}
-					break;
-				}
-				$process[$file['type']][] = $file;
-			}
-		}
-		$verbose = $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
-		$output->writeln(_("Done"));
-		if(!$verbose) {
-			$progress = new ProgressBar($output, $fcount);
-			$progress->setRedrawFrequency(100);
-			$progress->start();
-		}
-		foreach($process as $type => $modfilelist) {
-			foreach($modfilelist as $file) {
-				if(!isset($file['path']) || !isset($file['perms']) || !file_exists($file['path'])){
-					if(!$verbose) {
-						$progress->advance();
-					}
-					continue;
-				}
-				//Handle custom ownership (optional)
-				$owner = isset($file['owner'])?$file['owner']:$ampowner;
-				$group = isset($file['group'])?$file['group']:$ampgroup;
-				$owner = \ForceUTF8\Encoding::toLatin1($owner);
-				$group = \ForceUTF8\Encoding::toLatin1($group);
-				foreach($file['files'] as $path) {
-					if($this->checkBlacklist($path)){
-						$this->infos[] = sprintf(_('%s skipped by configuration'), $path);
-						continue;
-					}
-					switch($file['type']){
-						case 'file':
-						case 'dir':
-							$this->setPermissions(array($path,$owner,$group,$file['perms']));
-						break;
-						case 'rdir':
-							if(is_dir($path)){
-								$this->setPermissions(array($path, $owner, $group, $file['perms']));
-							}else{
-								$fileperms = $this->stripExecute($file['perms']);
-								$this->setPermissions(array($path, $owner, $group, $fileperms));
-							}
-						break;
-						case 'execdir':
-							$this->setPermissions(array($path, $owner, $group, $file['perms']));
-						break;
-					}
-					if(!$verbose) {
-						$progress->advance();
-					}
 				}
 			}
 		}
@@ -479,13 +286,50 @@ class Chown extends Command {
 		}
 	}
 
-	private function setPermissions($action) {
-		if(pathinfo($action[0], PATHINFO_EXTENSION) == 'call'){
-			return;
+	/**
+	 * Set permissions through the system instead of PHP
+	 * This is 600% faster but not as fine grained
+	 * @method systemSetRecursivePermissions
+	 * @param  string               $path  The path to chown
+	 * @param  int                  $mode  The new mode (octal)
+	 * @param  string               $owner The new owner
+	 * @param  string               $group The new group
+	 * @param  string               $rmode Recursive mode (rdir or execdir)
+	 * @param  int                  $umask The mode mask (octal)
+	 */
+	private function systemSetRecursivePermissions($path, $mode, $owner='asterisk', $group='asterisk', $rmode = 'rdir', $umask = 0000) {
+		$blacklist = $this->blacklist;
+		$skip = '';
+		if(!empty($blacklist['files'])) {
+			array_walk($blacklist['files'], function(&$value, $key) {
+				$value = escapeshellarg($value);
+			});
+			$skip .= "-not -path ".implode(" -not -path ",$blacklist['files']);
 		}
-		$this->singleChown($action[0],$action[1],$action[2]);
-		$this->singlePerms($action[0], $action[3]);
-		$this->d("Setting ".$action[0]." owner to: ".$action[1].":".$action[2].", with permissions of: ".decoct($action[3]));
+		if(!empty($blacklist['dirs'])) {
+			array_walk($blacklist['dirs'], function(&$value, $key) {
+				$value = escapeshellarg($value);
+			});
+			$skip .= " -not -path ".implode(" -not -path ",$blacklist['files']);
+		}
+		if(!empty($skip)) {
+			$skip = "\( ".$skip." \)";
+		}
+
+		$directoryMode = $fileMode = $mode;
+		switch($rmode) {
+			case 'rdir':
+				$fileMode = $this->stripExecute($fileMode);
+			case 'execdir':
+				exec("find ".escapeshellarg($path)." -type d ".$skip." -exec chmod ".escapeshellarg(decoct($directoryMode & ~$umask))." {} +");
+				exec("find ".escapeshellarg($path)." -type f ".$skip." -exec chmod ".escapeshellarg(decoct($fileMode & ~$umask))." {} +");
+			break;
+			default:
+				throw new \Exception("Unknown mode of ".$mode);
+			break;
+		}
+
+		exec("find ".escapeshellarg($path)." -type f -o -type d -o -type l ".$skip." -exec chown ".escapeshellarg($owner).":".escapeshellarg($group)." {} +");
 	}
 
 	/**
@@ -518,117 +362,12 @@ class Chown extends Command {
 		return $mask;
 	}
 
-	private function singleChown($file, $user, $group){
-		clearstatcache(true, $file);
-		if(!file_exists($file)) {
-			return false;
-		}
-		$filetype = \freepbx_filetype($file);
-		try {
-			if($filetype == "link") {
-				$link = readlink($file);
-				if(file_exists($link)) {
-					$this->fs->chown($link,$user);
-					$this->fs->chown($file,$user);
-				}
-			} else {
-				$this->fs->chown($file,$user);
-			}
-		} catch (IOExceptionInterface $e) {
-			if($file){
-				$this->errors[] = sprintf(_('An error occurred while changing ownership on %s'),$file);
-			}
-		}
-		try {
-			if($filetype == "link") {
-				$link = readlink($file);
-				if(file_exists($link)) {
-					$this->fs->chgrp($link,$group);
-					$this->fs->chgrp($file,$user);
-				}
-			} else {
-				$this->fs->chgrp($file,$group);
-			}
-		} catch (IOExceptionInterface $e) {
-			if($file){
-				$this->errors[] = sprintf(_('An error occurred while changing groups %s'),$file);
-			}
-		}
-	}
-
-	private function singlePerms($file, $perms){
-		if(!trim($file)){
-			$this->errors[] = _('We received an empty string for a file name. Some files may not have the proper permissions');
-			return false;
-		}
-		clearstatcache(true, $file);
-		if(!file_exists($file)) {
-			return false;
-		}
-		$filetype = \freepbx_filetype($file);
-		switch($filetype){
-			case 'link':
-				$realfile = readlink($file);
-				try {
-					$this->fs->chmod($realfile,$perms);
-				} catch (IOExceptionInterface $e) {
-					if(file_exists($realfile)) {
-						$this->errors[] = sprintf(_('An error occurred while changing permissions on link %s which points to %s'), $file, $realfile);
-					} else {
-						//Make sure this isn't a voicemail symlink
-						$asd = \FreePBX::Config()->get("ASTSPOOLDIR") . "/voicemail";
-						if (strpos($file, $asd) === false) {
-							//File does not exist. Now we have a dangling symlink so remove it.
-							$this->infos[] = sprintf(_('Removing dangling symlink %s which points to a file that no longer exists'),$file);
-							unlink($file);
-						}
-					}
-				}
-			break;
-			case 'dir':
-			case 'socket':
-			case 'file':
-				try {
-					$this->fs->chmod($file,$perms);
-				} catch (IOExceptionInterface $e) {
-					if($file){
-						$this->errors[] = sprintf(_('An error occurred while changing permissions on file %s'),$file);
-					}
-				}
-			break;
-			default:
-				throw new \Exception(sprintf(_("Unknown filetype of: %s[%s]"),$filetype,$file));
-			break;
-		}
-	}
-
-	private function recursiveDirList($path){
-		clearstatcache(true, $path);
-		if(!file_exists($path)) {
-			return array();
-		}
-		$list =  array();
-		$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
-		$skipped = false;
-		foreach($objects as $path => $object){
-			if($this->checkBlacklist($path)){
-				$skipped = true;
-				continue;
-			}
-			$list[] = $path;
-		}
-		if($skipped) {
-			$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
-		}
-		return array_unique($list);
-	}
-
-	private function padPermissions($file, $mode){
-		if(($mode>>9) == 0){
+	private function checkPermissions($file, $mode) {
+		if(decoct(octdec($mode)) == $mode){
 			return true;
 		}else{
-			$this->errors[] = sprintf(_('%s Likely will not work as expected'),$file);
-			$this->errors[] = sprintf(_('Permissions should be set with a leading 0, example 644 should be 0644 File: %s Permission set as: %s'),$file,$mode);
+			$this->d[] = "<error>".sprintf(_('%s Likely will not work as expected'),$file)."</error>";
+			$this->d[] = "<error>".sprintf(_('Permissions should be set with a leading 0, example 644 should be 0644 File: %s Permission set as: %s'),$file,$mode)."</error>";
 			return false;
 		}
 	}
@@ -654,9 +393,11 @@ class Chown extends Command {
 	 *
 	 * @throws IOException When the change fail
 	 */
-	public function chgrp($progress, $files, $group, $recursive = false) {
+	public function chgrp($progress=null, $files, $group, $recursive = false) {
 		foreach ($this->toIterator($files) as $file) {
-			$progress->advance();
+			if(!is_null($progress)) {
+				$progress->advance();
+			}
 			if($this->checkBlacklist($file)){
 				$this->d(sprintf(_('%s skipped by configuration'), $file));
 				continue;
@@ -689,7 +430,9 @@ class Chown extends Command {
 	 */
 	public function chown($progress, $files, $user, $recursive = false) {
 		foreach ($this->toIterator($files) as $file) {
-			$progress->advance();
+			if(!is_null($progress)) {
+				$progress->advance();
+			}
 			if($this->checkBlacklist($file)){
 				$this->d(sprintf(_('%s skipped by configuration'), $file));
 				continue;
@@ -723,10 +466,16 @@ class Chown extends Command {
 	 */
 	public function chmod($progress, $files, $mode, $umask = 0000, $recursive = false)	{
 		foreach ($this->toIterator($files) as $file) {
-			$progress->advance();
+			if(!is_null($progress)) {
+				$progress->advance();
+			}
 			if($this->checkBlacklist($file)){
 				$this->d(sprintf(_('%s skipped by configuration'), $file));
 				continue;
+			}
+			if(is_dir($file) && !is_link($file)) {
+				$omode = $mode;
+				$mode = 0755;
 			}
 			$this->d("Setting ".$file." to permissions of: ".decoct($mode & ~$umask));
 			if (true !== @chmod($file, $mode & ~$umask)) {
@@ -736,16 +485,119 @@ class Chown extends Command {
 					@unlink($file);
 				}
 			}
+			if(is_dir($file) && !is_link($file)) {
+				$mode = $omode;
+			}
 			if ($recursive && is_dir($file) && !is_link($file)) {
 				$this->chmod($progress, new \FilesystemIterator($file), $mode, $umask, true);
 			}
 		}
 	}
 
+	/**
+	 * Convert an array into an iterator if not already one
+	 * @method toIterator
+	 * @param  mixed     $files Anything to turn into an array
+	 * @return object            Iterator object
+	 */
 	private function toIterator($files) {
 		if (!$files instanceof \Traversable) {
 			$files = new \ArrayObject(is_array($files) ? $files : array($files));
 		}
 		return $files;
+	}
+
+	private function loadChownConf(){
+		$etcdir = \FreePBX::Config()->get('ASTETCDIR');
+		if(!file_exists($etcdir.'/freepbx_chown.conf')){
+			return;
+		}
+		$conf  = \FreePBX::LoadConfig()->getConfig("freepbx_chown.conf");
+		if(isset($conf['blacklist'])){
+			if(isset($conf['blacklist']['item'])){
+				$conf['blacklist']['item'] = is_array($conf['blacklist']['item'])?$conf['blacklist']['item']:array($conf['blacklist']['item']);
+				foreach ($conf['blacklist']['item'] as $item) {
+					$this->blacklist['files'][] = $item;
+				}
+			}
+			if(isset($conf['blacklist']['directory'])){
+				$conf['blacklist']['directory'] = is_array($conf['blacklist']['directory'])?$conf['blacklist']['directory']:array($conf['blacklist']['directory']);
+				foreach ($conf['blacklist']['directory'] as $dir) {
+					$dir = rtrim($dir, '/');
+					$this->blacklist['dirs'][] = $dir;
+				}
+			}
+		}
+		$this->modfiles['byconfig'] = array();
+		if(isset($conf['custom'])){
+			if(isset($conf['custom']['file'])){
+				$conf['custom']['file'] = is_array($conf['custom']['file'])?$conf['custom']['file']:array($conf['custom']['file']);
+				foreach ($conf['custom']['file'] as $file) {
+					$file = $this->parse_conf_line($file);
+					if($file === false){continue;}
+					$this->modfiles['byconfig'][] = array('type' => 'file',
+							'path' => $file['path'],
+							'perms' => $file['perms'],
+							'owner' => $file['owner'],
+							'group' => $file['group']
+						);
+				}
+			}
+
+			if(isset($conf['custom']['dir'])){
+				$conf['custom']['dir'] = is_array($conf['custom']['dir'])?$conf['custom']['dir']:array($conf['custom']['dir']);
+				foreach ($conf['custom']['dir']  as $dir) {
+					$dir = $this->parse_conf_line($dir);
+					if($dir === false){continue;}
+					$this->modfiles['byconfig'][] = array('type' => 'dir',
+							'path' => $dir['path'],
+							'perms' => $dir['perms'],
+							'owner' => $dir['owner'],
+							'group' => $dir['group'],
+							'always' => true
+						);
+				}
+			}
+			if(isset($conf['custom']['rdir'])){
+				$conf['custom']['rdir'] = is_array($conf['custom']['rdir'])?$conf['custom']['rdir']:array($conf['custom']['rdir']);
+				foreach ($conf['custom']['rdir']  as $rdir) {
+					$rdir = $this->parse_conf_line($rdir);
+					if($rdir === false){continue;}
+					$this->modfiles['byconfig'][] = array('type' => 'rdir',
+							'path' => $rdir['path'],
+							'perms' => $rdir['perms'],
+							'owner' => $rdir['owner'],
+							'group' => $rdir['group'],
+							'always' => true
+						);
+				}
+			}
+			if(isset($conf['custom']['execdir'])){
+				$conf['custom']['execdir'] = is_array($conf['custom']['execdir'])?$conf['custom']['execdir']:array($conf['custom']['execdir']);
+				foreach ($conf['custom']['execdir']  as $edir) {
+					$edir = $this->parse_conf_line($edir);
+					if($edir === false){continue;}
+					$this->modfiles['byconfig'][] = array('type' => 'execdir',
+							'path' => $edir['path'],
+							'perms' => $edir['perms'],
+							'owner' => $edir['owner'],
+							'group' => $edir['group'],
+							'always' => true
+						);
+				}
+			}
+		}
+	}
+
+	private function parse_conf_line($line){
+		if(!is_string($line)) {
+			throw new \Exception("freepbx_chown.conf has malformed data. Please fix the file");
+		}
+		$line = explode(",", $line);
+		if(count($line) !== 4){
+			return false;
+		}
+		$ret = array('path' => $line[0], 'perms' => intval($line[1], 8), 'owner' => $line[2], 'group' => $line[3]);
+		return $ret;
 	}
 }

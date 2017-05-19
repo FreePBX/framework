@@ -757,16 +757,19 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			exit;
 		}
 
+		//run this here so that we make sure everything is square for module installs
+		system($amp_conf['AMPSBIN'] . "/fwconsole chown");
+
 		// module_admin install framework
 		$output->writeln("Installing framework...");
-		system($amp_conf['AMPSBIN']."/fwconsole ma install framework --skipchown");
+		system($amp_conf['AMPSBIN']."/fwconsole ma install framework");
 		$output->writeln("Done");
 
 		/* read modules list from MODULE_DIR */
 		if(file_exists(MODULE_DIR) && $newinstall) {
 			$output->write("Installing all modules...");
-			system($amp_conf['AMPSBIN']."/fwconsole ma install core --skipchown");
-			system($amp_conf['AMPSBIN']."/fwconsole ma installlocal --skipchown");
+			system($amp_conf['AMPSBIN']."/fwconsole ma install core");
+			system($amp_conf['AMPSBIN']."/fwconsole ma installlocal");
 			$output->writeln("Done installing modules");
 		}
 
