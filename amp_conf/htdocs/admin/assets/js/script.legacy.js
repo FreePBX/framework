@@ -1246,7 +1246,7 @@ function resizeRightNav() {
 function regExpEscape(literal_string) {
 	return literal_string.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&');
 }
-	
+
 $(document).ready(function() {
 	$(".fpbx-usageinfo .panel-heading a").click(function() {
 		if($(this).hasClass("collapsed")) {
@@ -1755,8 +1755,8 @@ $(document).ready(function() {
 	 */
 	$("form").submit(function(e) {
 		// If the page isn't going to submit then don't remove the elements
-		if (!e.isDefaultPrevented()) {
-			$(".destdropdown2").filter(".hidden").remove();
+		if (e.result) {
+				$(".destdropdown2").filter(".hidden").remove();
 		}
 	});
 
