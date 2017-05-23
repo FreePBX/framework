@@ -661,21 +661,49 @@ class View {
 		return Carbon::instance($dt)->diffForHumans();
 	}
 
+	/**
+	 * Generate Destination Usage Panel
+	 * @method destinationUsage
+	 * @param  mixed           $dest         an array of destinations to check against, or if boolean true then return list of all destinations in use
+	 * @param  boolean          $module_hash a hash of module names to search for callbacks, otherwise global $active_modules is used
+	 * @return string                        The finalized HTML
+	 */
 	public function destinationUsage($dest, $module_hash=false) {
-		$usage_list = framework_display_destination_usage($dest, $module_hash);
-		$html = '';
-		if(!empty($usage_list)){
+		if (!is_array($dest)) {
+			$dest = array($dest);
+		}
+		$usage_list = framework_check_destination_usage($dest, $module_hash);
+		$usage = array();
+		$usage_item = '';
+		if (!empty($usage_list)) {
+			$usage_count = 0;
+			foreach ($usage_list as $mod_list) {
+				foreach ($mod_list as $details) {
+					$usage_count++;
+					$usage_items .= !empty($details['edit_url']) ? sprintf('<a href="%s">%s</a><br/>', htmlspecialchars($details['edit_url']), htmlspecialchars($details['description'])) : sprintf('%s<br/>', htmlspecialchars($details['description']));
+				}
+			}
+		}
+		if(!$usage_count) {
+			return '';
+		}
+		$object = $usage_count > 1 ? _("Objects"):_("Object");
+		$title = sprintf(dgettext('amp',"Used as Destination by %s %s"),$usage_count, dgettext('amp',$object));
+		$title .= " <small>("._("Click to Expand").")</small>";
+		$state = !empty($_COOKIE['destinationUsage']) ? 'in' : '';
+
 			$html = <<<HTML
 <div class="panel panel-default fpbx-usageinfo">
 	<div class="panel-heading">
-		$usage_list[text]
+		<a data-toggle="collapse" data-target="#collapseOne">$title</a>
 	</div>
-	<div class="panel-body">
-		$usage_list[tooltip]
+	<div id="collapseOne" class="panel-collapse collapse $state">
+		<div class="panel-body">
+			$usage_items
+		</div>
 	</div>
 </div>
 HTML;
-		}
 		return $html;
 	}
 }

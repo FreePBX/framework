@@ -270,9 +270,10 @@ class DB_Helper {
 	/**
 	 * Alias function to delete
 	 * @param {string} $key = null The key name
+	 * @param string $id Optional sub-group ID.
 	 */
-	public function delConfig($key = null) {
-		$this->setConfig($key);
+	public function delConfig($key = null, $id = "noid") {
+		$this->setConfig($key, false, $id);
 	}
 
 	/**

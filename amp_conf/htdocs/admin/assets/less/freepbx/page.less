@@ -112,9 +112,9 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
 .uneditable-input:focus {
-  border-color: @border-color;
-  box-shadow: 0 1px 1px rgba(0,0,0,.075) inset, 0 0 8px fadeout(darken(@background-color, 50%),40%);
-  outline: 0 none;
+	border-color: @border-color;
+	box-shadow: 0 1px 1px rgba(0,0,0,.075) inset, 0 0 8px fadeout(darken(@background-color, 50%),40%);
+	outline: 0 none;
 }
 
 a {
@@ -631,17 +631,17 @@ div.attention {
 
 #floating-nav-bar {
 	font-size: 14px;
-  transition: right .5s linear;
+	transition: right .5s linear;
 	right: -33.9%;
 	width: 33%;
 	position: fixed;
-  margin-top: 8px;
-  background-color: white;
-  top: 117px;
-  z-index: 500;
+	margin-top: 8px;
+	background-color: white;
+	top: 117px;
+	z-index: 500;
 	border-bottom-left-radius: 7px;
-  .box-shadow(-3px 3px 10px -2px darken(@background-color, 50%));
-  border: 1px solid @border-color;
+	.box-shadow(-3px 3px 10px -2px darken(@background-color, 50%));
+	border: 1px solid @border-color;
 	max-height: 274px;
 	border-right: none;
 	min-height: 104px;
@@ -651,6 +651,9 @@ div.attention {
 		min-height: 102px;
 		.btn-block {
 			width: 98%; //http://issues.freepbx.org/browse/FREEPBX-12478
+		}
+		tbody tr {
+			cursor: pointer;
 		}
 	}
 	#fixed-list-button{
@@ -670,14 +673,17 @@ div.attention {
 		border-right: none;
 		font-size: 20px;
 	}
-}
-#floating-nav-bar.locked {
-	position: absolute;
-	bottom: 165px;
-	top: inherit;
-}
-#floating-nav-bar.show {
-	right: 0;
+	.fixed-table-container {
+		margin-bottom: 10px;
+	}
+	&.locked {
+		position: absolute;
+		bottom: 165px;
+		top: inherit;
+	}
+	&.show {
+		right: 0;
+	}
 }
 
 
@@ -774,9 +780,30 @@ div.attention {
 	height: 100%;
 }
 
+.panel.fpbx-usageinfo {
+	.panel-heading {
+		a {
+			cursor: pointer;
+			color: inherit;
+			text-decoration: inherit;
+		}
+		a:after {
+			font-family:'Glyphicons Halflings';
+			content:"\e114";
+			float: right;
+			color: grey;
+		}
+		a.collapsed:after {
+			content:"\e080";
+		}
+	}
+}
+
 /**
  * Used to align text fields with input boxes, so you can have something like
  * <div class=col-sm-5 pd> text </div><div class=col-sm-8><input type=text ..></div>
  * Without the pd, the 'text' is too high.
  */
-.pd { padding-top: 0.5em }
+.pd {
+	padding-top: 0.5em
+}

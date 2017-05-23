@@ -1242,8 +1242,18 @@ function resizeRightNav() {
 		$("#floating-nav-bar .floating-nav-bar-contents").css("max-height",(win-3)+"px");
 	}
 }
+function regExpEscape(literal_string) {
+	return literal_string.replace(/[-[\]{}()*+!<=:?.\/\\^$|#\s,]/g, '\\$&');
+}
 
 $(document).ready(function() {
+	$(".fpbx-usageinfo .panel-heading a").click(function() {
+		if($(this).hasClass("collapsed")) {
+			$.cookie("destinationUsage",1);
+		} else {
+			$.cookie("destinationUsage",0);
+		}
+	});
 	if($("#fpbxsearch").hasClass("in")) {
 		$("#fpbxsearch input").blur();
 	}
@@ -1282,17 +1292,18 @@ $(document).ready(function() {
 		$(".fpbx-container i.fpbx-help-icon").on("mouseenter", function() {
 			var id = $(this).data("for"), container = $(this).parents(".element-container");
 			$(".fpbx-help-block").removeClass("active");
-			$("#" + id + "-help").addClass("active");
+			var tmp_id_help = '#' + regExpEscape(id) + "-help";
+			$(tmp_id_help).addClass("active");
 			container.one("mouseleave", function(event) {
 				if(event.relatedTarget && (event.relatedTarget.type == "submit" || event.relatedTarget.type == "button")){
 					return;
 				}
-				var act = $("#" + id + "-help").data("activate");
+				var act = $(tmp_id_help).data("activate");
 				if(typeof act !== "undefined" && act == "locked") {
 					return;
 				}
 
-				$("#" + id + "-help").fadeOut("slow",function() {
+				$(tmp_id_help).fadeOut("slow",function() {
 					$(this).removeClass("active").css("display","");
 				});
 				$(this).off("mouseleave");
@@ -1743,8 +1754,8 @@ $(document).ready(function() {
 	 */
 	$("form").submit(function(e) {
 		// If the page isn't going to submit then don't remove the elements
-		if (!e.isDefaultPrevented()) {
-			$(".destdropdown2").filter(".hidden").remove();
+		if (e.result) {
+				$(".destdropdown2").filter(".hidden").remove();
 		}
 	});
 

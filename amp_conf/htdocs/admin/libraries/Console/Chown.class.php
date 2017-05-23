@@ -10,6 +10,7 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
 
 class Chown extends Command {
 	//private $requireroot = true;  //commented out: http://issues.freepbx.org/browse/FREEPBX-13793
@@ -25,10 +26,454 @@ class Chown extends Command {
 			new InputArgument('args', InputArgument::IS_ARRAY, _('Set permissions on a specific module: <rawname>'), null),));
 		$this->fs = new Filesystem();
 		$this->modfiles = array();
-		$this->actions = new \SplQueue();
-		$this->actions->setIteratorMode(\SplDoublyLinkedList::IT_MODE_FIFO | \SplDoublyLinkedList::IT_MODE_DELETE);
 		$this->loadChownConf();
 	}
+
+	protected function execute(InputInterface $input, OutputInterface $output, $quiet=false){
+		if($quiet) {
+			$output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
+		}
+		$this->output = $output;
+		$args = array();
+		if($input){
+			$args = $input->getArgument('args');
+			$mname = isset($args[0])?$args[0]:'';
+			$this->moduleName = !empty($this->moduleName) ? $this->moduleName : strtolower($mname);
+		}
+
+		if((empty($this->moduleName) || $this->moduleName == 'framework') && posix_geteuid() != 0) {
+			$output->writeln("<error>"._("You need to be root to run this command")."</error>");
+			exit(1);
+		}
+
+		$etcdir = \FreePBX::Config()->get('ASTETCDIR');
+		if(!file_exists($etcdir.'/freepbx_chown.conf')) {
+			$output->writeln("<info>".sprintf(_("Taking too long? Customize the chown command, See %s"),"http://wiki.freepbx.org/display/FOP/FreePBX+Chown+Conf")."</info>");
+		}
+		$output->writeln(_("Setting Permissions")."...");
+		$freepbx_conf = \freepbx_conf::create();
+		$conf = $freepbx_conf->get_conf_settings();
+		foreach ($conf as $key => $val){
+			${$key} = $val['value'];
+		}
+		/*
+		 * These are files Framework is responsible for This list can be
+		 * reduced by moving responsibility to other modules as a hook
+		 * where appropriate.
+		 *
+		 * Types:
+		 * 		file:		Set permissions/ownership on a single item
+		 * 		dir: 		Set permissions/ownership on a single directory
+		 * 		rdir: 		Set permissions/ownership on a single directory then recursively on
+		 * 					files within less the execute bit. If the dir is 755, child files will be 644,
+		 * 					child directories will be set the same as the parent.
+		 * 		execdir:	Same as rdir but the execute bit is not stripped.
+		 */
+		$sessdir = session_save_path();
+		$sessdir = !empty($sessdir) ? $sessdir : '/var/lib/php/session';
+
+		if (!empty($this->moduleName) && $this->moduleName != 'framework') {
+			$mod = $this->moduleName;
+			$this->modfiles[$mod][] = array('type' => 'rdir',
+					'path' => $AMPWEBROOT.'/admin/modules/'.$mod,
+					'perms' => 0755,
+				);
+			$hooks = $this->fwcChownFiles();
+			$current = isset($hooks[ucfirst($mod)]) ? $hooks[ucfirst($mod)] : false;
+			if(is_array($current)){
+				$this->modfiles[$mod] = array_merge_recursive($this->modfiles[$mod],$current);
+			}
+			// These are known 'binary' directories. If they exist, always set them and their contents to be executable.
+
+			$bindirs = array("bin", "hooks", "agi-bin");
+			foreach ($bindirs as $bindir) {
+				if (is_dir($AMPWEBROOT."/admin/modules/".$mod."/".$bindir)) {
+					$this->modfiles[$mod][] = array('type' => 'execdir',
+									'path' => $AMPWEBROOT."/admin/modules/".$mod."/".$bindir,
+									'perms' => 0755);
+				}
+			}
+			if(posix_geteuid() != 0) {
+				//only allow changes on our current path if we aren't root!
+				$pth = $AMPWEBROOT.'/admin/modules/'.$mod;
+				$esc = preg_quote($pth,"/");
+				$tmp = $this->modfiles[$mod];
+				foreach($tmp as $key => $item) {
+					if(!preg_match("/^".$esc."/",$item['path'])) {
+						unset($this->modfiles[$mod][$key]);
+					}
+				}
+				$this->modfiles[$mod] = array_values($this->modfiles[$mod]);
+			}
+		}else{
+			$webuser = \FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
+			$web = posix_getpwnam($webuser);
+			if (!$web) {
+				throw new \Exception(sprintf(_("I tried to find out about %s, but the system doesn't think that user exists"),$webuser));
+			}
+			$home = trim($web['dir']);
+			if (is_dir($home)) {
+				$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $home, 'perms' => 0755);
+				// SSH folder needs non-world-readable permissions (otherwise ssh complains, and refuses to work)
+				$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => "$home/.ssh", 'perms' => 0700);
+			}
+			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $sessdir, 'perms' => 0774, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => '/etc/amportal.conf', 'perms' => 0660, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => '/etc/freepbx.conf', 'perms' => 0660, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $ASTRUNDIR, 'perms' => 0775, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => \FreePBX::GPG()->getGpgLocation(), 'perms' => 0775, 'always' => true);
+
+			//we may wish to declare these manually or through some automated fashion
+			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $ASTETCDIR, 'perms' => 0775, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => $ASTVARLIBDIR . '/.ssh/id_rsa', 'perms' => 0600);
+
+			// Logfiles.
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => $FPBXDBUGFILE, 'perms' => 0664);
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => $FPBX_LOG_FILE, 'perms' => 0664);
+
+			//We may wish to declare files individually rather than touching everything
+			$this->modfiles['framework'][] = array('type' => 'file', 'path' => '/etc/obdc.ini', 'perms' => 0664);
+
+			// Anything in bin, agi-bin, and roothooks should be exec'd
+			// Should be after everything except but before hooks so that we dont get overwritten by ampwebroot
+			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $AMPBIN, 'perms' => 0775, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $ASTAGIDIR, 'perms' => 0775, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $ASTVARLIBDIR. "/bin", 'perms' => 0775, 'always' => true);
+			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $AMPWEBROOT."/admin/modules/framework/hooks", 'perms' => 0755, 'always' => true);
+
+			//Merge static files and hook files, then act on them as a single unit
+			$fwcCF = $this->fwcChownFiles();
+			if(!empty($fwcCF)){
+				foreach ($fwcCF as $key => $value) {
+					$this->modfiles[$key] = $value;
+				}
+			}
+			// These are known 'binary' directories. If they exist, always set them and their contents to be executable.
+			$mods = array_keys(\FreePBX::Modules()->getActiveModules());
+			$bindirs = array("bin", "hooks", "agi-bin");
+			foreach($mods as $mod) {
+				if(in_array($mod,array("framework","builtin"))) {
+					continue;
+				}
+				foreach ($bindirs as $bindir) {
+					if (is_dir($AMPWEBROOT."/admin/modules/".$mod."/".$bindir)) {
+						$this->modfiles[$mod][] = array('type' => 'execdir',
+										'path' => $AMPWEBROOT."/admin/modules/".$mod."/".$bindir,
+										'perms' => 0755);
+					}
+				}
+			}
+		}
+		//Let's move the custom array to the end so it happens last
+		//FREEPBX-12515
+		//Store in a temporary variable. If Null we make it an empty array
+		$holdarray = $this->modfiles['byconfig'];
+		//Unset it from the array
+		unset($this->modfiles['byconfig']);
+		//Add it back to the array
+		$this->modfiles['byconfig'] = $holdarray;
+
+		$ampowner = $AMPASTERISKWEBUSER;
+		/* Address concerns carried over from amportal in FREEPBX-8268. If the apache user is different
+		 * than the Asterisk user we provide permissions that allow both.
+		 */
+		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
+
+		if(posix_geteuid() == 0) {
+			$output->write(_("Setting base permissions..."));
+
+			$this->systemSetRecursivePermissions($ASTVARLIBDIR . '/' . $MOHDIR, 0775, $ampowner, $ampowner, 'rdir');
+			$this->systemSetRecursivePermissions($ASTVARLIBDIR . '/sounds', 0775, $ampowner, $ampowner, 'rdir');
+			$this->systemSetRecursivePermissions($ASTLOGDIR, 0775, $ampowner, $ampowner, 'rdir');
+			$this->systemSetRecursivePermissions($ASTSPOOLDIR, 0775, $ampowner, $ampowner, 'rdir');
+			$this->systemSetRecursivePermissions($AMPWEBROOT, 0775, $ampowner, $ampowner, 'rdir');
+			//$this->systemSetRecursivePermissions('/usr/src/freepbx', 0775, $ampowner, $ampowner, 'rdir');
+
+			$output->writeln(_("Done"));
+		}
+
+		$output->writeln(_("Setting specific permissions..."));
+
+		$verbose = $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
+		if(!$verbose) {
+			$progress = new ProgressBar($output);
+			$progress->setRedrawFrequency(100);
+			$progress->start();
+		}
+
+		foreach($this->modfiles as $moduleName => $modfilelist) {
+			if(!$verbose) {
+				$progress->advance();
+			}
+			if(!is_array($modfilelist)) {
+				continue;
+			}
+			foreach($modfilelist as $file) {
+				$owner = isset($file['owner'])?$file['owner']:$ampowner;
+				$group = isset($file['group'])?$file['group']:$ampgroup;
+				$owner = \ForceUTF8\Encoding::toLatin1($owner);
+				$group = \ForceUTF8\Encoding::toLatin1($group);
+				switch($file['type']){
+					case 'file':
+					case 'dir':
+						try {
+							$this->checkPermissions($file['path'], $file['perms']);
+							$this->chmod($progress, $file['path'], $file['perms']);
+							$this->chown($progress, $file['path'], $owner);
+							$this->chgrp($progress, $file['path'], $group);
+						} catch(\Exception $e) {
+						}
+					break;
+					case 'rdir':
+						$file['perms'] = $this->stripExecute($file['perms']);
+					case 'execdir':
+						try {
+							$this->checkPermissions($file['path'], $file['perms']);
+							$this->chmod($progress, $file['path'], $file['perms'], 0000, true);
+							$this->chown($progress, $file['path'], $owner, true);
+							$this->chgrp($progress, $file['path'], $group, true);
+						} catch(\Exception $e) {
+						}
+					break;
+				}
+			}
+		}
+		if(!$verbose) {
+			$progress->finish();
+		}
+		$output->writeln("");
+		$output->writeln("Finished setting permissions");
+		$errors = array_unique($this->errors);
+		foreach($errors as $error) {
+			$output->writeln("<error>".$error."</error>");
+		}
+		$infos = array_unique($this->infos);
+		foreach($infos as $error) {
+			$output->writeln("<info>".$error."</info>");
+		}
+	}
+
+	/**
+	 * Set permissions through the system instead of PHP
+	 * This is 600% faster but not as fine grained
+	 * @method systemSetRecursivePermissions
+	 * @param  string               $path  The path to chown
+	 * @param  int                  $mode  The new mode (octal)
+	 * @param  string               $owner The new owner
+	 * @param  string               $group The new group
+	 * @param  string               $rmode Recursive mode (rdir or execdir)
+	 * @param  int                  $umask The mode mask (octal)
+	 */
+	private function systemSetRecursivePermissions($path, $mode, $owner='asterisk', $group='asterisk', $rmode = 'rdir', $umask = 0000) {
+		$blacklist = $this->blacklist;
+		$skip = '';
+		if(!empty($blacklist['files'])) {
+			array_walk($blacklist['files'], function(&$value, $key) {
+				$value = escapeshellarg($value);
+			});
+			$skip .= "-not -path ".implode(" -not -path ",$blacklist['files']);
+		}
+		if(!empty($blacklist['dirs'])) {
+			array_walk($blacklist['dirs'], function(&$value, $key) {
+				$value = escapeshellarg($value);
+			});
+			$skip .= " -not -path ".implode(" -not -path ",$blacklist['files']);
+		}
+		if(!empty($skip)) {
+			$skip = "\( ".$skip." \)";
+		}
+
+		$directoryMode = $fileMode = $mode;
+		switch($rmode) {
+			case 'rdir':
+				$fileMode = $this->stripExecute($fileMode);
+			case 'execdir':
+				exec("find ".escapeshellarg($path)." -type d ".$skip." -exec chmod ".escapeshellarg(decoct($directoryMode & ~$umask))." {} +");
+				exec("find ".escapeshellarg($path)." -type f ".$skip." -exec chmod ".escapeshellarg(decoct($fileMode & ~$umask))." {} +");
+			break;
+			default:
+				throw new \Exception("Unknown mode of ".$mode);
+			break;
+		}
+
+		exec("find ".escapeshellarg($path)." -type f -o -type d ".$skip." -exec chown ".escapeshellarg($owner).":".escapeshellarg($group)." {} +");
+	}
+
+	/**
+	 * Check blacklist to see if file/dir is blacklisted
+	 * @param  string $file The file/dir
+	 * @return boolean       True if blacklisted/false if not
+	 */
+	private function checkBlacklist($file){
+		//If path is in the blacklist we move on.
+		if(in_array($file, $this->blacklist['files']) || in_array($file, $this->blacklist['dirs'])){
+			return true;
+		}
+		//recursively ignore files
+		foreach($this->blacklist['dirs'] as $dir) {
+			if(preg_match("/^".preg_quote($dir,'/')."/",$file)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Strip execute bit off of chown
+	 * @param  bit $mask The bitmask
+	 * @return bit       Bitmask
+	 */
+	private function stripExecute($mask){
+		$mask = ( $mask & ~0111 );
+		return $mask;
+	}
+
+	private function checkPermissions($file, $mode) {
+		if(decoct(octdec($mode)) == $mode){
+			return true;
+		}else{
+			$this->d[] = "<error>".sprintf(_('%s Likely will not work as expected'),$file)."</error>";
+			$this->d[] = "<error>".sprintf(_('Permissions should be set with a leading 0, example 644 should be 0644 File: %s Permission set as: %s'),$file,$mode)."</error>";
+			return false;
+		}
+	}
+
+	private function d($message) {
+		$debug = $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
+		if($debug && is_object($this->output)) {
+			$this->output->writeln($message);
+		}
+	}
+
+	private function fwcChownFiles(){
+		$modules = \FreePBX::Hooks()->processHooks();
+		return $modules;
+	}
+
+	/**
+	 * Change the group of an array of files or directories.
+	 *
+	 * @param string|array|\Traversable $files     A filename, an array of files, or a \Traversable instance to change group
+	 * @param string                    $group     The group name
+	 * @param bool                      $recursive Whether change the group recursively or not
+	 *
+	 * @throws IOException When the change fail
+	 */
+	public function chgrp($progress=null, $files, $group, $recursive = false) {
+		foreach ($this->toIterator($files) as $file) {
+			if(!is_null($progress)) {
+				$progress->advance();
+			}
+			if($this->checkBlacklist($file)){
+				$this->d(sprintf(_('%s skipped by configuration'), $file));
+				continue;
+			}
+			if ($recursive && is_dir($file) && !is_link($file)) {
+				$this->chgrp($progress, new \FilesystemIterator($file), $group, true);
+			}
+			if (is_link($file) && function_exists('lchgrp')) {
+				$this->d("Setting ".$file." group owner: ".$group);
+				if (true !== @lchgrp($file, $group) || (defined('HHVM_VERSION') && !posix_getgrnam($group))) {
+					throw new IOException(sprintf('Failed to chgrp file "%s".', $file), 0, null, $file);
+				}
+			} else {
+				if (true !== @chgrp($file, $group)) {
+					$this->d("Setting ".$file." group owner: ".$group);
+					throw new IOException(sprintf('Failed to chgrp file "%s".', $file), 0, null, $file);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Change the owner of an array of files or directories.
+	 *
+	 * @param string|array|\Traversable $files     A filename, an array of files, or a \Traversable instance to change owner
+	 * @param string                    $user      The new owner user name
+	 * @param bool                      $recursive Whether change the owner recursively or not
+	 *
+	 * @throws IOException When the change fail
+	 */
+	public function chown($progress, $files, $user, $recursive = false) {
+		foreach ($this->toIterator($files) as $file) {
+			if(!is_null($progress)) {
+				$progress->advance();
+			}
+			if($this->checkBlacklist($file)){
+				$this->d(sprintf(_('%s skipped by configuration'), $file));
+				continue;
+			}
+			if ($recursive && is_dir($file) && !is_link($file)) {
+				$this->chown($progress, new \FilesystemIterator($file), $user, true);
+			}
+			if (is_link($file) && function_exists('lchown')) {
+				$this->d("Setting ".$file." user owner: ".$user);
+				if (true !== @lchown($file, $user)) {
+					throw new IOException(sprintf('Failed to chown file "%s".', $file), 0, null, $file);
+				}
+			} else {
+				$this->d("Setting ".$file." user owner to: ".$user);
+				if (true !== @chown($file, $user)) {
+					throw new IOException(sprintf('Failed to chown file "%s".', $file), 0, null, $file);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Change mode for an array of files or directories.
+	 *
+	 * @param string|array|\Traversable $files     A filename, an array of files, or a \Traversable instance to change mode
+	 * @param int                       $mode      The new mode (octal)
+	 * @param int                       $umask     The mode mask (octal)
+	 * @param bool                      $recursive Whether change the mod recursively or not
+	 *
+	 * @throws IOException When the change fail
+	 */
+	public function chmod($progress, $files, $mode, $umask = 0000, $recursive = false)	{
+		foreach ($this->toIterator($files) as $file) {
+			if(!is_null($progress)) {
+				$progress->advance();
+			}
+			if($this->checkBlacklist($file)){
+				$this->d(sprintf(_('%s skipped by configuration'), $file));
+				continue;
+			}
+			if(is_dir($file) && !is_link($file)) {
+				$omode = $mode;
+				$mode = 0755;
+			}
+			$this->d("Setting ".$file." to permissions of: ".decoct($mode & ~$umask));
+			if (true !== @chmod($file, $mode & ~$umask)) {
+				if(!is_link($file)) {
+					throw new IOException(sprintf('Failed to chmod file "%s".', $file), 0, null, $file);
+				} else {
+					@unlink($file);
+				}
+			}
+			if(is_dir($file) && !is_link($file)) {
+				$mode = $omode;
+			}
+			if ($recursive && is_dir($file) && !is_link($file)) {
+				$this->chmod($progress, new \FilesystemIterator($file), $mode, $umask, true);
+			}
+		}
+	}
+
+	/**
+	 * Convert an array into an iterator if not already one
+	 * @method toIterator
+	 * @param  mixed     $files Anything to turn into an array
+	 * @return object            Iterator object
+	 */
+	private function toIterator($files) {
+		if (!$files instanceof \Traversable) {
+			$files = new \ArrayObject(is_array($files) ? $files : array($files));
+		}
+		return $files;
+	}
+
 	private function loadChownConf(){
 		$etcdir = \FreePBX::Config()->get('ASTETCDIR');
 		if(!file_exists($etcdir.'/freepbx_chown.conf')){
@@ -109,8 +554,8 @@ class Chown extends Command {
 				}
 			}
 		}
-
 	}
+
 	private function parse_conf_line($line){
 		if(!is_string($line)) {
 			throw new \Exception("freepbx_chown.conf has malformed data. Please fix the file");
@@ -121,432 +566,5 @@ class Chown extends Command {
 		}
 		$ret = array('path' => $line[0], 'perms' => intval($line[1], 8), 'owner' => $line[2], 'group' => $line[3]);
 		return $ret;
-	}
-	protected function execute(InputInterface $input, OutputInterface $output, $quiet=false){
-		if($quiet) {
-			$output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
-		}
-		$this->output = $output;
-		$args = array();
-		if($input){
-			$args = $input->getArgument('args');
-			$mname = isset($args[0])?$args[0]:'';
-			$this->moduleName = !empty($this->moduleName) ? $this->moduleName : strtolower($mname);
-		}
-
-		if((empty($this->moduleName) || $this->moduleName == 'framework') && posix_geteuid() != 0) {
-			$output->writeln("<error>"._("You need to be root to run this command")."</error>");
-			exit(1);
-		}
-
-		$etcdir = \FreePBX::Config()->get('ASTETCDIR');
-		if(!file_exists($etcdir.'/freepbx_chown.conf')) {
-			$output->writeln("<info>".sprintf(_("Taking too long? Customize the chown command, See %s"),"http://wiki.freepbx.org/display/FOP/FreePBX+Chown+Conf")."</info>");
-		}
-		$output->writeln(_("Setting Permissions")."...");
-		$freepbx_conf = \freepbx_conf::create();
-		$conf = $freepbx_conf->get_conf_settings();
-		foreach ($conf as $key => $val){
-			${$key} = $val['value'];
-		}
-		/*
-		 * These are files Framework is responsible for This list can be
-		 * reduced by moving responsibility to other modules as a hook
-		 * where appropriate.
-		 *
-		 * Types:
-		 * 		file:		Set permissions/ownership on a single item
-		 * 		dir: 		Set permissions/ownership on a single directory
-		 * 		rdir: 		Set permissions/ownership on a single directory then recursively on
-		 * 					files within less the execute bit. If the dir is 755, child files will be 644,
-		 * 					child directories will be set the same as the parent.
-		 * 		execdir:	Same as rdir but the execute bit is not stripped.
-		 */
-		$sessdir = session_save_path();
-		$sessdir = !empty($sessdir) ? $sessdir : '/var/lib/php/session';
-
-		if (!empty($this->moduleName) && $this->moduleName != 'framework') {
-			$mod = $this->moduleName;
-			$this->modfiles[$mod][] = array('type' => 'rdir',
-					'path' => $AMPWEBROOT.'/admin/modules/'.$mod,
-					'perms' => 0755,
-				);
-			$hooks = $this->fwcChownFiles();
-			$current = isset($hooks[ucfirst($mod)]) ? $hooks[ucfirst($mod)] : false;
-			if(is_array($current)){
-				$this->modfiles[$mod] = array_merge_recursive($this->modfiles[$mod],$current);
-			}
-			// These are known 'binary' directories. If they exist, always set them and their contents to be executable.
-			$bindirs = array("bin", "hooks", "agi-bin");
-			foreach ($bindirs as $bindir) {
-				if (is_dir($AMPWEBROOT."/admin/modules/".$mod."/".$bindir)) {
-					$this->modfiles[$mod][] = array('type' => 'execdir',
-									'path' => $AMPWEBROOT."/admin/modules/".$mod."/".$bindir,
-									'perms' => 0755);
-				}
-			}
-			if(posix_geteuid() != 0) {
-				//only allow changes on our current path if we aren't root!
-				$pth = $AMPWEBROOT.'/admin/modules/'.$mod;
-				$esc = preg_quote($pth,"/");
-				$tmp = $this->modfiles[$mod];
-				foreach($tmp as $key => $item) {
-					if(!preg_match("/^".$esc."/",$item['path'])) {
-						unset($this->modfiles[$mod][$key]);
-					}
-				}
-				$this->modfiles[$mod] = array_values($this->modfiles[$mod]);
-			}
-		}else{
-			$webuser = \FreePBX::Freepbx_conf()->get('AMPASTERISKWEBUSER');
-			$web = posix_getpwnam($webuser);
-			if (!$web) {
-				throw new \Exception(sprintf(_("I tried to find out about %s, but the system doesn't think that user exists"),$webuser));
-			}
-			$home = trim($web['dir']);
-			if (is_dir($home)) {
-				$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $home, 'perms' => 0755);
-				// SSH folder needs non-world-readable permissions (otherwise ssh complains, and refuses to work)
-				$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => "$home/.ssh", 'perms' => 0700);
-			}
-			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $sessdir, 'perms' => 0774, 'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'file', 'path' => '/etc/amportal.conf', 'perms' => 0660, 'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'file', 'path' => '/etc/freepbx.conf', 'perms' => 0660, 'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $ASTRUNDIR, 'perms' => 0775, 'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => \FreePBX::GPG()->getGpgLocation(), 'perms' => 0775, 'always' => true);
-
-			//we may wish to declare these manually or through some automated fashion
-			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $ASTETCDIR, 'perms' => 0775, 'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'file', 'path' => $ASTVARLIBDIR . '/.ssh/id_rsa', 'perms' => 0600);
-			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $ASTLOGDIR, 'perms' => 0775, 'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $ASTSPOOLDIR, 'perms' => 0775);
-
-			// Logfiles.
-			$this->modfiles['framework'][] = array('type' => 'file', 'path' => $FPBXDBUGFILE, 'perms' => 0664);
-			$this->modfiles['framework'][] = array('type' => 'file', 'path' => $FPBX_LOG_FILE, 'perms' => 0664);
-
-			//We may wish to declare files individually rather than touching everything
-			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $ASTVARLIBDIR . '/' . $MOHDIR, 'perms' => 0775);
-			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $ASTVARLIBDIR . '/sounds', 'perms' => 0775);
-			$this->modfiles['framework'][] = array('type' => 'file', 'path' => '/etc/obdc.ini', 'perms' => 0664);
-
-			// Recursive webroot is required
-			$this->modfiles['framework'][] = array('type' => 'rdir', 'path' => $AMPWEBROOT, 'perms' => 0775);
-
-			// Anything in bin, agi-bin, and roothooks should be exec'd
-			// Should be after everything except but before hooks so that we dont get overwritten by ampwebroot
-			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $AMPBIN, 'perms' => 0775, 'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $ASTAGIDIR, 'perms' => 0775, 'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $ASTVARLIBDIR. "/bin", 'perms' => 0775, 'always' => true);
-			$this->modfiles['framework'][] = array('type' => 'execdir', 'path' => $AMPWEBROOT."/admin/modules/framework/hooks", 'perms' => 0755, 'always' => true);
-
-			//Merge static files and hook files, then act on them as a single unit
-			$fwcCF = $this->fwcChownFiles();
-			if(!empty($fwcCF)){
-				foreach ($fwcCF as $key => $value) {
-					$this->modfiles[$key] = $value;
-				}
-			}
-			// These are known 'binary' directories. If they exist, always set them and their contents to be executable.
-			$mods = array_keys(\FreePBX::Modules()->getActiveModules());
-			$bindirs = array("bin", "hooks", "agi-bin");
-			foreach($mods as $mod) {
-				if(in_array($mod,array("framework","builtin"))) {
-					continue;
-				}
-				foreach ($bindirs as $bindir) {
-					if (is_dir($AMPWEBROOT."/admin/modules/".$mod."/".$bindir)) {
-						$this->modfiles[$mod][] = array('type' => 'execdir',
-										'path' => $AMPWEBROOT."/admin/modules/".$mod."/".$bindir,
-										'perms' => 0755);
-					}
-				}
-			}
-		}
-		//Let's move the custom array to the end so it happens last
-		//FREEPBX-12515
-		//Store in a temporary variable. If Null we make it an empty array
-		$holdarray = $this->modfiles['byconfig'];
-		//Unset it from the array
-		unset($this->modfiles['byconfig']);
-		//Add it back to the array
-		$this->modfiles['byconfig'] = $holdarray;
-
-		$ampowner = $AMPASTERISKWEBUSER;
-		/* Address concerns carried over from amportal in FREEPBX-8268. If the apache user is different
-		 * than the Asterisk user we provide permissions that allow both.
-		 */
-		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
-		$fcount = 0;
-		$output->write("\t"._("Collecting Files..."));
-		$exclusive = $input->hasOption('file') ? $input->getOption('file') : null;
-		$process = array();
-		foreach($this->modfiles as $moduleName => $modfilelist) {
-			if(!is_array($modfilelist)) {
-				continue;
-			}
-			foreach($modfilelist as $file) {
-				switch($file['type']){
-					case 'file':
-					case 'dir':
-						if(empty($exclusive) || $exclusive == $file['path']) {
-							$file['files'] = array($file['path']);
-							$fcount++;
-						} else {
-							continue 2;
-						}
-					break;
-					case 'execdir':
-					case 'rdir':
-						$files = $this->recursiveDirList($file['path']);
-						$children = false;
-						if(empty($exclusive) || $exclusive == $file['path']) {
-							$file['files'] = array($file['path']);
-							$fcount++;
-							$children = true;
-						}
-						foreach($files as $f){
-							if(empty($exclusive) || $children || $exclusive == $f) {
-								$file['files'][] = $f;
-								$fcount++;
-							} else {
-								continue;
-							}
-						}
-						if(empty($file['files'])) {
-							continue 2;
-						}
-					break;
-				}
-				$process[$file['type']][] = $file;
-			}
-		}
-		$verbose = $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
-		$output->writeln(_("Done"));
-		if(!$verbose) {
-			$progress = new ProgressBar($output, $fcount);
-			$progress->setRedrawFrequency(100);
-			$progress->start();
-		}
-		foreach($process as $type => $modfilelist) {
-			foreach($modfilelist as $file) {
-				if(!isset($file['path']) || !isset($file['perms']) || !file_exists($file['path'])){
-					if(!$verbose) {
-						$progress->advance();
-					}
-					continue;
-				}
-				//Handle custom ownership (optional)
-				$owner = isset($file['owner'])?$file['owner']:$ampowner;
-				$group = isset($file['group'])?$file['group']:$ampgroup;
-				$owner = \ForceUTF8\Encoding::toLatin1($owner);
-				$group = \ForceUTF8\Encoding::toLatin1($group);
-				foreach($file['files'] as $path) {
-					if($this->checkBlacklist($path)){
-						$this->infos[] = sprintf(_('%s skipped by configuration'), $path);
-						continue;
-					}
-					switch($file['type']){
-						case 'file':
-						case 'dir':
-							$this->setPermissions(array($path,$owner,$group,$file['perms']));
-						break;
-						case 'rdir':
-							if(is_dir($path)){
-								$this->setPermissions(array($path, $owner, $group, $file['perms']));
-							}else{
-								$fileperms = $this->stripExecute($file['perms']);
-								$this->setPermissions(array($path, $owner, $group, $fileperms));
-							}
-						break;
-						case 'execdir':
-							$this->setPermissions(array($path, $owner, $group, $file['perms']));
-						break;
-					}
-					if(!$verbose) {
-						$progress->advance();
-					}
-				}
-			}
-		}
-		if(!$verbose) {
-			$progress->finish();
-		}
-		$output->writeln("");
-		$output->writeln("Finished setting permissions");
-		$errors = array_unique($this->errors);
-		foreach($errors as $error) {
-			$output->writeln("<error>".$error."</error>");
-		}
-		$infos = array_unique($this->infos);
-		foreach($infos as $error) {
-			$output->writeln("<info>".$error."</info>");
-		}
-	}
-
-	private function setPermissions($action) {
-		if(pathinfo($action[0], PATHINFO_EXTENSION) == 'call'){
-			return;
-		}
-		$this->singleChown($action[0],$action[1],$action[2]);
-		$this->singlePerms($action[0], $action[3]);
-		$this->d("Setting ".$action[0]." owner to: ".$action[1].":".$action[2].", with permissions of: ".decoct($action[3]));
-	}
-
-	/**
-	 * Check blacklist to see if file/dir is blacklisted
-	 * @param  string $file The file/dir
-	 * @return boolean       True if blacklisted/false if not
-	 */
-	private function checkBlacklist($file){
-		//If path is in the blacklist we move on.
-		if(in_array($file, $this->blacklist['files']) || in_array($file, $this->blacklist['dirs'])){
-			return true;
-		}
-		//recursively ignore files
-		foreach($this->blacklist['dirs'] as $dir) {
-			if(preg_match("/^".preg_quote($dir,'/')."/",$file)) {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Strip execute bit off of chown
-	 * @param  bit $mask The bitmask
-	 * @return bit       Bitmask
-	 */
-	private function stripExecute($mask){
-		$mask = ( $mask & ~0111 );
-		return $mask;
-	}
-
-	private function singleChown($file, $user, $group){
-		clearstatcache(true, $file);
-		if(!file_exists($file)) {
-			return false;
-		}
-		$filetype = \freepbx_filetype($file);
-		try {
-			if($filetype == "link") {
-				$link = readlink($file);
-				if(file_exists($link)) {
-					$this->fs->chown($link,$user);
-					$this->fs->chown($file,$user);
-				}
-			} else {
-				$this->fs->chown($file,$user);
-			}
-		} catch (IOExceptionInterface $e) {
-			if($file){
-				$this->errors[] = sprintf(_('An error occurred while changing ownership on %s'),$file);
-			}
-		}
-		try {
-			if($filetype == "link") {
-				$link = readlink($file);
-				if(file_exists($link)) {
-					$this->fs->chgrp($link,$group);
-					$this->fs->chgrp($file,$user);
-				}
-			} else {
-				$this->fs->chgrp($file,$group);
-			}
-		} catch (IOExceptionInterface $e) {
-			if($file){
-				$this->errors[] = sprintf(_('An error occurred while changing groups %s'),$file);
-			}
-		}
-	}
-
-	private function singlePerms($file, $perms){
-		if(!trim($file)){
-			$this->errors[] = _('We received an empty string for a file name. Some files may not have the proper permissions');
-			return false;
-		}
-		clearstatcache(true, $file);
-		if(!file_exists($file)) {
-			return false;
-		}
-		$filetype = \freepbx_filetype($file);
-		switch($filetype){
-			case 'link':
-				$realfile = readlink($file);
-				try {
-					$this->fs->chmod($realfile,$perms);
-				} catch (IOExceptionInterface $e) {
-					if(file_exists($realfile)) {
-						$this->errors[] = sprintf(_('An error occurred while changing permissions on link %s which points to %s'), $file, $realfile);
-					} else {
-						//Make sure this isn't a voicemail symlink
-						$asd = \FreePBX::Config()->get("ASTSPOOLDIR") . "/voicemail";
-						if (strpos($file, $asd) === false) {
-							//File does not exist. Now we have a dangling symlink so remove it.
-							$this->infos[] = sprintf(_('Removing dangling symlink %s which points to a file that no longer exists'),$file);
-							unlink($file);
-						}
-					}
-				}
-			break;
-			case 'dir':
-			case 'socket':
-			case 'file':
-				try {
-					$this->fs->chmod($file,$perms);
-				} catch (IOExceptionInterface $e) {
-					if($file){
-						$this->errors[] = sprintf(_('An error occurred while changing permissions on file %s'),$file);
-					}
-				}
-			break;
-			default:
-				throw new \Exception(sprintf(_("Unknown filetype of: %s[%s]"),$filetype,$file));
-			break;
-		}
-	}
-
-	private function recursiveDirList($path){
-		clearstatcache(true, $path);
-		if(!file_exists($path)) {
-			return array();
-		}
-		$list =  array();
-		$objects = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($path, \FilesystemIterator::SKIP_DOTS), \RecursiveIteratorIterator::SELF_FIRST);
-		$skipped = false;
-		foreach($objects as $path => $object){
-			if($this->checkBlacklist($path)){
-				$skipped = true;
-				continue;
-			}
-			$list[] = $path;
-		}
-		if($skipped) {
-			$this->infos[] = _("One or more files skipped by configuration in freepbx_chown.conf");
-		}
-		return array_unique($list);
-	}
-
-	private function padPermissions($file, $mode){
-		if(($mode>>9) == 0){
-			return true;
-		}else{
-			$this->errors[] = sprintf(_('%s Likely will not work as expected'),$file);
-			$this->errors[] = sprintf(_('Permissions should be set with a leading 0, example 644 should be 0644 File: %s Permission set as: %s'),$file,$mode);
-			return false;
-		}
-	}
-
-	private function d($message) {
-		$debug = $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
-		if($debug && is_object($this->output)) {
-			$this->output->writeln($message);
-		}
-	}
-
-	private function fwcChownFiles(){
-		$modules = \FreePBX::Hooks()->processHooks();
-		return $modules;
 	}
 }

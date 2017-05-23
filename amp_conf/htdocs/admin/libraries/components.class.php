@@ -51,6 +51,7 @@ class component {
 			"voicemail" => _("Voicemail"),
 			"advanced" => _("Advanced"),
 			"endpoint" => _("Endpoint"),
+			"pinsets" => _("Pin Sets"),
 			"other" => _("Other")
 		);
 	}
