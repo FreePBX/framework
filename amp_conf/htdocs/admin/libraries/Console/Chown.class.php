@@ -84,6 +84,7 @@ class Chown extends Command {
 				$this->modfiles[$mod] = array_merge_recursive($this->modfiles[$mod],$current);
 			}
 			// These are known 'binary' directories. If they exist, always set them and their contents to be executable.
+
 			$bindirs = array("bin", "hooks", "agi-bin");
 			foreach ($bindirs as $bindir) {
 				if (is_dir($AMPWEBROOT."/admin/modules/".$mod."/".$bindir)) {
@@ -213,15 +214,18 @@ class Chown extends Command {
 		 */
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
 
-		$output->write(_("Setting base permissions..."));
+		if(posix_geteuid() == 0) {
+			$output->write(_("Setting base permissions..."));
 
-		$this->systemSetRecursivePermissions($ASTVARLIBDIR . '/' . $MOHDIR, 0775, $ampowner, $ampowner, 'rdir');
-		$this->systemSetRecursivePermissions($ASTVARLIBDIR . '/sounds', 0775, $ampowner, $ampowner, 'rdir');
-		$this->systemSetRecursivePermissions($ASTLOGDIR, 0775, $ampowner, $ampowner, 'rdir');
-		$this->systemSetRecursivePermissions($ASTSPOOLDIR, 0775, $ampowner, $ampowner, 'rdir');
-		$this->systemSetRecursivePermissions($AMPWEBROOT, 0775, $ampowner, $ampowner, 'rdir');
+			$this->systemSetRecursivePermissions($ASTVARLIBDIR . '/' . $MOHDIR, 0775, $ampowner, $ampowner, 'rdir');
+			$this->systemSetRecursivePermissions($ASTVARLIBDIR . '/sounds', 0775, $ampowner, $ampowner, 'rdir');
+			$this->systemSetRecursivePermissions($ASTLOGDIR, 0775, $ampowner, $ampowner, 'rdir');
+			$this->systemSetRecursivePermissions($ASTSPOOLDIR, 0775, $ampowner, $ampowner, 'rdir');
+			$this->systemSetRecursivePermissions($AMPWEBROOT, 0775, $ampowner, $ampowner, 'rdir');
+			//$this->systemSetRecursivePermissions('/usr/src/freepbx', 0775, $ampowner, $ampowner, 'rdir');
 
-		$output->writeln(_("Done"));
+			$output->writeln(_("Done"));
+		}
 
 		$output->writeln(_("Setting specific permissions..."));
 
@@ -256,9 +260,7 @@ class Chown extends Command {
 						}
 					break;
 					case 'rdir':
-						if((is_link($file['path']) && !is_dir(readlink($file['path'])) )|| !is_dir($file['path'])){
-							$file['perms'] = $this->stripExecute($file['perms']);
-						}
+						$file['perms'] = $this->stripExecute($file['perms']);
 					case 'execdir':
 						try {
 							$this->checkPermissions($file['path'], $file['perms']);
