@@ -440,7 +440,7 @@ class Chown extends Command {
 				$this->d(sprintf(_('%s skipped by configuration'), $file));
 				continue;
 			}
-			if(is_dir($file) && !is_link($file)) {
+			if(is_dir($file)) {
 				$omode = $mode;
 				$mode = 0755;
 			}
