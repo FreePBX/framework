@@ -301,7 +301,6 @@ class Chown extends Command {
 	 */
 	private function systemSetRecursivePermissions($path, $mode, $owner='asterisk', $group='asterisk', $rmode = 'rdir', $umask = 0000) {
 		$blacklist = $this->blacklist;
-		$skip = '';
 		if(!empty($blacklist['files'])) {
 			array_walk($blacklist['files'], function(&$value, $key) {
 				$value = escapeshellarg($value);
@@ -312,7 +311,7 @@ class Chown extends Command {
 			array_walk($blacklist['dirs'], function(&$value, $key) {
 				$value = escapeshellarg($value);
 			});
-			$skip .= " -not -path ".implode(" -not -path ",$blacklist['files']);
+			$skip .= " -not -path ".implode(" -not -path ",$blacklist['dirs']);
 		}
 		if(!empty($skip)) {
 			$skip = "\( ".$skip." \)";
