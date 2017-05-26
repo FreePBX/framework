@@ -25,4 +25,4 @@
 RewriteEngine on
 RewriteCond %{ENV:REDIRECT_STATUS} 200
 RewriteRule ^ - [L]
-RewriteRule ^([^/]*)/([^/]*)$ /admin/api/api.php?module=$1&command=$2 [L,QSA]
+RewriteRule ^([^/]*)/([^/]*)/?(.*)?$ /admin/api/api.php?module=$1&command=$2&restofpath=$3 [L,QSA]
