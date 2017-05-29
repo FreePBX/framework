@@ -299,7 +299,11 @@ class Curl extends Client
         list($status, $headers) = HttpHeaders::parse(explode("\n", $this->response_headers[$this->response_headers_count - 1]));
 
         if ($this->isRedirection($status)) {
-            return $this->handleRedirection($headers['Location']);
+            if (empty($headers['Location'])) {
+                $status = 200;
+            } else {
+                return $this->handleRedirection($headers['Location']);
+            }
         }
 
         return array(

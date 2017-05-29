@@ -258,7 +258,7 @@ abstract class Parser implements ParserInterface
     public function getDateParser()
     {
         if ($this->dateParser === null) {
-            return new DateParser($this->config);
+            $this->dateParser = new DateParser($this->config);
         }
 
         return $this->dateParser;

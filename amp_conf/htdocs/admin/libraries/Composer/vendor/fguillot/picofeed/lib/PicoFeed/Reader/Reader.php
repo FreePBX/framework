@@ -56,13 +56,13 @@ class Reader extends Base
     /**
      * Discover and download a feed.
      *
-     * @param string $url           Feed or website url
+     * @param string $url Feed or website url
      * @param string $last_modified Last modified HTTP header
-     * @param string $etag          Etag HTTP header
-     * @param string $username      HTTP basic auth username
-     * @param string $password      HTTP basic auth password
-     *
-     * @return \PicoFeed\Client\Client
+     * @param string $etag Etag HTTP header
+     * @param string $username HTTP basic auth username
+     * @param string $password HTTP basic auth password
+     * @return Client
+     * @throws SubscriptionNotFoundException
      */
     public function discover($url, $last_modified = '', $etag = '', $username = '', $password = '')
     {

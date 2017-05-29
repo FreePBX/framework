@@ -230,8 +230,9 @@ class AutowirePassTest extends TestCase
         $pass = new AutowirePass();
         $pass->process($container);
 
-        $this->assertCount(1, $container->getDefinition('coop_tilleuls')->getArguments());
+        $this->assertCount(2, $container->getDefinition('coop_tilleuls')->getArguments());
         $this->assertEquals('autowired.symfony\component\dependencyinjection\tests\compiler\dunglas', $container->getDefinition('coop_tilleuls')->getArgument(0));
+        $this->assertEquals('autowired.symfony\component\dependencyinjection\tests\compiler\dunglas', $container->getDefinition('coop_tilleuls')->getArgument(1));
 
         $dunglasDefinition = $container->getDefinition('autowired.Symfony\Component\DependencyInjection\Tests\Compiler\Dunglas');
         $this->assertEquals(__NAMESPACE__.'\Dunglas', $dunglasDefinition->getClass());
@@ -440,10 +441,6 @@ class AutowirePassTest extends TestCase
             array(
                 new Reference('a'),
                 new Reference('lille'),
-                // third arg shouldn't *need* to be passed
-                // but that's hard to "pull of" with autowiring, so
-                // this assumes passing the default val is ok
-                'some_val',
             ),
             $definition->getArguments()
         );
@@ -497,6 +494,21 @@ class AutowirePassTest extends TestCase
         $this->assertTrue($container->hasDefinition('bar'));
     }
 
+    public function testProcessDoesNotTriggerDeprecations()
+    {
+        $container = new ContainerBuilder();
+        $container->register('deprecated', 'Symfony\Component\DependencyInjection\Tests\Fixtures\DeprecatedClass')->setDeprecated(true);
+        $container->register('foo', __NAMESPACE__.'\Foo');
+        $container->register('bar', __NAMESPACE__.'\Bar')->setAutowired(true);
+
+        $pass = new AutowirePass();
+        $pass->process($container);
+
+        $this->assertTrue($container->hasDefinition('deprecated'));
+        $this->assertTrue($container->hasDefinition('foo'));
+        $this->assertTrue($container->hasDefinition('bar'));
+    }
+
     public function testEmptyStringIsKept()
     {
         $container = new ContainerBuilder();
@@ -513,29 +525,28 @@ class AutowirePassTest extends TestCase
         $this->assertEquals(array(new Reference('a'), '', new Reference('lille')), $container->getDefinition('foo')->getArguments());
     }
 
-    /**
-     * @dataProvider provideAutodiscoveredAutowiringOrder
-     *
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\RuntimeException
-     * @expectedExceptionMEssage Unable to autowire argument of type "Symfony\Component\DependencyInjection\Tests\Compiler\CollisionInterface" for the service "a". Multiple services exist for this interface (autowired.Symfony\Component\DependencyInjection\Tests\Compiler\CollisionA, autowired.Symfony\Component\DependencyInjection\Tests\Compiler\CollisionB).
-     */
-    public function testAutodiscoveredAutowiringOrder($class)
-    {
-        $container = new ContainerBuilder();
-
-        $container->register('a', __NAMESPACE__.'\\'.$class)
-            ->setAutowired(true);
-
-        $pass = new AutowirePass();
-        $pass->process($container);
-    }
-
     public function provideAutodiscoveredAutowiringOrder()
     {
         return array(
             array('CannotBeAutowiredForwardOrder'),
             array('CannotBeAutowiredReverseOrder'),
         );
+    }
+
+    /**
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\RuntimeException
+     * @expectedExceptionMessage Service "a" can use either autowiring or a factory, not both.
+     */
+    public function testWithFactory()
+    {
+        $container = new ContainerBuilder();
+
+        $container->register('a', __NAMESPACE__.'\A')
+            ->setFactory('foo')
+            ->setAutowired(true);
+
+        $pass = new AutowirePass();
+        $pass->process($container);
     }
 }
 
@@ -645,7 +656,7 @@ class Dunglas
 
 class LesTilleuls
 {
-    public function __construct(Dunglas $k)
+    public function __construct(Dunglas $j, Dunglas $k)
     {
     }
 }

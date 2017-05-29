@@ -3,6 +3,7 @@
 namespace PicoFeed\Client;
 
 use DateTime;
+use Exception;
 use LogicException;
 use PicoFeed\Logging\Logger;
 use PicoFeed\Config\Config;
@@ -686,16 +687,21 @@ abstract class Client
 
     public function parseExpiration(HttpHeaders $headers)
     {
-        if (isset($headers['Cache-Control'])) {
-            if (preg_match('/s-maxage=(\d+)/', $headers['Cache-Control'], $matches)) {
-                return new DateTime('+' . $matches[1] . ' seconds');
-            } else if (preg_match('/max-age=(\d+)/', $headers['Cache-Control'], $matches)) {
-                return new DateTime('+' . $matches[1] . ' seconds');
-            }
-        }
+        try {
 
-        if (! empty($headers['Expires'])) {
-            return new DateTime($headers['Expires']);
+            if (isset($headers['Cache-Control'])) {
+                if (preg_match('/s-maxage=(\d+)/', $headers['Cache-Control'], $matches)) {
+                    return new DateTime('+' . $matches[1] . ' seconds');
+                } else if (preg_match('/max-age=(\d+)/', $headers['Cache-Control'], $matches)) {
+                    return new DateTime('+' . $matches[1] . ' seconds');
+                }
+            }
+
+            if (! empty($headers['Expires'])) {
+                return new DateTime($headers['Expires']);
+            }
+        } catch (Exception $e) {
+            Logger::setMessage('Unable to parse expiration date: '.$e->getMessage());
         }
 
         return new DateTime();

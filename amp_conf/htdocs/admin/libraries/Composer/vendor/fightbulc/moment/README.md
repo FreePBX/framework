@@ -72,6 +72,7 @@ const W3C = 'Y-m-d\TH:i:sP'; // 2005-08-15T15:52:01+00:00
 
 const NO_TZ_MYSQL = 'Y-m-d H:i:s'; // 2005-08-15 15:52:01
 const NO_TZ_NO_SECS = 'Y-m-d H:i'; // 2005-08-15 15:52
+const NO_TIME = 'Y-m-d'; // 2005-08-15
 
 // time fractions ".000" will be automatically removed
 $timeWithFraction = '2016-05-04T10:00:00.000';
@@ -409,6 +410,22 @@ You can now run through the result and put it formatted into a drop-down field o
 
 # Changelog
 
+### 1.26.5
+ - fixed:
+    - Fix format of 'LLL' in Custom Formats
+
+### 1.26.4
+ - fixed:
+    - removed php5.4+ only syntax
+
+### 1.26.3
+ - fixed:
+    - Danish day- and monthnames correct case
+    - French locale
+    - PHPDocs
+  - added:
+    - consts for `NO_TZ_MYSQL`, `NO_TZ_NO_SECS` and `NO_TIME` when parsing dates
+    
 ### 1.26.2
  - added:
     - Dutch customFormat
