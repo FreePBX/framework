@@ -691,7 +691,7 @@ class FreePBXInstallCommand extends Command {
 			$replace = array(
 				'AMPMGRUSER' => $amp_conf['AMPMGRUSER'],
 				'AMPMGRPASS' => $amp_conf['AMPMGRPASS'],
-				'CDRDBNAME' => $amp_conf['CDRDBNAME'],
+				'CDRDBNAME' => !empty($amp_conf['CDRDBNAME']) ? $amp_conf['CDRDBNAME'] : 'asteriskcdrdb',
 				'AMPDBUSER' => $amp_conf['AMPDBUSER'],
 				'AMPDBPASS' => $amp_conf['AMPDBPASS']
 			);
