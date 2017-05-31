@@ -51,7 +51,7 @@ class ampuser {
 		switch($this->mode) {
 			case "usermanager":
 				try {
-					return FreePBX::Userman()->getCombinedGlobalSettingByID($this->id,'pbx_login') && FreePBX::Userman()->checkCredentials($this->username,$password);
+					//return FreePBX::Userman()->getCombinedGlobalSettingByID($this->id,'pbx_login') && FreePBX::Userman()->checkCredentials($this->username,$password);
 				} catch(Exception $e) {}
 				//fail-through
 			case "database":
@@ -90,6 +90,7 @@ class ampuser {
 		switch($this->mode) {
 			case "usermanager":
 				try {
+					/*
 					$um = FreePBX::Userman()->getUserByUsername($username);
 					$user = array();
 					$user['id'] = $um['id'];
@@ -103,6 +104,7 @@ class ampuser {
 					$user["sections"] = !empty($sections) && is_array($sections) ? $sections : array();
 					$user["opmode"] = FreePBX::Userman()->getCombinedGlobalSettingByID($um['id'],'opmode');
 					return $user;
+					*/
 				} catch(Exception $e) {}
 				//fail-through
 			case "database":
