@@ -179,7 +179,7 @@ class Chown extends Command {
 		 */
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
 
-		if(posix_geteuid() == 0) {
+		if((empty($this->moduleName) && $this->moduleName != 'framework') && posix_geteuid() == 0) {
 			$output->write(_("Setting base permissions..."));
 
 			$this->systemSetRecursivePermissions($ASTVARLIBDIR . '/' . $MOHDIR, 0775, $ampowner, $ampowner, 'rdir');

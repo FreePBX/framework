@@ -15,7 +15,8 @@ class ampuser {
 	public function __construct($username, $mode="database") {
 		$this->username = $username;
 		$this->mode = $mode;
-		if ($user = $this->getAmpUser($username)) {
+		$user = $this->getAmpUser($username);
+		if (!empty($user)) {
 			$this->password = $user["password_sha1"];
 			$this->extension_high = $user["extension_high"];
 			$this->extension_low = $user["extension_low"];
@@ -95,24 +96,27 @@ class ampuser {
 		switch($this->mode) {
 			case "usermanager":
 				try {
-					$um = FreePBX::Userman()->getUserByUsername($username, false);
-					$user = array();
-					$user['id'] = $um['id'];
-					$user["username"] = $um['username'];
-					$user["password_sha1"] = $um['password'];
-					$pbl = FreePBX::Userman()->getCombinedGlobalSettingByID($um['id'],'pbx_low');
-					$user["extension_low"] = (trim($pbl) !== "") ? $pbl : "";
-					$pbh = FreePBX::Userman()->getCombinedGlobalSettingByID($um['id'],'pbx_high');
-					$user["extension_high"] = (trim($pbh) !== "") ? $pbh : "";
-					$sections = FreePBX::Userman()->getCombinedGlobalSettingByID($um['id'],'pbx_modules');
-					$user["sections"] = !empty($sections) && is_array($sections) ? $sections : array();
-					$user["opmode"] = FreePBX::Userman()->getCombinedGlobalSettingByID($um['id'],'opmode');
-					$user["lang"] = FreePBX::Userman()->getLocaleSpecificSetting($um['id'],"language");
-					$user["tz"] = FreePBX::Userman()->getLocaleSpecificSetting($um['id'],"timezone");
-					$user["dateformat"] = FreePBX::Userman()->getLocaleSpecificSetting($um['id'],"dateformat");
-					$user["timeformat"] = FreePBX::Userman()->getLocaleSpecificSetting($um['id'],"timeformat");
-					$user["datetimeformat"] = FreePBX::Userman()->getLocaleSpecificSetting($um['id'],"datetimeformat");
-					return $user;
+					$um = FreePBX::Userman()->getUserByUsername($username, null, false);
+					if(!empty($um)) {
+						$user = array();
+						$user['id'] = $um['id'];
+						$user["username"] = $um['username'];
+						$user["password_sha1"] = $um['password'];
+						$pbl = FreePBX::Userman()->getCombinedGlobalSettingByID($um['id'],'pbx_low');
+						$user["extension_low"] = (trim($pbl) !== "") ? $pbl : "";
+						$pbh = FreePBX::Userman()->getCombinedGlobalSettingByID($um['id'],'pbx_high');
+						$user["extension_high"] = (trim($pbh) !== "") ? $pbh : "";
+						$sections = FreePBX::Userman()->getCombinedGlobalSettingByID($um['id'],'pbx_modules');
+						$user["sections"] = !empty($sections) && is_array($sections) ? $sections : array();
+						$user["opmode"] = FreePBX::Userman()->getCombinedGlobalSettingByID($um['id'],'opmode');
+						$user["lang"] = FreePBX::Userman()->getLocaleSpecificSetting($um['id'],"language");
+						$user["tz"] = FreePBX::Userman()->getLocaleSpecificSetting($um['id'],"timezone");
+						$user["dateformat"] = FreePBX::Userman()->getLocaleSpecificSetting($um['id'],"dateformat");
+						$user["timeformat"] = FreePBX::Userman()->getLocaleSpecificSetting($um['id'],"timeformat");
+						$user["datetimeformat"] = FreePBX::Userman()->getLocaleSpecificSetting($um['id'],"datetimeformat");
+						$user['mode'] = $this->mode;
+						return $user;
+					}
 				} catch(Exception $e) {}
 				//fail-through
 			case "database":
@@ -128,6 +132,7 @@ class ampuser {
 					$user["extension_low"] = $results[0]['extension_low'];
 					$user["extension_high"] = $results[0]['extension_high'];
 					$user["sections"] = explode(";",$results[0]['sections']);
+					$user['mode'] = $this->mode;
 					return $user;
 				} else {
 					return false;
