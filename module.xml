@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>13.0.192.7</version>
+	<version>13.0.192.8</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*13.0.192.8* FREEPBX-14934 fix broken login in rare cases
 		*13.0.192.7* Fix issue with individual module chowns
 		*13.0.192.6* FREEPBX-14918 make sure asteriskcdrdb is set in install, if not then default
 		*13.0.192.5* FREEPBX-14867 chown blacklist breaks chown
