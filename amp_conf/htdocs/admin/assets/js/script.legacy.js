@@ -1665,9 +1665,11 @@ $(document).ready(function() {
 
 	//ajax spinner
 	$(document).ajaxStart(function() {
-		$("#settings-cog").addClass("fa-spin");
-		$("#settings-cog").css("color","");
-		$("#settings-cog").prop("title","");
+		if($('.longpoll').length == 0)){
+			$("#settings-cog").addClass("fa-spin");
+			$("#settings-cog").css("color","");
+			$("#settings-cog").prop("title","");
+		}
 	});
 
 	$(document).ajaxStop(function() {
