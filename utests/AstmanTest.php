@@ -21,4 +21,11 @@ class AstmanTest extends PHPUnit_Framework_TestCase {
 		$this->assertTrue(self::$c->app_exists('While'), "app_exists says 'while' does not exist it should");
 		$this->assertFalse(self::$c->app_exists('FOO'), "app_exists says 'FOO' exist it shouldn't");
 	}
+	public function testGetAstDB(){
+		//TEST FOR FREEPBX-14752
+		$unfiltered = astdb_get();
+		$filtered = astdb_get(array('DEVICE'));
+		$this->assertArrayHasKey('DEVICE', $unfiltered);
+		$this->assertArrayNotHasKey('DEVICE', $filtered);
+	}
 }
