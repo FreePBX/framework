@@ -60,7 +60,7 @@ class DB_Helper {
 
 		self::$checked[$tablename] = array(
 			"dbGet" => self::$db->prepare("SELECT `val`, `type` FROM `$tablename` WHERE `key` = :key AND `id` = :id"),
-			"dbGetAll" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key`"), 
+			"dbGetAll" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key`"),
 			"dbDel" => self::$db->prepare("DELETE FROM `$tablename` WHERE `key` = :key  AND `id` = :id"),
 			"dbAdd" => self::$db->prepare("INSERT INTO `$tablename` ( `key`, `val`, `type`, `id` ) VALUES ( :key, :val, :type, :id )"),
 			"dbDelId" => self::$db->prepare("DELETE FROM `$tablename` WHERE `id` = :id"),
@@ -106,11 +106,13 @@ class DB_Helper {
 
 		// Basic table definition
 		$create = "CREATE TABLE IF NOT EXISTS `$tablename` ( `key` CHAR(255) NOT NULL, `val` VARCHAR(4096), `type` CHAR(16) DEFAULT NULL, `id` CHAR(255) DEFAULT NULL)";
-		// These are limited to 50 chars as prefixes are limited to 255 chars in total (or 1000 in later versions
-		// of mysql), and UTF can cause that to overflow. 50 is plenty.
-		$index['uniqueindex'] = "ALTER TABLE `$tablename` ADD UNIQUE INDEX `uniqueindex` (`key`(50), `id`(50))";
-		$index['keyindex'] = "ALTER TABLE `$tablename` ADD INDEX `keyindex` (`key`(50))";
-		$index['idindex'] = "ALTER TABLE `$tablename` ADD INDEX `idindex` (`id`(50))";
+		// These are limited to 190 chars as prefixes are limited to 255 chars in total (or 1000 in later versions
+		// of mysql), and UTF can cause that to overflow. 190 is plenty.
+		// Increase KVstore key lengths to the max of 190. This was 50 before
+		// https://issues.freepbx.org/browse/FREEPBX-14956
+		$index['uniqueindex'] = "ALTER TABLE `$tablename` ADD UNIQUE INDEX `uniqueindex` (`key`(190), `id`(190))";
+		$index['keyindex'] = "ALTER TABLE `$tablename` ADD INDEX `keyindex` (`key`(190))";
+		$index['idindex'] = "ALTER TABLE `$tablename` ADD INDEX `idindex` (`id`(190))";
 
 		self::$db->query($create);
 		foreach ($index as $i) {
@@ -366,7 +368,7 @@ class DB_Helper {
 		// And now drop the table.
 		$ret = $p['dbEmpty']->execute();
 
-		// We unset so if we're called again in the same session, 
+		// We unset so if we're called again in the same session,
 		// we will recreate the table.
 		unset(self::$checked[$tablename]);
 
@@ -672,7 +674,7 @@ class DB_Helper {
 			} else {
 				throw $e;
 			}
-		} 
+		}
 
 		// Did we get anything?
 		$res = $q->fetchAll();
@@ -709,8 +711,7 @@ class DB_Helper {
 			} else {
 				throw $e;
 			}
-		} 
+		}
 		return true;
 	}
 }
-
