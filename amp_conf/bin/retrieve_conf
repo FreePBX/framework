@@ -17,8 +17,12 @@ function writeout($string,$exit=false){
 	}
 }
 $bootstrap_settings['freepbx_auth'] = false;
-
 include_once '/etc/freepbx.conf';
+global $whoops;
+$whoops->pushHandler(function($exception, $inspector, $run) {
+	$error = sprintf(_("Unable to continue. %s in %s on line %s"),$exception->getMessage(),$exception->getFile(),$exception->getLine())."\n".$exception->getTraceAsString()."\n";
+	writeout($error,255);
+});
 
 if (!$bootstrap_settings['astman_connected']) {
 	writeout(sprintf(_("Unable to connect to Asterisk Manager from %s, aborting"),__FILE__),1);
@@ -533,23 +537,17 @@ if(is_array($active_modules)){
 		//
 		if (!isset($module['modtype']) || $module['modtype'] != 'framework') {
 			// don't copy or symlink from framework type modules as they are not real modules
-			try {
-				$bmo->Performance->Stamp("Symlinking files for ".$key);
-				$con_dirs->symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
-				$con_dirs->symlink_sound_dirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
-				$con_dirs->symlink_assets($key);
-				$bmo->Performance->Stamp("Finished symlinking");
-				$bmo->Performance->Stamp("Copying Files for ".$key);
-				$con_dirs->cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
-				$bmo->Performance->Stamp("Finished Copying Files");
-				$bmo->Performance->Stamp("Generating CSS from LESS for ".$key);
-				$con_dirs->generate_less($key); //generate less for said module if needed
-				$bmo->Performance->Stamp("Finished Generating Less");
-			} catch(\Exception $e) {
-				echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine());
-				echo $e->getTraceAsString();
-				exit(255);
-			}
+			$bmo->Performance->Stamp("Symlinking files for ".$key);
+			$con_dirs->symlink_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+			$con_dirs->symlink_sound_dirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+			$con_dirs->symlink_assets($key);
+			$bmo->Performance->Stamp("Finished symlinking");
+			$bmo->Performance->Stamp("Copying Files for ".$key);
+			$con_dirs->cp_subdirs( $amp_conf['AMPWEBROOT'].'/admin/modules/'.$key );
+			$bmo->Performance->Stamp("Finished Copying Files");
+			$bmo->Performance->Stamp("Generating CSS from LESS for ".$key);
+			$con_dirs->generate_less($key); //generate less for said module if needed
+			$bmo->Performance->Stamp("Finished Generating Less");
 		}
 
 	}
@@ -852,24 +850,12 @@ $bmo->Performance->Stop();
 
 // Dialplan Hook processing moved to BMO.
 $bmo->Performance->Start("getAllDialplanHooks");
-try {
-	$hooks = $bmo->DialplanHooks->getAllHooks($active_modules);
-} catch(\Exception $e) {
-	echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine())."\n";
-	echo $e->getTraceAsString();
-	exit(255);
-}
+$hooks = $bmo->DialplanHooks->getAllHooks($active_modules);
 $bmo->Performance->Stop();
 
 $bmo->Performance->Start("processDialplanHooks");
 if (is_array($hooks)) {
-	try {
-		$bmo->DialplanHooks->processHooks($engine, $hooks);
-	} catch(\Exception $e) {
-		echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine())."\n";
-		echo $e->getTraceAsString();
-		exit(255);
-	}
+	$bmo->DialplanHooks->processHooks($engine, $hooks);
 }
 $bmo->Performance->Stop();
 
@@ -880,13 +866,7 @@ $ext->add('from-internal-noxfer-additional', 'h', '', new ext_hangup(''));
 
 // Write extensions_additional.conf!
 $bmo->Performance->Start("extensions_additional");
-try {
-	$bmo->WriteConfig->writeConfig($ext->get_filename(), $ext->generateConf());
-} catch(\Exception $e) {
-	echo sprintf(_("Unable to continue. %s in %s on line %s"),$e->getMessage(),$e->getFile(),$e->getLine());
-	echo $e->getTraceAsString();
-	exit(255);
-}
+$bmo->WriteConfig->writeConfig($ext->get_filename(), $ext->generateConf());
 $bmo->Performance->Stop();
 
 

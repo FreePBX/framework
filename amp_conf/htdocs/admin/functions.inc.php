@@ -382,9 +382,9 @@ function do_reload($passthru=false) {
 	}
 
 	$retrieve = $setting_ampbin . '/retrieve_conf 2>&1';
-	//exec($retrieve.'&>'.$asterisk_conf['astlogdir'].'/freepbx-retrieve.log', $output, $exit_val);
 	$o = exec($retrieve, $output, $exit_val);
-  $output = json_decode(implode($output,PHP_EOL),true);
+	$output = json_decode(implode($output,PHP_EOL),true);
+
 	// retrieve_conf html output
 	$return['retrieve_conf_verbose'] = $return['retrieve_conf'] = 'exit: '.$exit_val.'<br/>'.$output['message'];
 
