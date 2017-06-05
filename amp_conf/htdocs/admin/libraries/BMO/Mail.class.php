@@ -26,6 +26,7 @@ class Mail {
 		$brand = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
 		$brand = ($brand)?$brand:'FreePBX';
 		$this->mail = \Swift_Message::newInstance();
+		$this->headers = $this->mail->getHeaders();
 		$this->mail->setFrom(array($from_email => _("PBX Message")));
 		$this->mail->setSubject(sprintf(_("Notification from %s"),$brand));
 		$this->toset = false;
@@ -68,7 +69,7 @@ class Mail {
 		$this->multipart = true;
 	}
 	public function addHeader($header,$value){
-		$this->mail->addTextHeader($header, $value);
+		$this->headers->addTextHeader($header, $value);
 	}
 
 	public function send(){
