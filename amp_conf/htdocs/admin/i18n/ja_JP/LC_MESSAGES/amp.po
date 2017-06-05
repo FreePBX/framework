@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-24 12:08-0400\n"
+"POT-Creation-Date: 2017-06-05 18:49-0400\n"
 "PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -405,7 +405,7 @@ msgstr "%s は見つかりません"
 msgid "%s prepared"
 msgstr "%s 準備しました"
 
-#: ../core/Core.class.php:2613
+#: ../core/Core.class.php:2614
 #, php-format
 msgid "%s records failed validation"
 msgstr "%s のレコードは認証に失敗しました"
@@ -484,7 +484,7 @@ msgstr "'cp -rf' 参照元: '%s' から 参照先: '%s'…詳細は次の通り�
 msgid "** MISSING FEATURE CODE **"
 msgstr "** MISSING FEATURE CODE **"
 
-#: ../core/views/routing/form.php:39
+#: ../core/views/routing/form.php:43
 msgid "---No Change---"
 msgstr "---変更なし---"
 
@@ -506,11 +506,11 @@ msgstr "このサーバーは .htaccess ファイルをサポートしていま�
 msgid "0 admins"
 msgstr "0 アドミン"
 
-#: ../core/views/routing/form.php:596 ../core/views/trunks/trunk_footer.php:59
+#: ../core/views/routing/form.php:600 ../core/views/trunks/trunk_footer.php:59
 msgid "10 Digit Patterns"
 msgstr "10桁のパターン"
 
-#: ../core/views/routing/form.php:598 ../core/views/trunks/trunk_footer.php:61
+#: ../core/views/routing/form.php:602 ../core/views/trunks/trunk_footer.php:61
 msgid "11 Digit Patterns"
 msgstr "11桁のパターン"
 
@@ -519,7 +519,7 @@ msgstr "11桁のパターン"
 msgid "404 Not found (%s)"
 msgstr "404 見つかりませんでした (%s)"
 
-#: ../core/views/routing/form.php:594 ../core/views/trunks/trunk_footer.php:57
+#: ../core/views/routing/form.php:598 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
 msgstr "7桁のパターン"
 
@@ -551,7 +551,7 @@ msgstr "%s バージョン %s が必要です。あなたのシステム %s"
 msgid "A %s version newer than %s required, you have %s"
 msgstr "%s バージョンが必要です。(%sより新しい)。現在のバージョンは %s"
 
-#: ../core/views/routing/form.php:63
+#: ../core/views/routing/form.php:67
 msgid ""
 "A Dial Pattern is a unique set of digits that will select this route and "
 "send the call to the designated trunks. If a dialed pattern matches this "
@@ -580,11 +580,11 @@ msgstr ""
 "ルする番号は変更されませんが一致することになります。また、一致するパターンが"
 "複数あっても、一番最初に一致したルールしか適用されませんのでご注意ください。"
 
-#: ../core/functions.inc.php:6011
+#: ../core/functions.inc.php:6012
 msgid "A description for this DID, such as \"Fax\""
 msgstr "このDIDの説明、\"FAX\"等"
 
-#: ../core/functions.inc.php:6012
+#: ../core/functions.inc.php:6013
 msgid ""
 "A direct DID that is associated with this extension. The DID should be in "
 "the same format as provided by the provider (e.g. full number, 4 digits for "
@@ -610,11 +610,11 @@ msgid ""
 "from the CLI): 1) fwconsole ma install %s 2) fwconsole ma enable %s"
 msgstr ""
 
-#: ../core/functions.inc.php:3977 ../core/functions.inc.php:4006
+#: ../core/functions.inc.php:3978 ../core/functions.inc.php:4007
 msgid "A route for this DID/CID already exists!"
 msgstr "このDID/CIDのルートは既に存在しています!"
 
-#: ../core/Core.class.php:2141 ../core/functions.inc.php:4572
+#: ../core/Core.class.php:2142 ../core/functions.inc.php:4573
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "このDID/CIDのルート: %s/%s は既に存在しています"
@@ -623,7 +623,7 @@ msgstr "このDID/CIDのルート: %s/%s は既に存在しています"
 msgid "A useful description describing this channel"
 msgstr "このチャネルを記述する有用な説明"
 
-#: ../core/functions.inc.php:5908
+#: ../core/functions.inc.php:5909
 msgid "A user will enter this password when logging onto a device."
 msgstr "ユーザーはデバイスにログオンする時にこのパスワードを入力します。"
 
@@ -719,12 +719,12 @@ msgstr ""
 msgid "Add"
 msgstr "追加"
 
-#: ../core/functions.inc.php:6225
+#: ../core/functions.inc.php:6226
 #, php-format
 msgid "Add %s Device"
 msgstr "%s デバイスを追加"
 
-#: ../core/functions.inc.php:6227
+#: ../core/functions.inc.php:6228
 #, php-format
 msgid "Add %s Extension"
 msgstr "内線 %s を追加"
@@ -751,18 +751,18 @@ msgstr ""
 msgid "Add Device"
 msgstr "デバイスを追加"
 
-#: ../core/functions.inc.php:5897 ../core/functions.inc.php:6283
+#: ../core/functions.inc.php:5898 ../core/functions.inc.php:6284
 #: ../core/page.ampusers.php:133 ../core/page.ampusers.php:156
 #: ../core/page.extensions.php:19 ../core/page.extensions.php:101
 #: ../core/views/rnav.php:6
 msgid "Add Extension"
 msgstr "内線追加"
 
-#: ../core/functions.inc.php:6013
+#: ../core/functions.inc.php:6014
 msgid "Add Inbound CID"
 msgstr "インバウンドCIDを追加"
 
-#: ../core/functions.inc.php:6012
+#: ../core/functions.inc.php:6013
 msgid "Add Inbound DID"
 msgstr "インバウンドDIDを追加"
 
@@ -802,22 +802,22 @@ msgstr "ルートを追加"
 msgid "Add Trunk"
 msgstr "トランクを追加"
 
-#: ../core/functions.inc.php:5899 ../core/functions.inc.php:6253
-#: ../core/functions.inc.php:6285 ../core/page.users.php:48
+#: ../core/functions.inc.php:5900 ../core/functions.inc.php:6254
+#: ../core/functions.inc.php:6286 ../core/page.users.php:48
 #: ../core/views/ampusers/bootnav.php:2 ../core/views/rnav.php:37
 #: ../core/views/rnav.php:51
 msgid "Add User"
 msgstr "ユーザを追加"
 
-#: ../core/functions.inc.php:5876
+#: ../core/functions.inc.php:5877
 msgid "Add User/Extension"
 msgstr "ユーザ/内線を追加"
 
-#: ../core/functions.inc.php:6179
+#: ../core/functions.inc.php:6180
 msgid "Add Virtual Extension"
 msgstr "仮想内線を追加"
 
-#: ../core/functions.inc.php:6013
+#: ../core/functions.inc.php:6014
 msgid ""
 "Add a CID for more specific DID + CID routing. A DID must be specified in "
 "the above Add DID box. In addition to standard dial sequences, you can also "
@@ -863,7 +863,7 @@ msgstr ""
 msgid "Additional Information"
 msgstr "詳細情報"
 
-#: ../core/views/routing/form.php:51
+#: ../core/views/routing/form.php:55
 msgid "Additional Settings"
 msgstr "詳細設定"
 
@@ -871,7 +871,7 @@ msgstr "詳細設定"
 msgid "Address to bind to. Default is ::"
 msgstr ""
 
-#: ../core/functions.inc.php:6154
+#: ../core/functions.inc.php:6155
 msgid "Adhoc"
 msgstr "アドホック"
 
@@ -1054,7 +1054,7 @@ msgstr "フッターロゴのAlt"
 msgid "Alt for Left Logo"
 msgstr "左ロゴのAlt"
 
-#: ../core/functions.inc.php:5771
+#: ../core/functions.inc.php:5772
 #: ../core/functions.inc/drivers/PJSip.class.php:253
 msgid "Always"
 msgstr "常に"
@@ -1117,7 +1117,7 @@ msgid ""
 "and also remove the 'ssh' account as soon as possible"
 msgstr ""
 
-#: ../core/functions.inc.php:6025
+#: ../core/functions.inc.php:6026
 msgid "Any DID"
 msgstr "DIDいづれでも"
 
@@ -1176,7 +1176,7 @@ msgstr ""
 msgid "Asked for raw contents of a file, but was never asked to read a file"
 msgstr ""
 
-#: ../core/functions.inc.php:6009
+#: ../core/functions.inc.php:6010
 msgid "Assigned DID/CID"
 msgstr "割り当てられたDID/CID"
 
@@ -1188,7 +1188,7 @@ msgstr "Asterisk AGI ディレクトリ"
 msgid "Asterisk Builtin mini-HTTP server"
 msgstr "Asterisk内部のmini-HTTPサーバー"
 
-#: amp.i18n.php:234 ../core/functions.inc.php:5980
+#: amp.i18n.php:234 ../core/functions.inc.php:5981
 msgid "Asterisk Dial Options"
 msgstr "Asteriskダイヤルオプション"
 
@@ -1357,7 +1357,7 @@ msgstr ""
 msgid "Authentication"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:839
+#: ../core/views/trunks/pjsip.php:866
 msgid "Authentication Disabled"
 msgstr ""
 
@@ -1451,7 +1451,7 @@ msgstr ""
 msgid "BMO Objects must have their first letter capitalized. You provided %s"
 msgstr ""
 
-#: ../core/views/routing/form.php:41
+#: ../core/views/routing/form.php:45
 #, php-format
 msgid "Before %s"
 msgstr "%s の前"
@@ -1494,12 +1494,12 @@ msgstr ""
 msgid "Browser Stats"
 msgstr "ブラウザー統計"
 
-#: ../core/functions.inc.php:824 ../core/functions.inc.php:4433
-#: ../core/functions.inc.php:6080
+#: ../core/functions.inc.php:824 ../core/functions.inc.php:4434
+#: ../core/functions.inc.php:6081
 msgid "Busy"
 msgstr "ビジー"
 
-#: ../core/functions.inc.php:6079
+#: ../core/functions.inc.php:6080
 msgid "Busy Voicemail if Enabled"
 msgstr "有効な場合にビジーのボイスメール"
 
@@ -1543,7 +1543,7 @@ msgstr "CGI ディレクトリ"
 msgid "CID"
 msgstr ""
 
-#: ../core/functions.inc.php:5943
+#: ../core/functions.inc.php:5944
 msgid "CID Num Alias"
 msgstr "CID番号エイリアス"
 
@@ -1551,8 +1551,8 @@ msgstr "CID番号エイリアス"
 msgid "CID Options"
 msgstr "CIDオプション"
 
-#: ../core/functions.inc.php:6072 ../core/functions.inc.php:6081
-#: ../core/functions.inc.php:6086
+#: ../core/functions.inc.php:6073 ../core/functions.inc.php:6082
+#: ../core/functions.inc.php:6087
 msgid "CID Prefix"
 msgstr "CIDプリフィックス"
 
@@ -1577,7 +1577,7 @@ msgstr ""
 msgid "CW Enabled by Default"
 msgstr "コールウェイティングがデフォルトで有効"
 
-#: ../core/functions.inc.php:5992
+#: ../core/functions.inc.php:5993
 msgid "Call Forward Ring Time"
 msgstr "転送呼出秒数"
 
@@ -1634,11 +1634,11 @@ msgstr ""
 "通話録音要求する時に内線の間に競合が起きった時、または相手は通話録音を拒否し"
 "た時の内線へのレコード優先度のポリシー。"
 
-#: ../core/functions.inc.php:6005
+#: ../core/functions.inc.php:6006
 msgid "Call Screening"
 msgstr "コールスクリーニング"
 
-#: ../core/functions.inc.php:6005
+#: ../core/functions.inc.php:6006
 msgid ""
 "Call Screening requires external callers to say their name, which will be "
 "played back to the user and allow the user to accept or reject the call.  "
@@ -1660,7 +1660,7 @@ msgstr ""
 "システム上の全てのユーザーは、その発信者の発信者IDに関連付いた新しい自己紹介"
 "を使用することになります。"
 
-#: ../core/functions.inc.php:6004
+#: ../core/functions.inc.php:6005
 msgid "Call Waiting"
 msgstr "コールウェイティング"
 
@@ -1672,7 +1672,7 @@ msgstr ""
 msgid "Call Waiting is enabled"
 msgstr ""
 
-#: ../core/functions.inc.php:6054
+#: ../core/functions.inc.php:6055
 msgid ""
 "Call recording policy priority relative to other extensions when there is a "
 "conflict between an extension wanting recording and the other not wanting "
@@ -1683,11 +1683,11 @@ msgstr ""
 "た時の内線へのレコード優先度のポリシー。優先度を区別できない場合、グロバール"
 "ポリシーが使われます（発信者または受信者）。"
 
-#: ../core/Core.class.php:2579
+#: ../core/Core.class.php:2580
 msgid "Caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:2580
+#: ../core/Core.class.php:2581
 msgid "Caller ID Number"
 msgstr ""
 
@@ -1695,7 +1695,7 @@ msgstr ""
 msgid "Caller Name"
 msgstr ""
 
-#: ../core/views/routing/form.php:91 ../core/views/trunks/trunk_header.php:102
+#: ../core/views/routing/form.php:95 ../core/views/trunks/trunk_header.php:102
 #: ../core/views/trunks/trunkgrid.php:33
 msgid "CallerID"
 msgstr "発信者ID"
@@ -1715,7 +1715,7 @@ msgstr ""
 "<b>&lt;#######&gt;</b>サポートされた(E1/T1/J1/BRI/SIP/IAX)デジタルラインから"
 "送信される発信者IDを隠すために。"
 
-#: ../core/views/routing/form.php:80
+#: ../core/views/routing/form.php:84
 msgid "CallerID:"
 msgstr "発信者ID:"
 
@@ -1731,7 +1731,7 @@ msgid ""
 "callgroups, e.g. '1,3000-3005,sales,sales2.'"
 msgstr ""
 
-#: ../core/functions.inc.php:2105
+#: ../core/functions.inc.php:2106
 #, php-format
 msgid "Calling Out Route: %s"
 msgstr "外線発信ルート: %s"
@@ -1904,7 +1904,7 @@ msgstr "更新確認"
 msgid "Check Server Referrer"
 msgstr "サーバーリファラーをチェック"
 
-#: ../core/views/trunks/pjsip.php:773
+#: ../core/views/trunks/pjsip.php:800
 msgid ""
 "Check the desired codecs, all others will be disabled. Drag to re-order."
 msgstr ""
@@ -1993,7 +1993,7 @@ msgid ""
 "a notice on any module page that is not correctly verified."
 msgstr ""
 
-#: ../core/views/routing/form.php:506
+#: ../core/views/routing/form.php:510
 msgid "Choose File"
 msgstr ""
 
@@ -2051,7 +2051,7 @@ msgid "Client URI"
 msgstr "クライアントURI"
 
 #: amp_conf/htdocs/admin/views/footer.php:105
-#: ../core/views/routing/form.php:615 ../core/views/trunks/trunk_footer.php:78
+#: ../core/views/routing/form.php:619 ../core/views/trunks/trunk_footer.php:78
 msgid "Close"
 msgstr "閉じる"
 
@@ -2114,11 +2114,11 @@ msgstr "Eメールアドレスの確認"
 msgid "Confirm Password"
 msgstr "パスワードを確認"
 
-#: ../core/functions.inc.php:5926
+#: ../core/functions.inc.php:5927
 msgid "Conflicting Extensions"
 msgstr "内線の競合"
 
-#: ../core/functions.inc.php:823 ../core/functions.inc.php:4432
+#: ../core/functions.inc.php:823 ../core/functions.inc.php:4433
 msgid "Congestion"
 msgstr "混雑"
 
@@ -2348,7 +2348,7 @@ msgstr ""
 msgid "Cronmanager encountered %s Errors"
 msgstr "Cronマネージャーは %s エラーに遭遇しました"
 
-#: ../core/functions.inc.php:5980
+#: ../core/functions.inc.php:5981
 msgid ""
 "Cryptic Asterisk Dial Options, check to customize for this extension or un-"
 "check to use system defaults set in Advanced Options. These will not apply "
@@ -2466,11 +2466,11 @@ msgstr ""
 msgid "DID"
 msgstr "DID"
 
-#: ../core/functions.inc.php:6021
+#: ../core/functions.inc.php:6022
 msgid "DID / CID"
 msgstr "ダイヤルイン / CID"
 
-#: ../core/functions.inc.php:6011
+#: ../core/functions.inc.php:6012
 msgid "DID Description"
 msgstr "DID説明"
 
@@ -2478,7 +2478,7 @@ msgstr "DID説明"
 msgid "DID Number"
 msgstr "ダイヤルイン番号"
 
-#: ../core/Core.class.php:2707
+#: ../core/Core.class.php:2708
 msgid "DID already exists"
 msgstr ""
 
@@ -2486,11 +2486,11 @@ msgstr ""
 msgid "DID/CID"
 msgstr ""
 
-#: ../core/Core.class.php:2521
+#: ../core/Core.class.php:2522
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:2522
+#: ../core/Core.class.php:2523
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
@@ -2611,7 +2611,7 @@ msgstr "デバッグ"
 msgid "Debug File"
 msgstr "デバッグファイル"
 
-#: ../core/functions.inc.php:5769 ../core/functions.inc.php:5770
+#: ../core/functions.inc.php:5770 ../core/functions.inc.php:5771
 #: ../core/views/did/advanced_form.php:9 ../core/views/trunks/pjsip.php:127
 msgid "Default"
 msgstr "デフォルト"
@@ -2620,7 +2620,7 @@ msgstr "デフォルト"
 msgid "Default Asterisk Manager Password Used"
 msgstr "Asteriskマネージャーの初期パスワードを使用"
 
-#: ../core/functions.inc.php:6261
+#: ../core/functions.inc.php:6262
 #: ../core/functions.inc/drivers/Sip.class.php:335
 msgid "Default User"
 msgstr "デフォルトユーザー"
@@ -2847,7 +2847,7 @@ msgstr ""
 msgid "Delete"
 msgstr "削除"
 
-#: ../core/functions.inc.php:6205
+#: ../core/functions.inc.php:6206
 #, php-format
 msgid "Delete Device %s"
 msgstr "デバイスを削除 %s"
@@ -2879,9 +2879,9 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/main.php:185
-#: ../core/Core.class.php:2546 ../core/Core.class.php:2547
-#: ../core/Core.class.php:2571 ../core/Core.class.php:2572
-#: ../core/functions.inc.php:6259 ../core/page.devices.php:64
+#: ../core/Core.class.php:2547 ../core/Core.class.php:2548
+#: ../core/Core.class.php:2572 ../core/Core.class.php:2573
+#: ../core/functions.inc.php:6260 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:37
 #: ../core/views/did/advanced_form.php:87 ../core/views/did/basic_form.php:20
@@ -2893,7 +2893,7 @@ msgstr "説明"
 msgid "Descriptive Name for this Trunk"
 msgstr "このトランクの記述名"
 
-#: ../core/Core.class.php:2583 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:2584 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr ""
 
@@ -2980,6 +2980,10 @@ msgid ""
 "failures."
 msgstr ""
 
+#: ../core/views/trunks/pjsip.php:789
+msgid "Determines whether media may flow directly between endpoints.."
+msgstr ""
+
 #: ../core/functions.inc/drivers/PJSip.class.php:213
 msgid ""
 "Determines whether res_pjsip will use the media transport received in the "
@@ -2994,7 +2998,7 @@ msgstr "開発者モード"
 msgid "Developer and Customization"
 msgstr "開発者とカスタマイズ"
 
-#: ../core/Core.class.php:2902 ../core/functions.inc.php:6202
+#: ../core/Core.class.php:2907 ../core/functions.inc.php:6203
 #: ../core/page.devices.php:63 ../core/page.devices.php:84
 #: ../core/views/rnav.php:72
 msgid "Device"
@@ -3005,19 +3009,19 @@ msgstr "デバイス"
 msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 
-#: ../core/Core.class.php:2648
+#: ../core/Core.class.php:2649
 msgid "Device 'name' can not be blank."
 msgstr ""
 
-#: ../core/Core.class.php:1462
+#: ../core/Core.class.php:1463
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
-#: ../core/functions.inc.php:6257
+#: ../core/functions.inc.php:6258
 msgid "Device ID"
 msgstr "デバイスID"
 
-#: ../core/functions.inc.php:6271
+#: ../core/functions.inc.php:6272
 #: ../core/functions.inc/drivers/Sip.class.php:278
 msgid "Device Options"
 msgstr "デバイスオプション"
@@ -3030,16 +3034,16 @@ msgstr "デバイス設定"
 msgid "Device State Busy at"
 msgstr ""
 
-#: ../core/Core.class.php:2551 ../core/Core.class.php:2552
+#: ../core/Core.class.php:2552 ../core/Core.class.php:2553
 msgid "Device Technology"
 msgstr ""
 
-#: ../core/functions.inc.php:6260 ../core/page.devices.php:65
+#: ../core/functions.inc.php:6261 ../core/page.devices.php:65
 #: ../core/page.devices.php:86
 msgid "Device Type"
 msgstr "デバイスタイプ"
 
-#: ../core/Core.class.php:2670
+#: ../core/Core.class.php:2671
 msgid "Device could not be added."
 msgstr ""
 
@@ -3051,7 +3055,7 @@ msgstr ""
 msgid "Devices"
 msgstr "デバイス"
 
-#: ../core/functions.inc.php:6260
+#: ../core/functions.inc.php:6261
 msgid ""
 "Devices can be fixed or adhoc. Fixed devices are always associated to the "
 "same extension/user. Adhoc devices can be logged into and logged out of by "
@@ -3070,15 +3074,15 @@ msgstr "ダイヤル"
 msgid "Dial Number Manipulation Rules"
 msgstr "ダイヤル番号変換ルール"
 
-#: ../core/views/routing/form.php:259
+#: ../core/views/routing/form.php:263
 msgid "Dial Patterns"
 msgstr ""
 
-#: ../core/views/routing/form.php:55
+#: ../core/views/routing/form.php:59
 msgid "Dial Patterns that will use this Route"
 msgstr "このルートを使用するダイヤルパターン"
 
-#: ../core/views/routing/form.php:486 ../core/views/routing/form.php:573
+#: ../core/views/routing/form.php:490 ../core/views/routing/form.php:577
 #: ../core/views/trunks/trunk_footer.php:36
 #: ../core/views/trunks/trunk_header.php:97
 msgid "Dial patterns wizards"
@@ -3092,7 +3096,7 @@ msgstr "ダイヤル番号の操作ルール"
 msgid "Dialplan and Operational"
 msgstr "ダイヤルプランと操作可能"
 
-#: ../core/views/routing/form.php:77
+#: ../core/views/routing/form.php:81
 msgid ""
 "Digits to prepend to a successful match. If the dialed number matches the "
 "patterns specified by the subsequent columns, then this will be prepended "
@@ -3100,6 +3104,10 @@ msgid ""
 msgstr ""
 "一致に成功させるために先頭に桁を付与。ダイヤルされた番号が、後続のカラムで指"
 "定されたパターンに一致した場合、トランクへの送信の前にこれが付加されます。"
+
+#: ../core/views/trunks/pjsip.php:774
+msgid "Direct Media"
+msgstr ""
 
 #: ../core/install.php:12
 msgid "Directed Call Pickup"
@@ -3125,8 +3133,8 @@ msgid "Directory Layout"
 msgstr "ディレクトリ構成"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:360
-#: ../core/functions.inc.php:5745 ../core/functions.inc.php:5751
-#: ../core/functions.inc.php:5754 ../core/functions.inc.php:5758
+#: ../core/functions.inc.php:5746 ../core/functions.inc.php:5752
+#: ../core/functions.inc.php:5755 ../core/functions.inc.php:5759
 msgid "Disable"
 msgstr "無効"
 
@@ -3243,7 +3251,7 @@ msgstr "フレンドリーネームを表示"
 msgid "Display Monitor Trunk Failures Option"
 msgstr "トランクが落ちた場合のモニターオプション"
 
-#: ../core/functions.inc.php:5941 ../core/views/quickCreate.php:69
+#: ../core/functions.inc.php:5942 ../core/views/quickCreate.php:69
 msgid "Display Name"
 msgstr "ディスプレイ名"
 
@@ -3297,7 +3305,7 @@ msgstr ""
 msgid "Domain to use in From header for requests to this trunk"
 msgstr ""
 
-#: ../core/functions.inc.php:5736
+#: ../core/functions.inc.php:5737
 msgid "Don't Care"
 msgstr "無視"
 
@@ -3355,7 +3363,7 @@ msgstr "%sをダウンロードし、無効な状態を保つ"
 msgid "Download (From Web)"
 msgstr ""
 
-#: ../core/views/routing/form.php:590 ../core/views/trunks/trunk_footer.php:53
+#: ../core/views/routing/form.php:594 ../core/views/trunks/trunk_footer.php:53
 msgid "Download Local Patterns"
 msgstr ""
 
@@ -3386,7 +3394,7 @@ msgstr "ダウンロードし %s へアップグレード"
 msgid "Download and install module[s], accepts argument module[s] or URLs"
 msgstr ""
 
-#: ../core/views/routing/form.php:579 ../core/views/trunks/trunk_footer.php:42
+#: ../core/views/routing/form.php:583 ../core/views/trunks/trunk_footer.php:42
 msgid "Download local prefixes"
 msgstr ""
 
@@ -3508,16 +3516,16 @@ msgstr "編集 %s %s (%s)"
 msgid "Edit Administrator"
 msgstr "管理者を編集"
 
-#: ../core/functions.inc.php:6211
+#: ../core/functions.inc.php:6212
 #, php-format
 msgid "Edit Default User: %s"
 msgstr "デフォルトユーザー編集： %s"
 
-#: ../core/functions.inc.php:5897 ../core/functions.inc.php:6283
+#: ../core/functions.inc.php:5898 ../core/functions.inc.php:6284
 msgid "Edit Extension"
 msgstr "内線編集"
 
-#: ../core/functions.inc.php:6211
+#: ../core/functions.inc.php:6212
 #, php-format
 msgid "Edit Fixed User: %s"
 msgstr "固定ユーザーを編集: %s"
@@ -3526,12 +3534,12 @@ msgstr "固定ユーザーを編集: %s"
 msgid "Edit Route"
 msgstr "経路の編集"
 
-#: ../core/functions.inc.php:5899 ../core/functions.inc.php:6253
-#: ../core/functions.inc.php:6285
+#: ../core/functions.inc.php:5900 ../core/functions.inc.php:6254
+#: ../core/functions.inc.php:6286
 msgid "Edit User"
 msgstr "ユーザー編集"
 
-#: ../core/functions.inc.php:5960
+#: ../core/functions.inc.php:5961
 msgid "Edit:"
 msgstr "編集："
 
@@ -3552,11 +3560,11 @@ msgstr ""
 msgid "Email addresses error"
 msgstr ""
 
-#: ../core/views/routing/form.php:384
+#: ../core/views/routing/form.php:388
 msgid "Emergency"
 msgstr "緊急"
 
-#: ../core/functions.inc.php:6262 ../core/functions.inc.php:6265
+#: ../core/functions.inc.php:6263 ../core/functions.inc.php:6266
 msgid "Emergency CID"
 msgstr "緊急のCID"
 
@@ -3576,8 +3584,8 @@ msgstr "このフィールドに空の値は許可されていません"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:267
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:271
 #: amp_conf/htdocs/admin/views/module_admin/main.php:290
-#: ../core/functions.inc.php:5746 ../core/functions.inc.php:5750
-#: ../core/functions.inc.php:5755
+#: ../core/functions.inc.php:5747 ../core/functions.inc.php:5751
+#: ../core/functions.inc.php:5756
 msgid "Enable"
 msgstr "有効"
 
@@ -3654,7 +3662,7 @@ msgstr ""
 msgid "Enable module[s], accepts argument module[s]"
 msgstr ""
 
-#: ../core/functions.inc.php:6053
+#: ../core/functions.inc.php:6054
 msgid ""
 "Enable or disable the ability to do on demand (one-touch) recording. The "
 "overall calling policy rules still apply and if calls are already being "
@@ -3729,7 +3737,7 @@ msgstr ""
 msgid "Enabling Missing Dependency of: %s %s"
 msgstr ""
 
-#: ../core/functions.inc.php:6007
+#: ../core/functions.inc.php:6008
 msgid ""
 "Enabling Pinless Dialing will allow this extension to bypass any pin codes "
 "set under routes password required on outbound calls."
@@ -3794,7 +3802,7 @@ msgstr ""
 msgid "Error"
 msgstr "エラー"
 
-#: ../core/functions.inc.php:4623
+#: ../core/functions.inc.php:4624
 msgid "Error Duplicate Channel Entry"
 msgstr "重複したチャネルエントリーエラー"
 
@@ -3994,11 +4002,11 @@ msgstr ""
 msgid "Expiration time for registrations in seconds."
 msgstr ""
 
-#: ../core/views/routing/form.php:526
+#: ../core/views/routing/form.php:530
 msgid "Export Dialplans as CSV"
 msgstr "ダイヤルプランをCSV形式でエキスポート"
 
-#: ../core/views/routing/form.php:538
+#: ../core/views/routing/form.php:542
 #, php-format
 msgid ""
 "Export patterns as a CSV file with headers listed as: %s, %s, %s and %s in "
@@ -4025,8 +4033,8 @@ msgstr ""
 msgid "Extended"
 msgstr "拡張"
 
-#: ../core/Core.class.php:2538 ../core/Core.class.php:2539
-#: ../core/Core.class.php:2890 ../core/functions.inc.php:5847
+#: ../core/Core.class.php:2539 ../core/Core.class.php:2540
+#: ../core/Core.class.php:2895 ../core/functions.inc.php:5848
 #: ../core/page.did.php:91 ../core/page.extensions.php:28
 #: ../core/page.extensions.php:117 ../core/page.extensions.php:143
 #: ../core/views/rnav.php:18
@@ -4045,7 +4053,7 @@ msgstr ""
 msgid "Extension Numbering Duplicate Conflict Detected"
 msgstr "競合する内線番号が検出されました"
 
-#: ../core/functions.inc.php:5974 ../core/functions.inc.php:6264
+#: ../core/functions.inc.php:5975 ../core/functions.inc.php:6265
 msgid "Extension Options"
 msgstr "内線オプション"
 
@@ -4057,11 +4065,11 @@ msgstr ""
 msgid "Extension can not be blank!"
 msgstr ""
 
-#: ../core/Core.class.php:2638
+#: ../core/Core.class.php:2639
 msgid "Extension is not numeric."
 msgstr ""
 
-#: ../core/functions.inc.php:5936
+#: ../core/functions.inc.php:5937
 msgid "Extension number conflict, please choose another."
 msgstr "内線番号の競合、他の番号を選択してください。"
 
@@ -4069,7 +4077,7 @@ msgstr "内線番号の競合、他の番号を選択してください。"
 msgid "Extension was not numeric!"
 msgstr ""
 
-#: amp.i18n.php:820 ../core/Core.class.php:2517 ../core/Core.class.php:2518
+#: amp.i18n.php:820 ../core/Core.class.php:2518 ../core/Core.class.php:2519
 #: ../core/page.extensions.php:17
 msgid "Extensions"
 msgstr "内線"
@@ -4151,7 +4159,7 @@ msgstr ""
 "リモートファイルの取得に失敗しました。ミラーサイトがダウンしている可能性があ"
 "ります:%s"
 
-#: ../core/functions.inc.php:5705
+#: ../core/functions.inc.php:5706
 #, php-format
 msgid ""
 "Failed to open %s for writing, aborting attempt to write the country "
@@ -4197,7 +4205,7 @@ msgstr ""
 msgid "Failed to write file to disk"
 msgstr ""
 
-#: ../core/functions.inc.php:5706
+#: ../core/functions.inc.php:5707
 msgid "Failed to write indications.conf"
 msgstr "indications.confへの書き込み失敗"
 
@@ -4273,11 +4281,11 @@ msgstr ""
 msgid "First before %s"
 msgstr "%sの前の最初"
 
-#: ../core/functions.inc.php:6153
+#: ../core/functions.inc.php:6154
 msgid "Fixed"
 msgstr "固定"
 
-#: ../core/functions.inc.php:6261
+#: ../core/functions.inc.php:6262
 msgid ""
 "Fixed devices will always mapped to this user.  Adhoc devices will be mapped "
 "to this user by default.<br><br>If selecting 'New User', a new User "
@@ -4335,7 +4343,7 @@ msgstr ""
 msgid "Forbidden Retry Interval"
 msgstr ""
 
-#: ../core/functions.inc.php:5734
+#: ../core/functions.inc.php:5735
 msgid "Force"
 msgstr "強制"
 
@@ -4672,7 +4680,7 @@ msgstr "一般設定"
 msgid "General Settings migrated"
 msgstr "一般設定が移行されました"
 
-#: ../core/views/routing/form.php:580 ../core/views/trunks/trunk_footer.php:43
+#: ../core/views/routing/form.php:584 ../core/views/trunks/trunk_footer.php:43
 msgid "Generate Buttons"
 msgstr ""
 
@@ -4680,7 +4688,7 @@ msgstr ""
 msgid "Generate Diversion Headers"
 msgstr "宛先変更ヘッダーを生成"
 
-#: ../core/views/routing/form.php:616 ../core/views/trunks/trunk_footer.php:79
+#: ../core/views/routing/form.php:620 ../core/views/trunks/trunk_footer.php:79
 msgid "Generate Routes"
 msgstr ""
 
@@ -4718,7 +4726,7 @@ msgstr ""
 msgid "Generic PJSIP Device"
 msgstr ""
 
-#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:44
+#: ../core/views/routing/form.php:585 ../core/views/trunks/trunk_footer.php:44
 msgid "Generic Patterns"
 msgstr ""
 
@@ -4756,7 +4764,7 @@ msgid ""
 "trunk context within asterisk"
 msgstr ""
 
-#: ../core/functions.inc.php:6257
+#: ../core/functions.inc.php:6258
 msgid ""
 "Give your device a unique integer ID.  The device will use this ID to "
 "authenticate to the system."
@@ -4827,7 +4835,7 @@ msgstr ""
 msgid "HTTPS TLS Private Key Location"
 msgstr ""
 
-#: ../core/functions.inc.php:822 ../core/functions.inc.php:4431
+#: ../core/functions.inc.php:822 ../core/functions.inc.php:4432
 msgid "Hangup"
 msgstr "ハングアップ"
 
@@ -4988,7 +4996,7 @@ msgid ""
 "automatically generated by the PBX if left blank"
 msgstr ""
 
-#: ../core/views/routing/form.php:80
+#: ../core/views/routing/form.php:84
 msgid ""
 "If CallerID is supplied, the dialed number will only match the prefix + "
 "match pattern if the CallerID being transmitted matches this. When "
@@ -5026,7 +5034,7 @@ msgstr ""
 msgid "If REMOTEUNLOCK is enabled, you will receive a value for KEY."
 msgstr ""
 
-#: ../core/views/routing/form.php:338
+#: ../core/views/routing/form.php:342
 msgid ""
 "If checked the extension's Outbound CID will be ignored in favor of this "
 "CID. The extension's Emergency CID will still be used if the route is an "
@@ -5168,7 +5176,7 @@ msgid ""
 "Authentication"
 msgstr ""
 
-#: ../core/functions.inc.php:5944
+#: ../core/functions.inc.php:5945
 msgid ""
 "If you want to support direct sip dialing of users internally or through "
 "anonymous sip calls, you can supply a friendly name that can be used in "
@@ -5201,7 +5209,7 @@ msgstr "画像： 左上"
 msgid "Import settings from file"
 msgstr "ファイルから設定をインポート"
 
-#: ../core/views/routing/form.php:260
+#: ../core/views/routing/form.php:264
 msgid "Import/Export Patterns"
 msgstr "パターンをインポート・エクスポート"
 
@@ -5241,19 +5249,19 @@ msgstr ""
 msgid "Inbound"
 msgstr "インバウンド"
 
-#: ../core/functions.inc.php:6049
+#: ../core/functions.inc.php:6050
 msgid "Inbound External Calls"
 msgstr "外部着信コール"
 
-#: ../core/functions.inc.php:6051
+#: ../core/functions.inc.php:6052
 msgid "Inbound Internal Calls"
 msgstr "内部着信コール"
 
-#: ../core/Core.class.php:2944 ../core/Core.class.php:2953
+#: ../core/Core.class.php:2949 ../core/Core.class.php:2958
 msgid "Inbound Route:"
 msgstr ""
 
-#: ../core/functions.inc.php:4425
+#: ../core/functions.inc.php:4426
 #, php-format
 msgid "Inbound Route: %s (%s)"
 msgstr "インバウンドルート: %s (%s)"
@@ -5274,7 +5282,7 @@ msgstr "ブラウザにサーバー名を含む"
 msgid "Incoming"
 msgstr "インバウンド"
 
-#: ../core/Core.class.php:2575 ../core/Core.class.php:2576
+#: ../core/Core.class.php:2576 ../core/Core.class.php:2577
 msgid "Incoming DID"
 msgstr "インバウンドDID"
 
@@ -5408,7 +5416,7 @@ msgstr "内部使用"
 msgid "Interval at which to qualify."
 msgstr ""
 
-#: ../core/views/routing/form.php:386
+#: ../core/views/routing/form.php:390
 msgid "Intra-Company"
 msgstr "社内"
 
@@ -5422,7 +5430,7 @@ msgid ""
 "name."
 msgstr "Intra-Companyルートでは、常に内線番号と名前を送信します。"
 
-#: ../core/functions.inc.php:4607
+#: ../core/functions.inc.php:4608
 msgid "Invalid Channel Number, must be numeric and not blank"
 msgstr "無効なチャネル番号、数値でなければならず、空白は許可されません"
 
@@ -5430,7 +5438,7 @@ msgstr "無効なチャネル番号、数値でなければならず、空白は
 msgid "Invalid Custom Dial String entered"
 msgstr "無効なカスタムダイヤル文字列が入力されました"
 
-#: ../core/functions.inc.php:4611
+#: ../core/functions.inc.php:4612
 msgid "Invalid DID, must be a non-blank DID"
 msgstr "無効なDID、空白でないDIDでなければなりません"
 
@@ -5535,7 +5543,7 @@ msgstr ""
 msgid "Killing asterisk forcefully."
 msgstr ""
 
-#: ../core/views/routing/form.php:561 ../core/views/trunks/trunk_footer.php:24
+#: ../core/views/routing/form.php:565 ../core/views/trunks/trunk_footer.php:24
 msgid "LOADING ROUTES"
 msgstr ""
 
@@ -5547,7 +5555,7 @@ msgstr ""
 msgid "Language Support Unknown"
 msgstr ""
 
-#: ../core/views/routing/form.php:45
+#: ../core/views/routing/form.php:49
 #, php-format
 msgid "Last after %s"
 msgstr "%s の後の最後"
@@ -5642,7 +5650,7 @@ msgstr ""
 msgid "Logout"
 msgstr "ログアウト"
 
-#: ../core/views/routing/form.php:610 ../core/views/trunks/trunk_footer.php:73
+#: ../core/views/routing/form.php:614 ../core/views/trunks/trunk_footer.php:73
 msgid "Long Distance"
 msgstr ""
 
@@ -5744,7 +5752,7 @@ msgstr ""
 msgid "Maximum number of Endpoints that can associate with this Device"
 msgstr "最大でこのデバイスと連動できる端末の数"
 
-#: ../core/functions.inc.php:6002
+#: ../core/functions.inc.php:6003
 msgid ""
 "Maximum number of outbound simultaneous calls that an extension can make. "
 "This is also very useful as a Security Protection against a system that has "
@@ -6197,7 +6205,7 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
-#: ../core/Core.class.php:2542 ../core/Core.class.php:2543
+#: ../core/Core.class.php:2543 ../core/Core.class.php:2544
 #: ../core/page.extensions.php:29 ../core/page.extensions.php:118
 #: ../core/page.extensions.php:144 ../core/page.users.php:55
 #: ../core/views/rnav.php:19 ../core/views/rnav.php:43
@@ -6205,7 +6213,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: ../core/views/routing/form.php:285
+#: ../core/views/routing/form.php:289
 msgid ""
 "Name of this route. Should be used to describe what type of calls this route "
 "matches (for example, 'local' or 'longdistance')."
@@ -6217,7 +6225,7 @@ msgstr ""
 msgid "Need to be instantiated with a FreePBX Object"
 msgstr ""
 
-#: ../core/functions.inc.php:5738
+#: ../core/functions.inc.php:5739
 msgid "Never"
 msgstr "ブロック"
 
@@ -6236,7 +6244,7 @@ msgstr "オンラインバージョン (%s) より新しいバージョン"
 msgid "Nightly"
 msgstr ""
 
-#: ../core/functions.inc.php:5737
+#: ../core/functions.inc.php:5738
 #: ../core/functions.inc/drivers/Dahdi.class.php:108
 #: ../core/functions.inc/drivers/Dahdi.class.php:119
 #: ../core/functions.inc/drivers/Dahdi.class.php:128
@@ -6261,10 +6269,11 @@ msgstr ""
 #: ../core/views/did/advanced_form.php:324
 #: ../core/views/did/advanced_form.php:378
 #: ../core/views/did/basic_form.php:175 ../core/views/did/basic_form.php:202
-#: ../core/views/did/basic_form.php:253 ../core/views/routing/form.php:329
+#: ../core/views/did/basic_form.php:253 ../core/views/routing/form.php:333
 #: ../core/views/trunks/pjsip.php:617 ../core/views/trunks/pjsip.php:673
 #: ../core/views/trunks/pjsip.php:700 ../core/views/trunks/pjsip.php:727
-#: ../core/views/trunks/pjsip.php:754 ../core/views/trunks/trunk_header.php:68
+#: ../core/views/trunks/pjsip.php:754 ../core/views/trunks/pjsip.php:781
+#: ../core/views/trunks/trunk_header.php:68
 #: ../core/views/trunks/trunk_header.php:266
 #: ../core/views/trunks/trunk_header.php:405
 #: ../core/views/trunks/trunk_header.php:432
@@ -6280,7 +6289,7 @@ msgstr ""
 msgid "No Action"
 msgstr "何もしない"
 
-#: ../core/functions.inc.php:6071
+#: ../core/functions.inc.php:6072
 msgid "No Answer"
 msgstr "応答なし"
 
@@ -6301,7 +6310,7 @@ msgstr ""
 msgid "No Description Provided"
 msgstr "説明がありません"
 
-#: ../core/functions.inc.php:5772
+#: ../core/functions.inc.php:5773
 msgid "No Limit"
 msgstr "無制限"
 
@@ -6364,7 +6373,7 @@ msgid "NoOp Traces in Dialplan"
 msgstr "ダイヤルプラン内でNoOpをトレース"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:213
-#: ../core/functions.inc.php:5764
+#: ../core/functions.inc.php:5765
 #: ../core/functions.inc/drivers/PJSip.class.php:243
 #: ../core/views/did/advanced_form.php:215
 #: ../core/views/did/basic_form.php:120 ../core/views/trunks/pjsip.php:91
@@ -6376,7 +6385,7 @@ msgstr ""
 msgid "None (virtual exten)"
 msgstr "なし(仮想内線)"
 
-#: ../core/views/routing/form.php:464
+#: ../core/views/routing/form.php:468
 msgid "Normal Congestion"
 msgstr "ノーマル混雑"
 
@@ -6458,7 +6467,7 @@ msgstr "未インストール(ローカル版が利用可能)"
 msgid "Not Installed (Locally available: %s)"
 msgstr ""
 
-#: ../core/functions.inc.php:6085
+#: ../core/functions.inc.php:6086
 msgid "Not Reachable"
 msgstr "到達不能"
 
@@ -6493,7 +6502,7 @@ msgstr ""
 msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr "発信者が有効な発信者IDを入力しなければいけない最大試行数"
 
-#: ../core/functions.inc.php:5992
+#: ../core/functions.inc.php:5993
 msgid ""
 "Number of seconds to ring during a Call Forward, Call Forward Busy or Call "
 "Forward Unavailable call prior to continuing to voicemail or specified "
@@ -6505,7 +6514,7 @@ msgstr ""
 "デフォルトで現在呼び出し時が使われます、ボイスメールを無効した、または宛先が"
 "不明の場合、強制的にAlwaysモードになります"
 
-#: ../core/functions.inc.php:5982
+#: ../core/functions.inc.php:5983
 msgid ""
 "Number of seconds to ring prior to going to voicemail. Default will use the "
 "value set in Advanced Settings. If no voicemail is configured this will be "
@@ -6530,7 +6539,7 @@ msgstr ""
 msgid "Occupied Lines CW Busy"
 msgstr "占有された回線のCWビジー"
 
-#: ../core/functions.inc.php:6053
+#: ../core/functions.inc.php:6054
 msgid "On Demand Recording"
 msgstr "オンデマンド録音"
 
@@ -6610,30 +6619,30 @@ msgstr "オペレーターパネル"
 msgid "Optional Additional CSS Stylesheet"
 msgstr "オプションの追加CSSスタイルシート"
 
-#: ../core/functions.inc.php:6081
+#: ../core/functions.inc.php:6082
 msgid "Optional CID Prefix to add before sending to this busy destination."
 msgstr "これをビジーの宛先に送る前に追加されるオプションのCIDプリフィックス。"
 
-#: ../core/functions.inc.php:6072
+#: ../core/functions.inc.php:6073
 msgid ""
 "Optional CID Prefix to add before sending to this no answer destination."
 msgstr "不在先に送られる前に追加されるオプションのCIDプリフィックス。"
 
-#: ../core/functions.inc.php:6086
+#: ../core/functions.inc.php:6087
 msgid ""
 "Optional CID Prefix to add before sending to this not reachable destination."
 msgstr ""
 "これを到達不能時の宛先に送る前に追加されるオプションのCIDプリフィクス。"
 
-#: ../core/views/routing/form.php:460 ../core/views/routing/form.php:472
+#: ../core/views/routing/form.php:464 ../core/views/routing/form.php:476
 msgid "Optional Destination on Congestion"
 msgstr "混線時の任意宛先"
 
-#: ../core/functions.inc.php:6056
+#: ../core/functions.inc.php:6057
 msgid "Optional Destinations"
 msgstr "オプション宛先"
 
-#: ../core/views/routing/form.php:309
+#: ../core/views/routing/form.php:313
 msgid ""
 "Optional Route CID to be used for this route <br><br>Format: <b>&lt;"
 "#######&gt;</b>. You can also use the format: \"hidden\" <b>&lt;#######&gt;</"
@@ -6653,7 +6662,7 @@ msgstr ""
 "メインのCSSとモジュール独自のCSSが読み込まれた後にインクルードされるオプショ"
 "ンのカスタムCSSスタイルシート、adminからの相対パス。"
 
-#: ../core/functions.inc.php:6066
+#: ../core/functions.inc.php:6067
 msgid ""
 "Optional destination call is routed to when the call is not answered on an "
 "otherwise idle phone. If the phone is in use and the call is simply ignored, "
@@ -6663,11 +6672,11 @@ msgstr ""
 "ションの宛先。電話が使用中や、コールが単に無視された場合は、ビジーの宛先が使"
 "用されます。"
 
-#: ../core/functions.inc.php:6068
+#: ../core/functions.inc.php:6069
 msgid "Optional destination call is routed to when the call is not answered."
 msgstr "コールが応答されない時に、コールがルーティングされるオプションの宛先。"
 
-#: ../core/functions.inc.php:6077
+#: ../core/functions.inc.php:6078
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user."
@@ -6675,7 +6684,7 @@ msgstr ""
 "電話がビジーの時や、ユーザーによって拒絶された際にコールがルーティングされる"
 "オプションの宛先。"
 
-#: ../core/functions.inc.php:6075
+#: ../core/functions.inc.php:6076
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user. This destination is also used on an unanswered "
@@ -6686,7 +6695,7 @@ msgstr ""
 "オプションの宛先。この宛先は、電話が使用中の場合やユーザーが２番目の電話に出"
 "ないことを選択した場合にも使用されます。"
 
-#: ../core/functions.inc.php:6083
+#: ../core/functions.inc.php:6084
 msgid ""
 "Optional destination the call is routed to when the phone is offline, such "
 "as a softphone currently off or a phone unplugged."
@@ -6706,7 +6715,7 @@ msgstr ""
 "GUI上で設定変更を実行を押した後に、マネージャーを通じてAsteriskに対して内線の"
 "再読み込みを実行する直前に走らせる、オプションスクリプト。"
 
-#: ../core/views/routing/form.php:367
+#: ../core/views/routing/form.php:371
 msgid ""
 "Optional: A route can prompt users for a password before allowing calls to "
 "progress.  This is useful for restricting calls to international "
@@ -6719,7 +6728,7 @@ msgstr ""
 "へのパスを入力します。<br><br>パスワードを要求しない場合はこのフィールドを空"
 "にします。"
 
-#: ../core/views/routing/form.php:394
+#: ../core/views/routing/form.php:398
 msgid ""
 "Optional: Selecting Emergency will enforce the use of a device's Emergency "
 "CID setting (if set).  Select this option if this route is used for "
@@ -6731,7 +6740,7 @@ msgstr ""
 "日本国内ではキャリア側で通知する番号が決まるため、PSTN経由の発信ではこちらを"
 "設定しても機能しない可能性があります。"
 
-#: ../core/views/routing/form.php:394
+#: ../core/views/routing/form.php:398
 msgid ""
 "Optional: Selecting Intra-Company will treat this route as an intra-company "
 "connection, preserving the internal CallerID information instead of the "
@@ -6779,7 +6788,7 @@ msgstr ""
 msgid "Outbound"
 msgstr ""
 
-#: ../core/functions.inc.php:5972 ../core/views/routing/grid.php:71
+#: ../core/functions.inc.php:5973 ../core/views/routing/grid.php:71
 msgid "Outbound CID"
 msgstr "アウトバウンドCID"
 
@@ -6791,7 +6800,7 @@ msgstr ""
 msgid "Outbound CallerID"
 msgstr "アウトバウンドCID"
 
-#: ../core/functions.inc.php:6002
+#: ../core/functions.inc.php:6003
 msgid "Outbound Concurrency Limit"
 msgstr "アウトバウンド同時通話制限"
 
@@ -6799,11 +6808,11 @@ msgstr "アウトバウンド同時通話制限"
 msgid "Outbound Dial Prefix"
 msgstr "アウトバウンドダイヤルプリフィックス"
 
-#: ../core/functions.inc.php:6050
+#: ../core/functions.inc.php:6051
 msgid "Outbound External Calls"
 msgstr "外部発信コール"
 
-#: ../core/functions.inc.php:6052
+#: ../core/functions.inc.php:6053
 msgid "Outbound Internal Calls"
 msgstr "内部発信コール"
 
@@ -6812,11 +6821,11 @@ msgstr "内部発信コール"
 msgid "Outbound Proxy"
 msgstr ""
 
-#: ../core/Core.class.php:2927
+#: ../core/Core.class.php:2932
 msgid "Outbound Route:"
 msgstr ""
 
-#: ../core/functions.inc.php:5561
+#: ../core/functions.inc.php:5562
 #, php-format
 msgid "Outbound Route: %s"
 msgstr "アウトバウンド経路： %s"
@@ -6837,7 +6846,7 @@ msgstr ""
 msgid "Output debug messages to the console (be super chatty)"
 msgstr ""
 
-#: ../core/functions.inc.php:5747 ../core/functions.inc.php:5980
+#: ../core/functions.inc.php:5748 ../core/functions.inc.php:5981
 #: ../core/views/trunks/trunk_header.php:375
 msgid "Override"
 msgstr "オーバーライド"
@@ -6846,7 +6855,7 @@ msgstr "オーバーライド"
 msgid "Override Call Recording Location"
 msgstr "通話録音ファイル保存場所を上書きする"
 
-#: ../core/views/routing/form.php:321
+#: ../core/views/routing/form.php:325
 msgid "Override Extension"
 msgstr "内線を上書き"
 
@@ -6870,7 +6879,7 @@ msgid ""
 "time"
 msgstr ""
 
-#: ../core/functions.inc.php:5983
+#: ../core/functions.inc.php:5984
 msgid ""
 "Override the ringer volume. Note: This is only valid for Sangoma phones at "
 "this time"
@@ -6880,7 +6889,7 @@ msgstr ""
 msgid "Overrides Extension CID"
 msgstr ""
 
-#: ../core/functions.inc.php:5972 ../core/views/quickCreate.php:93
+#: ../core/functions.inc.php:5973 ../core/views/quickCreate.php:93
 msgid ""
 "Overrides the CallerID when dialing out a trunk. Any setting here will "
 "override the common outbound CallerID set in the Trunks admin."
@@ -7053,7 +7062,7 @@ msgstr ""
 "Flashオペレーターパネルのwebrootへのパス、もしくはその他その様な機能を提供す"
 "るモジュールへのパス(最後にスラッシュをつけないでください)。"
 
-#: ../core/views/routing/form.php:59
+#: ../core/views/routing/form.php:63
 msgid "Pattern Help"
 msgstr ""
 
@@ -7119,19 +7128,19 @@ msgstr ""
 msgid "Pin Sets"
 msgstr ""
 
-#: ../core/functions.inc.php:6007
+#: ../core/functions.inc.php:6008
 msgid "Pinless Dialing"
 msgstr "ピンレスダイヤル"
 
-#: ../core/functions.inc.php:825 ../core/functions.inc.php:4434
+#: ../core/functions.inc.php:825 ../core/functions.inc.php:4435
 msgid "Play SIT Tone (Zapateller)"
 msgstr "SITトーンを再生(Zapateller)"
 
-#: ../core/functions.inc.php:828 ../core/functions.inc.php:4437
+#: ../core/functions.inc.php:828 ../core/functions.inc.php:4438
 msgid "Play no service message"
 msgstr ""
 
-#: ../core/functions.inc.php:827 ../core/functions.inc.php:4436
+#: ../core/functions.inc.php:827 ../core/functions.inc.php:4437
 msgid "Play ringtones to caller until they hangup"
 msgstr "発信者が切電するまで呼出し音を再生します"
 
@@ -7153,13 +7162,13 @@ msgstr "次のアクションを確認してください："
 msgid "Please correct the following errors:"
 msgstr "次のエラーを確認してください："
 
-#: ../core/functions.inc.php:6275
+#: ../core/functions.inc.php:6276
 #: ../core/functions.inc/drivers/Iax2.class.php:102
 #: ../core/functions.inc/drivers/Sip.class.php:273
 msgid "Please enter a Secret for this device"
 msgstr "このデバイスのシークレットを入力してください"
 
-#: ../core/functions.inc.php:6243
+#: ../core/functions.inc.php:6244
 msgid "Please enter a device id."
 msgstr "デバイスIDを入力してください。"
 
@@ -7167,12 +7176,12 @@ msgstr "デバイスIDを入力してください。"
 msgid "Please enter a username"
 msgstr "ユーザー名を入力してください"
 
-#: ../core/functions.inc.php:5884
+#: ../core/functions.inc.php:5885
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
 msgstr ""
 "有効なCID番号エイリアスを入力してください。(有効な数字でなければなりません)。"
 
-#: ../core/functions.inc.php:5890
+#: ../core/functions.inc.php:5891
 msgid ""
 "Please enter a valid CallerID Number or leave it blank for your Assigned DID/"
 "CID pair"
@@ -7180,36 +7189,36 @@ msgstr ""
 "あなたに割り当てられたDID/CIDのペアは、有効な発信者ID番号を入力するか空欄にし"
 "てください"
 
-#: ../core/functions.inc.php:6244
+#: ../core/functions.inc.php:6245
 msgid "Please enter a valid Description for this device"
 msgstr "このデバイスの有効な説明を入力してください"
 
-#: ../core/functions.inc.php:5886
+#: ../core/functions.inc.php:5887
 msgid "Please enter a valid Display Name"
 msgstr "有効なディスプレイ名を入力してください"
 
-#: ../core/functions.inc.php:6245
+#: ../core/functions.inc.php:6246
 msgid "Please enter a valid Emergency CID"
 msgstr "有効な緊急CIDを入力してください。"
 
-#: ../core/functions.inc.php:5887
+#: ../core/functions.inc.php:5888
 msgid "Please enter a valid Outbound CID"
 msgstr "有効なアウトバウンドCIDを入力してください"
 
-#: ../core/functions.inc.php:5883 ../core/functions.inc.php:6246
+#: ../core/functions.inc.php:5884 ../core/functions.inc.php:6247
 msgid "Please enter a valid extension number."
 msgstr "有効な内線番号を入力してください。"
 
-#: ../core/functions.inc.php:5888
+#: ../core/functions.inc.php:5889
 msgid "Please enter a valid pause time in seconds, using digits only"
 msgstr "ポーズする秒数を数値で入力してください"
 
-#: ../core/functions.inc.php:6273
+#: ../core/functions.inc.php:6274
 #: ../core/functions.inc/drivers/Dahdi.class.php:99
 msgid "Please enter the channel for this device"
 msgstr "このデバイスのチャネルを入力してください"
 
-#: ../core/functions.inc.php:5885
+#: ../core/functions.inc.php:5886
 msgid "Please enter valid User Password using numbers only"
 msgstr "数字のみで有効なユーザーパスワードを入力してください"
 
@@ -7294,7 +7303,7 @@ msgstr "潜在的なセキュリティ侵害"
 msgid "Precede browser title with the server name."
 msgstr "ブラウザタイトル前にサーバー名を含む。"
 
-#: ../core/views/routing/form.php:78
+#: ../core/views/routing/form.php:82
 msgid ""
 "Prefix to remove on a successful match. The dialed number is compared to "
 "this and the subsequent columns for a match. Upon a match, this prefix is "
@@ -7401,7 +7410,7 @@ msgstr "発行者"
 msgid "Purge and clean system"
 msgstr ""
 
-#: ../core/functions.inc.php:826 ../core/functions.inc.php:4435
+#: ../core/functions.inc.php:826 ../core/functions.inc.php:4436
 msgid "Put caller on hold forever"
 msgstr "発信者を永久に保留"
 
@@ -7472,27 +7481,27 @@ msgstr ""
 msgid "Receive"
 msgstr ""
 
-#: ../core/functions.inc.php:6054
+#: ../core/functions.inc.php:6055
 msgid "Record Priority Policy"
 msgstr "レコード優先度のポリシー"
 
-#: ../core/functions.inc.php:6041
+#: ../core/functions.inc.php:6042
 msgid "Recording Options"
 msgstr "録音オプション"
 
-#: ../core/functions.inc.php:6052
+#: ../core/functions.inc.php:6053
 msgid "Recording of calls made to other extensions on the system."
 msgstr "その他の内線システムから発信したコールを記録します。"
 
-#: ../core/functions.inc.php:6051
+#: ../core/functions.inc.php:6052
 msgid "Recording of calls received from other extensions on the system."
 msgstr "その他の内線システムから受信したコールを記録します。"
 
-#: ../core/functions.inc.php:6049
+#: ../core/functions.inc.php:6050
 msgid "Recording of inbound calls from external sources."
 msgstr "外部ソースからの着信コールを記録します。"
 
-#: ../core/functions.inc.php:6050
+#: ../core/functions.inc.php:6051
 msgid "Recording of outbound calls to external sources."
 msgstr "外部ソースへの発信コールを記録します。"
 
@@ -7723,7 +7732,7 @@ msgstr ""
 msgid "Rewrite Contact"
 msgstr ""
 
-#: ../core/functions.inc.php:5982
+#: ../core/functions.inc.php:5983
 msgid "Ring Time"
 msgstr "呼出秒数"
 
@@ -7731,7 +7740,7 @@ msgstr "呼出秒数"
 msgid "Ring Tone"
 msgstr ""
 
-#: ../core/functions.inc.php:5983 ../core/views/did/advanced_form.php:210
+#: ../core/functions.inc.php:5984 ../core/views/did/advanced_form.php:210
 #: ../core/views/did/basic_form.php:115
 msgid "Ringer Volume Override"
 msgstr ""
@@ -7755,31 +7764,31 @@ msgstr "経路"
 msgid "Route - (%s)"
 msgstr ""
 
-#: ../core/views/routing/form.php:297
+#: ../core/views/routing/form.php:301
 msgid "Route CID"
 msgstr "ルート CID"
 
-#: ../core/views/routing/form.php:273
+#: ../core/views/routing/form.php:277
 msgid "Route Name"
 msgstr "経路名"
 
-#: ../core/views/routing/form.php:350
+#: ../core/views/routing/form.php:354
 msgid "Route Password"
 msgstr "経路パスワード"
 
-#: ../core/views/routing/form.php:410
+#: ../core/views/routing/form.php:414
 msgid "Route Position"
 msgstr "ルートポジション"
 
-#: ../core/views/routing/form.php:258
+#: ../core/views/routing/form.php:262
 msgid "Route Settings"
 msgstr "経路設定"
 
-#: ../core/views/routing/form.php:379
+#: ../core/views/routing/form.php:383
 msgid "Route Type"
 msgstr "経路タイプ"
 
-#: ../core/views/routing/form.php:64 ../core/views/trunks/trunk_header.php:85
+#: ../core/views/routing/form.php:68 ../core/views/trunks/trunk_header.php:85
 msgid "Rules:"
 msgstr "ルール："
 
@@ -7801,12 +7810,12 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr ""
 
-#: ../core/Core.class.php:2867 ../core/Core.class.php:2868
+#: ../core/Core.class.php:2872 ../core/Core.class.php:2873
 #, php-format
 msgid "SIP (%s)"
 msgstr ""
 
-#: ../core/functions.inc.php:5944
+#: ../core/functions.inc.php:5945
 msgid "SIP Alias"
 msgstr "SIPエイリアス"
 
@@ -7905,11 +7914,11 @@ msgstr "想定されるリンク："
 msgid "Save"
 msgstr "保存"
 
-#: ../core/functions.inc.php:5760
+#: ../core/functions.inc.php:5761
 msgid "Screen Caller: Memory"
 msgstr "発信者スクリーニング：記録する"
 
-#: ../core/functions.inc.php:5759
+#: ../core/functions.inc.php:5760
 msgid "Screen Caller: No Memory"
 msgstr "発信者スクリーニング：記録しない"
 
@@ -8048,7 +8057,7 @@ msgstr ""
 msgid "Set the Repos. -R Commercial -R Contributed"
 msgstr ""
 
-#: ../core/functions.inc.php:6004
+#: ../core/functions.inc.php:6005
 msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr ""
 "このユーザーの内線への初期/現在の コールウェイティングステータスを設定します"
@@ -8590,7 +8599,7 @@ msgid ""
 "value if set wrong. The chan_pjsip channel driver is considered "
 msgstr ""
 
-#: ../core/functions.inc.php:5943
+#: ../core/functions.inc.php:5944
 msgid ""
 "The CID Number to use for internal calls, if different from the extension "
 "number. This is used to masquerade as a different user. A common example is "
@@ -8610,7 +8619,7 @@ msgid ""
 "installed and enabled."
 msgstr ""
 
-#: ../core/functions.inc.php:5941 ../core/views/quickCreate.php:77
+#: ../core/functions.inc.php:5942 ../core/views/quickCreate.php:77
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
@@ -8618,7 +8627,7 @@ msgstr ""
 "このユーザーからのコールに対する発信者ID名はこの名前に設定されます。数字を入"
 "力せずに名前のみ入力ください。"
 
-#: ../core/functions.inc.php:6259
+#: ../core/functions.inc.php:6260
 msgid ""
 "The CallerID name for this device will be set to this description until it "
 "is logged into."
@@ -8719,7 +8728,7 @@ msgstr ""
 msgid "The Transport to use for connection"
 msgstr ""
 
-#: ../core/views/routing/form.php:448
+#: ../core/views/routing/form.php:452
 msgid ""
 "The Trunk Sequence controls the order of trunks that will be used when the "
 "above Dial Patterns are matched. <br><br>For Dial Patterns that match long "
@@ -8747,7 +8756,7 @@ msgstr ""
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
-#: ../core/Core.class.php:2584
+#: ../core/Core.class.php:2585
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -8765,7 +8774,7 @@ msgstr ""
 msgid "The default language used in the webUI"
 msgstr ""
 
-#: ../core/views/routing/form.php:79
+#: ../core/views/routing/form.php:83
 msgid ""
 "The dialed number will be compared against the  prefix + this match pattern. "
 "Upon a match, the match pattern portion of the dialed number will be sent to "
@@ -8774,7 +8783,7 @@ msgstr ""
 "ダイヤルされた番号は、プリフィックス+ このパターン一致し比較されます。その場"
 "合、ダイヤル番号の一致パターン部分が、トランクに送信されます"
 
-#: ../core/functions.inc.php:5905 ../core/views/quickCreate.php:61
+#: ../core/functions.inc.php:5906 ../core/views/quickCreate.php:61
 msgid "The extension number to dial to reach this user."
 msgstr "このユーザーへダイヤルするための内線番号。"
 
@@ -9151,7 +9160,7 @@ msgstr ""
 msgid "There were no settings to update"
 msgstr ""
 
-#: ../core/views/routing/form.php:577 ../core/views/trunks/trunk_footer.php:40
+#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:40
 msgid ""
 "These options provide a quick way to add outbound dialing rules. Follow the "
 "prompts for each."
@@ -9181,7 +9190,7 @@ msgstr ""
 "す。次の<b>前付与</b>は<b>パターン</b>の前に挿入され、数値はトランクに送信さ"
 "れます。すべてのフィールドはオプションです。"
 
-#: ../core/functions.inc.php:6262 ../core/functions.inc.php:6265
+#: ../core/functions.inc.php:6263 ../core/functions.inc.php:6266
 msgid ""
 "This CallerID will always be set when dialing out an Outbound Route flagged "
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
@@ -9197,7 +9206,7 @@ msgstr ""
 msgid "This action understands somethings may be disabled for a reason."
 msgstr ""
 
-#: ../core/Core.class.php:1469
+#: ../core/Core.class.php:1470
 msgid "This device id is already in use"
 msgstr "このデバイスIDは既に使用されています"
 
@@ -9338,7 +9347,7 @@ msgstr ""
 "使用しているため、もし音楽ファイルがそこに配置されている場合はASTVARLIBDIRか"
 "らの相対パスをセットしてください。"
 
-#: ../core/views/routing/form.php:579 ../core/views/trunks/trunk_footer.php:42
+#: ../core/views/routing/form.php:583 ../core/views/trunks/trunk_footer.php:42
 msgid ""
 "This looks up your local number on www.localcallingguide.com (NA-only), and "
 "sets up so you can dial either 7, 10 or 11 digits (5551234, 6135551234, "
@@ -9436,7 +9445,7 @@ msgid ""
 "setup that uses it."
 msgstr ""
 
-#: ../core/Core.class.php:2125
+#: ../core/Core.class.php:2126
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "このユーザー/内線番号 %s は既に使用中です"
@@ -9535,11 +9544,11 @@ msgstr "トランク名"
 msgid "Trunk Name and User Context cannot be set to the same value"
 msgstr "トランク名とユーザーコンテキストを同じ値に設定することはできません"
 
-#: ../core/views/routing/form.php:436
+#: ../core/views/routing/form.php:440
 msgid "Trunk Sequence for Matched Routes"
 msgstr "一致したルートのトランクシーケンス"
 
-#: ../core/Core.class.php:2935
+#: ../core/Core.class.php:2940
 msgid "Trunk:"
 msgstr ""
 
@@ -9584,19 +9593,19 @@ msgstr ""
 msgid "UPDATE NOTICE:"
 msgstr ""
 
-#: ../core/views/routing/form.php:606 ../core/views/trunks/trunk_footer.php:69
+#: ../core/views/routing/form.php:610 ../core/views/trunks/trunk_footer.php:69
 msgid "US Emergency"
 msgstr ""
 
-#: ../core/views/routing/form.php:604 ../core/views/trunks/trunk_footer.php:67
+#: ../core/views/routing/form.php:608 ../core/views/trunks/trunk_footer.php:67
 msgid "US Information"
 msgstr ""
 
-#: ../core/views/routing/form.php:608 ../core/views/trunks/trunk_footer.php:71
+#: ../core/views/routing/form.php:612 ../core/views/trunks/trunk_footer.php:71
 msgid "US International"
 msgstr ""
 
-#: ../core/views/routing/form.php:602 ../core/views/trunks/trunk_footer.php:65
+#: ../core/views/routing/form.php:606 ../core/views/trunks/trunk_footer.php:65
 msgid "US Toll Free Patterns"
 msgstr ""
 
@@ -9737,7 +9746,7 @@ msgstr ""
 msgid "Unauthorized user"
 msgstr ""
 
-#: ../core/functions.inc.php:6070 ../core/functions.inc.php:6084
+#: ../core/functions.inc.php:6071 ../core/functions.inc.php:6085
 msgid "Unavail Voicemail if Enabled"
 msgstr "有効な場合に利用できないボイスメール"
 
@@ -9926,7 +9935,7 @@ msgstr ""
 msgid "Upload Local Module"
 msgstr ""
 
-#: ../core/views/routing/form.php:501
+#: ../core/views/routing/form.php:505
 msgid "Upload from CSV"
 msgstr "CSVからアップロード"
 
@@ -9938,7 +9947,7 @@ msgstr "モジュールをアップロード"
 msgid "Upload modules"
 msgstr "モジュールをアップロード"
 
-#: ../core/views/routing/form.php:516
+#: ../core/views/routing/form.php:520
 #, php-format
 msgid ""
 "Upload patterns from a CSV file replacing existing entries. If there are no "
@@ -10038,7 +10047,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:2914 ../core/functions.inc.php:5861
+#: ../core/Core.class.php:2919 ../core/functions.inc.php:5862
 #: ../core/page.devices.php:66 ../core/page.devices.php:87
 #: ../core/page.did.php:88 ../core/page.users.php:54 ../core/views/rnav.php:42
 msgid "User"
@@ -10056,11 +10065,11 @@ msgstr "ユーザーコンテキスとが空白のままで、ユーザー詳細
 msgid "User Control Panel"
 msgstr "UCP"
 
-#: ../core/functions.inc.php:5949
+#: ../core/functions.inc.php:5950
 msgid "User Devices"
 msgstr "ユーザーデバイス"
 
-#: ../core/functions.inc.php:5905
+#: ../core/functions.inc.php:5906
 msgid "User Extension"
 msgstr "ユーザー内線"
 
@@ -10069,7 +10078,7 @@ msgstr "ユーザー内線"
 msgid "User Extension %s: %s"
 msgstr "ユーザー内線 %s: %s"
 
-#: ../core/functions.inc.php:4394
+#: ../core/functions.inc.php:4395
 msgid "User Extension: "
 msgstr "ユーザー内線： "
 
@@ -10085,11 +10094,11 @@ msgstr "ユーザーログオン"
 msgid "User Panel"
 msgstr "ユーザーパネル"
 
-#: ../core/functions.inc.php:5908
+#: ../core/functions.inc.php:5909
 msgid "User Password"
 msgstr "ユーザーパスワード"
 
-#: ../core/Core.class.php:2688
+#: ../core/Core.class.php:2689
 msgid "User could not be added."
 msgstr ""
 
@@ -10111,7 +10120,7 @@ msgstr ""
 "Asteriskマネージャーインターフェイス(AMI)にアクセスするためのユーザー名は、"
 "manager.conf内で自動的に更新されます。"
 
-#: ../core/views/trunks/pjsip.php:857
+#: ../core/views/trunks/pjsip.php:884
 msgid "Username is trunk name"
 msgstr ""
 
@@ -10265,7 +10274,7 @@ msgstr "Asteriskが停止するのを待つ期間"
 msgid "Warning"
 msgstr "警告"
 
-#: ../core/functions.inc.php:6102
+#: ../core/functions.inc.php:6103
 msgid "Warning! Extension"
 msgstr "警告! 内線"
 
@@ -10482,7 +10491,7 @@ msgstr ""
 msgid "Where (root) command line scripts are located."
 msgstr "rootコマンドラインスクリプトの場所。"
 
-#: ../core/views/routing/form.php:424
+#: ../core/views/routing/form.php:428
 msgid "Where to insert this route or relocate it relative to the other routes."
 msgstr ""
 "このルートをどこに挿入するか、や他のルートと相対的にどこに再配置するか。"
@@ -10592,7 +10601,7 @@ msgstr ""
 "DAHDiチャネル間をブリッジする時にエコーキャンセルをオンにするかどうか。詳細は"
 "DAHDiドキュメントを参照ください。"
 
-#: ../core/functions.inc.php:5735
+#: ../core/functions.inc.php:5736
 #: ../core/functions.inc/drivers/Dahdi.class.php:107
 #: ../core/functions.inc/drivers/Dahdi.class.php:118
 #: ../core/functions.inc/drivers/Dahdi.class.php:127
@@ -10615,10 +10624,11 @@ msgstr ""
 #: ../core/views/did/advanced_form.php:322
 #: ../core/views/did/advanced_form.php:376
 #: ../core/views/did/basic_form.php:173 ../core/views/did/basic_form.php:200
-#: ../core/views/did/basic_form.php:251 ../core/views/routing/form.php:327
+#: ../core/views/did/basic_form.php:251 ../core/views/routing/form.php:331
 #: ../core/views/trunks/pjsip.php:615 ../core/views/trunks/pjsip.php:671
 #: ../core/views/trunks/pjsip.php:698 ../core/views/trunks/pjsip.php:725
-#: ../core/views/trunks/pjsip.php:752 ../core/views/trunks/trunk_header.php:66
+#: ../core/views/trunks/pjsip.php:752 ../core/views/trunks/pjsip.php:779
+#: ../core/views/trunks/trunk_header.php:66
 #: ../core/views/trunks/trunk_header.php:264
 #: ../core/views/trunks/trunk_header.php:403
 #: ../core/views/trunks/trunk_header.php:430
@@ -10784,7 +10794,7 @@ msgid ""
 "Chrome Extension or you are not using Chrome"
 msgstr ""
 
-#: ../core/functions.inc.php:5889
+#: ../core/functions.inc.php:5890
 msgid ""
 "You have entered a non-standard dialpattern for your DID. You can only enter "
 "standard dialpatterns. You must use the inbound routing form to enter non-"
@@ -10803,7 +10813,7 @@ msgstr ""
 "つかのモジュールにエラーを引き起こす可能性があります。FreePBXはこの値がoffの"
 "前提で動作します"
 
-#: ../core/functions.inc.php:6274
+#: ../core/functions.inc.php:6275
 #: ../core/functions.inc/drivers/Iax2.class.php:101
 #: ../core/functions.inc/drivers/Sip.class.php:272
 msgid ""
@@ -10855,7 +10865,7 @@ msgid ""
 "alert icon in the top right hand corner of the page."
 msgstr ""
 
-#: ../core/views/routing/form.php:580 ../core/views/trunks/trunk_footer.php:43
+#: ../core/views/routing/form.php:584 ../core/views/trunks/trunk_footer.php:43
 msgid ""
 "You may choose 7,10,11 digit patterns as your provider allows. If you do not "
 "choose 'Download' this will add a generic 7,10 or ll digit pattern"
@@ -10868,7 +10878,7 @@ msgid ""
 msgstr ""
 "残りの選択を確認し、必要な依存関係が解消された後に再度実行してください。"
 
-#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:44
+#: ../core/views/routing/form.php:585 ../core/views/trunks/trunk_footer.php:44
 msgid ""
 "You may select to allow toll free calls such as 800,877 etc as well as "
 "Directory assistance, International dialing and long distance"
@@ -10904,7 +10914,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:2118
+#: ../core/Core.class.php:2119
 msgid "You must put in an extension (or user) number"
 msgstr "内線(またはユーザー)番号を入力は必須です"
 
@@ -11069,7 +11079,7 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: ../core/views/routing/form.php:74
+#: ../core/views/routing/form.php:78
 msgid ""
 "appended to a dial pattern, matches a CallerID or CallerID pattern (for "
 "example, NXXXXXX/104 would match only if dialed by extension \"104\")"
@@ -11183,7 +11193,7 @@ msgstr "dahdiテーブルが空でないため、zapデータをそこに移行�
 msgid "default"
 msgstr "デフォルト"
 
-#: ../core/functions.inc.php:5826 ../core/functions.inc.php:6191
+#: ../core/functions.inc.php:5827 ../core/functions.inc.php:6192
 #: ../core/page.did.php:8
 msgid "deleted"
 msgstr "削除されました"
@@ -11398,7 +11408,7 @@ msgstr ""
 msgid "is disabled"
 msgstr ""
 
-#: ../core/functions.inc.php:6102
+#: ../core/functions.inc.php:6103
 msgid "is not allowed for your account"
 msgstr "はあなたのアカウントに許可されていません"
 
@@ -11448,11 +11458,11 @@ msgstr "ローカルモジュール管理"
 msgid "logger file removed, core upgrade will provide new file"
 msgstr ""
 
-#: ../core/functions.inc.php:5908 ../core/functions.inc.php:6260
+#: ../core/functions.inc.php:5909 ../core/functions.inc.php:6261
 msgid "logs into a device."
 msgstr "デバイスへログイン。"
 
-#: ../core/functions.inc.php:5908 ../core/functions.inc.php:6260
+#: ../core/functions.inc.php:5909 ../core/functions.inc.php:6261
 msgid "logs out of a device."
 msgstr "デバイスからログアウト。"
 
@@ -11468,28 +11478,28 @@ msgstr ""
 "mISDNチャネルはグループ番号またはチャネル番号(設定するには<i>mISDNポートグ"
 "ループ</i>を使用)のいづれかによって参照されます。"
 
-#: ../core/views/routing/form.php:90 ../core/views/trunks/trunk_footer.php:12
+#: ../core/views/routing/form.php:94 ../core/views/trunks/trunk_footer.php:12
 #: ../core/views/trunks/trunk_header.php:101
 msgid "match pattern"
 msgstr "一致パターン"
 
-#: ../core/views/routing/form.php:79
+#: ../core/views/routing/form.php:83
 msgid "match pattern:"
 msgstr "一致パターン:"
 
-#: ../core/views/routing/form.php:66 ../core/views/trunks/trunk_header.php:86
+#: ../core/views/routing/form.php:70 ../core/views/trunks/trunk_header.php:86
 msgid "matches any digit from 0-9"
 msgstr "0から9までの任意の数字に一致"
 
-#: ../core/views/routing/form.php:67 ../core/views/trunks/trunk_header.php:87
+#: ../core/views/routing/form.php:71 ../core/views/trunks/trunk_header.php:87
 msgid "matches any digit from 1-9"
 msgstr "1から9までの任意の数字に一致"
 
-#: ../core/views/routing/form.php:68 ../core/views/trunks/trunk_header.php:88
+#: ../core/views/routing/form.php:72 ../core/views/trunks/trunk_header.php:88
 msgid "matches any digit from 2-9"
 msgstr "2から9までの任意の数字に一致"
 
-#: ../core/views/routing/form.php:69 ../core/views/trunks/trunk_header.php:89
+#: ../core/views/routing/form.php:73 ../core/views/trunks/trunk_header.php:89
 msgid ""
 "matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)"
 msgstr ""
@@ -11565,7 +11575,7 @@ msgstr ""
 msgid "no logger file to remove"
 msgstr ""
 
-#: ../core/functions.inc.php:6157 ../core/views/routing/moh.php:8
+#: ../core/functions.inc.php:6158 ../core/views/routing/moh.php:8
 msgid "none"
 msgstr "なし"
 
@@ -11614,12 +11624,12 @@ msgstr ""
 msgid "password"
 msgstr "パスワード"
 
-#: ../core/views/routing/form.php:89 ../core/views/trunks/trunk_footer.php:11
+#: ../core/views/routing/form.php:93 ../core/views/trunks/trunk_footer.php:11
 #: ../core/views/trunks/trunk_header.php:100
 msgid "prefix"
 msgstr "プリフィックス"
 
-#: ../core/views/routing/form.php:78
+#: ../core/views/routing/form.php:82
 msgid "prefix:"
 msgstr "プリフィックス:"
 
@@ -11636,12 +11646,12 @@ msgstr "デバイス %s を準備中 %s へダイヤルします"
 msgid "preparing for update"
 msgstr ""
 
-#: ../core/views/routing/form.php:88 ../core/views/trunks/trunk_footer.php:10
+#: ../core/views/routing/form.php:92 ../core/views/trunks/trunk_footer.php:10
 #: ../core/views/trunks/trunk_header.php:99
 msgid "prepend"
 msgstr "前に付与"
 
-#: ../core/views/routing/form.php:77
+#: ../core/views/routing/form.php:81
 msgid "prepend:"
 msgstr "前に付与:"
 
@@ -11701,7 +11711,7 @@ msgstr "経路"
 msgid "routes"
 msgstr "経路"
 
-#: ../core/views/routing/form.php:73
+#: ../core/views/routing/form.php:77
 msgid ""
 "separates a dialing prefix from the number (for example, 9|NXXXXXX would "
 "match when some dialed \"95551234\" but would only pass \"5551234\" to the "
@@ -11796,7 +11806,7 @@ msgstr "ユーザー名"
 msgid "wherever the number to dial should go.<br><br><b>examples:</b><br>"
 msgstr "ダイヤルする番号がいくべきかどうか。<br><br><b>例:</b><br>"
 
-#: ../core/views/routing/form.php:70
+#: ../core/views/routing/form.php:74
 msgid "wildcard, matches one or more characters"
 msgstr ""
 
