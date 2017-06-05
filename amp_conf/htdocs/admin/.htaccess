@@ -35,10 +35,10 @@ SetEnv HTACCESS on
 </IfModule>
 
 RewriteEngine on
-RewriteCond %{ENV:REDIRECT_STATUS} 200
-RewriteRule ^ - [L]
-RewriteRule ^config.php - [L,QSA]
-RewriteRule ^ajax.php - [L,QSA]
+#RewriteCond %{ENV:REDIRECT_STATUS} 200
+#RewriteRule ^ - [L]
+#RewriteRule ^config.php - [L,QSA]
+#RewriteRule ^ajax.php - [L,QSA]
 RewriteRule \.git/ - [F]
 RewriteRule libraries - [F]
 RewriteRule helpers - [F]
