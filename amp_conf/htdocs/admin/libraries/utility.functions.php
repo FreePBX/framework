@@ -726,8 +726,8 @@ function astdb_get($exclude = array()) {
 	$astdb		= array();
 
 	foreach ($db as $k => $v) {
-		if (!in_array($k, $exclude)) {
-			$key = explode('/', trim($k, '/'), 2);
+		$key = explode('/', trim($k, '/'), 2);
+		if (!in_array($key[0], $exclude)) {
 			//dbug($k, $key[1]);
 			$astdb[$key[0]][$key[1]] = $v;
 		}
