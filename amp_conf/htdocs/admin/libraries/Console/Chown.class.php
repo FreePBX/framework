@@ -330,7 +330,7 @@ class Chown extends Command {
 			break;
 		}
 
-		exec("find ".escapeshellarg($path)." -type f -o -type d ".$skip." -exec chown ".escapeshellarg($owner).":".escapeshellarg($group)." {} +");
+		exec("find ".escapeshellarg($path)." \( -type f -o -type d \) ".$skip." -exec chown ".escapeshellarg($owner).":".escapeshellarg($group)." {} +");
 	}
 
 	/**
