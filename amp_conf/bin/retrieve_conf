@@ -448,7 +448,7 @@ if ($argc > 1) {
 
   // **** Parse out command-line options
   $shortopts = "h?u:p:";
-  $longopts = array("help","debug","dry-run","run-install","amportalconf=","skip-registry-checks","--json");
+  $longopts = array("help","debug","dry-run","run-install","amportalconf=","skip-registry-checks","json");
 
   $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
   if (is_object($args)) {
