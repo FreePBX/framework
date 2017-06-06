@@ -4,9 +4,11 @@
 //	Copyright 2013 Schmooze Com Inc.
 //
 //include bootstrapper
-
+$options = getopt("",array("json"));
+$forceJson = isset($options['json']);
 function writeout($string,$exit=false){
-	$shell = isset($_SERVER['SHELL']);
+	global $forceJson;
+	$shell = !$forceJson && isset($_SERVER['SHELL']);
 	if($shell){
 		echo $string.PHP_EOL;
 	}else{
@@ -446,7 +448,7 @@ if ($argc > 1) {
 
   // **** Parse out command-line options
   $shortopts = "h?u:p:";
-  $longopts = array("help","debug","dry-run","run-install","amportalconf=","skip-registry-checks");
+  $longopts = array("help","debug","dry-run","run-install","amportalconf=","skip-registry-checks","--json");
 
   $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
   if (is_object($args)) {

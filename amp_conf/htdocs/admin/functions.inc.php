@@ -381,7 +381,7 @@ function do_reload($passthru=false) {
 		}
 	}
 
-	$retrieve = $setting_ampbin . '/retrieve_conf 2>&1';
+	$retrieve = $setting_ampbin . '/retrieve_conf --json 2>&1';
 	$o = exec($retrieve, $output, $exit_val);
 	$output = json_decode(implode($output,PHP_EOL),true);
 
