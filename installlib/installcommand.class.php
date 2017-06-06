@@ -319,7 +319,7 @@ class FreePBXInstallCommand extends Command {
 			$bootstrap_settings['returnimmediately'] = true;
 			include_once $freepbx_conf_path;
 			unset($bootstrap_settings['returnimmediately']);
-			$newinstall = true;
+			$newinstall = false;
 			require_once('amp_conf/htdocs/admin/functions.inc.php');
 		} elseif(file_exists($answers['webroot']."/admin/bootstrap.php") && is_link($answers['webroot']."/admin/bootstrap.php") && !$answers['dev-links']) {
 			//Previous install, was in dev mode. Now we need to do cleanup
@@ -327,14 +327,20 @@ class FreePBXInstallCommand extends Command {
 			$bootstrap_settings['returnimmediately'] = true;
 			include_once $freepbx_conf_path;
 			unset($bootstrap_settings['returnimmediately']);
-			$newinstall = true;
+			$newinstall = false;
 			require_once('amp_conf/htdocs/admin/functions.inc.php');
 		} elseif(file_exists($freepbx_conf_path) && !file_exists($answers['webroot']."/admin/bootstrap.php")) {
+			if(!file_exists($answers['webroot']."/admin")) {
+				mkdir($answers['webroot']."/admin");
+			}
+			touch($answers['webroot']."/admin/bootstrap.php");
 			$output->writeln("Partial");
 			$bootstrap_settings['returnimmediately'] = true;
 			include_once $freepbx_conf_path;
+			unlink($answers['webroot']."/admin/bootstrap.php");
 			unset($bootstrap_settings['returnimmediately']);
 			$newinstall = true;
+			$answers['skip-install'] = true;
 			require_once('amp_conf/htdocs/admin/functions.inc.php');
 		} elseif (!file_exists($freepbx_conf_path) || $force) {
 			$output->writeln("Yes (No ".$freepbx_conf_path." file detected)");
@@ -775,7 +781,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		}
 
 		//run this here so that we make sure everything is square for module installs
-		system($amp_conf['AMPSBIN'] . "/fwconsole chown");
+		system($amp_conf['AMPSBIN'] . "/fwconsole chown > /dev/tty");
 
 		// module_admin install framework
 		$output->writeln("Installing framework...");
@@ -784,9 +790,10 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 		/* read modules list from MODULE_DIR */
 		if(file_exists(MODULE_DIR) && $newinstall) {
-			$output->write("Installing all modules...");
+			$output->write("Installing base modules...");
 			system($amp_conf['AMPSBIN']."/fwconsole ma install core dashboard sipsettings voicemail");
 			if(!$answers['skip-install']) {
+				$output->write("Installing all modules...");
 				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal");
 			}
 			$output->writeln("Done installing modules");
@@ -796,6 +803,9 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		//Note this is redirected to /dev/tty so the progress bar will work properly.
 		system($amp_conf['AMPSBIN'] . "/fwconsole chown > /dev/tty");
 
+		if($answers['dev-links'] && $newinstall) {
+			system($amp_conf['AMPSBIN']."/fwconsole setting AMPMGRPASS ".$amp_conf['AMPMGRPASS']);
+		}
 
 		// generate_configs();
 		$output->writeln("Generating default configurations...");
