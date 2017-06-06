@@ -22,6 +22,10 @@ if ($freepbx_conf->conf_setting_exists('ALWAYS_SHOW_DEVICE_DETAILS')) {
 	$remove[] = 'ALWAYS_SHOW_DEVICE_DETAILS';
 }
 
+if ($freepbx_conf->conf_setting_exists('EXPOSE_ALL_FEATURE_CODES')) {
+	        $remove[] = 'EXPOSE_ALL_FEATURE_CODES';
+}
+
 if(!empty($remove)) {
 	$freepbx_conf->remove_conf_settings($remove);
 }
