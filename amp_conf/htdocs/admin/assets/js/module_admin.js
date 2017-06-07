@@ -336,7 +336,7 @@ function saveUpdateScheduler(e) {
 	s.text(_("Saving...")).prop("disabled", true);
 
 	$.ajax({
-		url: window.ajaxurl,
+		url: FreePBX.ajaxurl,
 		method: "POST",
 		data: ajaxdata,
 		success: function(data) {
