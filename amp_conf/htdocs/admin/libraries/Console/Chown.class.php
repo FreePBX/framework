@@ -273,6 +273,10 @@ class Chown extends Command {
 			$skip .= "-not -path ".implode(" -not -path ",$blacklist['files']);
 		}
 		if(!empty($blacklist['dirs'])) {
+			$tmp = $blacklist['dirs'];
+			foreach($tmp as $t) {
+				$blacklist['dirs'][] = rtrim($t, '/') . '/*';
+			}
 			array_walk($blacklist['dirs'], function(&$value, $key) {
 				$value = escapeshellarg($value);
 			});
