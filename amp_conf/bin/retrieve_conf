@@ -439,12 +439,11 @@ $skip_registry_checks = false;
 // **** Make sure we have PEAR's GetOpts.php, and include it if we need to parse
 //
 if ($argc > 1) {
-  outn(_("Checking for PEAR Console::Getopt.."));
   if (! @ include("Console/Getopt.php")) {
+		outn(_("Checking for PEAR Console::Getopt.."));
 	  out(_("FAILED"));
 	  fatal(sprintf(_("PEAR must be installed (requires Console/Getopt.php). Include path: %s"), ini_get("include_path")),true);
   }
-  out(_("OK"));
 
   // **** Parse out command-line options
   $shortopts = "h?u:p:";
