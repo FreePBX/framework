@@ -765,6 +765,11 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		system($amp_conf['AMPSBIN']."/fwconsole ma install framework");
 		$output->writeln("Done");
 
+		if($answers['dev-links']) {
+			$output->writeln("Enabling Developer mode");
+			system($amp_conf['AMPSBIN'] . "/fwconsole setting DEVEL 1 > /dev/null");
+		}
+
 		/* read modules list from MODULE_DIR */
 		if(file_exists(MODULE_DIR) && $newinstall) {
 			$output->write("Installing all modules...");
