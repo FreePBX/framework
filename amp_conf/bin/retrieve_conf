@@ -452,8 +452,7 @@ if ($argc > 1) {
   $args = Console_Getopt::getopt(Console_Getopt::readPHPArgv(), $shortopts, $longopts);
   if (is_object($args)) {
 	  // assume it's PEAR_ERROR
-	  out($args->message);
-	  exit(255);
+	  throw new \Exception($args->message);
   }
 
   foreach ($args[0] as $arg) {
@@ -811,6 +810,7 @@ if (empty($my_prob_extens)) {
 	$extens_ok = false;
 }
 
+
 // Check for and report any bogus destinations
 //
 $bmo->Performance->Start("listproblems");
@@ -840,8 +840,8 @@ if (empty($my_probs)) {
 }
 
 if ((!$extens_ok && $amp_conf['XTNCONFLICTABORT']) || (!$dests_ok && $amp_conf['BADDESTABORT'])) {
-	out(_("Aborting reload because extension conflicts or bad destinations"));
-	exit(20);
+	//was error 20
+	throw new \Exception(_("Aborting reload because extension conflicts or bad destinations"));
 }
 
 // Generate an extension map of all extensions on the system
