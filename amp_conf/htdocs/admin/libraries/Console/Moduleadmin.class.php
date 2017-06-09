@@ -1161,6 +1161,7 @@ class Moduleadmin extends Command {
 	}
 
 	private function handleArgs($args,$output){
+		$devmode = \FreePBX::Config()->get('DEVEL');
 		$action = array_shift($args);
 		switch($action){
 			case 'updatekeys':
@@ -1178,6 +1179,9 @@ class Moduleadmin extends Command {
 				$this->setPerms($action,$args);
 				break;
 			case 'installall':
+				if($devmode) {
+					fatal(_("Can not run this command while 'Developer Mode' is enabled"));
+				}
 				$this->check_active_repos();
 				$modules = $this->doInstallAll();
 				$this->updateHooks();
@@ -1202,6 +1206,9 @@ class Moduleadmin extends Command {
 				$this->updateHooks();
 				break;
 			case 'download':
+				if($devmode) {
+					fatal(_("Can not run this command while 'Developer Mode' is enabled"));
+				}
 				if(empty($args)){
 					fatal(_("Missing module name or URL"));
 				}
@@ -1216,6 +1223,9 @@ class Moduleadmin extends Command {
 				$this->setPerms($action,$args);
 				break;
 			case 'downloadinstall':
+				if($devmode) {
+					fatal(_("Can not run this command while 'Developer Mode' is enabled"));
+				}
 				if(empty($args)){
 					fatal(_("Missing module name or URL"));
 				}
@@ -1238,6 +1248,9 @@ class Moduleadmin extends Command {
 			break;
 			case 'upgrade':
 			case 'update':
+				if($devmode) {
+					fatal(_("Can not run this command while 'Developer Mode' is enabled"));
+				}
 				if(empty($args)){
 					fatal(_("Missing module name"));
 				}
@@ -1250,6 +1263,9 @@ class Moduleadmin extends Command {
 				break;
 			case 'updateall':
 			case 'upgradeall':
+				if($devmode) {
+					fatal(_("Can not run this command while 'Developer Mode' is enabled"));
+				}
 				$this->check_active_repos();
 				$modules = $this->doUpgradeAll($force);
 				$this->updateHooks();
@@ -1301,6 +1317,9 @@ class Moduleadmin extends Command {
 				break;
 			case 'remove':
 			case 'delete':
+				if($devmode) {
+					fatal(_("Can not run this command while 'Developer Mode' is enabled"));
+				}
 				if(empty($args)){
 					fatal(_("Missing module name"));
 				}
@@ -1351,6 +1370,9 @@ class Moduleadmin extends Command {
 				}
 				break;
 			case 'refreshsignatures':
+				if($devmode) {
+					fatal(_("Can not run this command while 'Developer Mode' is enabled"));
+				}
 				$modules = $this->refreshsignatures();
 				$this->updateHooks();
 				foreach($modules as $module) {

@@ -24,7 +24,7 @@
 	<?php } ?>
 	<div>
 		<input type="hidden" value="1" name="check_online">
-		<input type="submit" value="<?php echo _("Check Online") ?>" style="<?php if($online) {?>display:none;<?php } ?>"/>
+		<input type="submit" id="check_online_button" value="<?php echo _("Check Online") ?>" style="<?php if($online) {?>display:none;<?php } ?>"/>
 		<?php echo $button_display ?>
 		<?php if($online) {?>
 			<a class="btn" href="config.php?display=modules&amp;online=0"><?php echo _("Manage local modules")?></a>

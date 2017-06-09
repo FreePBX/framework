@@ -758,6 +758,7 @@ class module_functions {
 	* @param string $callback   The function callback name
 	*/
 	function resolveDependencies($modulename,$callback) {
+		$devmode = FreePBX::Config()->get('DEVEL');
 		$force = false;
 		if (is_array($errors = $this->checkdepends($modulename))) {
 			$depends = $this->modDepends;
@@ -769,7 +770,7 @@ class module_functions {
 					$this->getinfo(false,false,false);
 					$m = $this->getinfo($module);
 					if(!empty($m[$module])) {
-						if((!empty($m[$module]['dbversion']) && version_compare_freepbx($m[$module]['dbversion'],$version,'<')) || version_compare_freepbx($m[$module]['version'],$version,'<')) {
+						if(!$devmode && (!empty($m[$module]['dbversion']) && version_compare_freepbx($m[$module]['dbversion'],$version,'<')) || version_compare_freepbx($m[$module]['version'],$version,'<')) {
 							out(sprintf(_("Downloading Missing Dependency of: %s %s"),$module,$version));
 							if (is_array($errors = $this->download($module,$force,$callback))) {
 								out(_("The following error(s) occured:"));
@@ -791,6 +792,9 @@ class module_functions {
 							}
 						} elseif(version_compare_freepbx($m[$module]['version'],$version,'>=')) {
 							out(sprintf(_("Found local Dependency of: %s %s"),$module,$m[$module]['version']));
+						} elseif($devmode) {
+							out(_("Could not find dependency locally and 'Developer Mode' is enabled so will not check online"));
+							return false;
 						}
 						if(!$this->resolveDependencies($module,$callback)) {
 							return false;

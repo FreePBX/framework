@@ -1,6 +1,13 @@
 $(document).ready(function(){
 	// Scheduler update button
 	$("#saveschedule").on("click", saveUpdateScheduler);
+	$("#check_online_button").click(function(e) {
+		if(fpbx.conf.DEVEL === 1) {
+			alert(_("Checking Online is disabled while 'Developer Mode' is enabled"))
+			e.preventDefault();
+			e.stopPropagation();
+		}
+	});
 	$('.repo_boxes').find('input[type=checkbox]').click(function() {
 		var id = $(this).attr('id');
 		var selected = $(this).prop('checked') ? 1 : 0;

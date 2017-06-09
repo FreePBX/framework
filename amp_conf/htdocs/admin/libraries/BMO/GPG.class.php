@@ -40,7 +40,7 @@ class GPG {
 	private $gpg = false;
 
 	// Default options.
-	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true,timeout=5";
+	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true,timeout=10";
 
 	// List of well-known keyservers.
 	private $keyservers = array(
@@ -53,7 +53,7 @@ class GPG {
 
 	// This is how long we should wait for GPG to run a command.
 	// This may need to be tuned on things like the pi.
-	public $timeout = 3;
+	public $timeout = 6;
 
 	// Manually loaded keys are here (This gets initialized in
 	// __construct, below, because PHP)
