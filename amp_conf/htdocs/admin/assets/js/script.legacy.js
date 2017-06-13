@@ -1664,13 +1664,16 @@ $(document).ready(function() {
 	});
 
 	//ajax spinner
-	$(document).ajaxStart(function() {
-		$("#settings-cog").addClass("fa-spin");
-		$("#settings-cog").css("color","");
-		$("#settings-cog").prop("title","");
+	$(document).ajaxSend(function(event,jqhxr,settings) {
+		settings.longpoll = settings.longpoll || false;
+		if(!settings.longpoll){
+			$("#settings-cog").addClass("fa-spin");
+			$("#settings-cog").css("color","");
+			$("#settings-cog").prop("title","");
+		}
 	});
 
-	$(document).ajaxStop(function() {
+	$(document).ajaxComplete(function() {
 		$("#settings-cog").removeClass("fa-spin");
 	});
 
