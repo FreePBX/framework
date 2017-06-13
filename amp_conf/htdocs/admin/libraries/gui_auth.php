@@ -101,8 +101,13 @@ if (!isset($_SESSION['AMP_user'])) {
 			}
 			break;
 	}
+
+	if (isset($_SESSION['AMP_user'])) {
+		define('FREEPBX_IS_AUTH', 'TRUE');
+		FreePBX::Modules()->getActiveModules(false);
+	}
 }
 
-if (isset($_SESSION['AMP_user'])) {
+if (isset($_SESSION['AMP_user']) && !defined('FREEPBX_IS_AUTH')) {
 	define('FREEPBX_IS_AUTH', 'TRUE');
 }
