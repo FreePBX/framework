@@ -16,7 +16,7 @@ class Self_Helper extends DB_Helper {
 
 	public function __construct($freepbx = null) {
 		if (!is_object($freepbx)) {
-			throw new \Exception("Need to be instantiated with a FreePBX Object");
+			throw new \Exception("Need to be instantiated with a FreePBX Object",500);
 		}
 		$this->FreePBX = \FreePBX::create();
 	}
@@ -92,12 +92,12 @@ class Self_Helper extends DB_Helper {
 		$var = $args[0];
 
 		if ($var == "FreePBX") {
-			throw new \Exception("No. You ALREADY HAVE the FreePBX Object. You don't need another one.");
+			throw new \Exception("No. You ALREADY HAVE the FreePBX Object. You don't need another one.",500);
 		}
 
 		// Ensure no-one's trying to include something with a path in it.
 		if (strpos($var, "/") || strpos($var, "..")) {
-			throw new \Exception("Invalid include given to AutoLoader - $var");
+			throw new \Exception("Invalid include given to AutoLoader - $var",500);
 		}
 
 		// This will throw an Exception if it can't find the class.
@@ -109,22 +109,22 @@ class Self_Helper extends DB_Helper {
 		if (isset($args[1]) && isset($args[1][0])) {
 			// We do. We were __call'ed. Sanity check
 			if (isset($args[1][1])) {
-				throw new \Exception(_("Multiple params to autoload (__call) not supported. Don't do that. Or re-write this."));
+				throw new \Exception(_("Multiple params to autoload (__call) not supported. Don't do that. Or re-write this."),500);
 			}
 			if (class_exists($class,false)) {
 				$this->$var = new $class($this, $args[1][0]);
 			} else {
-				throw new \Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
+				throw new \Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class),404);
 			}
 		} else {
 			if (class_exists($class,false)) {
 
 				if($var[0] != strtoupper($var[0])) {
-					throw new \Exception(sprintf(_("BMO Objects must have their first letter capitalized. You provided %s"),$var));
+					throw new \Exception(sprintf(_("BMO Objects must have their first letter capitalized. You provided %s"),$var),500);
 				}
 				$this->$var = new $class($this);
 			} else {
-				throw new \Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class));
+				throw new \Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class),404);
 			}
 			\FreePBX::create()->$var = $this->$var;
 
@@ -158,7 +158,7 @@ class Self_Helper extends DB_Helper {
 
 		if ($hint) {
 			if (!file_exists($hint)) {
-				throw new \Exception(sprintf(_("Attempted to load %s with a hint of %s and it didn't exist"),$objname,$hint));
+				throw new \Exception(sprintf(_("Attempted to load %s with a hint of %s and it didn't exist"),$objname,$hint),404);
 			} else {
 				$try = $hint;
 			}
@@ -213,12 +213,12 @@ class Self_Helper extends DB_Helper {
 			// Bad things have happened.
 			if (!$loaded) {
 				$sobjname = strtolower($objname);
-				throw new \Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$objname) . sprintf(_("A required module might be disabled or uninstalled. Recommended steps (run from the CLI): 1) fwconsole ma install %s 2) fwconsole ma enable %s"),$sobjname,$sobjname));
+				throw new \Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$objname) . sprintf(_("A required module might be disabled or uninstalled. Recommended steps (run from the CLI): 1) fwconsole ma install %s 2) fwconsole ma enable %s"),$sobjname,$sobjname),404);
 				//die_freepbx(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$objname), sprintf(_("A required module might be disabled or uninstalled. Recommended steps (run from the CLI): 1) amportal a ma install %s 2) amportal a ma enable %s"),$sobjname,$sobjname));
 			}
 
 			// We loaded a file that claimed to represent that class, but didn't.
-			throw new \Exception(sprintf(_("Attempted to load %s but it didn't define the class %s"),$try,$objname));
+			throw new \Exception(sprintf(_("Attempted to load %s but it didn't define the class %s"),$try,$objname),404);
 		}
 
 		return true;

@@ -252,13 +252,26 @@ class Hooks extends DB_Helper {
 							throw new \Exception('Cant find '.$namespace.$hook['class']);
 						}
 					} catch(\Exception $e) {
-						throw new \Exception('Error From Module '.$namespace.$hook['class'].": '".$e->getMessage()."'");
+						if($e->getCode() != 404) {
+							throw new \Exception('Error From Module '.$namespace.$hook['class'].": '".$e->getMessage()."'".$e->getCode);
+						} else {
+							$this->updateBMOHooks();
+						}
 					}
 				}
 				$meth = $hook['method'];
 				//now send the method from that class the data!
 				\modgettext::push_textdomain(strtolower($module));
-				$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), func_get_args());
+				try {
+					$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), func_get_args());
+				} catch (\Exception $e) {
+					//module does not exist, try to resolve right now
+					if($e->getCode() != 404) {
+						throw $e;
+					} else {
+						$this->updateBMOHooks();
+					}
+				}
 				\modgettext::pop_textdomain();
 			}
 		}
