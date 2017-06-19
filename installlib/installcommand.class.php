@@ -263,7 +263,7 @@ class FreePBXInstallCommand extends Command {
 		$c = 0;
 		$determined = false;
 		while($c < 5) {
-			exec("sudo -u " . $answers['user'] . " sh -c \"cd ~/ && asterisk -rx 'core show version'\" 2>&1", $tmpout, $ret);
+			exec("sudo -u " . $answers['user'] . " sh -c \"cd ~/ && asterisk -rx 'core show version' 2>&1\"", $tmpout, $ret);
 			if ($ret != 0) {
 				$output->writeln("<error>Error!</error>");
 				$output->writeln("<error>Error communicating with Asterisk.  Ensure that Asterisk is properly installed and running as the ".$answers['user']." user</error>");
@@ -461,6 +461,10 @@ class FreePBXInstallCommand extends Command {
 			$amp_conf['ASTLOGDIR'] = $asterisk_conf['astlogdir'];
 		}
 
+		$fwxml = simplexml_load_file($this->rootPath.'/module.xml');
+		//setversion to whatever is in framework.xml forever for here on out.
+		$fwver = (string)$fwxml->version;
+
 		// Create database(s).
 		if ($newinstall) {
 			global $db;
@@ -486,10 +490,6 @@ class FreePBXInstallCommand extends Command {
 			} else {
 				//check collate
 			}
-
-			$fwxml = simplexml_load_file($this->rootPath.'/module.xml');
-			//setversion to whatever is in framework.xml forever for here on out.
-			$fwver = (string)$fwxml->version;
 
 			$bmo = new \FreePBX($amp_conf);
 
@@ -724,7 +724,7 @@ class FreePBXInstallCommand extends Command {
 
 		//setup and get manager working
 		$output->write("Setting up Asterisk Manager Connection...");
-		exec("sudo -u " . $answers['user'] ." asterisk -rx 'module reload manager'",$o,$r);
+		exec("sudo -u " . $answers['user'] ." sh -c \"cd ~/ && asterisk -rx 'module reload manager' 2>&1\"",$o,$r);
 		if($r !== 0) {
 			$output->writeln("<error>Unable to reload Asterisk Manager</error>");
 			exit(127);
@@ -814,7 +814,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 		// generate_configs();
 		$output->writeln("Generating default configurations...");
-		system("sudo -u " . $amp_conf['AMPASTERISKUSER'] . " " . $amp_conf["AMPSBIN"] . "/fwconsole reload &>/dev/null");
+		system("sudo -u " . $amp_conf['AMPASTERISKUSER'] . " sh -c \"cd ~/ && " . $amp_conf["AMPSBIN"] . "/fwconsole reload &>/dev/null\"");
 		$output->writeln("Finished generating default configurations");
 
 		// GPG setup - trustFreePBX();
