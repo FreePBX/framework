@@ -205,7 +205,7 @@ class FreePBXInstallCommand extends Command {
 		$output->writeln("Its not (good)!");
 		unset($tmpout);
 
-		require_once('installlib/installer.class.php');
+		require_once(__DIR__.'/installer.class.php');
 		$installer = new Installer($input, $output);
 
 		// Copy asterisk.conf
