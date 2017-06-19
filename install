@@ -16,7 +16,7 @@ require_once(__DIR__.'/installlib/installcommand.class.php');
 
 use Symfony\Component\Console\Application;
 
-$xml = simplexml_load_file("module.xml");
+$xml = simplexml_load_file(__DIR__."/module.xml");
 
 $app = new FreePBXInstallApplication("FreePBX Installation Utility", (string)$xml->version);
 $app->run();
