@@ -123,7 +123,7 @@ if ($bootstrap_settings['freepbx_error_handler'] && empty($bootstrap_settings['f
 			$class = '\\Whoops\\Handler\\'.$bootstrap_settings['whoops_handler'];
 			$handler = new $class;
 			if($bootstrap_settings['whoops_handler'] == 'JsonResponseHandler') {
-				$handler->addTraceToOutput(true);
+				//$handler->addTraceToOutput(true);
 			}
 			$whoops->pushHandler($handler);
 		} else {
