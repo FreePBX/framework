@@ -12,7 +12,7 @@ class SystemUpdates {
 
 	public function __construct() {
 		// Can't use functions in class definitions
-		$this->strarr = [ "complete" => _("(Complete)"), "unknown" => _("(Unknown)"), "inprogress" => _("(In Progress)") ];
+		$this->strarr = [ "complete" => _("(Complete)"), "unknown" => _("(Unknown)"), "inprogress" => _("(In Progress)"), "yumerror" => _("(Yum Error)") ];
 	}
 
 	/**
@@ -278,6 +278,13 @@ class SystemUpdates {
 		// We do!
 		$retarr['status'] = 'complete';
 
+		// Did yum fail?
+		if ($updates['commands']['yum-check-updates']['exitcode'] == 1) {
+			$retarr['status'] = 'yumerror';
+			$retarr['i18nstatus'] = $this->strarr['yumerror'];
+			return $retarr;
+		}
+
 		// Are there any updates?
 		$retarr['updatesavail'] = ($updates['commands']['yum-check-updates']['exitcode'] == 100);
 
@@ -493,7 +500,11 @@ class SystemUpdates {
 
 		$rpmcount = count($pending['rpms']);
 		if ($rpmcount == 0) {
-			$rpmtext = _("No updates currently required!");
+			if ($pending['status'] == "yumerror") {
+				$rpmtext = _("Unable to run 'yum check-updates', can't check for updates");
+			} else {
+				$rpmtext = _("No updates currently required!");
+			}
 		} else {
 			if ($rpmcount == 1) {
 				$rpmtext = _("1 RPM available for upgrade");
