@@ -263,7 +263,7 @@ class FreePBXInstallCommand extends Command {
 		$c = 0;
 		$determined = false;
 		While($c < 5) {
-			exec("sudo -u " . $answers['user'] . " cd / && asterisk -rx 'core show version' 2>&1", $tmpout, $ret);
+			exec("runuser -l " . $answers['user'] . ' -c "cd / && asterisk -rx \'core show version\' 2>&1"', $tmpout, $ret);
 			if ($ret != 0) {
 				$output->writeln("<error>Error!</error>");
 				$output->writeln("<error>Error communicating with Asterisk.  Ensure that Asterisk is properly installed and running as the ".$answers['user']." user</error>");
@@ -287,6 +287,7 @@ class FreePBXInstallCommand extends Command {
 						$output->writeln("<error>Supported Asterisk versions: 11, 12, 13, 14</error>");
 						exit(1);
 					}
+					$output->writeln("Yes. Determined Asterisk version to be: ".$matches[1]);
 					break;
 				}
 			}
@@ -297,7 +298,6 @@ class FreePBXInstallCommand extends Command {
 			$output->writeln("<error>Error!</error>");
 			$output->writeln("<error>Could not determine Asterisk version (got: " . $astver . "). Please report this.</error>");
 		}
-		$output->writeln("Done");
 
 		if((file_exists($freepbx_conf_path) && !file_exists(AMP_CONF)) || (!file_exists($freepbx_conf_path) && file_exists(AMP_CONF))) {
 			if(file_exists($freepbx_conf_path)) {
@@ -724,7 +724,7 @@ class FreePBXInstallCommand extends Command {
 
 		//setup and get manager working
 		$output->write("Setting up Asterisk Manager Connection...");
-		exec("sudo -u " . $answers['user'] ." cd / && asterisk -rx 'module reload manager' 2>&1",$o,$r);
+		exec("runuser -l " . $answers['user'] . ' -c "cd / && asterisk -rx \'module reload manager\' 2>&1"',$o,$r);
 		if($r !== 0) {
 			$output->writeln("<error>Unable to reload Asterisk Manager</error>");
 			exit(127);
@@ -814,7 +814,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 		// generate_configs();
 		$output->writeln("Generating default configurations...");
-		system("sudo -u " . $amp_conf['AMPASTERISKUSER'] . " cd / && " . $amp_conf["AMPSBIN"] . "/fwconsole reload &>/dev/null");
+		system("runuser -l " . $amp_conf['AMPASTERISKUSER'] . ' -c "cd / && '.$amp_conf["AMPSBIN"].'/fwconsole reload &>/dev/null"');
 		$output->writeln("Finished generating default configurations");
 
 		// GPG setup - trustFreePBX();
