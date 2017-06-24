@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-23 16:12-0700\n"
+"POT-Creation-Date: 2017-06-23 21:09-0700\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -3541,7 +3541,7 @@ msgstr "هنوز پیزی درباره ماژولها نمیدانید. بسپا
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2137
 #: amp_conf/htdocs/admin/page.modules.php:389
 #: amp_conf/htdocs/admin/page.modules.php:1125
-#: installlib/installcommand.class.php:511 ../core/install.php:807
+#: installlib/installcommand.class.php:518 ../core/install.php:807
 msgid "Done"
 msgstr "انجام شد"
 
@@ -5017,7 +5017,7 @@ msgstr "دریافت اطلاعات از سرور آنلاین..."
 msgid "Getting Remote Repo list..."
 msgstr "دریافت فهرست منابع از سرور خارجی..."
 
-#: ../core/views/trunks/sip.php:34
+#: ../core/views/trunks/sip.php:65
 msgid ""
 "Give this trunk a unique name.  Example: myiaxtel. Note this is uses as the "
 "trunk context within asterisk"
@@ -5595,7 +5595,7 @@ msgstr "فهرست مسیرهای ورودی"
 msgid "Include Server Name in Browser"
 msgstr "شامل نام سرور در مرورگر"
 
-#: ../core/views/trunks/sip.php:9
+#: ../core/views/trunks/sip.php:40
 msgid "Incoming"
 msgstr "ورودی"
 
@@ -6228,7 +6228,7 @@ msgstr "گمشدن نام منبع"
 msgid "MoH Subdirectory"
 msgstr "دایرکتوری فرعی موزیک انتظار"
 
-#: ../core/views/trunks/sip.php:58
+#: ../core/views/trunks/sip.php:89
 msgid ""
 "Modify the default PEER connection parameters for your VoIP provider."
 "<br><br>You may need to add to the default lines listed below, depending on "
@@ -6242,7 +6242,7 @@ msgstr ""
 "retained. For example, if you use the \"allow/deny\" directives make sure "
 "deny comes first."
 
-#: ../core/views/trunks/sip.php:108
+#: ../core/views/trunks/sip.php:139
 msgid "Modify the default USER connection parameters for your VoIP provider."
 msgstr "تغییر پارامترهای پیشفرض اتصال کاربر برای تامین کننده سرویس ویپ."
 
@@ -6527,7 +6527,7 @@ msgstr "مشاهده ترانک های ازدست رفته"
 msgid "More info"
 msgstr "اطلاعات بیشتر"
 
-#: ../core/views/trunks/sip.php:132
+#: ../core/views/trunks/sip.php:163
 msgid ""
 "Most VoIP providers require your system to REGISTER with theirs. Enter the "
 "registration line here.<br><br>example:<br><br>username:password@switch."
@@ -7320,7 +7320,7 @@ msgstr "مسیرهای خروجی"
 msgid "Outbound Routes List"
 msgstr "فهرست مسیرهای خروجی"
 
-#: ../core/views/trunks/sip.php:4
+#: ../core/views/trunks/sip.php:35
 msgid "Outgoing"
 msgstr "خروجی"
 
@@ -7387,7 +7387,7 @@ msgstr ""
 msgid "PBX Message"
 msgstr ""
 
-#: ../core/views/trunks/sip.php:46
+#: ../core/views/trunks/sip.php:77
 msgid "PEER Details"
 msgstr "جزییات PEER"
 
@@ -8024,7 +8024,7 @@ msgstr "بازنشانی %s"
 msgid "Refuse"
 msgstr "قبول نکردن"
 
-#: ../core/views/trunks/sip.php:120
+#: ../core/views/trunks/sip.php:151
 msgid "Register String"
 msgstr "ثبت نام رشته"
 
@@ -9974,7 +9974,7 @@ msgid ""
 msgstr ""
 "This is generally a  permissions issue. From a console run 'fwconsole chown'"
 
-#: ../core/views/trunks/sip.php:84
+#: ../core/views/trunks/sip.php:115
 msgid ""
 "This is most often the account name or number your provider expects."
 "<br><br>This USER Context will be used to define the below user details."
@@ -10321,7 +10321,7 @@ msgstr "حمل ونقل"
 msgid "Trunk Dial Timeout"
 msgstr "وقفه شماره گیری ترانک"
 
-#: ../core/views/trunks/sip.php:22 ../core/views/trunks/trunk_header.php:235
+#: ../core/views/trunks/sip.php:53 ../core/views/trunks/trunk_header.php:235
 msgid "Trunk Name"
 msgstr "نام ترانک"
 
@@ -10396,11 +10396,11 @@ msgstr "US  International"
 msgid "US Toll Free Patterns"
 msgstr "US  Toll Free Patterns"
 
-#: ../core/views/trunks/sip.php:72
+#: ../core/views/trunks/sip.php:103
 msgid "USER Context"
 msgstr "متن کاربر"
 
-#: ../core/views/trunks/sip.php:96
+#: ../core/views/trunks/sip.php:127
 msgid "USER Details"
 msgstr "جزییات کاربر"
 
@@ -10676,7 +10676,7 @@ msgid "Updating prepared settings.."
 msgstr "به روزرسانی تنظیمات آماده شده.."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1978
-#: installlib/installcommand.class.php:509
+#: installlib/installcommand.class.php:516
 #, php-format
 msgid "Updating table %s..."
 msgstr ""

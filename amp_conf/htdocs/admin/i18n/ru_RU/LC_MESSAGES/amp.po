@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-06-23 16:12-0700\n"
+"POT-Creation-Date: 2017-06-23 21:09-0700\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -3563,7 +3563,7 @@ msgstr "Пока не знаю о модуле.Мне это  необходим
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2137
 #: amp_conf/htdocs/admin/page.modules.php:389
 #: amp_conf/htdocs/admin/page.modules.php:1125
-#: installlib/installcommand.class.php:511 ../core/install.php:807
+#: installlib/installcommand.class.php:518 ../core/install.php:807
 msgid "Done"
 msgstr "Завершено"
 
@@ -5048,7 +5048,7 @@ msgstr "Получение данных с онлайн-сервера..."
 msgid "Getting Remote Repo list..."
 msgstr "Получение списка удалённых репозиториев"
 
-#: ../core/views/trunks/sip.php:34
+#: ../core/views/trunks/sip.php:65
 msgid ""
 "Give this trunk a unique name.  Example: myiaxtel. Note this is uses as the "
 "trunk context within asterisk"
@@ -5626,7 +5626,7 @@ msgstr "Список входящих маршрутов"
 msgid "Include Server Name in Browser"
 msgstr "Включать имя сервера в браузере"
 
-#: ../core/views/trunks/sip.php:9
+#: ../core/views/trunks/sip.php:40
 msgid "Incoming"
 msgstr "Входящий"
 
@@ -6266,7 +6266,7 @@ msgstr "Неверное имя репозитория"
 msgid "MoH Subdirectory"
 msgstr "Субдиректория Музыки в ожидании"
 
-#: ../core/views/trunks/sip.php:58
+#: ../core/views/trunks/sip.php:89
 msgid ""
 "Modify the default PEER connection parameters for your VoIP provider."
 "<br><br>You may need to add to the default lines listed below, depending on "
@@ -6280,7 +6280,7 @@ msgstr ""
 "важное значение! Например, если используются конструкции \"allow/deny\" "
 "убедитесь, что \"deny\" будет первым."
 
-#: ../core/views/trunks/sip.php:108
+#: ../core/views/trunks/sip.php:139
 msgid "Modify the default USER connection parameters for your VoIP provider."
 msgstr ""
 "Изменить параметры соединения по умолчанию USER для вашего провайдера VoIP."
@@ -6568,7 +6568,7 @@ msgstr "Следить за отказами транка"
 msgid "More info"
 msgstr "Подробнее"
 
-#: ../core/views/trunks/sip.php:132
+#: ../core/views/trunks/sip.php:163
 msgid ""
 "Most VoIP providers require your system to REGISTER with theirs. Enter the "
 "registration line here.<br><br>example:<br><br>username:password@switch."
@@ -7360,7 +7360,7 @@ msgstr "Исходящая маршрутизация"
 msgid "Outbound Routes List"
 msgstr ""
 
-#: ../core/views/trunks/sip.php:4
+#: ../core/views/trunks/sip.php:35
 msgid "Outgoing"
 msgstr "Исходящий"
 
@@ -7426,7 +7426,7 @@ msgstr ""
 msgid "PBX Message"
 msgstr ""
 
-#: ../core/views/trunks/sip.php:46
+#: ../core/views/trunks/sip.php:77
 msgid "PEER Details"
 msgstr "опции для PEER"
 
@@ -8057,7 +8057,7 @@ msgstr "Обновление  %s"
 msgid "Refuse"
 msgstr ""
 
-#: ../core/views/trunks/sip.php:120
+#: ../core/views/trunks/sip.php:151
 msgid "Register String"
 msgstr "Строка регистрации"
 
@@ -9940,7 +9940,7 @@ msgstr ""
 "Это обычно имеет отношение к правам доступа. Запустите из консоли  "
 "'fwconsole chown'"
 
-#: ../core/views/trunks/sip.php:84
+#: ../core/views/trunks/sip.php:115
 msgid ""
 "This is most often the account name or number your provider expects."
 "<br><br>This USER Context will be used to define the below user details."
@@ -10279,7 +10279,7 @@ msgstr "Транспорт"
 msgid "Trunk Dial Timeout"
 msgstr ""
 
-#: ../core/views/trunks/sip.php:22 ../core/views/trunks/trunk_header.php:235
+#: ../core/views/trunks/sip.php:53 ../core/views/trunks/trunk_header.php:235
 msgid "Trunk Name"
 msgstr "Название транка"
 
@@ -10355,11 +10355,11 @@ msgstr "Интернациональные службы США"
 msgid "US Toll Free Patterns"
 msgstr "Бесплатные для вызывающих шаблоны номеров служб США"
 
-#: ../core/views/trunks/sip.php:72
+#: ../core/views/trunks/sip.php:103
 msgid "USER Context"
 msgstr "Контекст USER"
 
-#: ../core/views/trunks/sip.php:96
+#: ../core/views/trunks/sip.php:127
 msgid "USER Details"
 msgstr "опции USER"
 
@@ -10635,7 +10635,7 @@ msgid "Updating prepared settings.."
 msgstr "Подготавливаются установки для обновления.."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1978
-#: installlib/installcommand.class.php:509
+#: installlib/installcommand.class.php:516
 #, php-format
 msgid "Updating table %s..."
 msgstr ""
