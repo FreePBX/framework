@@ -263,7 +263,7 @@ class FreePBXInstallCommand extends Command {
 		$c = 0;
 		$determined = false;
 		While($c < 5) {
-			$lastline = exec("runuser -l " . $answers['user'] . ' -c "asterisk -rx \'core show version\' 2>&1"', $tmpout, $ret);
+			$lastline = exec("runuser " . $answers['user'] . ' -c "cd ~/ && asterisk -rx \'core show version\' 2>&1"', $tmpout, $ret);
 			if ($ret != 0) {
 				$output->writeln("<error>Error!</error>");
 				$output->writeln("<error>Error communicating with Asterisk.  Ensure that Asterisk is properly installed and running as the ".$answers['user']." user</error>");
@@ -731,7 +731,7 @@ class FreePBXInstallCommand extends Command {
 
 		//setup and get manager working
 		$output->write("Setting up Asterisk Manager Connection...");
-		exec("runuser -l " . $answers['user'] . ' -c "asterisk -rx \'module reload manager\' 2>&1"',$o,$r);
+		exec("runuser " . $answers['user'] . ' -c "cd ~/ && asterisk -rx \'module reload manager\' 2>&1"',$o,$r);
 		if($r !== 0) {
 			$output->writeln("<error>Unable to reload Asterisk Manager</error>");
 			exit(127);
@@ -821,7 +821,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 		// generate_configs();
 		$output->writeln("Generating default configurations...");
-		system("runuser -l " . $amp_conf['AMPASTERISKUSER'] . ' -c "'.$amp_conf["AMPSBIN"].'/fwconsole reload &>/dev/null"');
+		system("runuser " . $amp_conf['AMPASTERISKUSER'] . ' -c "cd ~/ && '.$amp_conf["AMPSBIN"].'/fwconsole reload &>/dev/null"');
 		$output->writeln("Finished generating default configurations");
 
 		// GPG setup - trustFreePBX();
