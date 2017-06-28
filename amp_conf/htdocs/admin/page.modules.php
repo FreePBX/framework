@@ -1047,7 +1047,10 @@ default:
 	}
 
 	// Figure out the counts for our summary page.
-	$summary["activemodules"] = count($modulef->getinfo(false, \MODULE_STATUS_ENABLED));
+	$activemodules = $modulef->getinfo(false, \MODULE_STATUS_ENABLED);
+	//Because we do it to total
+	unset($activemodules['builtin']);
+	$summary["activemodules"] = count($activemodules);
 	$summary["disabledmodules"] = count($modulef->getinfo(false, \MODULE_STATUS_DISABLED));
 	$summary["brokenmodules"] = count($modulef->getinfo(false, \MODULE_STATUS_BROKEN));
 	$summary["needsupgrademodules"] = count($modulef->getinfo(false, \MODULE_STATUS_BROKEN));
