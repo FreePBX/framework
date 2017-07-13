@@ -59,7 +59,7 @@ class Mail {
 		$this->mail->setBody($body);
 		$this->bodyset = true;
 	}
-	public function addAttachment($parh){
+	public function addAttachment($path){
 		$this->mail->attach(\Swift_Attachment::fromPath($path));
 		$this->attachmentset = true;
 	}
