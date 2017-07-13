@@ -15,7 +15,7 @@ class Mail {
 		$transport = \Swift_SmtpTransport::newInstance('localhost', 25);
 		$this->mailer = \Swift_Mailer::newInstance($transport);
 		$from_email = \get_current_user() . '@' . \gethostname();
-		if(function_exists('\\sysadmin_get_storage_email')){
+		if(function_exists('sysadmin_get_storage_email')){
 			$emails = \sysadmin_get_storage_email();
 			//Check that what we got back above is a email address
 			if(!empty($emails['fromemail']) && filter_var($emails['fromemail'],FILTER_VALIDATE_EMAIL)){
