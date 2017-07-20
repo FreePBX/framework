@@ -16,11 +16,98 @@ class Migration {
 
 	public function __construct($conn, $table, $driver, $version) {
 		$this->conn = $conn;
-		$this->table = $table;
+		$this->table = trim($table);
 		$this->version = $version;
 		$this->driver = $driver;
 	}
 
+	/**
+	 * Generate Update Array used to create or update tables
+	 * @method generateUpdateArray
+	 * @return array              Array of table
+	 */
+	public function generateUpdateArray() {
+		$sm = $this->conn->getSchemaManager();
+		//$table = $sm->listTableDetails($this->table);
+		$columns = $sm->listTableColumns($this->table);
+		$foreignKeys = $sm->listTableForeignKeys($this->table);
+		$indexes = $sm->listTableIndexes($this->table);
+
+		$export = array();
+		$expindexes = array();
+		foreach ($columns as $column) {
+			$type = strtolower($column->getType());
+			$name = $column->getName();
+			switch($type) {
+				case 'text':
+				case 'string':
+					$export[$name]['type'] = $type;
+					$export[$name]['length'] = $column->getLength();
+				break;
+				case 'date':
+				case 'boolean':
+				case 'integer':
+				case 'datetime':
+					$export[$name]['type'] = $type;
+				break;
+				case 'decimal':
+					$export[$name]['type'] = $type;
+					$export[$name]['precision'] = $column->getPrecision();
+					$export[$name]['scale'] = $column->getScale();
+				break;
+				default:
+					throw new \Exception("Unknown type: ".$type);
+				break;
+			}
+			if(!$column->getNotnull()) {
+				$export[$name]['notnull'] = $column->getNotnull();
+			}
+			if($column->getAutoincrement()) {
+				$export[$name]['autoincrement'] = $column->getAutoincrement();
+			}
+			if($column->getUnsigned()) {
+				$export[$name]['unsigned'] = $column->getUnsigned();
+			}
+			$default = $column->getDefault();
+			if(!in_array($type,array("datetime","datetime/timestamp")) && !is_null($default)){
+				$export[$name]['default'] = $default;
+			}
+		}
+		foreach ($indexes as $index) {
+			$name = $index->getName();
+			if($index->isPrimary()) {
+				foreach($index->getColumns() as $col) {
+					$export[$col]['primaryKey'] = true;
+				}
+				continue;
+			} elseif($index->isUnique()) {
+				$expindexes[$name]['type'] = 'unique';
+			} else {
+				$expindexes[$name]['type'] = 'index';
+			}
+			$expindexes[$name]['cols'] = $index->getColumns();
+		}
+
+		if(!empty($foreignKeys)) {
+			throw new \Exception("There are foreign keys here. Cant accurately generate tables");
+		}
+		/*
+		foreach ($foreignKeys as $foreignKey) {
+			//echo $foreignKey->getName() . ': ' . $foreignKey->getLocalTableName() ."\n";
+		}
+		*/
+
+		return array("columns"=>$export, "indexes" => $expindexes);
+	}
+
+	/**
+	 * Modify Table
+	 * @method modify
+	 * @param  array  $columns Columns to update
+	 * @param  array  $indexes Indexes to update
+	 * @param  bool   $dryrun  If set to true dont execute just return the sql modification string
+	 * @return mixed
+	 */
 	public function modify($columns=array(),$indexes=array(),$dryrun=false) {
 		$synchronizer = new \Doctrine\DBAL\Schema\Synchronizer\SingleDatabaseSynchronizer($this->conn);
 		$schema = new \Doctrine\DBAL\Schema\Schema();

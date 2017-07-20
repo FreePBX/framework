@@ -39,106 +39,15 @@ class Doctrine extends Command {
 			break;
 		}
 
-		$q = $dbh->prepare("DESCRIBE ".(!empty($this->database) ? $this->database.".":"").$args[0]);
-		$q->execute();
-		$table_fields = $q->fetchAll(\PDO::FETCH_ASSOC);
-		$export = array();
-		foreach($table_fields as $table){
-			$export[$table['Field']] = array();
-			preg_match('/(?P<type>\w+)($|\((?P<length>(\d+|(.*)))\))\s*(?P<extra>(\w*))/', $table['Type'], $field);
-			switch($field['type']){
-				case 'char':
-				case 'varchar':
-					$export[$table['Field']]['type'] = 'string';
-					if(isset($field['length'])){
-						$export[$table['Field']]['length'] = $field['length'];
-					}
-				break;
-				case 'int':
-					$export[$table['Field']]['type'] = 'integer';
-				break;
-				case 'tinyint':
-					$export[$table['Field']]['type'] = 'boolean';
-				break;
-				case 'text':
-				case 'glob':
-					$export[$table['Field']]['type'] = 'text';
-					if(isset($field['length'])){
-						$export[$table['Field']]['length'] = $field['length'];
-					}
-				break;
-				case 'date':
-					$export[$table['Field']]['type'] = 'date';
-				break;
-				case 'datetime/timestamp':
-				case 'datetime':
-					$export[$table['Field']]['type'] = 'datetime';
-				break;
-				case 'smallint':
-				case 'bigint':
-				case 'float':
-				case 'blob':
-				case 'time':
-					$export[$table['Field']]['type'] = $field['type'];
-				break;
-				case 'decimal':
-					$parts = explode(",",$field['length']);
-					$export[$table['Field']]['type'] = $field['type'];
-					$export[$table['Field']]['precision'] = $parts[0];
-					$export[$table['Field']]['scale'] = $parts[1];
-				break;
-				default:
-					throw new \Exception("Unknown Col Type: ".$field['type']);
-			}
-			if($table['Key'] == "PRI"){
-				$export[$table['Field']]['primaryKey'] = true;
-			}
-			if($table['Null'] != "NO"){
-				$export[$table['Field']]['notnull'] = false;
-			}
-
-			if(!empty($field['extra'])) {
-				if($field['extra'] == 'unsigned') {
-					$export[$table['Field']]['unsigned'] = true;
-				} else {
-					throw new \Exception("Unknown field type");
-				}
-			}
-
-			if(!in_array($field['type'],array("datetime","datetime/timestamp")) && isset($table['Default']) && !is_null($table['Default'])){
-				$export[$table['Field']]['default'] = $table['Default'];
-			}
-			if($table['Extra'] == 'auto_increment'){
-				$export[$table['Field']]['autoincrement'] = true;
-			}
-		}
-
-		$q = $dbh->prepare("SHOW INDEX FROM ".(!empty($this->database) ? $this->database.".":"").$args[0]);
-		$q->execute();
-		$table_indexes = $q->fetchAll(\PDO::FETCH_ASSOC);
-		$expindexes = array();
-		foreach($table_indexes as $idx){
-			if($idx['Key_name'] == 'PRIMARY') {
-				continue;
-			}
-			if($idx['Non_unique'] === 1){
-				$expindexes[$idx['Key_name']]['type'] = 'index';
-			}else{
-				$expindexes[$idx['Key_name']]['type'] = 'unique';
-			}
-			if(!isset($expindexes[$idx['Key_name']]['cols'])){
-				$expindexes[$idx['Key_name']]['cols'] = array();
-			}
-			$expindexes[$idx['Key_name']]['cols'][] = $idx['Column_name'];
-		}
-
 		$table = \FreePBX::Database()->migrate($args[0]);
-		$test = $table->modify($export, $expindexes, true);
+		$generate = $table->generateUpdateArray();
+		$table = \FreePBX::Database()->migrate($args[0]);
+		$test = $table->modify($generate['columns'], $generate['indexes'], true);
 		if(!empty($test)) {
 			print_r("Cols");
-			print_r($export);
+			print_r($generate['columns']);
 			print_r("Indexes");
-			print_r($expindexes);
+			print_r($generate['indexes']);
 			throw new \Exception("Error: Table did not accurately match generation. Aborting. Modification string should be empty but returned: '".implode("; ",$test)."'");
 		}
 
@@ -150,7 +59,7 @@ class Doctrine extends Command {
 				}
 				$table = $xml->addChild("table");
 				$table->addAttribute('name', $args[0]);
-				foreach($export as $col => $data) {
+				foreach($generate['columns'] as $col => $data) {
 					$c = $table->addChild("field");
 					$c->addAttribute('name', $col);
 					$c->addAttribute('type', $data['type']);
@@ -176,10 +85,10 @@ class Doctrine extends Command {
 					}
 
 					if(isset($data['autoincrement'])) {
-						$c->addAttribute('primaryKey', $data['autoincrement'] ? 'true' : 'false');
+						$c->addAttribute('autoincrement', $data['autoincrement'] ? 'true' : 'false');
 					}
 				}
-				foreach($expindexes as $index => $data) {
+				foreach($generate['indexes'] as $index => $data) {
 					$i = $table->addChild("key");
 					$i->addAttribute('name', $index);
 					$i->addAttribute('type', $data['type']);
@@ -200,10 +109,10 @@ class Doctrine extends Command {
 			break;
 			case "php":
 				$output->writeln('$table = \FreePBX::Database()->migrate("'.$args[0].'");');
-				$output->writeln('$cols = '.var_export($export,true).';');
+				$output->writeln('$cols = '.var_export($generate['columns'],true).';');
 				$output->writeln(PHP_EOL);
 
-				$output->writeln('$indexes = '.var_export($expindexes,true).';');
+				$output->writeln('$indexes = '.var_export($generate['indexes'],true).';');
 				$output->writeln('$table->modify($cols, $indexes);');
 				$output->writeln('unset($table);');
 			break;
