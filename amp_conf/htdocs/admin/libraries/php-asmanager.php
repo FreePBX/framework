@@ -876,8 +876,11 @@ class AGI_AsteriskManager {
 	* @param string $variable
 	* @param string $actionid message matching variable
 	*/
-	function GetVar($channel, $variable, $actionid=NULL) {
-		$parameters = array('Channel'=>$channel, 'Variable'=>$variable);
+	function GetVar($channel=null, $variable, $actionid=NULL) {
+		$parameters = array('Variable'=>$variable);
+		if(!empty($channel)) {
+			$parameters['Channel'] = $channel;
+		}
 		if($actionid) {
 			$parameters['ActionID'] = $actionid;
 		}
@@ -1752,9 +1755,71 @@ class AGI_AsteriskManager {
 	 *
 	 * @return array returns a key => val array
 	 */
+	function PJSIPShowEndpoints() {
+		$this->add_event_handler("endpointlist", array($this, 'Endpoints_catch'));
+		$this->add_event_handler("endpointlistcomplete", array($this, 'Endpoints_catch'));
+		$response = $this->send_request('PJSIPShowEndpoints');
+		if ($response["Response"] == "Success") {
+			$this->wait_response(true);
+			stream_set_timeout($this->socket, 30);
+		} else {
+			return false;
+		}
+		$res = $this->response_catch;
+		// Asterisk 12 can sometimes dump extra garbage after the
+		// output of this. So grab it, and discard it, if it's
+		// pending.
+		// Note that this has been reported as a bug and should
+		// be removed, or, wait_response needs to be re-written
+		// to keep waiting until it receives the ending event
+		// https://issues.asterisk.org/jira/browse/ASTERISK-24331
+		usleep(1000);
+		stream_set_blocking($this->socket, false);
+		while (fgets($this->socket)) { /* do nothing */ }
+		stream_set_blocking($this->socket, true);
+		unset($this->event_handlers['endpointlist']);
+		unset($this->event_handlers['endpointlistcomplete']);
+		return $res;
+	}
+
+	function PJSIPShowRegistrationInboundContactStatuses() {
+		$this->add_event_handler("contactstatusdetail", array($this, 'Contacts_catch'));
+		$this->add_event_handler("contactstatusdetailcomplete", array($this, 'Contacts_catch'));
+		$response = $this->send_request('PJSIPShowRegistrationInboundContactStatuses');
+		if ($response["Response"] == "Success") {
+			$this->wait_response(true);
+			stream_set_timeout($this->socket, 30);
+		} else {
+			return false;
+		}
+		$res = $this->response_catch;
+		// Asterisk 12 can sometimes dump extra garbage after the
+		// output of this. So grab it, and discard it, if it's
+		// pending.
+		// Note that this has been reported as a bug and should
+		// be removed, or, wait_response needs to be re-written
+		// to keep waiting until it receives the ending event
+		// https://issues.asterisk.org/jira/browse/ASTERISK-24331
+		usleep(1000);
+		stream_set_blocking($this->socket, false);
+		while (fgets($this->socket)) { /* do nothing */ }
+		stream_set_blocking($this->socket, true);
+		unset($this->event_handlers['contactstatusdetail']);
+		unset($this->event_handlers['contactstatusdetailcomplete']);
+		return $res;
+	}
+
+	/**
+	 * PJSIPShowEndpoint
+	 * @param string $channel
+	 *
+	 * @return array returns a key => val array
+	 */
 	function PJSIPShowEndpoint($dev) {
-		 $this->add_event_handler("endpointdetail", array($this, 'Endpoint_catch'));
-		 $this->add_event_handler("authdetail", array($this, 'Endpoint_catch'));
+		$this->add_event_handler("endpointdetail", array($this, 'Endpoint_catch'));
+		$this->add_event_handler("authdetail", array($this, 'Endpoint_catch'));
+		$this->add_event_handler("transportdetail", array($this, 'Endpoint_catch'));
+		$this->add_event_handler("identifydetail", array($this, 'Endpoint_catch'));
 		$this->add_event_handler("endpointdetailcomplete", array($this, 'Endpoint_catch'));
 		$params = array("Endpoint" => $dev);
 		$response = $this->send_request('PJSIPShowEndpoint', $params);
@@ -1778,8 +1843,38 @@ class AGI_AsteriskManager {
 		stream_set_blocking($this->socket, true);
 		unset($this->event_handlers['endpointdetail']);
 		unset($this->event_handlers['authdetail']);
+		unset($this->event_handlers['transportdetail']);
+		unset($this->event_handlers['identifydetail']);
 		unset($this->event_handlers['endpointdetailcomplete']);
 		return $res;
+	}
+
+	/**
+	* Catcher for the pjsip events
+	*
+	*/
+	private function Contacts_catch($event, $data, $server, $port) {
+		switch($event) {
+			case 'contactstatusdetailcomplete':
+				stream_set_timeout($this->socket, 0, 1);
+				break;
+			default:
+				$this->response_catch[] =  $data;
+		}
+	}
+
+	/**
+	* Catcher for the pjsip events
+	*
+	*/
+	private function Endpoints_catch($event, $data, $server, $port) {
+		switch($event) {
+			case 'endpointlistcomplete':
+				stream_set_timeout($this->socket, 0, 1);
+				break;
+			default:
+				$this->response_catch[] =  $data;
+		}
 	}
 
 	/**
