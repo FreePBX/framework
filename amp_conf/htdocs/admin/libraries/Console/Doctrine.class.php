@@ -76,8 +76,8 @@ class Doctrine extends Command {
 						$c->addAttribute('notnull', $data['notnull'] ? 'true' : 'false');
 					}
 
-					if(isset($data['primaryKey'])) {
-						$c->addAttribute('primaryKey', $data['primaryKey'] ? 'true' : 'false');
+					if(isset($data['primaryKey']) || isset($data['primarykey'])) {
+						$c->addAttribute('primarykey', $data['primarykey'] ? 'true' : 'false');
 					}
 
 					if(isset($data['autoincrement'])) {

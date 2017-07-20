@@ -91,7 +91,7 @@ class Migration {
 			$name = $index->getName();
 			if($index->isPrimary()) {
 				foreach($index->getColumns() as $col) {
-					$export[$col]['primaryKey'] = true;
+					$export[$col]['primarykey'] = true;
 				}
 				continue;
 			} elseif($index->isUnique()) {

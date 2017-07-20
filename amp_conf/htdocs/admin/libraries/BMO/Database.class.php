@@ -168,9 +168,10 @@ class Database extends \PDO {
 				if($key == "name") {
 					continue;
 				}
+				$key = strtolower($key);
 				switch ($key) {
 					case 'notnull':
-					case 'primaryKey':
+					case 'primarykey':
 					case 'autoincrement':
 					case 'unique':
 					case 'fixed':
