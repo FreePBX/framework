@@ -41,7 +41,6 @@ class Doctrine extends Command {
 
 		$table = \FreePBX::Database()->migrate($args[0]);
 		$generate = $table->generateUpdateArray();
-		$table = \FreePBX::Database()->migrate($args[0]);
 		$test = $table->modify($generate['columns'], $generate['indexes'], true);
 		if(!empty($test)) {
 			print_r("Cols");

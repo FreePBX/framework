@@ -8,6 +8,9 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX\Database;
+use Doctrine\DBAL\Schema\Comparator;
+use Doctrine\DBAL\Schema\Schema;
+use Doctrine\DBAL\Schema\Synchronizer\SingleDatabaseSynchronizer;
 class Migration {
 	private $conn;
 	private $table;
@@ -28,6 +31,13 @@ class Migration {
 	 */
 	public function generateUpdateArray() {
 		$sm = $this->conn->getSchemaManager();
+		$fromSchema = $sm->createSchema();
+		$schema = new Schema();
+
+		$diff = Comparator::compareSchemas($schema,$fromSchema);
+		if(!isset($diff->newTables[$this->table])) {
+			throw new \Exception("Table does not exist");
+		}
 		//$table = $sm->listTableDetails($this->table);
 		$columns = $sm->listTableColumns($this->table);
 		$foreignKeys = $sm->listTableForeignKeys($this->table);
@@ -109,8 +119,8 @@ class Migration {
 	 * @return mixed
 	 */
 	public function modify($columns=array(),$indexes=array(),$dryrun=false) {
-		$synchronizer = new \Doctrine\DBAL\Schema\Synchronizer\SingleDatabaseSynchronizer($this->conn);
-		$schema = new \Doctrine\DBAL\Schema\Schema();
+		$synchronizer = new SingleDatabaseSynchronizer($this->conn);
+		$schema = new Schema();
 		$table = $schema->createTable($this->table);
 		$primaryKey = array();
 		foreach($columns as $name => $options) {
