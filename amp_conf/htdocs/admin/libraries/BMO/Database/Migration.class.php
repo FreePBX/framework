@@ -49,15 +49,18 @@ class Migration {
 			$type = strtolower($column->getType());
 			$name = $column->getName();
 			switch($type) {
-				case 'text':
 				case 'string':
 					$export[$name]['type'] = $type;
 					$export[$name]['length'] = $column->getLength();
 				break;
-				case 'date':
-				case 'boolean':
+				case 'blob':
 				case 'integer':
+				case 'bigint':
+				case 'smallint':
+				case 'date':
 				case 'datetime':
+				case 'text':
+				case 'boolean':
 					$export[$name]['type'] = $type;
 				break;
 				case 'decimal':
