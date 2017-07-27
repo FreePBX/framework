@@ -3,14 +3,15 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>14.0.1.3</version>
+	<version>14.0.1.4</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
-		*14.0.1.3* Remove res_digium_phone from noload
+		*14.0.1.4* Remove res_digium_phones from noload even if pjsip is disabled
+		*14.0.1.3* Remove res_digium_phones from noload
 		*14.0.1.2* FREEPBX-15283 FREEPBX-15364
 		*14.0.1.1* FREEPBX-15203 Fix the active count on module admin summary.
 		*14.0.1* Stable release
