@@ -9,6 +9,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Question\Question;
 
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\InputStream;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 class Mysql extends Command {
 	protected function configure(){
 		$this->setName('m')
@@ -28,15 +31,10 @@ class Mysql extends Command {
 			$output->writeln("<error>"._("Only mysql is supported")."</error>");
 			exit(1);
 		}
-		$pipes = array();
-		$descriptorspec = array(
-			0 => STDIN,
-			1 => STDOUT,
-			2 => STDERR
-		);
+
 		$output->write(_("Connecting to the Database..."));
-		$process = proc_open('mysql -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' '.$dbname, $descriptorspec, $pipes);
-		return;
-		$helper = $this->getHelper('question');
+		$process = new Process('mysql -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' '.$dbname);
+		$process->setTty(true);
+		$process->mustRun();
 	}
 }
