@@ -99,8 +99,12 @@ class Start extends Command {
 		if ($runpre) {
 			if ($runpre !== "force") {
 				if(!$this->skipChown){
-					$chown = new Chown();
-					$chown->execute($input, $output);
+					try {
+						$chown = new Chown();
+						$chown->execute($input, $output);
+					} catch(\Exception $e) {
+						$output->writeln('<error>'.$e->getMessage().'</error>');
+					}
 				}
 			}
 
