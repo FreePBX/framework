@@ -181,7 +181,6 @@ class CandidateParser implements ParserInterface
      * Strip useless tags.
      *
      * @param string $content
-     *
      * @return string
      */
     public function stripGarbage($content)
@@ -257,8 +256,7 @@ class CandidateParser implements ParserInterface
      * Return false if the node should not be removed.
      *
      * @param DomDocument $dom
-     * @param DomNode     $node
-     *
+     * @param \DomNode    $node
      * @return bool
      */
     public function shouldRemove(DomDocument $dom, $node)

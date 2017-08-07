@@ -72,7 +72,7 @@ class ItemPostProcessor extends Base
     }
 
     /**
-     * Checks wheather a specific processor is registered or not
+     * Checks whether a specific processor is registered or not
      *
      * @access public
      * @param  string $class
