@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-07-25 12:34-0400\n"
-"PO-Revision-Date: 2017-08-08 15:58+0200\n"
+"PO-Revision-Date: 2017-08-08 16:40+0200\n"
 "Last-Translator: PETER <ftek@ymail.com>\n"
 "Language-Team: Vietnamese "
 "<http://weblate.freepbx.org/projects/freepbx/framework/vi/>\n"
@@ -416,12 +416,12 @@ msgstr "Đã gỡ bỏ %s thành công"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1125
 #, php-format
 msgid "%s version %s or below is required, you have %s"
-msgstr ""
+msgstr "Yêu cầu %s phiên bản %s hoặc như dưới đây, bạn có %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1138
 #, php-format
 msgid "%s version %s or higher is required, you have %s"
-msgstr ""
+msgstr "Yêu cầu %s Phiên bản %s hoặc cao hơn, bạn có %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:593
 #, php-format
@@ -431,7 +431,7 @@ msgstr "%s sẽ được xóa bỏ khỏi ổ cứng"
 #: amp_conf/bin/freepbx-cron-scheduler.php:122
 #, php-format
 msgid "%s: New Online Updates Available (%s)"
-msgstr ""
+msgstr "%s: Các cập nhật mới online khả dụng (%s)"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:99
 #, php-format
@@ -446,7 +446,7 @@ msgstr ""
 #: install.php:13
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
-msgstr ""
+msgstr "'cp -rf' từ src: '%s' đến dst: '%s'... chi tiết dưới dây"
 
 #: amp_conf/htdocs/admin/libraries/featurecodes.functions.php:76
 msgid "** MISSING FEATURE CODE **"
@@ -458,7 +458,7 @@ msgstr "---Không có thay đổi---"
 
 #: ../core/views/routing/timecond.php:12
 msgid "---Permanent Route---"
-msgstr ""
+msgstr "---Tuyến thường trực---"
 
 #: amp_conf/htdocs/admin/config.php:196
 msgid ".htaccess files are disable on this webserver. Please enable them"
@@ -467,28 +467,28 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:209
 msgid ".htaccess files are not supported on this webserver."
-msgstr ""
+msgstr "Các tệp .htaccess không được hỗ trợ trên webserver này."
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:112
 msgid "0 admins"
-msgstr ""
+msgstr "0 admins"
 
 #: ../core/views/routing/form.php:600 ../core/views/trunks/trunk_footer.php:59
 msgid "10 Digit Patterns"
-msgstr ""
+msgstr "Các mẫu chữ số 10"
 
 #: ../core/views/routing/form.php:602 ../core/views/trunks/trunk_footer.php:61
 msgid "11 Digit Patterns"
-msgstr ""
+msgstr "Các mẫu chữ số 11"
 
 #: amp_conf/htdocs/admin/config.php:560
 #, php-format
 msgid "404 Not found (%s)"
-msgstr ""
+msgstr "Lỗi 404 Không tìm thấy (%s)"
 
 #: ../core/views/routing/form.php:598 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
-msgstr ""
+msgstr "Các mẫu chữ số 7"
 
 #: ../core/functions.inc/drivers/Sip.class.php:257
 #, php-format
@@ -496,6 +496,8 @@ msgid ""
 "<strong>CRITICAL ERROR!</strong> Required Service %s is disabled! This "
 "device is unusable!"
 msgstr ""
+"<strong>LỖI NGHIÊM TRỌNG!</strong>  Dịch vụ yêu cầu %s bị vô hiệu! Thiết bị "
+"này không thể sử dụng được!"
 
 #: ../core/views/trunks/pjsip.php:113
 msgid ""
@@ -509,12 +511,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1122
 #, php-format
 msgid "A %s version below %s is required, you have %s"
-msgstr ""
+msgstr "Yêu cầu phiên bản %s dưới đây %s, bạn có %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1128
 #, php-format
 msgid "A %s version newer than %s required, you have %s"
-msgstr ""
+msgstr "Yêu cầu một phiên bản %s mới hơn %s, bạn có %s"
 
 #: ../core/views/routing/form.php:67
 msgid ""
@@ -537,7 +539,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:6010
 msgid "A description for this DID, such as \"Fax\""
-msgstr ""
+msgstr "Một mô tả cho DID này, ví dụ \"fax\""
 
 #: ../core/functions.inc.php:6011
 msgid ""
@@ -560,101 +562,106 @@ msgid ""
 "A required module might be disabled or uninstalled. Recommended steps (run "
 "from the CLI): 1) fwconsole ma install %s 2) fwconsole ma enable %s"
 msgstr ""
+"Một mô đun yêu cầu có thể bị vô hiệu hoặc không được cài đặt. Các biện pháp "
+"đề xuất ( chạy từ CLI):1) fwconsole ma cài đặt %s 2) fwconsole ma kích hoạt "
+"%s"
 
 #: ../core/functions.inc.php:3976 ../core/functions.inc.php:4005
 msgid "A route for this DID/CID already exists!"
-msgstr ""
+msgstr "Đã tồn tại một tuyến cho DID/CID này!"
 
 #: ../core/Core.class.php:2142 ../core/functions.inc.php:4571
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
-msgstr ""
+msgstr "Đã tồn tại một tuyến với DID/CID:  %s/%s"
 
 #: ../core/views/dahdichandids/didForm.php:49
 msgid "A useful description describing this channel"
-msgstr ""
+msgstr "Một mô tả hữu ích để mô tả kênh này"
 
 #: ../core/functions.inc.php:5907
 msgid "A user will enter this password when logging onto a device."
-msgstr ""
+msgstr "Khi đăng nhập vào thiết bị, người dùng sẽ nhập mật khẩu này."
 
 #: ../core/views/did/advanced_form.php:198
 msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
 msgstr ""
+"ALERT_INFO có thể được sử dụng cho các chuông riêng biệt với các thiết bị "
+"SIP."
 
 #: ../core/page.ampusers.php:159
 msgid "ALL SECTIONS"
-msgstr ""
+msgstr "TẤT CẢ CÁC LỰA CHỌN"
 
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1202
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1214
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1239
 #, php-format
 msgid "AMI failure details:"
-msgstr ""
+msgstr "Chi tiết về sự cố AMI:"
 
 #: amp.i18n.php:138
 msgid "AMPLOCALBIN Dir for retrieve_conf"
-msgstr ""
+msgstr "AMPLOCALBIN Dir cho retrieve_conf"
 
 #: ../core/views/did/advanced_form.php:115
 #: ../core/views/did/advanced_form.php:139 ../core/views/did/basic_form.php:48
 #: ../core/views/did/basic_form.php:72
 msgid "ANY"
-msgstr ""
+msgstr "ANY"
 
 #: ../core/views/trunks/pjsip.php:564
 msgid "AOR Contact"
-msgstr ""
+msgstr "Liên lạc AOR"
 
 #: amp.i18n.php:120
 msgid "ARI Password"
-msgstr ""
+msgstr "Mật khẩu ARI"
 
 #: amp.i18n.php:112
 msgid "ARI Username"
-msgstr ""
+msgstr "Tên người dùng ARI"
 
 #: amp.i18n.php:470
 msgid "Abort Config Gen on Bad Dest"
-msgstr ""
+msgstr "Hủy bỏ cấu hình Gen trên Bad Dest ( Các điểm đích xấu)"
 
 #: amp.i18n.php:476
 msgid "Abort Config Gen on Exten Conflict"
-msgstr ""
+msgstr "Hủy cấu hình Gen trên máy nhánh xung đột"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:149
 msgid "Aborting Shutdown. Asterisk is still running"
-msgstr ""
+msgstr "Đang hủy Shutdown. Asterisk vẫn đang chạy"
 
 #: ../core/functions.inc/drivers/Sip.class.php:361
 msgid "Accept"
-msgstr ""
+msgstr "Chấp nhận"
 
 #: ../core/page.ampusers.php:241
 msgid "Access Restrictions"
-msgstr ""
+msgstr "Các giới hạn truy cập"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:202
 #: ../core/functions.inc/drivers/Sip.class.php:474
 msgid "Account Code"
-msgstr ""
+msgstr "Mã tài khoản"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:201
 msgid "Account Code for this extension"
-msgstr ""
+msgstr "Mã tài khoản cho máy nhánh này"
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:143
 #: ../core/functions.inc/drivers/Iax2.class.php:138
 #: ../core/functions.inc/drivers/Sip.class.php:473
 msgid "Accountcode for this device."
-msgstr ""
+msgstr "Mã tài khoản cho thiết bị này."
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:267
 #: ../core/page.ampusers.php:266 ../core/page.astmodules.php:91
 #: ../core/page.astmodules.php:108 ../core/page.astmodules.php:125
 msgid "Action"
-msgstr ""
+msgstr "Thao tác"
 
 #: ../core/page.devices.php:68 ../core/page.devices.php:88
 #: ../core/page.extensions.php:30 ../core/page.extensions.php:126
@@ -663,37 +670,39 @@ msgstr ""
 #: ../core/views/did/didgrid.php:21 ../core/views/routing/grid.php:73
 #: ../core/views/trunks/trunkgrid.php:35
 msgid "Actions"
-msgstr ""
+msgstr "Các thao tác"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:267
 msgid ""
 "Actions to preform in regards to this module. This usually contains "
 "installation and maintenance operations at an administration level"
 msgstr ""
+"Các thao tác để thực hiện liên quan đến mô đun này. Điều này thường bao gồm "
+"các hoạt động bảo dưỡng và lắp đặt ở quản lý"
 
 #: amp_conf/htdocs/admin/functions.inc.php:444 ../core/page.astmodules.php:140
 #: ../core/views/trunks/trunk_header.php:2
 msgid "Add"
-msgstr ""
+msgstr "Thêm"
 
 #: ../core/functions.inc.php:6224
 #, php-format
 msgid "Add %s Device"
-msgstr ""
+msgstr "Thêm thiết bị %s"
 
 #: ../core/functions.inc.php:6226
 #, php-format
 msgid "Add %s Extension"
-msgstr ""
+msgstr "Thêm máy nhánh %s"
 
 #: ../core/views/trunks/bootnav.php:9 ../core/views/trunks/trunkgrid.php:9
 #, php-format
 msgid "Add %s Trunk"
-msgstr ""
+msgstr "Thêm trung kế %s"
 
 #: ../core/page.ampusers.php:102
 msgid "Add Administrator"
-msgstr ""
+msgstr "Thêm quản trị viên"
 
 #: ../core/views/dahdichandids/changrid.php:21
 msgid "Add DAHDI DID"
