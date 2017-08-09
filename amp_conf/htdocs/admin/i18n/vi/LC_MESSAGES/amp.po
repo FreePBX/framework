@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-07-25 12:34-0400\n"
-"PO-Revision-Date: 2017-08-09 09:56+0200\n"
+"PO-Revision-Date: 2017-08-09 11:32+0200\n"
 "Last-Translator: PETER <ftek@ymail.com>\n"
 "Language-Team: Vietnamese "
 "<http://weblate.freepbx.org/projects/freepbx/framework/vi/>\n"
@@ -297,7 +297,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:456
 #, php-format
 msgid "%s cannot be rolledback, version %s is missing"
-msgstr ""
+msgstr "%s không thể quay lại, đang thiếu phiên bản %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:580
 #, php-format
@@ -315,6 +315,8 @@ msgid ""
 "%s cannot be upgraded to %s: The release track of %s does not exist for this "
 "module"
 msgstr ""
+"%s không thể được nâng cấp lên %s: Bản phát hành của %s không tồn tại cho mô "
+"đun này"
 
 #: amp_conf/htdocs/admin/page.modules.php:460
 #: amp_conf/htdocs/admin/page.modules.php:483
@@ -381,7 +383,7 @@ msgstr "%s đã được chuẩn bị"
 #: ../core/Core.class.php:2614
 #, php-format
 msgid "%s records failed validation"
-msgstr ""
+msgstr "Các bản ghi %s không hợp lệ"
 
 #: amp_conf/htdocs/admin/page.modules.php:348
 #, php-format
@@ -511,6 +513,11 @@ msgid ""
 "blocking the machine trying to register. Do not change this unless you "
 "control both servers, and are sure it is required!"
 msgstr ""
+"<strong>Cảnh báo:</strong> Nếu bạn chọn 'None', những lần thử đăng ký chi "
+"tên người dùng và mã bảo mật ở trên sẽ bị từ chối. Nếu cài đặt này không "
+"chính xác có thể khiến các dịch vụ tường lửa phát hiện điều này như một sự "
+"tấn công và sẽ khóa máy đang muốn đăng ký. Không thay đổi điều này trừ khi "
+"bạn có thể điều khiển được cả hai server, và đảm bảo đây là điều yêu cầu!"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1122
 #, php-format
@@ -530,6 +537,11 @@ msgid ""
 "subsequent routes will be checked for matches outside of the designated time"
 "(s)."
 msgstr ""
+"Một Mẫu quay số ( Dial Pattern) là một tập các chữ số duy nhất sẽ chọn tuyến "
+"này và gửi cuộc gọi tới các trung kế được chỉ định. Nếu một mẫu được quay số "
+"tương khớp với tuyến này, accs tuyến tiếp theo sẽ không được thử. Nếu kích "
+"hoạt Nhóm Thời gian (Time Groups), các tuyến tiếp theo sẽ được kiểm tra xem "
+"xem có tương khớp với các thời gian được chỉ định bên ngoài hay không."
 
 #: ../core/views/trunks/trunk_header.php:92
 msgid ""
@@ -540,6 +552,13 @@ msgid ""
 "first matched rule will be executed and the remaining rules will not be "
 "acted on."
 msgstr ""
+"Một Quy tắc quay số (Dial Rule) kiểm soát cách các cuộc gọi sẽ được quay số "
+"trên trung kế này. Nó có thể được sử dụng để thêm hoặc xoá các tiền tố. Các "
+"con số không khớp với bất kỳ mẫu nào được xác định ở đây sẽ được quay số as-"
+"is. Lưu ý rằng một mẫu không có a + hoặc | (Để thêm hoặc xoá một tiền tố) sẽ "
+"không thực hiện bất kỳ thay đổi nào nhưng sẽ tạo ra một sự tương khớp. Chỉ "
+"có quy tắc tương khớp đầu tiên sẽ được thực hiện và các quy tắc còn lại thì "
+"không được."
 
 #: ../core/functions.inc.php:6010
 msgid "A description for this DID, such as \"Fax\""
@@ -552,6 +571,11 @@ msgid ""
 "10x4, etc).<br><br>Format should be: <b>XXXXXXXXXX</b><br><br>.An optional "
 "CID can also be associated with this DID by setting the next box"
 msgstr ""
+"Một DID trực tiếp có liên quan đến phần mở rộng này. DID phải ở định dạng "
+"giống như định dạng nhà cung cấp đã cấp (ví dụ: số đầy đủ, 4 chữ số cho "
+"10x4, v.v ...) <br><br> Định dạng phải là: <b>XXXXXXXXXX</b><br><br>. Một "
+"CID tùy chọn cũng có thể được kết hợp với DID này bằng cách thiết lập trên "
+"hộp thoại tiếp theo"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:41
 msgid ""
@@ -559,6 +583,8 @@ msgid ""
 "stack. A collection of resource modules provides the bulk of the SIP "
 "functionality"
 msgstr ""
+"Một driver kênh SIP mới cho Asterisk, chan_pjsip được xây dựng trên PJIP "
+"SIP. Một bộ sưu tập các mô-đun nguồn cung cấp phần lớn các chức năng SIP"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
 #, php-format
@@ -710,84 +736,85 @@ msgstr "Thêm quản trị viên"
 
 #: ../core/views/dahdichandids/changrid.php:21
 msgid "Add DAHDI DID"
-msgstr ""
+msgstr "Thêm DAHDI DID"
 
 #: ../core/views/dahdichandids/bootnav.php:3
 msgid "Add DAHDi DID"
-msgstr ""
+msgstr "Thêm DAHDi DID"
 
 #: ../core/page.ampusers.php:133 ../core/page.ampusers.php:156
 #: ../core/views/rnav.php:60
 msgid "Add Device"
-msgstr ""
+msgstr "Thêm Thiết bị"
 
 #: ../core/functions.inc.php:5896 ../core/functions.inc.php:6282
 #: ../core/page.ampusers.php:133 ../core/page.ampusers.php:156
 #: ../core/page.extensions.php:19 ../core/page.extensions.php:101
 #: ../core/views/rnav.php:6
 msgid "Add Extension"
-msgstr ""
+msgstr "Thêm máy nhánh"
 
 #: ../core/functions.inc.php:6012
 msgid "Add Inbound CID"
-msgstr ""
+msgstr "Thêm CID đến"
 
 #: ../core/functions.inc.php:6011
 msgid "Add Inbound DID"
-msgstr ""
+msgstr "Thêm DID đến"
 
 #: ../core/views/did/didgrid.php:2 ../core/views/did/rnav.php:2
 msgid "Add Inbound Route"
-msgstr ""
+msgstr "Thêm tuyến gọi vào"
 
 #: ../core/page.did.php:29 ../core/page.did.php:74
 msgid "Add Incoming Route"
-msgstr ""
+msgstr "Thêm tuyến gọi vào"
 
 #: ../core/page.astmodules.php:138
 msgid "Add Module"
-msgstr ""
+msgstr "Thêm Mô đun"
 
 #: ../core/views/rnav.php:65 ../core/views/rnav.php:83
 #, php-format
 msgid "Add New %s Device"
-msgstr ""
+msgstr "Thêm Thiết bị %s mới"
 
 #: ../core/page.extensions.php:46 ../core/page.extensions.php:105
 #: ../core/page.extensions.php:134 ../core/views/rnav.php:10
 #: ../core/views/rnav.php:27
 #, php-format
 msgid "Add New %s Extension"
-msgstr ""
+msgstr "Thêm máy nhánh %s mới"
 
 #: ../core/views/routing/bootnav.php:2 ../core/views/routing/grid.php:55
 msgid "Add Outbound Route"
-msgstr ""
+msgstr "Thêm tuyến gọi ra"
 
 #: ../core/page.routing.php:12
 msgid "Add Route"
-msgstr ""
+msgstr "Thêm tuyến"
 
 #: ../core/views/trunks/bootnav.php:4 ../core/views/trunks/trunkgrid.php:4
 msgid "Add Trunk"
-msgstr ""
+msgstr "Thêm trung kế"
 
 #: ../core/functions.inc.php:5898 ../core/functions.inc.php:6252
 #: ../core/functions.inc.php:6284 ../core/page.users.php:48
 #: ../core/views/ampusers/bootnav.php:2 ../core/views/rnav.php:37
 #: ../core/views/rnav.php:51
 msgid "Add User"
-msgstr ""
+msgstr "Thêm người dùng"
 
 #: ../core/functions.inc.php:5875
 msgid "Add User/Extension"
-msgstr ""
+msgstr "Thêm người dùng/ máy nhánh"
 
 #: ../core/functions.inc.php:6178
 msgid "Add Virtual Extension"
-msgstr ""
+msgstr "Thêm máy nhánh ảo"
 
 #: ../core/functions.inc.php:6012
+#, fuzzy
 msgid ""
 "Add a CID for more specific DID + CID routing. A DID must be specified in "
 "the above Add DID box. In addition to standard dial sequences, you can also "
@@ -795,11 +822,15 @@ msgid ""
 "Unavailable in order to catch these special cases if the Telco transmits "
 "them."
 msgstr ""
+"Thêm một CID cho việc định tuyến DID + CID cụ thể hơn. DID phải được chỉ "
+"định trong hộp Thêm DID trên. Ngoài các trình quay số chuẩn, bạn có thể đặt "
+"Riêng, Chặn, Không xác định, Bị giới hạn, Không xác định, Giữ lại và Không "
+"Có sẵn để bắt những trường hợp đặc biệt này nếu Telco truyền."
 
 #: amp_conf/htdocs/admin/helpers/freepbx_helpers.php:131
 #, php-format
 msgid "Add new %s &#133"
-msgstr ""
+msgstr "Thêm %s &#133 mới"
 
 #: amp_conf/htdocs/admin/page.modules.php:83
 #, php-format
@@ -814,23 +845,23 @@ msgstr ""
 
 #: ../core/install.php:518
 msgid "Added pmmaxretries and pmminlength"
-msgstr ""
+msgstr "pmmaxretries và pmminlength đã được thêm"
 
 #: ../core/install.php:601
 msgid "Adding index to extensions field in the users"
-msgstr ""
+msgstr "Đang thêm chỉ mục vào các trường máy nhánh cho người dùng"
 
 #: ../core/install.php:588
 msgid "Adding index to tech field in the devices"
-msgstr ""
+msgstr "Đang thêm chỉ mục vào trường tech trong các thiết bị này"
 
 #: amp_conf/htdocs/admin/views/noaccess.php:54
 msgid "Additional Information"
-msgstr ""
+msgstr "Các thông tin bổ sung"
 
 #: ../core/views/routing/form.php:55
 msgid "Additional Settings"
-msgstr ""
+msgstr "Các cài đặt bổ sung"
 
 #: amp.i18n.php:44
 msgid "Address to bind to. Default is ::"
@@ -843,43 +874,43 @@ msgstr ""
 #: amp.i18n.php:6 amp.i18n.php:892
 #: amp_conf/htdocs/admin/views/menu_items.php:44
 msgid "Admin"
-msgstr ""
+msgstr "Quản trị viên"
 
 #: ../core/page.ampusers.php:249
 msgid "Admin Access"
-msgstr ""
+msgstr "Truy nhập quản trị viên"
 
 #: amp_conf/htdocs/admin/views/obe.php:54
 #: amp_conf/htdocs/admin/views/oobe.php:10
 msgid "Admin Email address"
-msgstr ""
+msgstr "Địa chỉ email quản trị viên"
 
 #: amp_conf/htdocs/admin/views/obe.php:30
 #: amp_conf/htdocs/admin/views/oobe.php:9
 msgid "Admin password"
-msgstr ""
+msgstr "Mật khẩu quản trị viên"
 
 #: amp_conf/htdocs/admin/views/obe.php:20
 #: amp_conf/htdocs/admin/views/oobe.php:8
 msgid "Admin user name"
-msgstr ""
+msgstr "Tên người dùng quản trị viên"
 
 #: amp.i18n.php:890
 msgid "Administrators"
-msgstr ""
+msgstr "Các quản trị viên"
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:52
 #: ../core/views/did/advanced_form.php:63 ../core/views/trunks/pjsip.php:38
 msgid "Advanced"
-msgstr ""
+msgstr "Nâng cao"
 
 #: amp.i18n.php:886
 msgid "Advanced Settings"
-msgstr ""
+msgstr "Các cài đặt nâng cao"
 
 #: amp.i18n.php:12
 msgid "Advanced Settings Details"
-msgstr ""
+msgstr "Chi tiết các cài đặt nâng cao"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:240
 msgid "Aggregate MWI"
@@ -891,7 +922,7 @@ msgstr ""
 
 #: ../core/views/did/advanced_form.php:186
 msgid "Alert Info"
-msgstr ""
+msgstr "Thông tin cảnh báo"
 
 #: amp.i18n.php:272
 msgid ""
@@ -914,39 +945,40 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:399
 msgid "All - TCP Primary"
-msgstr ""
+msgstr "Tất cả- TCP chính"
 
 #: ../core/functions.inc/drivers/Sip.class.php:400
 msgid "All - TLS Primary"
-msgstr ""
+msgstr "Tất cả- TLS chính"
 
 #: ../core/functions.inc/drivers/Sip.class.php:398
 msgid "All - UDP Primary"
-msgstr ""
+msgstr "Tất cả - UDP chính"
 
 #: ../core/functions.inc/drivers/Sip.class.php:402
 msgid "All - WS Primary"
-msgstr ""
+msgstr "Tất cả- WS chính"
 
 #: ../core/functions.inc/drivers/Sip.class.php:403
 msgid "All - WSS Primary"
-msgstr ""
+msgstr "Tất cả- WSS chính"
 
 #: ../core/page.devices.php:39
 msgid "All Devices"
-msgstr ""
+msgstr "Tất cả thiết bị"
 
 #: ../core/page.extensions.php:84
 msgid "All Extensions"
-msgstr ""
+msgstr "Tất cả các máy nhánh"
 
 #: ../core/page.users.php:38
 msgid "All Users"
-msgstr ""
+msgstr "Tất cả người dùng"
 
 #: amp_conf/htdocs/admin/page.modules.php:1011
+#, fuzzy
 msgid "All available modules are up-to-date and installed."
-msgstr ""
+msgstr "Tất cả các mô đun khả dụng"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:641
 #, php-format
@@ -955,25 +987,27 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:972
 msgid "All inclusive Module Actions"
-msgstr ""
+msgstr "Tất cả"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:443
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:707
 msgid "All modules up to date."
-msgstr ""
+msgstr "Tất cả các mô đun"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:459
 msgid ""
 "All settings can be set from the Advanced Settings page accessible in FreePBX"
 msgstr ""
+"Tất cả các cài đặt được cài đặt từ trang cài đặt nâng cao  có thể truy nhập "
+"trong FreePBX"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:514
 msgid "All upgrades done!"
-msgstr ""
+msgstr "Tất cả các nâng cấp đã hoàn thành!"
 
 #: ../core/views/trunks/trunk_header.php:318
 msgid "Allow Any CID"
-msgstr ""
+msgstr "Cho phép bất kỳ CID"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:218
 msgid "Allow Contact header to be rewritten with the source IP address-port"
