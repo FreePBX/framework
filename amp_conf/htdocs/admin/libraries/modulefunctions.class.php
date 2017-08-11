@@ -3054,6 +3054,30 @@ class module_functions {
 		return $install_hash;
 	}
 
+	function _get_machine_id() {
+		switch(PHP_OS) {
+			case 'FreeBSD';
+				$result = shell_exec('kenv -q smbios.system.uuid');
+				$result = preg_replace("/\r+|\n+|\s+/i", '', $result);
+				return strtolower($result);
+			break;
+			case 'Darwin':
+				$result = shell_exec('ioreg -rd1 -c IOPlatformExpertDevice');
+				if(preg_match('/IOPlatformUUID.*=.*"(.*)"/i',$result,$matches)) {
+					return $matches[1];
+				} else {
+					return '';
+				}
+			break;
+			case 'Linux':
+				$result = shell_exec('cat /var/lib/dbus/machine-id /etc/machine-id 2> /dev/null | head -n 1 || :');
+				$result = preg_replace("/\r+|\n+|\s+/i", '', $result);
+				return strtolower($result);
+			default:
+			break;
+		}
+	}
+
 	function getSignature($modulename,$cached=true) {
 		FreePBX::GPG(); //declare class to get constants
 		$sql = "SELECT signature FROM `modules` WHERE modulename = ? AND signature is not null";
