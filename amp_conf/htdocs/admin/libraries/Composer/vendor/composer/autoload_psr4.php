@@ -11,6 +11,7 @@ return array(
     'Symfony\\Polyfill\\Php55\\' => array($vendorDir . '/symfony/polyfill-php55'),
     'Stecman\\Component\\Symfony\\Console\\BashCompletion\\' => array($vendorDir . '/stecman/symfony-console-completion/src'),
     'Sinergi\\BrowserDetector\\' => array($vendorDir . '/sinergi/browser-detector/src'),
+    'Rhumsaa\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
     'Respect\\Validation\\' => array($vendorDir . '/respect/validation/library'),
     'Doctrine\\Common\\Cache\\' => array($vendorDir . '/doctrine/cache/lib/Doctrine/Common/Cache'),
 );
