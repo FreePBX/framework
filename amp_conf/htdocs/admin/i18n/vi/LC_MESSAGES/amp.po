@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-07-25 12:34-0400\n"
-"PO-Revision-Date: 2017-08-14 11:05+0200\n"
+"PO-Revision-Date: 2017-08-14 15:40+0200\n"
 "Last-Translator: PETER <ftek@ymail.com>\n"
 "Language-Team: Vietnamese "
 "<http://weblate.freepbx.org/projects/freepbx/framework/vi/>\n"
@@ -1043,70 +1043,83 @@ msgid ""
 "'ulaw&g729'. Codecs allowed in the general settings will also be allowed "
 "unless removed with the 'disallow' directive."
 msgstr ""
+"Cho phép các codec cụ thể, được ngăn cách nhau bằng ký hiệu &' và trong thứ "
+"tự ưu tiên. Ví dụ ulaw&g729'. Các codec được cho phép trong các cài đặt "
+"chung cũng sẽ được cho phép trừ khi bị xóa bỏ bằng chỉ thị  'disallow' ("
+"không cho phép)."
 
 #: ../core/functions.inc/drivers/Sip.class.php:470
 msgid "Allowed Codecs"
-msgstr ""
+msgstr "Các codec được cho phép"
 
 #: amp.i18n.php:116
 msgid "Allowed Origins"
-msgstr ""
+msgstr "Các nguồn gốc được cho phép"
 
 #: upgrades/2.8.0/custom-context.php:55
 #: upgrades/2.8.0rc1/custom-context.php:55
 msgid "Already Migrated!"
-msgstr ""
+msgstr "Đã được dịch chuyển!"
 
 #: amp.i18n.php:594
 msgid "Alt for Footer Logo"
-msgstr ""
+msgstr "Thẻ Alt cho Biểu tượng chân trang"
 
 #: amp.i18n.php:590
 msgid "Alt for Left Logo"
-msgstr ""
+msgstr "Thẻ Alt cho biểu tượng lề trái trang"
 
 #: ../core/functions.inc.php:5770
 #: ../core/functions.inc/drivers/PJSip.class.php:253
 msgid "Always"
-msgstr ""
+msgstr "Luôn luôn"
 
 #: amp.i18n.php:132
 msgid "Always Download Web Assets"
-msgstr ""
+msgstr "Luôn tải xuống Web Assets"
 
 #: amp.i18n.php:548
 msgid ""
 "Ammount of days to retain data. Setting this above 90 could cause "
 "performance issues."
 msgstr ""
+"Số ngày giũa lại dư liệu. Cai đặt số ngày trên 90 ngày sẽ gây nên các vấn đề "
+"về hiệu suất."
 
 #: amp.i18n.php:522
 msgid ""
 "Amount of days to keep browser playback (HTML5 audio files) cache. Set this "
 "to a lower value to conserve disk space."
 msgstr ""
+"Số lượng ngày để giữ bộ nhớ cache phát lại trình duyệt (tệp tin âm thanh "
+"HTML5). Đặt giá trị này thấp hơn để tiết kiệm không gian đĩa."
 
 #: amp.i18n.php:526
 msgid ""
 "Amount of seconds to allow a session to stay open before logging a user out. "
 "For unlimited clear this box and save."
 msgstr ""
+"Số giây để cho phép một phiên ở trạng thái mở trước khi đăng xuất người "
+"dùng. Cho việc xóa không giới hạn hộp thoại này và lưu."
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:125
 #, php-format
 msgid "An attempt to send email to: %s with online update status failed"
 msgstr ""
+"Một nỗ lực để gửi email đến: %s với trạng thái cập nhật trực tuyến không "
+"thành công"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:102
 #, php-format
 msgid "An attempt to send email to: %s with security notifications failed"
-msgstr ""
+msgstr "Một nỗ lực để gửi email đến: %s với thông báo bảo mật không thành công"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:77
 #, php-format
 msgid ""
 "An attempt to send email to: %s with unsigned modules notifications failed"
 msgstr ""
+"Một nỗ lực để gửi email đến: %s với thông báo mô đun chưa ký không thành công"
 
 #: ../core/views/did/advanced_form.php:356
 #: ../core/views/did/basic_form.php:234
@@ -1116,6 +1129,10 @@ msgid ""
 "external fax equipment or security systems are installed in parallel and you "
 "would like them to be able to seize the line."
 msgstr ""
+"Một Trễ tùy chọn để đợi trước khi xử lý tuyến này. Đặt giá trị này sẽ làm "
+"chậm kênh từ việc trả lời cuộc gọi. Điều này có thể hữu ích nếu cài đặt song "
+"song thiết bị fax bên ngoài hoặc hệ thống bảo mật và bạn muốn chúng có thể "
+"nắm bắt đường dây."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2948
 msgid ""
@@ -1123,22 +1140,25 @@ msgid ""
 "passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc "
 "and also remove the 'ssh' account as soon as possible"
 msgstr ""
+"Đã tìm thấy một tài khoản người dùng hệ thống trái phép được gọi là 'ssh' "
+"trong / etc / passwd. Vui lòng xóa bất kỳ dòng bí danh nào liên quan tới "
+"'useradd' trong /root/.bashrc và hãy xóa tài khoản 'ssh' càng sớm càng tốt"
 
 #: ../core/functions.inc.php:6024
 msgid "Any DID"
-msgstr ""
+msgstr "Bất kỳ DID nào"
 
 #: amp.i18n.php:868 amp_conf/htdocs/admin/views/menu_items.php:45
 msgid "Applications"
-msgstr ""
+msgstr "Các ứng dụng"
 
 #: ../core/page.ampusers.php:134 ../core/page.ampusers.php:153
 msgid "Apply Changes Bar"
-msgstr ""
+msgstr "Aps dụng thanh Thay đổi ( Changes)"
 
 #: amp_conf/htdocs/admin/views/menu.php:26
 msgid "Apply Config"
-msgstr ""
+msgstr "Áp dụng Config"
 
 #: ../core/functions.inc/drivers/Sip.class.php:484
 msgid ""
@@ -1146,6 +1166,9 @@ msgid ""
 "Refresh, then you MUST hit submit to resave the device when you are done to "
 "propagate the new settings)"
 msgstr ""
+"Bạn có chắc chắn muốn thay đổi Drive kênh SIP? (Trang sẽ Làm mới, sau đó bạn "
+"PHẢI nhấn nút Gửi đi để lưu lại thiết bị khi bạn hoàn thành việc phổ biến "
+"các cài đặt mới)"
 
 #: amp_conf/htdocs/admin/views/footer.php:117
 msgid ""
