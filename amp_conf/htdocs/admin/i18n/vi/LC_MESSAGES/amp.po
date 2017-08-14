@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-07-25 12:34-0400\n"
-"PO-Revision-Date: 2017-08-09 11:32+0200\n"
+"PO-Revision-Date: 2017-08-14 11:05+0200\n"
 "Last-Translator: PETER <ftek@ymail.com>\n"
 "Language-Team: Vietnamese "
 "<http://weblate.freepbx.org/projects/freepbx/framework/vi/>\n"
@@ -447,7 +447,7 @@ msgstr "%s: Các thông báo bảo mật mới (%s)"
 #: amp_conf/bin/freepbx-cron-scheduler.php:74
 #, php-format
 msgid "%s: New Unsigned Modules Notifications (%s)"
-msgstr ""
+msgstr "%s: Các thông báo mới của các mô đun chưa ký (%s)"
 
 #: install.php:13
 #, php-format
@@ -814,7 +814,6 @@ msgid "Add Virtual Extension"
 msgstr "Thêm máy nhánh ảo"
 
 #: ../core/functions.inc.php:6012
-#, fuzzy
 msgid ""
 "Add a CID for more specific DID + CID routing. A DID must be specified in "
 "the above Add DID box. In addition to standard dial sequences, you can also "
@@ -823,9 +822,11 @@ msgid ""
 "them."
 msgstr ""
 "Thêm một CID cho việc định tuyến DID + CID cụ thể hơn. DID phải được chỉ "
-"định trong hộp Thêm DID trên. Ngoài các trình quay số chuẩn, bạn có thể đặt "
-"Riêng, Chặn, Không xác định, Bị giới hạn, Không xác định, Giữ lại và Không "
-"Có sẵn để bắt những trường hợp đặc biệt này nếu Telco truyền."
+"định trong hộp thoại Thêm DID  ởtrên. Ngoài các trình tự quay số chuẩn, bạn "
+"có thể đặt Private, Blocked, Unknown, Restricted, Anonymous, Withheld and "
+"Unavailable (Riêng tư , Chặn, Không xác định, Bị giới hạn, Không xác định, "
+"Giữ lại và Không Có sẵn) để nắm bắt được những trường hợp đặc biệt này nếu "
+"Telco truyền chúng."
 
 #: amp_conf/htdocs/admin/helpers/freepbx_helpers.php:131
 #, php-format
@@ -842,6 +843,12 @@ msgid ""
 "advised that you keep this enabled and keep updated of these important "
 "notifications to avoid costly security vulnerabilities."
 msgstr ""
+"Thêm email của bạn ở đây để nhận các cập nhật bảo mật và mô-đun quan trọng. "
+"Địa chỉ email bạn cung cấp KHÔNG BAO GIỜ được truyền tới các máy chủ từ xa %"
+"s. Email này chỉ được sử dụng bởi PBX tại chỗ của bạn để gửi thông báo về "
+"các bản cập nhật hiện có cũng như THÔNG BÁO Bảo mật QUAN TRỌNG. Chúng tôi "
+"khuyên bạn nên duy trì tính năng này và cập nhật những thông báo quan trọng "
+"này để tránh những lỗ hổng bảo mật gây tốn kém."
 
 #: ../core/install.php:518
 msgid "Added pmmaxretries and pmminlength"
@@ -865,11 +872,11 @@ msgstr "Các cài đặt bổ sung"
 
 #: amp.i18n.php:44
 msgid "Address to bind to. Default is ::"
-msgstr ""
+msgstr "Địa chỉ nhằm ràng buộc. Mặc định là::"
 
 #: ../core/functions.inc.php:6153
 msgid "Adhoc"
-msgstr ""
+msgstr "Adhoc"
 
 #: amp.i18n.php:6 amp.i18n.php:892
 #: amp_conf/htdocs/admin/views/menu_items.php:44
@@ -914,11 +921,11 @@ msgstr "Chi tiết các cài đặt nâng cao"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:240
 msgid "Aggregate MWI"
-msgstr ""
+msgstr "Tổng hợp MWI"
 
 #: amp.i18n.php:734
 msgid "Aggresively Check for Duplicate Extensions"
-msgstr ""
+msgstr "Kiểm tra toàn bộ các máy nhánh trùng lặp"
 
 #: ../core/views/did/advanced_form.php:186
 msgid "Alert Info"
@@ -930,12 +937,17 @@ msgid ""
 "previously set Alert Info. Note: Attended Transfer detection only works in "
 "Asterisk 12 or higher"
 msgstr ""
+"Alert Info  được sử dụng trên các cuộc gọi chuyển hướng có hỏi trước. "
+"'Inherit'  sẽ sử dụng cài đặt Alert Infor trước đó. Lưu ý: Việc phát hiện "
+"truyền cuộc gọi có hỏi trước chỉ hoạt động trên Assterisk 12 hoặc cao hơn"
 
 #: amp.i18n.php:276
 msgid ""
 "Alert Info to use on Blind Transfer Calls. 'Inherit' will use the previously "
 "set Alert Info"
 msgstr ""
+"Alert Info  sử dụng trên Các cuộc gọi chuyển hướng không hỏi trước. "
+"'Inherit' sẽ sử dụng cài đặt Alert Info trước đó"
 
 #: amp.i18n.php:356
 msgid ""
@@ -976,14 +988,13 @@ msgid "All Users"
 msgstr "Tất cả người dùng"
 
 #: amp_conf/htdocs/admin/page.modules.php:1011
-#, fuzzy
 msgid "All available modules are up-to-date and installed."
-msgstr "Tất cả các mô đun khả dụng"
+msgstr "Tất cả các mô đun sẵn có đều được cập nhật và cài đặt."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:641
 #, php-format
 msgid "All dependencies met for module %s"
-msgstr ""
+msgstr "Tất cả các phụ thuộc đều đáp ứng mô đun %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:972
 msgid "All inclusive Module Actions"
@@ -1011,19 +1022,19 @@ msgstr "Cho phép bất kỳ CID"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:218
 msgid "Allow Contact header to be rewritten with the source IP address-port"
-msgstr ""
+msgstr "Cho phép ghi các đầu đề liên lạc với cổng địa chỉ IP nguồn"
 
 #: amp.i18n.php:750
 msgid "Allow Login With DB Credentials"
-msgstr ""
+msgstr "Cho phép đăng nhập với các thông tin DB"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:262
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP)"
-msgstr ""
+msgstr "Cho phép truyền thông không mã hóa (SRTP cơ hội)"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:246
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP) "
-msgstr ""
+msgstr "Cho phép truyền thông không mã hóa (SRTP cơ hội) "
 
 #: ../core/functions.inc/drivers/Iax2.class.php:134
 #: ../core/functions.inc/drivers/Sip.class.php:469
