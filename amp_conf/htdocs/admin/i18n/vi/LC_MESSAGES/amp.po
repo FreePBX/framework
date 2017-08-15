@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-07-25 12:34-0400\n"
-"PO-Revision-Date: 2017-08-14 17:07+0200\n"
+"PO-Revision-Date: 2017-08-15 10:45+0200\n"
 "Last-Translator: PETER <ftek@ymail.com>\n"
 "Language-Team: Vietnamese "
 "<http://weblate.freepbx.org/projects/freepbx/framework/vi/>\n"
@@ -322,13 +322,13 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:483
 #: amp_conf/htdocs/admin/page.modules.php:500
 #: amp_conf/htdocs/admin/page.modules.php:547
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "%s cannot be upgraded: %s Please try again after the dependencies have been "
 "installed."
 msgstr ""
-"% S không thể được nâng cấp:%s Vui lòng thử lại sau khi các phụ thuộc  đã "
-"được cài đặt."
+"%s không thể được nâng cấp:%s Vui lòng thử lại sau khi cài đặt xong các phụ "
+"thuộc ."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:144
 #, php-format
@@ -1313,7 +1313,7 @@ msgstr "Các tùy chọn quay số trung kế Asterisk"
 
 #: amp.i18n.php:758
 msgid "Asterisk VMU Mask"
-msgstr ""
+msgstr "VMU Mask của Asterisk"
 
 #: amp.i18n.php:408
 msgid "Asterisk bin Dir"
@@ -1331,18 +1331,26 @@ msgid ""
 "Asterisk context this device will send calls to. Only change this is you "
 "know what you are doing."
 msgstr ""
+"Ngữ cảnh Asterisk mà thiết bị này sẽ gửi các cuộc gọi đến. Chỉ thay đổi điều "
+"này khi bạn biết bạn đang làm gì."
 
 #: ../core/functions.inc/drivers/Sip.class.php:477
+#, fuzzy
 msgid ""
 "Asterisk dialplan extension to reach voicemail for this device. Some devices "
 "use this to auto-program the voicemail button on the endpoint. If left "
 "blank, the default vmexten setting is automatically configured by the "
 "voicemail module. Only change this on devices that may have special needs."
 msgstr ""
+"Asterisk dialplan mở rộng để tiếp cận thư thoại cho thiết bị này. Một số "
+"thiết bị sử dụng tính năng này để tự động lập trình nút thư thoại trên điểm "
+"cuối. Nếu để trống, cài đặt vmexten mặc định được tự động định cấu hình bởi "
+"mô-đun thư thoại. Chỉ thay đổi điều này trên các thiết bị có thể có nhu cầu "
+"đặc biệt."
 
 #: amp.i18n.php:412
 msgid "Asterisk etc Dir"
-msgstr ""
+msgstr "Asterisk etc Dir"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:687
 #, php-format
