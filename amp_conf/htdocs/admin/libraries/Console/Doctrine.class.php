@@ -44,87 +44,8 @@ class Doctrine extends Command {
 			break;
 		}
 
-		$connection = $dbh->getDoctrineConnection();
-		$synchronizer = new SingleDatabaseSynchronizer($connection);
-		$sm = $connection->getSchemaManager();
-		$fromSchema = $sm->createSchema();
-		$schema = new Schema();
-
-		$diff = Comparator::compareSchemas($schema,$fromSchema);
-		if(!isset($diff->newTables[$table])) {
-			throw new \Exception("Table does not exist");
-		}
-		$table = $diff->newTables[$table];
-
-		$export = array();
-		foreach($table->getColumns() as $column) {
-			$data = $column->toArray();
-			$col = array();
-			//https://github.com/doctrine/dbal/blob/master/lib/Doctrine/DBAL/Types/Type.php#L36
-			$type = $data['type']->getName();
-			switch($type){
-				case 'string':
-					$col['type'] = 'string';
-					$col['length'] = $data['length'];
-				break;
-				case 'blob':
-				case 'integer':
-				case 'bigint':
-				case 'smallint':
-				case 'datetime':
-				case 'text':
-				case 'boolean':
-					$col['type'] = $type;
-				break;
-				default:
-					throw new \Exception("Unknown Col Type: ".$type);
-			}
-			if(!is_null($data['default'])) {
-				$col['default'] = $data['default'];
-			}
-			if(!$data['notnull']){
-				$col['notnull'] = false;
-			}
-			if($data['unsigned']) {
-				$col['unsigned'] = true;
-			}
-			if($data['autoincrement']) {
-				$col['autoincrement'] = true;
-			}
-			$export[$data['name']] = $col;
-		}
-		if ($table->hasPrimaryKey()) {
-			$pkCols = $table->getPrimaryKey()->getColumns();
-			foreach($pkCols as $c) {
-				$export[$c]['primarykey'] = true;
-			}
-		}
-
-		$expindexes = array();
-		foreach($table->getIndexes() as $index) {
-			if($index->isPrimary()) {
-				continue;
-			}
-			$name = $index->getName();
-			$ind = array();
-
-			if($index->isUnique()){
-				$ind['type'] = 'unique';
-			}else{
-				$ind['type'] = 'index';
-			}
-			$ind['cols'] = array();
-			$cols = $index->getColumns();
-			foreach($cols as $c) {
-				$ind['cols'][] = $c;
-			}
-
-			$expindexes[$name] = $ind;
-		}
-
-		if(!empty($table->getForeignKeys())) {
-			throw new \Exception("Unable to handle foreign keys. Please help write the code!");
-		}
+		$table = \FreePBX::Database()->migrate($args[0]);
+		$generate = $table->generateUpdateArray();
 
 		switch($this->format) {
 			case "xml":
@@ -134,7 +55,7 @@ class Doctrine extends Command {
 				}
 				$table = $xml->addChild("table");
 				$table->addAttribute('name', $args[0]);
-				foreach($export as $col => $data) {
+				foreach($generate['columns'] as $col => $data) {
 					$c = $table->addChild("field");
 					$c->addAttribute('name', $col);
 					$c->addAttribute('type', $data['type']);
@@ -155,7 +76,7 @@ class Doctrine extends Command {
 						$c->addAttribute('notnull', $data['notnull'] ? 'true' : 'false');
 					}
 
-					if(isset($data['primarykey'])) {
+					if(isset($data['primaryKey']) || isset($data['primarykey'])) {
 						$c->addAttribute('primarykey', $data['primarykey'] ? 'true' : 'false');
 					}
 
@@ -163,7 +84,7 @@ class Doctrine extends Command {
 						$c->addAttribute('autoincrement', $data['autoincrement'] ? 'true' : 'false');
 					}
 				}
-				foreach($expindexes as $index => $data) {
+				foreach($generate['indexes'] as $index => $data) {
 					$i = $table->addChild("key");
 					$i->addAttribute('name', $index);
 					$i->addAttribute('type', $data['type']);
@@ -190,9 +111,9 @@ class Doctrine extends Command {
 						$output->writeln("<error>You **MAY** LOSE DATA!!!!</error>");
 					} else {
 						print_r("Cols");
-						print_r($export);
+						print_r($generate['columns']);
 						print_r("Indexes");
-						print_r($expindexes);
+						print_r($generate['indexes']);
 						throw new \Exception("Error: Table did not accurately match generation. Aborting. Modification string should be empty but returned: '".implode("; ",$test)."'");
 					}
 
@@ -201,19 +122,19 @@ class Doctrine extends Command {
 			break;
 			case "php":
 				$table = \FreePBX::Database()->migrate($args[0]);
-				$test = $table->modify($export, $expindexes, true);
+				$test = $table->modify($generate['columns'], $generate['indexes'], true);
 				if(!empty($test)) {
 					print_r("Cols");
-					print_r($export);
+					print_r($generate['columns']);
 					print_r("Indexes");
-					print_r($expindexes);
+					print_r($generate['indexes']);
 					throw new \Exception("Error: Table did not accurately match generation. Aborting. Modification string should be empty but returned: '".implode("; ",$test)."'");
 				}
 				$output->writeln('$table = \FreePBX::Database()->migrate("'.$args[0].'");');
-				$output->writeln('$cols = '.var_export($export,true).';');
+				$output->writeln('$cols = '.var_export($generate['columns'],true).';');
 				$output->writeln(PHP_EOL);
 
-				$output->writeln('$indexes = '.var_export($expindexes,true).';');
+				$output->writeln('$indexes = '.var_export($generate['indexes'],true).';');
 				$output->writeln('$table->modify($cols, $indexes);');
 				$output->writeln('unset($table);');
 			break;

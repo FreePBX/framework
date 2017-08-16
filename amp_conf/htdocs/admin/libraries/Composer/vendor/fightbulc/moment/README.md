@@ -48,6 +48,12 @@ echo $m->format(); // e.g. 2012-10-03T10:00:00+0000
 
 $m = new \Moment\Moment('now', 'Europe/Berlin');
 echo $m->format(); // e.g. 2012-10-03T12:00:00+0200
+
+$m = new \Moment\Moment('2017-06-06T10:00:00', 'Europe/Berlin');
+echo $m->format(); // e.g. 2012-10-03T12:00:00+0200
+
+$m = new \Moment\Moment(1499366585);
+echo $m->format(); // e.g. 2017-07-06T18:43:05+0000
 ```
 
 -------------------------------------------------
@@ -115,6 +121,7 @@ __Supported languages so far:__
 ```oc_LNC``` Lengadocian    
 ```pl_PL``` Polish  
 ```pt_BR``` Portuguese (Brazil)  
+```pt_PT``` Portuguese (Portugal)  
 ```ru_RU``` Russian (Basic version)  
 ```es_ES``` Spanish (Europe)  
 ```se_SV``` Swedish  
@@ -409,6 +416,26 @@ You can now run through the result and put it formatted into a drop-down field o
 -------------------------------------------------
 
 # Changelog
+
+### 1.26.10
+ - fixed:
+    - Occitan locale
+
+### 1.26.9
+ - fixed:
+    - Russian locale [issue](https://github.com/fightbulc/moment.php/issues/68#issuecomment-264890181)
+
+### 1.26.8
+ - added:
+    - Portuguese (pt_PT)
+
+### 1.26.7
+ - fixed:
+    - Hungarian locale weekdays order
+
+### 1.26.6
+ - added:
+    - allow initialising Moment with unix timestamp without leading @
 
 ### 1.26.5
  - fixed:
@@ -725,10 +752,22 @@ You can now run through the result and put it formatted into a drop-down field o
 # License
 Moment.php is freely distributable under the terms of the MIT license.
 
-Copyright (c) 2014 Tino Ehrich
+Copyright (c) 2017 Tino Ehrich
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

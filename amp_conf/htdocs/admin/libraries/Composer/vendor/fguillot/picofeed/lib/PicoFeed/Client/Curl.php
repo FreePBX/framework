@@ -110,11 +110,6 @@ class Curl extends Client
                 return $this->handleRedirection($headers['Location']);
             }
 
-            // Do not work with PHP-FPM
-            if (strpos(PHP_SAPI, 'cgi') !== false) {
-                header(':', true, $status);
-            }
-
             if (isset($headers['Content-Type'])) {
                 header('Content-Type:' .$headers['Content-Type']);
             }
@@ -222,6 +217,20 @@ class Curl extends Client
     }
 
     /**
+     * Set additional CURL options.
+     *
+     * @param resource $ch
+     *
+     * @return resource $ch
+     */
+    private function prepareAdditionalCurlOptions($ch){
+        foreach( $this->additional_curl_options as $c_op => $c_val ){
+            curl_setopt($ch, $c_op, $c_val);
+        }
+        return $ch;
+    }
+
+    /**
      * Prepare curl context.
      *
      * @return resource
@@ -254,6 +263,7 @@ class Curl extends Client
         $ch = $this->prepareDownloadMode($ch);
         $ch = $this->prepareProxyContext($ch);
         $ch = $this->prepareAuthContext($ch);
+        $ch = $this->prepareAdditionalCurlOptions($ch);
 
         return $ch;
     }

@@ -69,7 +69,7 @@ class Cron {
 	 * @return array Crontab lines for user
 	 */
 	public function getAll() {
-		exec('/usr/bin/crontab '.$this->uoption.' -l 2>&1', $output, $ret);
+		exec('/usr/bin/crontab '.$this->uoption.' -l 2>/dev/null', $output, $ret);
 		// Linux output
 		if (preg_match('/^no crontab for/', $output[0]))
 			return array();

@@ -205,6 +205,9 @@ class Scraper extends Base
 
     /**
      * Execute the scraper.
+     *
+     * @param string $pageContent
+     * @param int $recursionDepth
      */
     public function execute($pageContent = '', $recursionDepth = 0)
     {

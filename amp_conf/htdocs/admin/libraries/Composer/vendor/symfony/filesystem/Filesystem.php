@@ -37,7 +37,8 @@ class Filesystem
      */
     public function copy($originFile, $targetFile, $overwriteNewerFiles = false)
     {
-        if (stream_is_local($originFile) && !is_file($originFile)) {
+        $originIsLocal = stream_is_local($originFile) || 0 === stripos($originFile, 'file://');
+        if ($originIsLocal && !is_file($originFile)) {
             throw new FileNotFoundException(sprintf('Failed to copy "%s" because file does not exist.', $originFile), 0, null, $originFile);
         }
 
@@ -68,11 +69,13 @@ class Filesystem
                 throw new IOException(sprintf('Failed to copy "%s" to "%s".', $originFile, $targetFile), 0, null, $originFile);
             }
 
-            // Like `cp`, preserve executable permission bits
-            @chmod($targetFile, fileperms($targetFile) | (fileperms($originFile) & 0111));
+            if ($originIsLocal) {
+                // Like `cp`, preserve executable permission bits
+                @chmod($targetFile, fileperms($targetFile) | (fileperms($originFile) & 0111));
 
-            if (stream_is_local($originFile) && $bytesCopied !== ($bytesOrigin = filesize($originFile))) {
-                throw new IOException(sprintf('Failed to copy the whole content of "%s" to "%s" (%g of %g bytes copied).', $originFile, $targetFile, $bytesCopied, $bytesOrigin), 0, null, $originFile);
+                if ($bytesCopied !== $bytesOrigin = filesize($originFile)) {
+                    throw new IOException(sprintf('Failed to copy the whole content of "%s" to "%s" (%g of %g bytes copied).', $originFile, $targetFile, $bytesCopied, $bytesOrigin), 0, null, $originFile);
+                }
             }
         }
     }
@@ -276,6 +279,13 @@ class Filesystem
         }
 
         if (true !== @rename($origin, $target)) {
+            if (is_dir($origin)) {
+                // See https://bugs.php.net/bug.php?id=54097 & http://php.net/manual/en/function.rename.php#113943
+                $this->mirror($origin, $target, null, array('override' => $overwrite, 'delete' => $overwrite));
+                $this->remove($origin);
+
+                return;
+            }
             throw new IOException(sprintf('Cannot rename "%s" to "%s".', $origin, $target), 0, null, $target);
         }
     }
@@ -649,7 +659,7 @@ class Filesystem
      * @param string $filename The file to be written to
      * @param string $content  The data to write into the file
      *
-     * @throws IOException If the file cannot be written to.
+     * @throws IOException If the file cannot be written to
      */
     public function dumpFile($filename, $content)
     {
@@ -674,6 +684,31 @@ class Filesystem
         @chmod($tmpFile, file_exists($filename) ? fileperms($filename) : 0666 & ~umask());
 
         $this->rename($tmpFile, $filename, true);
+    }
+
+    /**
+     * Appends content to an existing file.
+     *
+     * @param string $filename The file to which to append content
+     * @param string $content  The content to append
+     *
+     * @throws IOException If the file is not writable
+     */
+    public function appendToFile($filename, $content)
+    {
+        $dir = dirname($filename);
+
+        if (!is_dir($dir)) {
+            $this->mkdir($dir);
+        }
+
+        if (!is_writable($dir)) {
+            throw new IOException(sprintf('Unable to write to the "%s" directory.', $dir), 0, null, $dir);
+        }
+
+        if (false === @file_put_contents($filename, $content, FILE_APPEND)) {
+            throw new IOException(sprintf('Failed to write file "%s".', $filename), 0, null, $filename);
+        }
     }
 
     /**

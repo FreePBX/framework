@@ -142,7 +142,7 @@ class View {
 		date_default_timezone_set('UTC');
 		$freepbxtimezone = $this->freepbx->Config->get('PHPTIMEZONE');
 		$phptimezone = !empty($timezone) ? $timezone : $freepbxtimezone;
-		$phptimezone = trim($phptimezone);
+		$phptimezone = (trim($phptimezone) != "/") ? trim($phptimezone) : '';
 		$invalidtimezone = false;
 		if(!empty($phptimezone)) {
 			$tzi = \DateTimeZone::listIdentifiers();
@@ -177,7 +177,6 @@ class View {
 	/**
 	 * Get Formatted Date String
 	 * @param  integer $timestamp Unix Timestamp, if empty then NOW
-	 * @param  integer $userid    The User Manager ID, if not supplied try to infere it
 	 * @return string            The date string
 	 */
 	public function getDate($timestamp=null) {
@@ -199,7 +198,6 @@ class View {
 	/**
 	 * Get Formatted Time String
 	 * @param  integer $timestamp Unix Timestamp, if empty then NOW
-	 * @param  integer $userid    The User Manager ID, if not supplied try to infere it
 	 * @return string            The time string
 	 */
 	public function getTime($timestamp=null) {
@@ -221,7 +219,6 @@ class View {
 	/**
 	 * Get Formatted Date/Time String
 	 * @param  integer $timestamp Unix Timestamp, if empty then NOW
-	 * @param  integer $userid    The User Manager ID, if not supplied try to infere it
 	 * @return string            The formatted date/time string
 	 */
 	public function getDateTime($timestamp=null) {
@@ -253,7 +250,6 @@ class View {
 
 	/**
 	 * Get Locale
-	 * @param  integer $userid    The User Manager ID, if not supplied try to infere it
 	 * @return string            The locale  (en_US)
 	 */
 	public function getLocale() {

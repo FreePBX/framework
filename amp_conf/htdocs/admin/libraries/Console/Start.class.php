@@ -90,7 +90,7 @@ class Start extends Command {
 		}
 
 		if ($startasterisk && $asteriskrunning) {
-			$output->writeln("<error>Asterisk already running</error>");
+			$output->writeln("<info>Asterisk already running</info>");
 		}
 
 		// Now we're ready to go.
@@ -99,8 +99,12 @@ class Start extends Command {
 		if ($runpre) {
 			if ($runpre !== "force") {
 				if(!$this->skipChown){
-					$chown = new Chown();
-					$chown->execute($input, $output);
+					try {
+						$chown = new Chown();
+						$chown->execute($input, $output);
+					} catch(\Exception $e) {
+						$output->writeln('<error>'.$e->getMessage().'</error>');
+					}
 				}
 			}
 
@@ -109,7 +113,12 @@ class Start extends Command {
 				$startasterisk = false;
 			} else {
 				foreach($pre as $pri => $data) {
-					$bmo->$data['module']->$data['method']($output);
+					$output->writeln(sprintf(_("Running Asterisk pre from %s module"),$data['module']));
+					try {
+						$bmo->$data['module']->$data['method']($output);
+					} catch(\Exception $e) {
+						$output->writeln('<error>'.$e->getMessage().'</error>');
+					}
 				}
 			}
 		}
@@ -120,13 +129,19 @@ class Start extends Command {
 				$output->writeln(_("Asterisk Started"));
 			} else {
 				$output->writeln('');
-				$output->writeln(_("Unable to start Asterisk!"));
+				$output->writeln('<error>'._("Unable to start Asterisk!").'<.error>');
+				exit(-1);
 			}
 		}
 
 		if ($runpost) {
 			foreach($post as $pri => $data) {
-				$bmo->$data['module']->$data['method']($output);
+				$output->writeln(sprintf(_("Running Asterisk post from %s module"),$data['module']));
+				try {
+					$bmo->$data['module']->$data['method']($output);
+				} catch(\Exception $e) {
+					$output->writeln('<error>'.$e->getMessage().'</error>');
+				}
 			}
 		}
 	}
