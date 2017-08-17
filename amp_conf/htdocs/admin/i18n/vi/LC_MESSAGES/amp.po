@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2017-07-25 12:34-0400\n"
-"PO-Revision-Date: 2017-08-15 10:45+0200\n"
+"PO-Revision-Date: 2017-08-16 23:13+0200\n"
 "Last-Translator: PETER <ftek@ymail.com>\n"
 "Language-Team: Vietnamese "
 "<http://weblate.freepbx.org/projects/freepbx/framework/vi/>\n"
@@ -1335,18 +1335,17 @@ msgstr ""
 "này khi bạn biết bạn đang làm gì."
 
 #: ../core/functions.inc/drivers/Sip.class.php:477
-#, fuzzy
 msgid ""
 "Asterisk dialplan extension to reach voicemail for this device. Some devices "
 "use this to auto-program the voicemail button on the endpoint. If left "
 "blank, the default vmexten setting is automatically configured by the "
 "voicemail module. Only change this on devices that may have special needs."
 msgstr ""
-"Asterisk dialplan mở rộng để tiếp cận thư thoại cho thiết bị này. Một số "
-"thiết bị sử dụng tính năng này để tự động lập trình nút thư thoại trên điểm "
-"cuối. Nếu để trống, cài đặt vmexten mặc định được tự động định cấu hình bởi "
-"mô-đun thư thoại. Chỉ thay đổi điều này trên các thiết bị có thể có nhu cầu "
-"đặc biệt."
+"Kế hoạch quay số máy nhánh Asterisk để tiếp cận thư thoại cho thiết bị này. "
+"Một số thiết bị sử dụng tính năng này để tự động lập trình nút thư thoại "
+"trên điểm cuối. Nếu để trống, cài đặt vmexten mặc định được tự động định cấu "
+"hình bởi mô-đun thư thoại. Chỉ thay đổi điều này trên các thiết bị  có nhu "
+"cầu đặc biệt."
 
 #: amp.i18n.php:412
 msgid "Asterisk etc Dir"
@@ -1358,41 +1357,42 @@ msgid ""
 "Asterisk home dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. "
 "Aborting"
 msgstr ""
+"Asterisk home dir (%s) không tồn tai, ASTSPOOLDIR không tồn tại. Đang hủy"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:190
 msgid "Asterisk is still running and we can't stop it!"
-msgstr ""
+msgstr "Asterisk vẫn đang chạy và chúng ta không thể dừng nó!"
 
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:7
 msgid "Asterisk may not be running."
-msgstr ""
+msgstr "Asterisk có thể không đang chạy."
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:221
 #, php-format
 msgid "Attempted to load %s but it didn't define the class %s"
-msgstr ""
+msgstr "Đã cố thử lại %s nhưng nó đã không xác định được lớp %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:161
 #, php-format
 msgid "Attempted to load %s with a hint of %s and it didn't exist"
-msgstr ""
+msgstr "Đã cố thử tải %s với một gợi ý (hint) của %s và nó đã không tồn tại"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1195
 #, php-format
 msgid "Attempting to Enable %s"
-msgstr ""
+msgstr "Đang cố thử Kích hoạt %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:63
 msgid "Attempting to repair MySQL Tables (this may take some time)"
-msgstr ""
+msgstr "Đang cố thử sửa các bảng MySQL  (điều này có thể tốn thời gian)"
 
 #: amp.i18n.php:270
 msgid "Attended Transfer Alert Info"
-msgstr ""
+msgstr "Alert Info truyền có báo trước"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:148
 msgid "Attention"
-msgstr ""
+msgstr "Tham dự"
 
 #: ../core/views/routing/grid.php:72
 msgid "Attributes"
@@ -1400,11 +1400,11 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:80
 msgid "Authentication"
-msgstr ""
+msgstr "Xác thực"
 
 #: ../core/views/trunks/pjsip.php:866
 msgid "Authentication Disabled"
-msgstr ""
+msgstr "Xác thực bị vô hiệu"
 
 #: amp.i18n.php:748
 msgid ""
@@ -1416,6 +1416,13 @@ msgid ""
 "authentication to happen at the apache level, but will take the user "
 "credentials and apply any restrictions as if it were in database mode."
 msgstr ""
+"Kiểu xác thực để sử dụng cho quản trị viên web. Nếu đặt kiểu <b>database</b>"
+", thông tin đăng nhập quản trị AMP chính sẽ là AMPDBUSER/ AMPDBPASS ở trên. "
+"Khi sử dụng cơ sở dữ liệu, bạn có thể tạo ra người dùng được giới hạn trong "
+"một số trang mô đun nhất định. Khi được thiết lập là none, bạn nên chắc chắn "
+"rằng bạn đã cung cấp bảo mật ở cấp apache. Khi đặt sang máy chủ web, FreePBX "
+"sẽ yêu cầu xác thực xảy ra ở cấp độ apache, nhưng sẽ lấy các thông tin người "
+"dùng và áp dụng bất kỳ hạn chế nào giống như ở chế độ cơ sở dữ liệu."
 
 #: amp.i18n.php:746
 msgid "Authorization Type"
