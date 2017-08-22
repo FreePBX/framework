@@ -28,7 +28,6 @@ return array(
     'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Symfony\\Component\\BrowserKit\\' => array($vendorDir . '/symfony/browser-kit'),
     'Sinergi\\BrowserDetector\\' => array($vendorDir . '/sinergi/browser-detector/src'),
-    'Rhumsaa\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
     'Respect\\Validation\\' => array($vendorDir . '/respect/validation/library'),
     'Ramsey\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
