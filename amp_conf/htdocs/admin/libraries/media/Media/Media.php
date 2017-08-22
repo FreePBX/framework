@@ -39,7 +39,9 @@ class Media {
 	 */
 	public static function cleanFileName($name) {
 		$name = pathinfo($name,PATHINFO_FILENAME);
-		$name = str_replace(" ","-",$name);
+		$find = Array(" ","(",")","/","ö","ü","ä","Ä","Ü","Ö");
+		$replace = Array("_","_","_","_","oe","oe","oe","Ae","Ue","Oe");
+		$name = str_replace($find,$replace,$name);
 		if(function_exists('iconv')) {
 			$name = iconv("UTF-8", "ISO-8859-1//TRANSLIT", $name);
 		}
