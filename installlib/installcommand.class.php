@@ -398,6 +398,13 @@ class FreePBXInstallCommand extends Command {
 			$amp_conf['AMPMANAGERHOST'] = 'localhost';
 		}
 
+		$pdodrivers = PDO::getAvailableDrivers();
+		if(!in_array($amp_conf['AMPDBENGINE'],$pdodrivers)) {
+			$output->writeln("<error>Error!</error>");
+			$output->writeln("<error>PDO Driver '".$amp_conf['AMPDBENGINE']."' is missing from the system</error>");
+			exit(1);
+		}
+
 		$dbencoding = 'utf8'; //jic
 		if ($newinstall || $force) {
 			$amp_conf['AMPMGRUSER'] = 'admin';
@@ -412,6 +419,7 @@ class FreePBXInstallCommand extends Command {
 			} else {
 				$output->write("Database installation checking credentials and permissions..");
 			}
+
 			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'];
 			try {
 				$pdodb = new \PDO($dsn, $amp_conf['AMPDBUSER'], $amp_conf['AMPDBPASS']);
