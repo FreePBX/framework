@@ -398,7 +398,7 @@ class FreePBXInstallCommand extends Command {
 			$amp_conf['AMPMANAGERHOST'] = 'localhost';
 		}
 
-		$pdodrivers = PDO::getAvailableDrivers();
+		$pdodrivers = \PDO::getAvailableDrivers();
 		if(!in_array($amp_conf['AMPDBENGINE'],$pdodrivers)) {
 			$output->writeln("<error>Error!</error>");
 			$output->writeln("<error>PDO Driver '".$amp_conf['AMPDBENGINE']."' is missing from the system</error>");
