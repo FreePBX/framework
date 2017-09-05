@@ -28,4 +28,19 @@ class AstmanTest extends PHPUnit_Framework_TestCase {
 		$this->assertArrayHasKey('DEVICE', $unfiltered);
 		$this->assertArrayNotHasKey('DEVICE', $filtered);
 	}
+	public function testCaching() {
+		self::$c->useCaching = false;
+		$normal = self::$c->database_show('AMPUSER');
+		self::$c->useCaching = true;
+		$cached = self::$c->database_show('AMPUSER');
+
+		$this->assertEquals($normal, $cached, "Cached database does not match uncached");
+
+		self::$c->useCaching = false;
+		$normal = self::$c->database_show();
+		self::$c->useCaching = true;
+		$cached = self::$c->database_show();
+
+		$this->assertEquals($normal, $cached, "Cached database does not match uncached");
+	}
 }

@@ -84,7 +84,9 @@ $restrict_mods = isset($restrict_mods) ? $restrict_mods : false;
 // Set defaults for unset settings
 $bootstrap_defaults = array('skip_config' => null,
 	'astman_config' => null,
-	'astman_options' => array(),
+	'astman_options' => array(
+		'cachemode' => true
+	),
 	'astman_events' => 'off',
 	'freepbx_error_handler' => true,
 	'freepbx_auth' => true,

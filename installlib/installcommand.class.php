@@ -398,6 +398,13 @@ class FreePBXInstallCommand extends Command {
 			$amp_conf['AMPMANAGERHOST'] = 'localhost';
 		}
 
+		$pdodrivers = \PDO::getAvailableDrivers();
+		if(!in_array($amp_conf['AMPDBENGINE'],$pdodrivers)) {
+			$output->writeln("<error>Error!</error>");
+			$output->writeln("<error>PDO Driver '".$amp_conf['AMPDBENGINE']."' is missing from the system</error>");
+			exit(1);
+		}
+
 		$dbencoding = 'utf8'; //jic
 		if ($newinstall || $force) {
 			$amp_conf['AMPMGRUSER'] = 'admin';
@@ -412,6 +419,7 @@ class FreePBXInstallCommand extends Command {
 			} else {
 				$output->write("Database installation checking credentials and permissions..");
 			}
+
 			$dsn = $amp_conf['AMPDBENGINE'] . ":host=" . $amp_conf['AMPDBHOST'];
 			try {
 				$pdodb = new \PDO($dsn, $amp_conf['AMPDBUSER'], $amp_conf['AMPDBPASS']);
@@ -795,6 +803,21 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		system($amp_conf['AMPSBIN']."/fwconsole ma install framework");
 		$output->writeln("Done");
 
+		// GPG setup - trustFreePBX();
+		$output->write("Trusting FreePBX...");
+		try {
+			\FreePBX::GPG()->trustFreePBX();
+		} catch(\Exception $e) {
+			$output->writeln("<error>Error!</error>");
+			$output->writeln("<error>Error while trusting FreePBX: ".$e->getMessage()."</error>");
+			exit(1);
+		}
+
+		// Make sure we have the latest keys, if this install is out of date.
+		\FreePBX::GPG()->refreshKeys();
+
+		$output->writeln("Trusted");
+
 		if($answers['dev-links']) {
 			$output->writeln("Enabling Developer mode");
 			system($amp_conf['AMPSBIN'] . "/fwconsole setting DEVEL 1 > /dev/null");
@@ -823,21 +846,6 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		$output->writeln("Generating default configurations...");
 		system("runuser " . $amp_conf['AMPASTERISKUSER'] . ' -c "cd ~/ && '.$amp_conf["AMPSBIN"].'/fwconsole reload &>/dev/null"');
 		$output->writeln("Finished generating default configurations");
-
-		// GPG setup - trustFreePBX();
-		$output->write("Trusting FreePBX...");
-		try {
-			\FreePBX::GPG()->trustFreePBX();
-		} catch(\Exception $e) {
-			$output->writeln("<error>Error!</error>");
-			$output->writeln("<error>Error while trusting FreePBX: ".$e->getMessage()."</error>");
-			exit(1);
-		}
-
-		// Make sure we have the latest keys, if this install is out of date.
-		\FreePBX::GPG()->refreshKeys();
-
-		$output->writeln("Trusted");
 
 		$output->writeln("<info>You have successfully installed FreePBX</info>");
 	}
