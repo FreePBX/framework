@@ -111,7 +111,7 @@ class Container implements ResettableContainerInterface
     /**
      * Returns true if the container parameter bag are frozen.
      *
-     * Deprecated since 3.3, to be removed in 4.0.
+     * @deprecated since version 3.3, to be removed in 4.0.
      *
      * @return bool true if the container parameter bag are frozen, false otherwise
      */
@@ -427,9 +427,9 @@ class Container implements ResettableContainerInterface
     /**
      * Fetches a variable from the environment.
      *
-     * @param string The name of the environment variable
+     * @param string $name The name of the environment variable
      *
-     * @return scalar The value to use for the provided environment variable name
+     * @return mixed The value to use for the provided environment variable name
      *
      * @throws EnvNotFoundException When the environment variable is not found and has no default value
      */
@@ -438,10 +438,13 @@ class Container implements ResettableContainerInterface
         if (isset($this->envCache[$name]) || array_key_exists($name, $this->envCache)) {
             return $this->envCache[$name];
         }
+        if (isset($_SERVER[$name]) && 0 !== strpos($name, 'HTTP_')) {
+            return $this->envCache[$name] = $_SERVER[$name];
+        }
         if (isset($_ENV[$name])) {
             return $this->envCache[$name] = $_ENV[$name];
         }
-        if (false !== $env = getenv($name)) {
+        if (false !== ($env = getenv($name)) && null !== $env) { // null is a possible value because of thread safety issues
             return $this->envCache[$name] = $env;
         }
         if (!$this->hasParameter("env($name)")) {
