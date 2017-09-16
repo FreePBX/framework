@@ -465,7 +465,7 @@ class Chown extends Command {
 			}
 			$mode = $omode;
 			if ($recursive && is_dir($file) && !is_link($file)) {
-				$this->chmod($progress, new \FilesystemIterator($file), $mode, $umask, true);
+				$this->chmod($progress, new \FilesystemIterator($file), $mode, $umask, true, $stripx);
 			}
 		}
 	}
