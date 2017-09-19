@@ -179,7 +179,7 @@ $timezone = $bmo->View->setTimezone();
 $bootstrap_settings['amportal_conf_initialized'] = false;
 $amp_conf = $freepbx_conf->parse_amportal_conf("/etc/amportal.conf",$amp_conf);
 
-if($amp_conf['PHP_CONSOLE']) {
+if(!empty($amp_conf['PHP_CONSOLE'])) {
 	$connector = PhpConsole\Connector::getInstance();
 	if(!empty($amp_conf['PHP_CONSOLE_PASSWORD'])) {
 		$connector->setPassword($amp_conf['PHP_CONSOLE_PASSWORD']);
