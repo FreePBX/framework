@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-29 12:54-0700\n"
+"POT-Creation-Date: 2017-09-19 16:20-0700\n"
 "PO-Revision-Date: 2016-12-14 17:29+0200\n"
 "Last-Translator: Maxim <maxim@ua.fm>\n"
 "Language-Team: Ukrainian <http://weblate.freepbx.org/projects/freepbx/"
@@ -188,7 +188,7 @@ msgstr ""
 msgid "%s Extensions"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:339
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:346
 #, php-format
 msgid "%s Likely will not work as expected"
 msgstr "%s ймовірно, не буде працювати, як очікується"
@@ -405,9 +405,9 @@ msgstr ""
 "використовувати %s з браузером який у Вас є, але ваш досвід може бути "
 "зменшений і не підтримуватись"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:372
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:407
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:443
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:379
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:414
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:451
 #, php-format
 msgid "%s skipped by configuration"
 msgstr ""
@@ -999,10 +999,6 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:262
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP)"
-msgstr ""
-
-#: ../core/functions.inc/drivers/PJSip.class.php:246
-msgid "Allow Non-Encrypted Media (Opportunistic SRTP) "
 msgstr ""
 
 #: ../core/functions.inc/drivers/Iax2.class.php:134
@@ -2863,7 +2859,7 @@ msgstr ""
 msgid ""
 "Determines whether encryption should be used if possible but does not "
 "terminate the session if not achieved. This option only applies if Media "
-"Encryption is set to SRTP via in-SDP or DTLS-SRTP."
+"Encryption is not set to None."
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:278
@@ -2874,6 +2870,12 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:789
 msgid "Determines whether media may flow directly between endpoints."
+msgstr ""
+
+#: ../core/functions.inc/drivers/PJSip.class.php:246
+msgid ""
+"Determines whether res_pjsip will use and enforce usage of media encryption "
+"for this endpoint."
 msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:213
@@ -6603,7 +6605,8 @@ msgid ""
 "option is removed for inbound callers. The r option allows Asterisk to "
 "generate ringing back to the calling phones which is needed by some phones "
 "and sometimes needed in complex dialplan features that may otherwise result "
-"in silence to the caller."
+"in silence to the caller. The H and t options allow the in-Call disconnect "
+"feature code to function"
 msgstr ""
 
 #: amp.i18n.php:268
@@ -6939,7 +6942,7 @@ msgid ""
 "Permissions error on file %s - please re-run as root to automatically repair"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:340
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:347
 #, php-format
 msgid ""
 "Permissions should be set with a leading 0, example 644 should be 0644 File: "

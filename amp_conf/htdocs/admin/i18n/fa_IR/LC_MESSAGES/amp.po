@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-29 12:54-0700\n"
+"POT-Creation-Date: 2017-09-19 16:20-0700\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -195,7 +195,7 @@ msgstr "%s وسایل"
 msgid "%s Extensions"
 msgstr "%s داخلی ها"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:339
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:346
 #, php-format
 msgid "%s Likely will not work as expected"
 msgstr "%s به طور قابل قبول کار نمیکند"
@@ -424,9 +424,9 @@ msgstr ""
 "the browser you currently have but your experience may be diminished and is "
 "not supported"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:372
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:407
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:443
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:379
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:414
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:451
 #, php-format
 msgid "%s skipped by configuration"
 msgstr "%s توسط پیکربندی لغو شد"
@@ -1066,10 +1066,6 @@ msgstr "مجوز ورود به اعتبار بانک اطلاعاتی"
 #: ../core/functions.inc/drivers/PJSip.class.php:262
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP)"
 msgstr ""
-
-#: ../core/functions.inc/drivers/PJSip.class.php:246
-msgid "Allow Non-Encrypted Media (Opportunistic SRTP) "
-msgstr "اجازه به فایل رمزنگاری نشده (Opportunistic SRTP) "
 
 #: ../core/functions.inc/drivers/Iax2.class.php:134
 #: ../core/functions.inc/drivers/Sip.class.php:469
@@ -3161,11 +3157,8 @@ msgstr ""
 msgid ""
 "Determines whether encryption should be used if possible but does not "
 "terminate the session if not achieved. This option only applies if Media "
-"Encryption is set to SRTP via in-SDP or DTLS-SRTP."
+"Encryption is not set to None."
 msgstr ""
-"Determines  whether encryption should be used if possible but does not "
-"terminate the session if not achieved. This option only applies if Media "
-"Encryption is set to SRTP via in-SDP or DTLS-SRTP."
 
 #: ../core/views/trunks/pjsip.php:278
 msgid ""
@@ -3177,6 +3170,12 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:789
 msgid "Determines whether media may flow directly between endpoints."
+msgstr ""
+
+#: ../core/functions.inc/drivers/PJSip.class.php:246
+msgid ""
+"Determines whether res_pjsip will use and enforce usage of media encryption "
+"for this endpoint."
 msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:213
@@ -7231,17 +7230,9 @@ msgid ""
 "option is removed for inbound callers. The r option allows Asterisk to "
 "generate ringing back to the calling phones which is needed by some phones "
 "and sometimes needed in complex dialplan features that may otherwise result "
-"in silence to the caller."
+"in silence to the caller. The H and t options allow the in-Call disconnect "
+"feature code to function"
 msgstr ""
-"Options to  be passed to the Asterisk Dial Command when making internal "
-"calls or for calls ringing internal phones. The options are documented in "
-"Asterisk documentation, a subset of which are described here. The default "
-"options T and t allow the calling and called users to transfer a call with "
-"##. If 'Disallow transfer features for inbound callers' is set to 'Yes' the "
-"T option is removed for inbound callers. The r option allows Asterisk to "
-"generate ringing back to the calling phones which is needed by some phones "
-"and sometimes needed in complex dialplan features that may otherwise result "
-"in silence to the caller."
 
 #: amp.i18n.php:268
 msgid ""
@@ -7602,7 +7593,7 @@ msgid ""
 msgstr ""
 "Permissions  error on file %s - please re-run as root to automatically repair"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:340
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:347
 #, php-format
 msgid ""
 "Permissions should be set with a leading 0, example 644 should be 0644 File: "
@@ -12650,6 +12641,39 @@ msgid ""
 msgstr ""
 "شما باید دستی خط 'preload => pbx_config.so' را به فایل modules.conf اضافه "
 "کنید"
+
+#~ msgid "Allow Non-Encrypted Media (Opportunistic SRTP) "
+#~ msgstr "اجازه به فایل رمزنگاری نشده (Opportunistic SRTP) "
+
+#~ msgid ""
+#~ "Determines whether encryption should be used if possible but does not "
+#~ "terminate the session if not achieved. This option only applies if Media "
+#~ "Encryption is set to SRTP via in-SDP or DTLS-SRTP."
+#~ msgstr ""
+#~ "Determines  whether encryption should be used if possible but does not "
+#~ "terminate the session if not achieved. This option only applies if Media "
+#~ "Encryption is set to SRTP via in-SDP or DTLS-SRTP."
+
+#~ msgid ""
+#~ "Options to be passed to the Asterisk Dial Command when making internal "
+#~ "calls or for calls ringing internal phones. The options are documented in "
+#~ "Asterisk documentation, a subset of which are described here. The default "
+#~ "options T and t allow the calling and called users to transfer a call "
+#~ "with ##. If 'Disallow transfer features for inbound callers' is set to "
+#~ "'Yes' the T option is removed for inbound callers. The r option allows "
+#~ "Asterisk to generate ringing back to the calling phones which is needed "
+#~ "by some phones and sometimes needed in complex dialplan features that may "
+#~ "otherwise result in silence to the caller."
+#~ msgstr ""
+#~ "Options to  be passed to the Asterisk Dial Command when making internal "
+#~ "calls or for calls ringing internal phones. The options are documented in "
+#~ "Asterisk documentation, a subset of which are described here. The default "
+#~ "options T and t allow the calling and called users to transfer a call "
+#~ "with ##. If 'Disallow transfer features for inbound callers' is set to "
+#~ "'Yes' the T option is removed for inbound callers. The r option allows "
+#~ "Asterisk to generate ringing back to the calling phones which is needed "
+#~ "by some phones and sometimes needed in complex dialplan features that may "
+#~ "otherwise result in silence to the caller."
 
 #~ msgid ""
 #~ "Number of seconds to ring during a Call Forward, Call Forward Busy or "

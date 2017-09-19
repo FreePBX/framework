@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-08-29 12:54-0700\n"
+"POT-Creation-Date: 2017-09-19 16:20-0700\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -210,7 +210,7 @@ msgstr "%s Dispositivos"
 msgid "%s Extensions"
 msgstr "%s Ramais"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:339
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:346
 #, php-format
 msgid "%s Likely will not work as expected"
 msgstr "%s Provavelmente não funcionarão como esperado"
@@ -443,9 +443,9 @@ msgstr ""
 "usar %s com o navegador que você tem atualmente, mas sua experiência pode "
 "ser diminuída e não é suportada"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:372
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:407
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:443
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:379
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:414
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:451
 #, php-format
 msgid "%s skipped by configuration"
 msgstr "%s Ignorado pela configuração"
@@ -1094,10 +1094,6 @@ msgstr "Permitir Logar Com Credenciar BD"
 #: ../core/functions.inc/drivers/PJSip.class.php:262
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP)"
 msgstr ""
-
-#: ../core/functions.inc/drivers/PJSip.class.php:246
-msgid "Allow Non-Encrypted Media (Opportunistic SRTP) "
-msgstr "Permitir Mídia Não Criptografada (Opportunistic SRTP) "
 
 #: ../core/functions.inc/drivers/Iax2.class.php:134
 #: ../core/functions.inc/drivers/Sip.class.php:469
@@ -3231,11 +3227,8 @@ msgstr ""
 msgid ""
 "Determines whether encryption should be used if possible but does not "
 "terminate the session if not achieved. This option only applies if Media "
-"Encryption is set to SRTP via in-SDP or DTLS-SRTP."
+"Encryption is not set to None."
 msgstr ""
-"Determina se a criptografia deve ser usada se possível, mas não encerrar a "
-"sessão se não for alcançada. Esta opção só se aplica se o Media Encryption "
-"estiver definido como SRTP via in-SDP ou DTLS-SRTP."
 
 #: ../core/views/trunks/pjsip.php:278
 msgid ""
@@ -3247,6 +3240,12 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:789
 msgid "Determines whether media may flow directly between endpoints."
+msgstr ""
+
+#: ../core/functions.inc/drivers/PJSip.class.php:246
+msgid ""
+"Determines whether res_pjsip will use and enforce usage of media encryption "
+"for this endpoint."
 msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:213
@@ -7374,18 +7373,9 @@ msgid ""
 "option is removed for inbound callers. The r option allows Asterisk to "
 "generate ringing back to the calling phones which is needed by some phones "
 "and sometimes needed in complex dialplan features that may otherwise result "
-"in silence to the caller."
+"in silence to the caller. The H and t options allow the in-Call disconnect "
+"feature code to function"
 msgstr ""
-"Opções a serem passadas para o Comando de Marcação Asterisco ao fazer "
-"chamadas internas ou para chamadas tocando telefones internos. As opções "
-"estão documentadas na documentação do Asterisk, um subconjunto do qual são "
-"descritos aqui. As opções padrão T e t permitem que os usuários chamados e "
-"chamados transfiram uma chamada com ##. Se 'Desativar recursos de "
-"transferência para chamadores de entrada' estiver definido como 'Sim', a "
-"opção T será removida para os chamadores de entrada. A opção r permite que o "
-"Asterisk gire tocando de volta para os telefones de chamada que é necessário "
-"por alguns telefones e às vezes necessários em recursos de dialplan "
-"complexos que podem, caso contrário, resultar em silêncio para o chamador."
 
 #: amp.i18n.php:268
 msgid ""
@@ -7750,7 +7740,7 @@ msgstr ""
 "Erro de permissões no arquivo %s - volte a executar como root para reparar "
 "automaticamente"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:340
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:347
 #, php-format
 msgid ""
 "Permissions should be set with a leading 0, example 644 should be 0644 File: "
@@ -12702,6 +12692,41 @@ msgid ""
 "you may need to add the line 'preload => pbx_config.so' to your modules.conf "
 "manually"
 msgstr ""
+
+#~ msgid "Allow Non-Encrypted Media (Opportunistic SRTP) "
+#~ msgstr "Permitir Mídia Não Criptografada (Opportunistic SRTP) "
+
+#~ msgid ""
+#~ "Determines whether encryption should be used if possible but does not "
+#~ "terminate the session if not achieved. This option only applies if Media "
+#~ "Encryption is set to SRTP via in-SDP or DTLS-SRTP."
+#~ msgstr ""
+#~ "Determina se a criptografia deve ser usada se possível, mas não encerrar "
+#~ "a sessão se não for alcançada. Esta opção só se aplica se o Media "
+#~ "Encryption estiver definido como SRTP via in-SDP ou DTLS-SRTP."
+
+#~ msgid ""
+#~ "Options to be passed to the Asterisk Dial Command when making internal "
+#~ "calls or for calls ringing internal phones. The options are documented in "
+#~ "Asterisk documentation, a subset of which are described here. The default "
+#~ "options T and t allow the calling and called users to transfer a call "
+#~ "with ##. If 'Disallow transfer features for inbound callers' is set to "
+#~ "'Yes' the T option is removed for inbound callers. The r option allows "
+#~ "Asterisk to generate ringing back to the calling phones which is needed "
+#~ "by some phones and sometimes needed in complex dialplan features that may "
+#~ "otherwise result in silence to the caller."
+#~ msgstr ""
+#~ "Opções a serem passadas para o Comando de Marcação Asterisco ao fazer "
+#~ "chamadas internas ou para chamadas tocando telefones internos. As opções "
+#~ "estão documentadas na documentação do Asterisk, um subconjunto do qual "
+#~ "são descritos aqui. As opções padrão T e t permitem que os usuários "
+#~ "chamados e chamados transfiram uma chamada com ##. Se 'Desativar recursos "
+#~ "de transferência para chamadores de entrada' estiver definido como 'Sim', "
+#~ "a opção T será removida para os chamadores de entrada. A opção r permite "
+#~ "que o Asterisk gire tocando de volta para os telefones de chamada que é "
+#~ "necessário por alguns telefones e às vezes necessários em recursos de "
+#~ "dialplan complexos que podem, caso contrário, resultar em silêncio para o "
+#~ "chamador."
 
 #~ msgid ""
 #~ "Number of seconds to ring during a Call Forward, Call Forward Busy or "
