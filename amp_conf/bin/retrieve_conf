@@ -21,10 +21,12 @@ function writeout($string,$exit=false){
 $bootstrap_settings['freepbx_auth'] = false;
 include_once '/etc/freepbx.conf';
 global $whoops;
-$whoops->pushHandler(function($exception, $inspector, $run) {
-	$error = sprintf(_("Unable to continue. %s in %s on line %s"),$exception->getMessage(),$exception->getFile(),$exception->getLine())."\n".$exception->getTraceAsString()."\n";
-	writeout($error,255);
-});
+if (isset($whoops)) {
+	$whoops->pushHandler(function($exception, $inspector, $run) {
+		$error = sprintf(_("Unable to continue. %s in %s on line %s"),$exception->getMessage(),$exception->getFile(),$exception->getLine())."\n".$exception->getTraceAsString()."\n";
+		writeout($error,255);
+	});
+}
 
 if (!$bootstrap_settings['astman_connected']) {
 	writeout(sprintf(_("Unable to connect to Asterisk Manager from %s, aborting"),__FILE__),1);
