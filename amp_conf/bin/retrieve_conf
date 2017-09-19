@@ -21,7 +21,7 @@ function writeout($string,$exit=false){
 $bootstrap_settings['freepbx_auth'] = false;
 include_once '/etc/freepbx.conf';
 global $whoops;
-if (isset($whoops)) {
+if (isset($whoops) && is_object($whoops)) {
 	$whoops->pushHandler(function($exception, $inspector, $run) {
 		$error = sprintf(_("Unable to continue. %s in %s on line %s"),$exception->getMessage(),$exception->getFile(),$exception->getLine())."\n".$exception->getTraceAsString()."\n";
 		writeout($error,255);
