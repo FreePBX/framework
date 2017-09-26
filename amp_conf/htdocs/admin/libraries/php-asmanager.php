@@ -157,7 +157,9 @@ class AGI_AsteriskManager {
 	public $log_level;
 
 	public $useCaching = false;
-	public $memAstDB = null;
+
+	private $memAstDB = array();
+	private $memAstDBArray = array();
 
 	/**
 	* Constructor
@@ -202,8 +204,8 @@ class AGI_AsteriskManager {
 	}
 
 	function LoadAstDB(){
-		if ($this->memAstDB != null) {
-			unset($this->memAstDB);
+		if (!empty($this->memAstDB)) {
+			$this->memAstDB = array();
 		}
 		$this->memAstDB = $this->database_show();
 	}
@@ -1501,7 +1503,8 @@ class AGI_AsteriskManager {
 	*/
 	function database_show($family='') {
 		if ($this->useCaching) {
-			if(is_null($this->memAstDB)) {
+			if(empty($this->memAstDB)) {
+				//blow away sub as well
 				$this->memAstDBArray = array();
 				$this->memAstDB = $this->parseAsteriskDatabase();
 			}
@@ -1569,7 +1572,7 @@ class AGI_AsteriskManager {
 				$this->memAstDB[$keyUsed] = $value;
 				$write_through = true;
 			}
-			$this->memAstDBArray = null;
+			$this->memAstDBArray = array();
 		} else {
 			$write_through = true;
 		}
@@ -1588,7 +1591,7 @@ class AGI_AsteriskManager {
 	 */
 	function database_get($family, $key) {
 		if ($this->useCaching) {
-			if ($this->memAstDB == null) {
+			if (empty($this->memAstDB)) {
 				$this->LoadAstDB();
 			}
 			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
@@ -1617,7 +1620,7 @@ class AGI_AsteriskManager {
 		if ($status && !empty($this->memAstDB)){
 			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
 			unset($this->memAstDB[$keyUsed]);
-			$this->memAstDBArray = null;
+			$this->memAstDBArray = array();
 		}
 		return $status;
 	}
@@ -1635,7 +1638,7 @@ class AGI_AsteriskManager {
 				$reg = preg_quote($keyUsed,"/");
 				if(preg_match("/^".$reg.".*/",$key)) {
 					unset($this->memAstDB[$key]);
-					$this->memAstDBArray = null;
+					$this->memAstDBArray = array();
 				}
 			}
 		}

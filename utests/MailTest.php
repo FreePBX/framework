@@ -28,7 +28,6 @@ class MailTest extends PHPUnit_Framework_TestCase {
 		$mail->setBody("UNIT TEST");
 		$mail->addAttachment('/tmp/mailtest.txt');
     $ret = $mail->send();
-		var_dump($ret);
     $this->assertTrue((bool)$ret, "Mail didn't send");
 	}
 }
