@@ -53,8 +53,41 @@ class AstmanTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($test, 'TEST', "Partial Cached database does not match uncached");
 
 		self::$c->useCaching = true;
-		self::$c->database_put('TEST','TEST','TEST1');
+		self::$c->database_put('TEST','TEST','TEST');
+		$out = self::$c->database_show('TEST');
+		$this->assertEquals($out['/TEST/TEST'], 'TEST', "Partial Cached database does not match uncached");
+
+		self::$c->database_del('TEST','TEST');
+		$out = self::$c->database_show('TEST');
+		$this->assertEquals($out, array(), "Partial Cached database does not match uncached");
+
+		self::$c->database_put('TEST','TEST','TEST');
+		$out = self::$c->database_show('TEST');
+		$this->assertEquals($out['/TEST/TEST'], 'TEST', "Partial Cached database does not match uncached");
+		self::$c->database_deltree('TEST');
+		$out = self::$c->database_show('TEST');
+		$this->assertEquals($out, array(), "Partial Cached database does not match uncached");
+
 		$test = self::$c->database_get('TEST','TEST');
-		$this->assertEquals($test, 'TEST1', "Partial Cached database does not match uncached");
+		$this->assertEquals($test, null, "Partial Cached database does not match uncached");
+
+		self::$c->useCaching = false;
+		self::$c->database_put('TEST','TEST','TEST');
+		$out = self::$c->database_show('TEST');
+		$this->assertEquals($out['/TEST/TEST'], 'TEST', "Partial Cached database does not match uncached");
+
+		self::$c->database_del('TEST','TEST');
+		$out = self::$c->database_show('TEST');
+		$this->assertEquals($out, array(), "Partial Cached database does not match uncached");
+
+		$test = self::$c->database_get('TEST','TEST');
+		$this->assertEquals($test, null, "Partial Cached database does not match uncached");
+
+		self::$c->database_put('TEST','TEST','TEST');
+		$out = self::$c->database_show('TEST');
+		$this->assertEquals($out['/TEST/TEST'], 'TEST', "Partial Cached database does not match uncached");
+		self::$c->database_deltree('TEST');
+		$out = self::$c->database_show('TEST');
+		$this->assertEquals($out, array(), "Partial Cached database does not match uncached");
 	}
 }

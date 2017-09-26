@@ -1569,9 +1569,7 @@ class AGI_AsteriskManager {
 				$this->memAstDB[$keyUsed] = $value;
 				$write_through = true;
 			}
-			if(isset($this->memAstDBArray[$keyUsed])) {
-				unset($this->memAstDBArray[$keyUsed]);
-			}
+			$this->memAstDBArray = null;
 		} else {
 			$write_through = true;
 		}
@@ -1619,9 +1617,7 @@ class AGI_AsteriskManager {
 		if ($status && !empty($this->memAstDB)){
 			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
 			unset($this->memAstDB[$keyUsed]);
-			if(isset($this->memAstDBArray[$keyUsed])) {
-				unset($this->memAstDBArray[$keyUsed]);
-			}
+			$this->memAstDBArray = null;
 		}
 		return $status;
 	}
@@ -1639,9 +1635,7 @@ class AGI_AsteriskManager {
 				$reg = preg_quote($keyUsed,"/");
 				if(preg_match("/^".$reg.".*/",$key)) {
 					unset($this->memAstDB[$key]);
-					if(isset($this->memAstDBArray[$key])) {
-						unset($this->memAstDBArray[$key]);
-					}
+					$this->memAstDBArray = null;
 				}
 			}
 		}
