@@ -1501,8 +1501,8 @@ class AGI_AsteriskManager {
 	*/
 	function database_show($family='') {
 		if ($this->useCaching) {
-			dbug("caching");
-			if(empty($this->memAstDB)) {
+			if(is_null($this->memAstDB)) {
+				$this->memAstDBArray = array();
 				$this->memAstDB = $this->parseAsteriskDatabase();
 			}
 			if ($family == '') {
@@ -1529,7 +1529,6 @@ class AGI_AsteriskManager {
 				}
 			}
 		} else {
-			dbug("no caching");
 			return $this->parseAsteriskDatabase($family);
 		}
 	}
