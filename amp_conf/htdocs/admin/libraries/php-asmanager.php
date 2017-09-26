@@ -208,6 +208,10 @@ class AGI_AsteriskManager {
 		$this->memAstDB = $this->database_show();
 	}
 
+	function getDBCache() {
+		return $this->memAstDB;
+	}
+
 	/**
 	* Send a request
 	*
@@ -1496,7 +1500,11 @@ class AGI_AsteriskManager {
 	* @return Array associative array of key=>value
 	*/
 	function database_show($family='') {
-		if ($this->useCaching && $this->memAstDB != null) {
+		if ($this->useCaching) {
+			dbug("caching");
+			if(empty($this->memAstDB)) {
+				$this->memAstDB = $this->parseAsteriskDatabase();
+			}
 			if ($family == '') {
 				return $this->memAstDB;
 			} else {
@@ -1520,7 +1528,13 @@ class AGI_AsteriskManager {
 					return $fam_arr;
 				}
 			}
+		} else {
+			dbug("no caching");
+			return $this->parseAsteriskDatabase($family);
 		}
+	}
+
+	private function parseAsteriskDatabase($family='') {
 		$r = $this->command("database show $family");
 
 		$data = explode("\n",$r["data"]);
