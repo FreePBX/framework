@@ -88,7 +88,7 @@ class Modules {
 						$destinations[$dest['destination']]['name'] = $data['name'];
 						if(function_exists($funct2)) {
 							$info = $funct2($dest['destination']);
-							$destinations[$dest['destination']]['edit_url'] = $info['edit_url'];
+							$destinations[$dest['destination']]['edit_url'] = !empty($info['edit_url']) ? $info['edit_url'] : '';
 						}
 					}
 				}

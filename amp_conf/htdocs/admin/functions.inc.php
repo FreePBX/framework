@@ -140,6 +140,7 @@ function fpbx_framework_autoloader($class) {
 		// Namespaces
 		'FreePBX\\Builtin\\' => 'libraries/Builtin',
 		'FreePBX\\Console\\Command\\' => 'libraries/Console',
+		'FreePBX\\Gqlapi\\' => 'libraries/Gqlapi',
 	];
 
 	// Is it a direct mapping?
