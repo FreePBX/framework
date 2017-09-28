@@ -218,7 +218,7 @@ class Chown extends Command {
 					case 'dir':
 						try {
 							$this->checkPermissions($file['path'], $file['perms']);
-							$this->chmod($progress, $file['path'], $file['perms']);
+							$this->chmod($progress, $file['path'], $file['perms'], 0000, false, false);
 							$this->chown($progress, $file['path'], $owner);
 							$this->chgrp($progress, $file['path'], $group);
 						} catch(\Exception $e) {
