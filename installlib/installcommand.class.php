@@ -263,7 +263,7 @@ class FreePBXInstallCommand extends Command {
 		$c = 0;
 		$determined = false;
 		While($c < 5) {
-			$lastline = exec("runuser " . $answers['user'] . ' -c "cd ~/ && asterisk -rx \'core show version\' 2>&1"', $tmpout, $ret);
+			$lastline = exec("runuser " . $answers['user'] . ' -s /bin/bash -c "cd ~/ && asterisk -rx \'core show version\' 2>&1"', $tmpout, $ret);
 			if ($ret != 0) {
 				$output->writeln("<error>Error!</error>");
 				$output->writeln("<error>Error communicating with Asterisk.  Ensure that Asterisk is properly installed and running as the ".$answers['user']." user</error>");
