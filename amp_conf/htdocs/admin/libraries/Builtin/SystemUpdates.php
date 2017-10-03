@@ -324,7 +324,7 @@ class SystemUpdates {
 			}
 
 			if(!isset($linearr[1])) {
-				$rpms[escapeshellcmd($linearr[0])] = [];
+				$rpms[escapeshellcmd($linearr[0])] = ["newvers" => "", "repo" => ""];
 				$wrapped = escapeshellcmd($linearr[0]);
 				continue;
 			}
