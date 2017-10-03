@@ -218,18 +218,25 @@ class Chown extends Command {
 					case 'dir':
 						try {
 							$this->checkPermissions($file['path'], $file['perms']);
-							$this->chmod($progress, $file['path'], $file['perms']);
+							$this->chmod($progress, $file['path'], $file['perms'], 0000, false, false);
 							$this->chown($progress, $file['path'], $owner);
 							$this->chgrp($progress, $file['path'], $group);
 						} catch(\Exception $e) {
 						}
 					break;
 					case 'rdir':
-						$file['perms'] = $this->stripExecute($file['perms']);
-					case 'execdir':
 						try {
 							$this->checkPermissions($file['path'], $file['perms']);
 							$this->chmod($progress, $file['path'], $file['perms'], 0000, true);
+							$this->chown($progress, $file['path'], $owner, true);
+							$this->chgrp($progress, $file['path'], $group, true);
+						} catch(\Exception $e) {
+						}
+					break;
+					case 'execdir':
+						try {
+							$this->checkPermissions($file['path'], $file['perms']);
+							$this->chmod($progress, $file['path'], $file['perms'], 0000, true, false);
 							$this->chown($progress, $file['path'], $owner, true);
 							$this->chgrp($progress, $file['path'], $group, true);
 						} catch(\Exception $e) {
@@ -327,7 +334,7 @@ class Chown extends Command {
 	 * @param  bit $mask The bitmask
 	 * @return bit       Bitmask
 	 */
-	private function stripExecute($mask){
+	private function stripExecute($mask) {
 		$mask = ( $mask & ~0111 );
 		return $mask;
 	}
@@ -431,10 +438,11 @@ class Chown extends Command {
 	 * @param int                       $mode      The new mode (octal)
 	 * @param int                       $umask     The mode mask (octal)
 	 * @param bool                      $recursive Whether change the mod recursively or not
+	 * @param bool                      $stripx    Whether to strip the executable bit from files (but not directories)
 	 *
 	 * @throws IOException When the change fail
 	 */
-	public function chmod($progress, $files, $mode, $umask = 0000, $recursive = false)	{
+	public function chmod($progress, $files, $mode, $umask = 0000, $recursive = false, $stripx = true) {
 		foreach ($this->toIterator($files) as $file) {
 			if(!is_null($progress)) {
 				$progress->advance();
@@ -443,9 +451,9 @@ class Chown extends Command {
 				$this->d(sprintf(_('%s skipped by configuration'), $file));
 				continue;
 			}
-			if(is_dir($file)) {
-				$omode = $mode;
-				$mode = 0755;
+			$omode = $mode;
+			if($stripx && !is_dir($file)) {
+				$mode = $this->stripExecute($mode);
 			}
 			$this->d("Setting ".$file." to permissions of: ".decoct($mode & ~$umask));
 			if (true !== @chmod($file, $mode & ~$umask)) {
@@ -455,11 +463,9 @@ class Chown extends Command {
 					@unlink($file);
 				}
 			}
-			if(is_dir($file) && !is_link($file)) {
-				$mode = $omode;
-			}
+			$mode = $omode;
 			if ($recursive && is_dir($file) && !is_link($file)) {
-				$this->chmod($progress, new \FilesystemIterator($file), $mode, $umask, true);
+				$this->chmod($progress, new \FilesystemIterator($file), $mode, $umask, true, $stripx);
 			}
 		}
 	}

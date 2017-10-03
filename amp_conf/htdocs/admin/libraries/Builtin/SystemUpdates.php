@@ -324,7 +324,7 @@ class SystemUpdates {
 			}
 
 			if(!isset($linearr[1])) {
-				$rpms[escapeshellcmd($linearr[0])] = [];
+				$rpms[escapeshellcmd($linearr[0])] = ["newvers" => "", "repo" => ""];
 				$wrapped = escapeshellcmd($linearr[0]);
 				continue;
 			}
@@ -366,28 +366,35 @@ class SystemUpdates {
 		}
 
 		// Our RPM Command
-		$cmd = '/usr/bin/rpm -q --queryformat "%{VERSION}.%{RELEASE}\n" '.join(" ", $rpms);
+		$cmd = '/usr/bin/rpm -q --queryformat "%{NAME}.%{ARCH} %{VERSION}.%{RELEASE}\n" '.join(" ", $rpms);
 		exec($cmd, $output, $ret);
-		if ($ret !== 0) {
+		if ($ret !== 0 && $ret !== 6) {
+			// 6 = new packages are going to be installed
 			throw new \Exception("RPM command errored, tried to run '$cmd', exited with error $ret");
+		}
+
+		// Map the output of the rpm command to a temporary dict
+		$current = [];
+		foreach ($output as $line) {
+			$tmparr = explode(" ", $line);
+			if (strpos($line, "is not installed") === false) {
+				$name = $tmparr[0];
+				$ver = $tmparr[1];
+			} else {
+				// It's not installed
+				$name = $tmparr[1];
+				$ver = false;
+			}
+			$current[$name] = $ver;
 		}
 
 		// Now go through our RPMs and match them with the output
 		foreach ($rpms as $i => $name) {
-			if (!isset($output[$i])) {
-				throw new \Exception("Couldn't find entry $i for $name in output: ".json_encode($output));
-			}
-			$line = $output[$i];
-			// Is this RPM not currently installed?
-			// TODO: i18n of system? Will this break?
-			if (strpos($line, "is not installed") !== false) {
+			if (!isset($current[$name])) {
 				$retarr[$name] = false;
-				continue;
+			} else {
+				$retarr[$name] = $current[$name];
 			}
-			// We explicitly don't ask for the RPM *name*, because rpms that "provide" the package, but aren't
-			// called that, will return the wrong name. So we just blindly assume that the RPM version of
-			// whatever was returned is correct. This may be wildly wrong, but it shouldn't affect any usability
-			$retarr[$name] = $output[$i];
 		}
 		return $retarr;
 	}
