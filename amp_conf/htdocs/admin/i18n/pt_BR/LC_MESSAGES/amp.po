@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-29 10:05-0700\n"
+"POT-Creation-Date: 2017-10-03 07:17-0700\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -230,7 +230,7 @@ msgstr "%s Online %s atualização disponível (%s)"
 msgid "%s Online upgrade available (%s)"
 msgstr "%s Online atualização disponível (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:512
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:519
 #, php-format
 msgid "%s RPMs available for upgrade"
 msgstr ""
@@ -531,7 +531,7 @@ msgstr "arquivos .htaccess não são suportados neste servidor web."
 msgid "0 admins"
 msgstr "0 Admins"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:510
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:517
 msgid "1 RPM available for upgrade"
 msgstr ""
 
@@ -1091,7 +1091,7 @@ msgstr ""
 msgid "Allow Login With DB Credentials"
 msgstr "Permitir Logar Com Credenciar BD"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:262
+#: ../core/functions.inc/drivers/PJSip.class.php:263
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP)"
 msgstr ""
 
@@ -1129,7 +1129,7 @@ msgid "Alt for Left Logo"
 msgstr "Alt para Logo Esquerdo"
 
 #: ../core/functions.inc.php:5766
-#: ../core/functions.inc/drivers/PJSip.class.php:253
+#: ../core/functions.inc/drivers/PJSip.class.php:254
 msgid "Always"
 msgstr "Sempre"
 
@@ -1521,6 +1521,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Iax2.class.php:150
 #: ../core/functions.inc/drivers/PJSip.class.php:228
+#: ../core/functions.inc/drivers/PJSip.class.php:244
 #: ../core/functions.inc/drivers/Sip.class.php:307
 #: ../core/functions.inc/drivers/Sip.class.php:311
 #: ../core/views/trunks/pjsip.php:241
@@ -2080,8 +2081,8 @@ msgstr "Canal %s"
 msgid "Channel ID"
 msgstr "ID do Canal"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:525
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:552
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:532
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:559
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:27
 msgid "Check Online"
 msgstr "Verificar Online"
@@ -2570,7 +2571,7 @@ msgstr "Configuração de Rede atual"
 msgid "Current PBX Version:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:472
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:479
 msgid "Current System Update Status:"
 msgstr ""
 
@@ -2791,7 +2792,7 @@ msgstr ""
 "você não usar os valores padrão fornecidos pelo FreePBX. <br>Número da porta "
 "para o host bd."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:245
+#: ../core/functions.inc/drivers/PJSip.class.php:246
 msgid "DTLS-SRTP (not recommended)"
 msgstr "DTLS-SRTP (não recomendado)"
 
@@ -3223,7 +3224,7 @@ msgid ""
 "Determines whether chan_pjsip will indicate ringing using inband progress."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:261
+#: ../core/functions.inc/drivers/PJSip.class.php:262
 msgid ""
 "Determines whether encryption should be used if possible but does not "
 "terminate the session if not achieved. This option only applies if Media "
@@ -3242,10 +3243,11 @@ msgstr ""
 msgid "Determines whether media may flow directly between endpoints."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:246
+#: ../core/functions.inc/drivers/PJSip.class.php:247
 msgid ""
 "Determines whether res_pjsip will use and enforce usage of media encryption "
-"for this endpoint."
+"for this endpoint. Auto will enable SRTP via in-SDP encryption if TLS is "
+"enabled in SIPSettings"
 msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:213
@@ -3300,7 +3302,7 @@ msgstr "Opções do dispositivo"
 msgid "Device Settings"
 msgstr "Configurações de Dispositivo"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:265
+#: ../core/functions.inc/drivers/PJSip.class.php:266
 msgid "Device State Busy at"
 msgstr "Estado do Dispositivo Ocupado em"
 
@@ -4793,7 +4795,7 @@ msgstr "Forçar execução de rotinas asterisk pre-parada"
 msgid "Force use of return port."
 msgstr "Forçar uso de porta de retorno."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:254
+#: ../core/functions.inc/drivers/PJSip.class.php:255
 msgid "Forced"
 msgstr "Forçado"
 
@@ -5393,7 +5395,7 @@ msgstr ""
 "decimal. Separe o endereço IP ea máscara de sub-rede com uma barra ('/'). "
 "Esta configuração é gerada automaticamente pelo PBX se deixada em branco"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:466
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:473
 msgid "Idle"
 msgstr ""
 
@@ -5773,7 +5775,7 @@ msgstr "Instale todos os módulos locais, não aceita argumentos"
 msgid "Installed Missing Dependency of: %s %s"
 msgstr "Instalado Faltando Dependência de: %s %s"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:533
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:540
 msgid "Installed Version"
 msgstr ""
 
@@ -6009,11 +6011,11 @@ msgstr "ROTAS DE CARREGAMENTO"
 msgid "Language Code"
 msgstr "Código de Idioma"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:477
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:484
 msgid "Last Online Check Status:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:481
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:488
 msgid "Last System Update:"
 msgstr ""
 
@@ -6184,7 +6186,7 @@ msgstr "Gerenciar notificações"
 msgid "Manually Loaded Modules"
 msgstr "Módulos Carregados Manualmente"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:270
+#: ../core/functions.inc/drivers/PJSip.class.php:271
 #: ../core/views/trunks/pjsip.php:587
 msgid "Match (Permit)"
 msgstr "Correspondência (Permissão)"
@@ -6206,7 +6208,7 @@ msgstr "Máximo de Tentativas"
 msgid "Maximum Channels"
 msgstr "Máximo de canais"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:274
+#: ../core/functions.inc/drivers/PJSip.class.php:275
 msgid "Maximum Expiration"
 msgstr "Prazo Máximo"
 
@@ -6242,7 +6244,7 @@ msgstr ""
 "Tempo máximo (em segundos) para aguardar que o asterisk pare graciosamente. "
 "Padrão 30 segundos"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:273
+#: ../core/functions.inc/drivers/PJSip.class.php:274
 msgid "Maximum time to keep an AoR"
 msgstr "Tempo máximo para manter um AoR"
 
@@ -6250,7 +6252,7 @@ msgstr "Tempo máximo para manter um AoR"
 msgid "May be invalid Check your spelling"
 msgstr "Pode ser inválido Verifique a ortografia"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:247
+#: ../core/functions.inc/drivers/PJSip.class.php:248
 msgid "Media Encryption"
 msgstr "Criptografia de Mídia"
 
@@ -6292,7 +6294,7 @@ msgstr "Migrando grupos de captadores para grupos de captura nomeados"
 msgid "Min Length"
 msgstr "Comprimento Mínimo"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:278
+#: ../core/functions.inc/drivers/PJSip.class.php:279
 msgid "Minimum Expiration"
 msgstr "Expiração Mínima"
 
@@ -6305,7 +6307,7 @@ msgstr ""
 "Quantidade mínima de dígitos que o CallerID precisa conter para ser "
 "considerado válido"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:277
+#: ../core/functions.inc/drivers/PJSip.class.php:278
 msgid "Minimum time to keep an AoR"
 msgstr "Tempo mínimo para manter AoR"
 
@@ -6767,7 +6769,7 @@ msgstr "Precisa ser instanciado com um objeto FreePBX"
 msgid "Needs Upgrade:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:478
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:485
 #: ../core/functions.inc.php:5733
 msgid "Never"
 msgstr "Nunca"
@@ -6777,11 +6779,11 @@ msgstr "Nunca"
 msgid "Never - (%s)"
 msgstr "Nunca - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:536
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:543
 msgid "New Package"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:533
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:540
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:290
 msgid "New Version"
 msgstr ""
@@ -6804,8 +6806,8 @@ msgstr "Todas as noites"
 #: ../core/functions.inc/drivers/Iax2.class.php:111
 #: ../core/functions.inc/drivers/Iax2.class.php:149
 #: ../core/functions.inc/drivers/PJSip.class.php:237
-#: ../core/functions.inc/drivers/PJSip.class.php:250
-#: ../core/functions.inc/drivers/PJSip.class.php:259
+#: ../core/functions.inc/drivers/PJSip.class.php:251
+#: ../core/functions.inc/drivers/PJSip.class.php:260
 #: ../core/functions.inc/drivers/Sip.class.php:322
 #: ../core/functions.inc/drivers/Sip.class.php:338
 #: ../core/functions.inc/drivers/Sip.class.php:344
@@ -6925,7 +6927,7 @@ msgstr ""
 msgid "No status was given to checkStatus"
 msgstr "Nenhum status foi dado para checkStatus"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:506
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:513
 msgid "No updates currently required!"
 msgstr ""
 
@@ -7437,7 +7439,7 @@ msgstr "Saída Chamadas Externas"
 msgid "Outbound Internal Calls"
 msgstr "Saída Chamadas Internas"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:281
+#: ../core/functions.inc/drivers/PJSip.class.php:282
 #: ../core/views/trunks/pjsip.php:422 ../core/views/trunks/pjsip.php:434
 msgid "Outbound Proxy"
 msgstr "Proxy de Saída"
@@ -8090,7 +8092,7 @@ msgstr ""
 msgid "RFC 4733"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:533
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:540
 msgid "RPM Name"
 msgstr ""
 
@@ -8162,7 +8164,7 @@ msgstr "Gravação de chamadas de saída para fontes externas."
 msgid "Redundancy"
 msgstr "Redundância"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:474
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:481
 msgid "Refresh page"
 msgstr ""
 
@@ -8317,7 +8319,7 @@ msgstr "Exigir confirmação antes de Aplicar Alterações"
 msgid "Require Strong Secrets"
 msgstr "Exigir senhas fortes"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:252
+#: ../core/functions.inc/drivers/PJSip.class.php:253
 msgid "Required"
 msgstr "Requerido"
 
@@ -8575,7 +8577,7 @@ msgstr ""
 msgid "SIP trustrpid"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:244
+#: ../core/functions.inc/drivers/PJSip.class.php:245
 msgid "SRTP via in-SDP (recommended)"
 msgstr "SRTP via in-SDP (recomendado)"
 
@@ -8726,7 +8728,7 @@ msgstr "Sessão deve ser desbloqueado agora"
 msgid "Session Timeout"
 msgstr "Sessão Expirada"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:256
+#: ../core/functions.inc/drivers/PJSip.class.php:257
 #: ../core/functions.inc/drivers/Sip.class.php:365
 msgid "Session Timers"
 msgstr "Temporizadores de Sessão"
@@ -9302,7 +9304,7 @@ msgstr "Identidade do Sistema"
 msgid "System Setup"
 msgstr "Configuração do Sistema"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:460
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:467
 msgid "System Update Details"
 msgstr ""
 
@@ -9738,7 +9740,7 @@ msgstr ""
 "O módulo que você está tentando acessar foi desativado na pendência de uma "
 "alteração de versão."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:264
+#: ../core/functions.inc/drivers/PJSip.class.php:265
 msgid ""
 "The number of in-use channels which will cause busy to be returned as device "
 "state. This should be left at 0 unless you know what you are doing"
@@ -9897,7 +9899,7 @@ msgstr ""
 "que suportam Session-Timers limparão seu estado de sessão interna. O padrão "
 "é Aceitar."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:255
+#: ../core/functions.inc/drivers/PJSip.class.php:256
 msgid ""
 "The sessions are kept alive by sending a RE-INVITE or UPDATE request at a "
 "negotiated interval. If a session refresh fails then all the entities that "
@@ -10025,7 +10027,7 @@ msgstr ""
 "O usuário que seu httpd deve estar executando como, usado por "
 "freepbx_engine. A maioria dos sistemas não deve mudar isso."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:269
+#: ../core/functions.inc/drivers/PJSip.class.php:270
 msgid ""
 "The value is a comma-delimited list of IP addresses. IP addresses may have a "
 "subnet mask appended. The subnet mask may be written in either CIDR or dot-"
@@ -10701,7 +10703,7 @@ msgstr "Não foi possível remover tmp.cfg"
 msgid "Unable to resolve dependencies for module %s:"
 msgstr "Não foi possível resolver as dependências para o módulo %s:"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:504
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:511
 msgid "Unable to run 'yum check-updates', can't check for updates"
 msgstr ""
 
@@ -10783,7 +10785,7 @@ msgstr "Desinstala o módulo[s], aceita argumento do módulo[s]"
 msgid "Unknown"
 msgstr "Desconhecido"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:486
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:493
 msgid "Unknown (System updates not run since last reboot)"
 msgstr ""
 
@@ -10890,7 +10892,7 @@ msgstr "Atualizar Notificações"
 msgid "Update Required"
 msgstr "Atualização necessária"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:551
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:558
 msgid "Update System"
 msgstr ""
 
@@ -10902,7 +10904,7 @@ msgstr "Atualizar meu navegador agora"
 msgid "Updates"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:516
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:523
 msgid "Updates Available:"
 msgstr ""
 
@@ -11619,7 +11621,7 @@ msgid ""
 "break things. Unless you pass this parameter it is readonly"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:469
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:476
 msgid "Working"
 msgstr ""
 
@@ -11631,8 +11633,8 @@ msgstr ""
 #: ../core/functions.inc/drivers/Iax2.class.php:110
 #: ../core/functions.inc/drivers/Iax2.class.php:148
 #: ../core/functions.inc/drivers/PJSip.class.php:238
-#: ../core/functions.inc/drivers/PJSip.class.php:251
-#: ../core/functions.inc/drivers/PJSip.class.php:260
+#: ../core/functions.inc/drivers/PJSip.class.php:252
+#: ../core/functions.inc/drivers/PJSip.class.php:261
 #: ../core/functions.inc/drivers/Sip.class.php:323
 #: ../core/functions.inc/drivers/Sip.class.php:339
 #: ../core/functions.inc/drivers/Sip.class.php:419
