@@ -596,8 +596,8 @@ if($engineinfo['version'] == 0){
 // was setting these variables before, assume we still need them
 $engine = $engineinfo['engine'];
 $version = $engineinfo['version'];
-if ((version_compare($version, "11") < 0) || version_compare($version, "16", "ge")) {
-	fatal(_("Running an unsupported version of Asterisk. Supported Asterisk versions: 11, 12, 13, 14, 15. Detected Asterisk version: ".$version));
+if ((version_compare($version, "13") < 0) || version_compare($version, "16", "ge")) {
+	fatal(_("Running an unsupported version of Asterisk. Supported Asterisk versions: 13, 14, 15. Detected Asterisk version: ".$version));
 }
 $chan_dahdi = ast_with_dahdi();
 
