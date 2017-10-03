@@ -368,7 +368,8 @@ class SystemUpdates {
 		// Our RPM Command
 		$cmd = '/usr/bin/rpm -q --queryformat "%{VERSION}.%{RELEASE}\n" '.join(" ", $rpms);
 		exec($cmd, $output, $ret);
-		if ($ret !== 0) {
+		if ($ret !== 0 && $ret !== 6) {
+			// 6 = new packages are going to be installed
 			throw new \Exception("RPM command errored, tried to run '$cmd', exited with error $ret");
 		}
 
