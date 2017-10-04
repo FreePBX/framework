@@ -1908,3 +1908,15 @@ class ext_log extends extension {
 		return "Log(".$this->level.",".$this->msg.")";
 	}
 }
+
+class ext_startmusiconhold extends extension {
+	function output() {
+		return "StartMusicOnHold(".$this->data.")";
+	}
+}
+
+class ext_stopmusiconhold extends extension {
+	function output() {
+		return "StopMusicOnHold()";
+	}
+}
