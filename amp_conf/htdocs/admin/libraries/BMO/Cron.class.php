@@ -248,6 +248,9 @@ class Cron {
 	 * @param {array} $arr The array of elements to add
 	 */
 	private function installCrontab($arr) {
+		if(!file_exists('/tmp/cron.error')) {
+			touch('/tmp/cron.error');
+		}
 		// Run crontab, hand it the array as stdin
 		$fds = array( array('pipe', 'r'), array('pipe', 'w'), array('file', '/tmp/cron.error', 'a') );
 		$rsc = proc_open('/usr/bin/crontab '.$this->uoption.' -', $fds, $pipes);
