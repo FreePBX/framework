@@ -2630,7 +2630,7 @@ class module_functions {
 		return $uuid;
 	}
 
-	private function generate_unique_id($force=false) {
+	private function generate_unique_id() {
 		$uuid = $this->generateUUID4();
 		$sql = "REPLACE INTO module_xml (id,time,data) VALUES ('installid',?,?)";
 		$sth = \FreePBX::Database()->prepare($sql);
@@ -2998,7 +2998,8 @@ class module_functions {
 			$fn2 = str_replace('&','\\&',$fn);
 			$p = (!empty($params)) ? "--post-data '".http_build_query($params)."'" : "";
 			FreePBX::Curl()->setEnvVariables();
-			exec("wget --tries=1 --timeout=30 $p -O - $fn2 2> /dev/null", $data_arr, $retcode);
+			$headerfile = $amp_conf['ASTSPOOLDIR']."/wgetstderr-".$this->generateUUID4();
+			exec("wget --tries=1 --timeout=30 $p -q -S -O- $fn2 2> ".$headerfile, $data_arr, $retcode);
 			if ($retcode) {
 				// if server isn't available for some reason should return non-zero
 				// so we return and we don't set the flag below
@@ -3008,6 +3009,9 @@ class module_functions {
 				// so we only auto set the WGET var if we received something so as to not false trigger. If there are issues
 				// with content filters that this is designed to get around, we will eventually get a non-empty file which
 				// will trigger this for now and the future.
+				if(file_exists($headerfile)) {
+					unlink($headerfile);
+				}
 				return null;
 			} elseif (!empty($data_arr) && !$amp_conf['MODULEADMINWGET']) {
 				$freepbx_conf = freepbx_conf::create();
@@ -3018,10 +3022,24 @@ class module_functions {
 				$extext = sprintf(_("The system detected a problem trying to access external server data and changed internal setting %s (Use wget For Module Admin) to true, see the tooltip in Advanced Settings for more details."),'MODULEADMINWGET');
 				$nt->add_warning('freepbx', 'MODULEADMINWGET', $text, $extext, '', false, true);
 			}
-			$headers = get_headers_assoc($fn2);
-			if(isset($pest->last_headers['x-current-uuid'])) {
+
+			$headers = array();
+			if(file_exists($headerfile)) {
+				$rawheaders = explode("\n",file_get_contents($headerfile));
+				unlink($headerfile);
+				foreach($rawheaders as $value) {
+					$ar = explode(':', $value);
+					$key = trim($ar[0]);
+					if(isset($ar[1])) {
+						$value = trim($ar[1]);
+						$headers[strtolower($key)] = trim($value);
+					}
+				}
+			}
+
+			if(isset($headers['x-current-uuid'])) {
 				//we connected
-				$this->update_accessed_id($pest->last_headers['x-current-uuid']);
+				$this->update_accessed_id($headers['x-current-uuid']);
 			}
 			if(isset($headers['x-regenerate-id'])) {
 				$this->generate_unique_id(true);
