@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>14.0.1.16</version>
+	<version>14.0.1.18</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*14.0.1.18* Remove default on freepbx_log table
 		*14.0.1.16* FREEPBX-15800 FREEPBX-15944
 		*14.0.1.15* Support Asterisk 15
 		*14.0.1.14* fix issue with undefined newvers
@@ -115,7 +116,7 @@
 		</table>
 		<table name="freepbx_log">
 			<field name="id" type="integer" primarykey="true" autoincrement="true"/>
-			<field name="time" type="datetime" default="0000-00-00 00:00:00"/>
+			<field name="time" type="datetime"/>
 			<field name="section" type="string" length="50" notnull="false"/>
 			<field name="level" type="string" default="error"/>
 			<field name="status" type="integer" default="0"/>
