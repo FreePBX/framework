@@ -32,9 +32,16 @@ class Mysql extends Command {
 			exit(1);
 		}
 
-		$output->write(_("Connecting to the Database..."));
-		$process = new Process('mysql -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' '.$dbname);
-		$process->setTty(true);
+		if(posix_isatty(STDIN)) {
+			$process = new Process('mysql -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' '.$dbname);
+			$process->setTty(true);
+		} else {
+			$process = new Process('mysql -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' -e '.escapeshellarg(fgets(STDIN)).' '.$dbname);
+		}
+
 		$process->mustRun();
+		if(!posix_isatty(STDIN)) {
+			echo $process->getOutput();
+		}
 	}
 }
