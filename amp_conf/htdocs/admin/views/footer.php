@@ -198,7 +198,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 		"assets/js/recorder.js",
 		"assets/js/recorderWorker.js",
 		"assets/js/search.js",
-		"assets/js/tableexport-3.2.10.min.js",
+		"assets/js/tableexport-1.9.6.js",
 		"assets/js/timeutils.js",
 		"assets/js/typeahead.bundle-0.10.5.min.js",
 );
