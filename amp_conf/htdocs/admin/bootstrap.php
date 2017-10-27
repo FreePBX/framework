@@ -111,10 +111,10 @@ if ($bootstrap_settings['include_framework_functions']) {
 
 //now that its been included, use our own error handler as it tends to be much more verbose.
 if ($bootstrap_settings['freepbx_error_handler'] && empty($bootstrap_settings['fix_zend'])) {
-  $error_handler = $bootstrap_settings['freepbx_error_handler'] === true ? '' : $bootstrap_settings['freepbx_error_handler'];
-  if (function_exists($error_handler)) {
-    set_error_handler($error_handler, E_ALL);
-  } else {
+	$error_handler = $bootstrap_settings['freepbx_error_handler'] === true ? '' : $bootstrap_settings['freepbx_error_handler'];
+	if (function_exists($error_handler)) {
+		set_error_handler($error_handler, E_ALL);
+	} else {
 		set_error_handler('freepbx_error_handler', E_ALL);
 		$whoops = new \Whoops\Run;
 		if(isset($bootstrap_settings['whoops_handler'])) {
@@ -122,7 +122,9 @@ if ($bootstrap_settings['freepbx_error_handler'] && empty($bootstrap_settings['f
 			$whoops->pushHandler(new $class);
 		} else {
 			if(php_sapi_name() == 'cli') {
-				$whoops->pushHandler(new \Whoops\Handler\PlainTextHandler);
+				$handler = new \Whoops\Handler\PlainTextHandler;
+				$handler->addTraceToOutput(true);
+				$whoops->pushHandler($handler);
 			} else {
 				$whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
 			}
