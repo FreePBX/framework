@@ -42,7 +42,7 @@ class GuiHooks {
 				foreach ($hookArr as $key => $val) {
 
 					// Check for INTERCEPT Hooks.
-					if ($key == 'INTERCEPT') {
+					if ($key === 'INTERCEPT') {
 						if (!empty($val) && is_array($val)) {
 							foreach ($val as $page) {
 								if ($pageName == $page) {
