@@ -65,7 +65,7 @@ class Moduleadmin extends Command {
 		} else {
 			$this->DEBUG = False;
 		}
-		if(!empty($input->getOption('snapshot'))){
+		if($input->getOption('snapshot')){
 			$ret = array();
 			$ret['repos'] = array();
 			$version = $input->getOption('snapshot');
