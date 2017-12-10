@@ -237,7 +237,15 @@ class SystemUpdates {
 	 * @return array [ 	'lasttimestamp' => int, 'status' => {complete|inprogress|unknown}, 'updatesavail' => bool, 'rpms' => [ ... ] ]
 	 */
 	public function getPendingUpdates() {
-		$updates = $this->parseYumOutput("/dev/shm/yumwrapper/yum-check-updates.log");
+		try {
+			$updates = $this->parseYumOutput("/dev/shm/yumwrapper/yum-check-updates.log");
+		} catch (\Exception $e) {
+			@unlink("/dev/shm/yumwrapper/yum-check-updates.log");
+			$retarr = [ 'lasttimestamp' => 0, 'status' => 'error', 'i18nstatus' => $this->strarr['unknown'],
+				'updatesavail' => false, 'pbxupdateavail' => false, 'currentlog' => [ $e->getMessage() ], 'rpms' => [] ];
+			return $retarr;
+		}
+
 		$retarr = [ 'lasttimestamp' => $updates['timestamp'],
 			'status' => 'unknown',
 			'i18nstatus' => $this->strarr['unknown'],
