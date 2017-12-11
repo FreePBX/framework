@@ -378,7 +378,10 @@ class SystemUpdates {
 		exec($cmd, $output, $ret);
 		if ($ret !== 0 && $ret !== 6) {
 			// 6 = new packages are going to be installed
-			throw new \Exception("RPM command errored, tried to run '$cmd', exited with error $ret");
+			if (function_exists("freepbx_log")) {
+				freepbx_log("Update error: Tried to run '$cmd', exit code $ret");
+			}
+			throw new \Exception("RPM command errored, Delete /dev/shm/yumupdates/* and try again. Exit code $ret");
 		}
 
 		// Map the output of the rpm command to a temporary dict
