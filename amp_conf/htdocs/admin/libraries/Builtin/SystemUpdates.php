@@ -237,7 +237,15 @@ class SystemUpdates {
 	 * @return array [ 	'lasttimestamp' => int, 'status' => {complete|inprogress|unknown}, 'updatesavail' => bool, 'rpms' => [ ... ] ]
 	 */
 	public function getPendingUpdates() {
-		$updates = $this->parseYumOutput("/dev/shm/yumwrapper/yum-check-updates.log");
+		try {
+			$updates = $this->parseYumOutput("/dev/shm/yumwrapper/yum-check-updates.log");
+		} catch (\Exception $e) {
+			@unlink("/dev/shm/yumwrapper/yum-check-updates.log");
+			$retarr = [ 'lasttimestamp' => 0, 'status' => 'error', 'i18nstatus' => $this->strarr['unknown'],
+				'updatesavail' => false, 'pbxupdateavail' => false, 'currentlog' => [ $e->getMessage() ], 'rpms' => [] ];
+			return $retarr;
+		}
+
 		$retarr = [ 'lasttimestamp' => $updates['timestamp'],
 			'status' => 'unknown',
 			'i18nstatus' => $this->strarr['unknown'],
@@ -370,7 +378,10 @@ class SystemUpdates {
 		exec($cmd, $output, $ret);
 		if ($ret !== 0 && $ret !== 6) {
 			// 6 = new packages are going to be installed
-			throw new \Exception("RPM command errored, tried to run '$cmd', exited with error $ret");
+			if (function_exists("freepbx_log")) {
+				freepbx_log("Update error: Tried to run '$cmd', exit code $ret");
+			}
+			throw new \Exception("RPM command errored, Delete /dev/shm/yumupdates/* and try again. Exit code $ret");
 		}
 
 		// Map the output of the rpm command to a temporary dict
