@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-12-17 22:10-0300\n"
+"POT-Creation-Date: 2017-12-18 20:56-0300\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -620,7 +620,7 @@ msgstr ""
 "stack. A collection of resource modules provides the bulk of the SIP "
 "functionality"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
+#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:211
 #, php-format
 msgid ""
 "A required module might be disabled or uninstalled. Recommended steps (run "
@@ -1408,12 +1408,12 @@ msgstr ""
 msgid "Asterisk may not be running."
 msgstr "استریسک ممکن است اجرا نشده باشد."
 
-#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:221
+#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
 #, php-format
 msgid "Attempted to load %s but it didn't define the class %s"
 msgstr "Attempted  to load %s but it didn't define the class %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:161
+#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:156
 #, php-format
 msgid "Attempted to load %s with a hint of %s and it didn't exist"
 msgstr "Attempted to  load %s with a hint of %s and it didn't exist"
@@ -1560,11 +1560,6 @@ msgstr ""
 "POST_RELOAD to the script you wish to execute after applying changes. If "
 "POST_RELOAD_DEBUG=true, you will see the output of the script in the web "
 "page."
-
-#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:123
-#, php-format
-msgid "BMO Objects must have their first letter capitalized. You provided %s"
-msgstr "BMO  Objects must have their first letter capitalized. You provided %s"
 
 #: ../core/views/routing/form.php:45
 #, php-format
@@ -6574,7 +6569,7 @@ msgstr ""
 msgid "Multiple hooks unimplemented"
 msgstr "چندین هوک اجرا نشده"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:112
+#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:118
 msgid ""
 "Multiple params to autoload (__call) not supported. Don't do that. Or re-"
 "write this."
@@ -10507,9 +10502,7 @@ msgstr ""
 msgid "Unable to find an intermediary converter for %s"
 msgstr "Unable  to find an intermediary converter for %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:117
-#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:127
-#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
+#: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:211
 #, php-format
 msgid "Unable to locate the FreePBX BMO Class '%s'"
 msgstr "Unable to  locate the FreePBX BMO Class '%s'"
@@ -12711,6 +12704,11 @@ msgid ""
 msgstr ""
 "شما باید دستی خط 'preload => pbx_config.so' را به فایل modules.conf اضافه "
 "کنید"
+
+#~ msgid ""
+#~ "BMO Objects must have their first letter capitalized. You provided %s"
+#~ msgstr ""
+#~ "BMO  Objects must have their first letter capitalized. You provided %s"
 
 #~ msgid "Path for ssh"
 #~ msgstr "مسیر برای ssh"
