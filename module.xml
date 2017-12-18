@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>14.0.1.21</version>
+	<version>14.0.1.22</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*14.0.1.22* Handle errors when installing on a machine without a network interface
 		*14.0.1.21* FREEPBX-16295, FREEPBX-16394, and Enable stack traces on the cli by default
 		*14.0.1.20* FREEPBX-15758 Revert the bootstrap export extension to fork
 		*14.0.1.19* Fix fwconsole m to detect tty or not
