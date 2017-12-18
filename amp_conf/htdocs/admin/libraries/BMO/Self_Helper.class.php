@@ -40,8 +40,10 @@ class Self_Helper extends DB_Helper {
 	/**
 	 * PHP Magic __call - runs AutoLoader
 	 *
-	 * Note that this doesn't cache the object to BMO::$obj, just to
-	 * $this->$obj
+	 * Note that this DELIBERATELY doesn't look at the BMO cache for $obj.
+	 * This is used when you need to pass params to an object on creation,
+	 * which means they may be different each time. Note that autoLoad DOES
+	 * save it as FreePBX::$var, so it will continue to be used there.
 	 *
 	 * @param $var Class Name
 	 * @param $args Any params to be passed to the new object
@@ -105,30 +107,23 @@ class Self_Helper extends DB_Helper {
 		$var = $this->Modules->cleanModuleName($var);
 
 		$class = class_exists($this->moduleNamespace.$var,false) ? $this->moduleNamespace.$var : (class_exists($this->freepbxNamespace.$var,false) ? $this->freepbxNamespace.$var : $var);
+
+		// If loadObject didn't contain the class we were looking for, crash
+		if (!class_exists($class,false)) {
+			throw new \Exception("Tried to load $var, but $class does not exist. Bug");
+		}
 		// Now, we may have paramters (__call), or we may not..
 		if (isset($args[1]) && isset($args[1][0])) {
-			// We do. We were __call'ed. Sanity check
 			if (isset($args[1][1])) {
 				throw new \Exception(_("Multiple params to autoload (__call) not supported. Don't do that. Or re-write this."),500);
 			}
-			if (class_exists($class,false)) {
-				$this->$var = new $class($this, $args[1][0]);
-			} else {
-				throw new \Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class),404);
-			}
+			$this->$var = new $class($this, $args[1][0]);
 		} else {
-			if (class_exists($class,false)) {
-
-				if($var[0] != strtoupper($var[0])) {
-					throw new \Exception(sprintf(_("BMO Objects must have their first letter capitalized. You provided %s"),$var),500);
-				}
-				$this->$var = new $class($this);
-			} else {
-				throw new \Exception(sprintf(_("Unable to locate the FreePBX BMO Class '%s'"),$class),404);
-			}
-			\FreePBX::create()->$var = $this->$var;
-
+			$this->$var = new $class($this);
 		}
+		// We keep the object inside BMO, even if it has params. This is so you can keep using the
+		// same object, and not creating it every time
+		\FreePBX::create()->$var = $this->$var;
 		return $this->$var;
 	}
 
