@@ -263,6 +263,8 @@ class FreePBXInstallCommand extends Command {
 		$c = 0;
 		$determined = false;
 		While($c < 5) {
+			// Ensure $tmpout is empty
+			$tmpout = [];
 			$lastline = exec("runuser " . $answers['user'] . ' -s /bin/bash -c "cd ~/ && asterisk -rx \'core show version\' 2>&1"', $tmpout, $ret);
 			if ($ret != 0) {
 				$output->writeln("<error>Error!</error>");
@@ -275,22 +277,23 @@ class FreePBXInstallCommand extends Command {
 				}
 				$output->writeln("<error>Try starting Asterisk with the './start_asterisk start' command in this directory</error>");
 				exit(1);
-			} else {
-				$astver = $tmpout[0];
-				$astver = trim($astver);
-				unset($tmpout);
-				// Parse Asterisk version.
-				if (preg_match('/^Asterisk (?:SVN-|GIT-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*)) built/', $astver, $matches)) {
-					$determined = true;
-					if ((version_compare($matches[1], "13") < 0) || version_compare($matches[1], "16", "ge")) {
-						$output->writeln("<error>Error!</error>");
-						$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
-						$output->writeln("<error>Supported Asterisk versions: 13, 14, 15</error>");
-						exit(1);
-					}
-					$output->writeln("Yes. Determined Asterisk version to be: ".$matches[1]);
-					break;
+			}
+			// If this machine doesn't have an ethernet interface (which opens a WHOLE NEW can of worms),
+			// asterisk will say "No ethernet interface detected". There may, also, be other errors about
+			// other modules or configuration issues. The last line, however, is always the version.
+			$astver = trim(array_pop($tmpout));
+
+			// Parse Asterisk version.
+			if (preg_match('/^Asterisk (?:SVN-|GIT-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*)) built/', $astver, $matches)) {
+				$determined = true;
+				if ((version_compare($matches[1], "13") < 0) || version_compare($matches[1], "16", "ge")) {
+					$output->writeln("<error>Error!</error>");
+					$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
+					$output->writeln("<error>Supported Asterisk versions: 13, 14, 15</error>");
+					exit(1);
 				}
+				$output->writeln("Yes. Determined Asterisk version to be: ".$matches[1]);
+				break;
 			}
 			sleep(1);
 			$c++;

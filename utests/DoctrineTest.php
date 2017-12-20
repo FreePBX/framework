@@ -59,5 +59,6 @@ class DoctrineDbTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals("varchar(30)", $ret[0]['Type'], "DB Not modified correctly");
 		$this->assertEquals("varchar(40)", $ret[1]['Type'], "DB Not modified correctly");
 		$cdrdb->query('drop table `doctrinetests`');
+		$cdrdb->query('use asterisk');
 	}
 }

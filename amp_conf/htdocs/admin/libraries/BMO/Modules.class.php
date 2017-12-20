@@ -205,7 +205,6 @@ class Modules {
 	 */
 	public function cleanModuleName($module) {
 		$module = str_replace("-","dash",$module);
-		$module = ucfirst(strtolower($module));
 		return $module;
 	}
 
@@ -216,7 +215,7 @@ class Modules {
 	 */
 	public function moduleHasMethod($module, $method) {
 		$this->getActiveModules(false);
-		$module = ucfirst(strtolower($module));
+		$module = $this->cleanModuleName($module);
 		if(!empty($this->moduleMethods[$module]) && in_array($method, $this->moduleMethods[$module])) {
 			return true;
 		}
@@ -278,6 +277,9 @@ class Modules {
 	 * This is used for GUI Hooks - for example, when a page is requested like
 	 * 'config.php?display=pjsip&action=foo&other=wibble', this returns the class
 	 * that generated the display 'pjsip'.
+	 *
+	 * This means that even if your module is called CamelCaseName, the class file
+	 * must be called Camelcasename.class.php
 	 *
 	 * @param $page Page name
 	 * @return bool|string Class name, or false
