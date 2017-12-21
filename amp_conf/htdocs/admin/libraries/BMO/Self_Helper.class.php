@@ -104,7 +104,9 @@ class Self_Helper extends DB_Helper {
 
 		// This will throw an Exception if it can't find the class.
 		$this->loadObject($var);
-		$var = $this->Modules->cleanModuleName($var);
+
+		// Never try to fix autoload cases, these must be correct.
+		$var = $this->Modules->cleanModuleName($var, false);
 
 		$class = class_exists($this->moduleNamespace.$var,false) ? $this->moduleNamespace.$var : (class_exists($this->freepbxNamespace.$var,false) ? $this->freepbxNamespace.$var : $var);
 
