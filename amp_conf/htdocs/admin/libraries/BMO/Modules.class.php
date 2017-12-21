@@ -201,10 +201,14 @@ class Modules {
 
 	/**
 	 * String invalid characters from a class name
-	 * @param {string} $module The raw mdoule name.
+	 * @param string $module The raw module name.
+	 * @param bool $fixcase If true (default), fix the case of the module to be Xyyyy
 	 */
-	public function cleanModuleName($module) {
+	public function cleanModuleName($module, $fixcase = true) {
 		$module = str_replace("-","dash",$module);
+		if ($fixcase) {
+			$module = ucfirst(strtolower($module));
+		}
 		return $module;
 	}
 
