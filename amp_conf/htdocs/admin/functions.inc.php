@@ -7,8 +7,8 @@ $dirname = isset($amp_conf['AMPWEBROOT']) ? $amp_conf['AMPWEBROOT'] . '/admin' :
 
 //http://php.net/manual/en/function.phpversion.php
 if (!defined('PHP_VERSION_ID')) {
-		$version = explode('.', PHP_VERSION);
-		define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+	$version = explode('.', PHP_VERSION);
+	define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
 }
 
 spl_autoload_register('fpbx_framework_autoloader');
@@ -451,7 +451,7 @@ function drawListMenu($results, $skip=null, $type=null, $dispnum, $extdisplay, $
 	$index = 0;
 	echo "<ul>\n";
 	if ($description !== false) {
-		 echo "\t<li><a ".($extdisplay=='' ? 'class="current"':'')." href=\"config.php?display=".$dispnum."\">"._("Add")." ".$description."</a></li>\n";
+		echo "\t<li><a ".($extdisplay=='' ? 'class="current"':'')." href=\"config.php?display=".$dispnum."\">"._("Add")." ".$description."</a></li>\n";
 	}
 	if (isset($results)) {
 		foreach ($results as $key=>$result) {
@@ -575,7 +575,7 @@ function freepbx_get_contexts() {
 	$contexts = array();
 
 	foreach ($modules as $modname => $mod) {
-								$funct = strtolower($modname.'_contexts');
+		$funct = strtolower($modname.'_contexts');
 		if (function_exists($funct)) {
 			// call the  modulename_contexts() function
 			$contextArray = $funct();
@@ -615,5 +615,3 @@ function freepbx_get_contexts() {
 	}
 	return $contexts;
 }
-
-?>
