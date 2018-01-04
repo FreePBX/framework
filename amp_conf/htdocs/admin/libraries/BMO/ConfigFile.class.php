@@ -80,28 +80,33 @@ class ConfigFile {
 		// Lets find it!
 
 		// Does the section exist? This is more of a 'The dev stuffed up' check.
-		if (!isset($this->config->ProcessedConfig[$section]))
+		if (!isset($this->config->ProcessedConfig[$section])) {
 			throw new \Exception("Tried to remove key $key from section $section, but that section doesn't exist");
+		}
 
 		if (isset($this->config->ProcessedConfig[$section][$key]) && is_array($this->config->ProcessedConfig[$section][$key])) {
-			if ($val == null)
+			if ($val == null) {
 				throw new \Exception("Sorry, you can't delete an entire section this way, as it's likely a bug");
+			}
 			$this->config->ProcessedConfig[$section][$key] = array_filter(
 				$this->config->ProcessedConfig[$section][$key],
 				function($v) use($val) {return ($v != $val);}
 			);
 			// Have we deleted everything from that $key?
-			if (count($this->config->ProcessedConfig[$section][$key]) == 0)
+			if (count($this->config->ProcessedConfig[$section][$key]) == 0) {
 				unset($this->config->ProcessedConfig[$section][$key]);
-		} else {
+			}
+		} elseif (isset($this->config->ProcessedConfig[$section][$key])) {
 			// OK, just one key, easy!
-			unset($this->config->ProcessedConfig[$section][$key]);
+			if ($val == null || $this->config->ProcessedConfig[$section][$key] == $val) {
+				unset($this->config->ProcessedConfig[$section][$key]);
+			}
 		}
 
 		// Is there anything left in that section?
-		if (count($this->config->ProcessedConfig[$section]) == 0)
+		if (count($this->config->ProcessedConfig[$section]) == 0) {
 			unset($this->config->ProcessedConfig[$section]);
-
+		}
 		$this->updateConfig();
 	}
 
