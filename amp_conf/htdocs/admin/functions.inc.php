@@ -7,15 +7,15 @@ $dirname = isset($amp_conf['AMPWEBROOT']) ? $amp_conf['AMPWEBROOT'] . '/admin' :
 
 //http://php.net/manual/en/function.phpversion.php
 if (!defined('PHP_VERSION_ID')) {
-    $version = explode('.', PHP_VERSION);
-    define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
+		$version = explode('.', PHP_VERSION);
+		define('PHP_VERSION_ID', ($version[0] * 10000 + $version[1] * 100 + $version[2]));
 }
 
 spl_autoload_register('fpbx_framework_autoloader');
 
 //css minimizer class
 if (!isset($bootstrap_settings['include_compress']) || $bootstrap_settings['include_compress']) {
-  require_once($dirname . '/libraries/compress.class.php');
+	require_once($dirname . '/libraries/compress.class.php');
 }
 
 //collation services
@@ -26,7 +26,7 @@ require_once($dirname . '/libraries/freepbx_conf.class.php');
 
 //freepbx helpers for debugging/logging/comparing
 if (!isset($bootstrap_settings['include_utility_functions']) || $bootstrap_settings['include_utility_functions']) {
-  require_once($dirname . '/libraries/utility.functions.php');
+	require_once($dirname . '/libraries/utility.functions.php');
 }
 
 //----------include function files----------
@@ -88,112 +88,119 @@ require_once($dirname . '/helpers/form_helper.php');
 
 //freepbx autoloader
 function fpbx_framework_autoloader($class) {
-	global $amp_conf;
-	$dirname = dirname(__FILE__);
+	if ($class === true) {
+		// Deprecated - true USED to mean 'load all modules'
+		return false;
+	}
+
+	// Handle guielements
 	if (substr($class, 0, 3) == 'gui') {
 		$class = 'component';
 	}
 
-	/* Special case of TRUE forces all classes to be loaded. Make sure to add new classes to this array
-	 * as they are added to the autoloader. This was added because the presence of Zend enabled modules
-	 * can result in the autoloader function failing.
-	 *
-	 * Don't force ampuser though it is always loaded in advance
-	 *
-	 * Basically, every 'case' below should have a corresponding entry in the $class array below.
-	 */
-	if ($class === true) {
-		$class = array(
-				'CI_Email',
-				'CI_Table',
-				'CssMin',
-				'component',
-				'featurecode',
-				'cronmanager',
-				'moduleHook',
-				'modulelist',
-				'notifications',
-				'xml2Array',
-				'modgettext',
-				'fwmsg'
-			);
-	} else {
-		$class = array($class);
+	// FreePBX Module autoloader
+	if (stripos($class, 'FreePBX\\modules\\') === 0) {
+		// Trim the front
+		$req = substr($class, 16);
+		// If there's ANOTHER slash in the request, we want to try to autoload
+		// the file.
+		$modarr = explode('\\', $req);
+		if (!isset($modarr[1])) {
+			// TODO: Add *real* module autoloader here in FreePBX 15, replacing the BMO __get() autoloader
+			return;
+		}
+		// This is a basic implementation of PSR4 under ..admin/modules/modulename/.. so that
+		// a request for \FreePBX\modules\Ucp\Widgets\Ponies would look for a file
+		// called ..admin/modules/ucp/Widgets/Ponies.php and then load it, if it exists.
+		$moddir = \FreePBX::Config()->get('AMPWEBROOT')."/admin/modules/".strtolower(array_shift($modarr))."/";
+		$filepath = $moddir.join("/", $modarr).".php";
+		if (file_exists($filepath)) {
+			include $filepath;
+		}
+		// Always return here, as there's nothing left to try.
+		return;
 	}
 
-	foreach ($class as $this_class) {
-		if (class_exists($this_class)) {
-			continue;
+	$maps = array(
+		// Static maps to files
+		'CI_Email' => 'helpers/Email.php',
+		'CI_Table' => 'helpers/Table.php',
+		'ampuser' => 'libraries/ampuser.class.php',
+		'CssMin' => 'libraries/cssmin.class.php',
+		'component' => 'libraries/components.class.php',
+		'featurecode' => 'libraries/featurecodes.class.php',
+		'cronmanager' => 'libraries/cronmanager.class.php',
+		'moduleHook' => 'libraries/moduleHook.class.php',
+		'modulelist' => 'libraries/modulelist.class.php',
+		'modgettext' => 'libraries/modgettext.class.php',
+		'notifications' => 'libraries/notifications.class.php',
+		'xml2Array' =>  'libraries/xml2Array.class.php',
+		'fwmsg' => 'libraries/fwmsg.class.php',
+		// Namespaces
+		'FreePBX\\Builtin\\' => 'libraries/Builtin',
+		'FreePBX\\Console\\Command\\' => 'libraries/Console',
+	);
+
+	// Is it a direct mapping?
+	if (isset($maps[$class])) {
+		// Special handling for CI_Email and CI_Table
+		//
+		// TODO: ci_def and ci_lan_def are defined in bootstrap,
+		//       do we need to define them here, too?
+		//
+		if ($class === "CI_Email" || $class === "CI_Table") {
+			if (!function_exists('log_message')) {
+				function log_message(){};
+			}
+			if (!function_exists('get_instance')) {
+				function get_instance(){return new ci_def();}
+			}
+			if (!class_exists('ci_def', false)) {
+				class ci_def {function __construct(){
+					$this->lang = new ci_lan_def();}}
+			}
+			if (!class_exists('ci_lan_def', false)) {
+				class ci_lan_def {function load(){return false;}
+				function line(){return false;}}
+			}
+			if (!defined('BASEPATH')){
+				define('BASEPATH', '');
+			}
+			if (!defined('FOPEN_READ')) {
+				define('FOPEN_READ', 'rb');
+			}
 		}
-		switch($this_class){
-			case 'ampuser':
-				require_once($dirname . '/libraries/ampuser.class.php');
-				break;
-			case 'CI_Email':
-				//make upstream scripts happy - for $CI_Email->_set_error_message()
-				if (!function_exists('log_message')) {
-					function log_message(){};
-				}
-				if (!function_exists('get_instance')) {
-					function get_instance(){return new ci_def();}
-				}
-				if (!class_exists('ci_def')) {
-					class ci_def {function __construct(){
-						$this->lang = new ci_lan_def();}}
-				}
-				if (!class_exists('ci_lan_def')) {
-					class ci_lan_def {function load(){return false;}
-						function line(){return false;}}
-				}
-				if (!defined('BASEPATH')){
-					define('BASEPATH', '');
-				}
-				if (!defined('FOPEN_READ')) {
-					define('FOPEN_READ', 'rb');
-				}
-				require_once($dirname . '/helpers/Email.php');
-				break;
-			case 'CI_Table':
-				//make upstream scripts happy
-				if (!function_exists('log_message')) {
-					function log_message(){};
-				}
-				if (!defined('BASEPATH')){define('BASEPATH', '');}
-				require_once($dirname . '/helpers/Table.php');
-				break;
-			case 'CssMin':
-				require_once($dirname . '/libraries/cssmin.class.php');
-				break;
-			case 'component':
-				require_once($dirname . '/libraries/components.class.php');
-				break;
-			case 'featurecode':
-				require_once($dirname . '/libraries/featurecodes.class.php');
-				break;
-			case 'cronmanager':
-				require_once($dirname . '/libraries/cronmanager.class.php');
-				break;
-			case 'moduleHook':
-				require_once($dirname . '/libraries/moduleHook.class.php');
-				break;
-			case 'modulelist':
-				require_once($dirname . '/libraries/modulelist.class.php');
-				break;
-			case 'modgettext':
-				require_once($dirname . '/libraries/modgettext.class.php');
-				break;
-			case 'notifications':
-				require_once($dirname . '/libraries/notifications.class.php');
-				break;
-			case 'xml2Array':
-				require_once($dirname . '/libraries/xml2Array.class.php');
-				break;
-			case 'fwmsg':
-				require_once($dirname . '/libraries/fwmsg.class.php');
-				break;
-			default:
-				//TODO: enable some logging here
-				break;
+		if (!file_exists(__DIR__."/".$maps[$class])) {
+			throw new \Exception("Bug: Autoloader says $class is at ".$maps[$class].", but file doesn't exist");
+		}
+		// Debugging
+		// print "Loaded class $class from ".$maps[$class]."\n";
+		include __DIR__."/".$maps[$class];
+		return;
+	}
+
+	// Check to see if this is a new autoloader request.  If it has a backslash in
+	// the class, we're using the new autoloader. Note it doesn't support proper
+	// PSR4 autoloading, you'll need to manually define classes in maps, above.
+	if (strpos($class, '\\') !== false) {
+		// Explode it to figure out the namespace and class name
+		$sections = explode('\\', $class);
+		$classname = array_pop($sections);
+		$namespace = join('\\', $sections).'\\';
+		if (isset($maps[$namespace])) {
+			$file = __DIR__."/".$maps[$namespace]."/$classname.php";
+			if (file_exists($file)) {
+				// print "Loaded class $class from $file\n";
+				include $file;
+				return;
+			}
+			// Old .class.php?
+			$oldfile = __DIR__."/".$maps[$namespace]."/$classname.class.php";
+			if (!file_exists($oldfile)) {
+				throw new \Exception("Bug: Explicitly know about $namespace, asked for $class, but $file (or $classname.class.php) doesn't exist");
+			}
+			// print "Loaded class $class from $file\n";
+			include $oldfile;
 		}
 	}
 }
@@ -208,12 +215,12 @@ function ast_with_dahdi() {
 	global $amp_conf;
 	global $chan_dahdi_loaded;
 
-  // determine once, subsequent calls will use this
-  global $ast_with_dahdi;
+	// determine once, subsequent calls will use this
+	global $ast_with_dahdi;
 
-  if (isset($ast_with_dahdi)) {
-    return $ast_with_dahdi;
-  }
+	if (isset($ast_with_dahdi)) {
+		return $ast_with_dahdi;
+	}
 	if (!isset($version) || !$version || !is_string($version)) {
 		$engine_info = engine_getinfo();
 		$version = $engine_info['version'];
@@ -238,20 +245,20 @@ function ast_with_dahdi() {
 		$chan_dahdi_loaded = true;
 		return true;
 	}
-  $ast_with_dahdi = false;
-  return $ast_with_dahdi;
+	$ast_with_dahdi = false;
+	return $ast_with_dahdi;
 }
 
 function engine_getinfo($force_read=false) {
 	global $amp_conf;
 	global $astman;
-  static $engine_info;
+	static $engine_info;
 
-  $gotinfo = false;
+	$gotinfo = false;
 
-  if (!$force_read && isset($engine_info) && $engine_info != '') {
-    return $engine_info;
-  }
+	if (!$force_read && isset($engine_info) && $engine_info != '') {
+		return $engine_info;
+	}
 
 	switch ($amp_conf['AMPENGINE']) {
 		case 'asterisk':
@@ -270,74 +277,74 @@ function engine_getinfo($force_read=false) {
 
 			if (preg_match('/Asterisk (\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
 				$engine_info = array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4], 'raw' => $verinfo);
-        $gotinfo = true;
+				$gotinfo = true;
 			} elseif (preg_match('/Asterisk (?:SVN|GIT)-(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
 				$engine_info = array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4], 'raw' => $verinfo);
-        $gotinfo = true;
+				$gotinfo = true;
 			} elseif (preg_match('/Asterisk (?:SVN|GIT)-branch-(\d+(\.\d+)*)-r(-?(\S*))/', $verinfo, $matches)) {
 				$engine_info = array('engine'=>'asterisk', 'version' => $matches[1].'.'.$matches[4], 'additional' => $matches[4], 'raw' => $verinfo);
-        $gotinfo = true;
+				$gotinfo = true;
 			} elseif (preg_match('/Asterisk (?:SVN|GIT)-trunk-r(-?(\S*))/', $verinfo, $matches)) {
 				$engine_info = array('engine'=>'asterisk', 'version' => '1.8', 'additional' => $matches[1], 'raw' => $verinfo);
-        $gotinfo = true;
+				$gotinfo = true;
 			} elseif (preg_match('/Asterisk (?:SVN|GIT)-.+-(\d+(\.\d+)*)-r(-?(\S*))-(.+)/', $verinfo, $matches)) {
 				$engine_info = array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[3], 'raw' => $verinfo);
-        $gotinfo = true;
+				$gotinfo = true;
 			} elseif (preg_match('/Asterisk [B].(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
 				$engine_info = array('engine'=>'asterisk', 'version' => '1.2', 'additional' => $matches[3], 'raw' => $verinfo);
-        $gotinfo = true;
+				$gotinfo = true;
 			} elseif (preg_match('/Asterisk [C].(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
 				$engine_info = array('engine'=>'asterisk', 'version' => '1.4', 'additional' => $matches[3], 'raw' => $verinfo);
-        $gotinfo = true;
-                        } elseif (preg_match('/Asterisk certified\/(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
-                                $engine_info = array('engine'=>'asterisk', 'version' => $matches[1] . $matches[3], 'additional' => $matches[3], 'raw' => $verinfo);
-        $gotinfo = true;
+				$gotinfo = true;
+												} elseif (preg_match('/Asterisk certified\/(\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
+																$engine_info = array('engine'=>'asterisk', 'version' => $matches[1] . $matches[3], 'additional' => $matches[3], 'raw' => $verinfo);
+				$gotinfo = true;
 			}
 
-      if (!$gotinfo) {
-			  $engine_info = array('engine'=>'ERROR-UNABLE-TO-PARSE', 'version'=>'0', 'additional' => '0', 'raw' => $verinfo);
-      }
-      if ($amp_conf['FORCED_ASTVERSION']) {
-        $engine_info['engine'] = $amp_conf['AMPENGINE'];
-        $engine_info['version'] = $amp_conf['FORCED_ASTVERSION'];
-      }
+			if (!$gotinfo) {
+				$engine_info = array('engine'=>'ERROR-UNABLE-TO-PARSE', 'version'=>'0', 'additional' => '0', 'raw' => $verinfo);
+			}
+			if ($amp_conf['FORCED_ASTVERSION']) {
+				$engine_info['engine'] = $amp_conf['AMPENGINE'];
+				$engine_info['version'] = $amp_conf['FORCED_ASTVERSION'];
+			}
 
-      // Now we make sure the ASTVERSION freepbx_setting/amp_conf value is defined and set
+			// Now we make sure the ASTVERSION freepbx_setting/amp_conf value is defined and set
 
-      // this is not initialized in the installer because I think there are scenarios where
-      // Asterisk may not be running and we may some day not need it to be so just deal
-      // with it here.
-      //
-      $freepbx_conf = freepbx_conf::create();
-      if (!$freepbx_conf->conf_setting_exists('ASTVERSION')) {
-        // ASTVERSION
-        //
-        $set['value'] = $engine_info['version'];
-        $set['defaultval'] = '';
-        $set['options'] = '';
-        $set['readonly'] = 1;
-        $set['hidden'] = 1;
-        $set['level'] = 10;
-        $set['module'] = '';
-        $set['category'] = 'Internal Use';
-        $set['emptyok'] = 1;
-        $set['name'] = 'Asterisk Version';
-        $set['description'] = "Last Asterisk Version detected (or forced)";
-        $set['type'] = CONF_TYPE_TEXT;
-        $freepbx_conf->define_conf_setting('ASTVERSION',$set,true);
-        unset($set);
-        $amp_conf['ASTVERSION'] = $engine_info['version'];
-      }
+			// this is not initialized in the installer because I think there are scenarios where
+			// Asterisk may not be running and we may some day not need it to be so just deal
+			// with it here.
+			//
+			$freepbx_conf = freepbx_conf::create();
+			if (!$freepbx_conf->conf_setting_exists('ASTVERSION')) {
+				// ASTVERSION
+				//
+				$set['value'] = $engine_info['version'];
+				$set['defaultval'] = '';
+				$set['options'] = '';
+				$set['readonly'] = 1;
+				$set['hidden'] = 1;
+				$set['level'] = 10;
+				$set['module'] = '';
+				$set['category'] = 'Internal Use';
+				$set['emptyok'] = 1;
+				$set['name'] = 'Asterisk Version';
+				$set['description'] = "Last Asterisk Version detected (or forced)";
+				$set['type'] = CONF_TYPE_TEXT;
+				$freepbx_conf->define_conf_setting('ASTVERSION',$set,true);
+				unset($set);
+				$amp_conf['ASTVERSION'] = $engine_info['version'];
+			}
 
-      if ($engine_info['version'] != $amp_conf['ASTVERSION']) {
-        $freepbx_conf->set_conf_values(array('ASTVERSION' => $engine_info['version']), true, true);
-      }
+			if ($engine_info['version'] != $amp_conf['ASTVERSION']) {
+				$freepbx_conf->set_conf_values(array('ASTVERSION' => $engine_info['version']), true, true);
+			}
 
-      return $engine_info;
+			return $engine_info;
 		break;
 	}
 	$engine_info = array('engine'=>'ERROR-UNSUPPORTED-ENGINE-'.$amp_conf['AMPENGINE'], 'version'=>'0', 'additional' => '0', 'raw' => $verinfo);
-  return $engine_info;
+	return $engine_info;
 }
 
 function do_reload($passthru=false) {
@@ -407,7 +414,7 @@ function do_reload($passthru=false) {
 
 	$return['status'] = true;
 	$return['message'] = _('Successfully reloaded');
-  $return['retrieve_conf'] = '';
+	$return['retrieve_conf'] = '';
 
 	//store asterisk reloaded status
 	$sql = "UPDATE admin SET value = 'false' WHERE variable = 'need_reload'";
@@ -441,7 +448,7 @@ function drawListMenu($results, $skip=null, $type=null, $dispnum, $extdisplay, $
 	$index = 0;
 	echo "<ul>\n";
 	if ($description !== false) {
- 		echo "\t<li><a ".($extdisplay=='' ? 'class="current"':'')." href=\"config.php?display=".$dispnum."\">"._("Add")." ".$description."</a></li>\n";
+		 echo "\t<li><a ".($extdisplay=='' ? 'class="current"':'')." href=\"config.php?display=".$dispnum."\">"._("Add")." ".$description."</a></li>\n";
 	}
 	if (isset($results)) {
 		foreach ($results as $key=>$result) {
@@ -488,7 +495,7 @@ function checkAstMan() {
 function merge_ext_followme($dest) {
 
 	if (preg_match("/^\s*ext-findmefollow,(FM)?(\d+),(\d+)/",$dest,$matches) ||
-	    preg_match("/^\s*ext-local,(FM)?(\d+),(\d+)/",$dest,$matches) ) {
+			preg_match("/^\s*ext-local,(FM)?(\d+),(\d+)/",$dest,$matches) ) {
 				// matches[2] => extn
 				// matches[3] => priority
 		return "from-did-direct,".$matches[2].",".$matches[3];
@@ -507,10 +514,10 @@ function get_headers_assoc($url) {
 			foreach($wgetout as $value) {
 				$ar = explode(':', $value);
 				$key = trim($ar[0]);
-        if(isset($ar[1])) {
-          $value = trim($ar[1]);
-          $headers[strtolower($key)] = trim($value);
-        }
+				if(isset($ar[1])) {
+					$value = trim($ar[1]);
+					$headers[strtolower($key)] = trim($value);
+				}
 			}
 			if(!empty($headers)) {
 				return $headers;
@@ -530,7 +537,7 @@ function get_headers_assoc($url) {
 	}
 	if ($fp) {
 		stream_set_timeout($fp, 10);
-    $query = isset($url_info['query']) ? $url_info['query'] : '';
+		$query = isset($url_info['query']) ? $url_info['query'] : '';
 		$head = "HEAD ".@$url_info['path']."?".$query;
 		$head .= " HTTP/1.0\r\nHost: ".$host."\r\n\r\n";
 		fputs($fp, $head);
@@ -575,7 +582,7 @@ function freepbx_get_contexts() {
 	$contexts = array();
 
 	foreach ($modules as $modname => $mod) {
-                $funct = strtolower($modname.'_contexts');
+								$funct = strtolower($modname.'_contexts');
 		if (function_exists($funct)) {
 			// call the  modulename_contexts() function
 			$contextArray = $funct();

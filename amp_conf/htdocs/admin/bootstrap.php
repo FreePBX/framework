@@ -330,7 +330,6 @@ if ($restrict_mods_local !== true) {
 	$active_modules = $modulef->getinfo(false, MODULE_STATUS_ENABLED);
 	$modpath = $amp_conf['AMPWEBROOT'] . '/admin/modules/';
 	if(is_array($active_modules)){
-		$force_autoload = false;
 		foreach($active_modules as $key => $module) {
 			//check if this module was was excluded
 			$is_selected = is_array($restrict_mods_local)
@@ -353,10 +352,6 @@ if ($restrict_mods_local !== true) {
 			// we will include all the potential classes at this point.
 			$needs_zend = isset($module['depends']['phpcomponent'])
 				&& stristr($module['depends']['phpcomponent'], 'zend');
-			if (!$force_autoload && $needs_zend) {
-				fpbx_framework_autoloader(true);
-				$force_autoload = true;
-			}
 
 			//do we have a license file
 			try {
