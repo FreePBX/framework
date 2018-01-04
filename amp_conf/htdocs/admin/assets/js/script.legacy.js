@@ -15,6 +15,39 @@ function hideSelects(b) {
 	}
 }
 
+//Resets Drawselects
+function resetDrawselects(){
+	$(".destdropdown").each(function() {
+		$(this).val($("this option:first").val())
+		var v = $(this).val(),
+				i = $(this).data("id");
+		if(v !== "") {
+			$(".destdropdown2").not("#" + v + i).addClass("hidden");
+			$("#"+ v + i).removeClass("hidden");
+		} else {
+			$(".destdropdown2").addClass("hidden");
+		}
+	});
+}
+
+/*
+ * setDrawselect - Sets draw select location.
+ * @id = element id such as goto0
+ * @val = destination such as Announcements,s,1
+ */
+function setDrawselect(id,val){
+	var item = destinations[val];
+	if(typeof item === "undefined"){
+		resetDrawselects();
+		return;
+	}
+	var idx = $('#'+id).data('id');
+	$('#'+id+' > option[value="'+item.category.replace(" ","_")+'"]').prop("selected","selected");
+	$("#"+id).trigger("change");
+	$('#'+item.category+idx+' > option[value="'+item.destination+'"]').prop("selected","selected");
+	$('#'+item.category+idx).trigger("change");
+}
+
 /**
  * these two 'do' functions are needed to assign to the onmouse events
  * @param {obj} event The jquery event
