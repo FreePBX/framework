@@ -2,6 +2,7 @@
 namespace FreePBX\Console\Application;
 
 use Symfony\Component\Console\Command\HelpCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\DescriptorHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -15,7 +16,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FWHelpCommand extends HelpCommand {
 	private $command;
 
-	public function setCommand($command) {
+	public function setCommand(Command $command) {
 		$this->command = $command;
 	}
 	protected function execute(InputInterface $input, OutputInterface $output) {
