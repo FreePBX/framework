@@ -30,7 +30,7 @@ if(empty($mems)) {
 	}
 }
 
-$freepbx_conf =& freepbx_conf::create();
+$freepbx_conf = \FreePBX::create()->Freepbx_conf;
 
 $loc = fpbx_which("asterisk");
 if(empty($loc)) {
