@@ -379,7 +379,7 @@ class SystemUpdates {
 		if ($ret !== 0 && $ret !== 6) {
 			// 6 = new packages are going to be installed
 			if (function_exists("freepbx_log")) {
-				freepbx_log("Update error: Tried to run '$cmd', exit code $ret");
+				freepbx_log(FPBX_LOG_CRITICAL, "Update error: Tried to run '$cmd', exit code $ret");
 			}
 			throw new \Exception("RPM command errored, Delete /dev/shm/yumupdates/* and try again. Exit code $ret");
 		}
