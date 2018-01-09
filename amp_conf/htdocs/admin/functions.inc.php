@@ -139,6 +139,9 @@ function fpbx_framework_autoloader($class) {
 		// Namespaces
 		'FreePBX\\Builtin\\' => 'libraries/Builtin',
 		'FreePBX\\Console\\Command\\' => 'libraries/Console',
+		'Media\\' => 'libraries/media/Media',
+		'Media\\Driver\\' => 'libraries/media/Media/Driver',
+		'Media\\Driver\\Drivers\\' => 'libraries/media/Media/Driver/Drivers'
 	);
 
 	// Is it a direct mapping?

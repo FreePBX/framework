@@ -269,6 +269,7 @@ class Chown extends Command {
 						}
 					break;
 					case 'execdir':
+						try {
 							$this->checkPermissions($file['path'], $file['perms']);
 							$this->chmod($progress, $file['path'], $file['perms'], 0000, true, false);
 							$this->chown($progress, $file['path'], $owner, true);
