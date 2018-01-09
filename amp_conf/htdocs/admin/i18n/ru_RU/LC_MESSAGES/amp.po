@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-09 15:52-0500\n"
+"POT-Creation-Date: 2018-01-09 13:04-0800\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -400,13 +400,13 @@ msgstr "%s является торговой маркой "
 msgid "%s is already in use sip.conf. Can not continue"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1277
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1278
 #, php-format
 msgid "%s is newer than online version, unable to upgrade"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:762
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1048
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1049
 #, php-format
 msgid "%s not found"
 msgstr "%s не найден"
@@ -701,10 +701,6 @@ msgid ""
 "left blank"
 msgstr ""
 
-#: amp.i18n.php:584
-msgid "API Cache expiration"
-msgstr ""
-
 #: amp.i18n.php:120
 msgid "ARI Password"
 msgstr ""
@@ -941,7 +937,7 @@ msgstr ""
 msgid "Adhoc"
 msgstr "Периодическое"
 
-#: amp.i18n.php:6 amp.i18n.php:918
+#: amp.i18n.php:6 amp.i18n.php:878
 #: amp_conf/htdocs/admin/views/menu_items.php:44
 msgid "Admin"
 msgstr "Администратор"
@@ -965,7 +961,7 @@ msgstr "Пароль администратора"
 msgid "Admin user name"
 msgstr "Имя пользователя администратора"
 
-#: amp.i18n.php:916
+#: amp.i18n.php:876
 msgid "Administrators"
 msgstr "Администраторы"
 
@@ -974,7 +970,7 @@ msgstr "Администраторы"
 msgid "Advanced"
 msgstr "Расширенный"
 
-#: amp.i18n.php:912
+#: amp.i18n.php:872
 msgid "Advanced Settings"
 msgstr "Дополнительные настройки"
 
@@ -986,7 +982,7 @@ msgstr "Дополнительные возможности - подробней
 msgid "Aggregate MWI"
 msgstr "Агрегированные MWI"
 
-#: amp.i18n.php:760
+#: amp.i18n.php:720
 msgid "Aggresively Check for Duplicate Extensions"
 msgstr ""
 
@@ -1054,7 +1050,7 @@ msgstr "Все доступные модули обновлены и устан�
 msgid "All dependencies met for module %s"
 msgstr "Все зависимости, необходимые модулю %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1144
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1145
 msgid "All inclusive Module Actions"
 msgstr "Все включённые в модуль действия"
 
@@ -1092,7 +1088,7 @@ msgstr ""
 msgid "Allow Contact header to be rewritten with the source IP address-port."
 msgstr ""
 
-#: amp.i18n.php:776
+#: amp.i18n.php:736
 msgid "Allow Login With DB Credentials"
 msgstr "Разрешить вход с параметрами доступа базы данных"
 
@@ -1123,11 +1119,11 @@ msgstr ""
 msgid "Already Migrated!"
 msgstr "Уже перенесено!"
 
-#: amp.i18n.php:604
+#: amp.i18n.php:592
 msgid "Alt for Footer Logo"
 msgstr "Всплывающий комментарий для логотипа в нижнем колонтитуле"
 
-#: amp.i18n.php:600
+#: amp.i18n.php:588
 msgid "Alt for Left Logo"
 msgstr "Всплывающий комментарий для левого логотипа"
 
@@ -1139,12 +1135,6 @@ msgstr "Всегда"
 #: amp.i18n.php:132
 msgid "Always Download Web Assets"
 msgstr "Всегда скачивать настройки Web"
-
-#: amp.i18n.php:552
-msgid ""
-"Ammount of days to retain data. Setting this above 90 could cause "
-"performance issues."
-msgstr ""
 
 #: amp.i18n.php:526
 msgid ""
@@ -1204,7 +1194,7 @@ msgstr ""
 msgid "Any DID"
 msgstr "Любой DID"
 
-#: amp.i18n.php:894 amp_conf/htdocs/admin/views/menu_items.php:45
+#: amp.i18n.php:854 amp_conf/htdocs/admin/views/menu_items.php:45
 msgid "Applications"
 msgstr "Приложения"
 
@@ -1338,7 +1328,7 @@ msgstr "Пользователь Asterisk Manager"
 msgid "Asterisk Manager Write Timeout"
 msgstr ""
 
-#: amp.i18n.php:920 ../core/page.astmodules.php:49
+#: amp.i18n.php:880 ../core/page.astmodules.php:49
 msgid "Asterisk Modules"
 msgstr "Модули Asterisk"
 
@@ -1370,7 +1360,7 @@ msgstr ""
 msgid "Asterisk Trunk Dial Options"
 msgstr "Опции команды Dial для транка Asterisk "
 
-#: amp.i18n.php:784
+#: amp.i18n.php:744
 msgid "Asterisk VMU Mask"
 msgstr "Маска для файлов голосовой почты пользователя Астериск"
 
@@ -1437,7 +1427,7 @@ msgstr "Попытка загрузить %s,но это не определил
 msgid "Attempted to load %s with a hint of %s and it didn't exist"
 msgstr "Попытка загрузить %s  с подсказкой %s  но  оно не существует"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1371
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1372
 #, php-format
 msgid "Attempting to Enable %s"
 msgstr "Попытка включить %s"
@@ -1466,7 +1456,7 @@ msgstr "Аутентификация"
 msgid "Authentication Disabled"
 msgstr "Аутентификация отключена"
 
-#: amp.i18n.php:774
+#: amp.i18n.php:734
 msgid ""
 "Authentication type to use for web admin. If type set to <b>database</b>, "
 "the primary AMP admin credentials will be the AMPDBUSER/AMPDBPASS above. "
@@ -1487,7 +1477,7 @@ msgstr ""
 "пользователя и накладывать ограничения доступа так же, как в режиме базы "
 "данных."
 
-#: amp.i18n.php:772
+#: amp.i18n.php:732
 msgid "Authorization Type"
 msgstr "Тип авторизации"
 
@@ -1652,7 +1642,7 @@ msgstr ""
 msgid "Browser Playback Day Cache"
 msgstr ""
 
-#: amp.i18n.php:788
+#: amp.i18n.php:748
 msgid "Browser Stats"
 msgstr ""
 
@@ -1775,7 +1765,7 @@ msgstr "Перевод вызова  включен"
 msgid "Call Groups"
 msgstr "Группы вызова"
 
-#: amp.i18n.php:792
+#: amp.i18n.php:752
 msgid "Call Recording Format"
 msgstr ""
 
@@ -1917,13 +1907,13 @@ msgstr ""
 "Невозможно прочитать содержимое папки  %s. Пожалуйста  запустите(из консоли "
 "CLI):%s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1198
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1225
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1242
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1267
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1286
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1340
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1393
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1199
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1226
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1243
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1268
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1287
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1341
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1394
 msgid "Can not run this command while 'Developer Mode' is enabled"
 msgstr ""
 
@@ -1986,7 +1976,7 @@ msgstr "Модуль не найден"
 msgid "Cant Find Framework XML"
 msgstr "Невозможно найти XML-фреймворк"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1010
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1011
 msgid "Cant Reach Online Server"
 msgstr "Невозможно достичь онлайн сервер"
 
@@ -2091,7 +2081,7 @@ msgid "Check this to disable this trunk in all routes where it is used."
 msgstr ""
 "Отметить чтобы выключить этот транк из всех маршрутов где он используется."
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1019
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1020
 #, php-format
 msgid "Checking %s..."
 msgstr "Проверка %s..."
@@ -2100,7 +2090,7 @@ msgstr "Проверка %s..."
 msgid "Checking Online, Please Wait..."
 msgstr "Проверка онлайн, пожалуйста ожидайте..."
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1015
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1016
 msgid "Checking Signatures of Modules..."
 msgstr "Проверка сигнатур модулей..."
 
@@ -2151,11 +2141,11 @@ msgstr "Проверка существования таблицы  trunks_dialp
 msgid "Checking number of admin users.."
 msgstr "Проверка количества пользователй с правами администраторов..."
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1130
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1131
 msgid "Checks dependencies for provided module[s], accepts argument module[s]"
 msgstr "Проверка зависимостей для  модуля(-ей),приём аргументов модуля(-ей)."
 
-#: amp.i18n.php:802
+#: amp.i18n.php:762
 msgid ""
 "Checks to make sure modules and their files are validly signed. Will display "
 "a notice on any module page that is not correctly verified."
@@ -2304,7 +2294,7 @@ msgstr "Перегрузка"
 msgid "Connection Type"
 msgstr "Тип подключения"
 
-#: amp.i18n.php:904 amp_conf/htdocs/admin/views/menu_items.php:46
+#: amp.i18n.php:864 amp_conf/htdocs/admin/views/menu_items.php:46
 msgid "Connectivity"
 msgstr "Подключения"
 
@@ -2368,7 +2358,7 @@ msgstr ""
 msgid "Convert ZAP Settings to DAHDi"
 msgstr "Конвертация настроек ZAP в DAHDi"
 
-#: amp.i18n.php:892 ../core/install.php:6
+#: amp.i18n.php:852 ../core/install.php:6
 msgid "Core"
 msgstr "База"
 
@@ -2389,7 +2379,7 @@ msgstr "Невозможно создать ключевую для Астери
 msgid "Could not delete %s"
 msgstr "Невозможно удалить %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1254
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1255
 msgid "Could not determine module name"
 msgstr "Неопределимое имя модуля"
 
@@ -2409,7 +2399,7 @@ msgstr "Невозможно найти распакованный модуль:
 msgid "Could not find gpg command!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1035
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1036
 msgid "Could not find signed module on remote server!"
 msgstr "Невозможно обнаружить подписанный модуль на удалённом сервере!"
 
@@ -2595,7 +2585,7 @@ msgstr ""
 msgid "DAHDI Channel"
 msgstr "Канал DAHDI"
 
-#: amp.i18n.php:906 ../core/views/dahdichandids/general.php:5
+#: amp.i18n.php:866 ../core/views/dahdichandids/general.php:5
 #: ../core/views/dahdichandids/view.php:6
 msgid "DAHDI Channel DIDs"
 msgstr "DID-ы канала DAHDI"
@@ -2690,7 +2680,7 @@ msgstr "DID-ы / Входящие маршруты"
 msgid "DND"
 msgstr "DND"
 
-#: amp.i18n.php:578
+#: amp.i18n.php:572
 msgid ""
 "DO NOT set this unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX. Defaults to your configured "
@@ -2700,7 +2690,7 @@ msgstr ""
 "используется только если значения по умолчанию FreePBX не используются. "
 "Значение этого параметра по умолчанию - AMDBENGINE."
 
-#: amp.i18n.php:574
+#: amp.i18n.php:568
 msgid ""
 "DO NOT set this unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX. Name of the table in the db "
@@ -2711,7 +2701,7 @@ msgstr ""
 "Название таблицы в сторонней базе данных где будет сохраняться журнал CDR. "
 "Имя cdr для таблицы используется по умолчанию."
 
-#: amp.i18n.php:582
+#: amp.i18n.php:576
 msgid ""
 "DO NOT set this unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX. Username to connect to db with "
@@ -2722,7 +2712,7 @@ msgstr ""
 "пользователя для подключения к сторонней базе данных CDR, если это отличное "
 "от AMPDBUSER."
 
-#: amp.i18n.php:558
+#: amp.i18n.php:552
 msgid ""
 "DO NOT set this unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX.<br>Hostname of db server if not "
@@ -2732,7 +2722,7 @@ msgstr ""
 "Устанвливать если не будут использоваться дефолтные значения FreePBX.<br>Имя "
 "хоста сервера базы данных, отличное от  AMPDBHOST."
 
-#: amp.i18n.php:562
+#: amp.i18n.php:556
 msgid ""
 "DO NOT set this unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX.<br>Name of database used for cdr "
@@ -2743,7 +2733,7 @@ msgstr ""
 "каким то причинам. <br>Это имя базы будет использоваться для журнала о "
 "состоявшихся соединениях - CDR."
 
-#: amp.i18n.php:566
+#: amp.i18n.php:560
 msgid ""
 "DO NOT set this unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX.<br>Password for connecting to db "
@@ -2754,7 +2744,7 @@ msgstr ""
 "каким то причинам. <br>Пароль для подключения к базе данных, если это "
 "другой, отличный от AMPDBPASS."
 
-#: amp.i18n.php:570
+#: amp.i18n.php:564
 msgid ""
 "DO NOT set this unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX.<br>Port number for db host."
@@ -2780,10 +2770,6 @@ msgstr "Сигнализация DTMF"
 msgid "DUNDi Mapping"
 msgstr "DUNDi привязка"
 
-#: amp.i18n.php:548
-msgid "Data Retention"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/BMO/DB_Helper.class.php:553
 msgid "Database Error detected. Automatic repair started. Please retry"
 msgstr ""
@@ -2798,7 +2784,7 @@ msgstr ""
 msgid "Date Fixed"
 msgstr "Дата зафиксирована"
 
-#: amp.i18n.php:732
+#: amp.i18n.php:692
 msgid "Date Format"
 msgstr ""
 
@@ -2806,7 +2792,7 @@ msgstr ""
 msgid "Date Reported"
 msgstr "Дата записана"
 
-#: amp.i18n.php:728
+#: amp.i18n.php:688
 msgid "Date and Time Format"
 msgstr ""
 
@@ -2836,7 +2822,7 @@ msgstr "Используется дефолтный пароль для AMI"
 msgid "Default User"
 msgstr "Пользователь по умолчанию"
 
-#: amp.i18n.php:796
+#: amp.i18n.php:756
 msgid "Default language"
 msgstr ""
 
@@ -3022,7 +3008,7 @@ msgid ""
 "the same IP (VoIP Gateways)."
 msgstr ""
 
-#: amp.i18n.php:786
+#: amp.i18n.php:746
 msgid ""
 "Defaults to 077 allowing only the asterisk user to have any permission on VM "
 "files. If set to something like 007, it would allow the group to have "
@@ -3081,7 +3067,7 @@ msgstr "Удалить устройство %s"
 msgid "Delete notification"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1134
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1135
 msgid "Deleted module[s], accepts argument module[s]"
 msgstr "Удалены модуль(-и),приём аргумента модуля(-ей)"
 
@@ -3153,7 +3139,7 @@ msgstr "Разрыв сессии"
 msgid "Detected Missing Dependency of: %s %s"
 msgstr "Обнаружена неверная зависимость:%s%s"
 
-#: amp.i18n.php:714
+#: amp.i18n.php:674
 msgid ""
 "Determine where to send log information if the log is enabled ('Disable "
 "FreePBX Log' (AMPDISABLELOG) false. There are two places to route the log "
@@ -3289,7 +3275,7 @@ msgstr "Устройство не может быть добавлено."
 msgid "Device was not added!"
 msgstr "Устройство не было добавлено!"
 
-#: amp.i18n.php:900
+#: amp.i18n.php:860
 msgid "Devices"
 msgstr "Устройства"
 
@@ -3383,7 +3369,7 @@ msgstr "Выключить"
 msgid "Disable -custom Context Includes"
 msgstr "Отключить кастомные включения в контексты"
 
-#: amp.i18n.php:716
+#: amp.i18n.php:676
 msgid "Disable FreePBX Log"
 msgstr "Отключить журнал FreePBX"
 
@@ -3433,11 +3419,11 @@ msgstr "Отключено;Ожидание обновление до"
 msgid "Disabled; up to date"
 msgstr "Деактивирован; обновлён"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1131
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1132
 msgid "Disables module[s] accepts argument module[s]"
 msgstr "Отключает принятие  аргумента  модулем "
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1155
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1156
 msgid "Disables repo, accepts argument repo[s]"
 msgstr "Отключает репозиторий, принимает аргумент  "
 
@@ -3577,10 +3563,10 @@ msgstr "Пока не знаю о модуле.Мне это  необходим
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:262
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:275
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:805
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1013
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1033
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1041
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1064
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1014
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1034
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1042
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1065
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1980
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2054
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2137
@@ -3637,7 +3623,7 @@ msgstr "Скачать и установить"
 msgid "Download and Upgrade to %s"
 msgstr "Скачать и обновить до %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1133
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1134
 msgid "Download and install module[s], accepts argument module[s] or URLs"
 msgstr ""
 "Загрузить и установить модуль(-и), принять аргумент модуля(-ей) или URL-ы "
@@ -3651,7 +3637,7 @@ msgstr ""
 msgid "Download local prefixes"
 msgstr "Скачать локальные префиксы"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1132
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1133
 msgid "Download module[s], accepts argument module[s] or URLs"
 msgstr ""
 "Загрузить и установить модуль(-и), принять аргумент модуля(-ей) или URL-ы"
@@ -3861,11 +3847,11 @@ msgstr "Включить шифрование"
 msgid "Enable ICE Support"
 msgstr "Включить поддержку  ICE"
 
-#: amp.i18n.php:800
+#: amp.i18n.php:760
 msgid "Enable Module Signature Checking"
 msgstr ""
 
-#: amp.i18n.php:804
+#: amp.i18n.php:764
 msgid "Enable Module Tracks"
 msgstr ""
 
@@ -3877,7 +3863,7 @@ msgstr ""
 msgid "Enable RTP bundling"
 msgstr ""
 
-#: amp.i18n.php:808
+#: amp.i18n.php:768
 msgid "Enable Remote Unlocking"
 msgstr ""
 
@@ -3922,7 +3908,7 @@ msgstr "Включить данный транк"
 msgid "Enable jQuery Migrate"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1135
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1136
 msgid "Enable module[s], accepts argument module[s]"
 msgstr "Включить модуль(-и), приём аргмента модуля(-ей)"
 
@@ -4000,7 +3986,7 @@ msgid ""
 "irrelevant for accessing core FreePBX settings. Default is no."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1156
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1157
 msgid "Enables repo, accepts argument repo[s]"
 msgstr "Включает репозиторий, принимает аргумент репозитория(-иев)"
 
@@ -4034,7 +4020,7 @@ msgstr "Включение транка"
 msgid "Enabling Trunk %s"
 msgstr ""
 
-#: amp.i18n.php:810
+#: amp.i18n.php:770
 msgid ""
 "Enabling this option will allow a remote user to automatically authenticate "
 "as an admin via use of a one-time key generated by "
@@ -4311,11 +4297,11 @@ msgstr ""
 msgid "Export settings to file"
 msgstr "Экспорт настроек в файл"
 
-#: amp.i18n.php:768
+#: amp.i18n.php:728
 msgid "Expose All Feature Codes"
 msgstr ""
 
-#: amp.i18n.php:770
+#: amp.i18n.php:730
 msgid ""
 "Expose All Feature Codes settings in Feature Code Admin page. By default *11/"
 "*12 feature code setting will be hidden in Extension mode."
@@ -4369,7 +4355,7 @@ msgstr "Конфликт внутренних номеров, пожалуйст
 msgid "Extension was not numeric!"
 msgstr "Внутренний номер не содержал только цифры!"
 
-#: amp.i18n.php:896 ../core/Core.class.php:2795 ../core/Core.class.php:2796
+#: amp.i18n.php:856 ../core/Core.class.php:2795 ../core/Core.class.php:2796
 #: ../core/page.extensions.php:17
 msgid "Extensions"
 msgstr "Внутренние номера"
@@ -4599,7 +4585,7 @@ msgstr ""
 msgid "Fixes Vulnerabilities"
 msgstr "Исправленные уязвимости"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1125
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1126
 msgid "Flags"
 msgstr "Флаги"
 
@@ -4671,7 +4657,7 @@ msgstr "Принудительно запустить AVP"
 msgid "Force All Internal Auto Answer"
 msgstr "Форсировать режим внутренних авто-ответов"
 
-#: amp.i18n.php:780
+#: amp.i18n.php:740
 msgid "Force Asterisk Version"
 msgstr "Установить вручную версию Астериск"
 
@@ -4784,7 +4770,7 @@ msgstr ""
 msgid "Format can be: %s"
 msgstr "Формат  должен быть: %s"
 
-#: amp.i18n.php:794
+#: amp.i18n.php:754
 msgid ""
 "Format to save recoreded calls for most call recording unless specified "
 "differently in specific applications."
@@ -4816,11 +4802,11 @@ msgstr "Администрирование FreePBX"
 msgid "FreePBX Framework"
 msgstr "Основа FreePBX"
 
-#: amp.i18n.php:736
+#: amp.i18n.php:696
 msgid "FreePBX Log File"
 msgstr "Файл журнала FreePBX"
 
-#: amp.i18n.php:710
+#: amp.i18n.php:670
 msgid "FreePBX Log Routing"
 msgstr "Маршрутизировать журнал FreePBX"
 
@@ -4829,11 +4815,11 @@ msgstr "Маршрутизировать журнал FreePBX"
 msgid "FreePBX Requires PHP Version 5.6 or Higher, you have: %s"
 msgstr ""
 
-#: amp.i18n.php:922
+#: amp.i18n.php:882
 msgid "FreePBX Support"
 msgstr "Поддержка FreePBX"
 
-#: amp.i18n.php:812
+#: amp.i18n.php:772
 msgid "FreePBX Web Address"
 msgstr "Вэб адрес FreePBX"
 
@@ -4841,7 +4827,7 @@ msgstr "Вэб адрес FreePBX"
 msgid "FreePBX Web Root Dir"
 msgstr "Корневая директория вэб FreePBX"
 
-#: amp.i18n.php:862
+#: amp.i18n.php:822
 msgid ""
 "FreePBX allows you to automatically check for updates online. The updates "
 "will NOT be automatically installed. It is STRONGYLY advised that you keep "
@@ -4871,7 +4857,7 @@ msgstr ""
 msgid "FreePBX bin Dir"
 msgstr "Директория bin FreePBX"
 
-#: amp.i18n.php:722
+#: amp.i18n.php:682
 msgid ""
 "FreePBX has many verbose and useful messages displayed to users during "
 "module installation, system installations, loading configurations and other "
@@ -4967,7 +4953,7 @@ msgstr ""
 "Полный путь и имя файла до файла отладки FreePBX. Использует функцию dbug() "
 "для разработчиков."
 
-#: amp.i18n.php:738
+#: amp.i18n.php:698
 msgid ""
 "Full path and name of the FreePBX Log File used in conjunction with the "
 "Syslog Level (AMPSYSLOGLEVEL) being set to FILE, not used otherwise. Initial "
@@ -5071,7 +5057,7 @@ msgstr "Получить поддержку"
 msgid "Get help for %s"
 msgstr "Получить помощь для %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1006
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1007
 msgid "Getting Data from Online Server..."
 msgstr "Получение данных с онлайн-сервера..."
 
@@ -5113,7 +5099,7 @@ msgid "Go to Module Admin to re-enable this module"
 msgstr ""
 "Зайдите в пункт меню Администрирование модулей для переактивации этого модуля"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1038
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1039
 #: amp_conf/htdocs/admin/page.modules.php:938
 msgid "Good"
 msgstr "Хорошо"
@@ -5584,11 +5570,11 @@ msgstr ""
 "Если Вы видите эту страницу,то это означает,что модуль Информационной панели "
 "отключен."
 
-#: amp.i18n.php:596
+#: amp.i18n.php:584
 msgid "Image: Footer"
 msgstr "Изображение: Нижний колонтитул"
 
-#: amp.i18n.php:590
+#: amp.i18n.php:578
 msgid "Image: Left Upper"
 msgstr "Изображение: Вверху слева"
 
@@ -5653,7 +5639,7 @@ msgstr ""
 msgid "Inbound Route: %s (%s)"
 msgstr "Входящий маршрут: %s (%s)"
 
-#: amp.i18n.php:902 ../core/page.did.php:119
+#: amp.i18n.php:862 ../core/page.did.php:119
 msgid "Inbound Routes"
 msgstr "Входящая маршрутизация"
 
@@ -5704,7 +5690,7 @@ msgstr "Добавлены промежуточные настройки RTPSTAR
 msgid "Install"
 msgstr "Установить"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1148
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1149
 msgid "Install all local modules, accepts no arguments"
 msgstr ""
 
@@ -5748,11 +5734,11 @@ msgstr "Инсталляция  ядра ..."
 msgid "Installing missing modules: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1145
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1146
 msgid "Installs all modules, accepts no arguments"
 msgstr "Установка всех модулей,не принимающие аргументы"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1136
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1137
 msgid "Installs module[s], accepts argument module[s]"
 msgstr "Установка всех модулей,принимающие аргументы"
 
@@ -5978,7 +5964,7 @@ msgstr "Узнать больше"
 msgid "Leave Reload Bar Up"
 msgstr "Оставлять оранжевый элемент <b>Применить изменения</b> сверху"
 
-#: amp.i18n.php:594
+#: amp.i18n.php:582
 msgid "Left upper logo.Path is relative to admin."
 msgstr ""
 
@@ -5992,15 +5978,15 @@ msgstr "Лицензия"
 msgid "Licensed"
 msgstr "Лицензировано"
 
-#: amp.i18n.php:610
+#: amp.i18n.php:598
 msgid "Link for Footer Logo"
 msgstr "Ссылка для нижнего логотипа"
 
-#: amp.i18n.php:606
+#: amp.i18n.php:594
 msgid "Link for Left Logo"
 msgstr "Ссылка для левого логотипа"
 
-#: amp.i18n.php:612
+#: amp.i18n.php:600
 msgid "Link for Sponsor Footer Logo"
 msgstr ""
 
@@ -6024,7 +6010,7 @@ msgstr "Список транков"
 msgid "List Users"
 msgstr "Список пользователей"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1157
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1158
 msgid "List all local modules, accepts no arguments"
 msgstr "Список всех локальных модулей,не требующих аргументов"
 
@@ -6032,11 +6018,11 @@ msgstr "Список всех локальных модулей,не требу�
 msgid "List all sessions"
 msgstr "Список всех сессий"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1158
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1159
 msgid "List online modules, accepts no arguments"
 msgstr "Список всех онлайн-модулей,не требующих аргументов"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1081
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1082
 msgid "Local Version"
 msgstr "Локальная версия"
 
@@ -6048,11 +6034,11 @@ msgstr "Локально выбранный с вашей системы мод�
 msgid "Location of the FreePBX command line scripts."
 msgstr "Местонахождение скриптов командной строки FreePBX."
 
-#: amp.i18n.php:720
+#: amp.i18n.php:680
 msgid "Log Verbose Messages"
 msgstr "Детальность сообщений журнала"
 
-#: amp.i18n.php:598
+#: amp.i18n.php:586
 msgid "Logo in footer.Path is relative to admin."
 msgstr ""
 
@@ -6267,20 +6253,20 @@ msgstr "Ошибочные требования"
 msgid "Missing a temporary folder"
 msgstr "Неверная временная папка"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1187
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1216
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1270
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1304
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1331
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1343
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1352
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1361
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1385
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1188
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1217
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1271
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1305
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1332
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1344
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1353
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1362
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1386
 msgid "Missing module name"
 msgstr "Неверное имя модуля"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1228
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1245
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1229
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1246
 msgid "Missing module name or URL"
 msgstr "Неверное имя модуля или URL"
 
@@ -6296,8 +6282,8 @@ msgstr ""
 "Отсутствует или не читается конфигурационный файл [%s]...невозможно "
 "продолжить операцию"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1312
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1320
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1313
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1321
 msgid "Missing repo name"
 msgstr "Неверное имя репозитория"
 
@@ -6325,7 +6311,7 @@ msgstr ""
 "Изменить параметры соединения по умолчанию USER для вашего провайдера VoIP."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:981
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1081
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1082
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:57
 #: ../core/page.astmodules.php:90 ../core/page.astmodules.php:107
 #: ../core/page.astmodules.php:124
@@ -6373,7 +6359,7 @@ msgstr ""
 msgid "Module %s installation failed, could not resolve dependencies"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1097
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1098
 #, php-format
 msgid "Module %s successfully disabled"
 msgstr "Модуль \"%s\" успешно отключен"
@@ -6388,8 +6374,8 @@ msgstr "Модуль \"%s\" успешно загружен"
 msgid "Module %s successfully downloaded in %s seconds"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1108
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1118
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1109
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1119
 #, php-format
 msgid "Module %s successfully enabled"
 msgstr "Модуль \"%s\" успешно включён"
@@ -6403,7 +6389,7 @@ msgstr "Необходим модуль  <strong>%s</strong>, у вас %s"
 msgid "Module Access Denied"
 msgstr "Доступ к модулю  запрещён"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1129
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1130
 msgid "Module Actions"
 msgstr "Действия модуля"
 
@@ -6447,7 +6433,7 @@ msgstr ""
 "происходит по 2-3 раза. Установка этого флага будет форсировать FreePBX не "
 "пытаться открывать URL, и сразу использовать вызовы через wget."
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1123
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1124
 msgid "Module Administration Help"
 msgstr "Помощь администрирования модуля"
 
@@ -6827,7 +6813,7 @@ msgstr "Нет директории %s, нет необходимости в у�
 msgid "No email address for online update checks"
 msgstr "Не указан email-адрес для проверок онлайн-обновлений"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1055
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1056
 msgid "No enabled modules depend on this module."
 msgstr "Нет включённых модулей, зависящих от этого модуля "
 
@@ -6911,7 +6897,7 @@ msgstr ""
 "случае FreePBX генерирует несуществующие инклюды в контекстах так же как в "
 "предыдущих версиях."
 
-#: amp.i18n.php:782
+#: amp.i18n.php:742
 msgid ""
 "Normally FreePBX gets the current Asterisk version directly from Asterisk. "
 "This is required to generate proper dialplan for a given version. When using "
@@ -7075,7 +7061,7 @@ msgstr ""
 msgid "Online Updates are Disabled"
 msgstr "Он-лайн обновления отключены"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1081
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1082
 msgid "Online Version"
 msgstr "Онлайн версия"
 
@@ -7152,7 +7138,7 @@ msgstr "Для OpenSSL слишком длинная команда %s "
 msgid "Operator Panel"
 msgstr "Операторская панель"
 
-#: amp.i18n.php:624
+#: amp.i18n.php:612
 msgid "Optional Additional CSS Stylesheet"
 msgstr "Опционально - дополнительная таблица стилей CSS"
 
@@ -7206,7 +7192,7 @@ msgstr ""
 "(ПеренаправлениеВызова,СледуйСюда, ГруппыВызова, и т.д)</li><li>Внутренний "
 "номер/CID пользователя если отмечено галочкой</li></ul>"
 
-#: amp.i18n.php:626
+#: amp.i18n.php:614
 msgid ""
 "Optional custom CSS style sheet included after the primary one and any "
 "module specific ones are loaded, relative to admin."
@@ -7386,7 +7372,7 @@ msgstr ""
 msgid "Outbound Route: %s"
 msgstr "Исходящий маршрут: %s"
 
-#: amp.i18n.php:908 ../core/page.routing.php:100
+#: amp.i18n.php:868 ../core/page.routing.php:100
 msgid "Outbound Routes"
 msgstr "Исходящая маршрутизация"
 
@@ -7478,7 +7464,7 @@ msgstr ""
 "Требуется РНР компонент %s версии %s, а в текущей инсталляции РНР он "
 "отсутствует."
 
-#: amp.i18n.php:744
+#: amp.i18n.php:704
 msgid "PHP Console"
 msgstr ""
 
@@ -7486,19 +7472,19 @@ msgstr ""
 msgid "PHP Console Enabled but not installed"
 msgstr "PHP-консоль включена, но не установлена"
 
-#: amp.i18n.php:748
+#: amp.i18n.php:708
 msgid "PHP Console Password"
 msgstr ""
 
-#: amp.i18n.php:756
+#: amp.i18n.php:716
 msgid "PHP Error Level"
 msgstr ""
 
-#: amp.i18n.php:752
+#: amp.i18n.php:712
 msgid "PHP Error Log Output"
 msgstr "Журнал ошибок РНР"
 
-#: amp.i18n.php:816
+#: amp.i18n.php:776
 msgid "PHP Timezone"
 msgstr ""
 
@@ -7558,83 +7544,55 @@ msgstr ""
 msgid "Password too short"
 msgstr "Пароль слишком короткий"
 
-#: amp.i18n.php:628
+#: amp.i18n.php:616
 msgid "Path for asterisk"
 msgstr ""
 
-#: amp.i18n.php:634
+#: amp.i18n.php:622
 msgid "Path for cp"
 msgstr ""
 
-#: amp.i18n.php:638
+#: amp.i18n.php:626
 msgid "Path for ffmpeg"
 msgstr ""
 
-#: amp.i18n.php:642
+#: amp.i18n.php:630
 msgid "Path for grep"
 msgstr ""
 
-#: amp.i18n.php:646
-msgid "Path for gs"
-msgstr ""
-
-#: amp.i18n.php:650
+#: amp.i18n.php:634
 msgid "Path for gzip"
 msgstr ""
 
-#: amp.i18n.php:654
-msgid "Path for ifconfig"
-msgstr ""
-
-#: amp.i18n.php:658
+#: amp.i18n.php:638
 msgid "Path for lame"
 msgstr ""
 
-#: amp.i18n.php:662
+#: amp.i18n.php:642
 msgid "Path for mpg123"
 msgstr ""
 
-#: amp.i18n.php:666
+#: amp.i18n.php:646
 msgid "Path for mysqldump"
 msgstr "Путь к mysqldump"
 
-#: amp.i18n.php:670
-msgid "Path for netstat"
-msgstr ""
-
-#: amp.i18n.php:674
+#: amp.i18n.php:650
 msgid "Path for openssl"
 msgstr ""
 
-#: amp.i18n.php:678
-msgid "Path for route"
-msgstr ""
-
-#: amp.i18n.php:682
-msgid "Path for rsync"
-msgstr ""
-
-#: amp.i18n.php:686
+#: amp.i18n.php:654
 msgid "Path for sox"
 msgstr ""
 
-#: amp.i18n.php:690
+#: amp.i18n.php:658
+msgid "Path for ssh"
+msgstr "Путь к ssh"
+
+#: amp.i18n.php:662
 msgid "Path for tar"
 msgstr "Путь к tar"
 
-#: amp.i18n.php:694
-msgid "Path for tiff2pdf"
-msgstr ""
-
-#: amp.i18n.php:698
-msgid "Path for tiffcp"
-msgstr ""
-
-#: amp.i18n.php:702
-msgid "Path for tiffinfo"
-msgstr ""
-
-#: amp.i18n.php:706
+#: amp.i18n.php:666
 msgid "Path for touch"
 msgstr ""
 
@@ -7824,7 +7782,7 @@ msgstr ""
 "Пожалуйста предоставьте данные, которые будут использоваться для "
 "администрирования Вашей системы"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1375
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1376
 msgid "Please review the output above for any errors while enabling modules"
 msgstr ""
 "Перед включением модулей,просмотрите выведенную в консоль информацию на "
@@ -7928,11 +7886,11 @@ msgstr "Предыдущий"
 msgid "Previous Releases"
 msgstr "Предыдущие версии"
 
-#: amp.i18n.php:620
+#: amp.i18n.php:608
 msgid "Primary CSS Popover Stylesheet Addtion"
 msgstr ""
 
-#: amp.i18n.php:616
+#: amp.i18n.php:604
 msgid "Primary CSS Stylesheet"
 msgstr "Основная таблица стилей CSS"
 
@@ -8008,10 +7966,6 @@ msgstr ""
 msgid "Put caller on hold forever"
 msgstr "Поставить позвонившего на постоянное ожидание"
 
-#: amp.i18n.php:550
-msgid "QXact Reports"
-msgstr ""
-
 #: ../core/functions.inc/drivers/Sip.class.php:391
 msgid "Qualify"
 msgstr "Квалифицировать"
@@ -8045,11 +7999,11 @@ msgstr "RFC 4733"
 msgid "RPM Name"
 msgstr ""
 
-#: amp.i18n.php:820
+#: amp.i18n.php:780
 msgid "RSS Feeds"
 msgstr ""
 
-#: amp.i18n.php:822
+#: amp.i18n.php:782
 msgid ""
 "RSS Feeds that are displayed in UCP and Dashboard. Separate each feed by a "
 "new line. Supported feeds are Atom 1.0 and RSS 0.91, 0.92, 1.0 and 2.0"
@@ -8067,7 +8021,7 @@ msgstr ""
 "Политика реинвайт для этого устройства, см. документацию Астериск для "
 "деталей."
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1161
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1162
 msgid "ReDownloads all modules that have invalid signatures"
 msgstr "Скачать ещё раз все модули с неверными сигнатурами"
 
@@ -8115,7 +8069,7 @@ msgstr "Резервирование"
 msgid "Refresh page"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1026
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1027
 #, php-format
 msgid "Refreshing %s"
 msgstr "Обновление  %s"
@@ -8171,35 +8125,35 @@ msgstr "Перезагрузка невозможна, скрипт retrieve_con
 msgid "Reloading FreePBX"
 msgstr "Перезагрузка FreePBX"
 
-#: amp.i18n.php:554
+#: amp.i18n.php:548
 msgid "Remote CDR DB Host"
 msgstr "Удалённый хост базы данных CDR"
 
-#: amp.i18n.php:560
+#: amp.i18n.php:554
 msgid "Remote CDR DB Name"
 msgstr "Название сторонней базы данных CDR"
 
-#: amp.i18n.php:564
+#: amp.i18n.php:558
 msgid "Remote CDR DB Password"
 msgstr "Пароль для сторонней базы данных CDR"
 
-#: amp.i18n.php:568
+#: amp.i18n.php:562
 msgid "Remote CDR DB Port"
 msgstr "Порт сторонней базы данных CDR"
 
-#: amp.i18n.php:572
+#: amp.i18n.php:566
 msgid "Remote CDR DB Table"
 msgstr "Таблица сторонней базы данных CDR"
 
-#: amp.i18n.php:576
+#: amp.i18n.php:570
 msgid "Remote CDR DB Type"
 msgstr "Тип сторонней базы данных CDR"
 
-#: amp.i18n.php:580
+#: amp.i18n.php:574
 msgid "Remote CDR DB User"
 msgstr "Имя пользователя сторонней базы данных CDR"
 
-#: amp.i18n.php:556
+#: amp.i18n.php:550
 msgid "Remote CDR Database"
 msgstr "Удалённая база CDR"
 
@@ -8527,10 +8481,6 @@ msgstr ""
 msgid "SUSPECT LINK:"
 msgstr "ПОДОЗРИТЕЛЬНАЯ ССЫЛКА:"
 
-#: amp.i18n.php:586
-msgid "Sangoma CRM"
-msgstr ""
-
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:77
 msgid "Saturday"
 msgstr ""
@@ -8613,7 +8563,7 @@ msgstr "Выбранно"
 msgid "Send"
 msgstr "Послать"
 
-#: amp.i18n.php:724
+#: amp.i18n.php:684
 msgid "Send Dashboard Notifications to Log"
 msgstr "Отпралять сообщения панели управления в журнал"
 
@@ -8643,7 +8593,7 @@ msgstr ""
 msgid "Send the P-Asserted-Identity and/or Remote-Party-ID header"
 msgstr ""
 
-#: amp.i18n.php:824
+#: amp.i18n.php:784
 msgid "Send unsigned module email notifications"
 msgstr ""
 
@@ -8720,7 +8670,7 @@ msgstr ""
 "Установить возможность приёма второго звонка (Call Waiting) для этого "
 "абонента"
 
-#: amp.i18n.php:618
+#: amp.i18n.php:606
 msgid ""
 "Set this to replace the default mainstyle.css style sheet with your own, "
 "relative to admin."
@@ -8728,7 +8678,7 @@ msgstr ""
 "Эта установка заменит дефолтный файл mainstyle.css таблицы стилей вашим "
 "оригинальным, относительно директории admin."
 
-#: amp.i18n.php:622
+#: amp.i18n.php:610
 msgid ""
 "Set this to replace the default popover.css style sheet with your own, "
 "relative to admin."
@@ -8750,7 +8700,7 @@ msgstr ""
 msgid "Set up my Account"
 msgstr "Указать мой аккаунт"
 
-#: amp.i18n.php:766
+#: amp.i18n.php:726
 msgid ""
 "Sets the extension behavior in FreePBX.If set to <b>extensions</b>, Devices "
 "and Users are administered together as a unified Extension, and appear on a "
@@ -8769,7 +8719,7 @@ msgstr ""
 msgid "Sets the path to the HTTPS server certificate. This is required if "
 msgstr ""
 
-#: amp.i18n.php:758
+#: amp.i18n.php:718
 msgid "Sets which PHP errors are reported"
 msgstr ""
 
@@ -8836,7 +8786,7 @@ msgstr ""
 "запросе. Обратитесь к Google FAQ по этому вопросу: <b>http://code.google.com/"
 "speed/public-dns/faq.html#privacy</b>."
 
-#: amp.i18n.php:790
+#: amp.i18n.php:750
 msgid ""
 "Setting this to true will allow the development team to use google analytics "
 "to anonymously analyze browser information to help make better development "
@@ -8859,7 +8809,7 @@ msgstr ""
 msgid "Setting this to true will expose the "
 msgstr ""
 
-#: amp.i18n.php:866
+#: amp.i18n.php:826
 msgid ""
 "Setting this to true will fetch system javascript libraries such as jQuery "
 "and jQuery-ui from ajax.googleapis.com. This can be advantageous if "
@@ -8904,7 +8854,7 @@ msgstr ""
 "установить в no, то эта опция выключена. Также помогает поддерживать "
 "динамические трансляции NAT."
 
-#: amp.i18n.php:914 amp_conf/htdocs/admin/views/menu_items.php:48
+#: amp.i18n.php:874 amp_conf/htdocs/admin/views/menu_items.php:48
 #: ../core/functions.inc/drivers/Iax2.class.php:98
 #: ../core/functions.inc/drivers/Sip.class.php:182
 #: ../core/views/trunks/trunk_header.php:222
@@ -8931,7 +8881,7 @@ msgstr ""
 msgid "Show only upgradeable"
 msgstr "Показать только обновляемые"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1159
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1160
 msgid "Shows a list of modules that may be updated, accepts no arguments"
 msgstr ""
 "Показывает список модулей,которые могут быть обновлены,  аргументов нет"
@@ -8940,7 +8890,7 @@ msgstr ""
 msgid "Shows the specified context from the dialplan"
 msgstr "Показывает указанный контекст из плана набора"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1160
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1161
 msgid ""
 "Shows translation information for supplied modules, accepts argument "
 "module[s]"
@@ -8967,7 +8917,7 @@ msgstr ""
 msgid "Signal RINGING"
 msgstr "Сигнализация вызова (КПВ)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1024
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1025
 msgid "Signature Invalid"
 msgstr "Сигнатура не соответствует"
 
@@ -9120,7 +9070,7 @@ msgstr ""
 msgid "Stream files for debugging"
 msgstr "Поточные файлы для отладки"
 
-#: amp.i18n.php:592
+#: amp.i18n.php:580
 msgid "Styling and Logos"
 msgstr "Стиль и логотипы"
 
@@ -9172,23 +9122,23 @@ msgstr "Синтаксическая ошибка в  файле  freepbx_menu.c
 msgid "System"
 msgstr "Система"
 
-#: amp.i18n.php:630
+#: amp.i18n.php:618
 msgid "System Apps"
 msgstr "Системные установки"
 
-#: amp.i18n.php:828
+#: amp.i18n.php:788
 msgid "System Asterisk Group"
 msgstr "Значение группы для системы Астериск"
 
-#: amp.i18n.php:832
+#: amp.i18n.php:792
 msgid "System Asterisk User"
 msgstr "Значение пользователя для системы Астериск"
 
-#: amp.i18n.php:836
+#: amp.i18n.php:796
 msgid "System Device Group"
 msgstr "Значение группы для устройств"
 
-#: amp.i18n.php:840
+#: amp.i18n.php:800
 msgid "System Device User"
 msgstr "Значение пользователя для устройств"
 
@@ -9196,11 +9146,11 @@ msgstr "Значение пользователя для устройств"
 msgid "System Identifier:"
 msgstr ""
 
-#: amp.i18n.php:844
+#: amp.i18n.php:804
 msgid "System Identity"
 msgstr ""
 
-#: amp.i18n.php:712
+#: amp.i18n.php:672
 msgid "System Setup"
 msgstr "Системные установки"
 
@@ -9216,11 +9166,11 @@ msgstr ""
 msgid "System Upgrades Available:"
 msgstr ""
 
-#: amp.i18n.php:848
+#: amp.i18n.php:808
 msgid "System Web Group"
 msgstr "Значение группы для Web"
 
-#: amp.i18n.php:852
+#: amp.i18n.php:812
 msgid "System Web User"
 msgstr "Значение пользователя для Web"
 
@@ -9291,7 +9241,7 @@ msgstr "Технический"
 msgid "Tech Type"
 msgstr "Тип технологии"
 
-#: amp.i18n.php:856
+#: amp.i18n.php:816
 msgid "Telephony Engine"
 msgstr "Подсистема телефонии"
 
@@ -9488,7 +9438,7 @@ msgstr ""
 "Контекст, внутренний номер,приоритет, на который переходит вызов,если DID не "
 "соответствует.Пример: app-daynight,0,1"
 
-#: amp.i18n.php:798
+#: amp.i18n.php:758
 msgid "The default language used in the webUI"
 msgstr ""
 
@@ -9528,9 +9478,9 @@ msgstr "Следующие зависимости не удовлетворен�
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:427
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:501
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:512
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1093
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1104
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1115
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1094
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1105
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1116
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:776
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:786
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:806
@@ -9556,7 +9506,7 @@ msgstr "Следующий модуль отключен ввиду его по�
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "Следующий модуль отключен так как нуждается в обновлении:"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1052
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1053
 #, php-format
 msgid "The following modules depend on this one: %s"
 msgstr "Следующие модули зависят от этого модуля:%s"
@@ -9569,15 +9519,15 @@ msgstr ""
 "Следующие новые модули доступны для скачивания. Кликнуть на значок Удалить "
 "справа чтобы удалить это сообщение."
 
-#: amp.i18n.php:730
+#: amp.i18n.php:690
 msgid "The format dates and times should display in. The default of "
 msgstr ""
 
-#: amp.i18n.php:734
+#: amp.i18n.php:694
 msgid "The format dates should display in. The default of "
 msgstr ""
 
-#: amp.i18n.php:742
+#: amp.i18n.php:702
 msgid "The format times should display in. The default of "
 msgstr ""
 
@@ -9651,109 +9601,72 @@ msgid "The path to Apache webroot (leave off trailing slash)."
 msgstr ""
 "Путь к корневой директории Apache вэб (оставлять заключающий слэш в конце)."
 
-#: amp.i18n.php:632
+#: amp.i18n.php:620
 msgid ""
 "The path to asterisk as auto-determined by the system. Overwrite as "
 "necessary."
 msgstr ""
 
-#: amp.i18n.php:636
+#: amp.i18n.php:624
 msgid ""
 "The path to cp as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:640
+#: amp.i18n.php:628
 msgid ""
 "The path to ffmpeg as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:644
+#: amp.i18n.php:632
 msgid ""
 "The path to grep as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:648
-msgid ""
-"The path to gs as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:652
+#: amp.i18n.php:636
 msgid ""
 "The path to gzip as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:656
-msgid ""
-"The path to ifconfig as auto-determined by the system. Overwrite as "
-"necessary."
-msgstr ""
-
-#: amp.i18n.php:660
+#: amp.i18n.php:640
 msgid ""
 "The path to lame as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:664
+#: amp.i18n.php:644
 msgid ""
 "The path to mpg123 as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:668
+#: amp.i18n.php:648
 msgid ""
 "The path to mysqldump as auto-determined by the system. Overwrite as "
 "necessary."
 msgstr ""
 "Путь к mysqldump, автоопределенный системой. Переустановите, если необходимо."
 
-#: amp.i18n.php:672
-msgid ""
-"The path to netstat as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:676
+#: amp.i18n.php:652
 msgid ""
 "The path to openssl as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:680
-msgid ""
-"The path to route as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:684
-msgid ""
-"The path to rsync as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:688
+#: amp.i18n.php:656
 msgid ""
 "The path to sox as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 
-#: amp.i18n.php:692
+#: amp.i18n.php:660
+msgid ""
+"The path to ssh as auto-determined by the system. Overwrite as necessary."
+msgstr ""
+"Путь к ssh, автоопределенный системой. Переустановите, если необходимо."
+
+#: amp.i18n.php:664
 msgid ""
 "The path to tar as auto-determined by the system. Overwrite as necessary."
 msgstr ""
 "Путь к tar, автоопределенный системой. Переустановите, если необходимо."
 
-#: amp.i18n.php:696
-msgid ""
-"The path to tiff2pdf as auto-determined by the system. Overwrite as "
-"necessary."
-msgstr ""
-
-#: amp.i18n.php:700
-msgid ""
-"The path to tiffcp as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:704
-msgid ""
-"The path to tiffinfo as auto-determined by the system. Overwrite as "
-"necessary."
-msgstr ""
-
-#: amp.i18n.php:708
+#: amp.i18n.php:668
 msgid ""
 "The path to touch as auto-determined by the system. Overwrite as necessary."
 msgstr ""
@@ -9811,17 +9724,13 @@ msgstr ""
 "внутренние установки %s изменены на true (для использования команды wget в "
 "Управлении модулями), см. подсказки в Дополнительных установках."
 
-#: amp.i18n.php:858
+#: amp.i18n.php:818
 msgid ""
 "The telephony backend engine being used, asterisk is the only option "
 "currently."
 msgstr ""
 "Движок подсистемы телефонии, текущее значение: asterisk - это одно из "
 "возможных значений."
-
-#: amp.i18n.php:588
-msgid "The time in seconds that remote API's should cache user data"
-msgstr ""
 
 #: amp.i18n.php:130
 msgid "The timeout (in milliseconds) to set on WebSocket connections."
@@ -9845,7 +9754,7 @@ msgstr ""
 msgid "The uploaded file was only partially uploaded"
 msgstr "Файлы загружены частично"
 
-#: amp.i18n.php:834
+#: amp.i18n.php:794
 msgid ""
 "The user Asterisk should be running as, used by freepbx_engine. Most systems "
 "should not change this."
@@ -9853,7 +9762,7 @@ msgstr ""
 "Пользователь для Астериск, от имени которой исполняется скрипт "
 "freepbx_engine. Для большинства систем это значение не надо менять."
 
-#: amp.i18n.php:830
+#: amp.i18n.php:790
 msgid ""
 "The user group Asterisk should be running as, used by freepbx_engine. Most "
 "systems should not change this."
@@ -9861,7 +9770,7 @@ msgstr ""
 "Пользовательская группа для Астериск, от имени которой исполняется скрипт "
 "freepbx_engine. Для большинства систем это значение не надо менять."
 
-#: amp.i18n.php:838
+#: amp.i18n.php:798
 msgid ""
 "The user group that various device directories should be set to, used by "
 "freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
@@ -9871,7 +9780,7 @@ msgstr ""
 "исполнения freepbx_engine. Например - /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
 "mISDN and /dev/dsp. Для большинства систем это значение не надо менять."
 
-#: amp.i18n.php:850
+#: amp.i18n.php:810
 msgid ""
 "The user group your httpd should be running as, used by freepbx_engine. Most "
 "systems should not change this."
@@ -9884,7 +9793,7 @@ msgstr ""
 msgid "The user name %s is already in use"
 msgstr ""
 
-#: amp.i18n.php:842
+#: amp.i18n.php:802
 msgid ""
 "The user that various device directories should be set to, used by "
 "freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
@@ -9894,7 +9803,7 @@ msgstr ""
 "freepbx_engine. Например - /dev/zap, /dev/dahdi, /dev/misdn, /dev/mISDN and /"
 "dev/dsp. Для большинства систем это значение не надо менять."
 
-#: amp.i18n.php:854
+#: amp.i18n.php:814
 msgid ""
 "The user your httpd should be running as, used by freepbx_engine. Most "
 "systems should not change this."
@@ -10012,7 +9921,7 @@ msgstr ""
 msgid "This Module has been deprecated"
 msgstr "Этот модуль устарел"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1374
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1375
 msgid "This action understands somethings may be disabled for a reason."
 msgstr ""
 "Этим действием понимаем, что что-то может быть отключено по какой-то причине."
@@ -10051,7 +9960,7 @@ msgstr ""
 "в разделе Управление модулями, использование оригинальных CSS и прочие "
 "возможности."
 
-#: amp.i18n.php:806
+#: amp.i18n.php:766
 msgid ""
 "This enables the setting of module tracks (sub repositories of modules). "
 "Whereas a user could select a beta release track of a module or keep it on "
@@ -10079,7 +9988,7 @@ msgstr ""
 "Здесь - упрощенно: профиль, название или номер вашего провайдера<br><br>Этот "
 "USER контекст будет использовать параметры, определенные ниже."
 
-#: amp.i18n.php:814
+#: amp.i18n.php:774
 msgid ""
 "This is the address of your Web Server. It is mostly obsolete and derived "
 "when not supplied and will be phased out, but there are still some areas "
@@ -10202,7 +10111,7 @@ msgstr ""
 "Этот модуль даёт возможность быстро инсталлировать обновления и исправления "
 "в основном коде, которые так или иначе скрыты в модуле"
 
-#: amp.i18n.php:846
+#: amp.i18n.php:806
 msgid ""
 "This name will be used to help identify this machine in emails or alerts"
 msgstr ""
@@ -10309,7 +10218,7 @@ msgstr ""
 msgid "Thursday"
 msgstr ""
 
-#: amp.i18n.php:740
+#: amp.i18n.php:700
 msgid "Time Format"
 msgstr ""
 
@@ -10351,7 +10260,7 @@ msgid ""
 "frequently"
 msgstr ""
 
-#: amp.i18n.php:818
+#: amp.i18n.php:778
 msgid ""
 "Timezone that should be used by PHP. Empty value will use PHP defaults. List "
 "of value Timezones: <a href='http://php.net/manual/en/timezones.php'>http://"
@@ -10432,7 +10341,7 @@ msgstr ""
 msgid "Trunk: %s (%s)"
 msgstr "Транк: %s (%s)"
 
-#: amp.i18n.php:910 ../core/views/trunks/bootnav.php:20
+#: amp.i18n.php:870 ../core/views/trunks/bootnav.php:20
 #: ../core/views/trunks/main.php:2 ../core/views/trunks/popover_main.php:9
 msgid "Trunks"
 msgstr "Транки"
@@ -10441,7 +10350,7 @@ msgstr "Транки"
 msgid "Trust RPID"
 msgstr "Доверительные RPID"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1146
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1147
 msgid "Trys to enable all modules, accepts no arguments"
 msgstr "Попытка водключить все модули, принимя все аргументы"
 
@@ -10624,7 +10533,7 @@ msgstr "Деинсталлировать"
 msgid "Uninstalling %s"
 msgstr "Деинсталлируется %s "
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1137
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1138
 msgid "Uninstalls module[s], accepts argument module[s]"
 msgstr "Деинсталлируюется модуль(-ли), принимая аргумент для моля(-лей)"
 
@@ -10636,7 +10545,7 @@ msgstr "Неизвестно"
 msgid "Unknown (System updates not run since last reboot)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1407
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1408
 #, php-format
 msgid "Unknown Command! (%s)"
 msgstr "Неизвестная команда (%s)"
@@ -10720,7 +10629,7 @@ msgid "Untarring.."
 msgstr "Распаковывается.."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:656
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1086
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1087
 msgid "Up to date."
 msgstr "Обновлёню"
 
@@ -10729,7 +10638,7 @@ msgstr "Обновлёню"
 msgid "Update"
 msgstr "Обновления"
 
-#: amp.i18n.php:860 amp_conf/htdocs/admin/views/footer.php:112
+#: amp.i18n.php:820 amp_conf/htdocs/admin/views/footer.php:112
 msgid "Update Notifications"
 msgstr "Предупреждения об обновлении"
 
@@ -10753,7 +10662,7 @@ msgstr ""
 msgid "Updates Available:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1060
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1061
 #: amp_conf/htdocs/admin/page.modules.php:385
 msgid "Updating Hooks..."
 msgstr "Шаги по обновлению..."
@@ -10768,7 +10677,7 @@ msgstr "Подготавливаются установки для обновл�
 msgid "Updating table %s..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1070
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1071
 msgid "Upgradable: "
 msgstr "Доступно обновление: "
 
@@ -10783,7 +10692,7 @@ msgstr "Обновить"
 msgid "Upgrade all"
 msgstr "Обновить все"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1138
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1139
 msgid "Upgrade module[s], accepts argument module[s]"
 msgstr "Обновить модуль(-ли), принимая аргументы модуля(-лей)"
 
@@ -10792,7 +10701,7 @@ msgstr "Обновить модуль(-ли), принимая аргумент�
 msgid "Upgrade to %s and Enable"
 msgstr "Обновить до %s и активировать"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1147
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1148
 msgid "Upgrades all modules, accepts no arguments"
 msgstr "Обновить все модули, принимая без аргументов"
 
@@ -10846,7 +10755,7 @@ msgstr ""
 "заголовки в первой строке: %s, %s, %s и %s. Если распознаётся меньше, чем 4 "
 "заголовка, то значения в недостающей колонке будут пустыми"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1124
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1125
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:231
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:253
@@ -10857,7 +10766,7 @@ msgstr "Использование"
 msgid "Use Google DNS for Enum"
 msgstr "Использовать Google ДНС для сервиса Enum"
 
-#: amp.i18n.php:864
+#: amp.i18n.php:824
 msgid "Use Google Distribution Network for js Downloads"
 msgstr ""
 
@@ -10895,7 +10804,7 @@ msgstr "Использовать команду wget для Управления
 msgid "Used as Destination by %s %s"
 msgstr "Используется в качестве назначения в %s %s"
 
-#: amp.i18n.php:872
+#: amp.i18n.php:832
 msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this."
@@ -10904,7 +10813,7 @@ msgstr ""
 "почты macro-vm локатора VmX. Проверьте диал-план для понимания как это "
 "используется."
 
-#: amp.i18n.php:886
+#: amp.i18n.php:846
 msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this. "
@@ -10919,7 +10828,7 @@ msgstr ""
 "нажал #, который интерпретируется как таймаут. Установить опцию в 'dovm' "
 "чтобы отправлять по умолчанию в голосовую почту."
 
-#: amp.i18n.php:876
+#: amp.i18n.php:836
 msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this. "
@@ -10932,7 +10841,7 @@ msgstr ""
 "позвонивший набирал ошибочные опции несколько раз, и превысил число попыток, "
 "определённое в поле Количество попыток, максимально."
 
-#: amp.i18n.php:750
+#: amp.i18n.php:710
 msgid ""
 "Used when PHP Console is enabled for error debugging https://github.com/"
 "barbushin/php-console"
@@ -10944,7 +10853,7 @@ msgstr ""
 msgid "User"
 msgstr "Пользователь"
 
-#: amp.i18n.php:764
+#: amp.i18n.php:724
 msgid "User & Devices Mode"
 msgstr "Режим Пользователь & Устройство"
 
@@ -11020,7 +10929,7 @@ msgid "Username to use in From header for requests to this trunk"
 msgstr ""
 "Имя пользователя используется в заголовке From: для запросов через этот транк"
 
-#: amp.i18n.php:898
+#: amp.i18n.php:858
 msgid "Users"
 msgstr "Пользователи"
 
@@ -11042,36 +10951,36 @@ msgstr ""
 "разрешать все вызовы от указанных SIP серверов как неаутентифицируемые. "
 "<strong>Установка параметра в 'Нет' может быть небезопасной!</strong>"
 
-#: amp.i18n.php:868
+#: amp.i18n.php:828
 msgid "VMX Default Context"
 msgstr "Контекст по умолчанию для VmX системы голосовой почты"
 
-#: amp.i18n.php:874
+#: amp.i18n.php:834
 msgid "VMX Default Loop Exceed Context"
 msgstr "Контекст по умолчанию для выхода из поиска VMX"
 
-#: amp.i18n.php:878
+#: amp.i18n.php:838
 msgid "VMX Default Loop Exceed Extension"
 msgstr ""
 "Внутренний номер по умолчанию для выхода по превышению числа попыток в VMX"
 
-#: amp.i18n.php:880
+#: amp.i18n.php:840
 msgid "VMX Default Loop Exceed Priority"
 msgstr "Приоритет по умолчанию для выхода по превышению числа попыток в VMX"
 
-#: amp.i18n.php:882
+#: amp.i18n.php:842
 msgid "VMX Default Priority"
 msgstr "Приоритет по умолчанию для VMX"
 
-#: amp.i18n.php:884
+#: amp.i18n.php:844
 msgid "VMX Default Timeout Context"
 msgstr "Контекст по умолчанию для таймаута в VMX"
 
-#: amp.i18n.php:888
+#: amp.i18n.php:848
 msgid "VMX Default Timeout Extension"
 msgstr "Внутренний номер по умолчанию для выхода по таймауту в VMX"
 
-#: amp.i18n.php:890
+#: amp.i18n.php:850
 msgid "VMX Default Timeout Priority"
 msgstr "Приоритет по умолчанию для выхода по таймауту в VMX"
 
@@ -11089,7 +10998,7 @@ msgstr "Значение [%s] выходит за допустимые пред�
 msgid "Value must be between 1 and 63"
 msgstr "Значение должно быть между 1 и 63"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1031
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1032
 msgid "Verifying GPG..."
 msgstr "GPПроверка G..."
 
@@ -11118,7 +11027,7 @@ msgstr "Вид и настройки обновления"
 msgid "Virtual"
 msgstr "Виртуальный"
 
-#: amp.i18n.php:870
+#: amp.i18n.php:830
 msgid "VmX Locater"
 msgstr "VmX Локатор"
 
@@ -11292,7 +11201,7 @@ msgstr ""
 "Эта опция устанавливает интервал опроса - как часто Астериск проверяет "
 "состояние каналов и обновляет таймер обратного отсчёта для рестарта."
 
-#: amp.i18n.php:778
+#: amp.i18n.php:738
 msgid ""
 "When Set to True, admin access to the FreePBX GUI will be allowed using the "
 "FreePBX configured AMPDBUSER and AMPDBPASS credentials. This only applies "
@@ -11308,7 +11217,7 @@ msgid ""
 "secret. This generally should be default."
 msgstr ""
 
-#: amp.i18n.php:726
+#: amp.i18n.php:686
 msgid ""
 "When enabled all notification updates to the Dashboard notification panel "
 "will also be logged into the specified log file when enabled."
@@ -11316,7 +11225,7 @@ msgstr ""
 "Если включено, все уведомления панели управления также будут записываться в "
 "соответствующий журнальный файл."
 
-#: amp.i18n.php:746
+#: amp.i18n.php:706
 msgid ""
 "When enabled will turn on PHP Console for error debugging https://github.com/"
 "barbushin/php-console"
@@ -11355,7 +11264,7 @@ msgstr ""
 "модифицировать настройки, и которые возможны, если этот флаг установлен в "
 "false."
 
-#: amp.i18n.php:762
+#: amp.i18n.php:722
 msgid ""
 "When set to true FreePBX will update its extension map every page load. This "
 "is used to check for duplicate extension numbers in the client side "
@@ -11440,7 +11349,7 @@ msgstr ""
 "Порядковый номер, каким будет добавлен или перемещён маршрут относительно "
 "других маршрутов."
 
-#: amp.i18n.php:754
+#: amp.i18n.php:714
 msgid ""
 "Where to send PHP errors, warnings and notices by the FreePBX PHP error "
 "handler. Set to 'dbug', they will go to the Debug File regardless of whether "
@@ -11487,11 +11396,11 @@ msgstr "Включена ли поддержка NAT для UDPTL-сессий"
 msgid "Whether T.38 UDPTL support is enabled or not"
 msgstr "Включена ли поддержка T.38 UDPTL "
 
-#: amp.i18n.php:718
+#: amp.i18n.php:678
 msgid "Whether or not to invoke the FreePBX log facility."
 msgstr "Включать или нет использование журнала FreePBX."
 
-#: amp.i18n.php:826
+#: amp.i18n.php:786
 msgid ""
 "Whether or not to send unsigned module email notifications. If disabled "
 "unsigned module emails will never be sent"
@@ -12041,7 +11950,7 @@ msgstr "пропускаем уже имеющее символьную ссыл
 msgid "already there"
 msgstr "уже имеется"
 
-#: amp.i18n.php:602
+#: amp.i18n.php:590
 msgid ""
 "alt attribute to use in place of image and title hover value. Defaults to "
 "FreePBX"
@@ -12346,13 +12255,13 @@ msgstr "не установлен"
 msgid "is unknown"
 msgstr "неизвестный"
 
-#: amp.i18n.php:608
+#: amp.i18n.php:596
 msgid ""
 "link to follow when clicking on logo, defaults to http://www.freepbx.org"
 msgstr ""
 "Ссылка при кликанье на логотип, по умолчанию - на http://www.freepbx.org"
 
-#: amp.i18n.php:614
+#: amp.i18n.php:602
 msgid "link to follow when clicking on sponsor logo"
 msgstr ""
 
@@ -12736,14 +12645,6 @@ msgid ""
 msgstr ""
 "возможно Вам понадобиться вручную  добавить строку  'preload => pbx_config."
 "so'  в файл modules.conf"
-
-#~ msgid "Path for ssh"
-#~ msgstr "Путь к ssh"
-
-#~ msgid ""
-#~ "The path to ssh as auto-determined by the system. Overwrite as necessary."
-#~ msgstr ""
-#~ "Путь к ssh, автоопределенный системой. Переустановите, если необходимо."
 
 #~ msgid "Connecting to the Database..."
 #~ msgstr "Подключаемся к базе данных..."
