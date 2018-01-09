@@ -324,6 +324,12 @@ class SystemUpdates {
 			if (!$line || $line[0] === " ") {
 				continue;
 			}
+
+			// Ignore any error lines
+			if (strpos($line, "Trying other mirror") !== false || strpos($line, "Operation too slow") !== false) {
+				continue;
+			}
+
 			$linearr = preg_split("/\s+/", $line);
 
 			// Ignore if it's an 'Obsoleting Packages' line
