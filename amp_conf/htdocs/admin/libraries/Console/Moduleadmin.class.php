@@ -973,8 +973,9 @@ class Moduleadmin extends Command {
 			$fwconsole = $this->getFwconsolePath();
 			if ($this->securityonly) {
 				$cmd = "$fwconsole --securityonly sendemail";
+			} else {
+				$cmd = "$fwconsole sendemail";
 			}
-			$cmd = "$fwconsole sendemail";
 			if ($this->willupdate) {
 				$cmd .= " --willupdate";
 			}
