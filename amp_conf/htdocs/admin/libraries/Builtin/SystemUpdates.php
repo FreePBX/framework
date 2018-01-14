@@ -387,7 +387,7 @@ class SystemUpdates {
 			if (function_exists("freepbx_log")) {
 				freepbx_log(FPBX_LOG_CRITICAL, "Update error: Tried to run '$cmd', exit code $ret");
 			}
-			throw new \Exception("RPM command errored, Delete /dev/shm/yumupdates/* and try again. Exit code $ret");
+			throw new \Exception("RPM command errored, Delete /dev/shm/yumwrapper/* and try again. Exit code $ret - see FreePBX log for more info.");
 		}
 
 		// Map the output of the rpm command to a temporary dict
