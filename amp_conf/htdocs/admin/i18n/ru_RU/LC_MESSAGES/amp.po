@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-04 19:17-0500\n"
+"POT-Creation-Date: 2018-01-16 17:36-0500\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -162,14 +162,14 @@ msgid ""
 "%s %s will be upgraded to online version %s and switched to the %s track"
 msgstr "%s %s будет обновлён до онлайн версии %s и переключен в %s трек"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:450
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:454
 #, php-format
 msgid "%s (Cur v. %s) should be upgraded to v. %s to fix security issues: %s"
 msgstr ""
 "%s (Текущая вер. %s) будет обновлен до вер. %s для устранения проблемы "
 "безопасности: %s "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:421
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:425
 #, php-format
 msgid "%s (current: %s)"
 msgstr "%s (текущий: %s)"
@@ -194,12 +194,12 @@ msgstr "%s Устройства"
 msgid "%s Extensions"
 msgstr "%s Внутренние номера"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:374
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:380
 #, php-format
 msgid "%s Likely will not work as expected"
 msgstr "%s Скорее всего не работает так, как ожидается"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:372
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:376
 #, php-format
 msgid "%s New modules are available"
 msgstr "%s Новый модуль доступен"
@@ -221,7 +221,7 @@ msgstr "%s Онлайн обновление доступно (%s)"
 msgid "%s Upgrade Available (%s)"
 msgstr "%s Обновление доступно (%s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3119
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3109
 #, php-format
 msgid "%s [not enabled]"
 msgstr "%s [не задействовано]"
@@ -374,7 +374,7 @@ msgstr "%s не найден"
 msgid "%s prepared"
 msgstr "%s подготовлено"
 
-#: ../core/Core.class.php:2844
+#: ../core/Core.class.php:2849
 #, php-format
 msgid "%s records failed validation"
 msgstr "%s записей не прошли проверку"
@@ -395,9 +395,9 @@ msgstr ""
 "использовать %s с текущим браузером, но ваш опыт может уменьшиться если это "
 "не поддерживать как следует."
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:407
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:442
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:478
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:413
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:448
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:485
 #, php-format
 msgid "%s skipped by configuration"
 msgstr ""
@@ -413,12 +413,12 @@ msgstr "%s в %s и включить"
 msgid "%s uninstalled successfully"
 msgstr "%s деинсталлирован успешно"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1125
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1129
 #, php-format
 msgid "%s version %s or below is required, you have %s"
 msgstr "%s Требуется версия %s или ниже, установлено %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1138
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1142
 #, php-format
 msgid "%s version %s or higher is required, you have %s"
 msgstr "Требуется %s версии %s или выше, в наличии же %s"
@@ -513,12 +513,12 @@ msgstr ""
 "зарегистрироваться. Не изменяйте эту опцию, кроме случая, когда вы "
 "контролируете оба сервера и уверены, что это действительно необходимо!"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1122
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1126
 #, php-format
 msgid "A %s version below %s is required, you have %s"
 msgstr "Требуется версия %s не ниже %s, в наличии же %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1128
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1132
 #, php-format
 msgid "A %s version newer than %s required, you have %s"
 msgstr "Версия %s новее, чем %s требуемая, в наличии же %s"
@@ -554,11 +554,11 @@ msgstr ""
 "убирания префикса) не проверяются на совпадения, и игнорируются при "
 "прохождении правил набора."
 
-#: ../core/functions.inc.php:5806
+#: ../core/functions.inc.php:5787
 msgid "A description for this DID, such as \"Fax\""
 msgstr "Описание этого DID, например - \"Факс\""
 
-#: ../core/functions.inc.php:5807
+#: ../core/functions.inc.php:5788
 msgid ""
 "A direct DID that is associated with this extension. The DID should be in "
 "the same format as provided by the provider (e.g. full number, 4 digits for "
@@ -596,7 +596,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "Маршрут для этого DID/CID уже существует!"
 
-#: ../core/Core.class.php:2372 ../core/functions.inc.php:4580
+#: ../core/Core.class.php:2377 ../core/functions.inc.php:4580
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "Маршрут с таким DID/ИД: %s/%s уже существует"
@@ -605,7 +605,7 @@ msgstr "Маршрут с таким DID/ИД: %s/%s уже существует
 msgid "A useful description describing this channel"
 msgstr "Внятное описание этого канала"
 
-#: ../core/functions.inc.php:5703
+#: ../core/functions.inc.php:5684
 msgid "A user will enter this password when logging onto a device."
 msgstr "Пользователь будет вводить этот пароль при входе на устройство."
 
@@ -711,17 +711,17 @@ msgstr ""
 "Действия, которые можно применить к этому модулю. Обычно это инсталляция и "
 "обслуживание на административном уровне."
 
-#: amp_conf/htdocs/admin/functions.inc.php:451 ../core/page.astmodules.php:140
+#: amp_conf/htdocs/admin/functions.inc.php:460 ../core/page.astmodules.php:140
 #: ../core/views/trunks/trunk_header.php:2
 msgid "Add"
 msgstr "Добавить"
 
-#: ../core/functions.inc.php:6020
+#: ../core/functions.inc.php:6001
 #, php-format
 msgid "Add %s Device"
 msgstr "Доюавить %s устройство"
 
-#: ../core/functions.inc.php:6022
+#: ../core/functions.inc.php:6003
 #, php-format
 msgid "Add %s Extension"
 msgstr "Добавить %s внутренний номер"
@@ -748,18 +748,18 @@ msgstr "Добавить DAHDi DID"
 msgid "Add Device"
 msgstr "Добавить устройство"
 
-#: ../core/functions.inc.php:5692 ../core/functions.inc.php:6078
+#: ../core/functions.inc.php:5673 ../core/functions.inc.php:6059
 #: ../core/page.ampusers.php:133 ../core/page.ampusers.php:156
 #: ../core/page.extensions.php:19 ../core/page.extensions.php:101
 #: ../core/views/rnav.php:6
 msgid "Add Extension"
 msgstr "Добавить внутренний номер"
 
-#: ../core/functions.inc.php:5808
+#: ../core/functions.inc.php:5789
 msgid "Add Inbound CID"
 msgstr "Добавить входящий Caller ID"
 
-#: ../core/functions.inc.php:5807
+#: ../core/functions.inc.php:5788
 msgid "Add Inbound DID"
 msgstr "Добавить входящий DID"
 
@@ -799,22 +799,22 @@ msgstr "Добавить маршрут"
 msgid "Add Trunk"
 msgstr "Добавить mISDN транк"
 
-#: ../core/functions.inc.php:5694 ../core/functions.inc.php:6048
-#: ../core/functions.inc.php:6080 ../core/page.users.php:48
+#: ../core/functions.inc.php:5675 ../core/functions.inc.php:6029
+#: ../core/functions.inc.php:6061 ../core/page.users.php:48
 #: ../core/views/ampusers/bootnav.php:2 ../core/views/rnav.php:37
 #: ../core/views/rnav.php:51
 msgid "Add User"
 msgstr "Добавить пользователя"
 
-#: ../core/functions.inc.php:5671
+#: ../core/functions.inc.php:5652
 msgid "Add User/Extension"
 msgstr "Добавить пользователя/Номер"
 
-#: ../core/functions.inc.php:5974
+#: ../core/functions.inc.php:5955
 msgid "Add Virtual Extension"
 msgstr "Добавить виртуальный внутренний номер"
 
-#: ../core/functions.inc.php:5808
+#: ../core/functions.inc.php:5789
 msgid ""
 "Add a CID for more specific DID + CID routing. A DID must be specified in "
 "the above Add DID box. In addition to standard dial sequences, you can also "
@@ -877,7 +877,7 @@ msgstr "Дополнительные установки"
 msgid "Address to bind to. Default is ::"
 msgstr ""
 
-#: ../core/functions.inc.php:5949
+#: ../core/functions.inc.php:5930
 msgid "Adhoc"
 msgstr "Периодическое"
 
@@ -1064,7 +1064,7 @@ msgstr "Всплывающий комментарий для логотипа в
 msgid "Alt for Left Logo"
 msgstr "Всплывающий комментарий для левого логотипа"
 
-#: ../core/functions.inc.php:5566
+#: ../core/functions.inc.php:5547
 #: ../core/functions.inc/drivers/PJSip.class.php:253
 msgid "Always"
 msgstr "Всегда"
@@ -1122,14 +1122,14 @@ msgstr ""
 "сигнализации, если оно подключено параллельно занять линию, по которой "
 "поступил звонок."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2948
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2949
 msgid ""
 "An unauthorized system user account called 'ssh' was discovered in /etc/"
 "passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc "
 "and also remove the 'ssh' account as soon as possible"
 msgstr ""
 
-#: ../core/functions.inc.php:5820
+#: ../core/functions.inc.php:5801
 msgid "Any DID"
 msgstr "Любой DID"
 
@@ -1193,7 +1193,7 @@ msgid "Asked for raw contents of a file, but was never asked to read a file"
 msgstr ""
 "Запрошено исходное содержимое файла, но не было запроса на чтение файла"
 
-#: ../core/functions.inc.php:5804
+#: ../core/functions.inc.php:5785
 msgid "Assigned DID/CID"
 msgstr "Назначенные Caller ID"
 
@@ -1212,7 +1212,7 @@ msgstr "Директория AGI-скриптов Астериск"
 msgid "Asterisk Builtin mini-HTTP server"
 msgstr ""
 
-#: amp.i18n.php:260 ../core/functions.inc.php:5775
+#: amp.i18n.php:260 ../core/functions.inc.php:5756
 msgid "Asterisk Dial Options"
 msgstr "Опции Asterisk-команды Dial "
 
@@ -1385,7 +1385,7 @@ msgstr "Атрибуты"
 msgid "Authentication"
 msgstr "Аутентификация"
 
-#: ../core/views/trunks/pjsip.php:929
+#: ../core/views/trunks/pjsip.php:931
 msgid "Authentication Disabled"
 msgstr "Аутентификация отключена"
 
@@ -1450,7 +1450,7 @@ msgstr ""
 msgid "Auto"
 msgstr "Авто"
 
-#: amp_conf/htdocs/admin/functions.inc.php:239
+#: amp_conf/htdocs/admin/functions.inc.php:248
 msgid ""
 "Auto set ZAP2DAHDICOMPAT to true because we are running a version of "
 "Asterisk greater than 1.4.21"
@@ -1515,7 +1515,7 @@ msgstr "Блокировать CNAM на внешних транках"
 msgid "Block Foreign CIDs"
 msgstr "Блокировать иностранные CID"
 
-#: ../core/views/trunks/pjsip.php:89
+#: ../core/views/trunks/pjsip.php:89 ../core/views/trunks/pjsip.php:791
 msgid "Both"
 msgstr "Оба"
 
@@ -1538,11 +1538,11 @@ msgid "Browser Stats"
 msgstr ""
 
 #: ../core/functions.inc.php:824 ../core/functions.inc.php:4438
-#: ../core/functions.inc.php:5875
+#: ../core/functions.inc.php:5856
 msgid "Busy"
 msgstr "Занят"
 
-#: ../core/functions.inc.php:5874
+#: ../core/functions.inc.php:5855
 msgid "Busy Voicemail if Enabled"
 msgstr "Голосовая почта по статусу Занято, если включено"
 
@@ -1586,7 +1586,7 @@ msgstr "Директория Астериск для CGI-скриптов"
 msgid "CID"
 msgstr "CID"
 
-#: ../core/functions.inc.php:5738
+#: ../core/functions.inc.php:5719
 msgid "CID Num Alias"
 msgstr "Псевдоним Caller ID"
 
@@ -1594,8 +1594,8 @@ msgstr "Псевдоним Caller ID"
 msgid "CID Options"
 msgstr "Опции Caller ID (CID)"
 
-#: ../core/functions.inc.php:5867 ../core/functions.inc.php:5876
-#: ../core/functions.inc.php:5881
+#: ../core/functions.inc.php:5848 ../core/functions.inc.php:5857
+#: ../core/functions.inc.php:5862
 msgid "CID Prefix"
 msgstr "CID префикс"
 
@@ -1620,7 +1620,7 @@ msgstr "Ожидание вызова"
 msgid "CW Enabled by Default"
 msgstr "Возможность принятия второго вызова включена по умолчанию"
 
-#: ../core/functions.inc.php:5787
+#: ../core/functions.inc.php:5768
 msgid "Call Forward Ring Time"
 msgstr "Время вызова при перенаправлении"
 
@@ -1675,11 +1675,11 @@ msgid ""
 "their priorities are also the same."
 msgstr ""
 
-#: ../core/functions.inc.php:5800
+#: ../core/functions.inc.php:5781
 msgid "Call Screening"
 msgstr "Защита от звонков"
 
-#: ../core/functions.inc.php:5800
+#: ../core/functions.inc.php:5781
 msgid ""
 "Call Screening requires external callers to say their name, which will be "
 "played back to the user and allow the user to accept or reject the call.  "
@@ -1702,7 +1702,7 @@ msgstr ""
 "себя, и все другие пользователи FreePBX будут иметь возможность услышать имя "
 "при звонке этого абонента."
 
-#: ../core/functions.inc.php:5799
+#: ../core/functions.inc.php:5780
 msgid "Call Waiting"
 msgstr "Ожидание звонка"
 
@@ -1714,7 +1714,7 @@ msgstr "Ожидание вызова отключено"
 msgid "Call Waiting is enabled"
 msgstr "Ожидание вызова включено"
 
-#: ../core/functions.inc.php:5849
+#: ../core/functions.inc.php:5830
 msgid ""
 "Call recording policy priority relative to other extensions when there is a "
 "conflict between an extension wanting recording and the other not wanting "
@@ -1725,11 +1725,11 @@ msgstr ""
 "когда имеется конфликт между внутренним номером, требующим записывания, и не "
 "требующими."
 
-#: ../core/Core.class.php:2810
+#: ../core/Core.class.php:2815
 msgid "Caller ID"
 msgstr "Идентификационный номер вызывающей стороны(Caller ID)"
 
-#: ../core/Core.class.php:2811
+#: ../core/Core.class.php:2816
 msgid "Caller ID Number"
 msgstr "Номер  Caller ID"
 
@@ -1860,17 +1860,17 @@ msgstr "Отмена"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "Невозможно соединиться к Asterisk Manager с "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2183
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2187
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "Невозможно удалить директорию %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2073
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2105
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2077
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2109
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr "Не отключить: Выбранный модуль зависит от: "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1925
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1929
 msgid "Cannot find module"
 msgstr "Модуль не найден"
 
@@ -1882,7 +1882,7 @@ msgstr "Невозможно найти XML-фреймворк"
 msgid "Cant Reach Online Server"
 msgstr "Невозможно достичь онлайн сервер"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1510
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1514
 #, php-format
 msgid ""
 "Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: "
@@ -1891,7 +1891,7 @@ msgstr ""
 "Невозможно проверить  загруженный модуль %s. Нет доверия GPG ключу - "
 "завершение (Причина: %s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1507
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1511
 #, php-format
 msgid ""
 "Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: "
@@ -1965,7 +1965,7 @@ msgstr "Проверить он-лайн"
 msgid "Check Server Referrer"
 msgstr "Проверять источники перенаправленных ссылок"
 
-#: ../core/views/trunks/pjsip.php:863
+#: ../core/views/trunks/pjsip.php:865
 msgid ""
 "Check the desired codecs, all others will be disabled. Drag to re-order."
 msgstr ""
@@ -2195,7 +2195,7 @@ msgstr "Подтвердить адрес эл. почты"
 msgid "Confirm Password"
 msgstr "Подтвердить пароль"
 
-#: ../core/functions.inc.php:5721
+#: ../core/functions.inc.php:5702
 msgid "Conflicting Extensions"
 msgstr "Конфликтующие внутренние номера"
 
@@ -2284,9 +2284,9 @@ msgstr "Конвертируем IAX нетрансферы в трансфер�
 msgid "Core"
 msgstr "База"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1271
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1618
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1707
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1275
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1622
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1711
 #, php-format
 msgid "Could Not Create Cache Folder: %s"
 msgstr "Невозможно создать директорию для кэша: %s"
@@ -2305,14 +2305,14 @@ msgstr "Невозможно удалить %s"
 msgid "Could not determine module name"
 msgstr "Неопределимое имя модуля"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:804
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:808
 msgid ""
 "Could not find dependency locally and 'Developer Mode' is enabled so will "
 "not check online"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1528
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1792
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1532
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1796
 #, php-format
 msgid "Could not find extracted module: %s"
 msgstr "Невозможно найти распакованный модуль:  %s"
@@ -2325,30 +2325,30 @@ msgstr ""
 msgid "Could not find signed module on remote server!"
 msgstr "Невозможно обнаружить подписанный модуль на удалённом сервере!"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1386
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1586
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1390
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1590
 #, php-format
 msgid "Could not move %s to %s"
 msgstr "Невозможно переместить %s в %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1932
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1936
 msgid "Could not read module.xml"
 msgstr "Не чиается module.xml"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1365
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1562
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1369
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1566
 #, php-format
 msgid "Could not remove %s to install new version"
 msgstr "Невозможно удалить %s для инсталляции новой версии"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1382
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1582
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1862
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1386
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1586
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1866
 #, php-format
 msgid "Could not remove old module %s to install new version"
 msgstr "Невозможно удалить старый модуль %s для инсталляции новой версии"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1893
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1897
 #, php-format
 msgid "Could not remove temporary location %s"
 msgstr "Невозможно удалить временное расположение %s"
@@ -2361,8 +2361,8 @@ msgstr ""
 "Невозможно переименовать таблицу, при отсутствии таблицы dahdichandids "
 "неизбежно произойдёт неустранимая ошибка"
 
-#: amp_conf/htdocs/admin/functions.inc.php:373
-#: amp_conf/htdocs/admin/functions.inc.php:432
+#: amp_conf/htdocs/admin/functions.inc.php:382
+#: amp_conf/htdocs/admin/functions.inc.php:441
 #, php-format
 msgid "Could not run %s script."
 msgstr "Не удалось запустить скрипт %s."
@@ -2371,8 +2371,8 @@ msgstr "Не удалось запустить скрипт %s."
 msgid "Could not understand DSN for connect"
 msgstr "Нет возможности распознать DSN для соединения"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1373
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1567
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1377
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1571
 #, php-format
 msgid "Could not untar %s to %s"
 msgstr "Невозможно распаковать %s в %s"
@@ -2416,7 +2416,7 @@ msgstr "Создать подписанный запрос для %s"
 msgid "Critical"
 msgstr "Критично"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3126
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3116
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
@@ -2440,7 +2440,7 @@ msgstr ""
 msgid "Cronmanager encountered %s Errors"
 msgstr "Крон менеджер обнаружил %s ошибок"
 
-#: ../core/functions.inc.php:5775
+#: ../core/functions.inc.php:5756
 msgid ""
 "Cryptic Asterisk Dial Options, check to customize for this extension or un-"
 "check to use system defaults set in Advanced Options. These will not apply "
@@ -2557,11 +2557,11 @@ msgstr ""
 msgid "DID"
 msgstr "DID"
 
-#: ../core/functions.inc.php:5816
+#: ../core/functions.inc.php:5797
 msgid "DID / CID"
 msgstr "DID / Caller ID"
 
-#: ../core/functions.inc.php:5806
+#: ../core/functions.inc.php:5787
 msgid "DID Description"
 msgstr "Описание DID"
 
@@ -2569,7 +2569,7 @@ msgstr "Описание DID"
 msgid "DID Number"
 msgstr "Номер DID"
 
-#: ../core/Core.class.php:2947
+#: ../core/Core.class.php:2952
 msgid "DID already exists"
 msgstr ""
 
@@ -2577,11 +2577,11 @@ msgstr ""
 msgid "DID/CID"
 msgstr "DID/CID"
 
-#: ../core/Core.class.php:2752
+#: ../core/Core.class.php:2757
 msgid "DIDs"
 msgstr "DID-ы"
 
-#: ../core/Core.class.php:2753
+#: ../core/Core.class.php:2758
 msgid "DIDs / Inbound Routes"
 msgstr "DID-ы / Входящие маршруты"
 
@@ -2710,7 +2710,7 @@ msgstr "Отладка"
 msgid "Debug File"
 msgstr "Файл отладки"
 
-#: ../core/functions.inc.php:5564 ../core/functions.inc.php:5565
+#: ../core/functions.inc.php:5545 ../core/functions.inc.php:5546
 #: ../core/views/did/advanced_form.php:9 ../core/views/trunks/pjsip.php:129
 msgid "Default"
 msgstr "По умолчанию"
@@ -2719,7 +2719,7 @@ msgstr "По умолчанию"
 msgid "Default Asterisk Manager Password Used"
 msgstr "Используется дефолтный пароль для AMI"
 
-#: ../core/functions.inc.php:6056
+#: ../core/functions.inc.php:6037
 #: ../core/functions.inc/drivers/Sip.class.php:335
 msgid "Default User"
 msgstr "Пользователь по умолчанию"
@@ -2960,7 +2960,7 @@ msgstr ""
 msgid "Delete"
 msgstr "Удалить"
 
-#: ../core/functions.inc.php:6000
+#: ../core/functions.inc.php:5981
 #, php-format
 msgid "Delete Device %s"
 msgstr "Удалить устройство %s"
@@ -2987,16 +2987,16 @@ msgstr "Удаление неиспользуемых глобальных оп�
 msgid "Deny"
 msgstr "Отказано"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:865
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:869
 #, php-format
 msgid "Dependency %s has an unknown state of : %s %s"
 msgstr "Зависимость %s  имеет неизвестный статус: %s %s"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/main.php:185
-#: ../core/Core.class.php:2777 ../core/Core.class.php:2778
-#: ../core/Core.class.php:2802 ../core/Core.class.php:2803
-#: ../core/functions.inc.php:6054 ../core/page.devices.php:64
+#: ../core/Core.class.php:2782 ../core/Core.class.php:2783
+#: ../core/Core.class.php:2807 ../core/Core.class.php:2808
+#: ../core/functions.inc.php:6035 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:37
 #: ../core/views/did/advanced_form.php:87 ../core/views/did/basic_form.php:20
@@ -3008,7 +3008,7 @@ msgstr "Описание"
 msgid "Descriptive Name for this Trunk"
 msgstr "Понятное название для этого транка"
 
-#: ../core/Core.class.php:2814 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:2819 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "Назначение"
 
@@ -3033,7 +3033,7 @@ msgstr "Разрыв"
 msgid "Destroying session"
 msgstr "Разрыв сессии"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:777
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:781
 #, php-format
 msgid "Detected Missing Dependency of: %s %s"
 msgstr "Обнаружена неверная зависимость:%s%s"
@@ -3087,7 +3087,7 @@ msgstr ""
 "служб с определённым для этого внутреннего номера/устройства специального "
 "CID."
 
-#: ../core/views/trunks/pjsip.php:825
+#: ../core/views/trunks/pjsip.php:827
 msgid ""
 "Determines whether chan_pjsip will indicate ringing using inband progress."
 msgstr ""
@@ -3106,7 +3106,7 @@ msgid ""
 msgstr ""
 "Определяет,будут ли ошибки аутентификации интерпретироваться как постоянные."
 
-#: ../core/views/trunks/pjsip.php:852
+#: ../core/views/trunks/pjsip.php:854
 msgid "Determines whether media may flow directly between endpoints.."
 msgstr ""
 
@@ -3132,7 +3132,7 @@ msgstr "Режим разработки"
 msgid "Developer and Customization"
 msgstr "Разработчикам и дизайнерам"
 
-#: ../core/Core.class.php:3149 ../core/functions.inc.php:5997
+#: ../core/Core.class.php:3154 ../core/functions.inc.php:5978
 #: ../core/page.devices.php:63 ../core/page.devices.php:84
 #: ../core/views/rnav.php:72
 msgid "Device"
@@ -3143,19 +3143,19 @@ msgstr "Устройство"
 msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 
-#: ../core/Core.class.php:2879
+#: ../core/Core.class.php:2884
 msgid "Device 'name' can not be blank."
 msgstr ""
 
-#: ../core/Core.class.php:1476
+#: ../core/Core.class.php:1481
 msgid "Device Extension was blank or there were no settings defined"
 msgstr "Внутренний номер устройства не заполнен или не были указаны настройки."
 
-#: ../core/functions.inc.php:6052
+#: ../core/functions.inc.php:6033
 msgid "Device ID"
 msgstr "ИД устройства"
 
-#: ../core/functions.inc.php:6066
+#: ../core/functions.inc.php:6047
 #: ../core/functions.inc/drivers/Sip.class.php:278
 msgid "Device Options"
 msgstr "Опции устройства"
@@ -3168,16 +3168,16 @@ msgstr "Установки устройства"
 msgid "Device State Busy at"
 msgstr ""
 
-#: ../core/Core.class.php:2782 ../core/Core.class.php:2783
+#: ../core/Core.class.php:2787 ../core/Core.class.php:2788
 msgid "Device Technology"
 msgstr "Технология устройства"
 
-#: ../core/functions.inc.php:6055 ../core/page.devices.php:65
+#: ../core/functions.inc.php:6036 ../core/page.devices.php:65
 #: ../core/page.devices.php:86
 msgid "Device Type"
 msgstr "Тип устройства"
 
-#: ../core/Core.class.php:2901
+#: ../core/Core.class.php:2906
 msgid "Device could not be added."
 msgstr "Устройство не может быть добавлено."
 
@@ -3189,7 +3189,7 @@ msgstr "Устройство не было добавлено!"
 msgid "Devices"
 msgstr "Устройства"
 
-#: ../core/functions.inc.php:6055
+#: ../core/functions.inc.php:6036
 msgid ""
 "Devices can be fixed or adhoc. Fixed devices are always associated to the "
 "same extension/user. Adhoc devices can be logged into and logged out of by "
@@ -3240,7 +3240,7 @@ msgstr ""
 "набранный номер будет совпадать с шаблоном, указанным в колонках ниже, то "
 "эти цифры будут добавлены к номеру, прежде чем он будет отправлен в транк."
 
-#: ../core/views/trunks/pjsip.php:837
+#: ../core/views/trunks/pjsip.php:839
 msgid "Direct Media"
 msgstr ""
 
@@ -3270,8 +3270,8 @@ msgid "Directory Layout"
 msgstr "План директории"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:360
-#: ../core/functions.inc.php:5540 ../core/functions.inc.php:5546
-#: ../core/functions.inc.php:5549 ../core/functions.inc.php:5553
+#: ../core/functions.inc.php:5521 ../core/functions.inc.php:5527
+#: ../core/functions.inc.php:5530 ../core/functions.inc.php:5534
 msgid "Disable"
 msgstr "Выключить"
 
@@ -3388,7 +3388,7 @@ msgstr "Отображение пользовательского названи
 msgid "Display Monitor Trunk Failures Option"
 msgstr ""
 
-#: ../core/functions.inc.php:5736 ../core/views/quickCreate.php:69
+#: ../core/functions.inc.php:5717 ../core/views/quickCreate.php:69
 msgid "Display Name"
 msgstr "Отображаемое имя"
 
@@ -3441,7 +3441,7 @@ msgstr "Не отсекать стандартный журнал freepbx.log"
 msgid "Domain to use in From header for requests to this trunk"
 msgstr "Имя домена,используемое в заголовке \"От\" для запроса к этому транку"
 
-#: ../core/functions.inc.php:5531
+#: ../core/functions.inc.php:5512
 msgid "Don't Care"
 msgstr "Не существенно"
 
@@ -3472,7 +3472,7 @@ msgstr "Пока не знаю о модуле.Мне это  необходим
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:878
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:886
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:909
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2050
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2054
 #: amp_conf/htdocs/admin/page.modules.php:389
 #: amp_conf/htdocs/admin/page.modules.php:395
 #: amp_conf/htdocs/admin/page.modules.php:1078 ../core/install.php:1540
@@ -3559,9 +3559,9 @@ msgstr "Скачивается %s"
 msgid "Downloading & Installing "
 msgstr "Загрузка и установка"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:782
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:841
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:870
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:786
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:845
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:874
 #, php-format
 msgid "Downloading Missing Dependency of: %s %s"
 msgstr "Загрузка ошибочных зависимостей:%s %s"
@@ -3657,16 +3657,16 @@ msgstr "Редактировать %s %s (%s)"
 msgid "Edit Administrator"
 msgstr "Редактировать Администратора"
 
-#: ../core/functions.inc.php:6006
+#: ../core/functions.inc.php:5987
 #, php-format
 msgid "Edit Default User: %s"
 msgstr "Редактировать настройки пользователя по умолчанию: %s"
 
-#: ../core/functions.inc.php:5692 ../core/functions.inc.php:6078
+#: ../core/functions.inc.php:5673 ../core/functions.inc.php:6059
 msgid "Edit Extension"
 msgstr "Редактировать внутренний номер"
 
-#: ../core/functions.inc.php:6006
+#: ../core/functions.inc.php:5987
 #, php-format
 msgid "Edit Fixed User: %s"
 msgstr "Редактировать фиксированного пользователя: %s"
@@ -3675,12 +3675,12 @@ msgstr "Редактировать фиксированного пользова
 msgid "Edit Route"
 msgstr "Редактировать маршрут"
 
-#: ../core/functions.inc.php:5694 ../core/functions.inc.php:6048
-#: ../core/functions.inc.php:6080
+#: ../core/functions.inc.php:5675 ../core/functions.inc.php:6029
+#: ../core/functions.inc.php:6061
 msgid "Edit User"
 msgstr "Изменить пользователя"
 
-#: ../core/functions.inc.php:5755
+#: ../core/functions.inc.php:5736
 msgid "Edit:"
 msgstr "Редактировать:"
 
@@ -3707,7 +3707,7 @@ msgstr "Ошибка email-адресов"
 msgid "Emergency"
 msgstr "Экстренные службы"
 
-#: ../core/functions.inc.php:6057 ../core/functions.inc.php:6060
+#: ../core/functions.inc.php:6038 ../core/functions.inc.php:6041
 msgid "Emergency CID"
 msgstr "Caller ID для экстренных служб"
 
@@ -3727,8 +3727,8 @@ msgstr "Не допускается пустое значение для это�
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:284
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:288
 #: amp_conf/htdocs/admin/views/module_admin/main.php:290
-#: ../core/functions.inc.php:5541 ../core/functions.inc.php:5545
-#: ../core/functions.inc.php:5550
+#: ../core/functions.inc.php:5522 ../core/functions.inc.php:5526
+#: ../core/functions.inc.php:5531
 msgid "Enable"
 msgstr "Включить"
 
@@ -3805,7 +3805,7 @@ msgstr ""
 msgid "Enable module[s], accepts argument module[s]"
 msgstr "Включить модуль(-и), приём аргмента модуля(-ей)"
 
-#: ../core/functions.inc.php:5848
+#: ../core/functions.inc.php:5829
 msgid ""
 "Enable or disable the ability to do on demand (one-touch) recording. The "
 "overall calling policy rules still apply and if calls are already being "
@@ -3888,12 +3888,12 @@ msgstr "Включение %s"
 msgid "Enabling %s because autoenable was passed at the command line"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:822
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:826
 #, php-format
 msgid "Enabling Missing Dependency of: %s %s"
 msgstr "Включить ошибочные зависимости:%s %s"
 
-#: ../core/functions.inc.php:5802
+#: ../core/functions.inc.php:5783
 msgid ""
 "Enabling Pinless Dialing will allow this extension to bypass any pin codes "
 "set under routes password required on outbound calls."
@@ -3990,53 +3990,53 @@ msgstr "Ошибка при подписывании сертификата  '%s
 msgid "Error converting zap to dahdi in devices table and AstDB"
 msgstr "Ошибка конвертации zap в dahdi в таблице устройств и AstDB"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1868
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1872
 #, php-format
 msgid "Error creating module directory: %s"
 msgstr "Ошибка создания директории модуля:%s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1777
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1781
 #, php-format
 msgid "Error creating temporary directory: %s"
 msgstr "Ошибка при создании временной директории: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2190
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2194
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "Ошибка при удалении директории %s (код %d)"
 
-#: ../core/Core.class.php:776 ../core/Core.class.php:1186
+#: ../core/Core.class.php:781 ../core/Core.class.php:1191
 #: ../core/page.trunks.php:324
 msgid "Error fetching prefix list for: "
 msgstr "Ошибка вызова списка префиксов для: "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1743
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1747
 msgid ""
 "Error finding uploaded file - check your PHP and/or web server configuration"
 msgstr ""
 "Обнаружена ошибка в скаченом файле - проверьте ваш РНР и/или конфигурацию "
 "вэб сервера"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1803
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1813
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1819
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1807
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1817
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1823
 #, php-format
 msgid "Error from %s: %s"
 msgstr "Ошибка от %s: %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:103
 #: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:106
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1473
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1476
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1671
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1674
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1477
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1480
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1675
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1678
 #, php-format
 msgid "Error opening %s for reading"
 msgstr "Ошибка в открытии %s для чтения"
 
 #: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:94
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1408
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1647
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1412
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1651
 #, php-format
 msgid "Error opening %s for writing"
 msgstr "Ошибка в открытии %s для записи"
@@ -4050,12 +4050,12 @@ msgstr ""
 msgid "Error updating GPG Keys: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1998
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2002
 #, php-format
 msgid "Error updating database. Command was: %s; error was: %s "
 msgstr "Ошибка при обновлении базы данных. Вызов команды: %s; ошибка: %s "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2128
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2132
 msgid "Error updating database: "
 msgstr "Ошибка при обновлении базы данных: "
 
@@ -4122,8 +4122,8 @@ msgstr "Исключенные модули"
 msgid "Execute on only this file/dir"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:372
-#: amp_conf/htdocs/admin/functions.inc.php:431
+#: amp_conf/htdocs/admin/functions.inc.php:381
+#: amp_conf/htdocs/admin/functions.inc.php:440
 #, php-format
 msgid "Exit code was %s and output was: %s"
 msgstr "Код ошибки %s и вывод %s"
@@ -4191,8 +4191,8 @@ msgstr ""
 msgid "Extended"
 msgstr "Дополнительный"
 
-#: ../core/Core.class.php:2769 ../core/Core.class.php:2770
-#: ../core/Core.class.php:3137 ../core/functions.inc.php:5642
+#: ../core/Core.class.php:2774 ../core/Core.class.php:2775
+#: ../core/Core.class.php:3142 ../core/functions.inc.php:5623
 #: ../core/page.did.php:91 ../core/page.extensions.php:28
 #: ../core/page.extensions.php:117 ../core/page.extensions.php:143
 #: ../core/views/rnav.php:18
@@ -4211,7 +4211,7 @@ msgstr "Внутренний номер"
 msgid "Extension Numbering Duplicate Conflict Detected"
 msgstr "Обнаружен конфликт - дупликация внутреннего номера"
 
-#: ../core/functions.inc.php:5769 ../core/functions.inc.php:6059
+#: ../core/functions.inc.php:5750 ../core/functions.inc.php:6040
 msgid "Extension Options"
 msgstr "Опции внутреннего номера"
 
@@ -4223,11 +4223,11 @@ msgstr "Внутренний номер уже используется!"
 msgid "Extension can not be blank!"
 msgstr "Внутренний номер не может быть пустым!"
 
-#: ../core/Core.class.php:2869
+#: ../core/Core.class.php:2874
 msgid "Extension is not numeric."
 msgstr "Внутренний номер не из цифр."
 
-#: ../core/functions.inc.php:5731
+#: ../core/functions.inc.php:5712
 msgid "Extension number conflict, please choose another."
 msgstr "Конфликт внутренних номеров, пожалуйста, выберите другой номер."
 
@@ -4235,7 +4235,7 @@ msgstr "Конфликт внутренних номеров, пожалуйст
 msgid "Extension was not numeric!"
 msgstr "Внутренний номер не содержал только цифры!"
 
-#: amp.i18n.php:876 ../core/Core.class.php:2748 ../core/Core.class.php:2749
+#: amp.i18n.php:876 ../core/Core.class.php:2753 ../core/Core.class.php:2754
 #: ../core/page.extensions.php:17
 msgid "Extensions"
 msgstr "Внутренние номера"
@@ -4290,8 +4290,8 @@ msgstr ""
 "Не удалось изменить таймаут записи AMI для [%s], детали внутренней ошибки "
 "ниже:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1435
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1643
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1439
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1647
 #, php-format
 msgid "Failed download module tarball from %s, server may be down"
 msgstr "Не удалось скачать пакет модуля с %s, возможно сервер остановлен"
@@ -4304,12 +4304,12 @@ msgstr "Не удалось удалить"
 msgid "Failed to Remove directory"
 msgstr "Ошибка перемещения директории"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2987
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2992
 #, php-format
-msgid "Failed to get remote file, error was:"
-msgstr "Ошибка получения удалённого файла, ошибка была:"
+msgid "Failed to get remote file, error was: %s"
+msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3000
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3006
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:520
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -4317,7 +4317,7 @@ msgstr ""
 "Ошибка получения удалённого файла, зеркало вебсервера возможно не "
 "работоспособно:%s"
 
-#: ../core/functions.inc.php:5500
+#: ../core/functions.inc.php:5481
 #, php-format
 msgid ""
 "Failed to open %s for writing, aborting attempt to write the country "
@@ -4339,12 +4339,12 @@ msgstr ""
 "Ошибка перезагрузки AMI,необходима ручная перезагрузка,попробуйте:[asterisk -"
 "rx 'module reload manager']"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1970
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1984
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1974
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1988
 msgid "Failed to run installation scripts"
 msgstr "Ошибка при исполнении скрипта инсталляции"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2132
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2136
 msgid "Failed to run un-installation scripts"
 msgstr "Ошибка при выполнении скрипта удаления"
 
@@ -4360,11 +4360,11 @@ msgstr "Ошибка пи отправке на email уведомления о 
 msgid "Failed to send unsigned modules notification email"
 msgstr "Ошибка отправки на email  уведомления о неподписанных модулях "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1730
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1734
 msgid "Failed to write file to disk"
 msgstr "Ошибка записи файла на диск"
 
-#: ../core/functions.inc.php:5501
+#: ../core/functions.inc.php:5482
 msgid "Failed to write indications.conf"
 msgstr "Ошибка при записи indications.conf"
 
@@ -4397,38 +4397,38 @@ msgstr ""
 msgid "File %s has a revoked signature. Can not load"
 msgstr "Файл %s имеет отозванную подпись. Не может быть загружен"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Media.class.php:99
+#: amp_conf/htdocs/admin/libraries/BMO/Media.class.php:89
 #, php-format
 msgid "File '%s' does not exist"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1523
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1787
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1527
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1791
 #, php-format
 msgid "File Integrity failed for %s - aborting (Cause: %s)"
 msgstr "Ошибка целостности файла %s - завершение(Причина: %s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1515
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1518
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1784
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1519
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1522
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1788
 #, php-format
 msgid "File Integrity failed for %s - aborting (GPG Verify File check failed)"
 msgstr ""
 "Ошибка целостности файла %s - завершение(Ошибка при проверке GPG-верфикации)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1539
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1543
 #, php-format
 msgid "File Integrity failed for %s - aborting (md5sum did not match)"
 msgstr ""
 "Ошибка целостности файла %s - завершение(md5-контрольные суммы не совпадают)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1503
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1547
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1507
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1551
 #, php-format
 msgid "File Integrity failed for %s - aborting (sha1 did not match)"
 msgstr "Ошибка целостности файла %s - завершение(sha1 не совпадают)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1733
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1737
 msgid "File upload stopped by extension"
 msgstr "Загрузка файла приостановлено  внутренним номером"
 
@@ -4449,11 +4449,11 @@ msgstr "Завершение очистки кэша"
 msgid "First before %s"
 msgstr "Первый перед %s"
 
-#: ../core/functions.inc.php:5948
+#: ../core/functions.inc.php:5929
 msgid "Fixed"
 msgstr "Статическое"
 
-#: ../core/functions.inc.php:6056
+#: ../core/functions.inc.php:6037
 msgid ""
 "Fixed devices will always mapped to this user.  Adhoc devices will be mapped "
 "to this user by default.<br><br>If selecting 'New User', a new User "
@@ -4513,7 +4513,7 @@ msgstr "Для поддержки посетите:"
 msgid "Forbidden Retry Interval"
 msgstr "Интервал повтора при запрете"
 
-#: ../core/functions.inc.php:5529
+#: ../core/functions.inc.php:5510
 msgid "Force"
 msgstr "Принудительно"
 
@@ -4616,7 +4616,7 @@ msgstr "Запуск использования обратного порта"
 msgid "Forced"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3012
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3021
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:532
 #, php-format
 msgid "Forced %s to true"
@@ -4648,7 +4648,7 @@ msgstr ""
 msgid "Forward"
 msgstr "Переслать"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:802
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:806
 #, php-format
 msgid "Found local Dependency of: %s %s"
 msgstr ""
@@ -4657,7 +4657,7 @@ msgstr ""
 msgid "Found what appear to be invalid emergency callerid entries."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2005
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2009
 #, php-format
 msgid "Framework Detected, Setting FreePBX Version to %s"
 msgstr "Обнаружена платформа, установка версии FreePBX в %s"
@@ -4880,7 +4880,7 @@ msgstr ""
 "событиях. Если используется опция Early Dial например на некоторых телефонах "
 "Grandstream, возможно нужно установить эту опцию в false."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2042
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2046
 msgid "Generating CSS..."
 msgstr "Генерируется CSS..."
 
@@ -4944,7 +4944,7 @@ msgstr ""
 "Присвойте транку уникальное имя. Например:myiaxtel. Имейте ввиду,что это "
 "используется как контекст транка внутри Asterisk-a"
 
-#: ../core/functions.inc.php:6052
+#: ../core/functions.inc.php:6033
 msgid ""
 "Give your device a unique integer ID.  The device will use this ID to "
 "authenticate to the system."
@@ -5388,7 +5388,7 @@ msgid ""
 "Authentication"
 msgstr ""
 
-#: ../core/functions.inc.php:5739
+#: ../core/functions.inc.php:5720
 msgid ""
 "If you want to support direct sip dialing of users internally or through "
 "anonymous sip calls, you can supply a friendly name that can be used in "
@@ -5457,7 +5457,7 @@ msgstr "Запись входящего звонка по необходимос
 msgid "Inband"
 msgstr "Внутриполосный"
 
-#: ../core/views/trunks/pjsip.php:810
+#: ../core/views/trunks/pjsip.php:812
 msgid "Inband Progress"
 msgstr ""
 
@@ -5465,15 +5465,15 @@ msgstr ""
 msgid "Inbound"
 msgstr "Входящий"
 
-#: ../core/functions.inc.php:5844
+#: ../core/functions.inc.php:5825
 msgid "Inbound External Calls"
 msgstr "Контроль внешних входящих соединений"
 
-#: ../core/functions.inc.php:5846
+#: ../core/functions.inc.php:5827
 msgid "Inbound Internal Calls"
 msgstr "Контроль внутренних входящих соединений"
 
-#: ../core/Core.class.php:3191 ../core/Core.class.php:3200
+#: ../core/Core.class.php:3196 ../core/Core.class.php:3205
 msgid "Inbound Route:"
 msgstr ""
 
@@ -5498,11 +5498,11 @@ msgstr "Включать имя сервера в браузере"
 msgid "Incoming"
 msgstr "Входящий"
 
-#: ../core/Core.class.php:2806 ../core/Core.class.php:2807
+#: ../core/Core.class.php:2811 ../core/Core.class.php:2812
 msgid "Incoming DID"
 msgstr "Входящий DID"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1839
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1843
 #, php-format
 msgid "Incorrect Number of Directories for %s"
 msgstr "Неверный номер Директории для %s"
@@ -5542,11 +5542,11 @@ msgstr "Установить"
 msgid "Install all local modules, accepts no arguments"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:798
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:818
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:837
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:857
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:886
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:802
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:822
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:841
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:861
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:890
 #, php-format
 msgid "Installed Missing Dependency of: %s %s"
 msgstr "Установлены ошибочные зависимости:%s %s"
@@ -5560,11 +5560,11 @@ msgstr "Установлены ошибочные зависимости:%s %s"
 msgid "Installing %s"
 msgstr "Установка %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:792
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:812
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:831
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:851
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:880
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:796
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:816
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:835
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:855
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:884
 #, php-format
 msgid "Installing Missing Dependency of: %s %s"
 msgstr "Установка ошибочных зависимостей:%s %s"
@@ -5616,7 +5616,7 @@ msgstr ""
 msgid "Internal Auto Answer Default"
 msgstr "Установки по умолчанию для автоответа"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2012
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2016
 msgid ""
 "Internal Error. Function getVersion did not match the Framework version, "
 "even after it was suppose to be applied"
@@ -5685,7 +5685,7 @@ msgstr "Неверное максимальное число каналов"
 msgid "Invalid Outbound CallerID"
 msgstr "Неверный Исходящий Caller ID"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:131
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:135
 #, php-format
 msgid "Invalid Response from Mirror server: %s"
 msgstr ""
@@ -5698,7 +5698,7 @@ msgstr "Указано неверное имя транка"
 msgid "Invalid Username or Password"
 msgstr "Неверное имя пользователя или пароль"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2241
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2245
 msgid "Invalid description"
 msgstr "Неверное описание"
 
@@ -5707,7 +5707,7 @@ msgstr "Неверное описание"
 msgid "Invalid email address"
 msgstr "Неверный email-адрес"
 
-#: ../core/Core.class.php:780 ../core/Core.class.php:1190
+#: ../core/Core.class.php:785 ../core/Core.class.php:1195
 #: ../core/page.trunks.php:329
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "Неверный формат NPA-NXX (должен быть NXXNXX)"
@@ -5980,7 +5980,7 @@ msgstr ""
 "Максимальное количество оконечных пунктов,которые можно связать с этим "
 "устройством"
 
-#: ../core/functions.inc.php:5797
+#: ../core/functions.inc.php:5778
 msgid ""
 "Maximum number of outbound simultaneous calls that an extension can make. "
 "This is also very useful as a Security Protection against a system that has "
@@ -6069,12 +6069,12 @@ msgstr ""
 msgid "Minimum time to keep an AoR"
 msgstr "Минимальное время хранения AoR"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:828
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:832
 #, php-format
 msgid "Missing Dependency %s %s successfully enabled"
 msgstr "Отсутствующая  зависимость %s %s успешно включена"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Media.class.php:68
+#: amp_conf/htdocs/admin/libraries/BMO/Media.class.php:58
 msgid "Missing HTML5 format converters"
 msgstr "Ошибочные преобразователи в формат  HTML5"
 
@@ -6086,7 +6086,7 @@ msgstr "Ошибочный O или CN. Невозможно создать"
 msgid "Missing Requirements"
 msgstr "Ошибочные требования"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1727
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1731
 msgid "Missing a temporary folder"
 msgstr "Неверная временная папка"
 
@@ -6107,7 +6107,7 @@ msgstr "Неверное имя модуля"
 msgid "Missing module name or URL"
 msgstr "Неверное имя модуля или URL"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1847
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1851
 #, php-format
 msgid "Missing module.xml in %s"
 msgstr "Неверный  module.xml в %s"
@@ -6157,25 +6157,25 @@ msgstr "Модуль"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:414
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:425
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1208
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1213
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1219
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1937
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1943
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1212
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1217
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1223
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1941
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1947
 msgid "Module "
 msgstr "Модуль "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3106
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3096
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr "Неверный статус сигнатуры модуля %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3128
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3118
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr "Модуль \"%s\" не подписан и должен быть снова загружен"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3121
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3111
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr "Модуль \"%s\" подписан недействительным ключом"
@@ -6274,7 +6274,7 @@ msgstr "Модуль отключен - необходимо обновлени�
 msgid "Module Information"
 msgstr "Информация модуля"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1854
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1858
 #, php-format
 msgid "Module Name is blank in %s"
 msgstr "Имя модуля пустое в %s"
@@ -6288,8 +6288,8 @@ msgstr "Модуль не найден"
 msgid "Module Not Installed"
 msgstr "Модуль не установлен"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1256
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1266
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1260
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1270
 msgid "Module XML was not in the proper format"
 msgstr "Модуль XML был  в неверном формате"
 
@@ -6314,11 +6314,11 @@ msgstr "Модуль не подписан"
 msgid "Module names"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2069
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2073
 msgid "Module not enabled: cannot disable"
 msgstr "Модуль не задействован: нельзя отменить"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2101
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2105
 msgid "Module not installed: cannot uninstall"
 msgstr "Модуль не установлен: нельзя удалить"
 
@@ -6331,19 +6331,19 @@ msgstr ""
 "Модуль загружен успешно, Необходимо задействовать его используя %s чтобы "
 "сделать его доступным."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3142
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3132
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr "Модуль: \"%s\" сигнатура была отозвана. Модуль автоматически отключен"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3136
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3126
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr "Модуль: \"%s\", Файл: \"%s\""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3134
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3124
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -6455,7 +6455,7 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr "Уведомление! У Вас %s уведомлений! Войдите в UI для просмотра!"
 
-#: ../core/Core.class.php:2773 ../core/Core.class.php:2774
+#: ../core/Core.class.php:2778 ../core/Core.class.php:2779
 #: ../core/page.extensions.php:29 ../core/page.extensions.php:118
 #: ../core/page.extensions.php:144 ../core/page.users.php:55
 #: ../core/views/rnav.php:19 ../core/views/rnav.php:43
@@ -6475,7 +6475,7 @@ msgstr ""
 msgid "Need to be instantiated with a FreePBX Object"
 msgstr "Необходимо создание экземпляра объекта "
 
-#: ../core/functions.inc.php:5533
+#: ../core/functions.inc.php:5514
 msgid "Never"
 msgstr "Никогда"
 
@@ -6494,7 +6494,7 @@ msgstr "Новее, чем он-лайн версия (%s)"
 msgid "Nightly"
 msgstr "Каждую ночь"
 
-#: ../core/functions.inc.php:5532
+#: ../core/functions.inc.php:5513
 #: ../core/functions.inc/drivers/Dahdi.class.php:108
 #: ../core/functions.inc/drivers/Dahdi.class.php:119
 #: ../core/functions.inc/drivers/Dahdi.class.php:128
@@ -6522,8 +6522,8 @@ msgstr "Каждую ночь"
 #: ../core/views/did/basic_form.php:253 ../core/views/routing/form.php:333
 #: ../core/views/trunks/pjsip.php:653 ../core/views/trunks/pjsip.php:680
 #: ../core/views/trunks/pjsip.php:736 ../core/views/trunks/pjsip.php:763
-#: ../core/views/trunks/pjsip.php:790 ../core/views/trunks/pjsip.php:817
-#: ../core/views/trunks/pjsip.php:844 ../core/views/trunks/trunk_header.php:68
+#: ../core/views/trunks/pjsip.php:788 ../core/views/trunks/pjsip.php:819
+#: ../core/views/trunks/pjsip.php:846 ../core/views/trunks/trunk_header.php:68
 #: ../core/views/trunks/trunk_header.php:266
 #: ../core/views/trunks/trunk_header.php:405
 #: ../core/views/trunks/trunk_header.php:432
@@ -6539,7 +6539,7 @@ msgstr "Нет - (%s)"
 msgid "No Action"
 msgstr "Нет действий"
 
-#: ../core/functions.inc.php:5866
+#: ../core/functions.inc.php:5847
 msgid "No Answer"
 msgstr "Неответ"
 
@@ -6560,7 +6560,7 @@ msgstr "Нет описания"
 msgid "No Description Provided"
 msgstr "Нет описания"
 
-#: ../core/functions.inc.php:5567
+#: ../core/functions.inc.php:5548
 msgid "No Limit"
 msgstr "Без ограничений"
 
@@ -6594,7 +6594,7 @@ msgstr "Нет включённых модулей, зависящих от эт
 msgid "No file given to load"
 msgstr "Не указан файл для загрузки"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1724
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1728
 msgid "No file was uploaded"
 msgstr "Файл не загружен"
 
@@ -6623,7 +6623,7 @@ msgid "NoOp Traces in Dialplan"
 msgstr "Трейсы NoOp в диал-плане"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:213
-#: ../core/functions.inc.php:5559
+#: ../core/functions.inc.php:5540
 #: ../core/functions.inc/drivers/PJSip.class.php:243
 #: ../core/views/did/advanced_form.php:215
 #: ../core/views/did/basic_form.php:120 ../core/views/trunks/pjsip.php:91
@@ -6721,7 +6721,7 @@ msgstr "Не инсталлирован (доступен локально)"
 msgid "Not Installed (Locally available: %s)"
 msgstr "Не установлено(Доступно локально:%s)"
 
-#: ../core/functions.inc.php:5880
+#: ../core/functions.inc.php:5861
 msgid "Not Reachable"
 msgstr "Не доступен"
 
@@ -6754,7 +6754,7 @@ msgstr ""
 msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr "Количество попыток определения правильного Caller ID (CID)"
 
-#: ../core/functions.inc.php:5787
+#: ../core/functions.inc.php:5768
 msgid ""
 "Number of seconds to ring during a Call Forward, Call Forward Busy or Call "
 "Forward Unavailable call prior to continuing to voicemail or specified "
@@ -6764,7 +6764,7 @@ msgid ""
 "forced into Always mode"
 msgstr ""
 
-#: ../core/functions.inc.php:5777
+#: ../core/functions.inc.php:5758
 msgid ""
 "Number of seconds to ring prior to going to voicemail. Default will use the "
 "value set in Advanced Settings. If no voicemail is configured this will be "
@@ -6793,7 +6793,7 @@ msgstr "Получить  бесплатную лицензию"
 msgid "Occupied Lines CW Busy"
 msgstr "Ответ Busy если приходит звонок по второй линии"
 
-#: ../core/functions.inc.php:5848
+#: ../core/functions.inc.php:5829
 msgid "On Demand Recording"
 msgstr "Запись разговоров"
 
@@ -6840,7 +6840,7 @@ msgstr ""
 msgid "Online upgrade available (%s)"
 msgstr "Доступно он-лайн обновление %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1134
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1138
 #, php-format
 msgid "Only %s version %s is compatible, you have %s"
 msgstr "Только %s версии %s совместима, в наличии же %s"
@@ -6882,20 +6882,20 @@ msgstr "Операторская панель"
 msgid "Optional Additional CSS Stylesheet"
 msgstr "Опционально - дополнительная таблица стилей CSS"
 
-#: ../core/functions.inc.php:5876
+#: ../core/functions.inc.php:5857
 msgid "Optional CID Prefix to add before sending to this busy destination."
 msgstr ""
 "Опционально - префикс к Caller ID, добавляемый перед посылкой в назначение "
 "по статусу Занято."
 
-#: ../core/functions.inc.php:5867
+#: ../core/functions.inc.php:5848
 msgid ""
 "Optional CID Prefix to add before sending to this no answer destination."
 msgstr ""
 "Опционально - префикс к Caller ID, добавляемый перед посылкой в назначение "
 "по неответу."
 
-#: ../core/functions.inc.php:5881
+#: ../core/functions.inc.php:5862
 msgid ""
 "Optional CID Prefix to add before sending to this not reachable destination."
 msgstr ""
@@ -6906,7 +6906,7 @@ msgstr ""
 msgid "Optional Destination on Congestion"
 msgstr "Выборочное назначение при переполнении"
 
-#: ../core/functions.inc.php:5851
+#: ../core/functions.inc.php:5832
 msgid "Optional Destinations"
 msgstr "Опциональные назначения"
 
@@ -6941,7 +6941,7 @@ msgstr ""
 "и любые необходимые дополнительные загружаемые модули, указанные "
 "относительно директории admin."
 
-#: ../core/functions.inc.php:5861
+#: ../core/functions.inc.php:5842
 msgid ""
 "Optional destination call is routed to when the call is not answered on an "
 "otherwise idle phone. If the phone is in use and the call is simply ignored, "
@@ -6951,11 +6951,11 @@ msgstr ""
 "или другим статусам ожидания. Если линия занята, и второй вызов "
 "игнорируется, то будет использоваться назначение по статусу Занято."
 
-#: ../core/functions.inc.php:5863
+#: ../core/functions.inc.php:5844
 msgid "Optional destination call is routed to when the call is not answered."
 msgstr "Опциональное назначение вызова при неответе."
 
-#: ../core/functions.inc.php:5872
+#: ../core/functions.inc.php:5853
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user."
@@ -6963,7 +6963,7 @@ msgstr ""
 "Опционально назначение для вызова может быть маршрутизироваться по статусу "
 "Занято, или по отмене звонка пользователем."
 
-#: ../core/functions.inc.php:5870
+#: ../core/functions.inc.php:5851
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user. This destination is also used on an unanswered "
@@ -6975,7 +6975,7 @@ msgstr ""
 "используется при неотвеченых вызовах, если линия занята, и пользователь не "
 "принял второй вызов."
 
-#: ../core/functions.inc.php:5878
+#: ../core/functions.inc.php:5859
 msgid ""
 "Optional destination the call is routed to when the phone is offline, such "
 "as a softphone currently off or a phone unplugged."
@@ -7069,7 +7069,7 @@ msgstr "Другое"
 msgid "Outbound"
 msgstr "Исходящий"
 
-#: ../core/functions.inc.php:5767 ../core/views/routing/grid.php:71
+#: ../core/functions.inc.php:5748 ../core/views/routing/grid.php:71
 msgid "Outbound CID"
 msgstr "Исходящий Caller ID"
 
@@ -7081,7 +7081,7 @@ msgstr "Исходящий номер вызывающей стороны"
 msgid "Outbound CallerID"
 msgstr "Исходящий CallerID"
 
-#: ../core/functions.inc.php:5797
+#: ../core/functions.inc.php:5778
 msgid "Outbound Concurrency Limit"
 msgstr "Ограничение в одновременных исходящих"
 
@@ -7089,11 +7089,11 @@ msgstr "Ограничение в одновременных исходящих"
 msgid "Outbound Dial Prefix"
 msgstr "Префикс выхода на линию"
 
-#: ../core/functions.inc.php:5845
+#: ../core/functions.inc.php:5826
 msgid "Outbound External Calls"
 msgstr "Контроль внешних исходящих соединений"
 
-#: ../core/functions.inc.php:5847
+#: ../core/functions.inc.php:5828
 msgid "Outbound Internal Calls"
 msgstr "Контроль внутренних исходящих соединений"
 
@@ -7102,11 +7102,11 @@ msgstr "Контроль внутренних исходящих соедине�
 msgid "Outbound Proxy"
 msgstr "Исходящий прокси"
 
-#: ../core/Core.class.php:3174
+#: ../core/Core.class.php:3179
 msgid "Outbound Route:"
 msgstr ""
 
-#: ../core/functions.inc.php:5356
+#: ../core/functions.inc.php:5337
 #, php-format
 msgid "Outbound Route: %s"
 msgstr "Исходящий маршрут: %s"
@@ -7127,7 +7127,7 @@ msgstr "Исходящий"
 msgid "Output debug messages to the console (be super chatty)"
 msgstr "Выдавать сообщения отладки в консоль (будет очень много)"
 
-#: ../core/functions.inc.php:5542 ../core/functions.inc.php:5775
+#: ../core/functions.inc.php:5523 ../core/functions.inc.php:5756
 #: ../core/views/trunks/trunk_header.php:375
 msgid "Override"
 msgstr "Переписать"
@@ -7161,7 +7161,7 @@ msgid ""
 "time"
 msgstr ""
 
-#: ../core/functions.inc.php:5778
+#: ../core/functions.inc.php:5759
 msgid ""
 "Override the ringer volume. Note: This is only valid for Sangoma phones at "
 "this time"
@@ -7171,7 +7171,7 @@ msgstr ""
 msgid "Overrides Extension CID"
 msgstr "Переписывает CID внутреннего номера"
 
-#: ../core/functions.inc.php:5767 ../core/views/quickCreate.php:93
+#: ../core/functions.inc.php:5748 ../core/views/quickCreate.php:93
 msgid ""
 "Overrides the CallerID when dialing out a trunk. Any setting here will "
 "override the common outbound CallerID set in the Trunks admin."
@@ -7185,13 +7185,13 @@ msgstr ""
 msgid "PEER Details"
 msgstr "опции для PEER"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:995
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:999
 #, php-format
 msgid "PHP Component %s is required but missing from you PHP installation."
 msgstr ""
 "Требуется РНР компонент %s, а в текущей инсталляции РНР он отсутствует."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:997
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1001
 #, php-format
 msgid ""
 "PHP Component %s version %s is required but missing from you PHP "
@@ -7409,7 +7409,7 @@ msgstr ""
 "Ошибка прав доступа к файлу %s - пожалуйста запустите от пользователя root "
 "для автоматического восстановления"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:375
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:381
 #, php-format
 msgid ""
 "Permissions should be set with a leading 0, example 644 should be 0644 File: "
@@ -7438,7 +7438,7 @@ msgstr ""
 msgid "Pin Sets"
 msgstr ""
 
-#: ../core/functions.inc.php:5802
+#: ../core/functions.inc.php:5783
 msgid "Pinless Dialing"
 msgstr "Набор без PIN-кодов"
 
@@ -7472,13 +7472,13 @@ msgstr "Подтвердите следующие дейсвтия:"
 msgid "Please correct the following errors:"
 msgstr "Пожалуйста исправьте следующие ошибки"
 
-#: ../core/functions.inc.php:6070
+#: ../core/functions.inc.php:6051
 #: ../core/functions.inc/drivers/Iax2.class.php:102
 #: ../core/functions.inc/drivers/Sip.class.php:273
 msgid "Please enter a Secret for this device"
 msgstr "Введите пароль для этого устройства"
 
-#: ../core/functions.inc.php:6038
+#: ../core/functions.inc.php:6019
 msgid "Please enter a device id."
 msgstr "Введите ИД устройства."
 
@@ -7486,11 +7486,11 @@ msgstr "Введите ИД устройства."
 msgid "Please enter a username"
 msgstr "Пожалуйста введите имя пользователя"
 
-#: ../core/functions.inc.php:5679
+#: ../core/functions.inc.php:5660
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
 msgstr "Пожалуйста, введите псевдоним Caller ID (только допустимые числа)."
 
-#: ../core/functions.inc.php:5685
+#: ../core/functions.inc.php:5666
 msgid ""
 "Please enter a valid CallerID Number or leave it blank for your Assigned DID/"
 "CID pair"
@@ -7498,36 +7498,36 @@ msgstr ""
 "Введите Caller ID или оставьте поле пустым для вашей задействованной пары "
 "DID/ИД"
 
-#: ../core/functions.inc.php:6039
+#: ../core/functions.inc.php:6020
 msgid "Please enter a valid Description for this device"
 msgstr "Введите понятное описание этого устройства"
 
-#: ../core/functions.inc.php:5681
+#: ../core/functions.inc.php:5662
 msgid "Please enter a valid Display Name"
 msgstr "Пожалуйста, введите отображаемое имя"
 
-#: ../core/functions.inc.php:6040
+#: ../core/functions.inc.php:6021
 msgid "Please enter a valid Emergency CID"
 msgstr "Введите действительный исходящий Caller ID для аварийных служб"
 
-#: ../core/functions.inc.php:5682
+#: ../core/functions.inc.php:5663
 msgid "Please enter a valid Outbound CID"
 msgstr "Пожалуйста, введите исходящий ИД номер"
 
-#: ../core/functions.inc.php:5678 ../core/functions.inc.php:6041
+#: ../core/functions.inc.php:5659 ../core/functions.inc.php:6022
 msgid "Please enter a valid extension number."
 msgstr "Пожалуйста, введите верный внутренний номер."
 
-#: ../core/functions.inc.php:5683
+#: ../core/functions.inc.php:5664
 msgid "Please enter a valid pause time in seconds, using digits only"
 msgstr "Пожалуйста, используя только цифры введите величину паузы в секундах"
 
-#: ../core/functions.inc.php:6068
+#: ../core/functions.inc.php:6049
 #: ../core/functions.inc/drivers/Dahdi.class.php:99
 msgid "Please enter the channel for this device"
 msgstr "Введите канал для этого устройства"
 
-#: ../core/functions.inc.php:5680
+#: ../core/functions.inc.php:5661
 msgid "Please enter valid User Password using numbers only"
 msgstr "Пожалуйста, введите пароль пользователя состоящий только из цифр"
 
@@ -7804,27 +7804,27 @@ msgstr ""
 msgid "Receive"
 msgstr "Принять"
 
-#: ../core/functions.inc.php:5849
+#: ../core/functions.inc.php:5830
 msgid "Record Priority Policy"
 msgstr "Приоритет политики использования записи разговоров"
 
-#: ../core/functions.inc.php:5836
+#: ../core/functions.inc.php:5817
 msgid "Recording Options"
 msgstr "Опции записи"
 
-#: ../core/functions.inc.php:5847
+#: ../core/functions.inc.php:5828
 msgid "Recording of calls made to other extensions on the system."
 msgstr "Запись звонков на другие внутренние номера системы."
 
-#: ../core/functions.inc.php:5846
+#: ../core/functions.inc.php:5827
 msgid "Recording of calls received from other extensions on the system."
 msgstr "Запись звонков, принятых с других внутренних номеров системы."
 
-#: ../core/functions.inc.php:5844
+#: ../core/functions.inc.php:5825
 msgid "Recording of inbound calls from external sources."
 msgstr "Запись входящих звонков от внешних источников."
 
-#: ../core/functions.inc.php:5845
+#: ../core/functions.inc.php:5826
 msgid "Recording of outbound calls to external sources."
 msgstr "Запись исходящих звонков на внешние источники."
 
@@ -7874,13 +7874,13 @@ msgstr "Связанные URL-ы"
 msgid "Reload Configs"
 msgstr "Перезагрузить конфигурацию"
 
-#: amp_conf/htdocs/admin/functions.inc.php:397
+#: amp_conf/htdocs/admin/functions.inc.php:406
 #, php-format
 msgid ""
 "Reload failed because %s could not connect to the asterisk manager interface."
 msgstr "Перезагрузка не произошла, потому что %s не может подключиться к AMI"
 
-#: amp_conf/htdocs/admin/functions.inc.php:389
+#: amp_conf/htdocs/admin/functions.inc.php:398
 #, php-format
 msgid "Reload failed because retrieve_conf encountered an error: %s"
 msgstr "Перезагрузка невозможна, скрипт retrieve_conf обнаружил ошибку:  %s"
@@ -8003,12 +8003,12 @@ msgstr ""
 "этим требованиям, или используются другие ограничения, включая более жёсткие "
 "ограничения, которые делают это правило более мягким по отношению к себе."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1105
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1109
 #, php-format
 msgid "Requires engine %s, you have: %s"
 msgstr "Необходим движок %s, однако в наличсии только %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1107
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1111
 #, php-format
 msgid "Requires one of the following engines: %s; you have: %s"
 msgstr "Требуется один из следующих движков: %s; в наличии же %s"
@@ -8035,7 +8035,7 @@ msgstr ""
 "Перезапустите Астериск и обновите окно браузера для доступа к этому пункту "
 "меню."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1277
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1281
 msgid "Retrieved Module XML Was Empty"
 msgstr "Запрошеный модуль XML был пустой"
 
@@ -8055,7 +8055,7 @@ msgstr ""
 msgid "Rewrite Contact"
 msgstr "Перезаписать контактные данные"
 
-#: ../core/functions.inc.php:5777
+#: ../core/functions.inc.php:5758
 msgid "Ring Time"
 msgstr "Время звонка"
 
@@ -8063,7 +8063,7 @@ msgstr "Время звонка"
 msgid "Ring Tone"
 msgstr ""
 
-#: ../core/functions.inc.php:5778 ../core/views/did/advanced_form.php:210
+#: ../core/functions.inc.php:5759 ../core/views/did/advanced_form.php:210
 #: ../core/views/did/basic_form.php:115
 msgid "Ringer Volume Override"
 msgstr ""
@@ -8143,12 +8143,12 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "ЗАМЕЧАНИЕ ПО БЕЗОПАСНОСТИ:"
 
-#: ../core/Core.class.php:3114 ../core/Core.class.php:3115
+#: ../core/Core.class.php:3119 ../core/Core.class.php:3120
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP (%s)"
 
-#: ../core/functions.inc.php:5739
+#: ../core/functions.inc.php:5720
 msgid "SIP Alias"
 msgstr "Псевдоним SIP"
 
@@ -8257,11 +8257,11 @@ msgstr ""
 msgid "Save"
 msgstr "Сохранить"
 
-#: ../core/functions.inc.php:5555
+#: ../core/functions.inc.php:5536
 msgid "Screen Caller: Memory"
 msgstr "Защита от звонков: с сохранением"
 
-#: ../core/functions.inc.php:5554
+#: ../core/functions.inc.php:5535
 msgid "Screen Caller: No Memory"
 msgstr "Защита от звонков: без сохранения"
 
@@ -8323,6 +8323,7 @@ msgid "Send Dashboard Notifications to Log"
 msgstr "Отпралять сообщения панели управления в журнал"
 
 #: ../core/functions.inc/drivers/Sip.class.php:348
+#: ../core/views/trunks/pjsip.php:790
 msgid "Send P-Asserted-Identity header"
 msgstr "Посылать заголовок P-Asserted-Identity"
 
@@ -8335,11 +8336,12 @@ msgid "Send RPID/PAI"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:345
+#: ../core/views/trunks/pjsip.php:789
 msgid "Send Remote-Party-ID header"
 msgstr "Посылать заголовок ИД-Удалённой-стороны (RPID)"
 
-#: ../core/views/trunks/pjsip.php:798
-msgid "Send the P-Asserted-Identity and Remote-Party-ID header"
+#: ../core/views/trunks/pjsip.php:800
+msgid "Send the P-Asserted-Identity and/or Remote-Party-ID header"
 msgstr ""
 
 #: amp.i18n.php:804
@@ -8402,7 +8404,7 @@ msgstr ""
 msgid "Set the Repos. -R Commercial -R Contributed"
 msgstr "Указать репозитории. -R Коммерческий -R Воспомогательный"
 
-#: ../core/functions.inc.php:5799
+#: ../core/functions.inc.php:5780
 msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr ""
 "Установить возможность приёма второго звонка (Call Waiting) для этого "
@@ -8739,9 +8741,9 @@ msgstr ""
 "Некоторые из следующих установок могут вызвать неоперабельность вашей "
 "системы."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2064
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2096
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2169
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2068
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2100
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2173
 msgid "Specified module not found"
 msgstr "Указаный модуль не найден"
 
@@ -8818,14 +8820,14 @@ msgstr "Стиль и логотипы"
 msgid "Submit"
 msgstr "Сохранить"
 
-#: amp_conf/htdocs/admin/functions.inc.php:423
+#: amp_conf/htdocs/admin/functions.inc.php:432
 msgid ""
 "Successful reload, but could not clear reload flag due to a database error: "
 msgstr ""
 "Благополучно перезагружено, не невозможно завершить процесс ввиду ошибки "
 "базы данных: "
 
-#: amp_conf/htdocs/admin/functions.inc.php:416
+#: amp_conf/htdocs/admin/functions.inc.php:425
 msgid "Successfully reloaded"
 msgstr "Благополучно перезагружено"
 
@@ -8949,7 +8951,7 @@ msgid ""
 "value if set wrong. The chan_pjsip channel driver is considered "
 msgstr ""
 
-#: ../core/functions.inc.php:5738
+#: ../core/functions.inc.php:5719
 msgid ""
 "The CID Number to use for internal calls, if different from the extension "
 "number. This is used to masquerade as a different user. A common example is "
@@ -8968,7 +8970,7 @@ msgid ""
 "installed and enabled."
 msgstr "Модуль записи звонков не включен. "
 
-#: ../core/functions.inc.php:5736 ../core/views/quickCreate.php:77
+#: ../core/functions.inc.php:5717 ../core/views/quickCreate.php:77
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
@@ -8976,7 +8978,7 @@ msgstr ""
 "Имя для соединений от этого пользователя будет установлен в это значение."
 "Введите имя, НЕ номер."
 
-#: ../core/functions.inc.php:6054
+#: ../core/functions.inc.php:6035
 msgid ""
 "The CallerID name for this device will be set to this description until it "
 "is logged into."
@@ -9035,12 +9037,12 @@ msgid ""
 "li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1061
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1065
 #, php-format
 msgid "The File \"%s\" must exist."
 msgstr "Файл \"%s\" должен существовать"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1031
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1035
 #, php-format
 msgid ""
 "The Module Named \"%s\" is required, but yours is broken. You should "
@@ -9049,7 +9051,7 @@ msgstr ""
 "Необходим модуль  \"%s\" , но он повреждён. Переустановите и попробуйте "
 "снова."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1039
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1043
 #, php-format
 msgid ""
 "The Module Named \"%s\" is required, but yours is disabled because it needs "
@@ -9058,17 +9060,17 @@ msgstr ""
 "Необходим модуль  \"%s\", но он отключен,т.к  его необходимо обновить. "
 "Обновите  %s и попробуйте снова."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1035
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1039
 #, php-format
 msgid "The Module Named \"%s\" is required, but yours is disabled."
 msgstr "Необходим модуль  \"%s\" , но он отключен"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1044
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1048
 #, php-format
 msgid "The Module Named \"%s\" is required, yours is not installed."
 msgstr "Необходим модуль  \"%s\" , но он не установлен."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1050
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1054
 #, php-format
 msgid "The Module Named \"%s\" is required."
 msgstr "Необходим модуль  \"%s\" ."
@@ -9109,11 +9111,11 @@ msgstr ""
 msgid "The autoloader is damaged. Please run: "
 msgstr "Автозагрузчик повреждён.Пожалуйста запустите:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1809
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1813
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr "Unzip не установлен.Невозможно работать с zip-файлами"
 
-#: ../core/Core.class.php:2815
+#: ../core/Core.class.php:2820
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -9142,7 +9144,7 @@ msgstr ""
 "Набранный номер будет сравниваться с комбинацией префикс + этот шаблон. Если "
 "найдено совпадение, совпавшая с шаблоном часть номера будет послана в транк"
 
-#: ../core/functions.inc.php:5700 ../core/views/quickCreate.php:61
+#: ../core/functions.inc.php:5681 ../core/views/quickCreate.php:61
 msgid "The extension number to dial to reach this user."
 msgstr "Внутренний номер, по которому можно найти пользователя."
 
@@ -9172,15 +9174,15 @@ msgstr "Следующие зависимости не удовлетворен�
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:938
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:949
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:960
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:784
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:794
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:814
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:824
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:833
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:843
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:853
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:872
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:882
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:788
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:798
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:818
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:828
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:837
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:847
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:857
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:876
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:886
 msgid "The following error(s) occured:"
 msgstr "Произошли следующие ошибки:"
 
@@ -9189,11 +9191,11 @@ msgstr "Произошли следующие ошибки:"
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr "Следующая ошибка(-и) произошла при загрузке файла: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2635
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2667
 msgid "The following modules are disabled because they are broken:"
 msgstr "Следующий модуль отключен ввиду его повреждения:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2627
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2659
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "Следующий модуль отключен так как нуждается в обновлении:"
 
@@ -9202,7 +9204,7 @@ msgstr "Следующий модуль отключен так как нужд�
 msgid "The following modules depend on this one: %s"
 msgstr "Следующие модули зависят от этого модуля:%s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:361
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:365
 msgid ""
 "The following new modules are available for download. Click delete icon on "
 "the right to remove this notice."
@@ -9417,7 +9419,7 @@ msgstr ""
 "сделать исполнением этой команды, то не стоит соверщать это действие, потому "
 "что это повлечёт изменения в конфигурации."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3013
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3022
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:533
 #, php-format
 msgid ""
@@ -9445,7 +9447,7 @@ msgstr ""
 msgid "The timeout (in milliseconds) to set on WebSocket connections."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1718
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1722
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
@@ -9453,13 +9455,13 @@ msgstr ""
 "Размер загруженного файла превысил  значение директивы MAX_FILE_SIZE,"
 "указанной в HTML-форме"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1715
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1719
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
 "Размер загруженного файла превысил  значение директивы upload_max_filesize , "
 "указанной в php.ini"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1721
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1725
 msgid "The uploaded file was only partially uploaded"
 msgstr "Файлы загружены частично"
 
@@ -9532,21 +9534,21 @@ msgstr ""
 "виде десятичных чисел, разделённых точками. IP-адрес отделён от маски "
 "подсети символом косой черты ('/')"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:417
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:421
 #, php-format
 msgid "There are %s modules available for online upgrades"
 msgstr "%s модулей можно обновить он-лайн"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:445
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:449
 #, php-format
 msgid "There are %s modules vulnerable to security threats"
 msgstr "Имеется  %s модулей, уязвимых к атакам."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:415
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:419
 msgid "There is 1 module available for online upgrade"
 msgstr "Один модуль можно обновить он-лайн"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:443
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:447
 msgid "There is 1 module vulnerable to security threats"
 msgstr "Имеется  1 модуль, уязвимый к атакам."
 
@@ -9610,7 +9612,7 @@ msgstr ""
 "образом трансформированный номер будет отправлен в транк. Все поля являются "
 "необязательными (опциональными)."
 
-#: ../core/functions.inc.php:6057 ../core/functions.inc.php:6060
+#: ../core/functions.inc.php:6038 ../core/functions.inc.php:6041
 msgid ""
 "This CallerID will always be set when dialing out an Outbound Route flagged "
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
@@ -9628,7 +9630,7 @@ msgid "This action understands somethings may be disabled for a reason."
 msgstr ""
 "Этим действием понимаем, что что-то может быть отключено по какой-то причине."
 
-#: ../core/Core.class.php:1483
+#: ../core/Core.class.php:1488
 msgid "This device id is already in use"
 msgstr "Этот номер устройства уже используется"
 
@@ -9887,7 +9889,7 @@ msgstr ""
 "Этот транк  не может быть использован для исходящих вызовов пока "
 "настраивается роут,который использует этот транк"
 
-#: ../core/Core.class.php:2356
+#: ../core/Core.class.php:2361
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "Этот пользователь/номер %s уже существует"
@@ -9999,7 +10001,7 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr "Последовательность транков для совпавших маршрутов"
 
-#: ../core/Core.class.php:3182
+#: ../core/Core.class.php:3187
 msgid "Trunk:"
 msgstr ""
 
@@ -10079,7 +10081,7 @@ msgstr ""
 msgid "Unable to add index to tech field in devices"
 msgstr "Невозможно добавить индекс в в поле Технология выбранного устройства"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1438
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1442
 #, php-format
 msgid "Unable to connect to servers from URLs provided: %s"
 msgstr "Невозможно подключиться к серверам по указанной ссылке: %s"
@@ -10149,8 +10151,8 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:127
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1498
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1763
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1502
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1767
 #, php-format
 msgid "Unable to save %s"
 msgstr "Невозможно сохранить %s"
@@ -10190,17 +10192,17 @@ msgstr "Невозможно выделить сигнатуру - резуль�
 msgid "Unable to trust the FreePBX Key! -- %s"
 msgstr "Невозможно доверять ключу FreePBX -- %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1531
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1796
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1535
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1800
 #, php-format
 msgid "Unable to work with GPG file, message was: %s"
 msgstr "Невозможно обработать GPG файл, сообщение: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2948
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2949
 msgid "Unauthorized user"
 msgstr ""
 
-#: ../core/functions.inc.php:5865 ../core/functions.inc.php:5879
+#: ../core/functions.inc.php:5846 ../core/functions.inc.php:5860
 msgid "Unavail Voicemail if Enabled"
 msgstr "Голосовая почта по статусу Недоступен, если включено"
 
@@ -10253,7 +10255,7 @@ msgstr ""
 "Неизвестная ошибка при запросе данных таблицы Особый контекст или нет данных "
 "для переноса"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1823
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1827
 #, php-format
 msgid ""
 "Unknown file format of %s for %s, supported formats: tar,tgz,tar.gz,zip,bzip"
@@ -10261,7 +10263,7 @@ msgstr ""
 "Неизвестный формат файла %s для %s, поддерживаются форматы: tar,tgz,tar.gz,"
 "zip,bzip"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1736
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1740
 msgid "Unknown upload error"
 msgstr "Неизвестная ошибка при загрузке"
 
@@ -10509,7 +10511,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:3161 ../core/functions.inc.php:5656
+#: ../core/Core.class.php:3166 ../core/functions.inc.php:5637
 #: ../core/page.devices.php:66 ../core/page.devices.php:87
 #: ../core/page.did.php:88 ../core/page.users.php:54 ../core/views/rnav.php:42
 msgid "User"
@@ -10529,11 +10531,11 @@ msgstr ""
 msgid "User Control Panel"
 msgstr "Панель управления пользователя"
 
-#: ../core/functions.inc.php:5744
+#: ../core/functions.inc.php:5725
 msgid "User Devices"
 msgstr "Устроства пользователей"
 
-#: ../core/functions.inc.php:5700
+#: ../core/functions.inc.php:5681
 msgid "User Extension"
 msgstr "Внутренний номер пользователя"
 
@@ -10558,11 +10560,11 @@ msgstr "Залогиниться пользователю"
 msgid "User Panel"
 msgstr "Интерфейс пользователей"
 
-#: ../core/functions.inc.php:5703
+#: ../core/functions.inc.php:5684
 msgid "User Password"
 msgstr "Пароль пользователя"
 
-#: ../core/Core.class.php:2928
+#: ../core/Core.class.php:2933
 msgid "User could not be added."
 msgstr "Пользователь не может быть добавлен"
 
@@ -10586,7 +10588,7 @@ msgstr ""
 msgid "Username for internal ARI calls"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:947
+#: ../core/views/trunks/pjsip.php:949
 msgid "Username is trunk name"
 msgstr "Имя пользователя является имененм транка"
 
@@ -10751,7 +10753,7 @@ msgstr "Время ожидания для остановки Астериск"
 msgid "Warning"
 msgstr "Предупреждение"
 
-#: ../core/functions.inc.php:5897
+#: ../core/functions.inc.php:5878
 msgid "Warning! Extension"
 msgstr "Осторожно! Внутренний номер"
 
@@ -11101,7 +11103,7 @@ msgstr ""
 "Нужно ли включать эхоподавление если два канала замыкаются напрямую. См. "
 "документацию по DAHDi для деталей."
 
-#: ../core/functions.inc.php:5530
+#: ../core/functions.inc.php:5511
 #: ../core/functions.inc/drivers/Dahdi.class.php:107
 #: ../core/functions.inc/drivers/Dahdi.class.php:118
 #: ../core/functions.inc/drivers/Dahdi.class.php:127
@@ -11127,8 +11129,8 @@ msgstr ""
 #: ../core/views/did/basic_form.php:251 ../core/views/routing/form.php:331
 #: ../core/views/trunks/pjsip.php:651 ../core/views/trunks/pjsip.php:678
 #: ../core/views/trunks/pjsip.php:734 ../core/views/trunks/pjsip.php:761
-#: ../core/views/trunks/pjsip.php:788 ../core/views/trunks/pjsip.php:815
-#: ../core/views/trunks/pjsip.php:842 ../core/views/trunks/trunk_header.php:66
+#: ../core/views/trunks/pjsip.php:817 ../core/views/trunks/pjsip.php:844
+#: ../core/views/trunks/trunk_header.php:66
 #: ../core/views/trunks/trunk_header.php:264
 #: ../core/views/trunks/trunk_header.php:403
 #: ../core/views/trunks/trunk_header.php:430
@@ -11184,7 +11186,7 @@ msgstr ""
 "не указали email-адрес для отправки результатов. Это можно настроить в "
 "Администрировании Модулей."
 
-#: amp_conf/htdocs/admin/libraries/BMO/Media.class.php:68
+#: amp_conf/htdocs/admin/libraries/BMO/Media.class.php:58
 #, php-format
 msgid ""
 "You are missing support for the following HTML5 codecs: %s. To fully support "
@@ -11277,37 +11279,37 @@ msgstr ""
 msgid "You can't set the default to the default"
 msgstr "Вы не можете установить значение по умолчанию в значение по умолчанию"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3178
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3168
 #, php-format
 msgid "You have %s %s modules"
 msgstr "У Вас  %s %s модулей"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2634
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2666
 #, php-format
 msgid "You have %s broken modules"
 msgstr "У вас %s повреждённых модуля"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2626
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2658
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "У вас отключено %s модулей"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3175
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3165
 #, php-format
 msgid "You have %s tampered files"
 msgstr "У Вас  %s  повреждённых файла"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3166
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3169
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3156
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3159
 #, php-format
 msgid "You have %s unsigned modules"
 msgstr "У Вас %s неподписанных модуля"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2634
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2666
 msgid "You have a broken module"
 msgstr "У вас повреждён модуль"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2626
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2658
 msgid "You have a disabled module"
 msgstr "У вас тключен модуль"
 
@@ -11319,7 +11321,7 @@ msgstr ""
 "Вы включили PHP консоль в Расширенных установках, но расширение для браузера "
 "Chrome  не установлено или используется не-Chrome браузер"
 
-#: ../core/functions.inc.php:5684
+#: ../core/functions.inc.php:5665
 msgid ""
 "You have entered a non-standard dialpattern for your DID. You can only enter "
 "standard dialpatterns. You must use the inbound routing form to enter non-"
@@ -11339,7 +11341,7 @@ msgstr ""
 "htaccess, что может вызывать ошибки в некоторых модулях. FreePBX ожидает, "
 "что это будет выключено, и работает исходя из этого предположения"
 
-#: ../core/functions.inc.php:6069
+#: ../core/functions.inc.php:6050
 #: ../core/functions.inc/drivers/Iax2.class.php:101
 #: ../core/functions.inc/drivers/Sip.class.php:272
 msgid ""
@@ -11450,7 +11452,7 @@ msgstr "Необходимо указать клиентский URI"
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "Чтобы продолжить, необходим корректный файл  freepbx.conf "
 
-#: ../core/Core.class.php:2349
+#: ../core/Core.class.php:2354
 msgid "You must put in an extension (or user) number"
 msgstr "Вы должны ввести внутренний номер или номер пользователя"
 
@@ -11480,12 +11482,12 @@ msgstr ""
 msgid "You should fix the problem or select another file and %s."
 msgstr "Устраните проблему или выберите другой файл и %s."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2628
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2636
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2660
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2668
 msgid "You should go to the module admin page to fix these."
 msgstr "Необходимо зайти в Управление модулями чтобы исправить это."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1131
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1135
 #, php-format
 msgid "Your %s version (%s) is incompatible."
 msgstr "Ваша %s версии (%s) несовместима."
@@ -11615,7 +11617,7 @@ msgstr ""
 "умолчанию - FreePBX"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:206
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3088
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3078
 msgid "altered"
 msgstr "изменён"
 
@@ -11750,7 +11752,7 @@ msgstr "таблица dahdi не пустая,невозможно перене
 msgid "default"
 msgstr "по умолчанию"
 
-#: ../core/functions.inc.php:5621 ../core/functions.inc.php:5986
+#: ../core/functions.inc.php:5602 ../core/functions.inc.php:5967
 #: ../core/page.did.php:8
 msgid "deleted"
 msgstr "удалено"
@@ -11843,23 +11845,23 @@ msgstr "с ошибкой"
 msgid "failed reading %s, file not being removed"
 msgstr "ошибка чтения %s, файл не был удалён"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1377
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1571
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1833
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1381
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1575
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1837
 #, php-format
 msgid "failed to delete %s from cache directory after opening module archive."
 msgstr ""
 "невозможно удалить файл %s из каталога кеша модулей после открытия файла "
 "модуля."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2376
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2382
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2380
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2386
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr "ошибка добавления  %s во время %s модуля %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1372
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1566
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1376
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1570
 #, php-format
 msgid "failed to open %s module archive into _cache directory."
 msgstr "Невозможно открыть файл модуля %s из каталога _cache."
@@ -11914,7 +11916,7 @@ msgstr "закончена установка файла платформы, у�
 msgid "free not implemented"
 msgstr "метод free не реализован"
 
-#: amp_conf/htdocs/admin/functions.inc.php:241
+#: amp_conf/htdocs/admin/functions.inc.php:250
 msgid ""
 "freepbx setting  ZAP2DAHDICOMPAT not found, somethng is corrupt in the conf "
 "database?"
@@ -11969,7 +11971,7 @@ msgstr "поврежден"
 msgid "is disabled"
 msgstr "отключен"
 
-#: ../core/functions.inc.php:5897
+#: ../core/functions.inc.php:5878
 msgid "is not allowed for your account"
 msgstr "не разрешено для вашего профиля"
 
@@ -12022,11 +12024,11 @@ msgstr ""
 "файл регистрации данных  удалён, после обновления ядра системы  будет создан "
 "новый файл"
 
-#: ../core/functions.inc.php:5703 ../core/functions.inc.php:6055
+#: ../core/functions.inc.php:5684 ../core/functions.inc.php:6036
 msgid "logs into a device."
 msgstr "журналы в устройстве."
 
-#: ../core/functions.inc.php:5703 ../core/functions.inc.php:6055
+#: ../core/functions.inc.php:5684 ../core/functions.inc.php:6036
 msgid "logs out of a device."
 msgstr "выйти из устройства."
 
@@ -12144,7 +12146,7 @@ msgstr "nextresult не реализован"
 msgid "no logger file to remove"
 msgstr "не файла логгера для удаления "
 
-#: ../core/functions.inc.php:5952 ../core/views/routing/moh.php:8
+#: ../core/functions.inc.php:5933 ../core/views/routing/moh.php:8
 msgid "none"
 msgstr "нет"
 
@@ -12269,12 +12271,12 @@ msgstr "перемещение таблицы zap"
 msgid "renaming table zapchandids to dahdichandids.."
 msgstr "переименование таблицы zapchandids в  dahdichandids.."
 
-#: amp_conf/htdocs/admin/functions.inc.php:391
-#: amp_conf/htdocs/admin/functions.inc.php:399
+#: amp_conf/htdocs/admin/functions.inc.php:400
+#: amp_conf/htdocs/admin/functions.inc.php:408
 msgid "retrieve_conf failed, config not applied"
 msgstr "retrieve_conf не найден, конфигурация не применилась"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3153
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3143
 msgid "revoked"
 msgstr "отозван"
 
@@ -12308,7 +12310,7 @@ msgstr "sip:[username]@[ip]:[port]"
 msgid "starting migration"
 msgstr "начинаем перенос"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3151
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3141
 msgid "tampered"
 msgstr "повреждённый"
 
@@ -12334,7 +12336,7 @@ msgstr ""
 "попытаемся указать ключевое значение [%s] в [%s] при неинициализированных "
 "установках"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3152
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3142
 msgid "unknown"
 msgstr "неизвестный"
 
@@ -12349,11 +12351,11 @@ msgid "unrecognized rule: %s discarding"
 msgstr "неизвестное правило:%s отклоняется"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:171
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3150
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3140
 msgid "unsigned"
 msgstr "неподписанный"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3149
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3139
 msgid "untrusted"
 msgstr "недоверенный"
 
@@ -12429,6 +12431,9 @@ msgstr ""
 #: ../core/install.php:1120
 msgid "zap devices migrated"
 msgstr "Устройства ZAP перенесены"
+
+#~ msgid "Failed to get remote file, error was:"
+#~ msgstr "Ошибка получения удалённого файла, ошибка была:"
 
 #~ msgid ""
 #~ "Determines whether encryption should be used if possible but does not "
