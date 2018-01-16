@@ -9,12 +9,11 @@ include 'BMO.interface.php';
 /**
 * Backwards compatibility for FreePBX 12 non namespaced
 */
-interface BMO extends FreePBX\BMO {};
-class FreePBX_Helpers extends FreePBX\FreePBX_Helpers {};
-class Request_Helper extends FreePBX\Request_Helper {};
-class DB_Helper extends FreePBX\DB_Helper {};
-class Freepbx_conf extends FreePBX\Freepbx_conf {};
-
+class_alias('FreePBX\BMO', 'BMO');
+class_alias('FreePBX\FreePBX_Helpers', 'FreePBX_Helpers');
+class_alias('FreePBX\Request_Helper', 'Request_Helper');
+class_alias('FreePBX\DB_Helper', 'DB_Helper');
+class_alias('FreePBX\Freepbx_conf', 'Freepbx_conf');
 /**
  * This is the FreePBX Big Module Object.
  *

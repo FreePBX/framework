@@ -51,7 +51,7 @@ if(empty($mems)) {
 	}
 }
 
-$freepbx_conf =& freepbx_conf::create();
+$freepbx_conf = \FreePBX::create()->Freepbx_conf;
 
 $loc = fpbx_which("asterisk");
 if(empty($loc)) {
@@ -94,7 +94,7 @@ class connectdirs {
 	var $symlink_notice_modules_bin = '';
 	var $symlink_notice_modules_agi = '';
 
-	function &create() {
+	static function &create() {
 		static $obj;
 		if (!isset($obj)) {
 			$obj = new connectdirs();
@@ -102,7 +102,7 @@ class connectdirs {
 		return $obj;
 	}
 
-	function connectdirs() {
+	function __construct() {
 		global $amp_conf;
 		global $db;
 		$this->symlink_dirs['bin'] = $amp_conf['AMPBIN'];

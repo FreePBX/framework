@@ -20,6 +20,10 @@ if(false) {
 	_("Beta");
 	_("Nightly");
 }
+
+use Rhumsaa\Uuid\Uuid;
+use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
+
 class module_functions {
 	public $security_array = null;
 	public $modDepends = array();
@@ -123,7 +127,7 @@ class module_functions {
 				// We pass in true to add options to accomodate future needs of things like php versions to get properly zended
 				// tarballs of the same version for modules that are zended.
 				//
-				$all = $this->get_remote_contents("/all-" . $base_version . ".xml", true);
+				$all = $this->get_remote_contents("/all-" . $base_version . ".xml", true, true);
 				if(!empty($all)) {
 					try {
 						$parser = new xml2ModuleArray($all);
@@ -2518,52 +2522,24 @@ class module_functions {
 		return $announcement;
 	}
 
-	/* Assumes properly formated input, which is ok since
-		this is a private function and error checking is done
-		through proper regex scanning above
-
-		Returns: random md5 hash
-	*/
-	function _generate_random_id($type=null, $mac=null) {
-		global $db;
-		if (trim($mac) == "") {
-			$sql = "SELECT * FROM module_xml WHERE id = 'randomid'";
-			$result = sql($sql,'getRow',DB_FETCHMODE_ASSOC);
-			if(!empty($result['data'])) {
-				$id['uniqueid'] = $result['data'];
-			} else {
-				$id['uniqueid'] = md5(mt_rand());
-				$data4sql = $db->escapeSimple($id['uniqueid']);
-				sql("INSERT INTO module_xml (id,time,data) VALUES ('randomid',".time().",'".$data4sql."')");
-			}
-		} else {
-			// MD5 hash of the MAC so it is not identifiable
-			//
-			$id['uniqueid'] = md5($mac);
-		}
-		$id['type'] = $type;
-
-		return $id;
+	public function check_first_install() {
+		$sth = \FreePBX::Database()->prepare("SELECT data as installid FROM module_xml WHERE id = 'installid'");
+		$sth->execute();
+		$res = $sth->fetch(PDO::FETCH_ASSOC);
+		return (empty($res) || empty($res['installid']));
 	}
 
-	/* _module_generate_unique_id
+	public function get_unique_id() {
+		$sth = \FreePBX::Database()->prepare("SELECT data as installid FROM module_xml WHERE id = 'installid'");
+		$sth->execute();
+		$res = $sth->fetch(PDO::FETCH_ASSOC);
+		if(empty($res) || empty($res['installid'])) {
+			return $this->generate_unique_id();
+		}
+		return $res['installid'];
+	}
 
-		The purpose of this function is to generate a unique id that will try
-		and regenerate the same unique id on a system if called multiple
-		times. The id is unique but is not in any way identifable so that
-		privacy is not compromised.
-
-		Returns:
-
-		Array: ["uniqueid"] => unique_md5_hash
-					["type"]     => type_passed_in
-
-	*/
-	function _generate_unique_id($type=null) {
-
-		// Array of macs that require identification so we know these are not
-		// 'real' systems. Either home setups or test environments
-		//
+	private function get_virtual_machine_type() {
 		$ids = array('080027' => 'virtualbox',
 								'001C42' => 'parallels',
 								'001C14' => 'vmware',
@@ -2589,8 +2565,9 @@ class module_functions {
 			exec('ifconfig',$output, $return);
 
 			if ($return != '0') {
-				// No seed available so return with random seed
-				return $this->_generate_random_id($type);
+				$sth = \FreePBX::Database()->prepare("REPLACE INTO module_xml (id,time,data) VALUES ('type',?,?)");
+				$sth->execute(array(time(),""));
+				return "";
 			}
 		}
 
@@ -2614,24 +2591,79 @@ class module_functions {
 				if (array_key_exists($id,$ids)) {
 					$chosen_mac = $mac;
 					$type = $ids[$id];
-					break;
+					$sth = \FreePBX::Database()->prepare("REPLACE INTO module_xml (id,time,data) VALUES ('type',?,?)");
+					$sth->execute(array(time(),$type));
+					return $type;
 				}
 			}
 		}
+		$sth = \FreePBX::Database()->prepare("REPLACE INTO module_xml (id,time,data) VALUES ('type',?,?)");
+		$sth->execute(array(time(),""));
+		return "";
+	}
 
-		// Now either we have a chosen_mac, we will use the first mac, or if something went wrong
-		// and there is nothing in the array (couldn't find a mac) then we will make it purely random
-		//
-		if ($type == "vmware" || $type == "xensource") {
-			// vmware, xensource machines will have repeated macs so make random
-			return $this->_generate_random_id($type);
-		} else if ($chosen_mac != "") {
-			return $this->_generate_random_id($type, $chosen_mac);
-		} else if (isset($mac_address[0])) {
-			return $this->_generate_random_id($type, $mac_address[0]);
-		} else {
-			return $this->_generate_random_id($type);
+	private function get_machine_id() {
+		switch(PHP_OS) {
+			case 'FreeBSD';
+				$result = shell_exec('kenv -q smbios.system.uuid');
+				$result = preg_replace("/\r+|\n+|\s+/i", '', $result);
+				return strtolower($result);
+			break;
+			case 'Darwin':
+				$result = shell_exec('ioreg -rd1 -c IOPlatformExpertDevice');
+				if(preg_match('/IOPlatformUUID.*=.*"(.*)"/i',$result,$matches)) {
+					return $matches[1];
+				} else {
+					return '';
+				}
+			break;
+			case 'Linux':
+				$result = shell_exec('cat /var/lib/dbus/machine-id /etc/machine-id 2> /dev/null | head -n 1 || :');
+				$result = preg_replace("/\r+|\n+|\s+/i", '', $result);
+				return strtolower($result);
+			default:
+			break;
 		}
+	}
+
+	private function get_accessed_id() {
+		$sql = "SELECT * FROM module_xml WHERE id = 'accessedid'";
+		$sth = \FreePBX::Database()->query($sql);
+		$value = $sth->fetch(\PDO::FETCH_ASSOC);
+		if(empty($value) || empty($value['data'])) {
+			return $this->generate_accessed_id();
+		} else {
+			return $value['data'];
+		}
+	}
+
+	private function generate_accessed_id() {
+		return $this->generateUUID4();
+	}
+
+	private function update_accessed_id($uuid) {
+		$sql = "REPLACE INTO module_xml (id,time,data) VALUES ('accessedid',?,?)";
+		$sth = \FreePBX::Database()->prepare($sql);
+		$sth->execute(array(time(),$uuid));
+		return $uuid;
+	}
+
+	private function generate_unique_id() {
+		$uuid = $this->generateUUID4();
+		$sql = "REPLACE INTO module_xml (id,time,data) VALUES ('installid',?,?)";
+		$sth = \FreePBX::Database()->prepare($sql);
+		$sth->execute(array(time(),$uuid));
+		return $uuid;
+	}
+
+	private function generateUUID4() {
+		try {
+			$uuid4 = Uuid::uuid4();
+			return $uuid4->toString();
+		} catch(\Exception $e) {
+			return bin2hex(openssl_random_pseudo_bytes(32));
+		}
+
 	}
 
 	function run_notification_checks() {
@@ -2847,8 +2879,8 @@ class module_functions {
 		return array('pbx_type' => $pbx_type, 'pbx_version' => $pbx_version);
 	}
 
-	function get_remote_contents($path, $add_options=false) {
-		$mirrors = $this->generate_remote_urls($path,$add_options);
+	function get_remote_contents($path, $add_options=false, $uuidcheck=false) {
+		$mirrors = $this->generate_remote_urls($path,$add_options,$uuidcheck);
 		foreach($mirrors['mirrors'] as $url) {
 			$o = $this->url_get_contents($url,$mirrors['path'],'post',$mirrors['options']);
 			if(!empty($o)) {
@@ -2867,7 +2899,7 @@ class module_functions {
 	* @pram string
 	* @returns string
 	*/
-	function generate_remote_urls($path, $add_options=false) {
+	function generate_remote_urls($path, $add_options=false, $uuidcheck=false) {
 		global $db;
 		global $amp_conf;
 		$urls = array();
@@ -2875,50 +2907,19 @@ class module_functions {
 
 		if ($add_options) {
 			$firstinstall=false;
-			$type=null;
-
-			$sql = "SELECT * FROM module_xml WHERE id = 'installid'";
-			$result = sql($sql,'getRow',DB_FETCHMODE_ASSOC);
 
 			// if not set so this is a first time install
 			// get a new hash to account for first time install
-			//
-			$install_hash = $this->_generate_unique_id();
-			$installid = $install_hash['uniqueid'];
-			$type = $install_hash['type'];
-			if (!isset($result['data']) || trim($result['data']) == "" || ($installid != $result['data'])) {
-				//Yes they do the same thing but thats ok
-				if(!isset($result['data']) || trim($result['data']) == "") {
-					$firstinstall=true;
-					$data4sql = $db->escapeSimple($installid);
-					sql("REPLACE INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
-					$data4sql = $db->escapeSimple($type);
-					sql("REPLACE INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
-				} else {
-					$install_hash = $this->_regenerate_unique_id();
-					$installid = $install_hash['uniqueid'];
-					$type = $install_hash['type'];
-				}
-			} else {
-				$installid=$result['data'];
-				$sql = "SELECT * FROM module_xml WHERE id = 'type'";
-				$result = sql($sql,'getRow',DB_FETCHMODE_ASSOC);
-
-				if (isset($result['data']) && trim($result['data']) != "") {
-					$type=$result['data'];
-				}
-			}
-
-			// Now we have the id and know if this is a firstime install so we can get the announcement
-			//
-			$options['installid'] = $installid;
-
-			if (trim($type) != "") {
-				$options['type'] = trim($type);
-			}
-			if ($firstinstall) {
+			if ($this->check_first_install()) {
 				$options['firstinstall'] = 'yes';
 			}
+			if($uuidcheck) {
+				$options['lastaccesseduuid'] = $this->get_accessed_id();
+				$options['currentuuid'] = $this->generate_accessed_id();
+			}
+			$options['machineid'] = hash('sha256',$this->get_machine_id());
+			$options['installid'] = $this->get_unique_id();
+			$options['type'] = $this->get_virtual_machine_type();
 
 			//Now that we do everything in post format send back module versions
 			$modules_local = $this->getinfo(false,false,true);
@@ -2997,12 +2998,16 @@ class module_functions {
 			$pest = FreePBX::Curl()->pest($url);
 			try{
 				$contents = $pest->$verb($url.$request,$params);
+				if(isset($pest->last_headers['x-current-uuid'])) {
+					//we connected
+					$this->update_accessed_id($pest->last_headers['x-current-uuid']);
+				}
 				if(isset($pest->last_headers['x-regenerate-id'])) {
-					$this->_regenerate_unique_id();
+					$this->generate_unique_id(true);
 				}
 				return $contents;
 			} catch (Exception $e) {
-				freepbx_log(FPBX_LOG_ERROR,sprintf(_('Failed to get remote file, error was:'),(string)$e->getMessage()));
+				freepbx_log(FPBX_LOG_ERROR,sprintf(_('Failed to get remote file, error was: %s'),(string)$e->getMessage()));
 			}
 		}
 
@@ -3011,7 +3016,8 @@ class module_functions {
 			$fn2 = str_replace('&','\\&',$fn);
 			$p = (!empty($params)) ? "--post-data '".http_build_query($params)."'" : "";
 			FreePBX::Curl()->setEnvVariables();
-			exec("wget --tries=1 --timeout=30 $p -O - $fn2 2> /dev/null", $data_arr, $retcode);
+			$headerfile = $amp_conf['ASTSPOOLDIR']."/wgetstderr-".$this->generateUUID4();
+			exec("wget --tries=1 --timeout=30 $p -q -S -O- $fn2 2> ".$headerfile, $data_arr, $retcode);
 			if ($retcode) {
 				// if server isn't available for some reason should return non-zero
 				// so we return and we don't set the flag below
@@ -3021,6 +3027,9 @@ class module_functions {
 				// so we only auto set the WGET var if we received something so as to not false trigger. If there are issues
 				// with content filters that this is designed to get around, we will eventually get a non-empty file which
 				// will trigger this for now and the future.
+				if(file_exists($headerfile)) {
+					unlink($headerfile);
+				}
 				return null;
 			} elseif (!empty($data_arr) && !$amp_conf['MODULEADMINWGET']) {
 				$freepbx_conf = freepbx_conf::create();
@@ -3031,50 +3040,31 @@ class module_functions {
 				$extext = sprintf(_("The system detected a problem trying to access external server data and changed internal setting %s (Use wget For Module Admin) to true, see the tooltip in Advanced Settings for more details."),'MODULEADMINWGET');
 				$nt->add_warning('freepbx', 'MODULEADMINWGET', $text, $extext, '', false, true);
 			}
-			$headers = get_headers_assoc($fn2);
+
+			$headers = array();
+			if(file_exists($headerfile)) {
+				$rawheaders = explode("\n",file_get_contents($headerfile));
+				unlink($headerfile);
+				foreach($rawheaders as $value) {
+					$ar = explode(':', $value);
+					$key = trim($ar[0]);
+					if(isset($ar[1])) {
+						$value = trim($ar[1]);
+						$headers[strtolower($key)] = trim($value);
+					}
+				}
+			}
+
+			if(isset($headers['x-current-uuid'])) {
+				//we connected
+				$this->update_accessed_id($headers['x-current-uuid']);
+			}
 			if(isset($headers['x-regenerate-id'])) {
-				$this->_regenerate_unique_id();
+				$this->generate_unique_id(true);
 			}
 
 			$contents = implode("\n",$data_arr);
 			return $contents;
-		}
-	}
-
-	function _regenerate_unique_id() {
-		global $db;
-		$install_hash = $this->_generate_unique_id();
-		$installid = $install_hash['uniqueid'];
-		$type = $install_hash['type'];
-		sql("DELETE FROM module_xml WHERE id = 'installid' OR id = 'type'");
-		$data4sql = $db->escapeSimple($installid);
-		sql("INSERT INTO module_xml (id,time,data) VALUES ('installid',".time().",'".$data4sql."')");
-		$data4sql = $db->escapeSimple($type);
-		sql("INSERT INTO module_xml (id,time,data) VALUES ('type',".time().",'".$data4sql."')");
-		return $install_hash;
-	}
-
-	function _get_machine_id() {
-		switch(PHP_OS) {
-			case 'FreeBSD';
-				$result = shell_exec('kenv -q smbios.system.uuid');
-				$result = preg_replace("/\r+|\n+|\s+/i", '', $result);
-				return strtolower($result);
-			break;
-			case 'Darwin':
-				$result = shell_exec('ioreg -rd1 -c IOPlatformExpertDevice');
-				if(preg_match('/IOPlatformUUID.*=.*"(.*)"/i',$result,$matches)) {
-					return $matches[1];
-				} else {
-					return '';
-				}
-			break;
-			case 'Linux':
-				$result = shell_exec('cat /var/lib/dbus/machine-id /etc/machine-id 2> /dev/null | head -n 1 || :');
-				$result = preg_replace("/\r+|\n+|\s+/i", '', $result);
-				return strtolower($result);
-			default:
-			break;
 		}
 	}
 
