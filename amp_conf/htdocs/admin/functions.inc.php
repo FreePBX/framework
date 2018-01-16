@@ -141,7 +141,13 @@ function fpbx_framework_autoloader($class) {
 		'FreePBX\\Console\\Command\\' => 'libraries/Console',
 		'Media\\' => 'libraries/media/Media',
 		'Media\\Driver\\' => 'libraries/media/Media/Driver',
-		'Media\\Driver\\Drivers\\' => 'libraries/media/Media/Driver/Drivers'
+		'Media\\Driver\\Drivers\\' => 'libraries/media/Media/Driver/Drivers',
+		'mm\\Mime\\' => 'libraries/media/mm/Mime',
+		'mm\\Mime\\Type\\' => 'libraries/media/mm/Mime/Type',
+		'mm\\Mime\\Type\\Magic\\' => 'libraries/media/mm/Mime/Type/Magic',
+		'mm\\Mime\\Type\\Magic\\Adapter\\' => 'libraries/media/mm/Mime/Type/Magic/Adapter',
+		'mm\\Mime\\Type\\Glob\\' => 'libraries/media/mm/Mime/Type/Glob',
+		'mm\\Mime\\Type\\Glob\\Adapter\\' => 'libraries/media/mm/Mime/Type/Glob/Adapter'
 	);
 
 	// Is it a direct mapping?
