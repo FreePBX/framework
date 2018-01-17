@@ -562,10 +562,13 @@ class Moduleadmin extends Command {
 		$modules_local = $this->mf->getinfo($modulename, array(MODULE_STATUS_ENABLED,MODULE_STATUS_NEEDUPGRADE));
 		$modules_online = $this->mf->getonlinexml();
 		$this->check_active_repos();
-		if (isset($modules_local[$modulename]) && isset($modules_online[$modulename])  && (($modules_local[$modulename]['status'] == MODULE_STATUS_NEEDUPGRADE) || version_compare_freepbx($modules_local[$modulename]['version'], $modules_online[$modulename]['version'], 'lt'))) {
-			return version_compare_freepbx($modules_online[$modulename]['version'], $modules_local[$modulename]['version']);
+		if (isset($modules_local[$modulename])) {
+			if(isset($modules_online[$modulename])) {
+				return version_compare_freepbx($modules_online[$modulename]['version'], $modules_local[$modulename]['version']);
+			}
+			return -2; //not online
 		}
-		return -1;
+		return -3; //not local
 	}
 
 	/**
@@ -1274,6 +1277,12 @@ class Moduleadmin extends Command {
 				foreach($args as $module){
 					$state = $this->isModuleUpgradeable($module);
 					switch($state) {
+						case -3:
+							$this->writeln(sprintf(_('%s is not a locally installed module, unable to upgrade'),$module));
+						break;
+						case -2:
+							$this->writeln(sprintf(_('%s does not exist online, unable to upgrade'),$module));
+						break;
 						case -1:
 							$this->writeln(sprintf(_('%s is newer than online version, unable to upgrade'),$module));
 						break;
