@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-16 14:47-0800\n"
+"POT-Creation-Date: 2018-01-17 13:16-0800\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -419,6 +419,11 @@ msgstr "%s Já está em uso sip.conf. Não é possível continuar"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1278
 #, php-format
 msgid "%s is newer than online version, unable to upgrade"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1281
+#, php-format
+msgid "%s is the same as the online version, unable to upgrade"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:762
@@ -1457,7 +1462,7 @@ msgstr "Tentativa de carregar %s mas não definiu a classe %s"
 msgid "Attempted to load %s with a hint of %s and it didn't exist"
 msgstr "Tentativa de carregar %s com uma dica de %s e ele não existe"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1372
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1379
 #, php-format
 msgid "Attempting to Enable %s"
 msgstr "Tentando Ativar %s"
@@ -1949,9 +1954,9 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1226
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1243
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1268
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1287
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1341
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1394
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1294
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1348
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1401
 msgid "Can not run this command while 'Developer Mode' is enabled"
 msgstr ""
 
@@ -6372,12 +6377,12 @@ msgstr "Faltando uma pasta temporária"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1188
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1217
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1271
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1305
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1332
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1344
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1353
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1362
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1386
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1312
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1339
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1351
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1360
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1369
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1393
 msgid "Missing module name"
 msgstr "Nome do módulo ausente"
 
@@ -6396,8 +6401,8 @@ msgstr "Faltando module.xml em %s"
 msgid "Missing or unreadable config file [%s]...cannot continue"
 msgstr "Arquivo de configuração ausente ou ilegível [%s]... não pode continuar"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1313
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1321
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1320
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1328
 msgid "Missing repo name"
 msgstr "Nome de repositório ausente"
 
@@ -7915,7 +7920,7 @@ msgstr ""
 "Forneça as credenciais principais que serão usadas para administrar seu "
 "sistema"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1376
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1383
 msgid "Please review the output above for any errors while enabling modules"
 msgstr "Revise a saída acima para ver se há erros ao habilitar os módulos"
 
@@ -10175,7 +10180,7 @@ msgstr ""
 msgid "This Module has been deprecated"
 msgstr "Este módulo foi descontinuado"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1375
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1382
 msgid "This action understands somethings may be disabled for a reason."
 msgstr "Esta ação entende que algo pode ser desativado por um motivo."
 
@@ -10827,7 +10832,7 @@ msgstr "Desconhecido"
 msgid "Unknown (System updates not run since last reboot)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1408
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1415
 #, php-format
 msgid "Unknown Command! (%s)"
 msgstr "Comando desconhecido! (%s)"
