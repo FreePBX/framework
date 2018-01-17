@@ -56,7 +56,7 @@ class LogoutUrlGenerator
             if (__CLASS__ !== get_class($this)) {
                 $r = new \ReflectionMethod($this, __FUNCTION__);
                 if (__CLASS__ !== $r->getDeclaringClass()->getName()) {
-                    @trigger_error(sprintf('Method %s() will have a sixth `string $context = null` argument in version 4.0. Not defining it is deprecated since 3.3.', __METHOD__), E_USER_DEPRECATED);
+                    @trigger_error(sprintf('Method %s() will have a sixth `string $context = null` argument in version 4.0. Not defining it is deprecated since Symfony 3.3.', __METHOD__), E_USER_DEPRECATED);
                 }
             }
 
@@ -145,7 +145,7 @@ class LogoutUrlGenerator
      *
      * @return array The logout listener found
      *
-     * @throws \InvalidArgumentException if no LogoutListener is registered for the key or could not be found automatically.
+     * @throws \InvalidArgumentException if no LogoutListener is registered for the key or could not be found automatically
      */
     private function getListener($key)
     {

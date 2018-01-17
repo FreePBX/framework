@@ -40,8 +40,6 @@ class SimplePreAuthenticationListener implements ListenerInterface
     private $dispatcher;
 
     /**
-     * Constructor.
-     *
      * @param TokenStorageInterface           $tokenStorage          A TokenStorageInterface instance
      * @param AuthenticationManagerInterface  $authenticationManager An AuthenticationManagerInterface instance
      * @param string                          $providerKey
@@ -65,8 +63,6 @@ class SimplePreAuthenticationListener implements ListenerInterface
 
     /**
      * Handles basic authentication.
-     *
-     * @param GetResponseEvent $event A GetResponseEvent instance
      */
     public function handle(GetResponseEvent $event)
     {

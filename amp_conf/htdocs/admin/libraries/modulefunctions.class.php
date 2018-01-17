@@ -21,8 +21,8 @@ if(false) {
 	_("Nightly");
 }
 
-use Rhumsaa\Uuid\Uuid;
-use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 class module_functions {
 	public $security_array = null;
