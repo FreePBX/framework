@@ -556,16 +556,19 @@ class Moduleadmin extends Command {
 	/**
 	 * Function to determine if a module is upgradeable
 	 * @param string $modulename
-	 * @return bool
+	 * @return -1 if the first version is lower than the second, 0 if they are equal, and 1 if the second is lower
 	 */
 	private function isModuleUpgradeable($modulename) {
 		$modules_local = $this->mf->getinfo($modulename, array(MODULE_STATUS_ENABLED,MODULE_STATUS_NEEDUPGRADE));
 		$modules_online = $this->mf->getonlinexml();
 		$this->check_active_repos();
-		if (isset($modules_local[$modulename]) && isset($modules_online[$name])  && (($modules_local[$name]['status'] == MODULE_STATUS_NEEDUPGRADE) || version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']) < 0)) {
-			return true;
+		if (isset($modules_local[$modulename])) {
+			if(isset($modules_online[$modulename])) {
+				return version_compare_freepbx($modules_online[$modulename]['version'], $modules_local[$modulename]['version']);
+			}
+			return -2; //not online
 		}
-		return false;
+		return -3; //not local
 	}
 
 	/**
@@ -1272,10 +1275,23 @@ class Moduleadmin extends Command {
 				}
 				$this->check_active_repos();
 				foreach($args as $module){
-					if ($this->isModuleUpgradeable($module)) {
-						$this->doUpgrade($module, $this->force);
-					} else {
-						$this->writeln(sprintf(_('%s is newer than online version, unable to upgrade'),$module));
+					$state = $this->isModuleUpgradeable($module);
+					switch($state) {
+						case -3:
+							$this->writeln(sprintf(_('%s is not a locally installed module, unable to upgrade'),$module));
+						break;
+						case -2:
+							$this->writeln(sprintf(_('%s does not exist online, unable to upgrade'),$module));
+						break;
+						case -1:
+							$this->writeln(sprintf(_('%s is newer than online version, unable to upgrade'),$module));
+						break;
+						case 0:
+							$this->writeln(sprintf(_('%s is the same as the online version, unable to upgrade'),$module));
+						break;
+						case 1:
+							$this->doUpgrade($module, $this->force);
+						break;
 					}
 				}
 				$this->updateHooks();
