@@ -39,8 +39,6 @@ class RememberMeListener implements ListenerInterface
     private $sessionStrategy;
 
     /**
-     * Constructor.
-     *
      * @param TokenStorageInterface                       $tokenStorage
      * @param RememberMeServicesInterface                 $rememberMeServices
      * @param AuthenticationManagerInterface              $authenticationManager
@@ -62,8 +60,6 @@ class RememberMeListener implements ListenerInterface
 
     /**
      * Handles remember-me cookie based authentication.
-     *
-     * @param GetResponseEvent $event A GetResponseEvent instance
      */
     public function handle(GetResponseEvent $event)
     {
@@ -100,7 +96,7 @@ class RememberMeListener implements ListenerInterface
                 );
             }
 
-            $this->rememberMeServices->loginFail($request);
+            $this->rememberMeServices->loginFail($request, $e);
 
             if (!$this->catchExceptions) {
                 throw $e;

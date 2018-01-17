@@ -324,6 +324,12 @@ class SystemUpdates {
 			if (!$line || $line[0] === " ") {
 				continue;
 			}
+
+			// Ignore any error lines
+			if (strpos($line, "Trying other mirror") !== false || strpos($line, "Operation too slow") !== false) {
+				continue;
+			}
+
 			$linearr = preg_split("/\s+/", $line);
 
 			// Ignore if it's an 'Obsoleting Packages' line
@@ -379,9 +385,9 @@ class SystemUpdates {
 		if ($ret !== 0 && $ret !== 6) {
 			// 6 = new packages are going to be installed
 			if (function_exists("freepbx_log")) {
-				freepbx_log("Update error: Tried to run '$cmd', exit code $ret");
+				freepbx_log(FPBX_LOG_CRITICAL, "Update error: Tried to run '$cmd', exit code $ret");
 			}
-			throw new \Exception("RPM command errored, Delete /dev/shm/yumupdates/* and try again. Exit code $ret");
+			throw new \Exception("RPM command errored, Delete /dev/shm/yumwrapper/* and try again. Exit code $ret - see FreePBX log for more info.");
 		}
 
 		// Map the output of the rpm command to a temporary dict

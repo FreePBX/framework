@@ -36,8 +36,6 @@ class BinaryFileResponse extends Response
     protected $deleteFileAfterSend = false;
 
     /**
-     * Constructor.
-     *
      * @param \SplFileInfo|string $file               The file to stream
      * @param int                 $status             The response status code
      * @param array               $headers            An array of response headers
@@ -141,7 +139,7 @@ class BinaryFileResponse extends Response
      */
     public function setAutoEtag()
     {
-        $this->setEtag(sha1_file($this->file->getPathname()));
+        $this->setEtag(base64_encode(hash_file('sha256', $this->file->getPathname(), true)));
 
         return $this;
     }
@@ -157,7 +155,7 @@ class BinaryFileResponse extends Response
      */
     public function setContentDisposition($disposition, $filename = '', $filenameFallback = '')
     {
-        if ($filename === '') {
+        if ('' === $filename) {
             $filename = $this->file->getFilename();
         }
 
@@ -217,7 +215,7 @@ class BinaryFileResponse extends Response
             if (false === $path) {
                 $path = $this->file->getPathname();
             }
-            if (strtolower($type) === 'x-accel-redirect') {
+            if ('x-accel-redirect' === strtolower($type)) {
                 // Do X-Accel-Mapping substitutions.
                 // @link http://wiki.nginx.org/X-accel#X-Accel-Redirect
                 foreach (explode(',', $request->headers->get('X-Accel-Mapping', '')) as $mapping) {
@@ -256,7 +254,7 @@ class BinaryFileResponse extends Response
                     if ($start < 0 || $end > $fileSize - 1) {
                         $this->setStatusCode(416);
                         $this->headers->set('Content-Range', sprintf('bytes */%s', $fileSize));
-                    } elseif ($start !== 0 || $end !== $fileSize - 1) {
+                    } elseif (0 !== $start || $end !== $fileSize - 1) {
                         $this->maxlen = $end < $fileSize ? $end - $start + 1 : -1;
                         $this->offset = $start;
 

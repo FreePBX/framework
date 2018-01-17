@@ -554,6 +554,21 @@ class Moduleadmin extends Command {
 	}
 
 	/**
+	 * Function to determine if a module is upgradeable
+	 * @param string $modulename
+	 * @return bool
+	 */
+	private function isModuleUpgradeable($modulename) {
+		$modules_local = $this->mf->getinfo($modulename, array(MODULE_STATUS_ENABLED,MODULE_STATUS_NEEDUPGRADE));
+		$modules_online = $this->mf->getonlinexml();
+		$this->check_active_repos();
+		if (isset($modules_local[$modulename]) && isset($modules_online[$name])  && (($modules_local[$name]['status'] == MODULE_STATUS_NEEDUPGRADE) || version_compare_freepbx($modules_local[$name]['version'], $modules_online[$name]['version']) < 0)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Get all installable modules.
 	 *
 	 */
@@ -973,8 +988,9 @@ class Moduleadmin extends Command {
 			$fwconsole = $this->getFwconsolePath();
 			if ($this->securityonly) {
 				$cmd = "$fwconsole --securityonly sendemail";
+			} else {
+				$cmd = "$fwconsole sendemail";
 			}
-			$cmd = "$fwconsole sendemail";
 			if ($this->willupdate) {
 				$cmd .= " --willupdate";
 			}
@@ -1256,7 +1272,11 @@ class Moduleadmin extends Command {
 				}
 				$this->check_active_repos();
 				foreach($args as $module){
-					$this->doUpgrade($module, $this->force);
+					if ($this->isModuleUpgradeable($module)) {
+						$this->doUpgrade($module, $this->force);
+					} else {
+						$this->writeln(sprintf(_('%s is newer than online version, unable to upgrade'),$module));
+					}
 				}
 				$this->updateHooks();
 				$this->setPerms($action,$args);

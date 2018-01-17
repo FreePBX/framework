@@ -204,7 +204,7 @@ EOF
 EOF
         , 'UTF-8');
 
-        $this->assertTrue(count(libxml_get_errors()) > 1);
+        $this->assertGreaterThan(1, libxml_get_errors());
 
         libxml_clear_errors();
         libxml_use_internal_errors($internalErrors);
@@ -339,7 +339,7 @@ EOF
     {
         $crawler = $this->createTestCrawler()->filterXPath('//ul[1]/li');
         $nodes = $crawler->reduce(function ($node, $i) {
-            return $i !== 1;
+            return 1 !== $i;
         });
         $this->assertNotSame($nodes, $crawler, '->reduce() returns a new instance of a crawler');
         $this->assertInstanceOf('Symfony\\Component\\DomCrawler\\Crawler', $nodes, '->reduce() returns a new instance of a crawler');

@@ -1,21 +1,11 @@
 <?php
 namespace FreePBX;
 /**
- * Temp, replace later
- */
-spl_autoload_register(function ($class) {
-	$path = str_replace("\\","/",$class);
-	$path = dirname(__DIR__)."/media/".$path.".php";
-	if(file_exists($path)) {
-		include $path;
-	}
-});
-
-/**
  * Media Class for FreePBX
  * Deals with converting to various formats
  * Also deals with generating HTML5 formats
  */
+use Media\Media as MM;
 use Sinergi\BrowserDetector\Browser;
 class Media extends DB_Helper{
 	private $file;
@@ -86,7 +76,7 @@ class Media extends DB_Helper{
 		if(!empty($this->supported)) {
 			return $this->supported;
 		}
-		$this->supported = \Media\Media::getSupportedFormats();
+		$this->supported = MM::getSupportedFormats();
 		return $this->supported;
 	}
 
@@ -99,7 +89,7 @@ class Media extends DB_Helper{
 			throw new \Exception(sprintf(_("File '%s' does not exist"), $filename));
 		}
 		$this->path = $filename;
-		$this->file = new \Media\Media($filename);
+		$this->file = new MM($filename);
 	}
 
 	/**

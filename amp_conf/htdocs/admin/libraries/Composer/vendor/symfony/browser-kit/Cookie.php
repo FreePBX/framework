@@ -21,8 +21,6 @@ class Cookie
     /**
      * Handles dates as defined by RFC 2616 section 3.3.1, and also some other
      * non-standard, but common formats.
-     *
-     * @var array
      */
     private static $dateFormats = array(
         'D, d M Y H:i:s T',
@@ -82,10 +80,6 @@ class Cookie
 
     /**
      * Returns the HTTP representation of the Cookie.
-     *
-     * @return string The HTTP representation of the Cookie
-     *
-     * @throws \UnexpectedValueException
      */
     public function __toString()
     {
