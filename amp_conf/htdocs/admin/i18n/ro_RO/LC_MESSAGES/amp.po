@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-01-17 13:16-0800\n"
+"POT-Creation-Date: 2018-01-18 17:00-0800\n"
 "PO-Revision-Date: 2014-09-11 02:13+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Romanian <http://git.freepbx.org/projects/freepbx/framework/"
@@ -56,7 +56,7 @@ msgstr ""
 msgid " extension number already in use by: "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:680
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:683
 msgid " not found"
 msgstr ""
 
@@ -365,6 +365,11 @@ msgstr ""
 msgid "%s disabled successfully"
 msgstr "%s dezactivat cu succes"
 
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1284
+#, php-format
+msgid "%s does not exist online, unable to upgrade"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Kvstore.class.php:37
 #, php-format
 msgid "%s does not impliment kvstore"
@@ -399,18 +404,23 @@ msgstr ""
 msgid "%s is already in use sip.conf. Can not continue"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1278
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1287
 #, php-format
 msgid "%s is newer than online version, unable to upgrade"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1281
 #, php-format
+msgid "%s is not a locally installed module, unable to upgrade"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1290
+#, php-format
 msgid "%s is the same as the online version, unable to upgrade"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:762
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1049
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:765
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1052
 #, php-format
 msgid "%s not found"
 msgstr ""
@@ -1003,17 +1013,17 @@ msgstr ""
 msgid "All available modules are up-to-date and installed."
 msgstr "Toate modulele disponibile sunt actualizate si instalate."
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:769
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:772
 #, php-format
 msgid "All dependencies met for module %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1145
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1148
 msgid "All inclusive Module Actions"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:551
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:865
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:868
 msgid "All modules up to date."
 msgstr ""
 
@@ -1022,7 +1032,7 @@ msgid ""
 "All settings can be set from the Advanced Settings page accessible in FreePBX"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:649
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:652
 msgid "All upgrades completed successfully!"
 msgstr ""
 
@@ -1356,7 +1366,7 @@ msgstr ""
 msgid "Attempted to load %s with a hint of %s and it didn't exist"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1379
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1388
 #, php-format
 msgid "Attempting to Enable %s"
 msgstr ""
@@ -1526,7 +1536,7 @@ msgstr "Blocheaza CID-urile distante"
 msgid "Both"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:948
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:951
 #: amp_conf/htdocs/admin/page.modules.php:793
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:90
 msgid "Broken"
@@ -1793,13 +1803,13 @@ msgstr ""
 msgid "Can not read from the LESS folder at %s. Please run (from the CLI): %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1199
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1226
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1243
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1268
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1294
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1348
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1401
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1202
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1229
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1246
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1271
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1303
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1357
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1410
 msgid "Can not run this command while 'Developer Mode' is enabled"
 msgstr ""
 
@@ -1858,7 +1868,7 @@ msgstr "Modulul nu a fost gasit"
 msgid "Cant Find Framework XML"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1011
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1014
 msgid "Cant Reach Online Server"
 msgstr ""
 
@@ -1958,7 +1968,7 @@ msgstr ""
 "Optiunea prezenta dezactiveaza trunchiul prezent de pe toate rutele unde "
 "este utilizat."
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1020
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1023
 #, php-format
 msgid "Checking %s..."
 msgstr ""
@@ -1967,7 +1977,7 @@ msgstr ""
 msgid "Checking Online, Please Wait..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1016
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1019
 msgid "Checking Signatures of Modules..."
 msgstr ""
 
@@ -2013,7 +2023,7 @@ msgstr ""
 msgid "Checking number of admin users.."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1131
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1134
 msgid "Checks dependencies for provided module[s], accepts argument module[s]"
 msgstr ""
 
@@ -2241,7 +2251,7 @@ msgstr ""
 msgid "Could not delete %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1255
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1258
 msgid "Could not determine module name"
 msgstr ""
 
@@ -2261,7 +2271,7 @@ msgstr ""
 msgid "Could not find gpg command!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1036
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1039
 msgid "Could not find signed module on remote server!"
 msgstr ""
 
@@ -2811,7 +2821,7 @@ msgstr "Sterge Dispozitiv %s"
 msgid "Delete notification"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1135
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1138
 msgid "Deleted module[s], accepts argument module[s]"
 msgstr ""
 
@@ -3124,7 +3134,7 @@ msgstr "Dezactiveaza Trunchi"
 msgid "Disable given trunk"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:940
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:943
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:94
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:132
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:5
@@ -3142,7 +3152,7 @@ msgstr ""
 msgid "Disabled; Pending %s to %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:944
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:947
 msgid "Disabled; Pending upgrade to "
 msgstr ""
 
@@ -3150,11 +3160,11 @@ msgstr ""
 msgid "Disabled; up to date"
 msgstr "Dezactivat: actualizat"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1132
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1135
 msgid "Disables module[s] accepts argument module[s]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1156
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1159
 msgid "Disables repo, accepts argument repo[s]"
 msgstr ""
 
@@ -3287,11 +3297,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:142
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:262
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:275
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:805
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1014
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1034
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1042
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1065
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:808
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1017
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1037
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1045
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1068
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1984
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2058
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2141
@@ -3302,7 +3312,7 @@ msgid "Done"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:549
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:860
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:863
 msgid "Done. All modules installed."
 msgstr ""
 
@@ -3348,7 +3358,7 @@ msgstr "Descarca si Instaleaza"
 msgid "Download and Upgrade to %s"
 msgstr "Descarca si Actualizeaza la %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1134
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1137
 msgid "Download and install module[s], accepts argument module[s] or URLs"
 msgstr ""
 
@@ -3361,7 +3371,7 @@ msgstr ""
 msgid "Download local prefixes"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1133
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1136
 msgid "Download module[s], accepts argument module[s] or URLs"
 msgstr ""
 
@@ -3380,7 +3390,7 @@ msgstr ""
 msgid "Downloading %s"
 msgstr "Descarcare %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:850
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:853
 #, php-format
 msgid "Downloading & Installing '%s'"
 msgstr ""
@@ -3618,7 +3628,7 @@ msgstr ""
 msgid "Enable jQuery Migrate"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1136
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1139
 msgid "Enable module[s], accepts argument module[s]"
 msgstr ""
 
@@ -3658,7 +3668,7 @@ msgid ""
 "not affect Voice or Video traffic."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:966
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:969
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:134
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:4
 #: ../core/views/trunks/pjsip.php:272 ../core/views/trunks/trunkgrid.php:44
@@ -3670,7 +3680,7 @@ msgstr "Activat"
 msgid "Enabled Trunk %s Run fwconsole reload"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:960
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:963
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:122
 msgid "Enabled and up to date"
 msgstr "Activat si actualizat"
@@ -3679,7 +3689,7 @@ msgstr "Activat si actualizat"
 msgid "Enabled:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:964
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:967
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:130
 msgid "Enabled; Not available online"
 msgstr "Activat; Nu e disponibil online"
@@ -3691,7 +3701,7 @@ msgid ""
 "irrelevant for accessing core FreePBX settings. Default is no."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1157
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1160
 msgid "Enables repo, accepts argument repo[s]"
 msgstr ""
 
@@ -4269,7 +4279,7 @@ msgstr ""
 msgid "Fixes Vulnerabilities"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1126
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1129
 msgid "Flags"
 msgstr ""
 
@@ -4686,14 +4696,14 @@ msgstr ""
 msgid "Get help for %s"
 msgstr "Obtine ajutor pentru %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1007
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1010
 msgid "Getting Data from Online Server..."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:140
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:260
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:273
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:802
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:805
 msgid "Getting Remote Repo list..."
 msgstr ""
 
@@ -4723,7 +4733,7 @@ msgstr ""
 msgid "Go to Module Admin to re-enable this module"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1039
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1042
 #: amp_conf/htdocs/admin/page.modules.php:938
 msgid "Good"
 msgstr ""
@@ -5236,7 +5246,7 @@ msgstr ""
 msgid "Install"
 msgstr "Instaleaza"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1149
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1152
 msgid "Install all local modules, accepts no arguments"
 msgstr ""
 
@@ -5271,20 +5281,20 @@ msgstr ""
 msgid "Installing Missing Dependency of: %s %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:830
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:833
 msgid "Installing core..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:837
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:840
 #, php-format
 msgid "Installing missing modules: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1146
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1149
 msgid "Installs all modules, accepts no arguments"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1137
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1140
 msgid "Installs module[s], accepts argument module[s]"
 msgstr ""
 
@@ -5503,7 +5513,7 @@ msgstr ""
 msgid "Left upper logo.Path is relative to admin."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:981
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:984
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:60
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:198
 msgid "License"
@@ -5545,7 +5555,7 @@ msgstr ""
 msgid "List Users"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1158
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1161
 msgid "List all local modules, accepts no arguments"
 msgstr ""
 
@@ -5553,11 +5563,11 @@ msgstr ""
 msgid "List all sessions"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1159
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1162
 msgid "List online modules, accepts no arguments"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1082
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1085
 msgid "Local Version"
 msgstr ""
 
@@ -5785,20 +5795,20 @@ msgstr ""
 msgid "Missing a temporary folder"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1188
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1217
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1271
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1312
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1339
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1351
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1191
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1220
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1274
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1321
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1348
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1360
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1369
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1393
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1378
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1402
 msgid "Missing module name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1229
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1246
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1232
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1249
 msgid "Missing module name or URL"
 msgstr ""
 
@@ -5812,8 +5822,8 @@ msgstr ""
 msgid "Missing or unreadable config file [%s]...cannot continue"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1320
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1328
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1329
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1337
 msgid "Missing repo name"
 msgstr ""
 
@@ -5841,8 +5851,8 @@ msgstr ""
 "Modificati parametrii de conectare predefiniti UTILIZATOR pentru furnizorul "
 "dumneavoastra VoIP."
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:981
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1082
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:984
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1085
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:57
 #: ../core/page.astmodules.php:90 ../core/page.astmodules.php:107
 #: ../core/page.astmodules.php:124
@@ -5875,7 +5885,7 @@ msgid "Module \"%s\" signed by an invalid key."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:383
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:857
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:860
 #, php-format
 msgid "Module %s installation completed in %s seconds"
 msgstr ""
@@ -5890,7 +5900,7 @@ msgstr ""
 msgid "Module %s installation failed, could not resolve dependencies"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1098
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1101
 #, php-format
 msgid "Module %s successfully disabled"
 msgstr ""
@@ -5905,8 +5915,8 @@ msgstr ""
 msgid "Module %s successfully downloaded in %s seconds"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1109
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1119
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1112
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1122
 #, php-format
 msgid "Module %s successfully enabled"
 msgstr ""
@@ -5920,7 +5930,7 @@ msgstr ""
 msgid "Module Access Denied"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1130
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1133
 msgid "Module Actions"
 msgstr ""
 
@@ -5950,7 +5960,7 @@ msgid ""
 "and go straight to the wget calls."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1124
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1127
 msgid "Module Administration Help"
 msgstr ""
 
@@ -6214,7 +6224,7 @@ msgstr ""
 msgid "New Version"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:958
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:961
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:118
 #, php-format
 msgid "Newer than online version (%s)"
@@ -6317,7 +6327,7 @@ msgstr ""
 msgid "No email address for online update checks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1056
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1059
 msgid "No enabled modules depend on this module."
 msgstr ""
 
@@ -6417,7 +6427,7 @@ msgid ""
 "reports BUSY or INVALID NUMBER."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:935
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:938
 msgid "Not Installed (Available online: "
 msgstr ""
 
@@ -6426,7 +6436,7 @@ msgstr ""
 msgid "Not Installed (Available online: %s)"
 msgstr "Nu este instalat (Disponibil online: %s)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:933
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:936
 msgid "Not Installed (Locally available)"
 msgstr "Nu este Instalat (disponibil local)"
 
@@ -6532,7 +6542,7 @@ msgstr ""
 msgid "Online Updates are Disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1082
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1085
 msgid "Online Version"
 msgstr ""
 
@@ -6549,7 +6559,7 @@ msgid ""
 "the notification panel and log if enabled."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:956
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:959
 #, php-format
 msgid "Online upgrade available (%s)"
 msgstr "Uprade disponibil online (%s)"
@@ -7186,7 +7196,7 @@ msgid ""
 "system"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1383
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1392
 msgid "Please review the output above for any errors while enabling modules"
 msgstr ""
 
@@ -7418,7 +7428,7 @@ msgid ""
 "Re-Invite policy for this device, see Asterisk documentation for details."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1162
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1165
 msgid "ReDownloads all modules that have invalid signatures"
 msgstr ""
 
@@ -7464,7 +7474,7 @@ msgstr ""
 msgid "Refresh page"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1027
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1030
 #, php-format
 msgid "Refreshing %s"
 msgstr ""
@@ -8232,7 +8242,7 @@ msgstr ""
 msgid "Show only upgradeable"
 msgstr "Arata doar upgradabil"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1160
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1163
 msgid "Shows a list of modules that may be updated, accepts no arguments"
 msgstr ""
 
@@ -8240,7 +8250,7 @@ msgstr ""
 msgid "Shows the specified context from the dialplan"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1161
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1164
 msgid ""
 "Shows translation information for supplied modules, accepts argument "
 "module[s]"
@@ -8265,7 +8275,7 @@ msgstr ""
 msgid "Signal RINGING"
 msgstr "Semnal de  Apel"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1025
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1028
 msgid "Signature Invalid"
 msgstr ""
 
@@ -8389,7 +8399,7 @@ msgstr ""
 msgid "Starting Cache cleanup"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:981
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:984
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:61
 #: ../core/views/trunks/trunkgrid.php:34
 msgid "Status"
@@ -8793,7 +8803,7 @@ msgstr ""
 msgid "The following commands failed with the listed error"
 msgstr "Urmatoarele comenzi au esuat cu urmatoarele erori"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:765
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:768
 msgid "The following dependencies are not met:"
 msgstr ""
 
@@ -8801,9 +8811,9 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:427
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:501
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:512
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1094
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1105
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1116
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1097
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1108
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1119
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:780
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:790
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:810
@@ -8829,7 +8839,7 @@ msgstr "Urmatoarele module sunt dezactivate deoarece sunt corupte:"
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "Urmatoarele module au fost dezactivate deoarece necesita upgrade:"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1053
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1056
 #, php-format
 msgid "The following modules depend on this one: %s"
 msgstr ""
@@ -9195,7 +9205,7 @@ msgstr ""
 msgid "This Module has been deprecated"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1382
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1391
 msgid "This action understands somethings may be disabled for a reason."
 msgstr ""
 
@@ -9565,7 +9575,7 @@ msgstr "Trunchiuri"
 msgid "Trust RPID"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1147
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1150
 msgid "Trys to enable all modules, accepts no arguments"
 msgstr ""
 
@@ -9746,7 +9756,7 @@ msgstr "Dezinstaleaza"
 msgid "Uninstalling %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1138
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1141
 msgid "Uninstalls module[s], accepts argument module[s]"
 msgstr ""
 
@@ -9758,7 +9768,7 @@ msgstr ""
 msgid "Unknown (System updates not run since last reboot)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1415
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1424
 #, php-format
 msgid "Unknown Command! (%s)"
 msgstr ""
@@ -9836,8 +9846,8 @@ msgstr ""
 msgid "Untarring.."
 msgstr "Dezarhivare in curs.."
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:656
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1087
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:659
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1090
 msgid "Up to date."
 msgstr ""
 
@@ -9870,7 +9880,7 @@ msgstr ""
 msgid "Updates Available:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1061
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1064
 #: amp_conf/htdocs/admin/page.modules.php:385
 msgid "Updating Hooks..."
 msgstr ""
@@ -9885,7 +9895,7 @@ msgstr ""
 msgid "Updating table %s..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1071
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1074
 msgid "Upgradable: "
 msgstr ""
 
@@ -9900,7 +9910,7 @@ msgstr ""
 msgid "Upgrade all"
 msgstr "Actualizeaza toate"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1139
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1142
 msgid "Upgrade module[s], accepts argument module[s]"
 msgstr ""
 
@@ -9909,7 +9919,7 @@ msgstr ""
 msgid "Upgrade to %s and Enable"
 msgstr "Actualizeaza la %s si Activeaza"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1148
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1151
 msgid "Upgrades all modules, accepts no arguments"
 msgstr ""
 
@@ -9922,7 +9932,7 @@ msgstr "Upgrade, instalari, activari si dezactivari"
 msgid "Upgrading %s to %s from track %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:644
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:647
 #, php-format
 msgid "Upgrading module '%s' from %s to %s"
 msgstr ""
@@ -9958,7 +9968,7 @@ msgid ""
 "be blank"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1125
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1128
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:231
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:253
@@ -10121,7 +10131,7 @@ msgstr ""
 msgid "Users"
 msgstr "Utilizatori"
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:807
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:810
 #, php-format
 msgid "Using repos: [%s]"
 msgstr ""
@@ -10180,11 +10190,11 @@ msgstr ""
 msgid "Value must be between 1 and 63"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1032
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1035
 msgid "Verifying GPG..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:981
+#: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:984
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:58
 msgid "Version"
 msgstr "Versiune"
