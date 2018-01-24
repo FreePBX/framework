@@ -476,14 +476,16 @@ function show_help($message, $title='' ,$collapse=false, $collapseable=true, $cl
 		}
 	}
 	$html .= '</div>';
-	$html .= '<div class="panel-body '.($collapse?'collapse':'').'" id="'.$thisid.'">';
+	$html .= '<div id="'.$thisid.'" class="panel-collapse '.($collapse?'collapse in':'collapse').' ">';
+	$html .= '<div class="panel-body">';
 	$html .= $message;
+	$html .= '</div>';
 	$html .= '</div>';
 	$html .= '</div>';
 	$html .= '<script>';
 	$html .= '$( document ).ready(function(){';
-	$html .= '$("#'.$thisid.'").on("hidden.bs.collapse", function (e) {$("#toggle'.$thisid.'").toggleClass("fa-plus fa minus");});';
-	$html .= '$("#'.$thisid.'").on("shown.bs.collapse", function (e) {$("#toggle'.$thisid.'").toggleClass("fa-plus fa minus");});';
+	$html .= '$("#'.$thisid.'").on("hidden.bs.collapse", function (e) {$("#toggle'.$thisid.'").toggleClass("fa-plus fa-minus");});';
+	$html .= '$("#'.$thisid.'").on("shown.bs.collapse", function (e) {$("#toggle'.$thisid.'").toggleClass("fa-plus fa-minus");});';
 	$html .= '});';
 	$html .= '</script>';
 	return $html;
