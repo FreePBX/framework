@@ -2563,20 +2563,18 @@ class module_functions {
 			}
 		}
 
-		if (trim($type) == "") {
-			foreach ($mac_address as $mac) {
-				$id = substr($mac,0,6);
+		foreach ($mac_address as $mac) {
+			$id = substr($mac,0,6);
 
-				// If we care about this id, then choose it and set the type
-				// we only choose the first one we see
-				//
-				if (array_key_exists($id,$ids)) {
-					$chosen_mac = $mac;
-					$type = $ids[$id];
-					$sth = \FreePBX::Database()->prepare("REPLACE INTO module_xml (id,time,data) VALUES ('type',?,?)");
-					$sth->execute(array(time(),$type));
-					return $type;
-				}
+			// If we care about this id, then choose it and set the type
+			// we only choose the first one we see
+			//
+			if (array_key_exists($id,$ids)) {
+				$chosen_mac = $mac;
+				$type = $ids[$id];
+				$sth = \FreePBX::Database()->prepare("REPLACE INTO module_xml (id,time,data) VALUES ('type',?,?)");
+				$sth->execute(array(time(),$type));
+				return $type;
 			}
 		}
 		$sth = \FreePBX::Database()->prepare("REPLACE INTO module_xml (id,time,data) VALUES ('type',?,?)");
