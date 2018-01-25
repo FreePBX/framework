@@ -2166,14 +2166,18 @@ class module_functions {
 			@unlink($mod_asset_dir);
 		}
 
+		try {
+			$mn = \FreePBX::Modules()->cleanModuleName($modulename);
+			$bmofile = "$moduledir/$mn.class.php";
+			if (file_exists($dir) && is_subclass_of(FreePBX::create()->$mn,'FreePBX\DB_Helper')) {
+				\FreePBX::create()->$mn->deleteAll();
+			}
+		} catch(\Exception $e) {}
+
 		needreload();
 		//invalidate the modulelist class since it is now stale
 		modulelist::create($db)->invalidate();
 
-		try {
-			$sth = FreePBX::Database()->prepare("DELETE FROM `kvstore` WHERE `module` = :mod OR `module` = :class");
-			$sth->execute(array(":mod" => $modulename, ":class" => "FreePBX\modules\\".$modulename));
-		} catch(\Exception $e) {}
 		return true;
 	}
 
@@ -2441,7 +2445,7 @@ class module_functions {
 				}
 
 				// If it's a BMO module, manually include the file.
-				$mn = ucfirst($modulename);
+				$mn = \FreePBX::Modules()->cleanModuleName($modulename);
 				$bmofile = "$moduledir/$mn.class.php";
 				if (file_exists($bmofile)) {
 					FreePBX::create()->injectClass($mn, $bmofile);
@@ -2466,7 +2470,7 @@ class module_functions {
 				$sqlfilename = "uninstall.sql";
 
 				// If it's a BMO module, run uninstall.
-				$mn = ucfirst($modulename);
+				$mn = \FreePBX::Modules()->cleanModuleName($modulename);
 				$bmofile = "$moduledir/$mn.class.php";
 				if (file_exists($bmofile)) {
 					try {
