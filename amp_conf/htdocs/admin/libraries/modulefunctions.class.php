@@ -2130,6 +2130,16 @@ class module_functions {
 			return $rejects;
 		}
 
+		$sql = "DELETE FROM modules WHERE modulename = '".$db->escapeSimple($modulename)."'";
+		$results = $db->query($sql);
+		if(DB::IsError($results)) {
+			return array(_("Error updating database: ").$results->getMessage());
+		}
+
+		if (!$this->_runscripts($modulename, 'uninstall', $modules)) {
+			return array(_("Failed to run un-installation scripts"));
+		}
+
 		$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
 		if(file_exists($dir.'/module.xml')) {
 			$xml = simplexml_load_file($dir.'/module.xml');
@@ -2142,16 +2152,6 @@ class module_functions {
 					$sth->execute();
 				}
 			}
-		}
-
-		$sql = "DELETE FROM modules WHERE modulename = '".$db->escapeSimple($modulename)."'";
-		$results = $db->query($sql);
-		if(DB::IsError($results)) {
-			return array(_("Error updating database: ").$results->getMessage());
-		}
-
-		if (!$this->_runscripts($modulename, 'uninstall', $modules)) {
-			return array(_("Failed to run un-installation scripts"));
 		}
 
 		// Now make sure all feature codes are uninstalled in case the module has not already done it
@@ -2169,8 +2169,9 @@ class module_functions {
 		try {
 			$mn = \FreePBX::Modules()->cleanModuleName($modulename);
 			$bmofile = "$moduledir/$mn.class.php";
-			if (file_exists($dir) && is_subclass_of(FreePBX::create()->$mn,'FreePBX\DB_Helper')) {
-				\FreePBX::create()->$mn->deleteAll();
+			$moduleObject = \FreePBX::create()->$mn;
+			if (file_exists($dir) && is_subclass_of($moduleObject,'FreePBX\DB_Helper')) {
+				$moduleObject->deleteAll();
 			}
 		} catch(\Exception $e) {}
 
