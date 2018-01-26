@@ -204,9 +204,6 @@ class Database extends \PDO {
 	}
 
 	public function migrate($table) {
-		if(!class_exists("FreePBX\Database\Migration",false)) {
-			include __DIR__."/Database/Migration.class.php";
-		}
 		$connection = $this->getDoctrineConnection();
 
 		return new Database\Migration($connection, $table, $this->dConfig['driver'], $this->dVersion);
