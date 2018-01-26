@@ -1983,6 +1983,16 @@ class module_functions {
 			return $rejects;
 		}
 
+		$xml = simplexml_load_file($dir.'/module.xml');
+		if(!empty($xml->database)) {
+			foreach($xml->database->table as $table) {
+				$tname = (string)$table->attributes()->name;
+				outn(sprintf(_("Updating table %s..."),$tname));
+				\FreePBX::Database()->migrateXML($table);
+				out(_("Done"));
+			}
+		}
+
 		// run the scripts
 		if (!$this->_runscripts($modulename, 'install', $modules)) {
 			return array(_("Failed to run installation scripts"));
@@ -2134,6 +2144,20 @@ class module_functions {
 
 		if (!$this->_runscripts($modulename, 'uninstall', $modules)) {
 			return array(_("Failed to run un-installation scripts"));
+		}
+
+		$dir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
+		if(file_exists($dir.'/module.xml')) {
+			$xml = simplexml_load_file($dir.'/module.xml');
+			if(!empty($xml->database)) {
+				foreach($xml->database->table as $table) {
+					$tname = (string)$table->attributes()->name;
+					outn(sprintf(_("Dropping table %s..."),$tname));
+					$sth = FreePBX::Database()->prepare("DROP TABLE IF EXISTS ".$tname);
+					out(_("Done"));
+					$sth->execute();
+				}
+			}
 		}
 
 		// Now make sure all feature codes are uninstalled in case the module has not already done it
