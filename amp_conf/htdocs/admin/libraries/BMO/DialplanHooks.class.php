@@ -87,7 +87,7 @@ class DialplanHooks {
 							if (isset($x[$funcarr[0]]) && $x[$funcarr[0]]['license'] == "Commercial") {
 								continue;
 							} else {
-								out(sprintf(_("HANDLED-ERROR: %s should exist, but it doesn't. This is a bug in %s"), $func,$funcarr[0]));
+								dbug(sprintf(_("HANDLED-ERROR: %s should exist, but it doesn't. This is a bug in %s"), $func,$funcarr[0]));
 								continue;
 							}
 						}
@@ -100,7 +100,7 @@ class DialplanHooks {
 						$rawname = strtolower(str_ireplace("FreePBX\\modules\\","",$class));
 						$name = ucfirst($rawname);
 						if (!method_exists($this->FreePBX->$name, "doDialplanHook")) {
-							out(sprintf(_("HANDLED-ERROR: %s->doDialplanHook() isn't there, but the module is saying it wants to hook. This is a bug in %s"), $class, $class));
+							dbug(sprintf(_("HANDLED-ERROR: %s->doDialplanHook() isn't there, but the module is saying it wants to hook. This is a bug in %s"), $class, $class));
 							continue;
 						}
 						$this->FreePBX->Performance->Stamp($class."->doDialplanHook_start");
