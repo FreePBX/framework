@@ -26,5 +26,6 @@ CREATE TABLE cdr (
    KEY `dst` (`dst`),
    KEY `accountcode` (`accountcode`),
    KEY `uniqueid` (`uniqueid`),
-   KEY `did` (`did`)
+   KEY `did` (`did`),
+   KEY `recordingfile` (`recordingfile`)
 );
