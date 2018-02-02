@@ -136,6 +136,7 @@ function fpbx_framework_autoloader($class) {
 		'notifications' => 'libraries/notifications.class.php',
 		'xml2Array' =>  'libraries/xml2Array.class.php',
 		'fwmsg' => 'libraries/fwmsg.class.php',
+		'FreePBX\\Database\\Migration' => 'libraries/BMO/Database/Migration.class.php',
 		// Namespaces
 		'FreePBX\\Builtin\\' => 'libraries/Builtin',
 		'FreePBX\\Console\\Command\\' => 'libraries/Console',

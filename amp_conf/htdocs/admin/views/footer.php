@@ -164,7 +164,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 	$html .= '<script src="assets/js/pbxlib.js'. $version_tag . $pbxlibver . '"></script>';
 } else {
 	$files = array(
-		"assets/js/moment-with-locales-2.15.1.min.js",
+		"assets/js/moment-with-locales-2.20.1.min.js",
 		"assets/js/script.legacy.js",
 		"assets/js/Sortable-1.4.0.min.js",
 		"assets/js/autosize-3.0.17.min.js",
@@ -193,7 +193,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 		"assets/js/jquery.tablednd-0.9.1.min.js",
 		"assets/js/js.cookie-2.1.3.min.js",
 		"assets/js/modernizr-3.3.1.min.js",
-		"assets/js/moment-timezone-with-data-2010-2020-0.5.6.min.js",
+		"assets/js/moment-timezone-with-data-2012-2022-0.5.14-2017c.min.js",
 		"assets/js/notie-3.9.4.min.js",
 		"assets/js/recorder.js",
 		"assets/js/recorderWorker.js",

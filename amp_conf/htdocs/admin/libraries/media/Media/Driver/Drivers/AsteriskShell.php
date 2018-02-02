@@ -160,7 +160,7 @@ class AsteriskShell extends \Media\Driver\Driver {
 	 * @param  string $mime        Mime type
 	 */
 	public function convert($newFilename,$extension,$mime) {
-		$process = new Process($this->binary." -rx 'file convert ".escapeshellarg($this->track)." ".escapeshellarg($newFilename)."'");
+		$process = new Process($this->binary." -rx ".escapeshellarg(escapeshellcmd('file convert "'.$this->track.'" "'.$newFilename.'"')));
 		if(!$this->background) {
 			$process->run();
 			if (!$process->isSuccessful()) {
