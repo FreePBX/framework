@@ -19,7 +19,7 @@ class Destinations extends Base {
 		]);
 		$user->addResolve(function($value, $args, $context, $info) {
 			$destinations = $this->getDestinations();
-			return ($info->fieldName == 'id') ? $value : $destinations[$value][$info->fieldName];
+			return (is_array($value)) ? $value[$info->fieldName] : $destinations[$value][$info->fieldName];
 		});
 	}
 
