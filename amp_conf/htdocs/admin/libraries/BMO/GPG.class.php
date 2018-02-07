@@ -183,6 +183,17 @@ class GPG {
 			}
 		}
 
+		// var_dump($module);
+		// Has this signature expired? This is used to make sure QA/Testing modules with bugs can't be used for
+		// more than a short period of time. Normal module signatures shouldn't have an expiry.
+		if ($module['config']['version'] > "1" && !empty($module['config']['expiresafter'])) {
+			// This is a utime
+			$expiry = (int) $module['config']['expiresafter'];
+			if ($expiry < time()) {
+				return array("status" => self::STATE_REVOKED, 'trustdetails' => array(_("Module signature expired")));
+			}
+		}
+
 		// OK, signature is valid. Let's look at the files we know
 		// about, and make sure they haven't been touched.
 		$retarr['status'] = GPG::STATE_GOOD | GPG::STATE_TRUSTED;
