@@ -38,7 +38,7 @@ class Motd extends Command {
 			$font = !empty($this->banner['font']) ? $this->banner['font'] : "doom";
 			$color = !empty($this->banner['color']) ? $this->banner['color'] : "green";
 			$background = !empty($this->banner['background']) ? $this->banner['background'] : "black";
-			$text = !empty($this->banner['text']) ? $this->banner['text'] : \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
+			$text = !empty($this->banner['text']) ? $this->banner['text'] : "FreePBX";
 
 			$figlet = new Figlet();
 			$banner = $figlet

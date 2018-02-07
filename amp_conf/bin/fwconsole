@@ -73,7 +73,8 @@ use FreePBX\Console\Application as App;
 
 try {
 	$amodules = FreePBX::Modules()->getActiveModules();
-	$fbc = new App\FWApplication('FW Console - FreePBX Utility', getVersion());
+	$brand = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
+	$fbc = new App\FWApplication('FW Console - '.$brand.' Utility', getVersion());
 	/*
 	* Framework is not like the others so we load up framework classes first.
 	*/
