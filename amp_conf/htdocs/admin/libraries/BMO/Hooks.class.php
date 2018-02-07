@@ -253,7 +253,7 @@ class Hooks extends DB_Helper {
 						}
 					} catch(\Exception $e) {
 						if($e->getCode() != 404) {
-							throw new \Exception('Error From Module '.$namespace.$hook['class'].": '".$e->getMessage()."'".$e->getCode);
+							throw $e;
 						} else {
 							$this->updateBMOHooks();
 						}
