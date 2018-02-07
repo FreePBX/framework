@@ -8,12 +8,22 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputDefinition;
+
+use Povils\Figlet\Figlet;
 /**
 * ListCommand displays the list of all available commands for the application.
 *
 * @author Fabien Potencier <fabien@symfony.com>
 */
 class FWListCommand extends Command {
+
+	private $banner = array(
+		"font" => "doom",
+		"color" => "green",
+		"background" => "black",
+		"text" => "FreePBX"
+	);
+
 	protected function configure() {
 		$this
 		->setName('list')
@@ -38,6 +48,7 @@ It's also possible to get raw list of commands (useful for embedding command run
 EOF
 			)
 		;
+		$this->banner['text'] = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
 	}
 
 	public function getNativeDefinition() {
@@ -45,12 +56,35 @@ EOF
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
-		$output->writeln(" ______             _____  ______   __");
-		$output->writeln("|  ____|           |  __ \|  _ \ \ / /");
-		$output->writeln("| |__ _ __ ___  ___| |__) | |_) \ V /");
-		$output->writeln("|  __| '__/ _ \/ _ \  ___/|  _ < > <");
-		$output->writeln("| |  | | |  __/  __/ |    | |_) / . \\");
-		$output->writeln("|_|  |_|  \___|\___|_|    |____/_/ \_\\");
+		if(is_array($this->banner)) {
+			//http://www.figlet.org/examples.html
+			$font = !empty($this->banner['font']) ? $this->banner['font'] : "doom";
+			$color = !empty($this->banner['color']) ? $this->banner['color'] : "green";
+			$background = !empty($this->banner['background']) ? $this->banner['background'] : "black";
+			$text = !empty($this->banner['text']) ? $this->banner['text'] : "FreePBX";
+
+			$figlet = new Figlet();
+			$banner = $figlet
+						->setFont($font)
+						->setFontColor($color)
+						->setBackgroundColor($background)
+						->setFontStretching(0)
+						->render($text);
+			//this is because trim by itself wont work!! :-|
+			$lines = preg_split("/\n/m", $banner);
+			$banner = '';
+			foreach($lines as $l) {
+				$l = trim($l);
+				if(empty($l)) {
+					continue;
+				}
+				$banner .= $l . "\n";
+			}
+			//end trim operation
+			$output->write($banner);
+		} else {
+			$output->write(base64_decode($this->banner));
+		}
 
 		if ($input->getOption('xml')) {
 			$input->setOption('format', 'xml');
