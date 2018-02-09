@@ -54,6 +54,7 @@ class Moduleadmin extends Command {
 			new InputOption('force', 'f', InputOption::VALUE_NONE, _('Force operation (skips dependency and status checks) <warning>WARNING:</warning> Use at your own risk, modules have dependencies for a reason!')),
 			new InputOption('debug', 'd', InputOption::VALUE_NONE, _('Output debug messages to the console (be super chatty)')),
 			new InputOption('edge', '', InputOption::VALUE_NONE, _('Download/Upgrade forcing edge mode')),
+			new InputOption('stable', '', InputOption::VALUE_NONE, _('Download/Upgrade forcing previous Stable version')),
 			new InputOption('color', '', InputOption::VALUE_NONE, _('Colorize table based list')),
 			new InputOption('skipchown', '', InputOption::VALUE_NONE, _('Skip the chown operation')),
 			new InputOption('autoenable', 'e', InputOption::VALUE_NONE, _('Automatically enable disabled modules without prompting')),
@@ -90,6 +91,9 @@ class Moduleadmin extends Command {
 			$this->previousEdge = \FreePBX::Config()->get('MODULEADMINEDGE');
 			\FreePBX::Config()->update('MODULEADMINEDGE',1);
 		}
+		if($input->getOption('stable')) {
+			$this->writeln('<info>'._('Stable repository temporarily enabled').'</info>');
+	        }
 		if ($input->getOption('debug')) {
 			$this->DEBUG = True;
 		} else {
@@ -193,6 +197,10 @@ class Moduleadmin extends Command {
 		if($input->getOption('edge')) {
 			\FreePBX::Config()->update('MODULEADMINEDGE',$this->previousEdge);
 		}
+		if($input->getOption('stable')) {
+                        \FreePBX::Config()->update('MODULEADMINEDGE',$this->previousStable);
+			__destruct;
+                }
 
 	}
 
