@@ -17,7 +17,7 @@ class featurecode {
 	 * @param string $modulename rawname of module
 	 * @param string $featurename Unique Name for this feature code
 	 */
-	function featurecode($modulename, $featurename) {
+	function __construct($modulename, $featurename) {
 		global $amp_conf;
 
 		if ($modulename == '' || $featurename == '')
