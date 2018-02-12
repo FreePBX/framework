@@ -1,7 +1,7 @@
 <?php
 class compress {
 	//We keep this outside of everything to prevent the numerous issues that cropped up during the 2.9->2.10->2.11 cycles
-	function web_files() {
+	public static function web_files() {
 		//TODO: do stuff here for brand css changes since we are all LESS now
 		/*
 		global $amp_conf;
