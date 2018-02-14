@@ -198,12 +198,7 @@ class Database extends \PDO {
 
 	public function getDoctrineConnection() {
 		if(empty($this->dConn)) {
-			$time_start = microtime(true);
-
 			$this->dConn = DriverManager::getConnection(array("pdo" => $this));
-			$time_end = microtime(true);
-			$time = $time_end - $time_start;
-			print_r($time);
 		}
 		return $this->dConn;
 	}
