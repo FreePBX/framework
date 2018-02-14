@@ -194,6 +194,7 @@ if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
 		"assets/js/js.cookie-2.1.3.min.js",
 		"assets/js/modernizr-3.3.1.min.js",
 		"assets/js/moment-timezone-with-data-2012-2022-0.5.14-2017c.min.js",
+		"assets/js/moment-duration-format-2.2.1.js",
 		"assets/js/notie-3.9.4.min.js",
 		"assets/js/recorder.js",
 		"assets/js/recorderWorker.js",
