@@ -8,6 +8,7 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX\Database;
+use Doctrine\DBAL\Schema\SchemaConfig;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Synchronizer\SingleDatabaseSynchronizer;
@@ -130,10 +131,17 @@ class Migration {
 	 */
 	public function modifyMultiple($tables=array(),$dryrun=false) {
 		$synchronizer = new SingleDatabaseSynchronizer($this->conn);
-		$schema = new Schema();
+		$schemaConfig = new SchemaConfig();
+		//only set utfmb4 if pbx 14
+		if($this->driver == "pdo_mysql" && version_compare($this->version, "5.5.3", "ge") && version_compare_freepbx(getVersion(),"14.0", "ge")) {
+			$schemaConfig->setDefaultTableOptions(array(
+				"collate"=>"utf8mb4_unicode_ci",
+				"charset"=>"utf8mb4"
+			));
+		}
+		$schema = new Schema(array(),array(),$schemaConfig);
 		foreach($tables as $tname => $tdata) {
 			$table = $schema->createTable($tname);
-
 			$primaryKeys = array();
 			foreach($tdata['columns'] as $name => $options) {
 				$type = $options['type'];
@@ -149,25 +157,27 @@ class Migration {
 			if(!empty($primaryKeys)) {
 				$table->setPrimaryKey($primaryKeys);
 			}
-			foreach($tdata['indexes'] as $name => $data) {
-				$type = $data['type'];
-				$columns = $data['cols'];
-				switch($type) {
-					case "unique":
-						$table->addUniqueIndex($columns,$name);
-					break;
-					case "index":
-						$table->addIndex($columns,$name);
-					break;
-					case "fulltext":
-						if($this->driver == "pdo_mysql" && version_compare($this->version, "5.6", "le")) {
-							$table->addOption('engine' , 'MyISAM');
-						}
-						$table->addIndex($columns,$name,array("fulltext"));
-					break;
-					case "foreign":
-						$table->addForeignKeyConstraint($data['foreigntable'], $columns, $data['foreigncols'], $data['options'], $name);
-					break;
+			if(!empty($tdata['indexes']) && is_array($tdata['indexes'])) {
+				foreach($tdata['indexes'] as $name => $data) {
+					$type = $data['type'];
+					$columns = $data['cols'];
+					switch($type) {
+						case "unique":
+							$table->addUniqueIndex($columns,$name);
+						break;
+						case "index":
+							$table->addIndex($columns,$name);
+						break;
+						case "fulltext":
+							if($this->driver == "pdo_mysql" && version_compare($this->version, "5.6", "le")) {
+								$table->addOption('engine' , 'MyISAM');
+							}
+							$table->addIndex($columns,$name,array("fulltext"));
+						break;
+						case "foreign":
+							$table->addForeignKeyConstraint($data['foreigntable'], $columns, $data['foreigncols'], $data['options'], $name);
+						break;
+					}
 				}
 			}
 		}
