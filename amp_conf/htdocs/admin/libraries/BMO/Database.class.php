@@ -17,7 +17,6 @@ namespace FreePBX;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\DriverManager;
 class Database extends \PDO {
-	private $dConfig = null; //doctrine config
 	private $dsn = null; //pdo dsn
 	private $dConn = null; //docterine connection
 	private $dVersion = null; //driver version
@@ -116,12 +115,6 @@ class Database extends \PDO {
 		// to a string.
 		$this->dsn = "$engine:".http_build_query($dsnarr, '', ';');
 
-		// Create dConfig
-		$this->dConfig = $dsnarr;
-		$this->dConfig['driver'] = $this->doctrineEngineAlias($engine);
-		$this->dConfig['user'] = $username;
-		$this->dConfig['password'] = $password;
-
 		// Were there any PDO options?
 		$options = isset($args[3]) ? $args[3] : array();
 		if (version_compare(PHP_VERSION, '5.3.6', '<')) {
@@ -188,52 +181,15 @@ class Database extends \PDO {
 	}
 
 	public function migrate($table) {
-		$connection = $this->getDoctrineConnection();
-		return new Database\Migration($connection, $table, $this->dConfig['driver'], $this->dVersion);
+		//http://wildlyinaccurate.com/doctrine-2-resolving-unknown-database-type-enum-requested/
+		return new Database\Migration($this->getDoctrineConnection(), $table, $this->dVersion);
 	}
 
 	public function getDoctrineConnection() {
 		if(empty($this->dConn)) {
-			$config = new Configuration();
-			$this->dConn = DriverManager::getConnection($this->dConfig, $config);
-			//http://wildlyinaccurate.com/doctrine-2-resolving-unknown-database-type-enum-requested/
-			$platform = $this->dConn->getDatabasePlatform();
-			$platform->registerDoctrineTypeMapping('enum', 'string');
+			$this->dConn = DriverManager::getConnection(array("pdo" => $this));
 		}
 		return $this->dConn;
-	}
-
-	private function doctrineEngineAlias($engine) {
-		/*
-		db2: alias for ibm_db2
-		mssql: alias for pdo_sqlsrv
-		mysql/mysql2: alias for pdo_mysql
-		pgsql/postgres/postgresql: alias for pdo_pgsql
-		sqlite/sqlite3: alias for pdo_sqlite
-		 */
-		$final = $engine;
-		switch($engine) {
-			case "db2":
-				$final = 'ibm_db2';
-			break;
-			case "mssql":
-				$final = 'pdo_sqlsrv';
-			break;
-			case "mysql":
-			case "mysql2":
-				$final = 'pdo_mysql';
-			break;
-			case "pgsql":
-			case "postgres":
-			case "postgresql":
-				$final = 'pdo_pgsql';
-			break;
-			case "sqlite":
-			case "sqlite3":
-				$final = 'pdo_sqlite';
-			break;
-		}
-		return $final;
 	}
 
 	/**

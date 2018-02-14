@@ -17,11 +17,12 @@ class Migration {
 	private $version;
 	private $driver;
 
-	public function __construct($conn, $table, $driver, $version) {
+	public function __construct($conn, $table, $version) {
 		$this->conn = $conn;
 		$this->table = trim($table);
 		$this->version = $version;
-		$this->driver = $driver;
+		$this->driver = $this->conn->getDriver()->getName();
+		$this->conn->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
 	}
 
 	/**
