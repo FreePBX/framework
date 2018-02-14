@@ -134,6 +134,60 @@ class Database extends \PDO {
 		$this->dVersion = $this->getAttribute(\PDO::ATTR_SERVER_VERSION);
 	}
 
+	public function migrateMultipleXML(\SimpleXMLElement $XMLtables, $dryrun=false) {
+		$tables = array();
+		foreach($XMLtables as $table) {
+			$tname = (string)$table->attributes()->name;
+			$cols = array();
+			$indexes = array();
+			foreach($table->field as $field) {
+				$name = (string)$field->attributes()->name;
+				$cols[$name] = array();
+				foreach($field->attributes() as $key => $value) {
+					if($key == "name") {
+						continue;
+					}
+					$key = strtolower($key);
+					switch ($key) {
+						case 'notnull':
+						case 'primarykey':
+						case 'autoincrement':
+						case 'unique':
+						case 'fixed':
+							$cols[$name][$key] = ($value === true || "true" === strtolower($value));
+						break;
+						default:
+							$cols[$name][$key] = (string)$value;
+						break;
+					}
+				}
+			}
+			if(!empty($table->key)) {
+				foreach($table->key as $field) {
+					$name = (string)$field->attributes()->name;
+					$indexes[$name] = array();
+					foreach($field->attributes() as $key => $value) {
+						if($key == "name") {
+							continue;
+						}
+						$indexes[$name][$key] = (string)$value;
+					}
+					$indexes[$name]['cols'] = array();
+					foreach($field->column as $col) {
+						$indexes[$name]['cols'][] = (string)$col->attributes()->name;
+					}
+				}
+			}
+			$tables[$tname] = array(
+				'columns' => $cols,
+				'indexes' => $indexes
+			);
+		}
+
+		$migrate = new Database\Migration($this->getDoctrineConnection(), $this->dVersion);
+		return $migrate->modifyMultiple($tables);
+	}
+
 	public function migrateXML(\SimpleXMLElement $table, $dryrun=false) {
 		$tname = (string)$table->attributes()->name;
 		$cols = array();
@@ -176,13 +230,15 @@ class Database extends \PDO {
 				}
 			}
 		}
+
 		$table = $this->migrate($tname);
 		return $table->modify($cols, $indexes, $dryrun);
 	}
 
 	public function migrate($table) {
-		//http://wildlyinaccurate.com/doctrine-2-resolving-unknown-database-type-enum-requested/
-		return new Database\Migration($this->getDoctrineConnection(), $table, $this->dVersion);
+		$migrate = new Database\Migration($this->getDoctrineConnection(), $this->dVersion);
+		$migrate->setTable($table);
+		return $migrate;
 	}
 
 	public function getDoctrineConnection() {
