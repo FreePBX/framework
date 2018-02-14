@@ -130,14 +130,7 @@ class Migration {
 	 */
 	public function modifyMultiple($tables=array(),$dryrun=false) {
 		$synchronizer = new SingleDatabaseSynchronizer($this->conn);
-		$schemaConfig = new SchemaConfig();
-		if($this->driver == "pdo_mysql" && version_compare($this->version, "5.5.3", "ge")) {
-			$schemaConfig->setDefaultTableOptions(array(
-				"collate"=>"utf8mb4_unicode_ci",
-				"charset"=>"utf8mb4"
-			));
-		}
-		$schema = new Schema(array(),array(),$schemaConfig);
+		$schema = new Schema();
 		foreach($tables as $tname => $tdata) {
 			$table = $schema->createTable($tname);
 
@@ -198,51 +191,12 @@ class Migration {
 		if(empty($this->table)) {
 			throw new \Exception("Table not set!");
 		}
-		$synchronizer = new SingleDatabaseSynchronizer($this->conn);
-		$schema = new Schema();
-		$table = $schema->createTable($this->table);
-		$primaryKeys = array();
-		foreach($columns as $name => $options) {
-			$type = $options['type'];
-			unset($options['type']);
-			$pk = isset($options['primaryKey']) ? $options['primaryKey'] : (isset($options['primarykey']) ? $options['primarykey'] : null);
-			if(!is_null($pk)) {
-				if($pk) {
-					$primaryKeys[] = $name;
-				}
-			}
-			$table->addColumn($name, $type, $options);
-		}
-		if(!empty($primaryKeys)) {
-			$table->setPrimaryKey($primaryKeys);
-		}
-		foreach($indexes as $name => $data) {
-			$type = $data['type'];
-			$columns = $data['cols'];
-			switch($type) {
-				case "unique":
-					$table->addUniqueIndex($columns,$name);
-				break;
-				case "index":
-					$table->addIndex($columns,$name);
-				break;
-				case "fulltext":
-					if($this->driver == "pdo_mysql" && version_compare($this->version, "5.6", "le")) {
-						$table->addOption('engine' , 'MyISAM');
-					}
-					$table->addIndex($columns,$name,array("fulltext"));
-				break;
-				case "foreign":
-					$table->addForeignKeyConstraint($data['foreigntable'], $columns, $data['foreigncols'], $data['options'], $name);
-				break;
-			}
-		}
-
-		//with true to prevent drops
-		if($dryrun) {
-			return $synchronizer->getUpdateSchema($schema, true);
-		} else {
-			return $synchronizer->updateSchema($schema, true);
-		}
+		$table = $this->table;
+		return $this->modifyMultiple(array(
+			$table => array(
+				'columns' => $columns,
+				'indexes' => $indexes
+			)
+		),$dryrun);
 	}
 }

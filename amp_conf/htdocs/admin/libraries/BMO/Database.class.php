@@ -188,53 +188,6 @@ class Database extends \PDO {
 		return $migrate->modifyMultiple($tables);
 	}
 
-	public function migrateXML(\SimpleXMLElement $table, $dryrun=false) {
-		$tname = (string)$table->attributes()->name;
-		$cols = array();
-		$indexes = array();
-		foreach($table->field as $field) {
-			$name = (string)$field->attributes()->name;
-			$cols[$name] = array();
-			foreach($field->attributes() as $key => $value) {
-				if($key == "name") {
-					continue;
-				}
-				$key = strtolower($key);
-				switch ($key) {
-					case 'notnull':
-					case 'primarykey':
-					case 'autoincrement':
-					case 'unique':
-					case 'fixed':
-						$cols[$name][$key] = ($value === true || "true" === strtolower($value));
-					break;
-					default:
-						$cols[$name][$key] = (string)$value;
-					break;
-				}
-			}
-		}
-		if(!empty($table->key)) {
-			foreach($table->key as $field) {
-				$name = (string)$field->attributes()->name;
-				$indexes[$name] = array();
-				foreach($field->attributes() as $key => $value) {
-					if($key == "name") {
-						continue;
-					}
-					$indexes[$name][$key] = (string)$value;
-				}
-				$indexes[$name]['cols'] = array();
-				foreach($field->column as $col) {
-					$indexes[$name]['cols'][] = (string)$col->attributes()->name;
-				}
-			}
-		}
-
-		$table = $this->migrate($tname);
-		return $table->modify($cols, $indexes, $dryrun);
-	}
-
 	public function migrate($table) {
 		$migrate = new Database\Migration($this->getDoctrineConnection(), $this->dVersion);
 		$migrate->setTable($table);
