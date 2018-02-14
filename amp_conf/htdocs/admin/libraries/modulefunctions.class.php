@@ -1985,12 +1985,14 @@ class module_functions {
 
 		$xml = simplexml_load_file($dir.'/module.xml');
 		if(!empty($xml->database)) {
+			$tables = array();
 			foreach($xml->database->table as $table) {
 				$tname = (string)$table->attributes()->name;
-				outn(sprintf(_("Updating table %s..."),$tname));
-				\FreePBX::Database()->migrateXML($table);
-				out(_("Done"));
+				$tables[] = $tname;
 			}
+			outn(sprintf(_("Updating tables %s..."),implode(", ",$tables)));
+			\FreePBX::Database()->migrateMultipleXML($xml->database->table);
+			out(_("Done"));
 		}
 
 		// run the scripts
