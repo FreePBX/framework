@@ -18,12 +18,16 @@ class Migration {
 	private $version;
 	private $driver;
 
-	public function __construct($conn, $table, $version) {
+	public function __construct($conn, $version) {
 		$this->conn = $conn;
-		$this->table = trim($table);
 		$this->version = $version;
 		$this->driver = $this->conn->getDriver()->getName();
+		//http://wildlyinaccurate.com/doctrine-2-resolving-unknown-database-type-enum-requested/
 		$this->conn->getDatabasePlatform()->registerDoctrineTypeMapping('enum', 'string');
+	}
+
+	public function setTable($table) {
+		$this->table = trim($table);
 	}
 
 	/**
@@ -32,6 +36,9 @@ class Migration {
 	 * @return array              Array of table
 	 */
 	public function generateUpdateArray() {
+		if(empty($this->table)) {
+			throw new \Exception("Table not set!");
+		}
 		$sm = $this->conn->getSchemaManager();
 		$fromSchema = $sm->createSchema();
 		$schema = new Schema();
@@ -116,62 +123,64 @@ class Migration {
 	}
 
 	/**
-	 * Modify Table
+	 * Modify Multiple Tables
 	 * @method modify
-	 * @param  array  $columns Columns to update
-	 * @param  array  $indexes Indexes to update
+	 * @param  array  $tables  The tables to update
 	 * @param  bool   $dryrun  If set to true dont execute just return the sql modification string
 	 * @return mixed
 	 */
-	public function modify($columns=array(),$indexes=array(),$dryrun=false) {
+	public function modifyMultiple($tables=array(),$dryrun=false) {
 		$synchronizer = new SingleDatabaseSynchronizer($this->conn);
 		$schemaConfig = new SchemaConfig();
-		if($this->driver == "pdo_mysql" && version_compare($this->version, "5.5.3", "ge")) {
+		//only set utfmb4 if pbx 14
+		if($this->driver == "pdo_mysql" && version_compare($this->version, "5.5.3", "ge") && version_compare_freepbx(getVersion(),"14.0", "ge")) {
 			$schemaConfig->setDefaultTableOptions(array(
 				"collate"=>"utf8mb4_unicode_ci",
 				"charset"=>"utf8mb4"
 			));
 		}
 		$schema = new Schema(array(),array(),$schemaConfig);
-
-		$table = $schema->createTable($this->table);
-		$primaryKeys = array();
-		foreach($columns as $name => $options) {
-			$type = $options['type'];
-			unset($options['type']);
-			$pk = isset($options['primaryKey']) ? $options['primaryKey'] : (isset($options['primarykey']) ? $options['primarykey'] : null);
-			if(!is_null($pk)) {
-				if($pk) {
-					$primaryKeys[] = $name;
+		foreach($tables as $tname => $tdata) {
+			$table = $schema->createTable($tname);
+			$primaryKeys = array();
+			foreach($tdata['columns'] as $name => $options) {
+				$type = $options['type'];
+				unset($options['type']);
+				$pk = isset($options['primaryKey']) ? $options['primaryKey'] : (isset($options['primarykey']) ? $options['primarykey'] : null);
+				if(!is_null($pk)) {
+					if($pk) {
+						$primaryKeys[] = $name;
+					}
+				}
+				$table->addColumn($name, $type, $options);
+			}
+			if(!empty($primaryKeys)) {
+				$table->setPrimaryKey($primaryKeys);
+			}
+			if(!empty($tdata['indexes']) && is_array($tdata['indexes'])) {
+				foreach($tdata['indexes'] as $name => $data) {
+					$type = $data['type'];
+					$columns = $data['cols'];
+					switch($type) {
+						case "unique":
+							$table->addUniqueIndex($columns,$name);
+						break;
+						case "index":
+							$table->addIndex($columns,$name);
+						break;
+						case "fulltext":
+							if($this->driver == "pdo_mysql" && version_compare($this->version, "5.6", "le")) {
+								$table->addOption('engine' , 'MyISAM');
+							}
+							$table->addIndex($columns,$name,array("fulltext"));
+						break;
+						case "foreign":
+							$table->addForeignKeyConstraint($data['foreigntable'], $columns, $data['foreigncols'], $data['options'], $name);
+						break;
+					}
 				}
 			}
-			$table->addColumn($name, $type, $options);
 		}
-		if(!empty($primaryKeys)) {
-			$table->setPrimaryKey($primaryKeys);
-		}
-		foreach($indexes as $name => $data) {
-			$type = $data['type'];
-			$columns = $data['cols'];
-			switch($type) {
-				case "unique":
-					$table->addUniqueIndex($columns,$name);
-				break;
-				case "index":
-					$table->addIndex($columns,$name);
-				break;
-				case "fulltext":
-					if($this->driver == "pdo_mysql" && version_compare($this->version, "5.6", "le")) {
-						$table->addOption('engine' , 'MyISAM');
-					}
-					$table->addIndex($columns,$name,array("fulltext"));
-				break;
-				case "foreign":
-					$table->addForeignKeyConstraint($data['foreigntable'], $columns, $data['foreigncols'], $data['options'], $name);
-				break;
-			}
-		}
-
 		//with true to prevent drops
 		if($dryrun) {
 			return $synchronizer->getUpdateSchema($schema, true);
@@ -180,7 +189,24 @@ class Migration {
 		}
 	}
 
-	public function drop($tables=array()) {
-
+	/**
+	 * Modify Single Table
+	 * @method modify
+	 * @param  array  $columns Columns to update
+	 * @param  array  $indexes Indexes to update
+	 * @param  bool   $dryrun  If set to true dont execute just return the sql modification string
+	 * @return mixed
+	 */
+	public function modify($columns=array(),$indexes=array(),$dryrun=false) {
+		if(empty($this->table)) {
+			throw new \Exception("Table not set!");
+		}
+		$table = $this->table;
+		return $this->modifyMultiple(array(
+			$table => array(
+				'columns' => $columns,
+				'indexes' => $indexes
+			)
+		),$dryrun);
 	}
 }
