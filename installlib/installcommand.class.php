@@ -528,7 +528,7 @@ class FreePBXInstallCommand extends Command {
 						$dbtables[] = $tname;
 					}
 					outn(sprintf(_("Updating tables %s..."),implode(", ",$dbtables)));
-					$fbxdb->migrateMultipleXML($xml->database->table);
+					$fbxdb->migrateMultipleXML($xml->database->table, false, (string)$xml->version);
 					out(_("Done"));
 				} else {
 					throw new \Exception("There's no default database information!");
@@ -557,6 +557,20 @@ class FreePBXInstallCommand extends Command {
 			unset($amp_conf['CDRDBNAME']);
 
 			$db->query("USE ".$amp_conf['AMPDBNAME']);
+		} else {
+			$xml = simplexml_load_file(dirname(__DIR__).'/module.xml');
+			if(!empty($xml->database)) {
+				$dbtables = array();
+				foreach($xml->database->table as $table) {
+					$tname = (string)$table->attributes()->name;
+					$dbtables[] = $tname;
+				}
+				outn(sprintf(_("Updating tables %s..."),implode(", ",$dbtables)));
+				\FreePBX::Database()->migrateMultipleXML($xml->database->table, false, (string)$xml->version);
+				out(_("Done"));
+			} else {
+				throw new \Exception("There's no default database information!");
+			}
 		}
 
 		// Get version of FreePBX.
