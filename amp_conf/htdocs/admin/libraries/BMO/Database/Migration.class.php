@@ -129,11 +129,12 @@ class Migration {
 	 * @param  bool   $dryrun  If set to true dont execute just return the sql modification string
 	 * @return mixed
 	 */
-	public function modifyMultiple($tables=array(),$dryrun=false) {
+	public function modifyMultiple($tables=array(),$dryrun=false,$pbxversion=null) {
 		$synchronizer = new SingleDatabaseSynchronizer($this->conn);
 		$schemaConfig = new SchemaConfig();
 		//only set utfmb4 if pbx 14
-		if($this->driver == "pdo_mysql" && version_compare($this->version, "5.5.3", "ge") && version_compare_freepbx(getVersion(),"14.0", "ge")) {
+		$pbxversion = !empty($pbxversion) ? $pbxversion : getVersion();
+		if($this->driver == "pdo_mysql" && version_compare($this->version, "5.5.3", "ge") && version_compare_freepbx($pbxversion,"14.0", "ge")) {
 			$schemaConfig->setDefaultTableOptions(array(
 				"collate"=>"utf8mb4_unicode_ci",
 				"charset"=>"utf8mb4"

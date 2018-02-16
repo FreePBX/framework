@@ -103,7 +103,7 @@ class Doctrine extends Command {
 				$string = trim($string);
 
 				$xml = simplexml_load_string($string);
-				$test = \FreePBX::Database()->migrateXML($xml->table,true);
+				$test = \FreePBX::Database()->migrateMultipleXML($xml->table,true);
 				if(!empty($test)) {
 					if($input->getOption('force')) {
 						$output->writeln("<error>Table did not accurately match generation.</error>");
