@@ -528,7 +528,7 @@ class FreePBXInstallCommand extends Command {
 						$dbtables[] = $tname;
 					}
 					outn(sprintf(_("Updating tables %s..."),implode(", ",$dbtables)));
-					$fbxdb->migrateMultipleXML($xml->database->table, false, (string)$xml->version);
+					$fbxdb->migrateMultipleXML($xml->database->table);
 					out(_("Done"));
 				} else {
 					throw new \Exception("There's no default database information!");

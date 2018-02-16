@@ -145,7 +145,7 @@ class Database extends \PDO {
 		$this->dVersion = $this->getAttribute(\PDO::ATTR_SERVER_VERSION);
 	}
 
-	public function migrateMultipleXML(\SimpleXMLElement $XMLtables, $dryrun = false, $pbxversion = null) {
+	public function migrateMultipleXML(\SimpleXMLElement $XMLtables, $dryrun = false) {
 		$tables = array();
 		foreach($XMLtables as $table) {
 			$tname = (string)$table->attributes()->name;
@@ -196,7 +196,7 @@ class Database extends \PDO {
 		}
 
 		$migrate = new Database\Migration($this->getDoctrineConnection(), $this->dVersion);
-		return $migrate->modifyMultiple($tables,$dryrun,$pbxversion);
+		return $migrate->modifyMultiple($tables,$dryrun);
 	}
 
 	public function migrate($table) {
