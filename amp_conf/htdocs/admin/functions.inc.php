@@ -392,7 +392,8 @@ function do_reload($passthru=false) {
 
 	$retrieve = $setting_ampbin . '/retrieve_conf --json 2>&1';
 	$o = exec($retrieve, $output, $exit_val);
-	$output = json_decode(implode($output,PHP_EOL),true);
+	preg_match_all("/^({.*})$/m", $o, $array);
+	$output = !empty($array[1][0]) ? json_decode($array[1][0],true) : array("message" => _('Unknown Error. Please Run '.$setting_ampbin . '/retrieve_conf'));
 
 	// retrieve_conf html output
 	$return['retrieve_conf_verbose'] = $return['retrieve_conf'] = 'exit: '.$exit_val.'<br/>'.$output['message'];

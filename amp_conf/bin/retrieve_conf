@@ -6,7 +6,7 @@
 //include bootstrapper
 $options = getopt("",array("json"));
 $forceJson = isset($options['json']);
-function writeout($string,$exit=false){
+function writeout($string){
 	global $forceJson;
 	$shell = !$forceJson && isset($_SERVER['SHELL']);
 	if($shell){
@@ -14,17 +14,16 @@ function writeout($string,$exit=false){
 	}else{
 		echo json_encode(array('message'=>$string));
 	}
-	if($exit !== false){
-		exit($exit);
-	}
 }
 $bootstrap_settings['freepbx_auth'] = false;
 include_once '/etc/freepbx.conf';
 global $whoops;
 if (isset($whoops) && is_object($whoops)) {
+	$whoops->popHandler();
 	$whoops->pushHandler(function($exception, $inspector, $run) {
 		$error = sprintf(_("Unable to continue. %s in %s on line %s"),$exception->getMessage(),$exception->getFile(),$exception->getLine())."\n".$exception->getTraceAsString()."\n";
-		writeout($error,255);
+		writeout($error);
+		return Whoops\Handler\Handler::QUIT;
 	});
 }
 
@@ -989,79 +988,75 @@ function install_cron_scheduler() {
 	global $amp_conf;
 	global $nt;
 
-	try {
-		$nt->delete('retrieve_conf', 'CRONMGR');
-		//force autoloader to load
-		$freepbxCron = \FreePBX::create()->Cron($amp_conf['AMPASTERISKWEBUSER']);
-		if (posix_geteuid() == 0) {
-			$rootCron = new \FreePBX\Cron('root');
-			foreach($rootCron->getAll() as $cron) {
-				$str = str_replace("/", "\/", $amp_conf['AMPBIN']."/freepbx-cron-scheduler.php");
-				if(preg_match("/".$str."/i",$cron,$matches)) {
-					$rootCron->remove($cron);
-				}
-			}
-		} else {
-			$userArray = posix_getpwuid(posix_geteuid());
-			if ($userArray['name'] != $amp_conf['AMPASTERISKWEBUSER']) {
-				// we are not the user we need to be,
-				// and we aren't root, so there is nothing
-				// we can do but report the error condition
-				$nt->add_critical("FRAMEWORK", "CRON_UPDATE", _("Unable to create or update cron jobs"), sprintf(_("The PBX is running as %s but according to Advanced Settings it should be running as %. Therefore no cron jobs have been created. This can cause serious problems with your PBX in the future if it is not resolved"),$userArray['name'],$amp_conf['AMPASTERISKWEBUSER']));
-				return true;
-			} else {
-				$nt->delete("FRAMEWORK", "CRON_UPDATE");
-			}
-		}
-		$exists = false;
-		foreach($freepbxCron->getAll() as $cron) {
+	$nt->delete('retrieve_conf', 'CRONMGR');
+	//force autoloader to load
+	$freepbxCron = \FreePBX::create()->Cron($amp_conf['AMPASTERISKWEBUSER']);
+	if (posix_geteuid() == 0) {
+		$rootCron = new \FreePBX\Cron('root');
+		foreach($rootCron->getAll() as $cron) {
 			$str = str_replace("/", "\/", $amp_conf['AMPBIN']."/freepbx-cron-scheduler.php");
-			if(preg_match("/freepbx-cron-scheduler.php$/",$cron)) {
-				if(!preg_match("/".$str."$/i",$cron)) {
-					$freepbxCron->remove($cron);
-				}
-			}
-
 			if(preg_match("/".$str."/i",$cron,$matches)) {
-				if($exists) {
-					//remove multiple entries (if any)
-					$freepbxCron->remove($cron);
-				}
-				$exists = true;
+				$rootCron->remove($cron);
 			}
 		}
-		if(!$exists) {
-			$freepbxCron->add(array(
-				"command" => $amp_conf['AMPBIN']."/freepbx-cron-scheduler.php",
-				"minute" => rand(0,59)
-			));
+	} else {
+		$userArray = posix_getpwuid(posix_geteuid());
+		if ($userArray['name'] != $amp_conf['AMPASTERISKWEBUSER']) {
+			// we are not the user we need to be,
+			// and we aren't root, so there is nothing
+			// we can do but report the error condition
+			$nt->add_critical("FRAMEWORK", "CRON_UPDATE", _("Unable to create or update cron jobs"), sprintf(_("The PBX is running as %s but according to Advanced Settings it should be running as %. Therefore no cron jobs have been created. This can cause serious problems with your PBX in the future if it is not resolved"),$userArray['name'],$amp_conf['AMPASTERISKWEBUSER']));
+			return true;
+		} else {
+			$nt->delete("FRAMEWORK", "CRON_UPDATE");
+		}
+	}
+	$exists = false;
+	foreach($freepbxCron->getAll() as $cron) {
+		$str = str_replace("/", "\/", $amp_conf['AMPBIN']."/freepbx-cron-scheduler.php");
+		if(preg_match("/freepbx-cron-scheduler.php$/",$cron)) {
+			if(!preg_match("/".$str."$/i",$cron)) {
+				$freepbxCron->remove($cron);
+			}
 		}
 
-		$exists = false;
-		foreach($freepbxCron->getAll() as $cron) {
-			$str = str_replace("/", "\/", $amp_conf['AMPSBIN']."/fwconsole util cleanplaybackcache -q");
-			if(preg_match("/fwconsole util cleanplaybackcache -q$/",$cron)) {
-				if(!preg_match("/".$str."$/i",$cron)) {
-					$freepbxCron->remove($cron);
-				}
+		if(preg_match("/".$str."/i",$cron,$matches)) {
+			if($exists) {
+				//remove multiple entries (if any)
+				$freepbxCron->remove($cron);
 			}
+			$exists = true;
+		}
+	}
+	if(!$exists) {
+		$freepbxCron->add(array(
+			"command" => $amp_conf['AMPBIN']."/freepbx-cron-scheduler.php",
+			"minute" => rand(0,59)
+		));
+	}
 
-			if(preg_match("/".$str."/i",$cron,$matches)) {
-				if($exists) {
-					//remove multiple entries (if any)
-					$freepbxCron->remove($cron);
-				}
-				$exists = true;
+	$exists = false;
+	foreach($freepbxCron->getAll() as $cron) {
+		$str = str_replace("/", "\/", $amp_conf['AMPSBIN']."/fwconsole util cleanplaybackcache -q");
+		if(preg_match("/fwconsole util cleanplaybackcache -q$/",$cron)) {
+			if(!preg_match("/".$str."$/i",$cron)) {
+				$freepbxCron->remove($cron);
 			}
 		}
-		if(!$exists) {
-			$freepbxCron->add(array(
-				"command" => $amp_conf['AMPSBIN']."/fwconsole util cleanplaybackcache -q",
-				"minute" => rand(0,59)
-			));
+
+		if(preg_match("/".$str."/i",$cron,$matches)) {
+			if($exists) {
+				//remove multiple entries (if any)
+				$freepbxCron->remove($cron);
+			}
+			$exists = true;
 		}
-	} catch(\Exception $e) {
-		$nt->add_error('retrieve_conf', 'CRONMGR', _("Failed to check crontab for cron manager"), sprintf(_("crontab returned %s error code when checking for crontab entries to start freepbx-cron-scheduler.php crontab manager"),$e->getMessage()));
+	}
+	if(!$exists) {
+		$freepbxCron->add(array(
+			"command" => $amp_conf['AMPSBIN']."/fwconsole util cleanplaybackcache -q",
+			"minute" => rand(0,59)
+		));
 	}
 }
 
