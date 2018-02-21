@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-14 18:52-0500\n"
+"POT-Creation-Date: 2018-02-21 17:28-0500\n"
 "PO-Revision-Date: 2018-02-14 22:07+0200\n"
 "Last-Translator: jeremie <freepbx@famillecattan.com>\n"
 "Language-Team: French <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -375,7 +375,7 @@ msgstr "%s non trouvé"
 msgid "%s prepared"
 msgstr "%s préparé"
 
-#: ../core/Core.class.php:2849
+#: ../core/Core.class.php:2844
 #, php-format
 msgid "%s records failed validation"
 msgstr "%s enregistrements ont échoué la validation"
@@ -598,7 +598,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "Une route pour ce DID/CID existe déjà!"
 
-#: ../core/Core.class.php:2377 ../core/functions.inc.php:4580
+#: ../core/Core.class.php:2372 ../core/functions.inc.php:4580
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "Une route pour ce SDA/CID: %s/%s existe déjà"
@@ -1770,11 +1770,11 @@ msgstr ""
 "et l'autre non. Le plus élevé des deux détermine la politique, sur une "
 "égalité la politique globale (appelant ou appelé) détermine la politique."
 
-#: ../core/Core.class.php:2815
+#: ../core/Core.class.php:2810
 msgid "Caller ID"
 msgstr "ID Appelant"
 
-#: ../core/Core.class.php:2816
+#: ../core/Core.class.php:2811
 msgid "Caller ID Number"
 msgstr "Numéro CID"
 
@@ -2563,7 +2563,7 @@ msgstr "Description SDA"
 msgid "DID Number"
 msgstr "Numéro SDA"
 
-#: ../core/Core.class.php:2952
+#: ../core/Core.class.php:2947
 msgid "DID already exists"
 msgstr "Ce SDA existe déjà"
 
@@ -2571,11 +2571,11 @@ msgstr "Ce SDA existe déjà"
 msgid "DID/CID"
 msgstr ""
 
-#: ../core/Core.class.php:2757
+#: ../core/Core.class.php:2752
 msgid "DIDs"
 msgstr "SDAs"
 
-#: ../core/Core.class.php:2758
+#: ../core/Core.class.php:2753
 msgid "DIDs / Inbound Routes"
 msgstr "SDA / Routes entrantes"
 
@@ -2891,8 +2891,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/main.php:185
-#: ../core/Core.class.php:2782 ../core/Core.class.php:2783
-#: ../core/Core.class.php:2807 ../core/Core.class.php:2808
+#: ../core/Core.class.php:2777 ../core/Core.class.php:2778
+#: ../core/Core.class.php:2802 ../core/Core.class.php:2803
 #: ../core/functions.inc.php:6035 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:37
@@ -2905,7 +2905,7 @@ msgstr "Description"
 msgid "Descriptive Name for this Trunk"
 msgstr "Nom descriptif de ce trunk"
 
-#: ../core/Core.class.php:2819 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:2814 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr ""
 
@@ -3019,7 +3019,7 @@ msgstr ""
 # msgstr ""
 # "La section demand&eacute;e n'existe pas ou vous n'y avez pas acc&egrave;s."
 # #       FIN config
-#: ../core/Core.class.php:3154 ../core/functions.inc.php:5978
+#: ../core/Core.class.php:3149 ../core/functions.inc.php:5978
 #: ../core/page.devices.php:63 ../core/page.devices.php:84
 #: ../core/views/rnav.php:72
 msgid "Device"
@@ -3030,11 +3030,11 @@ msgstr "Périphérique"
 msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 
-#: ../core/Core.class.php:2884
+#: ../core/Core.class.php:2879
 msgid "Device 'name' can not be blank."
 msgstr ""
 
-#: ../core/Core.class.php:1481
+#: ../core/Core.class.php:1476
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
@@ -3055,7 +3055,7 @@ msgstr "Paramètres du dispositif"
 msgid "Device State Busy at"
 msgstr ""
 
-#: ../core/Core.class.php:2787 ../core/Core.class.php:2788
+#: ../core/Core.class.php:2782 ../core/Core.class.php:2783
 msgid "Device Technology"
 msgstr "Technologie du dispositif"
 
@@ -3064,7 +3064,7 @@ msgstr "Technologie du dispositif"
 msgid "Device Type"
 msgstr "Type de dispositif"
 
-#: ../core/Core.class.php:2906
+#: ../core/Core.class.php:2901
 msgid "Device could not be added."
 msgstr "Le dispositif n'a pu être ajouté."
 
@@ -3872,7 +3872,7 @@ msgstr "Erreur lors de la création du répertoire temporaire: %s"
 msgid "Error deleting directory %s (code %d)"
 msgstr "Erreur suppression répertoire %s (code %d)"
 
-#: ../core/Core.class.php:781 ../core/Core.class.php:1191
+#: ../core/Core.class.php:776 ../core/Core.class.php:1186
 #: ../core/page.trunks.php:324
 msgid "Error fetching prefix list for: "
 msgstr "Erreur lors de la récupération de la liste des préfixes pour: "
@@ -4057,8 +4057,8 @@ msgstr ""
 # msgid "Use 'Incoming Calls' settings"
 # msgstr "Utiliser les r&eacute;glages 'Appels entrants'"
 # ### Fin message DID
-#: ../core/Core.class.php:2774 ../core/Core.class.php:2775
-#: ../core/Core.class.php:3142 ../core/functions.inc.php:5623
+#: ../core/Core.class.php:2769 ../core/Core.class.php:2770
+#: ../core/Core.class.php:3137 ../core/functions.inc.php:5623
 #: ../core/page.did.php:91 ../core/page.extensions.php:28
 #: ../core/page.extensions.php:117 ../core/page.extensions.php:143
 #: ../core/views/rnav.php:18
@@ -4089,7 +4089,7 @@ msgstr "Le poste est déjà utilisé !"
 msgid "Extension can not be blank!"
 msgstr "Le numéro de poste ne peut être vide !"
 
-#: ../core/Core.class.php:2874
+#: ../core/Core.class.php:2869
 msgid "Extension is not numeric."
 msgstr "Le numéro de poste n'est pas numérique."
 
@@ -4104,7 +4104,7 @@ msgstr "Le numéro de poste n'est pas numérique !"
 # La suite ne sont plus des messages de config. Peut-etre utilise par d'autres!
 # msgid "Incoming Calls"
 # msgstr "Appels entrants"
-#: amp.i18n.php:876 ../core/Core.class.php:2753 ../core/Core.class.php:2754
+#: amp.i18n.php:876 ../core/Core.class.php:2748 ../core/Core.class.php:2749
 #: ../core/page.extensions.php:17
 msgid "Extensions"
 msgstr "Postes"
@@ -4900,7 +4900,7 @@ msgstr ""
 #: ../core/views/trunks/pjsip.php:412
 msgid ""
 "How many times Asterisk will attempt to re-attempt registration before "
-"permanently giving up."
+"permanently giving up. Maximum of 1000000."
 msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:141
@@ -5207,7 +5207,7 @@ msgstr ""
 msgid "Inbound Internal Calls"
 msgstr ""
 
-#: ../core/Core.class.php:3196 ../core/Core.class.php:3205
+#: ../core/Core.class.php:3191 ../core/Core.class.php:3200
 msgid "Inbound Route:"
 msgstr ""
 
@@ -5232,7 +5232,7 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: ../core/Core.class.php:2811 ../core/Core.class.php:2812
+#: ../core/Core.class.php:2806 ../core/Core.class.php:2807
 msgid "Incoming DID"
 msgstr ""
 
@@ -5434,7 +5434,7 @@ msgstr "Description invalide"
 msgid "Invalid email address"
 msgstr "Adresse de courriel invalide"
 
-#: ../core/Core.class.php:785 ../core/Core.class.php:1195
+#: ../core/Core.class.php:780 ../core/Core.class.php:1190
 #: ../core/page.trunks.php:329
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "Format invalide pour le code NPA-NXX (format doit être; <b>NXXNXX</b>)"
@@ -6142,7 +6142,7 @@ msgstr ""
 "ATTENTION! Vous avez %s  notifications! Veuillez vous connecter à "
 "l'interface utilisateur pour les voir!"
 
-#: ../core/Core.class.php:2778 ../core/Core.class.php:2779
+#: ../core/Core.class.php:2773 ../core/Core.class.php:2774
 #: ../core/page.extensions.php:29 ../core/page.extensions.php:118
 #: ../core/page.extensions.php:144 ../core/page.users.php:55
 #: ../core/views/rnav.php:19 ../core/views/rnav.php:43
@@ -6718,7 +6718,7 @@ msgstr "Appels internes en sortie"
 msgid "Outbound Proxy"
 msgstr ""
 
-#: ../core/Core.class.php:3179
+#: ../core/Core.class.php:3174
 msgid "Outbound Route:"
 msgstr ""
 
@@ -7728,7 +7728,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr ""
 
-#: ../core/Core.class.php:3119 ../core/Core.class.php:3120
+#: ../core/Core.class.php:3114 ../core/Core.class.php:3115
 #, php-format
 msgid "SIP (%s)"
 msgstr ""
@@ -8640,7 +8640,7 @@ msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 "Le programme unzip n'est pas installé. Incapable de traiter le fichier zip"
 
-#: ../core/Core.class.php:2820
+#: ../core/Core.class.php:2815
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -9142,7 +9142,7 @@ msgstr ""
 msgid "This action understands somethings may be disabled for a reason."
 msgstr ""
 
-#: ../core/Core.class.php:1488
+#: ../core/Core.class.php:1483
 msgid "This device id is already in use"
 msgstr "Ce périphérique est déjà utilisé"
 
@@ -9356,7 +9356,7 @@ msgid ""
 "setup that uses it."
 msgstr ""
 
-#: ../core/Core.class.php:2361
+#: ../core/Core.class.php:2356
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "L\\'extension %s est déjà utilisée"
@@ -9458,7 +9458,7 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr ""
 
-#: ../core/Core.class.php:3187
+#: ../core/Core.class.php:3182
 msgid "Trunk:"
 msgstr ""
 
@@ -9952,7 +9952,7 @@ msgstr ""
 "Utilisé quand la console PHP (https://github.com/barbushin/php-console) est "
 "activée pour le débogage d'erreur"
 
-#: ../core/Core.class.php:3166 ../core/functions.inc.php:5637
+#: ../core/Core.class.php:3161 ../core/functions.inc.php:5637
 #: ../core/page.devices.php:66 ../core/page.devices.php:87
 #: ../core/page.did.php:88 ../core/page.users.php:54 ../core/views/rnav.php:42
 msgid "User"
@@ -10005,7 +10005,7 @@ msgstr "Panneau utilisateur"
 msgid "User Password"
 msgstr "Mot de Passe Utilisateur"
 
-#: ../core/Core.class.php:2933
+#: ../core/Core.class.php:2928
 msgid "User could not be added."
 msgstr "L'utilisateur n'a pu être ajouté."
 
@@ -10755,10 +10755,6 @@ msgstr ""
 msgid "You may wish to redownload this module if the data is corrupted."
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:101
-msgid "You must define a SIP Port"
-msgstr ""
-
 #: ../core/views/trunks/trunk_footer.php:100
 msgid "You must define a SIP Server"
 msgstr ""
@@ -10780,7 +10776,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:2354
+#: ../core/Core.class.php:2349
 msgid "You must put in an extension (or user) number"
 msgstr "Vous devez mettre un numéro d\\'extension ou d\\'utilisateur"
 

@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-14 18:52-0500\n"
+"POT-Creation-Date: 2018-02-21 17:28-0500\n"
 "PO-Revision-Date: 2017-07-31 07:35+0800\n"
 "Last-Translator: james <zhulizhong@gmail.com>\n"
 "Language-Team: Simplified Chinese <http://weblate.freepbx.org/projects/"
@@ -367,7 +367,7 @@ msgstr "没有找到%s"
 msgid "%s prepared"
 msgstr "%s 已准备好"
 
-#: ../core/Core.class.php:2849
+#: ../core/Core.class.php:2844
 #, php-format
 msgid "%s records failed validation"
 msgstr "%s 记录验证失败"
@@ -572,7 +572,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "一条接收这个DID/CID的线路以存在。"
 
-#: ../core/Core.class.php:2377 ../core/functions.inc.php:4580
+#: ../core/Core.class.php:2372 ../core/functions.inc.php:4580
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "一条接收这个DID/CID（%s/%s）的线路已存在"
@@ -1611,11 +1611,11 @@ msgid ""
 "(caller or callee) determines the policy."
 msgstr ""
 
-#: ../core/Core.class.php:2815
+#: ../core/Core.class.php:2810
 msgid "Caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:2816
+#: ../core/Core.class.php:2811
 msgid "Caller ID Number"
 msgstr "主叫ID号码"
 
@@ -2390,7 +2390,7 @@ msgstr "DID描述"
 msgid "DID Number"
 msgstr "DID号码"
 
-#: ../core/Core.class.php:2952
+#: ../core/Core.class.php:2947
 msgid "DID already exists"
 msgstr ""
 
@@ -2398,11 +2398,11 @@ msgstr ""
 msgid "DID/CID"
 msgstr ""
 
-#: ../core/Core.class.php:2757
+#: ../core/Core.class.php:2752
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:2758
+#: ../core/Core.class.php:2753
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
@@ -2715,8 +2715,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/main.php:185
-#: ../core/Core.class.php:2782 ../core/Core.class.php:2783
-#: ../core/Core.class.php:2807 ../core/Core.class.php:2808
+#: ../core/Core.class.php:2777 ../core/Core.class.php:2778
+#: ../core/Core.class.php:2802 ../core/Core.class.php:2803
 #: ../core/functions.inc.php:6035 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:37
@@ -2729,7 +2729,7 @@ msgstr "描述"
 msgid "Descriptive Name for this Trunk"
 msgstr "中继名称"
 
-#: ../core/Core.class.php:2819 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:2814 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr ""
 
@@ -2826,7 +2826,7 @@ msgstr "开发人员模式"
 msgid "Developer and Customization"
 msgstr "开发人员和自定义"
 
-#: ../core/Core.class.php:3154 ../core/functions.inc.php:5978
+#: ../core/Core.class.php:3149 ../core/functions.inc.php:5978
 #: ../core/page.devices.php:63 ../core/page.devices.php:84
 #: ../core/views/rnav.php:72
 msgid "Device"
@@ -2837,11 +2837,11 @@ msgstr "设备"
 msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 
-#: ../core/Core.class.php:2884
+#: ../core/Core.class.php:2879
 msgid "Device 'name' can not be blank."
 msgstr ""
 
-#: ../core/Core.class.php:1481
+#: ../core/Core.class.php:1476
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
@@ -2862,7 +2862,7 @@ msgstr "设备设置"
 msgid "Device State Busy at"
 msgstr ""
 
-#: ../core/Core.class.php:2787 ../core/Core.class.php:2788
+#: ../core/Core.class.php:2782 ../core/Core.class.php:2783
 msgid "Device Technology"
 msgstr ""
 
@@ -2871,7 +2871,7 @@ msgstr ""
 msgid "Device Type"
 msgstr "设备类型"
 
-#: ../core/Core.class.php:2906
+#: ../core/Core.class.php:2901
 msgid "Device could not be added."
 msgstr ""
 
@@ -3667,7 +3667,7 @@ msgstr "在创建临时目录时发生了错误：%s"
 msgid "Error deleting directory %s (code %d)"
 msgstr "无法删除目录 %s （错误代码 %d）"
 
-#: ../core/Core.class.php:781 ../core/Core.class.php:1191
+#: ../core/Core.class.php:776 ../core/Core.class.php:1186
 #: ../core/page.trunks.php:324
 msgid "Error fetching prefix list for: "
 msgstr "在获取前缀列表时发生错误："
@@ -3843,8 +3843,8 @@ msgstr ""
 msgid "Extended"
 msgstr "拓展的"
 
-#: ../core/Core.class.php:2774 ../core/Core.class.php:2775
-#: ../core/Core.class.php:3142 ../core/functions.inc.php:5623
+#: ../core/Core.class.php:2769 ../core/Core.class.php:2770
+#: ../core/Core.class.php:3137 ../core/functions.inc.php:5623
 #: ../core/page.did.php:91 ../core/page.extensions.php:28
 #: ../core/page.extensions.php:117 ../core/page.extensions.php:143
 #: ../core/views/rnav.php:18
@@ -3875,7 +3875,7 @@ msgstr ""
 msgid "Extension can not be blank!"
 msgstr ""
 
-#: ../core/Core.class.php:2874
+#: ../core/Core.class.php:2869
 msgid "Extension is not numeric."
 msgstr ""
 
@@ -3887,7 +3887,7 @@ msgstr "分机号码冲突，请选择其他号码"
 msgid "Extension was not numeric!"
 msgstr "分机号码必须是数字形式"
 
-#: amp.i18n.php:876 ../core/Core.class.php:2753 ../core/Core.class.php:2754
+#: amp.i18n.php:876 ../core/Core.class.php:2748 ../core/Core.class.php:2749
 #: ../core/page.extensions.php:17
 msgid "Extensions"
 msgstr "分机"
@@ -4673,7 +4673,7 @@ msgstr ""
 #: ../core/views/trunks/pjsip.php:412
 msgid ""
 "How many times Asterisk will attempt to re-attempt registration before "
-"permanently giving up."
+"permanently giving up. Maximum of 1000000."
 msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:141
@@ -4980,7 +4980,7 @@ msgstr "对呼入录音"
 msgid "Inbound Internal Calls"
 msgstr "对分机呼入到分机录音"
 
-#: ../core/Core.class.php:3196 ../core/Core.class.php:3205
+#: ../core/Core.class.php:3191 ../core/Core.class.php:3200
 msgid "Inbound Route:"
 msgstr ""
 
@@ -5005,7 +5005,7 @@ msgstr ""
 msgid "Incoming"
 msgstr "呼入"
 
-#: ../core/Core.class.php:2811 ../core/Core.class.php:2812
+#: ../core/Core.class.php:2806 ../core/Core.class.php:2807
 msgid "Incoming DID"
 msgstr ""
 
@@ -5206,7 +5206,7 @@ msgstr "无效描述"
 msgid "Invalid email address"
 msgstr "无效邮件地址"
 
-#: ../core/Core.class.php:785 ../core/Core.class.php:1195
+#: ../core/Core.class.php:780 ../core/Core.class.php:1190
 #: ../core/page.trunks.php:329
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "无效的 NPA-NXX 代码（正确格式是：NXXNXX）"
@@ -5903,7 +5903,7 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
-#: ../core/Core.class.php:2778 ../core/Core.class.php:2779
+#: ../core/Core.class.php:2773 ../core/Core.class.php:2774
 #: ../core/page.extensions.php:29 ../core/page.extensions.php:118
 #: ../core/page.extensions.php:144 ../core/page.users.php:55
 #: ../core/views/rnav.php:19 ../core/views/rnav.php:43
@@ -6466,7 +6466,7 @@ msgstr "对分机呼出到分机录音"
 msgid "Outbound Proxy"
 msgstr ""
 
-#: ../core/Core.class.php:3179
+#: ../core/Core.class.php:3174
 msgid "Outbound Route:"
 msgstr ""
 
@@ -7464,7 +7464,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "安全提示："
 
-#: ../core/Core.class.php:3119 ../core/Core.class.php:3120
+#: ../core/Core.class.php:3114 ../core/Core.class.php:3115
 #, php-format
 msgid "SIP (%s)"
 msgstr ""
@@ -8361,7 +8361,7 @@ msgstr ""
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
-#: ../core/Core.class.php:2820
+#: ../core/Core.class.php:2815
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -8811,7 +8811,7 @@ msgstr ""
 msgid "This action understands somethings may be disabled for a reason."
 msgstr ""
 
-#: ../core/Core.class.php:1488
+#: ../core/Core.class.php:1483
 msgid "This device id is already in use"
 msgstr "设备id已存在"
 
@@ -9018,7 +9018,7 @@ msgid ""
 "setup that uses it."
 msgstr ""
 
-#: ../core/Core.class.php:2361
+#: ../core/Core.class.php:2356
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "此用户/分机 %s 已存在"
@@ -9118,7 +9118,7 @@ msgstr "中继名和用户上下文不能相同"
 msgid "Trunk Sequence for Matched Routes"
 msgstr "匹配中继顺序"
 
-#: ../core/Core.class.php:3187
+#: ../core/Core.class.php:3182
 msgid "Trunk:"
 msgstr ""
 
@@ -9609,7 +9609,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:3166 ../core/functions.inc.php:5637
+#: ../core/Core.class.php:3161 ../core/functions.inc.php:5637
 #: ../core/page.devices.php:66 ../core/page.devices.php:87
 #: ../core/page.did.php:88 ../core/page.users.php:54 ../core/views/rnav.php:42
 msgid "User"
@@ -9660,7 +9660,7 @@ msgstr ""
 msgid "User Password"
 msgstr "用户密码"
 
-#: ../core/Core.class.php:2933
+#: ../core/Core.class.php:2928
 msgid "User could not be added."
 msgstr ""
 
@@ -10390,10 +10390,6 @@ msgstr ""
 msgid "You may wish to redownload this module if the data is corrupted."
 msgstr ""
 
-#: ../core/views/trunks/trunk_footer.php:101
-msgid "You must define a SIP Port"
-msgstr "必须定义SIP端口"
-
 #: ../core/views/trunks/trunk_footer.php:100
 msgid "You must define a SIP Server"
 msgstr "必须定义SIP服务器"
@@ -10415,7 +10411,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:2354
+#: ../core/Core.class.php:2349
 msgid "You must put in an extension (or user) number"
 msgstr "你必须输入一个分机（或用户）号码"
 
@@ -11328,6 +11324,9 @@ msgstr ""
 #: ../core/install.php:1120
 msgid "zap devices migrated"
 msgstr ""
+
+#~ msgid "You must define a SIP Port"
+#~ msgstr "必须定义SIP端口"
 
 #~ msgid "An error occurred while changing groups %s"
 #~ msgstr "修改组%s 错误"

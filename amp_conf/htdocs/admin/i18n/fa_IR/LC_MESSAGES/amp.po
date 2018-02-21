@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-14 18:52-0500\n"
+"POT-Creation-Date: 2018-02-21 17:28-0500\n"
 "PO-Revision-Date: 2016-08-07 07:04+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -371,7 +371,7 @@ msgstr "%s یافت نسد"
 msgid "%s prepared"
 msgstr "%s آماده شد"
 
-#: ../core/Core.class.php:2849
+#: ../core/Core.class.php:2844
 #, php-format
 msgid "%s records failed validation"
 msgstr "اعتبارسنجی رکوردهای %s شکست خورد"
@@ -588,7 +588,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "یک مسیر برای این DID/CID در حال حاضر موجود است!"
 
-#: ../core/Core.class.php:2377 ../core/functions.inc.php:4580
+#: ../core/Core.class.php:2372 ../core/functions.inc.php:4580
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "یک مسیر برای این DID/CID: %s %s در حال حاضر موجود است"
@@ -1715,11 +1715,11 @@ msgstr ""
 "it. The higher of the two determines the policy, on a tie the global policy "
 "(caller or callee) determines the policy."
 
-#: ../core/Core.class.php:2815
+#: ../core/Core.class.php:2810
 msgid "Caller ID"
 msgstr "شناسه تماس گیرنده"
 
-#: ../core/Core.class.php:2816
+#: ../core/Core.class.php:2811
 msgid "Caller ID Number"
 msgstr "شماره تماس گیرنده"
 
@@ -2558,7 +2558,7 @@ msgstr "توضیحات داخلی مستقیم"
 msgid "DID Number"
 msgstr "شماره داخلی مستقیم"
 
-#: ../core/Core.class.php:2952
+#: ../core/Core.class.php:2947
 msgid "DID already exists"
 msgstr "DID موجود است"
 
@@ -2566,11 +2566,11 @@ msgstr "DID موجود است"
 msgid "DID/CID"
 msgstr "DID/CID"
 
-#: ../core/Core.class.php:2757
+#: ../core/Core.class.php:2752
 msgid "DIDs"
 msgstr ".DIDs"
 
-#: ../core/Core.class.php:2758
+#: ../core/Core.class.php:2753
 msgid "DIDs / Inbound Routes"
 msgstr "مسیرهای ورودی / DIDs"
 
@@ -2971,8 +2971,8 @@ msgstr "Dependency %s has  an unknown state of : %s %s"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/main.php:185
-#: ../core/Core.class.php:2782 ../core/Core.class.php:2783
-#: ../core/Core.class.php:2807 ../core/Core.class.php:2808
+#: ../core/Core.class.php:2777 ../core/Core.class.php:2778
+#: ../core/Core.class.php:2802 ../core/Core.class.php:2803
 #: ../core/functions.inc.php:6035 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:37
@@ -2985,7 +2985,7 @@ msgstr "شرح"
 msgid "Descriptive Name for this Trunk"
 msgstr "شرح نام برای این ترانک"
 
-#: ../core/Core.class.php:2819 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:2814 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "مقصد"
 
@@ -3103,7 +3103,7 @@ msgstr "حالت توسعه دهنده"
 msgid "Developer and Customization"
 msgstr "توسعه دهنده و شخصی ساز"
 
-#: ../core/Core.class.php:3154 ../core/functions.inc.php:5978
+#: ../core/Core.class.php:3149 ../core/functions.inc.php:5978
 #: ../core/page.devices.php:63 ../core/page.devices.php:84
 #: ../core/views/rnav.php:72
 msgid "Device"
@@ -3115,11 +3115,11 @@ msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 "Device %s (%s) had an  invalid emergency callerid and we set it to blank"
 
-#: ../core/Core.class.php:2884
+#: ../core/Core.class.php:2879
 msgid "Device 'name' can not be blank."
 msgstr "'نام' وسیله نمیتواند خالی باشد."
 
-#: ../core/Core.class.php:1481
+#: ../core/Core.class.php:1476
 msgid "Device Extension was blank or there were no settings defined"
 msgstr "داخلی وسیله خالی بود یا تنظیمی یافت نشد"
 
@@ -3140,7 +3140,7 @@ msgstr "تنظیمات وسیله"
 msgid "Device State Busy at"
 msgstr "وضعیت دستگاه مشغول است در"
 
-#: ../core/Core.class.php:2787 ../core/Core.class.php:2788
+#: ../core/Core.class.php:2782 ../core/Core.class.php:2783
 msgid "Device Technology"
 msgstr "فن آوری وسیله"
 
@@ -3149,7 +3149,7 @@ msgstr "فن آوری وسیله"
 msgid "Device Type"
 msgstr "نوع وسیله"
 
-#: ../core/Core.class.php:2906
+#: ../core/Core.class.php:2901
 msgid "Device could not be added."
 msgstr "وسیله نمیتواند اضافه شود."
 
@@ -3987,7 +3987,7 @@ msgstr "خطا در ایجاد دایرکتوری موقت: %s"
 msgid "Error deleting directory %s (code %d)"
 msgstr "خطا حذف دایرکتوری %s (کد %d)"
 
-#: ../core/Core.class.php:781 ../core/Core.class.php:1191
+#: ../core/Core.class.php:776 ../core/Core.class.php:1186
 #: ../core/page.trunks.php:324
 msgid "Error fetching prefix list for: "
 msgstr "خطا در دریافت فهرست پیش شماره ها برای: "
@@ -4171,8 +4171,8 @@ msgstr ""
 msgid "Extended"
 msgstr "تمدید شده"
 
-#: ../core/Core.class.php:2774 ../core/Core.class.php:2775
-#: ../core/Core.class.php:3142 ../core/functions.inc.php:5623
+#: ../core/Core.class.php:2769 ../core/Core.class.php:2770
+#: ../core/Core.class.php:3137 ../core/functions.inc.php:5623
 #: ../core/page.did.php:91 ../core/page.extensions.php:28
 #: ../core/page.extensions.php:117 ../core/page.extensions.php:143
 #: ../core/views/rnav.php:18
@@ -4203,7 +4203,7 @@ msgstr "داخلی در حال استفاده است!"
 msgid "Extension can not be blank!"
 msgstr "داخلی نمیتواند خالی باشد!"
 
-#: ../core/Core.class.php:2874
+#: ../core/Core.class.php:2869
 msgid "Extension is not numeric."
 msgstr "داخلی شماره نیست."
 
@@ -4215,7 +4215,7 @@ msgstr "مغایرت شماره داخلی، یکی دیگر انتخاب کنی
 msgid "Extension was not numeric!"
 msgstr "داخلی شماره نیست!"
 
-#: amp.i18n.php:876 ../core/Core.class.php:2753 ../core/Core.class.php:2754
+#: amp.i18n.php:876 ../core/Core.class.php:2748 ../core/Core.class.php:2749
 #: ../core/page.extensions.php:17
 msgid "Extensions"
 msgstr "داخلی ها"
@@ -5061,10 +5061,8 @@ msgstr ""
 #: ../core/views/trunks/pjsip.php:412
 msgid ""
 "How many times Asterisk will attempt to re-attempt registration before "
-"permanently giving up."
+"permanently giving up. Maximum of 1000000."
 msgstr ""
-"How many times Asterisk  will attempt to re-attempt registration before "
-"permanently giving up."
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:141
 #: ../core/functions.inc/drivers/Iax2.class.php:136
@@ -5440,7 +5438,7 @@ msgstr "تماس های خارجی ورودی"
 msgid "Inbound Internal Calls"
 msgstr "تماس های داخلی ورودی"
 
-#: ../core/Core.class.php:3196 ../core/Core.class.php:3205
+#: ../core/Core.class.php:3191 ../core/Core.class.php:3200
 msgid "Inbound Route:"
 msgstr "مسیر ورودی:"
 
@@ -5465,7 +5463,7 @@ msgstr "شامل نام سرور در مرورگر"
 msgid "Incoming"
 msgstr "ورودی"
 
-#: ../core/Core.class.php:2811 ../core/Core.class.php:2812
+#: ../core/Core.class.php:2806 ../core/Core.class.php:2807
 msgid "Incoming DID"
 msgstr "داخلی مستقیم ورودی"
 
@@ -5672,7 +5670,7 @@ msgstr "توضیحات نامعتبر"
 msgid "Invalid email address"
 msgstr "آدرس ایمیل نامعتبر"
 
-#: ../core/Core.class.php:785 ../core/Core.class.php:1195
+#: ../core/Core.class.php:780 ../core/Core.class.php:1190
 #: ../core/page.trunks.php:329
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "فرمت کد NPA-NXX نادرست است (فرمت درست:NXXNXX)"
@@ -6413,7 +6411,7 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr "نکته! شما %s هشدارد دارید! برای مشاهده به رابط کاربری وارد شوید!"
 
-#: ../core/Core.class.php:2778 ../core/Core.class.php:2779
+#: ../core/Core.class.php:2773 ../core/Core.class.php:2774
 #: ../core/page.extensions.php:29 ../core/page.extensions.php:118
 #: ../core/page.extensions.php:144 ../core/page.users.php:55
 #: ../core/views/rnav.php:19 ../core/views/rnav.php:43
@@ -7061,7 +7059,7 @@ msgstr "تماس های داخلی"
 msgid "Outbound Proxy"
 msgstr "پراکسی تماس خروجی"
 
-#: ../core/Core.class.php:3179
+#: ../core/Core.class.php:3174
 msgid "Outbound Route:"
 msgstr "مسیر تماس خروجی:"
 
@@ -8110,7 +8108,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "هشدار امنیتی:"
 
-#: ../core/Core.class.php:3119 ../core/Core.class.php:3120
+#: ../core/Core.class.php:3114 ../core/Core.class.php:3115
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP  (%s)"
@@ -9134,7 +9132,7 @@ msgstr "The autoloader is  damaged. Please run: "
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr "The binary  unzip is not installed. Unable to work with zip file"
 
-#: ../core/Core.class.php:2820
+#: ../core/Core.class.php:2815
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -9669,7 +9667,7 @@ msgstr "این ماژول منسوخ شده"
 msgid "This action understands somethings may be disabled for a reason."
 msgstr "This action understands  somethings may be disabled for a reason."
 
-#: ../core/Core.class.php:1488
+#: ../core/Core.class.php:1483
 msgid "This device id is already in use"
 msgstr "شناسه وسیله در حال استفاده است"
 
@@ -9929,7 +9927,7 @@ msgstr ""
 "This trunk will not be able to be used for  outbound calls until a route is "
 "setup that uses it."
 
-#: ../core/Core.class.php:2361
+#: ../core/Core.class.php:2356
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "کاربر/داخلی %s در حال استفاده است"
@@ -10048,7 +10046,7 @@ msgstr "نام ترانک و متن کاربر نمیتواند یکی باشد"
 msgid "Trunk Sequence for Matched Routes"
 msgstr "توالی ترانک برای مسیرهای یکسان"
 
-#: ../core/Core.class.php:3187
+#: ../core/Core.class.php:3182
 msgid "Trunk:"
 msgstr "ترانک:"
 
@@ -10564,7 +10562,7 @@ msgstr ""
 "Used when  PHP Console is enabled for error debugging https://github.com/"
 "barbushin/php-console"
 
-#: ../core/Core.class.php:3166 ../core/functions.inc.php:5637
+#: ../core/Core.class.php:3161 ../core/functions.inc.php:5637
 #: ../core/page.devices.php:66 ../core/page.devices.php:87
 #: ../core/page.did.php:88 ../core/page.users.php:54 ../core/views/rnav.php:42
 msgid "User"
@@ -10615,7 +10613,7 @@ msgstr "پنل کاربر"
 msgid "User Password"
 msgstr "کلمه عبور کاربر"
 
-#: ../core/Core.class.php:2933
+#: ../core/Core.class.php:2928
 msgid "User could not be added."
 msgstr "امکان افزودن کاربروجود ندارد."
 
@@ -11498,10 +11496,6 @@ msgstr ""
 msgid "You may wish to redownload this module if the data is corrupted."
 msgstr "You may  wish to redownload this module if the data is corrupted."
 
-#: ../core/views/trunks/trunk_footer.php:101
-msgid "You must define a SIP Port"
-msgstr "شما باید یک پورت SIP تعریف کنید"
-
 #: ../core/views/trunks/trunk_footer.php:100
 msgid "You must define a SIP Server"
 msgstr "شما باید یک سرور SIP تعریف کنید"
@@ -11524,7 +11518,7 @@ msgstr "You must  defined a Client URI"
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "شما باید یک فایل freepbx.conf مناسب برای اجرا داشته باشید"
 
-#: ../core/Core.class.php:2354
+#: ../core/Core.class.php:2349
 msgid "You must put in an extension (or user) number"
 msgstr "شما باید شماره یک داخلی (یا کاربر) وارد کنید"
 
@@ -12482,6 +12476,16 @@ msgstr ""
 #: ../core/install.php:1120
 msgid "zap devices migrated"
 msgstr "وسایل zap منتقل شدند"
+
+#~ msgid ""
+#~ "How many times Asterisk will attempt to re-attempt registration before "
+#~ "permanently giving up."
+#~ msgstr ""
+#~ "How many times Asterisk  will attempt to re-attempt registration before "
+#~ "permanently giving up."
+
+#~ msgid "You must define a SIP Port"
+#~ msgstr "شما باید یک پورت SIP تعریف کنید"
 
 #~ msgid "Failed to get remote file, error was:"
 #~ msgstr "شکست در دریافت فایل خارجی، خطا:"
