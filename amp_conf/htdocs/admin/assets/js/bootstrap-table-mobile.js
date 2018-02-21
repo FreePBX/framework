@@ -13,7 +13,7 @@
             $.each(that.columns, function (i, column) {
                 if (that.options.columnsHidden.indexOf(column.field) !== -1) {
                     if (column.visible !== checked) {
-                        that.toggleColumn($.fn.bootstrapTable.utils.getFieldIndex(that.columns, column.field), checked, true);
+                        that.toggleColumn(that.fieldsColumnsIndex[column.field], checked, true);
                     }
                 }
             });
@@ -22,7 +22,9 @@
 
     var resetView = function (that) {
         if (that.options.height || that.options.showFooter) {
-            setTimeout(that.resetView, 1);
+            setTimeout(function(){
+                that.resetView.call(that);
+            }, 1);
         }
     };
 
@@ -94,6 +96,11 @@
 
         if (!this.options.minWidth) {
             return;
+        }
+
+        if (this.options.minWidth < 100 && this.options.resizable) {
+            console.log("The minWidth when the resizable extension is active should be greater or equal than 100");
+            this.options.minWidth = 100;
         }
 
         var that = this,

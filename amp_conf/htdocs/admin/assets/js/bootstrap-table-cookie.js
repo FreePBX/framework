@@ -1,7 +1,7 @@
 /**
  * @author: Dennis Hernández
  * @webSite: http://djhvscf.github.io/Blog
- * @version: v1.2.0
+ * @version: v1.2.3
  *
  * @update zhixin wen <wenzhixin2010@gmail.com>
  */
@@ -64,11 +64,26 @@
         }
 
         cookieName = that.options.cookieIdTable + '.' + cookieName;
-        if (!cookieName || /^(?:expires|max\-age|path|domain|secure)$/i.test(cookieName)) {
-            return false;
+
+        switch(that.options.cookieStorage) {
+            case 'cookieStorage':
+                document.cookie = [
+                    cookieName, '=', cookieValue,
+                    '; expires=' + calculateExpiration(that.options.cookieExpire),
+                    that.options.cookiePath ? '; path=' + that.options.cookiePath : '',
+                    that.options.cookieDomain ? '; domain=' + that.options.cookieDomain : '',
+                    that.options.cookieSecure ? '; secure' : ''
+                ].join('');
+            case 'localStorage':
+                localStorage.setItem(cookieName, cookieValue);
+                break;
+            case 'sessionStorage':
+                sessionStorage.setItem(cookieName, cookieValue);
+                break;
+            default:
+                return false;
         }
 
-        document.cookie = encodeURIComponent(cookieName) + '=' + encodeURIComponent(cookieValue) + calculateExpiration(that.options.cookieExpire) + (that.options.cookieDomain ? '; domain=' + that.options.cookieDomain : '') + (that.options.cookiePath ? '; path=' + that.options.cookiePath : '') + (that.cookieSecure ? '; secure' : '');
         return true;
     };
 
@@ -83,28 +98,46 @@
 
         cookieName = tableName + '.' + cookieName;
 
-        return decodeURIComponent(document.cookie.replace(new RegExp('(?:(?:^|.*;)\\s*' + encodeURIComponent(cookieName).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=\\s*([^;]*).*$)|^.*$'), '$1')) || null;
-    };
-
-    var hasCookie = function (cookieName) {
-        if (!cookieName) {
-            return false;
+        switch(that.options.cookieStorage) {
+            case 'cookieStorage':
+                var value = '; ' + document.cookie;
+                var parts = value.split('; ' + cookieName + '=');
+                return parts.length === 2 ? parts.pop().split(';').shift() : null;
+            case 'localStorage':
+                return localStorage.getItem(cookieName);
+            case 'sessionStorage':
+                return sessionStorage.getItem(cookieName);
+            default:
+                return null;
         }
-        return (new RegExp('(?:^|;\\s*)' + encodeURIComponent(cookieName).replace(/[\-\.\+\*]/g, '\\$&') + '\\s*\\=')).test(document.cookie);
     };
 
-    var deleteCookie = function (tableName, cookieName, sPath, sDomain) {
+    var deleteCookie = function (that, tableName, cookieName) {
         cookieName = tableName + '.' + cookieName;
-        if (!hasCookie(cookieName)) {
-            return false;
+
+        switch(that.options.cookieStorage) {
+            case 'cookieStorage':
+                document.cookie = [
+                    encodeURIComponent(cookieName), '=',
+                    '; expires=Thu, 01 Jan 1970 00:00:00 GMT',
+                    that.options.cookiePath ? '; path=' + that.options.cookiePath : '',
+                    that.options.cookieDomain ? '; domain=' + that.options.cookieDomain : '',
+                ].join('');
+                break;
+            case 'localStorage':
+                localStorage.removeItem(cookieName);
+                break;
+            case 'sessionStorage':
+                sessionStorage.removeItem(cookieName);
+                break;
+
         }
-        document.cookie = encodeURIComponent(cookieName) + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT' + (sDomain ? '; domain=' + sDomain : '') + (sPath ? '; path=' + sPath : '');
         return true;
     };
 
     var calculateExpiration = function(cookieExpire) {
         var time = cookieExpire.replace(/[0-9]*/, ''); //s,mi,h,d,m,y
-        cookieExpire = cookieExpire.replace(/[A-Za-z]/, ''); //number
+        cookieExpire = cookieExpire.replace(/[A-Za-z]{1,2}/, ''); //number
 
         switch (time.toLowerCase()) {
             case 's':
@@ -123,14 +156,53 @@
                 cookieExpire = cookieExpire * 30 * 24 * 60 * 60;
                 break;
             case 'y':
-                cookieExpire = cookieExpire * 365 * 30 * 24 * 60 * 60;
+                cookieExpire = cookieExpire * 365 * 24 * 60 * 60;
                 break;
             default:
                 cookieExpire = undefined;
                 break;
         }
+        if (!cookieExpire) {
+            return '';
+        }
+        var d = new Date();
+        d.setTime(d.getTime() + cookieExpire * 1000);
+        return d.toGMTString();
+    };
 
-        return cookieExpire === undefined ? '' : '; max-age=' + cookieExpire;
+    var initCookieFilters = function (bootstrapTable) {
+        setTimeout(function () {
+            var parsedCookieFilters = JSON.parse(getCookie(bootstrapTable, bootstrapTable.options.cookieIdTable, cookieIds.filterControl));
+
+            if (!bootstrapTable.options.filterControlValuesLoaded && parsedCookieFilters) {
+
+                var cachedFilters = {},
+                    header = getCurrentHeader(bootstrapTable),
+                    searchControls = getCurrentSearchControls(bootstrapTable),
+
+                    applyCookieFilters = function (element, filteredCookies) {
+                        $(filteredCookies).each(function (i, cookie) {
+                            if (cookie.text !== '') {
+                                $(element).val(cookie.text);
+                                cachedFilters[cookie.field] = cookie.text;
+                            }
+                        });
+                    };
+
+                header.find(searchControls).each(function () {
+                    var field = $(this).closest('[data-field]').data('field'),
+                        filteredCookies = $.grep(parsedCookieFilters, function (cookie) {
+                            return cookie.field === field;
+                        });
+
+                    applyCookieFilters(this, filteredCookies);
+                });
+
+                bootstrapTable.initColumnSearch(cachedFilters);
+                bootstrapTable.options.filterControlValuesLoaded = true;
+                bootstrapTable.initServer();
+            }
+        }, 250);
     };
 
     $.extend($.fn.bootstrapTable.defaults, {
@@ -140,36 +212,47 @@
         cookieDomain: null,
         cookieSecure: null,
         cookieIdTable: '',
-        cookiesEnabled: ['bs.table.sortOrder', 'bs.table.sortName', 'bs.table.pageNumber', 'bs.table.pageList', 'bs.table.columns', 'bs.table.searchText', 'bs.table.filterControl'],
+        cookiesEnabled: [
+            'bs.table.sortOrder', 'bs.table.sortName',
+            'bs.table.pageNumber', 'bs.table.pageList',
+            'bs.table.columns', 'bs.table.searchText',
+            'bs.table.filterControl'
+        ],
+        cookieStorage: 'cookieStorage', //localStorage, sessionStorage
         //internal variable
         filterControls: [],
         filterControlValuesLoaded: false
     });
 
+    $.fn.bootstrapTable.methods.push('getCookies');
     $.fn.bootstrapTable.methods.push('deleteCookie');
+
+    $.extend($.fn.bootstrapTable.utils, {
+        setCookie: setCookie,
+        getCookie: getCookie
+    });
 
     var BootstrapTable = $.fn.bootstrapTable.Constructor,
         _init = BootstrapTable.prototype.init,
         _initTable = BootstrapTable.prototype.initTable,
+        _initServer = BootstrapTable.prototype.initServer,
         _onSort = BootstrapTable.prototype.onSort,
         _onPageNumber = BootstrapTable.prototype.onPageNumber,
         _onPageListChange = BootstrapTable.prototype.onPageListChange,
-        _onPageFirst = BootstrapTable.prototype.onPageFirst,
         _onPagePre = BootstrapTable.prototype.onPagePre,
         _onPageNext = BootstrapTable.prototype.onPageNext,
-        _onPageLast = BootstrapTable.prototype.onPageLast,
         _toggleColumn = BootstrapTable.prototype.toggleColumn,
         _selectPage = BootstrapTable.prototype.selectPage,
         _onSearch = BootstrapTable.prototype.onSearch;
 
     BootstrapTable.prototype.init = function () {
-        var timeoutId = 0;
         this.options.filterControls = [];
         this.options.filterControlValuesLoaded = false;
 
-
         this.options.cookiesEnabled = typeof this.options.cookiesEnabled === 'string' ?
-            this.options.cookiesEnabled.replace('[', '').replace(']', '').replace(/ /g, '').toLowerCase().split(',') : this.options.cookiesEnabled;
+            this.options.cookiesEnabled.replace('[', '').replace(']', '')
+                .replace(/ /g, '').toLowerCase().split(',') :
+            this.options.cookiesEnabled;
 
         if (this.options.filterControl) {
             var that = this;
@@ -191,35 +274,21 @@
                 }
 
                 setCookie(that, cookieIds.filterControl, JSON.stringify(that.options.filterControls));
-            }).on('post-body.bs.table', function () {
-                setTimeout(function () {
-                    if (!that.options.filterControlValuesLoaded) {
-                        that.options.filterControlValuesLoaded = true;
-                        var filterControl = JSON.parse(getCookie(that, that.options.cookieIdTable, cookieIds.filterControl));
-                        if (filterControl) {
-                            var field = null,
-                                result = [],
-                                header = getCurrentHeader(that),
-                                searchControls = getCurrentSearchControls(that);
-
-                            header.find(searchControls).each(function (index, ele) {
-                                field = $(this).parent().parent().parent().data('field');
-                                result = $.grep(filterControl, function (valueObj) {
-                                    return valueObj.field === field;
-                                });
-
-                                if (result.length > 0) {
-                                    $(this).val(result[0].text);
-                                    that.onColumnSearch({currentTarget: $(this)});
-                                }
-                            });
-                        }
-                    }
-                }, 250);
-            });
+            }).on('post-body.bs.table', initCookieFilters(that));
         }
         _init.apply(this, Array.prototype.slice.apply(arguments));
     };
+
+    BootstrapTable.prototype.initServer = function () {
+        var bootstrapTable = this;
+        if (bootstrapTable.options.cookie && bootstrapTable.options.filterControl && !bootstrapTable.options.filterControlValuesLoaded) {
+            var cookie = JSON.parse(getCookie(bootstrapTable, bootstrapTable.options.cookieIdTable, cookieIds.filterControl));
+            if (cookie)
+                return;
+        }
+        _initServer.apply(this, Array.prototype.slice.apply(arguments));
+    };
+
 
     BootstrapTable.prototype.initTable = function () {
         _initTable.apply(this, Array.prototype.slice.apply(arguments));
@@ -232,7 +301,8 @@
         }
 
         if ((this.options.cookieIdTable === '') || (this.options.cookieExpire === '') || (!cookieEnabled())) {
-            throw new Error("Configuration error. Please review the cookieIdTable, cookieExpire properties, if those properties are ok, then this browser does not support the cookies");
+            console.error("Configuration error. Please review the cookieIdTable, cookieExpire properties, if those properties are ok, then this browser does not support the cookies");
+            this.options.cookie = false; //Make sure that the cookie extension is disabled
             return;
         }
 
@@ -270,31 +340,26 @@
     BootstrapTable.prototype.onPageNumber = function () {
         _onPageNumber.apply(this, Array.prototype.slice.apply(arguments));
         setCookie(this, cookieIds.pageNumber, this.options.pageNumber);
+        return false;
     };
 
     BootstrapTable.prototype.onPageListChange = function () {
         _onPageListChange.apply(this, Array.prototype.slice.apply(arguments));
         setCookie(this, cookieIds.pageList, this.options.pageSize);
-    };
-
-    BootstrapTable.prototype.onPageFirst = function () {
-        _onPageFirst.apply(this, Array.prototype.slice.apply(arguments));
         setCookie(this, cookieIds.pageNumber, this.options.pageNumber);
+        return false;
     };
 
     BootstrapTable.prototype.onPagePre = function () {
         _onPagePre.apply(this, Array.prototype.slice.apply(arguments));
         setCookie(this, cookieIds.pageNumber, this.options.pageNumber);
+        return false;
     };
 
     BootstrapTable.prototype.onPageNext = function () {
         _onPageNext.apply(this, Array.prototype.slice.apply(arguments));
         setCookie(this, cookieIds.pageNumber, this.options.pageNumber);
-    };
-
-    BootstrapTable.prototype.onPageLast = function () {
-        _onPageLast.apply(this, Array.prototype.slice.apply(arguments));
-        setCookie(this, cookieIds.pageNumber, this.options.pageNumber);
+        return false;
     };
 
     BootstrapTable.prototype.toggleColumn = function () {
@@ -313,12 +378,29 @@
 
     BootstrapTable.prototype.selectPage = function (page) {
         _selectPage.apply(this, Array.prototype.slice.apply(arguments));
-        setCookie(this, idsStateSaveList.pageNumber, page);
+        setCookie(this, cookieIds.pageNumber, page);
     };
 
     BootstrapTable.prototype.onSearch = function () {
-        _onSearch.apply(this, Array.prototype.slice.apply(arguments));
-        setCookie(this, cookieIds.searchText, this.searchText);
+        var target = Array.prototype.slice.apply(arguments);
+        _onSearch.apply(this, target);
+
+        if ($(target[0].currentTarget).parent().hasClass('search')) {
+            setCookie(this, cookieIds.searchText, this.searchText);
+        }
+        setCookie(this, cookieIds.pageNumber, this.options.pageNumber);
+    };
+
+    BootstrapTable.prototype.getCookies = function () {
+        var bootstrapTable = this;
+        var cookies = {};
+        $.each(cookieIds, function(key, value) {
+            cookies[key] = getCookie(bootstrapTable, bootstrapTable.options.cookieIdTable, value);
+            if (key === 'columns') {
+                cookies[key] = JSON.parse(cookies[key]);
+            }
+        });
+        return cookies;
     };
 
     BootstrapTable.prototype.deleteCookie = function (cookieName) {
@@ -326,6 +408,6 @@
             return;
         }
 
-        deleteCookie(this.options.cookieIdTable, cookieIds[cookieName], this.options.cookiePath, this.options.cookieDomain);
+        deleteCookie(this, this.options.cookieIdTable, cookieIds[cookieName]);
     };
 })(jQuery);

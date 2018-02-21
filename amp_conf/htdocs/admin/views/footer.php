@@ -152,7 +152,7 @@ $html .= '<script type="text/javascript" src="assets/js/modernizr.js'.$version_t
 $html .= '<script src="assets/js/bootstrap-3.3.4.custom.min.js'.$version_tag.'"></script>';
 $html .= '<script src="assets/js/tableExport.min.js'.$version_tag.'"></script>';
 $html .= '<script src="assets/js/jquery.tablednd.min.js'.$version_tag.'"></script>';
-$html .= '<script src="assets/js/bootstrap-table-1.9.0.js'.$version_tag.'"></script>';
+$html .= '<script src="assets/js/bootstrap-table-dev.js'.$version_tag.'"></script>';
 
 $html .= '<script src="assets/js/bootstrap-table-locale/bootstrap-table-en-US.js'.$version_tag.'"></script>';
 if($lang != "en_US") {
