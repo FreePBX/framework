@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-02-16 13:07-0500\n"
+"POT-Creation-Date: 2018-02-21 17:36-0500\n"
 "PO-Revision-Date: 2015-11-17 09:04+0200\n"
 "Last-Translator: james <zhulizhong@gmail.com>\n"
 "Language-Team: Simplified Chinese <http://weblate.freepbx.org/projects/"
@@ -756,7 +756,7 @@ msgid ""
 "installation and maintenance operations at an administration level"
 msgstr "对此模块执行操作。通常包括安装维护操作"
 
-#: amp_conf/htdocs/admin/functions.inc.php:463 ../core/page.astmodules.php:140
+#: amp_conf/htdocs/admin/functions.inc.php:464 ../core/page.astmodules.php:140
 #: ../core/views/trunks/trunk_header.php:2
 msgid "Add"
 msgstr "添加"
@@ -2320,7 +2320,7 @@ msgid "Could not remove temporary location %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/functions.inc.php:384
-#: amp_conf/htdocs/admin/functions.inc.php:444
+#: amp_conf/htdocs/admin/functions.inc.php:445
 #, php-format
 msgid "Could not run %s script."
 msgstr "无法运行 %s 脚本。"
@@ -3970,7 +3970,7 @@ msgid "Execute on only this file/dir"
 msgstr ""
 
 #: amp_conf/htdocs/admin/functions.inc.php:383
-#: amp_conf/htdocs/admin/functions.inc.php:443
+#: amp_conf/htdocs/admin/functions.inc.php:444
 #, php-format
 msgid "Exit code was %s and output was: %s"
 msgstr "退出码为 %s ，输出为：%s"
@@ -7566,13 +7566,13 @@ msgstr ""
 msgid "Reload Configs"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:409
+#: amp_conf/htdocs/admin/functions.inc.php:410
 #, php-format
 msgid ""
 "Reload failed because %s could not connect to the asterisk manager interface."
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:401
+#: amp_conf/htdocs/admin/functions.inc.php:402
 #, php-format
 msgid "Reload failed because retrieve_conf encountered an error: %s"
 msgstr "由于retrieve_conf函数遇到了 %s 错误，重启失败"
@@ -8485,12 +8485,12 @@ msgstr ""
 msgid "Submit"
 msgstr "提交"
 
-#: amp_conf/htdocs/admin/functions.inc.php:435
+#: amp_conf/htdocs/admin/functions.inc.php:436
 msgid ""
 "Successful reload, but could not clear reload flag due to a database error: "
 msgstr "重启成功，但是由于数据库发生错误，无法清除重启标志："
 
-#: amp_conf/htdocs/admin/functions.inc.php:428
+#: amp_conf/htdocs/admin/functions.inc.php:429
 msgid "Successfully reloaded"
 msgstr "重启成功"
 
@@ -9868,6 +9868,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/DB.class.php:716
 #, php-format
 msgid "Unknown Error Code %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/functions.inc.php:395
+msgid "Unknown Error. Please Run "
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/DB.class.php:553
@@ -11615,8 +11619,8 @@ msgstr ""
 msgid "removing rtp.conf it will be symlinked from core"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:403
-#: amp_conf/htdocs/admin/functions.inc.php:411
+#: amp_conf/htdocs/admin/functions.inc.php:404
+#: amp_conf/htdocs/admin/functions.inc.php:412
 msgid "retrieve_conf failed, config not applied"
 msgstr "retrieve_conf 函数执行失败，配置未生效"
 
