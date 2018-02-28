@@ -37,10 +37,8 @@ $bootstrap_settings['whoops_handler'] = 'JsonResponseHandler';
 // No non-BMO Modules.
 $restrict_mods = true;
 
-// This needs to be included BEFORE the session_start or we fail so
-// we can't do it in bootstrap and thus we have to depend on the
-// __FILE__ path here.
-require_once(dirname(__FILE__) . '/libraries/ampuser.class.php');
+// Bootstrap!
+include_once '/etc/freepbx.conf';
 
 session_set_cookie_params(60 * 60 * 24 * 30);//(re)set session cookie to 30 days
 ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 30);//(re)set session to 30 days
@@ -52,9 +50,6 @@ if (!isset($_SESSION)) {
 		session_start();
 	}
 }
-
-// Bootstrap!
-include_once '/etc/freepbx.conf';
 
 // We may remove this, but for the moment, ajax should be
 // 100% error and warning free.

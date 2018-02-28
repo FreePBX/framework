@@ -78,6 +78,17 @@ if (isset($_REQUEST['handler'])) {
 // call bootstrap.php through freepbx.conf
 include_once '/etc/freepbx.conf';
 
+session_set_cookie_params(60 * 60 * 24 * 30);//(re)set session cookie to 30 days
+ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 30);//(re)set session to 30 days
+if (!isset($_SESSION)) {
+	//start a session if we need one
+	$ss = @session_start();
+	if(!$ss){
+		session_regenerate_id(true); // replace the Session ID
+		session_start();
+	}
+}
+
 //unset the ampuser if the user logged out
 if ($logout == 'true') {
 	unset($_SESSION['AMP_user']);

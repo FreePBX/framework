@@ -180,17 +180,6 @@ require_once __DIR__ . '/libraries/Builtin/Session.php';
 
 \FreePBX\Builtin\Session::register($db);
 
-session_set_cookie_params(60 * 60 * 24 * 30);//(re)set session cookie to 30 days
-ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 30);//(re)set session to 30 days
-if (!isset($_SESSION)) {
-	//start a session if we need one
-	$ss = @session_start();
-	if(!$ss){
-		session_regenerate_id(true); // replace the Session ID
-		session_start();
-	}
-}
-
 //set this before we run date functions
 $timezone = $bmo->View->setTimezone();
 
