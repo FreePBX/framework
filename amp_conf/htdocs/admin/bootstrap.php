@@ -178,7 +178,7 @@ $amp_conf = $freepbx_conf->parse_amportal_conf("/etc/amportal.conf",$amp_conf);
 require_once __DIR__ . '/libraries/ampuser.class.php';
 require_once __DIR__ . '/libraries/Builtin/Session.php';
 
-\FreePBX\Builtin\Session::register($amp_conf['AMPDBHOST'], $amp_conf['AMPDBUSER'], $amp_conf['AMPDBPASS'], $amp_conf['AMPDBNAME']);
+\FreePBX\Builtin\Session::register($db);
 
 session_set_cookie_params(60 * 60 * 24 * 30);//(re)set session cookie to 30 days
 ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 30);//(re)set session to 30 days

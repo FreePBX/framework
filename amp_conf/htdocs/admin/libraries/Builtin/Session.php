@@ -21,31 +21,22 @@
 namespace FreePBX\Builtin;
 
 class Session {
-	private static $db;
+	private static $dbh;
 	private static $session;
 
-	private $host;
-	private $user;
-	private $pass;
-	private $dbname;
-
-	public static function register($dbhost, $dbuser, $dbpass, $dbname) {
+	public static function register($dbh) {
 		// Only register if we haven't already done so.
 		if (empty(self::$session)) {
-			self::$session = new Session($dbhost, $dbuser, $dbpass, $dbname);
+			self::$session = new Session($dbh);
 		}
 	}
 
-	public function __construct($dbhost, $dbuser, $dbpass, $dbname) {
-		$this->host = $dbhost;
-		$this->user = $dbuser;
-		$this->pass = $dbpass;
-		$this->dbname = $dbname;
+	public function __construct($dbh) {
 		$this->sessiondbname = "db_sessions";
 
-		if (!is_object(self::$db)) {
-			self::$db = new \PDO("mysql:host=".$this->host.";charset=utf8;dbname=".$this->dbname, $this->user, $this->pass, [\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION]);
-			$this->createSessionTable(self::$db);
+		if (!is_object(self::$dbh)) {
+			self::$dbh = $dbh;
+			$this->createSessionTable();
 		}
 
 		session_set_save_handler(
@@ -60,7 +51,7 @@ class Session {
 	}
 
 	private function createSessionTable() {
-		self::$db->query('CREATE TABLE IF NOT EXISTS `'.$this->sessiondbname.'` (
+		self::$dbh->query('CREATE TABLE IF NOT EXISTS `'.$this->sessiondbname.'` (
 			`id` varchar(32) NOT NULL,
 			`access` int(10) unsigned DEFAULT NULL,
 			`data` text,
@@ -103,7 +94,7 @@ class Session {
 	public function session_read($id) {
 		static $prep = false;
 		if (!$prep) {
-			$prep = self::$db->prepare('SELECT `data` FROM `'.$this->sessiondbname.'` WHERE id = ?');
+			$prep = self::$dbh->prepare('SELECT `data` FROM `'.$this->sessiondbname.'` WHERE id = ?');
 		}
 		$prep->execute([$id]);
 		$res = $prep->fetchAll(\PDO::FETCH_COLUMN);
@@ -134,7 +125,7 @@ class Session {
 	public function session_write($id, $data){
 		static $prep;
 		if (!$prep) {
-			$prep = self::$db->prepare('INSERT INTO `'.$this->sessiondbname.'` (`id`, `access`, `data`) VALUES (?, ?, ?) ON DUPLICATE KEY
+			$prep = self::$dbh->prepare('INSERT INTO `'.$this->sessiondbname.'` (`id`, `access`, `data`) VALUES (?, ?, ?) ON DUPLICATE KEY
 				UPDATE `access` = ?, `data` = ?');
 		}
 
@@ -148,7 +139,7 @@ class Session {
 	public function session_destroy($id) {
 		static $prep;
 		if (!$prep) {
-			$prep = self::$db->prepare('DELETE FROM `'.$this->sessiondbname.'` WHERE `id` = ?');
+			$prep = self::$dbh->prepare('DELETE FROM `'.$this->sessiondbname.'` WHERE `id` = ?');
 		}
 		$prep->execute([$id]);
 		return true;
@@ -163,7 +154,7 @@ class Session {
 	public function session_gc($lifetime) {
 		static $prep;
 		if (!$prep) {
-			$prep = self::$db->prepare('DELETE FROM `'.$this->sessiondbname.'` WHERE `access` < ?');
+			$prep = self::$dbh->prepare('DELETE FROM `'.$this->sessiondbname.'` WHERE `access` < ?');
 		}
 		$prep->execute([ time() - $lifetime ]);
 		return true;
