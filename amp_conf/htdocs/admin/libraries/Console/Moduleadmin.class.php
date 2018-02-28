@@ -1022,7 +1022,9 @@ class Moduleadmin extends Command {
 			//Check signature status, then if its online then if its signed online then redownload (through force)
 			$this->writeln(sprintf(_("Checking %s..."),$m['rawname']));
 			$msig = \FreePBX::GPG()->verifyModule($m['rawname']);
-
+			if ($m['rawname'] == 'builtin') {
+				continue;
+			}
 			// Check to see if the STATE_GOOD bit is NOT set.
 			if(~$msig['status'] & \FreePBX\GPG::STATE_GOOD) {
 				$this->writeln(_("Signature Invalid"));
