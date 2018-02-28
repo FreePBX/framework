@@ -1,27 +1,28 @@
-<?php /* $Id$ */
+<?php
+
 //	License for all code of this FreePBX module can be found in the license file inside the module directory
 //	Copyright 2013 Schmooze Com Inc.
-//
+//	Copyright 2018 Sangoma Technologies Corp.
 
-//set variables
+// These are the variables we allow to be passed to config.php
 $vars = array(
-	'action'			=> null,
+	'action'		=> null,
 	'confirm_email'		=> '',
 	'confirm_password'	=> '',
-	'display'			=> '',
+	'display'		=> '',
 	'extdisplay'		=> null,
 	'email_address'		=> '',
 	'fw_popover' 		=> '',
-	'fw_popover_process' => '',
-	'logout'			=> false,
-	'password'			=> '',
-	'quietmode'			=> '',
+	'fw_popover_process'	=> '',
+	'logout'		=> false,
+	'password'		=> '',
+	'quietmode'		=> '',
 	'restrictmods'		=> false,
-	'skip'				=> 0,
+	'skip'			=> 0,
 	'skip_astman'		=> false,
-	'type'				=> '',
-	'username'			=> '',
-	'unlock'			=> false,
+	'type'			=> '',
+	'username'		=> '',
+	'unlock'		=> false,
 );
 
 foreach ($vars as $k => $v) {
@@ -57,29 +58,7 @@ header('Pragma: no-cache');
 header('Content-Type: text/html; charset=utf-8');
 //header("Content-Security-Policy: default-src 'none';");
 
-// This needs to be included BEFORE the session_start or we fail so
-// we can't do it in bootstrap and thus we have to depend on the
-// __FILE__ path here.
-require_once(dirname(__FILE__) . '/libraries/ampuser.class.php');
 
-session_set_cookie_params(60 * 60 * 24 * 30);//(re)set session cookie to 30 days
-ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 30);//(re)set session to 30 days
-if (!isset($_SESSION)) {
-	//start a session if we need one
-	$ss = @session_start();
-	if(!$ss){
-		session_regenerate_id(true); // replace the Session ID
-		session_start();
-	}
-}
-
-//unset the ampuser if the user logged out
-if ($logout == 'true') {
-	unset($_SESSION['AMP_user']);
-	exit();
-}
-
-//session_cache_limiter('public, no-store');
 if (isset($_REQUEST['handler'])) {
 	if ($restrict_mods === false) {
 		$restrict_mods = true;
@@ -98,6 +77,12 @@ if (isset($_REQUEST['handler'])) {
 
 // call bootstrap.php through freepbx.conf
 include_once '/etc/freepbx.conf';
+
+//unset the ampuser if the user logged out
+if ($logout == 'true') {
+	unset($_SESSION['AMP_user']);
+	exit();
+}
 
 //check to make sure zend files aren't breaking the SPL autoloader.
 //if they are then tell the user to run said command below
