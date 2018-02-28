@@ -1023,7 +1023,6 @@ class Moduleadmin extends Command {
 			$this->writeln(sprintf(_("Checking %s..."),$m['rawname']));
 			$msig = \FreePBX::GPG()->verifyModule($m['rawname']);
 			if ($m['rawname'] == 'builtin') {
-				$this->writeln(_("SKIP Checking Signatures of Module builtin..."));
 				continue;
 			}
 			// Check to see if the STATE_GOOD bit is NOT set.
