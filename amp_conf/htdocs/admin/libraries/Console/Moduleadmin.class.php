@@ -33,10 +33,6 @@ class Moduleadmin extends Command {
 	}
 
 	private function endOfLife() {
-		if(!is_null($this->previousEdge)) {
-			\FreePBX::Config()->update('MODULEADMINEDGE',$this->previousEdge);
-		}
-
 		if (!$this->send_email) {
 			return;
 		}
@@ -93,20 +89,6 @@ class Moduleadmin extends Command {
 		}
 		if ($input->getOption('tag')) {
 			$this->tag = $input->getOption('tag');
-		}
-		if($input->getOption('stable') && $input->getOption('edge')) {
-			$this->writeln('<error>'._('Confusing statement. Not sure what you want to do').'</error>');
-			exit(255);
-		}
-		if($input->getOption('edge')) {
-			$this->writeln('<info>'._('Edge repository temporarily enabled').'</info>');
-			$this->previousEdge = \FreePBX::Config()->get('MODULEADMINEDGE');
-			\FreePBX::Config()->update('MODULEADMINEDGE',1);
-		}
-		if($input->getOption('stable')) {
-			$this->writeln('<info>'._('Stable repository temporarily enabled').'</info>');
-			$this->previousEdge = \FreePBX::Config()->get('MODULEADMINEDGE');
-			\FreePBX::Config()->update('MODULEADMINEDGE',0);
 		}
 		if ($input->getOption('debug')) {
 			$this->DEBUG = True;
@@ -204,15 +186,48 @@ class Moduleadmin extends Command {
 			if($this->DEBUG){
 				print_r($args);
 			}
+			if($input->getOption('stable') && $input->getOption('edge')) {
+				$this->writeln('<error>'._('Confusing statement. Not sure what you want to do').'</error>');
+				exit(255);
+			}
+			if($input->getOption('edge')) {
+				$this->previousEdge = \FreePBX::Config()->get('MODULEADMINEDGE');
+				if($this->previousEdge) {
+					$this->writeln('<info>'._('Edge repository already enabled, ignoring option').'</info>');
+					$this->previousEdge = null;
+				} else {
+					$this->writeln('<info>'._('Edge repository temporarily enabled').'</info>');
+					\FreePBX::Config()->update('MODULEADMINEDGE',1);
+				}
+			}
+			if($input->getOption('stable')) {
+				$this->previousEdge = \FreePBX::Config()->get('MODULEADMINEDGE');
+				if(!$this->previousEdge) {
+					$this->writeln('<info>'._('Stable repository already enabled, ignoring option').'</info>');
+					$this->previousEdge = null;
+				} else {
+					$this->writeln('<info>'._('Stable repository temporarily enabled').'</info>');
+					\FreePBX::Config()->update('MODULEADMINEDGE',1);
+				}
+			}
 			try {
 				$this->handleArgs($args,$output);
 			} catch(\Exception $e) {
 				//run our last minute commands as they wont run later
+				$this->resetMode();
 				$this->endOfLife();
 				throw $e;
 			}
 		} else {
 			$this->writeln($this->showHelp());
+		}
+		$this->resetMode();
+	}
+
+	private function resetMode() {
+		if(!is_null($this->previousEdge)) {
+			$this->writeln("<info>Resetting temporarily repository state</info>");
+			\FreePBX::Config()->update('MODULEADMINEDGE',$this->previousEdge);
 		}
 	}
 
@@ -809,7 +824,14 @@ class Moduleadmin extends Command {
 			if(sizeof($args) == 1){
 				$chown->moduleName = is_array($args[0]) ? $args[0]['name'] : $args[0];
 			}
+			if(!($this->out->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE)) {
+				$prevVerbosity = $this->out->getVerbosity();
+				$this->out->setVerbosity(OutputInterface::VERBOSITY_QUIET);
+			}
 			$chown->execute($this->input, $this->out, !($this->out->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE));
+			if(!empty($prevVerbosity)) {
+				$this->out->setVerbosity($prevVerbosity);
+			}
 		}
 	}
 

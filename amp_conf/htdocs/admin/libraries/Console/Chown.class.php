@@ -29,10 +29,7 @@ class Chown extends Command {
 		$this->loadChownConf();
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output, $quiet=false){
-		if($quiet) {
-			$output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
-		}
+	protected function execute(InputInterface $input, OutputInterface $output){
 		$this->output = $output;
 		$args = array();
 		if($input){
