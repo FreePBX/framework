@@ -886,15 +886,10 @@ class ext_execif {
 	}
 
 	function output() {
-		global $version;
-
-		if (version_compare($version, "1.6", "ge")) {
-			if ($this->app_false != '')
-				return "ExecIf({$this->expr}?{$this->app_true}({$this->data_true}):{$this->app_false}({$this->data_false}))";
-			else
-				return "ExecIf({$this->expr}?{$this->app_true}({$this->data_true}))";
+		if ($this->app_false != '') {
+			return "ExecIf({$this->expr}?{$this->app_true}({$this->data_true}):{$this->app_false}({$this->data_false}))";
 		} else {
-			return "ExecIf({$this->expr},{$this->app_true},{$this->data_true})";
+			return "ExecIf({$this->expr}?{$this->app_true}({$this->data_true}))";
 		}
 	}
 }
@@ -1260,15 +1255,9 @@ class ext_deadagi extends extension {
 	}
 }
 class ext_dbdel extends extension {
-        function output() {
-            global $version; // Asterisk Version
-            if (version_compare($version, "1.4", "ge")) {
-                return 'Noop(Deleting: '.$this->data.' ${DB_DELETE('.$this->data.')})';
-                }
-            else {
-                return "dbDel(".$this->data.")";
-                }
-        }
+	function output() {
+		return 'Noop(Deleting: '.$this->data.' ${DB_DELETE('.$this->data.')})';
+	}
 }
 class ext_dbdeltree extends extension {
 	function output() {
@@ -1308,14 +1297,7 @@ class ext_vm extends extension {
 }
 class ext_vmexists extends extension {
 	function output() {
-		global $version; // Asterisk Version
-		if (version_compare($version, "11", ">=")) {
-			return 'Set(VMBOXEXISTSSTATUS=${IF(${VM_INFO('.$this->data.',exists)}?SUCCESS:FAILED)})';
-		} elseif (version_compare($version, "1.6", ">=")) {
-			return 'Set(VMBOXEXISTSSTATUS=${IF(${MAILBOX_EXISTS('.$this->data.')}?SUCCESS:FAILED)})';
-		} else {
-			return "MailBoxExists(".$this->data.")";
-		}
+		return 'Set(VMBOXEXISTSSTATUS=${IF(${VM_INFO('.$this->data.',exists)}?SUCCESS:FAILED)})';
 	}
 }
 class ext_saydigits extends extension {
@@ -1325,15 +1307,10 @@ class ext_saydigits extends extension {
 }
 class ext_sayunixtime extends extension {
 	function output() {
-		global $version; // Asterisk Version
-		if (version_compare($version, "1.6", ">=")) {
-			// SayUnixTime in 1.6 and greater does NOT require slashes. If they're
-			// supplied, strip them out.
-			$fixed = str_replace("\\", "", $this->data);
-			return "SayUnixTime($fixed)";
-		} else {
-			return "SayUnixTime(".$this->data.")";
-		}
+		// SayUnixTime in 1.6 and greater does NOT require slashes. If they're
+		// supplied, strip them out.
+		$fixed = str_replace("\\", "", $this->data);
+		return "SayUnixTime($fixed)";
 	}
 }
 class ext_echo extends extension {
@@ -1344,15 +1321,9 @@ class ext_echo extends extension {
 // Thanks to agillis for the suggestion of the nvfaxdetect option
 class ext_nvfaxdetect extends extension {
 	function output() {
-	global $version; // Asterisk Version
-	    if (version_compare($version, "1.6", "ge")) {
 		// change from '|' to ','
 		$astdelimeter = str_replace("|", ",", $this->data);
 		return "NVFaxDetect($astdelimeter)";
-		}
-	    else {
-		return "NVFaxDetect(".$this->data.")";
-		}
 	}
 }
 class ext_receivefax extends extension {
@@ -1454,13 +1425,7 @@ class ext_dpickup extends extension {
 }
 class ext_lookupcidname extends extension {
 	function output() {
-		global $version;
-
-		if (version_compare($version, "1.6", "ge")) {
-			return 'ExecIf($["${DB(cidname/${CALLERID(num)})}" != ""]?Set(CALLERID(name)=${DB(cidname/${CALLERID(num)})}))';
-		} else {
-			return "LookupCIDName";
-		}
+		return 'ExecIf($["${DB(cidname/${CALLERID(num)})}" != ""]?Set(CALLERID(name)=${DB(cidname/${CALLERID(num)})}))';
 	}
 }
 
@@ -1667,13 +1632,7 @@ class ext_chanisavail extends extension {
 
 class ext_setlanguage extends extension {
 	function output() {
-		global $version;
-
-		if (version_compare($version, "1.4", "ge")) {
-			return "Set(CHANNEL(language)={$this->data})";
-		} else {
-			return "Set(LANGUAGE()={$this->data})";
-		}
+		return "Set(CHANNEL(language)={$this->data})";
 	}
 }
 
