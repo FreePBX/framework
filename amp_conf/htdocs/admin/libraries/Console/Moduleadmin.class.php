@@ -207,7 +207,7 @@ class Moduleadmin extends Command {
 					$this->previousEdge = null;
 				} else {
 					$this->writeln('<info>'._('Stable repository temporarily enabled').'</info>');
-					\FreePBX::Config()->update('MODULEADMINEDGE',1);
+					\FreePBX::Config()->update('MODULEADMINEDGE',0);
 				}
 			}
 			try {
