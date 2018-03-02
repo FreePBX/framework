@@ -176,6 +176,16 @@ class Chown extends Command {
 		 */
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
 
+		// FREEPBX-16718 - Make sure there aren't any dangling sound files in ASTVARLIBDIR/sounds which causes
+		// asterisk to display harmless, but annoying, warnings, and can cause systemSetRecursive to error,
+		// too.
+		$sounds = "$ASTVARLIBDIR/sounds";
+		exec("find $sounds -xtype l", $findoutput, $ret);
+		foreach ($findoutput as $file) {
+			$output->writeln(sprintf(_("Removing dangling sound symlink %s"), $file));
+			unlink($file);
+		}
+
 		if((empty($this->moduleName) && $this->moduleName != 'framework') && posix_geteuid() == 0) {
 			$output->write(_("Setting base permissions..."));
 
