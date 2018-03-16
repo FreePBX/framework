@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-21 17:28-0500\n"
-"PO-Revision-Date: 2018-03-15 18:48+0200\n"
+"PO-Revision-Date: 2018-03-15 23:07+0200\n"
 "Last-Translator: Stell0 <stefano.fancello@nethesis.it>\n"
 "Language-Team: Italian "
 "<http://weblate.freepbx.org/projects/freepbx/framework/it_IT/>\n"
@@ -310,6 +310,8 @@ msgid ""
 "%s cannot be upgraded to %s: The release track of %s does not exist for this "
 "module"
 msgstr ""
+"%s non può essere aggiornato a %s: la traccia di rilascio di %s non esiste "
+"per questo modulo"
 
 #: amp_conf/htdocs/admin/page.modules.php:460
 #: amp_conf/htdocs/admin/page.modules.php:483
@@ -320,26 +322,28 @@ msgid ""
 "%s cannot be upgraded: %s Please try again after the dependencies have been "
 "installed."
 msgstr ""
+"%s non può essere aggiornato:%s Si prega di riprovare dopo aver installato "
+"le dipendenze."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:144
 #, php-format
 msgid "%s contains .."
-msgstr ""
+msgstr "%s contiene .."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:141
 #, php-format
 msgid "%s contains a /"
-msgstr ""
+msgstr "%s contiene .. un /"
 
 #: amp_conf/htdocs/admin/page.modules.php:325
 #, php-format
 msgid "%s disabled successfully"
-msgstr ""
+msgstr "%s disabilitato con successo"
 
 #: amp_conf/htdocs/admin/page.modules.php:314
 #, php-format
 msgid "%s enabled successfully"
-msgstr ""
+msgstr "%s abilitato con successo"
 
 #: amp_conf/htdocs/admin/page.modules.php:233
 #: amp_conf/htdocs/admin/page.modules.php:263
@@ -348,38 +352,38 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:369
 #, php-format
 msgid "%s installed successfully"
-msgstr ""
+msgstr "%s installato con successo"
 
 #: amp_conf/htdocs/admin/views/footer_content.php:28
 #, php-format
 msgid "%s is a registered trademark of"
-msgstr ""
+msgstr "%s è un marchio registrato di"
 
 #: ../core/functions.inc.php:540
 #, php-format
 msgid "%s is already in use sip.conf. Can not continue"
-msgstr ""
+msgstr "%s è già in uso sip.conf. Non è possibile continuare"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:651
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:893
 #, php-format
 msgid "%s not found"
-msgstr ""
+msgstr "%s non trovato"
 
 #: ../core/install.php:908
 #, php-format
 msgid "%s prepared"
-msgstr ""
+msgstr "%s preparato"
 
 #: ../core/Core.class.php:2844
 #, php-format
 msgid "%s records failed validation"
-msgstr ""
+msgstr "%s registrazione non riuscita"
 
 #: amp_conf/htdocs/admin/page.modules.php:348
 #, php-format
 msgid "%s removed successfully"
-msgstr ""
+msgstr "%s rimosso con successo"
 
 #: amp_conf/htdocs/admin/views/footer.php:306
 #, php-format
@@ -388,83 +392,88 @@ msgid ""
 "the browser you currently have but your experience may be diminished and is "
 "not supported"
 msgstr ""
+"%s richiede un nuovo browser per funzionare correttamente. Puoi ancora "
+"utilizzare %s con il browser che hai attualmente ma la tua esperienza "
+"potrebbe essere diminuita e non è supportata"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:413
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:448
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:485
 #, php-format
 msgid "%s skipped by configuration"
-msgstr ""
+msgstr "%s saltato dalla configurazione"
 
 #: amp_conf/htdocs/admin/views/module_admin/main.php:312
 #, php-format
 msgid "%s to %s and Enable"
-msgstr ""
+msgstr "%s per %s e abilitare"
 
 #: amp_conf/htdocs/admin/page.modules.php:337
 #: amp_conf/htdocs/admin/page.modules.php:359
 #, php-format
 msgid "%s uninstalled successfully"
-msgstr ""
+msgstr "%s rimosso con successo"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1129
 #, php-format
 msgid "%s version %s or below is required, you have %s"
-msgstr ""
+msgstr "%s versione %s inferiore è richiesta, hai %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1142
 #, php-format
 msgid "%s version %s or higher is required, you have %s"
-msgstr ""
+msgstr "%s versione %s o superiore è richiesto, hai %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:593
 #, php-format
 msgid "%s will be removed from the hard disk"
-msgstr ""
+msgstr "%s sarà rimosso dal hard disk"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:122
 #, php-format
 msgid "%s: New Online Updates Available (%s)"
-msgstr ""
+msgstr "%s: Nuovi Aggiornamenti sono disponibili (%s)"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:99
 #, php-format
 msgid "%s: New Security Notifications (%s)"
-msgstr ""
+msgstr "%s: Nuova notifica di sicurezza (%s)"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:74
 #, php-format
 msgid "%s: New Unsigned Modules Notifications (%s)"
-msgstr ""
+msgstr "%s: Nuove notifiche di moduli non firmati (%s)"
 
 #: install.php:13
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
-msgstr ""
+msgstr "'cp -rf' da src: '%s' a dst: '%s' ... seguono i dettagli"
 
 #: amp_conf/htdocs/admin/libraries/featurecodes.functions.php:76
 msgid "** MISSING FEATURE CODE **"
-msgstr ""
+msgstr "** CODICE CARATTERISTICHE MANCANTI **"
 
 #: ../core/views/routing/form.php:43
 msgid "---No Change---"
-msgstr ""
+msgstr "---Nessun cambiamento---"
 
 #: ../core/views/routing/timecond.php:12
 msgid "---Permanent Route---"
-msgstr ""
+msgstr "---Rotta permanente--"
 
 #: amp_conf/htdocs/admin/config.php:196
 msgid ".htaccess files are disable on this webserver. Please enable them"
 msgstr ""
+"I file .htaccess sono disabilitati su questo server web. Si prega di "
+"abilitarli"
 
 #: amp_conf/htdocs/admin/config.php:209
 msgid ".htaccess files are not supported on this webserver."
-msgstr ""
+msgstr "I file .htaccess non sono supportati su questo server web."
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:112
 msgid "0 admins"
-msgstr ""
+msgstr "0 amministratori"
 
 #: ../core/views/routing/form.php:600 ../core/views/trunks/trunk_footer.php:59
 msgid "10 Digit Patterns"
@@ -477,7 +486,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/config.php:560
 #, php-format
 msgid "404 Not found (%s)"
-msgstr ""
+msgstr "404 non trovato (%s)"
 
 #: ../core/views/routing/form.php:598 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
@@ -489,6 +498,8 @@ msgid ""
 "<strong>CRITICAL ERROR!</strong> Required Service %s is disabled! This "
 "device is unusable!"
 msgstr ""
+"<strong>Errore Critico</strong> Servizio richiesto %s è disabilitato! Il "
+"dispositivo è inutilizzabile!"
 
 #: ../core/views/trunks/pjsip.php:114
 msgid ""
@@ -498,16 +509,22 @@ msgid ""
 "blocking the machine trying to register. Do not change this unless you "
 "control both servers, and are sure it is required!"
 msgstr ""
+"<strong>Attenzione:</strong> Se selezioni 'None', il tentativo di "
+"registrazione con questo Utente e password verrà rifiutata.L'impostazione "
+"non corretta può comportare che i servizi firewall  rilevino  la "
+"registrazione come un attacco e cosi bloccano il tentativo di "
+"registrazione.Non cambiare questo a meno che non controlli entrambi i server "
+"e sia sicuro che sia necessario!"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1126
 #, php-format
 msgid "A %s version below %s is required, you have %s"
-msgstr ""
+msgstr "È richiesta una versione %s sotto %s, hai %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1132
 #, php-format
 msgid "A %s version newer than %s required, you have %s"
-msgstr ""
+msgstr "È richiesta una versione %s più recente di %s, hai %s"
 
 #: ../core/views/routing/form.php:67
 msgid ""
@@ -517,6 +534,11 @@ msgid ""
 "subsequent routes will be checked for matches outside of the designated time"
 "(s)."
 msgstr ""
+"Un pattern di chiamata è un insieme univoco di cifre che selezionerà questa "
+"rotta e invierà la chiamata ai fasci interessati. Se un pattern di chiamata "
+"corrisponde a questa rotta, non verrà tentata alcuna rotta successiva. Se i "
+"Gruppi orari sono abilitati, i percorsi successivi verranno controllati per "
+"le partite al di fuori dei orari prestabiliti."
 
 #: ../core/views/trunks/trunk_header.php:92
 msgid ""
@@ -527,6 +549,13 @@ msgid ""
 "first matched rule will be executed and the remaining rules will not be "
 "acted on."
 msgstr ""
+"Una regola di composizione controlla come le chiamate verranno composte su "
+"questo fascio. Può essere utilizzato per aggiungere o rimuovere prefissi. I "
+"numeri che non corrispondono a nessuno dei pattern definiti qui verranno "
+"composti così come sono. Si noti che un pattern senza + o | (per aggiungere "
+"o rimuovere un prefisso) non apporterà alcuna modifica, ma creerà una "
+"corrispondenza. Solo la prima regola abbinata verrà eseguita e le regole "
+"rimanenti non verranno applicate."
 
 #: ../core/functions.inc.php:5787
 msgid "A description for this DID, such as \"Fax\""
@@ -550,6 +579,9 @@ msgid ""
 "stack. A collection of resource modules provides the bulk of the SIP "
 "functionality"
 msgstr ""
+"Un nuovo driver di canale SIP per Asterisk, chan_pjsip è costruito sullo "
+"stack SIP PJSIP. Una raccolta di moduli risorsa fornisce la maggior parte "
+"delle funzionalità SIP"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
 #, php-format
@@ -557,6 +589,9 @@ msgid ""
 "A required module might be disabled or uninstalled. Recommended steps (run "
 "from the CLI): 1) fwconsole ma install %s 2) fwconsole ma enable %s"
 msgstr ""
+"Un modulo richiesto potrebbe essere disabilitato o disinstallato. Passaggi "
+"consigliati (eseguiti dalla CLI): 1) fwconsole ma install %s 2) fwconsole ma "
+"enable %s"
 
 #: ../core/functions.inc.php:3982 ../core/functions.inc.php:4011
 msgid "A route for this DID/CID already exists!"
@@ -569,7 +604,7 @@ msgstr "Una rotta con questa Selezione Passante / ID: %s/%s già esiste"
 
 #: ../core/views/dahdichandids/didForm.php:49
 msgid "A useful description describing this channel"
-msgstr ""
+msgstr "Una descrizione utile che descrive questo canale"
 
 #: ../core/functions.inc.php:5684
 msgid "A user will enter this password when logging onto a device."
@@ -580,35 +615,37 @@ msgstr ""
 #: ../core/views/did/advanced_form.php:198
 msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
 msgstr ""
+"ALERT_INFO può essere utilizzato per l'anello distintivo con i dispositivi "
+"SIP."
 
 #: ../core/page.ampusers.php:159
 msgid "ALL SECTIONS"
-msgstr ""
+msgstr "TUTTE LE SEZIONI"
 
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1220
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1232
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1257
 #, php-format
 msgid "AMI failure details:"
-msgstr ""
+msgstr "Dettagli di errore AMI:"
 
 #: amp.i18n.php:138
 msgid "AMPLOCALBIN Dir for retrieve_conf"
-msgstr ""
+msgstr "AMPLOCALBIN Dir per retrieve_conf"
 
 #: ../core/views/did/advanced_form.php:115
 #: ../core/views/did/advanced_form.php:139 ../core/views/did/basic_form.php:48
 #: ../core/views/did/basic_form.php:72
 msgid "ANY"
-msgstr ""
+msgstr "QUALUNQUE"
 
 #: ../core/views/trunks/pjsip.php:597
 msgid "AOR Contact"
-msgstr ""
+msgstr "Contatto AOR"
 
 #: amp.i18n.php:580
 msgid "API Cache expiration"
-msgstr ""
+msgstr "Scadenza della cache API"
 
 #: amp.i18n.php:120
 msgid "ARI Password"
@@ -616,7 +653,7 @@ msgstr ""
 
 #: amp.i18n.php:112
 msgid "ARI Username"
-msgstr ""
+msgstr "ARI Utente"
 
 #: amp.i18n.php:470
 msgid "Abort Config Gen on Bad Dest"
