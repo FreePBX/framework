@@ -74,24 +74,29 @@ class Modules {
 		$modules = $this->getActiveModules(false);
 		$destinations = array();
 		foreach($modules as $rawname => $data) {
-			$funct = strtolower($rawname.'_destinations');
-			$funct2 = strtolower($rawname.'_getdestinfo');
-			if (function_exists($funct)) {
-				\modgettext::push_textdomain($rawname);
-				$index = ''; //used in certain situations but not here
-				$destArray = $funct($index); //returns an array with 'destination' and 'description', and optionally 'category'
-				\modgettext::pop_textdomain();
-				if(!empty($destArray)) {
-					foreach($destArray as $dest) {
-						$destinations[$dest['destination']] = $dest;
-						$destinations[$dest['destination']]['module'] = $rawname;
-						$destinations[$dest['destination']]['name'] = $data['name'];
-						if(function_exists($funct2)) {
-							$info = $funct2($dest['destination']);
-							$destinations[$dest['destination']]['edit_url'] = !empty($info['edit_url']) ? $info['edit_url'] : '';
+			try {
+				$funct = strtolower($rawname.'_destinations');
+				$funct2 = strtolower($rawname.'_getdestinfo');
+				if (function_exists($funct)) {
+					\modgettext::push_textdomain($rawname);
+					$index = ''; //used in certain situations but not here
+					$destArray = $funct($index); //returns an array with 'destination' and 'description', and optionally 'category'
+					\modgettext::pop_textdomain();
+					if(!empty($destArray)) {
+						foreach($destArray as $dest) {
+							$destinations[$dest['destination']] = $dest;
+							$destinations[$dest['destination']]['module'] = $rawname;
+							$destinations[$dest['destination']]['name'] = $data['name'];
+							if(function_exists($funct2)) {
+								$info = $funct2($dest['destination']);
+								$destinations[$dest['destination']]['edit_url'] = !empty($info['edit_url']) ? $info['edit_url'] : '';
+							}
 						}
 					}
 				}
+			} catch(\Exception $e) {
+				dbug($e->getMessage());
+				dbug($e->getTraceAsString());
 			}
 		}
 		return $destinations;
