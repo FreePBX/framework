@@ -628,7 +628,11 @@ class AGI_AsteriskManager {
 		if(!empty($actionid)) {
 			$parameters['ActionID'] = $actionid;
 		}
-		return $this->send_request('VoicemailRefresh', $parameters);
+
+		$ret = $this->send_request('VoicemailRefresh', $parameters);
+		//voicemail refresh doesnt always work so just reload voicemail
+		$this->Reload('app_voicemail.so',$actionid);
+		return $ret;
 	}
 
 	/**
