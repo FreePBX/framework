@@ -1,9 +1,9 @@
 <?php
 
-namespace FreePBX\Gqlapi;
+namespace FreePBX\Api\Gql;
 
 use GraphQL\Type\Definition\Type;
-use FreePBX\modules\Gqlapi\includes\Base;
+use FreePBX\modules\Api\Gql\Base;
 
 class Destinations extends Base {
 	private $destinations;

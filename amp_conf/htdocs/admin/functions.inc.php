@@ -140,7 +140,8 @@ function fpbx_framework_autoloader($class) {
 		// Namespaces
 		'FreePBX\\Builtin\\' => 'libraries/Builtin',
 		'FreePBX\\Console\\Command\\' => 'libraries/Console',
-		'FreePBX\\Gqlapi\\' => 'libraries/Gqlapi',
+		'FreePBX\\Api\\Gql\\' => 'libraries/Api/Gql',
+		'FreePBX\\Api\\Rest\\' => 'libraries/Api/Rest',
 		'Media\\' => 'libraries/media/Media',
 		'Media\\Driver\\' => 'libraries/media/Media/Driver',
 		'Media\\Driver\\Drivers\\' => 'libraries/media/Media/Driver/Drivers',
