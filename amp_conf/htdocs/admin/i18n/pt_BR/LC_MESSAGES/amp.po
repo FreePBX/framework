@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-16 13:40-0700\n"
+"POT-Creation-Date: 2018-03-23 14:55-0700\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -442,11 +442,6 @@ msgstr ""
 msgid "%s not found"
 msgstr "%s não encontrado"
 
-#: ../core/Core.class.php:3033
-#, php-format
-msgid "%s records failed validation"
-msgstr "%s registros falharam na validação"
-
 #: amp_conf/htdocs/admin/page.modules.php:348
 #, php-format
 msgid "%s removed successfully"
@@ -752,7 +747,7 @@ msgstr "Abortando o desligamento. Asterisk ainda está em execução"
 msgid "Accept"
 msgstr "Aceitar"
 
-#: ../core/page.ampusers.php:241
+#: ../core/page.ampusers.php:244
 msgid "Access Restrictions"
 msgstr "Restrições De Acesso"
 
@@ -772,7 +767,7 @@ msgid "Accountcode for this device."
 msgstr "Código da Conta para este dispositivo."
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:297
-#: ../core/page.ampusers.php:266 ../core/page.astmodules.php:91
+#: ../core/page.ampusers.php:269 ../core/page.astmodules.php:91
 #: ../core/page.astmodules.php:108 ../core/page.astmodules.php:125
 msgid "Action"
 msgstr "Ação"
@@ -968,7 +963,7 @@ msgstr "Adhoc"
 msgid "Admin"
 msgstr "Administrador"
 
-#: ../core/page.ampusers.php:249
+#: ../core/page.ampusers.php:252
 msgid "Admin Access"
 msgstr "Acesso Admin"
 
@@ -2530,11 +2525,11 @@ msgstr "Não foi possível escrever para %s"
 msgid "Country Indication Tones"
 msgstr "Toques de Indicação de País"
 
-#: ../core/page.ampusers.php:235
+#: ../core/page.ampusers.php:238
 msgid "Create a password for this new user"
 msgstr "Criar uma senha para este novo usuário"
 
-#: ../core/page.ampusers.php:214
+#: ../core/page.ampusers.php:217
 msgid "Create a unique username for this user"
 msgstr "Criar um nome de usuário único para este usuário"
 
@@ -2735,7 +2730,7 @@ msgstr "Descrição do DID"
 msgid "DID Number"
 msgstr "Número DID"
 
-#: ../core/Core.class.php:3138
+#: ../core/Core.class.php:3133
 msgid "DID already exists"
 msgstr "DID já existe"
 
@@ -3173,7 +3168,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:215
-#: ../core/Core.class.php:2966 ../core/Core.class.php:2967
+#: ../core/Core.class.php:2967 ../core/Core.class.php:2968
 #: ../core/Core.class.php:2991 ../core/Core.class.php:2992
 #: ../core/functions.inc.php:5957 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
@@ -3306,7 +3301,7 @@ msgstr "Modo Desenvolvedor"
 msgid "Developer and Customization"
 msgstr "Desenvolvedor e Personalização"
 
-#: ../core/Core.class.php:3340 ../core/functions.inc.php:5900
+#: ../core/Core.class.php:3335 ../core/functions.inc.php:5900
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3318,10 +3313,6 @@ msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 "O dispositivo %s (%s) teve um chamador de emergência inválido e o definimos "
 "em branco"
-
-#: ../core/Core.class.php:3068
-msgid "Device 'name' can not be blank."
-msgstr "O 'nome' do dispositivo não pode ficar em branco."
 
 #: ../core/Core.class.php:1480
 msgid "Device Extension was blank or there were no settings defined"
@@ -3355,7 +3346,7 @@ msgstr "Tecnologia de Dispositivos"
 msgid "Device Type"
 msgstr "Tipo de dispositivo"
 
-#: ../core/Core.class.php:3090
+#: ../core/Core.class.php:3085
 msgid "Device could not be added."
 msgstr "Não foi possível adicionar o dispositivo."
 
@@ -4420,7 +4411,7 @@ msgid "Extended"
 msgstr "Extendido"
 
 #: ../core/Core.class.php:2958 ../core/Core.class.php:2959
-#: ../core/Core.class.php:3328 ../core/functions.inc.php:5545
+#: ../core/Core.class.php:3323 ../core/functions.inc.php:5545
 #: ../core/page.did.php:90 ../core/page.extensions.php:32
 #: ../core/page.extensions.php:125 ../core/page.extensions.php:153
 #: ../core/views/rnav.php:23
@@ -4451,9 +4442,17 @@ msgstr "Extensão já em uso!"
 msgid "Extension can not be blank!"
 msgstr "A extensão não pode ficar em branco!"
 
-#: ../core/Core.class.php:3058
+#: ../core/Core.class.php:3027
+msgid "Extension is missing."
+msgstr ""
+
+#: ../core/Core.class.php:3030
 msgid "Extension is not numeric."
 msgstr "A extensão não é numérica."
+
+#: ../core/Core.class.php:3033
+msgid "Extension name is blank."
+msgstr ""
 
 #: ../core/functions.inc.php:5634
 msgid "Extension number conflict, please choose another."
@@ -5100,7 +5099,7 @@ msgstr "Geral"
 msgid "General Retry Interval"
 msgstr "Intervalo Geral de Tentativa"
 
-#: ../core/page.ampusers.php:193
+#: ../core/page.ampusers.php:196
 msgid "General Settings"
 msgstr "Configurações Gerais"
 
@@ -5756,7 +5755,7 @@ msgstr "Chamadas Externas de Entrada"
 msgid "Inbound Internal Calls"
 msgstr "Chamadas Internas de Entrada"
 
-#: ../core/Core.class.php:3382 ../core/Core.class.php:3391
+#: ../core/Core.class.php:3377 ../core/Core.class.php:3386
 msgid "Inbound Route:"
 msgstr "Rota de entrada:"
 
@@ -6815,7 +6814,7 @@ msgstr ""
 "AVISO! Você possui %s notificações. Faça login na interface do usuário para "
 "vê-las!"
 
-#: ../core/Core.class.php:2962 ../core/Core.class.php:2963
+#: ../core/Core.class.php:2963 ../core/Core.class.php:2964
 #: ../core/page.extensions.php:33 ../core/page.extensions.php:126
 #: ../core/page.extensions.php:154 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -7111,7 +7110,7 @@ msgstr "Inalcançavel"
 msgid "Not Required"
 msgstr "Não Requerido"
 
-#: ../core/page.ampusers.php:274
+#: ../core/page.ampusers.php:277
 msgid "Not Selected"
 msgstr "Não selecionado"
 
@@ -7512,7 +7511,7 @@ msgstr "Saída Chamadas Internas"
 msgid "Outbound Proxy"
 msgstr "Proxy de Saída"
 
-#: ../core/Core.class.php:3365
+#: ../core/Core.class.php:3360
 msgid "Outbound Route:"
 msgstr "Rota de Saída:"
 
@@ -7662,7 +7661,7 @@ msgid "Packaged (Released)"
 msgstr "Empacotado (Lançado)"
 
 #: amp_conf/htdocs/admin/views/obe.php:30
-#: amp_conf/htdocs/admin/views/oobe.php:9 ../core/page.ampusers.php:224
+#: amp_conf/htdocs/admin/views/oobe.php:9 ../core/page.ampusers.php:227
 msgid "Password"
 msgstr "Senha"
 
@@ -8546,7 +8545,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "AVISO DE SEGURANÇA:"
 
-#: ../core/Core.class.php:3305 ../core/Core.class.php:3306
+#: ../core/Core.class.php:3300 ../core/Core.class.php:3301
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP (%s)"
@@ -8725,12 +8724,12 @@ msgstr ""
 msgid "Select a Timezone"
 msgstr ""
 
-#: ../core/page.ampusers.php:289
+#: ../core/page.ampusers.php:292
 msgid "Select the Admin Sections this user should have access to."
 msgstr ""
 "Selecione as seções de administração às quais esse usuário deve ter acesso."
 
-#: ../core/page.ampusers.php:257
+#: ../core/page.ampusers.php:260
 msgid "Selected"
 msgstr "Selecionado"
 
@@ -10643,7 +10642,7 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr "Sequência de troncos para rotas combinadas"
 
-#: ../core/Core.class.php:3373
+#: ../core/Core.class.php:3368
 msgid "Trunk:"
 msgstr "Tronco:"
 
@@ -11171,7 +11170,7 @@ msgstr ""
 "Usado quando o Console PHP está habilitado para depuração de erros https://"
 "github.com/barbushin/php-console"
 
-#: ../core/Core.class.php:3352 ../core/functions.inc.php:5559
+#: ../core/Core.class.php:3347 ../core/functions.inc.php:5559
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:87 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -11224,12 +11223,12 @@ msgstr "Painel do Usuário"
 msgid "User Password"
 msgstr "Senha do Usuário"
 
-#: ../core/Core.class.php:3117
+#: ../core/Core.class.php:3112
 msgid "User could not be added."
 msgstr "O usuário não pôde ser adicionado."
 
 #: amp_conf/htdocs/admin/views/obe.php:20
-#: amp_conf/htdocs/admin/views/oobe.php:8 ../core/page.ampusers.php:202
+#: amp_conf/htdocs/admin/views/oobe.php:8 ../core/page.ampusers.php:205
 #: ../core/views/ampusers/bootnav.php:14 ../core/views/trunks/pjsip.php:54
 msgid "Username"
 msgstr "Nome de usuário"
@@ -12783,6 +12782,12 @@ msgid ""
 "you may need to add the line 'preload => pbx_config.so' to your modules.conf "
 "manually"
 msgstr ""
+
+#~ msgid "%s records failed validation"
+#~ msgstr "%s registros falharam na validação"
+
+#~ msgid "Device 'name' can not be blank."
+#~ msgstr "O 'nome' do dispositivo não pode ficar em branco."
 
 #~ msgid ""
 #~ "Enable or disable the ability to do on demand (one-touch) recording. The "

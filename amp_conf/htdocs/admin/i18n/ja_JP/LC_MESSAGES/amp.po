@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-16 13:40-0700\n"
+"POT-Creation-Date: 2018-03-23 14:55-0700\n"
 "PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -457,11 +457,6 @@ msgstr ""
 msgid "%s not found"
 msgstr "%s は見つかりません"
 
-#: ../core/Core.class.php:3033
-#, php-format
-msgid "%s records failed validation"
-msgstr "%s のレコードは認証に失敗しました"
-
 #: amp_conf/htdocs/admin/page.modules.php:348
 #, php-format
 msgid "%s removed successfully"
@@ -755,7 +750,7 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
-#: ../core/page.ampusers.php:241
+#: ../core/page.ampusers.php:244
 msgid "Access Restrictions"
 msgstr "アクセス制限"
 
@@ -775,7 +770,7 @@ msgid "Accountcode for this device."
 msgstr "このデバイスのアカウントコード。"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:297
-#: ../core/page.ampusers.php:266 ../core/page.astmodules.php:91
+#: ../core/page.ampusers.php:269 ../core/page.astmodules.php:91
 #: ../core/page.astmodules.php:108 ../core/page.astmodules.php:125
 msgid "Action"
 msgstr "アクション"
@@ -964,7 +959,7 @@ msgstr "アドホック"
 msgid "Admin"
 msgstr "アドミン"
 
-#: ../core/page.ampusers.php:249
+#: ../core/page.ampusers.php:252
 msgid "Admin Access"
 msgstr "管理者アクセス"
 
@@ -2446,11 +2441,11 @@ msgstr ""
 msgid "Country Indication Tones"
 msgstr "国のインジゲーショントーン"
 
-#: ../core/page.ampusers.php:235
+#: ../core/page.ampusers.php:238
 msgid "Create a password for this new user"
 msgstr ""
 
-#: ../core/page.ampusers.php:214
+#: ../core/page.ampusers.php:217
 msgid "Create a unique username for this user"
 msgstr ""
 
@@ -2644,7 +2639,7 @@ msgstr "DID説明"
 msgid "DID Number"
 msgstr "ダイヤルイン番号"
 
-#: ../core/Core.class.php:3138
+#: ../core/Core.class.php:3133
 msgid "DID already exists"
 msgstr ""
 
@@ -3058,7 +3053,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:215
-#: ../core/Core.class.php:2966 ../core/Core.class.php:2967
+#: ../core/Core.class.php:2967 ../core/Core.class.php:2968
 #: ../core/Core.class.php:2991 ../core/Core.class.php:2992
 #: ../core/functions.inc.php:5957 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
@@ -3183,7 +3178,7 @@ msgstr "開発者モード"
 msgid "Developer and Customization"
 msgstr "開発者とカスタマイズ"
 
-#: ../core/Core.class.php:3340 ../core/functions.inc.php:5900
+#: ../core/Core.class.php:3335 ../core/functions.inc.php:5900
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3192,10 +3187,6 @@ msgstr "デバイス"
 #: ../core/install.php:458
 #, php-format
 msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
-msgstr ""
-
-#: ../core/Core.class.php:3068
-msgid "Device 'name' can not be blank."
 msgstr ""
 
 #: ../core/Core.class.php:1480
@@ -3228,7 +3219,7 @@ msgstr ""
 msgid "Device Type"
 msgstr "デバイスタイプ"
 
-#: ../core/Core.class.php:3090
+#: ../core/Core.class.php:3085
 msgid "Device could not be added."
 msgstr ""
 
@@ -4265,7 +4256,7 @@ msgid "Extended"
 msgstr "拡張"
 
 #: ../core/Core.class.php:2958 ../core/Core.class.php:2959
-#: ../core/Core.class.php:3328 ../core/functions.inc.php:5545
+#: ../core/Core.class.php:3323 ../core/functions.inc.php:5545
 #: ../core/page.did.php:90 ../core/page.extensions.php:32
 #: ../core/page.extensions.php:125 ../core/page.extensions.php:153
 #: ../core/views/rnav.php:23
@@ -4296,8 +4287,16 @@ msgstr ""
 msgid "Extension can not be blank!"
 msgstr ""
 
-#: ../core/Core.class.php:3058
+#: ../core/Core.class.php:3027
+msgid "Extension is missing."
+msgstr ""
+
+#: ../core/Core.class.php:3030
 msgid "Extension is not numeric."
+msgstr ""
+
+#: ../core/Core.class.php:3033
+msgid "Extension name is blank."
 msgstr ""
 
 #: ../core/functions.inc.php:5634
@@ -4924,7 +4923,7 @@ msgstr ""
 msgid "General Retry Interval"
 msgstr ""
 
-#: ../core/page.ampusers.php:193
+#: ../core/page.ampusers.php:196
 msgid "General Settings"
 msgstr "一般設定"
 
@@ -5538,7 +5537,7 @@ msgstr "外部着信コール"
 msgid "Inbound Internal Calls"
 msgstr "内部着信コール"
 
-#: ../core/Core.class.php:3382 ../core/Core.class.php:3391
+#: ../core/Core.class.php:3377 ../core/Core.class.php:3386
 msgid "Inbound Route:"
 msgstr ""
 
@@ -6561,7 +6560,7 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
-#: ../core/Core.class.php:2962 ../core/Core.class.php:2963
+#: ../core/Core.class.php:2963 ../core/Core.class.php:2964
 #: ../core/page.extensions.php:33 ../core/page.extensions.php:126
 #: ../core/page.extensions.php:154 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -6854,7 +6853,7 @@ msgstr "到達不能"
 msgid "Not Required"
 msgstr ""
 
-#: ../core/page.ampusers.php:274
+#: ../core/page.ampusers.php:277
 msgid "Not Selected"
 msgstr ""
 
@@ -7223,7 +7222,7 @@ msgstr "内部発信コール"
 msgid "Outbound Proxy"
 msgstr ""
 
-#: ../core/Core.class.php:3365
+#: ../core/Core.class.php:3360
 msgid "Outbound Route:"
 msgstr ""
 
@@ -7370,7 +7369,7 @@ msgid "Packaged (Released)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:30
-#: amp_conf/htdocs/admin/views/oobe.php:9 ../core/page.ampusers.php:224
+#: amp_conf/htdocs/admin/views/oobe.php:9 ../core/page.ampusers.php:227
 msgid "Password"
 msgstr "パスワード"
 
@@ -8231,7 +8230,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr ""
 
-#: ../core/Core.class.php:3305 ../core/Core.class.php:3306
+#: ../core/Core.class.php:3300 ../core/Core.class.php:3301
 #, php-format
 msgid "SIP (%s)"
 msgstr ""
@@ -8401,11 +8400,11 @@ msgstr ""
 msgid "Select a Timezone"
 msgstr ""
 
-#: ../core/page.ampusers.php:289
+#: ../core/page.ampusers.php:292
 msgid "Select the Admin Sections this user should have access to."
 msgstr ""
 
-#: ../core/page.ampusers.php:257
+#: ../core/page.ampusers.php:260
 msgid "Selected"
 msgstr ""
 
@@ -10129,7 +10128,7 @@ msgstr "トランク名とユーザーコンテキストを同じ値に設定す
 msgid "Trunk Sequence for Matched Routes"
 msgstr "一致したルートのトランクシーケンス"
 
-#: ../core/Core.class.php:3373
+#: ../core/Core.class.php:3368
 msgid "Trunk:"
 msgstr ""
 
@@ -10639,7 +10638,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:3352 ../core/functions.inc.php:5559
+#: ../core/Core.class.php:3347 ../core/functions.inc.php:5559
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:87 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -10690,12 +10689,12 @@ msgstr "ユーザーパネル"
 msgid "User Password"
 msgstr "ユーザーパスワード"
 
-#: ../core/Core.class.php:3117
+#: ../core/Core.class.php:3112
 msgid "User could not be added."
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:20
-#: amp_conf/htdocs/admin/views/oobe.php:8 ../core/page.ampusers.php:202
+#: amp_conf/htdocs/admin/views/oobe.php:8 ../core/page.ampusers.php:205
 #: ../core/views/ampusers/bootnav.php:14 ../core/views/trunks/pjsip.php:54
 msgid "Username"
 msgstr "ユーザー名"
@@ -12331,6 +12330,9 @@ msgid ""
 "you may need to add the line 'preload => pbx_config.so' to your modules.conf "
 "manually"
 msgstr ""
+
+#~ msgid "%s records failed validation"
+#~ msgstr "%s のレコードは認証に失敗しました"
 
 #~ msgid "Path for touch"
 #~ msgstr "touch のパス"

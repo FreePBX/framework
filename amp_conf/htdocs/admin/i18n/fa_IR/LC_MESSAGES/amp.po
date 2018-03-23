@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-16 13:40-0700\n"
+"POT-Creation-Date: 2018-03-23 14:55-0700\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -423,11 +423,6 @@ msgstr ""
 msgid "%s not found"
 msgstr "%s یافت نسد"
 
-#: ../core/Core.class.php:3033
-#, php-format
-msgid "%s records failed validation"
-msgstr "اعتبارسنجی رکوردهای %s شکست خورد"
-
 #: amp_conf/htdocs/admin/page.modules.php:348
 #, php-format
 msgid "%s removed successfully"
@@ -729,7 +724,7 @@ msgstr "لغو خاموش کردن. استریسک هنوز در حال اجرا
 msgid "Accept"
 msgstr "قبول کردن"
 
-#: ../core/page.ampusers.php:241
+#: ../core/page.ampusers.php:244
 msgid "Access Restrictions"
 msgstr "محدودیت دسترسی"
 
@@ -749,7 +744,7 @@ msgid "Accountcode for this device."
 msgstr "کد حساب برای این وسیله."
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:297
-#: ../core/page.ampusers.php:266 ../core/page.astmodules.php:91
+#: ../core/page.ampusers.php:269 ../core/page.astmodules.php:91
 #: ../core/page.astmodules.php:108 ../core/page.astmodules.php:125
 msgid "Action"
 msgstr "عمل"
@@ -944,7 +939,7 @@ msgstr ".Adhoc"
 msgid "Admin"
 msgstr "مدیر"
 
-#: ../core/page.ampusers.php:249
+#: ../core/page.ampusers.php:252
 msgid "Admin Access"
 msgstr "دسترسی مدیر"
 
@@ -2477,11 +2472,11 @@ msgstr "عدم توانایی نوشتن به روی %s"
 msgid "Country Indication Tones"
 msgstr "نشانه بوق کشور"
 
-#: ../core/page.ampusers.php:235
+#: ../core/page.ampusers.php:238
 msgid "Create a password for this new user"
 msgstr "ایجاد کلمه عبور برای کاربر جدید"
 
-#: ../core/page.ampusers.php:214
+#: ../core/page.ampusers.php:217
 msgid "Create a unique username for this user"
 msgstr "ایجاد نام کاربری واحد برای این کاربر"
 
@@ -2679,7 +2674,7 @@ msgstr "توضیحات داخلی مستقیم"
 msgid "DID Number"
 msgstr "شماره داخلی مستقیم"
 
-#: ../core/Core.class.php:3138
+#: ../core/Core.class.php:3133
 msgid "DID already exists"
 msgstr "DID موجود است"
 
@@ -3105,7 +3100,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:215
-#: ../core/Core.class.php:2966 ../core/Core.class.php:2967
+#: ../core/Core.class.php:2967 ../core/Core.class.php:2968
 #: ../core/Core.class.php:2991 ../core/Core.class.php:2992
 #: ../core/functions.inc.php:5957 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
@@ -3236,7 +3231,7 @@ msgstr "حالت توسعه دهنده"
 msgid "Developer and Customization"
 msgstr "توسعه دهنده و شخصی ساز"
 
-#: ../core/Core.class.php:3340 ../core/functions.inc.php:5900
+#: ../core/Core.class.php:3335 ../core/functions.inc.php:5900
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3247,10 +3242,6 @@ msgstr "وسیله"
 msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 "Device %s (%s) had an  invalid emergency callerid and we set it to blank"
-
-#: ../core/Core.class.php:3068
-msgid "Device 'name' can not be blank."
-msgstr "'نام' وسیله نمیتواند خالی باشد."
 
 #: ../core/Core.class.php:1480
 msgid "Device Extension was blank or there were no settings defined"
@@ -3282,7 +3273,7 @@ msgstr "فن آوری وسیله"
 msgid "Device Type"
 msgstr "نوع وسیله"
 
-#: ../core/Core.class.php:3090
+#: ../core/Core.class.php:3085
 msgid "Device could not be added."
 msgstr "وسیله نمیتواند اضافه شود."
 
@@ -4333,7 +4324,7 @@ msgid "Extended"
 msgstr "تمدید شده"
 
 #: ../core/Core.class.php:2958 ../core/Core.class.php:2959
-#: ../core/Core.class.php:3328 ../core/functions.inc.php:5545
+#: ../core/Core.class.php:3323 ../core/functions.inc.php:5545
 #: ../core/page.did.php:90 ../core/page.extensions.php:32
 #: ../core/page.extensions.php:125 ../core/page.extensions.php:153
 #: ../core/views/rnav.php:23
@@ -4364,9 +4355,17 @@ msgstr "داخلی در حال استفاده است!"
 msgid "Extension can not be blank!"
 msgstr "داخلی نمیتواند خالی باشد!"
 
-#: ../core/Core.class.php:3058
+#: ../core/Core.class.php:3027
+msgid "Extension is missing."
+msgstr ""
+
+#: ../core/Core.class.php:3030
 msgid "Extension is not numeric."
 msgstr "داخلی شماره نیست."
+
+#: ../core/Core.class.php:3033
+msgid "Extension name is blank."
+msgstr ""
 
 #: ../core/functions.inc.php:5634
 msgid "Extension number conflict, please choose another."
@@ -4996,7 +4995,7 @@ msgstr "عمومی"
 msgid "General Retry Interval"
 msgstr "وقفه تلاش مجدد عمومی"
 
-#: ../core/page.ampusers.php:193
+#: ../core/page.ampusers.php:196
 msgid "General Settings"
 msgstr "تنظیمات عمومی"
 
@@ -5638,7 +5637,7 @@ msgstr "تماس های خارجی ورودی"
 msgid "Inbound Internal Calls"
 msgstr "تماس های داخلی ورودی"
 
-#: ../core/Core.class.php:3382 ../core/Core.class.php:3391
+#: ../core/Core.class.php:3377 ../core/Core.class.php:3386
 msgid "Inbound Route:"
 msgstr "مسیر ورودی:"
 
@@ -6682,7 +6681,7 @@ msgstr ""
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr "نکته! شما %s هشدارد دارید! برای مشاهده به رابط کاربری وارد شوید!"
 
-#: ../core/Core.class.php:2962 ../core/Core.class.php:2963
+#: ../core/Core.class.php:2963 ../core/Core.class.php:2964
 #: ../core/page.extensions.php:33 ../core/page.extensions.php:126
 #: ../core/page.extensions.php:154 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -6975,7 +6974,7 @@ msgstr "قابل دسترسی نیست"
 msgid "Not Required"
 msgstr "لازم نیست"
 
-#: ../core/page.ampusers.php:274
+#: ../core/page.ampusers.php:277
 msgid "Not Selected"
 msgstr "انتخاب نشده"
 
@@ -7369,7 +7368,7 @@ msgstr "تماس های داخلی"
 msgid "Outbound Proxy"
 msgstr "پراکسی تماس خروجی"
 
-#: ../core/Core.class.php:3365
+#: ../core/Core.class.php:3360
 msgid "Outbound Route:"
 msgstr "مسیر تماس خروجی:"
 
@@ -7515,7 +7514,7 @@ msgid "Packaged (Released)"
 msgstr "بسته بنده شده (ارایه شده)"
 
 #: amp_conf/htdocs/admin/views/obe.php:30
-#: amp_conf/htdocs/admin/views/oobe.php:9 ../core/page.ampusers.php:224
+#: amp_conf/htdocs/admin/views/oobe.php:9 ../core/page.ampusers.php:227
 msgid "Password"
 msgstr "کلمه عبور"
 
@@ -8395,7 +8394,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "هشدار امنیتی:"
 
-#: ../core/Core.class.php:3305 ../core/Core.class.php:3306
+#: ../core/Core.class.php:3300 ../core/Core.class.php:3301
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP  (%s)"
@@ -8571,11 +8570,11 @@ msgstr ""
 msgid "Select a Timezone"
 msgstr ""
 
-#: ../core/page.ampusers.php:289
+#: ../core/page.ampusers.php:292
 msgid "Select the Admin Sections this user should have access to."
 msgstr "بخش مدیریتی که این کاربر میتواند دسترسی داشته باشد انتخاب کنید."
 
-#: ../core/page.ampusers.php:257
+#: ../core/page.ampusers.php:260
 msgid "Selected"
 msgstr "انتخابی"
 
@@ -10428,7 +10427,7 @@ msgstr "نام ترانک و متن کاربر نمیتواند یکی باشد"
 msgid "Trunk Sequence for Matched Routes"
 msgstr "توالی ترانک برای مسیرهای یکسان"
 
-#: ../core/Core.class.php:3373
+#: ../core/Core.class.php:3368
 msgid "Trunk:"
 msgstr "ترانک:"
 
@@ -10947,7 +10946,7 @@ msgstr ""
 "Used when  PHP Console is enabled for error debugging https://github.com/"
 "barbushin/php-console"
 
-#: ../core/Core.class.php:3352 ../core/functions.inc.php:5559
+#: ../core/Core.class.php:3347 ../core/functions.inc.php:5559
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:87 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -10998,12 +10997,12 @@ msgstr "پنل کاربر"
 msgid "User Password"
 msgstr "کلمه عبور کاربر"
 
-#: ../core/Core.class.php:3117
+#: ../core/Core.class.php:3112
 msgid "User could not be added."
 msgstr "امکان افزودن کاربروجود ندارد."
 
 #: amp_conf/htdocs/admin/views/obe.php:20
-#: amp_conf/htdocs/admin/views/oobe.php:8 ../core/page.ampusers.php:202
+#: amp_conf/htdocs/admin/views/oobe.php:8 ../core/page.ampusers.php:205
 #: ../core/views/ampusers/bootnav.php:14 ../core/views/trunks/pjsip.php:54
 msgid "Username"
 msgstr "نام کاربری"
@@ -12734,6 +12733,12 @@ msgid ""
 msgstr ""
 "شما باید دستی خط 'preload => pbx_config.so' را به فایل modules.conf اضافه "
 "کنید"
+
+#~ msgid "%s records failed validation"
+#~ msgstr "اعتبارسنجی رکوردهای %s شکست خورد"
+
+#~ msgid "Device 'name' can not be blank."
+#~ msgstr "'نام' وسیله نمیتواند خالی باشد."
 
 #~ msgid ""
 #~ "Enable or disable the ability to do on demand (one-touch) recording. The "
