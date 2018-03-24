@@ -141,12 +141,25 @@ class extensions {
 		return isset($this->_exts[$section]);
 	}
 
-	/* This function allows new priorities to be injected into already generated dialplan
-	*  usage: $ext->splice($context, $exten, $priority_number, new ext_goto('1','s','ext-did'));
-	*         if $priority is not numeric, it will interpret it as a tag and try to inject
-	*         the command just prior to  the first instruction it finds with the specified tag
-	*         if it can't find the tag, it will inject it after the last instruction
-	*/
+	/**
+	 * This function allows new priorities to be injected into already generated dialplan
+	 * usage: $ext->splice($context, $exten, $priority_number, new ext_goto('1','s','ext-did'));
+	 *         if $priority is not numeric, it will interpret it as a tag and try to inject
+	 *         the command just prior to  the first instruction it finds with the specified tag
+	 *         if it can't find the tag, it will inject it after the last instruction
+	 * @method splice
+	 * @param  string  $section           The context to splice
+	 * @param  string  $extension         The extension to splice
+	 * @param  string  $priority          if $priority is not numeric, it will
+	 *                                    interpret it as a tag and try to inject
+	 *                                    the command just prior to  the first instruction
+	 *                                    it finds with the specified tag if it
+	 *                                    can't find the tag, it will inject it after the last instruction
+	 * @param  object  $command           Object of Extension
+	 * @param  string  $new_tag           New Priority tag to insert
+	 * @param  integer $offset            Offset of label
+	 * @param  boolean $fixmultiplelabels [description]
+	 */
 	function splice($section, $extension, $priority, $command, $new_tag="", $offset=0, $fixmultiplelabels=false)  {
 
 		$extension = ' ' . $extension . ' ';
