@@ -713,7 +713,7 @@ class DB_Error {
 				return DB_ERROR_ALREADY_EXISTS;
 			break;
 			default:
-				throw new Exception(sprintf(_("Unknown Error Code %s"),$this->e->getCode()));
+				throw new Exception(sprintf(_("Unknown Error Code %s, Message %s"),$this->e->getCode(),$this->e->getMessage()));
 			break;
 		}
 	}
