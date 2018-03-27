@@ -82,6 +82,9 @@ function fileRequestHandler($handler, $module = false, $file = false){
 						include($fullpath);
 						ob_end_flush();
 						exit();
+					} else {
+						header($_SERVER["SERVER_PROTOCOL"]." 404 Not Found", true, 404);
+						exit();
 					}
 					break;
 				}
