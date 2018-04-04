@@ -155,10 +155,16 @@ class Request_Helper extends Self_Helper {
 	public function getReq($var = null, $def = true) {
 		$ret = $this->getReqUnsafe($var, $def);
 		if (is_array($ret)) {
-			throw new \Exception("No-one's written anything to safe an array. Get on it!");
+			foreach($ret as $key => $value){
+				$ret[$key] = $this->sanatizeVar($value);
+			}
+			return $ret;
 		}
+		return $this->sanatizeVar($ret);
+	}
 
-		// Unicode attack mitigation:
+	private function sanatizeVar($ret = ''){
+	 		// Unicode attack mitigation:
 		// Reject overly long 2 byte sequences, as well as characters above U+10000 and replace with ?
 		$ret = preg_replace('/[\x00-\x08\x10\x0B\x0C\x0E-\x19\x7F]'.
 			'|[\x00-\x7F][\x80-\xBF]+'.
@@ -174,7 +180,6 @@ class Request_Helper extends Self_Helper {
 		$ret = htmlentities($ret, ENT_QUOTES, "UTF-8", false);
 
 		// If any further attack vectors are discovered, put the mitigations here!
-
 		return $ret;
 	}
 
