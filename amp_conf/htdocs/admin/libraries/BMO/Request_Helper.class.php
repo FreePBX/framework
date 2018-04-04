@@ -163,6 +163,12 @@ class Request_Helper extends Self_Helper {
 		return $this->sanatizeVar($ret);
 	}
 
+	/**
+	 * Sanatize variable from various attack vectors
+	 *
+	 * @param string $ret Data to sanatize
+	 * @return string Sanatized Variable
+	 */
 	private function sanatizeVar($ret = ''){
 	 		// Unicode attack mitigation:
 		// Reject overly long 2 byte sequences, as well as characters above U+10000 and replace with ?
