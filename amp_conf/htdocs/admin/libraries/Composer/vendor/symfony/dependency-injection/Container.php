@@ -167,6 +167,13 @@ class Container implements ResettableContainerInterface
      */
     public function set($id, $service)
     {
+        // Runs the internal initializer; used by the dumped container to include always-needed files
+        if (isset($this->privates['service_container']) && $this->privates['service_container'] instanceof \Closure) {
+            $initialize = $this->privates['service_container'];
+            unset($this->privates['service_container']);
+            $initialize();
+        }
+
         $id = $this->normalizeId($id);
 
         if ('service_container' === $id) {
@@ -500,7 +507,7 @@ class Container implements ResettableContainerInterface
      */
     public function normalizeId($id)
     {
-        if (!is_string($id)) {
+        if (!\is_string($id)) {
             $id = (string) $id;
         }
         if (isset($this->normalizedIds[$normalizedId = strtolower($id)])) {

@@ -34,6 +34,7 @@ return array(
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Povils\\Figlet\\' => array($vendorDir . '/povils/figlet/src/Figlet'),
+    'PhpConsole\\' => array($vendorDir . '/php-console/php-console/src/PhpConsole'),
     'Moontoast\\Math\\' => array($vendorDir . '/moontoast/math/src/Moontoast/Math'),
     'Moment\\' => array($vendorDir . '/fightbulc/moment/src'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),

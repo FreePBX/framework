@@ -25,6 +25,87 @@ class View {
 		$this->nt = $this->freepbx->Notifications;
 	}
 
+	public function getScripts() {
+		$files = array(
+			"moment-with-locales-2.20.1.min.js",
+			"script.legacy.js",
+			"Sortable-1.4.0.min.js",
+			"autosize-3.0.17.min.js",
+			"bootstrap-3.3.7.custom.min.js",
+			"bootstrap-multiselect-0.9.13.js",
+			"bootstrap-select-1.12.1.min.js",
+			"bootstrap-table-dev.min.js",
+			"bootstrap-table-extensions-dev/bootstrap-table-cookie.min.js",
+			"bootstrap-table-extensions-dev/bootstrap-table-export.min.js",
+			"bootstrap-table-extensions-dev/bootstrap-table-mobile.min.js",
+			"bootstrap-table-extensions-dev/bootstrap-table-reorder-rows.min.js",
+			"bootstrap-table-extensions-dev/bootstrap-table-toolbar.min.js",
+			"browser-locale-1.0.0.min.js",
+			"browser-support.js",
+			"chosen.jquery-1.6.2.min.js",
+			"jquery-migrate-3.0.0.js",
+			"jquery-ui-1.12.1.min.js",
+			"jquery.fileupload-9.12.5.js",
+			"jquery.fileupload-process-9.12.5.js",
+			"jquery.form-3.51.min.js",
+			"jquery.hotkeys-0.2.0.js",
+			"jquery.iframe-transport-9.12.5.js",
+			"jquery.jplayer-2.9.2.min.js",
+			"jquery.numeric-1.4.1.min.js",
+			"jquery.smartWizard-3.3.1.js",
+			"jquery.tablednd-0.9.1.min.js",
+			"js.cookie-2.1.3.min.js",
+			"modernizr-3.3.1.min.js",
+			"moment-timezone-with-data-2012-2022-0.5.14-2017c.min.js",
+			"moment-duration-format-2.2.1.js",
+			"notie-3.9.4.min.js",
+			"recorder.js",
+			"recorderWorker.js",
+			"search.js",
+			"tableexport-1.9.6.js",
+			"timeutils.js",
+			"typeahead.bundle-0.10.5.min.js",
+		);
+
+		$package = $this->freepbx->Config->get('USE_PACKAGED_JS');
+
+		if($package) {
+			$jspath = $this->freepbx->Config->get('AMPWEBROOT') .'/admin/assets/js';
+			$sha1 = '';
+			foreach($files as $file) {
+				$filename = $jspath."/".$file;
+				if(file_exists($filename)) {
+					$sha1 .= sha1_file($filename);
+				}
+			}
+
+			$final = sha1($sha1);
+
+			$pbxlibFilename = $jspath."/pbxlib_".$final.".js";
+			if(!file_exists($pbxlibFilename)) {
+				set_time_limit(0);
+				//cleanup
+				foreach(glob($jspath.'/pbxlib_*.js') as $f) {
+					unlink($f);
+				}
+				$contents = '';
+				foreach($files as $file) {
+					$filename = $jspath."/".$file;
+					if(file_exists($filename)) {
+						$contents .= file_get_contents($filename)."\n";
+					}
+				}
+				$minifiedCode = \JShrink\Minifier::minify($contents);
+				file_put_contents($pbxlibFilename,$minifiedCode);
+				//JIC for legacy for now
+				file_put_contents($jspath."/pbxlib.js",$minifiedCode);
+			}
+			return array(basename($pbxlibFilename));
+		} else {
+			return $files;
+		}
+	}
+
 	/**
 	 * This is a replace of the old redirect standard.
 	 * It emulates the same functionality but instead using HTML5 pushState

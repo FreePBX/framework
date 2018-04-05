@@ -7,7 +7,7 @@ namespace PhpConsole;
  *
  * @package PhpConsole
  * @version 3.1
- * @link http://php-console.com
+ * @link http://consle.com
  * @author Sergey Barbushin http://linkedin.com/in/barbushin
  * @copyright © Sergey Barbushin, 2011-2013. All rights reserved.
  * @license http://www.opensource.org/licenses/BSD-3-Clause "The BSD 3-Clause License"
@@ -164,6 +164,7 @@ class EvalProvider {
 	 * Protect response code access only to specified directories using http://www.php.net/manual/en/ini.core.php#ini.open-basedir
 	 * IMPORTANT: classes autoload methods will work only for specified directories
 	 * @param array $openBaseDirs
+	 * @codeCoverageIgnore
 	 */
 	public function setOpenBaseDirs(array $openBaseDirs) {
 		$this->openBaseDirs = $openBaseDirs;
@@ -171,6 +172,7 @@ class EvalProvider {
 
 	/**
 	 * Autoload all PHP Console classes
+	 * @codeCoverageIgnore
 	 */
 	protected function forcePhpConsoleClassesAutoLoad() {
 		foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(__DIR__), \RecursiveIteratorIterator::LEAVES_ONLY) as $path) {
@@ -184,6 +186,7 @@ class EvalProvider {
 	/**
 	 * Set actual "open_basedir" PHP ini option
 	 * @throws \Exception
+	 * @codeCoverageIgnore
 	 */
 	protected function applyOpenBaseDirSetting() {
 		if($this->openBaseDirs) {
@@ -201,6 +204,7 @@ class EvalProvider {
 	 * Protect response code from reading/writing/including any files using http://www.php.net/manual/en/ini.core.php#ini.open-basedir
 	 * IMPORTANT: It does not protects from system(), exec(), passthru(), popen() & etc OS commands execution functions
 	 * IMPORTANT: Classes autoload methods will not work, so all required classes must be loaded before code evaluation
+	 * @codeCoverageIgnore
 	 */
 	public function disableFileAccessByOpenBaseDir() {
 		$this->setOpenBaseDirs(array(__DIR__ . '/not_existed_dir' . mt_rand()));
