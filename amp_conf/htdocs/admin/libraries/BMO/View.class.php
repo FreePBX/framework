@@ -50,6 +50,7 @@ class View {
 
 			$pbxlibFilename = $jspath."/pbxlib_".$final.".js";
 			if(!file_exists($pbxlibFilename)) {
+				set_time_limit(0);
 				//cleanup
 				foreach(glob($jspath.'/pbxlib_*.js') as $f) {
 					unlink($f);
