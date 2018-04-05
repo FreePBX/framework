@@ -23,6 +23,7 @@ return array(
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'PicoFeed' => array($vendorDir . '/fguillot/picofeed/lib'),
     'PhpConsole' => array($vendorDir . '/php-console/php-console/src'),
+    'JShrink' => array($vendorDir . '/tedivm/jshrink/src'),
     'Guzzle\\Tests' => array($vendorDir . '/guzzlehttp/guzzle/tests'),
     'Guzzle' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'ForceUTF8\\' => array($vendorDir . '/neitanod/forceutf8/src'),

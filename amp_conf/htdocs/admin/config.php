@@ -621,6 +621,8 @@ if ($quietmode) {
 	}
 
 	//send footer
+	$o = FreePBX::create()->View->getScripts();
+	$footer['compiled_scripts'] = $o;
 	$footer['js_content'] = load_view($amp_conf['VIEW_POPOVER_JS'], $popover_args);
 	$footer['lang'] = set_language();
 	$footer['covert'] 		= in_array($display, array('noauth', 'badrefer')) ? true : false;
@@ -702,6 +704,8 @@ if ($quietmode) {
 	echo $page_content;
 
 	//send footer
+	$o = FreePBX::create()->View->getScripts();
+	$footer['compiled_scripts'] = $o;
 	$footer['lang'] = $language;
 	$footer['covert'] 		= in_array($display, array('noauth', 'badrefer')) ? true : false;
 	$footer['extmap'] 				= !$footer['covert'] ? framework_get_extmap(true) : json_encode(array());

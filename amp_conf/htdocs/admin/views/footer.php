@@ -198,28 +198,10 @@ $html .= '<script type="text/javascript" src="assets/js/jquery.form.min.js'.$ver
 
 $html .= '<script type="text/javascript" src="assets/js/recorder.js'.$version_tag.'"></script>';
 
-// Production versions should include the packed consolidated javascript library but if it
-// is not present (useful for development, then include each individual library below
-if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
-	$pbxlibver = '.' . filectime("assets/js/pbxlib.js");
-	$html .= '<script type="text/javascript" src="assets/js/pbxlib.js'. $version_tag . $pbxlibver . '"></script>';
-} else {
-	/*
-	 * files below:
-	 * menu.js - The FreePBX Top Navigation Bar, utilizes jqueryUI
-	 * jquery.hotkeys.js - a plug-in that lets you easily add and remove handlers for keyboard events anywhere in your code supporting almost any key combination. (https://github.com/jeresig/jquery.hotkeys)
-	 * jquery.cookie.js - for setting cookies (https://github.com/carhartl/jquery-cookie)
-	 * script.legacy.js - freepbx library
-	 * tabber-minimized.js - sed for module admin (hiding content)
-	 */
-	$html .= '<script type="text/javascript" src="assets/js/jquery.hotkeys.js' . $version_tag . '"></script>'
-    . '<script type="text/javascript" src="assets/js/jquery.numeric.js' . $version_tag . '"></script>'
-	 	. '<script type="text/javascript" src="assets/js/jquery.cookie.js' . $version_tag . '"></script>'
-	 	. '<script type="text/javascript" src="assets/js/script.legacy.js' . $version_tag . '"></script>'
-		. '<script type="text/javascript" src="assets/js/jquery.autosize.min.js' . $version_tag . '"></script>'
-    . '<script type="text/javascript" src="assets/js/history.js' . $version_tag . '"></script>'
-		. '<script type="text/javascript" src="assets/js/tabber-minimized.js' . $version_tag . '"></script>';
+foreach($compiled_scripts as $script) {
+	$html .= '<script type="text/javascript" src="assets/js/'.$script . $version_tag . '"></script>';
 }
+
 //Please see the BMO View class for more information about this
 if(FreePBX::View()->replaceState()) {
   $html .= '<script>history.replaceState(null, null, "'.FreePBX::View()->getQueryString().'");</script>';

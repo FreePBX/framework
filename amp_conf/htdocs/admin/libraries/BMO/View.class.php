@@ -19,6 +19,59 @@ class View {
 		$this->freepbx = $freepbx;
 	}
 
+	public function getScripts() {
+		$files = array(
+			"jquery.cookie.js",
+			"script.legacy.js",
+			"history.js",
+			"jquery.autosize.min.js",
+			"jquery.hotkeys.js",
+			"jquery.numeric.js",
+			"jquery.relevant-dropdown.js",
+			"jquery.tablednd.min.js",
+			"load-fallbacks.js",
+			"tabber-minimized.js",
+			"tableExport.min.js"
+		);
+
+		$package = $this->freepbx->Config->get('USE_PACKAGED_JS');
+
+		if($package) {
+			$jspath = $this->freepbx->Config->get('AMPWEBROOT') .'/admin/assets/js';
+			$sha1 = '';
+			foreach($files as $file) {
+				$filename = $jspath."/".$file;
+				if(file_exists($filename)) {
+					$sha1 .= sha1_file($filename);
+				}
+			}
+
+			$final = sha1($sha1);
+
+			$pbxlibFilename = $jspath."/pbxlib_".$final.".js";
+			if(!file_exists($pbxlibFilename)) {
+				//cleanup
+				foreach(glob($jspath.'/pbxlib_*.js') as $f) {
+					unlink($f);
+				}
+				$contents = '';
+				foreach($files as $file) {
+					$filename = $jspath."/".$file;
+					if(file_exists($filename)) {
+						$contents .= file_get_contents($filename)."\n";
+					}
+				}
+				$minifiedCode = \JShrink\Minifier::minify($contents);
+				file_put_contents($pbxlibFilename,$minifiedCode);
+				//JIC for legacy for now
+				file_put_contents($jspath."/pbxlib.js",$minifiedCode);
+			}
+			return array(basename($pbxlibFilename));
+		} else {
+			return $files;
+		}
+	}
+
 	/**
 	 * This is a replace of the old redirect standard.
 	 * It emulates the same functionality but instead using HTML5 pushState
