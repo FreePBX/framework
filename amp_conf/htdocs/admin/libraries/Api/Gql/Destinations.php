@@ -10,16 +10,33 @@ class Destinations extends Base {
 	public function initReferences() {
 		$user = $this->typeContainer->get('destination');
 		$user->addFields([
-			'id' => [
+			'destination' => [
 				'type' => Type::id()
 			],
 			'description' => [
+				'type' => Type::string()
+			],
+			'category' => [
+				'type' => Type::string()
+			],
+			'module' => [
+				'type' => Type::string()
+			],
+			'name' => [
+				'type' => Type::string()
+			],
+			'edit_url' => [
 				'type' => Type::string()
 			]
 		]);
 		$user->addResolve(function($value, $args, $context, $info) {
 			$destinations = $this->getDestinations();
-			return (is_array($value)) ? $value[$info->fieldName] : $destinations[$value][$info->fieldName];
+			if(is_array($value) && !empty($value[$info->fieldName])) {
+				return $value[$info->fieldName];
+			} elseif(!empty($destinations[$value][$info->fieldName])) {
+				return $destinations[$value][$info->fieldName];
+			}
+			return null;
 		});
 	}
 
