@@ -4,15 +4,12 @@ use Monolog as Mono;
 use Monolog\Handler\StreamHandler;
 
 class Logger {
-	public function __construct($freepbx = null) {
-		if ($freepbx == null) {
-			throw new \ArgumentException("Not given a FreePBX Object");
-		}
+	public function __construct() {
 		$this->monoLog = new Mono\Logger('PBX');
-		$this->systemID = $freepbx->Config->get('FREEPBX_SYSTEM_IDENT');
 		$this->customLog = null;	
-		$this->FreePBX = $freepbx;
-		$this->monoLog->pushHandler(new StreamHandler('/var/log/asterisk/flogger.log', Mono\Logger::INFO));
+		$this->FreePBX = \FreePBX::Create();
+		$this->systemID = $this->FreePBX->Config->get('FREEPBX_SYSTEM_IDENT');
+		$this->monoLog->pushHandler(new StreamHandler('/var/log/asterisk/freepbx.log', Mono\Logger::INFO));
 	}
 	public function install() {}
 	public function uninstall() {}
@@ -63,14 +60,27 @@ class Logger {
 				return $logger->info($message,['serverId' => $this->systemID]);
 		}
 	}
-	public function createCustomLog($channel='custom', $path = '/var/log/asterisk/custom.log',$logLevel = ''){
-			$this->customLog = new Logger($channel);
+	public function createCustomLog($channel='custom', $path = '/var/log/asterisk/custom.log',$truncate = false,$logLevel = ''){
+			$this->customLog = new Mono\Logger($channel);
+			if($truncate){
+				@unlink($path);
+			}
 			$logLevel = (!empty($logLevel))?$logLevel:'INFO';
 			if(is_object($path)){
-				return $this->addHandler($this->customLogger,$obj);
+				return $this->addHandler($this->customLog,$path);
 			}
-			$obj = new StreamHandler($path,Mono\Logger::$logLevel);
-			$this->addHandler($this->customLogger,$obj);
+			$levels = [
+				'DEBUG' => 100,
+				'NOTICE' => 250,
+				'WARNING' => 300,
+				'ERROR' => 400,
+				'CRITICAL' =>500,
+				'ALERT' => 550,
+				'INFO' => 200,
+				'EMERGENCY' => 600
+			];
+			$obj = new StreamHandler($path,$levels[$logLevel]);
+			$this->addHandler($this->customLog,$obj);
 			return;
 	}
 	public function addHandler($logger,$obj){
