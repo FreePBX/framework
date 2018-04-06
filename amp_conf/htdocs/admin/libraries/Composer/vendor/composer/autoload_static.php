@@ -65,6 +65,7 @@ class ComposerStaticInit2fd02cf1075ab4a6f516128219042cf7
         'M' => 
         array (
             'Moontoast\\Math\\' => 15,
+            'Monolog\\' => 8,
             'Moment\\' => 7,
         ),
         'G' => 
@@ -209,6 +210,10 @@ class ComposerStaticInit2fd02cf1075ab4a6f516128219042cf7
         'Moontoast\\Math\\' => 
         array (
             0 => __DIR__ . '/..' . '/moontoast/math/src/Moontoast/Math',
+        ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
         'Moment\\' => 
         array (

@@ -36,6 +36,7 @@ return array(
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Povils\\Figlet\\' => array($vendorDir . '/povils/figlet/src/Figlet'),
     'Moontoast\\Math\\' => array($vendorDir . '/moontoast/math/src/Moontoast/Math'),
+    'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Moment\\' => array($vendorDir . '/fightbulc/moment/src'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
     'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
