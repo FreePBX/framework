@@ -301,6 +301,10 @@ if(function_exists("sql")) {
 	sql("DELETE FROM `cronmanager` WHERE `command` LIKE '%php%'");
 }
 
+outn(_("Building Packaged Scripts..."));
+\FreePBX::create()->View->getScripts();
+out(_("Done"));
+
 // Make sure our GPG keys are up to date
 try {
 	\FreePBX::GPG()->refreshKeys();

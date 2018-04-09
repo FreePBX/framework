@@ -765,6 +765,10 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		system($amp_conf['AMPSBIN']."/fwconsole ma install framework");
 		$output->writeln("Done");
 
+		$output->write("Building Packaged Scripts...");
+		\FreePBX::create()->View->getScripts();
+		$output->writeln("Done");
+
 		// GPG setup - trustFreePBX();
 		$output->write("Trusting FreePBX...");
 		try {
