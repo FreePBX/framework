@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-03-27 16:31-0400\n"
+"POT-Creation-Date: 2018-04-09 17:37-0400\n"
 "PO-Revision-Date: 2018-03-16 21:33+0200\n"
 "Last-Translator: Stell0 <stefano.fancello@nethesis.it>\n"
 "Language-Team: Italian <http://weblate.freepbx.org/projects/freepbx/"
@@ -388,7 +388,7 @@ msgstr "%s registrazione non riuscita"
 msgid "%s removed successfully"
 msgstr "%s rimosso con successo"
 
-#: amp_conf/htdocs/admin/views/footer.php:306
+#: amp_conf/htdocs/admin/views/footer.php:288
 #, php-format
 msgid ""
 "%s requires a new browser to function correctly. You can still use %s with "
@@ -1483,6 +1483,10 @@ msgstr ""
 msgid "Browser Stats"
 msgstr ""
 
+#: install.php:304
+msgid "Building Packaged Scripts..."
+msgstr ""
+
 #: ../core/functions.inc.php:824 ../core/functions.inc.php:4438
 #: ../core/functions.inc.php:5855
 msgid "Busy"
@@ -2007,7 +2011,7 @@ msgid ""
 "Click on <a href='?display=routing'>Outbound Routes</a> to setup routing."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:321
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:375
 msgid "Click to Expand"
 msgstr ""
 
@@ -2343,7 +2347,7 @@ msgstr ""
 msgid "Current setting for %s left in place"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:232
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:286
 #: ../core/functions.inc/drivers/Custom.class.php:10
 #: ../core/page.advancedsettings.php:213
 msgid "Custom"
@@ -3201,7 +3205,8 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2159
 #: amp_conf/htdocs/admin/page.modules.php:389
 #: amp_conf/htdocs/admin/page.modules.php:395
-#: amp_conf/htdocs/admin/page.modules.php:1078 ../core/install.php:1540
+#: amp_conf/htdocs/admin/page.modules.php:1078 install.php:306
+#: ../core/install.php:1540
 msgid "Done"
 msgstr ""
 
@@ -3641,7 +3646,7 @@ msgid ""
 "usually a good idea to enable this. Disable only if you are having issues."
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:685
+#: amp_conf/htdocs/admin/config.php:687
 msgid "English"
 msgstr ""
 
@@ -3745,7 +3750,7 @@ msgstr ""
 msgid "Error parsing cdr_mysql.conf, no migration done"
 msgstr ""
 
-#: install.php:308
+#: install.php:312
 #, php-format
 msgid "Error updating GPG Keys: %s"
 msgstr ""
@@ -4545,7 +4550,7 @@ msgstr ""
 msgid "Get help for %s"
 msgstr "Richiedi aiuto per %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:88
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:142
 msgid "Gettext is not installed"
 msgstr ""
 
@@ -4659,11 +4664,11 @@ msgid ""
 "option will work only if the 'CID Options' set as 'Force Trunk CID'."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:242
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:296
 msgid "Hit the play symbol to listen"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:240
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:294
 msgid "Hit the red record button to start recording from your browser"
 msgstr ""
 
@@ -5201,10 +5206,10 @@ msgstr "Selezione Passante non valida, il campo non deve essere vuoto"
 msgid "Invalid Dial Rules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:163
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:166
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:170
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:217
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:220
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:224
 msgid "Invalid Language"
 msgstr ""
 
@@ -5303,7 +5308,7 @@ msgstr ""
 msgid "Language Code"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:175
 msgid "Language Support Unknown"
 msgstr ""
 
@@ -5406,7 +5411,7 @@ msgstr ""
 msgid "Long Distance"
 msgstr ""
 
-#: amp_conf/htdocs/admin/bootstrap.php:311
+#: amp_conf/htdocs/admin/bootstrap.php:297
 msgid "Low Memory Limit"
 msgstr ""
 
@@ -5536,7 +5541,7 @@ msgstr ""
 msgid "Media Use Received Transport"
 msgstr ""
 
-#: amp_conf/htdocs/admin/bootstrap.php:309
+#: amp_conf/htdocs/admin/bootstrap.php:295
 msgid "Memory Limit Changed"
 msgstr ""
 
@@ -6092,7 +6097,7 @@ msgstr ""
 msgid "NoOp Traces in Dialplan"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:213
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:267
 #: ../core/functions.inc.php:5539
 #: ../core/functions.inc/drivers/PJSip.class.php:243
 #: ../core/views/did/advanced_form.php:215
@@ -6215,12 +6220,12 @@ msgid ""
 "ignored."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:319
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:373
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:253
 msgid "Object"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:319
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:373
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:253
 msgid "Objects"
 msgstr ""
@@ -6897,7 +6902,7 @@ msgstr "Prego immettere il canale per questo apparato"
 msgid "Please enter valid User Password using numbers only"
 msgstr "Prego immettere una Password Utente utilizzando solo numeri."
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:88
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:142
 msgid "Please install gettext so that the PBX can properly translate itself"
 msgstr ""
 
@@ -8401,7 +8406,7 @@ msgid ""
 "app-daynight,0,1"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:166
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:220
 #, php-format
 msgid ""
 "The default language of '%s' or '%s' was not found on this system. Please "
@@ -9120,7 +9125,7 @@ msgid ""
 "conversion support you need to at least install SOX"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:278
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:332
 #, php-format
 msgid ""
 "To play the media you will need to either update your browser to a recent "
@@ -9268,7 +9273,7 @@ msgstr ""
 msgid "Unable to find an intermediary converter for %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:121
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:175
 msgid ""
 "Unable to find the Locale binary. Your system may not support language "
 "changes!"
@@ -9319,11 +9324,11 @@ msgstr ""
 msgid "Unable to save %s"
 msgstr "Impossibile salvare %s"
 
-#: amp_conf/htdocs/admin/bootstrap.php:285
+#: amp_conf/htdocs/admin/bootstrap.php:271
 msgid "Unable to set timezone"
 msgstr ""
 
-#: amp_conf/htdocs/admin/bootstrap.php:285
+#: amp_conf/htdocs/admin/bootstrap.php:271
 #, php-format
 msgid ""
 "Unable to set timezone to %s because PHP does not support that timezone, the "
@@ -9482,11 +9487,11 @@ msgstr "Aggiornamento"
 msgid "Update Notifications"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:277
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:331
 msgid "Update Required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:306
+#: amp_conf/htdocs/admin/views/footer.php:288
 msgid "Update my browser now"
 msgstr ""
 
@@ -9619,7 +9624,7 @@ msgstr ""
 msgid "Use wget For Module Admin"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:320
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:374
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:254
 #, php-format
 msgid "Used as Destination by %s %s"
@@ -10384,15 +10389,15 @@ msgid ""
 "leave the User Password empty?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:170
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:224
 #, php-format
 msgid ""
 "You have selected an invalid language '%s' and we were unable to fallback to "
 "'%s' or '%s' please resolve this in advanced settings [%s]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:110
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:163
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:164
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:217
 #, php-format
 msgid ""
 "You have selected an invalid language '%s' this has been automatically "
@@ -10503,11 +10508,11 @@ msgid ""
 "reload this page"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/footer.php:305
+#: amp_conf/htdocs/admin/views/footer.php:287
 msgid "Your browser is out-of-date!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/bootstrap.php:309
+#: amp_conf/htdocs/admin/bootstrap.php:295
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and has been increased to %sM. You "
@@ -10516,7 +10521,7 @@ msgstr ""
 "Il memory_limit, %sM, è impostato troppo basso ed è stato aumentato a %sM. "
 "Dovresti cambiare questa impostazione nel file di configurazione php.ini"
 
-#: amp_conf/htdocs/admin/bootstrap.php:311
+#: amp_conf/htdocs/admin/bootstrap.php:297
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and may cause problems. FreePBX is "
