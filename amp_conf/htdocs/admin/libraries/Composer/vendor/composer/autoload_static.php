@@ -61,6 +61,7 @@ class ComposerStaticInit2fd02cf1075ab4a6f516128219042cf7
             'Psr\\Http\\Message\\' => 17,
             'Psr\\Container\\' => 14,
             'Povils\\Figlet\\' => 14,
+            'PhpConsole\\' => 11,
         ),
         'M' => 
         array (
@@ -207,6 +208,10 @@ class ComposerStaticInit2fd02cf1075ab4a6f516128219042cf7
         array (
             0 => __DIR__ . '/..' . '/povils/figlet/src/Figlet',
         ),
+        'PhpConsole\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-console/php-console/src/PhpConsole',
+        ),
         'Moontoast\\Math\\' => 
         array (
             0 => __DIR__ . '/..' . '/moontoast/math/src/Moontoast/Math',
@@ -281,9 +286,12 @@ class ComposerStaticInit2fd02cf1075ab4a6f516128219042cf7
             array (
                 0 => __DIR__ . '/..' . '/fguillot/picofeed/lib',
             ),
-            'PhpConsole' => 
+        ),
+        'J' => 
+        array (
+            'JShrink' => 
             array (
-                0 => __DIR__ . '/..' . '/php-console/php-console/src',
+                0 => __DIR__ . '/..' . '/tedivm/jshrink/src',
             ),
         ),
         'F' => 
