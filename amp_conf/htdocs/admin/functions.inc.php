@@ -398,6 +398,7 @@ function do_reload($passthru=false) {
 	$return['retrieve_conf_verbose'] = $return['retrieve_conf'] = 'exit: '.$exit_val.'<br/>'.$output['message'];
 
 	if ($exit_val != 0) {
+		$return['code'] = $exit_val;
 		$return['status'] = false;
 		$return['message'] = sprintf(_('Reload failed because retrieve_conf encountered an error: %s'),$exit_val);
 		$return['num_errors']++;
@@ -406,6 +407,7 @@ function do_reload($passthru=false) {
 	}
 
 	if (!isset($astman) || !$astman) {
+		$return['code'] = 255;
 		$return['status'] = false;
 		$return['message'] = sprtinf(_('Reload failed because %s could not connect to the asterisk manager interface.'),$amp_conf['DASHBOARD_FREEPBX_BRAND']);
 		$return['num_errors']++;
@@ -433,6 +435,8 @@ function do_reload($passthru=false) {
 	$sql = "UPDATE admin SET value = 'false' WHERE variable = 'need_reload'";
 	$result = $db->query($sql);
 	if(DB::IsError($result)) {
+		$return['code'] = 255;
+		$return['status'] = false;
 		$return['message'] = _('Successful reload, but could not clear reload flag due to a database error: ').$db->getMessage();
 		$return['num_errors']++;
 	}
@@ -443,7 +447,8 @@ function do_reload($passthru=false) {
 		if ($exit_val != 0) {
 			$desc = sprintf(_("Exit code was %s and output was: %s"), $exit_val, "\n\n".implode("\n",$output));
 			$notify->add_error('freepbx','reload_post_script', sprintf(_('Could not run %s script.'), $setting_post_reload), $desc);
-
+			$return['code'] = $exit_val;
+			$return['status'] = false;
 			$return['num_errors']++;
 		} else {
 			$notify->delete('freepbx', 'reload_post_script');
