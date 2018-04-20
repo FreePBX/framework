@@ -26,6 +26,7 @@ class Reload extends Command {
 				$line = preg_replace('#<br\s*/?>#i','', $line);
 				$output->writeln("<error>".$line."</error>");
 			};
+			exit(isset($result['code']) ? $result['code'] : 255);
 		} else {
 			if ($output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
 				$retrieve_array = explode('<br/>',$result['retrieve_conf_verbose']);
