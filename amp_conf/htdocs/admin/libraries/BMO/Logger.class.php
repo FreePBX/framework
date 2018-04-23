@@ -41,21 +41,29 @@ class Logger {
 			$logger = $this->customLog;
 		}
 		$channel = (!empty($channel))?$channel:'freepbx';
+		/** Anything with "LOG_" is added for backwards compatibility with FreePBX logging */
 		switch ($logLevel) {
+			case 'LOG_DEBUG':
 			case 'DEBUG':
 				return$logger->debug($message,['serverId' => $this->systemID]);
+			case 'LOG_NOTICE':
 			case 'NOTICE':
 				return $logger->notice($message,['serverId' => $this->systemID]);
+			case 'LOG_WARNING':
 			case 'WARNING':
 				return $logger->warning($message,['serverId' => $this->systemID]);
+			case 'LOG_ERR':
 			case 'ERROR':
 				return $logger->error($message,['serverId' => $this->systemID]);
+			case 'LOG_CRIT':
 			case 'CRITICAL':
 				return $logger->critical($message,['serverId' => $this->systemID]);
+			case 'LOG_ALERT':
 			case 'ALERT':
 				return $logger->alert($message,['serverId' => $this->systemID]);
 			case 'EMERGENCY':
 				return $logger->emergency($message,['serverId' => $this->systemID]);
+			case 'LOG_INFO':
 			case 'INFO':
 			default:
 				return $logger->info($message,['serverId' => $this->systemID]);

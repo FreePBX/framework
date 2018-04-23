@@ -57,7 +57,8 @@ if (!function_exists('json_last_error_msg')) {
 function freepbx_log_security($txt) {
 	$path = FreePBX::Config()->get('ASTLOGDIR');
 	$log_file = $path.'/freepbx_security.log';
-
+	/** Monolog */
+	FreePBX::Logger()->logWrite('security',$txt,false,'NOTICE');
 	$tz = date_default_timezone_get();
 	if (!$tz) {
 		$tz = 'America/Los_Angeles';
@@ -122,6 +123,8 @@ function freepbx_log($level, $message) {
 			case 'LOG_NOTICE':
 			case 'LOG_INFO':
 			case 'LOG_DEBUG':
+				/** monolog */
+				FreePBX::Logger()->logWrite('dbug',$txt,false,$log_type);
 				syslog(constant($log_type),"FreePBX - $txt");
 				break;
 			case 'SQL':     // Core will remove these settings once migrated,
