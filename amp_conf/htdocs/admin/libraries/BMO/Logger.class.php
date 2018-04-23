@@ -10,6 +10,7 @@ class Logger {
 		$this->FreePBX = \FreePBX::Create();
 		$this->systemID = $this->FreePBX->Config->get('FREEPBX_SYSTEM_IDENT');
 		$this->monoLog->pushHandler(new StreamHandler('/var/log/asterisk/freepbx.log', Mono\Logger::INFO));
+		$this->attachHandlers();
 	}
 	public function install() {}
 	public function uninstall() {}
@@ -85,5 +86,22 @@ class Logger {
 	}
 	public function addHandler($logger,$obj){
 		return $logger->pushHandler($obj);
+	}
+	
+public function attachHandlers(){
+		if(!is_object($this->loggingHooks)){
+			$this->loggingHooks = new \SplObjectStorage();
+		}
+		$this->FreePBX->Hooks->processHooks($this->loggingHooks);
+		foreach($this->loggingHooks as $hook){
+			try{ 
+				$this->addHandler($thid->monoLog,$hook);
+			}catch(\Exception $e){
+				//don't  let a bad apple mess it up for everyone
+				dbug('Backup: custom handler skipped');
+				dbug($e->getMessage());
+				continue;
+			}
+		}
 	}
 }

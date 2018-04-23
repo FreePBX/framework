@@ -658,7 +658,6 @@ function edit_crontab($remove = '', $add = '') {
  */
 function dbug_write($txt, $check = false){
 	global $amp_conf;
-
 	// dbug can be used prior to bootstrapping and initialization, so we set
 	// it if not defined here to a default.
 	//
@@ -679,6 +678,8 @@ function dbug_write($txt, $check = false){
 	if($amp_conf['PHP_CONSOLE']) {
 		PhpConsole\Connector::getInstance()->getDebugDispatcher()->dispatchDebug($txt, 'dbug');
 	}
+	/** Monolog */
+	FreePBX::Logger()->logWrite('dbug',$txt,false,'DEBUG');
 }
 
 /**
