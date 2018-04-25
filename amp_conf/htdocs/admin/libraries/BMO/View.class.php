@@ -730,6 +730,9 @@ class View {
 		$flattened = [];
 		foreach($this->drawselect_destinations as $mod => $categories) {
 			foreach($categories as $cat => $data) {
+				if(is_array($restricted_modules) && ((is_array($restricted_modules[$mod]) && in_array($cat,$restricted_modules[$mod])) || (isset($restricted_modules[$mod]) && !is_array($restricted_modules[$mod])))) {
+					continue;
+				}
 				foreach($data['destinations'] as $destination => $info) {
 					$flattened[$destination] = $info['category'];
 				}
@@ -766,6 +769,9 @@ class View {
 		$cat_options = [];
 		foreach($this->drawselect_destinations as $mod => $categories) {
 			foreach($categories as $cat => $data) {
+				if(is_array($restricted_modules) && ((is_array($restricted_modules[$mod]) && in_array($cat,$restricted_modules[$mod])) || (isset($restricted_modules[$mod]) && !is_array($restricted_modules[$mod])))) {
+					continue;
+				}
 				$tmp = [
 					'selected' => ($data['name']==$destmod)? true: false,
 					'style' => ($mod=='Error')?'background-color:red;':'',

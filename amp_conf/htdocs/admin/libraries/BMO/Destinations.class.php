@@ -24,9 +24,6 @@ class Destinations {
 
 		$destinations = array();
 		foreach($modules as $rawname => $data) {
-			if(!$this->moduleHasDestinations($rawname)) {
-				continue;
-			}
 			$destArray = $this->getDestinationsByModule($rawname, '');
 			if(!empty($destArray)) {
 				foreach($destArray as $dest) {
@@ -57,34 +54,6 @@ class Destinations {
 			}
 		}
 		return $destinations;
-	}
-
-	/**
-	 * Check if module has destinations or not
-	 * @method moduleHasDestinations
-	 * @param  string                       $rawname The module rawname
-	 * @return boolean                                True if module has destinations
-	 */
-	public function moduleHasDestinations($rawname) {
-		if(!$this->FreePBX->Modules->checkStatus($rawname)) {
-			return false;
-		}
-		$dests = $this->getModuleDestinations($rawname);
-		return !empty($dests);
-	}
-
-	/**
-	 * Check if module has popovers or not
-	 * @method moduleHasDestinationPopovers
-	 * @param  string                       $rawname The module rawname
-	 * @return boolean                                True if module has popovers
-	 */
-	public function moduleHasDestinationPopovers($rawname) {
-		if(!$this->moduleHasDestinations($rawname) || !$this->FreePBX->Modules->getInfo($rawname)[$rawname]['popovers']) {
-			return false;
-		}
-		$pops = $this->getModuleDestinationPopovers($rawname);
-		return !empty($pops);
 	}
 
 	/**
@@ -134,7 +103,7 @@ class Destinations {
 	 * @return array                       Array of modules
 	 */
 	public function getPopoversByModule($rawname) {
-		if(!$this->moduleHasDestinations($rawname) || !$this->FreePBX->Modules->getInfo($rawname)[$rawname]['popovers']) {
+		if(!$this->FreePBX->Modules->getInfo($rawname)[$rawname]['popovers']) {
 			return false;
 		}
 		$popoverInfo = $this->FreePBX->Modules->getInfo($rawname)[$rawname]['popovers'];
@@ -207,15 +176,8 @@ class Destinations {
 		if(!$this->FreePBX->Modules->checkStatus($rawname)) {
 			return false;
 		}
-		$this->FreePBX->Modules->loadFunctionsInc($rawname);
-		$funct = strtolower($rawname.'_destinations');
-		if (!function_exists($funct)) {
-			return false;
-		}
 		try {
-			modgettext::push_textdomain($rawname);
-			$destArray = $funct($index); //returns an array with 'destination' and 'description', and optionally 'category'
-			modgettext::pop_textdomain();
+			$destArray = $this->getModuleDestinations($rawname, $index);
 			$destinations = [];
 			if(!empty($destArray)) {
 				foreach($destArray as $dest) {
@@ -435,18 +397,17 @@ class Destinations {
 	}
 
 	//$rawname.'_destinations'
-	public function getModuleDestinations($module) {
-		$info = $this->FreePBX->Hooks->processHooksByModule($module);
+	public function getModuleDestinations($module, $index = '') {
+		$info = $this->FreePBX->Hooks->processHooksByModule($module, $index);
 		if(!empty($info)) {
 			return $info;
 		}
 
 		$this->FreePBX->Modules->loadFunctionsInc($module);
-		$funct = strtolower($rawname.'_destinations');
+		$funct = strtolower($module.'_destinations');
 		if(function_exists($funct)) {
-			return $funct();
+			return $funct($index);
 		}
-
 		return false;
 	}
 
@@ -458,11 +419,10 @@ class Destinations {
 		}
 
 		$this->FreePBX->Modules->loadFunctionsInc($module);
-		$funct = strtolower($rawname.'_destination_popovers');
+		$funct = strtolower($module.'_destination_popovers');
 		if(function_exists($funct)) {
 			return $funct();
 		}
-
 		return false;
 	}
 
