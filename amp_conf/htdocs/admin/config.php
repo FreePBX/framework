@@ -626,13 +626,13 @@ if ($quietmode) {
 	}
 
 	//send footer
-	$o = FreePBX::create()->View->getScripts();
+	$o = FreePBX::View()->getScripts();
 	$footer['compiled_scripts'] = $o;
 	$footer['js_content'] = load_view($amp_conf['VIEW_POPOVER_JS'], $popover_args);
 	$footer['lang'] = $language;
 	$footer['covert'] 		= in_array($display, array('noauth', 'badrefer')) ? true : false;
 	$footer['extmap'] 				= !$footer['covert']
-		? framework_get_extmap(true)
+		? json_encode(FreePBX::Extensions()->getExtmap())
 		: json_encode(array());
 	$footer['module_name'] = $module_name;
 	$footer['module_page'] = $module_page;
@@ -710,7 +710,7 @@ if ($quietmode) {
 	$footer['compiled_scripts'] = $o;
 	$footer['lang'] = $language;
 	$footer['covert'] 		= in_array($display, array('noauth', 'badrefer')) ? true : false;
-	$footer['extmap'] 				= !$footer['covert'] ? framework_get_extmap(true) : json_encode(array());
+	$footer['extmap'] 				= !$footer['covert'] ? json_encode(FreePBX::Extensions()->getExtmap()) : json_encode(array());
 	$footer['module_name']			= $module_name;
 	$footer['module_page']			= $module_page;
 	$footer['benchmark_starttime']	= $benchmark_starttime;

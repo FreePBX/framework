@@ -1,5 +1,5 @@
 <?php
-/** Legacy functions associated with ampuser class **/
+/** Legacy proceedural functions **/
 
 /**
  * Returns true if extension is within allowed range

@@ -1966,7 +1966,7 @@ class module_functions {
 			return array(_("Failed to run installation scripts"));
 		}
 
-		foreach (mod_func_iterator('module_install_check_callback', $modules) as $mod => $res) {
+		foreach (\FreePBX::Modules()->functionIterator('module_install_check_callback', $modules) as $mod => $res) {
 			if ($res !== true) {
 				$rejects[] = $res;
 			}
@@ -2123,7 +2123,7 @@ class module_functions {
 		// indicating why the uninstall must fail
 		//
 		$rejects = array();
-		foreach (mod_func_iterator('module_uninstall_check_callback', $modules) as $mod => $res) {
+		foreach (\FreePBX::Modules()->functionIterator('module_uninstall_check_callback', $modules) as $mod => $res) {
 			if ($res !== true) {
 				$rejects[] = $res;
 			}
@@ -2981,7 +2981,7 @@ class module_functions {
 			// when sent.
 			//
 			$repo_params = array();
-			foreach (mod_func_iterator('module_repo_parameters_callback', $path) as $mod => $res) {
+			foreach (\FreePBX::Modules()->functionIterator('module_repo_parameters_callback', $path) as $mod => $res) {
 				if (is_array($res)) {
 					foreach ($res as $p => $v) {
 						$options[$mod.'_'.$p] = $v;

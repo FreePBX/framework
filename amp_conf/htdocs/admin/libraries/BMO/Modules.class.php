@@ -15,6 +15,7 @@ class Modules {
 	public $active_modules;
 	private $moduleMethods = array();
 	private $validLicense = null;
+	private $functionIncLoaded = [];
 
 	// Cache for XML objects
 	private $modulexml = array();
@@ -70,36 +71,7 @@ class Modules {
 	 * @return array Array of destinations
 	 */
 	public function getDestinations() {
-		$this->loadAllFunctionsInc();
-		$modules = $this->getActiveModules(false);
-		$destinations = array();
-		foreach($modules as $rawname => $data) {
-			try {
-				$funct = strtolower($rawname.'_destinations');
-				$funct2 = strtolower($rawname.'_getdestinfo');
-				if (function_exists($funct)) {
-					\modgettext::push_textdomain($rawname);
-					$index = ''; //used in certain situations but not here
-					$destArray = $funct($index); //returns an array with 'destination' and 'description', and optionally 'category'
-					\modgettext::pop_textdomain();
-					if(!empty($destArray)) {
-						foreach($destArray as $dest) {
-							$destinations[$dest['destination']] = $dest;
-							$destinations[$dest['destination']]['module'] = $rawname;
-							$destinations[$dest['destination']]['name'] = $data['name'];
-							if(function_exists($funct2)) {
-								$info = $funct2($dest['destination']);
-								$destinations[$dest['destination']]['edit_url'] = !empty($info['edit_url']) ? $info['edit_url'] : '';
-							}
-						}
-					}
-				}
-			} catch(\Exception $e) {
-				dbug($e->getMessage());
-				dbug($e->getTraceAsString());
-			}
-		}
-		return $destinations;
+		return $this->FreePBX->Destinations->getAllDestinations();
 	}
 
 	/**
@@ -107,8 +79,11 @@ class Modules {
 	 */
 	public function loadAllFunctionsInc() {
 		$path = $this->FreePBX->Config->get("AMPWEBROOT");
-		$modules = $this->getActiveModules(false);
+		$modules = $this->getActiveModules(false); //TODO: is false wise here?
 		foreach($modules as $rawname => $data) {
+			if(in_array($rawname,$this->functionIncLoaded)) {
+				continue;
+			}
 			$ifiles = get_included_files();
 			$relative = $rawname."/functions.inc.php";
 			$absolute = $path."/admin/modules/".$relative;
@@ -125,10 +100,12 @@ class Modules {
 					}
 				}
 				if($include) {
+					$this->functionIncLoaded[] = $rawname;
 					include $absolute;
 				}
 			}
 		}
+		return true;
 	}
 
 	/**
@@ -136,6 +113,9 @@ class Modules {
 	 * @param  string $module The module rawname
 	 */
 	public function loadFunctionsInc($module) {
+		if(in_array($module,$this->functionIncLoaded)) {
+			return true;
+		}
 		if($this->checkStatus($module)) {
 			$path = $this->FreePBX->Config->get("AMPWEBROOT");
 			$ifiles = get_included_files();
@@ -155,10 +135,13 @@ class Modules {
 					}
 				}
 				if($include) {
+					$this->functionIncLoaded[] = $rawname;
 					include $absolute;
+					return true;
 				}
 			}
 		}
+		return false;
 	}
 
 	/**
@@ -281,6 +264,32 @@ class Modules {
 	}
 
 	/**
+	 * Search through all active modules for a function that ends in $func.
+	 * Pass it $opts and return whatever is returned in to an array with the
+	 * retuning module name as the key
+	 * Takes:
+	 * @func variable	the function name that we are searching for. The module name
+	 * 					will be appened to this
+	 * @opts mixed		a variable or array that will be passed to the function being
+	 * 					called , if its found
+	 *
+	 */
+	public function functionIterator($func, &$opts = '') {
+		$this->getActiveModules(false);
+		$res = array();
+		if(!empty($this->active_modules)) {
+			foreach ($this->active_modules as $active => $mod) {
+				$funct = $mod['rawname'] . '_' . $func;
+				if (function_exists($funct)) {
+					$res[$mod['rawname']] = $funct($opts);
+				}
+			}
+		}
+
+		return $res;
+	}
+
+	/**
 	 * Return the BMO Class name for the page that has been requested
 	 *
 	 * This is used for GUI Hooks - for example, when a page is requested like
@@ -394,13 +403,19 @@ class Modules {
 		return [ "timestamp" => $time, "modules" => $modules ];
 	}
 
+	/**
+	 * Get List of upgradable modules
+	 * @method getUpgradeableModules
+	 * @param  [type]                $onlinemodules [description]
+	 * @return [type]                               [description]
+	 */
 	public function getUpgradeableModules($onlinemodules) {
 		// Our current modules on the filesystem
 		//
 		// Don't check for disabled modules. Refer to
 		//    http://issues.freepbx.org/browse/FREEPBX-8380
 		//    http://issues.freepbx.org/browse/FREEPBX-8628
-		$local = $this->getInfo(false, [\MODULE_STATUS_ENABLED, \MODULE_STATUS_NEEDUPGRADE, \MODULE_STATUS_BROKEN], true);
+		$local = $this->getInfo(false, [MODULE_STATUS_ENABLED, MODULE_STATUS_NEEDUPGRADE, MODULE_STATUS_BROKEN], true);
 		$upgrades = [];
 
 		// Loop through our current ones and see if new ones are available online
@@ -420,5 +435,18 @@ class Modules {
 			}
 		}
 		return $upgrades;
+	}
+
+	/**
+	 * Announce that the calling function is deprecated
+	 * @method deprecatedFunction
+	 * @param  integer            $pos Position in the stack to start at
+	 */
+	public function deprecatedFunction($pos=1) {
+		$trace = debug_backtrace(2);
+		$function = $trace[$pos]['function'];
+		$file =  $trace[$pos]['file'];
+		$line =  $trace[$pos]['line'];
+		freepbx_log(FPBX_LOG_WARNING,'Depreciated Function '.$function.' detected in '.$file.' on line '.$line);
 	}
 }
