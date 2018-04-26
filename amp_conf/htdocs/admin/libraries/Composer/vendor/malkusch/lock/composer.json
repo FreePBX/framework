@@ -11,6 +11,11 @@
             "email": "markus@malkusch.de",
             "homepage": "http://markus.malkusch.de",
             "role": "Developer"
+        },
+        {
+            "name": "Willem Stuursma-Ruwen",
+            "email": "willem@stuursma.name",
+            "role": "Developer"
         }
     ],
     "autoload": {
@@ -18,16 +23,20 @@
     },
     "require": {
         "php": ">=5.6",
-        "psr/log": "^1"
+        "psr/log": "^1",
+        "paragonie/random_compat": "^1|^2"
     },
     "require-dev": {
+        "ext-memcached": "*",
+        "ext-redis": "^2.2.4|^3.0|^4.0",
+        "ext-pdo_mysql": "*",
+        "ext-pdo_sqlite": "*",
+        "kriswallsmith/spork": "^0.3",
+        "mikey179/vfsStream": "^1.5.0",
         "phpunit/phpunit": "^5",
         "php-mock/php-mock-phpunit": "^1",
-        "mikey179/vfsStream": "^1.5.0",
         "predis/predis": "~1.0",
-        "ext-redis": "^2.2.4|^3",
-        "zetacomponents/system-information": "~1.1",
-        "kriswallsmith/spork": "^0.3"
+        "zetacomponents/system-information": "~1.1"
     },
     "archive": {
         "exclude": ["/tests"]
