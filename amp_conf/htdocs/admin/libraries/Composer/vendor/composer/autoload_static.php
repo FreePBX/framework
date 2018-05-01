@@ -22,6 +22,10 @@ class ComposerStaticIniteed34d9d8733e39baaa15f2a55f59cd6
         array (
             'malkusch\\lock\\' => 14,
         ),
+        'Z' => 
+        array (
+            'ZendXml\\' => 8,
+        ),
         'W' => 
         array (
             'Whoops\\' => 7,
@@ -36,6 +40,7 @@ class ComposerStaticIniteed34d9d8733e39baaa15f2a55f59cd6
             'Symfony\\Component\\Security\\' => 27,
             'Symfony\\Component\\PropertyAccess\\' => 33,
             'Symfony\\Component\\Process\\' => 26,
+            'Symfony\\Component\\Lock\\' => 23,
             'Symfony\\Component\\Inflector\\' => 28,
             'Symfony\\Component\\HttpKernel\\' => 29,
             'Symfony\\Component\\HttpFoundation\\' => 33,
@@ -87,6 +92,10 @@ class ComposerStaticIniteed34d9d8733e39baaa15f2a55f59cd6
         array (
             0 => __DIR__ . '/..' . '/malkusch/lock/classes',
         ),
+        'ZendXml\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zendxml/src',
+        ),
         'Whoops\\' => 
         array (
             0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
@@ -122,6 +131,10 @@ class ComposerStaticIniteed34d9d8733e39baaa15f2a55f59cd6
         'Symfony\\Component\\Process\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/process',
+        ),
+        'Symfony\\Component\\Lock\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/lock',
         ),
         'Symfony\\Component\\Inflector\\' => 
         array (
@@ -242,13 +255,6 @@ class ComposerStaticIniteed34d9d8733e39baaa15f2a55f59cd6
     );
 
     public static $prefixesPsr0 = array (
-        'Z' => 
-        array (
-            'ZendXml\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/zendframework/zendxml/library',
-            ),
-        ),
         'W' => 
         array (
             'Wrep\\Daemonizable\\' => 
