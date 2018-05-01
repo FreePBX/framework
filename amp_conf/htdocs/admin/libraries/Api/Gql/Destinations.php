@@ -7,37 +7,41 @@ use FreePBX\modules\Api\Gql\Base;
 
 class Destinations extends Base {
 	private $destinations;
-	public function initReferences() {
-		$user = $this->typeContainer->get('destination');
-		$user->addFields([
-			'destination' => [
-				'type' => Type::id()
-			],
-			'description' => [
-				'type' => Type::string()
-			],
-			'category' => [
-				'type' => Type::string()
-			],
-			'module' => [
-				'type' => Type::string()
-			],
-			'name' => [
-				'type' => Type::string()
-			],
-			'edit_url' => [
-				'type' => Type::string()
-			]
-		]);
-		$user->addResolve(function($value, $args, $context, $info) {
-			$destinations = $this->getDestinations();
-			if(is_array($value) && !empty($value[$info->fieldName])) {
-				return $value[$info->fieldName];
-			} elseif(!empty($destinations[$value][$info->fieldName])) {
-				return $destinations[$value][$info->fieldName];
+
+	protected static $priority = 100;
+
+	public function initTypes() {
+		$user = $this->typeContainer->create('destination','union');
+		$user->setDescription("Destination for a call to hit");
+		$user->addResolve(function($value, $context, $info) {
+			if(!empty($value['gqltype'])) {
+				return $this->typeContainer->get($value['gqltype'])->getObject();
 			}
 			return null;
 		});
+
+		$user = $this->typeContainer->create('invaliddestination');
+		$user->setDescription('Invalid Destination Holder');
+		$user->addFieldCallback(function() {
+			return [
+				'id' => [
+					'type' => Type::id(),
+					'description' => 'The invalid destination id'
+				],
+				'description' => [
+					'type' => Type::string(),
+					'description' => 'The invalid destination description',
+					'resolve' => function($row) {
+						return 'Invalid Destination';
+					},
+				],
+			];
+		});
+	}
+
+	public function postInitTypes() {
+		$destinations = $this->typeContainer->get('destination');
+		$destinations->addType($this->typeContainer->get('invaliddestination')->getReference());
 	}
 
 	private function getDestinations() {

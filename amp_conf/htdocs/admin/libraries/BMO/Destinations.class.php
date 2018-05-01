@@ -324,6 +324,15 @@ class Destinations {
 		return $dest_results;
 	}
 
+	public function getDestination($destination) {
+		$info = $this->identifyDestinations($destination);
+		if(isset($info[$destination])) {
+			$module = key($info[$destination]);
+			$info[$destination][$module]['module'] = $module;
+			return $info[$destination][$module];
+		}
+	}
+
 	/**
 	 * Create a comprehensive list of all destinations that are problematic
 	 *
