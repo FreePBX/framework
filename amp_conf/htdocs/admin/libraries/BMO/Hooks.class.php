@@ -205,14 +205,14 @@ class Hooks extends DB_Helper {
 				}
 				try {
 					if($bmoModule) {
-						$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), func_get_args());
+						$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), $args);
 					} else {
 						$fn = $namespace.$class;
 						if($static) {
 							$t = new $fn($this->FreePBX);
-							$return[$module] = call_user_func_array(array($t, $meth), func_get_args());
+							$return[$module] = call_user_func_array(array($t, $meth), $args);
 						} else {
-							$return[$module] = call_user_func_array($fn.'::'.$meth, func_get_args());
+							$return[$module] = call_user_func_array($fn.'::'.$meth, $args);
 						}
 					}
 				} catch (\Exception $e) {

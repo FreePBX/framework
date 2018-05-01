@@ -135,7 +135,7 @@ class Modules {
 					}
 				}
 				if($include) {
-					$this->functionIncLoaded[] = $rawname;
+					$this->functionIncLoaded[] = $module;
 					include $absolute;
 					return true;
 				}
