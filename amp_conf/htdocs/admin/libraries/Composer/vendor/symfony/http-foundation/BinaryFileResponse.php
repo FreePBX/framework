@@ -184,6 +184,13 @@ class BinaryFileResponse extends Response
      */
     public function prepare(Request $request)
     {
+        $this->headers->set('Content-Length', $this->file->getSize());
+
+        if (!$this->headers->has('Accept-Ranges')) {
+            // Only accept ranges on safe HTTP methods
+            $this->headers->set('Accept-Ranges', $request->isMethodSafe(false) ? 'bytes' : 'none');
+        }
+
         if (!$this->headers->has('Content-Type')) {
             $this->headers->set('Content-Type', $this->file->getMimeType() ?: 'application/octet-stream');
         }
@@ -196,16 +203,6 @@ class BinaryFileResponse extends Response
 
         $this->offset = 0;
         $this->maxlen = -1;
-
-        if (false === $fileSize = $this->file->getSize()) {
-            return $this;
-        }
-        $this->headers->set('Content-Length', $fileSize);
-
-        if (!$this->headers->has('Accept-Ranges')) {
-            // Only accept ranges on safe HTTP methods
-            $this->headers->set('Accept-Ranges', $request->isMethodSafe(false) ? 'bytes' : 'none');
-        }
 
         if (self::$trustXSendfileTypeHeader && $request->headers->has('X-Sendfile-Type')) {
             // Use X-Sendfile, do not send any content.
@@ -238,6 +235,7 @@ class BinaryFileResponse extends Response
             // Process the range headers.
             if (!$request->headers->has('If-Range') || $this->hasValidIfRangeHeader($request->headers->get('If-Range'))) {
                 $range = $request->headers->get('Range');
+                $fileSize = $this->file->getSize();
 
                 list($start, $end) = explode('-', substr($range, 6), 2) + array(0);
 

@@ -14,9 +14,6 @@ namespace Symfony\Component\DependencyInjection\Tests;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 
-/**
- * @group legacy
- */
 class DefinitionDecoratorTest extends TestCase
 {
     public function testConstructor()
@@ -53,6 +50,32 @@ class DefinitionDecoratorTest extends TestCase
         );
     }
 
+    /**
+     * @dataProvider provideLegacyPropertyTests
+     * @group legacy
+     */
+    public function testLegacySetProperty($property, $changeKey)
+    {
+        $def = new DefinitionDecorator('foo');
+
+        $getter = 'get'.ucfirst($property);
+        $setter = 'set'.ucfirst($property);
+
+        $this->assertNull($def->$getter());
+        $this->assertSame($def, $def->$setter('foo'));
+        $this->assertEquals('foo', $def->$getter());
+        $this->assertEquals(array($changeKey => true), $def->getChanges());
+    }
+
+    public function provideLegacyPropertyTests()
+    {
+        return array(
+            array('factoryClass', 'factory_class'),
+            array('factoryMethod', 'factory_method'),
+            array('factoryService', 'factory_service'),
+        );
+    }
+
     public function testSetPublic()
     {
         $def = new DefinitionDecorator('foo');
@@ -78,9 +101,9 @@ class DefinitionDecoratorTest extends TestCase
         $def = new DefinitionDecorator('foo');
 
         $this->assertFalse($def->isAutowired());
-        $this->assertSame($def, $def->setAutowired(true));
-        $this->assertTrue($def->isAutowired());
-        $this->assertSame(array('autowired' => true), $def->getChanges());
+        $this->assertSame($def, $def->setAutowired(false));
+        $this->assertFalse($def->isAutowired());
+        $this->assertEquals(array('autowire' => true), $def->getChanges());
     }
 
     public function testSetArgument()

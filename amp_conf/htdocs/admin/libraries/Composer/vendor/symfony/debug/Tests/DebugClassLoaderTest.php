@@ -11,10 +11,11 @@
 
 namespace Symfony\Component\Debug\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Debug\DebugClassLoader;
 use Symfony\Component\Debug\ErrorHandler;
 
-class DebugClassLoaderTest extends \PHPUnit_Framework_TestCase
+class DebugClassLoaderTest extends TestCase
 {
     /**
      * @var int Error reporting level before running tests
@@ -25,7 +26,7 @@ class DebugClassLoaderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->errorReporting = error_reporting(E_ALL);
+        $this->errorReporting = error_reporting(E_ALL | E_STRICT);
         $this->loader = new ClassLoader();
         spl_autoload_register(array($this->loader, 'loadClass'), true, true);
         DebugClassLoader::enable();
@@ -58,9 +59,26 @@ class DebugClassLoaderTest extends \PHPUnit_Framework_TestCase
         $this->fail('DebugClassLoader did not register');
     }
 
+    /**
+     * @expectedException \Exception
+     * @expectedExceptionMessage boo
+     */
+    public function testThrowingClass()
+    {
+        try {
+            class_exists(__NAMESPACE__.'\Fixtures\Throwing');
+            $this->fail('Exception expected');
+        } catch (\Exception $e) {
+            $this->assertSame('boo', $e->getMessage());
+        }
+
+        // the second call also should throw
+        class_exists(__NAMESPACE__.'\Fixtures\Throwing');
+    }
+
     public function testUnsilencing()
     {
-        if (PHP_VERSION_ID >= 70000) {
+        if (\PHP_VERSION_ID >= 70000) {
             $this->markTestSkipped('PHP7 throws exceptions, unsilencing is not required anymore.');
         }
         if (defined('HHVM_VERSION')) {
@@ -107,22 +125,27 @@ class DebugClassLoaderTest extends \PHPUnit_Framework_TestCase
             $this->fail('ContextErrorException expected');
         } catch (\ErrorException $exception) {
             // if an exception is thrown, the test passed
+            restore_error_handler();
+            restore_exception_handler();
             $this->assertStringStartsWith(__FILE__, $exception->getFile());
-            if (PHP_VERSION_ID < 70000) {
+            if (\PHP_VERSION_ID < 70000) {
                 $this->assertRegExp('/^Runtime Notice: Declaration/', $exception->getMessage());
                 $this->assertEquals(E_STRICT, $exception->getSeverity());
             } else {
                 $this->assertRegExp('/^Warning: Declaration/', $exception->getMessage());
                 $this->assertEquals(E_WARNING, $exception->getSeverity());
             }
-        } finally {
+        } catch (\Exception $exception) {
             restore_error_handler();
             restore_exception_handler();
+
+            throw $exception;
         }
     }
 
     /**
      * @expectedException \RuntimeException
+     * @expectedExceptionMessage Case mismatch between loaded and declared class names
      */
     public function testNameCaseMismatch()
     {
@@ -144,6 +167,7 @@ class DebugClassLoaderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \RuntimeException
+     * @expectedExceptionMessage Case mismatch between loaded and declared class names
      */
     public function testPsr4CaseMismatch()
     {
@@ -184,7 +208,7 @@ class DebugClassLoaderTest extends \PHPUnit_Framework_TestCase
 
         $xError = array(
             'type' => E_USER_DEPRECATED,
-            'message' => 'The Test\Symfony\Component\Debug\Tests\\'.$class.' class '.$type.' Symfony\Component\Debug\Tests\Fixtures\\'.$super.' that is deprecated but this is a test deprecation notice.',
+            'message' => 'The Test\Symfony\Component\Debug\Tests\\'.$class.' class '.$type.' Symfony\Component\Debug\Tests\Fixtures\\'.$super.' that is deprecated but this is a test deprecation notice',
         );
 
         $this->assertSame($xError, $lastError);
@@ -244,7 +268,7 @@ class DebugClassLoaderTest extends \PHPUnit_Framework_TestCase
 
     public function testReservedForPhp7()
     {
-        if (PHP_VERSION_ID >= 70000) {
+        if (\PHP_VERSION_ID >= 70000) {
             $this->markTestSkipped('PHP7 already prevents using reserved names.');
         }
 

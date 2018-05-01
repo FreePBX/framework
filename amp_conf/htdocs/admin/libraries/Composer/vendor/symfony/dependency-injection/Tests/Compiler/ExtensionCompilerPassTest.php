@@ -45,10 +45,7 @@ class ExtensionCompilerPassTest extends TestCase
 
         $this->pass->process($this->container);
 
-        $this->assertTrue($this->container->hasDefinition('extension1'));
-        $this->assertFalse($this->container->hasDefinition('extension2'));
-        $this->assertFalse($this->container->hasDefinition('extension3'));
-        $this->assertTrue($this->container->hasDefinition('extension4'));
+        $this->assertCount(2, $this->container->getDefinitions());
     }
 }
 

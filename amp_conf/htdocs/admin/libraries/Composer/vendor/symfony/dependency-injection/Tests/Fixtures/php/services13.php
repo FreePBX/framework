@@ -1,8 +1,8 @@
 <?php
 
-use Symfony\Component\DependencyInjection\Argument\RewindableGenerator;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\Exception\InactiveScopeException;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
@@ -11,8 +11,6 @@ use Symfony\Component\DependencyInjection\ParameterBag\FrozenParameterBag;
 /**
  * This class has been auto-generated
  * by the Symfony Dependency Injection Component.
- *
- * @final since Symfony 3.3
  */
 class ProjectServiceContainer extends Container
 {
@@ -21,7 +19,11 @@ class ProjectServiceContainer extends Container
 
     public function __construct()
     {
-        $this->services = array();
+        $this->services =
+        $this->scopedServices =
+        $this->scopeStacks = array();
+        $this->scopes = array();
+        $this->scopeChildren = array();
         $this->methodMap = array(
             'bar' => 'getBarService',
         );
@@ -29,29 +31,19 @@ class ProjectServiceContainer extends Container
         $this->aliases = array();
     }
 
-    public function getRemovedIds()
-    {
-        return array(
-            'Psr\\Container\\ContainerInterface' => true,
-            'Symfony\\Component\\DependencyInjection\\ContainerInterface' => true,
-            'foo' => true,
-        );
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     public function compile()
     {
-        throw new LogicException('You cannot compile a dumped container that was already compiled.');
+        throw new LogicException('You cannot compile a dumped frozen container.');
     }
 
-    public function isCompiled()
-    {
-        return true;
-    }
-
+    /**
+     * {@inheritdoc}
+     */
     public function isFrozen()
     {
-        @trigger_error(sprintf('The %s() method is deprecated since Symfony 3.3 and will be removed in 4.0. Use the isCompiled() method instead.', __METHOD__), E_USER_DEPRECATED);
-
         return true;
     }
 

@@ -38,14 +38,14 @@ class HeaderBag implements \IteratorAggregate, \Countable
      */
     public function __toString()
     {
-        if (!$headers = $this->all()) {
+        if (!$this->headers) {
             return '';
         }
 
-        ksort($headers);
-        $max = max(array_map('strlen', array_keys($headers))) + 1;
+        $max = max(array_map('strlen', array_keys($this->headers))) + 1;
         $content = '';
-        foreach ($headers as $name => $values) {
+        ksort($this->headers);
+        foreach ($this->headers as $name => $values) {
             $name = implode('-', array_map('ucfirst', explode('-', $name)));
             foreach ($values as $value) {
                 $content .= sprintf("%-{$max}s %s\r\n", $name.':', $value);
@@ -72,7 +72,7 @@ class HeaderBag implements \IteratorAggregate, \Countable
      */
     public function keys()
     {
-        return array_keys($this->all());
+        return array_keys($this->headers);
     }
 
     /**
@@ -110,9 +110,8 @@ class HeaderBag implements \IteratorAggregate, \Countable
     public function get($key, $default = null, $first = true)
     {
         $key = str_replace('_', '-', strtolower($key));
-        $headers = $this->all();
 
-        if (!array_key_exists($key, $headers)) {
+        if (!array_key_exists($key, $this->headers)) {
             if (null === $default) {
                 return $first ? null : array();
             }
@@ -121,10 +120,10 @@ class HeaderBag implements \IteratorAggregate, \Countable
         }
 
         if ($first) {
-            return count($headers[$key]) ? $headers[$key][0] : $default;
+            return count($this->headers[$key]) ? $this->headers[$key][0] : $default;
         }
 
-        return $headers[$key];
+        return $this->headers[$key];
     }
 
     /**
@@ -160,7 +159,7 @@ class HeaderBag implements \IteratorAggregate, \Countable
      */
     public function has($key)
     {
-        return array_key_exists(str_replace('_', '-', strtolower($key)), $this->all());
+        return array_key_exists(str_replace('_', '-', strtolower($key)), $this->headers);
     }
 
     /**

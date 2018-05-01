@@ -21,8 +21,6 @@ class UriSigner
     private $secret;
 
     /**
-     * Constructor.
-     *
      * @param string $secret A secret
      */
     public function __construct($secret)
@@ -56,10 +54,6 @@ class UriSigner
 
     /**
      * Checks that a URI contains the correct hash.
-     *
-     * The _hash query string parameter must be the last one
-     * (as it is generated that way by the sign() method, it should
-     * never be a problem).
      *
      * @param string $uri A signed URI
      *
@@ -98,7 +92,7 @@ class UriSigner
         $host = isset($url['host']) ? $url['host'] : '';
         $port = isset($url['port']) ? ':'.$url['port'] : '';
         $user = isset($url['user']) ? $url['user'] : '';
-        $pass = isset($url['pass']) ? ':'.$url['pass']  : '';
+        $pass = isset($url['pass']) ? ':'.$url['pass'] : '';
         $pass = ($user || $pass) ? "$pass@" : '';
         $path = isset($url['path']) ? $url['path'] : '';
         $query = isset($url['query']) && $url['query'] ? '?'.$url['query'] : '';

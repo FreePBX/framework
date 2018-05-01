@@ -20,6 +20,7 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
+use Twig\Template;
 
 /**
  * @author Nicolas Grekas <p@tchwork.com>
@@ -66,11 +67,16 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
         if ($this->stopwatch) {
             $this->stopwatch->start('dump');
         }
-        if ($this->isCollected) {
+        if ($this->isCollected && !$this->dumper) {
             $this->isCollected = false;
         }
 
-        $trace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS, 7);
+        $trace = DEBUG_BACKTRACE_PROVIDE_OBJECT | DEBUG_BACKTRACE_IGNORE_ARGS;
+        if (\PHP_VERSION_ID >= 50400) {
+            $trace = debug_backtrace($trace, 7);
+        } else {
+            $trace = debug_backtrace($trace);
+        }
 
         $file = $trace[0]['file'];
         $line = $trace[0]['line'];
@@ -91,22 +97,25 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
                         $line = $trace[$i]['line'];
 
                         break;
-                    } elseif (isset($trace[$i]['object']) && $trace[$i]['object'] instanceof \Twig_Template) {
-                        $info = $trace[$i]['object'];
-                        $name = $info->getTemplateName();
-                        $src = method_exists($info, 'getSource') ? $info->getSource() : $info->getEnvironment()->getLoader()->getSource($name);
-                        $info = $info->getDebugInfo();
-                        if (null !== $src && isset($info[$trace[$i - 1]['line']])) {
-                            $file = false;
+                    } elseif (isset($trace[$i]['object']) && $trace[$i]['object'] instanceof Template) {
+                        $template = $trace[$i]['object'];
+                        $name = $template->getTemplateName();
+                        $src = method_exists($template, 'getSourceContext') ? $template->getSourceContext()->getCode() : (method_exists($template, 'getSource') ? $template->getSource() : false);
+                        $info = $template->getDebugInfo();
+                        if (isset($info[$trace[$i - 1]['line']])) {
                             $line = $info[$trace[$i - 1]['line']];
-                            $src = explode("\n", $src);
-                            $fileExcerpt = array();
+                            $file = method_exists($template, 'getSourceContext') ? $template->getSourceContext()->getPath() : null;
 
-                            for ($i = max($line - 3, 1), $max = min($line + 3, count($src)); $i <= $max; ++$i) {
-                                $fileExcerpt[] = '<li'.($i === $line ? ' class="selected"' : '').'><code>'.$this->htmlEncode($src[$i - 1]).'</code></li>';
+                            if ($src) {
+                                $src = explode("\n", $src);
+                                $fileExcerpt = array();
+
+                                for ($i = max($line - 3, 1), $max = min($line + 3, count($src)); $i <= $max; ++$i) {
+                                    $fileExcerpt[] = '<li'.($i === $line ? ' class="selected"' : '').'><code>'.$this->htmlEncode($src[$i - 1]).'</code></li>';
+                                }
+
+                                $fileExcerpt = '<ol start="'.max($line - 3, 1).'">'.implode("\n", $fileExcerpt).'</ol>';
                             }
-
-                            $fileExcerpt = '<ol start="'.max($line - 3, 1).'">'.implode("\n", $fileExcerpt).'</ol>';
                         }
                         break;
                     }
@@ -165,6 +174,8 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
             return 'a:0:{}';
         }
 
+        $this->data[] = $this->fileLinkFormat;
+        $this->data[] = $this->charset;
         $ser = serialize($this->data);
         $this->data = array();
         $this->dataCount = 0;
@@ -179,8 +190,10 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
     public function unserialize($data)
     {
         parent::unserialize($data);
+        $charset = array_pop($this->data);
+        $fileLinkFormat = array_pop($this->data);
         $this->dataCount = count($this->data);
-        self::__construct($this->stopwatch);
+        self::__construct($this->stopwatch, $fileLinkFormat, $charset);
     }
 
     public function getDumpsCount()
@@ -200,10 +213,13 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
         $dumps = array();
 
         foreach ($this->data as $dump) {
-            $dumper->dump($dump['data']->withMaxDepth($maxDepthLimit)->withMaxItemsPerDepth($maxItemsPerDepth));
-
-            rewind($data);
-            $dump['data'] = stream_get_contents($data);
+            if (method_exists($dump['data'], 'withMaxDepth')) {
+                $dumper->dump($dump['data']->withMaxDepth($maxDepthLimit)->withMaxItemsPerDepth($maxItemsPerDepth));
+            } else {
+                // getLimitedClone is @deprecated, to be removed in 3.0
+                $dumper->dump($dump['data']->getLimitedClone($maxDepthLimit, $maxItemsPerDepth));
+            }
+            $dump['data'] = stream_get_contents($data, -1, 0);
             ftruncate($data, 0);
             rewind($data);
             $dumps[] = $dump;
@@ -230,7 +246,7 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
                 --$i;
             }
 
-            if ('cli' !== PHP_SAPI && stripos($h[$i], 'html')) {
+            if (!\in_array(PHP_SAPI, array('cli', 'phpdbg'), true) && stripos($h[$i], 'html')) {
                 $this->dumper = new HtmlDumper('php://output', $this->charset);
             } else {
                 $this->dumper = new CliDumper('php://output', $this->charset);
@@ -248,10 +264,10 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
 
     private function doDump($data, $name, $file, $line)
     {
-        if ($this->dumper instanceof CliDumper) {
+        if (\PHP_VERSION_ID >= 50400 && $this->dumper instanceof CliDumper) {
             $contextDumper = function ($name, $file, $line, $fileLinkFormat) {
                 if ($this instanceof HtmlDumper) {
-                    if ('' !== $file) {
+                    if ($file) {
                         $s = $this->style('meta', '%s');
                         $name = strip_tags($this->style('', $name));
                         $file = strip_tags($this->style('', $file));
@@ -283,7 +299,7 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
     {
         $html = '';
 
-        $dumper = new HtmlDumper(function ($line) use (&$html) {$html .= $line;}, $this->charset);
+        $dumper = new HtmlDumper(function ($line) use (&$html) { $html .= $line; }, $this->charset);
         $dumper->setDumpHeader('');
         $dumper->setDumpBoundaries('', '');
 

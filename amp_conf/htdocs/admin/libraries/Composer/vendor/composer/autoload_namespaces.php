@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'ZendXml\\' => array($vendorDir . '/zendframework/zendxml/library'),
     'Wrep\\Daemonizable\\' => array($vendorDir . '/wrep/daemonizable-command/src'),
     'Whoops' => array($vendorDir . '/filp/whoops/src'),
     'PicoFeed' => array($vendorDir . '/fguillot/picofeed/lib'),
@@ -17,5 +18,7 @@ return array(
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib'),
     'Doctrine\\Common\\Collections\\' => array($vendorDir . '/doctrine/collections/lib'),
+    'Doctrine\\Common\\Annotations\\' => array($vendorDir . '/doctrine/annotations/lib'),
+    'Doctrine\\Common\\' => array($vendorDir . '/doctrine/common/lib'),
     'Detection' => array($vendorDir . '/mobiledetect/mobiledetectlib/namespaced'),
 );

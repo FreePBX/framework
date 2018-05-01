@@ -12,11 +12,11 @@
 namespace Symfony\Component\DependencyInjection\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\Alias;
+use Symfony\Component\DependencyInjection\Scope;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
-use Symfony\Component\DependencyInjection\ParameterBag\FrozenParameterBag;
+use Symfony\Component\DependencyInjection\Exception\InactiveScopeException;
 
 class ContainerTest extends TestCase
 {
@@ -83,31 +83,12 @@ class ContainerTest extends TestCase
         $this->assertEquals(array('foo' => 'bar'), $sc->getParameterBag()->all(), '->compile() copies the current parameters to the new parameter bag');
     }
 
-    /**
-     * @group legacy
-     * @expectedDeprecation The Symfony\Component\DependencyInjection\Container::isFrozen() method is deprecated since Symfony 3.3 and will be removed in 4.0. Use the isCompiled() method instead.
-     * @expectedDeprecation The Symfony\Component\DependencyInjection\Container::isFrozen() method is deprecated since Symfony 3.3 and will be removed in 4.0. Use the isCompiled() method instead.
-     */
     public function testIsFrozen()
     {
         $sc = new Container(new ParameterBag(array('foo' => 'bar')));
         $this->assertFalse($sc->isFrozen(), '->isFrozen() returns false if the parameters are not frozen');
         $sc->compile();
         $this->assertTrue($sc->isFrozen(), '->isFrozen() returns true if the parameters are frozen');
-    }
-
-    public function testIsCompiled()
-    {
-        $sc = new Container(new ParameterBag(array('foo' => 'bar')));
-        $this->assertFalse($sc->isCompiled(), '->isCompiled() returns false if the container is not compiled');
-        $sc->compile();
-        $this->assertTrue($sc->isCompiled(), '->isCompiled() returns true if the container is compiled');
-    }
-
-    public function testIsCompiledWithFrozenParameters()
-    {
-        $sc = new Container(new FrozenParameterBag(array('foo' => 'bar')));
-        $this->assertFalse($sc->isCompiled(), '->isCompiled() returns false if the container is not compiled but the parameter bag is already frozen');
     }
 
     public function testGetParameterBag()
@@ -125,6 +106,10 @@ class ContainerTest extends TestCase
         $sc->setParameter('foo', 'baz');
         $this->assertEquals('baz', $sc->getParameter('foo'), '->setParameter() overrides previously set parameter');
 
+        $sc->setParameter('Foo', 'baz1');
+        $this->assertEquals('baz1', $sc->getParameter('foo'), '->setParameter() converts the key to lowercase');
+        $this->assertEquals('baz1', $sc->getParameter('FOO'), '->getParameter() converts the key to lowercase');
+
         try {
             $sc->getParameter('baba');
             $this->fail('->getParameter() thrown an \InvalidArgumentException if the key does not exist');
@@ -132,20 +117,6 @@ class ContainerTest extends TestCase
             $this->assertInstanceOf('\InvalidArgumentException', $e, '->getParameter() thrown an \InvalidArgumentException if the key does not exist');
             $this->assertEquals('You have requested a non-existent parameter "baba".', $e->getMessage(), '->getParameter() thrown an \InvalidArgumentException if the key does not exist');
         }
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation Parameter names will be made case sensitive in Symfony 4.0. Using "Foo" instead of "foo" is deprecated since Symfony 3.4.
-     * @expectedDeprecation Parameter names will be made case sensitive in Symfony 4.0. Using "FOO" instead of "foo" is deprecated since Symfony 3.4.
-     */
-    public function testGetSetParameterWithMixedCase()
-    {
-        $sc = new Container(new ParameterBag(array('foo' => 'bar')));
-
-        $sc->setParameter('Foo', 'baz1');
-        $this->assertEquals('baz1', $sc->getParameter('foo'), '->setParameter() converts the key to lowercase');
-        $this->assertEquals('baz1', $sc->getParameter('FOO'), '->getParameter() converts the key to lowercase');
     }
 
     public function testGetServiceIds()
@@ -157,19 +128,7 @@ class ContainerTest extends TestCase
 
         $sc = new ProjectServiceContainer();
         $sc->set('foo', $obj = new \stdClass());
-        $this->assertEquals(array('service_container', 'internal', 'bar', 'foo_bar', 'foo.baz', 'circular', 'throw_exception', 'throws_exception_on_service_configuration', 'internal_dependency', 'foo'), $sc->getServiceIds(), '->getServiceIds() returns defined service ids by factory methods in the method map, followed by service ids defined by set()');
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation Generating a dumped container without populating the method map is deprecated since Symfony 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.
-     */
-    public function testGetLegacyServiceIds()
-    {
-        $sc = new LegacyProjectServiceContainer();
-        $sc->set('foo', $obj = new \stdClass());
-
-        $this->assertEquals(array('internal', 'bar', 'foo_bar', 'foo.baz', 'circular', 'throw_exception', 'throws_exception_on_service_configuration', 'service_container', 'foo'), $sc->getServiceIds(), '->getServiceIds() returns defined service ids by getXXXService() methods, followed by service ids defined by set()');
+        $this->assertEquals(array('scoped', 'scoped_foo', 'scoped_synchronized_foo', 'inactive', 'bar', 'foo_bar', 'foo.baz', 'circular', 'throw_exception', 'throws_exception_on_service_configuration', 'service_container', 'foo'), $sc->getServiceIds(), '->getServiceIds() returns defined service ids by getXXXService() methods, followed by service ids defined by set()');
     }
 
     public function testSet()
@@ -186,6 +145,54 @@ class ContainerTest extends TestCase
         $this->assertFalse($sc->has('foo'), '->set() with null service resets the service');
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     * @group legacy
+     */
+    public function testSetDoesNotAllowPrototypeScope()
+    {
+        $c = new Container();
+        $c->set('foo', new \stdClass(), Container::SCOPE_PROTOTYPE);
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @group legacy
+     */
+    public function testSetDoesNotAllowInactiveScope()
+    {
+        $c = new Container();
+        $c->addScope(new Scope('foo'));
+        $c->set('foo', new \stdClass(), 'foo');
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testSetAlsoSetsScopedService()
+    {
+        $c = new Container();
+        $c->addScope(new Scope('foo'));
+        $c->enterScope('foo');
+        $c->set('foo', $foo = new \stdClass(), 'foo');
+
+        $scoped = $this->getField($c, 'scopedServices');
+        $this->assertArrayHasKey('foo', $scoped['foo'], '->set() sets a scoped service');
+        $this->assertSame($foo, $scoped['foo']['foo'], '->set() sets a scoped service');
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testSetAlsoCallsSynchronizeService()
+    {
+        $c = new ProjectServiceContainer();
+        $c->addScope(new Scope('foo'));
+        $c->enterScope('foo');
+        $c->set('scoped_synchronized_foo', $bar = new \stdClass(), 'foo');
+        $this->assertTrue($c->synchronized, '->set() calls synchronize*Service() if it is defined for the service');
+    }
+
     public function testSetReplacesAlias()
     {
         $c = new ProjectServiceContainer();
@@ -194,89 +201,10 @@ class ContainerTest extends TestCase
         $this->assertSame($foo, $c->get('alias'), '->set() replaces an existing alias');
     }
 
-    /**
-     * @group legacy
-     * @expectedDeprecation The "bar" service is already initialized, unsetting it is deprecated since Symfony 3.3 and will fail in 4.0.
-     */
-    public function testSetWithNullOnInitializedPredefinedService()
-    {
-        $sc = new Container();
-        $sc->set('foo', new \stdClass());
-        $sc->set('foo', null);
-        $this->assertFalse($sc->has('foo'), '->set() with null service resets the service');
-
-        $sc = new ProjectServiceContainer();
-        $sc->get('bar');
-        $sc->set('bar', null);
-        $this->assertTrue($sc->has('bar'), '->set() with null service resets the pre-defined service');
-    }
-
-    public function testSetWithNullOnUninitializedPredefinedService()
-    {
-        $sc = new Container();
-        $sc->set('foo', new \stdClass());
-        $sc->get('foo', null);
-        $sc->set('foo', null);
-        $this->assertFalse($sc->has('foo'), '->set() with null service resets the service');
-
-        $sc = new ProjectServiceContainer();
-        $sc->set('bar', null);
-        $this->assertTrue($sc->has('bar'), '->set() with null service resets the pre-defined service');
-    }
-
     public function testGet()
     {
         $sc = new ProjectServiceContainer();
         $sc->set('foo', $foo = new \stdClass());
-        $this->assertSame($foo, $sc->get('foo'), '->get() returns the service for the given id');
-        $this->assertSame($sc->__bar, $sc->get('bar'), '->get() returns the service for the given id');
-        $this->assertSame($sc->__foo_bar, $sc->get('foo_bar'), '->get() returns the service if a get*Method() is defined');
-        $this->assertSame($sc->__foo_baz, $sc->get('foo.baz'), '->get() returns the service if a get*Method() is defined');
-
-        try {
-            $sc->get('');
-            $this->fail('->get() throws a \InvalidArgumentException exception if the service is empty');
-        } catch (\Exception $e) {
-            $this->assertInstanceOf('Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException', $e, '->get() throws a ServiceNotFoundException exception if the service is empty');
-        }
-        $this->assertNull($sc->get('', ContainerInterface::NULL_ON_INVALID_REFERENCE), '->get() returns null if the service is empty');
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation Service identifiers will be made case sensitive in Symfony 4.0. Using "Foo" instead of "foo" is deprecated since Symfony 3.3.
-     */
-    public function testGetInsensitivity()
-    {
-        $sc = new ProjectServiceContainer();
-        $sc->set('foo', $foo = new \stdClass());
-        $this->assertSame($foo, $sc->get('Foo'), '->get() returns the service for the given id, and converts id to lowercase');
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation Service identifiers will be made case sensitive in Symfony 4.0. Using "foo" instead of "Foo" is deprecated since Symfony 3.3.
-     */
-    public function testNormalizeIdKeepsCase()
-    {
-        $sc = new ProjectServiceContainer();
-        $sc->normalizeId('Foo', true);
-        $this->assertSame('Foo', $sc->normalizeId('foo'));
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation Service identifiers will be made case sensitive in Symfony 4.0. Using "Foo" instead of "foo" is deprecated since Symfony 3.3.
-     * @expectedDeprecation Generating a dumped container without populating the method map is deprecated since Symfony 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.
-     * @expectedDeprecation Generating a dumped container without populating the method map is deprecated since Symfony 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.
-     * @expectedDeprecation Generating a dumped container without populating the method map is deprecated since Symfony 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.
-     * @expectedDeprecation Generating a dumped container without populating the method map is deprecated since Symfony 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.
-     */
-    public function testLegacyGet()
-    {
-        $sc = new LegacyProjectServiceContainer();
-        $sc->set('foo', $foo = new \stdClass());
-
         $this->assertSame($foo, $sc->get('foo'), '->get() returns the service for the given id');
         $this->assertSame($foo, $sc->get('Foo'), '->get() returns the service for the given id, and converts id to lowercase');
         $this->assertSame($sc->__bar, $sc->get('bar'), '->get() returns the service for the given id');
@@ -332,52 +260,30 @@ class ContainerTest extends TestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
-     * @expectedExceptionMessage The "request" service is synthetic, it needs to be set at boot time before it can be used.
+     * @group legacy
      */
-    public function testGetSyntheticServiceThrows()
+    public function testGetReturnsNullOnInactiveScope()
     {
-        require_once __DIR__.'/Fixtures/php/services9_compiled.php';
-
-        $container = new \ProjectServiceContainer();
-        $container->get('request');
+        $sc = new ProjectServiceContainer();
+        $this->assertNull($sc->get('inactive', ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
 
     /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException
-     * @expectedExceptionMessage The "inlined" service or alias has been removed or inlined when the container was compiled. You should either make it public, or stop using the container directly and use dependency injection instead.
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\RuntimeException
+     * @expectedExceptionMessage You have requested a synthetic service ("request"). The DIC does not know how to construct this service.
      */
-    public function testGetRemovedServiceThrows()
+    public function testGetSyntheticServiceAlwaysThrows()
     {
-        require_once __DIR__.'/Fixtures/php/services9_compiled.php';
+        require_once __DIR__.'/Fixtures/php/services9.php';
 
         $container = new \ProjectServiceContainer();
-        $container->get('inlined');
+        $container->get('request', ContainerInterface::NULL_ON_INVALID_REFERENCE);
     }
 
     public function testHas()
     {
         $sc = new ProjectServiceContainer();
         $sc->set('foo', new \stdClass());
-        $this->assertFalse($sc->has('foo1'), '->has() returns false if the service does not exist');
-        $this->assertTrue($sc->has('foo'), '->has() returns true if the service exists');
-        $this->assertTrue($sc->has('bar'), '->has() returns true if a get*Method() is defined');
-        $this->assertTrue($sc->has('foo_bar'), '->has() returns true if a get*Method() is defined');
-        $this->assertTrue($sc->has('foo.baz'), '->has() returns true if a get*Method() is defined');
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation Generating a dumped container without populating the method map is deprecated since Symfony 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.
-     * @expectedDeprecation Generating a dumped container without populating the method map is deprecated since Symfony 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.
-     * @expectedDeprecation Generating a dumped container without populating the method map is deprecated since Symfony 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.
-     * @expectedDeprecation Generating a dumped container without populating the method map is deprecated since Symfony 3.2 and will be unsupported in 4.0. Update your dumper to generate the method map.
-     */
-    public function testLegacyHas()
-    {
-        $sc = new LegacyProjectServiceContainer();
-        $sc->set('foo', new \stdClass());
-
         $this->assertFalse($sc->has('foo1'), '->has() returns false if the service does not exist');
         $this->assertTrue($sc->has('foo'), '->has() returns true if the service exists');
         $this->assertTrue($sc->has('bar'), '->has() returns true if a get*Method() is defined');
@@ -395,19 +301,8 @@ class ContainerTest extends TestCase
         $this->assertFalse($sc->initialized('bar'), '->initialized() returns false if a service is defined, but not currently loaded');
         $this->assertFalse($sc->initialized('alias'), '->initialized() returns false if an aliased service is not initialized');
 
-        $sc->get('bar');
+        $sc->set('bar', new \stdClass());
         $this->assertTrue($sc->initialized('alias'), '->initialized() returns true for alias if aliased service is initialized');
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation Checking for the initialization of the "internal" private service is deprecated since Symfony 3.4 and won't be supported anymore in Symfony 4.0.
-     */
-    public function testInitializedWithPrivateService()
-    {
-        $sc = new ProjectServiceContainer();
-        $sc->get('internal_dependency');
-        $this->assertTrue($sc->initialized('internal'));
     }
 
     public function testReset()
@@ -418,6 +313,295 @@ class ContainerTest extends TestCase
         $c->reset();
 
         $this->assertNull($c->get('bar', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+    }
+
+    /**
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\LogicException
+     * @expectedExceptionMessage Resetting the container is not allowed when a scope is active.
+     * @group legacy
+     */
+    public function testCannotResetInActiveScope()
+    {
+        $c = new Container();
+        $c->addScope(new Scope('foo'));
+        $c->set('bar', new \stdClass());
+
+        $c->enterScope('foo');
+
+        $c->reset();
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testResetAfterLeavingScope()
+    {
+        $c = new Container();
+        $c->addScope(new Scope('foo'));
+        $c->set('bar', new \stdClass());
+
+        $c->enterScope('foo');
+        $c->leaveScope('foo');
+
+        $c->reset();
+
+        $this->assertNull($c->get('bar', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testEnterLeaveCurrentScope()
+    {
+        $container = new ProjectServiceContainer();
+        $container->addScope(new Scope('foo'));
+
+        $container->enterScope('foo');
+        $container->set('foo', new \stdClass(), 'foo');
+        $scoped1 = $container->get('scoped');
+        $scopedFoo1 = $container->get('scoped_foo');
+
+        $container->enterScope('foo');
+        $container->set('foo', new \stdClass(), 'foo');
+        $scoped2 = $container->get('scoped');
+        $scoped3 = $container->get('SCOPED');
+        $scopedFoo2 = $container->get('scoped_foo');
+
+        $container->set('foo', null, 'foo');
+        $container->leaveScope('foo');
+        $scoped4 = $container->get('scoped');
+        $scopedFoo3 = $container->get('scoped_foo');
+
+        $this->assertNotSame($scoped1, $scoped2);
+        $this->assertSame($scoped2, $scoped3);
+        $this->assertSame($scoped1, $scoped4);
+        $this->assertNotSame($scopedFoo1, $scopedFoo2);
+        $this->assertSame($scopedFoo1, $scopedFoo3);
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testEnterLeaveScopeWithChildScopes()
+    {
+        $container = new Container();
+        $container->addScope(new Scope('foo'));
+        $container->addScope(new Scope('bar', 'foo'));
+
+        $this->assertFalse($container->isScopeActive('foo'));
+
+        $container->enterScope('foo');
+        $container->enterScope('bar');
+
+        $this->assertTrue($container->isScopeActive('foo'));
+        $this->assertFalse($container->has('a'));
+
+        $a = new \stdClass();
+        $container->set('a', $a, 'bar');
+
+        $scoped = $this->getField($container, 'scopedServices');
+        $this->assertArrayHasKey('a', $scoped['bar']);
+        $this->assertSame($a, $scoped['bar']['a']);
+        $this->assertTrue($container->has('a'));
+
+        $container->leaveScope('foo');
+
+        $scoped = $this->getField($container, 'scopedServices');
+        $this->assertArrayNotHasKey('bar', $scoped);
+        $this->assertFalse($container->isScopeActive('foo'));
+        $this->assertFalse($container->has('a'));
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testEnterScopeRecursivelyWithInactiveChildScopes()
+    {
+        $container = new Container();
+        $container->addScope(new Scope('foo'));
+        $container->addScope(new Scope('bar', 'foo'));
+
+        $this->assertFalse($container->isScopeActive('foo'));
+
+        $container->enterScope('foo');
+
+        $this->assertTrue($container->isScopeActive('foo'));
+        $this->assertFalse($container->isScopeActive('bar'));
+        $this->assertFalse($container->has('a'));
+
+        $a = new \stdClass();
+        $container->set('a', $a, 'foo');
+
+        $scoped = $this->getField($container, 'scopedServices');
+        $this->assertArrayHasKey('a', $scoped['foo']);
+        $this->assertSame($a, $scoped['foo']['a']);
+        $this->assertTrue($container->has('a'));
+
+        $container->enterScope('foo');
+
+        $scoped = $this->getField($container, 'scopedServices');
+        $this->assertArrayNotHasKey('a', $scoped);
+        $this->assertTrue($container->isScopeActive('foo'));
+        $this->assertFalse($container->isScopeActive('bar'));
+        $this->assertFalse($container->has('a'));
+
+        $container->enterScope('bar');
+
+        $this->assertTrue($container->isScopeActive('bar'));
+
+        $container->leaveScope('foo');
+
+        $this->assertTrue($container->isScopeActive('foo'));
+        $this->assertFalse($container->isScopeActive('bar'));
+        $this->assertTrue($container->has('a'));
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testEnterChildScopeRecursively()
+    {
+        $container = new Container();
+        $container->addScope(new Scope('foo'));
+        $container->addScope(new Scope('bar', 'foo'));
+
+        $container->enterScope('foo');
+        $container->enterScope('bar');
+
+        $this->assertTrue($container->isScopeActive('bar'));
+        $this->assertFalse($container->has('a'));
+
+        $a = new \stdClass();
+        $container->set('a', $a, 'bar');
+
+        $scoped = $this->getField($container, 'scopedServices');
+        $this->assertArrayHasKey('a', $scoped['bar']);
+        $this->assertSame($a, $scoped['bar']['a']);
+        $this->assertTrue($container->has('a'));
+
+        $container->enterScope('bar');
+
+        $scoped = $this->getField($container, 'scopedServices');
+        $this->assertArrayNotHasKey('a', $scoped);
+        $this->assertTrue($container->isScopeActive('foo'));
+        $this->assertTrue($container->isScopeActive('bar'));
+        $this->assertFalse($container->has('a'));
+
+        $container->leaveScope('bar');
+
+        $this->assertTrue($container->isScopeActive('foo'));
+        $this->assertTrue($container->isScopeActive('bar'));
+        $this->assertTrue($container->has('a'));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @group legacy
+     */
+    public function testEnterScopeNotAdded()
+    {
+        $container = new Container();
+        $container->enterScope('foo');
+    }
+
+    /**
+     * @expectedException \RuntimeException
+     * @group legacy
+     */
+    public function testEnterScopeDoesNotAllowInactiveParentScope()
+    {
+        $container = new Container();
+        $container->addScope(new Scope('foo'));
+        $container->addScope(new Scope('bar', 'foo'));
+        $container->enterScope('bar');
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testLeaveScopeNotActive()
+    {
+        $container = new Container();
+        $container->addScope(new Scope('foo'));
+
+        try {
+            $container->leaveScope('foo');
+            $this->fail('->leaveScope() throws a \LogicException if the scope is not active yet');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf('\LogicException', $e, '->leaveScope() throws a \LogicException if the scope is not active yet');
+            $this->assertEquals('The scope "foo" is not active.', $e->getMessage(), '->leaveScope() throws a \LogicException if the scope is not active yet');
+        }
+
+        try {
+            $container->leaveScope('bar');
+            $this->fail('->leaveScope() throws a \LogicException if the scope does not exist');
+        } catch (\Exception $e) {
+            $this->assertInstanceOf('\LogicException', $e, '->leaveScope() throws a \LogicException if the scope does not exist');
+            $this->assertEquals('The scope "bar" is not active.', $e->getMessage(), '->leaveScope() throws a \LogicException if the scope does not exist');
+        }
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @dataProvider getLegacyBuiltInScopes
+     * @group legacy
+     */
+    public function testAddScopeDoesNotAllowBuiltInScopes($scope)
+    {
+        $container = new Container();
+        $container->addScope(new Scope($scope));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @group legacy
+     */
+    public function testAddScopeDoesNotAllowExistingScope()
+    {
+        $container = new Container();
+        $container->addScope(new Scope('foo'));
+        $container->addScope(new Scope('foo'));
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     * @dataProvider getLegacyInvalidParentScopes
+     * @group legacy
+     */
+    public function testAddScopeDoesNotAllowInvalidParentScope($scope)
+    {
+        $c = new Container();
+        $c->addScope(new Scope('foo', $scope));
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testAddScope()
+    {
+        $c = new Container();
+        $c->addScope(new Scope('foo'));
+        $c->addScope(new Scope('bar', 'foo'));
+
+        $this->assertSame(array('foo' => 'container', 'bar' => 'foo'), $this->getField($c, 'scopes'));
+        $this->assertSame(array('foo' => array('bar'), 'bar' => array()), $this->getField($c, 'scopeChildren'));
+
+        $c->addScope(new Scope('baz', 'bar'));
+
+        $this->assertSame(array('foo' => 'container', 'bar' => 'foo', 'baz' => 'bar'), $this->getField($c, 'scopes'));
+        $this->assertSame(array('foo' => array('bar', 'baz'), 'bar' => array('baz'), 'baz' => array()), $this->getField($c, 'scopeChildren'));
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testHasScope()
+    {
+        $c = new Container();
+
+        $this->assertFalse($c->hasScope('foo'));
+        $c->addScope(new Scope('foo'));
+        $this->assertTrue($c->hasScope('foo'));
     }
 
     /**
@@ -459,6 +643,41 @@ class ContainerTest extends TestCase
         $this->assertFalse($c->initialized('throws_exception_on_service_configuration'));
     }
 
+    /**
+     * @group legacy
+     */
+    public function testIsScopeActive()
+    {
+        $c = new Container();
+
+        $this->assertFalse($c->isScopeActive('foo'));
+        $c->addScope(new Scope('foo'));
+
+        $this->assertFalse($c->isScopeActive('foo'));
+        $c->enterScope('foo');
+
+        $this->assertTrue($c->isScopeActive('foo'));
+        $c->leaveScope('foo');
+
+        $this->assertFalse($c->isScopeActive('foo'));
+    }
+
+    public function getLegacyInvalidParentScopes()
+    {
+        return array(
+            array(ContainerInterface::SCOPE_PROTOTYPE),
+            array('bar'),
+        );
+    }
+
+    public function getLegacyBuiltInScopes()
+    {
+        return array(
+            array(ContainerInterface::SCOPE_CONTAINER),
+            array(ContainerInterface::SCOPE_PROTOTYPE),
+        );
+    }
+
     protected function getField($obj, $field)
     {
         $reflection = new \ReflectionProperty($obj, $field);
@@ -479,74 +698,10 @@ class ContainerTest extends TestCase
     {
         $class = new \ReflectionClass('Symfony\Component\DependencyInjection\Container');
         $clone = $class->getMethod('__clone');
-        $this->assertFalse($class->isCloneable());
+        if (\PHP_VERSION_ID >= 50400) {
+            $this->assertFalse($class->isCloneable());
+        }
         $this->assertTrue($clone->isPrivate());
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation The "internal" service is private, unsetting it is deprecated since Symfony 3.2 and will fail in 4.0.
-     */
-    public function testUnsetInternalPrivateServiceIsDeprecated()
-    {
-        $c = new ProjectServiceContainer();
-        $c->set('internal', null);
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation The "internal" service is private, replacing it is deprecated since Symfony 3.2 and will fail in 4.0.
-     */
-    public function testChangeInternalPrivateServiceIsDeprecated()
-    {
-        $c = new ProjectServiceContainer();
-        $c->set('internal', $internal = new \stdClass());
-        $this->assertSame($c->get('internal'), $internal);
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation The "internal" service is private, checking for its existence is deprecated since Symfony 3.2 and will fail in 4.0.
-     */
-    public function testCheckExistenceOfAnInternalPrivateServiceIsDeprecated()
-    {
-        $c = new ProjectServiceContainer();
-        $c->get('internal_dependency');
-        $this->assertTrue($c->has('internal'));
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation The "internal" service is private, getting it from the container is deprecated since Symfony 3.2 and will fail in 4.0. You should either make the service public, or stop using the container directly and use dependency injection instead.
-     */
-    public function testRequestAnInternalSharedPrivateServiceIsDeprecated()
-    {
-        $c = new ProjectServiceContainer();
-        $c->get('internal_dependency');
-        $c->get('internal');
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation The "bar" service is already initialized, replacing it is deprecated since Symfony 3.3 and will fail in 4.0.
-     */
-    public function testReplacingAPreDefinedServiceIsDeprecated()
-    {
-        $c = new ProjectServiceContainer();
-        $c->set('bar', new \stdClass());
-        $c->set('bar', $bar = new \stdClass());
-
-        $this->assertSame($bar, $c->get('bar'), '->set() replaces a pre-defined service');
-    }
-
-    /**
-     * @group legacy
-     * @expectedDeprecation The "synthetic" service is private, replacing it is deprecated since Symfony 3.2 and will fail in 4.0.
-     */
-    public function testSetWithPrivateSyntheticServiceThrowsDeprecation()
-    {
-        $c = new ProjectServiceContainer();
-        $c->set('synthetic', new \stdClass());
     }
 }
 
@@ -555,18 +710,7 @@ class ProjectServiceContainer extends Container
     public $__bar;
     public $__foo_bar;
     public $__foo_baz;
-    public $__internal;
-    protected $privates;
-    protected $methodMap = array(
-        'internal' => 'getInternalService',
-        'bar' => 'getBarService',
-        'foo_bar' => 'getFooBarService',
-        'foo.baz' => 'getFoo_BazService',
-        'circular' => 'getCircularService',
-        'throw_exception' => 'getThrowExceptionService',
-        'throws_exception_on_service_configuration' => 'getThrowsExceptionOnServiceConfigurationService',
-        'internal_dependency' => 'getInternalDependencyService',
-    );
+    public $synchronized;
 
     public function __construct()
     {
@@ -575,84 +719,51 @@ class ProjectServiceContainer extends Container
         $this->__bar = new \stdClass();
         $this->__foo_bar = new \stdClass();
         $this->__foo_baz = new \stdClass();
-        $this->__internal = new \stdClass();
-        $this->privates = array(
-            'internal' => true,
-            'synthetic' => true,
-        );
-        $this->aliases = array('alias' => 'bar');
-        $this->syntheticIds['synthetic'] = true;
-    }
-
-    protected function getInternalService()
-    {
-        return $this->services['internal'] = $this->__internal;
-    }
-
-    protected function getBarService()
-    {
-        return $this->services['bar'] = $this->__bar;
-    }
-
-    protected function getFooBarService()
-    {
-        return $this->__foo_bar;
-    }
-
-    protected function getFoo_BazService()
-    {
-        return $this->__foo_baz;
-    }
-
-    protected function getCircularService()
-    {
-        return $this->get('circular');
-    }
-
-    protected function getThrowExceptionService()
-    {
-        throw new \Exception('Something went terribly wrong!');
-    }
-
-    protected function getThrowsExceptionOnServiceConfigurationService()
-    {
-        $this->services['throws_exception_on_service_configuration'] = $instance = new \stdClass();
-
-        throw new \Exception('Something was terribly wrong while trying to configure the service!');
-    }
-
-    protected function getInternalDependencyService()
-    {
-        $this->services['internal_dependency'] = $instance = new \stdClass();
-
-        $instance->internal = isset($this->services['internal']) ? $this->services['internal'] : $this->getInternalService();
-
-        return $instance;
-    }
-}
-
-class LegacyProjectServiceContainer extends Container
-{
-    public $__bar;
-    public $__foo_bar;
-    public $__foo_baz;
-    public $__internal;
-
-    public function __construct()
-    {
-        parent::__construct();
-
-        $this->__bar = new \stdClass();
-        $this->__foo_bar = new \stdClass();
-        $this->__foo_baz = new \stdClass();
-        $this->__internal = new \stdClass();
-        $this->privates = array('internal' => true);
+        $this->synchronized = false;
         $this->aliases = array('alias' => 'bar');
     }
 
-    protected function getInternalService()
+    protected function getScopedService()
     {
-        return $this->__internal;
+        if (!$this->isScopeActive('foo')) {
+            throw new \RuntimeException('Invalid call');
+        }
+
+        return $this->services['scoped'] = $this->scopedServices['foo']['scoped'] = new \stdClass();
+    }
+
+    protected function getScopedFooService()
+    {
+        if (!$this->isScopeActive('foo')) {
+            throw new \RuntimeException('invalid call');
+        }
+
+        return $this->services['scoped_foo'] = $this->scopedServices['foo']['scoped_foo'] = new \stdClass();
+    }
+
+    protected function getScopedSynchronizedFooService()
+    {
+        if (!$this->isScopeActive('foo')) {
+            throw new \RuntimeException('invalid call');
+        }
+
+        return $this->services['scoped_bar'] = $this->scopedServices['foo']['scoped_bar'] = new \stdClass();
+    }
+
+    protected function synchronizeFooService()
+    {
+        // Typically get the service to pass it to a setter
+        $this->get('foo');
+    }
+
+    protected function synchronizeScopedSynchronizedFooService()
+    {
+        $this->synchronized = true;
+    }
+
+    protected function getInactiveService()
+    {
+        throw new InactiveScopeException('request', 'request');
     }
 
     protected function getBarService()

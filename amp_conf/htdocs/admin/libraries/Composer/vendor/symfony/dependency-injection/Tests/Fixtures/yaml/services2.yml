@@ -1,13 +1,12 @@
 parameters:
-    foo: bar
+    FOO: bar
     values:
         - true
         - false
         - 0
         - 1000.3
-        - !php/const PHP_INT_MAX
     bar: foo
     escape: '@@escapeme'
     foo_bar: '@foo_bar'
-    mixedcase:
+    MixedCase:
         MixedCaseKey: value

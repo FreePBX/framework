@@ -26,20 +26,28 @@ class DebugClassLoader
 {
     private $classLoader;
     private $isFinder;
+    private $loaded = array();
+    private $wasFinder;
     private static $caseCheck;
     private static $deprecated = array();
     private static $php7Reserved = array('int', 'float', 'bool', 'string', 'true', 'false', 'null');
     private static $darwinCache = array('/' => array('/', array()));
 
     /**
-     * Constructor.
-     *
-     * @param callable $classLoader A class loader
+     * @param callable|object $classLoader Passing an object is @deprecated since version 2.5 and support for it will be removed in 3.0
      */
-    public function __construct(callable $classLoader)
+    public function __construct($classLoader)
     {
-        $this->classLoader = $classLoader;
-        $this->isFinder = is_array($classLoader) && method_exists($classLoader[0], 'findFile');
+        $this->wasFinder = is_object($classLoader) && method_exists($classLoader, 'findFile');
+
+        if ($this->wasFinder) {
+            @trigger_error('The '.__METHOD__.' method will no longer support receiving an object into its $classLoader argument in 3.0.', E_USER_DEPRECATED);
+            $this->classLoader = array($classLoader, 'loadClass');
+            $this->isFinder = true;
+        } else {
+            $this->classLoader = $classLoader;
+            $this->isFinder = is_array($classLoader) && method_exists($classLoader[0], 'findFile');
+        }
 
         if (!isset(self::$caseCheck)) {
             $file = file_exists(__FILE__) ? __FILE__ : rtrim(realpath('.'), DIRECTORY_SEPARATOR);
@@ -68,11 +76,11 @@ class DebugClassLoader
     /**
      * Gets the wrapped class loader.
      *
-     * @return callable The wrapped class loader
+     * @return callable|object A class loader. Since version 2.5, returning an object is @deprecated and support for it will be removed in 3.0
      */
     public function getClassLoader()
     {
-        return $this->classLoader;
+        return $this->wasFinder ? $this->classLoader[0] : $this->classLoader;
     }
 
     /**
@@ -124,6 +132,24 @@ class DebugClassLoader
     }
 
     /**
+     * Finds a file by class name.
+     *
+     * @param string $class A class name to resolve to file
+     *
+     * @return string|null
+     *
+     * @deprecated since version 2.5, to be removed in 3.0.
+     */
+    public function findFile($class)
+    {
+        @trigger_error('The '.__METHOD__.' method is deprecated since Symfony 2.5 and will be removed in 3.0.', E_USER_DEPRECATED);
+
+        if ($this->wasFinder) {
+            return $this->classLoader[0]->findFile($class);
+        }
+    }
+
+    /**
      * Loads the given class or interface.
      *
      * @param string $class The name of the class
@@ -137,21 +163,30 @@ class DebugClassLoader
         ErrorHandler::stackErrors();
 
         try {
-            if ($this->isFinder) {
+            if ($this->isFinder && !isset($this->loaded[$class])) {
+                $this->loaded[$class] = true;
                 if ($file = $this->classLoader[0]->findFile($class)) {
-                    require_once $file;
+                    require $file;
                 }
             } else {
                 call_user_func($this->classLoader, $class);
                 $file = false;
             }
-        } finally {
+        } catch (\Exception $e) {
             ErrorHandler::unstackErrors();
+
+            throw $e;
+        } catch (\Throwable $e) {
+            ErrorHandler::unstackErrors();
+
+            throw $e;
         }
 
-        $exists = class_exists($class, false) || interface_exists($class, false) || trait_exists($class, false);
+        ErrorHandler::unstackErrors();
 
-        if ('\\' === $class[0]) {
+        $exists = class_exists($class, false) || interface_exists($class, false) || (function_exists('trait_exists') && trait_exists($class, false));
+
+        if ($class && '\\' === $class[0]) {
             $class = substr($class, 1);
         }
 
@@ -168,18 +203,11 @@ class DebugClassLoader
             } elseif (preg_match('#\n \* @deprecated (.*?)\r?\n \*(?: @|/$)#s', $refl->getDocComment(), $notice)) {
                 self::$deprecated[$name] = preg_replace('#\s*\r?\n \* +#', ' ', $notice[1]);
             } else {
-                if (2 > $len = 1 + (strpos($name, '\\', 1 + strpos($name, '\\')) ?: strpos($name, '_'))) {
+                if (2 > $len = 1 + (strpos($name, '\\') ?: strpos($name, '_'))) {
                     $len = 0;
                     $ns = '';
                 } else {
-                    switch ($ns = substr($name, 0, $len)) {
-                        case 'Symfony\Bridge\\':
-                        case 'Symfony\Bundle\\':
-                        case 'Symfony\Component\\':
-                            $ns = 'Symfony\\';
-                            $len = strlen($ns);
-                            break;
-                    }
+                    $ns = substr($name, 0, $len);
                 }
                 $parent = get_parent_class($class);
 

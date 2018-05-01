@@ -41,10 +41,6 @@ class RedirectResponse extends Response
         if (!$this->isRedirect()) {
             throw new \InvalidArgumentException(sprintf('The HTTP status code is not a redirect ("%s" given).', $status));
         }
-
-        if (301 == $status && !array_key_exists('cache-control', $headers)) {
-            $this->headers->remove('cache-control');
-        }
     }
 
     /**

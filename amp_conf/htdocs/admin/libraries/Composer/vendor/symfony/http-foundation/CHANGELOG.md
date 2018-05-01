@@ -1,27 +1,6 @@
 CHANGELOG
 =========
 
-3.3.0
------
-
- * the `Request::setTrustedProxies()` method takes a new `$trustedHeaderSet` argument,
-   see http://symfony.com/doc/current/components/http_foundation/trusting_proxies.html for more info,
- * deprecated the `Request::setTrustedHeaderName()` and `Request::getTrustedHeaderName()` methods,
- * added `File\Stream`, to be passed to `BinaryFileResponse` when the size of the served file is unknown,
-   disabling `Range` and `Content-Length` handling, switching to chunked encoding instead
- * added the `Cookie::fromString()` method that allows to create a cookie from a
-   raw header string
-
-3.1.0
------
-
- * Added support for creating `JsonResponse` with a string of JSON data
-
-3.0.0
------
-
- * The precedence of parameters returned from `Request::get()` changed from "GET, PATH, BODY" to "PATH, GET, BODY"
-
 2.8.0
 -----
 

@@ -2,7 +2,6 @@
 
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\LazyProxy\PhpDumper\DumperInterface as ProxyDumper;
-use Symfony\Component\DependencyInjection\ServiceSubscriberInterface;
 
 function sc_configure($instance)
 {
@@ -88,7 +87,7 @@ class DummyProxyDumper implements ProxyDumper
         return false;
     }
 
-    public function getProxyFactoryCode(Definition $definition, $id, $factoryCall = null)
+    public function getProxyFactoryCode(Definition $definition, $id)
     {
         return '';
     }
@@ -96,41 +95,5 @@ class DummyProxyDumper implements ProxyDumper
     public function getProxyCode(Definition $definition)
     {
         return '';
-    }
-}
-
-class LazyContext
-{
-    public $lazyValues;
-    public $lazyEmptyValues;
-
-    public function __construct($lazyValues, $lazyEmptyValues)
-    {
-        $this->lazyValues = $lazyValues;
-        $this->lazyEmptyValues = $lazyEmptyValues;
-    }
-}
-
-class FoobarCircular
-{
-    public function __construct(FooCircular $foo)
-    {
-        $this->foo = $foo;
-    }
-}
-
-class FooCircular
-{
-    public function __construct(BarCircular $bar)
-    {
-        $this->bar = $bar;
-    }
-}
-
-class BarCircular
-{
-    public function addFoobar(FoobarCircular $foobar)
-    {
-        $this->foobar = $foobar;
     }
 }

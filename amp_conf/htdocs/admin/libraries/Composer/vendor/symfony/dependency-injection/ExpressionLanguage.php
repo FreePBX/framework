@@ -12,6 +12,7 @@
 namespace Symfony\Component\DependencyInjection;
 
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage as BaseExpressionLanguage;
+use Symfony\Component\ExpressionLanguage\ParserCache\ParserCacheInterface;
 
 /**
  * Adds some function to the default ExpressionLanguage.
@@ -22,13 +23,10 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage as BaseExpressionLan
  */
 class ExpressionLanguage extends BaseExpressionLanguage
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function __construct($cache = null, array $providers = array(), callable $serviceCompiler = null)
+    public function __construct(ParserCacheInterface $cache = null, array $providers = array())
     {
         // prepend the default provider to let users override it easily
-        array_unshift($providers, new ExpressionLanguageProvider($serviceCompiler));
+        array_unshift($providers, new ExpressionLanguageProvider());
 
         parent::__construct($cache, $providers);
     }

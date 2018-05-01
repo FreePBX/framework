@@ -33,13 +33,6 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
     private $dispatcher;
     private $wrappedListeners;
 
-    /**
-     * Constructor.
-     *
-     * @param EventDispatcherInterface $dispatcher An EventDispatcherInterface instance
-     * @param Stopwatch                $stopwatch  A Stopwatch instance
-     * @param LoggerInterface          $logger     A LoggerInterface instance
-     */
     public function __construct(EventDispatcherInterface $dispatcher, Stopwatch $stopwatch, LoggerInterface $logger = null)
     {
         $this->dispatcher = $dispatcher;
@@ -104,6 +97,10 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
      */
     public function getListenerPriority($eventName, $listener)
     {
+        if (!method_exists($this->dispatcher, 'getListenerPriority')) {
+            return 0;
+        }
+
         return $this->dispatcher->getListenerPriority($eventName, $listener);
     }
 
@@ -302,6 +299,12 @@ class TraceableEventDispatcher implements TraceableEventDispatcherInterface
             'event' => $eventName,
             'priority' => $this->getListenerPriority($eventName, $listener),
         );
+
+        // unwrap for correct listener info
+        if ($listener instanceof WrappedListener) {
+            $listener = $listener->getWrappedListener();
+        }
+
         if ($listener instanceof \Closure) {
             $info += array(
                 'type' => 'Closure',

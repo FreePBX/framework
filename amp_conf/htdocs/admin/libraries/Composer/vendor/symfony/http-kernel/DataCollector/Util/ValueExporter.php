@@ -20,23 +20,23 @@ class ValueExporter
      * Converts a PHP value to a string.
      *
      * @param mixed $value The PHP value
-     * @param int   $depth only for internal usage
-     * @param bool  $deep  only for internal usage
+     * @param int   $depth Only for internal usage
+     * @param bool  $deep  Only for internal usage
      *
      * @return string The string representation of the given value
      */
     public function exportValue($value, $depth = 1, $deep = false)
     {
+        if ($value instanceof \__PHP_Incomplete_Class) {
+            return sprintf('__PHP_Incomplete_Class(%s)', $this->getClassNameFromIncomplete($value));
+        }
+
         if (is_object($value)) {
-            if ($value instanceof \DateTimeInterface) {
-                return sprintf('Object(%s) - %s', get_class($value), $value->format(\DateTime::ISO8601));
+            if ($value instanceof \DateTime || $value instanceof \DateTimeInterface) {
+                return sprintf('Object(%s) - %s', get_class($value), $value->format(\DateTime::ATOM));
             }
 
             return sprintf('Object(%s)', get_class($value));
-        }
-
-        if ($value instanceof \__PHP_Incomplete_Class) {
-            return sprintf('__PHP_Incomplete_Class(%s)', $this->getClassNameFromIncomplete($value));
         }
 
         if (is_array($value)) {

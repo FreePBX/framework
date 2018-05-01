@@ -31,8 +31,6 @@ class EnvParametersResource implements SelfCheckingResourceInterface, \Serializa
     private $variables;
 
     /**
-     * Constructor.
-     *
      * @param string $prefix
      */
     public function __construct($prefix)
@@ -50,7 +48,7 @@ class EnvParametersResource implements SelfCheckingResourceInterface, \Serializa
     }
 
     /**
-     * @return array An array with two keys: 'prefix' for the prefix used and 'variables' containing all the variables watched by this resource
+     * {@inheritdoc}
      */
     public function getResource()
     {

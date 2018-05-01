@@ -144,9 +144,6 @@ class DecoratorServicePassTest extends TestCase
         $this->assertEquals(array('bar' => array('attr' => 'baz'), 'foobar' => array('attr' => 'bar')), $container->getDefinition('baz')->getTags());
     }
 
-    /**
-     * @group legacy
-     */
     public function testProcessMergesAutowiringTypesInDecoratingDefinitionAndRemoveThemFromDecoratedDefinition()
     {
         $container = new ContainerBuilder();

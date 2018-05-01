@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Debug\Tests\Exception;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -27,7 +28,7 @@ use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\HttpKernel\Exception\UnsupportedMediaTypeHttpException;
 
-class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
+class FlattenExceptionTest extends TestCase
 {
     public function testStatusCode()
     {
@@ -104,7 +105,7 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider flattenDataProvider
      */
-    public function testFlattenHttpException(\Exception $exception, $statusCode)
+    public function testFlattenHttpException(\Exception $exception)
     {
         $flattened = FlattenException::create($exception);
         $flattened2 = FlattenException::create($exception);
@@ -119,7 +120,7 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider flattenDataProvider
      */
-    public function testPrevious(\Exception $exception, $statusCode)
+    public function testPrevious(\Exception $exception)
     {
         $flattened = FlattenException::create($exception);
         $flattened2 = FlattenException::create($exception);
@@ -166,7 +167,7 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider flattenDataProvider
      */
-    public function testToArray(\Exception $exception, $statusCode)
+    public function testToArray(\Exception $exception)
     {
         $flattened = FlattenException::create($exception);
         $flattened->setTrace(array(), 'foo.php', 123);
@@ -186,12 +187,13 @@ class FlattenExceptionTest extends \PHPUnit_Framework_TestCase
     public function flattenDataProvider()
     {
         return array(
-            array(new \Exception('test', 123), 500),
+            array(new \Exception('test', 123)),
         );
     }
 
     public function testRecursionInArguments()
     {
+        $a = null;
         $a = array('foo', array(2, &$a));
         $exception = $this->createException($a);
 

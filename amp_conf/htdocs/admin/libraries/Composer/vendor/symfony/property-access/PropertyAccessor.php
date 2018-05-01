@@ -13,8 +13,8 @@ namespace Symfony\Component\PropertyAccess;
 
 use Symfony\Component\PropertyAccess\Exception\AccessException;
 use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
-use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\Exception\NoSuchIndexException;
+use Symfony\Component\PropertyAccess\Exception\NoSuchPropertyException;
 use Symfony\Component\PropertyAccess\Exception\UnexpectedTypeException;
 
 /**
@@ -96,25 +96,11 @@ class PropertyAccessor implements PropertyAccessorInterface
      */
     const ACCESS_TYPE_NOT_FOUND = 4;
 
-    /**
-     * @var bool
-     */
     private $magicCall;
-
-    /**
-     * @var bool
-     */
     private $ignoreInvalidIndices;
-
-    /**
-     * @var array
-     */
     private $readPropertyCache = array();
-
-    /**
-     * @var array
-     */
     private $writePropertyCache = array();
+
     private static $previousErrorHandler = false;
     private static $errorHandler = array(__CLASS__, 'handleError');
     private static $resultProto = array(self::VALUE => null);
@@ -166,7 +152,7 @@ class PropertyAccessor implements PropertyAccessorInterface
         $overwrite = true;
 
         try {
-            if (PHP_VERSION_ID < 70000 && false === self::$previousErrorHandler) {
+            if (\PHP_VERSION_ID < 70000 && false === self::$previousErrorHandler) {
                 self::$previousErrorHandler = set_error_handler(self::$errorHandler);
             }
 
@@ -222,7 +208,7 @@ class PropertyAccessor implements PropertyAccessorInterface
         } catch (\Throwable $e) {
         }
 
-        if (PHP_VERSION_ID < 70000 && false !== self::$previousErrorHandler) {
+        if (\PHP_VERSION_ID < 70000 && false !== self::$previousErrorHandler) {
             restore_error_handler();
             self::$previousErrorHandler = false;
         }
@@ -245,8 +231,8 @@ class PropertyAccessor implements PropertyAccessorInterface
 
     private static function throwInvalidArgumentException($message, $trace, $i)
     {
-        if (isset($trace[$i]['file']) && __FILE__ === $trace[$i]['file']) {
-            $pos = strpos($message, $delim = 'must be of the type ') ?: strpos($message, $delim = 'must be an instance of ');
+        if (isset($trace[$i]['file']) && __FILE__ === $trace[$i]['file'] && isset($trace[$i]['args'][0])) {
+            $pos = strpos($message, $delim = 'must be of the type ') ?: (strpos($message, $delim = 'must be an instance of ') ?: strpos($message, $delim = 'must implement interface '));
             $pos += strlen($delim);
             $type = $trace[$i]['args'][0];
             $type = is_object($type) ? get_class($type) : gettype($type);
@@ -330,7 +316,7 @@ class PropertyAccessor implements PropertyAccessorInterface
      *
      * @return array The values read in the path
      *
-     * @throws UnexpectedTypeException If a value within the path is neither object nor array.
+     * @throws UnexpectedTypeException if a value within the path is neither object nor array
      * @throws NoSuchIndexException    If a non-existing index is accessed
      */
     private function readPropertiesUntil($zval, PropertyPathInterface $propertyPath, $lastIndex, $ignoreInvalidIndices = true)
@@ -448,12 +434,12 @@ class PropertyAccessor implements PropertyAccessorInterface
      *
      * @return array The array containing the value of the property
      *
-     * @throws NoSuchPropertyException If the property does not exist or is not public.
+     * @throws NoSuchPropertyException if the property does not exist or is not public
      */
     private function readProperty($zval, $property)
     {
         if (!is_object($zval[self::VALUE])) {
-            throw new NoSuchPropertyException(sprintf('Cannot read property "%s" from an array. Maybe you intended to write the property path as "[%s]" instead.', $property, $property));
+            throw new NoSuchPropertyException(sprintf('Cannot read property "%s" from an array. Maybe you intended to write the property path as "[%1$s]" instead.', $property));
         }
 
         $result = self::$resultProto;
@@ -590,12 +576,12 @@ class PropertyAccessor implements PropertyAccessorInterface
      * @param string $property The property to write
      * @param mixed  $value    The value to write
      *
-     * @throws NoSuchPropertyException If the property does not exist or is not public.
+     * @throws NoSuchPropertyException if the property does not exist or is not public
      */
     private function writeProperty($zval, $property, $value)
     {
         if (!is_object($zval[self::VALUE])) {
-            throw new NoSuchPropertyException(sprintf('Cannot write property "%s" to an array. Maybe you should write the property path as "[%s]" instead?', $property, $property));
+            throw new NoSuchPropertyException(sprintf('Cannot write property "%s" to an array. Maybe you should write the property path as "[%1$s]" instead?', $property));
         }
 
         $object = $zval[self::VALUE];
@@ -625,11 +611,11 @@ class PropertyAccessor implements PropertyAccessorInterface
     /**
      * Adjusts a collection-valued property by calling add*() and remove*() methods.
      *
-     * @param array              $zval         The array containing the object to write to
-     * @param string             $property     The property to write
-     * @param array|\Traversable $collection   The collection to write
-     * @param string             $addMethod    The add*() method
-     * @param string             $removeMethod The remove*() method
+     * @param array    $zval         The array containing the object to write to
+     * @param string   $property     The property to write
+     * @param iterable $collection   The collection to write
+     * @param string   $addMethod    The add*() method
+     * @param string   $removeMethod The remove*() method
      */
     private function writeCollection($zval, $property, $collection, $addMethod, $removeMethod)
     {

@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Debug\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\Debug\Exception\OutOfMemoryException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -18,7 +19,7 @@ use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 require_once __DIR__.'/HeaderMock.php';
 
-class ExceptionHandlerTest extends \PHPUnit_Framework_TestCase
+class ExceptionHandlerTest extends TestCase
 {
     protected function setUp()
     {
@@ -100,15 +101,16 @@ class ExceptionHandlerTest extends \PHPUnit_Framework_TestCase
     {
         $exception = new \Exception('foo');
 
-        $handler = $this->getMock('Symfony\Component\Debug\ExceptionHandler', array('sendPhpResponse'));
+        $handler = $this->getMockBuilder('Symfony\Component\Debug\ExceptionHandler')->setMethods(array('sendPhpResponse'))->getMock();
         $handler
             ->expects($this->exactly(2))
             ->method('sendPhpResponse');
 
         $handler->handle($exception);
 
-        $handler->setHandler(function ($e) use ($exception) {
-            $this->assertSame($exception, $e);
+        $that = $this;
+        $handler->setHandler(function ($e) use ($exception, $that) {
+            $that->assertSame($exception, $e);
         });
 
         $handler->handle($exception);
@@ -118,13 +120,14 @@ class ExceptionHandlerTest extends \PHPUnit_Framework_TestCase
     {
         $exception = new OutOfMemoryException('foo', 0, E_ERROR, __FILE__, __LINE__);
 
-        $handler = $this->getMock('Symfony\Component\Debug\ExceptionHandler', array('sendPhpResponse'));
+        $handler = $this->getMockBuilder('Symfony\Component\Debug\ExceptionHandler')->setMethods(array('sendPhpResponse'))->getMock();
         $handler
             ->expects($this->once())
             ->method('sendPhpResponse');
 
-        $handler->setHandler(function ($e) {
-            $this->fail('OutOfMemoryException should bypass the handler');
+        $that = $this;
+        $handler->setHandler(function ($e) use ($that) {
+            $that->fail('OutOfMemoryException should bypass the handler');
         });
 
         $handler->handle($exception);

@@ -39,6 +39,9 @@ class EventDispatcher implements EventDispatcherInterface
             $event = new Event();
         }
 
+        $event->setDispatcher($this);
+        $event->setName($eventName);
+
         if ($listeners = $this->getListeners($eventName)) {
             $this->doDispatch($listeners, $eventName, $event);
         }
@@ -73,7 +76,14 @@ class EventDispatcher implements EventDispatcherInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the listener priority for a specific event.
+     *
+     * Returns null if the event or the listener does not exist.
+     *
+     * @param string   $eventName The name of the event
+     * @param callable $listener  The listener
+     *
+     * @return int|null The event listener priority
      */
     public function getListenerPriority($eventName, $listener)
     {
@@ -82,7 +92,7 @@ class EventDispatcher implements EventDispatcherInterface
         }
 
         foreach ($this->listeners[$eventName] as $priority => $listeners) {
-            if (false !== ($key = array_search($listener, $listeners, true))) {
+            if (false !== in_array($listener, $listeners, true)) {
                 return $priority;
             }
         }
@@ -93,7 +103,7 @@ class EventDispatcher implements EventDispatcherInterface
      */
     public function hasListeners($eventName = null)
     {
-        return (bool) count($this->getListeners($eventName));
+        return (bool) $this->getListeners($eventName);
     }
 
     /**

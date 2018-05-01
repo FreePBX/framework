@@ -11,7 +11,9 @@
 
 namespace Symfony\Component\HttpKernel\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Config\EnvParametersResource;
 use Symfony\Component\HttpKernel\Kernel;
@@ -20,9 +22,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Tests\Fixtures\KernelForTest;
 use Symfony\Component\HttpKernel\Tests\Fixtures\KernelForOverrideName;
+use Symfony\Component\HttpKernel\Tests\Fixtures\FooBarBundle;
 
-class KernelTest extends \PHPUnit_Framework_TestCase
+class KernelTest extends TestCase
 {
+    public static function tearDownAfterClass()
+    {
+        $fs = new Filesystem();
+        $fs->remove(__DIR__.'/Fixtures/cache');
+    }
+
     public function testConstructor()
     {
         $env = 'test_env';
@@ -64,7 +73,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
 
     public function testBootSetsTheContainerToTheBundles()
     {
-        $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\Bundle');
+        $bundle = $this->getMockBuilder('Symfony\Component\HttpKernel\Bundle\Bundle')->getMock();
         $bundle->expects($this->once())
             ->method('setContainer');
 
@@ -161,7 +170,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
 
     public function testShutdownCallsShutdownOnAllBundles()
     {
-        $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\Bundle');
+        $bundle = $this->getMockBuilder('Symfony\Component\HttpKernel\Bundle\Bundle')->getMock();
         $bundle->expects($this->once())
             ->method('shutdown');
 
@@ -173,7 +182,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
 
     public function testShutdownGivesNullContainerToAllBundles()
     {
-        $bundle = $this->getMock('Symfony\Component\HttpKernel\Bundle\Bundle');
+        $bundle = $this->getMockBuilder('Symfony\Component\HttpKernel\Bundle\Bundle')->getMock();
         $bundle->expects($this->at(3))
             ->method('setContainer')
             ->with(null);
@@ -310,6 +319,48 @@ EOF;
         }
 
         $this->assertEquals($expected, $output);
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testLegacyIsClassInActiveBundleFalse()
+    {
+        $kernel = $this->getKernelMockForIsClassInActiveBundleTest();
+
+        $this->assertFalse($kernel->isClassInActiveBundle('Not\In\Active\Bundle'));
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testLegacyIsClassInActiveBundleFalseNoNamespace()
+    {
+        $kernel = $this->getKernelMockForIsClassInActiveBundleTest();
+
+        $this->assertFalse($kernel->isClassInActiveBundle('NotNamespacedClass'));
+    }
+
+    /**
+     * @group legacy
+     */
+    public function testLegacyIsClassInActiveBundleTrue()
+    {
+        $kernel = $this->getKernelMockForIsClassInActiveBundleTest();
+
+        $this->assertTrue($kernel->isClassInActiveBundle(__NAMESPACE__.'\Fixtures\FooBarBundle\SomeClass'));
+    }
+
+    protected function getKernelMockForIsClassInActiveBundleTest()
+    {
+        $bundle = new FooBarBundle();
+
+        $kernel = $this->getKernel(array('getBundles'));
+        $kernel->expects($this->once())
+            ->method('getBundles')
+            ->will($this->returnValue(array($bundle)));
+
+        return $kernel;
     }
 
     public function testGetRootDir()
@@ -716,6 +767,14 @@ EOF;
 
         $kernel->boot();
         $kernel->terminate(Request::create('/'), new Response());
+    }
+
+    public function testKernelRootDirNameStartingWithANumber()
+    {
+        $dir = __DIR__.'/Fixtures/123';
+        require_once $dir.'/Kernel123.php';
+        $kernel = new \Symfony\Component\HttpKernel\Tests\Fixtures\_123\Kernel123('dev', true);
+        $this->assertEquals('_123', $kernel->getName());
     }
 
     /**
