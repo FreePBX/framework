@@ -12,15 +12,19 @@ class ComposerStaticInit2fd02cf1075ab4a6f516128219042cf7
         '023d27dca8066ef29e6739335ea73bad' => __DIR__ . '/..' . '/symfony/polyfill-php70/bootstrap.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
-        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
+        'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         'm' => 
         array (
             'malkusch\\lock\\' => 14,
+        ),
+        'Z' => 
+        array (
+            'ZendXml\\' => 8,
         ),
         'W' => 
         array (
@@ -36,6 +40,7 @@ class ComposerStaticInit2fd02cf1075ab4a6f516128219042cf7
             'Symfony\\Component\\Security\\' => 27,
             'Symfony\\Component\\PropertyAccess\\' => 33,
             'Symfony\\Component\\Process\\' => 26,
+            'Symfony\\Component\\Lock\\' => 23,
             'Symfony\\Component\\Inflector\\' => 28,
             'Symfony\\Component\\HttpKernel\\' => 29,
             'Symfony\\Component\\HttpFoundation\\' => 33,
@@ -92,6 +97,10 @@ class ComposerStaticInit2fd02cf1075ab4a6f516128219042cf7
         array (
             0 => __DIR__ . '/..' . '/malkusch/lock/classes',
         ),
+        'ZendXml\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zendframework/zendxml/src',
+        ),
         'Whoops\\' => 
         array (
             0 => __DIR__ . '/..' . '/filp/whoops/src/Whoops',
@@ -127,6 +136,10 @@ class ComposerStaticInit2fd02cf1075ab4a6f516128219042cf7
         'Symfony\\Component\\Process\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/process',
+        ),
+        'Symfony\\Component\\Lock\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/lock',
         ),
         'Symfony\\Component\\Inflector\\' => 
         array (
@@ -255,13 +268,6 @@ class ComposerStaticInit2fd02cf1075ab4a6f516128219042cf7
     );
 
     public static $prefixesPsr0 = array (
-        'Z' => 
-        array (
-            'ZendXml\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/zendframework/zendxml/library',
-            ),
-        ),
         'W' => 
         array (
             'Wrep\\Daemonizable\\' => 
