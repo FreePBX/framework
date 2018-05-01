@@ -7,7 +7,7 @@ return array(
                 '//div[@class="blog-post-content"]',
             ),
             'strip' => array(
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

@@ -7,7 +7,7 @@ return array(
                 '//td[@class="NewsText"][1]',
             ),
             'strip' => array(
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

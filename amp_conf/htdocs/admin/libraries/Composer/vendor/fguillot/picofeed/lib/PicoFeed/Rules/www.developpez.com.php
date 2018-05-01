@@ -15,7 +15,7 @@ return array(
                 '//*[contains(@class,"inlineimg")]',
                 '//*[@id="signaler"]',
                 '//*[@id="signalerFrame"]',
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

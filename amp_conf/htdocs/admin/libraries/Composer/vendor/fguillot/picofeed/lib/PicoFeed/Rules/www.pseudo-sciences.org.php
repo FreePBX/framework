@@ -11,6 +11,6 @@ return array(
                 '//div[@id="art_chapo"]',
                 '//img[@class="puce"]',
             ),
-        )
-    )
+        ),
+    ),
 );

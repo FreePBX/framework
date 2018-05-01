@@ -7,7 +7,7 @@ return array(
                 '//article[@class="content")]',
             ),
             'strip' => array(
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

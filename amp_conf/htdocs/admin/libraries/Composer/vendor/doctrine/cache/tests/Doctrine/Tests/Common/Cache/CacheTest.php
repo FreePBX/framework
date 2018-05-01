@@ -109,6 +109,22 @@ abstract class CacheTest extends \Doctrine\Tests\DoctrineTestCase
         $this->assertSame(array(), $cache->fetchMultiple(array()));
     }
 
+    public function testSaveMultiple()
+    {
+        $cache = $this->_getCacheDriver();
+        $cache->deleteAll();
+
+        $data = array_map(function ($value) {
+            return $value[0];
+        }, $this->provideDataToCache());
+
+        $this->assertTrue($cache->saveMultiple($data));
+
+        $keys = array_keys($data);
+
+        $this->assertEquals($data, $cache->fetchMultiple($keys));
+    }
+
     public function provideDataToCache()
     {
         $obj = new \stdClass();
@@ -426,6 +442,16 @@ abstract class CacheTest extends \Doctrine\Tests\DoctrineTestCase
         $cache->deleteAll();
         $this->assertTrue($cache->save('without_ttl', 'without_ttl'));
         $this->assertTrue($cache->save('with_ttl', 'with_ttl', 3600));
+    }
+
+    public function testValueThatIsFalseBooleanIsProperlyRetrieved()
+    {
+        $cache = $this->_getCacheDriver();
+        $cache->deleteAll();
+
+        $this->assertTrue($cache->save('key1', false));
+        $this->assertTrue($cache->contains('key1'));
+        $this->assertFalse($cache->fetch('key1'));
     }
 
     /**

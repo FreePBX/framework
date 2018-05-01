@@ -8,7 +8,7 @@ return array(
                 '//div[contains(@id, "entry-body")]',
             ),
             'strip' => array(
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

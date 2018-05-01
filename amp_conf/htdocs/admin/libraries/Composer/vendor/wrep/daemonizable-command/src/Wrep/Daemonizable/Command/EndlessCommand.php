@@ -97,8 +97,13 @@ abstract class EndlessCommand extends Command
 	{
 		try
 		{
+			$this->starting($input, $output);
+
 			do
 			{
+				// Start iteration
+				$this->startIteration($input, $output);
+
 				// Do a run
 				$this->execute($input, $output);
 
@@ -143,6 +148,22 @@ abstract class EndlessCommand extends Command
 
 		return $this->returnCode;
 	}
+
+	/**
+	 * Called before first execute
+	 * @param InputInterface  $input
+	 * @param OutputInterface $output
+	 */
+	protected function starting(InputInterface $input, OutputInterface $output)
+	{}
+
+	/**
+	 * Called before each iteration
+	 * @param InputInterface  $input
+	 * @param OutputInterface $output
+	 */
+	protected function startIteration(InputInterface $input, OutputInterface $output)
+	{}
 
 	/**
 	 * Called after each iteration

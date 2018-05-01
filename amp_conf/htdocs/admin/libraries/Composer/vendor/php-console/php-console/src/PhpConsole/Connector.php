@@ -10,10 +10,11 @@ namespace PhpConsole;
  *
  * @package PhpConsole
  * @version 3.1
- * @link http://php-console.com
+ * @link http://consle.com
  * @author Sergey Barbushin http://linkedin.com/in/barbushin
  * @copyright © Sergey Barbushin, 2011-2013. All rights reserved.
  * @license http://www.opensource.org/licenses/BSD-3-Clause "The BSD 3-Clause License"
+ * @codeCoverageIgnore
  */
 class Connector {
 
@@ -177,7 +178,7 @@ class Connector {
 	/**
 	 * Set client connection as not active
 	 */
-	protected function breakClientConnection() {
+	public function disable() {
 		$this->isActiveClient = false;
 	}
 
@@ -203,7 +204,7 @@ class Connector {
 					}
 				}
 			}
-			$this->breakClientConnection();
+			$this->disable();
 		}
 	}
 
@@ -546,7 +547,7 @@ class Connector {
 		if(isset($_POST[self::POST_VAR_NAME]['getPostponedResponse'])) {
 			header('Content-Type: application/json; charset=' . self::CLIENT_ENCODING);
 			echo $this->getPostponeStorage()->pop($_POST[self::POST_VAR_NAME]['getPostponedResponse']);
-			$this->breakClientConnection();
+			$this->disable();
 			exit;
 		}
 	}

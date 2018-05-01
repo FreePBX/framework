@@ -7,7 +7,7 @@ return array(
                 '//div[@class="text"]',
             ),
             'strip' => array(
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

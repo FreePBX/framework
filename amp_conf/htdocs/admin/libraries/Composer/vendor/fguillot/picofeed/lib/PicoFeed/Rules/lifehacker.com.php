@@ -12,7 +12,7 @@ return array(
                 '//span[contains(@class, "icon")]',
                 '//h1',
                 '//aside',
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

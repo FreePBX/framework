@@ -10,7 +10,6 @@ return array(
             'test_url' => 'http://www.vgcats.com/super/?strip_id=84',
             'body' => array('//*[@align="center"]/p/img'),
             'strip' => array(),
-        )
-    )
+        ),
+    ),
 );
-

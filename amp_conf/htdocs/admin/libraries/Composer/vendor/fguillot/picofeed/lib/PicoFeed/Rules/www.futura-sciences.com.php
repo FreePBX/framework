@@ -14,6 +14,6 @@ return array(
                 '//*[contains(@class, "cartouche")]',
                 '//*[contains(@class, "noprint")]',
             ),
-        )
-    )
+        ),
+    ),
 );

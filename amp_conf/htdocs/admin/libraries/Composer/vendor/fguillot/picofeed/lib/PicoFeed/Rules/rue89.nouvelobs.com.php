@@ -7,7 +7,7 @@ return array(
                 '//*[@id="article"]/div[contains(@class, "content")]',
             ),
             'strip' => array(
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

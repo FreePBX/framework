@@ -10,6 +10,6 @@ return array(
                 '//*[contains(@class, "post-review")]',
                 '//*[contains(@class, "footer-review")]',
             ),
-        )
-    )
+        ),
+    ),
 );

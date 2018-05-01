@@ -7,6 +7,6 @@ return array(
                 '//div[@align]/a/img',
             ),
             'strip' => array(),
-        )
-    )
+        ),
+    ),
 );

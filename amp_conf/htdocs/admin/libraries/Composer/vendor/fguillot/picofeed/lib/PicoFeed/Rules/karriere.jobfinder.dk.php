@@ -6,7 +6,7 @@ return array(
             'body' => array(
                 '//section[contains(@class, "teaser")]',
                 '//section[contains(@class, "body")]',
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

@@ -4,12 +4,11 @@ namespace PicoFeed\Parser;
 
 use PicoFeed\PicoFeedException;
 
-
 /**
- * ParserException Exception
+ * ParserException Exception.
  *
+ * @package PicoFeed\Parser
  * @author  Frederic Guillot
- * @package Parser
  */
 abstract class ParserException extends PicoFeedException
 {

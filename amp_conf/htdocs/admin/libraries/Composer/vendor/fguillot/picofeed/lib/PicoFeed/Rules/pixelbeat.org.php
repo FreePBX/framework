@@ -7,6 +7,6 @@ return array(
                 '//div[@class="contentText"]',
             ),
             'strip' => array(),
-        )
-    )
+        ),
+    ),
 );
