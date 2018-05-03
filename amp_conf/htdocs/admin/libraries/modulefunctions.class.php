@@ -2886,7 +2886,6 @@ class module_functions {
 
 	function get_remote_contents($path, $add_options=false, $uuidcheck=false) {
 		$mirrors = $this->generate_remote_urls($path,$add_options,$uuidcheck);
-		var_dump($mirrors);
 		foreach($mirrors['mirrors'] as $url) {
 			$o = $this->url_get_contents($url,$mirrors['path'],'post',$mirrors['options']);
 			if(!empty($o)) {
