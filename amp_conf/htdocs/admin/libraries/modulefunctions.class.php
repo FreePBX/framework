@@ -2886,6 +2886,7 @@ class module_functions {
 
 	function get_remote_contents($path, $add_options=false, $uuidcheck=false) {
 		$mirrors = $this->generate_remote_urls($path,$add_options,$uuidcheck);
+		var_dump($mirrors);
 		foreach($mirrors['mirrors'] as $url) {
 			$o = $this->url_get_contents($url,$mirrors['path'],'post',$mirrors['options']);
 			if(!empty($o)) {
@@ -2974,6 +2975,14 @@ class module_functions {
 				$nt->delete('freepbx', 'SYSTEMSSH');
 			}
 			$options['extraid'] = base64_encode(json_encode($extras));
+
+			// Allow third party ioncube and zend modules.
+			if (function_exists('zend_get_id')) {
+				$options['zend'] = "available";
+			}
+			if (function_exists("ioncube_loader_version")) {
+				$options['ioncube'] = ioncube_loader_version();
+			}
 
 			// Other modules may need to add 'get' paramters to the call to the repo. Check and add them
 			// here if we are adding paramters. The module should return an array of key/value pairs each of which
