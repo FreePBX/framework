@@ -11,6 +11,7 @@ class Logger {
 		$this->systemID = $this->FreePBX->Config->get('FREEPBX_SYSTEM_IDENT');
 		$this->monoLog->pushHandler(new StreamHandler('/var/log/asterisk/freepbx.log', Mono\Logger::INFO));
 		$this->attachHandlers();
+		$this->loggingHooks = null;
 	}
 	public function install() {}
 	public function uninstall() {}
@@ -97,10 +98,13 @@ class Logger {
 	}
 	
 public function attachHandlers(){
-		if(!is_object($this->loggingHooks)){
+		if(empty($this->loggingHooks)){
 			$this->loggingHooks = new \SplObjectStorage();
 		}
 		$this->FreePBX->Hooks->processHooks($this->loggingHooks);
+		if($this->loggingHooks->count() < 1){
+			return;
+		}
 		foreach($this->loggingHooks as $hook){
 			try{ 
 				$this->addHandler($thid->monoLog,$hook);
