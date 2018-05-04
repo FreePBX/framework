@@ -2975,6 +2975,14 @@ class module_functions {
 			}
 			$options['extraid'] = base64_encode(json_encode($extras));
 
+			// Allow third party ioncube and zend modules.
+			if (function_exists('zend_get_id')) {
+				$options['zend'] = "available";
+			}
+			if (function_exists("ioncube_loader_version")) {
+				$options['ioncube'] = ioncube_loader_version();
+			}
+
 			// Other modules may need to add 'get' paramters to the call to the repo. Check and add them
 			// here if we are adding paramters. The module should return an array of key/value pairs each of which
 			// is to be appended to the GET parameters. The variable name will be prepended with the module name
