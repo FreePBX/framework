@@ -14,7 +14,7 @@ use malkusch\lock\util\Loop;
  * A failing transaction will be replayed.
  *
  * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
+ * @link bitcoin:1P5FAZ4QhXCuwYPnLZdk3PJsqePbu1UDDA Donations
  * @license WTFPL
  */
 class TransactionalMutex extends Mutex
@@ -33,11 +33,11 @@ class TransactionalMutex extends Mutex
     /**
      * Sets the PDO.
      *
-     * The PDO object MUST be configured with {@link PDO::ATTR_ERRMODE}
+     * The PDO object MUST be configured with PDO::ATTR_ERRMODE
      * to throw exceptions on errors.
      *
-     * As this implementation spans a transation over a unit of work,
-     * {@link PDO::ATTR_AUTOCOMMIT} SHOULD not be enabled.
+     * As this implementation spans a transaction over a unit of work,
+     * PDO::ATTR_AUTOCOMMIT SHOULD not be enabled.
      *
      * @param \PDO $pdo     The PDO.
      * @param int  $timeout The timeout in seconds, default is 3.

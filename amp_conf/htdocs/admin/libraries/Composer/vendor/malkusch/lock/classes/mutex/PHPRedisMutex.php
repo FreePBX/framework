@@ -12,18 +12,14 @@ use malkusch\lock\exception\LockReleaseException;
  *
  * This implementation requires at least phpredis-2.2.4.
  *
- * Note: If you're going to use this mutex in a forked process, you have to call
- * {@link seedRandom()} in each instance.
- *
  * @author Markus Malkusch <markus@malkusch.de>
  * @license WTFPL
  *
  * @link http://redis.io/topics/distlock
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
+ * @link bitcoin:1P5FAZ4QhXCuwYPnLZdk3PJsqePbu1UDDA Donations
  */
 class PHPRedisMutex extends RedisMutex
 {
-    
     /**
      * Sets the connected Redis APIs.
      *
@@ -46,7 +42,9 @@ class PHPRedisMutex extends RedisMutex
      */
     protected function add($redis, $key, $value, $expire)
     {
+        /** @var Redis $redis */
         try {
+            //  Will set the key, if it doesn't exist, with a ttl of $expire seconds
             return $redis->set($key, $value, ["nx", "ex" => $expire]);
         } catch (RedisException $e) {
             $message = sprintf(
@@ -63,6 +61,18 @@ class PHPRedisMutex extends RedisMutex
      */
     protected function evalScript($redis, $script, $numkeys, array $arguments)
     {
+        /** @var Redis $redis */
+
+        /*
+         * If a serializion mode such as "php" or "igbinary" is enabled, the arguments must be serialized but the keys
+         * must not.
+         *
+         * @issue 14
+         */
+        for ($i = $numkeys, $iMax = \count($arguments); $i < $iMax; $i++) {
+            $arguments[$i] = $redis->_serialize($arguments[$i]);
+        }
+
         try {
             return $redis->eval($script, $arguments, $numkeys);
         } catch (RedisException $e) {
@@ -73,12 +83,13 @@ class PHPRedisMutex extends RedisMutex
             throw new LockReleaseException($message, 0, $e);
         }
     }
-    
+
     /**
      * @internal
      */
     protected function getRedisIdentifier($redis)
     {
+        /** @var Redis $redis */
         return sprintf("redis://%s:%d?database=%s", $redis->getHost(), $redis->getPort(), $redis->getDBNum());
     }
 }

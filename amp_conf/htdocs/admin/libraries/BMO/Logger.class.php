@@ -4,9 +4,10 @@ use Monolog as Mono;
 use Monolog\Handler\StreamHandler;
 
 class Logger {
+	public $loggingHooks;
 	public function __construct() {
 		$this->monoLog = new Mono\Logger('PBX');
-		$this->customLog = null;	
+		$this->customLog = null;
 		$this->FreePBX = \FreePBX::Create();
 		$this->systemID = $this->FreePBX->Config->get('FREEPBX_SYSTEM_IDENT');
 		$this->monoLog->pushHandler(new StreamHandler('/var/log/asterisk/freepbx.log', Mono\Logger::INFO));
@@ -18,7 +19,7 @@ class Logger {
 	public function backup() {}
 	public function restore($backup) {}
 	public function doConfigPageInit($page) {}
-	
+
 	/**
 	 * Write to log channel
 	 *
@@ -96,7 +97,7 @@ class Logger {
 	public function addHandler($logger,$obj){
 		return $logger->pushHandler($obj);
 	}
-	
+
 public function attachHandlers(){
 		if(empty($this->loggingHooks)){
 			$this->loggingHooks = new \SplObjectStorage();
@@ -106,7 +107,7 @@ public function attachHandlers(){
 			return;
 		}
 		foreach($this->loggingHooks as $hook){
-			try{ 
+			try{
 				$this->addHandler($thid->monoLog,$hook);
 			}catch(\Exception $e){
 				//don't  let a bad apple mess it up for everyone

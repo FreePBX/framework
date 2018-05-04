@@ -96,6 +96,7 @@ class Hooks extends DB_Helper {
 										$hks[$key] = (string)$value;
 									}
 									$hks['method'] = (string)$method;
+									$hks['static'] = isset($hks['static']) && $hks['static'] === 'true' ? true : false;
 									$cm = $hks['callingMethod'];
 									unset($hks['callingMethod']);
 									if(isset($allhooks['ModuleHooks'][$hookMod][$cm][$module][$priority])) {
@@ -139,6 +140,7 @@ class Hooks extends DB_Helper {
 					foreach($hooks as $priority => $hook) {
 						$hook['module'] = ucfirst(strtolower($module));
 						$hook['namespace'] = !empty($hook['namespace']) ? $hook['namespace'] . '\\' : '';
+						$hook['static'] = !empty($hook['static']) && $hook['static'] === 'true' ? true : false;
 						if(isset($sortedHooks[$priority])) {
 							while(isset($sortedHooks[$priority])) {
 								$priority++;
@@ -168,24 +170,59 @@ class Hooks extends DB_Helper {
 			foreach($sortedHooks as $hook) {
 				$module = $hook['module'];
 				$namespace = $hook['namespace'];
-				if(!class_exists($namespace.$hook['class'])) {
-					//its active so lets get BMO to load it
-					//basically we are hoping the module itself will load the right class
-					//follow FreePBX BMO naming Schema
-					try {
-						$this->FreePBX->$module;
-						if(!class_exists($namespace.$hook['class'])) {
-							//Ok we really couln't find it. Give up
-							throw new \Exception('Cant find '.$namespace.$hook['class']);
+				$class = $hook['class'];
+				$static = $hook['static'];
+				$bmoModule = ($hook['module'] === $hook['class']);
+				$meth = $hook['method'];
+
+				if($bmoModule) {
+					if(!class_exists($namespace.$class,false)) {
+						//its active so lets get BMO to load it
+						//basically we are hoping the module itself will load the right class
+						//follow FreePBX BMO naming Schema
+						try {
+							$this->FreePBX->$module;
+						} catch(\Exception $e) {
+							if($e->getCode() != 404) {
+								throw $e;
+							} else {
+								$this->updateBMOHooks();
+								continue;
+							}
 						}
-					} catch(\Exception $e) {
-						throw new \Exception('Cant find '.$namespace.$hook['class']."::: ".$e->getMessage());
 					}
 				}
-				$meth = $hook['method'];
+
+				if(!class_exists($namespace.$class)) {
+					//Ok we really couln't find it. Give up
+					throw new \Exception('Cant find '.$namespace.$class);
+				}
+
 				//now send the method from that class the data!
 				\modgettext::push_textdomain(strtolower($module));
-				$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), $args);
+				if(!empty($return[$module])) {
+					throw new \Exception("Multiple hooks from the same module is not allowed");
+				}
+				try {
+					if($bmoModule) {
+						$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), $args);
+					} else {
+						$fn = $namespace.$class;
+						if($static) {
+							$t = new $fn($this->FreePBX);
+							$return[$module] = call_user_func_array(array($t, $meth), $args);
+						} else {
+							$return[$module] = call_user_func_array($fn.'::'.$meth, $args);
+						}
+					}
+				} catch (\Exception $e) {
+					//module does not exist, try to resolve right now
+					if($e->getCode() != 404) {
+						throw $e;
+					} else {
+						$this->updateBMOHooks();
+					}
+				}
 				\modgettext::pop_textdomain();
 			}
 		}
@@ -214,6 +251,8 @@ class Hooks extends DB_Helper {
 					foreach($hooks as $priority => $hook) {
 						$hook['module'] = ucfirst(strtolower($module));
 						$hook['namespace'] = !empty($hook['namespace']) ? $hook['namespace'] . '\\' : '';
+						$hook['static'] = !empty($hook['static']) && $hook['static'] === 'true' ? true : false;
+						$hook['bmo'] = ($hook['module'] === $hook['class']);
 						if(isset($sortedHooks[$priority])) {
 							while(isset($sortedHooks[$priority])) {
 								$priority++;
@@ -230,6 +269,48 @@ class Hooks extends DB_Helper {
 		return $sortedHooks;
 	}
 
+	private function executeCall($hook, $args) {
+		$return = null;
+		$module = $hook['module'];
+		$namespace = $hook['namespace'];
+		$class = $hook['class'];
+		$meth = $hook['method'];
+		$static = $hook['static'];
+		$bmoModule = $hook['bmo'];
+
+		if($bmoModule) {
+			//Direct BMO module
+			if(!class_exists($namespace.$class,false)) {
+				//its active so lets get BMO to load it
+				//basically we are hoping the module itself will load the right class
+				//follow FreePBX BMO naming Schema
+				$this->FreePBX->$module;
+			}
+		}
+
+		if(!class_exists($namespace.$class)) {
+			//Ok we really couln't find it. Give up
+			throw new \Exception('Cant find '.$namespace.$class);
+		}
+
+		//now send the method from that class the data!
+		\modgettext::push_textdomain(strtolower($module));
+
+		if($bmoModule) {
+			$return = call_user_func_array(array($this->FreePBX->$module, $meth), $args);
+		} else {
+			$fn = $namespace.$class;
+			if($static) {
+				$t = new $fn($this->FreePBX);
+				$return = call_user_func_array(array($t, $meth), $args);
+			} else {
+				$return = call_user_func_array($fn.'::'.$meth, $args);
+			}
+		}
+		\modgettext::pop_textdomain();
+		return $return;
+	}
+
 	/**
 	 * Process all cached hooks
 	 */
@@ -240,39 +321,27 @@ class Hooks extends DB_Helper {
 		if(!empty($sortedHooks)) {
 			foreach($sortedHooks as $hook) {
 				$module = $hook['module'];
-				$namespace = $hook['namespace'];
-				if(!class_exists($namespace.$hook['class'])) {
-					//its active so lets get BMO to load it
-					//basically we are hoping the module itself will load the right class
-					//follow FreePBX BMO naming Schema
-					try {
-						$this->FreePBX->$module;
-						if(!class_exists($namespace.$hook['class'])) {
-							//Ok we really couln't find it. Give up
-							throw new \Exception('Cant find '.$namespace.$hook['class']);
-						}
-					} catch(\Exception $e) {
-						if($e->getCode() != 404) {
-							throw $e;
-						} else {
-							$this->updateBMOHooks();
-						}
-					}
+				$return[$module] = $this->executeCall($hook, func_get_args());
+			}
+		}
+		//return the data from that class
+		return $return;
+	}
+
+	/**
+	 * Process all cached hooks
+	 */
+	public function processHooksByModule() {
+		$args = func_get_args();
+		$mod = array_shift($args); //shift off $module
+		//get hooks from level "2" backtrace
+		$sortedHooks = $this->returnHooks(2);
+		$return = null;
+		if(!empty($sortedHooks)) {
+			foreach($sortedHooks as $hook) {
+				if($hook['module'] === $mod) {
+					$return = $this->executeCall($hook, $args);
 				}
-				$meth = $hook['method'];
-				//now send the method from that class the data!
-				\modgettext::push_textdomain(strtolower($module));
-				try {
-					$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), func_get_args());
-				} catch (\Exception $e) {
-					//module does not exist, try to resolve right now
-					if($e->getCode() != 404) {
-						throw $e;
-					} else {
-						$this->updateBMOHooks();
-					}
-				}
-				\modgettext::pop_textdomain();
 			}
 		}
 		//return the data from that class

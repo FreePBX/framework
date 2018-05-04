@@ -12,7 +12,7 @@ use malkusch\lock\mutex\Mutex;
  * You should not instantiate this class directly. Use {@link Mutex::check()}.
  *
  * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
+ * @link bitcoin:1P5FAZ4QhXCuwYPnLZdk3PJsqePbu1UDDA Donations
  * @license WTFPL
  */
 class DoubleCheckedLocking
@@ -59,7 +59,7 @@ class DoubleCheckedLocking
      * @param callable $code The locked code.
      *
      * @throws \Exception The execution block or the check threw an exception.
-     * @throws LockAcquireException The mutex could not be aquired.
+     * @throws LockAcquireException The mutex could not be acquired.
      * @throws LockReleaseException The mutex could not be released.
      */
     public function then(callable $code)
