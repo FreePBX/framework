@@ -285,13 +285,17 @@ if(is_array($active_modules)){
 	}
 }
 
-//if display is modules then show the login page dont show does not exist as its confusing
-if ($cur_menuitem === null && !in_array($display, array('noauth', 'badrefer','noaccess',''))) {
-	if($display == 'modules') {
-		$display = 'noauth';
-		$_SESSION['modulesRedirect'] = 1;
-	} else {
-		$display = 'noaccess';
+if(empty($_SESSION['AMP_user'])) {
+	$display = 'noauth';
+} else {
+	//if display is modules then show the login page dont show does not exist as its confusing
+	if ($cur_menuitem === null && !in_array($display, array('noauth', 'badrefer','noaccess',''))) {
+		if($display == 'modules') {
+			$display = 'noauth';
+			$_SESSION['modulesRedirect'] = 1;
+		} else {
+			$display = 'noaccess';
+		}
 	}
 }
 
