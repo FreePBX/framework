@@ -99,6 +99,14 @@ class Sendemails extends Command {
 		set_time_limit(0); // Never time out.
 		$ampsbin = $this->FreePBX->Config()->get('AMPSBIN');
 
+		// Remove any old notifications.
+		$this->nt->delete("freepbx", "VULNERABILITIES");
+
+		$notification_title = "";
+		$notification_body = "";
+		$success_notification_title = "";
+		$success_notification_body = "";
+
 		$errorvuls = []; // This will contain anything that's not fixed
 
 		foreach($mods as $rawname => $info) {
@@ -139,12 +147,6 @@ class Sendemails extends Command {
 				$errorvuls[$rawname] = $info;
 			}
 
-			// Remove any old notifications.
-			$this->nt->delete("freepbx", "VULNERABILITIES");
-
-			$notification_title = "";
-			$notification_body = "";
-
 			if(!empty($errorvuls)) {
 				// There were issues upgrading some modules.
 				$cnt = count($errorvuls);
@@ -164,18 +166,24 @@ class Sendemails extends Command {
 					$email_body .= "    $line";
 				}
 			} else {
-				$text = $emailbody = _("Modules vulnerable to security threats have been automatically updated");
+				$success_notification_title = _("Modules vulnerable to security threats have been automatically updated");
+				$emailbody .= "\n\n".$success_notification_title;
 				foreach($mods as $m => $vinfo) {
 					$line = sprintf(
 						_("%s has been automatically upgraded to fix security issues: %s")."\n",
 						$m, implode($vinfo['vul'],', ')
 					);
-					$notification_body .= $line;
+					$success_notification_body .= $line;
 					$email_body .= "    $line";
 				}
 			}
 		}
-		$this->nt->add_security('freepbx', 'VULNERABILITIES', $notification_title, $notification_body, 'config.php?display=modules');
+		if(!empty($success_notification_title)) {
+			$this->nt->add_security('freepbx', 'VULNERABILITIES_FIXED', $success_notification_title, $success_notification_body, 'config.php?display=modules');
+		}
+		if(!empty($notification_title)) {
+			$this->nt->add_security('freepbx', 'VULNERABILITIES', $notification_title, $notification_body, 'config.php?display=modules');
+		}
 		$this->updatemanager->sendEmail("vulnerabilities", $this->email_to, $this->email_from, $email_subject, $email_body, 4, $this->force);
 	}
 
@@ -219,7 +227,7 @@ class Sendemails extends Command {
 
 		// Send an email if we need to.
 		$sent = $this->updatemanager->sendEmail("unsigned", $this->email_to, $this->email_from, $email_subject, $email_body, 4, $this->force);
-		
+
 		if (!$sent) {
 			$this->nt->add_error('freepbx', 'SIGEMAIL', _('Failed to send unsigned modules notification email'), sprintf(_('An attempt to send an email to "%s" with an alert about unsigned modules notifications failed'),$this->email_to));
 		}
@@ -244,7 +252,7 @@ class Sendemails extends Command {
 
 		// Send an email if we need to.
 		$sent = $this->updatemanager->sendEmail("security", $this->email_to, $this->email_from, $email_subject, $email_body, 4, $this->force);
-		
+
 		if (!$sent) {
 			$this->nt->add_error('freepbx', 'SECEMAIL', _('Failed to send security notification email'), sprintf(_('An attempt to send an email to "%s" with security notifications failed'),$this->email_to));
 		}
@@ -270,7 +278,7 @@ class Sendemails extends Command {
 
 		// Send an email if we need to.
 		$sent = $this->updatemanager->sendEmail("updates", $this->email_to, $this->email_from, $email_subject, $email_body, 4, $this->force);
-		
+
 		if ($sent) {
 			$this->nt->delete('freepbx', 'UPDATEEMAIL');
 		} else {
