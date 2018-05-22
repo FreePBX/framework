@@ -327,6 +327,16 @@ class Moduleadmin extends Command {
 	private function doDownload($modulename, $force) {
 		global $modulexml_path;
 		global $modulerepository_path;
+
+		$module = $this->mf->getinfo($modulename);
+		$module = $module[$modulename];
+		if (!empty($module['updateurl']) && parse_url($module['updateurl'], PHP_URL_SCHEME) === 'https') {
+			$module_update_json = $this->mf->url_get_contents($module['updateurl'], "");
+			if ($module_update_json && $module_update_data = json_decode($module_update_json, true)) {
+				return $this->doRemoteDownload($module_update_data["location"]);
+			}
+		}
+
 		//If we have a tag, use it
 		if (isset($this->tag)) {
 			$xml = $this->mf->getModuleDownloadByModuleNameAndVersion($modulename, $this->tag);
@@ -502,6 +512,24 @@ class Moduleadmin extends Command {
 						);
 					} else {
 						$modules_upgradable[] = $name;
+					}
+				}
+			} elseif (!empty($modules_local[$name]['updateurl'])) {
+				$module = $modules_local[$name];
+				if (!empty($module['updateurl']) && parse_url($module['updateurl'], PHP_URL_SCHEME) === 'https') {
+					$module_update_json = $this->mf->url_get_contents($module['updateurl'], "");
+					if ($module_update_json && $module_update_data = json_decode($module_update_json, true)) {
+						if (version_compare_freepbx($module['version'], $module_update_data['version'])) {
+							if ($extarray) {
+								$modules_upgradable[] = array(
+									'name' => $name,
+									'local_version' => $module['version'],
+									'online_version' => $module_update_data['version'],
+								);
+							} else {
+								$modules_upgradable[] = $name;
+							}
+						}
 					}
 				}
 			}
