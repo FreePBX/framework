@@ -2523,8 +2523,11 @@ class module_functions {
 		global $db;
 		global $amp_conf;
 
-
 		$announcement = $this->get_remote_contents("/version-".getversion().".html");
+
+		if (\FreePBX::Modules()->moduleHasMethod('sysadmin', 'getAnnouncements')) {
+			$announcement = \FreePBX::Sysadmin()->getAnnouncements($announcement);
+		}
 
 		return $announcement;
 	}
