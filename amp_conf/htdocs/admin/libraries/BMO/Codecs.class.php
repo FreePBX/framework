@@ -13,6 +13,8 @@
 namespace FreePBX;
 class Codecs {
 
+	private $cache = array();
+
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {
 			throw new Exception("Not given a FreePBX Object");
@@ -39,22 +41,28 @@ class Codecs {
 	 * @param {bool} $defaults = false Whether to define the initial default ordering
 	 */
 	public function getVideo($defaults = false) {
-		$codecs = (is_object($this->astman) && $this->astman->connected()) ? $this->astman->Codecs('video') : array();
-		if(!empty($codecs)) {
-			$ret = array();
-			foreach($codecs as $codec) {
-				$ret[$codec] = false;
+		if(empty($this->cache['video'])) {
+			$codecs = (is_object($this->astman) && $this->astman->connected()) ? $this->astman->Codecs('video') : array();
+			if(!empty($codecs)) {
+				$ret = array();
+				foreach($codecs as $codec) {
+					$ret[$codec] = false;
+				}
+			} else {
+				$ret = array(
+					"h261" => false,
+					"h263" => false,
+					"h263p" => false,
+					"h264" => false,
+					"mpeg4" => false,
+					"vp8" => false
+				);
 			}
-		} else {
-			$ret = array(
-				"h261" => false,
-				"h263" => false,
-				"h263p" => false,
-				"h264" => false,
-				"mpeg4" => false,
-				"vp8" => false
-			);
+			$this->cache['video'] = $ret;
 		}
+
+		$ret = $this->cache['video'];
+
 		if ($defaults) {
 			$ret['h264'] = "1";
 			$ret['mpeg4'] = "2";
@@ -68,44 +76,49 @@ class Codecs {
 	* @param {bool} $defaults = false Whether to define the initial default ordering
 	*/
 	public function getAudio($defaults = false) {
-		$codecs = ($this->astman->connected()) ? $this->astman->Codecs('audio') : array();
-		if(!empty($codecs)) {
-			$ret = array();
-			foreach($codecs as $codec) {
-				$ret[$codec] = false;
+		if(empty($this->cache['audio'])) {
+			$codecs = ($this->astman->connected()) ? $this->astman->Codecs('audio') : array();
+			if(!empty($codecs)) {
+				$ret = array();
+				foreach($codecs as $codec) {
+					$ret[$codec] = false;
+				}
+			} else {
+				$ret = array(
+					"g722" => false,
+					"ulaw" => false,
+					"alaw" => false,
+					"gsm" => false,
+					"g729" => false,
+					"g723" => false,
+					"g726" => false,
+					"adpcm" => false,
+					"slin" => false,
+					"lpc10" => false,
+					"speex" => false,
+					"speex16" => false,
+					"ilbc" => false,
+					"g726aal2" => false,
+					"slin16" => false,
+					"siren7" => false,
+					"siren14" => false,
+					"testlaw" => false,
+					"g719" => false,
+					"speex32" => false,
+					"slin12" => false,
+					"slin24" => false,
+					"slin32" => false,
+					"slin44" => false,
+					"slin48" => false,
+					"slin96" => false,
+					"slin192" => false,
+					"opus" => false
+				);
 			}
-		} else {
-			$ret = array(
-				"g722" => false,
-				"ulaw" => false,
-				"alaw" => false,
-				"gsm" => false,
-				"g729" => false,
-				"g723" => false,
-				"g726" => false,
-				"adpcm" => false,
-				"slin" => false,
-				"lpc10" => false,
-				"speex" => false,
-				"speex16" => false,
-				"ilbc" => false,
-				"g726aal2" => false,
-				"slin16" => false,
-				"siren7" => false,
-				"siren14" => false,
-				"testlaw" => false,
-				"g719" => false,
-				"speex32" => false,
-				"slin12" => false,
-				"slin24" => false,
-				"slin32" => false,
-				"slin44" => false,
-				"slin48" => false,
-				"slin96" => false,
-				"slin192" => false,
-				"opus" => false
-			);
+			$this->cache['audio'] = $ret;
 		}
+
+		$ret = $this->cache['audio'];
 
 		if ($defaults) {
 			$ret['ulaw'] = "1";
@@ -121,18 +134,28 @@ class Codecs {
 	* @param {bool} $defaults = false Whether to define the initial default ordering
 	*/
 	public function getText($defaults = false) {
-		$codecs = ($this->astman->connected()) ? $this->astman->Codecs('text') : array();
-		if(!empty($codecs)) {
-			$ret = array();
-			foreach($codecs as $codec) {
-				$ret[$codec] = false;
+		if(empty($this->cache['text'])) {
+			$codecs = ($this->astman->connected()) ? $this->astman->Codecs('text') : array();
+			if(!empty($codecs)) {
+				$ret = array();
+				foreach($codecs as $codec) {
+					$ret[$codec] = false;
+				}
+			} else {
+				$ret = array(
+					"red" => false,
+					"t140" => false
+				);
 			}
-		} else {
-			$ret = array(
-				"red" => false,
-				"t140" => false
-			);
+			$this->cache['text'] = $ret;
 		}
+
+		$ret = $this->cache['text'];
+
+		if ($defaults) {
+
+		}
+
 		return $ret;
 	}
 
@@ -141,18 +164,28 @@ class Codecs {
 	* @param {bool} $defaults = false Whether to define the initial default ordering
 	*/
 	public function getImage($defaults = false) {
-		$codecs = ($this->astman->connected()) ? $this->astman->Codecs('image') : array();
-		if(!empty($codecs)) {
-			$ret = array();
-			foreach($codecs as $codec) {
-				$ret[$codec] = false;
+		if(empty($this->cache['image'])) {
+			$codecs = ($this->astman->connected()) ? $this->astman->Codecs('image') : array();
+			if(!empty($codecs)) {
+				$ret = array();
+				foreach($codecs as $codec) {
+					$ret[$codec] = false;
+				}
+			} else {
+				$ret = array(
+					"jpeg" => false,
+					"png" => false
+				);
 			}
-		} else {
-			$ret = array(
-				"jpeg" => false,
-				"png" => false
-			);
+			$this->cache['image'] = $ret;
 		}
+
+		$ret = $this->cache['image'];
+
+		if ($defaults) {
+
+		}
+
 		return $ret;
 	}
 }
