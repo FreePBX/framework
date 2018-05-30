@@ -656,11 +656,19 @@ class AGI_AsteriskManager {
 				$ret = $this->Command('core show codecs audio');
 			break;
 		}
-		if(preg_match_all('/\d{1,6}\s*'.$type.'\s*[a-z0-9]*\s*([a-z0-9]*)\s/i',$ret['data'],$matches)) {
-			return $matches[1];
+		global $amp_conf;
+		if(version_compare($amp_conf['ASTVERSION'], "13.10", "ge")) {
+			if(preg_match_all('/\d{1,6}\s*'.$type.'\s*[a-z0-9]*\s*([a-z0-9]*)\s/i',$ret['data'],$matches)) {
+				return $matches[1];
+			}
 		} else {
-			return array();
+			if(preg_match_all('/\d{1,6}\s*'.$type.'\s*([a-z0-9]*)\s/i',$ret['data'],$matches)) {
+				return $matches[1];
+			}
 		}
+
+		return array();
+
 	}
 
 	/**
