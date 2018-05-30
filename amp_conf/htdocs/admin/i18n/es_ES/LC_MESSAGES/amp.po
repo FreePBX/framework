@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-24 13:03-0400\n"
+"POT-Creation-Date: 2018-05-30 13:43-0400\n"
 "PO-Revision-Date: 2017-01-01 23:29+0200\n"
 "Last-Translator: Ernesto <ecasas@sangoma.com>\n"
 "Language-Team: Spanish <http://weblate.freepbx.org/projects/freepbx/"
@@ -370,7 +370,7 @@ msgstr "%s no encontrado"
 msgid "%s prepared"
 msgstr "%s preparado"
 
-#: ../core/Core.class.php:2850
+#: ../core/Core.class.php:2857
 #, php-format
 msgid "%s records failed validation"
 msgstr "%s registros fallaron validacion"
@@ -593,7 +593,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "Una ruta para este DID/CID ya existe!"
 
-#: ../core/Core.class.php:2377 ../core/functions.inc.php:4596
+#: ../core/Core.class.php:2384 ../core/functions.inc.php:4596
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "Una ruta con este DID/CID: %s/%s ya existe"
@@ -1747,11 +1747,11 @@ msgstr ""
 "política global (persona que llama o destinatario de la llamada) determina "
 "la política."
 
-#: ../core/Core.class.php:2816
+#: ../core/Core.class.php:2823
 msgid "Caller ID"
 msgstr "Caller ID"
 
-#: ../core/Core.class.php:2817
+#: ../core/Core.class.php:2824
 msgid "Caller ID Number"
 msgstr "Numero Caller ID"
 
@@ -2606,7 +2606,7 @@ msgstr "Descripción DID"
 msgid "DID Number"
 msgstr "Número DID"
 
-#: ../core/Core.class.php:2953
+#: ../core/Core.class.php:2960
 msgid "DID already exists"
 msgstr "DID ya existe"
 
@@ -2614,11 +2614,11 @@ msgstr "DID ya existe"
 msgid "DID/CID"
 msgstr "DID/CID"
 
-#: ../core/Core.class.php:2758
+#: ../core/Core.class.php:2765
 msgid "DIDs"
 msgstr "DIDs"
 
-#: ../core/Core.class.php:2759
+#: ../core/Core.class.php:2766
 msgid "DIDs / Inbound Routes"
 msgstr "DIDs / Rutas Entrantes"
 
@@ -3046,8 +3046,8 @@ msgstr "La dependencia %s tiene un estado desconocido de: %s %s"
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/main.php:185
-#: ../core/Core.class.php:2783 ../core/Core.class.php:2784
-#: ../core/Core.class.php:2808 ../core/Core.class.php:2809
+#: ../core/Core.class.php:2790 ../core/Core.class.php:2791
+#: ../core/Core.class.php:2815 ../core/Core.class.php:2816
 #: ../core/functions.inc.php:6050 ../core/page.devices.php:64
 #: ../core/page.devices.php:85 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:37
@@ -3060,7 +3060,7 @@ msgstr "Descripción"
 msgid "Descriptive Name for this Trunk"
 msgstr "Nombre descriptivo para esta Línea"
 
-#: ../core/Core.class.php:2820 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:2827 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "Destino"
 
@@ -3178,7 +3178,7 @@ msgstr "Modo Desarrollador"
 msgid "Developer and Customization"
 msgstr "Desarrollador y Personalización"
 
-#: ../core/Core.class.php:3155 ../core/functions.inc.php:5993
+#: ../core/Core.class.php:3162 ../core/functions.inc.php:5993
 #: ../core/page.devices.php:63 ../core/page.devices.php:84
 #: ../core/views/rnav.php:77
 msgid "Device"
@@ -3191,7 +3191,7 @@ msgstr ""
 "El dispositivo %s (%s) tuvo un identificador de llamada de emergencia no "
 "válido y lo dejamos en blanco"
 
-#: ../core/Core.class.php:2885
+#: ../core/Core.class.php:2892
 msgid "Device 'name' can not be blank."
 msgstr "El nombre del dispositivo no puede estar en blanco."
 
@@ -3218,7 +3218,7 @@ msgstr "Configuración Dispositivo"
 msgid "Device State Busy at"
 msgstr "Estado de Dispositivo Ocupado en"
 
-#: ../core/Core.class.php:2788 ../core/Core.class.php:2789
+#: ../core/Core.class.php:2795 ../core/Core.class.php:2796
 msgid "Device Technology"
 msgstr "Tecnología del Dispositivo"
 
@@ -3227,7 +3227,7 @@ msgstr "Tecnología del Dispositivo"
 msgid "Device Type"
 msgstr "Tipo Dispositivo"
 
-#: ../core/Core.class.php:2907
+#: ../core/Core.class.php:2914
 msgid "Device could not be added."
 msgstr "Dispositivo no pudo ser añadido."
 
@@ -4263,8 +4263,8 @@ msgstr ""
 msgid "Extended"
 msgstr "Extendido"
 
-#: ../core/Core.class.php:2775 ../core/Core.class.php:2776
-#: ../core/Core.class.php:3143 ../core/functions.inc.php:5638
+#: ../core/Core.class.php:2782 ../core/Core.class.php:2783
+#: ../core/Core.class.php:3150 ../core/functions.inc.php:5638
 #: ../core/page.did.php:91 ../core/page.extensions.php:32
 #: ../core/page.extensions.php:123 ../core/page.extensions.php:151
 #: ../core/views/rnav.php:21
@@ -4295,7 +4295,7 @@ msgstr "Extensión ya en uso!"
 msgid "Extension can not be blank!"
 msgstr "Extensión no puede ser blanco!"
 
-#: ../core/Core.class.php:2875
+#: ../core/Core.class.php:2882
 msgid "Extension is not numeric."
 msgstr "La extensión no es numérica."
 
@@ -4307,7 +4307,7 @@ msgstr "Conflicto número extensión, por favor elija otro."
 msgid "Extension was not numeric!"
 msgstr "¡La extensión no era numérica!"
 
-#: amp.i18n.php:850 ../core/Core.class.php:2754 ../core/Core.class.php:2755
+#: amp.i18n.php:850 ../core/Core.class.php:2761 ../core/Core.class.php:2762
 #: ../core/page.extensions.php:19
 msgid "Extensions"
 msgstr "Extensiones"
@@ -5583,7 +5583,7 @@ msgstr "Llamadas Externas Entrantes"
 msgid "Inbound Internal Calls"
 msgstr "Llamadas Internas Entrantes"
 
-#: ../core/Core.class.php:3197 ../core/Core.class.php:3206
+#: ../core/Core.class.php:3204 ../core/Core.class.php:3213
 msgid "Inbound Route:"
 msgstr "Ruta Entrante:"
 
@@ -5608,7 +5608,7 @@ msgstr "Incluir Nombre Server en el Navegador"
 msgid "Incoming"
 msgstr "Entrante"
 
-#: ../core/Core.class.php:2812 ../core/Core.class.php:2813
+#: ../core/Core.class.php:2819 ../core/Core.class.php:2820
 msgid "Incoming DID"
 msgstr "DID Entrante"
 
@@ -6600,7 +6600,7 @@ msgstr ""
 "usuario para verlos!"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:73
-#: ../core/Core.class.php:2779 ../core/Core.class.php:2780
+#: ../core/Core.class.php:2786 ../core/Core.class.php:2787
 #: ../core/page.extensions.php:33 ../core/page.extensions.php:124
 #: ../core/page.extensions.php:152 ../core/page.users.php:55
 #: ../core/views/rnav.php:22 ../core/views/rnav.php:48
@@ -7258,7 +7258,7 @@ msgstr "Llamadas Internas Salientes"
 msgid "Outbound Proxy"
 msgstr "Proxy Saliente"
 
-#: ../core/Core.class.php:3180
+#: ../core/Core.class.php:3187
 msgid "Outbound Route:"
 msgstr "Ruta Saliente:"
 
@@ -8312,7 +8312,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "AVISO DE SEGURIDAD:"
 
-#: ../core/Core.class.php:3120 ../core/Core.class.php:3121
+#: ../core/Core.class.php:3127 ../core/Core.class.php:3128
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP  (%s)"
@@ -9368,7 +9368,7 @@ msgstr "El autocargador está dañado. Por favor, ejecute: "
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr "El binario unzip no esta instalado. No puedo trabajar con archivo zip"
 
-#: ../core/Core.class.php:2821
+#: ../core/Core.class.php:2828
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -10177,7 +10177,7 @@ msgstr ""
 "Este tronco no podrá utilizarse para llamadas salientes hasta que se "
 "configure una ruta que lo utilice."
 
-#: ../core/Core.class.php:2361
+#: ../core/Core.class.php:2368
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "Este usuario/extensiones %s ya está en uso"
@@ -10299,7 +10299,7 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr "Secuencia de Línea para Rutas Coincidentes"
 
-#: ../core/Core.class.php:3188
+#: ../core/Core.class.php:3195
 msgid "Trunk:"
 msgstr "Troncal:"
 
@@ -10832,7 +10832,7 @@ msgstr ""
 "Usado cuando la consola PHP es habilitada para depuración de errores https://"
 "github.com/barbushin/php-console"
 
-#: ../core/Core.class.php:3167 ../core/functions.inc.php:5652
+#: ../core/Core.class.php:3174 ../core/functions.inc.php:5652
 #: ../core/page.devices.php:66 ../core/page.devices.php:87
 #: ../core/page.did.php:88 ../core/page.users.php:54 ../core/views/rnav.php:47
 msgid "User"
@@ -10884,7 +10884,7 @@ msgstr "Panel de usuario"
 msgid "User Password"
 msgstr "Contraseña de Usuario"
 
-#: ../core/Core.class.php:2934
+#: ../core/Core.class.php:2941
 msgid "User could not be added."
 msgstr "No se pudo agregar usuario."
 
@@ -11817,7 +11817,7 @@ msgstr "Debe definir un URI Cliente"
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "Usted debe tener un archivo freepbx.conf adecuado para proceder"
 
-#: ../core/Core.class.php:2354
+#: ../core/Core.class.php:2361
 msgid "You must put in an extension (or user) number"
 msgstr "Usted debe poner un número de extensión (o usuario)"
 
