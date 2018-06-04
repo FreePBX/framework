@@ -1233,6 +1233,12 @@ class module_functions {
 		$this->_setenabled($modulename, true);
 		needreload();
 		modulelist::create($db)->invalidate();
+
+		// run the scripts
+		if (!$this->_runscripts($modulename, 'enable', $modules)) {
+			return array(_("Failed to run enable method"));
+		}
+
 		return true;
 	}
 
@@ -2090,6 +2096,9 @@ class module_functions {
 			}
 		}
 
+		// run the scripts
+		$this->_runscripts($modulename, 'disable', $modules);
+
 		$this->_setenabled($modulename, false);
 		needreload();
 		//invalidate the modulelist class since it is now stale
@@ -2500,6 +2509,42 @@ class module_functions {
 					return $rc;
 				}
 
+			break;
+			case 'enable':
+				// If it's a BMO module, manually include the file.
+				$mn = \FreePBX::Modules()->cleanModuleName($modulename);
+				$bmofile = "$moduledir/$mn.class.php";
+				if (file_exists($bmofile)) {
+					if(\FreePBX::Modules()->moduleHasMethod($modulename, 'enable')) {
+						try {
+							$o = FreePBX::create()->$mn->enable();
+							if($o === false) {
+								return false;
+							}
+						} catch(Exception $e) {
+							dbug("Error Returned was: ".$e->getMessage());
+							return false;
+						}
+					}
+				}
+			break;
+			case 'disable':
+				// If it's a BMO module, run uninstall.
+				$mn = \FreePBX::Modules()->cleanModuleName($modulename);
+				$bmofile = "$moduledir/$mn.class.php";
+				if (file_exists($bmofile)) {
+					if(\FreePBX::Modules()->moduleHasMethod($modulename, 'disable')) {
+						try {
+							$o = FreePBX::create()->$mn->disable();
+							if($o === false) {
+								return false;
+							}
+						} catch(Exception $e) {
+							dbug("Error Returned was: ".$e->getMessage());
+							return false;
+						}
+					}
+				}
 			break;
 			default:
 				return false;
