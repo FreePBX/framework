@@ -10,38 +10,38 @@ class Destinations extends Base {
 
 	protected static $priority = 100;
 
-	public function initTypes() {
-		$user = $this->typeContainer->create('destination','union');
-		$user->setDescription("Destination for a call to hit");
-		$user->addResolve(function($value, $context, $info) {
-			if(!empty($value['gqltype'])) {
-				return $this->typeContainer->get($value['gqltype'])->getObject();
+	public function initializeTypes() {
+		$destination = $this->typeContainer->create('destination','union');
+		$destination->setDescription("Destination for a call to hit");
+		$destination->addResolveType(function($value, $context, $info) use ($destination) {
+			foreach($destination->getResolveTypeCallbacks() as $cb) {
+				$out = $cb($value, $context, $info);
+				if(!is_null($out)) {
+					return $out;
+				}
 			}
-			return null;
+			return $this->typeContainer->get('unknowndestination')->getObject();
 		});
 
-		$user = $this->typeContainer->create('invaliddestination');
-		$user->setDescription('Invalid Destination Holder');
-		$user->addFieldCallback(function() {
+		$destination->addTypeCallback(function() {
 			return [
-				'id' => [
-					'type' => Type::id(),
-					'description' => 'The invalid destination id'
-				],
-				'description' => [
-					'type' => Type::string(),
-					'description' => 'The invalid destination description',
-					'resolve' => function($row) {
-						return 'Invalid Destination';
-					},
-				],
+				$this->typeContainer->get('unknowndestination')->getObject()
 			];
 		});
-	}
 
-	public function postInitTypes() {
-		$destinations = $this->typeContainer->get('destination');
-		$destinations->addType($this->typeContainer->get('invaliddestination')->getReference());
+		$unknowndestination = $this->typeContainer->create('unknowndestination');
+		$unknowndestination->setDescription('A destination that does not have a GraphQL reference');
+		$unknowndestination->addFieldCallback(function() {
+			return [
+				'id' => [
+					'type' => Type::nonNull(Type::id()),
+					'description' => 'The unknown destination id',
+					'resolve' => function($value, $args, $context, $info) {
+						return $value;
+					}
+				]
+			];
+		});
 	}
 
 	private function getDestinations() {

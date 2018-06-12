@@ -8,50 +8,54 @@ use FreePBX\modules\Api\Gql\Base;
 use GraphQL\Type\Definition\EnumType;
 
 class Modules extends Base {
-	public function constructQuery() {
+	protected $description = 'Modules provide functionality to your PBX';
+	public function queryCallback() {
 		if($this->checkAllReadScope()) {
-			return [
-				'allModules' => [
-					'type' => $this->typeContainer->get('module')->getConnectionReference(),
-					'description' => 'Used to manage a system wide list of blocked callers',
-					'args' => array_merge(
-						Relay::connectionArgs(),
-						[
-							'status' => [
-								'type' => $this->getEnumStatuses(),
-								'description' => 'The final known disposition of the CDR record',
-								'defaultValue' => false
+			return function() {
+				return [
+					'allModules' => [
+						'type' => $this->typeContainer->get('module')->getConnectionType(),
+						'description' => $this->description,
+						'args' => array_merge(
+							Relay::connectionArgs(),
+							[
+								'status' => [
+									'type' => $this->getEnumStatuses(),
+									'description' => 'The final known disposition of the CDR record',
+									'defaultValue' => false
+								]
 							]
-						]
-					),
-					'resolve' => function($root, $args) {
-						$modules = $this->freepbx->Modules->getModulesByStatus($args['status']);
-						array_walk($modules, function(&$value, $key) {
-							if(!isset($value['rawname'])) {
-								$value['rawname'] = $key;
-							}
-						});
-						return Relay::connectionFromArray(array_values($modules), $args);
-					},
-				],
-				'module' => [
-					'type' => $this->typeContainer->get('module')->getReference(),
-					'args' => [
-						'id' => [
-							'type' => Type::id(),
-							'description' => 'The ID',
-						]
+						),
+						'resolve' => function($root, $args) {
+							$modules = $this->freepbx->Modules->getModulesByStatus($args['status']);
+							array_walk($modules, function(&$value, $key) {
+								if(!isset($value['rawname'])) {
+									$value['rawname'] = $key;
+								}
+							});
+							return Relay::connectionFromArray(array_values($modules), $args);
+						},
 					],
-					'resolve' => function($root, $args) {
-						$module = $this->freepbx->Modules->getInfo(Relay::fromGlobalId($args['id'])['id']);
-						return !empty($module) ? $module : null;
-					}
-				]
-			];
+					'module' => [
+						'type' => $this->typeContainer->get('module')->getObject(),
+						'description' => $this->description,
+						'args' => [
+							'id' => [
+								'type' => Type::id(),
+								'description' => 'The ID',
+							]
+						],
+						'resolve' => function($root, $args) {
+							$module = $this->freepbx->Modules->getInfo(Relay::fromGlobalId($args['id'])['id']);
+							return !empty($module) ? $module : null;
+						}
+					]
+				];
+			};
 		}
 	}
 
-	public function initTypes() {
+	public function initializeTypes() {
 		$user = $this->typeContainer->create('module');
 		$user->setDescription('Used to manage a system wide list of blocked callers');
 
@@ -134,6 +138,7 @@ class Modules extends Base {
 				],
 				'modules' => [
 					'type' => Type::listOf($this->typeContainer->get('module')->getObject()),
+					'description' => $this->description,
 					'resolve' => function($root, $args) {
 						$data = array_map(function($row){
 							return $row['node'];
