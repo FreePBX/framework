@@ -1159,7 +1159,7 @@ class ext_meetme {
 									'e', 'E', 'F', 'i',
 									'I', 'l', 'o', 'P',
 									'r', 's', 't', 'T',
-									'x', 'X');
+									'x', 'X', 'q');
 
 				//find asterisk variables in $this->options, if any
 				//TODO: if possible, the search AND he replace should be done in one regex

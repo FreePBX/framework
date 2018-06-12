@@ -794,7 +794,7 @@ class Installer {
 	'options' => array('both', 'chan_sip', 'chan_pjsip'),
 	'level' => 2,
 	'name' => 'SIP Channel Driver',
-	'description' => 'The Asterisk channel driver to use for SIP. The default is both for Asterisk 12 and higher. For Asterisk 11 and lower the default will be chan_sip. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The chan_pjsip channel driver is considered "experimental" with known issues and does not work on Asterisk 11 or lower.',
+	'description' => 'The Asterisk channel driver to use for SIP. The default is both for Asterisk 12 and higher. For Asterisk 11 and lower the default will be chan_sip. If only one is compiled into asterisk, the PBX will attempt to auto detect and change the value to what is compiled. The chan_pjsip channel driver does not work on Asterisk 11 or lower.',
 	'type' => CONF_TYPE_SELECT,
 	);
 
