@@ -852,6 +852,16 @@ class ext_waitexten extends extension {
 		return "WaitExten(".$this->seconds.",".$this->options.")";
 	}
 }
+class ext_amd extends extension {
+	function output() {
+		return "AMD()";
+	}
+}
+class ext_waitforsilence extends extension {
+	 function output() {
+		return 'WaitForSilence(1000)';
+	}
+}
 
 class ext_answer extends extension {
 	function output() {
