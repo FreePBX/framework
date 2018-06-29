@@ -1874,7 +1874,7 @@ class Installer {
 	);
 
 	$settings[$category]['DEVICE_SIP_NAT'] = array(
-	'value' => 'no',
+	'value' => 'yes',
 	'options' => array('no', 'yes', 'never', 'route'),
 	'name' => 'SIP nat',
 	'description' => "Default setting for SIP nat. A 'yes' will attempt to handle nat, also works for local (uses the network ports and address instead of the reported ports), 'no' follows the protocol, 'never' tries to block it, no RFC3581, 'route' ignores the rport information. See Asterisk documentation for details.",
