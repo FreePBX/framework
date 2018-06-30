@@ -755,7 +755,7 @@ class Installer {
 	'value' => 'app_confbridge',
 	'options' => array('app_meetme', 'app_confbridge'),
 	'name' => 'Conference Room App',
-	'description' => 'The asterisk application to use for conferencing. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The app_meetme application is considered "depreciated" and should no longer be used',
+	'description' => 'The asterisk application to use for conferencing. The app_meetme application is considered "depreciated" and should no longer be used',
 	'type' => CONF_TYPE_SELECT,
 	);
 
