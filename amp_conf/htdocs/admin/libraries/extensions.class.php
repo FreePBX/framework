@@ -861,7 +861,7 @@ class ext_amd extends extension {
 
 class ext_waitforsilence extends extension {
 	 function output() {
-		return 'WaitForSilence(1000)';
+		return "WaitForSilence(".$this->data.")";
 	}
 }
 
