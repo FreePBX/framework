@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-03-16 16:29-0400\n"
-"PO-Revision-Date: 2018-07-06 17:16+0000\n"
+"PO-Revision-Date: 2018-07-18 19:15+0000\n"
 "Last-Translator: Elvita Crespo <ecrespo@sangoma.com>\n"
 "Language-Team: Spanish <http://*/projects/freepbx/framework/es/>\n"
 "Language: es_ES\n"
@@ -22,21 +22,21 @@ msgid ""
 "authors."
 msgstr ""
 " Los módulos en el Repositorio Extendido son menos comunes y pueden recibir "
-"los niveles más bajos de apoyo. El repositorio no compatible con los módulos "
-"que no están soportadas por el equipo  %s pero pueden recibir cierto nivel "
-"de apoyo de los autores."
+"niveles inferiores de soporte. El repositorio no compatible tiene módulos "
+"que no están soportados por el equipo %s pero podrían recibir cierto nivel "
+"de soporte de sus autores."
 
 #: amp_conf/htdocs/admin/views/footer.php:104
 msgid ""
 " error(s) occurred, you should view the notification log on the dashboard or "
 "main screen to check for more details."
 msgstr ""
-" ocurrieron error(es), usted debe ver el registro de notificaciones en el "
+" ocurrieron error(es), debería revisar el registro de notificaciones en el "
 "tablero o en la pantalla principal para comprobar si hay más detalles."
 
 #: amp_conf/htdocs/admin/views/footer.php:114
 msgid " extension number already in use by: "
-msgstr " numero de extensión ya en uso por: "
+msgstr " número de extensión ya en uso por: "
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:569
 msgid " not found"
@@ -52,7 +52,7 @@ msgstr " deshabilitado exitosamente"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:218
 msgid " successfully disabled, but was not found in the remote list"
-msgstr " Deshabilitado correctamente, pero no se encontró en la lista remota"
+msgstr " deshabilitado exitosamente, pero no se encontró en la lista remota"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:208
 msgid " successfully enabled"
@@ -60,11 +60,11 @@ msgstr " habilitado exitosamente"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:206
 msgid " successfully enabled, but was not found in the remote list"
-msgstr " Habilitado correctamente, pero no se encontró en la lista remota"
+msgstr " habilitado exitosamente, pero no se pudo encontrar en la lista remota"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:425
 msgid " successfully uninstalled"
-msgstr " des-instalado exitosamente"
+msgstr " desinstalado exitosamente"
 
 #: ../core/views/trunks/trunk_header.php:2
 #, php-format
@@ -105,7 +105,7 @@ msgstr "%s %s será descargado e instalado y cambiado a la pista %s"
 #: amp_conf/htdocs/admin/page.modules.php:463
 #, php-format
 msgid "%s %s will be downloaded and rolled back to %s"
-msgstr "%s %s se descargará y retornado a %s"
+msgstr "%s %s se descargará y será revertido a %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:564
 #, php-format
@@ -160,7 +160,7 @@ msgstr ""
 #, php-format
 msgid "%s (Cur v. %s) should be upgraded to v. %s to fix security issues: %s"
 msgstr ""
-"%s (Cur v. %s) debe actualizarse a v. %s para solucionar problemas de "
+"%s (Actual v. %s) debe actualizarse a v. %s para solucionar problemas de "
 "seguridad: %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:425
@@ -191,7 +191,7 @@ msgstr "%s Extensiones"
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:380
 #, php-format
 msgid "%s Likely will not work as expected"
-msgstr "%s Probablemente no funcionara como se espera"
+msgstr "%s Probablemente no funcionará como se espera"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:376
 #, php-format
@@ -233,7 +233,7 @@ msgstr "%s ya existe"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:284
 #, php-format
 msgid "%s appears to be disabled. What would you like to do?"
-msgstr "%s aparece desactivado. Que te gustaría hacer?"
+msgstr "%s aparece desactivado. ¿Que le gustaría hacer?"
 
 #: amp_conf/htdocs/admin/page.modules.php:570
 #, php-format
@@ -286,7 +286,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:456
 #, php-format
 msgid "%s cannot be rolledback, version %s is missing"
-msgstr "%s no puede ser retrotraído, versión %s esta  faltante"
+msgstr "%s no puede ser revertido, falta la versión %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:580
 #, php-format
@@ -304,7 +304,7 @@ msgid ""
 "%s cannot be upgraded to %s: The release track of %s does not exist for this "
 "module"
 msgstr ""
-"%s no puede ser actualizado a %s: La camino de publicación de %s no existe "
+"%s no puede ser actualizado a %s: La ruta de actualización de %s no existe "
 "para este módulo"
 
 #: amp_conf/htdocs/admin/page.modules.php:460
@@ -327,7 +327,7 @@ msgstr "%s contiene .."
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:141
 #, php-format
 msgid "%s contains a /"
-msgstr "%s contiene a /"
+msgstr "%s contiene un /"
 
 #: amp_conf/htdocs/admin/page.modules.php:325
 #, php-format
@@ -372,7 +372,7 @@ msgstr "%s preparado"
 #: ../core/Core.class.php:2844
 #, php-format
 msgid "%s records failed validation"
-msgstr "%s registros fallaron validacion"
+msgstr "%s registros fallaron la validación"
 
 #: amp_conf/htdocs/admin/page.modules.php:348
 #, php-format
@@ -388,7 +388,7 @@ msgid ""
 msgstr ""
 "%s requiere un nuevo navegador para funcionar correctamente. Todavía puede "
 "usar %s con el navegador que tiene actualmente pero su experiencia puede "
-"estar disminuida y no se admite"
+"estar disminuida ya que no está soportado"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:413
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:448
@@ -411,12 +411,12 @@ msgstr "%s desinstalado correctamente"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1129
 #, php-format
 msgid "%s version %s or below is required, you have %s"
-msgstr "Se requiere %s versión %s o menos, usted tiene %s"
+msgstr "Se requiere %s versión %s o menor, usted tiene %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1142
 #, php-format
 msgid "%s version %s or higher is required, you have %s"
-msgstr "Se requiere %s versión %s o superior, usted tienes %s"
+msgstr "Se requiere %s versión %s o superior, usted tiene %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:593
 #, php-format
@@ -426,12 +426,12 @@ msgstr "%s se eliminará del disco duro"
 #: amp_conf/bin/freepbx-cron-scheduler.php:122
 #, php-format
 msgid "%s: New Online Updates Available (%s)"
-msgstr "%s: Actualizaciones Nuevas Disponible en línea (%s)"
+msgstr "%s: Actualizaciones Nuevas Disponibles en línea (%s)"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:99
 #, php-format
 msgid "%s: New Security Notifications (%s)"
-msgstr "%s: Notificaciones Nueva Seguridad (%s)"
+msgstr "%s: Nuevas Notificaciones de Seguridad (%s)"
 
 #: amp_conf/bin/freepbx-cron-scheduler.php:74
 #, php-format
@@ -441,11 +441,11 @@ msgstr "%s Nuevas Notificaciones de Módulos no firmados (%s)"
 #: install.php:13
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
-msgstr "'cp -rf' desde src: '%s' a dst: '%s'...detalles siguen"
+msgstr "'cp -rf' desde src: '%s' a dst: '%s'...detalles a continuación"
 
 #: amp_conf/htdocs/admin/libraries/featurecodes.functions.php:76
 msgid "** MISSING FEATURE CODE **"
-msgstr "** CODIGO DE FUNCION AUSENTE **"
+msgstr "** CÓDIGO DE FUNCIÓN FALTANTE **"
 
 #: ../core/views/routing/form.php:43
 msgid "---No Change---"
@@ -458,8 +458,8 @@ msgstr "---Ruta Permanente---"
 #: amp_conf/htdocs/admin/config.php:196
 msgid ".htaccess files are disable on this webserver. Please enable them"
 msgstr ""
-"archivos .htaccess estan deshabilitados en este servidor web. Por favor, "
-"habilitelos"
+"los archivos .htaccess están deshabilitados en este servidor web. Por favor "
+"habilítelos"
 
 #: amp_conf/htdocs/admin/config.php:209
 msgid ".htaccess files are not supported on this webserver."
@@ -492,8 +492,8 @@ msgid ""
 "<strong>CRITICAL ERROR!</strong> Required Service %s is disabled! This "
 "device is unusable!"
 msgstr ""
-"<strong>ERROR CRÍTICO!</strong> El Servicio %s no está habilitado! Este "
-"dispositivo no se puede utilizar!"
+"<strong>¡ERROR CRÍTICO!</strong> ¡El servicio %s requerido no está "
+"habilitado! ¡Este dispositivo no se puede utilizar!"
 
 #: ../core/views/trunks/pjsip.php:114
 msgid ""
@@ -529,10 +529,10 @@ msgid ""
 "(s)."
 msgstr ""
 "Un Patrón de marcado es un conjunto único de dígitos que seleccionarán esta "
-"ruta y enviara la llamada a las lineas designados. Si un patrón marcado "
-"coincide con esta ruta, no serán juzgadas las rutas posteriores. Si Grupos "
-"de Tiempo están activados, las rutas posteriores serán comprobadas para las "
-"coincidencias fuera del tiempo(s) designado."
+"ruta y enviará la llamada a las líneas designadas. Si un patrón marcado "
+"coincide con esta ruta, no se comprobarán las rutas posteriores. Si hay "
+"Grupos de Tiempo activados, las rutas posteriores serán comprobadas para "
+"coincidencias fuera del(los) tiempo(s) designado(s)."
 
 #: ../core/views/trunks/trunk_header.php:92
 msgid ""
@@ -545,11 +545,11 @@ msgid ""
 msgstr ""
 "Una regla de marcación controla cómo se marcarán las llamadas en esta línea. "
 "Se puede utilizar para añadir o eliminar prefijos. Los números que no "
-"coincidan con ninguno de los patrones definidos aquí se marcarán como está. "
+"coincidan con ninguno de los patrones definidos aquí se marcarán como están. "
 "Tenga en cuenta que un patrón sin un + o | (para añadir o eliminar un "
-"prefijo) no va a hacer ningún cambio, pero va a crear una regla. Sólo la "
-"primera regla que coincida será ejecutada y las reglas restantes no se "
-"actuará sobre ellas."
+"prefijo) no hará ningún cambio, pero sí va a crear una coincidencia con una "
+"regla. Sólo la primera regla que coincida será ejecutada, mientras que las "
+"reglas restantes no se realizará una acción."
 
 #: ../core/functions.inc.php:5786
 msgid "A description for this DID, such as \"Fax\""
@@ -564,9 +564,9 @@ msgid ""
 msgstr ""
 "Un DID directo que se asocia con esta extensión. El DID debe estar en el "
 "mismo formato que el proporcionado por el proveedor (por ejemplo, número "
-"completo, 4 dígitos para 10x4, etc) <br><br>Formato debe ser: <b>XXXXXXXXXX</"
-"b><br>. Un CID opcional también puede estar asociado a este DID "
-"estableciendo el siguiente cuadro"
+"completo, 4 dígitos para 10x4, etc) <br><br>El formato debe ser: "
+"<b>XXXXXXXXXX</b><br><br>. Un CID opcional también puede estar asociado a "
+"este DID, al establecer el siguiente cuadro"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:41
 msgid ""
@@ -575,7 +575,7 @@ msgid ""
 "functionality"
 msgstr ""
 "Un nuevo controlador de canal SIP para Asterisk, chan_pjsip está basado en "
-"la pila PJSIP SIP. Una colección de módulos de recursos proporciona la mayor "
+"la pila PJSIP SIP. Una colección de recursos de módulos proporciona la mayor "
 "parte de la funcionalidad SIP"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:216
@@ -590,7 +590,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:3982 ../core/functions.inc.php:4011
 msgid "A route for this DID/CID already exists!"
-msgstr "Una ruta para este DID/CID ya existe!"
+msgstr "¡Una ruta para este DID/CID ya existe!"
 
 #: ../core/Core.class.php:2372 ../core/functions.inc.php:4580
 #, php-format
@@ -620,7 +620,7 @@ msgstr "TODAS LAS SECCIONES"
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1257
 #, php-format
 msgid "AMI failure details:"
-msgstr "AMI detalles de fallo:"
+msgstr "Detalles de fallos AMI:"
 
 #: amp.i18n.php:138
 msgid "AMPLOCALBIN Dir for retrieve_conf"
