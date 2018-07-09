@@ -659,13 +659,13 @@ class ext_noop extends extension {
 	}
 }
 
-class ext_UnPauseMonitor extends extension {
+class ext_unpausemonitor extends extension {
 	function output() {
 		return "UnPauseMonitor()";
 	}	
 }
 
-class ext_PauseMonitor extends extension {
+class ext_pausemonitor extends extension {
 	function output() {
 		return "PauseMonitor()";
 	}	
