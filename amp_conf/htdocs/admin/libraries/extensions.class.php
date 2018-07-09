@@ -659,6 +659,18 @@ class ext_noop extends extension {
 	}
 }
 
+class ext_unpausemonitor extends extension {
+	function output() {
+		return "UnPauseMonitor()";
+	}	
+}
+
+class ext_pausemonitor extends extension {
+	function output() {
+		return "PauseMonitor()";
+	}	
+}
+
 class ext_noop_trace extends extension {
   var $string;
   var $level;
