@@ -38,6 +38,7 @@ class BMoreContext {
 	public $view;		// copy of view definition (merged/inherited)
 	public $table_fields;	// list of fields in table
 	public $is_modal;	// flag to enable modal controls
+	public $buttons;	// action buttons
 }
 
 // main BMore class
@@ -49,6 +50,10 @@ class BMore extends \FreePBX_Helpers {
 	const VIEW_ARG = '_v';
 	const ACTION_ARG = '_a';
 	const POSTVIEW_ARG = '_p';
+	const NOT_HANDLERS = array('rnav', 'default');
+
+	// contexts that have been created
+	public $contexts = array();
 
 	// context stack allows recursion detection to avoid crash
 	public $context_stack = array();
@@ -196,12 +201,17 @@ class BMore extends \FreePBX_Helpers {
 		return array_intersect_key($record, array_flip($not_control_fields));
 	}
 
-	// get a single record
-	public function getRecord($context, $record){
+	// map to get record method based on context
+	private function getRecordContext($context, $record) {
 		$func = 'getRecord_'.$context->table_name;
 		if (method_exists($this, $func)) {
 			return call_user_func(array($this, $func), $context, $record);
 		}
+		return $this->getRecord($context, $record);
+	}
+
+	// get a single record
+	public function getRecord($context, $record) {
 		$table = $context->table;
 		if (empty($table['table'])) throw new \Exception("Table '{$context->table_name}' or $func() does not exist");
 		$key_fields = array_filter($context->table_fields, function($field) { return !empty($field['key']); });
@@ -219,12 +229,17 @@ class BMore extends \FreePBX_Helpers {
 		return (array)$row;
 	}
 
-	// get ALL! the records
-	public function getAllRecords($context) {
+	// map to get records based on context
+	private function getAllRecordsContext($context) {
 		$func = 'getAllRecords_'.$context->table_name;
 		if (method_exists($this, $func)) {
 			return call_user_func(array($this, $func), $context);
 		}
+		return $this->getAllRecords($context);
+	}
+
+	// get ALL! the records
+	public function getAllRecords($context) {
 		if (empty($context->table['table'])) throw new \Exception("Table '{$context->table_name}' or $func() does not exist");
 		$ret = array();
 		$sql = "SELECT * from {$context->table['table']}";
@@ -234,12 +249,17 @@ class BMore extends \FreePBX_Helpers {
 		return $ret;
 	}
 
-	// add a new record
-	public function addRecord($context, $record){
+	// map to add record method based on context
+	private function addRecordContext($context, $record){
 		$func = 'addRecord_'.$context->table_name;
 		if (method_exists($this, $func)) {
 			return call_user_func(array($this, $func), $context, $record);
 		}
+		return $this->addRecord($context, $record);
+	}
+
+	// add a new record
+	public function addRecord($context, $record){
 		$table = $context->table;
 		if (empty($table['table'])) throw new \Exception("Table '{$context->table_name}' or $func() does not exist");
 		if (empty($context->table_fields)) throw new \Exception('Fields not defined');
@@ -258,12 +278,17 @@ class BMore extends \FreePBX_Helpers {
 		return $this->db->lastInsertId();
 	}
 
-	// update record (key must exist)
-	public function updateRecord($context, $record){
+	// map to update record method based on context
+	private function updateRecordContext($context, $record) {
 		$func = 'updateRecord_'.$context->table_name;
 		if (method_exists($this, $func)) {
 			return call_user_func(array($this, $func), $context, $record);
 		}
+		return $this->updateRecord($context, $record);
+	}
+
+	// update record (key must exist)
+	public function updateRecord($context, $record){
 		$table = $context->table;
 		if (empty($table['table'])) throw new \Exception("Table '{$context->table_name}' or $func() does not exist");
 		if (empty($context->table_fields)) throw new \Exception('Fields not defined');
@@ -283,12 +308,17 @@ class BMore extends \FreePBX_Helpers {
 		return $stmt->execute();
 	}
 
-	// delete record
-	public function deleteRecord($context, $record){
+	// mp to delete record method based on context
+	private function deleteRecordContext($context, $record){
 		$func = 'deleteRecord_'.$context->table_name;
 		if (method_exists($this, $func)) {
 			return call_user_func(array($this, $func), $context, $record);
 		}
+		return $this->deleteRecord($context, $record);
+	}
+
+	// delete record
+	public function deleteRecord($context, $record){
 		$table = $context->table;
 		if (empty($table['table'])) throw new \Exception("Table '{$context->table_name}' or $func() does not exist");
 		if (empty($context->table_fields)) throw new \Exception('Fields not defined');
@@ -425,7 +455,6 @@ class BMore extends \FreePBX_Helpers {
 		}
 
 		if (empty($context->view)) {
-			// return '<div class="alert alert-warning">'."Definition not found for view '{$context->view_name}' in table '{$context->table_name}'.".'</div>';
 			throw new \Exception("Definition not found for view '{$context->view_name}' in table '{$context->table_name}'");
 		}
 
@@ -436,16 +465,12 @@ class BMore extends \FreePBX_Helpers {
 		}
 		array_push($this->context_stack, $context_name);
 
-		foreach ($context->view as $handler => $data) {
-			if ($handler == 'rnav' || $handler == 'default') {
-				continue;
-			}
-			// ignore portion past -
+		foreach ($context->view as $handler => &$data) {
+			if (in_array($handler, self::NOT_HANDLERS)) continue;
+
 			$func = 'view'.ucwords($handler);
 			if (method_exists($this, $func)) {
 				$html[] = $this->$func($data, $context, $contents);
-			} else if (function_exists($func)) {
-				$html[] = $func(array_merge_recursive($default, $data), $context, $contents);
 			} else {
 				throw new \Exception('Unable to locate view handler for '.$handler);
 			}
@@ -499,15 +524,23 @@ class BMore extends \FreePBX_Helpers {
 			$views = array_keys($this->schema[$table_name]['views']);
 			$view_name = reset($views);
 		}
-		$context = new BMoreContext();
 
+		$context_index = "$table_name/$view_name";
+		if (!empty($this->contexts[$context_index])) {
+			// reuse context if previously created
+			return $this->contexts[$context_index];
+		}
+
+		// create new context
+		$context = new BMoreContext();
 		$context->is_modal = False;
+		$context->buttons = Null;
 		$context->table_name = $table_name;
 		$context->table = $this->schema[$table_name];
 		$context->table_fields = $this->getIncludedFields($context->table['fields']);
-
 		$context->view_name = $view_name;
 
+		// merge all the view definitions
 		$view = array();
 		if (!empty($context->table['views'][$view_name])) {
 			$view = $context->table['views'][$view_name];
@@ -527,12 +560,21 @@ class BMore extends \FreePBX_Helpers {
 		if (!empty($this->schema['default']['views']['default'])) {
 			$default_default = $this->schema['default']['views']['default'];
 		}
-		$context->view = array_merge_recursive($default_default, $default_view, $table_default, $view);
 
+		$context->view = array_merge_recursive($default_default, $default_view, $table_default, $view);
+		if (array_key_exists('buttons', $context->view)) {
+			$context->buttons = $context->view['buttons'];
+		}
+		
+		$this->contexts[$context_index] = $context;
 		return $context;
 	}
 
 	// SCHEMA-DRIVEN VIEW HANDLERS
+
+	// dummy function for buttons definition
+	public function viewButtons($data, $context, $contents) {
+	}
 
 	// generate html from multiple views concatenated in a specific order
 	public function viewGroup($data, $context, $contents)
@@ -691,15 +733,24 @@ class BMore extends \FreePBX_Helpers {
 	}
 
 	// generate html for form in view
-	public function viewForm($data, $context, $contents)
+	public function viewForm(&$data, $context, $contents) {
+		if ($context->is_modal) {
+			// outer form has already been generated
+			return $this->viewForm_inner($data, $context, $contents);
+		}
+		return $this->viewForm_outer($data, $context,
+			$this->viewForm_inner($data, $context, $contents)
+		);
+	}
+	public function viewForm_inner(&$data, $context, $contents)
 	{
 		$url_options = array();
 		if (!empty($data['postview'])) {
 			$url_options[self::POSTVIEW_ARG] = $data['postview'];
 		}
 
-		$form_contents = array();
-		$form_params = array(
+		// borrow data structure to pass form_params to _outer form
+		$data['form_params'] = array(
 			'class' => 'fpbx-submit',
 			'action' => $this->getDisplayUrl($url_options, $context),
 			'method' => 'post',
@@ -708,7 +759,18 @@ class BMore extends \FreePBX_Helpers {
 		);
 		if (!empty($data['params'])) {
 			// allow override of params
-			$form_params = array_merge($form_params, $data['params']);
+			$data['form_params'] = array_merge($data['form_params'], $data['params']);
+		}
+
+		$form_contents = array();
+
+		// provide default if schema has not defined buttons
+		if ($context->buttons === Null) { //empty($context->buttons)) {
+			$context->buttons = array(
+				'submit' => _("Submit"),
+				'reset' => _("Reset"),
+				'delete' => _("Delete"),
+			);
 		}
 
 		if (!empty($data['action'])) {
@@ -732,17 +794,19 @@ class BMore extends \FreePBX_Helpers {
 		}
 		$values = array();
 		if (!empty($key_values)) {
-			$form_params['data-fpbx-delete'] = $this->getDisplayUrl(
+			$data['form_params']['data-fpbx-delete'] = $this->getDisplayUrl(
 				array_merge($url_options, array(self::ACTION_ARG => 'delete'), $key_values),
 				$context);
 
-			$values = $this->getRecord($context, $key_values);
+			$values = $this->getRecordContext($context, $key_values);
 			if ($values) {
 				if (empty($data['action'])) {
 					$action_value = 'edit';
 				}
 			} else {
+				// doing an add
 				$values = $key_values;
+				unset($context->buttons['delete']);
 			}
 		}
 
@@ -878,35 +942,18 @@ class BMore extends \FreePBX_Helpers {
 				'value' => $value,
 			));
 		}
-		// allow (for modal) a submit button (this should be improved in some way)
-		//if (!empty($data['submit'])) {
-		if ($context->is_modal) {
-			$form_field = $this->tag('input', array(
-				'id' => 'submit',
-				'type' => 'submit',
-				'name' => 'submit',
-				'value' => 'Submit',
-			));
-			$form_contents[] = $this->tag('div', 'element-container',
-				$this->tag('div', 'row',
-					$this->tag('div', 'col-md-12',
-						$this->tag('div', 'row',
-							$this->tag('div', 'form-group',
-								$this->tag('div', 'col-md-3', "").
-								$this->tag('div', 'col-md-9', $form_field)
-							)
-						)
-					)
-				)
-			);
-		}
 
 		$js = '';
 		if (!empty($data['script'])) {
 			$js = "\n".$this->tag('script', array('type' => 'text/javascript'), $data['script'])."\n";
 		}
 
-		return $this->tag('form', $form_params, implode("\n", $form_contents)).$js;
+		return implode("\n", $form_contents).$js;
+	}
+	
+	public function viewForm_outer(&$data, $context, $contents) {
+		if (empty($data['form_params'])) throw new \Exception('form_params missing data');
+		return $this->tag('form', $data['form_params'], $contents);
 	}
 
 	// OTHER NOT SCHEMA-DRIVEN VIEW GENERATORS
@@ -930,7 +977,34 @@ class BMore extends \FreePBX_Helpers {
 		$body_context = $this->getContext($view_name);
 		$body_context->is_modal = True;
 
-		return $this->tag('div', $modal_params,
+		// locate the first _outer handler to wrap modal if one exists
+		$outer_func = Null;
+		$outer_data = Null;
+		foreach ($body_context->view as $handler => &$data) {
+			if (in_array($handler, self::NOT_HANDLERS)) continue;
+			$outer_func = 'view'.ucwords($handler).'_outer';
+			if (method_exists($this, $outer_func)) {
+				$outer_data = &$data;
+				break;
+			}
+			$outer_func = Null;
+		}
+
+		if ($outer_func) {
+			// wrap the entire modal body with the outer func
+			// this allows <form> tag to contain action buttons in footer
+			$body_and_footer = $this->$outer_func($outer_data, $body_context,
+				$this->htmlModalBodyFooter($body_context,
+					$this->getViewAsHtml($body_context)
+				)
+			);
+		} else {
+			$body_and_footer = $this->htmlModalBodyFooter($body_context,
+				$this->getViewAsHtml($body_context)
+			);
+		}
+
+		return "\n".$this->tag('div', $modal_params,
 			$this->tag('div', 'modal-dialog',
 				$this->tag('div', 'modal-content',
 					$this->tag('div', 'modal-header',
@@ -942,12 +1016,18 @@ class BMore extends \FreePBX_Helpers {
 							$this->iconize($header)
 						)
 					)."\n".
-					$this->tag('div', 'modal-body',
-						$this->getViewAsHtml($body_context)
-					)
+					$body_and_footer
 				)
 			)
 		);
+	}
+
+	private function htmlModalBodyFooter($context, $body_html) {
+		return
+			$this->tag('div', 'modal-body', $body_html)."\n".
+			$this->tag('div', 'modal-footer',
+				$this->getModalActionBar($context)
+			);
 	}
 
 	// recursively follow array tree building html output
@@ -1026,46 +1106,53 @@ class BMore extends \FreePBX_Helpers {
 		return "\n".$this->getViewAsHtml($context)."\n";
 	}
 
+	// modal action bar
+	public function getModalActionBar($context) {
+		$html = array(
+			$this->tag('button', array(
+				'type' => 'button',
+				'class' => 'btn btn-default',
+				'data-dismiss' => 'modal',
+			), _("Close"))
+		);
+		if (empty($context->buttons)) {
+			return $html[0];
+		}
+		foreach ($context->buttons as $name => $value) {
+			$html[] = $this->tag('button', array(
+				'type' => 'submit',
+				'class' => 'btn btn-primary',
+				'id' => $name,
+			), $value);
+		}
+		return implode("\n", $html);
+	}
+
 	// floating action bar
 	public function getActionBar($request) {
-		$buttons = array();
-		switch($request[self::DISPLAY_ARG]) {
-			//this is usually your module's rawname
-			case $this->module_name:
-				$buttons = array(
-					'delete' => array(
-						'name' => 'delete',
-						'id' => 'delete',
-						'value' => _('Delete')
-					),
-					'reset' => array(
-						'name' => 'reset',
-						'id' => 'reset',
-						'value' => _('Reset')
-					),
-					'submit' => array(
-						'name' => 'submit',
-						'id' => 'submit',
-						'value' => _('Submit')
-					)
-				);
-				//We hide the delete button if we are not editing an item. "id" should be whatever your unique element is.
-				if (empty($request['id'])) {
-					unset($buttons['delete']);
-				}
-				// If we are not in the form view lets 86 the buttons
-				// TODO: this isn't working right
-				if (empty($request[self::VIEW_ARG])){
-					unset($buttons);
-				}
-			break;
+		if ($request[self::DISPLAY_ARG] != $this->module_name) {
+			throw new \Exception("Unexpected display {$request[self::DISPLAY_ARG]}");
+			return array();
 		}
-		return $buttons;
+		$context = $this->getContext();
+		if ($context->is_modal) {
+			// view specified in view should never be modal, but just in case
+			throw new \Exception("Unexpected modal view {$context->view_name}");
+			return array();
+		}
+		$action_buttons = array();
+		foreach (array_reverse($this->getContext()->buttons) as $name => $value) {
+			$action_buttons[$name] = array(
+				'name' => $name,
+				'id' => $name,
+				'value' => $value,
+			);
+		}
+		return $action_buttons;
 	}
 
 	public function handlePostActionAdd() {
-		$context = $this->getContext();
-		$result = $this->addRecord($context, $_REQUEST);
+		$result = $this->addRecordContext($this->getContext(), $_REQUEST);
 		if (!empty($result['error'])) {
 			return $result;
 		}
@@ -1073,12 +1160,10 @@ class BMore extends \FreePBX_Helpers {
 		return Null;
 	}
 	public function handlePostActionEdit() {
-		$context = $this->getContext();
-		return $this->updateRecord($context, $_REQUEST);
+		return $this->updateRecordContext($this->getContext(), $_REQUEST);
 	}
 	public function handlePostActionDelete() {
-		$context = $this->getContext();
-		return $this->deleteRecord($context, $_REQUEST);
+		return $this->deleteRecordContext($this->getContext(), $_REQUEST);
 	}
 	// this is a dev tool to erase db and reset sql to match schema
 	// use by adding menu item with &_a=reinstall
@@ -1146,8 +1231,12 @@ class BMore extends \FreePBX_Helpers {
 		foreach ($this->schema as $dbname => $table) {
 			if (empty($table['table'])) continue;
 			out(_('Removing database table ' . $dbname));
-			$sql = "DROP TABLE IF EXISTS {$table['table']};";
-			$this->db->query($sql);
+			try {
+				$sql = "DROP TABLE IF EXISTS {$table['table']};";
+				$this->db->query($sql);
+			} catch (\Exception $error) {
+				out("$error");
+			}
 		}
 	}
 
@@ -1174,6 +1263,6 @@ class BMore extends \FreePBX_Helpers {
 
 	// default getJSON handler returns all records for table
 	public function ajax_getJSON() {
-		return $this->getAllRecords($this->getContext());
+		return $this->getAllRecordsContext($this->getContext());
 	}
 }
