@@ -72,6 +72,7 @@ class Migration {
 				case 'boolean':
 					$export[$name]['type'] = $type;
 				break;
+				case 'float':
 				case 'decimal':
 					$export[$name]['type'] = $type;
 					$export[$name]['precision'] = $column->getPrecision();
