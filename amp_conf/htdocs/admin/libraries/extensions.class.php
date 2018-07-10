@@ -865,6 +865,18 @@ class ext_waitexten extends extension {
 	}
 }
 
+class ext_amd extends extension {
+	function output() {
+		return "AMD()";
+	}
+}
+
+class ext_waitforsilence extends extension {
+	 function output() {
+		return "WaitForSilence(".$this->data.")";
+	}
+}
+
 class ext_answer extends extension {
 	function output() {
 		return "Answer";
