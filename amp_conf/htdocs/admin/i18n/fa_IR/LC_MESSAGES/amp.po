@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-29 16:42-0400\n"
+"POT-Creation-Date: 2018-07-11 11:33-0400\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -648,7 +648,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "یک مسیر برای این DID/CID در حال حاضر موجود است!"
 
-#: ../core/Core.class.php:2588 ../core/functions.inc.php:4640
+#: ../core/Core.class.php:2595 ../core/functions.inc.php:4640
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "یک مسیر برای این DID/CID: %s %s در حال حاضر موجود است"
@@ -1839,11 +1839,11 @@ msgstr ""
 "it. The higher of the two determines the policy, on a tie the global policy "
 "(caller or callee) determines the policy."
 
-#: ../core/Core.class.php:3028
+#: ../core/Core.class.php:3035
 msgid "Caller ID"
 msgstr "شناسه تماس گیرنده"
 
-#: ../core/Core.class.php:3029
+#: ../core/Core.class.php:3036
 msgid "Caller ID Number"
 msgstr "شماره تماس گیرنده"
 
@@ -2221,6 +2221,7 @@ msgstr ""
 msgid "Client URI"
 msgstr "Client  URI"
 
+#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1116
 #: amp_conf/htdocs/admin/views/footer.php:105
 #: ../core/views/routing/form.php:621 ../core/views/trunks/trunk_footer.php:78
 msgid "Close"
@@ -2496,7 +2497,7 @@ msgstr "ایجاد کلید CA"
 msgid "Creating certificate for %s"
 msgstr "ایجاد مجوز برای %s"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1132
+#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1217
 msgid "Creating database table "
 msgstr ""
 
@@ -2677,7 +2678,7 @@ msgstr "توضیحات داخلی مستقیم"
 msgid "DID Number"
 msgstr "شماره داخلی مستقیم"
 
-#: ../core/Core.class.php:3162
+#: ../core/Core.class.php:3169
 msgid "DID already exists"
 msgstr "DID موجود است"
 
@@ -2685,11 +2686,11 @@ msgstr "DID موجود است"
 msgid "DID/CID"
 msgstr "DID/CID"
 
-#: ../core/Core.class.php:2970
+#: ../core/Core.class.php:2977
 msgid "DIDs"
 msgstr ".DIDs"
 
-#: ../core/Core.class.php:2971
+#: ../core/Core.class.php:2978
 msgid "DIDs / Inbound Routes"
 msgstr "مسیرهای ورودی / DIDs"
 
@@ -3060,7 +3061,7 @@ msgstr ""
 "<br><br>Leave this blank to match calls with any or no DID info.<br><br>You "
 "can also use a pattern match (eg _2[345]X) to match a range of numbers"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1039
+#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:772
 #: ../core/Core.class.php:232 ../core/Core.class.php:255
 #: ../core/Core.class.php:279 ../core/Core.class.php:317
 #: ../core/Core.class.php:338 ../core/Core.class.php:363
@@ -3107,8 +3108,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:215
-#: ../core/Core.class.php:2996 ../core/Core.class.php:2997
-#: ../core/Core.class.php:3020 ../core/Core.class.php:3021
+#: ../core/Core.class.php:3003 ../core/Core.class.php:3004
+#: ../core/Core.class.php:3027 ../core/Core.class.php:3028
 #: ../core/functions.inc.php:6014 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:37
@@ -3121,7 +3122,7 @@ msgstr "شرح"
 msgid "Descriptive Name for this Trunk"
 msgstr "شرح نام برای این ترانک"
 
-#: ../core/Core.class.php:3032 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:3039 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "مقصد"
 
@@ -3238,7 +3239,7 @@ msgstr "حالت توسعه دهنده"
 msgid "Developer and Customization"
 msgstr "توسعه دهنده و شخصی ساز"
 
-#: ../core/Core.class.php:3364 ../core/functions.inc.php:5957
+#: ../core/Core.class.php:3371 ../core/functions.inc.php:5957
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3271,7 +3272,7 @@ msgstr "تنظیمات وسیله"
 msgid "Device State Busy at"
 msgstr "وضعیت دستگاه مشغول است در"
 
-#: ../core/Core.class.php:3000 ../core/Core.class.php:3001
+#: ../core/Core.class.php:3007 ../core/Core.class.php:3008
 msgid "Device Technology"
 msgstr "فن آوری وسیله"
 
@@ -3280,7 +3281,7 @@ msgstr "فن آوری وسیله"
 msgid "Device Type"
 msgstr "نوع وسیله"
 
-#: ../core/Core.class.php:3114
+#: ../core/Core.class.php:3121
 msgid "Device could not be added."
 msgstr "وسیله نمیتواند اضافه شود."
 
@@ -4326,8 +4327,8 @@ msgstr ""
 msgid "Extended"
 msgstr "تمدید شده"
 
-#: ../core/Core.class.php:2987 ../core/Core.class.php:2988
-#: ../core/Core.class.php:3352 ../core/functions.inc.php:5602
+#: ../core/Core.class.php:2994 ../core/Core.class.php:2995
+#: ../core/Core.class.php:3359 ../core/functions.inc.php:5602
 #: ../core/page.did.php:93 ../core/page.extensions.php:32
 #: ../core/page.extensions.php:125 ../core/page.extensions.php:153
 #: ../core/views/rnav.php:23
@@ -4358,15 +4359,15 @@ msgstr "داخلی در حال استفاده است!"
 msgid "Extension can not be blank!"
 msgstr "داخلی نمیتواند خالی باشد!"
 
-#: ../core/Core.class.php:3056
+#: ../core/Core.class.php:3063
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3059
+#: ../core/Core.class.php:3066
 msgid "Extension is not numeric."
 msgstr "داخلی شماره نیست."
 
-#: ../core/Core.class.php:3062
+#: ../core/Core.class.php:3069
 msgid "Extension name is blank."
 msgstr ""
 
@@ -4378,7 +4379,7 @@ msgstr "مغایرت شماره داخلی، یکی دیگر انتخاب کنی
 msgid "Extension was not numeric!"
 msgstr "داخلی شماره نیست!"
 
-#: amp.i18n.php:866 ../core/Core.class.php:2966 ../core/Core.class.php:2967
+#: amp.i18n.php:866 ../core/Core.class.php:2973 ../core/Core.class.php:2974
 #: ../core/page.extensions.php:19
 msgid "Extensions"
 msgstr "داخلی ها"
@@ -4736,7 +4737,7 @@ msgstr "تحمیل rport"
 msgid "Force rport - (%s)"
 msgstr "تحمیل rport - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:234
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:240
 msgid "Force run post-start asterisk hooks"
 msgstr "Force run  post-start asterisk hooks"
 
@@ -4744,7 +4745,7 @@ msgstr "Force run  post-start asterisk hooks"
 msgid "Force run post-stop asterisk hooks"
 msgstr "Force  run post-stop asterisk hooks"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:233
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:239
 msgid "Force run pre-start asterisk hooks"
 msgstr "Force  run pre-start asterisk hooks"
 
@@ -5644,7 +5645,7 @@ msgstr "تماس های خارجی ورودی"
 msgid "Inbound Internal Calls"
 msgstr "تماس های داخلی ورودی"
 
-#: ../core/Core.class.php:3406 ../core/Core.class.php:3415
+#: ../core/Core.class.php:3413 ../core/Core.class.php:3422
 msgid "Inbound Route:"
 msgstr "مسیر ورودی:"
 
@@ -5669,7 +5670,7 @@ msgstr "شامل نام سرور در مرورگر"
 msgid "Incoming"
 msgstr "ورودی"
 
-#: ../core/Core.class.php:3024 ../core/Core.class.php:3025
+#: ../core/Core.class.php:3031 ../core/Core.class.php:3032
 msgid "Incoming DID"
 msgstr "داخلی مستقیم ورودی"
 
@@ -6714,7 +6715,7 @@ msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr "نکته! شما %s هشدارد دارید! برای مشاهده به رابط کاربری وارد شوید!"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:73
-#: ../core/Core.class.php:2992 ../core/Core.class.php:2993
+#: ../core/Core.class.php:2999 ../core/Core.class.php:3000
 #: ../core/page.extensions.php:33 ../core/page.extensions.php:126
 #: ../core/page.extensions.php:154 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -7395,7 +7396,7 @@ msgstr "تماس های داخلی"
 msgid "Outbound Proxy"
 msgstr "پراکسی تماس خروجی"
 
-#: ../core/Core.class.php:3389
+#: ../core/Core.class.php:3396
 msgid "Outbound Route:"
 msgstr "مسیر تماس خروجی:"
 
@@ -8238,7 +8239,7 @@ msgstr "در حال حذف %s"
 msgid "Removing dangling sound symlink %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1148
+#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1233
 msgid "Removing database table "
 msgstr ""
 
@@ -8302,7 +8303,7 @@ msgstr "Requires  engine %s, you have: %s"
 msgid "Requires one of the following engines: %s; you have: %s"
 msgstr "Requires one of the  following engines: %s; you have: %s"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1044
+#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:771
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:48
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:470
 #: ../core/Core.class.php:237 ../core/Core.class.php:260
@@ -8434,7 +8435,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "هشدار امنیتی:"
 
-#: ../core/Core.class.php:3329 ../core/Core.class.php:3330
+#: ../core/Core.class.php:3336 ../core/Core.class.php:3337
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP  (%s)"
@@ -9020,7 +9021,7 @@ msgstr "اندازه رمز تولید شده sip"
 msgid "Skip Chowning"
 msgstr "لغو مالکیت"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:235
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:241
 msgid "Skip Chowning of files"
 msgstr "لغو مالکیت از فایلها"
 
@@ -9181,7 +9182,7 @@ msgstr "فایل های پخش شده برای عیب یابی"
 msgid "Styling and Logos"
 msgstr "چیدمان و لوگوها"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1049
+#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:770
 #: ../core/Core.class.php:242 ../core/Core.class.php:265
 #: ../core/Core.class.php:289 ../core/Core.class.php:308
 #: ../core/Core.class.php:327 ../core/Core.class.php:348
@@ -9560,7 +9561,7 @@ msgstr ""
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr "The binary  unzip is not installed. Unable to work with zip file"
 
-#: ../core/Core.class.php:3033
+#: ../core/Core.class.php:3040
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -10337,7 +10338,7 @@ msgstr ""
 "This trunk will not be able to be used for  outbound calls until a route is "
 "setup that uses it."
 
-#: ../core/Core.class.php:2572
+#: ../core/Core.class.php:2579
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "کاربر/داخلی %s در حال استفاده است"
@@ -10492,7 +10493,7 @@ msgstr "نام ترانک و متن کاربر نمیتواند یکی باشد"
 msgid "Trunk Sequence for Matched Routes"
 msgstr "توالی ترانک برای مسیرهای یکسان"
 
-#: ../core/Core.class.php:3397
+#: ../core/Core.class.php:3404
 msgid "Trunk:"
 msgstr "ترانک:"
 
@@ -10930,7 +10931,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1172
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:231
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:237
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:253
 msgid "Usage"
 msgstr "استفاده"
@@ -11019,7 +11020,7 @@ msgstr ""
 "Used when  PHP Console is enabled for error debugging https://github.com/"
 "barbushin/php-console"
 
-#: ../core/Core.class.php:3376 ../core/functions.inc.php:5616
+#: ../core/Core.class.php:3383 ../core/functions.inc.php:5616
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -11070,7 +11071,7 @@ msgstr "پنل کاربر"
 msgid "User Password"
 msgstr "کلمه عبور کاربر"
 
-#: ../core/Core.class.php:3141
+#: ../core/Core.class.php:3148
 msgid "User could not be added."
 msgstr "امکان افزودن کاربروجود ندارد."
 
@@ -11980,7 +11981,7 @@ msgstr "You must  defined a Client URI"
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "شما باید یک فایل freepbx.conf مناسب برای اجرا داشته باشید"
 
-#: ../core/Core.class.php:2565
+#: ../core/Core.class.php:2572
 msgid "You must put in an extension (or user) number"
 msgstr "شما باید شماره یک داخلی (یا کاربر) وارد کنید"
 

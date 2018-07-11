@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx-2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-29 16:42-0400\n"
+"POT-Creation-Date: 2018-07-11 11:33-0400\n"
 "PO-Revision-Date: 2007-10-09 16:16+0100\n"
 "Last-Translator: Lónyai Gergely <alephlg@gmail.com>\n"
 "Language-Team: Aleph <alephlg@gmail.com>\n"
@@ -596,7 +596,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "Egy útvonalban ez a DID/CID már meg lett adva!"
 
-#: ../core/Core.class.php:2588 ../core/functions.inc.php:4640
+#: ../core/Core.class.php:2595 ../core/functions.inc.php:4640
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr ""
@@ -1708,11 +1708,11 @@ msgid ""
 "(caller or callee) determines the policy."
 msgstr ""
 
-#: ../core/Core.class.php:3028
+#: ../core/Core.class.php:3035
 msgid "Caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:3029
+#: ../core/Core.class.php:3036
 msgid "Caller ID Number"
 msgstr ""
 
@@ -2059,6 +2059,7 @@ msgstr ""
 msgid "Client URI"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1116
 #: amp_conf/htdocs/admin/views/footer.php:105
 #: ../core/views/routing/form.php:621 ../core/views/trunks/trunk_footer.php:78
 msgid "Close"
@@ -2325,7 +2326,7 @@ msgstr ""
 msgid "Creating certificate for %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1132
+#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1217
 msgid "Creating database table "
 msgstr ""
 
@@ -2483,7 +2484,7 @@ msgstr ""
 msgid "DID Number"
 msgstr ""
 
-#: ../core/Core.class.php:3162
+#: ../core/Core.class.php:3169
 msgid "DID already exists"
 msgstr ""
 
@@ -2491,11 +2492,11 @@ msgstr ""
 msgid "DID/CID"
 msgstr ""
 
-#: ../core/Core.class.php:2970
+#: ../core/Core.class.php:2977
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:2971
+#: ../core/Core.class.php:2978
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
@@ -2780,7 +2781,7 @@ msgid ""
 "can also use a pattern match (eg _2[345]X) to match a range of numbers"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1039
+#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:772
 #: ../core/Core.class.php:232 ../core/Core.class.php:255
 #: ../core/Core.class.php:279 ../core/Core.class.php:317
 #: ../core/Core.class.php:338 ../core/Core.class.php:363
@@ -2827,8 +2828,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:215
-#: ../core/Core.class.php:2996 ../core/Core.class.php:2997
-#: ../core/Core.class.php:3020 ../core/Core.class.php:3021
+#: ../core/Core.class.php:3003 ../core/Core.class.php:3004
+#: ../core/Core.class.php:3027 ../core/Core.class.php:3028
 #: ../core/functions.inc.php:6014 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:37
@@ -2841,7 +2842,7 @@ msgstr ""
 msgid "Descriptive Name for this Trunk"
 msgstr ""
 
-#: ../core/Core.class.php:3032 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:3039 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr ""
 
@@ -2947,7 +2948,7 @@ msgstr ""
 msgid "Developer and Customization"
 msgstr ""
 
-#: ../core/Core.class.php:3364 ../core/functions.inc.php:5957
+#: ../core/Core.class.php:3371 ../core/functions.inc.php:5957
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -2979,7 +2980,7 @@ msgstr ""
 msgid "Device State Busy at"
 msgstr ""
 
-#: ../core/Core.class.php:3000 ../core/Core.class.php:3001
+#: ../core/Core.class.php:3007 ../core/Core.class.php:3008
 msgid "Device Technology"
 msgstr ""
 
@@ -2988,7 +2989,7 @@ msgstr ""
 msgid "Device Type"
 msgstr ""
 
-#: ../core/Core.class.php:3114
+#: ../core/Core.class.php:3121
 msgid "Device could not be added."
 msgstr ""
 
@@ -3991,8 +3992,8 @@ msgstr ""
 msgid "Extended"
 msgstr ""
 
-#: ../core/Core.class.php:2987 ../core/Core.class.php:2988
-#: ../core/Core.class.php:3352 ../core/functions.inc.php:5602
+#: ../core/Core.class.php:2994 ../core/Core.class.php:2995
+#: ../core/Core.class.php:3359 ../core/functions.inc.php:5602
 #: ../core/page.did.php:93 ../core/page.extensions.php:32
 #: ../core/page.extensions.php:125 ../core/page.extensions.php:153
 #: ../core/views/rnav.php:23
@@ -4023,15 +4024,15 @@ msgstr ""
 msgid "Extension can not be blank!"
 msgstr ""
 
-#: ../core/Core.class.php:3056
+#: ../core/Core.class.php:3063
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3059
+#: ../core/Core.class.php:3066
 msgid "Extension is not numeric."
 msgstr ""
 
-#: ../core/Core.class.php:3062
+#: ../core/Core.class.php:3069
 msgid "Extension name is blank."
 msgstr ""
 
@@ -4043,7 +4044,7 @@ msgstr ""
 msgid "Extension was not numeric!"
 msgstr ""
 
-#: amp.i18n.php:866 ../core/Core.class.php:2966 ../core/Core.class.php:2967
+#: amp.i18n.php:866 ../core/Core.class.php:2973 ../core/Core.class.php:2974
 #: ../core/page.extensions.php:19
 msgid "Extensions"
 msgstr ""
@@ -4383,7 +4384,7 @@ msgstr ""
 msgid "Force rport - (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:234
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:240
 msgid "Force run post-start asterisk hooks"
 msgstr ""
 
@@ -4391,7 +4392,7 @@ msgstr ""
 msgid "Force run post-stop asterisk hooks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:233
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:239
 msgid "Force run pre-start asterisk hooks"
 msgstr ""
 
@@ -5161,7 +5162,7 @@ msgstr ""
 msgid "Inbound Internal Calls"
 msgstr ""
 
-#: ../core/Core.class.php:3406 ../core/Core.class.php:3415
+#: ../core/Core.class.php:3413 ../core/Core.class.php:3422
 msgid "Inbound Route:"
 msgstr ""
 
@@ -5186,7 +5187,7 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: ../core/Core.class.php:3024 ../core/Core.class.php:3025
+#: ../core/Core.class.php:3031 ../core/Core.class.php:3032
 msgid "Incoming DID"
 msgstr ""
 
@@ -6173,7 +6174,7 @@ msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:73
-#: ../core/Core.class.php:2992 ../core/Core.class.php:2993
+#: ../core/Core.class.php:2999 ../core/Core.class.php:3000
 #: ../core/page.extensions.php:33 ../core/page.extensions.php:126
 #: ../core/page.extensions.php:154 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -6784,7 +6785,7 @@ msgstr ""
 msgid "Outbound Proxy"
 msgstr ""
 
-#: ../core/Core.class.php:3389
+#: ../core/Core.class.php:3396
 msgid "Outbound Route:"
 msgstr ""
 
@@ -7583,7 +7584,7 @@ msgstr ""
 msgid "Removing dangling sound symlink %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1148
+#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1233
 msgid "Removing database table "
 msgstr ""
 
@@ -7642,7 +7643,7 @@ msgstr "A %s motornak követelménye a %s"
 msgid "Requires one of the following engines: %s; you have: %s"
 msgstr "A %s motor a követelmény. Neked a %s van meg."
 
-#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1044
+#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:771
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:48
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:470
 #: ../core/Core.class.php:237 ../core/Core.class.php:260
@@ -7772,7 +7773,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr ""
 
-#: ../core/Core.class.php:3329 ../core/Core.class.php:3330
+#: ../core/Core.class.php:3336 ../core/Core.class.php:3337
 #, php-format
 msgid "SIP (%s)"
 msgstr ""
@@ -8291,7 +8292,7 @@ msgstr ""
 msgid "Skip Chowning"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:235
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:241
 msgid "Skip Chowning of files"
 msgstr ""
 
@@ -8431,7 +8432,7 @@ msgstr ""
 msgid "Styling and Logos"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1049
+#: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:770
 #: ../core/Core.class.php:242 ../core/Core.class.php:265
 #: ../core/Core.class.php:289 ../core/Core.class.php:308
 #: ../core/Core.class.php:327 ../core/Core.class.php:348
@@ -8769,7 +8770,7 @@ msgstr ""
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
-#: ../core/Core.class.php:3033
+#: ../core/Core.class.php:3040
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -9406,7 +9407,7 @@ msgid ""
 "setup that uses it."
 msgstr ""
 
-#: ../core/Core.class.php:2572
+#: ../core/Core.class.php:2579
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr ""
@@ -9542,7 +9543,7 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr ""
 
-#: ../core/Core.class.php:3397
+#: ../core/Core.class.php:3404
 msgid "Trunk:"
 msgstr ""
 
@@ -9968,7 +9969,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1172
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:231
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:237
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:253
 msgid "Usage"
 msgstr ""
@@ -10044,7 +10045,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:3376 ../core/functions.inc.php:5616
+#: ../core/Core.class.php:3383 ../core/functions.inc.php:5616
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -10095,7 +10096,7 @@ msgstr ""
 msgid "User Password"
 msgstr ""
 
-#: ../core/Core.class.php:3141
+#: ../core/Core.class.php:3148
 msgid "User could not be added."
 msgstr ""
 
@@ -10849,7 +10850,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:2565
+#: ../core/Core.class.php:2572
 msgid "You must put in an extension (or user) number"
 msgstr ""
 
