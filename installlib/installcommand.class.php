@@ -814,8 +814,13 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			exit;
 		}
 
+		// Work out the appropriate redirection. We use /dev/tty if we have one so the progress output looks right
+		// and /dev/stdout in other circumstances
+		system("/usr/bin/tty -s", $retval);
+		$redirect = $retval ? "/dev/tty" : "/dev/stdout";
+
 		//run this here so that we make sure everything is square for module installs
-		system($amp_conf['AMPSBIN'] . "/fwconsole chown > /dev/tty");
+		system($amp_conf['AMPSBIN'] . "/fwconsole chown > " . $redirect);
 
 		// module_admin install framework
 		$output->writeln("Installing framework...");
@@ -860,8 +865,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		}
 
 		//run this here so that we make sure everything is square for asterisk
-		//Note this is redirected to /dev/tty so the progress bar will work properly.
-		system($amp_conf['AMPSBIN'] . "/fwconsole chown > /dev/tty");
+		system($amp_conf['AMPSBIN'] . "/fwconsole chown > " . $redirect);
 
 		if($answers['dev-links'] && $newinstall) {
 			system($amp_conf['AMPSBIN']."/fwconsole setting AMPMGRPASS ".$amp_conf['AMPMGRPASS']);
