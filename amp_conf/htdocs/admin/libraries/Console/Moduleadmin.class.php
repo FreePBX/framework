@@ -1357,6 +1357,9 @@ class Moduleadmin extends Command {
 				foreach($args as $module){
 					$state = $this->isModuleUpgradeable($module);
 					switch($state) {
+						case -4:
+							$this->writeln(sprintf(_('%s does not have a valid JSON update file, unable to upgrade'),$module));
+						break;
 						case -3:
 							$this->writeln(sprintf(_('%s is not a locally installed module, unable to upgrade'),$module));
 						break;
