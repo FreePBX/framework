@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-30 13:43-0400\n"
+"POT-Creation-Date: 2018-07-11 11:25-0400\n"
 "PO-Revision-Date: 2017-05-08 21:45+0200\n"
 "Last-Translator: KNGVC <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -4667,7 +4667,7 @@ msgstr "Forçar rport"
 msgid "Force rport - (%s)"
 msgstr "Forçar rport - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:234
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:240
 msgid "Force run post-start asterisk hooks"
 msgstr "Forçar execução de rotinas do asterisk pós-início"
 
@@ -4675,7 +4675,7 @@ msgstr "Forçar execução de rotinas do asterisk pós-início"
 msgid "Force run post-stop asterisk hooks"
 msgstr "Forçar execução de rotinas asterisk pós-parada"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:233
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:239
 msgid "Force run pre-start asterisk hooks"
 msgstr "Forçar execução de rotinas asterisk pre-início"
 
@@ -8845,7 +8845,7 @@ msgstr "Tamanho dos segredos gerados pelo gole"
 msgid "Skip Chowning"
 msgstr "Pular Chowning"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:235
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:241
 msgid "Skip Chowning of files"
 msgstr "Pular Chowning de arquivos"
 
@@ -9134,14 +9134,10 @@ msgstr ""
 msgid ""
 "The Asterisk channel driver to use for SIP. The default is both for Asterisk "
 "12 and higher. For Asterisk 11 and lower the default will be chan_sip. If "
-"only one is compiled into asterisk, FreePBX will auto detect and change this "
-"value if set wrong. The chan_pjsip channel driver is considered "
+"only one is compiled into asterisk, the PBX will attempt to auto detect and "
+"change the value to what is compiled. The chan_pjsip channel driver does not "
+"work on Asterisk 11 or lower."
 msgstr ""
-"O driver de canal Asterisk para usar para SIP. O padrão é tanto para o "
-"Asterisk 12 quanto para o superior. Para o Asterisk 11 e inferior o padrão "
-"será chan_sip. Se apenas um for compilado em asterisco, o FreePBX detectará "
-"automaticamente e alterará esse valor se definido errado. O driver de canal "
-"chan_pjsip é considerado "
 
 #: ../core/functions.inc.php:5734
 msgid ""
@@ -10690,7 +10686,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:969
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:231
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:237
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:253
 msgid "Usage"
 msgstr "Uso"
@@ -12727,6 +12723,19 @@ msgstr ""
 #: ../core/install.php:1120
 msgid "zap devices migrated"
 msgstr "Dispositivos Zap migrados"
+
+#~ msgid ""
+#~ "The Asterisk channel driver to use for SIP. The default is both for "
+#~ "Asterisk 12 and higher. For Asterisk 11 and lower the default will be "
+#~ "chan_sip. If only one is compiled into asterisk, FreePBX will auto detect "
+#~ "and change this value if set wrong. The chan_pjsip channel driver is "
+#~ "considered "
+#~ msgstr ""
+#~ "O driver de canal Asterisk para usar para SIP. O padrão é tanto para o "
+#~ "Asterisk 12 quanto para o superior. Para o Asterisk 11 e inferior o "
+#~ "padrão será chan_sip. Se apenas um for compilado em asterisco, o FreePBX "
+#~ "detectará automaticamente e alterará esse valor se definido errado. O "
+#~ "driver de canal chan_pjsip é considerado "
 
 #~ msgid "Changing %s to %s"
 #~ msgstr "Alterando %s para %s"
