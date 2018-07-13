@@ -73,6 +73,10 @@ class ComposerStaticInitpbxframework
             'Moontoast\\Math\\' => 15,
             'Moment\\' => 7,
         ),
+        'H' => 
+        array (
+            'Hhxsv5\\SSE\\' => 11,
+        ),
         'G' => 
         array (
             'GuzzleHttp\\Psr7\\' => 16,
@@ -227,6 +231,10 @@ class ComposerStaticInitpbxframework
         'Moment\\' => 
         array (
             0 => __DIR__ . '/..' . '/fightbulc/moment/src',
+        ),
+        'Hhxsv5\\SSE\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/hhxsv5/php-sse/src',
         ),
         'GuzzleHttp\\Psr7\\' => 
         array (
@@ -743,6 +751,9 @@ class ComposerStaticInitpbxframework
         'GuzzleHttp\\RetryMiddleware' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/RetryMiddleware.php',
         'GuzzleHttp\\TransferStats' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/TransferStats.php',
         'GuzzleHttp\\UriTemplate' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/UriTemplate.php',
+        'Hhxsv5\\SSE\\Event' => __DIR__ . '/..' . '/hhxsv5/php-sse/src/Event.php',
+        'Hhxsv5\\SSE\\SSE' => __DIR__ . '/..' . '/hhxsv5/php-sse/src/SSE.php',
+        'Hhxsv5\\SSE\\Update' => __DIR__ . '/..' . '/hhxsv5/php-sse/src/Update.php',
         'JShrink\\Minifier' => __DIR__ . '/..' . '/tedivm/jshrink/src/JShrink/Minifier.php',
         'JsonSerializable' => __DIR__ . '/..' . '/nesbot/carbon/src/JsonSerializable.php',
         'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',

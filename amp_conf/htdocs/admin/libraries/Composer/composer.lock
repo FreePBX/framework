@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "21127134b5e0c8eac59cf04c5bba974f",
+    "content-hash": "8784d15d07e2dab1565a206f76224efc",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -890,6 +890,54 @@
                 "url"
             ],
             "time": "2017-03-20T17:10:46+00:00"
+        },
+        {
+            "name": "hhxsv5/php-sse",
+            "version": "1.1.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hhxsv5/php-sse.git",
+                "reference": "f0d1eacc206d6d7f2d9f72b72fd8b6bf3f89f190"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hhxsv5/php-sse/zipball/f0d1eacc206d6d7f2d9f72b72fd8b6bf3f89f190",
+                "reference": "f0d1eacc206d6d7f2d9f72b72fd8b6bf3f89f190",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Hhxsv5\\SSE\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Xie Biao",
+                    "email": "hhxsv5@sina.com"
+                }
+            ],
+            "description": "A simple and efficient library implemented HTML5's server-sent events by PHP, is used to real-time push events from server to client, and easier than Websocket, instead of AJAX request.",
+            "homepage": "https://github.com/hhxsv5/php-sse",
+            "keywords": [
+                "Server-Sent Events",
+                "event-stream",
+                "events",
+                "eventsource",
+                "sever-events",
+                "sse"
+            ],
+            "time": "2018-06-22T09:02:22+00:00"
         },
         {
             "name": "malkusch/lock",

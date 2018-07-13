@@ -40,6 +40,7 @@ return array(
     'PhpConsole\\' => array($vendorDir . '/php-console/php-console/src/PhpConsole'),
     'Moontoast\\Math\\' => array($vendorDir . '/moontoast/math/src/Moontoast/Math'),
     'Moment\\' => array($vendorDir . '/fightbulc/moment/src'),
+    'Hhxsv5\\SSE\\' => array($vendorDir . '/hhxsv5/php-sse/src'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
     'GuzzleHttp\\Promise\\' => array($vendorDir . '/guzzlehttp/promises/src'),
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
