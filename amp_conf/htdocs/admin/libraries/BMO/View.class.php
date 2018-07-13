@@ -734,7 +734,7 @@ class View {
 					continue;
 				}
 				foreach($data['destinations'] as $destination => $info) {
-					$flattened[$destination] = $info['category'];
+					$flattened[$destination] = $info['name'];
 				}
 			}
 		}
