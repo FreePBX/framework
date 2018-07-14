@@ -3049,21 +3049,25 @@ class module_functions {
 		return array('mirrors' => $repos, 'path' => $path, 'options' => $options, 'query' => http_build_query($options));
 	}
 
-	function url_get_contents($url,$request,$verb='get',$params=array()) {
+	function url_get_contents($url,$request,$verb='get',$params=array(), $timeout = 0) {
 		$params['sv'] = 2;
 		global $amp_conf;
 		$verb = strtolower($verb);
 		$contents = null;
 
 		if(!$amp_conf['MODULEADMINWGET']) {
-			$pest = FreePBX::Curl()->pest($url);
+            $pest = FreePBX::Curl()->requests($url);
+            if($timeout !== 0){
+                $pest->timeout = $timeout;
+            }
 			try{
-				$contents = $pest->$verb($url.$request,$params);
-				if(isset($pest->last_headers['x-current-uuid'])) {
+                $contents = $pest->$verb($url.$request,$params);
+                $contents = $contents->body;
+				if(isset($pest->headers['x-current-uuid'])) {
 					//we connected
-					$this->update_accessed_id($pest->last_headers['x-current-uuid']);
+					$this->update_accessed_id($pest->headers['x-current-uuid']);
 				}
-				if(isset($pest->last_headers['x-regenerate-id'])) {
+				if(isset($pest->headers['x-regenerate-id'])) {
 					$this->generate_unique_id(true);
 				}
 				return $contents;
@@ -3296,7 +3300,7 @@ class module_functions {
 		$repos = explode(',', \FreePBX::Config()->get('MODULE_REPO'));
 		foreach($repos as $url) {
 			//TODO: This is a placeholder URL and should be changed
-			$o = $this->url_get_contents($url, '/mversion.php', 'post', $options);
+			$o = $this->url_get_contents($url, '/mversion.php', 'post', $options, 10);
 			$o = json_decode($o,true);
 			if(json_last_error() == JSON_ERROR_NONE && !empty($o)) {
 				//Append a download url to the module xml array
