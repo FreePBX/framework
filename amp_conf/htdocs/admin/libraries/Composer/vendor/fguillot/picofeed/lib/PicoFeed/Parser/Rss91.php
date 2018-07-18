@@ -3,10 +3,10 @@
 namespace PicoFeed\Parser;
 
 /**
- * RSS 0.91 Parser
+ * RSS 0.91 Parser.
  *
+ * @package PicoFeed\Parser
  * @author  Frederic Guillot
- * @package Parser
  */
 class Rss91 extends Rss20
 {

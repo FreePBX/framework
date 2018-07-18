@@ -9,6 +9,6 @@ return array(
             ),
             'strip' => array(
             ),
-        )
-    )
+        ),
+    ),
 );

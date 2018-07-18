@@ -9,7 +9,7 @@ return array(
                 '//div[@class="story-content"]',
             ),
             'strip' => array(
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

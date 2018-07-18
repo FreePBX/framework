@@ -14,6 +14,10 @@ class_alias('FreePBX\FreePBX_Helpers', 'FreePBX_Helpers');
 class_alias('FreePBX\Request_Helper', 'Request_Helper');
 class_alias('FreePBX\DB_Helper', 'DB_Helper');
 class_alias('FreePBX\Freepbx_conf', 'Freepbx_conf');
+
+class_alias('Rhumsaa\Uuid\Uuid', 'Ramsey\Uuid\Uuid');
+class_alias('Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException', 'Ramsey\Uuid\Exception\UnsatisfiedDependencyException');
+
 /**
  * This is the FreePBX Big Module Object.
  *

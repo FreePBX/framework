@@ -7,7 +7,7 @@ return array(
                 '//div[@class="single-left"]',
             ),
             'strip' => array(
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

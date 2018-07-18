@@ -4,4 +4,4 @@
 
 require_once __DIR__ . '/composer/autoload_real.php';
 
-return ComposerAutoloaderInit29de5ac29f36fb522a59e5e3da081c0a::getLoader();
+return ComposerAutoloaderInitpbxframework::getLoader();

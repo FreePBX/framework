@@ -10,6 +10,6 @@ return array(
             'strip' => array(
                 '//*[contains(@class, "related_item")]',
             ),
-        )
-    )
+        ),
+    ),
 );

@@ -6,6 +6,6 @@ return array(
             'body' => array(
                 '//div[@role="article"]/div[contains(@class, "eE")]',
             ),
-        )
-    )
+        ),
+    ),
 );

@@ -18,7 +18,7 @@ return array(
                 '//div[contains(@class, "cnnArticleGalleryNavPrevNext")]',
                 '//div[contains(@class, "cnn_html_media_title_new")]',
                 '//div[contains(@id, "disqus")]',
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

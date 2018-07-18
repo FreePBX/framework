@@ -5,54 +5,51 @@ namespace PicoFeed\Client;
 use PicoFeed\Logging\Logger;
 
 /**
- * cURL HTTP client
+ * cURL HTTP client.
  *
  * @author  Frederic Guillot
- * @package Client
  */
 class Curl extends Client
 {
+    protected $nbRedirects = 0;
+
     /**
-     * HTTP response body
+     * HTTP response body.
      *
-     * @access private
      * @var string
      */
     private $body = '';
 
     /**
-     * Body size
+     * Body size.
      *
-     * @access private
-     * @var integer
+     * @var int
      */
     private $body_length = 0;
 
     /**
-     * HTTP response headers
+     * HTTP response headers.
      *
-     * @access private
      * @var array
      */
     private $response_headers = array();
 
     /**
-     * Counter on the number of header received
+     * Counter on the number of header received.
      *
-     * @access private
-     * @var integer
+     * @var int
      */
     private $response_headers_count = 0;
 
     /**
-     * cURL callback to read the HTTP body
+     * cURL callback to read the HTTP body.
      *
      * If the function return -1, curl stop to read the HTTP response
      *
-     * @access public
-     * @param  resource  $ch       cURL handler
-     * @param  string    $buffer   Chunk of data
-     * @return integer   Length of the buffer
+     * @param resource $ch     cURL handler
+     * @param string   $buffer Chunk of data
+     *
+     * @return int Length of the buffer
      */
     public function readBody($ch, $buffer)
     {
@@ -69,23 +66,21 @@ class Curl extends Client
     }
 
     /**
-     * cURL callback to read HTTP headers
+     * cURL callback to read HTTP headers.
      *
-     * @access public
-     * @param  resource  $ch       cURL handler
-     * @param  string    $buffer   Header line
-     * @return integer   Length of the buffer
+     * @param resource $ch     cURL handler
+     * @param string   $buffer Header line
+     *
+     * @return int Length of the buffer
      */
     public function readHeaders($ch, $buffer)
     {
         $length = strlen($buffer);
 
         if ($buffer === "\r\n" || $buffer === "\n") {
-            $this->response_headers_count++;
-        }
-        else {
-
-            if (! isset($this->response_headers[$this->response_headers_count])) {
+            ++$this->response_headers_count;
+        } else {
+            if (!isset($this->response_headers[$this->response_headers_count])) {
                 $this->response_headers[$this->response_headers_count] = '';
             }
 
@@ -96,47 +91,41 @@ class Curl extends Client
     }
 
     /**
-     * cURL callback to passthrough the HTTP status header to the client
-     *
-     * @access public
-     * @param  resource  $ch       cURL handler
-     * @param  string    $buffer   Header line
-     * @return integer   Length of the buffer
-     */
-    public function passthroughHeaders($ch, $buffer)
-    {
-        list($status, $headers) = HttpHeaders::parse(array($buffer));
-
-        if ($status !== 0) {
-            header(':', true, $status);
-        }
-        elseif (isset($headers['Content-Type'])) {
-            header($buffer);
-        }
-
-        return $this->readHeaders($ch, $buffer);
-    }
-
-    /**
-     * cURL callback to passthrough the HTTP body to the client
+     * cURL callback to passthrough the HTTP body to the client.
      *
      * If the function return -1, curl stop to read the HTTP response
      *
-     * @access public
-     * @param  resource  $ch       cURL handler
-     * @param  string    $buffer   Chunk of data
-     * @return integer   Length of the buffer
+     * @param resource $ch     cURL handler
+     * @param string   $buffer Chunk of data
+     *
+     * @return int Length of the buffer
      */
     public function passthroughBody($ch, $buffer)
     {
+        // do it only at the beginning of a transmission
+        if ($this->body_length === 0) {
+            list($status, $headers) = HttpHeaders::parse(explode("\n", $this->response_headers[$this->response_headers_count - 1]));
+
+            if ($this->isRedirection($status)) {
+                return $this->handleRedirection($headers['Location']);
+            }
+
+            if (isset($headers['Content-Type'])) {
+                header('Content-Type:' .$headers['Content-Type']);
+            }
+        }
+
+        $length = strlen($buffer);
+        $this->body_length += $length;
+
         echo $buffer;
-        return strlen($buffer);
+
+        return $length;
     }
 
     /**
-     * Prepare HTTP headers
+     * Prepare HTTP headers.
      *
-     * @access private
      * @return string[]
      */
     private function prepareHeaders()
@@ -147,6 +136,7 @@ class Curl extends Client
 
         if ($this->etag) {
             $headers[] = 'If-None-Match: '.$this->etag;
+            $headers[] = 'A-IM: feed';
         }
 
         if ($this->last_modified) {
@@ -159,16 +149,15 @@ class Curl extends Client
     }
 
     /**
-     * Prepare curl proxy context
+     * Prepare curl proxy context.
      *
-     * @access private
-     * @param  resource $ch
+     * @param resource $ch
+     *
      * @return resource $ch
      */
     private function prepareProxyContext($ch)
     {
         if ($this->proxy_hostname) {
-
             Logger::setMessage(get_called_class().' Proxy: '.$this->proxy_hostname.':'.$this->proxy_port);
 
             curl_setopt($ch, CURLOPT_PROXYPORT, $this->proxy_port);
@@ -178,8 +167,7 @@ class Curl extends Client
             if ($this->proxy_username) {
                 Logger::setMessage(get_called_class().' Proxy credentials: Yes');
                 curl_setopt($ch, CURLOPT_PROXYUSERPWD, $this->proxy_username.':'.$this->proxy_password);
-            }
-            else {
+            } else {
                 Logger::setMessage(get_called_class().' Proxy credentials: No');
             }
         }
@@ -188,10 +176,10 @@ class Curl extends Client
     }
 
     /**
-     * Prepare curl auth context
+     * Prepare curl auth context.
      *
-     * @access private
-     * @param  resource $ch
+     * @param resource $ch
+     *
      * @return resource $ch
      */
     private function prepareAuthContext($ch)
@@ -204,21 +192,22 @@ class Curl extends Client
     }
 
     /**
-     * Set write/header functions
+     * Set write/header functions.
      *
-     * @access private
-     * @param  resource $ch
+     * @param resource $ch
+     *
      * @return resource $ch
      */
     private function prepareDownloadMode($ch)
     {
+        $this->body = '';
+        $this->response_headers = array();
+        $this->response_headers_count = 0;
         $write_function = 'readBody';
         $header_function = 'readHeaders';
 
         if ($this->isPassthroughEnabled()) {
             $write_function = 'passthroughBody';
-            $header_function = 'passthroughHeaders';
-
         }
 
         curl_setopt($ch, CURLOPT_WRITEFUNCTION, array($this, $write_function));
@@ -228,9 +217,22 @@ class Curl extends Client
     }
 
     /**
-     * Prepare curl context
+     * Set additional CURL options.
      *
-     * @access private
+     * @param resource $ch
+     *
+     * @return resource $ch
+     */
+    private function prepareAdditionalCurlOptions($ch){
+        foreach( $this->additional_curl_options as $c_op => $c_val ){
+            curl_setopt($ch, $c_op, $c_val);
+        }
+        return $ch;
+    }
+
+    /**
+     * Prepare curl context.
+     *
      * @return resource
      */
     private function prepareContext()
@@ -261,14 +263,13 @@ class Curl extends Client
         $ch = $this->prepareDownloadMode($ch);
         $ch = $this->prepareProxyContext($ch);
         $ch = $this->prepareAuthContext($ch);
+        $ch = $this->prepareAdditionalCurlOptions($ch);
 
         return $ch;
     }
 
     /**
-     * Execute curl context
-     *
-     * @access private
+     * Execute curl context.
      */
     private function executeContext()
     {
@@ -297,39 +298,40 @@ class Curl extends Client
     }
 
     /**
-     * Do the HTTP request
+     * Do the HTTP request.
      *
-     * @access public
-     * @param  bool    $follow_location    Flag used when there is an open_basedir restriction
-     * @return array                       HTTP response ['body' => ..., 'status' => ..., 'headers' => ...]
+     * @return array HTTP response ['body' => ..., 'status' => ..., 'headers' => ...]
      */
-    public function doRequest($follow_location = true)
+    public function doRequest()
     {
         $this->executeContext();
 
         list($status, $headers) = HttpHeaders::parse(explode("\n", $this->response_headers[$this->response_headers_count - 1]));
 
-        if ($follow_location && ($status == 301 || $status == 302)) {
-            return $this->handleRedirection($headers['Location']);
+        if ($this->isRedirection($status)) {
+            if (empty($headers['Location'])) {
+                $status = 200;
+            } else {
+                return $this->handleRedirection($headers['Location']);
+            }
         }
 
         return array(
             'status' => $status,
             'body' => $this->body,
-            'headers' => $headers
+            'headers' => $headers,
         );
     }
 
     /**
-     * Handle manually redirections when there is an open base dir restriction
+     * Handle HTTP redirects
      *
-     * @access private
-     * @param  string     $location       Redirected URL
+     * @param string $location Redirected URL
      * @return array
+     * @throws MaxRedirectException
      */
     private function handleRedirection($location)
     {
-        $nb_redirects = 0;
         $result = array();
         $this->url = Url::resolve($location, $this->url);
         $this->body = '';
@@ -338,23 +340,21 @@ class Curl extends Client
         $this->response_headers_count = 0;
 
         while (true) {
+            $this->nbRedirects++;
 
-            $nb_redirects++;
-
-            if ($nb_redirects >= $this->max_redirects) {
+            if ($this->nbRedirects >= $this->max_redirects) {
                 throw new MaxRedirectException('Maximum number of redirections reached');
             }
 
-            $result = $this->doRequest(false);
+            $result = $this->doRequest();
 
-            if ($result['status'] == 301 || $result['status'] == 302) {
+            if ($this->isRedirection($result['status'])) {
                 $this->url = Url::resolve($result['headers']['Location'], $this->url);
                 $this->body = '';
                 $this->body_length = 0;
                 $this->response_headers = array();
                 $this->response_headers_count = 0;
-            }
-            else {
+            } else {
                 break;
             }
         }
@@ -363,28 +363,33 @@ class Curl extends Client
     }
 
     /**
-     * Handle cURL errors (throw individual exceptions)
+     * Handle cURL errors (throw individual exceptions).
      *
      * We don't use constants because they are not necessary always available
      * (depends of the version of libcurl linked to php)
      *
      * @see    http://curl.haxx.se/libcurl/c/libcurl-errors.html
-     * @access private
-     * @param  integer     $errno    cURL error code
+     *
+     * @param int $errno cURL error code
+     * @throws InvalidCertificateException
+     * @throws InvalidUrlException
+     * @throws MaxRedirectException
+     * @throws MaxSizeException
+     * @throws TimeoutException
      */
     private function handleError($errno)
     {
         switch ($errno) {
             case 78: // CURLE_REMOTE_FILE_NOT_FOUND
-                throw new InvalidUrlException('Resource not found');
+                throw new InvalidUrlException('Resource not found', $errno);
             case 6:  // CURLE_COULDNT_RESOLVE_HOST
-                throw new InvalidUrlException('Unable to resolve hostname');
+                throw new InvalidUrlException('Unable to resolve hostname', $errno);
             case 7:  // CURLE_COULDNT_CONNECT
-                throw new InvalidUrlException('Unable to connect to the remote host');
+                throw new InvalidUrlException('Unable to connect to the remote host', $errno);
             case 23: // CURLE_WRITE_ERROR
-                throw new MaxSizeException('Maximum response size exceeded');
+                throw new MaxSizeException('Maximum response size exceeded', $errno);
             case 28: // CURLE_OPERATION_TIMEDOUT
-                throw new TimeoutException('Operation timeout');
+                throw new TimeoutException('Operation timeout', $errno);
             case 35: // CURLE_SSL_CONNECT_ERROR
             case 51: // CURLE_PEER_FAILED_VERIFICATION
             case 58: // CURLE_SSL_CERTPROBLEM
@@ -394,13 +399,14 @@ class Curl extends Client
             case 66: // CURLE_SSL_ENGINE_INITFAILED
             case 77: // CURLE_SSL_CACERT_BADFILE
             case 83: // CURLE_SSL_ISSUER_ERROR
-                throw new InvalidCertificateException('Invalid SSL certificate');
+                $msg = 'Invalid SSL certificate caused by CURL error number ' . $errno;
+                throw new InvalidCertificateException($msg, $errno);
             case 47: // CURLE_TOO_MANY_REDIRECTS
-                throw new MaxRedirectException('Maximum number of redirections reached');
+                throw new MaxRedirectException('Maximum number of redirections reached', $errno);
             case 63: // CURLE_FILESIZE_EXCEEDED
-                throw new MaxSizeException('Maximum response size exceeded');
+                throw new MaxSizeException('Maximum response size exceeded', $errno);
             default:
-                throw new InvalidUrlException('Unable to fetch the URL');
+                throw new InvalidUrlException('Unable to fetch the URL', $errno);
         }
     }
 }

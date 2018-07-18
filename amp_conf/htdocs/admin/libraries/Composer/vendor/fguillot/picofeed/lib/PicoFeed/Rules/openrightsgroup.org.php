@@ -15,6 +15,6 @@ return array(
                 '//h1[@class="pageTitle"]',
                 '//p[@class="bookmarkThis"]',
             ),
-        )
-    )
+        ),
+    ),
 );

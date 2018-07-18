@@ -21,8 +21,8 @@ if(false) {
 	_("Nightly");
 }
 
-use Rhumsaa\Uuid\Uuid;
-use Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 
 class module_functions {
 	public $security_array = null;
@@ -2980,6 +2980,14 @@ class module_functions {
 				$nt->delete('freepbx', 'SYSTEMSSH');
 			}
 			$options['extraid'] = base64_encode(json_encode($extras));
+
+			// Allow third party ioncube and zend modules.
+			if (function_exists('zend_get_id')) {
+				$options['zend'] = "available";
+			}
+			if (function_exists("ioncube_loader_version")) {
+				$options['ioncube'] = ioncube_loader_version();
+			}
 
 			// Other modules may need to add 'get' paramters to the call to the repo. Check and add them
 			// here if we are adding paramters. The module should return an array of key/value pairs each of which

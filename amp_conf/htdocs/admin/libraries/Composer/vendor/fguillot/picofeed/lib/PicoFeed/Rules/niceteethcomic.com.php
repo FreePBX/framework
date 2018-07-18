@@ -5,6 +5,6 @@ return array(
             'test_url' => 'http://niceteethcomic.com/archives/page119/',
             'body' => array('//*[@class="comicpane"]/a/img'),
             'strip' => array(),
-        )
-    )
+        ),
+    ),
 );

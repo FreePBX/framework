@@ -7,6 +7,6 @@ return array(
                 '//div[1]/p[1]/a[1]/img',
             ),
             'strip' => array(),
-        )
-    )
+        ),
+    ),
 );

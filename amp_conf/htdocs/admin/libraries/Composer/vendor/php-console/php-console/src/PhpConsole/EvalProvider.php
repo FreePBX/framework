@@ -7,7 +7,7 @@ namespace PhpConsole;
  *
  * @package PhpConsole
  * @version 3.1
- * @link http://php-console.com
+ * @link http://consle.com
  * @author Sergey Barbushin http://linkedin.com/in/barbushin
  * @copyright © Sergey Barbushin, 2011-2013. All rights reserved.
  * @license http://www.opensource.org/licenses/BSD-3-Clause "The BSD 3-Clause License"
@@ -40,6 +40,9 @@ class EvalProvider {
 		$startTime = microtime(true);
 		try {
 			$result->return = static::executeCode($code, $this->sharedVars);
+		}
+		catch(\Throwable $exception) {
+			$result->exception = $exception;
 		}
 		catch(\Exception $exception) {
 			$result->exception = $exception;
@@ -104,24 +107,21 @@ class EvalProvider {
 
 	/**
 	 * Execute code with shared vars
-	 * @param $code
-	 * @param array $sharedVars
+	 * @param $_code
+	 * @param array $_sharedVars
 	 * @return mixed
 	 */
-	protected static function executeCode($code, array $sharedVars) {
-		unset($code);
-		unset($sharedVars);
-
-		foreach(func_get_arg(1) as $var => $value) {
+	protected static function executeCode($_code, array $_sharedVars) {
+		foreach($_sharedVars as $var => $value) {
 			if(isset($GLOBALS[$var]) && $var[0] == '_') { // extract($this->sharedVars, EXTR_OVERWRITE) and $$var = $value do not overwrites global vars
 				$GLOBALS[$var] = $value;
 			}
-			else {
+			elseif(!isset($$var)) {
 				$$var = $value;
 			}
 		}
 
-		return eval(func_get_arg(0));
+		return eval($_code);
 	}
 
 	/**
@@ -164,6 +164,7 @@ class EvalProvider {
 	 * Protect response code access only to specified directories using http://www.php.net/manual/en/ini.core.php#ini.open-basedir
 	 * IMPORTANT: classes autoload methods will work only for specified directories
 	 * @param array $openBaseDirs
+	 * @codeCoverageIgnore
 	 */
 	public function setOpenBaseDirs(array $openBaseDirs) {
 		$this->openBaseDirs = $openBaseDirs;
@@ -171,6 +172,7 @@ class EvalProvider {
 
 	/**
 	 * Autoload all PHP Console classes
+	 * @codeCoverageIgnore
 	 */
 	protected function forcePhpConsoleClassesAutoLoad() {
 		foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator(__DIR__), \RecursiveIteratorIterator::LEAVES_ONLY) as $path) {
@@ -184,6 +186,7 @@ class EvalProvider {
 	/**
 	 * Set actual "open_basedir" PHP ini option
 	 * @throws \Exception
+	 * @codeCoverageIgnore
 	 */
 	protected function applyOpenBaseDirSetting() {
 		if($this->openBaseDirs) {
@@ -201,6 +204,7 @@ class EvalProvider {
 	 * Protect response code from reading/writing/including any files using http://www.php.net/manual/en/ini.core.php#ini.open-basedir
 	 * IMPORTANT: It does not protects from system(), exec(), passthru(), popen() & etc OS commands execution functions
 	 * IMPORTANT: Classes autoload methods will not work, so all required classes must be loaded before code evaluation
+	 * @codeCoverageIgnore
 	 */
 	public function disableFileAccessByOpenBaseDir() {
 		$this->setOpenBaseDirs(array(__DIR__ . '/not_existed_dir' . mt_rand()));
@@ -211,7 +215,6 @@ class EvalProvider {
 	 * @param $name
 	 * @param $var
 	 * @throws \Exception
-	 * @internal param bool $asReference
 	 */
 	public function addSharedVar($name, $var) {
 		$this->addSharedVarReference($name, $var);
@@ -222,7 +225,6 @@ class EvalProvider {
 	 * @param $name
 	 * @param $var
 	 * @throws \Exception
-	 * @internal param bool $asReference
 	 */
 	public function addSharedVarReference($name, &$var) {
 		if(isset($this->sharedVars[$name])) {

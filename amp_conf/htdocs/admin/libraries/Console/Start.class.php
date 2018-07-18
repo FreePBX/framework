@@ -162,7 +162,13 @@ class Start extends Command {
 	private function startAsterisk($output){
 		$output->writeln(_('Starting Asterisk...'));
 		$astbin = '/usr/bin/env safe_asterisk -U '.\FreePBX::Config()->get('AMPASTERISKUSER').' -G '.\FreePBX::Config()->get('AMPASTERISKGROUP').' > /dev/null 2>&1 &';
+
 		$process = new Process($astbin);
+		$env = $this->getDefaultEnv();
+		if(empty($env['TERM'])) {
+			$env['TERM'] = 'xterm-256color';
+		}
+		$process->setEnv($env);
 		try {
 			$process->mustRun();
 		} catch (ProcessFailedException $e) {
@@ -239,5 +245,24 @@ class Start extends Command {
 		}
 
 		return $help;
+	}
+
+	//thanks symfony console
+	private function getDefaultEnv() {
+		$env = array();
+
+		foreach ($_SERVER as $k => $v) {
+			if (is_string($v) && false !== $v = getenv($k)) {
+				$env[$k] = $v;
+			}
+		}
+
+		foreach ($_ENV as $k => $v) {
+			if (is_string($v)) {
+				$env[$k] = $v;
+			}
+		}
+
+		return $env;
 	}
 }

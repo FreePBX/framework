@@ -7,7 +7,7 @@ return array(
                 '//article[contains(@class, "body prose")]',
             ),
             'strip' => array(
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

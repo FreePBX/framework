@@ -7,7 +7,7 @@ return array(
                 '//div[@class="news_body"]',
             ),
             'strip' => array(
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

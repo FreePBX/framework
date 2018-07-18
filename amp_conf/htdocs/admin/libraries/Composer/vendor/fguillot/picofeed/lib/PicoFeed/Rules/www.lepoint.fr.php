@@ -12,7 +12,7 @@ return array(
                 '//*[contains(@class, "entete2_article")]',
                 '//*[contains(@class, "signature_article")]',
                 '//*[contains(@id, "share")]',
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

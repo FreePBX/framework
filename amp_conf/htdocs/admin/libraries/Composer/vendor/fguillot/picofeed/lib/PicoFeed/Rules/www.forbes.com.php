@@ -14,7 +14,7 @@ return array(
                 '//div[contains(@id, "comment")]',
                 '//div[contains(@class, "widget")]',
                 '//div[contains(@class, "pagination")]',
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

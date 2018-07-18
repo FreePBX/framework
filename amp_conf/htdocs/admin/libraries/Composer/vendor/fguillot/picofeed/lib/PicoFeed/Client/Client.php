@@ -2,220 +2,215 @@
 
 namespace PicoFeed\Client;
 
+use DateTime;
+use Exception;
 use LogicException;
 use PicoFeed\Logging\Logger;
+use PicoFeed\Config\Config;
 
 /**
- * Client class
+ * Client class.
  *
  * @author  Frederic Guillot
- * @package client
  */
 abstract class Client
 {
     /**
-     * Flag that say if the resource have been modified
+     * Flag that say if the resource have been modified.
      *
-     * @access private
      * @var bool
      */
     private $is_modified = true;
 
     /**
-     * HTTP Content-Type
+     * HTTP Content-Type.
      *
-     * @access private
      * @var string
      */
     private $content_type = '';
 
     /**
-     * HTTP encoding
+     * HTTP encoding.
      *
-     * @access private
      * @var string
      */
     private $encoding = '';
 
     /**
-     * HTTP request headers
+     * HTTP request headers.
      *
-     * @access protected
      * @var array
      */
     protected $request_headers = array();
 
     /**
-     * HTTP Etag header
+     * HTTP Etag header.
      *
-     * @access protected
      * @var string
      */
     protected $etag = '';
 
     /**
-     * HTTP Last-Modified header
+     * HTTP Last-Modified header.
      *
-     * @access protected
      * @var string
      */
     protected $last_modified = '';
 
     /**
-     * Proxy hostname
+     * Expiration DateTime
      *
-     * @access protected
+     * @var DateTime
+     */
+    protected $expiration = null;
+
+    /**
+     * Proxy hostname.
+     *
      * @var string
      */
     protected $proxy_hostname = '';
 
     /**
-     * Proxy port
+     * Proxy port.
      *
-     * @access protected
-     * @var integer
+     * @var int
      */
     protected $proxy_port = 3128;
 
     /**
-     * Proxy username
+     * Proxy username.
      *
-     * @access protected
      * @var string
      */
     protected $proxy_username = '';
 
     /**
-     * Proxy password
+     * Proxy password.
      *
-     * @access protected
      * @var string
      */
     protected $proxy_password = '';
 
     /**
-     * Basic auth username
+     * Basic auth username.
      *
-     * @access protected
      * @var string
      */
     protected $username = '';
 
     /**
-     * Basic auth password
+     * Basic auth password.
      *
-     * @access protected
      * @var string
      */
     protected $password = '';
 
     /**
-     * Client connection timeout
+     * CURL options.
      *
-     * @access protected
-     * @var integer
+     * @var array
+     */
+    protected $additional_curl_options = array();
+
+    /**
+     * Client connection timeout.
+     *
+     * @var int
      */
     protected $timeout = 10;
 
     /**
-     * User-agent
+     * User-agent.
      *
-     * @access protected
      * @var string
      */
-    protected $user_agent = 'PicoFeed (https://github.com/fguillot/picoFeed)';
+    protected $user_agent = 'PicoFeed (https://github.com/miniflux/picoFeed)';
 
     /**
-     * Real URL used (can be changed after a HTTP redirect)
+     * Real URL used (can be changed after a HTTP redirect).
      *
-     * @access protected
      * @var string
      */
     protected $url = '';
 
     /**
-     * Page/Feed content
+     * Page/Feed content.
      *
-     * @access protected
      * @var string
      */
     protected $content = '';
 
     /**
-     * Number maximum of HTTP redirections to avoid infinite loops
+     * Number maximum of HTTP redirections to avoid infinite loops.
      *
-     * @access protected
-     * @var integer
+     * @var int
      */
     protected $max_redirects = 5;
 
     /**
-     * Maximum size of the HTTP body response
+     * Maximum size of the HTTP body response.
      *
-     * @access protected
-     * @var integer
+     * @var int
      */
     protected $max_body_size = 2097152; // 2MB
 
     /**
-     * HTTP response status code
+     * HTTP response status code.
      *
-     * @access protected
-     * @var integer
+     * @var int
      */
     protected $status_code = 0;
 
     /**
-     * Enables direct passthrough to requesting client
+     * Enables direct passthrough to requesting client.
      *
-     * @access protected
      * @var bool
      */
     protected $passthrough = false;
 
     /**
-     * Do the HTTP request
+     * Do the HTTP request.
      *
      * @abstract
-     * @access public
+     *
      * @return array
      */
     abstract public function doRequest();
 
     /**
-     * Get client instance: curl or stream driver
+     * Get client instance: curl or stream driver.
      *
      * @static
-     * @access public
+     *
      * @return \PicoFeed\Client\Client
      */
     public static function getInstance()
     {
         if (function_exists('curl_init')) {
-            return new Curl;
-        }
-        else if (ini_get('allow_url_fopen')) {
-            return new Stream;
+            return new Curl();
+        } elseif (ini_get('allow_url_fopen')) {
+            return new Stream();
         }
 
         throw new LogicException('You must have "allow_url_fopen=1" or curl extension installed');
     }
 
     /**
-     * Add HTTP Header to the request
+     * Add HTTP Header to the request.
      *
-     * @access public
      * @param array $headers
      */
-    public function setHeaders($headers) {
+    public function setHeaders($headers)
+    {
         $this->request_headers = $headers;
     }
 
     /**
-     * Perform the HTTP request
+     * Perform the HTTP request.
      *
-     * @access public
-     * @param  string  $url  URL
+     * @param string $url URL
+     *
      * @return Client
      */
     public function execute($url = '')
@@ -232,24 +227,25 @@ abstract class Client
 
         $this->status_code = $response['status'];
         $this->handleNotModifiedResponse($response);
-        $this->handleNotFoundResponse($response);
+        $this->handleErrorResponse($response);
         $this->handleNormalResponse($response);
+
+        $this->expiration = $this->parseExpiration($response['headers']);
+        Logger::setMessage(get_called_class().' Expiration: '.$this->expiration->format(DATE_ISO8601));
 
         return $this;
     }
 
     /**
-     * Handle not modified response
+     * Handle not modified response.
      *
-     * @access public
-     * @param  array      $response     Client response
+     * @param array $response Client response
      */
-    public function handleNotModifiedResponse(array $response)
+    protected function handleNotModifiedResponse(array $response)
     {
         if ($response['status'] == 304) {
             $this->is_modified = false;
-        }
-        else if ($response['status'] == 200) {
+        } elseif ($response['status'] == 200) {
             $this->is_modified = $this->hasBeenModified($response, $this->etag, $this->last_modified);
             $this->etag = $this->getHeader($response, 'ETag');
             $this->last_modified = $this->getHeader($response, 'Last-Modified');
@@ -261,25 +257,31 @@ abstract class Client
     }
 
     /**
-     * Handle not found response
+     * Handle Http Error codes
      *
-     * @access public
-     * @param  array      $response     Client response
+     * @param array $response Client response
+     * @throws ForbiddenException
+     * @throws InvalidUrlException
+     * @throws UnauthorizedException
      */
-    public function handleNotFoundResponse(array $response)
+    protected function handleErrorResponse(array $response)
     {
-        if ($response['status'] == 404) {
+        $status = $response['status'];
+        if ($status == 401) {
+            throw new UnauthorizedException('Wrong or missing credentials');
+        } else if ($status == 403) {
+            throw new ForbiddenException('Not allowed to access resource');
+        } else if ($status == 404) {
             throw new InvalidUrlException('Resource not found');
         }
     }
 
     /**
-     * Handle normal response
+     * Handle normal response.
      *
-     * @access public
-     * @param  array      $response     Client response
+     * @param array $response Client response
      */
-    public function handleNormalResponse(array $response)
+    protected function handleNormalResponse(array $response)
     {
         if ($response['status'] == 200) {
             $this->content = $response['body'];
@@ -289,19 +291,19 @@ abstract class Client
     }
 
     /**
-     * Check if a request has been modified according to the parameters
+     * Check if a request has been modified according to the parameters.
      *
-     * @access public
-     * @param  array    $response
-     * @param  string   $etag
-     * @param  string   $lastModified
-     * @return boolean
+     * @param array  $response
+     * @param string $etag
+     * @param string $lastModified
+     *
+     * @return bool
      */
     private function hasBeenModified($response, $etag, $lastModified)
     {
         $headers = array(
             'Etag' => $etag,
-            'Last-Modified' => $lastModified
+            'Last-Modified' => $lastModified,
         );
 
         // Compare the values for each header that is present
@@ -311,7 +313,7 @@ abstract class Client
                 if ($response['headers'][$key] !== $value) {
                     return true;
                 }
-                $presentCacheHeaderCount++;
+                ++$presentCacheHeaderCount;
             }
         }
 
@@ -325,10 +327,9 @@ abstract class Client
     }
 
     /**
-     * Find content type from response headers
+     * Find content type from response headers.
      *
-     * @access public
-     * @param  array      $response     Client response
+     * @param array $response Client response
      * @return string
      */
     public function findContentType(array $response)
@@ -337,9 +338,8 @@ abstract class Client
     }
 
     /**
-     * Find charset from response headers
+     * Find charset from response headers.
      *
-     * @access public
      * @return string
      */
     public function findCharset()
@@ -349,11 +349,10 @@ abstract class Client
     }
 
     /**
-     * Get header value from a client response
+     * Get header value from a client response.
      *
-     * @access public
-     * @param  array      $response     Client response
-     * @param  string     $header       Header name
+     * @param array  $response Client response
+     * @param string $header   Header name
      * @return string
      */
     public function getHeader(array $response, $header)
@@ -362,11 +361,10 @@ abstract class Client
     }
 
     /**
-     * Set the Last-Modified HTTP header
+     * Set the Last-Modified HTTP header.
      *
-     * @access public
-     * @param  string   $last_modified   Header value
-     * @return \PicoFeed\Client\Client
+     * @param string $last_modified Header value
+     * @return $this
      */
     public function setLastModified($last_modified)
     {
@@ -375,9 +373,8 @@ abstract class Client
     }
 
     /**
-     * Get the value of the Last-Modified HTTP header
+     * Get the value of the Last-Modified HTTP header.
      *
-     * @access public
      * @return string
      */
     public function getLastModified()
@@ -386,11 +383,10 @@ abstract class Client
     }
 
     /**
-     * Set the value of the Etag HTTP header
+     * Set the value of the Etag HTTP header.
      *
-     * @access public
-     * @param  string   $etag   Etag HTTP header value
-     * @return \PicoFeed\Client\Client
+     * @param string $etag Etag HTTP header value
+     * @return $this
      */
     public function setEtag($etag)
     {
@@ -399,9 +395,8 @@ abstract class Client
     }
 
     /**
-     * Get the Etag HTTP header value
+     * Get the Etag HTTP header value.
      *
-     * @access public
      * @return string
      */
     public function getEtag()
@@ -410,9 +405,8 @@ abstract class Client
     }
 
     /**
-     * Get the final url value
+     * Get the final url value.
      *
-     * @access public
      * @return string
      */
     public function getUrl()
@@ -421,11 +415,10 @@ abstract class Client
     }
 
     /**
-     * Set the url
+     * Set the url.
      *
-     * @access public
+     * @param  $url
      * @return string
-     * @return \PicoFeed\Client\Client
      */
     public function setUrl($url)
     {
@@ -434,10 +427,9 @@ abstract class Client
     }
 
     /**
-     * Get the HTTP response status code
+     * Get the HTTP response status code.
      *
-     * @access public
-     * @return integer
+     * @return int
      */
     public function getStatusCode()
     {
@@ -445,9 +437,8 @@ abstract class Client
     }
 
     /**
-     * Get the body of the HTTP response
+     * Get the body of the HTTP response.
      *
-     * @access public
      * @return string
      */
     public function getContent()
@@ -456,9 +447,8 @@ abstract class Client
     }
 
     /**
-     * Get the content type value from HTTP headers
+     * Get the content type value from HTTP headers.
      *
-     * @access public
      * @return string
      */
     public function getContentType()
@@ -467,9 +457,8 @@ abstract class Client
     }
 
     /**
-     * Get the encoding value from HTTP headers
+     * Get the encoding value from HTTP headers.
      *
-     * @access public
      * @return string
      */
     public function getEncoding()
@@ -478,9 +467,8 @@ abstract class Client
     }
 
     /**
-     * Return true if the remote resource has changed
+     * Return true if the remote resource has changed.
      *
-     * @access public
      * @return bool
      */
     public function isModified()
@@ -489,9 +477,8 @@ abstract class Client
     }
 
     /**
-     * return true if passthrough mode is enabled
+     * return true if passthrough mode is enabled.
      *
-     * @access public
      * @return bool
      */
     public function isPassthroughEnabled()
@@ -500,11 +487,10 @@ abstract class Client
     }
 
     /**
-     * Set connection timeout
+     * Set connection timeout.
      *
-     * @access public
-     * @param  integer   $timeout   Connection timeout
-     * @return \PicoFeed\Client\Client
+     * @param int $timeout Connection timeout
+     * @return $this
      */
     public function setTimeout($timeout)
     {
@@ -513,11 +499,10 @@ abstract class Client
     }
 
     /**
-     * Set a custom user agent
+     * Set a custom user agent.
      *
-     * @access public
-     * @param  string   $user_agent   User Agent
-     * @return \PicoFeed\Client\Client
+     * @param string $user_agent User Agent
+     * @return $this
      */
     public function setUserAgent($user_agent)
     {
@@ -526,11 +511,10 @@ abstract class Client
     }
 
     /**
-     * Set the mximum number of HTTP redirections
+     * Set the maximum number of HTTP redirections.
      *
-     * @access public
-     * @param  integer   $max   Maximum
-     * @return \PicoFeed\Client\Client
+     * @param int $max Maximum
+     * @return $this
      */
     public function setMaxRedirections($max)
     {
@@ -539,11 +523,10 @@ abstract class Client
     }
 
     /**
-     * Set the maximum size of the HTTP body
+     * Set the maximum size of the HTTP body.
      *
-     * @access public
-     * @param  integer   $max   Maximum
-     * @return \PicoFeed\Client\Client
+     * @param int $max Maximum
+     * @return $this
      */
     public function setMaxBodySize($max)
     {
@@ -552,11 +535,10 @@ abstract class Client
     }
 
     /**
-     * Set the proxy hostname
+     * Set the proxy hostname.
      *
-     * @access public
-     * @param  string   $hostname    Proxy hostname
-     * @return \PicoFeed\Client\Client
+     * @param string $hostname Proxy hostname
+     * @return $this
      */
     public function setProxyHostname($hostname)
     {
@@ -565,11 +547,10 @@ abstract class Client
     }
 
     /**
-     * Set the proxy port
+     * Set the proxy port.
      *
-     * @access public
-     * @param  integer   $port   Proxy port
-     * @return \PicoFeed\Client\Client
+     * @param int $port Proxy port
+     * @return $this
      */
     public function setProxyPort($port)
     {
@@ -578,11 +559,10 @@ abstract class Client
     }
 
     /**
-     * Set the proxy username
+     * Set the proxy username.
      *
-     * @access public
-     * @param  string   $username   Proxy username
-     * @return \PicoFeed\Client\Client
+     * @param string $username Proxy username
+     * @return $this
      */
     public function setProxyUsername($username)
     {
@@ -591,11 +571,10 @@ abstract class Client
     }
 
     /**
-     * Set the proxy password
+     * Set the proxy password.
      *
-     * @access public
-     * @param  string  $password  Password
-     * @return \PicoFeed\Client\Client
+     * @param string $password Password
+     * @return $this
      */
     public function setProxyPassword($password)
     {
@@ -604,11 +583,11 @@ abstract class Client
     }
 
     /**
-     * Set the username
+     * Set the username.
      *
-     * @access public
-     * @param  string   $username   Basic Auth username
-     * @return \PicoFeed\Client\Client
+     * @param string $username Basic Auth username
+     *
+     * @return $this
      */
     public function setUsername($username)
     {
@@ -617,11 +596,11 @@ abstract class Client
     }
 
     /**
-     * Set the password
+     * Set the password.
      *
-     * @access public
-     * @param  string  $password  Basic Auth Password
-     * @return \PicoFeed\Client\Client
+     * @param string $password Basic Auth Password
+     *
+     * @return $this
      */
     public function setPassword($password)
     {
@@ -630,10 +609,22 @@ abstract class Client
     }
 
     /**
-     * Enable the passthrough mode
+     * Set the CURL options.
      *
-     * @access public
-     * @return \PicoFeed\Client\Client
+     * @param array $options
+     * @return $this
+     */
+    public function setAdditionalCurlOptions(array $options)
+    {
+        $this->additional_curl_options = $options ?: $this->additional_curl_options;
+        return $this;
+    }
+
+
+    /**
+     * Enable the passthrough mode.
+     *
+     * @return $this
      */
     public function enablePassthroughMode()
     {
@@ -642,10 +633,9 @@ abstract class Client
     }
 
     /**
-     * Disable the passthrough mode
+     * Disable the passthrough mode.
      *
-     * @access public
-     * @return \PicoFeed\Client\Client
+     * @return $this
      */
     public function disablePassthroughMode()
     {
@@ -654,13 +644,12 @@ abstract class Client
     }
 
     /**
-     * Set config object
+     * Set config object.
      *
-     * @access public
-     * @param  \PicoFeed\Config\Config  $config   Config instance
-     * @return \PicoFeed\Client\Client
+     * @param \PicoFeed\Config\Config $config Config instance
+     * @return $this
      */
-    public function setConfig($config)
+    public function setConfig(Config $config)
     {
         if ($config !== null) {
             $this->setTimeout($config->getClientTimeout());
@@ -671,8 +660,53 @@ abstract class Client
             $this->setProxyPort($config->getProxyPort());
             $this->setProxyUsername($config->getProxyUsername());
             $this->setProxyPassword($config->getProxyPassword());
+            $this->setAdditionalCurlOptions($config->getAdditionalCurlOptions() ?: array());
         }
 
         return $this;
+    }
+
+    /**
+     * Return true if the HTTP status code is a redirection
+     *
+     * @access protected
+     * @param  integer  $code
+     * @return boolean
+     */
+    public function isRedirection($code)
+    {
+        return $code == 301 || $code == 302 || $code == 303 || $code == 307;
+    }
+
+    public function parseExpiration(HttpHeaders $headers)
+    {
+        try {
+
+            if (isset($headers['Cache-Control'])) {
+                if (preg_match('/s-maxage=(\d+)/', $headers['Cache-Control'], $matches)) {
+                    return new DateTime('+' . $matches[1] . ' seconds');
+                } else if (preg_match('/max-age=(\d+)/', $headers['Cache-Control'], $matches)) {
+                    return new DateTime('+' . $matches[1] . ' seconds');
+                }
+            }
+
+            if (! empty($headers['Expires'])) {
+                return new DateTime($headers['Expires']);
+            }
+        } catch (Exception $e) {
+            Logger::setMessage('Unable to parse expiration date: '.$e->getMessage());
+        }
+
+        return new DateTime();
+    }
+
+    /**
+     * Get expiration date time from "Expires" or "Cache-Control" headers
+     *
+     * @return DateTime
+     */
+    public function getExpiration()
+    {
+        return $this->expiration ?: new DateTime();
     }
 }

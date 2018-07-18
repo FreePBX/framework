@@ -232,20 +232,6 @@ if(!empty($amp_conf['FPBXPERFLOGGING'])) {
 $asterisk_conf = $freepbx_conf->get_asterisk_conf();
 $bootstrap_settings['amportal_conf_initialized'] = true;
 
-if(!empty($_POST)) {
-	$p = $_REQUEST;
-	if(isset($p['secret'])) {
-		unset($p['secret']);
-	}
-	if(isset($p['password'])) {
-		unset($p['password']);
-	}
-	if (isset($p['devinfo_secret_origional'])) {
-		unset($p['devinfo_secret_origional']);
-	}
-	freepbx_log_security(json_encode($p));
-}
-
 //connect to cdrdb if requestes
 if ($bootstrap_settings['cdrdb']) {
 	$dsn = array(

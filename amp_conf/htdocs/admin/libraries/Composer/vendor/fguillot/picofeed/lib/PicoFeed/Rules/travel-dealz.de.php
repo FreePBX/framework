@@ -10,6 +10,6 @@ return array(
                 '//*[@class="post-data"]',
                 '//*[@id="author-meta"]',
             ),
-        )
-    )
+        ),
+    ),
 );

@@ -8,6 +8,6 @@ return array(
             ),
             'strip' => array(
             ),
-        )
-    )
+        ),
+    ),
 );

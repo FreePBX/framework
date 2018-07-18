@@ -13,7 +13,7 @@ return array(
                 '//*[contains(@class, "meta")]',
                 '//*[contains(@class, "postitle")]',
                 '//*[@id="nav-below"]',
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );

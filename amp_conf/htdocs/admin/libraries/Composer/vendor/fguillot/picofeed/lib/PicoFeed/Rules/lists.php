@@ -7,7 +7,7 @@ return array(
                 '//pre',
             ),
             'strip' => array(
-            )
-        )
-    )
+            ),
+        ),
+    ),
 );
