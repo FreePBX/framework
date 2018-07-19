@@ -3303,6 +3303,14 @@ class module_functions {
 		$options['distrover'] = $distro_info['pbx_version'];
 		$options['pbxver'] = getversion();
 
+		// Allow third party ioncube and zend modules.
+		if (function_exists('zend_get_id')) {
+			$options['zend'] = "available";
+		}
+		if (function_exists("ioncube_loader_version")) {
+			$options['ioncube'] = ioncube_loader_version();
+		}
+
 		$repos = explode(',', \FreePBX::Config()->get('MODULE_REPO'));
 		foreach($repos as $url) {
 			//TODO: This is a placeholder URL and should be changed
