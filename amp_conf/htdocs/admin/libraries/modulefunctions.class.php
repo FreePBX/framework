@@ -3245,11 +3245,17 @@ class module_functions {
 		$base_version = $matches[1];
 
 		$options = array(
+			"deploymentid" => $this->_deploymentid(),
 			'phpver' => phpversion(),
 			'rawname' => $modulename,
 			'tag' => $moduleversion,
 			'framework' => $base_version
 		);
+
+		$distro_info = $this->_distro_id();
+		$options['distro'] = $distro_info['pbx_type'];
+		$options['distrover'] = $distro_info['pbx_version'];
+		$options['pbxver'] = getversion();
 
 		$repos = explode(',', \FreePBX::Config()->get('MODULE_REPO'));
 		foreach($repos as $url) {
