@@ -9,7 +9,7 @@ namespace FreePBX;
  * Copyright 2006-2015 Sangoma Technologies
  */
 
-/** 
+/**
  * This controls the realtime parts of Asterisk. At the moment,
  * the only thing that FreePBX tries to modify is the queue log,
  * but this may expand in the future.
@@ -24,6 +24,10 @@ class Realtime extends FreePBX_Helpers {
 	public function disableQueueLog() {
 		$this->setConfig("queuelog", false);
 		$this->setConfig("queuelog-conf", false);
+	}
+
+	public function queueLogEnabled() {
+		return $this->getConfig("queuelog");
 	}
 
 	public function write() {
@@ -57,4 +61,3 @@ class Realtime extends FreePBX_Helpers {
 		}
 	}
 }
-
