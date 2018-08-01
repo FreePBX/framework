@@ -367,7 +367,7 @@ class Destinations {
 
 		foreach ($all_dests as $dests) {
 			foreach ($dests as $adest) {
-				if (empty($adest['dest'])) {
+				if (empty($adest['dest']) && !$adest['allow_empty']) {
 					$problem_dests[] = array(
 						'status' => 'EMPTY',
 						'dest' => $adest['dest'],
