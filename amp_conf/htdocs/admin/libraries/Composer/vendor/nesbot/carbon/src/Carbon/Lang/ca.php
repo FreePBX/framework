@@ -28,4 +28,13 @@ return array(
     'from_now' => 'dins de :time',
     'after' => ':time després',
     'before' => ':time abans',
+    'diff_now' => 'ara mateix',
+    'diff_yesterday' => 'ahir',
+    'diff_tomorrow' => 'demà',
+    'diff_before_yesterday' => "abans d'ahir",
+    'diff_after_tomorrow' => 'demà passat',
+    'period_recurrences' => ':count cop|:count cops',
+    'period_interval' => 'cada :interval',
+    'period_start_date' => 'de :date',
+    'period_end_date' => 'fins a :date',
 );

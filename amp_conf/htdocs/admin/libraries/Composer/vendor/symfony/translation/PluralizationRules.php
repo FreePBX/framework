@@ -107,6 +107,7 @@ class PluralizationRules
             case 'nl':
             case 'nn':
             case 'no':
+            case 'oc':
             case 'om':
             case 'or':
             case 'pa':
@@ -143,6 +144,7 @@ class PluralizationRules
             case 'bs':
             case 'hr':
             case 'ru':
+            case 'sh':
             case 'sr':
             case 'uk':
                 return ((1 == $number % 10) && (11 != $number % 100)) ? 0 : ((($number % 10 >= 2) && ($number % 10 <= 4) && (($number % 100 < 10) || ($number % 100 >= 20))) ? 1 : 2);

@@ -665,17 +665,49 @@ class ContainerBuilderTest extends TestCase
         putenv('DUMMY_ENV_VAR');
     }
 
-    /**
-     * @expectedException \Symfony\Component\DependencyInjection\Exception\RuntimeException
-     * @expectedExceptionMessage A string value must be composed of strings and/or numbers, but found parameter "env(ARRAY)" of type array inside string value "ABC %env(ARRAY)%".
-     */
     public function testCompileWithArrayResolveEnv()
     {
-        $bag = new TestingEnvPlaceholderParameterBag();
-        $container = new ContainerBuilder($bag);
-        $container->setParameter('foo', '%env(ARRAY)%');
-        $container->setParameter('bar', 'ABC %env(ARRAY)%');
+        putenv('ARRAY={"foo":"bar"}');
+
+        $container = new ContainerBuilder();
+        $container->setParameter('foo', '%env(json:ARRAY)%');
         $container->compile(true);
+
+        $this->assertSame(array('foo' => 'bar'), $container->getParameter('foo'));
+
+        putenv('ARRAY');
+    }
+
+    public function testCompileWithArrayAndAnotherResolveEnv()
+    {
+        putenv('DUMMY_ENV_VAR=abc');
+        putenv('ARRAY={"foo":"bar"}');
+
+        $container = new ContainerBuilder();
+        $container->setParameter('foo', '%env(json:ARRAY)%');
+        $container->setParameter('bar', '%env(DUMMY_ENV_VAR)%');
+        $container->compile(true);
+
+        $this->assertSame(array('foo' => 'bar'), $container->getParameter('foo'));
+        $this->assertSame('abc', $container->getParameter('bar'));
+
+        putenv('DUMMY_ENV_VAR');
+        putenv('ARRAY');
+    }
+
+    /**
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\RuntimeException
+     * @expectedExceptionMessage A string value must be composed of strings and/or numbers, but found parameter "env(json:ARRAY)" of type array inside string value "ABC %env(json:ARRAY)%".
+     */
+    public function testCompileWithArrayInStringResolveEnv()
+    {
+        putenv('ARRAY={"foo":"bar"}');
+
+        $container = new ContainerBuilder();
+        $container->setParameter('foo', 'ABC %env(json:ARRAY)%');
+        $container->compile(true);
+
+        putenv('ARRAY');
     }
 
     /**
@@ -1402,6 +1434,21 @@ class ContainerBuilderTest extends TestCase
         $this->assertSame('via-argument', $container->get('foo')->class1->identifier);
         $this->assertSame('via-bindings', $container->get('foo')->class2->identifier);
     }
+
+    public function testUninitializedSyntheticReference()
+    {
+        $container = new ContainerBuilder();
+        $container->register('foo', 'stdClass')->setPublic(true)->setSynthetic(true);
+        $container->register('bar', 'stdClass')->setPublic(true)->setShared(false)
+            ->setProperty('foo', new Reference('foo', ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE));
+
+        $container->compile();
+
+        $this->assertEquals((object) array('foo' => null), $container->get('bar'));
+
+        $container->set('foo', (object) array(123));
+        $this->assertEquals((object) array('foo' => (object) array(123)), $container->get('bar'));
+    }
 }
 
 class FooClass
@@ -1416,13 +1463,5 @@ class B
 {
     public function __construct(A $a)
     {
-    }
-}
-
-class TestingEnvPlaceholderParameterBag extends EnvPlaceholderParameterBag
-{
-    public function get($name)
-    {
-        return 'env(array)' === strtolower($name) ? array(123) : parent::get($name);
     }
 }

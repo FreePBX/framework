@@ -50,7 +50,7 @@ class Loop
     }
     
     /**
-     * Repeats executing a code until it was succesful.
+     * Repeats executing a code until it was successful.
      *
      * The code has to be designed in a way that it can be repeated without any
      * side effects. When execution was successful it should notify that event
@@ -68,38 +68,39 @@ class Loop
     public function execute(callable $code)
     {
         $this->looping = true;
+
         $minWait = 100; // microseconds
-        $timeout = microtime(true) + $this->timeout; // At this time, the lock will time out.
+        $deadline = microtime(true) + $this->timeout; // At this time, the lock will time out.
         $result = null;
 
-        for ($i = 0; $this->looping && microtime(true) < $timeout; $i++) {
+        for ($i = 0; $this->looping && microtime(true) < $deadline; $i++) {
             $result = call_user_func($code);
             if (!$this->looping) {
                 break;
             }
 
-            $min    = $minWait * 2 ** $i;
-            $max    = $min * 2;
+            $min = (int) $minWait * 1.5 ** $i;
+            $max = $min * 2;
 
             /*
              * Calculate max time remaining, don't sleep any longer than that.
              */
-            $usecRemaining = intval(($timeout - microtime(true))  * 1e6);
+            $usecRemaining = \intval(($deadline - microtime(true))  * 1e6);
 
             if ($usecRemaining <= 0) {
                 /*
                  * We've ran out of time.
                  */
-                throw new TimeoutException("Timeout of $this->timeout seconds exceeded.");
+                throw TimeoutException::create($this->timeout);
             }
 
-            $usleep = min($usecRemaining, \random_int($min, $max));
+            $usleep = \min($usecRemaining, \random_int($min, $max));
 
             usleep($usleep);
         }
 
-        if (microtime(true) >= $timeout) {
-            throw new TimeoutException("Timeout of $this->timeout seconds exceeded.");
+        if (microtime(true) >= $deadline) {
+            throw TimeoutException::create($this->timeout);
         }
 
         return $result;

@@ -608,9 +608,18 @@ class Moduleadmin extends Command {
 		$this->check_active_repos();
 		if (isset($modules_local[$modulename])) {
 			if(isset($modules_online[$modulename])) {
-				return version_compare_freepbx($modules_online[$modulename]['version'], $modules_local[$modulename]['version']);
+				$upgrade_version = $modules_online[$modulename]['version'];
+			} elseif (!empty($modules_local[$modulename]['updateurl']) && parse_url($modules_local[$modulename]['updateurl'], PHP_URL_SCHEME) === 'https') {
+				$module_update_json = $this->mf->url_get_contents($modules_local[$modulename]['updateurl'], "");
+				if ($module_update_json && $module_update_data = json_decode($module_update_json, true)) {
+					$upgrade_version = $module_update_data['version'];
+				} else {
+					return -4; //couldn't read third party update info
+				}
+			} else {
+				return -2; //not online or third party
 			}
-			return -2; //not online
+			return version_compare_freepbx($upgrade_version, $modules_local[$modulename]['version']);
 		}
 		return -3; //not local
 	}
@@ -1348,6 +1357,9 @@ class Moduleadmin extends Command {
 				foreach($args as $module){
 					$state = $this->isModuleUpgradeable($module);
 					switch($state) {
+						case -4:
+							$this->writeln(sprintf(_('%s does not have a valid JSON update file, unable to upgrade'),$module));
+						break;
 						case -3:
 							$this->writeln(sprintf(_('%s is not a locally installed module, unable to upgrade'),$module));
 						break;

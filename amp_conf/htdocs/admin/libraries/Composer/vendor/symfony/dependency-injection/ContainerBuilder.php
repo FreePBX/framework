@@ -637,10 +637,10 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      * the parameters passed to the container constructor to have precedence
      * over the loaded ones.
      *
-     * $container = new ContainerBuilder(array('foo' => 'bar'));
+     * $container = new ContainerBuilder(new ParameterBag(array('foo' => 'bar')));
      * $loader = new LoaderXXX($container);
      * $loader->load('resource_name');
-     * $container->register('foo', new stdClass());
+     * $container->register('foo', 'stdClass');
      *
      * In the above example, even if the loaded resource defines a foo
      * parameter, the value will still be 'bar' as defined in the ContainerBuilder
@@ -1408,6 +1408,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
         }
         $envPlaceholders = $bag instanceof EnvPlaceholderParameterBag ? $bag->getEnvPlaceholders() : $this->envPlaceholders;
 
+        $completed = false;
         foreach ($envPlaceholders as $env => $placeholders) {
             foreach ($placeholders as $placeholder) {
                 if (false !== stripos($value, $placeholder)) {
@@ -1418,14 +1419,19 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
                     }
                     if ($placeholder === $value) {
                         $value = $resolved;
+                        $completed = true;
                     } else {
                         if (!is_string($resolved) && !is_numeric($resolved)) {
-                            throw new RuntimeException(sprintf('A string value must be composed of strings and/or numbers, but found parameter "env(%s)" of type %s inside string value "%s".', $env, gettype($resolved), $value));
+                            throw new RuntimeException(sprintf('A string value must be composed of strings and/or numbers, but found parameter "env(%s)" of type %s inside string value "%s".', $env, gettype($resolved), $this->resolveEnvPlaceholders($value)));
                         }
                         $value = str_ireplace($placeholder, $resolved, $value);
                     }
                     $usedEnvs[$env] = $env;
                     $this->envCounters[$env] = isset($this->envCounters[$env]) ? 1 + $this->envCounters[$env] : 1;
+
+                    if ($completed) {
+                        break 2;
+                    }
                 }
             }
         }
@@ -1473,7 +1479,7 @@ class ContainerBuilder extends Container implements TaggedContainerInterface
      */
     public function log(CompilerPassInterface $pass, $message)
     {
-        $this->getCompiler()->log($pass, $message);
+        $this->getCompiler()->log($pass, $this->resolveEnvPlaceholders($message));
     }
 
     /**
