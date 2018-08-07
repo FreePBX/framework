@@ -10,16 +10,15 @@ msgstr ""
 "Project-Id-Version: AMP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-07-19 17:16-0400\n"
-"PO-Revision-Date: 2016-05-11 00:34+0200\n"
-"Last-Translator: Jens <jens@schaewel.com>\n"
-"Language-Team: German <http://weblate.freepbx.org/projects/freepbx/framework/"
-"de_DE/>\n"
+"PO-Revision-Date: 2018-08-08 23:00+0000\n"
+"Last-Translator: Bastian Mertgen <b.mertgen@bastian-mertgen.de>\n"
+"Language-Team: German <http://*/projects/freepbx/framework/de/>\n"
 "Language: de_DE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 2.4\n"
+"X-Generator: Weblate 3.0.1\n"
 
 #: amp_conf/htdocs/admin/page.modules.php:1242
 #, php-format
@@ -38,7 +37,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/footer.php:114
 msgid " extension number already in use by: "
-msgstr ""
+msgstr " Nebenstellennummer wird bereits hier verwendet: "
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:754
 msgid " not found"
@@ -75,9 +74,9 @@ msgid "%s %s Trunk"
 msgstr "%s %s Amtsleitung"
 
 #: amp_conf/htdocs/admin/views/footer_content.php:29
-#, fuzzy, php-format
+#, php-format
 msgid "%s %s is licensed under the %s"
-msgstr "%s %s ist lizenziert unter der %s"
+msgstr "%s %s ist unter der %s lizenziert"
 
 #: amp_conf/htdocs/admin/page.modules.php:567
 #, php-format
@@ -85,16 +84,16 @@ msgid "%s %s will be disabled"
 msgstr "%s %s wird deaktiviert"
 
 #: amp_conf/htdocs/admin/page.modules.php:505
-#, fuzzy, php-format
+#, php-format
 msgid "%s %s will be downgraded to online version %s"
-msgstr "%s %s wird heruntergestuft auch die online Version %s"
+msgstr "%s %s wird auf die Online-Version %s heruntergestuft"
 
 #: amp_conf/htdocs/admin/page.modules.php:488
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "%s %s will be downgraded to online version %s and switched to the %s track"
 msgstr ""
-"%s %s wird heruntergestuft auch die online Version %s und auf den Pfad %s "
+"%s %s wird auf die Online-Version %s heruntergestuft und auf den Pfad %s "
 "umgestellt"
 
 #: amp_conf/htdocs/admin/page.modules.php:533
@@ -103,16 +102,16 @@ msgid "%s %s will be downloaded and installed"
 msgstr "%s %s wird heruntergeladen und installiert"
 
 #: amp_conf/htdocs/admin/page.modules.php:526
-#, fuzzy, php-format
+#, php-format
 msgid "%s %s will be downloaded and installed and switched to the %s track"
 msgstr ""
 "%s %s wird heruntergeladen und installiert, dabei wird der Pfad auf %s "
 "umgestellt"
 
 #: amp_conf/htdocs/admin/page.modules.php:457
-#, fuzzy, php-format
+#, php-format
 msgid "%s %s will be downloaded and rolled back to %s"
-msgstr "%s %s wird herruntergeladen und zurückgerollt auf %s"
+msgstr "%s %s wird heruntergeladen und auf %s zurückgerollt"
 
 #: amp_conf/htdocs/admin/page.modules.php:558
 #, php-format
@@ -125,16 +124,16 @@ msgid "%s %s will be installed and enabled"
 msgstr "%s %s wird installiert und aktiviert"
 
 #: amp_conf/htdocs/admin/page.modules.php:502
-#, fuzzy, php-format
+#, php-format
 msgid "%s %s will be re-installed to online version %s"
-msgstr "%s %s wird erneut installiert auf die online Version %s"
+msgstr "%s %s wird in der Online-Version %s erneut installiert"
 
 #: amp_conf/htdocs/admin/page.modules.php:485
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "%s %s will be re-installed to online version %s and switched to the %s track"
 msgstr ""
-"%s %s wird erneut installiert auf die online Version %s und auf den Pfad %s "
+"%s %s wird in der Online-Version %s erneut installiert und auf den Pfad %s "
 "umgestellt"
 
 #: amp_conf/htdocs/admin/page.modules.php:597
@@ -158,11 +157,11 @@ msgid "%s %s will be upgraded to online version %s"
 msgstr "%s %s wird auf die online Version %s aktualisiert"
 
 #: amp_conf/htdocs/admin/page.modules.php:482
-#, fuzzy, php-format
+#, php-format
 msgid ""
 "%s %s will be upgraded to online version %s and switched to the %s track"
 msgstr ""
-"%s %s wird auf die online Version %s aktualisiert und auf den Pfad %s "
+"%s %s wird auf die Online-Version %s aktualisiert und auf den Pfad %s "
 "umgestellt"
 
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:162
@@ -170,6 +169,8 @@ msgstr ""
 #, php-format
 msgid "%s (Cur v. %s) should be upgraded to v. %s to fix security issues: %s"
 msgstr ""
+"%s (Akt. V. %s) Sollte auf V. %s aktualisiert werden, um Sicherheitsprobleme "
+"zu beheben: %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:417
 #, php-format
@@ -219,13 +220,13 @@ msgstr "%s Online Aktualisierung verfügbar (%s)"
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:536
 #, php-format
 msgid "%s RPMs available for upgrade"
-msgstr ""
+msgstr "%s RPMs stehen zur Aktualisierung bereit"
 
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:95
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:243
 #, php-format
 msgid "%s Security Alert (%s)"
-msgstr ""
+msgstr "%s Sicherheitsalarm (%s)"
 
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:226
 #, php-format
@@ -235,7 +236,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:268
 #, php-format
 msgid "%s Updates Notification (%s)"
-msgstr ""
+msgstr "%s Aktualisierungsbenachrichtigung (%s)"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:114
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:120
@@ -247,7 +248,7 @@ msgstr "%s Aktualisierung verfügbar (%s)"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:172
 #, php-format
 msgid "%s Upgrade Notifications (%s)"
-msgstr ""
+msgstr "%s Aktualisierungsbenachrichtigungen (%s)"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3143
 #, php-format
@@ -265,9 +266,9 @@ msgid "%s already exists"
 msgstr "%s existiert bereits"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:390
-#, fuzzy, php-format
+#, php-format
 msgid "%s appears to be disabled. What would you like to do?"
-msgstr "%s scheint als wäre es deaktiviert. Was möchten sie nun unternehmen?"
+msgstr "%s scheint deaktiviert zu sein. Was möchten Sie nun tun?"
 
 #: amp_conf/htdocs/admin/page.modules.php:564
 #, php-format
@@ -321,10 +322,9 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:439
 #: amp_conf/htdocs/admin/page.modules.php:450
-#, fuzzy, php-format
+#, php-format
 msgid "%s cannot be rolledback, version %s is missing"
-msgstr ""
-"%s Vorgängerverion kann nicht installiert werden, da die Version %s fehlt"
+msgstr "%s kann nicht zurückgerollt werden werden, da die Version %s fehlt"
 
 #: amp_conf/htdocs/admin/page.modules.php:574
 #, php-format
@@ -332,6 +332,8 @@ msgid ""
 "%s cannot be uninstalled because the following modules depend on it: %s "
 "Please disable those modules first then try again."
 msgstr ""
+"%s Kann nicht deinstalliert werden, weil die folgenden Module davon abhängen:"
+" %s Bitte deaktivieren Sie zunächst diese Module und versuchen Sie es erneut."
 
 #: amp_conf/htdocs/admin/page.modules.php:473
 #: amp_conf/htdocs/admin/page.modules.php:519
@@ -340,6 +342,8 @@ msgid ""
 "%s cannot be upgraded to %s: The release track of %s does not exist for this "
 "module"
 msgstr ""
+"%s Kann nicht auf %s aktualisiert werden: Der Veröffentlichungspfad %s "
+"existiert für dieses Modul nicht"
 
 #: amp_conf/htdocs/admin/page.modules.php:454
 #: amp_conf/htdocs/admin/page.modules.php:477
@@ -350,6 +354,8 @@ msgid ""
 "%s cannot be upgraded: %s Please try again after the dependencies have been "
 "installed."
 msgstr ""
+"%s kann nicht aktualisiert werden: %s Bitte versuchen Sie es erneut, nachdem "
+"die Voraussetzungen installiert wurden."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:144
 #, php-format
@@ -369,17 +375,17 @@ msgstr "%s erfolgreich deaktiviert"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1367
 #, php-format
 msgid "%s does not exist online, unable to upgrade"
-msgstr ""
+msgstr "%s existiert nicht online, Aktualisierung nicht möglich"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1361
 #, php-format
 msgid "%s does not have a valid JSON update file, unable to upgrade"
-msgstr ""
+msgstr "%s hat keine gültige JSON-Update-Datei, Aktualisierung nicht möglich"
 
 #: amp_conf/htdocs/admin/libraries/Console/Kvstore.class.php:37
 #, php-format
 msgid "%s does not impliment kvstore"
-msgstr ""
+msgstr "%s implementiert kvstore nicht"
 
 #: amp_conf/htdocs/admin/page.modules.php:314
 #, php-format
@@ -390,6 +396,7 @@ msgstr "%s erfolgreich aktiviert"
 #, php-format
 msgid "%s has been automatically upgraded to fix security issues: %s"
 msgstr ""
+"%s wurde automatisch aktualisiert, um Sicherheitsprobleme zu beheben: %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:233
 #: amp_conf/htdocs/admin/page.modules.php:263
@@ -414,17 +421,17 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1370
 #, php-format
 msgid "%s is newer than online version, unable to upgrade"
-msgstr ""
+msgstr "%s ist neuer als die Online-Version, Aktualisierung nicht möglich"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1364
 #, php-format
 msgid "%s is not a locally installed module, unable to upgrade"
-msgstr ""
+msgstr "%s ist kein lokal installiertes Modul, Aktualisierung nicht möglich"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1373
 #, php-format
 msgid "%s is the same as the online version, unable to upgrade"
-msgstr ""
+msgstr "%s ist mit der Online-Version identisch, Aktualisierung nicht möglich"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:836
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1132
@@ -444,16 +451,16 @@ msgid ""
 "the browser you currently have but your experience may be diminished and is "
 "not supported"
 msgstr ""
-"%s es wird eine neuer Browser benötigt, damit die Funktion korrekt arbeitet. "
-"Sie können  %s immer noch mit ihrem Browser nutzen, jedoch wird dies nicht "
-"unterstützt und kann zu einem reduzierten Funktionsumfang führen"
+"%s setzt einen neuen Browser voraus, um richtig zu funktionieren. Sie können "
+"%s immer noch mit ihrem Browser nutzen, jedoch wird dies nicht unterstützt "
+"und kann zu einem reduzierten Funktionsumfang führen"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:386
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:421
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:458
-#, fuzzy, php-format
+#, php-format
 msgid "%s skipped by configuration"
-msgstr "%s Übersprungenen durch die Konfiguration"
+msgstr "%s durch die Konfiguration übersprungen"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:342
 #, fuzzy, php-format
@@ -472,7 +479,7 @@ msgid "%s version %s or below is required, you have %s"
 msgstr "%s Die Version %s ist unter der Mindestanforderung,Sie haben %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1134
-#, php-format
+#, fuzzy, php-format
 msgid "%s version %s or higher is required, you have %s"
 msgstr "%s Die Version %s ist höher als gefordert,Sie haben %s"
 
@@ -484,23 +491,23 @@ msgstr "%s wird von der Festplatte gelöscht"
 #: install.php:13
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
-msgstr ""
+msgstr "'cp -rf' von '%s' nach '%s'… Details folgen"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:15
 msgid "(Complete)"
-msgstr ""
+msgstr "(Abgeschlossen)"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:15
 msgid "(In Progress)"
-msgstr ""
+msgstr "(In Bearbeitung)"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:15
 msgid "(Unknown)"
-msgstr ""
+msgstr "(Unbekannt)"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:15
 msgid "(Yum Error)"
-msgstr ""
+msgstr "(YUM-Fehler)"
 
 #: amp_conf/htdocs/admin/libraries/featurecodes.functions.php:74
 msgid "** MISSING FEATURE CODE **"
@@ -508,7 +515,7 @@ msgstr "** FEHLENDER FUNKTIONSCODE **"
 
 #: ../core/views/routing/form.php:43
 msgid "---No Change---"
-msgstr "---Nicht geändert---"
+msgstr "---Keine Änderung---"
 
 #: ../core/views/routing/timecond.php:134
 msgid "---Permanent Route---"
@@ -516,21 +523,21 @@ msgstr "---permanente Umleitung---"
 
 #: ../core/views/routing/timecond.php:79
 msgid "--Select a Calendar--"
-msgstr ""
+msgstr "--Wählen Sie einen Kalender--"
 
 #: ../core/views/routing/timecond.php:106
 msgid "--Select a Group--"
-msgstr ""
+msgstr "--Wählen Sie eine Gruppe--"
 
 #: amp_conf/htdocs/admin/config.php:200
 msgid ".htaccess files are disable on this webserver. Please enable them"
 msgstr ""
-".htaccess Dateien sind deaktiviert auf diesem Webserver. Bitte aktivieren "
-"sie diese"
+".htaccess-Dateien sind auf diesem Webserver deaktiviert. Bitte aktivieren "
+"Sie sie"
 
 #: amp_conf/htdocs/admin/config.php:213
 msgid ".htaccess files are not supported on this webserver."
-msgstr ".htaccess Dateien werden von diesem Webserver nicht unterstütz."
+msgstr ".htaccess-Dateien werden von diesem Webserver nicht unterstützt."
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:112
 msgid "0 admins"
@@ -538,7 +545,7 @@ msgstr "0 Administratoren"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:534
 msgid "1 RPM available for upgrade"
-msgstr ""
+msgstr "1 RPM steht zur Aktualisierung bereit"
 
 #: ../core/views/routing/form.php:597 ../core/views/trunks/trunk_footer.php:59
 msgid "10 Digit Patterns"
@@ -606,7 +613,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:5761
 msgid "A description for this DID, such as \"Fax\""
-msgstr ""
+msgstr "Eine Beschreibung für diese Durchwahl, z.B. \"Fax\""
 
 #: ../core/functions.inc.php:5762
 msgid ""
@@ -632,16 +639,16 @@ msgstr ""
 
 #: ../core/functions.inc.php:4037 ../core/functions.inc.php:4066
 msgid "A route for this DID/CID already exists!"
-msgstr "Eine Route für diese DID/CID besteht bereits!"
+msgstr "Eine Route für diese Durchwahl/Anruferkennung besteht bereits!"
 
 #: ../core/Core.class.php:2595 ../core/functions.inc.php:4635
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
-msgstr ""
+msgstr "Eine Route für diese Durchwahl/Anruferkennung: %s/%s besteht bereits"
 
 #: ../core/views/dahdichandids/didForm.php:49
 msgid "A useful description describing this channel"
-msgstr ""
+msgstr "Eine nützliche Beschreibung für diesen Kanal"
 
 #: ../core/functions.inc.php:5658
 msgid "A user will enter this password when logging onto a device."
@@ -662,7 +669,7 @@ msgstr "ALLE AUSWÄHLEN"
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1257
 #, php-format
 msgid "AMI failure details:"
-msgstr ""
+msgstr "AMI-Fehlerdetails:"
 
 #: amp.i18n.php:138
 msgid "AMPLOCALBIN Dir for retrieve_conf"
@@ -690,11 +697,11 @@ msgstr ""
 
 #: amp.i18n.php:120
 msgid "ARI Password"
-msgstr ""
+msgstr "ARI-Passwort"
 
 #: amp.i18n.php:112
 msgid "ARI Username"
-msgstr ""
+msgstr "ARI-Benutzername"
 
 #: amp.i18n.php:470
 msgid "Abort Config Gen on Bad Dest"
@@ -710,7 +717,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:361
 msgid "Accept"
-msgstr "akzeptiert"
+msgstr "Akzeptieren"
 
 #: ../core/page.ampusers.php:244
 msgid "Access Restrictions"
@@ -760,6 +767,8 @@ msgstr "Hinzufügen"
 msgid ""
 "Add \"This machine will automatically update in 1 hour\" to the email sent."
 msgstr ""
+"Ergänze die gesendete E-Mail um den Hinweis: „Diese Maschine wird in einer "
+"Stunde automatisch aktualisiert.“"
 
 #: ../core/functions.inc.php:5975
 #, php-format
@@ -782,11 +791,11 @@ msgstr "Administrator hinzufügen"
 
 #: ../core/views/dahdichandids/changrid.php:21
 msgid "Add DAHDI DID"
-msgstr "DAHDI DID hinzufügen"
+msgstr "DAHDI-Durchwahl hinzufügen"
 
 #: ../core/views/dahdichandids/bootnav.php:3
 msgid "Add DAHDi DID"
-msgstr "DAHDi DID hinzufügen"
+msgstr "DAHDI-Durchwahl hinzufügen"
 
 #: ../core/page.ampusers.php:133 ../core/page.ampusers.php:156
 #: ../core/views/rnav.php:68
@@ -802,15 +811,15 @@ msgstr "Nebenstelle hinzufügen"
 
 #: ../core/functions.inc.php:5763
 msgid "Add Inbound CID"
-msgstr ""
+msgstr "Eingehende Anruferkennung hinzufügen"
 
 #: ../core/functions.inc.php:5762
 msgid "Add Inbound DID"
-msgstr ""
+msgstr "Eingehende Durchwahl hinzufügen"
 
 #: ../core/views/did/didgrid.php:2 ../core/views/did/rnav.php:2
 msgid "Add Inbound Route"
-msgstr ""
+msgstr "Eingehende Route hinzufügen"
 
 #: ../core/page.did.php:30 ../core/page.did.php:76
 msgid "Add Incoming Route"
@@ -823,27 +832,27 @@ msgstr "Module hinzufügen"
 #: ../core/views/rnav.php:73 ../core/views/rnav.php:92
 #, php-format
 msgid "Add New %s Device"
-msgstr "neues %s Gerät hinzufügen"
+msgstr "Neues %s Gerät hinzufügen"
 
 #: ../core/page.extensions.php:50 ../core/page.extensions.php:111
 #: ../core/page.extensions.php:143 ../core/views/rnav.php:13
 #: ../core/views/rnav.php:33
 #, php-format
 msgid "Add New %s Extension"
-msgstr "neue %s Nebenstelle hinzufügen"
+msgstr "Neue %s Nebenstelle hinzufügen"
 
 #: ../core/views/trunks/popover_main.php:5
 #, php-format
 msgid "Add New %s Trunk"
-msgstr ""
+msgstr "Neue %s Amtsleitung hinzufügen"
 
 #: ../core/views/routing/bootnav.php:2 ../core/views/routing/grid.php:55
 msgid "Add Outbound Route"
-msgstr ""
+msgstr "Ausgehende Route hinzufügen"
 
 #: ../core/page.routing.php:12
 msgid "Add Route"
-msgstr ""
+msgstr "Route hinzufügen"
 
 #: ../core/views/trunks/bootnav.php:4 ../core/views/trunks/trunkgrid.php:4
 msgid "Add Trunk"
