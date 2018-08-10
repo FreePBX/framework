@@ -701,6 +701,8 @@ class AGI_AsteriskManager {
 		} else {
 			return false;
 		}
+		unset($this->event_handlers['confbridgelist']);
+		unset($this->event_handlers['confbridgelistcomplete']);
 		return $this->response_catch;
 	}
 
@@ -722,6 +724,8 @@ class AGI_AsteriskManager {
 		} else {
 			return false;
 		}
+		unset($this->event_handlers['confbridgelistrooms']);
+		unset($this->event_handlers['confbridgelistroomscomplete']);
 		return $this->response_catch;
 	}
 
@@ -739,12 +743,8 @@ class AGI_AsteriskManager {
 				/* HACK: Force a timeout after we get this event, so that the wait_response() returns. */
 				stream_set_timeout($this->socket, 0, 1);
 			break;
-			case 'confbridgelist':
+			default:
 				$this->response_catch[] =  $data;
-			break;
-			case 'confbridgelistrooms':
-				$this->response_catch[] =  $data;
-			break;
 		}
 	}
 
@@ -762,12 +762,8 @@ class AGI_AsteriskManager {
 				/* HACK: Force a timeout after we get this event, so that the wait_response() returns. */
 				stream_set_timeout($this->socket, 0, 1);
 			break;
-			case 'meetmelist':
+			default:
 				$this->response_catch[] =  $data;
-			break;
-			case 'meetmelistrooms':
-				$this->response_catch[] =  $data;
-			break;
 		}
 	}
 
@@ -1031,6 +1027,8 @@ class AGI_AsteriskManager {
 		} else {
 			return false;
 		}
+		unset($this->event_handlers['meetmelist']);
+		unset($this->event_handlers['meetmecomplete']);
 		return $this->response_catch;
 	}
 
@@ -1052,6 +1050,8 @@ class AGI_AsteriskManager {
 		} else {
 			return false;
 		}
+		unset($this->event_handlers['meetmelistrooms']);
+		unset($this->event_handlers['meetmelistroomscomplete']);
 		return $this->response_catch;
 	}
 
@@ -1235,11 +1235,44 @@ class AGI_AsteriskManager {
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+QueueStatus
 	* @param string $actionid message matching variable
 	*/
-	function QueueStatus($actionid=NULL) {
-		if($actionid) {
-			return $this->send_request('QueueStatus', array('ActionID'=>$actionid));
+	function QueueStatus($queue=null,$member=null, $actionid=NULL) {
+		$this->add_event_handler("queueentry", array($this, 'Queuestatus_catch'));
+		$this->add_event_handler("queuemember", array($this, 'Queuestatus_catch'));
+		$this->add_event_handler("queueparams", array($this, 'Queuestatus_catch'));
+		$this->add_event_handler("queuestatuscomplete", array($this, 'Queuestatus_catch'));
+		$parameters = array();
+		if ($actionid) {
+			$parameters['ActionID'] = $actionid;
+		}
+		if ($queue) {
+			$parameters['Queue'] = $queue;
+		}
+		if ($member) {
+			$parameters['Member'] = $member;
+		}
+		$response = $this->send_request('QueueStatus', $parameters);
+		if ($response["Response"] == "Success") {
+			$this->response_catch = array();
+			$this->wait_response(true);
+			stream_set_timeout($this->socket, 30);
 		} else {
-			return $this->send_request('QueueStatus');
+			return false;
+		}
+		unset($this->event_handlers['queueentry']);
+		unset($this->event_handlers['queuemember']);
+		unset($this->event_handlers['queueparams']);
+		unset($this->event_handlers['queuestatuscomplete']);
+		return $this->response_catch;
+	}
+
+	private function Queuestatus_catch($event, $data, $server, $port) {
+		switch($event) {
+			case 'queuestatuscomplete':
+				/* HACK: Force a timeout after we get this event, so that the wait_response() returns. */
+				stream_set_timeout($this->socket, 0, 1);
+			break;
+			default:
+				$this->response_catch[] =  $data;
 		}
 	}
 
@@ -1299,13 +1332,39 @@ class AGI_AsteriskManager {
 	* @link http://www.voip-info.org/wiki-Asterisk+Manager+API+Action+Status
 	* @param string $channel
 	* @param string $actionid message matching variable
-*/
-	function Status($channel, $actionid=NULL) {
-		$parameters = array('Channel'=>$channel);
+	*/
+	function Status($channel=null,$actionid=NULL) {
+		$this->add_event_handler("status", array($this, 'Status_catch'));
+		$this->add_event_handler("statuscomplete", array($this, 'Status_catch'));
+		$parameters = array();
 		if ($actionid) {
 			$parameters['ActionID'] = $actionid;
 		}
-		return $this->send_request('Status', $parameters);
+		if ($channel) {
+			$parameters['Channel'] = $queue;
+		}
+		$response = $this->send_request('Status', $parameters);
+		if ($response["Response"] == "Success") {
+			$this->response_catch = array();
+			$this->wait_response(true);
+			stream_set_timeout($this->socket, 30);
+		} else {
+			return false;
+		}
+		unset($this->event_handlers['status']);
+		unset($this->event_handlers['statuscomplete']);
+		return $this->response_catch;
+	}
+
+	private function Status_catch($event, $data, $server, $port) {
+		switch($event) {
+			case 'statuscomplete':
+				/* HACK: Force a timeout after we get this event, so that the wait_response() returns. */
+				stream_set_timeout($this->socket, 0, 1);
+			break;
+			default:
+				$this->response_catch[] =  $data;
+		}
 	}
 
 	/**
