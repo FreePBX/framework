@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-01 16:38-0400\n"
+"POT-Creation-Date: 2018-08-09 21:01-0400\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -661,7 +661,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "Маршрут для этого DID/CID уже существует!"
 
-#: ../core/Core.class.php:2540 ../core/functions.inc.php:4245
+#: ../core/Core.class.php:2542 ../core/functions.inc.php:4245
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "Маршрут с таким DID/ИД: %s/%s уже существует"
@@ -1872,11 +1872,11 @@ msgstr ""
 "когда имеется конфликт между внутренним номером, требующим записывания, и не "
 "требующими."
 
-#: ../core/Core.class.php:2983
+#: ../core/Core.class.php:2985
 msgid "Caller ID"
 msgstr "Идентификационный номер вызывающей стороны(Caller ID)"
 
-#: ../core/Core.class.php:2984
+#: ../core/Core.class.php:2986
 msgid "Caller ID Number"
 msgstr "Номер  Caller ID"
 
@@ -2721,7 +2721,7 @@ msgstr "Описание DID"
 msgid "DID Number"
 msgstr "Номер DID"
 
-#: ../core/Core.class.php:3121
+#: ../core/Core.class.php:3123
 msgid "DID already exists"
 msgstr ""
 
@@ -2729,11 +2729,11 @@ msgstr ""
 msgid "DID/CID"
 msgstr "DID/CID"
 
-#: ../core/Core.class.php:2925
+#: ../core/Core.class.php:2927
 msgid "DIDs"
 msgstr "DID-ы"
 
-#: ../core/Core.class.php:2926
+#: ../core/Core.class.php:2928
 msgid "DIDs / Inbound Routes"
 msgstr "DID-ы / Входящие маршруты"
 
@@ -3162,8 +3162,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:215
-#: ../core/Core.class.php:2951 ../core/Core.class.php:2952
-#: ../core/Core.class.php:2975 ../core/Core.class.php:2976
+#: ../core/Core.class.php:2953 ../core/Core.class.php:2954
+#: ../core/Core.class.php:2977 ../core/Core.class.php:2978
 #: ../core/functions.inc.php:5191 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:37
@@ -3176,7 +3176,7 @@ msgstr "Описание"
 msgid "Descriptive Name for this Trunk"
 msgstr "Понятное название для этого транка"
 
-#: ../core/Core.class.php:2987 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:2989 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "Назначение"
 
@@ -3295,7 +3295,7 @@ msgstr "Режим разработки"
 msgid "Developer and Customization"
 msgstr "Разработчикам и дизайнерам"
 
-#: ../core/Core.class.php:3327 ../core/functions.inc.php:5134
+#: ../core/Core.class.php:3329 ../core/functions.inc.php:5134
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3327,7 +3327,7 @@ msgstr "Установки устройства"
 msgid "Device State Busy at"
 msgstr ""
 
-#: ../core/Core.class.php:2955 ../core/Core.class.php:2956
+#: ../core/Core.class.php:2957 ../core/Core.class.php:2958
 msgid "Device Technology"
 msgstr "Технология устройства"
 
@@ -3336,7 +3336,7 @@ msgstr "Технология устройства"
 msgid "Device Type"
 msgstr "Тип устройства"
 
-#: ../core/Core.class.php:3073
+#: ../core/Core.class.php:3075
 msgid "Device could not be added."
 msgstr "Устройство не может быть добавлено."
 
@@ -4384,8 +4384,8 @@ msgstr ""
 msgid "Extended"
 msgstr "Дополнительный"
 
-#: ../core/Core.class.php:2942 ../core/Core.class.php:2943
-#: ../core/Core.class.php:3315 ../core/functions.inc.php:4803
+#: ../core/Core.class.php:2944 ../core/Core.class.php:2945
+#: ../core/Core.class.php:3317 ../core/functions.inc.php:4803
 #: ../core/page.did.php:93 ../core/page.extensions.php:32
 #: ../core/page.extensions.php:125 ../core/page.extensions.php:153
 #: ../core/views/rnav.php:23
@@ -4416,15 +4416,15 @@ msgstr "Внутренний номер уже используется!"
 msgid "Extension can not be blank!"
 msgstr "Внутренний номер не может быть пустым!"
 
-#: ../core/Core.class.php:3011
+#: ../core/Core.class.php:3013
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3014
+#: ../core/Core.class.php:3016
 msgid "Extension is not numeric."
 msgstr "Внутренний номер не из цифр."
 
-#: ../core/Core.class.php:3017
+#: ../core/Core.class.php:3019
 msgid "Extension name is blank."
 msgstr ""
 
@@ -4436,7 +4436,7 @@ msgstr "Конфликт внутренних номеров, пожалуйст
 msgid "Extension was not numeric!"
 msgstr "Внутренний номер не содержал только цифры!"
 
-#: amp.i18n.php:918 ../core/Core.class.php:2921 ../core/Core.class.php:2922
+#: amp.i18n.php:918 ../core/Core.class.php:2923 ../core/Core.class.php:2924
 #: ../core/page.extensions.php:19
 msgid "Extensions"
 msgstr "Внутренние номера"
@@ -5721,7 +5721,7 @@ msgstr "Контроль внешних входящих соединений"
 msgid "Inbound Internal Calls"
 msgstr "Контроль внутренних входящих соединений"
 
-#: ../core/Core.class.php:3369 ../core/Core.class.php:3378
+#: ../core/Core.class.php:3371 ../core/Core.class.php:3380
 msgid "Inbound Route:"
 msgstr ""
 
@@ -5746,7 +5746,7 @@ msgstr "Включать имя сервера в браузере"
 msgid "Incoming"
 msgstr "Входящий"
 
-#: ../core/Core.class.php:2979 ../core/Core.class.php:2980
+#: ../core/Core.class.php:2981 ../core/Core.class.php:2982
 msgid "Incoming DID"
 msgstr "Входящий DID"
 
@@ -6800,7 +6800,7 @@ msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr "Уведомление! У Вас %s уведомлений! Войдите в UI для просмотра!"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:73
-#: ../core/Core.class.php:2947 ../core/Core.class.php:2948
+#: ../core/Core.class.php:2949 ../core/Core.class.php:2950
 #: ../core/page.extensions.php:33 ../core/page.extensions.php:126
 #: ../core/page.extensions.php:154 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -7487,7 +7487,7 @@ msgstr "Контроль внутренних исходящих соедине�
 msgid "Outbound Proxy"
 msgstr "Исходящий прокси"
 
-#: ../core/Core.class.php:3352
+#: ../core/Core.class.php:3354
 msgid "Outbound Route:"
 msgstr ""
 
@@ -8197,6 +8197,14 @@ msgstr ""
 msgid "ReDownloads all modules that have invalid signatures"
 msgstr "Скачать ещё раз все модули с неверными сигнатурами"
 
+#: ../core/Api/Gql/Extensions.php:15
+msgid "Read Extensions"
+msgstr ""
+
+#: ../core/Api/Gql/Dids.php:16
+msgid "Read Inbound Routes"
+msgstr ""
+
 #: ../core/page.advancedsettings.php:293
 msgid ""
 "Readonly settings are usually more volatile, they can be changed by changing "
@@ -8556,7 +8564,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "ЗАМЕЧАНИЕ ПО БЕЗОПАСНОСТИ:"
 
-#: ../core/Core.class.php:3292 ../core/Core.class.php:3293
+#: ../core/Core.class.php:3294 ../core/Core.class.php:3295
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP (%s)"
@@ -9641,7 +9649,7 @@ msgstr ""
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr "Unzip не установлен.Невозможно работать с zip-файлами"
 
-#: ../core/Core.class.php:2988
+#: ../core/Core.class.php:2990
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -10458,7 +10466,7 @@ msgstr ""
 "Этот транк  не может быть использован для исходящих вызовов пока "
 "настраивается роут,который использует этот транк"
 
-#: ../core/Core.class.php:2524
+#: ../core/Core.class.php:2526
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "Этот пользователь/номер %s уже существует"
@@ -10606,7 +10614,7 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr "Последовательность транков для совпавших маршрутов"
 
-#: ../core/Core.class.php:3360
+#: ../core/Core.class.php:3362
 msgid "Trunk:"
 msgstr ""
 
@@ -11134,7 +11142,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:3339 ../core/functions.inc.php:4805
+#: ../core/Core.class.php:3341 ../core/functions.inc.php:4805
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -11187,7 +11195,7 @@ msgstr "Интерфейс пользователей"
 msgid "User Password"
 msgstr "Пароль пользователя"
 
-#: ../core/Core.class.php:3100
+#: ../core/Core.class.php:3102
 msgid "User could not be added."
 msgstr "Пользователь не может быть добавлен"
 
@@ -11779,6 +11787,10 @@ msgstr ""
 msgid "Working"
 msgstr ""
 
+#: ../core/Api/Gql/Dids.php:19
+msgid "Write Inbound Routes"
+msgstr ""
+
 #: ../core/functions.inc.php:4691
 #: ../core/functions.inc/drivers/Dahdi.class.php:107
 #: ../core/functions.inc/drivers/Dahdi.class.php:118
@@ -12093,7 +12105,7 @@ msgstr "Необходимо указать клиентский URI"
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "Чтобы продолжить, необходим корректный файл  freepbx.conf "
 
-#: ../core/Core.class.php:2517
+#: ../core/Core.class.php:2519
 msgid "You must put in an extension (or user) number"
 msgstr "Вы должны ввести внутренний номер или номер пользователя"
 
