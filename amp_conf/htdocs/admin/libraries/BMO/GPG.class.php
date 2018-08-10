@@ -187,7 +187,7 @@ class GPG {
 		// about, and make sure they haven't been touched.
 		$retarr['status'] = GPG::STATE_GOOD | GPG::STATE_TRUSTED;
 		$retarr['details'] = array();
-
+		$module['hashes'] = is_array($module['hashes']) ? $module['hashes'] : array();
 		foreach ($module['hashes'] as $file => $hash) {
 			$dest = \FreePBX::Installer()->getDestination($modulename, $file, true);
 			if ($dest === false) {
