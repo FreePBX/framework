@@ -1,6 +1,6 @@
 <?php
 
-define('EOL', isset($_SERVER['REQUEST_METHOD']) ? "<br />" :  PHP_EOL);
+define('EOL', (php_sapi_name() !== "cli") ? "<br />" :  PHP_EOL);
 
 define("FPBX_LOG_FATAL",    "FATAL");
 define("FPBX_LOG_CRITICAL", "CRITICAL");
