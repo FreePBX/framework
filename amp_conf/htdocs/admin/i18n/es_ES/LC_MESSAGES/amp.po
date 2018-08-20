@@ -2195,9 +2195,10 @@ msgstr ""
 #, php-format
 msgid ""
 "Controls the maximum number of outbound channels (simultaneous calls) that "
-"can be used on this trunk. To count inbound calls against this maximum, use "
-"the auto-generated context: %s as the inbound trunk's context. (see "
-"extensions_additional.conf) Leave blank to specify no maximum."
+"can be used on this trunk. Inbound calls are not counted against the "
+"maximum. To count inbound calls against this maximum, use the auto-generated "
+"context: %s as the inbound trunk's context. (see extensions_additional.conf) "
+"Leave blank to specify no maximum."
 msgstr ""
 
 #: amp.i18n.php:294
