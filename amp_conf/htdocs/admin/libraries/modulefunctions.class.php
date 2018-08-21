@@ -1466,6 +1466,7 @@ class module_functions {
 		$requests = FreePBX::Curl()->requests($url);
 		$options = array(
 			'hooks' => $hooks,
+			'timeout' => 60, // Allow up to 60 seconds for the download to complete
 		);
 		$response = $requests->post('', array(), $urls['options'], $options);
 		file_put_contents($filename,$response->body);
