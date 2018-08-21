@@ -70,6 +70,10 @@ class Cron {
 	 */
 	public function getAll() {
 		exec('/usr/bin/crontab '.$this->uoption.' -l 2>/dev/null', $output, $ret);
+		// If it's emptry
+		if (!$output) {
+			return array();
+		}
 		// Linux output
 		if (preg_match('/^no crontab for/', $output[0]))
 			return array();
