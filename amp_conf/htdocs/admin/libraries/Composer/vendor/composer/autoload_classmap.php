@@ -2676,4 +2676,12 @@ return array(
     'malkusch\\lock\\util\\DoubleCheckedLocking' => $vendorDir . '/malkusch/lock/classes/util/DoubleCheckedLocking.php',
     'malkusch\\lock\\util\\Loop' => $vendorDir . '/malkusch/lock/classes/util/Loop.php',
     'malkusch\\lock\\util\\PcntlTimeout' => $vendorDir . '/malkusch/lock/classes/util/PcntlTimeout.php',
+    'splitbrain\\PHPArchive\\Archive' => $vendorDir . '/splitbrain/php-archive/src/Archive.php',
+    'splitbrain\\PHPArchive\\ArchiveCorruptedException' => $vendorDir . '/splitbrain/php-archive/src/ArchiveCorruptedException.php',
+    'splitbrain\\PHPArchive\\ArchiveIOException' => $vendorDir . '/splitbrain/php-archive/src/ArchiveIOException.php',
+    'splitbrain\\PHPArchive\\ArchiveIllegalCompressionException' => $vendorDir . '/splitbrain/php-archive/src/ArchiveIllegalCompressionException.php',
+    'splitbrain\\PHPArchive\\FileInfo' => $vendorDir . '/splitbrain/php-archive/src/FileInfo.php',
+    'splitbrain\\PHPArchive\\FileInfoException' => $vendorDir . '/splitbrain/php-archive/src/FileInfoException.php',
+    'splitbrain\\PHPArchive\\Tar' => $vendorDir . '/splitbrain/php-archive/src/Tar.php',
+    'splitbrain\\PHPArchive\\Zip' => $vendorDir . '/splitbrain/php-archive/src/Zip.php',
 );

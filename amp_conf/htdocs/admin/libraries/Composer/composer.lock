@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9e36390b0f01a6f152284755ad21e7cb",
+    "content-hash": "8b3f58755966a3c892e46952f16323e0",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -1889,6 +1889,60 @@
                 "os"
             ],
             "time": "2016-12-28T16:31:30+00:00"
+        },
+        {
+            "name": "splitbrain/php-archive",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/splitbrain/php-archive.git",
+                "reference": "cabfd12a408d87d9172ec36a30e2a25c06dbddd2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/splitbrain/php-archive/zipball/cabfd12a408d87d9172ec36a30e2a25c06dbddd2",
+                "reference": "cabfd12a408d87d9172ec36a30e2a25c06dbddd2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "ext-bz2": "*",
+                "ext-zip": "*",
+                "mikey179/vfsstream": "^1.6",
+                "phpunit/phpunit": "^4.8"
+            },
+            "suggest": {
+                "ext-iconv": "Used for proper filename encode handling",
+                "ext-mbstring": "Can be used alternatively for handling filename encoding"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "splitbrain\\PHPArchive\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Andreas Gohr",
+                    "email": "andi@splitbrain.org"
+                }
+            ],
+            "description": "Pure-PHP implementation to read and write TAR and ZIP archives",
+            "keywords": [
+                "archive",
+                "extract",
+                "tar",
+                "unpack",
+                "unzip",
+                "zip"
+            ],
+            "time": "2018-06-12T20:09:13+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

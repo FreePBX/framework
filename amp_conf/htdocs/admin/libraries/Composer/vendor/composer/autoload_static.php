@@ -19,6 +19,10 @@ class ComposerStaticInitpbxframework
     );
 
     public static $prefixLengthsPsr4 = array (
+        's' => 
+        array (
+            'splitbrain\\PHPArchive\\' => 22,
+        ),
         'm' => 
         array (
             'malkusch\\lock\\' => 14,
@@ -103,6 +107,10 @@ class ComposerStaticInitpbxframework
     );
 
     public static $prefixDirsPsr4 = array (
+        'splitbrain\\PHPArchive\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/splitbrain/php-archive/src',
+        ),
         'malkusch\\lock\\' => 
         array (
             0 => __DIR__ . '/..' . '/malkusch/lock/classes',
@@ -3021,6 +3029,14 @@ class ComposerStaticInitpbxframework
         'malkusch\\lock\\util\\DoubleCheckedLocking' => __DIR__ . '/..' . '/malkusch/lock/classes/util/DoubleCheckedLocking.php',
         'malkusch\\lock\\util\\Loop' => __DIR__ . '/..' . '/malkusch/lock/classes/util/Loop.php',
         'malkusch\\lock\\util\\PcntlTimeout' => __DIR__ . '/..' . '/malkusch/lock/classes/util/PcntlTimeout.php',
+        'splitbrain\\PHPArchive\\Archive' => __DIR__ . '/..' . '/splitbrain/php-archive/src/Archive.php',
+        'splitbrain\\PHPArchive\\ArchiveCorruptedException' => __DIR__ . '/..' . '/splitbrain/php-archive/src/ArchiveCorruptedException.php',
+        'splitbrain\\PHPArchive\\ArchiveIOException' => __DIR__ . '/..' . '/splitbrain/php-archive/src/ArchiveIOException.php',
+        'splitbrain\\PHPArchive\\ArchiveIllegalCompressionException' => __DIR__ . '/..' . '/splitbrain/php-archive/src/ArchiveIllegalCompressionException.php',
+        'splitbrain\\PHPArchive\\FileInfo' => __DIR__ . '/..' . '/splitbrain/php-archive/src/FileInfo.php',
+        'splitbrain\\PHPArchive\\FileInfoException' => __DIR__ . '/..' . '/splitbrain/php-archive/src/FileInfoException.php',
+        'splitbrain\\PHPArchive\\Tar' => __DIR__ . '/..' . '/splitbrain/php-archive/src/Tar.php',
+        'splitbrain\\PHPArchive\\Zip' => __DIR__ . '/..' . '/splitbrain/php-archive/src/Zip.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

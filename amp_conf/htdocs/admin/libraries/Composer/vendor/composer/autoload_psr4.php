@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'splitbrain\\PHPArchive\\' => array($vendorDir . '/splitbrain/php-archive/src'),
     'malkusch\\lock\\' => array($vendorDir . '/malkusch/lock/classes'),
     'ZendXml\\' => array($vendorDir . '/zendframework/zendxml/src'),
     'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
