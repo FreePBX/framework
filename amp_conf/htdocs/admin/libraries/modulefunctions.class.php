@@ -1336,7 +1336,9 @@ class module_functions {
 					} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
 						$progress_callback[0]->{$progress_callback[1]}('verifying', array('module'=>$modulename, "status" => "redownload"));
 					}
-					unlink($filename);
+					if (file_exists($filename)) {
+						unlink($filename);
+					}
 				}
 			}
 			// We might already have it! Let's check the MD5.
