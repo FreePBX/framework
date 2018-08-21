@@ -258,6 +258,11 @@ class LoadConfig {
 	 */
 	private function explodeConfig($conf) {
 		// Process the config we've been given, and return a useful array
+		//
+		// Ensure ProcessedConfig is an array (PHP 7.2 compatibility)
+		if (!is_array($this->ProcessedConfig)) {
+			$this->ProcessedConfig = [];
+		}
 
 		// Anything prior to the first section is in the magic 'HEADER' section
 		$section = "HEADER";
