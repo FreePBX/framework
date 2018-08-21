@@ -273,7 +273,12 @@ class LoadConfig {
 				$modifier = isset($out[2]) ? $out[2] : "+";
 				if ($modifier === "!") {
 					// This is a template section, not part of the configuration
-					$section .= "__TEMPLATE__";
+					//
+					// UNLESS it's in 'directories' which is a mistake in Ubuntu's
+					// Asterisk build (Seen in Asterisk 13.18.3~dfsg-1ubuntu4)
+					if ($section !== "directories") {
+						$section .= "__TEMPLATE__";
+					}
 				} else if ($modifier !== "+") {
 					$modifier = explode(",", $modifier);
 					foreach ($modifier as $template) {
