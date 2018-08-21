@@ -58,7 +58,7 @@
 		</table>
 		<table name="freepbx_log">
 			<field name="id" type="integer" primarykey="true" autoincrement="true"/>
-			<field name="time" type="datetime" default="0000-00-00 00:00:00"/>
+			<field name="time" type="datetime" />
 			<field name="section" type="string" length="50" notnull="false"/>
 			<field name="level" type="string" default="error"/>
 			<field name="status" type="integer" default="0"/>
