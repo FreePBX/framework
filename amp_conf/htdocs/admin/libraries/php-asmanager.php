@@ -914,8 +914,50 @@ class AGI_AsteriskManager {
 		return $this->send_request('IAXPeers');
 	}
 
+
+	/**
+	* Check Presence State
+	*
+	* Report the presence state for the given presence provider.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+ManagerAction_PresenceState
+	* @param string $provider Presence Provider to check the state of
+	*/
 	function PresenceState($provider) {
 		return $this->send_request('PresenceState',array('Provider'=>$provider));
+	}
+
+	/**
+	* List the current known presence states.
+	*
+	* This will list out all known presence states in a sequence of PresenceStateChange events. When finished, a PresenceStateListComplete event will be emitted.
+	*
+	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+ManagerAction_PresenceStateList
+	*/
+	function PresenceStateList() {
+		$this->add_event_handler("presencestatechange", array($this, 'Presencestate_catch'));
+		$this->add_event_handler("presencestatelistcomplete", array($this, 'Presencestate_catch'));
+		$response = $this->send_request('PresenceStateList');
+		if ($response["Response"] == "Success") {
+			$this->response_catch = array();
+			$this->wait_response(true);
+			stream_set_timeout($this->socket, 30);
+		} else {
+			return false;
+		}
+		return $this->response_catch;
+	}
+
+	private function Presencestate_catch($event, $data, $server, $port) {
+		switch($event) {
+			case 'presencestatelistcomplete':
+				/* HACK: Force a timeout after we get this event, so that the wait_response() returns. */
+				stream_set_timeout($this->socket, 0, 1);
+			break;
+			default:
+				$this->response_catch[] =  $data;
+			break;
+		}
 	}
 
 	/**
