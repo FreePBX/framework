@@ -8,6 +8,7 @@ $baseDir = dirname($vendorDir);
 return array(
     'Wrep\\Daemonizable\\' => array($vendorDir . '/wrep/daemonizable-command/src'),
     'Requests' => array($vendorDir . '/rmccue/requests/library'),
+    'Pimple' => array($vendorDir . '/pimple/pimple/src'),
     'PicoFeed' => array($vendorDir . '/fguillot/picofeed/lib'),
     'JShrink' => array($vendorDir . '/tedivm/jshrink/src'),
     'ForceUTF8\\' => array($vendorDir . '/neitanod/forceutf8/src'),
