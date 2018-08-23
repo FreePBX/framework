@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: AMP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-08-20 23:35-0300\n"
-"PO-Revision-Date: 2018-08-23 13:00+0000\n"
+"PO-Revision-Date: 2018-08-25 15:00+0000\n"
 "Last-Translator: Bastian Mertgen <b.mertgen@bastian-mertgen.de>\n"
 "Language-Team: German <http://*/projects/freepbx/framework/de/>\n"
 "Language: de_DE\n"
@@ -588,12 +588,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1118
 #, php-format
 msgid "A %s version below %s is required, you have %s"
-msgstr ""
+msgstr "Für %s ist eine Version unter %s erforderlich, Sie haben %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1124
 #, php-format
 msgid "A %s version newer than %s required, you have %s"
-msgstr ""
+msgstr "Für %s ist eine neuere Version als %s erforderlich, Sie haben %s"
 
 #: ../core/views/routing/form.php:67
 msgid ""
@@ -639,6 +639,9 @@ msgid ""
 "A required module might be disabled or uninstalled. Recommended steps (run "
 "from the CLI): 1) fwconsole ma install %s 2) fwconsole ma enable %s"
 msgstr ""
+"Ein erforderliches Modul könnte deaktiviert oder nicht installiert sein. "
+"Empfohlene Schritte (auf der Kommandozeile): 1) fwconsole ma install %s 2) "
+"fwconsole ma enable %s"
 
 #: ../core/functions.inc.php:4037 ../core/functions.inc.php:4066
 msgid "A route for this DID/CID already exists!"
@@ -662,6 +665,8 @@ msgstr ""
 #: ../core/views/did/advanced_form.php:199
 msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
 msgstr ""
+"ALERT_INFO kann für einen charakteristischen Klingelton auf SIP-Geräten "
+"genutzt werden."
 
 #: ../core/page.ampusers.php:159
 msgid "ALL SECTIONS"
@@ -712,15 +717,15 @@ msgstr "ARI-Benutzername"
 
 #: amp.i18n.php:470
 msgid "Abort Config Gen on Bad Dest"
-msgstr ""
+msgstr "Erzeugen der Konfiguration bei fehlerhaftem Ziel abbrechen"
 
 #: amp.i18n.php:476
 msgid "Abort Config Gen on Exten Conflict"
-msgstr ""
+msgstr "Erzeugen der Konfiguration bei Nebenstellenkonflikt abbrechen"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:149
 msgid "Aborting Shutdown. Asterisk is still running"
-msgstr ""
+msgstr "Breche das Herunterfahren ab. Asterisk läuft noch"
 
 #: ../core/functions.inc/drivers/Sip.class.php:361
 msgid "Accept"
@@ -971,7 +976,7 @@ msgstr "zusammengesetzt MWI"
 
 #: amp.i18n.php:762
 msgid "Aggresively Check for Duplicate Extensions"
-msgstr ""
+msgstr "Offensiv auf doppelte Nebenstellen prüfen"
 
 #: ../core/views/did/advanced_form.php:187
 msgid "Alert Info"
@@ -1030,12 +1035,12 @@ msgstr "Alle Benutzer"
 
 #: amp_conf/htdocs/admin/page.modules.php:1005
 msgid "All available modules are up-to-date and installed."
-msgstr ""
+msgstr "Alle verfügbaren Module sind aktuell und installiert."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:843
 #, php-format
 msgid "All dependencies met for module %s"
-msgstr ""
+msgstr "Alle Abhängigkeiten für Modul %s sind erfüllt"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1228
 msgid "All inclusive Module Actions"
@@ -1044,24 +1049,26 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:595
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:946
 msgid "All modules up to date."
-msgstr ""
+msgstr "Alle Module sind aktuell."
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:459
 msgid ""
 "All settings can be set from the Advanced Settings page accessible in FreePBX"
 msgstr ""
+"Alle Einstellungen können über die Seite 'Erweiterte Einstellungen' in "
+"FreePBX vorgenommen werden"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:723
 msgid "All upgrades completed successfully!"
-msgstr ""
+msgstr "Alle Aktualisierungen wurden erfolgreich durchgeführt!"
 
 #: ../core/views/trunks/trunk_header.php:318
 msgid "Allow Any CID"
-msgstr ""
+msgstr "Jede Anruferkennung zulassen"
 
 #: amp.i18n.php:478
 msgid "Allow Automatic Security Updates"
-msgstr ""
+msgstr "Automatische Sicherheits-Updates zulassen"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:230
 #: ../core/views/trunks/pjsip.php:1015
@@ -1070,11 +1077,11 @@ msgstr ""
 
 #: amp.i18n.php:778
 msgid "Allow Login With DB Credentials"
-msgstr ""
+msgstr "Anmeldung mit Datenbank-Zugangsdaten zulassen"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:282
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP)"
-msgstr ""
+msgstr "Unverschlüüselte Medien zulassen (Opportunistisches SRTP)"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:134
 #: ../core/functions.inc/drivers/Sip.class.php:469
@@ -1086,23 +1093,23 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:470
 msgid "Allowed Codecs"
-msgstr ""
+msgstr "Zulässige Codecs"
 
 #: amp.i18n.php:116
 msgid "Allowed Origins"
-msgstr ""
+msgstr "Erlaubte Quellen"
 
 #: upgrades/2.8.0/custom-context.php:55 upgrades/2.8.0rc1/custom-context.php:55
 msgid "Already Migrated!"
-msgstr ""
+msgstr "Bereits migriert!"
 
 #: amp.i18n.php:614
 msgid "Alt for Footer Logo"
-msgstr ""
+msgstr "Alt für Fußzeilen-Loge"
 
 #: amp.i18n.php:610
 msgid "Alt for Left Logo"
-msgstr ""
+msgstr "Alt für linkes Logo"
 
 #: ../core/functions.inc.php:5521
 #: ../core/functions.inc/drivers/PJSip.class.php:273
@@ -1118,6 +1125,8 @@ msgid ""
 "Ammount of days to retain data. Setting this above 90 could cause "
 "performance issues."
 msgstr ""
+"Anzahl der Tage, für die Daten aufbewahrt werden sollen. Werte über 90 "
+"können zu Leistungseinbußen führen."
 
 #: amp.i18n.php:526
 msgid ""
@@ -1559,7 +1568,7 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:89 ../core/views/trunks/pjsip.php:897
 msgid "Both"
-msgstr ""
+msgstr "Beide"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1029
 #: amp_conf/htdocs/admin/page.modules.php:793
@@ -2213,7 +2222,7 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:329
 #: ../core/views/trunks/pjsip.php:186
 msgid "Context"
-msgstr ""
+msgstr "Kontext"
 
 #: ../core/views/trunks/pjsip.php:1090
 msgid "Context to route incoming MESSAGE requests to"
@@ -3135,7 +3144,7 @@ msgstr ""
 #: ../core/functions.inc.php:5495 ../core/functions.inc.php:5501
 #: ../core/functions.inc.php:5504 ../core/functions.inc.php:5508
 msgid "Disable"
-msgstr ""
+msgstr "Deaktivieren"
 
 #: amp.i18n.php:306
 msgid "Disable -custom Context Includes"
@@ -3254,19 +3263,19 @@ msgstr ""
 
 #: ../core/functions.inc.php:5691 ../core/views/quickCreate.php:69
 msgid "Display Name"
-msgstr ""
+msgstr "Anzeigename"
 
 #: ../core/Core.class.php:144
 msgid "Display Name can not be blank!"
-msgstr ""
+msgstr "Der Anzeigename darf nicht leer sein!"
 
 #: amp.i18n.php:322
 msgid "Display Presence State of Callee"
-msgstr ""
+msgstr "Anwesenheitsstatus des Angerufenen anzeigen"
 
 #: amp.i18n.php:16
 msgid "Display Readonly Settings"
-msgstr ""
+msgstr "Schreibgeschützte Einstellungen anzeigen"
 
 #: amp.i18n.php:184
 msgid "Display debug output for script used if POST_RELOAD is used."
@@ -3288,11 +3297,11 @@ msgstr ""
 
 #: ../core/page.users.php:78
 msgid "Do Not Disturb is disabled"
-msgstr ""
+msgstr "'Nicht stören' ist deaktiviert"
 
 #: ../core/page.users.php:78
 msgid "Do Not Disturb is enabled"
-msgstr ""
+msgstr "'Nicht stören' ist aktiviert"
 
 #: amp_conf/htdocs/admin/libraries/Console/Debug.class.php:26
 msgid "Do not tail standard freepbx.log"
@@ -3811,86 +3820,90 @@ msgstr ""
 
 #: ../core/views/quickCreate.php:56
 msgid "Enter Extension"
-msgstr ""
+msgstr "Tragen Sie eine Nebenstelle ein"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:15
 msgid "Enter a valid email address"
-msgstr ""
+msgstr "Tragen Sie eine gültige E-Mail-Adresse ein"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:20
 msgid "Enter an identifier for this machine"
-msgstr ""
+msgstr "Tragen Sie einen Identifikator für diese Maschine ein"
 
 #: ../core/views/quickCreate.php:72
 msgid "Enter name"
-msgstr ""
+msgstr "Tragen Sie einen Namen ein"
 
 #: amp.i18n.php:546
 msgid ""
 "Enter the address of the outbound proxy. This will be similar to "
 "http://10.1.1.1:3128"
 msgstr ""
+"Tragen Sie die Adresse des ausgehenden Proxys ein. Dies wird etwa so "
+"aussehen: http://10.1.1.1:3128"
 
 #: amp_conf/htdocs/admin/views/welcome.php:13
 msgid "Error"
-msgstr ""
+msgstr "Fehler"
 
 #: ../core/functions.inc.php:4686
 msgid "Error Duplicate Channel Entry"
-msgstr ""
+msgstr "Fehler: Doppelter Kanal-Eintrag"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:149
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:187
 #, php-format
 msgid "Error Generating Certificate: %s"
-msgstr ""
+msgstr "Fehler beim Erzeugen des Zertifikats: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:167
 #, php-format
 msgid "Error Generating Key: %s"
-msgstr ""
+msgstr "Fehler beim Erzeugen des Schlüssels: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:173
 #, php-format
 msgid "Error Generating Signing Request: %s"
-msgstr ""
+msgstr "Fehler beim Erzeugen der Signierungsanfrage: %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:363
 #, php-format
 msgid "Error Signing Cert with '%s': %s"
-msgstr ""
+msgstr "Fehler beim Signieren des Zertifikats mit '%s': %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1864
 #, php-format
 msgid "Error creating module directory: %s"
-msgstr ""
+msgstr "Fehler beim Erstellen des Modul-Verzeichnisses: %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1773
 #, php-format
 msgid "Error creating temporary directory: %s"
-msgstr ""
+msgstr "Fehler beim Erstellen des temporären Verzeichnisses: %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2219
 #, php-format
 msgid "Error deleting directory %s (code %d)"
-msgstr ""
+msgstr "Fehler beim Löschen von Verzeichnis %s (Code: %d)"
 
 #: ../core/Core.class.php:776 ../core/Core.class.php:1190
 #: ../core/page.trunks.php:324
 msgid "Error fetching prefix list for: "
-msgstr ""
+msgstr "Fehler beim Abrufen der Präfix-Liste für: "
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1739
 msgid ""
 "Error finding uploaded file - check your PHP and/or web server configuration"
 msgstr ""
+"Fehler: Konnte die hochgeladene Datei nicht finden - Prüfen Sie Ihre PHP- "
+"und/oder Webserver-Konfiguration"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1799
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1809
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1815
 #, php-format
 msgid "Error from %s: %s"
-msgstr ""
+msgstr "Fehler von %s: %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:103
 #: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:106
@@ -3900,14 +3913,14 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1670
 #, php-format
 msgid "Error opening %s for reading"
-msgstr ""
+msgstr "Fehler: Konnte %s nicht zum Lesen öffnen"
 
 #: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:94
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1404
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1643
 #, php-format
 msgid "Error opening %s for writing"
-msgstr ""
+msgstr "Fehler: Konnte %s nicht zum Schreiben öffnen"
 
 #: upgrades/2.10.0beta3/migration.php:35
 msgid "Error parsing cdr_mysql.conf, no migration done"
@@ -4222,11 +4235,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1726
 msgid "Failed to write file to disk"
-msgstr ""
+msgstr "Fehler beim Speichern der Datei"
 
 #: ../core/functions.inc.php:5456
 msgid "Failed to write indications.conf"
-msgstr ""
+msgstr "Konnte 'indications.conf' nicht schreiben"
 
 #: amp_conf/htdocs/admin/views/welcome.php:38
 msgid "Fallback Welcome Page"
@@ -4238,7 +4251,7 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:832
 msgid "Fax Detect"
-msgstr ""
+msgstr "Fax-Erkennung"
 
 #: amp.i18n.php:342
 msgid "Feature Codes Beep Only"
@@ -4247,18 +4260,18 @@ msgstr ""
 #: amp_conf/htdocs/admin/config.php:550
 #, php-format
 msgid "File %s has a revoked signature. Can not load"
-msgstr ""
+msgstr "Datei %s hat eine zurückgerufene Signatur. Kann sie nicht laden"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Media.class.php:89
 #, php-format
 msgid "File '%s' does not exist"
-msgstr ""
+msgstr "Datei '%s' existiert nicht"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1519
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1783
 #, php-format
 msgid "File Integrity failed for %s - aborting (Cause: %s)"
-msgstr ""
+msgstr "Die Integritätsprüfung für %s schlug fehl - breche ab (Ursache: %s)"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1511
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1514
@@ -4266,33 +4279,39 @@ msgstr ""
 #, php-format
 msgid "File Integrity failed for %s - aborting (GPG Verify File check failed)"
 msgstr ""
+"Die Integritätsprüfung für %s schlug fehl - breche ab (GPG-Verifikation "
+"schlug fehl)"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1535
 #, php-format
 msgid "File Integrity failed for %s - aborting (md5sum did not match)"
 msgstr ""
+"Die Integritätsprüfung für %s schlug fehl - breche ab (md5-Prüfsumme war "
+"nicht identisch)"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1499
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1543
 #, php-format
 msgid "File Integrity failed for %s - aborting (sha1 did not match)"
 msgstr ""
+"Die Integritätsprüfung für %s schlug fehl - breche ab (sha1 stimmte nicht "
+"überein)"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1729
 msgid "File upload stopped by extension"
-msgstr ""
+msgstr "Hochladen der Datei wurde durch eine Nebenstelle angehalten"
 
 #: ../core/page.users.php:93
 msgid "Find Me/Follow Me is disabled"
-msgstr ""
+msgstr "Finde mich/Folge mir ist deaktiviert"
 
 #: ../core/page.users.php:93
 msgid "Find Me/Follow Me is enabled"
-msgstr ""
+msgstr "Finde mich/Folge mir ist aktiviert"
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:54
 msgid "Finished cleaning up cache"
-msgstr ""
+msgstr "Bereinigung des Zwischspeichers abgeschlossen"
 
 #: ../core/views/routing/form.php:31
 #, php-format
@@ -4354,7 +4373,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:100
 msgid "For support please visit: "
-msgstr ""
+msgstr "Um Unterstützung zu erhalten, besuchen Sie bitte: "
 
 #: ../core/views/trunks/pjsip.php:294
 msgid "Forbidden Retry Interval"
@@ -4380,11 +4399,11 @@ msgstr ""
 
 #: ../core/views/did/advanced_form.php:374
 msgid "Force Answer"
-msgstr ""
+msgstr "Antwort erzwingen"
 
 #: amp.i18n.php:782
 msgid "Force Asterisk Version"
-msgstr ""
+msgstr "Asterisk-Version erzwingen"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:135
 msgid "Force Disabled"
@@ -4393,12 +4412,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:377
 #, php-format
 msgid "Force Download and Downgrade to %s"
-msgstr ""
+msgstr "Herunterladen und herabstufen auf %s erzwingen"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:377
 #, php-format
 msgid "Force Download and Install %s"
-msgstr ""
+msgstr "Herunterladen und installieren von %s erzwingen"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:130
 msgid "Force Enabled"
@@ -4465,7 +4484,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:274
 msgid "Forced"
-msgstr ""
+msgstr "Erzwungen"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3055
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:532
@@ -4475,7 +4494,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:641
 msgid "Forced downgrades and re-installs:"
-msgstr ""
+msgstr "Erzwungene Herabstufungen und Neuinstallationen:"
 
 #: amp.i18n.php:176
 msgid ""
@@ -4519,11 +4538,11 @@ msgstr "FreePBX Administration"
 
 #: amp.i18n.php:4
 msgid "FreePBX Framework"
-msgstr ""
+msgstr "FreePBX-Framework"
 
 #: amp.i18n.php:738
 msgid "FreePBX Log File"
-msgstr ""
+msgstr "FreePBX-Protokolldatei"
 
 #: amp.i18n.php:712
 msgid "FreePBX Log Routing"
@@ -4532,11 +4551,11 @@ msgstr ""
 #: install.php:5
 #, php-format
 msgid "FreePBX Requires PHP Version 5.6 or Higher, you have: %s"
-msgstr ""
+msgstr "FreePBX erfordert PHP in Version 5.6 oder höher, Sie haben: %s"
 
 #: amp.i18n.php:924
 msgid "FreePBX Support"
-msgstr ""
+msgstr "FreePBX-Support"
 
 #: amp.i18n.php:814
 msgid "FreePBX Web Address"
@@ -4614,7 +4633,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:76
 msgid "Friday"
-msgstr ""
+msgstr "Freitag"
 
 #: ../core/page.advancedsettings.php:132 ../core/page.advancedsettings.php:157
 #: ../core/page.advancedsettings.php:186 ../core/page.advancedsettings.php:220
@@ -4854,28 +4873,33 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:561
 msgid "Hit the red record button to start recording from your browser"
 msgstr ""
+"Drücken Sie den roten Aufnahmeknopf, um die Aufnahme von Ihrem Browser aus "
+"zu starten"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:711
 #, php-format
 msgid "Home directory %s doesn't exist, and I can't create it"
-msgstr ""
+msgstr "Das Home-Verzeichnis %s existiert nicht, und ich kann es nicht anlegen"
 
 #: ../core/functions.inc/drivers/Sip.class.php:332
 msgid "Host"
-msgstr ""
+msgstr "Host"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:118
 #: ../core/functions.inc/drivers/Sip.class.php:331
 msgid "Host settings for this device, almost always dynamic for endpoints."
 msgstr ""
+"Host-Einstellungen für dieses Gerät, bei Endpunkten fast immer dynamisch."
 
 #: amp.i18n.php:84
 msgid "Hostname for the Asterisk Manager"
-msgstr ""
+msgstr "Hostname für den Asterisk-Manager"
 
 #: ../core/views/trunks/pjsip.php:309
 msgid "How long to wait before retry when receiving a 403 Forbidden response."
 msgstr ""
+"Wie lange vor einem erneuten Versuch gewartet werden soll, wenn eine 403"
+"-Verboten-Antwort erhalten wurde."
 
 #: ../core/views/trunks/pjsip.php:336
 msgid ""
@@ -4950,11 +4974,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:6
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: ../core/page.advancedsettings.php:290
 msgid "IMPORTANT:"
-msgstr ""
+msgstr "WICHTIG:"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:144
 #: ../core/functions.inc/drivers/Sip.class.php:481
@@ -4969,10 +4993,12 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:479
 msgid "IP Address range to deny access to, in the form of network/netmask."
 msgstr ""
+"IP-Adressbereich auf den der Zugriff verweigert werden soll (in der Form "
+"Netzwerk/Netzwerkmaske)."
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:80
 msgid "IP Addresses"
-msgstr ""
+msgstr "IP-Adressen"
 
 #: ../core/views/trunks/pjsip.php:687
 msgid ""
@@ -4985,7 +5011,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:490
 msgid "Idle"
-msgstr ""
+msgstr "Leerlauf"
 
 #: ../core/views/routing/form.php:84
 msgid ""
@@ -7651,16 +7677,16 @@ msgstr ""
 
 #: upgrades/2.5.0/removefiles.php:21
 msgid "Removed"
-msgstr ""
+msgstr "Entfernt"
 
 #: upgrades/2.5.0/removefiles.php:28
 msgid "Removed directory"
-msgstr ""
+msgstr "Verzeichnis wurde entfernt"
 
 #: amp_conf/htdocs/admin/page.modules.php:342
 #, php-format
 msgid "Removing %s"
-msgstr ""
+msgstr "Entferne %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:185
 #, php-format
@@ -8522,7 +8548,7 @@ msgstr ""
 #: ../core/Core.class.php:378 ../core/Core.class.php:408
 #: ../core/Core.class.php:433
 msgid "Submit"
-msgstr ""
+msgstr "Absenden"
 
 #: amp_conf/htdocs/admin/functions.inc.php:440
 msgid ""
@@ -8537,11 +8563,11 @@ msgstr "Erfolgreich neu geladen"
 
 #: amp_conf/htdocs/admin/views/module_admin/tabheader.php:13
 msgid "Summary"
-msgstr ""
+msgstr "Zusammenfassung"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:78
 msgid "Sunday"
-msgstr ""
+msgstr "Sonntag"
 
 #: ../core/views/trunks/pjsip.php:698
 msgid "Support Path"
@@ -8562,7 +8588,7 @@ msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:377
 msgid "System"
-msgstr ""
+msgstr "System"
 
 #: amp.i18n.php:640
 msgid "System Apps"
@@ -9130,7 +9156,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:130
 #, php-format
 msgid "The setting %s was not found!"
-msgstr ""
+msgstr "Die Einstellung %s wurde nicht gefunden!"
 
 #: amp_conf/htdocs/admin/views/bad_refferer.php:18
 msgid ""
@@ -9148,34 +9174,45 @@ msgid ""
 "changed internal setting %s (Use wget For Module Admin) to true, see the "
 "tooltip in Advanced Settings for more details."
 msgstr ""
+"Das System hat beim Versuch, auf externe Server-Daten zuzugreifen, ein "
+"Problem erkannt und die interne Einstellung %s (wget für die Modulverwaltung "
+"nutzen) auf 'wahr' gesetzt. Beachten Sie den Tooltip unter 'Erweiterte "
+"Einstellungen', um Einzelheiten zu erfahren."
 
 #: amp.i18n.php:860
 msgid ""
 "The telephony backend engine being used, asterisk is the only option "
 "currently."
 msgstr ""
+"Das verwendete Telefonie-Backend, zur Zeit ist Asterisk die einzige Option."
 
 #: amp.i18n.php:594
 msgid "The time in seconds that remote API's should cache user data"
 msgstr ""
+"Zeit in Sekunden, für die die entfernte API Benutzerdaten zwischenspeichern "
+"soll"
 
 #: amp.i18n.php:130
 msgid "The timeout (in milliseconds) to set on WebSocket connections."
-msgstr ""
+msgstr "Zeitüberschreitung (in Millisekunden) für WebSocket-Verbindungen."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1714
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
 msgstr ""
+"Die hochgeladene Datei überschreitet die maximal zulässige Dateigröße, die "
+"als Wert \"MAX_FILE_SIZE\" im HTML-Formular festgelegt wurde"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1711
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr ""
+"Die hochgeladene Datei überschreitet die maximal zulässige Dateigröße, die "
+"in der 'upload_max_filesize'-Direktive in der php.ini festgelegt wurde"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1717
 msgid "The uploaded file was only partially uploaded"
-msgstr ""
+msgstr "Die hochgeladene Datei wurde nur teilweise hochgeladen"
 
 #: amp.i18n.php:836
 msgid ""
@@ -11095,7 +11132,7 @@ msgstr ""
 #: upgrades/2.8.0alpha2/tables.php:172 upgrades/2.9.0alpha1/tables.php:50
 #: upgrades/2.9.0alpha1/tables.php:66
 msgid "already exists"
-msgstr ""
+msgstr "bereits vorhanden"
 
 #: upgrades/2.11.0rc1/migration.php:53
 msgid "already symlinked skipping"
