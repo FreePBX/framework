@@ -7,6 +7,7 @@ namespace FreePBX;
  */
 use Media\Media as MM;
 use Sinergi\BrowserDetector\Browser;
+use Sinergi\BrowserDetector\Os;
 class Media extends DB_Helper{
 	private $file;
 	private $path;
@@ -375,8 +376,20 @@ class Media extends DB_Helper{
 			case Browser::GSA:
 				$formats = array();
 			break;
-			default: //not sure of the browser type so just do them all
-				$formats = array("oga", "wav", "mp3", "m4a");
+			default: //not sure of the browser type so check OS
+				$os = new Os();
+				switch($os->getName()) {
+					case Os::IOS:
+						$formats = array("m4a");
+					break;
+					case Os::ANDROID:
+						$formats = array("oga");
+					break;
+					default: //not sure of the browser or os type so just do them all
+						$formats = array("oga", "wav", "mp3", "m4a");
+					break;
+				}
+
 			break;
 		}
 		return $formats;
