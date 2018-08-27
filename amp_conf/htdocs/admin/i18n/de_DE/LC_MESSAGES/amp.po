@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: AMP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-08-20 23:35-0300\n"
-"PO-Revision-Date: 2018-08-25 15:00+0000\n"
+"PO-Revision-Date: 2018-08-28 13:00+0000\n"
 "Last-Translator: Bastian Mertgen <b.mertgen@bastian-mertgen.de>\n"
 "Language-Team: German <http://*/projects/freepbx/framework/de/>\n"
 "Language: de_DE\n"
@@ -835,7 +835,7 @@ msgstr "Eingehende Route hinzufügen"
 
 #: ../core/page.did.php:30 ../core/page.did.php:76
 msgid "Add Incoming Route"
-msgstr ""
+msgstr "Eingehende Route hinzufügen"
 
 #: ../core/page.astmodules.php:138
 msgid "Add Module"
@@ -924,6 +924,8 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:28
 msgid "Adds a warning in the email that modules will be updated in one hour"
 msgstr ""
+"Fügt der E-Mail eine Warnung hinzu, dass in einer Stunde Module aktualisiert "
+"werden"
 
 #: ../core/functions.inc.php:5904
 msgid "Adhoc"
@@ -1133,12 +1135,17 @@ msgid ""
 "Amount of days to keep browser playback (HTML5 audio files) cache. Set this "
 "to a lower value to conserve disk space."
 msgstr ""
+"Anzahl der Tage für die Browserwiedergaben (HTML5-Adudiodateien) "
+"zwischengespeichert werden sollen. Eine kürzere Dauer hilft, Plattenplatz zu "
+"sparen."
 
 #: amp.i18n.php:530
 msgid ""
 "Amount of seconds to allow a session to stay open before logging a user out. "
 "For unlimited clear this box and save."
 msgstr ""
+"Anzahl der Sekunden für die eine Sitzung geöffnet sein darf, bevor ein "
+"Benutzer abgemeldet wird. Bleibt dieses Feld leer, gilt keine Begrenzung."
 
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:232
 #, php-format
@@ -1146,22 +1153,29 @@ msgid ""
 "An attempt to send an email to \"%s\" with an alert about unsigned modules "
 "notifications failed"
 msgstr ""
+"Ein Versuch, eine E-Mail mit einem Alarm wegen eines unsignierten Moduls an "
+"\"%s\" zu schicken, schlug fehl"
 
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:257
 #, php-format
 msgid ""
 "An attempt to send an email to \"%s\" with security notifications failed"
 msgstr ""
+"Ein Versuch, eine E-Mail mit einer Sicherheitsbenachrichtigung an \"%s\" zu "
+"schicken, schlug fehl"
 
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:285
 #, php-format
 msgid "An attempt to send an email to \"%s\" with update notifications failed"
 msgstr ""
+"Ein Versuch, eine E-Mail mit einer Update-Benachrichtigung an \"%s\" zu "
+"schicken, schlug fehl"
 
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:304
 #, php-format
 msgid "An attempt to send email to \"%s\" from \"%s\" failed"
 msgstr ""
+"Ein Versuch, eine E-Mail von \"%2$s\" an \"%1$s\" zu schicken, schlug fehl"
 
 #: ../core/views/did/advanced_form.php:413 ../core/views/did/basic_form.php:234
 msgid ""
