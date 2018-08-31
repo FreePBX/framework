@@ -7,18 +7,28 @@ use FreePBX\modules\Api\Gql\Base;
 use GraphQL\Type\Definition\ObjectType;
 
 class System extends Base {
-	public function constructQuery() {
-		return function() {
-			return [
-				'system' => [
-					'type' => $this->typeContainer->get('system')->getObject(),
-					'description' => 'General System information',
-					'resolve' => function($root, $args) {
-						return []; //trick the resolver into not thinking this is null
-					}
+	public static function getScopes() {
+		return [
+				'read:system' => [
+						'description' => _('Read system information'),
 				]
-			];
-		};
+		];
+	}
+
+	public function queryCallback() {
+		if($this->checkReadScope("system")) {
+			return function() {
+				return [
+					'system' => [
+						'type' => $this->typeContainer->get('system')->getObject(),
+						'description' => 'General System information',
+						'resolve' => function($root, $args) {
+							return []; //trick the resolver into not thinking this is null
+						}
+					]
+				];
+			};
+		}
 	}
 
 	public function initializeTypes() {
