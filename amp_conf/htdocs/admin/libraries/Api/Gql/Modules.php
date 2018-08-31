@@ -9,8 +9,15 @@ use GraphQL\Type\Definition\EnumType;
 
 class Modules extends Base {
 	protected $description = 'Modules provide functionality to your PBX';
+	public static function getScopes() {
+		return [
+				'read:modules' => [
+						'description' => _('Read module information'),
+				]
+		];
+	}
 	public function queryCallback() {
-		if($this->checkAllReadScope()) {
+		if($this->checkReadScope('modules')) {
 			return function() {
 				return [
 					'allModules' => [
