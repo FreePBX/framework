@@ -734,7 +734,7 @@ class View {
 					continue;
 				}
 				foreach($data['destinations'] as $destination => $info) {
-					$flattened[$destination] = $info['name'];
+					$flattened[$destination] = !empty($info['category']) ? $info['category'] : $info['name'];
 				}
 			}
 		}
