@@ -3,6 +3,7 @@
 namespace FreePBX\Api\Rest;
 use FreePBX\modules\Api\Rest\Base;
 class System extends Base {
+	protected $module = 'framework';
 	public static function getScopes() {
 		return [
 			'read:system' => [
