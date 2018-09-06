@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>15.0.1.7</version>
+	<version>15.0.1.8</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*15.0.1.8* FREEPBX-18126 
 		*15.0.1.7* Fix destination drawselects selections
 		*15.0.1.6* FREEPBX-18108
 		*15.0.1.5* Update API
@@ -63,7 +64,7 @@
 		</table>
 		<table name="freepbx_log">
 			<field name="id" type="integer" primarykey="true" autoincrement="true"/>
-			<field name="time" type="datetime" />
+			<field name="time" type="datetime"/>
 			<field name="section" type="string" length="50" notnull="false"/>
 			<field name="level" type="string" default="error"/>
 			<field name="status" type="integer" default="0"/>
@@ -120,5 +121,5 @@
 	<category>Admin</category>
 	<!-- System level bugfixes are below. These are checked by individual packages -->
 	<!-- This is processed by the command 'xmlstarlet sel -t -v 'module/bugfix [@id="FD7-23"]' module.xml' -->
-	<bugfix id='FD7-23'>http://issues.freepbx.org/browse/FD7-23</bugfix>
+	<bugfix id="FD7-23">http://issues.freepbx.org/browse/FD7-23</bugfix>
 </module>
