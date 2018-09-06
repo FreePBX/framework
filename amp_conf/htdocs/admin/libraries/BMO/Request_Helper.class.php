@@ -166,7 +166,6 @@ class Request_Helper extends Self_Helper {
 					//unknown?
 				}
 			}
-			dbug($ret);
 			return $ret;
 		}
 		return $this->sanatizeVar($ret);
