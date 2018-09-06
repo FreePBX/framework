@@ -156,8 +156,17 @@ class Request_Helper extends Self_Helper {
 		$ret = $this->getReqUnsafe($var, $def);
 		if (is_array($ret)) {
 			foreach($ret as $key => $value){
-				$ret[$key] = $this->sanatizeVar($value);
+				if(!is_array($value)) {
+					$ret[$key] = $this->sanatizeVar($value);
+				} elseif(is_array($value)) {
+					foreach($value as $k => $v) {
+						$ret[$key][$k] = $this->sanatizeVar($v);
+					}
+				} else {
+					//unknown?
+				}
 			}
+			dbug($ret);
 			return $ret;
 		}
 		return $this->sanatizeVar($ret);
