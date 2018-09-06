@@ -1649,11 +1649,12 @@ class module_functions {
 				$progress_callback[0]->{$progress_callback[1]}('downloading', array('module'=>$modulename, 'read'=>$response_bytes, 'total'=>$headers['content-length']));
 			}
 		});
-		$requests = FreePBX::Curl()->requests($url);
+		$requests = FreePBX::Curl()->requests($module_location);
 		$options = array(
 			'hooks' => $hooks,
+			'timeout' => 1800, // Allow up to 1800 seconds (30 minutes) for the download to complete
 		);
-		$response = $requests->post('', array(), $urls['options'], $options);
+		$response = $requests->post('', array(), array(), $options);
 		file_put_contents($filename,$response->body);
 
 		$errors = $this->_process_archive($filename,$progress_callback);
