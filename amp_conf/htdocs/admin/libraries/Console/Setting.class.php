@@ -15,6 +15,8 @@ use Symfony\Component\Console\Helper\Table;
 
 use Symfony\Component\Console\Command\HelpCommand;
 
+use Respect\Validation\Validator as v;
+
 class Setting extends Command {
 	protected function configure(){
 		$this->FreePBXConf = \FreePBX::Config();
@@ -155,8 +157,8 @@ class Setting extends Command {
 			case CONF_TYPE_BOOL:
 				$old = !empty($old) ? '1' : '0';
 				$value = strtolower($value);
-				if(!\Respect\Validation\Validator::trueVal()->validate($value) && !\Respect\Validation\Validator::falseVal()->validate($value)) {
-					throw new \Exception(sprintf(_("Invalid valid for %s, needs to be one of 'on', 'off', 'true', 'false', '1' or '0'"),$setting));
+				if(!v::trueVal()->validate($value) && !v::falseVal()->validate($value)) {
+					throw new \Exception(sprintf(_("Invalid value for %s, needs to be one of 'on', 'off', 'true', 'false', '1' or '0'"),$setting));
 				}
 				$value = ($value === 'on' || $value === true || $value === 'true' || $value === 1 || $value === '1') ? true : false;
 				$text = $value ? '1' : '0';
