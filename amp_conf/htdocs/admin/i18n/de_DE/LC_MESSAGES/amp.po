@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: AMP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-08-20 23:35-0300\n"
-"PO-Revision-Date: 2018-08-28 13:00+0000\n"
+"PO-Revision-Date: 2018-09-12 16:00+0000\n"
 "Last-Translator: Bastian Mertgen <b.mertgen@bastian-mertgen.de>\n"
 "Language-Team: German <http://*/projects/freepbx/framework/de/>\n"
 "Language: de_DE\n"
@@ -28,6 +28,10 @@ msgid ""
 "supported by the %s team but may receive some level of support by the "
 "authors."
 msgstr ""
+" Die Module im 'Extended'-Repository sind weniger üblich und erhalten "
+"möglicherweise weniger Unterstützung. Das 'Unsupported'-Repository enthält "
+"Module, die nicht vom %s-Team unterstützt werden, aber vielleicht eine "
+"gewisse Unterstützung durch die Autoren erhalten."
 
 #: amp_conf/htdocs/admin/views/footer.php:104
 msgid ""
@@ -54,9 +58,9 @@ msgid " successfully disabled"
 msgstr " erfolgreich deaktiviert"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:312
-#, fuzzy
 msgid " successfully disabled, but was not found in the remote list"
-msgstr " erfolgreich deaktiviert, aber nicht in der externen Liste gefunden"
+msgstr ""
+" erfolgreich deaktiviert, wurde aber nicht in der externen Liste gefunden"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:302
 msgid " successfully enabled"
@@ -466,9 +470,9 @@ msgid "%s skipped by configuration"
 msgstr "%s durch die Konfiguration übersprungen"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:342
-#, fuzzy, php-format
+#, php-format
 msgid "%s to %s and Enable"
-msgstr "%s zu %s und aktiviert"
+msgstr "%s zu %s und aktivieren"
 
 #: amp_conf/htdocs/admin/page.modules.php:337
 #: amp_conf/htdocs/admin/page.modules.php:359
@@ -482,9 +486,9 @@ msgid "%s version %s or below is required, you have %s"
 msgstr "%s Die Version %s ist unter der Mindestanforderung,Sie haben %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1134
-#, fuzzy, php-format
+#, php-format
 msgid "%s version %s or higher is required, you have %s"
-msgstr "%s Die Version %s ist höher als gefordert,Sie haben %s"
+msgstr "%s Version %s oder höher ist erforderlich, Sie haben %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:587
 #, php-format
@@ -584,6 +588,12 @@ msgid ""
 "blocking the machine trying to register. Do not change this unless you "
 "control both servers, and are sure it is required!"
 msgstr ""
+"<strong>Warnung:</strong> Wenn Sie 'Keine' auswählen, werden "
+"Registrierungsversuche für die oben angegebene Kombination aus Benutzername "
+"und Kennwort zurückgewiesen. Wird dies falsch konfiguriert, kann das dazu "
+"führen, dass die Firewall dies als Angriff wertet und das Gerät blockiert, "
+"das versucht, sich zu registrieren. Ändern Sie dies nicht, sofern Sie nicht "
+"beide Server kontrollieren und sicher sind, dass es erforderlich ist!"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1118
 #, php-format
@@ -603,6 +613,11 @@ msgid ""
 "subsequent routes will be checked for matches outside of the designated "
 "time(s)."
 msgstr ""
+"Ein Wählmuster ist ein einzigartiger Satz von Ziffern, die diese Route "
+"auswählen und den Anruf zu den vorgesehenen Amtsleitungen senden. Wenn ein "
+"geähltest Muster mit dieser Route übereinstimmt, werden keine nachfolgenden "
+"Routen mehr geprüft. Falls Zeitgruppen aktiviert sind, werden außerhalb der "
+"vorgesehenen Zeit(en) nachfolgende Routen auf Übereinstimmungen geprüft."
 
 #: ../core/views/trunks/trunk_header.php:92
 msgid ""
@@ -613,6 +628,13 @@ msgid ""
 "first matched rule will be executed and the remaining rules will not be "
 "acted on."
 msgstr ""
+"Eine Wählregel steuert, wie Anrufe auf dieser Amtsleitung gewählt werden. "
+"Sie kann genutzt werden, um Präfixe hinzuzufügen oder zu entfernen. Nummern, "
+"die keinem der angegebenen Muster entsprechen, werden unverändert gewählt. "
+"Beachten Sie, dass ein Muster ohne + oder | (zum Hinzufügen oder Entfernen "
+"eines Präfixes) keine Änderungen vornimmt, aber eine Übereinstimmung ergibt. "
+"Es wird nur die erste übereinstimmende Regel ausgeführt, die verbleibenden "
+"Regeln werden nicht berücksichtigt."
 
 #: ../core/functions.inc.php:5761
 msgid "A description for this DID, such as \"Fax\""
@@ -625,6 +647,12 @@ msgid ""
 "10x4, etc).<br><br>Format should be: <b>XXXXXXXXXX</b><br><br>.An optional "
 "CID can also be associated with this DID by setting the next box"
 msgstr ""
+"Eine direkte Durchwahl, die mit dieser Nebenstelle verbunden ist. Die "
+"Durchwahl sollte dasselbe Format haben, das auch der "
+"Telekomunikationsanbieter bereitstellt (z.B. vollständige Nummer, 4 Ziffern "
+"für 10x4 etc.).<br /><br />Das Format sollte so aussehen: <b>XXXXXXXXXX</b> <"
+"br /><br />Im nächsten Eingabefeld kann dieser Durchwahl außerdem eine "
+"optionale Anruferkennung zugeordnet werden"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:41
 msgid ""
@@ -632,6 +660,9 @@ msgid ""
 "stack. A collection of resource modules provides the bulk of the SIP "
 "functionality"
 msgstr ""
+"Ein neuer SIP-Kanal-Treiber für Asterisk, chan_pjsip, baut auf dem PJSIP-SIP-"
+"Stack auf. Eine Sammlung von Hilfsmodulen stellt den Großteil der SIP-"
+"Funktionalität bereit"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:213
 #, php-format
@@ -670,7 +701,7 @@ msgstr ""
 
 #: ../core/page.ampusers.php:159
 msgid "ALL SECTIONS"
-msgstr "ALLE AUSWÄHLEN"
+msgstr "ALLE ABSCHNITTE"
 
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1220
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1232
@@ -681,7 +712,7 @@ msgstr "AMI-Fehlerdetails:"
 
 #: amp.i18n.php:138
 msgid "AMPLOCALBIN Dir for retrieve_conf"
-msgstr ""
+msgstr "AMPLOCALBIN-Verzeichnis für retrieve_conf"
 
 #: ../core/views/did/advanced_form.php:116
 #: ../core/views/did/advanced_form.php:140 ../core/views/did/basic_form.php:48
@@ -769,6 +800,8 @@ msgid ""
 "Actions to preform in regards to this module. This usually contains "
 "installation and maintenance operations at an administration level"
 msgstr ""
+"Aktionen, die in Bezug auf dieses Modul durchgeführt werden sollen. Dies "
+"umfasst üblicherweise die Installation und wartung auf administrativer Ebene"
 
 #: amp_conf/htdocs/admin/functions.inc.php:469 ../core/page.astmodules.php:140
 #: ../core/views/trunks/trunk_header.php:2
@@ -892,11 +925,17 @@ msgid ""
 "put Private, Blocked, Unknown, Restricted, Anonymous, Unavailable and "
 "Withheld in order to catch these special cases if the Telco transmits them."
 msgstr ""
+"Fügen Sie eine Anruferkennung für ein spezifischeres Routing nach Durchwahl +"
+" Anruferkennung hinzu. Eine Durchwahl muss weiter oben unter \"Durchwahl "
+"hinzufügen\" angegeben werden. Zusätzlich zu den Standard-Wählsequenzen "
+"können Sie außerden 'Private', 'Blocked', 'Unknown', 'Restricted', "
+"'Anonymous' und 'Withheld' einsetzen, um diese Sonderfälle abzufangen, "
+"sofern die Telefongesellschaft diese unterstützt."
 
 #: amp_conf/htdocs/admin/helpers/freepbx_helpers.php:131
 #, php-format
 msgid "Add new %s &#133"
-msgstr ""
+msgstr "Neues %s hinzufügen&#133"
 
 #: amp_conf/htdocs/admin/page.modules.php:87
 #, php-format
@@ -908,6 +947,14 @@ msgid ""
 "advised that you keep this enabled and keep updated of these important "
 "notifications to avoid costly security vulnerabilities."
 msgstr ""
+"Tragen Sie hier Ihre E-Mail-Adresse ein, um wichtige Sicherheits- und "
+"Modulupdates zu erhalten. Die hier eingetragene E-Mail-Adresse wird NIE an "
+"die entfernten %s-Server übermittelt. Diese E-Mail-Adresse wird NUR von "
+"Ihrer lokalen Telefonanlage genutzt, um Benachrichtigungen zu verfügbaren "
+"Updates und WICHTIGE Sicherheitshinweise zu versenden. Es wird DRINGEND "
+"empfohlen, dass Sie diese Einstellung aktiviert lassen, um über über diese "
+"wichtigen Benachrichtigungen auf dem Laufenden zu bleiben und kostspielige "
+"Sicherheitslücken zu vermeiden."
 
 #: amp_conf/htdocs/admin/views/noaccess.php:54
 msgid "Additional Information"
@@ -1191,10 +1238,13 @@ msgid ""
 "passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc "
 "and also remove the 'ssh' account as soon as possible"
 msgstr ""
+"Es wurde ein unautorisiertes Systembenutzerkonto namens 'ssh' in '/etc/"
+"passwd' entdeckt. Bitte entfernen Sie alle Aliase für 'useradd' aus '/root/"
+".bashrc' und entfernen Sie so bald wie möglich das Konto 'ssh'"
 
 #: ../core/functions.inc.php:5775
 msgid "Any DID"
-msgstr ""
+msgstr "Jede Durchwahl"
 
 #: amp.i18n.php:896 amp_conf/htdocs/admin/views/menu_items.php:45
 msgid "Applications"
@@ -1206,7 +1256,7 @@ msgstr "&Auml;nderungen durchf&uuml;hren"
 
 #: amp_conf/htdocs/admin/views/menu.php:26
 msgid "Apply Config"
-msgstr ""
+msgstr "Konfiguration anwenden"
 
 #: ../core/functions.inc/drivers/Sip.class.php:484
 msgid ""
@@ -1225,7 +1275,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/footer.php:115
 msgid "Are you sure you want to delete this?"
-msgstr ""
+msgstr "Sind Sie sicher, dass Sie dies löschen wollen?"
 
 #: amp_conf/htdocs/admin/views/footer.php:116
 msgid ""
@@ -1234,17 +1284,25 @@ msgid ""
 "update notifications will NOT automatically install them but will make sure "
 "you are informed as soon as they are available."
 msgstr ""
+"Sind Sie sicher, dass Sie die automatischen Update-Benachrichtigungen "
+"deaktivieren wollen? Dies könnte Ihr System dem Risiko schwerwiegender "
+"Sicherheitslücken aussetzen. Durch das Aktivieren der Update-"
+"Benachrichtigungen werden diese nicht automatisch installiert, aber es ist "
+"sichergestellt, dass Sie informiert werden, sobald sie verfügbar sind."
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:97
 #, php-format
 msgid "Are you sure you want to set %s to its default?"
 msgstr ""
+"Sind Sie sicher, dass Sie für %s die Standardeinstellung übernehemn wollen?"
 
 #: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:13
 msgid ""
 "As this machine does not meet those requirements, system updates must be "
 "manually performed by the operator, using 'yum', 'apt', or equivalent."
 msgstr ""
+"Da dieser Rechner die Voraussetzungen nicht erfüllt, müssen Systemupdates "
+"manuell mittels 'yum', 'apt' oder Ähnlichem durchgeführt werden."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:97
 msgid "Asked for raw contents of a file, but was never asked to read a file"
@@ -1252,7 +1310,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:5759
 msgid "Assigned DID/CID"
-msgstr ""
+msgstr "Zugewiesene Durchwahl/Anruferkennung"
 
 #: amp.i18n.php:110
 msgid ""
@@ -1260,6 +1318,9 @@ msgid ""
 "for building Asterisk based applications. This will enable the ARI server as "
 "long as the HTTP server is enabled as well."
 msgstr ""
+"Asterisk 12 führt die Asterisk REST-Schnittstelle ein, eine Reihe von "
+"RESTful-APIs zum Aufbau von Asterisk-basierten Anwendungen. Dies aktiviert "
+"den ARI-Server, sofern der HTTP-Server ebenfalls aktiviert ist."
 
 #: amp.i18n.php:402
 msgid "Asterisk AGI Dir"
@@ -1267,11 +1328,11 @@ msgstr ""
 
 #: amp.i18n.php:26
 msgid "Asterisk Builtin mini-HTTP server"
-msgstr ""
+msgstr "Eingebauter Mini-HTTP-Server von Asterisk"
 
 #: amp.i18n.php:260 ../core/functions.inc.php:5730
 msgid "Asterisk Dial Options"
-msgstr ""
+msgstr "Asterisk-Wähloptionen"
 
 #: ../core/views/trunks/trunk_header.php:386
 msgid ""
@@ -1286,11 +1347,11 @@ msgstr ""
 
 #: amp.i18n.php:416
 msgid "Asterisk Log Dir"
-msgstr ""
+msgstr "Asterisk-Protokollverzeichnis"
 
 #: amp.i18n.php:82
 msgid "Asterisk Manager"
-msgstr ""
+msgstr "Asterisk-Manager"
 
 #: amp.i18n.php:80
 msgid "Asterisk Manager Host"
@@ -1318,7 +1379,7 @@ msgstr ""
 
 #: amp.i18n.php:922 ../core/page.astmodules.php:49
 msgid "Asterisk Modules"
-msgstr ""
+msgstr "Asterisk-Module"
 
 #: amp.i18n.php:420
 msgid "Asterisk Modules Dir"
@@ -4334,7 +4395,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:5903
 msgid "Fixed"
-msgstr ""
+msgstr "Fest"
 
 #: ../core/functions.inc.php:6011
 msgid ""
@@ -4342,14 +4403,18 @@ msgid ""
 "to this user by default.<br><br>If selecting 'New User', a new User "
 "Extension of the same Device ID will be set as the Default User."
 msgstr ""
+"Feste Geräte werden immer diesem Benutzer zugeordnet. Adhoc-Geräte werden "
+"diesem Benutzer standardmäßig zugeordnet.<br /><br />Wenn  Sie 'Neuer "
+"Benutzer' auswählen, wird eine neue Benutzernebenstelle mit derselben Geräte-"
+"ID als Standardbenutzer eingerichtet."
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:210
 msgid "Fixes Vulnerabilities"
-msgstr ""
+msgstr "Beseitigt Schwachstellen"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1209
 msgid "Flags"
-msgstr ""
+msgstr "Flags"
 
 #: amp.i18n.php:466
 msgid "Flash Operator Panel"
@@ -4377,6 +4442,8 @@ msgid ""
 "For a list of Operating Systems that can be automatically updated, please "
 "see the FreePBX Wiki."
 msgstr ""
+"Eine Liste der Betriebssysteme, die automatisch aktualisiert werden können "
+"finden Sie im FreePBX-Wiki."
 
 #: amp.i18n.php:368
 msgid ""
@@ -4391,11 +4458,11 @@ msgstr "Um Unterstützung zu erhalten, besuchen Sie bitte: "
 
 #: ../core/views/trunks/pjsip.php:294
 msgid "Forbidden Retry Interval"
-msgstr ""
+msgstr "Unzulässiges Wiederholungsintervall"
 
 #: ../core/functions.inc.php:5484
 msgid "Force"
-msgstr ""
+msgstr "Erzwingen"
 
 #: ../core/functions.inc/drivers/Sip.class.php:428
 msgid ""
@@ -4405,7 +4472,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:429
 msgid "Force AVP"
-msgstr ""
+msgstr "AVP erzwingen"
 
 #: amp.i18n.php:346
 msgid "Force All Internal Auto Answer"
@@ -4459,7 +4526,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:26
 msgid "Force email sending"
-msgstr ""
+msgstr "E-Mail-Versand erzwingen"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:58
 msgid ""
@@ -4469,12 +4536,12 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:233
 msgid "Force rport"
-msgstr ""
+msgstr "Rport erzwingen"
 
 #: ../core/functions.inc/drivers/Sip.class.php:372
 #, php-format
 msgid "Force rport - (%s)"
-msgstr ""
+msgstr "Rport erzwingen - (%s)"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:240
 msgid "Force run post-start asterisk hooks"
@@ -4530,25 +4597,26 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:759
 msgid "Forward"
-msgstr ""
+msgstr "Weiterleiten"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:798
 #, php-format
 msgid "Found local Dependency of: %s %s"
-msgstr ""
+msgstr "Lokale Abhängigkeit von %s %s gefunden"
 
 #: ../core/install.php:455
 msgid "Found what appear to be invalid emergency callerid entries."
 msgstr ""
+"Möglicherweise ungültige Einträge für die Notruf-Anruferkennung gefunden."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2015
 #, php-format
 msgid "Framework Detected, Setting FreePBX Version to %s"
-msgstr ""
+msgstr "Framework gefunden, stelle FreePBX-Version auf %s ein"
 
 #: amp_conf/htdocs/admin/views/login.php:22
 msgid "FreePBX Administration"
-msgstr "FreePBX Administration"
+msgstr "FreePBX-Verwaltung"
 
 #: amp.i18n.php:4
 msgid "FreePBX Framework"
@@ -4573,7 +4641,7 @@ msgstr "FreePBX-Support"
 
 #: amp.i18n.php:814
 msgid "FreePBX Web Address"
-msgstr ""
+msgstr "FreePBX-Webadresse"
 
 #: amp.i18n.php:452
 msgid "FreePBX Web Root Dir"
@@ -4586,6 +4654,11 @@ msgid ""
 "this enabled and keep updated of these important notificaions to avoid "
 "costly security issues."
 msgstr ""
+"FreePBX bietet die Möglichkeit, automatisch online nach Update zu suchen. "
+"Die Updates werden NICHT automatisch installiert. Es wirde DRINGEND "
+"empfohlen, diese Einstellung aktiviert zu lassen, um über diese wichtigen "
+"Informationen auf dem Laufenden zu bleiben und kostspielige "
+"Sicherheitsprobleme zu vermeiden."
 
 #: amp.i18n.php:136
 msgid ""
@@ -4609,6 +4682,10 @@ msgid ""
 "places. In order to accumulate these messages in the log files as well as "
 "the on screen display, set this to true."
 msgstr ""
+"FreePBX zeigt dem Benutzer während der Installation von Modulen oder System "
+"und beim Laden von Konfigurationen viele hilfreiche und ausführliche "
+"Meldungen an. Um diese Meldungen auch in den Protokolldateien zu sammeln, "
+"aktivieren Sie diese Option."
 
 #: ../core/page.trunks.php:485
 msgid ""
@@ -4636,6 +4713,11 @@ msgid ""
 "false will force FreePBX to load all the libraries as individual "
 "uncompressed files. This is useful during development and debugging."
 msgstr ""
+"FreePBX bündelt verschiedene Javascript-Bibliotheken in einer komprimierten "
+"Datei namens libfreepbx.javascript.js. Standardmäßig wird diese anstelle der "
+"einzelnen, unkomprimierten Bilbliotheken geladen. Deaktivieren Sie diese "
+"Option, so wird FreePBX alle Bibliotheken als einzelne, unkomprimierte "
+"Dateien laden. Dies ist bei der Entwicklung und der Fehlersuche hilfreich."
 
 #: amp.i18n.php:448
 msgid "FreePBX sbin Dir"
@@ -8771,6 +8853,8 @@ msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
 msgstr ""
+"Der Name der Anruferkennung für Anrufe dieses Benutzers wird auf diesen "
+"Namen eingestellt. Geben Sie nur den Namen, NICHT die Nummer, an."
 
 #: ../core/functions.inc.php:6009
 msgid ""
