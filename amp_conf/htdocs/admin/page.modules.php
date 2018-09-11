@@ -1024,10 +1024,10 @@ default:
 		"pbxversion" => $su->getDistroVersion(),
 	);
 
-        // Display version info for other distros.
-        if ($summary['pbxversion'] == 'Unknown') {
-                $summary['pbxversion'] = 'Asterisk ' . engine_getinfo()['version'] . ' - ' . $su->getOSReleaseVersion();
-        }
+	// Display version info for other distros.
+	if ($summary['pbxversion'] == 'Unknown') {
+        	$summary['pbxversion'] = 'Asterisk ' . engine_getinfo()['version'] . ' - ' . $su->getOSReleaseVersion();
+	}
 
 	// If we're not compatible with SU, don't try to do anything.
 	if (!$su->canDoSystemUpdates()) {

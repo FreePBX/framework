@@ -431,6 +431,49 @@ class SystemUpdates {
 		return trim($vers[0]);
 	}
 
+         /**
+         * Get the Distro Name and Distro Version from /etc/os-release
+         *
+         * @return string to be displayed
+         */
+        public function getOSReleaseVersion() {
+
+                $osReleaseFile = "/etc/os-release";
+
+                if (file_exists($osReleaseFile)) {
+                        $osRelease = parse_ini_file($osReleaseFile);
+
+                        if ($osRelease['PRETTY_NAME']) {
+                                $distro = $osRelease['PRETTY_NAME'];
+                        }
+
+                        else {
+                                if ($osRelease['NAME']) {
+                                        $distro = $osRelease['NAME'];
+                                }
+                                else if ($osRelease['ID']) {
+                                        $distro = $osRelease['ID'];
+                                }
+                                else {
+                                        return "Unknown";
+                                }
+                                if ($osRelease['VERSION']) {
+                                        $distro .= ' ' . $osRelease['VERSION'];
+                                }
+                                else if ($osRelease['VERSION_ID']) {
+                                        $distro .= ' ' . $osRelease['VERSION_ID'];
+                                }
+                        }
+
+                        if ($distro) {
+                                //Strip special chars. Too paranoid?
+                                return preg_replace('/[^A-Za-z0-9\-_ \.\\/()]/', '', $distro);
+                        }
+                }
+
+                return "Unknown";
+        }
+
 	/**
 	 * Get the status of yum update
 	 */
