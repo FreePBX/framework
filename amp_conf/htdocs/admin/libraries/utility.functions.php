@@ -1576,3 +1576,38 @@ function freepbx_filesize($file) {
 	}
 	return 0; //unknown
 }
+
+/**
+ * Use filter_input_array
+ * The filter extension is enabled by default as of PHP 5.2.0. To disable the filter extension, use --disable-filter .
+ * Before PHP 5.2 an experimental PECL extension was used, however, the PECL version is no longer recommended or updated.
+ */
+function freepbxGetSanitizedRequest() {
+	$order = ini_get('request_order');
+	$order = !empty($order) ? $order : ini_get('variables_order');
+	$total = strlen($order);
+	$request = array();
+	for($i = 0; $i < $total; $i++) {
+		switch($order[$i]) {
+			case 'G':
+				$GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
+				if(is_array($GET)) {
+					$request = array_merge($request,$GET);
+				}
+			break;
+			case 'P':
+				$POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+				if(is_array($POST)) {
+					$request = array_merge($request,$POST);
+				}
+			break;
+			case 'C':
+				$COOKIE = filter_input_array(INPUT_COOKIE, FILTER_SANITIZE_STRING);
+				if(is_array($COOKIE)) {
+					$request = array_merge($request,$COOKIE);
+				}
+			break;
+		}
+	}
+	return $request;
+}
