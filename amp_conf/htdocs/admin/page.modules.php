@@ -16,17 +16,19 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 $edgemode = ($amp_conf['MODULEADMINEDGE'] == 1)?true:false;
 $modulef = module_functions::create();
 
+$REQUEST = freepbxGetSanitizedRequest();
+
 // Handle the ajax post back of an update online updates email array and status
 //
-if ($quietmode && isset($_REQUEST['update_email'])) {
-	$update_email   = $_REQUEST['update_email'];
+if ($quietmode && isset($REQUEST['update_email'])) {
+	$update_email   = $REQUEST['update_email'];
 	$ci = new CI_Email();
 	if (!$ci->valid_email($update_email) && $update_email) {
 		$json_array['status'] = _("Invalid email address") . ' : ' . $update_email;
 	} else {
 		$cm = cronmanager::create($db);
 		$cm->save_email($update_email);
-		$cm->set_machineid($_REQUEST['machine_id']);
+		$cm->set_machineid($REQUEST['machine_id']);
 		$json_array['status'] = true;
 	}
 	header("Content-type: application/json");
@@ -34,21 +36,21 @@ if ($quietmode && isset($_REQUEST['update_email'])) {
 	exit;
 }
 
-$action = isset($_REQUEST['action'])?$_REQUEST['action']:'';
+$action = isset($REQUEST['action'])?$REQUEST['action']:'';
 
 global $active_repos;
 $loc_domain = 'amp';
-if (isset($_REQUEST['check_online'])) {
+if (isset($REQUEST['check_online'])) {
 	$online = 1;
 } else {
-	$online = (isset($_REQUEST['online']) && $_REQUEST['online'] && !EXTERNAL_PACKAGE_MANAGEMENT) ? 1 : 0;
+	$online = (isset($REQUEST['online']) && $REQUEST['online'] && !EXTERNAL_PACKAGE_MANAGEMENT) ? 1 : 0;
 }
 $active_repos = $modulef->get_active_repos();
 // fix php errors from undefined variable. Not sure if we can just change the reference below to use
 // online since it changes values so just setting to what we decided it is here.
 
-$trackaction = isset($_REQUEST['trackaction'])?$_REQUEST['trackaction']:false;
-$moduleaction = isset($_REQUEST['moduleaction'])?$_REQUEST['moduleaction']:false;
+$trackaction = isset($REQUEST['trackaction'])?$REQUEST['trackaction']:false;
+$moduleaction = isset($REQUEST['moduleaction'])?$REQUEST['moduleaction']:false;
 /*
 	moduleaction is an array with the key as the module name, and possible values:
 
@@ -187,8 +189,8 @@ if(isset($modules['builtin'])) {
 //--------------------------------------------------------------------------------------------------------
 switch ($action) {
 	case 'setrepo':
-		$repo = str_replace("_repo","",$_REQUEST['id']);
-		$o = $modulef->set_active_repo($repo,$_REQUEST['selected']);
+		$repo = str_replace("_repo","",$REQUEST['id']);
+		$o = $modulef->set_active_repo($repo,$REQUEST['selected']);
 		if($o) {
 			echo json_encode(array("status" => true));
 		} else {
@@ -196,7 +198,7 @@ switch ($action) {
 		}
 	break;
 	case 'process':
-		$moduleactions = !empty($_REQUEST['modules']) ? $_REQUEST['modules'] : array();
+		$moduleactions = !empty($REQUEST['modules']) ? $REQUEST['modules'] : array();
 		echo "<div id=\"moduleBoxContents\">";
 		echo "<h4>"._("Please wait while module actions are performed")."</h4>\n";
 		echo "<div id=\"moduleprogress\">";
@@ -442,25 +444,25 @@ switch ($action) {
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						if(empty($modules_online[$module]['previous'])) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("%s cannot be rolledback, version %s is missing"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$_REQUEST['version']."</strong>");
+							$errorstext[] = sprintf(_("%s cannot be rolledback, version %s is missing"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$REQUEST['version']."</strong>");
 						}
 						$previous_data = null;
 						foreach($modules_online[$module]['previous'] as $release) {
-							if($release['version'] == $_REQUEST['version']) {
+							if($release['version'] == $REQUEST['version']) {
 								$previous_data = $release;
 								break;
 							}
 						}
 						if(empty($previous_data)) {
 							$skipaction = true;
-							$errorstext[] = sprintf(_("%s cannot be rolledback, version %s is missing"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$_REQUEST['version']."</strong>");
+							$errorstext[] = sprintf(_("%s cannot be rolledback, version %s is missing"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$REQUEST['version']."</strong>");
 						}
 						if (is_array($errors = $modulef->checkdepends($previous_data))) {
 							$skipaction = true;
 							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),
 							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
 						} else {
-							$actionstext[] =  sprintf(_("%s %s will be downloaded and rolled back to %s"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$_REQUEST['version']."</strong>");
+							$actionstext[] =  sprintf(_("%s %s will be downloaded and rolled back to %s"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$REQUEST['version']."</strong>");
 						}
 					}
 				break;
@@ -612,7 +614,7 @@ switch ($action) {
 				$moduleActions[$module]['action'] = $action;
 				$moduleActions[$module]['track'] = $trackaction[$module];
 				if($action== 'rollback') {
-					$moduleActions[$module]['rollback'] = $_REQUEST['version'];
+					$moduleActions[$module]['rollback'] = $REQUEST['version'];
 				}
 			}
 		}
@@ -676,13 +678,13 @@ switch ($action) {
 		}
 
 		$displayvars['processed'] = false;
-		if (isset($_REQUEST['upload']) && isset($_FILES['uploadmod']) && !empty($_FILES['uploadmod']['name'])) {
+		if (isset($REQUEST['upload']) && isset($_FILES['uploadmod']) && !empty($_FILES['uploadmod']['name'])) {
 			$displayvars['res'] = $modulef->handleupload($_FILES['uploadmod']);
 			$displayvars['processed'] = true;
-		} elseif (isset($_REQUEST['download']) && !empty($_REQUEST['remotemod'])) {
-			$displayvars['res'] = $modulef->handledownload($_REQUEST['remotemod']);
+		} elseif (isset($REQUEST['download']) && !empty($REQUEST['remotemod'])) {
+			$displayvars['res'] = $modulef->handledownload($REQUEST['remotemod']);
 			$displayvars['processed'] = true;
-		} elseif(isset($_REQUEST['remotemod'])) {
+		} elseif(isset($REQUEST['remotemod'])) {
 			$displayvars['res'][] = 'Nothing to download or upload';
 			$displayvars['processed'] = true;
 		}
