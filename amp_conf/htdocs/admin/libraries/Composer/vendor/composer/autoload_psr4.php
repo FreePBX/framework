@@ -34,6 +34,8 @@ return array(
     'Symfony\\Component\\BrowserKit\\' => array($vendorDir . '/symfony/browser-kit'),
     'Slim\\' => array($vendorDir . '/slim/slim/Slim'),
     'Sinergi\\BrowserDetector\\' => array($vendorDir . '/sinergi/browser-detector/src'),
+    'Sepia\\Test\\' => array($vendorDir . '/sepia/po-parser/tests'),
+    'Sepia\\PoParser\\' => array($vendorDir . '/sepia/po-parser/src'),
     'Respect\\Validation\\' => array($vendorDir . '/respect/validation/library'),
     'Ramsey\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
