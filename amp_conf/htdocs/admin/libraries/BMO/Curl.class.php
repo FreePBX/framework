@@ -111,7 +111,7 @@ class Curl {
 	public function get($url, $data = array()) {
 		$this->setProxy();
 		$data = !empty($data) ? '?'.http_build_query($data) : '';
-		return \Requests::delete($url.$data, $this->headers, $this->options);
+		return \Requests::get($url.$data, $this->headers, $this->options);
 	}
 
 	public function head($url) {
