@@ -54,6 +54,8 @@ class ComposerStaticInitpbxframework
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\BrowserKit\\' => 29,
             'Sinergi\\BrowserDetector\\' => 24,
+            'Sepia\\Test\\' => 11,
+            'Sepia\\PoParser\\' => 15,
         ),
         'R' => 
         array (
@@ -195,6 +197,14 @@ class ComposerStaticInitpbxframework
         'Sinergi\\BrowserDetector\\' => 
         array (
             0 => __DIR__ . '/..' . '/sinergi/browser-detector/src',
+        ),
+        'Sepia\\Test\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sepia/po-parser/tests',
+        ),
+        'Sepia\\PoParser\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/sepia/po-parser/src',
         ),
         'Respect\\Validation\\' => 
         array (
@@ -1793,6 +1803,21 @@ class ComposerStaticInitpbxframework
         'Respect\\Validation\\Rules\\Zend' => __DIR__ . '/..' . '/respect/validation/library/Rules/Zend.php',
         'Respect\\Validation\\Validatable' => __DIR__ . '/..' . '/respect/validation/library/Validatable.php',
         'Respect\\Validation\\Validator' => __DIR__ . '/..' . '/respect/validation/library/Validator.php',
+        'Sepia\\PoParser\\Catalog\\Catalog' => __DIR__ . '/..' . '/sepia/po-parser/src/Catalog/Catalog.php',
+        'Sepia\\PoParser\\Catalog\\CatalogArray' => __DIR__ . '/..' . '/sepia/po-parser/src/Catalog/CatalogArray.php',
+        'Sepia\\PoParser\\Catalog\\Entry' => __DIR__ . '/..' . '/sepia/po-parser/src/Catalog/Entry.php',
+        'Sepia\\PoParser\\Catalog\\EntryFactory' => __DIR__ . '/..' . '/sepia/po-parser/src/Catalog/EntryFactory.php',
+        'Sepia\\PoParser\\Catalog\\Header' => __DIR__ . '/..' . '/sepia/po-parser/src/Catalog/Header.php',
+        'Sepia\\PoParser\\Exception\\ParseException' => __DIR__ . '/..' . '/sepia/po-parser/src/Exception/ParseException.php',
+        'Sepia\\PoParser\\Parser' => __DIR__ . '/..' . '/sepia/po-parser/src/Parser.php',
+        'Sepia\\PoParser\\PoCompiler' => __DIR__ . '/..' . '/sepia/po-parser/src/PoCompiler.php',
+        'Sepia\\PoParser\\SourceHandler\\FileSystem' => __DIR__ . '/..' . '/sepia/po-parser/src/SourceHandler/FileSystem.php',
+        'Sepia\\PoParser\\SourceHandler\\SourceHandler' => __DIR__ . '/..' . '/sepia/po-parser/src/SourceHandler/SourceHandler.php',
+        'Sepia\\PoParser\\SourceHandler\\StringSource' => __DIR__ . '/..' . '/sepia/po-parser/src/SourceHandler/StringSource.php',
+        'Sepia\\Test\\AbstractFixtureTest' => __DIR__ . '/..' . '/sepia/po-parser/tests/AbstractFixtureTest.php',
+        'Sepia\\Test\\UnitTest\\HeaderTest' => __DIR__ . '/..' . '/sepia/po-parser/tests/UnitTest/HeaderTest.php',
+        'Sepia\\Test\\UnitTest\\ReadPoTest' => __DIR__ . '/..' . '/sepia/po-parser/tests/UnitTest/ReadPoTest.php',
+        'Sepia\\Test\\WriteTest' => __DIR__ . '/..' . '/sepia/po-parser/tests/WriteTest.php',
         'SessionUpdateTimestampHandlerInterface' => __DIR__ . '/..' . '/symfony/polyfill-php70/Resources/stubs/SessionUpdateTimestampHandlerInterface.php',
         'Sinergi\\BrowserDetector\\AcceptLanguage' => __DIR__ . '/..' . '/sinergi/browser-detector/src/AcceptLanguage.php',
         'Sinergi\\BrowserDetector\\Browser' => __DIR__ . '/..' . '/sinergi/browser-detector/src/Browser.php',
