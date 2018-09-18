@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: AMP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-08-20 23:35-0300\n"
-"PO-Revision-Date: 2018-09-15 15:00+0000\n"
+"PO-Revision-Date: 2018-09-18 22:06+0000\n"
 "Last-Translator: Bastian Mertgen <b.mertgen@bastian-mertgen.de>\n"
 "Language-Team: German <http://*/projects/freepbx/framework/de/>\n"
 "Language: de_DE\n"
@@ -1248,11 +1248,11 @@ msgstr "Jede Durchwahl"
 
 #: amp.i18n.php:896 amp_conf/htdocs/admin/views/menu_items.php:45
 msgid "Applications"
-msgstr "Applikationen"
+msgstr "Anwendungen"
 
 #: ../core/page.ampusers.php:134 ../core/page.ampusers.php:153
 msgid "Apply Changes Bar"
-msgstr "&Auml;nderungen durchf&uuml;hren"
+msgstr "Änderungen anwenden"
 
 #: amp_conf/htdocs/admin/views/menu.php:26
 msgid "Apply Config"
@@ -6313,11 +6313,11 @@ msgstr ""
 
 #: ../core/views/did/advanced_form.php:14
 msgid "Music On Hold"
-msgstr ""
+msgstr "Warteschleifenmusik"
 
 #: ../core/views/routing/moh.php:22
 msgid "Music On Hold?"
-msgstr ""
+msgstr "Warteschleifenmusik?"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:210
 msgid "Must have a name for the CSR"
@@ -6326,17 +6326,17 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:65
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:74
 msgid "MySQL Tables Repaired"
-msgstr ""
+msgstr "MySQL-Tabellen repariert"
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:67
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:76
 #, php-format
 msgid "MySQL table repair Failed: %s"
-msgstr ""
+msgstr "Die Reparatur einer MySQL-Tabelle schlug fehl: %s"
 
 #: ../core/functions.inc/drivers/Sip.class.php:386
 msgid "NAT Mode"
-msgstr ""
+msgstr "NAT-Modus"
 
 #: ../core/functions.inc/drivers/Sip.class.php:385
 msgid ""
@@ -6344,6 +6344,9 @@ msgid ""
 "both internal and external devices. Set to No if the device will always be "
 "internal."
 msgstr ""
+"NAT-Einstellung, näheres finden Sie in der Asterisk-Dokumentation. 'Ja' "
+"funktioniert für gewöhnlich sowohl für interne als auch für externe Geräte. "
+"Stellen Sie hier 'nein' ein, falls das Gerät immer intern sein wird."
 
 #: ../core/page.ampusers.php:126 ../core/page.ampusers.php:128
 msgid "NOTE"
@@ -6354,11 +6357,15 @@ msgstr ""
 msgid ""
 "NOTICE! This system has EDGE mode enabled. For more information visit %s"
 msgstr ""
+"HINWEIS! Der EDGE-Modus ist auf diesem System aktiviert. Weitere "
+"Informationen finden Sie unter %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:66
 #, php-format
 msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
+"HINWEIS! Sie haben %s Benachrichtigungen! Bitte melden Sie sich am UI an, um "
+"sie zu lesen!"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:73
 #: ../core/Core.class.php:2999 ../core/Core.class.php:3000
@@ -6367,13 +6374,16 @@ msgstr ""
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
 #: ../core/views/routing/grid.php:70 ../core/views/trunks/trunkgrid.php:31
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: ../core/views/routing/form.php:291
 msgid ""
 "Name of this route. Should be used to describe what type of calls this route "
 "matches (for example, 'local' or 'longdistance')."
 msgstr ""
+"Name dieser Route. Sollte verwendet werden, um zu beschreiben, für welche "
+"Art von Anrufen diese Route verwendet wird (z.B. 'Ortsgespräche' oder "
+"'Ferngespräche')."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:33
 msgid "Need to be instantiated with a FreePBX Object"
@@ -6381,7 +6391,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-summary.php:59
 msgid "Needs Upgrade:"
-msgstr ""
+msgstr "Erfordert ein Upgrade:"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:502
 #: ../core/functions.inc.php:5488
@@ -6391,16 +6401,16 @@ msgstr "Nie"
 #: ../core/functions.inc/drivers/Sip.class.php:382
 #, php-format
 msgid "Never - (%s)"
-msgstr ""
+msgstr "Nie - (%s)"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:560
 msgid "New Package"
-msgstr ""
+msgstr "Neues Paket"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:557
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:290
 msgid "New Version"
-msgstr ""
+msgstr "Neue Version"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1039
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:118
@@ -6410,7 +6420,7 @@ msgstr "Neuer als die Online Version (%s)"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:21
 msgid "Nightly"
-msgstr ""
+msgstr "Nächtlich"
 
 #: ../core/functions.inc.php:5487
 #: ../core/functions.inc/drivers/Dahdi.class.php:108
@@ -6458,16 +6468,16 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:301
 msgid "No Action"
-msgstr "keiner Aktion"
+msgstr "Keine Aktion"
 
 #: ../core/functions.inc.php:5821
 msgid "No Answer"
-msgstr ""
+msgstr "Keine Antwort"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:340
 #, php-format
 msgid "No Cert Signing Request for %s"
-msgstr ""
+msgstr "Keine Zertifikatsignierungsanforderung für %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:981
 msgid "No Change Log"
@@ -6475,19 +6485,19 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:426
 msgid "No Description"
-msgstr ""
+msgstr "Keine Beschreibung"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:49
 msgid "No Description Provided"
-msgstr ""
+msgstr "Keine Beschreibung vorhanden"
 
 #: ../core/functions.inc.php:5522
 msgid "No Limit"
-msgstr ""
+msgstr "Unbegrenzt"
 
 #: ../core/views/did/advanced_form.php:9
 msgid "No Music"
-msgstr ""
+msgstr "Keine Musik"
 
 #: amp_conf/htdocs/admin/page.modules.php:650
 msgid "No actions to perform"
@@ -6495,57 +6505,58 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:219
 msgid "No description is available."
-msgstr ""
+msgstr "Es ist keine Beschreibung verfügbar."
 
 #: install.php:151
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr ""
+"Verzeichnis %s nicht vorhanden, das Installationsskript wird nicht benötigt"
 
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:64
 msgid "No email address for online update checks"
-msgstr ""
+msgstr "Keine E-Mail-Adresse für Online-Update-Prüfungen"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1139
 msgid "No enabled modules depend on this module."
-msgstr ""
+msgstr "Von diesem Modul hängen keine aktivierten Module ab."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:63
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:116
 msgid "No file given to load"
-msgstr ""
+msgstr "Es wurde kein Datei zum Laden übergeben"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1720
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Es wurde keine Datei hochgeladen"
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:85
 msgid "No interfaces found"
-msgstr ""
+msgstr "Es wurden keine Schnittstellen gefunden"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:159
 msgid "No module to check"
-msgstr ""
+msgstr "Es ist kein Modul zu prüfen"
 
 #: amp_conf/htdocs/admin/page.modules.php:1005
 msgid "No modules to display."
-msgstr ""
+msgstr "Es ist kein Modul anzuzeigen."
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:115
 msgid "No name for this CA"
-msgstr ""
+msgstr "Kein Name für diese CA"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:286
 msgid "No pending module updates."
-msgstr ""
+msgstr "Es gibt keine anstehenden Modul-Updates."
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:637
 msgid "No status was given to checkStatus"
-msgstr ""
+msgstr "Es wurde kein Status an 'checkStatus' übergeben"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:530
 msgid "No updates currently required!"
-msgstr ""
+msgstr "Zur Zeit sind keine Updates erforderlich!"
 
 #: amp.i18n.php:362
 msgid "NoOp Traces in Dialplan"
@@ -6558,15 +6569,15 @@ msgstr ""
 #: ../core/views/trunks/pjsip.php:91 ../core/views/trunks/pjsip.php:110
 #: ../core/views/trunks/pjsip.php:757 ../core/views/trunks/pjsip.php:1056
 msgid "None"
-msgstr ""
+msgstr "Keine"
 
 #: ../core/functions.inc/drivers/Virtual.class.php:9
 msgid "None (virtual exten)"
-msgstr ""
+msgstr "Keine (Virtuelle Nebenstelle)"
 
 #: ../core/views/routing/form.php:465
 msgid "Normal Congestion"
-msgstr ""
+msgstr "Normale Auslastung"
 
 #: amp.i18n.php:308
 msgid ""
@@ -6608,7 +6619,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1016
 msgid "Not Installed (Available online: "
-msgstr ""
+msgstr "Nicht installiert (online verfügbar: "
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:80
 #, php-format
@@ -6622,45 +6633,46 @@ msgstr "Nicht installiert (Lokal verf&uuml;gbar)"
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:82
 #, php-format
 msgid "Not Installed (Locally available: %s)"
-msgstr ""
+msgstr "Nicht installiert (lokal verfügbar: %s)"
 
 #: ../core/functions.inc.php:5835
 msgid "Not Reachable"
-msgstr ""
+msgstr "Nicht erreichbar"
 
 #: upgrades/2.5.0/removefiles.php:23
 msgid "Not Required"
-msgstr ""
+msgstr "Nicht erforderlich"
 
 #: ../core/page.ampusers.php:277
 msgid "Not Selected"
-msgstr ""
+msgstr "Nicht ausgewählt"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:229
 msgid "Not an array"
-msgstr ""
+msgstr "Kein Array"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:698
 msgid "Not received"
-msgstr ""
+msgstr "Nicht empfangen"
 
 #: ../core/page.astmodules.php:51
 msgid "Note that this is for ASTERISK modules, not FreePBX Modules."
 msgstr ""
+"Beachten Sie, dass ASTERISK-Module und nicht für FreePBX-Module gemeint sind."
 
 #: amp_conf/htdocs/admin/views/welcome.php:15
 msgid "Notice"
-msgstr ""
+msgstr "Hinweis"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-summary.php:27
 #, php-format
 msgid "Notice: System Upgrade (%s) available!"
-msgstr ""
+msgstr "Hinweis: System-Upgrade (%s) verfügbar!"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Mail.class.php:31
 #, php-format
 msgid "Notification from %s"
-msgstr ""
+msgstr "Benachrichtigung von %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:63
 msgid "Notifications Help"
@@ -6690,16 +6702,16 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:767
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:253
 msgid "Object"
-msgstr ""
+msgstr "Objekt"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:767
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:253
 msgid "Objects"
-msgstr ""
+msgstr "Objekte"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:243
 msgid "Obtain Free License"
-msgstr ""
+msgstr "Kostenlose Lizenz beziehen"
 
 #: amp.i18n.php:366
 msgid "Occupied Lines CW Busy"
@@ -6707,7 +6719,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:5803
 msgid "On Demand Recording"
-msgstr ""
+msgstr "Aufzeichnen auf Anforderung"
 
 #: ../core/views/did/advanced_form.php:362 ../core/views/did/basic_form.php:210
 msgid ""
@@ -6718,11 +6730,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/cronmanager.class.php:108
 msgid "Online Updates are Disabled"
-msgstr ""
+msgstr "Online-Updates sind deaktiviert"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1165
 msgid "Online Version"
-msgstr ""
+msgstr "Online-Version"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:443
 msgid "Online info"
@@ -6740,12 +6752,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1037
 #, php-format
 msgid "Online upgrade available (%s)"
-msgstr "Online Upgrade verf&uuml;gbar (%s)"
+msgstr "Online Upgrade verfügbar (%s)"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1130
 #, php-format
 msgid "Only %s version %s is compatible, you have %s"
-msgstr ""
+msgstr "Es ist nur %s-Version %s kompatibel, Sie verwenden %s"
 
 #: amp.i18n.php:370
 msgid "Only Use Last CID Prepend"
@@ -6753,15 +6765,15 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:72
 msgid "Only automatically update security issues."
-msgstr ""
+msgstr "Nur Sicherheitsupdates automatisch durchführen."
 
 #: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:31
 msgid "Only mysql is supported"
-msgstr ""
+msgstr "Es wird nur MySQL unterstützt"
 
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:27
 msgid "Only process security emails"
-msgstr ""
+msgstr "Nur Sicherheits-E-Mails verarbeiten"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:25
 msgid "Only run post-start hooks"
@@ -6781,12 +6793,12 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:70
 msgid "Only send results to stdout."
-msgstr ""
+msgstr "Ergebnisse nur an stdout senden."
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:420
 #, php-format
 msgid "OpenSSL took too long to run the command '%s'"
-msgstr ""
+msgstr "OpenSSL benötigte zu lange, um den Befehl '%s' auszuführen"
 
 #: amp_conf/htdocs/admin/views/login.php:35
 msgid "Operator Panel"
@@ -7504,11 +7516,11 @@ msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:15
 msgid "Priority"
-msgstr ""
+msgstr "Priorität"
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:49
 msgid "Priority needs to be either 'true', 'false' or a number"
-msgstr ""
+msgstr "Die Priorität muss entweder 'wahr', 'falsch' oder eine Zahl sein"
 
 #: ../core/views/did/advanced_form.php:69
 msgid "Privacy"
@@ -7521,7 +7533,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:49
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:471
 msgid "Process"
-msgstr "Prozess"
+msgstr "Verarbeiten"
 
 #: amp.i18n.php:194
 msgid "Provide Verbose Tracebacks"
@@ -7529,7 +7541,7 @@ msgstr ""
 
 #: ../core/views/did/advanced_form.php:100 ../core/views/did/basic_form.php:32
 msgid "Provide a meaningful description of what this incoming route is"
-msgstr ""
+msgstr "Geben Sie eine aussagekräftige Beschreibung dieser eingehenden Route an"
 
 #: amp.i18n.php:196
 msgid ""
@@ -7539,19 +7551,19 @@ msgstr ""
 
 #: amp.i18n.php:544
 msgid "Proxy Address"
-msgstr ""
+msgstr "Proxy-Adresse"
 
 #: amp.i18n.php:552
 msgid "Proxy Password"
-msgstr ""
+msgstr "Proxy-Passwort"
 
 #: amp.i18n.php:540
 msgid "Proxy Settings"
-msgstr ""
+msgstr "Proxy-Einstellungen"
 
 #: amp.i18n.php:548
 msgid "Proxy Username"
-msgstr ""
+msgstr "Proxy-Benutzername"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:59
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:186
@@ -7560,11 +7572,11 @@ msgstr "Herausgeber"
 
 #: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:19
 msgid "Purge and clean system"
-msgstr ""
+msgstr "System bereinigen"
 
 #: ../core/functions.inc.php:888 ../core/functions.inc.php:4495
 msgid "Put caller on hold forever"
-msgstr ""
+msgstr "Anrufer für immer auf die Warteschleife legen"
 
 #: amp.i18n.php:556
 msgid "QXact Reports"
@@ -7585,33 +7597,36 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/menu.php:64
 msgid "Quick Search '/'"
-msgstr ""
+msgstr "Schnellsuche '/'"
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:1111
 msgid "Quick Select"
-msgstr ""
+msgstr "Schnellauswahl"
 
 #: ../core/functions.inc/drivers/Sip.class.php:310
 msgid "RFC 2833"
-msgstr ""
+msgstr "RFC 2833"
 
 #: ../core/functions.inc/drivers/Sip.class.php:305
 msgid "RFC 4733"
-msgstr ""
+msgstr "RFC 4733"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:557
 msgid "RPM Name"
-msgstr ""
+msgstr "RPM-Name"
 
 #: amp.i18n.php:822
 msgid "RSS Feeds"
-msgstr ""
+msgstr "RSS-Feeds"
 
 #: amp.i18n.php:824
 msgid ""
 "RSS Feeds that are displayed in UCP and Dashboard. Separate each feed by a "
 "new line. Supported feeds are Atom 1.0 and RSS 0.91, 0.92, 1.0 and 2.0"
 msgstr ""
+"RSS-Feeds, die im UCP und auf der Übersichtsseite angezeigt werden. "
+"Schreiben Sie jeden Feed in eine neue Zeile. Es werden Feeds in den Formaten "
+"Atom 1.0 und RSS 0.91, 0.92, 1.0 und 2.0 unterstützt"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:229
 #: ../core/views/trunks/pjsip.php:1025
@@ -7901,7 +7916,7 @@ msgstr ""
 #: ../core/functions.inc.php:5733 ../core/views/did/advanced_form.php:211
 #: ../core/views/did/basic_form.php:115
 msgid "Ringer Volume Override"
-msgstr ""
+msgstr "Ruftonlautstärke überschreiben"
 
 #: amp.i18n.php:378
 msgid "Ringtime Default"
@@ -10294,44 +10309,46 @@ msgstr ""
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
-msgstr ""
+msgstr "Benutzer"
 
 #: amp.i18n.php:766
 msgid "User & Devices Mode"
-msgstr ""
+msgstr "Benutzer- & Geräte-Modus"
 
 #: ../core/views/trunks/trunk_footer.php:94
 msgid "User Context was left blank and User Details will not be saved!"
 msgstr ""
+"Benutzerkontext wurde leer gelassen und die Benutzerdetails werden nicht "
+"gespeicher!"
 
 #: amp_conf/htdocs/admin/views/login.php:28
 msgid "User Control Panel"
-msgstr ""
+msgstr "Benutzerkontrollzentrum (UCP)"
 
 #: ../core/functions.inc.php:5699
 msgid "User Devices"
-msgstr ""
+msgstr "Benutzergeräte"
 
 #: ../core/functions.inc.php:5655
 msgid "User Extension"
-msgstr ""
+msgstr "Benutzernebenstelle"
 
 #: ../core/functions.inc.php:982 ../core/functions.inc.php:1013
 #, php-format
 msgid "User Extension %s: %s"
-msgstr ""
+msgstr "Benutzernebenstelle %s: %s"
 
 #: ../core/functions.inc.php:4454
 msgid "User Extension: "
-msgstr ""
+msgstr "Benutzernebenstelle: "
 
 #: ../core/install.php:8
 msgid "User Logoff"
-msgstr ""
+msgstr "Benutzerabmeldung"
 
 #: ../core/install.php:7
 msgid "User Logon"
-msgstr ""
+msgstr "Benutzeranmeldung"
 
 #: amp_conf/htdocs/admin/views/menu_items.php:49
 msgid "User Panel"
@@ -10339,18 +10356,18 @@ msgstr ""
 
 #: ../core/functions.inc.php:5658
 msgid "User Password"
-msgstr ""
+msgstr "Benutzerkennwort"
 
 #: ../core/Core.class.php:3152
 msgid "User could not be added."
-msgstr ""
+msgstr "Benutzer konnte nicht hinzugefügt werden."
 
 #: amp_conf/htdocs/admin/views/obe.php:20
 #: amp_conf/htdocs/admin/views/oobe.php:8 ../core/page.ampusers.php:205
 #: ../core/views/ampusers/bootnav.php:14 ../core/views/trunks/pjsip.php:54
 #: ../core/views/trunks/pjsip.php:923
 msgid "Username"
-msgstr ""
+msgstr "Benutzername"
 
 #: amp.i18n.php:100
 msgid ""
@@ -10536,11 +10553,11 @@ msgstr ""
 
 #: ../core/functions.inc.php:5852
 msgid "Warning! Extension"
-msgstr "Achtung! Nebenstelle"
+msgstr "Warnung! Nebenstelle"
 
 #: amp_conf/htdocs/admin/views/welcome_nomanager.php:2
 msgid "Warning:"
-msgstr ""
+msgstr "Warnung:"
 
 #: amp_conf/htdocs/admin/page.modules.php:127
 #, php-format
@@ -11863,15 +11880,15 @@ msgstr ""
 
 #: upgrades/2.10.1/migration.php:56
 msgid "writetimeout added to manager.conf"
-msgstr ""
+msgstr "writetimeout zur manager.conf hinzugefügt"
 
 #: upgrades/2.10.1/migration.php:62
 msgid "writetimeout already exists"
-msgstr ""
+msgstr "writetimeout existiert bereits"
 
 #: upgrades/2.10.1/migration.php:45
 msgid "writetimeout not present, adding"
-msgstr ""
+msgstr "writetimeout nicht vorhanden, füge sie hinzu"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:829
 #, php-format
