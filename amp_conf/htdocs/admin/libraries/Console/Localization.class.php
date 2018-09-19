@@ -12,6 +12,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Helper\Table;
 
 use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 use Symfony\Component\Console\Command\HelpCommand;
 
@@ -104,7 +105,12 @@ class Localization extends Command {
 			}
 			//seconds are not inputed into the po files so remove them for comparison
 			$translation['last_change'] = preg_replace("/:\d{2}\.\d*/", ":00", $translation['last_change']);
+			$mo = $module;
 			$filename = $path."/admin/modules/".$module."/i18n/".$translation['language_code']."/LC_MESSAGES/".$module.".po";
+			if($module === 'framework') {
+				$mo = 'amp';
+				$filename = $path."/admin/i18n/".$translation['language_code']."/LC_MESSAGES/amp.po";
+			}
 			if(file_exists($filename)) {
 				$fileHandler = new POFS($filename);
 				$poParser = new POP($fileHandler);
@@ -119,9 +125,21 @@ class Localization extends Command {
 				$last = Carbon::parse($translation['last_change']);
 				if($previous->getTimestamp() < $last->getTimestamp()) {
 					$output->writeln($module."[".$translation['language_code']."] needs an update (".$revision." < ".$translation['last_change'].")");
-					$filedata = $this->getRequest()->get($translation['file_url'],$this->headers);
+					try {
+						$filedata = $this->getRequest()->get($translation['file_url'],$this->headers);
+					} catch(\Exception $e) {
+						$output->writeln("<error>Failed to download: ".$translation['file_url']."</error>");
+						exit(-1);
+					}
+
 					file_put_contents($filename, $filedata);
+					$process = new Process('msgfmt '.$filename.' -o '.dirname($filename).'/'.$mo.'.mo');
+					$process->mustRun();
+				} else {
+					$output->writeln($module."[".$translation['language_code']."] is already up to date");
 				}
+			} else {
+				$output->writeln($module."[".$translation['language_code']."] does not exist [".$filename."]");
 			}
 		}
 	}
@@ -132,7 +150,24 @@ class Localization extends Command {
 		$modules = array_filter($modules, function($value) {
 			return !($value['status'] === MODULE_STATUS_BROKEN);
 		});
+
+		$langs = [];
+		if(file_exists($path."/admin/i18n")) {
+			$langs = glob($path."/admin/i18n/*",GLOB_ONLYDIR);
+			array_walk($langs, function(&$v, $k) {
+				$v = basename($v);
+			});
+		}
 		$final = [];
+		$final['framework'] = [
+			'name' => 'Framework',
+			'rawname' => 'framework',
+			'langs' => $langs,
+			'hasLangs' => !empty($langs)
+		];
+
+		return $final;
+
 		foreach($modules as $value) {
 			$langs = [];
 			if(file_exists($path."/admin/modules/".$value['rawname']."/i18n")) {

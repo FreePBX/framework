@@ -8,6 +8,8 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+
+use Symfony\Component\Finder\Finder;
 //Process
 use Symfony\Component\Process\Process;
 class Util extends Command {
@@ -26,29 +28,26 @@ class Util extends Command {
 			case 'cleanplaybackcache':
 				$output->writeln(_("Starting Cache cleanup"));
 				$days = \FreePBX::Config()->get("CACHE_CLEANUP_DAYS");
-				$time = $days*24*60*60;
+
 				$path = \FreePBX::Config()->get("AMPPLAYBACK");
 				$path = trim($path);
-				$user = \FreePBX::Config()->get("AMPASTERISKWEBUSER");
-				$formats = \FreePBX::Media()->getSupportedHTML5Formats();
+
 				if(empty($path) || $path == "/") {
 					$output->writeln("<error>".sprintf(_("Invalid path %s"),$path)."</error>");
 					exit(1);
 				}
-				if (file_exists($path)) {
-					foreach (new \DirectoryIterator($path) as $fileInfo) {
-						if ($fileInfo->isDot()) {
-							continue;
-						}
-						$info = posix_getpwuid($fileInfo->getOwner());
-						if($info['name'] != $user) {
-							continue;
-						}
-						$extension = pathinfo($fileInfo->getFilename(),PATHINFO_EXTENSION);
-						if ($fileInfo->isFile() && in_array($extension,$formats) && (time() - $fileInfo->getCTime() >= $time)) {
-							$output->writeln(sprintf(_("Removing file %s"),basename($fileInfo->getRealPath())));
-							unlink($fileInfo->getRealPath());
-						}
+
+				$user = \FreePBX::Config()->get("AMPASTERISKWEBUSER");
+
+				$finder = new Finder();
+				foreach($finder->in($path)->date("before $days days ago") as $file) {
+					$info = posix_getpwuid($file->getOwner());
+					if($info['name'] != $user) {
+						continue;
+					}
+					if ($file->isFile()) {
+						$output->writeln(sprintf(_("Removing file %s"),basename($file->getRealPath())));
+						unlink($file->getRealPath());
 					}
 				}
 				$output->writeln(_("Finished cleaning up cache"));
