@@ -201,6 +201,8 @@ class AGI_AsteriskManager {
 		$this->log_level = (isset($this->config['asmanager']['log_level']) && is_numeric($this->config['asmanager']['log_level']))
 						? $this->config['asmanager']['log_level'] : false;
 		$this->reconnects = isset($this->config['asmanager']['reconnects']) ? $this->config['asmanager']['reconnects'] : 2;
+
+		$this->delayed_connection = false;
 	}
 
 	function LoadAstDB(){
@@ -222,6 +224,9 @@ class AGI_AsteriskManager {
 	* @return array of parameters
 	*/
 	function send_request($action, $parameters=array(), $retry=true) {
+		if ($this->delayed_connection) {
+			$this->connect_and_login();
+		}
 		$reconnects = $this->reconnects;
 
 		$req = "Action: $action\r\n";
@@ -364,6 +369,7 @@ class AGI_AsteriskManager {
 	 * @param string $events whether events are on or off for this connection
 	 */
 	function reconnect($events = null) {
+		$this->delayed_connection = false;
 		if($this->connected()) {
 			return true; //we are already connected
 		}
@@ -420,7 +426,7 @@ class AGI_AsteriskManager {
 	* @param string $events whether events are on or off for this connection
 	* @return boolean true on success
 	*/
-	function connect($server=NULL, $username=NULL, $secret=NULL, $events='on') {
+	function connect($server=NULL, $username=NULL, $secret=NULL, $events='off') {
 		set_error_handler("phpasmanager_error_handler");
 
 		// use config if not specified
@@ -440,6 +446,16 @@ class AGI_AsteriskManager {
 			$this->server = $server;
 			$this->port = $this->config['asmanager']['port'];
 		}
+
+		// pretend the connection was made and complete it only when actually needed
+		$this->delayed_connection = true;
+		restore_error_handler();
+		return true;
+	}
+
+	function connect_and_login() {
+		set_error_handler("phpasmanager_error_handler");
+		$this->delayed_connection = false;
 
 		// connect the socket
 		$errno = $errstr = NULL;
@@ -483,6 +499,9 @@ class AGI_AsteriskManager {
 	* @example examples/sip_show_peer.php Get information about a sip peer
 	*/
 	function disconnect() {
+		if ($this->delayed_connection) {
+			return;
+		}
 		if($this->connected()) {
 			$this->logoff();
 		}
@@ -494,6 +513,9 @@ class AGI_AsteriskManager {
 	*
 	*/
 	function connected() {
+		if ($this->delayed_connection) {
+			return true;
+		}
 		return is_resource($this->socket) && !feof($this->socket);
 	}
 
