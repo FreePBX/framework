@@ -396,6 +396,8 @@ class Destinations {
 						}
 						break; // there is only one set per array
 					}
+				} else if(empty($adest['dest']) && $adest['allow_empty']){
+					continue;
 				} else {
 					echo "ERROR?\n";
 					var_dump($adest);
