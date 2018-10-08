@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: AMP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-19 01:20-0400\n"
-"PO-Revision-Date: 2018-10-05 20:00+0000\n"
+"PO-Revision-Date: 2018-10-09 23:00+0000\n"
 "Last-Translator: Bastian Mertgen <b.mertgen@bastian-mertgen.de>\n"
 "Language-Team: German <http://*/projects/freepbx/framework/de/>\n"
 "Language: de_DE\n"
@@ -192,7 +192,7 @@ msgstr "%s Kanal %s"
 #: ../core/page.devices.php:47
 #, php-format
 msgid "%s Devices"
-msgstr "%s Gerät"
+msgstr "%s Geräte"
 
 #: ../core/page.extensions.php:94
 #, php-format
@@ -368,7 +368,7 @@ msgstr "%s beinhaltet.."
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:141
 #, php-format
 msgid "%s contains a /"
-msgstr "%s beinhaltet ein /"
+msgstr "%s beinhaltet einen /"
 
 #: amp_conf/htdocs/admin/page.modules.php:327
 #, php-format
@@ -466,9 +466,9 @@ msgid "%s skipped by configuration"
 msgstr "%s durch die Konfiguration übersprungen"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:342
-#, fuzzy, php-format
+#, php-format
 msgid "%s to %s and Enable"
-msgstr "%s zu %s und aktiviert"
+msgstr "%s zu %s und aktivieren"
 
 #: amp_conf/htdocs/admin/page.modules.php:339
 #: amp_conf/htdocs/admin/page.modules.php:361
@@ -482,9 +482,9 @@ msgid "%s version %s or below is required, you have %s"
 msgstr "%s Die Version %s ist unter der Mindestanforderung,Sie haben %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1134
-#, fuzzy, php-format
+#, php-format
 msgid "%s version %s or higher is required, you have %s"
-msgstr "%s Die Version %s ist höher als gefordert,Sie haben %s"
+msgstr "Die %s-Version %s ist höher als gefordert, Sie haben %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:589
 #, php-format
@@ -552,11 +552,11 @@ msgstr "1 RPM steht zur Aktualisierung bereit"
 
 #: ../core/views/routing/form.php:597 ../core/views/trunks/trunk_footer.php:59
 msgid "10 Digit Patterns"
-msgstr "10 Ziffern Muster"
+msgstr "10-Ziffern-Muster"
 
 #: ../core/views/routing/form.php:599 ../core/views/trunks/trunk_footer.php:61
 msgid "11 Digit Patterns"
-msgstr "11 Ziffern Muster"
+msgstr "11-Ziffern-Muster"
 
 #: amp_conf/htdocs/admin/config.php:569
 #, php-format
@@ -565,7 +565,7 @@ msgstr "404 nicht gefunden (%s)"
 
 #: ../core/views/routing/form.php:595 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
-msgstr "7 Ziffern Muster"
+msgstr "7-Ziffern-Muster"
 
 #: ../core/functions.inc/drivers/Sip.class.php:257
 #, php-format
@@ -588,12 +588,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1118
 #, php-format
 msgid "A %s version below %s is required, you have %s"
-msgstr ""
+msgstr "Es wird eine %s-Version vor %s benötigt, Sie haben %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1124
 #, php-format
 msgid "A %s version newer than %s required, you have %s"
-msgstr ""
+msgstr "Es wird eine neuere %s-Version als %s benötigt, Sie haben %s"
 
 #: ../core/views/routing/form.php:67
 msgid ""
@@ -662,6 +662,8 @@ msgstr ""
 #: ../core/views/did/advanced_form.php:199
 msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
 msgstr ""
+"ALERT_INFO kann für einen charakteristischen Klingelton auf SIP-Geräten "
+"genutzt werden."
 
 #: ../core/page.ampusers.php:159
 msgid "ALL SECTIONS"
@@ -720,7 +722,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:149
 msgid "Aborting Shutdown. Asterisk is still running"
-msgstr ""
+msgstr "Breche das Herunterfahren ab. Asterisk läuft noch"
 
 #: ../core/functions.inc/drivers/Sip.class.php:361
 msgid "Accept"
@@ -780,17 +782,17 @@ msgstr ""
 #: ../core/functions.inc.php:5975
 #, php-format
 msgid "Add %s Device"
-msgstr "%s Gerät hinzufügen"
+msgstr "%s-Gerät hinzufügen"
 
 #: ../core/functions.inc.php:5977
 #, php-format
 msgid "Add %s Extension"
-msgstr "%s Nebenstelle hinzufügen"
+msgstr "%s-Nebenstelle hinzufügen"
 
 #: ../core/views/trunks/bootnav.php:9 ../core/views/trunks/trunkgrid.php:9
 #, php-format
 msgid "Add %s Trunk"
-msgstr "%s Amtsleitung hinzufügen"
+msgstr "%s-Amtsleitung hinzufügen"
 
 #: ../core/page.ampusers.php:102
 msgid "Add Administrator"
@@ -919,6 +921,8 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:28
 msgid "Adds a warning in the email that modules will be updated in one hour"
 msgstr ""
+"Fügt der E-Mail eine Warnung hinzu, dass in einer Stunde Module aktualisiert "
+"werden"
 
 #: ../core/functions.inc.php:5904
 msgid "Adhoc"
@@ -4317,7 +4321,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:210
 msgid "Fixes Vulnerabilities"
-msgstr ""
+msgstr "Behebt Verwundbarkeiten"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1209
 msgid "Flags"
@@ -4520,7 +4524,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/login.php:22
 msgid "FreePBX Administration"
-msgstr "FreePBX Administration"
+msgstr "FreePBX-Verwaltung"
 
 #: amp.i18n.php:4
 msgid "FreePBX Framework"
@@ -6214,11 +6218,11 @@ msgstr ""
 
 #: ../core/views/did/advanced_form.php:14
 msgid "Music On Hold"
-msgstr ""
+msgstr "Warteschleifenmusik"
 
 #: ../core/views/routing/moh.php:22
 msgid "Music On Hold?"
-msgstr ""
+msgstr "Warteschleifenmusik?"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:210
 msgid "Must have a name for the CSR"
@@ -6237,7 +6241,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:386
 msgid "NAT Mode"
-msgstr ""
+msgstr "NAT-Modus"
 
 #: ../core/functions.inc/drivers/Sip.class.php:385
 msgid ""
@@ -6248,7 +6252,7 @@ msgstr ""
 
 #: ../core/page.ampusers.php:126 ../core/page.ampusers.php:128
 msgid "NOTE"
-msgstr ""
+msgstr "HINWEIS"
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:69
 #, php-format
@@ -6268,7 +6272,7 @@ msgstr ""
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
 #: ../core/views/routing/grid.php:70 ../core/views/trunks/trunkgrid.php:31
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: ../core/views/routing/form.php:291
 msgid ""
@@ -7013,7 +7017,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/obe.php:30
 #: amp_conf/htdocs/admin/views/oobe.php:9 ../core/page.ampusers.php:229
 msgid "Password"
-msgstr ""
+msgstr "Passwort"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:106
 #: ../core/functions.inc/drivers/Sip.class.php:275
@@ -7021,14 +7025,17 @@ msgid ""
 "Password (secret) configured for the device. Should be alphanumeric with at "
 "least 2 letters and numbers to keep secure."
 msgstr ""
+"Passwort (Geheimnis), das für das Gerät konfiguriert ist. Sollte "
+"alphanumerisch sein und aus Sicherheitsgründen mindestens zwei Buchstaben "
+"und Ziffern enthalten."
 
 #: ../core/views/routing/grid.php:26 ../core/views/routing/grid.php:28
 msgid "Password Protected"
-msgstr ""
+msgstr "Passwortgeschützt"
 
 #: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:232
 msgid "Password error. Please re-check"
-msgstr ""
+msgstr "Passwortfehler: Bitte überprüfen"
 
 #: amp.i18n.php:88
 msgid ""
@@ -7042,63 +7049,63 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:234
 msgid "Password too short"
-msgstr ""
+msgstr "Passwort zu kurz"
 
 #: amp.i18n.php:632
 msgid "Path for asterisk"
-msgstr ""
+msgstr "Pfad zu asterisk"
 
 #: amp.i18n.php:638
 msgid "Path for cp"
-msgstr ""
+msgstr "Pfad zu cp"
 
 #: amp.i18n.php:642
 msgid "Path for ffmpeg"
-msgstr ""
+msgstr "Pfad zu ffmpeg"
 
 #: amp.i18n.php:646
 msgid "Path for gzip"
-msgstr ""
+msgstr "Pfad zu gzip"
 
 #: amp.i18n.php:650
 msgid "Path for lame"
-msgstr ""
+msgstr "Pfad zu lame"
 
 #: amp.i18n.php:654
 msgid "Path for mailq"
-msgstr ""
+msgstr "Pfad zu mailq"
 
 #: amp.i18n.php:658
 msgid "Path for mpg123"
-msgstr ""
+msgstr "Pfad zu mpg123"
 
 #: amp.i18n.php:662
 msgid "Path for mysqldump"
-msgstr ""
+msgstr "Pfad zu mysqldump"
 
 #: amp.i18n.php:666
 msgid "Path for netstat"
-msgstr ""
+msgstr "Pfad zu netstat"
 
 #: amp.i18n.php:670
 msgid "Path for openssl"
-msgstr ""
+msgstr "Pfad zu openssl"
 
 #: amp.i18n.php:674
 msgid "Path for route"
-msgstr ""
+msgstr "Pfad zu route"
 
 #: amp.i18n.php:678
 msgid "Path for sox"
-msgstr ""
+msgstr "Pfad zu sox"
 
 #: amp.i18n.php:682
 msgid "Path for tar"
-msgstr ""
+msgstr "Pfad zu tar"
 
 #: amp.i18n.php:686
 msgid "Path for touch"
-msgstr ""
+msgstr "Pfad zu touch"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:163
 msgid "Path given to verifyModule. Only provide a module name"
