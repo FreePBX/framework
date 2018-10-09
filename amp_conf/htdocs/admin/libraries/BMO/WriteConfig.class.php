@@ -43,6 +43,14 @@ class WriteConfig {
 		}
 	}
 
+	public function writeCustomFile($array,  $generateHeader = false){
+		if(!empty($array)){
+			foreach($array as $file => $contents){
+				$this->writeFile($file, $contents, $generateHeader);
+			}
+		}
+	}
+
 	/**
 	 * Write single configuration file
 	 *
