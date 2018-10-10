@@ -352,7 +352,7 @@ function framework_list_problem_destinations($module_hash=false, $ignore_custom=
 
 	foreach ($all_dests as $dests) {
 		foreach ($dests as $adest) {
-			if (empty($adest['dest']) && !$adest['allow_empty']) {
+			if (empty($adest['dest']) && empty($adest['allow_empty'])) {
 				$problem_dests[] = array('status' => 'EMPTY',
 					                       'dest' => $adest['dest'],
 					                       'description' => $adest['description'],
