@@ -35,6 +35,11 @@ class Realtime extends FreePBX_Helpers {
 		if (!file_exists("/etc/asterisk/extconfig.conf")) {
 			touch("/etc/asterisk/extconfig.conf");
 		}
+		$conf['extconfig.conf'] = '#include extconfig_custom.conf';
+		$this->FreePBX->WriteConfig($conf);
+		if (!file_exists("/etc/asterisk/extconfig_custom.conf")) {
+			touch("/etc/asterisk/extconfig_custom.conf");
+		}
 		$current = $this->ConfigFile("extconfig.conf");
 		$this->updateQueueSettings($current);
 	}
