@@ -605,12 +605,12 @@ class GPG {
 			if(preg_match('/^rev:!::1:'.$longkey.'/m',$sigout['stdout'])) {
 				return array("status" => self::STATE_REVOKED, 'trustdetails' => array("Signed by Revoked Key"));
 			}
-			$status['parsedout'] = @parse_ini_string($out['stdout'], true);
-			return $status;
+			$modules = parse_ini_string($out['stdout'], true);
+			$modules['rawstatus'] = $status;
+			return $modules;
 		}
-		// Silence warnings about '# not a valid comment'.
-		// This should be removed after 12beta is finished.
-		$modules = @parse_ini_string($out['stdout'], true);
+
+		$modules = parse_ini_string($out['stdout'], true);
 		$modules['rawstatus'] = $status;
 		return $modules;
 	}
