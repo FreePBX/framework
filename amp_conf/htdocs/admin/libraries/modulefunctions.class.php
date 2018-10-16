@@ -1258,8 +1258,8 @@ class module_functions {
 		$this->notFound = false;
 		global $amp_conf;
 		if(!is_array($moduledata)) {
-			if(!empty($override_xml) && file_exists($ovverride_xml)) {
-				$data = file_get_contents($ovverride_xml);
+			if(!empty($override_xml) && file_exists($override_xml)) {
+				$data = file_get_contents($override_xml);
 				$parser = new xml2ModuleArray($data);
 				$xml = $parser->parseAdvanced($data);
 				if(!isset($xml[$modeuledata])) {
