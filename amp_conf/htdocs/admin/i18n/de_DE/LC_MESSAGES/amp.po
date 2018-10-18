@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: AMP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-17 20:20-0400\n"
-"PO-Revision-Date: 2018-10-17 05:02+0000\n"
+"PO-Revision-Date: 2018-10-19 20:00+0000\n"
 "Last-Translator: Bastian Mertgen <b.mertgen@bastian-mertgen.de>\n"
 "Language-Team: German <http://*/projects/freepbx/framework/de/>\n"
 "Language: de_DE\n"
@@ -28,6 +28,10 @@ msgid ""
 "supported by the %s team but may receive some level of support by the "
 "authors."
 msgstr ""
+" Die Module im „Extended“-Repository sind weniger gebräuchlich und bieten "
+"vielleicht weniger Unterstützung. Das „Unsupported“-Repository enthält "
+"Module, die nicht vom %s-Team unterstützt werden, vielleicht aber zu einem "
+"gewissen Grad Unterstützung durch den Autor bieten."
 
 #: amp_conf/htdocs/admin/views/footer.php:104
 msgid ""
@@ -388,7 +392,7 @@ msgstr "%s hat keine gültige JSON-Update-Datei, Aktualisierung nicht möglich"
 #: amp_conf/htdocs/admin/libraries/Console/Kvstore.class.php:37
 #, php-format
 msgid "%s does not impliment kvstore"
-msgstr "%s implementiert kvstore nicht"
+msgstr "%s implementiert <i>kvstore</i> nicht"
 
 #: amp_conf/htdocs/admin/page.modules.php:316
 #, php-format
@@ -609,6 +613,11 @@ msgid ""
 "subsequent routes will be checked for matches outside of the designated "
 "time(s)."
 msgstr ""
+"Ein Wählmuster ist ein einzigartiger Ziffernsatz, der diese Route auswählt "
+"und den Anruf zu den festgelegten Amtsleitungen leitet. Wenn ein gewähltes "
+"Muster mit dieser Route übereinstimmt, wird keine der nachfolgenden Routen "
+"mehr getestet. Falls Zeitgruppen aktiviert sind, werden außerhalb der "
+"vorgegebenen Zeit(en) auch nachfolgende Routen auf Übereinstimmungen geprüft."
 
 #: ../core/views/trunks/trunk_header.php:92
 msgid ""
@@ -619,6 +628,13 @@ msgid ""
 "first matched rule will be executed and the remaining rules will not be "
 "acted on."
 msgstr ""
+"Eine Wählregel steuert, wie Anrufe auf dieser Amtsleitung gewählt werden. "
+"Mit ihr können Präfixe hinzugefügt oder entfernt werden. Nummern, die mit "
+"keinem der definierten Muster übereinstimmen werden unverändert gewählt. "
+"Beachten Sie, dass ein Muster ohne <i>+</i> oder <i>| </i> (zum Hinzufügen "
+"oder Entfernen eines Präfixes) keine Veränderungen vornimmt, aber eine "
+"Übereinstimmung erzeugt. Es wird <strong>ausschließlich die erste</strong> "
+"übereinstimmende Regel angewendet."
 
 #: ../core/functions.inc.php:5761
 msgid "A description for this DID, such as \"Fax\""
@@ -631,6 +647,11 @@ msgid ""
 "10x4, etc).<br><br>Format should be: <b>XXXXXXXXXX</b><br><br>.An optional "
 "CID can also be associated with this DID by setting the next box"
 msgstr ""
+"Eine direkte Durchwahl, die dieser Nebenstelle zugeordnet ist. Die Durchwahl "
+"sollte dem Format entsprechen, das Ihr Telekommunikationsanbieter vorgibt ("
+"z.B. vollständige Nummer, vier Ziffern für 10x4 etc.)<br /><br />Das Format "
+"sollte <b>XXXXXXXXXX</b> sein.<br /><br />Eine optionale Anruferkennung kann "
+"dieser Durchwahl im nächsten Feld zugeordnet werden"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:41
 msgid ""
@@ -638,6 +659,9 @@ msgid ""
 "stack. A collection of resource modules provides the bulk of the SIP "
 "functionality"
 msgstr ""
+"Ein neuer SIP-Kanal-Treiber für Asterisk, <i>chan_pjsip</i>, baut auf dem "
+"PJSIP-SIP-Stack auf. Eine Reihe von Modulen stellt den Großteil der SIP-"
+"Funktionalität bereit"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:213
 #, php-format
@@ -645,6 +669,9 @@ msgid ""
 "A required module might be disabled or uninstalled. Recommended steps (run "
 "from the CLI): 1) fwconsole ma install %s 2) fwconsole ma enable %s"
 msgstr ""
+"Ein erforderliches Modul ist möglicherweise deaktiviert oder deinstalliert. "
+"Empfohlene Schritte (von der Kommandozeile aus ausgeführt):<br />1) "
+"fwconsole ma install %s<br />2) fwconsole ma enable %s"
 
 #: ../core/functions.inc.php:4037 ../core/functions.inc.php:4066
 msgid "A route for this DID/CID already exists!"
@@ -1525,6 +1552,8 @@ msgid ""
 "Automatic updates are enabled!  These modules will be automatically updated "
 "in one hours time."
 msgstr ""
+"Automatische Updates sind aktiviert! Diese Module werden automatisch in "
+"einer Stunde aktualisiert."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:64
 msgid "Automatically enable disabled modules without prompting"
@@ -3549,35 +3578,35 @@ msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:2
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 #: ../core/page.did.php:96
 #, php-format
 msgid "Edit %s"
-msgstr ""
+msgstr "%s bearbeiten"
 
 #: ../core/page.did.php:96
 #, php-format
 msgid "Edit %s %s (%s)"
-msgstr ""
+msgstr "%s %s (%s) bearbeiten"
 
 #: ../core/page.ampusers.php:111
 msgid "Edit Administrator"
-msgstr ""
+msgstr "Administrator bearbeiten"
 
 #: ../core/functions.inc.php:5961
 #, php-format
 msgid "Edit Default User: %s"
-msgstr ""
+msgstr "Standardbenutzer bearbeiten: %s"
 
 #: ../core/functions.inc.php:5647 ../core/functions.inc.php:6033
 msgid "Edit Extension"
-msgstr ""
+msgstr "Nebenstelle bearbeiten"
 
 #: ../core/functions.inc.php:5961
 #, php-format
 msgid "Edit Fixed User: %s"
-msgstr ""
+msgstr "Festen Benutzer bearbeiten: %s"
 
 #: ../core/page.routing.php:10
 msgid "Edit Route"
@@ -3586,11 +3615,11 @@ msgstr "Verbindung bearbeiten"
 #: ../core/functions.inc.php:5649 ../core/functions.inc.php:6003
 #: ../core/functions.inc.php:6035
 msgid "Edit User"
-msgstr ""
+msgstr "Benutzer bearbeiten"
 
 #: ../core/functions.inc.php:5710
 msgid "Edit:"
-msgstr ""
+msgstr "Bearbeiten:"
 
 #: ../core/page.devices.php:31 ../core/page.users.php:8
 msgid ""
@@ -3598,48 +3627,55 @@ msgid ""
 "unsupported. Modifying devices and users seperately may cause things to not "
 "work as expected."
 msgstr ""
+"Geräte und Benutzer getrennt voneinander zu bearbeiten ist nicht getestet "
+"und wird als nicht-unterstützt betrachtet; es kann sein, dass dies zu "
+"unbeabsichtigtem Verhalten führt."
 
 #: amp_conf/htdocs/admin/views/oobe.php:10 ../core/views/quickCreate.php:101
 msgid "Email Address"
-msgstr ""
+msgstr "E-Mail-Adresse"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:14
 msgid "Email Address:"
-msgstr ""
+msgstr "E-Mail-Adresse:"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:6
 msgid "Email Only"
-msgstr ""
+msgstr "Nur E-Mail"
 
 #: ../core/views/quickCreate.php:109
 msgid ""
 "Email address to use for services such as Voicemail, User Management and Fax"
 msgstr ""
+"E-Mail-Adresse, die für Dienste wie Mailbox, Benutzerverwaltung und Fax "
+"genutzt werden soll"
 
 #: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:240
 msgid "Email addresses error"
-msgstr ""
+msgstr "Fehler bei der E-Mail-Adresse"
 
 #: ../core/views/routing/form.php:385
 msgid "Emergency"
-msgstr ""
+msgstr "Notfall"
 
 #: ../core/functions.inc.php:6012 ../core/functions.inc.php:6015
 msgid "Emergency CID"
-msgstr ""
+msgstr "Anruferkennung für Notfälle"
 
 #: ../core/install.php:462
 msgid "Emergency CID set to blank for one or more extensions"
 msgstr ""
+"Die Anruferkennung für Notfälle ist bei mindestens einer Nebenstelle nicht "
+"angegeben"
 
 #: ../core/views/routing/grid.php:16 ../core/views/routing/grid.php:18
 msgid "Emergency Route"
-msgstr ""
+msgstr "Notfall-Route"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1120
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:1137
 msgid "Empty value not allowed for this field"
-msgstr ""
+msgstr "Dieses Feld darf nicht leer sein"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:390
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:394
@@ -5323,15 +5359,15 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:163
 #: ../core/views/trunks/pjsip.php:247
 msgid "Info"
-msgstr ""
+msgstr "Info"
 
 #: ../core/functions.inc/drivers/Sip.class.php:458
 msgid "Inherit"
-msgstr ""
+msgstr "Erben"
 
 #: amp_conf/htdocs/admin/views/obe.php:8 amp_conf/htdocs/admin/views/oobe.php:5
 msgid "Initial setup"
-msgstr ""
+msgstr "Ersteinrichtung"
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:75
 msgid "Initialize freepbx_conf settings.."
@@ -6469,35 +6505,35 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1726
 msgid "No file was uploaded"
-msgstr ""
+msgstr "Es wurde keine Datei hochgeladen"
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:85
 msgid "No interfaces found"
-msgstr ""
+msgstr "Es wurden keine Schnittstellen gefunden"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:159
 msgid "No module to check"
-msgstr ""
+msgstr "Es ist kein Modul zu überprüfen"
 
 #: amp_conf/htdocs/admin/page.modules.php:1007
 msgid "No modules to display."
-msgstr ""
+msgstr "Es sind keine Module anzuzeigen."
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:115
 msgid "No name for this CA"
-msgstr ""
+msgstr "Kein Name für diese CA"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:286
 msgid "No pending module updates."
-msgstr ""
+msgstr "Keine laufenden Modul-Updates."
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:637
 msgid "No status was given to checkStatus"
-msgstr ""
+msgstr "Es wurde kein status an <i>checkStatus</i> übergeben"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:530
 msgid "No updates currently required!"
-msgstr ""
+msgstr "Momentan werden keine Updates benötigt!"
 
 #: amp.i18n.php:362
 msgid "NoOp Traces in Dialplan"
@@ -6510,11 +6546,11 @@ msgstr ""
 #: ../core/views/trunks/pjsip.php:91 ../core/views/trunks/pjsip.php:110
 #: ../core/views/trunks/pjsip.php:757 ../core/views/trunks/pjsip.php:1056
 msgid "None"
-msgstr ""
+msgstr "Kein*e"
 
 #: ../core/functions.inc/drivers/Virtual.class.php:9
 msgid "None (virtual exten)"
-msgstr ""
+msgstr "Keine (virtuelle Nebenstelle)"
 
 #: ../core/views/routing/form.php:465
 msgid "Normal Congestion"
@@ -6560,59 +6596,61 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1016
 msgid "Not Installed (Available online: "
-msgstr ""
+msgstr "Nicht installiert (online verfügbar: "
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:80
 #, php-format
 msgid "Not Installed (Available online: %s)"
-msgstr "Nicht installiert (Online verf&uuml;gbar: %s)"
+msgstr "Nicht installiert (online verfügbar: %s)"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1014
 msgid "Not Installed (Locally available)"
-msgstr "Nicht installiert (Lokal verf&uuml;gbar)"
+msgstr "Nicht installiert (lokal verfügbar)"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:82
 #, php-format
 msgid "Not Installed (Locally available: %s)"
-msgstr ""
+msgstr "Nicht installiert (lokal verfügbar: %s)"
 
 #: ../core/functions.inc.php:5835
 msgid "Not Reachable"
-msgstr ""
+msgstr "Nicht erreichbar"
 
 #: upgrades/2.5.0/removefiles.php:23
 msgid "Not Required"
-msgstr ""
+msgstr "Nicht erforderlich"
 
 #: ../core/page.ampusers.php:279
 msgid "Not Selected"
-msgstr ""
+msgstr "Nicht ausgewählt"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:229
 msgid "Not an array"
-msgstr ""
+msgstr "Ist kein Array"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:698
 msgid "Not received"
-msgstr ""
+msgstr "Nicht erhalten"
 
 #: ../core/page.astmodules.php:51
 msgid "Note that this is for ASTERISK modules, not FreePBX Modules."
 msgstr ""
+"Beachten Sie, das dies für ASTERISK- und <strong>nicht</strong> für FreePBX-"
+"Module ist."
 
 #: amp_conf/htdocs/admin/views/welcome.php:15
 msgid "Notice"
-msgstr ""
+msgstr "Hinweis"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-summary.php:27
 #, php-format
 msgid "Notice: System Upgrade (%s) available!"
-msgstr ""
+msgstr "Hinweis: Systemaktualisierung (%s) ist verfügbar!"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Mail.class.php:31
 #, php-format
 msgid "Notification from %s"
-msgstr ""
+msgstr "Benachrichtigung von %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:63
 msgid "Notifications Help"
@@ -7009,6 +7047,8 @@ msgstr ""
 #, php-format
 msgid "PHP Component %s is required but missing from you PHP installation."
 msgstr ""
+"Die PHP-Kompontente %s ist erforderlich, fehlt aber in Ihrer PHP-"
+"Installation."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:993
 #, php-format
@@ -7766,7 +7806,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:272
 msgid "Required"
-msgstr ""
+msgstr "Erforderlich"
 
 #: amp.i18n.php:206
 msgid ""
@@ -7796,7 +7836,7 @@ msgstr ""
 #: ../core/Core.class.php:373 ../core/Core.class.php:403
 #: ../core/Core.class.php:428
 msgid "Reset"
-msgstr "R&uuml;cksetzen"
+msgstr "Zurücksetzen"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:28
 msgid "Reset to defailt"
@@ -7839,12 +7879,12 @@ msgstr ""
 
 #: ../core/views/did/basic_form.php:92
 msgid "Ring Tone"
-msgstr ""
+msgstr "Klingelton"
 
 #: ../core/functions.inc.php:5733 ../core/views/did/advanced_form.php:211
 #: ../core/views/did/basic_form.php:115
 msgid "Ringer Volume Override"
-msgstr ""
+msgstr "Ruftonlautstärke überschreiben"
 
 #: amp.i18n.php:378
 msgid "Ringtime Default"
@@ -8062,16 +8102,16 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:518
 #: ../core/views/trunks/pjsip.php:68
 msgid "Secret"
-msgstr ""
+msgstr "Kennwort"
 
 #: ../core/functions.inc/drivers/Sip.class.php:518
 #, php-format
 msgid "Secret [Enter \"%s\" to regenerate]"
-msgstr ""
+msgstr "Kennwort [Geben Sie „%s“ ein, um ein neues zu erzeugen]"
 
 #: amp_conf/htdocs/admin/views/welcome.php:11
 msgid "Security"
-msgstr ""
+msgstr "Sicherheit"
 
 #: amp_conf/htdocs/admin/views/footer.php:113
 msgid "Security Issue"
@@ -8101,11 +8141,11 @@ msgstr ""
 
 #: ../core/page.ampusers.php:262
 msgid "Selected"
-msgstr ""
+msgstr "Ausgewählt"
 
 #: ../core/views/trunks/pjsip.php:106
 msgid "Send"
-msgstr ""
+msgstr "Senden"
 
 #: amp.i18n.php:704
 msgid "Send Dashboard Notifications to Log"
@@ -9592,23 +9632,23 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:75
 msgid "Thursday"
-msgstr ""
+msgstr "Donnerstag"
 
 #: amp.i18n.php:720
 msgid "Time Format"
-msgstr ""
+msgstr "Zeitformat"
 
 #: ../core/views/routing/grid.php:31
 msgid "Time Group Assigned"
-msgstr ""
+msgstr "Zeitgruppe zugeordnet"
 
 #: ../core/views/routing/timecond.php:22
 msgid "Time Group Mode"
-msgstr ""
+msgstr "Zeitgruppenmodus"
 
 #: ../core/views/routing/grid.php:33
 msgid "Time Group NOT Assigned"
-msgstr ""
+msgstr "Zeitgruppe NICHT zugeordnet"
 
 #: ../core/views/routing/timecond.php:74
 msgid "Time Match Calendar"
@@ -9659,6 +9699,8 @@ msgid ""
 "To play the media you will need to either update your browser to a recent "
 "version or update your %s"
 msgstr ""
+"Zur Wiedergabe der Medien, die Sie benötigen, um Ihren Browser auf eine "
+"aktuelle Version zu aktualisieren oder Ihr %s zu aktualisieren"
 
 #: amp_conf/htdocs/admin/config.php:201
 #, php-format
@@ -9667,6 +9709,9 @@ msgid ""
 "webserver's configuration file for the User Control Panel. For more "
 "information see: %s"
 msgstr ""
+"Um die Integrität der Server zu schützen, müssen Sie Überschreibungen in der "
+"Konfigurationsdatei Ihres Webservers für das Benutzer Control-Panel "
+"zulassen. Für weitere Informationen siehe: %s"
 
 #: amp_conf/htdocs/admin/views/menu.php:10
 msgid "Toggle navigation"
