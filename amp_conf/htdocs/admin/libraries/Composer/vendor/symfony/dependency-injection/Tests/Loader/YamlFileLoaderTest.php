@@ -12,22 +12,22 @@
 namespace Symfony\Component\DependencyInjection\Tests\Loader;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
-use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
-use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
-use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
-use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\FileLocator;
+use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Config\Resource\GlobResource;
+use Symfony\Component\DependencyInjection\Argument\IteratorArgument;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Tests\Fixtures\Bar;
 use Symfony\Component\DependencyInjection\Tests\Fixtures\BarInterface;
 use Symfony\Component\DependencyInjection\Tests\Fixtures\CaseSensitiveClass;
-use Symfony\Component\DependencyInjection\Tests\Fixtures\Prototype;
 use Symfony\Component\DependencyInjection\Tests\Fixtures\NamedArgumentsDummy;
+use Symfony\Component\DependencyInjection\Tests\Fixtures\Prototype;
 use Symfony\Component\ExpressionLanguage\Expression;
 
 class YamlFileLoaderTest extends TestCase
@@ -393,8 +393,8 @@ class YamlFileLoaderTest extends TestCase
 
         $resources = $container->getResources();
 
-        $fixturesDir = dirname(__DIR__).DIRECTORY_SEPARATOR.'Fixtures'.DIRECTORY_SEPARATOR;
-        $this->assertTrue(false !== array_search(new FileResource($fixturesDir.'yaml'.DIRECTORY_SEPARATOR.'services_prototype.yml'), $resources));
+        $fixturesDir = \dirname(__DIR__).\DIRECTORY_SEPARATOR.'Fixtures'.\DIRECTORY_SEPARATOR;
+        $this->assertTrue(false !== array_search(new FileResource($fixturesDir.'yaml'.\DIRECTORY_SEPARATOR.'services_prototype.yml'), $resources));
         $this->assertTrue(false !== array_search(new GlobResource($fixturesDir.'Prototype', '', true), $resources));
         $resources = array_map('strval', $resources);
         $this->assertContains('reflection.Symfony\Component\DependencyInjection\Tests\Fixtures\Prototype\Foo', $resources);
@@ -586,7 +586,7 @@ class YamlFileLoaderTest extends TestCase
         $this->assertCount(1, $args);
         $this->assertInstanceOf(Reference::class, $args[0]);
         $this->assertTrue($container->has((string) $args[0]));
-        $this->assertRegExp('/^\d+_Bar[._A-Za-z0-9]{7}$/', (string) $args[0]);
+        $this->assertRegExp('/^\d+_Bar~[._A-Za-z0-9]{7}$/', (string) $args[0]);
 
         $anonymous = $container->getDefinition((string) $args[0]);
         $this->assertEquals('Bar', $anonymous->getClass());
@@ -598,7 +598,7 @@ class YamlFileLoaderTest extends TestCase
         $this->assertInternalType('array', $factory);
         $this->assertInstanceOf(Reference::class, $factory[0]);
         $this->assertTrue($container->has((string) $factory[0]));
-        $this->assertRegExp('/^\d+_Quz[._A-Za-z0-9]{7}$/', (string) $factory[0]);
+        $this->assertRegExp('/^\d+_Quz~[._A-Za-z0-9]{7}$/', (string) $factory[0]);
         $this->assertEquals('constructFoo', $factory[1]);
 
         $anonymous = $container->getDefinition((string) $factory[0]);

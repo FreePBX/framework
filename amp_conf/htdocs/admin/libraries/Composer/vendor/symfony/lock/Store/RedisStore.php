@@ -35,7 +35,7 @@ class RedisStore implements StoreInterface
     public function __construct($redisClient, $initialTtl = 300.0)
     {
         if (!$redisClient instanceof \Redis && !$redisClient instanceof \RedisArray && !$redisClient instanceof \RedisCluster && !$redisClient instanceof \Predis\Client && !$redisClient instanceof RedisProxy) {
-            throw new InvalidArgumentException(sprintf('%s() expects parameter 1 to be Redis, RedisArray, RedisCluster or Predis\Client, %s given', __METHOD__, is_object($redisClient) ? get_class($redisClient) : gettype($redisClient)));
+            throw new InvalidArgumentException(sprintf('%s() expects parameter 1 to be Redis, RedisArray, RedisCluster or Predis\Client, %s given', __METHOD__, \is_object($redisClient) ? \get_class($redisClient) : \gettype($redisClient)));
         }
 
         if ($initialTtl <= 0) {
@@ -54,8 +54,10 @@ class RedisStore implements StoreInterface
         $script = '
             if redis.call("GET", KEYS[1]) == ARGV[1] then
                 return redis.call("PEXPIRE", KEYS[1], ARGV[2])
+            elseif redis.call("SET", KEYS[1], ARGV[1], "NX", "PX", ARGV[2]) then
+                return 1
             else
-                return redis.call("set", KEYS[1], ARGV[1], "NX", "PX", ARGV[2])
+                return 0
             end
         ';
 
@@ -71,7 +73,7 @@ class RedisStore implements StoreInterface
 
     public function waitAndSave(Key $key)
     {
-        throw new InvalidArgumentException(sprintf('The store "%s" does not supports blocking locks.', get_class($this)));
+        throw new InvalidArgumentException(sprintf('The store "%s" does not supports blocking locks.', \get_class($this)));
     }
 
     /**
@@ -141,10 +143,10 @@ class RedisStore implements StoreInterface
         }
 
         if ($this->redis instanceof \Predis\Client) {
-            return call_user_func_array(array($this->redis, 'eval'), array_merge(array($script, 1, $resource), $args));
+            return \call_user_func_array(array($this->redis, 'eval'), array_merge(array($script, 1, $resource), $args));
         }
 
-        throw new InvalidArgumentException(sprintf('%s() expects been initialized with a Redis, RedisArray, RedisCluster or Predis\Client, %s given', __METHOD__, is_object($this->redis) ? get_class($this->redis) : gettype($this->redis)));
+        throw new InvalidArgumentException(sprintf('%s() expects being initialized with a Redis, RedisArray, RedisCluster or Predis\Client, %s given', __METHOD__, \is_object($this->redis) ? \get_class($this->redis) : \gettype($this->redis)));
     }
 
     /**
