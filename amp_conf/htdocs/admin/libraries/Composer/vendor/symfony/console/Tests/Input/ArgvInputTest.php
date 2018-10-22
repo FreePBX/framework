@@ -13,8 +13,8 @@ namespace Symfony\Component\Console\Tests\Input;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputDefinition;
 use Symfony\Component\Console\Input\InputOption;
 
 class ArgvInputTest extends TestCase
@@ -227,6 +227,11 @@ class ArgvInputTest extends TestCase
                 array('cli.php', '-1'),
                 new InputDefinition(array(new InputArgument('number'))),
                 'The "-1" option does not exist.',
+            ),
+            array(
+                array('cli.php', '-fЩ'),
+                new InputDefinition(array(new InputOption('foo', 'f', InputOption::VALUE_NONE))),
+                'The "-Щ" option does not exist.',
             ),
         );
     }

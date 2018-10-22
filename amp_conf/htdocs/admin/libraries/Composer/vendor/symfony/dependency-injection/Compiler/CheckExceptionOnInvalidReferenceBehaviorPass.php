@@ -11,11 +11,11 @@
 
 namespace Symfony\Component\DependencyInjection\Compiler;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Checks that all references are pointing to a valid service.
@@ -47,7 +47,7 @@ class CheckExceptionOnInvalidReferenceBehaviorPass implements CompilerPassInterf
     private function processReferences(array $arguments)
     {
         foreach ($arguments as $argument) {
-            if (is_array($argument)) {
+            if (\is_array($argument)) {
                 $this->processReferences($argument);
             } elseif ($argument instanceof Definition) {
                 $this->processDefinition($argument);

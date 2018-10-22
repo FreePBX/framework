@@ -2,6 +2,7 @@
 
 namespace Stecman\Component\Symfony\Console\BashCompletion\Tests\Common;
 
+use PHPUnit\Framework\TestCase;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionContext;
 use Stecman\Component\Symfony\Console\BashCompletion\CompletionHandler;
 use Symfony\Component\Console\Application;
@@ -9,7 +10,7 @@ use Symfony\Component\Console\Application;
 /**
  * Base test case for running CompletionHandlers
  */
-abstract class CompletionHandlerTestCase extends \PHPUnit_Framework_TestCase
+abstract class CompletionHandlerTestCase extends TestCase
 {
     /**
      * @var Application
@@ -19,6 +20,7 @@ abstract class CompletionHandlerTestCase extends \PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         require_once __DIR__ . '/../Fixtures/CompletionAwareCommand.php';
+        require_once __DIR__ . '/../Fixtures/HiddenCommand.php';
         require_once __DIR__ . '/../Fixtures/TestBasicCommand.php';
         require_once __DIR__ . '/../Fixtures/TestSymfonyStyleCommand.php';
     }
@@ -31,6 +33,10 @@ abstract class CompletionHandlerTestCase extends \PHPUnit_Framework_TestCase
             new \TestBasicCommand(),
             new \TestSymfonyStyleCommand()
         ));
+
+        if (method_exists('\HiddenCommand', 'setHidden')) {
+            $this->application->add(new \HiddenCommand());
+        }
     }
 
     /**

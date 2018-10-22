@@ -18,8 +18,8 @@ use Symfony\Component\Stopwatch\Stopwatch;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
-use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
+use Symfony\Component\VarDumper\Dumper\HtmlDumper;
 use Twig\Template;
 
 /**
@@ -110,7 +110,7 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
                                 $src = explode("\n", $src);
                                 $fileExcerpt = array();
 
-                                for ($i = max($line - 3, 1), $max = min($line + 3, count($src)); $i <= $max; ++$i) {
+                                for ($i = max($line - 3, 1), $max = min($line + 3, \count($src)); $i <= $max; ++$i) {
                                     $fileExcerpt[] = '<li'.($i === $line ? ' class="selected"' : '').'><code>'.$this->htmlEncode($src[$i - 1]).'</code></li>';
                                 }
 
@@ -192,7 +192,7 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
         parent::unserialize($data);
         $charset = array_pop($this->data);
         $fileLinkFormat = array_pop($this->data);
-        $this->dataCount = count($this->data);
+        $this->dataCount = \count($this->data);
         self::__construct($this->stopwatch, $fileLinkFormat, $charset);
     }
 
@@ -240,13 +240,13 @@ class DumpDataCollector extends DataCollector implements DataDumperInterface
             $this->isCollected = true;
 
             $h = headers_list();
-            $i = count($h);
+            $i = \count($h);
             array_unshift($h, 'Content-Type: '.ini_get('default_mimetype'));
             while (0 !== stripos($h[$i], 'Content-Type:')) {
                 --$i;
             }
 
-            if (!\in_array(PHP_SAPI, array('cli', 'phpdbg'), true) && stripos($h[$i], 'html')) {
+            if (!\in_array(\PHP_SAPI, array('cli', 'phpdbg'), true) && stripos($h[$i], 'html')) {
                 $this->dumper = new HtmlDumper('php://output', $this->charset);
             } else {
                 $this->dumper = new CliDumper('php://output', $this->charset);

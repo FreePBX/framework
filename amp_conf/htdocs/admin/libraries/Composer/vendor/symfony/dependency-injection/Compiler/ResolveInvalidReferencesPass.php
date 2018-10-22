@@ -11,10 +11,10 @@
 
 namespace Symfony\Component\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * Emulates the invalid behavior if the reference is not found within the
@@ -77,7 +77,7 @@ class ResolveInvalidReferencesPass implements CompilerPassInterface
     private function processArguments(array $arguments, $inMethodCall = false)
     {
         foreach ($arguments as $k => $argument) {
-            if (is_array($argument)) {
+            if (\is_array($argument)) {
                 $arguments[$k] = $this->processArguments($argument, $inMethodCall);
             } elseif ($argument instanceof Reference) {
                 $id = (string) $argument;

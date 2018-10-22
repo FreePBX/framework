@@ -14,15 +14,15 @@ namespace Symfony\Component\HttpKernel\Tests;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\HttpKernel\Bundle\BundleInterface;
-use Symfony\Component\HttpKernel\Config\EnvParametersResource;
-use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Tests\Fixtures\KernelForTest;
-use Symfony\Component\HttpKernel\Tests\Fixtures\KernelForOverrideName;
+use Symfony\Component\HttpKernel\Bundle\BundleInterface;
+use Symfony\Component\HttpKernel\Config\EnvParametersResource;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
+use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\Tests\Fixtures\FooBarBundle;
+use Symfony\Component\HttpKernel\Tests\Fixtures\KernelForOverrideName;
+use Symfony\Component\HttpKernel\Tests\Fixtures\KernelForTest;
 
 class KernelTest extends TestCase
 {
@@ -142,7 +142,7 @@ class KernelTest extends TestCase
             ->method('getLogDir')
             ->will($this->returnValue(sys_get_temp_dir()));
 
-        $reflection = new \ReflectionClass(get_class($kernel));
+        $reflection = new \ReflectionClass(\get_class($kernel));
         $method = $reflection->getMethod('buildContainer');
         $method->setAccessible(true);
         $method->invoke($kernel);
@@ -313,7 +313,7 @@ EOF;
 
         // Heredocs are preserved, making the output mixing Unix and Windows line
         // endings, switching to "\n" everywhere on Windows to avoid failure.
-        if ('\\' === DIRECTORY_SEPARATOR) {
+        if ('\\' === \DIRECTORY_SEPARATOR) {
             $expected = str_replace("\r\n", "\n", $expected);
             $output = str_replace("\r\n", "\n", $output);
         }
@@ -367,7 +367,7 @@ EOF;
     {
         $kernel = new KernelForTest('test', true);
 
-        $this->assertEquals(__DIR__.DIRECTORY_SEPARATOR.'Fixtures', realpath($kernel->getRootDir()));
+        $this->assertEquals(__DIR__.\DIRECTORY_SEPARATOR.'Fixtures', realpath($kernel->getRootDir()));
     }
 
     public function testGetName()
@@ -799,7 +799,7 @@ EOF;
         $bundle
             ->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue(null === $bundleName ? get_class($bundle) : $bundleName))
+            ->will($this->returnValue(null === $bundleName ? \get_class($bundle) : $bundleName))
         ;
 
         $bundle

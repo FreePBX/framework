@@ -13,9 +13,9 @@ namespace Symfony\Component\Console\Input;
 
 use Symfony\Component\Console\Descriptor\TextDescriptor;
 use Symfony\Component\Console\Descriptor\XmlDescriptor;
-use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Exception\LogicException;
+use Symfony\Component\Console\Output\BufferedOutput;
 
 /**
  * A InputDefinition represents a set of valid command line arguments and options.
@@ -23,8 +23,8 @@ use Symfony\Component\Console\Exception\LogicException;
  * Usage:
  *
  *     $definition = new InputDefinition(array(
- *       new InputArgument('name', InputArgument::REQUIRED),
- *       new InputOption('foo', 'f', InputOption::VALUE_REQUIRED),
+ *         new InputArgument('name', InputArgument::REQUIRED),
+ *         new InputOption('foo', 'f', InputOption::VALUE_REQUIRED),
  *     ));
  *
  * @author Fabien Potencier <fabien@symfony.com>
@@ -138,7 +138,7 @@ class InputDefinition
             throw new InvalidArgumentException(sprintf('The "%s" argument does not exist.', $name));
         }
 
-        $arguments = is_int($name) ? array_values($this->arguments) : $this->arguments;
+        $arguments = \is_int($name) ? array_values($this->arguments) : $this->arguments;
 
         return $arguments[$name];
     }
@@ -152,7 +152,7 @@ class InputDefinition
      */
     public function hasArgument($name)
     {
-        $arguments = is_int($name) ? array_values($this->arguments) : $this->arguments;
+        $arguments = \is_int($name) ? array_values($this->arguments) : $this->arguments;
 
         return isset($arguments[$name]);
     }
@@ -174,7 +174,7 @@ class InputDefinition
      */
     public function getArgumentCount()
     {
-        return $this->hasAnArrayArgument ? PHP_INT_MAX : count($this->arguments);
+        return $this->hasAnArrayArgument ? PHP_INT_MAX : \count($this->arguments);
     }
 
     /**
@@ -381,7 +381,7 @@ class InputDefinition
             }
         }
 
-        if (count($elements) && $this->getArguments()) {
+        if (\count($elements) && $this->getArguments()) {
             $elements[] = '[--]';
         }
 

@@ -7,8 +7,8 @@ use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Output\StreamOutput;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Question\Question;
 
 /**
  * @group tty
@@ -73,6 +73,19 @@ class SymfonyQuestionHelperTest extends TestCase
 
         $this->assertEquals(array('Superman', 'Batman'), $questionHelper->ask($this->createInputInterfaceMock(), $output = $this->createOutputInterface(), $question));
         $this->assertOutputContains('What is your favorite superhero? [Superman, Batman]', $output);
+    }
+
+    public function testAskChoiceWithChoiceValueAsDefault()
+    {
+        $questionHelper = new SymfonyQuestionHelper();
+        $helperSet = new HelperSet(array(new FormatterHelper()));
+        $questionHelper->setHelperSet($helperSet);
+        $questionHelper->setInputStream($this->getInputStream("Batman\n"));
+        $question = new ChoiceQuestion('What is your favorite superhero?', array('Superman', 'Batman', 'Spiderman'), 'Batman');
+        $question->setMaxAttempts(1);
+
+        $this->assertSame('Batman', $questionHelper->ask($this->createInputInterfaceMock(), $output = $this->createOutputInterface(), $question));
+        $this->assertOutputContains('What is your favorite superhero? [Batman]', $output);
     }
 
     public function testAskReturnsNullIfValidatorAllowsIt()

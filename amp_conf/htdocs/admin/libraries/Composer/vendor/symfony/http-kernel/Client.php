@@ -12,11 +12,11 @@
 namespace Symfony\Component\HttpKernel;
 
 use Symfony\Component\BrowserKit\Client as BaseClient;
+use Symfony\Component\BrowserKit\Cookie as DomCookie;
+use Symfony\Component\BrowserKit\CookieJar;
+use Symfony\Component\BrowserKit\History;
 use Symfony\Component\BrowserKit\Request as DomRequest;
 use Symfony\Component\BrowserKit\Response as DomResponse;
-use Symfony\Component\BrowserKit\Cookie as DomCookie;
-use Symfony\Component\BrowserKit\History;
-use Symfony\Component\BrowserKit\CookieJar;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -71,12 +71,12 @@ class Client extends BaseClient
      */
     protected function getScript($request)
     {
-        $kernel = str_replace("'", "\\'", serialize($this->kernel));
-        $request = str_replace("'", "\\'", serialize($request));
+        $kernel = var_export(serialize($this->kernel), true);
+        $request = var_export(serialize($request), true);
 
         $r = new \ReflectionClass('\\Symfony\\Component\\ClassLoader\\ClassLoader');
-        $requirePath = str_replace("'", "\\'", $r->getFileName());
-        $symfonyPath = str_replace("'", "\\'", dirname(dirname(dirname(__DIR__))));
+        $requirePath = var_export($r->getFileName(), true);
+        $symfonyPath = var_export(\dirname(\dirname(\dirname(__DIR__))), true);
         $errorReporting = error_reporting();
 
         $code = <<<EOF
@@ -84,14 +84,14 @@ class Client extends BaseClient
 
 error_reporting($errorReporting);
 
-require_once '$requirePath';
+require_once $requirePath;
 
 \$loader = new Symfony\Component\ClassLoader\ClassLoader();
-\$loader->addPrefix('Symfony', '$symfonyPath');
+\$loader->addPrefix('Symfony', $symfonyPath);
 \$loader->register();
 
-\$kernel = unserialize('$kernel');
-\$request = unserialize('$request');
+\$kernel = unserialize($kernel);
+\$request = unserialize($request);
 EOF;
 
         return $code.$this->getHandleScript();
@@ -143,7 +143,7 @@ EOF;
     {
         $filtered = array();
         foreach ($files as $key => $value) {
-            if (is_array($value)) {
+            if (\is_array($value)) {
                 $filtered[$key] = $this->filterFiles($value);
             } elseif ($value instanceof UploadedFile) {
                 if ($value->isValid() && $value->getSize() > UploadedFile::getMaxFilesize()) {

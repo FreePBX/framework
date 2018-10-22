@@ -2,9 +2,10 @@
 
 namespace Stecman\Component\Symfony\Console\BashCompletion\Tests;
 
+use PHPUnit\Framework\TestCase;
 use Stecman\Component\Symfony\Console\BashCompletion\HookFactory;
 
-class HookFactoryTest extends \PHPUnit_Framework_TestCase
+class HookFactoryTest extends TestCase
 {
     /**
      * @var HookFactory
@@ -16,25 +17,41 @@ class HookFactoryTest extends \PHPUnit_Framework_TestCase
         $this->factory = new HookFactory();
     }
 
-    public function testBashSyntax()
+    /**
+     * @dataProvider generateHookDataProvider
+     */
+    public function testBashSyntax($programPath, $programName, $multiple)
     {
         if ($this->hasProgram('bash')) {
-            $script = $this->factory->generateHook('bash', '/path/to/myprogram', 'myprogram');
+            $script = $this->factory->generateHook('bash', $programPath, $programName, $multiple);
             $this->assertSyntaxIsValid($script, 'bash -n', 'BASH hook');
-
         } else {
             $this->markTestSkipped("Couldn't detect BASH program to run hook syntax check");
         }
     }
 
-    public function testZshSyntax()
+    /**
+     * @dataProvider generateHookDataProvider
+     */
+    public function testZshSyntax($programPath, $programName, $multiple)
     {
         if ($this->hasProgram('zsh')) {
-            $script = $this->factory->generateHook('zsh', '/path/to/myprogram', 'myprogram');
+            $script = $this->factory->generateHook('zsh', $programPath, $programName, $multiple);
             $this->assertSyntaxIsValid($script, 'zsh -n', 'ZSH hook');
         } else {
             $this->markTestSkipped("Couldn't detect ZSH program to run hook syntax check");
         }
+    }
+
+    public function generateHookDataProvider()
+    {
+        return array(
+            array('/path/to/myprogram', null, false),
+            array('/path/to/myprogram', null, true),
+            array('/path/to/myprogram', 'myprogram', false),
+            array('/path/to/myprogram', 'myprogram', true),
+            array('/path/to/my-program', 'my-program', false)
+        );
     }
 
     protected function hasProgram($programName)
@@ -75,9 +92,7 @@ class HookFactoryTest extends \PHPUnit_Framework_TestCase
 
             $status = proc_close($process);
 
-            if ($status !== 0) {
-                $this->fail("Syntax check for $context failed:\n$output");
-            }
+            $this->assertSame(0, $status, "Syntax check for $context failed:\n$output");
         } else {
             throw new \RuntimeException("Failed to start process with command '$syntaxCheckCommand'");
         }

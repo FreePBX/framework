@@ -12,13 +12,13 @@
 namespace Symfony\Component\Console\Tests\Helper;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Exception\InvalidArgumentException;
 use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Helper\FormatterHelper;
+use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\StreamOutput;
-use Symfony\Component\Console\Exception\InvalidArgumentException;
 
 /**
  * @group legacy
@@ -138,7 +138,7 @@ class LegacyDialogHelperTest extends TestCase
      */
     public function testAskHiddenResponse()
     {
-        if ('\\' === DIRECTORY_SEPARATOR) {
+        if ('\\' === \DIRECTORY_SEPARATOR) {
             $this->markTestSkipped('This test is not supported on Windows');
         }
 
@@ -154,7 +154,7 @@ class LegacyDialogHelperTest extends TestCase
      */
     public function testAskHiddenResponseOnErrorOutput()
     {
-        if ('\\' === DIRECTORY_SEPARATOR) {
+        if ('\\' === \DIRECTORY_SEPARATOR) {
             $this->markTestSkipped('This test is not supported on Windows');
         }
 
@@ -194,7 +194,7 @@ class LegacyDialogHelperTest extends TestCase
         $question = 'What color was the white horse of Henry IV?';
         $error = 'This is not a color!';
         $validator = function ($color) use ($error) {
-            if (!in_array($color, array('white', 'black'))) {
+            if (!\in_array($color, array('white', 'black'))) {
                 throw new InvalidArgumentException($error);
             }
 

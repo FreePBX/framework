@@ -494,6 +494,7 @@ class PdoSessionHandler implements \SessionHandlerInterface
         $selectSql = $this->getSelectSql();
         $selectStmt = $this->pdo->prepare($selectSql);
         $selectStmt->bindParam(':id', $sessionId, \PDO::PARAM_STR);
+        $insertStmt = null;
 
         do {
             $selectStmt->execute();
@@ -506,7 +507,12 @@ class PdoSessionHandler implements \SessionHandlerInterface
                     return '';
                 }
 
-                return is_resource($sessionRows[0][0]) ? stream_get_contents($sessionRows[0][0]) : $sessionRows[0][0];
+                return \is_resource($sessionRows[0][0]) ? stream_get_contents($sessionRows[0][0]) : $sessionRows[0][0];
+            }
+
+            if (null !== $insertStmt) {
+                $this->rollback();
+                throw new \RuntimeException('Failed to read session: INSERT reported a duplicate id but next SELECT did not return any data.');
             }
 
             if (self::LOCK_TRANSACTIONAL === $this->lockMode && 'sqlite' !== $this->driver) {
@@ -552,14 +558,16 @@ class PdoSessionHandler implements \SessionHandlerInterface
     {
         switch ($this->driver) {
             case 'mysql':
+                // MySQL 5.7.5 and later enforces a maximum length on lock names of 64 characters. Previously, no limit was enforced.
+                $lockId = \substr($sessionId, 0, 64);
                 // should we handle the return value? 0 on timeout, null on error
                 // we use a timeout of 50 seconds which is also the default for innodb_lock_wait_timeout
                 $stmt = $this->pdo->prepare('SELECT GET_LOCK(:key, 50)');
-                $stmt->bindValue(':key', $sessionId, \PDO::PARAM_STR);
+                $stmt->bindValue(':key', $lockId, \PDO::PARAM_STR);
                 $stmt->execute();
 
                 $releaseStmt = $this->pdo->prepare('DO RELEASE_LOCK(:key)');
-                $releaseStmt->bindValue(':key', $sessionId, \PDO::PARAM_STR);
+                $releaseStmt->bindValue(':key', $lockId, \PDO::PARAM_STR);
 
                 return $releaseStmt;
             case 'pgsql':
@@ -609,11 +617,11 @@ class PdoSessionHandler implements \SessionHandlerInterface
     private function convertStringToInt($string)
     {
         if (4 === \PHP_INT_SIZE) {
-            return (ord($string[3]) << 24) + (ord($string[2]) << 16) + (ord($string[1]) << 8) + ord($string[0]);
+            return (\ord($string[3]) << 24) + (\ord($string[2]) << 16) + (\ord($string[1]) << 8) + \ord($string[0]);
         }
 
-        $int1 = (ord($string[7]) << 24) + (ord($string[6]) << 16) + (ord($string[5]) << 8) + ord($string[4]);
-        $int2 = (ord($string[3]) << 24) + (ord($string[2]) << 16) + (ord($string[1]) << 8) + ord($string[0]);
+        $int1 = (\ord($string[7]) << 24) + (\ord($string[6]) << 16) + (\ord($string[5]) << 8) + \ord($string[4]);
+        $int2 = (\ord($string[3]) << 24) + (\ord($string[2]) << 16) + (\ord($string[1]) << 8) + \ord($string[0]);
 
         return $int2 + ($int1 << 32);
     }

@@ -12,11 +12,11 @@
 namespace Symfony\Component\HttpKernel\Tests\DataCollector;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpKernel\DataCollector\ConfigDataCollector;
-use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\DataCollector\ConfigDataCollector;
+use Symfony\Component\HttpKernel\Kernel;
 
 class ConfigDataCollectorTest extends TestCase
 {
@@ -36,22 +36,22 @@ class ConfigDataCollectorTest extends TestCase
         $this->assertNull($c->getToken());
 
         // if else clause because we don't know it
-        if (extension_loaded('xdebug')) {
+        if (\extension_loaded('xdebug')) {
             $this->assertTrue($c->hasXDebug());
         } else {
             $this->assertFalse($c->hasXDebug());
         }
 
         // if else clause because we don't know it
-        if (((extension_loaded('eaccelerator') && ini_get('eaccelerator.enable'))
+        if (((\extension_loaded('eaccelerator') && ini_get('eaccelerator.enable'))
                 ||
-                (extension_loaded('apc') && ini_get('apc.enabled'))
+                (\extension_loaded('apc') && ini_get('apc.enabled'))
                 ||
-                (extension_loaded('Zend OPcache') && ini_get('opcache.enable'))
+                (\extension_loaded('Zend OPcache') && ini_get('opcache.enable'))
                 ||
-                (extension_loaded('xcache') && ini_get('xcache.cacher'))
+                (\extension_loaded('xcache') && ini_get('xcache.cacher'))
                 ||
-                (extension_loaded('wincache') && ini_get('wincache.ocenabled')))) {
+                (\extension_loaded('wincache') && ini_get('wincache.ocenabled')))) {
             $this->assertTrue($c->hasAccelerator());
         } else {
             $this->assertFalse($c->hasAccelerator());

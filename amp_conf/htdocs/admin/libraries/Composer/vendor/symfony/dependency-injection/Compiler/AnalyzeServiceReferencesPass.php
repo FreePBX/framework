@@ -11,9 +11,9 @@
 
 namespace Symfony\Component\DependencyInjection\Compiler;
 
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Run this pass before passes that need to know more about the relation of
@@ -69,7 +69,7 @@ class AnalyzeServiceReferencesPass implements RepeatablePassInterface
             if ($definition->getFactoryService(false)) {
                 $this->processArguments(array(new Reference($definition->getFactoryService(false))));
             }
-            if (is_array($definition->getFactory())) {
+            if (\is_array($definition->getFactory())) {
                 $this->processArguments($definition->getFactory());
             }
 
@@ -95,7 +95,7 @@ class AnalyzeServiceReferencesPass implements RepeatablePassInterface
     private function processArguments(array $arguments)
     {
         foreach ($arguments as $argument) {
-            if (is_array($argument)) {
+            if (\is_array($argument)) {
                 $this->processArguments($argument);
             } elseif ($argument instanceof Reference) {
                 $this->graph->connect(
@@ -110,7 +110,7 @@ class AnalyzeServiceReferencesPass implements RepeatablePassInterface
                 $this->processArguments($argument->getMethodCalls());
                 $this->processArguments($argument->getProperties());
 
-                if (is_array($argument->getFactory())) {
+                if (\is_array($argument->getFactory())) {
                     $this->processArguments($argument->getFactory());
                 }
                 if ($argument->getFactoryService(false)) {

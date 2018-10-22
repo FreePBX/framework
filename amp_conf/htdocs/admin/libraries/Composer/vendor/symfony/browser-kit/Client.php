@@ -12,8 +12,8 @@
 namespace Symfony\Component\BrowserKit;
 
 use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\DomCrawler\Link;
 use Symfony\Component\DomCrawler\Form;
+use Symfony\Component\DomCrawler\Link;
 use Symfony\Component\Process\PhpProcess;
 
 /**
@@ -471,7 +471,7 @@ abstract class Client
 
         $request = $this->internalRequest;
 
-        if (in_array($this->internalResponse->getStatus(), array(302, 303))) {
+        if (\in_array($this->internalResponse->getStatus(), array(302, 303))) {
             $method = 'GET';
             $files = array();
             $content = null;

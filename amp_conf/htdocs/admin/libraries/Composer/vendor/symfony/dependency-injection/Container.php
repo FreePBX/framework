@@ -15,11 +15,11 @@ use Symfony\Component\DependencyInjection\Exception\InactiveScopeException;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
-use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
-use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 use Symfony\Component\DependencyInjection\ParameterBag\FrozenParameterBag;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 /**
  * Container is a dependency injection container.
@@ -33,11 +33,9 @@ use Symfony\Component\DependencyInjection\ParameterBag\FrozenParameterBag;
  * A service can also be defined by creating a method named
  * getXXXService(), where XXX is the camelized version of the id:
  *
- * <ul>
- *   <li>request -> getRequestService()</li>
- *   <li>mysql_session_storage -> getMysqlSessionStorageService()</li>
- *   <li>symfony.mysql_session_storage -> getSymfony_MysqlSessionStorageService()</li>
- * </ul>
+ *  * request -> getRequestService()
+ *  * mysql_session_storage -> getMysqlSessionStorageService()
+ *  * symfony.mysql_session_storage -> getSymfony_MysqlSessionStorageService()
  *
  * The container can have three possible behaviors when a service does not exist:
  *
@@ -157,7 +155,7 @@ class Container implements IntrospectableContainerInterface, ResettableContainer
      */
     public function set($id, $service, $scope = self::SCOPE_CONTAINER)
     {
-        if (!in_array($scope, array('container', 'request')) || ('request' === $scope && 'request' !== $id)) {
+        if (!\in_array($scope, array('container', 'request')) || ('request' === $scope && 'request' !== $id)) {
             @trigger_error('The concept of container scopes is deprecated since Symfony 2.8 and will be removed in 3.0. Omit the third parameter.', E_USER_DEPRECATED);
         }
 
@@ -280,7 +278,7 @@ class Container implements IntrospectableContainerInterface, ResettableContainer
                     $alternatives = array();
                     foreach ($this->getServiceIds() as $knownId) {
                         $lev = levenshtein($id, $knownId);
-                        if ($lev <= strlen($id) / 3 || false !== strpos($knownId, $id)) {
+                        if ($lev <= \strlen($id) / 3 || false !== strpos($knownId, $id)) {
                             $alternatives[] = $knownId;
                         }
                     }
@@ -410,7 +408,7 @@ class Container implements IntrospectableContainerInterface, ResettableContainer
             }
 
             // update global map
-            $this->services = call_user_func_array('array_diff_key', $services);
+            $this->services = \call_user_func_array('array_diff_key', $services);
             array_shift($services);
 
             // add stack entry for this scope so we can restore the removed services later
@@ -456,10 +454,10 @@ class Container implements IntrospectableContainerInterface, ResettableContainer
         }
 
         // update global map
-        $this->services = call_user_func_array('array_diff_key', $services);
+        $this->services = \call_user_func_array('array_diff_key', $services);
 
         // check if we need to restore services of a previous scope of this type
-        if (isset($this->scopeStacks[$name]) && count($this->scopeStacks[$name]) > 0) {
+        if (isset($this->scopeStacks[$name]) && \count($this->scopeStacks[$name]) > 0) {
             $services = $this->scopeStacks[$name]->pop();
             $this->scopedServices += $services;
 

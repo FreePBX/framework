@@ -12,9 +12,9 @@
 namespace Symfony\Component\HttpKernel\Tests\DataCollector;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpKernel\DataCollector\DumpDataCollector;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\DataCollector\DumpDataCollector;
 use Symfony\Component\VarDumper\Cloner\Data;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 
@@ -94,7 +94,7 @@ class DumpDataCollectorTest extends TestCase
 </pre>
 EOTXT;
         } else {
-            $len = strlen("DumpDataCollectorTest.php on line {$line}:");
+            $len = \strlen("DumpDataCollectorTest.php on line {$line}:");
             $xOutput = <<<EOTXT
 <pre class=sf-dump id=sf-dump data-indent-pad="  ">"<span class=sf-dump-str title="{$len} characters">DumpDataCollectorTest.php on line {$line}:</span>"
 </pre>

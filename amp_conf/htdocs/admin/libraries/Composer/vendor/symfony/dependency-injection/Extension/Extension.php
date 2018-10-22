@@ -11,13 +11,13 @@
 
 namespace Symfony\Component\DependencyInjection\Extension;
 
+use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Processor;
+use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Exception\BadMethodCallException;
 use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
-use Symfony\Component\Config\Resource\FileResource;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\Definition\Processor;
-use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 /**
  * Provides useful features shared by many extensions.
@@ -64,7 +64,7 @@ abstract class Extension implements ExtensionInterface, ConfigurationExtensionIn
      */
     public function getAlias()
     {
-        $className = get_class($this);
+        $className = \get_class($this);
         if ('Extension' != substr($className, -9)) {
             throw new BadMethodCallException('This extension does not follow the naming convention; you must overwrite the getAlias() method.');
         }

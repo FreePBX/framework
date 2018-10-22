@@ -11,10 +11,10 @@
 
 namespace Symfony\Component\Console\Helper;
 
-use Symfony\Component\Console\Output\NullOutput;
-use Symfony\Component\Console\Output\ConsoleOutputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Exception\LogicException;
+use Symfony\Component\Console\Output\ConsoleOutputInterface;
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * The Progress class provides helpers to display progress output.
@@ -424,7 +424,7 @@ class ProgressHelper extends Helper
         $text = '';
         foreach ($this->timeFormats as $format) {
             if ($secs < $format[0]) {
-                if (2 == count($format)) {
+                if (2 == \count($format)) {
                     $text = $format[1];
                     break;
                 } else {
