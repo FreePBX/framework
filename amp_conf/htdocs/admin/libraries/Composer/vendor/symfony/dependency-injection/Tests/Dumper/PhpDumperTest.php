@@ -23,6 +23,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface as SymfonyContainer
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Dumper\PhpDumper;
 use Symfony\Component\DependencyInjection\EnvVarProcessorInterface;
+use Symfony\Component\DependencyInjection\Exception\ServiceCircularReferenceException;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Parameter;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
@@ -389,8 +390,8 @@ class PhpDumperTest extends TestCase
         $container->compile(true);
 
         $expected = array(
-          'env(foo)' => 'd29ybGQ=',
-          'hello' => 'world',
+            'env(foo)' => 'd29ybGQ=',
+            'hello' => 'world',
         );
         $this->assertSame($expected, $container->getParameterBag()->all());
     }
@@ -530,50 +531,22 @@ class PhpDumperTest extends TestCase
         $container->compile();
 
         $dumper = new PhpDumper($container);
-        $dumper->dump();
-
-        $this->addToAssertionCount(1);
-    }
-
-    public function testCircularReferenceAllowanceForInlinedDefinitionsForLazyServices()
-    {
-        /*
-         *   test graph:
-         *              [connection] -> [event_manager] --> [entity_manager](lazy)
-         *                                                           |
-         *                                                           --(call)- addEventListener ("@lazy_service")
-         *
-         *              [lazy_service](lazy) -> [entity_manager](lazy)
-         *
-         */
-
-        $container = new ContainerBuilder();
-
-        $eventManagerDefinition = new Definition('stdClass');
-
-        $connectionDefinition = $container->register('connection', 'stdClass')->setPublic(true);
-        $connectionDefinition->addArgument($eventManagerDefinition);
-
-        $container->register('entity_manager', 'stdClass')
-            ->setPublic(true)
-            ->setLazy(true)
-            ->addArgument(new Reference('connection'));
-
-        $lazyServiceDefinition = $container->register('lazy_service', 'stdClass');
-        $lazyServiceDefinition->setPublic(true);
-        $lazyServiceDefinition->setLazy(true);
-        $lazyServiceDefinition->addArgument(new Reference('entity_manager'));
-
-        $eventManagerDefinition->addMethodCall('addEventListener', array(new Reference('lazy_service')));
-
-        $container->compile();
-
-        $dumper = new PhpDumper($container);
-
         $dumper->setProxyDumper(new \DummyProxyDumper());
         $dumper->dump();
 
         $this->addToAssertionCount(1);
+
+        $dumper = new PhpDumper($container);
+
+        $message = 'Circular reference detected for service "foo", path: "foo -> bar -> foo". Try running "composer require symfony/proxy-manager-bridge".';
+        if (method_exists($this, 'expectException')) {
+            $this->expectException(ServiceCircularReferenceException::class);
+            $this->expectExceptionMessage($message);
+        } else {
+            $this->setExpectedException(ServiceCircularReferenceException::class, $message);
+        }
+
+        $dumper->dump();
     }
 
     public function testDedupLazyProxy()
@@ -851,12 +824,43 @@ class PhpDumperTest extends TestCase
 
         $foo5 = $container->get('foo5');
         $this->assertSame($foo5, $foo5->bar->foo);
+
+        $manager = $container->get('manager');
+        $this->assertEquals(new \stdClass(), $manager);
+
+        $manager = $container->get('manager2');
+        $this->assertEquals(new \stdClass(), $manager);
+
+        $foo6 = $container->get('foo6');
+        $this->assertEquals((object) array('bar6' => (object) array()), $foo6);
     }
 
     public function provideAlmostCircular()
     {
         yield array('public');
         yield array('private');
+    }
+
+    public function testDeepServiceGraph()
+    {
+        $container = new ContainerBuilder();
+
+        $loader = new YamlFileLoader($container, new FileLocator(self::$fixturesPath.'/yaml'));
+        $loader->load('services_deep_graph.yml');
+
+        $container->compile();
+
+        $dumper = new PhpDumper($container);
+        $dumper->dump();
+
+        $this->assertStringEqualsFile(self::$fixturesPath.'/php/services_deep_graph.php', $dumper->dump(array('class' => 'Symfony_DI_PhpDumper_Test_Deep_Graph')));
+
+        require self::$fixturesPath.'/php/services_deep_graph.php';
+
+        $container = new \Symfony_DI_PhpDumper_Test_Deep_Graph();
+
+        $this->assertInstanceOf(FooForDeepGraph::class, $container->get('foo'));
+        $this->assertEquals((object) array('p2' => (object) array('p3' => (object) array())), $container->get('foo')->bClone);
     }
 
     public function testHotPathOptimizations()
@@ -1081,5 +1085,16 @@ class Rot13EnvVarProcessor implements EnvVarProcessorInterface
     public static function getProvidedTypes()
     {
         return array('rot13' => 'string');
+    }
+}
+
+class FooForDeepGraph
+{
+    public $bClone;
+
+    public function __construct(\stdClass $a, \stdClass $b)
+    {
+        // clone to verify that $b has been fully initialized before
+        $this->bClone = clone $b;
     }
 }

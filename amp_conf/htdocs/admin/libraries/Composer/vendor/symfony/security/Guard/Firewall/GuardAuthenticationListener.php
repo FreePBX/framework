@@ -98,7 +98,7 @@ class GuardAuthenticationListener implements ListenerInterface
         $request = $event->getRequest();
         try {
             if (null !== $this->logger) {
-                $this->logger->debug('Calling getCredentials() on guard configurator.', array('firewall_key' => $this->providerKey, 'authenticator' => \get_class($guardAuthenticator)));
+                $this->logger->debug('Calling getCredentials() on guard authenticator.', array('firewall_key' => $this->providerKey, 'authenticator' => \get_class($guardAuthenticator)));
             }
 
             // abort the execution of the authenticator if it doesn't support the request
@@ -213,10 +213,7 @@ class GuardAuthenticationListener implements ListenerInterface
         }
 
         if (!$response instanceof Response) {
-            throw new \LogicException(sprintf(
-                '%s::onAuthenticationSuccess *must* return a Response if you want to use the remember me functionality. Return a Response, or set remember_me to false under the guard configuration.',
-                \get_class($guardAuthenticator)
-            ));
+            throw new \LogicException(sprintf('%s::onAuthenticationSuccess *must* return a Response if you want to use the remember me functionality. Return a Response, or set remember_me to false under the guard configuration.', \get_class($guardAuthenticator)));
         }
 
         $this->rememberMeServices->loginSuccess($request, $response, $token);

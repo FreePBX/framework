@@ -200,7 +200,6 @@ class PropertyAccessor implements PropertyAccessorInterface
                 // '[a][b][c]' => 'old-value'
                 // If you want to change its value to 'new-value',
                 // you only need set value for '[a][b][c]' and it's safe to ignore '[a][b]' and '[a]'
-                //
                 if ($overwrite) {
                     $property = $propertyPath->getElement($i);
 
@@ -256,7 +255,12 @@ class PropertyAccessor implements PropertyAccessorInterface
 
     private static function throwInvalidArgumentException($message, $trace, $i)
     {
-        if (isset($trace[$i]['file']) && __FILE__ === $trace[$i]['file'] && isset($trace[$i]['args'][0])) {
+        // the type mismatch is not caused by invalid arguments (but e.g. by an incompatible return type hint of the writer method)
+        if (0 !== strpos($message, 'Argument ')) {
+            return;
+        }
+
+        if (isset($trace[$i]['file']) && __FILE__ === $trace[$i]['file'] && array_key_exists(0, $trace[$i]['args'])) {
             $pos = strpos($message, $delim = 'must be of the type ') ?: (strpos($message, $delim = 'must be an instance of ') ?: strpos($message, $delim = 'must implement interface '));
             $pos += \strlen($delim);
             $type = $trace[$i]['args'][0];
@@ -363,22 +367,13 @@ class PropertyAccessor implements PropertyAccessorInterface
                     if (!$ignoreInvalidIndices) {
                         if (!\is_array($zval[self::VALUE])) {
                             if (!$zval[self::VALUE] instanceof \Traversable) {
-                                throw new NoSuchIndexException(sprintf(
-                                    'Cannot read index "%s" while trying to traverse path "%s".',
-                                    $property,
-                                    (string) $propertyPath
-                                ));
+                                throw new NoSuchIndexException(sprintf('Cannot read index "%s" while trying to traverse path "%s".', $property, (string) $propertyPath));
                             }
 
                             $zval[self::VALUE] = iterator_to_array($zval[self::VALUE]);
                         }
 
-                        throw new NoSuchIndexException(sprintf(
-                            'Cannot read index "%s" while trying to traverse path "%s". Available indices are "%s".',
-                            $property,
-                            (string) $propertyPath,
-                            print_r(array_keys($zval[self::VALUE]), true)
-                        ));
+                        throw new NoSuchIndexException(sprintf('Cannot read index "%s" while trying to traverse path "%s". Available indices are "%s".', $property, (string) $propertyPath, print_r(array_keys($zval[self::VALUE]), true)));
                     }
 
                     if ($i + 1 < $propertyPath->getLength()) {

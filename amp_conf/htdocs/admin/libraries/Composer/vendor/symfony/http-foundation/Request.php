@@ -377,7 +377,7 @@ class Request
 
         if (isset($components['port'])) {
             $server['SERVER_PORT'] = $components['port'];
-            $server['HTTP_HOST'] = $server['HTTP_HOST'].':'.$components['port'];
+            $server['HTTP_HOST'] .= ':'.$components['port'];
         }
 
         if (isset($components['user'])) {
@@ -1186,7 +1186,7 @@ class Request
         }
 
         $sourceDirs = explode('/', isset($basePath[0]) && '/' === $basePath[0] ? substr($basePath, 1) : $basePath);
-        $targetDirs = explode('/', isset($path[0]) && '/' === $path[0] ? substr($path, 1) : $path);
+        $targetDirs = explode('/', substr($path, 1));
         array_pop($sourceDirs);
         $targetFile = array_pop($targetDirs);
 
@@ -1460,7 +1460,7 @@ class Request
      *  * _format request attribute
      *  * $default
      *
-     * @param string $default The default format
+     * @param string|null $default The default format
      *
      * @return string The request format
      */
@@ -2086,10 +2086,13 @@ class Request
 
         if (self::$trustedHeaders[self::HEADER_FORWARDED] && $this->headers->has(self::$trustedHeaders[self::HEADER_FORWARDED])) {
             $forwardedValues = $this->headers->get(self::$trustedHeaders[self::HEADER_FORWARDED]);
-            $forwardedValues = preg_match_all(sprintf('{(?:%s)=(?:"?\[?)([a-zA-Z0-9\.:_\-/]*+)}', self::$forwardedParams[$type]), $forwardedValues, $matches) ? $matches[1] : array();
+            $forwardedValues = preg_match_all(sprintf('{(?:%s)="?([a-zA-Z0-9\.:_\-/\[\]]*+)}', self::$forwardedParams[$type]), $forwardedValues, $matches) ? $matches[1] : array();
             if (self::HEADER_CLIENT_PORT === $type) {
                 foreach ($forwardedValues as $k => $v) {
-                    $forwardedValues[$k] = substr_replace($v, '0.0.0.0', 0, strrpos($v, ':'));
+                    if (']' === substr($v, -1) || false === $v = strrchr($v, ':')) {
+                        $v = $this->isSecure() ? ':443' : ':80';
+                    }
+                    $forwardedValues[$k] = '0.0.0.0'.$v;
                 }
             }
         }
@@ -2124,9 +2127,17 @@ class Request
         $firstTrustedIp = null;
 
         foreach ($clientIps as $key => $clientIp) {
-            // Remove port (unfortunately, it does happen)
-            if (preg_match('{((?:\d+\.){3}\d+)\:\d+}', $clientIp, $match)) {
-                $clientIps[$key] = $clientIp = $match[1];
+            if (strpos($clientIp, '.')) {
+                // Strip :port from IPv4 addresses. This is allowed in Forwarded
+                // and may occur in X-Forwarded-For.
+                $i = strpos($clientIp, ':');
+                if ($i) {
+                    $clientIps[$key] = $clientIp = substr($clientIp, 0, $i);
+                }
+            } elseif (0 === strpos($clientIp, '[')) {
+                // Strip brackets and :port from IPv6 addresses.
+                $i = strpos($clientIp, ']', 1);
+                $clientIps[$key] = $clientIp = substr($clientIp, 1, $i - 1);
             }
 
             if (!filter_var($clientIp, FILTER_VALIDATE_IP)) {
