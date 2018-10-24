@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: AMP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-17 20:20-0400\n"
-"PO-Revision-Date: 2018-10-22 20:01+0000\n"
+"PO-Revision-Date: 2018-10-23 01:01+0000\n"
 "Last-Translator: Bastian Mertgen <b.mertgen@bastian-mertgen.de>\n"
 "Language-Team: German <http://*/projects/freepbx/framework/de/>\n"
 "Language: de_DE\n"
@@ -711,7 +711,7 @@ msgstr "AMI-Fehlerdetails:"
 
 #: amp.i18n.php:138
 msgid "AMPLOCALBIN Dir for retrieve_conf"
-msgstr ""
+msgstr "<i>AMPLOCALBIN</i>-Verzeichnis für <i>retrieve_conf</i>"
 
 #: ../core/views/did/advanced_form.php:116
 #: ../core/views/did/advanced_form.php:140 ../core/views/did/basic_form.php:48
@@ -799,6 +799,8 @@ msgid ""
 "Actions to preform in regards to this module. This usually contains "
 "installation and maintenance operations at an administration level"
 msgstr ""
+"Aktionen, die für dieses Modul durchgeführt werden müssen. Hierzu zählen "
+"üblicherweise Installations- und Wartungsmaßnahmen auf administrativer Ebene"
 
 #: amp_conf/htdocs/admin/functions.inc.php:469 ../core/page.astmodules.php:140
 #: ../core/views/trunks/trunk_header.php:2
@@ -922,6 +924,12 @@ msgid ""
 "put Private, Blocked, Unknown, Restricted, Anonymous, Unavailable and "
 "Withheld in order to catch these special cases if the Telco transmits them."
 msgstr ""
+"Fügen Sie eine Anruferkennung für ein präziseres Routing nach Durchwahl + "
+"Anruferkennung hinzu. Oben muss unter „Durchwahl hinzufügen“ eine Durchwahl "
+"angegeben werden. Zusätzlich zur Standard-Wählsequenz können Sie außerdem "
+"„Private“, „Blocked“, „Unknown“, „Restricted“, „Anonymous“, „Unavailable“ "
+"und „Withheld“ angeben, um diese Sonderfälle abzufangen, sofern Ihr "
+"Telefonanbieter diese übermittelt."
 
 #: amp_conf/htdocs/admin/helpers/freepbx_helpers.php:131
 #, php-format
@@ -938,6 +946,13 @@ msgid ""
 "advised that you keep this enabled and keep updated of these important "
 "notifications to avoid costly security vulnerabilities."
 msgstr ""
+"Tragen Sie hier Ihre E-Mail-Adresse ein, um wichtige Sicherheits- und Modul-"
+"Updates zu erhalten. Die E-Mail-Adresse wird NIE auf die Server von %s "
+"übertragen, sondern wird NUR von Ihrer lokalen Telefonanlage verwendet, um "
+"Benachrichtigungen über verfügbare Updates und WICHTIG Sicherheitshinweise "
+"zu versenden. Es wird DRINGEND empfohlen, dass Sie diese Option aktiviert "
+"lassen, um über diese wichtigen Hinweise auf dem Laufenden zu bleiben und "
+"kostspielige Sicherheitslücken zu vermeiden."
 
 #: amp_conf/htdocs/admin/views/noaccess.php:54
 msgid "Additional Information"
@@ -949,7 +964,7 @@ msgstr "Zusätzliche Einstellungen"
 
 #: amp.i18n.php:44
 msgid "Address to bind to. Default is ::"
-msgstr ""
+msgstr "Adresse, an die gebunden werden soll. Standard ist ::"
 
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:28
 msgid "Adds a warning in the email that modules will be updated in one hour"
@@ -1039,19 +1054,19 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:400
 msgid "All - TLS Primary"
-msgstr ""
+msgstr "Alle - TLS zuerst"
 
 #: ../core/functions.inc/drivers/Sip.class.php:398
 msgid "All - UDP Primary"
-msgstr ""
+msgstr "Alle - UDP zuerst"
 
 #: ../core/functions.inc/drivers/Sip.class.php:402
 msgid "All - WS Primary"
-msgstr ""
+msgstr "Alle - WS zuerst"
 
 #: ../core/functions.inc/drivers/Sip.class.php:403
 msgid "All - WSS Primary"
-msgstr ""
+msgstr "Alle - WSS zuerst"
 
 #: ../core/page.devices.php:41
 msgid "All Devices"
@@ -1087,6 +1102,8 @@ msgstr "Alle Module sind aktuell."
 msgid ""
 "All settings can be set from the Advanced Settings page accessible in FreePBX"
 msgstr ""
+"Alle Einstellungen können in unter „Erweiterte Einstellungen“ in FreePBX "
+"geändert werden"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:723
 msgid "All upgrades completed successfully!"
@@ -1111,7 +1128,7 @@ msgstr "Anmeldung mit Datenbank-Zugangsdaten erlauben"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:282
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP)"
-msgstr ""
+msgstr "Unverschlüsselte Medien zulassen (Opportunistisches SRTP)"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:134
 #: ../core/functions.inc/drivers/Sip.class.php:469
@@ -1180,22 +1197,29 @@ msgid ""
 "An attempt to send an email to \"%s\" with an alert about unsigned modules "
 "notifications failed"
 msgstr ""
+"Ein Versuch, eine E-Mail mit einem Alarm wegen unsignierter Module an „%s“ "
+"zu schicken ist fehlgeschlagen"
 
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:257
 #, php-format
 msgid ""
 "An attempt to send an email to \"%s\" with security notifications failed"
 msgstr ""
+"Ein Versuch, eine E-Mail mit Sicherheitshinweisen an „%s“ zu schicken ist "
+"fehlgeschlagen"
 
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:285
 #, php-format
 msgid "An attempt to send an email to \"%s\" with update notifications failed"
 msgstr ""
+"Ein Versuch, eine E-Mail mit Updatebenachrichtigungen an „%s“ zu schicken "
+"ist fehlgeschlagen"
 
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:304
 #, php-format
 msgid "An attempt to send email to \"%s\" from \"%s\" failed"
 msgstr ""
+"Ein Versuch, eine E-Mail von „%2$s“ an „%1$s“ zu schicken ist fehlgeschlagen"
 
 #: ../core/views/did/advanced_form.php:413 ../core/views/did/basic_form.php:234
 msgid ""
@@ -1265,6 +1289,9 @@ msgid ""
 "As this machine does not meet those requirements, system updates must be "
 "manually performed by the operator, using 'yum', 'apt', or equivalent."
 msgstr ""
+"Die dieses System die Voraussetzungen nicht erfüllt, müssen Systemupdates "
+"von einem Operator manuell mittels „yum“, „apt“ oder Ähnlichem durchgeführt "
+"werden."
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:97
 msgid "Asked for raw contents of a file, but was never asked to read a file"
@@ -1290,11 +1317,11 @@ msgstr ""
 
 #: amp.i18n.php:26
 msgid "Asterisk Builtin mini-HTTP server"
-msgstr ""
+msgstr "Eingebauter mini-HTTP-Server von Asterisk"
 
 #: amp.i18n.php:260 ../core/functions.inc.php:5730
 msgid "Asterisk Dial Options"
-msgstr ""
+msgstr "Asterisk-Wähloptionen"
 
 #: ../core/views/trunks/trunk_header.php:386
 msgid ""
@@ -1309,7 +1336,7 @@ msgstr ""
 
 #: amp.i18n.php:416
 msgid "Asterisk Log Dir"
-msgstr ""
+msgstr "Astersik-Protokollverzeichnis"
 
 #: amp.i18n.php:82
 msgid "Asterisk Manager"
@@ -1422,25 +1449,26 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:218
 #, php-format
 msgid "Attempted to load %s but it didn't define the class %s"
-msgstr ""
+msgstr "Habe versucht, %s zu laden, aber es definierte die Klasse %s nicht"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:158
 #, php-format
 msgid "Attempted to load %s with a hint of %s and it didn't exist"
 msgstr ""
+"Habe versucht, %s mit einem Hinweis von %s zu laden, aber es existierte nicht"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1471
 #, php-format
 msgid "Attempting to Enable %s"
-msgstr ""
+msgstr "Versuche %s zu aktivieren"
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:71
 msgid "Attempting to optimize MySQL Tables (this may take some time)"
-msgstr ""
+msgstr "Versuche, MySQL-Tabellen zu optimieren (das könnte eine Weile dauern)"
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:62
 msgid "Attempting to repair MySQL Tables (this may take some time)"
-msgstr ""
+msgstr "Versuche, MySQL-Tabellen zu reparieren (das könnte eine Weile dauern)"
 
 #: amp.i18n.php:270
 msgid "Attended Transfer Alert Info"
@@ -1452,7 +1480,7 @@ msgstr "Achtung"
 
 #: ../core/views/routing/grid.php:72
 msgid "Attributes"
-msgstr ""
+msgstr "Attribute"
 
 #: ../core/views/trunks/pjsip.php:924
 msgid "Auth Username"
@@ -1460,11 +1488,11 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:80
 msgid "Authentication"
-msgstr ""
+msgstr "Authentifizierung"
 
 #: ../core/views/trunks/pjsip.php:1165
 msgid "Authentication Disabled"
-msgstr ""
+msgstr "Authentifizierung deaktiviert"
 
 #: amp.i18n.php:754
 msgid ""
@@ -1511,7 +1539,7 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:311
 #: ../core/views/trunks/pjsip.php:243
 msgid "Auto"
-msgstr ""
+msgstr "Auto"
 
 #: amp_conf/htdocs/admin/functions.inc.php:250
 msgid ""
@@ -1522,25 +1550,25 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Sendemails.class.php:296
 #, php-format
 msgid "Automated notification from %s"
-msgstr ""
+msgstr "Automatisierte Benachrichtigung von%s"
 
 #: ../core/functions.inc/drivers/Sip.class.php:377
 #, php-format
 msgid "Automatic Force Both - (%s)"
-msgstr ""
+msgstr "Beide automatisch erzwingen - (%s)"
 
 #: ../core/functions.inc/drivers/Sip.class.php:378
 #, php-format
 msgid "Automatic Force rport - (%s)"
-msgstr ""
+msgstr "<i>rport</i> automatisch erzwingen - (%s)"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:52
 msgid "Automatic Module Updates"
-msgstr ""
+msgstr "Automatische Modul-Updates"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:38
 msgid "Automatic System Updates"
-msgstr ""
+msgstr "Automatische System-Updates"
 
 #: ../core/functions.inc/drivers/Sip.class.php:379
 #, php-format
@@ -1557,7 +1585,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:64
 msgid "Automatically enable disabled modules without prompting"
-msgstr ""
+msgstr "Deaktivierte Module ohne Rückfrage automatisch aktivieren"
 
 #: amp.i18n.php:188
 msgid ""
@@ -1570,15 +1598,15 @@ msgstr ""
 #: ../core/views/routing/form.php:45
 #, php-format
 msgid "Before %s"
-msgstr ""
+msgstr "Vor %s"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:20
 msgid "Beta"
-msgstr ""
+msgstr "Beta"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:98
 msgid "Between 12pm and 4pm"
-msgstr ""
+msgstr "Zwischen 12:00 und 16:00 Uhr"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:96
 msgid "Between 4am and 8am"
@@ -1606,11 +1634,11 @@ msgstr ""
 
 #: amp.i18n.php:278
 msgid "Block CNAM on External Trunks"
-msgstr ""
+msgstr "CNAM auf externen Amtsleitungen blockieren"
 
 #: ../core/views/trunks/trunk_header.php:320
 msgid "Block Foreign CIDs"
-msgstr ""
+msgstr "Fremde Anruferkennungen blockieren"
 
 #: ../core/views/trunks/pjsip.php:89 ../core/views/trunks/pjsip.php:897
 msgid "Both"
@@ -2009,7 +2037,7 @@ msgstr "Zu %s-Treiber ändern"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:23
 msgid "Change ownership of files"
-msgstr ""
+msgstr "Besitzer von Dateien ändern"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:165
 msgid "Changelog"
@@ -2129,11 +2157,11 @@ msgstr ""
 
 #: ../core/views/routing/form.php:507
 msgid "Choose File"
-msgstr ""
+msgstr "Datei auswählen"
 
 #: ../core/Console/Trunks.class.php:64
 msgid "Choose an ID to enable/disable"
-msgstr ""
+msgstr "Wählen Sie eine ID, die aktiviert/deaktiviert werden soll"
 
 #: ../core/views/did/advanced_form.php:308
 msgid ""
@@ -2182,10 +2210,13 @@ msgid ""
 "Client SIP URI used when attemping outbound registration. This setting is "
 "automatically generated by the PBX if left blank"
 msgstr ""
+"Client-SIP-URI, die bei einem ausgehenden Registrierungsversuch verwendet "
+"werden soll. Diese Einstellung wird von der Telefonanlage automatisch "
+"erzeugt, wenn sie leer gelassen wird"
 
 #: ../core/views/trunks/pjsip.php:547
 msgid "Client URI"
-msgstr ""
+msgstr "Client-URI"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1116
 #: amp_conf/htdocs/admin/views/footer.php:105
@@ -2200,7 +2231,7 @@ msgstr "Codecs"
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:334
 #, php-format
 msgid "Coding Error - don't understand '%s' from %s"
-msgstr ""
+msgstr "Kodierungsfehler - verstehen „%s“ von „%s“ nicht"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:62
 msgid "Colorize table based list"
@@ -2213,7 +2244,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:190
 #, php-format
 msgid "Combining key and crt into %s.pem"
-msgstr ""
+msgstr "Verbinde Schlüssel und Zertifikat zu %s.pem"
 
 #: amp.i18n.php:118
 msgid ""
@@ -2227,13 +2258,15 @@ msgstr "Kommerziell"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:235
 msgid "Commercial Status"
-msgstr ""
+msgstr "Kommerzieller Status"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:235
 msgid ""
 "Commercial Status of this module. Commercial Modules are maintained and "
 "supported through Schmoozecom, INC"
 msgstr ""
+"Kommerzieller Status dieses Moduls. Kommerzielle Module werden durch "
+"Schmoozecom, INC gewartet und unterstützt"
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:18
 msgid "Common utilities"
@@ -2249,20 +2282,20 @@ msgstr "Bestätigen"
 
 #: amp_conf/htdocs/admin/views/obe.php:65
 msgid "Confirm Email address"
-msgstr ""
+msgstr "E-Mail-Adresse bestätigen"
 
 #: amp_conf/htdocs/admin/views/obe.php:42
 #: amp_conf/htdocs/admin/views/oobe.php:9
 msgid "Confirm Password"
-msgstr ""
+msgstr "Passwort bestätigen"
 
 #: ../core/functions.inc.php:5676
 msgid "Conflicting Extensions"
-msgstr ""
+msgstr "Nebenstellenkonflikt"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:190
 msgid "Confusing statement. Not sure what you want to do"
-msgstr ""
+msgstr "Verwirrendes"
 
 #: ../core/functions.inc.php:885 ../core/functions.inc.php:4492
 msgid "Congestion"
@@ -2270,19 +2303,19 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:358
 msgid "Connection Type"
-msgstr ""
+msgstr "Verbindungstyp"
 
 #: amp.i18n.php:884 amp_conf/htdocs/admin/views/menu_items.php:46
 msgid "Connectivity"
-msgstr ""
+msgstr "Konnektivität"
 
 #: ../core/views/trunks/pjsip.php:477
 msgid "Contact User"
-msgstr ""
+msgstr "Kontaktbenutzer"
 
 #: ../core/views/trunks/pjsip.php:489
 msgid "Contact User to use in request."
-msgstr ""
+msgstr "Kontaktbenutzer, der in der Anfrage verwendet werden soll."
 
 #: ../core/functions.inc/drivers/Sip.class.php:329
 #: ../core/views/trunks/pjsip.php:186
@@ -2300,15 +2333,15 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:390
 #: amp_conf/htdocs/admin/views/footer.php:106
 msgid "Continue"
-msgstr ""
+msgstr "Fortsetzen"
 
 #: ../core/views/trunks/trunk_header.php:398
 msgid "Continue if Busy"
-msgstr ""
+msgstr "Fortsetzen, falls besetzt"
 
 #: upgrades/2.8.0/custom-context.php:86 upgrades/2.8.0rc1/custom-context.php:87
 msgid "Continuing..."
-msgstr ""
+msgstr "Setze fort…"
 
 #: ../core/views/trunks/trunk_header.php:34
 msgid ""
@@ -2316,6 +2349,10 @@ msgid ""
 "can be used on this trunk. Inbound calls are not counted against the "
 "maximum. Leave blank to specify no maximum."
 msgstr ""
+"Steuert die maximale Anzahl von ausgehenden Kanälen (gleichzeitige Anrufe), "
+"die auf dieser Amtsleitung getätigt werden können. Eingehende Anrufe zählen "
+"nicht in dieses Maximum. Lassen Sie das Feld leer, wenn Sie kein Limit "
+"vorgeben wollen."
 
 #: ../core/views/trunks/trunk_header.php:40
 #, php-format
@@ -2351,11 +2388,11 @@ msgstr ""
 #: upgrades/2.9.0beta2/logger_migrate.php:73
 #, php-format
 msgid "Could not delete %s"
-msgstr ""
+msgstr "Konnte %s nicht löschen"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1338
 msgid "Could not determine module name"
-msgstr ""
+msgstr "Konnte den Namen des Moduls nicht bestimmen"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:800
 msgid ""
@@ -2371,7 +2408,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:80
 msgid "Could not find gpg command!"
-msgstr ""
+msgstr "Konnte den Befehl gpg nicht finden!"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1119
 msgid "Could not find signed module on remote server!"
@@ -2445,20 +2482,20 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:139
 msgid "Creating CA certificate"
-msgstr ""
+msgstr "Erzeuge CA-Zertifikat"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:123
 msgid "Creating CA key"
-msgstr ""
+msgstr "Erzeuge CA-Schlüssel"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:164
 #, php-format
 msgid "Creating certificate for %s"
-msgstr ""
+msgstr "Erzeuge Zertifikat für %s"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1217
 msgid "Creating database table "
-msgstr ""
+msgstr "Erzeuge Datenbanktabelle "
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:170
 #, php-format
@@ -2710,6 +2747,8 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/DB_Helper.class.php:553
 msgid "Database Error detected. Automatic repair started. Please retry"
 msgstr ""
+"Datenbankfehler entdeckt. Die automatische Reparatur wurde gestartet, bitte "
+"versuchen Sie es erneut"
 
 #: amp_conf/htdocs/admin/libraries/Console/Doctrine.class.php:19
 msgid "Database name"
@@ -3082,7 +3121,7 @@ msgstr "Entwicklermodus"
 
 #: amp.i18n.php:134
 msgid "Developer and Customization"
-msgstr ""
+msgstr "Entwickler und Anpassung"
 
 #: ../core/Core.class.php:3376 ../core/functions.inc.php:5952
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
@@ -3149,7 +3188,7 @@ msgstr ""
 #: ../core/functions.inc/drivers/Custom.class.php:37
 #: ../core/functions.inc/drivers/Sip.class.php:472
 msgid "Dial"
-msgstr ""
+msgstr "Wähle"
 
 #: ../core/views/trunks/trunk_header.php:450
 msgid "Dial Number Manipulation Rules"
@@ -3157,17 +3196,17 @@ msgstr ""
 
 #: ../core/views/routing/form.php:265
 msgid "Dial Patterns"
-msgstr ""
+msgstr "Wählmuster"
 
 #: ../core/views/routing/form.php:59
 msgid "Dial Patterns that will use this Route"
-msgstr ""
+msgstr "Wählmuster, die diese Route verwenden werden"
 
 #: ../core/views/routing/form.php:487 ../core/views/routing/form.php:574
 #: ../core/views/trunks/trunk_footer.php:36
 #: ../core/views/trunks/trunk_header.php:97
 msgid "Dial patterns wizards"
-msgstr ""
+msgstr "Wählmuster-Assistent"
 
 #: ../core/views/trunks/trunk_header.php:217
 msgid "Dialed Number Manipulation Rules"
@@ -3196,20 +3235,24 @@ msgstr ""
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it (getGpgLocation)."
 msgstr ""
+"Das Verzeichnis %s existiert nicht und ich kann es nicht anlegen. "
+"(getGpgLocation)."
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:559
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it."
-msgstr ""
+msgstr "Das Verzeichnis %s existiert nicht und ich kann es nicht anlegen."
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:745
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
 msgstr ""
+"Das Verzeichnis %s existiert nicht und ich kann es nicht anlegen. "
+"(checkPermissions)"
 
 #: amp.i18n.php:404
 msgid "Directory Layout"
-msgstr ""
+msgstr "Verzeichnisstruktur"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:390
 #: ../core/functions.inc.php:5495 ../core/functions.inc.php:5501
@@ -3223,7 +3266,7 @@ msgstr ""
 
 #: amp.i18n.php:696
 msgid "Disable FreePBX Log"
-msgstr ""
+msgstr "FreePBX-Protokoll deaktivieren"
 
 #: amp.i18n.php:150
 msgid "Disable FreePBX dbug Logging"
@@ -3301,7 +3344,7 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:468
 msgid "Disallowed Codecs"
-msgstr ""
+msgstr "Unzulässige Codecs"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:132
 #: ../core/functions.inc/drivers/Sip.class.php:467
@@ -3318,11 +3361,11 @@ msgstr ""
 
 #: amp.i18n.php:314
 msgid "Display CallerID on Calling Phone"
-msgstr ""
+msgstr "Anruferkennung auf dem anrufenden Telefon anzeigen"
 
 #: amp.i18n.php:318
 msgid "Display Dialed Number on Calling Phone"
-msgstr ""
+msgstr "Gewählte Nummer auf dem anrufenden Telefon anzeigen"
 
 #: amp.i18n.php:10
 msgid "Display Friendly Name"
@@ -3365,6 +3408,8 @@ msgid ""
 "Do NOT edit this file as it is auto-generated by FreePBX. All modifications "
 "to"
 msgstr ""
+"Bearbeiten Sie diese Datei NICHT, da sie automatisch von FreePBX erzeugt "
+"wurde. Alle Änderungen an"
 
 #: ../core/page.users.php:78
 msgid "Do Not Disturb is disabled"
@@ -3384,21 +3429,23 @@ msgstr ""
 
 #: ../core/functions.inc.php:5486
 msgid "Don't Care"
-msgstr ""
+msgstr "Nicht beachten"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:65
 msgid "Don't ask to enable disabled modules assume no."
 msgstr ""
+"Nicht danach fragen, ob deaktivierte Module aktiviert werden sollen, nehme "
+"„nein“ an."
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:728
 #, php-format
 msgid "Don't have permission/can't write to %s"
-msgstr ""
+msgstr "Fehlende Berechtigung auf/kann nicht in %s schreiben"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:487
 #, php-format
 msgid "Don't have permission/can't write to: %s"
-msgstr ""
+msgstr "Fehlende Berechtigung auf/kann nicht in %s schreiben"
 
 #: amp_conf/htdocs/admin/libraries/BMO/DialplanHooks.class.php:22
 msgid "Don't know about modules yet. It needs to be handed to me"
@@ -3421,35 +3468,35 @@ msgstr ""
 #: installlib/installcommand.class.php:532
 #: installlib/installcommand.class.php:570 ../core/install.php:807
 msgid "Done"
-msgstr ""
+msgstr "Erledigt"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:593
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:941
 msgid "Done. All modules installed."
-msgstr ""
+msgstr "Erledigt. Alle Module installiert."
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:86
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:340
 msgid "Downgrade"
-msgstr ""
+msgstr "Herunterstufen"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:327
 #, php-format
 msgid "Download %s, keep Disabled"
-msgstr ""
+msgstr "„%s“ herunterladen, aber deaktiviert lassen"
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:27
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:38
 msgid "Download (From Web)"
-msgstr ""
+msgstr "Herunterladen (aus dem Internet)"
 
 #: ../core/views/routing/form.php:591 ../core/views/trunks/trunk_footer.php:53
 msgid "Download Local Patterns"
-msgstr ""
+msgstr "Lokale Muster herunterladen"
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:37
 msgid "Download Remote Module"
-msgstr ""
+msgstr "Entferntes Modul herunterladen"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:45
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:467
@@ -3459,7 +3506,7 @@ msgstr "Alles Herunterladen"
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:348
 #, php-format
 msgid "Download and %s to %s"
-msgstr ""
+msgstr "Herunterladen und %s zu %s"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:313
 msgid "Download and Install"
@@ -3468,7 +3515,7 @@ msgstr "Herunterladen und Intstallieren"
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:375
 #, php-format
 msgid "Download and Upgrade to %s"
-msgstr ""
+msgstr "Herunterladen und auf %s aktualisieren"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1217
 msgid "Download and install module[s], accepts argument module[s] or URLs"
@@ -3477,7 +3524,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:480
 #, php-format
 msgid "Download completed in %s seconds"
-msgstr ""
+msgstr "Download wurde in %s Sekunden abgeschlossen"
 
 #: ../core/views/routing/form.php:580 ../core/views/trunks/trunk_footer.php:42
 msgid "Download local prefixes"
@@ -3504,34 +3551,34 @@ msgstr ""
 #: amp_conf/htdocs/admin/page.modules.php:277
 #, php-format
 msgid "Downloading %s"
-msgstr ""
+msgstr "Lade %s herunter"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:931
 #, php-format
 msgid "Downloading & Installing '%s'"
-msgstr ""
+msgstr "Herunterladen und Installieren von „%s“"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:778
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:837
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:866
 #, php-format
 msgid "Downloading Missing Dependency of: %s %s"
-msgstr ""
+msgstr "Lade die fehlende Abhängikeit von %s %s herunter"
 
 #: amp_conf/htdocs/admin/page.modules.php:276
 #, php-format
 msgid "Downloading and Installing %s"
-msgstr ""
+msgstr "Herunterladen und Installieren von „%s“"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:459
 #, php-format
 msgid "Downloading module '%s'"
-msgstr ""
+msgstr "Lade Modul „%s“ herunter"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:470
 #, php-format
 msgid "Downloading module '%s' failed after %s seconds!"
-msgstr ""
+msgstr "Das Herunterladen von „%s“ schlug nach %s Sekunden fehl!"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2160
 #, php-format
@@ -7399,29 +7446,29 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:389
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: ../core/functions.inc/drivers/Sip.class.php:211
 #, php-format
 msgid "Port %s (%s - this is a <strong>NON STANDARD</strong> port)"
-msgstr ""
+msgstr "Port %s (%s - dies ist <strong>KEIN STANDARD-PORT</strong>)"
 
 #: ../core/functions.inc/drivers/Sip.class.php:209
 #, php-format
 msgid "Port %s (%s)"
-msgstr ""
+msgstr "Port %s (%s)"
 
 #: amp.i18n.php:92
 msgid "Port for the Asterisk Manager"
-msgstr ""
+msgstr "Port für den Asterisk-Manager"
 
 #: amp.i18n.php:48
 msgid "Port to bind to. Default is 8088"
-msgstr ""
+msgstr "Port, an den gebunden werden soll. Standard ist 8088"
 
 #: amp.i18n.php:58
 msgid "Port to bind to. Default is 8089"
-msgstr ""
+msgstr "Port, an den gebunden werden soll. Standard ist 8089"
 
 #: amp.i18n.php:178
 msgid "Post Call Recording Script"
@@ -7433,7 +7480,7 @@ msgstr ""
 
 #: amp.i18n.php:492
 msgid "Precede browser title with the server name."
-msgstr ""
+msgstr "Den Servernamen im Browser-Titel voranstellen."
 
 #: ../core/views/routing/form.php:82
 msgid ""
@@ -7449,12 +7496,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:120
 #, php-format
 msgid "Press %s to Cancel"
-msgstr ""
+msgstr "Drücken Sie zum Abbrechen %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:121
 #, php-format
 msgid "Press %s to shut down NOW"
-msgstr ""
+msgstr "Um JETZT herunterzufahren, drücken Sie bitte %s"
 
 #: amp.i18n.php:124
 msgid "Pretty Print JSON Responses"
@@ -7478,7 +7525,7 @@ msgstr "Primäres CSS-Stylesheet"
 
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:26
 msgid "Prints MOTD"
-msgstr ""
+msgstr "Gibt die Nachricht des Tages aus"
 
 #: ../core/views/trunks/trunk_header.php:15
 msgid "Priority"
@@ -11200,7 +11247,7 @@ msgstr ""
 #: upgrades/2.8.0alpha2/tables.php:172 upgrades/2.9.0alpha1/tables.php:50
 #: upgrades/2.9.0alpha1/tables.php:66
 msgid "already exists"
-msgstr ""
+msgstr "bereits vorhanden"
 
 #: upgrades/2.11.0rc1/migration.php:53
 msgid "already symlinked skipping"
