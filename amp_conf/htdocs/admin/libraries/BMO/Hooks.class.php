@@ -185,7 +185,9 @@ class Hooks extends DB_Helper {
 				$meth = $hook['method'];
 				//now send the method from that class the data!
 				\modgettext::push_textdomain(strtolower($module));
+				$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$module."::".$meth."_start");
 				$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), $args);
+				$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$module."::".$meth."_stop");
 				\modgettext::pop_textdomain();
 			}
 		}
@@ -263,7 +265,9 @@ class Hooks extends DB_Helper {
 				//now send the method from that class the data!
 				\modgettext::push_textdomain(strtolower($module));
 				try {
+					$this->FreePBX->Performance->Stamp("processHooks-".$module."::".$meth."_start");
 					$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), func_get_args());
+					$this->FreePBX->Performance->Stamp("processHooks-".$module."::".$meth."_stop");
 				} catch (\Exception $e) {
 					//module does not exist, try to resolve right now
 					if($e->getCode() != 404) {
