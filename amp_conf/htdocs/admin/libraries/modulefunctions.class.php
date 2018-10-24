@@ -23,6 +23,7 @@ if(false) {
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
+use Doctrine\Common\Cache\ArrayCache;
 
 class module_functions {
 	public $security_array = null;
@@ -34,6 +35,9 @@ class module_functions {
 	private $onlineModules = null;
 
 	private $modXMLCache = array();
+	private $cacheDriver;
+
+	private $getInfoCache = array();
 
 	public static function create() {
 		static $obj;
@@ -48,6 +52,7 @@ class module_functions {
 		if(!empty($time_limit)) {
 			$this->maxTimeLimit = (int)$time_limit + $this->maxTimeLimit;
 		}
+		$this->cacheDriver = new ArrayCache();
 	}
 
 	/**
@@ -615,9 +620,20 @@ class module_functions {
 	*                either be one value, or an array of values.
 	*/
 	function getinfo($module = false, $status = false, $forceload = false) {
-
+		//$this->FreePBX->Cache->
+		$cacheKey = 'getinfo_'.$module . '_' . (is_array($status) ? implode("_",$status) : $status);
+		if(isset($this->getInfoCache[$cacheKey])) {
+			return $this->getInfoCache[$cacheKey];
+		}
+		if(!$forceload) {
+			if(!empty($f)) {
+				return $f;
+			}
+		}
 		global $amp_conf, $db;
 		$modules = array();
+
+		$modulelist = \FreePBX::create()->Modulelist;
 
 		if ($module) {
 			// get info on only one module
@@ -631,10 +647,6 @@ class module_functions {
 			// query to get just this one
 			$sql = 'SELECT * FROM modules WHERE modulename = ?';
 		} else {
-			// create the modulelist so it is static and does not need to be recreated
-			// in subsequent calls
-			//
-			$modulelist = modulelist::create($db);
 			if ($forceload) {
 				$modulelist->invalidate();
 				$this->modXMLCache = array();
@@ -724,18 +736,22 @@ class module_functions {
 			$modulelist->initialize($modules);
 		}
 
+		$module_array = $modulelist->get();
+
 		//ksort for consistency throughout freepbx
 		if ($status === false) {
 			if (!$module) {
-				ksort($modulelist->module_array);
-				return $modulelist->module_array;
+				ksort($module_array);
+				$this->getInfoCache[$cacheKey] = $module_array;
+				return $module_array;
 			} else {
 				ksort($modules);
+				$this->getInfoCache[$cacheKey] = $modules;
 				return $modules;
 			}
 		} else {
 			if (!$module) {
-				$modules =  $modulelist->module_array;
+				$modules =  $module_array;
 			}
 			if (!is_array($status)) {
 				// make a one element array so we can use in_array below
@@ -749,8 +765,8 @@ class module_functions {
 					continue;
 				}
 			}
-
 			ksort($modules);
+			$this->getInfoCache[$cacheKey] = $modules;
 			return $modules;
 		}
 	}
@@ -1222,9 +1238,9 @@ class module_functions {
 		}
 
 		// disabled (but doesn't needupgrade or need install), and meets dependencies
-		$this->_setenabled($modulename, true);
+		$this->setenabled($modulename, true);
 		needreload();
-		modulelist::create($db)->invalidate();
+		\FreePBX::Modulelist()->invalidate();
 
 		// run the scripts
 		if (!$this->_runscripts($modulename, 'enable', $modules)) {
@@ -1914,6 +1930,7 @@ class module_functions {
 	* @return mixed   True if succesful, array of error messages if not succesful
 	*/
 	function install($modulename, $force = false) {
+		$this->getInfoCache = array(); //invalidate local
 		$this->modDepends = array();
 		$this->notFound = false;
 		global $db, $amp_conf;
@@ -2030,8 +2047,8 @@ class module_functions {
 		}
 
 		// module is now installed & enabled, invalidate the modulelist class since it is now stale
-		$modulelist = modulelist::create($db);
-		$modulelist->invalidate();
+		$this->getInfoCache = array(); //invalidate local
+		\FreePBX::Modulelist()->invalidate();
 		$this->modXMLCache = array();
 
 		// edit the notification table to list any remaining upgrades available or clear
@@ -2093,10 +2110,11 @@ class module_functions {
 		// run the scripts
 		$this->_runscripts($modulename, 'disable', $modules);
 
-		$this->_setenabled($modulename, false);
+		$this->setenabled($modulename, false);
 		needreload();
 		//invalidate the modulelist class since it is now stale
-		modulelist::create($db)->invalidate();
+		$this->getInfoCache = array(); //invalidate local
+		\FreePBX::Modulelist()->invalidate();
 		return true;
 	}
 
@@ -2188,7 +2206,8 @@ class module_functions {
 
 		needreload();
 		//invalidate the modulelist class since it is now stale
-		modulelist::create($db)->invalidate();
+		\FreePBX::Modulelist()->invalidate();
+		$this->getInfoCache = array(); //invalidate local
 
 		return true;
 	}
@@ -2233,15 +2252,15 @@ class module_functions {
 	}
 
 	/** Internal use only */
-	function _setenabled($modulename, $enabled) {
+	private function setenabled($modulename, $enabled) {
 		global $db;
 		$sql = 'UPDATE modules SET enabled = '.($enabled ? '1' : '0').' WHERE modulename = "'.$db->escapeSimple($modulename).'"';
 		$results = $db->query($sql);
 		if(DB::IsError($results)) {
 			die_freepbx($sql."<br>\n".$results->getMessage());
 		}
-		$modulelist = modulelist::create($db);
-		$modulelist->invalidate();
+		\FreePBX::Modulelist()->invalidate();
+		$this->getInfoCache = array(); //invalidate local
 		$this->modXMLCache = array();
 	}
 
