@@ -22,6 +22,7 @@ use Doctrine\Common\Cache\RedisCache;
 class Cache {
 	private $cache;
 	private $freepbx;
+	private $namespaceClones = array();
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {
@@ -144,6 +145,23 @@ class Cache {
 	}
 
 	/**
+	 * Set Namespace and clone this class
+	 * This prevents issues where the namespace is not properly reset
+	 * @method cloneByNamespace
+	 * @param  [type]            $namespace [description]
+	 */
+	public function cloneByNamespace($namespace) {
+		if(isset($this->namespaceClones[$namespace])) {
+			return $this->namespaceClones[$namespace];
+		}
+		$self = clone $this;
+		$self->init(true);
+		$self->setNamespace($namespace);
+		$this->namespaceClones[$namespace] = $self;
+		return $this->namespaceClones[$namespace];
+	}
+
+	/**
 	 * Sets the namespace to prefix all cache ids with.
 	 *
 	 * @param string $namespace
@@ -186,8 +204,8 @@ class Cache {
 	 * @method init
 	 * @return object The cache driver
 	 */
-	private function init() {
-		if(!isset($this->cache)) {
+	private function init($force = false) {
+		if($force || !isset($this->cache)) {
 			$primaryCache = new ArrayCache();
 			$cachePath = $this->freepbx->Config->get('ASTSPOOLDIR')."/cache";
 			if(!file_exists($cachePath)) {
@@ -204,7 +222,7 @@ class Cache {
 					$secondaryCache = new RedisCache();
 					$secondaryCache->setRedis($redis);
 				} catch(\Exception $e) {
-					freepbx_log(FPBX_LOG_WARNING, "Redis enabled but not running, falling back to filesystem");
+					freepbx_log(FPBX_LOG_WARNING, "Redis enabled but not running, falling back to filesystem [{$e->getMessage}]");
 				}
 			}
 			if(empty($secondarCache)) {
