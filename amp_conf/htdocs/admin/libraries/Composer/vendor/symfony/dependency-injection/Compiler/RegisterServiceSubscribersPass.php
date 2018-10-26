@@ -56,26 +56,26 @@ class RegisterServiceSubscribersPass extends AbstractRecursivePass
         }
         $class = $value->getClass();
 
-        if (!is_subclass_of($class, ServiceSubscriberInterface::class)) {
-            if (!class_exists($class, false)) {
-                throw new InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $class, $this->currentId));
-            }
-
+        if (!$r = $this->container->getReflectionClass($class)) {
+            throw new InvalidArgumentException(sprintf('Class "%s" used for service "%s" cannot be found.', $class, $this->currentId));
+        }
+        if (!$r->isSubclassOf(ServiceSubscriberInterface::class)) {
             throw new InvalidArgumentException(sprintf('Service "%s" must implement interface "%s".', $this->currentId, ServiceSubscriberInterface::class));
         }
-        $this->container->addObjectResource($class);
+        $class = $r->name;
+
         $subscriberMap = array();
         $declaringClass = (new \ReflectionMethod($class, 'getSubscribedServices'))->class;
 
         foreach ($class::getSubscribedServices() as $key => $type) {
-            if (!is_string($type) || !preg_match('/^\??[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+(?:\\\\[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+)*+$/', $type)) {
-                throw new InvalidArgumentException(sprintf('"%s::getSubscribedServices()" must return valid PHP types for service "%s" key "%s", "%s" returned.', $class, $this->currentId, $key, is_string($type) ? $type : gettype($type)));
+            if (!\is_string($type) || !preg_match('/^\??[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+(?:\\\\[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*+)*+$/', $type)) {
+                throw new InvalidArgumentException(sprintf('"%s::getSubscribedServices()" must return valid PHP types for service "%s" key "%s", "%s" returned.', $class, $this->currentId, $key, \is_string($type) ? $type : \gettype($type)));
             }
             if ($optionalBehavior = '?' === $type[0]) {
                 $type = substr($type, 1);
                 $optionalBehavior = ContainerInterface::IGNORE_ON_INVALID_REFERENCE;
             }
-            if (is_int($key)) {
+            if (\is_int($key)) {
                 $key = $type;
             }
             if (!isset($serviceMap[$key])) {
@@ -85,12 +85,12 @@ class RegisterServiceSubscribersPass extends AbstractRecursivePass
                 $serviceMap[$key] = new Reference($type);
             }
 
-            $subscriberMap[$key] = new TypedReference((string) $serviceMap[$key], $type, $declaringClass, $optionalBehavior ?: ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE);
+            $subscriberMap[$key] = new TypedReference($this->container->normalizeId($serviceMap[$key]), $type, $declaringClass, $optionalBehavior ?: ContainerInterface::EXCEPTION_ON_INVALID_REFERENCE);
             unset($serviceMap[$key]);
         }
 
         if ($serviceMap = array_keys($serviceMap)) {
-            $message = sprintf(1 < count($serviceMap) ? 'keys "%s" do' : 'key "%s" does', str_replace('%', '%%', implode('", "', $serviceMap)));
+            $message = sprintf(1 < \count($serviceMap) ? 'keys "%s" do' : 'key "%s" does', str_replace('%', '%%', implode('", "', $serviceMap)));
             throw new InvalidArgumentException(sprintf('Service %s not exist in the map returned by "%s::getSubscribedServices()" for service "%s".', $message, $class, $this->currentId));
         }
 

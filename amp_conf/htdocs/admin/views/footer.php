@@ -159,53 +159,8 @@ $html .= "\n" . '<script type="text/javascript">'
 // Production versions should include the packed consolidated javascript library but if it
 // is not present (useful for development, then include each individual library below
 
-if ($amp_conf['USE_PACKAGED_JS'] && file_exists("assets/js/pbxlib.js")) {
-	$pbxlibver = '.' . filectime("assets/js/pbxlib.js");
-	$html .= '<script src="assets/js/pbxlib.js'. $version_tag . $pbxlibver . '"></script>';
-} else {
-	$files = array(
-		"assets/js/moment-with-locales-2.20.1.min.js",
-		"assets/js/script.legacy.js",
-		"assets/js/Sortable-1.4.0.min.js",
-		"assets/js/autosize-3.0.17.min.js",
-		"assets/js/bootstrap-3.3.7.custom.min.js",
-		"assets/js/bootstrap-multiselect-0.9.13.js",
-		"assets/js/bootstrap-select-1.12.1.min.js",
-		"assets/js/bootstrap-table-dev.min.js",
-		"assets/js/bootstrap-table-extensions-dev/bootstrap-table-cookie.min.js",
-		"assets/js/bootstrap-table-extensions-dev/bootstrap-table-export.min.js",
-		"assets/js/bootstrap-table-extensions-dev/bootstrap-table-mobile.min.js",
-		"assets/js/bootstrap-table-extensions-dev/bootstrap-table-reorder-rows.min.js",
-		"assets/js/bootstrap-table-extensions-dev/bootstrap-table-toolbar.min.js",
-		"assets/js/browser-locale-1.0.0.min.js",
-		"assets/js/browser-support.js",
-		"assets/js/chosen.jquery-1.6.2.min.js",
-		"assets/js/jquery-migrate-3.0.0.js",
-		"assets/js/jquery-ui-1.12.1.min.js",
-		"assets/js/jquery.fileupload-9.12.5.js",
-		"assets/js/jquery.fileupload-process-9.12.5.js",
-		"assets/js/jquery.form-3.51.min.js",
-		"assets/js/jquery.hotkeys-0.2.0.js",
-		"assets/js/jquery.iframe-transport-9.12.5.js",
-		"assets/js/jquery.jplayer-2.9.2.min.js",
-		"assets/js/jquery.numeric-1.4.1.min.js",
-		"assets/js/jquery.smartWizard-3.3.1.js",
-		"assets/js/jquery.tablednd-0.9.1.min.js",
-		"assets/js/js.cookie-2.1.3.min.js",
-		"assets/js/modernizr-3.3.1.min.js",
-		"assets/js/moment-timezone-with-data-2012-2022-0.5.14-2017c.min.js",
-		"assets/js/moment-duration-format-2.2.1.js",
-		"assets/js/notie-3.9.4.min.js",
-		"assets/js/recorder.js",
-		"assets/js/recorderWorker.js",
-		"assets/js/search.js",
-		"assets/js/tableexport-1.9.6.js",
-		"assets/js/timeutils.js",
-		"assets/js/typeahead.bundle-0.10.5.min.js",
-);
-	foreach($files as $f) {
-		$html .= '<script src="'.$f.$version_tag.'"></script>';
-	}
+foreach($compiled_scripts as $script) {
+	$html .= '<script type="text/javascript" src="assets/js/'.$script . $version_tag . '"></script>';
 }
 
 if($lang != "en_US") {

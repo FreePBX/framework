@@ -15,8 +15,8 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\DependencyInjection\Compiler\FactoryReturnTypePass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\Tests\Fixtures\factoryFunction;
 use Symfony\Component\DependencyInjection\Tests\Fixtures\FactoryDummy;
+use Symfony\Component\DependencyInjection\Tests\Fixtures\factoryFunction;
 use Symfony\Component\DependencyInjection\Tests\Fixtures\FactoryParent;
 
 /**
@@ -59,7 +59,7 @@ class FactoryReturnTypePassTest extends TestCase
      */
     public function testReturnTypes($factory, $returnType, $hhvmSupport = true)
     {
-        if (!$hhvmSupport && defined('HHVM_VERSION')) {
+        if (!$hhvmSupport && \defined('HHVM_VERSION')) {
             $this->markTestSkipped('Scalar typehints not supported by hhvm.');
         }
 

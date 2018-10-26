@@ -14,10 +14,9 @@ Use composer to include it into your Symfony project:
 
 ### What version to use?
 Symfony did make some breaking changes, so you should make sure to use a compatible bundle version:
-* Version 2.0.* for Symfony 3.0 and higher
-* Version 1.3.* for Symfony 2.3 - 2.8
-* Version 1.1.* for Symfony 2.2
-* Version 1.0.* for Symfony 2.0 - 2.1
+* Version 2.1.* for Symfony 4.0 and higher
+* Version 2.0.* for Symfony 3.0 - 3.4
+* Version 1.3.* for Symfony 2.8
 
 When upgrading, please consult the [changelog](Changelog.md) to see what could break your code.
 
@@ -64,7 +63,9 @@ An [example with all the bells and whistles](examples/ExampleCommand.php) is als
 ## How to daemonize?
 Alright, now we have an endless running command *in the foreground*. Usefull for debugging, useless in production! So how do we make this thing a real daemon?
 
-You should use [Upstart](http://upstart.ubuntu.com) (Ubuntu and others) or [systemd](http://www.freedesktop.org/wiki/Software/systemd) (Fedora, ArchLinux and others) to daemonize the command. They provide very robust daemonization, start your daemon on a reboot and also monitor the process so it will try to restart it in the case of a crash.
+You should use [systemd](http://www.freedesktop.org/wiki/Software/systemd) to daemonize the command. They provide very robust daemonization, start your daemon on a reboot and also monitor the process so it will try to restart it in the case of a crash.
+
+If you can't use Upstart or systemd, you can use `.lock` file with [LockHandler](http://symfony.com/doc/current/components/filesystem/lock_handler.html) with [crontab](https://wikipedia.org/wiki/Cron) wich start script every minute.
 
 An [example Upstart script](examples/example-daemon.conf) is available, place your script in `/etc/init/` and start the daemon with `start example-daemon`. The name of the `.conf`-file will be the name of the daemon. A systemd example is not yet available, but it shouldn't be that hard to [figure out](http://patrakov.blogspot.nl/2011/01/writing-systemd-service-files.html).
 
@@ -114,3 +115,7 @@ If you see an increase/stable/decrease loop you're probably save. It could be th
 Calling `gc_collect_cycles()` will not help to resolve leaks. PHP will cleanup memory right in time all by itself, calling this method may slow down leaking memory, but will not solve it. Also it makes spotting leaks harder, so just don't use it.
 
 If you run Symfony in production and non-debug mode it will not leak memory and you do not have to disable any SQL loggers. The only leak I runned into is the one in the MonologBundle mentioned above.
+
+### Working with Doctrine
+For reasons EndlessContainerAwareCommand clears after each Iteration Doctrine's EntityManager. Be aware of that.
+You can override finishIteration() to avoid this behaviour but you have to handle the EM on your own then. 

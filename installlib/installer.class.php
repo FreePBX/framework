@@ -755,7 +755,7 @@ class Installer {
 	'value' => 'app_confbridge',
 	'options' => array('app_meetme', 'app_confbridge'),
 	'name' => 'Conference Room App',
-	'description' => 'The asterisk application to use for conferencing. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The app_meetme application is considered "depreciated" and should no longer be used',
+	'description' => 'The asterisk application to use for conferencing. The app_meetme application is considered "depreciated" and should no longer be used',
 	'type' => CONF_TYPE_SELECT,
 	);
 
@@ -794,7 +794,7 @@ class Installer {
 	'options' => array('both', 'chan_sip', 'chan_pjsip'),
 	'level' => 2,
 	'name' => 'SIP Channel Driver',
-	'description' => 'The Asterisk channel driver to use for SIP. The default is both for Asterisk 12 and higher. For Asterisk 11 and lower the default will be chan_sip. If only one is compiled into asterisk, FreePBX will auto detect and change this value if set wrong. The chan_pjsip channel driver is considered "experimental" with known issues and does not work on Asterisk 11 or lower.',
+	'description' => 'The Asterisk channel driver to use for SIP. The default is both for Asterisk 12 and higher. For Asterisk 11 and lower the default will be chan_sip. If only one is compiled into asterisk, the PBX will attempt to auto detect and change the value to what is compiled. The chan_pjsip channel driver does not work on Asterisk 11 or lower.',
 	'type' => CONF_TYPE_SELECT,
 	);
 
@@ -1874,7 +1874,7 @@ class Installer {
 	);
 
 	$settings[$category]['DEVICE_SIP_NAT'] = array(
-	'value' => 'no',
+	'value' => 'yes',
 	'options' => array('no', 'yes', 'never', 'route'),
 	'name' => 'SIP nat',
 	'description' => "Default setting for SIP nat. A 'yes' will attempt to handle nat, also works for local (uses the network ports and address instead of the reported ports), 'no' follows the protocol, 'never' tries to block it, no RFC3581, 'route' ignores the rport information. See Asterisk documentation for details.",
@@ -1964,7 +1964,7 @@ class Installer {
 	);
 
 	$settings[$category]['MODULE_REPO'] = array(
-	'value' => 'http://mirror1.freepbx.org,http://mirror2.freepbx.org',
+	'value' => 'https://mirror.freepbx.org',
 	'options' => '',
 	'name' => 'Repo Server',
 	'description' => 'repo server',

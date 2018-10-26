@@ -31,8 +31,7 @@ class Request_Helper extends Self_Helper {
 	 * @return array Returns any _REQUEST variables that haven't been processed.
 	 */
 	public function importRequest($ignoreVars = null, $ignoreRegexp = null, $id = "noid") {
-
-		$request = $_REQUEST;
+		$request = $this->getSanitizedRequest();
 		$ignored = array();
 
 		// Default ignoreVars
@@ -85,17 +84,42 @@ class Request_Helper extends Self_Helper {
 	/**
 	 * Get individual $_REQUEST variables, unsafely.
 	 *
-	 * Does an implicit check for not set. If a default is provided, return the default,
-	 * if not set. If no default, and not set, return (bool) false. You probably don't
-	 * want to use this.  Use the 'getReq' function, which will automatically encode
-	 * and escape any potential attack vectors.
-	 *
 	 * @param string $var $_REQUEST variable to get
 	 * @param bool|string $def Default to return if unset, bool false to not return defaults
 	 *
 	 * @return bool|string Returns the variable, or false if unset
 	 */
 	public function getReqUnsafe($var = null, $def = true) {
+		return $this->getSingleRequestVariable($var, $def, false);
+	}
+
+	/**
+	 * Get individual $_REQUEST variables, safely.
+	 *
+	 * @param string $var $_REQUEST variable to get
+	 * @param bool|string $def Default to return if unset, bool false to not return defaults
+	 *
+	 * @return bool|string Returns the safe, processed variable, or false if unset
+	 */
+	public function getReq($var = null, $def = true) {
+		return $this->getSingleRequestVariable($var, $def);
+	}
+
+	/**
+	 * Get individual $_REQUEST variables, safely or unsafely.
+	 *
+	 * Does an implicit check for not set, and returns (bool) false if it doesn't exist.
+	 * If a default is provided, return the default if not set. If no default, and not
+	 * set, return (string) ""  (an empty string).  This currently encodes everything
+	 * that could possibly be nasty. We may relax this later.
+	 *
+	 * @param string $var $_REQUEST variable to get
+	 * @param bool|string $def Default to return if unset, bool false to not return defaults
+	 * @param bool $safe Santitize Request or not
+	 *
+	 * @return bool|string Returns the safe, processed variable, or false if unset
+	 */
+	private function getSingleRequestVariable($var = null, $def = true, $safe = true) {
 		if (!$var) {
 			throw new \Exception("Wasn't given anything to get from REQUEST.");
 		}
@@ -105,11 +129,17 @@ class Request_Helper extends Self_Helper {
 			return $this->overrides[$var];
 		}
 
+		if($safe) {
+			$request = $this->getSanitizedRequest();
+		} else {
+			$request = $_REQUEST;
+		}
+
 		// If it doesn't exist...
-		if (!isset($_REQUEST[$var])) {
+		if (!isset($request[$var])) {
 			if ($def === false) {
 				// It doesn't exist, and we've been told not to return defaults.
-				return false;
+				return null;
 			}
 			if ($def === true) {
 				// We weren't given a default. Does the parent, or specified, class have a default
@@ -134,48 +164,8 @@ class Request_Helper extends Self_Helper {
 			}
 		} else {
 			// It exists!
-			return $_REQUEST[$var];
+			return $request[$var];
 		}
-	}
-
-	/**
-	 * Get individual $_REQUEST variables, safely.
-	 *
-	 * Does an implicit check for not set, and returns (bool) false if it doesn't exist.
-	 * If a default is provided, return the default if not set. If no default, and not
-	 * set, return (string) ""  (an empty string).  This currently encodes everything
-	 * that could possibly be nasty. We may relax this later.
-	 *
-	 * @param string $var $_REQUEST variable to get
-	 * @param bool|string $def Default to return if unset, bool false to not return defaults
-	 *
-	 * @return bool|string Returns the safe, processed variable, or false if unset
-	 */
-
-	public function getReq($var = null, $def = true) {
-		$ret = $this->getReqUnsafe($var, $def);
-		if (is_array($ret)) {
-			throw new \Exception("No-one's written anything to safe an array. Get on it!");
-		}
-
-		// Unicode attack mitigation:
-		// Reject overly long 2 byte sequences, as well as characters above U+10000 and replace with ?
-		$ret = preg_replace('/[\x00-\x08\x10\x0B\x0C\x0E-\x19\x7F]'.
-			'|[\x00-\x7F][\x80-\xBF]+'.
-			'|([\xC0\xC1]|[\xF0-\xFF])[\x80-\xBF]*'.
-			'|[\xC2-\xDF]((?![\x80-\xBF])|[\x80-\xBF]{2,})'.
-			'|[\xE0-\xEF](([\x80-\xBF](?![\x80-\xBF]))|(?![\x80-\xBF]{2})|[\x80-\xBF]{3,})/S',
-			'?', $ret );
-		// Reject overly long 3 byte sequences and UTF-16 surrogates and replace with ?
-		$ret = preg_replace('/\xE0[\x80-\x9F][\x80-\xBF]'.
-			'|\xED[\xA0-\xBF][\x80-\xBF]/S','?', $ret );
-
-		// Mitigate most other vectors
-		$ret = htmlentities($ret, ENT_QUOTES, "UTF-8", false);
-
-		// If any further attack vectors are discovered, put the mitigations here!
-
-		return $ret;
 	}
 
 	/**
@@ -203,5 +193,42 @@ class Request_Helper extends Self_Helper {
 			$this->overrides[$var] = $val;
 		}
 		return;
+	}
+
+	/**
+	 * Get $_REQUEST sanitized through filter_input_array
+	 *
+	 * @method getSanitizedRequest
+	 * @return array              $_REQUEST, sanitized
+	 */
+	public function getSanitizedRequest() {
+		$order = ini_get('request_order');
+		$order = !empty($order) ? $order : ini_get('variables_order');
+		$total = strlen($order);
+		$request = array();
+		for($i = 0; $i < $total; $i++) {
+			switch($order[$i]) {
+				case 'G':
+					$GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
+					if(is_array($GET)) {
+						$request = array_merge($request,$GET);
+					}
+				break;
+				case 'P':
+					$POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+					if(is_array($POST)) {
+						$request = array_merge($request,$POST);
+					}
+				break;
+				case 'C':
+					$COOKIE = filter_input_array(INPUT_COOKIE, FILTER_SANITIZE_STRING);
+					if(is_array($COOKIE)) {
+						$request = array_merge($request,$COOKIE);
+					}
+				break;
+			}
+		}
+
+		return $request;
 	}
 }

@@ -55,7 +55,7 @@ class Curl {
 	 * @param  string $url The URL to pass
 	 * @return object     PEST object supporting proxy
 	 */
-	public function pest($url = false) {
+	public function pest($url) {
 		if (!$url) {
 			throw new \Exception("Invalid URL");
 		}
@@ -95,7 +95,7 @@ class Curl {
 	 * @param  string $url The URL to pass
 	 * @return object     PEST object supporting proxy
 	 */
-	public function requests($url = false) {
+	public function requests($url) {
 		if (!$url) {
 			throw new \Exception("Invalid URL");
 		}
@@ -108,9 +108,10 @@ class Curl {
 		return $this->requestshandles[$url];
 	}
 
-	public function get($url) {
+	public function get($url, $data = array()) {
 		$this->setProxy();
-		return \Requests::delete($url, $this->headers, $this->options);
+		$data = !empty($data) ? '?'.http_build_query($data) : '';
+		return \Requests::get($url.$data, $this->headers, $this->options);
 	}
 
 	public function head($url) {
@@ -143,7 +144,7 @@ class Curl {
 	}
 
 	public function addHook($name, $data) {
-		$hooks->register($name, $data);
+		$this->hooks->register($name, $data);
 		$this->options['hooks'] = $this->hooks;
 	}
 

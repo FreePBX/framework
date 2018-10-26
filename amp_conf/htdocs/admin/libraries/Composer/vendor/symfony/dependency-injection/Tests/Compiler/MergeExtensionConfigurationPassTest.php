@@ -15,8 +15,8 @@ use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 use Symfony\Component\Config\Resource\FileResource;
-use Symfony\Component\DependencyInjection\Compiler\MergeExtensionConfigurationPass;
 use Symfony\Component\DependencyInjection\Compiler\MergeExtensionConfigurationContainerBuilder;
+use Symfony\Component\DependencyInjection\Compiler\MergeExtensionConfigurationPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Extension\Extension;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
@@ -110,7 +110,7 @@ class MergeExtensionConfigurationPassTest extends TestCase
     {
         $container = new ContainerBuilder();
         $container->registerExtension(new BarExtension());
-        $container->prependExtensionConfig('bar', []);
+        $container->prependExtensionConfig('bar', array());
 
         (new MergeExtensionConfigurationPass())->process($container);
     }

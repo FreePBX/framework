@@ -140,12 +140,11 @@ class Self_Helper extends DB_Helper {
 		$class = class_exists($this->moduleNamespace.$objname,false) ? $this->moduleNamespace.$objname : (class_exists($this->freepbxNamespace.$objname,false) ? $this->freepbxNamespace.$objname : $objname);
 
 		// If it already exists, we're fine.
-		if (class_exists($class,false) && $class != "Directory") {
-			//do reflection tests for ARI junk, we **dont** want to load ARI
+		if (class_exists($class,false)) {
+			//do reflection tests for any non-bmo class we dont want to load here
 			$class = new \ReflectionClass($class);
 
-			//this is a stop gap, remove in 13 or 14 when ARI is no longer used
-			if(!$class->hasMethod('navMenu') && !$class->hasMethod('rank')) {
+			if($class->getNamespaceName() === "FreePBX" || $class->implementsInterface('\FreePBX\BMO')) {
 				return true;
 			}
 		}

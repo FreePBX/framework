@@ -22,7 +22,7 @@ class MailTest extends PHPUnit_Framework_TestCase {
 		$from = 'unittest@localhost';
     touch('/tmp/mailtest.txt');
 		$mail = self::$f->Mail();
-		$mail->setSubject($item['desc']);
+		$mail->setSubject('Test');
 		$mail->setFrom($from,$from);
 		$mail->setTo(array('root@localhost'));
 		$mail->setBody("UNIT TEST");

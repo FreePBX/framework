@@ -141,12 +141,25 @@ class extensions {
 		return isset($this->_exts[$section]);
 	}
 
-	/* This function allows new priorities to be injected into already generated dialplan
-	*  usage: $ext->splice($context, $exten, $priority_number, new ext_goto('1','s','ext-did'));
-	*         if $priority is not numeric, it will interpret it as a tag and try to inject
-	*         the command just prior to  the first instruction it finds with the specified tag
-	*         if it can't find the tag, it will inject it after the last instruction
-	*/
+	/**
+	 * This function allows new priorities to be injected into already generated dialplan
+	 * usage: $ext->splice($context, $exten, $priority_number, new ext_goto('1','s','ext-did'));
+	 *         if $priority is not numeric, it will interpret it as a tag and try to inject
+	 *         the command just prior to  the first instruction it finds with the specified tag
+	 *         if it can't find the tag, it will inject it after the last instruction
+	 * @method splice
+	 * @param  string  $section           The context to splice
+	 * @param  string  $extension         The extension to splice
+	 * @param  string  $priority          if $priority is not numeric, it will
+	 *                                    interpret it as a tag and try to inject
+	 *                                    the command just prior to  the first instruction
+	 *                                    it finds with the specified tag if it
+	 *                                    can't find the tag, it will inject it after the last instruction
+	 * @param  object  $command           Object of Extension
+	 * @param  string  $new_tag           New Priority tag to insert
+	 * @param  integer $offset            Offset of label
+	 * @param  boolean $fixmultiplelabels [description]
+	 */
 	function splice($section, $extension, $priority, $command, $new_tag="", $offset=0, $fixmultiplelabels=false)  {
 
 		$extension = ' ' . $extension . ' ';
@@ -646,6 +659,18 @@ class ext_noop extends extension {
 	}
 }
 
+class ext_unpausemonitor extends extension {
+	function output() {
+		return "UnPauseMonitor()";
+	}	
+}
+
+class ext_pausemonitor extends extension {
+	function output() {
+		return "PauseMonitor()";
+	}	
+}
+
 class ext_noop_trace extends extension {
   var $string;
   var $level;
@@ -840,6 +865,18 @@ class ext_waitexten extends extension {
 	}
 }
 
+class ext_amd extends extension {
+	function output() {
+		return "AMD()";
+	}
+}
+
+class ext_waitforsilence extends extension {
+	 function output() {
+		return "WaitForSilence(".$this->data.")";
+	}
+}
+
 class ext_answer extends extension {
 	function output() {
 		return "Answer";
@@ -886,15 +923,10 @@ class ext_execif {
 	}
 
 	function output() {
-		global $version;
-
-		if (version_compare($version, "1.6", "ge")) {
-			if ($this->app_false != '')
-				return "ExecIf({$this->expr}?{$this->app_true}({$this->data_true}):{$this->app_false}({$this->data_false}))";
-			else
-				return "ExecIf({$this->expr}?{$this->app_true}({$this->data_true}))";
+		if ($this->app_false != '') {
+			return "ExecIf({$this->expr}?{$this->app_true}({$this->data_true}):{$this->app_false}({$this->data_false}))";
 		} else {
-			return "ExecIf({$this->expr},{$this->app_true},{$this->data_true})";
+			return "ExecIf({$this->expr}?{$this->app_true}({$this->data_true}))";
 		}
 	}
 }
@@ -1151,7 +1183,7 @@ class ext_meetme {
 									'e', 'E', 'F', 'i',
 									'I', 'l', 'o', 'P',
 									'r', 's', 't', 'T',
-									'x', 'X');
+									'x', 'X', 'q');
 
 				//find asterisk variables in $this->options, if any
 				//TODO: if possible, the search AND he replace should be done in one regex
@@ -1260,15 +1292,9 @@ class ext_deadagi extends extension {
 	}
 }
 class ext_dbdel extends extension {
-        function output() {
-            global $version; // Asterisk Version
-            if (version_compare($version, "1.4", "ge")) {
-                return 'Noop(Deleting: '.$this->data.' ${DB_DELETE('.$this->data.')})';
-                }
-            else {
-                return "dbDel(".$this->data.")";
-                }
-        }
+	function output() {
+		return 'Noop(Deleting: '.$this->data.' ${DB_DELETE('.$this->data.')})';
+	}
 }
 class ext_dbdeltree extends extension {
 	function output() {
@@ -1308,14 +1334,7 @@ class ext_vm extends extension {
 }
 class ext_vmexists extends extension {
 	function output() {
-		global $version; // Asterisk Version
-		if (version_compare($version, "11", ">=")) {
-			return 'Set(VMBOXEXISTSSTATUS=${IF(${VM_INFO('.$this->data.',exists)}?SUCCESS:FAILED)})';
-		} elseif (version_compare($version, "1.6", ">=")) {
-			return 'Set(VMBOXEXISTSSTATUS=${IF(${MAILBOX_EXISTS('.$this->data.')}?SUCCESS:FAILED)})';
-		} else {
-			return "MailBoxExists(".$this->data.")";
-		}
+		return 'Set(VMBOXEXISTSSTATUS=${IF(${VM_INFO('.$this->data.',exists)}?SUCCESS:FAILED)})';
 	}
 }
 class ext_saydigits extends extension {
@@ -1325,15 +1344,10 @@ class ext_saydigits extends extension {
 }
 class ext_sayunixtime extends extension {
 	function output() {
-		global $version; // Asterisk Version
-		if (version_compare($version, "1.6", ">=")) {
-			// SayUnixTime in 1.6 and greater does NOT require slashes. If they're
-			// supplied, strip them out.
-			$fixed = str_replace("\\", "", $this->data);
-			return "SayUnixTime($fixed)";
-		} else {
-			return "SayUnixTime(".$this->data.")";
-		}
+		// SayUnixTime in 1.6 and greater does NOT require slashes. If they're
+		// supplied, strip them out.
+		$fixed = str_replace("\\", "", $this->data);
+		return "SayUnixTime($fixed)";
 	}
 }
 class ext_echo extends extension {
@@ -1344,15 +1358,9 @@ class ext_echo extends extension {
 // Thanks to agillis for the suggestion of the nvfaxdetect option
 class ext_nvfaxdetect extends extension {
 	function output() {
-	global $version; // Asterisk Version
-	    if (version_compare($version, "1.6", "ge")) {
 		// change from '|' to ','
 		$astdelimeter = str_replace("|", ",", $this->data);
 		return "NVFaxDetect($astdelimeter)";
-		}
-	    else {
-		return "NVFaxDetect(".$this->data.")";
-		}
 	}
 }
 class ext_receivefax extends extension {
@@ -1454,13 +1462,7 @@ class ext_dpickup extends extension {
 }
 class ext_lookupcidname extends extension {
 	function output() {
-		global $version;
-
-		if (version_compare($version, "1.6", "ge")) {
-			return 'ExecIf($["${DB(cidname/${CALLERID(num)})}" != ""]?Set(CALLERID(name)=${DB(cidname/${CALLERID(num)})}))';
-		} else {
-			return "LookupCIDName";
-		}
+		return 'ExecIf($["${DB(cidname/${CALLERID(num)})}" != ""]?Set(CALLERID(name)=${DB(cidname/${CALLERID(num)})}))';
 	}
 }
 
@@ -1667,13 +1669,7 @@ class ext_chanisavail extends extension {
 
 class ext_setlanguage extends extension {
 	function output() {
-		global $version;
-
-		if (version_compare($version, "1.4", "ge")) {
-			return "Set(CHANNEL(language)={$this->data})";
-		} else {
-			return "Set(LANGUAGE()={$this->data})";
-		}
+		return "Set(CHANNEL(language)={$this->data})";
 	}
 }
 

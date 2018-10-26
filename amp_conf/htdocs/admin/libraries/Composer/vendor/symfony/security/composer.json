@@ -22,7 +22,6 @@
         "symfony/http-kernel": "~3.3|~4.0",
         "symfony/polyfill-php56": "~1.0",
         "symfony/polyfill-php70": "~1.0",
-        "symfony/polyfill-util": "~1.0",
         "symfony/property-access": "~2.8|~3.0|~4.0"
     },
     "replace": {
@@ -42,7 +41,7 @@
         "psr/log": "~1.0"
     },
     "suggest": {
-        "psr/container": "To instantiate the Security class",
+        "psr/container-implementation": "To instantiate the Security class",
         "symfony/form": "",
         "symfony/validator": "For using the user password constraint",
         "symfony/routing": "For using the HttpUtils class to create sub-requests, redirect the user, and match URLs",

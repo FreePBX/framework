@@ -11,14 +11,11 @@ use malkusch\lock\exception\LockReleaseException;
 /**
  * Mutex based on the Redlock algorithm.
  *
- * Note: If you're going to use this mutex in a forked process, you have to call
- * {@link seedRandom()} in each instance.
- *
  * @author Markus Malkusch <markus@malkusch.de>
  * @license WTFPL
  *
  * @link http://redis.io/topics/distlock
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
+ * @link bitcoin:1P5FAZ4QhXCuwYPnLZdk3PJsqePbu1UDDA Donations
  */
 abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
 {
@@ -53,7 +50,6 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
 
         $this->redisAPIs = $redisAPIs;
         $this->logger    = new NullLogger();
-        $this->seedRandom();
     }
     
     /**
@@ -72,21 +68,6 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
     }
     
     /**
-     * Seeds the random number generator.
-     *
-     * Normally you don't need to seed, as this happens automatically. But
-     * if you experience a {@link LockReleaseException} this might come
-     * from identically created random tokens. In this case you could seed
-     * from /dev/urandom.
-     *
-     * @param int|null $seed The optional seed.
-     */
-    public function seedRandom($seed = null)
-    {
-        is_null($seed) ? srand() : srand($seed);
-    }
-    
-    /**
      * @SuppressWarnings(PHPMD)
      * @internal
      */
@@ -98,7 +79,7 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
         // 2.
         $acquired = 0;
         $errored  = 0;
-        $this->token = rand();
+        $this->token = \random_int(0, 2147483647);
         $exception   = null;
         foreach ($this->redisAPIs as $redis) {
             try {
@@ -125,22 +106,22 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
         if ($isAcquired) {
             // 4.
             return true;
-        } else {
-            // 5.
-            $this->release($key);
-            
-            // In addition to RedLock it's an exception if too many servers fail.
-            if (!$this->isMajority(count($this->redisAPIs) - $errored)) {
-                assert(!is_null($exception)); // The last exception for some context.
-                throw new LockAcquireException(
-                    "It's not possible to acquire a lock because at least half of the Redis server are not available.",
-                    LockAcquireException::REDIS_NOT_ENOUGH_SERVERS,
-                    $exception
-                );
-            }
-
-            return false;
         }
+
+        // 5.
+        $this->release($key);
+
+        // In addition to RedLock it's an exception if too many servers fail.
+        if (!$this->isMajority(count($this->redisAPIs) - $errored)) {
+            assert(!is_null($exception)); // The last exception for some context.
+            throw new LockAcquireException(
+                "It's not possible to acquire a lock because at least half of the Redis server are not available.",
+                LockAcquireException::REDIS_NOT_ENOUGH_SERVERS,
+                $exception
+            );
+        }
+
+        return false;
     }
     
     /**
@@ -154,6 +135,10 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
          * token, which results in releasing the wrong key.
          */
 
+        /*
+         * All Redis commands must be analyzed before execution to determine which keys the command will operate on. In
+         * order for this to be true for EVAL, keys must be passed explicitly.
+         */
         $script = '
             if redis.call("get",KEYS[1]) == ARGV[1] then
                 return redis.call("del",KEYS[1])
@@ -208,7 +193,7 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
     /**
      * @param mixed  $redisAPI The connected Redis API.
      * @param string $script The Lua script.
-     * @param int    $numkeys The number of arguments that represent Redis key names.
+     * @param int    $numkeys The number of values in $arguments that represent Redis key names.
      * @param array  $arguments Keys and values.
      *
      * @return mixed The script result, or false if executing failed.

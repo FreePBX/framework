@@ -78,7 +78,7 @@ class ProcessBuilder
      */
     public function setPrefix($prefix)
     {
-        $this->prefix = is_array($prefix) ? $prefix : array($prefix);
+        $this->prefix = \is_array($prefix) ? $prefix : array($prefix);
 
         return $this;
     }
@@ -103,7 +103,7 @@ class ProcessBuilder
     /**
      * Sets the working directory.
      *
-     * @param null|string $cwd The working directory
+     * @param string|null $cwd The working directory
      *
      * @return $this
      */
@@ -135,7 +135,7 @@ class ProcessBuilder
      * defined environment variable.
      *
      * @param string      $name  The variable name
-     * @param null|string $value The variable value
+     * @param string|null $value The variable value
      *
      * @return $this
      */
@@ -167,7 +167,7 @@ class ProcessBuilder
     /**
      * Sets the input of the process.
      *
-     * @param resource|scalar|\Traversable|null $input The input content
+     * @param resource|string|int|float|bool|\Traversable|null $input The input content
      *
      * @return $this
      *
@@ -258,7 +258,7 @@ class ProcessBuilder
      */
     public function getProcess()
     {
-        if (0 === count($this->prefix) && 0 === count($this->arguments)) {
+        if (0 === \count($this->prefix) && 0 === \count($this->arguments)) {
             throw new LogicException('You must add() command arguments before calling getProcess().');
         }
 

@@ -29,10 +29,7 @@ class Chown extends Command {
 		$this->loadChownConf();
 	}
 
-	protected function execute(InputInterface $input, OutputInterface $output, $quiet=false){
-		if($quiet) {
-			$output->setVerbosity(OutputInterface::VERBOSITY_QUIET);
-		}
+	protected function execute(InputInterface $input, OutputInterface $output){
 		$this->output = $output;
 		$args = array();
 		if($input){
@@ -178,6 +175,16 @@ class Chown extends Command {
 		 * than the Asterisk user we provide permissions that allow both.
 		 */
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
+
+		// FREEPBX-16718 - Make sure there aren't any dangling sound files in ASTVARLIBDIR/sounds which causes
+		// asterisk to display harmless, but annoying, warnings, and can cause systemSetRecursive to error,
+		// too.
+		$sounds = "$ASTVARLIBDIR/sounds";
+		exec("find $sounds -xtype l", $findoutput, $ret);
+		foreach ($findoutput as $file) {
+			$output->writeln(sprintf(_("Removing dangling sound symlink %s"), $file));
+			unlink($file);
+		}
 
 		if((empty($this->moduleName) && $this->moduleName != 'framework') && posix_geteuid() == 0) {
 			$output->write(_("Setting base permissions..."));

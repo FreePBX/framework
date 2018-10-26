@@ -304,13 +304,17 @@ if(is_array($active_modules)){
 	}
 }
 
-//if display is modules then show the login page dont show does not exist as its confusing
-if ($cur_menuitem === null && !in_array($display, array('noauth', 'badrefer','noaccess',''))) {
-	if($display == 'modules') {
-		$display = 'noauth';
-		$_SESSION['modulesRedirect'] = 1;
-	} else {
-		$display = 'noaccess';
+if(empty($_SESSION['AMP_user'])) {
+	$display = 'noauth';
+} else {
+	//if display is modules then show the login page dont show does not exist as its confusing
+	if ($cur_menuitem === null && !in_array($display, array('noauth', 'badrefer','noaccess',''))) {
+		if($display == 'modules') {
+			$display = 'noauth';
+			$_SESSION['modulesRedirect'] = 1;
+		} else {
+			$display = 'noaccess';
+		}
 	}
 }
 
@@ -622,11 +626,13 @@ if ($quietmode) {
 	}
 
 	//send footer
+	$o = FreePBX::View()->getScripts();
+	$footer['compiled_scripts'] = $o;
 	$footer['js_content'] = load_view($amp_conf['VIEW_POPOVER_JS'], $popover_args);
 	$footer['lang'] = $language;
 	$footer['covert'] 		= in_array($display, array('noauth', 'badrefer')) ? true : false;
 	$footer['extmap'] 				= !$footer['covert']
-		? framework_get_extmap(true)
+		? json_encode(FreePBX::Extensions()->getExtmap())
 		: json_encode(array());
 	$footer['module_name'] = $module_name;
 	$footer['module_page'] = $module_page;
@@ -700,9 +706,11 @@ if ($quietmode) {
 	echo $page_content;
 
 	//send footer
+	$o = FreePBX::create()->View->getScripts();
+	$footer['compiled_scripts'] = $o;
 	$footer['lang'] = $language;
 	$footer['covert'] 		= in_array($display, array('noauth', 'badrefer')) ? true : false;
-	$footer['extmap'] 				= !$footer['covert'] ? framework_get_extmap(true) : json_encode(array());
+	$footer['extmap'] 				= !$footer['covert'] ? json_encode(FreePBX::Extensions()->getExtmap()) : json_encode(array());
 	$footer['module_name']			= $module_name;
 	$footer['module_page']			= $module_page;
 	$footer['benchmark_starttime']	= $benchmark_starttime;

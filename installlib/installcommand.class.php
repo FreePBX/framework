@@ -286,10 +286,10 @@ class FreePBXInstallCommand extends Command {
 			// Parse Asterisk version.
 			if (preg_match('/^Asterisk (?:SVN-|GIT-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*)) built/', $astver, $matches)) {
 				$determined = true;
-				if ((version_compare($matches[1], "11") < 0) || version_compare($matches[1], "16", "ge")) {
+				if (version_compare($matches[1], "13", "lt") || version_compare($matches[1], "17", "ge")) {
 					$output->writeln("<error>Error!</error>");
 					$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
-					$output->writeln("<error>Supported Asterisk versions: 11, 12, 13, 14, 15</error>");
+					$output->writeln("<error>Supported Asterisk versions: 13, 14, 15</error>");
 					exit(1);
 				}
 				$output->writeln("Yes. Determined Asterisk version to be: ".$matches[1]);
@@ -821,6 +821,12 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		$output->writeln("Installing framework...");
 		system($amp_conf['AMPSBIN']."/fwconsole ma install framework");
 		$output->writeln("Done");
+
+		if(method_exists(\FreePBX::create()->View,'getScripts')) {
+			$output->write("Building Packaged Scripts...");
+			\FreePBX::View()->getScripts();
+			$output->writeln("Done");
+		}
 
 		// GPG setup - trustFreePBX();
 		$output->write("Trusting FreePBX...");

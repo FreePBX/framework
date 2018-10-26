@@ -17,7 +17,7 @@ class Moduleadmin extends Command {
 	private $format = 'plain';
 	private $pretty = false;
 	private $skipchown = false;
-	private $previousEdge = 0;
+	private $previousEdge = null;
 	private $tag = null;
 	private $send_email = false;
 	private $email_to = false;
@@ -29,6 +29,10 @@ class Moduleadmin extends Command {
 	private $willupdate = false;
 
 	public function __destruct() {
+		$this->endOfLife();
+	}
+
+	private function endOfLife() {
 		if (!$this->send_email) {
 			return;
 		}
@@ -54,6 +58,7 @@ class Moduleadmin extends Command {
 			new InputOption('force', 'f', InputOption::VALUE_NONE, _('Force operation (skips dependency and status checks) <warning>WARNING:</warning> Use at your own risk, modules have dependencies for a reason!')),
 			new InputOption('debug', 'd', InputOption::VALUE_NONE, _('Output debug messages to the console (be super chatty)')),
 			new InputOption('edge', '', InputOption::VALUE_NONE, _('Download/Upgrade forcing edge mode')),
+			new InputOption('stable', '', InputOption::VALUE_NONE, _('Download/Upgrade forcing stable version')),
 			new InputOption('color', '', InputOption::VALUE_NONE, _('Colorize table based list')),
 			new InputOption('skipchown', '', InputOption::VALUE_NONE, _('Skip the chown operation')),
 			new InputOption('autoenable', 'e', InputOption::VALUE_NONE, _('Automatically enable disabled modules without prompting')),
@@ -84,11 +89,6 @@ class Moduleadmin extends Command {
 		}
 		if ($input->getOption('tag')) {
 			$this->tag = $input->getOption('tag');
-		}
-		if($input->getOption('edge')) {
-			$this->writeln('<info>'._('Edge repository temporarily enabled').'</info>');
-			$this->previousEdge = \FreePBX::Config()->get('MODULEADMINEDGE');
-			\FreePBX::Config()->update('MODULEADMINEDGE',1);
 		}
 		if ($input->getOption('debug')) {
 			$this->DEBUG = True;
@@ -186,14 +186,49 @@ class Moduleadmin extends Command {
 			if($this->DEBUG){
 				print_r($args);
 			}
-			$this->handleArgs($args,$output);
+			if($input->getOption('stable') && $input->getOption('edge')) {
+				$this->writeln('<error>'._('Confusing statement. Not sure what you want to do').'</error>');
+				exit(255);
+			}
+			if($input->getOption('edge')) {
+				$this->previousEdge = \FreePBX::Config()->get('MODULEADMINEDGE');
+				if($this->previousEdge) {
+					$this->writeln('<info>'._('Edge repository already enabled, ignoring option').'</info>');
+					$this->previousEdge = null;
+				} else {
+					$this->writeln('<info>'._('Edge repository temporarily enabled').'</info>');
+					\FreePBX::Config()->update('MODULEADMINEDGE',1);
+				}
+			}
+			if($input->getOption('stable')) {
+				$this->previousEdge = \FreePBX::Config()->get('MODULEADMINEDGE');
+				if(!$this->previousEdge) {
+					$this->writeln('<info>'._('Stable repository already enabled, ignoring option').'</info>');
+					$this->previousEdge = null;
+				} else {
+					$this->writeln('<info>'._('Stable repository temporarily enabled').'</info>');
+					\FreePBX::Config()->update('MODULEADMINEDGE',0);
+				}
+			}
+			try {
+				$this->handleArgs($args,$output);
+			} catch(\Exception $e) {
+				//run our last minute commands as they wont run later
+				$this->resetMode();
+				$this->endOfLife();
+				throw $e;
+			}
 		} else {
 			$this->writeln($this->showHelp());
 		}
-		if($input->getOption('edge')) {
+		$this->resetMode();
+	}
+
+	private function resetMode() {
+		if(!is_null($this->previousEdge)) {
+			$this->writeln("<info>Resetting temporarily repository state</info>");
 			\FreePBX::Config()->update('MODULEADMINEDGE',$this->previousEdge);
 		}
-
 	}
 
 	private function writeln($data, $type = 'message', $status = true) {
@@ -369,7 +404,7 @@ class Moduleadmin extends Command {
 			$this->mf->enable($modulename, $force);
 		}
 		if(!$force && !$this->mf->resolveDependencies($modulename,array($this,'progress'))) {
-			$this->writeln(sprintf(_("Unable to resolve dependencies for module %s:"),$modulename), "error", false);
+			$this->writeln(sprintf(_("Unable to resolve dependencies for module %s"),$modulename), "error", false);
 			$this->addToEmail(sprintf(_("Module %s installation failed, could not resolve dependencies"), $name));
 			return false;
 		} else {
@@ -402,8 +437,17 @@ class Moduleadmin extends Command {
 		global $modulexml_path;
 		global $modulerepository_path;
 
+		$module = $this->mf->getinfo($modulename);
+		$module = $module[$modulename];
+		if (!empty($module['updateurl']) && parse_url($module['updateurl'], PHP_URL_SCHEME) === 'https') {
+			$module_update_json = $this->mf->url_get_contents($module['updateurl'], "");
+			if ($module_update_json && $module_update_data = json_decode($module_update_json, true)) {
+				return $this->doRemoteDownload($module_update_data["location"]);
+			}
+		}
+
 		// If we have a version tag, use it
-		if ($this->tag) {
+		if (isset($this->tag)) {
 			$xml = $this->mf->getModuleDownloadByModuleNameAndVersion($modulename, $this->tag);
 			if (empty($xml)) {
 				$this->writeln("Unable to update module ${modulename} - ".$this->tag.":", "error", false);
@@ -564,9 +608,18 @@ class Moduleadmin extends Command {
 		$this->check_active_repos();
 		if (isset($modules_local[$modulename])) {
 			if(isset($modules_online[$modulename])) {
-				return version_compare_freepbx($modules_online[$modulename]['version'], $modules_local[$modulename]['version']);
+				$upgrade_version = $modules_online[$modulename]['version'];
+			} elseif (!empty($modules_local[$modulename]['updateurl']) && parse_url($modules_local[$modulename]['updateurl'], PHP_URL_SCHEME) === 'https') {
+				$module_update_json = $this->mf->url_get_contents($modules_local[$modulename]['updateurl'], "");
+				if ($module_update_json && $module_update_data = json_decode($module_update_json, true)) {
+					$upgrade_version = $module_update_data['version'];
+				} else {
+					return -4; //couldn't read third party update info
+				}
+			} else {
+				return -2; //not online or third party
 			}
-			return -2; //not online
+			return version_compare_freepbx($upgrade_version, $modules_local[$modulename]['version']);
 		}
 		return -3; //not local
 	}
@@ -611,6 +664,24 @@ class Moduleadmin extends Command {
 						'local_version' => $modules_local[$name]['version'],
 						'online_version' => $modules_online[$name]['version'],
 					];
+				}
+			} elseif (!empty($modules_local[$name]['updateurl'])) {
+				$module = $modules_local[$name];
+				if (!empty($module['updateurl']) && parse_url($module['updateurl'], PHP_URL_SCHEME) === 'https') {
+					$module_update_json = $this->mf->url_get_contents($module['updateurl'], "");
+					if ($module_update_json && $module_update_data = json_decode($module_update_json, true)) {
+						if (version_compare_freepbx($module['version'], $module_update_data['version'])) {
+							if ($extarray) {
+								$modules_upgradable[] = array(
+									'name' => $name,
+									'local_version' => $module['version'],
+									'online_version' => $module_update_data['version'],
+								);
+							} else {
+								$modules_upgradable[] = $name;
+							}
+						}
+					}
 				}
 			}
 		}
@@ -789,7 +860,14 @@ class Moduleadmin extends Command {
 			if(sizeof($args) == 1){
 				$chown->moduleName = is_array($args[0]) ? $args[0]['name'] : $args[0];
 			}
+			if(!($this->out->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE)) {
+				$prevVerbosity = $this->out->getVerbosity();
+				$this->out->setVerbosity(OutputInterface::VERBOSITY_QUIET);
+			}
 			$chown->execute($this->input, $this->out, !($this->out->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE));
+			if(!empty($prevVerbosity)) {
+				$this->out->setVerbosity($prevVerbosity);
+			}
 		}
 	}
 
@@ -1022,7 +1100,9 @@ class Moduleadmin extends Command {
 			//Check signature status, then if its online then if its signed online then redownload (through force)
 			$this->writeln(sprintf(_("Checking %s..."),$m['rawname']));
 			$msig = \FreePBX::GPG()->verifyModule($m['rawname']);
-
+			if ($m['rawname'] == 'builtin') {
+				continue;
+			}
 			// Check to see if the STATE_GOOD bit is NOT set.
 			if(~$msig['status'] & \FreePBX\GPG::STATE_GOOD) {
 				$this->writeln(_("Signature Invalid"));
@@ -1277,6 +1357,9 @@ class Moduleadmin extends Command {
 				foreach($args as $module){
 					$state = $this->isModuleUpgradeable($module);
 					switch($state) {
+						case -4:
+							$this->writeln(sprintf(_('%s does not have a valid JSON update file, unable to upgrade'),$module));
+						break;
 						case -3:
 							$this->writeln(sprintf(_('%s is not a locally installed module, unable to upgrade'),$module));
 						break;

@@ -6,12 +6,13 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
-    'ZendXml\\' => array($vendorDir . '/zendframework/zendxml/library'),
     'Wrep\\Daemonizable\\' => array($vendorDir . '/wrep/daemonizable-command/src'),
+    'SimplePie' => array($vendorDir . '/simplepie/simplepie/library'),
     'Requests' => array($vendorDir . '/rmccue/requests/library'),
-    'PicoFeed' => array($vendorDir . '/fguillot/picofeed/lib'),
-    'PhpConsole' => array($vendorDir . '/php-console/php-console/src'),
+    'Pimple' => array($vendorDir . '/pimple/pimple/src'),
+    'JShrink' => array($vendorDir . '/tedivm/jshrink/src'),
     'ForceUTF8\\' => array($vendorDir . '/neitanod/forceutf8/src'),
+    'Doctrine\\ORM\\' => array($vendorDir . '/doctrine/orm/lib'),
     'Doctrine\\DBAL\\' => array($vendorDir . '/doctrine/dbal/lib'),
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib'),

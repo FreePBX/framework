@@ -16,6 +16,7 @@ class View {
 	private $dateformat = '';
 	private $timeformat = '';
 	private $datetimeformat = '';
+	private $drawselect_destinations;
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {
@@ -23,6 +24,87 @@ class View {
 		}
 		$this->freepbx = $freepbx;
 		$this->nt = $this->freepbx->Notifications;
+	}
+
+	public function getScripts() {
+		$files = array(
+			"moment-with-locales-2.20.1.min.js",
+			"script.legacy.js",
+			"Sortable-1.4.0.min.js",
+			"autosize-3.0.17.min.js",
+			"bootstrap-3.3.7.custom.min.js",
+			"bootstrap-multiselect-0.9.13.js",
+			"bootstrap-select-1.12.1.min.js",
+			"bootstrap-table-dev.min.js",
+			"bootstrap-table-extensions-dev/bootstrap-table-cookie.min.js",
+			"bootstrap-table-extensions-dev/bootstrap-table-export.min.js",
+			"bootstrap-table-extensions-dev/bootstrap-table-mobile.min.js",
+			"bootstrap-table-extensions-dev/bootstrap-table-reorder-rows.min.js",
+			"bootstrap-table-extensions-dev/bootstrap-table-toolbar.min.js",
+			"browser-locale-1.0.0.min.js",
+			"browser-support.js",
+			"chosen.jquery-1.6.2.min.js",
+			"jquery-migrate-3.0.0.js",
+			"jquery-ui-1.12.1.min.js",
+			"jquery.fileupload-9.12.5.js",
+			"jquery.fileupload-process-9.12.5.js",
+			"jquery.form-3.51.min.js",
+			"jquery.hotkeys-0.2.0.js",
+			"jquery.iframe-transport-9.12.5.js",
+			"jquery.jplayer-2.9.2.min.js",
+			"jquery.numeric-1.4.1.min.js",
+			"jquery.smartWizard-3.3.1.js",
+			"jquery.tablednd-0.9.1.min.js",
+			"js.cookie-2.1.3.min.js",
+			"modernizr-3.3.1.min.js",
+			"moment-timezone-with-data-2012-2022-0.5.14-2017c.min.js",
+			"moment-duration-format-2.2.1.js",
+			"notie-3.9.4.min.js",
+			"recorder.js",
+			"recorderWorker.js",
+			"search.js",
+			"tableexport-1.9.6.js",
+			"timeutils.js",
+			"typeahead.bundle-0.10.5.min.js",
+		);
+
+		$package = $this->freepbx->Config->get('USE_PACKAGED_JS');
+
+		if($package) {
+			$jspath = $this->freepbx->Config->get('AMPWEBROOT') .'/admin/assets/js';
+			$sha1 = '';
+			foreach($files as $file) {
+				$filename = $jspath."/".$file;
+				if(file_exists($filename)) {
+					$sha1 .= sha1_file($filename);
+				}
+			}
+
+			$final = sha1($sha1);
+
+			$pbxlibFilename = $jspath."/pbxlib_".$final.".js";
+			if(!file_exists($pbxlibFilename)) {
+				set_time_limit(0);
+				//cleanup
+				foreach(glob($jspath.'/pbxlib_*.js') as $f) {
+					unlink($f);
+				}
+				$contents = '';
+				foreach($files as $file) {
+					$filename = $jspath."/".$file;
+					if(file_exists($filename)) {
+						$contents .= file_get_contents($filename)."\n";
+					}
+				}
+				$minifiedCode = \JShrink\Minifier::minify($contents);
+				file_put_contents($pbxlibFilename,$minifiedCode);
+				//JIC for legacy for now
+				file_put_contents($jspath."/pbxlib.js",$minifiedCode);
+			}
+			return array(basename($pbxlibFilename));
+		} else {
+			return $files;
+		}
 	}
 
 	/**
@@ -602,6 +684,181 @@ class View {
 	}
 
 	/**
+	 * Destination drawselects.
+	 *
+	 * This is where the magic happens. Query all modules for valid destinations
+	 * Then build a javascript based multi-select box.
+	 * Hide the second select box until the first is selected.
+	 * Auto-populate the second based on the first.
+	 *
+	 * The first is almost always a module name, though it can be custom as well.
+	 * The second is the actually destination
+	 *
+	 * @param  string $goto             The current goto destination setting. EG: ext-local,2000,1
+	 * @param  int $i                   the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
+	 * @param  array $restrict_modules  Array of modules or array of modules with ids to restrict getting destinations from
+	 * @param  bool $table              Wrap this in a table row using <tr> and <td> (deprecated should not be used in 13+)
+	 * @param  string $nodest_msg       No Destination selected message
+	 * @param  bool $required           Whether the destination is required to be set
+	 * @param  bool $output_array       Output an array instead of html (you will need to make sure the html is correct later on for the functionality of this to work correctly)
+	 * @param  bool $reset              Reset the drawselect_* globals (useful when using multiple destination dropdowns on a page, each with their own restricted modules)
+	 * @param  bool $disable            Set html element to disabled on creation
+	 * @param  string $class            String of classes to add to to the html element (class="<string>")
+	 * @return mixed                    Array if $output_array is true otherwise a string of html
+	 */
+	public function destinationDrawSelect($goto, $i, $restrict_modules=false, $table=true, $nodest_msg='', $required=false, $output_array=false, $reset=false, $disable=false, $class='') {
+		global $fw_popover;
+
+		if ($reset) {
+			unset($this->drawselect_destinations);
+		}
+
+		//php session last_dest
+		$fw_popover = isset($fw_popover) ? $fw_popover : FALSE;
+		$disabled = ($disable) ? "disabled" : "";
+
+		$html=$destmod=$errorclass=$errorstyle='';
+		if ($nodest_msg == '') {
+			$nodest_msg = '== '.\modgettext::_('choose one','amp').' ==';
+		}
+
+		if(!isset($this->drawselect_destinations)) {
+			$add_a_new = \modgettext::_('Add new %s &#133','amp');
+			$this->drawselect_destinations = $this->freepbx->Destinations->getAll();
+		}
+
+		$flattened = [];
+		foreach($this->drawselect_destinations as $mod => $categories) {
+			foreach($categories as $cat => $data) {
+				if(is_array($restricted_modules) && ((is_array($restricted_modules[$mod]) && in_array($cat,$restricted_modules[$mod])) || (isset($restricted_modules[$mod]) && !is_array($restricted_modules[$mod])))) {
+					continue;
+				}
+				foreach($data['destinations'] as $destination => $info) {
+					$flattened[$destination] = !empty($info['category']) ? $info['category'] : $info['name'];
+				}
+			}
+		}
+
+		//get the destination module name if we have a $goto, add custom if there is an issue
+		$destmod = '';
+		if(!empty($goto)) {
+			if(!isset($flattened[$goto])){ //if we haven't found a match, display error dest
+				$destmod='Error';
+				$this->drawselect_destinations['Error']['Error'] = [
+					'name' => 'Error',
+					'raw' => 'Error',
+					'destinations' => [
+						$goto => [
+							'destination'=>$goto,
+							'description'=>'Bad Dest: '.$goto,
+							'class'=>'drawselect_error'
+						]
+					],
+					'popover' => []
+				];
+			} else {
+				$destmod = $flattened[$goto];
+			}
+			//Set 'data-last' values for popover return to last saved values
+			$data_last_cat = str_replace(' ', '_', $destmod);
+		} else {
+			//Set 'data-last' values for popover return to nothing because this is a new 'route'
+			$data_last_cat = '';
+	  }
+
+		$cat_options = [];
+		foreach($this->drawselect_destinations as $mod => $categories) {
+			foreach($categories as $cat => $data) {
+				if(is_array($restricted_modules) && ((is_array($restricted_modules[$mod]) && in_array($cat,$restricted_modules[$mod])) || (isset($restricted_modules[$mod]) && !is_array($restricted_modules[$mod])))) {
+					continue;
+				}
+				$tmp = [
+					'selected' => ($data['name']==$destmod)? true: false,
+					'style' => ($mod=='Error')?'background-color:red;':'',
+					'mod' => $mod,
+					'cat' => $cat,
+					'raw' => $data['raw'],
+					'name_tag' => str_replace(' ', '_', $data['raw']) . $i,
+					'destinations' => $data['destinations'],
+					'popover' => $data['popover']
+				];
+
+				if(!empty($data['popover'])) {
+					$data['popover']['args']['display'] = $cat;
+					$tmp['data_url'] = 'data-url="config.php?'.http_build_query($data['popover']['args']).'"';
+				}
+
+				$cat_options[$data['name']] = $tmp;
+			}
+		}
+
+		if(!$output_array) {
+			//wrap in table tags if requested
+			if ($table) {
+				$html.='<tr><td colspan=2>';
+			}
+			//draw "parent" select box
+			$style=' style="'.(($destmod=='Error')?'background-color:red;':'').'"';
+			$cat_html='<select data-last="'.$data_last_cat.'" name="goto' . $i . '" id="goto' . $i . '" class="form-control destdropdown ' . $class . '" ' . $style
+					. ($required ? ' required ' : '') //html5 validation
+					. ' data-id="' . $i . '" '
+					. $disabled .'>';
+			$cat_html.='<option value="" style="">'.$nodest_msg.'</option>';
+
+			$dest_html = '';
+
+			ksort($cat_options);
+			foreach($cat_options as $name => $data) {
+				$cat_html.='<option value="'.str_replace(' ','_',$data['raw']).'"'.($data['selected'] ? ' SELECTED ':'').$data['style'].'>'.$name.'</option>';
+
+				$data_class = 'form-control destdropdown2 '.($data['mod'] === $data['cat'] ? $data['mod'] : $data['mod'].' '.$data['cat']).' '.(!$data['selected'] ? 'hidden':'');
+				$dest_html.='<select class="'.$data_class.'" ' . $data['data_url'] . ' data-mod="'.$data['mod'].'" data-last="'.(!empty($goto) ? $goto : '').'" name="' . $data['name_tag']
+					. '" id="' . $data['name_tag'] . '" '. $style . ' data-id="' . $i . '" ' . $disabled . '>';
+				foreach($data['destinations'] as $dest) {
+					$selected=($goto==$dest['destination'])?'SELECTED ':' ';
+					$dest_html.='<option value="'.$dest['destination'].'" '.$selected.$style.'>'.$dest['description'].'</option>';
+				}
+				if(!empty($data['popover'])) {
+					$dest_html.='<option value="popover" style="">'.sprintf($add_a_new,$name).'</option>';
+				}
+				$dest_html.='</select>';
+			}
+
+			$cat_html.='</select>';
+
+			$html.=$cat_html.$dest_html;
+
+			if ($table) {
+				$html.='</td></tr>';
+			}
+			return $html;
+		} else {
+			$array = [];
+			foreach($cat_options as $name => $data) {
+				foreach($data['destinations'] as $dest) {
+					$array[$name][] = [
+						"destination" => $dest['destination'],
+						"description" => $dest['description'],
+						"category" => $dest['category'],
+						"id" => $dest['id'],
+						"selected" => ($dest['destination']===$goto)
+					];
+				}
+				if(!empty($data['popover'])) {
+					$array[$name][99999] = [
+						"destination" => 'popover',
+						"description" => sprintf($add_a_new,$name),
+						"category" => $data['cat'],
+						"selected" => false
+					];
+				}
+			}
+			return $array;
+		}
+
+	}
+
+	/**
 	 * Draw a clock on the page
 	 * @method drawClock
 	 * @param  [type]    $time     [description]
@@ -664,11 +921,11 @@ class View {
 	 * @param  boolean          $module_hash a hash of module names to search for callbacks, otherwise global $active_modules is used
 	 * @return string                        The finalized HTML
 	 */
-	public function destinationUsage($dest, $module_hash=false) {
+	public function destinationUsage($dest) {
 		if (!is_array($dest)) {
 			$dest = array($dest);
 		}
-		$usage_list = framework_check_destination_usage($dest, $module_hash);
+		$usage_list = \FreePBX::Destinations()->getAllInUseDestinations($dest);
 		$usage = array();
 		$usage_item = '';
 		if (!empty($usage_list)) {
@@ -701,5 +958,76 @@ class View {
 </div>
 HTML;
 		return $html;
+	}
+
+	/** provide optional alert() box and formatted url info for extension conflicts
+	 * @param array     an array of extensions that are in conflict obtained from framework_check_extension_usage
+	 * @param boolean   default false. True if url and descriptions should be split, false to combine (see return)
+	 * @param boolean   default true. True to echo an alert() box, false to bypass the alert box
+	 * @return array    returns an array of formatted URLs with descriptions. If $split is true, retuns an array
+	 *                  of the URLs with each element an array in the format of array('label' => 'description, 'url' => 'a url')
+	 * @description     This is used upon detecting conflicting extension numbers to provide an optional alert box of the issue
+	 *                  by a module which should abort the attempt to create the extension. It also returns an array of
+	 *                  URLs that can be displayed by the module to show the conflicting extension(s) and links to edit
+	 *                  them or further interogate. The resulting URLs are returned in an array either formatted for immediate
+	 *                  display or split into a description and the raw URL to provide more fine grained control (or use with guielements).
+	 */
+	public function displayExtensionUsageAlert($usage_arr=array(),$split=false,$alert=true) {
+		$url = array();
+		if (!empty($usage_arr)) {
+			$conflicts=0;
+			foreach($usage_arr as $rawmodule => $properties) {
+				foreach($properties as $exten => $details) {
+					$conflicts++;
+					if ($conflicts == 1) {
+						switch ($details['status']) {
+							case 'INUSE':
+								$str = "Extension $exten not available, it is currently used by ".htmlspecialchars($details['description']).".";
+								if ($split) {
+									$url[] =  array('label' => "Edit: ".htmlspecialchars($details['description']),
+									                 'url'  =>  $details['edit_url'],
+									               );
+								} else {
+									$url[] =  "<a href='".$details['edit_url']."'>Edit: ".htmlspecialchars($details['description'])."</a>";
+								}
+								break;
+							default:
+							$str = "This extension is not available: ".htmlspecialchars($details['description']).".";
+						}
+					} else {
+						if ($split) {
+							$url[] =  array('label' => "Edit: ".htmlspecialchars($details['description']),
+							                 'url'  =>  $details['edit_url'],
+														 );
+						} else {
+							$url[] =  "<a href='".$details['edit_url']."'>Edit: ".htmlspecialchars($details['description'])."</a>";
+						}
+					}
+				}
+			}
+			if ($conflicts > 1) {
+				$str .= sprintf(" There are %s additonal conflicts not listed",$conflicts-1);
+			}
+		}
+		if ($alert) {
+			echo "<script>javascript:alert('$str')</script>";
+		}
+		return($url);
+	}
+
+	/**
+	 * returns a list of URLs that represent a conflict with the past in extension or null if none
+	 * @param string  extension number to check for conflicts
+	 * @return mixed  returns a string with one or more URLs to the conflicting extesion(s) or null
+	 */
+	public function getConflictUrlHelper($account) {
+
+		$usage_arr = FreePBX::Extensions()->checkUsage($account);
+		if (!empty($usage_arr)) {
+			$conflict_url = $this->displayExtensionUsageAlert($usage_arr, false, false);
+			return implode('<br />',$conflict_url);
+		} else {
+			return null;
+		}
 	}
 }

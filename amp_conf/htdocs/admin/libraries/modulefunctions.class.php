@@ -774,7 +774,7 @@ class module_functions {
 					$this->getinfo(false,false,false);
 					$m = $this->getinfo($module);
 					if(!empty($m[$module])) {
-						if(!$devmode && (!empty($m[$module]['dbversion']) && version_compare_freepbx($m[$module]['dbversion'],$version,'<')) || version_compare_freepbx($m[$module]['version'],$version,'<')) {
+						if(!$devmode && ((!empty($m[$module]['dbversion']) && version_compare_freepbx($m[$module]['dbversion'],$version,'<')) || version_compare_freepbx($m[$module]['version'],$version,'<'))) {
 							out(sprintf(_("Downloading Missing Dependency of: %s %s"),$module,$version));
 							if (is_array($errors = $this->download($module,$force,$callback))) {
 								out(_("The following error(s) occured:"));
@@ -1225,6 +1225,12 @@ class module_functions {
 		$this->_setenabled($modulename, true);
 		needreload();
 		modulelist::create($db)->invalidate();
+
+		// run the scripts
+		if (!$this->_runscripts($modulename, 'enable', $modules)) {
+			return array(_("Failed to run enable method"));
+		}
+
 		return true;
 	}
 
@@ -1244,8 +1250,8 @@ class module_functions {
 		$this->notFound = false;
 		global $amp_conf;
 		if(!is_array($moduledata)) {
-			if(!empty($override_xml) && file_exists($ovverride_xml)) {
-				$data = file_get_contents($ovverride_xml);
+			if(!empty($override_xml) && file_exists($override_xml)) {
+				$data = file_get_contents($override_xml);
 				$parser = new xml2ModuleArray($data);
 				$xml = $parser->parseAdvanced($data);
 				if(!isset($xml[$modeuledata])) {
@@ -1330,7 +1336,9 @@ class module_functions {
 					} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
 						$progress_callback[0]->{$progress_callback[1]}('verifying', array('module'=>$modulename, "status" => "redownload"));
 					}
-					unlink($filename);
+					if (file_exists($filename)) {
+						unlink($filename);
+					}
 				}
 			}
 			// We might already have it! Let's check the MD5.
@@ -1448,47 +1456,22 @@ class module_functions {
 			$progress_callback[0]->{$progress_callback[1]}('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
 		}
 
-		$streamopts = array(
-			'http' =>
-				array(
-					'method' => "POST",
-					'content' => !empty($urls['query']) ? $urls['query'] : ''
-				)
-		);
-
-		$streamcontext = stream_context_create($streamopts);
-
-		// Check MODULEADMINWGET first so we don't execute the fopen() if set
-		//
-		if ($amp_conf['MODULEADMINWGET'] || !$dp = @fopen($url,'r',false,$streamcontext)) {
-			$p = (!empty($urls['query'])) ? "--post-data ".escapeshellarg($urls['query']) : "";
-			FreePBX::Curl()->setEnvVariables();
-			exec("wget --tries=1 --timeout=600 $p -O ".escapeshellarg($filename)." ".escapeshellarg($url)." 2> /dev/null", $filedata, $retcode);
-			usleep(5000); //wait for file to be placed
-			if ($retcode != 0) {
-				return array(sprintf(_("Error opening %s for reading"), $url));
-			} else {
-				if (!$dp = @fopen($filename,'r')) {
-					return array(sprintf(_("Error opening %s for reading"), $url));
-				}
-			}
-		}
-
-		$filedata = '';
-		while (!feof($dp)) {
-			$data = fread($dp, $download_chunk_size);
-			$filedata .= $data;
-			$totalread += strlen($data);
+		$hooks = new Requests_Hooks();
+		$hooks->register('request.progress', function($data,$response_bytes,$response_byte_limit) use($progress_callback,$modulename,$headers) {
 			if (!is_array($progress_callback) && function_exists($progress_callback)) {
-				$progress_callback('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
+				$progress_callback('downloading', array('module'=>$modulename, 'read'=>$response_bytes, 'total'=>$headers['content-length']));
 			} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-				$progress_callback[0]->{$progress_callback[1]}('downloading', array('module'=>$modulename, 'read'=>$totalread, 'total'=>$headers['content-length']));
+				$progress_callback[0]->{$progress_callback[1]}('downloading', array('module'=>$modulename, 'read'=>$response_bytes, 'total'=>$headers['content-length']));
 			}
-		}
-		fwrite($fp,$filedata);
-		fclose($dp);
-		fclose($fp);
+		});
 
+		$requests = FreePBX::Curl()->requests($url);
+		$options = array(
+			'hooks' => $hooks,
+			'timeout' => 1800, // Allow up to 1800 seconds (30 minutes) for the download to complete
+		);
+		$response = $requests->post('', array(), $urls['options'], $options);
+		file_put_contents($filename,$response->body);
 
 		if (is_readable($filename) !== TRUE ) {
 			return array(sprintf(_('Unable to save %s'),$filename));
@@ -1658,34 +1641,21 @@ class module_functions {
 			$progress_callback[0]->{$progress_callback[1]}('downloading', array('read'=>$totalread, 'total'=>$headers['content-length']));
 		}
 
-		// Check MODULEADMINWGET first so we don't execute the fopen() if set
-		//
-		if ($amp_conf['MODULEADMINWGET'] || !$dp = @fopen($module_location,'r')) {
-			FreePBX::Curl()->setEnvVariables();
-			exec("wget --tries=1 --timeout=600 -O ".escapeshellarg($filename)." ".escapeshellarg($module_location)." 2> /dev/null", $filedata, $retcode);
-			if ($retcode != 0) {
-				return array(sprintf(_("Error opening %s for reading"), $url));
-			} else {
-				if (!$dp = @fopen($filename,'r')) {
-					return array(sprintf(_("Error opening %s for reading"), $url));
-				}
-			}
-		}
-
-		$filedata = '';
-		while (!feof($dp)) {
-			$data = fread($dp, $download_chunk_size);
-			$filedata .= $data;
-			$totalread += strlen($data);
+		$hooks = new Requests_Hooks();
+		$hooks->register('request.progress', function($data,$response_bytes,$response_byte_limit) use($progress_callback,$modulename,$headers) {
 			if (!is_array($progress_callback) && function_exists($progress_callback)) {
-				$progress_callback('downloading', array('read'=>$totalread, 'total'=>$headers['content-length']));
+				$progress_callback('downloading', array('module'=>$modulename, 'read'=>$response_bytes, 'total'=>$headers['content-length']));
 			} else if(is_array($progress_callback) && method_exists($progress_callback[0],$progress_callback[1])) {
-				$progress_callback[0]->{$progress_callback[1]}('downloading', array('read'=>$totalread, 'total'=>$headers['content-length']));
+				$progress_callback[0]->{$progress_callback[1]}('downloading', array('module'=>$modulename, 'read'=>$response_bytes, 'total'=>$headers['content-length']));
 			}
-		}
-		fwrite($fp,$filedata);
-		fclose($dp);
-		fclose($fp);
+		});
+		$requests = FreePBX::Curl()->requests($module_location);
+		$options = array(
+			'hooks' => $hooks,
+			'timeout' => 1800, // Allow up to 1800 seconds (30 minutes) for the download to complete
+		);
+		$response = $requests->post('', array(), array(), $options);
+		file_put_contents($filename,$response->body);
 
 		$errors = $this->_process_archive($filename,$progress_callback);
 		if(count($errors)) {
@@ -1966,7 +1936,7 @@ class module_functions {
 			return array(_("Failed to run installation scripts"));
 		}
 
-		foreach (mod_func_iterator('module_install_check_callback', $modules) as $mod => $res) {
+		foreach (\FreePBX::Modules()->functionIterator('module_install_check_callback', $modules) as $mod => $res) {
 			if ($res !== true) {
 				$rejects[] = $res;
 			}
@@ -2084,6 +2054,9 @@ class module_functions {
 			}
 		}
 
+		// run the scripts
+		$this->_runscripts($modulename, 'disable', $modules);
+
 		$this->_setenabled($modulename, false);
 		needreload();
 		//invalidate the modulelist class since it is now stale
@@ -2123,7 +2096,7 @@ class module_functions {
 		// indicating why the uninstall must fail
 		//
 		$rejects = array();
-		foreach (mod_func_iterator('module_uninstall_check_callback', $modules) as $mod => $res) {
+		foreach (\FreePBX::Modules()->functionIterator('module_uninstall_check_callback', $modules) as $mod => $res) {
 			if ($res !== true) {
 				$rejects[] = $res;
 			}
@@ -2495,6 +2468,42 @@ class module_functions {
 				}
 
 			break;
+			case 'enable':
+				// If it's a BMO module, manually include the file.
+				$mn = \FreePBX::Modules()->cleanModuleName($modulename);
+				$bmofile = "$moduledir/$mn.class.php";
+				if (file_exists($bmofile)) {
+					if(\FreePBX::Modules()->moduleHasMethod($modulename, 'enable')) {
+						try {
+							$o = FreePBX::create()->$mn->enable();
+							if($o === false) {
+								return false;
+							}
+						} catch(Exception $e) {
+							dbug("Error Returned was: ".$e->getMessage());
+							return false;
+						}
+					}
+				}
+			break;
+			case 'disable':
+				// If it's a BMO module, run uninstall.
+				$mn = \FreePBX::Modules()->cleanModuleName($modulename);
+				$bmofile = "$moduledir/$mn.class.php";
+				if (file_exists($bmofile)) {
+					if(\FreePBX::Modules()->moduleHasMethod($modulename, 'disable')) {
+						try {
+							$o = FreePBX::create()->$mn->disable();
+							if($o === false) {
+								return false;
+							}
+						} catch(Exception $e) {
+							dbug("Error Returned was: ".$e->getMessage());
+							return false;
+						}
+					}
+				}
+			break;
 			default:
 				return false;
 		}
@@ -2523,8 +2532,11 @@ class module_functions {
 		global $db;
 		global $amp_conf;
 
-
 		$announcement = $this->get_remote_contents("/version-".getversion().".html");
+
+		if (\FreePBX::Modules()->moduleHasMethod('sysadmin', 'getAnnouncements')) {
+			$announcement = \FreePBX::Sysadmin()->getAnnouncements($announcement);
+		}
 
 		return $announcement;
 	}
@@ -2975,13 +2987,21 @@ class module_functions {
 			}
 			$options['extraid'] = base64_encode(json_encode($extras));
 
+			// Allow third party ioncube and zend modules.
+			if (function_exists('zend_get_id')) {
+				$options['zend'] = "available";
+			}
+			if (function_exists("ioncube_loader_version")) {
+				$options['ioncube'] = ioncube_loader_version();
+			}
+
 			// Other modules may need to add 'get' paramters to the call to the repo. Check and add them
 			// here if we are adding paramters. The module should return an array of key/value pairs each of which
 			// is to be appended to the GET parameters. The variable name will be prepended with the module name
 			// when sent.
 			//
 			$repo_params = array();
-			foreach (mod_func_iterator('module_repo_parameters_callback', $path) as $mod => $res) {
+			foreach (\FreePBX::Modules()->functionIterator('module_repo_parameters_callback', $path) as $mod => $res) {
 				if (is_array($res)) {
 					foreach ($res as $p => $v) {
 						$options[$mod.'_'.$p] = $v;
@@ -2993,83 +3013,27 @@ class module_functions {
 		return array('mirrors' => $repos, 'path' => $path, 'options' => $options, 'query' => http_build_query($options));
 	}
 
-	function url_get_contents($url,$request,$verb='get',$params=array()) {
+	function url_get_contents($url,$request,$verb='get',$params=array(), $timeout = 30) {
 		$params['sv'] = 2;
 		global $amp_conf;
 		$verb = strtolower($verb);
 		$contents = null;
 
-		if(!$amp_conf['MODULEADMINWGET']) {
-			$pest = FreePBX::Curl()->pest($url);
-			try{
-				$contents = $pest->$verb($url.$request,$params);
-				if(isset($pest->last_headers['x-current-uuid'])) {
-					//we connected
-					$this->update_accessed_id($pest->last_headers['x-current-uuid']);
-				}
-				if(isset($pest->last_headers['x-regenerate-id'])) {
-					$this->generate_unique_id(true);
-				}
-				return $contents;
-			} catch (Exception $e) {
-				freepbx_log(FPBX_LOG_ERROR,sprintf(_('Failed to get remote file, error was: %s'),(string)$e->getMessage()));
-			}
-		}
-
-		$fn = $url.$request;
-		if(empty($contents)) {
-			$fn2 = str_replace('&','\\&',$fn);
-			$p = (!empty($params)) ? "--post-data '".http_build_query($params)."'" : "";
-			FreePBX::Curl()->setEnvVariables();
-			$headerfile = $amp_conf['ASTSPOOLDIR']."/wgetstderr-".$this->generateUUID4();
-			exec("wget --tries=1 --timeout=30 $p -q -S -O- $fn2 2> ".$headerfile, $data_arr, $retcode);
-			if ($retcode) {
-				// if server isn't available for some reason should return non-zero
-				// so we return and we don't set the flag below
-				freepbx_log(FPBX_LOG_ERROR,sprintf(_('Failed to get remote file, mirror site may be down: %s'),$fn));
-
-				// We are here if contents were blank. It's possible that whatever we were getting were suppose to be blank
-				// so we only auto set the WGET var if we received something so as to not false trigger. If there are issues
-				// with content filters that this is designed to get around, we will eventually get a non-empty file which
-				// will trigger this for now and the future.
-				if(file_exists($headerfile)) {
-					unlink($headerfile);
-				}
-				return null;
-			} elseif (!empty($data_arr) && !$amp_conf['MODULEADMINWGET']) {
-				$freepbx_conf = freepbx_conf::create();
-				$freepbx_conf->set_conf_values(array('MODULEADMINWGET' => true),true);
-
-				$nt = notifications::create($db);
-				$text = sprintf(_("Forced %s to true"),'MODULEADMINWGET');
-				$extext = sprintf(_("The system detected a problem trying to access external server data and changed internal setting %s (Use wget For Module Admin) to true, see the tooltip in Advanced Settings for more details."),'MODULEADMINWGET');
-				$nt->add_warning('freepbx', 'MODULEADMINWGET', $text, $extext, '', false, true);
-			}
-
-			$headers = array();
-			if(file_exists($headerfile)) {
-				$rawheaders = explode("\n",file_get_contents($headerfile));
-				unlink($headerfile);
-				foreach($rawheaders as $value) {
-					$ar = explode(':', $value);
-					$key = trim($ar[0]);
-					if(isset($ar[1])) {
-						$value = trim($ar[1]);
-						$headers[strtolower($key)] = trim($value);
-					}
-				}
-			}
-
-			if(isset($headers['x-current-uuid'])) {
+		$requests = FreePBX::Curl()->requests($url);
+		try{
+			$response = $requests->$verb($request,array(),$params,array('timeout' => $timeout));
+			$contents = $response->body;
+			if(isset($response->headers['x-current-uuid'])) {
 				//we connected
-				$this->update_accessed_id($headers['x-current-uuid']);
+				$this->update_accessed_id($response->headers['x-current-uuid']);
 			}
-			if(isset($headers['x-regenerate-id'])) {
+			if(isset($response->headers['x-regenerate-id'])) {
 				$this->generate_unique_id(true);
 			}
-
-			$contents = implode("\n",$data_arr);
 			return $contents;
+		} catch (Exception $e) {
+			freepbx_log(FPBX_LOG_ERROR,sprintf(_('Failed to get remote file, error was: %s'),(string)$e->getMessage()));
+			return '';
 		}
 	}
 
@@ -3231,16 +3195,30 @@ class module_functions {
 		$base_version = $matches[1];
 
 		$options = array(
+			"deploymentid" => $this->_deploymentid(),
 			'phpver' => phpversion(),
 			'rawname' => $modulename,
 			'tag' => $moduleversion,
 			'framework' => $base_version
 		);
 
+		$distro_info = $this->_distro_id();
+		$options['distro'] = $distro_info['pbx_type'];
+		$options['distrover'] = $distro_info['pbx_version'];
+		$options['pbxver'] = getversion();
+
+		// Allow third party ioncube and zend modules.
+		if (function_exists('zend_get_id')) {
+			$options['zend'] = "available";
+		}
+		if (function_exists("ioncube_loader_version")) {
+			$options['ioncube'] = ioncube_loader_version();
+		}
+
 		$repos = explode(',', \FreePBX::Config()->get('MODULE_REPO'));
 		foreach($repos as $url) {
 			//TODO: This is a placeholder URL and should be changed
-			$o = $this->url_get_contents($url, '/mversion.php', 'post', $options);
+			$o = $this->url_get_contents($url, '/mversion.php', 'post', $options, 10);
 			$o = json_decode($o,true);
 			if(json_last_error() == JSON_ERROR_NONE && !empty($o)) {
 				//Append a download url to the module xml array

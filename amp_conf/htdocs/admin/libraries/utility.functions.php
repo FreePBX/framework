@@ -1,6 +1,6 @@
 <?php
 
-define('EOL', isset($_SERVER['REQUEST_METHOD']) ? "<br />" :  PHP_EOL);
+define('EOL', (php_sapi_name() !== "cli") ? "<br />" :  PHP_EOL);
 
 define("FPBX_LOG_FATAL",    "FATAL");
 define("FPBX_LOG_CRITICAL", "CRITICAL");
@@ -57,7 +57,8 @@ if (!function_exists('json_last_error_msg')) {
 function freepbx_log_security($txt) {
 	$path = FreePBX::Config()->get('ASTLOGDIR');
 	$log_file = $path.'/freepbx_security.log';
-
+	/** Monolog */
+	FreePBX::Logger()->logWrite('security',$txt,false,'NOTICE');
 	$tz = date_default_timezone_get();
 	if (!$tz) {
 		$tz = 'America/Los_Angeles';
@@ -122,6 +123,8 @@ function freepbx_log($level, $message) {
 			case 'LOG_NOTICE':
 			case 'LOG_INFO':
 			case 'LOG_DEBUG':
+				/** monolog */
+				FreePBX::Logger()->logWrite('dbug',$txt,false,$log_type);
 				syslog(constant($log_type),"FreePBX - $txt");
 				break;
 			case 'SQL':     // Core will remove these settings once migrated,
@@ -658,7 +661,6 @@ function edit_crontab($remove = '', $add = '') {
  */
 function dbug_write($txt, $check = false){
 	global $amp_conf;
-
 	// dbug can be used prior to bootstrapping and initialization, so we set
 	// it if not defined here to a default.
 	//
@@ -679,6 +681,8 @@ function dbug_write($txt, $check = false){
 	if($amp_conf['PHP_CONSOLE']) {
 		PhpConsole\Connector::getInstance()->getDebugDispatcher()->dispatchDebug($txt, 'dbug');
 	}
+	/** Monolog */
+	FreePBX::Logger()->logWrite('dbug',$txt,false,'DEBUG');
 }
 
 /**
@@ -1571,4 +1575,39 @@ function freepbx_filesize($file) {
 		return $matches[1];
 	}
 	return 0; //unknown
+}
+
+/**
+ * Use filter_input_array
+ * The filter extension is enabled by default as of PHP 5.2.0. To disable the filter extension, use --disable-filter .
+ * Before PHP 5.2 an experimental PECL extension was used, however, the PECL version is no longer recommended or updated.
+ */
+function freepbxGetSanitizedRequest() {
+	$order = ini_get('request_order');
+	$order = !empty($order) ? $order : ini_get('variables_order');
+	$total = strlen($order);
+	$request = array();
+	for($i = 0; $i < $total; $i++) {
+		switch($order[$i]) {
+			case 'G':
+				$GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
+				if(is_array($GET)) {
+					$request = array_merge($request,$GET);
+				}
+			break;
+			case 'P':
+				$POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+				if(is_array($POST)) {
+					$request = array_merge($request,$POST);
+				}
+			break;
+			case 'C':
+				$COOKIE = filter_input_array(INPUT_COOKIE, FILTER_SANITIZE_STRING);
+				if(is_array($COOKIE)) {
+					$request = array_merge($request,$COOKIE);
+				}
+			break;
+		}
+	}
+	return $request;
 }

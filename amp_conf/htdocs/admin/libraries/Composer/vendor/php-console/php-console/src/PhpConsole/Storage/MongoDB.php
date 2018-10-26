@@ -7,10 +7,11 @@ namespace PhpConsole\Storage;
  *
  * @package PhpConsole
  * @version 3.1
- * @link http://php-console.com
+ * @link http://consle.com
  * @author Sergey Barbushin http://linkedin.com/in/barbushin
  * @copyright © Sergey Barbushin, 2011-2013. All rights reserved.
  * @license http://www.opensource.org/licenses/BSD-3-Clause "The BSD 3-Clause License"
+ * @codeCoverageIgnore
  */
 class MongoDB extends ExpiringKeyValue {
 
@@ -28,6 +29,10 @@ class MongoDB extends ExpiringKeyValue {
 		$this->mongoCollection = $this->mongoClient->selectCollection($db, $collection);
 		if(!$this->mongoCollection) {
 			throw new \Exception('Unable to get collection');
+		}
+
+		if (!in_array($collection, $this->mongoCollection->db->getCollectionNames())) {
+			$this->mongoCollection->db->createCollection($collection);
 		}
 
 		$this->mongoCollection->ensureIndex(array(

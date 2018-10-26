@@ -198,7 +198,7 @@ class GPG {
 		// about, and make sure they haven't been touched.
 		$retarr['status'] = GPG::STATE_GOOD | GPG::STATE_TRUSTED;
 		$retarr['details'] = array();
-
+		$module['hashes'] = is_array($module['hashes']) ? $module['hashes'] : array();
 		foreach ($module['hashes'] as $file => $hash) {
 			$dest = \FreePBX::Installer()->getDestination($modulename, $file, true);
 			if ($dest === false) {
@@ -612,16 +612,13 @@ class GPG {
 		$status = $this->checkStatus($out['status']);
 		if (!$status['trust']) {
 			$longkey = substr($this->freepbxkey, -16);
-			$sigout = $this->runGPG("--keyid-format long --with-colons --check-sigs ".$status['signedby']);
+			$sigout = $this->runGPG("--keyid-format long --with-colons --check-sigs ".escapeshellarg($status['signedby']));
 			if(preg_match('/^rev:!::1:'.$longkey.'/m',$sigout['stdout'])) {
 				return array("status" => self::STATE_REVOKED, 'trustdetails' => array("Signed by Revoked Key"));
 			}
-			$status['parsedout'] = @parse_ini_string($out['stdout'], true);
-			return $status;
 		}
-		// Silence warnings about '# not a valid comment'.
-		// This should be removed after 12beta is finished.
-		$modules = @parse_ini_string($out['stdout'], true);
+
+		$modules = parse_ini_string($out['stdout'], true);
 		$modules['rawstatus'] = $status;
 		return $modules;
 	}

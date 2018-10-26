@@ -16,24 +16,24 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\CommandLoader\FactoryCommandLoader;
 use Symfony\Component\Console\DependencyInjection\AddConsoleCommandPass;
-use Symfony\Component\Console\Helper\HelperSet;
+use Symfony\Component\Console\Event\ConsoleCommandEvent;
+use Symfony\Component\Console\Event\ConsoleErrorEvent;
+use Symfony\Component\Console\Event\ConsoleExceptionEvent;
+use Symfony\Component\Console\Event\ConsoleTerminateEvent;
+use Symfony\Component\Console\Exception\CommandNotFoundException;
 use Symfony\Component\Console\Helper\FormatterHelper;
+use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\ArrayInput;
-use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputDefinition;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\Output;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Output\StreamOutput;
 use Symfony\Component\Console\Tester\ApplicationTester;
-use Symfony\Component\Console\Event\ConsoleCommandEvent;
-use Symfony\Component\Console\Event\ConsoleErrorEvent;
-use Symfony\Component\Console\Event\ConsoleExceptionEvent;
-use Symfony\Component\Console\Event\ConsoleTerminateEvent;
-use Symfony\Component\Console\Exception\CommandNotFoundException;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -728,10 +728,10 @@ class ApplicationTest extends TestCase
         $tester = new ApplicationTester($application);
 
         $tester->run(array('command' => 'foo'), array('decorated' => false, 'capture_stderr_separately' => true));
-        $this->assertStringEqualsFile(self::$fixturesPath.'/application_renderexception_doublewidth1.txt', $tester->getErrorOutput(true), '->renderException() renders a pretty exceptions with previous exceptions');
+        $this->assertStringMatchesFormatFile(self::$fixturesPath.'/application_renderexception_doublewidth1.txt', $tester->getErrorOutput(true), '->renderException() renders a pretty exceptions with previous exceptions');
 
         $tester->run(array('command' => 'foo'), array('decorated' => true, 'capture_stderr_separately' => true));
-        $this->assertStringEqualsFile(self::$fixturesPath.'/application_renderexception_doublewidth1decorated.txt', $tester->getErrorOutput(true), '->renderException() renders a pretty exceptions with previous exceptions');
+        $this->assertStringMatchesFormatFile(self::$fixturesPath.'/application_renderexception_doublewidth1decorated.txt', $tester->getErrorOutput(true), '->renderException() renders a pretty exceptions with previous exceptions');
 
         $application = new Application();
         $application->setAutoExit(false);
@@ -741,7 +741,7 @@ class ApplicationTest extends TestCase
         });
         $tester = new ApplicationTester($application);
         $tester->run(array('command' => 'foo'), array('decorated' => false, 'capture_stderr_separately' => true));
-        $this->assertStringEqualsFile(self::$fixturesPath.'/application_renderexception_doublewidth2.txt', $tester->getErrorOutput(true), '->renderException() wraps messages when they are bigger than the terminal');
+        $this->assertStringMatchesFormatFile(self::$fixturesPath.'/application_renderexception_doublewidth2.txt', $tester->getErrorOutput(true), '->renderException() wraps messages when they are bigger than the terminal');
         putenv('COLUMNS=120');
     }
 
@@ -756,7 +756,7 @@ class ApplicationTest extends TestCase
         $tester = new ApplicationTester($application);
 
         $tester->run(array('command' => 'foo'), array('decorated' => false));
-        $this->assertStringEqualsFile(self::$fixturesPath.'/application_renderexception_escapeslines.txt', $tester->getDisplay(true), '->renderException() escapes lines containing formatting');
+        $this->assertStringMatchesFormatFile(self::$fixturesPath.'/application_renderexception_escapeslines.txt', $tester->getDisplay(true), '->renderException() escapes lines containing formatting');
         putenv('COLUMNS=120');
     }
 
@@ -773,7 +773,7 @@ class ApplicationTest extends TestCase
         $tester = new ApplicationTester($application);
 
         $tester->run(array('command' => 'foo'), array('decorated' => false));
-        $this->assertStringEqualsFile(self::$fixturesPath.'/application_renderexception_linebreaks.txt', $tester->getDisplay(true), '->renderException() keep multiple line breaks');
+        $this->assertStringMatchesFormatFile(self::$fixturesPath.'/application_renderexception_linebreaks.txt', $tester->getDisplay(true), '->renderException() keep multiple line breaks');
     }
 
     public function testRun()
@@ -912,6 +912,30 @@ class ApplicationTest extends TestCase
         $this->assertSame(4, $exitCode, '->run() returns integer exit code extracted from raised exception');
     }
 
+    public function testRunDispatchesIntegerExitCode()
+    {
+        $passedRightValue = false;
+
+        // We can assume here that some other test asserts that the event is dispatched at all
+        $dispatcher = new EventDispatcher();
+        $dispatcher->addListener('console.terminate', function (ConsoleTerminateEvent $event) use (&$passedRightValue) {
+            $passedRightValue = (4 === $event->getExitCode());
+        });
+
+        $application = new Application();
+        $application->setDispatcher($dispatcher);
+        $application->setAutoExit(false);
+
+        $application->register('test')->setCode(function (InputInterface $input, OutputInterface $output) {
+            throw new \Exception('', 4);
+        });
+
+        $tester = new ApplicationTester($application);
+        $tester->run(array('command' => 'test'));
+
+        $this->assertTrue($passedRightValue, '-> exit code 4 was passed in the console.terminate event');
+    }
+
     public function testRunReturnsExitCodeOneForExceptionCodeZero()
     {
         $exception = new \Exception('', 0);
@@ -925,6 +949,30 @@ class ApplicationTest extends TestCase
         $exitCode = $application->run(new ArrayInput(array()), new NullOutput());
 
         $this->assertSame(1, $exitCode, '->run() returns exit code 1 when exception code is 0');
+    }
+
+    public function testRunDispatchesExitCodeOneForExceptionCodeZero()
+    {
+        $passedRightValue = false;
+
+        // We can assume here that some other test asserts that the event is dispatched at all
+        $dispatcher = new EventDispatcher();
+        $dispatcher->addListener('console.terminate', function (ConsoleTerminateEvent $event) use (&$passedRightValue) {
+            $passedRightValue = (1 === $event->getExitCode());
+        });
+
+        $application = new Application();
+        $application->setDispatcher($dispatcher);
+        $application->setAutoExit(false);
+
+        $application->register('test')->setCode(function (InputInterface $input, OutputInterface $output) {
+            throw new \Exception();
+        });
+
+        $tester = new ApplicationTester($application);
+        $tester->run(array('command' => 'test'));
+
+        $this->assertTrue($passedRightValue, '-> exit code 1 was passed in the console.terminate event');
     }
 
     /**

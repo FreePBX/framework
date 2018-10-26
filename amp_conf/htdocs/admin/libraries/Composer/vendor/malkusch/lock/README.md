@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/php-lock/lock.svg?branch=master)](https://travis-ci.org/php-lock/lock)
 
 This library helps executing critical code in concurrent situations.
 
@@ -44,7 +45,7 @@ $mutex->synchronized(function () use ($bankAccount, $amount) {
 
 [`Mutex::check()`](http://malkusch.github.io/lock/api/class-malkusch.lock.mutex.Mutex.html#_check)
 performs a double-checked locking pattern. I.e. if the check fails, no lock
-was acquired. Else if the check was true, a lock will be acquired and the
+will be acquired. Else if the check was true, a lock will be acquired and the
 check will be perfomed as well together with the critical code.
 
 Example:
@@ -61,7 +62,7 @@ $mutex->check(function () use ($bankAccount, $amount) {
 
 ### Implementations
 
-The `Mutex` is an abstract class. You will have to chose an implementation:
+The `Mutex` is an abstract class. You will have to choose an implementation:
 
 - [`CASMutex`](#casmutex)
 - [`FlockMutex`](#flockmutex)
@@ -70,10 +71,13 @@ The `Mutex` is an abstract class. You will have to chose an implementation:
 - [`PredisMutex`](#predismutex)
 - [`SemaphoreMutex`](#semaphoremutex)
 - [`TransactionalMutex`](#transactionalmutex)
+- [`MySQLMutex`](#mysqlmutex)
+- [`PgAdvisoryLockMutex`](#pgadvisorylockmutex)
+
 
 #### CASMutex
 
-The [`CASMutex`](http://malkusch.github.io/lock/api/class-malkusch.lock.mutex.CASMutex.html)
+The **CASMutex**
 has to be used with a [Compare-and-swap](https://en.wikipedia.org/wiki/Compare-and-swap) operation.
 This mutex is lock free. It will repeat executing the code until the CAS operation was
 successful. The code should therefore notify the mutex by calling
@@ -98,8 +102,7 @@ $mutex->synchronized(function () use ($memcached, $mutex, $amount) {
 
 #### FlockMutex
 
-The [`FlockMutex`](http://malkusch.github.io/lock/api/class-malkusch.lock.mutex.FlockMutex.html)
-is a lock implementation based on [`flock()`](http://php.net/manual/en/function.flock.php).
+The **FlockMutex** is a lock implementation based on [`flock()`](http://php.net/manual/en/function.flock.php).
 
 Example:
 ```php
@@ -115,9 +118,12 @@ $mutex->synchronized(function () use ($bankAccount, $amount) {
 });
 ```
 
+Timeouts are supported as an optional second argument. This uses the pcntl extension if 
+possible or busy waiting if not.  
+
 #### MemcachedMutex
 
-The [`MemcachedMutex`](http://malkusch.github.io/lock/api/class-malkusch.lock.mutex.MemcachedMutex.html)
+The **MemcachedMutex**
 is a spinlock implementation which uses the [`Memcached` API](http://php.net/manual/en/book.memcached.php).
 
 Example:
@@ -139,11 +145,10 @@ $mutex->synchronized(function () use ($bankAccount, $amount) {
 
 #### PHPRedisMutex
 
-The [`PHPRedisMutex`](http://malkusch.github.io/lock/api/class-malkusch.lock.mutex.PHPRedisMutex.html)
-is the distributed lock implementation of [RedLock](http://redis.io/topics/distlock)
+The **PHPRedisMutex** is the distributed lock implementation of [RedLock](http://redis.io/topics/distlock)
 which uses the [`phpredis` extension](https://github.com/phpredis/phpredis).
 
-This implementation requires at least phpredis-2.2.4.
+This implementation requires at least `phpredis-2.2.4`.
 
 Example:
 ```php
@@ -164,8 +169,7 @@ $mutex->synchronized(function () use ($bankAccount, $amount) {
 
 #### PredisMutex
 
-The [`PredisMutex`](http://malkusch.github.io/lock/api/class-malkusch.lock.mutex.PredisMutex.html)
-is the distributed lock implementation of [RedLock](http://redis.io/topics/distlock)
+The **PredisMutex** is the distributed lock implementation of [RedLock](http://redis.io/topics/distlock)
 which uses the [`Predis` API](https://github.com/nrk/predis).
 
 Example:
@@ -186,7 +190,7 @@ $mutex->synchronized(function () use ($bankAccount, $amount) {
 
 #### SemaphoreMutex
 
-The [`SemaphoreMutex`](http://malkusch.github.io/lock/api/class-malkusch.lock.mutex.SemaphoreMutex.html)
+The **SemaphoreMutex**
 is a lock implementation based on [Semaphore](http://php.net/manual/en/ref.sem.php).
 
 Example:
@@ -206,7 +210,7 @@ $mutex->synchronized(function () use ($bankAccount, $amount) {
 
 #### TransactionalMutex
 
-The [`TransactionalMutex`](http://malkusch.github.io/lock/api/class-malkusch.lock.mutex.TransactionalMutex.html)
+The **TransactionalMutex**
 delegates the serialization to the DBS. The exclusive code is executed within
 a transaction. It's up to you to set the correct transaction isolation level.
 However if the transaction fails (i.e. a `PDOException` was thrown), the code
@@ -233,14 +237,69 @@ $mutex->synchronized(function () use ($pdo, $accountId, $amount) {
 });
 ```
 
+
+#### MySQLMutex
+
+The **MySQLMutex** uses MySQL's 
+[`GET_LOCK`](https://dev.mysql.com/doc/refman/8.0/en/miscellaneous-functions.html#function_get-lock)
+function.
+
+It supports time outs. If the connection to the database server is lost or interrupted, the lock is 
+automatically released. 
+
+Note that before MySQL 5.7.5 you cannot use nested locks, any new lock will silently release already
+held locks. You should probably refrain from using this mutex on MySQL versions < 5.7.5.
+
+```php
+$pdo = new PDO("mysql:host=localhost;dbname=test", "username");
+
+$mutex = new MySQLMutex($pdo, "balance", 15);
+$mutex->synchronized(function () use ($bankAccount, $amount) {
+    $balance = $bankAccount->getBalance();
+    $balance -= $amount;
+    if ($balance < 0) {
+        throw new \DomainException("You have no credit.");
+
+    }
+    $bankAccount->setBalance($balance);
+});
+```
+#### PgAdvisoryLockMutex
+
+The **PgAdvisoryLockMutex** uses PostgreSQL's 
+[advisory locking](https://www.postgresql.org/docs/9.4/static/functions-admin.html#FUNCTIONS-ADVISORY-LOCKS)
+functions.
+
+Named locks are offered. PostgreSQL locking functions require integers but the conversion is handled automatically.
+
+No time outs are supported. If the connection to the database server is lost or interrupted, the lock is 
+automatically released. 
+
+```php
+$pdo = new PDO("pgsql:host=localhost;dbname=test;", "username");
+
+$mutex = new PgAdvisoryLockMutex($pdo, "balance");
+$mutex->synchronized(function () use ($bankAccount, $amount) {
+    $balance = $bankAccount->getBalance();
+    $balance -= $amount;
+    if ($balance < 0) {
+        throw new \DomainException("You have no credit.");
+
+    }
+    $bankAccount->setBalance($balance);
+});
+```
+
+
+
 # License and authors
 
 This project is free and under the WTFPL.
-Responsible for this project is Markus Malkusch markus@malkusch.de.
+Responsible for this project is Willem Stuursma-Ruwen <willem@stuursma.name>.
 
 ## Donations
 
 If you like this project and feel generous donate a few Bitcoins here:
-[1335STSwu9hST4vcMRppEPgENMHD2r1REK](bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK)
+[1P5FAZ4QhXCuwYPnLZdk3PJsqePbu1UDDA](bitcoin:1P5FAZ4QhXCuwYPnLZdk3PJsqePbu1UDDA)
 
-[![Build Status](https://travis-ci.org/malkusch/lock.svg?branch=master)](https://travis-ci.org/malkusch/lock)
+

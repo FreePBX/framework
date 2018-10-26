@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Alias;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * Overwrites a service but keeps the overridden one.
@@ -50,7 +50,7 @@ class DecoratorServicePass implements CompilerPassInterface
                 $alias = $container->getAlias($inner);
                 $public = $alias->isPublic();
                 $private = $alias->isPrivate();
-                $container->setAlias($renamedId, new Alias((string) $alias, false));
+                $container->setAlias($renamedId, new Alias($container->normalizeId($alias), false));
             } else {
                 $decoratedDefinition = $container->getDefinition($inner);
                 $definition->setTags(array_merge($decoratedDefinition->getTags(), $definition->getTags()));

@@ -2,15 +2,16 @@
 
 namespace malkusch\lock\mutex;
 
-use malkusch\lock\util\Loop;
-use malkusch\lock\exception\LockReleaseException;
+use malkusch\lock\exception\ExecutionOutsideLockException;
 use malkusch\lock\exception\LockAcquireException;
+use malkusch\lock\exception\LockReleaseException;
+use malkusch\lock\util\Loop;
 
 /**
  * Spinlock implementation.
  *
  * @author Markus Malkusch <markus@malkusch.de>
- * @link bitcoin:1335STSwu9hST4vcMRppEPgENMHD2r1REK Donations
+ * @link bitcoin:1P5FAZ4QhXCuwYPnLZdk3PJsqePbu1UDDA Donations
  * @license WTFPL
  * @internal
  */
@@ -76,14 +77,9 @@ abstract class SpinlockMutex extends LockMutex
 
     protected function unlock()
     {
-        $elapsed = microtime(true) - $this->acquired;
-        if ($elapsed >= $this->timeout) {
-            $message = sprintf(
-                "The code executed for %d seconds. But the timeout is %d seconds.",
-                $elapsed,
-                $this->timeout
-            );
-            throw new LockReleaseException($message);
+        $elapsed_time = microtime(true) - $this->acquired;
+        if ($elapsed_time > $this->timeout) {
+            throw ExecutionOutsideLockException::create($elapsed_time, $this->timeout);
         }
 
         /*

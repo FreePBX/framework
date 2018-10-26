@@ -595,8 +595,8 @@ if($engineinfo['version'] == 0){
 // was setting these variables before, assume we still need them
 $engine = $engineinfo['engine'];
 $version = $engineinfo['version'];
-if ((version_compare($version, "11") < 0) || version_compare($version, "16", "ge")) {
-	fatal(_("Running an unsupported version of Asterisk. Supported Asterisk versions: 11, 12, 13, 14, 15. Detected Asterisk version: ".$version));
+if (version_compare($version, "13", "lt") || version_compare($version, "17", "ge")) {
+	fatal(_("Running an unsupported version of Asterisk. Supported Asterisk versions: 13, 14, 15, 16. Detected Asterisk version: ".$version));
 }
 $chan_dahdi = ast_with_dahdi();
 
@@ -753,32 +753,7 @@ foreach ($app_arr as $app) {
 $freepbx_conf->set_conf_values($update_arr, true, true);
 
 $nt = notifications::create($db);
-
-$conf_change = _("Conference Room App Changed");
-$conf_change_desc = _("Your Conference Room App (ASTCONFAPP) was automatically changed from %s to %s because %s is not installed on your Asterisk installation");
-
-$conf_missing = _("No Conference Room App");
-$conf_missing_desc = _("Neither app_meetme nor app_confbridge is configured in Asterisk, conferencing, paging and other functionality will not work properly");
-
-if ($amp_conf['ASTCONFAPP'] == 'app_meetme' && !$astman->app_exists('meetme')) {
-	if ($astman->app_exists('confbridge')) {
-		$freepbx_conf->set_conf_values(array('ASTCONFAPP' => 'app_confbridge'), true, true);
-  	$nt->add_notice('framework', 'ASTCONFAPPCHG', $conf_change, sprintf($conf_change_desc,'app_meetme','app_confbridge','app_meetme'));
-		$nt->delete('framework', 'ASTCONFAPPMISSING');
-	} else {
-		$nt->add_error('framework', 'ASTCONFAPPMISSING', $conf_missing, $conf_missing_desc);
-	}
-} elseif ($amp_conf['ASTCONFAPP'] == 'app_confbridge' && !$astman->app_exists('confbridge')) {
-	if ($astman->app_exists('meetme')) {
-		$freepbx_conf->set_conf_values(array('ASTCONFAPP' => 'app_meetme'), true, true);
-  	$nt->add_notice('framework', 'ASTCONFAPPCHG', $conf_change, sprintf($conf_change_desc,'app_confbridge','app_meetme','app_confbridge'));
-		$nt->delete('framework', 'ASTCONFAPPMISSING');
-	} else {
-		$nt->add_error('framework', 'ASTCONFAPPMISSING', $conf_missing, $conf_missing_desc);
-	}
-} else {
-	$nt->delete('framework', 'ASTCONFAPPMISSING');
-}
+$nt->delete('framework', 'ASTCONFAPPMISSING');
 
 // Check for and report any extension conflicts
 //
@@ -788,7 +763,7 @@ $dests_ok = true;
 
 $my_hash = array_flip($module_list);
 $bmo->Performance->Start("extenconflicts");
-$my_prob_extens = $skip_registry_checks ? false : framework_list_extension_conflicts($my_hash);
+$my_prob_extens = $skip_registry_checks ? false : FreePBX::Extensions()->listExtensionConflicts();
 $bmo->Performance->Stop();
 
 if (empty($my_prob_extens)) {
@@ -815,7 +790,7 @@ if (empty($my_prob_extens)) {
 // Check for and report any bogus destinations
 //
 $bmo->Performance->Start("listproblems");
-$my_probs = $skip_registry_checks ? false : framework_list_problem_destinations($my_hash, !$amp_conf['CUSTOMASERROR']);
+$my_probs = $skip_registry_checks ? false : \FreePBX::Destinations()->listProblemDestinations(!$amp_conf['CUSTOMASERROR']);
 $bmo->Performance->Stop();
 
 if (empty($my_probs)) {
@@ -847,7 +822,7 @@ if ((!$extens_ok && $amp_conf['XTNCONFLICTABORT']) || (!$dests_ok && $amp_conf['
 
 // Generate an extension map of all extensions on the system
 $bmo->Performance->Start("extmap");
-framework_set_extmap();
+$bmo->Extensions->setExtmap();
 $bmo->Performance->Stop();
 
 // Dialplan Hook processing moved to BMO.

@@ -28,7 +28,6 @@ $features = array(
 
 // List of scripts from ./utils directory
 $utils = array(
-	'build_phar' => 'Build PHAR',
 	'test_jump_to_file' => 'Test Jump to File',
 	'detect_headers_limit' => 'Detect server headers limit',
 );
@@ -47,7 +46,7 @@ $isActiveClient = PhpConsole\Connector::getInstance()->isActiveClient();
 <head>
 	<meta charset="utf-8" />
 	<title>PHP Console usage examples</title>
-	<link rel="stylesheet" href="//xpart.ru/_share/pure-nr-min.css" />
+	<link rel="stylesheet" href="//yui.yahooapis.com/pure/0.6.0/pure-min.css" />
 	<link rel="stylesheet" href="styles.css" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 	<script>
@@ -79,7 +78,7 @@ $isActiveClient = PhpConsole\Connector::getInstance()->isActiveClient();
 								$('#outputIFrame').height(0).attr('src', uri)
 									.load(function() {
 										if(this.contentWindow != 'DOMException') {
-											$(this).contents().find('body').append($('<link rel="stylesheet" href="//xpart.ru/_share/pure-nr-min.css" />'));
+											$(this).contents().find('body').append($('<link rel="stylesheet" href="//yui.yahooapis.com/pure/0.6.0/pure-min.css" />'));
 											$('#content').show();
 											$(this).height(this.contentWindow.document.body.offsetHeight);
 										}

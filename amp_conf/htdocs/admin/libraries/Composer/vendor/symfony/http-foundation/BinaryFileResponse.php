@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\HttpFoundation;
 
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * BinaryFileResponse represents an HTTP response delivering a file.
@@ -31,8 +31,8 @@ class BinaryFileResponse extends Response
      * @var File
      */
     protected $file;
-    protected $offset;
-    protected $maxlen;
+    protected $offset = 0;
+    protected $maxlen = -1;
     protected $deleteFileAfterSend = false;
 
     /**
@@ -40,7 +40,7 @@ class BinaryFileResponse extends Response
      * @param int                 $status             The response status code
      * @param array               $headers            An array of response headers
      * @param bool                $public             Files are public by default
-     * @param null|string         $contentDisposition The type of Content-Disposition to set automatically with the filename
+     * @param string|null         $contentDisposition The type of Content-Disposition to set automatically with the filename
      * @param bool                $autoEtag           Whether the ETag header should be automatically set
      * @param bool                $autoLastModified   Whether the Last-Modified header should be automatically set
      */
@@ -60,7 +60,7 @@ class BinaryFileResponse extends Response
      * @param int                 $status             The response status code
      * @param array               $headers            An array of response headers
      * @param bool                $public             Files are public by default
-     * @param null|string         $contentDisposition The type of Content-Disposition to set automatically with the filename
+     * @param string|null         $contentDisposition The type of Content-Disposition to set automatically with the filename
      * @param bool                $autoEtag           Whether the ETag header should be automatically set
      * @param bool                $autoLastModified   Whether the Last-Modified header should be automatically set
      *
@@ -165,7 +165,7 @@ class BinaryFileResponse extends Response
             for ($i = 0, $filenameLength = mb_strlen($filename, $encoding); $i < $filenameLength; ++$i) {
                 $char = mb_substr($filename, $i, 1, $encoding);
 
-                if ('%' === $char || ord($char) < 32 || ord($char) > 126) {
+                if ('%' === $char || \ord($char) < 32 || \ord($char) > 126) {
                     $filenameFallback .= '_';
                 } else {
                     $filenameFallback .= $char;
@@ -221,12 +221,12 @@ class BinaryFileResponse extends Response
                 foreach (explode(',', $request->headers->get('X-Accel-Mapping', '')) as $mapping) {
                     $mapping = explode('=', $mapping, 2);
 
-                    if (2 === count($mapping)) {
+                    if (2 === \count($mapping)) {
                         $pathPrefix = trim($mapping[0]);
                         $location = trim($mapping[1]);
 
-                        if (substr($path, 0, strlen($pathPrefix)) === $pathPrefix) {
-                            $path = $location.substr($path, strlen($pathPrefix));
+                        if (substr($path, 0, \strlen($pathPrefix)) === $pathPrefix) {
+                            $path = $location.substr($path, \strlen($pathPrefix));
                             break;
                         }
                     }

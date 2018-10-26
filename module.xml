@@ -3,98 +3,35 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>14.0.2.6</version>
+	<version>15.0.1.22</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
-		*14.0.2.6* Upgrade bootstrap tables
-		*14.0.2.5* Dont check pbx version
-		*14.0.2.4* Fix installer to use migrate multiple xml
-		*14.0.2.3* FREEPBX-16901
-		*14.0.2.2* Speed up xml database statements
-		*14.0.2.1* Revert FREEPBX-15459
-		*14.0.2* Add new BMore expansion
-		*14.0.1.37* Add index to recordingfield
-		*14.0.1.36* FREEPBX-16528 escape audio conversions better
-		*14.0.1.35* Fix issue with json output on retrieve_conf
-		*14.0.1.34* Fix order of table uninstalls from xml
-		*14.0.1.33* FREEPBX-16743 KVstore not deleting records on module uninstall
-		*14.0.1.32* FREEPBX-16697
-		*14.0.1.31* FREEPBX-16642
-		*14.0.1.30* FREEPBX-16653
-		*14.0.1.29* Fix naming of class in php 5.6
-		*14.0.1.28* Media autoloader setup
-		*14.0.1.27* FREEPBX-16395 - don't overwrite the fwconsole console command
-		*14.0.1.26* FREEPBX-16544 - check to see if we are upgrading to a new module
-		*14.0.1.25* Merge from 13
-		*14.0.1.24* FREEPBX-16425, Fix Asterisk Module issues
-		*14.0.1.22* Handle errors when installing on a machine without a network interface
-		*14.0.1.21* FREEPBX-16295, FREEPBX-16394, and Enable stack traces on the cli by default
-		*14.0.1.20* FREEPBX-15758 Revert the bootstrap export extension to fork
-		*14.0.1.19* Fix fwconsole m to detect tty or not
-		*14.0.1.18* Remove default on freepbx_log table
-		*14.0.1.16* FREEPBX-15800 FREEPBX-15944
-		*14.0.1.15* Support Asterisk 15
-		*14.0.1.14* fix issue with undefined newvers
-		*14.0.1.13* Fixes to system upgrades page
-		*14.0.1.12* FREEPBX-14185 wrong permissions on single files
-		*14.0.1.11* FREEPBX-15944 Errors during CLI installation
-		*14.0.1.10* Adjust Asterisk Manager Caching
-		*14.0.1.9* FREEPBX-15692
-		*14.0.1.8* Fixed bug in installer
-		*14.0.1.7* FREEPBX-15592
-		*14.0.1.6* FREEPBX-15369
-		*14.0.1.5* Enable caching
-		*14.0.1.4* Remove res_digium_phones from noload even if pjsip is disabled
-		*14.0.1.3* Remove res_digium_phones from noload
-		*14.0.1.2* FREEPBX-15283 FREEPBX-15364
-		*14.0.1.1* FREEPBX-15203 Fix the active count on module admin summary.
-		*14.0.1* Stable release
-		*14.0.1rc1.30* FREEPBX-15177
-		*14.0.1rc1.29* Runuser 'changes to the target users home directory'
-		*14.0.1rc1.28* FREEPBX-14745 Expose All Feature Codes in Advanced settings - codes are enabled by default
-		*14.0.1rc1.27* A trival fix for misconfigured RasPI type systems without PATH env set
-		*14.0.1rc1.26* FREEPBX-14703 - Handle yum update errors correctly
-		*14.0.1rc1.25* Minor installer fixes
-		*14.0.1rc1.24* Bump
-		*14.0.1rc1.23* FREEPBX-15088 fix login when using user manager
-		*14.0.1rc1.21* FREEPBX-14939 Add longpoll check ajax start
-		*14.0.1rc1.20* Developer Moder improvements
-		*14.0.1rc1.20* FREEPBX-15046 recursive chown blacklist
-		*14.0.1rc1.19* FREEPBX-14941 Mail wrapper setting header incorrectly
-		*14.0.1rc1.18* Change size of kvstore indexes and fix retrieve conf errors
-		*14.0.1rc1.17* FREEPBX-14934 fix broken login in rare cases
-		*14.0.1rc1.16* FREEPBX-14918 make sure asteriskcdrdb is set in install, if not then default
-		*14.0.1rc1.15* FREEPBX-14867 chown blacklist breaks chown
-		*14.0.1rc1.14* chown correction #1
-		*14.0.1rc1.13* Merge 13 into 14
-		*14.0.1rc1.12* Add view for destinations entry
-		*14.0.1rc1.10* Merge 13 into 14
-		*14.0.1rc1.9* Merge 13 release into 14
-		*14.0.1rc1.8* FREEPBX-14460 language selection not working
-		*14.0.1rc1.7* Add json stack traces
-		*14.0.1rc1.6* FREEPBX-14406: Tables created with different char sets
-		*14.0.1rc1.5* FREEPBX-14381
-		*14.0.1rc1.4* FREEPBX-14398
-		*14.0.1rc1.3* Merge 13 release into 14
-		*14.0.1rc1.2* Fix doctrine casing
-		*14.0.1rc1.1* Reference moment after ready
-		*14.0.1rc1* RC1
-		*14.0.1beta20* Merge 13 release into 14
-		*14.0.1beta19* add locking library
-		*14.0.1beta18* Update for 1702 release
-		*14.0.1beta16* Ensure update hooks are deleted
-		*14.0.1beta15* Fix issue with compressed js library
-		*14.0.1beta14* FREEPBX-14023 - Fix issues with yum updates
-		*14.0.1beta13* Merge 13 changes in
-		*14.0.1beta12* Quiet the chown during upgrades
-		*14.0.1beta11* Bad javascript new line
-		*14.0.1beta4* Testing of system updater in Module Admin
-		*14.0.1beta1* Betaing
-		*14.0.1alpha1* Inital Release
+		*15.0.1.22* FREEPBX-17836 MOH with french characters are not visible in MOH module after upload
+		*15.0.1.21* FREEPBX-18262 cxpanel server options 
+		*15.0.1.20* FREEPBX-18262 cxpanel server options 
+		*15.0.1.19* Revert FREEPBX-18078 
+		*15.0.1.18* FREEPBX-17747 Typos in modulefunctions.class.php 
+		*15.0.1.17* FREEPBX-18039 add extconfig_custom.conf include in extconfig.conf 
+		*15.0.1.16* FREEPBX-18359
+		*15.0.1.15* FREEPBX-18291 sangoma logo update 
+		*15.0.1.14* FREEPBX-18078 delay astman socket connection until request 
+		*15.0.1.13* FREEPBX-18078 delay astman socket connection until request 
+		*15.0.1.12* FREEPBX-18200
+		*15.0.1.11* FREEPBX-18161
+		*15.0.1.10* fix request helper to utilize filter_input_array functionality
+		*15.0.1.9* FREEPBX-18142 
+		*15.0.1.8* FREEPBX-18126 
+		*15.0.1.7* Fix destination drawselects selections
+		*15.0.1.6* FREEPBX-18108
+		*15.0.1.5* Update API
+		*15.0.1.4* Update composer
+		*15.0.1.3* Add presence state list
+		*15.0.1.2* PHP 7.2 Support
+		*15.0.1alpha1* Inital Release
 	</changelog>
 	<description>
 		This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module
@@ -103,7 +40,7 @@
 		<phpversion>5.6.0</phpversion>
 	</depends>
 	<supported>
-		<version>14.0</version>
+		<version>15.0</version>
 	</supported>
 	<database>
 		<table name="admin">

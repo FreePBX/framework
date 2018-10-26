@@ -86,7 +86,6 @@ try {
 		}else{
 			$ifile = $fwcpath . '/' . $class;
 			if(file_exists($ifile)) {
-				include $ifile;
 				$classname = substr($class ,0,-10);
 				$class = 'FreePBX\\Console\\Command\\' . $classname;
 				$reflector = new ReflectionClass($class);

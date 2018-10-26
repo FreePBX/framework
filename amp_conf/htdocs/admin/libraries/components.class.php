@@ -76,7 +76,19 @@ class component {
 		}
 	}
 
-	public function addguielem($section, $guielem, $sortorder = 5, $placement = null, $category="other") {
+	/*
+	 * add GUI element.
+	 * $mode = In 'basic mode', we will not display 'advanced' mode requested settings. Default is 'basic' to compatible with current behaviour.
+	 */
+	public function addguielem($section, $guielem, $sortorder = 5, $placement = null, $category="other", $mode='basic') {
+		$current_opmode = FreePBX::Config()->get('FPBXOPMODE');
+		if ($current_opmode == 'basic') {
+			if (($mode == 'advanced')) {
+				// do not display 'advanced' mode section while we are on 'basic mode'
+				return;
+			}
+		}
+
 		if(!ctype_digit($sortorder) && is_string($sortorder)) {
 			$category = $sortorder;
 			$sortorder = 5;

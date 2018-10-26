@@ -317,6 +317,29 @@ default_md = sha256
 		}
 	}
 
+	/**
+	 * Extract the public key from the private key
+	 * @method extractPublicKey
+	 * @param  string           $name The private key name
+	 */
+	public function extractPublicKey($name) {
+		$keyloc = $this->getKeysLocation();
+		$prikeyfile = "{$keyloc}/{$name}.key";
+		$pubkeyfile = "{$keyloc}/{$name}_public.key";
+
+		// Never clobber an existing key.
+		if (file_exists($pubkeyfile)) {
+			return false;
+		}
+
+		$out = $this->runOpenSSL("rsa -in $prikeyfile -pubout -out $pubkeyfile");
+		if($out['exitcode'] != 0) {
+			throw new \Exception(sprintf(_("Can't extract key, no idea why. %s"),json_encode($out)));
+		} else {
+			return true;
+		}
+	}
+
 
 	/**
 	 * Sign the key that's been generated with our own CA

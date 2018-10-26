@@ -12,12 +12,12 @@
 namespace Symfony\Component\DependencyInjection\Compiler;
 
 use Symfony\Component\DependencyInjection\Argument\ArgumentInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\ExpressionLanguage;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\ExpressionLanguage\Expression;
 
 /**
@@ -34,15 +34,17 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements Repe
     private $graph;
     private $currentDefinition;
     private $onlyConstructorArguments;
+    private $hasProxyDumper;
     private $lazy;
     private $expressionLanguage;
 
     /**
      * @param bool $onlyConstructorArguments Sets this Service Reference pass to ignore method calls
      */
-    public function __construct($onlyConstructorArguments = false)
+    public function __construct($onlyConstructorArguments = false, $hasProxyDumper = true)
     {
         $this->onlyConstructorArguments = (bool) $onlyConstructorArguments;
+        $this->hasProxyDumper = (bool) $hasProxyDumper;
     }
 
     /**
@@ -64,7 +66,8 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements Repe
         $this->lazy = false;
 
         foreach ($container->getAliases() as $id => $alias) {
-            $this->graph->connect($id, $alias, (string) $alias, $this->getDefinition((string) $alias), null);
+            $targetId = $this->getDefinitionId((string) $alias);
+            $this->graph->connect($id, $alias, $targetId, $this->getDefinition($targetId), null);
         }
 
         parent::process($container);
@@ -87,15 +90,16 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements Repe
             return $value;
         }
         if ($value instanceof Reference) {
-            $targetDefinition = $this->getDefinition((string) $value);
+            $targetId = $this->getDefinitionId((string) $value);
+            $targetDefinition = $this->getDefinition($targetId);
 
             $this->graph->connect(
                 $this->currentId,
                 $this->currentDefinition,
-                $this->getDefinitionId((string) $value),
+                $targetId,
                 $targetDefinition,
                 $value,
-                $this->lazy || ($targetDefinition && $targetDefinition->isLazy()),
+                $this->lazy || ($this->hasProxyDumper && $targetDefinition && $targetDefinition->isLazy()),
                 ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE === $value->getInvalidBehavior()
             );
 
@@ -109,6 +113,8 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements Repe
                 return $value;
             }
             $this->currentDefinition = $value;
+        } elseif ($this->currentDefinition === $value) {
+            return $value;
         }
         $this->lazy = false;
 
@@ -134,8 +140,6 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements Repe
      */
     private function getDefinition($id)
     {
-        $id = $this->getDefinitionId($id);
-
         return null === $id ? null : $this->container->getDefinition($id);
     }
 
@@ -149,7 +153,7 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements Repe
             return;
         }
 
-        return $id;
+        return $this->container->normalizeId($id);
     }
 
     private function getExpressionLanguage()
@@ -163,11 +167,12 @@ class AnalyzeServiceReferencesPass extends AbstractRecursivePass implements Repe
             $this->expressionLanguage = new ExpressionLanguage(null, $providers, function ($arg) {
                 if ('""' === substr_replace($arg, '', 1, -1)) {
                     $id = stripcslashes(substr($arg, 1, -1));
+                    $id = $this->getDefinitionId($id);
 
                     $this->graph->connect(
                         $this->currentId,
                         $this->currentDefinition,
-                        $this->getDefinitionId($id),
+                        $id,
                         $this->getDefinition($id)
                     );
                 }

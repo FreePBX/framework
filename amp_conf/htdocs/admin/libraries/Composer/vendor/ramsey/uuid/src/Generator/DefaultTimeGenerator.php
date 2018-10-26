@@ -72,6 +72,10 @@ class DefaultTimeGenerator implements TimeGeneratorInterface
      *     could arise when the clock is set backwards in time or if the node ID
      *     changes.
      * @return string A binary string
+     * @throws \Ramsey\Uuid\Exception\UnsatisfiedDependencyException if called on a 32-bit system and
+     *     `Moontoast\Math\BigNumber` is not present
+     * @throws \InvalidArgumentException
+     * @throws \Exception if it was not possible to gather sufficient entropy
      */
     public function generate($node = null, $clockSeq = null)
     {
@@ -79,7 +83,7 @@ class DefaultTimeGenerator implements TimeGeneratorInterface
 
         if ($clockSeq === null) {
             // Not using "stable storage"; see RFC 4122, Section 4.2.1.1
-            $clockSeq = mt_rand(0, 1 << 14);
+            $clockSeq = random_int(0, 0x3fff);
         }
 
         // Create a 60-bit time value as a count of 100-nanosecond intervals
@@ -111,6 +115,8 @@ class DefaultTimeGenerator implements TimeGeneratorInterface
      *
      * @param string|int $node A node value that may be used to override the node provider
      * @return string Hexadecimal representation of the node ID
+     * @throws \InvalidArgumentException
+     * @throws \Exception
      */
     protected function getValidNode($node)
     {
