@@ -205,14 +205,20 @@ class Hooks extends DB_Helper {
 				}
 				try {
 					if($bmoModule) {
+						$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$module."::".$meth."_start");
 						$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), $args);
+						$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$module."::".$meth."_stop");
 					} else {
 						$fn = $namespace.$class;
 						if($static) {
 							$t = new $fn($this->FreePBX);
+							$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_start");
 							$return[$module] = call_user_func_array(array($t, $meth), $args);
+							$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_stop");
 						} else {
+							$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_start");
 							$return[$module] = call_user_func_array($fn.'::'.$meth, $args);
+							$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_stop");
 						}
 					}
 				} catch (\Exception $e) {
@@ -297,14 +303,20 @@ class Hooks extends DB_Helper {
 		\modgettext::push_textdomain(strtolower($module));
 
 		if($bmoModule) {
+			$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$module."::".$meth."_start");
 			$return = call_user_func_array(array($this->FreePBX->$module, $meth), $args);
+			$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$module."::".$meth."_stop");
 		} else {
 			$fn = $namespace.$class;
 			if($static) {
 				$t = new $fn($this->FreePBX);
+				$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_start");
 				$return = call_user_func_array(array($t, $meth), $args);
+				$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_stop");
 			} else {
+				$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_start");
 				$return = call_user_func_array($fn.'::'.$meth, $args);
+				$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_stop");
 			}
 		}
 		\modgettext::pop_textdomain();
