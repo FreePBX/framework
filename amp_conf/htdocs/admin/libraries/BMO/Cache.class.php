@@ -229,7 +229,7 @@ class Cache {
 				$secondaryCache =  new PhpFileCache($cachePath);
 			}
 
-			$this->cache = new ChainCache([$primaryCache, $secondaryCache]);
+			$this->cache = new ChainCache(array($primaryCache, $secondaryCache));
 		}
 		return $this->cache;
 	}
