@@ -21,24 +21,18 @@
 namespace FreePBX\Builtin;
 
 class Session {
-	private static $dbh;
 	private static $session;
+	private $cache;
+	private $ttl = 1800;
 
 	public static function register($dbh) {
 		// Only register if we haven't already done so.
 		if (empty(self::$session)) {
-			self::$session = new Session($dbh);
+			self::$session = new Session();
 		}
 	}
 
-	public function __construct($dbh) {
-		$this->sessiondbname = "db_sessions";
-
-		if (!is_object(self::$dbh)) {
-			self::$dbh = $dbh;
-			$this->createSessionTable();
-		}
-
+	public function __construct() {
 		session_set_save_handler(
 			[ $this, "session_open" ],
 			[ $this, "session_close" ],
@@ -47,17 +41,6 @@ class Session {
 			[ $this, "session_destroy" ],
 			[ $this, "session_gc" ]
 		);
-
-	}
-
-	private function createSessionTable() {
-		self::$dbh->query('CREATE TABLE IF NOT EXISTS `'.$this->sessiondbname.'` (
-			`id` varchar(32) NOT NULL,
-			`access` int(10) unsigned DEFAULT NULL,
-			`data` text,
-			PRIMARY KEY (`id`)
-		) DEFAULT CHARSET=utf8');
-
 	}
 
 	// The open callback works like a constructor in classes and is executed
@@ -65,6 +48,8 @@ class Session {
 	// executed when the session is started automatically or manually with
 	// session_start(). Return value is TRUE for success, FALSE for failure.
 	public function session_open() {
+		$this->cache = \FreePBX::Cache()->cloneByNamespace('session');
+		$this->ttl = \FreePBX::Config()->get('SESSION_TIMEOUT');
 		return true;
 	}
 
@@ -73,6 +58,7 @@ class Session {
 	// when session_write_close() is called. Return value should be TRUE for
 	// success, FALSE for failure.
 	public function session_close() {
+		unset($this->cache);
 		return true;
 	}
 
@@ -92,16 +78,10 @@ class Session {
 	//
 	// Bug report of typo:  https://bugs.php.net/bug.php?id=75198
 	public function session_read($id) {
-		static $prep = false;
-		if (!$prep) {
-			$prep = self::$dbh->prepare('SELECT `data` FROM `'.$this->sessiondbname.'` WHERE id = ?');
+		if($this->cache->contains($id)) {
+			return $this->cache->fetch($id);
 		}
-		$prep->execute([$id]);
-		$res = $prep->fetchAll(\PDO::FETCH_COLUMN);
-
-		// PHP Null coalesce operator, requires php 7.0
-		// return $res[0] ?? '';
-		return isset($res[0]) ? $res[0] : '';
+		return '';
 	}
 
 	// The write callback is called when the session needs to be saved and closed.
@@ -123,25 +103,14 @@ class Session {
 	// output be written to a file instead.
 
 	public function session_write($id, $data){
-		static $prep;
-		if (!$prep) {
-			$prep = self::$dbh->prepare('INSERT INTO `'.$this->sessiondbname.'` (`id`, `access`, `data`) VALUES (?, ?, ?) ON DUPLICATE KEY
-				UPDATE `access` = ?, `data` = ?');
-		}
-
-		$settings = [ $id, time(), $data, time(), $data ];
-		return $prep->execute($settings);
+		return $this->cache->save($id,$data,$this->ttl);
 	}
 
 	// This callback is executed when a session is destroyed with session_destroy()
 	// or with session_regenerate_id() with the destroy parameter set to TRUE.
 	// Return value should be TRUE for success, FALSE for failure.
 	public function session_destroy($id) {
-		static $prep;
-		if (!$prep) {
-			$prep = self::$dbh->prepare('DELETE FROM `'.$this->sessiondbname.'` WHERE `id` = ?');
-		}
-		$prep->execute([$id]);
+		$this->cache->delete($id);
 		return true;
 	}
 
@@ -152,13 +121,7 @@ class Session {
 	// should be TRUE for success, FALSE for failure.
 
 	public function session_gc($lifetime) {
-		static $prep;
-		if (!$prep) {
-			$prep = self::$dbh->prepare('DELETE FROM `'.$this->sessiondbname.'` WHERE `access` < ?');
-		}
-		$prep->execute([ time() - $lifetime ]);
+		// no action necessary because using EXPIRE
 		return true;
 	}
 }
-
-

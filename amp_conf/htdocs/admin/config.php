@@ -80,7 +80,7 @@ include_once '/etc/freepbx.conf';
 
 session_set_cookie_params(60 * 60 * 24 * 30);//(re)set session cookie to 30 days
 ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 30);//(re)set session to 30 days
-if (!isset($_SESSION)) {
+if (session_status() == PHP_SESSION_NONE) {
 	//start a session if we need one
 	$ss = @session_start();
 	if(!$ss){
@@ -172,6 +172,7 @@ if (!isset($no_auth) && $action != '' && $amp_conf['CHECKREFERER']) {
 		$display = 'badrefer';
 	}
 }
+
 if (isset($no_auth) && empty($display)) {
 	$display = 'noauth';
 }
@@ -184,7 +185,6 @@ if (!in_array($display, array('noauth', 'badrefer'))
 	fileRequestHandler($_REQUEST['handler'], $module, $file);
 	exit();
 }
-
 
 if (!$quietmode) {
 	$modulef = module_functions::create();
