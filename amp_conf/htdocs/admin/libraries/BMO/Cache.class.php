@@ -222,7 +222,7 @@ class Cache {
 					$secondaryCache = new RedisCache();
 					$secondaryCache->setRedis($redis);
 				} catch(\Exception $e) {
-					freepbx_log(FPBX_LOG_WARNING, "Redis enabled but not running, falling back to filesystem [{$e->getMessage}]");
+					freepbx_log(FPBX_LOG_WARNING, "Redis enabled but not running, falling back to filesystem [{$e->getMessage()}]");
 				}
 			}
 			if(empty($secondarCache)) {
