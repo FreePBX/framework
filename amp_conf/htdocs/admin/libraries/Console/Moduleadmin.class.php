@@ -671,15 +671,11 @@ class Moduleadmin extends Command {
 					$module_update_json = $this->mf->url_get_contents($module['updateurl'], "");
 					if ($module_update_json && $module_update_data = json_decode($module_update_json, true)) {
 						if (version_compare_freepbx($module['version'], $module_update_data['version'])) {
-							if ($extarray) {
-								$modules_upgradable[] = array(
-									'name' => $name,
-									'local_version' => $module['version'],
-									'online_version' => $module_update_data['version'],
-								);
-							} else {
-								$modules_upgradable[] = $name;
-							}
+							$modules_upgradable[$name] = array(
+								'name' => $name,
+								'local_version' => $module['version'],
+								'online_version' => $module_update_data['version'],
+							);
 						}
 					}
 				}
