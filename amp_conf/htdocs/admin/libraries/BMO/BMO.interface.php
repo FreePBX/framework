@@ -52,21 +52,6 @@ interface BMO  {
 	// Is called when an Upgrade is run on the module. If this doesn't exist, install()
 	// will be called.
 
-	// ////////////////// //
-	// Backup and Restore //
-	// ////////////////// //
-	// These functions are called when the Backup/Restore module runs.
-	public function backup();
-	// When called, return a string or array that will allow the module to rebuild its
-	// configuration.
-	//
-	public function restore($backup);
-	// When called, assume that your existing database is in an indeterminate state, and
-	// process the information handed to it. Note that you should never assume that the
-	// information handed to restore is the latest version. This may be a restore from
-	// several versions ago, so ensure that you verify that it's up to date with your
-	// current schema.
-
 	// ////////////// //
 	// FreePBX Search //
 	// ////////////// //
