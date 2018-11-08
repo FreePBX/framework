@@ -254,7 +254,7 @@ class Chown extends Command {
 				continue;
 			}
 			foreach($modfilelist as $file) {
-				if($input->hasOption('file') && $input->getOption('file') !== $file['path']) {
+				if($input->hasOption('file') && $input->getOption('file') && $input->getOption('file') !== $file['path']) {
 					continue;
 				} else {
 					$foundFiles = true;
