@@ -223,7 +223,7 @@ class Chown extends Command {
 			unlink($file);
 		}
 
-		if((empty($this->moduleName) && $this->moduleName != 'framework') && posix_geteuid() == 0 && !$input->getOption('file')) {
+		if((empty($this->moduleName) && $this->moduleName != 'framework') && posix_geteuid() == 0 && (!$input->hasOption('file') || !$input->getOption('file'))) {
 			$output->write(_("Setting base permissions..."));
 
 			$this->systemSetRecursivePermissions($ASTVARLIBDIR . '/' . $MOHDIR, 0775, $ampowner, $ampowner, 'rdir');
