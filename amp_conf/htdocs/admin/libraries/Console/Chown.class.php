@@ -23,7 +23,8 @@ class Chown extends Command {
 		->setDescription(_('Change ownership of files'))
 		->setDefinition(array(
 			new InputOption('file', 'f', InputOption::VALUE_REQUIRED, _('Execute on only this file/dir')),
-			new InputArgument('args', InputArgument::IS_ARRAY, _('Set permissions on a specific module: <rawname>'), null),));
+			new InputOption('module', 'm', InputOption::VALUE_REQUIRED, _('Set permissions on a specific module: <rawname>'))
+		));
 		$this->fs = new Filesystem();
 		$this->modfiles = array();
 		$this->loadChownConf();
@@ -35,11 +36,9 @@ class Chown extends Command {
 		}
 		$this->output = $output;
 		$args = array();
-		if($input){
-			$args = $input->getArgument('args');
-			$mname = isset($args[0])?$args[0]:'';
-			$this->moduleName = !empty($this->moduleName) ? $this->moduleName : strtolower($mname);
-		}
+
+		$mname = $input->hasOption('module') ? $input->getOption('module') : '';
+		$this->moduleName = !empty($this->moduleName) ? $this->moduleName : strtolower($mname);
 
 		if((empty($this->moduleName) || $this->moduleName == 'framework') && posix_geteuid() != 0) {
 			$output->writeln("<error>"._("You need to be root to run this command")."</error>");
@@ -214,7 +213,17 @@ class Chown extends Command {
 		 */
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
 
-		if((empty($this->moduleName) && $this->moduleName != 'framework') && posix_geteuid() == 0) {
+		// FREEPBX-16718 - Make sure there aren't any dangling sound files in ASTVARLIBDIR/sounds which causes
+		// asterisk to display harmless, but annoying, warnings, and can cause systemSetRecursive to error,
+		// too.
+		$sounds = "$ASTVARLIBDIR/sounds";
+		exec("find $sounds -xtype l", $findoutput, $ret);
+		foreach ($findoutput as $file) {
+			$output->writeln(sprintf(_("Removing dangling sound symlink %s"), $file));
+			unlink($file);
+		}
+
+		if((empty($this->moduleName) && $this->moduleName != 'framework') && posix_geteuid() == 0 && !$input->getOption('file')) {
 			$output->write(_("Setting base permissions..."));
 
 			$this->systemSetRecursivePermissions($ASTVARLIBDIR . '/' . $MOHDIR, 0775, $ampowner, $ampowner, 'rdir');
@@ -230,20 +239,26 @@ class Chown extends Command {
 		$output->writeln(_("Setting specific permissions..."));
 
 		$verbose = $this->output->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE;
-		if(!$verbose) {
+		if(!$verbose && (!$input->hasOption('file') || !$input->getOption('file'))) {
 			$progress = new ProgressBar($output);
 			$progress->setRedrawFrequency(100);
 			$progress->start();
 		}
 
+		$foundFiles = false;
 		foreach($this->modfiles as $moduleName => $modfilelist) {
-			if(!$verbose) {
+			if(!$verbose && (!$input->hasOption('file') || !$input->getOption('file'))) {
 				$progress->advance();
 			}
 			if(!is_array($modfilelist)) {
 				continue;
 			}
 			foreach($modfilelist as $file) {
+				if($input->hasOption('file') && $input->getOption('file') !== $file['path']) {
+					continue;
+				} else {
+					$foundFiles = true;
+				}
 				$owner = isset($file['owner'])?$file['owner']:$ampowner;
 				$group = isset($file['group'])?$file['group']:$ampgroup;
 				$owner = \ForceUTF8\Encoding::toLatin1($owner);
@@ -279,10 +294,13 @@ class Chown extends Command {
 				}
 			}
 		}
-		if(!$verbose) {
+		if(!$verbose && (!$input->hasOption('file') || !$input->getOption('file'))) {
 			$progress->finish();
+			$output->writeln("");
 		}
-		$output->writeln("");
+		if($input->hasOption('file') && $input->getOption('file') && !$foundFiles) {
+			$output->writeln(sprintf(_("Unable to find permissions for %s, is this owned by the PBX? Did you set an override?"),$input->getOption('file')));
+		}
 		$output->writeln("Finished setting permissions");
 		$errors = array_unique($this->errors);
 		foreach($errors as $error) {
