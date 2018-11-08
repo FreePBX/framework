@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-30 14:22-0400\n"
+"POT-Creation-Date: 2018-11-08 17:05-0500\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -195,7 +195,7 @@ msgstr "%s Устройства"
 msgid "%s Extensions"
 msgstr "%s Внутренние номера"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:353
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:361
 #, php-format
 msgid "%s Likely will not work as expected"
 msgstr "%s Скорее всего не работает так, как ожидается"
@@ -215,7 +215,7 @@ msgstr "%s Онлайн %s обновление доступно (%s)"
 msgid "%s Online upgrade available (%s)"
 msgstr "%s Онлайн обновление доступно (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:536
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:556
 #, php-format
 msgid "%s RPMs available for upgrade"
 msgstr ""
@@ -447,9 +447,9 @@ msgstr ""
 "использовать %s с текущим браузером, но ваш опыт может уменьшиться если это "
 "не поддерживать как следует."
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:386
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:421
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:458
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:394
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:429
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:466
 #, php-format
 msgid "%s skipped by configuration"
 msgstr ""
@@ -533,15 +533,15 @@ msgstr "Файлы .htaccess не поддерживаются на этом в�
 msgid "0 admins"
 msgstr "0 администраторов"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:534
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:554
 msgid "1 RPM available for upgrade"
 msgstr ""
 
-#: ../core/views/routing/form.php:597 ../core/views/trunks/trunk_footer.php:59
+#: ../core/views/routing/form.php:598 ../core/views/trunks/trunk_footer.php:59
 msgid "10 Digit Patterns"
 msgstr "10-ти значный шаблон"
 
-#: ../core/views/routing/form.php:599 ../core/views/trunks/trunk_footer.php:61
+#: ../core/views/routing/form.php:600 ../core/views/trunks/trunk_footer.php:61
 msgid "11 Digit Patterns"
 msgstr "11-ти значный шаблон"
 
@@ -550,7 +550,7 @@ msgstr "11-ти значный шаблон"
 msgid "404 Not found (%s)"
 msgstr "404 Не найдено (%s)"
 
-#: ../core/views/routing/form.php:595 ../core/views/trunks/trunk_footer.php:57
+#: ../core/views/routing/form.php:596 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
 msgstr "7-ми значный шаблон"
 
@@ -2084,8 +2084,8 @@ msgstr "Канал %s"
 msgid "Channel ID"
 msgstr "ID канала"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:549
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:576
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:569
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:596
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:27
 msgid "Check Online"
 msgstr "Проверить он-лайн"
@@ -2180,7 +2180,7 @@ msgid ""
 "a notice on any module page that is not correctly verified."
 msgstr ""
 
-#: ../core/views/routing/form.php:507
+#: ../core/views/routing/form.php:508
 msgid "Choose File"
 msgstr "Выбрать файл"
 
@@ -2250,7 +2250,7 @@ msgstr "Клиентский URI"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1116
 #: amp_conf/htdocs/admin/views/footer.php:105
-#: ../core/views/routing/form.php:616 ../core/views/trunks/trunk_footer.php:78
+#: ../core/views/routing/form.php:617 ../core/views/trunks/trunk_footer.php:78
 msgid "Close"
 msgstr "Закрыть"
 
@@ -2579,7 +2579,7 @@ msgstr "Текущая конфигурация сети "
 msgid "Current PBX Version:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:496
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:516
 msgid "Current System Update Status:"
 msgstr ""
 
@@ -3362,7 +3362,7 @@ msgstr "Правила набора"
 msgid "Dial Patterns that will use this Route"
 msgstr "Шаблоны номеров, используемые на этом маршруте"
 
-#: ../core/views/routing/form.php:487 ../core/views/routing/form.php:574
+#: ../core/views/routing/form.php:488 ../core/views/routing/form.php:575
 #: ../core/views/trunks/trunk_footer.php:36
 #: ../core/views/trunks/trunk_header.php:97
 msgid "Dial patterns wizards"
@@ -3614,7 +3614,7 @@ msgstr "Нет прав/невозможно записать в: %s"
 msgid "Don't know about modules yet. It needs to be handed to me"
 msgstr "Пока не знаю о модуле.Мне это  необходимо для поддержки"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:199
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:198
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:142
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:297
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:310
@@ -3653,7 +3653,7 @@ msgstr "Скачать %s, оставить деактивированным"
 msgid "Download (From Web)"
 msgstr "Загрузить(Из Веб)"
 
-#: ../core/views/routing/form.php:591 ../core/views/trunks/trunk_footer.php:53
+#: ../core/views/routing/form.php:592 ../core/views/trunks/trunk_footer.php:53
 msgid "Download Local Patterns"
 msgstr "Загрузить локальные шаблоны"
 
@@ -3690,7 +3690,7 @@ msgstr ""
 msgid "Download completed in %s seconds"
 msgstr ""
 
-#: ../core/views/routing/form.php:580 ../core/views/trunks/trunk_footer.php:42
+#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:42
 msgid "Download local prefixes"
 msgstr "Скачать локальные префиксы"
 
@@ -4337,11 +4337,11 @@ msgstr "Срок действия"
 msgid "Expiration time for registrations in seconds."
 msgstr "Срок действия регистрации в секундах"
 
-#: ../core/views/routing/form.php:527
+#: ../core/views/routing/form.php:528
 msgid "Export Dialplans as CSV"
 msgstr "Экспорт диал-плана в формате CSV"
 
-#: ../core/views/routing/form.php:539
+#: ../core/views/routing/form.php:540
 #, php-format
 msgid ""
 "Export patterns as a CSV file with headers listed as: %s, %s, %s and %s in "
@@ -5061,7 +5061,7 @@ msgstr "Общий интервал повтора"
 msgid "General Settings"
 msgstr "Основные настройки"
 
-#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:43
+#: ../core/views/routing/form.php:582 ../core/views/trunks/trunk_footer.php:43
 msgid "Generate Buttons"
 msgstr "Сгенерировать кнопки"
 
@@ -5069,7 +5069,7 @@ msgstr "Сгенерировать кнопки"
 msgid "Generate Diversion Headers"
 msgstr "Генерировать заголовки перенаправлений"
 
-#: ../core/views/routing/form.php:617 ../core/views/trunks/trunk_footer.php:79
+#: ../core/views/routing/form.php:618 ../core/views/trunks/trunk_footer.php:79
 msgid "Generate Routes"
 msgstr "Сгенерировать маршруты"
 
@@ -5112,7 +5112,7 @@ msgstr "Универсальный драйвер IAX2"
 msgid "Generic PJSIP Device"
 msgstr "Универсальный драйвер PJSIP"
 
-#: ../core/views/routing/form.php:582 ../core/views/trunks/trunk_footer.php:44
+#: ../core/views/routing/form.php:583 ../core/views/trunks/trunk_footer.php:44
 msgid "Generic Patterns"
 msgstr "Универсальный шаблон"
 
@@ -5335,7 +5335,7 @@ msgid "I don't know who I should be running OpenSSL as."
 msgstr "Я не знаю от какого имени мне запустить OpenSSL."
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:689
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:109
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:108
 #, php-format
 msgid ""
 "I tried to find out about %s, but the system doesn't think that user exists"
@@ -5405,7 +5405,7 @@ msgstr ""
 "точками. Отделите IP-адрес от маски подсети символом косой черты  ('/'). "
 "Если оставлено пустым ,то  FreePBX  создаёт автоматически"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:490
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:510
 msgid "Idle"
 msgstr ""
 
@@ -5787,7 +5787,7 @@ msgstr ""
 msgid "Installed Missing Dependency of: %s %s"
 msgstr "Установлены ошибочные зависимости:%s %s"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:557
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:577
 msgid "Installed Version"
 msgstr ""
 
@@ -6022,7 +6022,7 @@ msgstr "Введённый ключ %s не 16-тиричном формате"
 msgid "Killing asterisk forcefully."
 msgstr ""
 
-#: ../core/views/routing/form.php:562 ../core/views/trunks/trunk_footer.php:24
+#: ../core/views/routing/form.php:563 ../core/views/trunks/trunk_footer.php:24
 msgid "LOADING ROUTES"
 msgstr "ЗАГРУЗКА  МАРШРУТОВ"
 
@@ -6034,11 +6034,11 @@ msgstr ""
 msgid "Languages"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:501
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:521
 msgid "Last Online Check Status:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:505
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:525
 msgid "Last System Update:"
 msgstr ""
 
@@ -6157,7 +6157,7 @@ msgstr ""
 msgid "Logout"
 msgstr "Разлогиниться"
 
-#: ../core/views/routing/form.php:611 ../core/views/trunks/trunk_footer.php:73
+#: ../core/views/routing/form.php:612 ../core/views/trunks/trunk_footer.php:73
 msgid "Long Distance"
 msgstr "Большое расстояние"
 
@@ -6832,7 +6832,7 @@ msgstr "Необходимо создание экземпляра объект�
 msgid "Needs Upgrade:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:502
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:522
 #: ../core/functions.inc.php:5488
 msgid "Never"
 msgstr "Никогда"
@@ -6842,11 +6842,11 @@ msgstr "Никогда"
 msgid "Never - (%s)"
 msgstr "Никогда - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:560
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:580
 msgid "New Package"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:557
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:577
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:290
 msgid "New Version"
 msgstr ""
@@ -6992,7 +6992,7 @@ msgstr ""
 msgid "No status was given to checkStatus"
 msgstr "Не указан статус для checkStatus"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:530
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:550
 msgid "No updates currently required!"
 msgstr ""
 
@@ -7784,7 +7784,7 @@ msgstr ""
 "Ошибка прав доступа к файлу %s - пожалуйста запустите от пользователя root "
 "для автоматического восстановления"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:354
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:362
 #, php-format
 msgid ""
 "Permissions should be set with a leading 0, example 644 should be 0644 File: "
@@ -8135,7 +8135,7 @@ msgstr "RFC 2833"
 msgid "RFC 4733"
 msgstr "RFC 4733"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:557
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:577
 msgid "RPM Name"
 msgstr ""
 
@@ -8209,7 +8209,7 @@ msgstr "Запись исходящих звонков на внешние ис�
 msgid "Redundancy"
 msgstr "Резервирование"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:498
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:518
 msgid "Refresh page"
 msgstr ""
 
@@ -8328,7 +8328,7 @@ msgstr "Удалена директория"
 msgid "Removing %s"
 msgstr "Удаляется %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:185
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:184
 #, php-format
 msgid "Removing dangling sound symlink %s"
 msgstr ""
@@ -8898,11 +8898,11 @@ msgstr "Установка AUTHTYPE в none следует по-умолчани
 msgid "Setting MOHDIR to mohmp3 consistent with old default"
 msgstr "Установка MOHDIR в mohmp3 следует по-умолчанию как раньше"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:50
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:49
 msgid "Setting Permissions"
 msgstr "Установка прав"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:190
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:189
 msgid "Setting base permissions..."
 msgstr ""
 
@@ -8937,7 +8937,7 @@ msgstr ""
 msgid "Setting sbin to the correct location of: %s"
 msgstr "Установка sbin в правильном месте: %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:202
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:201
 msgid "Setting specific permissions..."
 msgstr ""
 
@@ -9335,7 +9335,7 @@ msgstr ""
 msgid "System Setup"
 msgstr "Системные установки"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:484
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:504
 msgid "System Update Details"
 msgstr ""
 
@@ -9417,7 +9417,7 @@ msgstr "Только TLS"
 msgid "Take a snapshot"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:48
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:47
 #, php-format
 msgid "Taking too long? Customize the chown command, See %s"
 msgstr ""
@@ -10078,7 +10078,7 @@ msgstr ""
 msgid "There were no settings to update"
 msgstr "Нет настроек для обновления "
 
-#: ../core/views/routing/form.php:578 ../core/views/trunks/trunk_footer.php:40
+#: ../core/views/routing/form.php:579 ../core/views/trunks/trunk_footer.php:40
 msgid ""
 "These options provide a quick way to add outbound dialing rules. Follow the "
 "prompts for each."
@@ -10288,7 +10288,7 @@ msgstr ""
 "местонахождение названия директории определяется относительно значения из "
 "ASTVARLIBDIR."
 
-#: ../core/views/routing/form.php:580 ../core/views/trunks/trunk_footer.php:42
+#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:42
 msgid ""
 "This looks up your local number on www.localcallingguide.com (NA-only), and "
 "sets up so you can dial either 7, 10 or 11 digits (5551234, 6135551234, "
@@ -10596,19 +10596,19 @@ msgstr "Только UDP"
 msgid "UNSIGNED MODULES DETECTED:"
 msgstr ""
 
-#: ../core/views/routing/form.php:607 ../core/views/trunks/trunk_footer.php:69
+#: ../core/views/routing/form.php:608 ../core/views/trunks/trunk_footer.php:69
 msgid "US Emergency"
 msgstr "Службы экстренной помощи США"
 
-#: ../core/views/routing/form.php:605 ../core/views/trunks/trunk_footer.php:67
+#: ../core/views/routing/form.php:606 ../core/views/trunks/trunk_footer.php:67
 msgid "US Information"
 msgstr "Информационные службы США"
 
-#: ../core/views/routing/form.php:609 ../core/views/trunks/trunk_footer.php:71
+#: ../core/views/routing/form.php:610 ../core/views/trunks/trunk_footer.php:71
 msgid "US International"
 msgstr "Интернациональные службы США"
 
-#: ../core/views/routing/form.php:603 ../core/views/trunks/trunk_footer.php:65
+#: ../core/views/routing/form.php:604 ../core/views/trunks/trunk_footer.php:65
 msgid "US Toll Free Patterns"
 msgstr "Бесплатные для вызывающих шаблоны номеров служб США"
 
@@ -10649,6 +10649,13 @@ msgstr ""
 msgid "Unable to find an intermediary converter for %s"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:265
+#, php-format
+msgid ""
+"Unable to find permissions for %s, is this owned by the PBX? Did you set an "
+"override?"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Self_Helper.class.php:213
 #, php-format
 msgid "Unable to locate the FreePBX BMO Class '%s'"
@@ -10678,7 +10685,7 @@ msgstr "Невозможно удалить tmp.cfg"
 msgid "Unable to resolve dependencies for module %s:"
 msgstr "Невозможно разрешить зависимости для можуля: %s"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:528
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:548
 msgid "Unable to run 'yum check-updates', can't check for updates"
 msgstr ""
 
@@ -10758,7 +10765,7 @@ msgstr "Деинсталлируюется модуль(-ли), принимая
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:510
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:530
 msgid "Unknown (System updates not run since last reboot)"
 msgstr ""
 
@@ -10867,7 +10874,7 @@ msgstr "Предупреждения об обновлении"
 msgid "Update Required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:575
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:595
 msgid "Update System"
 msgstr ""
 
@@ -10883,7 +10890,7 @@ msgstr "Обновить мой браузер сейчас"
 msgid "Updates"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:540
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:560
 msgid "Updates Available:"
 msgstr ""
 
@@ -10954,7 +10961,7 @@ msgstr "Загрузить (с диска)"
 msgid "Upload Local Module"
 msgstr "Загрузить локальный модуль"
 
-#: ../core/views/routing/form.php:502
+#: ../core/views/routing/form.php:503
 msgid "Upload from CSV"
 msgstr "Загрузить из файла CSV"
 
@@ -10966,7 +10973,7 @@ msgstr "Загрузить модуль"
 msgid "Upload modules"
 msgstr "Закачать модули"
 
-#: ../core/views/routing/form.php:517
+#: ../core/views/routing/form.php:518
 #, php-format
 msgid ""
 "Upload patterns from a CSV file replacing existing entries. If there are no "
@@ -11701,7 +11708,7 @@ msgid ""
 "enable the rtcp_mux option"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:493
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:513
 msgid "Working"
 msgstr ""
 
@@ -11969,7 +11976,7 @@ msgstr ""
 msgid "You may add multiple subnets, separate them with an &amp;."
 msgstr ""
 
-#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:43
+#: ../core/views/routing/form.php:582 ../core/views/trunks/trunk_footer.php:43
 msgid ""
 "You may choose 7,10,11 digit patterns as your provider allows. If you do not "
 "choose 'Download' this will add a generic 7,10 or ll digit pattern"
@@ -11985,7 +11992,7 @@ msgstr ""
 "Можно подтвердить выбор и попытаться ещё раз после устранения указаных "
 "зависимостей:"
 
-#: ../core/views/routing/form.php:582 ../core/views/trunks/trunk_footer.php:44
+#: ../core/views/routing/form.php:583 ../core/views/trunks/trunk_footer.php:44
 msgid ""
 "You may select to allow toll free calls such as 800,877 etc as well as "
 "Directory assistance, International dialing and long distance"
@@ -12023,7 +12030,7 @@ msgstr "Чтобы продолжить, необходим корректный
 msgid "You must put in an extension (or user) number"
 msgstr "Вы должны ввести внутренний номер или номер пользователя"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:42
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:41
 #: amp_conf/htdocs/admin/libraries/Console/Restart.class.php:25
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:28
 msgid "You need to be root to run this command"
