@@ -56,10 +56,13 @@ class AsteriskShell extends \Media\Driver\Driver {
 		$loc = fpbx_which("asterisk");
 		exec($loc." -rx 'core show file formats'",$lines,$ret);
 		foreach($lines as $line) {
-			if(preg_match('/([a-z0-9\|]*)$/i',$line,$matches)) {
+			if(preg_match('/([a-z0-9\|\-]*)$/i',$line,$matches)) {
 				$l = trim($matches[1]);
 				$codecs = explode("|",$matches[1]);
 				foreach($codecs as $codec) {
+					if(in_array($codec,array('Extensions','----------'))) {
+						continue;
+					}
 					if(!in_array($codec,array('gsm', 'g722', 'alaw', 'ulaw', 'sln', 'wav16', 'WAV', 'sln12', 'sln16', 'sln24', 'sln32', 'sln44', 'sln48', 'sln96', 'sln192'))) {
 						continue;
 					}
