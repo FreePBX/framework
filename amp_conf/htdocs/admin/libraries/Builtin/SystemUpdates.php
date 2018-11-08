@@ -435,7 +435,27 @@ class SystemUpdates {
 	 * Get the status of yum update
 	 */
 	public function getYumUpdateStatus() {
-		$updates = $this->parseYumOutput("/dev/shm/yumwrapper/yum-update.log");
+		try {
+			$updates = $this->parseYumOutput("/dev/shm/yumwrapper/yum-update.log");
+		} catch(\Exception $e) {
+			$time = time();
+			$newfile = "/dev/shm/yumwrapper/yum-update-error-".$time.".log";
+			rename("/dev/shm/yumwrapper/yum-update.log",$newfile);
+			freepbx_log(FPBX_LOG_ERROR,"Yum update failed to finish. Please see '{$newfile}' error was: {$e->getMessage()}");
+			if(file_exists("/dev/shm/yumwrapper/yum-update-current.log")) {
+				rename("/dev/shm/yumwrapper/yum-update-current.log","/dev/shm/yumwrapper/yum-update-current-".$time.".log");
+			}
+			return [
+				'lasttimestamp' => $time,
+				'status' => 'yumerror',
+				'i18nstatus' => $this->strarr['yumerror'],
+				'currentlog' => [
+					"Yum update failed to finish. Please see '{$newfile}'",
+					$e->getMessage()
+				],
+			];
+		}
+
 		$retarr = [
 			'lasttimestamp' => $updates['timestamp'],
 			'status' => 'unknown',
