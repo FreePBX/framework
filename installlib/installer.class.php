@@ -1356,6 +1356,14 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	);
 
+	$settings[$category]['CDRUSEGMT'] = array(
+		'value' => false,
+		'options' => '',
+		'name' => 'Use GMT Time',
+		'description' => 'Insert the date information into the CDR database using GMT time',
+		'readonly' => 1,
+		'type' => CONF_TYPE_BOOL,
+	);
 
 	$category = 'Styling and Logos';
 
