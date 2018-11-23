@@ -23,12 +23,17 @@ class Cache {
 	private $cache;
 	private $freepbx;
 	private $namespaceClones = array();
+	private $cloned = false;
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {
 			throw new Exception("Not given a FreePBX Object");
 		}
 		$this->freepbx = $freepbx;
+	}
+
+	public function __clone() {
+		$this->cloned = true;
 	}
 
 	/**
@@ -150,13 +155,15 @@ class Cache {
 	 * @method cloneByNamespace
 	 * @param  [type]            $namespace [description]
 	 */
-	public function cloneByNamespace($namespace) {
+	public function cloneByNamespace($namespace, $persistent = true) {
+		if($this->cloned) {
+			throw new \Exception("This is already a clone. Please dont clone the clone. Clone the original");
+		}
 		if(isset($this->namespaceClones[$namespace])) {
 			return $this->namespaceClones[$namespace];
 		}
 		$self = clone $this;
-		$self->init(true);
-		$self->setNamespace($namespace);
+		$self->init(true, $persistent)->setNamespace($namespace);
 		$this->namespaceClones[$namespace] = $self;
 		return $this->namespaceClones[$namespace];
 	}
@@ -204,7 +211,7 @@ class Cache {
 	 * @method init
 	 * @return object The cache driver
 	 */
-	private function init($force = false) {
+	private function init($force = false, $persistent = true) {
 		if($force || !isset($this->cache)) {
 			$primaryCache = new ArrayCache();
 			$cachePath = $this->freepbx->Config->get('ASTSPOOLDIR')."/cache";
@@ -214,22 +221,26 @@ class Cache {
 			if(!is_writable($cachePath)) {
 				throw new \Exception("$cachePath is not writable!");
 			}
-			$secondarCache = null;
-			if(class_exists('Redis')) {
-				try {
-					$redis = new \Redis();
-					$redis->connect('127.0.0.1');
-					$secondaryCache = new RedisCache();
-					$secondaryCache->setRedis($redis);
-				} catch(\Exception $e) {
-					freepbx_log(FPBX_LOG_WARNING, "Redis enabled but not running, falling back to filesystem [{$e->getMessage()}]");
+			if($persistent) {
+				$secondarCache = null;
+				if(class_exists('Redis')) {
+					try {
+						$redis = new \Redis();
+						$redis->connect('127.0.0.1');
+						$secondaryCache = new RedisCache();
+						$secondaryCache->setRedis($redis);
+					} catch(\Exception $e) {
+						freepbx_log(FPBX_LOG_WARNING, "Redis enabled but not running, falling back to filesystem [{$e->getMessage()}]");
+					}
 				}
+				if(empty($secondarCache)) {
+					$secondaryCache =  new PhpFileCache($cachePath);
+				}
+				$chain = array($primaryCache, $secondaryCache);
+			} else {
+				$chain = array($primaryCache);
 			}
-			if(empty($secondarCache)) {
-				$secondaryCache =  new PhpFileCache($cachePath);
-			}
-
-			$this->cache = new ChainCache(array($primaryCache, $secondaryCache));
+			$this->cache = new ChainCache($chain);
 		}
 		return $this->cache;
 	}
