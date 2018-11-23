@@ -576,6 +576,15 @@ class Installer {
 
 	$category = 'Dialplan and Operational';
 
+	$settings[$category]['DIALPARTIESDIALPLAN'] = array(
+	'value' => false,
+	'options' => '',
+	'name' => 'Use Dialparties Dialplan',
+	'description' => 'EXPERIMENTAL: If you have choppy/glitchy audio switching this on will make the PBX use Dialparties Dialplan instead of launching an AGI on every call',
+	'type' => CONF_TYPE_BOOL,
+	'level' => 2,
+	);
+
 	$settings[$category]['AMPBADNUMBER'] = array(
 	'value' => true,
 	'options' => '',
