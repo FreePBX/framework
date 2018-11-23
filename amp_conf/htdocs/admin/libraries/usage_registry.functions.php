@@ -352,13 +352,13 @@ function framework_list_problem_destinations($module_hash=false, $ignore_custom=
 
 	foreach ($all_dests as $dests) {
 		foreach ($dests as $adest) {
-			if (empty($adest['dest']) && !$adest['allow_empty']) {
+			if (empty($adest['dest']) && empty($adest['allow_empty'])) {
 				$problem_dests[] = array('status' => 'EMPTY',
 					                       'dest' => $adest['dest'],
 					                       'description' => $adest['description'],
 					                       'edit_url' => $adest['edit_url'],
 															  );
-			} else if ($identities[$adest['dest']] === false){
+			} else if (!empty($adest['dest']) && $identities[$adest['dest']] === false){
 				if ($ignore_custom) {
 					continue;
 				}
@@ -367,7 +367,7 @@ function framework_list_problem_destinations($module_hash=false, $ignore_custom=
 					                       'description' => $adest['description'],
 					                       'edit_url' => $adest['edit_url'],
 															  );
-			} else if (is_array($identities[$adest['dest']])){
+			} else if (!empty($adest['dest']) && is_array($identities[$adest['dest']])){
 				foreach ($identities[$adest['dest']] as $details) {
 					if (empty($details)) {
 						$problem_dests[] = array('status' => 'ORPHAN',
