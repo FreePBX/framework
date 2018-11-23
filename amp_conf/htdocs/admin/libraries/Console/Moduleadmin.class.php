@@ -1382,7 +1382,7 @@ class Moduleadmin extends Command {
 					fatal(_("Can not run this command while 'Developer Mode' is enabled"));
 				}
 				$this->check_active_repos();
-				$modules = $this->doUpgradeAll($force);
+				$modules = $this->doUpgradeAll($this->force);
 				$this->updateHooks();
 				foreach($modules as $module) {
 					$this->setPerms($action,array($module));
