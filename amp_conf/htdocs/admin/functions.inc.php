@@ -150,7 +150,8 @@ function fpbx_framework_autoloader($class) {
 		'mm\\Mime\\Type\\Magic\\' => 'libraries/media/mm/Mime/Type/Magic',
 		'mm\\Mime\\Type\\Magic\\Adapter\\' => 'libraries/media/mm/Mime/Type/Magic/Adapter',
 		'mm\\Mime\\Type\\Glob\\' => 'libraries/media/mm/Mime/Type/Glob',
-		'mm\\Mime\\Type\\Glob\\Adapter\\' => 'libraries/media/mm/Mime/Type/Glob/Adapter'
+		'mm\\Mime\\Type\\Glob\\Adapter\\' => 'libraries/media/mm/Mime/Type/Glob/Adapter',
+
 	);
 
 	// Is it a direct mapping?
