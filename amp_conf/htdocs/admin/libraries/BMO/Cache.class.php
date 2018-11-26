@@ -227,6 +227,7 @@ class Cache {
 					try {
 						$redis = new \Redis();
 						$redis->connect('127.0.0.1');
+						$redis->get('foo');
 						$secondaryCache = new RedisCache();
 						$secondaryCache->setRedis($redis);
 					} catch(\Exception $e) {
