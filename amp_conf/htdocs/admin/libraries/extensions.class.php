@@ -541,6 +541,18 @@ class ext_gosubif extends extension {
 	}
 }
 
+class ext_clearhash extends extension {
+	var $hash_name;
+
+	function __construct($hash_name) {
+		$this->hash_name = $hash_name;
+	}
+
+	function output() {
+		return "ClearHash(".$this->hash_name.")";
+	}
+}
+
 class ext_stasis extends extension {
 	var $app_name;
 	var $args;
@@ -662,13 +674,13 @@ class ext_noop extends extension {
 class ext_unpausemonitor extends extension {
 	function output() {
 		return "UnPauseMonitor()";
-	}	
+	}
 }
 
 class ext_pausemonitor extends extension {
 	function output() {
 		return "PauseMonitor()";
-	}	
+	}
 }
 
 class ext_noop_trace extends extension {
@@ -724,6 +736,13 @@ class ext_originate extends extension {
 							. ',' . $this->arg2
 							. ',' . $this->arg3
 							. ')' ;
+	}
+}
+
+class ext_sethash extends ext_setvar {
+	function __construct($hash, $var, $value = '') {
+		$this->var = 'HASH('.$hash.','.$var.')';
+		$this->value = $value;
 	}
 }
 

@@ -21,10 +21,15 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
+use Symfony\Component\Lock\Factory;
+use Symfony\Component\Lock\Store\FlockStore;
+use Symfony\Component\Lock\Store\RetryTillSaveStore;
+use Symfony\Component\Lock\Store\RedisStore;
 class Cron {
 
 	private $user;
 	private $uoption = "";
+	private $lock;
 
 	/**
 	 * Constructor for Cron Tab Manager Class
@@ -61,7 +66,6 @@ class Cron {
 		} else {
 			$this->uoption = "-u ".escapeshellarg($this->user)." ";
 		}
-
 	}
 
 	/**
@@ -70,7 +74,7 @@ class Cron {
 	 */
 	public function getAll() {
 		exec('/usr/bin/crontab '.$this->uoption.' -l 2>/dev/null', $output, $ret);
-		// If it's emptry
+		// If it's empty
 		if (!$output) {
 			return array();
 		}
@@ -94,8 +98,9 @@ class Cron {
 	 * @return {bool} True or false if the line exists
 	 */
 	public function checkLine($line = null) {
-		if ($line == null)
+		if ($line == null) {
 			throw new \Exception("Null handed to checkLine");
+		}
 
 		$allLines = $this->getAll();
 		return in_array($line, $allLines);
@@ -107,6 +112,7 @@ class Cron {
 	 * @return {bool} Return true if the line was added
 	 */
 	public function addLine($line) {
+		$this->getLock()->acquire(true);
 		$line = trim($line);
 		$backup = $this->getAll();
 		$newCrontab = $backup;
@@ -118,9 +124,11 @@ class Cron {
 				return true;
 			// It didn't stick. WTF? Put our original one back.
 			$this->installCrontab($backup);
+			$this->getLock()->release();
 			throw new \Exception("Cron line added didn't remain in crontab on final check. Check /tmp/cron.error for reason.");
 		} else {
 			// It was already there.
+			$this->getLock()->release();
 			return true;
 		}
 	}
@@ -141,6 +149,7 @@ class Cron {
 	 * @return {bool} True if removed, false if not found
 	 */
 	public function remove($line) {
+		$this->getLock()->acquire(true);
 		$line = trim($line);
 		$backup = $this->getAll();
 		$newCrontab = $backup;
@@ -149,8 +158,10 @@ class Cron {
 		if ($ret !== false) {
 			unset($newCrontab[$ret]);
 			$this->installCrontab($newCrontab);
+			$this->getLock()->release();
 			return true;
 		} else {
+			$this->getLock()->release();
 			return false;
 		}
 	}
@@ -218,6 +229,7 @@ class Cron {
 	 * @param {string} $cmd The command to remove
 	 */
 	public function removeAll($cmd) {
+		$this->getLock()->acquire(true);
 		$crontab = $this->getAll();
 		$changed = false;
 		foreach ($crontab as $i => $v) {
@@ -243,8 +255,10 @@ class Cron {
 				$changed = true;
 			}
 		}
-		if ($changed)
+		if ($changed) {
 			$this->installCrontab($crontab);
+		}
+		$this->getLock()->release();
 	}
 
 	/**
@@ -266,6 +280,35 @@ class Cron {
 		proc_close($rsc);
 		// Ensure that the logfile is writable by everyone, if I created it
 		@chmod("/tmp/cron.error", 0777);
+	}
+
+	/**
+	 * Implement locks to avoid multiple things modifying same cron
+	 *
+	 * @return void
+	 */
+	private function getLock() {
+		if(!empty($this->lock)) {
+			return $this->lock;
+		}
+		if(class_exists('Redis')) {
+			try {
+				$redis = new \Redis();
+				$redis->connect('127.0.0.1');
+				$redis->get('foo');
+				$lockStore = new RedisStore($redis,60);
+				$lockStore = new RetryTillSaveStore($lockStore);
+			} catch(\Exception $e) {
+				freepbx_log(FPBX_LOG_WARNING, "Redis enabled but not running, falling back to filesystem [{$e->getMessage()}]");
+			}
+		}
+		if(empty($lockStore)) {
+			$lockStore = new FlockStore(\FreePBX::Config()->get('ASTSPOOLDIR').'/tmp');
+		}
+
+		$factory = new Factory($lockStore);
+		$this->lock = $factory->createLock('crontab-'.$this->user);
+		return $this->lock;
 	}
 
 }
