@@ -80,8 +80,7 @@ class module_functions {
 		$got_new = false;
 		$skip_cache = false;
 		$sec_array=false;
-		//$type = array('all','module','track','security','old');
-
+		
 		$result = sql("SELECT * FROM module_xml WHERE id = 'beta'",'getRow',DB_FETCHMODE_ASSOC);
 		if(!empty($result['data'])) {
 			$beta = json_decode($result['data'],true);
@@ -903,6 +902,32 @@ class module_functions {
 			}
 		}
 		return true;
+	}
+	/**
+	 * Check for "dangerous" modules that may be breaking
+	 *
+	 * @param [type] $modulename
+	 * @return void
+	 */
+	public function checkBreaking($modulename){
+		$danger = [];
+		$modulexml = $this->getinfo($modulename);
+		$modulexml = $modulexml[$modulename];
+
+		if(!isset($modulexml['breaking'])){
+			return [];
+		}
+		foreach($module['breaking'] as $type => $issue){
+			$version = isset($module['breaking']['version'])?$module['breaking']['version']:false;
+			if($type == 'conflict'){
+
+			}
+			if($type == 'compatibility'){
+				
+			}
+			return $danger;
+		}
+		
 	}
 
 	/** Check if a module meets dependencies.
@@ -1898,7 +1923,11 @@ class module_functions {
 		$this->modDepends = array();
 		$this->notFound = false;
 		global $db, $amp_conf;
-
+		$bmoModules = FreePBX::Modules();
+		$data = $bmoModules->getOnlineJson($modulename);
+		if($data['conflicts']['status'] && !$force){
+			return $data['conflicts']['issues'];
+		}
 		set_time_limit($this->maxTimeLimit);
 
 		// make sure we have a directory, to begin with

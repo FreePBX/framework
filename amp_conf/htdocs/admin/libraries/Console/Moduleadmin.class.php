@@ -408,11 +408,12 @@ class Moduleadmin extends Command {
 			$this->addToEmail(sprintf(_("Module %s installation failed, could not resolve dependencies"), $name));
 			return false;
 		} else {
-			if (is_array($errors = $this->mf->install($modulename, $force))) {
-				$this->writeln("Unable to install module ${modulename}:", "error", false);
-				$this->writeln(' - '.implode("\n - ",$errors), "error", false);
-				$this->addToEmail(sprintf(_("Module %s installation failed with errors: %s"), $modulename, implode("\n -", $errors)));
-				return false;
+			$result = $this->mf->install($modulename, $force);
+			if(isset($result['issues']) && empty($result['issues'])){
+				$result = true;
+			}
+			if (is_array($result)) {
+				return $this->handleErrors($result, $modulename);
 			} else {
 				$this->writeln("Module ".$modulename." successfully installed");
 				$this->addToEmail(sprintf(_("Module %s installation completed in %s seconds"), $modulename, time()-$start));
@@ -562,6 +563,10 @@ class Moduleadmin extends Command {
 	}
 
 	private function doUpgrade($modulename, $force) {
+		$data = FreePBX::Modules()->getOnlineJson($modulename);
+		if($data['conflicts']['status'] && !$force){
+			return $this->handleErrors($data['conflicts']['issues'], $modulename);
+		}
 		$this->doDownload($modulename, $this->force);
 		$this->doForkInstall($modulename, $this->force);
 	}
@@ -1589,6 +1594,44 @@ class Moduleadmin extends Command {
 	 */
 	private function addToEmail($line) {
 		$this->emailbody[] = $line;
+	}
+
+	public function handleErrors($errors, $modulename){
+		$first = reset($errors);
+		//Old style errors
+        if (!isset($first['rawname'])) {
+            $this->writeln("Unable to install module ${modulename}:", "error", false);
+            $this->writeln(' - ' . implode("\n - ", $errors), "error", false);
+			$this->addToEmail(sprintf(_("Module %s installation failed with errors: %s"), $modulename, implode("\n -", $errors)));
+			return;
+		}
+		$helper = $this->getHelper('question');
+		foreach($errors as $error){
+			$options = array(_("Abort"), _("Force"), _("Uninstall Conflict"));
+			if(isset($error['replacement'])){
+				$options[] = _("Replace");
+			}
+			$question = new ChoiceQuestion(sprintf(_("Conflict: %s. What would you like to do?"), $error['message']), $options, 0);
+			$question->setErrorMessage('Choice %s is invalid');
+			$action = $helper->ask($this->input, $this->out, $question);
+			switch ($action) {
+				case _("Abort"):
+					exit;
+				case _("Force"):
+					return $this->mf->install($modulename, true);
+				case _("Replace"):
+					$this->mf->uninstall($error['rawname'], true);
+					$this->mf->install($error['replacement'], true);
+					continue;
+				case _("Uninstall Conflict"):
+					$this->mf->uninstall($error['rawname'], true);
+					return $this->mf->install($modulename);
+				default:
+					exit;
+			}
+		}
+		$this->writeln(sprintf(_("Module %s successfully installed"),$modulename));
+		return true;
 	}
 
 }
