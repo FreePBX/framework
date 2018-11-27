@@ -195,7 +195,7 @@ class Carbon extends DateTime implements JsonSerializable
         't' => '(2[89]|3[01])',
         'L' => '(0|1)',
         'o' => '([1-9][0-9]{0,4})',
-        'Y' => '([1-9][0-9]{0,4})',
+        'Y' => '([1-9]?[0-9]{4})',
         'y' => '([0-9]{2})',
         'a' => '(am|pm)',
         'A' => '(AM|PM)',
@@ -217,8 +217,8 @@ class Carbon extends DateTime implements JsonSerializable
         'U' => '([0-9]*)',
 
         // The formats below are combinations of the above formats.
-        'c' => '(([1-9][0-9]{0,4})\-(1[012]|0[1-9])\-(3[01]|[12][0-9]|0[1-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])[\+\-](1[012]|0[0-9]):([0134][05]))', // Y-m-dTH:i:sP
-        'r' => '(([a-zA-Z]{3}), ([123][0-9]|[1-9]) ([a-zA-Z]{3}) ([1-9][0-9]{0,4}) (2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9]) [\+\-](1[012]|0[0-9])([0134][05]))', // D, j M Y H:i:s O
+        'c' => '(([1-9]?[0-9]{4})\-(1[012]|0[1-9])\-(3[01]|[12][0-9]|0[1-9])T(2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])[\+\-](1[012]|0[0-9]):([0134][05]))', // Y-m-dTH:i:sP
+        'r' => '(([a-zA-Z]{3}), ([123][0-9]|[1-9]) ([a-zA-Z]{3}) ([1-9]?[0-9]{4}) (2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9]) [\+\-](1[012]|0[0-9])([0134][05]))', // D, j M Y H:i:s O
     );
 
     /**
@@ -3976,7 +3976,13 @@ class Carbon extends DateTime implements JsonSerializable
         $value = $diff->days * static::HOURS_PER_DAY * static::MINUTES_PER_HOUR * static::SECONDS_PER_MINUTE +
             $diff->h * static::MINUTES_PER_HOUR * static::SECONDS_PER_MINUTE +
             $diff->i * static::SECONDS_PER_MINUTE +
-            $diff->s;
+            $diff->s - (
+                version_compare(PHP_VERSION, '7.1.8-dev', '>=') &&
+                property_exists($diff, 'f') &&
+                $diff->f < 0
+                    ? 1
+                    : 0
+            );
 
         return $absolute || !$diff->invert ? $value : -$value;
     }

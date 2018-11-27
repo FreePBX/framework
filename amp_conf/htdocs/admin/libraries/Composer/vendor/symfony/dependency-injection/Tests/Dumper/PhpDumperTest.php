@@ -833,6 +833,8 @@ class PhpDumperTest extends TestCase
 
         $foo6 = $container->get('foo6');
         $this->assertEquals((object) array('bar6' => (object) array()), $foo6);
+
+        $this->assertInstanceOf(\stdClass::class, $container->get('root'));
     }
 
     public function provideAlmostCircular()
@@ -861,6 +863,28 @@ class PhpDumperTest extends TestCase
 
         $this->assertInstanceOf(FooForDeepGraph::class, $container->get('foo'));
         $this->assertEquals((object) array('p2' => (object) array('p3' => (object) array())), $container->get('foo')->bClone);
+    }
+
+    public function testInlineSelfRef()
+    {
+        $container = new ContainerBuilder();
+
+        $bar = (new Definition('App\Bar'))
+            ->setProperty('foo', new Reference('App\Foo'));
+
+        $baz = (new Definition('App\Baz'))
+            ->setProperty('bar', $bar)
+            ->addArgument($bar);
+
+        $container->register('App\Foo')
+            ->setPublic(true)
+            ->addArgument($baz);
+
+        $passConfig = $container->getCompiler()->getPassConfig();
+        $container->compile();
+
+        $dumper = new PhpDumper($container);
+        $this->assertStringEqualsFile(self::$fixturesPath.'/php/services_inline_self_ref.php', $dumper->dump(array('class' => 'Symfony_DI_PhpDumper_Test_Inline_Self_Ref')));
     }
 
     public function testHotPathOptimizations()
@@ -938,6 +962,18 @@ class PhpDumperTest extends TestCase
 
         $container->set('foo', (object) array(123));
         $this->assertEquals((object) array('foo' => (object) array(123)), $container->get('bar'));
+    }
+
+    public function testAdawsonContainer()
+    {
+        $container = new ContainerBuilder();
+        $loader = new YamlFileLoader($container, new FileLocator(self::$fixturesPath.'/yaml'));
+        $loader->load('services_adawson.yml');
+        $container->compile();
+
+        $dumper = new PhpDumper($container);
+        $dump = $dumper->dump();
+        $this->assertStringEqualsFile(self::$fixturesPath.'/php/services_adawson.php', $dumper->dump());
     }
 
     /**
