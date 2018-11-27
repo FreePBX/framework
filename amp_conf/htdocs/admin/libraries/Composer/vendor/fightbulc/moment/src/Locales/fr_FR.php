@@ -14,7 +14,7 @@ return array(
         "lastDay"  => '[Hier]',
         "lastWeek" => 'l [dernier]',
         "sameElse" => 'l',
-        "withTime" => '[à] H:i',
+        "withTime" => '[à] G [h] i',
         "default"  => 'd/m/Y',
     ),
     "relativeTime"  => array(
@@ -34,7 +34,7 @@ return array(
     ),
     "ordinal"       => function ($number)
     {
-        return $number . ($number === 1 ? '[er]' : '');
+        return $number . ($number === 1 || $number === '1' ? '[er]' : '');
     },
     "week"          => array(
         "dow" => 1, // Monday is the first day of the week.

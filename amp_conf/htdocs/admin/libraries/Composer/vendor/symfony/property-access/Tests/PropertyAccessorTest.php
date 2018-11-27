@@ -22,6 +22,7 @@ use Symfony\Component\PropertyAccess\Tests\Fixtures\TestClassMagicCall;
 use Symfony\Component\PropertyAccess\Tests\Fixtures\TestClassMagicGet;
 use Symfony\Component\PropertyAccess\Tests\Fixtures\TestClassSetValue;
 use Symfony\Component\PropertyAccess\Tests\Fixtures\TestClassTypeErrorInsideCall;
+use Symfony\Component\PropertyAccess\Tests\Fixtures\TestSingularAndPluralProps;
 use Symfony\Component\PropertyAccess\Tests\Fixtures\Ticket5775Object;
 use Symfony\Component\PropertyAccess\Tests\Fixtures\TypeHinted;
 
@@ -581,6 +582,19 @@ class PropertyAccessorTest extends TestCase
         $this->assertEquals('baz', $propertyAccessor->getValue($obj, 'publicGetSetter'));
     }
 
+    public function testAttributeWithSpecialChars()
+    {
+        $obj = new \stdClass();
+        $obj->{'@foo'} = 'bar';
+        $obj->{'a/b'} = '1';
+        $obj->{'a%2Fb'} = '2';
+
+        $propertyAccessor = new PropertyAccessor(false, false, new ArrayAdapter());
+        $this->assertSame('bar', $propertyAccessor->getValue($obj, '@foo'));
+        $this->assertSame('1', $propertyAccessor->getValue($obj, 'a/b'));
+        $this->assertSame('2', $propertyAccessor->getValue($obj, 'a%2Fb'));
+    }
+
     /**
      * @expectedException \Symfony\Component\PropertyAccess\Exception\InvalidArgumentException
      * @expectedExceptionMessage Expected argument of type "Countable", "string" given
@@ -685,5 +699,27 @@ class PropertyAccessorTest extends TestCase
         $object = new ReturnTyped();
 
         $this->propertyAccessor->setValue($object, 'name', 'foo');
+    }
+
+    public function testWriteToSingularPropertyWhilePluralOneExists()
+    {
+        $object = new TestSingularAndPluralProps();
+
+        $this->propertyAccessor->isWritable($object, 'email'); //cache access info
+        $this->propertyAccessor->setValue($object, 'email', 'test@email.com');
+
+        self::assertEquals('test@email.com', $object->getEmail());
+        self::assertEmpty($object->getEmails());
+    }
+
+    public function testWriteToPluralPropertyWhileSingularOneExists()
+    {
+        $object = new TestSingularAndPluralProps();
+
+        $this->propertyAccessor->isWritable($object, 'emails'); //cache access info
+        $this->propertyAccessor->setValue($object, 'emails', array('test@email.com'));
+
+        self::assertEquals(array('test@email.com'), $object->getEmails());
+        self::assertNull($object->getEmail());
     }
 }
