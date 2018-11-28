@@ -1301,8 +1301,13 @@ class ext_disa extends extension {
 	}
 }
 class ext_agi extends extension {
+	private static $appendFastAGI = null;
 	function output() {
-		return "AGI(".$this->data.")";
+		if(is_null(static::$appendFastAGI)) {
+			static::$appendFastAGI = \FreePBX::Config()->conf_setting_exists('LAUNCH_AGI_AS_FASTAGI') && \FreePBX::Config()->get('LAUNCH_AGI_AS_FASTAGI');
+		}
+		$data = static::$appendFastAGI && !preg_match('/^agi:\/\//',$this->data) ? "agi://127.0.0.1/".$this->data : $this->data;
+		return "AGI(".$data.")";
 	}
 }
 class ext_deadagi extends extension {
