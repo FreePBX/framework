@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-30 14:37-0400\n"
+"POT-Creation-Date: 2018-11-28 17:35-0500\n"
 "PO-Revision-Date: 2016-08-07 07:04+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -194,7 +194,7 @@ msgstr "%s وسایل"
 msgid "%s Extensions"
 msgstr "%s داخلی ها"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:380
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:398
 #, php-format
 msgid "%s Likely will not work as expected"
 msgstr "%s به طور قابل قبول کار نمیکند"
@@ -392,9 +392,9 @@ msgstr ""
 "the browser you currently have but your experience may be diminished and is "
 "not supported"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:413
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:448
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:485
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:431
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:466
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:503
 #, php-format
 msgid "%s skipped by configuration"
 msgstr "%s توسط پیکربندی لغو شد"
@@ -3429,7 +3429,7 @@ msgstr "دسترسی لازم را ندارید/نمیتوانید بنویسی�
 msgid "Don't know about modules yet. It needs to be handed to me"
 msgstr "هنوز پیزی درباره ماژولها نمیدانید. بسپاریدش به من"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:227
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:236
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:112
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:203
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:216
@@ -5097,7 +5097,7 @@ msgid "I don't know who I should be running OpenSSL as."
 msgstr "I don't know  who I should be running OpenSSL as."
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:678
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:112
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:111
 #, php-format
 msgid ""
 "I tried to find out about %s, but the system doesn't think that user exists"
@@ -5852,7 +5852,7 @@ msgstr "خروج"
 msgid "Long Distance"
 msgstr "فاصله زیاد"
 
-#: amp_conf/htdocs/admin/bootstrap.php:297
+#: amp_conf/htdocs/admin/bootstrap.php:301
 msgid "Low Memory Limit"
 msgstr "محدودیت مموری"
 
@@ -5995,7 +5995,7 @@ msgstr "فقط مدیا"
 msgid "Media Use Received Transport"
 msgstr "Media  Use Received Transport"
 
-#: amp_conf/htdocs/admin/bootstrap.php:295
+#: amp_conf/htdocs/admin/bootstrap.php:299
 msgid "Memory Limit Changed"
 msgstr "محدودیت مموری تغییر کرد"
 
@@ -7366,7 +7366,7 @@ msgid ""
 msgstr ""
 "Permissions  error on file %s - please re-run as root to automatically repair"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:381
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:399
 #, php-format
 msgid ""
 "Permissions should be set with a leading 0, example 644 should be 0644 File: "
@@ -7906,6 +7906,11 @@ msgstr "دایرکتوری حذف شده"
 msgid "Removing %s"
 msgstr "در حال حذف %s"
 
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:222
+#, php-format
+msgid "Removing dangling sound symlink %s"
+msgstr ""
+
 #: ../core/install.php:189
 #, php-format
 msgid "Removing field %s from users table.."
@@ -8436,7 +8441,7 @@ msgstr "Setting AUTHTYPE to none  consistent with old default"
 msgid "Setting MOHDIR to mohmp3 consistent with old default"
 msgstr "Setting  MOHDIR to mohmp3 consistent with old default"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:53
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:52
 msgid "Setting Permissions"
 msgstr "تنظیم دسترسی ها"
 
@@ -8444,7 +8449,7 @@ msgstr "تنظیم دسترسی ها"
 msgid "Setting Permissions..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:218
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:227
 msgid "Setting base permissions..."
 msgstr ""
 
@@ -8483,7 +8488,7 @@ msgstr ""
 msgid "Setting sbin to the correct location of: %s"
 msgstr "Setting sbin to the  correct location of: %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:230
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:239
 msgid "Setting specific permissions..."
 msgstr ""
 
@@ -8920,7 +8925,7 @@ msgstr "فقط TLS"
 msgid "Take a snapshot"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:51
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:50
 #, php-format
 msgid "Taking too long? Customize the chown command, See %s"
 msgstr "Taking too long? Customize  the chown command, See %s"
@@ -10122,6 +10127,13 @@ msgstr ""
 msgid "Unable to find an intermediary converter for %s"
 msgstr "Unable  to find an intermediary converter for %s"
 
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:302
+#, php-format
+msgid ""
+"Unable to find permissions for %s, is this owned by the PBX? Did you set an "
+"override?"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:175
 msgid ""
 "Unable to find the Locale binary. Your system may not support language "
@@ -10175,11 +10187,11 @@ msgstr ""
 msgid "Unable to save %s"
 msgstr "عدم توانایی ذخیره %s"
 
-#: amp_conf/htdocs/admin/bootstrap.php:271
+#: amp_conf/htdocs/admin/bootstrap.php:275
 msgid "Unable to set timezone"
 msgstr "عدم توانایی تنظیم منطقه زمانی"
 
-#: amp_conf/htdocs/admin/bootstrap.php:271
+#: amp_conf/htdocs/admin/bootstrap.php:275
 #, php-format
 msgid ""
 "Unable to set timezone to %s because PHP does not support that timezone, the "
@@ -10612,7 +10624,7 @@ msgstr ""
 msgid "Username for internal ARI calls"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:1032
+#: ../core/views/trunks/pjsip.php:1034
 msgid "Username is trunk name"
 msgstr "نام ترانک نام کاربری است"
 
@@ -11500,7 +11512,7 @@ msgstr "شما باید یک فایل freepbx.conf مناسب برای اجرا 
 msgid "You must put in an extension (or user) number"
 msgstr "شما باید شماره یک داخلی (یا کاربر) وارد کنید"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:45
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:44
 #: amp_conf/htdocs/admin/libraries/Console/Restart.class.php:25
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:28
 msgid "You need to be root to run this command"
@@ -11547,7 +11559,7 @@ msgstr ""
 msgid "Your browser is out-of-date!"
 msgstr "مرورگر شما به روز نیست!"
 
-#: amp_conf/htdocs/admin/bootstrap.php:295
+#: amp_conf/htdocs/admin/bootstrap.php:299
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and has been increased to %sM. You "
@@ -11556,7 +11568,7 @@ msgstr ""
 "Your memory_limit, %sM, is set too  low and has been increased to %sM. You "
 "may want to change this in you php.ini config file"
 
-#: amp_conf/htdocs/admin/bootstrap.php:297
+#: amp_conf/htdocs/admin/bootstrap.php:301
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and may cause problems. FreePBX is "
