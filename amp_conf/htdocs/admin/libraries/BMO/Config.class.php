@@ -131,8 +131,10 @@ class Config {
 	/**
 	 * simple key => value store for settings. Also augmented with boostrap settings
 	 * if provided which are not included in db_conf_store.
+	 * Note: this is referenced in modulefunctions.class.php in _ampconf_string_replace
+	 * so it needs to remain public
 	 */
-	private $conf = array();
+	public $conf = array();
 
 	/**
 	 * legacy $asterisk_conf that we need to obsolete
