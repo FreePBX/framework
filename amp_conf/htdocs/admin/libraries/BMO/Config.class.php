@@ -191,6 +191,9 @@ class Config {
 	 * to the conf hash).
 	 */
 	public function __construct($freepbx = null) {
+		if ($freepbx == null) {
+			throw new \Exception("Need to be instantiated with a FreePBX Object");
+		}
 		// For translation (need to be in english in the DB, translated when pulled out
 		// TODO: is there a better place to put these like in install script?
 		//
