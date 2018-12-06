@@ -35,7 +35,7 @@ class Logger {
 	 * @param string $logLevel Level to log at
 	 * @return void
 	 */
-	public function logWrite($message='',array $context = array(),$logLevel = self::INFO ){
+	public function logWrite($message='',array $context = array(),$logLevel = self::DEBUG ){
 		/** Anything with "LOG_" is added for backwards compatibility with FreePBX logging */
 		switch ($logLevel) {
 			case 'LOG_DEBUG':
@@ -82,7 +82,7 @@ class Logger {
 	 * @param string $logLevel Level to log at
 	 * @return void
 	 */
-	public function channelLogWrite($channel,$message='',array $context = array(),$logLevel = self::INFO ){
+	public function channelLogWrite($channel,$message='',array $context = array(),$logLevel = self::DEBUG ){
 		return $this->driverChannelLogWrite('default',$channel,$message,$context,$logLevel);
 	}
 
@@ -94,7 +94,7 @@ class Logger {
 	 * @param string $logLevel Level to log at
 	 * @return void
 	 */
-	public function driverLogWrite($driver,$message='',array $context = array(),$logLevel = self::INFO){
+	public function driverLogWrite($driver,$message='',array $context = array(),$logLevel = self::DEBUG){
 		return $this->driverChannelLogWrite($driver, '', $message, $context, $logLevel);
 	}
 
@@ -107,7 +107,7 @@ class Logger {
 	 * @param string $logLevel
 	 * @return void
 	 */
-	public function driverChannelLogWrite($driver,$channel='',$message='',array $context = array(),$logLevel = self::INFO){
+	public function driverChannelLogWrite($driver,$channel='',$message='',array $context = array(),$logLevel = self::DEBUG){
 		if(!isset($this->logDrivers[$driver])) {
 			if($driver === 'default') {
 				$this->createLogDriver('default', $this->defaultLogDir.'/freepbx.log');
@@ -145,7 +145,7 @@ class Logger {
 	 * @param constant $minLogLevel
 	 * @return object
 	 */
-	public function createLogDriver($driver, $path, $minLogLevel = self::INFO){
+	public function createLogDriver($driver, $path, $minLogLevel = self::DEBUG){
 			if(isset($this->logDrivers[$driver])) {
 				return $this->logDrivers[$driver];
 			}
