@@ -294,8 +294,33 @@ if(is_array($active_modules)){
 				$fpbx_menu[$itemKey] = $item;
 
 				// allow a module to replace our main index page
-				if (($item['display'] == 'index') && ($display == '')) {
-					$display = 'index';
+	
+				if($display == '' && !empty($_SESSION['AMP_user'])){
+					/*
+						Get default landing page from username.
+					*/
+					$user_detail 	= FreePBX::Userman()->getUserByUsername($_SESSION["AMP_user"]->username);
+					$group_detail 	= FreePBX::Userman()->getGroupByUsername($_SESSION["AMP_user"]->username, $user_detail["auth"]);
+					
+					$admin_set 		= FreePBX::Userman()->getGlobalSettingByID($user_detail['id'],'pbx_login');
+					if(empty($admin_set)){
+						/* inherit */
+						$groups 	= FreePBX::Userman()->getAllGroups($user_detail['auth']);
+						foreach($groups as $group){
+							if(in_array($user_detail['id'],$group['users'])){
+								$landing_page = FreePBX::Userman()->getGlobalSettingByGID($group['id'],'pbx_landing');
+								break;
+							}
+						}
+					}
+					else{
+						/* 	User */
+						$landing_page 	= FreePBX::Userman()->getGlobalSettingByID($user_detail['id'],'pbx_landing');
+					}
+
+					$landing_page	= empty($landing_page[0])? "index" : $landing_page[0];
+					$display		= $landing_page;
+					$_REQUEST['display'] = $landing_page;
 				}
 
 				// check current item
@@ -311,6 +336,35 @@ if(is_array($active_modules)){
 if(empty($_SESSION['AMP_user'])) {
 	$display = 'noauth';
 } else {
+	
+	/*
+		Displays the menu from the user list.
+	*/
+	$user_detail 	= FreePBX::Userman()->getUserByUsername($_SESSION["AMP_user"]->username);
+	$admin_set 		= FreePBX::Userman()->getGlobalSettingByID($user_detail['id'],'pbx_login');
+	if(empty($admin_set)){
+		/* inherit */
+		$groups 	= FreePBX::Userman()->getAllGroups($user_detail['auth']);
+		foreach($groups as $group){
+			if(in_array($user_detail['id'],$group['users'])){
+				$modules_enabled= FreePBX::Userman()->getGlobalSettingByGID($group['id'],'pbx_modules');
+				break;
+			}
+		}
+	}
+	else{
+		/*  User  */
+		$modules_enabled= FreePBX::Userman()->getGlobalSettingByID($user_detail['id'],'pbx_modules');
+	}
+	
+	if(is_array($fpbx_menu) && is_array($modules_enabled)){
+		foreach($fpbx_menu as $menuItem => $valMitem){
+			if(!in_array($valMitem["display"],$modules_enabled)){
+				unset($fpbx_menu[$menuItem]);
+			}
+		}	
+	}	
+
 	//if display is modules then show the login page dont show does not exist as its confusing
 	if ($cur_menuitem === null && !in_array($display, array('noauth', 'badrefer','noaccess',''))) {
 		if($display == 'modules') {
@@ -321,6 +375,7 @@ if(empty($_SESSION['AMP_user'])) {
 		}
 	}
 }
+
 
 // extensions vs device/users ... this is a bad design, but hey, it works
 if (!$quietmode && isset($fpbx_menu["extensions"])) {
@@ -335,6 +390,8 @@ if (!$quietmode && isset($fpbx_menu["extensions"])) {
 
 // If it's index, do we have an override?
 if ($display === "index") {
+	
+
 	$override = $bmo->Config()->get('DASHBOARD_OVERRIDE');
 	if (empty($override)) {
 		$opmode = $bmo->Config()->get('FPBXOPMODE');
