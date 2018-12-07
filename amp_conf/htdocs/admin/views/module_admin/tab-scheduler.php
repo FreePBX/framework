@@ -25,29 +25,45 @@ $emo = _("Email Only");
     </div>
 <?php
 // Auto system updates radio buttons
-$asue = ($auto_system_updates=="enabled")?"checked":"";
-$asud = ($auto_system_updates=="disabled")?"checked":"";
-$asuemail = ($auto_system_updates=="emailonly")?"checked":"";
+$sysUpdate = new \FreePBX\Builtin\SystemUpdates();
+$sysUpdateDisabled = '';
+if($sysUpdate->canDoSystemUpdates()) {
+	$asue = ($auto_system_updates=="enabled")?"checked":"";
+	$asud = ($auto_system_updates=="disabled")?"checked":"";
+	$asuemail = ($auto_system_updates=="emailonly")?"checked":"";
+} else {
+	$asue = "";
+	$asud = "checked";
+	$asuemail = "";
+	$sysUpdateDisabled = 'disabled';
+}
 
-// Audo module updates radio buttons
+
+// Auto module updates radio buttons
 $amue = ($auto_module_updates=="enabled")?"checked":"";
 $amud = ($auto_module_updates=="disabled")?"checked":"";
 $amuemail = ($auto_module_updates=="emailonly")?"checked":"";
+
+// Auto module security updates radio buttons
+$amsue = ($auto_module_security_updates=="enabled")?"checked":"";
+$amsud = ($auto_module_security_updates=="disabled")?"checked":"";
+$amsuemail = ($auto_module_security_updates=="emailonly")?"checked":"";
 ?>
-    <div class='row'>
+<?php if($sysUpdate->canDoSystemUpdates()) { ?>
+    <div class='row' style='padding-top: .25em'>
       <div class='col-xs-5 col-sm-4 col-md-3 pd'><?php echo _("Automatic System Updates"); ?></div>
 	  <div class='col-xs-7 col-sm-8 col-md-9'>
 	    <span class='radioset'>
-          <input type='radio' name='auto_system_updates' id='asyse' <?php echo $asue; ?> value='enabled'>
+          <input type='radio' name='auto_system_updates' id='asyse' <?php echo $asue; ?> value='enabled' <?php echo $sysUpdateDisabled?>>
           <label for='asyse'><?php echo $ena; ?></label>
-          <input type='radio' name='auto_system_updates' id='asysemail' <?php echo $asuemail; ?> value='emailonly'>
+          <input type='radio' name='auto_system_updates' id='asysemail' <?php echo $asuemail; ?> value='emailonly' <?php echo $sysUpdateDisabled?>>
           <label for='asysemail'><?php echo $emo; ?></label>
-          <input type='radio' name='auto_system_updates' id='asysd' <?php echo $asud; ?> value='disabled'>
+          <input type='radio' name='auto_system_updates' id='asysd' <?php echo $asud; ?> value='disabled' <?php echo $sysUpdateDisabled?>>
           <label for='asysd'><?php echo $dis; ?></label>
 	    </span>
       </div>
     </div>
-
+<?php } ?>
 	<div class='row' style='padding-top: .25em'>
       <div class='col-xs-5 col-sm-4 col-md-3 pd'><?php echo _("Automatic Module Updates"); ?></div>
 	  <div class='col-xs-7 col-sm-8 col-md-9'>
@@ -58,6 +74,18 @@ $amuemail = ($auto_module_updates=="emailonly")?"checked":"";
           <label for='amodemail'><?php echo $emo; ?></label>
           <input type='radio' name='auto_module_updates' id='amodd' <?php echo $amud; ?> value='disabled'>
           <label for='amodd'><?php echo $dis; ?></label>
+	    </span>
+      </div>
+    </div>
+
+			<div class='row' style='padding-top: .25em'>
+      <div class='col-xs-5 col-sm-4 col-md-3 pd'><?php echo _("Automatic Module Security Updates"); ?></div>
+	  <div class='col-xs-7 col-sm-8 col-md-9'>
+	    <span class='radioset'>
+          <input type='radio' name='auto_module_security_updates' id='asmode' <?php echo $amsue; ?> value='enabled'>
+          <label for='asmode'><?php echo $ena; ?></label>
+          <input type='radio' name='auto_module_security_updates' id='asmodemail' <?php echo $amsuemail; ?> value='emailonly'>
+          <label for='asmodemail'><?php echo $emo; ?></label>
 	    </span>
       </div>
     </div>

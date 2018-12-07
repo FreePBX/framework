@@ -332,6 +332,7 @@ function saveUpdateScheduler(e) {
 		system_ident: $("#sysident").val(),
 		auto_system_updates: $("input[name='auto_system_updates']:checked").val(),
 		auto_module_updates: $("input[name='auto_module_updates']:checked").val(),
+		auto_module_security_updates: $("input[name='auto_module_security_updates']:checked").val(),
 		update_every: $("#update_every").val(),
 		update_period: $("#update_period").val(),
 		module: "framework",
