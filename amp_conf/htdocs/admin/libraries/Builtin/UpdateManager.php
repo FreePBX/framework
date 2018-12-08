@@ -56,6 +56,7 @@ class UpdateManager {
 			"auto_system_updates" => "emailonly", // This is ignored if not on a supported OS
 			"auto_module_updates" => "enabled",
 			"auto_module_security_updates" => "enabled",
+			"unsigned_module_emails" => "enabled",
 			"update_every" => "saturday",
 			"update_period" => "4to8",
 		];
@@ -77,6 +78,18 @@ class UpdateManager {
 			$this->freepbx->Config->remove_conf_setting('AUTOSECURITYUPDATES');
 		}
 
+		if($this->freepbx->Config->conf_setting_exists('SEND_UNSIGNED_EMAILS_NOTIFICATIONS')) {
+			$setting = $this->freepbx->Config->get('SEND_UNSIGNED_EMAILS_NOTIFICATIONS');
+			$retarr['unsigned_module_emails'] = $setting ? 'enabled' : 'disabled';
+			$this->freepbx->Config->remove_conf_setting('SEND_UNSIGNED_EMAILS_NOTIFICATIONS');
+		}
+
+		if($this->freepbx->Config->conf_setting_exists('CRONMAN_UPDATES_CHECK')) {
+			$setting = $this->freepbx->Config->get('CRONMAN_UPDATES_CHECK');
+			$retarr['auto_module_updates'] = $setting ? 'enabled' : 'disabled';
+			$this->freepbx->Config->remove_conf_setting('CRONMAN_UPDATES_CHECK');
+		}
+
 		// If ident is empty, take the one from settings
 		if (!$retarr['system_ident']) {
 			$retarr['system_ident'] = htmlspecialchars($this->freepbx->Config->get('FREEPBX_SYSTEM_IDENT'), ENT_QUOTES|ENT_SUBSTITUTE, 'UTF-8', false);
@@ -94,6 +107,10 @@ class UpdateManager {
 		}
 
 		return $retarr;
+	}
+
+	public function setNotificationEmail($email) {
+		$this->freepbx->setConfig("notification_emails", $email, "updates");
 	}
 
 	/**
@@ -196,24 +213,16 @@ class UpdateManager {
 				$cron->remove($line);
 			}
 
-			if(preg_match('/ma --sendemail --willupdate listonline/',$line)) {
+			if(preg_match('/fwconsole ma/',$line)) {
 				$cron->remove($line);
 			}
 
-			if(preg_match('/ma listonline/',$line)) {
-				$cron->remove($line);
-			}
-
-			if(preg_match('/system listonline/',$line)) {
-				$cron->remove($line);
-			}
-
-			if(preg_match('/ma installall/',$line)) {
+			if(preg_match('/fwconsole sys/',$line)) {
 				$cron->remove($line);
 			}
 		}
 
-		$cmd = "[ -e $fwconsole ] && $fwconsole ma listonline --sendemail > /dev/null 2>&1";
+		$cmd = "[ -e $fwconsole ] && $fwconsole ma listonline --sendemail -q > /dev/null 2>&1";
 		// Add the new job to check for updates.
 		if(!empty($cmd)) {
 			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "day" => $day ]);
@@ -227,12 +236,13 @@ class UpdateManager {
 			$hour++;
 		}
 		// Are our updates enabled?
-		if ($settings['auto_module_updates'] === "enabled" || $settings['auto_module_updates'] === "emailonly") {
-			$cmd = "[ -e $fwconsole ] && $fwconsole sys listonline --sendemail > /dev/null 2>&1";
+		if ($settings['auto_system_updates'] === "emailonly") {
+			$cmd = "[ -e $fwconsole ] && $fwconsole sys listonline --sendemail -q > /dev/null 2>&1";
+			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "day" => $day ]);
+		} elseif($settings['auto_system_updates'] === "enabled") {
+			$cmd = "[ -e $fwconsole ] && $fwconsole sys upgradeall --sendemail -q > /dev/null 2>&1";
+			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "day" => $day ]);
 		}
-
-		// Add the new job to check for updates.
-		$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "day" => $day ]);
 
 		// If we are auto-installing, then run the update job an hour later.
 		if ($hour == 23) {
@@ -242,27 +252,10 @@ class UpdateManager {
 			$hour++;
 		}
 		if ($settings['auto_module_updates'] === "enabled") {
-			$cmd = "[ -e $fwconsole ] && $fwconsole ma installall --sendemail > /dev/null 2>&1";
+			$cmd = "[ -e $fwconsole ] && $fwconsole ma installall --sendemail -q > /dev/null 2>&1";
 			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "day" => $day ]);
 		}
 
-	}
-
-
-	/**
-	 * Check to make sure that our cronjob is in place
-	 *
-	 * @return bool
-	 */
-	public function isCronjobInPlace() {
-		$exec = $this->freepbx->Config->get('AMPBIN')."/module_admin";
-		$crons = $this->freepbx->Cron->getAll();
-		foreach ($crons as $line) {
-			if (strpos($line, $exec) !== false) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	/**
@@ -403,7 +396,7 @@ class UpdateManager {
 	}
 
 	public function unsignedEmail() {
-		if(!$this->freepbx->Config->get('SEND_UNSIGNED_EMAILS_NOTIFICATIONS')){
+		if($this->getCurrentUpdateSettings(false)['unsigned_module_emails'] === 'disabled'){
 			$this->freepbx->Notifications->delete("freepbx", "SIGEMAIL");
 			return true;
 		}
@@ -425,9 +418,9 @@ class UpdateManager {
 	}
 
 	private function getUnsignedEmailBody() {
-		if (!$this->freepbx->Config->get('SEND_UNSIGNED_EMAILS_NOTIFICATIONS')) {
+		if ($this->getCurrentUpdateSettings(false)['unsigned_module_emails'] === 'disabled') {
 			$warning = _("Unsigned module notifications are turned off!")."\n\n";
-			$warning .= _("You will not get alerts about new modules that are installed on your system without a valid signature. It is unusual to turn off this protection. You can turn it back on in 'Advanced Settings' by enabling the 'SEND_UNSIGNED_EMAILS_NOTIFICATIONS' option.")."\n";
+			$warning .= _("You will not get alerts about new modules that are installed on your system without a valid signature. It is unusual to turn off this protection. You can turn it back on in 'Updates' by enabling the 'Send security emails for unsigned modules' option.")."\n";
 			$warning .= _("If you want to sign your own modules to protect them from unauthorized tampering, please see the link below for more information:")."\n";
 			$warning .= "    http://wiki.freepbx.org/display/FOP/Signing+your+own+modules\n";
 			return $warning;

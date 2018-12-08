@@ -9,8 +9,10 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Command\LockableTrait;
 
 class Moduleadmin extends Command {
+	use LockableTrait;
 	private $activeRepos = [];
 	private $mf = null;
 	private $setRepos = false;
@@ -34,14 +36,15 @@ class Moduleadmin extends Command {
 		}
 
 		$brand = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
+		$ident = \FreePBX::Config()->get('FREEPBX_SYSTEM_IDENT');
 		// We are sending an email.
 		$body = array_merge([
-			sprintf(_("This is an automatic notification from your %s server."), $brand),
+			sprintf(_("This is an automatic notification from your %s (%s) server."), $brand, $ident),
 			"",
 		], $this->emailbody);
 
 		// Note this is force = true, as we always want to send it.
-		$this->updatemanager->sendEmail("moduleautoupdates", _("Module Updates"), implode("\n", $body), 4, true);
+		$this->updatemanager->sendEmail("moduleautoupdates", sprintf(_("%s (%s) Module Updates"), $brand, $ident), implode("\n", $body), 4, true);
 	}
 
 	protected function configure(){
@@ -67,6 +70,10 @@ class Moduleadmin extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output){
+		if (!$this->lock()) {
+			$output->writeln('The command is already running in another process.');
+			return 0;
+		}
 		$this->nt = \FreePBX::Notifications();
 		$this->updatemanager = new \FreePBX\Builtin\UpdateManager();
 		$this->mf = \module_functions::create();
@@ -335,17 +342,20 @@ class Moduleadmin extends Command {
 		);
 		$force = $force ? "--force" : "";
 		$cmd = "$fwconsole ma install ".escapeshellarg($modulename)." ".$force;
+		//release lock, it'll be regained in a bit
+		$this->release();
 		$process = proc_open($cmd, $descriptorspec, $pipes);
 		if( is_resource( $process ) ) {
 			// Close stdin
 			fclose($pipes[0]);
 			// Now we can just wait for the process to finish
 			$result = proc_close($process);
-			return $result;
 		} else {
 			print "Error, unable to proc_open '$cmd'\n";
-			return false;
+			$result = false;
 		}
+		$this->lock(); //relock
+		return $result;
 	}
 
 	private function doInstall($modulename, $force) {

@@ -1,18 +1,28 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
 namespace FreePBX\Builtin;
+use Symfony\Component\Lock\Factory;
+use Symfony\Component\Lock\Store\FlockStore;
+use Symfony\Component\Lock\Store\RetryTillSaveStore;
+use Symfony\Component\Lock\Store\RedisStore;
 
 class SystemUpdates {
-
+	private $lock;
 	// See framework/hooks/yum-* commands where these files are defined
 	private $lockfile = "/dev/shm/yumwrapper/yum.lock";
 	private $logfile = "/dev/shm/yumwrapper/output.log";
 	//  i18n
 	private $strarr = false; // This is overwritten in __construct
+	private $cli = false;
 
-	public function __construct() {
+	public function __construct($cli = false) {
+		$this->cli = $cli;
 		// Can't use functions in class definitions
-		$this->strarr = [ "complete" => _("(Complete)"), "unknown" => _("(Unknown)"), "inprogress" => _("(In Progress)"), "yumerror" => _("(Yum Error)") ];
+		$this->strarr = [ "complete" => _("(Complete)"), "unknown" => _("(Unknown)"), "inprogress" => _("(In Progress)"), "yumerror" => _("(Yum Error)"), "error" => _("General Error") ];
+	}
+
+	public function __destruct() {
+
 	}
 
 	/**
@@ -73,24 +83,30 @@ class SystemUpdates {
 		if ($this->isYumRunning()) {
 			return true;
 		}
-		if (!is_dir("/var/spool/asterisk/incron")) {
-			// Something's broken with this machine.
-			throw new \Exception("Incron not configured, unable to manage system updates");
+		if(!$this->getLock()->acquire()) {
+			return true;
 		}
-		// incron hook
-		if (file_exists("/var/spool/asterisk/incron/framework.yum-check-updates")) {
-			unlink("/var/spool/asterisk/incron/framework.yum-check-updates");
-		}
-		touch("/var/spool/asterisk/incron/framework.yum-check-updates");
-		// Wait up to 5 seconds for it to start
-		$endafter = time()+5;
-		while (time() < $endafter) {
-			if ($this->isYumRunning()) {
-				return true;
+		try {
+			if (!is_dir("/var/spool/asterisk/incron")) {
+				// Something's broken with this machine.
+				throw new \Exception("Incron not configured, unable to manage system updates");
 			}
-			usleep(100000); // 1/10th of a second.
+			// incron hook
+			if (file_exists("/var/spool/asterisk/incron/framework.yum-check-updates")) {
+				unlink("/var/spool/asterisk/incron/framework.yum-check-updates");
+			}
+			touch("/var/spool/asterisk/incron/framework.yum-check-updates");
+			// Wait up to 5 seconds for it to start
+			$endafter = time()+5;
+			while (time() < $endafter) {
+				if ($this->isYumRunning()) {
+					return true;
+				}
+				usleep(100000); // 1/10th of a second.
+			}
+		} finally {
+			$this->getLock()->release();
 		}
-
 		// If we made it here, the updates never started
 		throw new \Exception("Updates did not start. Incron error?");
 	}
@@ -102,22 +118,29 @@ class SystemUpdates {
 		if ($this->isYumRunning()) {
 			return true;
 		}
-		if (!is_dir("/var/spool/asterisk/incron")) {
-			// Something's broken with this machine.
-			throw new \Exception("Incron not configured, unable to manage system updates");
+		if(!$this->getLock()->acquire()) {
+			return true;
 		}
-		// incron hook
-		if (file_exists("/var/spool/asterisk/incron/framework.yum-update-system")) {
-			unlink("/var/spool/asterisk/incron/framework.yum-update-system");
-		}
-		touch("/var/spool/asterisk/incron/framework.yum-update-system");
-		// Wait up to 5 seconds for it to start
-		$endafter = time()+5;
-		while (time() < $endafter) {
-			if ($this->isYumRunning()) {
-				return true;
+		try {
+			if (!is_dir("/var/spool/asterisk/incron")) {
+				// Something's broken with this machine.
+				throw new \Exception("Incron not configured, unable to manage system updates");
 			}
-			usleep(100000); // 1/10th of a second.
+			// incron hook
+			if (file_exists("/var/spool/asterisk/incron/framework.yum-update-system")) {
+				unlink("/var/spool/asterisk/incron/framework.yum-update-system");
+			}
+			touch("/var/spool/asterisk/incron/framework.yum-update-system");
+			// Wait up to 5 seconds for it to start
+			$endafter = time()+5;
+			while (time() < $endafter) {
+				if ($this->isYumRunning()) {
+					return true;
+				}
+				usleep(100000); // 1/10th of a second.
+			}
+		} finally {
+			$this->getLock()->release();
 		}
 
 		// If we made it here, the updates never started
@@ -592,5 +615,34 @@ class SystemUpdates {
 			</div>
 		</div>\n";
 		return $html;
+	}
+
+	/**
+	 * Implement locks to avoid multiple things modifying system
+	 *
+	 * @return void
+	 */
+	private function getLock() {
+		if(!empty($this->lock)) {
+			return $this->lock;
+		}
+		if(class_exists('Redis')) {
+			try {
+				$redis = new \Redis();
+				$redis->connect('127.0.0.1');
+				$redis->get('foo');
+				$lockStore = new RedisStore($redis,60);
+				$lockStore = new RetryTillSaveStore($lockStore);
+			} catch(\Exception $e) {
+				freepbx_log(FPBX_LOG_WARNING, "Redis enabled but not running, falling back to filesystem [{$e->getMessage()}]");
+			}
+		}
+		if(empty($lockStore)) {
+			$lockStore = new FlockStore(\FreePBX::Config()->get('ASTSPOOLDIR').'/tmp');
+		}
+
+		$factory = new Factory($lockStore);
+		$this->lock = $factory->createLock('systemupdate',1800);
+		return $this->lock;
 	}
 }

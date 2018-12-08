@@ -129,7 +129,6 @@ function fpbx_framework_autoloader($class) {
 		'CssMin' => 'libraries/cssmin.class.php',
 		'component' => 'libraries/components.class.php',
 		'featurecode' => 'libraries/featurecodes.class.php',
-		'cronmanager' => 'libraries/cronmanager.class.php',
 		'moduleHook' => 'libraries/moduleHook.class.php',
 		'modulelist' => 'libraries/modulelist.class.php',
 		'modgettext' => 'libraries/modgettext.class.php',

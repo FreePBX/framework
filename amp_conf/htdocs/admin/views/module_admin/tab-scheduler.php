@@ -48,6 +48,9 @@ $amuemail = ($auto_module_updates=="emailonly")?"checked":"";
 $amsue = ($auto_module_security_updates=="enabled")?"checked":"";
 $amsud = ($auto_module_security_updates=="disabled")?"checked":"";
 $amsuemail = ($auto_module_security_updates=="emailonly")?"checked":"";
+
+$use = ($unsigned_module_emails=="enabled")?"checked":"";
+$usd = ($unsigned_module_emails=="disabled")?"checked":"";
 ?>
 <?php if($sysUpdate->canDoSystemUpdates()) { ?>
     <div class='row' style='padding-top: .25em'>
@@ -86,6 +89,18 @@ $amsuemail = ($auto_module_security_updates=="emailonly")?"checked":"";
           <label for='asmode'><?php echo $ena; ?></label>
           <input type='radio' name='auto_module_security_updates' id='asmodemail' <?php echo $amsuemail; ?> value='emailonly'>
           <label for='asmodemail'><?php echo $emo; ?></label>
+	    </span>
+      </div>
+    </div>
+
+					<div class='row' style='padding-top: .25em'>
+      <div class='col-xs-5 col-sm-4 col-md-3 pd'><?php echo _("Send Security Emails For Unsigned Modules"); ?></div>
+	  <div class='col-xs-7 col-sm-8 col-md-9'>
+	    <span class='radioset'>
+          <input type='radio' name='unsigned_module_emails' id='use' <?php echo $use; ?> value='enabled'>
+          <label for='use'><?php echo $ena; ?></label>
+          <input type='radio' name='unsigned_module_emails' id='usd' <?php echo $usd; ?> value='disabled'>
+          <label for='usd'><?php echo $dis; ?></label>
 	    </span>
       </div>
     </div>
