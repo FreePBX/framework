@@ -356,7 +356,11 @@ class Config {
 	}
 
 	public function amportal_canwrite() {
-		//deprecated
+		if(file_exists('/etc/amportal.conf')) {
+			return is_writeable('/etc/amportal.conf');
+		} else {
+			return is_writable('/etc');
+		}
 	}
 
 	public function parse_amportal_conf($filename, $bootstrap_conf = array(), $file_is_authority=false) {
