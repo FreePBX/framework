@@ -45,6 +45,7 @@ return array(
     'Povils\\Figlet\\' => array($vendorDir . '/povils/figlet/src/Figlet'),
     'PhpConsole\\' => array($vendorDir . '/php-console/php-console/src/PhpConsole'),
     'Moontoast\\Math\\' => array($vendorDir . '/moontoast/math/src/Moontoast/Math'),
+    'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Moment\\' => array($vendorDir . '/fightbulc/moment/src'),
     'Hhxsv5\\SSE\\' => array($vendorDir . '/hhxsv5/php-sse/src'),
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
