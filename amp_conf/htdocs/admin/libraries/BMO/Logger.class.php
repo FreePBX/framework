@@ -108,13 +108,6 @@ class Logger {
 	 * @return void
 	 */
 	public function driverChannelLogWrite($driver,$channel='',$message='',array $context = array(),$logLevel = self::DEBUG){
-		if(!isset($this->logDrivers[$driver])) {
-			if($driver === 'default') {
-				$this->createLogDriver('default', $this->defaultLogDir.'/freepbx.log');
-			} else {
-				$this->createLogDriver($driver, $this->defaultLogDir.'/'.$driver.'.log');
-			}
-		}
 		$logger = !empty($channel) ? $this->logDrivers[$driver]->withName($channel) : $this->logDrivers[$driver];
 		switch ($logLevel) {
 			case self::DEBUG:
@@ -148,6 +141,9 @@ class Logger {
 	public function createLogDriver($driver, $path, $minLogLevel = self::DEBUG){
 			if(isset($this->logDrivers[$driver])) {
 				return $this->logDrivers[$driver];
+			}
+			if($driver === 'default') {
+				$path = $this->defaultLogDir.'/freepbx.log';
 			}
 			if(in_array($path,$this->configuredStreamPaths)) {
 				throw new \Exception("Multiple loggers for the same file isn't allowed");
