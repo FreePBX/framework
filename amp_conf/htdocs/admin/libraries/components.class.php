@@ -569,7 +569,7 @@ class guielement {
  * @param $table bool if this element is in a table or not, Default is true.
  */
 class gui_hidden extends guielement {
-	public function gui_hidden($elemname, $currentvalue = '', $table=true) {
+	public function __construct($elemname, $currentvalue = '', $table=true) {
 		if(is_array($elemname)) {
 			extract($elemname);
 		}
