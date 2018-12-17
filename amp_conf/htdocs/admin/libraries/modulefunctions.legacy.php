@@ -4,7 +4,7 @@ function _module_backtrace() {
     $function = $trace[1]['function'];
 	$line = $trace[1]['line'];
 	$file = $trace[1]['file'];
-	freepbx_log(FPBX_LOG_WARNING,'Depreciated Function '.$function.' detected in '.$file.' on line '.$line);
+	freepbx_log(LOG_WARNING,'Depreciated Function '.$function.' detected in '.$file.' on line '.$line);
 }
 
 function module_delete($modulename, $force = false) {

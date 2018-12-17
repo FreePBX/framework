@@ -58,22 +58,10 @@ function freepbx_log_security($txt) {
 	$path = FreePBX::Config()->get('ASTLOGDIR');
 	$log_file = $path.'/freepbx_security.log';
 	/** Monolog */
-	FreePBX::Logger()->logWrite('security',$txt,false,'NOTICE');
-	$tz = date_default_timezone_get();
-	if (!$tz) {
-		$tz = 'America/Los_Angeles';
-	}
-	date_default_timezone_set($tz);
-	$tstamp		= date("Y-m-d H:i:s");
+	$logger = FreePBX::Logger()->getDriver('freepbx_security');
 
-	// Don't append if the file is greater than ~2G since some systems fail
-	//
-	$size = file_exists($log_file) ? sprintf("%u", filesize($log_file)) + strlen($txt) : 0;
-	if ($size > 2000000000) {
-		unlink($log_file);
-	}
 	if(!FreePBX::Config()->get('AMPDISABLELOG') && FreePBX::Config()->get('LOG_OUT_MESSAGES')) {
-		file_put_contents($log_file, "[$tstamp] $txt\n", FILE_APPEND);
+		$logger->notice($txt);
 	}
 }
 /**
@@ -85,47 +73,37 @@ function freepbx_log_security($txt) {
  */
 function freepbx_log($level, $message) {
 	global $amp_conf;
-
-	$php_error_handler = false;
-	$bt = debug_backtrace();
-
-	if (isset($bt[1]) && $bt[1]['function'] == 'freepbx_error_handler') {
-		$php_error_handler = true;
-	} elseif (isset($bt[1]) && $bt[1]['function'] == 'out' || $bt[1]['function'] == 'die_freepbx') {
-		$file_full = $bt[1]['file'];
-		$line = $bt[1]['line'];
-	} elseif (basename($bt[0]['file']) == 'notifications.class.php') {
-		$file_full = $bt[2]['file'];
-		$line = $bt[2]['line'];
-	} else {
-		$file_full = $bt[0]['file'];
-		$line = $bt[0]['line'];
+	$freepbx = FreePBX::Create();
+	$logger = $freepbx->Logger;
+	$logdir = $freepbx->Config->get('ASTLOGDIR');
+	if (!isset($amp_conf['FPBXDBUGFILE'])) {
+		$amp_conf['FPBXDBUGFILE'] = $logdir.'/freepbx_debug';
 	}
-
-	if (!$php_error_handler) {
-		$file_base = basename($file_full);
-		$file_dir  = basename(dirname($file_full));
-		$txt = sprintf("[%s] (%s/%s:%s) - %s\n", $level, $file_dir, $file_base, $line, $message);
-	} else {
-		// PHP Error Handler provides it's own formatting
-		$txt = sprintf("[%s-%s\n", $level, $message);
-	}
-
+	$dbugfile = $amp_conf['FPBXDBUGFILE'];
+	
 	// if it is not set, it's probably an initial installation so we want to log something
 	if (!isset($amp_conf['AMPDISABLELOG']) || !$amp_conf['AMPDISABLELOG']) {
 		$log_type = isset($amp_conf['AMPSYSLOGLEVEL']) ? $amp_conf['AMPSYSLOGLEVEL'] : 'FILE';
 		switch ($log_type) {
 			case 'LOG_EMERG':
+				$monlevel = isset($monlevel)?$monlevel:600;
 			case 'LOG_ALERT':
+				$monlevel = isset($monlevel)?$monlevel:550;
 			case 'LOG_CRIT':
+				$monlevel = isset($monlevel)?$monlevel : 500;
 			case 'LOG_ERR':
+				$monlevel = isset($monlevel)?$monlevel:400;
 			case 'LOG_WARNING':
+				$monlevel = isset($monlevel)?$monlevel:300;
 			case 'LOG_NOTICE':
+				$monlevel = isset($monlevel)?$monlevel:250;
 			case 'LOG_INFO':
+				$monlevel = isset($monlevel)?$monlevel:200;
 			case 'LOG_DEBUG':
+				$monlevel = isset($monlevel)?$monlevel:100;
 				/** monolog */
-				FreePBX::Logger()->logWrite('dbug',$txt,false,$log_type);
-				syslog(constant($log_type),"FreePBX - $txt");
+				$dbug = $logger->createLogDriver('dbug', $dbugfile)->debug($message);
+				syslog(constant($log_type),"PBX - $message");
 				break;
 			case 'SQL':     // Core will remove these settings once migrated,
 			case 'LOG_SQL': // default to FILE during any interim steps.
@@ -140,28 +118,10 @@ function freepbx_log($level, $message) {
 				// should be done in the php.ini file but we will make an attempt to set it to something if we can't derive it
 				// from the date_default_timezone_get() command which goes through heuristics of guessing.
 				//
-				$tz = date_default_timezone_get();
-				if (!$tz) {
-					$tz = 'America/Los_Angeles';
-				}
-				date_default_timezone_set($tz);
-				$tstamp = date("Y-M-d H:i:s");
 
-				// Don't append if the file is greater than ~2G since some systems fail
-				//
-				$size = file_exists($log_file) ? sprintf("%u", filesize($log_file)) + strlen($txt) : 0;
-				if ($size < 2000000000) {
-					$dn = dirname($log_file);
-					if((file_exists($log_file) && is_writable($log_file)) || (!file_exists($log_file) && is_dir($dn) && is_writable($dn))) {
-						file_put_contents($log_file, "[$tstamp] $txt", FILE_APPEND);
-					} else {
-						return false;
-					}
-				}
-				break;
 		}
 	}
-	return true;
+	return $logger->channelLogWrite('freepbx_log',$message,array(), $monlevel);
 }
 
 /**
@@ -665,24 +625,14 @@ function dbug_write($txt, $check = false){
 	// it if not defined here to a default.
 	//
 	if (!isset($amp_conf['FPBXDBUGFILE'])) {
-		$amp_conf['FPBXDBUGFILE'] = '/var/log/asterisk/freepbx_debug';
+		$amp_conf['FPBXDBUGFILE'] = $amp_conf['ASTLOGDIR'].'/freepbx_debug';
 	}
-
-// If not check set max size just under 2G which is the php limit before it gets upset
-	if($check) { $max_size = 52428800; } else { $max_size = 2000000000; }
-	//optionaly ensure that dbug file is smaller than $max_size
-	$size = file_exists($amp_conf['FPBXDBUGFILE']) ? sprintf("%u", filesize($amp_conf['FPBXDBUGFILE'])) + strlen($txt) : 0;
-	if ($size > $max_size) {
-		file_put_contents($amp_conf['FPBXDBUGFILE'], $txt);
-	} else {
-		file_put_contents($amp_conf['FPBXDBUGFILE'], $txt, FILE_APPEND);
-	}
-
+	$dbugfile = $amp_conf['FPBXDBUGFILE'];
+	FreePBX::Logger()->createLogDriver('dbug', $dbugfile)->debug($txt);
 	if($amp_conf['PHP_CONSOLE']) {
 		PhpConsole\Connector::getInstance()->getDebugDispatcher()->dispatchDebug($txt, 'dbug');
 	}
 	/** Monolog */
-	FreePBX::Logger()->logWrite('dbug',$txt,false,'DEBUG');
 }
 
 /**

@@ -447,6 +447,6 @@ class Modules {
 		$function = $trace[$pos]['function'];
 		$file =  $trace[$pos]['file'];
 		$line =  $trace[$pos]['line'];
-		freepbx_log(FPBX_LOG_WARNING,'Depreciated Function '.$function.' detected in '.$file.' on line '.$line);
+		freepbx_log(LOG_WARNING,'Depreciated Function '.$function.' detected in '.$file.' on line '.$line);
 	}
 }
