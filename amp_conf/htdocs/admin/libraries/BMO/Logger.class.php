@@ -36,8 +36,10 @@ class Logger {
 	 * @return void
 	 */
 	public function logWrite($message='',array $context = array(),$logLevel = self::DEBUG ){
-		/** Anything with "LOG_" is added for backwards compatibility with FreePBX logging */
-		$logLevel = ltrim($logLevel,'FPBX_');
+		if(is_string($logLevel)){
+			/** Anything with "LOG_" is added for backwards compatibility with FreePBX logging */
+			$logLevel = ltrim($logLevel,'FPBX_');
+		}
 		switch ($logLevel) {
 			case 'LOG_DEBUG':
 			case 'DEBUG':
