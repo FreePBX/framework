@@ -52,6 +52,7 @@ class Chown extends Command {
 		foreach ($conf as $key => $val){
 			${$key} = $val['value'];
 		}
+
 		/*
 		 * These are files Framework is responsible for This list can be
 		 * reduced by moving responsibility to other modules as a hook
@@ -287,6 +288,9 @@ class Chown extends Command {
 	 * @param  int                  $umask The mode mask (octal)
 	 */
 	private function systemSetRecursivePermissions($path, $mode, $owner='asterisk', $group='asterisk', $rmode = 'rdir', $umask = 0000) {
+		if(empty($path)) {
+			throw new \Exception("Path is empty!");
+		}
 		$blacklist = $this->blacklist;
 		if(!empty($blacklist['files'])) {
 			array_walk($blacklist['files'], function(&$value, $key) {

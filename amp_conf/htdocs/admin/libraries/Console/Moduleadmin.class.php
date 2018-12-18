@@ -9,6 +9,8 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\NullOutput;
 
 class Moduleadmin extends Command {
 	private $activeRepos = [];
@@ -852,17 +854,27 @@ class Moduleadmin extends Command {
 			return;
 		}
 		if (posix_getuid() == 0) {
-			$chown = new Chown();
+			$command = $this->getApplication()->find('chown');
+
+			$arguments = array(
+				'command' => 'chown'
+			);
+
 			if(sizeof($args) == 1){
-				$chown->moduleName = is_array($args[0]) ? $args[0]['name'] : $args[0];
+				$arguments['--module'] = is_array($args[0]) ? $args[0]['name'] : $args[0];
 			}
+
+			$out = $this->out;
 			if(!($this->out->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE)) {
-				$prevVerbosity = $this->out->getVerbosity();
-				$this->out->setVerbosity(OutputInterface::VERBOSITY_QUIET);
+				$this->out->write("Chowning directories...");
+				$out = new NullOutput();
 			}
-			$chown->execute($this->input, $this->out, !($this->out->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE));
-			if(!empty($prevVerbosity)) {
-				$this->out->setVerbosity($prevVerbosity);
+
+			$greetInput = new ArrayInput($arguments);
+			$returnCode = $command->run($greetInput, $out);
+
+			if(!($this->out->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE)) {
+				$this->out->writeln("Done");
 			}
 		}
 	}
