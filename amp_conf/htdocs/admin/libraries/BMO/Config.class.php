@@ -425,7 +425,7 @@ class Config {
 			// actually exists so I can return a boolean false if not?
 			//
 
-			$sql = "SELECT `value` FROM freepbx_settings WHERE `keyword` = ''";
+			$sql = "SELECT `value` FROM freepbx_settings WHERE `keyword` = :keyword";
 			$sth = $this->db->prepare($sql);
 			$sth->execute(array("keyword" => $keyword));
 			$value = $sth->fetchColumn();
