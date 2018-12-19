@@ -1265,6 +1265,7 @@ class module_functions {
 	* @return  mixed   True if succesful, array of error messages if not succesful
 	*/
 	function download($moduledata, $force = false, $progress_callback = null, $override_svn = false, $override_xml = false) {
+		$this->getInfoCache = array(); //invalidate local
 		$this->notFound = false;
 		global $amp_conf;
 		if(!is_array($moduledata)) {
