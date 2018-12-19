@@ -815,8 +815,8 @@ function dbug_printtree($dir, $indent = "\t") {
  * @return string
  */
 function fpbx_which($app) {
-	$freepbx_conf = freepbx_conf::create();
-	$which = $freepbx_conf->get_conf_setting('WHICH_' . $app);
+	$freepbx_conf = \FreePBX::Config();
+	$which = $freepbx_conf->get('WHICH_' . $app);
 
 	//if we have the location cached return it
 	if (!empty($which) && file_exists($which) && is_executable($which)) {
@@ -863,8 +863,8 @@ function fpbx_which($app) {
 		}
 	}
 
-	if(!empty($location) && $freepbx_conf->conf_setting_exists('WHICH_' . $app)) {
-		$freepbx_conf->set_conf_values(array('WHICH_' . $app => $location), true,true);
+	if(!empty($location) && $freepbx_conf->exists('WHICH_' . $app)) {
+		$freepbx_conf->set('WHICH_' . $app, $location, true,true);
 		return $location;
 	} elseif(!empty($location) && !$freepbx_conf->conf_setting_exists('WHICH_' . $app)) {
 		//if we have a path add it to freepbx settings
@@ -1190,9 +1190,8 @@ function fpbx_ami_update($user=false, $pass=false, $writetimeout = false) {
 
 		// We've changed the password, let's update the notification
 		//
-		$nt = notifications::create($db);
-		$freepbx_conf =& freepbx_conf::create();
-		if ($amp_conf['AMPMGRPASS'] == $freepbx_conf->get_conf_default_setting('AMPMGRPASS')) {
+		$nt = \FreePBX::Notifications();
+		if (\FreePBX::Config()->get('AMPMGRPASS') === 'amp111') {
 			if (!$nt->exists('core', 'AMPMGRPASS')) {
 				$nt->add_warning('core', 'AMPMGRPASS', _("Default Asterisk Manager Password Used"), _("You are using the default Asterisk Manager password that is widely known, you should set a secure password"));
 			}
