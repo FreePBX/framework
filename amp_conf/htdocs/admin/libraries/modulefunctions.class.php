@@ -656,12 +656,14 @@ class module_functions {
 				$module_list = array('builtin');
 
 				// read modules dir for module names
-				$dir = opendir($amp_conf['AMPWEBROOT'].'/admin/modules');
-				while ($file = readdir($dir)) {
-					if (($file != ".") && ($file != "..") && ($file != "CVS") &&
-							($file != ".svn") && ($file != "_cache") &&
-							is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file)) {
-						$module_list[] = $file;
+				if(file_exists($amp_conf['AMPWEBROOT'].'/admin/modules') && is_dir($amp_conf['AMPWEBROOT'].'/admin/modules')) {
+					$dir = opendir($amp_conf['AMPWEBROOT'].'/admin/modules');
+					while ($file = readdir($dir)) {
+						if (($file != ".") && ($file != "..") && ($file != "CVS") &&
+								($file != ".svn") && ($file != "_cache") &&
+								is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file)) {
+							$module_list[] = $file;
+						}
 					}
 				}
 
