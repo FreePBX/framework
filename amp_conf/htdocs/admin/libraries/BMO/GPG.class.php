@@ -101,21 +101,25 @@ class GPG {
 		}
 
 		$out = $this->runGPG("--verify ".escapeshellarg($filename));
+
 		if (strpos($out['status'][0], "[GNUPG:] BADSIG") === 0) {
 			// File has been tampered.
 			return false;
 		}
-		if (strpos($out['status'][1], "[GNUPG:] NO_PUBKEY") === 0) {
-			// This should never happen, as we try to auto-download
-			// the keys. However, if the keyserver timed out, or,
-			// was out of date, we'll try it manually.
-			//
-			// strlen("[GNUPG:] NO_PUBKEY ") == 19.
-			//
-			if ($retry && $this->getKey(substr($out['status'][1], 19))) {
-				return $this->verifyFile($filename, false);
-			} else {
-				return false;
+		//start at line 1, increase looking for next lines
+		for($i=1;$i<count($out['status']);$i++) {
+			if (strpos($out['status'][$i], "[GNUPG:] NO_PUBKEY") === 0) {
+				// This should never happen, as we try to auto-download
+				// the keys. However, if the keyserver timed out, or,
+				// was out of date, we'll try it manually.
+				//
+				// strlen("[GNUPG:] NO_PUBKEY ") == 19.
+				//
+				if ($retry && $this->getKey(substr($out['status'][$i], 19))) {
+					return $this->verifyFile($filename, false);
+				} else {
+					return false;
+				}
 			}
 		}
 
