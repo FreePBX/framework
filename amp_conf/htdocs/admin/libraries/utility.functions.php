@@ -80,27 +80,27 @@ function freepbx_log($level, $message) {
 		$amp_conf['FPBXDBUGFILE'] = $logdir.'/freepbx_debug';
 	}
 	$dbugfile = $amp_conf['FPBXDBUGFILE'];
-	
+
 	// if it is not set, it's probably an initial installation so we want to log something
 	if (!isset($amp_conf['AMPDISABLELOG']) || !$amp_conf['AMPDISABLELOG']) {
 		$log_type = isset($amp_conf['AMPSYSLOGLEVEL']) ? $amp_conf['AMPSYSLOGLEVEL'] : 'FILE';
 		switch ($log_type) {
 			case 'LOG_EMERG':
-				$monlevel = isset($monlevel)?$monlevel:600;
+				$monlevel = 600;
 			case 'LOG_ALERT':
-				$monlevel = isset($monlevel)?$monlevel:550;
+				$monlevel = 550;
 			case 'LOG_CRIT':
-				$monlevel = isset($monlevel)?$monlevel : 500;
+				$monlevel = 500;
 			case 'LOG_ERR':
-				$monlevel = isset($monlevel)?$monlevel:400;
+				$monlevel = 400;
 			case 'LOG_WARNING':
-				$monlevel = isset($monlevel)?$monlevel:300;
+				$monlevel = 300;
 			case 'LOG_NOTICE':
-				$monlevel = isset($monlevel)?$monlevel:250;
+				$monlevel = 250;
 			case 'LOG_INFO':
-				$monlevel = isset($monlevel)?$monlevel:200;
+				$monlevel = 200;
 			case 'LOG_DEBUG':
-				$monlevel = isset($monlevel)?$monlevel:100;
+				$monlevel = 100;
 				/** monolog */
 				$dbug = $logger->createLogDriver('dbug', $dbugfile)->debug($message);
 				syslog(constant($log_type),"PBX - $message");
@@ -113,7 +113,7 @@ function freepbx_log($level, $message) {
 				// so we will default to a pre-install log file name. We will make a file name mandatory with a proper
 				// default in FPBX_LOG_FILE
 				$log_file	= isset($amp_conf['FPBX_LOG_FILE']) ? $amp_conf['FPBX_LOG_FILE'] : '/tmp/freepbx_pre_install.log';
-
+				$monlevel = 200;
 				// PHP Throws an error on install running of install_amp because the tiemzone isn't set. This is something that
 				// should be done in the php.ini file but we will make an attempt to set it to something if we can't derive it
 				// from the date_default_timezone_get() command which goes through heuristics of guessing.
