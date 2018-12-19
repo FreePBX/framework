@@ -15,7 +15,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class FreePBXHelpCommand extends HelpCommand {
 	private $command;
 
-	public function setCommand($command) {
+	public function setCommand(\Symfony\Component\Console\Command\Command $command) {
 		$this->command = $command;
 	}
 	protected function execute(InputInterface $input, OutputInterface $output) {
