@@ -138,7 +138,7 @@ class module_functions {
 						$parser = new xml2ModuleArray($all);
 						$allxml = $parser->parseAdvanced($all);
 					} catch(\Exception $e) {
-						freepbx_log(FPBX_LOG_ERROR,sprintf(_("Invalid Response from Mirror server: %s"),$all));;
+						freepbx_log(FPBX_LOG_ERROR,sprintf(_("Invalid Response from Mirror server: %s"),$all));
 						throw new \Exception("Unable to Parse XML response from Mirror. See the log for more details");
 					}
 				} else {
@@ -2251,6 +2251,7 @@ class module_functions {
 				$parser = new xml2Array($data);
 				$xmlarray = $parser->data;
 			} catch(\Exception $e) {
+				freepbx_log(FPBX_LOG_ERROR,sprintf(_("Unable to parse %s: %s"),$xmlfile, $e->getMessage()));
 				$xmlarray = array();
 			}
 			if (isset($xmlarray['module'])) {
