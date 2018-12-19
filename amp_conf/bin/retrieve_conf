@@ -876,25 +876,8 @@ if ($amp_conf['AMPMGRPASS'] == $freepbx_conf->get_conf_default_setting('AMPMGRPA
 	$nt->delete('core', 'AMPMGRPASS');
 }
 
-// Warn about default ARI Admin Password
-//
-if ($amp_conf['ARI_ADMIN_PASSWORD'] == $freepbx_conf->get_conf_default_setting('ARI_ADMIN_PASSWORD')) {
-  if (!$nt->exists('ari', 'ARI_ADMIN_PASSWORD')) {
-	  $nt->add_warning('ari', 'ARI_ADMIN_PASSWORD', _("Default ARI Admin password Used"), _("You are using the default ARI Admin password that is widely known, you should change to a new password. Do this in Advanced Settings"));
-  }
-} else {
-	$nt->delete('ari', 'ARI_ADMIN_PASSWORD');
-}
-
-// Warn about default Database Password
-//
-if ($amp_conf['AMPDBPASS'] == $freepbx_conf->get_conf_default_setting('AMPDBPASS')) {
-  if (!$nt->exists('core', 'AMPDBPASS')) {
-	  $nt->add_warning('core', 'AMPDBPASS', _("Default SQL Password Used"), _("You are using the default SQL password that is widely known, you should set a secure password"));
-  }
-} else {
-	$nt->delete('core', 'AMPDBPASS');
-}
+$nt->delete('ari', 'ARI_ADMIN_PASSWORD');
+$nt->delete('core', 'AMPDBPASS');
 
 // Warn if in deviceanduser mode and not using DYNAMICHINTS
 //
