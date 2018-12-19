@@ -865,7 +865,7 @@ class Config {
 		$sql = "SELECT `keyword` FROM freepbx_settings WHERE module = :module";
 		$sth = $this->db->prepare($sql);
 		$sth->execute(array(":module" => $module));
-		$settings = $sth->fetchAll(\PDO::FETCH_ASSOC);
+		$settings = $sth->fetchAll(\PDO::FETCH_COLUMN);
 		if(!empty($settings)) {
 			$this->remove_conf_settings($settings);
 		}
