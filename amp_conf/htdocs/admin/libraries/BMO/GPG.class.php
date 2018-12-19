@@ -572,10 +572,12 @@ class GPG {
 			try {
 				$retarr = $this->runGPG("--keyserver $ks --refresh-keys");
 			} catch (\RuntimeException $e) {
+				freepbx_log(FPBX_LOG_ERROR, "Tried to refresh keys and failed with: ".$e->getMessage());
 				// Took too long. We'll just try the next one.
 				continue;
 			}
 			if ($retarr['exitcode'] > 0) {
+				freepbx_log(FPBX_LOG_ERROR, "Tried to refresh keys and failed with: ".$retarr['stderr']);
 				//There was some sort of error so try the next one
 				continue;
 			} else {
