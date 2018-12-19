@@ -40,7 +40,7 @@ class GPG {
 	private $gpg = false;
 
 	// Default options.
-	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true,timeout=10";
+	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true,timeout=10 --no-tty";
 
 	// List of well-known keyservers.
 	private $keyservers = array(
