@@ -536,6 +536,12 @@ class Moduleadmin extends Command {
 				$this->writeln("Done");
 			break;
 			case "untar":
+				if(isset($this->progress)) {
+					$this->progress->finish();
+					$this->writeln("");
+					$this->writeln("Finished downloading");
+					unset($this->progress);
+				}
 				$this->write("Extracting...");
 			break;
 		}
