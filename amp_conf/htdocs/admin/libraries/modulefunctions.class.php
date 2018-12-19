@@ -2594,13 +2594,22 @@ class module_functions {
 		// TODO: put proper path in places for ifconfig, try various locations where it may be if
 		//       non-0 return code.
 		//
-		exec('/sbin/ifconfig',$output, $return);
+		//TODO: this needs to check debian as well: ip addr show
+		if(is_executable('/sbin/ifconfig')) {
+			exec('/sbin/ifconfig',$output, $return);
+		} else {
+			$return = -1;
+		}
 
 		if ($return != '0') {
 
 			// OK try another path
 			//
-			exec('ifconfig',$output, $return);
+			if(is_executable('ifconfig')) {
+				exec('ifconfig',$output, $return);
+			} else {
+				$return = -1;
+			}
 
 			if ($return != '0') {
 				$sth = \FreePBX::Database()->prepare("REPLACE INTO module_xml (id,time,data) VALUES ('type',?,?)");
