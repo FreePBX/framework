@@ -75,11 +75,12 @@ function freepbx_log($level, $message) {
 	global $amp_conf;
 	$freepbx = FreePBX::Create();
 	$logger = $freepbx->Logger;
-	$logdir = $freepbx->Config->get('ASTLOGDIR');
-	if (!isset($amp_conf['FPBXDBUGFILE'])) {
-		$amp_conf['FPBXDBUGFILE'] = $logdir.'/freepbx_debug';
-	}
-	$dbugfile = $amp_conf['FPBXDBUGFILE'];
+	$ASTLOGDIR = $freepbx->Config->get('ASTLOGDIR');
+	//need to double check amp_conf incase we are in an installation
+	$ASTLOGDIR = !empty($ASTLOGDIR) ? $ASTLOGDIR : (!empty($amp_conf['ASTLOGDIR']) ? $amp_conf['ASTLOGDIR'] : '/var/log/asterisk');
+	$FPBXDBUGFILE = $freepbx->Config->get('FPBXDBUGFILE');
+	$FPBXDBUGFILE = !empty($FPBXDBUGFILE) ? $FPBXDBUGFILE : (!empty($amp_conf['FPBXDBUGFILE']) ? $amp_conf['FPBXDBUGFILE'] : '/var/log/asterisk/freepbx_debug');
+	$dbugfile = $FPBXDBUGFILE;
 
 	// if it is not set, it's probably an initial installation so we want to log something
 	if (!isset($amp_conf['AMPDISABLELOG']) || !$amp_conf['AMPDISABLELOG']) {
