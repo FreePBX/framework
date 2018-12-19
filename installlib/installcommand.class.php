@@ -235,7 +235,7 @@ class FreePBXInstallCommand extends Command {
 			if(isset($aconf['directories']['astmoddir'])) {
 				$aconf['directories']['astmoddir'] = !empty($answers['astmoddir']) ? $answers['astmoddir'] : (file_exists('/usr/lib64/asterisk/modules') ? '/usr/lib64/asterisk/modules' : '/usr/lib/asterisk/modules');
 			}
-			if(isset($$aconf['directories']['astvarlibdir'])) {
+			if(isset($aconf['directories']['astvarlibdir'])) {
 				$aconf['directories']['astvarlibdir'] = !empty($answers['astvarlibdir']) ? $answers['astvarlibdir'] : "/var/lib/asterisk";
 			}
 			if(isset($aconf['directories']['astagidir'])) {
