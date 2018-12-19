@@ -819,7 +819,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 		// module_admin install framework
 		$output->writeln("Installing framework...");
-		system($amp_conf['AMPSBIN']."/fwconsole ma install framework");
+		system($amp_conf['AMPSBIN']."/fwconsole ma install framework > /dev/tty");
 		$output->writeln("Done");
 
 		if(method_exists(\FreePBX::create()->View,'getScripts')) {
@@ -851,10 +851,10 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		/* read modules list from MODULE_DIR */
 		if(file_exists(MODULE_DIR) && $newinstall) {
 			$output->write("Installing base modules...");
-			system($amp_conf['AMPSBIN']."/fwconsole ma install core dashboard sipsettings voicemail");
+			system($amp_conf['AMPSBIN']."/fwconsole ma install core dashboard sipsettings voicemail > /dev/tty");
 			if(!$answers['skip-install']) {
 				$output->write("Installing all modules...");
-				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal");
+				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal > /dev/tty");
 			}
 			$output->writeln("Done installing modules");
 		}

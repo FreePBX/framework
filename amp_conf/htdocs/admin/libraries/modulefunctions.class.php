@@ -665,6 +665,7 @@ class module_functions {
 							$module_list[] = $file;
 						}
 					}
+					closedir($dir);
 				}
 
 				// read the xml for each
@@ -685,7 +686,6 @@ class module_functions {
 						}
 					}
 				}
-				closedir($dir);
 
 				// query to get everything
 				$sql = 'SELECT * FROM modules';
