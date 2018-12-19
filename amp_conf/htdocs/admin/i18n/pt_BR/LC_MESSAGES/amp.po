@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-19 17:45-0500\n"
+"POT-Creation-Date: 2018-12-19 18:47-0500\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -744,7 +744,7 @@ msgstr "Abortar Geração de Configuração em Destino Ruim"
 msgid "Abort Config Gen on Exten Conflict"
 msgstr "Abortar Geração de Configuração em Conflito de Ramal"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:149
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:156
 msgid "Aborting Shutdown. Asterisk is still running"
 msgstr "Abortando o desligamento. Asterisk ainda está em execução"
 
@@ -1449,7 +1449,7 @@ msgstr ""
 "O Diretório raiz do Asterisk (%s) não existe e ASTSPOOLDIR não existe. "
 "Abortando"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:190
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:197
 msgid "Asterisk is still running and we can't stop it!"
 msgstr "Asterisk ainda está funcionando e não podemos pará-lo!"
 
@@ -4892,19 +4892,19 @@ msgstr "Forçar rport"
 msgid "Force rport - (%s)"
 msgstr "Forçar rport - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:240
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:242
 msgid "Force run post-start asterisk hooks"
 msgstr "Forçar execução de rotinas do asterisk pós-início"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:257
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:264
 msgid "Force run post-stop asterisk hooks"
 msgstr "Forçar execução de rotinas asterisk pós-parada"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:239
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:241
 msgid "Force run pre-start asterisk hooks"
 msgstr "Forçar execução de rotinas asterisk pre-início"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:256
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:263
 msgid "Force run pre-stop asterisk hooks"
 msgstr "Forçar execução de rotinas asterisk pre-parada"
 
@@ -6139,8 +6139,8 @@ msgstr "PALAVRA-CHAVE"
 msgid "Key provided - %s - is not hex"
 msgstr "Chave fornecida - %s - não é hex"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:155
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:181
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:162
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:188
 msgid "Killing asterisk forcefully."
 msgstr "Matando Asterisk com força."
 
@@ -6385,7 +6385,7 @@ msgstr "Máximo de canais"
 msgid "Maximum Expiration"
 msgstr "Prazo Máximo"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:258
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:265
 msgid "Maximum amount of time (in seconds) to wait for asterisk to shut down"
 msgstr ""
 "Quantidade máxima de tempo (em segundos) para aguardar o desligamento do "
@@ -8190,12 +8190,12 @@ msgstr ""
 msgid "Preloaded Modules"
 msgstr "Módulos pré-carregados"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:120
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:127
 #, php-format
 msgid "Press %s to Cancel"
 msgstr "Pressione %s para Cancelar"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:121
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:128
 #, php-format
 msgid "Press %s to shut down NOW"
 msgstr "Pressione %s para desligar agora"
@@ -8721,7 +8721,7 @@ msgstr "Tipo da Rota"
 msgid "Rules:"
 msgstr "Regras:"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:255
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:262
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
 msgstr "Execute um desligamento imediato. O padrão é 'quando conveniente'"
 
@@ -8741,6 +8741,7 @@ msgid "Running Asterisk post from %s module"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:116
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:107
 #, php-format
 msgid "Running Asterisk pre from %s module"
 msgstr ""
@@ -9323,14 +9324,14 @@ msgstr ""
 msgid "Shutdown NOW rather than convieniently"
 msgstr "Desligar agora em vez de convenientemente"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:118
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:125
 #, php-format
 msgid ""
 "Shutting down Asterisk Gracefully. Will forcefully kill after %s seconds."
 msgstr ""
 "Desligando o Asterisk Graciosamente. Forçará a matar depois de %s segundos."
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:115
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:122
 msgid "Shutting down Asterisk Immediately..."
 msgstr "Desligando o Asterisk Imediatamente..."
 
@@ -9354,7 +9355,7 @@ msgstr "Tamanho dos segredos gerados pelo gole"
 msgid "Skip Chowning"
 msgstr "Pular Chowning"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:241
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:243
 msgid "Skip Chowning of files"
 msgstr "Pular Chowning de arquivos"
 
@@ -9492,7 +9493,7 @@ msgstr "Inicie o Asterisk e execute outros comandos necessários do FreePBX"
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:163
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:165
 msgid "Starting Asterisk..."
 msgstr "Iniciando o Asterisk..."
 
@@ -11437,8 +11438,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1222
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:237
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:253
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:239
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:260
 msgid "Usage"
 msgstr "Uso"
 

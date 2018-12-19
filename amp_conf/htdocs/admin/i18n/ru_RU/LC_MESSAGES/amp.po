@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-19 17:45-0500\n"
+"POT-Creation-Date: 2018-12-19 18:47-0500\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -732,7 +732,7 @@ msgstr "Отказ генерации конфигураций при ошибо
 msgid "Abort Config Gen on Exten Conflict"
 msgstr "Отказ генерации конфигураций при конфликтах внутренних номеров"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:149
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:156
 msgid "Aborting Shutdown. Asterisk is still running"
 msgstr ""
 
@@ -1427,7 +1427,7 @@ msgid ""
 msgstr ""
 "Домашняя директория Asterisk (%s)  и ASTSPOOLDIR  не существуют. Завершение"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:190
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:197
 msgid "Asterisk is still running and we can't stop it!"
 msgstr ""
 
@@ -4833,19 +4833,19 @@ msgstr "Принудительно установить rport"
 msgid "Force rport - (%s)"
 msgstr "Принудительно установить rport - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:240
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:242
 msgid "Force run post-start asterisk hooks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:257
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:264
 msgid "Force run post-stop asterisk hooks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:239
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:241
 msgid "Force run pre-start asterisk hooks"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:256
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:263
 msgid "Force run pre-stop asterisk hooks"
 msgstr ""
 
@@ -6051,8 +6051,8 @@ msgstr "КЛЮЧЕВОЕ СЛОВО"
 msgid "Key provided - %s - is not hex"
 msgstr "Введённый ключ %s не 16-тиричном формате"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:155
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:181
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:162
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:188
 msgid "Killing asterisk forcefully."
 msgstr ""
 
@@ -6297,7 +6297,7 @@ msgstr "Максимально каналов"
 msgid "Maximum Expiration"
 msgstr "Максимальный срок истечения"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:258
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:265
 msgid "Maximum amount of time (in seconds) to wait for asterisk to shut down"
 msgstr ""
 
@@ -8080,12 +8080,12 @@ msgstr ""
 msgid "Preloaded Modules"
 msgstr "Предварительно загруженные модули"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:120
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:127
 #, php-format
 msgid "Press %s to Cancel"
 msgstr "Нажмите %s для отмены"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:121
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:128
 #, php-format
 msgid "Press %s to shut down NOW"
 msgstr "Нажмите  %s  для окончания работы СЕЙЧАС"
@@ -8609,7 +8609,7 @@ msgstr "Тип маршрута"
 msgid "Rules:"
 msgstr "Правила:"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:255
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:262
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
 msgstr ""
 
@@ -8629,6 +8629,7 @@ msgid "Running Asterisk post from %s module"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:116
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:107
 #, php-format
 msgid "Running Asterisk pre from %s module"
 msgstr ""
@@ -9179,13 +9180,13 @@ msgstr ""
 msgid "Shutdown NOW rather than convieniently"
 msgstr "Выключение СЕЙЧАС вместо удобного"
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:118
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:125
 #, php-format
 msgid ""
 "Shutting down Asterisk Gracefully. Will forcefully kill after %s seconds."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:115
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:122
 msgid "Shutting down Asterisk Immediately..."
 msgstr ""
 
@@ -9209,7 +9210,7 @@ msgstr ""
 msgid "Skip Chowning"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:241
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:243
 msgid "Skip Chowning of files"
 msgstr ""
 
@@ -9329,7 +9330,7 @@ msgstr "Запустить Астериск и выполнить другие �
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:163
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:165
 msgid "Starting Asterisk..."
 msgstr "Астериск запускается..."
 
@@ -11173,8 +11174,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1222
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:64
-#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:237
-#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:253
+#: amp_conf/htdocs/admin/libraries/Console/Start.class.php:239
+#: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:260
 msgid "Usage"
 msgstr "Использование"
 
