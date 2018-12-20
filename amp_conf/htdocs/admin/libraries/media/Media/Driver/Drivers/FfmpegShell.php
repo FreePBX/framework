@@ -119,7 +119,14 @@ class FfmpegShell extends \Media\Driver\Driver {
 			break;
 			case "mp4":
 			case "m4a":
-				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -acodec libfdk_aac -ar '.escapeshellarg($this->options['samplerate']).' -y '.escapeshellarg($newFilename).'');
+				$process = new Process($this->binary.' -version');
+				$process->mustRun();
+				$output = $process->getOutput();
+				if(preg_match_all('/enable-libfdk-aac\s/', $output)) {
+					$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -acodec libfdk_aac -ar '.escapeshellarg($this->options['samplerate']).' -y '.escapeshellarg($newFilename).'');
+				} else {
+					throw new \Exception("MP4 and M4A are not supported by FFMPEG");
+				}
 			break;
 			default:
 				throw new \Exception("Invalid type of $extension sent to FFMPEG");
