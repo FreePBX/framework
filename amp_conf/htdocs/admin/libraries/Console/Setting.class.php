@@ -22,13 +22,13 @@ class Setting extends Command {
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->setName('setting')
 		->setAliases(array('set'))
-		->setDescription(_('View and update settings'))
+		->setDescription(_('View and update settings. Usage: fwconsole setting <keyword> or fwconsole setting <keyword> <newvalue>'))
 		->setDefinition(array(
 			new InputOption('list', 'l', InputOption::VALUE_NONE, _('List Configs')),
-			new InputOption('reset', 'r', InputOption::VALUE_NONE, _('Reset to defailt')),
+			new InputOption('reset', 'r', InputOption::VALUE_NONE, _('Reset to default')),
 			new InputOption('import', 'i', InputOption::VALUE_REQUIRED, _('Import settings from file')),
 			new InputOption('export', 'e', InputOption::VALUE_REQUIRED, _('Export settings to file')),
-			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));
+			new InputArgument('args', InputArgument::IS_ARRAY, _('<keyword> [<value>]'), null),));
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$args = $input->getArgument('args');

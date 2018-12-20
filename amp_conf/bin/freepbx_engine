@@ -1,268 +1,25 @@
 #!/usr/bin/env bash
 #	License for all code of this FreePBX module can be found in the license file inside the module directory
-#	Copyright 2013 Schmooze Com Inc.
+#	Copyright 2018 Sangoma Technologies, Inc
 #
-# Visual formating variables
-# use like: ${b}text$bx - ${b} starts bold, $bx end it, etc.
-# you must use echo -e for formating to be valid
-b="\033[1m"
-bx="\033[0m"
-u="\e[4m"
-ux="\e[0m"
-
-ROOT_UID=0	 # root uid is 0
-E_NOTROOT=67 # Non-root exit error
-
-echo
-# check to see if we are root
-if [ "$UID" -ne "$ROOT_UID" ]; then
-	echo "Sorry, you must be root to run this script."
-	echo
-	exit $E_NOTROOT
-fi
-
-# function to eventually get freepbx.conf to /etc
-move_freepbxconf() {
-	if [ -e /etc/asterisk/freepbx.conf -a ! -e /etc/freepbx.conf ]; then
-		echo moving /etc/asterisk/freepbx.conf to /etc/freepbx.conf
-		mv /etc/asterisk/freepbx.conf /etc/
-	  	if [ "$?" -ne "0" ]; then
-			echo "unable to move, FreePBX will function fine but you will"
-			echo "get this error until the file can be successfully moved"
-		else
-			FREEPBX_CONF="/etc/freepbx.conf"
-	  	fi
-	fi
-}
-
-# define freepbx config file if not already set
-if [ -z "$FREEPBX_CONF" ]; then
-	if [ -e "/etc/freepbx.conf" ]; then
-		FREEPBX_CONF="/etc/freepbx.conf"
-	elif [ -e "/etc/asterisk/freepbx.conf" ]; then
-		FREEPBX_CONF="/etc/asterisk/freepbx.conf"
-		move_freepbxconf
-	else
-		FREEPBX_CONF="/etc/freepbx.conf"
-	fi
-fi
-
-
-# Set some defaults which can be re-defined from the config file/db
-AMPDEVUSER=asterisk
-AMPDEVGROUP=asterisk
-AMPASTERISKUSER=asterisk
-AMPASTERISKGROUP=asterisk
-AMPASTERISKWEBUSER=$AMPASTERISKUSER
-AMPASTERISKWEBGROUP=$AMPASTERISKGROUP
-AMPVMUMASK=077
-if [ -d /usr/local/etc/asterisk ]; then
-	ASTETCDIR=/usr/local/etc/asterisk
-else
-	ASTETCDIR=/etc/asterisk
-fi
-FPBXDBUGFILE=/var/log/asterisk/freepbx_debug
-ASTSTOPTIMEOUT=120
-ASTSTOPPOLLINT=2
-
-write_freepbxconf() {
-	if [ ! -e $FREEPBX_CONF  ]; then
-		cat > $FREEPBX_CONF <<-EOF
-		<?php
-		\$amp_conf['AMPDBUSER']	= '$AMPDBUSER';
-		\$amp_conf['AMPDBPASS']	= '$AMPDBPASS';
-		\$amp_conf['AMPDBHOST']	= '$AMPDBHOST';
-		\$amp_conf['AMPDBNAME']	= '$AMPDBNAME';
-		\$amp_conf['AMPDBENGINE'] = '$AMPDBENGINE';
-		\$amp_conf['datasource'] = ''; // for sqlite3
-
-		require_once('${AMPWEBROOT}/admin/bootstrap.php');
-
-		EOF
-	fi
-	move_freepbxconf
-}
-
-do_syncmanger() {
-	`php -r '
-	$bootstrap_settings["freepbx_auth"] = false;
-	$bootstrap_settings["skip_astman"] = true;
-	$restrict_mods = true;
-	if (!@include_once(getenv("FREEPBX_CONF") ? getenv("FREEPBX_CONF") : "/etc/freepbx.conf")) {
-		include_once("/etc/asterisk/freepbx.conf");
-	}
-	fpbx_ami_update(true,true,true);
-	'`
-	if [[ $? = 0 ]]; then
-		echo 'Manager ReSynced, restarting Asterisk'
-		$AMPBIN/fwconsole stop
-		call_hook stop_asterisk
-		sleep 1
-		$AMPBIN/fwconsole chown
-		$AMPBIN/fwconsole start
-		call_hook run_asterisk
-	else
-		echo 'um, something went wrong...'
-	fi
-}
-
-# get settings from db/config file
-if [[ -e $FREEPBX_CONF && -w "/etc/amportal.conf" && -z "$FORCE_AMPORTAL_CONF" ]]; then
-	# get the path of this file to call the gen_amp_conf.php script which will
-	# generate all the amp_conf variables that can be exported
-	#
-	progdir=`dirname $0`
-	sv_pwd=$PWD
-        cd $progdir
-        gen_path=$PWD
-        cd $sv_pwd
-	`$gen_path/gen_amp_conf.php`
-elif [ -e "/etc/amportal.conf" ]; then
-	# Check if this setting file exists, if so
-	# read it and then write out /etc/freepbx.conf
-	. /etc/amportal.conf
-	write_freepbxconf
-else
-	echo
-	echo "FreePBX config file not found!"
-	echo "Have you installed FreePBX?"
-	exit
-fi
-
-if [ -z $PIDOF ]; then
-	PIDOF=pidof
-fi
-
-if [ -e $AMPBIN/amportal ]; then
-	if [ ! -e $AMPSBIN/amportal ] || [ ! -h $AMPSBIN/amportal ]; then
-		cmp -s $AMPBIN/amportal $AMPSBIN/amportal > /dev/null
-		if [ $? -eq 1 ]; then
-		  echo "new amportal script detected, copying it to $AMPSBIN and attempting to backup up old"
-		  # just in case it isn't there though it should be
-		  if [ -e $AMPSBIN/amportal ]; then
-		    mv $AMPSBIN/amportal $AMPSBIN/amportal.bak
-		  fi
-		  cp $AMPBIN/amportal $AMPSBIN/amportal
-		  if [ "$?" -ne "0" ]; then
-		    echo "unable to update to new amportal, check permissions and try again"
-		  fi
-		  chown root:root $AMPSBIN/amportal
-		  chmod +x $AMPSBIN/amportal
-		fi
-	fi
-fi
-
-if [ "$ASTRUNDIR" = "/var/run" ]; then
-	echo "**** ERROR IN CONFIGURATION ****"
-	echo "astrundir in '$ASTETCDIR' is set to '/var/run' - THIS IS WRONG."
-	echo "Please change it to something sensible (eg, '/var/run/asterisk')"
-	echo "and re-run install"
-	exit
-fi
-
-if [ ! -d "$ASTRUNDIR" ]; then
-	echo "**** WARNING: ERROR IN CONFIGURATION ****"
-	echo "astrundir in '$ASTETCDIR' is set to $ASTRUNDIR but the directory"
-	echo "does not exist. Attempting to create it with:"
-	echo "  'mkdir -p $ASTRUNDIR'"
-	echo
-	mkdir -p $ASTRUNDIR
-	RET=$?
-	if [ $RET != 0 ]; then
-		echo "**** ERROR: COULD NOT CREATE $ASTRUNDIR ****"
-		echo "Attempt to execute 'mkdir -p $ASTRUNDIR' failed with an exit code of $RET"
-		echo "You must create this directory and the try again."
-		exit
-	fi
-fi
-
-############ freepbx_engine_hooks #########################
-#
-# Look for any file in THIS directory (bin) that is of the format of
-#
-# freepbx_engine_hook_*
-#
-# If we find it then source it. That file should provide any required
-# code that may need to be initialized and then functions that are
-# called by call_hook below
-#
-##########################################################
-#
-# call_hook
-#
-# takes as argument the name of a function and checks if there are
-# any hooks declared in the form of NAME_hook_* and if so will execute
-# those. This is used in conjunction with the various operational
-# built in commands such as start, stop, restart, etc.  for functions
-# such as a module that may need a daemon started and stopped when
-# Asterisk is started and stopped, such as FOP with op_server.pl
-#
-call_hook() {
-	HOOKPRE=${1}_hook_;
-	HOOKLEN=${#HOOKPRE}
-	RETCODE=1
-	# echo "LOOKING FOR:  ${HOOKPRE}* LEN: ${HOOKLEN}"
-
-	for VAR in `typeset -F`
-	do
-		HOOKBASE=${VAR:0:${HOOKLEN}}
-		if [ "${HOOKBASE}" == "${HOOKPRE}" ]
-			then
-			# echo "GOT ONE ${VAR} now trying to call it"
-			${VAR}
-			RETCODE=0
-		fi
-	done
-	return ${RETCODE}
-}
-
-CURDIR="$( cd -P "$( dirname "$0" )" && pwd )"
-for VAR in $(ls ${CURDIR}/freepbx_engine_hook_* 2>/dev/null)
-do
-	. ${VAR}
-done
-
-if [ -e $AMPBIN/fwconsole ]; then
-	if [ ! -L $AMPSBIN/fwconsole ] && [ ! -h $AMPSBIN/fwconsole ]; then
-		echo "Creating symlink for fwconsole"
-		if [ ! -e $AMPSBIN/fwconsole ]; then
-			echo "Removing broken fwconsole link"
-			rm -f $AMPSBIN/fwconsole
-		fi
-		ln -s $AMPBIN/fwconsole $AMPSBIN/fwconsole
-	fi
-fi
-echo -e "\033[38;5;148m!!!!amportal is depreciated. Please use fwconsole!!!!\033[39m"
-echo "forwarding all commands to 'fwconsole'"
+echo -e "\e[31m!******! 'amportal' IS DEPRECIATED. PLEASE USE 'fwconsole' !******!\033[0m"
+echo -e "\e[31mFORWARDING ALL COMMANDS TO 'fwconsole', OUTPUT WILL BE MODIFIED\033[0m"
+echo -e "\e[1;31mCONTINUING TO RELY ON AMPORTAL WILL HAVE UNDESIRED CONSEQUENCES\033[0m"
 case "$1" in
 	start)
 		$AMPBIN/fwconsole start
-		call_hook run_asterisk
-		exit
 		;;
 	stop)
 		$AMPBIN/fwconsole stop
-		call_hook stop_asterisk
-		exit
 		;;
 	restart)
-		call_hook stop_asterisk
 		$AMPBIN/fwconsole restart
-		call_hook run_asterisk
-		exit
 		;;
 	reload)
 		$AMPBIN/fwconsole reload
-		exit
 		;;
 	chown)
 		$AMPBIN/fwconsole chown
-		exit
-		;;
-	kill)
-		$AMPBIN/fwconsole kill
-		call_hook kill_amp
-		exit
 		;;
 	admin|a)
 		# Added some admin/dev oriented options:
@@ -270,90 +27,51 @@ case "$1" in
 		case "$2" in
 			reload|r)
 				$AMPBIN/fwconsole reload
-				exit
 			;;
 			context|ctx)
 				$AMPBIN/fwconsole context $3
-				exit
 			;;
-			userman)
-				case $3 in
-					migrate|m)
-						$AMPBIN/fwconsole userman migrate
-						exit
-						;;
-					*)
-						$AMPBIN/fwconsole userman --help
-						exit
-						;;
-				esac
-				;;
-
-			ucp)
-				case $3 in
-					enableall|ea)
-						$AMPBIN/fwconsole ucp enableall
-						exit
-						;;
-					unlock|u)
-						$AMPBIN/fwconsole ucp $4 $5
-						exit
-						;;
-					*)
-						$AMPBIN/fwconsole ucp --help
-						exit
-						;;
-				esac
-				;;
 			modadmin|ma)
 				$AMPBIN/fwconsole moduleadmin $3 $4
-				exit
 				;;
 			freepbx_setting|fs)
 				$AMPBIN/fwconsole setting $3 $4
-				exit
 				;;
 			auth_database|ad)
 				$AMPBIN/fwconsole setting AUTHTYPE database
-				exit
 				;;
 			auth_none|an)
 				$AMPBIN/fwconsole setting AUTHTYPE none
-				exit
 				;;
 			externalip|extip)
 				$AMPBIN/fwconsole extip
-				exit
 				;;
 			dbug)
 				$AMPBIN/fwconsole dbug
-				exit
 				;;
 			mysql|m)
 				$AMPBIN/fwconsole mysql
 				;;
-			syncmanager|s)
-				do_syncmanger
-				exit
-				;;
 			unlock|u)
 				$AMPBIN/fwconsole unlock $3
-				exit
 				;;
 			rmsymlinks)
 				$AMPBIN/fwconsole chown
-				exit
 				;;
 			*)
 				$AMPBIN/fwconsole
-				exit
 				;;
 		esac
 		;;
 	*)
 		$AMPBIN/fwconsole "$@"
-		exit
 		;;
 esac
-echo ""
-echo -e "\033[38;5;148m!!!!amportal is depreciated. Please use 'fwconsole $@'!!!!\033[39m"
+
+retVal=$?
+if [ $retVal -ne 0 ]; then
+	echo -e "\e[31;5;148m!******! 'amportal' IS DEPRECIATED. PLEASE USE 'fwconsole --help' !******!\033[39m"
+else
+	echo -e "\e[31;5;148m!******! 'amportal' IS DEPRECIATED. PLEASE USE 'fwconsole $@' !******!\033[39m"
+fi
+echo -e "\e[1;31mCONTINUING TO RELY ON AMPORTAL WILL HAVE UNDESIRED CONSEQUENCES\033[0m"
