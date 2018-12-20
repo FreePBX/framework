@@ -119,7 +119,7 @@ class FfmpegShell extends \Media\Driver\Driver {
 			break;
 			case "mp4":
 			case "m4a":
-				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -acodec libfaac -ar '.escapeshellarg($this->options['samplerate']).' -y '.escapeshellarg($newFilename).'');
+				$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -acodec libfdk_aac -ar '.escapeshellarg($this->options['samplerate']).' -y '.escapeshellarg($newFilename).'');
 			break;
 			default:
 				throw new \Exception("Invalid type of $extension sent to FFMPEG");
