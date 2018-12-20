@@ -975,7 +975,15 @@ default:
 			$module_display[$category]['data'][$name]['changelog'] = format_changelog($modules_local[$name]['changelog']);
 		}
 
-		$module_display[$category]['data'][$name]['description'] = isset($module_display[$category]['data'][$name]['description']) ? trim(preg_replace('/\s+/', ' ', $module_display[$category]['data'][$name]['description'])) : '';
+		if(isset($module_display[$category]['data'][$name]['description'])) {
+			if(is_array($module_display[$category]['data'][$name]['description'])) {
+				$module_display[$category]['data'][$name]['description'] = _('The description tag of the module is duplicated in module.xml. Please have the maintainer correct it');
+			} else {
+				$module_display[$category]['data'][$name]['description'] = trim(preg_replace('/\s+/', ' ', $module_display[$category]['data'][$name]['description']));
+			}
+		} else {
+			$module_display[$category]['data'][$name]['description'] = _('No Description');
+		}
 
 		if(!empty($module_display[$category]['data'][$name]['previous'])) {
 			foreach($module_display[$category]['data'][$name]['previous'] as &$release) {
