@@ -122,6 +122,8 @@ class UpdateManager {
 	 */
 	public function updateUpdateSettings($req) {
 
+		$this->freepbx->Notifications->delete('freepbx', 'UPDATE_CHANGES');
+
 		$current = $this->getCurrentUpdateSettings(false);
 
 		$s = new SystemUpdates();
