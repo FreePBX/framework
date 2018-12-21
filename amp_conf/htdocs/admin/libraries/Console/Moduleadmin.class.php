@@ -1273,6 +1273,23 @@ class Moduleadmin extends Command {
 				}
 				foreach($args as $module){
 					//do NOT fork install here!
+					$colon = strpos($module, ':');
+					if($colon !== false){
+						$tmp = explode(':', $module);
+						$module = $tmp[0];
+						if(isset($tmp[1]) && !empty($tmp[1])){
+							$this->tag = $tmp[1];
+						}
+					}
+					if($colon === false){
+						$tag = $this->input->getOption('tag');
+						if($tag){
+							$this->tag = $tag;
+						}
+						if(!$tag){
+							unset($this->tag);
+						}
+					}
 					$this->doInstall($module, $this->force);
 				}
 				$this->updateHooks();
@@ -1317,6 +1334,23 @@ class Moduleadmin extends Command {
 					if($this->isUrl($module)) {
 						$this->doRemoteDownload($module);
 					} else {
+						$colon = strpos($module, ':');
+						if ($colon !== false) {
+							$tmp = explode(':', $module);
+							$module = $tmp[0];
+							if (isset($tmp[1]) && !empty($tmp[1])) {
+								$this->tag = $tmp[1];
+							}
+						}
+						if ($colon === false) {
+							$tag = $this->input->getOption('tag');
+							if ($tag) {
+								$this->tag = $tag;
+							}
+							if (!$tag) {
+								unset($this->tag);
+							}
+						}
 						$this->doDownload($module, $this->force);
 					}
 				}
@@ -1339,6 +1373,23 @@ class Moduleadmin extends Command {
 							fatal(_("Could not determine module name"));
 						}
 					} else {
+						$colon = strpos($module, ':');
+						if ($colon !== false) {
+							$tmp = explode(':', $module);
+							$module = $tmp[0];
+							if (isset($tmp[1]) && !empty($tmp[1])) {
+								$this->tag = $tmp[1];
+							}
+						}
+						if ($colon === false) {
+							$tag = $this->input->getOption('tag');
+							if ($tag) {
+								$this->tag = $tag;
+							}
+							if (!$tag) {
+								unset($this->tag);
+							}
+						}
 						$this->doDownload($module, $this->force);
 						$this->doInstall($module, $this->force);
 					}
@@ -1356,6 +1407,23 @@ class Moduleadmin extends Command {
 				}
 				$this->check_active_repos();
 				foreach($args as $module){
+					$colon = strpos($module, ':');
+					if ($colon !== false) {
+						$tmp = explode(':', $module);
+						$module = $tmp[0];
+						if (isset($tmp[1]) && !empty($tmp[1])) {
+							$this->tag = $tmp[1];
+						}
+					}
+					if ($colon === false) {
+						$tag = $this->input->getOption('tag');
+						if ($tag) {
+							$this->tag = $tag;
+						}
+						if (!$tag) {
+							unset($this->tag);
+						}
+					}
 					$state = $this->isModuleUpgradeable($module);
 					switch($state) {
 						case -4:

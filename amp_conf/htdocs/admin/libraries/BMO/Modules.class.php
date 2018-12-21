@@ -589,6 +589,8 @@ class Modules extends DB_Helper{
 
 	public function mergeBreaking($local, $remote){
 		$tmp = [];
+		$local = is_array($local)?$local:[];
+		$remote = is_array($remote)?$remote:[];
 		$combine = array_merge_recursive($local, $remote);
 		if(!isset($combine['module'])){
 			return [];
