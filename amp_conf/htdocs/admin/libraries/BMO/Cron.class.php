@@ -113,24 +113,27 @@ class Cron {
 	 */
 	public function addLine($line) {
 		$this->getLock()->acquire(true);
-		$line = trim($line);
-		$backup = $this->getAll();
-		$newCrontab = $backup;
+		try {
+			$line = trim($line);
+			$backup = $this->getAll();
+			$newCrontab = $backup;
 
-		if (!$this->checkLine($line)) {
-			$newCrontab[] = $line;
-			$this->installCrontab($newCrontab);
-			if ($this->checkLine($line))
+			if (!$this->checkLine($line)) {
+				$newCrontab[] = $line;
+				$this->installCrontab($newCrontab);
+				if ($this->checkLine($line))
+					return true;
+				// It didn't stick. WTF? Put our original one back.
+				$this->installCrontab($backup);
+				throw new \Exception("Cron line added didn't remain in crontab on final check. Check /tmp/cron.error for reason.");
+			} else {
+				// It was already there.
 				return true;
-			// It didn't stick. WTF? Put our original one back.
-			$this->installCrontab($backup);
+			}
+		} finally {
 			$this->getLock()->release();
-			throw new \Exception("Cron line added didn't remain in crontab on final check. Check /tmp/cron.error for reason.");
-		} else {
-			// It was already there.
-			$this->getLock()->release();
-			return true;
 		}
+
 	}
 
 	/**
@@ -150,20 +153,23 @@ class Cron {
 	 */
 	public function remove($line) {
 		$this->getLock()->acquire(true);
-		$line = trim($line);
-		$backup = $this->getAll();
-		$newCrontab = $backup;
+		try {
+			$line = trim($line);
+			$backup = $this->getAll();
+			$newCrontab = $backup;
 
-		$ret = array_search($line, $newCrontab);
-		if ($ret !== false) {
-			unset($newCrontab[$ret]);
-			$this->installCrontab($newCrontab);
+			$ret = array_search($line, $newCrontab);
+			if ($ret !== false) {
+				unset($newCrontab[$ret]);
+				$this->installCrontab($newCrontab);
+				return true;
+			} else {
+				return false;
+			}
+		} finally {
 			$this->getLock()->release();
-			return true;
-		} else {
-			$this->getLock()->release();
-			return false;
 		}
+
 	}
 
 	/**
@@ -230,35 +236,38 @@ class Cron {
 	 */
 	public function removeAll($cmd) {
 		$this->getLock()->acquire(true);
-		$crontab = $this->getAll();
-		$changed = false;
-		foreach ($crontab as $i => $v) {
-			// Ignore if it's an empty line
-			if (!$v) {
-				continue;
+		try {
+			$crontab = $this->getAll();
+			$changed = false;
+			foreach ($crontab as $i => $v) {
+				// Ignore if it's an empty line
+				if (!$v) {
+					continue;
+				}
+				if (preg_match("/^#/", $v))
+					continue;
+				$cronline = preg_split("/\s/", $v);
+				if ($cronline[0][0] == "@") {
+					array_shift($cronline);
+				} else {
+					// Yuck.
+					array_shift($cronline);
+					array_shift($cronline);
+					array_shift($cronline);
+					array_shift($cronline);
+					array_shift($cronline);
+				}
+				if (in_array($cmd, $cronline)) {
+					unset($crontab[$i]);
+					$changed = true;
+				}
 			}
-			if (preg_match("/^#/", $v))
-				continue;
-			$cronline = preg_split("/\s/", $v);
-			if ($cronline[0][0] == "@") {
-				array_shift($cronline);
-			} else {
-				// Yuck.
-				array_shift($cronline);
-				array_shift($cronline);
-				array_shift($cronline);
-				array_shift($cronline);
-				array_shift($cronline);
+			if ($changed) {
+				$this->installCrontab($crontab);
 			}
-			if (in_array($cmd, $cronline)) {
-				unset($crontab[$i]);
-				$changed = true;
-			}
+		} finally {
+			$this->getLock()->release();
 		}
-		if ($changed) {
-			$this->installCrontab($crontab);
-		}
-		$this->getLock()->release();
 	}
 
 	/**
@@ -303,11 +312,14 @@ class Cron {
 			}
 		}
 		if(empty($lockStore)) {
+			if(!file_exists(\FreePBX::Config()->get('ASTSPOOLDIR').'/tmp')) {
+				mkdir(\FreePBX::Config()->get('ASTSPOOLDIR').'/tmp',0777,true);
+			}
 			$lockStore = new FlockStore(\FreePBX::Config()->get('ASTSPOOLDIR').'/tmp');
 		}
 
 		$factory = new Factory($lockStore);
-		$this->lock = $factory->createLock('crontab-'.$this->user);
+		$this->lock = $factory->createLock('crontab-'.$this->user,60);
 		return $this->lock;
 	}
 
