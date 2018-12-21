@@ -135,13 +135,6 @@ class FreePBXInstallCommand extends Command {
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		global $amp_conf; /* This makes pandas sad. :( */
 
-		//still needed for module_admin and retrieve_conf
-		$filePath = stream_resolve_include_path('Console/Getopt.php');
-		if ($filePath === false) {
-			$output->writeln("<error>PEAR must be installed (requires Console/Getopt.php)</error>");
-			return false;
-		}
-
 		$this->rootPath = dirname(__DIR__);
 		date_default_timezone_set('America/Los_Angeles');
 
