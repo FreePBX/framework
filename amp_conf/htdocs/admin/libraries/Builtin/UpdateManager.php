@@ -152,7 +152,7 @@ class UpdateManager {
 
 		$row = $this->freepbx->Database->query($sql)->fetchColumn();
 		if ($delete) {
-			$db->query("DELETE FROM `admin` WHERE `variable`='email'");
+			$this->freepbx->Database->query("DELETE FROM `admin` WHERE `variable`='email'");
 		}
 		return $row;
 	}
