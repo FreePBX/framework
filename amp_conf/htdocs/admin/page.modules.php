@@ -22,24 +22,6 @@ $modulef = module_functions::create();
 
 $REQUEST = freepbxGetSanitizedRequest();
 
-// Handle the ajax post back of an update online updates email array and status
-//
-if ($quietmode && isset($REQUEST['update_email'])) {
-	$update_email   = $REQUEST['update_email'];
-	$ci = new CI_Email();
-	if (!$ci->valid_email($update_email) && $update_email) {
-		$json_array['status'] = _("Invalid email address") . ' : ' . $update_email;
-	} else {
-		$cm = cronmanager::create($db);
-		$cm->save_email($update_email);
-		$cm->set_machineid($REQUEST['machine_id']);
-		$json_array['status'] = true;
-	}
-	header("Content-type: application/json");
-	echo json_encode($json_array);
-	exit;
-}
-
 $action = isset($REQUEST['action'])?$REQUEST['action']:'';
 
 global $active_repos;
@@ -74,23 +56,7 @@ $displayvars = array();
 $displayvars['freepbx_help_url'] = $freepbx_help_url;
 $displayvars['online'] = $online;
 
-if (!$quietmode) {
-	$cm = cronmanager::create($db);
-	$displayvars['online_updates'] = $cm->updates_enabled() ? 'yes' : 'no';
-	$update_email   = $cm->get_email();
-	$machine_id     = $cm->get_machineid();
-
-	if (!$cm->updates_enabled()) {
-		$displayvars['shield_class'] = 'updates_off';
-	} else {
-		$displayvars['shield_class'] = $update_email ? 'updates_full' : 'updates_partial';
-	}
-	$brand = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
-	$displayvars['update_blurb']   = htmlspecialchars(sprintf(_("Add your email here to receive important security and module updates. The email address you provide is NEVER transmitted to the %s remote servers. The email is ONLY used by your local PBX to send notifications of updates that are available as well as IMPORTANT Security Notifications. It is STRONGLY advised that you keep this enabled and keep updated of these important notifications to avoid costly security vulnerabilities."),$brand));
-	$displayvars['ue'] = htmlspecialchars($update_email);
-	$displayvars['machine_id'] = htmlspecialchars($machine_id);
-	//TODO: decide if warnings of any sort need to be given, or just list of repos active?
-} else {
+if ($quietmode) {
 	if($action == 'process') {
 		header('Content-type: application/octet-stream');
 		// Turn off output buffering

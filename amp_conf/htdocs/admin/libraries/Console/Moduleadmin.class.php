@@ -11,8 +11,10 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Command\LockableTrait;
 
 class Moduleadmin extends Command {
+	use LockableTrait;
 	private $activeRepos = [];
 	private $mf = null;
 	private $setRepos = false;
@@ -21,35 +23,30 @@ class Moduleadmin extends Command {
 	private $skipchown = false;
 	private $previousEdge = null;
 	private $tag = null;
-	private $send_email = false;
-	private $email_to = false;
-	private $email_from = false;
-	private $email_subject = false;
 	private $emailbody = [];
-	private $brand = false;
-	private $updatemanager;
-	private $willupdate = false;
+	private $sendemail = false;
+	private $updatemanager = null;
+	private $nt = null;
 
 	public function __destruct() {
 		$this->endOfLife();
 	}
 
 	private function endOfLife() {
-		if (!$this->send_email) {
-			return;
-		}
-		if (!$this->emailbody) {
+		if(!$this->sendemail || empty($this->emailbody)) {
 			return;
 		}
 
+		$brand = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
+		$ident = \FreePBX::Config()->get('FREEPBX_SYSTEM_IDENT');
 		// We are sending an email.
 		$body = array_merge([
-			sprintf(_("This is an automatic notification from your %s server."), $this->brand),
+			sprintf(_("This is an automatic notification from your %s (%s) server."), $brand, $ident),
 			"",
 		], $this->emailbody);
 
 		// Note this is force = true, as we always want to send it.
-		$this->updatemanager->sendEmail("autoupdates", $this->email_to, $this->email_from, $this->email_subject, implode("\n", $body), 4, true);
+		$this->updatemanager->sendEmail("moduleautoupdates", sprintf(_("%s (%s) Module Updates"), $brand, $ident), implode("\n", $body), 4, true);
 	}
 
 	protected function configure(){
@@ -69,20 +66,26 @@ class Moduleadmin extends Command {
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'json, jsonpretty')),
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
 			new InputOption('tag', 't', InputOption::VALUE_REQUIRED, _('Download/Upgrade to a specific tag')),
-			new InputOption('onlystdout', '', InputOption::VALUE_NONE, _('Only send results to stdout.')),
-			new InputOption('willupdate', '', InputOption::VALUE_NONE, _('Add "This machine will automatically update in 1 hour" to the email sent.')),
-			new InputOption('securityonly', '', InputOption::VALUE_NONE, _('Only automatically update security issues.')),
-			new InputOption('sendemails', '', InputOption::VALUE_NONE, _('Send emails when running listonline')),
+			new InputOption('sendemail', '', InputOption::VALUE_NONE, _('Send out finalized email')),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
 		->setHelp($this->showHelp());
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output){
+		if (!$this->lock()) {
+			$output->writeln('The command is already running in another process.');
+			return 0;
+		}
+		$this->nt = \FreePBX::Notifications();
+		$this->updatemanager = new \FreePBX\Builtin\UpdateManager();
 		$this->mf = \module_functions::create();
 		$this->out = $output;
 		$this->input = $input;
 		$this->color = false;
 		$args = $input->getArgument('args');
+		if($input->getOption('sendemail')) {
+			$this->sendemail = true;
+		}
 		if($input->getOption('skipchown')) {
 			$this->skipchown = true;
 		}
@@ -155,34 +158,6 @@ class Moduleadmin extends Command {
 				}
 			}
 		}
-
-		if (!$input->getOption('onlystdout')) {
-			$this->updatemanager = new \FreePBX\Builtin\UpdateManager();
-			$sendemails = new Sendemails();
-
-			$settings = $this->updatemanager->getCurrentUpdateSettings(false); // Don't html encode the output
-			$email_to = $settings['notification_emails'];
-			$machine_id = $settings['system_ident'];
-			$email_from = $sendemails->getFromEmail();
-			if($this->DEBUG) {
-				$this->writeln(sprintf("email_to: %s, machine_id: %s, fromemail: %s\n", $email_to, $machine_id, $email_from));
-			}
-			if ($email_to) {
-				$this->send_email = true;
-				$this->email_to = $email_to;
-				$this->email_from = $email_from;
-				$this->email_subject = sprintf(_("%s Upgrade Notifications (%s)"), "FreePBX", $machine_id);
-		      		$this->brand = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
-			} else {
-				if($this->DEBUG) {
-					$this->writeln("Not sending email, no email_to");
-				}
-			}
-		}
-
-		$this->willupdate = $input->getOption('willupdate');
-		$this->sendemails = $input->getOption('sendemails');
-		$this->securityonly = $input->getOption('securityonly');
 
 		if(!empty($args)){
 			if($this->DEBUG){
@@ -368,18 +343,21 @@ class Moduleadmin extends Command {
 			2 => STDERR
 		);
 		$force = $force ? "--force" : "";
-		$cmd = "$fwconsole --onlystdout ma install ".escapeshellarg($modulename)." ".$force;
+		$cmd = "$fwconsole ma install ".escapeshellarg($modulename)." ".$force;
+		//release lock, it'll be regained in a bit
+		$this->release();
 		$process = proc_open($cmd, $descriptorspec, $pipes);
 		if( is_resource( $process ) ) {
 			// Close stdin
 			fclose($pipes[0]);
 			// Now we can just wait for the process to finish
 			$result = proc_close($process);
-			return $result;
 		} else {
 			print "Error, unable to proc_open '$cmd'\n";
-			return false;
+			$result = false;
 		}
+		$this->lock(); //relock
+		return $result;
 	}
 
 	private function doInstall($modulename, $force) {
@@ -545,6 +523,115 @@ class Moduleadmin extends Command {
 				$this->write("Extracting...");
 			break;
 		}
+	}
+
+	protected function updateSecurity() {
+		// We're doing security updates.
+		$mf = \module_functions::create();
+		$mods = (array) $mf->get_security();
+
+		if (!$mods) {
+			// Easy. No security vulnerabilities!
+			return false;
+		}
+
+		// OK, There are security vulnerabilities. Prepare our email.
+		$email_subject = sprintf(_("%s Security Alert (%s)"), $this->brand, $this->machine_id);
+		$email_body = sprintf(_("Your server [%s] discovered the following security issues:"), $this->brand)."\n";
+		$send_email = false;
+
+		set_time_limit(0); // Never time out.
+		$ampsbin = \FreePBX::Config()->get('AMPSBIN');
+
+		$notification_title = "";
+		$notification_body = "";
+		$success_notification_title = "";
+		$success_notification_body = "";
+
+		$errorvuls = []; // This will contain anything that's not fixed
+
+		foreach($mods as $rawname => $info) {
+			$mi = $mf->getinfo($rawname);
+			if(!isset($mi[$rawname])) {
+				//module doesnt exist on this system
+				continue;
+			}
+			// We've made it here, we ARE sending an email
+			$send_email = true;
+
+			switch($mi[$rawname]['status']) {
+			case MODULE_STATUS_NOTINSTALLED:
+			case MODULE_STATUS_DISABLED:
+			case MODULE_STATUS_BROKEN:
+				$action = "download";
+				break;
+			case MODULE_STATUS_ENABLED:
+			case MODULE_STATUS_NEEDUPGRADE:
+				$action = "upgrade";
+				break;
+			default:
+				$action = "";
+			}
+
+			if(!$action) {
+				// not sure what to do??? This is probably a bug with a new MODULE_STATUS
+				// not being handled correctly
+				$errorvuls[$rawname] = $info;
+				continue;
+			}
+
+			$this->out->write("$action $rawname due to security vulnerability ".implode($info['vul'],', ')."...");
+
+			// Upgrade/install/whatever our mod
+			exec($ampsbin."/fwconsole ma $action ".escapeshellarg($rawname)." --format=json",$out,$ret);
+
+			// If this failed...
+			if($ret != 0) {
+				$errorvuls[$rawname] = $info;
+			}
+
+			if(!empty($errorvuls)) {
+				// There were issues upgrading some modules.
+				$this->out->writeln("Failed!");
+				$cnt = count($errorvuls);
+				if ($cnt == 1) {
+					$emailbody .= "\n\n"._("WARNING: There was an issue automatically repairing the security vulnerabilities on the following module. This module requires manual attention urgently:")."\n";
+					$notification_title = _("There is 1 module vulnerable to security threats");
+				} else {
+					$emailbody .= "\n\n"._("WARNING: There were issues automatically repairing the security vulnerabilities on the following modules. They require manual attention urgently:")."\n";
+					$notification_title = sprintf(_("There are %s modules vulnerable to security threats"), $cnt);
+				}
+				foreach($errorvuls as $m => $vinfo) {
+					$line = sprintf(
+						_("%s (Cur v. %s) should be upgraded to v. %s to fix security issues: %s")."\n",
+						$m, $vinfo['curver'], $vinfo['minver'], implode($vinfo['vul'],', ')
+					);
+					$notification_body .= $line;
+					$email_body .= "    $line";
+				}
+			} else {
+				$success_notification_title = _("Modules vulnerable to security threats have been automatically updated");
+				$emailbody .= "\n\n".$success_notification_title;
+				foreach($mods as $m => $vinfo) {
+					$line = sprintf(
+						_("%s has been automatically upgraded to fix security issues: %s")."\n",
+						$m, implode($vinfo['vul'],', ')
+					);
+					$success_notification_body .= $line;
+					$email_body .= "    $line";
+				}
+				$this->out->writeln("Done!");
+			}
+		}
+		if(!empty($success_notification_title)) {
+			$this->nt->add_notice('freepbx', 'VULNERABILITIES_FIXED', $success_notification_title, $success_notification_body, '',true,true);
+			$this->nt->delete('freepbx', 'VULNERABILITIES');
+		}
+		if(!empty($notification_title)) {
+			$this->nt->add_security('freepbx', 'VULNERABILITIES', $notification_title, $notification_body, 'config.php?display=modules',true,true);
+		}
+		$this->updatemanager->sendEmail("vulnerabilities", $email_subject, $email_body, 4, $this->force);
+		return true;
 	}
 
 	private function doDelete($modulename, $force) {
@@ -1077,22 +1164,6 @@ class Moduleadmin extends Command {
 				->setRows($rows);
 			$table->render();
 		}
-
-		// Send any emails if we've been requested to.
-		if ($this->sendemails) {
-			$fwconsole = $this->getFwconsolePath();
-			if ($this->securityonly) {
-				$cmd = "$fwconsole --securityonly sendemail";
-			} else {
-				$cmd = "$fwconsole sendemail";
-			}
-			if ($this->willupdate) {
-				$cmd .= " --willupdate";
-			}
-			print "Running $cmd\n";
-			exec($cmd);
-		}
-
 	}
 
 	private function refreshsignatures() {
@@ -1410,8 +1481,27 @@ class Moduleadmin extends Command {
 				$this->showList();
 				break;
 			case 'listonline':
+				// Remove any old notifications.
+				$this->nt->delete("freepbx", "VULNERABILITIES");
+				$list = $this->nt->list_security();
+				$list = is_array($list) ? $list : array();
+				foreach($list as $l) {
+					if($l['id'] === 'VULNERABILITIES_FIXED' && !$l['candelete']) {
+						$this->nt->delete("freepbx", "VULNERABILITIES_FIXED");
+						$this->nt->add_notice('freepbx', 'VULNERABILITIES_FIXED', $l['display_text'], $l['extended_text'], '',true,true);
+					}
+				}
 				$announcements = $this->mf->get_annoucements();
 				$this->showList(true);
+				$settings = $this->updatemanager->getCurrentUpdateSettings(false); // Don't html encode the output
+				if($settings['auto_module_security_updates'] === 'enabled') {
+					$this->updateSecurity();
+				}
+				$this->updatemanager->securityEmail();
+				if($settings['auto_module_updates'] == 'enabled') {
+					$this->updatemanager->updateEmail();
+				}
+				$this->updatemanager->unsignedEmail();
 				break;
 			case 'reversedepends':
 				if(empty($args)){

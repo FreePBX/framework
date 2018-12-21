@@ -376,7 +376,7 @@ class Reload extends Command {
 			$this->freepbx->Notifications->delete('framework', 'NO_DYNAMICHINTS');
 		}
 
-		$this->install_cron_scheduler();
+		$this->installCrons();
 
 		// run retrieve_conf_post_custom
 		$post_custom = $this->freepbx->Config->get('AMPLOCALBIN').'/retrieve_conf_post_custom';
@@ -811,62 +811,11 @@ class Reload extends Command {
 		return array_reverse($array_items);//reverse so that we get directories BEFORE the files that are in them
 	}
 
-	/** Check if there is a cron job scheduled to run.
-	 *  If the scheduling job is found then all is good.
-	 *  If the scheduling job is not found, it will be added
-	 *  and a notification will be sent.
-	 */
-	function install_cron_scheduler() {
-		$this->freepbx->Notifications->delete('retrieve_conf', 'CRONMGR');
-		//force autoloader to load
+	function installCrons() {
 		$freepbxCron = $this->freepbx->Cron;
-		if (posix_geteuid() == 0) {
-			$rootCron = new \FreePBX\Cron('root');
-			foreach($rootCron->getAll() as $cron) {
-				$str = str_replace("/", "\/", $this->freepbx->Config->get('AMPBIN')."/freepbx-cron-scheduler.php");
-				if(preg_match("/".$str."/i",$cron,$matches)) {
-					$rootCron->remove($cron);
-				}
-			}
-		} else {
-			$userArray = posix_getpwuid(posix_geteuid());
-			if ($userArray['name'] != $this->freepbx->Config->get('AMPASTERISKWEBUSER')) {
-				// we are not the user we need to be,
-				// and we aren't root, so there is nothing
-				// we can do but report the error condition
-				$this->freepbx->Notifications->add_critical("FRAMEWORK", "CRON_UPDATE", _("Unable to create or update cron jobs"), sprintf(_("The PBX is running as %s but according to Advanced Settings it should be running as %. Therefore no cron jobs have been created. This can cause serious problems with your PBX in the future if it is not resolved"),$userArray['name'],$this->freepbx->Config->get('AMPASTERISKWEBUSER')));
-				return true;
-			} else {
-				$this->freepbx->Notifications->delete("FRAMEWORK", "CRON_UPDATE");
-			}
-		}
 		$exists = false;
 		foreach($freepbxCron->getAll() as $cron) {
-			$str = str_replace("/", "\/", $this->freepbx->Config->get('AMPBIN')."/freepbx-cron-scheduler.php");
-			if(preg_match("/freepbx-cron-scheduler.php$/",$cron)) {
-				if(!preg_match("/".$str."$/i",$cron)) {
-					$freepbxCron->remove($cron);
-				}
-			}
-
-			if(preg_match("/".$str."/i",$cron,$matches)) {
-				if($exists) {
-					//remove multiple entries (if any)
-					$freepbxCron->remove($cron);
-				}
-				$exists = true;
-			}
-		}
-		if(!$exists) {
-			$freepbxCron->add(array(
-				"command" => $this->freepbx->Config->get('AMPBIN')."/freepbx-cron-scheduler.php",
-				"minute" => rand(0,59)
-			));
-		}
-
-		$exists = false;
-		foreach($freepbxCron->getAll() as $cron) {
-			$str = str_replace("/", "\/", $this->freepbx->Config->get('AMPSBIN')."/fwconsole util cleanplaybackcache -q");
+			$str = str_replace("/", "\/", $amp_conf['AMPSBIN']."/fwconsole util cleanplaybackcache -q");
 			if(preg_match("/fwconsole util cleanplaybackcache -q$/",$cron)) {
 				if(!preg_match("/".$str."$/i",$cron)) {
 					$freepbxCron->remove($cron);
@@ -874,19 +823,22 @@ class Reload extends Command {
 			}
 
 			if(preg_match("/".$str."/i",$cron,$matches)) {
-				if($exists) {
-					//remove multiple entries (if any)
-					$freepbxCron->remove($cron);
+					if($exists) {
+						//remove multiple entries (if any)
+						$freepbxCron->remove($cron);
 				}
 				$exists = true;
 			}
 		}
 		if(!$exists) {
 			$freepbxCron->add(array(
-				"command" => $this->freepbx->Config->get('AMPSBIN')."/fwconsole util cleanplaybackcache -q",
+				"command" => $amp_conf['AMPSBIN']."/fwconsole util cleanplaybackcache -q",
 				"minute" => rand(0,59)
 			));
 		}
+
+		$um = new \FreePBX\Builtin\UpdateManager();
+		$um->updateCrontab();
 	}
 
 	private function checkAsterisk() {
