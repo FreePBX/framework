@@ -40,7 +40,7 @@ class GPG {
 	private $gpg = false;
 
 	// Default options.
-	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true,timeout=10";
+	private $gpgopts = "--no-permission-warning --keyserver-options auto-key-retrieve=true,timeout=10 --no-tty";
 
 	// List of well-known keyservers.
 	private $keyservers = array(
@@ -101,21 +101,25 @@ class GPG {
 		}
 
 		$out = $this->runGPG("--verify ".escapeshellarg($filename));
+
 		if (strpos($out['status'][0], "[GNUPG:] BADSIG") === 0) {
 			// File has been tampered.
 			return false;
 		}
-		if (strpos($out['status'][1], "[GNUPG:] NO_PUBKEY") === 0) {
-			// This should never happen, as we try to auto-download
-			// the keys. However, if the keyserver timed out, or,
-			// was out of date, we'll try it manually.
-			//
-			// strlen("[GNUPG:] NO_PUBKEY ") == 19.
-			//
-			if ($retry && $this->getKey(substr($out['status'][1], 19))) {
-				return $this->verifyFile($filename, false);
-			} else {
-				return false;
+		//start at line 1, increase looking for next lines
+		for($i=1;$i<count($out['status']);$i++) {
+			if (strpos($out['status'][$i], "[GNUPG:] NO_PUBKEY") === 0) {
+				// This should never happen, as we try to auto-download
+				// the keys. However, if the keyserver timed out, or,
+				// was out of date, we'll try it manually.
+				//
+				// strlen("[GNUPG:] NO_PUBKEY ") == 19.
+				//
+				if ($retry && $this->getKey(substr($out['status'][$i], 19))) {
+					return $this->verifyFile($filename, false);
+				} else {
+					return false;
+				}
 			}
 		}
 
@@ -557,10 +561,12 @@ class GPG {
 			try {
 				$retarr = $this->runGPG("--keyserver $ks --refresh-keys");
 			} catch (\RuntimeException $e) {
+				freepbx_log(FPBX_LOG_ERROR, "Tried to refresh keys and failed with: ".$e->getMessage());
 				// Took too long. We'll just try the next one.
 				continue;
 			}
 			if ($retarr['exitcode'] > 0) {
+				freepbx_log(FPBX_LOG_ERROR, "Tried to refresh keys and failed with: ".$retarr['stderr']);
 				//There was some sort of error so try the next one
 				continue;
 			} else {
