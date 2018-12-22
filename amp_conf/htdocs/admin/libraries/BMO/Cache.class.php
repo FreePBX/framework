@@ -217,6 +217,7 @@ class Cache {
 			$cachePath = $this->freepbx->Config->get('ASTSPOOLDIR')."/cache";
 			if(!file_exists($cachePath)) {
 				mkdir($cachePath,0777,true);
+				chmod($cachePath,0777);
 			}
 			if(!is_writable($cachePath)) {
 				throw new \Exception("$cachePath is not writable!");
