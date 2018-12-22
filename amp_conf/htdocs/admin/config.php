@@ -294,31 +294,28 @@ if(is_array($active_modules)){
 				$fpbx_menu[$itemKey] = $item;
 
 				// allow a module to replace our main index page
-	
+
 				if($display == '' && !empty($_SESSION['AMP_user'])){
 					/*
-						Get default landing page from username.
+						Get default landing page from userman.
 					*/
-					$user_detail 	= FreePBX::Userman()->getUserByUsername($_SESSION["AMP_user"]->username);
-					$group_detail 	= FreePBX::Userman()->getGroupByUsername($_SESSION["AMP_user"]->username, $user_detail["auth"]);
-					
-					$admin_set 		= FreePBX::Userman()->getGlobalSettingByID($user_detail['id'],'pbx_login');
-					if(empty($admin_set)){
-						/* inherit */
-						$groups 	= FreePBX::Userman()->getAllGroups($user_detail['auth']);
-						foreach($groups as $group){
-							if(in_array($user_detail['id'],$group['users'])){
-								$landing_page = FreePBX::Userman()->getGlobalSettingByGID($group['id'],'pbx_landing');
-								break;
-							}
+					if(FreePBX::Config()->get('AUTHTYPE') === 'usermanager' && FreePBX::Modules()->checkStatus('userman')) {
+						$um = \FreePBX::Userman();
+						$user_detail 	= $um->getUserByUsername($_SESSION["AMP_user"]->username);
+						$admin_set 		= $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_login');
+						$landing_page 	= $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_landing');
+						$modules_enabled = $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_modules');
+						$pbx_admin = $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_admin');
+						if(!$pbx_admin & (empty($landing_page) || !in_array($landing_page,$modules_enabled))) {
+							$landing_page = 'index';
+						} else {
+							$landing_page	= empty($landing_page)? "index" : $landing_page;
 						}
-					}
-					else{
-						/* 	User */
-						$landing_page 	= FreePBX::Userman()->getGlobalSettingByID($user_detail['id'],'pbx_landing');
+
+					} else {
+						$landing_page = 'index';
 					}
 
-					$landing_page	= empty($landing_page[0])? "index" : $landing_page[0];
 					$display		= $landing_page;
 					$_REQUEST['display'] = $landing_page;
 				}
@@ -336,34 +333,25 @@ if(is_array($active_modules)){
 if(empty($_SESSION['AMP_user'])) {
 	$display = 'noauth';
 } else {
-	
+
 	/*
 		Displays the menu from the user list.
 	*/
-	$user_detail 	= FreePBX::Userman()->getUserByUsername($_SESSION["AMP_user"]->username);
-	$admin_set 		= FreePBX::Userman()->getGlobalSettingByID($user_detail['id'],'pbx_login');
-	if(empty($admin_set)){
-		/* inherit */
-		$groups 	= FreePBX::Userman()->getAllGroups($user_detail['auth']);
-		foreach($groups as $group){
-			if(in_array($user_detail['id'],$group['users'])){
-				$modules_enabled= FreePBX::Userman()->getGlobalSettingByGID($group['id'],'pbx_modules');
-				break;
-			}
-		}
+	if(FreePBX::Config()->get('AUTHTYPE') === 'usermanager' && FreePBX::Modules()->checkStatus('userman')) {
+		$um = \FreePBX::Userman();
+		$user_detail 	= $um->getUserByUsername($_SESSION["AMP_user"]->username);
+		$admin_set 		= $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_login');
+		$modules_enabled = $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_modules');
+		$pbx_admin = $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_admin');
 	}
-	else{
-		/*  User  */
-		$modules_enabled= FreePBX::Userman()->getGlobalSettingByID($user_detail['id'],'pbx_modules');
-	}
-	
-	if(is_array($fpbx_menu) && is_array($modules_enabled)){
+
+	if(is_array($fpbx_menu) && is_array($modules_enabled) && !$pbx_admin){
 		foreach($fpbx_menu as $menuItem => $valMitem){
 			if(!in_array($valMitem["display"],$modules_enabled)){
 				unset($fpbx_menu[$menuItem]);
 			}
-		}	
-	}	
+		}
+	}
 
 	//if display is modules then show the login page dont show does not exist as its confusing
 	if ($cur_menuitem === null && !in_array($display, array('noauth', 'badrefer','noaccess',''))) {
@@ -390,7 +378,7 @@ if (!$quietmode && isset($fpbx_menu["extensions"])) {
 
 // If it's index, do we have an override?
 if ($display === "index") {
-	
+
 
 	$override = $bmo->Config()->get('DASHBOARD_OVERRIDE');
 	if (empty($override)) {
