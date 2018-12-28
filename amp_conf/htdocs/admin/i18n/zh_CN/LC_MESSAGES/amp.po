@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-28 16:21-0500\n"
+"POT-Creation-Date: 2018-12-28 17:33-0500\n"
 "PO-Revision-Date: 2018-09-22 10:00+0000\n"
 "Last-Translator: james zhu <zhulizhong@gmail.com>\n"
 "Language-Team: Chinese (Simplified) <http://*/projects/freepbx/framework/"
@@ -1933,6 +1933,7 @@ msgid "Changelog"
 msgstr "更改日志"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:170
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:168
 #, php-format
 msgid "Changing \"%s\" from [%s] to [%s]"
 msgstr ""
@@ -3968,6 +3969,30 @@ msgstr ""
 msgid "Error(s) uninstalling %s"
 msgstr "在卸载 %s 时发生了一项或更多的错误"
 
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:102
+#, php-format
+msgid "Error: \"%s\" is not supported on this system"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:90
+#, php-format
+msgid "Error: \"%s\" must be a valid email address"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:112
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:122
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:132
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:148
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:162
+#, php-format
+msgid "Error: \"%s\" must be one of \"%s\""
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:96
+#, php-format
+msgid "Error: \"%s\" must not be blank/empty"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/footer.php:118
 msgid "Error: Did not receive valid response from server"
 msgstr "错误：没有从服务器收到正确的响应"
@@ -5605,6 +5630,7 @@ msgid "List All Extensions"
 msgstr "所有分机列表"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:27
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:25
 msgid "List Configs"
 msgstr ""
 
@@ -6274,6 +6300,7 @@ msgid "NOTICE! You have %s notifications! Please log into the UI to see them!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:35
 #: ../core/Core.class.php:2996 ../core/Core.class.php:2997
 #: ../core/page.extensions.php:35 ../core/page.extensions.php:128
 #: ../core/page.extensions.php:156 ../core/page.users.php:58
@@ -6545,6 +6572,10 @@ msgstr ""
 
 #: ../core/page.ampusers.php:279
 msgid "Not Selected"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:41
+msgid "Not Supported"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:229
@@ -8255,6 +8286,11 @@ msgid ""
 "this set to no. See http://wiki.freepbx.org/x/boi3Aw for more details"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:61
+#, php-format
+msgid "Setting of \"%s\" is \"%s\""
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:127
 #, php-format
 msgid "Setting of \"%s\" is (%s)[%s]"
@@ -9183,6 +9219,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:67
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:106
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:132
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:66
 #, php-format
 msgid "The setting %s was not found!"
 msgstr ""
@@ -10368,6 +10405,7 @@ msgid "Validate your PBX against potential hacks"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:35
 msgid "Value"
 msgstr ""
 
@@ -10401,6 +10439,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:31
 msgid "View"
 msgstr "查看"
+
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:23
+msgid "View and change Update/Notification Manager Settings"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:25
 msgid "View and update settings"

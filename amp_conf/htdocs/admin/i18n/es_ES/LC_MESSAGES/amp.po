@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-28 16:21-0500\n"
+"POT-Creation-Date: 2018-12-28 17:33-0500\n"
 "PO-Revision-Date: 2018-07-18 19:15+0000\n"
 "Last-Translator: Elvita Crespo <ecrespo@sangoma.com>\n"
 "Language-Team: Spanish <http://*/projects/freepbx/framework/es/>\n"
@@ -2066,6 +2066,7 @@ msgid "Changelog"
 msgstr "Historial de Cambios"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:170
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:168
 #, php-format
 msgid "Changing \"%s\" from [%s] to [%s]"
 msgstr "Cambiando \"%s\" de [%s] a [%s]"
@@ -4339,6 +4340,30 @@ msgstr "Error(es) removiendo %s"
 msgid "Error(s) uninstalling %s"
 msgstr "Error(es) desinstalando %s"
 
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:102
+#, php-format
+msgid "Error: \"%s\" is not supported on this system"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:90
+#, php-format
+msgid "Error: \"%s\" must be a valid email address"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:112
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:122
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:132
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:148
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:162
+#, php-format
+msgid "Error: \"%s\" must be one of \"%s\""
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:96
+#, php-format
+msgid "Error: \"%s\" must not be blank/empty"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/footer.php:118
 msgid "Error: Did not receive valid response from server"
 msgstr "Error: No recibió respuesta válida del servidor"
@@ -6205,6 +6230,7 @@ msgid "List All Extensions"
 msgstr "Listar Todas las Extensiones"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:27
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:25
 msgid "List Configs"
 msgstr ""
 
@@ -6932,6 +6958,7 @@ msgstr ""
 "usuario para verlos!"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:35
 #: ../core/Core.class.php:2996 ../core/Core.class.php:2997
 #: ../core/page.extensions.php:35 ../core/page.extensions.php:128
 #: ../core/page.extensions.php:156 ../core/page.users.php:58
@@ -7228,6 +7255,10 @@ msgstr "No Requerido"
 #: ../core/page.ampusers.php:279
 msgid "Not Selected"
 msgstr "No Seleccionado"
+
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:41
+msgid "Not Supported"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:229
 msgid "Not an array"
@@ -9112,6 +9143,11 @@ msgstr ""
 "habilitarlo. Si desea un sistema más estable por favor deje este conjunto en "
 "no. Ver http://wiki.freepbx.org/x/boi3Aw para más detalles"
 
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:61
+#, php-format
+msgid "Setting of \"%s\" is \"%s\""
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:127
 #, php-format
 msgid "Setting of \"%s\" is (%s)[%s]"
@@ -10214,6 +10250,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:67
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:106
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:132
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:66
 #, php-format
 msgid "The setting %s was not found!"
 msgstr "¡No se ha encontrado la configuración %s!"
@@ -11592,6 +11629,7 @@ msgid "Validate your PBX against potential hacks"
 msgstr "Valide su PBX contra posibles ataques"
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:35
 msgid "Value"
 msgstr ""
 
@@ -11625,6 +11663,10 @@ msgstr "Soporte de Video"
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:31
 msgid "View"
 msgstr "Ver"
+
+#: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:23
+msgid "View and change Update/Notification Manager Settings"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:25
 msgid "View and update settings"
