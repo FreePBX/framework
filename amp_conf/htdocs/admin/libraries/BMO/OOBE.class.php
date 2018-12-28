@@ -159,7 +159,7 @@ class OOBE extends FreePBX_Helpers {
 
 		if ($current == "framework") {
 			// That's us!
-			return $this->createAdminAccount($auth);
+			return $this->createInitalSetup($auth);
 		}
 
 		// It's an external OOBE request.
@@ -176,7 +176,7 @@ class OOBE extends FreePBX_Helpers {
 		// Otherwise, don't do anything else.
 	}
 
-	private function createAdminAccount($auth) {
+	private function createInitalSetup($auth) {
 		$view = FreePBX::Config()->get("AMPWEBROOT")."/admin/views/oobe.php";
 		if (!isset($_REQUEST['username'])) {
 			// Just show the view
@@ -188,7 +188,7 @@ class OOBE extends FreePBX_Helpers {
 				$results['errors'] = $errors;
 				echo load_view($view, $results);
 			} else {
-				$this->createFreePBXAdmin($results);
+				$this->addInitalSettings($results);
 				$this->completeOOBE("framework");
 				return $this->showOOBE($auth);
 			}
@@ -219,8 +219,21 @@ class OOBE extends FreePBX_Helpers {
 		} else {
 			$email = "";
 		}
+
+		if (isset($_REQUEST['system_ident'])) {
+			$system_ident = trim($_REQUEST['system_ident']);
+		} else {
+			$system_ident = "";
+		}
+
 		$results = array();
 		$errors = array();
+
+		if(!$system_ident){
+			$errors[] = _('Please enter a System Indentifier');
+		}  else {
+			$results['system_ident'] = $system_ident;
+		}
 
 		if (!$username){
 			$errors[] = _('Please enter a username');
@@ -236,6 +249,13 @@ class OOBE extends FreePBX_Helpers {
 			$results['password'] = $password1;
 		}
 
+		$results['auto_system_updates'] = isset($_REQUEST['auto_system_updates']) ? $_REQUEST['auto_system_updates'] : 'disabled';
+		$results['auto_module_security_updates'] = $_REQUEST['auto_module_security_updates'];
+		$results['auto_module_updates'] = $_REQUEST['auto_module_updates'];
+		$results['unsigned_module_emails'] = $_REQUEST['unsigned_module_emails'];
+		$results['update_every'] = $_REQUEST['update_every'];
+		$results['update_period'] = $_REQUEST['update_period'];
+
 		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 			$errors[] = _('Email addresses error');
 		} else {
@@ -245,7 +265,7 @@ class OOBE extends FreePBX_Helpers {
 		return $errors;
 	}
 
-	private function createFreePBXAdmin($settings) {
+	private function addInitalSettings($settings) {
 		// This will never, ever, overwrite an existing admin.
 		$db = FreePBX::Database();
 		if (!$this->isFrameworkOOBENeeded()) {
@@ -259,6 +279,7 @@ class OOBE extends FreePBX_Helpers {
 		$sth->execute(array($username, sha1($settings['password'])));
 
 		$um = new \FreePBX\Builtin\UpdateManager();
+		$um->updateUpdateSettings($settings);
 		$um->setNotificationEmail($settings['email']);
 	}
 
