@@ -9,6 +9,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class FreePBXInstallCommand extends Command {
 	private $rootPath = null;
@@ -96,6 +98,9 @@ class FreePBXInstallCommand extends Command {
 			'description' => 'Directory for FreePBX html5 playback files'
 		),
 	);
+	private $isTtySupported;
+	private $output;
+	private $input;
 
 	protected function configure() {
 		$this
@@ -134,6 +139,8 @@ class FreePBXInstallCommand extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output) {
 		global $amp_conf; /* This makes pandas sad. :( */
+		$this->output = $output;
+		$this->input = $input;
 
 		$this->rootPath = dirname(__DIR__);
 		date_default_timezone_set('America/Los_Angeles');
@@ -808,11 +815,13 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		}
 
 		//run this here so that we make sure everything is square for module installs
-		system($amp_conf['AMPSBIN'] . "/fwconsole chown > /dev/tty");
+		$output->writeln("Chowning directories...");
+		$this->executeSystemCommand($amp_conf['AMPSBIN']."fwconsole chown");
+		$output->writeln("Done");
 
 		// module_admin install framework
 		$output->writeln("Installing framework...");
-		system($amp_conf['AMPSBIN']."/fwconsole ma install framework > /dev/tty");
+		$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole ma install framework");
 		$output->writeln("Done");
 
 		if(method_exists(\FreePBX::create()->View,'getScripts')) {
@@ -838,33 +847,32 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 		if($answers['dev-links']) {
 			$output->writeln("Enabling Developer mode");
-			system($amp_conf['AMPSBIN'] . "/fwconsole setting DEVEL 1 > /dev/null");
+			$this->executeSystemCommand($amp_conf['AMPSBIN'] . "/fwconsole setting DEVEL 1 > /dev/null");
 		}
 
 		/* read modules list from MODULE_DIR */
 		if(file_exists(MODULE_DIR) && $newinstall) {
 			$output->write("Installing base modules...");
-			system($amp_conf['AMPSBIN']."/fwconsole ma install core dashboard sipsettings voicemail > /dev/tty");
+			$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole ma install core dashboard sipsettings voicemail");
+			$output->writeln("Done installing base modules");
 			if(!$answers['skip-install']) {
 				$output->write("Installing all modules...");
-				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal > /dev/tty");
+				$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole ma installlocal");
+				$output->writeln("Done installing all modules");
 			}
-			$output->writeln("Done installing modules");
-		} elseif($newinstall && !file_exists(MODULE_DIR)) {
-			$output->writeln("Module directory does not exist, unable to install base modules");
+
 		}
 
 		//run this here so that we make sure everything is square for asterisk
-		//Note this is redirected to /dev/tty so the progress bar will work properly.
-		system($amp_conf['AMPSBIN'] . "/fwconsole chown > /dev/tty");
+		$this->executeSystemCommand($amp_conf['AMPSBIN'] . "/fwconsole chown");
 
 		if($answers['dev-links'] && $newinstall) {
-			system($amp_conf['AMPSBIN']."/fwconsole setting AMPMGRPASS ".$amp_conf['AMPMGRPASS']);
+			$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole setting AMPMGRPASS ".$amp_conf['AMPMGRPASS']." > /dev/null");
 		}
 
 		// generate_configs();
 		$output->writeln("Generating default configurations...");
-		system("runuser " . $amp_conf['AMPASTERISKUSER'] . ' -s /bin/bash -c "cd ~/ && '.$amp_conf["AMPSBIN"].'/fwconsole reload &>/dev/null"');
+		$this->executeSystemCommand("runuser " . $amp_conf['AMPASTERISKUSER'] . ' -s /bin/bash -c "cd ~/ && '.$amp_conf["AMPSBIN"].'/fwconsole reload &>/dev/null"');
 		$output->writeln("Finished generating default configurations");
 
 		$output->writeln("<info>You have successfully installed FreePBX</info>");
@@ -986,5 +994,39 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 				$progress->advance();
 			}
 		}
+	}
+
+	/**
+	 * Execute system command, check for tty first.
+	 *
+	 * @param string $command
+	 * @return void
+	 */
+	private function executeSystemCommand($command) {
+		$process = new Process($command);
+		if($this->isTtySupported()) {
+			$process->setTty(true);
+			$process->mustRun();
+			if(!posix_isatty(STDIN)) {
+				$this->output->write($process->getOutput());
+			} else {
+				$process->mustRun();
+			}
+		} else {
+			$process->mustRun();
+		}
+	}
+
+	/**
+	 * https://github.com/symfony/symfony/blob/4.2/src/Symfony/Component/Process/Process.php#L1249
+	 *
+	 * @return boolean
+	 */
+	private function isTtySupported() {
+		if(isset($this->isTtySupported)) {
+			return $this->isTtySupported;
+		}
+		$this->isTtySupported = (bool) @proc_open('echo 1 >/dev/null', array(array('file', '/dev/tty', 'r'), array('file', '/dev/tty', 'w'), array('file', '/dev/tty', 'w')), $pipes);
+		return $this->isTtySupported;
 	}
 }
