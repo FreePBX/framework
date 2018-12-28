@@ -618,13 +618,10 @@ class GPG {
 		$status = $this->checkStatus($out['status']);
 		if (!$status['trust']) {
 			$longkey = substr($this->freepbxkey, -16);
-			$sigout = $this->runGPG("--keyid-format long --with-colons --check-sigs ".$status['signedby']);
+			$sigout = $this->runGPG("--keyid-format long --with-colons --check-sigs ".escapeshellarg($status['signedby']));
 			if(preg_match('/^rev:!::1:'.$longkey.'/m',$sigout['stdout'])) {
 				return array("status" => self::STATE_REVOKED, 'trustdetails' => array("Signed by Revoked Key"));
 			}
-			$modules = parse_ini_string($out['stdout'], true);
-			$modules['rawstatus'] = $status;
-			return $modules;
 		}
 
 		$modules = parse_ini_string($out['stdout'], true);
