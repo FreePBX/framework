@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX amp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-21 16:24-0500\n"
+"POT-Creation-Date: 2018-12-28 14:11-0500\n"
 "PO-Revision-Date: 2010-06-27 18:43+0100\n"
 "Last-Translator: Mikael Carlsson <mickecamino@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -259,7 +259,7 @@ msgstr ""
 msgid "%s already exists"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:643
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:620
 #, php-format
 msgid "%s already exists, and is not a symlink!"
 msgstr ""
@@ -382,26 +382,26 @@ msgstr ""
 msgid "%s enabled successfully"
 msgstr "%s aktiverades utan problem"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:715
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:692
 #, php-format
 msgid "%s failed to copy from module directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:649
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:626
 #, php-format
 msgid "%s from %s/%s (Already exists, linked to something else)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:644
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:621
 #, php-format
 msgid "%s from %s/%s (Already exists, not a link)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:601
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:614
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:626
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:638
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:660
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:578
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:591
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:603
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:615
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:637
 #, php-format
 msgid "%s from %s/%s (Bad Permissions)"
 msgstr ""
@@ -425,7 +425,7 @@ msgstr "%s installerades utan problem"
 msgid "%s is a registered trademark of"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:695
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:672
 #, php-format
 msgid "%s is a symbolic link, failed to unlink!"
 msgstr ""
@@ -563,7 +563,7 @@ msgstr ""
 msgid "11 Digit Patterns"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:626
+#: amp_conf/htdocs/admin/config.php:614
 #, php-format
 msgid "404 Not found (%s)"
 msgstr ""
@@ -626,7 +626,7 @@ msgid ""
 "acted on."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:384
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
 msgid ""
 "A Retrieve Conf Post Custom Script has been detected, the ability to run "
 "this after a reload has been removed"
@@ -744,7 +744,7 @@ msgstr ""
 msgid "Aborting Shutdown. Asterisk is still running"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:307
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:284
 msgid "Aborting reload because extension conflicts or bad destinations"
 msgstr ""
 
@@ -1914,26 +1914,26 @@ msgstr "Kan inte avaktivera: Följande modul är beroende av denna: "
 msgid "Cannot find module"
 msgstr "Hittar inte modulen"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:597
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:574
 #, php-format
 msgid "Cannot remove conflicting file %s (Bad Permissions)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:596
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:573
 #, php-format
 msgid "Cannot remove conflicting file %s. Check Permissions?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:590
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:567
 #, php-format
 msgid "Cannot replace reserved file %s from module %s (Not allowed)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:600
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:613
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:625
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:637
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:659
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:577
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:590
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:602
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:614
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:636
 #, php-format
 msgid "Cannot symlink %s to %s. Check Permissions?"
 msgstr ""
@@ -2174,7 +2174,7 @@ msgstr ""
 msgid "Coding Error - don't understand '%s' from %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:197
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:174
 msgid "Collecting Anonymous Browser Stats"
 msgstr ""
 
@@ -2397,8 +2397,8 @@ msgstr "Kunde inte ta bort äldre modul %s för att installera ny version"
 msgid "Could not remove temporary location %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:865
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:883
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:842
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:860
 #, php-format
 msgid "Could not run %s script."
 msgstr "Kunde inte exekvera %s skriptet."
@@ -2584,7 +2584,7 @@ msgid ""
 "valid settings. See DAHDi and card documentation for details."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:295
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:272
 #, php-format
 msgid "DEST STATUS: %s%s"
 msgstr ""
@@ -2738,7 +2738,7 @@ msgstr ""
 msgid "Default"
 msgstr "Standard"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:360
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:337
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1196
 msgid "Default Asterisk Manager Password Used"
 msgstr "Standardlösenordet för Asterisk Manager används"
@@ -3087,7 +3087,7 @@ msgstr "Enhet"
 msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:373
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:350
 msgid "Device & User Hints Issue"
 msgstr ""
 
@@ -3901,7 +3901,7 @@ msgstr ""
 msgid "Enforce that RTP must be symmetric. This should almost always be on."
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:750
+#: amp_conf/htdocs/admin/config.php:738
 msgid "English"
 msgstr ""
 
@@ -4083,8 +4083,8 @@ msgstr ""
 msgid "Execute on only this file/dir"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:864
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:882
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:841
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:859
 #, php-format
 msgid "Exit code was %s and output was: %s"
 msgstr "Avslutskod var %s och resultatet var: %s"
@@ -4144,7 +4144,7 @@ msgstr ""
 msgid "Extended"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:265
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:242
 #: ../core/Core.class.php:2953 ../core/Core.class.php:2954
 #: ../core/Core.class.php:3326 ../core/functions.inc.php:4733
 #: ../core/page.did.php:93 ../core/page.extensions.php:34
@@ -4261,7 +4261,7 @@ msgstr ""
 msgid "Failed to Remove directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:724
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:701
 msgid "Failed to copy from module agi-bin"
 msgstr ""
 
@@ -4354,7 +4354,7 @@ msgstr ""
 msgid "Feature Codes Beep Only"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:607
+#: amp_conf/htdocs/admin/config.php:595
 #, php-format
 msgid "File %s has a revoked signature. Can not load"
 msgstr ""
@@ -4642,7 +4642,7 @@ msgstr ""
 msgid "FreePBX Log Routing"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:426
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:403
 msgid ""
 "FreePBX Module Signature checking has been disabled. Your system could be "
 "exposed to security vulnerabilities from compromised or tampered code"
@@ -5583,7 +5583,7 @@ msgstr ""
 msgid "Invalid Trunk Name entered"
 msgstr "Ogiltigt trunknamn angivet"
 
-#: amp_conf/htdocs/admin/config.php:471
+#: amp_conf/htdocs/admin/config.php:459
 msgid "Invalid Username or Password"
 msgstr ""
 
@@ -5807,7 +5807,7 @@ msgid "Long Distance"
 msgstr ""
 
 #: amp_conf/htdocs/admin/bootstrap.php:294
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:918
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:895
 msgid "Low Memory Limit"
 msgstr "Låg minnesgräns"
 
@@ -5951,7 +5951,7 @@ msgid "Media Use Received Transport"
 msgstr ""
 
 #: amp_conf/htdocs/admin/bootstrap.php:292
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:916
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:893
 msgid "Memory Limit Changed"
 msgstr "Minnesgräns ändrad"
 
@@ -6544,8 +6544,8 @@ msgstr ""
 msgid "No Music"
 msgstr "Ingen musik"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:901
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:904
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:878
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:881
 msgid "No Swap"
 msgstr ""
 
@@ -7108,7 +7108,7 @@ msgstr "PHP-komponenten %s version %s krävs men fattas i din PHP-installation"
 msgid "PHP Console"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:601
+#: amp_conf/htdocs/admin/config.php:589
 msgid "PHP Console Enabled but not installed"
 msgstr ""
 
@@ -7812,7 +7812,7 @@ msgstr ""
 msgid "Related URLs"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:473
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:450
 msgid "Reload Complete"
 msgstr ""
 
@@ -7969,11 +7969,11 @@ msgstr ""
 msgid "Restart Setup Wizard"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:384
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
 msgid "Retrieve Conf Post Custom Script Detected"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:724
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:701
 #, php-format
 msgid "Retrieve conf failed to copy file(s) from a module's agi-bin dir: %s"
 msgstr ""
@@ -8084,7 +8084,7 @@ msgstr ""
 msgid "Running Asterisk pre from %s module"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:190
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:167
 msgid ""
 "Running an unsupported version of Asterisk. Supported Asterisk versions: 13, "
 "14, 15, 16. Detected Asterisk version: "
@@ -8250,7 +8250,7 @@ msgstr "Säkerhet"
 msgid "Security Issue"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:593
+#: amp_conf/htdocs/admin/config.php:581
 msgid "Security Warning"
 msgstr ""
 
@@ -8609,7 +8609,7 @@ msgstr "Signalera RINGER"
 msgid "Signature Invalid"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:426
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:403
 msgid "Signature checking is disabled"
 msgstr ""
 
@@ -8794,7 +8794,7 @@ msgstr ""
 msgid "Submit"
 msgstr "Spara"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:468
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:445
 msgid ""
 "Successful reload, but could not clear reload flag due to a database error: "
 msgstr ""
@@ -8826,18 +8826,18 @@ msgstr ""
 msgid "Switch to Stable and Download and Install %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:673
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:676
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:679
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:650
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:653
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:656
 msgid "Symlink Conflict Resolved"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:510
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:487
 #, php-format
 msgid "Symlink error - %s should be linked to %s, and it isn't a link"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:668
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:645
 msgid "Symlink from modules failed"
 msgstr ""
 
@@ -9090,7 +9090,7 @@ msgstr ""
 msgid "The File \"%s\" must exist."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:197
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:174
 msgid ""
 "The FreePBX project is collecting anonymous browser statistics using google "
 "analytics. These are used to focus development efforts based on real user "
@@ -9514,7 +9514,7 @@ msgstr ""
 "länk om du inte hade för avsikt att utföra denna funktion då den kan ändra i "
 "din konfiguration."
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:904
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:881
 #, php-format
 msgid ""
 "The swap space of your system is too low (%s KB). You should have at least "
@@ -9608,12 +9608,12 @@ msgid ""
 "decimal notation. Separate the IP address and subnet mask with a slash ('/')"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:301
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:278
 #, php-format
 msgid "There are %s bad destinations"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:272
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:249
 #, php-format
 msgid "There are %s conflicting extensions"
 msgstr ""
@@ -10047,7 +10047,7 @@ msgstr ""
 msgid "Transport"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:656
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:633
 #, php-format
 msgid "Tried to link %s to %s, but %s doesn't exist"
 msgstr ""
@@ -10149,7 +10149,7 @@ msgstr "Inställningar för ANVÄNDARE"
 msgid "UTC"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:854
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:831
 msgid "Unable to connect to Asterisk Manager"
 msgstr ""
 
@@ -10185,7 +10185,7 @@ msgid ""
 "override?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:847
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:824
 msgid "Unable to find the Asterisk binary"
 msgstr ""
 
@@ -10365,7 +10365,7 @@ msgstr ""
 msgid "Unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/config.php:596
+#: amp_conf/htdocs/admin/config.php:584
 msgid "Unsigned Module(s)"
 msgstr ""
 
@@ -11256,7 +11256,7 @@ msgid ""
 "your browser."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:373
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:350
 msgid ""
 "You are set to Device and User mode but are not set to 'Dynamically Generate "
 "Hints' which can result in improper phone state behavior. This can be "
@@ -11268,7 +11268,7 @@ msgstr ""
 msgid "You are urged to backup before making any changes."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:360
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:337
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1196
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
@@ -11364,7 +11364,7 @@ msgstr "Du har en felaktig modul"
 msgid "You have a disabled module"
 msgstr "Du har en avaktiverad modul"
 
-#: amp_conf/htdocs/admin/config.php:601
+#: amp_conf/htdocs/admin/config.php:589
 msgid ""
 "You have enabled PHP Console in Advanced settings but have not installed the "
 "Chrome Extension or you are not using Chrome"
@@ -11508,13 +11508,13 @@ msgstr ""
 msgid "Your %s version (%s) is incompatible."
 msgstr "Din %s version (%s) är inkompatibel."
 
-#: amp_conf/htdocs/admin/config.php:562
+#: amp_conf/htdocs/admin/config.php:550
 msgid ""
 "Your Zend Configuration is not fully setup. Please recitfy the problem and "
 "reload this page"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:350
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:327
 msgid ""
 "Your amportal.conf file is not writeable. FreePBX is running in a crippled "
 "mode until changed. You can run 'amportal chown' from the Linux command line "
@@ -11526,7 +11526,7 @@ msgid "Your browser is out-of-date!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/bootstrap.php:292
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:916
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:893
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and has been increased to %sM. You "
@@ -11536,7 +11536,7 @@ msgstr ""
 "i din php.ini konfigurationsfil"
 
 #: amp_conf/htdocs/admin/bootstrap.php:294
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:918
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:895
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and may cause problems. FreePBX is "
@@ -11552,7 +11552,7 @@ msgstr ""
 msgid "Your server [%s] discovered the following security issues:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:901
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:878
 msgid ""
 "Your system has no swap space. This should be fixed as soon as possible. "
 "Once fixed issue a reload to remove this message"
@@ -11634,7 +11634,7 @@ msgstr ""
 msgid "altered"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:350
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:327
 msgid "amportal.conf not writeable"
 msgstr ""
 
@@ -12092,7 +12092,7 @@ msgstr ""
 msgid "password"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:757
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:734
 #, php-format
 msgid "php reported: '%s' after copy or unlink attempt!"
 msgstr ""
@@ -12146,14 +12146,14 @@ msgstr ""
 msgid "removing rtp.conf it will be symlinked from core"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:184
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:161
 #, php-format
 msgid ""
 "retreive_conf failed to get engine information and cannot configure up a "
 "softwitch with out it. Error: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:668
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:645
 #, php-format
 msgid ""
 "retrieve_conf failed to sym link: %s<br \\>This can result in FATAL failures "
@@ -12163,9 +12163,9 @@ msgid ""
 "customization."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:673
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:676
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:679
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:650
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:653
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:656
 #, php-format
 msgid ""
 "retrieve_conf resolved a symlink with %s<br \\>This is a notice to let you "
