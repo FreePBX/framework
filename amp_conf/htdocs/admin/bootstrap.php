@@ -104,7 +104,9 @@ foreach ($bootstrap_defaults as $key => $default_value) {
 $GLOBALS['report_error_link'] = $bootstrap_settings['report_error_link'];
 
 // include base functions
-include $dirname .'/libraries/Composer/vendor/autoload.php';
+if(!class_exists('ComposerAutoloaderInitpbxframework')) {
+	include $dirname .'/libraries/Composer/vendor/autoload.php';
+}
 
 $bootstrap_settings['framework_functions_included'] = false;
 //load all freepbx functions
