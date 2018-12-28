@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX v2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-28 15:08-0500\n"
+"POT-Creation-Date: 2018-12-28 16:21-0500\n"
 "PO-Revision-Date: 2014-07-22 14:52+0200\n"
 "Last-Translator: Chavdar <chavdar_75@yahoo.com>\n"
 "Language-Team: Bulgarian <http://git.freepbx.org/projects/freepbx/framework/"
@@ -890,18 +890,21 @@ msgid "Admin Access"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:54
-#: amp_conf/htdocs/admin/views/oobe.php:10
 msgid "Admin Email address"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:30
-#: amp_conf/htdocs/admin/views/oobe.php:9
+#: amp_conf/htdocs/admin/views/oobe.php:44
 msgid "Admin password"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:20
-#: amp_conf/htdocs/admin/views/oobe.php:8
+#: amp_conf/htdocs/admin/views/oobe.php:43
 msgid "Admin user name"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/oobe.php:81
+msgid "Administrator User"
 msgstr ""
 
 #: amp.i18n.php:888
@@ -1435,14 +1438,17 @@ msgid "Automatic Force rport - (%s)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:85
+#: amp_conf/htdocs/admin/views/oobe.php:174
 msgid "Automatic Module Security Updates"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:71
+#: amp_conf/htdocs/admin/views/oobe.php:157
 msgid "Automatic Module Updates"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:57
+#: amp_conf/htdocs/admin/views/oobe.php:139
 msgid "Automatic System Updates"
 msgstr ""
 
@@ -1479,26 +1485,32 @@ msgid "Beta"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:141
+#: amp_conf/htdocs/admin/views/oobe.php:237
 msgid "Between 12pm and 4pm"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:139
+#: amp_conf/htdocs/admin/views/oobe.php:235
 msgid "Between 4am and 8am"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:142
+#: amp_conf/htdocs/admin/views/oobe.php:238
 msgid "Between 4pm and 8pm"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:140
+#: amp_conf/htdocs/admin/views/oobe.php:236
 msgid "Between 8am and 12pm"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:143
+#: amp_conf/htdocs/admin/views/oobe.php:239
 msgid "Between 8pm and Midnight"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:138
+#: amp_conf/htdocs/admin/views/oobe.php:234
 msgid "Between Midnight and 4am"
 msgstr ""
 
@@ -1936,6 +1948,7 @@ msgid "Check Server Referrer"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:109
+#: amp_conf/htdocs/admin/views/oobe.php:204
 msgid "Check for Updates every"
 msgstr ""
 
@@ -2138,7 +2151,7 @@ msgid "Confirm Email address"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:42
-#: amp_conf/htdocs/admin/views/oobe.php:9
+#: amp_conf/htdocs/admin/views/oobe.php:44
 msgid "Confirm Password"
 msgstr ""
 
@@ -2618,6 +2631,7 @@ msgid "Date and Time Format"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:114
+#: amp_conf/htdocs/admin/views/oobe.php:210
 msgid "Day"
 msgstr ""
 
@@ -3138,8 +3152,9 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:94
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:132
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:5
-#: ../core/Console/Trunks.class.php:55 ../core/Console/Trunks.class.php:62
-#: ../core/views/routing/timecond.php:20 ../core/views/trunks/trunkgrid.php:44
+#: amp_conf/htdocs/admin/views/oobe.php:5 ../core/Console/Trunks.class.php:55
+#: ../core/Console/Trunks.class.php:62 ../core/views/routing/timecond.php:20
+#: ../core/views/trunks/trunkgrid.php:44
 msgid "Disabled"
 msgstr "Забранен"
 
@@ -3517,7 +3532,7 @@ msgid ""
 "work as expected."
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/oobe.php:10 ../core/views/quickCreate.php:101
+#: amp_conf/htdocs/admin/views/oobe.php:45 ../core/views/quickCreate.php:101
 msgid "Email Address"
 msgstr ""
 
@@ -3526,6 +3541,7 @@ msgid "Email Address:"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:6
+#: amp_conf/htdocs/admin/views/oobe.php:6
 msgid "Email Only"
 msgstr ""
 
@@ -3534,7 +3550,7 @@ msgid ""
 "Email address to use for services such as Voicemail, User Management and Fax"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:240
+#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:260
 msgid "Email addresses error"
 msgstr ""
 
@@ -3676,7 +3692,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1130
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:134
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:4
-#: ../core/views/trunks/trunkgrid.php:44
+#: amp_conf/htdocs/admin/views/oobe.php:4 ../core/views/trunks/trunkgrid.php:44
 msgid "Enabled"
 msgstr "Разрешен"
 
@@ -4592,6 +4608,7 @@ msgid "Frequency in seconds to send qualify messages to the endpoint."
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:119
+#: amp_conf/htdocs/admin/views/oobe.php:215
 msgid "Friday"
 msgstr ""
 
@@ -5257,7 +5274,11 @@ msgstr ""
 msgid "Inherit"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/obe.php:8 amp_conf/htdocs/admin/views/oobe.php:5
+#: amp_conf/htdocs/admin/views/oobe.php:40
+msgid "Initial Setup"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/obe.php:8
 msgid "Initial setup"
 msgstr ""
 
@@ -6172,6 +6193,7 @@ msgid "Modules with Upgrades:"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:115
+#: amp_conf/htdocs/admin/views/oobe.php:211
 msgid "Monday"
 msgstr ""
 
@@ -6554,6 +6576,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/Mail.class.php:31
 #, php-format
 msgid "Notification from %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/oobe.php:45
+msgid "Notifications Email address"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:63
@@ -6979,7 +7005,7 @@ msgid "Packaged (Released)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:30
-#: amp_conf/htdocs/admin/views/oobe.php:9 ../core/page.ampusers.php:229
+#: amp_conf/htdocs/admin/views/oobe.php:44 ../core/page.ampusers.php:229
 msgid "Password"
 msgstr ""
 
@@ -6994,7 +7020,7 @@ msgstr ""
 msgid "Password Protected"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:232
+#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:245
 msgid "Password error. Please re-check"
 msgstr ""
 
@@ -7008,7 +7034,7 @@ msgstr ""
 msgid "Password for internal ARI calls"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:234
+#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:247
 msgid "Password too short"
 msgstr ""
 
@@ -7171,7 +7197,7 @@ msgstr "Моля потвърдете следните задачи:"
 
 #: amp_conf/htdocs/admin/views/login.php:3
 #: amp_conf/htdocs/admin/views/obe.php:15
-#: amp_conf/htdocs/admin/views/oobe.php:7
+#: amp_conf/htdocs/admin/views/oobe.php:42
 msgid "Please correct the following errors:"
 msgstr ""
 
@@ -7181,11 +7207,15 @@ msgstr ""
 msgid "Please enter a Secret for this device"
 msgstr "Моля въведете Парола за това устройство"
 
+#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:233
+msgid "Please enter a System Indentifier"
+msgstr ""
+
 #: ../core/functions.inc.php:5991
 msgid "Please enter a device id."
 msgstr "Моля въведете ID на устройството."
 
-#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:226
+#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:239
 msgid "Please enter a username"
 msgstr ""
 
@@ -7238,10 +7268,16 @@ msgstr ""
 msgid "Please note most tasks should be handled through the GUI."
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/obe.php:9 amp_conf/htdocs/admin/views/oobe.php:6
+#: amp_conf/htdocs/admin/views/obe.php:9
 msgid ""
 "Please provide the core credentials that will be used to administer your "
 "system"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/oobe.php:41
+msgid ""
+"Please provide the core settings that will be used to administer and update "
+"your system"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1561
@@ -7955,6 +7991,7 @@ msgid "Sangoma CRM"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:120
+#: amp_conf/htdocs/admin/views/oobe.php:216
 msgid "Saturday"
 msgstr ""
 
@@ -8058,6 +8095,7 @@ msgid "Send Remote-Party-ID header"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:97
+#: amp_conf/htdocs/admin/views/oobe.php:189
 msgid "Send Security Emails For Unsigned Modules"
 msgstr ""
 
@@ -8310,6 +8348,10 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/oobe.php:256
+msgid "Setup System"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:12
 msgid "Severity"
 msgstr ""
@@ -8543,6 +8585,7 @@ msgid "Summary"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:121
+#: amp_conf/htdocs/admin/views/oobe.php:217
 msgid "Sunday"
 msgstr ""
 
@@ -8587,12 +8630,24 @@ msgstr ""
 msgid "System Device User"
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/oobe.php:123
+msgid "System Identification"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/oobe.php:46
+msgid "System Identifier"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:19
 msgid "System Identifier:"
 msgstr ""
 
 #: amp.i18n.php:820
 msgid "System Identity"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/oobe.php:112
+msgid "System Notifcations Email"
 msgstr ""
 
 #: amp.i18n.php:692
@@ -8604,6 +8659,7 @@ msgid "System Update Details"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tabheader.php:16
+#: amp_conf/htdocs/admin/views/oobe.php:134
 msgid "System Updates"
 msgstr ""
 
@@ -9570,6 +9626,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:118
+#: amp_conf/htdocs/admin/views/oobe.php:214
 msgid "Thursday"
 msgstr ""
 
@@ -9712,6 +9769,7 @@ msgid "Trys to enable all modules, accepts no arguments"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:116
+#: amp_conf/htdocs/admin/views/oobe.php:212
 msgid "Tuesday"
 msgstr ""
 
@@ -10255,7 +10313,7 @@ msgid "User could not be added."
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:20
-#: amp_conf/htdocs/admin/views/oobe.php:8 ../core/page.ampusers.php:207
+#: amp_conf/htdocs/admin/views/oobe.php:43 ../core/page.ampusers.php:207
 #: ../core/views/ampusers/bootnav.php:14 ../core/views/trunks/pjsip.php:54
 #: ../core/views/trunks/pjsip.php:923
 msgid "Username"
@@ -10499,16 +10557,22 @@ msgid "Web Socket Write Timeout"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:117
+#: amp_conf/htdocs/admin/views/oobe.php:213
 msgid "Wednesday"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/obe.php:3 amp_conf/htdocs/admin/views/oobe.php:4
+#: amp_conf/htdocs/admin/views/obe.php:3
 msgid "Welcome to "
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/welcome.php:5
 #, php-format
 msgid "Welcome to %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/views/oobe.php:39
+#, php-format
+msgid "Welcome to %s!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1188
