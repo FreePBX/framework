@@ -37,30 +37,7 @@ class Reload extends Command {
 			new InputOption('dont-reload-asterisk', null, InputOption::VALUE_NONE, _('Dont reload asterisk')),
 		));
 	}
-	public function __destruct() {
-		//parent::__destruct();
-		//echo "HI";
-		/*
-		if (!isset($astman) || !$astman) {
-		$return['code'] = 255;
-		$return['status'] = false;
-		$return['message'] = sprtinf(_('Reload failed because %s could not connect to the asterisk manager interface.'),$amp_conf['DASHBOARD_FREEPBX_BRAND']);
-		$return['num_errors']++;
-		$notify->add_critical('freepbx','RCONFFAIL', _("retrieve_conf failed, config not applied"), $return['message']);
-		return $return;
-	}
-	$notify->delete('freepbx', 'RCONFFAIL');
 
-		if ($exit_val != 0) {
-			$return['code'] = $exit_val;
-			$return['status'] = false;
-			$return['message'] = sprintf(_('Reload failed because retrieve_conf encountered an error: %s'),$exit_val);
-			$return['num_errors']++;
-			$notify->add_critical('freepbx','RCONFFAIL', _("retrieve_conf failed, config not applied"), $return['message']);
-			return $return;
-		}
-		*/
-	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$this->output = $output;
 		$this->json = $input->getOption('json');
@@ -586,7 +563,7 @@ class Reload extends Command {
 
 	private function do_symlink($src, $dest, $subdir, $moduledir) {
 		$f = basename($dest);
-		if(in_array($f,array('amportal','fwconsole','module_admin','retrieve_conf','freepbx_setting','freepbx_engine','freepbx-cron-scheduler.php','gen_amp_conf.php'))) {
+		if(in_array($f,array('amportal','fwconsole','retrieve_conf','freepbx_setting','freepbx_engine'))) {
 			$this->symlink_error_modules .= "<br />&nbsp;&nbsp;&nbsp;".sprintf(_("Cannot replace reserved file %s from module %s (Not allowed)"),$f, basename($moduledir));
 			return;
 		}
@@ -815,7 +792,7 @@ class Reload extends Command {
 		$freepbxCron = $this->freepbx->Cron;
 		$exists = false;
 		foreach($freepbxCron->getAll() as $cron) {
-			$str = str_replace("/", "\/", $amp_conf['AMPSBIN']."/fwconsole util cleanplaybackcache -q");
+			$str = str_replace("/", "\/", $this->freepbx->Config->get('AMPSBIN')."/fwconsole util cleanplaybackcache -q");
 			if(preg_match("/fwconsole util cleanplaybackcache -q$/",$cron)) {
 				if(!preg_match("/".$str."$/i",$cron)) {
 					$freepbxCron->remove($cron);
@@ -832,7 +809,7 @@ class Reload extends Command {
 		}
 		if(!$exists) {
 			$freepbxCron->add(array(
-				"command" => $amp_conf['AMPSBIN']."/fwconsole util cleanplaybackcache -q",
+				"command" => $this->freepbx->Config->get('AMPSBIN')."/fwconsole util cleanplaybackcache -q",
 				"minute" => rand(0,59)
 			));
 		}

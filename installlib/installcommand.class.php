@@ -850,6 +850,8 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal > /dev/tty");
 			}
 			$output->writeln("Done installing modules");
+		} elseif($newinstall && !file_exists(MODULE_DIR)) {
+			$output->writeln("Module directory does not exist, unable to install base modules");
 		}
 
 		//run this here so that we make sure everything is square for asterisk
