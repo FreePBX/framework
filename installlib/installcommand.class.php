@@ -816,7 +816,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 		//run this here so that we make sure everything is square for module installs
 		$output->writeln("Chowning directories...");
-		$this->executeSystemCommand($amp_conf['AMPSBIN']."fwconsole chown");
+		$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole chown");
 		$output->writeln("Done");
 
 		// module_admin install framework
@@ -872,7 +872,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 		// generate_configs();
 		$output->writeln("Generating default configurations...");
-		$this->executeSystemCommand("runuser " . $amp_conf['AMPASTERISKUSER'] . ' -s /bin/bash -c "cd ~/ && '.$amp_conf["AMPSBIN"].'/fwconsole reload &>/dev/null"');
+		system("runuser " . $amp_conf['AMPASTERISKUSER'] . ' -s /bin/bash -c "cd ~/ && '.$amp_conf["AMPSBIN"].'/fwconsole reload &>/dev/null"');
 		$output->writeln("Finished generating default configurations");
 
 		$output->writeln("<info>You have successfully installed FreePBX</info>");
