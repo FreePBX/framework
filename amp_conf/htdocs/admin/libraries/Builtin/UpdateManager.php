@@ -61,8 +61,17 @@ class UpdateManager {
 			"update_period" => "4to8",
 		];
 
+
+
 		foreach ($retarr as $k => $null) {
 			$val = $this->freepbx->getConfig($k, "updates");
+			if($k === 'system_ident') {
+				$val_old = \FreePBX::Config()->get('FREEPBX_SYSTEM_IDENT');
+				if($val_old !== $val) {
+					$this->freepbx->setConfig($k, $val_old, "updates");
+				}
+				$val = $val_old;
+			}
 			if ($val) {
 				if ($encode) {
 					$retarr[$k] = htmlspecialchars($val, ENT_QUOTES|ENT_SUBSTITUTE, 'UTF-8', false);
@@ -135,6 +144,9 @@ class UpdateManager {
 		// from what was just submitted, change it!
 		foreach ($current as $k => $c) {
 			if (isset($req[$k]) && $req[$k] !== $c) {
+				if($k === 'system_ident') {
+					\FreePBX::Config()->update('FREEPBX_SYSTEM_IDENT',$req[$k]);
+				}
 				$this->freepbx->setConfig($k, $req[$k], "updates");
 			}
 		}
