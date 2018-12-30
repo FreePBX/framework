@@ -43,10 +43,17 @@ class Reload extends Command {
 	}
 
 	public function __destruct() {
+		$lastError = error_get_last();
+		$validErrors = [
+			E_ERROR,
+			E_CORE_ERROR,
+			E_USER_ERROR,
+			E_RECOVERABLE_ERROR
+		];
 		if(isset($this->error)) {
-			$this->freepbx->Notifications->add_critical('freepbx','RCONFFAIL', _("retrieve_conf failed, config not applied"), $this->error);
-		} elseif(error_get_last() !== null) {
-			$this->freepbx->Notifications->add_critical('freepbx','RCONFFAIL', _("retrieve_conf failed, config not applied"), error_get_last());
+			$this->freepbx->Notifications->add_critical('freepbx','RCONFFAIL', _("'fwconsole reload' failed, config not applied"), $this->error);
+		} elseif(is_array($lastError) && in_array($lastError['type'],$validErrors)) {
+			$this->freepbx->Notifications->add_critical('freepbx','RCONFFAIL', _("'fwconsole reload' failed, config not applied"), $lastError['message']);
 		} else {
 			$this->freepbx->Notifications->delete('freepbx','RCONFFAIL');
 		}
@@ -472,6 +479,10 @@ class Reload extends Command {
 			}
 			//hmm should this be outside of this loop?
 			$this->runPostReloadScript();
+			$this->freepbx->Notifications->delete('freepbx','ASTRELOADSKIP');
+		} else {
+			$brand = $this->freepbx->Config->get('DASHBOARD_FREEPBX_BRAND');
+			$this->freepbx->Notifications->add_warning('freepbx','ASTRELOADSKIP', _("Asterisk Reload Skipped"), sprintf(_("Asterisk reload was skipped but the %s configuration files were still written out. %s and Asterisk might be in a weird state"),$brand,$brand));
 		}
 		$this->writeln(_("Reload Complete"));
 	}

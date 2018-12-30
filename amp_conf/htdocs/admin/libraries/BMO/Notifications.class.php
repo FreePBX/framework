@@ -22,6 +22,14 @@ class Notifications {
 	private $not_loaded = true;
 	private $notification_table = array();
 
+	const TYPE_CRITICAL = 100;
+	const TYPE_SECURITY = 200;
+	const TYPE_SIGNATURE_UNSIGNED = 250;
+	const TYPE_UPDATE = 300;
+	const TYPE_ERROR = 400;
+	const TYPE_WARNING = 500;
+	const TYPE_NOTICE = 600;
+
 	public function __construct($freepbx) {
 		$this->freepbx = $freepbx;
 	}
@@ -41,7 +49,7 @@ class Notifications {
 	public function exists($module, $id) {
 		$sth = $this->freepbx->Database->prepare("SELECT count(*) FROM notifications WHERE `module` = :module AND `id` = :id");
 		$sth->execute([":module" => $module, ":id" => $id]);
-		return count($sth->fetchColumn());
+		return $sth->fetchColumn();
 	}
 
 	/**
@@ -57,7 +65,7 @@ class Notifications {
 	 * @return int Returns the number of notifications per module & id
 	 */
 	public function add_critical($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
-		$this->add_type(NOTIFICATION_TYPE_CRITICAL, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+		$this->add_type(static::TYPE_CRITICAL, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
 		$this->freepbx_log(FPBX_LOG_CRITICAL, $module, $id, $display_text, $extended_text);
 	}
 	/**
@@ -73,7 +81,7 @@ class Notifications {
 	 * @return int Returns the number of notifications per module & id
 	 */
 	public function add_security($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
-		$this->add_type(NOTIFICATION_TYPE_SECURITY, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+		$this->add_type(static::TYPE_SECURITY, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
 		$this->freepbx_log(FPBX_LOG_SECURITY, $module, $id, $display_text, $extended_text);
 	}
 	/**
@@ -89,7 +97,7 @@ class Notifications {
 	* @return int Returns the number of notifications per module & id
 	*/
 	public function add_signature_unsigned($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
-		$this->add_type(NOTIFICATION_TYPE_SIGNATURE_UNSIGNED, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+		$this->add_type(static::TYPE_SIGNATURE_UNSIGNED, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
 		$this->freepbx_log(FPBX_LOG_SIGNATURE_UNSIGNED, $module, $id, $display_text, $extended_text);
 	}
 	/**
@@ -105,7 +113,7 @@ class Notifications {
 	 * @return int Returns the number of notifications per module & id
 	 */
 	public function add_update($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
-		$this->add_type(NOTIFICATION_TYPE_UPDATE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+		$this->add_type(static::TYPE_UPDATE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
 		$this->freepbx_log(FPBX_LOG_UPDATE, $module, $id, $display_text, $extended_text);
 	}
 	/**
@@ -121,7 +129,7 @@ class Notifications {
 	 * @return int Returns the number of notifications per module & id
 	 */
 	public function add_error($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
-		$this->add_type(NOTIFICATION_TYPE_ERROR, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+		$this->add_type(static::TYPE_ERROR, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
 		$this->freepbx_log(FPBX_LOG_ERROR, $module, $id, $display_text, $extended_text);
 	}
 	/**
@@ -137,7 +145,7 @@ class Notifications {
 	 * @return int Returns the number of notifications per module & id
 	 */
 	public function add_warning($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
-		$this->add_type(NOTIFICATION_TYPE_WARNING, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+		$this->add_type(static::TYPE_WARNING, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
 		$this->freepbx_log(FPBX_LOG_WARNING, $module, $id, $display_text, $extended_text);
 	}
 	/**
@@ -153,7 +161,7 @@ class Notifications {
 	 * @return int Returns the number of notifications per module & id
 	 */
 	public function add_notice($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=true) {
-		$this->add_type(NOTIFICATION_TYPE_NOTICE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+		$this->add_type(static::TYPE_NOTICE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
 		$this->freepbx_log(FPBX_LOG_NOTICE, $module, $id, $display_text, $extended_text);
 	}
 
@@ -165,7 +173,7 @@ class Notifications {
 	 * @return array Returns the list of Messages
 	 */
 	public function list_critical($show_reset=false, $allow_filtering=true) {
-		return $this->listMessages(NOTIFICATION_TYPE_CRITICAL, $show_reset, $allow_filtering);
+		return $this->listMessages(static::TYPE_CRITICAL, $show_reset, $allow_filtering);
 	}
 	/**
 	* List all Unsigned Module Notification Messages
@@ -175,7 +183,7 @@ class Notifications {
 	* @return array Returns the list of Messages
 	*/
 	public function list_signature_unsigned($show_reset=false, $allow_filtering=true) {
-		return $this->listMessages(NOTIFICATION_TYPE_SIGNATURE_UNSIGNED, $show_reset, $allow_filtering);
+		return $this->listMessages(static::TYPE_SIGNATURE_UNSIGNED, $show_reset, $allow_filtering);
 	}
 	/**
 	 * List all Security Messages
@@ -185,7 +193,7 @@ class Notifications {
 	 * @return array Returns the list of Messages
 	 */
 	public function list_security($show_reset=false, $allow_filtering=true) {
-		return $this->listMessages(NOTIFICATION_TYPE_SECURITY, $show_reset, $allow_filtering);
+		return $this->listMessages(static::TYPE_SECURITY, $show_reset, $allow_filtering);
 	}
 	/**
 	 * List all Update Messages
@@ -195,7 +203,7 @@ class Notifications {
 	 * @return array Returns the list of Messages
 	 */
 	public function list_update($show_reset=false, $allow_filtering=true) {
-		return $this->listMessages(NOTIFICATION_TYPE_UPDATE, $show_reset, $allow_filtering);
+		return $this->listMessages(static::TYPE_UPDATE, $show_reset, $allow_filtering);
 	}
 	/**
 	 * List all Error Messages
@@ -205,7 +213,7 @@ class Notifications {
 	 * @return array Returns the list of Messages
 	 */
 	public function list_error($show_reset=false, $allow_filtering=true) {
-		return $this->listMessages(NOTIFICATION_TYPE_ERROR, $show_reset, $allow_filtering);
+		return $this->listMessages(static::TYPE_ERROR, $show_reset, $allow_filtering);
 	}
 	/**
 	 * List all Warning Messages
@@ -215,7 +223,7 @@ class Notifications {
 	 * @return array Returns the list of Messages
 	 */
 	public function list_warning($show_reset=false, $allow_filtering=true) {
-		return $this->listMessages(NOTIFICATION_TYPE_WARNING, $show_reset, $allow_filtering);
+		return $this->listMessages(static::TYPE_WARNING, $show_reset, $allow_filtering);
 	}
 	/**
 	 * List all Notice Messages
@@ -225,7 +233,7 @@ class Notifications {
 	 * @return array Returns the list of Messages
 	 */
 	public function list_notice($show_reset=false, $allow_filtering=true) {
-		return $this->listMessages(NOTIFICATION_TYPE_NOTICE, $show_reset, $allow_filtering);
+		return $this->listMessages(static::TYPE_NOTICE, $show_reset, $allow_filtering);
 	}
 	/**
 	 * List all Messages
@@ -478,6 +486,13 @@ class Notifications {
 		}
 
 		switch ($level) {
+			case static::TYPE_CRITICAL:
+			case static::TYPE_SECURITY:
+			case static::TYPE_UPDATE:
+			case static::TYPE_ERROR:
+			case static::TYPE_WARNING:
+			case static::TYPE_NOTICE:
+			case static::TYPE_SIGNATURE_UNSIGNED:
 			case NOTIFICATION_TYPE_CRITICAL:
 			case NOTIFICATION_TYPE_SECURITY:
 			case NOTIFICATION_TYPE_UPDATE:
