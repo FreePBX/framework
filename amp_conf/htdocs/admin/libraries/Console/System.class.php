@@ -115,23 +115,27 @@ class System extends Command {
 					$output->writeln("<error>".$updates['i18nstatus']."\n".implode("\n",$updates['currentlog'])."</error>");
 					exit();
 				}
-				$line = _("RPM(s) requiring upgrades:");
-				$this->addToEmail($line);
-				$output->writeln($line);
-				foreach($updates['rpms'] as $rpmname => $rpm) {
-					if(!empty($updates['pbxupdateavail']['name']) && $updates['pbxupdateavail']['name'] == $rpmname) {
-						// Make it stand out as a major upgrade
-						array_unshift($rows,['<options=bold>'.$rpmname.'</>', '<options=bold>'.$rpm['currentversion'].'</>', '<options=bold>'.$rpm['newvers'].'</>', '<options=bold>'.$rpm['repo'].'</>']);
-					} else {
-						$rows[] = [$rpmname, $rpm['currentversion'], $rpm['newvers'], $rpm['repo']];
+				if(!empty($updates['rpms'])) {
+					$line = _("RPM(s) requiring upgrades:");
+					$this->addToEmail($line);
+					$output->writeln($line);
+					foreach($updates['rpms'] as $rpmname => $rpm) {
+						if(!empty($updates['pbxupdateavail']['name']) && $updates['pbxupdateavail']['name'] == $rpmname) {
+							// Make it stand out as a major upgrade
+							array_unshift($rows,['<options=bold>'.$rpmname.'</>', '<options=bold>'.$rpm['currentversion'].'</>', '<options=bold>'.$rpm['newvers'].'</>', '<options=bold>'.$rpm['repo'].'</>']);
+						} else {
+							$rows[] = [$rpmname, $rpm['currentversion'], $rpm['newvers'], $rpm['repo']];
+						}
+						$this->addToEmail("${rpmname} ${rpm['newvers']} (current: ${rpm['currentversion']})");
 					}
-					$this->addToEmail("${rpmname} ${rpm['newvers']} (current: ${rpm['currentversion']})");
+					$table = new Table($output);
+					$table
+						->setHeaders(array('RPM Name', 'Current Version', 'New Version', 'Repo'))
+						->setRows($rows);
+					$table->render();
+				} else {
+					$output->writeln(_("No RPMs need to be updated"));
 				}
-				$table = new Table($output);
-				$table
-					->setHeaders(array('RPM Name', 'Current Version', 'New Version', 'Repo'))
-					->setRows($rows);
-				$table->render();
 			break;
 			case "installall":
 			case "upgradeall":
