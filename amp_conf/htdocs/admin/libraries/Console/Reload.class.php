@@ -10,9 +10,13 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Console\Event\ConsoleErrorEvent;
 use Symfony\Component\Console\ConsoleEvents;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\Console\Command\LockableTrait;
 
 class Reload extends Command {
+	use LockableTrait;
+
 	private $freepbx;
+	private $error;
 
 	protected function configure(){
 		$this->messageBuffer = [];
@@ -38,11 +42,23 @@ class Reload extends Command {
 		));
 	}
 
+	public function __destruct() {
+		if(isset($this->error)) {
+			$this->freepbx->Notifications->add_critical('freepbx','RCONFFAIL', _("retrieve_conf failed, config not applied"), $this->error);
+		} elseif(error_get_last() !== null) {
+			$this->freepbx->Notifications->add_critical('freepbx','RCONFFAIL', _("retrieve_conf failed, config not applied"), error_get_last());
+		} else {
+			$this->freepbx->Notifications->delete('freepbx','RCONFFAIL');
+		}
+	}
+
 	protected function execute(InputInterface $input, OutputInterface $output){
+		$this->input = $input;
 		$this->output = $output;
 		$this->json = $input->getOption('json');
 		$this->dryrun = $input->getOption('dry-run');
 		$this->skip_registry_checks = $input->getOption('skip-registry-checks');
+		$this->dont_reload_asterisk = $input->getOption('dont-reload-asterisk');
 
 		if($this->json) {
 			global $whoops;
@@ -56,6 +72,16 @@ class Reload extends Command {
 			});
 		}
 
+		try {
+			$this->reload();
+		} catch(\Exception $e) {
+			$this->error = $e->getMessage();
+			throw $e;
+		}
+	}
+
+	private function reload() {
+		$this->writeln(_("Reload Started"));
 		$this->runPreReloadScript();
 		$this->checkMemoryLimits();
 		$this->checkAsterisk();
@@ -426,7 +452,7 @@ class Reload extends Command {
 
 		$this->freepbx->Performance->Stop("retrieve_conf");
 
-		if(!$input->getOption('dont-reload-asterisk')) {
+		if(!$this->dont_reload_asterisk) {
 			//reload asterisk
 			$this->freepbx->Hooks->processHooksByClassMethod('FreePBX\Reload', 'preReload');
 			$this->freepbx->Performance->Start("Reload Asterisk");
@@ -840,9 +866,6 @@ class Reload extends Command {
 			if ($exit_val != 0) {
 				$desc = sprintf(_("Exit code was %s and output was: %s"), $exit_val, "\n\n".implode("\n",$output));
 				$notify->add_error('freepbx','reload_post_script', sprintf(_('Could not run %s script.'), $setting_post_reload), $desc);
-				$return['code'] = $exit_val;
-				$return['status'] = false;
-				$return['num_errors']++;
 			} else {
 				$notify->delete('freepbx', 'reload_post_script');
 			}
