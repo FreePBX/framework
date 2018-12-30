@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-29 14:52-0500\n"
+"POT-Creation-Date: 2018-12-30 01:37-0500\n"
 "PO-Revision-Date: 2015-03-23 21:06+0200\n"
 "Last-Translator: Jan Peter <jpveldhuizen@gmail.com>\n"
 "Language-Team: Dutch <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -265,7 +265,7 @@ msgstr ""
 msgid "%s already exists"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:620
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:646
 #, php-format
 msgid "%s already exists, and is not a symlink!"
 msgstr ""
@@ -378,26 +378,26 @@ msgstr ""
 msgid "%s enabled successfully"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:692
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:718
 #, php-format
 msgid "%s failed to copy from module directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:626
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:652
 #, php-format
 msgid "%s from %s/%s (Already exists, linked to something else)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:621
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:647
 #, php-format
 msgid "%s from %s/%s (Already exists, not a link)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:578
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:591
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:603
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:615
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:637
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:604
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:617
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:629
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:641
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:663
 #, php-format
 msgid "%s from %s/%s (Bad Permissions)"
 msgstr ""
@@ -421,7 +421,7 @@ msgstr ""
 msgid "%s is a registered trademark of"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:672
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:698
 #, php-format
 msgid "%s is a symbolic link, failed to unlink!"
 msgstr ""
@@ -519,10 +519,6 @@ msgstr ""
 msgid "(Yum Error)"
 msgstr ""
 
-#: ../core/views/routing/form.php:43
-msgid "---No Change---"
-msgstr ""
-
 #: ../core/views/routing/timecond.php:134
 msgid "---Permanent Route---"
 msgstr ""
@@ -552,11 +548,11 @@ msgstr ""
 msgid "1 RPM available for upgrade"
 msgstr ""
 
-#: ../core/views/routing/form.php:598 ../core/views/trunks/trunk_footer.php:59
+#: ../core/views/routing/form.php:550 ../core/views/trunks/trunk_footer.php:59
 msgid "10 Digit Patterns"
 msgstr ""
 
-#: ../core/views/routing/form.php:600 ../core/views/trunks/trunk_footer.php:61
+#: ../core/views/routing/form.php:552 ../core/views/trunks/trunk_footer.php:61
 msgid "11 Digit Patterns"
 msgstr ""
 
@@ -565,7 +561,7 @@ msgstr ""
 msgid "404 Not found (%s)"
 msgstr "404 niet gevonden (%s)"
 
-#: ../core/views/routing/form.php:596 ../core/views/trunks/trunk_footer.php:57
+#: ../core/views/routing/form.php:548 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
 msgstr ""
 
@@ -601,7 +597,7 @@ msgstr ""
 msgid "A %s version newer than %s required, you have %s"
 msgstr ""
 
-#: ../core/views/routing/form.php:67
+#: ../core/views/routing/form.php:44
 msgid ""
 "A Dial Pattern is a unique set of digits that will select this route and "
 "send the call to the designated trunks. If a dialed pattern matches this "
@@ -620,7 +616,7 @@ msgid ""
 "acted on."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:387
 msgid ""
 "A Retrieve Conf Post Custom Script has been detected, the ability to run "
 "this after a reload has been removed"
@@ -665,7 +661,7 @@ msgstr ""
 "Een route voor dit inkomend nummer (DID / nummer van de beller (CID) bestaat "
 "al!"
 
-#: ../core/Core.class.php:2551 ../core/functions.inc.php:4244
+#: ../core/Core.class.php:2421 ../core/functions.inc.php:4244
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr ""
@@ -746,7 +742,7 @@ msgstr "Stop configuratie \"Gen\" bij extentie conflict"
 msgid "Aborting Shutdown. Asterisk is still running"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:284
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:310
 msgid "Aborting reload because extension conflicts or bad destinations"
 msgstr ""
 
@@ -921,7 +917,7 @@ msgstr ""
 msgid "Additional Information"
 msgstr ""
 
-#: ../core/views/routing/form.php:55
+#: ../core/views/routing/form.php:32
 msgid "Additional Settings"
 msgstr "Extra instellingen"
 
@@ -1065,7 +1061,7 @@ msgstr ""
 "Alle instellingen kunnen ingesteld worden vanaf de \"Geavanceerde "
 "instellingen\"-pagina in FreePBX"
 
-#: ../core/Components/Outboundrouting.php:197
+#: ../core/Components/Outboundrouting.php:158
 #, php-format
 msgid ""
 "All the patterns for route id %s were NOT unique which can cause unexpected "
@@ -1596,11 +1592,6 @@ msgstr ""
 "wijzigingen worden toegepast. Als POST_RELOAD_DEBUG aan staat, zal u de "
 "uitvoer van het script in de internetpagina zien."
 
-#: ../core/views/routing/form.php:45
-#, php-format
-msgid "Before %s"
-msgstr "Voor %s"
-
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:20
 msgid "Beta"
 msgstr ""
@@ -1872,11 +1863,11 @@ msgstr ""
 "hoogste gelijk. Mocht deze prioriteit van gesprekspartners gelijk zijn, dan "
 "bepaald het globale beleid (beller of gebelde) wie gelijk krijgt."
 
-#: ../core/Core.class.php:2994
+#: ../core/Core.class.php:2864
 msgid "Caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:2995
+#: ../core/Core.class.php:2865
 msgid "Caller ID Number"
 msgstr ""
 
@@ -1884,7 +1875,7 @@ msgstr ""
 msgid "Caller Name"
 msgstr ""
 
-#: ../core/views/routing/form.php:95 ../core/views/trunks/trunk_header.php:102
+#: ../core/views/routing/form.php:72 ../core/views/trunks/trunk_header.php:102
 #: ../core/views/trunks/trunkgrid.php:33
 msgid "CallerID"
 msgstr "Nummer van beller (CID)"
@@ -1893,7 +1884,7 @@ msgstr "Nummer van beller (CID)"
 msgid "CallerID Number"
 msgstr "Nummer van beller"
 
-#: ../core/views/routing/form.php:84
+#: ../core/views/routing/form.php:61
 msgid "CallerID:"
 msgstr "Nummer van beller (CID):"
 
@@ -2013,26 +2004,26 @@ msgstr ""
 msgid "Cannot find module"
 msgstr "Kan module niet vinden"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:574
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:600
 #, php-format
 msgid "Cannot remove conflicting file %s (Bad Permissions)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:573
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:599
 #, php-format
 msgid "Cannot remove conflicting file %s. Check Permissions?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:567
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:593
 #, php-format
 msgid "Cannot replace reserved file %s from module %s (Not allowed)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:577
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:590
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:602
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:614
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:636
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:603
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:616
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:628
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:640
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:662
 #, php-format
 msgid "Cannot symlink %s to %s. Check Permissions?"
 msgstr ""
@@ -2218,7 +2209,7 @@ msgstr ""
 "ondertekend. Bij gefaalde controle zal een melding getoond worden op de "
 "desbetreffende module pagina('s)."
 
-#: ../core/views/routing/form.php:508
+#: ../core/views/routing/form.php:460
 msgid "Choose File"
 msgstr ""
 
@@ -2287,7 +2278,7 @@ msgstr "Cliënt URI"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:1116
 #: amp_conf/htdocs/admin/views/footer.php:105
-#: ../core/views/routing/form.php:617 ../core/views/trunks/trunk_footer.php:78
+#: ../core/views/routing/form.php:569 ../core/views/trunks/trunk_footer.php:78
 msgid "Close"
 msgstr "Sluiten"
 
@@ -2300,7 +2291,7 @@ msgstr "Codecs"
 msgid "Coding Error - don't understand '%s' from %s"
 msgstr "Codering probleem - Ik begrijp '%s' niet van %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:174
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:200
 msgid "Collecting Anonymous Browser Stats"
 msgstr ""
 
@@ -2444,12 +2435,12 @@ msgstr ""
 msgid "Core"
 msgstr ""
 
-#: ../core/Core.class.php:3503
+#: ../core/Core.class.php:3373
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:3575
+#: ../core/Core.class.php:3445
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -2527,8 +2518,8 @@ msgstr ""
 msgid "Could not remove temporary location %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:842
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:860
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:868
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:883
 #, php-format
 msgid "Could not run %s script."
 msgstr ""
@@ -2712,7 +2703,7 @@ msgid ""
 "valid settings. See DAHDi and card documentation for details."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:272
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:298
 #, php-format
 msgid "DEST STATUS: %s%s"
 msgstr ""
@@ -2735,7 +2726,7 @@ msgstr ""
 msgid "DID Number"
 msgstr ""
 
-#: ../core/Core.class.php:3132
+#: ../core/Core.class.php:3002
 msgid "DID already exists"
 msgstr ""
 
@@ -2743,11 +2734,11 @@ msgstr ""
 msgid "DID/CID"
 msgstr ""
 
-#: ../core/Core.class.php:2936
+#: ../core/Core.class.php:2806
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:2937
+#: ../core/Core.class.php:2807
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
@@ -2867,7 +2858,7 @@ msgstr ""
 msgid "Default"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:337
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:363
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1196
 msgid "Default Asterisk Manager Password Used"
 msgstr ""
@@ -3035,10 +3026,10 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:772
-#: ../core/Components/Dahdichannels.php:15 ../core/Core.class.php:251
-#: ../core/Core.class.php:274 ../core/Core.class.php:298
-#: ../core/Core.class.php:338 ../core/Core.class.php:363
-#: ../core/Core.class.php:393 ../core/page.devices.php:58
+#: ../core/Components/Dahdichannels.php:15 ../core/Core.class.php:261
+#: ../core/Core.class.php:284 ../core/Core.class.php:308
+#: ../core/Core.class.php:348 ../core/Core.class.php:373
+#: ../core/Core.class.php:403 ../core/page.devices.php:58
 #: ../core/page.devices.php:78 ../core/page.extensions.php:27
 #: ../core/page.extensions.php:120 ../core/page.extensions.php:148
 #: ../core/page.users.php:49
@@ -3081,8 +3072,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:215
-#: ../core/Core.class.php:2962 ../core/Core.class.php:2963
-#: ../core/Core.class.php:2986 ../core/Core.class.php:2987
+#: ../core/Core.class.php:2832 ../core/Core.class.php:2833
+#: ../core/Core.class.php:2856 ../core/Core.class.php:2857
 #: ../core/functions.inc.php:5121 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:37
@@ -3095,7 +3086,7 @@ msgstr ""
 msgid "Descriptive Name for this Trunk"
 msgstr ""
 
-#: ../core/Core.class.php:2998 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:2868 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr ""
 
@@ -3201,7 +3192,7 @@ msgstr ""
 msgid "Developer and Customization"
 msgstr ""
 
-#: ../core/Core.class.php:3338 ../core/functions.inc.php:5064
+#: ../core/Core.class.php:3208 ../core/functions.inc.php:5064
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3212,11 +3203,11 @@ msgstr ""
 msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:350
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:376
 msgid "Device & User Hints Issue"
 msgstr ""
 
-#: ../core/Core.class.php:1451
+#: ../core/Core.class.php:1339
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
@@ -3237,7 +3228,7 @@ msgstr ""
 msgid "Device State Busy at"
 msgstr ""
 
-#: ../core/Core.class.php:2966 ../core/Core.class.php:2967
+#: ../core/Core.class.php:2836 ../core/Core.class.php:2837
 msgid "Device Technology"
 msgstr ""
 
@@ -3246,11 +3237,11 @@ msgstr ""
 msgid "Device Type"
 msgstr ""
 
-#: ../core/Core.class.php:3084
+#: ../core/Core.class.php:2954
 msgid "Device could not be added."
 msgstr ""
 
-#: ../core/Core.class.php:188
+#: ../core/Core.class.php:198
 msgid "Device was not added!"
 msgstr ""
 
@@ -3274,15 +3265,15 @@ msgstr ""
 msgid "Dial Number Manipulation Rules"
 msgstr ""
 
-#: ../core/views/routing/form.php:265
+#: ../core/views/routing/form.php:243
 msgid "Dial Patterns"
 msgstr ""
 
-#: ../core/views/routing/form.php:59
+#: ../core/views/routing/form.php:36
 msgid "Dial Patterns that will use this Route"
 msgstr ""
 
-#: ../core/views/routing/form.php:488 ../core/views/routing/form.php:575
+#: ../core/views/routing/form.php:440 ../core/views/routing/form.php:527
 #: ../core/views/trunks/trunk_footer.php:36
 #: ../core/views/trunks/trunk_header.php:97
 msgid "Dial patterns wizards"
@@ -3296,7 +3287,7 @@ msgstr ""
 msgid "Dialplan and Operational"
 msgstr ""
 
-#: ../core/views/routing/form.php:81
+#: ../core/views/routing/form.php:58
 msgid ""
 "Digits to prepend to a successful match. If the dialed number matches the "
 "patterns specified by the subsequent columns, then this will be prepended "
@@ -3456,7 +3447,7 @@ msgstr ""
 msgid "Display Name"
 msgstr ""
 
-#: ../core/Core.class.php:163
+#: ../core/Core.class.php:173
 msgid "Display Name can not be blank!"
 msgstr ""
 
@@ -3549,7 +3540,7 @@ msgstr ""
 msgid "Done. All modules installed."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:37
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:41
 msgid "Dont reload asterisk"
 msgstr ""
 
@@ -3568,7 +3559,7 @@ msgstr ""
 msgid "Download (From Web)"
 msgstr ""
 
-#: ../core/views/routing/form.php:592 ../core/views/trunks/trunk_footer.php:53
+#: ../core/views/routing/form.php:544 ../core/views/trunks/trunk_footer.php:53
 msgid "Download Local Patterns"
 msgstr ""
 
@@ -3604,7 +3595,7 @@ msgstr ""
 msgid "Download completed in %s seconds"
 msgstr ""
 
-#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:42
+#: ../core/views/routing/form.php:533 ../core/views/trunks/trunk_footer.php:42
 msgid "Download local prefixes"
 msgstr ""
 
@@ -3663,12 +3654,19 @@ msgstr ""
 msgid "Dropping table %s..."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:35
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:39
 msgid ""
 "Dry-run only, no files will be written and Asterisk will not be reloaded"
 msgstr ""
 
-#: ../core/Core.class.php:368 ../core/Core.class.php:398
+#: ../core/install.php:1062
+msgid ""
+"Due to bug FREEPBX-18620 routes were created without valid references which "
+"made them invisible. They are now visible and you are advised to edit/delete "
+"routes you dont know about"
+msgstr ""
+
+#: ../core/Core.class.php:378 ../core/Core.class.php:408
 msgid "Duplicate"
 msgstr ""
 
@@ -3786,7 +3784,7 @@ msgstr ""
 msgid "Email addresses error"
 msgstr ""
 
-#: ../core/views/routing/form.php:385
+#: ../core/views/routing/form.php:363
 msgid "Emergency"
 msgstr ""
 
@@ -4092,8 +4090,7 @@ msgstr ""
 msgid "Error deleting directory %s (code %d)"
 msgstr ""
 
-#: ../core/Core.class.php:741 ../core/Core.class.php:1156
-#: ../core/page.trunks.php:324
+#: ../core/Core.class.php:752 ../core/page.trunks.php:324
 msgid "Error fetching prefix list for: "
 msgstr ""
 
@@ -4226,8 +4223,8 @@ msgstr ""
 msgid "Execute on only this file/dir"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:841
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:859
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:867
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:882
 #, php-format
 msgid "Exit code was %s and output was: %s"
 msgstr ""
@@ -4258,11 +4255,11 @@ msgstr ""
 msgid "Expiration time for registrations in seconds."
 msgstr ""
 
-#: ../core/views/routing/form.php:528
+#: ../core/views/routing/form.php:480
 msgid "Export Dialplans as CSV"
 msgstr ""
 
-#: ../core/views/routing/form.php:540
+#: ../core/views/routing/form.php:492
 #, php-format
 msgid ""
 "Export patterns as a CSV file with headers listed as: %s, %s, %s and %s in "
@@ -4287,9 +4284,9 @@ msgstr ""
 msgid "Extended"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:242
-#: ../core/Core.class.php:2953 ../core/Core.class.php:2954
-#: ../core/Core.class.php:3326 ../core/functions.inc.php:4733
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:268
+#: ../core/Core.class.php:2823 ../core/Core.class.php:2824
+#: ../core/Core.class.php:3196 ../core/functions.inc.php:4733
 #: ../core/page.did.php:93 ../core/page.extensions.php:34
 #: ../core/page.extensions.php:127 ../core/page.extensions.php:155
 #: ../core/views/rnav.php:23
@@ -4312,23 +4309,23 @@ msgstr ""
 msgid "Extension Options"
 msgstr ""
 
-#: ../core/Core.class.php:163
+#: ../core/Core.class.php:173
 msgid "Extension already in use!"
 msgstr ""
 
-#: ../core/Core.class.php:163
+#: ../core/Core.class.php:173
 msgid "Extension can not be blank!"
 msgstr ""
 
-#: ../core/Core.class.php:3022
+#: ../core/Core.class.php:2892
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3025
+#: ../core/Core.class.php:2895
 msgid "Extension is not numeric."
 msgstr ""
 
-#: ../core/Core.class.php:3028
+#: ../core/Core.class.php:2898
 msgid "Extension name is blank."
 msgstr ""
 
@@ -4336,11 +4333,11 @@ msgstr ""
 msgid "Extension number conflict, please choose another."
 msgstr ""
 
-#: ../core/Core.class.php:184
+#: ../core/Core.class.php:194
 msgid "Extension was not numeric!"
 msgstr ""
 
-#: amp.i18n.php:922 ../core/Core.class.php:2932 ../core/Core.class.php:2933
+#: amp.i18n.php:922 ../core/Core.class.php:2802 ../core/Core.class.php:2803
 #: ../core/page.extensions.php:21
 msgid "Extensions"
 msgstr ""
@@ -4404,7 +4401,7 @@ msgstr ""
 msgid "Failed to Remove directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:701
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:727
 msgid "Failed to copy from module agi-bin"
 msgstr ""
 
@@ -4448,7 +4445,7 @@ msgstr ""
 msgid "Failed to run un-installation scripts"
 msgstr ""
 
-#: ../core/Core.class.php:3555
+#: ../core/Core.class.php:3425
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -4477,7 +4474,7 @@ msgstr ""
 msgid "Fallback Welcome Page"
 msgstr ""
 
-#: ../core/Core.class.php:3594
+#: ../core/Core.class.php:3464
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -4542,11 +4539,6 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:53
 msgid "Finished cleaning up cache"
-msgstr ""
-
-#: ../core/views/routing/form.php:31
-#, php-format
-msgid "First before %s"
 msgstr ""
 
 #: ../core/functions.inc.php:5015
@@ -4654,7 +4646,7 @@ msgstr ""
 msgid "Force Enabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:34
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:38
 msgid "Force JSON"
 msgstr ""
 
@@ -4778,7 +4770,7 @@ msgstr ""
 msgid "FreePBX Log Routing"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:403
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:429
 msgid ""
 "FreePBX Module Signature checking has been disabled. Your system could be "
 "exposed to security vulnerabilities from compromised or tampered code"
@@ -4923,7 +4915,7 @@ msgstr ""
 msgid "General Settings"
 msgstr ""
 
-#: ../core/views/routing/form.php:582 ../core/views/trunks/trunk_footer.php:43
+#: ../core/views/routing/form.php:534 ../core/views/trunks/trunk_footer.php:43
 msgid "Generate Buttons"
 msgstr ""
 
@@ -4931,7 +4923,7 @@ msgstr ""
 msgid "Generate Diversion Headers"
 msgstr ""
 
-#: ../core/views/routing/form.php:618 ../core/views/trunks/trunk_footer.php:79
+#: ../core/views/routing/form.php:570 ../core/views/trunks/trunk_footer.php:79
 msgid "Generate Routes"
 msgstr ""
 
@@ -4964,7 +4956,7 @@ msgstr ""
 msgid "Generic IAX2 Driver"
 msgstr ""
 
-#: ../core/views/routing/form.php:583 ../core/views/trunks/trunk_footer.php:44
+#: ../core/views/routing/form.php:535 ../core/views/trunks/trunk_footer.php:44
 msgid "Generic Patterns"
 msgstr ""
 
@@ -5233,7 +5225,7 @@ msgstr ""
 msgid "Idle"
 msgstr ""
 
-#: ../core/views/routing/form.php:84
+#: ../core/views/routing/form.php:61
 msgid ""
 "If CallerID is supplied, the dialed number will only match the prefix + "
 "match pattern if the CallerID being transmitted matches this. When "
@@ -5260,7 +5252,7 @@ msgstr ""
 msgid "If REMOTEUNLOCK is enabled, you will receive a value for KEY."
 msgstr ""
 
-#: ../core/views/routing/form.php:344
+#: ../core/views/routing/form.php:322
 msgid ""
 "If checked the extension's Outbound CID will be ignored in favor of this "
 "CID. The extension's Emergency CID will still be used if the route is an "
@@ -5420,7 +5412,7 @@ msgstr ""
 msgid "Import settings from file"
 msgstr ""
 
-#: ../core/views/routing/form.php:266
+#: ../core/views/routing/form.php:244
 msgid "Import/Export Patterns"
 msgstr ""
 
@@ -5468,7 +5460,7 @@ msgstr ""
 msgid "Inbound Internal Calls"
 msgstr ""
 
-#: ../core/Core.class.php:3380 ../core/Core.class.php:3389
+#: ../core/Core.class.php:3250 ../core/Core.class.php:3259
 msgid "Inbound Route:"
 msgstr ""
 
@@ -5493,7 +5485,7 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: ../core/Core.class.php:2990 ../core/Core.class.php:2991
+#: ../core/Core.class.php:2860 ../core/Core.class.php:2861
 msgid "Incoming DID"
 msgstr ""
 
@@ -5647,7 +5639,7 @@ msgstr ""
 msgid "Interval at which to qualify."
 msgstr ""
 
-#: ../core/views/routing/form.php:387
+#: ../core/views/routing/form.php:365
 msgid "Intra-Company"
 msgstr ""
 
@@ -5706,8 +5698,7 @@ msgstr ""
 msgid "Invalid email address"
 msgstr ""
 
-#: ../core/Core.class.php:745 ../core/Core.class.php:1160
-#: ../core/page.trunks.php:329
+#: ../core/Core.class.php:756 ../core/page.trunks.php:329
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr ""
 
@@ -5774,7 +5765,7 @@ msgstr ""
 msgid "Killing asterisk forcefully."
 msgstr ""
 
-#: ../core/views/routing/form.php:563 ../core/views/trunks/trunk_footer.php:24
+#: ../core/views/routing/form.php:515 ../core/views/trunks/trunk_footer.php:24
 msgid "LOADING ROUTES"
 msgstr ""
 
@@ -5792,11 +5783,6 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:542
 msgid "Last System Update:"
-msgstr ""
-
-#: ../core/views/routing/form.php:49
-#, php-format
-msgid "Last after %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:342
@@ -5914,12 +5900,12 @@ msgstr ""
 msgid "Logout"
 msgstr ""
 
-#: ../core/views/routing/form.php:612 ../core/views/trunks/trunk_footer.php:73
+#: ../core/views/routing/form.php:564 ../core/views/trunks/trunk_footer.php:73
 msgid "Long Distance"
 msgstr ""
 
 #: amp_conf/htdocs/admin/bootstrap.php:296
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:895
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:918
 msgid "Low Memory Limit"
 msgstr ""
 
@@ -6063,7 +6049,7 @@ msgid "Media Use Received Transport"
 msgstr ""
 
 #: amp_conf/htdocs/admin/bootstrap.php:294
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:893
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:916
 msgid "Memory Limit Changed"
 msgstr ""
 
@@ -6155,6 +6141,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1832
 #, php-format
 msgid "Missing module.xml in %s"
+msgstr ""
+
+#: ../core/install.php:1062
+msgid "Missing outbound routes have been found"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1516
@@ -6515,7 +6505,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
 #: amp_conf/htdocs/admin/libraries/Console/UpdateManager.class.php:35
-#: ../core/Core.class.php:2958 ../core/Core.class.php:2959
+#: ../core/Core.class.php:2828 ../core/Core.class.php:2829
 #: ../core/page.extensions.php:35 ../core/page.extensions.php:128
 #: ../core/page.extensions.php:156 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -6523,7 +6513,7 @@ msgstr ""
 msgid "Name"
 msgstr ""
 
-#: ../core/views/routing/form.php:291
+#: ../core/views/routing/form.php:269
 msgid ""
 "Name of this route. Should be used to describe what type of calls this route "
 "matches (for example, 'local' or 'longdistance')."
@@ -6592,7 +6582,7 @@ msgstr ""
 #: ../core/views/did/advanced_form.php:381
 #: ../core/views/did/advanced_form.php:435 ../core/views/did/basic_form.php:175
 #: ../core/views/did/basic_form.php:202 ../core/views/did/basic_form.php:253
-#: ../core/views/routing/form.php:335 ../core/views/trunks/pjsip.php:274
+#: ../core/views/routing/form.php:313 ../core/views/trunks/pjsip.php:274
 #: ../core/views/trunks/pjsip.php:705 ../core/views/trunks/pjsip.php:732
 #: ../core/views/trunks/pjsip.php:788 ../core/views/trunks/pjsip.php:839
 #: ../core/views/trunks/pjsip.php:866 ../core/views/trunks/pjsip.php:891
@@ -6644,8 +6634,8 @@ msgstr ""
 msgid "No Music"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:878
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:881
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:901
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:904
 msgid "No Swap"
 msgstr ""
 
@@ -6720,7 +6710,7 @@ msgstr ""
 msgid "None (virtual exten)"
 msgstr ""
 
-#: ../core/views/routing/form.php:465
+#: ../core/views/routing/form.php:417
 msgid "Normal Congestion"
 msgstr ""
 
@@ -6949,7 +6939,7 @@ msgid ""
 "Optional CID Prefix to add before sending to this not reachable destination."
 msgstr ""
 
-#: ../core/views/routing/form.php:461 ../core/views/routing/form.php:473
+#: ../core/views/routing/form.php:413 ../core/views/routing/form.php:425
 msgid "Optional Destination on Congestion"
 msgstr ""
 
@@ -6957,7 +6947,7 @@ msgstr ""
 msgid "Optional Destinations"
 msgstr ""
 
-#: ../core/views/routing/form.php:315
+#: ../core/views/routing/form.php:293
 msgid ""
 "Optional Route CID to be used for this route <br><br>Format: <b>&lt;"
 "#######&gt;</b>. You can also use the format: \"hidden\" <b>&lt;#######&gt;</"
@@ -7016,7 +7006,7 @@ msgid ""
 "through the manager after pressing Apply Configuration Changes in the GUI."
 msgstr ""
 
-#: ../core/views/routing/form.php:368
+#: ../core/views/routing/form.php:346
 msgid ""
 "Optional: A route can prompt users for a password before allowing calls to "
 "progress.  This is useful for restricting calls to international "
@@ -7025,14 +7015,14 @@ msgid ""
 "not prompt for password."
 msgstr ""
 
-#: ../core/views/routing/form.php:395
+#: ../core/views/routing/form.php:373
 msgid ""
 "Optional: Selecting Emergency will enforce the use of a device's Emergency "
 "CID setting (if set).  Select this option if this route is used for "
 "emergency dialing (ie: 911)."
 msgstr ""
 
-#: ../core/views/routing/form.php:395
+#: ../core/views/routing/form.php:373
 msgid ""
 "Optional: Selecting Intra-Company will treat this route as an intra-company "
 "connection, preserving the internal CallerID information instead of the "
@@ -7111,7 +7101,7 @@ msgstr ""
 msgid "Outbound Proxy"
 msgstr ""
 
-#: ../core/Core.class.php:3363
+#: ../core/Core.class.php:3233
 msgid "Outbound Route:"
 msgstr ""
 
@@ -7120,7 +7110,7 @@ msgstr ""
 msgid "Outbound Route: %s"
 msgstr ""
 
-#: amp.i18n.php:934 ../core/page.routing.php:100
+#: amp.i18n.php:934 ../core/page.routing.php:101
 msgid "Outbound Routes"
 msgstr ""
 
@@ -7145,7 +7135,7 @@ msgstr ""
 msgid "Override Call Recording Location"
 msgstr ""
 
-#: ../core/views/routing/form.php:327
+#: ../core/views/routing/form.php:305
 msgid "Override Extension"
 msgstr ""
 
@@ -7388,7 +7378,7 @@ msgid ""
 "functionality (leave off trailing slash)."
 msgstr ""
 
-#: ../core/views/routing/form.php:63
+#: ../core/views/routing/form.php:40
 msgid "Pattern Help"
 msgstr ""
 
@@ -7630,7 +7620,7 @@ msgstr ""
 msgid "Precede browser title with the server name."
 msgstr ""
 
-#: ../core/views/routing/form.php:82
+#: ../core/views/routing/form.php:59
 msgid ""
 "Prefix to remove on a successful match. The dialed number is compared to "
 "this and the subsequent columns for a match. Upon a match, this prefix is "
@@ -7917,12 +7907,16 @@ msgstr ""
 msgid "Related URLs"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:450
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:476
 msgid "Reload Complete"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:32
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:36
 msgid "Reload Configs"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:84
+msgid "Reload Started"
 msgstr ""
 
 #: amp.i18n.php:564
@@ -8051,10 +8045,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:771
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:48
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:470
-#: ../core/Components/Dahdichannels.php:21 ../core/Core.class.php:256
-#: ../core/Core.class.php:279 ../core/Core.class.php:303
-#: ../core/Core.class.php:322 ../core/Core.class.php:343
-#: ../core/Core.class.php:373 ../core/Core.class.php:403
+#: ../core/Components/Dahdichannels.php:21 ../core/Core.class.php:266
+#: ../core/Core.class.php:289 ../core/Core.class.php:313
+#: ../core/Core.class.php:332 ../core/Core.class.php:353
+#: ../core/Core.class.php:383 ../core/Core.class.php:413
 msgid "Reset"
 msgstr ""
 
@@ -8072,11 +8066,11 @@ msgstr ""
 msgid "Restart Setup Wizard"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:387
 msgid "Retrieve Conf Post Custom Script Detected"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:701
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:727
 #, php-format
 msgid "Retrieve conf failed to copy file(s) from a module's agi-bin dir: %s"
 msgstr ""
@@ -8134,31 +8128,27 @@ msgstr ""
 msgid "Route - (%s)"
 msgstr ""
 
-#: ../core/views/routing/form.php:303
+#: ../core/views/routing/form.php:281
 msgid "Route CID"
 msgstr ""
 
-#: ../core/views/routing/form.php:279
+#: ../core/views/routing/form.php:257
 msgid "Route Name"
 msgstr ""
 
-#: ../core/views/routing/form.php:356
+#: ../core/views/routing/form.php:334
 msgid "Route Password"
 msgstr ""
 
-#: ../core/views/routing/form.php:411
-msgid "Route Position"
-msgstr ""
-
-#: ../core/views/routing/form.php:264
+#: ../core/views/routing/form.php:242
 msgid "Route Settings"
 msgstr ""
 
-#: ../core/views/routing/form.php:380
+#: ../core/views/routing/form.php:358
 msgid "Route Type"
 msgstr ""
 
-#: ../core/views/routing/form.php:68 ../core/views/trunks/trunk_header.php:85
+#: ../core/views/routing/form.php:45 ../core/views/trunks/trunk_header.php:85
 msgid "Rules:"
 msgstr ""
 
@@ -8187,7 +8177,7 @@ msgstr ""
 msgid "Running Asterisk pre from %s module"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:167
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:193
 msgid ""
 "Running an unsupported version of Asterisk. Supported Asterisk versions: 13, "
 "14, 15, 16. Detected Asterisk version: "
@@ -8197,7 +8187,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr ""
 
-#: ../core/Core.class.php:3303 ../core/Core.class.php:3304
+#: ../core/Core.class.php:3173 ../core/Core.class.php:3174
 #, php-format
 msgid "SIP (%s)"
 msgstr ""
@@ -8720,7 +8710,7 @@ msgstr ""
 msgid "Signature Invalid"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:403
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:429
 msgid "Signature checking is disabled"
 msgstr ""
 
@@ -8740,7 +8730,7 @@ msgstr ""
 msgid "Skip Chowning of files"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:36
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:40
 msgid "Skip registry checks"
 msgstr ""
 
@@ -8844,7 +8834,7 @@ msgstr ""
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: ../core/Core.class.php:3550
+#: ../core/Core.class.php:3420
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -8857,7 +8847,7 @@ msgstr ""
 msgid "Starting Cache cleanup"
 msgstr ""
 
-#: ../core/Core.class.php:3509
+#: ../core/Core.class.php:3379
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -8871,11 +8861,11 @@ msgstr ""
 msgid "Stop Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: ../core/Core.class.php:3590
+#: ../core/Core.class.php:3460
 msgid "Stopped FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:3581
+#: ../core/Core.class.php:3451
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -8894,14 +8884,14 @@ msgid "Styling and Logos"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:770
-#: ../core/Components/Dahdichannels.php:26 ../core/Core.class.php:261
-#: ../core/Core.class.php:284 ../core/Core.class.php:308
-#: ../core/Core.class.php:327 ../core/Core.class.php:348
-#: ../core/Core.class.php:378 ../core/Core.class.php:408
+#: ../core/Components/Dahdichannels.php:26 ../core/Core.class.php:271
+#: ../core/Core.class.php:294 ../core/Core.class.php:318
+#: ../core/Core.class.php:337 ../core/Core.class.php:358
+#: ../core/Core.class.php:388 ../core/Core.class.php:418
 msgid "Submit"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:445
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:471
 msgid ""
 "Successful reload, but could not clear reload flag due to a database error: "
 msgstr ""
@@ -8932,18 +8922,18 @@ msgstr ""
 msgid "Switch to Stable and Download and Install %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:650
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:653
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:656
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:676
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:679
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:682
 msgid "Symlink Conflict Resolved"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:487
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:513
 #, php-format
 msgid "Symlink error - %s should be linked to %s, and it isn't a link"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:645
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:671
 msgid "Symlink from modules failed"
 msgstr ""
 
@@ -9206,7 +9196,7 @@ msgstr ""
 msgid "The File \"%s\" must exist."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:174
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:200
 msgid ""
 "The FreePBX project is collecting anonymous browser statistics using google "
 "analytics. These are used to focus development efforts based on real user "
@@ -9253,7 +9243,7 @@ msgstr ""
 msgid "The Transport to use for connection"
 msgstr ""
 
-#: ../core/views/routing/form.php:449
+#: ../core/views/routing/form.php:401
 msgid ""
 "The Trunk Sequence controls the order of trunks that will be used when the "
 "above Dial Patterns are matched. <br><br>For Dial Patterns that match long "
@@ -9283,7 +9273,7 @@ msgstr ""
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 
-#: ../core/Core.class.php:2999
+#: ../core/Core.class.php:2869
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -9299,7 +9289,7 @@ msgid ""
 "the maintainer correct it"
 msgstr ""
 
-#: ../core/views/routing/form.php:83
+#: ../core/views/routing/form.php:60
 msgid ""
 "The dialed number will be compared against the  prefix + this match pattern. "
 "Upon a match, the match pattern portion of the dialed number will be sent to "
@@ -9612,7 +9602,7 @@ msgid ""
 "configuration."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:881
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:904
 #, php-format
 msgid ""
 "The swap space of your system is too low (%s KB). You should have at least "
@@ -9706,12 +9696,12 @@ msgid ""
 "decimal notation. Separate the IP address and subnet mask with a slash ('/')"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:278
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:304
 #, php-format
 msgid "There are %s bad destinations"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:249
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:275
 #, php-format
 msgid "There are %s conflicting extensions"
 msgstr ""
@@ -9751,7 +9741,7 @@ msgid ""
 "questions and search for answers for any problems you may be having."
 msgstr ""
 
-#: ../core/Core.class.php:196
+#: ../core/Core.class.php:206
 msgid "There was an unknown error creating this extension"
 msgstr ""
 
@@ -9759,7 +9749,7 @@ msgstr ""
 msgid "There were no settings to update"
 msgstr ""
 
-#: ../core/views/routing/form.php:579 ../core/views/trunks/trunk_footer.php:40
+#: ../core/views/routing/form.php:531 ../core/views/trunks/trunk_footer.php:40
 msgid ""
 "These options provide a quick way to add outbound dialing rules. Follow the "
 "prompts for each."
@@ -9799,7 +9789,7 @@ msgid ""
 "settings"
 msgstr ""
 
-#: ../core/Core.class.php:1458
+#: ../core/Core.class.php:1346
 msgid "This device id is already in use"
 msgstr ""
 
@@ -9917,7 +9907,7 @@ msgid ""
 "located there relative to the ASTVARLIBDIR."
 msgstr ""
 
-#: ../core/views/routing/form.php:581 ../core/views/trunks/trunk_footer.php:42
+#: ../core/views/routing/form.php:533 ../core/views/trunks/trunk_footer.php:42
 msgid ""
 "This looks up your local number on www.localcallingguide.com (NA-only), and "
 "sets up so you can dial either 7, 10 or 11 digits (5551234, 6135551234, "
@@ -9960,7 +9950,7 @@ msgstr ""
 msgid "This page is used to manage various system trunks"
 msgstr ""
 
-#: ../core/page.routing.php:25
+#: ../core/page.routing.php:24
 msgid "This page is used to manage your outbound routing."
 msgstr ""
 
@@ -9998,7 +9988,7 @@ msgid ""
 "setup that uses it."
 msgstr ""
 
-#: ../core/Core.class.php:2535
+#: ../core/Core.class.php:2405
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr ""
@@ -10119,7 +10109,7 @@ msgstr ""
 msgid "Transport"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:633
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:659
 #, php-format
 msgid "Tried to link %s to %s, but %s doesn't exist"
 msgstr ""
@@ -10136,11 +10126,11 @@ msgstr ""
 msgid "Trunk Name and User Context cannot be set to the same value"
 msgstr ""
 
-#: ../core/views/routing/form.php:437
+#: ../core/views/routing/form.php:389
 msgid "Trunk Sequence for Matched Routes"
 msgstr ""
 
-#: ../core/Core.class.php:3371
+#: ../core/Core.class.php:3241
 msgid "Trunk:"
 msgstr ""
 
@@ -10194,19 +10184,19 @@ msgstr ""
 msgid "UNSIGNED MODULES DETECTED:"
 msgstr ""
 
-#: ../core/views/routing/form.php:608 ../core/views/trunks/trunk_footer.php:69
+#: ../core/views/routing/form.php:560 ../core/views/trunks/trunk_footer.php:69
 msgid "US Emergency"
 msgstr ""
 
-#: ../core/views/routing/form.php:606 ../core/views/trunks/trunk_footer.php:67
+#: ../core/views/routing/form.php:558 ../core/views/trunks/trunk_footer.php:67
 msgid "US Information"
 msgstr ""
 
-#: ../core/views/routing/form.php:610 ../core/views/trunks/trunk_footer.php:71
+#: ../core/views/routing/form.php:562 ../core/views/trunks/trunk_footer.php:71
 msgid "US International"
 msgstr ""
 
-#: ../core/views/routing/form.php:604 ../core/views/trunks/trunk_footer.php:65
+#: ../core/views/routing/form.php:556 ../core/views/trunks/trunk_footer.php:65
 msgid "US Toll Free Patterns"
 msgstr ""
 
@@ -10222,7 +10212,7 @@ msgstr ""
 msgid "UTC"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:831
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:857
 msgid "Unable to connect to Asterisk Manager"
 msgstr ""
 
@@ -10258,7 +10248,7 @@ msgid ""
 "override?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:824
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:850
 msgid "Unable to find the Asterisk binary"
 msgstr ""
 
@@ -10567,7 +10557,7 @@ msgstr ""
 msgid "Upload Local Module"
 msgstr ""
 
-#: ../core/views/routing/form.php:503
+#: ../core/views/routing/form.php:455
 msgid "Upload from CSV"
 msgstr ""
 
@@ -10579,7 +10569,7 @@ msgstr ""
 msgid "Upload modules"
 msgstr ""
 
-#: ../core/views/routing/form.php:518
+#: ../core/views/routing/form.php:470
 #, php-format
 msgid ""
 "Upload patterns from a CSV file replacing existing entries. If there are no "
@@ -10675,7 +10665,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:3350 ../core/functions.inc.php:4735
+#: ../core/Core.class.php:3220 ../core/functions.inc.php:4735
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -10726,7 +10716,7 @@ msgstr ""
 msgid "User Password"
 msgstr ""
 
-#: ../core/Core.class.php:3111
+#: ../core/Core.class.php:2981
 msgid "User could not be added."
 msgstr ""
 
@@ -11150,10 +11140,6 @@ msgstr ""
 msgid "Where (root) command line scripts are located."
 msgstr ""
 
-#: ../core/views/routing/form.php:425
-msgid "Where to insert this route or relocate it relative to the other routes."
-msgstr ""
-
 #: amp.i18n.php:788
 msgid ""
 "Where to send PHP errors, warnings and notices by the FreePBX PHP error "
@@ -11284,7 +11270,7 @@ msgstr ""
 #: ../core/views/did/advanced_form.php:379
 #: ../core/views/did/advanced_form.php:433 ../core/views/did/basic_form.php:173
 #: ../core/views/did/basic_form.php:200 ../core/views/did/basic_form.php:251
-#: ../core/views/routing/form.php:333 ../core/views/trunks/pjsip.php:272
+#: ../core/views/routing/form.php:311 ../core/views/trunks/pjsip.php:272
 #: ../core/views/trunks/pjsip.php:703 ../core/views/trunks/pjsip.php:730
 #: ../core/views/trunks/pjsip.php:786 ../core/views/trunks/pjsip.php:837
 #: ../core/views/trunks/pjsip.php:864 ../core/views/trunks/pjsip.php:952
@@ -11337,7 +11323,7 @@ msgid ""
 "your browser."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:350
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:376
 msgid ""
 "You are set to Device and User mode but are not set to 'Dynamically Generate "
 "Hints' which can result in improper phone state behavior. This can be "
@@ -11349,7 +11335,7 @@ msgstr ""
 msgid "You are urged to backup before making any changes."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:337
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:363
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1196
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
@@ -11486,7 +11472,7 @@ msgstr ""
 msgid "You may add multiple subnets, separate them with an &amp;."
 msgstr ""
 
-#: ../core/views/routing/form.php:582 ../core/views/trunks/trunk_footer.php:43
+#: ../core/views/routing/form.php:534 ../core/views/trunks/trunk_footer.php:43
 msgid ""
 "You may choose 7,10,11 digit patterns as your provider allows. If you do not "
 "choose 'Download' this will add a generic 7,10 or ll digit pattern"
@@ -11498,7 +11484,7 @@ msgid ""
 "listed issues once the required dependencies have been met:"
 msgstr ""
 
-#: ../core/views/routing/form.php:583 ../core/views/trunks/trunk_footer.php:44
+#: ../core/views/routing/form.php:535 ../core/views/trunks/trunk_footer.php:44
 msgid ""
 "You may select to allow toll free calls such as 800,877 etc as well as "
 "Directory assistance, International dialing and long distance"
@@ -11529,7 +11515,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:2528
+#: ../core/Core.class.php:2398
 msgid "You must put in an extension (or user) number"
 msgstr ""
 
@@ -11577,7 +11563,7 @@ msgid ""
 "reload this page"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:327
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:353
 msgid ""
 "Your amportal.conf file is not writeable. FreePBX is running in a crippled "
 "mode until changed. You can run 'amportal chown' from the Linux command line "
@@ -11589,7 +11575,7 @@ msgid "Your browser is out-of-date!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/bootstrap.php:294
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:893
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:916
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and has been increased to %sM. You "
@@ -11597,7 +11583,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/bootstrap.php:296
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:895
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:918
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and may cause problems. FreePBX is "
@@ -11610,7 +11596,7 @@ msgstr ""
 msgid "Your server [%s] discovered the following security issues:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:878
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:901
 msgid ""
 "Your system has no swap space. This should be fixed as soon as possible. "
 "Once fixed issue a reload to remove this message"
@@ -11690,7 +11676,7 @@ msgstr ""
 msgid "altered"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:327
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:353
 msgid "amportal.conf not writeable"
 msgstr ""
 
@@ -11707,7 +11693,7 @@ msgstr ""
 msgid "and"
 msgstr ""
 
-#: ../core/views/routing/form.php:78
+#: ../core/views/routing/form.php:55
 msgid ""
 "appended to a dial pattern, matches a CallerID or CallerID pattern (for "
 "example, NXXXXXX/104 would match only if dialed by extension \"104\")"
@@ -12019,28 +12005,28 @@ msgid ""
 "<i>mISDN Port Groups</i> to configure)."
 msgstr ""
 
-#: ../core/views/routing/form.php:94 ../core/views/trunks/trunk_footer.php:12
+#: ../core/views/routing/form.php:71 ../core/views/trunks/trunk_footer.php:12
 #: ../core/views/trunks/trunk_header.php:101
 msgid "match pattern"
 msgstr ""
 
-#: ../core/views/routing/form.php:83
+#: ../core/views/routing/form.php:60
 msgid "match pattern:"
 msgstr ""
 
-#: ../core/views/routing/form.php:70 ../core/views/trunks/trunk_header.php:86
+#: ../core/views/routing/form.php:47 ../core/views/trunks/trunk_header.php:86
 msgid "matches any digit from 0-9"
 msgstr ""
 
-#: ../core/views/routing/form.php:71 ../core/views/trunks/trunk_header.php:87
+#: ../core/views/routing/form.php:48 ../core/views/trunks/trunk_header.php:87
 msgid "matches any digit from 1-9"
 msgstr ""
 
-#: ../core/views/routing/form.php:72 ../core/views/trunks/trunk_header.php:88
+#: ../core/views/routing/form.php:49 ../core/views/trunks/trunk_header.php:88
 msgid "matches any digit from 2-9"
 msgstr ""
 
-#: ../core/views/routing/form.php:73 ../core/views/trunks/trunk_header.php:89
+#: ../core/views/routing/form.php:50 ../core/views/trunks/trunk_header.php:89
 msgid ""
 "matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)"
 msgstr ""
@@ -12148,17 +12134,17 @@ msgstr ""
 msgid "password"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:734
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:760
 #, php-format
 msgid "php reported: '%s' after copy or unlink attempt!"
 msgstr ""
 
-#: ../core/views/routing/form.php:93 ../core/views/trunks/trunk_footer.php:11
+#: ../core/views/routing/form.php:70 ../core/views/trunks/trunk_footer.php:11
 #: ../core/views/trunks/trunk_header.php:100
 msgid "prefix"
 msgstr ""
 
-#: ../core/views/routing/form.php:82
+#: ../core/views/routing/form.php:59
 msgid "prefix:"
 msgstr ""
 
@@ -12166,12 +12152,12 @@ msgstr ""
 msgid "preparing for update"
 msgstr ""
 
-#: ../core/views/routing/form.php:92 ../core/views/trunks/trunk_footer.php:10
+#: ../core/views/routing/form.php:69 ../core/views/trunks/trunk_footer.php:10
 #: ../core/views/trunks/trunk_header.php:99
 msgid "prepend"
 msgstr ""
 
-#: ../core/views/routing/form.php:81
+#: ../core/views/routing/form.php:58
 msgid "prepend:"
 msgstr ""
 
@@ -12202,14 +12188,14 @@ msgstr ""
 msgid "removing rtp.conf it will be symlinked from core"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:161
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:187
 #, php-format
 msgid ""
 "retreive_conf failed to get engine information and cannot configure up a "
 "softwitch with out it. Error: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:645
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:671
 #, php-format
 msgid ""
 "retrieve_conf failed to sym link: %s<br \\>This can result in FATAL failures "
@@ -12219,9 +12205,14 @@ msgid ""
 "customization."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:650
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:653
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:656
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:47
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:49
+msgid "retrieve_conf failed, config not applied"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:676
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:679
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:682
 #, php-format
 msgid ""
 "retrieve_conf resolved a symlink with %s<br \\>This is a notice to let you "
@@ -12241,7 +12232,7 @@ msgstr ""
 msgid "routes"
 msgstr ""
 
-#: ../core/views/routing/form.php:77
+#: ../core/views/routing/form.php:54
 msgid ""
 "separates a dialing prefix from the number (for example, 9|NXXXXXX would "
 "match when some dialed \"95551234\" but would only pass \"5551234\" to the "
@@ -12313,7 +12304,7 @@ msgstr ""
 msgid "wherever the number to dial should go.<br><br><b>examples:</b><br>"
 msgstr ""
 
-#: ../core/views/routing/form.php:74
+#: ../core/views/routing/form.php:51
 msgid "wildcard, matches one or more characters"
 msgstr ""
 
@@ -12349,6 +12340,9 @@ msgid ""
 "you may need to add the line 'preload => pbx_config.so' to your modules.conf "
 "manually"
 msgstr ""
+
+#~ msgid "Before %s"
+#~ msgstr "Voor %s"
 
 #~ msgid ""
 #~ "Add your email here to receive important security and module updates. The "
