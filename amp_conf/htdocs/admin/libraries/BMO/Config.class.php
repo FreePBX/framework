@@ -369,11 +369,27 @@ class Config {
 		}
 	}
 
+	/**
+	 * Parse AMPORTAL.conf file
+	 *
+	 * Legacy, dont really parse it, its read only
+	 *
+	 * @param string $filename
+	 * @param array $bootstrap_conf
+	 * @param boolean $file_is_authority
+	 * @return void
+	 */
 	public function parse_amportal_conf($filename, $bootstrap_conf = array(), $file_is_authority=false) {
-		foreach($this->depreciatedSettings as $keyword => $value) {
+		//Load runtime settings into returned array
+		foreach($bootstrap_conf as $keyword => $value) {
 			$this->conf[$keyword] = $value;
 		}
-		return $this->conf;
+		//dont load deprecicated settings into memory though
+		$final = $this->conf;
+		foreach($this->depreciatedSettings as $keyword => $value) {
+			$final[$keyword] = $value;
+		}
+		return $final;
 	}
 
 	/**
