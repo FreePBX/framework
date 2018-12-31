@@ -617,7 +617,7 @@ class Reload extends Command {
 				}
 			} else if (!is_link($dest)) {
 				//If the symlink error is coming from the etc directory then we move those files to backup
-				if(preg_match('/^'.str_replace("/","\/",$this->freepbx->Config->get('ASTETCDIR').'/',$dest)) && is_writable($dest)) {
+				if(preg_match('/^'.str_replace("/","\/",$this->freepbx->Config->get('ASTETCDIR')).'/',$dest) && is_writable($dest)) {
 					if(!file_exists($this->freepbx->Config->get('ASTETCDIR').'/backup')) {
 						mkdir($this->freepbx->Config->get('ASTETCDIR').'/backup');
 					}
