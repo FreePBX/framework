@@ -209,28 +209,6 @@ class Reload extends Command {
 			$this->freepbx->Config->update('NOTICE_BROWSER_STATS',true, true, true);
 		}
 
-		$removeSettings = [];
-		if ($this->freepbx->Config->exists('AST_FUNC_DEVICE_STATE')) {
-			$removeSettings[] = 'AST_FUNC_DEVICE_STATE';
-		}
-		if ($this->freepbx->Config->exists('AST_FUNC_EXTENSION_STATE')) {
-			$removeSettings[] = 'AST_FUNC_EXTENSION_STATE';
-		}
-		if ($this->freepbx->Config->exists('AST_FUNC_PRESENCE_STATE')) {
-			$removeSettings[] = 'AST_FUNC_PRESENCE_STATE';
-		}
-		if ($this->freepbx->Config->exists('AST_FUNC_SHARED')) {
-			$removeSettings[] = 'AST_FUNC_SHARED';
-		}
-		if ($this->freepbx->Config->exists('AST_FUNC_CONNECTEDLINE')) {
-			$removeSettings[] = 'AST_FUNC_CONNECTEDLINE';
-		}
-		if ($this->freepbx->Config->exists('AST_FUNC_MASTER_CHANNEL')) {
-			$removeSettings[] = 'AST_FUNC_MASTER_CHANNEL';
-		}
-		if(!empty($removeSettings)) {
-			$this->freepbx->Config->remove_conf_settings($removeSettings);
-		}
 		if (!$this->freepbx->Config->exists('AST_APP_VQA')) {
 			// AST_APP_VQA
 			//
