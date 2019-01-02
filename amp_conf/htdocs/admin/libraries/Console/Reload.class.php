@@ -89,6 +89,7 @@ class Reload extends Command {
 
 	private function reload() {
 		$this->writeln(_("Reload Started"));
+		$this->freepbx->Hooks->processHooksByClassMethod('FreePBX\Reload', 'preReload');
 		$this->runPreReloadScript();
 		$this->checkMemoryLimits();
 		$this->checkAsterisk();
@@ -461,14 +462,12 @@ class Reload extends Command {
 
 		if(!$this->dont_reload_asterisk) {
 			//reload asterisk
-			$this->freepbx->Hooks->processHooksByClassMethod('FreePBX\Reload', 'preReload');
 			$this->freepbx->Performance->Start("Reload Asterisk");
 			$this->freepbx->astman->Reload();
 			$this->freepbx->Performance->Stop();
 			if(version_compare($version,'12','lt')) {
 				$this->freepbx->astman->UserEvent("reload");
 			}
-			$this->freepbx->Hooks->processHooksByClassMethod('FreePBX\Reload', 'postReload');
 
 			//store asterisk reloaded status
 			try {
@@ -484,6 +483,7 @@ class Reload extends Command {
 			$brand = $this->freepbx->Config->get('DASHBOARD_FREEPBX_BRAND');
 			$this->freepbx->Notifications->add_warning('freepbx','ASTRELOADSKIP', _("Asterisk Reload Skipped"), sprintf(_("Asterisk reload was skipped but the %s configuration files were still written out. %s and Asterisk might be in a weird state"),$brand,$brand));
 		}
+		$this->freepbx->Hooks->processHooksByClassMethod('FreePBX\Reload', 'postReload');
 		$this->writeln(_("Reload Complete"));
 	}
 

@@ -309,14 +309,15 @@ class FreePBXInstallCommand extends Command {
 			exit(1);
 		}
 
-		$output = exec("node --version"); //v0.10.29
-		$output = str_replace("v","",trim($output));
-		if(empty($output)) {
+		$output->write("Checking if NodeJS is installed and we can get a version from it...");
+		$nodejsout = exec("node --version"); //v0.10.29
+		$nodejsout = str_replace("v","",trim($nodejsout));
+		if(empty($nodejsout)) {
 			$output->writeln("<error>NodeJS 8 or higher is not installed. This is now a requirement</error>");
 			return false;
 		}
-		if(version_compare($output,'8.0.0',"<")) {
-			$output->writeln(sprintf("NodeJS version is: %s requirement is %s or higher",$output,'8.0.0'));
+		if(version_compare($nodejsout,'8.0.0',"<")) {
+			$output->writeln(sprintf("NodeJS version is: %s requirement is %s or higher",$nodejsout,'8.0.0'));
 			return false;
 		}
 
@@ -330,6 +331,7 @@ class FreePBXInstallCommand extends Command {
 			}
 			exit(1);
 		}
+		$output->writeln("Yes. Determined NodeJS version to be: ".$nodejsout);
 
 		$output->writeln("Preliminary checks done. Starting FreePBX Installation");
 
