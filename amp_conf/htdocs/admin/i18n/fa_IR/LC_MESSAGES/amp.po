@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-31 18:28-0500\n"
+"POT-Creation-Date: 2019-01-02 15:56-0500\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -516,7 +516,14 @@ msgstr "%s version %s or  higher is required, you have %s"
 msgid "%s will be removed from the hard disk"
 msgstr "%s از هارد دیسک حذف خواهد شد"
 
-#: amp_conf/htdocs/admin/modules/framework/install.php:13 install.php:13
+#: ../core/Core.class.php:3473 ../core/Core.class.php:3499
+msgid ""
+"'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
+"but PM2 is not installed so we were unable to start the FastAGI server, As a "
+"result all AGIs will be launched from the CLI"
+msgstr ""
+
+#: amp_conf/htdocs/admin/modules/framework/install.php:32 install.php:32
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
 msgstr "'cp -rf' from src: '%s' to  dst: '%s'...details follow"
@@ -654,7 +661,7 @@ msgstr ""
 "first matched rule will be executed and the remaining rules will not be "
 "acted on."
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:394
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:395
 msgid ""
 "A Retrieve Conf Post Custom Script has been detected, the ability to run "
 "this after a reload has been removed"
@@ -775,7 +782,7 @@ msgstr "لفو تولید پیکربندی داخلی در تلاقی داخلی
 msgid "Aborting Shutdown. Asterisk is still running"
 msgstr "لغو خاموش کردن. استریسک هنوز در حال اجراست"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:317
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:318
 msgid "Aborting reload because extension conflicts or bad destinations"
 msgstr ""
 
@@ -1375,7 +1382,7 @@ msgstr "گزینه های شماره گیری ترانک خروجی استریس
 msgid "Asterisk REST Interface"
 msgstr "رابط  REST استریسک"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:485
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:484
 msgid "Asterisk Reload Skipped"
 msgstr ""
 
@@ -1451,7 +1458,7 @@ msgstr ""
 msgid "Asterisk may not be running."
 msgstr "استریسک ممکن است اجرا نشده باشد."
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:485
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:484
 #, php-format
 msgid ""
 "Asterisk reload was skipped but the %s configuration files were still "
@@ -1700,7 +1707,7 @@ msgstr "کش روزانه مرورگر"
 msgid "Browser Stats"
 msgstr "آمار مرورگر"
 
-#: amp_conf/htdocs/admin/modules/framework/install.php:305 install.php:305
+#: amp_conf/htdocs/admin/modules/framework/install.php:324 install.php:324
 msgid "Building Packaged Scripts..."
 msgstr ""
 
@@ -2067,7 +2074,7 @@ msgstr ""
 msgid "Cannot symlink %s to %s. Check Permissions?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/framework/install.php:252 install.php:252
+#: amp_conf/htdocs/admin/modules/framework/install.php:271 install.php:271
 msgid "Cant Find Framework XML"
 msgstr "نمیتواند فریم ورک XML را پیدا کند"
 
@@ -2326,7 +2333,7 @@ msgstr "کدک ها"
 msgid "Coding Error - don't understand '%s' from %s"
 msgstr "Coding  Error - don't understand '%s' from %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:207
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:208
 msgid "Collecting Anonymous Browser Stats"
 msgstr ""
 
@@ -2469,12 +2476,12 @@ msgstr "تبدیل تنظیمات ZAP به DAHDi"
 msgid "Core"
 msgstr "هسته"
 
-#: ../core/Core.class.php:3373
+#: ../core/Core.class.php:3370
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:3445
+#: ../core/Core.class.php:3443
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -2760,7 +2767,7 @@ msgstr ""
 "special applications or channel bank connections may require fxs_ks or other "
 "valid settings. See DAHDi and card documentation for details."
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:305
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:306
 #, php-format
 msgid "DEST STATUS: %s%s"
 msgstr ""
@@ -2935,7 +2942,7 @@ msgstr "فایل عیب یابی"
 msgid "Default"
 msgstr "پیش فرض"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:370
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:371
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1196
 msgid "Default Asterisk Manager Password Used"
 msgstr "استفاده از کلمه عبور پیشفرض مدیر استریسک"
@@ -3358,7 +3365,7 @@ msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 "Device %s (%s) had an  invalid emergency callerid and we set it to blank"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:383
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:384
 msgid "Device & User Hints Issue"
 msgstr ""
 
@@ -3695,11 +3702,11 @@ msgstr "هنوز پیزی درباره ماژولها نمیدانید. بسپا
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1977
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2050
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2147
-#: amp_conf/htdocs/admin/modules/framework/install.php:307
+#: amp_conf/htdocs/admin/modules/framework/install.php:326
 #: amp_conf/htdocs/admin/page.modules.php:357
-#: amp_conf/htdocs/admin/page.modules.php:1104 install.php:307
-#: installlib/installcommand.class.php:532
-#: installlib/installcommand.class.php:570 ../core/install.php:837
+#: amp_conf/htdocs/admin/page.modules.php:1104 install.php:326
+#: installlib/installcommand.class.php:545
+#: installlib/installcommand.class.php:583 ../core/install.php:837
 msgid "Done"
 msgstr "انجام شد"
 
@@ -3860,12 +3867,6 @@ msgid ""
 msgstr ""
 "ERROR: could  not insert previous values for rpt.conf, they may already exist"
 
-#: amp.i18n.php:400
-msgid ""
-"EXPERIMENTAL: If you have choppy/glitchy audio switching this on will make "
-"the PBX use Dialparties Dialplan instead of launching an AGI on every call"
-msgstr ""
-
 #: ../core/functions.inc/drivers/Dahdi.class.php:123
 msgid ""
 "Echo training requirements of this card. See DAHDi documentation for details."
@@ -3972,8 +3973,8 @@ msgstr "CID فوری خالی تنظیم شده برای یک یا چند تا �
 msgid "Emergency Route"
 msgstr "مسیر فوری"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:982
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:999
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:995
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:1012
 msgid "Empty value not allowed for this field"
 msgstr "این فیلد نباید خالی باشد"
 
@@ -4316,7 +4317,7 @@ msgstr "خطا در بازکردن %s برای نوشتن"
 msgid "Error parsing cdr_mysql.conf, no migration done"
 msgstr "خطا در تحلیل cdr_mysql.conf، منتقل نشد"
 
-#: amp_conf/htdocs/admin/modules/framework/install.php:314 install.php:314
+#: amp_conf/htdocs/admin/modules/framework/install.php:333 install.php:333
 #, php-format
 msgid "Error updating GPG Keys: %s"
 msgstr "خطا در حال به روزرسانی کلیدهای GPG: %s"
@@ -4485,7 +4486,7 @@ msgstr ""
 msgid "Extended"
 msgstr "تمدید شده"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:275
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:276
 #: ../core/Core.class.php:2823 ../core/Core.class.php:2824
 #: ../core/Core.class.php:3196 ../core/functions.inc.php:4733
 #: ../core/page.did.php:93 ../core/page.extensions.php:34
@@ -4650,7 +4651,7 @@ msgstr "شکست در اجرای اسکریپت های نصب"
 msgid "Failed to run un-installation scripts"
 msgstr "شکست در اجرای اسکریپت های عزل"
 
-#: ../core/Core.class.php:3425
+#: ../core/Core.class.php:3422
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -4679,7 +4680,7 @@ msgstr "شکست در نوشتن indications.conf"
 msgid "Fallback Welcome Page"
 msgstr "جانشین صفحه خوش آمد"
 
-#: ../core/Core.class.php:3464
+#: ../core/Core.class.php:3462
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -4993,7 +4994,7 @@ msgstr "فایل لاگ مرکزتماس رایگان"
 msgid "FreePBX Log Routing"
 msgstr "لاگ معمول مرکزتماس رایگان"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:436
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:437
 msgid ""
 "FreePBX Module Signature checking has been disabled. Your system could be "
 "exposed to security vulnerabilities from compromised or tampered code"
@@ -5975,7 +5976,7 @@ msgid ""
 "even after it was suppose to be applied"
 msgstr "خطای داخلی. تابع getVersion با نسخه فریم ورک همخوانی ندارد"
 
-#: amp_conf/htdocs/admin/modules/framework/install.php:265 install.php:265
+#: amp_conf/htdocs/admin/modules/framework/install.php:284 install.php:284
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -6075,12 +6076,12 @@ msgid ""
 "or '0'"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:952
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:971
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:965
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:984
 msgid "Invalid value supplied to select"
 msgstr "مقدار انتخابی نادرست"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:1007
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:1020
 #, php-format
 msgid "Invalid value supplied violates the validation regex: %s"
 msgstr "Invalid value  supplied violates the validation regex: %s"
@@ -7055,7 +7056,7 @@ msgstr "عملی برای انجام نیست"
 msgid "No description is available."
 msgstr "توضیحی در دسترس نیست."
 
-#: amp_conf/htdocs/admin/modules/framework/install.php:151 install.php:151
+#: amp_conf/htdocs/admin/modules/framework/install.php:170 install.php:170
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr "بدون دایرکتوری %s، نیاز به نصب اسکریپت نیست"
@@ -7104,6 +7105,11 @@ msgstr ""
 #: amp.i18n.php:366
 msgid "NoOp Traces in Dialplan"
 msgstr "آثار NoOp در نقشه تماس"
+
+#: amp_conf/htdocs/admin/modules/framework/install.php:16 install.php:16
+#, php-format
+msgid "NodeJS version is: %s requirement is %s or higher"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:535
 #: ../core/functions.inc.php:4650
@@ -7700,6 +7706,10 @@ msgstr "منطقه زمانی PHP"
 #: ../core/views/trunks/pjsip.php:28
 msgid "PJSIP Settings"
 msgstr "تنظیمات PJSIP"
+
+#: ../core/Core.class.php:3473 ../core/Core.class.php:3499
+msgid "PM2 Not installed"
+msgstr ""
 
 #: amp.i18n.php:182
 msgid "POST_RELOAD Debug Mode"
@@ -8588,7 +8598,7 @@ msgstr ""
 msgid "Restart Setup Wizard"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:394
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:395
 msgid "Retrieve Conf Post Custom Script Detected"
 msgstr ""
 
@@ -8699,7 +8709,7 @@ msgstr ""
 msgid "Running Asterisk pre from %s module"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:200
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:201
 msgid ""
 "Running an unsupported version of Asterisk. Supported Asterisk versions: 13, "
 "14, 15, 16. Detected Asterisk version: "
@@ -9009,6 +9019,10 @@ msgstr "Set the  Repos. -R Commercial -R Contributed"
 msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr "Set the  initial/current Call Waiting state for this user's extension"
 
+#: amp.i18n.php:400
+msgid "Set this to NO if you experience issues with Dialparties usage"
+msgstr ""
+
 #: amp.i18n.php:636
 msgid ""
 "Set this to replace the default mainstyle.css style sheet with your own, "
@@ -9127,7 +9141,7 @@ msgstr ""
 msgid "Setting of \"%s\" is (%s)[%s]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/framework/install.php:286 install.php:286
+#: amp_conf/htdocs/admin/modules/framework/install.php:305 install.php:305
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr "Setting sbin to the  correct location of: %s"
@@ -9299,7 +9313,7 @@ msgstr "سیگنال زنگ خوردن"
 msgid "Signature Invalid"
 msgstr "تایید نادرست"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:436
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:437
 msgid "Signature checking is disabled"
 msgstr ""
 
@@ -9446,7 +9460,7 @@ msgstr "استاندارد"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "آغاز استریسک و اجرای دستورات لازم FreePBX"
 
-#: ../core/Core.class.php:3420
+#: ../core/Core.class.php:3417
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -9459,7 +9473,7 @@ msgstr "استریسک در حال اجرا..."
 msgid "Starting Cache cleanup"
 msgstr "شروع پاک سازی کش"
 
-#: ../core/Core.class.php:3379
+#: ../core/Core.class.php:3376
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -9473,11 +9487,11 @@ msgstr "وضعیت"
 msgid "Stop Asterisk and run other needed FreePBX commands"
 msgstr "توقف استریسک و اجرای دستورات لازم FreePBX"
 
-#: ../core/Core.class.php:3460
+#: ../core/Core.class.php:3458
 msgid "Stopped FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:3451
+#: ../core/Core.class.php:3449
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -9505,7 +9519,7 @@ msgstr "چیدمان و لوگوها"
 msgid "Submit"
 msgstr "ارسال"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:478
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:477
 msgid ""
 "Successful reload, but could not clear reload flag due to a database error: "
 msgstr ""
@@ -9839,7 +9853,7 @@ msgstr ""
 msgid "The File \"%s\" must exist."
 msgstr "فایل \"%s\" باید موجود باشد."
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:207
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:208
 msgid ""
 "The FreePBX project is collecting anonymous browser statistics using google "
 "analytics. These are used to focus development efforts based on real user "
@@ -10426,12 +10440,12 @@ msgstr ""
 "a subnet mask appended. The subnet mask may be written in either CIDR or dot-"
 "decimal notation. Separate the IP address and subnet mask with a slash ('/')"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:311
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:312
 #, php-format
 msgid "There are %s bad destinations"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:282
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:283
 #, php-format
 msgid "There are %s conflicting extensions"
 msgstr ""
@@ -11335,8 +11349,8 @@ msgid "Updating prepared settings.."
 msgstr "به روزرسانی تنظیمات آماده شده.."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1975
-#: installlib/installcommand.class.php:530
-#: installlib/installcommand.class.php:568
+#: installlib/installcommand.class.php:543
+#: installlib/installcommand.class.php:581
 #, php-format
 msgid "Updating tables %s..."
 msgstr ""
@@ -11662,8 +11676,8 @@ msgstr ""
 msgid "Value"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:1034
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:1039
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:1047
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:1052
 #, php-format
 msgid "Value [%s] out of range, changed to [%s]"
 msgstr "Value [%s] out of range, changed  to [%s]"
@@ -11681,7 +11695,7 @@ msgstr "تایید GPG..."
 msgid "Version"
 msgstr "نسخه"
 
-#: amp_conf/htdocs/admin/modules/framework/install.php:269 install.php:269
+#: amp_conf/htdocs/admin/modules/framework/install.php:288 install.php:288
 msgid "Version from Framework was empty, cant continue"
 msgstr "نسخه فریم ورک خالی است, نمیتوان ادامه داد"
 
@@ -12288,7 +12302,7 @@ msgstr ""
 "You can also safely ignore this message but browser playback might not work "
 "in your browser."
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:383
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:384
 msgid ""
 "You are set to Device and User mode but are not set to 'Dynamically Generate "
 "Hints' which can result in improper phone state behavior. This can be "
@@ -12300,7 +12314,7 @@ msgstr ""
 msgid "You are urged to backup before making any changes."
 msgstr "You are urged to backup  before making any changes."
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:370
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:371
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1196
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
@@ -12576,7 +12590,7 @@ msgstr ""
 "Your Zend Configuration is not fully  setup. Please recitfy the problem and "
 "reload this page"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:360
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
 msgid ""
 "Your amportal.conf file is not writeable. FreePBX is running in a crippled "
 "mode until changed. You can run 'amportal chown' from the Linux command line "
@@ -12704,11 +12718,11 @@ msgstr ""
 msgid "altered"
 msgstr "تغییر داده شد"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:360
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
 msgid "amportal.conf not writeable"
 msgstr ""
 
-#: amp_conf/htdocs/admin/modules/framework/install.php:232 install.php:232
+#: amp_conf/htdocs/admin/modules/framework/install.php:251 install.php:251
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr "بروز خطا در حذف بسته فایل/دایرکتوری: %s"
@@ -12733,7 +12747,7 @@ msgstr ""
 msgid "apply configuration settings after new core module loaded"
 msgstr "اعمال تنظیمات پیکربندی پس از بارگذاری ماژول هسته جدید"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:516
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:529
 msgid "called set_conf_values with a non-array"
 msgstr "called set_conf_values with  a non-array"
 
@@ -12809,10 +12823,10 @@ msgstr "پیشفرض"
 msgid "deleted"
 msgstr "حذف شد"
 
-#: amp_conf/htdocs/admin/modules/framework/install.php:173
-#: amp_conf/htdocs/admin/modules/framework/install.php:185
-#: amp_conf/htdocs/admin/modules/framework/install.php:196 install.php:173
-#: install.php:185 install.php:196 upgrades/2.6.0beta1/tables.php:317
+#: amp_conf/htdocs/admin/modules/framework/install.php:192
+#: amp_conf/htdocs/admin/modules/framework/install.php:204
+#: amp_conf/htdocs/admin/modules/framework/install.php:215 install.php:192
+#: install.php:204 install.php:215 upgrades/2.6.0beta1/tables.php:317
 #: ../core/install.php:1004 ../core/install.php:1042
 msgid "done"
 msgstr "انجام شد"
@@ -12822,10 +12836,10 @@ msgstr "انجام شد"
 msgid "done! Reload FreePBX to update all Custom Context settings."
 msgstr "انجام شد. بازگذاری مجدد FreePBX برای به روزرسانی تنظیمات سفارشی متن."
 
-#: amp_conf/htdocs/admin/modules/framework/install.php:171
-#: amp_conf/htdocs/admin/modules/framework/install.php:182
-#: amp_conf/htdocs/admin/modules/framework/install.php:193 install.php:171
-#: install.php:182 install.php:193
+#: amp_conf/htdocs/admin/modules/framework/install.php:190
+#: amp_conf/htdocs/admin/modules/framework/install.php:201
+#: amp_conf/htdocs/admin/modules/framework/install.php:212 install.php:190
+#: install.php:201 install.php:212
 msgid "done, see errors below"
 msgstr "انجام شد، مشاهده خطا های زیر"
 
@@ -12891,7 +12905,7 @@ msgstr "failed to  include %s during %s of the %s module."
 msgid "failed to open %s module archive into _cache directory."
 msgstr "failed to  open %s module archive into _cache directory."
 
-#: amp_conf/htdocs/admin/modules/framework/install.php:234 install.php:234
+#: amp_conf/htdocs/admin/modules/framework/install.php:253 install.php:253
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr "فایل/دایرکتوری: %s با موفقیت حذف شد"
@@ -12905,12 +12919,12 @@ msgstr "فرمت فهرست به صورت json"
 msgid "format list as xml"
 msgstr "فرمت فهرست به صورت xml"
 
-#: amp_conf/htdocs/admin/modules/framework/install.php:14 install.php:14
+#: amp_conf/htdocs/admin/modules/framework/install.php:33 install.php:33
 #, php-format
 msgid "framework couldn't copy file to %s"
 msgstr "فریم ورک نمیتواند فایل را به %s کپی کند"
 
-#: amp_conf/htdocs/admin/modules/framework/install.php:220 install.php:220
+#: amp_conf/htdocs/admin/modules/framework/install.php:239 install.php:239
 msgid "framework file install done, removing packages from module"
 msgstr "نصب فایل فریم ورک انجام شد، حذف بسته ها از ماژول"
 
@@ -12955,12 +12969,12 @@ msgstr ""
 msgid "insert"
 msgstr "قرار دادن"
 
-#: amp_conf/htdocs/admin/modules/framework/install.php:164 install.php:164
+#: amp_conf/htdocs/admin/modules/framework/install.php:183 install.php:183
 #, php-format
 msgid "installing files to %s.."
 msgstr "نصب فایلها به %s.."
 
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:715
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:728
 #, php-format
 msgid "invalid validation options provided for keyword %s: %s"
 msgstr "گزینه های نامعتبر ایجاد شده برای کلمه کلیدی %s: %s"
@@ -13072,7 +13086,7 @@ msgid ""
 msgstr ""
 "matches any digit or letter  in the brackets (in this example, 1,2,3,7,8,9)"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:762
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:775
 #, php-format
 msgid ""
 "method define_conf_setting() failed to pass validation for keyword [%s] "
@@ -13099,17 +13113,17 @@ msgstr "در حال انتقال.."
 msgid "missing"
 msgstr "از دست دادن"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:706
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:719
 #, php-format
 msgid "missing options array for keyword [%s] required if type is select"
 msgstr "missing  options array for keyword [%s] required if type is select"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:693
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:706
 #, php-format
 msgid "missing options for keyword [%s] required if type is select"
 msgstr "missing options  for keyword [%s] required if type is select"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:684
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:697
 #, php-format
 msgid "missing value and/or defaultval required for [%s]"
 msgstr "از دست دادن مقدار و/یا مقدار اولیه لازم برای [%s]"
@@ -13234,7 +13248,7 @@ msgstr "removing res_odbc.conf so it  can be symlinked from core"
 msgid "removing rtp.conf it will be symlinked from core"
 msgstr "removing rtp.conf it will  be symlinked from core"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:194
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:195
 #, php-format
 msgid ""
 "retreive_conf failed to get engine information and cannot configure up a "
@@ -13312,7 +13326,7 @@ msgstr "تلاش مجدد"
 msgid "trying to move res_odbc.conf to res_odbc_custom.conf"
 msgstr "trying to  move res_odbc.conf to res_odbc_custom.conf"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:524
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:537
 #, php-format
 msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr "trying to set  keyword [%s] to [%s] on uninitialized setting"
@@ -13321,7 +13335,7 @@ msgstr "trying to set  keyword [%s] to [%s] on uninitialized setting"
 msgid "unknown"
 msgstr "ناشناخته"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:1052
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:1065
 #, php-format
 msgid "unknown type: [%s]"
 msgstr "نوع ناشناخته: [%s]"
@@ -13369,7 +13383,7 @@ msgstr "وقفه نوشتاری موجود است"
 msgid "writetimeout not present, adding"
 msgstr "وقفه نوشتاری وجود ندارد، افزودن"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:681
+#: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:694
 #, php-format
 msgid "you can't convert an existing type, keyword [%s]"
 msgstr "شما نمیتوانید نوع موجود را تبدیل کنید، کلمه کلیدی [%s]"
