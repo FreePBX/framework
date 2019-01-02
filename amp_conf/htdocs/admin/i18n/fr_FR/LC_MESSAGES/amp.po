@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-02 15:56-0500\n"
+"POT-Creation-Date: 2019-01-02 17:43-0500\n"
 "PO-Revision-Date: 2017-03-13 18:33+0200\n"
 "Last-Translator: Nicolas <freepbx@riendeau.org>\n"
 "Language-Team: French <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -261,7 +261,7 @@ msgstr "%s administrateurs"
 msgid "%s already exists"
 msgstr "%s existe déjà"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:657
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:635
 #, php-format
 msgid "%s already exists, and is not a symlink!"
 msgstr ""
@@ -389,26 +389,26 @@ msgstr ""
 msgid "%s enabled successfully"
 msgstr "%s activé avec succès"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:729
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:707
 #, php-format
 msgid "%s failed to copy from module directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:663
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:641
 #, php-format
 msgid "%s from %s/%s (Already exists, linked to something else)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:658
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:636
 #, php-format
 msgid "%s from %s/%s (Already exists, not a link)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:615
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:628
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:640
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:593
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:606
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:618
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:630
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:652
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:674
 #, php-format
 msgid "%s from %s/%s (Bad Permissions)"
 msgstr ""
@@ -432,7 +432,7 @@ msgstr "%s installé avec succès"
 msgid "%s is a registered trademark of"
 msgstr "%s est une marque de commerce enregistrée de"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:709
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:687
 #, php-format
 msgid "%s is a symbolic link, failed to unlink!"
 msgstr ""
@@ -645,17 +645,17 @@ msgid ""
 "acted on."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:395
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:373
 msgid ""
 "A Retrieve Conf Post Custom Script has been detected, the ability to run "
 "this after a reload has been removed"
 msgstr ""
 
-#: ../core/functions.inc.php:4876
+#: ../core/functions.inc.php:4793
 msgid "A description for this DID, such as \"Fax\""
 msgstr "Une description pour ce SDA, comme\"Télécopieur\""
 
-#: ../core/functions.inc.php:4877
+#: ../core/functions.inc.php:4794
 msgid ""
 "A direct DID that is associated with this extension. The DID should be in "
 "the same format as provided by the provider (e.g. full number, 4 digits for "
@@ -681,11 +681,11 @@ msgid ""
 "from the CLI): 1) fwconsole ma install %s 2) fwconsole ma enable %s"
 msgstr ""
 
-#: ../core/functions.inc.php:3790 ../core/functions.inc.php:3807
+#: ../core/functions.inc.php:3707 ../core/functions.inc.php:3724
 msgid "A route for this DID/CID already exists!"
 msgstr "Une route pour ce DID/CID existe déjà!"
 
-#: ../core/Core.class.php:2421 ../core/functions.inc.php:4244
+#: ../core/Core.class.php:2421 ../core/functions.inc.php:4161
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "Une route pour ce SDA/CID: %s/%s existe déjà"
@@ -694,7 +694,7 @@ msgstr "Une route pour ce SDA/CID: %s/%s existe déjà"
 msgid "A useful description describing this channel"
 msgstr "La description du canal"
 
-#: ../core/functions.inc.php:4770
+#: ../core/functions.inc.php:4687
 msgid "A user will enter this password when logging onto a device."
 msgstr ""
 "Un utilisateur entrera ce mot de passe pour s'identifier sur un périphérique."
@@ -764,7 +764,7 @@ msgstr ""
 msgid "Aborting Shutdown. Asterisk is still running"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:318
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:296
 msgid "Aborting reload because extension conflicts or bad destinations"
 msgstr ""
 
@@ -816,12 +816,12 @@ msgstr ""
 msgid "Add"
 msgstr "Ajout"
 
-#: ../core/functions.inc.php:5087
+#: ../core/functions.inc.php:5004
 #, php-format
 msgid "Add %s Device"
 msgstr "Ajout terminal %s"
 
-#: ../core/functions.inc.php:5089
+#: ../core/functions.inc.php:5006
 #, php-format
 msgid "Add %s Extension"
 msgstr "Ajout Extension %s"
@@ -848,19 +848,19 @@ msgstr ""
 msgid "Add Device"
 msgstr "Ajouter un dispositif"
 
-#: ../core/functions.inc.php:4759 ../core/functions.inc.php:5145
+#: ../core/functions.inc.php:4676 ../core/functions.inc.php:5062
 #: ../core/page.ampusers.php:133 ../core/page.ampusers.php:156
 #: ../core/page.extensions.php:24 ../core/page.extensions.php:109
 #: ../core/views/rnav.php:9
 msgid "Add Extension"
 msgstr "Ajouter un poste"
 
-#: ../core/functions.inc.php:4878
+#: ../core/functions.inc.php:4795
 msgid "Add Inbound CID"
 msgstr "Ajout CID Sortant"
 
 # #### Ancien Message DID, plus utilise par DID mais peut-etre par d'autres!
-#: ../core/functions.inc.php:4877
+#: ../core/functions.inc.php:4794
 msgid "Add Inbound DID"
 msgstr "Ajouter une SDA"
 
@@ -906,22 +906,22 @@ msgstr "Ajout Route"
 msgid "Add Trunk"
 msgstr "Ajout Trunk"
 
-#: ../core/functions.inc.php:4761 ../core/functions.inc.php:5115
-#: ../core/functions.inc.php:5147 ../core/page.users.php:51
+#: ../core/functions.inc.php:4678 ../core/functions.inc.php:5032
+#: ../core/functions.inc.php:5064 ../core/page.users.php:51
 #: ../core/views/ampusers/bootnav.php:2 ../core/views/rnav.php:44
 #: ../core/views/rnav.php:58
 msgid "Add User"
 msgstr "Ajout Utilisateur"
 
-#: ../core/functions.inc.php:4738
+#: ../core/functions.inc.php:4655
 msgid "Add User/Extension"
 msgstr "Ajout Utilisateur/Extension"
 
-#: ../core/functions.inc.php:5041
+#: ../core/functions.inc.php:4958
 msgid "Add Virtual Extension"
 msgstr "Ajout poste virtuel"
 
-#: ../core/functions.inc.php:4878
+#: ../core/functions.inc.php:4795
 msgid ""
 "Add a CID for more specific DID + CID routing. A DID must be specified in "
 "the above Add DID box. In addition to standard dial sequences, you can also "
@@ -946,7 +946,7 @@ msgstr "Paramètres complémentaires"
 msgid "Address to bind to. Default is ::"
 msgstr ""
 
-#: ../core/functions.inc.php:5016
+#: ../core/functions.inc.php:4933
 msgid "Adhoc"
 msgstr "Adhoc"
 
@@ -1138,7 +1138,7 @@ msgstr ""
 msgid "Alt for Left Logo"
 msgstr ""
 
-#: ../core/functions.inc.php:4657
+#: ../core/functions.inc.php:4574
 #: ../core/functions.inc/drivers/PJSip.class.php:273
 msgid "Always"
 msgstr "Toujours"
@@ -1202,7 +1202,7 @@ msgid ""
 "and also remove the 'ssh' account as soon as possible"
 msgstr ""
 
-#: ../core/functions.inc.php:4890
+#: ../core/functions.inc.php:4807
 msgid "Any DID"
 msgstr "Tout SDA"
 
@@ -1260,7 +1260,7 @@ msgstr ""
 msgid "Asked for raw contents of a file, but was never asked to read a file"
 msgstr ""
 
-#: ../core/functions.inc.php:4874
+#: ../core/functions.inc.php:4791
 msgid "Assigned DID/CID"
 msgstr "SDA/CID associé"
 
@@ -1282,7 +1282,7 @@ msgstr ""
 msgid "Asterisk Builtin mini-HTTP server"
 msgstr "Mini serveur HTTP intégré d'Asterisk"
 
-#: amp.i18n.php:260 ../core/functions.inc.php:4842
+#: amp.i18n.php:260 ../core/functions.inc.php:4759
 msgid "Asterisk Dial Options"
 msgstr "Options de composition d'Asterisk"
 
@@ -1345,7 +1345,7 @@ msgstr ""
 msgid "Asterisk REST Interface"
 msgstr "Interface REST d'Asterisk"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:484
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:462
 msgid "Asterisk Reload Skipped"
 msgstr ""
 
@@ -1413,7 +1413,7 @@ msgstr ""
 msgid "Asterisk may not be running."
 msgstr "Asterisk n'est peut être pas lancé."
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:484
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:462
 #, php-format
 msgid ""
 "Asterisk reload was skipped but the %s configuration files were still "
@@ -1651,12 +1651,12 @@ msgstr ""
 msgid "Building Packaged Scripts..."
 msgstr ""
 
-#: ../core/functions.inc.php:888 ../core/functions.inc.php:4115
-#: ../core/functions.inc.php:4945
+#: ../core/functions.inc.php:888 ../core/functions.inc.php:4032
+#: ../core/functions.inc.php:4862
 msgid "Busy"
 msgstr "Occupé"
 
-#: ../core/functions.inc.php:4944
+#: ../core/functions.inc.php:4861
 msgid "Busy Voicemail if Enabled"
 msgstr ""
 
@@ -1701,7 +1701,7 @@ msgstr "Répertoire CGI"
 msgid "CID"
 msgstr "ID Appelant"
 
-#: ../core/functions.inc.php:4805
+#: ../core/functions.inc.php:4722
 msgid "CID Num Alias"
 msgstr "Numéro alias du CID"
 
@@ -1709,8 +1709,8 @@ msgstr "Numéro alias du CID"
 msgid "CID Options"
 msgstr "Options CID"
 
-#: ../core/functions.inc.php:4937 ../core/functions.inc.php:4946
-#: ../core/functions.inc.php:4951
+#: ../core/functions.inc.php:4854 ../core/functions.inc.php:4863
+#: ../core/functions.inc.php:4868
 msgid "CID Prefix"
 msgstr "Préfixe de l'ID appelant"
 
@@ -1735,7 +1735,7 @@ msgstr ""
 msgid "Calendar Mode"
 msgstr ""
 
-#: ../core/functions.inc.php:4854
+#: ../core/functions.inc.php:4771
 msgid "Call Forward Ring Time"
 msgstr ""
 
@@ -1790,11 +1790,11 @@ msgid ""
 "their priorities are also the same."
 msgstr ""
 
-#: ../core/functions.inc.php:4870
+#: ../core/functions.inc.php:4787
 msgid "Call Screening"
 msgstr "Filtrage d'appel"
 
-#: ../core/functions.inc.php:4870
+#: ../core/functions.inc.php:4787
 msgid ""
 "Call Screening requires external callers to say their name, which will be "
 "played back to the user and allow the user to accept or reject the call.  "
@@ -1807,11 +1807,11 @@ msgid ""
 "the caller's CallerID."
 msgstr ""
 
-#: ../core/functions.inc.php:4868
+#: ../core/functions.inc.php:4785
 msgid "Call Waiting"
 msgstr "Appel en attente"
 
-#: ../core/functions.inc.php:4869
+#: ../core/functions.inc.php:4786
 msgid "Call Waiting Tone"
 msgstr ""
 
@@ -1823,7 +1823,7 @@ msgstr "Appel en attente désactivé"
 msgid "Call Waiting is enabled"
 msgstr "Appel en attente activé"
 
-#: ../core/functions.inc.php:4919
+#: ../core/functions.inc.php:4836
 msgid ""
 "Call recording policy priority relative to other extensions when there is a "
 "conflict between an extension wanting recording and the other not wanting "
@@ -1868,7 +1868,7 @@ msgid ""
 "callgroups, e.g. '1,3000-3005,sales,sales2.'"
 msgstr ""
 
-#: ../core/functions.inc.php:2185
+#: ../core/functions.inc.php:2177
 #, php-format
 msgid "Calling Out Route: %s"
 msgstr ""
@@ -1967,26 +1967,26 @@ msgstr "Ce module ne peut être désactivé. Les modules suivants en dépendent 
 msgid "Cannot find module"
 msgstr "Impossible de trouver le module"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:611
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:589
 #, php-format
 msgid "Cannot remove conflicting file %s (Bad Permissions)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:610
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:588
 #, php-format
 msgid "Cannot remove conflicting file %s. Check Permissions?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:604
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:582
 #, php-format
 msgid "Cannot replace reserved file %s from module %s (Not allowed)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:614
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:627
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:639
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:592
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:605
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:617
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:629
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:651
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:673
 #, php-format
 msgid "Cannot symlink %s to %s. Check Permissions?"
 msgstr ""
@@ -2290,7 +2290,7 @@ msgstr ""
 msgid "Confirm Password"
 msgstr ""
 
-#: ../core/functions.inc.php:4788
+#: ../core/functions.inc.php:4705
 msgid "Conflicting Extensions"
 msgstr "Conflit d'extensions"
 
@@ -2298,7 +2298,7 @@ msgstr "Conflit d'extensions"
 msgid "Confusing statement. Not sure what you want to do"
 msgstr ""
 
-#: ../core/functions.inc.php:887 ../core/functions.inc.php:4114
+#: ../core/functions.inc.php:887 ../core/functions.inc.php:4031
 msgid "Congestion"
 msgstr "Congestion"
 
@@ -2456,8 +2456,8 @@ msgstr "Ne peut retirer l'ancien module %s pour installer la nouvelle version"
 msgid "Could not remove temporary location %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:879
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:894
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:857
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:872
 #, php-format
 msgid "Could not run %s script."
 msgstr "Ne peut exécuter le script %s"
@@ -2529,7 +2529,7 @@ msgid ""
 "was asked to add %s"
 msgstr ""
 
-#: ../core/functions.inc.php:4842
+#: ../core/functions.inc.php:4759
 msgid ""
 "Cryptic Asterisk Dial Options, check to customize for this extension or un-"
 "check to use system defaults set in Advanced Options. These will not apply "
@@ -2643,7 +2643,7 @@ msgid ""
 "valid settings. See DAHDi and card documentation for details."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:306
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:284
 #, php-format
 msgid "DEST STATUS: %s%s"
 msgstr ""
@@ -2655,11 +2655,11 @@ msgstr ""
 msgid "DID"
 msgstr "DID"
 
-#: ../core/functions.inc.php:4886
+#: ../core/functions.inc.php:4803
 msgid "DID / CID"
 msgstr "DID / CID"
 
-#: ../core/functions.inc.php:4876
+#: ../core/functions.inc.php:4793
 msgid "DID Description"
 msgstr "Description DID"
 
@@ -2795,18 +2795,18 @@ msgstr "Débogage"
 msgid "Debug File"
 msgstr "Fichier de débogage"
 
-#: ../core/functions.inc.php:4655 ../core/functions.inc.php:4656
+#: ../core/functions.inc.php:4572 ../core/functions.inc.php:4573
 #: ../core/views/did/advanced_form.php:10 ../core/views/trunks/pjsip.php:129
 #: ../core/views/trunks/pjsip.php:922
 msgid "Default"
 msgstr "Par défaut"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:371
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:349
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1196
 msgid "Default Asterisk Manager Password Used"
 msgstr "Le mot de passe par défaut du gestionnaire d'Asterisk est utilisé"
 
-#: ../core/functions.inc.php:5123
+#: ../core/functions.inc.php:5040
 #: ../core/functions.inc/drivers/Sip.class.php:335
 msgid "Default User"
 msgstr "Utilisateur par défaut"
@@ -2983,7 +2983,7 @@ msgstr ""
 msgid "Delete"
 msgstr "Supprimer"
 
-#: ../core/functions.inc.php:5067
+#: ../core/functions.inc.php:4984
 #, php-format
 msgid "Delete Device %s"
 msgstr "Suppression Périphérique %s"
@@ -3021,7 +3021,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:215
 #: ../core/Core.class.php:2832 ../core/Core.class.php:2833
 #: ../core/Core.class.php:2856 ../core/Core.class.php:2857
-#: ../core/functions.inc.php:5121 ../core/page.devices.php:66
+#: ../core/functions.inc.php:5038 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:37
 #: ../core/views/did/advanced_form.php:88 ../core/views/did/basic_form.php:20
@@ -3146,7 +3146,7 @@ msgstr ""
 # msgstr ""
 # "La section demand&eacute;e n'existe pas ou vous n'y avez pas acc&egrave;s."
 # #       FIN config
-#: ../core/Core.class.php:3208 ../core/functions.inc.php:5064
+#: ../core/Core.class.php:3208 ../core/functions.inc.php:4981
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3157,7 +3157,7 @@ msgstr "Périphérique"
 msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:384
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:362
 msgid "Device & User Hints Issue"
 msgstr ""
 
@@ -3165,11 +3165,11 @@ msgstr ""
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
-#: ../core/functions.inc.php:5119
+#: ../core/functions.inc.php:5036
 msgid "Device ID"
 msgstr "Identité Périphérique"
 
-#: ../core/functions.inc.php:5133
+#: ../core/functions.inc.php:5050
 #: ../core/functions.inc/drivers/Sip.class.php:278
 msgid "Device Options"
 msgstr "Options du dispositif"
@@ -3186,7 +3186,7 @@ msgstr ""
 msgid "Device Technology"
 msgstr "Technologie du dispositif"
 
-#: ../core/functions.inc.php:5122 ../core/page.devices.php:67
+#: ../core/functions.inc.php:5039 ../core/page.devices.php:67
 #: ../core/page.devices.php:88
 msgid "Device Type"
 msgstr "Type de dispositif"
@@ -3203,7 +3203,7 @@ msgstr "Le dispositif n'a pas été ajouté !"
 msgid "Devices"
 msgstr "Dispositifs"
 
-#: ../core/functions.inc.php:5122
+#: ../core/functions.inc.php:5039
 msgid ""
 "Devices can be fixed or adhoc. Fixed devices are always associated to the "
 "same extension/user. Adhoc devices can be logged into and logged out of by "
@@ -3281,8 +3281,8 @@ msgid "Directory Layout"
 msgstr "Structure de répertoire"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:390
-#: ../core/functions.inc.php:4631 ../core/functions.inc.php:4637
-#: ../core/functions.inc.php:4640 ../core/functions.inc.php:4644
+#: ../core/functions.inc.php:4548 ../core/functions.inc.php:4554
+#: ../core/functions.inc.php:4557 ../core/functions.inc.php:4561
 msgid "Disable"
 msgstr "Désactivation"
 
@@ -3402,7 +3402,7 @@ msgstr ""
 msgid "Display Monitor Trunk Failures Option"
 msgstr ""
 
-#: ../core/functions.inc.php:4803 ../core/views/quickCreate.php:69
+#: ../core/functions.inc.php:4720 ../core/views/quickCreate.php:69
 msgid "Display Name"
 msgstr "Nom affiché"
 
@@ -3456,7 +3456,7 @@ msgstr ""
 "Le nom de domaine à utiliser dans l'entête 'From' pour les requêtes faites à "
 "cette jonction"
 
-#: ../core/functions.inc.php:4622
+#: ../core/functions.inc.php:4539
 msgid "Don't Care"
 msgstr "Peu importe"
 
@@ -3688,16 +3688,16 @@ msgstr "Éditer %s %s (%s)"
 msgid "Edit Administrator"
 msgstr "Éditer l'administrateur"
 
-#: ../core/functions.inc.php:5073
+#: ../core/functions.inc.php:4990
 #, php-format
 msgid "Edit Default User: %s"
 msgstr "Éditer l'utilisateur par défaut : %s"
 
-#: ../core/functions.inc.php:4759 ../core/functions.inc.php:5145
+#: ../core/functions.inc.php:4676 ../core/functions.inc.php:5062
 msgid "Edit Extension"
 msgstr "Éditer le poste"
 
-#: ../core/functions.inc.php:5073
+#: ../core/functions.inc.php:4990
 #, php-format
 msgid "Edit Fixed User: %s"
 msgstr "Éditer l'utilisateur : %s"
@@ -3706,12 +3706,12 @@ msgstr "Éditer l'utilisateur : %s"
 msgid "Edit Route"
 msgstr "Éditer la route"
 
-#: ../core/functions.inc.php:4761 ../core/functions.inc.php:5115
-#: ../core/functions.inc.php:5147
+#: ../core/functions.inc.php:4678 ../core/functions.inc.php:5032
+#: ../core/functions.inc.php:5064
 msgid "Edit User"
 msgstr "Éditer l'utilisateur"
 
-#: ../core/functions.inc.php:4822
+#: ../core/functions.inc.php:4739
 msgid "Edit:"
 msgstr "Éditer :"
 
@@ -3750,7 +3750,7 @@ msgstr "Erreur d'adresses de courriel"
 msgid "Emergency"
 msgstr "Urgence"
 
-#: ../core/functions.inc.php:5124 ../core/functions.inc.php:5127
+#: ../core/functions.inc.php:5041 ../core/functions.inc.php:5044
 msgid "Emergency CID"
 msgstr "ID appelant d'urgence"
 
@@ -3770,8 +3770,8 @@ msgstr "Une valeur vide n'est pas permise pour ce champ"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:370
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:374
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:320
-#: ../core/functions.inc.php:4632 ../core/functions.inc.php:4636
-#: ../core/functions.inc.php:4641
+#: ../core/functions.inc.php:4549 ../core/functions.inc.php:4553
+#: ../core/functions.inc.php:4558
 msgid "Enable"
 msgstr "Activer"
 
@@ -3849,7 +3849,7 @@ msgstr ""
 msgid "Enable module[s], accepts argument module[s]"
 msgstr ""
 
-#: ../core/functions.inc.php:4918
+#: ../core/functions.inc.php:4835
 msgid ""
 "Enable or disable the ability to do on demand (one-touch) recording. The "
 "overall calling policy rules still apply and if calls are already being "
@@ -3937,7 +3937,7 @@ msgstr ""
 msgid "Enabling Missing Dependency of: %s %s"
 msgstr "Activation de la dépendance manquante de : %s %s"
 
-#: ../core/functions.inc.php:4872
+#: ../core/functions.inc.php:4789
 msgid ""
 "Enabling Pinless Dialing will allow this extension to bypass any pin codes "
 "set under routes password required on outbound calls."
@@ -4187,8 +4187,8 @@ msgstr ""
 msgid "Execute on only this file/dir"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:878
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:893
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:856
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:871
 #, php-format
 msgid "Exit code was %s and output was: %s"
 msgstr "Code sortie était %s et message de sortie était: %s"
@@ -4255,9 +4255,9 @@ msgstr ""
 # msgid "Use 'Incoming Calls' settings"
 # msgstr "Utiliser les r&eacute;glages 'Appels entrants'"
 # ### Fin message DID
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:276
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:254
 #: ../core/Core.class.php:2823 ../core/Core.class.php:2824
-#: ../core/Core.class.php:3196 ../core/functions.inc.php:4733
+#: ../core/Core.class.php:3196 ../core/functions.inc.php:4650
 #: ../core/page.did.php:93 ../core/page.extensions.php:34
 #: ../core/page.extensions.php:127 ../core/page.extensions.php:155
 #: ../core/views/rnav.php:23
@@ -4276,7 +4276,7 @@ msgstr "Numéro de poste"
 msgid "Extension Numbering Duplicate Conflict Detected"
 msgstr ""
 
-#: ../core/functions.inc.php:4836 ../core/functions.inc.php:5126
+#: ../core/functions.inc.php:4753 ../core/functions.inc.php:5043
 msgid "Extension Options"
 msgstr "Options de poste"
 
@@ -4300,7 +4300,7 @@ msgstr "Le numéro de poste n'est pas numérique."
 msgid "Extension name is blank."
 msgstr ""
 
-#: ../core/functions.inc.php:4798
+#: ../core/functions.inc.php:4715
 msgid "Extension number conflict, please choose another."
 msgstr "Il y a conflit de numéro de poste. Veuillez en choisir un autre."
 
@@ -4375,7 +4375,7 @@ msgstr ""
 msgid "Failed to Remove directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:738
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:716
 msgid "Failed to copy from module agi-bin"
 msgstr ""
 
@@ -4389,7 +4389,7 @@ msgstr ""
 msgid "Failed to get remote file, mirror site may be down: %s"
 msgstr ""
 
-#: ../core/functions.inc.php:4591
+#: ../core/functions.inc.php:4508
 #, php-format
 msgid ""
 "Failed to open %s for writing, aborting attempt to write the country "
@@ -4442,7 +4442,7 @@ msgstr ""
 msgid "Failed to write file to disk"
 msgstr ""
 
-#: ../core/functions.inc.php:4592
+#: ../core/functions.inc.php:4509
 msgid "Failed to write indications.conf"
 msgstr "Echec d'écriture du fichier indications.conf"
 
@@ -4517,11 +4517,11 @@ msgstr ""
 msgid "Finished cleaning up cache"
 msgstr ""
 
-#: ../core/functions.inc.php:5015
+#: ../core/functions.inc.php:4932
 msgid "Fixed"
 msgstr "Fixe"
 
-#: ../core/functions.inc.php:5123
+#: ../core/functions.inc.php:5040
 msgid ""
 "Fixed devices will always mapped to this user.  Adhoc devices will be mapped "
 "to this user by default.<br><br>If selecting 'New User', a new User "
@@ -4583,7 +4583,7 @@ msgstr ""
 msgid "Forbidden Retry Interval"
 msgstr ""
 
-#: ../core/functions.inc.php:4620
+#: ../core/functions.inc.php:4537
 msgid "Force"
 msgstr "Forcer"
 
@@ -4751,7 +4751,7 @@ msgstr "Journal d'Asterisk"
 msgid "FreePBX Log Routing"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:437
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:415
 msgid ""
 "FreePBX Module Signature checking has been disabled. Your system could be "
 "exposed to security vulnerabilities from compromised or tampered code"
@@ -4985,7 +4985,7 @@ msgid ""
 "trunk context within asterisk"
 msgstr ""
 
-#: ../core/functions.inc.php:5119
+#: ../core/functions.inc.php:5036
 msgid ""
 "Give your device a unique integer ID.  The device will use this ID to "
 "authenticate to the system."
@@ -5058,7 +5058,7 @@ msgstr "Endroit du certificat TLS HTTPS"
 msgid "HTTPS TLS Private Key Location"
 msgstr "Endroit de la clé privé TLS HTTPS"
 
-#: ../core/functions.inc.php:886 ../core/functions.inc.php:4113
+#: ../core/functions.inc.php:886 ../core/functions.inc.php:4030
 msgid "Hangup"
 msgstr "Décroché"
 
@@ -5382,7 +5382,7 @@ msgid ""
 "tampering, please see the link below for more information:"
 msgstr ""
 
-#: ../core/functions.inc.php:4806
+#: ../core/functions.inc.php:4723
 msgid ""
 "If you want to support direct sip dialing of users internally or through "
 "anonymous sip calls, you can supply a friendly name that can be used in "
@@ -5458,11 +5458,11 @@ msgstr ""
 msgid "Inbound"
 msgstr ""
 
-#: ../core/functions.inc.php:4914
+#: ../core/functions.inc.php:4831
 msgid "Inbound External Calls"
 msgstr ""
 
-#: ../core/functions.inc.php:4916
+#: ../core/functions.inc.php:4833
 msgid "Inbound Internal Calls"
 msgstr ""
 
@@ -5470,7 +5470,7 @@ msgstr ""
 msgid "Inbound Route:"
 msgstr ""
 
-#: ../core/functions.inc.php:4107
+#: ../core/functions.inc.php:4024
 #, php-format
 msgid "Inbound Route: %s (%s)"
 msgstr "Route Entrante: %s (%s)"
@@ -5914,7 +5914,7 @@ msgid "Long Distance"
 msgstr ""
 
 #: amp_conf/htdocs/admin/bootstrap.php:296
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:929
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:907
 msgid "Low Memory Limit"
 msgstr "Limite mémoire basse."
 
@@ -6018,7 +6018,7 @@ msgstr ""
 msgid "Maximum number of Endpoints that can associate with this Device"
 msgstr ""
 
-#: ../core/functions.inc.php:4866
+#: ../core/functions.inc.php:4783
 msgid ""
 "Maximum number of outbound simultaneous calls that an extension can make. "
 "This is also very useful as a Security Protection against a system that has "
@@ -6058,7 +6058,7 @@ msgid "Media Use Received Transport"
 msgstr ""
 
 #: amp_conf/htdocs/admin/bootstrap.php:294
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:927
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:905
 msgid "Memory Limit Changed"
 msgstr "Changement de mémoire limite"
 
@@ -6553,7 +6553,7 @@ msgid "Needs Upgrade:"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:539
-#: ../core/functions.inc.php:4624
+#: ../core/functions.inc.php:4541
 msgid "Never"
 msgstr "Jamais"
 
@@ -6581,7 +6581,7 @@ msgstr "Plus récent que la version réseau (%s)"
 msgid "Nightly"
 msgstr ""
 
-#: ../core/functions.inc.php:4623
+#: ../core/functions.inc.php:4540
 #: ../core/functions.inc/drivers/Dahdi.class.php:108
 #: ../core/functions.inc/drivers/Dahdi.class.php:119
 #: ../core/functions.inc/drivers/Dahdi.class.php:128
@@ -6629,7 +6629,7 @@ msgstr ""
 msgid "No Action"
 msgstr "Pas d'action"
 
-#: ../core/functions.inc.php:4936
+#: ../core/functions.inc.php:4853
 msgid "No Answer"
 msgstr ""
 
@@ -6651,7 +6651,7 @@ msgstr ""
 msgid "No Description Provided"
 msgstr ""
 
-#: ../core/functions.inc.php:4658
+#: ../core/functions.inc.php:4575
 msgid "No Limit"
 msgstr ""
 
@@ -6663,8 +6663,8 @@ msgstr "Pas de musique"
 msgid "No RPMs need to be updated"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:912
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:915
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:890
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:893
 msgid "No Swap"
 msgstr ""
 
@@ -6732,7 +6732,7 @@ msgid "NodeJS version is: %s requirement is %s or higher"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:535
-#: ../core/functions.inc.php:4650
+#: ../core/functions.inc.php:4567
 #: ../core/functions.inc/drivers/PJSip.class.php:263
 #: ../core/views/did/advanced_form.php:216 ../core/views/did/basic_form.php:120
 #: ../core/views/trunks/pjsip.php:91 ../core/views/trunks/pjsip.php:110
@@ -6804,7 +6804,7 @@ msgstr "Non installé (disponible localement)"
 msgid "Not Installed (Locally available: %s)"
 msgstr "Non installé (disponible localement : %s)"
 
-#: ../core/functions.inc.php:4950
+#: ../core/functions.inc.php:4867
 msgid "Not Reachable"
 msgstr "Non joignable"
 
@@ -6858,7 +6858,7 @@ msgstr ""
 msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr "Nombre d'essais qu'à l'appelant pour entrer un CallerID valide"
 
-#: ../core/functions.inc.php:4854
+#: ../core/functions.inc.php:4771
 msgid ""
 "Number of seconds to ring during a Call Forward, Call Forward Busy or Call "
 "Forward Unavailable call prior to continuing to voicemail or specified "
@@ -6868,7 +6868,7 @@ msgid ""
 "forced into Always mode"
 msgstr ""
 
-#: ../core/functions.inc.php:4844
+#: ../core/functions.inc.php:4761
 msgid ""
 "Number of seconds to ring prior to going to voicemail. Default will use the "
 "value set in Advanced Settings. If no voicemail is configured this will be "
@@ -6896,7 +6896,7 @@ msgstr "Obtenir une licence gratuite"
 msgid "Occupied Lines CW Busy"
 msgstr ""
 
-#: ../core/functions.inc.php:4918
+#: ../core/functions.inc.php:4835
 msgid "On Demand Recording"
 msgstr "Enregistrement sur demande"
 
@@ -6962,16 +6962,16 @@ msgstr ""
 msgid "Optional Additional CSS Stylesheet"
 msgstr ""
 
-#: ../core/functions.inc.php:4946
+#: ../core/functions.inc.php:4863
 msgid "Optional CID Prefix to add before sending to this busy destination."
 msgstr ""
 
-#: ../core/functions.inc.php:4937
+#: ../core/functions.inc.php:4854
 msgid ""
 "Optional CID Prefix to add before sending to this no answer destination."
 msgstr ""
 
-#: ../core/functions.inc.php:4951
+#: ../core/functions.inc.php:4868
 msgid ""
 "Optional CID Prefix to add before sending to this not reachable destination."
 msgstr ""
@@ -6980,7 +6980,7 @@ msgstr ""
 msgid "Optional Destination on Congestion"
 msgstr ""
 
-#: ../core/functions.inc.php:4921
+#: ../core/functions.inc.php:4838
 msgid "Optional Destinations"
 msgstr "Destinations optionnelles"
 
@@ -7002,20 +7002,20 @@ msgid ""
 "module specific ones are loaded, relative to admin."
 msgstr ""
 
-#: ../core/functions.inc.php:4931
+#: ../core/functions.inc.php:4848
 msgid ""
 "Optional destination call is routed to when the call is not answered on an "
 "otherwise idle phone. If the phone is in use and the call is simply ignored, "
 "then the busy destination will be used."
 msgstr ""
 
-#: ../core/functions.inc.php:4933
+#: ../core/functions.inc.php:4850
 msgid "Optional destination call is routed to when the call is not answered."
 msgstr ""
 "Destination optionnelle vers laquelle l'appel est acheminé s'il n'est pas "
 "répondu."
 
-#: ../core/functions.inc.php:4942
+#: ../core/functions.inc.php:4859
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user."
@@ -7023,7 +7023,7 @@ msgstr ""
 "Destination optionnelle vers laquelle l'appel est acheminé lorsque la ligne "
 "est occupée ou que l'appel est refusé par l'utilisateur."
 
-#: ../core/functions.inc.php:4940
+#: ../core/functions.inc.php:4857
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user. This destination is also used on an unanswered "
@@ -7035,7 +7035,7 @@ msgstr ""
 "est aussi utilisée pour les appels non répondus si la ligne est occupée et "
 "que l'utilisateur choisit de ne pas répondre au deuxième appel."
 
-#: ../core/functions.inc.php:4948
+#: ../core/functions.inc.php:4865
 msgid ""
 "Optional destination the call is routed to when the phone is offline, such "
 "as a softphone currently off or a phone unplugged."
@@ -7113,7 +7113,7 @@ msgstr "Autre"
 msgid "Outbound"
 msgstr "En sortie"
 
-#: ../core/functions.inc.php:4834 ../core/views/routing/grid.php:71
+#: ../core/functions.inc.php:4751 ../core/views/routing/grid.php:71
 msgid "Outbound CID"
 msgstr "CID Sortant"
 
@@ -7125,7 +7125,7 @@ msgstr "CID Sortant"
 msgid "Outbound CallerID"
 msgstr ""
 
-#: ../core/functions.inc.php:4866
+#: ../core/functions.inc.php:4783
 msgid "Outbound Concurrency Limit"
 msgstr ""
 
@@ -7133,11 +7133,11 @@ msgstr ""
 msgid "Outbound Dial Prefix"
 msgstr "Préfixe de Numérotation Externe"
 
-#: ../core/functions.inc.php:4915
+#: ../core/functions.inc.php:4832
 msgid "Outbound External Calls"
 msgstr "Appels externes en sortie"
 
-#: ../core/functions.inc.php:4917
+#: ../core/functions.inc.php:4834
 msgid "Outbound Internal Calls"
 msgstr "Appels internes en sortie"
 
@@ -7150,7 +7150,7 @@ msgstr ""
 msgid "Outbound Route:"
 msgstr ""
 
-#: ../core/functions.inc.php:4531
+#: ../core/functions.inc.php:4448
 #, php-format
 msgid "Outbound Route: %s"
 msgstr "Route en sortie : %s"
@@ -7171,7 +7171,7 @@ msgstr ""
 msgid "Output debug messages to the console (be super chatty)"
 msgstr ""
 
-#: ../core/functions.inc.php:4633 ../core/functions.inc.php:4842
+#: ../core/functions.inc.php:4550 ../core/functions.inc.php:4759
 #: ../core/views/trunks/trunk_header.php:375
 msgid "Override"
 msgstr "Remplacer"
@@ -7201,7 +7201,7 @@ msgid ""
 "time"
 msgstr ""
 
-#: ../core/functions.inc.php:4845
+#: ../core/functions.inc.php:4762
 msgid ""
 "Override the ringer volume. Note: This is only valid for Sangoma phones at "
 "this time"
@@ -7211,7 +7211,7 @@ msgstr ""
 msgid "Overrides Extension CID"
 msgstr ""
 
-#: ../core/functions.inc.php:4834 ../core/views/quickCreate.php:93
+#: ../core/functions.inc.php:4751 ../core/views/quickCreate.php:93
 msgid ""
 "Overrides the CallerID when dialing out a trunk. Any setting here will "
 "override the common outbound CallerID set in the Trunks admin."
@@ -7499,19 +7499,19 @@ msgstr ""
 msgid "Pin Sets"
 msgstr ""
 
-#: ../core/functions.inc.php:4872
+#: ../core/functions.inc.php:4789
 msgid "Pinless Dialing"
 msgstr "Appel sans NIP"
 
-#: ../core/functions.inc.php:889 ../core/functions.inc.php:4116
+#: ../core/functions.inc.php:889 ../core/functions.inc.php:4033
 msgid "Play SIT Tone (Zapateller)"
 msgstr "Jouer son SIT (Zapateller)"
 
-#: ../core/functions.inc.php:892 ../core/functions.inc.php:4119
+#: ../core/functions.inc.php:892 ../core/functions.inc.php:4036
 msgid "Play no service message"
 msgstr ""
 
-#: ../core/functions.inc.php:891 ../core/functions.inc.php:4118
+#: ../core/functions.inc.php:891 ../core/functions.inc.php:4035
 msgid "Play ringtones to caller until they hangup"
 msgstr "Jouer sonnerie à l'appelant jusuq'à ce qu'il raccroche"
 
@@ -7531,7 +7531,7 @@ msgstr "Merci de confirmer les actions suivantes:"
 msgid "Please correct the following errors:"
 msgstr "Veuillez corriger les erreurs suivantes :"
 
-#: ../core/functions.inc.php:5137
+#: ../core/functions.inc.php:5054
 #: ../core/functions.inc/drivers/Iax2.class.php:102
 #: ../core/functions.inc/drivers/Sip.class.php:273
 msgid "Please enter a Secret for this device"
@@ -7541,7 +7541,7 @@ msgstr "Veuillez entrer un mot de passe (secret) pour ce dispositif"
 msgid "Please enter a System Indentifier"
 msgstr ""
 
-#: ../core/functions.inc.php:5105
+#: ../core/functions.inc.php:5022
 msgid "Please enter a device id."
 msgstr "Veuillez entrer un identifiant pour de dispositif."
 
@@ -7549,50 +7549,50 @@ msgstr "Veuillez entrer un identifiant pour de dispositif."
 msgid "Please enter a username"
 msgstr "Veuiilez entrer un nom d'usager"
 
-#: ../core/functions.inc.php:4746
+#: ../core/functions.inc.php:4663
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
 msgstr ""
 "Veuillez entrer un alias d'ID appelant valide (seulement des chiffres)."
 
-#: ../core/functions.inc.php:4752
+#: ../core/functions.inc.php:4669
 msgid ""
 "Please enter a valid CallerID Number or leave it blank for your Assigned DID/"
 "CID pair"
 msgstr ""
 
-#: ../core/functions.inc.php:5106
+#: ../core/functions.inc.php:5023
 msgid "Please enter a valid Description for this device"
 msgstr "Veuillez entrer une description de dispositif valide"
 
-#: ../core/functions.inc.php:4748
+#: ../core/functions.inc.php:4665
 msgid "Please enter a valid Display Name"
 msgstr "Veuillez entrer un 'Nom affiché' valide"
 
-#: ../core/functions.inc.php:5107
+#: ../core/functions.inc.php:5024
 msgid "Please enter a valid Emergency CID"
 msgstr "Veuillez entrer un ID appelant d'urgence valide"
 
-#: ../core/functions.inc.php:4749
+#: ../core/functions.inc.php:4666
 msgid "Please enter a valid Outbound CID"
 msgstr "Veuillez entrer un ID appelant sortant valide"
 
 # ATTENTION: Les messages suivants sont des alertes: pas d'accent, pas de caracteres de control sont admis... le fichier script.js est traite plus haut
-#: ../core/functions.inc.php:4745 ../core/functions.inc.php:5108
+#: ../core/functions.inc.php:4662 ../core/functions.inc.php:5025
 msgid "Please enter a valid extension number."
 msgstr "Veuillez entrer un numéro de poste valide."
 
-#: ../core/functions.inc.php:4750
+#: ../core/functions.inc.php:4667
 msgid "Please enter a valid pause time in seconds, using digits only"
 msgstr ""
 "Veuillez entrer un temps de pause valide (en utilisant des chiffres "
 "seulement)."
 
-#: ../core/functions.inc.php:5135
+#: ../core/functions.inc.php:5052
 #: ../core/functions.inc/drivers/Dahdi.class.php:99
 msgid "Please enter the channel for this device"
 msgstr "Veuillez entrer le canal pour ce dispositif"
 
-#: ../core/functions.inc.php:4747
+#: ../core/functions.inc.php:4664
 msgid "Please enter valid User Password using numbers only"
 msgstr ""
 "Veuillez entrer un mot de passe utilisateur valide utilisant des chiffres "
@@ -7787,7 +7787,7 @@ msgstr "Editeur"
 msgid "Purge and clean system"
 msgstr ""
 
-#: ../core/functions.inc.php:890 ../core/functions.inc.php:4117
+#: ../core/functions.inc.php:890 ../core/functions.inc.php:4034
 msgid "Put caller on hold forever"
 msgstr "Mettre définitivement l'appelant sur occupation"
 
@@ -7900,27 +7900,27 @@ msgstr ""
 msgid "Receive"
 msgstr ""
 
-#: ../core/functions.inc.php:4919
+#: ../core/functions.inc.php:4836
 msgid "Record Priority Policy"
 msgstr ""
 
-#: ../core/functions.inc.php:4906
+#: ../core/functions.inc.php:4823
 msgid "Recording Options"
 msgstr "Option d'enregistrement"
 
-#: ../core/functions.inc.php:4917
+#: ../core/functions.inc.php:4834
 msgid "Recording of calls made to other extensions on the system."
 msgstr ""
 
-#: ../core/functions.inc.php:4916
+#: ../core/functions.inc.php:4833
 msgid "Recording of calls received from other extensions on the system."
 msgstr ""
 
-#: ../core/functions.inc.php:4914
+#: ../core/functions.inc.php:4831
 msgid "Recording of inbound calls from external sources."
 msgstr ""
 
-#: ../core/functions.inc.php:4915
+#: ../core/functions.inc.php:4832
 msgid "Recording of outbound calls to external sources."
 msgstr ""
 
@@ -7969,7 +7969,7 @@ msgstr ""
 msgid "Related URLs"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:487
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:465
 msgid "Reload Complete"
 msgstr ""
 
@@ -8129,11 +8129,11 @@ msgstr ""
 msgid "Restart Setup Wizard"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:395
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:373
 msgid "Retrieve Conf Post Custom Script Detected"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:738
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:716
 #, php-format
 msgid "Retrieve conf failed to copy file(s) from a module's agi-bin dir: %s"
 msgstr ""
@@ -8159,7 +8159,7 @@ msgstr ""
 msgid "Rewrite Contact"
 msgstr ""
 
-#: ../core/functions.inc.php:4844
+#: ../core/functions.inc.php:4761
 msgid "Ring Time"
 msgstr "Temps de sonnerie"
 
@@ -8167,7 +8167,7 @@ msgstr "Temps de sonnerie"
 msgid "Ring Tone"
 msgstr ""
 
-#: ../core/functions.inc.php:4845 ../core/views/did/advanced_form.php:211
+#: ../core/functions.inc.php:4762 ../core/views/did/advanced_form.php:211
 #: ../core/views/did/basic_form.php:115
 msgid "Ringer Volume Override"
 msgstr ""
@@ -8255,7 +8255,7 @@ msgstr ""
 msgid "SIP (%s)"
 msgstr ""
 
-#: ../core/functions.inc.php:4806
+#: ../core/functions.inc.php:4723
 msgid "SIP Alias"
 msgstr "Alias SIP"
 
@@ -8369,11 +8369,11 @@ msgstr ""
 msgid "Scheduler and Alerts"
 msgstr ""
 
-#: ../core/functions.inc.php:4646
+#: ../core/functions.inc.php:4563
 msgid "Screen Caller: Memory"
 msgstr "Screen : avec mémorisation"
 
-#: ../core/functions.inc.php:4645
+#: ../core/functions.inc.php:4562
 msgid "Screen Caller: No Memory"
 msgstr "Screen : sans mémorisation"
 
@@ -8540,7 +8540,7 @@ msgstr ""
 msgid "Set the Repos. -R Commercial -R Contributed"
 msgstr ""
 
-#: ../core/functions.inc.php:4868
+#: ../core/functions.inc.php:4785
 msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr "Fixe l'état initial/courant de l'attente pour cette extension."
 
@@ -8782,7 +8782,7 @@ msgstr "Signal de sonnerie"
 msgid "Signature Invalid"
 msgstr "Signature invalide"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:437
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:415
 msgid "Signature checking is disabled"
 msgstr ""
 
@@ -8967,7 +8967,7 @@ msgstr ""
 msgid "Submit"
 msgstr "Soumettre"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:477
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:455
 msgid ""
 "Successful reload, but could not clear reload flag due to a database error: "
 msgstr ""
@@ -9000,18 +9000,18 @@ msgstr "Supporte T.38 UDPTL"
 msgid "Switch to Stable and Download and Install %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:687
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:690
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:693
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:665
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:668
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:671
 msgid "Symlink Conflict Resolved"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:524
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:502
 #, php-format
 msgid "Symlink error - %s should be linked to %s, and it isn't a link"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:682
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:660
 msgid "Symlink from modules failed"
 msgstr ""
 
@@ -9197,7 +9197,7 @@ msgid ""
 "work on Asterisk 11 or lower."
 msgstr ""
 
-#: ../core/functions.inc.php:4805
+#: ../core/functions.inc.php:4722
 msgid ""
 "The CID Number to use for internal calls, if different from the extension "
 "number. This is used to masquerade as a different user. A common example is "
@@ -9218,13 +9218,13 @@ msgid ""
 "installed and enabled."
 msgstr ""
 
-#: ../core/functions.inc.php:4803 ../core/views/quickCreate.php:77
+#: ../core/functions.inc.php:4720 ../core/views/quickCreate.php:77
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
 msgstr ""
 
-#: ../core/functions.inc.php:5121
+#: ../core/functions.inc.php:5038
 msgid ""
 "The CallerID name for this device will be set to this description until it "
 "is logged into."
@@ -9391,7 +9391,7 @@ msgid ""
 "the trunks"
 msgstr ""
 
-#: ../core/functions.inc.php:4767 ../core/views/quickCreate.php:61
+#: ../core/functions.inc.php:4684 ../core/views/quickCreate.php:61
 msgid "The extension number to dial to reach this user."
 msgstr "Le numéro d'extension à composer pour cet utilisateur"
 
@@ -9756,7 +9756,7 @@ msgstr ""
 "pouvez cliquer sur ce lien et votre action sera exécutée. Ne le faites pas "
 "si vous ne voulez pas exécuter cette commande qui change votre configuration."
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:915
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:893
 #, php-format
 msgid ""
 "The swap space of your system is too low (%s KB). You should have at least "
@@ -9850,12 +9850,12 @@ msgid ""
 "decimal notation. Separate the IP address and subnet mask with a slash ('/')"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:312
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:290
 #, php-format
 msgid "There are %s bad destinations"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:283
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:261
 #, php-format
 msgid "There are %s conflicting extensions"
 msgstr ""
@@ -9928,7 +9928,7 @@ msgid ""
 "are optional."
 msgstr ""
 
-#: ../core/functions.inc.php:5124 ../core/functions.inc.php:5127
+#: ../core/functions.inc.php:5041 ../core/functions.inc.php:5044
 msgid ""
 "This CallerID will always be set when dialing out an Outbound Route flagged "
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
@@ -10284,7 +10284,7 @@ msgstr ""
 msgid "Transport"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:670
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:648
 #, php-format
 msgid "Tried to link %s to %s, but %s doesn't exist"
 msgstr ""
@@ -10389,7 +10389,7 @@ msgstr "Détails de l'utilisateur"
 msgid "UTC"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:868
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:846
 msgid "Unable to connect to Asterisk Manager"
 msgstr ""
 
@@ -10425,7 +10425,7 @@ msgid ""
 "override?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:861
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:839
 msgid "Unable to find the Asterisk binary"
 msgstr ""
 
@@ -10514,7 +10514,7 @@ msgstr ""
 msgid "Unauthorized user"
 msgstr ""
 
-#: ../core/functions.inc.php:4935 ../core/functions.inc.php:4949
+#: ../core/functions.inc.php:4852 ../core/functions.inc.php:4866
 msgid "Unavail Voicemail if Enabled"
 msgstr ""
 
@@ -10848,7 +10848,7 @@ msgstr ""
 "Utilisé quand la console PHP (https://github.com/barbushin/php-console) est "
 "activée pour le débogage d'erreur"
 
-#: ../core/Core.class.php:3220 ../core/functions.inc.php:4735
+#: ../core/Core.class.php:3220 ../core/functions.inc.php:4652
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -10868,11 +10868,11 @@ msgstr ""
 msgid "User Control Panel"
 msgstr "Panneau de l'utilisateur"
 
-#: ../core/functions.inc.php:4811
+#: ../core/functions.inc.php:4728
 msgid "User Devices"
 msgstr "Périphériques utilisateur"
 
-#: ../core/functions.inc.php:4767
+#: ../core/functions.inc.php:4684
 msgid "User Extension"
 msgstr "Extension Utilisateur"
 
@@ -10881,7 +10881,7 @@ msgstr "Extension Utilisateur"
 msgid "User Extension %s: %s"
 msgstr "Extension Utilisateur %s: %s"
 
-#: ../core/functions.inc.php:4076
+#: ../core/functions.inc.php:3993
 msgid "User Extension: "
 msgstr "Extension Utilisateur:"
 
@@ -10897,7 +10897,7 @@ msgstr "Connexion utilisateur"
 msgid "User Panel"
 msgstr "Panneau utilisateur"
 
-#: ../core/functions.inc.php:4770
+#: ../core/functions.inc.php:4687
 msgid "User Password"
 msgstr "Mot de Passe Utilisateur"
 
@@ -11107,7 +11107,7 @@ msgstr "La période d'attente pour arrêter Asterisk"
 msgid "Warning"
 msgstr "Avertissement"
 
-#: ../core/functions.inc.php:4967
+#: ../core/functions.inc.php:4884
 msgid "Warning! Extension"
 msgstr "Attention!'Extension"
 
@@ -11203,7 +11203,7 @@ msgid ""
 "the countdown timer."
 msgstr ""
 
-#: ../core/functions.inc.php:4869
+#: ../core/functions.inc.php:4786
 msgid ""
 "When Enabled send back a call waiting tone when this user is called and is "
 "busy"
@@ -11439,7 +11439,7 @@ msgstr ""
 msgid "Write Inbound Routes"
 msgstr ""
 
-#: ../core/functions.inc.php:4621
+#: ../core/functions.inc.php:4538
 #: ../core/functions.inc/drivers/Dahdi.class.php:107
 #: ../core/functions.inc/drivers/Dahdi.class.php:118
 #: ../core/functions.inc/drivers/Dahdi.class.php:127
@@ -11516,7 +11516,7 @@ msgid ""
 "your browser."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:384
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:362
 msgid ""
 "You are set to Device and User mode but are not set to 'Dynamically Generate "
 "Hints' which can result in improper phone state behavior. This can be "
@@ -11530,7 +11530,7 @@ msgstr ""
 "Nous vous recommandons d'effectuer une copie de sauvegarde avant d'apporter "
 "des changements."
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:371
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:349
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1196
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
@@ -11632,7 +11632,7 @@ msgid ""
 "Chrome Extension or you are not using Chrome"
 msgstr ""
 
-#: ../core/functions.inc.php:4751
+#: ../core/functions.inc.php:4668
 msgid ""
 "You have entered a non-standard dialpattern for your DID. You can only enter "
 "standard dialpatterns. You must use the inbound routing form to enter non-"
@@ -11652,7 +11652,7 @@ msgstr ""
 "qui provoqera une erreur pour certains modules. FreePBX s'attend à ce que ce "
 "paramètre soit Off et fonctionne ainsi."
 
-#: ../core/functions.inc.php:5136
+#: ../core/functions.inc.php:5053
 #: ../core/functions.inc/drivers/Iax2.class.php:101
 #: ../core/functions.inc/drivers/Sip.class.php:272
 msgid ""
@@ -11778,7 +11778,7 @@ msgid ""
 "reload this page"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:339
 msgid ""
 "Your amportal.conf file is not writeable. FreePBX is running in a crippled "
 "mode until changed. You can run 'amportal chown' from the Linux command line "
@@ -11790,7 +11790,7 @@ msgid "Your browser is out-of-date!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/bootstrap.php:294
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:927
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:905
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and has been increased to %sM. You "
@@ -11800,7 +11800,7 @@ msgstr ""
 "devriez le changer également dans le fichier de configuration php.ini"
 
 #: amp_conf/htdocs/admin/bootstrap.php:296
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:929
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:907
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and may cause problems. FreePBX is "
@@ -11816,7 +11816,7 @@ msgstr ""
 msgid "Your server [%s] discovered the following security issues:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:912
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:890
 msgid ""
 "Your system has no swap space. This should be fixed as soon as possible. "
 "Once fixed issue a reload to remove this message"
@@ -11900,7 +11900,7 @@ msgstr ""
 msgid "altered"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:361
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:339
 msgid "amportal.conf not writeable"
 msgstr ""
 
@@ -11998,7 +11998,7 @@ msgstr ""
 msgid "default"
 msgstr ""
 
-#: ../core/functions.inc.php:4712 ../core/functions.inc.php:5053
+#: ../core/functions.inc.php:4629 ../core/functions.inc.php:4970
 #: ../core/page.did.php:8
 msgid "deleted"
 msgstr "supprimé"
@@ -12161,7 +12161,7 @@ msgstr "est endommagé"
 msgid "is disabled"
 msgstr ""
 
-#: ../core/functions.inc.php:4967
+#: ../core/functions.inc.php:4884
 msgid "is not allowed for your account"
 msgstr "n'est pas permise pour votre compte"
 
@@ -12211,11 +12211,11 @@ msgstr "Administration des Modules locaux"
 msgid "logger file removed, core upgrade will provide new file"
 msgstr ""
 
-#: ../core/functions.inc.php:4770 ../core/functions.inc.php:5122
+#: ../core/functions.inc.php:4687 ../core/functions.inc.php:5039
 msgid "logs into a device."
 msgstr "connecté au périphérique"
 
-#: ../core/functions.inc.php:4770 ../core/functions.inc.php:5122
+#: ../core/functions.inc.php:4687 ../core/functions.inc.php:5039
 msgid "logs out of a device."
 msgstr "déconnecté du périphérique"
 
@@ -12316,7 +12316,7 @@ msgstr "nextresult non implémenté"
 msgid "no logger file to remove"
 msgstr ""
 
-#: ../core/functions.inc.php:5019 ../core/views/routing/moh.php:8
+#: ../core/functions.inc.php:4936 ../core/views/routing/moh.php:8
 msgid "none"
 msgstr "aucun"
 
@@ -12358,7 +12358,7 @@ msgstr ""
 msgid "password"
 msgstr "mot de passe"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:771
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:749
 #, php-format
 msgid "php reported: '%s' after copy or unlink attempt!"
 msgstr ""
@@ -12419,7 +12419,7 @@ msgid ""
 "softwitch with out it. Error: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:682
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:660
 #, php-format
 msgid ""
 "retrieve_conf failed to sym link: %s<br \\>This can result in FATAL failures "
@@ -12429,9 +12429,9 @@ msgid ""
 "customization."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:687
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:690
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:693
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:665
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:668
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:671
 #, php-format
 msgid ""
 "retrieve_conf resolved a symlink with %s<br \\>This is a notice to let you "
