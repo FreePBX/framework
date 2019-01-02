@@ -289,7 +289,7 @@ class FreePBXInstallCommand extends Command {
 				if (version_compare($matches[1], "13", "lt") || version_compare($matches[1], "17", "ge")) {
 					$output->writeln("<error>Error!</error>");
 					$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
-					$output->writeln("<error>Supported Asterisk versions: 13, 14, 15</error>");
+					$output->writeln("<error>Supported Asterisk versions: 13, 14, 15, 16, 17</error>");
 					exit(1);
 				}
 				$output->writeln("Yes. Determined Asterisk version to be: ".$matches[1]);
@@ -307,6 +307,17 @@ class FreePBXInstallCommand extends Command {
 				$output->writeln("<error>Could not determine Asterisk version. Error was '".$lastline."'</error>");
 			}
 			exit(1);
+		}
+
+		$output = exec("node --version"); //v0.10.29
+		$output = str_replace("v","",trim($output));
+		if(empty($output)) {
+			$output->writeln("<error>NodeJS 8 or higher is not installed. This is now a requirement</error>");
+			return false;
+		}
+		if(version_compare($output,'8.0.0',"<")) {
+			$output->writeln(sprintf("NodeJS version is: %s requirement is %s or higher",$output,'8.0.0'));
+			return false;
 		}
 
 		if((file_exists($freepbx_conf_path) && !file_exists(AMP_CONF)) || (!file_exists($freepbx_conf_path) && file_exists(AMP_CONF))) {
