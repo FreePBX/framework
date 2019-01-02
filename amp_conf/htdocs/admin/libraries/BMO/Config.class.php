@@ -381,7 +381,20 @@ class Config {
 	 */
 	public function parse_amportal_conf($filename, $bootstrap_conf = array(), $file_is_authority=false) {
 		//Load runtime settings into returned array
+		$valid = [
+			'AMPDBUSER',
+			'AMPDBPASS',
+			'AMPDBHOST',
+			'AMPDBNAME',
+			'AMPDBENGINE',
+			'AMPDBSOCK',
+			'AMPDBPORT',
+			'datasource'
+		];
 		foreach($bootstrap_conf as $keyword => $value) {
+			if(!in_array($keyword,$valid)) {
+				continue;
+			}
 			$this->conf[$keyword] = $value;
 		}
 		//dont load deprecicated settings into memory though
