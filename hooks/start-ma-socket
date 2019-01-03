@@ -1,0 +1,12 @@
+#!/bin/env php
+<?php
+include '/etc/freepbx.conf';
+
+$freepbx = FreePBX::Create();
+
+$webdir = $freepbx->Config->get('AMPWEBROOT');
+$binary = $webdir.'/admin/libraries/Node/ModuleSocketServer.js';
+$procname = 'frameworkmasocket';
+if($freepbx->PM2->getStatus($procname) === false){
+    return $freepbx->PM2->start($procname, $binary);
+}

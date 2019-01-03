@@ -18,6 +18,8 @@ if (!isset($amp_conf['AMPEXTERNPACKAGES']) || ($amp_conf['AMPEXTERNPACKAGES'] !=
 	define('EXTERNAL_PACKAGE_MANAGEMENT', 1);
 }
 
+//moved functions out to their own file to try and be more MVCish
+include __DIR__. '/libraries/moduleAdminFunctions.php';
 $modulef = module_functions::create();
 
 $REQUEST = freepbxGetSanitizedRequest();
@@ -41,7 +43,7 @@ if ($quietmode && isset($REQUEST['update_email'])) {
 }
 
 $action = isset($REQUEST['action'])?$REQUEST['action']:'';
-
+$FreePBX = FreePBX::Create();
 global $active_repos;
 $loc_domain = 'amp';
 if (isset($REQUEST['check_online'])) {
@@ -68,7 +70,7 @@ $moduleaction = isset($REQUEST['moduleaction'])?$REQUEST['moduleaction']:false;
 
 $freepbx_version = get_framework_version();
 $freepbx_version = $freepbx_version ? $freepbx_version : getversion();
-$freepbx_help_url = "http://www.freepbx.org/freepbx-help-system?freepbx_version=".urlencode($freepbx_version);
+$freepbx_help_url = "https://www.freepbx.org/freepbx-help-system?freepbx_version=".urlencode($freepbx_version);
 $displayvars = array();
 
 $displayvars['freepbx_help_url'] = $freepbx_help_url;
@@ -85,7 +87,7 @@ if (!$quietmode) {
 	} else {
 		$displayvars['shield_class'] = $update_email ? 'updates_full' : 'updates_partial';
 	}
-	$brand = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
+	$brand = $FreePBX->Config->get("DASHBOARD_FREEPBX_BRAND");
 	$displayvars['update_blurb']   = htmlspecialchars(sprintf(_("Add your email here to receive important security and module updates. The email address you provide is NEVER transmitted to the %s remote servers. The email is ONLY used by your local PBX to send notifications of updates that are available as well as IMPORTANT Security Notifications. It is STRONGLY advised that you keep this enabled and keep updated of these important notifications to avoid costly security vulnerabilities."),$brand));
 	$displayvars['ue'] = htmlspecialchars($update_email);
 	$displayvars['machine_id'] = htmlspecialchars($machine_id);
@@ -386,7 +388,7 @@ case 'process':
 	}
 	echo _("Updating Hooks...");
 	try {
-		\FreePBX::Hooks()->updateBMOHooks();
+		$FreePBX->Hooks->updateBMOHooks();
 	}catch(\Exception $e) {}
 		echo _("Done")."<br />";
 	echo "</div>";
@@ -451,11 +453,22 @@ case 'confirm':
 					$skipaction = true;
 					$errorstext[] = sprintf(_("%s cannot be rolledback, version %s is missing"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$REQUEST['version']."</strong>");
 				}
-				if (is_array($errors = $modulef->checkdepends($previous_data))) {
+				$dependerrors = $modulef->checkdepends($previous_data);
+				$conflicterrors = $FreePBX->Modules->checkBreaking($previous_data);
+				$rollbackerrors = false;
+				if (is_array($conflicterrors)) {
+					$rollbackerrors = true;
+					$skipaction = true;
+					$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the conflicts have been resolved."),
+						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$rollbackconflicts).'</li></ul></strong>');
+				}
+				if (is_array($dependerrors)) {
+					$rollbackerrors = true;
 					$skipaction = true;
 					$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),
-						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
-				} else {
+						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
+				}
+				if(!$rollbackconflicts){
 					$actionstext[] =  sprintf(_("%s %s will be downloaded and rolled back to %s"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$REQUEST['version']."</strong>");
 				}
 			}
@@ -491,11 +504,22 @@ case 'confirm':
 						}
 					}
 				} else {
-					if (is_array($errors = $modulef->checkdepends($trackinfo))) {
+					$checkdone = false;
+					$dependerrors = $modulef->checkdepends($trackinfo);
+					$conflicterrors = $FreePBX->Modules->checkBreaking($trackinfo);
+					if (is_array($dependerrors )) {
+						$checkdone = true;
 						$skipaction = true;
 						$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),
-							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
-					} else {
+							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
+					}
+					if (is_array($conflicterrors )) {
+						$checkdone = true;
+						$skipaction = true;
+						$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the conflicts have been corrected."),
+							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$conflicterrors).'</li></ul></strong>');
+					}
+					if(!is_array($dependserror) && !is_array($conflicterrors) && !$checkdone){
 						switch ( version_compare_freepbx($modules[$module]['dbversion'], $trackinfo['version'])) {
 						case '-1':
 							$actionstext[] = sprintf(_("%s %s will be upgraded to online version %s"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$trackinfo['version']."</strong>");
@@ -516,33 +540,55 @@ case 'confirm':
 				if($track != $modules[$module]['track']) {
 					$action = 'trackinstall';
 					$trackinfo = ($track == 'stable') ? $modules_online[$module] : (!empty($modules_online[$module]['releasetracks'][$track]) ? $modules_online[$module]['releasetracks'][$track] : array());
-					if(empty($trackinfo)) {
-						$skipaction = true;
-						$errorstext[] = sprintf(_("%s cannot be upgraded to %s: The release track of %s does not exist for this module"),
-							"<strong>".$modules[$module]['name']."</strong>","<strong>".$track."</strong>","<strong>".$track."</strong>");
-					} elseif (is_array($errors = $modulef->checkdepends($trackinfo))) {
-						$skipaction = true;
-						$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
-							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
-					} else {
-						$actionstext[] =  sprintf(_("%s %s will be downloaded and installed and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$trackinfo['version']."</strong>","<strong>".$track."</strong>");
-					}
-				} elseif (is_array($errors = $modulef->checkdepends($modules_online[$module]))) {
-					$skipaction = true;
-					$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
-						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
-				} else {
-					$actionstext[] =  sprintf(_("%s %s will be downloaded and installed"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules_online[$module]['version']."</strong>");
 				}
+
+				if(!empty($trackinfo)){
+					$dependerrors = $modulef->checkdepends($trackinfo);
+					$conflicterrors = $FreePBX->Modules->checkBreaking($trackinfo);
+				}
+				if(empty($trackinfo)) {
+					$dependerrors = false;
+					$conflicterrors = false;
+					$skipaction = true;
+					$errorstext[] = sprintf(_("%s cannot be upgraded to %s: The release track of %s does not exist for this module"),
+						"<strong>".$modules[$module]['name']."</strong>","<strong>".$track."</strong>","<strong>".$track."</strong>");
+				} 
+				if(is_array($dependerrors)) {
+					$skipaction = true;
+					$di = true;
+					$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
+						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
+				}
+				if(is_array($conflicterrors)) {
+					$skipaction = true;
+					$di = true;
+					$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the conflicts have been installed."),
+						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$conflicterrors).'</li></ul></strong>');
+				}
+				if(!empty($trackinfo) && !$di){
+					$actionstext[] =  sprintf(_("%s %s will be downloaded and installed and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$trackinfo['version']."</strong>","<strong>".$track."</strong>");
+				}
+				
 			}
 			break;
 		case 'install':
 			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-				if (is_array($errors = $modulef->checkdepends($modules[$module]))) {
+				$dependerrors = $modulef->checkdepends($trackinfo);
+				$conflicterrors = $FreePBX->Modules->checkBreaking($trackinfo);
+				$issues = false;
+				if (is_array($dependerrors)) {
 					$skipaction = true;
+					$issues = true;
 					$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please try again after the dependencies have been installed.") : _("%s cannot be installed: %s Please try again after the dependencies have been installed.") ),
-						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
-				} else {
+						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
+				} 
+				if (is_array($conflicterrors)) {
+					$skipaction = true;
+					$issues = true;
+					$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the conflicts have been resolved."),
+						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$conflicterrors).'</li></ul></strong>');
+				} 
+				if(!$issues){
 					if ($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) {
 						$actionstext[] =  sprintf(_("%s %s will be upgraded to %s"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$modules[$module]['version']."</strong>");
 					} else {
@@ -552,11 +598,22 @@ case 'confirm':
 			}
 			break;
 		case 'enable':
-			if (is_array($errors = $modulef->checkdepends($modules[$module]))) {
+			$dependerrors = $modulef->checkdepends($modules[$module]);
+			$conflicterrors = $FreePBX->Modules->checkBreaking($trackinfo);
+			$issues = false;
+			if (is_array($dependerrors)) {
 				$skipaction = true;
+				$issues = true;
 				$errorstext[] = sprintf(_("%s cannot be enabled: %s Please try again after the dependencies have been installed."),
-					"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$errors).'</li></ul></strong>');
-			} else {
+					"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependserrors).'</li></ul></strong>');
+			}
+			if (is_array($conflicterrors)) {
+				$skipaction = true;
+				$issues = true;
+				$errorstext[] = sprintf(_("%s cannot be enabled: %s Please try again after the conflicts have been resolved."),
+					"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$conflicterrors).'</li></ul></strong>');
+			}
+			if(!$issues){
 				$actionstext[] =  sprintf(_("%s %s will be enabled"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>");
 			}
 			break;
@@ -607,6 +664,7 @@ case 'confirm':
 		if (!$skipaction && $action != "0") { //TODO
 			$moduleActions[$module]['action'] = $action;
 			$moduleActions[$module]['track'] = $trackaction[$module];
+			$moduleActions[$module]['version'] = $modules[$module]['version'];
 			if($action== 'rollback') {
 				$moduleActions[$module]['rollback'] = $REQUEST['version'];
 			}
@@ -858,6 +916,9 @@ default:
 				case MODULE_STATUS_NEEDUPGRADE:
 					$sysstatus = _('needs to be upgraded');
 					break;
+				case MODULE_STATUS_CONFLICT:
+					$sysstatus = _('has one or more conflicts');
+					break;
 				default:
 					$sysstatus = _('is unknown');
 					break;
@@ -910,11 +971,12 @@ default:
 			$headerclass .= ' needupgrade';
 			break;
 		case MODULE_STATUS_BROKEN:
+		case MODULE_STATUS_CONFLICT:
 			$headerclass .= ' broken';
 			break;
 		}
-		if(FreePBX::Config()->get('SIGNATURECHECK')) {
-			FreePBX::GPG();
+		if($FreePBX->Config->get('SIGNATURECHECK')) {
+			$FreePBX->GPG;
 			if(!empty($modules[$name]['signature']) && is_int($modules[$name]['signature']['status']) && (~$modules[$name]['signature']['status'] & \FreePBX\GPG::STATE_GOOD)) {
 				switch(true) {
 				case $modules[$name]['signature']['status'] & \FreePBX\GPG::STATE_TAMPERED:
@@ -932,7 +994,6 @@ default:
 				case $modules[$name]['signature']['status'] & \FreePBX\GPG::STATE_REVOKED:
 					$headerclass .= " revoked";
 					$module_display[$category]['data'][$name]['signature']['message'] = _("Module has been revoked and can not be enabled");
-					break;
 					break;
 				default:
 				}
@@ -1014,7 +1075,7 @@ default:
 	$displayvars['module_display'] = $module_display;
 	$displayvars['devel'] = $amp_conf['DEVEL'];
 	$displayvars['trackenable'] = $amp_conf['AMPTRACKENABLE'];
-	$displayvars['brand'] = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
+	$displayvars['brand'] = $FreePBX->Config->get("DASHBOARD_FREEPBX_BRAND");
 	$displayvars['broken_module_list'] = $broken_module_list;
 
 	// System Updates are only usable on FreePBX Distro style machines
@@ -1056,8 +1117,9 @@ default:
 	$summary["disabledmodules"] = count($modulef->getinfo(false, \MODULE_STATUS_DISABLED));
 	$summary["brokenmodules"] = count($modulef->getinfo(false, \MODULE_STATUS_BROKEN));
 	$summary["needsupgrademodules"] = count($modulef->getinfo(false, \MODULE_STATUS_BROKEN));
-	$cachedonline = \FreePBX::Modules()->getCachedOnlineData();
-	$summary["availupdates"] = \FreePBX::Modules()->getUpgradeableModules($cachedonline['modules']);
+	$summary["hasconflictmodules"] = count($modulef->getinfo(false, \MODULE_STATUS_CONFLICT));
+	$cachedonline = $FreePBX->Modules->getCachedOnlineData();
+	$summary["availupdates"] = $FreePBX->Modules->getUpgradeableModules($cachedonline['modules']);
 	$summary["lastonlinecheck"] = $cachedonline['timestamp'];
 
 
@@ -1092,158 +1154,3 @@ if (!$quietmode) {
 	show_view('views/module_admin/footer.php',$displayvars);
 }
 
-//-------------------------------------------------------------------------------------------
-// Help functions
-//
-
-/** preps a string to use as an HTML id element
- */
-function prep_id($name) {
-	return preg_replace("/[^a-z0-9-]/i", "_", $name);
-}
-
-/** Progress callback used by module_download()
- */
-function download_progress($action, $params) {
-	switch ($action) {
-	case 'untar':
-		echo '<script type="text/javascript">' .
-			'$("#installstatus_'.$params['module'].'").append("'._('Untarring..').'");'.
-			'</script>';
-		@ ob_flush();
-		flush();
-		break;
-	case 'downloading':
-		if ($params['total']==0) {
-			$progress = $params['read'].' of '.$params['total'].' (0%)';
-		} else {
-			$progress = $params['read'].' of '.$params['total'].' ('.round($params['read']/$params['total']*100).'%)';
-		}
-		echo '<script type="text/javascript">'.
-			'$("#downloadprogress_'.$params['module'].'").html("'.$progress.'");'.
-			'</script>';
-		@ ob_flush();
-		flush();
-		break;
-		case 'done';
-		echo '<script type="text/javascript">'.
-			'$("#installstatus_'.$params['module'].'").append("'._('Done').'<br/>");'.
-			'</script>';
-		@ ob_flush();
-		flush();
-		break;
-	}
-}
-
-function format_changelog($changelog) {
-	$changelog = nl2br($changelog);
-	$changelog = preg_replace('/(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+):/', '<strong>$0</strong>', $changelog);
-	$changelog = preg_replace('/\*(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+)\*/', '<strong>$1:</strong>', $changelog);
-	$changelog = preg_replace('/(\d+(\.\d+|\.\d+beta\d+|\.\d+alpha\d+|\.\d+rc\d+|\.\d+RC\d+)+) /', '<strong>$1: </strong>', $changelog);
-
-	$changelog = format_ticket($changelog);
-
-	$changelog = preg_replace_callback('/(?<!\w)r(\d+)(?!\w)/', 'trac_replace_changeset', $changelog);
-	$changelog = preg_replace_callback('/(?<!\w)\[(\d+)\](?!\w)/', 'trac_replace_changeset', $changelog);
-
-	return $changelog;
-}
-
-function format_ticket($string) {
-	// convert '#xxx', 'ticket xxx', 'bug xxx' to ticket links and rxxx to changeset links in trac
-	$string = preg_replace_callback('/(?<!\w)(?:#|bug |ticket )([^&]\d{3,5})(?!\w)/i', 'trac_replace_ticket', $string);
-
-	// Convert FREEPBX|FPBXDISTRO(-| )6745 for jira
-	$string = preg_replace_callback('/(FREEPBX|FPBXDISTRO)(?:\-| )([^&]\d{3,5})(?!\w)/', 'jira_replace_ticket', $string);
-
-	return $string;
-}
-
-/* enable_option($module_name, $option)
-	This function will return false if the particular option, which is a module xml tag,
-	is set to 'no'. It also provides for some hardcoded overrides on critical modules to
-	keep people from editing the xml themselves and then breaking their the system.
- */
-function enable_option($module_name, $option) {
-	global $modules;
-
-	$enable=true;
-	$override = array(
-		'core'	=> array(
-			'candisable' => 'no',
-			'canuninstall' => 'no',
-		),
-		'framework' => array(
-			'candisable' => 'no',
-			'canuninstall' => 'no',
-		),
-	);
-	if (isset($modules[$module_name][$option]) && strtolower(trim($modules[$module_name][$option])) == 'no') {
-		$enable=false;
-	}
-	if (isset($override[$module_name][$option]) && strtolower(trim($override[$module_name][$option])) == 'no') {
-		$enable=false;
-	}
-	return $enable;
-}
-
-/**
- *  Replace '#nnn', 'bug nnn', 'ticket nnn' type ticket numbers in changelog with a link, taken from Greg's drupal filter
- */
-function trac_replace_ticket($match) {
-	$baseurl = 'http://freepbx.org/trac/ticket/';
-	return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="ticket '.$match[1].'">'.$match[0].'</a>';
-}
-
-/**
- *  Replace 'rnnn' changeset references to a link, taken from Greg's drupal filter
- */
-function trac_replace_changeset($match) {
-	// We continue to use trac here eventhough we are using jira for backwards compatibility
-	// and to let jira know its an old reference
-	$baseurl = 'http://freepbx.org/trac/changeset/';
-	return '<a target="tractickets" href="'.$baseurl.$match[1].'" title="changeset '.$match[1].'">'.$match[0].'</a>';
-}
-
-/**
- *  Replace 'FREEPBX-nnn', 'FPBXDISTRO-nnn' type ticket numbers in changelog with a link
- */
-function jira_replace_ticket($match) {
-	$baseurl = 'http://issues.freepbx.org/browse/'.$match[1].'-';
-	return '<a target="tractickets" href="'.$baseurl.$match[2].'" title="ticket '.$match[2].'">#'.$match[2].'</a>';
-}
-
-function pageReload(){
-	return "";
-}
-
-function displayRepoSelect($buttons,$online=false,$repo_list=array()) {
-	global $display, $online, $tabindex;
-
-	$modulef = module_functions::create();
-	$displayvars = array("display" => $display, "online" => $online, "tabindex" => $tabindex, "repo_list" => $repo_list, "active_repos" => $modulef->get_active_repos());
-	$button_display = '';
-	$href = "config.php?display=$display";
-	$button_template = '<input type="button" value="%s" onclick="location.href=\'%s\';" />'."\n";
-
-	$displayvars['button_display'] = '';
-	foreach ($buttons as $button) {
-		switch($button) {
-		case 'local':
-			$displayvars['button_display'] .= sprintf($button_template, _("Manage local modules"), $href);
-			break;
-		case 'upload':
-			$displayvars['button_display'] .= sprintf($button_template, _("Upload modules"), $href.'&action=upload');
-			break;
-		}
-	}
-
-	$brand = \FreePBX::Config()->get("DASHBOARD_FREEPBX_BRAND");
-
-	$displayvars['tooltip']  = _("Choose the repositories that you want to check for new modules. Any updates available for modules you have on your system will be detected even if the repository is not checked. If you are installing a new system, you may want to start with the Basic repository and update all modules, then go back and review the others.").' ';
-	$displayvars['tooltip'] .= sprintf(_(" The modules in the Extended repository are less common and may receive lower levels of support. The Unsupported repository has modules that are not supported by the %s team but may receive some level of support by the authors."),$brand).' ';
-	$displayvars['tooltip'] .= _("The Commercial repository is reserved for modules that are available for purchase and commercially supported.").' ';
-	$displayvars['tooltip'] .= '<br /><br /><small><i>('.sprintf(_("Checking for updates will transmit your %s, Distro, Asterisk and PHP version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted."),$brand).')</i></small>';
-
-	return load_view('views/module_admin/reposelect.php',$displayvars);
-}

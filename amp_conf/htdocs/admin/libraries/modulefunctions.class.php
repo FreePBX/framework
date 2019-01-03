@@ -8,6 +8,7 @@ define('MODULE_STATUS_DISABLED', 1);
 define('MODULE_STATUS_ENABLED', 2);
 define('MODULE_STATUS_NEEDUPGRADE', 3);
 define('MODULE_STATUS_BROKEN', -1);
+define('MODULE_STATUS_CONFLICT', -2);
 if(false) {
 	//Standard remote repositories
 	_("Standard");

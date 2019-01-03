@@ -1,4 +1,24 @@
 $(document).ready(function(){
+	//Moduleadmin websocket
+	var wsproto = 'ws://';
+	if(window.location.protocol == 'https:'){
+		wsproto = 'wss://';
+	}
+	const ws = new WebSocket(`${wsproto}${window.location.hostname}:8080`);
+	window.ws = ws;
+	ws.onerror = function (error) {
+		console.log(error);
+	};
+	ws.onopen = function () {
+		console.log(ws);
+	};
+	ws.onclose = function () {
+		console.log('wtf');
+	};
+	ws.onmessage = function (message) {
+		console.log(message);
+	};
+
 	// Scheduler update button
 	$("#saveschedule").on("click", saveUpdateScheduler);
 	$("#check_online_button").click(function(e) {
@@ -264,6 +284,11 @@ function showhide_upgrades() {
 
 var box;
 function process_module_actions(modules) {
+	ws.send(JSON.stringify({
+		session: $('#phpsession').val(),
+		modules: modules
+	}));
+	return;
 	var urlStr = '';
 	if(!jQuery.isEmptyObject(modules)) {
 		urlStr = "config.php?display=modules&action=process&quietmode=1&online=1&"+$.param( {"modules":modules} );

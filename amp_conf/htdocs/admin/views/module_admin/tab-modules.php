@@ -89,6 +89,10 @@ if($online) {
 										case MODULE_STATUS_BROKEN:?>
 											<span class="alert text"><?php echo _('Broken');?></span>
 										<?php break;
+										case MODULE_STATUS_CONFLICT:?>
+											<span class="alert text"><?php echo _('Conflicts');?></span>
+										<?php break;
+
 										case MODULE_STATUS_DISABLED:
 										default:
 											$disabled = ($module['status'] == MODULE_STATUS_DISABLED) ? _('Disabled') . '; ' : '';
@@ -280,6 +284,7 @@ if($online) {
 																	continue;
 																}
 															?>
+																<input id="id="version_<?php echo prep_id($module['name'])?>"" type="hidden" name="version[<?php echo prep_id($module['name'])?>]" value="<?php echo $module['version']?>"/>
 																<input id="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>" type="radio" name="trackaction[<?php echo prep_id($module['name'])?>]" value="<?php echo $track?>" <?php echo ($checked) ? 'checked' : ''?>/>
 																<label for="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>"><?php echo ucfirst($track)?></label>
 															<?php } ?>
@@ -290,6 +295,7 @@ if($online) {
 													<tr>
 														<td colspan="2">
 															<input id="track_stable_<?php echo prep_id($module['name'])?>" type="hidden" name="trackaction[<?php echo prep_id($module['name'])?>]" value="stable"/>
+															<input id="track_version_<?php echo prep_id($module['name'])?>" type="hidden" name="version[<?php echo prep_id($module['name'])?>]" value="<?php echo $module['version']?>"/>
 														</td>
 													</tr>
 												<?php } ?>
@@ -353,6 +359,16 @@ if($online) {
 																			<?php }
 																		break;
 																		case MODULE_STATUS_BROKEN:
+																			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+																				if (!$module['blocked']['status']) { ?>
+																					<input type="radio" id="install_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="install" />
+																					<label for="install_<?php echo prep_id($module['name'])?>"><?php echo _('Install')?></label>
+																				<?php } ?>
+																				<input type="radio" id="uninstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="uninstall" />
+																				<label for="uninstall_<?php echo prep_id($module['name'])?>"><?php echo _('Uninstall')?></label>
+																			<?php }
+																		break;
+																		case MODULE_STATUS_CONFLICT:
 																			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 																				if (!$module['blocked']['status']) { ?>
 																					<input type="radio" id="install_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="install" />

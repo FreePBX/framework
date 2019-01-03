@@ -1,7 +1,13 @@
+/**
+ * TODO: use ampconf value for fwconsole path
+ * TODO: make the websocket port configurable 
+ * TODO: Make this launch at runtime and die when done. 
+ */
 const FreePBX = require('freepbx');
 const WebSocket = require('ws');
+const util = require('util');
 
-const wss = new WebSocket.Server({
+const wsconf = {
     port: 8080,
     perMessageDeflate: {
         zlibDeflateOptions: {
@@ -22,16 +28,18 @@ const wss = new WebSocket.Server({
         threshold: 1024 // Size (in bytes) below which messages
         // should not be compressed.
     }
-});
+}
 
+const wss = new WebSocket.Server(wsconf);
 const spawn = require('child_process').spawn;
 wss.on('connection', function connection(ws) {
     ws.on('message', function incoming(message) {
+        console.log(JSON.stringify(message));
         if(!message.session){
             ws.send(`{status:"error", message: "No session data received"}`);
             return;
         }
-        var session = getSession($message.session);
+        var session = getSession(message.session);
         if(!session.ampuser.username){
             ws.send(`{status:"error", message: "Check that your session is not expired."}`);
             return;
@@ -39,6 +47,7 @@ wss.on('connection', function connection(ws) {
         var data = {};
         try{
             var data = JSON.parse(message);
+            console.log(data);
         } catch(e){
         }
         var args = ['ma'];
