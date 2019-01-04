@@ -2287,6 +2287,7 @@ class module_functions {
 				$parser = new xml2Array($data);
 				$xmlarray = $parser->data;
 			} catch(\Exception $e) {
+				freepbx_log(FPBX_LOG_ERROR,sprintf(_("Unable to parse %s: %s"),$xmlfile, $e->getMessage()));
 				$xmlarray = array();
 			}
 			if (isset($xmlarray['module'])) {
