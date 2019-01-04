@@ -65,6 +65,7 @@ class Moduleadmin extends Command {
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
 			new InputOption('tag', 't', InputOption::VALUE_REQUIRED, _('Download/Upgrade to a specific tag')),
 			new InputOption('sendemail', '', InputOption::VALUE_NONE, _('Send out finalized email')),
+			new InputOption('onlystdout', '', InputOption::VALUE_NONE, _('Deprecated option')),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
 		->setHelp($this->showHelp());
 	}
