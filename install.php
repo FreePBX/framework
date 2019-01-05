@@ -247,7 +247,7 @@ if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && !function_exists('compress_framework_cs
 }
 
 if (!$amp_conf['DISABLE_CSS_AUTOGEN'] && function_exists('compress_framework_css')) {
-	outn(_("Compressing Framework CSS"));
+	outn(_("Compressing Framework CSS..."));
 	compress_framework_css();
 	out(_("Done"));
 }
@@ -264,7 +264,7 @@ $fwxml = simplexml_load_file(dirname(__FILE__).'/module.xml');
 //setversion to whatever is in framework.xml forever for here on out.
 $fwver = (string)$fwxml->version;
 if(!empty($fwver)) {
-	outn(_("Setting Framework Version"));
+	outn(_("Setting Framework Version..."));
 	$installer->set_version($fwver);
 	if($installer->get_version() != $fwver) {
 		out(_('Internal Error. Function install_getversion did not match the Framework version, even after it was suppose to be applied'));
