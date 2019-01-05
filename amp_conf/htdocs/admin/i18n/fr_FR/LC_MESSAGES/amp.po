@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-05 14:11-0500\n"
+"POT-Creation-Date: 2019-01-05 14:27-0500\n"
 "PO-Revision-Date: 2017-03-13 18:33+0200\n"
 "Last-Translator: Nicolas <freepbx@riendeau.org>\n"
 "Language-Team: French <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -1582,7 +1582,7 @@ msgstr ""
 msgid "Browser Stats"
 msgstr ""
 
-#: install.php:305
+#: install.php:312
 msgid "Building Packaged Scripts..."
 msgstr ""
 
@@ -1893,7 +1893,7 @@ msgstr "Ce module ne peut être désactivé. Les modules suivants en dépendent 
 msgid "Cannot find module"
 msgstr "Impossible de trouver le module"
 
-#: install.php:252
+#: install.php:256
 msgid "Cant Find Framework XML"
 msgstr ""
 
@@ -2169,6 +2169,14 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:18
 msgid "Common utilities"
+msgstr ""
+
+#: install.php:250
+msgid "Compressing Framework CSS"
+msgstr ""
+
+#: install.php:241
+msgid "Compressing Web Files"
 msgstr ""
 
 #: amp.i18n.php:290
@@ -3374,7 +3382,8 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2083
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2180
 #: amp_conf/htdocs/admin/page.modules.php:357
-#: amp_conf/htdocs/admin/page.modules.php:1096 install.php:307
+#: amp_conf/htdocs/admin/page.modules.php:1096 install.php:246 install.php:252
+#: install.php:273 install.php:308 install.php:314 install.php:321
 #: installlib/installcommand.class.php:532
 #: installlib/installcommand.class.php:570 ../core/install.php:807
 msgid "Done"
@@ -3954,7 +3963,7 @@ msgstr "Erreur lors de l'ouverture de %s pour écriture"
 msgid "Error parsing cdr_mysql.conf, no migration done"
 msgstr ""
 
-#: install.php:314
+#: install.php:323
 #, php-format
 msgid "Error updating GPG Keys: %s"
 msgstr ""
@@ -5483,7 +5492,7 @@ msgid ""
 "even after it was suppose to be applied"
 msgstr ""
 
-#: install.php:265
+#: install.php:270
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -7701,6 +7710,10 @@ msgstr ""
 msgid "Refreshing %s"
 msgstr ""
 
+#: install.php:318
+msgid "Refreshing GPG Keys..."
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:363
 msgid "Refuse"
 msgstr ""
@@ -8004,6 +8017,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:116
 #, php-format
 msgid "Running Asterisk pre from %s module"
+msgstr ""
+
+#: install.php:300
+msgid "Running SQL cleanup..."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:370
@@ -8361,6 +8378,10 @@ msgstr ""
 msgid "Setting AUTHTYPE to none consistent with old default"
 msgstr ""
 
+#: install.php:267
+msgid "Setting Framework Version"
+msgstr ""
+
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:94
 msgid "Setting MOHDIR to mohmp3 consistent with old default"
 msgstr ""
@@ -8399,7 +8420,7 @@ msgstr ""
 msgid "Setting of \"%s\" is (%s)[%s]"
 msgstr ""
 
-#: install.php:286
+#: install.php:293
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr ""
@@ -10604,7 +10625,7 @@ msgstr "Vérification de GPG en cours..."
 msgid "Version"
 msgstr "Version"
 
-#: install.php:269
+#: install.php:276
 msgid "Version from Framework was empty, cant continue"
 msgstr "La version du cadriciel était vide, impossible de continuer"
 

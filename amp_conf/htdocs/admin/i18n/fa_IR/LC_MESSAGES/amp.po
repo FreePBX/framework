@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-05 14:11-0500\n"
+"POT-Creation-Date: 2019-01-05 14:27-0500\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -1642,7 +1642,7 @@ msgstr "کش روزانه مرورگر"
 msgid "Browser Stats"
 msgstr "آمار مرورگر"
 
-#: install.php:305
+#: install.php:312
 msgid "Building Packaged Scripts..."
 msgstr ""
 
@@ -1976,7 +1976,7 @@ msgstr "غیرفعال نمیشود: وابستگی ماژول به: "
 msgid "Cannot find module"
 msgstr "ماژول پیدا نشد"
 
-#: install.php:252
+#: install.php:256
 msgid "Cant Find Framework XML"
 msgstr "نمیتواند فریم ورک XML را پیدا کند"
 
@@ -2273,6 +2273,14 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:18
 msgid "Common utilities"
 msgstr "ابزارهای متداول"
+
+#: install.php:250
+msgid "Compressing Framework CSS"
+msgstr ""
+
+#: install.php:241
+msgid "Compressing Web Files"
+msgstr ""
 
 #: amp.i18n.php:290
 msgid "Conference Room App"
@@ -3586,7 +3594,8 @@ msgstr "هنوز پیزی درباره ماژولها نمیدانید. بسپا
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2083
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2180
 #: amp_conf/htdocs/admin/page.modules.php:357
-#: amp_conf/htdocs/admin/page.modules.php:1096 install.php:307
+#: amp_conf/htdocs/admin/page.modules.php:1096 install.php:246 install.php:252
+#: install.php:273 install.php:308 install.php:314 install.php:321
 #: installlib/installcommand.class.php:532
 #: installlib/installcommand.class.php:570 ../core/install.php:807
 msgid "Done"
@@ -4184,7 +4193,7 @@ msgstr "خطا در بازکردن %s برای نوشتن"
 msgid "Error parsing cdr_mysql.conf, no migration done"
 msgstr "خطا در تحلیل cdr_mysql.conf، منتقل نشد"
 
-#: install.php:314
+#: install.php:323
 #, php-format
 msgid "Error updating GPG Keys: %s"
 msgstr "خطا در حال به روزرسانی کلیدهای GPG: %s"
@@ -5828,7 +5837,7 @@ msgid ""
 "even after it was suppose to be applied"
 msgstr "خطای داخلی. تابع getVersion با نسخه فریم ورک همخوانی ندارد"
 
-#: install.php:265
+#: install.php:270
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -8166,6 +8175,10 @@ msgstr ""
 msgid "Refreshing %s"
 msgstr "بازنشانی %s"
 
+#: install.php:318
+msgid "Refreshing GPG Keys..."
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:363
 msgid "Refuse"
 msgstr "قبول نکردن"
@@ -8477,6 +8490,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:116
 #, php-format
 msgid "Running Asterisk pre from %s module"
+msgstr ""
+
+#: install.php:300
+msgid "Running SQL cleanup..."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:370
@@ -8854,6 +8871,10 @@ msgstr "Sets which PHP errors  are reported"
 msgid "Setting AUTHTYPE to none consistent with old default"
 msgstr "Setting AUTHTYPE to none  consistent with old default"
 
+#: install.php:267
+msgid "Setting Framework Version"
+msgstr ""
+
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:94
 msgid "Setting MOHDIR to mohmp3 consistent with old default"
 msgstr "Setting  MOHDIR to mohmp3 consistent with old default"
@@ -8901,7 +8922,7 @@ msgstr ""
 msgid "Setting of \"%s\" is (%s)[%s]"
 msgstr ""
 
-#: install.php:286
+#: install.php:293
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr "Setting sbin to the  correct location of: %s"
@@ -11303,7 +11324,7 @@ msgstr "تایید GPG..."
 msgid "Version"
 msgstr "نسخه"
 
-#: install.php:269
+#: install.php:276
 msgid "Version from Framework was empty, cant continue"
 msgstr "نسخه فریم ورک خالی است, نمیتوان ادامه داد"
 

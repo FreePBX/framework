@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-05 14:11-0500\n"
+"POT-Creation-Date: 2019-01-05 14:27-0500\n"
 "PO-Revision-Date: 2018-07-18 19:15+0000\n"
 "Last-Translator: Elvita Crespo <ecrespo@sangoma.com>\n"
 "Language-Team: Spanish <http://*/projects/freepbx/framework/es/>\n"
@@ -1669,7 +1669,7 @@ msgstr "Caché del día de reproducción del navegador"
 msgid "Browser Stats"
 msgstr "Estadísticas de Navegador"
 
-#: install.php:305
+#: install.php:312
 msgid "Building Packaged Scripts..."
 msgstr ""
 
@@ -2010,7 +2010,7 @@ msgstr "No se puede deshabilitar: Los siguientes módulos dependen de éste: "
 msgid "Cannot find module"
 msgstr "No se puede encontrar el módulo"
 
-#: install.php:252
+#: install.php:256
 msgid "Cant Find Framework XML"
 msgstr "No se puede encontrar Framework XML"
 
@@ -2322,6 +2322,14 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:18
 msgid "Common utilities"
 msgstr "Utilitarios Comunes"
+
+#: install.php:250
+msgid "Compressing Framework CSS"
+msgstr ""
+
+#: install.php:241
+msgid "Compressing Web Files"
+msgstr ""
 
 #: amp.i18n.php:290
 msgid "Conference Room App"
@@ -3674,7 +3682,8 @@ msgstr "No sé acerca de módulos todavía. Tiene que ser entregado a mí"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2083
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2180
 #: amp_conf/htdocs/admin/page.modules.php:357
-#: amp_conf/htdocs/admin/page.modules.php:1096 install.php:307
+#: amp_conf/htdocs/admin/page.modules.php:1096 install.php:246 install.php:252
+#: install.php:273 install.php:308 install.php:314 install.php:321
 #: installlib/installcommand.class.php:532
 #: installlib/installcommand.class.php:570 ../core/install.php:807
 msgid "Done"
@@ -4283,7 +4292,7 @@ msgstr "Error abriendo %s para escritura"
 msgid "Error parsing cdr_mysql.conf, no migration done"
 msgstr "Error al analizar cdr_mysql.conf, ninguna migración hecha"
 
-#: install.php:314
+#: install.php:323
 #, php-format
 msgid "Error updating GPG Keys: %s"
 msgstr "Error al actualizar las claves GPG: %s"
@@ -6012,7 +6021,7 @@ msgstr ""
 "Error Interno. Función getVersion no coincide con la versión Framework, "
 "incluso después de que se suponía que debía ser aplicado"
 
-#: install.php:265
+#: install.php:270
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -8413,6 +8422,10 @@ msgstr ""
 msgid "Refreshing %s"
 msgstr "Refrescando %s"
 
+#: install.php:318
+msgid "Refreshing GPG Keys..."
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:363
 msgid "Refuse"
 msgstr "Rehusar"
@@ -8728,6 +8741,10 @@ msgstr "Ejecutando Asterisk post desde el módulo %s"
 #, php-format
 msgid "Running Asterisk pre from %s module"
 msgstr "Ejecutando Asterisk pre desde el módulo %s"
+
+#: install.php:300
+msgid "Running SQL cleanup..."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:370
 msgid "SECURITY NOTICE:"
@@ -9113,6 +9130,10 @@ msgstr "Establece cuales errores PHP son reportados"
 msgid "Setting AUTHTYPE to none consistent with old default"
 msgstr "Ajuste AUTHTYPE a ninguno coherente con la antigua por defecto"
 
+#: install.php:267
+msgid "Setting Framework Version"
+msgstr ""
+
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:94
 msgid "Setting MOHDIR to mohmp3 consistent with old default"
 msgstr "Configuración MOHDIR a mohmp3 coherente con la antigua por defecto"
@@ -9161,7 +9182,7 @@ msgstr ""
 msgid "Setting of \"%s\" is (%s)[%s]"
 msgstr ""
 
-#: install.php:286
+#: install.php:293
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr "Configuración sbin a la ubicación correcta de: %s"
@@ -11665,7 +11686,7 @@ msgstr "Verificando GPG ..."
 msgid "Version"
 msgstr "Versión"
 
-#: install.php:269
+#: install.php:276
 msgid "Version from Framework was empty, cant continue"
 msgstr "Versión de Framework estaba vacío, no puede continuar"
 
