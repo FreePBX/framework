@@ -206,17 +206,26 @@ class Hooks extends DB_Helper {
 				try {
 					if($bmoModule) {
 						$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$module."::".$meth."_start");
+						if(!method_exists($this->FreePBX->$module,$meth)) {
+							throw new \Exception("Method $meth in ".get_class($this->FreePBX->$module)." does not exist");
+						}
 						$return[$module] = call_user_func_array(array($this->FreePBX->$module, $meth), $args);
 						$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$module."::".$meth."_stop");
 					} else {
 						$fn = $namespace.$class;
-						if($static) {
+						if(!$static) {
 							$t = new $fn($this->FreePBX);
 							$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_start");
+							if(!method_exists($t,$meth)) {
+								throw new \Exception("Method $meth in ".get_class($t)." does not exist");
+							}
 							$return[$module] = call_user_func_array(array($t, $meth), $args);
 							$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_stop");
 						} else {
 							$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_start");
+							if(!method_exists($t,$meth)) {
+								throw new \Exception("Method $meth in $fn does not exist");
+							}
 							$return[$module] = call_user_func_array($fn.'::'.$meth, $args);
 							$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_stop");
 						}
@@ -304,6 +313,9 @@ class Hooks extends DB_Helper {
 
 		if($bmoModule) {
 			$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$module."::".$meth."_start");
+			if(!method_exists($this->FreePBX->$module,$meth)) {
+				throw new \Exception("Method $meth in ".get_class($this->FreePBX->$module)." does not exist");
+			}
 			$return = call_user_func_array(array($this->FreePBX->$module, $meth), $args);
 			$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$module."::".$meth."_stop");
 		} else {
@@ -311,10 +323,16 @@ class Hooks extends DB_Helper {
 			if($static) {
 				$t = new $fn($this->FreePBX);
 				$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_start");
+				if(!method_exists($t,$meth)) {
+					throw new \Exception("Method $meth in ".get_class($t)." does not exist");
+				}
 				$return = call_user_func_array(array($t, $meth), $args);
 				$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_stop");
 			} else {
 				$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_start");
+				if(!method_exists($t,$meth)) {
+					throw new \Exception("Method $meth in $fn does not exist");
+				}
 				$return = call_user_func_array($fn.'::'.$meth, $args);
 				$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_stop");
 			}

@@ -6,6 +6,25 @@ if (version_compare(PHP_VERSION, '5.6', '<')) {
 	return false;
 }
 
+$output = exec("node --version"); //v0.10.29
+$output = str_replace("v","",trim($output));
+if(empty($output)) {
+	out("NodeJS 8 or higher is not installed. This is now a requirement");
+	return false;
+}
+if(version_compare($output,'8.0.0',"<")) {
+	out(sprintf(_("NodeJS version is: %s requirement is %s or higher"),$output,'8.0.0'));
+	return false;
+}
+
+$engine_info = engine_getinfo();
+if (version_compare($engine_info['version'], "13", "lt") || version_compare($engine_info['version'], "17", "ge")) {
+	$output->writeln("<error>Error!</error>");
+	$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
+	$output->writeln("<error>Supported Asterisk versions: 13, 14, 15, 16, 17</error>");
+	exit(1);
+}
+
 // HELPER FUNCTIONS:
 
 function framework_print_errors($src, $dst, $errors) {

@@ -71,70 +71,66 @@ use Symfony\Component\Console\Application;
 use FreePBX\Console\Command;
 use FreePBX\Console\Application as App;
 
-try {
-	$amodules = FreePBX::Modules()->getActiveModules();
-	$brand = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
-	$fbc = new App\FWApplication('FW Console - '.$brand.' Utility', getVersion());
-	/*
-	* Framework is not like the others so we load up framework classes first.
-	*/
-	$fwcpath = $webrootpath . '/admin/libraries/Console';
-	$fwclasses = scandir($fwcpath);
-	foreach ($fwclasses as $class){
-		if( substr($class , -9) !== 'class.php'){
-			continue;
-		}else{
-			$ifile = $fwcpath . '/' . $class;
-			if(file_exists($ifile)) {
+$amodules = FreePBX::Modules()->getActiveModules();
+$brand = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
+$fbc = new App\FWApplication('FW Console - '.$brand.' Utility', getVersion());
+/*
+* Framework is not like the others so we load up framework classes first.
+*/
+$fwcpath = $webrootpath . '/admin/libraries/Console';
+$fwclasses = scandir($fwcpath);
+foreach ($fwclasses as $class){
+	if( substr($class , -9) !== 'class.php'){
+		continue;
+	}else{
+		$ifile = $fwcpath . '/' . $class;
+		if(file_exists($ifile)) {
+			$classname = substr($class ,0,-10);
+			$class = 'FreePBX\\Console\\Command\\' . $classname;
+			$reflector = new ReflectionClass($class);
+			$props = $reflector->getDefaultProperties();
+			if(isset($props['requireroot']) && $props['requireroot']){
+				if(posix_getuid() != 0) {
+					continue;
+				}
+			}
+			$fbc->add(new $class);
+		}
+	}
+}
+
+/*
+* Dynamic Class Loader. This looks to enabled modules for a Console folder
+* Then loads any file.class.php files found in that subdir.
+* This doesn't really handle bad includes. If your include in bad
+* It will likely break everything!
+*/
+foreach($amodules as $module){
+	//Module Path
+	$mpath = $webrootpath . '/admin/modules/' . $module['rawname'] . '/Console/';
+	if (file_exists($mpath)){
+		//Class files
+		$cfiles = scandir($mpath);
+		foreach($cfiles as $class){
+			//ignore anything in this dir that is NOT class.php
+			if( substr($class , -9) !== 'class.php'){
+				continue;
+			}else{
+				$ifile = $mpath . '/' . $class;
+				if(!file_exists($ifile)) {
+					continue;
+				}
+				include $ifile;
 				$classname = substr($class ,0,-10);
 				$class = 'FreePBX\\Console\\Command\\' . $classname;
-				$reflector = new ReflectionClass($class);
-				$props = $reflector->getDefaultProperties();
-				if(isset($props['requireroot']) && $props['requireroot']){
-					if(posix_getuid() != 0) {
-						continue;
-					}
-				}
-				$fbc->add(new $class);
-			}
-		}
-	}
-
-	/*
-	* Dynamic Class Loader. This looks to enabled modules for a Console folder
-	* Then loads any file.class.php files found in that subdir.
-	* This doesn't really handle bad includes. If your include in bad
-	* It will likely break everything!
-	*/
-	foreach($amodules as $module){
-		//Module Path
-		$mpath = $webrootpath . '/admin/modules/' . $module['rawname'] . '/Console/';
-		if (file_exists($mpath)){
-			//Class files
-			$cfiles = scandir($mpath);
-			foreach($cfiles as $class){
-				//ignore anything in this dir that is NOT class.php
-				if( substr($class , -9) !== 'class.php'){
+				if(!class_exists($class)) {
 					continue;
-				}else{
-					$ifile = $mpath . '/' . $class;
-					if(!file_exists($ifile)) {
-						continue;
-					}
-					include $ifile;
-					$classname = substr($class ,0,-10);
-					$class = 'FreePBX\\Console\\Command\\' . $classname;
-					if(!class_exists($class)) {
-						continue;
-					}
-					modgettext::push_textdomain($module['rawname']);
-					$fbc->add(new $class);
-					modgettext::pop_textdomain();
 				}
+				modgettext::push_textdomain($module['rawname']);
+				$fbc->add(new $class);
+				modgettext::pop_textdomain();
 			}
 		}
 	}
-	$fbc->run();
-} catch(Exception $e) {
-	echo $e->getMessage()."\n";
 }
+$fbc->run();

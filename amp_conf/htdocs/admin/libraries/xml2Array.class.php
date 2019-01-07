@@ -22,14 +22,14 @@ print_r($arrOutput); //print it out, or do whatever!
 */
 
 class xml2Array {
-	var $arrOutput = array();
-	var $resParser;
-	var $strXmlData;
+	public $arrOutput = array();
+	public $resParser;
+	public $strXmlData;
 
-	var $attributes;
-	var $data;
+	public $attributes;
+	public $data;
 
-	function xml2Array($strInputXML = false) {
+	function __construct($strInputXML = false) {
 		if (!empty($strInputXML)) {
 			$this->data = $this->parseAdvanced($strInputXML);
 		}

@@ -144,7 +144,7 @@ class Media extends DB_Helper{
 			$k = array_search("oga",$supportedFormats);
 			$supportedFormats[$k] = "ogg";
 		}
-		$formats = $f = array("mp3" => "mp3","wav" => "wav","ogg" => "ogg","mp4" => "mp4");
+		$formats = $f = array("mp3" => "mp3","wav" => "wav","ogg" => "ogg","m4a" => "m4a");
 		$file = $dir."/".$name."-".$md5;
 		$file = str_replace(".","_",$file);
 		$converted = array();
@@ -378,11 +378,13 @@ class Media extends DB_Helper{
 			break;
 			default: //not sure of the browser type so check OS
 				$os = new Os();
-				switch($os->getName()) {
-					case Os::IOS:
+				switch(true) {
+					case preg_match('/ios/', $_SERVER['HTTP_USER_AGENT']):
+					case $os->getName() === Os::IOS:
 						$formats = array("m4a");
 					break;
-					case Os::ANDROID:
+					case preg_match('/android/', $_SERVER['HTTP_USER_AGENT']):
+					case $os->getName() === Os::ANDROID:
 						$formats = array("oga");
 					break;
 					default: //not sure of the browser or os type so just do them all

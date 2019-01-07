@@ -4,11 +4,19 @@ namespace FreePBX\Builtin;
 
 class UpdateManager {
 
+	public function __construct() {
+		$this->freepbx = \FreePBX::create();
+
+		$this->brand = $this->freepbx->Config->get('DASHBOARD_FREEPBX_BRAND');
+		$settings = $this->getCurrentUpdateSettings(false); // Don't html encode the output
+		$this->machine_id = $settings['system_ident'];
+	}
+
 	/**
 	 * Handle an Ajax request from the Updates Page
 	 *
 	 * @param array $req $_REQUEST
-	 * @return array 
+	 * @return array
 	 */
 	public function ajax($req) {
 		if (empty($req['action'])) {
@@ -47,14 +55,23 @@ class UpdateManager {
 			"system_ident" => "",
 			"auto_system_updates" => "emailonly", // This is ignored if not on a supported OS
 			"auto_module_updates" => "enabled",
+			"auto_module_security_updates" => "enabled",
+			"unsigned_module_emails" => "enabled",
 			"update_every" => "saturday",
 			"update_period" => "4to8",
 		];
 
-		$fpbx = \FreePBX::create();
+
 
 		foreach ($retarr as $k => $null) {
-			$val = $fpbx->getConfig($k, "updates");
+			$val = $this->freepbx->getConfig($k, "updates");
+			if($k === 'system_ident') {
+				$val_old = \FreePBX::Config()->get('FREEPBX_SYSTEM_IDENT');
+				if($val_old !== $val) {
+					$this->freepbx->setConfig($k, $val_old, "updates");
+				}
+				$val = $val_old;
+			}
 			if ($val) {
 				if ($encode) {
 					$retarr[$k] = htmlspecialchars($val, ENT_QUOTES|ENT_SUBSTITUTE, 'UTF-8', false);
@@ -64,10 +81,28 @@ class UpdateManager {
 			}
 		}
 
+		if($this->freepbx->Config->conf_setting_exists('AUTOSECURITYUPDATES')) {
+			$setting = $this->freepbx->Config->get('AUTOSECURITYUPDATES');
+			$retarr['auto_module_security_updates'] = $setting ? 'enabled' : 'emailonly';
+			$this->freepbx->Config->remove_conf_setting('AUTOSECURITYUPDATES');
+		}
+
+		if($this->freepbx->Config->conf_setting_exists('SEND_UNSIGNED_EMAILS_NOTIFICATIONS')) {
+			$setting = $this->freepbx->Config->get('SEND_UNSIGNED_EMAILS_NOTIFICATIONS');
+			$retarr['unsigned_module_emails'] = $setting ? 'enabled' : 'disabled';
+			$this->freepbx->Config->remove_conf_setting('SEND_UNSIGNED_EMAILS_NOTIFICATIONS');
+		}
+
+		if($this->freepbx->Config->conf_setting_exists('CRONMAN_UPDATES_CHECK')) {
+			$setting = $this->freepbx->Config->get('CRONMAN_UPDATES_CHECK');
+			$retarr['auto_module_updates'] = $setting ? 'enabled' : 'disabled';
+			$this->freepbx->Config->remove_conf_setting('CRONMAN_UPDATES_CHECK');
+		}
+
 		// If ident is empty, take the one from settings
 		if (!$retarr['system_ident']) {
-			$retarr['system_ident'] = htmlspecialchars(\FreePBX::Config()->get('FREEPBX_SYSTEM_IDENT'), ENT_QUOTES|ENT_SUBSTITUTE, 'UTF-8', false);
-			$fpbx->setConfig("system_ident", $retarr['system_ident'], "updates");
+			$retarr['system_ident'] = htmlspecialchars($this->freepbx->Config->get('FREEPBX_SYSTEM_IDENT'), ENT_QUOTES|ENT_SUBSTITUTE, 'UTF-8', false);
+			$this->freepbx->setConfig("system_ident", $retarr['system_ident'], "updates");
 		}
 
 		// If we don't have an email address, it may be in admin from
@@ -76,11 +111,15 @@ class UpdateManager {
 			$oldemail = (string) $this->getOldEmailAddress(); // Make sure it's an empty string, not bool false.
 			if ($oldemail) {
 				$retarr['notification_emails'] = $oldemail;
-				$fpbx->setConfig("notification_emails", $oldemail, "updates");
+				$this->freepbx->setConfig("notification_emails", $oldemail, "updates");
 			}
 		}
 
 		return $retarr;
+	}
+
+	public function setNotificationEmail($email) {
+		$this->freepbx->setConfig("notification_emails", $email, "updates");
 	}
 
 	/**
@@ -92,17 +131,27 @@ class UpdateManager {
 	 */
 	public function updateUpdateSettings($req) {
 
-		$fpbx = \FreePBX::create();
+		$this->freepbx->Notifications->delete('freepbx', 'UPDATE_CHANGES');
 
-		$current = $this->getCurrentUpdateSettings();
+		$current = $this->getCurrentUpdateSettings(false);
+
+		$s = new SystemUpdates();
+		if (!$s->canDoSystemUpdates()) {
+			$req['auto_system_updates'] = 'disabled';
+		}
 
 		// Check what we're currently allowed to change, and if it's different
 		// from what was just submitted, change it!
 		foreach ($current as $k => $c) {
 			if (isset($req[$k]) && $req[$k] !== $c) {
-				$fpbx->setConfig($k, $req[$k], "updates");
+				if($k === 'system_ident') {
+					\FreePBX::Config()->update('FREEPBX_SYSTEM_IDENT',$req[$k]);
+				}
+				$this->freepbx->setConfig($k, $req[$k], "updates");
 			}
 		}
+
+		$this->updateCrontab();
 
 		return $this->getCurrentUpdateSettings();
 	}
@@ -113,10 +162,9 @@ class UpdateManager {
 	public function getOldEmailAddress($delete = true) {
 		$sql = "SELECT `value` FROM `admin` WHERE `variable`='email'";
 
-		$db = \FreePBX::Database();
-		$row = $db->query($sql)->fetchColumn();
+		$row = $this->freepbx->Database->query($sql)->fetchColumn();
 		if ($delete) {
-			$db->query("DELETE FROM `admin` WHERE `variable`='email'");
+			$this->freepbx->Database->query("DELETE FROM `admin` WHERE `variable`='email'");
 		}
 		return $row;
 	}
@@ -149,13 +197,13 @@ class UpdateManager {
 			"saturday" => "6"
 		];
 
-		$settings = $this->getCurrentUpdateSettings();
+		$settings = $this->getCurrentUpdateSettings(false);
 
 		// Get the day
 		if (!isset($daymaps[$settings['update_every']])) {
-			throw new \Exception("Unknown day '$day'");
+			throw new \Exception("Unknown day '${settings['update_every']}'");
 		}
-		$day = $daymaps[$day];
+		$day = $daymaps[$settings['update_every']];
 
 		// Pick a random hour
 		if (!isset($hourmaps[$settings['update_period']])) {
@@ -168,60 +216,66 @@ class UpdateManager {
 		$min = mt_rand(0, 59);
 
 		// Start by deleting any fwconsole commands in cron
-		$cron = \FreePBX::Cron();
-		$fwconsole = \FreePBX::Config()->get('AMPSBIN')."/fwconsole" ;
-		$cron->removeAll($fwconsole);
+		$cron = $this->freepbx->Cron;
 
-		// Are our updates enabled?
-		if ($settings['auto_module_updates'] === "enabled") {
-			$cmd = "[ -e $exec ] && $exec ma --sendemails --willupdate listonline > /dev/null 2>&1";
-		} elseif ($settings['auto_module_updates'] === "disabled") {
-			// Only send security emails
-			$cmd = "[ -e $exec ] && $exec ma --sendemails --securityonly listonline > /dev/null 2>&1";
-		} else {
-			$cmd = "[ -e $exec ] && $exec ma --sendemails listonline > /dev/null 2>&1";
+		$fwconsole = $this->freepbx->Config->get('AMPSBIN')."/fwconsole" ;
+
+		$crons = $cron->getAll();
+		foreach($crons as $line) {
+			// LEGACY: Make sure our old scheduler is gone - WIP
+			if(preg_match('/freepbx-cron-scheduler\.php/',$line)) {
+				$cron->remove($line);
+			}
+
+			if(preg_match('/fwconsole ma/',$line)) {
+				$cron->remove($line);
+			}
+
+			if(preg_match('/fwconsole sys/',$line)) {
+				$cron->remove($line);
+			}
 		}
 
-		// LEGACY: Make sure our old scheduler is gone - WIP
-		// $cron->removeAll("/var/lib/asterisk/bin/freepbx-cron-scheduler.php");
-
+		$cmd = "[ -e $fwconsole ] && $fwconsole ma listonline --sendemail -q > /dev/null 2>&1";
 		// Add the new job to check for updates.
-		$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "day" => $day ]);
-
-		// If we are auto-installing, then run the update job an hour later.
-		if ($settings['auto_module_updates'] === "enabled") {
-			$cmd = "[ -e $exec ] && $exec ma installall > /dev/null 2>&1";
-			if ($hour == 23) {
-				$hour = 0;
-				$day++;
-			} else {
-				$hour++;
-			}
+		if(!empty($cmd)) {
 			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "day" => $day ]);
 		}
-	}
 
-
-	/**
-	 * Check to make sure that our cronjob is in place
-	 *
-	 * @return bool
-	 */
-	public function isCronjobInPlace() {
-		$exec = \FreePBX::Config()->get('AMPBIN')."/module_admin";
-		$crons = \FreePBX::Cron()->getAll();
-		foreach ($crons as $line) {
-			if (strpos($line, $exec) !== false) {
-				return true;
-			}
+		// If we are auto-installing, then run the update job an hour later.
+		if ($hour == 23) {
+			$hour = 0;
+			$day++;
+		} else {
+			$hour++;
 		}
-		return false;
+		// Are our updates enabled?
+		if ($settings['auto_system_updates'] === "emailonly") {
+			$cmd = "[ -e $fwconsole ] && $fwconsole sys listonline --sendemail -q > /dev/null 2>&1";
+			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "day" => $day ]);
+		} elseif($settings['auto_system_updates'] === "enabled") {
+			$cmd = "[ -e $fwconsole ] && $fwconsole sys upgradeall --sendemail -q > /dev/null 2>&1";
+			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "day" => $day ]);
+		}
+
+		// If we are auto-installing, then run the update job an hour later.
+		if ($hour == 23) {
+			$hour = 0;
+			$day++;
+		} else {
+			$hour++;
+		}
+		if ($settings['auto_module_updates'] === "enabled") {
+			$cmd = "[ -e $fwconsole ] && $fwconsole ma installall --sendemail -q > /dev/null 2>&1";
+			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "day" => $day ]);
+		}
+
 	}
 
 	/**
 	 * Send an email
 	 *
-	 * This checks to make sure it's not a duplicate of the last email that was sent, 
+	 * This checks to make sure it's not a duplicate of the last email that was sent,
 	 * but WILL send an email if it's been more than a week since the last email was
 	 * sent.  This ensures that people get a regular ping from their server telling
 	 * them that everything's OK.
@@ -233,19 +287,27 @@ class UpdateManager {
 	 * @param string $body
 	 * @param int $priority
 	 */
-	public function sendEmail($tag, $to, $from, $subject, $message, $priority = 4, $force = false) {
-		// If there's no 'to' address, give up.
-		if (!$to) {
-			return false;
+	public function sendEmail($tag, $subject, $message, $priority = 4, $force = false) {
+		$settings = $this->getCurrentUpdateSettings(false); // Don't html encode the output
+		$to = $settings['notification_emails'];
+
+		// This is our default
+		$from = get_current_user() . '@' . gethostname();
+
+		// Sysadmin lets you override the 'from' address.
+		if(function_exists('sysadmin_get_storage_email')){
+			$emails = sysadmin_get_storage_email();
+			//Check that what we got back above is a email address
+			if(!empty($emails['fromemail']) && filter_var($emails['fromemail'],FILTER_VALIDATE_EMAIL)){
+				$from = $emails['fromemail'];
+			}
 		}
-		// Grab the FreePBX Object
-		$fpbx = \FreePBX::create();
 
 		// Generate a hash of this email body and who it's being sent to
 		$currenthash = hash("sha256", $message.$to);
 
-		$previoushash = $fpbx->getConfig($tag, "emailhash");
-		$lastsent = (int) $fpbx->getConfig($tag, "emailtimestamp");
+		$previoushash = $this->freepbx->getConfig($tag, "emailhash");
+		$lastsent = (int) $this->freepbx->getConfig($tag, "emailtimestamp");
 
 		if (!$force && $currenthash === $previoushash && ($lastsent > time() - 604800)) {
 			// Not sending, it's a dupe and it's too soon. Pretend we did.
@@ -261,8 +323,8 @@ class UpdateManager {
 		$result = $em->send();
 		if ($result) {
 			// Successfully sent!
-			$fpbx->setConfig($tag, $currenthash, "emailhash");
-			$fpbx->setConfig($tag, time(), "emailtimestamp");
+			$this->freepbx->setConfig($tag, $currenthash, "emailhash");
+			$this->freepbx->setConfig($tag, time(), "emailtimestamp");
 		}
 		return $result;
 	}
@@ -274,13 +336,13 @@ class UpdateManager {
 
 	/** Return summary of module updates */
 	public function getAvailModules() {
-		$cachedonline = \FreePBX::Modules()->getCachedOnlineData();
+		$cachedonline = $this->freepbx->Modules->getCachedOnlineData();
 
 		// TODO: use $cachedonline['timestamp'] to figure this out
 		$html = "<h3>"._("Last module update check: ")."1234 seconds ago</h3>";
 
 		// Get our list of upgradeable modules (if any)
-		$upgradeable = \FreePBX::Modules()->getUpgradeableModules($cachedonline['modules']);
+		$upgradeable = $this->freepbx->Modules->getUpgradeableModules($cachedonline['modules']);
 
 		if (!$upgradeable) {
 			$html .= _("No pending module updates.");
@@ -294,6 +356,103 @@ class UpdateManager {
 		$html .= "</table>";
 
 		return $html;
+	}
+
+	public function securityEmail() {
+		$security = $this->freepbx->Notifications->list_security();
+		if (!$security) {
+			return;
+		}
+
+		$email_subject = sprintf(_("%s Security Alert (%s)"), $this->brand, $this->machine_id);
+		$email_body = $this->getUnsignedEmailBody();
+
+		$email_body .= _("SECURITY NOTICE:")."\n\n";
+		foreach ($security as $item) {
+			$email_body .= $item['display_text'].":\n";
+			$email_body .= $this->cleanHtml($item['extended_text'])."\n";
+		}
+		$email_body .= "\n\n";
+
+		// Send an email if we need to.
+		$sent = $this->sendEmail("security", $email_subject, $email_body, 4);
+
+		if (!$sent) {
+			$this->freepbx->Notifications->add_error('freepbx', 'SECEMAIL', _('Failed to send security notification email'), sprintf(_('An attempt to send an email to "%s" with security notifications failed'),$this->email_to));
+		}
+	}
+
+	public function updateEmail($willupdate = false) {
+		$updates = $this->freepbx->Notifications->list_update();
+		if (!$updates) {
+			return;
+		}
+
+		$email_subject = sprintf(_("%s Updates Notification (%s)"), $this->brand, $this->machine_id);
+		$email_body = _("Module updates are available.")."\n\n";
+		$email_body .= $this->getUnsignedEmailBody()."\n";
+		if ($willupdate) {
+			$email_body .= "\n"._("Automatic updates are enabled!  These modules will be automatically updated in one hours time.")."\n\n";
+		}
+		foreach ($updates as $item) {
+			$email_body .= $item['display_text']."\n";
+			$email_body .= $item['extended_text']."\n\n";
+		}
+
+		// Send an email if we need to.
+		$sent = $this->sendEmail("updates", $email_subject, $email_body, 4);
+
+		if ($sent) {
+			$this->freepbx->Notifications->delete('freepbx', 'UPDATEEMAIL');
+		} else {
+			$this->freepbx->Notifications->add_error('freepbx', 'UPDATEEMAIL', _('Failed to send update notification email'), sprintf(_('An attempt to send an email to "%s" with update notifications failed'),$this->email_to));
+		}
+	}
+
+	public function unsignedEmail() {
+		if($this->getCurrentUpdateSettings(false)['unsigned_module_emails'] === 'disabled'){
+			$this->freepbx->Notifications->delete("freepbx", "SIGEMAIL");
+			return true;
+		}
+
+		$email_body = $this->getUnsignedEmailBody();
+		if (!$email_body) {
+			$this->freepbx->Notifications->delete("freepbx", "SIGEMAIL");
+			return true;
+		}
+
+		$email_subject = sprintf(_("%s Unsigned Module Alert (%s)"), $this->brand, $this->machine_id);
+
+		// Send an email if we need to.
+		$sent = $this->sendEmail("unsigned", $email_subject, $email_body, 4);
+
+		if (!$sent) {
+			$this->freepbx->Notifications->add_error('freepbx', 'SIGEMAIL', _('Failed to send unsigned modules notification email'), sprintf(_('An attempt to send an email to "%s" with an alert about unsigned modules notifications failed'),$this->email_to));
+		}
+	}
+
+	private function getUnsignedEmailBody() {
+		if ($this->getCurrentUpdateSettings(false)['unsigned_module_emails'] === 'disabled') {
+			$warning = _("Unsigned module notifications are turned off!")."\n\n";
+			$warning .= _("You will not get alerts about new modules that are installed on your system without a valid signature. It is unusual to turn off this protection. You can turn it back on in 'Updates' by enabling the 'Send security emails for unsigned modules' option.")."\n";
+			$warning .= _("If you want to sign your own modules to protect them from unauthorized tampering, please see the link below for more information:")."\n";
+			$warning .= "    http://wiki.freepbx.org/display/FOP/Signing+your+own+modules\n";
+			return $warning;
+		}
+		// Now see if there ARE any unsigned modules to complain about
+		$unsigned = $this->freepbx->Notifications->list_signature_unsigned();
+		if (!$unsigned) {
+			return "";
+		}
+		$warning = _("UNSIGNED MODULES DETECTED:")."\n\n";
+		$warning .= _("Warning: It is unusual to have Unsigned modules on your system!")."\n";
+		$warning .= sprintf(_("There are several ways to protect modules against tampering in %s. Please see the wiki page on module signing for more information:"), $this->brand)."\n";
+		$warning .= "    http://wiki.freepbx.org/display/FOP/Signing+your+own+modules\n\n";
+		foreach ($unsigned as $item) {
+			$warning .= $item['display_text'].":\n";
+			$warning .= $this->cleanHtml($item['extended_text'])."\n";
+		}
+		return $warning;
 	}
 }
 

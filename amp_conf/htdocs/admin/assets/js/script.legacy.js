@@ -1061,11 +1061,8 @@ function fpbx_reload() {
 			if (!data.status) {
 				$(document).trigger( "fpbx_reload", {status: "error", complete: true, errors: {type: "object", status: true, data: data}} );
 				// there was a problem
-				var r = "<h3>" + data.message + "<\/h3>" +
-				"<pre style=\"max-height:200px\">" + data.retrieve_conf + "<\/pre>";
-				if (data.num_errors) {
-					r += "<p>" + data.num_errors + fpbx.msg.framework.reload_unidentified_error + "<\/p>";
-				}
+				var r = "<h3>" + sprintf(_("There was an error during reload: %s"),data.message) + "<\/h3>" +
+				"<pre style=\"max-height:200px\">" + (data.raw.trace ? data.message+"\n"+data.raw.trace : data.message) + "<\/pre>";
 				freepbx_reload_error(r);
 			} else {
 				$(document).trigger( "fpbx_reload", {status: "complete", complete: true, errors: {type: false, status: false, data: {}}} );

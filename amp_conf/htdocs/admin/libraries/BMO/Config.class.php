@@ -177,6 +177,12 @@ class Config {
 		"USEDEVSTATE" => 1,
 		"USEQUEUESTATE" => 1,
 		"ALWAYS_SHOW_DEVICE_DETAILS" => 1,
+		"AST_FUNC_DEVICE_STATE" => "DEVICE_STATE",
+		"AST_FUNC_EXTENSION_STATE" => "EXTENSION_STATE",
+		"AST_FUNC_PRESENCE_STATE" => "PRESENCE_STATE",
+		"AST_FUNC_SHARED" => "SHARED",
+		"AST_FUNC_CONNECTEDLINE" => "CONNECTEDLINE",
+		"AST_FUNC_MASTER_CHANNEL" => "MASTER_CHANNEL"
 		/* "DYNAMICHINTS" => 0 */
 	);
 
@@ -363,11 +369,40 @@ class Config {
 		}
 	}
 
+	/**
+	 * Parse AMPORTAL.conf file
+	 *
+	 * Legacy, dont really parse it, its read only
+	 *
+	 * @param string $filename
+	 * @param array $bootstrap_conf
+	 * @param boolean $file_is_authority
+	 * @return void
+	 */
 	public function parse_amportal_conf($filename, $bootstrap_conf = array(), $file_is_authority=false) {
-		foreach($this->depreciatedSettings as $keyword => $value) {
+		//Load runtime settings into returned array
+		$valid = [
+			'AMPDBUSER',
+			'AMPDBPASS',
+			'AMPDBHOST',
+			'AMPDBNAME',
+			'AMPDBENGINE',
+			'AMPDBSOCK',
+			'AMPDBPORT',
+			'datasource'
+		];
+		foreach($bootstrap_conf as $keyword => $value) {
+			if(!in_array($keyword,$valid)) {
+				continue;
+			}
 			$this->conf[$keyword] = $value;
 		}
-		return $this->conf;
+		//dont load deprecicated settings into memory though
+		$final = $this->conf;
+		foreach($this->depreciatedSettings as $keyword => $value) {
+			$final[$keyword] = $value;
+		}
+		return $final;
 	}
 
 	/**
@@ -425,7 +460,7 @@ class Config {
 			// actually exists so I can return a boolean false if not?
 			//
 
-			$sql = "SELECT `value` FROM freepbx_settings WHERE `keyword` = ''";
+			$sql = "SELECT `value` FROM freepbx_settings WHERE `keyword` = :keyword";
 			$sth = $this->db->prepare($sql);
 			$sth->execute(array("keyword" => $keyword));
 			$value = $sth->fetchColumn();
@@ -865,7 +900,7 @@ class Config {
 		$sql = "SELECT `keyword` FROM freepbx_settings WHERE module = :module";
 		$sth = $this->db->prepare($sql);
 		$sth->execute(array(":module" => $module));
-		$settings = $sth->fetchAll(\PDO::FETCH_ASSOC);
+		$settings = $sth->fetchAll(\PDO::FETCH_COLUMN);
 		if(!empty($settings)) {
 			$this->remove_conf_settings($settings);
 		}

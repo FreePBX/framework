@@ -129,7 +129,6 @@ function fpbx_framework_autoloader($class) {
 		'CssMin' => 'libraries/cssmin.class.php',
 		'component' => 'libraries/components.class.php',
 		'featurecode' => 'libraries/featurecodes.class.php',
-		'cronmanager' => 'libraries/cronmanager.class.php',
 		'moduleHook' => 'libraries/moduleHook.class.php',
 		'modulelist' => 'libraries/modulelist.class.php',
 		'modgettext' => 'libraries/modgettext.class.php',
@@ -364,100 +363,29 @@ function engine_getinfo($force_read=false) {
 }
 
 function do_reload($passthru=false) {
-	global $amp_conf, $asterisk_conf, $db, $astman, $version;
-	$freepbx_conf = freepbx_conf::create();
+	$AMPSBIN = \FreePBX::Config()->get('AMPSBIN');
+	$process = new \Symfony\Component\Process\Process($AMPSBIN.'/fwconsole reload --json');
+	$process->run();
+	$output = $process->getOutput();
+	$code = $process->getExitCode();
 
-	$setting_pre_reload = $freepbx_conf->get_conf_setting('PRE_RELOAD', $passthru);
-	$setting_ampbin = $freepbx_conf->get_conf_setting('AMPBIN', $passthru);
-	$setting_post_reload = $freepbx_conf->get_conf_setting('POST_RELOAD', $passthru);
+	preg_match_all("/^({.*})$/m", $output, $array);
+	$output = !empty($array[1][0]) ? json_decode($array[1][0],true) : array("error" => _('Unknown Error. Please Run: fwconsole reload --verbose '));
 
-	if (empty($version)) {
-		$engine_info = engine_getinfo();
-		$version = $engine_info['version'];
-	}
-
-	$notify = notifications::create($db);
-
-	$return = array('num_errors'=>0,'test'=>'abc');
-	$exit_val = null;
-
-	if ($setting_pre_reload)  {
-		exec( $setting_pre_reload, $output, $exit_val );
-
-		if ($exit_val != 0) {
-			$desc = sprintf(_("Exit code was %s and output was: %s"), $exit_val, "\n\n".implode("\n",$output));
-			$notify->add_error('freepbx','reload_pre_script', sprintf(_('Could not run %s script.'), $setting_pre_reload), $desc);
-
-			$return['num_errors']++;
-		} else {
-			$notify->delete('freepbx', 'reload_pre_script');
-		}
-	}
-
-	$retrieve = $setting_ampbin . '/retrieve_conf --json 2>&1';
-	$o = exec($retrieve, $output, $exit_val);
-	preg_match_all("/^({.*})$/m", $o, $array);
-	$output = !empty($array[1][0]) ? json_decode($array[1][0],true) : array("message" => _('Unknown Error. Please Run '.$setting_ampbin . '/retrieve_conf'));
-
-	// retrieve_conf html output
-	$return['retrieve_conf_verbose'] = $return['retrieve_conf'] = 'exit: '.$exit_val.'<br/>'.$output['message'];
-
-	if ($exit_val != 0) {
-		$return['code'] = $exit_val;
-		$return['status'] = false;
-		$return['message'] = sprintf(_('Reload failed because retrieve_conf encountered an error: %s'),$exit_val);
-		$return['num_errors']++;
-		$notify->add_critical('freepbx','RCONFFAIL', _("retrieve_conf failed, config not applied"), $return['message']);
-		return $return;
-	}
-
-	if (!isset($astman) || !$astman) {
-		$return['code'] = 255;
-		$return['status'] = false;
-		$return['message'] = sprtinf(_('Reload failed because %s could not connect to the asterisk manager interface.'),$amp_conf['DASHBOARD_FREEPBX_BRAND']);
-		$return['num_errors']++;
-		$notify->add_critical('freepbx','RCONFFAIL', _("retrieve_conf failed, config not applied"), $return['message']);
-		return $return;
-	}
-	$notify->delete('freepbx', 'RCONFFAIL');
-
-	//reload asterisk
-	FreePBX::Hooks()->processHooksByClassMethod('FreePBX\Reload', 'preReload');
-	FreePBX::Performance()->Start("Reload Asterisk");
-	$astman->Reload();
-	FreePBX::Performance()->Stop();
-	if(version_compare($version,'12','lt')) {
-		$astman->UserEvent("reload");
-	}
-	FreePBX::Hooks()->processHooksByClassMethod('FreePBX\Reload', 'postReload');
-
-
-	$return['status'] = true;
-	$return['message'] = _('Successfully reloaded');
-	$return['retrieve_conf'] = '';
-
-	//store asterisk reloaded status
-	$sql = "UPDATE admin SET value = 'false' WHERE variable = 'need_reload'";
-	$result = $db->query($sql);
-	if(DB::IsError($result)) {
-		$return['code'] = 255;
-		$return['status'] = false;
-		$return['message'] = _('Successful reload, but could not clear reload flag due to a database error: ').$db->getMessage();
-		$return['num_errors']++;
-	}
-
-	if ($setting_post_reload)  {
-		exec( $setting_post_reload, $output, $exit_val );
-
-		if ($exit_val != 0) {
-			$desc = sprintf(_("Exit code was %s and output was: %s"), $exit_val, "\n\n".implode("\n",$output));
-			$notify->add_error('freepbx','reload_post_script', sprintf(_('Could not run %s script.'), $setting_post_reload), $desc);
-			$return['code'] = $exit_val;
-			$return['status'] = false;
-			$return['num_errors']++;
-		} else {
-			$notify->delete('freepbx', 'reload_post_script');
-		}
+	if($code !== 0 || isset($output['error'])) {
+		return [
+			'status' => false,
+			'message' => $output['error'],
+			'code' => $code,
+			'raw' => $output
+		];
+	} else {
+		return [
+			'status' => true,
+			'message' => _('Successfully reloaded'),
+			'code' => $code,
+			'raw' => $output
+		];
 	}
 
 	return $return;

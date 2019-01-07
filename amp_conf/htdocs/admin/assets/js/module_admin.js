@@ -1,24 +1,15 @@
 $(document).ready(function(){
-	//Moduleadmin websocket
-	var wsproto = 'ws://';
-	if(window.location.protocol == 'https:'){
-		wsproto = 'wss://';
-	}
-	const ws = new WebSocket(`${wsproto}${window.location.hostname}:8080`);
-	window.ws = ws;
-	ws.onerror = function (error) {
-		console.log(error);
+	//Socket.io stuff....
+	const socketurl = `${location.protocol}//${location.host}:90210`;
+	const socket = io(socketurl), {
+		transports: ['websockets'],
+		rejectUnauthorized: false
+	]
 	};
-	ws.onopen = function () {
-		console.log(ws);
-	};
-	ws.onclose = function () {
-		console.log('wtf');
-	};
-	ws.onmessage = function (message) {
-		console.log(message);
-	};
-
+	socket.on('connect', function(){});
+  	socket.on('event', function(data){});
+	socket.on('disconnect', function(){});
+		  
 	// Scheduler update button
 	$("#saveschedule").on("click", saveUpdateScheduler);
 	$("#check_online_button").click(function(e) {
@@ -357,6 +348,8 @@ function saveUpdateScheduler(e) {
 		system_ident: $("#sysident").val(),
 		auto_system_updates: $("input[name='auto_system_updates']:checked").val(),
 		auto_module_updates: $("input[name='auto_module_updates']:checked").val(),
+		auto_module_security_updates: $("input[name='auto_module_security_updates']:checked").val(),
+		unsigned_module_emails: $("input[name='unsigned_module_emails']:checked").val(),
 		update_every: $("#update_every").val(),
 		update_period: $("#update_period").val(),
 		module: "framework",

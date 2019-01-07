@@ -4,9 +4,27 @@
  * TODO: Make this launch at runtime and die when done. 
  */
 const FreePBX = require('freepbx');
-const WebSocket = require('ws');
-const util = require('util');
 
+//const WebSocket = require('ws');
+const util = require('util');
+const ioServer = require('socket.io');
+const http = require('http');
+const https = require('https');
+const spawn = require('child_process').spawn;
+const EventEmitter = require('events').EventEmitter;
+const events = new EventEmitter();
+var startupItems = [];
+startupItems.httpServerReady = false;
+startupItems.httpsServerReady = false;
+
+events.on('ready', component => {
+    startupItems[component] = true;
+      if (startupItems.httpServerReady && startupItems.httpsServerReady) {
+          
+      }
+});
+
+/*
 const wsconf = {
     port: 8080,
     perMessageDeflate: {
@@ -121,6 +139,7 @@ wss.on('connection', function connection(ws) {
         });
     });
 });
+*/
 
 function getSession(id){
     var out = {};

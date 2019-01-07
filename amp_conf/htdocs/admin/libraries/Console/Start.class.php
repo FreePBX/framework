@@ -138,7 +138,9 @@ class Start extends Command {
 			foreach($post as $pri => $data) {
 				$output->writeln(sprintf(_("Running Asterisk post from %s module"),$data['module']));
 				try {
-					$bmo->$data['module']->$data['method']($output);
+					$module = $data['module'];
+					$method = $data['method'];
+					$bmo->$module->$method($output);
 				} catch(\Exception $e) {
 					$output->writeln('<error>'.$e->getMessage().'</error>');
 				}

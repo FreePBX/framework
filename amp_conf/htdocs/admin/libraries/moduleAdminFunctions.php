@@ -157,3 +157,111 @@ function displayRepoSelect($buttons,$online=false,$repo_list=array()) {
 
 	return load_view(__DIR__.'views/module_admin/reposelect.php',$displayvars);
 }
+
+function getEmail($FreePBX = null){
+    if(!$FreePBX){
+        $FreePBX = FreePBX::Create(); 
+    }
+    $db = getBMODatabase($FreePBX);
+    $sql = "SELECT value FROM admin WHERE variable = 'email'";
+    return $db->query($sql)->fetchColumn();
+}
+
+function updateEmail($email, $FreePBX = null){
+    if(!$FreePBX){
+        $FreePBX = FreePBX::Create(); 
+    }
+    $valid = filter_var($email, FILTER_VALIDATE_EMAIL);
+    if($valid === false){
+        return false;
+    }
+    $db = getBMODatabase($FreePBX);
+    $sql = "REPLACE INTO admin (variable, value) VALUES ('email', :address)";
+    $stmt = $db->prepare($sql);
+    return $stmt->execute(array(':address' => $email));
+}
+
+function enableUpdates($freq = 24, $FreePBX = null){
+    if(!$FreePBX){
+        $FreePBX = FreePBX::Create(); 
+    }
+    $night_time = array(19,20,21,22,23,0,1,2,3,4,5);
+    $command = $FreePBX->Config->get('AMPBIN')."/module_admin listonline > /dev/null 2>&1";
+    
+    $cron = sprintf('0 %s * * *',array_rand($night_time), $command);
+    $current = $FreePBX->Cron->getAll();
+    //Clear jobs
+    foreach($current as $job){
+        if(strpos($job, $command) !== false){
+            $FreePBX->Cron->removeLine($job);
+        }
+    }
+    $FreePBX->Cron->add($cron);
+    $db = getBMODatabase($FreePBX);
+
+    $nt = notifications::create();
+    $nt->delete('core', 'UPDATES_OFF');
+
+    if(!$FreePBX->Config->get('CRONMAN_UPDATES_CHECK')){
+        $FreePBX->Config->set('CRONMAN_UPDATES_CHECK', true);
+    }
+}
+
+
+function disableUpdates($FreePBX = null){
+    if(!$FreePBX){
+        $FreePBX = FreePBX::Create(); 
+    }
+    $command = $FreePBX->Config->get('AMPBIN')."/module_admin listonline > /dev/null 2>&1";
+    $current = $FreePBX->Cron->getAll();
+    //Clear jobs
+    foreach($current as $job){
+        if(strpos($job, $command) !== false){
+            $FreePBX->Cron->removeLine($job);
+        }
+    }
+    $nt =& notifications::create($db);
+	$text = _("Online Updates are Disabled");
+	$extext = _("Online updates are disabled in Advanced Settings. When disabled, you will not be notified of bug fixes and Security issues without manually checking for updates online. You are advised to enable the update checking. Updates are never downloaded automatically, they are only checked and reported in the notification panel and log if enabled.");
+	$nt->add_notice('core', 'UPDATES_OFF', $text, $extext, '', true, true);
+    if($FreePBX->Config->get('CRONMAN_UPDATES_CHECK')){
+        $FreePBX->Config->set('CRONMAN_UPDATES_CHECK', false);
+    }
+}
+
+function updatesEnabled($FreePBX = null){
+    if(!$FreePBX){
+        $FreePBX = FreePBX::Create(); 
+    }
+    return !empty($FreePBX->Config->get('CRONMAN_UPDATES_CHECK'));
+}
+
+function setMachineId($id, $FreePBX = null){
+    if(!$FreePBX){
+        $FreePBX = FreePBX::Create(); 
+    }
+    $db = getBMODatabase($FreePBX);
+    if (!$id) {
+		$id = _("FreePBX Server");
+    }
+    $sql = "REPLACE INTO admin (variable, value) VALUES ('machineid', :id)";
+    $stmt = $db->prepare($sql);
+    return $stmt->execute(array(':id' => $id));
+}
+
+function getMachineId($FreePBX = null){
+    if(!$FreePBX){
+        $FreePBX = FreePBX::Create(); 
+    }
+    $db = getBMODatabase($FreePBX);
+    $sql = "SELECT value FROM admin WHERE variable = 'machineid'";
+    return $db->query($sql)->fetchColumn();
+}
+
+function getBMODatabase($FreePBX = null){
+    if(!$FreePBX){
+        $FreePBX = FreePBX::Create(); 
+    }
+    return $FreePBX->Database;
+}
+

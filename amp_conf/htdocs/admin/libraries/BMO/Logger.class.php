@@ -36,7 +36,10 @@ class Logger {
 	 * @return void
 	 */
 	public function logWrite($message='',array $context = array(),$logLevel = self::DEBUG ){
-		/** Anything with "LOG_" is added for backwards compatibility with FreePBX logging */
+		if(is_string($logLevel)){
+			/** Anything with "LOG_" is added for backwards compatibility with FreePBX logging */
+			$logLevel = ltrim($logLevel,'FPBX_');
+		}
 		switch ($logLevel) {
 			case 'LOG_DEBUG':
 			case 'DEBUG':
@@ -44,21 +47,26 @@ class Logger {
 				$logLevel = self::DEBUG;
 			case 'LOG_NOTICE':
 			case 'NOTICE':
+			case FPBX_LOG_NOTICE:
 			case self::NOTICE:
 				$logLevel = self::NOTICE;
 			case 'LOG_WARNING':
 			case 'WARNING':
+			case FPBX_LOG_WARNING:
 			case self::WARNING:
 				$logLevel = self::WARNING;
 			case 'LOG_ERR':
 			case 'ERROR':
 			case self::ERROR:
+			case FPBX_LOG_ERROR:
 				$logLevel = self::ERROR;
 			case 'LOG_CRIT':
+			case FPBX_LOG_CRITICAL:
 			case 'CRITICAL':
 			case self::CRITICAL:
 				$logLevel = self::CRITICAL;
 			case 'LOG_ALERT':
+			case FPBX_LOG_NOTICE:
 			case 'ALERT':
 			case self::ALERT:
 				$logLevel = self::ALERT;
@@ -66,6 +74,7 @@ class Logger {
 			case self::EMERGENCY:
 				$logLevel = self::EMERGENCY;
 			case 'LOG_INFO':
+			case FPBX_LOG_INFO:
 			case 'INFO':
 			case self::INFO:
 			default:
@@ -108,6 +117,7 @@ class Logger {
 	 * @return void
 	 */
 	public function driverChannelLogWrite($driver,$channel='',$message='',array $context = array(),$logLevel = self::DEBUG){
+		$this->createLogDriver($driver,'');
 		$logger = !empty($channel) ? $this->logDrivers[$driver]->withName($channel) : $this->logDrivers[$driver];
 		switch ($logLevel) {
 			case self::DEBUG:
@@ -142,7 +152,7 @@ class Logger {
 			if(isset($this->logDrivers[$driver])) {
 				return $this->logDrivers[$driver];
 			}
-			if($driver === 'default') {
+			if($driver === 'default' || empty($path)) {
 				$path = $this->defaultLogDir.'/freepbx.log';
 			}
 			if(in_array($path,$this->configuredStreamPaths)) {

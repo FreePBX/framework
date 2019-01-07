@@ -511,28 +511,11 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
-	$settings[$category]['CRONMAN_UPDATES_CHECK'] = array(
-	'value' => true,
-	'options' => '',
-	'readonly' => 1,
-	'name' => 'Update Notifications',
-	'description' => 'FreePBX allows you to automatically check for updates online. The updates will NOT be automatically installed. It is STRONGYLY advised that you keep this enabled and keep updated of these important notificaions to avoid costly security issues.',
-	'type' => CONF_TYPE_BOOL,
-	);
-
 	$settings[$category]['SIGNATURECHECK'] = array(
 	'value' => true,
 	'options' => '',
 	'name' => 'Enable Module Signature Checking',
 	'description' => 'Checks to make sure modules and their files are validly signed. Will display a notice on any module page that is not correctly verified.',
-	'type' => CONF_TYPE_BOOL,
-	);
-
-	$settings[$category]['SEND_UNSIGNED_EMAILS_NOTIFICATIONS'] = array(
-	'value' => true,
-	'options' => '',
-	'name' => 'Send unsigned module email notifications',
-	'description' => 'Whether or not to send unsigned module email notifications. If disabled unsigned module emails will never be sent',
 	'type' => CONF_TYPE_BOOL,
 	);
 
@@ -978,14 +961,6 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
-	$settings[$category]['AUTOSECURITYUPDATES'] = array(
-	'value' => true,
-	'options' => '',
-	'name' => 'Allow Automatic Security Updates',
-	'description' => 'If set to yes the system will automatically upgrade any modules which have been marked as security releases nightly. It will then send an email letting the administrator know the update has been applied. Setting this to no will revert to the old behavior of alerting the administrator that a security update is pending and needs to be downloaded and installed',
-	'type' => CONF_TYPE_BOOL,
-	);
-
 	$settings[$category]['SHOWLANGUAGE'] = array(
 	'value' => false,
 	'options' => '',
@@ -1356,6 +1331,14 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	);
 
+	$settings[$category]['CDRUSEGMT'] = array(
+		'value' => false,
+		'options' => '',
+		'name' => 'Use GMT Time',
+		'description' => 'Insert the date information into the CDR database using GMT time',
+		'readonly' => 1,
+		'type' => CONF_TYPE_BOOL,
+	);
 
 	$category = 'Styling and Logos';
 
@@ -2180,18 +2163,8 @@ class Installer {
 		$freepbx_conf->commit_conf_settings();
 	}
 
-	//Make sure we don't set the value again because we dont need to do that
-	//also to prevent against loops
-	if ($freepbx_conf->get_conf_setting('CRONMAN_UPDATES_CHECK') && file_exists($freepbx_conf->get_conf_setting("AMPWEBROOT").'/admin/libraries/cronmanager.class.php')) {
-		global $db;
-
-		if(!class_exists('cronmanager')) {
-			include($amp_conf["AMPWEBROOT"].'/admin/libraries/cronmanager.class.php');
-		}
-
-		$cm =& \cronmanager::create($db);
-		$cm->enable_updates();
-	}
+	$um = new \FreePBX\Builtin\UpdateManager();
+	$um->updateCrontab();
 	}
 }
 ?>

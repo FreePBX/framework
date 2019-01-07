@@ -138,7 +138,7 @@ class module_functions {
 						$parser = new xml2ModuleArray($all);
 						$allxml = $parser->parseAdvanced($all);
 					} catch(\Exception $e) {
-						freepbx_log(FPBX_LOG_ERROR,sprintf(_("Invalid Response from Mirror server: %s"),$all));;
+						freepbx_log(FPBX_LOG_ERROR,sprintf(_("Invalid Response from Mirror server: %s"),$all));
 						throw new \Exception("Unable to Parse XML response from Mirror. See the log for more details");
 					}
 				} else {
@@ -656,13 +656,16 @@ class module_functions {
 				$module_list = array('builtin');
 
 				// read modules dir for module names
-				$dir = opendir($amp_conf['AMPWEBROOT'].'/admin/modules');
-				while ($file = readdir($dir)) {
-					if (($file != ".") && ($file != "..") && ($file != "CVS") &&
-							($file != ".svn") && ($file != "_cache") &&
-							is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file)) {
-						$module_list[] = $file;
+				if(file_exists($amp_conf['AMPWEBROOT'].'/admin/modules') && is_dir($amp_conf['AMPWEBROOT'].'/admin/modules')) {
+					$dir = opendir($amp_conf['AMPWEBROOT'].'/admin/modules');
+					while ($file = readdir($dir)) {
+						if (($file != ".") && ($file != "..") && ($file != "CVS") &&
+								($file != ".svn") && ($file != "_cache") &&
+								is_dir($amp_conf['AMPWEBROOT'].'/admin/modules/'.$file)) {
+							$module_list[] = $file;
+						}
 					}
+					closedir($dir);
 				}
 
 				// read the xml for each
@@ -683,7 +686,6 @@ class module_functions {
 						}
 					}
 				}
-				closedir($dir);
 
 				// query to get everything
 				$sql = 'SELECT * FROM modules';
@@ -1289,6 +1291,7 @@ class module_functions {
 	* @return  mixed   True if succesful, array of error messages if not succesful
 	*/
 	function download($moduledata, $force = false, $progress_callback = null, $override_svn = false, $override_xml = false) {
+		$this->getInfoCache = array(); //invalidate local
 		$this->notFound = false;
 		global $amp_conf;
 		if(!is_array($moduledata)) {
@@ -2281,6 +2284,7 @@ class module_functions {
 				$parser = new xml2Array($data);
 				$xmlarray = $parser->data;
 			} catch(\Exception $e) {
+				freepbx_log(FPBX_LOG_ERROR,sprintf(_("Unable to parse %s: %s"),$xmlfile, $e->getMessage()));
 				$xmlarray = array();
 			}
 			if (isset($xmlarray['module'])) {
@@ -2624,13 +2628,22 @@ class module_functions {
 		// TODO: put proper path in places for ifconfig, try various locations where it may be if
 		//       non-0 return code.
 		//
-		exec('/sbin/ifconfig',$output, $return);
+		//TODO: this needs to check debian as well: ip addr show
+		if(is_executable('/sbin/ifconfig')) {
+			exec('/sbin/ifconfig',$output, $return);
+		} else {
+			$return = -1;
+		}
 
 		if ($return != '0') {
 
 			// OK try another path
 			//
-			exec('ifconfig',$output, $return);
+			if(is_executable('ifconfig')) {
+				exec('ifconfig',$output, $return);
+			} else {
+				$return = -1;
+			}
 
 			if ($return != '0') {
 				$sth = \FreePBX::Database()->prepare("REPLACE INTO module_xml (id,time,data) VALUES ('type',?,?)");

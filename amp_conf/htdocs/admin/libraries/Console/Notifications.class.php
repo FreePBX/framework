@@ -51,10 +51,10 @@ class Notifications extends Command {
 				if(!$nt->exists($args[0], $args[1])){
 						$output->writeln("Notification Deleted");
 				}else{
-						$output->writeln("Notification did not delete");
+						$output->writeln("<error>Notification did not delete</error>");
 				}
 			}else{
-				$output->writeln("Specified notification does not exist");
+				$output->writeln("<error>Specified notification does not exist</error>");
 			}
 		}
 	}

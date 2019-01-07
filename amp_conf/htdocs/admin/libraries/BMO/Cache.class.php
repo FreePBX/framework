@@ -214,9 +214,13 @@ class Cache {
 	private function init($force = false, $persistent = true) {
 		if($force || !isset($this->cache)) {
 			$primaryCache = new ArrayCache();
+			if(!isset($this->freepbx)){
+				$this->freepbx = FreePBX::Create();
+			}
 			$cachePath = $this->freepbx->Config->get('ASTSPOOLDIR')."/cache";
 			if(!file_exists($cachePath)) {
 				mkdir($cachePath,0777,true);
+				chmod($cachePath,0777);
 			}
 			if(!is_writable($cachePath)) {
 				throw new \Exception("$cachePath is not writable!");

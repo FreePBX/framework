@@ -104,7 +104,14 @@ class Stop extends Command {
 
 		if ($runpre) {
 			foreach($pre as $pri => $data) {
-				$bmo->$data['module']->$data['method']($output);
+				$output->writeln(sprintf(_("Running Asterisk pre from %s module"),$data['module']));
+				try {
+					$module = $data['module'];
+					$method = $data['method'];
+					$bmo->$module->$method($output);
+				} catch(\Exception $e) {
+					$output->writeln('<error>'.$e->getMessage().'</error>');
+				}
 			}
 		}
 

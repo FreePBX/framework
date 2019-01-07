@@ -230,7 +230,9 @@ class Modules extends DB_Helper{
 							return true;
 						}
 					}
-				} catch(\Exception $e) {}
+				} catch(\Exception $e) {
+					return false;
+				}
 			}
 		}
 		return false;
@@ -451,7 +453,7 @@ class Modules extends DB_Helper{
 		$function = $trace[$pos]['function'];
 		$file =  $trace[$pos]['file'];
 		$line =  $trace[$pos]['line'];
-		freepbx_log(FPBX_LOG_WARNING,'Depreciated Function '.$function.' detected in '.$file.' on line '.$line);
+		freepbx_log(LOG_WARNING,'Depreciated Function '.$function.' detected in '.$file.' on line '.$line);
 	}
 
 	public function getOnlineJson($module = false, $override_json = false, $never_refresh = false){
@@ -463,7 +465,7 @@ class Modules extends DB_Helper{
 		// we need to know the freepbx major version we have running (ie: 12.0.1 is 12.0)
 		preg_match('/(\d+\.\d+)/', $version, $matches);
 		$base_version = $matches[1];
-		$skip_cache |= $this->FreePBX->Config->get('MODULEADMIN_SKIP_CACHE');
+		$skip_cache = $this->FreePBX->Config->get('MODULEADMIN_SKIP_CACHE');
 		$moduleArray = $this->getAll('moduleArray');
 		if ($now > $last && !$never_refresh && !$skip_cache) {
 			if($override_json){
@@ -576,9 +578,9 @@ class Modules extends DB_Helper{
 					$breaking = true;
 					$replacement = isset($value['replace'])?$value['replace']:false;
 					$error['message'] = sprintf(_("The module %s has been deprecated and may not be maintained in the future. This may cause security or functionality issues.", $value['rawname']));
-					if($replace){
-						$error['replacement'] = $replace;
-						$error['message'] = sprintf(_("The module %s is deprecated and has been replaced by %s."),$value['rawname'], $replace);
+					if($replacement){
+						$error['replacement'] = $replacement;
+						$error['message'] = sprintf(_("The module %s is deprecated and has been replaced by %s."),$value['rawname'], $replacement);
 					}
 					$messages[] = $error;
 				}
