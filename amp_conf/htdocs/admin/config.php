@@ -299,19 +299,18 @@ if(is_array($active_modules)){
 					/*
 						Get default landing page from userman.
 					*/
-					if(FreePBX::Config()->get('AUTHTYPE') === 'usermanager' && FreePBX::Modules()->checkStatus('userman')) {
+					if(
+						is_object($_SESSION["AMP_user"]) &&
+						method_exists($_SESSION["AMP_user"],'getMode') &&
+						$_SESSION["AMP_user"]->getMode() === 'userman' &&
+						FreePBX::Config()->get('AUTHTYPE') === 'usermanager' &&
+						FreePBX::Modules()->checkStatus('userman')
+					) {
 						$um = \FreePBX::Userman();
 						$user_detail 	= $um->getUserByUsername($_SESSION["AMP_user"]->username);
-						$admin_set 		= $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_login');
 						$landing_page 	= $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_landing');
 						$modules_enabled = $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_modules');
-						$pbx_admin = $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_admin');
-						if(!$pbx_admin & (empty($landing_page) || !in_array($landing_page,$modules_enabled))) {
-							$landing_page = 'index';
-						} else {
-							$landing_page	= empty($landing_page)? "index" : $landing_page;
-						}
-
+						$landing_page	= empty($landing_page) || !in_array($landing_page,$modules_enabled) ? "index" : $landing_page;
 					} else {
 						$landing_page = 'index';
 					}
@@ -330,6 +329,11 @@ if(is_array($active_modules)){
 	}
 }
 
+//TODO remove this at a later date
+if(is_object($_SESSION["AMP_user"]) && !method_exists($_SESSION["AMP_user"],'getMode')) {
+	$_SESSION['AMP_user'] = null;
+}
+
 if(empty($_SESSION['AMP_user'])) {
 	$display = 'noauth';
 } else {
@@ -337,15 +341,21 @@ if(empty($_SESSION['AMP_user'])) {
 	/*
 		Displays the menu from the user list.
 	*/
-	if(FreePBX::Config()->get('AUTHTYPE') === 'usermanager' && FreePBX::Modules()->checkStatus('userman')) {
+	if(
+		$_SESSION["AMP_user"]->getMode() === 'userman' &&
+		FreePBX::Config()->get('AUTHTYPE') === 'usermanager' &&
+		FreePBX::Modules()->checkStatus('userman')
+	) {
 		$um = \FreePBX::Userman();
 		$user_detail 	= $um->getUserByUsername($_SESSION["AMP_user"]->username);
-		$admin_set 		= $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_login');
 		$modules_enabled = $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_modules');
 		$pbx_admin = $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_admin');
+	} elseif($_SESSION["AMP_user"]->getMode() === 'database') {
+		$modules_enabled = $_SESSION["AMP_user"]->getSections();
+		$pbx_admin = false;
 	}
 
-	if(is_array($fpbx_menu) && is_array($modules_enabled) && !$pbx_admin){
+	if(is_array($fpbx_menu) && is_array($modules_enabled) && !$pbx_admin && !in_array("*",$modules_enabled)){
 		foreach($fpbx_menu as $menuItem => $valMitem){
 			if(!in_array($valMitem["display"],$modules_enabled)){
 				unset($fpbx_menu[$menuItem]);
