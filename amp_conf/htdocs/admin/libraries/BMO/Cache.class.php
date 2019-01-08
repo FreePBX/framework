@@ -213,33 +213,38 @@ class Cache {
 	 */
 	private function init($force = false, $persistent = true) {
 		if($force || !isset($this->cache)) {
-			$primaryCache = new ArrayCache();
-			$cachePath = $this->freepbx->Config->get('ASTSPOOLDIR')."/cache";
-			if(!file_exists($cachePath)) {
-				mkdir($cachePath,0777,true);
-			}
-			if(!is_writable($cachePath)) {
-				throw new \Exception("$cachePath is not writable!");
-			}
+			$chain = array(
+				new ArrayCache()
+			);
 			if($persistent) {
-				$secondarCache = null;
 				if(class_exists('Redis')) {
 					try {
 						$redis = new \Redis();
 						$redis->connect('127.0.0.1');
 						$redis->get('foo');
-						$secondaryCache = new RedisCache();
-						$secondaryCache->setRedis($redis);
+						$redisCache = new RedisCache();
+						$redisCache->setRedis($redis);
+						$chain[] = $redisCache;
 					} catch(\Exception $e) {
-						freepbx_log(FPBX_LOG_WARNING, "Redis enabled but not running, falling back to filesystem [{$e->getMessage()}]");
+						freepbx_log(FPBX_LOG_WARNING, "Redis enabled but not running, falling back to filesystem [{$e->getMessage()}]. Either fix Redis or remove the php redis extension");
 					}
 				}
-				if(empty($secondarCache)) {
-					$secondaryCache =  new PhpFileCache($cachePath);
+				if(count($chain) === 1) {
+					$cachePath = $this->freepbx->Config->get('ASTSPOOLDIR')."/cache";
+					if(!file_exists($cachePath)) {
+						mkdir($cachePath,0777,true);
+						$user = $this->freepbx->Config->get('AMPASTERISKWEBUSER');
+						chown($cachePath,$user);
+						$group = $this->freepbx->Config->get('AMPASTERISKWEBGROUP');
+						chgrp($cachePath,$group);
+
+					}
+					if(is_writable($cachePath)) {
+						$chain[] = new PhpFileCache($cachePath);
+					} else {
+						$this->freepbx->Notifications->add_error('framework', 'CACHEPATCH', _('Cache path is not writable!'), sprintf(_("The cache path of %s is not writable, caching is not enabled as a result the system might be slower. Please fix this by running 'fwconsole chown' from the CLI."),$cachePath), "", true, true);
+					}
 				}
-				$chain = array($primaryCache, $secondaryCache);
-			} else {
-				$chain = array($primaryCache);
 			}
 			$this->cache = new ChainCache($chain);
 		}
