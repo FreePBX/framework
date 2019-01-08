@@ -516,9 +516,13 @@ class Moduleadmin extends Command {
 			break;
 			case "untar":
 				if(isset($this->progress)) {
-					$this->progress->finish();
-					$this->writeln("");
-					$this->writeln("Finished downloading");
+					if($this->format == 'json') {
+						$this->writeln(array("read" => $data['total'], "total" => $data['total']),"downloading");
+					} else {
+						$this->progress->finish();
+						$this->writeln("");
+						$this->writeln("Finished downloading");
+					}
 					unset($this->progress);
 				}
 				$this->write("Extracting...");
