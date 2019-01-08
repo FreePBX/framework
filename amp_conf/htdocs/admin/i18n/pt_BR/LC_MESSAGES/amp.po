@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-22 15:42-0500\n"
+"POT-Creation-Date: 2019-01-08 18:33-0500\n"
 "PO-Revision-Date: 2017-05-08 21:45+0200\n"
 "Last-Translator: KNGVC <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -1649,6 +1649,10 @@ msgstr "CW"
 #: amp.i18n.php:302
 msgid "CW Enabled by Default"
 msgstr "CW Habilitado por Padrão"
+
+#: amp_conf/htdocs/admin/libraries/BMO/Cache.class.php:245
+msgid "Cache path is not writable!"
+msgstr ""
 
 #: ../core/functions.inc.php:5781
 msgid "Call Forward Ring Time"
@@ -9344,6 +9348,14 @@ msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 "O binário unzip não está instalado. Não é possível trabalhar com o arquivo "
 "zip"
+
+#: amp_conf/htdocs/admin/libraries/BMO/Cache.class.php:245
+#, php-format
+msgid ""
+"The cache path of %s is not writable, caching is not enabled as a result the "
+"system might be slower. Please fix this by running 'fwconsole chown' from "
+"the CLI."
+msgstr ""
 
 #: ../core/Core.class.php:2829
 msgid ""

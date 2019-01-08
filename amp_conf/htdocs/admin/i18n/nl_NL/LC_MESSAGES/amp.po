@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-22 15:42-0500\n"
+"POT-Creation-Date: 2019-01-08 18:33-0500\n"
 "PO-Revision-Date: 2015-03-23 21:06+0200\n"
 "Last-Translator: Jan Peter <jpveldhuizen@gmail.com>\n"
 "Language-Team: Dutch <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -1592,6 +1592,10 @@ msgstr ""
 #: amp.i18n.php:302
 msgid "CW Enabled by Default"
 msgstr "Wisselgesprek is standaard geactiveerd"
+
+#: amp_conf/htdocs/admin/libraries/BMO/Cache.class.php:245
+msgid "Cache path is not writable!"
+msgstr ""
 
 #: ../core/functions.inc.php:5781
 msgid "Call Forward Ring Time"
@@ -8464,6 +8468,14 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1819
 msgid "The binary unzip is not installed. Unable to work with zip file"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/Cache.class.php:245
+#, php-format
+msgid ""
+"The cache path of %s is not writable, caching is not enabled as a result the "
+"system might be slower. Please fix this by running 'fwconsole chown' from "
+"the CLI."
 msgstr ""
 
 #: ../core/Core.class.php:2829
