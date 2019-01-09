@@ -633,7 +633,7 @@ class module_functions {
 		global $amp_conf, $db;
 		$modules = array();
 
-		$modulelist = \FreePBX::create()->Modulelist;
+		$modulelist = \FreePBX::Modulelist();
 
 		if ($module) {
 			// get info on only one module
