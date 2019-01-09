@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-08 18:05-0500\n"
+"POT-Creation-Date: 2019-01-08 20:54-0500\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -1824,6 +1824,10 @@ msgstr "CW"
 msgid "CW Enabled by Default"
 msgstr "CW Habilitado por Padrão"
 
+#: amp_conf/htdocs/admin/libraries/BMO/Cache.class.php:245
+msgid "Cache path is not writable!"
+msgstr ""
+
 #: ../core/views/routing/timecond.php:24
 msgid "Calendar Mode"
 msgstr ""
@@ -2428,7 +2432,7 @@ msgid "Common utilities"
 msgstr "Utilitários comuns"
 
 #: install.php:269
-msgid "Compressing Framework CSS"
+msgid "Compressing Framework CSS..."
 msgstr ""
 
 #: install.php:260
@@ -9274,7 +9278,7 @@ msgid "Setting AUTHTYPE to none consistent with old default"
 msgstr "Definir AUTHTYPE para nenhum consistente com o padrão antigo"
 
 #: install.php:286
-msgid "Setting Framework Version"
+msgid "Setting Framework Version..."
 msgstr ""
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:94
@@ -10142,6 +10146,14 @@ msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 "O binário unzip não está instalado. Não é possível trabalhar com o arquivo "
 "zip"
+
+#: amp_conf/htdocs/admin/libraries/BMO/Cache.class.php:245
+#, php-format
+msgid ""
+"The cache path of %s is not writable, caching is not enabled as a result the "
+"system might be slower. Please fix this by running 'fwconsole chown' from "
+"the CLI."
+msgstr ""
 
 #: ../core/Core.class.php:2869
 msgid ""

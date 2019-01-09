@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-08 18:05-0500\n"
+"POT-Creation-Date: 2019-01-08 20:54-0500\n"
 "PO-Revision-Date: 2006-09-28 17:30+0300\n"
 "Last-Translator: Moshe Brevda mbrevda => gmail ! com\n"
 "MIME-Version: 1.0\n"
@@ -1671,6 +1671,10 @@ msgstr ""
 msgid "CW Enabled by Default"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/BMO/Cache.class.php:245
+msgid "Cache path is not writable!"
+msgstr ""
+
 #: ../core/views/routing/timecond.php:24
 msgid "Calendar Mode"
 msgstr ""
@@ -2210,7 +2214,7 @@ msgid "Common utilities"
 msgstr ""
 
 #: install.php:269
-msgid "Compressing Framework CSS"
+msgid "Compressing Framework CSS..."
 msgstr ""
 
 #: install.php:260
@@ -8439,7 +8443,7 @@ msgid "Setting AUTHTYPE to none consistent with old default"
 msgstr ""
 
 #: install.php:286
-msgid "Setting Framework Version"
+msgid "Setting Framework Version..."
 msgstr ""
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:94
@@ -9178,6 +9182,14 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1794
 msgid "The binary unzip is not installed. Unable to work with zip file"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/BMO/Cache.class.php:245
+#, php-format
+msgid ""
+"The cache path of %s is not writable, caching is not enabled as a result the "
+"system might be slower. Please fix this by running 'fwconsole chown' from "
+"the CLI."
 msgstr ""
 
 #: ../core/Core.class.php:2869
