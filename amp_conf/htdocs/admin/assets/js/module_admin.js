@@ -1,15 +1,4 @@
 $(document).ready(function(){
-	//Socket.io stuff....
-	const socketurl = `${location.protocol}//${location.host}:90210`;
-	const socket = io(socketurl), {
-		transports: ['websockets'],
-		rejectUnauthorized: false
-	]
-	};
-	socket.on('connect', function(){});
-  	socket.on('event', function(data){});
-	socket.on('disconnect', function(){});
-		  
 	// Scheduler update button
 	$("#saveschedule").on("click", saveUpdateScheduler);
 	$("#check_online_button").click(function(e) {
@@ -275,11 +264,6 @@ function showhide_upgrades() {
 
 var box;
 function process_module_actions(modules) {
-	ws.send(JSON.stringify({
-		session: $('#phpsession').val(),
-		modules: modules
-	}));
-	return;
 	var urlStr = '';
 	if(!jQuery.isEmptyObject(modules)) {
 		urlStr = "config.php?display=modules&action=process&quietmode=1&online=1&"+$.param( {"modules":modules} );

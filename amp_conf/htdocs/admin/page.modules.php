@@ -3,7 +3,7 @@
 //
 //	License for all code of this FreePBX module can be found in the license file inside the module directory
 //	Copyright 2013 Schmooze Com Inc.
-//	Copyright 2016 Sangoma Technology Corp.
+//	Copyright 2016-2019 Sangoma Technology Corp.
 //
 /**
  * Controls if online module and install/uninstall options are available.
@@ -23,7 +23,6 @@ include __DIR__. '/libraries/moduleAdminFunctions.php';
 $modulef = module_functions::create();
 
 $REQUEST = freepbxGetSanitizedRequest();
-
 $action = isset($REQUEST['action'])?$REQUEST['action']:'';
 $FreePBX = FreePBX::Create();
 global $active_repos;
@@ -174,6 +173,7 @@ switch ($action) {
 					if (is_array($errors = $modulef->install($modulename,true))) {
 						echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
 						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+						dbug($errors);
 						echo '</span>';
 					} else {
 						$change_tracks[$modulename] = $setting['track'];
@@ -250,19 +250,20 @@ switch ($action) {
 				case 'force_upgrade':
 				case 'upgrade':
 				case 'downloadinstall':
+				case 'upgradeignoreconflicts':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						$track = $setting['track'];
 						$trackinfo = ($track == 'stable') ? $modules_online[$modulename] : (!empty($modules_online[$modulename]['releasetracks'][$track]) ? $modules_online[$modulename]['releasetracks'][$track] : array());
 						echo '<span class="success">'.sprintf(_("Downloading and Installing %s"),$modulename)."</span><br/>";
 						echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span><span id="downloadstatus_'.$modulename.'"></span><br/>';
-						if (is_array($errors = $modulef->download($trackinfo, false, 'download_progress'))) {
+						if (is_array($errors = $modulef->download($trackinfo, false, 'download_progress', ($action == 'upgradeignoreconflicts')))) {
 							echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
 						} else {
 							echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
 							echo '<span id="installstatus_'.$modulename.'"></span>';
-							if (is_array($errors = $modulef->install($modulename,($setting['action'] == "force_upgrade")))) {
+							if (is_array($errors = $modulef->install($modulename,($setting['action'] == "force_upgrade"), ($action == 'upgradeignoreconflicts')))) {
 								echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
 								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 								echo '</span>';
@@ -273,10 +274,11 @@ switch ($action) {
 					}
 					break;
 				case 'install':
+				case 'installignoreconflicts':
 					if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 						echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
 						echo '<span id="installstatus_'.$modulename.'"></span>';
-						if (is_array($errors = $modulef->install($modulename))) {
+						if (is_array($errors = $modulef->install($modulename, ($action == 'installignoreconflicts')))) {
 							echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
 							echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 							echo '</span>';
@@ -405,6 +407,7 @@ switch ($action) {
 		$moduleActions = array();
 		$moduleaction = is_array($moduleaction) ? $moduleaction : array();
 		foreach ($moduleaction as $module => $action) {
+			dbug([$module, $action]);
 			$text = false;
 			$skipaction = false;
 
@@ -451,6 +454,7 @@ switch ($action) {
 					}
 				}
 				break;
+			case 'upgradeignoreconflicts':
 			case 'upgrade':
 			case 'force_upgrade':
 				if (!EXTERNAL_PACKAGE_MANAGEMENT) {
@@ -491,13 +495,13 @@ switch ($action) {
 							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),
 								"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
 						}
-						if (is_array($conflicterrors )) {
+						if (is_array($conflicterrors ) && $action != 'upgradeignoreconflicts') {
 							$checkdone = true;
 							$skipaction = true;
 							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the conflicts have been corrected."),
 								"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$conflicterrors).'</li></ul></strong>');
 						}
-						if(!is_array($dependserror) && !is_array($conflicterrors) && !$checkdone){
+						if(!is_array($dependserror) && (!is_array($conflicterrors) && $action !== 'upgradeignoreconflicts') && !$checkdone){
 							switch ( version_compare_freepbx($modules[$module]['dbversion'], $trackinfo['version'])) {
 							case '-1':
 								$actionstext[] = sprintf(_("%s %s will be upgraded to online version %s"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$trackinfo['version']."</strong>");
@@ -547,6 +551,30 @@ switch ($action) {
 						$actionstext[] =  sprintf(_("%s %s will be downloaded and installed and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$trackinfo['version']."</strong>","<strong>".$track."</strong>");
 					}
 					
+				}
+				break;
+			case 'installignoreconflicts':
+				if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+					$dependerrors = $modulef->checkdepends($trackinfo);
+					//$conflicterrors = $FreePBX->Modules->checkBreaking($trackinfo);
+					$issues = false;
+					if (is_array($dependerrors)) {
+						$skipaction = true;
+						$issues = true;
+						$errorstext[] = sprintf(
+							(($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ? _("%s cannot be upgraded: %s Please try again after the dependencies have been installed.") : _("%s cannot be installed: %s Please try again after the dependencies have been installed.")),
+							"<strong>" . $modules[$module]['name'] . "</strong>",
+							'<strong><ul><li>' . implode('</li><li>', $dependerrors) . '</li></ul></strong>'
+						);
+					}
+					
+					if (!$issues) {
+						if ($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) {
+							$actionstext[] = sprintf(_("Conflicts have been ignored, %s %s will be upgraded to %s"), "<strong>" . $modules[$module]['name'] . "</strong>", "<strong>" . $modules[$module]['dbversion'] . "</strong>", "<strong>" . $modules[$module]['version'] . "</strong>");
+						} else {
+							$actionstext[] = sprintf(_("Conflicts have been ignored, %s %s will be installed and enabled"), "<strong>" . $modules[$module]['name'] . "</strong>", "<strong>" . $modules[$module]['version'] . "</strong>");
+						}
+					}
 				}
 				break;
 			case 'install':
@@ -1103,11 +1131,10 @@ switch ($action) {
 		$summary["disabledmodules"] = count($modulef->getinfo(false, MODULE_STATUS_DISABLED));
 		$summary["brokenmodules"] = count($modulef->getinfo(false, MODULE_STATUS_BROKEN));
 		$summary["needsupgrademodules"] = count($modulef->getinfo(false, MODULE_STATUS_BROKEN));
-		$summary["hasconflictmodules"] = count($modulef->getinfo(false, MODULE_STATUS_CONFLICT));
 		$cachedonline = $FreePBX->Modules->getCachedOnlineData();
 		$summary["availupdates"] = $FreePBX->Modules->getUpgradeableModules($cachedonline['modules']);
 		$summary["lastonlinecheck"] = $cachedonline['timestamp'];
-
+		$displayvars['breaking'] = $FreePBX->Modules->checkBreaking();
 
 		show_view(__DIR__.'/views/module_admin/tabheader.php', $summary);
 		show_view(__DIR__.'/views/module_admin/tab-summary.php', $summary);
