@@ -172,4 +172,10 @@ class ampuser {
 	public function getOpMode() {
 		return $this->opmode;
 	}
+	public function getMode() {
+		return $this->mode;
+	}
+	public function getSections() {
+		return $this->sections;
+	}
 }

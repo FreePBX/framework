@@ -69,6 +69,7 @@ class Moduleadmin extends Command {
 			new InputOption('tag', 't', InputOption::VALUE_REQUIRED, _('Download/Upgrade to a specific tag')),
 			new InputOption('skipbreakingcheck', '', InputOption::VALUE_OPTIONAL, _('Skip breaking changes checks, this can be passed an optional comma seperated list of modules')),
 			new InputOption('sendemail', '', InputOption::VALUE_NONE, _('Send out finalized email')),
+			new InputOption('onlystdout', '', InputOption::VALUE_NONE, _('Deprecated option')),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
 		->setHelp($this->showHelp());
 	}
@@ -526,9 +527,13 @@ class Moduleadmin extends Command {
 			break;
 			case "untar":
 				if(isset($this->progress)) {
-					$this->progress->finish();
-					$this->writeln("");
-					$this->writeln("Finished downloading");
+					if($this->format == 'json') {
+						$this->writeln(array("read" => $data['total'], "total" => $data['total']),"downloading");
+					} else {
+						$this->progress->finish();
+						$this->writeln("");
+						$this->writeln("Finished downloading");
+					}
 					unset($this->progress);
 				}
 				$this->write("Extracting...");

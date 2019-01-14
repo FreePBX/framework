@@ -84,6 +84,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 			<ul class="dropdown-menu" role="menu">';
 
 		$cat = is_array($cat) ? $cat : array();
+		$items = array();
 		foreach ($cat as $c => $mod) { //modules
 			if (isset($mod['hidden']) && $mod['hidden'] == 'true') {
 				continue;
