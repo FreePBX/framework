@@ -11,7 +11,6 @@
 namespace FreePBX;
 
 use Carbon\Carbon;
-use function GuzzleHttp\json_decode;
 
 class Modules extends DB_Helper{
 
