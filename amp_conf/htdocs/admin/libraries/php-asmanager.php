@@ -161,6 +161,9 @@ class AGI_AsteriskManager {
 	private $memAstDB = array();
 	private $memAstDBArray = array();
 
+	private $memAstDBKeys = array();
+	private $memAstDBKeysUpdated = false;
+
 	/**
 	* Constructor
 	*
@@ -206,8 +209,11 @@ class AGI_AsteriskManager {
 	function LoadAstDB(){
 		if (!empty($this->memAstDB)) {
 			$this->memAstDB = array();
+			$this->memAstDBKeys = array();
 		}
 		$this->memAstDB = $this->database_show();
+		$this->memAstDBKeys = array_keys($this->memAstDB);
+		$this->memAstDBKeysUpdated = true;
 	}
 
 	function getDBCache() {
@@ -657,6 +663,7 @@ class AGI_AsteriskManager {
 			break;
 		}
 		global $amp_conf;
+		//must take it from the FORMAT column
 		if(version_compare($amp_conf['ASTVERSION'], "13.10", "ge")) {
 			if(preg_match_all('/\d{1,6}\s*'.$type.'\s*[a-z0-9]*\s*([a-z0-9]*)\s/i',$ret['data'],$matches)) {
 				return $matches[1];
@@ -1633,13 +1640,12 @@ class AGI_AsteriskManager {
 					//TODO: this is intensive cache results
 					$k = $key;
 					$key .= '/';
-					$len = strlen($key);
-					$fam_arr = array();
-					foreach ($this->memAstDB as $this_key => $value) {
-						if (substr($this_key,0,$len) ==  $key) {
-							$fam_arr[$this_key] = $value;
-						}
+					$regex = "/^".str_replace("/","\/",$key)."/";
+					if ($this->memAstDBKeysUpdated == false) {
+						$this->memAstDBKeys = array_keys($this->memAstDB);
+						$this->memAstDBKeysUpdated = true;
 					}
+					$fam_arr = array_intersect_key($this->memAstDB,array_flip(preg_grep($regex,$this->memAstDBKeys)));
 					$this->memAstDBArray[$k] = $fam_arr;
 					return $fam_arr;
 				}
@@ -1681,7 +1687,11 @@ class AGI_AsteriskManager {
 		$write_through = false;
 		if (!empty($this->memAstDB)){
 			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
-			if (!isset($this->memAstDB[$keyUsed]) || $this->memAstDB[$keyUsed] != $value) {
+			$keyExists=isset($this->memAstDB[$keyUsed]);
+			if (!$keyExists || $this->memAstDB[$keyUsed] != $value) {
+				if (!$keyExists) {
+					$this->memAstDBKeysUpdated = false;
+				}
 				$this->memAstDB[$keyUsed] = $value;
 				$write_through = true;
 			}
