@@ -629,7 +629,7 @@ function dbug_write($txt, $check = false){
 		$amp_conf['FPBXDBUGFILE'] = $amp_conf['ASTLOGDIR'].'/freepbx_debug';
 	}
 	$dbugfile = $amp_conf['FPBXDBUGFILE'];
-	FreePBX::Logger()->createLogDriver('dbug', $dbugfile)->debug($txt);
+	FreePBX::Logger()->createLogDriver('dbug', $dbugfile, \FreePBX\Logger::DEBUG, true)->debug($txt);
 	if($amp_conf['PHP_CONSOLE']) {
 		PhpConsole\Connector::getInstance()->getDebugDispatcher()->dispatchDebug($txt, 'dbug');
 	}

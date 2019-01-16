@@ -148,7 +148,7 @@ class Logger {
 	 * @param constant $minLogLevel
 	 * @return object
 	 */
-	public function createLogDriver($driver, $path, $minLogLevel = self::DEBUG){
+	public function createLogDriver($driver, $path, $minLogLevel = self::DEBUG, $allowInlineLineBreaks = false){
 			if(isset($this->logDrivers[$driver])) {
 				return $this->logDrivers[$driver];
 			}
@@ -160,7 +160,7 @@ class Logger {
 			}
 			$dateFormat = "Y-M-d H:i:s";
 			$output = "[%datetime%] [%channel%.%level_name%]: %message% %context% %extra%\n";
-			$formatter = new Mono\Formatter\LineFormatter($output, $dateFormat);
+			$formatter = new Mono\Formatter\LineFormatter($output, $dateFormat, $allowInlineLineBreaks);
 			$this->logDrivers[$driver] = new Mono\Logger($driver);
 			$stream = new StreamHandler($path,$minLogLevel);
 			$stream->setFormatter($formatter);
