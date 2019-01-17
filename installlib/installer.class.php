@@ -1928,7 +1928,7 @@ class Installer {
 	);
 
 	$settings[$category]['MODULE_REPO'] = array(
-	'value' => 'http://mirror1.freepbx.org,http://mirror2.freepbx.org',
+	'value' => 'https://mirror.freepbx.org',
 	'options' => '',
 	'name' => 'Repo Server',
 	'description' => 'repo server',
