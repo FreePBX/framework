@@ -201,7 +201,7 @@ class Request_Helper extends Self_Helper {
 	 * @method getSanitizedRequest
 	 * @return array              $_REQUEST, sanitized
 	 */
-	public function getSanitizedRequest() {
+	public function getSanitizedRequest($definition = FILTER_SANITIZE_STRING, $add_empty = true) {
 		$order = ini_get('request_order');
 		$order = !empty($order) ? $order : ini_get('variables_order');
 		$total = strlen($order);
@@ -209,19 +209,19 @@ class Request_Helper extends Self_Helper {
 		for($i = 0; $i < $total; $i++) {
 			switch($order[$i]) {
 				case 'G':
-					$GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_STRING);
+					$GET = filter_input_array(INPUT_GET, $definition, $add_empty);
 					if(is_array($GET)) {
 						$request = array_merge($request,$GET);
 					}
 				break;
 				case 'P':
-					$POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+					$POST = filter_input_array(INPUT_POST, $definition, $add_empty);
 					if(is_array($POST)) {
 						$request = array_merge($request,$POST);
 					}
 				break;
 				case 'C':
-					$COOKIE = filter_input_array(INPUT_COOKIE, FILTER_SANITIZE_STRING);
+					$COOKIE = filter_input_array(INPUT_COOKIE, $definition, $add_empty);
 					if(is_array($COOKIE)) {
 						$request = array_merge($request,$COOKIE);
 					}
