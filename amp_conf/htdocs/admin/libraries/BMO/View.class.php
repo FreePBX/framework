@@ -544,11 +544,11 @@ class View {
 				if($item['value'] == $value) {
 					$selected = true;
 				}
-				$optionshtml .= '<option value="'.$item['value'].'" data-id="'.$mod.'-'.$key.'" data-playback="'.(!empty($item['playback']) ? 'true' : 'false').'" '.(($item['value'] == $value) ? "selected" : "").'>'.htmlentities($item['name']).'</option>';
+				$optionshtml .= '<option value="'.htmlentities($item['value']).'" data-id="'.$mod.'-'.$key.'" data-playback="'.(!empty($item['playback']) ? 'true' : 'false').'" '.(($item['value'] == $value) ? "selected" : "").'>'.htmlentities($item['name']).'</option>';
 			}
 		}
 		if(trim($value) != "" && !$selected) {
-			$optionshtml .= '<option value="'.$value.'" selected>'.htmlentities($value).'</option>';
+			$optionshtml .= '<option value="'.htmlentities($value).'" selected>'.htmlentities($value).'</option>';
 		}
 
 		$optionshtml .= '<option value="custom">['._("Custom").']</option>';
