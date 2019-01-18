@@ -15,16 +15,17 @@ class Destinations {
 	 * Get All destinations and popovers for all modules
 	 *
 	 * @method getAll
+	 * @param  string            $index the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
 	 * @return array Array of modules and destinations
 	 */
-	public function getAll() {
+	public function getAll($index = '') {
 		$destinations = array();
 
 		$modules = $this->FreePBX->Modules->getActiveModules();
 
 		$destinations = array();
 		foreach($modules as $rawname => $data) {
-			$destArray = $this->getDestinationsByModule($rawname, '');
+			$destArray = $this->getDestinationsByModule($rawname, $index);
 			if(!empty($destArray)) {
 				foreach($destArray as $dest) {
 					list($cat, $id) = $this->getCategoryAndId($dest, $data);
@@ -150,13 +151,14 @@ class Destinations {
 	/**
 	 * Get all destinations from all modules
 	 * @method getAllDestinations
+	 * @param  string            $index the destination set number (used when drawing multiple destination sets in a single form ie: digital receptionist)
 	 * @return array             Array of destinations
 	 */
-	public function getAllDestinations() {
+	public function getAllDestinations($index = '') {
 		$modules = $this->FreePBX->Modules->getActiveModules();
 		$final = [];
 		foreach($modules as $rawname => $data) {
-			$out = $this->getDestinationsByModule($rawname);
+			$out = $this->getDestinationsByModule($rawname, $index);
 			if(!is_array($out)) {
 				continue;
 			}

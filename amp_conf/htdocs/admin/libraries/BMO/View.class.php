@@ -724,7 +724,7 @@ class View {
 
 		if(!isset($this->drawselect_destinations)) {
 			$add_a_new = \modgettext::_('Add new %s &#133','amp');
-			$this->drawselect_destinations = $this->freepbx->Destinations->getAll();
+			$this->drawselect_destinations = $this->freepbx->Destinations->getAll($i);
 		}
 
 		$flattened = [];
