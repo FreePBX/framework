@@ -56,4 +56,4 @@
   </div>
 </div>
 
-<input type = 'hidden' id='phpsession' value = <?php echo session_id()?> />
+<input type = 'hidden' id='phpsession' value = '<?php echo session_id()?>' />
