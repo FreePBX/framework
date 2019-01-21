@@ -63,7 +63,16 @@ if($online) {
 					<span class="clear">&nbsp;</span>
 				</div>
 				<table class="table modulelist table-striped" width="100%">
-					<?php foreach($category['data'] as $module) {?>
+					<?php foreach($category['data'] as $module) {
+						if(isset($breaking['issues'][$module['name']])){
+							if($module['status'] != MODULE_STATUS_NEEDUPGRADE){
+								$module['status'] = MODULE_STATUS_CONFLICT;
+							}
+							if($module['status'] == MODULE_STATUS_NEEDUPGRADE){
+								$module['status'] = MODULE_STATUS_CONFLICT_UPGRADE;
+							}
+						}	
+					?>
 					</tr>
 						<td id="fullmodule_<?php echo prep_id($module['name'])?>" class="fullmodule" data-module="<?php echo prep_id($module['name'])?>">
 							<div class="<?php echo $module['mclass']?>" data-module="<?php echo prep_id($module['name'])?>">
@@ -89,6 +98,10 @@ if($online) {
 										case MODULE_STATUS_BROKEN:?>
 											<span class="alert text"><?php echo _('Broken');?></span>
 										<?php break;
+										case MODULE_STATUS_CONFLICT:?>
+											<span class="alert text"><?php echo _('This module has conflicts that may cause system issues');?></span>
+										<?php break;
+
 										case MODULE_STATUS_DISABLED:
 										default:
 											$disabled = ($module['status'] == MODULE_STATUS_DISABLED) ? _('Disabled') . '; ' : '';
@@ -166,6 +179,9 @@ if($online) {
 											<?php } ?>
 											<?php if(!empty($module['previous'])) {?>
 												<li role="presentation"><a href="#previous_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Previous")?></a></li>
+											<?php } ?>
+											<?php if(!empty($breaking['issues'][$module['name']])) {?>
+												<li role="presentation"><a href="#breaking_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Conflicts")?></a></li>
 											<?php } ?>
 											<?php if ($devel) { ?>
 												<li role="presentation"><a href="#devel_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Debug")?></a></li>
@@ -280,6 +296,7 @@ if($online) {
 																	continue;
 																}
 															?>
+																<input id="id="version_<?php echo prep_id($module['name'])?>"" type="hidden" name="version[<?php echo prep_id($module['name'])?>]" value="<?php echo $module['version']?>"/>
 																<input id="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>" type="radio" name="trackaction[<?php echo prep_id($module['name'])?>]" value="<?php echo $track?>" <?php echo ($checked) ? 'checked' : ''?>/>
 																<label for="track_<?php echo $track?>_<?php echo prep_id($module['name'])?>"><?php echo ucfirst($track)?></label>
 															<?php } ?>
@@ -290,6 +307,7 @@ if($online) {
 													<tr>
 														<td colspan="2">
 															<input id="track_stable_<?php echo prep_id($module['name'])?>" type="hidden" name="trackaction[<?php echo prep_id($module['name'])?>]" value="stable"/>
+															<input id="track_version_<?php echo prep_id($module['name'])?>" type="hidden" name="version[<?php echo prep_id($module['name'])?>]" value="<?php echo $module['version']?>"/>
 														</td>
 													</tr>
 												<?php } ?>
@@ -360,6 +378,24 @@ if($online) {
 																				<?php } ?>
 																				<input type="radio" id="uninstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="uninstall" />
 																				<label for="uninstall_<?php echo prep_id($module['name'])?>"><?php echo _('Uninstall')?></label>
+																			<?php }
+																		break;
+																		case MODULE_STATUS_CONFLICT:
+																			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+																				if (!$module['blocked']['status']) { ?>
+																					<input type="radio" id="forceinstall_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="installignoreconflicts" />
+																					<label for="forceinstall_<?php echo prep_id($module['name'])?>"><?php echo _('Force Install')?></label>
+																				<?php } ?>
+																			<?php }
+																		break;
+																		case MODULE_STATUS_CONFLICT_UPGRADE:
+																			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+																				if (!$module['blocked']['status']) { ?>
+																					<input type="radio" id="forceupgrade_<?php echo prep_id($module['name'])?>" name="moduleaction[<?php echo prep_id($module['name'])?>]" value="upgradeignoreconflicts" />
+																					<label for="forceupgrade_<?php echo prep_id($module['name'])?>"><?php echo _('Force Update')?></label>
+																					<input type="radio" id="uninstall_<?php echo prep_id($module['name']) ?>" name="moduleaction[<?php echo prep_id($module['name']) ?>]" value="uninstall" />
+																					<label for="uninstall_<?php echo prep_id($module['name']) ?>"><?php echo _('Uninstall') ?></label>
+																				<?php } ?>
 																			<?php }
 																		break;
 																		default:
@@ -433,6 +469,13 @@ if($online) {
 													</table>
 												</div>
 											<?php } ?>
+											<?php if (!empty($breaking['issues'][$module['name']])) { ?>
+												<div id="breaking_<?php echo prep_id($module['name']) ?>" class="limitheight tab-pane">
+													<h5><?php echo _("Conflicts") ?>: <?php echo $module['version'] ?></h5>
+													<span><?php echo implode(PHP_EOL, $breaking['issues'][$module['name']]) ?></span>
+												</div>
+											<?php 
+												} ?>
 											<?php if ($devel) { ?>
 												<div id="devel_<?php echo prep_id($module['name'])?> limitheight" class="tab-pane">
 													<h5><?php echo $module['name']?></h5>

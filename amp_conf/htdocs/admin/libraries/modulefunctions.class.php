@@ -8,6 +8,8 @@ define('MODULE_STATUS_DISABLED', 1);
 define('MODULE_STATUS_ENABLED', 2);
 define('MODULE_STATUS_NEEDUPGRADE', 3);
 define('MODULE_STATUS_BROKEN', -1);
+define('MODULE_STATUS_CONFLICT', -2);
+define('MODULE_STATUS_CONFLICT_UPGRADE', -3);
 if(false) {
 	//Standard remote repositories
 	_("Standard");
@@ -80,8 +82,7 @@ class module_functions {
 		$got_new = false;
 		$skip_cache = false;
 		$sec_array=false;
-		//$type = array('all','module','track','security','old');
-
+		
 		$result = sql("SELECT * FROM module_xml WHERE id = 'beta'",'getRow',DB_FETCHMODE_ASSOC);
 		if(!empty($result['data'])) {
 			$beta = json_decode($result['data'],true);
@@ -632,9 +633,8 @@ class module_functions {
 		}
 		global $amp_conf, $db;
 		$modules = array();
-
-		$modulelist = \FreePBX::Modulelist();
-
+		$freepbx = FreePBX::Create();
+		$modulelist = $freepbx->Modulelist;
 		if ($module) {
 			// get info on only one module
 			$xml = $this->_readxml($module, !($forceload));
@@ -643,7 +643,6 @@ class module_functions {
 				// if status is anything else, it will be updated below when we read the db
 				$modules[$module]['status'] = MODULE_STATUS_NOTINSTALLED;
 			}
-
 			// query to get just this one
 			$sql = 'SELECT * FROM modules WHERE modulename = ?';
 		} else {
@@ -719,6 +718,7 @@ class module_functions {
 						} else {
 							$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_DISABLED;
 						}
+
 					} else {
 						// no directory for this db entry
 						$modules[ $row['modulename'] ]['status'] = MODULE_STATUS_BROKEN;
@@ -726,7 +726,7 @@ class module_functions {
 					}
 					$modules[ $row['modulename'] ]['dbversion'] = $row['version'];
 					$modules[ $row['modulename'] ]['track'] = $this->get_track($row['modulename']);
-										$modules[ $row['modulename'] ]['signature'] = !empty($row['signature']) ? json_decode($row['signature'],true) : array();
+					$modules[ $row['modulename'] ]['signature'] = !empty($row['signature']) ? json_decode($row['signature'],true) : array();
 				}
 			}
 
@@ -739,7 +739,6 @@ class module_functions {
 		}
 
 		$module_array = $modulelist->get();
-
 		//ksort for consistency throughout freepbx
 		if ($status === false) {
 			if (!$module) {
@@ -760,6 +759,7 @@ class module_functions {
 				$status = array($status);
 			}
 			$modules = is_array($modules) ? $modules : array();
+
 			foreach (array_keys($modules) as $name) {
 				if (!in_array($modules[$name]['status'], $status)) {
 					// not found in the $status array, remove it
@@ -905,6 +905,32 @@ class module_functions {
 			}
 		}
 		return true;
+	}
+	/**
+	 * Check for "dangerous" modules that may be breaking
+	 *
+	 * @param [type] $modulename
+	 * @return void
+	 */
+	public function checkBreaking($modulename){
+		$danger = [];
+		$modulexml = $this->getinfo($modulename);
+		$modulexml = $modulexml[$modulename];
+
+		if(!isset($modulexml['breaking'])){
+			return [];
+		}
+		foreach($module['breaking'] as $type => $issue){
+			$version = isset($module['breaking']['version'])?$module['breaking']['version']:false;
+			if($type == 'conflict'){
+
+			}
+			if($type == 'compatibility'){
+				
+			}
+			return $danger;
+		}
+		
 	}
 
 	/** Check if a module meets dependencies.
@@ -1894,14 +1920,25 @@ class module_functions {
 	* Checks dependencies, and enables
 	* @param string   The name of the module to install
 	* @param bool     If true, skips status and dependency checks
+	* @param bool	  ignore conflicts
 	* @return mixed   True if succesful, array of error messages if not succesful
 	*/
-	function install($modulename, $force = false) {
+	function install($modulename, $force = false, $ignorechecks = true) {
 		$this->getInfoCache = array(); //invalidate local
 		$this->modDepends = array();
 		$this->notFound = false;
 		global $db, $amp_conf;
-
+		$FreePBX = FreePBX::Create();
+		$bmoModules = $FreePBX->Modules;
+		$data = $bmoModules->getOnlineJson($modulename);
+		if(!empty($data['conflicts']['issues']) && !$ignorechecks){
+			foreach($data['conflicts']['issues'] as $module => $issues){
+				foreach ($issues as $issue) {
+					$errors[] = sprintf('%s: %s',$module, $issue);
+				}
+			}
+			return $errors;
+		}
 		set_time_limit($this->maxTimeLimit);
 
 		// make sure we have a directory, to begin with
@@ -1920,10 +1957,10 @@ class module_functions {
 
 		// don't force this bit - we can't install a broken module (missing files)
 		if ($modules[$modulename]['status'] == MODULE_STATUS_BROKEN) {
-			return array(_("Module ".$modules[$modulename]['rawname']." is broken and cannot be installed. You should try to download it again."));
+			return array(sprintf(_("Module %s is broken and cannot be installed. You should try to download it again."), $modules[$modulename]['rawname']));
 		}
 
-		$mod = FreePBX::GPG()->verifyModule($modulename);
+		$mod = $FreePBX->GPG->verifyModule($modulename);
 		$revoked = $mod['status'] & FreePBX\GPG::STATE_REVOKED;
 		if($revoked) {
 			return array(_("Module ".$modulename." has a revoked signature and cannot be installed"));
@@ -1956,7 +1993,7 @@ class module_functions {
 			return array(_("Failed to run installation scripts"));
 		}
 
-		foreach (\FreePBX::Modules()->functionIterator('module_install_check_callback', $modules) as $mod => $res) {
+		foreach ($bmoModules->functionIterator('module_install_check_callback', $modules) as $mod => $res) {
 			if ($res !== true) {
 				$rejects[] = $res;
 			}
@@ -1973,7 +2010,7 @@ class module_functions {
 				$tables[] = $tname;
 			}
 			outn(sprintf(_("Updating tables %s..."),implode(", ",$tables)));
-			\FreePBX::Database()->migrateMultipleXML($xml->database->table);
+			$FreePBX->Database->migrateMultipleXML($xml->database->table);
 			out(_("Done"));
 		}
 
@@ -2015,7 +2052,7 @@ class module_functions {
 
 		// module is now installed & enabled, invalidate the modulelist class since it is now stale
 		$this->getInfoCache = array(); //invalidate local
-		\FreePBX::Modulelist()->invalidate();
+		$FreePBX->Modulelist->invalidate();
 		$this->modXMLCache = array();
 
 		// edit the notification table to list any remaining upgrades available or clear
@@ -2034,7 +2071,7 @@ class module_functions {
 		}
 		$this->upgrade_notifications($new_modules, 'PASSIVE');
 		needreload();
-		FreePBX::Config()->update("SIGNATURECHECK", true);
+		$FreePBX->Config->update("SIGNATURECHECK", true);
 		$db->query("DELETE FROM admin WHERE variable = 'unsigned' LIMIT 1");
 
 		//Generate LESS on install
@@ -2042,9 +2079,9 @@ class module_functions {
 		outn(_("Generating CSS..."));
 		try {
 			if($modulename == 'framework') {
-				FreePBX::Less()->generateMainStyles();
+				$FreePBX->Less->generateMainStyles();
 			} else {
-				FreePBX::Less()->generateModuleStyles($modulename);
+				$FreePBX->Less->generateModuleStyles($modulename);
 			}
 		}catch(\Exception $e) {}
 		out(_("Done"));

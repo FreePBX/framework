@@ -213,6 +213,7 @@ class Cache {
 	 */
 	private function init($force = false, $persistent = true) {
 		if($force || !isset($this->cache)) {
+
 			$chain = array(
 				new ArrayCache()
 			);
