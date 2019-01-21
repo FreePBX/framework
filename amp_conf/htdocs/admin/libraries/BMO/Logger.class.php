@@ -1,12 +1,10 @@
 <?php
 namespace FreePBX;
 use Monolog as Mono;
-use Monolog\Handler\StreamHandler;
-
 class Logger {
 	private $logDrivers = array();
 	private $systemID;
-	private $FreePBX;
+	private $freepbx;
 	private $defaultLogDir;
 	private $configuredStreamPaths = array();
 
@@ -23,9 +21,22 @@ class Logger {
 		if ($freepbx == null) {
 			throw new \Exception("Need to be instantiated with a FreePBX Object");
 		}
-		$this->FreePBX = $freepbx;
-		$this->systemID = $this->FreePBX->Config->get('FREEPBX_SYSTEM_IDENT');
-		$this->defaultLogDir = $this->FreePBX->Config->get('ASTLOGDIR');
+		$this->freepbx = $freepbx;
+		$this->systemID = $this->freepbx->Config->get('FREEPBX_SYSTEM_IDENT');
+		$this->defaultLogDir = $this->freepbx->Config->get('ASTLOGDIR');
+	}
+
+	/**
+	 * Mapping for old freepbx_log calls
+	 *
+	 * @param [type] The level/severity of the error. Valid levels use constants:
+	 *               FPBX_LOG_FATAL, FPBX_LOG_CRITICAL, FPBX_LOG_SECURITY, FPBX_LOG_UPDATE,
+	 *               FPBX_LOG_ERROR, FPBX_LOG_WARNING, FPBX_LOG_NOTICE, FPBX_LOG_INFO.
+	 * @param [type] $message The message
+	 * @return void
+	 */
+	public function log($level, $message) {
+		return $this->logWrite($message,array(),$level);
 	}
 
 	/**
@@ -92,7 +103,7 @@ class Logger {
 	 * @return void
 	 */
 	public function channelLogWrite($channel,$message='',array $context = array(),$logLevel = self::DEBUG ){
-		return $this->driverChannelLogWrite('default',$channel,$message,$context,$logLevel);
+		return $this->driverChannelLogWrite('freepbx',$channel,$message,$context,$logLevel);
 	}
 
 	/**
@@ -117,7 +128,7 @@ class Logger {
 	 * @return void
 	 */
 	public function driverChannelLogWrite($driver,$channel='',$message='',array $context = array(),$logLevel = self::DEBUG){
-		$this->createLogDriver($driver,'');
+		$this->createLogDriver($driver);
 		$logger = !empty($channel) ? $this->logDrivers[$driver]->withName($channel) : $this->logDrivers[$driver];
 		switch ($logLevel) {
 			case self::DEBUG:
@@ -148,25 +159,72 @@ class Logger {
 	 * @param constant $minLogLevel
 	 * @return object
 	 */
-	public function createLogDriver($driver, $path, $minLogLevel = self::DEBUG, $allowInlineLineBreaks = false){
-			if(isset($this->logDrivers[$driver])) {
-				return $this->logDrivers[$driver];
-			}
-			if($driver === 'default' || empty($path)) {
-				$path = $this->defaultLogDir.'/freepbx.log';
-			}
-			if(in_array($path,$this->configuredStreamPaths)) {
-				throw new \Exception("Multiple loggers for the same file isn't allowed");
-			}
-			$dateFormat = "Y-M-d H:i:s";
-			$output = "[%datetime%] [%channel%.%level_name%]: %message% %context% %extra%\n";
-			$formatter = new Mono\Formatter\LineFormatter($output, $dateFormat, $allowInlineLineBreaks);
-			$this->logDrivers[$driver] = new Mono\Logger($driver);
-			$stream = new StreamHandler($path,$minLogLevel);
-			$stream->setFormatter($formatter);
-			$this->logDrivers[$driver]->pushHandler($stream);
-			$this->configuredStreamPaths[$driver] = $path;
+	public function createLogDriver($driver, $path = '', $minLogLevel = self::DEBUG, $allowInlineLineBreaks = false){
+		//default and freepbx are the same
+		if($driver === 'default') {
+			$driver = 'freepbx';
+		}
+		if(empty($path)) {
+			$driver = 'freepbx';
+		}
+		if(isset($this->logDrivers[$driver])) {
 			return $this->logDrivers[$driver];
+		}
+		if($driver === 'freepbx') {
+			// during initial install, there may be no log file provided because the script has not fully bootstrapped
+			// so we will default to a pre-install log file name. We will make a file name mandatory with a proper
+			// default in FPBX_LOG_FILE
+			$path = $this->freepbx->Config->get('FPBX_LOG_FILE');
+			$path = !empty($path) ? $path : '/tmp/freepbx_pre_install.log';
+		}
+
+		if(in_array($path,$this->configuredStreamPaths)) {
+			throw new \Exception("Multiple loggers for the same file isn't allowed");
+		}
+		$this->configuredStreamPaths[$driver] = $path;
+
+		if($this->freepbx->Config->get('AMPDISABLELOG')) {
+			$stream = new Mono\Handler\NullHandler($minLogLevel);
+		} else {
+			$AMPSYSLOGLEVEL = $this->freepbx->Config->get('AMPSYSLOGLEVEL');
+			$AMPSYSLOGLEVEL = !empty($AMPSYSLOGLEVEL) ? $AMPSYSLOGLEVEL : 'FILE';
+			switch ($AMPSYSLOGLEVEL) {
+				case 'LOG_EMERG':
+					$monlevel = 600;
+				case 'LOG_ALERT':
+					$monlevel = 550;
+				case 'LOG_CRIT':
+					$monlevel = 500;
+				case 'LOG_ERR':
+					$monlevel = 400;
+				case 'LOG_WARNING':
+					$monlevel = 300;
+				case 'LOG_NOTICE':
+					$monlevel = 250;
+				case 'LOG_INFO':
+					$monlevel = 200;
+				case 'LOG_DEBUG':
+					$monlevel = 100;
+					$stream = new Mono\Handler\SyslogHandler($driver,constant($log_type),$monlevel);
+					break;
+				case 'SQL':     // Core will remove these settings once migrated,
+				case 'LOG_SQL': // default to FILE during any interim steps.
+				case 'FILE':
+					$stream = new Mono\Handler\StreamHandler($path,$minLogLevel);
+					break;
+				default:
+					throw new \Exception("Unknown AMPSYSLOGLEVEL of $AMPSYSLOGLEVEL");
+			}
+		}
+
+		$dateFormat = "Y-M-d H:i:s";
+		$output = "[%datetime%] [%channel%.%level_name%]: %message% %context% %extra%\n";
+		$formatter = new Mono\Formatter\LineFormatter($output, $dateFormat, $allowInlineLineBreaks);
+		$stream->setFormatter($formatter);
+
+		$this->logDrivers[$driver] = new Mono\Logger($driver);
+		$this->logDrivers[$driver]->pushHandler($stream);
+		return $this->logDrivers[$driver];
 	}
 
 	/**
