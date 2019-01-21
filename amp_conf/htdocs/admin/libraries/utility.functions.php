@@ -72,57 +72,9 @@ function freepbx_log_security($txt) {
  * @param  string   The error message
  */
 function freepbx_log($level, $message) {
-	global $amp_conf;
 	$freepbx = FreePBX::Create();
 	$logger = $freepbx->Logger;
-	$ASTLOGDIR = $freepbx->Config->get('ASTLOGDIR');
-	//need to double check amp_conf incase we are in an installation
-	$ASTLOGDIR = !empty($ASTLOGDIR) ? $ASTLOGDIR : (!empty($amp_conf['ASTLOGDIR']) ? $amp_conf['ASTLOGDIR'] : '/var/log/asterisk');
-	$FPBXDBUGFILE = $freepbx->Config->get('FPBXDBUGFILE');
-	$FPBXDBUGFILE = !empty($FPBXDBUGFILE) ? $FPBXDBUGFILE : (!empty($amp_conf['FPBXDBUGFILE']) ? $amp_conf['FPBXDBUGFILE'] : '/var/log/asterisk/freepbx_debug');
-	$dbugfile = $FPBXDBUGFILE;
-
-	// if it is not set, it's probably an initial installation so we want to log something
-	if (!isset($amp_conf['AMPDISABLELOG']) || !$amp_conf['AMPDISABLELOG']) {
-		$log_type = isset($amp_conf['AMPSYSLOGLEVEL']) ? $amp_conf['AMPSYSLOGLEVEL'] : 'FILE';
-		switch ($log_type) {
-			case 'LOG_EMERG':
-				$monlevel = 600;
-			case 'LOG_ALERT':
-				$monlevel = 550;
-			case 'LOG_CRIT':
-				$monlevel = 500;
-			case 'LOG_ERR':
-				$monlevel = 400;
-			case 'LOG_WARNING':
-				$monlevel = 300;
-			case 'LOG_NOTICE':
-				$monlevel = 250;
-			case 'LOG_INFO':
-				$monlevel = 200;
-			case 'LOG_DEBUG':
-				$monlevel = 100;
-				/** monolog */
-				$dbug = $logger->createLogDriver('dbug', $dbugfile)->debug($message);
-				syslog(constant($log_type),"PBX - $message");
-				break;
-			case 'SQL':     // Core will remove these settings once migrated,
-			case 'LOG_SQL': // default to FILE during any interim steps.
-			case 'FILE':
-			default:
-				// during initial install, there may be no log file provided because the script has not fully bootstrapped
-				// so we will default to a pre-install log file name. We will make a file name mandatory with a proper
-				// default in FPBX_LOG_FILE
-				$log_file	= isset($amp_conf['FPBX_LOG_FILE']) ? $amp_conf['FPBX_LOG_FILE'] : '/tmp/freepbx_pre_install.log';
-				$monlevel = 200;
-				// PHP Throws an error on install running of install_amp because the tiemzone isn't set. This is something that
-				// should be done in the php.ini file but we will make an attempt to set it to something if we can't derive it
-				// from the date_default_timezone_get() command which goes through heuristics of guessing.
-				//
-
-		}
-	}
-	return $logger->channelLogWrite('freepbx_log',$message,array(), $monlevel);
+	return $logger->log($level, $message);
 }
 
 /**
