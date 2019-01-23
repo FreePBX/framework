@@ -350,8 +350,18 @@ function saveUpdateScheduler(e) {
 		data: ajaxdata,
 		success: function(data) {
 			$.each(data, function(i,v) {
-				var selector = "input[name='"+i+"']";
-				$(selector).val(v);
+				switch($("input[name='auto_system_updates']").prop("type")) {
+					case "radio":
+						var selector = "input[name='"+i+"'][value='"+v+"']";
+						$(selector).prop('checked', true);
+					break;
+					case "select":
+					case "text":
+						var selector = "input[name='"+i+"']";
+						$(selector).val(v);
+					break;
+				}
+
 			});
 		},
 		complete: function(data) { s.text("Save").prop("disabled", false); },

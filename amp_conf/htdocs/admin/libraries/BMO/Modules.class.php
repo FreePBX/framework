@@ -400,7 +400,7 @@ class Modules {
 
 		// Loop through our current ones and see if new ones are available online
 		foreach ($local as $name => $cur) {
-			if (isset($onlinemodules[$name])) {
+			if (isset($onlinemodules[$name]) && isset($cur['version'])) {
 				$new = $onlinemodules[$name];
 				// If our current version is lower than the new version
 				if (version_compare_freepbx($cur['version'], $new['version']) < 0) {

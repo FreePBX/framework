@@ -55,6 +55,10 @@ class SystemUpdates {
 	 * @return bool
 	 */
 	public function canDoSystemUpdates() {
+		if(!\FreePBX::Modules()->checkStatus('sysadmin')) {
+			return false;
+		}
+		\FreePBX::Modules()->loadFunctionsInc('sysadmin');
 		if (!function_exists("sysadmin_get_license")) {
 			return false;
 		}
