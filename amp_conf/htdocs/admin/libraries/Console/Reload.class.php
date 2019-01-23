@@ -103,12 +103,12 @@ class Reload extends Command {
 		//trust GPG keys
 		$this->freepbx->Performance->Start("trust_gpg");
 		$this->freepbx->GPG->trustFreePBX();
-		$this->freepbx->Performance->Stop();
+		$this->freepbx->Performance->Stop("trust_gpg");
 
 		//Run HTML Format Checks
 		$this->freepbx->Performance->Start("check_html5");
 		$this->freepbx->Media->getSupportedHTML5Formats();
-		$this->freepbx->Performance->Stop();
+		$this->freepbx->Performance->Stop("check_html5");
 
 		//Update BMO Hooks
 		$this->freepbx->Performance->Start("retrieve_conf");
@@ -150,8 +150,6 @@ class Reload extends Command {
 				}
 			}
 		}
-
-		$this->freepbx->Performance->Stop();
 
 		$this->freepbx->Performance->Start("Generating all compiled CSS files from less");
 		$this->freepbx->Less->generateMainStyles();
@@ -228,8 +226,6 @@ class Reload extends Command {
 		}
 
 		$this->freepbx->Config->update('AST_APP_VQA', $this->freepbx->astman->app_exists('VQA'), true, true);
-
-		$this->freepbx->Notifications->delete('framework', 'ASTCONFAPPMISSING');
 
 		// Check for and report any extension conflicts
 		//

@@ -363,32 +363,7 @@ function engine_getinfo($force_read=false) {
 }
 
 function do_reload($passthru=false) {
-	$AMPSBIN = \FreePBX::Config()->get('AMPSBIN');
-	$process = new \Symfony\Component\Process\Process($AMPSBIN.'/fwconsole reload --json');
-	$process->run();
-	$output = $process->getOutput();
-	$code = $process->getExitCode();
-
-	preg_match_all("/^({.*})$/m", $output, $array);
-	$output = !empty($array[1][0]) ? json_decode($array[1][0],true) : array("error" => _('Unknown Error. Please Run: fwconsole reload --verbose '));
-
-	if($code !== 0 || isset($output['error'])) {
-		return [
-			'status' => false,
-			'message' => $output['error'],
-			'code' => $code,
-			'raw' => $output
-		];
-	} else {
-		return [
-			'status' => true,
-			'message' => _('Successfully reloaded'),
-			'code' => $code,
-			'raw' => $output
-		];
-	}
-
-	return $return;
+	return \FreePBX::Framework()->doReload($passthru);
 }
 
 
