@@ -1056,6 +1056,7 @@ function fpbx_reload() {
 		type: "POST",
 		url: 'ajax.php?command=reload',
 		dataType: "json",
+		timeout: 1800000, //30 minutes
 		success: function(data) {
 			box.dialog("destroy").remove();
 			if (!data.status) {
