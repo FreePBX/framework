@@ -155,7 +155,7 @@ function displayRepoSelect($buttons,$online=false,$repo_list=array()) {
 	$displayvars['tooltip'] .= _("The Commercial repository is reserved for modules that are available for purchase and commercially supported.").' ';
 	$displayvars['tooltip'] .= '<br /><br /><small><i>('.sprintf(_("Checking for updates will transmit your %s, Distro, Asterisk and PHP version numbers along with a unique but random identifier. This is used to provide proper update information and track version usage to focus development and maintenance efforts. No private information is transmitted."),$brand).')</i></small>';
 
-	return load_view(__DIR__.'views/module_admin/reposelect.php',$displayvars);
+	return load_view(dirname(__DIR__).'/views/module_admin/reposelect.php',$displayvars);
 }
 
 function getEmail($FreePBX = null){
