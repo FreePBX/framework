@@ -403,7 +403,6 @@ class Moduleadmin extends Command {
 		} else {
 			$result = $this->mf->install($modulename, $force, $skipbreaking);
 			if(is_array($result) && !empty($result)){
-
 				return $this->handleErrors($result, $modulename, true);
 			} else {
 				$this->writeln("Module ".$modulename." successfully installed");
@@ -596,7 +595,7 @@ class Moduleadmin extends Command {
 				continue;
 			}
 
-			$this->out->write("$action $rawname due to security vulnerability ".implode($info['vul'],', ')."...");
+			$this->write("$action $rawname due to security vulnerability ".implode($info['vul'],', ')."...");
 
 			// Upgrade/install/whatever our mod
 			exec($ampsbin."/fwconsole ma $action ".escapeshellarg($rawname)." --format=json",$out,$ret);
@@ -608,7 +607,7 @@ class Moduleadmin extends Command {
 
 			if(!empty($errorvuls)) {
 				// There were issues upgrading some modules.
-				$this->out->writeln("Failed!");
+				$this->writeln("Failed!");
 				$cnt = count($errorvuls);
 				if ($cnt == 1) {
 					$emailbody .= "\n\n"._("WARNING: There was an issue automatically repairing the security vulnerabilities on the following module. This module requires manual attention urgently:")."\n";
@@ -636,7 +635,7 @@ class Moduleadmin extends Command {
 					$success_notification_body .= $line;
 					$email_body .= "    $line";
 				}
-				$this->out->writeln("Done!");
+				$this->writeln("Done!");
 			}
 		}
 		if(!empty($success_notification_title)) {
@@ -985,7 +984,7 @@ class Moduleadmin extends Command {
 
 			$out = $this->out;
 			if(!($this->out->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE)) {
-				$this->out->write("Chowning directories...");
+				$this->write("Chowning directories...");
 				$out = new NullOutput();
 			}
 
@@ -993,7 +992,7 @@ class Moduleadmin extends Command {
 			$returnCode = $command->run($greetInput, $out);
 
 			if(!($this->out->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE)) {
-				$this->out->writeln("Done");
+				$this->writeln("Done");
 			}
 		}
 	}
@@ -1031,7 +1030,7 @@ class Moduleadmin extends Command {
 		$this->doUpgradeAll(true, $skipbreakingcheck);
 		$modules = $this->getInstallableModules();
 		$skipbreakingcheck = false;
-		
+
 		// Belt-and-suspenders check. This makes sure that core is
 		// installed, just in case it somehow failed in the doUpgradeAll
 		// function, above. Rare, but has happened.

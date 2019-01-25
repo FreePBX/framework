@@ -241,8 +241,17 @@ switch ($action) {
 								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
 								echo '</span>';
 							} else {
-								$change_tracks[$modulename] = 'stable';
-								echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span><br/>';
+								echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
+								echo '<span id="installstatus_'.$modulename.'"></span>';
+								//2nd param of install set to true to force the install as it may not be a detected upgrade
+								if (is_array($errors = $modulef->install($modulename,true))) {
+									echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
+									echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+									echo '</span>';
+								} else {
+									$change_tracks[$modulename] = $setting['track'];
+									echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span><br/>';
+								}
 							}
 						}
 					break;
@@ -532,7 +541,7 @@ switch ($action) {
 						$skipaction = true;
 						$errorstext[] = sprintf(_("%s cannot be upgraded to %s: The release track of %s does not exist for this module"),
 							"<strong>".$modules[$module]['name']."</strong>","<strong>".$track."</strong>","<strong>".$track."</strong>");
-					} 
+					}
 					if(is_array($dependerrors)) {
 						$skipaction = true;
 						$di = true;
@@ -548,7 +557,7 @@ switch ($action) {
 					if(!empty($trackinfo) && !$di){
 						$actionstext[] =  sprintf(_("%s %s will be downloaded and installed and switched to the %s track"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$trackinfo['version']."</strong>","<strong>".$track."</strong>");
 					}
-					
+
 				}
 				break;
 			case 'installignoreconflicts':
@@ -565,7 +574,7 @@ switch ($action) {
 							'<strong><ul><li>' . implode('</li><li>', $dependerrors) . '</li></ul></strong>'
 						);
 					}
-					
+
 					if (!$issues) {
 						if ($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) {
 							$actionstext[] = sprintf(_("Conflicts have been ignored, %s %s will be upgraded to %s"), "<strong>" . $modules[$module]['name'] . "</strong>", "<strong>" . $modules[$module]['dbversion'] . "</strong>", "<strong>" . $modules[$module]['version'] . "</strong>");
@@ -585,14 +594,14 @@ switch ($action) {
 						$issues = true;
 						$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please try again after the dependencies have been installed.") : _("%s cannot be installed: %s Please try again after the dependencies have been installed.") ),
 							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
-					} 
+					}
 					if (is_array($conflicterrors['issues']) && !empty($conflicterrors['issues'])) {
-						
+
 						$skipaction = true;
 						$issues = true;
 						$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the conflicts have been resolved."),
 							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$conflicterrors['issues']).'</li></ul></strong>');
-					} 
+					}
 					if(!$issues){
 						if ($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) {
 							$actionstext[] =  sprintf(_("%s %s will be upgraded to %s"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$modules[$module]['dbversion']."</strong>", "<strong>".$modules[$module]['version']."</strong>");
