@@ -29,6 +29,9 @@ if ($amp_conf['USE_FREEPBX_MENU_CONF']) {
 							if ($value == '1') {
 								unset($fpbx_menu[$menuitem]);
 							}
+							break;
+						case 'display_on_auth':
+								$fpbx_menu[$menuitem][$key] = strtolower($value);
 						break;
 					}
 				}
@@ -65,6 +68,10 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 	$mods = array();
 	foreach($menu as $t => $cat) { //categories
 		if (count($cat) == 1) {
+			if ((isset($cat[0]['display_on_auth']) && $cat[0]['display_on_auth'] == '1') && 
+			    (isset($display) && ($display == 'noauth'))) {
+				continue;
+			}
 			if (isset($cat[0]['hidden']) && $cat[0]['hidden'] == 'true') {
 				continue;
 			}
