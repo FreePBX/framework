@@ -462,6 +462,7 @@ class Modules extends DB_Helper{
 		$oneHour = Carbon::createFromTimestamp($now)->addHour()->timestamp;
 		$last = $this->getConfig('moduleJSONCache');
 		$last = $last?$last:($now-1);
+		$breaking = $this->checkBreaking();
 		$version = getversion();
 		// we need to know the freepbx major version we have running (ie: 12.0.1 is 12.0)
 		preg_match('/(\d+\.\d+)/', $version, $matches);
@@ -497,7 +498,9 @@ class Modules extends DB_Helper{
 			if(isset($moduleArray['previous'][$module])){
 				$ret['previous'] = $moduleArray['previous'][$module];
 			}
-			$ret['conflicts'] = $this->checkBreaking($ret);
+			if(isset($breaking['issues'][$module]) && !empty($breaking['issues'][$module])){
+				$ret['conflicts'] = $breaking['issues'][$module];
+			}
 			return $ret;
 		}
 		return $moduleArray;
