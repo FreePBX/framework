@@ -22,7 +22,7 @@
  */
 namespace FreePBX;
 use Symfony\Component\Lock\Factory;
-use Symfony\Component\Lock\Store\FlockStore;
+use Symfony\Component\Lock\Store\SemaphoreStore;
 use Symfony\Component\Lock\Store\RetryTillSaveStore;
 use Symfony\Component\Lock\Store\RedisStore;
 class Cron {
@@ -300,24 +300,7 @@ class Cron {
 		if(!empty($this->lock)) {
 			return $this->lock;
 		}
-		if(class_exists('Redis')) {
-			try {
-				$redis = new \Redis();
-				$redis->connect('127.0.0.1');
-				$redis->get('foo');
-				$lockStore = new RedisStore($redis,60);
-				$lockStore = new RetryTillSaveStore($lockStore);
-			} catch(\Exception $e) {
-				freepbx_log(FPBX_LOG_WARNING, "Redis enabled but not running, falling back to filesystem [{$e->getMessage()}]");
-			}
-		}
-		if(empty($lockStore)) {
-			if(!file_exists(\FreePBX::Config()->get('ASTSPOOLDIR').'/tmp')) {
-				mkdir(\FreePBX::Config()->get('ASTSPOOLDIR').'/tmp',0777,true);
-			}
-			$lockStore = new FlockStore(\FreePBX::Config()->get('ASTSPOOLDIR').'/tmp');
-		}
-
+		$lockStore = new SemaphoreStore();
 		$factory = new Factory($lockStore);
 		$this->lock = $factory->createLock('crontab-'.$this->user,60);
 		return $this->lock;
