@@ -66,7 +66,7 @@ class DB_Helper {
 			"dbDelId" => self::$db->prepare("DELETE FROM `$tablename` WHERE `id` = :id"),
 			"dbGetFirst" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key` LIMIT 1"),
 			"dbGetLast" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key` DESC LIMIT 1"),
-			"dbEmpty" => self::$db->prepare("DROP TABLE `$tablename`"),
+			"dbEmpty" => self::$db->prepare("DELETE FROM `$tablename`"),
 			"dbGetAllIds" => self::$db->prepare("SELECT DISTINCT(`id`) FROM `$tablename` WHERE `id` <> 'noid'"),
 			"dbGetByType" => self::$db->prepare("SELECT * FROM `$tablename` WHERE `type` = :type"),
 		);
