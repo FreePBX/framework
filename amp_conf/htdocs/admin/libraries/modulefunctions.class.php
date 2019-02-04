@@ -2118,6 +2118,56 @@ class module_functions {
 		return true;
 	}
 
+	private function listdir($directory, $recursive=true) {
+		$array_items = array();
+		if ($handle = opendir($directory)) {
+			while (false !== ($file = readdir($handle))) {
+				if ($file != "." && $file != "..") {
+					if (is_dir($directory. "/" . $file)) {
+						if($recursive) {
+							$array_items = array_merge($array_items, $this->listdir($directory. "/" . $file, $recursive));
+						}
+						$file = $directory . "/" . $file;
+						$array_items[] = preg_replace("/\/\//si", "/", $file);
+					}else{
+						$file = $directory . "/" . $file;
+						$array_items[] = preg_replace("/\/\//si", "/", $file);
+					}
+				}
+			}
+			closedir($handle);
+		}
+		return array_reverse($array_items);//reverse so that we get directories BEFORE the files that are in them
+	}
+
+	private function addslash($dir) {
+		return (($dir[ strlen($dir)-1 ] == '/') ? $dir : $dir.'/');
+	}
+
+	private function moduleCleanup($modulename) {
+		global $amp_conf;
+		$symlink_dirs['bin'] = $amp_conf['AMPBIN'];
+		$symlink_dirs['etc'] = $amp_conf['ASTETCDIR'];
+		$symlink_dirs['images'] = $amp_conf['AMPWEBROOT'] . "/admin/images";
+		$t = $symlink_dirs['bin'];
+		$z = $symlink_dirs['etc'];
+		$i = $symlink_dirs['images'];
+		$moduledir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
+		foreach($symlink_dirs as $subdir => $targetdir) {
+			$dir = $this->addslash($moduledir).$subdir;
+			if(is_dir($dir)) {
+				foreach($this->listdir($dir) as $idx => $file){
+					$sourcefile = $file;
+					$filesubdir=str_replace($dir.'/', '', $file);
+					$targetfile = $this->addslash($targetdir).$filesubdir;
+					if (is_link($targetfile)) {
+						@unlink($targetfile);
+					}
+				}
+			}
+		}
+	}
+
 	/**
 	* Uninstall a module, but files remain
 	* @param string   The name of the module to install
@@ -2203,6 +2253,8 @@ class module_functions {
 				$moduleObject->deleteAll();
 			}
 		} catch(\Exception $e) {}
+
+		$this->moduleCleanup($modulename);
 
 		needreload();
 		//invalidate the modulelist class since it is now stale
