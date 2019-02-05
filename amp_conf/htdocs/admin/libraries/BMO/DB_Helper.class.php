@@ -174,7 +174,6 @@ class DB_Helper {
 		if (property_exists($mod, "dbDefaults")) {
 			$def = $mod::$dbDefaults;
 			if (isset($def[$var])) {
-				self::$cache[$mod][$id][$var] = $val;
 				return $def[$var];
 			}
 		}
