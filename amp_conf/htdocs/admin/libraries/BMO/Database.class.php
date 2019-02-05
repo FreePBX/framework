@@ -130,6 +130,7 @@ class Database extends \PDO {
 		} catch(\Exception $e) {
 			die_freepbx($e->getMessage(), $e);
 		}
+		$this->setAttribute(\PDO::ATTR_STATEMENT_CLASS, array('FreePBX\Database\PDOStatement', array($this)));
 		$this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 		$this->dVersion = $this->getAttribute(\PDO::ATTR_SERVER_VERSION);
 	}
@@ -186,6 +187,15 @@ class Database extends \PDO {
 
 		$migrate = new Database\Migration($this->getDoctrineConnection(), $this->dVersion);
 		return $migrate->modifyMultiple($tables);
+	}
+
+	public function query($statement) {
+		if(defined('LOGPREPARES')) {
+			$logger = \FreePBX::Logger()->createLogDriver('query_performance', \FreePBX::Config()->get('ASTLOGDIR').'/query_performance.log', \Monolog\Logger::DEBUG);
+			$logger = $logger->withName(posix_getpid());
+			$logger->debug($statement);
+		}
+		return parent::query($statement);
 	}
 
 	public function migrate($table) {

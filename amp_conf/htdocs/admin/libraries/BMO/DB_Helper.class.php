@@ -13,6 +13,8 @@
 namespace FreePBX;
 class DB_Helper {
 
+	private static $cache = array();
+
 	private static $db;
 	private static $dbname = "kvstore";
 	private static $getPrep;
@@ -90,7 +92,7 @@ class DB_Helper {
 		self::$dbGet = self::$db->prepare("SELECT `val`, `type` FROM `".self::$dbname."` WHERE `module` = :mod AND `key` = :key AND `id` = :id");
 		self::$dbGetAll = self::$db->prepare("SELECT `key` FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id ORDER BY `key`");
 		self::$dbDel = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod AND `key` = :key  AND `id` = :id");
-		self::$dbAdd = self::$db->prepare("INSERT INTO `".self::$dbname."` ( `module`, `key`, `val`, `type`, `id` ) VALUES ( :mod, :key, :val, :type, :id )");
+		self::$dbAdd = self::$db->prepare("INSERT INTO `".self::$dbname."` ( `module`, `key`, `val`, `type`, `id` ) VALUES ( :mod, :key, :val, :type, :id ) ON DUPLICATE KEY UPDATE `val` = :val, `type` = :type");
 		self::$dbDelId = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod AND `id` = :id");
 		self::$dbDelMod = self::$db->prepare("DELETE FROM `".self::$dbname."` WHERE `module` = :mod");
 
@@ -139,6 +141,12 @@ class DB_Helper {
 			$mod = get_class($this);
 		}
 
+		if(isset(self::$cache[$mod][$id][$var])) {
+			return self::$cache[$mod][$id][$var];
+		} else {
+			print_r("MISS $mod $id $var\n");
+		}
+
 		$query[':mod'] = $mod;
 		$query[':id'] = $id;
 		$query[':key'] = $var;
@@ -152,20 +160,25 @@ class DB_Helper {
 
 		if (isset($res[0])) {
 			// Found!
+			$val = null;
 			if ($res[0]['type'] == "json-obj") {
-				return json_decode($res[0]['val']);
+				$val = son_decode($res[0]['val']);
 			} elseif ($res[0]['type'] == "json-arr") {
-				return json_decode($res[0]['val'], true);
+				$val = json_decode($res[0]['val'], true);
 			} else {
-				return $res[0]['val'];
+				$val = $res[0]['val'];
 			}
+			self::$cache[$mod][$id][$var] = $val;
+			return $val;
 		}
 
 		// We don't have a result. Maybe there's a default?
 		if (property_exists($mod, "dbDefaults")) {
 			$def = $mod::$dbDefaults;
-			if (isset($def[$var]))
+			if (isset($def[$var])) {
+				self::$cache[$mod][$id][$var] = $val;
 				return $def[$var];
+			}
 		}
 
 		return false;
@@ -208,15 +221,20 @@ class DB_Helper {
 
 		$query[':mod'] = $mod;
 
-		// Delete any that previously match
-		try {
-			$res = self::$dbDel->execute($query);
-		} catch (\Exception $e) {
-			self::checkException($e);
-		}
+		// Just wanted to delete
+		if ($val === false) {
+			// Delete any that previously match
+			try {
+				$res = self::$dbDel->execute($query);
+			} catch (\Exception $e) {
+				self::checkException($e);
+			}
 
-		if ($val === false) // Just wanted to delete
+			if(isset(self::$cache[$mod][$id][$var])) {
+				unset(self::$cache[$mod][$id][$var]);
+			}
 			return true;
+		}
 
 		if (is_array($val)) {
 			$query[':val'] = json_encode($val);
@@ -230,6 +248,7 @@ class DB_Helper {
 		}
 
 		self::$dbAdd->execute($query);
+		self::$cache[$mod][$id][$key] = $val;
 		return true;
 	}
 
@@ -318,6 +337,10 @@ class DB_Helper {
 
 		$query[':mod'] = $mod;
 
+		if(isset(self::$cache[$mod])) {
+			unset(self::$cache[$mod]);
+		}
+
 		try {
 			$ret = self::$dbDelMod->execute($query);
 		} catch (\Exception $e) {
@@ -402,6 +425,10 @@ class DB_Helper {
 			$this->classOverride = false;
 		} else {
 			$mod = get_class($this);
+		}
+
+		if(isset(self::$cache[$mod[$id]])) {
+			unset(self::$cache[$mod][$id]);
 		}
 
 		$query[':mod']= $mod;
