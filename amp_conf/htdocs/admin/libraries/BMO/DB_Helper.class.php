@@ -11,7 +11,11 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 class DB_Helper {
+
+	private static $cache = [];
 
 	private static $db = false;
 	private static $dbname = "kvstore";
@@ -62,13 +66,14 @@ class DB_Helper {
 			"dbGet" => self::$db->prepare("SELECT `val`, `type` FROM `$tablename` WHERE `key` = :key AND `id` = :id"),
 			"dbGetAll" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key`"),
 			"dbDel" => self::$db->prepare("DELETE FROM `$tablename` WHERE `key` = :key  AND `id` = :id"),
-			"dbAdd" => self::$db->prepare("INSERT INTO `$tablename` ( `key`, `val`, `type`, `id` ) VALUES ( :key, :val, :type, :id )"),
+			"dbAdd" => self::$db->prepare("INSERT INTO `$tablename` ( `key`, `val`, `type`, `id` ) VALUES ( :key, :val, :type, :id ) ON DUPLICATE KEY UPDATE `val` = :val, `type` = :type"),
 			"dbDelId" => self::$db->prepare("DELETE FROM `$tablename` WHERE `id` = :id"),
 			"dbGetFirst" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key` LIMIT 1"),
 			"dbGetLast" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key` DESC LIMIT 1"),
 			"dbEmpty" => self::$db->prepare("DELETE FROM `$tablename`"),
 			"dbGetAllIds" => self::$db->prepare("SELECT DISTINCT(`id`) FROM `$tablename` WHERE `id` <> 'noid'"),
 			"dbGetByType" => self::$db->prepare("SELECT * FROM `$tablename` WHERE `type` = :type"),
+			"tablename" => $tablename
 		);
 		// Now this has run, everything IS JUST FINE.
 		return self::$checked[$tablename];
@@ -152,6 +157,10 @@ class DB_Helper {
 			$mod = get_class($this);
 		}
 
+		if(isset(self::$cache[$p['tablename']][$id][$var])) {
+			return self::$cache[$p['tablename']][$id][$var];
+		}
+
 		$query[':id'] = $id;
 		$query[':key'] = $var;
 
@@ -174,19 +183,21 @@ class DB_Helper {
 			}
 
 			if ($type == "json-obj") {
-				return json_decode($val);
+				$val = json_decode($val);
 			} elseif ($type == "json-arr") {
-				return json_decode($val, true);
-			} else {
-				return $val;
+				$val = json_decode($val, true);
 			}
+
+			self::$cache[$p['tablename']][$id][$var] = $val;
+			return $val;
 		}
 
 		// We don't have a result. Maybe there's a default?
 		if (class_exists($mod) && property_exists($mod, "dbDefaults")) {
 			$def = $mod::$dbDefaults;
-			if (isset($def[$var]))
+			if (isset($def[$var])) {
 				return $def[$var];
+			}
 		}
 
 		return false;
@@ -228,21 +239,28 @@ class DB_Helper {
 		try {
 			$p['dbGet']->execute($query);
 			// Does this value already exist?
-			$check = $p['dbGet']->fetchAll();
-			if (isset($check[0])) {
-				// Yes it does. Is it a blob?
-				if ($check[0]['type'] == "blob") {
-					// Delete that blob
-					$this->deleteBlob($check[0]['val']);
-				}
-				// Now delete the row.
-				$p['dbDel']->execute($query);
-			}
+			$check = $p['dbGet']->fetch();
 		} catch (\Exception $e) {
 			self::checkException($e);
 		}
 
 		if ($val === false) { // Just wanted to delete
+			try {
+				if (!empty($check)) {
+					// Yes it does. Is it a blob?
+					if ($check['type'] == "blob") {
+						// Delete that blob
+						$this->deleteBlob($check['val']);
+					}
+					// Now delete the row.
+					$p['dbDel']->execute($query);
+				}
+			} catch (\Exception $e) {
+				self::checkException($e);
+			}
+			if(isset(self::$cache[$p['tablename']][$id][$key])) {
+				unset(self::$cache[$p['tablename']][$id][$key]);
+			}
 			return true;
 		}
 
@@ -260,11 +278,24 @@ class DB_Helper {
 		// Is our value too large to store in the standard kvstore?
 		// If it is, store it as a blob, and link to it.
 		if (strlen($query[':val']) > 4000) {
-			$uuid = $this->insertBlob($query[':val'], $query[':type']);
+			if (!empty($check) && $check['type'] == "blob") {
+				$uuid = $this->insertBlob($check['val'], $query[':val'], $query[':type']);
+			} else {
+				$uuid = $this->insertBlob(null, $query[':val'], $query[':type']);
+			}
 			$query[':type'] = "blob";
 			$query[':val'] = $uuid;
+		} else {
+			if (!empty($check) && $check['type'] == "blob") {
+				$this->deleteBlob($check['val']);
+			}
 		}
 
+		self::$cache[$p['tablename']][$id][$key] = $query[':val'];
+		//the check was already a blob and is now a blob again nothing changed
+		if(!empty($check) && $check['val'] === $query[':val']) {
+			return true;
+		}
 		$p['dbAdd']->execute($query);
 		return true;
 	}
@@ -371,7 +402,7 @@ class DB_Helper {
 		// We unset so if we're called again in the same session,
 		// we will recreate the table.
 		unset(self::$checked[$tablename]);
-
+		unset(self::$cache[$p['tablename']]);
 		return $ret;
 	}
 
@@ -470,6 +501,7 @@ class DB_Helper {
 
 		try {
 			$p['dbDelId']->execute($query);
+			unset(self::$cache[$p['tablename']][$id]);
 		} catch (\Exception $e) {
 			self::checkException($e);
 		}
@@ -616,19 +648,19 @@ class DB_Helper {
 	 * @param $type Hint to decode the blob when handed back
 	 * @return $uuid
 	 */
-	public function insertBlob($val = false, $type = "raw") {
+	public function insertBlob($uuid = null, $val = false, $type = "raw") {
 		if (!$val) {
 			throw new \Exception("No val");
 		}
 
 		// Generate a UUID
-		$data = openssl_random_pseudo_bytes(16);
-		$data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
-		$data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
-		$uuid = vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+		if(is_null($uuid)) {
+			$uuid4 = Uuid::uuid4();
+			$uuid = $uuid4->toString();
+		}
 
 		// Try to insert our value
-		$q = self::$db->prepare('INSERT INTO `kvblobstore` (`uuid`, `type`, `content`) VALUES (:uuid, :type, :data)');
+		$q = self::$db->prepare('INSERT INTO `kvblobstore` (`uuid`, `type`, `content`) VALUES (:uuid, :type, :data) ON DUPLICATE KEY UPDATE `type` = :type, `content` = :data');
 		$query = array("uuid" => $uuid, "data" => $val, "type" => $type);
 		try {
 			$q->execute($query);
