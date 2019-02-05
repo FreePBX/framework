@@ -75,11 +75,22 @@ class Moduleadmin extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output){
+		$this->FreePBX = FreePBX::Create();
+		if(posix_getuid() === 0) {
+			$AMPASTERISKWEBUSER = $this->FreePBX->Config->get('AMPASTERISKWEBUSER');
+			$info = posix_getpwnam($AMPASTERISKWEBUSER);
+			if(empty($info)) {
+				$output->writeln("$AMPASTERISKWEBUSER is not a valid user");
+				return 0;
+			}
+			posix_setuid($info['uid']);
+		}
+
 		if (!$this->lock()) {
 			$output->writeln('The command is already running in another process.');
 			return 0;
 		}
-		$this->FreePBX = FreePBX::Create();
+
 		$this->nt = $this->FreePBX->Notifications;
 		$this->updatemanager = new \FreePBX\Builtin\UpdateManager();
 		$this->mf = \module_functions::create();
