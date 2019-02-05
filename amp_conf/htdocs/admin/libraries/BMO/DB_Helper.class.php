@@ -57,10 +57,6 @@ class DB_Helper {
 				self::checkException($e);
 			}
 		}
-		// Migrate anything from the old 'kvstore' table to the
-		// new 'kvstore_module_name' table. This can be removed
-		// in FreePBX 15.
-		self::migrateTable($self, $tablename);
 
 		self::$checked[$tablename] = array(
 			"dbGet" => self::$db->prepare("SELECT `val`, `type` FROM `$tablename` WHERE `key` = :key AND `id` = :id"),
@@ -616,16 +612,15 @@ class DB_Helper {
 		try {
 			$p->execute($query);
 			// We made it here, kvstore exists.
-			$res = $p->fetchAll();
-			if (isset($res[0])) {
-				// There's data in that table for this module. Migrate it
-				$migrate = "INSERT IGNORE INTO `$tablename` (`key`, `val`, `type`, `id`) SELECT `key` AS `okey`, `val` AS `oval`, `type` AS `otype`, `id` AS `oid` FROM `kvstore` WHERE `kvstore`.`module`=:mod";
-				$m = self::$db->prepare($migrate);
-				$m->execute($query);
-				// And now delete it
-				$clean = "DELETE FROM `kvstore` WHERE `module`=:mod";
-				$c = self::$db->prepare($clean);
-				$c->execute($query);
+			$res = $p->fetchAll(\PDO::FETCH_ASSOC);
+			if(!empty($res)) {
+				foreach($res as $row) {
+					$self->setConfig($row['key'], $row['val'], $row['id']);
+					// And now delete it
+					$clean = "DELETE FROM `kvstore` WHERE `module`=:mod";
+					$c = self::$db->prepare($clean);
+					$c->execute($query);
+				}
 			}
 		} catch (\Exception $e) {
 			if ($e->getCode() == "42S02") { // kvstore table doesn't exist
