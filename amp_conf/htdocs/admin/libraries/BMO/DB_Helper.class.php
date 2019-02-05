@@ -143,8 +143,6 @@ class DB_Helper {
 
 		if(isset(self::$cache[$mod][$id][$var])) {
 			return self::$cache[$mod][$id][$var];
-		} else {
-			print_r("MISS $mod $id $var\n");
 		}
 
 		$query[':mod'] = $mod;
