@@ -160,7 +160,7 @@ class DB_Helper {
 			// Found!
 			$val = null;
 			if ($res[0]['type'] == "json-obj") {
-				$val = son_decode($res[0]['val']);
+				$val = json_decode($res[0]['val']);
 			} elseif ($res[0]['type'] == "json-arr") {
 				$val = json_decode($res[0]['val'], true);
 			} else {
