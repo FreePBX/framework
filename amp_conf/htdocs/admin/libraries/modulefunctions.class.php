@@ -2146,11 +2146,11 @@ class module_functions {
 
 	private function moduleCleanup($modulename) {
 		global $amp_conf;
-		$symlink_dirs {
+		$symlink_dirs  = array (
 			'bin' 	 =>  $amp_conf['AMPBIN'],
 		        'etc' 	 =>  $amp_conf['ASTETCDIR'],
 		        'images' =>  $amp_conf['AMPWEBROOT'] . "/admin/images"
-		};
+			);
 		$moduledir = $amp_conf['AMPWEBROOT'].'/admin/modules/'.$modulename;
 		foreach($symlink_dirs as $subdir => $targetdir) {
 			$dir = $this->addslash($moduledir).$subdir;
