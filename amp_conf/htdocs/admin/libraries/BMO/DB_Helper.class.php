@@ -333,7 +333,10 @@ class DB_Helper {
 			$ids[] = 'noid';
 			$retarr = array();
 			foreach($ids as $id) {
-				$retarr[$id] = $this->FreePBX->Userman->getAll($id);
+				$keys = $this->getAllKeys($id);
+				foreach($keys as $key) {
+					$retarr[$id] = $this->getConfig($key, $id);
+				}
 			}
 		} else {
 			$out = $this->getAllKeys($id);
