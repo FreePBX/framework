@@ -312,6 +312,8 @@ class DB_Helper {
 	 * If no $id was provided, return all pairs that weren't set with an $id.
 	 * Returns an ordered list from however MySQL orders it (order by `key`)
 	 *
+	 * If null $id was provided then return every single entry
+	 *
 	 * @param string $id Optional sub-group ID.
 	 * @return array
 	 */
@@ -326,13 +328,22 @@ class DB_Helper {
 			throw new \Exception("Can't override with getAll");
 		}
 
-		$query[':id'] = $id;
-		$out = $this->getAllKeys($id);
+		if(is_null($id)) {
+			$ids = $this->getAllids();
+			$ids[] = 'noid';
+			$retarr = array();
+			foreach($ids as $id) {
+				$retarr[$id] = $this->FreePBX->Userman->getAll($id);
+			}
+		} else {
+			$out = $this->getAllKeys($id);
 
-		$retarr = array();
-		foreach ($out as $k) {
-			$retarr[$k] = $this->getConfig($k, $id);
+			$retarr = array();
+			foreach ($out as $k) {
+				$retarr[$k] = $this->getConfig($k, $id);
+			}
 		}
+
 
 		return $retarr;
 	}
