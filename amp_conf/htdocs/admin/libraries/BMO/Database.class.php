@@ -141,6 +141,7 @@ class Database extends \PDO {
 		} catch(\Exception $e) {
 			die_freepbx($e->getMessage(), $e);
 		}
+		$this->setAttribute(\PDO::ATTR_STATEMENT_CLASS, array('FreePBX\Database\PDOStatement', array($this)));
 		$this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 		$this->dVersion = $this->getAttribute(\PDO::ATTR_SERVER_VERSION);
 	}
