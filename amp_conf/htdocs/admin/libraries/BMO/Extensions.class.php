@@ -86,8 +86,7 @@ class Extensions {
 	public function getExtmap($force = false) {
 		// If aggresive mode, we get it each time
 		if (!$this->FreePBX->Config->get('AGGRESSIVE_DUPLICATE_CHECK') && !$force) {
-			$sth = $this->FreePBX->Database->query("SELECT `data` FROM `module_xml` WHERE `id` = 'extmap_serialized'", \PDO::FETCH_COLUMN , 0);
-			$extmap_serialized = $sth->fetch();
+			$extmap_serialized = $this->FreePBX->Database->query("SELECT `data` FROM `module_xml` WHERE `id` = 'extmap_serialized'")->fetch(\PDO::FETCH_COLUMN);
 			// Now make sure there was something there
 			if ($extmap_serialized) {
 				$this->extmap = unserialize($extmap_serialized);
