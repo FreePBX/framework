@@ -82,7 +82,7 @@ class module_functions {
 		$got_new = false;
 		$skip_cache = false;
 		$sec_array=false;
-		
+
 		$result = sql("SELECT * FROM module_xml WHERE id = 'beta'",'getRow',DB_FETCHMODE_ASSOC);
 		if(!empty($result['data'])) {
 			$beta = json_decode($result['data'],true);
@@ -926,11 +926,11 @@ class module_functions {
 
 			}
 			if($type == 'compatibility'){
-				
+
 			}
 			return $danger;
 		}
-		
+
 	}
 
 	/** Check if a module meets dependencies.
@@ -1930,15 +1930,18 @@ class module_functions {
 		global $db, $amp_conf;
 		$FreePBX = FreePBX::Create();
 		$bmoModules = $FreePBX->Modules;
-		$data = $bmoModules->getOnlineJson($modulename);
-		if(!empty($data['conflicts']['issues']) && !$ignorechecks){
-			foreach($data['conflicts']['issues'] as $module => $issues){
-				foreach ($issues as $issue) {
-					$errors[] = sprintf('%s: %s',$module, $issue);
+		if(!$ignorechecks) {
+			$data = $bmoModules->getOnlineJson($modulename);
+			if(!empty($data['conflicts']['issues'])){
+				foreach($data['conflicts']['issues'] as $module => $issues){
+					foreach ($issues as $issue) {
+						$errors[] = sprintf('%s: %s',$module, $issue);
+					}
 				}
+				return $errors;
 			}
-			return $errors;
 		}
+
 		set_time_limit($this->maxTimeLimit);
 
 		// make sure we have a directory, to begin with

@@ -477,11 +477,13 @@ class Modules extends DB_Helper{
 				$raw = $this->modclass->get_remote_contents("/all-" . $base_version . ".json", true, true);
 			}
 			$moduleArray = json_decode($raw,true);
-			$this->setMultiConfig($moduleArray, 'moduleArray');
+			if(is_array($moduleArray)) {
+				$this->setMultiConfig($moduleArray, 'moduleArray');
+			}
 			$this->setConfig($oneHour, 'moduleJSONCache');
 		}
 
-		if($module !== false){ 
+		if($module !== false){
 			$ret = [];
 			if(isset($moduleArray['modules'][$module])){
 				$ret = $moduleArray['modules'][$module];
@@ -506,7 +508,7 @@ class Modules extends DB_Helper{
 		return $moduleArray;
 	}
 
-	
+
 	public function checkEdge($moduleArray, $module){
 		$release = false;
 		$edge = false;
@@ -615,7 +617,7 @@ class Modules extends DB_Helper{
 				}
 			}
 		}
-			
+
 		return ['status' => $breaking, 'issues' => $messages, 'replacements' => $replacements];
 	}
 
