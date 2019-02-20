@@ -11,7 +11,11 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\Exception\UnsatisfiedDependencyException;
 class DB_Helper {
+
+	private static $cache = [];
 
 	private static $db = false;
 	private static $dbname = "kvstore";
@@ -53,23 +57,46 @@ class DB_Helper {
 				self::checkException($e);
 			}
 		}
-		// Migrate anything from the old 'kvstore' table to the
-		// new 'kvstore_module_name' table. This can be removed
-		// in FreePBX 15.
-		self::migrateTable($self, $tablename);
 
 		self::$checked[$tablename] = array(
 			"dbGet" => self::$db->prepare("SELECT `val`, `type` FROM `$tablename` WHERE `key` = :key AND `id` = :id"),
 			"dbGetAll" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key`"),
 			"dbDel" => self::$db->prepare("DELETE FROM `$tablename` WHERE `key` = :key  AND `id` = :id"),
-			"dbAdd" => self::$db->prepare("INSERT INTO `$tablename` ( `key`, `val`, `type`, `id` ) VALUES ( :key, :val, :type, :id )"),
+			"dbAdd" => self::$db->prepare("INSERT INTO `$tablename` ( `key`, `val`, `type`, `id` ) VALUES ( :key, :val, :type, :id ) ON DUPLICATE KEY UPDATE `val` = :val, `type` = :type"),
 			"dbDelId" => self::$db->prepare("DELETE FROM `$tablename` WHERE `id` = :id"),
 			"dbGetFirst" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key` LIMIT 1"),
 			"dbGetLast" => self::$db->prepare("SELECT `key` FROM `$tablename` WHERE `id` = :id ORDER BY `key` DESC LIMIT 1"),
 			"dbEmpty" => self::$db->prepare("DELETE FROM `$tablename`"),
 			"dbGetAllIds" => self::$db->prepare("SELECT DISTINCT(`id`) FROM `$tablename` WHERE `id` <> 'noid'"),
 			"dbGetByType" => self::$db->prepare("SELECT * FROM `$tablename` WHERE `type` = :type"),
+			"tablename" => $tablename
 		);
+
+		// Migrate anything from the old 'kvstore' table to the
+		// new 'kvstore_module_name' table. This can be removed
+		// in FreePBX 15.
+		//This is placed after self:$checked is set on purpose!
+		self::migrateTable($self, $tablename);
+
+		//Load everything into memory!
+		$sth = self::$db->query("SELECT * FROM `$tablename`");
+		$rows = $sth->fetchAll(\PDO::FETCH_ASSOC);
+		foreach($rows as $row) {
+			$type = $row['type'];
+			$val = $row['val'];
+
+			if ($type == "json-obj") {
+				$val = json_decode($val);
+			} elseif ($type == "json-arr") {
+				$val = json_decode($val, true);
+			}
+
+			self::$cache[$tablename][$row['id']][$row['key']] = [
+				'type' => $row['type'],
+				'val' => $val
+			];
+		}
+
 		// Now this has run, everything IS JUST FINE.
 		return self::$checked[$tablename];
 	}
@@ -152,41 +179,56 @@ class DB_Helper {
 			$mod = get_class($this);
 		}
 
-		$query[':id'] = $id;
-		$query[':key'] = $var;
+		if(isset(self::$cache[$p['tablename']][$id][$var])) {
+			if(self::$cache[$p['tablename']][$id][$var]['type'] !== 'blob') {
+				return self::$cache[$p['tablename']][$id][$var]['val'];
+			}
+			$res = [
+				'type' => self::$cache[$p['tablename']][$id][$var]['type'],
+				'val' => self::$cache[$p['tablename']][$id][$var]['val']
+			];
+		} else {
+			$query[':id'] = $id;
+			$query[':key'] = $var;
 
-		try {
-			$p['dbGet']->execute($query);
-		} catch (\Exception $e) {
-			self::checkException($e);
+			try {
+				$p['dbGet']->execute($query);
+			} catch (\Exception $e) {
+				self::checkException($e);
+			}
+			$res = $p['dbGet']->fetch();
 		}
-		$res = $p['dbGet']->fetchAll();
 
-		if (isset($res[0])) {
+		if (isset($res)) {
 			// Found it! Is it linked to a blob?
-			if ($res[0]['type'] == "blob") {
-				$tmparr = $this->getBlob($res[0]['val']);
+			if ($res['type'] == "blob") {
+				$tmparr = $this->getBlob($res['val']);
 				$type = $tmparr['type'];
 				$val = $tmparr['content'];
 			} else {
-				$type = $res[0]['type'];
-				$val = $res[0]['val'];
+				$type = $res['type'];
+				$val = $res['val'];
 			}
 
 			if ($type == "json-obj") {
-				return json_decode($val);
+				$val = json_decode($val);
 			} elseif ($type == "json-arr") {
-				return json_decode($val, true);
-			} else {
-				return $val;
+				$val = json_decode($val, true);
 			}
+
+			self::$cache[$p['tablename']][$id][$var] = [
+				'type' => $type,
+				'val' => $val
+			];
+			return $val;
 		}
 
 		// We don't have a result. Maybe there's a default?
 		if (class_exists($mod) && property_exists($mod, "dbDefaults")) {
 			$def = $mod::$dbDefaults;
-			if (isset($def[$var]))
+			if (isset($def[$var])) {
 				return $def[$var];
+			}
 		}
 
 		return false;
@@ -228,21 +270,28 @@ class DB_Helper {
 		try {
 			$p['dbGet']->execute($query);
 			// Does this value already exist?
-			$check = $p['dbGet']->fetchAll();
-			if (isset($check[0])) {
-				// Yes it does. Is it a blob?
-				if ($check[0]['type'] == "blob") {
-					// Delete that blob
-					$this->deleteBlob($check[0]['val']);
-				}
-				// Now delete the row.
-				$p['dbDel']->execute($query);
-			}
+			$check = $p['dbGet']->fetch();
 		} catch (\Exception $e) {
 			self::checkException($e);
 		}
 
 		if ($val === false) { // Just wanted to delete
+			try {
+				if (!empty($check)) {
+					// Yes it does. Is it a blob?
+					if ($check['type'] == "blob") {
+						// Delete that blob
+						$this->deleteBlob($check['val']);
+					}
+					// Now delete the row.
+					$p['dbDel']->execute($query);
+				}
+			} catch (\Exception $e) {
+				self::checkException($e);
+			}
+			if(isset(self::$cache[$p['tablename']][$id][$key])) {
+				unset(self::$cache[$p['tablename']][$id][$key]);
+			}
 			return true;
 		}
 
@@ -260,11 +309,27 @@ class DB_Helper {
 		// Is our value too large to store in the standard kvstore?
 		// If it is, store it as a blob, and link to it.
 		if (strlen($query[':val']) > 4000) {
-			$uuid = $this->insertBlob($query[':val'], $query[':type']);
+			if (!empty($check) && $check['type'] === "blob") {
+				$uuid = $this->insertBlob($check['val'], $query[':val'], $query[':type']);
+			} else {
+				$uuid = $this->insertBlob(null, $query[':val'], $query[':type']);
+			}
 			$query[':type'] = "blob";
 			$query[':val'] = $uuid;
+		} else {
+			if (!empty($check) && $check['type'] == "blob") {
+				$this->deleteBlob($check['val']);
+			}
 		}
 
+		self::$cache[$p['tablename']][$id][$key] = [
+			'type' => $query[':type'],
+			'val' => $val
+		];
+		//the check was already a blob and is now a blob again nothing changed
+		if(!empty($check) && $check['val'] === $query[':val']) {
+			return true;
+		}
 		$p['dbAdd']->execute($query);
 		return true;
 	}
@@ -371,7 +436,7 @@ class DB_Helper {
 		// We unset so if we're called again in the same session,
 		// we will recreate the table.
 		unset(self::$checked[$tablename]);
-
+		unset(self::$cache[$p['tablename']]);
 		return $ret;
 	}
 
@@ -394,15 +459,11 @@ class DB_Helper {
 			$this->classOverride = false;
 		}
 
-		$query[':id'] = $id;
-
-		try {
-			$p['dbGetAll']->execute($query);
-		} catch (\Exception $e) {
-			self::checkException($e);
+		if(!isset(self::$cache[$p['tablename']][$id])) {
+			return [];
 		}
-		$ret = $p['dbGetAll']->fetchAll(\PDO::FETCH_COLUMN, 0);
-		return $ret;
+
+		return array_keys(self::$cache[$p['tablename']][$id]);
 	}
 
 	/**
@@ -424,9 +485,12 @@ class DB_Helper {
 			$this->classOverride = false;
 		}
 
-		$p['dbGetAllIds']->execute();
-		$ret = $p['dbGetAllIds']->fetchAll(\PDO::FETCH_COLUMN, 0);
-		return $ret;
+		$tmp = self::$cache[$p['tablename']];
+		if(isset($tmp['noid'])) {
+			unset($tmp['noid']);
+		}
+
+		return array_keys($tmp);
 	}
 
 	/**
@@ -470,8 +534,13 @@ class DB_Helper {
 
 		try {
 			$p['dbDelId']->execute($query);
+			unset(self::$cache[$p['tablename']][$id]);
 		} catch (\Exception $e) {
 			self::checkException($e);
+		}
+
+		if(isset(self::$cache[$p['tablename']][$id])) {
+			unset(self::$cache[$p['tablename']][$id]);
 		}
 	}
 
@@ -496,14 +565,13 @@ class DB_Helper {
 			$this->classOverride = false;
 		}
 
-		$query[':id'] = $id;
-		try {
-			$p['dbGetFirst']->execute($query);
-		} catch (\Exception $e) {
-			self::checkException($e);
+		if(!isset(self::$cache[$p['tablename']][$id])) {
+			return null;
 		}
-		$ret = $p['dbGetFirst']->fetchAll(\PDO::FETCH_COLUMN, 0);
-		return $ret[0];
+
+		$tmp = self::$cache[$p['tablename']][$id];
+		reset($tmp);
+		return key($tmp);
 	}
 
 	/**
@@ -525,15 +593,13 @@ class DB_Helper {
 			$this->classOverride = false;
 		}
 
-		$query[':id'] = $id;
-
-		try {
-			$p['dbGetLast']->execute($query);
-		} catch (\Exception $e) {
-			self::checkException($e);
+		if(!isset(self::$cache[$p['tablename']][$id])) {
+			return null;
 		}
-		$ret = $p['dbGetLast']->fetchAll(\PDO::FETCH_COLUMN, 0);
-		return $ret[0];
+
+		$tmp = self::$cache[$p['tablename']][$id];
+		end($tmp);
+		return key($tmp);
 	}
 
 	/**
@@ -584,16 +650,15 @@ class DB_Helper {
 		try {
 			$p->execute($query);
 			// We made it here, kvstore exists.
-			$res = $p->fetchAll();
-			if (isset($res[0])) {
-				// There's data in that table for this module. Migrate it
-				$migrate = "INSERT IGNORE INTO `$tablename` (`key`, `val`, `type`, `id`) SELECT `key` AS `okey`, `val` AS `oval`, `type` AS `otype`, `id` AS `oid` FROM `kvstore` WHERE `kvstore`.`module`=:mod";
-				$m = self::$db->prepare($migrate);
-				$m->execute($query);
-				// And now delete it
-				$clean = "DELETE FROM `kvstore` WHERE `module`=:mod";
-				$c = self::$db->prepare($clean);
-				$c->execute($query);
+			$res = $p->fetchAll(\PDO::FETCH_ASSOC);
+			if(!empty($res)) {
+				foreach($res as $row) {
+					$self->setConfig($row['key'], $row['val'], $row['id']);
+					// And now delete it
+					$clean = "DELETE FROM `kvstore` WHERE `module`=:mod";
+					$c = self::$db->prepare($clean);
+					$c->execute($query);
+				}
 			}
 		} catch (\Exception $e) {
 			if ($e->getCode() == "42S02") { // kvstore table doesn't exist
@@ -612,23 +677,24 @@ class DB_Helper {
 	 * to this table is created instead. A UUID is generated, the value
 	 * is inserted, and that uuid is returned
 	 *
+	 * @param $uuid The uuid used for updating, if not set will generate a uuid
 	 * @param $value The contents of the blob
 	 * @param $type Hint to decode the blob when handed back
 	 * @return $uuid
 	 */
-	public function insertBlob($val = false, $type = "raw") {
+	public function insertBlob($uuid = null, $val = false, $type = "raw") {
 		if (!$val) {
 			throw new \Exception("No val");
 		}
 
 		// Generate a UUID
-		$data = openssl_random_pseudo_bytes(16);
-		$data[6] = chr(ord($data[6]) & 0x0f | 0x40); // set version to 0100
-		$data[8] = chr(ord($data[8]) & 0x3f | 0x80); // set bits 6-7 to 10
-		$uuid = vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+		if(is_null($uuid)) {
+			$uuid4 = Uuid::uuid4();
+			$uuid = $uuid4->toString();
+		}
 
 		// Try to insert our value
-		$q = self::$db->prepare('INSERT INTO `kvblobstore` (`uuid`, `type`, `content`) VALUES (:uuid, :type, :data)');
+		$q = self::$db->prepare('INSERT INTO `kvblobstore` (`uuid`, `type`, `content`) VALUES (:uuid, :type, :data) ON DUPLICATE KEY UPDATE `type` = :type, `content` = :data');
 		$query = array("uuid" => $uuid, "data" => $val, "type" => $type);
 		try {
 			$q->execute($query);
