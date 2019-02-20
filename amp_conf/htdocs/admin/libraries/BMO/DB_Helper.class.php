@@ -97,6 +97,19 @@ class DB_Helper {
 			];
 		}
 
+		// Check and add defaults if they exist
+		if (property_exists(get_called_class(), "dbDefaults")) {
+			$def = static::$dbDefaults;
+			foreach($def as $key => $val) {
+				if(!isset(self::$cache[$tablename]['noid'][$key])) {
+					self::$cache[$tablename]['noid'][$key] = [
+						'type' => null,
+						'val' => $val
+					];
+				}
+			}
+		}
+
 		// Now this has run, everything IS JUST FINE.
 		return self::$checked[$tablename];
 	}
@@ -199,7 +212,7 @@ class DB_Helper {
 			$res = $p['dbGet']->fetch();
 		}
 
-		if (isset($res)) {
+		if (!empty($res)) {
 			// Found it! Is it linked to a blob?
 			if ($res['type'] == "blob") {
 				$tmparr = $this->getBlob($res['val']);
@@ -221,14 +234,6 @@ class DB_Helper {
 				'val' => $val
 			];
 			return $val;
-		}
-
-		// We don't have a result. Maybe there's a default?
-		if (class_exists($mod) && property_exists($mod, "dbDefaults")) {
-			$def = $mod::$dbDefaults;
-			if (isset($def[$var])) {
-				return $def[$var];
-			}
 		}
 
 		return false;
