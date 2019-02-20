@@ -71,10 +71,12 @@ class Moduleadmin extends Command {
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output){
+		/* Investigate this at another time
 		if (!$this->lock()) {
 			$output->writeln('The command is already running in another process.');
 			return 0;
 		}
+		*/
 		$this->nt = \FreePBX::Notifications();
 		$this->updatemanager = new \FreePBX\Builtin\UpdateManager();
 		$this->mf = \module_functions::create();
