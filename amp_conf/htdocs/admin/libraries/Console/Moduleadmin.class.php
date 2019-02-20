@@ -76,6 +76,7 @@ class Moduleadmin extends Command {
 
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$this->FreePBX = FreePBX::Create();
+		/* TODO: Come back to this at some point
 		if(posix_getuid() === 0) {
 			$AMPASTERISKWEBUSER = $this->FreePBX->Config->get('AMPASTERISKWEBUSER');
 			$info = posix_getpwnam($AMPASTERISKWEBUSER);
@@ -85,6 +86,7 @@ class Moduleadmin extends Command {
 			}
 			posix_setuid($info['uid']);
 		}
+		*/
 
 		if (!$this->lock()) {
 			$output->writeln('The command is already running in another process.');
