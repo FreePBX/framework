@@ -200,13 +200,14 @@ class Database extends \PDO {
 		return $migrate->modifyMultiple($tables,$dryrun);
 	}
 
-	public function query($statement) {
+	public function query() {
+		$args = func_get_args();
 		if(defined('LOGPREPARES')) {
 			$logger = \FreePBX::Logger()->createLogDriver('query_performance', \FreePBX::Config()->get('ASTLOGDIR').'/query_performance.log', \Monolog\Logger::DEBUG);
 			$logger = $logger->withName(posix_getpid());
-			$logger->debug($statement);
+			$logger->debug($args[0]);
 		}
-		return parent::query($statement);
+		return call_user_func_array('parent::query',$args);
 	}
 
 	public function migrate($table) {

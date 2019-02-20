@@ -88,10 +88,12 @@ class Moduleadmin extends Command {
 		}
 		*/
 
+		/* Investigate this at another time
 		if (!$this->lock()) {
 			$output->writeln('The command is already running in another process.');
 			return 0;
 		}
+		*/
 
 		$this->nt = $this->FreePBX->Notifications;
 		$this->updatemanager = new \FreePBX\Builtin\UpdateManager();
