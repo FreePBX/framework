@@ -1244,7 +1244,8 @@ class module_functions {
 			$FreePBX = FreePBX::Create();
 			$bmoModules = $FreePBX->Modules;
 			// check dependencies
-			if (is_array($errors = $bmoModules->checkConflicts($modules[$modulename]))) {
+			$errors = $bmoModules->checkConflicts($modules[$modulename]);
+			if(!empty($data['breaking'])) {
 				$final = [];
 				foreach($errors['issues'] as $module => $issues){
 					foreach ($issues as $issue) {
@@ -1313,7 +1314,8 @@ class module_functions {
 		if(!$force && !$ignorechecks) {
 			$bmoModules = \FreePBX::Modules();
 			// check dependencies
-			if (is_array($errors = $bmoModules->checkConflicts($modulexml))) {
+			$errors = $bmoModules->checkConflicts($modulexml);
+			if(!empty($data['breaking'])) {
 				$final = [];
 				foreach($errors['issues'] as $module => $issues){
 					foreach ($issues as $issue) {
@@ -1977,7 +1979,8 @@ class module_functions {
 		$bmoModules = $FreePBX->Modules;
 		if(!$force && !$ignorechecks) {
 			// check dependencies
-			if (is_array($errors = $bmoModules->checkConflicts($modules[$modulename]))) {
+			$errors = $bmoModules->checkConflicts($modules[$modulename]);
+			if(!empty($data['breaking'])) {
 				$final = [];
 				foreach($errors['issues'] as $module => $issues){
 					foreach ($issues as $issue) {
