@@ -64,14 +64,14 @@ if($online) {
 				</div>
 				<table class="table modulelist table-striped" width="100%">
 					<?php foreach($category['data'] as $module) {
-						if(isset($breaking['issues'][$module['name']])){
+						if($breaking['breaking'] && isset($breaking['issues'][$module['name']])){
 							if($module['status'] != MODULE_STATUS_NEEDUPGRADE){
 								$module['status'] = MODULE_STATUS_CONFLICT;
 							}
 							if($module['status'] == MODULE_STATUS_NEEDUPGRADE){
 								$module['status'] = MODULE_STATUS_CONFLICT_UPGRADE;
 							}
-						}	
+						}
 					?>
 					</tr>
 						<td id="fullmodule_<?php echo prep_id($module['name'])?>" class="fullmodule" data-module="<?php echo prep_id($module['name'])?>">
@@ -180,7 +180,7 @@ if($online) {
 											<?php if(!empty($module['previous'])) {?>
 												<li role="presentation"><a href="#previous_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Previous")?></a></li>
 											<?php } ?>
-											<?php if(!empty($breaking['issues'][$module['name']])) {?>
+											<?php if($breaking['breaking'] && !empty($breaking['issues'][$module['name']])) {?>
 												<li role="presentation"><a href="#breaking_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Conflicts")?></a></li>
 											<?php } ?>
 											<?php if ($devel) { ?>
@@ -469,12 +469,12 @@ if($online) {
 													</table>
 												</div>
 											<?php } ?>
-											<?php if (!empty($breaking['issues'][$module['name']])) { ?>
+											<?php if ($breaking['breaking'] && !empty($breaking['issues'][$module['name']])) { ?>
 												<div id="breaking_<?php echo prep_id($module['name']) ?>" class="limitheight tab-pane">
 													<h5><?php echo _("Conflicts") ?>: <?php echo $module['version'] ?></h5>
 													<span><?php echo implode(PHP_EOL, $breaking['issues'][$module['name']]) ?></span>
 												</div>
-											<?php 
+											<?php
 												} ?>
 											<?php if ($devel) { ?>
 												<div id="devel_<?php echo prep_id($module['name'])?> limitheight" class="tab-pane">

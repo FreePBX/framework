@@ -28,6 +28,7 @@ class Moduleadmin extends Command {
 	private $sendemail = false;
 	private $updatemanager = null;
 	private $nt = null;
+	private $skipbreaking = false;
 
 	public function __destruct() {
 		$this->endOfLife();
@@ -67,7 +68,7 @@ class Moduleadmin extends Command {
 			new InputOption('format', '', InputOption::VALUE_REQUIRED, sprintf(_('Format can be: %s'),'json, jsonpretty')),
 			new InputOption('repo', 'R', InputOption::VALUE_REQUIRED | InputOption::VALUE_IS_ARRAY, _('Set the Repos. -R Commercial -R Contributed')),
 			new InputOption('tag', 't', InputOption::VALUE_REQUIRED, _('Download/Upgrade to a specific tag')),
-			new InputOption('skipbreakingcheck', '', InputOption::VALUE_OPTIONAL, _('Skip breaking changes checks, this can be passed an optional comma seperated list of modules')),
+			new InputOption('skipbreakingcheck', '', InputOption::VALUE_NONE, _('Skip breaking changes checks')),
 			new InputOption('sendemail', '', InputOption::VALUE_NONE, _('Send out finalized email')),
 			new InputOption('onlystdout', '', InputOption::VALUE_NONE, _('Deprecated option')),
 			new InputArgument('args', InputArgument::IS_ARRAY, 'arguments passed to module admin, this is s stopgap', null),))
@@ -112,10 +113,15 @@ class Moduleadmin extends Command {
 			$this->color = true;
 		}
 
-		if($input->getOption('skipbreakingcheck')) {
-			$this->skipbreaking = $input->getOption('skipbreakingcheck');
-			if(!is_bool($this->skipbreaking) && is_string($this->skipbreaking)){
-				$this->skipbreaking = array_flip(explode(',', $this->skipbreaking));
+		if ($input->getOption('skipbreakingcheck')) {
+			$this->skipbreaking = True;
+			if($this->DEBUG){
+				$this->writeln(_('skipbreakingcheck Enabled'));
+			}
+		} else {
+			$this->skipbreaking = False;
+			if($this->DEBUG){
+				$this->writeln(_('skipbreakingcheck Disabled'));
 			}
 		}
 
@@ -360,7 +366,7 @@ class Moduleadmin extends Command {
 		return $fwconsole;
 	}
 
-	private function doForkInstall($modulename, $force, $ignoreChecks = true) {
+	private function doForkInstall($modulename) {
 
 		$fwconsole = $this->getFwconsolePath();
 
@@ -369,8 +375,10 @@ class Moduleadmin extends Command {
 			1 => STDOUT,
 			2 => STDERR
 		);
-		$force = $force ? "--force" : "";
-		$ignoreChecks = $ignoreChecks ? "--skipbreakingcheck" : "";
+		$force = $this->force ? "--force" : "";
+
+		$ignoreChecks = $this->skipbreaking ? "--skipbreakingcheck" : "";
+
 		$cmd = "$fwconsole ma install ".escapeshellarg($modulename)." ".$force." ".$ignoreChecks;
 		//release lock, it'll be regained in a bit
 		$this->release();
@@ -388,7 +396,7 @@ class Moduleadmin extends Command {
 		return $result;
 	}
 
-	private function doInstall($modulename, $force, $skipbreaking = false) {
+	private function doInstall($modulename) {
 		$start = time();
 		$this->FreePBX->Modules->loadAllFunctionsInc();
 		$module = $this->mf->getinfo($modulename);
@@ -400,7 +408,7 @@ class Moduleadmin extends Command {
 			$action = $helper->ask($this->input,$this->out,$question);
 			switch($action){
 				case _("Enable"):
-					$this->mf->enable($modulename, $force, $skipbreaking);
+					$this->mf->enable($modulename, $this->force, $this->skipbreaking);
 				break;
 				case _("Cancel"):
 					exit;
@@ -409,16 +417,16 @@ class Moduleadmin extends Command {
 		}
 		if($this->input->getOption('autoenable') && $modulestatus === 1){
 			$this->writeln(sprintf(_("Enabling %s because autoenable was passed at the command line"),$modulename));
-			$this->mf->enable($modulename, $force, $skipbreaking);
+			$this->mf->enable($modulename, $this->force, $this->skipbreaking);
 		}
-		if(!$force && !$this->mf->resolveDependencies($modulename,array($this,'progress'))) {
+		if(!$this->force && !$this->mf->resolveDependencies($modulename,array($this,'progress'))) {
 			$this->writeln(sprintf(_("Unable to resolve dependencies for module %s"),$modulename), "error", false);
 			$this->addToEmail(sprintf(_("Module %s installation failed, could not resolve dependencies"), $name));
 			return false;
 		} else {
-			$result = $this->mf->install($modulename, $force, $skipbreaking);
+			$result = $this->mf->install($modulename, $this->force, $this->skipbreaking);
 			if(is_array($result) && !empty($result)){
-				return $this->handleErrors($result, $modulename, true);
+				return $this->handleErrors($result, $modulename);
 			} else {
 				$this->writeln("Module ".$modulename." successfully installed");
 				$this->addToEmail(sprintf(_("Module %s installation completed in %s seconds"), $modulename, time()-$start));
@@ -439,7 +447,7 @@ class Moduleadmin extends Command {
 		return true;
 	}
 
-	private function doDownload($modulename, $force) {
+	private function doDownload($modulename) {
 		global $modulexml_path;
 		global $modulerepository_path;
 
@@ -456,8 +464,18 @@ class Moduleadmin extends Command {
 		if (isset($this->tag)) {
 			$xml = $this->mf->getModuleDownloadByModuleNameAndVersion($modulename, $this->tag);
 			if (empty($xml)) {
-				$this->writeln("Unable to update module ${modulename} - ".$this->tag.":", "error", false);
+				$this->writeln("Unable to update module ${modulename} - ".$this->tag.", it does not exist:", "error", false);
 				return false;
+			} else {
+				$data = $this->checkConflicts($xml);
+				if(!empty($data['breaking'])) {
+					foreach($data['issues'] as $issues) {
+						foreach($issues as $issue) {
+							$this->writeln($issue, "error", false);
+						}
+					}
+					return false;
+				}
 			}
 			return $this->doRemoteDownload($xml['downloadurl']);
 		}
@@ -467,7 +485,7 @@ class Moduleadmin extends Command {
 
 		// Try to get the module
 		$start = time();
-		$result = $this->mf->download($modulename, $this->force, array($this,'progress'), $modulerepository_path, $modulexml_path);
+		$result = $this->mf->download($modulename, $this->force, array($this,'progress'), $modulerepository_path, $modulexml_path, $this->skipbreaking);
 		$end = time();
 
 		$elapsed = $end - $start;
@@ -664,7 +682,7 @@ class Moduleadmin extends Command {
 		return true;
 	}
 
-	private function doDelete($modulename, $force, $skipbreakingcheck = false) {
+	private function doDelete($modulename) {
 		$this->FreePBX->Modules->loadAllFunctionsInc();
 		if (is_array($errors = $this->mf->delete($modulename, $this->force))) {
 			$this->writeln(_("The following error(s) occured:"), "error", false);
@@ -675,9 +693,9 @@ class Moduleadmin extends Command {
 		}
 	}
 
-	private function doUninstall($modulename, $force, $skipbreakingcheck = false) {
+	private function doUninstall($modulename) {
 		$this->FreePBX->Modules->loadAllFunctionsInc();
-		if (is_array($errors = $this->mf->uninstall($modulename, $this->force, $skipbreakingcheck))) {
+		if (is_array($errors = $this->mf->uninstall($modulename, $this->force))) {
 			$this->writeln(_("The following error(s) occured:"), "error", false);
 			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 			exit(2);
@@ -686,19 +704,14 @@ class Moduleadmin extends Command {
 		}
 	}
 
-	private function doUpgrade($modulename, $force, $skipbreakingcheck = false) {
-		$data = $this->FreePBX->Modules->getOnlineJson($modulename);
-		if ($skipbreakingcheck === true || isset($skipbreakingcheck[$name])) {
-			$skipbreakingcheck = true;
+	private function doUpgrade($modulename) {
+		$ret = $this->doDownload($modulename);
+		if($ret) {
+			$this->doForkInstall($modulename);
 		}
-		if($data[$modulename] && !$skipbreakingcheck){
-			return $this->handleErrors($data[$modulename], $modulename, true);
-		}
-		$this->doDownload($modulename, $this->force, $skipbreakingcheck);
-		$this->doForkInstall($modulename, $this->force, $skipbreakingcheck);
 	}
 
-	private function doInstallLocal($force, $skipbreakingcheck = false) {
+	private function doInstallLocal() {
 		//refresh module cache
 		$this->mf->getinfo(false,false,true);
 		$module_info=$this->mf->getinfo(false, array(MODULE_STATUS_NOTINSTALLED,MODULE_STATUS_NEEDUPGRADE));
@@ -710,7 +723,7 @@ class Moduleadmin extends Command {
 		}
 		if (in_array('core', $modules)){
 			$this->writeln("Installing core...");
-			$this->doForkInstall('core', $this->force);
+			$this->doForkInstall('core');
 		}
 		if (count($modules) > 0) {
 			$this->writeln("Installing: ".implode(', ',$modules));
@@ -718,7 +731,7 @@ class Moduleadmin extends Command {
 				if (($name != 'core')){//we dont want to reinstall core
 					$this->FreePBX->Modules->loadAllFunctionsInc(); //get functions from other modules, in case we need them here
 					$this->writeln("Installing $name...");
-					$this->doForkInstall($name, $this->force, $skipbreakingcheck);
+					$this->doForkInstall($name);
 					$this->writeln("");
 				}
 			}
@@ -738,8 +751,13 @@ class Moduleadmin extends Command {
 		$modules_local = $this->mf->getinfo($modulename, array(MODULE_STATUS_ENABLED,MODULE_STATUS_NEEDUPGRADE));
 		$modules_online = $this->mf->getonlinexml();
 		$this->check_active_repos();
+
 		if (isset($modules_local[$modulename])) {
 			if(isset($modules_online[$modulename])) {
+				$data = $this->checkConflicts($modules_online[$modulename]);
+				if(!empty($data['breaking'])) {
+					return $data['issues'];
+				}
 				$upgrade_version = $modules_online[$modulename]['version'];
 			} elseif (!empty($modules_local[$modulename]['updateurl']) && parse_url($modules_local[$modulename]['updateurl'], PHP_URL_SCHEME) === 'https') {
 				$module_update_json = $this->mf->url_get_contents($modules_local[$modulename]['updateurl'], "");
@@ -822,7 +840,7 @@ class Moduleadmin extends Command {
 	 * This is called by the automatica updater, so its output
 	 * is saved for sendemail to possibly use
 	 */
-	private function doUpgradeAll($force, $skipbreakingcheck = false) {
+	private function doUpgradeAll() {
 		$modules = $this->getUpgradableModules();
 		if ($modules) {
 			$line = sprintf("Module(s) requiring upgrades: %s", implode(", ", array_keys($modules)));
@@ -843,13 +861,10 @@ class Moduleadmin extends Command {
 
 			$upgrades = $prepend + $modules;
 			foreach ($upgrades as $name => $arr) {
-				if ($skipbreakingcheck === true || isset($skipbreakingcheck[$name])) {
-					$thisskipbreakingcheck = true;
-				}
 				$line = sprintf(_("Upgrading module '%s' from %s to %s"), $name, $arr['local_version'], $arr['online_version']);
 				$this->writeln($line);
 				$this->addToEmail($line);
-				$this->doUpgrade($name, $this->force, $thisskipbreakingcheck);
+				$this->doUpgrade($name);
 			}
 			$line = _("All upgrades completed successfully!");
 			$this->writeln($line);
@@ -1041,18 +1056,19 @@ class Moduleadmin extends Command {
 	 * so that old, deprecated, or broken modules, can be automatically
 	 * repaired or removed)
 	 */
-	private function doInstallAll($skipbreakingcheck = false) {
-		$this->doUpgradeAll(true, $skipbreakingcheck);
+	private function doInstallAll() {
+		$this->doUpgradeAll(true);
 		$modules = $this->getInstallableModules();
-		$skipbreakingcheck = false;
 
 		// Belt-and-suspenders check. This makes sure that core is
 		// installed, just in case it somehow failed in the doUpgradeAll
 		// function, above. Rare, but has happened.
 		if (isset($modules['core'])) {
 			$this->writeln(_("Installing core..."));
-			$this->doDownload('core', $this->force);
-			$this->doForkInstall('core', $this->force);
+			$ret = $this->doDownload('core');
+			if($ret) {
+				$this->doForkInstall('core');
+			}
 			unset($modules['core']);
 		}
 
@@ -1068,19 +1084,20 @@ class Moduleadmin extends Command {
 				// autoloaded and OO code. However, it's here for the foreseeable
 				// future. Sigh.
 				//
-				if($skipbreakingcheck === true || isset($skipbreakingcheck[$name])){
-					$thisskipbreakingcheck = true;
-				}
+
 				$this->FreePBX->Modules->loadAllFunctionsInc();
 				$line = sprintf(_("Downloading & Installing '%s'"), $name);
 				$this->writeln($line);
-				$this->doDownload($name, $this->force, $thisskipbreakingcheck);
-				$start = time();
-				// Note this will addToEmail if it fails.
-				$this->doForkInstall($name, $this->force, $thisskipbreakingcheck);
-				$elapsed = time() - $start;
-				$this->addToEmail(sprintf(_("Module %s installation completed in %s seconds"), $name, $elapsed), $line);
-				$this->writeln("");
+				$ret = $this->doDownload($name);
+				if($ret) {
+					$start = time();
+					// Note this will addToEmail if it fails.
+					$this->doForkInstall($name);
+					$elapsed = time() - $start;
+					$this->addToEmail(sprintf(_("Module %s installation completed in %s seconds"), $name, $elapsed), $line);
+					$this->writeln("");
+				}
+
 			}
 			$line = _("Done. All modules installed.");
 			$this->writeln($line);
@@ -1299,9 +1316,9 @@ class Moduleadmin extends Command {
 		}
 	}
 
-	private function doDisable($modulename, $force, $skipbreakingcheck = false) {
+	private function doDisable($modulename) {
 		$this->FreePBX->Modules->loadAllFunctionsInc();
-		if (is_array($errors = $this->mf->disable($modulename, $force, $skipbreakingcheck))) {
+		if (is_array($errors = $this->mf->disable($modulename, $this->force))) {
 			$this->writeln(_("The following error(s) occured:"), "error", false);
 			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 			exit(2);
@@ -1310,9 +1327,9 @@ class Moduleadmin extends Command {
 		}
 	}
 
-	private function doEnable($modulename, $force, $skipbreakingcheck = false) {
+	private function doEnable($modulename) {
 		$this->FreePBX->Modules->loadAllFunctionsInc();
-		if (is_array($errors = $this->mf->enable($modulename, $this->force, $skipbreakingcheck))) {
+		if (is_array($errors = $this->mf->enable($modulename, $this->force, $this->skipbreaking))) {
 			$this->writeln(_("The following error(s) occured:"), "error", false);
 			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 			exit(2);
@@ -1321,9 +1338,9 @@ class Moduleadmin extends Command {
 		}
 	}
 
-	private function tryEnable($modulename, $force) {
+	private function tryEnable($modulename) {
 		$this->FreePBX->Modules->loadAllFunctionsInc();
-		if (is_array($errors = $this->mf->enable($modulename, $this->force))) {
+		if (is_array($errors = $this->mf->enable($modulename, $this->force, $this->skipbreaking))) {
 			$this->writeln(_("The following error(s) occured:"), "error", false);
 			$this->writeln(' - '.implode("\n - ",$errors), "error", false);
 		} else {
@@ -1400,10 +1417,6 @@ class Moduleadmin extends Command {
 				}
 				foreach($args as $module){
 					//do NOT fork install here!
-					$skipbreakingcheck = false;
-					if(isset($this->skipbreaking) && $this->skipbreaking || isset($this->skipbreaking[$module])){
-						$skipbreakingcheck = true;
-					}
 					$colon = strpos($module, ':');
 					if($colon !== false){
 						$tmp = explode(':', $module);
@@ -1421,7 +1434,7 @@ class Moduleadmin extends Command {
 							unset($this->tag);
 						}
 					}
-					$this->doInstall($module, $this->force, $skipbreakingcheck);
+					$this->doInstall($module);
 				}
 				$this->updateHooks();
 				$this->setPerms($action,$args);
@@ -1432,18 +1445,14 @@ class Moduleadmin extends Command {
 				}
 
 				$this->check_active_repos();
-				$modules = $this->doInstallAll($this->skipbreaking);
+				$modules = $this->doInstallAll();
 				$this->updateHooks();
 				foreach($modules as $module) {
 					$this->setPerms($action,array($module));
 				}
 				break;
 			case 'installlocal':
-				$skipbreakingcheck = false;
-				if (isset($this->skipbreaking) && $this->skipbreaking == true || isset($this->skipbreaking[$module])){
-					$skipbreakingcheck = true;
-				}
-				$modules = $this->doInstallLocal(true,$skipbreakingcheck);
+				$modules = $this->doInstallLocal(true);
 				$this->updateHooks();
 				foreach($modules as $module) {
 					$this->setPerms($action,array($module));
@@ -1454,7 +1463,7 @@ class Moduleadmin extends Command {
 					fatal(_("Missing module name"));
 				}
 				foreach($args as $module){
-					$this->doUninstall($module, $this->force);
+					$this->doUninstall($module);
 				}
 				$this->updateHooks();
 				break;
@@ -1467,11 +1476,8 @@ class Moduleadmin extends Command {
 				}
 				$this->check_active_repos();
 				foreach($args as $module){
-					if (isset($this->skipbreaking) && $this->skipbreaking || isset($this->skipbreaking[$module])) {
-						$skipbreakingcheck = true;
-					}
 					if($this->isUrl($module)) {
-						$this->doRemoteDownload($module,$skipbreakingcheck);
+						$this->doRemoteDownload($module);
 					} else {
 						$colon = strpos($module, ':');
 						if ($colon !== false) {
@@ -1490,7 +1496,7 @@ class Moduleadmin extends Command {
 								unset($this->tag);
 							}
 						}
-						$this->doDownload($module, $this->force,$skipbreakingcheck);
+						$this->doDownload($module);
 					}
 				}
 				$this->setPerms($action,$args);
@@ -1504,14 +1510,10 @@ class Moduleadmin extends Command {
 				}
 				$this->check_active_repos();
 				foreach($args as $module){
-					$skipbreakingcheck = false;
-					if (isset($this->skipbreaking) && $this->skipbreaking || isset($this->skipbreaking[$module])) {
-						$skipbreakingcheck = true;
-					}
 					if($this->isUrl($module)) {
-						$this->doRemoteDownload($module, $skipbreakingcheck);
+						$this->doRemoteDownload($module);
 						if(!empty($this->mf->downloadedRawname)) {
-							$this->doInstall($this->mf->downloadedRawname, $this->force, $skipbreakingcheck);
+							$this->doInstall($this->mf->downloadedRawname);
 						} else {
 							fatal(_("Could not determine module name"));
 						}
@@ -1533,8 +1535,10 @@ class Moduleadmin extends Command {
 								unset($this->tag);
 							}
 						}
-						$this->doDownload($module, $this->force, $skipbreakingcheck);
-						$this->doInstall($module, $this->force, $skipbreakingcheck);
+						$ret = $this->doDownload($module);
+						if($ret) {
+							$this->doInstall($module);
+						}
 					}
 				}
 				$this->updateHooks();
@@ -1550,10 +1554,6 @@ class Moduleadmin extends Command {
 				}
 				$this->check_active_repos();
 				foreach($args as $module){
-					$skipbreakingcheck = false;
-					if (isset($this->skipbreaking) && $this->skipbreaking || isset($this->skipbreaking[$module])) {
-						$skipbreakingcheck = true;
-					}
 					$colon = strpos($module, ':');
 					if ($colon !== false) {
 						$tmp = explode(':', $module);
@@ -1573,23 +1573,30 @@ class Moduleadmin extends Command {
 					}
 					$state = $this->isModuleUpgradeable($module);
 					switch($state) {
+						case is_array($state):
+							foreach($state as $m => $msgs) {
+								foreach($msgs as $msg) {
+									$this->writeln('<error>'.$msg.'</error>');
+								}
+							}
+						break;
 						case -4:
-							$this->writeln(sprintf(_('%s does not have a valid JSON update file, unable to upgrade'),$module));
+							$this->writeln('<error>'.sprintf(_('%s does not have a valid JSON update file, unable to upgrade').'</error>',$module));
 						break;
 						case -3:
-							$this->writeln(sprintf(_('%s is not a locally installed module, unable to upgrade'),$module));
+							$this->writeln('<error>'.sprintf(_('%s is not a locally installed module, unable to upgrade').'</error>',$module));
 						break;
 						case -2:
-							$this->writeln(sprintf(_('%s does not exist online, unable to upgrade'),$module));
+							$this->writeln('<error>'.sprintf(_('%s does not exist online, unable to upgrade').'</error>',$module));
 						break;
 						case -1:
-							$this->writeln(sprintf(_('%s is newer than online version, unable to upgrade'),$module));
+							$this->writeln('<error>'.sprintf(_('%s is newer than online version, unable to upgrade').'</error>',$module));
 						break;
 						case 0:
-							$this->writeln(sprintf(_('%s is the same as the online version, unable to upgrade'),$module));
+							$this->writeln('<error>'.sprintf(_('%s is the same as the online version, unable to upgrade').'</error>',$module));
 						break;
 						case 1:
-							$this->doUpgrade($module, $this->force, $skipbreakingcheck);
+							$this->doUpgrade($module);
 						break;
 					}
 				}
@@ -1601,12 +1608,8 @@ class Moduleadmin extends Command {
 				if($devmode) {
 					fatal(_("Can not run this command while 'Developer Mode' is enabled"));
 				}
-				$skipbreakingcheck = false;
-				if (isset($this->skipbreaking) && $this->skipbreaking) {
-					$skipbreakingcheck = true;
-				}
 				$this->check_active_repos();
-				$modules = $this->doUpgradeAll($this->force, $skipbreakingcheck);
+				$modules = $this->doUpgradeAll();
 				$this->updateHooks();
 				foreach($modules as $module) {
 					$this->setPerms($action,array($module));
@@ -1682,7 +1685,7 @@ class Moduleadmin extends Command {
 					fatal(_("Missing module name"));
 				}
 				foreach($args as $module){
-					$this->doDelete($module, $this->force);
+					$this->doDelete($module);
 				}
 				$this->updateHooks();
 				break;
@@ -1691,7 +1694,7 @@ class Moduleadmin extends Command {
 					fatal(_("Missing module name"));
 				}
 				foreach($args as $module){
-					$this->doDisable($module, $this->force);
+					$this->doDisable($module);
 				}
 				$this->updateHooks();
 				break;
@@ -1700,7 +1703,7 @@ class Moduleadmin extends Command {
 					fatal(_("Missing module name"));
 				}
 				foreach($args as $module){
-					$this->doEnable($module, $this->force);
+					$this->doEnable($module);
 				}
 				$this->updateHooks();
 				break;
@@ -1708,7 +1711,7 @@ class Moduleadmin extends Command {
 				$modules = $this->listDisabled();
 				foreach($modules as $module){
 					$this->writeln(sprintf(_('Attempting to Enable %s'),$module));
-					$this->tryEnable($module, $this->force);
+					$this->tryEnable($module);
 				}
 				$this->writeln(_('This action understands somethings may be disabled for a reason.'));
 				$this->writeln(_('Please review the output above for any errors while enabling modules'));
@@ -1810,16 +1813,16 @@ class Moduleadmin extends Command {
 	 * @param string $moduleversion The module release version we want to reinstall
 	 * @return boolean
 	 */
-	private function doInstallByModuleAndVersion($modulename, $moduleversion, $skipbreakingcheck = false) {
-		$xml = $this->mf->getModuleDownloadByModuleNameAndVersion($modulename, $moduleversion, $skipbreakingcheck);
+	private function doInstallByModuleAndVersion($modulename, $moduleversion) {
+		$xml = $this->mf->getModuleDownloadByModuleNameAndVersion($modulename, $moduleversion);
 		if (empty($xml)) {
 			$this->writeln("Unable to update module ${modulename} - ${moduleversion}:", "error", false);
 			return false;
 		}
 
 		$this->FreePBX->Modules->loadAllFunctionsInc();
-		$this->doRemoteDownload($xml['downloadurl'], $skipbreakingcheck);
-		$this->doForkInstall($modulename, $this->force, $skipbreakingcheck);
+		$this->doRemoteDownload($xml['downloadurl']);
+		$this->doForkInstall($modulename);
 		return true;
 	}
 
@@ -1834,39 +1837,31 @@ class Moduleadmin extends Command {
 		$this->emailbody[] = $line;
 	}
 
-	public function handleErrors($errors, $modulename, $new = false){
-		//Old style errors
-        if (!$new) {
-            $this->writeln("Unable to install module ${modulename}:", "error", false);
-            $this->writeln(' - ' . implode("\n - ", $errors), "error", false);
-			$this->addToEmail(sprintf(_("Module %s installation failed with errors: %s"), $modulename, implode("\n -", $errors)));
-			return;
-		}
+	public function handleErrors($errors, $modulename){
+		$this->writeln("Unable to install module ${modulename}:", "error", false);
+		$this->writeln(' - ' . implode("\n - ", $errors), "error", false);
+		$this->addToEmail(sprintf(_("Module %s installation failed with errors: %s"), $modulename, implode("\n -", $errors)));
+		return false;
+	}
 
-		$helper = $this->getHelper('question');
-		foreach($errors as $error){
-			$options = array(_("Abort"), _("Force"), _("Uninstall Conflict"));
-			$question = new ChoiceQuestion(sprintf(_("Conflict: %s. What would you like to do?"), $error), $options, 0);
-			$question->setErrorMessage('Choice %s is invalid');
-			$action = $helper->ask($this->input, $this->out, $question);
-			switch ($action) {
-				case _("Abort"):
-					exit;
-				case _("Force"):
-					return $this->mf->install($modulename, true);
-				case _("Replace"):
-					$this->mf->uninstall($error['rawname'], true);
-					$this->mf->install($error['replacement'], true);
-					continue;
-				case _("Uninstall Conflict"):
-					$this->mf->uninstall($error['rawname'], true);
-					return $this->mf->install($modulename);
-				default:
-					exit;
-			}
+	/**
+	 * Check module conflicts
+	 *
+	 * @param mixed $module String or Array
+	 * @return array
+	 */
+	public function checkConflicts($module) {
+		if($this->force) {
+			return [
+				'breaking' => false
+			];
 		}
-		$this->writeln(sprintf(_("Module %s successfully installed"),$modulename));
-		return true;
+		if($this->skipbreaking === true) {
+			return [
+				'breaking' => false
+			];
+		}
+		return $this->FreePBX->Modules->checkConflicts($module);
 	}
 
 }

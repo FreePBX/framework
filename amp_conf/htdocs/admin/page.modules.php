@@ -443,9 +443,9 @@ switch ($action) {
 						$errorstext[] = sprintf(_("%s cannot be rolledback, version %s is missing"), "<strong>".$modules[$module]['name']."</strong>", "<strong>".$REQUEST['version']."</strong>");
 					}
 					$dependerrors = $modulef->checkdepends($previous_data);
-					$conflicterrors = $FreePBX->Modules->checkBreaking($previous_data);
+					$conflicterrors = $FreePBX->Modules->checkConflicts($previous_data);
 					$rollbackerrors = false;
-					if (is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
+					if ($conflicterrors['breaking'] && is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
 						$rollbackerrors = true;
 						$skipaction = true;
 						$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the conflicts have been resolved."),
@@ -496,7 +496,7 @@ switch ($action) {
 					} else {
 						$checkdone = false;
 						$dependerrors = $modulef->checkdepends($trackinfo);
-						$conflicterrors = $FreePBX->Modules->checkBreaking($trackinfo);
+						$conflicterrors = $FreePBX->Modules->checkConflicts($trackinfo);
 						$errorflag = false;
 						if (is_array($dependerrors)) {
 							$errorflag = true;
@@ -505,7 +505,7 @@ switch ($action) {
 							$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the dependencies have been installed."),
 								"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
 						}
-						if (isset($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']]) && $action != 'upgradeignoreconflicts') {
+						if ($conflicterrors['breaking'] && isset($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']]) && $action != 'upgradeignoreconflicts') {
 							$errorflag = true;
 							$checkdone = true;
 							$skipaction = true;
@@ -537,7 +537,7 @@ switch ($action) {
 
 					if(!empty($trackinfo)){
 						$dependerrors = $modulef->checkdepends($trackinfo);
-						$conflicterrors = $FreePBX->Modules->checkBreaking($trackinfo);
+						$conflicterrors = $FreePBX->Modules->checkConflicts($trackinfo);
 					}
 					if(empty($trackinfo)) {
 						$dependerrors = false;
@@ -552,7 +552,7 @@ switch ($action) {
 						$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the dependencies have been installed."),
 							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
 					}
-					if(is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
+					if($conflicterrors['breaking'] && is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
 						$skipaction = true;
 						$di = true;
 						$errorstext[] = sprintf(_("%s cannot be installed: %s Please try again after the conflicts have been installed."),
@@ -567,7 +567,6 @@ switch ($action) {
 			case 'installignoreconflicts':
 				if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 					$dependerrors = $modulef->checkdepends($trackinfo);
-					//$conflicterrors = $FreePBX->Modules->checkBreaking($trackinfo);
 					$issues = false;
 					if (is_array($dependerrors)) {
 						$skipaction = true;
@@ -591,7 +590,7 @@ switch ($action) {
 			case 'install':
 				if (!EXTERNAL_PACKAGE_MANAGEMENT) {
 					$dependerrors = $modulef->checkdepends($trackinfo);
-					$conflicterrors = $FreePBX->Modules->checkBreaking($trackinfo);
+					$conflicterrors = $FreePBX->Modules->checkConflicts($trackinfo);
 					$issues = false;
 					if (is_array($dependerrors)) {
 						$skipaction = true;
@@ -599,7 +598,7 @@ switch ($action) {
 						$errorstext[] = sprintf((($modules[$module]['status'] == MODULE_STATUS_NEEDUPGRADE) ?  _("%s cannot be upgraded: %s Please try again after the dependencies have been installed.") : _("%s cannot be installed: %s Please try again after the dependencies have been installed.") ),
 							"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependerrors).'</li></ul></strong>');
 					}
-					if (is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
+					if ($conflicterrors['breaking'] && is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
 						$skipaction = true;
 						$issues = true;
 						$errorstext[] = sprintf(_("%s cannot be upgraded: %s Please try again after the conflicts have been resolved."),
@@ -616,7 +615,7 @@ switch ($action) {
 				break;
 			case 'enable':
 				$dependerrors = $modulef->checkdepends($modules[$module]);
-				$conflicterrors = $FreePBX->Modules->checkBreaking($trackinfo);
+				$conflicterrors = $FreePBX->Modules->checkConflicts($modules[$module]);
 				$issues = false;
 				if (is_array($dependerrors)) {
 					$skipaction = true;
@@ -624,7 +623,7 @@ switch ($action) {
 					$errorstext[] = sprintf(_("%s cannot be enabled: %s Please try again after the dependencies have been installed."),
 						"<strong>".$modules[$module]['name']."</strong>",'<strong><ul><li>'.implode('</li><li>',$dependserrors).'</li></ul></strong>');
 				}
-				if (is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
+				if ($conflicterrors['breaking'] && is_array($conflicterrors['issues'][$modules[$module]['name']]) && !empty($conflicterrors['issues'][$modules[$module]['name']])) {
 					$skipaction = true;
 					$issues = true;
 					$errorstext[] = sprintf(_("%s cannot be enabled: %s Please try again after the conflicts have been resolved."),
@@ -1145,7 +1144,7 @@ switch ($action) {
 		$cachedonline = $FreePBX->Modules->getCachedOnlineData();
 		$summary["availupdates"] = $FreePBX->Modules->getUpgradeableModules($cachedonline['modules']);
 		$summary["lastonlinecheck"] = $cachedonline['timestamp'];
-		$displayvars['breaking'] = $FreePBX->Modules->checkBreaking();
+		$displayvars['breaking'] = $FreePBX->Modules->checkConflicts();
 
 		show_view(__DIR__.'/views/module_admin/tabheader.php', $summary);
 		show_view(__DIR__.'/views/module_admin/tab-summary.php', $summary);

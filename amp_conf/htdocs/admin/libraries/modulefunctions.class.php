@@ -906,32 +906,6 @@ class module_functions {
 		}
 		return true;
 	}
-	/**
-	 * Check for "dangerous" modules that may be breaking
-	 *
-	 * @param [type] $modulename
-	 * @return void
-	 */
-	public function checkBreaking($modulename){
-		$danger = [];
-		$modulexml = $this->getinfo($modulename);
-		$modulexml = $modulexml[$modulename];
-
-		if(!isset($modulexml['breaking'])){
-			return [];
-		}
-		foreach($module['breaking'] as $type => $issue){
-			$version = isset($module['breaking']['version'])?$module['breaking']['version']:false;
-			if($type == 'conflict'){
-
-			}
-			if($type == 'compatibility'){
-
-			}
-			return $danger;
-		}
-
-	}
 
 	/** Check if a module meets dependencies.
 	* @param  mixed  The name of the module, or the modulexml Array
@@ -1237,9 +1211,10 @@ class module_functions {
 	* Enables a module
 	* @param string    The name of the module to enable
 	* @param bool      If true, skips status and dependency checks
+	* @param bool	  ignore conflicts
 	* @return  mixed   True if succesful, array of error messages if not succesful
 	*/
-	function enable($modulename, $force = false) { // was enableModule
+	function enable($modulename, $force = false, $ignorechecks = true) { // was enableModule
 		$this->modDepends = array();
 		global $db;
 		$modules = $this->getinfo($modulename);
@@ -1262,6 +1237,21 @@ class module_functions {
 		if (!$force) {
 			if (($errors = $this->checkdepends($modules[$modulename])) !== true) {
 				return $errors;
+			}
+		}
+
+		if(!$force && !$ignorechecks) {
+			$FreePBX = FreePBX::Create();
+			$bmoModules = $FreePBX->Modules;
+			// check dependencies
+			if (is_array($errors = $bmoModules->checkConflicts($modules[$modulename]))) {
+				$final = [];
+				foreach($errors['issues'] as $module => $issues){
+					foreach ($issues as $issue) {
+						$final[] = sprintf('%s: %s',$module, $issue);
+					}
+				}
+				return $final;
 			}
 		}
 
@@ -1290,7 +1280,7 @@ class module_functions {
 	*                     done: when complete
 	* @return  mixed   True if succesful, array of error messages if not succesful
 	*/
-	function download($moduledata, $force = false, $progress_callback = null, $override_svn = false, $override_xml = false) {
+	function download($moduledata, $force = false, $progress_callback = null, $override_svn = false, $override_xml = false, $ignorechecks = false) {
 		$this->getInfoCache = array(); //invalidate local
 		$this->notFound = false;
 		global $amp_conf;
@@ -1317,6 +1307,20 @@ class module_functions {
 			if(!mkdir($amp_conf['AMPWEBROOT']."/admin/modules/_cache")) {
 				$errors[] = sprintf(_("Could Not Create Cache Folder: %s"),$amp_conf['AMPWEBROOT']."/admin/modules/_cache");
 				return $errors;
+			}
+		}
+
+		if(!$force && !$ignorechecks) {
+			$bmoModules = \FreePBX::Modules();
+			// check dependencies
+			if (is_array($errors = $bmoModules->checkConflicts($modulexml))) {
+				$final = [];
+				foreach($errors['issues'] as $module => $issues){
+					foreach ($issues as $issue) {
+						$final[] = sprintf('%s: %s',$module, $issue);
+					}
+				}
+				return $final;
 			}
 		}
 
@@ -1929,18 +1933,6 @@ class module_functions {
 		$this->notFound = false;
 		global $db, $amp_conf;
 		$FreePBX = FreePBX::Create();
-		$bmoModules = $FreePBX->Modules;
-		if(!$ignorechecks) {
-			$data = $bmoModules->getOnlineJson($modulename);
-			if(!empty($data['conflicts']['issues'])){
-				foreach($data['conflicts']['issues'] as $module => $issues){
-					foreach ($issues as $issue) {
-						$errors[] = sprintf('%s: %s',$module, $issue);
-					}
-				}
-				return $errors;
-			}
-		}
 
 		set_time_limit($this->maxTimeLimit);
 
@@ -1970,7 +1962,6 @@ class module_functions {
 		}
 
 		if (!$force) {
-
 			if (!in_array($modules[$modulename]['status'], array(MODULE_STATUS_ENABLED, MODULE_STATUS_NOTINSTALLED, MODULE_STATUS_NEEDUPGRADE))) {
 				//return array(_("This module is already installed."));
 				// This isn't really an error, we just exit
@@ -1980,6 +1971,20 @@ class module_functions {
 			// check dependencies
 			if (is_array($errors = $this->checkdepends($modules[$modulename]))) {
 				return $errors;
+			}
+		}
+
+		$bmoModules = $FreePBX->Modules;
+		if(!$force && !$ignorechecks) {
+			// check dependencies
+			if (is_array($errors = $bmoModules->checkConflicts($modules[$modulename]))) {
+				$final = [];
+				foreach($errors['issues'] as $module => $issues){
+					foreach ($issues as $issue) {
+						$final[] = sprintf('%s: %s',$module, $issue);
+					}
+				}
+				return $final;
 			}
 		}
 

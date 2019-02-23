@@ -19,6 +19,7 @@ class Modules extends DB_Helper{
 	private $moduleMethods = array();
 	private $validLicense = null;
 	private $functionIncLoaded = [];
+	private $conflictsCache = [];
 
 	// Cache for XML objects
 	private $modulexml = array();
@@ -363,7 +364,7 @@ class Modules extends DB_Helper{
 	 * @throws Exception if module xml file is not parseable
 	 */
 
-	public function getXML($modname = false) {
+	public function getXML($modname) {
 		if (!$modname) {
 			throw new \Exception("No module name given");
 		}
@@ -457,180 +458,132 @@ class Modules extends DB_Helper{
 		freepbx_log(LOG_WARNING,'Depreciated Function '.$function.' detected in '.$file.' on line '.$line);
 	}
 
-	public function getOnlineJson($module = false, $override_json = false, $never_refresh = false){
-		$now = Carbon::now()->timestamp;
-		$oneHour = Carbon::createFromTimestamp($now)->addHour()->timestamp;
-		$last = $this->getConfig('moduleJSONCache');
-		$last = $last?$last:($now-1);
-		$breaking = $this->checkBreaking();
-		$version = getversion();
-		// we need to know the freepbx major version we have running (ie: 12.0.1 is 12.0)
-		preg_match('/(\d+\.\d+)/', $version, $matches);
-		$base_version = $matches[1];
-		$skip_cache = $this->FreePBX->Config->get('MODULEADMIN_SKIP_CACHE');
-		$moduleArray = $this->getAll('moduleArray');
-		if ($now > $last && !$never_refresh && !$skip_cache || empty($moduleArray)) {
-			if($override_json){
-				$raw = $this->modclass->get_url_contents($override_json, "/modules-" . $base_version . ".json");
-			}
-			if(!$override_json || !$moduleArray){
-				$raw = $this->modclass->get_remote_contents("/all-" . $base_version . ".json", true, true);
-			}
-			$moduleArray = json_decode($raw,true);
-			if(is_array($moduleArray)) {
-				$this->setMultiConfig($moduleArray, 'moduleArray');
-			}
-			$this->setConfig($oneHour, 'moduleJSONCache');
-		}
-
-		if($module !== false){
-			$ret = [];
-			if(isset($moduleArray['modules'][$module])){
-				$ret = $moduleArray['modules'][$module];
-			}
-			if(!isset($moduleArray['modules'][$module])){
-				$moduleArray['modules'][$module] = $this->modclass->getinfo($module)[$module];
-				$ret = $moduleArray['modules'][$module];
-			}
-			$edge = $this->checkEdge($moduleArray, $module);
-			if($edge !== false){
-				$ret = $edge;
-			}
-			$ret['previous'] = [];
-			if(isset($moduleArray['previous'][$module])){
-				$ret['previous'] = $moduleArray['previous'][$module];
-			}
-			if(isset($breaking['issues'][$module]) && !empty($breaking['issues'][$module])){
-				$ret['conflicts'] = $breaking['issues'][$module];
-			}
-			return $ret;
-		}
-		return $moduleArray;
+	function isAssoc(array $arr) {
+		if (array() === $arr) return false;
+		return array_keys($arr) !== range(0, count($arr) - 1);
 	}
 
-
-	public function checkEdge($moduleArray, $module){
-		$release = false;
-		$edge = false;
-		if(!$this->FreePBX->Config->get('MODULEADMINEDGE')){
-			return false;
-		}
-		if(isset($moduleArray['edge'][$module])){
-			$edge = $moduleArray['edge'][$module];
-		}
-		if(!$edge){
-			return false;
-		}
-		if(isset($moduleArray['modules'][$module])){
-			$release = $moduleArray['modules'][$module];
-		}
-		if(!$release){
-			return $edge;
-		}
-		if(version_compare_freepbx($release['version'], $edge['version'], '<')){
-			return false;
-		}
-		return $edge;
-	}
-
-	public function checkBreaking($moduleArray = []){
-		$moduleArray = is_array($moduleArray)?$moduleArray:[];
-		if(isset($moduleArray['rawname'])){
-			$moduleArray = [$moduleArray];
+	/**
+	 * Check Conflicts of said module
+	 *
+	 * @param string $module The name of the module, or the modulexml Array
+	 * @return void
+	 */
+	public function checkConflicts($module=false) {
+		if(!empty($this->conflictsCache)) {
+			return $this->conflictsCache;
 		}
 		$breaking = false;
 		$messages = [];
 		$replacements = [];
-		if(empty($ModuleArray)){
-			$moduleArray = $this->modclass->getinfo();
+
+		$modules = $this->FreePBX->Modulelist->get();
+		if(is_array($module)) { //use xml provided
+			$name = $module['rawname'];
+			$modules[$name] = $module;
+			$module = $name;
+		} elseif(is_string($module)) { //retrieve local xml
+			$modules[$module] = $this->modclass->_readxml($module, false);
 		}
-		foreach($moduleArray as $arrayItem){
-			if(!isset($arrayItem['rawname'])){
+
+		foreach($modules as $mod){
+			if(!isset($mod['breaking']['module'])) {
 				continue;
 			}
-			$xml = json_encode($this->getXML($arrayItem['rawname']));
-			$local = json_decode($xml, true);
-			$current = isset($arrayItem['breaking'])? $arrayItem['breaking']:[];
-			if(empty($current) && empty($local)){
-				continue;
-			}
-			$breakingItems = $this->mergeBreaking($local, $current);
-			$breakingItems = isset($breakingItems['breaking'])? $breakingItems ['breaking']:[];
+
+			//fix xml weirdness
+			$breakingItems = $this->isAssoc($mod['breaking']['module']) ? [$mod['breaking']['module']] : $mod['breaking']['module'];
+
 			foreach ($breakingItems as $value) {
-				$key = $value['type'];
-				if($key == 'conflict'){
-					$modInfo = $this->modclass->getinfo($value['rawname']);
-					$modInfo = $modInfo[$value['rawname']];
-					$status = $modInfo['status']?$modInfo['status']:0;
-					$version = $modInfo['version'];
-					$issueVersion = isset($value['version'])? $value['version']:false;
-					if($status == MODULE_STATUS_ENABLED && $status == MODULE_STATUS_NEEDUPGRADE){
-						$breaking = true;
-						if($issueVersion){
-							$versionConflict = version_compare_freepbx($version, $issueVersion, 'le');
-						}
-						$err = sprintf(_("The module %s conflicts with this module. Having both installed may cause issues with the functionality of your system."), $value['rawname']);
-						if(isset($value['errormessage']) && !empty($value['errormessage'])){
-							$err = str_replace('RAW_NAME', $value['rawname'], $value['errormessage']);
-						}
-						if($issueVersion && $versionConflict){
-							$err = _(sprintf(_("The module %s at version %s or higher conflicts with this module and may break the functionality of your system. Your current installed version is %s"),$value['rawname'],$issueVersion, $version));
-							if (isset($value['versionerrormessage']) && !empty($value['versionerrormessage'])) {
-								$err = str_replace('RAW_NAME', $value['rawname'], $value['versionerrormessage']);
-							}
-						}
-						$messages[$arrayItem['rawname']][] = $err;
-					}
+				$type = $value['type'];
+				$conflictModInfo = $this->modclass->getinfo($value['rawname']);
+				if(!isset($conflictModInfo[$value['rawname']])) {
+					//I mean this should never happen but you never know
+					return;
 				}
-				if ($key == 'deprecated') {
-					$modInfo = $this->modclass->getinfo($arrayItem['rawname']);
-					if (!isset($modInfo[$arrayItem['rawname']])) {
+				//reassign
+				$conflictModInfo = $conflictModInfo[$value['rawname']];
+				//only deal with one state
+				if(!in_array($conflictModInfo['status'],[MODULE_STATUS_ENABLED])) {
+					continue;
+				}
+				$issueVersion = isset($value['version'])? $value['version']:false;
+				if ($issueVersion && preg_match('/^(lt|le|gt|ge|==|=|eq|!=|ne)?\s*(\d*[beta|alpha|rc|RC]?\d+(\.[^\.]+)*)$/i', $issueVersion, $matches)) {
+					// matches[1] = operator, [2] = version
+					$operator = (!empty($matches[1]) ? $matches[1] : 'ge'); // default to >=
+					$compare_ver = $matches[2];
+					if (!version_compare_freepbx($conflictModInfo['version'], $compare_ver, $operator)) {
+						//doesnt match
 						continue;
 					}
-					$modInfo = $modInfo[$arrayItem['rawname']];
-					$status = $modInfo['status'] ? $modInfo['status'] : 0;
-					$version = $modInfo['version'];
-					$issueVersion = isset($value['version']) ? $value['version'] : false;
-					if ($status == MODULE_STATUS_ENABLED || $status == MODULE_STATUS_NEEDUPGRADE) {
-						if ($issueVersion) {
-							$versionConflict = version_compare_freepbx($version, $issueVersion, 'ge');
+					$error = '';
+
+					switch($type) {
+						case 'conflict':
+							$state = sprintf(_('conflicts with %s [%s]. Having both installed may cause issues with the functionality of your system'),$mod['name'], $mod['rawname']);
+						break;
+						case 'deprecated':
+							$state = _('has been deprecated and may not be maintained in the future. This may cause security or functionality issues');
+						break;
+					}
+
+					switch ($operator) {
+						case 'lt': case '<':
+							$error = sprintf(_('The currently installed module %s [%s] at version below %s %s. You currently have %s'), $conflictModInfo['name'], $conflictModInfo['rawname'], $compare_ver, $state, $issueVersion);
+						break;
+						case 'le': case '<=';
+							$error = sprintf(_('The currently installed module %s [%s] at version %s or lower %s. You currently have %s'), $conflictModInfo['name'], $conflictModInfo['rawname'], $compare_ver, $state, $issueVersion);
+						break;
+						case 'gt': case '>';
+							$error = sprintf(_('The currently installed module %s [%s] at version higher than %s %s. You currently have %s'), $conflictModInfo['name'], $conflictModInfo['rawname'], $compare_ver, $state, $issueVersion);
+						break;
+						case 'ne': case '!=': case '<>':
+							$error = sprintf(_('The currently installed module %s [%s] at version %s %s. You need anything but %s'), $conflictModInfo['name'], $conflictModInfo['rawname'], $compare_ver, $state, $issueVersion);
+						break;
+						case 'eq': case '==': case '=':
+							$error = sprintf(_('The currently installed module %s [%s] at version %s %s. You need %s'), $conflictModInfo['name'], $conflictModInfo['rawname'], $compare_ver, $state, $issueVersion);
+						break;
+						default:
+						case 'ge': case '>=':
+							$error = sprintf(_('The currently installed module %s [%s] at version %s or higher %s. You currently have %s'), $conflictModInfo['name'], $conflictModInfo['rawname'], $compare_ver, $state, $issueVersion);
+						break;
+					}
+				}
+
+				switch($type) {
+					case 'conflict':
+						if(!$issueVersion) {
+							$error = sprintf(_("The currently installed module %s [%s] conflicts with %s [%s]. Having both installed may cause issues with the functionality of your system."), $conflictModInfo['name'], $conflictModInfo['rawname'], $mod['name'], $mod['rawname']);
 						}
-						if($issueVersion && !$versionConflict){
-							continue;
+					break;
+					case 'deprecated':
+						if(!$issueVersion) {
+							$error = sprintf(_("The currently installed module %s [%s] has been deprecated and may not be maintained in the future. This may cause security or functionality issues."), $conflictModInfo['name'], $conflictModInfo['rawname']);
 						}
-						$breaking = true;
-						$replacement = isset($value['replace'])?$value['replace']:false;
-						$error = sprintf(_("The module %s has been deprecated and may not be maintained in the future. This may cause security or functionality issues."), $value['rawname']);
-						if (isset($value['errormessage']) && !empty($value['errormessage'])) {
-							$error = str_replace('RAW_NAME', $value['rawname'], $value['errormessage']);
-						}
-						if($replacement){
-							$error = sprintf(_("The module %s is deprecated and has been replaced by %s."), $value['rawname'], $replacement);
+						if(isset($value['replace'])) {
+							$replacement = $value['replace'];
 							if (isset($value['replaceerrormessage']) && !empty($value['replaceerrormessage'])) {
 								$error = str_replace(['RAW_NAME','REPLACE_NAME'], [$value['rawname'], $value['replacement']], $value['errormessage']);
 							}
-							$replacements[$arrayItem['rawname']][] = $replacement;
-
+							$replacements[$value['rawname']][] = $replacement;
 						}
-						$messages[$arrayItem['rawname']][] = $error;
-					}
+
+					break;
 				}
+
+				if($issueVersion && isset($value['versionerrormessage']) && !empty($value['versionerrormessage'])) {
+					$error = str_replace('RAW_NAME', $value['rawname'], $value['versionerrormessage']);
+				}
+
+				if(isset($value['errormessage']) && !empty($value['errormessage'])){
+					$error = str_replace('RAW_NAME', $value['rawname'], $value['errormessage']);
+				}
+
+				$breaking = true;
+				$messages[$value['rawname']][] = $error;
 			}
 		}
-
-		return ['status' => $breaking, 'issues' => $messages, 'replacements' => $replacements];
-	}
-
-	public function mergeBreaking($local, $remote){
-		$local = is_array($local)?$local:[];
-		$remote = is_array($remote)?$remote:[];
-		$local = isset($local[0]['rawname'])?$local[0]:$local;
-		$remote = isset($remote[0]['rawname'])?$remote[0]:$remote;
-		$local['version'] = isset($local['version']) ? $local['version'] : '0.0';
-		$remote['version'] = isset($remote['version']) ? $remote['version'] : '0.0';
-		if (version_compare_freepbx($local['version'], $remote['version'], 'ge')) {
-			return $local;
-		}
-		return $remote;
+		$this->conflictsCache = ['breaking' => $breaking, 'issues' => $messages, 'replacements' => $replacements];
+		return $this->conflictsCache;
 	}
 }
