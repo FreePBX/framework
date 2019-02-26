@@ -152,68 +152,16 @@ if (!isset($modules)) {
 
 //Hide the only module that would end up confusing people
 unset($modules['builtin']);
-
 //--------------------------------------------------------------------------------------------------------
 switch ($action) {
-		case 'trackinstall':
-		case 'trackupgrade':
-			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-				$track = !empty($setting['track']) ? $setting['track'] : 'stable';
-				$trackinfo = ($track == 'stable') ? $modules_online[$modulename] : (!empty($modules_online[$modulename]['releasetracks'][$track]) ? $modules_online[$modulename]['releasetracks'][$track] : array());
-				echo '<span class="success">'.sprintf(_("Upgrading %s to %s from track %s"),$modulename,$trackinfo['version'],$track)."</span><br/>";
-				echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span><br/><span id="downloadstatus_'.$modulename.'"></span><br/>';
-				if (is_array($errors = $modulef->download($trackinfo, false, 'download_progress'))) {
-					echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
-					echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
-					echo '</span>';
-				} else {
-					echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
-					echo '<span id="installstatus_'.$modulename.'"></span>';
-					//2nd param of install set to true to force the install as it may not be a detected upgrade
-					if (is_array($errors = $modulef->install($modulename,true))) {
-						echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
-						echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
-						echo '</span>';
-					} else {
-						$change_tracks[$modulename] = $setting['track'];
-						echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span><br/>';
-					}
-				}
-			}
-			break;
-		case 'rollback':
-			if (!EXTERNAL_PACKAGE_MANAGEMENT) {
-				$releaseinfo = '';
-				foreach($modules_online[$modulename]['previous'] as $release) {
-					if($release['version'] == $setting['rollback']) {
-						$releaseinfo = $release;
-						break;
-					}
-				}
-				echo '<span class="success">'.sprintf(_("Rolling back %s to %s"),$modulename, $setting['rollback'])."</span><br/>";
-				echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span><span id="downloadstatus_'.$modulename.'"></span><br/>';
-				if (is_array($errors = $modulef->download($releaseinfo, false, 'download_progress'))) {
-					echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
-					echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
-					echo '</span>';
-				} else {
-					echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
-					echo '<span id="installstatus_'.$modulename.'"></span>';
-					//2nd param of install set to true to force the install as it may not be a detected upgrade
-					if (is_array($errors = $modulef->install($modulename,true))) {
-						echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
-					}
-				}
-			}
-				break;
 		case 'setrepo':
-		$repo = str_replace("_repo","",$REQUEST['id']);
-		$o = $modulef->set_active_repo($repo,$REQUEST['selected']);
-		if($o) {
-			echo json_encode(array("status" => true));
-		} else {
-			echo json_encode(array("status" => false, "message" => "Unable to set ".$repo." as active repo"));
-		}
+			$repo = str_replace("_repo","",$REQUEST['id']);
+			$o = $modulef->set_active_repo($repo,$REQUEST['selected']);
+			if($o) {
+				echo json_encode(array("status" => true));
+			} else {
+				echo json_encode(array("status" => false, "message" => "Unable to set ".$repo." as active repo"));
+			}
 		break;
 		case 'process':
 			$moduleactions = !empty($REQUEST['modules']) ? $REQUEST['modules'] : array();
@@ -227,8 +175,58 @@ switch ($action) {
 			$change_tracks = array();
 			foreach ($moduleactions as $modulename => $setting) {
 				$didsomething = true; // set to false in default clause of switch() below..
-
 				switch ($setting['action']) {
+					case 'trackinstall':
+					case 'trackupgrade':
+						if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+							$track = !empty($setting['track']) ? $setting['track'] : 'stable';
+							$trackinfo = ($track == 'stable') ? $modules_online[$modulename] : (!empty($modules_online[$modulename]['releasetracks'][$track]) ? $modules_online[$modulename]['releasetracks'][$track] : array());
+							echo '<span class="success">'.sprintf(_("Upgrading %s to %s from track %s"),$modulename,$trackinfo['version'],$track)."</span><br/>";
+							echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span><br/><span id="downloadstatus_'.$modulename.'"></span><br/>';
+							if (is_array($errors = $modulef->download($trackinfo, false, 'download_progress'))) {
+								echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
+								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+								echo '</span>';
+							} else {
+								echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
+								echo '<span id="installstatus_'.$modulename.'"></span>';
+								//2nd param of install set to true to force the install as it may not be a detected upgrade
+								if (is_array($errors = $modulef->install($modulename,true))) {
+									echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
+									echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+									echo '</span>';
+								} else {
+									$change_tracks[$modulename] = $setting['track'];
+									echo '<span class="success">'.sprintf(_("%s installed successfully"),$modulename).'</span><br/>';
+								}
+							}
+						}
+						break;
+					case 'rollback':
+						if (!EXTERNAL_PACKAGE_MANAGEMENT) {
+							$releaseinfo = '';
+							foreach($modules_online[$modulename]['previous'] as $release) {
+								if($release['version'] == $setting['rollback']) {
+									$releaseinfo = $release;
+									break;
+								}
+							}
+							echo '<span class="success">'.sprintf(_("Rolling back %s to %s"),$modulename, $setting['rollback'])."</span><br/>";
+							echo sprintf(_('Downloading %s'), $modulename).' <span id="downloadprogress_'.$modulename.'"></span><span id="downloadstatus_'.$modulename.'"></span><br/>';
+							if (is_array($errors = $modulef->download($releaseinfo, false, 'download_progress'))) {
+								echo '<span class="error">'.sprintf(_("Error(s) downloading %s"),$modulename).': ';
+								echo '<ul><li>'.implode('</li><li>',$errors).'</li></ul>';
+								echo '</span>';
+							} else {
+								echo '<span class="success">'.sprintf(_("Installing %s"),$modulename)."</span><br/>";
+								echo '<span id="installstatus_'.$modulename.'"></span>';
+								//2nd param of install set to true to force the install as it may not be a detected upgrade
+								if (is_array($errors = $modulef->install($modulename,true))) {
+									echo '<span class="error">'.sprintf(_("Error(s) installing %s"),$modulename).': ';
+								}
+							}
+						}
+							break;
 					case 'trackinstall':
 					case 'trackupgrade':
 						if (!EXTERNAL_PACKAGE_MANAGEMENT) {
@@ -371,7 +369,7 @@ switch ($action) {
 				if(!empty($change_tracks)) {
 					$modulef->set_tracks($change_tracks);
 				}
-				@ ob_flush();
+				@ob_flush();
 				flush();
 			}
 		}
