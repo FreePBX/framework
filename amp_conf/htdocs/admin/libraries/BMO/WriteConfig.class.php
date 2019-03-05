@@ -188,7 +188,7 @@ class WriteConfig {
 		 * than the Asterisk user we provide permissions that allow both.
 		 */
 		$ampgroup =  $AMPASTERISKWEBUSER != $AMPASTERISKUSER ? $AMPASTERISKGROUP : $AMPASTERISKWEBGROUP;
-		chgrp($filename, $ampgroup);
+		@chgrp($filename, $ampgroup);
 
 		return true;
 	}
