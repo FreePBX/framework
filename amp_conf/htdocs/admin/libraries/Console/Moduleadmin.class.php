@@ -1572,32 +1572,37 @@ class Moduleadmin extends Command {
 						}
 					}
 					$state = $this->isModuleUpgradeable($module);
-					switch($state) {
-						case is_array($state):
-							foreach($state as $m => $msgs) {
+					if(is_array($state)) {
+						foreach($state as $m => $msgs) {
+							if(is_array($msgs)) {
 								foreach($msgs as $msg) {
 									$this->writeln('<error>'.$msg.'</error>');
 								}
+							} else {
+								$this->writeln('<error>'.$msgs.'</error>');
 							}
-						break;
-						case -4:
-							$this->writeln('<error>'.sprintf(_('%s does not have a valid JSON update file, unable to upgrade').'</error>',$module));
-						break;
-						case -3:
-							$this->writeln('<error>'.sprintf(_('%s is not a locally installed module, unable to upgrade').'</error>',$module));
-						break;
-						case -2:
-							$this->writeln('<error>'.sprintf(_('%s does not exist online, unable to upgrade').'</error>',$module));
-						break;
-						case -1:
-							$this->writeln('<error>'.sprintf(_('%s is newer than online version, unable to upgrade').'</error>',$module));
-						break;
-						case 0:
-							$this->writeln('<error>'.sprintf(_('%s is the same as the online version, unable to upgrade').'</error>',$module));
-						break;
-						case 1:
-							$this->doUpgrade($module);
-						break;
+						}
+					} else {
+						switch($state) {
+							case -4:
+								$this->writeln('<error>'.sprintf(_('%s does not have a valid JSON update file, unable to upgrade').'</error>',$module));
+							break;
+							case -3:
+								$this->writeln('<error>'.sprintf(_('%s is not a locally installed module, unable to upgrade').'</error>',$module));
+							break;
+							case -2:
+								$this->writeln('<error>'.sprintf(_('%s does not exist online, unable to upgrade').'</error>',$module));
+							break;
+							case -1:
+								$this->writeln('<error>'.sprintf(_('%s is newer than online version, unable to upgrade').'</error>',$module));
+							break;
+							case 0:
+								$this->writeln('<error>'.sprintf(_('%s is the same as the online version, unable to upgrade').'</error>',$module));
+							break;
+							case 1:
+								$this->doUpgrade($module);
+							break;
+						}
 					}
 				}
 				$this->updateHooks();
