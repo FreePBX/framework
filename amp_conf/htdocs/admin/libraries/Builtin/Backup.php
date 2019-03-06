@@ -7,7 +7,10 @@ class Backup Extends Base\BackupBase{
 		$sth = $this->FreePBX->Database->prepare($sql);
 		$sth->execute([":name" => $module]);
 		$this->addConfigs([
-			'settings' => $sth->fetchAll(\PDO::FETCH_KEY_PAIR)
+			'settings' => $sth->fetchAll(\PDO::FETCH_KEY_PAIR),
+			'realtime' => [
+				'kvstore' => $this->FreePBX->Realtime->getAll()
+			]
 		]);
 	}
 }
