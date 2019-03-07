@@ -17,7 +17,7 @@ class Restore Extends Base\RestoreBase{
 	public function processLegacy($pdo, $data, $tables, $unknownTables){
 		$sql = "SELECT `keyword`, `value` FROM freepbx_settings WHERE module= ''";
 		$sth = $pdo->prepare($sql);
-		$sth->execute([":name" => $module]);
+		$sth->execute();
 		$res = $sth->fetchAll(\PDO::FETCH_ASSOC);
 
 		if(!empty($res)) {
@@ -28,8 +28,7 @@ class Restore Extends Base\RestoreBase{
 			foreach($res as $data) {
 				$usth->execute([
 					":keyword" => $data['keyword'],
-					":value" => $data['value'],
-					":module" => $data['module']
+					":value" => $data['value']
 				]);
 			}
 		}
