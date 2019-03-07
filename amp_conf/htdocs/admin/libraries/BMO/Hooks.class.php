@@ -320,7 +320,7 @@ class Hooks extends DB_Helper {
 			$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$module."::".$meth."_stop");
 		} else {
 			$fn = $namespace.$class;
-			if($static) {
+			if(!$static) {
 				$t = new $fn($this->FreePBX);
 				$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_start");
 				if(!method_exists($t,$meth)) {
@@ -330,7 +330,7 @@ class Hooks extends DB_Helper {
 				$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_stop");
 			} else {
 				$this->FreePBX->Performance->Stamp("processHooksByClassMethod-".$fn."::".$meth."_start");
-				if(!method_exists($t,$meth)) {
+				if(!method_exists($fn,$meth)) {
 					throw new \Exception("Method $meth in $fn does not exist");
 				}
 				$return = call_user_func_array($fn.'::'.$meth, $args);
