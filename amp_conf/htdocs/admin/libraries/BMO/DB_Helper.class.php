@@ -81,6 +81,7 @@ class DB_Helper {
 		//Load everything into memory!
 		$sth = self::$db->query("SELECT * FROM `$tablename`");
 		$rows = $sth->fetchAll(\PDO::FETCH_ASSOC);
+		self::$cache[$tablename] = [];
 		foreach($rows as $row) {
 			$type = $row['type'];
 			$val = $row['val'];
