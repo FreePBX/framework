@@ -302,7 +302,7 @@ if(is_array($active_modules)){
 					if(
 						is_object($_SESSION["AMP_user"]) &&
 						method_exists($_SESSION["AMP_user"],'getMode') &&
-						$_SESSION["AMP_user"]->getMode() === 'userman' &&
+						$_SESSION["AMP_user"]->getMode() === 'usermanager' &&
 						FreePBX::Config()->get('AUTHTYPE') === 'usermanager' &&
 						FreePBX::Modules()->checkStatus('userman')
 					) {
