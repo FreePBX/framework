@@ -56,6 +56,28 @@ class Framework extends FreePBX_Helpers implements BMO {
 
 	public function doReload($passthru=false) {
 		$AMPSBIN = $this->freepbx->Config->get('AMPSBIN');
+		if(!file_exists($AMPSBIN.'/fwconsole')) {
+			$out = fpbx_which('fwconsole');
+			if(empty($out)) {
+				return [
+					'status' => false,
+					'message' => sprintf(_("Unable to find fwconsole at %s, Consider updating 'sbin Dir' to the location of fwconsole"),$AMPSBIN),
+					'code' => 127,
+					'raw' => []
+				];
+			}
+			$this->freepbx->Config->update('AMPSBIN',dirname($out));
+			$AMPSBIN = dirname($out);
+
+		}
+		if(!is_executable($AMPSBIN.'/fwconsole')) {
+			return [
+				'status' => false,
+				'message' => sprintf(_("fwconsole is not executable at %s"),$AMPSBIN),
+				'code' => 127,
+				'raw' => []
+			];
+		}
 		$process = new \Symfony\Component\Process\Process($AMPSBIN.'/fwconsole reload --json');
 		$process->setTimeout(1800);
 		$process->run();
@@ -68,7 +90,7 @@ class Framework extends FreePBX_Helpers implements BMO {
 		if($code !== 0 || isset($output['error'])) {
 			return [
 				'status' => false,
-				'message' => $output['error'],
+				'message' => isset($output['error']) ? $output['error'] : _('Unknown Error. Please Run: fwconsole reload --verbose '),
 				'code' => $code,
 				'raw' => $output
 			];
