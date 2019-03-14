@@ -69,7 +69,9 @@ class Reload extends Command {
 
 		if($this->json) {
 			global $whoops;
-			$whoops->unregister();
+			if ($whoops instanceof \Whoops\Run) {
+				$whoops->unregister();
+			}
 			$this->getApplication()->setCatchExceptions(false);
 			$errorHandler = \Symfony\Component\Debug\ErrorHandler::register(null, false);
 			$errorHandler->throwAt(E_ALL, true);
