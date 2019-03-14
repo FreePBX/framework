@@ -780,40 +780,18 @@ function fpbx_which($app) {
 	//otherwise, search for it
 	//ist of posible plases to find which
 
-	$which = array(
-			'which',
-			'/usr/bin/which' //centos/mac osx
-	);
+	$paths = [
+		"/usr/local/sbin",
+		"/usr/local/bin",
+		"/sbin",
+		"/bin",
+		"/usr/sbin",
+		"/usr/bin",
+		"/root/bin"
+	];
 
-	//TODO: Remove which in 14 no needed - Rob Thomas
-	$location = '';
-	foreach ($which as $w) {
-		exec($w . ' ' . $app . ' 2>&1', $path, $ret);
-
-		//exit if we have a positive find
-		if ($ret === 0) {
-			$location = $path[0];
-			break;
-		}
-	}
-
-	if(empty($location)) {
-		$paths = array(
-			"/usr/local/sbin",
-			"/usr/local/bin",
-			"/sbin",
-			"/bin",
-			"/usr/sbin",
-			"/usr/bin",
-			"/root/bin"
-		);
-		foreach($paths as $path) {
-			if (file_exists($path."/".$app) && is_executable($path."/".$app)) {
-				$location = $path."/".$app;
-				break;
-			}
-		}
-	}
+	$find = new Symfony\Component\Process\ExecutableFinder();
+	$location = $find->find($app,null,$paths);
 
 	if(!empty($location) && $freepbx_conf->exists('WHICH_' . $app)) {
 		$freepbx_conf->set('WHICH_' . $app, $location, true,true);
