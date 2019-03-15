@@ -495,6 +495,10 @@ class Modules extends DB_Helper{
 			$breakingItems = $this->isAssoc($mod['breaking']['module']) ? [$mod['breaking']['module']] : $mod['breaking']['module'];
 
 			foreach ($breakingItems as $value) {
+				//only work against the module we are checking conflicts against
+				if(!in_array($module, [$mod['rawname'],$value['rawname']])) {
+					continue;
+				}
 				$type = $value['type'];
 				$conflictModInfo = $this->modclass->getinfo($value['rawname']);
 				if(!isset($conflictModInfo[$value['rawname']])) {
@@ -583,6 +587,7 @@ class Modules extends DB_Helper{
 				$messages[$value['rawname']][] = $error;
 			}
 		}
+
 		$this->conflictsCache = ['breaking' => $breaking, 'issues' => $messages, 'replacements' => $replacements];
 		return $this->conflictsCache;
 	}

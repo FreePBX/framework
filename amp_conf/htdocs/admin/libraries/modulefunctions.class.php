@@ -1245,7 +1245,7 @@ class module_functions {
 			$bmoModules = $FreePBX->Modules;
 			// check dependencies
 			$errors = $bmoModules->checkConflicts($modules[$modulename]);
-			if(!empty($data['breaking'])) {
+			if(!empty($errors['breaking'])) {
 				$final = [];
 				foreach($errors['issues'] as $module => $issues){
 					foreach ($issues as $issue) {
@@ -1311,11 +1311,16 @@ class module_functions {
 			}
 		}
 
+		if(empty($modulexml['rawname'])) {
+			$errors[] = _("Retrieved Module XML Was Empty");
+			return $errors;
+		}
+
 		if(!$force && !$ignorechecks) {
 			$bmoModules = \FreePBX::Modules();
 			// check dependencies
 			$errors = $bmoModules->checkConflicts($modulexml);
-			if(!empty($data['breaking'])) {
+			if(!empty($errors['breaking'])) {
 				$final = [];
 				foreach($errors['issues'] as $module => $issues){
 					foreach ($issues as $issue) {
@@ -1326,10 +1331,6 @@ class module_functions {
 			}
 		}
 
-		if(empty($modulexml['rawname'])) {
-			$errors[] = _("Retrieved Module XML Was Empty");
-			return $errors;
-		}
 		$modulename = $modulexml['rawname'];
 
 		set_time_limit($this->maxTimeLimit);
@@ -1980,7 +1981,7 @@ class module_functions {
 		if(!$force && !$ignorechecks) {
 			// check dependencies
 			$errors = $bmoModules->checkConflicts($modules[$modulename]);
-			if(!empty($data['breaking'])) {
+			if(!empty($errors['breaking'])) {
 				$final = [];
 				foreach($errors['issues'] as $module => $issues){
 					foreach ($issues as $issue) {
