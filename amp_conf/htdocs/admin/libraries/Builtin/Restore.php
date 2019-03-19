@@ -12,6 +12,7 @@ class Restore Extends Base\RestoreBase{
 				":value" => $value
 			]);
 		}
+		$this->FreePBX->Framework->amiUpdate(true,true,true);
 	}
 
 	public function processLegacy($pdo, $data, $tables, $unknownTables){
@@ -32,6 +33,7 @@ class Restore Extends Base\RestoreBase{
 				]);
 			}
 		}
+		$this->FreePBX->Framework->amiUpdate(true,true,true);
 	}
 
 	public function reset() {

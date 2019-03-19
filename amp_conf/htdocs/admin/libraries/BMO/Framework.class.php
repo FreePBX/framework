@@ -103,4 +103,103 @@ class Framework extends FreePBX_Helpers implements BMO {
 			'raw' => $output
 		];
 	}
+
+	/**
+	 * Update AMI credentials in manager.conf
+	 *
+	 * @author Philippe Lindheimer
+	 * @pram mixed $user false means don't change
+	 * @pram mixed $pass password false means don't change
+	 * @pram mixed $writetimeout false means don't change
+	 * @returns boolean
+	 *
+	 * allows FreePBX to update the manager credentials primarily used by Advanced Settings and Backup and Restore.
+	 */
+	function amiUpdate($user=false, $pass=false, $writetimeout = false) {
+		$ASTETCDIR = $this->freepbx->Config->get('ASTETCDIR');
+		$conf_file = $ASTETCDIR . '/manager.conf';
+		$ret = $ret2 = $ret3 = 0;
+		$output = array();
+
+		if(strpos($ASTETCDIR,"..") === false && !file_exists($conf_file)) {
+			return;
+		}
+
+		if ($user === true) {
+			$AMPMGRUSER = $this->freepbx->Config->get('AMPMGRUSER');
+			$sed_arg = escapeshellarg('s/\s*\[general\].*$/TEMPCONTEXT/;s/\[.*\]/\[' . $AMPMGRUSER . '\]/;s/^TEMPCONTEXT$/\[general\]/');
+			exec("sed -i.bak $sed_arg $conf_file", $output, $ret);
+			if ($ret) {
+				$this->freepbx->Logger->log(FPBX_LOG_ERROR,sprintf(_("Failed changing AMI user to [%s], internal failure details follow:"),$AMPMGRUSER));
+				foreach ($output as $line) {
+					$this->freepbx->Logger->log(FPBX_LOG_ERROR,sprintf(_("AMI failure details:"),$line));
+				}
+			}
+		}
+
+		unset($output);
+		if ($pass === true) {
+			$AMPMGRPASS = $this->freepbx->Config->get('AMPMGRPASS');
+			$sed_arg = escapeshellarg('s/secret\s*=.*$/secret = ' . $AMPMGRPASS . '/');
+			exec("sed -i.bak $sed_arg $conf_file", $output2, $ret2);
+			if ($ret2) {
+				$this->freepbx->Logger->log(FPBX_LOG_ERROR,sprintf(_("Failed changing AMI password to [%s], internal failure details follow:"), $AMPMGRPASS));
+				foreach ($output2 as $line) {
+					$this->freepbx->Logger->log(FPBX_LOG_ERROR,sprintf(_("AMI failure details:"),$line));
+				}
+			}
+
+			// We've changed the password, let's update the notification
+			//
+			if ($AMPMGRPASS === 'amp111') {
+				if (!$this->freepbx->Notifications->exists('core', 'AMPMGRPASS')) {
+					$this->freepbx->Notifications->add_warning('core', 'AMPMGRPASS', _("Default Asterisk Manager Password Used"), _("You are using the default Asterisk Manager password that is widely known, you should set a secure password"));
+				}
+			} else {
+				$this->freepbx->Notifications->delete('core', 'AMPMGRPASS');
+			}
+		}
+
+		//attempt to set writetimeout
+		unset($output);
+		if ($writetimeout === true) {
+			$ASTMGRWRITETIMEOUT = $this->freepbx->Config->get('ASTMGRWRITETIMEOUT');
+			$sed_arg = escapeshellarg('s/writetimeout\s*=.*$/writetimeout = ' . $ASTMGRWRITETIMEOUT . '/');
+			exec("sed -i.bak $sed_arg $conf_file", $output3, $ret3);
+			if ($ret3) {
+				$this->freepbx->Logger->log(FPBX_LOG_ERROR,sprintf(_("Failed changing AMI writetimout to [%s], internal failure details follow:"),$ASTMGRWRITETIMEOUT));
+				foreach ($output3 as $line) {
+					$this->freepbx->Logger->log(FPBX_LOG_ERROR,sprintf(_("AMI failure details:"),$line));
+				}
+			}
+		}
+		if ($ret || $ret2 || $ret3) {
+			dbug("aborting early because previous errors");
+			return false;
+		}
+		if ($this->freepbx->astman->connected()) {
+			$ast_ret = $this->freepbx->astman->Command('module reload manager');
+		} else {
+			unset($output);
+			dbug("no astman connection so trying to force through linux command line");
+			exec(fpbx_which('asterisk') . " -rx 'module reload manager'", $output, $ret2);
+			if ($ret2) {
+				$this->freepbx->Logger->log(FPBX_LOG_ERROR,_("Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx 'module reload manager']"));
+			}
+		}
+		if ($this->freepbx->astman->connected()) {
+			$this->freepbx->astman->disconnect();
+		}
+		global $bootstrap_settings;
+
+		if (!$res = $this->freepbx->astman->connect($this->freepbx->Config->get('ASTMANAGERHOST') . ":" . $this->freepbx->Config->get('ASTMANAGERPORT'), $this->freepbx->Config->get('AMPMGRUSER') , $this->freepbx->Config->get('AMPMGRPASS'), $bootstrap_settings['astman_events'])) {
+			// couldn't connect at all
+			$this->freepbx->Logger->log(FPBX_LOG_CRITICAL,"Connection attmempt to AMI failed");
+			return false;
+		} else {
+			global $astman;
+			$astman = $this->freepbx->astman;
+		}
+		return true;
+	}
 }

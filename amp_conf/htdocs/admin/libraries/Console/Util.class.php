@@ -25,6 +25,15 @@ class Util extends Command {
 		$args = $input->getArgument('args');
 		$command = isset($args[0])?$args[0]:'';
 		switch ($command) {
+			case 'syncami':
+				$output->write(_("Syncing AMI from Advanced Settings..."));
+				if(!\FreePBX::Framework()->amiUpdate(true,true,true)) {
+					$output->writeln('<error>'._("Errors detected. Please see PBX logs").'</error>');
+				} else {
+					$output->writeln(_("Done"));
+				}
+
+			break;
 			case 'cleanplaybackcache':
 				$output->writeln(_("Starting Cache cleanup"));
 				$days = \FreePBX::Config()->get("CACHE_CLEANUP_DAYS");
