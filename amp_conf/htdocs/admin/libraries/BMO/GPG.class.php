@@ -37,10 +37,10 @@ class GPG {
 	private $freepbxkey = '2016349F5BC6F49340FCCAF99F9169F4B33B4659';
 
 	// additional filesystem keys
-	private $fskeys = [
+	private $fskeys = array(
 		'072410D159E9DA63A459AB203DDB2122FE6D84F7',
 		'1013D73FECAC918A0A25823986CE877469D2EAD9'
-	];
+	);
 
 	// Will hold path to 'gpg' binary
 	private $gpg = false;
@@ -564,7 +564,7 @@ class GPG {
 	 */
 	public function refreshKeys() {
 		//combine all of our known local keys
-		$fskeys = array_unique(array_merge([$this->freepbxkey], $this->fskeys));
+		$fskeys = array_unique(array_merge(array($this->freepbxkey), $this->fskeys));
 		foreach($fskeys as $key) {
 			//import our local keys from our filesystem
 			$this->getKeyFromFs($key);
@@ -573,7 +573,7 @@ class GPG {
 		//list out all the keys we do know about
 		$out = $this->runGPG("--list-keys --with-colons --fingerprint");
 		$lines = explode("\n",$out['stdout']);
-		$refreshKeys = [];
+		$refreshKeys = array();
 		foreach($lines as $line) {
 			//https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=blob_plain;f=doc/DETAILS
 			//scrub out the fingerprint
