@@ -128,7 +128,12 @@ class Logger {
 	 * @return void
 	 */
 	public function driverChannelLogWrite($driver,$channel='',$message='',array $context = array(),$logLevel = self::DEBUG){
-		$this->createLogDriver($driver);
+		if ($driver != 'freepbx' || $driver != 'default') {
+			//for normal per module logging we should create module specific log file.
+			$this->createLogDriver($driver, $this->defaultLogDir.'/'.$driver.'.log');
+		} else {
+			$this->createLogDriver($driver);
+		}
 		$logger = !empty($channel) ? $this->logDrivers[$driver]->withName($channel) : $this->logDrivers[$driver];
 		switch ($logLevel) {
 			case self::DEBUG:
