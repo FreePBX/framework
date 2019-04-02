@@ -36,7 +36,12 @@ class Media extends DB_Helper{
 	 * @return array Return array of formats
 	 */
 	public function getSupportedHTML5Formats($returnAll=false) {
-		$browser = $this->detectSupportedFormats();
+		if (isset($_SERVER['HTTP_USER_AGENT'])) {
+			$browser = $this->detectSupportedFormats();
+		} else {
+			// probably running from console
+			$browser = array("oga", "mp3", "m4a", "wav");
+		}
 		$formats = $this->getSupportedFormats();
 		$html5 = array("oga", "mp3", "m4a", "wav");
 		$final = array();
