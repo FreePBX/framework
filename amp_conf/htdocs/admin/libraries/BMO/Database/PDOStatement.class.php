@@ -12,7 +12,7 @@ class PDOStatement extends \PDOStatement {
 		if(defined('LOGQUERIES') && !empty($input_parameters)) {
 			$logger = \FreePBX::Logger()->createLogDriver('query_performance', \FreePBX::Config()->get('ASTLOGDIR').'/query_performance.log', \Monolog\Logger::DEBUG);
 			$logger = $logger->withName(posix_getpid());
-			$logger->debug($this->queryString,$input_parameters);
+			$logger->debug($this->queryString, json_encode($input_parameters));
 		}
 		return parent::execute($input_parameters);
 	}
