@@ -321,6 +321,7 @@ class DB_Helper {
 				$uuid = $this->insertBlob(null, $query[':val'], $query[':type']);
 			}
 			$query[':type'] = "blob";
+			$query[':val'] = $uuid;
 			$val = $uuid;
 		} else {
 			if (!empty($check) && $check['type'] == "blob") {
