@@ -17,6 +17,11 @@ class Reload extends Command {
 
 	private $freepbx;
 	private $error;
+	private $symlink_error_modules = "";
+	private $symlink_notice_modules = "";
+	private $symlink_notice_modules_bin = "";
+	private $symlink_notice_modules_agi = "";
+	private $cp_errors = "";
 
 	protected function configure(){
 		$this->messageBuffer = [];
