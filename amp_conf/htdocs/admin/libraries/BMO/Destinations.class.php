@@ -518,7 +518,7 @@ class Destinations {
 		$cat=(isset($destination['category'])?$destination['category']:$module['displayname']);
 		$cat = str_replace(array("|"),"",$cat);
 		$cat = str_replace("&",_("and"),$cat);
-		$id = (isset($destination['id']) ? $destination['id'] : $module['name']);
+		$id = (isset($destination['id']) ? $destination['id'] : $module['rawname']);
 		return [
 			$cat,
 			$id
