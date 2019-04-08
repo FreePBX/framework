@@ -1586,19 +1586,19 @@ function freepbxGetSanitizedRequest($definition = FILTER_SANITIZE_STRING, $add_e
 	for($i = 0; $i < $total; $i++) {
 		switch($order[$i]) {
 			case 'G':
-				$GET = filter_input_array(INPUT_GET, $definition);
+				$GET = filter_input_array(INPUT_GET, $definition, $add_empty);
 				if(is_array($GET)) {
 					$request = array_merge($request,$GET);
 				}
 			break;
 			case 'P':
-				$POST = filter_input_array(INPUT_POST, $definition);
+				$POST = filter_input_array(INPUT_POST, $definition, $add_empty);
 				if(is_array($POST)) {
 					$request = array_merge($request,$POST);
 				}
 			break;
 			case 'C':
-				$COOKIE = filter_input_array(INPUT_COOKIE, $definition);
+				$COOKIE = filter_input_array(INPUT_COOKIE, $definition, $add_empty);
 				if(is_array($COOKIE)) {
 					$request = array_merge($request,$COOKIE);
 				}
