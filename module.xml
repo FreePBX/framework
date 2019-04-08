@@ -10,14 +10,14 @@
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
-		*14.0.7.7* FREEI-468 
-		*14.0.7.6* FREEPBX-19561 
-		*14.0.7.5* FREEPBX-19619 
+		*14.0.7.7* FREEI-468
+		*14.0.7.6* FREEPBX-19561
+		*14.0.7.5* FREEPBX-19619
 		*14.0.7.4* Set empty array for each table
 		*14.0.7.3* FREEPBX-19493
 		*14.0.7.2* FREEPBX-19494
 		*14.0.7.1* Remove Module Admin locking
-		*14.0.7* Fixing FREEPBX-12959 
+		*14.0.7* Fixing FREEPBX-12959
 		*14.0.6* Implement kvstore caching
 		*14.0.5.27* Change drop table to delete from in framework kvstore
 		*14.0.5.27* FREEPBX-19003
@@ -278,6 +278,83 @@
 			<field name="timestamp" type="integer" default="0"/>
 		</table>
 	</database>
+	<console>
+		<command>
+			<name>chown</name>
+		</command>
+		<command>
+			<name>context</name>
+			<alias>cx</alias>
+		</command>
+		<command>
+			<name>debug</name>
+			<alias>dbug</alias>
+		</command>
+		<command>
+			<name>doctrine</name>
+		</command>
+		<command>
+			<name>kvstore</name>
+		</command>
+		<command>
+			<name>localization</name>
+		</command>
+		<command>
+			<name>moduleadmin</name>
+			<alias>ma</alias>
+		</command>
+		<command>
+			<name>motd</name>
+		</command>
+		<command>
+			<name>mysql</name>
+			<alias>m</alias>
+		</command>
+		<command>
+			<name>notifications</name>
+			<alias>notification</alias>
+		</command>
+		<command>
+			<name>reload</name>
+			<alias>r</alias>
+		</command>
+		<command>
+			<name>restart</name>
+		</command>
+		<command>
+			<name>session</name>
+		</command>
+		<command>
+			<name>setting</name>
+			<alias>set</alias>
+		</command>
+		<command>
+			<name>start</name>
+		</command>
+		<command>
+			<name>stop</name>
+		</command>
+		<command>
+			<name>system</name>
+			<alias>sysup</alias>
+			<alias>sys</alias>
+			<alias>systemupdate</alias>
+		</command>
+		<command>
+			<name>unlock</name>
+		</command>
+		<command>
+			<name>updatemanager</name>
+			<alias>msm</alias>
+			<alias>modulesystemmanager</alias>
+		</command>
+		<command>
+			<name>util</name>
+		</command>
+		<command>
+			<name>validate</name>
+		</command>
+	</console>
 	<category>Admin</category>
 	<!-- System level bugfixes are below. These are checked by individual packages -->
 	<!-- This is processed by the command 'xmlstarlet sel -t -v 'module/bugfix [@id="FD7-23"]' module.xml' -->

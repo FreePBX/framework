@@ -9,8 +9,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class Reload extends Command {
 	protected function configure(){
 		$this->FreePBXConf = \FreePBX::Config();
-		$this->setName('r')
-		->setAliases(array('reload'))
+		$this->setName('reload')
+		->setAliases(array('r'))
 		->setDescription(_('Reload Configs'))
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));

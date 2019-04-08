@@ -40,8 +40,8 @@ class System extends Command {
 	}
 
 	protected function configure(){
-		$this->setName('systemupdate')
-		->setAliases(array('sysup','sys'))
+		$this->setName('system')
+		->setAliases(array('sysup','sys','systemupdate'))
 		->setDescription('System Update Administration')
 		->setDefinition(array(
 			new InputOption('sendemail', '', InputOption::VALUE_NONE, _('Send out finalized email')),

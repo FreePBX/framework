@@ -13,7 +13,8 @@ use Symfony\Component\Console\Helper\Table;
 
 class Notifications extends Command {
 	protected function configure(){
-		$this->setName('notification')
+		$this->setName('notifications')
+		->setAliases(array('notification'))
 		->setDescription(_('Manage notifications'))
 		->setDefinition(array(
 			new InputOption('list', null, InputOption::VALUE_NONE, _('list notifications')),

@@ -18,8 +18,8 @@ class Debug extends Command {
 	protected function configure(){
 		$this->FreePBXConf = \FreePBX::Config();
 		$this->Notifications = \FreePBX::Notifications();
-		$this->setName('dbug')
-		->setAliases(array('debug'))
+		$this->setName('debug')
+		->setAliases(array('dbug'))
 		->setDescription(_('Stream files for debugging'))
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),
