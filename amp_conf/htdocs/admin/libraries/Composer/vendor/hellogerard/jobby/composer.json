@@ -1,0 +1,38 @@
+{
+  "name": "hellogerard/jobby",
+  "homepage": "https://github.com/jobbyphp/jobby",
+  "license": "MIT",
+  "description": "Manage all your cron jobs without modifying crontab. Handles locking, logging, error emails, and more.",
+  "authors": [
+    {
+      "name": "Gerard Sychay",
+      "email": "hellogerard@gmail.com",
+      "homepage": "https://github.com/hellogerard"
+    },
+    {
+      "name": "Michael Contento",
+      "homepage": "https://github.com/michaelcontento"
+    }
+  ],
+  "require": {
+    "php": ">=5.6",
+    "mtdowling/cron-expression": "^1.0",
+    "swiftmailer/swiftmailer": "^5.4|^6.0",
+    "jeremeamia/superclosure": "^2.2",
+    "symfony/process": "^2.7|^3.0|^4.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^4.6",
+    "symfony/filesystem": "^2.7|^3.0|^4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Jobby\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jobby\\Tests\\": "tests"
+    }
+  }
+}

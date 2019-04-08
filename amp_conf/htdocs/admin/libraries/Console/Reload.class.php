@@ -31,8 +31,8 @@ class Reload extends Command {
 		/** BIN IS SYMLINKED **/
 		//$this->cp_dirs['bin'] = $this->freepbx->Config->get('AMPBIN');
 
-		$this->setName('r')
-		->setAliases(array('reload'))
+		$this->setName('reload')
+		->setAliases(array('r'))
 		->setDescription(_('Reload Configs'))
 		->setDefinition(array(
 			new InputOption('json', null, InputOption::VALUE_NONE, _('Force JSON')),

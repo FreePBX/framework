@@ -14,8 +14,8 @@ use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 class Mysql extends Command {
 	protected function configure(){
-		$this->setName('m')
-		->setAliases(array('mysql'))
+		$this->setName('mysql')
+		->setAliases(array('m'))
 		->setDescription('Run a mysql Query:')
 		->setDefinition(array(
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),));

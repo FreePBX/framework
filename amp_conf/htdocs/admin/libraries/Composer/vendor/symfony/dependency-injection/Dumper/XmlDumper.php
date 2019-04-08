@@ -47,7 +47,7 @@ class XmlDumper extends Dumper
 
         $container = $this->document->createElementNS('http://symfony.com/schema/dic/services', 'container');
         $container->setAttribute('xmlns:xsi', 'http://www.w3.org/2001/XMLSchema-instance');
-        $container->setAttribute('xsi:schemaLocation', 'http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd');
+        $container->setAttribute('xsi:schemaLocation', 'http://symfony.com/schema/dic/services https://symfony.com/schema/dic/services/services-1.0.xsd');
 
         $this->addParameters($container);
         $this->addServices($container);
@@ -290,12 +290,12 @@ class XmlDumper extends Dumper
             } elseif ($value instanceof Reference) {
                 $element->setAttribute('type', 'service');
                 $element->setAttribute('id', (string) $value);
-                $behaviour = $value->getInvalidBehavior();
-                if (ContainerInterface::NULL_ON_INVALID_REFERENCE == $behaviour) {
+                $behavior = $value->getInvalidBehavior();
+                if (ContainerInterface::NULL_ON_INVALID_REFERENCE == $behavior) {
                     $element->setAttribute('on-invalid', 'null');
-                } elseif (ContainerInterface::IGNORE_ON_INVALID_REFERENCE == $behaviour) {
+                } elseif (ContainerInterface::IGNORE_ON_INVALID_REFERENCE == $behavior) {
                     $element->setAttribute('on-invalid', 'ignore');
-                } elseif (ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE == $behaviour) {
+                } elseif (ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE == $behavior) {
                     $element->setAttribute('on-invalid', 'ignore_uninitialized');
                 }
             } elseif ($value instanceof Definition) {

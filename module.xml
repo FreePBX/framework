@@ -10,7 +10,7 @@
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
-		*15.0.6.17* FREEI-468 
+		*15.0.6.17* FREEI-468
 		*15.0.6.15* Resync AMI credentials after backup restore
 		*15.0.6.15* Fix conflicts code
 		*15.0.6.14* FREEPBX-19640
@@ -198,6 +198,83 @@
 			<field name="timestamp" type="integer" default="0"/>
 		</table>
 	</database>
+	<console>
+		<command>
+			<name>chown</name>
+		</command>
+		<command>
+			<name>context</name>
+			<alias>cx</alias>
+		</command>
+		<command>
+			<name>debug</name>
+			<alias>dbug</alias>
+		</command>
+		<command>
+			<name>doctrine</name>
+		</command>
+		<command>
+			<name>kvstore</name>
+		</command>
+		<command>
+			<name>localization</name>
+		</command>
+		<command>
+			<name>moduleadmin</name>
+			<alias>ma</alias>
+		</command>
+		<command>
+			<name>motd</name>
+		</command>
+		<command>
+			<name>mysql</name>
+			<alias>m</alias>
+		</command>
+		<command>
+			<name>notifications</name>
+			<alias>notification</alias>
+		</command>
+		<command>
+			<name>reload</name>
+			<alias>r</alias>
+		</command>
+		<command>
+			<name>restart</name>
+		</command>
+		<command>
+			<name>session</name>
+		</command>
+		<command>
+			<name>setting</name>
+			<alias>set</alias>
+		</command>
+		<command>
+			<name>start</name>
+		</command>
+		<command>
+			<name>stop</name>
+		</command>
+		<command>
+			<name>system</name>
+			<alias>sysup</alias>
+			<alias>sys</alias>
+			<alias>systemupdate</alias>
+		</command>
+		<command>
+			<name>unlock</name>
+		</command>
+		<command>
+			<name>updatemanager</name>
+			<alias>msm</alias>
+			<alias>modulesystemmanager</alias>
+		</command>
+		<command>
+			<name>util</name>
+		</command>
+		<command>
+			<name>validate</name>
+		</command>
+	</console>
 	<category>Admin</category>
 	<!-- System level bugfixes are below. These are checked by individual packages -->
 	<!-- This is processed by the command 'xmlstarlet sel -t -v 'module/bugfix [@id="FD7-23"]' module.xml' -->

@@ -52,8 +52,8 @@ class Moduleadmin extends Command {
 	}
 
 	protected function configure(){
-		$this->setName('ma')
-		->setAliases(array('moduleadmin'))
+		$this->setName('moduleadmin')
+		->setAliases(array('ma'))
 		->setDescription('Module Administration')
 		->setDefinition(array(
 			new InputOption('force', 'f', InputOption::VALUE_NONE, _('Force operation (skips dependency and status checks) <warning>WARNING:</warning> Use at your own risk, modules have dependencies for a reason!')),

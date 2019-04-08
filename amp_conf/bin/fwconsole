@@ -71,31 +71,32 @@ use Symfony\Component\Console\Application;
 use FreePBX\Console\Command;
 use FreePBX\Console\Application as App;
 
+$list = FreePBX::Modulelist()->get();
 $amodules = FreePBX::Modules()->getActiveModules();
 $brand = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
 $fbc = new App\FWApplication('FW Console - '.$brand.' Utility', getVersion());
+
+//prop the defaults incase there are any sort of system issues
+$apps = [
+	'moduleadmin' => function () use($class) { return new \FreePBX\Console\Command\Moduleadmin; },
+	'ma' => function () use($class) { return new \FreePBX\Console\Command\Moduleadmin; },
+	'chown' => function () use($class) { return new \FreePBX\Console\Command\Chown; }
+];
 /*
 * Framework is not like the others so we load up framework classes first.
 */
-$fwcpath = $webrootpath . '/admin/libraries/Console';
-$fwclasses = scandir($fwcpath);
-foreach ($fwclasses as $class){
-	if( substr($class , -9) !== 'class.php'){
-		continue;
-	}else{
-		$ifile = $fwcpath . '/' . $class;
-		if(file_exists($ifile)) {
-			$classname = substr($class ,0,-10);
-			$class = 'FreePBX\\Console\\Command\\' . $classname;
-			$reflector = new ReflectionClass($class);
-			$props = $reflector->getDefaultProperties();
-			if(isset($props['requireroot']) && $props['requireroot']){
-				if(posix_getuid() != 0) {
-					continue;
-				}
+if(!empty($list['framework']['console'])) {
+	$commands = !isset($list['framework']['console']['command']['name']) ? $list['framework']['console']['command'] : [$list['framework']['console']['command']];
+	foreach($commands as $command) {
+		$class = 'FreePBX\\Console\\Command\\' . (isset($command['class']) ? $command['class'] : ucfirst(strtolower($command['name'])));
+		$apps[strtolower($command['name'])] = function () use($class) { return new $class; };
+		if(!empty($command['alias'])) {
+			$command['alias'] = is_array($command['alias']) ? $command['alias'] : [$command['alias']];
+			foreach($command['alias'] as $alias) {
+				$apps[strtolower($alias)] = function () use($class) { return new $class; };
 			}
-			$fbc->add(new $class);
 		}
+		$fbc->add(new $class);
 	}
 }
 
@@ -106,31 +107,57 @@ foreach ($fwclasses as $class){
 * It will likely break everything!
 */
 foreach($amodules as $module){
-	//Module Path
-	$mpath = $webrootpath . '/admin/modules/' . $module['rawname'] . '/Console/';
-	if (file_exists($mpath)){
-		//Class files
+	$rawname = $module['rawname'];
+	if($rawname === 'framework') {
+		continue;
+	}
+
+	$mpath = $webrootpath . '/admin/modules/' . $rawname . '/Console/';
+	if(!empty($list[$rawname]['console'])) {
+		$commands = !isset($list[$rawname]['console']['command']['name']) ? $list[$rawname]['console']['command'] : [$list[$rawname]['console']['command']];
+		foreach($commands as $command) {
+			$class = (isset($command['class']) ? $command['class'] : ucfirst(strtolower($command['name'])));
+
+			$ifile = $mpath . '/' . $class.'.class.php';
+			if(!file_exists($ifile)) {
+				continue;
+			}
+			include $ifile;
+
+			$namespace = 'FreePBX\\Console\\Command\\' . $class;
+			$apps[strtolower($command['name'])] = function () use($namespace) { return new $namespace; };
+			if(!empty($command['alias'])) {
+				$command['alias'] = is_array($command['alias']) ? $command['alias'] : [$command['alias']];
+				foreach($command['alias'] as $alias) {
+					$apps[strtolower($alias)] = function () use($namespace) { return new $namespace; };
+				}
+			}
+		}
+	} elseif (file_exists($mpath)){
+		\FreePBX::Logger()->log(LOG_WARNING, 'Deprecated way to add Console commands, adding console commands this way can have negative performance impacts. Please use module.xml. See: https://wiki.freepbx.org/display/FOP/Adding+fwconsole+commands');
 		$cfiles = scandir($mpath);
 		foreach($cfiles as $class){
 			//ignore anything in this dir that is NOT class.php
 			if( substr($class , -9) !== 'class.php'){
 				continue;
-			}else{
-				$ifile = $mpath . '/' . $class;
-				if(!file_exists($ifile)) {
-					continue;
-				}
-				include $ifile;
-				$classname = substr($class ,0,-10);
-				$class = 'FreePBX\\Console\\Command\\' . $classname;
-				if(!class_exists($class)) {
-					continue;
-				}
-				modgettext::push_textdomain($module['rawname']);
-				$fbc->add(new $class);
-				modgettext::pop_textdomain();
 			}
+			$ifile = $mpath . '/' . $class;
+			if(!file_exists($ifile)) {
+				continue;
+			}
+			include $ifile;
+			$classname = substr($class ,0,-10);
+			$class = 'FreePBX\\Console\\Command\\' . $classname;
+			if(!class_exists($class)) {
+				continue;
+			}
+			modgettext::push_textdomain($module['rawname']);
+			$fbc->add(new $class);
+			modgettext::pop_textdomain();
 		}
 	}
 }
+
+$commandLoader = new Symfony\Component\Console\CommandLoader\FactoryCommandLoader($apps);
+$fbc->setCommandLoader($commandLoader);
 $fbc->run();
