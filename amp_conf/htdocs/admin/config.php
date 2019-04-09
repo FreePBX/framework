@@ -310,6 +310,7 @@ if(is_array($active_modules)){
 						$user_detail 	= $um->getUserByUsername($_SESSION["AMP_user"]->username);
 						$landing_page 	= $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_landing');
 						$modules_enabled = $um->getCombinedGlobalSettingByID($user_detail['id'],'pbx_modules');
+						$modules_enabled = is_array($modules_enabled) ? $modules_enabled : [];
 						$landing_page	= empty($landing_page) || !in_array($landing_page,$modules_enabled) ? "index" : $landing_page;
 					} else {
 						$landing_page = 'index';
