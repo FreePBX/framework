@@ -8,7 +8,7 @@ class PDOStatement extends \PDOStatement {
 		$this->dbh = $dbh;
 	}
 
-	public function execute($input_parameters=array()) {
+	public function execute($input_parameters=null) {
 		if(defined('LOGQUERIES') && !empty($input_parameters)) {
 			$logger = \FreePBX::Logger()->createLogDriver('query_performance', \FreePBX::Config()->get('ASTLOGDIR').'/query_performance.log', \Monolog\Logger::DEBUG);
 			$logger = $logger->withName(posix_getpid());

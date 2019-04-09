@@ -177,6 +177,10 @@ class OOBE extends FreePBX_Helpers {
 	}
 
 	private function createInitalSetup($auth) {
+		//Need to pretend we are AUTH as this is the initial setup
+		if (!defined('FREEPBX_IS_AUTH')) {
+			define('FREEPBX_IS_AUTH', 'TRUE');
+		}
 		$view = FreePBX::Config()->get("AMPWEBROOT")."/admin/views/oobe.php";
 		if (!isset($_REQUEST['username'])) {
 			// Just show the view

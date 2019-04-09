@@ -78,10 +78,11 @@ $fbc = new App\FWApplication('FW Console - '.$brand.' Utility', getVersion());
 
 //prop the defaults incase there are any sort of system issues
 $apps = [
-	'moduleadmin' => function () use($class) { return new \FreePBX\Console\Command\Moduleadmin; },
-	'ma' => function () use($class) { return new \FreePBX\Console\Command\Moduleadmin; },
-	'chown' => function () use($class) { return new \FreePBX\Console\Command\Chown; }
+	'moduleadmin' => function () { return new \FreePBX\Console\Command\Moduleadmin; },
+	'ma' => function () { return new \FreePBX\Console\Command\Moduleadmin; },
+	'chown' => function () { return new \FreePBX\Console\Command\Chown; }
 ];
+
 /*
 * Framework is not like the others so we load up framework classes first.
 */
