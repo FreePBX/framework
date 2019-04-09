@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-08 19:18-0400\n"
+"POT-Creation-Date: 2019-04-09 12:52-0400\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -482,7 +482,7 @@ msgstr "%s version %s or  higher is required, you have %s"
 msgid "%s will be removed from the hard disk"
 msgstr "%s از هارد دیسک حذف خواهد شد"
 
-#: ../core/Core.class.php:3640
+#: ../core/Core.class.php:3648
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
@@ -626,11 +626,11 @@ msgstr ""
 "first matched rule will be executed and the remaining rules will not be "
 "acted on."
 
-#: ../core/functions.inc.php:5756
+#: ../core/functions.inc.php:5747
 msgid "A description for this DID, such as \"Fax\""
 msgstr "توضیح برای DID، مانند \"فکس\""
 
-#: ../core/functions.inc.php:5757
+#: ../core/functions.inc.php:5748
 msgid ""
 "A direct DID that is associated with this extension. The DID should be in "
 "the same format as provided by the provider (e.g. full number, 4 digits for "
@@ -661,20 +661,20 @@ msgstr ""
 "A required module might be  disabled or uninstalled. Recommended steps (run "
 "from the CLI): 1) fwconsole ma install %s 2) fwconsole ma enable %s"
 
-#: ../core/functions.inc.php:4050 ../core/functions.inc.php:4079
+#: ../core/functions.inc.php:4056 ../core/functions.inc.php:4085
 msgid "A route for this DID/CID already exists!"
 msgstr "یک مسیر برای این DID/CID در حال حاضر موجود است!"
 
-#: ../core/Core.class.php:2593 ../core/functions.inc.php:4630
+#: ../core/Core.class.php:2601 ../core/functions.inc.php:4636
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "یک مسیر برای این DID/CID: %s %s در حال حاضر موجود است"
 
-#: ../core/views/dahdichandids/didForm.php:49
+#: ../core/views/dahdichandids/didForm.php:71
 msgid "A useful description describing this channel"
 msgstr "یک توضیح مفید این کانال را شرح میدهد"
 
-#: ../core/functions.inc.php:5653
+#: ../core/functions.inc.php:5644
 msgid "A user will enter this password when logging onto a device."
 msgstr "کاربر این کلمه عبور را برای ورود به سیستم از طریق تلفن وارد خواهد کرد."
 
@@ -783,12 +783,12 @@ msgstr ""
 msgid "Add"
 msgstr "افزودن"
 
-#: ../core/functions.inc.php:5970
+#: ../core/functions.inc.php:5961
 #, php-format
 msgid "Add %s Device"
 msgstr "افزودن %s وسیله"
 
-#: ../core/functions.inc.php:5972
+#: ../core/functions.inc.php:5963
 #, php-format
 msgid "Add %s Extension"
 msgstr "افزودن %s داخلی"
@@ -815,18 +815,18 @@ msgstr "افزودن داخلی مستقیم به DAHDI"
 msgid "Add Device"
 msgstr "افزودن وسیله"
 
-#: ../core/functions.inc.php:5642 ../core/functions.inc.php:6029
+#: ../core/functions.inc.php:5633 ../core/functions.inc.php:6020
 #: ../core/page.ampusers.php:133 ../core/page.ampusers.php:156
 #: ../core/page.extensions.php:24 ../core/page.extensions.php:109
 #: ../core/views/rnav.php:9
 msgid "Add Extension"
 msgstr "افزودن داخلی"
 
-#: ../core/functions.inc.php:5758
+#: ../core/functions.inc.php:5749
 msgid "Add Inbound CID"
 msgstr "افزودن CID مسیر ورودی"
 
-#: ../core/functions.inc.php:5757
+#: ../core/functions.inc.php:5748
 msgid "Add Inbound DID"
 msgstr "افزودن DID مسیر ورودی"
 
@@ -871,22 +871,22 @@ msgstr "افزودن مسیر"
 msgid "Add Trunk"
 msgstr "افزودن ترانک"
 
-#: ../core/functions.inc.php:5644 ../core/functions.inc.php:5998
-#: ../core/functions.inc.php:6031 ../core/page.users.php:51
+#: ../core/functions.inc.php:5635 ../core/functions.inc.php:5989
+#: ../core/functions.inc.php:6022 ../core/page.users.php:51
 #: ../core/views/ampusers/bootnav.php:2 ../core/views/rnav.php:44
 #: ../core/views/rnav.php:58
 msgid "Add User"
 msgstr "افزودن کاربر"
 
-#: ../core/functions.inc.php:5621
+#: ../core/functions.inc.php:5612
 msgid "Add User/Extension"
 msgstr "افزودن کاربر/داخلی"
 
-#: ../core/functions.inc.php:5924
+#: ../core/functions.inc.php:5915
 msgid "Add Virtual Extension"
 msgstr "افزودن داخلی مجازی"
 
-#: ../core/functions.inc.php:5758
+#: ../core/functions.inc.php:5749
 msgid ""
 "Add a CID for more specific DID + CID routing. A DID must be specified in "
 "the above Add DID box. In addition to standard dial sequences, you can also "
@@ -911,7 +911,7 @@ msgstr "تنظیمات اضافی"
 msgid "Address to bind to. Default is ::"
 msgstr "نشانی برای اتصال به. پیشفرض ::"
 
-#: ../core/functions.inc.php:5899
+#: ../core/functions.inc.php:5890
 msgid "Adhoc"
 msgstr ".Adhoc"
 
@@ -1093,7 +1093,7 @@ msgstr "جایگزین برای لوگو پاورقی"
 msgid "Alt for Left Logo"
 msgstr "جایگزین برای لوگو سمت چپ"
 
-#: ../core/functions.inc.php:5516
+#: ../core/functions.inc.php:5507
 #: ../core/functions.inc/drivers/PJSip.class.php:244
 msgid "Always"
 msgstr "همیشه"
@@ -1161,7 +1161,7 @@ msgid ""
 "and also remove the 'ssh' account as soon as possible"
 msgstr ""
 
-#: ../core/functions.inc.php:5770
+#: ../core/functions.inc.php:5761
 msgid "Any DID"
 msgstr "هر داخلی مستقیم"
 
@@ -1230,7 +1230,7 @@ msgstr ""
 msgid "Asked for raw contents of a file, but was never asked to read a file"
 msgstr "Asked  for raw contents of a file, but was never asked to read a file"
 
-#: ../core/functions.inc.php:5754
+#: ../core/functions.inc.php:5745
 msgid "Assigned DID/CID"
 msgstr "اختصاص CID/DID"
 
@@ -1242,7 +1242,7 @@ msgstr "دایرکتوری AGI استریسک"
 msgid "Asterisk Builtin mini-HTTP server"
 msgstr "سرور mini-HTTP داخلی استریسک"
 
-#: amp.i18n.php:234 ../core/functions.inc.php:5725
+#: amp.i18n.php:234 ../core/functions.inc.php:5716
 msgid "Asterisk Dial Options"
 msgstr "گزینه های تماس استریسک"
 
@@ -1627,12 +1627,12 @@ msgstr "آمار مرورگر"
 msgid "Building Packaged Scripts..."
 msgstr ""
 
-#: ../core/functions.inc.php:853 ../core/functions.inc.php:4488
-#: ../core/functions.inc.php:5825
+#: ../core/functions.inc.php:853 ../core/functions.inc.php:4494
+#: ../core/functions.inc.php:5816
 msgid "Busy"
 msgstr "مشغول"
 
-#: ../core/functions.inc.php:5824
+#: ../core/functions.inc.php:5815
 msgid "Busy Voicemail if Enabled"
 msgstr "ایمیل صوتی مشغول اگر فعال شده باشد"
 
@@ -1676,7 +1676,7 @@ msgstr "CGI  Dir"
 msgid "CID"
 msgstr "CID"
 
-#: ../core/functions.inc.php:5688
+#: ../core/functions.inc.php:5679
 msgid "CID Num Alias"
 msgstr "CID  Num Alias"
 
@@ -1684,8 +1684,8 @@ msgstr "CID  Num Alias"
 msgid "CID Options"
 msgstr "گزینه های CID"
 
-#: ../core/functions.inc.php:5817 ../core/functions.inc.php:5826
-#: ../core/functions.inc.php:5831
+#: ../core/functions.inc.php:5808 ../core/functions.inc.php:5817
+#: ../core/functions.inc.php:5822
 msgid "CID Prefix"
 msgstr "پیشوند CID"
 
@@ -1714,7 +1714,7 @@ msgstr ""
 msgid "Calendar Mode"
 msgstr ""
 
-#: ../core/functions.inc.php:5737
+#: ../core/functions.inc.php:5728
 msgid "Call Forward Ring Time"
 msgstr "زمان زنگ خوردن تماس منتقل شده"
 
@@ -1754,7 +1754,7 @@ msgstr "گروه های تماس"
 msgid "Call Recording Format"
 msgstr "فرمت ضبط تماس"
 
-#: ../core/functions.inc.php:1048
+#: ../core/functions.inc.php:1054
 msgid "Call Recording Module Not Enabled"
 msgstr "ماژول ضبط تماس فعال نیست"
 
@@ -1771,11 +1771,11 @@ msgstr ""
 "سیاست ضبط تماس برای حل مشکل ضبط تماس دو داخلی که یکی میخواهد تماسش ضبط شده و "
 "دیگری خیر کاربردیست، اگر هر دو داخلی دارای اولویت یکسان باشند."
 
-#: ../core/functions.inc.php:5750
+#: ../core/functions.inc.php:5741
 msgid "Call Screening"
 msgstr "غربالگری تماس"
 
-#: ../core/functions.inc.php:5750
+#: ../core/functions.inc.php:5741
 msgid ""
 "Call Screening requires external callers to say their name, which will be "
 "played back to the user and allow the user to accept or reject the call.  "
@@ -1797,7 +1797,7 @@ msgstr ""
 "and all users on the system will have that new introduction associated with "
 "the caller's CallerID."
 
-#: ../core/functions.inc.php:5749
+#: ../core/functions.inc.php:5740
 msgid "Call Waiting"
 msgstr "انتظار تماس"
 
@@ -1809,7 +1809,7 @@ msgstr "انتظار تماس غیرفعال شد"
 msgid "Call Waiting is enabled"
 msgstr "انتظار تماس فعال شد"
 
-#: ../core/functions.inc.php:5799
+#: ../core/functions.inc.php:5790
 msgid ""
 "Call recording policy priority relative to other extensions when there is a "
 "conflict between an extension wanting recording and the other not wanting "
@@ -1821,11 +1821,11 @@ msgstr ""
 "it. The higher of the two determines the policy, on a tie the global policy "
 "(caller or callee) determines the policy."
 
-#: ../core/Core.class.php:3032
+#: ../core/Core.class.php:3040
 msgid "Caller ID"
 msgstr "شناسه تماس گیرنده"
 
-#: ../core/Core.class.php:3033
+#: ../core/Core.class.php:3041
 msgid "Caller ID Number"
 msgstr "شماره تماس گیرنده"
 
@@ -1862,7 +1862,7 @@ msgstr ""
 "Callgroup(s) that  this device is part of, can be one or more alpha/numeric "
 "callgroups, e.g. '1,3000-3005,sales,sales2.'"
 
-#: ../core/functions.inc.php:2130
+#: ../core/functions.inc.php:2136
 #, php-format
 msgid "Calling Out Route: %s"
 msgstr "مسیر تماس های خروجی: %s"
@@ -2027,7 +2027,7 @@ msgid "Changing SIP Driver unavailable"
 msgstr "تغییر درایور SIP در دسترس نیست"
 
 #: ../core/views/dahdichandids/changrid.php:36
-#: ../core/views/dahdichandids/didForm.php:13
+#: ../core/views/dahdichandids/didForm.php:35
 msgid "Channel"
 msgstr "کانال"
 
@@ -2278,7 +2278,7 @@ msgstr "تایید آدرس ایمیل"
 msgid "Confirm Password"
 msgstr "تایید کلمه عبور"
 
-#: ../core/functions.inc.php:5671
+#: ../core/functions.inc.php:5662
 msgid "Conflicting Extensions"
 msgstr "داخلی های متناقض"
 
@@ -2286,7 +2286,7 @@ msgstr "داخلی های متناقض"
 msgid "Confusing statement. Not sure what you want to do"
 msgstr ""
 
-#: ../core/functions.inc.php:852 ../core/functions.inc.php:4487
+#: ../core/functions.inc.php:852 ../core/functions.inc.php:4493
 msgid "Congestion"
 msgstr "ازدحام"
 
@@ -2361,12 +2361,12 @@ msgstr "تبدیل تنظیمات ZAP به DAHDi"
 msgid "Core"
 msgstr "هسته"
 
-#: ../core/Core.class.php:3537
+#: ../core/Core.class.php:3545
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:3610
+#: ../core/Core.class.php:3618
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -2520,7 +2520,7 @@ msgstr ""
 "section with a priority greater than 1. This is always a bug in a module. I "
 "was asked to add %s"
 
-#: ../core/functions.inc.php:5725
+#: ../core/functions.inc.php:5716
 msgid ""
 "Cryptic Asterisk Dial Options, check to customize for this extension or un-"
 "check to use system defaults set in Advanced Options. These will not apply "
@@ -2654,15 +2654,15 @@ msgstr ""
 
 #: ../core/views/dahdichandids/bootnav.php:15
 #: ../core/views/dahdichandids/changrid.php:38
-#: ../core/views/dahdichandids/didForm.php:61 ../core/views/did/didgrid.php:17
+#: ../core/views/dahdichandids/didForm.php:83 ../core/views/did/didgrid.php:17
 msgid "DID"
 msgstr "داخلی مستقیم (DID)"
 
-#: ../core/functions.inc.php:5766
+#: ../core/functions.inc.php:5757
 msgid "DID / CID"
 msgstr "DID / CID"
 
-#: ../core/functions.inc.php:5756
+#: ../core/functions.inc.php:5747
 msgid "DID Description"
 msgstr "توضیحات داخلی مستقیم"
 
@@ -2670,7 +2670,7 @@ msgstr "توضیحات داخلی مستقیم"
 msgid "DID Number"
 msgstr "شماره داخلی مستقیم"
 
-#: ../core/Core.class.php:3170
+#: ../core/Core.class.php:3178
 msgid "DID already exists"
 msgstr "DID موجود است"
 
@@ -2678,11 +2678,11 @@ msgstr "DID موجود است"
 msgid "DID/CID"
 msgstr "DID/CID"
 
-#: ../core/Core.class.php:2974
+#: ../core/Core.class.php:2982
 msgid "DIDs"
 msgstr ".DIDs"
 
-#: ../core/Core.class.php:2975
+#: ../core/Core.class.php:2983
 msgid "DIDs / Inbound Routes"
 msgstr "مسیرهای ورودی / DIDs"
 
@@ -2816,7 +2816,7 @@ msgstr "عیب یابی"
 msgid "Debug File"
 msgstr "فایل عیب یابی"
 
-#: ../core/functions.inc.php:5514 ../core/functions.inc.php:5515
+#: ../core/functions.inc.php:5505 ../core/functions.inc.php:5506
 #: ../core/views/did/advanced_form.php:10 ../core/views/trunks/pjsip.php:129
 #: ../core/views/trunks/pjsip.php:922
 msgid "Default"
@@ -2826,7 +2826,7 @@ msgstr "پیش فرض"
 msgid "Default Asterisk Manager Password Used"
 msgstr "استفاده از کلمه عبور پیشفرض مدیر استریسک"
 
-#: ../core/functions.inc.php:6006
+#: ../core/functions.inc.php:5997
 #: ../core/functions.inc/drivers/Sip.class.php:337
 msgid "Default User"
 msgstr "کاربر پیش فرض"
@@ -3065,7 +3065,7 @@ msgstr ""
 msgid "Delete"
 msgstr "حذف"
 
-#: ../core/functions.inc.php:5950
+#: ../core/functions.inc.php:5941
 #, php-format
 msgid "Delete Device %s"
 msgstr "حذف وسیله %s"
@@ -3105,11 +3105,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:215
-#: ../core/Core.class.php:3000 ../core/Core.class.php:3001
-#: ../core/Core.class.php:3024 ../core/Core.class.php:3025
-#: ../core/functions.inc.php:6004 ../core/page.devices.php:66
+#: ../core/Core.class.php:3008 ../core/Core.class.php:3009
+#: ../core/Core.class.php:3032 ../core/Core.class.php:3033
+#: ../core/functions.inc.php:5995 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
-#: ../core/views/dahdichandids/didForm.php:37
+#: ../core/views/dahdichandids/didForm.php:59
 #: ../core/views/did/advanced_form.php:88 ../core/views/did/basic_form.php:20
 #: ../core/views/did/didgrid.php:19 ../core/views/rnav.php:82
 msgid "Description"
@@ -3119,7 +3119,7 @@ msgstr "شرح"
 msgid "Descriptive Name for this Trunk"
 msgstr "شرح نام برای این ترانک"
 
-#: ../core/Core.class.php:3036 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:3044 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "مقصد"
 
@@ -3236,7 +3236,7 @@ msgstr "حالت توسعه دهنده"
 msgid "Developer and Customization"
 msgstr "توسعه دهنده و شخصی ساز"
 
-#: ../core/Core.class.php:3372 ../core/functions.inc.php:5947
+#: ../core/Core.class.php:3380 ../core/functions.inc.php:5938
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3248,15 +3248,15 @@ msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 "Device %s (%s) had an  invalid emergency callerid and we set it to blank"
 
-#: ../core/Core.class.php:1483
+#: ../core/Core.class.php:1491
 msgid "Device Extension was blank or there were no settings defined"
 msgstr "داخلی وسیله خالی بود یا تنظیمی یافت نشد"
 
-#: ../core/functions.inc.php:6002
+#: ../core/functions.inc.php:5993
 msgid "Device ID"
 msgstr "شناسه وسیله"
 
-#: ../core/functions.inc.php:6017
+#: ../core/functions.inc.php:6008
 #: ../core/functions.inc/drivers/Sip.class.php:280
 msgid "Device Options"
 msgstr "گزینه های وسیله"
@@ -3269,16 +3269,16 @@ msgstr "تنظیمات وسیله"
 msgid "Device State Busy at"
 msgstr "وضعیت دستگاه مشغول است در"
 
-#: ../core/Core.class.php:3004 ../core/Core.class.php:3005
+#: ../core/Core.class.php:3012 ../core/Core.class.php:3013
 msgid "Device Technology"
 msgstr "فن آوری وسیله"
 
-#: ../core/functions.inc.php:6005 ../core/page.devices.php:67
+#: ../core/functions.inc.php:5996 ../core/page.devices.php:67
 #: ../core/page.devices.php:88
 msgid "Device Type"
 msgstr "نوع وسیله"
 
-#: ../core/Core.class.php:3122
+#: ../core/Core.class.php:3130
 msgid "Device could not be added."
 msgstr "وسیله نمیتواند اضافه شود."
 
@@ -3290,7 +3290,7 @@ msgstr "وسیله اضافه نشد!"
 msgid "Devices"
 msgstr "وسایل"
 
-#: ../core/functions.inc.php:6005
+#: ../core/functions.inc.php:5996
 msgid ""
 "Devices can be fixed or adhoc. Fixed devices are always associated to the "
 "same extension/user. Adhoc devices can be logged into and logged out of by "
@@ -3369,8 +3369,8 @@ msgid "Directory Layout"
 msgstr "طرح دایرکتوری"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:390
-#: ../core/functions.inc.php:5490 ../core/functions.inc.php:5496
-#: ../core/functions.inc.php:5499 ../core/functions.inc.php:5503
+#: ../core/functions.inc.php:5481 ../core/functions.inc.php:5487
+#: ../core/functions.inc.php:5490 ../core/functions.inc.php:5494
 msgid "Disable"
 msgstr "غیرفعال"
 
@@ -3495,7 +3495,7 @@ msgstr "نمایش نام"
 msgid "Display Monitor Trunk Failures Option"
 msgstr "نمایش وضعیت مشکلات ترانک"
 
-#: ../core/functions.inc.php:5686 ../core/views/quickCreate.php:69
+#: ../core/functions.inc.php:5677 ../core/views/quickCreate.php:69
 msgid "Display Name"
 msgstr "نام نمایشی"
 
@@ -3547,7 +3547,7 @@ msgstr "فایل استاندارد freepbx.log را tail نکنید"
 msgid "Domain to use in From header for requests to this trunk"
 msgstr "Domain  to use in From header for requests to this trunk"
 
-#: ../core/functions.inc.php:5481
+#: ../core/functions.inc.php:5472
 msgid "Don't Care"
 msgstr "مهم نیست"
 
@@ -3763,16 +3763,16 @@ msgstr "ویرایش %s %s (%s)"
 msgid "Edit Administrator"
 msgstr "ویرایش مدیریت"
 
-#: ../core/functions.inc.php:5956
+#: ../core/functions.inc.php:5947
 #, php-format
 msgid "Edit Default User: %s"
 msgstr "ویرایش کاربر پیشفرض: %s"
 
-#: ../core/functions.inc.php:5642 ../core/functions.inc.php:6029
+#: ../core/functions.inc.php:5633 ../core/functions.inc.php:6020
 msgid "Edit Extension"
 msgstr "ویرایش داخلی"
 
-#: ../core/functions.inc.php:5956
+#: ../core/functions.inc.php:5947
 #, php-format
 msgid "Edit Fixed User: %s"
 msgstr "ویرایش کاربر ثابت: %s"
@@ -3781,12 +3781,12 @@ msgstr "ویرایش کاربر ثابت: %s"
 msgid "Edit Route"
 msgstr "ویرایش مسیر"
 
-#: ../core/functions.inc.php:5644 ../core/functions.inc.php:5998
-#: ../core/functions.inc.php:6031
+#: ../core/functions.inc.php:5635 ../core/functions.inc.php:5989
+#: ../core/functions.inc.php:6022
 msgid "Edit User"
 msgstr "ویرایش کاربر"
 
-#: ../core/functions.inc.php:5705
+#: ../core/functions.inc.php:5696
 msgid "Edit:"
 msgstr "ویرایش:"
 
@@ -3816,7 +3816,7 @@ msgid ""
 msgstr ""
 "آدرس ایمیل استفاده شده برای سرویس ها مانند ایمیل صوتی، مدیریت کاربر و فکس"
 
-#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:260
+#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:264
 msgid "Email addresses error"
 msgstr "خطا آدرس ایمیل"
 
@@ -3824,7 +3824,7 @@ msgstr "خطا آدرس ایمیل"
 msgid "Emergency"
 msgstr "فوری"
 
-#: ../core/functions.inc.php:6007 ../core/functions.inc.php:6011
+#: ../core/functions.inc.php:5998 ../core/functions.inc.php:6002
 msgid "Emergency CID"
 msgstr "CID فوری"
 
@@ -3844,8 +3844,8 @@ msgstr "این فیلد نباید خالی باشد"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:371
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:375
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:320
-#: ../core/functions.inc.php:5491 ../core/functions.inc.php:5495
-#: ../core/functions.inc.php:5500
+#: ../core/functions.inc.php:5482 ../core/functions.inc.php:5486
+#: ../core/functions.inc.php:5491
 msgid "Enable"
 msgstr "فعال"
 
@@ -3929,7 +3929,7 @@ msgstr "فعال سازی انتقال jQuery"
 msgid "Enable module[s], accepts argument module[s]"
 msgstr "فعال سازی ماژول[ها]، پذیرفتن آرگومان ماژول[ها]"
 
-#: ../core/functions.inc.php:5798
+#: ../core/functions.inc.php:5789
 msgid ""
 "Enable or disable the ability to do on demand (one-touch) recording. The "
 "overall calling policy rules still apply and if calls are already being "
@@ -4016,7 +4016,7 @@ msgstr "فعال سازی %s به دلیل تایید فعال سازی خودک
 msgid "Enabling Missing Dependency of: %s %s"
 msgstr "فعال سازی وابستگی های از دست رفته از: %s %s"
 
-#: ../core/functions.inc.php:5752
+#: ../core/functions.inc.php:5743
 msgid ""
 "Enabling Pinless Dialing will allow this extension to bypass any pin codes "
 "set under routes password required on outbound calls."
@@ -4098,10 +4098,6 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/welcome.php:13
 msgid "Error"
 msgstr "خطا"
-
-#: ../core/functions.inc.php:4681
-msgid "Error Duplicate Channel Entry"
-msgstr "خطا کانال وارد شده تکراری است"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:149
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:187
@@ -4347,8 +4343,8 @@ msgstr ""
 msgid "Extended"
 msgstr "تمدید شده"
 
-#: ../core/Core.class.php:2991 ../core/Core.class.php:2992
-#: ../core/Core.class.php:3360 ../core/functions.inc.php:5592
+#: ../core/Core.class.php:2999 ../core/Core.class.php:3000
+#: ../core/Core.class.php:3368 ../core/functions.inc.php:5583
 #: ../core/page.did.php:93 ../core/page.extensions.php:34
 #: ../core/page.extensions.php:127 ../core/page.extensions.php:155
 #: ../core/views/rnav.php:23
@@ -4367,7 +4363,7 @@ msgstr "شماره داخلی"
 msgid "Extension Numbering Duplicate Conflict Detected"
 msgstr "مغایرت در شماره داخلی تشخیص داده شد"
 
-#: ../core/functions.inc.php:5719 ../core/functions.inc.php:6010
+#: ../core/functions.inc.php:5710 ../core/functions.inc.php:6001
 msgid "Extension Options"
 msgstr "گزینه های داخلی"
 
@@ -4379,19 +4375,19 @@ msgstr "داخلی در حال استفاده است!"
 msgid "Extension can not be blank!"
 msgstr "داخلی نمیتواند خالی باشد!"
 
-#: ../core/Core.class.php:3060
+#: ../core/Core.class.php:3068
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3063
+#: ../core/Core.class.php:3071
 msgid "Extension is not numeric."
 msgstr "داخلی شماره نیست."
 
-#: ../core/Core.class.php:3066
+#: ../core/Core.class.php:3074
 msgid "Extension name is blank."
 msgstr ""
 
-#: ../core/functions.inc.php:5681
+#: ../core/functions.inc.php:5672
 msgid "Extension number conflict, please choose another."
 msgstr "مغایرت شماره داخلی، یکی دیگر انتخاب کنید."
 
@@ -4399,7 +4395,7 @@ msgstr "مغایرت شماره داخلی، یکی دیگر انتخاب کنی
 msgid "Extension was not numeric!"
 msgstr "داخلی شماره نیست!"
 
-#: amp.i18n.php:852 ../core/Core.class.php:2970 ../core/Core.class.php:2971
+#: amp.i18n.php:852 ../core/Core.class.php:2978 ../core/Core.class.php:2979
 #: ../core/page.extensions.php:21
 msgid "Extensions"
 msgstr "داخلی ها"
@@ -4474,7 +4470,7 @@ msgstr ""
 msgid "Failed to get remote file, mirror site may be down: %s"
 msgstr "شکست در دریافت فایل خارجی، سایت پشتیبان در دسترس نیست: %s"
 
-#: ../core/functions.inc.php:5450
+#: ../core/functions.inc.php:5441
 #, php-format
 msgid ""
 "Failed to open %s for writing, aborting attempt to write the country "
@@ -4508,7 +4504,7 @@ msgstr "شکست در اجرای اسکریپت های نصب"
 msgid "Failed to run un-installation scripts"
 msgstr "شکست در اجرای اسکریپت های عزل"
 
-#: ../core/Core.class.php:3589
+#: ../core/Core.class.php:3597
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -4529,7 +4525,7 @@ msgstr ""
 msgid "Failed to write file to disk"
 msgstr "شکست در نوشتن فایل در دیسک"
 
-#: ../core/functions.inc.php:5451
+#: ../core/functions.inc.php:5442
 msgid "Failed to write indications.conf"
 msgstr "شکست در نوشتن indications.conf"
 
@@ -4537,7 +4533,7 @@ msgstr "شکست در نوشتن indications.conf"
 msgid "Fallback Welcome Page"
 msgstr "جانشین صفحه خوش آمد"
 
-#: ../core/Core.class.php:3629
+#: ../core/Core.class.php:3637
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -4610,11 +4606,11 @@ msgstr "اتمام پاکسازی کش"
 msgid "First before %s"
 msgstr "اولین قبل از %s"
 
-#: ../core/functions.inc.php:5898
+#: ../core/functions.inc.php:5889
 msgid "Fixed"
 msgstr "ثابت"
 
-#: ../core/functions.inc.php:6006
+#: ../core/functions.inc.php:5997
 msgid ""
 "Fixed devices will always mapped to this user.  Adhoc devices will be mapped "
 "to this user by default.<br><br>If selecting 'New User', a new User "
@@ -4677,7 +4673,7 @@ msgstr "برای پشتیبانی لطفا مراجعه کنید: "
 msgid "Forbidden Retry Interval"
 msgstr "ممنوعیت فاصله تلاش مجدد"
 
-#: ../core/functions.inc.php:5479
+#: ../core/functions.inc.php:5470
 msgid "Force"
 msgstr "تحمیل"
 
@@ -5109,7 +5105,7 @@ msgstr ""
 "اختصاص یک نام منحصر به فرد به ترانک. مثل: myiaxtel. نکته این نام جهت زمینه "
 "ترانک در استریسک استفاده میشود"
 
-#: ../core/functions.inc.php:6002
+#: ../core/functions.inc.php:5993
 msgid ""
 "Give your device a unique integer ID.  The device will use this ID to "
 "authenticate to the system."
@@ -5184,7 +5180,7 @@ msgstr "HTTPS TLS Certificate  Location"
 msgid "HTTPS TLS Private Key Location"
 msgstr "HTTPS TLS Private Key  Location"
 
-#: ../core/functions.inc.php:851 ../core/functions.inc.php:4486
+#: ../core/functions.inc.php:851 ../core/functions.inc.php:4492
 msgid "Hangup"
 msgstr "قطع کردن"
 
@@ -5210,7 +5206,7 @@ msgid ""
 "option will work only if the 'CID Options' set as 'Force Trunk CID'."
 msgstr ""
 
-#: ../core/functions.inc.php:6008
+#: ../core/functions.inc.php:5999
 msgid "Hint Override"
 msgstr ""
 
@@ -5581,7 +5577,7 @@ msgid ""
 "tampering, please see the link below for more information:"
 msgstr ""
 
-#: ../core/functions.inc.php:5689
+#: ../core/functions.inc.php:5680
 msgid ""
 "If you want to support direct sip dialing of users internally or through "
 "anonymous sip calls, you can supply a friendly name that can be used in "
@@ -5658,19 +5654,19 @@ msgstr ""
 msgid "Inbound"
 msgstr "ورودی"
 
-#: ../core/functions.inc.php:5794
+#: ../core/functions.inc.php:5785
 msgid "Inbound External Calls"
 msgstr "تماس های خارجی ورودی"
 
-#: ../core/functions.inc.php:5796
+#: ../core/functions.inc.php:5787
 msgid "Inbound Internal Calls"
 msgstr "تماس های داخلی ورودی"
 
-#: ../core/Core.class.php:3414 ../core/Core.class.php:3423
+#: ../core/Core.class.php:3422 ../core/Core.class.php:3431
 msgid "Inbound Route:"
 msgstr "مسیر ورودی:"
 
-#: ../core/functions.inc.php:4480
+#: ../core/functions.inc.php:4486
 #, php-format
 msgid "Inbound Route: %s (%s)"
 msgstr "مسیر ورودی: %s (%s)"
@@ -5678,6 +5674,11 @@ msgstr "مسیر ورودی: %s (%s)"
 #: amp.i18n.php:858 ../core/page.did.php:122
 msgid "Inbound Routes"
 msgstr "مسیرهای ورودی"
+
+#: ../core/functions.inc.php:944
+#, php-format
+msgid "Inbound Routes : %s"
+msgstr ""
 
 #: ../core/views/did/rnav.php:3
 msgid "Inbound Routes List"
@@ -5691,7 +5692,7 @@ msgstr "شامل نام سرور در مرورگر"
 msgid "Incoming"
 msgstr "ورودی"
 
-#: ../core/Core.class.php:3028 ../core/Core.class.php:3029
+#: ../core/Core.class.php:3036 ../core/Core.class.php:3037
 msgid "Incoming DID"
 msgstr "داخلی مستقیم ورودی"
 
@@ -5865,17 +5866,9 @@ msgstr ""
 "Intra-Company  Routes will always trasmit an extension's internal number and "
 "name."
 
-#: ../core/functions.inc.php:4665
-msgid "Invalid Channel Number, must be numeric and not blank"
-msgstr "شماره کانال نامعتبر، باید شماره باشد و خالی نباشد"
-
 #: ../core/views/trunks/trunk_footer.php:92
 msgid "Invalid Custom Dial String entered"
 msgstr "رشته شماره گیری سفارشی واردشده نامعتبر"
-
-#: ../core/functions.inc.php:4669
-msgid "Invalid DID, must be a non-blank DID"
-msgstr "DID نامعتبر، نمیتواند خالی باشد"
 
 #: ../core/views/trunks/trunk_footer.php:89
 msgid "Invalid Dial Rules"
@@ -6225,7 +6218,7 @@ msgstr "بیشترین زمان انتظار (بر ثانیه) برای خامو
 msgid "Maximum number of Endpoints that can associate with this Device"
 msgstr "بیشترین تعداد شماره پایانی که برای این وسیله در دسترس است"
 
-#: ../core/functions.inc.php:5747
+#: ../core/functions.inc.php:5738
 msgid ""
 "Maximum number of outbound simultaneous calls that an extension can make. "
 "This is also very useful as a Security Protection against a system that has "
@@ -6769,7 +6762,7 @@ msgstr "نکته! شما %s هشدارد دارید! برای مشاهده به 
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:35
-#: ../core/Core.class.php:2996 ../core/Core.class.php:2997
+#: ../core/Core.class.php:3004 ../core/Core.class.php:3005
 #: ../core/page.extensions.php:35 ../core/page.extensions.php:128
 #: ../core/page.extensions.php:156 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -6794,7 +6787,7 @@ msgid "Needs Upgrade:"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:543
-#: ../core/functions.inc.php:5483
+#: ../core/functions.inc.php:5474
 msgid "Never"
 msgstr "هرگز"
 
@@ -6822,7 +6815,7 @@ msgstr "جدیدتر از نسخه آنلاین (%s)"
 msgid "Nightly"
 msgstr "شبانه"
 
-#: ../core/functions.inc.php:5482
+#: ../core/functions.inc.php:5473
 #: ../core/functions.inc/drivers/Dahdi.class.php:109
 #: ../core/functions.inc/drivers/Dahdi.class.php:120
 #: ../core/functions.inc/drivers/Dahdi.class.php:129
@@ -6870,7 +6863,7 @@ msgstr "خیر - (%s)"
 msgid "No Action"
 msgstr "بی عمل"
 
-#: ../core/functions.inc.php:5816
+#: ../core/functions.inc.php:5807
 msgid "No Answer"
 msgstr "بی پاسخ"
 
@@ -6891,7 +6884,7 @@ msgstr "بدون شرح"
 msgid "No Description Provided"
 msgstr "توضیحی ارائه نشده"
 
-#: ../core/functions.inc.php:5517
+#: ../core/functions.inc.php:5508
 msgid "No Limit"
 msgstr "بدون محدودیت"
 
@@ -6962,7 +6955,7 @@ msgid "NoOp Traces in Dialplan"
 msgstr "آثار NoOp در نقشه تماس"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:534
-#: ../core/functions.inc.php:5509
+#: ../core/functions.inc.php:5500
 #: ../core/functions.inc/drivers/PJSip.class.php:234
 #: ../core/views/did/advanced_form.php:216 ../core/views/did/basic_form.php:120
 #: ../core/views/trunks/pjsip.php:91 ../core/views/trunks/pjsip.php:110
@@ -7056,7 +7049,7 @@ msgstr "نصب نشده (محلی در دسترس)"
 msgid "Not Installed (Locally available: %s)"
 msgstr "نصب نشده (محلی در دسترس: %s)"
 
-#: ../core/functions.inc.php:5830
+#: ../core/functions.inc.php:5821
 msgid "Not Reachable"
 msgstr "قابل دسترسی نیست"
 
@@ -7110,7 +7103,7 @@ msgstr "راهنمای هشدارها"
 msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr "تعداد دفعاتی که تماس گیرنده میتواند شناسه تماس را وارد کند"
 
-#: ../core/functions.inc.php:5737
+#: ../core/functions.inc.php:5728
 msgid ""
 "Number of seconds to ring during a Call Forward, Call Forward Busy or Call "
 "Forward Unavailable call prior to continuing to voicemail or specified "
@@ -7120,7 +7113,7 @@ msgid ""
 "forced into Always mode"
 msgstr ""
 
-#: ../core/functions.inc.php:5727
+#: ../core/functions.inc.php:5718
 msgid ""
 "Number of seconds to ring prior to going to voicemail. Default will use the "
 "value set in Advanced Settings. If no voicemail is configured this will be "
@@ -7148,7 +7141,7 @@ msgstr "گرفتن مجوز رایگان"
 msgid "Occupied Lines CW Busy"
 msgstr "Occupied  Lines CW Busy"
 
-#: ../core/functions.inc.php:5798
+#: ../core/functions.inc.php:5789
 msgid "On Demand Recording"
 msgstr "On Demand  Recording"
 
@@ -7204,7 +7197,7 @@ msgstr "Only  run pre-start hooks"
 msgid "Only run pre-stop hooks"
 msgstr "Only  run pre-stop hooks"
 
-#: ../core/functions.inc.php:6008
+#: ../core/functions.inc.php:5999
 msgid ""
 "Only set this if you wish to override the hint referenced in ext-local. This "
 "is useful in situations where the hint doesnt match the dial string. This "
@@ -7224,17 +7217,17 @@ msgstr "پنل اپراتور"
 msgid "Optional Additional CSS Stylesheet"
 msgstr "گزینه CSS اضافه"
 
-#: ../core/functions.inc.php:5826
+#: ../core/functions.inc.php:5817
 msgid "Optional CID Prefix to add before sending to this busy destination."
 msgstr "Optional  CID Prefix to add before sending to this busy destination."
 
-#: ../core/functions.inc.php:5817
+#: ../core/functions.inc.php:5808
 msgid ""
 "Optional CID Prefix to add before sending to this no answer destination."
 msgstr ""
 "Optional CID Prefix to  add before sending to this no answer destination."
 
-#: ../core/functions.inc.php:5831
+#: ../core/functions.inc.php:5822
 msgid ""
 "Optional CID Prefix to add before sending to this not reachable destination."
 msgstr ""
@@ -7244,7 +7237,7 @@ msgstr ""
 msgid "Optional Destination on Congestion"
 msgstr "مقصد اختیاری در هنگام ازدحام"
 
-#: ../core/functions.inc.php:5801
+#: ../core/functions.inc.php:5792
 msgid "Optional Destinations"
 msgstr "مقاصد اختیاری"
 
@@ -7268,7 +7261,7 @@ msgstr ""
 "Optional  custom CSS style sheet included after the primary one and any "
 "module specific ones are loaded, relative to admin."
 
-#: ../core/functions.inc.php:5811
+#: ../core/functions.inc.php:5802
 msgid ""
 "Optional destination call is routed to when the call is not answered on an "
 "otherwise idle phone. If the phone is in use and the call is simply ignored, "
@@ -7278,11 +7271,11 @@ msgstr ""
 "otherwise idle phone. If the phone is in use and the call is simply ignored, "
 "then the busy destination will be used."
 
-#: ../core/functions.inc.php:5813
+#: ../core/functions.inc.php:5804
 msgid "Optional destination call is routed to when the call is not answered."
 msgstr "Optional destination  call is routed to when the call is not answered."
 
-#: ../core/functions.inc.php:5822
+#: ../core/functions.inc.php:5813
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user."
@@ -7290,7 +7283,7 @@ msgstr ""
 "Optional destination the call is routed to when the phone  is busy or the "
 "call is rejected by the user."
 
-#: ../core/functions.inc.php:5820
+#: ../core/functions.inc.php:5811
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user. This destination is also used on an unanswered "
@@ -7302,7 +7295,7 @@ msgstr ""
 "unanswered call if the phone is in use and the user chooses not to pickup "
 "the second call."
 
-#: ../core/functions.inc.php:5828
+#: ../core/functions.inc.php:5819
 msgid ""
 "Optional destination the call is routed to when the phone is offline, such "
 "as a softphone currently off or a phone unplugged."
@@ -7402,7 +7395,7 @@ msgstr "سایر"
 msgid "Outbound"
 msgstr "خروجی"
 
-#: ../core/functions.inc.php:5717 ../core/views/routing/grid.php:71
+#: ../core/functions.inc.php:5708 ../core/views/routing/grid.php:71
 msgid "Outbound CID"
 msgstr "CID خروجی"
 
@@ -7414,7 +7407,7 @@ msgstr "شناسه تماس گیرنده خروجی"
 msgid "Outbound CallerID"
 msgstr "شناسه تماس گیرنده خروجی"
 
-#: ../core/functions.inc.php:5747
+#: ../core/functions.inc.php:5738
 msgid "Outbound Concurrency Limit"
 msgstr "محدودیت هم زمانی تماس خروجی"
 
@@ -7422,11 +7415,11 @@ msgstr "محدودیت هم زمانی تماس خروجی"
 msgid "Outbound Dial Prefix"
 msgstr "پیش شماره تماس خروجی"
 
-#: ../core/functions.inc.php:5795
+#: ../core/functions.inc.php:5786
 msgid "Outbound External Calls"
 msgstr "تماس های خروجی"
 
-#: ../core/functions.inc.php:5797
+#: ../core/functions.inc.php:5788
 msgid "Outbound Internal Calls"
 msgstr "تماس های داخلی"
 
@@ -7435,11 +7428,11 @@ msgstr "تماس های داخلی"
 msgid "Outbound Proxy"
 msgstr "پراکسی تماس خروجی"
 
-#: ../core/Core.class.php:3397
+#: ../core/Core.class.php:3405
 msgid "Outbound Route:"
 msgstr "مسیر تماس خروجی:"
 
-#: ../core/functions.inc.php:5310
+#: ../core/functions.inc.php:5301
 #, php-format
 msgid "Outbound Route: %s"
 msgstr "مسیر تماس خروجی: %s"
@@ -7460,7 +7453,7 @@ msgstr "خروجی"
 msgid "Output debug messages to the console (be super chatty)"
 msgstr "خروجی پیام های عیب یابی به کنسول (be super chatty)"
 
-#: ../core/functions.inc.php:5492 ../core/functions.inc.php:5725
+#: ../core/functions.inc.php:5483 ../core/functions.inc.php:5716
 #: ../core/views/trunks/trunk_header.php:375
 msgid "Override"
 msgstr "بازنویسی"
@@ -7492,7 +7485,7 @@ msgid ""
 "time"
 msgstr ""
 
-#: ../core/functions.inc.php:5728
+#: ../core/functions.inc.php:5719
 msgid ""
 "Override the ringer volume. Note: This is only valid for Sangoma phones at "
 "this time"
@@ -7502,7 +7495,7 @@ msgstr ""
 msgid "Overrides Extension CID"
 msgstr "بازنویسی داخلی CID"
 
-#: ../core/functions.inc.php:5717 ../core/views/quickCreate.php:93
+#: ../core/functions.inc.php:5708 ../core/views/quickCreate.php:93
 msgid ""
 "Overrides the CallerID when dialing out a trunk. Any setting here will "
 "override the common outbound CallerID set in the Trunks admin."
@@ -7564,7 +7557,7 @@ msgstr "منطقه زمانی PHP"
 msgid "PJSIP Settings"
 msgstr "تنظیمات PJSIP"
 
-#: ../core/Core.class.php:3640
+#: ../core/Core.class.php:3648
 msgid "PM2 Not installed"
 msgstr ""
 
@@ -7602,7 +7595,7 @@ msgstr ""
 msgid "Password Protected"
 msgstr "کلمه عبور حفاظت شده"
 
-#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:245
+#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:249
 msgid "Password error. Please re-check"
 msgstr "خطا کلمه عبور. لطفا مجدد بررسی کنید"
 
@@ -7614,7 +7607,7 @@ msgstr ""
 "Password for accessing the Asterisk Manager Interface (AMI), this will be "
 "automatically  updated in manager.conf."
 
-#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:247
+#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:251
 msgid "Password too short"
 msgstr "کلمه عبور کوتاه است"
 
@@ -7767,19 +7760,19 @@ msgstr ""
 msgid "Pin Sets"
 msgstr ""
 
-#: ../core/functions.inc.php:5752
+#: ../core/functions.inc.php:5743
 msgid "Pinless Dialing"
 msgstr "شماره گیری بدون پین"
 
-#: ../core/functions.inc.php:854 ../core/functions.inc.php:4489
+#: ../core/functions.inc.php:854 ../core/functions.inc.php:4495
 msgid "Play SIT Tone (Zapateller)"
 msgstr "پخش صدای SIT (Zapateller)"
 
-#: ../core/functions.inc.php:857 ../core/functions.inc.php:4492
+#: ../core/functions.inc.php:857 ../core/functions.inc.php:4498
 msgid "Play no service message"
 msgstr "پخش پیام بدون سرویس"
 
-#: ../core/functions.inc.php:856 ../core/functions.inc.php:4491
+#: ../core/functions.inc.php:856 ../core/functions.inc.php:4497
 msgid "Play ringtones to caller until they hangup"
 msgstr "پخش صدای زنگ تا وقتی تماس گیرنده قطع نکند"
 
@@ -7801,29 +7794,29 @@ msgstr "لطفا عملیات زیر را تایید کنید:"
 msgid "Please correct the following errors:"
 msgstr "لطفا خطاهای زیر را تصحیح کنید:"
 
-#: ../core/functions.inc.php:6021
+#: ../core/functions.inc.php:6012
 #: ../core/functions.inc/drivers/Iax2.class.php:111
 #: ../core/functions.inc/drivers/Sip.class.php:275
 msgid "Please enter a Secret for this device"
 msgstr "لطفا برای این وسیله یک رمز وارد کنید"
 
-#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:233
+#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:237
 msgid "Please enter a System Indentifier"
 msgstr ""
 
-#: ../core/functions.inc.php:5988
+#: ../core/functions.inc.php:5979
 msgid "Please enter a device id."
 msgstr "لطفا یک شناسه برای این وسیله وارد کنید."
 
-#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:239
+#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:243
 msgid "Please enter a username"
 msgstr "لطفا نام کاربری وارد کنید"
 
-#: ../core/functions.inc.php:5629
+#: ../core/functions.inc.php:5620
 msgid "Please enter a valid CID Num Alias (must be a valid number)."
 msgstr "Please  enter a valid CID Num Alias (must be a valid number)."
 
-#: ../core/functions.inc.php:5635
+#: ../core/functions.inc.php:5626
 msgid ""
 "Please enter a valid CallerID Number or leave it blank for your Assigned DID/"
 "CID pair"
@@ -7831,36 +7824,36 @@ msgstr ""
 "Please enter  a valid CallerID Number or leave it blank for your Assigned "
 "DID/CID pair"
 
-#: ../core/functions.inc.php:5989
+#: ../core/functions.inc.php:5980
 msgid "Please enter a valid Description for this device"
 msgstr "لطفا یک شرح درست برای این وسیله وارد کنید"
 
-#: ../core/functions.inc.php:5631
+#: ../core/functions.inc.php:5622
 msgid "Please enter a valid Display Name"
 msgstr "لطفا نام نمایشی معتبر وارد کنید"
 
-#: ../core/functions.inc.php:5990
+#: ../core/functions.inc.php:5981
 msgid "Please enter a valid Emergency CID"
 msgstr "لطفا یک CID اضطراری درست وارد کنید"
 
-#: ../core/functions.inc.php:5632
+#: ../core/functions.inc.php:5623
 msgid "Please enter a valid Outbound CID"
 msgstr "لطفا یک CID خروجی درست وارد کنید"
 
-#: ../core/functions.inc.php:5628 ../core/functions.inc.php:5991
+#: ../core/functions.inc.php:5619 ../core/functions.inc.php:5982
 msgid "Please enter a valid extension number."
 msgstr "لطفا شماره داخلی معتبر وارد کنید."
 
-#: ../core/functions.inc.php:5633
+#: ../core/functions.inc.php:5624
 msgid "Please enter a valid pause time in seconds, using digits only"
 msgstr "لطفا یک زمان وقفه درست بر اساس ثانیه وارد کنید، فقط عددی"
 
-#: ../core/functions.inc.php:6019
+#: ../core/functions.inc.php:6010
 #: ../core/functions.inc/drivers/Dahdi.class.php:100
 msgid "Please enter the channel for this device"
 msgstr "لطفا برای این وسیله یک کانال وارد کنید"
 
-#: ../core/functions.inc.php:5630
+#: ../core/functions.inc.php:5621
 msgid "Please enter valid User Password using numbers only"
 msgstr "لطفا کلمه عبور کاربری عددی وارد کنید"
 
@@ -8054,7 +8047,7 @@ msgstr "ناشر"
 msgid "Purge and clean system"
 msgstr ""
 
-#: ../core/functions.inc.php:855 ../core/functions.inc.php:4490
+#: ../core/functions.inc.php:855 ../core/functions.inc.php:4496
 msgid "Put caller on hold forever"
 msgstr "قراردادن همیشگی تماس گیرنده در حالت انتظار"
 
@@ -8147,27 +8140,27 @@ msgstr ""
 msgid "Receive"
 msgstr "دریافت"
 
-#: ../core/functions.inc.php:5799
+#: ../core/functions.inc.php:5790
 msgid "Record Priority Policy"
 msgstr "سیاست اولویت برای ضبط"
 
-#: ../core/functions.inc.php:5786
+#: ../core/functions.inc.php:5777
 msgid "Recording Options"
 msgstr "گزینه های ضبط کردن"
 
-#: ../core/functions.inc.php:5797
+#: ../core/functions.inc.php:5788
 msgid "Recording of calls made to other extensions on the system."
 msgstr "ضبط کردن تماسها به دیگر داخلی ها در سیستم."
 
-#: ../core/functions.inc.php:5796
+#: ../core/functions.inc.php:5787
 msgid "Recording of calls received from other extensions on the system."
 msgstr "ضبط کردن تماسهای دریافتی از دیگر داخلی ها در سیستم."
 
-#: ../core/functions.inc.php:5794
+#: ../core/functions.inc.php:5785
 msgid "Recording of inbound calls from external sources."
 msgstr "ضبط تماس های داخلی از منابع خارجی."
 
-#: ../core/functions.inc.php:5795
+#: ../core/functions.inc.php:5786
 msgid "Recording of outbound calls to external sources."
 msgstr "ضبط تماس های خارجی به منابع خارجی."
 
@@ -8421,7 +8414,7 @@ msgstr ""
 msgid "Rewrite Contact"
 msgstr "بازنویسی اطلاعات تماس"
 
-#: ../core/functions.inc.php:5727
+#: ../core/functions.inc.php:5718
 msgid "Ring Time"
 msgstr "زمان زنگ خوردن"
 
@@ -8429,7 +8422,7 @@ msgstr "زمان زنگ خوردن"
 msgid "Ring Tone"
 msgstr "صدای زنگ خوردن"
 
-#: ../core/functions.inc.php:5728 ../core/views/did/advanced_form.php:211
+#: ../core/functions.inc.php:5719 ../core/views/did/advanced_form.php:211
 #: ../core/views/did/basic_form.php:115
 msgid "Ringer Volume Override"
 msgstr ""
@@ -8513,12 +8506,12 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "هشدار امنیتی:"
 
-#: ../core/Core.class.php:3337 ../core/Core.class.php:3338
+#: ../core/Core.class.php:3345 ../core/Core.class.php:3346
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP  (%s)"
 
-#: ../core/functions.inc.php:5689
+#: ../core/functions.inc.php:5680
 msgid "SIP Alias"
 msgstr "نام مستعار SIP"
 
@@ -8636,11 +8629,11 @@ msgstr "ذخیره"
 msgid "Scheduler and Alerts"
 msgstr ""
 
-#: ../core/functions.inc.php:5505
+#: ../core/functions.inc.php:5496
 msgid "Screen Caller: Memory"
 msgstr "غربال تماس گیرنده: مموری"
 
-#: ../core/functions.inc.php:5504
+#: ../core/functions.inc.php:5495
 msgid "Screen Caller: No Memory"
 msgstr "غربال تماس گیرنده: بدون مموری"
 
@@ -8809,7 +8802,7 @@ msgstr ""
 msgid "Set the Repos. -R Commercial -R Contributed"
 msgstr "Set the  Repos. -R Commercial -R Contributed"
 
-#: ../core/functions.inc.php:5749
+#: ../core/functions.inc.php:5740
 msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr "Set the  initial/current Call Waiting state for this user's extension"
 
@@ -9246,7 +9239,7 @@ msgstr "استاندارد"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "آغاز استریسک و اجرای دستورات لازم FreePBX"
 
-#: ../core/Core.class.php:3584
+#: ../core/Core.class.php:3592
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -9259,7 +9252,7 @@ msgstr "استریسک در حال اجرا..."
 msgid "Starting Cache cleanup"
 msgstr "شروع پاک سازی کش"
 
-#: ../core/Core.class.php:3543
+#: ../core/Core.class.php:3551
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -9273,11 +9266,11 @@ msgstr "وضعیت"
 msgid "Stop Asterisk and run other needed FreePBX commands"
 msgstr "توقف استریسک و اجرای دستورات لازم FreePBX"
 
-#: ../core/Core.class.php:3625
+#: ../core/Core.class.php:3633
 msgid "Stopped FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:3616
+#: ../core/Core.class.php:3624
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -9521,7 +9514,7 @@ msgid ""
 "work on Asterisk 11 or lower."
 msgstr ""
 
-#: ../core/functions.inc.php:5688
+#: ../core/functions.inc.php:5679
 msgid ""
 "The CID Number to use for internal calls, if different from the extension "
 "number. This is used to masquerade as a different user. A common example is "
@@ -9535,7 +9528,7 @@ msgstr ""
 "the general support number (a ringgroup or queue). There will be no effect "
 "on external calls."
 
-#: ../core/functions.inc.php:1048
+#: ../core/functions.inc.php:1054
 msgid ""
 "The Call Recording module is not enabled. Since this feature is required for "
 "call recording you may not be able to record calls until the module is "
@@ -9545,7 +9538,7 @@ msgstr ""
 "for call recording you may not be able to record calls until the module is "
 "installed and enabled."
 
-#: ../core/functions.inc.php:5686 ../core/views/quickCreate.php:77
+#: ../core/functions.inc.php:5677 ../core/views/quickCreate.php:77
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
@@ -9553,7 +9546,7 @@ msgstr ""
 "The CallerID name  for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
 
-#: ../core/functions.inc.php:6004
+#: ../core/functions.inc.php:5995
 msgid ""
 "The CallerID name for this device will be set to this description until it "
 "is logged into."
@@ -9569,7 +9562,7 @@ msgstr ""
 "The Commercial  repository is reserved for modules that are available for "
 "purchase and commercially supported."
 
-#: ../core/views/dahdichandids/didForm.php:25
+#: ../core/views/dahdichandids/didForm.php:47
 msgid "The DAHDI Channel number to map to a DID"
 msgstr "The DAHDI Channel number  to map to a DID"
 
@@ -9577,7 +9570,7 @@ msgstr "The DAHDI Channel number  to map to a DID"
 msgid "The DAHDi channel number for this port."
 msgstr "The DAHDi channel  number for this port."
 
-#: ../core/views/dahdichandids/didForm.php:73
+#: ../core/views/dahdichandids/didForm.php:95
 msgid ""
 "The DID that this channel represents. The incoming call on this channel will "
 "be treated as if it came in with this DID and can be managed with Inbound "
@@ -9717,7 +9710,7 @@ msgid ""
 "the CLI."
 msgstr ""
 
-#: ../core/Core.class.php:3037
+#: ../core/Core.class.php:3045
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -9739,7 +9732,7 @@ msgstr ""
 "pattern. Upon a match, the match pattern portion of the dialed number will "
 "be sent to the trunks"
 
-#: ../core/functions.inc.php:5650 ../core/views/quickCreate.php:61
+#: ../core/functions.inc.php:5641 ../core/views/quickCreate.php:61
 msgid "The extension number to dial to reach this user."
 msgstr "شماره داخلی برای دسترسی به این کاربر."
 
@@ -10208,7 +10201,7 @@ msgstr ""
 "pattern</b> and the resulting number will be sent to the trunk. All fields "
 "are optional."
 
-#: ../core/functions.inc.php:6007 ../core/functions.inc.php:6011
+#: ../core/functions.inc.php:5998 ../core/functions.inc.php:6002
 msgid ""
 "This CallerID will always be set when dialing out an Outbound Route flagged "
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
@@ -10230,7 +10223,7 @@ msgid ""
 "settings"
 msgstr ""
 
-#: ../core/Core.class.php:1490
+#: ../core/Core.class.php:1498
 msgid "This device id is already in use"
 msgstr "شناسه وسیله در حال استفاده است"
 
@@ -10491,7 +10484,7 @@ msgstr ""
 "This trunk will not be able to be used for  outbound calls until a route is "
 "setup that uses it."
 
-#: ../core/Core.class.php:2577
+#: ../core/Core.class.php:2585
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "کاربر/داخلی %s در حال استفاده است"
@@ -10647,11 +10640,11 @@ msgstr "نام ترانک و متن کاربر نمیتواند یکی باشد"
 msgid "Trunk Sequence for Matched Routes"
 msgstr "توالی ترانک برای مسیرهای یکسان"
 
-#: ../core/Core.class.php:3405
+#: ../core/Core.class.php:3413
 msgid "Trunk:"
 msgstr "ترانک:"
 
-#: ../core/functions.inc.php:961
+#: ../core/functions.inc.php:967
 #, php-format
 msgid "Trunk: %s (%s)"
 msgstr "ترانک: %s (%s)"
@@ -10850,7 +10843,7 @@ msgstr "Unable to work  with GPG file, message was: %s"
 msgid "Unauthorized user"
 msgstr ""
 
-#: ../core/functions.inc.php:5815 ../core/functions.inc.php:5829
+#: ../core/functions.inc.php:5806 ../core/functions.inc.php:5820
 msgid "Unavail Voicemail if Enabled"
 msgstr "Unavail  Voicemail if Enabled"
 
@@ -11195,7 +11188,7 @@ msgstr ""
 "Used when  PHP Console is enabled for error debugging https://github.com/"
 "barbushin/php-console"
 
-#: ../core/Core.class.php:3384 ../core/functions.inc.php:5606
+#: ../core/Core.class.php:3392 ../core/functions.inc.php:5597
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -11213,20 +11206,20 @@ msgstr "متن کاربر خالی است و جزییات کاربر نمیتو�
 msgid "User Control Panel"
 msgstr "پنل کنترل کاربری"
 
-#: ../core/functions.inc.php:5694
+#: ../core/functions.inc.php:5685
 msgid "User Devices"
 msgstr "وسایل کاربر"
 
-#: ../core/functions.inc.php:5650
+#: ../core/functions.inc.php:5641
 msgid "User Extension"
 msgstr "داخلی کاربر"
 
-#: ../core/functions.inc.php:949 ../core/functions.inc.php:980
+#: ../core/functions.inc.php:955 ../core/functions.inc.php:986
 #, php-format
 msgid "User Extension %s: %s"
 msgstr "داخلی کاربر %s: %s"
 
-#: ../core/functions.inc.php:4449
+#: ../core/functions.inc.php:4455
 msgid "User Extension: "
 msgstr "داخلی کاربر: "
 
@@ -11242,11 +11235,11 @@ msgstr "ورود کاربر"
 msgid "User Panel"
 msgstr "پنل کاربر"
 
-#: ../core/functions.inc.php:5653
+#: ../core/functions.inc.php:5644
 msgid "User Password"
 msgstr "کلمه عبور کاربر"
 
-#: ../core/Core.class.php:3149
+#: ../core/Core.class.php:3157
 msgid "User could not be added."
 msgstr "امکان افزودن کاربروجود ندارد."
 
@@ -11449,7 +11442,7 @@ msgstr "دوره عشدار برای توقف استریسک"
 msgid "Warning"
 msgstr "هشدار"
 
-#: ../core/functions.inc.php:5847
+#: ../core/functions.inc.php:5838
 msgid "Warning! Extension"
 msgstr "هشدار! داخلی"
 
@@ -11850,7 +11843,7 @@ msgstr ""
 msgid "Working"
 msgstr ""
 
-#: ../core/functions.inc.php:5480
+#: ../core/functions.inc.php:5471
 #: ../core/functions.inc/drivers/Dahdi.class.php:108
 #: ../core/functions.inc/drivers/Dahdi.class.php:119
 #: ../core/functions.inc/drivers/Dahdi.class.php:128
@@ -12060,7 +12053,7 @@ msgstr ""
 "You have  enabled PHP Console in Advanced settings but have not installed "
 "the Chrome Extension or you are not using Chrome"
 
-#: ../core/functions.inc.php:5634
+#: ../core/functions.inc.php:5625
 msgid ""
 "You have entered a non-standard dialpattern for your DID. You can only enter "
 "standard dialpatterns. You must use the inbound routing form to enter non-"
@@ -12080,7 +12073,7 @@ msgstr ""
 "which will cause errors in some modules. FreePBX expects this to be off and "
 "runs under that assumption"
 
-#: ../core/functions.inc.php:6020
+#: ../core/functions.inc.php:6011
 #: ../core/functions.inc/drivers/Iax2.class.php:110
 #: ../core/functions.inc/drivers/Sip.class.php:274
 msgid ""
@@ -12166,7 +12159,7 @@ msgstr "You must  defined a Client URI"
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "شما باید یک فایل freepbx.conf مناسب برای اجرا داشته باشید"
 
-#: ../core/Core.class.php:2570
+#: ../core/Core.class.php:2578
 msgid "You must put in an extension (or user) number"
 msgstr "شما باید شماره یک داخلی (یا کاربر) وارد کنید"
 
@@ -12434,7 +12427,7 @@ msgstr "تغییرات سفارشی، جزییات:"
 msgid "default"
 msgstr "پیشفرض"
 
-#: ../core/functions.inc.php:5571 ../core/functions.inc.php:5936
+#: ../core/functions.inc.php:5562 ../core/functions.inc.php:5927
 #: ../core/page.did.php:8
 msgid "deleted"
 msgstr "حذف شد"
@@ -12608,7 +12601,7 @@ msgstr "شکسته شده"
 msgid "is disabled"
 msgstr "غیرفعال شده"
 
-#: ../core/functions.inc.php:5847
+#: ../core/functions.inc.php:5838
 msgid "is not allowed for your account"
 msgstr "برای حساب کاربری شما مجاز نیست"
 
@@ -12660,11 +12653,11 @@ msgstr "مدیریت ماژول محلی"
 msgid "logger file removed, core upgrade will provide new file"
 msgstr "فایل لاگ حذف شد، با به روزرسانی هسته فایل جدید ایجاد میشود"
 
-#: ../core/functions.inc.php:5653 ../core/functions.inc.php:6005
+#: ../core/functions.inc.php:5644 ../core/functions.inc.php:5996
 msgid "logs into a device."
 msgstr "لاگ های ورودی وسیله."
 
-#: ../core/functions.inc.php:5653 ../core/functions.inc.php:6005
+#: ../core/functions.inc.php:5644 ../core/functions.inc.php:5996
 msgid "logs out of a device."
 msgstr "لاگ های خروجی وسیله."
 
@@ -12770,7 +12763,7 @@ msgstr "nextresult اجرا نشد"
 msgid "no logger file to remove"
 msgstr "فایل لاگی برای حذف وجود ندارد"
 
-#: ../core/functions.inc.php:5902 ../core/views/routing/moh.php:8
+#: ../core/functions.inc.php:5893 ../core/views/routing/moh.php:8
 msgid "none"
 msgstr "هیچ کدام"
 
@@ -12999,6 +12992,15 @@ msgid ""
 msgstr ""
 "شما باید دستی خط 'preload => pbx_config.so' را به فایل modules.conf اضافه "
 "کنید"
+
+#~ msgid "Error Duplicate Channel Entry"
+#~ msgstr "خطا کانال وارد شده تکراری است"
+
+#~ msgid "Invalid Channel Number, must be numeric and not blank"
+#~ msgstr "شماره کانال نامعتبر، باید شماره باشد و خالی نباشد"
+
+#~ msgid "Invalid DID, must be a non-blank DID"
+#~ msgstr "DID نامعتبر، نمیتواند خالی باشد"
 
 #~ msgid ""
 #~ "Asterisk 12 introduces the Asterisk REST Interface, a set of RESTful "
