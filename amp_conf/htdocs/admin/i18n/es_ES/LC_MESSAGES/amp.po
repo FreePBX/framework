@@ -1333,7 +1333,7 @@ msgstr ""
 msgid "Asterisk etc Dir"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:704
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:737
 #, php-format
 msgid ""
 "Asterisk home dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. "
@@ -2356,7 +2356,7 @@ msgstr ""
 msgid "Could not find extracted module: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:80
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:86
 msgid "Could not find gpg command!"
 msgstr ""
 
@@ -3181,7 +3181,7 @@ msgstr ""
 msgid "Directed Call Pickup"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:727
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:760
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it (getGpgLocation)."
 msgstr ""
@@ -3191,7 +3191,7 @@ msgstr ""
 msgid "Directory %s doesn't exist, and I can't make it."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:751
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:784
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
 msgstr ""
@@ -3384,7 +3384,7 @@ msgstr ""
 msgid "Don't ask to enable disabled modules assume no."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:734
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:767
 #, php-format
 msgid "Don't have permission/can't write to %s"
 msgstr ""
@@ -4783,7 +4783,7 @@ msgid ""
 "when it is first bootstrapping the installer."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:477
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:483
 #, php-format
 msgid "GPG took too long to run the command: [%s]"
 msgstr ""
@@ -4992,7 +4992,7 @@ msgstr ""
 msgid "Hit the red record button to start recording from your browser"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:717
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:750
 #, php-format
 msgid "Home directory %s doesn't exist, and I can't create it"
 msgstr ""
@@ -5051,11 +5051,11 @@ msgid ""
 "joe@somedomain.com"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:411
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:417
 msgid "I can only do .gpg files at the moment"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:689
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:722
 msgid "I don't know who I should be running GPG as."
 msgstr ""
 
@@ -5063,7 +5063,7 @@ msgstr ""
 msgid "I don't know who I should be running OpenSSL as."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:695
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:728
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:109
 #, php-format
 msgid ""
@@ -5285,7 +5285,7 @@ msgid ""
 "addition to the users extension to call them."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:229
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:235
 msgid ""
 "If you're i18n-ing this file, read the comment about 'altered' and 'missing'"
 msgstr ""
@@ -5657,7 +5657,7 @@ msgstr ""
 msgid "KEYWORD"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:318
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:324
 #, php-format
 msgid "Key provided - %s - is not hex"
 msgstr ""
@@ -6281,7 +6281,7 @@ msgstr ""
 msgid "Module not installed: cannot uninstall"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:197
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:203
 msgid "Module signature expired"
 msgstr ""
 
@@ -6601,7 +6601,7 @@ msgstr ""
 msgid "No interfaces found"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:163
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:169
 msgid "No module to check"
 msgstr ""
 
@@ -6617,7 +6617,7 @@ msgstr ""
 msgid "No pending module updates."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:643
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:676
 msgid "No status was given to checkStatus"
 msgstr ""
 
@@ -7277,7 +7277,7 @@ msgstr ""
 msgid "Path for touch"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:167
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:173
 msgid "Path given to verifyModule. Only provide a module name"
 msgstr ""
 
@@ -7305,13 +7305,13 @@ msgid ""
 "by the PBX if left blank"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:780
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:813
 #, php-format
 msgid ""
 "Permissions error on %s - please run 'fwconsole chown' as root to repair"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:766
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:799
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:597
 #, php-format
 msgid ""
@@ -10184,7 +10184,7 @@ msgstr ""
 msgid "Unable to create %s config file"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:345
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:351
 #, php-format
 msgid "Unable to download GPG key %s, or find %s or %s"
 msgstr ""
@@ -10222,7 +10222,7 @@ msgstr ""
 msgid "Unable to locate the FreePBX BMO Class '%s'"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:100
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:106
 #, php-format
 msgid "Unable to open file %s"
 msgstr ""
@@ -10273,7 +10273,7 @@ msgstr ""
 msgid "Unable to start Asterisk!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:469
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:475
 #, php-format
 msgid "Unable to start GPG, the command was: [%s]"
 msgstr ""
@@ -10282,12 +10282,12 @@ msgstr ""
 msgid "Unable to start OpenSSL"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:418
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:424
 #, php-format
 msgid "Unable to strip signature - result was: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:387
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:393
 #, php-format
 msgid "Unable to trust the FreePBX Key! -- %s"
 msgstr ""
@@ -11159,9 +11159,7 @@ msgstr ""
 #: amp.i18n.php:314
 msgid ""
 "Whether to enforce RFC7462 for Alert-Info. With this enabled all Alert Infos "
-"will be prefixed with <http://127.0.0.1>\\; if it was not previously "
-"defined. This is to be in accordance with RFC7462. Disaling this enforcement "
-"will remove the prefix entirely"
+"will be prefixed with "
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:453
@@ -11634,7 +11632,7 @@ msgid ""
 "FreePBX"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:221
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:227
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3197
 msgid "altered"
 msgstr ""
@@ -11675,7 +11673,7 @@ msgstr ""
 msgid "changed %s settings"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:600
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:633
 #, php-format
 msgid "checkSig was given %s, which is not a file"
 msgstr ""
@@ -11868,12 +11866,12 @@ msgstr ""
 msgid "fwconsole is not executable at %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:554
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:560
 #, php-format
 msgid "getHashes was given %s which is not a directory!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:361
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:367
 #, php-format
 msgid "gpg --export-ownertrust didn't return sane stuff - %s"
 msgstr ""
@@ -12037,7 +12035,7 @@ msgstr ""
 msgid "migrating.."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:213
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:219
 msgid "missing"
 msgstr ""
 
@@ -12056,7 +12054,7 @@ msgstr ""
 msgid "missing value and/or defaultval required for [%s]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:186
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:192
 #, php-format
 msgid "module.sig check failed! %s"
 msgstr ""
@@ -12275,7 +12273,7 @@ msgstr ""
 msgid "unrecognized rule: %s discarding"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:175
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:181
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3259
 msgid "unsigned"
 msgstr ""
