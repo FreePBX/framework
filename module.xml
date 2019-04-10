@@ -10,7 +10,7 @@
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
-		*15.0.8* FREEPBX-19751 Popover showing module not found 
+		*15.0.8* FREEPBX-19751 Popover showing module not found
 		*15.0.7* Lazy load console commands for performance improvements
 		*15.0.6.17* FREEI-468
 		*15.0.6.15* Resync AMI credentials after backup restore
@@ -275,6 +275,10 @@
 		</command>
 		<command>
 			<name>validate</name>
+		</command>
+		<command>
+			<name>extip</name>
+			<alias>externalip</alias>
 		</command>
 	</console>
 	<category>Admin</category>
