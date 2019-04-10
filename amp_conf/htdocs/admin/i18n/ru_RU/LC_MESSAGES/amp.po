@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-18 14:13-0500\n"
+"POT-Creation-Date: 2019-04-10 18:00-0400\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -1330,7 +1330,7 @@ msgstr ""
 msgid "Asterisk etc Dir"
 msgstr "Директория etc Астериск"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:693
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:726
 #, php-format
 msgid ""
 "Asterisk home dir (%s) doesn't exist, and, ASTSPOOLDIR doesn't exist. "
@@ -2316,7 +2316,7 @@ msgstr ""
 msgid "Could not find extracted module: %s"
 msgstr "Невозможно найти распакованный модуль:  %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:80
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:86
 msgid "Could not find gpg command!"
 msgstr ""
 
@@ -3252,7 +3252,7 @@ msgstr ""
 msgid "Directed Call Pickup"
 msgstr "Назначеный перехват звонка"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:716
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:749
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it (getGpgLocation)."
 msgstr ""
@@ -3263,7 +3263,7 @@ msgstr ""
 msgid "Directory %s doesn't exist, and I can't make it."
 msgstr "Директория %s не существует,и не получается создать её."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:740
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:773
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
 msgstr ""
@@ -3453,7 +3453,7 @@ msgstr "Не существенно"
 msgid "Don't ask to enable disabled modules assume no."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:723
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:756
 #, php-format
 msgid "Don't have permission/can't write to %s"
 msgstr "Нет прав/невозможно записать в %s"
@@ -4842,7 +4842,7 @@ msgstr ""
 "инсталляции будет сожраняться в /tmp/freepbx_pre_install.log при первом "
 "обращении инсталлятора."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:466
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:472
 #, php-format
 msgid "GPG took too long to run the command: [%s]"
 msgstr " Слишком длинная команда  GPG для запуска  :[%s]"
@@ -5068,7 +5068,7 @@ msgstr ""
 msgid "Hit the red record button to start recording from your browser"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:706
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:739
 #, php-format
 msgid "Home directory %s doesn't exist, and I can't create it"
 msgstr "Домашняя директория %s не существует, и  невозможно создать её."
@@ -5134,11 +5134,11 @@ msgstr ""
 "Например, особое устройство, которое поддерживает наборы по SIP URI может "
 "быть настроено как SIP/joe@somedomain.com"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:400
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:406
 msgid "I can only do .gpg files at the moment"
 msgstr "Я могу создать только файлы .gpg сейчас"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:678
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:711
 msgid "I don't know who I should be running GPG as."
 msgstr "Я не знаю от какого имени мне запустить GPG."
 
@@ -5146,7 +5146,7 @@ msgstr "Я не знаю от какого имени мне запустить 
 msgid "I don't know who I should be running OpenSSL as."
 msgstr "Я не знаю от какого имени мне запустить OpenSSL."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:684
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:717
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:111
 #, php-format
 msgid ""
@@ -5417,7 +5417,7 @@ msgstr ""
 "узнаваемое имя, которое будет использоваться дополнительно вместе с "
 "внутренним номером абонента при звонке."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:218
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:224
 msgid ""
 "If you're i18n-ing this file, read the comment about 'altered' and 'missing'"
 msgstr ""
@@ -5785,7 +5785,7 @@ msgstr "Маловероятно,что здесь нужно что-либо м
 msgid "KEYWORD"
 msgstr "КЛЮЧЕВОЕ СЛОВО"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:307
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:313
 #, php-format
 msgid "Key provided - %s - is not hex"
 msgstr "Введённый ключ %s не 16-тиричном формате"
@@ -6642,7 +6642,7 @@ msgstr "Файл не загружен"
 msgid "No interfaces found"
 msgstr "Интерфейс не найден"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:163
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:169
 msgid "No module to check"
 msgstr "Нет модуля для проверки"
 
@@ -6654,7 +6654,7 @@ msgstr "Нет модулей."
 msgid "No name for this CA"
 msgstr "Не указано имя для данного CA"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:632
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:665
 msgid "No status was given to checkStatus"
 msgstr "Не указан статус для checkStatus"
 
@@ -7373,7 +7373,7 @@ msgstr "Путь к tar"
 msgid "Path for touch"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:167
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:173
 msgid "Path given to verifyModule. Only provide a module name"
 msgstr "Указанный путь для  verifyModule. Указывается только имя модуля"
 
@@ -7404,13 +7404,13 @@ msgstr ""
 "Постоянные контакты,назначенные для AoR. Если не указано,то эти установки "
 "FreePBX создаёт автоматически."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:769
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:802
 #, php-format
 msgid ""
 "Permissions error on %s - please run 'fwconsole chown' as root to repair"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:755
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:788
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:574
 #, php-format
 msgid ""
@@ -10111,7 +10111,7 @@ msgstr "Невозможно подключиться к серверам по �
 msgid "Unable to create %s config file"
 msgstr "Невозможно создать %s конфигурационный файл"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:334
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:340
 #, php-format
 msgid "Unable to download GPG key %s, or find %s or %s"
 msgstr "Невозможно скачать ключ GPG %s, или найти %s, или %s"
@@ -10146,7 +10146,7 @@ msgstr ""
 msgid "Unable to locate the FreePBX BMO Class '%s'"
 msgstr "Невозможно найти класс FreePBX BMO %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:100
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:106
 #, php-format
 msgid "Unable to open file %s"
 msgstr "Невозможно открыть файл %s"
@@ -10200,7 +10200,7 @@ msgstr ""
 msgid "Unable to start Asterisk!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:458
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:464
 #, php-format
 msgid "Unable to start GPG, the command was: [%s]"
 msgstr "Невозможно запустить сервис GPG, выполнена команда: [%s]"
@@ -10209,12 +10209,12 @@ msgstr "Невозможно запустить сервис GPG, выполне
 msgid "Unable to start OpenSSL"
 msgstr "Невозможно запустить OpenSSL"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:407
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:413
 #, php-format
 msgid "Unable to strip signature - result was: %s"
 msgstr "Невозможно выделить сигнатуру - результат: %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:376
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:382
 #, php-format
 msgid "Unable to trust the FreePBX Key! -- %s"
 msgstr "Невозможно доверять ключу FreePBX -- %s"
@@ -11650,7 +11650,7 @@ msgstr ""
 "всплывающий атрибут - название, при наведении мыши на изображение. По "
 "умолчанию - FreePBX"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:210
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:216
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3160
 msgid "altered"
 msgstr "изменён"
@@ -11691,7 +11691,7 @@ msgstr "вызов set_conf_values не из массива данных"
 msgid "changed %s settings"
 msgstr "изменены  настройки %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:589
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:622
 #, php-format
 msgid "checkSig was given %s, which is not a file"
 msgstr "checkSig-у  был предложен  %s, но это не файл"
@@ -11963,12 +11963,12 @@ msgstr ""
 "Не найдена настройка FreePBX   ZAP2DAHDICOMPAT, что-то повреждено в "
 "конфигурационной базе данных?"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:543
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:549
 #, php-format
 msgid "getHashes was given %s which is not a directory!"
 msgstr "getHashes  в качестве параметра дано  %s, но это не директория!"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:350
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:356
 #, php-format
 msgid "gpg --export-ownertrust didn't return sane stuff - %s"
 msgstr "gpg --export-ownertrust не вернул работоспособную сущность - %s"
@@ -12141,7 +12141,7 @@ msgstr "перенос содержимого  zap-таблицы  в dahdi-та
 msgid "migrating.."
 msgstr "перенос.."
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:202
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:208
 msgid "missing"
 msgstr "ошибочный"
 
@@ -12164,7 +12164,7 @@ msgstr ""
 msgid "missing value and/or defaultval required for [%s]"
 msgstr "отсутствует указанное  и/или дефолтное значение необходимое для [%s]"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:186
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:192
 #, php-format
 msgid "module.sig check failed! %s"
 msgstr "ошибка проверки module.sig ! %s"
@@ -12389,7 +12389,7 @@ msgstr "неизвестный тип: [%s]"
 msgid "unrecognized rule: %s discarding"
 msgstr "неизвестное правило:%s отклоняется"
 
-#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:175
+#: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:181
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3222
 msgid "unsigned"
 msgstr "неподписанный"
