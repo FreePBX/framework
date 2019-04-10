@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>14.0.9</version>
+	<version>14.0.9.1</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*14.0.9.1* FREEPBX-19788
 		*14.0.9* FREEPBX-19762
 		*14.0.8.4* FREEPBX-19775
 		*14.0.8.3* FREEPBX-19767 Invalid parameter number
@@ -359,6 +360,10 @@
 		</command>
 		<command>
 			<name>validate</name>
+		</command>
+		<command>
+			<name>extip</name>
+			<alias>externalip</alias>
 		</command>
 	</console>
 	<category>Admin</category>
