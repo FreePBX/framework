@@ -1688,7 +1688,7 @@ class AGI_AsteriskManager {
 		if (!empty($this->memAstDB)){
 			$keyUsed="/".str_replace(" ","/",$family)."/".str_replace(" ","/",$key);
 			$keyExists=isset($this->memAstDB[$keyUsed]);
-			if (!$keyExists || $this->memAstDB[$keyUsed] != $value) {
+			if (!$keyExists || $this->memAstDB[$keyUsed] !== $value) {
 				if (!$keyExists) {
 					$this->memAstDBKeysUpdated = false;
 				}
