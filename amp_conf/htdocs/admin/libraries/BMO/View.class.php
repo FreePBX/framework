@@ -773,7 +773,7 @@ class View {
 					continue;
 				}
 				$tmp = [
-					'selected' => ($data['name']==$destmod)? true: false,
+					'selected' => ($data['raw']==$destmod)? true: false,
 					'style' => ($mod=='Error')?'background-color:red;':'',
 					'mod' => $mod,
 					'cat' => $cat,
