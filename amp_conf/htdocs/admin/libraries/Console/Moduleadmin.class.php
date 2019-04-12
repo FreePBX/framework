@@ -29,6 +29,7 @@ class Moduleadmin extends Command {
 	private $updatemanager = null;
 	private $nt = null;
 	private $skipbreaking = false;
+	public $DEBUG = false;
 
 	public function __destruct() {
 		$this->endOfLife();
