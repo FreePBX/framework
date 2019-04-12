@@ -25,6 +25,7 @@ class Moduleadmin extends Command {
 	private $sendemail = false;
 	private $updatemanager = null;
 	private $nt = null;
+	public $DEBUG = false;
 
 	public function __destruct() {
 		$this->endOfLife();

@@ -322,6 +322,7 @@ class DB_Helper {
 			}
 			$query[':type'] = "blob";
 			$query[':val'] = $uuid;
+			$val = $uuid;
 		} else {
 			if (!empty($check) && $check['type'] == "blob") {
 				$this->deleteBlob($check['val']);
