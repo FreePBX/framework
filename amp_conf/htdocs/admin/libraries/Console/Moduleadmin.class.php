@@ -114,6 +114,10 @@ class Moduleadmin extends Command {
 			$this->color = true;
 		}
 
+		if ($input->getOption('debug')) {
+			$this->DEBUG = True;
+		}
+
 		if ($input->getOption('skipbreakingcheck')) {
 			$this->skipbreaking = True;
 			if($this->DEBUG){
@@ -128,11 +132,6 @@ class Moduleadmin extends Command {
 
 		if ($input->getOption('tag')) {
 			$this->tag = $input->getOption('tag');
-		}
-		if ($input->getOption('debug')) {
-			$this->DEBUG = True;
-		} else {
-			$this->DEBUG = False;
 		}
 		if(!empty($input->getOption('snapshot'))){
 			$ret = array();
