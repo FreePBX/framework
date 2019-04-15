@@ -343,7 +343,7 @@ if(empty($_SESSION['AMP_user'])) {
 		Displays the menu from the user list.
 	*/
 	if(
-		$_SESSION["AMP_user"]->getMode() === 'userman' &&
+		$_SESSION["AMP_user"]->getMode() === 'usermanager' &&
 		FreePBX::Config()->get('AUTHTYPE') === 'usermanager' &&
 		FreePBX::Modules()->checkStatus('userman')
 	) {
