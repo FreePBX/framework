@@ -2253,6 +2253,8 @@ class module_functions {
 			}
 		} catch(\Exception $e) {}
 
+		\FreePBX::Job()->removeAllByModule($modulename);
+
 		$this->moduleCleanup($modulename);
 
 		needreload();

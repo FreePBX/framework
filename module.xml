@@ -282,6 +282,15 @@
 			<field name="candelete" type="boolean" default="0"/>
 			<field name="timestamp" type="integer" default="0"/>
 		</table>
+		<table name="cron_jobs">
+			<field name="modulename" type="string" length="170" default="" primarykey="true"/>
+			<field name="jobname" type="string" length="170" default="" primarykey="true"/>
+			<field name="command" type="text" notnull="false"/>
+			<field name="class" type="string" length="255" default="" notnull="false"/>
+			<field name="schedule" type="string" length="255" default=""/>
+			<field name="max_runtime" type="integer" default="30"/>
+			<field name="enabled" type="boolean" default="1"/>
+		</table>
 	</database>
 	<console>
 		<command>
