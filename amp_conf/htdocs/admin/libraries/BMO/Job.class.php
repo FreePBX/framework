@@ -21,6 +21,7 @@
  * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
+
 class Job {
 	private $db;
 	private $freepbx;
@@ -41,7 +42,8 @@ class Job {
 		return $this->db->query("SELECT * FROM cron_jobs WHERE `enabled` = 1")->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
-	public function add($modulename, $jobname, $command, $class, $schedule, $max_runtime, $enabled) {
+	public function add($modulename, $jobname, $command, $class, $schedule, $max_runtime = 30, $enabled = true) {
+		$this->init();
 		$sth = $this->db->prepare("INSERT INTO cron_jobs (`modulename`, `jobname`, `command`, `class`, `schedule`, `max_runtime`, `enabled`) VALUES (:modulename,:jobname,:command,:class,:schedule,:max_runtime,:enabled) ON DUPLICATE KEY UPDATE `command` = :command, `class` = :class, `schedule` = :schedule, `max_runtime` = :max_runtime, `enabled` = :enabled");
 		return $sth->execute([
 			':modulename' => $modulename,
@@ -62,7 +64,8 @@ class Job {
 		]);
 	}
 
-	public function update($modulename, $jobname, $command, $class, $schedule, $max_runtime, $enabled) {
+	public function update($modulename, $jobname, $command, $class, $schedule, $max_runtime = 30, $enabled = true) {
+		$this->init();
 		return $this->add($modulename, $jobname, $command, $class, $schedule, $max_runtime, $enabled);
 	}
 
@@ -78,6 +81,7 @@ class Job {
 	}
 
 	public function setEnabled($modulename, $jobname, $enabled = true) {
+		$this->init();
 		$sth = $this->db->prepare("UPDATE cron_jobs SET `enabled` = :enabled WHERE `modulename` = :modulename AND `jobname` = :jobname");
 		return $sth->execute([
 			':enabled' => ($enabled ? 1 : 0)
@@ -85,9 +89,22 @@ class Job {
 	}
 
 	public function updateSchedule($modulename, $jobname, $schedule) {
+		$this->init();
 		$sth = $this->db->prepare("UPDATE cron_jobs SET `schedule` = :schedule WHERE `modulename` = :modulename AND `jobname` = :jobname");
 		return $sth->execute([
 			':schedule' => $schedule
 		]);
+	}
+
+	public function init() {
+		$crons = \FreePBX::Cron()->getAll();
+		foreach($crons as $c) {
+			if(preg_match('/fwconsole job --run/',$c,$matches)) {
+				\FreePBX::Cron()->remove($c);
+			}
+		}
+
+		$ampbin = \FreePBX::Config()->get('AMPSBIN');
+		\FreePBX::Cron()->add('* * * * * [ -e /usr/sbin/fwconsole ] && sleep $(( ( RANDOM % 30 )  + 1 )) && '.$ampbin.'/fwconsole job --run --quiet 2>&1 > /dev/null');
 	}
 }

@@ -137,6 +137,7 @@ function fpbx_framework_autoloader($class) {
 		'fwmsg' => 'libraries/fwmsg.class.php',
 		'FreePBX\\Database\\Migration' => 'libraries/BMO/Database/Migration.class.php',
 		'FreePBX\\Database\\PDOStatement' => 'libraries/BMO/Database/PDOStatement.class.php',
+		'FreePBX\\Job\\TaskInterface' => 'libraries/BMO/Job/Job.php',
 		'PicoFeed\\Reader\\Reader' => 'libraries/Builtin/PicoFeed/Reader.php',
 		'PicoFeed\\Client\\Client' => 'libraries/Builtin/PicoFeed/Client.php',
 		// Namespaces

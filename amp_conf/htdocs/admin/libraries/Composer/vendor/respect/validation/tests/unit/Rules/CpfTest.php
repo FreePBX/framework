@@ -11,12 +11,14 @@
 
 namespace Respect\Validation\Rules;
 
+use Respect\Validation\TestCase;
+
 /**
  * @group  rule
  * @covers Respect\Validation\Rules\Cpf
  * @covers Respect\Validation\Exceptions\CpfException
  */
-class CpfTest extends \PHPUnit_Framework_TestCase
+class CpfTest extends TestCase
 {
     protected $cpfValidator;
 
@@ -106,6 +108,7 @@ class CpfTest extends \PHPUnit_Framework_TestCase
     public function providerInvalidUnformattedCpf()
     {
         return [
+            ['01234567890'],
             ['11111111111'],
             ['22222222222'],
             ['12345678900'],

@@ -17,12 +17,12 @@ use Symfony\Component\DependencyInjection\ParameterBag\FrozenParameterBag;
 class Symfony_DI_PhpDumper_Test_Almost_Circular_Public extends Container
 {
     private $parameters;
-    private $targetDirs = array();
+    private $targetDirs = [];
 
     public function __construct()
     {
-        $this->services = array();
-        $this->methodMap = array(
+        $this->services = [];
+        $this->methodMap = [
             'bar' => 'getBarService',
             'bar3' => 'getBar3Service',
             'bar5' => 'getBar5Service',
@@ -52,8 +52,8 @@ class Symfony_DI_PhpDumper_Test_Almost_Circular_Public extends Container
             'multiuse1' => 'getMultiuse1Service',
             'root' => 'getRootService',
             'subscriber' => 'getSubscriberService',
-        );
-        $this->privates = array(
+        ];
+        $this->privates = [
             'bar6' => true,
             'level2' => true,
             'level3' => true,
@@ -61,14 +61,14 @@ class Symfony_DI_PhpDumper_Test_Almost_Circular_Public extends Container
             'level5' => true,
             'level6' => true,
             'multiuse1' => true,
-        );
+        ];
 
-        $this->aliases = array();
+        $this->aliases = [];
     }
 
     public function getRemovedIds()
     {
-        return array(
+        return [
             'Psr\\Container\\ContainerInterface' => true,
             'Symfony\\Component\\DependencyInjection\\ContainerInterface' => true,
             'bar2' => true,
@@ -83,7 +83,7 @@ class Symfony_DI_PhpDumper_Test_Almost_Circular_Public extends Container
             'logger2' => true,
             'multiuse1' => true,
             'subscriber2' => true,
-        );
+        ];
     }
 
     public function compile()
@@ -126,7 +126,7 @@ class Symfony_DI_PhpDumper_Test_Almost_Circular_Public extends Container
     {
         $this->services['bar3'] = $instance = new \BarCircular();
 
-        $a = ${($_ = isset($this->services['foobar3']) ? $this->services['foobar3'] : $this->services['foobar3'] = new \FoobarCircular()) && false ?: '_'};
+        $a = ${($_ = isset($this->services['foobar3']) ? $this->services['foobar3'] : ($this->services['foobar3'] = new \FoobarCircular())) && false ?: '_'};
 
         $instance->addFoobar($a, $a);
 
@@ -431,7 +431,7 @@ class Symfony_DI_PhpDumper_Test_Almost_Circular_Public extends Container
      */
     protected function getRootService()
     {
-        return $this->services['root'] = new \stdClass(${($_ = isset($this->services['level2']) ? $this->services['level2'] : $this->getLevel2Service()) && false ?: '_'}, ${($_ = isset($this->services['multiuse1']) ? $this->services['multiuse1'] : $this->services['multiuse1'] = new \stdClass()) && false ?: '_'});
+        return $this->services['root'] = new \stdClass(${($_ = isset($this->services['level2']) ? $this->services['level2'] : $this->getLevel2Service()) && false ?: '_'}, ${($_ = isset($this->services['multiuse1']) ? $this->services['multiuse1'] : ($this->services['multiuse1'] = new \stdClass())) && false ?: '_'});
     }
 
     /**
@@ -497,7 +497,7 @@ class Symfony_DI_PhpDumper_Test_Almost_Circular_Public extends Container
      */
     protected function getLevel4Service()
     {
-        return $this->services['level4'] = new \stdClass(${($_ = isset($this->services['multiuse1']) ? $this->services['multiuse1'] : $this->services['multiuse1'] = new \stdClass()) && false ?: '_'}, ${($_ = isset($this->services['level5']) ? $this->services['level5'] : $this->getLevel5Service()) && false ?: '_'});
+        return $this->services['level4'] = new \stdClass(${($_ = isset($this->services['multiuse1']) ? $this->services['multiuse1'] : ($this->services['multiuse1'] = new \stdClass())) && false ?: '_'}, ${($_ = isset($this->services['level5']) ? $this->services['level5'] : $this->getLevel5Service()) && false ?: '_'});
     }
 
     /**
