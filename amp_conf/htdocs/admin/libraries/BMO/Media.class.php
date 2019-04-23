@@ -156,7 +156,7 @@ class Media extends DB_Helper{
 		$md5 = md5_file($this->path);
 		$path_parts = pathinfo(basename($this->path));
 		$name = $path_parts['filename'];
-		$supportedFormats = $this->getSupportedHTML5Formats($multiple, $forceFormats=[]);
+		$supportedFormats = $this->getSupportedHTML5Formats($multiple, $forceFormats);
 		//because ogg and oga are interchangeable
 		if(in_array('oga',$supportedFormats)) {
 			$k = array_search("oga",$supportedFormats);
