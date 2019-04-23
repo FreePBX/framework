@@ -36,7 +36,7 @@ class Media extends DB_Helper{
 	 * @param boolean Return all supports formats or just the first one
 	 * @return array Return array of formats
 	 */
-	public function getSupportedHTML5Formats($returnAll=false, $forceFormats=[]) {
+	public function getSupportedHTML5Formats($returnAll=false, $forceFormats=array()) {
 		if(!empty($forceFormats) && is_array($forceFormats)) {
 			$browser = $forceFormats;
 		} elseif (isset($_SERVER['HTTP_USER_AGENT'])) {
@@ -147,7 +147,7 @@ class Media extends DB_Helper{
 	 * @param  boolean $multiple Generate multiple files
 	 * @return array      Array of converted files
 	 */
-	public function generateHTML5($dir='',$multiple=false, $forceFormats=[]) {
+	public function generateHTML5($dir='',$multiple=false, $forceFormats=array()) {
 		session_write_close();
 		$dir = !empty($dir) ? $dir : $this->html5Path;
 		if(!is_writable($dir)) {
