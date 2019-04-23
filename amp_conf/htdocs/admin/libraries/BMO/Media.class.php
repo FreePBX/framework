@@ -33,10 +33,13 @@ class Media extends DB_Helper{
 
 	/**
 	 * Get supported HTML5 formats
+	 * @param boolean Return all supports formats or just the first one
 	 * @return array Return array of formats
 	 */
-	public function getSupportedHTML5Formats($returnAll=false) {
-		if (isset($_SERVER['HTTP_USER_AGENT'])) {
+	public function getSupportedHTML5Formats($returnAll=false, $forceFormats=array()) {
+		if(!empty($forceFormats) && is_array($forceFormats)) {
+			$browser = $forceFormats;
+		} elseif (isset($_SERVER['HTTP_USER_AGENT'])) {
 			$browser = $this->detectSupportedFormats();
 		} else {
 			// probably running from console
@@ -129,12 +132,22 @@ class Media extends DB_Helper{
 	}
 
 	/**
+	 * Forcefully generate formats supports by the system to later use
+	 *
+	 * @param array $forceFormats The formats to support
+	 * @return array Array of converted formats
+	 */
+	public function generateHTML5Formats($forceFormats) {
+		return $this->generateHTML5('',true, $forceFormats);
+	}
+
+	/**
 	 * Generate HTML5 formats
 	 * @param  string $dir Directory to output to, if not set will use default
 	 * @param  boolean $multiple Generate multiple files
 	 * @return array      Array of converted files
 	 */
-	public function generateHTML5($dir='',$multiple=false) {
+	public function generateHTML5($dir='',$multiple=false, $forceFormats=array()) {
 		session_write_close();
 		$dir = !empty($dir) ? $dir : $this->html5Path;
 		if(!is_writable($dir)) {
@@ -143,7 +156,7 @@ class Media extends DB_Helper{
 		$md5 = md5_file($this->path);
 		$path_parts = pathinfo(basename($this->path));
 		$name = $path_parts['filename'];
-		$supportedFormats = $this->getSupportedHTML5Formats($multiple);
+		$supportedFormats = $this->getSupportedHTML5Formats($multiple, $forceFormats);
 		//because ogg and oga are interchangeable
 		if(in_array('oga',$supportedFormats)) {
 			$k = array_search("oga",$supportedFormats);

@@ -230,7 +230,7 @@ class Cache {
 						freepbx_log(FPBX_LOG_WARNING, "Redis enabled but not running, falling back to filesystem [{$e->getMessage()}]. Either fix Redis or remove the php redis extension");
 					}
 				}
-				if(count($chain) === 1) {
+				if(count($chain) === 1 && is_object($this->freepbx->Config) && is_a($this->freepbx->Config,'FreePBX\Config')) {
 					$cachePath = $this->freepbx->Config->get('ASTSPOOLDIR')."/cache";
 					if(!file_exists($cachePath)) {
 						mkdir($cachePath,0777,true);

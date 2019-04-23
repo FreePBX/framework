@@ -23,8 +23,6 @@
 namespace FreePBX;
 use Symfony\Component\Lock\Factory;
 use Symfony\Component\Lock\Store\SemaphoreStore;
-use Symfony\Component\Lock\Store\RetryTillSaveStore;
-use Symfony\Component\Lock\Store\RedisStore;
 class Cron {
 
 	private $user;
