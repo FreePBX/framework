@@ -3,18 +3,19 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>15.0.11</version>
+	<version>15.0.11.1</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*15.0.11.1* FREEPBX-19763
 		*15.0.11* Update locking code in system updates
 		*15.0.10.3* FREEPBX-19806
-		*15.0.10.2* FREEPBX-19756 
+		*15.0.10.2* FREEPBX-19756
 		*15.0.10.1* FREEPBX-19733
-		*15.0.10* FREEPBX-19744 
+		*15.0.10* FREEPBX-19744
 		*15.0.9* FREEPBX-19620 gpg keys refresh failed
 		*15.0.8.1* FREEPBX-19762
 		*15.0.8* FREEPBX-19751 Popover showing module not found
@@ -155,7 +156,7 @@
 			<field name="id" type="integer" primarykey="true" autoincrement="true"/>
 			<field name="time" type="datetime"/>
 			<field name="section" type="string" length="50" notnull="false"/>
-			<field name="level" type="string" default="error"/>
+			<field name="level" type="string" length="150" default="error"/>
 			<field name="status" type="integer" default="0"/>
 			<field name="message" type="text"/>
 			<key name="time" type="index">

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-23 19:34-0400\n"
+"POT-Creation-Date: 2019-04-24 19:29-0400\n"
 "PO-Revision-Date: 2015-03-23 21:06+0200\n"
 "Last-Translator: Jan Peter <jpveldhuizen@gmail.com>\n"
 "Language-Team: Dutch <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -942,7 +942,7 @@ msgid ""
 "Withheld in order to catch these special cases if the Telco transmits them."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:726
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:725
 #, php-format
 msgid "Add new %s &#133"
 msgstr ""
@@ -1489,7 +1489,7 @@ msgstr ""
 msgid "Authentication"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:1165
+#: ../core/views/trunks/pjsip.php:1192
 msgid "Authentication Disabled"
 msgstr ""
 
@@ -2146,7 +2146,7 @@ msgstr "Controleer server verwijzing"
 msgid "Check for Updates every"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:1099
+#: ../core/views/trunks/pjsip.php:1126
 msgid ""
 "Check the desired codecs, all others will be disabled. Drag to re-order."
 msgstr ""
@@ -2272,11 +2272,11 @@ msgstr ""
 "met de standaard opslagruimte te beginnen en deze allemaal te updaten. "
 "Daarna kunt u dan hier terugkeren en de overige opslagruimtes bekijken."
 
-#: ../core/assets/js/trunks/trunks.js:230
+#: ../core/assets/js/trunks/trunks.js:239
 msgid "Click here to insert a new pattern before this pattern"
 msgstr "Klik hier om een nieuw patroon toe te voegen voor dit patroon"
 
-#: ../core/assets/js/trunks/trunks.js:231
+#: ../core/assets/js/trunks/trunks.js:240
 msgid "Click here to remove this pattern"
 msgstr "Klik hier om dit patroon te verwijderen"
 
@@ -2285,7 +2285,7 @@ msgid ""
 "Click on <a href='?display=routing'>Outbound Routes</a> to setup routing."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:945
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:950
 msgid "Click to Expand"
 msgstr ""
 
@@ -2425,7 +2425,7 @@ msgstr "Contact gebruiker te gebruiken in aanvraag."
 msgid "Context"
 msgstr "Context"
 
-#: ../core/views/trunks/pjsip.php:1090
+#: ../core/views/trunks/pjsip.php:1117
 msgid "Context to route incoming MESSAGE requests to"
 msgstr ""
 
@@ -4698,6 +4698,13 @@ msgstr ""
 msgid "Force JSON"
 msgstr ""
 
+#: ../core/views/trunks/pjsip.php:1094
+msgid ""
+"Force RFC3581 compliant behavior even when no rport parameter exists. "
+"Basically always send SIP responses back to the same port we received SIP "
+"requests from."
+msgstr ""
+
 #: ../core/views/trunks/trunk_header.php:324
 msgid "Force Trunk CID"
 msgstr ""
@@ -4729,6 +4736,7 @@ msgid ""
 msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:216
+#: ../core/views/trunks/pjsip.php:1079
 msgid "Force rport"
 msgstr ""
 
@@ -6128,7 +6136,7 @@ msgstr ""
 msgid "Memory Limit Changed"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:1078
+#: ../core/views/trunks/pjsip.php:1105
 msgid "Message Context"
 msgstr ""
 
@@ -6677,7 +6685,7 @@ msgstr ""
 #: ../core/views/trunks/pjsip.php:866 ../core/views/trunks/pjsip.php:891
 #: ../core/views/trunks/pjsip.php:954 ../core/views/trunks/pjsip.php:981
 #: ../core/views/trunks/pjsip.php:1007 ../core/views/trunks/pjsip.php:1032
-#: ../core/views/trunks/trunk_header.php:68
+#: ../core/views/trunks/pjsip.php:1086 ../core/views/trunks/trunk_header.php:68
 #: ../core/views/trunks/trunk_header.php:266
 #: ../core/views/trunks/trunk_header.php:405
 #: ../core/views/trunks/trunk_header.php:432
@@ -6888,7 +6896,7 @@ msgstr ""
 msgid "Not an array"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:874
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:879
 msgid "Not received"
 msgstr ""
 
@@ -6940,12 +6948,12 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Destinations.class.php:246
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:943
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:948
 msgid "Object"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Destinations.class.php:246
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:943
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:948
 msgid "Objects"
 msgstr ""
 
@@ -8505,7 +8513,7 @@ msgstr ""
 msgid "Server URI"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:873
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:878
 msgid "Server time:"
 msgstr ""
 
@@ -10769,7 +10777,7 @@ msgid "Use wget For Module Admin"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Destinations.class.php:248
-#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:944
+#: amp_conf/htdocs/admin/libraries/BMO/View.class.php:949
 #, php-format
 msgid "Used as Destination by %s %s"
 msgstr ""
@@ -10871,7 +10879,7 @@ msgid ""
 "automatically updated in manager.conf."
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:1185
+#: ../core/views/trunks/pjsip.php:1212
 msgid "Username is trunk name"
 msgstr ""
 
@@ -11406,7 +11414,8 @@ msgstr ""
 #: ../core/views/trunks/pjsip.php:786 ../core/views/trunks/pjsip.php:837
 #: ../core/views/trunks/pjsip.php:864 ../core/views/trunks/pjsip.php:952
 #: ../core/views/trunks/pjsip.php:979 ../core/views/trunks/pjsip.php:1005
-#: ../core/views/trunks/pjsip.php:1030 ../core/views/trunks/trunk_header.php:66
+#: ../core/views/trunks/pjsip.php:1030 ../core/views/trunks/pjsip.php:1084
+#: ../core/views/trunks/trunk_header.php:66
 #: ../core/views/trunks/trunk_header.php:264
 #: ../core/views/trunks/trunk_header.php:403
 #: ../core/views/trunks/trunk_header.php:430
@@ -12068,7 +12077,7 @@ msgstr ""
 msgid "http://192.168.1.1/admin/config.php?unlock=abc123def... "
 msgstr ""
 
-#: ../core/assets/js/trunks/trunks.js:230
+#: ../core/assets/js/trunks/trunks.js:239
 msgid "insert"
 msgstr ""
 
@@ -12314,7 +12323,7 @@ msgstr ""
 msgid "prepend:"
 msgstr ""
 
-#: ../core/assets/js/trunks/trunks.js:231
+#: ../core/assets/js/trunks/trunks.js:240
 msgid "remove"
 msgstr ""
 
