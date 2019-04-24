@@ -16,7 +16,7 @@ class View {
 	private $dateformat = '';
 	private $timeformat = '';
 	private $datetimeformat = '';
-	private $drawselect_destinations;
+	private $drawselect_destinations = [];
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {
@@ -710,7 +710,7 @@ class View {
 		global $fw_popover;
 
 		if ($reset) {
-			unset($this->drawselect_destinations);
+			$this->drawselect_destinations = [];
 		}
 
 		//php session last_dest
@@ -722,13 +722,13 @@ class View {
 			$nodest_msg = '== '.\modgettext::_('choose one','amp').' ==';
 		}
 
-		if(!isset($this->drawselect_destinations)) {
-			$add_a_new = \modgettext::_('Add new %s &#133','amp');
-			$this->drawselect_destinations = $this->freepbx->Destinations->getAll($i);
+		$add_a_new = \modgettext::_('Add new %s &#133','amp');
+		if(empty($this->drawselect_destinations[$i])) {
+			$this->drawselect_destinations[$i] = $this->freepbx->Destinations->getAll($i);
 		}
 
 		$flattened = [];
-		foreach($this->drawselect_destinations as $mod => $categories) {
+		foreach($this->drawselect_destinations[$i] as $mod => $categories) {
 			foreach($categories as $cat => $data) {
 				if(is_array($restricted_modules) && ((is_array($restricted_modules[$mod]) && in_array($cat,$restricted_modules[$mod])) || (isset($restricted_modules[$mod]) && !is_array($restricted_modules[$mod])))) {
 					continue;
@@ -744,7 +744,7 @@ class View {
 		if(!empty($goto)) {
 			if(!isset($flattened[$goto])){ //if we haven't found a match, display error dest
 				$destmod='Error';
-				$this->drawselect_destinations['Error']['Error'] = [
+				$this->drawselect_destinations[$i]['Error']['Error'] = [
 					'name' => 'Error',
 					'raw' => 'Error',
 					'destinations' => [
@@ -767,23 +767,28 @@ class View {
 	  }
 
 		$cat_options = [];
-		foreach($this->drawselect_destinations as $mod => $categories) {
+		foreach($this->drawselect_destinations[$i] as $mod => $categories) {
 			foreach($categories as $cat => $data) {
 				if(is_array($restricted_modules) && ((is_array($restricted_modules[$mod]) && in_array($cat,$restricted_modules[$mod])) || (isset($restricted_modules[$mod]) && !is_array($restricted_modules[$mod])))) {
 					continue;
 				}
-				$tmp = [
-					'selected' => ($data['raw']==$destmod)? true: false,
-					'style' => ($mod=='Error')?'background-color:red;':'',
-					'mod' => $mod,
-					'cat' => $cat,
-					'raw' => $data['raw'],
-					'name_tag' => str_replace(' ', '_', $data['raw']) . $i,
-					'destinations' => $data['destinations'],
-					'popover' => $data['popover']
-				];
+				if(empty($cat_options[$data['name']])) {
+					$tmp = [
+						'selected' => ($data['raw']==$destmod)? true: false,
+						'style' => ($mod=='Error')?'background-color:red;':'',
+						'mod' => $mod,
+						'cat' => $cat,
+						'raw' => $data['raw'],
+						'name_tag' => str_replace(' ', '_', $data['raw']) . $i,
+						'destinations' => $data['destinations']
+					];
+				} else {
+					$tmp = $cat_options[$data['name']];
+					$tmp['destinations'] = array_merge($tmp['destinations'], $data['destinations']);
+				}
 
 				if(!empty($data['popover'])) {
+					$tmp['popover'] = $data['popover'];
 					$data['popover']['args']['display'] = $cat;
 					$tmp['data_url'] = 'data-url="config.php?'.http_build_query($data['popover']['args']).'"';
 				}
