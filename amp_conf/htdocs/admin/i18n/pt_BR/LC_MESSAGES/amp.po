@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-25 17:26-0400\n"
+"POT-Creation-Date: 2019-04-25 19:20-0400\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -2029,7 +2029,7 @@ msgstr ""
 "Não Foi Possível Verificar módulo %s descarregado. Incapaz de confiar na "
 "chave GPG - abortando (Causa: Nenhuma Causa Dada)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:22
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:23
 msgid "Centralized job management"
 msgstr ""
 
@@ -2574,7 +2574,7 @@ msgstr ""
 "vazia com uma prioridade maior que 1. Isto é sempre um bug num módulo. Fui "
 "solicitado adicionar %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:69
 msgid "Cron"
 msgstr ""
 
@@ -3476,7 +3476,7 @@ msgstr "Desabilitar Cache de Admin Módulo"
 msgid "Disable Trunk"
 msgstr "Desabilitar Tronco"
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:25
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:26
 msgid "Disable a specific job"
 msgstr ""
 
@@ -3985,7 +3985,7 @@ msgstr ""
 msgid "Enable Token Based Security"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:24
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:25
 msgid "Enable a specific job"
 msgstr ""
 
@@ -4053,7 +4053,7 @@ msgstr ""
 "Habilitar isto para enviar solicitações HTTP e HTTPS de saída via um proxy. "
 "Isto não afeta o tráfego de Voz ou Vídeo."
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:69
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1134
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:134
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:4
@@ -4882,6 +4882,10 @@ msgstr "Forçar rport"
 msgid "Force rport - (%s)"
 msgstr "Forçar rport - (%s)"
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:29
+msgid "Force run even if disabled or not the right time"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:240
 msgid "Force run post-start asterisk hooks"
 msgstr "Forçar execução de rotinas do asterisk pós-início"
@@ -5461,7 +5465,7 @@ msgid "IAX transfer capabilities, see the Asterisk documentation for details."
 msgstr ""
 "Capacidades de transferencia IAX, veja documentação Asterisk para detalhes."
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:69
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:6
 msgid "ID"
 msgstr "ID"
@@ -6108,7 +6112,7 @@ msgstr ""
 msgid "It is unlikely you'll need to change anything here."
 msgstr "É improvável que você precise mudar alguma coisa aqui."
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:69
 msgid "Job"
 msgstr ""
 
@@ -6237,7 +6241,7 @@ msgstr "Lista todos os módulos locais, não aceita argumentos"
 msgid "List all sessions"
 msgstr "Listar todas as sessões"
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:27
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:28
 msgid "List known jobs"
 msgstr ""
 
@@ -6556,7 +6560,7 @@ msgid "Modify the default USER connection parameters for your VoIP provider."
 msgstr ""
 "Modifica os parâmetros padrão de conexão do usuário para o provedor VoIP."
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:69
 #: amp_conf/htdocs/admin/libraries/Console/Localization.class.php:101
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1149
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1236
@@ -6978,7 +6982,7 @@ msgstr ""
 msgid "Newer than online version (%s)"
 msgstr "Mais novo que a versão online (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:69
 msgid "Next Run"
 msgstr ""
 
@@ -8661,7 +8665,7 @@ msgstr "Tipo da Rota"
 msgid "Rules:"
 msgstr "Regras:"
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:26
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:27
 msgid "Run all jobs, or optionally run a single job if job id is appended"
 msgstr ""
 
