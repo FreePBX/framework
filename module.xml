@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>15.0.11.1</version>
+	<version>15.0.12</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*15.0.12* Add centralized job class
 		*15.0.11.1* FREEPBX-19763
 		*15.0.11* Update locking code in system updates
 		*15.0.10.3* FREEPBX-19806
@@ -287,6 +288,9 @@
 		<command>
 			<name>extip</name>
 			<alias>externalip</alias>
+		</command>
+		<command>
+			<name>job</name>
 		</command>
 	</console>
 	<category>Admin</category>
