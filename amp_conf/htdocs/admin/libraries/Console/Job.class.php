@@ -14,6 +14,7 @@ use Symfony\Component\Console\Command\HelpCommand;
 class Job extends Command {
 	private $output;
 	private $input;
+	private $force = false;
 
 	use LockableTrait;
 
@@ -25,12 +26,17 @@ class Job extends Command {
 			new InputOption('disable', '', InputOption::VALUE_REQUIRED, _('Disable a specific job')),
 			new InputOption('run', '', InputOption::VALUE_OPTIONAL, _('Run all jobs, or optionally run a single job if job id is appended')),
 			new InputOption('list', '', InputOption::VALUE_NONE, _('List known jobs')),
+			new InputOption('force', '', InputOption::VALUE_NONE, _('Force run even if disabled or not the right time')),
 		));
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$this->output = $output;
 		$this->input = $input;
+
+		if($input->getOption('force')) {
+			$this->force = true;
+		}
 
 		if($input->getOption('enable')) {
 			$this->enableJob($input->getOption('enable'), true);
@@ -124,8 +130,8 @@ class Job extends Command {
 	private function runJobs($jobs=[]) {
 		$time = new \DateTimeImmutable("now");
 		foreach($jobs as $config) {
-			if (!\Cron\CronExpression::factory($config['schedule'])->isDue($time)) {
-				if ($this->output->isVerbose()) {
+			if (!$this->force && !\Cron\CronExpression::factory($config['schedule'])->isDue($time)) {
+				if ($this->output->isVerbose() || !empty($this->input->getOption('run'))) {
 					$this->output->writeln('Skipping '.$config['module'].'::'.$config['job'].' because schedule does not match');
 				}
 				continue;
@@ -208,7 +214,7 @@ class Job extends Command {
 				continue;
 			}
 
-			if(empty($filterIds) && empty($job['enabled'])) {
+			if(!$this->force && empty($filterIds) && empty($job['enabled'])) {
 				continue;
 			}
 
