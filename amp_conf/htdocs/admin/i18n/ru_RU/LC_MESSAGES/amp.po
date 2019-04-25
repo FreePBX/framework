@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-23 19:39-0400\n"
+"POT-Creation-Date: 2019-04-25 17:26-0400\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -253,7 +253,7 @@ msgstr ""
 msgid "%s Upgrade Available (%s)"
 msgstr "%s Обновление доступно (%s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3259
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3261
 #, php-format
 msgid "%s [not enabled]"
 msgstr "%s [не задействовано]"
@@ -789,7 +789,7 @@ msgstr ""
 "Действия, которые можно применить к этому модулю. Обычно это инсталляция и "
 "обслуживание на административном уровне."
 
-#: amp_conf/htdocs/admin/functions.inc.php:472 ../core/page.astmodules.php:140
+#: amp_conf/htdocs/admin/functions.inc.php:473 ../core/page.astmodules.php:140
 #: ../core/views/trunks/trunk_header.php:2
 msgid "Add"
 msgstr "Добавить"
@@ -1165,7 +1165,7 @@ msgstr ""
 "сигнализации, если оно подключено параллельно занять линию, по которой "
 "поступил звонок."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3091
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3093
 msgid ""
 "An unauthorized system user account called 'ssh' was discovered in /etc/"
 "passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc "
@@ -1431,7 +1431,7 @@ msgstr ""
 msgid "Authentication"
 msgstr "Аутентификация"
 
-#: ../core/views/trunks/pjsip.php:1165
+#: ../core/views/trunks/pjsip.php:1192
 msgid "Authentication Disabled"
 msgstr "Аутентификация отключена"
 
@@ -1503,7 +1503,7 @@ msgstr ""
 msgid "Auto"
 msgstr "Авто"
 
-#: amp_conf/htdocs/admin/functions.inc.php:253
+#: amp_conf/htdocs/admin/functions.inc.php:254
 msgid ""
 "Auto set ZAP2DAHDICOMPAT to true because we are running a version of "
 "Asterisk greater than 1.4.21"
@@ -1960,7 +1960,7 @@ msgstr "Отмена"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "Невозможно соединиться к Asterisk Manager с "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2291
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2293
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "Невозможно удалить директорию %s"
@@ -1999,6 +1999,10 @@ msgid ""
 msgstr ""
 "Невозможно проверить  загруженный модуль %s. Нет доверия GPG ключу - "
 "завершение (Причина: причина неизвестна)"
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:22
+msgid "Centralized job management"
+msgstr ""
 
 #: amp.i18n.php:418
 msgid "Certificate File Location"
@@ -2068,7 +2072,7 @@ msgstr "Проверять источники перенаправленных �
 msgid "Check for Updates every"
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:1099
+#: ../core/views/trunks/pjsip.php:1126
 msgid ""
 "Check the desired codecs, all others will be disabled. Drag to re-order."
 msgstr ""
@@ -2187,11 +2191,11 @@ msgstr ""
 "базовым хранилищем и обновить все модули, и затем вернуться назад и "
 "просмотреть другие хранилища."
 
-#: ../core/assets/js/trunks/trunks.js:230
+#: ../core/assets/js/trunks/trunks.js:239
 msgid "Click here to insert a new pattern before this pattern"
 msgstr "Нажмите здесь для добавления нового шаблона перед этим ."
 
-#: ../core/assets/js/trunks/trunks.js:231
+#: ../core/assets/js/trunks/trunks.js:240
 msgid "Click here to remove this pattern"
 msgstr "Кликнуть для удаления этого шаблона"
 
@@ -2324,7 +2328,7 @@ msgstr "Контактная персона при запросе"
 msgid "Context"
 msgstr "Контекст"
 
-#: ../core/views/trunks/pjsip.php:1090
+#: ../core/views/trunks/pjsip.php:1117
 msgid "Context to route incoming MESSAGE requests to"
 msgstr ""
 
@@ -2458,8 +2462,8 @@ msgstr "Невозможно удалить старый модуль %s для 
 msgid "Could not remove temporary location %s"
 msgstr "Невозможно удалить временное расположение %s"
 
-#: amp_conf/htdocs/admin/functions.inc.php:387
-#: amp_conf/htdocs/admin/functions.inc.php:452
+#: amp_conf/htdocs/admin/functions.inc.php:388
+#: amp_conf/htdocs/admin/functions.inc.php:453
 #, php-format
 msgid "Could not run %s script."
 msgstr "Не удалось запустить скрипт %s."
@@ -2517,7 +2521,7 @@ msgstr "Создать подписанный запрос для %s"
 msgid "Critical"
 msgstr "Критично"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3266
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3268
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr ""
@@ -2535,6 +2539,10 @@ msgstr ""
 "Критическая ошибка при стыковке в %s. Меня попросили состыковать в пустую "
 "секцию с приоритетом больше 1. Это извечный баг в модуле. Меня попросили "
 "добавить %s"
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
+msgid "Cron"
+msgstr ""
 
 #: ../core/functions.inc.php:5716
 msgid ""
@@ -3426,6 +3434,10 @@ msgstr "Отключить кэширование раздела Управле�
 msgid "Disable Trunk"
 msgstr "Выключить транк"
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:25
+msgid "Disable a specific job"
+msgstr ""
+
 #: ../core/Console/Trunks.class.php:20
 msgid "Disable given trunk"
 msgstr "Отключить данный транк"
@@ -3928,6 +3940,10 @@ msgstr ""
 msgid "Enable Token Based Security"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:24
+msgid "Enable a specific job"
+msgstr ""
+
 #: ../core/Console/Trunks.class.php:17
 msgid "Enable and disable trunks from the command line"
 msgstr "Включить или выключить транки из командной строки"
@@ -3989,6 +4005,7 @@ msgid ""
 "not affect Voice or Video traffic."
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1134
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:134
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:4
@@ -4156,7 +4173,7 @@ msgstr "Ошибка создания директории модуля:%s"
 msgid "Error creating temporary directory: %s"
 msgstr "Ошибка при создании временной директории: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2298
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2300
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "Ошибка при удалении директории %s (код %d)"
@@ -4302,8 +4319,8 @@ msgstr "Исключенные модули"
 msgid "Execute on only this file/dir"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:386
-#: amp_conf/htdocs/admin/functions.inc.php:451
+#: amp_conf/htdocs/admin/functions.inc.php:387
+#: amp_conf/htdocs/admin/functions.inc.php:452
 #, php-format
 msgid "Exit code was %s and output was: %s"
 msgstr "Код ошибки %s и вывод %s"
@@ -4491,12 +4508,12 @@ msgstr "Не удалось удалить"
 msgid "Failed to Remove directory"
 msgstr "Ошибка перемещения директории"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3142
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3144
 #, php-format
 msgid "Failed to get remote file, error was: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3156
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3158
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:520
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
@@ -4761,6 +4778,13 @@ msgstr "Форссировать скачивание и инсталляцию 
 msgid "Force Enabled"
 msgstr "Принудительный запуск включен"
 
+#: ../core/views/trunks/pjsip.php:1094
+msgid ""
+"Force RFC3581 compliant behavior even when no rport parameter exists. "
+"Basically always send SIP responses back to the same port we received SIP "
+"requests from."
+msgstr ""
+
 #: ../core/views/trunks/trunk_header.php:324
 msgid "Force Trunk CID"
 msgstr "Форсировать использование транкового CID"
@@ -4794,6 +4818,7 @@ msgstr ""
 "модули имеют зависимости не просто так!"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:204
+#: ../core/views/trunks/pjsip.php:1079
 msgid "Force rport"
 msgstr "Принудительно установить rport"
 
@@ -4826,7 +4851,7 @@ msgstr "Запуск использования обратного порта"
 msgid "Forced"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3171
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3173
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:532
 #, php-format
 msgid "Forced %s to true"
@@ -5363,6 +5388,7 @@ msgstr ""
 msgid "IAX transfer capabilities, see the Asterisk documentation for details."
 msgstr "Возможности трансферов IAX, см. документацию по Астериск для деталей."
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:6
 msgid "ID"
 msgstr "ID"
@@ -5939,7 +5965,7 @@ msgstr "Указано неверное имя транка"
 msgid "Invalid Username or Password"
 msgstr "Неверное имя пользователя или пароль"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2350
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2352
 msgid "Invalid description"
 msgstr "Неверное описание"
 
@@ -6002,6 +6028,10 @@ msgstr ""
 #: ../core/page.astmodules.php:53
 msgid "It is unlikely you'll need to change anything here."
 msgstr "Маловероятно,что здесь нужно что-либо менять."
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
+msgid "Job"
+msgstr ""
 
 #: ../core/page.advancedsettings.php:98 ../core/page.advancedsettings.php:130
 #: ../core/page.advancedsettings.php:155 ../core/page.advancedsettings.php:184
@@ -6127,6 +6157,10 @@ msgstr "Список всех локальных модулей,не требу�
 #: amp_conf/htdocs/admin/libraries/Console/Session.class.php:15
 msgid "List all sessions"
 msgstr "Список всех сессий"
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:27
+msgid "List known jobs"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1313
 msgid "List online modules, accepts no arguments"
@@ -6314,7 +6348,7 @@ msgstr "Медиа поток использует полученный трас
 msgid "Memory Limit Changed"
 msgstr "Лимит памяти изменён"
 
-#: ../core/views/trunks/pjsip.php:1078
+#: ../core/views/trunks/pjsip.php:1105
 msgid "Message Context"
 msgstr ""
 
@@ -6441,6 +6475,7 @@ msgid "Modify the default USER connection parameters for your VoIP provider."
 msgstr ""
 "Изменить параметры соединения по умолчанию USER для вашего провайдера VoIP."
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
 #: amp_conf/htdocs/admin/libraries/Console/Localization.class.php:101
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1149
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1236
@@ -6460,17 +6495,17 @@ msgstr "Модуль"
 msgid "Module "
 msgstr "Модуль "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3246
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3248
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr "Неверный статус сигнатуры модуля %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3268
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3270
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr "Модуль \"%s\" не подписан и должен быть снова загружен"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3261
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3263
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr "Модуль \"%s\" подписан недействительным ключом"
@@ -6662,14 +6697,14 @@ msgstr ""
 "Модуль загружен успешно, Необходимо задействовать его используя %s чтобы "
 "сделать его доступным."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3282
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3284
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
 "disabled"
 msgstr "Модуль: \"%s\" сигнатура была отозвана. Модуль автоматически отключен"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3276
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3278
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr "Модуль: \"%s\", Файл: \"%s\""
@@ -6684,7 +6719,7 @@ msgstr ""
 msgid "Module: %s installed at version %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3274
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3276
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -6862,6 +6897,10 @@ msgstr ""
 msgid "Newer than online version (%s)"
 msgstr "Новее, чем он-лайн версия (%s)"
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
+msgid "Next Run"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:21
 msgid "Nightly"
 msgstr "Каждую ночь"
@@ -6898,7 +6937,7 @@ msgstr "Каждую ночь"
 #: ../core/views/trunks/pjsip.php:866 ../core/views/trunks/pjsip.php:891
 #: ../core/views/trunks/pjsip.php:954 ../core/views/trunks/pjsip.php:981
 #: ../core/views/trunks/pjsip.php:1007 ../core/views/trunks/pjsip.php:1032
-#: ../core/views/trunks/trunk_header.php:68
+#: ../core/views/trunks/pjsip.php:1086 ../core/views/trunks/trunk_header.php:68
 #: ../core/views/trunks/trunk_header.php:266
 #: ../core/views/trunks/trunk_header.php:405
 #: ../core/views/trunks/trunk_header.php:432
@@ -8267,13 +8306,13 @@ msgstr "Связанные URL-ы"
 msgid "Reload Configs"
 msgstr "Перезагрузить конфигурацию"
 
-#: amp_conf/htdocs/admin/functions.inc.php:415
+#: amp_conf/htdocs/admin/functions.inc.php:416
 #, php-format
 msgid ""
 "Reload failed because %s could not connect to the asterisk manager interface."
 msgstr "Перезагрузка не произошла, потому что %s не может подключиться к AMI"
 
-#: amp_conf/htdocs/admin/functions.inc.php:406
+#: amp_conf/htdocs/admin/functions.inc.php:407
 #, php-format
 msgid "Reload failed because retrieve_conf encountered an error: %s"
 msgstr "Перезагрузка невозможна, скрипт retrieve_conf обнаружил ошибку:  %s"
@@ -8521,6 +8560,10 @@ msgstr "Тип маршрута"
 #: ../core/views/routing/form.php:68 ../core/views/trunks/trunk_header.php:85
 msgid "Rules:"
 msgstr "Правила:"
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:26
+msgid "Run all jobs, or optionally run a single job if job id is appended"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:255
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
@@ -9206,7 +9249,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2097
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2182
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2277
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2279
 msgid "Specified module not found"
 msgstr "Указаный модуль не найден"
 
@@ -9317,14 +9360,14 @@ msgstr "Стиль и логотипы"
 msgid "Submit"
 msgstr "Сохранить"
 
-#: amp_conf/htdocs/admin/functions.inc.php:443
+#: amp_conf/htdocs/admin/functions.inc.php:444
 msgid ""
 "Successful reload, but could not clear reload flag due to a database error: "
 msgstr ""
 "Благополучно перезагружено, не невозможно завершить процесс ввиду ошибки "
 "базы данных: "
 
-#: amp_conf/htdocs/admin/functions.inc.php:434
+#: amp_conf/htdocs/admin/functions.inc.php:435
 msgid "Successfully reloaded"
 msgstr "Благополучно перезагружено"
 
@@ -9775,11 +9818,11 @@ msgstr "Произошли следующие ошибки:"
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr "Следующая ошибка(-и) произошла при загрузке файла: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2809
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2811
 msgid "The following modules are disabled because they are broken:"
 msgstr "Следующий модуль отключен ввиду его повреждения:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2801
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2803
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "Следующий модуль отключен так как нуждается в обновлении:"
 
@@ -9999,7 +10042,7 @@ msgstr ""
 "сделать исполнением этой команды, то не стоит соверщать это действие, потому "
 "что это повлечёт изменения в конфигурации."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3172
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3174
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:533
 #, php-format
 msgid ""
@@ -10747,7 +10790,7 @@ msgstr "Невозможно найти класс FreePBX BMO %s"
 msgid "Unable to open file %s"
 msgstr "Невозможно открыть файл %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2341
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2343
 #, php-format
 msgid "Unable to parse %s: %s"
 msgstr ""
@@ -10818,7 +10861,7 @@ msgstr "Невозможно доверять ключу FreePBX -- %s"
 msgid "Unable to work with GPG file, message was: %s"
 msgstr "Невозможно обработать GPG файл, сообщение: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3091
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3093
 msgid "Unauthorized user"
 msgstr ""
 
@@ -10865,7 +10908,7 @@ msgstr "Неизвестная команда (%s)"
 msgid "Unknown Error Code %s, Message %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/functions.inc.php:398
+#: amp_conf/htdocs/admin/functions.inc.php:399
 msgid "Unknown Error. Please Run "
 msgstr ""
 
@@ -11240,7 +11283,7 @@ msgid ""
 "automatically updated in manager.conf."
 msgstr ""
 
-#: ../core/views/trunks/pjsip.php:1185
+#: ../core/views/trunks/pjsip.php:1212
 msgid "Username is trunk name"
 msgstr "Имя пользователя является имененм транка"
 
@@ -11849,7 +11892,8 @@ msgstr ""
 #: ../core/views/trunks/pjsip.php:786 ../core/views/trunks/pjsip.php:837
 #: ../core/views/trunks/pjsip.php:864 ../core/views/trunks/pjsip.php:952
 #: ../core/views/trunks/pjsip.php:979 ../core/views/trunks/pjsip.php:1005
-#: ../core/views/trunks/pjsip.php:1030 ../core/views/trunks/trunk_header.php:66
+#: ../core/views/trunks/pjsip.php:1030 ../core/views/trunks/pjsip.php:1084
+#: ../core/views/trunks/trunk_header.php:66
 #: ../core/views/trunks/trunk_header.php:264
 #: ../core/views/trunks/trunk_header.php:403
 #: ../core/views/trunks/trunk_header.php:430
@@ -11988,37 +12032,37 @@ msgstr ""
 msgid "You can't set the default to the default"
 msgstr "Вы не можете установить значение по умолчанию в значение по умолчанию"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3318
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3320
 #, php-format
 msgid "You have %s %s modules"
 msgstr "У Вас  %s %s модулей"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2808
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2810
 #, php-format
 msgid "You have %s broken modules"
 msgstr "У вас %s повреждённых модуля"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2800
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2802
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "У вас отключено %s модулей"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3315
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3317
 #, php-format
 msgid "You have %s tampered files"
 msgstr "У Вас  %s  повреждённых файла"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3306
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3309
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3308
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3311
 #, php-format
 msgid "You have %s unsigned modules"
 msgstr "У Вас %s неподписанных модуля"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2808
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2810
 msgid "You have a broken module"
 msgstr "У вас повреждён модуль"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2800
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2802
 msgid "You have a disabled module"
 msgstr "У вас тключен модуль"
 
@@ -12164,8 +12208,8 @@ msgstr ""
 msgid "You should fix the problem or select another file and %s."
 msgstr "Устраните проблему или выберите другой файл и %s."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2802
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2810
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2804
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2812
 msgid "You should go to the module admin page to fix these."
 msgstr "Необходимо зайти в Управление модулями чтобы исправить это."
 
@@ -12303,7 +12347,7 @@ msgstr ""
 "умолчанию - FreePBX"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:227
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3228
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3230
 msgid "altered"
 msgstr "изменён"
 
@@ -12482,8 +12526,8 @@ msgstr ""
 "невозможно удалить файл %s из каталога кеша модулей после открытия файла "
 "модуля."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2485
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2491
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2487
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2493
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr "ошибка добавления  %s во время %s модуля %s"
@@ -12532,7 +12576,7 @@ msgstr "закончена установка файла платформы, у�
 msgid "free not implemented"
 msgstr "метод free не реализован"
 
-#: amp_conf/htdocs/admin/functions.inc.php:255
+#: amp_conf/htdocs/admin/functions.inc.php:256
 msgid ""
 "freepbx setting  ZAP2DAHDICOMPAT not found, somethng is corrupt in the conf "
 "database?"
@@ -12565,7 +12609,7 @@ msgstr ""
 msgid "http://192.168.1.1/admin/config.php?unlock=abc123def... "
 msgstr ""
 
-#: ../core/assets/js/trunks/trunks.js:230
+#: ../core/assets/js/trunks/trunks.js:239
 msgid "insert"
 msgstr "вставить"
 
@@ -12818,7 +12862,7 @@ msgstr "приставка"
 msgid "prepend:"
 msgstr "приставка:"
 
-#: ../core/assets/js/trunks/trunks.js:231
+#: ../core/assets/js/trunks/trunks.js:240
 msgid "remove"
 msgstr "удалить"
 
@@ -12851,12 +12895,12 @@ msgstr ""
 "перемещение  rtp.conf  так что на него может быть установлена символическая "
 "ссылка из ядра системы"
 
-#: amp_conf/htdocs/admin/functions.inc.php:408
-#: amp_conf/htdocs/admin/functions.inc.php:417
+#: amp_conf/htdocs/admin/functions.inc.php:409
+#: amp_conf/htdocs/admin/functions.inc.php:418
 msgid "retrieve_conf failed, config not applied"
 msgstr "retrieve_conf не найден, конфигурация не применилась"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3293
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3295
 msgid "revoked"
 msgstr "отозван"
 
@@ -12886,7 +12930,7 @@ msgstr "установка AMP_ACCESS_DB_CREDS в \"истина\""
 msgid "sip:[username]@[ip]:[port]"
 msgstr "sip:[username]@[ip]:[port]"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3291
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3293
 msgid "tampered"
 msgstr "повреждённый"
 
@@ -12916,7 +12960,7 @@ msgstr ""
 "попытаемся указать ключевое значение [%s] в [%s] при неинициализированных "
 "установках"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3292
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3294
 msgid "unknown"
 msgstr "неизвестный"
 
@@ -12931,11 +12975,11 @@ msgid "unrecognized rule: %s discarding"
 msgstr "неизвестное правило:%s отклоняется"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:181
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3290
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3292
 msgid "unsigned"
 msgstr "неподписанный"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3289
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3291
 msgid "untrusted"
 msgstr "недоверенный"
 
