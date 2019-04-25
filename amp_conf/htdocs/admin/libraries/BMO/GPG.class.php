@@ -36,6 +36,12 @@ class GPG {
 	// This is the FreePBX Master Key.
 	private $freepbxkey = '2016349F5BC6F49340FCCAF99F9169F4B33B4659';
 
+	// additional filesystem keys
+	private $fskeys = array(
+		'072410D159E9DA63A459AB203DDB2122FE6D84F7',
+		'1013D73FECAC918A0A25823986CE877469D2EAD9'
+	);
+
 	// Will hold path to 'gpg' binary
 	private $gpg = false;
 
@@ -568,9 +574,36 @@ class GPG {
 	 * Refresh all stored keys
 	 */
 	public function refreshKeys() {
+		//combine all of our known local keys
+		$fskeys = array_unique(array_merge(array($this->freepbxkey), $this->fskeys));
+		foreach($fskeys as $key) {
+			//import our local keys from our filesystem
+			$this->getKeyFromFs($key);
+		}
+
+		//list out all the keys we do know about
+		$out = $this->runGPG("--list-keys --with-colons --fingerprint");
+		$lines = explode("\n",$out['stdout']);
+		$refreshKeys = array();
+		foreach($lines as $line) {
+			//https://git.gnupg.org/cgi-bin/gitweb.cgi?p=gnupg.git;a=blob_plain;f=doc/DETAILS
+			//scrub out the fingerprint
+			if(preg_match('/^fpr:::::::::([0-9a-z]{40}):$/i', $line, $key)) {
+				//dont refresh our local keys
+				if(in_array($key[1],$fskeys, true)) {
+					continue;
+				}
+				$refreshKeys[] = $key[1];
+			}
+		}
+
+		if(empty($refreshKeys)) {
+			return true;
+		}
+
 		foreach ($this->keyservers as $ks) {
 			try {
-				$retarr = $this->runGPG("--keyserver $ks --refresh-keys");
+				$retarr = $this->runGPG("--keyserver $ks --refresh-keys ".implode(" ",$refreshKeys));
 			} catch (\RuntimeException $e) {
 				freepbx_log(FPBX_LOG_ERROR, "Tried to refresh keys and failed with: ".$e->getMessage());
 				// Took too long. We'll just try the next one.
@@ -795,6 +828,13 @@ class GPG {
 			return true;
 		}
 		// Short?
+		$shortkey = __DIR__."/".substr($key, -16).".key";
+		if (file_exists($shortkey)) {
+			$out = $this->runGPG("--import $shortkey");
+			$this->checkPermissions();
+			return true;
+		}
+		// Shorter?
 		$shortkey = __DIR__."/".substr($key, -8).".key";
 		if (file_exists($shortkey)) {
 			$out = $this->runGPG("--import $shortkey");
@@ -809,6 +849,13 @@ class GPG {
 			return true;
 		}
 		// Short?
+		$shortkey = $this->keydir."/".substr($key, -16).".key";
+		if (file_exists($shortkey)) {
+			$out = $this->runGPG("--import $shortkey");
+			$this->checkPermissions();
+			return true;
+		}
+		// Shorter?
 		$shortkey = $this->keydir."/".substr($key, -8).".key";
 		if (file_exists($shortkey)) {
 			$out = $this->runGPG("--import $shortkey");
