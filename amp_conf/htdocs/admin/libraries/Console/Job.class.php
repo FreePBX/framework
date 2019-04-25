@@ -10,7 +10,7 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Command\LockableTrait;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\Exception\ProcessFailedException;
-
+use Symfony\Component\Console\Command\HelpCommand;
 class Job extends Command {
 	private $output;
 	private $input;
@@ -76,6 +76,20 @@ class Job extends Command {
 			$table->render();
 			return;
 		}
+
+		$this->outputHelp($input,$output);
+	}
+
+	/**
+	 * @param InputInterface $input
+	 * @param OutputInterface $output
+	 * @return int
+	 * @throws \Symfony\Component\Console\Exception\ExceptionInterface
+	 */
+	protected function outputHelp(InputInterface $input, OutputInterface $output)	 {
+		$help = new HelpCommand();
+		$help->setCommand($this);
+		return $help->run($input, $output);
 	}
 
 	/**
