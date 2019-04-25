@@ -13,6 +13,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 class Job extends Command {
 	private $output;
+	private $input;
 
 	use LockableTrait;
 
@@ -20,13 +21,31 @@ class Job extends Command {
 		$this->setName('job')
 		->setDescription(_('Centralized job management'))
 		->setDefinition(array(
-			new InputOption('run', '', InputOption::VALUE_OPTIONAL, _('Download/Upgrade forcing edge mode')),
-			new InputOption('list', '', InputOption::VALUE_NONE, _('Download/Upgrade forcing edge mode')),
+			new InputOption('enable', '', InputOption::VALUE_REQUIRED, _('Enable a specific job')),
+			new InputOption('disable', '', InputOption::VALUE_REQUIRED, _('Disable a specific job')),
+			new InputOption('run', '', InputOption::VALUE_OPTIONAL, _('Run all jobs, or optionally run a single job if job id is appended')),
+			new InputOption('list', '', InputOption::VALUE_NONE, _('List known jobs')),
 		));
 	}
 
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$this->output = $output;
+		$this->input = $input;
+
+		if($input->getOption('enable')) {
+			$this->enableJob($input->getOption('enable'), true);
+			return;
+		}
+
+		if($input->getOption('disable')) {
+			$this->enableJob($input->getOption('disable'), false);
+			return;
+		}
+
+		if($input->getOption('disable')) {
+			$this->runJobs($this->registerTasks($this->findAllJobs([$input->getOption('run')])));
+			return;
+		}
 
 		if($input->hasParameterOption('--run') && is_null($input->getOption('run'))) {
 			//run all
@@ -60,6 +79,29 @@ class Job extends Command {
 	}
 
 	/**
+	 * Toggle job enabled
+	 *
+	 * @param string $id The Job ID
+	 * @param boolean $enabled to enable or not
+	 * @return void
+	 */
+	private function enableJob($id, $enabled) {
+		$jobs = $this->findAllJobs([$id]);
+		if(empty($jobs)) {
+			$this->output->writeln('No jobs found');
+			return;
+		}
+		foreach($jobs as $job) {
+			\FreePBX::Job()->setEnabled($job['modulename'], $job['jobname'], $enabled);
+			if($enabled) {
+				$this->output->writeln('Enabled job '.$job['modulename'].'::'.$job['jobname']);
+			} else {
+				$this->output->writeln('Disabled job '.$job['modulename'].'::'.$job['jobname']);
+			}
+		}
+	}
+
+	/**
 	 * Run Jobs
 	 *
 	 * @param array $jobs
@@ -80,6 +122,7 @@ class Job extends Command {
 				switch($config['type']) {
 					case 'command':
 						$process = new Process($config['command']);
+						$process->setTimeout($config['max_runtime']);
 						$process->run(function ($type, $buffer) {
 							if (Process::ERR === $type) {
 								$this->output->writeln('<error>'.$buffer.'</error>');
@@ -89,7 +132,7 @@ class Job extends Command {
 						});
 					break;
 					case 'class':
-						if($config['closure']($this->output) !== true) {
+						if($config['closure']($this->input, $this->output) !== true) {
 							throw new \Exception("Command did not return true!");
 						};
 					break;
@@ -116,7 +159,8 @@ class Job extends Command {
 				'schedule' => $task['schedule'],
 				'module' => $task['modulename'],
 				'job' => $task['jobname'],
-				'type' => $task['type']
+				'type' => $task['type'],
+				'max_runtime' => $task['max_runtime']
 			];
 			switch($task['type']) {
 				case 'command':

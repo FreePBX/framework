@@ -6,6 +6,7 @@
  */
 namespace FreePBX\Job;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputInterface;
 /**
  * The format that we'll expect all of our Tasks to follow.
  */
@@ -16,5 +17,5 @@ interface TaskInterface {
      *
      * @return bool
      */
-    public static function run(OutputInterface $output);
+    public static function run(InputInterface $input, OutputInterface $output);
 }
