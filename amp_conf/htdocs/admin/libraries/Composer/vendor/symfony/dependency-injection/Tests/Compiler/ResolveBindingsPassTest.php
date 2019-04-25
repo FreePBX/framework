@@ -16,6 +16,7 @@ use Symfony\Component\DependencyInjection\Argument\BoundArgument;
 use Symfony\Component\DependencyInjection\Compiler\AutowireRequiredMethodsPass;
 use Symfony\Component\DependencyInjection\Compiler\ResolveBindingsPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\Tests\Fixtures\CaseSensitiveClass;
 use Symfony\Component\DependencyInjection\Tests\Fixtures\NamedArgumentsDummy;
@@ -110,5 +111,25 @@ class ResolveBindingsPassTest extends TestCase
         (new ResolveBindingsPass())->process($container);
 
         $this->assertEquals([['setDefaultLocale', ['fr']]], $definition->getMethodCalls());
+    }
+
+    /**
+     * @expectedException \Symfony\Component\DependencyInjection\Exception\RuntimeException
+     * @exceptedExceptionMessage Invalid service "Symfony\Component\DependencyInjection\Tests\Fixtures\NamedArgumentsDummy": method "setLogger()" does not exist.
+     */
+    public function testWithNonExistingSetterAndBinding()
+    {
+        $container = new ContainerBuilder();
+
+        $bindings = [
+            '$c' => (new Definition('logger'))->setFactory('logger'),
+        ];
+
+        $definition = $container->register(NamedArgumentsDummy::class, NamedArgumentsDummy::class);
+        $definition->addMethodCall('setLogger');
+        $definition->setBindings($bindings);
+
+        $pass = new ResolveBindingsPass();
+        $pass->process($container);
     }
 }
