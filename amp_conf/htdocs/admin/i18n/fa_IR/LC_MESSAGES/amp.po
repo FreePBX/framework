@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-04-24 19:29-0400\n"
+"POT-Creation-Date: 2019-04-25 17:37-0400\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -185,7 +185,7 @@ msgstr "%s (حاضر:%s)"
 msgid "%s Advanced Settings"
 msgstr "%s تنظیمات پیشرفته"
 
-#: ../core/page.trunks.php:449
+#: ../core/page.trunks.php:450
 #, php-format
 msgid "%s Channel %s"
 msgstr "%s کانال %s"
@@ -253,7 +253,7 @@ msgstr ""
 msgid "%s Upgrade Available (%s)"
 msgstr "%s به روزرسانی در دسترس است (%s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3228
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3230
 #, php-format
 msgid "%s [not enabled]"
 msgstr "%s [فعال نشده]"
@@ -853,7 +853,7 @@ msgstr ""
 "Actions to preform in  regards to this module. This usually contains "
 "installation and maintenance operations at an administration level"
 
-#: amp_conf/htdocs/admin/functions.inc.php:378 ../core/page.astmodules.php:140
+#: amp_conf/htdocs/admin/functions.inc.php:379 ../core/page.astmodules.php:140
 #: ../core/views/trunks/trunk_header.php:2
 msgid "Add"
 msgstr "افزودن"
@@ -1230,7 +1230,7 @@ msgstr ""
 "external fax equipment or security systems are installed in parallel and you "
 "would like them to be able to seize the line."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3116
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3118
 msgid ""
 "An unauthorized system user account called 'ssh' was discovered in /etc/"
 "passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc "
@@ -1573,7 +1573,7 @@ msgstr ""
 msgid "Auto"
 msgstr "خودکار"
 
-#: amp_conf/htdocs/admin/functions.inc.php:255
+#: amp_conf/htdocs/admin/functions.inc.php:256
 msgid ""
 "Auto set ZAP2DAHDICOMPAT to true because we are running a version of "
 "Asterisk greater than 1.4.21"
@@ -2038,7 +2038,7 @@ msgstr "لغو"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "عدم اتصال به مدیر استریسک با "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2307
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2309
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "عدم توانایی حذف دایرکتوری %s"
@@ -2102,6 +2102,10 @@ msgstr ""
 "Cant Verify  downloaded module %s. Unable to trust GPG Key - aborting "
 "(Cause: No Cause Given)"
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:22
+msgid "Centralized job management"
+msgstr ""
+
 #: amp.i18n.php:422
 msgid "Certificate File Location"
 msgstr "محل فایل مجوز"
@@ -2146,7 +2150,7 @@ msgstr "تغییر درایور SIP در دسترس نیست"
 msgid "Channel"
 msgstr "کانال"
 
-#: ../core/page.trunks.php:361
+#: ../core/page.trunks.php:362
 #, php-format
 msgid "Channel %s"
 msgstr "کانال %s"
@@ -2637,7 +2641,7 @@ msgstr "ایجاد درخواست امضا شده برای %s"
 msgid "Critical"
 msgstr "بحرانی"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3235
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3237
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr "ماژول اساسی \"%s\" تایید نشده، فورا دانلود مجدد کنید"
@@ -2653,6 +2657,10 @@ msgstr ""
 "Critical error when splicing  into %s. I was asked to splice into an empty "
 "section with a priority greater than 1. This is always a bug in a module. I "
 "was asked to add %s"
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
+msgid "Cron"
+msgstr ""
 
 #: ../core/functions.inc.php:4725
 msgid ""
@@ -3542,6 +3550,10 @@ msgstr "غیرفعال کردن ترانک"
 msgid "Disable Trunks on Restore?"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:25
+msgid "Disable a specific job"
+msgstr ""
+
 #: ../core/Console/Trunks.class.php:20
 msgid "Disable given trunk"
 msgstr "غیر فعال کردن ترانک معیین"
@@ -3865,7 +3877,7 @@ msgid ""
 "Dry-run only, no files will be written and Asterisk will not be reloaded"
 msgstr ""
 
-#: ../core/install.php:1062
+#: ../core/install.php:1065
 msgid ""
 "Due to bug FREEPBX-18620 routes were created without valid references which "
 "made them invisible. They are now visible and you are advised to edit/delete "
@@ -4061,6 +4073,10 @@ msgstr "فعال کردن TLS برای سرور mini-HTTP"
 msgid "Enable The Old Style FreePBX Dial Patterns Textarea"
 msgstr "Enable  The Old Style FreePBX Dial Patterns Textarea"
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:24
+msgid "Enable a specific job"
+msgstr ""
+
 #: ../core/Console/Trunks.class.php:17
 msgid "Enable and disable trunks from the command line"
 msgstr "فعال و غیرفعال کردن ترانک ها از خط فرمان"
@@ -4125,6 +4141,7 @@ msgstr ""
 "Enable this to send  outbound HTTP and HTTPS requests via a proxy. This does "
 "not affect Voice or Video traffic."
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1208
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:147
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:4
@@ -4302,12 +4319,12 @@ msgstr "خطا در ایجاد دایرکتوری ماژول: %s"
 msgid "Error creating temporary directory: %s"
 msgstr "خطا در ایجاد دایرکتوری موقت: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2314
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2316
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "خطا حذف دایرکتوری %s (کد %d)"
 
-#: ../core/Core.class.php:752 ../core/page.trunks.php:327
+#: ../core/Core.class.php:752 ../core/page.trunks.php:328
 msgid "Error fetching prefix list for: "
 msgstr "خطا در دریافت فهرست پیش شماره ها برای: "
 
@@ -4636,7 +4653,7 @@ msgstr "حذف ناموفق دایرکتوری"
 msgid "Failed to copy from module agi-bin"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3167
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3169
 #, php-format
 msgid "Failed to get remote file, error was: %s"
 msgstr ""
@@ -5099,7 +5116,7 @@ msgstr ""
 "سیستم، بارگذاری تنظیمات وغیره نمایش میدهد. برای نگه داری این پیام ها به "
 "ترتیبی که نمایش داده شده است، این گزینه را به درست تنظیم کنید."
 
-#: ../core/page.trunks.php:488
+#: ../core/page.trunks.php:489
 msgid ""
 "FreePBX offers limited support for DUNDi trunks and additional manual "
 "configuration is required. The trunk name should correspond to the "
@@ -5522,6 +5539,7 @@ msgid "IAX transfer capabilities, see the Asterisk documentation for details."
 msgstr ""
 "IAX transfer  capabilities, see the Asterisk documentation for details."
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:6
 msgid "ID"
 msgstr "شناسه"
@@ -6099,7 +6117,7 @@ msgstr "نام ترانک وارد شده نامعتبر"
 msgid "Invalid Username or Password"
 msgstr "نام کاربری یا کلمه عبور نامعتبر است"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2366
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2368
 msgid "Invalid description"
 msgstr "توضیحات نامعتبر"
 
@@ -6107,7 +6125,7 @@ msgstr "توضیحات نامعتبر"
 msgid "Invalid email address"
 msgstr "آدرس ایمیل نامعتبر"
 
-#: ../core/Core.class.php:756 ../core/page.trunks.php:332
+#: ../core/Core.class.php:756 ../core/page.trunks.php:333
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "فرمت کد NPA-NXX نادرست است (فرمت درست:NXXNXX)"
 
@@ -6159,6 +6177,10 @@ msgstr ""
 #: ../core/page.astmodules.php:53
 msgid "It is unlikely you'll need to change anything here."
 msgstr "شما نیاز به تغییر چندانی در این بخش ندارید."
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
+msgid "Job"
+msgstr ""
 
 #: ../core/page.advancedsettings.php:98 ../core/page.advancedsettings.php:130
 #: ../core/page.advancedsettings.php:155 ../core/page.advancedsettings.php:184
@@ -6279,6 +6301,10 @@ msgstr "فهرست تمامی ماژولهای محلی، پذیرفتن بدو�
 #: amp_conf/htdocs/admin/libraries/Console/Session.class.php:15
 msgid "List all sessions"
 msgstr "فهرست تمامی جلسات"
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:27
+msgid "List known jobs"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1387
 msgid "List online modules, accepts no arguments"
@@ -6503,7 +6529,7 @@ msgstr "انتقال force_rport به مقدار درست پیشفرض..."
 msgid "Migrating http setting '%s' to Advanced Settings..."
 msgstr "انتقال تنظیمات http '%s' به تنظیمات پیشرفته..."
 
-#: ../core/install.php:1014
+#: ../core/install.php:1017
 msgid "Migrating old media encryption values..."
 msgstr ""
 
@@ -6580,7 +6606,7 @@ msgstr "گمشدن نام ماژول یا URL"
 msgid "Missing module.xml in %s"
 msgstr "گمشدنmodule.xml در %s"
 
-#: ../core/install.php:1062
+#: ../core/install.php:1065
 msgid "Missing outbound routes have been found"
 msgstr ""
 
@@ -6611,6 +6637,7 @@ msgstr ""
 msgid "Modify the default USER connection parameters for your VoIP provider."
 msgstr "تغییر پارامترهای پیشفرض اتصال کاربر برای تامین کننده سرویس ویپ."
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
 #: amp_conf/htdocs/admin/libraries/Console/Localization.class.php:101
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1223
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1310
@@ -6629,17 +6656,17 @@ msgstr "ماژول"
 msgid "Module "
 msgstr "ماژول "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3215
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3217
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr "ماژول \"%s\" وضعیت تایید خود را از دست داده است."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3237
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3239
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr "ماژول \"%s\" تایید نشده باید مجدد دانلود شود"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3230
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3232
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr "ماژول \"%s\" با کلید نادرستی تایید شده."
@@ -6836,7 +6863,7 @@ msgid ""
 "it available."
 msgstr "ماژول با موفقیت به روزشد. برای اطمینان باید ماژول %s را فعال کنید."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3251
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3253
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
@@ -6845,7 +6872,7 @@ msgstr ""
 "Module: \"%s\"'s signature  has been revoked. Module has been automatically "
 "disabled"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3245
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3247
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr "ماژول: \"%s\", فایل: \"%s\""
@@ -6860,7 +6887,7 @@ msgstr ""
 msgid "Module: %s installed at version %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3243
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3245
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -7036,6 +7063,10 @@ msgstr ""
 #, php-format
 msgid "Newer than online version (%s)"
 msgstr "جدیدتر از نسخه آنلاین (%s)"
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:63
+msgid "Next Run"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:23
 msgid "Nightly"
@@ -8580,7 +8611,7 @@ msgstr ""
 msgid "Removing database table "
 msgstr ""
 
-#: ../core/install.php:1070
+#: ../core/install.php:1073
 msgid "Removing encoding on incoming routes alertinfo values..."
 msgstr ""
 
@@ -8755,6 +8786,10 @@ msgstr "نوع مسیر"
 #: ../core/views/routing/form.php:45 ../core/views/trunks/trunk_header.php:85
 msgid "Rules:"
 msgstr "قواعد:"
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:26
+msgid "Run all jobs, or optionally run a single job if job id is appended"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:262
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
@@ -9094,10 +9129,6 @@ msgstr "Set the  Repos. -R Commercial -R Contributed"
 #: ../core/functions.inc.php:4751
 msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr "Set the  initial/current Call Waiting state for this user's extension"
-
-#: amp.i18n.php:378
-msgid "Set this to NO if you experience issues with Dialparties usage"
-msgstr ""
 
 #: amp.i18n.php:602
 msgid ""
@@ -9496,7 +9527,7 @@ msgstr "Some of these  settings can render your system inoperable."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2113
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2198
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2293
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2295
 msgid "Specified module not found"
 msgstr "ماژول مشخص شده یافت نشد"
 
@@ -10169,11 +10200,11 @@ msgstr "خطا(های) زیر رخ داده:"
 msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr "خطا(های) زیر در فایل بارگذاری شده رخ داده: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2834
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2836
 msgid "The following modules are disabled because they are broken:"
 msgstr "The following modules  are disabled because they are broken:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2826
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2828
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr "ماژول های زیر غیرفعال هستند زیرا باید به روز شوند:"
 
@@ -11211,7 +11242,7 @@ msgstr "Unable to  locate the FreePBX BMO Class '%s'"
 msgid "Unable to open file %s"
 msgstr "عدم توانایی بازکردن فایل %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2357
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2359
 #, php-format
 msgid "Unable to parse %s: %s"
 msgstr ""
@@ -11284,7 +11315,7 @@ msgstr "Unable to  trust the FreePBX Key! -- %s"
 msgid "Unable to work with GPG file, message was: %s"
 msgstr "Unable to work  with GPG file, message was: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3116
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3118
 msgid "Unauthorized user"
 msgstr ""
 
@@ -11549,7 +11580,7 @@ msgid "Usage"
 msgstr "استفاده"
 
 #: amp.i18n.php:376
-msgid "Use Dialparties Dialplan"
+msgid "Use Experimental Dialparties Dialplan"
 msgstr ""
 
 #: amp.i18n.php:560
@@ -11579,6 +11610,13 @@ msgstr ""
 #: amp.i18n.php:372
 msgid "Use bad-number Context"
 msgstr "Use  bad-number Context"
+
+#: amp.i18n.php:378
+msgid ""
+"Use experimental dialparties dialplan. When enabled the system will no "
+"longer use dialparties.agi and will instead use strictly dialplan, this may "
+"improve performance on heavy systems"
+msgstr ""
 
 #: ../core/page.advancedsettings.php:290
 msgid "Use extreme caution when making changes!"
@@ -12489,37 +12527,37 @@ msgstr ""
 msgid "You can't set the default to the default"
 msgstr "You can't set the default  to the default"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3287
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3289
 #, php-format
 msgid "You have %s %s modules"
 msgstr "You  have %s %s modules"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2833
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2835
 #, php-format
 msgid "You have %s broken modules"
 msgstr "You  have %s broken modules"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2825
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2827
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "شما %s ماژول غیرفعال دارید"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3284
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3286
 #, php-format
 msgid "You have %s tampered files"
 msgstr "You  have %s tampered files"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3275
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3278
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3277
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3280
 #, php-format
 msgid "You have %s unsigned modules"
 msgstr "You  have %s unsigned modules"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2833
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2835
 msgid "You have a broken module"
 msgstr "You have  a broken module"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2825
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2827
 msgid "You have a disabled module"
 msgstr "شما ماژول غیر فعال دارید"
 
@@ -12666,8 +12704,8 @@ msgstr ""
 msgid "You should fix the problem or select another file and %s."
 msgstr "شما باید مشکل را برطرف کرده یا فایل دیگری انتخاب کنید و %s."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2827
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2835
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2829
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2837
 msgid "You should go to the module admin page to fix these."
 msgstr "برای حل این مورد باید به صفحه مدیریت ماژول بروید."
 
@@ -12816,7 +12854,7 @@ msgstr ""
 "FreePBX"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:227
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3197
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3199
 msgid "altered"
 msgstr "تغییر داده شد"
 
@@ -12936,7 +12974,7 @@ msgstr "حذف شد"
 #: amp_conf/htdocs/admin/modules/framework/install.php:204
 #: amp_conf/htdocs/admin/modules/framework/install.php:215 install.php:192
 #: install.php:204 install.php:215 upgrades/2.6.0beta1/tables.php:317
-#: ../core/install.php:1004 ../core/install.php:1042 ../core/install.php:1084
+#: ../core/install.php:1004 ../core/install.php:1045 ../core/install.php:1087
 msgid "done"
 msgstr "انجام شد"
 
@@ -13002,8 +13040,8 @@ msgid "failed to delete %s from cache directory after opening module archive."
 msgstr ""
 "failed to  delete %s from cache directory after opening module archive."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2501
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2507
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2503
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2509
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr "failed to  include %s during %s of the %s module."
@@ -13041,7 +13079,7 @@ msgstr "نصب فایل فریم ورک انجام شد، حذف بسته ها �
 msgid "free not implemented"
 msgstr "free not  implemented"
 
-#: amp_conf/htdocs/admin/functions.inc.php:257
+#: amp_conf/htdocs/admin/functions.inc.php:258
 msgid ""
 "freepbx setting  ZAP2DAHDICOMPAT not found, somethng is corrupt in the conf "
 "database?"
@@ -13399,7 +13437,7 @@ msgid ""
 "to do"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3262
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3264
 msgid "revoked"
 msgstr "لغو شده"
 
@@ -13438,7 +13476,7 @@ msgstr ""
 msgid "skipbreakingcheck Enabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3260
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3262
 msgid "tampered"
 msgstr "دستکاری"
 
@@ -13463,7 +13501,7 @@ msgstr "trying to  move res_odbc.conf to res_odbc_custom.conf"
 msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr "trying to set  keyword [%s] to [%s] on uninitialized setting"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3261
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3263
 msgid "unknown"
 msgstr "ناشناخته"
 
@@ -13478,11 +13516,11 @@ msgid "unrecognized rule: %s discarding"
 msgstr "unrecognized  rule: %s discarding"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:181
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3259
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3261
 msgid "unsigned"
 msgstr "بدون امضا"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3258
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3260
 msgid "untrusted"
 msgstr "غیر قابل اطمینان"
 
