@@ -808,29 +808,15 @@ class Reload extends Command {
 
 	function installCrons() {
 		$freepbxCron = $this->freepbx->Cron;
-		$exists = false;
-		foreach($freepbxCron->getAll() as $cron) {
-			$str = str_replace("/", "\/", $this->freepbx->Config->get('AMPSBIN')."/fwconsole util cleanplaybackcache -q");
-			if(preg_match("/fwconsole util cleanplaybackcache -q$/",$cron)) {
-				if(!preg_match("/".$str."$/i",$cron)) {
-					$freepbxCron->remove($cron);
-				}
-			}
-
-			if(preg_match("/".$str."/i",$cron,$matches)) {
-					if($exists) {
-						//remove multiple entries (if any)
-						$freepbxCron->remove($cron);
-				}
-				$exists = true;
+		foreach($freepbxCron->getAll() as $c) {
+			if(preg_match('/fwconsole util cleanplaybackcache/',$c,$matches)) {
+				$freepbxCron->remove($c);
 			}
 		}
-		if(!$exists) {
-			$freepbxCron->add(array(
-				"command" => $this->freepbx->Config->get('AMPSBIN')."/fwconsole util cleanplaybackcache -q",
-				"minute" => rand(0,59)
-			));
-		}
+		$freepbxCron->add(array(
+			"command" => $this->freepbx->Config->get('AMPSBIN')."/fwconsole util cleanplaybackcache -q",
+			"hour" => rand(0,5)
+		));
 
 		$um = new \FreePBX\Builtin\UpdateManager();
 		$um->updateCrontab();

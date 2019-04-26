@@ -387,8 +387,11 @@ class AGI_AsteriskManager {
 	* @link https://wiki.asterisk.org/wiki/display/AST/Asterisk+11+ManagerAction_Agents
 	* @version 11
 	*/
-	function Agents() {
-		return $this->send_request('AgentLogoff');
+	function Agents($channel, $actionid=NULL) {
+		if ($actionid) {
+			$parameters = array('ActionID'=>$actionid);
+		}
+		return $this->send_request('Agents', $parameters);
 	}
 
 	/**

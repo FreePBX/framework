@@ -180,7 +180,11 @@ class Chown extends Command {
 		// asterisk to display harmless, but annoying, warnings, and can cause systemSetRecursive to error,
 		// too.
 		$sounds = "$ASTVARLIBDIR/sounds";
-		exec("find $sounds -xtype l", $findoutput, $ret);
+                if (PHP_OS == "FreeBSD") {
+                        exec("find $sounds -type l", $findoutput, $ret);
+                } else {
+                        exec("find $sounds -xtype l", $findoutput, $ret);
+                }
 		foreach ($findoutput as $file) {
 			$output->writeln(sprintf(_("Removing dangling sound symlink %s"), $file));
 			unlink($file);
