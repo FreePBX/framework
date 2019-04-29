@@ -13,6 +13,7 @@ class Media extends DB_Helper{
 	private $path;
 	private $html5Path;
 	private $supported;
+	private $html5Formats;
 
 	public function __construct($freepbx = null, $track = null) {
 		if ($freepbx == null) {
@@ -29,11 +30,17 @@ class Media extends DB_Helper{
 			chgrp($dir, $ampgroup);
 		}
 		$this->html5Path = $dir;
+		// See comment on detectSupportedFormats as to why the order is important
+		// here
+		$this->html5Formats = array('oga', 'm4a', 'mp3', 'wav');
 	}
 
 	/**
-	 * Get supported HTML5 formats
+	 * Get supported HTML5 formats. Formats are returned in order from most
+	 * preferred to least preferred.
 	 * @param boolean Return all supports formats or just the first one
+	 * @param array $forceFormats If non-empty, the list of formats to use instead
+	 *                            of determining formats based on user-agent header.
 	 * @return array Return array of formats
 	 */
 	public function getSupportedHTML5Formats($returnAll=false, $forceFormats=array()) {
@@ -43,10 +50,10 @@ class Media extends DB_Helper{
 			$browser = $this->detectSupportedFormats();
 		} else {
 			// probably running from console
-			$browser = array("oga", "mp3", "m4a", "wav");
+			$browser = $this->html5Formats;
 		}
 		$formats = $this->getSupportedFormats();
-		$html5 = array("oga", "mp3", "m4a", "wav");
+		$html5 = $this->html5Formats;
 		$final = array();
 		$missing = array();
 		$unsupported = array();
@@ -355,7 +362,7 @@ class Media extends DB_Helper{
 			case Browser::MOZILLA:
 			case Browser::CHROME:
 			case Browser::BLACKBERRY:
-				$formats = array("oga", "m4a", "mp3", "wav");
+				$formats = $this->html5Formats;
 			break;
 			case Browser::ICAB:
 			case Browser::NOKIA_S60:
@@ -404,7 +411,7 @@ class Media extends DB_Helper{
 						$formats = array("oga");
 					break;
 					default: //not sure of the browser or os type so just do them all
-						$formats = array("oga", "wav", "mp3", "m4a");
+						$formats = $this->html5Formats;
 					break;
 				}
 
