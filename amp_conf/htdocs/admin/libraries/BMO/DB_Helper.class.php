@@ -79,7 +79,7 @@ class DB_Helper {
 		self::migrateTable($self, $tablename);
 
 		//clear/set in memory cache
-		self::$cache[$p['tablename']] = [];
+		self::$cache[$tablename] = [];
 
 		// Now this has run, everything IS JUST FINE.
 		return self::$checked[$tablename];
