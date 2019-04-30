@@ -13,7 +13,9 @@ class Media extends DB_Helper{
 	private $path;
 	private $html5Path;
 	private $supported;
-	private $html5Formats;
+	// See comment on detectSupportedFormats as to why the order is important
+	// here
+	private $html5Formats = array('oga', 'm4a', 'mp3', 'wav');
 
 	public function __construct($freepbx = null, $track = null) {
 		if ($freepbx == null) {
@@ -30,9 +32,16 @@ class Media extends DB_Helper{
 			chgrp($dir, $ampgroup);
 		}
 		$this->html5Path = $dir;
-		// See comment on detectSupportedFormats as to why the order is important
-		// here
-		$this->html5Formats = array('oga', 'm4a', 'mp3', 'wav');
+	}
+
+	/**
+	 * Return the array of all HTML5 formats. Formats are returned in order from
+	 * most preferred to least preferred.
+	 *
+	 * @return array Array of HTML5 format strings
+	 */
+	public function getAllHTML5Formats() {
+		return $this->html5Formats;
 	}
 
 	/**
