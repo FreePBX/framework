@@ -149,11 +149,11 @@ class Curl {
 	}
 
 	public function addHeader($key, $value) {
-		$this->headers[$key] = $vlaue;
+		$this->headers[$key] = $value;
 	}
 
 	public function addOption($key, $value) {
-		$this->options[$key] = $vlaue;
+		$this->options[$key] = $value;
 	}
 
 	public function reset() {
