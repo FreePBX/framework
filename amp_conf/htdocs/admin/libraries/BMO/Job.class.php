@@ -219,6 +219,6 @@ class Job {
 		}
 
 		$ampbin = $this->freepbx->Config->get('AMPSBIN');
-		$this->freepbx->Cron->add('* * * * * [ -e /usr/sbin/fwconsole ] && sleep $(( ( RANDOM % 30 )  + 1 )) && '.$ampbin.'/fwconsole job --run --quiet 2>&1 > /dev/null');
+		$this->freepbx->Cron->add('* * * * * [ -e /usr/sbin/fwconsole ] && sleep $[RANDOM\%30] && '.$ampbin.'/fwconsole job --run --quiet 2>&1 > /dev/null');
 	}
 }
