@@ -78,38 +78,8 @@ class DB_Helper {
 		//This is placed after self:$checked is set on purpose!
 		self::migrateTable($self, $tablename);
 
-		//Load everything into memory!
-		$sth = self::$db->query("SELECT * FROM `$tablename`");
-		$rows = $sth->fetchAll(\PDO::FETCH_ASSOC);
+		//clear/set in memory cache
 		self::$cache[$tablename] = [];
-		foreach($rows as $row) {
-			$type = $row['type'];
-			$val = $row['val'];
-
-			if ($type == "json-obj") {
-				$val = json_decode($val);
-			} elseif ($type == "json-arr") {
-				$val = json_decode($val, true);
-			}
-
-			self::$cache[$tablename][$row['id']][$row['key']] = [
-				'type' => $row['type'],
-				'val' => $val
-			];
-		}
-
-		// Check and add defaults if they exist
-		if (property_exists(get_called_class(), "dbDefaults")) {
-			$def = static::$dbDefaults;
-			foreach($def as $key => $val) {
-				if(!isset(self::$cache[$tablename]['noid'][$key])) {
-					self::$cache[$tablename]['noid'][$key] = [
-						'type' => null,
-						'val' => $val
-					];
-				}
-			}
-		}
 
 		// Now this has run, everything IS JUST FINE.
 		return self::$checked[$tablename];
@@ -480,11 +450,15 @@ class DB_Helper {
 			$this->classOverride = false;
 		}
 
-		if(!isset(self::$cache[$p['tablename']][$id])) {
-			return [];
-		}
+		$query[':id'] = $id;
 
-		return array_keys(self::$cache[$p['tablename']][$id]);
+		try {
+			$p['dbGetAll']->execute($query);
+		} catch (\Exception $e) {
+			self::checkException($e);
+		}
+		$ret = $p['dbGetAll']->fetchAll(\PDO::FETCH_COLUMN, 0);
+		return $ret;
 	}
 
 	/**
@@ -506,12 +480,9 @@ class DB_Helper {
 			$this->classOverride = false;
 		}
 
-		$tmp = self::$cache[$p['tablename']];
-		if(isset($tmp['noid'])) {
-			unset($tmp['noid']);
-		}
-
-		return array_keys($tmp);
+		$p['dbGetAllIds']->execute();
+		$ret = $p['dbGetAllIds']->fetchAll(\PDO::FETCH_COLUMN, 0);
+		return $ret;
 	}
 
 	/**
@@ -586,13 +557,14 @@ class DB_Helper {
 			$this->classOverride = false;
 		}
 
-		if(!isset(self::$cache[$p['tablename']][$id])) {
-			return null;
+		$query[':id'] = $id;
+		try {
+			$p['dbGetFirst']->execute($query);
+		} catch (\Exception $e) {
+			self::checkException($e);
 		}
-
-		$tmp = self::$cache[$p['tablename']][$id];
-		reset($tmp);
-		return key($tmp);
+		$ret = $p['dbGetFirst']->fetchAll(\PDO::FETCH_COLUMN, 0);
+		return $ret[0];
 	}
 
 	/**
@@ -614,13 +586,14 @@ class DB_Helper {
 			$this->classOverride = false;
 		}
 
-		if(!isset(self::$cache[$p['tablename']][$id])) {
-			return null;
+		$query[':id'] = $id;
+		try {
+			$p['dbGetLast']->execute($query);
+		} catch (\Exception $e) {
+			self::checkException($e);
 		}
-
-		$tmp = self::$cache[$p['tablename']][$id];
-		end($tmp);
-		return key($tmp);
+		$ret = $p['dbGetLast']->fetchAll(\PDO::FETCH_COLUMN, 0);
+		return $ret[0];
 	}
 
 	/**
