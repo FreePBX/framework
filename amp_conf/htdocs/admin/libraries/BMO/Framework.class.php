@@ -177,7 +177,7 @@ class Framework extends FreePBX_Helpers implements BMO {
 			dbug("aborting early because previous errors");
 			return false;
 		}
-		if ($this->freepbx->astman->connected()) {
+		if ($this->freepbx->astman && $this->freepbx->astman->connected()) {
 			$ast_ret = $this->freepbx->astman->Command('module reload manager');
 		} else {
 			unset($output);
