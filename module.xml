@@ -3,14 +3,15 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>15.0.14</version>
+	<version>15.0.15</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
-		*15.0.14* Expose 'html5Formats' array from Media 
+		*15.0.15* Add cron jobs table
+		*15.0.14* Expose 'html5Formats' array from Media
 		*15.0.12* Add centralized job class
 		*15.0.11.1* FREEPBX-19763
 		*15.0.11* Update locking code in system updates
@@ -208,6 +209,20 @@
 			<field name="reset" type="boolean" default="0"/>
 			<field name="candelete" type="boolean" default="0"/>
 			<field name="timestamp" type="integer" default="0"/>
+		</table>
+		<table name="cron_jobs">
+			<field name="id" type="integer" unsigned="true" primarykey="true" autoincrement="true"/>
+			<field name="modulename" type="string" length="170" default=""/>
+			<field name="jobname" type="string" length="170" default=""/>
+			<field name="command" type="text" notnull="false"/>
+			<field name="class" type="string" length="255" default="" notnull="false"/>
+			<field name="schedule" type="string" length="255" default=""/>
+			<field name="max_runtime" type="integer" default="30"/>
+			<field name="enabled" type="boolean" default="1"/>
+			<key name="modulename" type="unique">
+				<column name="modulename"/>
+				<column name="jobname"/>
+			</key>
 		</table>
 	</database>
 	<console>
