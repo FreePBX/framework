@@ -177,7 +177,7 @@ class Framework extends FreePBX_Helpers implements BMO {
 			dbug("aborting early because previous errors");
 			return false;
 		}
-		if ($this->freepbx->astman->connected()) {
+		if ($this->freepbx->astman && $this->freepbx->astman->connected()) {
 			$ast_ret = $this->freepbx->astman->Command('module reload manager');
 		} else {
 			unset($output);
@@ -187,12 +187,12 @@ class Framework extends FreePBX_Helpers implements BMO {
 				$this->freepbx->Logger->log(FPBX_LOG_ERROR,_("Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx 'module reload manager']"));
 			}
 		}
-		if ($this->freepbx->astman->connected()) {
+		if ($this->freepbx->astman && $this->freepbx->astman->connected()) {
 			$this->freepbx->astman->disconnect();
 		}
 		global $bootstrap_settings;
 
-		if (!$res = $this->freepbx->astman->connect($this->freepbx->Config->get('ASTMANAGERHOST') . ":" . $this->freepbx->Config->get('ASTMANAGERPORT'), $this->freepbx->Config->get('AMPMGRUSER') , $this->freepbx->Config->get('AMPMGRPASS'), $bootstrap_settings['astman_events'])) {
+		if (!$this->freepbx->astman || !$res = $this->freepbx->astman->connect($this->freepbx->Config->get('ASTMANAGERHOST') . ":" . $this->freepbx->Config->get('ASTMANAGERPORT'), $this->freepbx->Config->get('AMPMGRUSER') , $this->freepbx->Config->get('AMPMGRPASS'), $bootstrap_settings['astman_events'])) {
 			// couldn't connect at all
 			$this->freepbx->Logger->log(FPBX_LOG_CRITICAL,"Connection attmempt to AMI failed");
 			return false;
