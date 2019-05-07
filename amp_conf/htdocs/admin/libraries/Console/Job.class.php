@@ -34,6 +34,11 @@ class Job extends Command {
 		$this->output = $output;
 		$this->input = $input;
 
+		if (!$this->lock()) {
+			$output->writeln('The command is already running in another process.');
+			return 0;
+		}
+
 		if($input->getOption('force')) {
 			$this->force = true;
 		}
