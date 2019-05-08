@@ -196,7 +196,7 @@ class Logger {
 					$monlevel = 200;
 				case 'LOG_DEBUG':
 					$monlevel = 100;
-					$stream = new Mono\Handler\SyslogHandler($driver,constant($log_type),$monlevel);
+					$stream = new Mono\Handler\SyslogHandler($driver,LOG_USER,$monlevel);
 					break;
 				case 'SQL':     // Core will remove these settings once migrated,
 				case 'LOG_SQL': // default to FILE during any interim steps.
