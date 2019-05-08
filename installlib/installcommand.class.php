@@ -340,7 +340,7 @@ class FreePBXInstallCommand extends Command {
 		$output->writeln("Preliminary checks done. Starting FreePBX Installation");
 
 		$output->write("Checking if this is a new install...");
-		if(file_exists($answers['webroot']."/admin/bootstrap.php") && !is_link($answers['webroot']."/admin/bootstrap.php") && $answers['dev-links']) {
+		if(file_exists($answers['webroot']."/admin/bootstrap.php") && !is_link($answers['webroot']."/admin") && $answers['dev-links']) {
 			//Previous install, not in dev mode. We need to do cleanup
 			$output->writeln("No (Forcing dev-links)");
 			$bootstrap_settings['returnimmediately'] = true;
@@ -348,7 +348,7 @@ class FreePBXInstallCommand extends Command {
 			unset($bootstrap_settings['returnimmediately']);
 			$newinstall = false;
 			require_once('amp_conf/htdocs/admin/functions.inc.php');
-		} elseif(file_exists($answers['webroot']."/admin/bootstrap.php") && is_link($answers['webroot']."/admin/bootstrap.php") && !$answers['dev-links']) {
+		} elseif(file_exists($answers['webroot']."/admin/bootstrap.php") && is_link($answers['webroot']."/admin") && !$answers['dev-links']) {
 			//Previous install, was in dev mode. Now we need to do cleanup
 			$output->writeln("No (Un dev-linking this machine)");
 			$bootstrap_settings['returnimmediately'] = true;
@@ -618,32 +618,70 @@ class FreePBXInstallCommand extends Command {
 		chown($amp_conf['AMPWEBROOT'], $amp_conf['AMPASTERISKWEBUSER']);
 
 		// Copy amp_conf/
-		$verb = $answers['dev-links'] ? "Linking" : "Copying";
-		$output->writeln($verb." files (this may take a bit)....");
-		if (is_dir($this->rootPath."/amp_conf")) {
-			$iterator = $this->getFilesToCopy($this->rootPath."/amp_conf", $newinstall);
-			$progress = new ProgressBar($output, iterator_count($iterator));
-			$progress->setRedrawFrequency(100);
-			$progress->start();
-			$this->recursive_copy($input, $output, $progress, $iterator, $answers['dev-links']);
-			$progress->finish();
+		if(!$answers['dev-links']) {
+			$verb = $answers['dev-links'] ? "Linking" : "Copying";
+			$output->writeln($verb." files (this may take a bit)....");
+			if (is_dir($this->rootPath."/amp_conf")) {
+				$iterator = $this->getFilesToCopy($this->rootPath."/amp_conf", $newinstall);
+				$progress = new ProgressBar($output, iterator_count($iterator));
+				$progress->setRedrawFrequency(100);
+				$progress->start();
+				$this->recursive_copy($input, $output, $progress, $iterator, $answers['dev-links']);
+				$progress->finish();
+			}
+			$output->writeln("");
+			$output->writeln("Done");
+		} else {
+			$adminPath = $amp_conf['AMPWEBROOT']."/admin";
+			$rootAdminPath = $this->rootPath.'/amp_conf/htdocs/admin';
+			if(!file_exists($adminPath)) {
+				$output->write("Linking admin directory...");
+				symlink($rootAdminPath,$adminPath);
+				$output->writeln("Done");
+				symlink($this->rootPath.'/amp_conf/htdocs/index.php',$amp_conf['AMPWEBROOT'].'/index.php');
+				symlink($this->rootPath.'/amp_conf/htdocs/robots.txt',$amp_conf['AMPWEBROOT'].'/robots.txt');
+			} elseif(file_exists($adminPath) && !is_link($adminPath)) {
+				$output->write("Moving old admin directory...");
+				exec("mv -R $adminPath $adminPath.old.".time());
+				$output->writeln("Done");
+				$output->write("Linking admin directory...");
+				symlink($rootAdminPath,$adminPath);
+				$output->writeln("Done");
+				$output->write("Removing old admin directory...");
+				$output->writeln("Done");
+				symlink($this->rootPath.'/amp_conf/htdocs/index.php',$amp_conf['AMPWEBROOT'].'/index.php');
+				symlink($this->rootPath.'/amp_conf/htdocs/robots.txt',$amp_conf['AMPWEBROOT'].'/robots.txt');
+			} elseif(file_exists($adminPath) && is_link($adminPath) && readlink($adminPath) !== $rootAdminPath) {
+				$output->write("Unlinking admin directory...");
+				unlink($adminPath);
+				$output->writeln("Done");
+				$output->write("Linking admin directory...");
+				symlink($rootAdminPath,$adminPath);
+				$output->writeln("Done");
+				symlink($this->rootPath.'/amp_conf/htdocs/index.php',$amp_conf['AMPWEBROOT'].'/index.php');
+				symlink($this->rootPath.'/amp_conf/htdocs/robots.txt',$amp_conf['AMPWEBROOT'].'/robots.txt');
+			} else {
+				$output->writeln("Link to admin directory appears correct.");
+			}
 		}
-		$output->writeln("");
-		$output->writeln("Done");
 
 		//Last minute symlinks
 		$sbin = \FreePBX::Config()->get("AMPSBIN");
 		$bin = \FreePBX::Config()->get("AMPBIN");
 
-		$output->writeln("bin is: $bin");
+		$output->write("AMPBIN is: $bin...");
 		if(!file_exists($bin)) {
 			$output->writeln("Directory $bin missing, creating.");
 			mkdir($bin, 0755);
+		} else {
+			$output->writeln("Exists");
 		}
-		$output->writeln("sbin is: $sbin");
+		$output->write("AMPSBIN is: $sbin...");
 		if(!file_exists($sbin)) {
 			$output->writeln("Directory $sbin missing, creating.");
 			mkdir($sbin, 0755);
+		} else {
+			$output->writeln("Exists");
 		}
 
 		//Put new fwconsole into place
