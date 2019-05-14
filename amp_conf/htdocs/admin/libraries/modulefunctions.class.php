@@ -1247,6 +1247,9 @@ class module_functions {
 			return array(_("Failed to run enable method"));
 		}
 
+		//enable all jobs
+		\FreePBX::Job()->setEnabledByModule($modulename, true);
+
 		return true;
 	}
 
@@ -2115,6 +2118,10 @@ class module_functions {
 		//invalidate the modulelist class since it is now stale
 		$this->getInfoCache = array(); //invalidate local
 		\FreePBX::Modulelist()->invalidate();
+
+		//disable all jobs
+		\FreePBX::Job()->setEnabledByModule($modulename, false);
+
 		return true;
 	}
 
