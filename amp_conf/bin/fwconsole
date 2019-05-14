@@ -134,7 +134,7 @@ foreach($amodules as $module){
 			}
 		}
 	} elseif (file_exists($mpath)){
-		\FreePBX::Logger()->log(LOG_WARNING, 'Deprecated way to add Console commands, adding console commands this way can have negative performance impacts. Please use module.xml. See: https://wiki.freepbx.org/display/FOP/Adding+fwconsole+commands');
+		\FreePBX::Logger()->log(LOG_WARNING, 'Deprecated way to add Console commands for module '.$rawname.', adding console commands this way can have negative performance impacts. Please use module.xml. See: https://wiki.freepbx.org/display/FOP/Adding+fwconsole+commands');
 		$cfiles = scandir($mpath);
 		foreach($cfiles as $class){
 			//ignore anything in this dir that is NOT class.php
