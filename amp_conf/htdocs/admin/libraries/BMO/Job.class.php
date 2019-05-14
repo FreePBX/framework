@@ -3,22 +3,10 @@
 /**
  * This is the FreePBX Big Module Object.
  *
- * This is the Cron Handler for the FreePBX Big Module Object.
- * Cron Class. Adds and removes entries to Crontab.
+ * This is the Job Handler for the FreePBX Big Module Object.
  *
- * If run as root, can manage any user:
- *   $cron = new Cron('username');
+ * See: https://wiki.freepbx.org/display/FOP/Job
  *
- * Otherwise manages current user.
- *
- * $cron->add("@monthly /bin/true");
- * $cron->remove("@monthly /bin/true");
- * $cron->add(array("magic" => "@monthly", "command" => "/bin/true"));
- * $cron->add(array("hour" => "1", "command" => "/bin/true"));
- * $cron->removeAll("/bin/true");
- *
- * License for all code of this FreePBX module can be found in the license file inside the module directory
- * Copyright 2006-2014 Schmooze Com Inc.
  */
 namespace FreePBX;
 
@@ -166,6 +154,22 @@ class Job {
 		$sth = $this->db->prepare("DELETE FROM cron_jobs WHERE `modulename` = :modulename");
 		return $sth->execute([
 			':modulename' => $modulename
+		]);
+	}
+
+	/**
+	 * Set Enabled by Module Rawname
+	 *
+	 * @param string $modulename
+	 * @param boolean $enabled
+	 * @return void
+	 */
+	public function setEnabledByModule($modulename, $enabled = true) {
+		$this->init();
+		$sth = $this->db->prepare("UPDATE cron_jobs SET `enabled` = :enabled WHERE `modulename` = :modulename");
+		return $sth->execute([
+			':modulename' => $modulename,
+			':enabled' => ($enabled ? 1 : 0)
 		]);
 	}
 
