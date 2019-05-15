@@ -91,16 +91,28 @@ class Job {
 		if(!\Cron\CronExpression::isValidExpression($schedule)) {
 			throw new \Exception("$schedule is not a valid Cron Expression!");
 		}
-		$sth = $this->db->prepare("INSERT INTO cron_jobs (`modulename`, `jobname`, `command`, `class`, `schedule`, `max_runtime`, `enabled`) VALUES (:modulename,:jobname,:command,:class,:schedule,:max_runtime,:enabled) ON DUPLICATE KEY UPDATE `command` = :command, `class` = :class, `schedule` = :schedule, `max_runtime` = :max_runtime");
-		return $sth->execute([
+		$sth = $this->db->prepare("SELECT COUNT(*) as count FROM cron_jobs WHERE modulename = :modulename AND jobname = :jobname");
+		$sth->execute([
+			':modulename' => $modulename,
+			':jobname' => $jobname
+		]);
+		$count = $sth->fetch(\PDO::FETCH_COLUMN);
+
+		$variables = [
 			':modulename' => $modulename,
 			':jobname' => $jobname,
 			':command' => $command,
 			':class' => $class,
 			':schedule' => $schedule,
-			':max_runtime' => $max_runtime,
-			':enabled' => ($enabled ? 1 : 0)
-		]);
+			':max_runtime' => $max_runtime
+		];
+		if(!$count) {
+			$sth = $this->db->prepare("INSERT INTO cron_jobs (`modulename`, `jobname`, `command`, `class`, `schedule`, `max_runtime`, `enabled`) VALUES (:modulename,:jobname,:command,:class,:schedule,:max_runtime,:enabled)");
+			$variables[':enabled'] = ($enabled ? 1 : 0);
+		} else {
+			$sth = $this->db->prepare("UPDATE cron_jobs SET `command` = :command, `class` = :class, `schedule` = :schedule, `max_runtime` = :max_runtime WHERE modulename = :modulename AND jobname = :jobname");
+		}
+		return $sth->execute($variables);
 	}
 
 	/**
@@ -158,22 +170,6 @@ class Job {
 	}
 
 	/**
-	 * Set Enabled by Module Rawname
-	 *
-	 * @param string $modulename
-	 * @param boolean $enabled
-	 * @return void
-	 */
-	public function setEnabledByModule($modulename, $enabled = true) {
-		$this->init();
-		$sth = $this->db->prepare("UPDATE cron_jobs SET `enabled` = :enabled WHERE `modulename` = :modulename");
-		return $sth->execute([
-			':modulename' => $modulename,
-			':enabled' => ($enabled ? 1 : 0)
-		]);
-	}
-
-	/**
 	 * Toggle Enabled on a job
 	 *
 	 * @param string $modulename The module rawname (used for uninstalling)
@@ -187,6 +183,22 @@ class Job {
 		return $sth->execute([
 			':modulename' => $modulename,
 			':jobname' => $jobname,
+			':enabled' => ($enabled ? 1 : 0)
+		]);
+	}
+
+	/**
+	 * Set Enabled by Module Rawname
+	 *
+	 * @param string $modulename
+	 * @param boolean $enabled
+	 * @return void
+	 */
+	public function setEnabledByModule($modulename, $enabled = true) {
+		$this->init();
+		$sth = $this->db->prepare("UPDATE cron_jobs SET `enabled` = :enabled WHERE `modulename` = :modulename");
+		return $sth->execute([
+			':modulename' => $modulename,
 			':enabled' => ($enabled ? 1 : 0)
 		]);
 	}
