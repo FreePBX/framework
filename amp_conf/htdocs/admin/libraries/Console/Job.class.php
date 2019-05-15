@@ -71,7 +71,7 @@ class Job extends Command {
 
 		if($input->getOption('list')) {
 			$table = new Table($output);
-			$table->setHeaders(array(_('ID'),_('Module'),_('Job'),_('Cron'),_('Next Run'),_("Enabled")));
+			$table->setHeaders(array(_('ID'),_('Module'),_('Job'),_('Cron'),_('Next Run'),_('Action'),_("Enabled")));
 			$rows = array();
 			foreach(\FreePBX::Job()->getAll() as $job) {
 				$rows[] = array(
@@ -80,6 +80,7 @@ class Job extends Command {
 					$job['jobname'],
 					$job['schedule'],
 					\Cron\CronExpression::factory($job['schedule'])->getNextRunDate()->format('Y-m-d H:i:s'),
+					(!empty($job['command']) ? _('Command').': '.$job['command'] : _('Class').': '.$job['class']),
 					!empty($job['enabled']) ? 'Yes' : 'No'
 				);
 			}
@@ -147,6 +148,7 @@ class Job extends Command {
 				switch($config['type']) {
 					case 'command':
 						$process = new Process($config['command']);
+						$config['max_runtime'] = ($config['max_runtime'] == 0) ? null : $config['max_runtime'];
 						$process->setTimeout($config['max_runtime']);
 						$process->run(function ($type, $buffer) {
 							if (Process::ERR === $type) {
