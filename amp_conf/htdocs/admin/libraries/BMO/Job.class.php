@@ -13,6 +13,7 @@ namespace FreePBX;
 class Job {
 	private $db;
 	private $freepbx;
+	private $inited = false;
 
 	public function __construct($freepbx = null) {
 		if ($freepbx == null) {
@@ -227,6 +228,9 @@ class Job {
 	 * @return void
 	 */
 	public function init() {
+		if($this->inited) {
+			return;
+		}
 		$crons = $this->freepbx->Cron->getAll();
 		foreach($crons as $c) {
 			if(preg_match('/fwconsole job --run/',$c,$matches)) {
@@ -236,5 +240,6 @@ class Job {
 
 		$ampbin = $this->freepbx->Config->get('AMPSBIN');
 		$this->freepbx->Cron->add('* * * * * [ -e '.$ampbin.'/fwconsole ] && sleep $[RANDOM\%30] && '.$ampbin.'/fwconsole job --run --quiet 2>&1 > /dev/null');
+		$this->inited = true;
 	}
 }
