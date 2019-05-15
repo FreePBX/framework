@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-08 18:23-0400\n"
+"POT-Creation-Date: 2019-05-15 16:37-0400\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -268,7 +268,7 @@ msgstr ""
 msgid "%s Upgrade Available (%s)"
 msgstr "%s Atualização Disponível (%s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3230
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3237
 #, php-format
 msgid "%s [not enabled]"
 msgstr "%s [não habilitado]"
@@ -861,6 +861,7 @@ msgstr "Código de conta para esta extensão"
 msgid "Accountcode for this device."
 msgstr "Código da Conta para este dispositivo."
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:315
 #: ../core/page.ampusers.php:271 ../core/page.astmodules.php:91
 #: ../core/page.astmodules.php:108 ../core/page.astmodules.php:125
@@ -1264,7 +1265,7 @@ msgstr ""
 "se equipamento externo fax ou sistemas de segurança são instalados em "
 "paralelo e que você gostaria que elas sejam capazes de aproveitar a linha."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3118
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3125
 msgid ""
 "An unauthorized system user account called 'ssh' was discovered in /etc/"
 "passwd. Please remove any alias lines referencing 'useradd' in /root/.bashrc "
@@ -2085,17 +2086,17 @@ msgstr "Cancelar"
 msgid "Cannot connect to Asterisk Manager with "
 msgstr "Não é possível conectar ao Asterisk Manager com "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2309
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2316
 #, php-format
 msgid "Cannot delete directory %s"
 msgstr "Impossível excluir diretório %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2122
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2207
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2125
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2214
 msgid "Cannot disable: The following modules depend on this one: "
 msgstr "Impossível desabilitar: Os seguintes módulos dependem deste: "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1946
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1949
 msgid "Cannot find module"
 msgstr "Impossível encontrar módulo"
 
@@ -2131,7 +2132,7 @@ msgstr "Não Foi Possível Encontrar Framework XML"
 msgid "Cant Reach Online Server"
 msgstr "Não é Possível Alcançar o Servidor Online"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1541
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1544
 #, php-format
 msgid ""
 "Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: "
@@ -2140,7 +2141,7 @@ msgstr ""
 "Não Foi Possível Verificar módulo %s descarregado. Incapaz de confiar na "
 "chave GPG - abortando (Causa: %s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1538
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1541
 #, php-format
 msgid ""
 "Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: "
@@ -2352,6 +2353,10 @@ msgstr ""
 "instalando um novo sistema, você pode querer iniciar com o repositório "
 "Básico e atualizar todos os módulos, então retorne e revise os outros."
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:83
+msgid "Class"
+msgstr ""
+
 #: ../core/assets/js/trunks/trunks.js:239
 msgid "Click here to insert a new pattern before this pattern"
 msgstr "Clique aqui para inserir um novo padrão antes deste padrão"
@@ -2414,6 +2419,10 @@ msgstr "Combinado"
 #, php-format
 msgid "Combining key and crt into %s.pem"
 msgstr "Combinando key e crt em %s.pem"
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:83
+msgid "Command"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:17
 msgid "Commercial"
@@ -2567,9 +2576,9 @@ msgstr ""
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1309
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1649
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1725
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1312
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1652
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1728
 #, php-format
 msgid "Could Not Create Cache Folder: %s"
 msgstr "Não Foi Possível Criar Pasta Cache: %s"
@@ -2594,8 +2603,8 @@ msgid ""
 "not check online"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1559
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1810
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1562
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1813
 #, php-format
 msgid "Could not find extracted module: %s"
 msgstr "Não pôde encontrar módulo extraído: %s"
@@ -2613,30 +2622,30 @@ msgstr "Módulo assinado não encontrado no servidor remoto!"
 msgid "Could not load a class for %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1442
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1617
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1445
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1620
 #, php-format
 msgid "Could not move %s to %s"
 msgstr "Impossível mover %s para %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1953
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1956
 msgid "Could not read module.xml"
 msgstr "Impossível ler module.xml"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1421
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1593
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1424
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1596
 #, php-format
 msgid "Could not remove %s to install new version"
 msgstr "Impossível remover %s para instalar nova versão"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1438
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1613
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1880
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1441
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1616
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1883
 #, php-format
 msgid "Could not remove old module %s to install new version"
 msgstr "Impossível remover módulo antigo %s para instalar nova versão"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1911
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1914
 #, php-format
 msgid "Could not remove temporary location %s"
 msgstr "Não pôde remover localização temporária %s"
@@ -2651,8 +2660,8 @@ msgstr "Impossível executar o script %s."
 msgid "Could not understand DSN for connect"
 msgstr "Não foi possível entender o DSN para conexão"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1429
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1598
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1432
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1601
 #, php-format
 msgid "Could not untar %s to %s"
 msgstr "Impossível descompactar %s para %s"
@@ -2700,7 +2709,7 @@ msgstr "Criando solicitação de assinatura para %s"
 msgid "Critical"
 msgstr "Crítico"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3237
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3244
 #, php-format
 msgid "Critical Module \"%s\" is unsigned, re-download immediately"
 msgstr "Módulo Crítico \"%s\" não está assinado, baixe novamente imediatamente"
@@ -3817,9 +3826,9 @@ msgstr "Não sei sobre módulos ainda. Necessita ser entregue a mim"
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1293
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:33
 #: amp_conf/htdocs/admin/libraries/moduleAdminFunctions.php:40
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2026
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2099
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2245
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2029
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2102
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2252
 #: amp_conf/htdocs/admin/modules/framework/install.php:265
 #: amp_conf/htdocs/admin/modules/framework/install.php:271
 #: amp_conf/htdocs/admin/modules/framework/install.php:292
@@ -3949,7 +3958,7 @@ msgstr ""
 msgid "Downloading module '%s' failed after %s seconds!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2243
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2250
 #, php-format
 msgid "Dropping table %s..."
 msgstr ""
@@ -4400,17 +4409,17 @@ msgstr "Erro ao Gerar Solicitação de Assinatura: %s"
 msgid "Error Signing Cert with '%s': %s"
 msgstr "Erro ao Assinar Cert com '%s': %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1886
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1889
 #, php-format
 msgid "Error creating module directory: %s"
 msgstr "Erro ao criar diretório do módulo: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1795
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1798
 #, php-format
 msgid "Error creating temporary directory: %s"
 msgstr "Erro criando diretório temporário: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2316
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2323
 #, php-format
 msgid "Error deleting directory %s (code %d)"
 msgstr "Erro excluindo diretório %s (código %d)"
@@ -4419,16 +4428,16 @@ msgstr "Erro excluindo diretório %s (código %d)"
 msgid "Error fetching prefix list for: "
 msgstr "Error obtendo lista de prefixos para: "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1761
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1764
 msgid ""
 "Error finding uploaded file - check your PHP and/or web server configuration"
 msgstr ""
 "Erro procurando arquivo atualizado - verifique o PHP e/ou configuração do "
 "servidor WEB"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1821
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1831
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1837
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1824
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1834
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1840
 #, php-format
 msgid "Error from %s: %s"
 msgstr "Erro de %s: %s"
@@ -4440,8 +4449,8 @@ msgid "Error opening %s for reading"
 msgstr "Erro abrindo %s para leitura"
 
 #: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:94
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1464
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1678
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1467
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1681
 #, php-format
 msgid "Error opening %s for writing"
 msgstr "Erro abrindo %s para gravação"
@@ -4455,12 +4464,12 @@ msgstr "Erro ao analisar cdr_mysql.conf, nenhuma migração feita"
 msgid "Error updating GPG Keys: %s"
 msgstr "Erro ao atualizar chaves GPG: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2047
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2050
 #, php-format
 msgid "Error updating database. Command was: %s; error was: %s "
 msgstr "Erro atualizando banco de dados. O comando foi: %s; o erro foi: %s "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2230
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2237
 msgid "Error updating database: "
 msgstr "Erro atualizando banco de dados: "
 
@@ -4734,8 +4743,8 @@ msgstr ""
 "Falha ao mudar tempo limite de escrita AMI para [%s], detalhes de falha "
 "interna segue:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1491
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1674
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1494
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1677
 #, php-format
 msgid "Failed download module tarball from %s, server may be down"
 msgstr ""
@@ -4753,7 +4762,7 @@ msgstr "Falha ao Remover Diretório"
 msgid "Failed to copy from module agi-bin"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3169
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3176
 #, php-format
 msgid "Failed to get remote file, error was: %s"
 msgstr ""
@@ -4791,12 +4800,12 @@ msgstr ""
 msgid "Failed to run enable method"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2005
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2031
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2008
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2034
 msgid "Failed to run installation scripts"
 msgstr "Falha ao inciar os scripts de instalação"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2234
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2241
 msgid "Failed to run un-installation scripts"
 msgstr "Falha ao executar scripts de desinstalação"
 
@@ -4817,7 +4826,7 @@ msgstr "Falha ao enviar email de notificação de módulos não assinados"
 msgid "Failed to send update notification email"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1748
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1751
 msgid "Failed to write file to disk"
 msgstr "Falha ao escrever arquivo no disco"
 
@@ -4860,34 +4869,34 @@ msgstr "O Arquivo %s tem uma assinatura revogada. Não é possível carregar"
 msgid "File '%s' does not exist"
 msgstr "O arquivo '%s' não existe"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1554
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1805
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1557
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1808
 #, php-format
 msgid "File Integrity failed for %s - aborting (Cause: %s)"
 msgstr "A Integridade do Arquivo falhou para %s - abortando (Causa: %s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1546
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1549
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1802
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1552
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1805
 #, php-format
 msgid "File Integrity failed for %s - aborting (GPG Verify File check failed)"
 msgstr ""
 "A Integridade do Arquivo falhou para %s - abortando (verificação do Arquivo "
 "de Verificação GPG falhou)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1570
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1573
 #, php-format
 msgid "File Integrity failed for %s - aborting (md5sum did not match)"
 msgstr ""
 "A Integridade do Arquivo falhou para %s - abortando (md5sum não confere)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1534
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1578
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1537
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1581
 #, php-format
 msgid "File Integrity failed for %s - aborting (sha1 did not match)"
 msgstr "A Integridade do Arquivo falhou para %s - abortando (sha1 não confere)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1751
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1754
 msgid "File upload stopped by extension"
 msgstr "Envio de arquivo parado pelo ramal"
 
@@ -5152,7 +5161,7 @@ msgstr ""
 "Encontrado o que parecem ser entradas inválidas de id de chamada de "
 "emergência."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2054
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2057
 #, php-format
 msgid "Framework Detected, Setting FreePBX Version to %s"
 msgstr "Framework Detectado, Configurando Versão FreePBX para %s"
@@ -5384,7 +5393,7 @@ msgstr ""
 "Discar Prematura em alguns telefones Grandstream, você deveria definir isto "
 "para falso."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2091
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2094
 msgid "Generating CSS..."
 msgstr "Gerando CSS..."
 
@@ -6052,7 +6061,7 @@ msgstr "Entrada"
 msgid "Incoming DID"
 msgstr "DID de Entrada"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1857
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1860
 #, php-format
 msgid "Incorrect Number of Directories for %s"
 msgstr "Número Incorreto de Diretórios para %s"
@@ -6189,7 +6198,7 @@ msgstr "Informações de Alerta Internas"
 msgid "Internal Auto Answer Default"
 msgstr "Padrão de Resposta Automática Interna"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2061
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2064
 msgid ""
 "Internal Error. Function getVersion did not match the Framework version, "
 "even after it was suppose to be applied"
@@ -6258,7 +6267,7 @@ msgstr "Nome de tronco inválido"
 msgid "Invalid Username or Password"
 msgstr "Nome de usuário ou senha inválidos"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2368
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2375
 msgid "Invalid description"
 msgstr "Descrição inválida"
 
@@ -6737,7 +6746,7 @@ msgstr "Faltando O ou CN. Não foi possível criar"
 msgid "Missing Requirements"
 msgstr "Requisitos ausentes"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1745
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1748
 msgid "Missing a temporary folder"
 msgstr "Faltando uma pasta temporária"
 
@@ -6758,7 +6767,7 @@ msgstr "Nome do módulo ausente"
 msgid "Missing module name or URL"
 msgstr "Faltando nome do módulo ou URL"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1865
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1868
 #, php-format
 msgid "Missing module.xml in %s"
 msgstr "Faltando module.xml em %s"
@@ -6810,21 +6819,21 @@ msgstr "Módulo"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1223
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1228
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1234
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1964
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1967
 msgid "Module "
 msgstr "Módulo "
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3217
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3224
 #, php-format
 msgid "Module \"%s\" is is missing its signature status."
 msgstr "Módulo \"%s\" está faltando seu status de assinatura."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3239
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3246
 #, php-format
 msgid "Module \"%s\" is unsigned and should be re-downloaded"
 msgstr "Módulo \"%s\" está sem assinatura e deve ser baixado novamente"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3232
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3239
 #, php-format
 msgid "Module \"%s\" signed by an invalid key."
 msgstr "Módulo \"%s\" assinado por uma chave inválida."
@@ -6845,7 +6854,7 @@ msgstr ""
 msgid "Module %s installation failed, could not resolve dependencies"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1958
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1961
 #, php-format
 msgid ""
 "Module %s is broken and cannot be installed. You should try to download it "
@@ -6942,7 +6951,7 @@ msgstr "Informação do Módulo"
 msgid "Module Name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1872
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1875
 #, php-format
 msgid "Module Name is blank in %s"
 msgstr "Nome do módulo em branco em %s"
@@ -6960,8 +6969,8 @@ msgstr "Módulo não instalado"
 msgid "Module Updates"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1294
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1304
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1297
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1307
 msgid "Module XML was not in the proper format"
 msgstr "Módulo XML não está no formato apropriado"
 
@@ -6986,11 +6995,11 @@ msgstr "Módulo não assinado"
 msgid "Module names"
 msgstr "Nomes de módulos"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2118
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2121
 msgid "Module not enabled: cannot disable"
 msgstr "Módulo não habilitado: impossível desabilitar"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2203
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2210
 msgid "Module not installed: cannot uninstall"
 msgstr "Módulo não instalado: impossível desinstalar"
 
@@ -7015,7 +7024,7 @@ msgstr ""
 "Upload de módulo executado com sucesso. É necessário habilitar o módulo "
 "usando %s para torná-lo disponível."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3253
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3260
 #, php-format
 msgid ""
 "Module: \"%s\"'s signature has been revoked. Module has been automatically "
@@ -7024,22 +7033,22 @@ msgstr ""
 "Módulo: \"%s\"' assinatura foi revogada. Módulo foi automaticamente "
 "desabilitado"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3247
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3254
 #, php-format
 msgid "Module: \"%s\", File: \"%s\""
 msgstr "Módulo: \"%s\", Arquivo: \"%s\""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2041
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2044
 #, php-format
 msgid "Module: %s Updated to version %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2037
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2040
 #, php-format
 msgid "Module: %s installed at version %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3245
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3252
 #, php-format
 msgid ""
 "Module: '%s', File: '%s' (If you just updated FreePBX, you'll need to run "
@@ -7342,7 +7351,7 @@ msgstr "Nenhum módulo habilitado depende deste módulo."
 msgid "No file given to load"
 msgstr "Nenhum arquivo fornecido para carregar"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1742
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1745
 msgid "No file was uploaded"
 msgstr "Nenhum arquivo foi enviado"
 
@@ -8886,7 +8895,7 @@ msgstr ""
 msgid "Retrieve conf failed to copy file(s) from a module's agi-bin dir: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1315
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1318
 msgid "Retrieved Module XML Was Empty"
 msgstr "Módulo XML recuperado estava vazio"
 
@@ -9718,9 +9727,9 @@ msgstr ""
 msgid "Some of these settings can render your system inoperable."
 msgstr "Algumas dessas configurações podem tornar seu sistema inoperante."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2113
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2198
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2295
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2116
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2205
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2302
 msgid "Specified module not found"
 msgstr "Módulo especificado não encontrado"
 
@@ -10270,7 +10279,7 @@ msgid ""
 "after resolving the error."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1827
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1830
 msgid "The binary unzip is not installed. Unable to work with zip file"
 msgstr ""
 "O binário unzip não está instalado. Não é possível trabalhar com o arquivo "
@@ -10410,11 +10419,11 @@ msgid "The following error(s) occurred processing the uploaded file: %s"
 msgstr ""
 "O(s) seguinte(s) erro(s) ocorreu(ram) processando o arquivo enviado: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2836
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2843
 msgid "The following modules are disabled because they are broken:"
 msgstr "Os seguintes módulos foram desabilitados pois estão quebrados:"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2828
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2835
 msgid "The following modules are disabled because they need to be upgraded:"
 msgstr ""
 "Os seguintes módulos foram desabilitados porque precisam ser atualizados:"
@@ -10705,7 +10714,7 @@ msgstr ""
 msgid "The time in seconds that remote API's should cache user data"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1736
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1739
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
 "the HTML form"
@@ -10713,11 +10722,11 @@ msgstr ""
 "O arquivo enviado excede o atributo MAX_FILE_SIZE que foi especificado no "
 "formulário HTML"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1733
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1736
 msgid "The uploaded file exceeds the upload_max_filesize directive in php.ini"
 msgstr "O arquivo enviado excede o atributo upload_max_filesize no php.ini"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1739
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1742
 msgid "The uploaded file was only partially uploaded"
 msgstr "O arquivo enviado foi parcialmente carregado"
 
@@ -11434,7 +11443,7 @@ msgstr ""
 msgid "Unable to connect to Asterisk Manager"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1494
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1497
 #, php-format
 msgid "Unable to connect to servers from URLs provided: %s"
 msgstr "Não é possível conectar a servidores a partir de URLs fornecidas: %s"
@@ -11489,7 +11498,7 @@ msgstr "Não foi possível localizar a classe FreePBX BMO '%s'"
 msgid "Unable to open file %s"
 msgstr "Não foi possível abrir o arquivo %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2359
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2366
 #, php-format
 msgid "Unable to parse %s: %s"
 msgstr ""
@@ -11527,8 +11536,8 @@ msgstr ""
 "sendo executado no PID %s e está sendo executado para %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:127
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1529
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1781
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1532
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1784
 #, php-format
 msgid "Unable to save %s"
 msgstr "Impossível salvar %s"
@@ -11556,13 +11565,13 @@ msgstr "Não foi possível eliminar o resultado da assinatura: %s"
 msgid "Unable to trust the FreePBX Key! -- %s"
 msgstr "Não foi possível confiar na chave FreePBX! -- %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1562
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1814
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1565
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1817
 #, php-format
 msgid "Unable to work with GPG file, message was: %s"
 msgstr "Não foi possível trabalhar com o arquivo GPG, a mensagem foi: %s"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3118
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3125
 msgid "Unauthorized user"
 msgstr ""
 
@@ -11628,7 +11637,7 @@ msgstr ""
 "Erro desconhecido ao buscar dados de tabela de Contexto Personalizado ou "
 "nenhum dado para migrar"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1841
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1844
 #, php-format
 msgid ""
 "Unknown file format of %s for %s, supported formats: tar,tgz,tar.gz,zip,bzip"
@@ -11636,7 +11645,7 @@ msgstr ""
 "Formato de arquivo desconhecido de %s para %s, formatos suportados: tar, "
 "tgz, tar.gz, zip, bzip"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1754
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1757
 msgid "Unknown upload error"
 msgstr "Erro de upload desconhecido"
 
@@ -11736,7 +11745,7 @@ msgstr ""
 msgid "Updating prepared settings.."
 msgstr "Atualizando configurações preparadas.."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2024
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2027
 #: installlib/installcommand.class.php:547
 #: installlib/installcommand.class.php:585
 #, php-format
@@ -12660,37 +12669,37 @@ msgstr ""
 msgid "You can't set the default to the default"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3289
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3296
 #, php-format
 msgid "You have %s %s modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2835
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2842
 #, php-format
 msgid "You have %s broken modules"
 msgstr "Existem %s módulos quebrados"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2827
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2834
 #, php-format
 msgid "You have %s disabled modules"
 msgstr "Existe(m) %s módulo(s) desabilitado(s)"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3286
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3293
 #, php-format
 msgid "You have %s tampered files"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3277
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3280
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3284
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3287
 #, php-format
 msgid "You have %s unsigned modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2835
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2842
 msgid "You have a broken module"
 msgstr "Existem um módulo quebrado"
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2827
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2834
 msgid "You have a disabled module"
 msgstr "Existe um módulo desabilitado"
 
@@ -12819,8 +12828,8 @@ msgstr ""
 msgid "You should fix the problem or select another file and %s."
 msgstr "Você deve corrigir o problema e selecionar outro arquivo e %s."
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2829
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2837
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2836
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2844
 msgid "You should go to the module admin page to fix these."
 msgstr "Você deve ir para página Admin Módulos para corrigir isto."
 
@@ -12962,7 +12971,7 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:227
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3199
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3206
 msgid "altered"
 msgstr ""
 
@@ -13138,21 +13147,21 @@ msgstr ""
 msgid "failed reading %s, file not being removed"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1433
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1602
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1851
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1436
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1605
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1854
 #, php-format
 msgid "failed to delete %s from cache directory after opening module archive."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2503
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2509
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2510
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2516
 #, php-format
 msgid "failed to include %s during %s of the %s module."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1428
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1597
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1431
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1600
 #, php-format
 msgid "failed to open %s module archive into _cache directory."
 msgstr ""
@@ -13527,7 +13536,7 @@ msgid ""
 "to do"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3264
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3271
 msgid "revoked"
 msgstr ""
 
@@ -13563,7 +13572,7 @@ msgstr ""
 msgid "skipbreakingcheck Enabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3262
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3269
 msgid "tampered"
 msgstr ""
 
@@ -13588,7 +13597,7 @@ msgstr ""
 msgid "trying to set keyword [%s] to [%s] on uninitialized setting"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3263
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3270
 msgid "unknown"
 msgstr ""
 
@@ -13603,11 +13612,11 @@ msgid "unrecognized rule: %s discarding"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:181
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3261
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3268
 msgid "unsigned"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3260
+#: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3267
 msgid "untrusted"
 msgstr ""
 
