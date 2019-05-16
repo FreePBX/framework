@@ -396,7 +396,9 @@ class CI_Email {
 	{
 		$this->_attach_name[] = $filename;
 		// FREEPBX-9034 - Take the LAST part of the filename, not the second part.
-		$this->_attach_type[] = $this->_mime_types(end(explode('.', basename($filename))));
+		// FREEI-522 Only variables should be passed by reference error
+		$baseName = explode('.',basename($filename));
+		$this->_attach_type[] = $this->_mime_types(end($baseName));
 		$this->_attach_disp[] = $disposition; // Can also be 'inline'  Not sure if it matters
 		return $this;
 	}
