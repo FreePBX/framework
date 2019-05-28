@@ -239,7 +239,7 @@ class UpdateManager {
 		$cmd = "[ -e $fwconsole ] && $fwconsole ma listonline --sendemail -q > /dev/null 2>&1";
 		// Add the new job to check for updates.
 		if(!empty($cmd)) {
-			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "dom" => $day ]);
+			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "dow" => $day ]);
 		}
 
 		// If we are auto-installing, then run the update job an hour later.
@@ -252,10 +252,10 @@ class UpdateManager {
 		// Are our updates enabled?
 		if ($settings['auto_system_updates'] === "emailonly") {
 			$cmd = "[ -e $fwconsole ] && $fwconsole sys listonline --sendemail -q > /dev/null 2>&1";
-			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "dom" => $day ]);
+			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "dow" => $day ]);
 		} elseif($settings['auto_system_updates'] === "enabled") {
 			$cmd = "[ -e $fwconsole ] && $fwconsole sys upgradeall --sendemail -q > /dev/null 2>&1";
-			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "dom" => $day ]);
+			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "dow" => $day ]);
 		}
 
 		// If we are auto-installing, then run the update job an hour later.
@@ -267,7 +267,7 @@ class UpdateManager {
 		}
 		if ($settings['auto_module_updates'] === "enabled") {
 			$cmd = "[ -e $fwconsole ] && $fwconsole ma installall --sendemail -q > /dev/null 2>&1";
-			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "dom" => $day ]);
+			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "dow" => $day ]);
 		}
 
 	}
