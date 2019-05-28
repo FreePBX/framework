@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-20 09:08+0530\n"
+"POT-Creation-Date: 2019-05-28 17:02+0530\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -482,11 +482,18 @@ msgstr "%s version %s or  higher is required, you have %s"
 msgid "%s will be removed from the hard disk"
 msgstr "%s از هارد دیسک حذف خواهد شد"
 
-#: ../core/Core.class.php:3660
+#: ../core/Core.class.php:3677
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
-"result all AGIs will be launched from the CLI"
+"result all AGIs will be forked inside of Asterisk until this is resolved"
+msgstr ""
+
+#: ../core/Core.class.php:3698
+msgid ""
+"'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
+"but the FastAGI server was unable to start, As a result all AGIs will be "
+"forked inside of Asterisk until this is resolved"
 msgstr ""
 
 #: install.php:13
@@ -665,7 +672,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "یک مسیر برای این DID/CID در حال حاضر موجود است!"
 
-#: ../core/Core.class.php:2613 ../core/functions.inc.php:4639
+#: ../core/Core.class.php:2614 ../core/functions.inc.php:4639
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "یک مسیر برای این DID/CID: %s %s در حال حاضر موجود است"
@@ -749,12 +756,12 @@ msgstr "قبول کردن"
 msgid "Access Restrictions"
 msgstr "محدودیت دسترسی"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:185
+#: ../core/functions.inc/drivers/PJSip.class.php:189
 #: ../core/functions.inc/drivers/Sip.class.php:476
 msgid "Account Code"
 msgstr "کد حساب"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:184
+#: ../core/functions.inc/drivers/PJSip.class.php:188
 msgid "Account Code for this extension"
 msgstr "کد حساب برای این داخلی"
 
@@ -968,7 +975,7 @@ msgstr "تنظیمات پیشرفته"
 msgid "Advanced Settings Details"
 msgstr "جزییات تنظیمات پیشرفته"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:223
+#: ../core/functions.inc/drivers/PJSip.class.php:227
 msgid "Aggregate MWI"
 msgstr "مجموع MWI"
 
@@ -1062,7 +1069,7 @@ msgstr ""
 msgid "Allow Any CID"
 msgstr "اجازه به هر CID"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:201
+#: ../core/functions.inc/drivers/PJSip.class.php:205
 #: ../core/views/trunks/pjsip.php:1015
 msgid "Allow Contact header to be rewritten with the source IP address-port"
 msgstr "Allow  Contact header to be rewritten with the source IP address-port"
@@ -1071,7 +1078,7 @@ msgstr "Allow  Contact header to be rewritten with the source IP address-port"
 msgid "Allow Login With DB Credentials"
 msgstr "مجوز ورود به اعتبار بانک اطلاعاتی"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:253
+#: ../core/functions.inc/drivers/PJSip.class.php:263
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP)"
 msgstr ""
 
@@ -1107,7 +1114,7 @@ msgid "Alt for Left Logo"
 msgstr "جایگزین برای لوگو سمت چپ"
 
 #: ../core/functions.inc.php:5510
-#: ../core/functions.inc/drivers/PJSip.class.php:244
+#: ../core/functions.inc/drivers/PJSip.class.php:248
 msgid "Always"
 msgstr "همیشه"
 
@@ -1511,7 +1518,7 @@ msgstr ""
 "username does not exist in User Manager"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:159
-#: ../core/functions.inc/drivers/PJSip.class.php:211
+#: ../core/functions.inc/drivers/PJSip.class.php:215
 #: ../core/functions.inc/drivers/Sip.class.php:309
 #: ../core/functions.inc/drivers/Sip.class.php:313
 #: ../core/views/trunks/pjsip.php:243
@@ -1853,11 +1860,11 @@ msgstr ""
 "it. The higher of the two determines the policy, on a tie the global policy "
 "(caller or callee) determines the policy."
 
-#: ../core/Core.class.php:3052
+#: ../core/Core.class.php:3053
 msgid "Caller ID"
 msgstr "شناسه تماس گیرنده"
 
-#: ../core/Core.class.php:3053
+#: ../core/Core.class.php:3054
 msgid "Caller ID Number"
 msgstr "شماره تماس گیرنده"
 
@@ -2076,7 +2083,7 @@ msgstr "کانال %s"
 msgid "Channel ID"
 msgstr "شناسه کانال"
 
-#: ../core/Core.class.php:146
+#: ../core/Core.class.php:147
 msgid "Channel can not be blank!"
 msgstr ""
 
@@ -2415,12 +2422,12 @@ msgstr "تبدیل تنظیمات ZAP به DAHDi"
 msgid "Core"
 msgstr "هسته"
 
-#: ../core/Core.class.php:3557
+#: ../core/Core.class.php:3558
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:3630
+#: ../core/Core.class.php:3631
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -2728,7 +2735,7 @@ msgstr "توضیحات داخلی مستقیم"
 msgid "DID Number"
 msgstr "شماره داخلی مستقیم"
 
-#: ../core/Core.class.php:3190
+#: ../core/Core.class.php:3191
 msgid "DID already exists"
 msgstr "DID موجود است"
 
@@ -2736,11 +2743,11 @@ msgstr "DID موجود است"
 msgid "DID/CID"
 msgstr "DID/CID"
 
-#: ../core/Core.class.php:2994
+#: ../core/Core.class.php:2995
 msgid "DIDs"
 msgstr ".DIDs"
 
-#: ../core/Core.class.php:2995
+#: ../core/Core.class.php:2996
 msgid "DIDs / Inbound Routes"
 msgstr "مسیرهای ورودی / DIDs"
 
@@ -2817,7 +2824,7 @@ msgstr ""
 "DO NOT set this  unless you know what you are doing. Only used if you do not "
 "use the default values provided by FreePBX.<br>Port number for db host."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:236
+#: ../core/functions.inc/drivers/PJSip.class.php:240
 msgid "DTLS-SRTP (not recommended)"
 msgstr "DTLS-SRTP (توصیه نمیشود)"
 
@@ -3113,10 +3120,10 @@ msgstr ""
 "can also use a pattern match (eg _2[345]X) to match a range of numbers"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:772
-#: ../core/Core.class.php:238 ../core/Core.class.php:261
-#: ../core/Core.class.php:285 ../core/Core.class.php:323
-#: ../core/Core.class.php:344 ../core/Core.class.php:369
-#: ../core/Core.class.php:399 ../core/Core.class.php:429
+#: ../core/Core.class.php:239 ../core/Core.class.php:262
+#: ../core/Core.class.php:286 ../core/Core.class.php:324
+#: ../core/Core.class.php:345 ../core/Core.class.php:370
+#: ../core/Core.class.php:400 ../core/Core.class.php:430
 #: ../core/page.devices.php:58 ../core/page.devices.php:78
 #: ../core/page.extensions.php:27 ../core/page.extensions.php:120
 #: ../core/page.extensions.php:148 ../core/page.users.php:49
@@ -3163,8 +3170,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:215
-#: ../core/Core.class.php:3020 ../core/Core.class.php:3021
-#: ../core/Core.class.php:3044 ../core/Core.class.php:3045
+#: ../core/Core.class.php:3021 ../core/Core.class.php:3022
+#: ../core/Core.class.php:3045 ../core/Core.class.php:3046
 #: ../core/functions.inc.php:5998 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:59
@@ -3177,7 +3184,7 @@ msgstr "شرح"
 msgid "Descriptive Name for this Trunk"
 msgstr "شرح نام برای این ترانک"
 
-#: ../core/Core.class.php:3056 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:3057 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "مقصد"
 
@@ -3245,7 +3252,7 @@ msgid ""
 "Determines whether chan_pjsip will indicate ringing using inband progress."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:252
+#: ../core/functions.inc/drivers/PJSip.class.php:262
 msgid ""
 "Determines whether encryption should be used if possible but does not "
 "terminate the session if not achieved. This option only applies if Media "
@@ -3260,6 +3267,7 @@ msgstr ""
 "Determines  whether failed authentication challenges are treated as "
 "permanent failures."
 
+#: ../core/functions.inc/drivers/PJSip.class.php:256
 #: ../core/views/trunks/pjsip.php:989
 msgid "Determines whether media may flow directly between endpoints."
 msgstr ""
@@ -3271,14 +3279,14 @@ msgid ""
 "for this endpoint. %s"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:237
+#: ../core/functions.inc/drivers/PJSip.class.php:241
 msgid ""
 "Determines whether res_pjsip will use and enforce usage of media encryption "
 "for this endpoint. Auto will enable SRTP via in-SDP encryption if TLS is "
 "enabled in SIPSettings."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:196
+#: ../core/functions.inc/drivers/PJSip.class.php:200
 msgid ""
 "Determines whether res_pjsip will use the media transport received in the "
 "offer SDP in the corresponding answer SDP."
@@ -3294,7 +3302,7 @@ msgstr "حالت توسعه دهنده"
 msgid "Developer and Customization"
 msgstr "توسعه دهنده و شخصی ساز"
 
-#: ../core/Core.class.php:3392 ../core/functions.inc.php:5941
+#: ../core/Core.class.php:3393 ../core/functions.inc.php:5941
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3306,7 +3314,7 @@ msgid "Device %s (%s) had an invalid emergency callerid and we set it to blank"
 msgstr ""
 "Device %s (%s) had an  invalid emergency callerid and we set it to blank"
 
-#: ../core/Core.class.php:1502
+#: ../core/Core.class.php:1503
 msgid "Device Extension was blank or there were no settings defined"
 msgstr "داخلی وسیله خالی بود یا تنظیمی یافت نشد"
 
@@ -3323,11 +3331,11 @@ msgstr "گزینه های وسیله"
 msgid "Device Settings"
 msgstr "تنظیمات وسیله"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:256
+#: ../core/functions.inc/drivers/PJSip.class.php:266
 msgid "Device State Busy at"
 msgstr "وضعیت دستگاه مشغول است در"
 
-#: ../core/Core.class.php:3024 ../core/Core.class.php:3025
+#: ../core/Core.class.php:3025 ../core/Core.class.php:3026
 msgid "Device Technology"
 msgstr "فن آوری وسیله"
 
@@ -3336,11 +3344,11 @@ msgstr "فن آوری وسیله"
 msgid "Device Type"
 msgstr "نوع وسیله"
 
-#: ../core/Core.class.php:3142
+#: ../core/Core.class.php:3143
 msgid "Device could not be added."
 msgstr "وسیله نمیتواند اضافه شود."
 
-#: ../core/Core.class.php:175
+#: ../core/Core.class.php:176
 msgid "Device was not added!"
 msgstr "وسیله اضافه نشد!"
 
@@ -3399,6 +3407,7 @@ msgstr ""
 "patterns specified by the subsequent columns, then this will be prepended "
 "before sending to the trunks."
 
+#: ../core/functions.inc/drivers/PJSip.class.php:257
 #: ../core/views/trunks/pjsip.php:974
 msgid "Direct Media"
 msgstr ""
@@ -3561,7 +3570,7 @@ msgstr "نمایش وضعیت مشکلات ترانک"
 msgid "Display Name"
 msgstr "نام نمایشی"
 
-#: ../core/Core.class.php:146
+#: ../core/Core.class.php:147
 msgid "Display Name can not be blank!"
 msgstr "نام نمایشی نمیتواند خالی باشد!"
 
@@ -3766,7 +3775,7 @@ msgstr ""
 msgid "Dropping table %s..."
 msgstr ""
 
-#: ../core/Core.class.php:374 ../core/Core.class.php:404
+#: ../core/Core.class.php:375 ../core/Core.class.php:405
 msgid "Duplicate"
 msgstr "تکراری"
 
@@ -3935,7 +3944,7 @@ msgstr "فعال کردن ماژول مسیرها"
 msgid "Enable Performance Logging"
 msgstr "فعال کردن لاگ کارآیی"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:230
+#: ../core/functions.inc/drivers/PJSip.class.php:234
 msgid "Enable RTP bundling"
 msgstr ""
 
@@ -4134,7 +4143,7 @@ msgstr ""
 msgid "Enforce RFC7462"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:199
+#: ../core/functions.inc/drivers/PJSip.class.php:203
 msgid ""
 "Enforce that RTP must be symmetric. If this device is natting in it is "
 "usually a good idea to enable this. Disable only if you are having issues."
@@ -4218,7 +4227,7 @@ msgstr "خطا در ایجاد دایرکتوری موقت: %s"
 msgid "Error deleting directory %s (code %d)"
 msgstr "خطا حذف دایرکتوری %s (کد %d)"
 
-#: ../core/Core.class.php:779 ../core/Core.class.php:1206
+#: ../core/Core.class.php:780 ../core/Core.class.php:1207
 #: ../core/page.trunks.php:327
 msgid "Error fetching prefix list for: "
 msgstr "خطا در دریافت فهرست پیش شماره ها برای: "
@@ -4426,8 +4435,8 @@ msgstr ""
 msgid "Extended"
 msgstr "تمدید شده"
 
-#: ../core/Core.class.php:3011 ../core/Core.class.php:3012
-#: ../core/Core.class.php:3380 ../core/functions.inc.php:5586
+#: ../core/Core.class.php:3012 ../core/Core.class.php:3013
+#: ../core/Core.class.php:3381 ../core/functions.inc.php:5586
 #: ../core/page.did.php:93 ../core/page.extensions.php:34
 #: ../core/page.extensions.php:127 ../core/page.extensions.php:155
 #: ../core/views/rnav.php:23
@@ -4450,23 +4459,23 @@ msgstr "مغایرت در شماره داخلی تشخیص داده شد"
 msgid "Extension Options"
 msgstr "گزینه های داخلی"
 
-#: ../core/Core.class.php:146
+#: ../core/Core.class.php:147
 msgid "Extension already in use!"
 msgstr "داخلی در حال استفاده است!"
 
-#: ../core/Core.class.php:146
+#: ../core/Core.class.php:147
 msgid "Extension can not be blank!"
 msgstr "داخلی نمیتواند خالی باشد!"
 
-#: ../core/Core.class.php:3080
+#: ../core/Core.class.php:3081
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3083
+#: ../core/Core.class.php:3084
 msgid "Extension is not numeric."
 msgstr "داخلی شماره نیست."
 
-#: ../core/Core.class.php:3086
+#: ../core/Core.class.php:3087
 msgid "Extension name is blank."
 msgstr ""
 
@@ -4474,11 +4483,11 @@ msgstr ""
 msgid "Extension number conflict, please choose another."
 msgstr "مغایرت شماره داخلی، یکی دیگر انتخاب کنید."
 
-#: ../core/Core.class.php:168
+#: ../core/Core.class.php:169
 msgid "Extension was not numeric!"
 msgstr "داخلی شماره نیست!"
 
-#: amp.i18n.php:890 ../core/Core.class.php:2990 ../core/Core.class.php:2991
+#: amp.i18n.php:890 ../core/Core.class.php:2991 ../core/Core.class.php:2992
 #: ../core/page.extensions.php:21
 msgid "Extensions"
 msgstr "داخلی ها"
@@ -4587,7 +4596,7 @@ msgstr "شکست در اجرای اسکریپت های نصب"
 msgid "Failed to run un-installation scripts"
 msgstr "شکست در اجرای اسکریپت های عزل"
 
-#: ../core/Core.class.php:3609
+#: ../core/Core.class.php:3610
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -4616,7 +4625,11 @@ msgstr "شکست در نوشتن indications.conf"
 msgid "Fallback Welcome Page"
 msgstr "جانشین صفحه خوش آمد"
 
-#: ../core/Core.class.php:3649
+#: ../core/Core.class.php:3691 ../core/Core.class.php:3698
+msgid "Fast AGI Server not running"
+msgstr ""
+
+#: ../core/Core.class.php:3650
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -4715,7 +4728,7 @@ msgstr "علائم"
 msgid "Flash Operator Panel"
 msgstr "پنل اپراتوری فلش"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:213
+#: ../core/functions.inc/drivers/PJSip.class.php:217
 msgid ""
 "For Message Waiting indicators there are three types: Auto, Solicited and "
 "Unsolicited. Auto means the PBX will try to automatically determine the type "
@@ -4724,7 +4737,7 @@ msgid ""
 "and should only be changed if you see errors in the Asterisk logs"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:209
+#: ../core/functions.inc/drivers/PJSip.class.php:213
 msgid ""
 "For Message Waiting indicators there are two types: Solicited and "
 "Unsolicited. Solicited means Subscribe 200 then Notify 200. Unsolicited "
@@ -4840,7 +4853,7 @@ msgstr ""
 "Force operation (skips dependency and status checks) <warning>هشدار:</"
 "warning> Use at your own risk, modules have dependencies for a reason!"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:204
+#: ../core/functions.inc/drivers/PJSip.class.php:208
 #: ../core/views/trunks/pjsip.php:1079
 msgid "Force rport"
 msgstr "تحمیل rport"
@@ -4870,11 +4883,11 @@ msgstr "Force  run pre-start asterisk hooks"
 msgid "Force run pre-stop asterisk hooks"
 msgstr "Force  run pre-stop asterisk hooks"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:203
+#: ../core/functions.inc/drivers/PJSip.class.php:207
 msgid "Force use of return port."
 msgstr "اجباری کردن استفاده از پورت بازگشتی."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:245
+#: ../core/functions.inc/drivers/PJSip.class.php:249
 msgid "Forced"
 msgstr "اجباری"
 
@@ -5758,7 +5771,7 @@ msgstr "تماس های خارجی ورودی"
 msgid "Inbound Internal Calls"
 msgstr "تماس های داخلی ورودی"
 
-#: ../core/Core.class.php:3434 ../core/Core.class.php:3443
+#: ../core/Core.class.php:3435 ../core/Core.class.php:3444
 msgid "Inbound Route:"
 msgstr "مسیر ورودی:"
 
@@ -5788,7 +5801,7 @@ msgstr "شامل نام سرور در مرورگر"
 msgid "Incoming"
 msgstr "ورودی"
 
-#: ../core/Core.class.php:3048 ../core/Core.class.php:3049
+#: ../core/Core.class.php:3049 ../core/Core.class.php:3050
 msgid "Incoming DID"
 msgstr "داخلی مستقیم ورودی"
 
@@ -5999,7 +6012,7 @@ msgstr "توضیحات نامعتبر"
 msgid "Invalid email address"
 msgstr "آدرس ایمیل نامعتبر"
 
-#: ../core/Core.class.php:783 ../core/Core.class.php:1210
+#: ../core/Core.class.php:784 ../core/Core.class.php:1211
 #: ../core/page.trunks.php:332
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "فرمت کد NPA-NXX نادرست است (فرمت درست:NXXNXX)"
@@ -6109,6 +6122,14 @@ msgstr ""
 
 #: amp.i18n.php:366
 msgid "Launch local AGIs through FastAGI Server"
+msgstr ""
+
+#: ../core/Core.class.php:3691
+#, php-format
+msgid ""
+"Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
+"but we were unable to start FastAGI server because: %s, As a result all AGIs "
+"will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:247
@@ -6230,7 +6251,7 @@ msgstr "محدودیت مموری"
 msgid "MAC Address"
 msgstr "آدرس مک"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:217
+#: ../core/functions.inc/drivers/PJSip.class.php:221
 msgid "MWI Subscription Type"
 msgstr "نوع اشتراک MWI"
 
@@ -6281,7 +6302,7 @@ msgstr "مدیریت هشدارها"
 msgid "Manually Loaded Modules"
 msgstr "بارگذاری دستی ماژولها"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:261
+#: ../core/functions.inc/drivers/PJSip.class.php:271
 #: ../core/views/trunks/pjsip.php:675
 msgid "Match (Permit)"
 msgstr "یکسان (مجاز)"
@@ -6294,7 +6315,7 @@ msgstr ""
 msgid "Matches the endpoint based on the selected options."
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:188
+#: ../core/functions.inc/drivers/PJSip.class.php:192
 msgid "Max Contacts"
 msgstr "بیشترین اطلاعات تماس"
 
@@ -6310,7 +6331,7 @@ msgstr "بیشترین تلاشها"
 msgid "Maximum Channels"
 msgstr "بیشترین کانالها"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:265
+#: ../core/functions.inc/drivers/PJSip.class.php:275
 msgid "Maximum Expiration"
 msgstr "بیشترین انقضا"
 
@@ -6318,7 +6339,7 @@ msgstr "بیشترین انقضا"
 msgid "Maximum amount of time (in seconds) to wait for asterisk to shut down"
 msgstr "بیشترین زمان انتظار (بر ثانیه) برای خاموش شدن استریسک"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:187
+#: ../core/functions.inc/drivers/PJSip.class.php:191
 msgid "Maximum number of Endpoints that can associate with this Device"
 msgstr "بیشترین تعداد شماره پایانی که برای این وسیله در دسترس است"
 
@@ -6340,7 +6361,7 @@ msgid ""
 "30 seconds"
 msgstr "بیشترین زمان انتظار (بر ثانیه) برای توقف استریسک. پیشفرض 30 ثانیه"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:264
+#: ../core/functions.inc/drivers/PJSip.class.php:274
 msgid "Maximum time to keep an AoR"
 msgstr "بیشترین زمان برای نگهداری از یک AoR"
 
@@ -6352,7 +6373,7 @@ msgstr "ممکن است غلط املایی داشته باشید"
 msgid "Media Address"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:238
+#: ../core/functions.inc/drivers/PJSip.class.php:242
 #: ../core/views/trunks/pjsip.php:1051
 msgid "Media Encryption"
 msgstr "رمزنگاری مدیا"
@@ -6361,7 +6382,7 @@ msgstr "رمزنگاری مدیا"
 msgid "Media Only"
 msgstr "فقط مدیا"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:197
+#: ../core/functions.inc/drivers/PJSip.class.php:201
 msgid "Media Use Received Transport"
 msgstr "Media  Use Received Transport"
 
@@ -6402,7 +6423,7 @@ msgstr "انتقال گروه های پاسخ به گروه های پاسخ با
 msgid "Min Length"
 msgstr "کمترین طول"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:269
+#: ../core/functions.inc/drivers/PJSip.class.php:279
 msgid "Minimum Expiration"
 msgstr "کمترین انقضا"
 
@@ -6414,7 +6435,7 @@ msgstr ""
 "Minimum amount of digits CallerID needs to  contain in order to be "
 "considered valid"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:268
+#: ../core/functions.inc/drivers/PJSip.class.php:278
 msgid "Minimum time to keep an AoR"
 msgstr "کمترین زمان برای نگهداری AoR"
 
@@ -6867,7 +6888,7 @@ msgstr "نکته! شما %s هشدارد دارید! برای مشاهده به 
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:35
-#: ../core/Core.class.php:3016 ../core/Core.class.php:3017
+#: ../core/Core.class.php:3017 ../core/Core.class.php:3018
 #: ../core/page.extensions.php:35 ../core/page.extensions.php:128
 #: ../core/page.extensions.php:156 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -6931,10 +6952,11 @@ msgstr "شبانه"
 #: ../core/functions.inc/drivers/Dahdi.class.php:138
 #: ../core/functions.inc/drivers/Iax2.class.php:120
 #: ../core/functions.inc/drivers/Iax2.class.php:158
-#: ../core/functions.inc/drivers/PJSip.class.php:220
-#: ../core/functions.inc/drivers/PJSip.class.php:227
-#: ../core/functions.inc/drivers/PJSip.class.php:241
-#: ../core/functions.inc/drivers/PJSip.class.php:250
+#: ../core/functions.inc/drivers/PJSip.class.php:224
+#: ../core/functions.inc/drivers/PJSip.class.php:231
+#: ../core/functions.inc/drivers/PJSip.class.php:245
+#: ../core/functions.inc/drivers/PJSip.class.php:254
+#: ../core/functions.inc/drivers/PJSip.class.php:260
 #: ../core/functions.inc/drivers/Sip.class.php:324
 #: ../core/functions.inc/drivers/Sip.class.php:340
 #: ../core/functions.inc/drivers/Sip.class.php:346
@@ -7065,7 +7087,7 @@ msgstr "آثار NoOp در نقشه تماس"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:534
 #: ../core/functions.inc.php:5503
-#: ../core/functions.inc/drivers/PJSip.class.php:234
+#: ../core/functions.inc/drivers/PJSip.class.php:238
 #: ../core/views/did/advanced_form.php:216 ../core/views/did/basic_form.php:120
 #: ../core/views/trunks/pjsip.php:91 ../core/views/trunks/pjsip.php:110
 #: ../core/views/trunks/pjsip.php:757 ../core/views/trunks/pjsip.php:1056
@@ -7532,12 +7554,12 @@ msgstr "تماس های خروجی"
 msgid "Outbound Internal Calls"
 msgstr "تماس های داخلی"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:272
+#: ../core/functions.inc/drivers/PJSip.class.php:282
 #: ../core/views/trunks/pjsip.php:453 ../core/views/trunks/pjsip.php:465
 msgid "Outbound Proxy"
 msgstr "پراکسی تماس خروجی"
 
-#: ../core/Core.class.php:3417
+#: ../core/Core.class.php:3418
 msgid "Outbound Route:"
 msgstr "مسیر تماس خروجی:"
 
@@ -7666,7 +7688,7 @@ msgstr "منطقه زمانی PHP"
 msgid "PJSIP Settings"
 msgstr "تنظیمات PJSIP"
 
-#: ../core/Core.class.php:3660
+#: ../core/Core.class.php:3677
 msgid "PM2 Not installed"
 msgstr ""
 
@@ -8230,7 +8252,7 @@ msgstr ""
 "RSS Feeds that are  displayed in UCP and Dashboard. Separate each feed by a "
 "new line. Supported feeds are Atom 1.0 and RSS 0.91, 0.92, 1.0 and 2.0"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:200
+#: ../core/functions.inc/drivers/PJSip.class.php:204
 #: ../core/views/trunks/pjsip.php:1025
 msgid "RTP Symmetric"
 msgstr "RTP  Symmetric"
@@ -8459,7 +8481,7 @@ msgstr "نیاز به تایید با اعمال تغییرات دارد"
 msgid "Require Strong Secrets"
 msgstr "Require  Strong Secrets"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:243
+#: ../core/functions.inc/drivers/PJSip.class.php:247
 msgid "Required"
 msgstr "ضروری"
 
@@ -8490,11 +8512,11 @@ msgstr "Requires one of the  following engines: %s; you have: %s"
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:771
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:48
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:470
-#: ../core/Core.class.php:243 ../core/Core.class.php:266
-#: ../core/Core.class.php:290 ../core/Core.class.php:309
-#: ../core/Core.class.php:328 ../core/Core.class.php:349
-#: ../core/Core.class.php:379 ../core/Core.class.php:409
-#: ../core/Core.class.php:434
+#: ../core/Core.class.php:244 ../core/Core.class.php:267
+#: ../core/Core.class.php:291 ../core/Core.class.php:310
+#: ../core/Core.class.php:329 ../core/Core.class.php:350
+#: ../core/Core.class.php:380 ../core/Core.class.php:410
+#: ../core/Core.class.php:435
 msgid "Reset"
 msgstr "بازگردانی"
 
@@ -8530,7 +8552,7 @@ msgstr "بازگشت"
 msgid "Return key to unlock session remotely"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:202
+#: ../core/functions.inc/drivers/PJSip.class.php:206
 #: ../core/views/trunks/pjsip.php:1000
 msgid "Rewrite Contact"
 msgstr "بازنویسی اطلاعات تماس"
@@ -8631,7 +8653,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "هشدار امنیتی:"
 
-#: ../core/Core.class.php:3357 ../core/Core.class.php:3358
+#: ../core/Core.class.php:3358 ../core/Core.class.php:3359
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP  (%s)"
@@ -8727,7 +8749,7 @@ msgstr "SIP  sendrpid"
 msgid "SIP trustrpid"
 msgstr "SIP  trustrpid"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:235
+#: ../core/functions.inc/drivers/PJSip.class.php:239
 #: ../core/views/trunks/pjsip.php:1057
 msgid "SRTP via in-SDP (recommended)"
 msgstr "SRTP  via in-SDP (recommended)"
@@ -8888,7 +8910,7 @@ msgstr "جلسه باید باز شده باشد"
 msgid "Session Timeout"
 msgstr "وقفه جلسه"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:247
+#: ../core/functions.inc/drivers/PJSip.class.php:251
 #: ../core/functions.inc/drivers/Sip.class.php:367
 msgid "Session Timers"
 msgstr "تایمر جلسه"
@@ -9245,7 +9267,7 @@ msgstr "لغو مالکیت از فایلها"
 msgid "Skip the chown operation"
 msgstr "لغو عملیات مالکیت لینوکس"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:216
+#: ../core/functions.inc/drivers/PJSip.class.php:220
 msgid "Solicited"
 msgstr "درخواست شده"
 
@@ -9364,7 +9386,7 @@ msgstr "استاندارد"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "آغاز استریسک و اجرای دستورات لازم FreePBX"
 
-#: ../core/Core.class.php:3604
+#: ../core/Core.class.php:3605
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -9377,7 +9399,7 @@ msgstr "استریسک در حال اجرا..."
 msgid "Starting Cache cleanup"
 msgstr "شروع پاک سازی کش"
 
-#: ../core/Core.class.php:3563
+#: ../core/Core.class.php:3564
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -9391,11 +9413,11 @@ msgstr "وضعیت"
 msgid "Stop Asterisk and run other needed FreePBX commands"
 msgstr "توقف استریسک و اجرای دستورات لازم FreePBX"
 
-#: ../core/Core.class.php:3645
+#: ../core/Core.class.php:3646
 msgid "Stopped FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:3636
+#: ../core/Core.class.php:3637
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -9416,11 +9438,11 @@ msgid "Styling and Logos"
 msgstr "چیدمان و لوگوها"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:770
-#: ../core/Core.class.php:248 ../core/Core.class.php:271
-#: ../core/Core.class.php:295 ../core/Core.class.php:314
-#: ../core/Core.class.php:333 ../core/Core.class.php:354
-#: ../core/Core.class.php:384 ../core/Core.class.php:414
-#: ../core/Core.class.php:439
+#: ../core/Core.class.php:249 ../core/Core.class.php:272
+#: ../core/Core.class.php:296 ../core/Core.class.php:315
+#: ../core/Core.class.php:334 ../core/Core.class.php:355
+#: ../core/Core.class.php:385 ../core/Core.class.php:415
+#: ../core/Core.class.php:440
 msgid "Submit"
 msgstr "ارسال"
 
@@ -9835,7 +9857,7 @@ msgid ""
 "the CLI."
 msgstr ""
 
-#: ../core/Core.class.php:3057
+#: ../core/Core.class.php:3058
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -9960,7 +9982,7 @@ msgid ""
 "change."
 msgstr "ماژولی که میخواهید برای تغییر نسخه غیرفعال شده است."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:255
+#: ../core/functions.inc/drivers/PJSip.class.php:265
 msgid ""
 "The number of in-use channels which will cause busy to be returned as device "
 "state. This should be left at 0 unless you know what you are doing"
@@ -10110,7 +10132,7 @@ msgstr ""
 "negotiated interval. If a session refresh fails then all the entities that "
 "support Session-Timers clear their internal session state. Default is Accept."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:246
+#: ../core/functions.inc/drivers/PJSip.class.php:250
 msgid ""
 "The sessions are kept alive by sending a RE-INVITE or UPDATE request at a "
 "negotiated interval. If a session refresh fails then all the entities that "
@@ -10242,7 +10264,7 @@ msgstr ""
 "The user your httpd  should be running as, used by freepbx_engine. Most "
 "systems should not change this."
 
-#: ../core/functions.inc/drivers/PJSip.class.php:260
+#: ../core/functions.inc/drivers/PJSip.class.php:270
 msgid ""
 "The value is a comma-delimited list of IP addresses. IP addresses may have a "
 "subnet mask appended. The subnet mask may be written in either CIDR or dot-"
@@ -10290,7 +10312,7 @@ msgstr ""
 "Forum</a> where you can post\n"
 "questions and search for answers for any problems you may be having."
 
-#: ../core/Core.class.php:183
+#: ../core/Core.class.php:184
 msgid "There was an unknown error creating this extension"
 msgstr ""
 
@@ -10352,7 +10374,7 @@ msgid ""
 "settings"
 msgstr ""
 
-#: ../core/Core.class.php:1509
+#: ../core/Core.class.php:1510
 msgid "This device id is already in use"
 msgstr "شناسه وسیله در حال استفاده است"
 
@@ -10613,7 +10635,7 @@ msgstr ""
 "This trunk will not be able to be used for  outbound calls until a route is "
 "setup that uses it."
 
-#: ../core/Core.class.php:2597
+#: ../core/Core.class.php:2598
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "کاربر/داخلی %s در حال استفاده است"
@@ -10769,7 +10791,7 @@ msgstr "نام ترانک و متن کاربر نمیتواند یکی باشد"
 msgid "Trunk Sequence for Matched Routes"
 msgstr "توالی ترانک برای مسیرهای یکسان"
 
-#: ../core/Core.class.php:3425
+#: ../core/Core.class.php:3426
 msgid "Trunk:"
 msgstr "ترانک:"
 
@@ -11074,7 +11096,7 @@ msgstr "ماژول (های) تایید نشده"
 msgid "Unsigned module notifications are turned off!"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:215
+#: ../core/functions.inc/drivers/PJSip.class.php:219
 msgid "Unsolicited"
 msgstr "ناخواسته"
 
@@ -11328,7 +11350,7 @@ msgstr ""
 "Used when  PHP Console is enabled for error debugging https://github.com/"
 "barbushin/php-console"
 
-#: ../core/Core.class.php:3404 ../core/functions.inc.php:5600
+#: ../core/Core.class.php:3405 ../core/functions.inc.php:5600
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -11379,7 +11401,7 @@ msgstr "پنل کاربر"
 msgid "User Password"
 msgstr "کلمه عبور کاربر"
 
-#: ../core/Core.class.php:3169
+#: ../core/Core.class.php:3170
 msgid "User could not be added."
 msgstr "امکان افزودن کاربروجود ندارد."
 
@@ -11736,7 +11758,7 @@ msgstr ""
 "When enabled  will turn on PHP Console for error debugging https://github."
 "com/barbushin/php-console"
 
-#: ../core/functions.inc/drivers/PJSip.class.php:222
+#: ../core/functions.inc/drivers/PJSip.class.php:226
 msgid ""
 "When enabled, Asterisk condenses message waiting notifications from multiple "
 "mailboxes into a single NOTIFY. If it is disabled, individual NOTIFYs are "
@@ -11985,7 +12007,7 @@ msgid ""
 "break things. Unless you pass this parameter it is readonly"
 msgstr ""
 
-#: ../core/functions.inc/drivers/PJSip.class.php:229
+#: ../core/functions.inc/drivers/PJSip.class.php:233
 msgid ""
 "With this option enabled, Asterisk will attempt to negotiate the use of "
 "bundle. If negotiated this will result in multiple RTP streams being carried "
@@ -12004,10 +12026,11 @@ msgstr ""
 #: ../core/functions.inc/drivers/Dahdi.class.php:137
 #: ../core/functions.inc/drivers/Iax2.class.php:119
 #: ../core/functions.inc/drivers/Iax2.class.php:157
-#: ../core/functions.inc/drivers/PJSip.class.php:221
-#: ../core/functions.inc/drivers/PJSip.class.php:228
-#: ../core/functions.inc/drivers/PJSip.class.php:242
-#: ../core/functions.inc/drivers/PJSip.class.php:251
+#: ../core/functions.inc/drivers/PJSip.class.php:225
+#: ../core/functions.inc/drivers/PJSip.class.php:232
+#: ../core/functions.inc/drivers/PJSip.class.php:246
+#: ../core/functions.inc/drivers/PJSip.class.php:255
+#: ../core/functions.inc/drivers/PJSip.class.php:261
 #: ../core/functions.inc/drivers/Sip.class.php:325
 #: ../core/functions.inc/drivers/Sip.class.php:341
 #: ../core/functions.inc/drivers/Sip.class.php:421
@@ -12314,7 +12337,7 @@ msgstr "You must  defined a Client URI"
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "شما باید یک فایل freepbx.conf مناسب برای اجرا داشته باشید"
 
-#: ../core/Core.class.php:2590
+#: ../core/Core.class.php:2591
 msgid "You must put in an extension (or user) number"
 msgstr "شما باید شماره یک داخلی (یا کاربر) وارد کنید"
 
