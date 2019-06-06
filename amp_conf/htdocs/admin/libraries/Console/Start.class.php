@@ -183,7 +183,7 @@ class Start extends Command {
 		$i = 0;
 		while(!$this->asteriskIsReady()) {
 			$astman->reconnect('on');
-			usleep(100000);
+			usleep(300000); //0.3 seconds in microseconds, which when multiplied by 100 will wait up to 30 seconds
 			$i++;
 			if($i >= 100) {
 				throw new \Exception("Unable to connect to Asterisk. Did it start?");
