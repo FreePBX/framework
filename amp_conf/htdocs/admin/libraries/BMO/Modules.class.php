@@ -86,7 +86,7 @@ class Modules {
 						$destinations[$dest['destination']] = $dest;
 						$destinations[$dest['destination']]['module'] = $rawname;
 						$destinations[$dest['destination']]['name'] = $data['name'];
-						if(function_exists($funct2)) {
+						if(function_exists($funct2) && empty($dest['edit_url'])) {
 							$info = $funct2($dest['destination']);
 							$destinations[$dest['destination']]['edit_url'] = $info['edit_url'];
 						}
