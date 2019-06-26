@@ -65,7 +65,12 @@ class Util extends Command {
 				\module_functions::create()->getAllSignatures(false,true);
 			break;
 			case 'tablefix':
-				$cmd = 'mysqlcheck -u'.$amp_conf['AMPDBUSER'].' -p'.$amp_conf['AMPDBPASS'].' --repair --all-databases';
+				$dbuser = $amp_conf["AMPDBUSER"];
+				$dbpass = $amp_conf["AMPDBPASS"];
+				$dbhost = $amp_conf["AMPDBHOST"];
+				$dbport = isset($amp_conf["AMPDBPORT"]) ? $amp_conf["AMPDBPORT"] : '3306';
+				
+				$cmd = 'mysqlcheck -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' -P'.$dbport.' --repair --all-databases';
 				$process = new Process($cmd);
 				try {
 					$output->writeln(_("Attempting to repair MySQL Tables (this may take some time)"));
@@ -74,7 +79,7 @@ class Util extends Command {
 				} catch (ProcessFailedException $e) {
 					$output->writeln(sprintf(_("MySQL table repair Failed: %s"),$e->getMessage()));
 				}
-				$cmd = 'mysqlcheck -u'.$amp_conf['AMPDBUSER'].' -p'.$amp_conf['AMPDBPASS'].' --optimize --all-databases';
+				$cmd = 'mysqlcheck -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' -P'.$dbport.' --optimize --all-databases';
 				$process = new Process($cmd);
 				try {
 					$output->writeln(_("Attempting to optimize MySQL Tables (this may take some time)"));

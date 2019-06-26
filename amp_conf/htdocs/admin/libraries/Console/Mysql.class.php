@@ -25,6 +25,7 @@ class Mysql extends Command {
 		$dbuser = $amp_conf["AMPDBUSER"];
 		$dbpass = $amp_conf["AMPDBPASS"];
 		$dbhost = $amp_conf["AMPDBHOST"];
+		$dbport = isset($amp_conf["AMPDBPORT"]) ? $amp_conf["AMPDBPORT"] : '3306';
 		$dbname = $amp_conf["AMPDBNAME"];
 		$dbtype = $amp_conf["AMPDBENGINE"];
 		if($dbtype != "mysql") {
@@ -33,10 +34,10 @@ class Mysql extends Command {
 		}
 
 		if(posix_isatty(STDIN)) {
-			$process = new Process('mysql -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' '.$dbname);
+			$process = new Process('mysql -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' -P'.$dbport.' '.$dbname);
 			$process->setTty(true);
 		} else {
-			$process = new Process('mysql -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' -e '.escapeshellarg(fgets(STDIN)).' '.$dbname);
+			$process = new Process('mysql -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' -P'.$dbport.' -e '.escapeshellarg(fgets(STDIN)).' '.$dbname);
 		}
 
 		$process->mustRun();
