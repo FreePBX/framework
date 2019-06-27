@@ -243,7 +243,7 @@ if ($bootstrap_settings['cdrdb']) {
 		'hostspec' => $amp_conf['CDRDBHOST'] ? $amp_conf['CDRDBHOST'] : $amp_conf['AMPDBHOST'],
 		'username' => $amp_conf['CDRDBUSER'] ? $amp_conf['CDRDBUSER'] : $amp_conf['AMPDBUSER'],
 		'password' => $amp_conf['CDRDBPASS'] ? $amp_conf['CDRDBPASS'] : $amp_conf['AMPDBPASS'],
-		'port'     => $amp_conf['CDRDBPORT'] ? $amp_conf['CDRDBPORT'] : '3306',
+		'port'     => $amp_conf['CDRDBPORT'] ? $amp_conf['CDRDBPORT'] : $amp_conf['AMPDBPORT'],
 		//'socket'   => $amp_conf['CDRDBTYPE'] ? $amp_conf['CDRDBTYPE'] : 'mysql',
 		'database' => $amp_conf['CDRDBNAME'] ? $amp_conf['CDRDBNAME'] : 'asteriskcdrdb',
 	);

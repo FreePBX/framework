@@ -1274,6 +1274,17 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	);
 
+	$settings[$category]['CDRDBPORT'] = array(
+	'value' => '',
+	'options' => '',
+	'name' => 'Remote CDR DB Port',
+	'description' => 'DO NOT set this unless you know what you are doing. Only used if you do not use the default values provided by FreePBX.<br>Port of db server if not the same as AMPDBPORT.',
+	'emptyok' => 1,
+	'readonly' => 1,
+	'level' => 3,
+	'type' => CONF_TYPE_INT,
+	);
+
 	$settings[$category]['CDRDBNAME'] = array(
 	'value' => '',
 	'options' => '',

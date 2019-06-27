@@ -25,19 +25,35 @@ class Mysql extends Command {
 		$dbuser = $amp_conf["AMPDBUSER"];
 		$dbpass = $amp_conf["AMPDBPASS"];
 		$dbhost = $amp_conf["AMPDBHOST"];
-		$dbport = isset($amp_conf["AMPDBPORT"]) ? $amp_conf["AMPDBPORT"] : '3306';
+		$dbport = 3306;
 		$dbname = $amp_conf["AMPDBNAME"];
 		$dbtype = $amp_conf["AMPDBENGINE"];
+		$dbsock = $amp_conf['AMPDBSOCK'];
+
 		if($dbtype != "mysql") {
 			$output->writeln("<error>"._("Only mysql is supported")."</error>");
 			exit(1);
 		}
 
+		//read config and validate port number
+		if (isset($amp_conf["AMPDBPORT"]) && !empty($amp_conf["AMPDBPORT"])) {
+			if ((int) $amp_conf["AMPDBPORT"] > 1024) {
+				$dbport = (int) $amp_conf["AMPDBPORT"];
+			}
+		}
+
+		//conexion type socket or host:port
+		if (empty($dbsock)) {
+			$dbconnect = '-h'.$dbhost.' -P'.$dbport;
+		} else {
+			$dbconnect = '-S'.$dbsock;
+		}
+
 		if(posix_isatty(STDIN)) {
-			$process = new Process('mysql -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' -P'.$dbport.' '.$dbname);
+			$process = new Process('mysql -u'.$dbuser.' -p'.$dbpass.' '.$dbconnect.' '.$dbname);
 			$process->setTty(true);
 		} else {
-			$process = new Process('mysql -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' -P'.$dbport.' -e '.escapeshellarg(fgets(STDIN)).' '.$dbname);
+			$process = new Process('mysql -u'.$dbuser.' -p'.$dbpass.' '.$dbconnect.' -e '.escapeshellarg(fgets(STDIN)).' '.$dbname);
 		}
 
 		$process->mustRun();

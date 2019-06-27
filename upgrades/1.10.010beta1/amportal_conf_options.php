@@ -23,6 +23,11 @@ if (!array_key_exists("AMPDBHOST",$amp_conf)) {
 	$amp_conf["AMPDBHOST"] = "localhost";
 }
 
+if (!array_key_exists("AMPDBPORT",$amp_conf)) {
+	out("Adding AMPDBPORT option to amportal.conf - using AMP default");
+	$amp_conf["AMPDBPORT"] = "localhost";
+}
+
 // write amportal.conf
 write_amportal_conf($filename, $amp_conf);
 

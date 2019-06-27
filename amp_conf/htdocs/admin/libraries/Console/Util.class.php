@@ -68,9 +68,24 @@ class Util extends Command {
 				$dbuser = $amp_conf["AMPDBUSER"];
 				$dbpass = $amp_conf["AMPDBPASS"];
 				$dbhost = $amp_conf["AMPDBHOST"];
-				$dbport = isset($amp_conf["AMPDBPORT"]) ? $amp_conf["AMPDBPORT"] : '3306';
+				$dbport = 3306;
+				$dbsock = $amp_conf['AMPDBSOCK'];
+
+				//read config and validate port number
+				if (isset($amp_conf["AMPDBPORT"]) && !empty($amp_conf["AMPDBPORT"])) {
+					if ((int) $amp_conf["AMPDBPORT"] > 1024) {
+						$dbport = (int) $amp_conf["AMPDBPORT"];
+					}
+				}
+
+				//conexion type socket or host:port
+				if (empty($dbsock)) {
+					$dbconnect = '-h'.$dbhost.' -P'.$dbport;
+				} else {
+					$dbconnect = '-S'.$dbsock;
+				}
 				
-				$cmd = 'mysqlcheck -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' -P'.$dbport.' --repair --all-databases';
+				$cmd = 'mysqlcheck -u'.$dbuser.' -p'.$dbpass.' '.$dbconnect.' --repair --all-databases';
 				$process = new Process($cmd);
 				try {
 					$output->writeln(_("Attempting to repair MySQL Tables (this may take some time)"));
@@ -79,7 +94,7 @@ class Util extends Command {
 				} catch (ProcessFailedException $e) {
 					$output->writeln(sprintf(_("MySQL table repair Failed: %s"),$e->getMessage()));
 				}
-				$cmd = 'mysqlcheck -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' -P'.$dbport.' --optimize --all-databases';
+				$cmd = 'mysqlcheck -u'.$dbuser.' -p'.$dbpass.' '.$dbconnect.' --optimize --all-databases';
 				$process = new Process($cmd);
 				try {
 					$output->writeln(_("Attempting to optimize MySQL Tables (this may take some time)"));
