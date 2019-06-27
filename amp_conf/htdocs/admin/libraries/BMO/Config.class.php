@@ -390,7 +390,6 @@ class Config {
 			'AMPDBNAME',
 			'AMPDBENGINE',
 			'AMPDBSOCK',
-			'AMPDBPORT',
 			'datasource'
 		];
 		foreach($bootstrap_conf as $keyword => $value) {
