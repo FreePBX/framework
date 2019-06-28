@@ -23,6 +23,7 @@ class Notifications extends Command {
 			new InputArgument('args', InputArgument::IS_ARRAY, null, null),))
 		->setHelp($this->showHelp());
 	}
+
 	protected function execute(InputInterface $input, OutputInterface $output){
 		$args = $input->getArgument('args');
 		$nt = \notifications::create();
@@ -58,11 +59,17 @@ class Notifications extends Command {
 				$output->writeln("<error>Specified notification does not exist</error>");
 			}
 		}
+
+		if (empty($args)) {
+			$output->writeln($this->showHelp());
+		}
 	}
 
 	private function showHelp(){
 		$help = '<info>'._('Notifications Help').':'.PHP_EOL;
-		$help .= _('Usage').': fwconsole notification [--list] [--delete module id]</info>' . PHP_EOL;
+		$help .= _('Usage').': fwconsole notifications [--list]' . PHP_EOL;
+		$help .= _('Usage').': fwconsole notifications [--delete module id]</info>' . PHP_EOL;
+
 		return $help;
 	}
 }
