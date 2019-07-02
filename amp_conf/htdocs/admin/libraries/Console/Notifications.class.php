@@ -60,7 +60,14 @@ class Notifications extends Command {
 			}
 		}
 
-		if (empty($args)) {
+		//show the help text when no options are included
+		$options = $input->getOptions();
+		foreach($options as $key => $val) {
+			if (empty($val)) {
+				unset($options[$key]);
+			}
+		}
+		if (empty($options)) {
 			$output->writeln($this->showHelp());
 		}
 	}
