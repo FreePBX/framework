@@ -428,7 +428,7 @@ class Moduleadmin extends Command {
 			if(is_array($result) && !empty($result)){
 				return $this->handleErrors($result, $modulename);
 			} else {
-				out("Module ".$modulename." version ".$this->mf->_getversion($modulename)." successfully installed");
+				$this->writeln("Module ".$modulename." version ".$this->mf->_getversion($modulename)." successfully installed");
 				$this->addToEmail(sprintf(_("Module %s installation completed in %s seconds"), $modulename, time()-$start));
 			}
 		}
