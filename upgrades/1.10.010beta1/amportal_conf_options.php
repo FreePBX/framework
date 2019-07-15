@@ -25,7 +25,7 @@ if (!array_key_exists("AMPDBHOST",$amp_conf)) {
 
 if (!array_key_exists("AMPDBPORT",$amp_conf)) {
 	out("Adding AMPDBPORT option to amportal.conf - using AMP default");
-	$amp_conf["AMPDBPORT"] = "localhost";
+	$amp_conf["AMPDBPORT"] = 3306;
 }
 
 // write amportal.conf
