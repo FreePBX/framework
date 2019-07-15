@@ -396,7 +396,7 @@ class Moduleadmin extends Command {
 				$this->addToEmail(sprintf(_("Module %s installation failed with errors: %s"), $modulename, implode("\n -", $errors)));
 				return false;
 			} else {
-				out("Module ".$modulename." version ".$this->mf->_getversion($modulename)." successfully installed");
+				$this->writeln("Module ".$modulename." version ".$this->mf->_getversion($modulename)." successfully installed");
 				$this->addToEmail(sprintf(_("Module %s installation completed in %s seconds"), $modulename, time()-$start));
 			}
 		}
