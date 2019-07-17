@@ -115,7 +115,7 @@ class Start extends Command {
 				foreach($pre as $pri => $data) {
 					$output->writeln(sprintf(_("Running Asterisk pre from %s module"),$data['module']));
 					try {
-						$bmo->$data['module']->$data['method']($output);
+						$bmo->{$data['module']}->{$data['method']}($output);
 					} catch(\Exception $e) {
 						$output->writeln('<error>'.$e->getMessage().'</error>');
 					}
