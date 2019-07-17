@@ -1,0 +1,78 @@
+--- amp_conf/htdocs/admin/libraries/less/Less.php	2018-05-23 00:38:37.000000000 +0000
++++ amp_conf/htdocs/admin/libraries/less/Less.php	2019-07-01 18:50:58.828969456 +0000
+@@ -9465,7 +9465,7 @@
+ 				case 40:
+ 					$parenLevel++;
+ 					$lastParen = $this->parserCurrentIndex;
+-					continue;
++					continue 2;
+ 
+ 				// )
+ 				case 41:
+@@ -9473,18 +9473,18 @@
+ 					if( $parenLevel < 0 ){
+ 						return $this->fail("missing opening `(`");
+ 					}
+-					continue;
++					continue 2;
+ 
+ 				// ;
+ 				case 59:
+ 					//if (!$parenLevel) { $this->emitChunk();	}
+-					continue;
++					continue 2;
+ 
+ 				// {
+ 				case 123:
+ 					$level++;
+ 					$lastOpening = $this->parserCurrentIndex;
+-					continue;
++					continue 2;
+ 
+ 				// }
+ 				case 125:
+@@ -9494,10 +9494,10 @@
+ 
+ 					}
+ 					//if (!$level && !$parenLevel) { $this->emitChunk(); }
+-					continue;
++					continue 2;
+ 				// \
+ 				case 92:
+-					if ($this->parserCurrentIndex < $this->input_len - 1) { $this->parserCurrentIndex++; continue; }
++					if ($this->parserCurrentIndex < $this->input_len - 1) { $this->parserCurrentIndex++; continue 2; }
+ 					return $this->fail("unescaped `\\`");
+ 
+ 				// ", ' and `
+@@ -9517,12 +9517,12 @@
+ 							$this->parserCurrentIndex++;
+ 						}
+ 					}
+-					if ($matched) { continue; }
++					if ($matched) { continue 2; }
+ 					return $this->fail("unmatched `" + chr($cc) + "`", $currentChunkStartIndex);
+ 
+ 				// /, check for comment
+ 				case 47:
+-					if ($parenLevel || ($this->parserCurrentIndex == $this->input_len - 1)) { continue; }
++					if ($parenLevel || ($this->parserCurrentIndex == $this->input_len - 1)) { continue 2; }
+ 					$cc2 = $this->CharCode($this->parserCurrentIndex+1);
+ 					if ($cc2 == 47) {
+ 						// //, find lnfeed
+@@ -9543,14 +9543,14 @@
+ 							return $this->fail("missing closing `*/`", $currentChunkStartIndex);
+ 						}
+ 					}
+-					continue;
++					continue 2;
+ 
+ 				// *, check for unmatched */
+ 				case 42:
+ 					if (($this->parserCurrentIndex < $this->input_len - 1) && ($this->CharCode($this->parserCurrentIndex+1) == 47)) {
+ 						return $this->fail("unmatched `/*`");
+ 					}
+-					continue;
++					continue 2;
+ 			}
+ 		}
+ 
