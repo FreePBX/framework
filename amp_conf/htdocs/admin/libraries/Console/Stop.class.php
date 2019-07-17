@@ -205,7 +205,7 @@ class Stop extends Command {
 
 		if ($runpost) {
 			foreach($post as $pri => $data) {
-				$bmo->$data['module']->$data['method']($output);
+				$bmo->{$data['module']}->{$data['method']}($output);
 			}
 		}
 	}
