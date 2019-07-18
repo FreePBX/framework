@@ -9494,7 +9494,7 @@ class Less_Exception_Chunk extends Less_Exception_Parser{
 
 					}
 					//if (!$level && !$parenLevel) { $this->emitChunk(); }
-					continue;
+					continue 2;
 				// \
 				case 92:
 					if ($this->parserCurrentIndex < $this->input_len - 1) { $this->parserCurrentIndex++; continue 2; }
