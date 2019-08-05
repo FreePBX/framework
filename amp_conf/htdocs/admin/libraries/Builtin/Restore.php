@@ -7,6 +7,10 @@ class Restore Extends Base\RestoreBase{
 		$sql = "UPDATE IGNORE freepbx_settings SET `value` = :value WHERE `keyword` = :keyword AND `module` = ''";
 		$sth = $this->FreePBX->Database->prepare($sql);
 		foreach($configs['settings'] as $keyword => $value) {
+			if ($data['keyword'] === 'AMPMGRPASS') {
+				$this->log(sprintf(_("Ignorning restore of AMPMGRPASS Advanced Settings from %s"), $module));
+				continue;
+			}
 			$sth->execute([
 				":keyword" => $keyword,
 				":value" => $value
@@ -27,6 +31,11 @@ class Restore Extends Base\RestoreBase{
 			$usth = $this->FreePBX->Database->prepare($sql);
 
 			foreach($res as $data) {
+				if ($data['keyword'] === 'AMPMGRPASS') {
+					$this->log(sprintf(_("Ignorning restore of AMPMGRPASS Advanced Settings from %s"), $module));
+					continue;
+				}
+
 				$usth->execute([
 					":keyword" => $data['keyword'],
 					":value" => $data['value']
