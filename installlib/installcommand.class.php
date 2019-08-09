@@ -1021,6 +1021,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 	 */
 	private function executeSystemCommand($command) {
 		$process = new Process($command);
+      	$process->setTimeout(180);
 		if($this->isTtySupported()) {
 			$process->setTty(true);
 			$process->mustRun();
