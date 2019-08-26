@@ -35,10 +35,10 @@ class Restore Extends Base\RestoreBase{
 					$this->log(sprintf(_("Ignorning restore of AMPMGRPASS Advanced Settings from %s"), $module));
 					continue;
 				}
-
+				$val = str_replace('\r\n', "\r\n", $data['value']);
 				$usth->execute([
 					":keyword" => $data['keyword'],
-					":value" => $data['value']
+					":value" => $val
 				]);
 			}
 		}
