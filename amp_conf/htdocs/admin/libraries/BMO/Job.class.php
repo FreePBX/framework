@@ -29,7 +29,7 @@ class Job {
 	 * @return array
 	 */
 	public function getAll() {
-		return $this->db->query("SELECT * FROM cron_jobs")->fetchAll(\PDO::FETCH_ASSOC);
+		return $this->db->query("SELECT * FROM cron_jobs ORDER by execution_order ASC")->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
 	/**
@@ -38,7 +38,7 @@ class Job {
 	 * @return array
 	 */
 	public function getAllEnabled() {
-		return $this->db->query("SELECT * FROM cron_jobs WHERE `enabled` = 1")->fetchAll(\PDO::FETCH_ASSOC);
+		return $this->db->query("SELECT * FROM cron_jobs WHERE `enabled` = 1 ORDER by execution_order ASC")->fetchAll(\PDO::FETCH_ASSOC);
 	}
 
 	/**
@@ -54,8 +54,8 @@ class Job {
 	 * @param boolean $enabled Whether this job is enabled or not
 	 * @return void
 	 */
-	public function addCommand($modulename, $jobname, $command, $schedule, $max_runtime = 30, $enabled = true) {
-		return $this->add($modulename, $jobname, $command, null, $schedule, $max_runtime, $enabled);
+	public function addCommand($modulename, $jobname, $command, $schedule, $max_runtime = 30, $enabled = true, $execution_order = 100) {
+		return $this->add($modulename, $jobname, $command, null, $schedule, $max_runtime, $enabled, $execution_order);
 	}
 
 	/**
@@ -69,8 +69,8 @@ class Job {
 	 * @param boolean $enabled Whether this job is enabled or not
 	 * @return void
 	 */
-	public function addClass($modulename, $jobname, $class, $schedule, $max_runtime = 30, $enabled = true) {
-		return $this->add($modulename, $jobname, null, $class, $schedule, $max_runtime, $enabled);
+	public function addClass($modulename, $jobname, $class, $schedule, $max_runtime = 30, $enabled = true, $execution_order = 100) {
+		return $this->add($modulename, $jobname, null, $class, $schedule, $max_runtime, $enabled, $execution_order);
 	}
 
 	/**
@@ -87,7 +87,7 @@ class Job {
 	 * @param boolean $enabled Whether this job is enabled or not
 	 * @return void
 	 */
-	public function add($modulename, $jobname, $command, $class, $schedule, $max_runtime = 30, $enabled = true) {
+	public function add($modulename, $jobname, $command, $class, $schedule, $max_runtime = 30, $enabled = true, $execution_order = 100) {
 		$this->init();
 		if(!\Cron\CronExpression::isValidExpression($schedule)) {
 			throw new \Exception("$schedule is not a valid Cron Expression!");
@@ -105,13 +105,14 @@ class Job {
 			':command' => $command,
 			':class' => $class,
 			':schedule' => $schedule,
-			':max_runtime' => $max_runtime
+			':max_runtime' => $max_runtime,
+			':execution_order' => $execution_order
 		];
 		if(!$count) {
-			$sth = $this->db->prepare("INSERT INTO cron_jobs (`modulename`, `jobname`, `command`, `class`, `schedule`, `max_runtime`, `enabled`) VALUES (:modulename,:jobname,:command,:class,:schedule,:max_runtime,:enabled)");
+			$sth = $this->db->prepare("INSERT INTO cron_jobs (`modulename`, `jobname`, `command`, `class`, `schedule`, `max_runtime`, `enabled`, `execution_order`) VALUES (:modulename,:jobname,:command,:class,:schedule,:max_runtime,:enabled,:execution_order)");
 			$variables[':enabled'] = ($enabled ? 1 : 0);
 		} else {
-			$sth = $this->db->prepare("UPDATE cron_jobs SET `command` = :command, `class` = :class, `schedule` = :schedule, `max_runtime` = :max_runtime WHERE modulename = :modulename AND jobname = :jobname");
+			$sth = $this->db->prepare("UPDATE cron_jobs SET `command` = :command, `class` = :class, `schedule` = :schedule, `max_runtime` = :max_runtime, `execution_order`= :execution_order WHERE modulename = :modulename AND jobname = :jobname");
 		}
 		return $sth->execute($variables);
 	}
@@ -143,9 +144,9 @@ class Job {
 	 * @param boolean $enabled Whether this job is enabled or not
 	 * @return void
 	 */
-	public function update($modulename, $jobname, $command, $class, $schedule, $max_runtime = 30, $enabled = true) {
+	public function update($modulename, $jobname, $command, $class, $schedule, $max_runtime = 30, $enabled = true,$execution_order = 100) {
 		$this->init();
-		return $this->add($modulename, $jobname, $command, $class, $schedule, $max_runtime, $enabled);
+		return $this->add($modulename, $jobname, $command, $class, $schedule, $max_runtime, $enabled,$execution_order);
 	}
 
 	/**
@@ -239,7 +240,14 @@ class Job {
 		}
 
 		$ampbin = $this->freepbx->Config->get('AMPSBIN');
-		$this->freepbx->Cron->add('* * * * * [ -e '.$ampbin.'/fwconsole ] && sleep $((RANDOM\%30)) && '.$ampbin.'/fwconsole job --run --quiet 2>&1 > /dev/null');
+		$sleeptime = $this->freepbx->Config->get_conf_setting('JOBSRANDOMSLEEP');
+		if(isset($sleeptime) && $sleeptime > 0 ) {
+		       //we need to set the Random sleep time
+			$this->freepbx->Cron->add('* * * * * [ -e '.$ampbin.'/fwconsole ] && sleep $((RANDOM\%'.$sleeptime.')) && '.$ampbin.'/fwconsole job --run --quiet 2>&1 > /dev/null');
+		}
+		else {
+			$this->freepbx->Cron->add('* * * * * [ -e '.$ampbin.'/fwconsole ] && '.$ampbin.'/fwconsole job --run --quiet 2>&1 > /dev/null');
+		}
 		$this->inited = true;
 	}
 }

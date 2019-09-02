@@ -319,6 +319,7 @@
 			<field name="schedule" type="string" length="255" default=""/>
 			<field name="max_runtime" type="integer" default="30"/>
 			<field name="enabled" type="boolean" default="1"/>
+			<field name="execution_order" type="integer" length="3" default="100"/>
 			<key name="modulename" type="unique">
 				<column name="modulename"/>
 				<column name="jobname"/>
