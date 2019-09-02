@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>15.0.16.12</version>
+	<version>15.0.16.13</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*15.0.16.13* bump 
 		*15.0.16.12* FREEI-686 Recent Framework changes introduce delay with scheduled pages 
 		*15.0.16.11* FREEPBX-20496 Apache errors when browsing Admin GUI 
 		*15.0.16.10* FREEPBX-20467
@@ -236,6 +237,7 @@
 			<field name="schedule" type="string" length="255" default=""/>
 			<field name="max_runtime" type="integer" default="30"/>
 			<field name="enabled" type="boolean" default="1"/>
+			<field name="execution_order" type="integer" length="3" default="100"/>
 			<key name="modulename" type="unique">
 				<column name="modulename"/>
 				<column name="jobname"/>
