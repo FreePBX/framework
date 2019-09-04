@@ -70,6 +70,10 @@ class Kvstore extends Command {
           }
           $output->writeln("Key stored successfully");
         break;
+        case 'get':
+          $result = $c->getConfig($key);
+          $output->writeLn($result ? json_encode($result) : "Key not found!");
+        break;
         default:
           $output->writeln("Invalid or no command provided");
         break;
