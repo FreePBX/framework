@@ -162,7 +162,7 @@ EOF;
 		$location = $this->getKeysLocation();
 		//Creating certificate ${base}.key
 		$this->out(sprintf(_("Creating certificate for %s"),$base));
-		$out = $this->runOpenSSL("genrsa -out " . $location . "/" . $base . ".key 1024");
+		$out = $this->runOpenSSL("genrsa -out " . $location . "/" . $base . ".key 4096");
 		if($out['exitcode'] > 0) {
 			throw new \Exception(sprintf(_("Error Generating Key: %s"),$out['stderr']));
 		}
