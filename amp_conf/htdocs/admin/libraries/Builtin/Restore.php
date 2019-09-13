@@ -2,7 +2,7 @@
 namespace FreePBX\Builtin;
 use FreePBX\modules\Backup as Base;
 class Restore Extends Base\RestoreBase{
-	public function runRestore($jobid){
+	public function runRestore(){
 		$configs = $this->getConfigs();
 		$sql = "UPDATE IGNORE freepbx_settings SET `value` = :value WHERE `keyword` = :keyword AND `module` = ''";
 		$sth = $this->FreePBX->Database->prepare($sql);
