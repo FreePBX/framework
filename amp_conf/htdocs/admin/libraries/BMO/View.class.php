@@ -730,7 +730,7 @@ class View {
 		$flattened = [];
 		foreach($this->drawselect_destinations[$i] as $mod => $categories) {
 			foreach($categories as $cat => $data) {
-				if(is_array($restricted_modules) && ((is_array($restricted_modules[$mod]) && in_array($cat,$restricted_modules[$mod])) || (isset($restricted_modules[$mod]) && !is_array($restricted_modules[$mod])))) {
+				if(is_array($restrict_modules) && ((is_array($restrict_modules[$mod]) && !in_array($cat,$restrict_modules[$mod])) || (!is_array($restrict_modules[$mod]) && !in_array($cat,$restrict_modules)))) {
 					continue;
 				}
 				foreach($data['destinations'] as $destination => $info) {
@@ -764,12 +764,11 @@ class View {
 		} else {
 			//Set 'data-last' values for popover return to nothing because this is a new 'route'
 			$data_last_cat = '';
-	  }
-
+		}
 		$cat_options = [];
 		foreach($this->drawselect_destinations[$i] as $mod => $categories) {
 			foreach($categories as $cat => $data) {
-				if(is_array($restricted_modules) && ((is_array($restricted_modules[$mod]) && in_array($cat,$restricted_modules[$mod])) || (isset($restricted_modules[$mod]) && !is_array($restricted_modules[$mod])))) {
+				if(is_array($restrict_modules) && ((is_array($restrict_modules[$mod]) && !in_array($cat,$restrict_modules[$mod])) || (!is_array($restrict_modules[$mod]) && !in_array($cat,$restrict_modules)))) {
 					continue;
 				}
 				if(empty($cat_options[$data['name']])) {
@@ -817,7 +816,7 @@ class View {
 				$cat_html.='<option value="'.str_replace(' ','_',$data['raw']).'"'.($data['selected'] ? ' SELECTED ':'').$data['style'].'>'.$name.'</option>';
 
 				$data_class = 'form-control destdropdown2 '.($data['mod'] === $data['cat'] ? $data['mod'] : $data['mod'].' '.$data['cat']).' '.(!$data['selected'] ? 'hidden':'');
-				$dest_html.='<select class="'.$data_class.'" ' . $data['data_url'] . ' data-mod="'.$data['mod'].'" data-last="'.(!empty($goto) ? $goto : '').'" name="' . $data['name_tag']
+				$dest_html.='<select data-class="'.$data['mod'].'" class="'.$data_class.'" ' . $data['data_url'] . ' data-mod="'.$data['mod'].'" data-last="'.(!empty($goto) ? $goto : '').'" name="' . $data['name_tag']
 					. '" id="' . $data['name_tag'] . '" '. $style . ' data-id="' . $i . '" ' . $disabled . '>';
 				foreach($data['destinations'] as $dest) {
 					$selected=($goto==$dest['destination'])?'SELECTED ':' ';

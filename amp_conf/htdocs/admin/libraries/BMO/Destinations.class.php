@@ -124,6 +124,12 @@ class Destinations {
 		} else {
 			$destinations = $this->getDestinationsByModule($rawname);
 			$module = $this->FreePBX->Modules->getInfo($rawname)[$rawname];
+			//setting back the popover new value  to array
+			if (isset($popoverInfo) && is_array($popoverInfo)) {
+				$popupnew = $popoverInfo;
+			} else {
+				$popupnew = [];
+			}
 			if(empty($destinations)) {
 				// We have popovers in XML, there were no destinations, and no mod_destination_popovers()
 				// funciton so generate the Add a new selection.
@@ -131,7 +137,7 @@ class Destinations {
 				return [
 					$rawname => [
 						"name" => $module['name'],
-						"args" => []
+						"args" => $popupnew
 					]
 				];
 			} else {
@@ -141,7 +147,7 @@ class Destinations {
 				return [
 					$ds_id => [
 						"name" => $cat,
-						"args" => []
+						"args" => $popupnew
 					]
 				];
 			}
