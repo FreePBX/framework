@@ -789,6 +789,7 @@ class View {
 				if(!empty($data['popover'])) {
 					$tmp['popover'] = $data['popover'];
 					$data['popover']['args']['display'] = $cat;
+					$data['popover']['args']['view'] = $data['popover']['args']['view']? $data['popover']['args']['view']:'form';
 					$tmp['data_url'] = 'data-url="config.php?'.http_build_query($data['popover']['args']).'"';
 				}
 
