@@ -20,6 +20,7 @@ class Restore Extends Base\RestoreBase{
 	}
 
 	public function processLegacy($pdo, $data, $tables, $unknownTables){
+		$skipcdrPass = false;
 		$sql = "SELECT `keyword`, `value` FROM freepbx_settings WHERE module= ''";
 		$sth = $pdo->prepare($sql);
 		$sth->execute();
@@ -33,6 +34,15 @@ class Restore Extends Base\RestoreBase{
 			foreach($res as $data) {
 				if ($data['keyword'] === 'AMPMGRPASS') {
 					$this->log(sprintf(_("Ignorning restore of AMPMGRPASS Advanced Settings from %s"), $module));
+					continue;
+				}
+				if ($data['keyword'] === 'CDRDBHOST' && ($data['value'] === 'localhost' || $data['value'] === '127.0.0.1')) {
+					$skipcdrPass = true;
+					$this->log(sprintf(_("Ignorning restore of CDRDBHOST Advanced Settings from %s"), $module));
+					continue;
+				}
+				if ($skipcdrPass && $data['keyword'] === 'CDRDBPASS') {
+					$this->log(sprintf(_("Ignorning restore of CDRDBPASS Advanced Settings from %s"), $module));
 					continue;
 				}
 				$val = str_replace('\r\n', "\r\n", $data['value']);
