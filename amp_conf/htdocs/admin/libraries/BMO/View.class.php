@@ -454,9 +454,11 @@ class View {
 			}
 		}
 
-		//Set Moment Locale
+		// Moment does not support UTF8 locale parts, so let's remove that from
+		// the locale string if it exists
+		$baseLocale = $this->getBaseLocale($lang);
 		try {
-			\Moment\Moment::setLocale($lang);
+			\Moment\Moment::setLocale($baseLocale);
 		} catch(\Exception $e) {
 			//invalid locale. Not all locales are supported though
 			\Moment\Moment::setLocale('en_US');
@@ -1034,5 +1036,24 @@ HTML;
 		} else {
 			return null;
 		}
+	}
+
+	/**
+	 * Return the base locale that includes language and region only without
+	 * anything else fancy, such as UTF8
+	 *
+	 * @param  String $locale
+	 *
+	 * @return String
+	 */
+	private function getBaseLocale($locale) {
+		$parsedLocale = locale_parse($locale);
+
+		// if unable to parse locale, then just return the locale parameter
+		if (empty($parsedLocale)) {
+			return $locale;
+		}
+
+		return "{$parsedLocale['language']}_{$parsedLocale['region']}";
 	}
 }
