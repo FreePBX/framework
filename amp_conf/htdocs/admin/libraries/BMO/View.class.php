@@ -1047,7 +1047,7 @@ HTML;
 	 * @return String
 	 */
 	private function getBaseLocale($locale) {
-		$parsedLocale = locale_parse($locale);
+		$parsedLocale = \Locale::parseLocale($locale);
 
 		// if unable to parse locale, then just return the locale parameter
 		if (empty($parsedLocale)) {
