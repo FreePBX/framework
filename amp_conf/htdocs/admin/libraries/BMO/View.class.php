@@ -1047,13 +1047,6 @@ HTML;
 	 * @return String
 	 */
 	private function getBaseLocale($locale) {
-		$parsedLocale = \Locale::parseLocale($locale);
-
-		// if unable to parse locale, then just return the locale parameter
-		if (empty($parsedLocale)) {
-			return $locale;
-		}
-
-		return "{$parsedLocale['language']}_{$parsedLocale['region']}";
+		return str_replace('.utf8', '', $locale);
 	}
 }
