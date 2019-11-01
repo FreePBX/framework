@@ -47,7 +47,6 @@ $mt = microtime();
 //
 //enable error reporting and start benchmarking
 ini_set("default_charset","UTF-8");
-date_default_timezone_set('UTC'); // Sets to UTC if not specified anywhere in .ini
 
 function microtime_float() { list($usec,$sec) = explode(' ',microtime()); return ((float)$usec+(float)$sec); }
 $benchmark_starttime = microtime_float();
