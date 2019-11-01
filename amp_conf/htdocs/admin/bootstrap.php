@@ -47,18 +47,8 @@ $mt = microtime();
 //
 //enable error reporting and start benchmarking
 ini_set("default_charset","UTF-8");
-//Below is a hack, a hack-y-hack--hack because PHP gets madd when I *ask* it what the default timezone should be
-set_error_handler(function ($errno, $errstr){
-	throw new Exception($errstr);
-	return false;
-});
-try{
-	date_default_timezone_get();
-}
-catch(Exception $e){
-	date_default_timezone_set('UTC'); // Sets to UTC if not specified anywhere in .ini
-}
-restore_error_handler();
+date_default_timezone_set('UTC'); // Sets to UTC if not specified anywhere in .ini
+
 function microtime_float() { list($usec,$sec) = explode(' ',microtime()); return ((float)$usec+(float)$sec); }
 $benchmark_starttime = microtime_float();
 
