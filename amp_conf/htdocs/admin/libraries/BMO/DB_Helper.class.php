@@ -72,12 +72,6 @@ class DB_Helper {
 			"tablename" => $tablename
 		);
 
-		// Migrate anything from the old 'kvstore' table to the
-		// new 'kvstore_module_name' table. This can be removed
-		// in FreePBX 15.
-		//This is placed after self:$checked is set on purpose!
-		self::migrateTable($self, $tablename);
-
 		//clear/set in memory cache
 		self::$cache[$tablename] = [];
 
@@ -625,51 +619,6 @@ class DB_Helper {
 			// Pass it up to the next handler
 			throw $e;
 		}
-	}
-
-	/**
-	 * Migrate table from old kvstore to new kvstore
-	 *
-	 * This should be removed in FreePBX 15
-	 *
-	 * @param $self the $this that is calling us
-	 * @param $tablename new table name to migrate to
-	 *
-	 */
-	public static function migrateTable($self, $tablename) {
-		// A simple query that inserts data into the NEW table from the OLD
-		// kvstore table, if it exists, and then deletes the contents that match
-
-		if ($self->classOverride) {
-			$mod = $self->classOverride;
-		} else {
-			$mod = get_class($self);
-		}
-		$p = self::$db->prepare("SELECT * FROM `kvstore` WHERE `module`=:mod LIMIT 1");
-		// Let's try to get it. If we throw, that means kvstore doesn't exists (eg, new
-		// install of FreePBX 14), or something else is bad.
-		$query = array("mod" => $mod);
-		try {
-			$p->execute($query);
-			// We made it here, kvstore exists.
-			$res = $p->fetchAll(\PDO::FETCH_ASSOC);
-			if(!empty($res)) {
-				foreach($res as $row) {
-					$self->setConfig($row['key'], $row['val'], $row['id']);
-					// And now delete it
-					$clean = "DELETE FROM `kvstore` WHERE `module`=:mod";
-					$c = self::$db->prepare($clean);
-					$c->execute($query);
-				}
-			}
-		} catch (\Exception $e) {
-			if ($e->getCode() == "42S02") { // kvstore table doesn't exist
-				return true;
-			} else {
-				self::checkException($e);
-			}
-		}
-		return true;
 	}
 
 	/**
