@@ -83,6 +83,7 @@ default_md = sha256
 
 [ca]
 default_md = sha256
+default_crl_days= 3650
 
 [req_distinguished_name]
 CN={$cn}
