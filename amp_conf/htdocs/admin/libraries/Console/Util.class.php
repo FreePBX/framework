@@ -75,8 +75,8 @@ class Util extends Command {
 				$output->writeln("===========================");
 			break;
 			case "resetastdb":
-				\FreePBX::Core()->devices2astdb();
-				\FreePBX::Core()->users2astdb();
+				FreePBX::Core()->devices2astdb();
+				FreePBX::Core()->users2astdb();
 			break;
 			default:
 				$output->writeln('Invalid argument');
