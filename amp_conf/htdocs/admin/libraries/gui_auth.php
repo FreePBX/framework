@@ -54,15 +54,14 @@ if (!isset($_SESSION['AMP_user'])) {
 					try {
 						FreePBX::create()->injectClass("Userman", $hint);
 						if(method_exists(FreePBX::Userman(),"getCombinedGlobalSettingByID")) {
-							$_SESSION['AMP_user'] = new ampuser($username,"usermanager");
-							if (!$_SESSION['AMP_user']->checkPassword($password)) {
-								unset($_SESSION['AMP_user']);
-								$no_auth = true;
-							} else {
+							$no_auth = true;
+							$ampUser = new ampuser($username, "usermanager");
+							if ($ampUser->checkPassword($password)) {
 								unset($no_auth);
-								if(FreePBX::Userman()->getCombinedGlobalSettingByID($_SESSION['AMP_user']->id,'pbx_admin')) {
-									$_SESSION['AMP_user']->setAdmin();
+								if(FreePBX::Userman()->getCombinedGlobalSettingByID($ampUser->id, 'pbx_admin')) {
+									$ampUser->setAdmin();
 								}
+								$_SESSION['AMP_user'] = $ampUser;
 								//We are logged in. Stop processing
 								break;
 							}
@@ -75,28 +74,34 @@ if (!isset($_SESSION['AMP_user'])) {
 		default:
 			if(!empty($username)) {
 				// not logged in, and have provided a user/pass
-				$_SESSION['AMP_user'] = new ampuser($username);
-				if (!$_SESSION['AMP_user']->checkPassword($password)) {
-					// failed, one last chance -- fallback to amportal.conf db admin user
-					if ($amp_conf['AMP_ACCESS_DB_CREDS'] && $username == $amp_conf['AMPDBUSER'] && $password == $amp_conf['AMPDBPASS']) {
-						// password succesfully matched amportal.conf db admin user, set admin access
-						unset($no_auth);
-						$_SESSION['AMP_user']->setAdmin();
-					} else {
-						// password failed and admin user fall-back failed
-						unset($_SESSION['AMP_user']);
-						$no_auth = true;
-						//for now because of how freepbx works
-						if(!empty($username)) {
-							$ip = getRemoteIp();
-							freepbx_log_security('Authentication failure for '.(!empty($username) ? $username : 'unknown').' from '.$_SERVER['REMOTE_ADDR']);
-							if( $ip !== $_SERVER['REMOTE_ADDR']){
-								freepbx_log_security('Possible proxy detected, forwarded headers for'.(!empty($username) ? $username : 'unknown').' set to '.$ip);
-							}
+				$no_auth = true;
+				$ampUser = new ampuser($username);
+				if ($ampUser->checkPassword($password)) {
+					unset($no_auth);
+					$ampUser->setAdmin();
+					$_SESSION['AMP_user'] = $ampUser;
+					//We are logged in. Stop processing
+					break;
+				}
+
+				// failed, one last chance -- fallback to amportal.conf db admin user
+				if ($amp_conf['AMP_ACCESS_DB_CREDS'] && $username == $amp_conf['AMPDBUSER'] && $password == $amp_conf['AMPDBPASS']) {
+					// password succesfully matched amportal.conf db admin user, set admin access
+					unset($no_auth);
+					$ampUser->setAdmin();
+					$_SESSION['AMP_user'] = $ampUser;
+				} else {
+					// password failed and admin user fall-back failed
+					unset($_SESSION['AMP_user']);
+					$no_auth = true;
+					//for now because of how freepbx works
+					if(!empty($username)) {
+						$ip = getRemoteIp();
+						freepbx_log_security('Authentication failure for '.(!empty($username) ? $username : 'unknown').' from '.$_SERVER['REMOTE_ADDR']);
+						if( $ip !== $_SERVER['REMOTE_ADDR']){
+							freepbx_log_security('Possible proxy detected, forwarded headers for'.(!empty($username) ? $username : 'unknown').' set to '.$ip);
 						}
 					}
-				} else {
-					unset($no_auth);
 				}
 			}
 			break;
