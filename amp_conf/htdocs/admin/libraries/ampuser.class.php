@@ -53,6 +53,8 @@ class ampuser {
 	 * @return bool           True if accepted false otherwise
 	 */
 	public function checkPassword($password) {
+		$password = (string)$password;
+
 		// strict checking so false will never match
 		switch($this->mode) {
 			case "usermanager":
