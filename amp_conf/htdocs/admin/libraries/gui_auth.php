@@ -78,7 +78,6 @@ if (!isset($_SESSION['AMP_user'])) {
 				$ampUser = new ampuser($username);
 				if ($ampUser->checkPassword($password)) {
 					unset($no_auth);
-					$ampUser->setAdmin();
 					$_SESSION['AMP_user'] = $ampUser;
 					//We are logged in. Stop processing
 					break;
