@@ -73,6 +73,8 @@ class PKCS {
 		}
 
 		$cfglocation = $this->getKeysLocation()."/$base.cfg";
+		$cdv = \FreePBX::Freepbx_conf()->get('CERT_DAYS_VAL');
+		$cdv = empty($cdv)? "730" : $cdv;
 
 		if(!file_exists($cfglocation) || $force == true) {
 			$ca = <<<EOF
@@ -83,6 +85,7 @@ default_md = sha256
 
 [ca]
 default_md = sha256
+default_crl_days= {$cdv}
 
 [req_distinguished_name]
 CN={$cn}
@@ -131,6 +134,8 @@ EOF;
 
 		// This is our ca certificate!
 		$cacrt = "$location/$base.crt";
+		$cdv = \FreePBX::Freepbx_conf()->get('CERT_DAYS_VAL');
+		$cdv = empty($cdv)? "730" : $cdv;
 
 		if(file_exists($cacrt) && !$force) {
 			$this->out(_("CA certificate already exists, reusing"));
@@ -141,9 +146,9 @@ EOF;
 				if (strlen($passphrase) < 8) {
 					throw new \Exception(_("Invalid password supplied - less than 8 characters"));
 				}
-				$out = $this->runOpenSSL("req -new -config $config -x509 -days 3650 -key $key -out $cacrt -passin stdin", $passphrase);
+				$out = $this->runOpenSSL("req -new -config $config -x509 -days $cdv -key $key -out $cacrt -passin stdin", $passphrase);
 			} else {
-				$out = $this->runOpenSSL("req -nodes -new -config $config -x509 -days 3650 -key $key -out $cacrt");
+				$out = $this->runOpenSSL("req -nodes -new -config $config -x509 -days $cdv -key $key -out $cacrt");
 			}
 			if($out['exitcode'] > 0) {
 				throw new \Exception(sprintf(_("Error Generating Certificate: %s"),$out['stderr']));
@@ -174,14 +179,17 @@ EOF;
 		}
 		//Creating certificate ${base}.crt
 		$this->out("Creating certificate " . $base);
+		$cdv = \FreePBX::Freepbx_conf()->get('CERT_DAYS_VAL');
+		$cdv = empty($cdv)? "730" : $cdv;
+
 		if($passphrase) {
 			if (strlen($passphrase) < 8) {
 				throw new \Exception(_("Invalid password supplied - less than 8 chars"));
 			}
 			// Generate a key
-			$out = $this->runOpenSSL("x509 -req -sha256 -days 3650 -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt -passin stdin", $passphrase);
+			$out = $this->runOpenSSL("x509 -req -sha256 -days 7 " . $cdv ." -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt -passin stdin", $passphrase);
 		} else {
-			$out = $this->runOpenSSL("x509 -req -sha256 -days 3650 -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt");
+			$out = $this->runOpenSSL("x509 -req -sha256 -days " . $cdv ." -in " . $location . "/" . $base . ".csr -CA " . $location . "/".$cabase.".crt -CAkey " . $location . "/".$cabase.".key -set_serial 01 -out " . $location . "/" . $base . ".crt");
 		}
 		if($out['exitcode'] > 0) {
 			throw new \Exception(sprintf(_("Error Generating Certificate: %s"),$out['stderr']));
