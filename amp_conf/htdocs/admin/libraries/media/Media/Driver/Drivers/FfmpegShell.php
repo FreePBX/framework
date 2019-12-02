@@ -28,16 +28,34 @@ class FfmpegShell extends \Media\Driver\Driver {
 		}
 	}
 
+	/**
+	 * Checks whether ffmpeg is AAC capable.
+	 *
+	 * @return bool True if ffmpeg is AAC capable
+	 */
+	private static function hasAAC() {
+		$loc = fpbx_which("ffmpeg");
+		$process = new Process($loc.' -version');
+		$process->mustRun();
+		$output = $process->getOutput();
+		return !!preg_match_all('/enable-libfdk-aac\s/', $output);
+	}
+
 	public static function supportedCodecs(&$formats) {
-		$formats["in"]["m4a"] = "m4a";
-		$formats["out"]["m4a"] = "m4a";
-		$formats["in"]["mp4"] = "mp4";
-		$formats["out"]["mp4"] = "mp4";
+		if (self::hasAAC()) {
+			$formats["in"]["m4a"] = "m4a";
+			$formats["out"]["m4a"] = "m4a";
+			$formats["in"]["mp4"] = "mp4";
+			$formats["out"]["mp4"] = "mp4";
+		}
 		return $formats;
 	}
 
 	public static function isCodecSupported($codec,$direction) {
-		return in_array($codec,array("m4a","mp4"));
+		if (self::hasAAC()) {
+			return in_array($codec, array("m4a", "mp4"));
+		}
+		return false;
 	}
 
 	public static function installed() {
@@ -119,10 +137,7 @@ class FfmpegShell extends \Media\Driver\Driver {
 			break;
 			case "mp4":
 			case "m4a":
-				$process = new Process($this->binary.' -version');
-				$process->mustRun();
-				$output = $process->getOutput();
-				if(preg_match_all('/enable-libfdk-aac\s/', $output)) {
+				if(self::hasAAC()) {
 					$process = new Process($this->binary.' -i '.escapeshellarg($this->track).' -acodec libfdk_aac -ar '.escapeshellarg($this->options['samplerate']).' -y '.escapeshellarg($newFilename).'');
 				} else {
 					throw new \Exception("MP4 and M4A are not supported by FFMPEG");
