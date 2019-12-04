@@ -96,7 +96,7 @@ class Validate extends Command {
 
 		if ($amp_conf['MODULEADMINWGET'] || !$dp = @fopen($url,'r',false,$streamcontext)) {
 			$p = (!empty($urls['query'])) ? "--post-data ".escapeshellarg($urls['query']) : "";
-			FreePBX::Curl()->setEnvVariables();
+			\FreePBX::Curl()->setEnvVariables();
 			exec("wget --tries=1 --timeout=600 $p -O ".escapeshellarg($filename)." ".escapeshellarg($url)." 2> /dev/null", $filedata, $retcode);
 			usleep(5000); //wait for file to be placed
 			if ($retcode != 0) {
