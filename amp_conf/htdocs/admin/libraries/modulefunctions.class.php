@@ -1770,7 +1770,7 @@ class module_functions {
 		move_uploaded_file($uploaded_file['tmp_name'], $filename);
 
 		$errors = $this->_process_archive($filename);
-		if(count($errors)) {
+		if(is_array($errors) && count($errors)) {
 			return $errors;
 		}
 		// finally, module installation is successful
