@@ -79,6 +79,32 @@ if ($logout == 'true') {
 	exit();
 }
 
+/**
+ * Check if this deployment is UCC and must prohibit access to certain menus.
+ */
+if(file_exists("/etc/asterisk/ucc_restrict.conf") && file_exists("/etc/schmooze/schmooze.zl")){
+	$lic_array = parse_ini_file("/etc/schmooze/schmooze.zl", false , INI_SCANNER_RAW);
+	$_restrict = parse_ini_file("/etc/asterisk/ucc_restrict.conf", true, INI_SCANNER_RAW);
+	if(is_array($lic_array) && (strtolower($lic_array["branding"]) === "pbxactucc" || strtolower($lic_array["deploy_type"]) === "pbxact ucc")){
+		$display 	= empty($_REQUEST["display"])	? "" : htmlentities($_REQUEST["display"]);
+		$view 		= empty($_REQUEST["view"])		? "" : htmlentities($_REQUEST["view"]);	
+		foreach($_restrict as $data){
+			if(!empty($data["view"]) && !empty($data["display"])){
+				if($data["display"] == $display && $data["view"] == $view ){
+					header('Location: ./config.php');
+					break;
+				}			
+			}
+			elseif(empty($data["view"]) && !empty($data["display"])){
+				if($data["display"] == $display ){
+					header('Location: ./config.php');
+					break;
+				}	
+			}
+		}		
+	}	
+}
+
 //session_cache_limiter('public, no-store');
 if (isset($_REQUEST['handler'])) {
 	if ($restrict_mods === false) {
