@@ -762,6 +762,27 @@ if ($quietmode) {
 		echo load_view($amp_conf['VIEW_BETA_NOTICE']);
 	}
 
+	//FREEI-918 - if the uploaded file's size exceeds php's post_max_size, PHP drops
+	//the _POST and _FILES values and continues with the request. There is no error value
+	//to properly know what happened. Meeting this set of conditions is enough evidence
+	//to assume module upload from Module Admin failed due to the file being too large.  
+	//The page_content is being overwritten to display an error and option to try again,
+	//instead of going back to the admin dashboard/index
+	if (preg_match('/config.php\?display=modules&action=upload/', $_SERVER['HTTP_REFERER']) &&
+		empty($_FILES) && empty($_POST) && $_REQUEST['display'] === 'index' && 
+		$_SERVER['CONTENT_LENGTH'] > 0) 
+	{
+		$postMaxSize = ini_get('post_max_size');
+		$page_content = 
+			'<div class="error">
+				<p>' .
+					_("There was an error uploading the file.") . '<br>'.
+					_("Please make sure it is a valid module file, and its size does not exceed ") . $postMaxSize . '.' .
+				'</p>
+				<input type="button" value="' . _("Go Back") . '" onclick="history.back()">
+			</div>';
+	}
+
 	//send actual page content
 	echo $page_content;
 
