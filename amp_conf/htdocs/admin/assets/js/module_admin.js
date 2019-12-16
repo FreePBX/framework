@@ -266,7 +266,8 @@ var box;
 function process_module_actions(modules) {
 	var urlStr = '';
 	if(!jQuery.isEmptyObject(modules)) {
-		urlStr = "config.php?display=modules&action=process&quietmode=1&online=1&"+$.param( {"modules":modules} );
+		urlStr = "config.php?display=modules&action=process&quietmode=1&online=1";
+		content_data = $.param( {"modules":modules} )
 	}
 	box = $('<div id="moduledialogwrapper"></div>')
 	.dialog({
@@ -280,7 +281,8 @@ function process_module_actions(modules) {
 			var xhr = new XMLHttpRequest(),
 				timer = null;
 			xhr.open('POST', urlStr, true);
-			xhr.send(null);
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			xhr.send(content_data);
 			timer = window.setInterval(function() {
 				if (xhr.readyState == XMLHttpRequest.DONE) {
 					window.clearTimeout(timer);
