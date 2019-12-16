@@ -128,9 +128,12 @@ class Database extends \PDO {
 		}
 
 		// This DSN array is now suitable for building into a valid DSN!
-		// Note - http_build_query() is just a shortcut to change a key=>value array
-		// to a string.
-		$this->dsn = "$engine:".http_build_query($dsnarr, '', ';');
+		$this->dsn = "$engine:";
+		foreach ($dsnarr as $k=>$v) {
+			if (is_string($v)) {
+				$this->dsn .= "$k=$v;";
+			}
+		}
 
 		try {
 			if ($options) {
