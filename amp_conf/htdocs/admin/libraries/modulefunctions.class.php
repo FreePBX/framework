@@ -1633,6 +1633,7 @@ class module_functions {
 
 	function handledownload($module_location, $progress_callback = null) {
 		global $amp_conf;
+		$errors = array();
 
 		if(!file_exists($amp_conf['AMPWEBROOT']."/admin/modules/_cache")) {
 			if(!mkdir($amp_conf['AMPWEBROOT']."/admin/modules/_cache")) {
@@ -1713,7 +1714,7 @@ class module_functions {
 		fclose($fp);
 
 		$errors = $this->_process_archive($filename,$progress_callback);
-		if(count($errors)) {
+		if(is_array($errors) && count($errors)) {
 			return $errors;
 		}
 
