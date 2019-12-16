@@ -1713,7 +1713,7 @@ class module_functions {
 		file_put_contents($filename,$response->body);
 
 		$errors = $this->_process_archive($filename,$progress_callback);
-		if(count($errors)) {
+		if(is_array($errors) && count($errors)) {
 			return $errors;
 		}
 
