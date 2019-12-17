@@ -768,7 +768,8 @@ if ($quietmode) {
 	//to assume module upload from Module Admin failed due to the file being too large.  
 	//The page_content is being overwritten to display an error and option to try again,
 	//instead of going back to the admin dashboard/index
-	if (preg_match('/config.php\?display=modules&action=upload/', $_SERVER['HTTP_REFERER']) &&
+	if ((preg_match('/config.php\?display=modules&action=upload/', $_SERVER['HTTP_REFERER'])
+		|| preg_match('/config.php\?display=updates&action=upload/', $_SERVER['HTTP_REFERER'])) &&
 		empty($_FILES) && empty($_POST) && $_REQUEST['display'] === 'index' && 
 		$_SERVER['CONTENT_LENGTH'] > 0) 
 	{
@@ -776,8 +777,12 @@ if ($quietmode) {
 		$page_content = 
 			'<div class="error">
 				<p>' .
-					_("There was an error uploading the file.") . '<br>'.
-					_("Please make sure it is a valid module file, and its size does not exceed ") . $postMaxSize . '.' .
+					_("There was an error uploading the module tar ball due to its size being greater than post_max_size {") . $postMaxSize . '}.<br>'.
+					_("Please host the file and use the \"Download (From Web) option\", or ssh to your FreePBX system and use 
+						\"fwconsole ma downloadinstall [url]\" to install the module from a URL.") . "<br>" .
+					_("For further help, please contact") . 
+					" <a href=\"https://support.sangoma.com\" target=\"_blank\">" . _("Sangoma Support") . "</a>."	
+					.
 				'</p>
 				<input type="button" value="' . _("Go Back") . '" onclick="history.back()">
 			</div>';
