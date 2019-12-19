@@ -159,7 +159,7 @@ if (is_dir("$wr/admin/views")) {
  */
 
 $base_source = dirname(__FILE__) . "/amp_conf";
-$htdocs_source = $base_source . "/htdocs/*";
+$htdocs_source = $base_source . "/htdocs/.";
 $bin_source = $base_source . "/bin/*";
 $agibin_source = $base_source . "/agi-bin/*";
 
