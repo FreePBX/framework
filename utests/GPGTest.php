@@ -77,7 +77,7 @@ class GPGTest extends PHPUnit_Framework_TestCase {
 		$this->assertFalse($f->GPG()->verifyFile("/tmp/verifyfile.php"), "Untrusted file is trusted");
 
 		// Now, make it trusted by this machine
-		$trust= array("AC402EA5C2717B8FF6E7D9A6551E31DCF65F39A6:6:", "2016349F5BC6F49340FCCAF99F9169F4B33B4659:6:");
+		$trust= array("AC402EA5C2717B8FF6E7D9A6551E31DCF65F39A6:6:", "2016349F5BC6F49340FCCAF99F9169F4B33B4659:6:", "0BDE0BFA09946D732091E26E1588A7366BD35B34:6");
 		$fd = fopen("php://temp", "r+");
 		$tr = join("\n", $trust)."\n" ;
 		fwrite($fd, $tr);

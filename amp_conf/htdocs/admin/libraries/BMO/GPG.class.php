@@ -34,10 +34,19 @@ class GPG {
 	const STATE_TRUSTED = 128;
 
 	// This is the FreePBX Master Key.
-	private $freepbxkey = '2016349F5BC6F49340FCCAF99F9169F4B33B4659';
+	private $freepbxkey = '0BDE0BFA09946D732091E26E1588A7366BD35B34';
+
+	// Other keys that we also need to trust.
+	private $trustkeys = array(
+		'2016349F5BC6F49340FCCAF99F9169F4B33B4659'
+	);
+
+	private $revokedkeys = array(
+	);
 
 	// additional filesystem keys
 	private $fskeys = array(
+		'456D051E9204C27C37D4811BB53D215A755231A3',
 		'072410D159E9DA63A459AB203DDB2122FE6D84F7',
 		'1013D73FECAC918A0A25823986CE877469D2EAD9'
 	);
@@ -139,7 +148,10 @@ class GPG {
 			array_pop($out['status']); // Remove leading blank line.
 			$validline = explode(" ", array_pop($out['status']));
 			$thissig = $validline[2];
-			$longkey = substr($this->freepbxkey, -16);
+			$longkeys = array();
+			foreach (array_merge(array($this->freepbxkey),$this->trustkeys) as $currentkey) {
+				$longkeys[] = substr($currentkey, -16);
+			}
 			$allsigs = $this->runGPG("--keyid-format long --with-colons --check-sigs ".escapeshellarg($thissig));
 			$isvalid = false;
 			foreach (explode("\n", $allsigs['stdout']) as $line) {
@@ -147,7 +159,7 @@ class GPG {
 					continue; // Ignore blank lines
 				}
 				$tmparr = explode(":", $line);
-				if ($tmparr[4] == $longkey) {
+				if (!empty($tmparr[4]) && in_array($tmparr[4], $longkeys)) {
 					$isvalid = true;
 				}
 			}
@@ -341,13 +353,52 @@ class GPG {
 	}
 
 	/**
+	 * revokeKey function
+	 *
+	 * Marks a key as untrusted/revoked
+	 */
+	private function revokeKey($key = null) {
+		if ($key === null) {
+			throw new \Exception(_("Cannot revoke null key!"));
+		}
+		throw new \Exception(_("Key revokation/trust removal is not currently implemented."));
+	}
+
+	/**
+	 * trustKey function
+	 *
+	 * Marks a key as ultimately trusted
+	 */
+	private function trustKey($key = null) {
+		if ($key === null) {
+			throw new \Exception(_("Cannot trust null key!"));
+		}
+
+		// We need to trust this Key
+		$stdout[] = $key.":6:";
+		$stdout[] = "# Trailing comment";
+		// Create our temporary file.
+		$fd = fopen("php://temp", "r+");
+		fwrite($fd, join("\n", $stdout));
+		fseek($fd, 0);
+		$out = $this->runGPG("--import-ownertrust", $fd);
+		if ($out['exitcode'] != 0) {
+			throw new \Exception(sprintf(_("Unable to trust the FreePBX Key! -- %s"),json_encode($out)));
+		}
+		fclose($fd);
+	}
+
+	/**
 	 * trustFreePBX function
 	 *
-	 * Specifically marks the FreePBX Key as ultimately trusted
+	 * Specifically marks the FreePBX Key and other known-trusted keys as ultimately trusted
 	 */
 	public function trustFreePBX() {
-		// Grab the FreePBX Key, if we don't have it already
-		$this->getKey();
+		// Grab the keys, if we don't have them already
+		foreach(array_merge(array($this->freepbxkey), $this->trustkeys) as $currentkey) {
+			$this->getKey($currentkey);
+		}
+
 		// Ensure the FreePBX Key is trusted.
 		$out = $this->runGPG("--export-ownertrust");
 		$stdout = explode("\n", $out['stdout']);
@@ -356,32 +407,33 @@ class GPG {
 			throw new \Exception(sprintf(_("gpg --export-ownertrust didn't return sane stuff - %s"), json_encode($out)));
 		}
 
-		$trusted = false;
+		$ownertrusts = array();
 		foreach ($stdout as $line) {
 			if (!$line || $line[0] == "#") {
 				continue;
 			}
 
-			// We now have a trust line that looks like "2016349F5BC6F49340FCCAF99F9169F4B33B4659:6:"
+			// We now have a trust line that looks like "0BDE0BFA09946D732091E26E1588A7366BD35B34:6:"
 			$trust = explode(':', $line);
-			if ($trust[0] === $this->freepbxkey) {
-				$trusted = true;
+			$ownertrusts[] = $trust[0];
+		}
+
+		$needtrust = array_diff(array_merge(array($this->freepbxkey), $this->trustkeys), $ownertrusts);
+		if (!empty($needtrust)) {
+			foreach($needtrust as $currentkey) {
+				$this->trustKey($currentkey);
 			}
 		}
 
-		if (!$trusted) {
-			// We need to trust the FreePBX Key
-			$stdout[] = $this->freepbxkey.":6:";
-			$stdout[] = "# Trailing comment";
-			// Create our temporary file.
-			$fd = fopen("php://temp", "r+");
-			fwrite($fd, join("\n", $stdout));
-			fseek($fd, 0);
-			$out = $this->runGPG("--import-ownertrust", $fd);
-			if ($out['exitcode'] != 0) {
-				throw new \Exception(sprintf(_("Unable to trust the FreePBX Key! -- %s"),json_encode($out)));
+		/*
+		 * While we're here, let's add the structure to revoke keys.
+		 * We may want this in the future.
+		 */
+		$needrevoke = array_intersect($ownertrusts, $this->revokedkeys);
+		if (!empty($needrevoke)) {
+			foreach($needrevoke as $currentkey) {
+				$this->revokeKey($currentkey);
 			}
-			fclose($fd);
 		}
 
 		// Ensure no permissions have been changed
@@ -564,7 +616,7 @@ class GPG {
 	 */
 	public function refreshKeys() {
 		//combine all of our known local keys
-		$fskeys = array_unique(array_merge(array($this->freepbxkey), $this->fskeys));
+		$fskeys = array_unique(array_merge(array($this->freepbxkey), $this->trustkeys, $this->fskeys));
 		foreach($fskeys as $key) {
 			//import our local keys from our filesystem
 			$this->getKeyFromFs($key);
@@ -639,10 +691,15 @@ class GPG {
 
 		$status = $this->checkStatus($out['status']);
 		if (!$status['trust']) {
-			$longkey = substr($this->freepbxkey, -16);
-			$sigout = $this->runGPG("--keyid-format long --with-colons --check-sigs ".$status['signedby']);
-			if(preg_match('/^rev:!::1:'.$longkey.'/m',$sigout['stdout'])) {
-				return array("status" => self::STATE_REVOKED, 'trustdetails' => array("Signed by Revoked Key"));
+			$sigout = $this->runGPG("--keyid-format long --with-colons --check-sigs ".escapeshellarg($status['signedby']));
+			$longkeys = array();
+			foreach (array_merge(array($this->freepbxkey),$this->trustkeys) as $currentkey) {
+				$longkeys[] = substr($currentkey, -16);
+			}
+			foreach ($longkeys as $currentkey) {
+				if(preg_match('/^rev:!::1:'.$currentkey.'/m',$sigout['stdout'])) {
+					return array("status" => self::STATE_REVOKED, 'trustdetails' => array("Signed by Revoked Key"));
+				}
 			}
 			//locally signed
 			$status['parsedout'] = parse_ini_string($out['stdout'], true);
