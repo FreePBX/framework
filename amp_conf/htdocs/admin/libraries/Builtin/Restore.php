@@ -36,6 +36,10 @@ class Restore Extends Base\RestoreBase{
 					$this->log(sprintf(_("Ignorning restore of AMPMGRPASS Advanced Settings from %s"), $module));
 					continue;
 				}
+				if ($data['keyword'] === 'MODULE_REPO') {
+					$this->log(sprintf(_("Ignorning restore of Repo Server URLs %s"), $module));
+					continue;
+				}
 				if ($data['keyword'] === 'CDRDBHOST' && ($data['value'] === 'localhost' || $data['value'] === '127.0.0.1')) {
 					$skipcdrPass = true;
 					$this->log(sprintf(_("Ignorning restore of CDRDBHOST Advanced Settings from %s"), $module));
