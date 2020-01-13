@@ -1417,7 +1417,7 @@ function freepbxGetSanitizedRequest($definition = FILTER_SANITIZE_STRING, $add_e
  *
  * @return bool
  */
-public function version_min($origin, $list){
+function version_min($origin, $list){
 	if(!empty($list) && is_array($list) && !empty($origin)){
 		foreach($list as $v){
 			$v_root = explode(".",$v);
