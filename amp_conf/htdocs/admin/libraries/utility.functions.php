@@ -1408,3 +1408,25 @@ function freepbxGetSanitizedRequest($definition = FILTER_SANITIZE_STRING, $add_e
 	}
 	return $request;
 }
+
+/**
+ * @method versions_min
+ *
+ * @param  string $origin
+ * @param  array $list
+ *
+ * @return bool
+ */
+public function version_min($origin, $list){
+	if(!empty($list) && is_array($list) && !empty($origin)){
+		foreach($list as $v){
+			$v_root = explode(".",$v);
+			$o_root = explode(".",$origin);
+			if(version_compare($o_root[0], $v_root[0]) == 0 && version_compare($origin, $v, 'ge')){
+				return true;
+			}
+		}
+		return false;
+	}
+	return NULL;
+}
