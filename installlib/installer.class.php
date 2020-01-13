@@ -563,7 +563,7 @@ class Installer {
 		'value' => true,
 		'options' => '',
 		'name' => 'Enforce RFC7462',
-		'description' => 'Whether to enforce RFC7462 for Alert-Info. With this enabled all Alert Infos will be prefixed with "<http://127.0.0.1>\;info=" if it was not previously defined. This is to be in accordance with RFC7462. Disaling this enforcement will remove the prefix entirely',
+		'description' => 'Whether to enforce RFC7462 for Alert-Info. With this enabled all Alert Infos will be prefixed with "<lt&>http://127.0.0.1<gt&>;info=" if it was not previously defined. This is to be in accordance with RFC7462. Disabling this enforcement will remove the prefix entirely',
 		'type' => CONF_TYPE_BOOL,
 		'level' => 2,
 	);
