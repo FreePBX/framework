@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-01-02 14:45+0530\n"
+"POT-Creation-Date: 2020-01-14 17:00+0530\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -549,14 +549,14 @@ msgstr "Требуется %s версии %s или выше, в наличии
 msgid "%s will be removed from the hard disk"
 msgstr "%s будет удалён с диска"
 
-#: ../core/Core.class.php:3525
+#: ../core/Core.class.php:3527
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
 "result all AGIs will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: ../core/Core.class.php:3546
+#: ../core/Core.class.php:3548
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but the FastAGI server was unable to start, As a result all AGIs will be "
@@ -1153,7 +1153,7 @@ msgstr ""
 "Все установки можно выполнить через панель модуля Дополнительные настройки в "
 "интерфейсе FreePBX"
 
-#: ../core/Components/Outboundrouting.php:164
+#: ../core/Components/Outboundrouting.php:165
 #, php-format
 msgid ""
 "All the patterns for route id %s were NOT unique which can cause unexpected "
@@ -2589,12 +2589,12 @@ msgstr "Конвертация настроек ZAP в DAHDi"
 msgid "Core"
 msgstr "База"
 
-#: ../core/Core.class.php:3406
+#: ../core/Core.class.php:3408
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:3479
+#: ../core/Core.class.php:3481
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -3492,7 +3492,7 @@ msgstr "Режим разработки"
 msgid "Developer and Customization"
 msgstr "Разработчикам и дизайнерам"
 
-#: ../core/Core.class.php:3241 ../core/functions.inc.php:4950
+#: ../core/Core.class.php:3243 ../core/functions.inc.php:4950
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -4664,7 +4664,7 @@ msgstr "Дополнительный"
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:257
 #: ../core/Core.class.php:2850 ../core/Core.class.php:2851
-#: ../core/Core.class.php:3229 ../core/functions.inc.php:4619
+#: ../core/Core.class.php:3231 ../core/functions.inc.php:4619
 #: ../core/page.did.php:93 ../core/page.extensions.php:34
 #: ../core/page.extensions.php:127 ../core/page.extensions.php:155
 #: ../core/views/rnav.php:23
@@ -4834,7 +4834,7 @@ msgstr "Ошибка при исполнении скрипта инсталля
 msgid "Failed to run un-installation scripts"
 msgstr "Ошибка при выполнении скрипта удаления"
 
-#: ../core/Core.class.php:3458
+#: ../core/Core.class.php:3460
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -4863,11 +4863,11 @@ msgstr "Ошибка при записи indications.conf"
 msgid "Fallback Welcome Page"
 msgstr "Приветственная страница при аварийном режиме"
 
-#: ../core/Core.class.php:3539 ../core/Core.class.php:3546
+#: ../core/Core.class.php:3541 ../core/Core.class.php:3548
 msgid "Fast AGI Server not running"
 msgstr ""
 
-#: ../core/Core.class.php:3498
+#: ../core/Core.class.php:3500
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -6068,7 +6068,7 @@ msgstr "Контроль внешних входящих соединений"
 msgid "Inbound Internal Calls"
 msgstr "Контроль внутренних входящих соединений"
 
-#: ../core/Core.class.php:3283 ../core/Core.class.php:3292
+#: ../core/Core.class.php:3285 ../core/Core.class.php:3294
 msgid "Inbound Route:"
 msgstr ""
 
@@ -6424,7 +6424,7 @@ msgstr ""
 msgid "Launch local AGIs through FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:3539
+#: ../core/Core.class.php:3541
 #, php-format
 msgid ""
 "Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
@@ -7934,7 +7934,7 @@ msgstr "Контроль внутренних исходящих соедине�
 msgid "Outbound Proxy"
 msgstr "Исходящий прокси"
 
-#: ../core/Core.class.php:3266
+#: ../core/Core.class.php:3268
 msgid "Outbound Route:"
 msgstr ""
 
@@ -8059,7 +8059,7 @@ msgstr ""
 msgid "PJSIP Settings"
 msgstr "Настройки PJSIP"
 
-#: ../core/Core.class.php:3525
+#: ../core/Core.class.php:3527
 msgid "PM2 Not installed"
 msgstr ""
 
@@ -9077,7 +9077,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "ЗАМЕЧАНИЕ ПО БЕЗОПАСНОСТИ:"
 
-#: ../core/Core.class.php:3206 ../core/Core.class.php:3207
+#: ../core/Core.class.php:3208 ../core/Core.class.php:3209
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP (%s)"
@@ -9813,7 +9813,7 @@ msgstr "Стандартный"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "Запустить Астериск и выполнить другие нужные команды FreePBX"
 
-#: ../core/Core.class.php:3453
+#: ../core/Core.class.php:3455
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -9826,7 +9826,7 @@ msgstr "Астериск запускается..."
 msgid "Starting Cache cleanup"
 msgstr "Запускается очистка кэш..."
 
-#: ../core/Core.class.php:3412
+#: ../core/Core.class.php:3414
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -9840,11 +9840,11 @@ msgstr "Статус"
 msgid "Stop Asterisk and run other needed FreePBX commands"
 msgstr "Остановить Астериск и выполнить другие нужные команды FreePBX"
 
-#: ../core/Core.class.php:3494
+#: ../core/Core.class.php:3496
 msgid "Stopped FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:3485
+#: ../core/Core.class.php:3487
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -11323,7 +11323,7 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr "Последовательность транков для совпавших маршрутов"
 
-#: ../core/Core.class.php:3274
+#: ../core/Core.class.php:3276
 msgid "Trunk:"
 msgstr ""
 
@@ -11902,7 +11902,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:3253 ../core/functions.inc.php:4621
+#: ../core/Core.class.php:3255 ../core/functions.inc.php:4621
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
