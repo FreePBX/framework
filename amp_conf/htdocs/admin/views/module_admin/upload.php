@@ -38,7 +38,7 @@
 					<input id="download" type="submit" value="<?php echo _('Download (From Web)')?>" name="download" />
 				</span>
 				<span id="upload-group" style="display:none;">
-					<label style="text-decoration:underline"><a href=# class="info"><?php echo _("Upload Local Module")?><span><?php echo _("Locally Choosen FreePBX module from your system")?></span></a><input type="file" name="uploadmod" /></label>
+					<label style="text-decoration:underline"><a href=# class="info"><?php echo _("Upload Local Module")?><span><?php echo _("Locally chosen FreePBX module from your system")?></span></a><input type="file" name="uploadmod" /></label>
 					<input id="upload" type="submit" value="<?php echo _('Upload (From Hard Disk)')?>" name="upload" />
 				</span>
 			</form>
