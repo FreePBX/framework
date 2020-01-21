@@ -874,7 +874,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			$output->writeln("Done installing base modules");
 			if(!$answers['skip-install']) {
 				$output->write("Installing all modules...");
-				$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole ma installlocal");
+				$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole ma installlocal",1800);
 				$output->writeln("Done installing all modules");
 			}
 
@@ -1019,9 +1019,9 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 	 * @param string $command
 	 * @return void
 	 */
-	private function executeSystemCommand($command) {
+	private function executeSystemCommand($command,$timeout =180) {
 		$process = new Process($command);
-      	$process->setTimeout(180);
+		$process->setTimeout($timeout);
 		if($this->isTtySupported()) {
 			$process->setTty(true);
 			$process->mustRun();
