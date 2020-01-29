@@ -3,156 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>15.0.16.42</version>
+	<version>16.0.1</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
-		*15.0.16.42* bump 
-		*15.0.16.41* FREEPBX-20857 
-		*15.0.16.40* bump 
-		*15.0.16.39* FREEPBX-20964 Restore process shouldnt override the mirror server URL values 
-		*15.0.16.38* Add new GPG keys, so we can begin to address issues with broken keyservers. 
-		*15.0.16.37* FREEI-999
-		*15.0.16.36* FREEPBX-20892 Don't use http_build_query, it URL-encodes strings 
-		*15.0.16.35* bump 
-		*15.0.16.34* FREEI-906 Module upgrade failed with error : Request-URI Too Long
-		*15.0.16.33* FREEI-1017 
-		*15.0.16.32* FREEI-918
-		*15.0.16.31* FREEPBX-20899
-		*15.0.16.30* FREEPBX-20717: fixing a namespace issue for fwconsole validate
-		*15.0.16.29* FREEI-976 Check for AAC support in ffmpeg 
-		*15.0.16.28* FREEI-713 Expiring cert for openvpn 
-		*15.0.16.27* FREEPBX-20791
-		*15.0.16.23* FREEPBX-20441 FreePBX 13 to SNG7 update breaks calling 
-		*15.0.16.22* FREEPBX-20688 Fix issue with missing PHP libraries on Debian.
-		*15.0.16.19* FREEI-770 
-		*15.0.16.18* bump 
-		*15.0.16.17* FREEPBX-20539 FREEI-711 issue with destinaton drawselect 
-		*15.0.16.16* FREEPBX-20414: removed $jobid from runRestore()
-		*15.0.16.15* FREEPBX-20526: increade RSA keysize to 4096 bits 
-		*15.0.16.14* Fixes FREEPBX-20478: implemented get-Action 
-		*15.0.16.13* bump 
-		*15.0.16.12* FREEI-686 Recent Framework changes introduce delay with scheduled pages 
-		*15.0.16.11* FREEPBX-20496 Apache errors when browsing Admin GUI 
-		*15.0.16.10* FREEPBX-20467
-		*15.0.16.9* FREEPBX-20204, FREEPBX-20267 
-		*15.0.16.8* bump 
-		*15.0.16.7* FREEPBX-20291 
-		*15.0.16.6* FREEPBX-20193
-		*15.0.16.5* FREEPBX-20179
-		*15.0.16.4* FREEPBX-20002 - make fwconsole cronjob compatible with Debian 
-		*15.0.16.3* FREEI-556 FREEI-567 - wait up to 30 seconds for Asterisk to be ready during a start/restart 
-		*15.0.16.2* FREEPBX-19993 
-		*15.0.16.1* FREEI-522 ony variables should be passed by reference 
-		*15.0.16* Update Composer libraries
-		*15.0.15.4* Fix job inserting
-		*15.0.15.3* Check with core for status of FastAGI and PM2
-		*15.0.15.2* Set correct syslog level
-		*15.0.15.1* FREEPBX-19930
-		*15.0.15* Add cron jobs table
-		*15.0.14* Expose 'html5Formats' array from Media
-		*15.0.12* Add centralized job class
-		*15.0.11.1* FREEPBX-19763
-		*15.0.11* Update locking code in system updates
-		*15.0.10.3* FREEPBX-19806
-		*15.0.10.2* FREEPBX-19756
-		*15.0.10.1* FREEPBX-19733
-		*15.0.10* FREEPBX-19744
-		*15.0.9* FREEPBX-19620 gpg keys refresh failed
-		*15.0.8.1* FREEPBX-19762
-		*15.0.8* FREEPBX-19751 Popover showing module not found
-		*15.0.7* Lazy load console commands for performance improvements
-		*15.0.6.17* FREEI-468
-		*15.0.6.15* Resync AMI credentials after backup restore
-		*15.0.6.15* Fix conflicts code
-		*15.0.6.14* FREEPBX-19640
-		*15.0.6.13* FREEPBX-19638
-		*15.0.6.12* FREEPBX-19561
-		*15.0.6.11* FREEPBX-19619
-		*15.0.6.10* FREEPBX-19619
-		*15.0.6.8* Fix backup and restore
-		*15.0.6.7* FREEPBX-19612
-		*15.0.6.5* Add Backup and Restore functionality
-		*15.0.6.2* FREEPBX-19547
-		*15.0.6.1* Fix checkConflicts return statement
-		*15.0.6* Rework module conflicts subsystem
-		*15.0.5.14* Set defaults in kvstore
-		*15.0.5.13* FREEPBX-19467
-		*15.0.5.12* FREEPBX-19494
-		*15.0.5.11* Fixing FREEPBX-12959
-		*15.0.5.10* Fixing FREEPBX-12959
-		*15.0.5.9* Add caching engine for kvstore
-		*15.0.5.8* Fix mailer class in BMO
-		*15.0.5.7* Ability to pass null to kvstore getAll to get all values
-		*15.0.5.5* FREEPBX-19054 Fix error handling and logic checks on upgrade
-		*15.0.5.4* FREEPBX-19054 Fix error handling and logic checks on upgrade
-		*15.0.5.3* FREEPBX-19042
-		*15.0.5.2* FREEPBX-19047
-		*15.0.5.1* FREEPBX-19042
-		*15.0.5* FREEPBX-19012 Check Online Button Missing from Module Admin,  Module Updates Tab
-		*15.0.4* Add warnings during module installations if they conflict
-		*15.0.3* FREEPBX-18898
-		*15.0.2.16* FREEPBX-18910
-		*15.0.2.15* FREEPBX-18914
-		*15.0.2.14* Fix stdoutonly references to resolve to null values
-		*15.0.2.13* FREEPBX-18873
-		*15.0.2.12* Additional fixes to hooks
-		*15.0.2.11* FREEPBX-18860 write bootstrap settings back out into amp_conf
-		*15.0.2.10* FREEPBX-18851
-		*15.0.2.9* FREEPBX-18823
-		*15.0.2.8* FREEPBX-18849 fix problems in notifications and reload
-		*15.0.2.7* Fix issues with reload and notifications
-		*15.0.2.6* FREEPBX-18845
-		*15.0.2.5* Add CLI options to change update manager settings
-		*15.0.2.4* FREEPBX-18807 FREEPBX-18055
-		*15.0.2.3* FREEPBX-18808
-		*15.0.2.2* Fix update manager
-		*15.0.2.1* Remove need for Pear getopts
-		*15.0.2* Replace retrieve_conf with fwconsole reload, FREEPBX-16969 FREEPBX-13717 FREEPBX-18650 FREEPBX-16395
-		*15.0.1.42* Fix other issues after installation
-		*15.0.1.41* Invalidate the InfoCache during download
-		*15.0.1.40* A few more installation fixes
-		*15.0.1.39* FREEPBX-18613 FREEPBX-18779
-		*15.0.1.38* Installation warnings
-		*15.0.1.37* Fix PHP 7 bug
-		*15.0.1.36* Fix PHP 7 bug
-		*15.0.1.35* FREEPBX-18632 - add advanced setting to allow user to toggle the ability to use GMT time for CDR and CEL
-		*15.0.1.34* FREEPBX-18756 Fix legacy logging that forwards to logger
-		*15.0.1.33* Update Logger Class
-		*15.0.1.32* FREEPBX-7943 regression
-		*15.0.1.31* FREEPBX-17069 Dashboard, UCP accessible even though not allowed in User Manager
-		*15.0.1.30* add dontwarn=yes to asterisk.conf
-		*15.0.1.29* FREEPBX-18704 Set $conf to public
-		*15.0.1.28* FREEPBX-18668 move config to be in BMO so it can accept BMO hooks, Utilize agi server if setting is enabled
-		*15.0.1.26* Speed up improvements
-		*15.0.1.25* Wrapper for pico reader
-		*15.0.1.24* FREEPBX-18531
-		*15.0.1.23* FREEPBX-18423
-		*15.0.1.22* FREEPBX-17836 MOH with french characters are not visible in MOH module after upload
-		*15.0.1.21* FREEPBX-18262 cxpanel server options
-		*15.0.1.20* FREEPBX-18262 cxpanel server options
-		*15.0.1.19* Revert FREEPBX-18078
-		*15.0.1.18* FREEPBX-17747 Typos in modulefunctions.class.php
-		*15.0.1.17* FREEPBX-18039 add extconfig_custom.conf include in extconfig.conf
-		*15.0.1.16* FREEPBX-18359
-		*15.0.1.15* FREEPBX-18291 sangoma logo update
-		*15.0.1.14* FREEPBX-18078 delay astman socket connection until request
-		*15.0.1.13* FREEPBX-18078 delay astman socket connection until request
-		*15.0.1.12* FREEPBX-18200
-		*15.0.1.11* FREEPBX-18161
-		*15.0.1.10* fix request helper to utilize filter_input_array functionality
-		*15.0.1.9* FREEPBX-18142
-		*15.0.1.8* FREEPBX-18126
-		*15.0.1.7* Fix destination drawselects selections
-		*15.0.1.6* FREEPBX-18108
-		*15.0.1.5* Update API
-		*15.0.1.4* Update composer
-		*15.0.1.3* Add presence state list
-		*15.0.1.2* PHP 7.2 Support
-		*15.0.1alpha1* Inital Release
+		*16.0.1alpha1* Inital Release
 	</changelog>
 	<description>
 		This module provides a facility to install bug fixes to the framework code that is not otherwise housed in a module
@@ -161,7 +19,7 @@
 		<phpversion>5.6.0</phpversion>
 	</depends>
 	<supported>
-		<version>15.0</version>
+		<version>16.0</version>
 	</supported>
 	<database>
 		<table name="admin">
