@@ -34,7 +34,7 @@ if(version_compare($output,'8.0.0',"<")) {
 }
 
 $engine_info = engine_getinfo();
-if (version_compare($engine_info['version'], "13", "lt") || version_compare($engine_info['version'], "17", "ge")) {
+if (version_compare($engine_info['version'], "13", "lt") || version_compare($engine_info['version'], "18", "ge")) {
 	$output->writeln("<error>Error!</error>");
 	$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
 	$output->writeln("<error>Supported Asterisk versions: 13, 14, 15, 16, 17</error>");
