@@ -557,6 +557,17 @@ class Installer {
 	'type' => CONF_TYPE_TEXT,
 	);
 
+	$settings[$category]['FREEPBX_SYSTEM_IDENT_REM_DASHBOARD_HELP'] = array(
+	'value' => 'no', 
+	'options' => '',
+	'readonly' => 0,
+	'hidden' => 0,
+	'name' => 'System Identity',
+	'description' => 'This will be used to decide if we need to show help text to change system identity in dashboard or not ',
+	'type' => CONF_TYPE_TEXT,
+	);
+
+
 	$category = 'Dialplan and Operational';
 
 	$settings[$category]['RFC7462'] = array(
