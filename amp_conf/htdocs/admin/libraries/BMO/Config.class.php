@@ -1084,10 +1084,10 @@ class Config {
 	private function setting_change_special($keyword, $prep_value) {
 		switch ($keyword) {
 			case 'AMPMGRPASS':
-				fpbx_ami_update(false, $prep_value);
+				fpbx_ami_update(false, true);
 			break;
 			case 'AMPMGRUSER':
-				fpbx_ami_update($prep_value, false);
+				fpbx_ami_update(true, false);
 			break;
 			case 'ASTMGRWRITETIMEOUT':
 				fpbx_ami_update(false, false, true);
