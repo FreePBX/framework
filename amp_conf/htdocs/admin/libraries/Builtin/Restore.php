@@ -54,6 +54,11 @@ class Restore Extends Base\RestoreBase{
 					$this->log(sprintf(_("Ignorning restore of %s Advanced Settings from cloudskin"),$data['keyword']));
 					continue;
 				}
+				if ($data['keyword'] === 'AMPWEBROOT') {
+					$this->log("Ignorning restore of AMPWEBROOT Advanced Settings");
+					$this->log(sprintf(_("Current FreePBX Web Root Directory is %s"), $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')));
+					continue;
+				}
 				$val = str_replace('\r\n', "\r\n", $data['value']);
 				$usth->execute([
 					":keyword" => $data['keyword'],
