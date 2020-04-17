@@ -309,9 +309,11 @@ class UpdateManager {
 		$previoushash = $this->freepbx->getConfig($tag, "emailhash");
 		$lastsent = (int) $this->freepbx->getConfig($tag, "emailtimestamp");
 
-		// Random hour, minute in 4-hour interval; this week's timestamp could be as little as 7D-3H59M after last week's timestamp
 		$currTime = time();
-		if (!$force && $currenthash === $previoushash && ($lastsent > $currTime - 590460)) {
+		/* Random hour, minute in 4-hour interval; this week's timestamp could be as little as 7D-3H59M after last week's timestamp
+		   Allow 1 minute additional margin; 6 days 20 hours = 590400 seconds
+		 */
+		if (!$force && $currenthash === $previoushash && ($lastsent > $currTime - 590400)) {
 			// Not sending, it's a dupe and it's too soon. Pretend we did.
 			return true;
 		}
