@@ -266,7 +266,7 @@ class UpdateManager {
 			$hour++;
 		}
 		if ($settings['auto_module_updates'] === "enabled") {
-			$cmd = "[ -e $fwconsole ] && $fwconsole ma installall --sendemail -q > /dev/null 2>&1";
+			$cmd = "[ -e $fwconsole ] && $fwconsole ma upgradeall --sendemail -q > /dev/null 2>&1";
 			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "dow" => $day ]);
 		}
 
