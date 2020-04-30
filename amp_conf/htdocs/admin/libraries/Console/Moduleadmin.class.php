@@ -1486,7 +1486,7 @@ class Moduleadmin extends Command {
 				$this->updatemanager->securityEmail();
 				$moduleupdates = $settings['auto_module_updates'];
 				if($moduleupdates == 'enabled' || $moduleupdates == 'emailonly') {
-					$this->updatemanager->updateEmail();
+					$this->updatemanager->updateEmail($moduleupdates == 'enabled');
 				}
 				$this->updatemanager->unsignedEmail();
 				break;
