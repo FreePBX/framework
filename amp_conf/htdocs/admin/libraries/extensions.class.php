@@ -927,6 +927,7 @@ class ext_macro {
 //      The app_false argument only works with asterisk 1.6
 //
 class ext_execif {
+	private static $prependFastAGI = null;
 	var $expr;
 	var $app_true;
 	var $data_true;
@@ -943,14 +944,22 @@ class ext_execif {
 
 	function output() {
 		global $version;
+		global $amp_conf;		
+		
+		if(is_null(static::$prependFastAGI)) {
+			static::$prependFastAGI = \FreePBX::Modules()->moduleHasMethod("core","fastAGIStatus") && \FreePBX::Core()->fastAGIStatus();
+		}
+		
+		$dt_true 	= static::$prependFastAGI && $this->app_true == "AGI" && !preg_match('/^agi:\/\//',$this->data_true)? "agi://127.0.0.1/".$this->data_true : $this->data_true ;
+		$dt_false 	= static::$prependFastAGI && $this->app_false == "AGI" && !preg_match('/^agi:\/\//',$this->data_false)? "agi://127.0.0.1/".$this->data_false : $this->data_false ;		
 
 		if (version_compare($version, "1.6", "ge")) {
 			if ($this->app_false != '')
-				return "ExecIf({$this->expr}?{$this->app_true}({$this->data_true}):{$this->app_false}({$this->data_false}))";
+				return "ExecIf({$this->expr}?{$this->app_true}({$dt_true}):{$this->app_false}({$dt_false}))";
 			else
-				return "ExecIf({$this->expr}?{$this->app_true}({$this->data_true}))";
+				return "ExecIf({$this->expr}?{$this->app_true}({$dt_true}))";
 		} else {
-			return "ExecIf({$this->expr},{$this->app_true},{$this->data_true})";
+			return "ExecIf({$this->expr},{$this->app_true},{$dt_true})";
 		}
 	}
 }
