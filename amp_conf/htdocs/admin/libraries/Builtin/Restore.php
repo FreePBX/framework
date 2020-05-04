@@ -21,6 +21,7 @@ class Restore Extends Base\RestoreBase{
 
 	public function processLegacy($pdo, $data, $tables, $unknownTables){
 		$skipcdrPass = false;
+		$skipcloudskin = array("VIEW_MENU", "VIEW_LOGIN", "VIEW_FOOTER_CONTENT", "DASHBOARD_OVERRIDE_BASIC", "DASHBOARD_FREEPBX_BRAND", "BRAND_IMAGE_TANGO_LEFT", "BRAND_IMAGE_FREEPBX_LINK_LEFT", "BRAND_IMAGE_FAVICON", "BRAND_CSS_CUSTOM", "BRAND_ALT_JS");
 		$sql = "SELECT `keyword`, `value` FROM freepbx_settings WHERE module= ''";
 		$sth = $pdo->prepare($sql);
 		$sth->execute();
@@ -47,6 +48,15 @@ class Restore Extends Base\RestoreBase{
 				}
 				if ($skipcdrPass && $data['keyword'] === 'CDRDBPASS') {
 					$this->log(sprintf(_("Ignorning restore of CDRDBPASS Advanced Settings from %s"), $module));
+					continue;
+				}
+				if (in_array($data['keyword'], $skipcloudskin)) {
+					$this->log(sprintf(_("Ignorning restore of %s Advanced Settings from cloudskin"),$data['keyword']));
+					continue;
+				}
+				if ($data['keyword'] === 'AMPWEBROOT') {
+					$this->log("Ignorning restore of AMPWEBROOT Advanced Settings");
+					$this->log(sprintf(_("Current FreePBX Web Root Directory is %s"), $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')));
 					continue;
 				}
 				$val = str_replace('\r\n', "\r\n", $data['value']);
