@@ -215,7 +215,15 @@ if($online) { ?>
 																	<?php case 'paid':?>
 																	<?php default:?>
 																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn btn-primary" target="_new"><?php echo _('Learn More')?></a>
-																		<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn fpbx-buy" data-rawname="<?php echo $module['name']?>" target="_new"><?php echo _('Buy')?></a>
+
+<?php if (\FreePBX::Modules()->checkStatus('sysadmin') && function_exists(sysadmin_get_buyurl)) {
+        $buyurl = sysadmin_get_buyurl($module['commercial']['purchaselink']);
+} else {
+        $buyurl = $module['commercial']['purchaselink'];
+}
+?>
+
+																		<a href="<?php echo $buyurl;?>" class="btn fpbx-buy" data-rawname="<?php echo $module['name']?>" target="_new"><?php echo _('Buy')?></a>
 																	<?php break;?>
 																<?php } ?>
 															<?php } else { ?>
