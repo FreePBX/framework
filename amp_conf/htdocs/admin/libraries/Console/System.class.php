@@ -170,7 +170,7 @@ class System extends Command {
 					$output->writeln("<error>".$updates['i18nstatus']."</error>");
 					exit();
 				} else {
-					$line = _("System successfully upgraded, see log below:");
+					$line = _("System update check completed. See log below:");
 					$this->addToEmail($line);
 					$this->emailbody = array_merge($this->emailbody,(is_array($updates['currentlog']) ? $updates['currentlog'] : []));
 					$output->writeln(implode("\n",is_array($updates['currentlog']) ? $updates['currentlog'] : []));
