@@ -20,8 +20,8 @@ class Restore Extends Base\RestoreBase{
 	}
 
 	public function processLegacy($pdo, $data, $tables, $unknownTables){
-		$skipcdrPass = false;
 		$skipcloudskin = array("VIEW_MENU", "VIEW_LOGIN", "VIEW_FOOTER_CONTENT", "DASHBOARD_OVERRIDE_BASIC", "DASHBOARD_FREEPBX_BRAND", "BRAND_IMAGE_TANGO_LEFT", "BRAND_IMAGE_FREEPBX_LINK_LEFT", "BRAND_IMAGE_FAVICON", "BRAND_CSS_CUSTOM", "BRAND_ALT_JS");
+		$skipcdrval = array("CDRDBHOST", "CDRDBNAME", "CDRDBPASS", "CDRDBPORT", "CDRDBTYPE", "CDRDBUSER");
 		$sql = "SELECT `keyword`, `value` FROM freepbx_settings WHERE module= ''";
 		$sth = $pdo->prepare($sql);
 		$sth->execute();
@@ -41,13 +41,8 @@ class Restore Extends Base\RestoreBase{
 					$this->log(sprintf(_("Ignorning restore of Repo Server URLs %s"), $module));
 					continue;
 				}
-				if ($data['keyword'] === 'CDRDBHOST' && ($data['value'] === 'localhost' || $data['value'] === '127.0.0.1')) {
-					$skipcdrPass = true;
-					$this->log(sprintf(_("Ignorning restore of CDRDBHOST Advanced Settings from %s"), $module));
-					continue;
-				}
-				if ($skipcdrPass && $data['keyword'] === 'CDRDBPASS') {
-					$this->log(sprintf(_("Ignorning restore of CDRDBPASS Advanced Settings from %s"), $module));
+				if (in_array($data['keyword'], $skipcdrval)) {
+					$this->log(sprintf(_("Ignorning restore of %s Advanced Settings"), $data['keyword']));
 					continue;
 				}
 				if (in_array($data['keyword'], $skipcloudskin)) {
