@@ -82,6 +82,10 @@ class Start extends Command {
 						}
 					}
 				}
+				if(strtolower($v) == "ucp" && !\FreePBX::Config()->get("NODEJSENABLED")){
+					$output->writeln('<error>'._("UCP Node Disabled in Advanced Settings.").'</error>');
+					exit(0);
+				}
 			}
 
 			// And overwrite our hooks to run later
