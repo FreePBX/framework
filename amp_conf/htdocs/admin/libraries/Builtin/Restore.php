@@ -20,13 +20,35 @@ class Restore Extends Base\RestoreBase{
 	}
 
 	public function processLegacy($pdo, $data, $tables, $unknownTables){
+		$sql = "SELECT * FROM ampusers";
+                $sth = $pdo->prepare($sql);
+                $sth->execute();
+                $res = $sth->fetchAll(\PDO::FETCH_ASSOC);
+		if(!empty($res)) {
+				$query = 'Truncate ampusers';
+				$sth = $this->FreePBX->Database->prepare($query);
+				$sth->execute();
+				$this->log(_("Cleared AMPUSERS"));
+				$sql = "INSERT INTO ampusers(`username`,`password_sha1`,`extension_low`,`extension_high`,`deptname`,`sections` )VALUES(:username,:password_sha1,:extension_low,:extension_high,:deptname,:sections)";
+                        	$sth = $this->FreePBX->Database->prepare($sql);
+			foreach($res as $user) {
+				$sth->execute([
+                                        ":username" => $user['username'],
+                                        ":password_sha1" => $user['password_sha1'],
+                                        ":extension_low" => $user['extension_low'],
+                                        ":extension_high" => $user['extension_high'],
+                                        ":deptname" => $user['deptname'],
+                                        ":sections" => $user['sections']
+					]);
+			}
+		}
+
 		$skipcloudskin = array("VIEW_MENU", "VIEW_LOGIN", "VIEW_FOOTER_CONTENT", "DASHBOARD_OVERRIDE_BASIC", "DASHBOARD_FREEPBX_BRAND", "BRAND_IMAGE_TANGO_LEFT", "BRAND_IMAGE_FREEPBX_LINK_LEFT", "BRAND_IMAGE_FAVICON", "BRAND_CSS_CUSTOM", "BRAND_ALT_JS");
 		$skipcdrval = array("CDRDBHOST", "CDRDBNAME", "CDRDBPASS", "CDRDBPORT", "CDRDBTYPE", "CDRDBUSER");
 		$sql = "SELECT `keyword`, `value` FROM freepbx_settings WHERE module= ''";
 		$sth = $pdo->prepare($sql);
 		$sth->execute();
 		$res = $sth->fetchAll(\PDO::FETCH_ASSOC);
-
 		if(!empty($res)) {
 			$this->log(sprintf(_("Importing Advanced Settings from %s"), $module));
 			$sql = "UPDATE IGNORE freepbx_settings SET `value` = :value WHERE `keyword` = :keyword AND `module` = ''";
