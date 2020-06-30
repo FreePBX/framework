@@ -874,7 +874,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			$output->writeln("Done installing base modules");
 			if(!$answers['skip-install']) {
 				$output->write("Installing all modules...");
-				$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole ma installlocal",1800);
+				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal");
 				$output->writeln("Done installing all modules");
 			}
 
