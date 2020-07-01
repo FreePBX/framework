@@ -37,7 +37,7 @@
 		</div>
 	<?php } ?>
 	<div class="login_item_title">
-		<a href="http://www.schmoozecom.com/oss.php" class="login_item" id="login_support" style="background-image: url(assets/images/support.png);"/>&nbsp;</a>
+		<a href="https://support.sangoma.com/" target="_blank" class="login_item" id="login_support" style="background-image: url(assets/images/support.png);"/>&nbsp;</a>
 		<span class="login_item_text" style="display: block;width: 160px;text-align: center;">
 			<?php echo _('Get Support') ?>
 		</span>
