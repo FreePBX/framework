@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: GpwmPOT-Creation-Date: 2005-08-17 10:15-0300\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-06-29 08:48+0000\n"
+"POT-Creation-Date: 2020-07-02 08:26+0000\n"
 "PO-Revision-Date: 2015-04-24 19:56+0200\n"
 "Last-Translator: Paulo <paulop1975@gmail.com>\n"
 "Language-Team: Portuguese (Portugal) <http://weblate.freepbx.org/projects/"
@@ -991,7 +991,7 @@ msgstr ""
 msgid "Adhoc"
 msgstr ""
 
-#: amp.i18n.php:6 amp.i18n.php:892
+#: amp.i18n.php:6 amp.i18n.php:896
 #: amp_conf/htdocs/admin/views/menu_items.php:47
 msgid "Admin"
 msgstr ""
@@ -1018,7 +1018,7 @@ msgstr "Utilizador de Admin"
 msgid "Administrator User"
 msgstr ""
 
-#: amp.i18n.php:890
+#: amp.i18n.php:894
 msgid "Administrators"
 msgstr "Administradores"
 
@@ -1027,7 +1027,7 @@ msgstr "Administradores"
 msgid "Advanced"
 msgstr ""
 
-#: amp.i18n.php:886
+#: amp.i18n.php:890
 msgid "Advanced Settings"
 msgstr "Configurações Avançadas"
 
@@ -1253,7 +1253,7 @@ msgstr ""
 msgid "Any DID"
 msgstr "Qualquer DID"
 
-#: amp.i18n.php:868 amp_conf/htdocs/admin/views/menu_items.php:48
+#: amp.i18n.php:872 amp_conf/htdocs/admin/views/menu_items.php:48
 msgid "Applications"
 msgstr "Aplicações"
 
@@ -1379,7 +1379,7 @@ msgstr "Utilizador do Asterisk Manager"
 msgid "Asterisk Manager Write Timeout"
 msgstr "Timeout de Escrita do Asterisk Manager"
 
-#: amp.i18n.php:894 ../core/page.astmodules.php:49
+#: amp.i18n.php:898 ../core/page.astmodules.php:49
 msgid "Asterisk Modules"
 msgstr "Módulos do Asterisk"
 
@@ -1789,7 +1789,7 @@ msgstr ""
 msgid "CW Enabled by Default"
 msgstr "CW Ativo por Defeito"
 
-#: amp.i18n.php:836
+#: amp.i18n.php:840
 msgid "Cache Expiration"
 msgstr ""
 
@@ -2446,7 +2446,7 @@ msgstr ""
 msgid "Connection Type"
 msgstr "Tipo de Ligação"
 
-#: amp.i18n.php:878 amp_conf/htdocs/admin/views/menu_items.php:49
+#: amp.i18n.php:882 amp_conf/htdocs/admin/views/menu_items.php:49
 msgid "Connectivity"
 msgstr "Conetividade"
 
@@ -2523,7 +2523,7 @@ msgstr ""
 msgid "Converted extension %s to PJSIP"
 msgstr ""
 
-#: amp.i18n.php:866 ../core/install.php:6
+#: amp.i18n.php:870 ../core/install.php:6
 msgid "Core"
 msgstr ""
 
@@ -2764,7 +2764,7 @@ msgstr ""
 msgid "DAHDI Channel"
 msgstr ""
 
-#: amp.i18n.php:880 ../core/views/dahdichandids/general.php:5
+#: amp.i18n.php:884 ../core/views/dahdichandids/general.php:5
 #: ../core/views/dahdichandids/view.php:6
 msgid "DAHDI Channel DIDs"
 msgstr "DIDs de Canal DAHDI"
@@ -3024,93 +3024,102 @@ msgstr ""
 "destinos. Pode ser definido por extensão/utilizador. Telefones sem voicemail "
 "ou outros destinos tocarão indefinidamente."
 
-#: amp.i18n.php:214
-msgid ""
-"Default setting for (new Extension)  SIP encryption. Whether to offer SRTP "
-"encrypted media (and only SRTP encrypted media) on outgoing calls to a peer. "
-"Calls will fail with HANGUPCAUSE=58 if the peer does not support SRTP. See "
-"Asterisk documentation for details."
-msgstr ""
-
 #: amp.i18n.php:226
 msgid ""
-"Default setting for (new Extension) SIP and IAX allow (for codecs). Codecs "
-"to allow in addition to those set in general settings unless explicitly "
-"'disallowed' for the device. Values van be separated with '&' e.g. "
-"'ulaw&g729&g729' where the preference order is preserved. See Asterisk "
-"documentation for details."
+"Default setting for SIP and IAX allow (for codecs). Codecs to allow in "
+"addition to those set in general settings unless explicitly 'disallowed' for "
+"the device. Values van be separated with '&' e.g. 'ulaw&g729&g729' where the "
+"preference order is preserved. See Asterisk documentation for details."
 msgstr ""
+"Definição por defeito para permitir (codecs) para o SIP e IAX. Este codecs "
+"serão permitidos para além dos definidos nas configurações gerais a não ser "
+"que sejam incluídos no parametro 'disallowed' do dispositivo. Os valores "
+"podem ser separados por '&' ex. 'ulaw&g729&g729', a ordem de prefencia é "
+"preservada. Consultar documentação do Asterisk para mais detalhes."
 
 #: amp.i18n.php:230
 msgid ""
-"Default setting for (new Extension) SIP and IAX disallow (for codecs). "
-"Codecs to disallow, can help to reset from the general settings by setting a "
-"value of 'all' and then specifically including allowed codecs with the "
-"'allow' directive. Values van be separated with '&' e.g. 'g729&g722'. See "
-"Asterisk documentation for details."
+"Default setting for SIP and IAX disallow (for codecs). Codecs to disallow, "
+"can help to reset from the general settings by setting a value of 'all' and "
+"then specifically including allowed codecs with the 'allow' directive. "
+"Values van be separated with '&' e.g. 'g729&g722'. See Asterisk "
+"documentation for details."
 msgstr ""
+"Definição por defeito para não permitir codecs SIP e IAX. Codecs a não "
+"permitir, podem ajudar a fazer o reset das configurações gerais definindo o "
+"valor 'all' e incluir os codecs permitidos através da diretiva 'allow'. "
+"Valores podem ser separados por '&' ex. 'g729&g722'. Consultar documentação "
+"do Asterisk para mais detalhes."
 
 #: amp.i18n.php:222
 msgid ""
-"Default setting for (new Extension) SIP and IAX qualify. Whether to send "
-"periodic OPTIONS messages (for SIP) or otherwise monitor the channel, and at "
-"what point to consider the channel unavailable. A value of 'yes' is "
-"equivalent to 2000, time in msec. Can help to keep NAT holes open with SIP "
-"but not dependable for remote client firewalls. See Asterisk documentation "
-"for details."
+"Default setting for SIP and IAX qualify. Whether to send periodic OPTIONS "
+"messages (for SIP) or otherwise monitor the channel, and at what point to "
+"consider the channel unavailable. A value of 'yes' is equivalent to 2000, "
+"time in msec. Can help to keep NAT holes open with SIP but not dependable "
+"for remote client firewalls. See Asterisk documentation for details."
 msgstr ""
 
 #: amp.i18n.php:194
 msgid ""
-"Default setting for (new Extension) SIP canreinvite (same as directmedia). "
-"See Asterisk documentation for details."
+"Default setting for SIP canreinvite (same as directmedia). See Asterisk "
+"documentation for details."
+msgstr ""
+"Definição por omissão para o canreinvite do SIP (igual a directmedia). "
+"Consultar documentação do Asterisk para mais detalhes."
+
+#: amp.i18n.php:214
+msgid ""
+"Default setting for SIP encryption. Whether to offer SRTP encrypted media "
+"(and only SRTP encrypted media) on outgoing calls to a peer. Calls will fail "
+"with HANGUPCAUSE=58 if the peer does not support SRTP. See Asterisk "
+"documentation for details."
 msgstr ""
 
 #: amp.i18n.php:210
 msgid ""
-"Default setting for (new Extension) SIP nat. A 'yes' will attempt to handle "
-"nat, also works for local (uses the network ports and address instead of the "
-"reported ports), 'no' follows the protocol, 'never' tries to block it, no "
-"RFC3581, 'route' ignores the rport information. See Asterisk documentation "
-"for details."
+"Default setting for SIP nat. A 'yes' will attempt to handle nat, also works "
+"for local (uses the network ports and address instead of the reported "
+"ports), 'no' follows the protocol, 'never' tries to block it, no RFC3581, "
+"'route' ignores the rport information. See Asterisk documentation for "
+"details."
 msgstr ""
 
 #: amp.i18n.php:218
 msgid ""
-"Default setting for (new Extension) SIP qualifyfreq. Only valid for Asterisk "
-"1.6 and above. Frequency that 'qualify' OPTIONS messages will be sent to the "
-"device. Can help to keep NAT holes open but not dependable for remote client "
-"firewalls. See Asterisk documentation for details."
+"Default setting for SIP qualifyfreq. Only valid for Asterisk 1.6 and above. "
+"Frequency that 'qualify' OPTIONS messages will be sent to the device. Can "
+"help to keep NAT holes open but not dependable for remote client firewalls. "
+"See Asterisk documentation for details."
 msgstr ""
 
 #: amp.i18n.php:206
 msgid ""
-"Default setting for (new Extension) SIP sendrpid. A value of 'yes' is "
-"equivalent to 'rpid' and will send the 'Remote-Party-ID' header. A value of "
-"'pai' will send the 'P-Asserted-Identity' header. See Asterisk documentation "
-"for details."
+"Default setting for SIP sendrpid. A value of 'yes' is equivalent to 'rpid' "
+"and will send the 'Remote-Party-ID' header. A value of 'pai' will send the "
+"'P-Asserted-Identity' header. See Asterisk documentation for details."
 msgstr ""
 
 #: amp.i18n.php:202
 msgid ""
-"Default setting for (new Extension) SIP trustrpid. See Asterisk "
-"documentation for details."
+"Default setting for SIP trustrpid. See Asterisk documentation for details."
 msgstr ""
+"Definição por omissão do trustrpid do SIP. Consultar documentação do "
+"Asterisk para mais detalhes."
 
 #: amp.i18n.php:234
 msgid ""
-"Default setting for (new Extension) SIP, DAHDi (and Zap) callgroup. "
-"Callgroup(s) that the device is part of, can be one or more callgroups, e.g. "
-"'1,3-5' would be in groups 1,3,4,5. See Asterisk documentation for details."
+"Default setting for SIP, DAHDi (and Zap) callgroup. Callgroup(s) that the "
+"device is part of, can be one or more callgroups, e.g. '1,3-5' would be in "
+"groups 1,3,4,5. See Asterisk documentation for details."
 msgstr ""
 
 #: amp.i18n.php:238
 msgid ""
-"Default setting for (new Extension) SIP, DAHDi (and Zap) pickupgroup. "
-"Pickupgroups(s) that the device can pickup calls from, can be one or more "
-"groups, e.g. '1,3-5' would be in groups 1,3,4,5. Device does not have to be "
-"in a group to be able to pickup calls from that group. See Asterisk "
-"documentation for details."
+"Default setting for SIP, DAHDi (and Zap) pickupgroup. Pickupgroups(s) that "
+"the device can pickup calls from, can be one or more groups, e.g. '1,3-5' "
+"would be in groups 1,3,4,5. Device does not have to be in a group to be able "
+"to pickup calls from that group. See Asterisk documentation for details."
 msgstr ""
 
 #: amp.i18n.php:344
@@ -3398,7 +3407,7 @@ msgstr ""
 msgid "Device was not added!"
 msgstr ""
 
-#: amp.i18n.php:874
+#: amp.i18n.php:878
 msgid "Devices"
 msgstr "Dsipositivos"
 
@@ -4044,6 +4053,10 @@ msgstr "Ativar Registo de Desempenho"
 msgid "Enable RTP bundling"
 msgstr ""
 
+#: amp.i18n.php:786
+msgid "Enable Remote Unlocking"
+msgstr "Ativar Desbloqueio Remoto"
+
 #: amp.i18n.php:24
 msgid "Enable Static Content"
 msgstr ""
@@ -4192,6 +4205,14 @@ msgstr ""
 #, php-format
 msgid "Enabling Trunk %s Run fwconsole reload"
 msgstr ""
+
+#: amp.i18n.php:788
+msgid ""
+"Enabling this option will allow a remote user to automatically authenticate "
+"as an admin via use of a one-time key generated by "
+msgstr ""
+"Ativar esta opção permitirá a um utilizador remoto autenticar-se como admin "
+"usando uma chave gerada uma única vez por "
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:53
 msgid "Endpoint"
@@ -4560,7 +4581,7 @@ msgstr "Conflito de número de extensão, escolha outro."
 msgid "Extension was not numeric!"
 msgstr ""
 
-#: amp.i18n.php:870 ../core/Core.class.php:3103 ../core/Core.class.php:3104
+#: amp.i18n.php:874 ../core/Core.class.php:3103 ../core/Core.class.php:3104
 #: ../core/page.extensions.php:26
 msgid "Extensions"
 msgstr "Ramais"
@@ -5060,11 +5081,11 @@ msgstr ""
 msgid "FreePBX Server"
 msgstr ""
 
-#: amp.i18n.php:896
+#: amp.i18n.php:900
 msgid "FreePBX Support"
 msgstr "Suporte do FreePBX"
 
-#: amp.i18n.php:786
+#: amp.i18n.php:790
 msgid "FreePBX Web Address"
 msgstr "Endereço Web do FreePBX"
 
@@ -5807,7 +5828,7 @@ msgstr ""
 msgid "Inbound Route: %s (%s)"
 msgstr "Rota de Entrada: %s (%s)"
 
-#: amp.i18n.php:876 ../core/page.did.php:122
+#: amp.i18n.php:880 ../core/page.did.php:122
 msgid "Inbound Routes"
 msgstr "Rotas de Entrada"
 
@@ -7574,7 +7595,7 @@ msgstr ""
 msgid "Outbound Route: %s"
 msgstr "Rota de Saída: %s"
 
-#: amp.i18n.php:882 ../core/page.routing.php:103
+#: amp.i18n.php:886 ../core/page.routing.php:103
 msgid "Outbound Routes"
 msgstr "Rotas de Saída"
 
@@ -7676,7 +7697,7 @@ msgstr ""
 msgid "PHP Error Log Output"
 msgstr "Output do Registo de Erros do PHP"
 
-#: amp.i18n.php:790
+#: amp.i18n.php:794
 msgid "PHP Timezone"
 msgstr ""
 
@@ -8208,11 +8229,11 @@ msgstr ""
 msgid "RPM(s) upgrade check had errors:"
 msgstr ""
 
-#: amp.i18n.php:794
+#: amp.i18n.php:798
 msgid "RSS Feeds"
 msgstr "Feeds RSS"
 
-#: amp.i18n.php:796
+#: amp.i18n.php:800
 msgid ""
 "RSS Feeds that are displayed in UCP and Dashboard. Separate each feed by a "
 "new line. Supported feeds are Atom 1.0 and RSS 0.91, 0.92, 1.0 and 2.0"
@@ -9155,7 +9176,7 @@ msgstr ""
 msgid "Setting this to true will expose the "
 msgstr "Definindo como true irá expor o "
 
-#: amp.i18n.php:834
+#: amp.i18n.php:838
 msgid ""
 "Setting this to true will fetch system javascript libraries such as jQuery "
 "and jQuery-ui from ajax.googleapis.com. This can be advantageous if "
@@ -9186,7 +9207,7 @@ msgid ""
 "keep NAT pinholes open."
 msgstr ""
 
-#: amp.i18n.php:888 amp_conf/htdocs/admin/views/menu_items.php:51
+#: amp.i18n.php:892 amp_conf/htdocs/admin/views/menu_items.php:51
 #: ../core/functions.inc/drivers/Iax2.class.php:107
 #: ../core/functions.inc/drivers/Sip.class.php:184
 #: ../core/views/trunks/trunk_header.php:222
@@ -9514,19 +9535,19 @@ msgstr ""
 msgid "System Apps"
 msgstr "Apps de Sistema"
 
-#: amp.i18n.php:798
+#: amp.i18n.php:802
 msgid "System Asterisk Group"
 msgstr "Grupo Asterisk do Sistema"
 
-#: amp.i18n.php:802
+#: amp.i18n.php:806
 msgid "System Asterisk User"
 msgstr "Utilizador Asterisk do Sistema"
 
-#: amp.i18n.php:806
+#: amp.i18n.php:810
 msgid "System Device Group"
 msgstr "Grupo de Dispositivos do Sistema"
 
-#: amp.i18n.php:810
+#: amp.i18n.php:814
 msgid "System Device User"
 msgstr "Utilizador de Dispositivo do Sistema"
 
@@ -9542,7 +9563,7 @@ msgstr ""
 msgid "System Identifier:"
 msgstr ""
 
-#: amp.i18n.php:814
+#: amp.i18n.php:818
 msgid "System Identity"
 msgstr ""
 
@@ -9578,11 +9599,11 @@ msgstr ""
 msgid "System Upgrades Available:"
 msgstr ""
 
-#: amp.i18n.php:820
+#: amp.i18n.php:824
 msgid "System Web Group"
 msgstr "Grupo Web do Sistema"
 
-#: amp.i18n.php:824
+#: amp.i18n.php:828
 msgid "System Web User"
 msgstr "Utilizador Web do Sistema"
 
@@ -9665,7 +9686,7 @@ msgstr ""
 msgid "Tech Type"
 msgstr ""
 
-#: amp.i18n.php:828
+#: amp.i18n.php:832
 msgid "Telephony Engine"
 msgstr "Motor de Telefonia"
 
@@ -9823,8 +9844,9 @@ msgstr ""
 
 #: amp.i18n.php:272
 msgid ""
-"The asterisk application to use for conferencing. The app_meetme application "
-"is considered "
+"The asterisk application to use for conferencing. If only one is compiled "
+"into asterisk, FreePBX will auto detect and change this value if set wrong. "
+"The app_meetme application is considered "
 msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:133
@@ -10202,13 +10224,13 @@ msgid ""
 "tooltip in Advanced Settings for more details."
 msgstr ""
 
-#: amp.i18n.php:830
+#: amp.i18n.php:834
 msgid ""
 "The telephony backend engine being used, asterisk is the only option "
 "currently."
 msgstr ""
 
-#: amp.i18n.php:840
+#: amp.i18n.php:844
 msgid ""
 "The time in seconds that FreePBX will cache Vega gateways status. Default to "
 "5 min."
@@ -10232,26 +10254,26 @@ msgstr ""
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: amp.i18n.php:804
+#: amp.i18n.php:808
 msgid ""
 "The user Asterisk should be running as, used by freepbx_engine. Most systems "
 "should not change this."
 msgstr ""
 
-#: amp.i18n.php:800
+#: amp.i18n.php:804
 msgid ""
 "The user group Asterisk should be running as, used by freepbx_engine. Most "
 "systems should not change this."
 msgstr ""
 
-#: amp.i18n.php:808
+#: amp.i18n.php:812
 msgid ""
 "The user group that various device directories should be set to, used by "
 "freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
 "mISDN and /dev/dsp. Most systems should not change this."
 msgstr ""
 
-#: amp.i18n.php:822
+#: amp.i18n.php:826
 msgid ""
 "The user group your httpd should be running as, used by freepbx_engine. Most "
 "systems should not change this."
@@ -10262,14 +10284,14 @@ msgstr ""
 msgid "The user name %s is already in use"
 msgstr ""
 
-#: amp.i18n.php:812
+#: amp.i18n.php:816
 msgid ""
 "The user that various device directories should be set to, used by "
 "freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
 "mISDN and /dev/dsp. Most systems should not change this."
 msgstr ""
 
-#: amp.i18n.php:826
+#: amp.i18n.php:830
 msgid ""
 "The user your httpd should be running as, used by freepbx_engine. Most "
 "systems should not change this."
@@ -10436,7 +10458,7 @@ msgid ""
 "<br><br>This USER Context will be used to define the below user details."
 msgstr ""
 
-#: amp.i18n.php:788
+#: amp.i18n.php:792
 msgid ""
 "This is the address of your Web Server. It is mostly obsolete and derived "
 "when not supplied and will be phased out, but there are still some areas "
@@ -10534,7 +10556,7 @@ msgid ""
 "that is not otherwise housed in a module"
 msgstr ""
 
-#: amp.i18n.php:816
+#: amp.i18n.php:820
 msgid ""
 "This name will be used to help identify this machine in emails or alerts"
 msgstr ""
@@ -10596,7 +10618,7 @@ msgstr ""
 msgid "This user/extension %s is already in use"
 msgstr "A extensão/utilizador %s já está em uso"
 
-#: amp.i18n.php:818
+#: amp.i18n.php:822
 msgid ""
 "This will be used to decide if we need to show help text to change system "
 "identity in dashboard or not "
@@ -10672,7 +10694,7 @@ msgstr ""
 msgid "Timer Expiration Period"
 msgstr ""
 
-#: amp.i18n.php:792
+#: amp.i18n.php:796
 msgid ""
 "Timezone that should be used by PHP. Empty value will use PHP defaults. List "
 "of value Timezones: <a href='http://php.net/manual/en/timezones.php'>http://"
@@ -10752,7 +10774,7 @@ msgstr ""
 msgid "Trunk: %s (%s)"
 msgstr ""
 
-#: amp.i18n.php:884 ../core/views/trunks/bootnav.php:20
+#: amp.i18n.php:888 ../core/views/trunks/bootnav.php:20
 #: ../core/views/trunks/main.php:2 ../core/views/trunks/popover_main.php:9
 msgid "Trunks"
 msgstr "Canal"
@@ -11236,7 +11258,7 @@ msgstr ""
 msgid "Use Google DNS for Enum"
 msgstr ""
 
-#: amp.i18n.php:832
+#: amp.i18n.php:836
 msgid "Use Google Distribution Network for js Downloads"
 msgstr ""
 
@@ -11287,13 +11309,13 @@ msgstr "Usar wget para Admin de Módulos"
 msgid "Used as Destination by %s %s"
 msgstr ""
 
-#: amp.i18n.php:846
+#: amp.i18n.php:850
 msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this."
 msgstr ""
 
-#: amp.i18n.php:860
+#: amp.i18n.php:864
 msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this. "
@@ -11302,7 +11324,7 @@ msgid ""
 "to go to voicemail (default)."
 msgstr ""
 
-#: amp.i18n.php:850
+#: amp.i18n.php:854
 msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this. "
@@ -11396,7 +11418,7 @@ msgstr ""
 msgid "Username to use in From header for requests to this trunk"
 msgstr ""
 
-#: amp.i18n.php:872
+#: amp.i18n.php:876
 msgid "Users"
 msgstr "Utilizadores"
 
@@ -11413,35 +11435,35 @@ msgid ""
 "unauthenticated. <strong>Setting this to 'None' may be insecure!</strong>"
 msgstr ""
 
-#: amp.i18n.php:842
+#: amp.i18n.php:846
 msgid "VMX Default Context"
 msgstr "Contexto Padrão do VMX"
 
-#: amp.i18n.php:848
+#: amp.i18n.php:852
 msgid "VMX Default Loop Exceed Context"
 msgstr ""
 
-#: amp.i18n.php:852
+#: amp.i18n.php:856
 msgid "VMX Default Loop Exceed Extension"
 msgstr ""
 
-#: amp.i18n.php:854
+#: amp.i18n.php:858
 msgid "VMX Default Loop Exceed Priority"
 msgstr ""
 
-#: amp.i18n.php:856
+#: amp.i18n.php:860
 msgid "VMX Default Priority"
 msgstr "Prioridade Padrão do VMX"
 
-#: amp.i18n.php:858
+#: amp.i18n.php:862
 msgid "VMX Default Timeout Context"
 msgstr "Contexto de Timeout Padrão do VMX"
 
-#: amp.i18n.php:862
+#: amp.i18n.php:866
 msgid "VMX Default Timeout Extension"
 msgstr "Extensão de Timeout Padrão do VMX"
 
-#: amp.i18n.php:864
+#: amp.i18n.php:868
 msgid "VMX Default Timeout Priority"
 msgstr "Prioridade de Timeout Padrão do VMX"
 
@@ -11464,7 +11486,7 @@ msgstr "Valor [%s] fora do intervalo limite, alterado para [%s]"
 msgid "Value must be between 1 and 63"
 msgstr ""
 
-#: amp.i18n.php:838
+#: amp.i18n.php:842
 msgid "Vega Gateway Management"
 msgstr ""
 
@@ -11503,7 +11525,7 @@ msgstr ""
 msgid "Virtual"
 msgstr ""
 
-#: amp.i18n.php:844
+#: amp.i18n.php:848
 msgid "VmX Locater"
 msgstr ""
 
@@ -13030,16 +13052,6 @@ msgid ""
 "manually"
 msgstr ""
 
-#~ msgid "Enable Remote Unlocking"
-#~ msgstr "Ativar Desbloqueio Remoto"
-
-#~ msgid ""
-#~ "Enabling this option will allow a remote user to automatically "
-#~ "authenticate as an admin via use of a one-time key generated by "
-#~ msgstr ""
-#~ "Ativar esta opção permitirá a um utilizador remoto autenticar-se como "
-#~ "admin usando uma chave gerada uma única vez por "
-
 #~ msgid ""
 #~ "Asterisk 12 introduces the Asterisk REST Interface, a set of RESTful "
 #~ "API's for building Asterisk based applications. This will enable the ARI "
@@ -13051,46 +13063,6 @@ msgstr ""
 
 #~ msgid "Asterisk REST Interface"
 #~ msgstr "Interface REST do Asterisk"
-
-#~ msgid ""
-#~ "Default setting for SIP and IAX allow (for codecs). Codecs to allow in "
-#~ "addition to those set in general settings unless explicitly 'disallowed' "
-#~ "for the device. Values van be separated with '&' e.g. 'ulaw&g729&g729' "
-#~ "where the preference order is preserved. See Asterisk documentation for "
-#~ "details."
-#~ msgstr ""
-#~ "Definição por defeito para permitir (codecs) para o SIP e IAX. Este "
-#~ "codecs serão permitidos para além dos definidos nas configurações gerais "
-#~ "a não ser que sejam incluídos no parametro 'disallowed' do dispositivo. "
-#~ "Os valores podem ser separados por '&' ex. 'ulaw&g729&g729', a ordem de "
-#~ "prefencia é preservada. Consultar documentação do Asterisk para mais "
-#~ "detalhes."
-
-#~ msgid ""
-#~ "Default setting for SIP and IAX disallow (for codecs). Codecs to "
-#~ "disallow, can help to reset from the general settings by setting a value "
-#~ "of 'all' and then specifically including allowed codecs with the 'allow' "
-#~ "directive. Values van be separated with '&' e.g. 'g729&g722'. See "
-#~ "Asterisk documentation for details."
-#~ msgstr ""
-#~ "Definição por defeito para não permitir codecs SIP e IAX. Codecs a não "
-#~ "permitir, podem ajudar a fazer o reset das configurações gerais definindo "
-#~ "o valor 'all' e incluir os codecs permitidos através da diretiva 'allow'. "
-#~ "Valores podem ser separados por '&' ex. 'g729&g722'. Consultar "
-#~ "documentação do Asterisk para mais detalhes."
-
-#~ msgid ""
-#~ "Default setting for SIP canreinvite (same as directmedia). See Asterisk "
-#~ "documentation for details."
-#~ msgstr ""
-#~ "Definição por omissão para o canreinvite do SIP (igual a directmedia). "
-#~ "Consultar documentação do Asterisk para mais detalhes."
-
-#~ msgid ""
-#~ "Default setting for SIP trustrpid. See Asterisk documentation for details."
-#~ msgstr ""
-#~ "Definição por omissão do trustrpid do SIP. Consultar documentação do "
-#~ "Asterisk para mais detalhes."
 
 #~ msgid "Enable pretty-printing of the JSON responses from Asterisk"
 #~ msgstr "Ativar pretty-printing das respostas JSON do Asterisk"
