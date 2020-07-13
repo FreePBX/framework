@@ -833,7 +833,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 		//run this here so that we make sure everything is square for module installs
 		$output->writeln("Chowning directories...");
-		$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole chown");
+		system($amp_conf['AMPSBIN']."/fwconsole chown");
 		$output->writeln("Done");
 
 		// module_admin install framework
