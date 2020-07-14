@@ -709,10 +709,11 @@ class View {
 	 * @return mixed                    Array if $output_array is true otherwise a string of html
 	 */
 	public function destinationDrawSelect($goto, $i, $restrict_modules=false, $table=true, $nodest_msg='', $required=false, $output_array=false, $reset=false, $disable=false, $class='') {
-		global $fw_popover;
+		global $fw_popover,$drawselect_destinations;
 
 		if ($reset) {
 			$this->drawselect_destinations = [];
+			unset($drawselect_destinations);
 		}
 
 		//php session last_dest
@@ -725,10 +726,10 @@ class View {
 		}
 
 		$add_a_new = \modgettext::_('Add new %s &#133','amp');
-		if(empty($this->drawselect_destinations[$i])) {
-			$this->drawselect_destinations[$i] = $this->freepbx->Destinations->getAll($i);
+		if(!isset($drawselect_destinations)){
+			$drawselect_destinations = $this->freepbx->Destinations->getAll($i);
 		}
-
+		$this->drawselect_destinations[$i] = $drawselect_destinations;
 		$flattened = [];
 		foreach($this->drawselect_destinations[$i] as $mod => $categories) {
 			foreach($categories as $cat => $data) {
