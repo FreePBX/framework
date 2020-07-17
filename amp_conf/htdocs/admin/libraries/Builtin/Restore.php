@@ -7,7 +7,7 @@ class Restore Extends Base\RestoreBase{
 		$sql = "UPDATE IGNORE freepbx_settings SET `value` = :value WHERE `keyword` = :keyword AND `module` = ''";
 		$sth = $this->FreePBX->Database->prepare($sql);
 		//check oembranding is installed and licensed
-		if ($this->FreePBX->Modules->checkStatus("oembranding") && $this->freepbx->Oembranding->isLicensed()) {
+		if ($this->FreePBX->Modules->checkStatus("oembranding") && $this->FreePBX->Oembranding->isLicensed()) {
 			$skinsettings = [];
 		}else {
 			$query = "UPDATE freepbx_settings SET `value`=`defaultval` Where `value` like'modules/oembranding%';";
