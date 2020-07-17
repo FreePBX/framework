@@ -6,9 +6,22 @@ class Restore Extends Base\RestoreBase{
 		$configs = $this->getConfigs();
 		$sql = "UPDATE IGNORE freepbx_settings SET `value` = :value WHERE `keyword` = :keyword AND `module` = ''";
 		$sth = $this->FreePBX->Database->prepare($sql);
+		//check oembranding is installed and licensed
+		if ($this->FreePBX->Modules->checkStatus("oembranding") && $this->freepbx->Oembranding->isLicensed()) {
+			$skinsettings = [];
+		}else {
+			$query = "UPDATE freepbx_settings SET `value`=`defaultval` Where `value` like'modules/oembranding%';";
+			$st = $this->FreePBX->Database->prepare($query);
+			$st->execute();
+			$skinsettings = array("VIEW_MENU", "VIEW_LOGIN", "VIEW_FOOTER_CONTENT", "DASHBOARD_OVERRIDE_BASIC", "DASHBOARD_FREEPBX_BRAND", "BRAND_IMAGE_TANGO_LEFT", "BRAND_IMAGE_FREEPBX_LINK_LEFT", "BRAND_IMAGE_FAVICON", "BRAND_CSS_CUSTOM", "BRAND_ALT_JS");
+		}
 		foreach($configs['settings'] as $keyword => $value) {
 			if ($keyword === 'AMPMGRPASS') {
 				$this->log(sprintf(_("Ignorning restore of AMPMGRPASS Advanced Settings from %s"), $module));
+				continue;
+			}
+			if(in_array($keyword,$skinsettings)){
+				$this->log(sprintf(_("Ignorning Oembranding  Setting %s"), $keyword));
 				continue;
 			}
 			$sth->execute([
