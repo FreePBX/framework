@@ -18,7 +18,7 @@ class Modules extends DB_Helper{
 	public $active_modules;
 	private $moduleMethods = array();
 	private $validLicense = null;
-	private $functionIncLoaded = [];
+	private static $functionIncLoaded = [];
 	private $conflictsCache = [];
 
 	// Cache for XML objects
@@ -85,7 +85,7 @@ class Modules extends DB_Helper{
 		$path = $this->FreePBX->Config->get("AMPWEBROOT");
 		$modules = $this->getActiveModules(false); //TODO: is false wise here?
 		foreach($modules as $rawname => $data) {
-			if(in_array($rawname,$this->functionIncLoaded)) {
+			if(isset(self::$functionIncLoaded[$rawname])) {
 				continue;
 			}
 			$ifiles = get_included_files();
@@ -100,11 +100,13 @@ class Modules extends DB_Helper{
 				foreach($ifiles as $file) {
 					if(strpos($file, $relative) !== false) {
 						$include = false;
+						// mark this file as included since it has already been loaded
+						self::$functionIncLoaded[$rawname] = true;
 						break;
 					}
 				}
 				if($include) {
-					$this->functionIncLoaded[] = $rawname;
+					self::$functionIncLoaded[$rawname] = true;
 					include $absolute;
 				}
 			}
@@ -117,7 +119,7 @@ class Modules extends DB_Helper{
 	 * @param  string $module The module rawname
 	 */
 	public function loadFunctionsInc($module) {
-		if(in_array($module,$this->functionIncLoaded)) {
+		if(isset(self::$functionIncLoaded[$module])) {
 			return true;
 		}
 		if($this->checkStatus($module)) {
@@ -135,11 +137,13 @@ class Modules extends DB_Helper{
 				foreach($ifiles as $file) {
 					if(strpos($file, $relative) !== false) {
 						$include = false;
+						// mark this file as included since it has already been loaded
+						self::$functionIncLoaded[$module] = true;
 						break;
 					}
 				}
 				if($include) {
-					$this->functionIncLoaded[] = $module;
+					self::$functionIncLoaded[$module] = true;
 					include $absolute;
 					return true;
 				}
