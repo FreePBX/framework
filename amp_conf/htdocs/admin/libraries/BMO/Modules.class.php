@@ -17,6 +17,7 @@ class Modules extends DB_Helper{
 	private static $count = 0;
 	public $active_modules;
 	private $moduleMethods = array();
+	private $moduleStatusInfo = [];
 	private $validLicense = null;
 	private static $functionIncLoaded = [];
 	private $conflictsCache = [];
@@ -345,7 +346,13 @@ class Modules extends DB_Helper{
 	 * @param {constant} $status  Integer/Constant, status to compare to
 	 */
 	public function checkStatus($modname,$status=MODULE_STATUS_ENABLED) {
-		$modinfo = $this->getInfo($modname);
+		if (isset($this->moduleStatusInfo[$modname])) {
+			$modinfo = $this->moduleStatusInfo[$modname];
+		} else {
+			$modinfo = $this->getInfo($modname);
+			$this->moduleStatusInfo[$modname] = $modinfo;
+		}
+
 		if(!empty($modinfo[$modname]) && $modinfo[$modname]['status'] == $status) {
 			return true;
 		} else {
