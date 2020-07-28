@@ -27,10 +27,10 @@
 .button-background-gradient (@gradient, @top, @bottom) when (default()) {
 }
 
-.button-layout() {
+.button-layout(@background-color) {
 	.button-border(@button-gradient, @button-border-color);
 	.button-border-gradient(@button-gradient, @button-border-gradient-top, @button-border-gradient-bottom);
-	.button-background(@button-gradient, @button-background-color, @button-image);
+	.button-background(@button-gradient, @background-color, @button-image);
 	.button-background-gradient(@button-gradient, @button-background-gradient-top, @button-background-gradient-bottom);
 	color: @button-text-color;
 	display: inline-block;
@@ -64,10 +64,10 @@
 .button-active() {
 	.button-border(@button-gradient, @button-active-border-color);
 	.button-border-gradient(@button-gradient, @button-active-border-gradient-top, @button-active-border-gradient-bottom);
-	.button-background(@button-gradient, @button-active-background-color, @button-active-image);
+	.button-background(@button-gradient, @form-button-active-background-color, @button-active-image);
 	.button-background-gradient(@button-gradient, @button-active-background-gradient-top, @button-active-background-gradient-bottom);
-	color: @button-active-text-color;
-	background-color: @button-active-background-color;
+	color: @form-button-active-text-color;
+	background-color: @form-button-active-background-color;
 	border-color: @button-active-border-color;
 }
 
@@ -95,7 +95,7 @@ input[type="submit"],
 input[type="button"]:visited,
 input[type="reset"]:visited,
 input[type="submit"]:visited {
-	.button-layout();
+	.button-layout(@submit-button-background-color);
 	border-radius: @button-radius;
 }
 
@@ -153,7 +153,7 @@ input[type="submit"]:disabled{
 }
 .radioset input[type="radio"] + label,
 .radioset input[type="checkbox"] ~ label {
-	.button-layout();
+	.button-layout(@form-button-background-color);
 	margin-right: -5px;
 }
 .radioset input[type="radio"] + label:first-of-type {
