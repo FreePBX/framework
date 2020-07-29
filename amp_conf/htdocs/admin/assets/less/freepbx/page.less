@@ -658,6 +658,7 @@ div.attention {
 	}
 	#fixed-list-button{
 		position: absolute;
+                background: @floating-button-background-color;
 		top: -1px;
 		height: 35px;
 		width: 55px;
@@ -673,6 +674,16 @@ div.attention {
 		border-right: none;
 		font-size: 20px;
 	}
+        #fixed-list-button:hover {
+                background-color: #f1f9f5;
+        }
+        #fixed-list-button:focus {
+                background-color: #f1f9f5;
+        }
+        #fixed-list-button:active:hover {
+                background-color: #286090;
+                border-color: #204d74;
+        }
 	.fixed-table-container {
 		margin-bottom: 10px;
 	}
@@ -685,8 +696,16 @@ div.attention {
 		right: 0;
 	}
 }
-
-
+.bs-bars {
+    #toolbar-all {
+      .btn {
+           background: @floating-button-background-color;
+     }
+      .btn:hover {
+           background: #f1f9f5;
+     }
+  }
+}
 .bootnav {
 	font-weight: bold;
 	.list-group {
