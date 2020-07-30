@@ -834,7 +834,6 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		//run this here so that we make sure everything is square for module installs
 		$output->writeln("Chowning directories...");
 		system($amp_conf['AMPSBIN']."/fwconsole chown");
-		system($amp_conf['AMPSBIN']."/fwconsole chown -m firewall");
 		$output->writeln("Done");
 
 		// module_admin install framework
@@ -875,6 +874,9 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			$output->writeln("Done installing base modules");
 			if(!$answers['skip-install']) {
 				$output->write("Installing all modules...");
+				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal");
+				//workaround to fix firewall module hooks permission issue
+				system($amp_conf['AMPSBIN']."/fwconsole chown -m firewall");
 				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal");
 				$output->writeln("Done installing all modules");
 			}
