@@ -178,6 +178,7 @@ if ($freepbx_conf && file_exists($freepbx_conf)) {
 	$txt .= '$amp_conf[\'AMPDBUSER\']	= "' . $amp_conf['AMPDBUSER'] . '";' . "\n";
 	$txt .= '$amp_conf[\'AMPDBPASS\']	= "' . $amp_conf['AMPDBPASS'] . '";' . "\n";
 	$txt .= '$amp_conf[\'AMPDBHOST\']	= "' . $amp_conf['AMPDBHOST'] . '";' . "\n";
+	$txt .= '$amp_conf[\'AMPDBPORT\']	= "' . $amp_conf['AMPDBPORT'] . '";' . "\n";
 	$txt .= '$amp_conf[\'AMPDBNAME\']	= "' . $amp_conf['AMPDBNAME'] . '";' . "\n";
 	$txt .= '$amp_conf[\'AMPDBENGINE\']	= "' . $amp_conf['AMPDBENGINE'] . '";' . "\n";
 	$txt .= '$amp_conf[\'datasource\']	= "' . $amp_conf['datasource'] . '";' . "\n";

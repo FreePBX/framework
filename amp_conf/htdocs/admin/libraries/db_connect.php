@@ -7,32 +7,52 @@ switch ($amp_conf['AMPDBENGINE']) {
 		break;
 	case "mysqli":
 		/* datasource in in this style:
-		dbengine://username:password@host/database */
+		dbengine://username:password@protocl+host:port/database */
 
 		$dbengine = 'mysqli';
+		$dbport = 3306;
+		//read config and validate port number
+		if (isset($amp_conf["AMPDBPORT"]) && !empty($amp_conf["AMPDBPORT"])) {
+			if ((int) $amp_conf["AMPDBPORT"] > 1024) {
+				$dbport = (int) $amp_conf["AMPDBPORT"];
+			}
+		}
 
 		$datasource = $dbengine . '://'
 					. $amp_conf['AMPDBUSER']
 					. ':'
 					. $amp_conf['AMPDBPASS']
 					. '@'
+					. 'tcp+'
 					. $amp_conf['AMPDBHOST']
+					. ':'
+					. $dbport
 					. '/'
 					. $amp_conf['AMPDBNAME'];
 		$db = freepbx_DB::connect($datasource); // attempt connection
 		break;
 	case "mysql":
 		/* datasource in in this style:
-		dbengine://username:password@host/database */
+		dbengine://username:password@protocl+host:port/database */
 
 		$dbengine = 'mysql';
+		$dbport = 3306;
+		//read config and validate port number
+		if (isset($amp_conf["AMPDBPORT"]) && !empty($amp_conf["AMPDBPORT"])) {
+			if ((int) $amp_conf["AMPDBPORT"] > 1024) {
+				$dbport = (int) $amp_conf["AMPDBPORT"];
+			}
+		}
 
 		$datasource = $dbengine . '://'
 					. $amp_conf['AMPDBUSER']
 					. ':'
 					. $amp_conf['AMPDBPASS']
 					. '@'
+					. 'tcp+'
 					. $amp_conf['AMPDBHOST']
+					. ':'
+					. $dbport
 					. '/'
 					. $amp_conf['AMPDBNAME'];
 		$db = freepbx_DB::connect($datasource); // attempt connection
