@@ -232,7 +232,7 @@ if($online) {
 													<?php if($module['commercial']['status']) {?>
 														<?php if($module['commercial']['sysadmin'] || $module['name'] == 'sysadmin' && $module['status'] == MODULE_STATUS_ENABLED) {?>
 															<tr>
-																<td><a href="#" class="info"><?php echo _('Commercial Status')?>:<span><?php echo _('Commercial Status of this module. Commercial Modules are maintained and supported through Schmoozecom, INC')?></span></a></td>
+																<td><a href="#" class="info"><?php echo _('Commercial Status')?>:<span><?php echo _('Commercial Status of this module. Commercial Modules are maintained and supported through Sangoma Technologies Inc.')?></span></a></td>
 																<td>
 																	<?php if(!$module['commercial']['licensed'] && isset($module['commercial']['type'])) { ?>
 																		<?php switch($module['commercial']['type']) {
