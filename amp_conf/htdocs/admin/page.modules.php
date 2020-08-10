@@ -873,7 +873,7 @@ switch ($action) {
 					}
 					$modules[$name]['blocked']['reasons']['sysadmin'] = sprintf(_('Module <strong>%s</strong> is required, yours %s'),'System Admin',$sysstatus);
 				}
-				$modules[$name]['commercial']['purchaselink'] = !empty($modules[$name]['commercial']['link']) ? $modules[$name]['commercial']['link'] : 'http://www.schmoozecom.com/freepbx/freepbx-modules.php';
+				$modules[$name]['commercial']['purchaselink'] = !empty($modules[$name]['commercial']['link']) ? $modules[$name]['commercial']['link'] : 'https://www.freepbx.org/add-ons/';
 			} else {
 				$modules[$name]['commercial']['status'] = false;
 			}
