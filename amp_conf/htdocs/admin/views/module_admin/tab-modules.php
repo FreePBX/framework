@@ -224,9 +224,16 @@ if($online) {
 														<td>
 															<?php if(!empty($module['info'])) {?>
 																<a href="<?php echo $module['info'] ?>" target="_new"><?php echo $module['info'] ?></a>
-															<?php } else { ?>
-																<a href="<?php echo $freepbx_help_url?>&amp;freepbx_module=<?php echo urlencode($module['name'])?>" target="help"><?php echo sprintf(_("Get help for %s"),$module['pretty_name'])?></a>
-															<?php } ?>
+															<?php } else { 
+                                                                if (!empty($module['more-info'])){
+                                                                    ?> 
+                                                                    <a href="<?php echo $module['more-info']?>" target="help"><?php echo sprintf(_("Get help for %s"),$module['pretty_name'])?></a> <?php
+                                                                } else {
+                                                                    ?>
+                                                                    <a href="<?php echo $freepbx_help_url?>&amp;freepbx_module=<?php echo urlencode($module['name'])?>" target="help"><?php echo sprintf(_("Get help for %s"),$module['pretty_name'])?></a> <?php
+                                                                }
+                                                            }
+                                                            ?>
 														</td>
 													</tr>
 													<?php if($module['commercial']['status']) {?>
