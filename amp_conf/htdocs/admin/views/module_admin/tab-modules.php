@@ -240,7 +240,7 @@ if($online) {
 														<td>
 															<?php if(!empty($module['info'])) {?>
 																<a href="<?php echo $module['info'] ?>" target="_new"><?php echo $module['info'] ?></a>
-															<?php }} else { 
+															<?php } else { 
                                                                 if (!empty($module['more-info'])){
                                                                     ?> 
                                                                     <a href="<?php echo $module['more-info']?>" target="help"><?php echo sprintf(_("Get help for %s"),$module['pretty_name'])?></a> <?php
