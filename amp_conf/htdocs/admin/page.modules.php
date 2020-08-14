@@ -981,7 +981,11 @@ switch ($action) {
 				$module_display[$category]['data'][$name]['changelog'] = format_changelog($modules_local[$name]['changelog']);
 			}
 
-			$module_display[$category]['data'][$name]['description'] = isset($module_display[$category]['data'][$name]['description']) ? trim(preg_replace('/\s+/', ' ', $module_display[$category]['data'][$name]['description'])) : '';
+			$desc_content = preg_replace('/\s+/', ' ', $module_display[$category]['data'][$name]['description']);
+			if(is_array($desc_content)){
+				$desc_content = implode(" ", $desc_content);
+			}
+			$module_display[$category]['data'][$name]['description'] = isset($module_display[$category]['data'][$name]['description']) ? trim($desc_content) : '';
 
 			if(!empty($module_display[$category]['data'][$name]['previous'])) {
 				foreach($module_display[$category]['data'][$name]['previous'] as &$release) {
