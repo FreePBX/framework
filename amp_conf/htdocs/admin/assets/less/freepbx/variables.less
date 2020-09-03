@@ -1,38 +1,50 @@
 /* Base Colors */
-@base-color: rgb(215, 235, 249); //#D7F9D9;
-@background-color: @base-color;
-@text-color: darken(@background-color, 50%);
-@border-color: fadeout(darken(@background-color, 10%),10%);
+@base-color: rgba(161, 195, 147, 90%); //#D7F9D9;
+@background-color: #F5F5F5;
+@text-color: #337452;
+@border-color: @base-color;
 
 /* Table */
 @table-striped-even-background-color: @background-color;
 @table-striped-even-text-color: black;
 @table-striped-odd-background-color: #fff;
 @table-striped-odd-text-color: black;
-@table-th-background-color: @background-color;
+@table-th-background-color: @menu-button-background-color;
 @table-th-text-color: black;
 @table-row-hover-background-color: @background-color;
 @table-row-hover-text-color: black;
 
-@hr-background-color: @background-color;
+@hr-background-color: @menu-button-background-color;
 @hr-border-color: @border-color;
 
 /* Buttons */
 @button-radius: 4px;
 
-@button-background-color: @background-color;
+@button-background-color: @menu-button-background-color;
 @button-text-color: @text-color;
 @button-border-color: @border-color;
 @button-image: "";
+
+@menu-button-background-color: #c9e4c9;
+@form-button-background-color:lighten(@button-background-color,5%);
+@form-button-text-color: @button-text-color;
+@form-button-active-background-color:@button-active-background-color;
+@form-button-active-text-color:@button-active-text-color;
+@submit-button-background-color:@button-background-color;
+@floating-button-background-color:@button-background-color;
+@info-background-color: @menu-button-background-color;
+@info-text-color: @button-text-color;
+@panel-background-color: darken(@menu-button-background-color,10%);
+@panel-border-color: darken(@button-border-color,30%);
 
 @button-active-background-color: darken(@button-background-color,50%);
 @button-active-text-color: #FFFFFF;
 @button-active-border-color: darken(@button-border-color,20%);
 @button-active-image: "";
 
-@button-hover-background-color: lighten(@button-background-color,5%);
-@button-hover-text-color: @text-color;
-@button-hover-border-color: lighten(@button-border-color,5%);
+@button-hover-background-color: lighten(@button-background-color,12%);
+@button-hover-text-color: darken(@text-color,5%); 
+@button-hover-border-color: @button-border-color;
 @button-hover-image: "";
 
 @button-disabled-text-color: darken(@button-border-color,40%);
@@ -64,10 +76,10 @@
 @menu-breakpoint: 991px;
 
 /** Nav Tabs **/
-@nav-active-background-color: @background-color;
+@nav-active-background-color: @menu-button-background-color;
 @nav-active-text-color: @text-color;
 
-@nav-hover-background-color: lighten(@background-color,5%);
+@nav-hover-background-color: lighten(@menu-button-background-color,8%);;
 @nav-hover-text-color: @text-color;
 
 /** OLD **/

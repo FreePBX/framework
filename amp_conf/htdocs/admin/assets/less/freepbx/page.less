@@ -215,7 +215,7 @@ span.twitter-typeahead .tt-dropdown-menu {
 	bottom: 100px;
 	width:100%;
 	height:100px;
-	background-color: white;
+	background-color: @background-color;
 	clear: both;
 	#footer_content {
 		margin: 0px auto;
@@ -223,13 +223,13 @@ span.twitter-typeahead .tt-dropdown-menu {
 		display: table;
 		text-align:center;
 		clear: both;
-		color:#999;
+		color: #524d4d;
 		font-size:10px;
 		a {
-			color:#999;
+			color: #524d4d;
 		}
 		a:hover {
-			color:#DEEDF7;
+			color: @text-color;
 		}
 		h3 {
 			color:#2c78ff;
@@ -259,6 +259,7 @@ span.twitter-typeahead .tt-dropdown-menu {
 			background-color: transparent;
 			border: none;
 			outline: 0;
+                        color: @action-bar-text-color;
 		}
 	}
 	#action-bar.shrink {
@@ -520,7 +521,6 @@ div.attention {
 		border-bottom-color: white;
 	}
 }
-
 /**
  * Menu navigation and Tab Navigation coloring
  */
@@ -530,7 +530,14 @@ div.attention {
 	background-color: rgba(222, 237, 247, 0.5);
 	color: rgb(132, 132, 132);
 }
-
+.panel-info {
+    border-color: @border-color;
+}
+.panel-info >.panel-heading, .alert-info {	
+    color: @info-text-color;
+    background-color: @info-background-color;
+    border-color: @border-color;
+}
 /**
  * Password Meter addition to inputs
  */
@@ -564,6 +571,7 @@ div.attention {
 		i.fa {
 			font-size: 150%;
 			margin-right: 5px;
+                        color: black;
 		}
 		a:last-child > i.fa {
 			margin-right: 0px;
@@ -652,12 +660,27 @@ div.attention {
 		.btn-block {
 			width: 98%; //http://issues.freepbx.org/browse/FREEPBX-12478
 		}
+                .bootstrap-table{
+		    .fixed-table-toolbar{
+                       .bs-bars {
+                          #toolbar-all {
+                           .btn {
+                               background: @floating-button-background-color;
+                           }
+                           .btn:hover {
+                               background: #f1f9f5;
+                           }
+                        }
+                     } 			
+		   } 
+		}                
 		tbody tr {
 			cursor: pointer;
 		}
 	}
 	#fixed-list-button{
 		position: absolute;
+                background: @floating-button-background-color;
 		top: -1px;
 		height: 35px;
 		width: 55px;
@@ -673,6 +696,16 @@ div.attention {
 		border-right: none;
 		font-size: 20px;
 	}
+        #fixed-list-button:hover {
+                background-color: #f1f9f5;
+        }
+        #fixed-list-button:focus {
+                background-color: #f1f9f5;
+        }
+        #fixed-list-button:active:hover {
+                background-color: #286090;
+                border-color: #204d74;
+        }
 	.fixed-table-container {
 		margin-bottom: 10px;
 	}
@@ -746,8 +779,8 @@ div.attention {
 }
 
 .progress-bar {
-	background-color: @button-active-background-color;
-	color: @button-active-text-color;
+	background-color: @panel-background-color;
+	color: @form-button-active-text-color;
 }
 
 /**

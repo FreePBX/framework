@@ -95,8 +95,21 @@
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
-
-.form-inline .multiselect-container{
+.btn-group>.btn:first-child {
+  background: @menu-button-background-color !important;
+}
+.btn-group>.btn:first-child:hover {
+  background: #f1f9f5 !important;
+}
+.panel-primary {
+    border-color: @panel-border-color;
+}
+.panel-primary>.panel-heading {
+    color: @button-text-color;
+    background-color: @panel-background-color;
+    border-color: @panel-border-color;
+}
+.form-inline .multiselect-container {
 
   label.checkbox, label.radio{
     padding: 3px 20px 3px 40px;
