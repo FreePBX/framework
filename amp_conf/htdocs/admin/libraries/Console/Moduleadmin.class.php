@@ -594,6 +594,8 @@ class Moduleadmin extends Command {
 		// We're doing security updates.
 		$mf = \module_functions::create();
 		$mods = (array) $mf->get_security();
+		$brand = \FreePBX::Config()->get('DASHBOARD_FREEPBX_BRAND');
+		$ident = \FreePBX::Config()->get('FREEPBX_SYSTEM_IDENT');
 
 		if (!$mods) {
 			// Easy. No security vulnerabilities!
@@ -601,8 +603,8 @@ class Moduleadmin extends Command {
 		}
 
 		// OK, There are security vulnerabilities. Prepare our email.
-		$email_subject = sprintf(_("%s Security Alert (%s)"), $this->brand, $this->machine_id);
-		$email_body = sprintf(_("Your server [%s] discovered the following security issues:"), $this->brand)."\n";
+		$email_subject = sprintf(_("%s Security Alert (%s)"), $brand, $ident);
+		$email_body = sprintf(_("Your server [%s] discovered the following security issues:"), $brand)."\n";
 		$send_email = false;
 
 		set_time_limit(0); // Never time out.
