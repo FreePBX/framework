@@ -71,7 +71,7 @@ class Reload extends Command {
 		$this->dryrun = $input->getOption('dry-run');
 		$this->skip_registry_checks = $input->getOption('skip-registry-checks');
 		$this->dont_reload_asterisk = $input->getOption('dont-reload-asterisk');
-
+		$this->setLock();
 		if($this->json) {
 			global $whoops;
 			if ($whoops instanceof \Whoops\Run) {
@@ -81,6 +81,7 @@ class Reload extends Command {
 			$errorHandler = \Symfony\Component\Debug\ErrorHandler::register(null, false);
 			$errorHandler->throwAt(E_ALL, true);
 			$errorHandler->setExceptionHandler(function ($e) {
+				$this->removeLock();
 				echo json_encode(["error" => $e->getMessage(), "trace" => $e->getTraceAsString()]);
 				exit(-1);
 			});
@@ -88,7 +89,9 @@ class Reload extends Command {
 
 		try {
 			$this->reload();
+			$this->removeLock();
 		} catch(\Exception $e) {
+			$this->removeLock();
 			$this->error = $e->getMessage();
 			throw $e;
 		}
@@ -918,4 +921,44 @@ class Reload extends Command {
 			echo $this->output->writeln(json_encode(array('message'=>$message)));
 		}
 	}
+
+	private function setLock() {
+		$ASTRUNDIR = \FreePBX::Config()->get("ASTRUNDIR");
+		$lock = $ASTRUNDIR."/reload.lock";
+
+		if(!$this->checkLock()) {
+			$pid = getmypid();
+			file_put_contents($lock,$pid);
+			return true;
+		} else {
+			$pid = file_get_contents($lock);
+			echo json_encode(["error" => 'Process is already running.', "trace" =>'Process ID : '.$pid]);
+			exit(-1);
+		}
+		return false;
+	}
+
+	private function checkLock() {
+		$ASTRUNDIR = \FreePBX::Config()->get("ASTRUNDIR");
+		$lock = $ASTRUNDIR."/reload.lock";
+		if(file_exists($lock)) {
+			$pid = file_get_contents($lock);
+			if(posix_getpgid($pid) !== false) {
+				return true;
+			} else {
+				$this->removeLock();
+			}
+		}
+		return false;
+	}
+
+	private function removeLock() {
+		$ASTRUNDIR = \FreePBX::Config()->get("ASTRUNDIR");
+		$lock = $ASTRUNDIR."/reload.lock";
+		if(file_exists($lock)) {
+			unlink($lock);
+		}
+		return true;
+	}
+
 }
