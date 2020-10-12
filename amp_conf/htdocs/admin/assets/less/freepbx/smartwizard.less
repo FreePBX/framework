@@ -137,7 +137,7 @@
 				}
 			}
 			a.selected{
-				.button-layout();
+				.button-layout(@button-background-color, @form-button-text-color);
 				cursor:default;
 				-moz-box-shadow: 5px 5px 8px #888;
 				-webkit-box-shadow: 5px 5px 8px #888;
@@ -173,7 +173,7 @@
 		}
 	}
 	.buttonFinish, .buttonPrevious, .buttonNext {
-		.button-layout();
+		.button-layout(@button-background-color, @form-button-text-color);
 		border-radius: @button-radius;
 		line-height: initial;
 		display:block;
