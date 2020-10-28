@@ -559,7 +559,7 @@ class Installer {
 	);
 
 	$settings[$category]['FREEPBX_SYSTEM_IDENT_REM_DASHBOARD_HELP'] = array(
-	'value' => 'false', 
+	'value' => 'no', 
 	'options' => '',
 	'readonly' => 0,
 	'hidden' => 1,
