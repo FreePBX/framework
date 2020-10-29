@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-10-12 09:01+0000\n"
+"POT-Creation-Date: 2020-10-29 05:21+0000\n"
 "PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -1010,6 +1010,10 @@ msgid ""
 "Withheld in order to catch these special cases if the Telco transmits them."
 msgstr ""
 
+#: ../core/Api/Gql/Extensions.php:29
+msgid "Add a new Extension to Core"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:728
 #, php-format
 msgid "Add new %s &#133"
@@ -1035,7 +1039,7 @@ msgstr ""
 msgid "Adhoc"
 msgstr "アドホック"
 
-#: amp.i18n.php:6 amp.i18n.php:904
+#: amp.i18n.php:6 amp.i18n.php:902
 #: amp_conf/htdocs/admin/views/menu_items.php:47
 msgid "Admin"
 msgstr "アドミン"
@@ -1062,7 +1066,7 @@ msgstr "管理者ユーザー名"
 msgid "Administrator User"
 msgstr ""
 
-#: amp.i18n.php:902
+#: amp.i18n.php:900
 msgid "Administrators"
 msgstr "管理者"
 
@@ -1071,7 +1075,7 @@ msgstr "管理者"
 msgid "Advanced"
 msgstr "高度な設定"
 
-#: amp.i18n.php:898
+#: amp.i18n.php:896
 msgid "Advanced Settings"
 msgstr "高度な設定"
 
@@ -1293,7 +1297,7 @@ msgstr ""
 msgid "Any DID"
 msgstr "DIDいづれでも"
 
-#: amp.i18n.php:880 amp_conf/htdocs/admin/views/menu_items.php:48
+#: amp.i18n.php:878 amp_conf/htdocs/admin/views/menu_items.php:48
 msgid "Applications"
 msgstr "アプリケーション"
 
@@ -1416,7 +1420,7 @@ msgstr "Asteriskマネージャーユーザー"
 msgid "Asterisk Manager Write Timeout"
 msgstr "Asteriskマネージャー書き込みタイムアウト"
 
-#: amp.i18n.php:906 ../core/page.astmodules.php:49
+#: amp.i18n.php:904 ../core/page.astmodules.php:49
 msgid "Asterisk Modules"
 msgstr "Asteriskモジュール"
 
@@ -1826,7 +1830,7 @@ msgstr ""
 msgid "CW Enabled by Default"
 msgstr "コールウェイティングがデフォルトで有効"
 
-#: amp.i18n.php:848
+#: amp.i18n.php:846
 msgid "Cache Expiration"
 msgstr ""
 
@@ -2201,6 +2205,10 @@ msgstr "チャネル %s"
 msgid "Channel ID"
 msgstr ""
 
+#: ../core/Api/Gql/Extensions.php:279
+msgid "Channel Name incase if you are using tech DAHDi."
+msgstr ""
+
 #: ../core/Core.class.php:188
 msgid "Channel can not be blank!"
 msgstr ""
@@ -2474,7 +2482,7 @@ msgstr "混雑"
 msgid "Connection Type"
 msgstr "接続タイプ"
 
-#: amp.i18n.php:890 amp_conf/htdocs/admin/views/menu_items.php:49
+#: amp.i18n.php:888 amp_conf/htdocs/admin/views/menu_items.php:49
 msgid "Connectivity"
 msgstr "接続"
 
@@ -2554,7 +2562,7 @@ msgstr ""
 msgid "Converted extension %s to PJSIP"
 msgstr ""
 
-#: amp.i18n.php:878 ../core/install.php:6
+#: amp.i18n.php:876 ../core/install.php:6
 msgid "Core"
 msgstr "コア"
 
@@ -2667,6 +2675,10 @@ msgstr ""
 #: amp.i18n.php:278
 msgid "Country Indication Tones"
 msgstr "国のインジゲーショントーン"
+
+#: ../core/Api/Gql/Extensions.php:86
+msgid "Create a Range of Extensions"
+msgstr ""
 
 #: ../core/page.ampusers.php:240
 msgid "Create a password for this new user"
@@ -2802,7 +2814,7 @@ msgstr ""
 msgid "DAHDI Channel"
 msgstr ""
 
-#: amp.i18n.php:892 ../core/views/dahdichandids/general.php:5
+#: amp.i18n.php:890 ../core/views/dahdichandids/general.php:5
 #: ../core/views/dahdichandids/view.php:6
 msgid "DAHDI Channel DIDs"
 msgstr "DAHDIチャネルDID"
@@ -3245,6 +3257,10 @@ msgstr "削除"
 msgid "Delete Device %s"
 msgstr "デバイスを削除 %s"
 
+#: ../core/Api/Gql/Extensions.php:67
+msgid "Delete an Extension in Core"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:22
 msgid "Delete notification"
 msgstr ""
@@ -3466,7 +3482,7 @@ msgstr ""
 msgid "Device was not added!"
 msgstr ""
 
-#: amp.i18n.php:886
+#: amp.i18n.php:884
 msgid "Devices"
 msgstr "デバイス"
 
@@ -4063,6 +4079,11 @@ msgid ""
 "Email address to use for services such as Voicemail, User Management and Fax"
 msgstr ""
 
+#: ../core/Api/Gql/Extensions.php:254 ../core/Api/Gql/Extensions.php:296
+msgid ""
+"Email address to use for services such as Voicemail, User Management and Fax."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:264
 msgid "Email addresses error"
 msgstr ""
@@ -4654,7 +4675,7 @@ msgstr "内線番号の競合、他の番号を選択してください。"
 msgid "Extension was not numeric!"
 msgstr ""
 
-#: amp.i18n.php:882 ../core/Core.class.php:3139 ../core/Core.class.php:3140
+#: amp.i18n.php:880 ../core/Core.class.php:3139 ../core/Core.class.php:3140
 #: ../core/page.extensions.php:26
 msgid "Extensions"
 msgstr "内線"
@@ -4894,6 +4915,12 @@ msgstr ""
 "フォルトでこのユーザーにマッピングされます。<br><br>もし'新規ユーザー'を選択"
 "した場合、同じデバイスIDの新規ユーザー内線がデフォルトユーザーとしてセットさ"
 "れます。"
+
+#: ../core/Api/Gql/Extensions.php:174 ../core/Api/Gql/Extensions.php:185
+msgid ""
+"Fixed devices will always mapped to this user. Adhoc devices will be mapped "
+"to this user by default."
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:226
 msgid "Fixes Vulnerabilities"
@@ -5163,7 +5190,7 @@ msgstr ""
 msgid "FreePBX Server"
 msgstr ""
 
-#: amp.i18n.php:908
+#: amp.i18n.php:906
 msgid "FreePBX Support"
 msgstr "FreePBX サポート"
 
@@ -5411,6 +5438,16 @@ msgid ""
 "trunk context within asterisk"
 msgstr ""
 
+#: ../core/Api/Gql/Extensions.php:221
+msgid "Give your Extension Starting Number"
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:271
+msgid ""
+"Give your Extension a unique integer ID. The Extension will use this ID to "
+"create Extension in the system"
+msgstr ""
+
 #: ../core/functions.inc.php:5087
 msgid ""
 "Give your device a unique integer ID.  The device will use this ID to "
@@ -5418,6 +5455,12 @@ msgid ""
 msgstr ""
 "デバイスにユニークな整数のIDを付与します。デバイスはシステムへの認証にこのID"
 "を使用します。"
+
+#: ../core/Api/Gql/Extensions.php:167
+msgid ""
+"Give your device a unique integer ID. The device will use this ID to "
+"authenticate to the system"
+msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:813
 msgid "Go Back"
@@ -6002,7 +6045,7 @@ msgstr ""
 msgid "Inbound Route: %s (%s)"
 msgstr "インバウンドルート: %s (%s)"
 
-#: amp.i18n.php:888 ../core/page.did.php:122
+#: amp.i18n.php:886 ../core/page.did.php:122
 msgid "Inbound Routes"
 msgstr "インバウンドルート"
 
@@ -7512,6 +7555,10 @@ msgstr ""
 msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr "発信者が有効な発信者IDを入力しなければいけない最大試行数"
 
+#: ../core/Api/Gql/Extensions.php:233
+msgid "Number of extensions you want to create."
+msgstr ""
+
 #: ../core/functions.inc.php:4822
 msgid ""
 "Number of seconds to ring during a Call Forward, Call Forward Busy or Call "
@@ -7845,7 +7892,7 @@ msgstr ""
 msgid "Outbound Route: %s"
 msgstr "アウトバウンド経路： %s"
 
-#: amp.i18n.php:894 ../core/page.routing.php:105
+#: amp.i18n.php:892 ../core/page.routing.php:105
 msgid "Outbound Routes"
 msgstr "アウトバウンドルート"
 
@@ -7901,6 +7948,13 @@ msgstr ""
 
 #: ../core/views/routing/grid.php:37
 msgid "Overrides Extension CID"
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:241 ../core/Api/Gql/Extensions.php:287
+msgid ""
+"Overrides the CallerID when dialing out a trunk. Any setting here will "
+"override the common outbound CallerID set in the Trunks admin.\n"
+"\t\t\t\t\t\t\t\t\tFormat: \"caller name\" <#######>"
 msgstr ""
 
 #: ../core/functions.inc.php:4802 ../core/views/quickCreate.php:109
@@ -9480,7 +9534,7 @@ msgstr ""
 msgid "Setting this to true will expose the "
 msgstr "この設定を true にすることで、その表示をさせます "
 
-#: amp.i18n.php:846
+#: amp.i18n.php:844
 msgid ""
 "Setting this to true will fetch system javascript libraries such as jQuery "
 "and jQuery-ui from ajax.googleapis.com. This can be advantageous if "
@@ -9528,7 +9582,7 @@ msgstr ""
 "え」にするとこれがオフになります。NATピンホールをオープンに保つのにも役立ちま"
 "す。"
 
-#: amp.i18n.php:900 amp_conf/htdocs/admin/views/menu_items.php:51
+#: amp.i18n.php:898 amp_conf/htdocs/admin/views/menu_items.php:51
 #: ../core/functions.inc/drivers/Iax2.class.php:107
 #: ../core/functions.inc/drivers/Sip.class.php:184
 #: ../core/views/trunks/trunk_header.php:222
@@ -9939,11 +9993,11 @@ msgstr ""
 msgid "System Upgrades Available:"
 msgstr ""
 
-#: amp.i18n.php:832
+#: amp.i18n.php:830
 msgid "System Web Group"
 msgstr "システムウェブグループ"
 
-#: amp.i18n.php:836
+#: amp.i18n.php:834
 msgid "System Web User"
 msgstr "システムウェブユーザー"
 
@@ -10026,7 +10080,11 @@ msgstr ""
 msgid "Tech Type"
 msgstr ""
 
-#: amp.i18n.php:840
+#: ../core/Api/Gql/Extensions.php:229 ../core/Api/Gql/Extensions.php:275
+msgid "Technology driver type"
+msgstr ""
+
+#: amp.i18n.php:838
 msgid "Telephony Engine"
 msgstr "テレフォニーエンジン"
 
@@ -10065,7 +10123,14 @@ msgid ""
 "installed and enabled."
 msgstr ""
 
-#: ../core/functions.inc.php:4771 ../core/views/quickCreate.php:93
+#: ../core/Api/Gql/Extensions.php:225
+msgid ""
+"The CallerID name , a name which you want to append along with the extension "
+"number."
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:283 ../core/functions.inc.php:4771
+#: ../core/views/quickCreate.php:93
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
@@ -10613,13 +10678,13 @@ msgstr ""
 "ドミンでwgetを使用)を「はい」に変更しました。より詳細な情報は高度な設定のツー"
 "ルチップを参照ください。"
 
-#: amp.i18n.php:842
+#: amp.i18n.php:840
 msgid ""
 "The telephony backend engine being used, asterisk is the only option "
 "currently."
 msgstr "使用されるテレフォニーバックエンドエンジン。現時点ではasteriskのみ。"
 
-#: amp.i18n.php:852
+#: amp.i18n.php:850
 msgid ""
 "The time in seconds that FreePBX will cache Vega gateways status. Default to "
 "5 min."
@@ -10669,7 +10734,7 @@ msgstr ""
 "て使用されます。例えば/dev/zap,/dev/dahdi,/dev/misdn,/dev/mISDNと/dev/dspが含"
 "まれます。ほとんどのシステムではこれを変更するべきではありません。"
 
-#: amp.i18n.php:834
+#: amp.i18n.php:832
 msgid ""
 "The user group your httpd should be running as, used by freepbx_engine. Most "
 "systems should not change this."
@@ -10692,7 +10757,7 @@ msgstr ""
 "れます。例えば/dev/zap,/dev/dahdi,/dev/misdn,/dev/mISDNと/dev/dspが含まれま"
 "す。ほとんどのシステムではこれを変更するべきではありません。"
 
-#: amp.i18n.php:838
+#: amp.i18n.php:836
 msgid ""
 "The user your httpd should be running as, used by freepbx_engine. Most "
 "systems should not change this."
@@ -10810,6 +10875,12 @@ msgid ""
 msgstr ""
 "アウトバウンドルートを緊急フラグ付きでダイヤルアウトする時、この発信者IDは常"
 "にセットされます。緊急のCIDは他の発信者ID設定全てを上書きします。"
+
+#: ../core/Api/Gql/Extensions.php:250 ../core/Api/Gql/Extensions.php:292
+msgid ""
+"This CallerID will always be set when dialing out an Outbound Route flagged "
+"as Emergency. The Emergency CID overrides all other CallerID settings."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/view.functions.php:503
 msgid "This Module has been deprecated"
@@ -11074,12 +11145,6 @@ msgstr ""
 msgid "This user/extension %s is already in use"
 msgstr "このユーザー/内線番号 %s は既に使用中です"
 
-#: amp.i18n.php:830
-msgid ""
-"This will be used to decide if we need to show help text to change system "
-"identity in dashboard or not "
-msgstr ""
-
 #: ../core/views/trunks/pjsip.php:139
 msgid ""
 "This will cause all messages and voice prompts to use the selected language "
@@ -11233,7 +11298,7 @@ msgstr ""
 msgid "Trunk: %s (%s)"
 msgstr "トランク： %s (%s)"
 
-#: amp.i18n.php:896 ../core/views/trunks/bootnav.php:20
+#: amp.i18n.php:894 ../core/views/trunks/bootnav.php:20
 #: ../core/views/trunks/main.php:2 ../core/views/trunks/popover_main.php:9
 msgid "Trunks"
 msgstr "トランク"
@@ -11591,6 +11656,10 @@ msgstr ""
 msgid "Update System"
 msgstr ""
 
+#: ../core/Api/Gql/Extensions.php:47
+msgid "Update an Extension in Core"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Localization.class.php:41
 msgid "Update localizations, optionally provide --module"
 msgstr ""
@@ -11721,7 +11790,7 @@ msgstr ""
 msgid "Use Google DNS for Enum"
 msgstr "EnumにGoogle DNSを使用"
 
-#: amp.i18n.php:844
+#: amp.i18n.php:842
 msgid "Use Google Distribution Network for js Downloads"
 msgstr "jsのダウンロードでGoogle Distribution Networkを使用する"
 
@@ -11772,7 +11841,7 @@ msgstr "モジュールアドミンでwgetを使用する"
 msgid "Used as Destination by %s %s"
 msgstr "%sによって宛先として使用されています。 %s"
 
-#: amp.i18n.php:858
+#: amp.i18n.php:856
 msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this."
@@ -11781,7 +11850,7 @@ msgstr ""
 "ます。これの使用方法を完全に理解しているかダイヤルプランをチェックしてくださ"
 "い。"
 
-#: amp.i18n.php:872
+#: amp.i18n.php:870
 msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this. "
@@ -11795,7 +11864,7 @@ msgstr ""
 "意味する#を押した際に、発信者が送られるデフォルトのロケーションです。ボイス"
 "メールへ行くには'dovm'をセットしてください(デフォルト)。"
 
-#: amp.i18n.php:862
+#: amp.i18n.php:860
 msgid ""
 "Used to do extremely advanced and customized changes to the macro-vm VmX "
 "locater. Check the dialplan for a thorough understanding of how to use this. "
@@ -11872,6 +11941,14 @@ msgstr "ユーザーパスワード"
 msgid "User could not be added."
 msgstr ""
 
+#: ../core/Api/Gql/Extensions.php:237 ../core/Api/Gql/Extensions.php:300
+msgid "Usermanagment enable yes/no."
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:246 ../core/Api/Gql/Extensions.php:304
+msgid "Usermanagment groupid. (comma seperated)"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/obe.php:20
 #: amp_conf/htdocs/admin/views/oobe.php:43 ../core/page.ampusers.php:207
 #: ../core/views/ampusers/bootnav.php:14 ../core/views/trunks/pjsip.php:54
@@ -11895,7 +11972,7 @@ msgstr ""
 msgid "Username to use in From header for requests to this trunk"
 msgstr ""
 
-#: amp.i18n.php:884
+#: amp.i18n.php:882
 msgid "Users"
 msgstr "ユーザー"
 
@@ -11912,35 +11989,35 @@ msgid ""
 "unauthenticated. <strong>Setting this to 'None' may be insecure!</strong>"
 msgstr ""
 
-#: amp.i18n.php:854
+#: amp.i18n.php:852
 msgid "VMX Default Context"
 msgstr "VMX デフォルトコンテキスト"
 
-#: amp.i18n.php:860
+#: amp.i18n.php:858
 msgid "VMX Default Loop Exceed Context"
 msgstr "VMX デフォルトループ超過 コンテキスト"
 
-#: amp.i18n.php:864
+#: amp.i18n.php:862
 msgid "VMX Default Loop Exceed Extension"
 msgstr "VMX デフォルトループ超過 内線"
 
-#: amp.i18n.php:866
+#: amp.i18n.php:864
 msgid "VMX Default Loop Exceed Priority"
 msgstr "VMX デフォルトループ超過 優先度"
 
-#: amp.i18n.php:868
+#: amp.i18n.php:866
 msgid "VMX Default Priority"
 msgstr "VMX デフォルト優先度"
 
-#: amp.i18n.php:870
+#: amp.i18n.php:868
 msgid "VMX Default Timeout Context"
 msgstr "VMX デフォルトタイムアウトコンテキスト"
 
-#: amp.i18n.php:874
+#: amp.i18n.php:872
 msgid "VMX Default Timeout Extension"
 msgstr "VMX デフォルトタイムアウト内線"
 
-#: amp.i18n.php:876
+#: amp.i18n.php:874
 msgid "VMX Default Timeout Priority"
 msgstr "VMX デフォルトタイムアウト優先度"
 
@@ -11963,7 +12040,7 @@ msgstr "値 [%s] が範囲外です、[%s]に変更されました"
 msgid "Value must be between 1 and 63"
 msgstr ""
 
-#: amp.i18n.php:850
+#: amp.i18n.php:848
 msgid "Vega Gateway Management"
 msgstr ""
 
@@ -12002,7 +12079,7 @@ msgstr ""
 msgid "Virtual"
 msgstr ""
 
-#: amp.i18n.php:856
+#: amp.i18n.php:854
 msgid "VmX Locater"
 msgstr "VmX ロケーター"
 
@@ -12012,6 +12089,14 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:497
 msgid "Voicemail Extension"
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:258 ../core/Api/Gql/Extensions.php:308
+msgid "Voicemail enable yes/no."
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:262 ../core/Api/Gql/Extensions.php:312
+msgid "Voicemail password"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:163
