@@ -562,8 +562,8 @@ class Installer {
 	'value' => 'no', 
 	'options' => '',
 	'readonly' => 0,
-	'hidden' => 0,
-	'name' => 'System Identity',
+	'hidden' => 1,
+	'name' => 'Remove dashboard help text to change System Identity',
 	'description' => 'This will be used to decide if we need to show help text to change system identity in dashboard or not ',
 	'type' => CONF_TYPE_TEXT,
 	);
