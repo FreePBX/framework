@@ -42,7 +42,7 @@ class Kvstore extends Command {
         $output->writeln(json_encode($c->getAll($group),JSON_PRETTY_PRINT));
       break;
       case 'deleteall':
-        if(!$input->getOption('iknowwhatimdoing')){
+        if(!$input->getOption('iknowwhatiamdoing')){
           $output->writeln("This command blocked in readonly mode");
           return;
         }
@@ -55,7 +55,7 @@ class Kvstore extends Command {
           $output->writeln(json_encode($c->getAllids(),JSON_PRETTY_PRINT));
         break;
         case 'deletebyid':
-          if(!$input->getOption('iknowwhatimdoing')){
+          if(!$input->getOption('iknowwhatiamdoing')){
             $output->writeln("This command blocked in readonly mode");
             return;
           }
