@@ -135,6 +135,10 @@ class Database extends \PDO {
 			}
 		}
 
+		if(!empty($port)){
+			$this->dsn .= "port=$port;";
+		}
+		
 		try {
 			if ($options) {
 				parent::__construct($this->dsn, $username, $password, $options);
