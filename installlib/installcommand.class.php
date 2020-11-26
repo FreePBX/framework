@@ -27,6 +27,10 @@ class FreePBXInstallCommand extends Command {
 			'default' => 'localhost',
 			'description' => 'Database server address'
 		),
+		'dbport' => array(
+			'default' => '3306',
+			'description' => 'Database server port'
+		),
 		'cdrdbname' => array(
 			'default' => 'asteriskcdrdb',
 			'description' => 'CDR Database name'
@@ -433,6 +437,7 @@ class FreePBXInstallCommand extends Command {
 			$amp_conf['AMPDBUSER'] = $answers['dbuser'];
 			$amp_conf['AMPDBPASS'] = $answers['dbpass'];
 			$amp_conf['AMPDBHOST'] = $answers['dbhost'];
+			$amp_conf['AMPDBPORT'] = $answers['dbport'];
 
 			if($dbroot) {
 				$output->write("Database Root installation checking credentials and permissions..");
@@ -806,6 +811,7 @@ class FreePBXInstallCommand extends Command {
 \$amp_conf['AMPDBUSER'] = '{$amp_conf['AMPDBUSER']}';
 \$amp_conf['AMPDBPASS'] = '{$amp_conf['AMPDBPASS']}';
 \$amp_conf['AMPDBHOST'] = '{$amp_conf['AMPDBHOST']}';
+\$amp_conf['AMPDBPORT'] = '{$amp_conf['AMPDBPORT']}';
 \$amp_conf['AMPDBNAME'] = '{$amp_conf['AMPDBNAME']}';
 \$amp_conf['AMPDBENGINE'] = '{$amp_conf['AMPDBENGINE']}';
 \$amp_conf['datasource'] = ''; //for sqlite3
