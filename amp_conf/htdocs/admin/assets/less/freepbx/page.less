@@ -857,3 +857,20 @@ div.attention {
 	border-bottom-left-radius:  @panel-border-radius;
 	border-bottom-right-radius: @panel-border-radius;
 }
+
+.panel.panel-help {
+	.panel-heading .panel-title .pull-left {
+		margin-right: 5px;
+	}
+	.panel-heading.collapsed {
+		border-bottom: 0px;
+		border-bottom-left-radius:  @panel-border-radius;
+		border-bottom-right-radius: @panel-border-radius;
+	}
+	.panel-heading .chevron:after {
+		content: "\f068";	// fa-minus
+	}
+	.panel-heading.collapsed .chevron:after {
+		content: "\f067";   // fa-plus 
+	}
+}
