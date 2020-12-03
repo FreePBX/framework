@@ -287,7 +287,7 @@ class FreePBXInstallCommand extends Command {
 			if (preg_match('/^Asterisk (?:SVN-|GIT-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*)) built/', $astver, $matches)) {
 				$determined = true;
 				$res_ver = IsAsteriskSupported($matches[1]); // method located in utility.function.php
-				if($res_ver["status"] == false){{
+				if ($res_ver["status"] == false) {
 					$output->writeln("<error>Error!</error>");
 					$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
 					$output->writeln("<error>".$res_ver["message"]."</error>");
