@@ -462,33 +462,26 @@ function framework_server_name() {
 
 	return $title;
 }
-function show_help($message, $title='' ,$collapse=false, $collapseable=true, $class='default') {
+function show_help($message, $title='', $collapse=false, $collapseable=true, $class='default') {
 	$thisid = uniqid();
-	$html = "<div class='panel panel-$class'>";
-	$html .= '<div class="panel-heading" data-target="#'. $thisid .'" data-toggle="collapse">';
+	$html = "<div class='panel panel-$class panel-help'>";
+	$html .= sprintf('<div class="panel-heading %s" data-target="#%s" data-toggle="%s">', ((! $collapse) ? 'collapsed' : ''), $thisid,  (($collapseable) ? 'collapse' : '' ) );
 	$html .= '<h3 class="panel-title">';
-	$html .= '<span class="pull-left"><i class="fa fa-info-circle"></i></span>&nbsp;&nbsp;';
+	$html .= '<span class="pull-left"><i class="fa fa-info-circle fa-lg"></i></span>';
 	$html .= ($title) ? $title : _("Helpful Information");
 	if ($collapseable) {
 		$html .= '<span class="pull-right">';
-		$html .= sprintf('<i class="fa %s" id="toggle%s"></i>', ((! $collapse) ? 'fa-plus' : 'fa-minus'), $thisid);
+		$html .= '<i class="chevron fa"></i>';
 		$html .= '</span>';
 	}
 	$html .= '</h3>';
 	$html .= '</div>';
-	$html .= '<div id="'.$thisid.'" class="panel-collapse '.($collapse?'collapse in':'collapse').' ">';
+	$html .= sprintf('<div id="%s" class="panel-collapse collapse %s">', $thisid, ( $collapse ? 'in' : '' ));
 	$html .= '<div class="panel-body">';
 	$html .= $message;
 	$html .= '</div>';
 	$html .= '</div>';
 	$html .= '</div>';
-	$html .= '<script>';
-	$html .= '$( document ).ready(function(){';
-	$html .= '  $("#'.$thisid.'").on("hidden.bs.collapse shown.bs.collapse", function (e) {';
-	$html .= '    $("#toggle'.$thisid.'").toggleClass("fa-plus fa-minus");';
-	$html .= '  });';
-	$html .= '});';
-	$html .= '</script>';
 	return $html;
 }
 function show_deprecated($message="", $dismisable = true, $logit = false){
