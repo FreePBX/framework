@@ -205,8 +205,9 @@ class Reload extends Command {
 		// was setting these variables before, assume we still need them
 		$engine = $engineinfo['engine'];
 		$version = $engineinfo['version'];
-		if (version_compare($version, "13", "lt") || version_compare($version, "18", "ge")) {
-			fatal(_("Running an unsupported version of Asterisk. Supported Asterisk versions: 13, 14, 15, 16, 17. Detected Asterisk version: ".$version));
+		$res_ver = IsAsteriskSupported($version); // method located in utility.function.php
+		if ($res_ver["status"] == false) {
+			fatal(sprintf(_("Running an unsupported version of Asterisk. %s Detected Asterisk version: %s "), $res_ver["message"], $version));
 		}
 		$chan_dahdi = ast_with_dahdi();
 
