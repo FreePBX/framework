@@ -467,11 +467,11 @@ function show_help($message, $title='', $collapse=false, $collapseable=true, $cl
 	$html = "<div class='panel panel-$class panel-help'>";
 	$html .= sprintf('<div class="panel-heading %s" data-target="#%s" data-toggle="%s">', ((! $collapse) ? 'collapsed' : ''), $thisid,  (($collapseable) ? 'collapse' : '' ) );
 	$html .= '<h3 class="panel-title">';
-	$html .= '<span class="pull-left"><i class="fa fa-info-circle fa-lg"></i></span>';
+	$html .= '<span class="pull-left"><i class="fa fa-info-circle fa-lg fa-fw"></i></span>';
 	$html .= ($title) ? $title : _("Helpful Information");
 	if ($collapseable) {
 		$html .= '<span class="pull-right">';
-		$html .= '<i class="chevron fa"></i>';
+		$html .= '<i class="chevron fa fa-fw"></i>';
 		$html .= '</span>';
 	}
 	$html .= '</h3>';
