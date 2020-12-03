@@ -286,11 +286,10 @@ class FreePBXInstallCommand extends Command {
 			// Parse Asterisk version.
 			if (preg_match('/^Asterisk (?:SVN-|GIT-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*)) built/', $astver, $matches)) {
 				$determined = true;
-				$res_ver = IsAsteriskSupported($matches[1]); // method located in utility.function.php
-				if ($res_ver["status"] == false) {
+				if (version_compare($matches[1], "13", "lt") || version_compare($matches[1], "19", "ge")) {
 					$output->writeln("<error>Error!</error>");
 					$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
-					$output->writeln("<error>".$res_ver["message"]."</error>");
+					$output->writeln("<error>Supported Asterisk versions: 13, 14, 15, 16, 17, 18</error>");
 					exit(1);
 				}
 				$output->writeln("Yes. Determined Asterisk version to be: ".$matches[1]);
