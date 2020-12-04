@@ -55,6 +55,7 @@ header('Expires: Sat, 01 Jan 2000 00:00:00 GMT');
 header('Cache-Control: post-check=0, pre-check=0',false);
 header('Pragma: no-cache');
 header('Content-Type: text/html; charset=utf-8');
+header('X-Frame-Options: SAMEORIGIN');
 //header("Content-Security-Policy: default-src 'none';");
 
 // This needs to be included BEFORE the session_start or we fail so
