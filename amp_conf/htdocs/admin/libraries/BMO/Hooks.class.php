@@ -411,8 +411,10 @@ class Hooks extends DB_Helper {
 			throw new \Exception("$basedir is not a directory");
 		}
 
+		$path = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/";
+
 		// Does our hook actually exist?
-		if (!file_exists(realpath(__DIR__ . "/../$moduleName/hooks/$hookname"))) {
+		if (!file_exists($path.$moduleName.'/hooks/'.$hookname)) {
 			throw new \Exception("Hook $hookname doesn't exist");
 		}
 
