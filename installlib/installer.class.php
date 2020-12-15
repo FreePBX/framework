@@ -265,6 +265,15 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
+	$settings[$category]['AMPSHOWUPDATESONSSH'] = array(
+	'value' => false,
+	'options' => '',
+	'name' => 'Show Updates on SSH login',
+	'description' => 'Show system and module updates information on SSH login.',
+	'sortorder' => -170,
+	'type' => CONF_TYPE_BOOL,
+	);
+
 	$settings[$category]['LOG_OUT_MESSAGES'] = array(
 	'value' => true,
 	'options' => '',
