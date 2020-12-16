@@ -223,10 +223,10 @@ span.twitter-typeahead .tt-dropdown-menu {
 		display: table;
 		text-align:center;
 		clear: both;
-		color: #524d4d;
+		color: @footer-content-color;
 		font-size:10px;
 		a {
-			color: #524d4d;
+			color: @footer-content-color;
 		}
 		a:hover {
 			color: @text-color;
@@ -527,7 +527,7 @@ div.attention {
 .nav > li > a:hover,
 .nav > li > a:focus {
 	text-decoration: none;
-	background-color: rgb(206, 234, 220, 0.9);
+	background-color: @nav-li-focus-bg-color;
 	color: rgb(132, 132, 132);
 }
 .panel-info {
@@ -668,7 +668,7 @@ div.attention {
                                background: @floating-button-background-color;
                            }
                            .btn:hover {
-                               background: #f1f9f5;
+                               background: @btn-group-bg-color;
                            }
                         }
                      } 			
@@ -697,14 +697,14 @@ div.attention {
 		font-size: 20px;
 	}
         #fixed-list-button:hover {
-                background-color: #f1f9f5;
+                background-color: @btn-group-bg-color;
         }
         #fixed-list-button:focus {
-                background-color: #f1f9f5;
+                background-color: @btn-group-bg-color;
         }
         #fixed-list-button:active:hover {
-                background-color: #286090;
-                border-color: #204d74;
+                background-color: @fixed-list-btn-bg-color;
+                border-color: @fixed-list-btn-border-color;
         }
 	.fixed-table-container {
 		margin-bottom: 10px;
