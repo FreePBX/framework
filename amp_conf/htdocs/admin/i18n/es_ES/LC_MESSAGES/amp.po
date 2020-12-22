@@ -514,7 +514,7 @@ msgid ""
 "forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: install.php:48
+#: install.php:47
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
 msgstr ""
@@ -587,6 +587,13 @@ msgstr ""
 
 #: ../core/views/routing/form.php:711 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
+msgstr ""
+
+#: install.php:39
+#, php-format
+msgid ""
+"<error> Running an unsupported version of Asterisk. %s Detected Asterisk "
+"version: %s </error>"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:31
@@ -777,6 +784,19 @@ msgstr ""
 #: ../core/page.ampusers.php:271 ../core/page.astmodules.php:91
 #: ../core/page.astmodules.php:108 ../core/page.astmodules.php:125
 msgid "Action"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:116
+msgid ""
+"Action you want to perform on a module [install/uninstall/enable/disable/"
+"remove]"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:391
+#, php-format
+msgid ""
+"Action[%s] on module[%s] has been initiated. Please check the status using "
+"fetchApiStatus api with the returned transaction id"
 msgstr ""
 
 #: ../core/page.devices.php:70 ../core/page.devices.php:90
@@ -1613,7 +1633,7 @@ msgstr ""
 msgid "Browser Stats"
 msgstr ""
 
-#: install.php:347
+#: install.php:346
 msgid "Building Packaged Scripts..."
 msgstr ""
 
@@ -1976,7 +1996,7 @@ msgstr ""
 msgid "Cannot trust null key!"
 msgstr ""
 
-#: install.php:291
+#: install.php:290
 msgid "Cant Find Framework XML"
 msgstr ""
 
@@ -2272,11 +2292,11 @@ msgstr ""
 msgid "Common utilities"
 msgstr ""
 
-#: install.php:285
+#: install.php:284
 msgid "Compressing Framework CSS..."
 msgstr ""
 
-#: install.php:276
+#: install.php:275
 msgid "Compressing Web Files"
 msgstr ""
 
@@ -3580,8 +3600,8 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2030
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2103
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2253
-#: amp_conf/htdocs/admin/page.modules.php:380 install.php:281 install.php:287
-#: install.php:308 install.php:343 install.php:349 install.php:356
+#: amp_conf/htdocs/admin/page.modules.php:380 install.php:280 install.php:286
+#: install.php:307 install.php:342 install.php:348 install.php:355
 #: installlib/installcommand.class.php:554
 #: installlib/installcommand.class.php:592 ../core/install.php:197
 #: ../core/install.php:855
@@ -4202,7 +4222,7 @@ msgstr ""
 msgid "Error uninstalling core reason(s): %s"
 msgstr ""
 
-#: install.php:358
+#: install.php:357
 #, php-format
 msgid "Error updating GPG Keys: %s"
 msgstr ""
@@ -5549,6 +5569,14 @@ msgid ""
 "Authentication"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:133
+msgid "If you want to download and install"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:150
+msgid "If you want to remove the module"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:442
 msgid ""
 "If you want to sign your own modules to protect them from unauthorized "
@@ -5842,7 +5870,7 @@ msgid ""
 "even after it was suppose to be applied"
 msgstr ""
 
-#: install.php:305
+#: install.php:304
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -6314,6 +6342,11 @@ msgstr ""
 msgid "Message Context"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:318
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:322
+msgid "Message for the request"
+msgstr ""
+
 #: ../core/functions.inc/drivers/PJSip.class.php:359
 msgid "Messages Context"
 msgstr ""
@@ -6591,6 +6624,10 @@ msgstr ""
 msgid "Module Not Installed"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:270
+msgid "Module Status"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/tabheader.php:15
 msgid "Module Updates"
 msgstr ""
@@ -6612,8 +6649,32 @@ msgstr ""
 msgid "Module has been tampered. Please redownload"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:18
+msgid "Module install/update/uninstall operations"
+msgstr ""
+
 #: amp_conf/htdocs/admin/page.modules.php:1002
 msgid "Module is Unsigned"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:129
+msgid "Module name on which you want to perform  install action on"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:159
+msgid "Module name on which you want to perform action on"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:112
+msgid "Module name on which you want to perform any action"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:146
+msgid "Module name on which you want to perform uninstall action on"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:172
+msgid "Module name on which you want to perform upgrade"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:23
@@ -6937,7 +6998,7 @@ msgstr ""
 msgid "No description is available."
 msgstr ""
 
-#: install.php:186
+#: install.php:185
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr ""
@@ -8109,6 +8170,10 @@ msgstr ""
 msgid "RTP Timeout"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:274
+msgid "Raw name of the module"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Localization.class.php:101
 msgid "Rawname"
 msgstr ""
@@ -8198,7 +8263,7 @@ msgstr ""
 msgid "Refreshing %s"
 msgstr ""
 
-#: install.php:353
+#: install.php:352
 msgid "Refreshing GPG Keys..."
 msgstr ""
 
@@ -8512,7 +8577,7 @@ msgstr ""
 msgid "Running Asterisk pre from %s module"
 msgstr ""
 
-#: install.php:335
+#: install.php:334
 msgid "Running SQL cleanup..."
 msgstr ""
 
@@ -8944,7 +9009,7 @@ msgstr ""
 msgid "Setting AUTHTYPE to none consistent with old default"
 msgstr ""
 
-#: install.php:302
+#: install.php:301
 msgid "Setting Framework Version..."
 msgstr ""
 
@@ -8986,7 +9051,7 @@ msgstr ""
 msgid "Setting of \"%s\" is (%s)[%s]"
 msgstr ""
 
-#: install.php:328
+#: install.php:327
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr ""
@@ -9924,6 +9989,63 @@ msgstr ""
 msgid "The module appears to be valid but is not currently installed"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:314
+msgid "The module category in FreePBX UI"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:379
+msgid "The module is broken"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:367
+msgid "The module is disabled"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:371
+msgid "The module is enabled"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:363
+msgid "The module is not installed"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:306
+msgid "The module license information url "
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:302
+msgid "The module license type "
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:375
+msgid "The module needs to be upgraded"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:298
+msgid "The module publisher name "
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:310
+msgid "The module release changelog "
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:290
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:294
+msgid "The module release version "
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:278
+msgid "The module repository information"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:286
+msgid "The module user friendly display name"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:282
+msgid "The module user friendly name "
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/noaccess.php:23
 msgid "The module you are trying to access has been disabled by an admin."
 msgstr ""
@@ -10523,6 +10645,32 @@ msgid ""
 "are readonly they can only be viewed."
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:28
+msgid ""
+"This will perform a module install/uninstall/enable/disable/downloadinstall "
+"based on action,module and track"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:79
+msgid "This will perform disable module operation."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:69
+msgid "This will perform enable module operation."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:39
+msgid "This will perform install module operation."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:54
+msgid "This will perform uninstall module operation."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:89
+msgid "This will perform upgrade module operation"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/welcome.php:41
 msgid ""
 "This won't cause you any problems, but it does make your system a little "
@@ -10612,6 +10760,10 @@ msgid ""
 "information see: %s"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:176
+msgid "To upgrade all modules"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/menu.php:10
 msgid "Toggle navigation"
 msgstr ""
@@ -10623,6 +10775,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:62
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:304
 msgid "Track"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:120
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:137
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:163
+msgid "Track module (edge/stable) "
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:433
@@ -11401,7 +11559,7 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
-#: install.php:311
+#: install.php:310
 msgid "Version from Framework was empty, cant continue"
 msgstr ""
 
@@ -12278,7 +12436,7 @@ msgstr ""
 msgid "amportal.conf not writeable"
 msgstr ""
 
-#: install.php:267
+#: install.php:266
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr ""
@@ -12384,7 +12542,7 @@ msgstr ""
 msgid "deleted"
 msgstr ""
 
-#: install.php:208 install.php:220 install.php:231
+#: install.php:207 install.php:219 install.php:230
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:1022
 #: ../core/install.php:1063 ../core/install.php:1105
 msgid "done"
@@ -12395,7 +12553,7 @@ msgstr ""
 msgid "done! Reload FreePBX to update all Custom Context settings."
 msgstr ""
 
-#: install.php:206 install.php:217 install.php:228
+#: install.php:205 install.php:216 install.php:227
 msgid "done, see errors below"
 msgstr ""
 
@@ -12460,7 +12618,7 @@ msgstr ""
 msgid "failed to open %s module archive into _cache directory."
 msgstr ""
 
-#: install.php:269
+#: install.php:268
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr ""
@@ -12474,12 +12632,12 @@ msgstr ""
 msgid "format list as xml"
 msgstr ""
 
-#: install.php:49
+#: install.php:48
 #, php-format
 msgid "framework couldn't copy file to %s"
 msgstr ""
 
-#: install.php:255
+#: install.php:254
 msgid "framework file install done, removing packages from module"
 msgstr ""
 
@@ -12530,7 +12688,7 @@ msgstr ""
 msgid "insert"
 msgstr ""
 
-#: install.php:199
+#: install.php:198
 #, php-format
 msgid "installing files to %s.."
 msgstr ""
