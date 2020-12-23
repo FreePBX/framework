@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-22 08:10+0000\n"
+"POT-Creation-Date: 2020-12-23 07:20+0000\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -563,7 +563,7 @@ msgid ""
 "forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: install.php:47
+#: install.php:56
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
 msgstr "'cp -rf' from src: '%s' to dst: '%s'...детали ниже"
@@ -638,11 +638,26 @@ msgstr "404 Не найдено (%s)"
 msgid "7 Digit Patterns"
 msgstr "7-ми значный шаблон"
 
-#: install.php:39
+#: install.php:48
 #, php-format
 msgid ""
 "<error> Running an unsupported version of Asterisk. %s Detected Asterisk "
 "version: %s </error>"
+msgstr ""
+
+#: install.php:39
+#, php-format
+msgid "<error>Error!</error>"
+msgstr ""
+
+#: install.php:41
+#, php-format
+msgid "<error>Supported Asterisk versions: 13, 14, 15, 16, 17, 18</error>"
+msgstr ""
+
+#: install.php:40
+#, php-format
+msgid "<error>Unsupported Version of %s </error>"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:31
@@ -1777,7 +1792,7 @@ msgstr ""
 msgid "Browser Stats"
 msgstr ""
 
-#: install.php:346
+#: install.php:355
 msgid "Building Packaged Scripts..."
 msgstr ""
 
@@ -2160,7 +2175,7 @@ msgstr ""
 msgid "Cannot trust null key!"
 msgstr ""
 
-#: install.php:290
+#: install.php:299
 msgid "Cant Find Framework XML"
 msgstr "Невозможно найти XML-фреймворк"
 
@@ -2478,11 +2493,11 @@ msgstr ""
 msgid "Common utilities"
 msgstr "Общие утилиты"
 
-#: install.php:284
+#: install.php:293
 msgid "Compressing Framework CSS..."
 msgstr ""
 
-#: install.php:275
+#: install.php:284
 msgid "Compressing Web Files"
 msgstr ""
 
@@ -3890,8 +3905,8 @@ msgstr "Пока не знаю о модуле.Мне это  необходим
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2030
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2103
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2253
-#: amp_conf/htdocs/admin/page.modules.php:380 install.php:280 install.php:286
-#: install.php:307 install.php:342 install.php:348 install.php:355
+#: amp_conf/htdocs/admin/page.modules.php:380 install.php:289 install.php:295
+#: install.php:316 install.php:351 install.php:357 install.php:364
 #: installlib/installcommand.class.php:554
 #: installlib/installcommand.class.php:592 ../core/install.php:197
 #: ../core/install.php:855
@@ -4534,7 +4549,7 @@ msgstr ""
 msgid "Error uninstalling core reason(s): %s"
 msgstr ""
 
-#: install.php:357
+#: install.php:366
 #, php-format
 msgid "Error updating GPG Keys: %s"
 msgstr ""
@@ -6354,7 +6369,7 @@ msgid ""
 msgstr ""
 "Внутренняя ошибка.Функция getVersion не соответствовала версии платформы."
 
-#: install.php:304
+#: install.php:313
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -7544,7 +7559,7 @@ msgstr "Никаких действий не производить"
 msgid "No description is available."
 msgstr "Описание не доступно."
 
-#: install.php:185
+#: install.php:194
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr "Нет директории %s, нет необходимости в установке скрипта"
@@ -8920,7 +8935,7 @@ msgstr ""
 msgid "Refreshing %s"
 msgstr "Обновление  %s"
 
-#: install.php:352
+#: install.php:361
 msgid "Refreshing GPG Keys..."
 msgstr ""
 
@@ -9241,7 +9256,7 @@ msgstr ""
 msgid "Running Asterisk pre from %s module"
 msgstr ""
 
-#: install.php:334
+#: install.php:343
 msgid "Running SQL cleanup..."
 msgstr ""
 
@@ -9689,7 +9704,7 @@ msgstr ""
 msgid "Setting AUTHTYPE to none consistent with old default"
 msgstr "Установка AUTHTYPE в none следует по-умолчанию как раньше"
 
-#: install.php:301
+#: install.php:310
 msgid "Setting Framework Version..."
 msgstr ""
 
@@ -9736,7 +9751,7 @@ msgstr ""
 msgid "Setting of \"%s\" is (%s)[%s]"
 msgstr ""
 
-#: install.php:327
+#: install.php:336
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr "Установка sbin в правильном месте: %s"
@@ -12489,7 +12504,7 @@ msgstr "GPПроверка G..."
 msgid "Version"
 msgstr "Версия"
 
-#: install.php:310
+#: install.php:319
 msgid "Version from Framework was empty, cant continue"
 msgstr "Версия структуры не найдена, продолжение невозможно"
 
@@ -13523,7 +13538,7 @@ msgstr "изменён"
 msgid "amportal.conf not writeable"
 msgstr ""
 
-#: install.php:266
+#: install.php:275
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr "ошибка при удалении файла/директории пакетов  :%s "
@@ -13633,7 +13648,7 @@ msgstr "по умолчанию"
 msgid "deleted"
 msgstr "удалено"
 
-#: install.php:207 install.php:219 install.php:230
+#: install.php:216 install.php:228 install.php:239
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:1022
 #: ../core/install.php:1063 ../core/install.php:1105
 msgid "done"
@@ -13646,7 +13661,7 @@ msgstr ""
 "завершено! Перезагрузите FreePBX для обновления всех установок  "
 "Пользовательских Контекстов."
 
-#: install.php:205 install.php:216 install.php:227
+#: install.php:214 install.php:225 install.php:236
 msgid "done, see errors below"
 msgstr "завершено,смотрите информацию об ошибках ниже"
 
@@ -13713,7 +13728,7 @@ msgstr "ошибка добавления  %s во время %s модуля %s
 msgid "failed to open %s module archive into _cache directory."
 msgstr "Невозможно открыть файл модуля %s из каталога _cache."
 
-#: install.php:268
+#: install.php:277
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr "файл/директория:%s удален(-а) успешно"
@@ -13727,12 +13742,12 @@ msgstr "список форматов в json"
 msgid "format list as xml"
 msgstr "список форматов в xml"
 
-#: install.php:48
+#: install.php:57
 #, php-format
 msgid "framework couldn't copy file to %s"
 msgstr "платформа  не может копировать файл в %s"
 
-#: install.php:254
+#: install.php:263
 msgid "framework file install done, removing packages from module"
 msgstr "закончена установка файла платформы, удаление пакетов из модуля"
 
@@ -13788,7 +13803,7 @@ msgstr ""
 msgid "insert"
 msgstr "вставить"
 
-#: install.php:198
+#: install.php:207
 #, php-format
 msgid "installing files to %s.."
 msgstr "установка файлов в %s.."
