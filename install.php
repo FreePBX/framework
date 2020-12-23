@@ -43,12 +43,6 @@ if (version_compare($astversion, "13", "lt") || version_compare($astversion, "19
 }
 $output->writeln("Determined Asterisk version to be: ".$astversion);
 
-$res_ver = IsAsteriskSupported($engine_info['version']);
-if ($res_ver["status"] == false) {
-        fatal(sprintf(_("<error> Running an unsupported version of Asterisk. %s Detected Asterisk version: %s </error>"),$res_ver["message"], $engine_info['version']));
-        exit(1);
-}
-
 // HELPER FUNCTIONS:
 
 function framework_print_errors($src, $dst, $errors) {
