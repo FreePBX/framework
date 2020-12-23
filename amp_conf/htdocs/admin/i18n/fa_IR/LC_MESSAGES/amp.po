@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-23 07:20+0000\n"
+"POT-Creation-Date: 2020-12-23 08:33+0000\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -560,7 +560,7 @@ msgid ""
 "forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: install.php:56
+#: install.php:51
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
 msgstr "'cp -rf' from src: '%s' to  dst: '%s'...details follow"
@@ -634,13 +634,6 @@ msgstr "۴۰۴ یافت نشد (%s)"
 #: ../core/views/routing/form.php:711 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
 msgstr "الگوهای ۷ رقمی"
-
-#: install.php:48
-#, php-format
-msgid ""
-"<error> Running an unsupported version of Asterisk. %s Detected Asterisk "
-"version: %s </error>"
-msgstr ""
 
 #: install.php:39
 #, php-format
@@ -1778,7 +1771,7 @@ msgstr "کش روزانه مرورگر"
 msgid "Browser Stats"
 msgstr "آمار مرورگر"
 
-#: install.php:355
+#: install.php:350
 msgid "Building Packaged Scripts..."
 msgstr ""
 
@@ -2165,7 +2158,7 @@ msgstr ""
 msgid "Cannot trust null key!"
 msgstr ""
 
-#: install.php:299
+#: install.php:294
 msgid "Cant Find Framework XML"
 msgstr "نمیتواند فریم ورک XML را پیدا کند"
 
@@ -2483,11 +2476,11 @@ msgstr ""
 msgid "Common utilities"
 msgstr "ابزارهای متداول"
 
-#: install.php:293
+#: install.php:288
 msgid "Compressing Framework CSS..."
 msgstr ""
 
-#: install.php:284
+#: install.php:279
 msgid "Compressing Web Files"
 msgstr ""
 
@@ -3424,6 +3417,11 @@ msgstr ""
 "can be configured to route different levels to different locations. See "
 "'syslog' documentation (man syslog) on your system for more details."
 
+#: install.php:44
+#, php-format
+msgid "Determined Asterisk version to be: %s"
+msgstr ""
+
 #: ../core/views/trunks/trunk_header.php:332
 msgid ""
 "Determines what CIDs will be allowed out this trunk. IMPORTANT: EMERGENCY "
@@ -3888,8 +3886,8 @@ msgstr "هنوز پیزی درباره ماژولها نمیدانید. بسپا
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2030
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2103
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2253
-#: amp_conf/htdocs/admin/page.modules.php:380 install.php:289 install.php:295
-#: install.php:316 install.php:351 install.php:357 install.php:364
+#: amp_conf/htdocs/admin/page.modules.php:380 install.php:284 install.php:290
+#: install.php:311 install.php:346 install.php:352 install.php:359
 #: installlib/installcommand.class.php:554
 #: installlib/installcommand.class.php:592 ../core/install.php:197
 #: ../core/install.php:855
@@ -4533,7 +4531,7 @@ msgstr "خطا در تحلیل cdr_mysql.conf، منتقل نشد"
 msgid "Error uninstalling core reason(s): %s"
 msgstr ""
 
-#: install.php:366
+#: install.php:361
 #, php-format
 msgid "Error updating GPG Keys: %s"
 msgstr "خطا در حال به روزرسانی کلیدهای GPG: %s"
@@ -6338,7 +6336,7 @@ msgid ""
 "even after it was suppose to be applied"
 msgstr "خطای داخلی. تابع getVersion با نسخه فریم ورک همخوانی ندارد"
 
-#: install.php:313
+#: install.php:308
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -7520,7 +7518,7 @@ msgstr "عملی برای انجام نیست"
 msgid "No description is available."
 msgstr "توضیحی در دسترس نیست."
 
-#: install.php:194
+#: install.php:189
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr "بدون دایرکتوری %s، نیاز به نصب اسکریپت نیست"
@@ -8897,7 +8895,7 @@ msgstr ""
 msgid "Refreshing %s"
 msgstr "بازنشانی %s"
 
-#: install.php:361
+#: install.php:356
 msgid "Refreshing GPG Keys..."
 msgstr ""
 
@@ -9218,7 +9216,7 @@ msgstr ""
 msgid "Running Asterisk pre from %s module"
 msgstr ""
 
-#: install.php:343
+#: install.php:338
 msgid "Running SQL cleanup..."
 msgstr ""
 
@@ -9673,7 +9671,7 @@ msgstr "Sets which PHP errors  are reported"
 msgid "Setting AUTHTYPE to none consistent with old default"
 msgstr "Setting AUTHTYPE to none  consistent with old default"
 
-#: install.php:310
+#: install.php:305
 msgid "Setting Framework Version..."
 msgstr ""
 
@@ -9724,7 +9722,7 @@ msgstr ""
 msgid "Setting of \"%s\" is (%s)[%s]"
 msgstr ""
 
-#: install.php:336
+#: install.php:331
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr "Setting sbin to the  correct location of: %s"
@@ -12526,7 +12524,7 @@ msgstr "تایید GPG..."
 msgid "Version"
 msgstr "نسخه"
 
-#: install.php:319
+#: install.php:314
 msgid "Version from Framework was empty, cant continue"
 msgstr "نسخه فریم ورک خالی است, نمیتوان ادامه داد"
 
@@ -13572,7 +13570,7 @@ msgstr "تغییر داده شد"
 msgid "amportal.conf not writeable"
 msgstr ""
 
-#: install.php:275
+#: install.php:270
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr "بروز خطا در حذف بسته فایل/دایرکتوری: %s"
@@ -13680,7 +13678,7 @@ msgstr "پیشفرض"
 msgid "deleted"
 msgstr "حذف شد"
 
-#: install.php:216 install.php:228 install.php:239
+#: install.php:211 install.php:223 install.php:234
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:1022
 #: ../core/install.php:1063 ../core/install.php:1105
 msgid "done"
@@ -13691,7 +13689,7 @@ msgstr "انجام شد"
 msgid "done! Reload FreePBX to update all Custom Context settings."
 msgstr "انجام شد. بازگذاری مجدد FreePBX برای به روزرسانی تنظیمات سفارشی متن."
 
-#: install.php:214 install.php:225 install.php:236
+#: install.php:209 install.php:220 install.php:231
 msgid "done, see errors below"
 msgstr "انجام شد، مشاهده خطا های زیر"
 
@@ -13757,7 +13755,7 @@ msgstr "failed to  include %s during %s of the %s module."
 msgid "failed to open %s module archive into _cache directory."
 msgstr "failed to  open %s module archive into _cache directory."
 
-#: install.php:277
+#: install.php:272
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr "فایل/دایرکتوری: %s با موفقیت حذف شد"
@@ -13771,12 +13769,12 @@ msgstr "فرمت فهرست به صورت json"
 msgid "format list as xml"
 msgstr "فرمت فهرست به صورت xml"
 
-#: install.php:57
+#: install.php:52
 #, php-format
 msgid "framework couldn't copy file to %s"
 msgstr "فریم ورک نمیتواند فایل را به %s کپی کند"
 
-#: install.php:263
+#: install.php:258
 msgid "framework file install done, removing packages from module"
 msgstr "نصب فایل فریم ورک انجام شد، حذف بسته ها از ماژول"
 
@@ -13832,7 +13830,7 @@ msgstr ""
 msgid "insert"
 msgstr "قرار دادن"
 
-#: install.php:207
+#: install.php:202
 #, php-format
 msgid "installing files to %s.."
 msgstr "نصب فایلها به %s.."
