@@ -41,7 +41,8 @@ if (version_compare($astversion, "13", "lt") || version_compare($astversion, "19
 	out(sprintf(_("<error>Supported Asterisk versions: 13, 14, 15, 16, 17, 18</error>")));
 	exit(1);
 }
-$output->writeln("Determined Asterisk version to be: ".$astversion);
+out(sprintf(_("Determined Asterisk version to be: %s"), $astversion));
+
 
 // HELPER FUNCTIONS:
 
