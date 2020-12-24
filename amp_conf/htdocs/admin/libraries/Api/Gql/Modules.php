@@ -90,13 +90,14 @@ class Modules extends Base {
 						'inputFields' => $this->getUpgradeModuleMutationField(),
 						'outputFields' => $this->getOutputFields(),
 						'mutateAndGetPayload' => function ($input) {
-							$module = strtolower($input['module']);
-							if(isset($input['isAll']) && $input['isAll'] == true){
+							$module = isset($input['module']) ? strtolower($input['module']) : '';
+							$input['isAll'] = isset($input['isAll']) ? $input['isAll'] : true;  
+							if($input['isAll'] == true){
 								$action = 'upgradeall';
+								$module = '';
 							}else{
 								$action = 'upgrade';
 							}
-
 							return $this->moduleAction($module,$action);
 						}
 					])
@@ -114,10 +115,6 @@ class Modules extends Base {
 			'action' => [
 				'type' => Type::nonNull(Type::string()),
 				'description' => _('Action you want to perform on a module [install/uninstall/enable/disable/remove]')
-			],
-			'track' => [
-				'type' => Type::string(),
-				'description' => _('Track module (edge/stable) ')
 			]
 		];
 	}
@@ -209,17 +206,17 @@ class Modules extends Base {
 						'type' => $this->typeContainer->get('module')->getObject(),
 						'description' => $this->description,
 						'args' => [
-							'rawname' => [
-								'type' => Type::string(),
-								'description' => 'The module rawname',
+							'moduleName' => [
+								'type' => Type::nonNull(Type::string()),
+								'description' => _('The module rawname'),
 							]
 						],
 						'resolve' => function($root, $args) {
-							$module = $this->freepbx->Modules->getInfo($args['rawname']);
-							if(!empty($module)){
-								return ['module'=> $module['builtin']['status'],'status'=>true];
+							$module = $this->freepbx->Modules->getInfo($args['moduleName']);
+							if(isset($module[$args['moduleName']]['status'])){
+								return ['module'=> $module[$args['moduleName']]['status'],'status'=>true , 'message' => _("Module status found successfully")];
 							}else{
-								return ['message'=> null,'status'=>false];
+								return ['message'=> _("Sorry, Unable to fetch the module status"),'status'=>false];
 							}
 						}
 					],
@@ -266,7 +263,7 @@ class Modules extends Base {
 		$module->addFieldCallback(function() {
 			return [
 				'status' => [
-					'type' => Type::string(),
+					'type' => Type::boolean(),
 					'description' => _('Module Status')
 				],
 				'rawname' => [
@@ -395,7 +392,7 @@ class Modules extends Base {
 	public function getOutputFields(){
 		return [
 					'status' => [
-						'type' => Type::nonNull(Type::string()),
+						'type' => Type::nonNull(Type::boolean()),
 						'resolve' => function ($payload) {
 							return $payload['status'];
 						}

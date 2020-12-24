@@ -44,7 +44,7 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
 		  $json = (string)$response->getBody();
 
-	  	$this->assertEquals('{"data":{"moduleOperations":{"status":"true","message":"Action['.$action.'] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
+	  	$this->assertEquals('{"data":{"moduleOperations":{"status":true,"message":"Action['.$action.'] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
     }
 
     public function testModuleOperationswhenActionParamNotSentWillReturnErrors()
@@ -119,7 +119,7 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
 		  $json = (string)$response->getBody();
 
-	  	$this->assertEquals('{"data":{"installModule":{"status":"true","message":"Action[install] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
+	  	$this->assertEquals('{"data":{"installModule":{"status":true,"message":"Action[install] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
     }
 
     public function testInstallModuleWithDownloadShoudReturnTrue(){
@@ -145,7 +145,7 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
 		  $json = (string)$response->getBody();
 
-	  	$this->assertEquals('{"data":{"installModule":{"status":"true","message":"Action[downloadinstall] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
+	  	$this->assertEquals('{"data":{"installModule":{"status":true,"message":"Action[downloadinstall] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
     }
 
     public function testInstallModuleWithDownloadSetFalseShoudReturnTrueWithOnlyInstall(){
@@ -171,7 +171,7 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
 		  $json = (string)$response->getBody();
 
-	  	$this->assertEquals('{"data":{"installModule":{"status":"true","message":"Action[install] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
+	  	$this->assertEquals('{"data":{"installModule":{"status":true,"message":"Action[install] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
     }
 
     public function testUninstallModuleShoudReturnTrue(){
@@ -196,7 +196,7 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
 		  $json = (string)$response->getBody();
 
-	  	$this->assertEquals('{"data":{"uninstallModule":{"status":"true","message":"Action[uninstall] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
+	  	$this->assertEquals('{"data":{"uninstallModule":{"status":true,"message":"Action[uninstall] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
     }
 
     public function testUninstallModuleWithRemoveSetToTrueShoudReturnTrue(){
@@ -222,7 +222,7 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
 		  $json = (string)$response->getBody();
 
-	  	$this->assertEquals('{"data":{"uninstallModule":{"status":"true","message":"Action[remove] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
+	  	$this->assertEquals('{"data":{"uninstallModule":{"status":true,"message":"Action[remove] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
     }
 
     public function testUninstallModuleWithRemoveSetToFalseShoudReturnTrue(){
@@ -248,7 +248,7 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
 		  $json = (string)$response->getBody();
 
-	  	$this->assertEquals('{"data":{"uninstallModule":{"status":"true","message":"Action[uninstall] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
+	  	$this->assertEquals('{"data":{"uninstallModule":{"status":true,"message":"Action[uninstall] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
     }
 
     public function testEnableModuleShoudReturnTrue(){
@@ -273,7 +273,7 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
 		  $json = (string)$response->getBody();
 
-	  	$this->assertEquals('{"data":{"enableModule":{"status":"true","message":"Action[enable] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
+	  	$this->assertEquals('{"data":{"enableModule":{"status":true,"message":"Action[enable] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
     }
 
      public function testDisableModuleShoudReturnTrue(){
@@ -298,7 +298,7 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
 		  $json = (string)$response->getBody();
 
-	  	$this->assertEquals('{"data":{"disableModule":{"status":"true","message":"Action[disable] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
+	  	$this->assertEquals('{"data":{"disableModule":{"status":true,"message":"Action[disable] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
     }
 
     
@@ -317,20 +317,19 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
       $response = $this->request("mutation {
         upgradeModule(input: { 
-          module: \"{$module}\" }) 
+          module: \"{$module}\"
+          isAll: false }) 
           { status message }
         }
       ");
 
 		  $json = (string)$response->getBody();
 
-	  	$this->assertEquals('{"data":{"upgradeModule":{"status":"true","message":"Action[upgrade] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
+	  	$this->assertEquals('{"data":{"upgradeModule":{"status":true,"message":"Action[upgrade] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
     }
 
     public function testUpgradeModuleWithIsAllSetToTrueShoudReturnTrue(){
-      
-      $module = 'xmpp';
-
+  
       $mockGqlHelper = $this->getMockBuilder(Freepbx\api\Api::class)
        ->disableOriginalConstructor()
        ->setMethods(array('initiateGqlAPIProcess'))
@@ -342,7 +341,6 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
       $response = $this->request("mutation {
         upgradeModule(input: { 
-          module: \"{$module}\"
           isAll:true}) 
           { status message }
         }
@@ -350,7 +348,7 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
 		  $json = (string)$response->getBody();
 
-	  	$this->assertEquals('{"data":{"upgradeModule":{"status":"true","message":"Action[upgradeall] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
+	  	$this->assertEquals('{"data":{"upgradeModule":{"status":true,"message":"Action[upgradeall] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
     }
 
     public function testUpgradeModuleModuleWithIsAllSetToFalseShoudReturnTrue(){
@@ -376,6 +374,6 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
 		  $json = (string)$response->getBody();
 
-	  	$this->assertEquals('{"data":{"upgradeModule":{"status":"true","message":"Action[upgrade] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
+	  	$this->assertEquals('{"data":{"upgradeModule":{"status":true,"message":"Action[upgrade] on module['.$module.'] has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
     }
 }
