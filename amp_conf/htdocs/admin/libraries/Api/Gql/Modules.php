@@ -355,8 +355,8 @@ class Modules extends Base {
 			return $this->moduleStatuses;
 		}
 		$this->moduleStatuses = new EnumType([
-			'name' => 'Module status',
-			'description' => 'Module status',
+			'name' => 'ModuleStatus',
+			'description' => _('Module status'),
 			'values' => [
 				'notInstalled' => [
 					'value' => 0,
