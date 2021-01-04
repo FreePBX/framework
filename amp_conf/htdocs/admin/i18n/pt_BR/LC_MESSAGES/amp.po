@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-12-23 08:33+0000\n"
+"POT-Creation-Date: 2021-01-04 06:28+0000\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -890,13 +890,13 @@ msgstr "Código da Conta para este dispositivo."
 msgid "Action"
 msgstr "Ação"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:116
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:117
 msgid ""
 "Action you want to perform on a module [install/uninstall/enable/disable/"
 "remove]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:391
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:388
 #, php-format
 msgid ""
 "Action[%s] on module[%s] has been initiated. Please check the status using "
@@ -2281,7 +2281,7 @@ msgstr "Canal %s"
 msgid "Channel ID"
 msgstr "ID do Canal"
 
-#: ../core/Api/Gql/Extensions.php:339 ../core/Api/Gql/Extensions.php:356
+#: ../core/Api/Gql/Extensions.php:397 ../core/Api/Gql/Extensions.php:414
 msgid "Channel Name incase if you are using tech DAHDi."
 msgstr ""
 
@@ -2772,7 +2772,7 @@ msgstr "Não foi possível escrever para %s"
 msgid "Country Indication Tones"
 msgstr "Toques de Indicação de País"
 
-#: ../core/Api/Gql/Extensions.php:140
+#: ../core/Api/Gql/Extensions.php:134
 msgid "Create a Range of Extensions"
 msgstr ""
 
@@ -3376,7 +3376,7 @@ msgstr "Apagar"
 msgid "Delete Device %s"
 msgstr "Excluir Dispositivo %s"
 
-#: ../core/Api/Gql/Extensions.php:106
+#: ../core/Api/Gql/Extensions.php:101
 msgid "Delete an Extension in Core"
 msgstr ""
 
@@ -3613,6 +3613,10 @@ msgstr "Tipo de dispositivo"
 #: ../core/Core.class.php:3291
 msgid "Device could not be added."
 msgstr "Não foi possível adicionar o dispositivo."
+
+#: ../core/Api/Gql/Extensions.php:254
+msgid "Device tech default is pjsip"
+msgstr ""
 
 #: ../core/Core.class.php:217 ../core/Core.class.php:264
 msgid "Device was not added!"
@@ -4224,7 +4228,7 @@ msgstr ""
 "Endereço de e-mail a ser usado para serviços como correio de voz, "
 "gerenciamento de usuários e Fax"
 
-#: ../core/Api/Gql/Extensions.php:323 ../core/Api/Gql/Extensions.php:373
+#: ../core/Api/Gql/Extensions.php:381 ../core/Api/Gql/Extensions.php:431
 msgid ""
 "Email address to use for services such as Voicemail, User Management and Fax."
 msgstr ""
@@ -4817,8 +4821,28 @@ msgstr "Extensão já em uso!"
 msgid "Extension can not be blank!"
 msgstr "A extensão não pode ficar em branco!"
 
-#: ../core/Api/Gql/Extensions.php:83 ../core/Api/Gql/Extensions.php:126
+#: ../core/Api/Gql/Extensions.php:211
+msgid "Extension does not exists"
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:84 ../core/Api/Gql/Extensions.php:122
 msgid "Extension does not exists."
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:209
+msgid "Extension found successfully"
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:55
+msgid "Extension has been created Successfully"
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:126
+msgid "Extension has been deleted"
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:90
+msgid "Extension has been updated"
 msgstr ""
 
 #: ../core/Core.class.php:3229
@@ -4840,6 +4864,14 @@ msgstr "Conflito de número de ramal, por favor escolha outro."
 #: ../core/Core.class.php:210 ../core/Core.class.php:253
 msgid "Extension was not numeric!"
 msgstr "A extensão não era numérica!"
+
+#: ../core/Api/Gql/Extensions.php:190
+msgid "Extension's found successfully"
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:168
+msgid "Extension's has been created Successfully"
+msgstr ""
 
 #: amp.i18n.php:888 ../core/Core.class.php:3139 ../core/Core.class.php:3140
 #: ../core/page.extensions.php:26
@@ -5085,7 +5117,7 @@ msgstr ""
 "selecionando 'Novo Usuário', um novo Ramal de Usuário com mesmo "
 "identificador do dispositivo será configurado como usuário padrão."
 
-#: ../core/Api/Gql/Extensions.php:243 ../core/Api/Gql/Extensions.php:254
+#: ../core/Api/Gql/Extensions.php:266 ../core/Api/Gql/Extensions.php:283
 msgid ""
 "Fixed devices will always mapped to this user. Adhoc devices will be mapped "
 "to this user by default."
@@ -5624,11 +5656,11 @@ msgstr ""
 "Defina um nome único para este tronco. Exemplo: meuteliax. Observe que isso "
 "é usado como o contexto do tronco dentro do asterisk"
 
-#: ../core/Api/Gql/Extensions.php:290
+#: ../core/Api/Gql/Extensions.php:348
 msgid "Give your Extension Starting Number"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:348
+#: ../core/Api/Gql/Extensions.php:406
 msgid ""
 "Give your Extension a unique integer ID. The Extension will use this ID to "
 "create Extension in the system"
@@ -5642,7 +5674,7 @@ msgstr ""
 "Atribua um ID único para seu dispositivo. O dispositivo usará este ID para "
 "autenticar no sistema."
 
-#: ../core/Api/Gql/Extensions.php:236
+#: ../core/Api/Gql/Extensions.php:242
 msgid ""
 "Give your device a unique integer ID. The device will use this ID to "
 "authenticate to the system"
@@ -6132,11 +6164,11 @@ msgstr ""
 "Se você precisa se autenticar no servidor proxy, digite um nome de usuário e "
 "uma senha. Deixar um (ou ambos) em branco desativa Autenticação de proxy"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:133
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:130
 msgid "If you want to download and install"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:150
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:147
 msgid "If you want to remove the module"
 msgstr ""
 
@@ -6940,8 +6972,8 @@ msgstr "Modificado limite de memória"
 msgid "Message Context"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:318
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:322
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:315
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:319
 msgid "Message for the request"
 msgstr ""
 
@@ -7236,7 +7268,7 @@ msgstr "Módulo não encontrado"
 msgid "Module Not Installed"
 msgstr "Módulo não instalado"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:270
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:267
 msgid "Module Status"
 msgstr ""
 
@@ -7269,23 +7301,23 @@ msgstr ""
 msgid "Module is Unsigned"
 msgstr "Módulo não assinado"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:129
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:126
 msgid "Module name on which you want to perform  install action on"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:159
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:156
 msgid "Module name on which you want to perform action on"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:112
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:113
 msgid "Module name on which you want to perform any action"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:146
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:143
 msgid "Module name on which you want to perform uninstall action on"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:172
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:169
 msgid "Module name on which you want to perform upgrade"
 msgstr ""
 
@@ -7304,6 +7336,14 @@ msgstr "Módulo não instalado: impossível desinstalar"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:215
 msgid "Module signature expired"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:356
+msgid "Module status"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:217
+msgid "Module status found successfully"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Localization.class.php:42
@@ -7858,7 +7898,7 @@ msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr ""
 "Número de tentativas que o chamador tem para inserir um ID de chamada válido"
 
-#: ../core/Api/Gql/Extensions.php:302
+#: ../core/Api/Gql/Extensions.php:360
 msgid "Number of extensions you want to create."
 msgstr ""
 
@@ -8282,7 +8322,7 @@ msgstr ""
 msgid "Overrides Extension CID"
 msgstr "Substitui a Extensão CID"
 
-#: ../core/Api/Gql/Extensions.php:310 ../core/Api/Gql/Extensions.php:364
+#: ../core/Api/Gql/Extensions.php:368 ../core/Api/Gql/Extensions.php:422
 msgid ""
 "Overrides the CallerID when dialing out a trunk. Any setting here will "
 "override the common outbound CallerID set in the Trunks admin.\n"
@@ -8938,7 +8978,7 @@ msgstr "RTP Simétrico"
 msgid "RTP Timeout"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:274
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:271
 msgid "Raw name of the module"
 msgstr ""
 
@@ -10161,6 +10201,18 @@ msgstr ""
 msgid "Some of these settings can render your system inoperable."
 msgstr "Algumas dessas configurações podem tornar seu sistema inoperante."
 
+#: ../core/Api/Gql/Extensions.php:92
+msgid "Sorry could not update the extension"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:219
+msgid "Sorry, Unable to fetch the module status"
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:192
+msgid "Sorry, unable to find any extensions"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2117
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2206
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2303
@@ -10506,7 +10558,7 @@ msgstr ""
 msgid "Tech Type"
 msgstr "Tipo de Type"
 
-#: ../core/Api/Gql/Extensions.php:298 ../core/Api/Gql/Extensions.php:352
+#: ../core/Api/Gql/Extensions.php:356 ../core/Api/Gql/Extensions.php:410
 msgid "Technology driver type"
 msgstr ""
 
@@ -10555,13 +10607,13 @@ msgstr ""
 "necessário para a gravação de chamadas, você pode não ser capaz de gravar "
 "chamadas até que o módulo esteja instalado e habilitado."
 
-#: ../core/Api/Gql/Extensions.php:294
+#: ../core/Api/Gql/Extensions.php:352
 msgid ""
 "The CallerID name , a name which you want to append along with the extension "
 "number."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:360 ../core/functions.inc.php:4771
+#: ../core/Api/Gql/Extensions.php:418 ../core/functions.inc.php:4771
 #: ../core/views/quickCreate.php:93
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
@@ -10643,6 +10695,10 @@ msgstr ""
 "RFC-2833 usado no chan_sip mais antigo.</li><li>inband - DTMF é enviado como "
 "parte do fluxo de áudio.</li><li>info - DTMF é enviado como pacote SIP INFO."
 "</li></ul>"
+
+#: ../core/Api/Gql/Extensions.php:202
+msgid "The ExtensionId to fetch"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1075
 #, php-format
@@ -10939,60 +10995,64 @@ msgstr "O local para Certificados Asterisk"
 msgid "The module appears to be valid but is not currently installed"
 msgstr "O módulo parece ser válido, mas não está instalado no momento"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:314
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:311
 msgid "The module category in FreePBX UI"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:379
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:376
 msgid "The module is broken"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:367
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:364
 msgid "The module is disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:371
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:368
 msgid "The module is enabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:363
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:360
 msgid "The module is not installed"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:306
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:303
 msgid "The module license information url "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:302
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:299
 msgid "The module license type "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:375
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:372
 msgid "The module needs to be upgraded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:298
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:295
 msgid "The module publisher name "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:310
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:211
+msgid "The module rawname"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:307
 msgid "The module release changelog "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:290
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:294
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:287
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:291
 msgid "The module release version "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:278
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:275
 msgid "The module repository information"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:286
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:283
 msgid "The module user friendly display name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:282
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:279
 msgid "The module user friendly name "
 msgstr ""
 
@@ -11447,7 +11507,7 @@ msgstr ""
 "de Saída como Emergência. O CID de emergência substitui todas as outras "
 "configurações de identificador de chamadas."
 
-#: ../core/Api/Gql/Extensions.php:319 ../core/Api/Gql/Extensions.php:369
+#: ../core/Api/Gql/Extensions.php:377 ../core/Api/Gql/Extensions.php:427
 msgid ""
 "This CallerID will always be set when dialing out an Outbound Route flagged "
 "as Emergency. The Emergency CID overrides all other CallerID settings."
@@ -11467,6 +11527,7 @@ msgid ""
 "settings"
 msgstr ""
 
+#: ../core/Api/Gql/Extensions.php:57 ../core/Api/Gql/Extensions.php:170
 #: ../core/Core.class.php:1426 ../core/Core.class.php:1639
 msgid "This device id is already in use"
 msgstr "Este dispositivo já está em uso"
@@ -11897,7 +11958,7 @@ msgstr ""
 "substituições no arquivo de configuração do seu servidor web para o Painel "
 "de Controle do Usuário. Para obter mais informações, consulte: %s"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:176
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:173
 msgid "To upgrade all modules"
 msgstr ""
 
@@ -11914,9 +11975,8 @@ msgstr ""
 msgid "Track"
 msgstr "Faixa"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:120
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:137
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:163
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:134
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:160
 msgid "Track module (edge/stable) "
 msgstr ""
 
@@ -12616,7 +12676,7 @@ msgstr "Painel do Usuário"
 msgid "User Password"
 msgstr "Senha do Usuário"
 
-#: ../core/Api/Gql/Extensions.php:335 ../core/Api/Gql/Extensions.php:393
+#: ../core/Api/Gql/Extensions.php:393 ../core/Api/Gql/Extensions.php:451
 msgid "User caller ID"
 msgstr ""
 
@@ -12624,11 +12684,11 @@ msgstr ""
 msgid "User could not be added."
 msgstr "O usuário não pôde ser adicionado."
 
-#: ../core/Api/Gql/Extensions.php:306 ../core/Api/Gql/Extensions.php:377
+#: ../core/Api/Gql/Extensions.php:364 ../core/Api/Gql/Extensions.php:435
 msgid "Usermanagment enable yes/no."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:315 ../core/Api/Gql/Extensions.php:381
+#: ../core/Api/Gql/Extensions.php:373 ../core/Api/Gql/Extensions.php:439
 msgid "Usermanagment groupid. (comma seperated)"
 msgstr ""
 
@@ -12774,11 +12834,11 @@ msgstr "Correio de Voz"
 msgid "Voicemail Extension"
 msgstr "Ramal Correio de Voz"
 
-#: ../core/Api/Gql/Extensions.php:327 ../core/Api/Gql/Extensions.php:385
+#: ../core/Api/Gql/Extensions.php:385 ../core/Api/Gql/Extensions.php:443
 msgid "Voicemail enable yes/no."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:331 ../core/Api/Gql/Extensions.php:389
+#: ../core/Api/Gql/Extensions.php:389 ../core/Api/Gql/Extensions.php:447
 msgid "Voicemail password"
 msgstr ""
 
