@@ -262,6 +262,9 @@ class Modules extends Base {
 
 		$module->addFieldCallback(function() {
 			return [
+				'id' => Relay::globalIdField('module', function($row) {
+					return isset($row['id']) ? $row['id'] : null;
+				}),
 				'status' => [
 					'type' => Type::boolean(),
 					'description' => _('Module Status')
