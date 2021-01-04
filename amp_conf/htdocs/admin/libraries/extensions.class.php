@@ -505,7 +505,7 @@ class ext_messagesend extends extension {
 		$this->from = $from;
 	}
 	function output() {
-		return isset($this->from) && !empty($this->from) ? "MessageSend(".$this->to.", ".$this->from.")" : "MessageSend(".$this->to.")";
+		return isset($this->from) && !empty($this->from) ? "MessageSend(".$this->to.",".$this->from.")" : "MessageSend(".$this->to.")";
 	}
 }
 
