@@ -41,7 +41,7 @@ class Modules extends Base {
 						'outputFields' => $this->getOutputFields(),
 						'mutateAndGetPayload' => function ($input) {
 							$module = strtolower($input['module']);
-							if(isset($input['isDownload']) && $input['isDownload'] == true){
+							if(isset($input['forceDownload']) && $input['forceDownload'] == true){
 								$action = 'downloadinstall';
 							}else{
 								$action = 'install';
@@ -56,7 +56,7 @@ class Modules extends Base {
 						'outputFields' => $this->getOutputFields(),
 						'mutateAndGetPayload' => function ($input) {
 							$module = strtolower($input['module']);
-							if(isset($input['isRemove']) && $input['isRemove'] == true){
+							if(isset($input['RemoveCompletely']) && $input['RemoveCompletely'] == true){
 								$action = 'remove';
 							}else{
 								$action = 'uninstall';
@@ -90,15 +90,17 @@ class Modules extends Base {
 						'inputFields' => $this->getUpgradeModuleMutationField(),
 						'outputFields' => $this->getOutputFields(),
 						'mutateAndGetPayload' => function ($input) {
-							$module = isset($input['module']) ? strtolower($input['module']) : '';
-							$input['isAll'] = isset($input['isAll']) ? $input['isAll'] : true;  
-							if($input['isAll'] == true){
-								$action = 'upgradeall';
-								$module = '';
-							}else{
-								$action = 'upgrade';
-							}
-							return $this->moduleAction($module,$action);
+							$module = strtolower($input['module']);
+							return $this->moduleAction($module,'upgrade');
+						}
+					]),
+				'upgradeAllModules' => Relay::mutationWithClientMutationId([
+						'name' => 'upgradeAllModule',
+						'description' => _('This will perform upgrade on all modules'),
+						'inputFields' => [],
+						'outputFields' => $this->getOutputFields(),
+						'mutateAndGetPayload' => function ($input) {
+							return $this->moduleAction('','upgradeAll');
 						}
 					])
 				];
@@ -125,7 +127,7 @@ class Modules extends Base {
 				'type' => Type::nonNull(Type::string()),
 				'description' => _('Module name on which you want to perform  install action on')
 			],
-			'isDownload' => [
+			'forceDownload' => [
 				'type' => Type::boolean(),
 				'description' => _('If you want to download and install')
 			],
@@ -142,7 +144,7 @@ class Modules extends Base {
 				'type' => Type::nonNull(Type::string()),
 				'description' => _('Module name on which you want to perform uninstall action on')
 			],
-			'isRemove' => [
+			'RemoveCompletely' => [
 				'type' => Type::boolean(),
 				'description' => _('If you want to remove the module')
 			]
@@ -165,13 +167,9 @@ class Modules extends Base {
 	private function getUpgradeModuleMutationField() {
 		return [
 			'module' => [
-				'type' => Type::string(),
+				'type' => Type::nonNull(Type::string()),
 				'description' => _('Module name on which you want to perform upgrade')
 			],
-			'isAll' => [
-				'type' =>  Type::boolean(),
-				'description' => _('To upgrade all modules')
-			]
 		];
 	}
 
@@ -394,24 +392,24 @@ class Modules extends Base {
 
 	public function getOutputFields(){
 		return [
-					'status' => [
-						'type' => Type::nonNull(Type::boolean()),
-						'resolve' => function ($payload) {
-							return $payload['status'];
-						}
-					],
-					'message' => [
-						'type' => Type::string(),
-						'resolve' => function ($payload) {
-						return $payload['message'];
-					  }
-					],
-					'transaction_id' => [
-						'type' => Type::string(),
-						'resolve' => function ($payload) {
-						return $payload['transaction_id'];
-					  }
-					]
-				];
+			'status' => [
+			'type' => Type::boolean(),
+			'resolve' => function ($payload) {
+				return $payload['status'];
+			}
+		],
+			'message' => [
+			'type' => Type::string(),
+			'resolve' => function ($payload) {
+				return $payload['message'];
+			}
+		],
+			'transaction_id' => [
+			'type' => Type::string(),
+			'resolve' => function ($payload) {
+				return $payload['transaction_id'];
+			}
+		]
+	];
 	}
 }
