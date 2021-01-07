@@ -31,7 +31,8 @@ class View {
 			"jquery.tablednd.min.js",
 			"load-fallbacks.js",
 			"tabber-minimized.js",
-			"tableExport.min.js"
+			"tableExport.min.js",
+			"Sortable-1.10.2.min.js"
 		);
 
 		$package = $this->freepbx->Config->get('USE_PACKAGED_JS');
