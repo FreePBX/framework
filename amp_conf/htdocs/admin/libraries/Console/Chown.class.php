@@ -193,14 +193,27 @@ class Chown extends Command {
 		if((empty($this->moduleName) && $this->moduleName != 'framework') && posix_geteuid() == 0 && (!$input->hasOption('file') || !$input->getOption('file'))) {
 			$output->write(_("Setting base permissions..."));
 
-			$this->systemSetRecursivePermissions($ASTVARLIBDIR . '/' . $MOHDIR, 0775, $ampowner, $ampowner, 'rdir');
-			$this->systemSetRecursivePermissions($ASTVARLIBDIR . '/sounds', 0775, $ampowner, $ampowner, 'rdir');
-			$this->systemSetRecursivePermissions($ASTLOGDIR, 0775, $ampowner, $ampowner, 'rdir');
-			$this->systemSetRecursivePermissions($ASTSPOOLDIR, 0775, $ampowner, $ampowner, 'rdir');
-			$this->systemSetRecursivePermissions($AMPWEBROOT, 0775, $ampowner, $ampowner, 'rdir');
-			//$this->systemSetRecursivePermissions('/usr/src/freepbx', 0775, $ampowner, $ampowner, 'rdir');
+			$DIRS[]		= $ASTVARLIBDIR . '/' . $MOHDIR;
+			$DIRS[] 	= $ASTVARLIBDIR . '/sounds';
+			$DIRS[] 	= $ASTLOGDIR;
+			$DIRS[] 	= $ASTSPOOLDIR;
+			$DIRS[] 	= $AMPWEBROOT;
+			// $DIRS[] = '/usr/src/freepbx';
+			$skipped 	= array();
+			$Tstart 	= strtotime("now");
+			foreach($DIRS as $DIR){
+				$bl 	= $this->systemSetRecursivePermissions($DIR, 0775, $ampowner, $ampowner, 'rdir');
+				$skipped= array_merge($skipped,$bl);
+			}
 
-			$output->writeln(_("Done"));
+			foreach($skipped as $data){
+				foreach($data as $skip){
+					$this->d(sprintf(_('%s skipped by configuration'), str_replace("'","", $skip)));
+				}				
+			}
+			$Tend = strtotime("now");
+			$Ttime = $Tend - $Tstart; 
+			$output->writeln(_("Done")." ".sprintf(_("in %d seconds"), $Ttime ));
 		}
 
 		$output->writeln(_("Setting specific permissions..."));
@@ -330,6 +343,7 @@ class Chown extends Command {
 		}
 
 		exec("find ".escapeshellarg($path)." \( -type f -o -type d \) ".$skip." -exec chown ".escapeshellarg($owner).":".escapeshellarg($group)." {} +");
+        return $blacklist;
 	}
 
 	/**
