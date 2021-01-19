@@ -31,7 +31,7 @@ class Destinations {
 					list($cat, $id) = $this->getCategoryAndId($dest, $data);
 					$destinations[$rawname][$id]['destinations'][$dest['destination']] = array_merge($dest, array(
 						'name' => $data['name'],
-						'edit_url' => $info['edit_url']
+						'edit_url' => $data['edit_url']
 					));
 					if(!isset($destinations[$rawname][$id]['popover'])) {
 						$destinations[$rawname][$id]['popover'] = [];
@@ -194,8 +194,14 @@ class Destinations {
 					$destinations[$dest['destination']] = $dest;
 					$destinations[$dest['destination']]['module'] = $rawname;
 					$destinations[$dest['destination']]['name'] = $cat;
-					$info = $this->getDestinationInfoByModule($dest['destination'],$rawname);
-					$destinations[$dest['destination']]['edit_url'] = !empty($info['edit_url']) ? $info['edit_url'] : '';
+
+					// if the edit_url is provided already, there is no need to
+					// lookup the destination info, which is costly to execute
+					if (empty($dest['edit_url'])) {
+						$info = $this->getDestinationInfoByModule($dest['destination'],$rawname);
+						$destinations[$dest['destination']]['edit_url'] = !empty($info['edit_url']) ? $info['edit_url'] : '';
+					}
+
 				}
 			}
 			return $destinations;
@@ -314,7 +320,7 @@ class Destinations {
 						modgettext::push_textdomain($mod);
 						$check_module = $function($target);
 						modgettext::pop_textdomain();
-						if ($check_module !== false) {
+						if(!empty($check_module)) {
 							$found_owner = true;
 							$this->dest_cache[$target] = array($mod => $check_module);
 							$dest_results[$target] = $this->dest_cache[$target];

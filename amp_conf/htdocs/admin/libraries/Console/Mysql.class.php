@@ -12,6 +12,7 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Process\Process;
 use Symfony\Component\Process\InputStream;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use FreePBX;
 class Mysql extends Command {
 	protected function configure(){
 		$this->setName('mysql')
@@ -22,21 +23,22 @@ class Mysql extends Command {
 	}
 	protected function execute(InputInterface $input, OutputInterface $output){
 		global $amp_conf; //an angel lost it's wings today for using this
-		$dbuser = $amp_conf["AMPDBUSER"];
-		$dbpass = $amp_conf["AMPDBPASS"];
-		$dbhost = $amp_conf["AMPDBHOST"];
-		$dbname = $amp_conf["AMPDBNAME"];
 		$dbtype = $amp_conf["AMPDBENGINE"];
+
 		if($dbtype != "mysql") {
 			$output->writeln("<error>"._("Only mysql is supported")."</error>");
 			exit(1);
 		}
 
+		$this->FreePBX = FreePBX::Create();		
+		$cmd = $this->FreePBX->Database()->fetchSqlCommand();
+		$output->writeln($cmd);
+
 		if(posix_isatty(STDIN)) {
-			$process = new Process('mysql -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' '.$dbname);
+			$process = new Process($cmd);
 			$process->setTty(true);
 		} else {
-			$process = new Process('mysql -u'.$dbuser.' -p'.$dbpass.' -h'.$dbhost.' -e '.escapeshellarg(fgets(STDIN)).' '.$dbname);
+			$process = new Process($cmd.' -e '.escapeshellarg(fgets(STDIN)));
 		}
 
 		$process->mustRun();

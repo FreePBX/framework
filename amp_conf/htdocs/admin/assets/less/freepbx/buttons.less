@@ -27,12 +27,12 @@
 .button-background-gradient (@gradient, @top, @bottom) when (default()) {
 }
 
-.button-layout() {
+.button-layout(@background-color, @text-color) {
 	.button-border(@button-gradient, @button-border-color);
 	.button-border-gradient(@button-gradient, @button-border-gradient-top, @button-border-gradient-bottom);
-	.button-background(@button-gradient, @button-background-color, @button-image);
+	.button-background(@button-gradient, @background-color, @button-image);
 	.button-background-gradient(@button-gradient, @button-background-gradient-top, @button-background-gradient-bottom);
-	color: @button-text-color;
+	color: @text-color;
 	display: inline-block;
 	position: relative;
 	line-height: 1.42857143;
@@ -64,10 +64,10 @@
 .button-active() {
 	.button-border(@button-gradient, @button-active-border-color);
 	.button-border-gradient(@button-gradient, @button-active-border-gradient-top, @button-active-border-gradient-bottom);
-	.button-background(@button-gradient, @button-active-background-color, @button-active-image);
+	.button-background(@button-gradient, @form-button-active-background-color, @button-active-image);
 	.button-background-gradient(@button-gradient, @button-active-background-gradient-top, @button-active-background-gradient-bottom);
-	color: @button-active-text-color;
-	background-color: @button-active-background-color;
+	color: @form-button-active-text-color;
+	background-color: @form-button-active-background-color;
 	border-color: @button-active-border-color;
 }
 
@@ -95,7 +95,7 @@ input[type="submit"],
 input[type="button"]:visited,
 input[type="reset"]:visited,
 input[type="submit"]:visited {
-	.button-layout();
+	.button-layout(@submit-button-background-color, @button-text-color);
 	border-radius: @button-radius;
 }
 
@@ -153,20 +153,28 @@ input[type="submit"]:disabled{
 }
 .radioset input[type="radio"] + label,
 .radioset input[type="checkbox"] ~ label {
-	.button-layout();
+	.button-layout(@form-button-background-color, @form-button-text-color);
 	margin-right: -5px;
 }
 .radioset input[type="radio"] + label:first-of-type {
 	margin-left: 0px;
 }
-
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+        background-color: @nav-pills-bg-color !important;
+}
 .input-group-btn {
 	.btn {
 		margin-right: 0px;
 	}
 	.btn:last-of-type {
 		margin-right: 5px;
+                background: @submit-button-background-color;
+                color: @button-text-color;
 	}
+        .btn:last-of-type:hover {
+                background: @btn-group-bg-color;
+                color: @button-hover-text-color;
+        }
 }
 
 .btn-group input[type="button"],

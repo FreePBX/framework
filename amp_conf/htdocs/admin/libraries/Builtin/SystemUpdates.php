@@ -386,6 +386,20 @@ class SystemUpdates {
 		}
 		return $rpms;
 	}
+	public function checkNotInstalledPkg(array $rpmResult) {
+		$first_word = 'package';
+		$last_word = 'is not installed';
+		if (empty($rpmResult)) {
+			return false;
+		}
+		$lastElem = end($rpmResult);
+		if ($lastElem && preg_match('/^' . $first_word . '\b(.*)\b' . $last_word .'$/' , $lastElem, $matches)) {
+			return true;
+		}
+                return false;
+        }
+
+
 
 	/**
 	 * Run rpm to get the list of current versions
@@ -407,12 +421,22 @@ class SystemUpdates {
 		// Our RPM Command
 		$cmd = '/usr/bin/rpm -q --queryformat "%{NAME}.%{ARCH} %{VERSION}.%{RELEASE}\n" '.join(" ", $rpms);
 		exec($cmd, $output, $ret);
-		if ($ret !== 0 && $ret !== 6) {
-			// 6 = new packages are going to be installed
-			if (function_exists("freepbx_log")) {
-				freepbx_log(FPBX_LOG_CRITICAL, "Update error: Tried to run '$cmd', exit code $ret");
+		if ($ret == 1 && $this->checkNotInstalledPkg($output)) {
+			/* if last package in rpm -q is not installed then it will have 1 as return code
+			 * so we have to check if last line of return output has "package not installed"
+			 * or not, if this is present then ignore the error and continue with processing */
+		} else {
+			if ($ret !== 0 && $ret !== 6) {
+				if ($pkglist) {
+					//not installed package present so might not be the real failure.. continue with processing..
+				} else {
+					// 6 = new packages are going to be installed
+					if (function_exists("freepbx_log")) {
+						freepbx_log(FPBX_LOG_CRITICAL, "Update error: Tried to run '$cmd', exit code $ret");
+					}
+					throw new \Exception("RPM command errored, Delete /dev/shm/yumwrapper/* and try again. Exit code $ret - see FreePBX log for more info.");
+				}
 			}
-			throw new \Exception("RPM command errored, Delete /dev/shm/yumwrapper/* and try again. Exit code $ret - see FreePBX log for more info.");
 		}
 
 		// Map the output of the rpm command to a temporary dict
@@ -493,6 +517,23 @@ class SystemUpdates {
 		// We should have some output that can be displayed to the user
 		if (file_exists("/dev/shm/yumwrapper/yum-update-current.log")) {
 			$retarr['currentlog'] = file("/dev/shm/yumwrapper/yum-update-current.log", FILE_IGNORE_NEW_LINES);
+			$summary = array();
+			$summary[] = "--------------------------------------------------------------------------";
+			$record_summary = false;
+			foreach($retarr['currentlog'] as $index => $line) {
+				$record_summary = (preg_match("~\bTransaction Summary\b~",$line)) ? true : $record_summary;
+				$record_summary = ( preg_match("~\bDownloading packages\b~",$line) ) ? false : $record_summary;
+				if (strpos($line, "No packages marked") === 0){
+					$summary[] = "Transaction Summary : ".$retarr['currentlog'][$index];
+					$retarr['currentlog'] =[];
+					break;
+				}
+				if($record_summary && !(strpos($line, "============") === 0)){
+					$summary[] = $retarr['currentlog'][$index];
+				}
+			}
+			$summary[] = "-------------------------------------------------------------------------- \n \n \n ";
+			$retarr['currentlog'] = array_merge($summary,$retarr['currentlog']);
 		}
 
 		// Has it finished?

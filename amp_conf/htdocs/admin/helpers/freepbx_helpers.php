@@ -105,6 +105,7 @@ function fpbx_form_input_check($data = '', $value = '', $extra = '', $label = 'E
  * @return mixed                    Array if $output_array is true otherwise a string of html
  */
 function drawselects($goto, $i, $restrict_modules=false, $table=true, $nodest_msg='', $required = false, $output_array = false, $reset = false, $disable=false, $class='') {
+	set_time_limit(60);
 	return \FreePBX::View()->destinationDrawSelect($goto, $i, $restrict_modules, $table, $nodest_msg, $required, $output_array, $reset, $disable, $class);
 }
 

@@ -135,6 +135,10 @@ class Database extends \PDO {
 			}
 		}
 
+		if(!empty($port)){
+			$this->dsn .= "port=$port;";
+		}
+		
 		try {
 			if ($options) {
 				parent::__construct($this->dsn, $username, $password, $options);
@@ -149,6 +153,34 @@ class Database extends \PDO {
 		}
 		$this->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
 		$this->dVersion = $this->getAttribute(\PDO::ATTR_SERVER_VERSION);
+	}
+
+	/**
+	 * Fetch the mysql command to use with required parameters
+	 * @param string cmdName = mysql or mysqldump
+	 */
+	public function fetchSqlCommand($mysqlCmd='mysql') {
+		global $amp_conf;
+		$host = $amp_conf['AMPDBHOST'];
+		$port = isset($amp_conf['AMPDBPORT'])?$amp_conf['AMPDBPORT']:'';
+		$dbuser = $this->FreePBX->Config->get('AMPDBUSER') ? $this->FreePBX->Config->get('AMPDBUSER'):$amp_conf['AMPDBUSER'];
+		$dbpass = $this->FreePBX->Config->get('AMPDBPASS') ? $this->FreePBX->Config->get('AMPDBPASS'):$amp_conf['AMPDBPASS'];
+		$dbname = $this->FreePBX->Config->get('AMPDBNAME') ? $this->FreePBX->Config->get('AMPDBNAME') : 'asterisk';
+
+		if ($host =='localhost' || $host == '127.0.0.1') {
+			$hostname = '';
+		} else {
+			$hostname = '-h '.$host;
+		}
+		if ($port =='') {
+			$portnum = '';
+		}else {
+			$portnum = '-P '.$port;
+		}
+		dbug("dbpass = ".$amp_conf['AMPDBPASS']);
+		$sqlCommand = "{$mysqlCmd} {$portnum} {$hostname} -u{$dbuser} -p{$dbpass} {$dbname} ";
+
+		return $sqlCommand;
 	}
 
 	public function migrateMultipleXML(\SimpleXMLElement $XMLtables, $dryrun = false) {

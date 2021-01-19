@@ -1709,9 +1709,9 @@ class module_functions {
 		$options = array(
 			'hooks' => $hooks,
 			'timeout' => 1800, // Allow up to 1800 seconds (30 minutes) for the download to complete
+			'filename' => $filename, //avoid the requests object redundant decompress code
 		);
-		$response = $requests->post('', array(), array(), $options);
-		file_put_contents($filename,$response->body);
+		$response = $requests->get('', array(), $options);
 
 		$errors = $this->_process_archive($filename,$progress_callback);
 		if(is_array($errors) && count($errors)) {
@@ -1820,7 +1820,7 @@ class module_functions {
 		}
 		switch(true) {
 			case preg_match('/^(tgz|tar)$/', $extension) || preg_match('/(tar\.gz)$/', $filename):
-				$err = exec("/usr/bin/env tar zxf ".escapeshellarg($filename)." -C ".escapeshellarg($temppath), $output, $exitcode);
+				$err = exec("/usr/bin/env tar xf ".escapeshellarg($filename)." -C ".escapeshellarg($temppath), $output, $exitcode);
 				if ($exitcode != 0) {
 					return array(sprintf(_('Error from %s: %s'), 'tar', $err));
 				}

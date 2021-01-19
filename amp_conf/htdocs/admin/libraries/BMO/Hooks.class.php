@@ -395,4 +395,66 @@ class Hooks extends DB_Helper {
 			}
 		}
 	}
+
+	/**
+	 * To execute the module specific hooks 
+	 */
+	public function runModuleSystemHook($moduleName, $hookname, $params = false) {
+
+		if (!file_exists("/etc/incron.d/sysadmin")) {
+			throw new \Exception("Sysadmin RPM not up to date, or not a known OS.");
+		}
+
+		$spooldir = $this->FreePBX->Config->get('ASTSPOOLDIR');
+		$basedir = $spooldir."/incron";
+		if (!is_dir($basedir)) {
+			throw new \Exception("$basedir is not a directory");
+		}
+
+		$path = $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/";
+
+		// Does our hook actually exist?
+		if (!file_exists($path.$moduleName.'/hooks/'.$hookname)) {
+			throw new \Exception("Hook $hookname doesn't exist");
+		}
+
+		// Cool. So I want to run this hook..
+		$filename = "$basedir/$moduleName.$hookname";
+
+		// Do I have any params?
+		if ($params) {
+			// Oh. I do. If it's an array, json encode and base64
+			if (is_array($params)) {
+				$b = base64_encode(gzcompress(json_encode($params)));
+				// Note we derp the base64, changing / to _, because filepath.
+				$filename .= ".".str_replace('/', '_', $b);
+			} else {
+				// Cast it to a string if it's anything else, and then make sure
+				// it doesn't have any spaces.
+				$filename .= ".".preg_replace("/[[:blank:]]+/", "", (string) $params);
+			}
+		}
+
+		// Make sure it doesn't exist, if it was left hanging around
+		// for some reason
+		@unlink($filename);
+
+		$fh = fopen($filename, "w+");
+		if ($fh === false) {
+			dbug("Unable to create hook trigger ".$filename);	
+			return false;
+		}
+
+		// Now incron does its thing.
+		fclose($fh);
+
+		// Wait .5 of a second, make sure it's been deleted.
+		usleep(500000);
+		if (!file_exists($filename)) {
+			return true;
+		}
+		dbug("Hook file '".$filename."' was not picked up by Incron after 5 seconds. Is it not running?");
+		// Odd. It should be gone. Something went wrong.
+		return false;
+	}
 }

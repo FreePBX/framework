@@ -215,7 +215,7 @@ span.twitter-typeahead .tt-dropdown-menu {
 	bottom: 100px;
 	width:100%;
 	height:100px;
-	background-color: white;
+	background-color: @footer-background-color;
 	clear: both;
 	#footer_content {
 		margin: 0px auto;
@@ -223,13 +223,13 @@ span.twitter-typeahead .tt-dropdown-menu {
 		display: table;
 		text-align:center;
 		clear: both;
-		color:#999;
+		color: @footer-content-color;
 		font-size:10px;
 		a {
-			color:#999;
+			color: @footer-content-color;
 		}
 		a:hover {
-			color:#DEEDF7;
+			color: @text-color;
 		}
 		h3 {
 			color:#2c78ff;
@@ -259,6 +259,7 @@ span.twitter-typeahead .tt-dropdown-menu {
 			background-color: transparent;
 			border: none;
 			outline: 0;
+                        color: @action-bar-text-color;
 		}
 	}
 	#action-bar.shrink {
@@ -520,17 +521,38 @@ div.attention {
 		border-bottom-color: white;
 	}
 }
-
 /**
  * Menu navigation and Tab Navigation coloring
  */
 .nav > li > a:hover,
 .nav > li > a:focus {
 	text-decoration: none;
-	background-color: rgba(222, 237, 247, 0.5);
+	background-color: @nav-li-focus-bg-color;
 	color: rgb(132, 132, 132);
 }
-
+.panel-info {
+    border-color: @border-color;
+}
+.panel-info >.panel-heading, .alert-info, .panel-default>.panel-heading {	
+    color: @info-text-color;
+    background-color: @info-background-color;
+    border-color: @border-color;
+}
+.panel-warning>.panel-heading {
+    color: #8a6d3b;
+    background-color: #fcf8e3 ;
+    border-color: #faebcc ;
+}
+.panel-danger>.panel-heading {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+.panel-success>.panel-heading {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
 /**
  * Password Meter addition to inputs
  */
@@ -564,6 +586,7 @@ div.attention {
 		i.fa {
 			font-size: 150%;
 			margin-right: 5px;
+                        color: black;
 		}
 		a:last-child > i.fa {
 			margin-right: 0px;
@@ -652,12 +675,27 @@ div.attention {
 		.btn-block {
 			width: 98%; //http://issues.freepbx.org/browse/FREEPBX-12478
 		}
+                .bootstrap-table{
+		    .fixed-table-toolbar{
+                       .bs-bars {
+                          #toolbar-all {
+                           .btn {
+                               background: @floating-button-background-color;
+                           }
+                           .btn:hover {
+                               background: @btn-group-bg-color;
+                           }
+                        }
+                     } 			
+		   } 
+		}                
 		tbody tr {
 			cursor: pointer;
 		}
 	}
 	#fixed-list-button{
 		position: absolute;
+                background: @floating-button-background-color;
 		top: -1px;
 		height: 35px;
 		width: 55px;
@@ -673,6 +711,16 @@ div.attention {
 		border-right: none;
 		font-size: 20px;
 	}
+        #fixed-list-button:hover {
+                background-color: @btn-group-bg-color;
+        }
+        #fixed-list-button:focus {
+                background-color: @btn-group-bg-color;
+        }
+        #fixed-list-button:active:hover {
+                background-color: @fixed-list-btn-bg-color;
+                border-color: @fixed-list-btn-border-color;
+        }
 	.fixed-table-container {
 		margin-bottom: 10px;
 	}
@@ -717,10 +765,13 @@ div.attention {
 	}
 	a.list-group-item.active {
 		color: #fff;
+                background-color: @button-active-background-color;
 	}
 	a.list-group-item:hover,
 	a.list-group-item:focus {
 		background-color: @table-row-hover-background-color;
+                color: @table-row-hover-text-color;
+                border-color: @button-border-color;
 	}
 }
 
@@ -746,8 +797,8 @@ div.attention {
 }
 
 .progress-bar {
-	background-color: @button-active-background-color;
-	color: @button-active-text-color;
+	background-color: @panel-background-color;
+	color: @form-button-active-text-color;
 }
 
 /**
@@ -811,4 +862,30 @@ div.attention {
  */
 .pd {
 	padding-top: 0.5em
+}
+
+/**
+ * Panel
+ */
+.panel>.panel-heading.collapsed {
+	border-bottom: 0px;
+	border-bottom-left-radius:  @panel-border-radius;
+	border-bottom-right-radius: @panel-border-radius;
+}
+
+.panel.panel-help {
+	.panel-heading .panel-title .pull-left {
+		margin-right: 5px;
+	}
+	.panel-heading.collapsed {
+		border-bottom: 0px;
+		border-bottom-left-radius:  @panel-border-radius;
+		border-bottom-right-radius: @panel-border-radius;
+	}
+	.panel-heading .chevron:after {
+		content: "\f068";	// fa-minus
+	}
+	.panel-heading.collapsed .chevron:after {
+		content: "\f067";   // fa-plus 
+	}
 }

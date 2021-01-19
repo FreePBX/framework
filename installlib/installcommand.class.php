@@ -27,6 +27,10 @@ class FreePBXInstallCommand extends Command {
 			'default' => 'localhost',
 			'description' => 'Database server address'
 		),
+		'dbport' => array(
+			'default' => '3306',
+			'description' => 'Database server port'
+		),
 		'cdrdbname' => array(
 			'default' => 'asteriskcdrdb',
 			'description' => 'CDR Database name'
@@ -290,10 +294,10 @@ class FreePBXInstallCommand extends Command {
 			// Parse Asterisk version.
 			if (preg_match('/^Asterisk (?:SVN-|GIT-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*)) built/', $astver, $matches)) {
 				$determined = true;
-				if (version_compare($matches[1], "13", "lt") || version_compare($matches[1], "18", "ge")) {
+				if (version_compare($matches[1], "13", "lt") || version_compare($matches[1], "19", "ge")) {
 					$output->writeln("<error>Error!</error>");
 					$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
-					$output->writeln("<error>Supported Asterisk versions: 13, 14, 15, 16, 17</error>");
+					$output->writeln("<error>Supported Asterisk versions: 13, 14, 15, 16, 17, 18</error>");
 					exit(1);
 				}
 				$output->writeln("Yes. Determined Asterisk version to be: ".$matches[1]);
@@ -433,6 +437,7 @@ class FreePBXInstallCommand extends Command {
 			$amp_conf['AMPDBUSER'] = $answers['dbuser'];
 			$amp_conf['AMPDBPASS'] = $answers['dbpass'];
 			$amp_conf['AMPDBHOST'] = $answers['dbhost'];
+			$amp_conf['AMPDBPORT'] = $answers['dbport'];
 
 			if($dbroot) {
 				$output->write("Database Root installation checking credentials and permissions..");
@@ -806,6 +811,7 @@ class FreePBXInstallCommand extends Command {
 \$amp_conf['AMPDBUSER'] = '{$amp_conf['AMPDBUSER']}';
 \$amp_conf['AMPDBPASS'] = '{$amp_conf['AMPDBPASS']}';
 \$amp_conf['AMPDBHOST'] = '{$amp_conf['AMPDBHOST']}';
+\$amp_conf['AMPDBPORT'] = '{$amp_conf['AMPDBPORT']}';
 \$amp_conf['AMPDBNAME'] = '{$amp_conf['AMPDBNAME']}';
 \$amp_conf['AMPDBENGINE'] = '{$amp_conf['AMPDBENGINE']}';
 \$amp_conf['datasource'] = ''; //for sqlite3
@@ -833,7 +839,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 		//run this here so that we make sure everything is square for module installs
 		$output->writeln("Chowning directories...");
-		$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole chown");
+		system($amp_conf['AMPSBIN']."/fwconsole chown");
 		$output->writeln("Done");
 
 		// module_admin install framework
@@ -874,7 +880,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 			$output->writeln("Done installing base modules");
 			if(!$answers['skip-install']) {
 				$output->write("Installing all modules...");
-				$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole ma installlocal",1800);
+				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal");
 				$output->writeln("Done installing all modules");
 			}
 

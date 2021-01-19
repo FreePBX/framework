@@ -21,7 +21,15 @@
 			top: 3px;
 			.btn {
 				margin-right: 2px;
+                                background: @menu-button-background-color;
 			}
+                        #search-btn:hover, .admin-btn > .btn:hover {
+                                background: @button-hover-background-color;
+                        } 
+			#search-btn:active:hover, .admin-btn > .btn:active:hover {
+                                background-color: @menu-button-active-hover-bg-color;
+                                color: @menu-button-active-hover-color;
+                        }
 			li {
 				display: inline;
 				list-style: none;
@@ -55,9 +63,8 @@
 				}
 			}
 			li.dropdown.open > button {
-				background-color: darken(@background-color,50%);
+				background-color: darken(@button-background-color,50%);
 				border-color: darken(@border-color,20%);
-				color: #FFFFFF;
 			}
 		}
 		@media (min-width: (@menu-breakpoint + 1)) {
@@ -146,10 +153,10 @@
 	        display: none!important;
 	    }
 	    .navbar-nav {
-				margin: 5.5px -36px;
-				margin-top: -2px;
-            width: 97%;
-            padding-left: 20px;
+			margin: 5.5px -36px;
+			margin-top: -2px;
+			width: 97%;
+			padding-left: 45px;
 	    }
 	    .navbar-nav>li {
 	        float: none;
@@ -214,10 +221,10 @@
 					color: @button-text-color;
 					border-radius: 4px;
 					padding-top: 3px;
-					background-color: @button-background-color;
+					background-color: @menu-button-background-color;
 					.button-border(@button-gradient, @button-border-color);
 					.button-border-gradient(@button-gradient, @button-border-gradient-top, @button-border-gradient-bottom);
-					.button-background(@button-gradient, @button-background-color, @button-image);
+					.button-background(@button-gradient, @menu-button-background-color, @button-image);
 					.button-background-gradient(@button-gradient, @button-background-gradient-top, @button-background-gradient-bottom);
 				}
 				> a:hover {

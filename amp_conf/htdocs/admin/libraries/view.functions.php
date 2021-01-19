@@ -462,35 +462,26 @@ function framework_server_name() {
 
 	return $title;
 }
-function show_help($message, $title='' ,$collapse=false, $collapseable=true, $class='default') {
+function show_help($message, $title='', $collapse=false, $collapseable=true, $class='default') {
 	$thisid = uniqid();
-	$html = "<div class='panel panel-$class'>";
-	$html .= '<div class="panel-heading">';
-	if($title){
-		$html .= '<h3 class="panel-title"><i class="fa fa-info-circle"></i> '.$title.'</h3>';
-	}else{
-		$html .= '<h3 class="panel-title"><i class="fa fa-info-circle"></i> '._("Helpful Information").'</h3>';
-	}
+	$html = "<div class='panel panel-$class panel-help'>";
+	$html .= sprintf('<div class="panel-heading %s" data-target="#%s" data-toggle="%s">', ((! $collapse) ? 'collapsed' : ''), $thisid,  (($collapseable) ? 'collapse' : '' ) );
+	$html .= '<h3 class="panel-title">';
+	$html .= '<span class="pull-left"><i class="fa fa-info-circle fa-lg fa-fw"></i></span>';
+	$html .= ($title) ? $title : _("Helpful Information");
 	if ($collapseable) {
-		if($collapse) {
-			$html .= '<span class="pull-right"><a href="#'.$thisid.'" data-target="#'.$thisid.'" data-toggle="collapse" ><i class="fa fa-plus" id="toggle'.$thisid.'"></i></a></span></h3>';
-		}else{
-			$html .= '<span class="pull-right"><a href="#'.$thisid.'" data-target="#'.$thisid.'" data-toggle="collapse" ><i class="fa fa-minus" id="toggle'.$thisid.'"></i></a></span></h3>';
-		}
+		$html .= '<span class="pull-right">';
+		$html .= '<i class="chevron fa fa-fw"></i>';
+		$html .= '</span>';
 	}
+	$html .= '</h3>';
 	$html .= '</div>';
-	$html .= '<div id="'.$thisid.'" class="panel-collapse '.($collapse?'collapse in':'collapse').' ">';
+	$html .= sprintf('<div id="%s" class="panel-collapse collapse %s">', $thisid, ( $collapse ? 'in' : '' ));
 	$html .= '<div class="panel-body">';
 	$html .= $message;
 	$html .= '</div>';
 	$html .= '</div>';
 	$html .= '</div>';
-	$html .= '<script>';
-	$html .= '$( document ).ready(function(){';
-	$html .= '$("#'.$thisid.'").on("hidden.bs.collapse", function (e) {$("#toggle'.$thisid.'").toggleClass("fa-plus fa-minus");});';
-	$html .= '$("#'.$thisid.'").on("shown.bs.collapse", function (e) {$("#toggle'.$thisid.'").toggleClass("fa-plus fa-minus");});';
-	$html .= '});';
-	$html .= '</script>';
 	return $html;
 }
 function show_deprecated($message="", $dismisable = true, $logit = false){

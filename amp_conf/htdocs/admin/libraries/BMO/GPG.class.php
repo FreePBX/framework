@@ -686,18 +686,20 @@ class GPG {
 		}
 
 		$out = $this->runGPG("--output - ".escapeshellarg($sigfile));
-
+		
 		// Check to see if we don't know about this signature..
-		if (isset($out['status'][2]) && preg_match('/NO_PUBKEY (.+)/', $out['status'][2], $keyarr)) {
-			// We don't. Try to grab it.
-			try {
-				$this->getKey($keyarr[1]);
-			} catch (\Exception $e) {
-				// Couldn't download the key.
-				return array("status" => self::STATE_INVALID);
+		for($i=1;$i<count($out['status']);$i++) {
+			if ( preg_match('/NO_PUBKEY (.+)/', $out['status'][$i], $keyarr) ) {
+				// We don't. Try to grab it.
+				try {
+					$this->getKey($keyarr[1]);
+				} catch (\Exception $e) {
+					// Couldn't download the key.
+					return array("status" => self::STATE_INVALID);
+				}
+				// And now run the validation again.
+				$out = $this->runGPG("--output - ".escapeshellarg($sigfile));
 			}
-			// And now run the validation again.
-			$out = $this->runGPG("--output - ".escapeshellarg($sigfile));
 		}
 
 		$status = $this->checkStatus($out['status']);
