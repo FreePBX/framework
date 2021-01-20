@@ -178,7 +178,7 @@ function needreload() {
  * Check to see if Apply Changes/Need Reload flag has been set
  * @return bool true if reload needed, otherwise false
  */
-function check_reload_needed() {
+function check_reload_needed($implicit_grant=false) {
 	global $db;
 	global $amp_conf;
 	$sql = "SELECT value FROM admin WHERE variable = 'need_reload'";
@@ -187,8 +187,10 @@ function check_reload_needed() {
 		die_freepbx($sql.$row->getMessage());
 	}
 	//check from amp user if we are allowed to execute apply changes
-	if(!isset($_SESSION["AMP_user"]) || !is_object($_SESSION["AMP_user"]) || !(get_class($_SESSION["AMP_user"]) == 'ampuser') || !$_SESSION["AMP_user"]->checkSection(99)) {
-		return false;
+	if(!$implicit_grant){
+		if(!isset($_SESSION["AMP_user"]) || !is_object($_SESSION["AMP_user"]) || !(get_class($_SESSION["AMP_user"]) == 'ampuser') || !$_SESSION["AMP_user"]->checkSection(99)) {
+			return false;
+		}
 	}
 	return ($row[0] == 'true' || $amp_conf['DEVELRELOAD']);
 }

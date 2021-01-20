@@ -373,4 +373,33 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
     
       $this->assertEquals(200, $response->getStatusCode());
     }
+    
+    /**
+     * testDoreoadShouldReturnTrue
+     *
+     * @return void
+     */
+    public function testDoreoadShouldReturnTrue(){
+  
+      $mockGqlHelper = $this->getMockBuilder(Freepbx\api\Api::class)
+       ->disableOriginalConstructor()
+       ->setMethods(array('doreload'))
+       ->getMock();
+
+      $mockGqlHelper->method('doreload')->willReturn(true);
+
+     self::$freepbx->Api()->setObj($mockGqlHelper);  
+
+      $response = $this->request("mutation {
+        doreload(input: { }) 
+          { status message }
+        }
+      ");
+
+		  $json = (string)$response->getBody();
+
+	  	$this->assertEquals('{"data":{"doreload":{"status":true,"message":"Doreload\/apply config has been initiated. Please check the status using fetchApiStatus api with the returned transaction id"}}}', $json);
+    
+      $this->assertEquals(200, $response->getStatusCode());
+    }
 }
