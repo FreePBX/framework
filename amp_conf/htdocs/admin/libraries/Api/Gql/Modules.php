@@ -24,86 +24,95 @@ class Modules extends Base {
 			return function() {
 				return [				
 				'moduleOperations' => Relay::mutationWithClientMutationId([
-						'name' => 'moduleOperations',
-						'description' => _('This will perform a module install/uninstall/enable/disable/downloadinstall based on action,module and track'),
-						'inputFields' => $this->getMutationFieldModule(),
-						'outputFields' =>$this->getOutputFields(),
-						'mutateAndGetPayload' => function ($input) {
-							$module = strtolower($input['module']);
-							$action = strtolower($input['action']);
-							return $this->moduleAction($module,$action);
-						}
-					]),
+					'name' => 'moduleOperations',
+					'description' => _('This will perform a module install/uninstall/enable/disable/downloadinstall based on action,module and track'),
+					'inputFields' => $this->getMutationFieldModule(),
+					'outputFields' =>$this->getOutputFields(),
+					'mutateAndGetPayload' => function ($input) {
+						$module = strtolower($input['module']);
+						$action = strtolower($input['action']);
+						return $this->moduleAction($module,$action);
+					}
+				]),
 				'installModule' => Relay::mutationWithClientMutationId([
-						'name' => 'installModule',
-						'description' => _('This will perform install module operation.'),
-						'inputFields' => $this->getInstallMutationField(),
-						'outputFields' => $this->getOutputFields(),
-						'mutateAndGetPayload' => function ($input) {
-							$module = strtolower($input['module']);
-							if(isset($input['forceDownload']) && $input['forceDownload'] == true){
-								$action = 'downloadinstall';
-							}else{
-								$action = 'install';
-							}
-							return $this->moduleAction($module,$action);
-						}
-					]),
+					'name' => 'installModule',
+					'description' => _('This will perform install module operation.'),
+					'inputFields' => $this->getInstallMutationField(),
+					'outputFields' => $this->getOutputFields(),
+					'mutateAndGetPayload' => function ($input) {
+					$module = strtolower($input['module']);
+					if(isset($input['forceDownload']) && $input['forceDownload'] == true){
+						$action = 'downloadinstall';
+					}else{
+						$action = 'install';
+					}
+						return $this->moduleAction($module,$action);
+					}
+				]),
 				'uninstallModule' => Relay::mutationWithClientMutationId([
-						'name' => 'uninstallModule',
-						'description' => _('This will perform uninstall module operation.'),
-						'inputFields' => $this->getUninstallMutationField(),
-						'outputFields' => $this->getOutputFields(),
-						'mutateAndGetPayload' => function ($input) {
-							$module = strtolower($input['module']);
-							if(isset($input['RemoveCompletely']) && $input['RemoveCompletely'] == true){
-								$action = 'remove';
-							}else{
-								$action = 'uninstall';
-							}
-							return $this->moduleAction($module,$action);
-						}
-					]),
+					'name' => 'uninstallModule',
+					'description' => _('This will perform uninstall module operation.'),
+					'inputFields' => $this->getUninstallMutationField(),
+					'outputFields' => $this->getOutputFields(),
+					'mutateAndGetPayload' => function ($input) {
+					$module = strtolower($input['module']);
+					if(isset($input['RemoveCompletely']) && $input['RemoveCompletely'] == true){
+						$action = 'remove';
+					}else{
+						$action = 'uninstall';
+					}
+						return $this->moduleAction($module,$action);
+					}
+				]),
 				'enableModule' => Relay::mutationWithClientMutationId([
-						'name' => 'enableModule',
-						'description' => _('This will perform enable module operation.'),
-						'inputFields' => $this->getEnableDisableMutationField(),
-						'outputFields' => $this->getOutputFields(),
-						'mutateAndGetPayload' => function ($input) {
-							$module = strtolower($input['module']);
-							return $this->moduleAction($module,'enable');
-						}
-					]),
+					'name' => 'enableModule',
+					'description' => _('This will perform enable module operation.'),
+					'inputFields' => $this->getEnableDisableMutationField(),
+					'outputFields' => $this->getOutputFields(),
+					'mutateAndGetPayload' => function ($input) {
+					$module = strtolower($input['module']);
+						return $this->moduleAction($module,'enable');
+					}
+				]),
 				'disableModule' => Relay::mutationWithClientMutationId([
-						'name' => 'disableModule',
-						'description' => _('This will perform disable module operation.'),
-						'inputFields' => $this->getEnableDisableMutationField(),
-						'outputFields' => $this->getOutputFields(),
-						'mutateAndGetPayload' => function ($input) {
-							$module = strtolower($input['module']);
-							return $this->moduleAction($module,'disable');
-						}
-					]),
+					'name' => 'disableModule',
+					'description' => _('This will perform disable module operation.'),
+					'inputFields' => $this->getEnableDisableMutationField(),
+					'outputFields' => $this->getOutputFields(),
+					'mutateAndGetPayload' => function ($input) {
+						$module = strtolower($input['module']);
+						return $this->moduleAction($module,'disable');
+					}
+				]),
 				'upgradeModule' => Relay::mutationWithClientMutationId([
-						'name' => 'upgradeModule',
-						'description' => _('This will perform upgrade module operation'),
-						'inputFields' => $this->getUpgradeModuleMutationField(),
-						'outputFields' => $this->getOutputFields(),
-						'mutateAndGetPayload' => function ($input) {
-							$module = strtolower($input['module']);
-							return $this->moduleAction($module,'upgrade');
-						}
-					]),
+					'name' => 'upgradeModule',
+					'description' => _('This will perform upgrade module operation'),
+					'inputFields' => $this->getUpgradeModuleMutationField(),
+					'outputFields' => $this->getOutputFields(),
+					'mutateAndGetPayload' => function ($input) {
+						$module = strtolower($input['module']);
+						return $this->moduleAction($module,'upgrade');
+					}
+				]),
 				'upgradeAllModules' => Relay::mutationWithClientMutationId([
-						'name' => 'upgradeAllModule',
-						'description' => _('This will perform upgrade on all modules'),
-						'inputFields' => [],
-						'outputFields' => $this->getOutputFields(),
-						'mutateAndGetPayload' => function ($input) {
-							return $this->moduleAction('','upgradeAll');
-						}
-					])
-				];
+					'name' => 'upgradeAllModule',
+					'description' => _('This will perform upgrade on all modules'),
+					'inputFields' => [],
+					'outputFields' => $this->getOutputFields(),
+					'mutateAndGetPayload' => function ($input) {
+						return $this->moduleAction('','upgradeAll');
+					}
+				]),
+				'doreload' => Relay::mutationWithClientMutationId([
+					'name' => 'doreload',
+					'description' => _('Apply Configuration Gql api'),
+					'inputFields' => [],
+					'outputFields' => $this->getOutputFields(),
+					'mutateAndGetPayload' => function ($input) {
+						return $this->applyConfiguration();
+					}
+				])
+			  ];
 			};
 		}
 	}
@@ -185,7 +194,7 @@ class Modules extends Base {
 							[
 								'status' => [
 									'type' => $this->getEnumStatuses(),
-									'description' => 'Performed Module operation status',
+									'description' => _('Performed Module operation status'),
 									'defaultValue' => false
 								]
 							]
@@ -238,6 +247,18 @@ class Modules extends Base {
 							}catch(Exception $ex){
 								FormattedError::setInternalErrorMessage($ex->getMessage());
 							}		
+						}
+					],
+					'fetchNeedReload' => [
+						'type' => $this->typeContainer->get('module')->getObject(),
+						'description' => _('Check if config reload is required or not'),
+						'resolve' => function($root, $args) {
+							$status = check_reload_needed(true);
+							if($status){
+								return ['message' => _('Doreload is required'), 'status' => true] ;
+							}else{
+								return ['message' => _('Doreload is not required'), 'status' => true] ;
+							}
 						}
 					]
 				];
@@ -411,5 +432,17 @@ class Modules extends Base {
 			}
 		]
 	];
+	}
+	
+	/**
+	 * applyConfiguration
+	 *
+	 * @return void
+	 */
+	private function applyConfiguration(){
+		$txnId = $this->freepbx->api->addTransaction("Processing","Framework","gql-do-reload");
+		$this->freepbx->api->setGqlApiHelper()->doreload($txnId);
+		$msg = _('Doreload/apply config has been initiated. Please check the status using fetchApiStatus api with the returned transaction id');
+		return ['message' => $msg, 'status' => True ,'transaction_id' => $txnId];
 	}
 }
