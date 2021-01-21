@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-07 05:31+0000\n"
+"POT-Creation-Date: 2021-01-21 05:08+0000\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -546,14 +546,14 @@ msgstr "%s version %s or  higher is required, you have %s"
 msgid "%s will be removed from the hard disk"
 msgstr "%s از هارد دیسک حذف خواهد شد"
 
-#: ../core/Core.class.php:3844
+#: ../core/Core.class.php:3846
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
 "result all AGIs will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: ../core/Core.class.php:3865
+#: ../core/Core.class.php:3867
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but the FastAGI server was unable to start, As a result all AGIs will be "
@@ -762,7 +762,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "یک مسیر برای این DID/CID در حال حاضر موجود است!"
 
-#: ../core/Core.class.php:2732 ../core/functions.inc.php:4222
+#: ../core/Core.class.php:2734 ../core/functions.inc.php:4222
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "یک مسیر برای این DID/CID: %s %s در حال حاضر موجود است"
@@ -867,13 +867,13 @@ msgstr "کد حساب برای این وسیله."
 msgid "Action"
 msgstr "عمل"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:119
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:128
 msgid ""
 "Action you want to perform on a module [install/uninstall/enable/disable/"
 "remove]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:389
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:410
 #, php-format
 msgid ""
 "Action[%s] on module[%s] has been initiated. Please check the status using "
@@ -1318,6 +1318,10 @@ msgstr "اعمال نوار تغییرات"
 #: amp_conf/htdocs/admin/views/menu.php:26
 msgid "Apply Config"
 msgstr "اعمال پیکربندی"
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:108
+msgid "Apply Configuration Gql api"
+msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:503
 msgid ""
@@ -1981,11 +1985,11 @@ msgstr ""
 msgid "Call successful"
 msgstr ""
 
-#: ../core/Core.class.php:3202
+#: ../core/Core.class.php:3204
 msgid "Caller ID"
 msgstr "شناسه تماس گیرنده"
 
-#: ../core/Core.class.php:3203
+#: ../core/Core.class.php:3205
 msgid "Caller ID Number"
 msgstr "شماره تماس گیرنده"
 
@@ -2241,7 +2245,8 @@ msgstr "کانال %s"
 msgid "Channel ID"
 msgstr "شناسه کانال"
 
-#: ../core/Api/Gql/Extensions.php:397 ../core/Api/Gql/Extensions.php:414
+#: ../core/Api/Gql/Extensions.php:365 ../core/Api/Gql/Extensions.php:382
+#: ../core/Api/Gql/Extensions.php:436
 msgid "Channel Name incase if you are using tech DAHDi."
 msgstr ""
 
@@ -2262,6 +2267,10 @@ msgstr "ارجاع بررسی سرور"
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:109
 #: amp_conf/htdocs/admin/views/oobe.php:204
 msgid "Check for Updates every"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:254
+msgid "Check if config reload is required or not"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:1238
@@ -2616,12 +2625,12 @@ msgstr ""
 msgid "Core"
 msgstr "هسته"
 
-#: ../core/Core.class.php:3724
+#: ../core/Core.class.php:3726
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:3797
+#: ../core/Core.class.php:3799
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -2724,7 +2733,7 @@ msgstr "عدم توانایی نوشتن به روی %s"
 msgid "Country Indication Tones"
 msgstr "نشانه بوق کشور"
 
-#: ../core/Api/Gql/Extensions.php:134
+#: ../core/Api/Gql/Extensions.php:114
 msgid "Create a Range of Extensions"
 msgstr ""
 
@@ -2947,7 +2956,7 @@ msgstr "توضیحات داخلی مستقیم"
 msgid "DID Number"
 msgstr "شماره داخلی مستقیم"
 
-#: ../core/Core.class.php:3343
+#: ../core/Core.class.php:3345
 msgid "DID already exists"
 msgstr "DID موجود است"
 
@@ -2955,11 +2964,11 @@ msgstr "DID موجود است"
 msgid "DID/CID"
 msgstr "DID/CID"
 
-#: ../core/Core.class.php:3144
+#: ../core/Core.class.php:3146
 msgid "DIDs"
 msgstr ".DIDs"
 
-#: ../core/Core.class.php:3145
+#: ../core/Core.class.php:3147
 msgid "DIDs / Inbound Routes"
 msgstr "مسیرهای ورودی / DIDs"
 
@@ -3302,10 +3311,10 @@ msgstr ""
 "can also use a pattern match (eg _2[345]X) to match a range of numbers"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:772
-#: ../core/Components/Dahdichannels.php:15 ../core/Core.class.php:306
-#: ../core/Core.class.php:329 ../core/Core.class.php:353
-#: ../core/Core.class.php:393 ../core/Core.class.php:418
-#: ../core/Core.class.php:448 ../core/page.devices.php:58
+#: ../core/Components/Dahdichannels.php:15 ../core/Core.class.php:308
+#: ../core/Core.class.php:331 ../core/Core.class.php:355
+#: ../core/Core.class.php:395 ../core/Core.class.php:420
+#: ../core/Core.class.php:450 ../core/page.devices.php:58
 #: ../core/page.devices.php:78 ../core/page.extensions.php:32
 #: ../core/page.extensions.php:125 ../core/page.extensions.php:153
 #: ../core/page.users.php:49
@@ -3317,7 +3326,7 @@ msgstr "حذف"
 msgid "Delete Device %s"
 msgstr "حذف وسیله %s"
 
-#: ../core/Api/Gql/Extensions.php:101
+#: ../core/Api/Gql/Extensions.php:91
 msgid "Delete an Extension in Core"
 msgstr ""
 
@@ -3356,8 +3365,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:231
-#: ../core/Core.class.php:3170 ../core/Core.class.php:3171
-#: ../core/Core.class.php:3194 ../core/Core.class.php:3195
+#: ../core/Core.class.php:3172 ../core/Core.class.php:3173
+#: ../core/Core.class.php:3196 ../core/Core.class.php:3197
 #: ../core/functions.inc.php:5089 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:59
@@ -3370,7 +3379,7 @@ msgstr "شرح"
 msgid "Descriptive Name for this Trunk"
 msgstr "شرح نام برای این ترانک"
 
-#: ../core/Core.class.php:3206 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:3208 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "مقصد"
 
@@ -3500,7 +3509,7 @@ msgstr "حالت توسعه دهنده"
 msgid "Developer and Customization"
 msgstr "توسعه دهنده و شخصی ساز"
 
-#: ../core/Core.class.php:3559 ../core/functions.inc.php:5032
+#: ../core/Core.class.php:3561 ../core/functions.inc.php:5032
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3516,7 +3525,7 @@ msgstr ""
 msgid "Device & User Hints Issue"
 msgstr ""
 
-#: ../core/Core.class.php:1420 ../core/Core.class.php:1633
+#: ../core/Core.class.php:1422 ../core/Core.class.php:1635
 msgid "Device Extension was blank or there were no settings defined"
 msgstr "داخلی وسیله خالی بود یا تنظیمی یافت نشد"
 
@@ -3537,7 +3546,7 @@ msgstr "تنظیمات وسیله"
 msgid "Device State Busy at"
 msgstr "وضعیت دستگاه مشغول است در"
 
-#: ../core/Core.class.php:3174 ../core/Core.class.php:3175
+#: ../core/Core.class.php:3176 ../core/Core.class.php:3177
 msgid "Device Technology"
 msgstr "فن آوری وسیله"
 
@@ -3546,15 +3555,15 @@ msgstr "فن آوری وسیله"
 msgid "Device Type"
 msgstr "نوع وسیله"
 
-#: ../core/Core.class.php:3292
+#: ../core/Core.class.php:3294
 msgid "Device could not be added."
 msgstr "وسیله نمیتواند اضافه شود."
 
-#: ../core/Api/Gql/Extensions.php:254
+#: ../core/Api/Gql/Extensions.php:222
 msgid "Device tech default is pjsip"
 msgstr ""
 
-#: ../core/Core.class.php:217 ../core/Core.class.php:264
+#: ../core/Core.class.php:219 ../core/Core.class.php:266
 msgid "Device was not added!"
 msgstr "وسیله اضافه نشد!"
 
@@ -3907,6 +3916,20 @@ msgstr "انجام شد. تمام ماژول ها نصب شدند."
 msgid "Dont reload asterisk"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:260
+msgid "Doreload is not required"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:258
+msgid "Doreload is required"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:445
+msgid ""
+"Doreload/apply config has been initiated. Please check the status using "
+"fetchApiStatus api with the returned transaction id"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:95
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:372
 msgid "Downgrade"
@@ -4030,7 +4053,7 @@ msgid ""
 "routes you dont know about"
 msgstr ""
 
-#: ../core/Core.class.php:423 ../core/Core.class.php:453
+#: ../core/Core.class.php:425 ../core/Core.class.php:455
 msgid "Duplicate"
 msgstr "تکراری"
 
@@ -4159,7 +4182,8 @@ msgid ""
 msgstr ""
 "آدرس ایمیل استفاده شده برای سرویس ها مانند ایمیل صوتی، مدیریت کاربر و فکس"
 
-#: ../core/Api/Gql/Extensions.php:381 ../core/Api/Gql/Extensions.php:431
+#: ../core/Api/Gql/Extensions.php:349 ../core/Api/Gql/Extensions.php:399
+#: ../core/Api/Gql/Extensions.php:453
 msgid ""
 "Email address to use for services such as Voicemail, User Management and Fax."
 msgstr ""
@@ -4452,7 +4476,7 @@ msgstr ""
 msgid "Error"
 msgstr "خطا"
 
-#: ../core/Core.class.php:896
+#: ../core/Core.class.php:898
 msgid "Error Duplicate Channel Entry"
 msgstr "خطا کانال وارد شده تکراری است"
 
@@ -4492,7 +4516,7 @@ msgstr "خطا در ایجاد دایرکتوری موقت: %s"
 msgid "Error deleting directory %s (code %d)"
 msgstr "خطا حذف دایرکتوری %s (کد %d)"
 
-#: ../core/Core.class.php:804 ../core/page.trunks.php:328
+#: ../core/Core.class.php:806 ../core/page.trunks.php:328
 msgid "Error fetching prefix list for: "
 msgstr "خطا در دریافت فهرست پیش شماره ها برای: "
 
@@ -4711,8 +4735,8 @@ msgid "Extended"
 msgstr "تمدید شده"
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:261
-#: ../core/Core.class.php:3161 ../core/Core.class.php:3162
-#: ../core/Core.class.php:3547 ../core/functions.inc.php:4701
+#: ../core/Core.class.php:3163 ../core/Core.class.php:3164
+#: ../core/Core.class.php:3549 ../core/functions.inc.php:4701
 #: ../core/page.did.php:93 ../core/page.extensions.php:39
 #: ../core/page.extensions.php:132 ../core/page.extensions.php:160
 #: ../core/views/rnav.php:23
@@ -4726,6 +4750,10 @@ msgstr "محدودیت همزمانی داخلی"
 #: ../core/views/quickCreate.php:53
 msgid "Extension Number"
 msgstr "شماره داخلی"
+
+#: ../core/Api/Gql/Extensions.php:92
+msgid "Extension Number to be deleted"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Extensions.class.php:70
 msgid "Extension Numbering Duplicate Conflict Detected"
@@ -4743,39 +4771,39 @@ msgstr "داخلی در حال استفاده است!"
 msgid "Extension can not be blank!"
 msgstr "داخلی نمیتواند خالی باشد!"
 
-#: ../core/Api/Gql/Extensions.php:211
+#: ../core/Api/Gql/Extensions.php:179
 msgid "Extension does not exists"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:84 ../core/Api/Gql/Extensions.php:122
+#: ../core/Api/Gql/Extensions.php:68 ../core/Api/Gql/Extensions.php:102
 msgid "Extension does not exists."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:209
+#: ../core/Api/Gql/Extensions.php:177
 msgid "Extension found successfully"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:55
+#: ../core/Api/Gql/Extensions.php:49
 msgid "Extension has been created Successfully"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:126
+#: ../core/Api/Gql/Extensions.php:106
 msgid "Extension has been deleted"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:90
+#: ../core/Api/Gql/Extensions.php:80
 msgid "Extension has been updated"
 msgstr ""
 
-#: ../core/Core.class.php:3230
+#: ../core/Core.class.php:3232
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3233
+#: ../core/Core.class.php:3235
 msgid "Extension is not numeric."
 msgstr "داخلی شماره نیست."
 
-#: ../core/Core.class.php:3236
+#: ../core/Core.class.php:3238
 msgid "Extension name is blank."
 msgstr ""
 
@@ -4783,19 +4811,19 @@ msgstr ""
 msgid "Extension number conflict, please choose another."
 msgstr "مغایرت شماره داخلی، یکی دیگر انتخاب کنید."
 
-#: ../core/Core.class.php:210 ../core/Core.class.php:253
+#: ../core/Core.class.php:210 ../core/Core.class.php:255
 msgid "Extension was not numeric!"
 msgstr "داخلی شماره نیست!"
 
-#: ../core/Api/Gql/Extensions.php:190
+#: ../core/Api/Gql/Extensions.php:158
 msgid "Extension's found successfully"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:168
+#: ../core/Api/Gql/Extensions.php:136
 msgid "Extension's has been created Successfully"
 msgstr ""
 
-#: amp.i18n.php:888 ../core/Core.class.php:3140 ../core/Core.class.php:3141
+#: amp.i18n.php:888 ../core/Core.class.php:3142 ../core/Core.class.php:3143
 #: ../core/page.extensions.php:26
 msgid "Extensions"
 msgstr "داخلی ها"
@@ -4871,12 +4899,16 @@ msgstr ""
 msgid "Failed to create emergencydevices table"
 msgstr ""
 
+#: ../core/Api/Gql/Extensions.php:51
+msgid "Failed to create extension"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3177
 #, php-format
 msgid "Failed to get remote file, error was: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:436
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:438
 #, php-format
 msgid "Failed to get remote file, mirror site may be down: %s"
 msgstr "شکست در دریافت فایل خارجی، سایت پشتیبان در دسترس نیست: %s"
@@ -4915,7 +4947,7 @@ msgstr "شکست در اجرای اسکریپت های نصب"
 msgid "Failed to run un-installation scripts"
 msgstr "شکست در اجرای اسکریپت های عزل"
 
-#: ../core/Core.class.php:3776
+#: ../core/Core.class.php:3778
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -4944,11 +4976,11 @@ msgstr "شکست در نوشتن indications.conf"
 msgid "Fallback Welcome Page"
 msgstr "جانشین صفحه خوش آمد"
 
-#: ../core/Core.class.php:3858 ../core/Core.class.php:3865
+#: ../core/Core.class.php:3860 ../core/Core.class.php:3867
 msgid "Fast AGI Server not running"
 msgstr ""
 
-#: ../core/Core.class.php:3816
+#: ../core/Core.class.php:3818
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -5030,7 +5062,7 @@ msgstr ""
 "mapped to this user by default.<br><br>If selecting 'New User', a new User "
 "Extension of the same Device ID will be set as the Default User."
 
-#: ../core/Api/Gql/Extensions.php:266 ../core/Api/Gql/Extensions.php:283
+#: ../core/Api/Gql/Extensions.php:234 ../core/Api/Gql/Extensions.php:251
 msgid ""
 "Fixed devices will always mapped to this user. Adhoc devices will be mapped "
 "to this user by default."
@@ -5227,7 +5259,7 @@ msgstr "اجباری کردن استفاده از پورت بازگشتی."
 msgid "Forced"
 msgstr "اجباری"
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:448
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:450
 #, php-format
 msgid "Forced %s to true"
 msgstr "%s مجبور به درست شد"
@@ -5561,11 +5593,11 @@ msgstr ""
 "اختصاص یک نام منحصر به فرد به ترانک. مثل: myiaxtel. نکته این نام جهت زمینه "
 "ترانک در استریسک استفاده میشود"
 
-#: ../core/Api/Gql/Extensions.php:348
+#: ../core/Api/Gql/Extensions.php:316
 msgid "Give your Extension Starting Number"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:406
+#: ../core/Api/Gql/Extensions.php:374 ../core/Api/Gql/Extensions.php:428
 msgid ""
 "Give your Extension a unique integer ID. The Extension will use this ID to "
 "create Extension in the system"
@@ -5579,7 +5611,7 @@ msgstr ""
 "اختصاص یک شناسه عددی یکتا به وسیله. این وسیله توسط این شناسه در سیستم "
 "شناسایی میشود."
 
-#: ../core/Api/Gql/Extensions.php:242
+#: ../core/Api/Gql/Extensions.php:210
 msgid ""
 "Give your device a unique integer ID. The device will use this ID to "
 "authenticate to the system"
@@ -6059,11 +6091,11 @@ msgstr ""
 "username and password. Leaving either (or both) blank disables Proxy "
 "Authentication"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:132
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:141
 msgid "If you want to download and install"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:149
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:158
 msgid "If you want to remove the module"
 msgstr ""
 
@@ -6193,7 +6225,7 @@ msgstr "تماس های خارجی ورودی"
 msgid "Inbound Internal Calls"
 msgstr "تماس های داخلی ورودی"
 
-#: ../core/Core.class.php:3601 ../core/Core.class.php:3610
+#: ../core/Core.class.php:3603 ../core/Core.class.php:3612
 msgid "Inbound Route:"
 msgstr "مسیر ورودی:"
 
@@ -6223,7 +6255,7 @@ msgstr "شامل نام سرور در مرورگر"
 msgid "Incoming"
 msgstr "ورودی"
 
-#: ../core/Core.class.php:3198 ../core/Core.class.php:3199
+#: ../core/Core.class.php:3200 ../core/Core.class.php:3201
 msgid "Incoming DID"
 msgstr "داخلی مستقیم ورودی"
 
@@ -6435,7 +6467,7 @@ msgstr "توضیحات نامعتبر"
 msgid "Invalid email address"
 msgstr "آدرس ایمیل نامعتبر"
 
-#: ../core/Core.class.php:808 ../core/page.trunks.php:333
+#: ../core/Core.class.php:810 ../core/page.trunks.php:333
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "فرمت کد NPA-NXX نادرست است (فرمت درست:NXXNXX)"
 
@@ -6545,7 +6577,7 @@ msgstr ""
 msgid "Launch local AGIs through FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:3858
+#: ../core/Core.class.php:3860
 #, php-format
 msgid ""
 "Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
@@ -6850,8 +6882,8 @@ msgstr "محدودیت مموری تغییر کرد"
 msgid "Message Context"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:316
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:320
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:337
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:341
 msgid "Message for the request"
 msgstr ""
 
@@ -7153,7 +7185,7 @@ msgstr "ماژول یافت نشد"
 msgid "Module Not Installed"
 msgstr "ماژول نصب نشده است"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:268
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:289
 msgid "Module Status"
 msgstr ""
 
@@ -7186,23 +7218,23 @@ msgstr ""
 msgid "Module is Unsigned"
 msgstr "ماژول تایید نشده"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:128
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:137
 msgid "Module name on which you want to perform  install action on"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:158
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:167
 msgid "Module name on which you want to perform action on"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:115
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:124
 msgid "Module name on which you want to perform any action"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:145
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:154
 msgid "Module name on which you want to perform uninstall action on"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:171
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:180
 msgid "Module name on which you want to perform upgrade"
 msgstr ""
 
@@ -7223,11 +7255,11 @@ msgstr "ماژول نصب نشده: نمیتواند عزل شود"
 msgid "Module signature expired"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:357
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:378
 msgid "Module status"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:215
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:224
 msgid "Module status found successfully"
 msgstr ""
 
@@ -7398,7 +7430,7 @@ msgstr "نکته! شما %s هشدارد دارید! برای مشاهده به 
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:35
-#: ../core/Core.class.php:3166 ../core/Core.class.php:3167
+#: ../core/Core.class.php:3168 ../core/Core.class.php:3169
 #: ../core/page.extensions.php:40 ../core/page.extensions.php:133
 #: ../core/page.extensions.php:161 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -7770,7 +7802,7 @@ msgstr "راهنمای هشدارها"
 msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr "تعداد دفعاتی که تماس گیرنده میتواند شناسه تماس را وارد کند"
 
-#: ../core/Api/Gql/Extensions.php:360
+#: ../core/Api/Gql/Extensions.php:328
 msgid "Number of extensions you want to create."
 msgstr ""
 
@@ -7906,9 +7938,13 @@ msgstr "پنل اپراتور"
 msgid "Optional Additional CSS Stylesheet"
 msgstr "گزینه CSS اضافه"
 
-#: ../core/functions.inc.php:4914
+#: ../core/Api/Gql/Users.php:182 ../core/functions.inc.php:4914
 msgid "Optional CID Prefix to add before sending to this busy destination."
 msgstr "Optional  CID Prefix to add before sending to this busy destination."
+
+#: ../core/Api/Gql/Users.php:175
+msgid "Optional CID Prefix to add before sending to this no answer destination"
+msgstr ""
 
 #: ../core/functions.inc.php:4905
 msgid ""
@@ -7916,7 +7952,7 @@ msgid ""
 msgstr ""
 "Optional CID Prefix to  add before sending to this no answer destination."
 
-#: ../core/functions.inc.php:4919
+#: ../core/Api/Gql/Users.php:189 ../core/functions.inc.php:4919
 msgid ""
 "Optional CID Prefix to add before sending to this not reachable destination."
 msgstr ""
@@ -7950,6 +7986,13 @@ msgstr ""
 "Optional  custom CSS style sheet included after the primary one and any "
 "module specific ones are loaded, relative to admin."
 
+#: ../core/Api/Gql/Users.php:196
+msgid ""
+"Optional destination call is routed to when the call is not answered on an "
+"otherwise idle phone. If the phone is in use and the call is simply ignored, "
+"then the busy destination will be used"
+msgstr ""
+
 #: ../core/functions.inc.php:4899
 msgid ""
 "Optional destination call is routed to when the call is not answered on an "
@@ -7972,7 +8015,7 @@ msgstr ""
 "Optional destination the call is routed to when the phone  is busy or the "
 "call is rejected by the user."
 
-#: ../core/functions.inc.php:4908
+#: ../core/Api/Gql/Users.php:203 ../core/functions.inc.php:4908
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user. This destination is also used on an unanswered "
@@ -7984,7 +8027,7 @@ msgstr ""
 "unanswered call if the phone is in use and the user chooses not to pickup "
 "the second call."
 
-#: ../core/functions.inc.php:4916
+#: ../core/Api/Gql/Users.php:210 ../core/functions.inc.php:4916
 msgid ""
 "Optional destination the call is routed to when the phone is offline, such "
 "as a softphone currently off or a phone unplugged."
@@ -8117,7 +8160,7 @@ msgstr "تماس های داخلی"
 msgid "Outbound Proxy"
 msgstr "پراکسی تماس خروجی"
 
-#: ../core/Core.class.php:3584
+#: ../core/Core.class.php:3586
 msgid "Outbound Route:"
 msgstr "مسیر تماس خروجی:"
 
@@ -8184,7 +8227,14 @@ msgstr ""
 msgid "Overrides Extension CID"
 msgstr "بازنویسی داخلی CID"
 
-#: ../core/Api/Gql/Extensions.php:368 ../core/Api/Gql/Extensions.php:422
+#: ../core/Api/Gql/Users.php:163
+msgid ""
+"Overrides the CallerID when dialing out a trunk. Any setting here will "
+"override the common outbound CallerID set in the Trunks admin."
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:336 ../core/Api/Gql/Extensions.php:390
+#: ../core/Api/Gql/Extensions.php:444
 msgid ""
 "Overrides the CallerID when dialing out a trunk. Any setting here will "
 "override the common outbound CallerID set in the Trunks admin.\n"
@@ -8249,7 +8299,7 @@ msgstr "منطقه زمانی PHP"
 msgid "PJSIP Settings"
 msgstr "تنظیمات PJSIP"
 
-#: ../core/Core.class.php:3844
+#: ../core/Core.class.php:3846
 msgid "PM2 Not installed"
 msgstr ""
 
@@ -8386,6 +8436,10 @@ msgstr "راهنمای الگو"
 #: ../core/views/did/advanced_form.php:401 ../core/views/did/basic_form.php:222
 msgid "Pause Before Answer"
 msgstr "وقفه قبل از پاسخ"
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:197
+msgid "Performed Module operation status"
+msgstr ""
 
 #: ../core/views/trunks/pjsip.php:325
 msgid "Permanent Auth Rejection"
@@ -8547,6 +8601,11 @@ msgstr "لطفا شماره داخلی معتبر وارد کنید."
 #: ../core/functions.inc.php:4718
 msgid "Please enter a valid pause time in seconds, using digits only"
 msgstr "لطفا یک زمان وقفه درست بر اساس ثانیه وارد کنید، فقط عددی"
+
+#: ../core/Api/Gql/Extensions.php:36 ../core/Api/Gql/Extensions.php:64
+#: ../core/Api/Gql/Extensions.php:98
+msgid "Please enter only numeric values"
+msgstr ""
 
 #: ../core/functions.inc.php:5104
 #: ../core/functions.inc/drivers/Dahdi.class.php:100
@@ -8839,7 +8898,7 @@ msgstr "RTP  Symmetric"
 msgid "RTP Timeout"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:272
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:293
 msgid "Raw name of the module"
 msgstr ""
 
@@ -9118,10 +9177,10 @@ msgstr "Requires one of the  following engines: %s; you have: %s"
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:771
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:48
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:527
-#: ../core/Components/Dahdichannels.php:21 ../core/Core.class.php:311
-#: ../core/Core.class.php:334 ../core/Core.class.php:358
-#: ../core/Core.class.php:377 ../core/Core.class.php:398
-#: ../core/Core.class.php:428 ../core/Core.class.php:458
+#: ../core/Components/Dahdichannels.php:21 ../core/Core.class.php:313
+#: ../core/Core.class.php:336 ../core/Core.class.php:360
+#: ../core/Core.class.php:379 ../core/Core.class.php:400
+#: ../core/Core.class.php:430 ../core/Core.class.php:460
 msgid "Reset"
 msgstr "بازگردانی"
 
@@ -9270,7 +9329,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "هشدار امنیتی:"
 
-#: ../core/Core.class.php:3524 ../core/Core.class.php:3525
+#: ../core/Core.class.php:3526 ../core/Core.class.php:3527
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP  (%s)"
@@ -10043,15 +10102,15 @@ msgstr ""
 msgid "Some of these settings can render your system inoperable."
 msgstr "Some of these  settings can render your system inoperable."
 
-#: ../core/Api/Gql/Extensions.php:92
+#: ../core/Api/Gql/Extensions.php:82
 msgid "Sorry could not update the extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:217
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:226
 msgid "Sorry, Unable to fetch the module status"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:192
+#: ../core/Api/Gql/Extensions.php:160
 msgid "Sorry, unable to find any extensions"
 msgstr ""
 
@@ -10118,7 +10177,7 @@ msgstr "استاندارد"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "آغاز استریسک و اجرای دستورات لازم FreePBX"
 
-#: ../core/Core.class.php:3771
+#: ../core/Core.class.php:3773
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -10131,7 +10190,7 @@ msgstr "استریسک در حال اجرا..."
 msgid "Starting Cache cleanup"
 msgstr "شروع پاک سازی کش"
 
-#: ../core/Core.class.php:3730
+#: ../core/Core.class.php:3732
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -10145,11 +10204,11 @@ msgstr "وضعیت"
 msgid "Stop Asterisk and run other needed FreePBX commands"
 msgstr "توقف استریسک و اجرای دستورات لازم FreePBX"
 
-#: ../core/Core.class.php:3812
+#: ../core/Core.class.php:3814
 msgid "Stopped FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:3803
+#: ../core/Core.class.php:3805
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -10170,10 +10229,10 @@ msgid "Styling and Logos"
 msgstr "چیدمان و لوگوها"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:770
-#: ../core/Components/Dahdichannels.php:26 ../core/Core.class.php:316
-#: ../core/Core.class.php:339 ../core/Core.class.php:363
-#: ../core/Core.class.php:382 ../core/Core.class.php:403
-#: ../core/Core.class.php:433 ../core/Core.class.php:463
+#: ../core/Components/Dahdichannels.php:26 ../core/Core.class.php:318
+#: ../core/Core.class.php:341 ../core/Core.class.php:365
+#: ../core/Core.class.php:384 ../core/Core.class.php:405
+#: ../core/Core.class.php:435 ../core/Core.class.php:465
 msgid "Submit"
 msgstr "ارسال"
 
@@ -10204,7 +10263,7 @@ msgstr ""
 msgid "Support T.38 UDPTL"
 msgstr "Support T.38  UDPTL"
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1424
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1426
 msgid "Supported Asterisk versions:"
 msgstr ""
 
@@ -10395,7 +10454,8 @@ msgstr "فن آوری"
 msgid "Tech Type"
 msgstr "نوع فن آوری"
 
-#: ../core/Api/Gql/Extensions.php:356 ../core/Api/Gql/Extensions.php:410
+#: ../core/Api/Gql/Extensions.php:324 ../core/Api/Gql/Extensions.php:378
+#: ../core/Api/Gql/Extensions.php:432
 msgid "Technology driver type"
 msgstr ""
 
@@ -10443,14 +10503,14 @@ msgstr ""
 "for call recording you may not be able to record calls until the module is "
 "installed and enabled."
 
-#: ../core/Api/Gql/Extensions.php:352
+#: ../core/Api/Gql/Extensions.php:320
 msgid ""
 "The CallerID name , a name which you want to append along with the extension "
 "number."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:418 ../core/functions.inc.php:4771
-#: ../core/views/quickCreate.php:93
+#: ../core/Api/Gql/Extensions.php:386 ../core/Api/Gql/Extensions.php:440
+#: ../core/functions.inc.php:4771 ../core/views/quickCreate.php:93
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
@@ -10529,7 +10589,7 @@ msgstr ""
 "older chan_sip.</li><li>inband - DTMF is sent as part of audio stream.</"
 "li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
 
-#: ../core/Api/Gql/Extensions.php:202
+#: ../core/Api/Gql/Extensions.php:170
 msgid "The ExtensionId to fetch"
 msgstr ""
 
@@ -10634,7 +10694,7 @@ msgid ""
 "the CLI."
 msgstr ""
 
-#: ../core/Core.class.php:3207
+#: ../core/Core.class.php:3209
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -10823,64 +10883,64 @@ msgstr "محل مجوز استریسک"
 msgid "The module appears to be valid but is not currently installed"
 msgstr "The module appears  to be valid but is not currently installed"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:312
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:333
 msgid "The module category in FreePBX UI"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:377
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:398
 msgid "The module is broken"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:365
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:386
 msgid "The module is disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:369
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:390
 msgid "The module is enabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:361
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:382
 msgid "The module is not installed"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:304
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:325
 msgid "The module license information url "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:300
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:321
 msgid "The module license type "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:373
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:394
 msgid "The module needs to be upgraded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:296
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:317
 msgid "The module publisher name "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:209
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:218
 msgid "The module rawname"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:308
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:329
 msgid "The module release changelog "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:288
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:292
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:309
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:313
 msgid "The module release version "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:276
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:297
 msgid "The module repository information"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:284
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:305
 msgid "The module user friendly display name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:280
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:301
 msgid "The module user friendly name "
 msgstr ""
 
@@ -11097,7 +11157,7 @@ msgid ""
 "issue a reload to remove this message"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:449
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:451
 #, php-format
 msgid ""
 "The system detected a problem trying to access external server data and "
@@ -11269,7 +11329,7 @@ msgid ""
 "greater than post_max_size {"
 msgstr ""
 
-#: ../core/Core.class.php:225
+#: ../core/Core.class.php:227
 msgid "There was an unknown error creating this extension"
 msgstr ""
 
@@ -11317,7 +11377,8 @@ msgstr ""
 "This CallerID will always  be set when dialing out an Outbound Route flagged "
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
 
-#: ../core/Api/Gql/Extensions.php:377 ../core/Api/Gql/Extensions.php:427
+#: ../core/Api/Gql/Extensions.php:345 ../core/Api/Gql/Extensions.php:395
+#: ../core/Api/Gql/Extensions.php:449
 msgid ""
 "This CallerID will always be set when dialing out an Outbound Route flagged "
 "as Emergency. The Emergency CID overrides all other CallerID settings."
@@ -11337,8 +11398,8 @@ msgid ""
 "settings"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:57 ../core/Api/Gql/Extensions.php:170
-#: ../core/Core.class.php:1427 ../core/Core.class.php:1640
+#: ../core/Api/Gql/Extensions.php:40 ../core/Api/Gql/Extensions.php:138
+#: ../core/Core.class.php:1429 ../core/Core.class.php:1642
 msgid "This device id is already in use"
 msgstr "شناسه وسیله در حال استفاده است"
 
@@ -11603,7 +11664,7 @@ msgstr ""
 "This trunk will not be able to be used for  outbound calls until a route is "
 "setup that uses it."
 
-#: ../core/Core.class.php:2716
+#: ../core/Core.class.php:2718
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "کاربر/داخلی %s در حال استفاده است"
@@ -11772,8 +11833,8 @@ msgstr ""
 msgid "Track"
 msgstr "مسیر"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:136
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:162
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:145
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:171
 msgid "Track module (edge/stable) "
 msgstr ""
 
@@ -11803,7 +11864,7 @@ msgstr "نام ترانک و متن کاربر نمیتواند یکی باشد"
 msgid "Trunk Sequence for Matched Routes"
 msgstr "توالی ترانک برای مسیرهای یکسان"
 
-#: ../core/Core.class.php:3592
+#: ../core/Core.class.php:3594
 msgid "Trunk:"
 msgstr "ترانک:"
 
@@ -11891,13 +11952,13 @@ msgstr "جزییات کاربر"
 msgid "UTC"
 msgstr ""
 
-#: ../core/Core.class.php:1575
+#: ../core/Core.class.php:1577
 msgid ""
 "Unable to change device driver. The device is already set to the specified "
 "driver"
 msgstr ""
 
-#: ../core/Core.class.php:1569
+#: ../core/Core.class.php:1571
 msgid "Unable to change device driver. Unable to fetch the device"
 msgstr ""
 
@@ -12177,7 +12238,7 @@ msgstr "نیاز به به روزرسانی"
 msgid "Update System"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:63
+#: ../core/Api/Gql/Extensions.php:57
 msgid "Update an Extension in Core"
 msgstr ""
 
@@ -12405,7 +12466,7 @@ msgstr ""
 "Used when  PHP Console is enabled for error debugging https://github.com/"
 "barbushin/php-console"
 
-#: ../core/Core.class.php:3571 ../core/functions.inc.php:4703
+#: ../core/Core.class.php:3573 ../core/functions.inc.php:4703
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -12460,19 +12521,22 @@ msgstr "پنل کاربر"
 msgid "User Password"
 msgstr "کلمه عبور کاربر"
 
-#: ../core/Api/Gql/Extensions.php:393 ../core/Api/Gql/Extensions.php:451
+#: ../core/Api/Gql/Extensions.php:361 ../core/Api/Gql/Extensions.php:419
+#: ../core/Api/Gql/Extensions.php:473
 msgid "User caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:3319
+#: ../core/Core.class.php:3321
 msgid "User could not be added."
 msgstr "امکان افزودن کاربروجود ندارد."
 
-#: ../core/Api/Gql/Extensions.php:364 ../core/Api/Gql/Extensions.php:435
+#: ../core/Api/Gql/Extensions.php:332 ../core/Api/Gql/Extensions.php:403
+#: ../core/Api/Gql/Extensions.php:457
 msgid "Usermanagment enable yes/no."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:373 ../core/Api/Gql/Extensions.php:439
+#: ../core/Api/Gql/Extensions.php:341 ../core/Api/Gql/Extensions.php:407
+#: ../core/Api/Gql/Extensions.php:461
 msgid "Usermanagment groupid. (comma seperated)"
 msgstr ""
 
@@ -12622,11 +12686,13 @@ msgstr "صندوق صوتی"
 msgid "Voicemail Extension"
 msgstr "داخلی صندوق صوتی"
 
-#: ../core/Api/Gql/Extensions.php:385 ../core/Api/Gql/Extensions.php:443
+#: ../core/Api/Gql/Extensions.php:353 ../core/Api/Gql/Extensions.php:411
+#: ../core/Api/Gql/Extensions.php:465
 msgid "Voicemail enable yes/no."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:389 ../core/Api/Gql/Extensions.php:447
+#: ../core/Api/Gql/Extensions.php:357 ../core/Api/Gql/Extensions.php:415
+#: ../core/Api/Gql/Extensions.php:469
 msgid "Voicemail password"
 msgstr ""
 
@@ -12765,7 +12831,7 @@ msgstr "خوش آمدید به %s"
 msgid "Welcome to %s!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1073
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1075
 msgid "What Does this Mean?"
 msgstr "این به چه معنی است؟"
 
@@ -13443,7 +13509,7 @@ msgstr "You must  defined a Client URI"
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "شما باید یک فایل freepbx.conf مناسب برای اجرا داشته باشید"
 
-#: ../core/Core.class.php:2709
+#: ../core/Core.class.php:2711
 msgid "You must put in an extension (or user) number"
 msgstr "شما باید شماره یک داخلی (یا کاربر) وارد کنید"
 
