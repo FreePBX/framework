@@ -269,7 +269,7 @@ if($online) {
 																			<?php default:?>
 																				<a href="<?php echo $module['commercial']['purchaselink']?>" class="btn btn-primary" target="_new"><?php echo _('Learn More')?></a>
 
-<?php if (\FreePBX::Modules()->checkStatus('sysadmin') && function_exists(sysadmin_get_buyurl)) {
+<?php if (\FreePBX::Modules()->checkStatus('sysadmin') && function_exists('sysadmin_get_buyurl')) {
         $buyurl = sysadmin_get_buyurl($module['commercial']['purchaselink']);
 } else {
         $buyurl = $module['commercial']['purchaselink'];
