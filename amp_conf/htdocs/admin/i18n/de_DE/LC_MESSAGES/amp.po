@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMP VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-21 05:08+0000\n"
+"POT-Creation-Date: 2021-01-22 04:14+0000\n"
 "PO-Revision-Date: 2018-10-19 20:00+0000\n"
 "Last-Translator: Bastian Mertgen <b.mertgen@bastian-mertgen.de>\n"
 "Language-Team: German <http://*/projects/freepbx/framework/de/>\n"
@@ -208,7 +208,7 @@ msgstr "%s Geräte"
 msgid "%s Extensions"
 msgstr "%s Nebenstellen"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:369
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:383
 #, php-format
 msgid "%s Likely will not work as expected"
 msgstr "%s voraussichtlich wird es nicht wie erwartet arbeiten"
@@ -531,9 +531,10 @@ msgstr ""
 "%s immer noch mit ihrem Browser nutzen, jedoch wird dies nicht unterstützt "
 "und kann zu einem reduzierten Funktionsumfang führen"
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:402
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:437
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:474
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:211
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:416
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:451
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:488
 #, php-format
 msgid "%s skipped by configuration"
 msgstr "%s durch die Konfiguration übersprungen"
@@ -3744,7 +3745,7 @@ msgstr ""
 msgid "Don't know about modules yet. It needs to be handed to me"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:203
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:216
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:182
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:324
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:337
@@ -8028,7 +8029,7 @@ msgid ""
 "Permissions error on file %s - please re-run as root to automatically repair"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:370
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:384
 #, php-format
 msgid ""
 "Permissions should be set with a leading 0, example 644 should be 0644 File: "
@@ -9314,7 +9315,7 @@ msgstr ""
 msgid "Setting sbin to the correct location of: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:206
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:219
 msgid "Setting specific permissions..."
 msgstr ""
 
@@ -11231,7 +11232,7 @@ msgid ""
 "of fwconsole"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:270
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:283
 #, php-format
 msgid ""
 "Unable to find permissions for %s, is this owned by the PBX? Did you set an "
@@ -12983,6 +12984,11 @@ msgid ""
 "htaccess files help protect the integrity of your server. Please make sure "
 "file paths and directories are locked down properly. For more information "
 "see: %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:216
+#, php-format
+msgid "in %d seconds"
 msgstr ""
 
 #: ../core/assets/js/trunks/trunks.js:239
