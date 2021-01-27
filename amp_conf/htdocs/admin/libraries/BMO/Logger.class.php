@@ -222,7 +222,7 @@ class Logger {
 			}
 		}
 
-		$dateFormat = "Y-M-d H:i:s";
+		$dateFormat = "Y-m-d H:i:s";
 		$output = "[%datetime%] [%channel%.%level_name%]: %message% %context% %extra%\n";
 		$formatter = new Mono\Formatter\LineFormatter($output, $dateFormat, $allowInlineLineBreaks);
 		$stream->setFormatter($formatter);
