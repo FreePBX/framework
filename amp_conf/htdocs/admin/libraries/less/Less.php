@@ -7866,7 +7866,7 @@ class Less_Tree_Mixin_Call extends Less_Tree{
 			} else {
 				$defaultResult = $defTrue;
 				if( ($count[$defTrue] + $count[$defFalse]) > 1 ){
-					throw new Exception( 'Ambiguous use of `default()` found when matching for `'. $this->format($args) + '`' );
+					throw new Exception( 'Ambiguous use of `default()` found when matching for `'. $this->format($args) . '`' );
 				}
 			}
 
