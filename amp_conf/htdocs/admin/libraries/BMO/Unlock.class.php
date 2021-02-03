@@ -87,7 +87,7 @@ class Unlock extends FreePBX_Helpers {
 
 		$_SESSION["AMP_user"] = new \ampuser('admin');
 		$_SESSION["AMP_user"]->setAdmin();
-		define('FREEPBX_IS_AUTH', 'TRUE');
+		if (!defined('FREEPBX_IS_AUTH')) define('FREEPBX_IS_AUTH', 'TRUE');
 
 		return true;
 	}
