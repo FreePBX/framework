@@ -847,9 +847,9 @@ class Reload extends Command {
 
 			if ($exit_val != 0) {
 				$desc = sprintf(_("Exit code was %s and output was: %s"), $exit_val, "\n\n".implode("\n",$output));
-				$notify->add_error('freepbx','reload_post_script', sprintf(_('Could not run %s script.'), $setting_post_reload), $desc);
+				$this->freepbx->Notifications->add_error('freepbx','reload_post_script', sprintf(_('Could not run %s script.'), $setting_post_reload), $desc);
 			} else {
-				$notify->delete('freepbx', 'reload_post_script');
+				$this->freepbx->Notifications->delete('freepbx', 'reload_post_script');
 			}
 		}
 	}
