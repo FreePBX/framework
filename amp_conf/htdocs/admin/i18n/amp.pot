@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-22 04:14+0000\n"
+"POT-Creation-Date: 2021-02-03 08:59+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -521,14 +521,14 @@ msgstr ""
 msgid "%s will be removed from the hard disk"
 msgstr ""
 
-#: ../core/Core.class.php:3846
+#: ../core/Core.class.php:3862
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
 "result all AGIs will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: ../core/Core.class.php:3867
+#: ../core/Core.class.php:3883
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but the FastAGI server was unable to start, As a result all AGIs will be "
@@ -714,7 +714,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr ""
 
-#: ../core/Core.class.php:2734
+#: ../core/Core.class.php:2750
 #: ../core/functions.inc.php:4222
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
@@ -1034,6 +1034,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/obe.php:30
 #: amp_conf/htdocs/admin/views/oobe.php:44
 msgid "Admin password"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:166
+msgid "Admin user already exists"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:20
@@ -1542,6 +1546,14 @@ msgid ""
 "credentials and apply any restrictions as if it were in database mode."
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:98
+msgid "Authomatic Module Security updates Email address(enabled,disabled)"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:94
+msgid "Authomatic module updates(enabled,disabled,emailonly"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Localization.class.php:39
 #, php-format
 msgid ""
@@ -1906,11 +1918,11 @@ msgstr ""
 msgid "Call successful"
 msgstr ""
 
-#: ../core/Core.class.php:3204
+#: ../core/Core.class.php:3220
 msgid "Caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:3205
+#: ../core/Core.class.php:3221
 msgid "Caller ID Number"
 msgstr ""
 
@@ -2180,6 +2192,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:109
 #: amp_conf/htdocs/admin/views/oobe.php:204
 msgid "Check for Updates every"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:106
+msgid ""
+"Check for update on Every day (monday,tuesday,wednesday,thursday,friday,"
+"saterday,sunday)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:254
@@ -2524,12 +2542,12 @@ msgstr ""
 msgid "Core"
 msgstr ""
 
-#: ../core/Core.class.php:3726
+#: ../core/Core.class.php:3742
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:3799
+#: ../core/Core.class.php:3815
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -2836,7 +2854,7 @@ msgstr ""
 msgid "DID Number"
 msgstr ""
 
-#: ../core/Core.class.php:3345
+#: ../core/Core.class.php:3361
 msgid "DID already exists"
 msgstr ""
 
@@ -2844,11 +2862,11 @@ msgstr ""
 msgid "DID/CID"
 msgstr ""
 
-#: ../core/Core.class.php:3146
+#: ../core/Core.class.php:3162
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:3147
+#: ../core/Core.class.php:3163
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
@@ -3210,10 +3228,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:231
-#: ../core/Core.class.php:3172
-#: ../core/Core.class.php:3173
-#: ../core/Core.class.php:3196
-#: ../core/Core.class.php:3197
+#: ../core/Core.class.php:3188
+#: ../core/Core.class.php:3189
+#: ../core/Core.class.php:3212
+#: ../core/Core.class.php:3213
 #: ../core/functions.inc.php:5089
 #: ../core/page.devices.php:66
 #: ../core/page.devices.php:87
@@ -3230,7 +3248,7 @@ msgstr ""
 msgid "Descriptive Name for this Trunk"
 msgstr ""
 
-#: ../core/Core.class.php:3208
+#: ../core/Core.class.php:3224
 #: ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr ""
@@ -3351,7 +3369,7 @@ msgstr ""
 msgid "Developer and Customization"
 msgstr ""
 
-#: ../core/Core.class.php:3561
+#: ../core/Core.class.php:3577
 #: ../core/functions.inc.php:5032
 #: ../core/page.devices.php:65
 #: ../core/page.devices.php:86
@@ -3369,7 +3387,7 @@ msgid "Device & User Hints Issue"
 msgstr ""
 
 #: ../core/Core.class.php:1422
-#: ../core/Core.class.php:1635
+#: ../core/Core.class.php:1651
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
@@ -3390,8 +3408,8 @@ msgstr ""
 msgid "Device State Busy at"
 msgstr ""
 
-#: ../core/Core.class.php:3176
-#: ../core/Core.class.php:3177
+#: ../core/Core.class.php:3192
+#: ../core/Core.class.php:3193
 msgid "Device Technology"
 msgstr ""
 
@@ -3401,7 +3419,7 @@ msgstr ""
 msgid "Device Type"
 msgstr ""
 
-#: ../core/Core.class.php:3294
+#: ../core/Core.class.php:3310
 msgid "Device could not be added."
 msgstr ""
 
@@ -4563,9 +4581,9 @@ msgid "Extended"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:261
-#: ../core/Core.class.php:3163
-#: ../core/Core.class.php:3164
-#: ../core/Core.class.php:3549
+#: ../core/Core.class.php:3179
+#: ../core/Core.class.php:3180
+#: ../core/Core.class.php:3565
 #: ../core/functions.inc.php:4701
 #: ../core/page.did.php:93
 #: ../core/page.extensions.php:39
@@ -4628,15 +4646,15 @@ msgstr ""
 msgid "Extension has been updated"
 msgstr ""
 
-#: ../core/Core.class.php:3232
+#: ../core/Core.class.php:3248
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3235
+#: ../core/Core.class.php:3251
 msgid "Extension is not numeric."
 msgstr ""
 
-#: ../core/Core.class.php:3238
+#: ../core/Core.class.php:3254
 msgid "Extension name is blank."
 msgstr ""
 
@@ -4658,8 +4676,8 @@ msgid "Extension's has been created Successfully"
 msgstr ""
 
 #: amp.i18n.php:888
-#: ../core/Core.class.php:3142
-#: ../core/Core.class.php:3143
+#: ../core/Core.class.php:3158
+#: ../core/Core.class.php:3159
 #: ../core/page.extensions.php:26
 msgid "Extensions"
 msgstr ""
@@ -4782,7 +4800,7 @@ msgstr ""
 msgid "Failed to run un-installation scripts"
 msgstr ""
 
-#: ../core/Core.class.php:3778
+#: ../core/Core.class.php:3794
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -4811,12 +4829,12 @@ msgstr ""
 msgid "Fallback Welcome Page"
 msgstr ""
 
-#: ../core/Core.class.php:3860
-#: ../core/Core.class.php:3867
+#: ../core/Core.class.php:3876
+#: ../core/Core.class.php:3883
 msgid "Fast AGI Server not running"
 msgstr ""
 
-#: ../core/Core.class.php:3818
+#: ../core/Core.class.php:3834
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -5933,8 +5951,8 @@ msgstr ""
 msgid "Inbound Internal Calls"
 msgstr ""
 
-#: ../core/Core.class.php:3603
-#: ../core/Core.class.php:3612
+#: ../core/Core.class.php:3619
+#: ../core/Core.class.php:3628
 msgid "Inbound Route:"
 msgstr ""
 
@@ -5965,8 +5983,8 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: ../core/Core.class.php:3200
-#: ../core/Core.class.php:3201
+#: ../core/Core.class.php:3216
+#: ../core/Core.class.php:3217
 msgid "Incoming DID"
 msgstr ""
 
@@ -5990,6 +6008,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/oobe.php:40
 msgid "Initial Setup"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:178
+msgid "Initial Setup is completed"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:8
@@ -6285,7 +6307,7 @@ msgstr ""
 msgid "Launch local AGIs through FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:3860
+#: ../core/Core.class.php:3876
 #, php-format
 msgid ""
 "Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
@@ -6591,6 +6613,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:337
 #: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:341
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:210
 msgid "Message for the request"
 msgstr ""
 
@@ -7099,8 +7122,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:35
-#: ../core/Core.class.php:3168
-#: ../core/Core.class.php:3169
+#: ../core/Core.class.php:3184
+#: ../core/Core.class.php:3185
 #: ../core/page.extensions.php:40
 #: ../core/page.extensions.php:133
 #: ../core/page.extensions.php:161
@@ -7440,6 +7463,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/tab-summary.php:27
 #, php-format
 msgid "Notice: System Upgrade (%s) available!"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:86
+msgid "Notification Email address"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Mail.class.php:63
@@ -7788,7 +7815,7 @@ msgstr ""
 msgid "Outbound Proxy"
 msgstr ""
 
-#: ../core/Core.class.php:3586
+#: ../core/Core.class.php:3602
 msgid "Outbound Route:"
 msgstr ""
 
@@ -7880,6 +7907,14 @@ msgid ""
 "field blank to disable the outbound CallerID feature for this user."
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:82
+msgid "PBX GUI administrator password"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:78
+msgid "PBX GUI administrator username"
+msgstr ""
+
 #: ../core/views/trunks/sip.php:77
 msgid "PEER Details"
 msgstr ""
@@ -7924,7 +7959,7 @@ msgstr ""
 msgid "PJSIP Settings"
 msgstr ""
 
-#: ../core/Core.class.php:3846
+#: ../core/Core.class.php:3862
 msgid "PM2 Not installed"
 msgstr ""
 
@@ -8539,7 +8574,7 @@ msgstr ""
 msgid "Read module information"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:13
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:17
 #: amp_conf/htdocs/admin/libraries/Api/Rest/System.php:10
 msgid "Read system information"
 msgstr ""
@@ -8931,8 +8966,8 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr ""
 
-#: ../core/Core.class.php:3526
-#: ../core/Core.class.php:3527
+#: ../core/Core.class.php:3542
+#: ../core/Core.class.php:3543
 #, php-format
 msgid "SIP (%s)"
 msgstr ""
@@ -9210,6 +9245,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:97
 #: amp_conf/htdocs/admin/views/oobe.php:189
 msgid "Send Security Emails For Unsigned Modules"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:102
+msgid "Send Security Emails for Unsigned Modules(enabled,disabled)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:75
@@ -9696,7 +9735,7 @@ msgstr ""
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: ../core/Core.class.php:3773
+#: ../core/Core.class.php:3789
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -9709,7 +9748,7 @@ msgstr ""
 msgid "Starting Cache cleanup"
 msgstr ""
 
-#: ../core/Core.class.php:3732
+#: ../core/Core.class.php:3748
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -9719,15 +9758,19 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:214
+msgid "Status for the request"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:17
 msgid "Stop Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: ../core/Core.class.php:3814
+#: ../core/Core.class.php:3830
 msgid "Stopped FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:3805
+#: ../core/Core.class.php:3821
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -9852,6 +9895,7 @@ msgid "System Identifier:"
 msgstr ""
 
 #: amp.i18n.php:834
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:90
 msgid "System Identity"
 msgstr ""
 
@@ -10179,7 +10223,7 @@ msgid ""
 "the CLI."
 msgstr ""
 
-#: ../core/Core.class.php:3209
+#: ../core/Core.class.php:3225
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -10808,7 +10852,7 @@ msgstr ""
 #: ../core/Api/Gql/Extensions.php:40
 #: ../core/Api/Gql/Extensions.php:138
 #: ../core/Core.class.php:1429
-#: ../core/Core.class.php:1642
+#: ../core/Core.class.php:1658
 msgid "This device id is already in use"
 msgstr ""
 
@@ -11013,9 +11057,13 @@ msgid ""
 "setup that uses it."
 msgstr ""
 
-#: ../core/Core.class.php:2718
+#: ../core/Core.class.php:2734
 #, php-format
 msgid "This user/extension %s is already in use"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:36
+msgid "This will Set the Administator Auth credentials"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:139
@@ -11195,7 +11243,7 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr ""
 
-#: ../core/Core.class.php:3594
+#: ../core/Core.class.php:3610
 msgid "Trunk:"
 msgstr ""
 
@@ -11572,6 +11620,10 @@ msgstr ""
 msgid "Update System"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:20
+msgid "Update System Informations"
+msgstr ""
+
 #: ../core/Api/Gql/Extensions.php:57
 msgid "Update an Extension in Core"
 msgstr ""
@@ -11582,6 +11634,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/footer.php:257
 msgid "Update my browser now"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:110
+msgid "Update sytem time(0to4,4to8,8to12,12to16,16to20,20to0)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:24
@@ -11782,7 +11838,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:3573
+#: ../core/Core.class.php:3589
 #: ../core/functions.inc.php:4703
 #: ../core/page.devices.php:68
 #: ../core/page.devices.php:89
@@ -11848,7 +11904,7 @@ msgstr ""
 msgid "User caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:3321
+#: ../core/Core.class.php:3337
 msgid "User could not be added."
 msgstr ""
 
@@ -12697,7 +12753,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:2711
+#: ../core/Core.class.php:2727
 msgid "You must put in an extension (or user) number"
 msgstr ""
 
