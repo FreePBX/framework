@@ -2761,7 +2761,7 @@ class module_functions {
 		return "";
 	}
 
-	private function get_machine_id() {
+	public function get_machine_id() {
 		switch(PHP_OS) {
 			case 'FreeBSD';
 				$result = shell_exec('kenv -q smbios.system.uuid');
