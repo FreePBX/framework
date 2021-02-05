@@ -4,6 +4,7 @@ use FreePBX\modules\Backup as Base;
 class Restore Extends Base\RestoreBase{
 	public function runRestore(){
 		$configs = $this->getConfigs();
+		$backupinfo = $this->getBackupInfo();
 		$sql = "UPDATE IGNORE freepbx_settings SET `value` = :value WHERE `keyword` = :keyword AND `module` = ''";
 		$sth = $this->FreePBX->Database->prepare($sql);
 		//check oembranding is installed and licensed
@@ -18,6 +19,10 @@ class Restore Extends Base\RestoreBase{
 		foreach($configs['settings'] as $keyword => $value) {
 			if ($keyword === 'AMPMGRPASS') {
 				$this->log(sprintf(_("Ignorning restore of AMPMGRPASS Advanced Settings from %s"), $module));
+				continue;
+			}
+			if($keyword === 'FREEPBX_SYSTEM_IDENT' && $backupinfo['warmspareenabled'] == 'yes'){
+				$this->log(_("Ignorning restore of FREEPBX_SYSTEM_IDENT from Advanced Settings"));
 				continue;
 			}
 			if(in_array($keyword,$skinsettings)){
