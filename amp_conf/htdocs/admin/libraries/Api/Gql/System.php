@@ -199,7 +199,7 @@ class System extends Base {
 		// need to make in OOBE as framework completed
 		$this->completeOOBE('framework');
 
-		return ['message' => _("Initial Setup is completed"),'status' => false];
+		return ['message' => _("Initial Setup is completed"),'status' => true];
 	}
 	
 	/**
