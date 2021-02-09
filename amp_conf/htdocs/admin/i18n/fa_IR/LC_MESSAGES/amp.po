@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-02-05 07:01+0000\n"
+"POT-Creation-Date: 2021-02-09 09:12+0000\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -787,9 +787,9 @@ msgstr ""
 msgid "ALL SECTIONS"
 msgstr "تمام بخش ها"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:135
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:148
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:172
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:160
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:173
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:197
 #, php-format
 msgid "AMI failure details:"
 msgstr "جزییات شکست AMI:"
@@ -1060,7 +1060,7 @@ msgstr "آدرس ایمیل مدیر"
 msgid "Admin password"
 msgstr "کلمه عبور مدیر"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:166
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:190
 msgid "Admin user already exists"
 msgstr ""
 
@@ -1603,11 +1603,11 @@ msgstr ""
 "authentication to happen at the apache level, but will take the user "
 "credentials and apply any restrictions as if it were in database mode."
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:98
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:114
 msgid "Authomatic Module Security updates Email address(enabled,disabled)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:94
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:110
 msgid "Authomatic module updates(enabled,disabled,emailonly"
 msgstr ""
 
@@ -2282,7 +2282,7 @@ msgstr "ارجاع بررسی سرور"
 msgid "Check for Updates every"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:106
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:122
 msgid ""
 "Check for update on Every day (monday,tuesday,wednesday,thursday,friday,"
 "saterday,sunday)"
@@ -2297,6 +2297,10 @@ msgid ""
 "Check the desired codecs, all others will be disabled. Drag to re-order."
 msgstr ""
 "بررسی کدک های دلخواه، بقیه غیرفعال میشوند. برای مرتب سازی مجدد درگ کنید."
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:75
+msgid "Check the system yum-upgrade status"
+msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:440
 msgid "Check this to disable this trunk in all routes where it is used."
@@ -3127,7 +3131,7 @@ msgstr "فایل عیب یابی"
 msgid "Default"
 msgstr "پیش فرض"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:156
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:181
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:356
 msgid "Default Asterisk Manager Password Used"
 msgstr "استفاده از کلمه عبور پیشفرض مدیر استریسک"
@@ -4880,17 +4884,17 @@ msgstr "FMFM"
 msgid "FOP Web Root Dir"
 msgstr "دایرکتوری ریشه برای وب FOP"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:146
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:171
 #, php-format
 msgid "Failed changing AMI password to [%s], internal failure details follow:"
 msgstr "شکست در تغییر کلمه عبور AMI به [%s]، جزییات شکست داخلی:"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:133
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:158
 #, php-format
 msgid "Failed changing AMI user to [%s], internal failure details follow:"
 msgstr "شکست در تغییر کاربر AMI به [%s]، جزییات شکست داخلی:"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:170
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:195
 #, php-format
 msgid ""
 "Failed changing AMI writetimout to [%s], internal failure details follow:"
@@ -4945,7 +4949,7 @@ msgstr ""
 msgid "Failed to read manager file to add writetimeout"
 msgstr "شکست در خواندن فایل مدیریتی برای افزودن وقفه نوشتاری"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:187
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:212
 msgid ""
 "Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx "
 "'module reload manager']"
@@ -6304,7 +6308,7 @@ msgstr "ارثی"
 msgid "Initial Setup"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:178
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:202
 msgid "Initial Setup is completed"
 msgstr ""
 
@@ -6911,7 +6915,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:337
 #: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:341
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:210
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:165
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:234
 msgid "Message for the request"
 msgstr ""
 
@@ -7805,7 +7810,7 @@ msgstr "هشدار"
 msgid "Notice: System Upgrade (%s) available!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:86
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:102
 msgid "Notification Email address"
 msgstr ""
 
@@ -8285,11 +8290,11 @@ msgstr ""
 "<br><br>Format: <b>\"caller name\" &lt;#######&gt;</b><br><br>Leave this "
 "field blank to disable the outbound CallerID feature for this user."
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:82
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:98
 msgid "PBX GUI administrator password"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:78
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:94
 msgid "PBX GUI administrator username"
 msgstr ""
 
@@ -9653,7 +9658,7 @@ msgstr "Send Remote-Party-ID  header"
 msgid "Send Security Emails For Unsigned Modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:102
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:118
 msgid "Send Security Emails for Unsigned Modules(enabled,disabled)"
 msgstr ""
 
@@ -10158,6 +10163,10 @@ msgstr ""
 msgid "Sorry, unable to find any extensions"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:278
+msgid "Sorry, yum upgrade has failed"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2117
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2206
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2303
@@ -10244,7 +10253,8 @@ msgstr ""
 msgid "Status"
 msgstr "وضعیت"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:214
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:169
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:238
 msgid "Status for the request"
 msgstr ""
 
@@ -10290,7 +10300,7 @@ msgid ""
 msgstr ""
 "Successful  reload, but could not clear reload flag due to a database error: "
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:101
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:126
 msgid "Successfully reloaded"
 msgstr "بازگذاری مجدد موفق"
 
@@ -10379,7 +10389,7 @@ msgstr ""
 msgid "System Identifier:"
 msgstr ""
 
-#: amp.i18n.php:834 amp_conf/htdocs/admin/libraries/Api/Gql/System.php:90
+#: amp.i18n.php:834 amp_conf/htdocs/admin/libraries/Api/Gql/System.php:106
 msgid "System Identity"
 msgstr "هویت سیستم"
 
@@ -11890,6 +11900,10 @@ msgstr "مسیر"
 msgid "Track module (edge/stable) "
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:242
+msgid "Transaction Id for status check"
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:433
 #: ../core/views/trunks/pjsip.php:210
 msgid "Transport"
@@ -12043,7 +12057,7 @@ msgstr ""
 msgid "Unable to find an intermediary converter for %s"
 msgstr "Unable  to find an intermediary converter for %s"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:64
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:89
 #, php-format
 msgid ""
 "Unable to find fwconsole at %s, Consider updating 'sbin Dir' to the location "
@@ -12192,8 +12206,8 @@ msgstr "دستور ناشناخته! (%s)"
 msgid "Unknown Error Code %s, Message %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:88
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:93
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:113
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:118
 msgid "Unknown Error. Please Run: fwconsole reload --verbose "
 msgstr ""
 
@@ -12306,7 +12320,11 @@ msgstr ""
 msgid "Update my browser now"
 msgstr "به روز رسانی مرورگر"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:110
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:45
+msgid "Update system RPM package"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:126
 msgid "Update sytem time(0to4,4to8,8to12,12to16,16to20,20to0)"
 msgstr ""
 
@@ -13352,7 +13370,7 @@ msgstr ""
 msgid "You are urged to backup before making any changes."
 msgstr "You are urged to backup  before making any changes."
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:156
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:181
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:356
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
@@ -13668,6 +13686,24 @@ msgid ""
 "Once fixed issue a reload to remove this message"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:256
+msgid ""
+"Yum Upgrade has been initiated. Please check the status using "
+"yumUpgradeStatus api"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:258
+msgid "Yum Upgrade is already running"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:274
+msgid "Yum upgrade is completed"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:276
+msgid "Yum upgrade is in progress"
+msgstr ""
+
 #: ../core/views/trunks/zap.php:21
 msgid ""
 "ZAP channels are referenced either by a group number or channel number "
@@ -13976,7 +14012,7 @@ msgstr ""
 "freepbx setting  ZAP2DAHDICOMPAT not found, somethng  is corrupt in the conf "
 "database?"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:76
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:101
 #, php-format
 msgid "fwconsole is not executable at %s"
 msgstr ""
