@@ -21,6 +21,7 @@ use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverIn
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Core\Exception\LogoutException;
 use Symfony\Component\Security\Http\Authorization\AccessDeniedHandlerInterface;
 use Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface;
 use Symfony\Component\Security\Http\Firewall\ExceptionListener;
@@ -72,18 +73,21 @@ class ExceptionListenerTest extends TestCase
         ];
     }
 
+    /**
+     * @group legacy
+     */
     public function testExceptionWhenEntryPointReturnsBadValue()
     {
         $event = $this->createEvent(new AuthenticationException());
 
         $entryPoint = $this->getMockBuilder('Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface')->getMock();
-        $entryPoint->expects($this->once())->method('start')->will($this->returnValue('NOT A RESPONSE'));
+        $entryPoint->expects($this->once())->method('start')->willReturn('NOT A RESPONSE');
 
         $listener = $this->createExceptionListener(null, null, null, $entryPoint);
         $listener->onKernelException($event);
         // the exception has been replaced by our LogicException
         $this->assertInstanceOf('LogicException', $event->getException());
-        $this->assertStringEndsWith('start() method must return a Response object (string returned)', $event->getException()->getMessage());
+        $this->assertStringEndsWith('start()" method must return a Response object ("string" returned).', $event->getException()->getMessage());
     }
 
     /**
@@ -106,12 +110,12 @@ class ExceptionListenerTest extends TestCase
     public function testAccessDeniedExceptionFullFledgedAndWithoutAccessDeniedHandlerAndWithErrorPage(\Exception $exception, \Exception $eventException = null)
     {
         $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernelInterface')->getMock();
-        $kernel->expects($this->once())->method('handle')->will($this->returnValue(new Response('Unauthorized', 401)));
+        $kernel->expects($this->once())->method('handle')->willReturn(new Response('Unauthorized', 401));
 
         $event = $this->createEvent($exception, $kernel);
 
         $httpUtils = $this->getMockBuilder('Symfony\Component\Security\Http\HttpUtils')->getMock();
-        $httpUtils->expects($this->once())->method('createRequest')->will($this->returnValue(Request::create('/error')));
+        $httpUtils->expects($this->once())->method('createRequest')->willReturn(Request::create('/error'));
 
         $listener = $this->createExceptionListener(null, $this->createTrustResolver(true), $httpUtils, null, '/error');
         $listener->onKernelException($event);
@@ -131,7 +135,7 @@ class ExceptionListenerTest extends TestCase
         $event = $this->createEvent($exception);
 
         $accessDeniedHandler = $this->getMockBuilder('Symfony\Component\Security\Http\Authorization\AccessDeniedHandlerInterface')->getMock();
-        $accessDeniedHandler->expects($this->once())->method('handle')->will($this->returnValue(new Response('error')));
+        $accessDeniedHandler->expects($this->once())->method('handle')->willReturn(new Response('error'));
 
         $listener = $this->createExceptionListener(null, $this->createTrustResolver(true), null, null, null, $accessDeniedHandler);
         $listener->onKernelException($event);
@@ -148,13 +152,24 @@ class ExceptionListenerTest extends TestCase
         $event = $this->createEvent($exception);
 
         $tokenStorage = $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface')->getMock();
-        $tokenStorage->expects($this->once())->method('getToken')->will($this->returnValue($this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token\TokenInterface')->getMock()));
+        $tokenStorage->expects($this->once())->method('getToken')->willReturn($this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token\TokenInterface')->getMock());
 
         $listener = $this->createExceptionListener($tokenStorage, $this->createTrustResolver(false), null, $this->createEntryPoint());
         $listener->onKernelException($event);
 
         $this->assertEquals('OK', $event->getResponse()->getContent());
         $this->assertSame(null === $eventException ? $exception : $eventException, $event->getException()->getPrevious());
+    }
+
+    public function testLogoutException()
+    {
+        $event = $this->createEvent(new LogoutException('Invalid CSRF.'));
+
+        $listener = $this->createExceptionListener();
+        $listener->onKernelException($event);
+
+        $this->assertEquals('Invalid CSRF.', $event->getException()->getMessage());
+        $this->assertEquals(403, $event->getException()->getStatusCode());
     }
 
     public function getAccessDeniedExceptionProvider()
@@ -171,7 +186,7 @@ class ExceptionListenerTest extends TestCase
     private function createEntryPoint(Response $response = null)
     {
         $entryPoint = $this->getMockBuilder('Symfony\Component\Security\Http\EntryPoint\AuthenticationEntryPointInterface')->getMock();
-        $entryPoint->expects($this->once())->method('start')->will($this->returnValue($response ?: new Response('OK')));
+        $entryPoint->expects($this->once())->method('start')->willReturn($response ?: new Response('OK'));
 
         return $entryPoint;
     }
@@ -179,7 +194,7 @@ class ExceptionListenerTest extends TestCase
     private function createTrustResolver($fullFledged)
     {
         $trustResolver = $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface')->getMock();
-        $trustResolver->expects($this->once())->method('isFullFledged')->will($this->returnValue($fullFledged));
+        $trustResolver->expects($this->once())->method('isFullFledged')->willReturn($fullFledged);
 
         return $trustResolver;
     }

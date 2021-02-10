@@ -44,10 +44,10 @@ class ValidateRequestListener implements EventSubscriberInterface
      */
     public static function getSubscribedEvents()
     {
-        return [
-            KernelEvents::REQUEST => [
-                ['onKernelRequest', 256],
-            ],
-        ];
+        return array(
+            KernelEvents::REQUEST => array(
+                array('onKernelRequest', 256),
+            ),
+        );
     }
 }

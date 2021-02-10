@@ -42,14 +42,14 @@ class VarCloner extends AbstractCloner
         $currentDepth = 0;              // Current tree depth
         $currentDepthFinalIndex = 0;    // Final $queue index for current tree depth
         $minimumDepthReached = 0 === $minDepth; // Becomes true when minimum tree depth has been reached
-        $cookie = (object) [];     // Unique object used to detect hard references
+        $cookie = (object) [];          // Unique object used to detect hard references
         $a = null;                      // Array cast for nested structures
         $stub = null;                   // Stub capturing the main properties of an original item value
                                         // or null if the original value is used directly
 
         if (!self::$hashMask) {
-            self::$gid = uniqid(mt_rand(), true); // Unique string used to detect the special $GLOBALS variable
             self::initHashMask();
+            self::$gid = md5(dechex(self::$hashMask)); // Unique string used to detect the special $GLOBALS variable
         }
         $gid = self::$gid;
         $hashMask = self::$hashMask;
@@ -79,18 +79,25 @@ class VarCloner extends AbstractCloner
                     }
                     if ($gk !== $k) {
                         $fromObjCast = true;
-                        $refs = $vals = \array_values($queue[$i]);
+                        $refs = $vals = array_values($queue[$i]);
                         break;
                     }
                 }
             }
             foreach ($vals as $k => $v) {
                 // $v is the original value or a stub object in case of hard references
-                $refs[$k] = $cookie;
-                if ($zvalIsRef = $vals[$k] === $cookie) {
+
+                if (\PHP_VERSION_ID >= 70400) {
+                    $zvalIsRef = null !== \ReflectionReference::fromArrayElement($vals, $k);
+                } else {
+                    $refs[$k] = $cookie;
+                    $zvalIsRef = $vals[$k] === $cookie;
+                }
+
+                if ($zvalIsRef) {
                     $vals[$k] = &$stub;         // Break hard references to make $queue completely
                     unset($stub);               // independent from the original structure
-                    if ($v instanceof Stub && isset($hardRefs[\spl_object_hash($v)])) {
+                    if ($v instanceof Stub && isset($hardRefs[spl_object_hash($v)])) {
                         $vals[$k] = $refs[$k] = $v;
                         if ($v->value instanceof Stub && (Stub::TYPE_OBJECT === $v->value->type || Stub::TYPE_RESOURCE === $v->value->type)) {
                             ++$v->value->refCount;
@@ -100,7 +107,7 @@ class VarCloner extends AbstractCloner
                     }
                     $refs[$k] = $vals[$k] = new Stub();
                     $refs[$k]->value = $v;
-                    $h = \spl_object_hash($refs[$k]);
+                    $h = spl_object_hash($refs[$k]);
                     $hardRefs[$h] = &$refs[$k];
                     $values[$h] = $v;
                     $vals[$k]->handle = ++$refsCounter;
@@ -113,27 +120,26 @@ class VarCloner extends AbstractCloner
                     case \is_int($v):
                     case \is_float($v):
                         continue 2;
-
                     case \is_string($v):
                         if ('' === $v) {
                             continue 2;
                         }
-                        if (!\preg_match('//u', $v)) {
+                        if (!preg_match('//u', $v)) {
                             $stub = new Stub();
                             $stub->type = Stub::TYPE_STRING;
                             $stub->class = Stub::STRING_BINARY;
                             if (0 <= $maxString && 0 < $cut = \strlen($v) - $maxString) {
                                 $stub->cut = $cut;
-                                $stub->value = \substr($v, 0, -$cut);
+                                $stub->value = substr($v, 0, -$cut);
                             } else {
                                 $stub->value = $v;
                             }
-                        } elseif (0 <= $maxString && isset($v[1 + ($maxString >> 2)]) && 0 < $cut = \mb_strlen($v, 'UTF-8') - $maxString) {
+                        } elseif (0 <= $maxString && isset($v[1 + ($maxString >> 2)]) && 0 < $cut = mb_strlen($v, 'UTF-8') - $maxString) {
                             $stub = new Stub();
                             $stub->type = Stub::TYPE_STRING;
                             $stub->class = Stub::STRING_UTF8;
                             $stub->cut = $cut;
-                            $stub->value = \mb_substr($v, 0, $maxString, 'UTF-8');
+                            $stub->value = mb_substr($v, 0, $maxString, 'UTF-8');
                         } else {
                             continue 2;
                         }
@@ -179,7 +185,7 @@ class VarCloner extends AbstractCloner
 
                     case \is_object($v):
                     case $v instanceof \__PHP_Incomplete_Class:
-                        if (empty($objRefs[$h = $hashMask ^ \hexdec(\substr(\spl_object_hash($v), $hashOffset, \PHP_INT_SIZE))])) {
+                        if (empty($objRefs[$h = $hashMask ^ hexdec(substr(spl_object_hash($v), $hashOffset, \PHP_INT_SIZE))])) {
                             $stub = new Stub();
                             $stub->type = Stub::TYPE_OBJECT;
                             $stub->class = \get_class($v);
@@ -190,7 +196,7 @@ class VarCloner extends AbstractCloner
                                 if (Stub::TYPE_OBJECT !== $stub->type || null === $stub->value) {
                                     break;
                                 }
-                                $h = $hashMask ^ \hexdec(\substr(\spl_object_hash($stub->value), $hashOffset, \PHP_INT_SIZE));
+                                $h = $hashMask ^ hexdec(substr(spl_object_hash($stub->value), $hashOffset, \PHP_INT_SIZE));
                                 $stub->handle = $h;
                             }
                             $stub->value = null;
@@ -213,7 +219,7 @@ class VarCloner extends AbstractCloner
                         if (empty($resRefs[$h = (int) $v])) {
                             $stub = new Stub();
                             $stub->type = Stub::TYPE_RESOURCE;
-                            if ('Unknown' === $stub->class = @\get_resource_type($v)) {
+                            if ('Unknown' === $stub->class = @get_resource_type($v)) {
                                 $stub->class = 'Closed';
                             }
                             $stub->value = $v;
@@ -241,7 +247,7 @@ class VarCloner extends AbstractCloner
                         $stub->position = $len++;
                     } elseif ($pos < $maxItems) {
                         if ($maxItems < $pos += \count($a)) {
-                            $a = \array_slice($a, 0, $maxItems - $pos);
+                            $a = \array_slice($a, 0, $maxItems - $pos, true);
                             if ($stub->cut >= 0) {
                                 $stub->cut += $pos - $maxItems;
                             }
@@ -303,7 +309,7 @@ class VarCloner extends AbstractCloner
     private static function initHashMask()
     {
         $obj = (object) [];
-        self::$hashOffset = 16 - PHP_INT_SIZE;
+        self::$hashOffset = 16 - \PHP_INT_SIZE;
         self::$hashMask = -1;
 
         if (\defined('HHVM_VERSION')) {
@@ -311,7 +317,7 @@ class VarCloner extends AbstractCloner
         } else {
             // check if we are nested in an output buffering handler to prevent a fatal error with ob_start() below
             $obFuncs = ['ob_clean', 'ob_end_clean', 'ob_flush', 'ob_end_flush', 'ob_get_contents', 'ob_get_flush'];
-            foreach (debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS) as $frame) {
+            foreach (debug_backtrace(\DEBUG_BACKTRACE_IGNORE_ARGS) as $frame) {
                 if (isset($frame['function'][0]) && !isset($frame['class']) && 'o' === $frame['function'][0] && \in_array($frame['function'], $obFuncs)) {
                     $frame['line'] = 0;
                     break;
@@ -324,6 +330,6 @@ class VarCloner extends AbstractCloner
             }
         }
 
-        self::$hashMask ^= hexdec(substr(spl_object_hash($obj), self::$hashOffset, PHP_INT_SIZE));
+        self::$hashMask ^= hexdec(substr(spl_object_hash($obj), self::$hashOffset, \PHP_INT_SIZE));
     }
 }

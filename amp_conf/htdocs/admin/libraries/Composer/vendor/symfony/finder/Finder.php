@@ -528,7 +528,7 @@ class Finder implements \IteratorAggregate, \Countable
     /**
      * Searches files and directories which match defined rules.
      *
-     * @param string|array $dirs A directory path or an array of directories
+     * @param string|string[] $dirs A directory path or an array of directories
      *
      * @return $this
      *
@@ -541,7 +541,8 @@ class Finder implements \IteratorAggregate, \Countable
         foreach ((array) $dirs as $dir) {
             if (is_dir($dir)) {
                 $resolvedDirs[] = $this->normalizeDir($dir);
-            } elseif ($glob = glob($dir, (\defined('GLOB_BRACE') ? GLOB_BRACE : 0) | GLOB_ONLYDIR)) {
+            } elseif ($glob = glob($dir, (\defined('GLOB_BRACE') ? \GLOB_BRACE : 0) | \GLOB_ONLYDIR | \GLOB_NOSORT)) {
+                sort($glob);
                 $resolvedDirs = array_merge($resolvedDirs, array_map([$this, 'normalizeDir'], $glob));
             } else {
                 throw new \InvalidArgumentException(sprintf('The "%s" directory does not exist.', $dir));
@@ -615,7 +616,7 @@ class Finder implements \IteratorAggregate, \Countable
     }
 
     /**
-     * Check if the any results were found.
+     * Check if any results were found.
      *
      * @return bool
      */
@@ -657,7 +658,7 @@ class Finder implements \IteratorAggregate, \Countable
         }
 
         $minDepth = 0;
-        $maxDepth = PHP_INT_MAX;
+        $maxDepth = \PHP_INT_MAX;
 
         foreach ($this->depths as $comparator) {
             switch ($comparator->getOperator()) {
@@ -692,7 +693,7 @@ class Finder implements \IteratorAggregate, \Countable
 
         $iterator = new \RecursiveIteratorIterator($iterator, \RecursiveIteratorIterator::SELF_FIRST);
 
-        if ($minDepth > 0 || $maxDepth < PHP_INT_MAX) {
+        if ($minDepth > 0 || $maxDepth < \PHP_INT_MAX) {
             $iterator = new Iterator\DepthRangeFilterIterator($iterator, $minDepth, $maxDepth);
         }
 
@@ -735,7 +736,7 @@ class Finder implements \IteratorAggregate, \Countable
     /**
      * Normalizes given directory names by removing trailing slashes.
      *
-     * Excluding: (s)ftp:// wrapper
+     * Excluding: (s)ftp:// or ssh2.(s)ftp:// wrapper
      *
      * @param string $dir
      *
@@ -743,9 +744,13 @@ class Finder implements \IteratorAggregate, \Countable
      */
     private function normalizeDir($dir)
     {
+        if ('/' === $dir) {
+            return $dir;
+        }
+
         $dir = rtrim($dir, '/'.\DIRECTORY_SEPARATOR);
 
-        if (preg_match('#^s?ftp://#', $dir)) {
+        if (preg_match('#^(ssh2\.)?s?ftp://#', $dir)) {
             $dir .= '/';
         }
 

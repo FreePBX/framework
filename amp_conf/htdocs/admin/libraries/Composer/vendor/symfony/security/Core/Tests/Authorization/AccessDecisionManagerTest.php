@@ -20,11 +20,9 @@ use Symfony\Component\Security\Core\Tests\Authorization\Stub\VoterWithoutInterfa
 
 class AccessDecisionManagerTest extends TestCase
 {
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testSetUnsupportedStrategy()
     {
+        $this->expectException('InvalidArgumentException');
         new AccessDecisionManager([$this->getVoter(VoterInterface::ACCESS_GRANTED)], 'fooBar');
     }
 
@@ -72,10 +70,10 @@ class AccessDecisionManagerTest extends TestCase
         $voter = $this->getMockBuilder('Symfony\Component\Security\Core\Authorization\Voter\VoterInterface')->getMock();
         $voter->expects($this->any())
               ->method('vote')
-              ->will($this->returnValueMap([
+              ->willReturnMap([
                   [$token, null, ['ROLE_FOO'], $vote1],
                   [$token, null, ['ROLE_BAR'], $vote2],
-              ]))
+              ])
         ;
 
         return $voter;
@@ -137,7 +135,7 @@ class AccessDecisionManagerTest extends TestCase
         $voter = $this->getMockBuilder('Symfony\Component\Security\Core\Authorization\Voter\VoterInterface')->getMock();
         $voter->expects($this->any())
               ->method('vote')
-              ->will($this->returnValue($vote));
+              ->willReturn($vote);
 
         return $voter;
     }
@@ -145,14 +143,10 @@ class AccessDecisionManagerTest extends TestCase
     public function testVotingWrongTypeNoVoteMethod()
     {
         $exception = LogicException::class;
-        $message = sprintf('stdClass should implement the %s interface when used as voter.', VoterInterface::class);
+        $message = sprintf('"stdClass" should implement the "%s" interface when used as voter.', VoterInterface::class);
 
-        if (method_exists($this, 'expectException')) {
-            $this->expectException($exception);
-            $this->expectExceptionMessage($message);
-        } else {
-            $this->setExpectedException($exception, $message);
-        }
+        $this->expectException($exception);
+        $this->expectExceptionMessage($message);
 
         $adm = new AccessDecisionManager([new \stdClass()]);
         $token = $this->getMockBuilder(TokenInterface::class)->getMock();

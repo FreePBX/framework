@@ -40,11 +40,11 @@ class DebugHandlersListenerTest extends TestCase
         $listener = new DebugHandlersListener($userHandler, $logger);
         $xHandler = new ExceptionHandler();
         $eHandler = new ErrorHandler();
-        $eHandler->setExceptionHandler([$xHandler, 'handle']);
+        $eHandler->setExceptionHandler(array($xHandler, 'handle'));
 
         $exception = null;
-        set_error_handler([$eHandler, 'handleError']);
-        set_exception_handler([$eHandler, 'handleException']);
+        set_error_handler(array($eHandler, 'handleError'));
+        set_exception_handler(array($eHandler, 'handleException'));
         try {
             $listener->configure();
         } catch (\Exception $exception) {
@@ -58,10 +58,10 @@ class DebugHandlersListenerTest extends TestCase
 
         $this->assertSame($userHandler, $xHandler->setHandler('var_dump'));
 
-        $loggers = $eHandler->setLoggers([]);
+        $loggers = $eHandler->setLoggers(array());
 
         $this->assertArrayHasKey(E_DEPRECATED, $loggers);
-        $this->assertSame([$logger, LogLevel::INFO], $loggers[E_DEPRECATED]);
+        $this->assertSame(array($logger, LogLevel::INFO), $loggers[E_DEPRECATED]);
     }
 
     public function testConfigureForHttpKernelWithNoTerminateWithException()
@@ -75,7 +75,7 @@ class DebugHandlersListenerTest extends TestCase
         );
 
         $exception = null;
-        $h = set_exception_handler([$eHandler, 'handleException']);
+        $h = set_exception_handler(array($eHandler, 'handleException'));
         try {
             $listener->configure($event);
         } catch (\Exception $exception) {
@@ -101,16 +101,16 @@ class DebugHandlersListenerTest extends TestCase
 
         $dispatcher->addSubscriber($listener);
 
-        $xListeners = [
-            KernelEvents::REQUEST => [[$listener, 'configure']],
-            ConsoleEvents::COMMAND => [[$listener, 'configure']],
-        ];
+        $xListeners = array(
+            KernelEvents::REQUEST => array(array($listener, 'configure')),
+            ConsoleEvents::COMMAND => array(array($listener, 'configure')),
+        );
         $this->assertSame($xListeners, $dispatcher->getListeners());
 
         $exception = null;
         $eHandler = new ErrorHandler();
-        set_error_handler([$eHandler, 'handleError']);
-        set_exception_handler([$eHandler, 'handleException']);
+        set_error_handler(array($eHandler, 'handleError'));
+        set_exception_handler(array($eHandler, 'handleException'));
         try {
             $dispatcher->dispatch(ConsoleEvents::COMMAND, $event);
         } catch (\Exception $exception) {
@@ -139,7 +139,7 @@ class DebugHandlersListenerTest extends TestCase
         $eHandler->setExceptionHandler('var_dump');
 
         $exception = null;
-        set_exception_handler([$eHandler, 'handleException']);
+        set_exception_handler(array($eHandler, 'handleException'));
         try {
             $listener->configure();
         } catch (\Exception $exception) {

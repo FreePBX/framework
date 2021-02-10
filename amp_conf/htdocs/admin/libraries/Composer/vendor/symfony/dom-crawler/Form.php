@@ -44,7 +44,7 @@ class Form extends Link implements \ArrayAccess
      *
      * @throws \LogicException if the node is not a button inside a form tag
      */
-    public function __construct(\DOMElement $node, $currentUri, $method = null, $baseHref = null)
+    public function __construct(\DOMElement $node, string $currentUri = null, string $method = null, string $baseHref = null)
     {
         parent::__construct($node, $currentUri, $method);
         $this->baseHref = $baseHref;
@@ -203,7 +203,7 @@ class Form extends Link implements \ArrayAccess
         $uri = parent::getUri();
 
         if (!\in_array($this->getMethod(), ['POST', 'PUT', 'DELETE', 'PATCH'])) {
-            $query = parse_url($uri, PHP_URL_QUERY);
+            $query = parse_url($uri, \PHP_URL_QUERY);
             $currentParameters = [];
             if ($query) {
                 parse_str($query, $currentParameters);
@@ -251,6 +251,16 @@ class Form extends Link implements \ArrayAccess
     }
 
     /**
+     * Gets the form name.
+     *
+     * If no name is defined on the form, an empty string is returned.
+     */
+    public function getName(): string
+    {
+        return $this->node->getAttribute('name');
+    }
+
+    /**
      * Returns true if the named field exists.
      *
      * @param string $name The field name
@@ -277,7 +287,7 @@ class Form extends Link implements \ArrayAccess
      *
      * @param string $name The field name
      *
-     * @return FormField The field instance
+     * @return FormField|FormField[]|FormField[][] The value of the field
      *
      * @throws \InvalidArgumentException When field is not present in this form
      */
@@ -321,7 +331,7 @@ class Form extends Link implements \ArrayAccess
      *
      * @param string $name The field name
      *
-     * @return FormField The associated Field instance
+     * @return FormField|FormField[]|FormField[][] The value of the field
      *
      * @throws \InvalidArgumentException if the field does not exist
      */

@@ -35,22 +35,7 @@ class ChainCacheClearerTest extends TestCase
             ->expects($this->once())
             ->method('clear');
 
-        $chainClearer = new ChainCacheClearer([$clearer]);
-        $chainClearer->clear(self::$cacheDir);
-    }
-
-    /**
-     * @group legacy
-     */
-    public function testInjectClearerUsingAdd()
-    {
-        $clearer = $this->getMockClearer();
-        $clearer
-            ->expects($this->once())
-            ->method('clear');
-
-        $chainClearer = new ChainCacheClearer();
-        $chainClearer->add($clearer);
+        $chainClearer = new ChainCacheClearer(array($clearer));
         $chainClearer->clear(self::$cacheDir);
     }
 

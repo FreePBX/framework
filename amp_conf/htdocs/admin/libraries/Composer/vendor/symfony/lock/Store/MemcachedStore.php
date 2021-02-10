@@ -13,7 +13,7 @@ namespace Symfony\Component\Lock\Store;
 
 use Symfony\Component\Lock\Exception\InvalidArgumentException;
 use Symfony\Component\Lock\Exception\LockConflictedException;
-use Symfony\Component\Lock\Exception\LockExpiredException;
+use Symfony\Component\Lock\Exception\NotSupportedException;
 use Symfony\Component\Lock\Key;
 use Symfony\Component\Lock\StoreInterface;
 
@@ -24,6 +24,8 @@ use Symfony\Component\Lock\StoreInterface;
  */
 class MemcachedStore implements StoreInterface
 {
+    use ExpiringStoreTrait;
+
     private $memcached;
     private $initialTtl;
     /** @var bool */
@@ -35,17 +37,16 @@ class MemcachedStore implements StoreInterface
     }
 
     /**
-     * @param \Memcached $memcached
-     * @param int        $initialTtl the expiration delay of locks in seconds
+     * @param int $initialTtl the expiration delay of locks in seconds
      */
     public function __construct(\Memcached $memcached, $initialTtl = 300)
     {
         if (!static::isSupported()) {
-            throw new InvalidArgumentException('Memcached extension is required');
+            throw new InvalidArgumentException('Memcached extension is required.');
         }
 
         if ($initialTtl < 1) {
-            throw new InvalidArgumentException(sprintf('%s() expects a strictly positive TTL. Got %d.', __METHOD__, $initialTtl));
+            throw new InvalidArgumentException(sprintf('"%s()" expects a strictly positive TTL. Got %d.', __METHOD__, $initialTtl));
         }
 
         $this->memcached = $memcached;
@@ -64,14 +65,12 @@ class MemcachedStore implements StoreInterface
             $this->putOffExpiration($key, $this->initialTtl);
         }
 
-        if ($key->isExpired()) {
-            throw new LockExpiredException(sprintf('Failed to store the "%s" lock.', $key));
-        }
+        $this->checkNotExpired($key);
     }
 
     public function waitAndSave(Key $key)
     {
-        throw new InvalidArgumentException(sprintf('The store "%s" does not supports blocking locks.', \get_class($this)));
+        throw new NotSupportedException(sprintf('The store "%s" does not support blocking locks.', static::class));
     }
 
     /**
@@ -80,7 +79,7 @@ class MemcachedStore implements StoreInterface
     public function putOffExpiration(Key $key, $ttl)
     {
         if ($ttl < 1) {
-            throw new InvalidArgumentException(sprintf('%s() expects a TTL greater or equals to 1. Got %s.', __METHOD__, $ttl));
+            throw new InvalidArgumentException(sprintf('"%s()" expects a TTL greater or equals to 1. Got %s.', __METHOD__, $ttl));
         }
 
         // Interface defines a float value but Store required an integer.
@@ -110,9 +109,7 @@ class MemcachedStore implements StoreInterface
             throw new LockConflictedException();
         }
 
-        if ($key->isExpired()) {
-            throw new LockExpiredException(sprintf('Failed to put off the expiration of the "%s" lock within the specified time.', $key));
-        }
+        $this->checkNotExpired($key);
     }
 
     /**
@@ -149,8 +146,6 @@ class MemcachedStore implements StoreInterface
 
     /**
      * Retrieve an unique token for the given key.
-     *
-     * @param Key $key
      *
      * @return string
      */

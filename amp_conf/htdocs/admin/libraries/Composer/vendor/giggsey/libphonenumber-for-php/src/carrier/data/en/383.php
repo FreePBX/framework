@@ -12,9 +12,6 @@
 
 return array (
   38343 => 'IPKO',
-  383432 => 'D3 Mobile',
-  383433 => 'D3 Mobile',
-  383434 => 'D3 Mobile',
   38344 => 'vala',
   383451 => 'vala',
   383452 => 'vala',
@@ -32,5 +29,6 @@ return array (
   3834713 => 'mts d.o.o.',
   3834714 => 'mts d.o.o.',
   3834715 => 'mts d.o.o.',
+  38348 => 'IPKO',
   38349 => 'IPKO',
 );

@@ -25,7 +25,7 @@ class ResettableServicePass implements CompilerPassInterface
 {
     private $tagName;
 
-    public function __construct($tagName = 'kernel.reset')
+    public function __construct(string $tagName = 'kernel.reset')
     {
         $this->tagName = $tagName;
     }
@@ -39,7 +39,7 @@ class ResettableServicePass implements CompilerPassInterface
             return;
         }
 
-        $services = $methods = [];
+        $services = $methods = array();
 
         foreach ($container->findTaggedServiceIds($this->tagName, true) as $id => $tags) {
             $services[$id] = new Reference($id, ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE);

@@ -30,20 +30,17 @@ class Profiler
     /**
      * @var DataCollectorInterface[]
      */
-    private $collectors = [];
+    private $collectors = array();
 
     private $logger;
     private $initiallyEnabled = true;
     private $enabled = true;
 
-    /**
-     * @param bool $enable The initial enabled state
-     */
-    public function __construct(ProfilerStorageInterface $storage, LoggerInterface $logger = null, $enable = true)
+    public function __construct(ProfilerStorageInterface $storage, LoggerInterface $logger = null, bool $enable = true)
     {
         $this->storage = $storage;
         $this->logger = $logger;
-        $this->initiallyEnabled = $this->enabled = (bool) $enable;
+        $this->initiallyEnabled = $this->enabled = $enable;
     }
 
     /**
@@ -103,7 +100,7 @@ class Profiler
         }
 
         if (!($ret = $this->storage->write($profile)) && null !== $this->logger) {
-            $this->logger->warning('Unable to store the profiler information.', ['configured_storage' => \get_class($this->storage)]);
+            $this->logger->warning('Unable to store the profiler information.', array('configured_storage' => \get_class($this->storage)));
         }
 
         return $ret;
@@ -174,10 +171,6 @@ class Profiler
     public function reset()
     {
         foreach ($this->collectors as $collector) {
-            if (!method_exists($collector, 'reset')) {
-                continue;
-            }
-
             $collector->reset();
         }
         $this->enabled = $this->initiallyEnabled;
@@ -198,9 +191,9 @@ class Profiler
      *
      * @param DataCollectorInterface[] $collectors An array of collectors
      */
-    public function set(array $collectors = [])
+    public function set(array $collectors = array())
     {
-        $this->collectors = [];
+        $this->collectors = array();
         foreach ($collectors as $collector) {
             $this->add($collector);
         }
@@ -211,10 +204,6 @@ class Profiler
      */
     public function add(DataCollectorInterface $collector)
     {
-        if (!method_exists($collector, 'reset')) {
-            @trigger_error(sprintf('Implementing "%s" without the "reset()" method is deprecated since Symfony 3.4 and will be unsupported in 4.0 for class "%s".', DataCollectorInterface::class, \get_class($collector)), E_USER_DEPRECATED);
-        }
-
         $this->collectors[$collector->getName()] = $collector;
     }
 

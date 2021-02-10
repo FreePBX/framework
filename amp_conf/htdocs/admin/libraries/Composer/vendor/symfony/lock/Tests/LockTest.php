@@ -170,11 +170,9 @@ class LockTest extends TestCase
         unset($lock);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Lock\Exception\LockReleasingException
-     */
     public function testReleaseThrowsExceptionIfNotWellDeleted()
     {
+        $this->expectException('Symfony\Component\Lock\Exception\LockReleasingException');
         $key = new Key(uniqid(__METHOD__, true));
         $store = $this->getMockBuilder(StoreInterface::class)->getMock();
         $lock = new Lock($key, $store, 10);
@@ -193,11 +191,9 @@ class LockTest extends TestCase
         $lock->release();
     }
 
-    /**
-     * @expectedException \Symfony\Component\Lock\Exception\LockReleasingException
-     */
     public function testReleaseThrowsAndLog()
     {
+        $this->expectException('Symfony\Component\Lock\Exception\LockReleasingException');
         $key = new Key(uniqid(__METHOD__, true));
         $store = $this->getMockBuilder(StoreInterface::class)->getMock();
         $logger = $this->getMockBuilder(LoggerInterface::class)->getMock();

@@ -88,7 +88,7 @@ class NativeSessionTokenStorage implements ClearableTokenStorageInterface
         }
 
         if (!isset($_SESSION[$this->namespace][$tokenId])) {
-            return;
+            return null;
         }
 
         $token = (string) $_SESSION[$this->namespace][$tokenId];
@@ -112,7 +112,7 @@ class NativeSessionTokenStorage implements ClearableTokenStorageInterface
 
     private function startSession()
     {
-        if (PHP_SESSION_NONE === session_status()) {
+        if (\PHP_SESSION_NONE === session_status()) {
             session_start();
         }
 

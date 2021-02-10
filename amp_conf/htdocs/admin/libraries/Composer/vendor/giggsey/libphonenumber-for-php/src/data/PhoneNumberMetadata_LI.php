@@ -26,7 +26,7 @@ return array (
   ),
   'fixedLine' => 
   array (
-    'NationalNumberPattern' => '(?:2(?:01|1[27]|22|3\\d|6[02-578]|96)|3(?:33|40|7[0135-7]|8[048]|9[0269]))\\d{4}',
+    'NationalNumberPattern' => '(?:2(?:01|1[27]|2[02]|3\\d|6[02-578]|96)|3(?:[24]0|33|7[0135-7]|8[048]|9[0269]))\\d{4}',
     'ExampleNumber' => '2345678',
     'PossibleLength' => 
     array (
@@ -38,7 +38,7 @@ return array (
   ),
   'mobile' => 
   array (
-    'NationalNumberPattern' => '756\\d{4}|(?:6(?:499|5[0-3]\\d|6(?:0[0-7]|10|2[06-9]|39))|7[37-9])\\d{5}',
+    'NationalNumberPattern' => '(?:6(?:4(?:79|[89]\\d)|5[0-4]\\d|6(?:0\\d|10|2[0-26-9]|3[7-9]))\\d|7(?:[37-9]\\d|42|56))\\d{4}',
     'ExampleNumber' => '660234567',
     'PossibleLength' => 
     array (
@@ -125,7 +125,7 @@ return array (
   ),
   'voicemail' => 
   array (
-    'NationalNumberPattern' => '697(?:56|[78]\\d)\\d{4}',
+    'NationalNumberPattern' => '697(?:42|56|[78]\\d)\\d{4}',
     'ExampleNumber' => '697861234',
     'PossibleLength' => 
     array (
@@ -149,7 +149,7 @@ return array (
   'countryCode' => 423,
   'internationalPrefix' => '00',
   'nationalPrefix' => '0',
-  'nationalPrefixForParsing' => '0|(10(?:01|20|66))',
+  'nationalPrefixForParsing' => '0|(1001)',
   'sameMobileAndFixedLinePattern' => false,
   'numberFormat' => 
   array (

@@ -29,12 +29,10 @@ class FlockStoreTest extends AbstractStoreTest
         return new FlockStore();
     }
 
-    /**
-     * @expectedException \Symfony\Component\Lock\Exception\InvalidArgumentException
-     * @expectedExceptionMessage The directory "/a/b/c/d/e" is not writable.
-     */
     public function testConstructWhenRepositoryDoesNotExist()
     {
+        $this->expectException('Symfony\Component\Lock\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('The directory "/a/b/c/d/e" is not writable.');
         if (!getenv('USER') || 'root' === getenv('USER')) {
             $this->markTestSkipped('This test will fail if run under superuser');
         }
@@ -42,12 +40,10 @@ class FlockStoreTest extends AbstractStoreTest
         new FlockStore('/a/b/c/d/e');
     }
 
-    /**
-     * @expectedException \Symfony\Component\Lock\Exception\InvalidArgumentException
-     * @expectedExceptionMessage The directory "/" is not writable.
-     */
     public function testConstructWhenRepositoryIsNotWriteable()
     {
+        $this->expectException('Symfony\Component\Lock\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('The directory "/" is not writable.');
         if (!getenv('USER') || 'root' === getenv('USER')) {
             $this->markTestSkipped('This test will fail if run under superuser');
         }

@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Lock\Tests\Store;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Lock\Exception\LockConflictedException;
 use Symfony\Component\Lock\Key;
 use Symfony\Component\Lock\Store\CombinedStore;
@@ -49,11 +50,11 @@ class CombinedStoreTest extends AbstractStoreTest
         return new CombinedStore([new RedisStore($redis)], new UnanimousStrategy());
     }
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var MockObject */
     private $strategy;
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var MockObject */
     private $store1;
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var MockObject */
     private $store2;
     /** @var CombinedStore */
     private $store;
@@ -67,11 +68,9 @@ class CombinedStoreTest extends AbstractStoreTest
         $this->store = new CombinedStore([$this->store1, $this->store2], $this->strategy);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Lock\Exception\LockConflictedException
-     */
     public function testSaveThrowsExceptionOnFailure()
     {
+        $this->expectException('Symfony\Component\Lock\Exception\LockConflictedException');
         $key = new Key(uniqid(__METHOD__, true));
 
         $this->store1
@@ -164,11 +163,9 @@ class CombinedStoreTest extends AbstractStoreTest
         }
     }
 
-    /**
-     * @expectedException \Symfony\Component\Lock\Exception\LockConflictedException
-     */
     public function testputOffExpirationThrowsExceptionOnFailure()
     {
+        $this->expectException('Symfony\Component\Lock\Exception\LockConflictedException');
         $key = new Key(uniqid(__METHOD__, true));
         $ttl = random_int(1, 10);
 

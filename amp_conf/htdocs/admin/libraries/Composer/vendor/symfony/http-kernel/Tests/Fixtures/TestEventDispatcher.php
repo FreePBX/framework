@@ -18,12 +18,12 @@ class TestEventDispatcher extends EventDispatcher implements TraceableEventDispa
 {
     public function getCalledListeners()
     {
-        return ['foo'];
+        return array('foo');
     }
 
     public function getNotCalledListeners()
     {
-        return ['bar'];
+        return array('bar');
     }
 
     public function reset()

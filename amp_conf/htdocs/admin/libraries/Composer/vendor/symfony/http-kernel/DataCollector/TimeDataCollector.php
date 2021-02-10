@@ -43,12 +43,11 @@ class TimeDataCollector extends DataCollector implements LateDataCollectorInterf
             $startTime = $request->server->get('REQUEST_TIME_FLOAT');
         }
 
-        $this->data = [
+        $this->data = array(
             'token' => $response->headers->get('X-Debug-Token'),
             'start_time' => $startTime * 1000,
-            'events' => [],
-            'stopwatch_installed' => \class_exists(Stopwatch::class, false),
-        ];
+            'events' => array(),
+        );
     }
 
     /**
@@ -56,7 +55,7 @@ class TimeDataCollector extends DataCollector implements LateDataCollectorInterf
      */
     public function reset()
     {
-        $this->data = [];
+        $this->data = array();
 
         if (null !== $this->stopwatch) {
             $this->stopwatch->reset();
@@ -138,14 +137,6 @@ class TimeDataCollector extends DataCollector implements LateDataCollectorInterf
     public function getStartTime()
     {
         return $this->data['start_time'];
-    }
-
-    /**
-     * @return bool whether or not the stopwatch component is installed
-     */
-    public function isStopwatchInstalled()
-    {
-        return $this->data['stopwatch_installed'];
     }
 
     /**

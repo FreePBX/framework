@@ -12,7 +12,6 @@
 namespace Symfony\Component\Security\Http\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\Security\Http\Firewall;
@@ -37,7 +36,7 @@ class FirewallTest extends TestCase
             ->expects($this->once())
             ->method('getListeners')
             ->with($this->equalTo($request))
-            ->will($this->returnValue([[], $listener]))
+            ->willReturn([[], $listener])
         ;
 
         $event = new GetResponseEvent($this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernelInterface')->getMock(), $request, HttpKernelInterface::MASTER_REQUEST);
@@ -48,8 +47,6 @@ class FirewallTest extends TestCase
 
     public function testOnKernelRequestStopsWhenThereIsAResponse()
     {
-        $response = new Response();
-
         $first = $this->getMockBuilder('Symfony\Component\Security\Http\Firewall\ListenerInterface')->getMock();
         $first
             ->expects($this->once())
@@ -66,7 +63,7 @@ class FirewallTest extends TestCase
         $map
             ->expects($this->once())
             ->method('getListeners')
-            ->will($this->returnValue([[$first, $second], null]))
+            ->willReturn([[$first, $second], null])
         ;
 
         $event = $this->getMockBuilder('Symfony\Component\HttpKernel\Event\GetResponseEvent')
@@ -79,9 +76,9 @@ class FirewallTest extends TestCase
             ->getMock()
         ;
         $event
-            ->expects($this->at(0))
+            ->expects($this->once())
             ->method('hasResponse')
-            ->will($this->returnValue(true))
+            ->willReturn(true)
         ;
 
         $firewall = new Firewall($map, $this->getMockBuilder('Symfony\Component\EventDispatcher\EventDispatcherInterface')->getMock());

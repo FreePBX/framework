@@ -58,8 +58,8 @@ class SurrogateListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return [
+        return array(
             KernelEvents::RESPONSE => 'onKernelResponse',
-        ];
+        );
     }
 }

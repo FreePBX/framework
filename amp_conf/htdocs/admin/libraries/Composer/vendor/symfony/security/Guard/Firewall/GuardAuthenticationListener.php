@@ -132,7 +132,7 @@ class GuardAuthenticationListener implements ListenerInterface
                 }
 
                 if ($guardAuthenticator instanceof AbstractGuardAuthenticator) {
-                    @trigger_error(sprintf('Returning null from "%1$s::getCredentials()" is deprecated since Symfony 3.4 and will throw an \UnexpectedValueException in 4.0. Return false from "%1$s::supports()" instead.', \get_class($guardAuthenticator)), E_USER_DEPRECATED);
+                    @trigger_error(sprintf('Returning null from "%1$s::getCredentials()" is deprecated since Symfony 3.4 and will throw an \UnexpectedValueException in 4.0. Return false from "%1$s::supports()" instead.', \get_class($guardAuthenticator)), \E_USER_DEPRECATED);
 
                     return;
                 }
@@ -221,7 +221,7 @@ class GuardAuthenticationListener implements ListenerInterface
         }
 
         if (!$response instanceof Response) {
-            throw new \LogicException(sprintf('%s::onAuthenticationSuccess *must* return a Response if you want to use the remember me functionality. Return a Response, or set remember_me to false under the guard configuration.', \get_class($guardAuthenticator)));
+            throw new \LogicException(sprintf('"%s::onAuthenticationSuccess()" *must* return a Response if you want to use the remember me functionality. Return a Response, or set remember_me to false under the guard configuration.', \get_class($guardAuthenticator)));
         }
 
         $this->rememberMeServices->loginSuccess($request, $response, $token);

@@ -24,7 +24,7 @@ class ResponseListener implements EventSubscriberInterface
 {
     private $charset;
 
-    public function __construct($charset)
+    public function __construct(string $charset)
     {
         $this->charset = $charset;
     }
@@ -49,8 +49,8 @@ class ResponseListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return [
+        return array(
             KernelEvents::RESPONSE => 'onKernelResponse',
-        ];
+        );
     }
 }

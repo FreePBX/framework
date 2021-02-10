@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Translation\Tests;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Config\Resource\SelfCheckingResourceInterface;
 use Symfony\Component\Translation\Loader\ArrayLoader;
@@ -22,13 +23,13 @@ class TranslatorCacheTest extends TestCase
 {
     protected $tmpDir;
 
-    protected function setUp()
+    protected function setUp(): void
     {
-        $this->tmpDir = sys_get_temp_dir().'/sf2_translation';
+        $this->tmpDir = sys_get_temp_dir().'/sf_translation';
         $this->deleteTmpDir();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->deleteTmpDir();
     }
@@ -66,13 +67,17 @@ class TranslatorCacheTest extends TestCase
         $translator = new Translator($locale, null, $this->tmpDir, $debug);
         $translator->addLoader($format, new ArrayLoader());
         $translator->addResource($format, [$msgid => 'OK'], $locale);
+        $translator->addResource($format, [$msgid.'+intl' => 'OK'], $locale, 'messages+intl-icu');
         $translator->trans($msgid);
+        $translator->trans($msgid.'+intl', [], 'messages+intl-icu');
 
         // Try again and see we get a valid result whilst no loader can be used
         $translator = new Translator($locale, null, $this->tmpDir, $debug);
         $translator->addLoader($format, $this->createFailingLoader());
         $translator->addResource($format, [$msgid => 'OK'], $locale);
+        $translator->addResource($format, [$msgid.'+intl' => 'OK'], $locale, 'messages+intl-icu');
         $this->assertEquals('OK', $translator->trans($msgid), '-> caching does not work in '.($debug ? 'debug' : 'production'));
+        $this->assertEquals('OK', $translator->trans($msgid.'+intl', [], 'messages+intl-icu'));
     }
 
     public function testCatalogueIsReloadedWhenResourcesAreNoLongerFresh()
@@ -95,12 +100,12 @@ class TranslatorCacheTest extends TestCase
         $catalogue = new MessageCatalogue($locale, []);
         $catalogue->addResource(new StaleResource()); // better use a helper class than a mock, because it gets serialized in the cache and re-loaded
 
-        /** @var LoaderInterface|\PHPUnit_Framework_MockObject_MockObject $loader */
+        /** @var LoaderInterface|MockObject $loader */
         $loader = $this->getMockBuilder('Symfony\Component\Translation\Loader\LoaderInterface')->getMock();
         $loader
             ->expects($this->exactly(2))
             ->method('load')
-            ->will($this->returnValue($catalogue))
+            ->willReturn($catalogue)
         ;
 
         // 1st pass
@@ -212,6 +217,7 @@ class TranslatorCacheTest extends TestCase
         $translator->addResource('array', ['foo' => 'foo (a)'], 'a');
         $translator->addResource('array', ['foo' => 'foo (b)'], 'b');
         $translator->addResource('array', ['bar' => 'bar (b)'], 'b');
+        $translator->addResource('array', ['baz' => 'baz (b)'], 'b', 'messages+intl-icu');
 
         $catalogue = $translator->getCatalogue('a');
         $this->assertFalse($catalogue->defines('bar')); // Sure, the "a" catalogue does not contain that message.
@@ -230,23 +236,25 @@ class TranslatorCacheTest extends TestCase
         $translator->addResource('array', ['foo' => 'foo (a)'], 'a');
         $translator->addResource('array', ['foo' => 'foo (b)'], 'b');
         $translator->addResource('array', ['bar' => 'bar (b)'], 'b');
+        $translator->addResource('array', ['baz' => 'baz (b)'], 'b', 'messages+intl-icu');
 
         $catalogue = $translator->getCatalogue('a');
         $this->assertFalse($catalogue->defines('bar'));
 
         $fallback = $catalogue->getFallbackCatalogue();
         $this->assertTrue($fallback->defines('foo'));
+        $this->assertTrue($fallback->defines('baz', 'messages+intl-icu'));
     }
 
     public function testRefreshCacheWhenResourcesAreNoLongerFresh()
     {
         $resource = $this->getMockBuilder('Symfony\Component\Config\Resource\SelfCheckingResourceInterface')->getMock();
         $loader = $this->getMockBuilder('Symfony\Component\Translation\Loader\LoaderInterface')->getMock();
-        $resource->method('isFresh')->will($this->returnValue(false));
+        $resource->method('isFresh')->willReturn(false);
         $loader
             ->expects($this->exactly(2))
             ->method('load')
-            ->will($this->returnValue($this->getCatalogue('fr', [], [$resource])));
+            ->willReturn($this->getCatalogue('fr', [], [$resource]));
 
         // prime the cache
         $translator = new Translator('fr', null, $this->tmpDir, true);
@@ -259,6 +267,22 @@ class TranslatorCacheTest extends TestCase
         $translator->addLoader('loader', $loader);
         $translator->addResource('loader', 'foo', 'fr');
         $translator->trans('foo');
+    }
+
+    public function testCachedCatalogueIsReDumpedWhenCacheVaryChange()
+    {
+        $translator = new Translator('a', null, $this->tmpDir, false, []);
+        $translator->addLoader('array', new ArrayLoader());
+        $translator->addResource('array', ['foo' => 'bar'], 'a', 'messages');
+
+        // Cached catalogue is dumped
+        $this->assertSame('bar', $translator->trans('foo', [], 'messages', 'a'));
+
+        $translator = new Translator('a', null, $this->tmpDir, false, ['vary']);
+        $translator->addLoader('array', new ArrayLoader());
+        $translator->addResource('array', ['foo' => 'ccc'], 'a', 'messages');
+
+        $this->assertSame('ccc', $translator->trans('foo', [], 'messages', 'a'));
     }
 
     protected function getCatalogue($locale, $messages, $resources = [])

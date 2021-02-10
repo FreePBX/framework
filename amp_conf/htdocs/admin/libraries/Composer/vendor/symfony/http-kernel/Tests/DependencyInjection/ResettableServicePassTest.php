@@ -19,14 +19,14 @@ class ResettableServicePassTest extends TestCase
         $container = new ContainerBuilder();
         $container->register('one', ResettableService::class)
             ->setPublic(true)
-            ->addTag('kernel.reset', ['method' => 'reset']);
+            ->addTag('kernel.reset', array('method' => 'reset'));
         $container->register('two', ClearableService::class)
             ->setPublic(true)
-            ->addTag('kernel.reset', ['method' => 'clear']);
+            ->addTag('kernel.reset', array('method' => 'clear'));
 
         $container->register('services_resetter', ServicesResetter::class)
             ->setPublic(true)
-            ->setArguments([null, []]);
+            ->setArguments(array(null, array()));
         $container->addCompilerPass(new ResettableServicePass());
 
         $container->compile();
@@ -34,16 +34,16 @@ class ResettableServicePassTest extends TestCase
         $definition = $container->getDefinition('services_resetter');
 
         $this->assertEquals(
-            [
-                new IteratorArgument([
+            array(
+                new IteratorArgument(array(
                     'one' => new Reference('one', ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE),
                     'two' => new Reference('two', ContainerInterface::IGNORE_ON_UNINITIALIZED_REFERENCE),
-                ]),
-                [
+                )),
+                array(
                     'one' => 'reset',
                     'two' => 'clear',
-                ],
-            ],
+                ),
+            ),
             $definition->getArguments()
         );
     }
@@ -58,7 +58,7 @@ class ResettableServicePassTest extends TestCase
         $container->register(ResettableService::class)
             ->addTag('kernel.reset');
         $container->register('services_resetter', ServicesResetter::class)
-            ->setArguments([null, []]);
+            ->setArguments(array(null, array()));
         $container->addCompilerPass(new ResettableServicePass());
 
         $container->compile();
@@ -68,7 +68,7 @@ class ResettableServicePassTest extends TestCase
     {
         $container = new ContainerBuilder();
         $container->register('services_resetter', ServicesResetter::class)
-            ->setArguments([null, []]);
+            ->setArguments(array(null, array()));
         $container->addCompilerPass(new ResettableServicePass());
 
         $container->compile();

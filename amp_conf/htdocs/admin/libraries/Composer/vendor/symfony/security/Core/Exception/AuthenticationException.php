@@ -26,7 +26,7 @@ class AuthenticationException extends \RuntimeException implements \Serializable
     /**
      * Get the token.
      *
-     * @return TokenInterface
+     * @return TokenInterface|null
      */
     public function getToken()
     {
@@ -51,7 +51,7 @@ class AuthenticationException extends \RuntimeException implements \Serializable
             $this->line,
         ];
 
-        return $this->doSerialize($serialized, \func_num_args() ? \func_get_arg(0) : null);
+        return $this->doSerialize($serialized, \func_num_args() ? func_get_arg(0) : null);
     }
 
     /**
@@ -60,7 +60,7 @@ class AuthenticationException extends \RuntimeException implements \Serializable
     protected function doSerialize($serialized, $isCalledFromOverridingMethod)
     {
         if (null === $isCalledFromOverridingMethod) {
-            $trace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 3);
+            $trace = debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, 3);
             $isCalledFromOverridingMethod = isset($trace[2]['function'], $trace[2]['object']) && 'serialize' === $trace[2]['function'] && $this === $trace[2]['object'];
         }
 

@@ -19,7 +19,7 @@ class KernelWithoutBundles extends Kernel
 {
     public function registerBundles()
     {
-        return [];
+        return array();
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)

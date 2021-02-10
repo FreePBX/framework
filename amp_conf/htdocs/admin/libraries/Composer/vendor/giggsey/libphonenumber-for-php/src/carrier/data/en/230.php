@@ -12,10 +12,13 @@
 
 return array (
   230525 => 'Cellplus',
+  230526 => 'Cellplus',
+  230527 => 'MTML',
   230528 => 'MTML',
   230529 => 'MTML',
   23054 => 'Emtel',
   2305471 => 'Cellplus',
+  23055 => 'Emtel',
   23057 => 'Cellplus',
   230571 => 'Emtel',
   230572 => 'Emtel',
@@ -33,6 +36,7 @@ return array (
   2305876 => 'Cellplus',
   2305877 => 'Cellplus',
   2305878 => 'Cellplus',
+  230588 => 'MTML',
   230589 => 'MTML',
   230590 => 'Cellplus',
   230591 => 'Cellplus',
