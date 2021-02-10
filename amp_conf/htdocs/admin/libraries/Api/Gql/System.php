@@ -187,11 +187,11 @@ class System extends Base {
 		$sql->execute(array("%".$username."%"));
 		$rows = $sql->fetchAll(\PDO::FETCH_ASSOC);
 		if (count($rows) > 0) {
-			$message = "Admin user already exists, updating other parameters";
+			$message = _("Admin user already exists, updating other parameters");
 		}else{
 			$sth = $db->prepare("INSERT INTO `ampusers` (`username`, `password_sha1`, `sections`) VALUES ( ?, ?, '*')");
 			$sth->execute(array($username, sha1($settings['password'])));
-			$message = "Initial Setup is completed";
+			$message = _("Initial Setup is completed");
 		}
 
 		$settings = $this->resolveNames($settings);
@@ -201,7 +201,7 @@ class System extends Base {
 		// need to make in OOBE as framework completed
 		$this->completeOOBE('framework');
 
-		return ['message' => _($message),'status' => true];
+		return ['message' => $message,'status' => true];
 	}
 	
 	/**
