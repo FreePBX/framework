@@ -187,19 +187,21 @@ class System extends Base {
 		$sql->execute(array("%".$username."%"));
 		$rows = $sql->fetchAll(\PDO::FETCH_ASSOC);
 		if (count($rows) > 0) {
-			return ['message' => _("Admin user already exists"),'status' => false];
+			$message = "Admin user already exists, updating other parameters";
+		}else{
+			$sth = $db->prepare("INSERT INTO `ampusers` (`username`, `password_sha1`, `sections`) VALUES ( ?, ?, '*')");
+			$sth->execute(array($username, sha1($settings['password'])));
+			$message = "Initial Setup is completed";
 		}
 
-		$sth = $db->prepare("INSERT INTO `ampusers` (`username`, `password_sha1`, `sections`) VALUES ( ?, ?, '*')");
-		$sth->execute(array($username, sha1($settings['password'])));
-
+		$settings = $this->resolveNames($settings);
 		$um = new \FreePBX\Builtin\UpdateManager();
 		$um->updateUpdateSettings($settings);
-		$um->setNotificationEmail($settings['notificationEmail']);
+		$um->setNotificationEmail($settings['notification_emails']);
 		// need to make in OOBE as framework completed
 		$this->completeOOBE('framework');
 
-		return ['message' => _("Initial Setup is completed"),'status' => true];
+		return ['message' => _($message),'status' => true];
 	}
 	
 	/**
@@ -277,5 +279,21 @@ class System extends Base {
 		}else{
 			return ['message' => _('Sorry, yum upgrade has failed'), 'status' => false];
 		}
+	}
+	
+	/**
+	 * resolvenames
+	 *
+	 * @return void
+	 */
+	private function resolvenames($settings){
+		$settings['notification_emails'] = $settings['notificationEmail'];
+		$settings['system_ident'] = $settings['systemIdentifier'];
+		$settings['auto_module_updates'] = $settings['autoModuleUpdate'];
+		$settings['auto_module_security_updates'] = $settings['autoModuleSecurityUpdate'];
+		$settings['unsigned_module_emails'] = $settings['securityEmailUnsignedModules'];
+		$settings['update_every'] = $settings['updateDay'];
+		$settings['update_period'] = $settings['updatePeriod'];
+		return $settings;
 	}
 }
