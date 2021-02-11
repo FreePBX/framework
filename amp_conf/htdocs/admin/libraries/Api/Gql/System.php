@@ -39,6 +39,15 @@ class System extends Base {
 					'mutateAndGetPayload' => function ($input) {
 						return $this->addInitialSetup($input);
 					}
+				]),
+				'updateSystemRPM' => Relay::mutationWithClientMutationId([
+					'name' => 'updateSystemRPM',
+					'description' => _('Update system RPM package'),
+					'inputFields' => [],
+					'outputFields' => $this->getOutputFields(),
+					'mutateAndGetPayload' => function () {
+						return $this->yumUpgrade();
+					}
 				])
 				];
 			};
@@ -59,6 +68,13 @@ class System extends Base {
 						'description' => 'General System information',
 						'resolve' => function($root, $args) {
 							return []; //trick the resolver into not thinking this is null
+						}
+					],
+					'fetchRPMUpgradeStatus' => [
+						'type' => $this->typeContainer->get('system')->getObject(),
+						'description' => _('Check the system yum-upgrade status'),
+						'resolve' => function() {
+							return $this->yumUpgradeStatus();
 						}
 					]
 				];
@@ -143,7 +159,15 @@ class System extends Base {
 					'resolve' => function ($root, $args) {
 						return check_reload_needed();
 					}
-				]
+				],
+				'message' =>[
+					'type' => Type::string(),
+					'description' => _('Message for the request')
+				],
+				'status' =>[
+					'type' => Type::boolean(),
+					'description' => _('Status for the request')
+				],
 			];
 		});
 	}
@@ -163,19 +187,21 @@ class System extends Base {
 		$sql->execute(array("%".$username."%"));
 		$rows = $sql->fetchAll(\PDO::FETCH_ASSOC);
 		if (count($rows) > 0) {
-			return ['message' => _("Admin user already exists"),'status' => false];
+			$message = _("Admin user already exists, updating other parameters");
+		}else{
+			$sth = $db->prepare("INSERT INTO `ampusers` (`username`, `password_sha1`, `sections`) VALUES ( ?, ?, '*')");
+			$sth->execute(array($username, sha1($settings['password'])));
+			$message = _("Initial Setup is completed");
 		}
 
-		$sth = $db->prepare("INSERT INTO `ampusers` (`username`, `password_sha1`, `sections`) VALUES ( ?, ?, '*')");
-		$sth->execute(array($username, sha1($settings['password'])));
-
+		$settings = $this->resolveNames($settings);
 		$um = new \FreePBX\Builtin\UpdateManager();
 		$um->updateUpdateSettings($settings);
-		$um->setNotificationEmail($settings['notificationEmail']);
+		$um->setNotificationEmail($settings['notification_emails']);
 		// need to make in OOBE as framework completed
 		$this->completeOOBE('framework');
 
-		return ['message' => _("Initial Setup is completed"),'status' => false];
+		return ['message' => $message,'status' => true];
 	}
 	
 	/**
@@ -212,7 +238,62 @@ class System extends Base {
 			'status' =>[
 				'type' => Type::boolean(),
 				'description' => _('Status for the request')
+			],
+			'transaction_id' => [
+				'type' => Type::string(),
+				'description' => _('Transaction Id for status check')
 			]
 		];
+	}
+	
+	/**
+	 * yumUpgrade
+	 *
+	 * @return void
+	 */
+	private function yumUpgrade(){
+		try{
+			$res = $this->freepbx->Framework->getSystemObj()->startYumUpdate();
+			if($res){
+				return ['message' => _('Yum Upgrade has been initiated. Please check the status using yumUpgradeStatus api'),'status' => true];
+			}else{
+				return ['message' => _('Yum Upgrade is already running'),'status' => true];
+			}
+		}catch(Exception $ex){
+			return ['message' => _($ex->message) , 'status' => false];
+		}
+	}
+	
+	/**
+	 * yumUpgradeStatus
+	 *
+	 * @return void
+	 */
+	private function yumUpgradeStatus(){
+		$res = $this->freepbx->Framework->getSystemObj()->getYumUpdateStatus();
+		
+		if($res['status'] == "complete"){
+			return ['message' => _('Yum upgrade is completed'), 'status' => true];
+		}elseif($res['status'] == "inprogress"){
+			return ['message' => _('Yum upgrade is in progress'), 'status' => true];
+		}else{
+			return ['message' => _('Sorry, yum upgrade has failed'), 'status' => false];
+		}
+	}
+	
+	/**
+	 * resolvenames
+	 *
+	 * @return void
+	 */
+	private function resolvenames($settings){
+		$settings['notification_emails'] = $settings['notificationEmail'];
+		$settings['system_ident'] = $settings['systemIdentifier'];
+		$settings['auto_module_updates'] = $settings['autoModuleUpdate'];
+		$settings['auto_module_security_updates'] = $settings['autoModuleSecurityUpdate'];
+		$settings['unsigned_module_emails'] = $settings['securityEmailUnsignedModules'];
+		$settings['update_every'] = $settings['updateDay'];
+		$settings['update_period'] = $settings['updatePeriod'];
+		return $settings;
 	}
 }

@@ -63,11 +63,18 @@ class SystemAdminGqlApiTest extends ApiBaseTestCase {
      * @return void
      */
     public function testaddInitialSetupWhenDuplicateEntriesShouldReturnfalse(){
+      $db = self::$freepbx->Database();
+      $sql = $db->prepare("DELETE FROM `ampusers` where username like ?");
+		  $sql->execute(array("%test%"));
+      $pass = rand();
+
+      $sql = $db->prepare("INSERT INTO `ampusers` (`username`, `password_sha1`, `sections`) VALUES ( ?, ?, '*')");
+	  	$sql->execute(array("test", $pass));
 
       $response = $this->request("mutation {
         addInitialSetup(input: { 
          username: \"test\" 
-         password: \"test\" 
+         password: \"{$pass}\" 
          notificationEmail: \"test@gmail.com\"
          systemIdentifier: \"VOIP Server\"
          autoModuleUpdate: \"enabled\"
@@ -82,17 +89,25 @@ class SystemAdminGqlApiTest extends ApiBaseTestCase {
 
 		$json = (string)$response->getBody();
 
-      $this->assertEquals('{"errors":[{"message":"Admin user already exists","status":false}]}', $json);
-      
-      $this->assertEquals(400, $response->getStatusCode());
+    $this->assertEquals('{"data":{"addInitialSetup":{"status":true,"message":"Admin user already exists, updating other parameters"}}}', $json);
+    $this->assertEquals(200, $response->getStatusCode());
     }
-
+   
+   /**
+    * testaddInitialSetAllGoodShouldReturnfalse
+    *
+    * @return void
+    */
    public function testaddInitialSetAllGoodShouldReturnfalse(){
+      $db = self::$freepbx->Database();
+      $sql = $db->prepare("DELETE FROM `ampusers` where username like ?");
+      $sql->execute(array("%test%"));
+      $pass = rand();
 
       $response = $this->request("mutation {
         addInitialSetup(input: { 
-         username: \"testuser\" 
-         password: \"testuser\" 
+         username: \"test\" 
+         password: \"{$pass}\"
          notificationEmail: \"test@gmail.com\"
          systemIdentifier: \"VOIP Server\"
          autoModuleUpdate: \"enabled\"
@@ -105,10 +120,11 @@ class SystemAdminGqlApiTest extends ApiBaseTestCase {
         }
       ");
 
-		$json = (string)$response->getBody();
-
+		  $json = (string)$response->getBody();
       $this->assertEquals('{"data":{"addInitialSetup":{"status":true,"message":"Initial Setup is completed"}}}', $json);
-      
       $this->assertEquals(200, $response->getStatusCode());
+
+      $sth = $db->prepare("DELETE FROM `ampusers` where username like ?");
+		  $sql->execute(array("%test%"));
    }
 }
