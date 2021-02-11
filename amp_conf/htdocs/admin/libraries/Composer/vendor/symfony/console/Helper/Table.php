@@ -193,8 +193,6 @@ class Table
     /**
      * Sets the minimum width of all columns.
      *
-     * @param array $widths
-     *
      * @return $this
      */
     public function setColumnWidths(array $widths)
@@ -341,7 +339,6 @@ class Table
      *
      *     | 9971-5-0210-0 | A Tale of Two Cities  | Charles Dickens  |
      *
-     * @param array  $row
      * @param string $cellFormat
      */
     private function renderRow(array $row, $cellFormat)
@@ -361,7 +358,6 @@ class Table
     /**
      * Renders table cell with padding.
      *
-     * @param array  $row
      * @param int    $column
      * @param string $cellFormat
      */
@@ -453,8 +449,7 @@ class Table
     /**
      * fill rows that contains rowspan > 1.
      *
-     * @param array $rows
-     * @param int   $line
+     * @param int $line
      *
      * @return array
      *
@@ -465,7 +460,7 @@ class Table
         $unmergedRows = [];
         foreach ($rows[$line] as $column => $cell) {
             if (null !== $cell && !$cell instanceof TableCell && !is_scalar($cell) && !(\is_object($cell) && method_exists($cell, '__toString'))) {
-                throw new InvalidArgumentException(sprintf('A cell must be a TableCell, a scalar or an object implementing __toString, %s given.', \gettype($cell)));
+                throw new InvalidArgumentException(sprintf('A cell must be a TableCell, a scalar or an object implementing "__toString()", "%s" given.', \gettype($cell)));
             }
             if ($cell instanceof TableCell && $cell->getRowspan() > 1) {
                 $nbLines = $cell->getRowspan() - 1;
@@ -533,8 +528,7 @@ class Table
     }
 
     /**
-     * @param array $rows
-     * @param int   $line
+     * @param int $line
      *
      * @return array
      */
@@ -629,8 +623,7 @@ class Table
     /**
      * Gets cell width.
      *
-     * @param array $row
-     * @param int   $column
+     * @param int $column
      *
      * @return int
      */

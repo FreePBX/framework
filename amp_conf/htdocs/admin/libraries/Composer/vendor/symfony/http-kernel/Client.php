@@ -39,7 +39,7 @@ class Client extends BaseClient
      * @param History             $history   A History instance to store the browser history
      * @param CookieJar           $cookieJar A CookieJar instance to store the cookies
      */
-    public function __construct(HttpKernelInterface $kernel, array $server = [], History $history = null, CookieJar $cookieJar = null)
+    public function __construct(HttpKernelInterface $kernel, array $server = array(), History $history = null, CookieJar $cookieJar = null)
     {
         // These class properties must be set before calling the parent constructor, as it may depend on it.
         $this->kernel = $kernel;
@@ -81,9 +81,8 @@ class Client extends BaseClient
      */
     protected function getScript($request)
     {
-        $kernel = var_export(serialize($this->kernel), true);
-        $request = var_export(serialize($request), true);
-
+        $kernel = str_replace("'", "\\'", serialize($this->kernel));
+        $request = str_replace("'", "\\'", serialize($request));
         $errorReporting = error_reporting();
 
         $requires = '';
@@ -92,7 +91,7 @@ class Client extends BaseClient
                 $r = new \ReflectionClass($class);
                 $file = \dirname(\dirname($r->getFileName())).'/autoload.php';
                 if (file_exists($file)) {
-                    $requires .= 'require_once '.var_export($file, true).";\n";
+                    $requires .= "require_once '".str_replace("'", "\\'", $file)."';\n";
                 }
             }
         }
@@ -108,8 +107,8 @@ error_reporting($errorReporting);
 
 $requires
 
-\$kernel = unserialize($kernel);
-\$request = unserialize($request);
+\$kernel = unserialize('$kernel');
+\$request = unserialize('$request');
 EOF;
 
         return $code.$this->getHandleScript();
@@ -159,7 +158,7 @@ EOF;
      */
     protected function filterFiles(array $files)
     {
-        $filtered = [];
+        $filtered = array();
         foreach ($files as $key => $value) {
             if (\is_array($value)) {
                 $filtered[$key] = $this->filterFiles($value);

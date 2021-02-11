@@ -17,8 +17,8 @@ use Symfony\Component\Process\Process;
 /**
  * WindowsPipes implementation uses temporary files as handles.
  *
- * @see https://bugs.php.net/bug.php?id=51800
- * @see https://bugs.php.net/bug.php?id=65650
+ * @see https://bugs.php.net/51800
+ * @see https://bugs.php.net/65650
  *
  * @author Romain Neutron <imprec@gmail.com>
  *
@@ -43,7 +43,7 @@ class WindowsPipes extends AbstractPipes
             // Fix for PHP bug #51800: reading from STDOUT pipe hangs forever on Windows if the output is too big.
             // Workaround for this problem is to use temporary files instead of pipes on Windows platform.
             //
-            // @see https://bugs.php.net/bug.php?id=51800
+            // @see https://bugs.php.net/51800
             $pipes = [
                 Process::STDOUT => Process::OUT,
                 Process::STDERR => Process::ERR,
@@ -56,20 +56,23 @@ class WindowsPipes extends AbstractPipes
                     $file = sprintf('%s\\sf_proc_%02X.%s', $tmpDir, $i, $name);
 
                     if (!$h = fopen($file.'.lock', 'w')) {
+                        if (file_exists($file.'.lock')) {
+                            continue 2;
+                        }
                         restore_error_handler();
-                        throw new RuntimeException(sprintf('A temporary file could not be opened to write the process output: %s', $lastError));
+                        throw new RuntimeException('A temporary file could not be opened to write the process output: '.$lastError);
                     }
-                    if (!flock($h, LOCK_EX | LOCK_NB)) {
+                    if (!flock($h, \LOCK_EX | \LOCK_NB)) {
                         continue 2;
                     }
                     if (isset($this->lockHandles[$pipe])) {
-                        flock($this->lockHandles[$pipe], LOCK_UN);
+                        flock($this->lockHandles[$pipe], \LOCK_UN);
                         fclose($this->lockHandles[$pipe]);
                     }
                     $this->lockHandles[$pipe] = $h;
 
                     if (!fclose(fopen($file, 'w')) || !$h = fopen($file, 'r')) {
-                        flock($this->lockHandles[$pipe], LOCK_UN);
+                        flock($this->lockHandles[$pipe], \LOCK_UN);
                         fclose($this->lockHandles[$pipe]);
                         unset($this->lockHandles[$pipe]);
                         continue 2;
@@ -105,8 +108,8 @@ class WindowsPipes extends AbstractPipes
             ];
         }
 
-        // We're not using pipe on Windows platform as it hangs (https://bugs.php.net/bug.php?id=51800)
-        // We're not using file handles as it can produce corrupted output https://bugs.php.net/bug.php?id=65650
+        // We're not using pipe on Windows platform as it hangs (https://bugs.php.net/51800)
+        // We're not using file handles as it can produce corrupted output https://bugs.php.net/65650
         // So we redirect output within the commandline and pass the nul device to the process
         return [
             ['pipe', 'r'],
@@ -149,7 +152,7 @@ class WindowsPipes extends AbstractPipes
             if ($close) {
                 ftruncate($fileHandle, 0);
                 fclose($fileHandle);
-                flock($this->lockHandles[$type], LOCK_UN);
+                flock($this->lockHandles[$type], \LOCK_UN);
                 fclose($this->lockHandles[$type]);
                 unset($this->fileHandles[$type], $this->lockHandles[$type]);
             }
@@ -183,7 +186,7 @@ class WindowsPipes extends AbstractPipes
         foreach ($this->fileHandles as $type => $handle) {
             ftruncate($handle, 0);
             fclose($handle);
-            flock($this->lockHandles[$type], LOCK_UN);
+            flock($this->lockHandles[$type], \LOCK_UN);
             fclose($this->lockHandles[$type]);
         }
         $this->fileHandles = $this->lockHandles = [];

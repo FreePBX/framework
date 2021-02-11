@@ -32,8 +32,8 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     private $request;
     private $surrogate;
     private $surrogateCacheStrategy;
-    private $options = [];
-    private $traces = [];
+    private $options = array();
+    private $traces = array();
 
     /**
      * Constructor.
@@ -70,30 +70,30 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      *                            This setting is overridden by the stale-if-error HTTP Cache-Control extension
      *                            (see RFC 5861).
      */
-    public function __construct(HttpKernelInterface $kernel, StoreInterface $store, SurrogateInterface $surrogate = null, array $options = [])
+    public function __construct(HttpKernelInterface $kernel, StoreInterface $store, SurrogateInterface $surrogate = null, array $options = array())
     {
         $this->store = $store;
         $this->kernel = $kernel;
         $this->surrogate = $surrogate;
 
         // needed in case there is a fatal error because the backend is too slow to respond
-        register_shutdown_function([$this->store, 'cleanup']);
+        register_shutdown_function(array($this->store, 'cleanup'));
 
-        $this->options = array_merge([
+        $this->options = array_merge(array(
             'debug' => false,
             'default_ttl' => 0,
-            'private_headers' => ['Authorization', 'Cookie'],
+            'private_headers' => array('Authorization', 'Cookie'),
             'allow_reload' => false,
             'allow_revalidate' => false,
             'stale_while_revalidate' => 2,
             'stale_if_error' => 60,
-        ], $options);
+        ), $options);
     }
 
     /**
      * Gets the current store.
      *
-     * @return StoreInterface A StoreInterface instance
+     * @return StoreInterface $store A StoreInterface instance
      */
     public function getStore()
     {
@@ -117,7 +117,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      */
     public function getLog()
     {
-        $log = [];
+        $log = array();
         foreach ($this->traces as $request => $traces) {
             $log[] = sprintf('%s: %s', $request, implode(', ', $traces));
         }
@@ -164,7 +164,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     {
         // FIXME: catch exceptions and implement a 500 error page here? -> in Varnish, there is a built-in error page mechanism
         if (HttpKernelInterface::MASTER_REQUEST === $type) {
-            $this->traces = [];
+            $this->traces = array();
             // Keep a clone of the original request for surrogates so they can access it.
             // We must clone here to get a separate instance because the application will modify the request during
             // the application flow (we know it always does because we do ourselves by setting REMOTE_ADDR to 127.0.0.1
@@ -175,7 +175,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             }
         }
 
-        $this->traces[$this->getTraceKey($request)] = [];
+        $this->traces[$this->getTraceKey($request)] = array();
 
         if (!$request->isMethodSafe(false)) {
             $response = $this->invalidate($request, $catch);
@@ -260,9 +260,9 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
                 $this->store->invalidate($request);
 
                 // As per the RFC, invalidate Location and Content-Location URLs if present
-                foreach (['Location', 'Content-Location'] as $header) {
+                foreach (array('Location', 'Content-Location') as $header) {
                     if ($uri = $response->headers->get($header)) {
-                        $subRequest = Request::create($uri, 'get', [], [], [], $request->server->all());
+                        $subRequest = Request::create($uri, 'get', array(), array(), array(), $request->server->all());
 
                         $this->store->invalidate($subRequest);
                     }
@@ -357,7 +357,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         // Add our cached etag validator to the environment.
         // We keep the etags from the client to handle the case when the client
         // has a different private valid entry which is not cached here.
-        $cachedEtags = $entry->getEtag() ? [$entry->getEtag()] : [];
+        $cachedEtags = $entry->getEtag() ? array($entry->getEtag()) : array();
         $requestEtags = $request->getETags();
         if ($etags = array_unique(array_merge($cachedEtags, $requestEtags))) {
             $subRequest->headers->set('if_none_match', implode(', ', $etags));
@@ -377,7 +377,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             $entry = clone $entry;
             $entry->headers->remove('Date');
 
-            foreach (['Date', 'Expires', 'Cache-Control', 'ETag', 'Last-Modified'] as $name) {
+            foreach (array('Date', 'Expires', 'Cache-Control', 'ETag', 'Last-Modified') as $name) {
                 if ($response->headers->has($name)) {
                     $entry->headers->set($name, $response->headers->get($name));
                 }
@@ -448,7 +448,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         $response = SubRequestHandler::handle($this->kernel, $request, HttpKernelInterface::MASTER_REQUEST, $catch);
 
         // we don't implement the stale-if-error on Requests, which is nonetheless part of the RFC
-        if (null !== $entry && \in_array($response->getStatusCode(), [500, 502, 503, 504])) {
+        if (null !== $entry && \in_array($response->getStatusCode(), array(500, 502, 503, 504))) {
             if (null === $age = $entry->headers->getCacheControlDirective('stale-if-error')) {
                 $age = $this->options['stale_if_error'];
             }
@@ -634,23 +634,16 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
     /**
      * Records that an event took place.
-     *
-     * @param Request $request A Request instance
-     * @param string  $event   The event name
      */
-    private function record(Request $request, $event)
+    private function record(Request $request, string $event)
     {
         $this->traces[$this->getTraceKey($request)][] = $event;
     }
 
     /**
      * Calculates the key we use in the "trace" array for a given request.
-     *
-     * @param Request $request
-     *
-     * @return string
      */
-    private function getTraceKey(Request $request)
+    private function getTraceKey(Request $request): string
     {
         $path = $request->getPathInfo();
         if ($qs = $request->getQueryString()) {
@@ -663,12 +656,8 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Checks whether the given (cached) response may be served as "stale" when a revalidation
      * is currently in progress.
-     *
-     * @param Response $entry
-     *
-     * @return bool true when the stale response may be served, false otherwise
      */
-    private function mayServeStaleWhileRevalidate(Response $entry)
+    private function mayServeStaleWhileRevalidate(Response $entry): bool
     {
         $timeout = $entry->headers->getCacheControlDirective('stale-while-revalidate');
 
@@ -681,12 +670,8 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
     /**
      * Waits for the store to release a locked entry.
-     *
-     * @param Request $request The request to wait for
-     *
-     * @return bool true if the lock was released before the internal timeout was hit; false if the wait timeout was exceeded
      */
-    private function waitForLock(Request $request)
+    private function waitForLock(Request $request): bool
     {
         $wait = 0;
         while ($this->store->isLocked($request) && $wait < 100) {

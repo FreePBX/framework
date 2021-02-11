@@ -65,8 +65,6 @@ class ResponseListenerTest extends TestCase
 
     public function testItSubscribesToTheOnKernelResponseEvent()
     {
-        $listener = new ResponseListener();
-
         $this->assertSame([KernelEvents::RESPONSE => 'onKernelResponse'], ResponseListener::getSubscribedEvents());
     }
 
@@ -95,9 +93,9 @@ class ResponseListenerTest extends TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $event->expects($this->any())->method('getRequest')->will($this->returnValue($request));
-        $event->expects($this->any())->method('isMasterRequest')->will($this->returnValue(HttpKernelInterface::MASTER_REQUEST === $type));
-        $event->expects($this->any())->method('getResponse')->will($this->returnValue($response));
+        $event->expects($this->any())->method('getRequest')->willReturn($request);
+        $event->expects($this->any())->method('isMasterRequest')->willReturn(HttpKernelInterface::MASTER_REQUEST === $type);
+        $event->expects($this->any())->method('getResponse')->willReturn($response);
 
         return $event;
     }

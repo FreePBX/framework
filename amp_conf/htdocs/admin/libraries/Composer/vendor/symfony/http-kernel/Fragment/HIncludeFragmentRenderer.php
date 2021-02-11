@@ -38,7 +38,7 @@ class HIncludeFragmentRenderer extends RoutableFragmentRenderer
      * @param string                      $globalDefaultTemplate The global default content (it can be a template name or the content)
      * @param string                      $charset
      */
-    public function __construct($templating = null, UriSigner $signer = null, $globalDefaultTemplate = null, $charset = 'utf-8')
+    public function __construct($templating = null, UriSigner $signer = null, string $globalDefaultTemplate = null, string $charset = 'utf-8')
     {
         $this->setTemplating($templating);
         $this->globalDefaultTemplate = $globalDefaultTemplate;
@@ -81,7 +81,7 @@ class HIncludeFragmentRenderer extends RoutableFragmentRenderer
      *  * id:         An optional hx:include tag id attribute
      *  * attributes: An optional array of hx:include tag attributes
      */
-    public function render($uri, Request $request, array $options = [])
+    public function render($uri, Request $request, array $options = array())
     {
         if ($uri instanceof ControllerReference) {
             if (null === $this->signer) {
@@ -102,7 +102,7 @@ class HIncludeFragmentRenderer extends RoutableFragmentRenderer
             $content = $template;
         }
 
-        $attributes = isset($options['attributes']) && \is_array($options['attributes']) ? $options['attributes'] : [];
+        $attributes = isset($options['attributes']) && \is_array($options['attributes']) ? $options['attributes'] : array();
         if (isset($options['id']) && $options['id']) {
             $attributes['id'] = $options['id'];
         }
@@ -121,12 +121,7 @@ class HIncludeFragmentRenderer extends RoutableFragmentRenderer
         return new Response(sprintf('<hx:include src="%s"%s>%s</hx:include>', $uri, $renderedAttributes, $content));
     }
 
-    /**
-     * @param string $template
-     *
-     * @return bool
-     */
-    private function templateExists($template)
+    private function templateExists(string $template): bool
     {
         if ($this->templating instanceof EngineInterface) {
             try {

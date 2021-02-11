@@ -56,9 +56,8 @@ class X509AuthenticationListenerTest extends TestCase
     /**
      * @dataProvider dataProviderGetPreAuthenticatedDataNoUser
      */
-    public function testGetPreAuthenticatedDataNoUser($emailAddress)
+    public function testGetPreAuthenticatedDataNoUser($emailAddress, $credentials)
     {
-        $credentials = 'CN=Sample certificate DN/emailAddress='.$emailAddress;
         $request = new Request([], [], [], [], [], ['SSL_CLIENT_S_DN' => $credentials]);
 
         $tokenStorage = $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface')->getMock();
@@ -76,17 +75,18 @@ class X509AuthenticationListenerTest extends TestCase
 
     public static function dataProviderGetPreAuthenticatedDataNoUser()
     {
-        return [
-            'basicEmailAddress' => ['cert@example.com'],
-            'emailAddressWithPlusSign' => ['cert+something@example.com'],
-        ];
+        yield ['cert@example.com', 'CN=Sample certificate DN/emailAddress=cert@example.com'];
+        yield ['cert+something@example.com', 'CN=Sample certificate DN/emailAddress=cert+something@example.com'];
+        yield ['cert@example.com', 'CN=Sample certificate DN,emailAddress=cert@example.com'];
+        yield ['cert+something@example.com', 'CN=Sample certificate DN,emailAddress=cert+something@example.com'];
+        yield ['cert+something@example.com', 'emailAddress=cert+something@example.com,CN=Sample certificate DN'];
+        yield ['cert+something@example.com', 'emailAddress=cert+something@example.com'];
+        yield ['firstname.lastname@mycompany.co.uk', 'emailAddress=firstname.lastname@mycompany.co.uk,CN=Firstname.Lastname,OU=london,OU=company design and engineering,OU=Issuer London,OU=Roaming,OU=Interactive,OU=Users,OU=Standard,OU=Business,DC=england,DC=core,DC=company,DC=co,DC=uk'];
     }
 
-    /**
-     * @expectedException \Symfony\Component\Security\Core\Exception\BadCredentialsException
-     */
     public function testGetPreAuthenticatedDataNoData()
     {
+        $this->expectException('Symfony\Component\Security\Core\Exception\BadCredentialsException');
         $request = new Request([], [], [], [], [], []);
 
         $tokenStorage = $this->getMockBuilder('Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface')->getMock();
@@ -98,7 +98,7 @@ class X509AuthenticationListenerTest extends TestCase
         $method = new \ReflectionMethod($listener, 'getPreAuthenticatedData');
         $method->setAccessible(true);
 
-        $result = $method->invokeArgs($listener, [$request]);
+        $method->invokeArgs($listener, [$request]);
     }
 
     public function testGetPreAuthenticatedDataWithDifferentKeys()

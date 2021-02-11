@@ -1,14 +1,13 @@
 Inflector Component
 ===================
 
-Inflector converts words between their singular and plural forms (English only).
+**CAUTION**: this component is deprecated since Symfony 5.1. Instead, use the
+[String component EnglishInflector](https://github.com/symfony/symfony/tree/master/src/Symfony/Component/String/Inflector/EnglishInflector.php).
 
-Disclaimer
-----------
+-----
 
-This component is currently marked as internal. Do not use it in your own code.
-Breaking changes may be introduced in the next minor version of Symfony, or the
-component itself might even be removed completely.
+The Inflector component converts words between their singular and plural forms
+(English only).
 
 Resources
 ---------

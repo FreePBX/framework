@@ -41,7 +41,7 @@ class XliffFileDumper extends FileDumper
             return $this->dumpXliff1($defaultLocale, $messages, $domain, $options);
         }
         if ('2.0' === $xliffVersion) {
-            return $this->dumpXliff2($defaultLocale, $messages, $domain, $options);
+            return $this->dumpXliff2($defaultLocale, $messages, $domain);
         }
 
         throw new InvalidArgumentException(sprintf('No support implemented for dumping XLIFF version "%s".', $xliffVersion));
@@ -129,7 +129,7 @@ class XliffFileDumper extends FileDumper
         return $dom->saveXML();
     }
 
-    private function dumpXliff2($defaultLocale, MessageCatalogue $messages, $domain, array $options = [])
+    private function dumpXliff2($defaultLocale, MessageCatalogue $messages, $domain)
     {
         $dom = new \DOMDocument('1.0', 'utf-8');
         $dom->formatOutput = true;
@@ -141,11 +141,20 @@ class XliffFileDumper extends FileDumper
         $xliff->setAttribute('trgLang', str_replace('_', '-', $messages->getLocale()));
 
         $xliffFile = $xliff->appendChild($dom->createElement('file'));
-        $xliffFile->setAttribute('id', $domain.'.'.$messages->getLocale());
+        if (MessageCatalogue::INTL_DOMAIN_SUFFIX === substr($domain, -($suffixLength = \strlen(MessageCatalogue::INTL_DOMAIN_SUFFIX)))) {
+            $xliffFile->setAttribute('id', substr($domain, 0, -$suffixLength).'.'.$messages->getLocale());
+        } else {
+            $xliffFile->setAttribute('id', $domain.'.'.$messages->getLocale());
+        }
 
         foreach ($messages->all($domain) as $source => $target) {
             $translation = $dom->createElement('unit');
             $translation->setAttribute('id', strtr(substr(base64_encode(hash('sha256', $source, true)), 0, 7), '/+', '._'));
+            $name = $source;
+            if (\strlen($source) > 80) {
+                $name = substr(md5($source), -7);
+            }
+            $translation->setAttribute('name', $name);
             $metadata = $messages->getMetadata($source, $domain);
 
             // Add notes section

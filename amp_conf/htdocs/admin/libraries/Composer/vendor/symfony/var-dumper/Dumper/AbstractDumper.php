@@ -35,7 +35,7 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
     protected $indentPad = '  ';
     protected $flags;
 
-    private $charset;
+    private $charset = '';
 
     /**
      * @param callable|resource|string|null $output  A line dumper callable, an opened stream or an output path, defaults to static::$defaultOutput
@@ -126,8 +126,8 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
         $this->decimalPoint = localeconv();
         $this->decimalPoint = $this->decimalPoint['decimal_point'];
 
-        if ($locale = $this->flags & (self::DUMP_COMMA_SEPARATOR | self::DUMP_TRAILING_COMMA) ? setlocale(LC_NUMERIC, 0) : null) {
-            setlocale(LC_NUMERIC, 'C');
+        if ($locale = $this->flags & (self::DUMP_COMMA_SEPARATOR | self::DUMP_TRAILING_COMMA) ? setlocale(\LC_NUMERIC, 0) : null) {
+            setlocale(\LC_NUMERIC, 'C');
         }
 
         if ($returnDump = true === $output) {
@@ -151,9 +151,11 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
                 $this->setOutput($prevOutput);
             }
             if ($locale) {
-                setlocale(LC_NUMERIC, $locale);
+                setlocale(\LC_NUMERIC, $locale);
             }
         }
+
+        return null;
     }
 
     /**
@@ -185,13 +187,13 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
     /**
      * Converts a non-UTF-8 string to UTF-8.
      *
-     * @param string $s The non-UTF-8 string to convert
+     * @param string|null $s The non-UTF-8 string to convert
      *
-     * @return string The string converted to UTF-8
+     * @return string|null The string converted to UTF-8
      */
     protected function utf8Encode($s)
     {
-        if (preg_match('//u', $s)) {
+        if (null === $s || preg_match('//u', $s)) {
             return $s;
         }
 

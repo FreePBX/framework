@@ -32,7 +32,7 @@ class ServiceReferenceGraphNode
      * @param string $id    The node identifier
      * @param mixed  $value The node value
      */
-    public function __construct($id, $value)
+    public function __construct(string $id, $value)
     {
         $this->id = $id;
         $this->value = $value;
@@ -81,7 +81,7 @@ class ServiceReferenceGraphNode
     /**
      * Returns the in edges.
      *
-     * @return array The in ServiceReferenceGraphEdge array
+     * @return ServiceReferenceGraphEdge[]
      */
     public function getInEdges()
     {
@@ -91,7 +91,7 @@ class ServiceReferenceGraphNode
     /**
      * Returns the out edges.
      *
-     * @return array The out ServiceReferenceGraphEdge array
+     * @return ServiceReferenceGraphEdge[]
      */
     public function getOutEdges()
     {

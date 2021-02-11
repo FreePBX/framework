@@ -31,7 +31,7 @@ abstract class AbstractToken implements TokenInterface
     private $attributes = [];
 
     /**
-     * @param (RoleInterface|string)[] $roles An array of roles
+     * @param (Role|string)[] $roles An array of roles
      *
      * @throws \InvalidArgumentException
      */
@@ -41,7 +41,7 @@ abstract class AbstractToken implements TokenInterface
             if (\is_string($role)) {
                 $role = new Role($role);
             } elseif (!$role instanceof RoleInterface) {
-                throw new \InvalidArgumentException(sprintf('$roles must be an array of strings, Role instances or RoleInterface instances, but got %s.', \gettype($role)));
+                throw new \InvalidArgumentException(sprintf('$roles must be an array of strings or Role instances, but got "%s".', \gettype($role)));
             }
 
             $this->roles[] = $role;
@@ -139,7 +139,7 @@ abstract class AbstractToken implements TokenInterface
     {
         $serialized = [$this->user, $this->authenticated, $this->roles, $this->attributes];
 
-        return $this->doSerialize($serialized, \func_num_args() ? \func_get_arg(0) : null);
+        return $this->doSerialize($serialized, \func_num_args() ? func_get_arg(0) : null);
     }
 
     /**
@@ -216,7 +216,7 @@ abstract class AbstractToken implements TokenInterface
      */
     public function __toString()
     {
-        $class = \get_class($this);
+        $class = static::class;
         $class = substr($class, strrpos($class, '\\') + 1);
 
         $roles = [];
@@ -233,7 +233,7 @@ abstract class AbstractToken implements TokenInterface
     protected function doSerialize($serialized, $isCalledFromOverridingMethod)
     {
         if (null === $isCalledFromOverridingMethod) {
-            $trace = debug_backtrace(DEBUG_BACKTRACE_PROVIDE_OBJECT, 3);
+            $trace = debug_backtrace(\DEBUG_BACKTRACE_PROVIDE_OBJECT, 3);
             $isCalledFromOverridingMethod = isset($trace[2]['function'], $trace[2]['object']) && 'serialize' === $trace[2]['function'] && $this === $trace[2]['object'];
         }
 

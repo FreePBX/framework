@@ -52,11 +52,9 @@ class ProcessBuilderTest extends TestCase
         $this->assertSame($env, $proc->getEnv());
     }
 
-    /**
-     * @expectedException \Symfony\Component\Process\Exception\InvalidArgumentException
-     */
     public function testNegativeTimeoutFromSetter()
     {
+        $this->expectException('Symfony\Component\Process\Exception\InvalidArgumentException');
         $pb = new ProcessBuilder();
         $pb->setTimeout(-1);
     }
@@ -81,7 +79,7 @@ class ProcessBuilderTest extends TestCase
 
         $proc = $pb->getProcess();
 
-        $this->assertContains('second', $proc->getCommandLine());
+        $this->assertStringContainsString('second', $proc->getCommandLine());
     }
 
     public function testPrefixIsPrependedToAllGeneratedProcess()
@@ -149,11 +147,9 @@ class ProcessBuilderTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException \Symfony\Component\Process\Exception\LogicException
-     */
     public function testShouldThrowALogicExceptionIfNoPrefixAndNoArgument()
     {
+        $this->expectException('Symfony\Component\Process\Exception\LogicException');
         ProcessBuilder::create()->getProcess();
     }
 
@@ -201,12 +197,10 @@ class ProcessBuilderTest extends TestCase
         $this->assertFalse($process->isOutputDisabled());
     }
 
-    /**
-     * @expectedException \Symfony\Component\Process\Exception\InvalidArgumentException
-     * @expectedExceptionMessage Symfony\Component\Process\ProcessBuilder::setInput only accepts strings, Traversable objects or stream resources.
-     */
     public function testInvalidInput()
     {
+        $this->expectException('Symfony\Component\Process\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('"Symfony\Component\Process\ProcessBuilder::setInput" only accepts strings, Traversable objects or stream resources.');
         $builder = ProcessBuilder::create();
         $builder->setInput([]);
     }

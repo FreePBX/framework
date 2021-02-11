@@ -19,7 +19,6 @@ use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Symfony\Component\HttpKernel\EventListener\ProfilerListener;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Kernel;
-use Symfony\Component\HttpKernel\Profiler\Profile;
 
 class ProfilerListenerTest extends TestCase
 {
@@ -28,7 +27,9 @@ class ProfilerListenerTest extends TestCase
      */
     public function testKernelTerminate()
     {
-        $profile = new Profile('token');
+        $profile = $this->getMockBuilder('Symfony\Component\HttpKernel\Profiler\Profile')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $profiler = $this->getMockBuilder('Symfony\Component\HttpKernel\Profiler\Profiler')
             ->disableOriginalConstructor()

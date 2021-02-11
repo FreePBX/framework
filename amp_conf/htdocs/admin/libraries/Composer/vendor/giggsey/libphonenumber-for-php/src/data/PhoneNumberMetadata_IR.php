@@ -30,7 +30,7 @@ return array (
   ),
   'fixedLine' => 
   array (
-    'NationalNumberPattern' => '944111\\d{4}|94(?:(?:00|44)0|(?:11|2\\d)\\d|30[01])\\d{5}|(?:1[137]|2[13-68]|3[1458]|4[145]|5[1468]|6[16]|7[1467]|8[13467])(?:[03-57]\\d{7}|[16]\\d{3}(?:\\d{4})?|[289]\\d{3}(?:\\d(?:\\d{3})?)?)',
+    'NationalNumberPattern' => '(?:1[137]|2[13-68]|3[1458]|4[145]|5[1468]|6[16]|7[1467]|8[13467])(?:[03-57]\\d{7}|[16]\\d{3}(?:\\d{4})?|[289]\\d{3}(?:\\d(?:\\d{3})?)?)|94(?:000[09]|2(?:121|[2689]0\\d)|30[0-2]\\d|4(?:111|40\\d))\\d{4}',
     'ExampleNumber' => '2123456789',
     'PossibleLength' => 
     array (
@@ -47,7 +47,7 @@ return array (
   ),
   'mobile' => 
   array (
-    'NationalNumberPattern' => '9(?:(?:0(?:[1-35]\\d|44)|(?:[13]\\d|2[0-2])\\d)\\d|9(?:(?:[0-2]\\d|44)\\d|510|8(?:1\\d|88)|9(?:0[013]|1[0134]|21|77|9[6-9])))\\d{5}',
+    'NationalNumberPattern' => '99(?:5[15]0|888|9(?:0[013]|21|77|88))\\d{5}|9(?:0(?:[1-35]\\d|4[4-6])|(?:[13]\\d|2[0-3])\\d|9(?:[0-2]\\d|3[01]|4[0145]|81|9[19]))\\d{6}',
     'ExampleNumber' => '9123456789',
     'PossibleLength' => 
     array (
@@ -99,7 +99,7 @@ return array (
   ),
   'voip' => 
   array (
-    'NationalNumberPattern' => '993\\d{7}',
+    'NationalNumberPattern' => '993[2-9]\\d{6}',
     'ExampleNumber' => '9932123456',
     'PossibleLength' => 
     array (
@@ -144,7 +144,7 @@ return array (
   ),
   'noInternationalDialling' => 
   array (
-    'NationalNumberPattern' => '96(?:0[12]|2[16-8]|3(?:08|[14]5|[23]|66)|4(?:0|80)|5[01]|6[89]|86|9[19])|94(?:11[1-7]|440)\\d{5}',
+    'NationalNumberPattern' => '9(?:4440\\d{5}|6(?:0[12]|2[16-8]|3(?:08|[14]5|[23]|66)|4(?:0|80)|5[01]|6[89]|86|9[19]))',
     'PossibleLength' => 
     array (
       0 => 4,
@@ -217,5 +217,5 @@ return array (
   ),
   'mainCountryForCode' => false,
   'leadingZeroPossible' => false,
-  'mobileNumberPortableRegion' => false,
+  'mobileNumberPortableRegion' => true,
 );

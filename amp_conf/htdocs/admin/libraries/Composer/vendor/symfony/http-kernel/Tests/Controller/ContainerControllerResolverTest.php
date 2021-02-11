@@ -13,7 +13,6 @@ namespace Symfony\Component\HttpKernel\Tests\Controller;
 
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Controller\ContainerControllerResolver;
@@ -105,11 +104,11 @@ class ContainerControllerResolverTest extends ControllerResolverTest
 
         $resolver = $this->createControllerResolver(null, $container);
         $request = Request::create('/');
-        $request->attributes->set('_controller', [NonInstantiableController::class, 'action']);
+        $request->attributes->set('_controller', array(NonInstantiableController::class, 'action'));
 
         $controller = $resolver->getController($request);
 
-        $this->assertSame([NonInstantiableController::class, 'action'], $controller);
+        $this->assertSame(array(NonInstantiableController::class, 'action'), $controller);
     }
 
     /**
@@ -134,24 +133,14 @@ class ContainerControllerResolverTest extends ControllerResolverTest
         $container->expects($this->atLeastOnce())
             ->method('getRemovedIds')
             ->with()
-            ->will($this->returnValue([ImpossibleConstructController::class => true]))
+            ->will($this->returnValue(array(ImpossibleConstructController::class => true)))
         ;
 
         $resolver = $this->createControllerResolver(null, $container);
         $request = Request::create('/');
-        $request->attributes->set('_controller', [ImpossibleConstructController::class, 'action']);
+        $request->attributes->set('_controller', array(ImpossibleConstructController::class, 'action'));
 
-        if (\PHP_VERSION_ID < 70100) {
-            ErrorHandler::register();
-            try {
-                $resolver->getController($request);
-            } finally {
-                restore_error_handler();
-                restore_exception_handler();
-            }
-        } else {
-            $resolver->getController($request);
-        }
+        $resolver->getController($request);
     }
 
     public function testNonInstantiableControllerWithCorrespondingService()
@@ -172,11 +161,11 @@ class ContainerControllerResolverTest extends ControllerResolverTest
 
         $resolver = $this->createControllerResolver(null, $container);
         $request = Request::create('/');
-        $request->attributes->set('_controller', [NonInstantiableController::class, 'action']);
+        $request->attributes->set('_controller', array(NonInstantiableController::class, 'action'));
 
         $controller = $resolver->getController($request);
 
-        $this->assertSame([$service, 'action'], $controller);
+        $this->assertSame(array($service, 'action'), $controller);
     }
 
     /**
@@ -195,7 +184,7 @@ class ContainerControllerResolverTest extends ControllerResolverTest
         $container->expects($this->atLeastOnce())
             ->method('getRemovedIds')
             ->with()
-            ->will($this->returnValue(['app.my_controller' => true]))
+            ->will($this->returnValue(array('app.my_controller' => true)))
         ;
 
         $resolver = $this->createControllerResolver(null, $container);
@@ -251,16 +240,16 @@ class ContainerControllerResolverTest extends ControllerResolverTest
 
     public function getUndefinedControllers()
     {
-        return [
-            ['foo', \LogicException::class, '/Controller not found: service "foo" does not exist\./'],
-            ['oof::bar', \InvalidArgumentException::class, '/Class "oof" does not exist\./'],
-            ['stdClass', \LogicException::class, '/Controller not found: service "stdClass" does not exist\./'],
-            [
+        return array(
+            array('foo', \LogicException::class, '/Controller not found: service "foo" does not exist\./'),
+            array('oof::bar', \InvalidArgumentException::class, '/Class "oof" does not exist\./'),
+            array('stdClass', \LogicException::class, '/Controller not found: service "stdClass" does not exist\./'),
+            array(
                 'Symfony\Component\HttpKernel\Tests\Controller\ControllerResolverTest::bar',
                 \InvalidArgumentException::class,
                 '/.?[cC]ontroller(.*?) for URI "\/" is not callable\.( Expected method(.*) Available methods)?/',
-            ],
-        ];
+            ),
+        );
     }
 
     protected function createControllerResolver(LoggerInterface $logger = null, ContainerInterface $container = null)

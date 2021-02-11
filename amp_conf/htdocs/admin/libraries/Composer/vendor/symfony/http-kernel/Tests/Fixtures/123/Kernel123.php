@@ -18,7 +18,7 @@ class Kernel123 extends Kernel
 {
     public function registerBundles()
     {
-        return [];
+        return array();
     }
 
     public function registerContainerConfiguration(LoaderInterface $loader)

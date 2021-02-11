@@ -192,7 +192,7 @@ class Connector {
 
 	/**
 	 * Set IP masks of clients that will be allowed to connect to PHP Console
-	 * @param array $ipMasks Use *(star character) for "any numbers" placeholder array('192.168.*.*', '10.2.12*.*', '127.0.0.1')
+	 * @param array $ipMasks Use *(star character) for "any numbers" placeholder array('192.168.*.*', '10.2.12*.*', '127.0.0.1', '2001:0:5ef5:79fb:*:*:*:*')
 	 */
 	public function setAllowedIpMasks(array $ipMasks) {
 		if($this->isActiveClient()) {
@@ -488,7 +488,7 @@ class Connector {
 					$response->auth = $this->auth->getServerAuthStatus($this->client->auth);
 				}
 				if(!$this->auth || $this->isAuthorized()) {
-					$response->isLocal = isset($_SERVER['REMOTE_ADDR']) && $_SERVER['REMOTE_ADDR'] == '127.0.0.1';
+					$response->isLocal = isset($_SERVER['REMOTE_ADDR']) && ($_SERVER['REMOTE_ADDR'] == '127.0.0.1' || $_SERVER['REMOTE_ADDR'] == '::1');
 					$response->docRoot = isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : null;
 					$response->sourcesBasePath = $this->sourcesBasePath;
 					$response->isEvalEnabled = $this->isEvalListenerStarted;
@@ -643,4 +643,3 @@ final class EvalResultMessage extends Message {
 	public $output;
 	public $time;
 }
-

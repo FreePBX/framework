@@ -75,11 +75,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     }
 
     /**
-     * Sets style foreground color.
-     *
-     * @param string|null $color The color name
-     *
-     * @throws InvalidArgumentException When the color name isn't defined
+     * {@inheritdoc}
      */
     public function setForeground($color = null)
     {
@@ -90,18 +86,14 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
         }
 
         if (!isset(static::$availableForegroundColors[$color])) {
-            throw new InvalidArgumentException(sprintf('Invalid foreground color specified: "%s". Expected one of (%s)', $color, implode(', ', array_keys(static::$availableForegroundColors))));
+            throw new InvalidArgumentException(sprintf('Invalid foreground color specified: "%s". Expected one of (%s).', $color, implode(', ', array_keys(static::$availableForegroundColors))));
         }
 
         $this->foreground = static::$availableForegroundColors[$color];
     }
 
     /**
-     * Sets style background color.
-     *
-     * @param string|null $color The color name
-     *
-     * @throws InvalidArgumentException When the color name isn't defined
+     * {@inheritdoc}
      */
     public function setBackground($color = null)
     {
@@ -112,23 +104,19 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
         }
 
         if (!isset(static::$availableBackgroundColors[$color])) {
-            throw new InvalidArgumentException(sprintf('Invalid background color specified: "%s". Expected one of (%s)', $color, implode(', ', array_keys(static::$availableBackgroundColors))));
+            throw new InvalidArgumentException(sprintf('Invalid background color specified: "%s". Expected one of (%s).', $color, implode(', ', array_keys(static::$availableBackgroundColors))));
         }
 
         $this->background = static::$availableBackgroundColors[$color];
     }
 
     /**
-     * Sets some specific style option.
-     *
-     * @param string $option The option name
-     *
-     * @throws InvalidArgumentException When the option name isn't defined
+     * {@inheritdoc}
      */
     public function setOption($option)
     {
         if (!isset(static::$availableOptions[$option])) {
-            throw new InvalidArgumentException(sprintf('Invalid option specified: "%s". Expected one of (%s)', $option, implode(', ', array_keys(static::$availableOptions))));
+            throw new InvalidArgumentException(sprintf('Invalid option specified: "%s". Expected one of (%s).', $option, implode(', ', array_keys(static::$availableOptions))));
         }
 
         if (!\in_array(static::$availableOptions[$option], $this->options)) {
@@ -137,16 +125,12 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     }
 
     /**
-     * Unsets some specific style option.
-     *
-     * @param string $option The option name
-     *
-     * @throws InvalidArgumentException When the option name isn't defined
+     * {@inheritdoc}
      */
     public function unsetOption($option)
     {
         if (!isset(static::$availableOptions[$option])) {
-            throw new InvalidArgumentException(sprintf('Invalid option specified: "%s". Expected one of (%s)', $option, implode(', ', array_keys(static::$availableOptions))));
+            throw new InvalidArgumentException(sprintf('Invalid option specified: "%s". Expected one of (%s).', $option, implode(', ', array_keys(static::$availableOptions))));
         }
 
         $pos = array_search(static::$availableOptions[$option], $this->options);
@@ -168,11 +152,7 @@ class OutputFormatterStyle implements OutputFormatterStyleInterface
     }
 
     /**
-     * Applies the style to a given text.
-     *
-     * @param string $text The text to style
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function apply($text)
     {

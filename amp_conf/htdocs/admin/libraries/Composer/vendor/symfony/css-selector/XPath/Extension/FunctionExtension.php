@@ -46,10 +46,8 @@ class FunctionExtension extends AbstractExtension
     }
 
     /**
-     * @param XPathExpr    $xpath
-     * @param FunctionNode $function
-     * @param bool         $last
-     * @param bool         $addNameTest
+     * @param bool $last
+     * @param bool $addNameTest
      *
      * @return XPathExpr
      *
@@ -60,7 +58,7 @@ class FunctionExtension extends AbstractExtension
         try {
             list($a, $b) = Parser::parseSeries($function->getArguments());
         } catch (SyntaxErrorException $e) {
-            throw new ExpressionErrorException(sprintf('Invalid series: %s', implode(', ', $function->getArguments())), 0, $e);
+            throw new ExpressionErrorException(sprintf('Invalid series: "%s".', implode('", "', $function->getArguments())), 0, $e);
         }
 
         $xpath->addStarPrefix();

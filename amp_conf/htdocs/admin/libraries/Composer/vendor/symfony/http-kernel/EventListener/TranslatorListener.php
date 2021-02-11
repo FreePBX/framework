@@ -51,11 +51,11 @@ class TranslatorListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        return [
+        return array(
             // must be registered after the Locale listener
-            KernelEvents::REQUEST => [['onKernelRequest', 10]],
-            KernelEvents::FINISH_REQUEST => [['onKernelFinishRequest', 0]],
-        ];
+            KernelEvents::REQUEST => array(array('onKernelRequest', 10)),
+            KernelEvents::FINISH_REQUEST => array(array('onKernelFinishRequest', 0)),
+        );
     }
 
     private function setLocale(Request $request)

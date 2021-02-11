@@ -19,7 +19,6 @@ use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\HttpKernel\Debug\FileLinkFormatter;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -41,23 +40,23 @@ class DebugHandlersListener implements EventSubscriberInterface
     private $hasTerminatedWithException;
 
     /**
-     * @param callable|null                 $exceptionHandler A handler that will be called on Exception
-     * @param LoggerInterface|null          $logger           A PSR-3 logger
-     * @param array|int                     $levels           An array map of E_* to LogLevel::* or an integer bit field of E_* constants
-     * @param int|null                      $throwAt          Thrown errors in a bit field of E_* constants, or null to keep the current value
-     * @param bool                          $scream           Enables/disables screaming mode, where even silenced errors are logged
-     * @param string|FileLinkFormatter|null $fileLinkFormat   The format for links to source files
-     * @param bool                          $scope            Enables/disables scoping mode
+     * @param callable|null        $exceptionHandler A handler that will be called on Exception
+     * @param LoggerInterface|null $logger           A PSR-3 logger
+     * @param array|int            $levels           An array map of E_* to LogLevel::* or an integer bit field of E_* constants
+     * @param int|null             $throwAt          Thrown errors in a bit field of E_* constants, or null to keep the current value
+     * @param bool                 $scream           Enables/disables screaming mode, where even silenced errors are logged
+     * @param string|array         $fileLinkFormat   The format for links to source files
+     * @param bool                 $scope            Enables/disables scoping mode
      */
-    public function __construct(callable $exceptionHandler = null, LoggerInterface $logger = null, $levels = E_ALL, $throwAt = E_ALL, $scream = true, $fileLinkFormat = null, $scope = true)
+    public function __construct(callable $exceptionHandler = null, LoggerInterface $logger = null, $levels = E_ALL, ?int $throwAt = E_ALL, bool $scream = true, $fileLinkFormat = null, bool $scope = true)
     {
         $this->exceptionHandler = $exceptionHandler;
         $this->logger = $logger;
         $this->levels = null === $levels ? E_ALL : $levels;
-        $this->throwAt = is_numeric($throwAt) ? (int) $throwAt : (null === $throwAt ? null : ($throwAt ? E_ALL : null));
-        $this->scream = (bool) $scream;
+        $this->throwAt = \is_int($throwAt) ? $throwAt : (null === $throwAt ? null : ($throwAt ? E_ALL : null));
+        $this->scream = $scream;
         $this->fileLinkFormat = $fileLinkFormat;
-        $this->scope = (bool) $scope;
+        $this->scope = $scope;
     }
 
     /**
@@ -106,7 +105,7 @@ class DebugHandlersListener implements EventSubscriberInterface
                 if (method_exists($kernel = $event->getKernel(), 'terminateWithException')) {
                     $request = $event->getRequest();
                     $hasRun = &$this->hasTerminatedWithException;
-                    $this->exceptionHandler = static function (\Exception $e) use ($kernel, $request, &$hasRun) {
+                    $this->exceptionHandler = function (\Exception $e) use ($kernel, $request, &$hasRun) {
                         if ($hasRun) {
                             throw $e;
                         }
@@ -146,10 +145,10 @@ class DebugHandlersListener implements EventSubscriberInterface
 
     public static function getSubscribedEvents()
     {
-        $events = [KernelEvents::REQUEST => ['configure', 2048]];
+        $events = array(KernelEvents::REQUEST => array('configure', 2048));
 
         if ('cli' === \PHP_SAPI && \defined('Symfony\Component\Console\ConsoleEvents::COMMAND')) {
-            $events[ConsoleEvents::COMMAND] = ['configure', 2048];
+            $events[ConsoleEvents::COMMAND] = array('configure', 2048);
         }
 
         return $events;

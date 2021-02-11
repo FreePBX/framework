@@ -50,7 +50,7 @@ class ConcreteToken extends AbstractToken
     {
         $serialized = [$this->credentials, parent::serialize(true)];
 
-        return $this->doSerialize($serialized, \func_num_args() ? \func_get_arg(0) : null);
+        return $this->doSerialize($serialized, \func_num_args() ? func_get_arg(0) : null);
     }
 
     public function unserialize($serialized)
@@ -77,7 +77,7 @@ class AbstractTokenTest extends TestCase
         $this->assertEquals('fabien', $token->getUsername());
 
         $user = $this->getMockBuilder('Symfony\Component\Security\Core\User\UserInterface')->getMock();
-        $user->expects($this->once())->method('getUsername')->will($this->returnValue('fabien'));
+        $user->expects($this->once())->method('getUsername')->willReturn('fabien');
         $token->setUser($user);
         $this->assertEquals('fabien', $token->getUsername());
     }

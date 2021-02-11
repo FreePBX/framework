@@ -38,26 +38,23 @@ class SimpleFormAuthenticationListener extends AbstractAuthenticationListener
     private $csrfTokenManager;
 
     /**
-     * @param TokenStorageInterface                  $tokenStorage          A TokenStorageInterface instance
-     * @param AuthenticationManagerInterface         $authenticationManager An AuthenticationManagerInterface instance
-     * @param SessionAuthenticationStrategyInterface $sessionStrategy
-     * @param HttpUtils                              $httpUtils             An HttpUtils instance
-     * @param string                                 $providerKey
-     * @param AuthenticationSuccessHandlerInterface  $successHandler
-     * @param AuthenticationFailureHandlerInterface  $failureHandler
-     * @param array                                  $options               An array of options for the processing of a
-     *                                                                      successful, or failed authentication attempt
-     * @param LoggerInterface|null                   $logger                A LoggerInterface instance
-     * @param EventDispatcherInterface|null          $dispatcher            An EventDispatcherInterface instance
-     * @param CsrfTokenManagerInterface|null         $csrfTokenManager      A CsrfTokenManagerInterface instance
-     * @param SimpleFormAuthenticatorInterface|null  $simpleAuthenticator   A SimpleFormAuthenticatorInterface instance
+     * @param TokenStorageInterface                 $tokenStorage          A TokenStorageInterface instance
+     * @param AuthenticationManagerInterface        $authenticationManager An AuthenticationManagerInterface instance
+     * @param HttpUtils                             $httpUtils             An HttpUtils instance
+     * @param string                                $providerKey
+     * @param array                                 $options               An array of options for the processing of a
+     *                                                                     successful, or failed authentication attempt
+     * @param LoggerInterface|null                  $logger                A LoggerInterface instance
+     * @param EventDispatcherInterface|null         $dispatcher            An EventDispatcherInterface instance
+     * @param CsrfTokenManagerInterface|null        $csrfTokenManager      A CsrfTokenManagerInterface instance
+     * @param SimpleFormAuthenticatorInterface|null $simpleAuthenticator   A SimpleFormAuthenticatorInterface instance
      *
      * @throws \InvalidArgumentException In case no simple authenticator is provided
      */
     public function __construct(TokenStorageInterface $tokenStorage, AuthenticationManagerInterface $authenticationManager, SessionAuthenticationStrategyInterface $sessionStrategy, HttpUtils $httpUtils, $providerKey, AuthenticationSuccessHandlerInterface $successHandler, AuthenticationFailureHandlerInterface $failureHandler, array $options = [], LoggerInterface $logger = null, EventDispatcherInterface $dispatcher = null, CsrfTokenManagerInterface $csrfTokenManager = null, SimpleFormAuthenticatorInterface $simpleAuthenticator = null)
     {
         if (!$simpleAuthenticator) {
-            throw new \InvalidArgumentException('Missing simple authenticator');
+            throw new \InvalidArgumentException('Missing simple authenticator.');
         }
 
         $this->simpleAuthenticator = $simpleAuthenticator;
@@ -107,7 +104,7 @@ class SimpleFormAuthenticationListener extends AbstractAuthenticationListener
             $password = ParameterBagUtils::getRequestParameterValue($request, $this->options['password_parameter']);
         }
 
-        if (!\is_string($username) && (!\is_object($username) || !\method_exists($username, '__toString'))) {
+        if (!\is_string($username) && (!\is_object($username) || !method_exists($username, '__toString'))) {
             throw new BadRequestHttpException(sprintf('The key "%s" must be a string, "%s" given.', $this->options['username_parameter'], \gettype($username)));
         }
 

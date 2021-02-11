@@ -62,20 +62,15 @@ class RouterListenerTest extends TestCase
 
     public function getPortData()
     {
-        return [
-            [80, 443, 'http://localhost/', 80, 443],
-            [80, 443, 'http://localhost:90/', 90, 443],
-            [80, 443, 'https://localhost/', 80, 443],
-            [80, 443, 'https://localhost:90/', 80, 90],
-        ];
+        return array(
+            array(80, 443, 'http://localhost/', 80, 443),
+            array(80, 443, 'http://localhost:90/', 90, 443),
+            array(80, 443, 'https://localhost/', 80, 443),
+            array(80, 443, 'https://localhost:90/', 80, 90),
+        );
     }
 
-    /**
-     * @param string $uri
-     *
-     * @return GetResponseEvent
-     */
-    private function createGetResponseEventForUri($uri)
+    private function createGetResponseEventForUri(string $uri): GetResponseEvent
     {
         $kernel = $this->getMockBuilder('Symfony\Component\HttpKernel\HttpKernelInterface')->getMock();
         $request = Request::create($uri);
@@ -102,7 +97,7 @@ class RouterListenerTest extends TestCase
         $requestMatcher->expects($this->once())
                        ->method('matchRequest')
                        ->with($this->isInstanceOf('Symfony\Component\HttpFoundation\Request'))
-                       ->will($this->returnValue([]));
+                       ->will($this->returnValue(array()));
 
         $listener = new RouterListener($requestMatcher, $this->requestStack, new RequestContext());
         $listener->onKernelRequest($event);
@@ -118,7 +113,7 @@ class RouterListenerTest extends TestCase
         $requestMatcher->expects($this->any())
                        ->method('matchRequest')
                        ->with($this->isInstanceOf('Symfony\Component\HttpFoundation\Request'))
-                       ->will($this->returnValue([]));
+                       ->will($this->returnValue(array()));
 
         $context = new RequestContext();
 
@@ -159,10 +154,10 @@ class RouterListenerTest extends TestCase
 
     public function getLoggingParameterData()
     {
-        return [
-            [['_route' => 'foo'], 'Matched route "{route}".', ['route' => 'foo', 'route_parameters' => ['_route' => 'foo'], 'request_uri' => 'http://localhost/', 'method' => 'GET']],
-            [[], 'Matched route "{route}".', ['route' => 'n/a', 'route_parameters' => [], 'request_uri' => 'http://localhost/', 'method' => 'GET']],
-        ];
+        return array(
+            array(array('_route' => 'foo'), 'Matched route "{route}".', array('route' => 'foo', 'route_parameters' => array('_route' => 'foo'), 'request_uri' => 'http://localhost/', 'method' => 'GET')),
+            array(array(), 'Matched route "{route}".', array('route' => 'n/a', 'route_parameters' => array(), 'request_uri' => 'http://localhost/', 'method' => 'GET')),
+        );
     }
 
     public function testWithBadRequest()
