@@ -89,9 +89,8 @@ class SystemAdminGqlApiTest extends ApiBaseTestCase {
 
 		$json = (string)$response->getBody();
 
-      $this->assertEquals('{"errors":[{"message":"Admin user already exists","status":false}]}', $json);
-      
-      $this->assertEquals(400, $response->getStatusCode());
+    $this->assertEquals('{"data":{"addInitialSetup":{"status":true,"message":"Admin user already exists, updating other parameters"}}}', $json);
+    $this->assertEquals(200, $response->getStatusCode());
     }
    
    /**
