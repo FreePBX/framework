@@ -34,6 +34,8 @@ class PKCS {
 	// This may need to be tuned on things like the pi.
 	public $timeout = 120;
 
+	private static $certmanObj = false;
+	
 	//TODO first element that comes in here is the freepbx object yikes
 	public function __construct($debug=0) {
 		$this->defaults['server_cn'] = $this->getHostname();
@@ -270,7 +272,7 @@ default_md = sha256
 		file_put_contents($csrconfig, $config);
 		$out = $this->runOpenSSL("req -batch -new -sha256 -key $keyfile -out $csr -config $csrconfig");
 		if($out['exitcode'] != 0) {
-			throw new \Exception(sprintf(_("Can't create CSR, no idea why. $s"),json_encode($out)));
+			throw new \Exception(sprintf(_("Can't create CSR, no idea why. %s"),json_encode($out)));
 		}
 		return true;
 	}
@@ -721,5 +723,30 @@ default_md = sha256
 			}
 		}
 		return true;
+	}
+	
+	/**
+	 * certObj
+	 *
+	 * @return void
+	 */
+	public function certObj($freepbx) {
+		if (!self::$certmanObj) {
+			if (!class_exists('FreePBX\\modules\\certman')) {
+				include_once $freepbx->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/certman/Certman.class.php";
+			}
+			self::$certmanObj  = new \FreePBX\modules\Certman($freepbx);
+		}
+		return self::$certmanObj;
+	}
+		
+	/**
+	 * setcertObj
+	 *
+	 * @param  mixed $obj
+	 * @return void
+	 */
+	public function setcertObj($obj){
+		return self::$certmanObj = $obj; 
 	}
 }
