@@ -61,6 +61,18 @@
 	border-color: @button-hover-border-color;
 }
 
+.button-focus() {
+	.button-border(@button-gradient, @button-hover-border-color);
+	.button-border-gradient(@button-gradient, @button-hover-border-gradient-top, @button-hover-border-gradient-bottom);
+	.button-background(@button-gradient, @button-hover-background-color, @button-hover-image);
+	.button-background-gradient(@button-gradient, @button-hover-background-gradient-top, @button-hover-background-gradient-bottom);
+	color: @button-hover-text-color;
+	background-color: @button-hover-background-color;
+	border-color: @border-color;
+	box-shadow: 0 1px 1px rgba(0,0,0,.075) inset, 0 0 8px fadeout(darken(@background-color, 50%),40%);
+	outline: 0 none;
+}
+
 .button-active() {
 	.button-border(@button-gradient, @button-active-border-color);
 	.button-border-gradient(@button-gradient, @button-active-border-gradient-top, @button-active-border-gradient-bottom);
@@ -83,6 +95,20 @@
 }
 
 /* BUTTON CSS STATES */
+
+//dialog default action buttons (first child)
+.ui-dialog-buttonpane .ui-dialog-buttonset .ui-button,
+.ui-dialog-buttonset .ui-button {
+	.button-layout(@button-text-color, @background-color);
+	.button-active;
+
+//	alternates
+//	.button-layout(darken(@submit-button-background-color,10%), @button-text-color);
+//	.button-layout(darken(@submit-button-background-color,20%), @button-text-color);
+//	border-radius: @button-radius;
+}
+
+.ui-dialog-buttonset .ui-button:not(:first-child),
 .ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only,
 .btn,
 .btn:visited,
@@ -99,6 +125,7 @@ input[type="submit"]:visited {
 	border-radius: @button-radius;
 }
 
+.ui-dialog-buttonset .ui-button:hover,
 .ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.ui-state-hover,
 .btn:hover,
 .btn.hover,
@@ -110,6 +137,7 @@ input[type="submit"]:hover{
 	.button-hover();
 }
 
+.ui-dialog-buttonset .ui-button:focus,
 .ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.ui-state-active,
 .btn:focus,
 .btn.focus,
@@ -118,9 +146,10 @@ fieldset[focus] .btn,
 input[type="button"]:focus,
 input[type="reset"]:focus,
 input[type="submit"]:focus{
-	.button-hover();
+	.button-focus();
 }
 
+.ui-dialog-buttonset .ui-button:active,
 .ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.ui-state-focus,
 .btn:active,
 .btn.active,
@@ -132,6 +161,7 @@ input[type="submit"]:active{
 	.button-active();
 }
 
+.ui-dialog-buttonset .ui-button:disabled,
 .ui-button.ui-widget.ui-state-default.ui-corner-all.ui-button-text-only.ui-state-disabled,
 .btn:disabled,
 .btn.disabled,
@@ -160,7 +190,7 @@ input[type="submit"]:disabled{
 	margin-left: 0px;
 }
 .nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
-        background-color: @nav-pills-bg-color !important;
+	background-color: @nav-pills-bg-color !important;
 }
 .input-group-btn {
 	.btn {
@@ -168,13 +198,13 @@ input[type="submit"]:disabled{
 	}
 	.btn:last-of-type {
 		margin-right: 5px;
-                background: @submit-button-background-color;
-                color: @button-text-color;
+		background: @submit-button-background-color;
+		color: @button-text-color;
 	}
-        .btn:last-of-type:hover {
-                background: @btn-group-bg-color;
-                color: @button-hover-text-color;
-        }
+	.btn:last-of-type:hover {
+		background: @btn-group-bg-color;
+		color: @button-hover-text-color;
+	}
 }
 
 .btn-group input[type="button"],
