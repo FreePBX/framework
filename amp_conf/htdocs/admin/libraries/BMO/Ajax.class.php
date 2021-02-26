@@ -147,6 +147,11 @@ class Ajax extends FreePBX_Helpers {
 				"status" => true,
 				"message" => $ret
 			);
+		}elseif(is_array($ret)) {
+			$ret = array(
+				"status" => true,
+				"message" => $ret
+			);
 		}
 		$output = $this->generateResponse($ret);
 		$this->sendHeaders();
