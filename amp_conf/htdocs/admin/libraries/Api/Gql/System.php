@@ -69,13 +69,6 @@ class System extends Base {
 						'resolve' => function($root, $args) {
 							return []; //trick the resolver into not thinking this is null
 						}
-					],
-					'fetchRPMUpgradeStatus' => [
-						'type' => $this->typeContainer->get('system')->getObject(),
-						'description' => _('Check the system yum-upgrade status'),
-						'resolve' => function() {
-							return $this->yumUpgradeStatus();
-						}
 					]
 				];
 			};
@@ -252,32 +245,12 @@ class System extends Base {
 	 * @return void
 	 */
 	private function yumUpgrade(){
-		try{
-			$res = $this->freepbx->Framework->getSystemObj()->startYumUpdate();
-			if($res){
-				return ['message' => _('Yum Upgrade has been initiated. Please check the status using yumUpgradeStatus api'),'status' => true];
-			}else{
-				return ['message' => _('Yum Upgrade is already running'),'status' => true];
-			}
-		}catch(Exception $ex){
-			return ['message' => _($ex->message) , 'status' => false];
-		}
-	}
-	
-	/**
-	 * yumUpgradeStatus
-	 *
-	 * @return void
-	 */
-	private function yumUpgradeStatus(){
-		$res = $this->freepbx->Framework->getSystemObj()->getYumUpdateStatus();
-		
-		if($res['status'] == "complete"){
-			return ['message' => _('Yum upgrade is completed'), 'status' => true];
-		}elseif($res['status'] == "inprogress"){
-			return ['message' => _('Yum upgrade is in progress'), 'status' => true];
+		$txnId = $this->freepbx->api->addTransaction("Processing","system","yum-run-updat");
+		$res = \FreePBX::Sysadmin()->ApiHooks()->runModuleSystemHook('framework','yum-run-update',$txnId);
+		if($res){
+			return ['message' => _('Yum Upgrade has been initiated. Kindly check the fetchApiStatus api with the transaction id.'),'status' => true , 'transaction_id' => $txnId];
 		}else{
-			return ['message' => _('Sorry, yum upgrade has failed'), 'status' => false];
+			return ['message' => _('Failed to run yum Upgrade'),'status' => false];
 		}
 	}
 	
