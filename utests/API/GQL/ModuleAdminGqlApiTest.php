@@ -402,4 +402,62 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
     
       $this->assertEquals(200, $response->getStatusCode());
     }
+        
+    /**
+     * testYumUpgradeAllTrueShoudReturnTrue
+     *
+     * @return void
+     */
+    public function testYumUpgradeWhenTrueShoudReturnTrue(){
+      $mockHelper = $this->getMockBuilder(Freepbx\framework\amp_conf\htdocs\admin\libraries\BMO\Hooks::class)
+       ->disableOriginalConstructor()
+       ->setMethods(array('runModuleSystemHook'))
+       ->getMock();
+
+      $mockHelper->method('runModuleSystemHook')
+      ->willReturn(true);
+
+      self::$freepbx->sysadmin()->setRunHook($mockHelper);  
+
+      $response = $this->request("mutation {
+        updateSystemRPM(input: {}){
+          status
+          message   
+        }
+      }");
+
+    $json = (string)$response->getBody();
+  
+    $this->assertEquals('{"data":{"updateSystemRPM":{"status":true,"message":"Yum Upgrade has been initiated. Kindly check the fetchApiStatus api with the transaction id."}}}',$json);
+    $this->assertEquals(200, $response->getStatusCode());
+  }
+  
+  /**
+   * testYumUpgradeWhenFalseShoudReturnFasle
+   *
+   * @return void
+   */
+  public function testYumUpgradeWhenFalseShoudReturnFasle(){
+    $mockHelper = $this->getMockBuilder(Freepbx\framework\amp_conf\htdocs\admin\libraries\BMO\Hooks::class)
+       ->disableOriginalConstructor()
+       ->setMethods(array('runModuleSystemHook'))
+       ->getMock();
+
+      $mockHelper->method('runModuleSystemHook')
+      ->willReturn(false);
+
+      $response = $this->request("mutation {
+        updateSystemRPM(input: {}){
+          status
+          message   
+        }
+      }");
+
+      self::$freepbx->sysadmin()->setRunHook($mockHelper);  
+
+    $json = (string)$response->getBody();
+  
+    $this->assertEquals('{"errors":[{"message":"Failed to run yum Upgrade","status":false}]}',$json);
+    $this->assertEquals(400, $response->getStatusCode());
+  }
 }
