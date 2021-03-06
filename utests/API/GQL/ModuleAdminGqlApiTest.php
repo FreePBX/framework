@@ -409,15 +409,15 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
      * @return void
      */
     public function testYumUpgradeWhenTrueShoudReturnTrue(){
-      $mockHelper = $this->getMockBuilder(Freepbx\Builtin\SystemUpdate::class)
+      $mockHelper = $this->getMockBuilder(Freepbx\framework\amp_conf\htdocs\admin\libraries\BMO\Hooks::class)
        ->disableOriginalConstructor()
-       ->setMethods(array('startYumUpdate'))
+       ->setMethods(array('runModuleSystemHook'))
        ->getMock();
 
-      $mockHelper->method('startYumUpdate')
+      $mockHelper->method('runModuleSystemHook')
       ->willReturn(true);
 
-      self::$freepbx->Framework()->setSystemObj($mockHelper);  
+      self::$freepbx->sysadmin()->setRunHook($mockHelper);  
 
       $response = $this->request("mutation {
         updateSystemRPM(input: {}){
@@ -428,7 +428,7 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
     $json = (string)$response->getBody();
   
-    $this->assertEquals('{"data":{"updateSystemRPM":{"status":true,"message":"Yum Upgrade has been initiated. Please check the status using yumUpgradeStatus api"}}}',$json);
+    $this->assertEquals('{"data":{"updateSystemRPM":{"status":true,"message":"Yum Upgrade has been initiated. Kindly check the fetchApiStatus api with the transaction id."}}}',$json);
     $this->assertEquals(200, $response->getStatusCode());
   }
   
@@ -438,12 +438,12 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
    * @return void
    */
   public function testYumUpgradeWhenFalseShoudReturnFasle(){
-    $mockHelper = $this->getMockBuilder(Freepbx\Builtin\SystemUpdate::class)
+    $mockHelper = $this->getMockBuilder(Freepbx\framework\amp_conf\htdocs\admin\libraries\BMO\Hooks::class)
        ->disableOriginalConstructor()
-       ->setMethods(array('startYumUpdate'))
+       ->setMethods(array('runModuleSystemHook'))
        ->getMock();
 
-      $mockHelper->method('startYumUpdate')
+      $mockHelper->method('runModuleSystemHook')
       ->willReturn(false);
 
       $response = $this->request("mutation {
@@ -453,98 +453,11 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
         }
       }");
 
-      self::$freepbx->Framework()->setSystemObj($mockHelper);  
+      self::$freepbx->sysadmin()->setRunHook($mockHelper);  
 
     $json = (string)$response->getBody();
   
-    $this->assertEquals('{"data":{"updateSystemRPM":{"status":true,"message":"Yum Upgrade is already running"}}}',$json);
-    $this->assertEquals(200, $response->getStatusCode());
-  }
-  
-  /**
-   * testYumUpgradeStausWhencompleteShoudReturnTrue
-   *
-   * @return void
-   */
-  public function testYumUpgradeStausWhencompleteShoudReturnTrue(){
-    $mockHelper = $this->getMockBuilder(Freepbx\Builtin\SystemUpdate::class)
-       ->disableOriginalConstructor()
-       ->setMethods(array('getYumUpdateStatus'))
-       ->getMock();
-
-      $mockHelper->method('getYumUpdateStatus')
-      ->willReturn(array('status'=>'complete'));
-
-      self::$freepbx->Framework()->setSystemObj($mockHelper);  
-
-      $response = $this->request("query{
-          fetchRPMUpgradeStatus{
-          status
-          message
-        }
-      }");
-
-    $json = (string)$response->getBody();
-  
-    $this->assertEquals('{"data":{"fetchRPMUpgradeStatus":{"status":true,"message":"Yum upgrade is completed"}}}',$json);
-    $this->assertEquals(200, $response->getStatusCode());
-  }
-  
-  /**
-   * testYumUpgradeStausWhenInprogressShoudReturnTrue
-   *
-   * @return void
-   */
-  public function testYumUpgradeStausWhenInprogressShoudReturnTrue(){
-    $mockHelper = $this->getMockBuilder(Freepbx\Builtin\SystemUpdate::class)
-       ->disableOriginalConstructor()
-       ->setMethods(array('getYumUpdateStatus'))
-       ->getMock();
-
-      $mockHelper->method('getYumUpdateStatus')
-      ->willReturn(array('status'=>'inprogress'));
-
-      self::$freepbx->Framework()->setSystemObj($mockHelper); 
-
-      $response = $this->request("query{
-          fetchRPMUpgradeStatus{
-          status
-          message
-        }
-      }");
-
-    $json = (string)$response->getBody();
-  
-    $this->assertEquals('{"data":{"fetchRPMUpgradeStatus":{"status":true,"message":"Yum upgrade is in progress"}}}',$json);
-    $this->assertEquals(200, $response->getStatusCode());
-  }
-  
-  /**
-   * testYumUpgradeStausWhenFailedShoudReturnFalse
-   *
-   * @return void
-   */
-  public function testYumUpgradeStausWhenFailedShoudReturnFalse(){
-    $mockHelper = $this->getMockBuilder(Freepbx\Builtin\SystemUpdate::class)
-       ->disableOriginalConstructor()
-       ->setMethods(array('getYumUpdateStatus'))
-       ->getMock();
-
-      $mockHelper->method('getYumUpdateStatus')
-      ->willReturn(false);
-
-      self::$freepbx->Framework()->setSystemObj($mockHelper); 
-
-      $response = $this->request("query{
-          fetchRPMUpgradeStatus{
-          message
-          status
-        }
-      }");
-
-    $json = (string)$response->getBody();
-  
-    $this->assertEquals('{"errors":[{"message":"Sorry, yum upgrade has failed","status":false}]}',$json);
+    $this->assertEquals('{"errors":[{"message":"Failed to run yum Upgrade","status":false}]}',$json);
     $this->assertEquals(400, $response->getStatusCode());
   }
 }
