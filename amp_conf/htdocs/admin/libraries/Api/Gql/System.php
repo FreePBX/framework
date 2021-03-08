@@ -69,6 +69,48 @@ class System extends Base {
 						'resolve' => function($root, $args) {
 							return []; //trick the resolver into not thinking this is null
 						}
+					],
+					'fetchRPMUpgradeStatus' => [
+						'type' => $this->typeContainer->get('system')->getObject(),
+						'description' => _('Check the system yum-upgrade status'),
+						'resolve' => function() {
+							return $this->yumUpgradeStatus();
+						}
+					],
+					'fetchAsteriskDetails' => [
+						'type' => $this->typeContainer->get('system')->getObject(),
+						'description' => _('Fetch asterisk details'),
+						'resolve' => function() {
+							return $this->asteriskDetails();
+						}
+					],
+					'fetchDBStatus' => [
+						'type' => $this->typeContainer->get('system')->getObject(),
+						'description' => _('Fetch system status for DB'),
+						'resolve' => function() {
+							return $this->dbStatus();
+						}
+					],
+					'fetchGUIMode' => [
+						'type' => $this->typeContainer->get('system')->getObject(),
+						'description' => _('Describes the GUI mode'),
+						'resolve' => function() {
+							return $this->guiMode();
+						}
+					],
+					'fetchAutomaticUpdate' => [
+						'type' => $this->typeContainer->get('system')->getObject(),
+						'description' => _('Gets the status of automatic updates'),
+						'resolve' => function() {
+							return $this->autoUpdateSetting();
+						}
+					],
+					'fetchSetupWizard' => [
+						'type' => $this->typeContainer->get('updatestatus')->getConnectionType(),
+						'description' => _('Gets the details of setup wizrd'),
+						'resolve' => function() {
+							return $this->setupWizardStatus();
+						}
 					]
 				];
 			};
@@ -132,6 +174,13 @@ class System extends Base {
 
 		$user->addFieldCallback(function() {
 			return [
+				'id' => Relay::globalIdField('system', function($row) {
+					if(isset($row)){
+						return $row['id'];
+					}else{
+						return null;
+					}
+				}),
 				'version' => [
 					'type' => Type::string(),
 					'description' => 'Version of the PBX',
@@ -161,7 +210,88 @@ class System extends Base {
 					'type' => Type::boolean(),
 					'description' => _('Status for the request')
 				],
+				'asteriskStatus' =>[
+					'type' => Type::string(),
+					'description' => _('Message for the request')
+				],
+				'asteriskVersion' =>[
+					'type' => Type::string(),
+					'description' => _('ASterisk Version')
+				],
+				'amiStatus' =>[
+					'type' => Type::string(),
+					'description' => _('AMI/ARM status')
+				],
+				'dbStatus' =>[
+					'type' => Type::string(),
+					'description' => _('Status of the database')
+				],
+				'guiMode' =>[
+					'type' => Type::string(),
+					'description' => _('GUI mode')
+				],
+				'systemUpdates' =>[
+					'type' => Type::string(),
+					'description' => _('Status of syatem update')
+				],
+				'moduleUpdates' =>[
+					'type' => Type::string(),
+					'description' => _('Status of module update')
+				],
+				'moduleSecurityUpdates' =>[
+					'type' => Type::string(),
+					'description' => _('Status of module security update')
+				],
 			];
+		});
+
+	$system = $this->typeContainer->create('updatestatus');
+	$system->addInterfaceCallback(function() {
+		return [$this->getNodeDefinition()['nodeInterface']];
+	});
+
+	$system->addFieldCallBack(function(){
+		return[
+			'id' => Relay::globalIdField('updatestatus', function($row) {
+			if(isset($row)){
+				return $row['id'];
+			}else{
+				return null;
+			}
+		}),
+		'modules' =>[
+		'type' => Type::string(),
+		'description' => _('Status of automatic updates'),
+		'resolve' => function($row) {
+		if(isset($row)){
+			return $row['val'];
+		}else{
+			return null;
+		}
+		}
+		],];
+	});
+
+	$system->setConnectionFields(function() {
+		return [
+			'autoupdates' => [
+			'type' =>  Type::listOf($this->typeContainer->get('updatestatus')->getObject()),
+			'description' => _('status of automatic updates'),
+			'resolve' => function($root, $args) {
+				$data = array_map(function($row){
+					return $row;
+				},$root['response']);
+					return $data;
+				}
+			],
+			'message' =>[
+				'type' => Type::string(),
+				'description' => _('Message for the request')
+			],
+			'status' =>[
+				'type' => Type::boolean(),
+				'description' => _('Status for the request')
+			]];
 		});
 	}
 	
@@ -193,7 +323,6 @@ class System extends Base {
 		$um->setNotificationEmail($settings['notification_emails']);
 		// need to make in OOBE as framework completed
 		$this->completeOOBE('framework');
-
 		return ['message' => $message,'status' => true];
 	}
 	
@@ -213,7 +342,6 @@ class System extends Base {
 		} else {
 			$complete[$mod] = $mod;
 		}
-
 		$this->freepbx->OOBE->setConfig("completed", $complete);
 	}
 	
@@ -245,12 +373,32 @@ class System extends Base {
 	 * @return void
 	 */
 	private function yumUpgrade(){
-		$txnId = $this->freepbx->api->addTransaction("Processing","system","yum-run-updat");
-		$res = \FreePBX::Sysadmin()->ApiHooks()->runModuleSystemHook('framework','yum-run-update',$txnId);
-		if($res){
-			return ['message' => _('Yum Upgrade has been initiated. Kindly check the fetchApiStatus api with the transaction id.'),'status' => true , 'transaction_id' => $txnId];
+		try{
+			$res = $this->freepbx->Framework->getSystemObj()->startYumUpdate();
+			if($res){
+				return ['message' => _('Yum Upgrade has been initiated. Please check the status using yumUpgradeStatus api'),'status' => true];
+			}else{
+				return ['message' => _('Yum Upgrade is already running'),'status' => true];
+			}
+		}catch(Exception $ex){
+			return ['message' => _($ex->message) , 'status' => false];
+		}
+	}
+	
+	/**
+	 * yumUpgradeStatus
+	 *
+	 * @return void
+	 */
+	private function yumUpgradeStatus(){
+		$res = $this->freepbx->Framework->getSystemObj()->getYumUpdateStatus();
+		
+		if($res['status'] == "complete"){
+			return ['message' => _('Yum upgrade is completed'), 'status' => true];
+		}elseif($res['status'] == "inprogress"){
+			return ['message' => _('Yum upgrade is in progress'), 'status' => true];
 		}else{
-			return ['message' => _('Failed to run yum Upgrade'),'status' => false];
+			return ['message' => _('Sorry, yum upgrade has failed'), 'status' => false];
 		}
 	}
 	
@@ -268,5 +416,86 @@ class System extends Base {
 		$settings['update_every'] = $settings['updateDay'];
 		$settings['update_period'] = $settings['updatePeriod'];
 		return $settings;
+	}
+	
+	/**
+	 * asteriskDetails
+	 *
+	 * @return void
+	 */
+	private function asteriskDetails(){
+		$asterisk_version = $this->freepbx->Framework->getMonitoringObj()->asteriskInfo();
+		if($asterisk_version){
+			$asterisk_version = $asterisk_version['version'];
+		}else{
+			$asterisk_version = "";
+		}
+
+		$asteriskRunning = $this->freepbx->Framework->getMonitoringObj()->asteriskRunning();
+		if($asteriskRunning){
+			$asterisk_status = _("Running");
+		}else{
+			$asterisk_status = _("Not running");
+		}
+		
+		$ami_ari = $this->freepbx->Framework->getMonitoringObj()->astmanInfo($this->freepbx);
+		if($ami_ari){
+			$ami_ari = _("Connected");
+		}else{
+			$ami_ari = _("Not Connected");
+		}
+		return ['message' => _('Asterisk Details'), 'status' => true , 'asteriskStatus' => $asterisk_status, 'asteriskVersion' => $asterisk_version ,'amiStatus' => $ami_ari];
+	}
+	
+	/**
+	 * dbStatus
+	 *
+	 * @return void
+	 */
+	private function dbStatus(){
+		$db = $this->freepbx->Framework->getMonitoringObj()->dbStatus();
+		if($db){
+			$db_status = _('Connected');
+		}else{
+			$db_status = _('Not Connected');
+		}
+		return ['message' => _('Database Status'), 'status' => true , 'dbStatus' => $db_status];
+	}
+	
+	/**
+	 * guiMode
+	 *
+	 * @return void
+	 */
+	private function guiMode(){
+		$res = $this->freepbx->Framework->getMonitoringObj()->GUIMode($this->freepbx);
+		return ['message' => _('GUI Mode details'), 'status' => true , 'guiMode' => $res];
+	}
+	
+	/**
+	 * setupWizardStatus
+	 *
+	 * @return void
+	 */
+	private function setupWizardStatus(){
+		$res = $this->freepbx->Framework->getMonitoringObj()->setupWizardDetails($this->freepbx);
+		if(!empty($res)){
+			return ['message' => _('List up moduels setup wizard is run for'), 'status' => true , 'response' => $res];
+		}else{
+			return ['message' => _('Setup wizard is not run for any module'), 'status' => false];
+		}	
+	}
+	
+	/**
+	 * autoUpdateSetting
+	 *
+	 * @return void
+	 */
+	private function autoUpdateSetting(){
+		$row = $this->freepbx->Framework->getMonitoringObj()->autoUpdateDetails();
+		if(!empty($row)){
+			return ['message' => _('Automatic update status'), 'status' => true , 'systemUpdates' =>  $row['auto_system_updates'], 'moduleUpdates' =>  $row['auto_module_updates'] , 'moduleSecurityUpdates' => $row['auto_module_security_updates']];
+		}
+		return ['message' => _('Sorry, Could not find automatic update status'), 'status' => false];
 	}
 }

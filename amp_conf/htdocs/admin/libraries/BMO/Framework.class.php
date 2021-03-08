@@ -11,6 +11,7 @@ namespace FreePBX;
 class Framework extends FreePBX_Helpers implements BMO {
 
 	private static $sysUpdate = false;
+	private static $monitoringObj = false;
 
 	public function __construct($freepbx = null) {
 		$this->freepbx = $freepbx;
@@ -226,5 +227,27 @@ class Framework extends FreePBX_Helpers implements BMO {
 			$astman = $this->freepbx->astman;
 		}
 		return true;
+	}
+	
+	/**
+	 * getMonitoringObj
+	 *
+	 * @return void
+	 */
+	public function getMonitoringObj() {
+		if (!self::$monitoringObj) {
+			self::$monitoringObj  = $this->freepbx->Monitoring();
+		}
+		return self::$monitoringObj;
+	}
+			
+	/**
+	 * setMonitoringObj
+	 *
+	 * @param  mixed $obj
+	 * @return void
+	 */
+	public function setMonitoringObj($obj){
+		return self::$monitoringObj = $obj; 
 	}
 }

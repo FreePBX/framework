@@ -127,4 +127,294 @@ class SystemAdminGqlApiTest extends ApiBaseTestCase {
       $sth = $db->prepare("DELETE FROM `ampusers` where username like ?");
 		  $sql->execute(array("%test%"));
    }
+  
+  /**
+   * test_fetchDBStatus_when_true_should_return_true
+   *
+   * @return void
+   */
+  public function test_fetchDBStatus_when_true_should_return_true(){
+     $default = $this->getMockBuilder(\FreePBX\modules\framework\Monitoring::class)
+     ->disableOriginalConstructor()
+			->setMethods(array('dbStatus'))
+      ->getMock();  
+
+    $default->method('dbStatus')->willReturn(true);
+    self::$freepbx->Framework->setMonitoringObj($default);
+
+    $response = $this->request("query{
+      fetchDBStatus{
+      status
+      message
+      dbStatus
+    }}");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"data":{"fetchDBStatus":{"status":true,"message":"Database Status","dbStatus":"Connected"}}}',$json);
+    $this->assertEquals(200, $response->getStatusCode());
+   }
+   
+   /**
+    * test_fetchDBStatus_when_DB_false_should_return_false
+    *
+    * @return void
+    */
+   public function test_fetchDBStatus_when_DB_false_should_return_false(){
+     $default = $this->getMockBuilder(\FreePBX\modules\framework\Monitoring::class)
+     ->disableOriginalConstructor()
+			->setMethods(array('dbStatus'))
+      ->getMock();  
+
+    $default->method('dbStatus')->willReturn(false);
+    self::$freepbx->Framework->setMonitoringObj($default);
+
+    $response = $this->request("query{
+      fetchDBStatus{
+      status
+      message
+      dbStatus
+    }}");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"data":{"fetchDBStatus":{"status":true,"message":"Database Status","dbStatus":"Not Connected"}}}',$json);
+    $this->assertEquals(200, $response->getStatusCode());
+   }
+  
+  /**
+   * test_fetchSetupWizard_when_all_good_should_return_true
+   *
+   * @return void
+   */
+  public function test_fetchSetupWizard_when_all_good_should_return_true(){
+     $default = $this->getMockBuilder(\FreePBX\modules\framework\Monitoring::class)
+     ->disableOriginalConstructor()
+			->setMethods(array('setupWizardDetails'))
+      ->getMock();  
+
+    $default->method('setupWizardDetails')->willReturn(array('0'=>array('val'=>'{"framework":"framework"}'
+  )));
+    self::$freepbx->Framework->setMonitoringObj($default);
+
+    $response = $this->request("query{
+      fetchSetupWizard{
+        status
+        message
+        autoupdates{
+          modules
+        }
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"data":{"fetchSetupWizard":{"status":true,"message":"List up moduels setup wizard is run for","autoupdates":[{"modules":"{\"framework\":\"framework\"}"}]}}}',$json);
+    $this->assertEquals(200, $response->getStatusCode());
+  }
+   
+   /**
+    * test_fetchGUIMode_when_all_good_should_return_true
+    *
+    * @return void
+    */
+   public function test_fetchGUIMode_when_advanced_should_return_advanced(){
+     $default = $this->getMockBuilder(\FreePBX\modules\framework\Monitoring::class)
+     ->disableOriginalConstructor()
+			->setMethods(array('GUIMode'))
+      ->getMock();  
+
+    $default->method('GUIMode')->willReturn('advanced');
+    self::$freepbx->Framework->setMonitoringObj($default);
+
+    $response = $this->request("query{
+      fetchGUIMode{
+      status
+      message
+      guiMode
+    }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"data":{"fetchGUIMode":{"status":true,"message":"GUI Mode details","guiMode":"advanced"}}}',$json);
+    $this->assertEquals(200, $response->getStatusCode());
+   }
+   
+   /**
+    * test_fetchGUIMode_when_return_false_should_return_false
+    *
+    * @return void
+    */
+   public function test_fetchGUIMode_when_basic_false_should_return_basic(){
+     $default = $this->getMockBuilder(\FreePBX\modules\framework\Monitoring::class)
+     ->disableOriginalConstructor()
+			->setMethods(array('GUIMode'))
+      ->getMock();  
+
+    $default->method('GUIMode')->willReturn('basic');
+    self::$freepbx->Framework->setMonitoringObj($default);
+
+    $response = $this->request("query{
+      fetchGUIMode{
+      status
+      message
+      guiMode
+    }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"data":{"fetchGUIMode":{"status":true,"message":"GUI Mode details","guiMode":"basic"}}}',$json);
+    $this->assertEquals(200, $response->getStatusCode());
+   }
+  
+  /**
+   * test_fetchAutomaticUpdate_when_all_good_should_return_true
+   *
+   * @return void
+   */
+  public function test_fetchAutomaticUpdate_when_all_good_should_return_true(){
+     $default = $this->getMockBuilder(\FreePBX\modules\framework\Monitoring::class)
+     ->disableOriginalConstructor()
+			->setMethods(array('autoUpdateDetails'))
+      ->getMock();  
+
+    $default->method('autoUpdateDetails')->willReturn(array('auto_system_updates'=>'disabled','auto_module_updates'=>'enabled','auto_module_security_updates'=>'enabled'));
+    self::$freepbx->Framework->setMonitoringObj($default);
+
+    $response = $this->request("query{
+      fetchAutomaticUpdate{
+        status
+        message
+        systemUpdates
+        moduleUpdates
+        moduleSecurityUpdates
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"data":{"fetchAutomaticUpdate":{"status":true,"message":"Automatic update status","systemUpdates":"disabled","moduleUpdates":"enabled","moduleSecurityUpdates":"enabled"}}}',$json);
+    $this->assertEquals(200, $response->getStatusCode());
+  }
+  
+  /**
+   * test_fetchAutomaticUpdate_when_return_empty_should_return_false
+   *
+   * @return void
+   */
+  public function test_fetchAutomaticUpdate_when_return_empty_should_return_false(){
+     $default = $this->getMockBuilder(\FreePBX\modules\framework\Monitoring::class)
+     ->disableOriginalConstructor()
+			->setMethods(array('autoUpdateDetails'))
+      ->getMock();  
+
+    $default->method('autoUpdateDetails')->willReturn(array());
+    self::$freepbx->Framework->setMonitoringObj($default);
+
+    $response = $this->request("query{
+      fetchAutomaticUpdate{
+        status
+        message
+        systemUpdates
+        moduleUpdates
+        moduleSecurityUpdates
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"errors":[{"message":"Sorry, Could not find automatic update status","status":false}]}',$json);
+    $this->assertEquals(400, $response->getStatusCode());
+  }
+  
+  /**
+   * test_fetchAsteriskDetails_when__true_should_return_true
+   *
+   * @return void
+   */
+  public function test_fetchAsteriskDetails_when__true_should_return_true(){
+     $default = $this->getMockBuilder(\FreePBX\modules\framework\Monitoring::class)
+     ->disableOriginalConstructor()
+			->setMethods(array('asteriskInfo','asteriskRunning','astmanInfo'))
+      ->getMock();  
+
+    $default->method('asteriskInfo')->willReturn(array('version'=>'16.0'));
+    $default->method('asteriskRunning')->willReturn(true);
+    $default->method('astmanInfo')->willReturn(true);
+    
+    self::$freepbx->Framework->setMonitoringObj($default);
+
+    $response = $this->request("query{
+      fetchAsteriskDetails{
+      status
+      message
+      asteriskStatus
+      asteriskVersion
+      amiStatus
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"data":{"fetchAsteriskDetails":{"status":true,"message":"Asterisk Details","asteriskStatus":"Running","asteriskVersion":"16.0","amiStatus":"Connected"}}}',$json);
+    $this->assertEquals(200, $response->getStatusCode());
+  }
+  
+  /**
+   * test_fetchAsteriskDetails_when__astriskNotrunning_should_return_true_with_astrisk_notrunning
+   *
+   * @return void
+   */
+  public function test_fetchAsteriskDetails_when__astriskNotrunning_should_return_true_with_astrisk_notrunning(){
+     $default = $this->getMockBuilder(\FreePBX\modules\framework\Monitoring::class)
+     ->disableOriginalConstructor()
+			->setMethods(array('asteriskInfo','asteriskRunning','astmanInfo'))
+      ->getMock();  
+
+    $default->method('asteriskInfo')->willReturn(array('version'=>'16.0'));
+    $default->method('asteriskRunning')->willReturn(false);
+    $default->method('astmanInfo')->willReturn(true);
+    
+    self::$freepbx->Framework->setMonitoringObj($default);
+
+    $response = $this->request("query{
+      fetchAsteriskDetails{
+      status
+      message
+      asteriskStatus
+      asteriskVersion
+      amiStatus
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"data":{"fetchAsteriskDetails":{"status":true,"message":"Asterisk Details","asteriskStatus":"Not running","asteriskVersion":"16.0","amiStatus":"Connected"}}}',$json);
+    $this->assertEquals(200, $response->getStatusCode());
+  }
+   
+   /**
+    * test_fetchAsteriskDetails_when__astriskNotrunning_and_astman_not_connected_should_return_true_with_astrisk_notrunning_and_astman_not_connected
+    *
+    * @return void
+    */
+   public function test_fetchAsteriskDetails_when__astriskNotrunning_and_astman_not_connected_should_return_true_with_astrisk_notrunning_and_astman_not_connected(){
+     $default = $this->getMockBuilder(\FreePBX\modules\framework\Monitoring::class)
+     ->disableOriginalConstructor()
+			->setMethods(array('asteriskInfo','asteriskRunning','astmanInfo'))
+      ->getMock();  
+
+    $default->method('asteriskInfo')->willReturn(array('version'=>'16.0'));
+    $default->method('asteriskRunning')->willReturn(false);
+    $default->method('astmanInfo')->willReturn(false);
+    
+    self::$freepbx->Framework->setMonitoringObj($default);
+
+    $response = $this->request("query{
+      fetchAsteriskDetails{
+      status
+      message
+      asteriskStatus
+      asteriskVersion
+      amiStatus
+      }
+    }");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"data":{"fetchAsteriskDetails":{"status":true,"message":"Asterisk Details","asteriskStatus":"Not running","asteriskVersion":"16.0","amiStatus":"Not Connected"}}}',$json);
+    $this->assertEquals(200, $response->getStatusCode());
+  }
 }
