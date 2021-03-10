@@ -232,21 +232,28 @@ class Job {
 		if($this->inited) {
 			return;
 		}
+		$addline = true;
 		$crons = $this->freepbx->Cron->getAll();
-		foreach($crons as $c) {
-			if(preg_match('/fwconsole job --run/',$c,$matches)) {
-				$this->freepbx->Cron->remove($c);
-			}
-		}
-
 		$ampbin = $this->freepbx->Config->get('AMPSBIN');
 		$sleeptime = $this->freepbx->Config->get_conf_setting('JOBSRANDOMSLEEP');
 		if(isset($sleeptime) && $sleeptime > 0 ) {
-		       //we need to set the Random sleep time
-			$this->freepbx->Cron->add('* * * * * [ -e '.$ampbin.'/fwconsole ] && sleep $((RANDOM\%'.$sleeptime.')) && '.$ampbin.'/fwconsole job --run --quiet 2>&1 > /dev/null');
+			//we need to set the Random sleep time
+			$newline = '* * * * * [ -e '.$ampbin.'/fwconsole ] && sleep $((RANDOM\%'.$sleeptime.')) && '.$ampbin.'/fwconsole job --run --quiet 2>&1 > /dev/null';
+		} else {
+			$newline = '* * * * * [ -e '.$ampbin.'/fwconsole ] && '.$ampbin.'/fwconsole job --run --quiet 2>&1 > /dev/null';
 		}
-		else {
-			$this->freepbx->Cron->add('* * * * * [ -e '.$ampbin.'/fwconsole ] && '.$ampbin.'/fwconsole job --run --quiet 2>&1 > /dev/null');
+
+		foreach($crons as $c) {
+			if(preg_match('/fwconsole job --run/',$c)) {
+				if ($addline && $c === $newline) {
+					$addline = false;
+				} else {
+					$this->freepbx->Cron->remove($c);
+				}
+			}
+		}
+		if ($addline) {
+			$this->freepbx->Cron->add($newline);
 		}
 		$this->inited = true;
 	}
