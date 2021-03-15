@@ -177,7 +177,6 @@ class Database extends \PDO {
 		}else {
 			$portnum = '-P '.$port;
 		}
-		dbug("dbpass = ".$amp_conf['AMPDBPASS']);
 		$sqlCommand = "{$mysqlCmd} {$portnum} {$hostname} -u{$dbuser} -p{$dbpass} {$dbname} ";
 
 		return $sqlCommand;
