@@ -274,6 +274,15 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
+	$settings[$category]['AUTOMODULEUPDATESANDRELOAD'] = array(
+	'value' => false,
+	'options' => '',
+	'name' => 'Reload Config After Automatic Module Updates',
+	'description' => 'Do fwconsole reload After automatic module update',
+	'sortorder' => -170,
+	'type' => CONF_TYPE_BOOL,
+	);
+
 	$settings[$category]['LOG_OUT_MESSAGES'] = array(
 	'value' => true,
 	'options' => '',
