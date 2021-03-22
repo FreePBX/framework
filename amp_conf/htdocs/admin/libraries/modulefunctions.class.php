@@ -211,12 +211,7 @@ class module_functions {
 
 		if(isset($modules)) {
 			if ($module != false) {
-				foreach ($modules as $key => $mod) {
-
-					if (!isset($mod['rawname'])) {
-						dbug("Missing rawname from the module".$key);
-						dbug(print_r($mod, true));
-					}
+				foreach ($modules as $mod) {
 					if ($module == $mod['rawname']) {
 						if(!empty($edge[$module]) && (isset($amp_conf['MODULEADMINEDGE']) && $amp_conf['MODULEADMINEDGE']) && version_compare_freepbx($mod['version'],$edge[$module]['version'],'<')) {
 							$mod = $edge[$module];
@@ -245,11 +240,7 @@ class module_functions {
 				return array();
 			} else {
 				$final = array();
-				foreach ($modules as $key => $mod) {
-					if (!isset($mod['rawname'])) {
-						dbug("Missing rawname from the module".$key);
-						dbug(print_r($mod, true));
-					}
+				foreach ($modules as $mod) {
 					if(!empty($edge[$mod['rawname']]) && (isset($amp_conf['MODULEADMINEDGE']) && $amp_conf['MODULEADMINEDGE']) && version_compare_freepbx($mod['version'],$edge[$mod['rawname']]['version'],'<')) {
 						$mod = $edge[$mod['rawname']];
 					}
@@ -369,21 +360,13 @@ class module_functions {
 
 		$new_modules = array();
 		if (count($modules)) {
-			foreach ($modules as $key => $mod) {
-				if (!isset($mod['rawname'])) {
-					dbug("Missing rawname from the module".$key);
-					dbug(print_r($mod, true));
-				}
+			foreach ($modules as $mod) {
 				$new_modules[$mod['rawname']] = $mod;
 			}
 		}
 		$old_modules = array();
 		if (count($omodules)) {
-			foreach ($omodules as $key => $mod) {
-				if (!isset($mod['rawname'])) {
-					dbug("Missing rawname from the omodules".$key);
-					dbug(print_r($mod, true));
-				}
+			foreach ($omodules as $mod) {
 				$old_modules[$mod['rawname']] = $mod;
 			}
 		}
@@ -3169,9 +3152,6 @@ class module_functions {
 			}
 		}
 		$repos = explode(',', $amp_conf['MODULE_REPO']);
-		dbug("mirror repo ".print_r($repos, true));
-		dbug("mirror path ".print_r($path, true));
-		dbug("mirror options ".print_r($options, true));
 		return array('mirrors' => $repos, 'path' => $path, 'options' => $options, 'query' => http_build_query($options));
 	}
 
