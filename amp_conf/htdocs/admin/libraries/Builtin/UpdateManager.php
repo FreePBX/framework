@@ -270,7 +270,7 @@ class UpdateManager {
 			if($this->freepbx->Config->get('AUTOMODULEUPDATESANDRELOAD')){
 				$cmd = "[ -e $fwconsole ] && $fwconsole ma upgradeall --sendemail && $fwconsole reload -q > /dev/null 2>&1";
 			}else {
-;				$cmd = "[ -e $fwconsole ] && $fwconsole ma upgradeall --sendemail -q > /dev/null 2>&1";
+				$cmd = "[ -e $fwconsole ] && $fwconsole ma upgradeall --sendemail -q > /dev/null 2>&1";
 			}
 			$cron->add([ "command" => $cmd, "minute" => $min, "hour" => $hour, "dow" => $day ]);
 		}
