@@ -35,6 +35,7 @@ class PKCS {
 	public $timeout = 120;
 
 	private static $certmanObj = false;
+	private static $filestoreObj = false;
 	
 	//TODO first element that comes in here is the freepbx object yikes
 	public function __construct($debug=0) {
@@ -748,5 +749,31 @@ default_md = sha256
 	 */
 	public function setcertObj($obj){
 		return self::$certmanObj = $obj; 
+	}
+	
+	/**
+	 * fileStoreObj
+	 *
+	 * @param  mixed $freepbx
+	 * @return void
+	 */
+	public function fileStoreObj($freepbx) {
+		if (!self::$filestoreObj) {
+			if (!class_exists('FreePBX\\modules\\filestore')) {
+				include_once $freepbx->Config->get_conf_setting('AMPWEBROOT')."/admin/modules/filestore/Filestore.class.php";
+			}
+			self::$filestoreObj  = new \FreePBX\modules\Filestore($freepbx);
+		}
+		return self::$filestoreObj;
+	}
+			
+	/**
+	 * setFileStoreObj
+	 *
+	 * @param  mixed $obj
+	 * @return void
+	 */
+	public function setFileStoreObj($obj){
+		return self::$filestoreObj = $obj; 
 	}
 }
