@@ -9,6 +9,7 @@
  */
 namespace FreePBX;
 class Framework extends FreePBX_Helpers implements BMO {
+
 	private static $sysUpdate = false;
 	private static $monitoringObj = false;
 
@@ -40,7 +41,29 @@ class Framework extends FreePBX_Helpers implements BMO {
 		}
 		return false;
 	}
-
+	
+	/**
+	 * setSystemObj
+	 *
+	 * @param  mixed $obj
+	 * @return void
+	 */
+	public function setSystemObj($obj){
+		self::$sysUpdate = $obj;
+	}
+	
+	/**
+	 * getSystemObj
+	 *
+	 * @return void
+	 */
+	public function getSystemObj() {
+		if(!self::$sysUpdate){
+			 self::$sysUpdate = new \FreePBX\Builtin\SystemUpdates(true);
+		}
+		return self::$sysUpdate;
+	}
+	
 	public function ajaxHandler() {
 		switch ($_REQUEST['command']) {
 		case 'authping':
