@@ -878,14 +878,17 @@ class Reload extends Command {
 			$memt = 0;
 		}
 
-		$mems = isset($meminfo['SwapTotal']) ? preg_replace("/\D/","",$meminfo['SwapTotal']) : '';
-		if(empty($mems)) {
-			$this->freepbx->Notifications->add_warning('core', 'SWAP', _("No Swap"), _("Your system has no swap space. This should be fixed as soon as possible. Once fixed issue a reload to remove this message"));
-		} else {
-			if($mems < 200000) {
-				$this->freepbx->Notifications->add_warning('core', 'SWAP', _("No Swap"), sprintf(_("The swap space of your system is too low (%s KB). You should have at least %s KB of swap space. This should be fixed as soon as possible. Once fixed issue a reload to remove this message"),$mems,200000));
+		$brand = $this->freepbx->Config->get('DASHBOARD_FREEPBX_BRAND');
+		if($brand != 'PBXact UCC'){
+			$mems = isset($meminfo['SwapTotal']) ? preg_replace("/\D/","",$meminfo['SwapTotal']) : '';
+			if(empty($mems)) {
+				$this->freepbx->Notifications->add_warning('core', 'SWAP', _("No Swap"), _("Your system has no swap space. This should be fixed as soon as possible. Once fixed issue a reload to remove this message"));
 			} else {
-				$this->freepbx->Notifications->delete('core', 'SWAP');
+				if($mems < 200000) {
+					$this->freepbx->Notifications->add_warning('core', 'SWAP', _("No Swap"), sprintf(_("The swap space of your system is too low (%s KB). You should have at least %s KB of swap space. This should be fixed as soon as possible. Once fixed issue a reload to remove this message"),$mems,200000));
+				} else {
+					$this->freepbx->Notifications->delete('core', 'SWAP');
+				}
 			}
 		}
 
