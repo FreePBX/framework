@@ -32,7 +32,6 @@ class Mysql extends Command {
 
 		$this->FreePBX = FreePBX::Create();		
 		$cmd = $this->FreePBX->Database()->fetchSqlCommand();
-		$output->writeln($cmd);
 
 		if(posix_isatty(STDIN)) {
 			$process = new Process($cmd);
