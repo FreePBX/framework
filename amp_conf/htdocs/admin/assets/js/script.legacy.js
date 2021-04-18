@@ -1409,9 +1409,10 @@ $(document).ready(function() {
 			case "submit":
 				if(!fpbxForm[0].checkValidity()){
 					for(i = 0; i < fpbxForm[0].elements.length; i++){
-						if(!fpbxForm[0].elements[i].validity.valid){
+						if(fpbxForm[0].elements[i].willValidate && !fpbxForm[0].elements[i].validity.valid){
 							var alertText = $(fpbxForm[0].elements[i]).data("invalid");
 							warnInvalid(fpbxForm[0].elements[i], alertText);
+							break;
 						}
 					}
 					return false;
