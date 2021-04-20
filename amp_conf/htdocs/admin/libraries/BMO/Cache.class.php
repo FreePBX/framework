@@ -71,7 +71,7 @@ class Cache {
 	 *
 	 * @return bool TRUE if the entry was successfully stored in the cache, FALSE otherwise.
 	 */
-	public function save($id, $data, $lifeTime = 0){
+	public function save($id, $data, $lifeTime = 300){
 		return $this->init()->save($id, $data, $lifeTime);
 	}
 
