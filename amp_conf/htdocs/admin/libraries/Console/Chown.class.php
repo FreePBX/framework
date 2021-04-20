@@ -252,6 +252,7 @@ class Chown extends Command {
 							$this->chown($progress, $file['path'], $owner);
 							$this->chgrp($progress, $file['path'], $group);
 						} catch(\Exception $e) {
+							throw new \Exception($e->getMessage());
 						}
 					break;
 					case 'rdir':
@@ -261,6 +262,7 @@ class Chown extends Command {
 							$this->chown($progress, $file['path'], $owner, true);
 							$this->chgrp($progress, $file['path'], $group, true);
 						} catch(\Exception $e) {
+							throw new \Exception($e->getMessage());
 						}
 					break;
 					case 'execdir':
@@ -270,6 +272,7 @@ class Chown extends Command {
 							$this->chown($progress, $file['path'], $owner, true);
 							$this->chgrp($progress, $file['path'], $group, true);
 						} catch(\Exception $e) {
+							throw new \Exception($e->getMessage());
 						}
 					break;
 				}
@@ -377,6 +380,7 @@ class Chown extends Command {
 	}
 
 	private function checkPermissions($file, $mode) {
+		$mode = $this->stripExecute($mode);
 		if(decoct(octdec($mode)) == $mode){
 			return true;
 		}else{
