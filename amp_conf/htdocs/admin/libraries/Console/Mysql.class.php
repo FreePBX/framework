@@ -40,6 +40,9 @@ class Mysql extends Command {
 			$process = new Process($cmd.' -e '.escapeshellarg(fgets(STDIN)));
 		}
 
+		/* setting the mysql process timeout to 60 minutes */
+		$process->setTimeout(3600);
+
 		$process->mustRun();
 		if(!posix_isatty(STDIN)) {
 			echo $process->getOutput();
