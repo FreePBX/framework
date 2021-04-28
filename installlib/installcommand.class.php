@@ -721,6 +721,7 @@ class FreePBXInstallCommand extends Command {
 			"module.sig",
 			"install.php",
 			"LICENSE",
+			"phpunit.xml",
 			"README.md"
 		);
 		foreach($copyFrameworkFiles as $file) {
