@@ -812,7 +812,7 @@ class Installer {
 	);
 
 	$settings[$category]['ASTSIPDRIVER'] = array(
-	'value' => 'both',
+	'value' => 'chan_pjsip',
 	'options' => array('both', 'chan_sip', 'chan_pjsip'),
 	'level' => 2,
 	'name' => 'SIP Channel Driver',
