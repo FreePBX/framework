@@ -128,7 +128,7 @@ class module_functions {
 		if(!$never_refresh && ( (time() - $result['time']) > 300 || $skip_cache || empty($modules) ) ) {
 			set_time_limit($this->maxTimeLimit);
 			if ($override_xml) {
-				$data = $this->get_url_contents($override_xml,"/modules-" . $base_version . ".xml");
+				$data = $this->url_get_contents($override_xml,"/modules-" . $base_version . ".xml");
 			} else {
 				// We pass in true to add options to accomodate future needs of things like php versions to get properly zended
 				// tarballs of the same version for modules that are zended.
@@ -3161,10 +3161,19 @@ class module_functions {
 		$verb = strtolower($verb);
 		$contents = null;
 
+		dbug('url_get_contents request:');
+		dbug(array(
+			'url' => $url.$request,
+			'method' => $verb,
+			'params' => $params,
+			'timeout' => $timeout,
+		));
 		$requests = FreePBX::Curl()->requests($url);
 		try{
 			$response = $requests->$verb($request,array(),$params,array('timeout' => $timeout));
 			$contents = $response->body;
+			dbug('url_get_contents response:');
+			dbug($response);
 			if(isset($response->headers['x-current-uuid'])) {
 				//we connected
 				$this->update_accessed_id($response->headers['x-current-uuid']);
