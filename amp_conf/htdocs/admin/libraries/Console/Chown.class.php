@@ -397,12 +397,6 @@ class Chown extends Command {
 			return false;
 		}
 
-		if (octdec(decoct($mode)) != $mode) {
-			$this->d[] = "<error>".sprintf(_('%s Likely will not work as expected'),$file)."</error>";
-			$this->d[] = "<error>".sprintf(_('Permissions should be set with a leading 0, example 644 should be 0644 File: %s Permission set as: %s'),$file,$mode)."</error>";
-			return false;
-		}
-
   		return true;
 	}
 
