@@ -375,15 +375,29 @@ class Chown extends Command {
 		$mask = ( $mask & ~0111 );
 		return $mask;
 	}
-
+	
+	/**
+	 * checkPermissions
+	 * Check that we are passing a valid octal number
+	 * @param  mixed $file
+	 * @param  mixed $mode
+	 * @return bool
+	 */
 	private function checkPermissions($file, $mode) {
-		if(decoct($mode) == $mode){
-			return true;
-		}else{
+		if(is_string($mode)) {
 			$this->d[] = "<error>".sprintf(_('%s Likely will not work as expected'),$file)."</error>";
-			$this->d[] = "<error>".sprintf(_('Permissions should be set with a leading 0, example 644 should be 0644 File: %s Permission set as: %s'),$file,$mode)."</error>";
+			$this->d[] = "<error>".sprintf(_('Permissions should be set as integer not a string'))."</error>";
 			return false;
 		}
+
+		// 511 is the integer value of 0777
+		if (octdec(decoct($mode)) > 511) {
+			$this->d[] = "<error>".sprintf(_('%s Likely will not work as expected'),$file)."</error>";
+			$this->d[] = "<error>".sprintf(_('Incorrect permissions please check the permission your trying to set'))."</error>";
+			return false;
+		}
+
+  		return true;
 	}
 
 	private function d($message) {
