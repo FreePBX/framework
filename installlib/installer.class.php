@@ -1258,6 +1258,17 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
+	$settings[$category]['ENABLE_MIRROR_LOG'] = array(
+	'value' => false,
+	'options' => '',
+	'name' => 'Enable Mirror Debug Log',
+	'description' => 'Log the requests and responses from the Mirror server',
+	'readonly' => 1,
+	'hidden' => 1,
+	'level' => 2,
+	'type' => CONF_TYPE_BOOL,
+	);
+
 	$settings[$category]['DISPLAY_MONITOR_TRUNK_FAILURES_FIELD'] = array(
 	'value' => false,
 	'options' => '',
