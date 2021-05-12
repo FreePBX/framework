@@ -292,8 +292,6 @@ function engine_getinfo($force_read=false) {
 				$verinfo = exec('asterisk -V');
 			}
 
-			var_dump($verinfo);
-
 			if (preg_match('/Asterisk (\d+(\.\d+)*)(-?(\S*))/', $verinfo, $matches)) {
 				$engine_info = array('engine'=>'asterisk', 'version' => $matches[1], 'additional' => $matches[4], 'raw' => $verinfo);
 				$gotinfo = true;
