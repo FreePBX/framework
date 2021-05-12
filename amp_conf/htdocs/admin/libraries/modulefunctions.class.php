@@ -3161,19 +3161,26 @@ class module_functions {
 		$verb = strtolower($verb);
 		$contents = null;
 
-		dbug('url_get_contents request:');
-		dbug(array(
-			'url' => $url.$request,
-			'method' => $verb,
-			'params' => $params,
-			'timeout' => $timeout,
-		));
+		$enable_mirror_logging = \FreePBX::Config()->get('ENABLE_MIRROR_LOG');
+
+		if ($enable_mirror_logging) {
+			dbug('Mirror Request:');
+			dbug(array(
+				'url' => $url.$request,
+				'method' => $verb,
+				'params' => $params,
+				'timeout' => $timeout,
+			));
+		}
+
 		$requests = FreePBX::Curl()->requests($url);
 		try{
 			$response = $requests->$verb($request,array(),$params,array('timeout' => $timeout));
 			$contents = $response->body;
-			dbug('url_get_contents response:');
-			dbug($response);
+			if($enable_mirror_logging) {
+				dbug('Mirror Response:');
+				dbug($response);
+			}
 			if(isset($response->headers['x-current-uuid'])) {
 				//we connected
 				$this->update_accessed_id($response->headers['x-current-uuid']);
