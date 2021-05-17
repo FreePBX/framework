@@ -128,7 +128,7 @@ class module_functions {
 		if(!$never_refresh && ( (time() - $result['time']) > 300 || $skip_cache || empty($modules) ) ) {
 			set_time_limit($this->maxTimeLimit);
 			if ($override_xml) {
-				$data = $this->get_url_contents($override_xml,"/modules-" . $base_version . ".xml");
+				$data = $this->url_get_contents($override_xml,"/modules-" . $base_version . ".xml");
 			} else {
 				// We pass in true to add options to accomodate future needs of things like php versions to get properly zended
 				// tarballs of the same version for modules that are zended.
@@ -3161,10 +3161,26 @@ class module_functions {
 		$verb = strtolower($verb);
 		$contents = null;
 
+		$enable_mirror_logging = \FreePBX::Config()->get('ENABLE_MIRROR_LOG');
+
+		if ($enable_mirror_logging) {
+			dbug('Mirror Request:');
+			dbug(array(
+				'url' => $url.$request,
+				'method' => $verb,
+				'params' => $params,
+				'timeout' => $timeout,
+			));
+		}
+
 		$requests = FreePBX::Curl()->requests($url);
 		try{
 			$response = $requests->$verb($request,array(),$params,array('timeout' => $timeout));
 			$contents = $response->body;
+			if($enable_mirror_logging) {
+				dbug('Mirror Response:');
+				dbug($response);
+			}
 			if(isset($response->headers['x-current-uuid'])) {
 				//we connected
 				$this->update_accessed_id($response->headers['x-current-uuid']);
