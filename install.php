@@ -1,8 +1,8 @@
 <?php
 if (!defined('FREEPBX_IS_AUTH')) { die('No direct script access allowed'); }
 
-if (version_compare(PHP_VERSION, '5.6', '<')) {
-	out(sprintf(_("FreePBX Requires PHP Version 5.6 or Higher, you have: %s"),PHP_VERSION));
+if (version_compare(PHP_VERSION, '7.4', '<')) {
+	out(sprintf(_("FreePBX Requires PHP Version 7.4 or Higher, you have: %s"),PHP_VERSION));
 	return false;
 }
 //Adding JOBS advancedsettings to adjust the Random sleep /No sleep
