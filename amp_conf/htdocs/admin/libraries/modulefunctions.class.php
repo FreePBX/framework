@@ -74,9 +74,10 @@ class module_functions {
 	* @param string $module rawname of module to get xml for
 	* @param bool $override_xml Different xml path to use for repos instead of the included default
 	* @param bool $never_refresh Never look at the mirror server.  This is used when there may be several rapid calls to getonlinexml
+	* @param bool force - If this is true then forcefully fetch the data from the mirror server irrespective of any local settings.
 	* @return array combined module xml array or empty array
 	*/
-	function getonlinexml($module = false, $override_xml = false, $never_refresh = false) { // was getModuleXml()
+	function getonlinexml($module = false, $override_xml = false, $never_refresh = false, $force = false) { // was getModuleXml()
 		global $amp_conf, $db, $module_getonlinexml_error;  // okay, yeah, this sucks, but there's no other good way to do it without breaking BC
 		$module_getonlinexml_error = false;
 		$got_new = false;
@@ -109,7 +110,7 @@ class module_functions {
 		//
 		$repo_url = ($override_xml === false) ? $amp_conf['MODULE_REPO'] : $override_xml;
 		$result2 = sql("SELECT * FROM module_xml WHERE id = 'module_repo'",'getRow',DB_FETCHMODE_ASSOC);
-		$last_repo = $result2['data'];
+		$last_repo = !empty($result['data']) ? $result2['data']:'';
 		if ($last_repo !== $repo_url) {
 			sql("DELETE FROM module_xml WHERE id = 'module_repo'");
 			$data4sql = $db->escapeSimple($repo_url);
@@ -125,7 +126,7 @@ class module_functions {
 		// we need to know the freepbx major version we have running (ie: 12.0.1 is 12.0)
 		preg_match('/(\d+\.\d+)/',$version,$matches);
 		$base_version = $matches[1];
-		if(!$never_refresh && ( (time() - $result['time']) > 300 || $skip_cache || empty($modules) ) ) {
+		if(!$never_refresh && ($force || ( (time() - $result['time']) > 300 || $skip_cache || empty($modules) ))) {
 			set_time_limit($this->maxTimeLimit);
 			if ($override_xml) {
 				$data = $this->url_get_contents($override_xml,"/modules-" . $base_version . ".xml");
@@ -1299,7 +1300,7 @@ class module_functions {
 				}
 				$modulexml = $xml[$modeuledata];
 			} else {
-				$modulexml = $this->getonlinexml($moduledata);
+				$modulexml = $this->getonlinexml($moduledata, false, false , $force);
 			}
 		} elseif(!empty($moduledata['version'])) {
 			$modulexml = $moduledata;
