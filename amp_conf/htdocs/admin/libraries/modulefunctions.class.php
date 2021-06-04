@@ -100,7 +100,7 @@ class module_functions {
 			$previous = json_decode($result['data'],true);
 		}
 		$result = sql("SELECT * FROM module_xml WHERE id = 'modules'",'getRow',DB_FETCHMODE_ASSOC);
-		if(!empty($result['data'])) {
+		if(isset($result['data']) && !empty($result['data'])) {
 			$modules = json_decode($result['data'],true);
 		}
 
