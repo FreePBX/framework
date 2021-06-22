@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-04 06:37+0000\n"
+"POT-Creation-Date: 2021-06-22 04:05+0000\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -877,13 +877,13 @@ msgstr "کد حساب برای این وسیله."
 msgid "Action"
 msgstr "عمل"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:128
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:166
 msgid ""
 "Action you want to perform on a module [install/uninstall/enable/disable/"
 "remove]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:410
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:448
 #, php-format
 msgid ""
 "Action[%s] on module[%s] has been initiated. Please check the status using "
@@ -1127,7 +1127,11 @@ msgstr ""
 #: amp.i18n.php:340
 msgid ""
 "Alert Info to use on Extension to Extension Calls. 'Inherit' will use the "
-"previously set Alert Info,'Unset' will remove the previously set Alert Info."
+"previously set Alert Info,'Unset' will remove the previously set Alert Info. "
+"<br> <b>Sangoma's S series phones ringtones</b>: ring1, ring2, ring3, ring4, "
+"ring5. </br> <b>Sangoma's D series phones ringtones</b>: Alarm, Chimes, "
+"Digium, GuitarStrum, Jingle, Office, Office2, RotaryPhone, SteelDrum, "
+"Techno, Theme, Tweedle, Twinkle, Vibe."
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:400
@@ -2314,7 +2318,7 @@ msgid ""
 "saterday,sunday)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:254
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:292
 msgid "Check if config reload is required or not"
 msgstr ""
 
@@ -2510,6 +2514,12 @@ msgstr "Combining  key and crt into %s.pem"
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:83
 msgid "Command"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:123
+msgid ""
+"Command has been initiated. Please check the status using fetchApiStatus api "
+"with the returned transaction id"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:17
@@ -3974,15 +3984,15 @@ msgstr "انجام شد. تمام ماژول ها نصب شدند."
 msgid "Dont reload asterisk"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:260
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:298
 msgid "Doreload is not required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:258
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:296
 msgid "Doreload is required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:445
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:483
 msgid ""
 "Doreload/apply config has been initiated. Please check the status using "
 "fetchApiStatus api with the returned transaction id"
@@ -4722,6 +4732,10 @@ msgstr "به غیر از ماژول های"
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:25
 msgid "Execute on only this file/dir"
 msgstr "فقط در این فایل/دایرکتوری اجرا شود"
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:117
+msgid "Executes fwconsole commands"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:849
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:864
@@ -6179,11 +6193,11 @@ msgstr ""
 "username and password. Leaving either (or both) blank disables Proxy "
 "Authentication"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:141
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:179
 msgid "If you want to download and install"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:158
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:196
 msgid "If you want to remove the module"
 msgstr ""
 
@@ -6977,8 +6991,8 @@ msgstr "محدودیت مموری تغییر کرد"
 msgid "Message Context"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:337
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:341
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:375
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:379
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:200
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:208
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:282
@@ -7284,7 +7298,7 @@ msgstr "ماژول یافت نشد"
 msgid "Module Not Installed"
 msgstr "ماژول نصب نشده است"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:289
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:327
 msgid "Module Status"
 msgstr ""
 
@@ -7317,23 +7331,23 @@ msgstr ""
 msgid "Module is Unsigned"
 msgstr "ماژول تایید نشده"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:137
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:175
 msgid "Module name on which you want to perform  install action on"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:167
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:205
 msgid "Module name on which you want to perform action on"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:124
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:162
 msgid "Module name on which you want to perform any action"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:154
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:192
 msgid "Module name on which you want to perform uninstall action on"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:180
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:218
 msgid "Module name on which you want to perform upgrade"
 msgstr ""
 
@@ -7354,11 +7368,11 @@ msgstr "ماژول نصب نشده: نمیتواند عزل شود"
 msgid "Module signature expired"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:378
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:416
 msgid "Module status"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:224
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:262
 msgid "Module status found successfully"
 msgstr ""
 
@@ -8537,7 +8551,7 @@ msgstr "راهنمای الگو"
 msgid "Pause Before Answer"
 msgstr "وقفه قبل از پاسخ"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:197
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:235
 msgid "Performed Module operation status"
 msgstr ""
 
@@ -8989,7 +9003,7 @@ msgstr "RTP  Symmetric"
 msgid "RTP Timeout"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:293
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:331
 msgid "Raw name of the module"
 msgstr ""
 
@@ -10205,7 +10219,7 @@ msgstr ""
 msgid "Sorry, Could not find automatic update status"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:226
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:264
 msgid "Sorry, Unable to fetch the module status"
 msgstr ""
 
@@ -11008,64 +11022,64 @@ msgstr "محل مجوز استریسک"
 msgid "The module appears to be valid but is not currently installed"
 msgstr "The module appears  to be valid but is not currently installed"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:333
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:371
 msgid "The module category in FreePBX UI"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:398
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:436
 msgid "The module is broken"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:386
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:424
 msgid "The module is disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:390
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:428
 msgid "The module is enabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:382
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:420
 msgid "The module is not installed"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:325
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:363
 msgid "The module license information url "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:321
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:359
 msgid "The module license type "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:394
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:432
 msgid "The module needs to be upgraded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:317
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:355
 msgid "The module publisher name "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:218
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:256
 msgid "The module rawname"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:329
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:367
 msgid "The module release changelog "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:309
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:313
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:347
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:351
 msgid "The module release version "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:297
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:335
 msgid "The module repository information"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:305
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:343
 msgid "The module user friendly display name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:301
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:339
 msgid "The module user friendly name "
 msgstr ""
 
@@ -11931,8 +11945,8 @@ msgstr ""
 msgid "Track"
 msgstr "مسیر"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:145
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:171
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:183
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:209
 msgid "Track module (edge/stable) "
 msgstr ""
 
@@ -14017,6 +14031,10 @@ msgid ""
 msgstr ""
 "freepbx setting  ZAP2DAHDICOMPAT not found, somethng  is corrupt in the conf "
 "database?"
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:153
+msgid "fwconsole command"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:102
 #, php-format
