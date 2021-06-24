@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx-2.3.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-22 04:05+0000\n"
+"POT-Creation-Date: 2021-06-24 04:29+0000\n"
 "PO-Revision-Date: 2007-10-09 16:16+0100\n"
 "Last-Translator: Lónyai Gergely <alephlg@gmail.com>\n"
 "Language-Team: Aleph <alephlg@gmail.com>\n"
@@ -523,14 +523,14 @@ msgstr ""
 msgid "%s will be removed from the hard disk"
 msgstr ""
 
-#: ../core/Core.class.php:3896
+#: ../core/Core.class.php:3904
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
 "result all AGIs will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: ../core/Core.class.php:3917
+#: ../core/Core.class.php:3925
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but the FastAGI server was unable to start, As a result all AGIs will be "
@@ -712,7 +712,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "Egy útvonalban ez a DID/CID már meg lett adva!"
 
-#: ../core/Core.class.php:2756 ../core/functions.inc.php:4222
+#: ../core/Core.class.php:2764 ../core/functions.inc.php:4222
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr ""
@@ -1897,11 +1897,11 @@ msgstr ""
 msgid "Call successful"
 msgstr ""
 
-#: ../core/Core.class.php:3226
+#: ../core/Core.class.php:3234
 msgid "Caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:3227
+#: ../core/Core.class.php:3235
 msgid "Caller ID Number"
 msgstr ""
 
@@ -2153,8 +2153,8 @@ msgstr ""
 msgid "Channel ID"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:365 ../core/Api/Gql/Extensions.php:382
-#: ../core/Api/Gql/Extensions.php:436
+#: ../core/Api/Gql/Extensions.php:383 ../core/Api/Gql/Extensions.php:400
+#: ../core/Api/Gql/Extensions.php:458
 msgid "Channel Name incase if you are using tech DAHDi."
 msgstr ""
 
@@ -2529,12 +2529,12 @@ msgstr ""
 msgid "Core"
 msgstr ""
 
-#: ../core/Core.class.php:3776
+#: ../core/Core.class.php:3784
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:3849
+#: ../core/Core.class.php:3857
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -2637,7 +2637,7 @@ msgstr ""
 msgid "Country Indication Tones"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:114
+#: ../core/Api/Gql/Extensions.php:120
 msgid "Create a Range of Extensions"
 msgstr ""
 
@@ -2837,7 +2837,7 @@ msgstr ""
 msgid "DID Number"
 msgstr ""
 
-#: ../core/Core.class.php:3367
+#: ../core/Core.class.php:3375
 msgid "DID already exists"
 msgstr ""
 
@@ -2845,11 +2845,11 @@ msgstr ""
 msgid "DID/CID"
 msgstr ""
 
-#: ../core/Core.class.php:3168
+#: ../core/Core.class.php:3176
 msgid "DIDs"
 msgstr ""
 
-#: ../core/Core.class.php:3169
+#: ../core/Core.class.php:3177
 msgid "DIDs / Inbound Routes"
 msgstr ""
 
@@ -3150,10 +3150,10 @@ msgid ""
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:772
-#: ../core/Components/Dahdichannels.php:15 ../core/Core.class.php:308
-#: ../core/Core.class.php:331 ../core/Core.class.php:355
-#: ../core/Core.class.php:395 ../core/Core.class.php:420
-#: ../core/Core.class.php:450 ../core/page.devices.php:58
+#: ../core/Components/Dahdichannels.php:15 ../core/Core.class.php:316
+#: ../core/Core.class.php:339 ../core/Core.class.php:363
+#: ../core/Core.class.php:403 ../core/Core.class.php:428
+#: ../core/Core.class.php:458 ../core/page.devices.php:58
 #: ../core/page.devices.php:78 ../core/page.extensions.php:32
 #: ../core/page.extensions.php:125 ../core/page.extensions.php:153
 #: ../core/page.users.php:49
@@ -3165,7 +3165,7 @@ msgstr ""
 msgid "Delete Device %s"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:91
+#: ../core/Api/Gql/Extensions.php:97
 msgid "Delete an Extension in Core"
 msgstr ""
 
@@ -3208,8 +3208,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:231
-#: ../core/Core.class.php:3194 ../core/Core.class.php:3195
-#: ../core/Core.class.php:3218 ../core/Core.class.php:3219
+#: ../core/Core.class.php:3202 ../core/Core.class.php:3203
+#: ../core/Core.class.php:3226 ../core/Core.class.php:3227
 #: ../core/functions.inc.php:5091 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:59
@@ -3222,7 +3222,7 @@ msgstr ""
 msgid "Descriptive Name for this Trunk"
 msgstr ""
 
-#: ../core/Core.class.php:3230 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:3238 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr ""
 
@@ -3341,7 +3341,7 @@ msgstr ""
 msgid "Developer and Customization"
 msgstr ""
 
-#: ../core/Core.class.php:3583 ../core/functions.inc.php:5034
+#: ../core/Core.class.php:3591 ../core/functions.inc.php:5034
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3356,7 +3356,7 @@ msgstr ""
 msgid "Device & User Hints Issue"
 msgstr ""
 
-#: ../core/Core.class.php:1423 ../core/Core.class.php:1652
+#: ../core/Core.class.php:1431 ../core/Core.class.php:1660
 msgid "Device Extension was blank or there were no settings defined"
 msgstr ""
 
@@ -3377,7 +3377,7 @@ msgstr ""
 msgid "Device State Busy at"
 msgstr ""
 
-#: ../core/Core.class.php:3198 ../core/Core.class.php:3199
+#: ../core/Core.class.php:3206 ../core/Core.class.php:3207
 msgid "Device Technology"
 msgstr ""
 
@@ -3386,15 +3386,15 @@ msgstr ""
 msgid "Device Type"
 msgstr ""
 
-#: ../core/Core.class.php:3316
+#: ../core/Core.class.php:3324
 msgid "Device could not be added."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:222
+#: ../core/Api/Gql/Extensions.php:228
 msgid "Device tech default is pjsip"
 msgstr ""
 
-#: ../core/Core.class.php:219 ../core/Core.class.php:266
+#: ../core/Core.class.php:224 ../core/Core.class.php:274
 msgid "Device was not added!"
 msgstr ""
 
@@ -3874,7 +3874,7 @@ msgid ""
 "routes you dont know about"
 msgstr ""
 
-#: ../core/Core.class.php:425 ../core/Core.class.php:455
+#: ../core/Core.class.php:433 ../core/Core.class.php:463
 msgid "Duplicate"
 msgstr ""
 
@@ -3999,8 +3999,8 @@ msgid ""
 "Email address to use for services such as Voicemail, User Management and Fax"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:349 ../core/Api/Gql/Extensions.php:399
-#: ../core/Api/Gql/Extensions.php:453
+#: ../core/Api/Gql/Extensions.php:367 ../core/Api/Gql/Extensions.php:417
+#: ../core/Api/Gql/Extensions.php:475
 msgid ""
 "Email address to use for services such as Voicemail, User Management and Fax."
 msgstr ""
@@ -4274,7 +4274,7 @@ msgstr ""
 msgid "Error"
 msgstr ""
 
-#: ../core/Core.class.php:899
+#: ../core/Core.class.php:907
 msgid "Error Duplicate Channel Entry"
 msgstr ""
 
@@ -4314,7 +4314,7 @@ msgstr ""
 msgid "Error deleting directory %s (code %d)"
 msgstr "Hiba a %s könyvtár törlésekor (kód: %d)"
 
-#: ../core/Core.class.php:807 ../core/page.trunks.php:328
+#: ../core/Core.class.php:815 ../core/page.trunks.php:328
 msgid "Error fetching prefix list for: "
 msgstr ""
 
@@ -4529,8 +4529,8 @@ msgid "Extended"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:261
-#: ../core/Core.class.php:3185 ../core/Core.class.php:3186
-#: ../core/Core.class.php:3571 ../core/functions.inc.php:4703
+#: ../core/Core.class.php:3193 ../core/Core.class.php:3194
+#: ../core/Core.class.php:3579 ../core/functions.inc.php:4703
 #: ../core/page.did.php:93 ../core/page.extensions.php:39
 #: ../core/page.extensions.php:132 ../core/page.extensions.php:160
 #: ../core/views/rnav.php:23
@@ -4545,7 +4545,7 @@ msgstr ""
 msgid "Extension Number"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:92
+#: ../core/Api/Gql/Extensions.php:98
 msgid "Extension Number to be deleted"
 msgstr ""
 
@@ -4565,39 +4565,39 @@ msgstr ""
 msgid "Extension can not be blank!"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:179
+#: ../core/Api/Gql/Extensions.php:185
 msgid "Extension does not exists"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:68 ../core/Api/Gql/Extensions.php:102
+#: ../core/Api/Gql/Extensions.php:74 ../core/Api/Gql/Extensions.php:108
 msgid "Extension does not exists."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:177
+#: ../core/Api/Gql/Extensions.php:183
 msgid "Extension found successfully"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:49
+#: ../core/Api/Gql/Extensions.php:52
 msgid "Extension has been created Successfully"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:106
+#: ../core/Api/Gql/Extensions.php:112
 msgid "Extension has been deleted"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:80
+#: ../core/Api/Gql/Extensions.php:86
 msgid "Extension has been updated"
 msgstr ""
 
-#: ../core/Core.class.php:3254
+#: ../core/Core.class.php:3262
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3257
+#: ../core/Core.class.php:3265
 msgid "Extension is not numeric."
 msgstr ""
 
-#: ../core/Core.class.php:3260
+#: ../core/Core.class.php:3268
 msgid "Extension name is blank."
 msgstr ""
 
@@ -4605,19 +4605,23 @@ msgstr ""
 msgid "Extension number conflict, please choose another."
 msgstr ""
 
-#: ../core/Core.class.php:210 ../core/Core.class.php:255
+#: ../core/Api/Gql/Users.php:174
+msgid "Extension password"
+msgstr ""
+
+#: ../core/Core.class.php:210 ../core/Core.class.php:263
 msgid "Extension was not numeric!"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:158
+#: ../core/Api/Gql/Extensions.php:164
 msgid "Extension's found successfully"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:136
+#: ../core/Api/Gql/Extensions.php:142
 msgid "Extension's has been created Successfully"
 msgstr ""
 
-#: amp.i18n.php:858 ../core/Core.class.php:3164 ../core/Core.class.php:3165
+#: amp.i18n.php:858 ../core/Core.class.php:3172 ../core/Core.class.php:3173
 #: ../core/page.extensions.php:26
 msgid "Extensions"
 msgstr ""
@@ -4693,7 +4697,7 @@ msgstr ""
 msgid "Failed to create emergencydevices table"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:51
+#: ../core/Api/Gql/Extensions.php:54
 msgid "Failed to create extension"
 msgstr ""
 
@@ -4741,7 +4745,7 @@ msgstr "Az uninstalláló script futtatása sikertelen"
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
-#: ../core/Core.class.php:3828
+#: ../core/Core.class.php:3836
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -4770,11 +4774,11 @@ msgstr ""
 msgid "Fallback Welcome Page"
 msgstr ""
 
-#: ../core/Core.class.php:3910 ../core/Core.class.php:3917
+#: ../core/Core.class.php:3918 ../core/Core.class.php:3925
 msgid "Fast AGI Server not running"
 msgstr ""
 
-#: ../core/Core.class.php:3868
+#: ../core/Core.class.php:3876
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -4860,8 +4864,8 @@ msgid ""
 "Extension of the same Device ID will be set as the Default User."
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:173 ../core/Api/Gql/Extensions.php:234
-#: ../core/Api/Gql/Extensions.php:251
+#: ../core/Api/Gql/Devices.php:173 ../core/Api/Gql/Extensions.php:240
+#: ../core/Api/Gql/Extensions.php:269
 msgid ""
 "Fixed devices will always mapped to this user. Adhoc devices will be mapped "
 "to this user by default."
@@ -5354,11 +5358,11 @@ msgid ""
 "trunk context within asterisk"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:316
+#: ../core/Api/Gql/Extensions.php:334
 msgid "Give your Extension Starting Number"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:374 ../core/Api/Gql/Extensions.php:428
+#: ../core/Api/Gql/Extensions.php:392 ../core/Api/Gql/Extensions.php:450
 msgid ""
 "Give your Extension a unique integer ID. The Extension will use this ID to "
 "create Extension in the system"
@@ -5370,7 +5374,7 @@ msgid ""
 "authenticate to the system."
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:142 ../core/Api/Gql/Extensions.php:210
+#: ../core/Api/Gql/Devices.php:142 ../core/Api/Gql/Extensions.php:216
 msgid ""
 "Give your device a unique integer ID. The device will use this ID to "
 "authenticate to the system"
@@ -5908,7 +5912,7 @@ msgstr ""
 msgid "Inbound Internal Calls"
 msgstr ""
 
-#: ../core/Core.class.php:3625 ../core/Core.class.php:3634
+#: ../core/Core.class.php:3633 ../core/Core.class.php:3642
 msgid "Inbound Route:"
 msgstr ""
 
@@ -5938,7 +5942,7 @@ msgstr ""
 msgid "Incoming"
 msgstr ""
 
-#: ../core/Core.class.php:3222 ../core/Core.class.php:3223
+#: ../core/Core.class.php:3230 ../core/Core.class.php:3231
 msgid "Incoming DID"
 msgstr ""
 
@@ -6147,7 +6151,7 @@ msgstr ""
 msgid "Invalid email address"
 msgstr ""
 
-#: ../core/Core.class.php:811 ../core/page.trunks.php:333
+#: ../core/Core.class.php:819 ../core/page.trunks.php:333
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr ""
 
@@ -6254,7 +6258,7 @@ msgstr ""
 msgid "Launch local AGIs through FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:3910
+#: ../core/Core.class.php:3918
 #, php-format
 msgid ""
 "Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
@@ -7064,7 +7068,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:35
-#: ../core/Core.class.php:3190 ../core/Core.class.php:3191
+#: ../core/Core.class.php:3198 ../core/Core.class.php:3199
 #: ../core/page.extensions.php:40 ../core/page.extensions.php:133
 #: ../core/page.extensions.php:161 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -7425,7 +7429,7 @@ msgstr ""
 msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:328
+#: ../core/Api/Gql/Extensions.php:346
 msgid "Number of extensions you want to create."
 msgstr ""
 
@@ -7550,11 +7554,11 @@ msgstr ""
 msgid "Optional Additional CSS Stylesheet"
 msgstr ""
 
-#: ../core/Api/Gql/Users.php:182 ../core/functions.inc.php:4916
+#: ../core/Api/Gql/Users.php:185 ../core/functions.inc.php:4916
 msgid "Optional CID Prefix to add before sending to this busy destination."
 msgstr ""
 
-#: ../core/Api/Gql/Users.php:175
+#: ../core/Api/Gql/Users.php:178
 msgid "Optional CID Prefix to add before sending to this no answer destination"
 msgstr ""
 
@@ -7563,7 +7567,7 @@ msgid ""
 "Optional CID Prefix to add before sending to this no answer destination."
 msgstr ""
 
-#: ../core/Api/Gql/Users.php:189 ../core/functions.inc.php:4921
+#: ../core/Api/Gql/Users.php:192 ../core/functions.inc.php:4921
 msgid ""
 "Optional CID Prefix to add before sending to this not reachable destination."
 msgstr ""
@@ -7594,7 +7598,7 @@ msgid ""
 "module specific ones are loaded, relative to admin."
 msgstr ""
 
-#: ../core/Api/Gql/Users.php:196
+#: ../core/Api/Gql/Users.php:199
 msgid ""
 "Optional destination call is routed to when the call is not answered on an "
 "otherwise idle phone. If the phone is in use and the call is simply ignored, "
@@ -7618,7 +7622,7 @@ msgid ""
 "call is rejected by the user."
 msgstr ""
 
-#: ../core/Api/Gql/Users.php:203 ../core/functions.inc.php:4910
+#: ../core/Api/Gql/Users.php:206 ../core/functions.inc.php:4910
 msgid ""
 "Optional destination the call is routed to when the phone is busy or the "
 "call is rejected by the user. This destination is also used on an unanswered "
@@ -7626,7 +7630,7 @@ msgid ""
 "call."
 msgstr ""
 
-#: ../core/Api/Gql/Users.php:210 ../core/functions.inc.php:4918
+#: ../core/Api/Gql/Users.php:213 ../core/functions.inc.php:4918
 msgid ""
 "Optional destination the call is routed to when the phone is offline, such "
 "as a softphone currently off or a phone unplugged."
@@ -7737,7 +7741,7 @@ msgstr ""
 msgid "Outbound Proxy"
 msgstr ""
 
-#: ../core/Core.class.php:3608
+#: ../core/Core.class.php:3616
 msgid "Outbound Route:"
 msgstr ""
 
@@ -7808,8 +7812,8 @@ msgid ""
 "override the common outbound CallerID set in the Trunks admin."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:336 ../core/Api/Gql/Extensions.php:390
-#: ../core/Api/Gql/Extensions.php:444
+#: ../core/Api/Gql/Extensions.php:354 ../core/Api/Gql/Extensions.php:408
+#: ../core/Api/Gql/Extensions.php:466
 msgid ""
 "Overrides the CallerID when dialing out a trunk. Any setting here will "
 "override the common outbound CallerID set in the Trunks admin.\n"
@@ -7876,7 +7880,7 @@ msgstr ""
 msgid "PJSIP Settings"
 msgstr ""
 
-#: ../core/Core.class.php:3896
+#: ../core/Core.class.php:3904
 msgid "PM2 Not installed"
 msgstr ""
 
@@ -7906,6 +7910,12 @@ msgstr ""
 msgid ""
 "Password (secret) configured for the device. Should be alphanumeric with at "
 "least 2 letters and numbers to keep secure."
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:499
+msgid ""
+"Password (secret) configured for the device. Should be alphanumeric with at "
+"least 2 letters and numbers to keep secure. [secret]"
 msgstr ""
 
 #: ../core/views/routing/grid.php:26 ../core/views/routing/grid.php:28
@@ -8135,8 +8145,8 @@ msgstr ""
 msgid "Please enter a valid pause time in seconds, using digits only"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:36 ../core/Api/Gql/Extensions.php:64
-#: ../core/Api/Gql/Extensions.php:98
+#: ../core/Api/Gql/Extensions.php:39 ../core/Api/Gql/Extensions.php:70
+#: ../core/Api/Gql/Extensions.php:104
 msgid "Please enter only numeric values"
 msgstr ""
 
@@ -8688,10 +8698,10 @@ msgstr "A %s motor a követelmény. Neked a %s van meg."
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:771
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:48
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:527
-#: ../core/Components/Dahdichannels.php:21 ../core/Core.class.php:313
-#: ../core/Core.class.php:336 ../core/Core.class.php:360
-#: ../core/Core.class.php:379 ../core/Core.class.php:400
-#: ../core/Core.class.php:430 ../core/Core.class.php:460
+#: ../core/Components/Dahdichannels.php:21 ../core/Core.class.php:321
+#: ../core/Core.class.php:344 ../core/Core.class.php:368
+#: ../core/Core.class.php:387 ../core/Core.class.php:408
+#: ../core/Core.class.php:438 ../core/Core.class.php:468
 msgid "Reset"
 msgstr ""
 
@@ -8842,7 +8852,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr ""
 
-#: ../core/Core.class.php:3548 ../core/Core.class.php:3549
+#: ../core/Core.class.php:3556 ../core/Core.class.php:3557
 #, php-format
 msgid "SIP (%s)"
 msgstr ""
@@ -9533,7 +9543,7 @@ msgstr ""
 msgid "Some of these settings can render your system inoperable."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:82
+#: ../core/Api/Gql/Extensions.php:88
 msgid "Sorry could not update the extension"
 msgstr ""
 
@@ -9545,7 +9555,7 @@ msgstr ""
 msgid "Sorry, Unable to fetch the module status"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:160
+#: ../core/Api/Gql/Extensions.php:166
 msgid "Sorry, unable to find any extensions"
 msgstr ""
 
@@ -9608,7 +9618,7 @@ msgstr ""
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: ../core/Core.class.php:3823
+#: ../core/Core.class.php:3831
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -9621,7 +9631,7 @@ msgstr ""
 msgid "Starting Cache cleanup"
 msgstr ""
 
-#: ../core/Core.class.php:3782
+#: ../core/Core.class.php:3790
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -9661,11 +9671,11 @@ msgstr ""
 msgid "Stop Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: ../core/Core.class.php:3864
+#: ../core/Core.class.php:3872
 msgid "Stopped FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:3855
+#: ../core/Core.class.php:3863
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -9684,10 +9694,10 @@ msgid "Styling and Logos"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:770
-#: ../core/Components/Dahdichannels.php:26 ../core/Core.class.php:318
-#: ../core/Core.class.php:341 ../core/Core.class.php:365
-#: ../core/Core.class.php:384 ../core/Core.class.php:405
-#: ../core/Core.class.php:435 ../core/Core.class.php:465
+#: ../core/Components/Dahdichannels.php:26 ../core/Core.class.php:326
+#: ../core/Core.class.php:349 ../core/Core.class.php:373
+#: ../core/Core.class.php:392 ../core/Core.class.php:413
+#: ../core/Core.class.php:443 ../core/Core.class.php:473
 msgid "Submit"
 msgstr "Elküld"
 
@@ -9908,8 +9918,8 @@ msgstr ""
 msgid "Tech Type"
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:149 ../core/Api/Gql/Extensions.php:324
-#: ../core/Api/Gql/Extensions.php:378 ../core/Api/Gql/Extensions.php:432
+#: ../core/Api/Gql/Devices.php:149 ../core/Api/Gql/Extensions.php:342
+#: ../core/Api/Gql/Extensions.php:396 ../core/Api/Gql/Extensions.php:454
 msgid "Technology driver type"
 msgstr ""
 
@@ -9948,13 +9958,13 @@ msgid ""
 "installed and enabled."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:320
+#: ../core/Api/Gql/Extensions.php:338
 msgid ""
 "The CallerID name , a name which you want to append along with the extension "
 "number."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:386 ../core/Api/Gql/Extensions.php:440
+#: ../core/Api/Gql/Extensions.php:404 ../core/Api/Gql/Extensions.php:462
 #: ../core/functions.inc.php:4773 ../core/views/quickCreate.php:93
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
@@ -10015,7 +10025,7 @@ msgid ""
 "li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:170
+#: ../core/Api/Gql/Extensions.php:176
 msgid "The ExtensionId to fetch"
 msgstr ""
 
@@ -10116,7 +10126,7 @@ msgid ""
 "the CLI."
 msgstr ""
 
-#: ../core/Core.class.php:3231
+#: ../core/Core.class.php:3239
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -10588,6 +10598,10 @@ msgid ""
 "systems should not change this."
 msgstr ""
 
+#: ../core/Api/Gql/Extensions.php:441 ../core/Api/Gql/Extensions.php:503
+msgid "The user's password"
+msgstr ""
+
 #: ../core/functions.inc/drivers/PJSip.class.php:336
 msgid ""
 "The value is a comma-delimited list of IP addresses. IP addresses may have a "
@@ -10654,7 +10668,7 @@ msgid ""
 "greater than post_max_size {"
 msgstr ""
 
-#: ../core/Core.class.php:227
+#: ../core/Core.class.php:235
 msgid "There was an unknown error creating this extension"
 msgstr ""
 
@@ -10688,8 +10702,8 @@ msgid ""
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:185 ../core/Api/Gql/Extensions.php:345
-#: ../core/Api/Gql/Extensions.php:395 ../core/Api/Gql/Extensions.php:449
+#: ../core/Api/Gql/Devices.php:185 ../core/Api/Gql/Extensions.php:363
+#: ../core/Api/Gql/Extensions.php:413 ../core/Api/Gql/Extensions.php:471
 msgid ""
 "This CallerID will always be set when dialing out an Outbound Route flagged "
 "as Emergency. The Emergency CID overrides all other CallerID settings."
@@ -10709,8 +10723,8 @@ msgid ""
 "settings"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:40 ../core/Api/Gql/Extensions.php:138
-#: ../core/Core.class.php:1430 ../core/Core.class.php:1659
+#: ../core/Api/Gql/Extensions.php:43 ../core/Api/Gql/Extensions.php:144
+#: ../core/Core.class.php:1438 ../core/Core.class.php:1667
 msgid "This device id is already in use"
 msgstr ""
 
@@ -10919,7 +10933,7 @@ msgid ""
 "setup that uses it."
 msgstr ""
 
-#: ../core/Core.class.php:2740
+#: ../core/Core.class.php:2748
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr ""
@@ -11108,7 +11122,7 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr ""
 
-#: ../core/Core.class.php:3616
+#: ../core/Core.class.php:3624
 msgid "Trunk:"
 msgstr ""
 
@@ -11194,13 +11208,13 @@ msgstr ""
 msgid "UTC"
 msgstr ""
 
-#: ../core/Core.class.php:1578
+#: ../core/Core.class.php:1586
 msgid ""
 "Unable to change device driver. The device is already set to the specified "
 "driver"
 msgstr ""
 
-#: ../core/Core.class.php:1572
+#: ../core/Core.class.php:1580
 msgid "Unable to change device driver. Unable to fetch the device"
 msgstr ""
 
@@ -11479,7 +11493,7 @@ msgstr ""
 msgid "Update System Informations"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:57
+#: ../core/Api/Gql/Extensions.php:60
 msgid "Update an Extension in Core"
 msgstr ""
 
@@ -11697,7 +11711,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:3595 ../core/functions.inc.php:4705
+#: ../core/Core.class.php:3603 ../core/functions.inc.php:4705
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -11752,22 +11766,26 @@ msgstr ""
 msgid "User Password"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:361 ../core/Api/Gql/Extensions.php:419
-#: ../core/Api/Gql/Extensions.php:473
+#: ../core/Api/Gql/Extensions.php:379 ../core/Api/Gql/Extensions.php:437
+#: ../core/Api/Gql/Extensions.php:495
 msgid "User caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:3343
+#: ../core/Core.class.php:3351
 msgid "User could not be added."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:332 ../core/Api/Gql/Extensions.php:403
-#: ../core/Api/Gql/Extensions.php:457
+#: ../core/Api/Gql/Extensions.php:36 ../core/Api/Gql/Extensions.php:67
+msgid "User management is enabled please provide password"
+msgstr ""
+
+#: ../core/Api/Gql/Extensions.php:350 ../core/Api/Gql/Extensions.php:421
+#: ../core/Api/Gql/Extensions.php:479
 msgid "Usermanagment enable yes/no."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:341 ../core/Api/Gql/Extensions.php:407
-#: ../core/Api/Gql/Extensions.php:461
+#: ../core/Api/Gql/Extensions.php:359 ../core/Api/Gql/Extensions.php:425
+#: ../core/Api/Gql/Extensions.php:483
 msgid "Usermanagment groupid. (comma seperated)"
 msgstr ""
 
@@ -11903,13 +11921,13 @@ msgstr ""
 msgid "Voicemail Extension"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:353 ../core/Api/Gql/Extensions.php:411
-#: ../core/Api/Gql/Extensions.php:465
+#: ../core/Api/Gql/Extensions.php:371 ../core/Api/Gql/Extensions.php:429
+#: ../core/Api/Gql/Extensions.php:487
 msgid "Voicemail enable yes/no."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:357 ../core/Api/Gql/Extensions.php:415
-#: ../core/Api/Gql/Extensions.php:469
+#: ../core/Api/Gql/Extensions.php:375 ../core/Api/Gql/Extensions.php:433
+#: ../core/Api/Gql/Extensions.php:491
 msgid "Voicemail password"
 msgstr ""
 
@@ -12572,7 +12590,7 @@ msgstr ""
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
 
-#: ../core/Core.class.php:2733
+#: ../core/Core.class.php:2741
 msgid "You must put in an extension (or user) number"
 msgstr ""
 

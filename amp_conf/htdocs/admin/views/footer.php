@@ -195,7 +195,7 @@ if ($amp_conf['BROWSER_STATS']) {
 			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-			ga('create', 'UA-25724109-1', 'auto');  // Replace with your property ID.
+			ga('create', 'G-TLPHPHCS6F', 'auto');  // Replace with your property ID.
 
 			ga('set', 'type', fpbx.conf.dist.pbx_type);
 			ga('set', 'typever', fpbx.conf.dist.pbx_version);
