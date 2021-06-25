@@ -42,7 +42,7 @@ class System extends Base {
 		$message = $this->freepbx->api->getTransactionStatus($args['txnId']);
 		//return the api status
 		return $response->withJson(['status' => true,
-				'message' => $message]);
+				'message' => $message['event_status']]);
 		})->add($this->checkReadScopeMiddleware('system'));
 	}
 }
