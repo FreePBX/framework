@@ -277,8 +277,8 @@ class Modules extends Base {
 						'resolve' => function($root, $args) {
 							try{
 								$status = $this->freepbx->api->getTransactionStatus($args['txnId']);
-								if($status != null){
-									return ['message' => $status, 'status' => true] ;
+								if($status['event_status'] != null){
+									return ['message' => $status, 'status' => true, 'failureReason' => $status['failure_reason']] ;
 								}else{
 									return ['message' => 'Sorry unable to fetch the status', 'status' => true] ;
 								}
@@ -377,6 +377,10 @@ class Modules extends Base {
 				'module' =>[
 					'type' => $this->getEnumStatuses(),
 					'description' => _('Message for the request')
+				],
+				'failureReason' => [
+					'type' => Type::string(),
+					'description' => _('Reason for the transaction failed')
 				]
 			];
 		});
