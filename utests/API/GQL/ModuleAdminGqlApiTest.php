@@ -530,4 +530,31 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
     $this->assertEquals(400, $response->getStatusCode());
   }
+   
+   /**
+    * test_fetchApiStatus_should_return_status_failed_and_failure_response
+    *
+    * @return void
+    */
+   public function test_fetchApiStatus_should_return_status_failed_and_failure_response(){
+     $default = $this->getMockBuilder(\FreePBX\api\api::class)
+     ->disableOriginalConstructor()
+			->setMethods(array('getTransactionStatus'))
+      ->getMock();  
+
+    $default->method('getTransactionStatus')->willReturn(array('event_status'=>'Failed','failure_reason'=>'Failed to restart asterisk'));
+    
+    self::$freepbx->Api()->setObj($default);  
+
+    $response = $this->request("query{
+      fetchApiStatus( txnId: 97){
+        status
+        message
+        failureReason
+    }}");
+      
+    $json = (string)$response->getBody();
+    $this->assertEquals('{"data":{"fetchApiStatus":{"status":true,"message":"Failed","failureReason":"Failed to restart asterisk"}}}',$json);
+    $this->assertEquals(200, $response->getStatusCode());
+  }
 }
