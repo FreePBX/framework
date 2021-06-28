@@ -1278,6 +1278,55 @@ function regExpEscape(literal_string) {
 }
 
 $(document).ready(function() {
+	$.ajax({
+		type: "POST",
+		url: 'ajax.php?command=navbarToogle',
+		dataType: "json",
+		success: function(data) {
+			if (data.status) {
+				if(data.message == "yes"){
+					$("#floating-nav-bar").addClass("show");
+					$(".nav-bar-show").addClass("active");
+				}
+				else{
+					$("#floating-nav-bar").removeClass("show");
+					$(".nav-bar-show").removeClass("active");
+				}					
+			}
+		},
+		error: function(reqObj, status) {
+			var err = 	"<p>XHR response code: " + reqObj.status +
+						" XHR responseText: " + reqObj.resonseText +
+						" jQuery status: " + status  + "<\/p>";
+			fpbxToast(err,'Error','danger');
+		}
+	});	
+	$(".nav-bar-show").click( function(){
+		$.ajax({
+			type: "POST",
+			url: 'ajax.php?command=navbarToogle&click=true',
+			dataType: "json",
+			success: function(data) {
+				if(data.status) {
+					if(data.message == "yes"){
+						$("#floating-nav-bar").addClass("show");
+						$(".nav-bar-show").addClass("active");
+					}
+					else{
+						$("#floating-nav-bar").removeClass("show");
+						$(".nav-bar-show").removeClass("active");
+					}					
+				} 
+			},
+			error: function(reqObj, status) {
+				var err = 	"<p>XHR response code: " + reqObj.status +
+							" XHR responseText: " + reqObj.resonseText +
+							" jQuery status: " + status  + "<\/p>";
+				fpbxToast(err,'Error','danger');
+			}
+		});
+	});
+
 	$(".fpbx-usageinfo .panel-heading a").click(function() {
 		if($(this).hasClass("collapsed")) {
 			$.cookie("destinationUsage",1);
