@@ -277,8 +277,8 @@ class Modules extends Base {
 						'resolve' => function($root, $args) {
 							try{
 								$status = $this->freepbx->api->getTransactionStatus($args['txnId']);
-								if($status['event_status'] != null){
-									return ['message' => $status, 'status' => true, 'failureReason' => $status['failure_reason']] ;
+								if(isset($status['event_status']) && $status['event_status'] != null){
+									return ['message' => $status['event_status'], 'status' => true, 'failureReason' => $status['failure_reason']] ;
 								}else{
 									return ['message' => 'Sorry unable to fetch the status', 'status' => true] ;
 								}
