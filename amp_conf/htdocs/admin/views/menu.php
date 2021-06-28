@@ -49,7 +49,8 @@ global $_item_sort;
 							<ul class="dropdown-menu" role="menu">
 								<li role="presentation" ><a><?php echo _('Hello, ') . (isset($_SESSION['AMP_user']->username) ? $_SESSION['AMP_user']->username : 'ERROR'); ?></a></li>
 								<li role="presentation" class="divider"></li>
-								<li><a id="user_logout" href="#"><?php echo _('Logout'); ?></a>
+								<li role="presentation" class="nav-bar-show" title="<?php echo _("Nav. Bar is always shown by default or not.") ?>"><a><?php echo _("Keep Nav Bar Expanded") ?></a></li>
+								<li><a id="user_logout" href="#"><?php echo _('Logout'); ?></a></li>
 							</ul>
 						</li>
 					<?php } ?>
