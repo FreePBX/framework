@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-06-26 05:24+0000\n"
+"POT-Creation-Date: 2021-06-29 02:38+0000\n"
 "PO-Revision-Date: 2014-09-11 02:13+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Romanian <http://git.freepbx.org/projects/freepbx/framework/"
@@ -766,9 +766,9 @@ msgstr ""
 msgid "ALL SECTIONS"
 msgstr "TOATE SECTIUNILE"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:161
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:174
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:198
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:182
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:195
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:219
 #, php-format
 msgid "AMI failure details:"
 msgstr ""
@@ -3012,7 +3012,7 @@ msgstr ""
 msgid "Default"
 msgstr "Predefinit"
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:182
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:203
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:356
 msgid "Default Asterisk Manager Password Used"
 msgstr ""
@@ -4704,17 +4704,17 @@ msgstr ""
 msgid "FOP Web Root Dir"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:172
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:193
 #, php-format
 msgid "Failed changing AMI password to [%s], internal failure details follow:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:159
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:180
 #, php-format
 msgid "Failed changing AMI user to [%s], internal failure details follow:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:196
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:217
 #, php-format
 msgid ""
 "Failed changing AMI writetimout to [%s], internal failure details follow:"
@@ -4770,7 +4770,7 @@ msgstr ""
 msgid "Failed to read manager file to add writetimeout"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:213
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:234
 msgid ""
 "Failed to reload AMI, manual reload will be necessary, try: [asterisk -rx "
 "'module reload manager']"
@@ -6273,6 +6273,10 @@ msgstr ""
 msgid "KEYWORD"
 msgstr ""
 
+#: amp_conf/htdocs/admin/views/menu.php:52
+msgid "Keep Nav Bar Expanded"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:336
 #, php-format
 msgid "Key provided - %s - is not hex"
@@ -6434,7 +6438,7 @@ msgstr ""
 msgid "Logo in footer.Path is relative to admin."
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/menu.php:52
+#: amp_conf/htdocs/admin/views/menu.php:53
 msgid "Logout"
 msgstr "Deconectare"
 
@@ -7161,6 +7165,10 @@ msgid ""
 msgstr ""
 "Numele rutei. Trebuie utilizat pentru a descrie ce tipuri de apel vor fi "
 "asociate rutei  (ex:  'local' sau 'interurban')."
+
+#: amp_conf/htdocs/admin/views/menu.php:52
+msgid "Nav. Bar is always shown by default or not."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:33
 msgid "Need to be instantiated with a FreePBX Object"
@@ -8461,7 +8469,7 @@ msgstr ""
 msgid "Quick Create Extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/views/menu.php:64
+#: amp_conf/htdocs/admin/views/menu.php:65
 msgid "Quick Search '/'"
 msgstr ""
 
@@ -9113,7 +9121,7 @@ msgstr "Control Apelant: Memorie"
 msgid "Screen Caller: No Memory"
 msgstr "Control Apelant: Fara Memorie"
 
-#: amp_conf/htdocs/admin/views/menu.php:64
+#: amp_conf/htdocs/admin/views/menu.php:65
 msgid "Search"
 msgstr ""
 
@@ -9806,7 +9814,7 @@ msgstr ""
 "Reincarcare efectuata cu succes, dar nu se poate elimina flag-ul de "
 "reincarcare din cauza unei erori din baza de date: "
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:127
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:148
 msgid "Successfully reloaded"
 msgstr "Reincarcat cu succes"
 
@@ -11380,7 +11388,7 @@ msgstr ""
 msgid "Unable to find an intermediary converter for %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:90
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:111
 #, php-format
 msgid ""
 "Unable to find fwconsole at %s, Consider updating 'sbin Dir' to the location "
@@ -11527,8 +11535,8 @@ msgstr ""
 msgid "Unknown Error Code %s, Message %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:114
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:119
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:135
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:140
 msgid "Unknown Error. Please Run: fwconsole reload --verbose "
 msgstr ""
 
@@ -12556,7 +12564,7 @@ msgstr ""
 msgid "You are urged to backup before making any changes."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:182
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:203
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:356
 msgid ""
 "You are using the default Asterisk Manager password that is widely known, "
@@ -13139,7 +13147,7 @@ msgstr ""
 msgid "fwconsole command"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:102
+#: amp_conf/htdocs/admin/libraries/BMO/Framework.class.php:123
 #, php-format
 msgid "fwconsole is not executable at %s"
 msgstr ""
