@@ -190,6 +190,7 @@ if (isset($module_name) && $module_name != '') {
 
 if ($amp_conf['BROWSER_STATS']) {
 	$ga = "<script>
+
 			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 			(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -197,13 +198,12 @@ if ($amp_conf['BROWSER_STATS']) {
 
 			ga('create', 'UA-25724109-1', 'auto');  // Replace with your property ID.
 
-			ga('set', 'type', fpbx.conf.dist.pbx_type);
-			ga('set', 'typever', fpbx.conf.dist.pbx_version);
-			ga('set', 'astver', fpbx.conf.ASTVERSION);
-			ga('set', 'fpbxver', fpbx.conf.ver);
-			ga('set', 'display', $.urlParam('display'));
-			ga('set', 'uniqueid', fpbx.conf.uniqueid);
-
+			ga('set', 'dimension1', fpbx.conf.dist.pbx_type);
+			ga('set', 'dimension2', fpbx.conf.dist.pbx_version);
+			ga('set', 'dimension3', fpbx.conf.ASTVERSION);
+			ga('set', 'dimension4', fpbx.conf.ver);
+			ga('set', 'dimension5', $.urlParam('display'));
+			ga('set', 'dimension6', fpbx.conf.uniqueid);
 			ga('send', 'pageview');
 
 		</script>";
