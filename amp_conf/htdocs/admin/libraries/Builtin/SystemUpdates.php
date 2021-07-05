@@ -61,7 +61,8 @@ class SystemUpdates {
 			return false;
 		}
 		$lic = sysadmin_get_license();
-		return (isset($lic['hostid']));
+		//machineid is used since PHP 7+. for the earlier versions hostid is used
+		return (isset($lic['machineid']));
 	}
 
 	/**
