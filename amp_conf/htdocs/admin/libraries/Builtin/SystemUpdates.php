@@ -133,6 +133,10 @@ class SystemUpdates {
 				unlink("/var/spool/asterisk/incron/framework.yum-update-system");
 			}
 			touch("/var/spool/asterisk/incron/framework.yum-update-system");
+			if($this->checkIfTestingRepoEnabled()) {
+				$nt = \notifications::create();
+				$nt->add_warning('framework', 'test_repos_enabled', _("Test repos are enabled"), _("'sangoma-devel' rpm is installed.\nyum repo 'sng7-testing' is enabled."), "", false, true);
+			}
 			// Wait up to 5 seconds for it to start
 			$endafter = time()+5;
 			while (time() < $endafter) {
@@ -673,5 +677,18 @@ class SystemUpdates {
 		$factory = new Factory($lockStore);
 		$this->lock = $factory->createLock('systemupdates',7200);
 		return $this->lock;
+	}
+
+	private function checkIfTestingRepoEnabled() {
+		//check "sangoma-devel" rpm installed
+        $ret = exec("/usr/bin/rpm -qa|grep sangoma-devel");
+        if (!empty($ret)) {
+			//check if the yum repo "sng7-testing" is enabled
+			$ret = exec("/usr/bin/yum repolist | grep -i sng7-testing");
+			if (!empty($ret)) {
+				return true;
+			}
+        }
+        return false;
 	}
 }
