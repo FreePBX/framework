@@ -508,7 +508,7 @@ class Installer {
 	'value' => true,
 	'options' => '',
 	'name' => 'Browser Stats',
-	'description' => 'Setting this to true will allow the development team to use google analytics to anonymously analyze browser information to help make better development decisions.',
+	'description' => 'Setting this to true will allow the development team to use google analytics to anonymously analyze browser information to help make better development decisions. Setting to false will stop the PBX from using google analytics directly, but this option will not control web contents displayed in iframes.',
 	'type' => CONF_TYPE_BOOL,
 	);
 
