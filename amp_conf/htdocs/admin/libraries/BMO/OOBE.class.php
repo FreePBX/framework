@@ -193,6 +193,7 @@ class OOBE extends FreePBX_Helpers {
 				echo load_view($view, $results);
 			} else {
 				$this->addInitalSettings($results);
+				FreePBX::Framework()->setConfig("navbarToogle", "yes");
 				$this->completeOOBE("framework");
 				return $this->showOOBE($auth);
 			}
