@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-05 15:51+0000\n"
+"POT-Creation-Date: 2021-07-13 09:08+0000\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -226,7 +226,7 @@ msgstr "%s Online %s upgrade  available (%s)"
 msgid "%s Online upgrade available (%s)"
 msgstr "%s به روزرسانی آنلاین وجود دارد (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:617
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:621
 #, php-format
 msgid "%s RPMs available for upgrade"
 msgstr ""
@@ -548,14 +548,14 @@ msgstr "%s version %s or  higher is required, you have %s"
 msgid "%s will be removed from the hard disk"
 msgstr "%s از هارد دیسک حذف خواهد شد"
 
-#: ../core/Core.class.php:3904
+#: ../core/Core.class.php:3905
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
 "result all AGIs will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: ../core/Core.class.php:3925
+#: ../core/Core.class.php:3926
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but the FastAGI server was unable to start, As a result all AGIs will be "
@@ -570,6 +570,12 @@ msgstr "'cp -rf' from src: '%s' to  dst: '%s'...details follow"
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:59
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:61
 msgid "'fwconsole reload' failed, config not applied"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:139
+msgid ""
+"'sangoma-devel' rpm is installed.\n"
+"yum repo 'sng7-testing' is enabled."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:19
@@ -616,7 +622,7 @@ msgstr "0 مدیران"
 msgid "0 for disabling the Random Sleep And Max sleep you can set is 30"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:615
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:619
 msgid "1 RPM available for upgrade"
 msgstr ""
 
@@ -764,7 +770,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "یک مسیر برای این DID/CID در حال حاضر موجود است!"
 
-#: ../core/Core.class.php:2764 ../core/functions.inc.php:4222
+#: ../core/Core.class.php:2765 ../core/functions.inc.php:4222
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "یک مسیر برای این DID/CID: %s %s در حال حاضر موجود است"
@@ -2019,11 +2025,11 @@ msgstr ""
 msgid "Call successful"
 msgstr ""
 
-#: ../core/Core.class.php:3234
+#: ../core/Core.class.php:3235
 msgid "Caller ID"
 msgstr "شناسه تماس گیرنده"
 
-#: ../core/Core.class.php:3235
+#: ../core/Core.class.php:3236
 msgid "Caller ID Number"
 msgstr "شماره تماس گیرنده"
 
@@ -2297,8 +2303,8 @@ msgstr ""
 msgid "Channel can not be blank!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:630
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:657
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:634
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:661
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:27
 msgid "Check Online"
 msgstr "بررسی آنلاین"
@@ -2685,12 +2691,12 @@ msgstr ""
 msgid "Core"
 msgstr "هسته"
 
-#: ../core/Core.class.php:3784
+#: ../core/Core.class.php:3785
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:3857
+#: ../core/Core.class.php:3858
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -2879,7 +2885,7 @@ msgstr "تنظیمات شبکه فعلی"
 msgid "Current PBX Version:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:577
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:581
 msgid "Current System Update Status:"
 msgstr ""
 
@@ -3016,7 +3022,7 @@ msgstr "توضیحات داخلی مستقیم"
 msgid "DID Number"
 msgstr "شماره داخلی مستقیم"
 
-#: ../core/Core.class.php:3375
+#: ../core/Core.class.php:3376
 msgid "DID already exists"
 msgstr "DID موجود است"
 
@@ -3024,11 +3030,11 @@ msgstr "DID موجود است"
 msgid "DID/CID"
 msgstr "DID/CID"
 
-#: ../core/Core.class.php:3176
+#: ../core/Core.class.php:3177
 msgid "DIDs"
 msgstr ".DIDs"
 
-#: ../core/Core.class.php:3177
+#: ../core/Core.class.php:3178
 msgid "DIDs / Inbound Routes"
 msgstr "مسیرهای ورودی / DIDs"
 
@@ -3433,8 +3439,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:231
-#: ../core/Core.class.php:3202 ../core/Core.class.php:3203
-#: ../core/Core.class.php:3226 ../core/Core.class.php:3227
+#: ../core/Core.class.php:3203 ../core/Core.class.php:3204
+#: ../core/Core.class.php:3227 ../core/Core.class.php:3228
 #: ../core/functions.inc.php:5091 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:59
@@ -3447,7 +3453,7 @@ msgstr "شرح"
 msgid "Descriptive Name for this Trunk"
 msgstr "شرح نام برای این ترانک"
 
-#: ../core/Core.class.php:3238 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:3239 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "مقصد"
 
@@ -3577,7 +3583,7 @@ msgstr "حالت توسعه دهنده"
 msgid "Developer and Customization"
 msgstr "توسعه دهنده و شخصی ساز"
 
-#: ../core/Core.class.php:3591 ../core/functions.inc.php:5034
+#: ../core/Core.class.php:3592 ../core/functions.inc.php:5034
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3593,7 +3599,7 @@ msgstr ""
 msgid "Device & User Hints Issue"
 msgstr ""
 
-#: ../core/Core.class.php:1431 ../core/Core.class.php:1660
+#: ../core/Core.class.php:1432 ../core/Core.class.php:1661
 msgid "Device Extension was blank or there were no settings defined"
 msgstr "داخلی وسیله خالی بود یا تنظیمی یافت نشد"
 
@@ -3614,7 +3620,7 @@ msgstr "تنظیمات وسیله"
 msgid "Device State Busy at"
 msgstr "وضعیت دستگاه مشغول است در"
 
-#: ../core/Core.class.php:3206 ../core/Core.class.php:3207
+#: ../core/Core.class.php:3207 ../core/Core.class.php:3208
 msgid "Device Technology"
 msgstr "فن آوری وسیله"
 
@@ -3623,7 +3629,7 @@ msgstr "فن آوری وسیله"
 msgid "Device Type"
 msgstr "نوع وسیله"
 
-#: ../core/Core.class.php:3324
+#: ../core/Core.class.php:3325
 msgid "Device could not be added."
 msgstr "وسیله نمیتواند اضافه شود."
 
@@ -4256,7 +4262,7 @@ msgid ""
 "Email address to use for services such as Voicemail, User Management and Fax."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:264
+#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:265
 msgid "Email addresses error"
 msgstr "خطا آدرس ایمیل"
 
@@ -4807,8 +4813,8 @@ msgid "Extended"
 msgstr "تمدید شده"
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:261
-#: ../core/Core.class.php:3193 ../core/Core.class.php:3194
-#: ../core/Core.class.php:3579 ../core/functions.inc.php:4703
+#: ../core/Core.class.php:3194 ../core/Core.class.php:3195
+#: ../core/Core.class.php:3580 ../core/functions.inc.php:4703
 #: ../core/page.did.php:93 ../core/page.extensions.php:39
 #: ../core/page.extensions.php:132 ../core/page.extensions.php:160
 #: ../core/views/rnav.php:23
@@ -4867,15 +4873,15 @@ msgstr ""
 msgid "Extension has been updated"
 msgstr ""
 
-#: ../core/Core.class.php:3262
+#: ../core/Core.class.php:3263
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3265
+#: ../core/Core.class.php:3266
 msgid "Extension is not numeric."
 msgstr "داخلی شماره نیست."
 
-#: ../core/Core.class.php:3268
+#: ../core/Core.class.php:3269
 msgid "Extension name is blank."
 msgstr ""
 
@@ -4899,7 +4905,7 @@ msgstr ""
 msgid "Extension's has been created Successfully"
 msgstr ""
 
-#: amp.i18n.php:858 ../core/Core.class.php:3172 ../core/Core.class.php:3173
+#: amp.i18n.php:858 ../core/Core.class.php:3173 ../core/Core.class.php:3174
 #: ../core/page.extensions.php:26
 msgid "Extensions"
 msgstr "داخلی ها"
@@ -5027,7 +5033,7 @@ msgstr "شکست در اجرای اسکریپت های عزل"
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
-#: ../core/Core.class.php:3836
+#: ../core/Core.class.php:3837
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -5056,11 +5062,11 @@ msgstr "شکست در نوشتن indications.conf"
 msgid "Fallback Welcome Page"
 msgstr "جانشین صفحه خوش آمد"
 
-#: ../core/Core.class.php:3918 ../core/Core.class.php:3925
+#: ../core/Core.class.php:3919 ../core/Core.class.php:3926
 msgid "Fast AGI Server not running"
 msgstr ""
 
-#: ../core/Core.class.php:3876
+#: ../core/Core.class.php:3877
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -5983,7 +5989,7 @@ msgstr ""
 "the IP address and subnet mask with a slash ('/'). This setting is "
 "automatically generated by the PBX if left blank"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:571
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:575
 msgid "Idle"
 msgstr ""
 
@@ -6335,7 +6341,7 @@ msgstr "تماس های خارجی ورودی"
 msgid "Inbound Internal Calls"
 msgstr "تماس های داخلی ورودی"
 
-#: ../core/Core.class.php:3633 ../core/Core.class.php:3642
+#: ../core/Core.class.php:3634 ../core/Core.class.php:3643
 msgid "Inbound Route:"
 msgstr "مسیر ورودی:"
 
@@ -6365,7 +6371,7 @@ msgstr "شامل نام سرور در مرورگر"
 msgid "Incoming"
 msgstr "ورودی"
 
-#: ../core/Core.class.php:3230 ../core/Core.class.php:3231
+#: ../core/Core.class.php:3231 ../core/Core.class.php:3232
 msgid "Incoming DID"
 msgstr "داخلی مستقیم ورودی"
 
@@ -6434,7 +6440,7 @@ msgstr "نصب تمامی ماژولهای محلی، بدون قبول آرگو
 msgid "Installed Missing Dependency of: %s %s"
 msgstr "نصب وابستگی های از دست رفته از: %s %s"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:638
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:642
 msgid "Installed Version"
 msgstr ""
 
@@ -6674,11 +6680,11 @@ msgstr "کد زبان"
 msgid "Languages"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:582
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:586
 msgid "Last Online Check Status:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:586
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:590
 msgid "Last System Update:"
 msgstr ""
 
@@ -6694,7 +6700,7 @@ msgstr ""
 msgid "Launch local AGIs through FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:3918
+#: ../core/Core.class.php:3919
 #, php-format
 msgid ""
 "Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
@@ -7551,7 +7557,7 @@ msgstr "نکته! شما %s هشدارد دارید! برای مشاهده به 
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:35
-#: ../core/Core.class.php:3198 ../core/Core.class.php:3199
+#: ../core/Core.class.php:3199 ../core/Core.class.php:3200
 #: ../core/page.extensions.php:40 ../core/page.extensions.php:133
 #: ../core/page.extensions.php:161 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -7579,7 +7585,7 @@ msgstr "باید مطابق شی معرفی شده از طرف FreePBX باشد"
 msgid "Needs Upgrade:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:583
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:587
 #: ../core/functions.inc.php:4594
 msgid "Never"
 msgstr "هرگز"
@@ -7589,11 +7595,11 @@ msgstr "هرگز"
 msgid "Never - (%s)"
 msgstr "هرگز - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:641
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:645
 msgid "New Package"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:638
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:642
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:361
 msgid "New Version"
 msgstr ""
@@ -7757,7 +7763,7 @@ msgstr ""
 msgid "No status was given to checkStatus"
 msgstr "وضعیتی برای checkStatus مشخص نشده است"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:611
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:615
 msgid "No updates currently required!"
 msgstr ""
 
@@ -8298,7 +8304,7 @@ msgstr "تماس های داخلی"
 msgid "Outbound Proxy"
 msgstr "پراکسی تماس خروجی"
 
-#: ../core/Core.class.php:3616
+#: ../core/Core.class.php:3617
 msgid "Outbound Route:"
 msgstr "مسیر تماس خروجی:"
 
@@ -8445,7 +8451,7 @@ msgstr "منطقه زمانی PHP"
 msgid "PJSIP Settings"
 msgstr "تنظیمات PJSIP"
 
-#: ../core/Core.class.php:3904
+#: ../core/Core.class.php:3905
 msgid "PM2 Not installed"
 msgstr ""
 
@@ -8489,7 +8495,7 @@ msgstr ""
 msgid "Password Protected"
 msgstr "کلمه عبور حفاظت شده"
 
-#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:249
+#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:250
 msgid "Password error. Please re-check"
 msgstr "خطا کلمه عبور. لطفا مجدد بررسی کنید"
 
@@ -8501,7 +8507,7 @@ msgstr ""
 "Password for accessing the Asterisk Manager Interface (AMI), this will be "
 "automatically  updated in manager.conf."
 
-#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:251
+#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:252
 msgid "Password too short"
 msgstr "کلمه عبور کوتاه است"
 
@@ -8682,7 +8688,7 @@ msgstr "لطفا خطاهای زیر را تصحیح کنید:"
 msgid "Please enter a Secret for this device"
 msgstr "لطفا برای این وسیله یک رمز وارد کنید"
 
-#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:237
+#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:238
 msgid "Please enter a System Indentifier"
 msgstr ""
 
@@ -8690,7 +8696,7 @@ msgstr ""
 msgid "Please enter a device id."
 msgstr "لطفا یک شناسه برای این وسیله وارد کنید."
 
-#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:243
+#: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:244
 msgid "Please enter a username"
 msgstr "لطفا نام کاربری وارد کنید"
 
@@ -8983,7 +8989,7 @@ msgstr "RFC  2833"
 msgid "RFC 4733"
 msgstr "RFC  4733"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:638
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:642
 msgid "RPM Name"
 msgstr ""
 
@@ -9112,7 +9118,7 @@ msgstr "فراوانی"
 msgid "Refer Blind Progress"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:579
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:583
 msgid "Refresh page"
 msgstr ""
 
@@ -9460,7 +9466,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "هشدار امنیتی:"
 
-#: ../core/Core.class.php:3556 ../core/Core.class.php:3557
+#: ../core/Core.class.php:3557 ../core/Core.class.php:3558
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP  (%s)"
@@ -10312,7 +10318,7 @@ msgstr "استاندارد"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "آغاز استریسک و اجرای دستورات لازم FreePBX"
 
-#: ../core/Core.class.php:3831
+#: ../core/Core.class.php:3832
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -10325,7 +10331,7 @@ msgstr "استریسک در حال اجرا..."
 msgid "Starting Cache cleanup"
 msgstr "شروع پاک سازی کش"
 
-#: ../core/Core.class.php:3790
+#: ../core/Core.class.php:3791
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -10365,11 +10371,11 @@ msgstr ""
 msgid "Stop Asterisk and run other needed FreePBX commands"
 msgstr "توقف استریسک و اجرای دستورات لازم FreePBX"
 
-#: ../core/Core.class.php:3872
+#: ../core/Core.class.php:3873
 msgid "Stopped FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:3863
+#: ../core/Core.class.php:3864
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -10504,7 +10510,7 @@ msgstr ""
 msgid "System Setup"
 msgstr "تنظیمات سیستم"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:565
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:569
 msgid "System Update Details"
 msgstr ""
 
@@ -10623,6 +10629,10 @@ msgstr ""
 #: amp.i18n.php:822
 msgid "Telephony Engine"
 msgstr "موتور تلفن"
+
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:139
+msgid "Test repos are enabled"
+msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:224
 msgid ""
@@ -10855,7 +10865,7 @@ msgid ""
 "the CLI."
 msgstr ""
 
-#: ../core/Core.class.php:3239
+#: ../core/Core.class.php:3240
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -11529,7 +11539,7 @@ msgid ""
 msgstr ""
 
 #: ../core/Api/Gql/Extensions.php:43 ../core/Api/Gql/Extensions.php:144
-#: ../core/Core.class.php:1438 ../core/Core.class.php:1667
+#: ../core/Core.class.php:1439 ../core/Core.class.php:1668
 msgid "This device id is already in use"
 msgstr "شناسه وسیله در حال استفاده است"
 
@@ -11798,7 +11808,7 @@ msgstr ""
 "This trunk will not be able to be used for  outbound calls until a route is "
 "setup that uses it."
 
-#: ../core/Core.class.php:2748
+#: ../core/Core.class.php:2749
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "کاربر/داخلی %s در حال استفاده است"
@@ -12006,7 +12016,7 @@ msgstr "نام ترانک و متن کاربر نمیتواند یکی باشد"
 msgid "Trunk Sequence for Matched Routes"
 msgstr "توالی ترانک برای مسیرهای یکسان"
 
-#: ../core/Core.class.php:3624
+#: ../core/Core.class.php:3625
 msgid "Trunk:"
 msgstr "ترانک:"
 
@@ -12094,13 +12104,13 @@ msgstr "جزییات کاربر"
 msgid "UTC"
 msgstr ""
 
-#: ../core/Core.class.php:1586
+#: ../core/Core.class.php:1587
 msgid ""
 "Unable to change device driver. The device is already set to the specified "
 "driver"
 msgstr ""
 
-#: ../core/Core.class.php:1580
+#: ../core/Core.class.php:1581
 msgid "Unable to change device driver. Unable to fetch the device"
 msgstr ""
 
@@ -12185,7 +12195,7 @@ msgstr "عدم توانایی حذف tmp.cfg"
 msgid "Unable to resolve dependencies for module %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:609
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:613
 msgid "Unable to run 'yum check-updates', can't check for updates"
 msgstr ""
 
@@ -12268,7 +12278,7 @@ msgstr "عزل ماژول[ها], پذیرفتن آرگومان ماژول[ها]"
 msgid "Unknown"
 msgstr "ناشناخته"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:591
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:595
 msgid "Unknown (System updates not run since last reboot)"
 msgstr ""
 
@@ -12376,7 +12386,7 @@ msgstr "هشدارهای به روزرسانی"
 msgid "Update Required"
 msgstr "نیاز به به روزرسانی"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:656
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:660
 msgid "Update System"
 msgstr ""
 
@@ -12408,7 +12418,7 @@ msgstr ""
 msgid "Updates"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:621
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:625
 msgid "Updates Available:"
 msgstr ""
 
@@ -12620,7 +12630,7 @@ msgstr ""
 "Used when  PHP Console is enabled for error debugging https://github.com/"
 "barbushin/php-console"
 
-#: ../core/Core.class.php:3603 ../core/functions.inc.php:4705
+#: ../core/Core.class.php:3604 ../core/functions.inc.php:4705
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -12680,7 +12690,7 @@ msgstr "کلمه عبور کاربر"
 msgid "User caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:3351
+#: ../core/Core.class.php:3352
 msgid "User could not be added."
 msgstr "امکان افزودن کاربروجود ندارد."
 
@@ -13313,7 +13323,7 @@ msgid ""
 "enable the rtcp_mux option"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:574
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:578
 msgid "Working"
 msgstr ""
 
@@ -13649,7 +13659,7 @@ msgstr "You must  defined a Client URI"
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "شما باید یک فایل freepbx.conf مناسب برای اجرا داشته باشید"
 
-#: ../core/Core.class.php:2741
+#: ../core/Core.class.php:2742
 msgid "You must put in an extension (or user) number"
 msgstr "شما باید شماره یک داخلی (یا کاربر) وارد کنید"
 
