@@ -47,17 +47,7 @@ class Motd extends Command {
 						->setBackgroundColor($background)
 						->setFontStretching(0)
 						->render($text);
-			//this is because trim by itself wont work!! :-|
-			$lines = preg_split("/\n/m", $banner);
-			$banner = '';
-			foreach($lines as $l) {
-				$l = trim($l);
-				if(empty($l)) {
-					continue;
-				}
-				$banner .= $l . "\n";
-			}
-			//end trim operation
+
 			$output->write($banner);
 		} else {
 			$output->write(base64_decode($this->banner));
