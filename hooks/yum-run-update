@@ -17,7 +17,7 @@ while(true){
       break;
    }
    //for 30min maximum
-   if(time() > $endtime){
+   if (time() > $endafter) {
       break;
    }
 }
