@@ -1,0 +1,63 @@
+#!/usr/bin/php
+<?php
+error_reporting(E_ALL);
+require '/usr/lib/sysadmin/includes.php';
+
+$module = $action = $track = $txnId = "";
+if (isset($argv[1])) {
+   //Decoding all compressed arguments
+   $b = str_replace('_', '/', $argv[1]);
+   $settings = @json_decode(gzuncompress(@base64_decode($b)), true);
+   if (is_array($settings)) {
+      $module = $settings[0];
+      $action = $settings[1];
+      $track = $settings[2];
+      $txnId = $settings[3];
+   }
+}
+
+//Executing upgrade all module command
+$action = $module;
+shell_exec('/usr/sbin/fwconsole ma ' . $action);
+
+//Running Chown Command
+$output = array();
+$cmd = "/usr/sbin/fwconsole chown 2>&1";
+$result = exec($cmd, $output, $return);
+
+if ($return == 0) {
+   //On success
+   //Running Reload Command
+   $output = array();
+   $cmd = "/usr/sbin/fwconsole reload 2>&1";
+   $result = exec($cmd, $output, $return);
+   if ($return == 0) {
+      $message = '';
+      $status = "Executed";
+   } else {
+      if (array_key_exists(2, $output)) {
+         $message =  "Failed to execute command [ " . $cmd . " ] , command output = $output[2]";
+      } else {
+         $message =  "Failed to execute command [ " . $cmd . " ]";
+      }
+      $status = 'Failed';
+   }
+} else {
+   if (array_key_exists(2, $output)) {
+      $message =  "Failed to execute command [ " . $cmd . " ] , command output = $output[2]";
+   } else {
+      $message =  "Failed to execute command [ " . $cmd . " ]";
+   }
+   $status = 'Failed';
+}
+
+
+$db = \Sysadmin\FreePBX::Database();
+$sql = ("UPDATE IGNORE api_asynchronous_transaction_history SET event_status = :event_status , failure_reason =:failure_reason, process_end_time =:end_time WHERE `txn_id` = :txn_id");
+$sth = $db->prepare($sql);
+$sth->execute([
+	":event_status" => $status,
+	":failure_reason" => $message,
+	":end_time" => time(),
+	":txn_id" => $txnId
+]);
