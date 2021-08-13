@@ -98,6 +98,10 @@ class SystemUpdates {
 				unlink("/var/spool/asterisk/incron/framework.yum-check-updates");
 			}
 			touch("/var/spool/asterisk/incron/framework.yum-check-updates");
+			if($this->checkIfTestingRepoEnabled()) {
+				$nt = \notifications::create();
+				$nt->add_warning('framework', 'test_repos_enabled', _("Test repos are enabled"), _("'sangoma-devel' rpm is installed.\nyum repo 'sng7-testing' is enabled."), "", false, true);
+			}
 			// Wait up to 5 seconds for it to start
 			$endafter = time()+5;
 			while (time() < $endafter) {
@@ -133,10 +137,6 @@ class SystemUpdates {
 				unlink("/var/spool/asterisk/incron/framework.yum-update-system");
 			}
 			touch("/var/spool/asterisk/incron/framework.yum-update-system");
-			if($this->checkIfTestingRepoEnabled()) {
-				$nt = \notifications::create();
-				$nt->add_warning('framework', 'test_repos_enabled', _("Test repos are enabled"), _("'sangoma-devel' rpm is installed.\nyum repo 'sng7-testing' is enabled."), "", false, true);
-			}
 			// Wait up to 5 seconds for it to start
 			$endafter = time()+5;
 			while (time() < $endafter) {
@@ -575,6 +575,11 @@ class SystemUpdates {
 		} else {
 			$idle = false;
 			$currentstatus = _("Working");
+		}
+		if($this->checkIfTestingRepoEnabled()) {
+			print "<div class='container-fluid'>";
+			print show_help(_("This system has test repos enabled."), _('Test Repos Enabled'), false, false);
+			print "</div>";
 		}
 		$html .= "<div class='row'>
 			<div class='col-xs-3'>"._("Current System Update Status:")."</div>
