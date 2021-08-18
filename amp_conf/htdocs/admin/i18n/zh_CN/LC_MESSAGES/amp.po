@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.5 Chinese Translation\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-04 02:35+0000\n"
+"POT-Creation-Date: 2021-08-18 05:57+0000\n"
 "PO-Revision-Date: 2015-11-17 09:04+0200\n"
 "Last-Translator: james <zhulizhong@gmail.com>\n"
 "Language-Team: Simplified Chinese <http://weblate.freepbx.org/projects/"
@@ -233,7 +233,7 @@ msgstr "%s 在线 %s 升级可用 (%s)"
 msgid "%s Online upgrade available (%s)"
 msgstr "%s 在线升级可用 (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:620
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:625
 #, php-format
 msgid "%s RPMs available for upgrade"
 msgstr ""
@@ -565,7 +565,7 @@ msgstr ""
 msgid "'fwconsole reload' failed, config not applied"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:138
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:103
 msgid ""
 "'sangoma-devel' rpm is installed.\n"
 "yum repo 'sng7-testing' is enabled."
@@ -615,7 +615,7 @@ msgstr ""
 msgid "0 for disabling the Random Sleep And Max sleep you can set is 30"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:618
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:623
 msgid "1 RPM available for upgrade"
 msgstr ""
 
@@ -2210,8 +2210,8 @@ msgstr ""
 msgid "Channel can not be blank!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:633
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:660
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:638
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:665
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:27
 msgid "Check Online"
 msgstr "在线检测"
@@ -2767,7 +2767,7 @@ msgstr ""
 msgid "Current PBX Version:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:580
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:585
 msgid "Current System Update Status:"
 msgstr ""
 
@@ -5536,7 +5536,7 @@ msgstr ""
 msgid "Hello, "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:471
+#: amp_conf/htdocs/admin/libraries/view.functions.php:472
 msgid "Helpful Information"
 msgstr ""
 
@@ -6090,7 +6090,7 @@ msgstr ""
 msgid "Installed Missing Dependency of: %s %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:641
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:646
 msgid "Installed Version"
 msgstr ""
 
@@ -6321,11 +6321,11 @@ msgstr ""
 msgid "Languages"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:585
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:590
 msgid "Last Online Check Status:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:589
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:594
 msgid "Last System Update:"
 msgstr ""
 
@@ -7191,7 +7191,7 @@ msgstr ""
 msgid "Needs Upgrade:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:586
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:591
 #: ../core/functions.inc.php:4594
 msgid "Never"
 msgstr "从不"
@@ -7201,11 +7201,11 @@ msgstr "从不"
 msgid "Never - (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:644
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:649
 msgid "New Package"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:641
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:646
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:361
 msgid "New Version"
 msgstr ""
@@ -7369,7 +7369,7 @@ msgstr ""
 msgid "No status was given to checkStatus"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:614
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:619
 msgid "No updates currently required!"
 msgstr ""
 
@@ -8514,7 +8514,7 @@ msgstr ""
 msgid "RFC 4733"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:641
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:646
 msgid "RPM Name"
 msgstr ""
 
@@ -8638,7 +8638,7 @@ msgstr ""
 msgid "Refer Blind Progress"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:582
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:587
 msgid "Refresh page"
 msgstr ""
 
@@ -10067,7 +10067,11 @@ msgstr ""
 msgid "Telephony Engine"
 msgstr "通信引擎"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:138
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:581
+msgid "Test Repos Enabled"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:103
 msgid "Test repos are enabled"
 msgstr ""
 
@@ -10899,7 +10903,7 @@ msgid ""
 "as Emergency. The Emergency CID overrides all other CallerID settings."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:494
+#: amp_conf/htdocs/admin/libraries/view.functions.php:495
 msgid "This Module has been deprecated"
 msgstr ""
 
@@ -11122,6 +11126,10 @@ msgid ""
 "This system has edge mode enabled. This means you will get modules as they "
 "are released and may encounter bugs not seen in general availibility modules."
 "</br> For more information visit %s"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:581
+msgid "This system has test repos enabled."
 msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:24
@@ -11496,7 +11504,7 @@ msgstr ""
 msgid "Unable to resolve dependencies for module %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:612
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:617
 msgid "Unable to run 'yum check-updates', can't check for updates"
 msgstr ""
 
@@ -11577,7 +11585,7 @@ msgstr ""
 msgid "Unknown"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:594
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:599
 msgid "Unknown (System updates not run since last reboot)"
 msgstr ""
 
@@ -11682,7 +11690,7 @@ msgstr ""
 msgid "Update Required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:659
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:664
 msgid "Update System"
 msgstr ""
 
@@ -11714,7 +11722,7 @@ msgstr ""
 msgid "Updates"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:624
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:629
 msgid "Updates Available:"
 msgstr ""
 
