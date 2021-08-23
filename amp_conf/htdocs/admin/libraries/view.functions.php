@@ -9,9 +9,8 @@ function frameworkPasswordCheck() {
   // here becuase both of these settings could be affected differently in the php apache related settings vs.
   // what retrieve_conf would see running the CLI version of php
   //
-
 	// send error if magic_quotes_gpc is enabled on this system as much of the code base assumes not
-	if(function_exists('get_magic_quotes_gpc')){
+	if(version_compare(PHP_VERSION, '5.6.40', '<=')){
 		if(get_magic_quotes_gpc()) {
 			$nt->add_error('core', 'MQGPC', _("Magic Quotes GPC"), _("You have magic_quotes_gpc enabled in your php.ini, http or .htaccess file which will cause errors in some modules. FreePBX expects this to be off and runs under that assumption"));
 		} else {
