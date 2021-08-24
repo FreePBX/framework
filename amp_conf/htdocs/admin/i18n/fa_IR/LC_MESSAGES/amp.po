@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-23 14:35+0000\n"
+"POT-Creation-Date: 2021-08-24 03:46+0000\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -888,7 +888,7 @@ msgid ""
 "remove]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:455
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:461
 #, php-format
 msgid ""
 "Action[%s] on module[%s] has been initiated. Please check the status using "
@@ -1407,7 +1407,7 @@ msgstr "دایرکتوری AGI استریسک"
 msgid "Asterisk Builtin mini-HTTP server"
 msgstr "سرور mini-HTTP داخلی استریسک"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:420
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:424
 msgid "Asterisk Details"
 msgstr ""
 
@@ -1720,7 +1720,7 @@ msgstr ""
 msgid "Automatic comedia - (%s)"
 msgstr "Automatic  comedia - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:470
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:474
 msgid "Automatic update status"
 msgstr ""
 
@@ -1745,6 +1745,13 @@ msgstr ""
 "POST_RELOAD to the script you wish to execute after applying changes. If "
 "POST_RELOAD_DEBUG=true, you will see the output of the script in the web "
 "page."
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:451
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:371
+msgid ""
+"Backup & Restore process is in progress. Please wait till the process is "
+"completed."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:22
 msgid "Beta"
@@ -2601,8 +2608,8 @@ msgstr ""
 msgid "Congestion"
 msgstr "ازدحام"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:416
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:431
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:420
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:435
 msgid "Connected"
 msgstr ""
 
@@ -3138,7 +3145,7 @@ msgstr ""
 msgid "Database Error detected. Automatic repair started. Please retry"
 msgstr "خطای بانک اطلاعاتی. تعمیر خودکار آغاز شد. لطفا مجدد تلاش کنید"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:435
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:439
 msgid "Database Status"
 msgstr ""
 
@@ -4005,7 +4012,7 @@ msgstr ""
 msgid "Doreload is required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:490
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:496
 msgid ""
 "Doreload/apply config has been initiated. Please check the status using "
 "fetchApiStatus api with the returned transaction id"
@@ -5040,7 +5047,7 @@ msgstr "شکست در اجرای اسکریپت های نصب"
 msgid "Failed to run un-installation scripts"
 msgstr "شکست در اجرای اسکریپت های عزل"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:374
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:378
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
@@ -5600,7 +5607,7 @@ msgstr "GPG took too  long to run the command: [%s]"
 msgid "GUI Behavior"
 msgstr "رفتار رابط گرافیکی"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:445
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:449
 msgid "GUI Mode details"
 msgstr ""
 
@@ -6793,7 +6800,7 @@ msgstr ""
 msgid "List online modules, accepts no arguments"
 msgstr "فهرست ماژولهای آنلاین، پذیرفتن بدون آرگمان ها"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:456
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:460
 msgid "List up moduels setup wizard is run for"
 msgstr ""
 
@@ -7863,8 +7870,8 @@ msgstr ""
 "always continue to the next configured trunk or destination even when the "
 "channel reports BUSY or INVALID NUMBER."
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:418
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:433
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:422
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:437
 msgid "Not Connected"
 msgstr ""
 
@@ -7910,7 +7917,7 @@ msgstr "یک آرایه نیست"
 msgid "Not received"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:411
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:415
 msgid "Not running"
 msgstr ""
 
@@ -9465,7 +9472,7 @@ msgstr ""
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
 msgstr "Run an  immediate shutdown. Defaults to 'when convenient'"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:409
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:413
 msgid "Running"
 msgstr ""
 
@@ -10112,7 +10119,7 @@ msgstr "تنظیمات"
 msgid "Setup System"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:458
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:462
 msgid "Setup wizard is not run for any module"
 msgstr ""
 
@@ -10289,7 +10296,7 @@ msgstr "Some of these  settings can render your system inoperable."
 msgid "Sorry could not update the extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:472
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:476
 msgid "Sorry, Could not find automatic update status"
 msgstr ""
 
@@ -13875,7 +13882,7 @@ msgid ""
 "Once fixed issue a reload to remove this message"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:372
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:376
 msgid ""
 "Yum Upgrade has been initiated. Kindly check the fetchApiStatus api with the "
 "transaction id."

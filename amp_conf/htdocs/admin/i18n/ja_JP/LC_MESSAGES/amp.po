@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-23 14:35+0000\n"
+"POT-Creation-Date: 2021-08-24 03:46+0000\n"
 "PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -914,7 +914,7 @@ msgid ""
 "remove]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:455
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:461
 #, php-format
 msgid ""
 "Action[%s] on module[%s] has been initiated. Please check the status using "
@@ -1425,7 +1425,7 @@ msgstr "Asterisk AGI ディレクトリ"
 msgid "Asterisk Builtin mini-HTTP server"
 msgstr "Asterisk内部のmini-HTTPサーバー"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:420
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:424
 msgid "Asterisk Details"
 msgstr ""
 
@@ -1728,7 +1728,7 @@ msgstr ""
 msgid "Automatic comedia - (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:470
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:474
 msgid "Automatic update status"
 msgstr ""
 
@@ -1753,6 +1753,13 @@ msgstr ""
 "にあなたが実行したいスクリプトにPOST_RELOADをセットしてください。もし"
 "POST_RELOAD_DEBUG=trueにした場合,そのスクリプトの結果をウェブページ上に表示す"
 "ることができます。"
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:451
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:371
+msgid ""
+"Backup & Restore process is in progress. Please wait till the process is "
+"completed."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:22
 msgid "Beta"
@@ -2583,8 +2590,8 @@ msgstr ""
 msgid "Congestion"
 msgstr "混雑"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:416
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:431
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:420
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:435
 msgid "Connected"
 msgstr ""
 
@@ -3118,7 +3125,7 @@ msgid "Database Error detected. Automatic repair started. Please retry"
 msgstr ""
 "データベースエラーを検出しました。自動修正を開始します。再試行してください。"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:435
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:439
 msgid "Database Status"
 msgstr ""
 
@@ -3969,7 +3976,7 @@ msgstr ""
 msgid "Doreload is required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:490
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:496
 msgid ""
 "Doreload/apply config has been initiated. Please check the status using "
 "fetchApiStatus api with the returned transaction id"
@@ -4999,7 +5006,7 @@ msgstr "インストールスクリプトの実行に失敗"
 msgid "Failed to run un-installation scripts"
 msgstr "アンインストールスクリプトの実行に失敗しました"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:374
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:378
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
@@ -5552,7 +5559,7 @@ msgstr ""
 msgid "GUI Behavior"
 msgstr "GUI挙動"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:445
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:449
 msgid "GUI Mode details"
 msgstr ""
 
@@ -6711,7 +6718,7 @@ msgstr ""
 msgid "List online modules, accepts no arguments"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:456
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:460
 msgid "List up moduels setup wizard is run for"
 msgstr ""
 
@@ -7768,8 +7775,8 @@ msgstr ""
 "場合でも、呼が落ちた場合常に次の設定済みトランク、もしくは宛先で継続されま"
 "す。"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:418
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:433
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:422
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:437
 msgid "Not Connected"
 msgstr ""
 
@@ -7815,7 +7822,7 @@ msgstr ""
 msgid "Not received"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:411
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:415
 msgid "Not running"
 msgstr ""
 
@@ -9337,7 +9344,7 @@ msgstr ""
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:409
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:413
 msgid "Running"
 msgstr ""
 
@@ -9961,7 +9968,7 @@ msgstr "設定"
 msgid "Setup System"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:458
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:462
 msgid "Setup wizard is not run for any module"
 msgstr ""
 
@@ -10131,7 +10138,7 @@ msgstr ""
 msgid "Sorry could not update the extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:472
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:476
 msgid "Sorry, Could not find automatic update status"
 msgstr ""
 
@@ -13537,7 +13544,7 @@ msgid ""
 "Once fixed issue a reload to remove this message"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:372
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:376
 msgid ""
 "Yum Upgrade has been initiated. Kindly check the fetchApiStatus api with the "
 "transaction id."
