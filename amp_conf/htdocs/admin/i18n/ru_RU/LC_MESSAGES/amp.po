@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-04 02:32+0000\n"
+"POT-Creation-Date: 2021-08-25 07:17+0000\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -226,7 +226,7 @@ msgstr "%s Онлайн %s обновление доступно (%s)"
 msgid "%s Online upgrade available (%s)"
 msgstr "%s Онлайн обновление доступно (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:621
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:626
 #, php-format
 msgid "%s RPMs available for upgrade"
 msgstr ""
@@ -575,7 +575,7 @@ msgstr "'cp -rf' from src: '%s' to dst: '%s'...детали ниже"
 msgid "'fwconsole reload' failed, config not applied"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:139
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:104
 msgid ""
 "'sangoma-devel' rpm is installed.\n"
 "yum repo 'sng7-testing' is enabled."
@@ -625,7 +625,7 @@ msgstr "0 администраторов"
 msgid "0 for disabling the Random Sleep And Max sleep you can set is 30"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:619
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:624
 msgid "1 RPM available for upgrade"
 msgstr ""
 
@@ -865,7 +865,7 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
-#: ../core/page.ampusers.php:246
+#: ../core/page.ampusers.php:254
 msgid "Access Restrictions"
 msgstr "Ограничение доступа"
 
@@ -886,7 +886,7 @@ msgstr "Параметр доступа для этого устройства."
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:329
-#: ../core/page.ampusers.php:271 ../core/page.astmodules.php:91
+#: ../core/page.ampusers.php:279 ../core/page.astmodules.php:91
 #: ../core/page.astmodules.php:108 ../core/page.astmodules.php:125
 msgid "Action"
 msgstr "Действие"
@@ -897,7 +897,7 @@ msgid ""
 "remove]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:455
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:461
 #, php-format
 msgid ""
 "Action[%s] on module[%s] has been initiated. Please check the status using "
@@ -1070,7 +1070,7 @@ msgstr "Периодическое"
 msgid "Admin"
 msgstr "Администратор"
 
-#: ../core/page.ampusers.php:254
+#: ../core/page.ampusers.php:262
 msgid "Admin Access"
 msgstr "Администраторский доступ"
 
@@ -1417,7 +1417,7 @@ msgstr "Директория AGI-скриптов Астериск"
 msgid "Asterisk Builtin mini-HTTP server"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:420
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:424
 msgid "Asterisk Details"
 msgstr ""
 
@@ -1735,7 +1735,7 @@ msgstr ""
 msgid "Automatic comedia - (%s)"
 msgstr "Автоматически запустить comedia- (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:470
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:474
 msgid "Automatic update status"
 msgstr ""
 
@@ -1760,6 +1760,13 @@ msgstr ""
 "Администратора. Направить POST_RELOAD на скрипт, который будет исполняться "
 "каждый раз после применения изменений. Если указан параметр "
 "POST_RELOAD_DEBUG=true, то вывод этого скрипта будет виден на вэб-странице."
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:451
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:371
+msgid ""
+"Backup & Restore process is in progress. Please wait till the process is "
+"completed."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:22
 msgid "Beta"
@@ -2313,8 +2320,8 @@ msgstr ""
 msgid "Channel can not be blank!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:634
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:661
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:639
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:666
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:27
 msgid "Check Online"
 msgstr "Проверить он-лайн"
@@ -2608,8 +2615,8 @@ msgstr ""
 msgid "Congestion"
 msgstr "Перегрузка"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:416
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:431
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:420
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:435
 msgid "Connected"
 msgstr "Подключено"
 
@@ -2899,7 +2906,7 @@ msgstr "Текущая конфигурация сети "
 msgid "Current PBX Version:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:581
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:586
 msgid "Current System Update Status:"
 msgstr ""
 
@@ -3154,7 +3161,7 @@ msgstr ""
 "Обнаружена ошибка базы данных. Запущено автоматическое восстановление. "
 "Попробуйте ещё раз"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:435
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:439
 msgid "Database Status"
 msgstr ""
 
@@ -4015,7 +4022,7 @@ msgstr ""
 msgid "Doreload is required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:490
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:496
 msgid ""
 "Doreload/apply config has been initiated. Please check the status using "
 "fetchApiStatus api with the returned transaction id"
@@ -5052,7 +5059,7 @@ msgstr "Ошибка при исполнении скрипта инсталля
 msgid "Failed to run un-installation scripts"
 msgstr "Ошибка при выполнении скрипта удаления"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:374
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:378
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
@@ -5618,7 +5625,7 @@ msgstr " Слишком длинная команда  GPG для запуска
 msgid "GUI Behavior"
 msgstr "Поведение вэб-интерфейса"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:445
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:449
 msgid "GUI Mode details"
 msgstr ""
 
@@ -6470,7 +6477,7 @@ msgstr ""
 msgid "Installed Missing Dependency of: %s %s"
 msgstr "Установлены ошибочные зависимости:%s %s"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:642
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:647
 msgid "Installed Version"
 msgstr ""
 
@@ -6714,11 +6721,11 @@ msgstr ""
 msgid "Languages"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:586
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:591
 msgid "Last Online Check Status:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:590
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:595
 msgid "Last System Update:"
 msgstr ""
 
@@ -6821,7 +6828,7 @@ msgstr ""
 msgid "List online modules, accepts no arguments"
 msgstr "Список всех онлайн-модулей,не требующих аргументов"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:456
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:460
 msgid "List up moduels setup wizard is run for"
 msgstr ""
 
@@ -7624,7 +7631,7 @@ msgstr "Необходимо создание экземпляра объект�
 msgid "Needs Upgrade:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:587
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:592
 #: ../core/functions.inc.php:4594
 msgid "Never"
 msgstr "Никогда"
@@ -7634,11 +7641,11 @@ msgstr "Никогда"
 msgid "Never - (%s)"
 msgstr "Никогда - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:645
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:650
 msgid "New Package"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:642
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:647
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:361
 msgid "New Version"
 msgstr ""
@@ -7802,7 +7809,7 @@ msgstr ""
 msgid "No status was given to checkStatus"
 msgstr "Не указан статус для checkStatus"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:615
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:620
 msgid "No updates currently required!"
 msgstr ""
 
@@ -7896,8 +7903,8 @@ msgstr ""
 "продолжать вызов через следующий сконфигурированный транк или назначение "
 "даже если канал возвращает статус Занято или Неверный номер."
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:418
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:433
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:422
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:437
 msgid "Not Connected"
 msgstr ""
 
@@ -7927,7 +7934,7 @@ msgstr "Не доступен"
 msgid "Not Required"
 msgstr "Не требуется"
 
-#: ../core/page.ampusers.php:279
+#: ../core/page.ampusers.php:287
 msgid "Not Selected"
 msgstr "Не выбран"
 
@@ -7943,7 +7950,7 @@ msgstr "Не массив"
 msgid "Not received"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:411
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:415
 msgid "Not running"
 msgstr ""
 
@@ -9028,7 +9035,7 @@ msgstr "RFC 2833"
 msgid "RFC 4733"
 msgstr "RFC 4733"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:642
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:647
 msgid "RPM Name"
 msgstr ""
 
@@ -9156,7 +9163,7 @@ msgstr "Резервирование"
 msgid "Refer Blind Progress"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:583
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:588
 msgid "Refresh page"
 msgstr ""
 
@@ -9465,7 +9472,7 @@ msgstr ""
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:409
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:413
 msgid "Running"
 msgstr ""
 
@@ -9726,12 +9733,12 @@ msgstr ""
 msgid "Select a Timezone"
 msgstr ""
 
-#: ../core/page.ampusers.php:294
+#: ../core/page.ampusers.php:302
 msgid "Select the Admin Sections this user should have access to."
 msgstr ""
 "Выберите секцию Администратора куда этот пользователь должен иметь доступ."
 
-#: ../core/page.ampusers.php:262
+#: ../core/page.ampusers.php:270
 msgid "Selected"
 msgstr "Выбранно"
 
@@ -10094,7 +10101,7 @@ msgstr "Общие настройки"
 msgid "Setup System"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:458
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:462
 msgid "Setup wizard is not run for any module"
 msgstr ""
 
@@ -10255,7 +10262,7 @@ msgstr ""
 msgid "Sorry could not update the extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:472
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:476
 msgid "Sorry, Could not find automatic update status"
 msgstr ""
 
@@ -10639,7 +10646,11 @@ msgstr ""
 msgid "Telephony Engine"
 msgstr "Подсистема телефонии"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:139
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:582
+msgid "Test Repos Enabled"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:104
 msgid "Test repos are enabled"
 msgstr ""
 
@@ -11783,6 +11794,10 @@ msgid ""
 "</br> For more information visit %s"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:582
+msgid "This system has test repos enabled."
+msgstr ""
+
 #: ../core/views/trunks/trunk_header.php:24
 msgid ""
 "This trunk will not be able to be used for outbound calls until a route is "
@@ -12171,7 +12186,7 @@ msgstr "Невозможно удалить tmp.cfg"
 msgid "Unable to resolve dependencies for module %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:613
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:618
 msgid "Unable to run 'yum check-updates', can't check for updates"
 msgstr ""
 
@@ -12252,7 +12267,7 @@ msgstr "Деинсталлируюется модуль(-ли), принимая
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:595
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:600
 msgid "Unknown (System updates not run since last reboot)"
 msgstr ""
 
@@ -12362,7 +12377,7 @@ msgstr "Предупреждения об обновлении"
 msgid "Update Required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:660
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:665
 msgid "Update System"
 msgstr ""
 
@@ -12394,7 +12409,7 @@ msgstr ""
 msgid "Updates"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:625
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:630
 msgid "Updates Available:"
 msgstr ""
 
@@ -13722,7 +13737,7 @@ msgid ""
 "Once fixed issue a reload to remove this message"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:372
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:376
 msgid ""
 "Yum Upgrade has been initiated. Kindly check the fetchApiStatus api with the "
 "transaction id."
