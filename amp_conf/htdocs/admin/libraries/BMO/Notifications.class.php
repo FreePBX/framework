@@ -65,8 +65,10 @@ class Notifications {
 	 * @return int Returns the number of notifications per module & id
 	 */
 	public function add_critical($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
-		$this->add_type(static::TYPE_CRITICAL, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
-		$this->freepbx_log(FPBX_LOG_CRITICAL, $module, $id, $display_text, $extended_text);
+		if($this->canAddNotification($module, $id, 'critical')){
+			$this->add_type(static::TYPE_CRITICAL, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+			$this->freepbx_log(FPBX_LOG_CRITICAL, $module, $id, $display_text, $extended_text);
+		}
 	}
 	/**
 	 * Add a Security Notification Message
@@ -81,8 +83,10 @@ class Notifications {
 	 * @return int Returns the number of notifications per module & id
 	 */
 	public function add_security($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
-		$this->add_type(static::TYPE_SECURITY, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
-		$this->freepbx_log(FPBX_LOG_SECURITY, $module, $id, $display_text, $extended_text);
+		if($this->canAddNotification($module, $id, 'security')){
+			$this->add_type(static::TYPE_SECURITY, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+			$this->freepbx_log(FPBX_LOG_SECURITY, $module, $id, $display_text, $extended_text);
+		}
 	}
 	/**
 	* Add a Unsigned Modules Notification Message
@@ -97,8 +101,10 @@ class Notifications {
 	* @return int Returns the number of notifications per module & id
 	*/
 	public function add_signature_unsigned($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
-		$this->add_type(static::TYPE_SIGNATURE_UNSIGNED, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
-		$this->freepbx_log(FPBX_LOG_SIGNATURE_UNSIGNED, $module, $id, $display_text, $extended_text);
+		if($this->canAddNotification($module, $id, 'signature_unsigned')){
+			$this->add_type(static::TYPE_SIGNATURE_UNSIGNED, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+			$this->freepbx_log(FPBX_LOG_SIGNATURE_UNSIGNED, $module, $id, $display_text, $extended_text);
+		}	
 	}
 	/**
 	 * Add an Update Notification Message
@@ -113,8 +119,10 @@ class Notifications {
 	 * @return int Returns the number of notifications per module & id
 	 */
 	public function add_update($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
-		$this->add_type(static::TYPE_UPDATE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
-		$this->freepbx_log(FPBX_LOG_UPDATE, $module, $id, $display_text, $extended_text);
+		if($this->canAddNotification($module, $id, 'update')){
+			$this->add_type(static::TYPE_UPDATE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+			$this->freepbx_log(FPBX_LOG_UPDATE, $module, $id, $display_text, $extended_text);
+		}
 	}
 	/**
 	 * Add an Error Notification Message
@@ -129,8 +137,10 @@ class Notifications {
 	 * @return int Returns the number of notifications per module & id
 	 */
 	public function add_error($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
-		$this->add_type(static::TYPE_ERROR, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
-		$this->freepbx_log(FPBX_LOG_ERROR, $module, $id, $display_text, $extended_text);
+		if($this->canAddNotification($module, $id, 'error')){
+			$this->add_type(static::TYPE_ERROR, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+			$this->freepbx_log(FPBX_LOG_ERROR, $module, $id, $display_text, $extended_text);
+		}
 	}
 	/**
 	 * Add a Warning Notification Message
@@ -145,8 +155,10 @@ class Notifications {
 	 * @return int Returns the number of notifications per module & id
 	 */
 	public function add_warning($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
-		$this->add_type(static::TYPE_WARNING, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
-		$this->freepbx_log(FPBX_LOG_WARNING, $module, $id, $display_text, $extended_text);
+		if($this->canAddNotification($module, $id, 'warning')){	
+			$this->add_type(static::TYPE_WARNING, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+			$this->freepbx_log(FPBX_LOG_WARNING, $module, $id, $display_text, $extended_text);
+		}
 	}
 	/**
 	 * Add a Notice Notification Message
@@ -161,8 +173,10 @@ class Notifications {
 	 * @return int Returns the number of notifications per module & id
 	 */
 	public function add_notice($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=true) {
-		$this->add_type(static::TYPE_NOTICE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
-		$this->freepbx_log(FPBX_LOG_NOTICE, $module, $id, $display_text, $extended_text);
+		if($this->canAddNotification($module, $id, 'notice')){	
+			$this->add_type(static::TYPE_NOTICE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+			$this->freepbx_log(FPBX_LOG_NOTICE, $module, $id, $display_text, $extended_text);
+		}
 	}
 
 	/**
@@ -567,5 +581,35 @@ class Notifications {
 		}
 
 		return $filtered;
+	}
+
+	/**
+	 * Function gets the notification details which should not be added when oembranding is enable
+	 * @param  string $module Module Name
+	 * @param  string $id notification id
+	 * @param  string $notificationType Notification type
+	 * @return boolean
+	 */
+	private function canAddNotification($module, $id, $notificationType){
+		//By default all notifications can be added
+		$notificationFlag = 1;
+		if ($this->freepbx->Modules->checkStatus('oembranding') && $this->freepbx->Oembranding->isLicensed()) 
+		{
+			if(method_exists($this->freepbx->Oembranding->licenseClass(), 'removeNotifications'))
+			{
+				$removeNotificationsArray = $this->freepbx->Oembranding->licenseClass()->removeNotifications();
+				if(array_key_exists($notificationType,$removeNotificationsArray))
+				{
+					foreach ($removeNotificationsArray[$notificationType] as $notification) {
+						if($notification['moduleName'] == $module && $notification['id'] == $id)
+						{
+							$notificationFlag = 0;
+						}
+					}
+				}
+			}
+		}
+
+		return $notificationFlag;
 	}
 }
