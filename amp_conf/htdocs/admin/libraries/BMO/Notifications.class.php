@@ -595,13 +595,16 @@ class Notifications {
 		$notificationFlag = 1;
 		if ($this->freepbx->Modules->checkStatus('oembranding') && $this->freepbx->Oembranding->isLicensed()) 
 		{
-			$removeNotificationsArray = $this->freepbx->Oembranding->licenseClass()->removeNotifications();
-			if(array_key_exists($notificationType,$removeNotificationsArray))
+			if(method_exists($this->freepbx->Oembranding->licenseClass(), 'removeNotifications'))
 			{
-				foreach ($removeNotificationsArray[$notificationType] as $notification) {
-					if($notification['moduleName'] == $module && $notification['id'] == $id)
-					{
-						$notificationFlag = 0;
+				$removeNotificationsArray = $this->freepbx->Oembranding->licenseClass()->removeNotifications();
+				if(array_key_exists($notificationType,$removeNotificationsArray))
+				{
+					foreach ($removeNotificationsArray[$notificationType] as $notification) {
+						if($notification['moduleName'] == $module && $notification['id'] == $id)
+						{
+							$notificationFlag = 0;
+						}
 					}
 				}
 			}
