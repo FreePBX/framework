@@ -95,6 +95,70 @@ class Util extends Command {
 				\FreePBX::Core()->devices2astdb();
 				\FreePBX::Core()->users2astdb();
 			break;
+			case "clearjunkdevices":
+				$output->writeln("======Clearing Junk Extensions=============");
+				$devices = \FreePBX::Core()->getAllDevicesByType();
+				//clear Webrtc extensions
+				if(\FreePBX::Modules()->moduleHasMethod('webrtc',"getClientsEnabled")) {
+					$webrtc = \FreePBX::Webrtc();
+					$wrtcclinets  = $webrtc->getClientsEnabled();
+					$webrtcdevices = [];
+					foreach($wrtcclinets as $client){
+						$output->writeln($client['user'].' device '. $client['device']);
+						$webrtcdevices[] = $client['device'];
+					}
+					foreach ($devices as $device){
+						if(substr(trim($device['description']),0,6) =='WebRTC'){
+							// check we have this device in webrtc clients
+							if(!in_array($device['id'],$webrtcdevices)){
+								//remove this device
+								\FreePBX::Core()->delDevice($device['id']);
+								$output->writeln("Removed Webrtc Device ".$device['id']);
+							}
+						}
+					}
+					//If we are disabled,
+				} else {
+					// remove all webrtc devices
+					foreach ($devices as $device){
+						if(substr(trim($device['description']),0,6) =='WebRTC'){
+							//remove this device
+							\FreePBX::Core()->delDevice($device['id']);
+							$output->writeln("Removed Webrtc Device ".$device['id']);
+						}
+					}
+				}
+				//clear zulu extensions
+				if (\FreePBX::Modules()->moduleHasMethod('zulu', 'getClientsEnabled')) {
+					$zulu = \FreePBX::Zulu();
+					$zulus = $zulu->getClientsEnabled();
+					$zuludevices = [];
+					foreach($zulus as $zulu){
+						$output->writeln($zulu['user'].' device '. $zulu['device']);
+						$zuludevices[] = $zulu['device'];
+					}
+					foreach ($devices as $device){
+						if(substr(trim($device['description']),0,4) =='Zulu'){
+							// check we have this device in webrtc clients
+							if(!in_array($device['id'],$zuludevices)){
+								//remove this device
+								\FreePBX::Core()->delDevice($device['id']);
+								$output->writeln("Removed Zulu Device ".$device['id']);
+							}
+						}
+					}
+				//If we are disabled/not installed
+				} else{
+					foreach ($devices as $device){
+						if(substr(trim($device['description']),0,4) == 'Zulu'){
+							//remove this device
+							\FreePBX::Core()->delDevice($device['id']);
+							$output->writeln("Removed Zulu Device ".$device['id']);
+						}
+					}
+				}
+				$output->writeln("======Clearing Junk Extensions Finished =======");
+			break;
 			default:
 				$output->writeln('Invalid argument');
 			break;
