@@ -95,8 +95,8 @@ class Util extends Command {
 				\FreePBX::Core()->devices2astdb();
 				\FreePBX::Core()->users2astdb();
 			break;
-			case "clearjunkdevices":
-				$output->writeln("======Clearing Junk Extensions=============");
+			case "clearunuseddevices":
+				$output->writeln("======Clearing Unused Extensions=============");
 				$devices = \FreePBX::Core()->getAllDevicesByType();
 				//clear Webrtc extensions
 				if(\FreePBX::Modules()->moduleHasMethod('webrtc',"getClientsEnabled")) {
@@ -157,7 +157,7 @@ class Util extends Command {
 						}
 					}
 				}
-				$output->writeln("======Clearing Junk Extensions Finished =======");
+				$output->writeln("======Clearing unused Extensions Finished =======");
 			break;
 			default:
 				$output->writeln('Invalid argument');
