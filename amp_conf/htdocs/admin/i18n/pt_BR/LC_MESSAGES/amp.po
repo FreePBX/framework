@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-25 07:17+0000\n"
+"POT-Creation-Date: 2021-09-02 05:35+0000\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -567,20 +567,6 @@ msgstr "O %s versão %s ou maior é necessário, existente %s"
 msgid "%s will be removed from the hard disk"
 msgstr "%s será removido do disco"
 
-#: ../core/Core.class.php:3908
-msgid ""
-"'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
-"but PM2 is not installed so we were unable to start the FastAGI server, As a "
-"result all AGIs will be forked inside of Asterisk until this is resolved"
-msgstr ""
-
-#: ../core/Core.class.php:3929
-msgid ""
-"'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
-"but the FastAGI server was unable to start, As a result all AGIs will be "
-"forked inside of Asterisk until this is resolved"
-msgstr ""
-
 #: install.php:51
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
@@ -793,7 +779,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "Uma rota para esse DID/CID já existe!"
 
-#: ../core/Core.class.php:2768 ../core/functions.inc.php:4222
+#: ../core/functions.inc.php:4222
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "Uma rota com esse DID/CID: %s/%s já existe"
@@ -2068,14 +2054,6 @@ msgstr ""
 msgid "Call successful"
 msgstr ""
 
-#: ../core/Core.class.php:3238
-msgid "Caller ID"
-msgstr "ID de Chamadas"
-
-#: ../core/Core.class.php:3239
-msgid "Caller ID Number"
-msgstr "Número do Caller ID"
-
 #: ../core/Api/Gql/Devices.php:153 ../core/Api/Gql/Devices.php:160
 msgid "Caller ID for the device"
 msgstr ""
@@ -2344,10 +2322,6 @@ msgstr "ID do Canal"
 #: ../core/Api/Gql/Extensions.php:383 ../core/Api/Gql/Extensions.php:400
 #: ../core/Api/Gql/Extensions.php:458
 msgid "Channel Name incase if you are using tech DAHDi."
-msgstr ""
-
-#: ../core/Core.class.php:188
-msgid "Channel can not be blank!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:639
@@ -2746,15 +2720,6 @@ msgstr ""
 msgid "Core"
 msgstr "Núcleo"
 
-#: ../core/Core.class.php:3788
-#, php-format
-msgid "Core FastAGI Server has already been running on PID %s for %s"
-msgstr ""
-
-#: ../core/Core.class.php:3861
-msgid "Core FastAGI Server is not running"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1313
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1654
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1730
@@ -3080,21 +3045,9 @@ msgstr "Descrição do DID"
 msgid "DID Number"
 msgstr "Número DID"
 
-#: ../core/Core.class.php:3379
-msgid "DID already exists"
-msgstr "DID já existe"
-
 #: ../core/views/did/rnav.php:14
 msgid "DID/CID"
 msgstr "DID/CID"
-
-#: ../core/Core.class.php:3180
-msgid "DIDs"
-msgstr "DIDs"
-
-#: ../core/Core.class.php:3181
-msgid "DIDs / Inbound Routes"
-msgstr "DIDs / Rotas de entrada"
 
 #: ../core/page.extensions.php:135 ../core/page.extensions.php:163
 #: ../core/page.users.php:60
@@ -3447,10 +3400,7 @@ msgstr ""
 "uma faixa de números"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:772
-#: ../core/Components/Dahdichannels.php:15 ../core/Core.class.php:316
-#: ../core/Core.class.php:339 ../core/Core.class.php:363
-#: ../core/Core.class.php:403 ../core/Core.class.php:428
-#: ../core/Core.class.php:458 ../core/page.devices.php:58
+#: ../core/Components/Dahdichannels.php:15 ../core/page.devices.php:58
 #: ../core/page.devices.php:78 ../core/page.extensions.php:32
 #: ../core/page.extensions.php:125 ../core/page.extensions.php:153
 #: ../core/page.users.php:49
@@ -3505,8 +3455,6 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:231
-#: ../core/Core.class.php:3206 ../core/Core.class.php:3207
-#: ../core/Core.class.php:3230 ../core/Core.class.php:3231
 #: ../core/functions.inc.php:5091 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:59
@@ -3519,7 +3467,7 @@ msgstr "Descrição"
 msgid "Descriptive Name for this Trunk"
 msgstr "Nome Descritivo para este Tronco"
 
-#: ../core/Core.class.php:3242 ../core/views/did/didgrid.php:20
+#: ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "Destino"
 
@@ -3651,9 +3599,8 @@ msgstr "Modo Desenvolvedor"
 msgid "Developer and Customization"
 msgstr "Desenvolvedor e Personalização"
 
-#: ../core/Core.class.php:3595 ../core/functions.inc.php:5034
-#: ../core/page.devices.php:65 ../core/page.devices.php:86
-#: ../core/views/rnav.php:81
+#: ../core/functions.inc.php:5034 ../core/page.devices.php:65
+#: ../core/page.devices.php:86 ../core/views/rnav.php:81
 msgid "Device"
 msgstr "Dispositivo"
 
@@ -3667,12 +3614,6 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:369
 msgid "Device & User Hints Issue"
 msgstr ""
-
-#: ../core/Core.class.php:1435 ../core/Core.class.php:1664
-msgid "Device Extension was blank or there were no settings defined"
-msgstr ""
-"A extensão do dispositivo estava em branco ou não havia configurações "
-"definidas"
 
 #: ../core/functions.inc.php:5089
 msgid "Device ID"
@@ -3691,26 +3632,14 @@ msgstr "Configurações de Dispositivo"
 msgid "Device State Busy at"
 msgstr "Estado do Dispositivo Ocupado em"
 
-#: ../core/Core.class.php:3210 ../core/Core.class.php:3211
-msgid "Device Technology"
-msgstr "Tecnologia de Dispositivos"
-
 #: ../core/functions.inc.php:5092 ../core/page.devices.php:67
 #: ../core/page.devices.php:88
 msgid "Device Type"
 msgstr "Tipo de dispositivo"
 
-#: ../core/Core.class.php:3328
-msgid "Device could not be added."
-msgstr "Não foi possível adicionar o dispositivo."
-
 #: ../core/Api/Gql/Extensions.php:228
 msgid "Device tech default is pjsip"
 msgstr ""
-
-#: ../core/Core.class.php:224 ../core/Core.class.php:274
-msgid "Device was not added!"
-msgstr "O dispositivo não foi adicionado!"
 
 #: amp.i18n.php:862
 msgid "Devices"
@@ -3961,10 +3890,6 @@ msgstr "Mostrar Opção de Monitoramento de Falhas de Tronco"
 msgid "Display Name"
 msgstr "Nome de Exibição"
 
-#: ../core/Core.class.php:188
-msgid "Display Name can not be blank!"
-msgstr "O Nome de exibição não pode ficar em branco!"
-
 #: amp.i18n.php:302
 msgid "Display Presence State of Callee"
 msgstr "Mostrar Estado de Presença do Destinatário"
@@ -4200,10 +4125,6 @@ msgid ""
 "made them invisible. They are now visible and you are advised to edit/delete "
 "routes you dont know about"
 msgstr ""
-
-#: ../core/Core.class.php:433 ../core/Core.class.php:463
-msgid "Duplicate"
-msgstr "Duplicado"
 
 #: amp.i18n.php:314
 msgid "Dynamically Generate Hints"
@@ -4629,10 +4550,6 @@ msgstr ""
 msgid "Error"
 msgstr "Erro"
 
-#: ../core/Core.class.php:907
-msgid "Error Duplicate Channel Entry"
-msgstr "Erro: Entrada de canal duplicada"
-
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:157
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:198
 #, php-format
@@ -4669,7 +4586,7 @@ msgstr "Erro criando diretório temporário: %s"
 msgid "Error deleting directory %s (code %d)"
 msgstr "Erro excluindo diretório %s (código %d)"
 
-#: ../core/Core.class.php:815 ../core/page.trunks.php:328
+#: ../core/page.trunks.php:328
 msgid "Error fetching prefix list for: "
 msgstr "Error obtendo lista de prefixos para: "
 
@@ -4898,11 +4815,9 @@ msgid "Extended"
 msgstr "Extendido"
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:261
-#: ../core/Core.class.php:3197 ../core/Core.class.php:3198
-#: ../core/Core.class.php:3583 ../core/functions.inc.php:4703
-#: ../core/page.did.php:93 ../core/page.extensions.php:39
-#: ../core/page.extensions.php:132 ../core/page.extensions.php:160
-#: ../core/views/rnav.php:23
+#: ../core/functions.inc.php:4703 ../core/page.did.php:93
+#: ../core/page.extensions.php:39 ../core/page.extensions.php:132
+#: ../core/page.extensions.php:160 ../core/views/rnav.php:23
 msgid "Extension"
 msgstr "Ramal"
 
@@ -4925,14 +4840,6 @@ msgstr "Conflito de Duplicata de Numeração de Ramal Detectado"
 #: ../core/functions.inc.php:4806
 msgid "Extension Options"
 msgstr "Opções do Ramal"
-
-#: ../core/Core.class.php:188
-msgid "Extension already in use!"
-msgstr "Extensão já em uso!"
-
-#: ../core/Core.class.php:188
-msgid "Extension can not be blank!"
-msgstr "A extensão não pode ficar em branco!"
 
 #: ../core/Api/Gql/Extensions.php:185
 msgid "Extension does not exists"
@@ -4958,18 +4865,6 @@ msgstr ""
 msgid "Extension has been updated"
 msgstr ""
 
-#: ../core/Core.class.php:3266
-msgid "Extension is missing."
-msgstr ""
-
-#: ../core/Core.class.php:3269
-msgid "Extension is not numeric."
-msgstr "A extensão não é numérica."
-
-#: ../core/Core.class.php:3272
-msgid "Extension name is blank."
-msgstr ""
-
 #: ../core/functions.inc.php:4768
 msgid "Extension number conflict, please choose another."
 msgstr "Conflito de número de ramal, por favor escolha outro."
@@ -4977,10 +4872,6 @@ msgstr "Conflito de número de ramal, por favor escolha outro."
 #: ../core/Api/Gql/Users.php:174
 msgid "Extension password"
 msgstr ""
-
-#: ../core/Core.class.php:210 ../core/Core.class.php:263
-msgid "Extension was not numeric!"
-msgstr "A extensão não era numérica!"
 
 #: ../core/Api/Gql/Extensions.php:164
 msgid "Extension's found successfully"
@@ -4990,8 +4881,7 @@ msgstr ""
 msgid "Extension's has been created Successfully"
 msgstr ""
 
-#: amp.i18n.php:858 ../core/Core.class.php:3176 ../core/Core.class.php:3177
-#: ../core/page.extensions.php:26
+#: amp.i18n.php:858 ../core/page.extensions.php:26
 msgid "Extensions"
 msgstr "Ramais"
 
@@ -5124,11 +5014,6 @@ msgstr "Falha ao executar scripts de desinstalação"
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
-#: ../core/Core.class.php:3840
-#, php-format
-msgid "Failed to run: '%s'"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:390
 msgid "Failed to send security notification email"
 msgstr "Falha ao enviar email de notificação de segurança"
@@ -5152,15 +5037,6 @@ msgstr "Falha ao gravar indications.conf"
 #: amp_conf/htdocs/admin/views/welcome.php:38
 msgid "Fallback Welcome Page"
 msgstr "Retornar Página de Boas Vindas"
-
-#: ../core/Core.class.php:3922 ../core/Core.class.php:3929
-msgid "Fast AGI Server not running"
-msgstr ""
-
-#: ../core/Core.class.php:3880
-#, php-format
-msgid "FastAGI Server Failed: %s"
-msgstr ""
 
 #: ../core/views/trunks/pjsip.php:395
 msgid "Fatal Retry Interval"
@@ -6456,10 +6332,6 @@ msgstr "Chamadas Externas de Entrada"
 msgid "Inbound Internal Calls"
 msgstr "Chamadas Internas de Entrada"
 
-#: ../core/Core.class.php:3637 ../core/Core.class.php:3646
-msgid "Inbound Route:"
-msgstr "Rota de entrada:"
-
 #: ../core/functions.inc.php:4085
 #, php-format
 msgid "Inbound Route: %s (%s)"
@@ -6485,10 +6357,6 @@ msgstr "Incluir Nome do Servidor no Navegador"
 #: ../core/views/trunks/sip.php:40
 msgid "Incoming"
 msgstr "Entrada"
-
-#: ../core/Core.class.php:3234 ../core/Core.class.php:3235
-msgid "Incoming DID"
-msgstr "DID de Entrada"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1862
 #, php-format
@@ -6705,7 +6573,7 @@ msgstr "Descrição inválida"
 msgid "Invalid email address"
 msgstr "Endereço de e-mail inválido"
 
-#: ../core/Core.class.php:819 ../core/page.trunks.php:333
+#: ../core/page.trunks.php:333
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "Formato inválido para o código NPA-NXX (deve estar no formato: NXXNXX)"
 
@@ -6818,14 +6686,6 @@ msgstr ""
 
 #: amp.i18n.php:346
 msgid "Launch local AGIs through FastAGI Server"
-msgstr ""
-
-#: ../core/Core.class.php:3922
-#, php-format
-msgid ""
-"Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
-"but we were unable to start FastAGI server because: %s, As a result all AGIs "
-"will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:270
@@ -7686,7 +7546,6 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:35
-#: ../core/Core.class.php:3202 ../core/Core.class.php:3203
 #: ../core/page.extensions.php:40 ../core/page.extensions.php:133
 #: ../core/page.extensions.php:161 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -8442,10 +8301,6 @@ msgstr "Saída Chamadas Internas"
 msgid "Outbound Proxy"
 msgstr "Proxy de Saída"
 
-#: ../core/Core.class.php:3620
-msgid "Outbound Route:"
-msgstr "Rota de Saída:"
-
 #: ../core/functions.inc.php:4501
 #, php-format
 msgid "Outbound Route: %s"
@@ -8592,10 +8447,6 @@ msgstr "Fuso horário PHP"
 #: ../core/views/trunks/pjsip.php:28
 msgid "PJSIP Settings"
 msgstr "Configurações PJSIP"
-
-#: ../core/Core.class.php:3908
-msgid "PM2 Not installed"
-msgstr ""
 
 #: amp.i18n.php:162
 msgid "POST_RELOAD Debug Mode"
@@ -9456,10 +9307,7 @@ msgstr "Requer um dos seguintes engines: %s, existente: %s"
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:771
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:48
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:527
-#: ../core/Components/Dahdichannels.php:21 ../core/Core.class.php:321
-#: ../core/Core.class.php:344 ../core/Core.class.php:368
-#: ../core/Core.class.php:387 ../core/Core.class.php:408
-#: ../core/Core.class.php:438 ../core/Core.class.php:468
+#: ../core/Components/Dahdichannels.php:21
 msgid "Reset"
 msgstr "Reiniciar"
 
@@ -9611,11 +9459,6 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:379
 msgid "SECURITY NOTICE:"
 msgstr "AVISO DE SEGURANÇA:"
-
-#: ../core/Core.class.php:3560 ../core/Core.class.php:3561
-#, php-format
-msgid "SIP (%s)"
-msgstr "SIP (%s)"
 
 #: ../core/functions.inc.php:4776
 msgid "SIP Alias"
@@ -10485,11 +10328,6 @@ msgstr "Padrão"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "Inicie o Asterisk e execute outros comandos necessários do FreePBX"
 
-#: ../core/Core.class.php:3835
-#, php-format
-msgid "Started Core FastAGI Server. PID is %s"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:169
 msgid "Starting Asterisk..."
 msgstr "Iniciando o Asterisk..."
@@ -10497,10 +10335,6 @@ msgstr "Iniciando o Asterisk..."
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:38
 msgid "Starting Cache cleanup"
 msgstr "Iniciando a limpeza do cache"
-
-#: ../core/Core.class.php:3794
-msgid "Starting Core FastAGI Server..."
-msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1242
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:61
@@ -10538,14 +10372,6 @@ msgstr ""
 msgid "Stop Asterisk and run other needed FreePBX commands"
 msgstr "Pare o Asterisk e execute outros comandos necessários do FreePBX"
 
-#: ../core/Core.class.php:3876
-msgid "Stopped FastAGI Server"
-msgstr ""
-
-#: ../core/Core.class.php:3867
-msgid "Stopping Core FastAGI Server"
-msgstr ""
-
 #: amp.i18n.php:136
 msgid ""
 "Stops the automatic generation of a stripped CSS file that replaces the "
@@ -10563,10 +10389,7 @@ msgid "Styling and Logos"
 msgstr "Styling e Logos"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:770
-#: ../core/Components/Dahdichannels.php:26 ../core/Core.class.php:326
-#: ../core/Core.class.php:349 ../core/Core.class.php:373
-#: ../core/Core.class.php:392 ../core/Core.class.php:413
-#: ../core/Core.class.php:443 ../core/Core.class.php:473
+#: ../core/Components/Dahdichannels.php:26
 msgid "Submit"
 msgstr "Enviar"
 
@@ -11043,14 +10866,6 @@ msgid ""
 "system might be slower. Please fix this by running 'fwconsole chown' from "
 "the CLI."
 msgstr ""
-
-#: ../core/Core.class.php:3243
-msgid ""
-"The context, extension, priority to go to when this DID is matched. Example: "
-"app-daynight,0,1"
-msgstr ""
-"O contexto, ramal, prioridade para ir para quando este DID é correspondido. "
-"Exemplo: app-daynight, 0,1"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Modules.class.php:559
 #, php-format
@@ -11666,10 +11481,6 @@ msgid ""
 "greater than post_max_size {"
 msgstr ""
 
-#: ../core/Core.class.php:235
-msgid "There was an unknown error creating this extension"
-msgstr "Ocorreu um erro desconhecido ao criar este ramal"
-
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:147
 msgid "There were no settings to update"
 msgstr "Não havia configurações para atualizar"
@@ -11737,7 +11548,6 @@ msgid ""
 msgstr ""
 
 #: ../core/Api/Gql/Extensions.php:43 ../core/Api/Gql/Extensions.php:144
-#: ../core/Core.class.php:1442 ../core/Core.class.php:1671
 msgid "This device id is already in use"
 msgstr "Este dispositivo já está em uso"
 
@@ -12020,11 +11830,6 @@ msgstr ""
 "Este tronco não poderá ser utilizado para chamadas saintes até que uma rota "
 "que o utilize seja configurada."
 
-#: ../core/Core.class.php:2752
-#, php-format
-msgid "This user/extension %s is already in use"
-msgstr "Este ramal/usuário %s já está em uso"
-
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:36
 msgid "This will Set the Administator Auth credentials"
 msgstr ""
@@ -12233,10 +12038,6 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr "Sequência de troncos para rotas combinadas"
 
-#: ../core/Core.class.php:3628
-msgid "Trunk:"
-msgstr "Tronco:"
-
 #: ../core/functions.inc.php:977
 #, php-format
 msgid "Trunk: %s (%s)"
@@ -12320,16 +12121,6 @@ msgstr "Detalhes do usuário"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:639
 msgid "UTC"
-msgstr ""
-
-#: ../core/Core.class.php:1590
-msgid ""
-"Unable to change device driver. The device is already set to the specified "
-"driver"
-msgstr ""
-
-#: ../core/Core.class.php:1584
-msgid "Unable to change device driver. Unable to fetch the device"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:839
@@ -12856,9 +12647,9 @@ msgstr ""
 "Usado quando o Console PHP está habilitado para depuração de erros https://"
 "github.com/barbushin/php-console"
 
-#: ../core/Core.class.php:3607 ../core/functions.inc.php:4705
-#: ../core/page.devices.php:68 ../core/page.devices.php:89
-#: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
+#: ../core/functions.inc.php:4705 ../core/page.devices.php:68
+#: ../core/page.devices.php:89 ../core/page.did.php:90
+#: ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
 msgstr "Usuário"
 
@@ -12917,10 +12708,6 @@ msgstr "Senha do Usuário"
 #: ../core/Api/Gql/Extensions.php:495
 msgid "User caller ID"
 msgstr ""
-
-#: ../core/Core.class.php:3355
-msgid "User could not be added."
-msgstr "O usuário não pôde ser adicionado."
 
 #: ../core/Api/Gql/Extensions.php:36 ../core/Api/Gql/Extensions.php:67
 msgid "User management is enabled please provide password"
@@ -13751,10 +13538,6 @@ msgstr ""
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:189
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr ""
-
-#: ../core/Core.class.php:2745
-msgid "You must put in an extension (or user) number"
-msgstr "Você deve colocar um número de ramal ou usuário"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:41
 #: amp_conf/htdocs/admin/libraries/Console/Restart.class.php:25
@@ -14630,6 +14413,90 @@ msgid ""
 "you may need to add the line 'preload => pbx_config.so' to your modules.conf "
 "manually"
 msgstr ""
+
+#~ msgid "Caller ID"
+#~ msgstr "ID de Chamadas"
+
+#~ msgid "Caller ID Number"
+#~ msgstr "Número do Caller ID"
+
+#~ msgid "DID already exists"
+#~ msgstr "DID já existe"
+
+#~ msgid "DIDs"
+#~ msgstr "DIDs"
+
+#~ msgid "DIDs / Inbound Routes"
+#~ msgstr "DIDs / Rotas de entrada"
+
+#~ msgid "Device Extension was blank or there were no settings defined"
+#~ msgstr ""
+#~ "A extensão do dispositivo estava em branco ou não havia configurações "
+#~ "definidas"
+
+#~ msgid "Device Technology"
+#~ msgstr "Tecnologia de Dispositivos"
+
+#~ msgid "Device could not be added."
+#~ msgstr "Não foi possível adicionar o dispositivo."
+
+#~ msgid "Device was not added!"
+#~ msgstr "O dispositivo não foi adicionado!"
+
+#~ msgid "Display Name can not be blank!"
+#~ msgstr "O Nome de exibição não pode ficar em branco!"
+
+#~ msgid "Duplicate"
+#~ msgstr "Duplicado"
+
+#~ msgid "Error Duplicate Channel Entry"
+#~ msgstr "Erro: Entrada de canal duplicada"
+
+#~ msgid "Extension already in use!"
+#~ msgstr "Extensão já em uso!"
+
+#~ msgid "Extension can not be blank!"
+#~ msgstr "A extensão não pode ficar em branco!"
+
+#~ msgid "Extension is not numeric."
+#~ msgstr "A extensão não é numérica."
+
+#~ msgid "Extension was not numeric!"
+#~ msgstr "A extensão não era numérica!"
+
+#~ msgid "Inbound Route:"
+#~ msgstr "Rota de entrada:"
+
+#~ msgid "Incoming DID"
+#~ msgstr "DID de Entrada"
+
+#~ msgid "Outbound Route:"
+#~ msgstr "Rota de Saída:"
+
+#~ msgid "SIP (%s)"
+#~ msgstr "SIP (%s)"
+
+#~ msgid ""
+#~ "The context, extension, priority to go to when this DID is matched. "
+#~ "Example: app-daynight,0,1"
+#~ msgstr ""
+#~ "O contexto, ramal, prioridade para ir para quando este DID é "
+#~ "correspondido. Exemplo: app-daynight, 0,1"
+
+#~ msgid "There was an unknown error creating this extension"
+#~ msgstr "Ocorreu um erro desconhecido ao criar este ramal"
+
+#~ msgid "This user/extension %s is already in use"
+#~ msgstr "Este ramal/usuário %s já está em uso"
+
+#~ msgid "Trunk:"
+#~ msgstr "Tronco:"
+
+#~ msgid "User could not be added."
+#~ msgstr "O usuário não pôde ser adicionado."
+
+#~ msgid "You must put in an extension (or user) number"
+#~ msgstr "Você deve colocar um número de ramal ou usuário"
 
 #~ msgid ""
 #~ "Interface %s, Port %s (%s - this is a <strong>NON STANDARD</strong> port)"
