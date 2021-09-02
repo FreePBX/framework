@@ -68,7 +68,7 @@
 			<field name="sections" type="blob"/>
 		</table>
 		<table name="cronmanager">
-			<field name="module" type="string" length="24" default="" primarykey="true"/>
+			<field name="module" type="string" length="50" default="" primarykey="true"/>
 			<field name="id" type="string" length="24" default="" primarykey="true"/>
 			<field name="time" type="string" length="5" notnull="false"/>
 			<field name="freq" type="integer" default="0"/>
@@ -133,7 +133,7 @@
 			<field name="signature" type="blob" notnull="false"/>
 		</table>
 		<table name="notifications">
-			<field name="module" type="string" length="24" default="" primarykey="true"/>
+			<field name="module" type="string" length="50" default="" primarykey="true"/>
 			<field name="id" type="string" length="24" default="" primarykey="true"/>
 			<field name="level" type="integer" default="0"/>
 			<field name="display_text" type="string" length="255" default=""/>
