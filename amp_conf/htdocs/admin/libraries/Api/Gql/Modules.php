@@ -298,6 +298,31 @@ class Modules extends Base {
 								return ['message' => _('Doreload is not required'), 'status' => true] ;
 							}
 						}
+					],
+					'fetchInstalledModules' => [
+						'type' => $this->typeContainer->get('module')->getObject(),
+						'description' => _('List all the installed modules'),
+						'resolve' => function ($root, $args) {
+							$output=null;
+							$return=null;
+							exec('fwconsole ma list --format=json', $output, $return);
+							if ($return == 0) {
+								if(count($output) > 0){
+									$moduleList = json_decode($output[2],true);
+									return ['message' => _('Installed modules list loaded successfully '), 'status' => true,'list' => json_encode($moduleList['data'])];
+								}else{
+									return ['message' => _('Failed to load installed modules list'), 'status' => false];
+								}
+							} else {
+								if (array_key_exists(2, $output)) {
+									$message =   _("Failed to load installed modules list , command output = $output[2]");
+								} else {
+									$message =   _('Failed to load installed modules list');
+								}
+								return ['message' => $message, 'status' => false];
+							}
+							
+						}
 					]
 				];
 			};
@@ -381,7 +406,11 @@ class Modules extends Base {
 				'failureReason' => [
 					'type' => Type::string(),
 					'description' => _('Reason for the transaction failed')
-				]
+				],
+				'list' =>[
+					'type' => Type::string(),
+					'description' => _('Returns installed modules list')
+				],
 			];
 		});
 

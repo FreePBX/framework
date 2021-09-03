@@ -612,4 +612,63 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
   
     $this->assertEquals('{"errors":[{"message":"Backup & Restore process is in progress. Please wait till the process is completed.","status":false}]}',$json);
   }
+  
+  /**
+   * testFetchInstalledModulesShouldReturntrue
+   *
+   * @return void
+   */
+  public function testFetchInstalledModulesShouldReturntrue() {
+
+    $default = $this->getMockBuilder(\FreePBX\framework\Framework::class)
+      ->disableOriginalConstructor()
+      ->setMethods(array('checkBackUpAndRestoreProgressStatus'))
+      ->getMock(); 
+
+    $default->method('checkBackUpAndRestoreProgressStatus')->willReturn(false);
+     
+    self::$freepbx->Framework = $default;  
+
+    $response = $this->request("{
+                          fetchInstalledModules{
+                            status
+                            message
+                            list
+                          }
+                        }");
+
+    $json = (string)$response->getBody();
+
+    $this->assertEquals(200, $response->getStatusCode());
+  }
+
+  /**
+   * testFetchInstalledModulesWithInvalidQueryParamShouldReturnError
+   *
+   * @return void
+   */
+  public function testFetchInstalledModulesWithInvalidQueryParamShouldReturnError() {
+
+    $default = $this->getMockBuilder(\FreePBX\framework\Framework::class)
+      ->disableOriginalConstructor()
+      ->setMethods(array('checkBackUpAndRestoreProgressStatus'))
+      ->getMock(); 
+
+    $default->method('checkBackUpAndRestoreProgressStatus')->willReturn(false);
+     
+    self::$freepbx->Framework = $default;  
+
+    $response = $this->request("{
+                          fetchInstalledModules{
+                            status
+                            message
+                            lorem
+                          }
+                        }");
+
+    $json = (string)$response->getBody();
+
+    $this->assertEquals('{"errors":[{"message":"Cannot query field \"lorem\" on type \"module\".","status":false}]}',$json);
+
+  }
 }
