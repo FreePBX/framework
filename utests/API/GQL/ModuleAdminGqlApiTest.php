@@ -619,6 +619,26 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
    * @return void
    */
   public function testFetchInstalledModulesShouldReturntrue() {
+  
+    $default = $this->getMockBuilder(\FreePBX\framework\Framework::class)
+          ->disableOriginalConstructor()
+          ->setMethods(array('getInstalledModulesList'))
+          ->getMock(); 
+
+    $arr = array(
+                  'result' => 0,
+                  'output' => array
+                      (
+                         '{"status":true,"type":"message","data":"No repos specified, using: [extended,unsupported,standard,commercial] from last GUI settings"}',
+                          '{"status":true,"type":"message","data":""}',
+                         '{"status":true,"type":"message","data":[["accountcodepreserve","13.0.2.2","Enabled","GPLv2"]]}'
+                      )
+
+              );
+              
+    $default->method('getInstalledModulesList')->willReturn($arr);
+     
+    self::$freepbx->Framework = $default;  
 
     $response = $this->request("{
                           fetchInstalledModules{
@@ -630,7 +650,42 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
 
     $json = (string)$response->getBody();
 
-    $this->assertEquals(200, $response->getStatusCode());
+    $this->assertEquals('{"data":{"fetchInstalledModules":{"status":true,"message":"Installed modules list loaded successfully ","list":"[[\"accountcodepreserve\",\"13.0.2.2\",\"Enabled\",\"GPLv2\"]]"}}}',$json);
+  }
+
+  
+  /**
+   * testFetchInstalledModulesShouldReturnfalseWhenExcutingCommandFails
+   *
+   * @return void
+   */
+  public function testFetchInstalledModulesShouldReturnfalseWhenExcutingCommandFails() {
+  
+    $default = $this->getMockBuilder(\FreePBX\framework\Framework::class)
+          ->disableOriginalConstructor()
+          ->setMethods(array('getInstalledModulesList'))
+          ->getMock(); 
+
+    $arr = array(
+                  'result' => 1,
+                  'output' => []
+              );
+              
+    $default->method('getInstalledModulesList')->willReturn($arr);
+     
+    self::$freepbx->Framework = $default;  
+
+    $response = $this->request("{
+                          fetchInstalledModules{
+                            status
+                            message
+                            list
+                          }
+                        }");
+
+    $json = (string)$response->getBody();
+
+    $this->assertEquals('{"errors":[{"message":"Failed to load installed modules list ","status":false}]}',$json);
   }
 
   /**

@@ -303,23 +303,16 @@ class Modules extends Base {
 						'type' => $this->typeContainer->get('module')->getObject(),
 						'description' => _('List all the installed modules'),
 						'resolve' => function ($root, $args) {
-							$output=null;
-							$return=null;
-							exec('fwconsole ma list --format=json', $output, $return);
-							if ($return == 0) {
-								if(count($output) > 0){
-									$moduleList = json_decode($output[2],true);
-									return ['message' => _('Installed modules list loaded successfully '), 'status' => true,'list' => json_encode($moduleList['data'])];
-								}else{
+							$response = $this->freepbx->Framework->getInstalledModulesList();
+							if ($response['result'] == 0) {
+								if (count($response['output']) > 0) {
+									$moduleList = json_decode($response['output'][2], true);
+									return ['message' => _('Installed modules list loaded successfully '), 'status' => true, 'list' => json_encode($moduleList['data'])];
+								} else {
 									return ['message' => _('Failed to load installed modules list'), 'status' => false];
 								}
 							} else {
-								if (array_key_exists(2, $output)) {
-									$message =   _("Failed to load installed modules list , command output = $output[2]");
-								} else {
-									$message =   _('Failed to load installed modules list');
-								}
-								return ['message' => $message, 'status' => false];
+								return ['message' => _("Failed to load installed modules list "), 'status' => false];
 							}
 							
 						}
