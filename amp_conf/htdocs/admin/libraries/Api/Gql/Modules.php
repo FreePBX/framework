@@ -304,15 +304,24 @@ class Modules extends Base {
 						'description' => _('List all the installed modules'),
 						'resolve' => function ($root, $args) {
 							$response = $this->freepbx->Framework->getInstalledModulesList();
+							$data = [];
 							if ($response['result'] == 0) {
 								if (count($response['output']) > 0) {
 									$moduleList = json_decode($response['output'][2], true);
-									return ['message' => _('Installed modules list loaded successfully '), 'status' => true, 'list' => json_encode($moduleList['data'])];
+									foreach($moduleList['data'] as $key => $module){
+										$data[] = [
+											'name' => $module[0],
+											'version' => $module[1],
+											'state' => $module[2],
+											'license' => $module[3]
+										];
+									}
+									return ['message' => _('Installed modules list loaded successfully '), 'status' => true, 'response' => $data];
 								} else {
-									return ['message' => _('Failed to load installed modules list'), 'status' => false];
+									return ['message' => _('Failed to load installed modules list'), 'status' => false,'response' => $data];
 								}
 							} else {
-								return ['message' => _("Failed to load installed modules list "), 'status' => false];
+								return ['message' => _("Failed to load installed modules list "), 'status' => false,'response' => $data];
 							}
 							
 						}
@@ -400,10 +409,17 @@ class Modules extends Base {
 					'type' => Type::string(),
 					'description' => _('Reason for the transaction failed')
 				],
-				'list' =>[
+				'state' => [
 					'type' => Type::string(),
-					'description' => _('Returns installed modules list')
+					'description' => _('Module Status')
 				],
+				'modules' => [
+					'type' => Type::listOf($this->typeContainer->get('module')->getObject()),
+					'description' => _('Returns installed modules list'),
+					'resolve' => function($root, $args) {
+						return $root['response'];
+					}
+				]
 			];
 		});
 
