@@ -644,13 +644,18 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
                           fetchInstalledModules{
                             status
                             message
-                            list
+                            modules{
+                              name,
+                              state,
+                              version,
+                              license
+                            }
                           }
                         }");
 
     $json = (string)$response->getBody();
 
-    $this->assertEquals('{"data":{"fetchInstalledModules":{"status":true,"message":"Installed modules list loaded successfully ","list":"[[\"accountcodepreserve\",\"13.0.2.2\",\"Enabled\",\"GPLv2\"]]"}}}',$json);
+    $this->assertEquals('{"data":{"fetchInstalledModules":{"status":true,"message":"Installed modules list loaded successfully ","modules":[{"name":"accountcodepreserve","state":"Enabled","version":"13.0.2.2","license":"GPLv2"}]}}}',$json);
   }
 
   
@@ -676,10 +681,15 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
     self::$freepbx->Framework = $default;  
 
     $response = $this->request("{
-                          fetchInstalledModules{
+                         fetchInstalledModules{
                             status
                             message
-                            list
+                            modules{
+                              name,
+                              state,
+                              version,
+                              license
+                            }
                           }
                         }");
 
@@ -699,7 +709,10 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
                           fetchInstalledModules{
                             status
                             message
-                            lorem
+                            modules{
+                              name,
+                              lorem
+                            }
                           }
                         }");
 
