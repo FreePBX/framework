@@ -620,15 +620,6 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
    */
   public function testFetchInstalledModulesShouldReturntrue() {
 
-    $default = $this->getMockBuilder(\FreePBX\framework\Framework::class)
-      ->disableOriginalConstructor()
-      ->setMethods(array('checkBackUpAndRestoreProgressStatus'))
-      ->getMock(); 
-
-    $default->method('checkBackUpAndRestoreProgressStatus')->willReturn(false);
-     
-    self::$freepbx->Framework = $default;  
-
     $response = $this->request("{
                           fetchInstalledModules{
                             status
@@ -648,15 +639,6 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
    * @return void
    */
   public function testFetchInstalledModulesWithInvalidQueryParamShouldReturnError() {
-
-    $default = $this->getMockBuilder(\FreePBX\framework\Framework::class)
-      ->disableOriginalConstructor()
-      ->setMethods(array('checkBackUpAndRestoreProgressStatus'))
-      ->getMock(); 
-
-    $default->method('checkBackUpAndRestoreProgressStatus')->willReturn(false);
-     
-    self::$freepbx->Framework = $default;  
 
     $response = $this->request("{
                           fetchInstalledModules{
