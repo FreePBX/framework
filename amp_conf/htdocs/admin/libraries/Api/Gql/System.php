@@ -366,6 +366,10 @@ class System extends Base {
 	 * @return void
 	 */
 	private function yumUpgrade(){
+		$status = $this->freepbx->Framework->checkBackUpAndRestoreProgressStatus();
+		if(!$status) {
+			return ['message' => _('Backup & Restore process is in progress. Please wait till the process is completed.'),'status' => false];
+		}
 		$txnId = $this->freepbx->api->addTransaction("Processing","system","yum-run-updat");
 		$res = \FreePBX::Sysadmin()->ApiHooks()->runModuleSystemHook('framework','yum-run-update',$txnId);
 		if($res){

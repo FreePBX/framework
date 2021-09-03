@@ -271,4 +271,18 @@ class Framework extends FreePBX_Helpers implements BMO {
 	public function setMonitoringObj($obj){
 		return self::$monitoringObj = $obj; 
 	}
+	
+	/**
+	 * checkBackUpAndRestoreProgressStatus
+	 *
+	 * @return void
+	 */
+	public function checkBackUpAndRestoreProgressStatus() {
+		
+		$ret = exec("ps aux | grep backup", $outcome, $status);
+		if(file_exists('/var/run/asterisk/restore_running.lock') || strpos(implode(",", $outcome), 'php /usr/sbin/fwconsole backup') !== false) {
+			return false;
+		}
+		return true;
+	}
 }

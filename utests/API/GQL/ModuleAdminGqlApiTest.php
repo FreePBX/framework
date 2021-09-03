@@ -557,4 +557,59 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
     $this->assertEquals('{"data":{"fetchApiStatus":{"status":true,"message":"Failed","failureReason":"Failed to restart asterisk"}}}',$json);
     $this->assertEquals(200, $response->getStatusCode());
   }
+    
+  /**
+   * testUgradeAllModulesWhenBackupIsInProgressShouldReturnFalse
+   *
+   * @return void
+   */
+  public function testUgradeAllModulesWhenBackupIsInProgressShouldReturnFalse(){
+
+    $default = $this->getMockBuilder(\FreePBX\framework\Framework::class)
+      ->disableOriginalConstructor()
+      ->setMethods(array('checkBackUpAndRestoreProgressStatus'))
+      ->getMock(); 
+
+    $default->method('checkBackUpAndRestoreProgressStatus')->willReturn(false);
+     
+    self::$freepbx->Framework = $default;  
+
+    $response = $this->request("mutation {
+      upgradeAllModules(input: { }) 
+        { status message }
+      }
+    ");
+
+    $json = (string)$response->getBody();
+
+    $this->assertEquals('{"errors":[{"message":"Backup & Restore process is in progress. Please wait till the process is completed.","status":false}]}', $json);
+  }
+    
+  /**
+   * testYumUpgradeWhenWhenBackupIsInProgressShouldReturnFalse
+   *
+   * @return void
+   */
+  public function testYumUpgradeWhenWhenBackupIsInProgressShouldReturnFalse() {
+
+    $default = $this->getMockBuilder(\FreePBX\framework\Framework::class)
+      ->disableOriginalConstructor()
+      ->setMethods(array('checkBackUpAndRestoreProgressStatus'))
+      ->getMock(); 
+
+    $default->method('checkBackUpAndRestoreProgressStatus')->willReturn(false);
+     
+    self::$freepbx->Framework = $default;  
+
+    $response = $this->request("mutation {
+      updateSystemRPM(input: {}){
+        status
+        message   
+      }
+    }");
+
+    $json = (string)$response->getBody();
+  
+    $this->assertEquals('{"errors":[{"message":"Backup & Restore process is in progress. Please wait till the process is completed.","status":false}]}',$json);
+  }
 }

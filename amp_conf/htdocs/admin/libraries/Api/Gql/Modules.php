@@ -445,6 +445,12 @@ class Modules extends Base {
 	}
 
 	public function moduleAction($module,$action){
+		if($action == 'upgradeAll') {
+			$status = $this->freepbx->Framework->checkBackUpAndRestoreProgressStatus();
+			if(!$status) {
+				return ['message' => _('Backup & Restore process is in progress. Please wait till the process is completed.'),'status' => false];
+			}
+		}
 		$track = (strtoupper(isset($input['track'])) == 'EDGE') ? 'edge' : 'stable';
 		$txnId = $this->freepbx->api->addTransaction("Processing", "Framework", "gql-module-admin");
 		if ($action == 'upgradeAll') {

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX 2.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-08-18 05:57+0000\n"
+"POT-Creation-Date: 2021-08-25 07:14+0000\n"
 "PO-Revision-Date: 2006-09-28 17:30+0300\n"
 "Last-Translator: Moshe Brevda mbrevda => gmail ! com\n"
 "MIME-Version: 1.0\n"
@@ -797,7 +797,7 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
-#: ../core/page.ampusers.php:246
+#: ../core/page.ampusers.php:254
 msgid "Access Restrictions"
 msgstr ""
 
@@ -818,7 +818,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:329
-#: ../core/page.ampusers.php:271 ../core/page.astmodules.php:91
+#: ../core/page.ampusers.php:279 ../core/page.astmodules.php:91
 #: ../core/page.astmodules.php:108 ../core/page.astmodules.php:125
 msgid "Action"
 msgstr ""
@@ -829,7 +829,7 @@ msgid ""
 "remove]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:455
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:461
 #, php-format
 msgid ""
 "Action[%s] on module[%s] has been initiated. Please check the status using "
@@ -1000,7 +1000,7 @@ msgstr ""
 msgid "Admin"
 msgstr "ניהול"
 
-#: ../core/page.ampusers.php:254
+#: ../core/page.ampusers.php:262
 msgid "Admin Access"
 msgstr ""
 
@@ -1324,7 +1324,7 @@ msgstr ""
 msgid "Asterisk Builtin mini-HTTP server"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:420
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:424
 msgid "Asterisk Details"
 msgstr ""
 
@@ -1608,7 +1608,7 @@ msgstr ""
 msgid "Automatic comedia - (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:470
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:474
 msgid "Automatic update status"
 msgstr ""
 
@@ -1628,6 +1628,13 @@ msgid ""
 "POST_RELOAD to the script you wish to execute after applying changes. If "
 "POST_RELOAD_DEBUG=true, you will see the output of the script in the web "
 "page."
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:451
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:371
+msgid ""
+"Backup & Restore process is in progress. Please wait till the process is "
+"completed."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:22
@@ -2439,8 +2446,8 @@ msgstr ""
 msgid "Congestion"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:416
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:431
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:420
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:435
 msgid "Connected"
 msgstr ""
 
@@ -2930,7 +2937,7 @@ msgstr ""
 msgid "Database Error detected. Automatic repair started. Please retry"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:435
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:439
 msgid "Database Status"
 msgstr ""
 
@@ -3746,7 +3753,7 @@ msgstr ""
 msgid "Doreload is required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:490
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:496
 msgid ""
 "Doreload/apply config has been initiated. Please check the status using "
 "fetchApiStatus api with the returned transaction id"
@@ -4746,7 +4753,7 @@ msgstr ""
 msgid "Failed to run un-installation scripts"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:374
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:378
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
@@ -5253,7 +5260,7 @@ msgstr ""
 msgid "GUI Behavior"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:445
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:449
 msgid "GUI Mode details"
 msgstr ""
 
@@ -5464,7 +5471,7 @@ msgstr ""
 msgid "Hello, "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:472
+#: amp_conf/htdocs/admin/libraries/view.functions.php:471
 msgid "Helpful Information"
 msgstr ""
 
@@ -6349,7 +6356,7 @@ msgstr ""
 msgid "List online modules, accepts no arguments"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:456
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:460
 msgid "List up moduels setup wizard is run for"
 msgstr ""
 
@@ -6403,7 +6410,7 @@ msgstr ""
 msgid "MWI Subscription Type"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:16
+#: amp_conf/htdocs/admin/libraries/view.functions.php:15
 msgid "Magic Quotes GPC"
 msgstr ""
 
@@ -7348,8 +7355,8 @@ msgid ""
 "reports BUSY or INVALID NUMBER."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:418
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:433
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:422
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:437
 msgid "Not Connected"
 msgstr ""
 
@@ -7379,7 +7386,7 @@ msgstr ""
 msgid "Not Required"
 msgstr ""
 
-#: ../core/page.ampusers.php:279
+#: ../core/page.ampusers.php:287
 msgid "Not Selected"
 msgstr ""
 
@@ -7395,7 +7402,7 @@ msgstr ""
 msgid "Not received"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:411
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:415
 msgid "Not running"
 msgstr ""
 
@@ -8853,7 +8860,7 @@ msgstr ""
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:409
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:413
 msgid "Running"
 msgstr ""
 
@@ -9108,11 +9115,11 @@ msgstr ""
 msgid "Select a Timezone"
 msgstr ""
 
-#: ../core/page.ampusers.php:294
+#: ../core/page.ampusers.php:302
 msgid "Select the Admin Sections this user should have access to."
 msgstr ""
 
-#: ../core/page.ampusers.php:262
+#: ../core/page.ampusers.php:270
 msgid "Selected"
 msgstr ""
 
@@ -9436,7 +9443,7 @@ msgstr "הגדרות"
 msgid "Setup System"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:458
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:462
 msgid "Setup wizard is not run for any module"
 msgstr ""
 
@@ -9591,7 +9598,7 @@ msgstr ""
 msgid "Sorry could not update the extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:472
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:476
 msgid "Sorry, Could not find automatic update status"
 msgstr ""
 
@@ -10789,7 +10796,7 @@ msgid ""
 "as Emergency. The Emergency CID overrides all other CallerID settings."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:495
+#: amp_conf/htdocs/admin/libraries/view.functions.php:494
 msgid "This Module has been deprecated"
 msgstr ""
 
@@ -12613,7 +12620,7 @@ msgid ""
 "standard patterns"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/view.functions.php:16
+#: amp_conf/htdocs/admin/libraries/view.functions.php:15
 msgid ""
 "You have magic_quotes_gpc enabled in your php.ini, http or .htaccess file "
 "which will cause errors in some modules. FreePBX expects this to be off and "
@@ -12778,7 +12785,7 @@ msgid ""
 "Once fixed issue a reload to remove this message"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:372
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:376
 msgid ""
 "Yum Upgrade has been initiated. Kindly check the fetchApiStatus api with the "
 "transaction id."
