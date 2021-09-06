@@ -285,4 +285,17 @@ class Framework extends FreePBX_Helpers implements BMO {
 		}
 		return true;
 	}
+
+	/**
+	 * getInstalledModulesList
+	 *
+	 * @return array
+	 */
+	public function getInstalledModulesList()
+	{
+		$output=null;
+		$result=null;
+		exec('fwconsole ma list --format=json', $output, $result);
+		return ['result' => $result, 'output' => $output];
+	}
 }

@@ -612,4 +612,113 @@ class ModuleAdminGqlApiTest extends ApiBaseTestCase {
   
     $this->assertEquals('{"errors":[{"message":"Backup & Restore process is in progress. Please wait till the process is completed.","status":false}]}',$json);
   }
+  
+  /**
+   * testFetchInstalledModulesShouldReturntrue
+   *
+   * @return void
+   */
+  public function testFetchInstalledModulesShouldReturntrue() {
+  
+    $default = $this->getMockBuilder(\FreePBX\framework\Framework::class)
+          ->disableOriginalConstructor()
+          ->setMethods(array('getInstalledModulesList'))
+          ->getMock(); 
+
+    $arr = array(
+                  'result' => 0,
+                  'output' => array
+                      (
+                         '{"status":true,"type":"message","data":"No repos specified, using: [extended,unsupported,standard,commercial] from last GUI settings"}',
+                          '{"status":true,"type":"message","data":""}',
+                         '{"status":true,"type":"message","data":[["accountcodepreserve","13.0.2.2","Enabled","GPLv2"]]}'
+                      )
+
+              );
+              
+    $default->method('getInstalledModulesList')->willReturn($arr);
+     
+    self::$freepbx->Framework = $default;  
+
+    $response = $this->request("{
+                          fetchInstalledModules{
+                            status
+                            message
+                            modules{
+                              name,
+                              state,
+                              version,
+                              license
+                            }
+                          }
+                        }");
+
+    $json = (string)$response->getBody();
+
+    $this->assertEquals('{"data":{"fetchInstalledModules":{"status":true,"message":"Installed modules list loaded successfully ","modules":[{"name":"accountcodepreserve","state":"Enabled","version":"13.0.2.2","license":"GPLv2"}]}}}',$json);
+  }
+
+  
+  /**
+   * testFetchInstalledModulesShouldReturnfalseWhenExcutingCommandFails
+   *
+   * @return void
+   */
+  public function testFetchInstalledModulesShouldReturnfalseWhenExcutingCommandFails() {
+  
+    $default = $this->getMockBuilder(\FreePBX\framework\Framework::class)
+          ->disableOriginalConstructor()
+          ->setMethods(array('getInstalledModulesList'))
+          ->getMock(); 
+
+    $arr = array(
+                  'result' => 1,
+                  'output' => []
+              );
+              
+    $default->method('getInstalledModulesList')->willReturn($arr);
+     
+    self::$freepbx->Framework = $default;  
+
+    $response = $this->request("{
+                         fetchInstalledModules{
+                            status
+                            message
+                            modules{
+                              name,
+                              state,
+                              version,
+                              license
+                            }
+                          }
+                        }");
+
+    $json = (string)$response->getBody();
+
+    $this->assertEquals('{"errors":[{"message":"Failed to load installed modules list ","status":false}]}',$json);
+  }
+
+  /**
+   * testFetchInstalledModulesWithInvalidQueryParamShouldReturnError
+   *
+   * @return void
+   */
+  public function testFetchInstalledModulesWithInvalidQueryParamShouldReturnError() {
+
+    $response = $this->request("{
+                          fetchInstalledModules{
+                            status
+                            message
+                            modules{
+                              name,
+                              lorem
+                            }
+                          }
+                        }");
+
+    $json = (string)$response->getBody();
+
+    $this->assertEquals('{"errors":[{"message":"Cannot query field \"lorem\" on type \"module\".","status":false}]}',$json);
+
+  }
 }
