@@ -877,7 +877,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		/* read modules list from MODULE_DIR */
 		if(file_exists(MODULE_DIR) && $newinstall) {
 			$output->write("Installing base modules...");
-			$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole ma install core dashboard sipsettings voicemail");
+			$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole ma install core dashboard sipsettings voicemail certman");
 			$output->writeln("Done installing base modules");
 			if(!$answers['skip-install']) {
 				$output->write("Installing all modules...");
