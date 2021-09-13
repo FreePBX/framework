@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-08 03:19+0000\n"
-"PO-Revision-Date: 2021-09-03 16:00+0000\n"
+"PO-Revision-Date: 2021-09-14 14:00+0000\n"
 "Last-Translator: jeremie cattan <freepbx@famillecattan.com>\n"
 "Language-Team: French <http://weblate.freepbx.org/projects/freepbx/framework/"
 "fr/>\n"
@@ -1753,19 +1753,19 @@ msgstr "Endommagé :"
 
 #: amp.i18n.php:424
 msgid "Browser Playback Cache Directory"
-msgstr ""
+msgstr "Répertoire du cache de lecture du navigateur"
 
 #: amp.i18n.php:510
 msgid "Browser Playback Day Cache"
-msgstr ""
+msgstr "Cache du jour de lecture du navigateur"
 
 #: amp.i18n.php:794
 msgid "Browser Stats"
-msgstr ""
+msgstr "Stats du navigateur"
 
 #: install.php:328
 msgid "Building Packaged Scripts..."
-msgstr ""
+msgstr "Création de scripts empaquetés..."
 
 #: ../core/functions.inc.php:853 ../core/functions.inc.php:4578
 #: ../core/functions.inc.php:5857
@@ -1774,7 +1774,7 @@ msgstr "Occupé"
 
 #: ../core/functions.inc.php:5856
 msgid "Busy Voicemail if Enabled"
-msgstr ""
+msgstr "Message vocal occupé si activé"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:262
 msgid "Buy"
@@ -1797,17 +1797,17 @@ msgstr "La clé de l'autorité de certification existe déjà et sera réutilis�
 #: ../core/page.extensions.php:137 ../core/page.extensions.php:165
 #: ../core/page.users.php:62
 msgid "CF"
-msgstr ""
+msgstr "CF"
 
 #: ../core/page.extensions.php:138 ../core/page.extensions.php:166
 #: ../core/page.users.php:63
 msgid "CFB"
-msgstr ""
+msgstr "CFB"
 
 #: ../core/page.extensions.php:139 ../core/page.extensions.php:167
 #: ../core/page.users.php:64
 msgid "CFU"
-msgstr ""
+msgstr "CFU"
 
 #: amp.i18n.php:432
 msgid "CGI Dir"
@@ -1841,55 +1841,55 @@ msgstr "Préfixe au CID"
 #: ../core/page.extensions.php:134 ../core/page.extensions.php:162
 #: ../core/page.users.php:59
 msgid "CW"
-msgstr ""
+msgstr "CW"
 
 #: amp.i18n.php:282
 msgid "CW Enabled by Default"
-msgstr ""
+msgstr "CW Activé par défaut"
 
 #: amp.i18n.php:862
 msgid "Cache Expiration"
-msgstr ""
+msgstr "Expiration du cache"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Cache.class.php:245
 msgid "Cache path is not writable!"
-msgstr ""
+msgstr "Le chemin du cache n'est pas accessible en écriture !"
 
 #: ../core/views/routing/timecond.php:24
 msgid "Calendar Mode"
-msgstr ""
+msgstr "Mode Calendrier"
 
 #: ../core/functions.inc.php:5769
 msgid "Call Forward Ring Time"
-msgstr ""
+msgstr "Durée de la sonnerie du renvoi d'appel"
 
 #: amp.i18n.php:262
 msgid "Call Forward Ringtimer Default"
-msgstr ""
+msgstr "Renvoi d'appel par défaut de la sonnerie"
 
 #: ../core/page.users.php:87
 msgid "Call Forwarding Busy is disabled"
-msgstr ""
+msgstr "Le renvoi d'appel sur occupation est désactivé"
 
 #: ../core/page.users.php:87
 msgid "Call Forwarding Busy is enabled"
-msgstr ""
+msgstr "Le renvoi d'appel sur occupation est activé"
 
 #: ../core/page.users.php:90
 msgid "Call Forwarding Unconditional is disabled"
-msgstr ""
+msgstr "Le renvoi d'appel inconditionnel est désactivé"
 
 #: ../core/page.users.php:90
 msgid "Call Forwarding Unconditional is enabled"
-msgstr ""
+msgstr "Le renvoi d'appel inconditionnel est activé"
 
 #: ../core/page.users.php:84
 msgid "Call Forwarding is disabled"
-msgstr ""
+msgstr "Le renvoi d'appel est désactivé"
 
 #: ../core/page.users.php:84
 msgid "Call Forwarding is enabled"
-msgstr ""
+msgstr "Le renvoi d'appel est activé"
 
 #: ../core/functions.inc/drivers/Sip.class.php:483
 msgid "Call Groups"
@@ -1901,11 +1901,11 @@ msgstr "Format d'enregistrement des appels"
 
 #: ../core/functions.inc.php:1054
 msgid "Call Recording Module Not Enabled"
-msgstr ""
+msgstr "Module d'enregistrement d'appels non activé"
 
 #: amp.i18n.php:266
 msgid "Call Recording Policy"
-msgstr ""
+msgstr "Politique d'enregistrement des appels"
 
 #: amp.i18n.php:268
 msgid ""
@@ -1913,6 +1913,10 @@ msgid ""
 "extensions when one wants a call recorded and the other does not, if both "
 "their priorities are also the same."
 msgstr ""
+"Politique d'enregistrement des appels utilisée pour résoudre le gagnant dans "
+"un conflit entre deux extensions lorsque l'une souhaite enregistrer un appel "
+"et l'autre ne le souhaite pas, si leurs deux priorités sont également les "
+"mêmes."
 
 #: ../core/functions.inc.php:5782
 msgid "Call Screening"
@@ -1930,6 +1934,15 @@ msgid ""
 "and all users on the system will have that new introduction associated with "
 "the caller's CallerID."
 msgstr ""
+"Le filtrage des appels exige que les appelants externes disent leur nom, qui "
+"sera lu à l'utilisateur et lui permettra d'accepter ou de rejeter l'appel. "
+"Le filtrage avec mémoire ne vérifie qu'une seule fois l'appelant pour son "
+"Numéro. Le filtrage sans mémoire nécessite toujours qu'un appelant prononce "
+"son nom. L'un ou l'autre mode annoncera toujours l'appelant en fonction de "
+"la dernière introduction enregistrée avec ce numéro. Si un utilisateur du "
+"système utilise l'option de mémoire, lorsque cet utilisateur est appelé, "
+"l'appelant devra se représenter et tous les utilisateurs du système auront "
+"cette nouvelle introduction associée au numéro de l'appelant."
 
 #: ../core/functions.inc.php:5781
 msgid "Call Waiting"
@@ -1950,14 +1963,19 @@ msgid ""
 "it. The higher of the two determines the policy, on a tie the global policy "
 "(caller or callee) determines the policy."
 msgstr ""
+"Priorité de la politique d'enregistrement des appels par rapport aux autres "
+"extensions lorsqu'il y a un conflit entre une extension qui souhaite "
+"l'enregistrement et l'autre qui ne le souhaite pas. Le plus élevé des deux "
+"détermine la politique, sur une égalité, la politique globale (appelant ou "
+"appelé) détermine la politique."
 
 #: ../core/views/routing/form.php:573
 msgid "Call successful"
-msgstr ""
+msgstr "Appel réussi"
 
 #: ../core/Core.class.php:3502
 msgid "Caller ID"
-msgstr ""
+msgstr "Identification de l'appelant"
 
 #: ../core/Core.class.php:3503
 msgid "Caller ID Number"
@@ -1978,24 +1996,30 @@ msgstr "Numéro de l'appelant"
 
 #: ../core/views/routing/form.php:91
 msgid "CallerID:"
-msgstr ""
+msgstr "Identification de l'appelant :"
 
 #: ../core/functions.inc/drivers/Sip.class.php:482
 msgid ""
 "Callgroup(s) that this device is part of, can be one or more alpha/numeric "
 "callgroups, e.g. '1,3000-3005,sales,sales2'."
 msgstr ""
+"Les groupes d'appels dont cet appareil fait partie peuvent être un ou "
+"plusieurs groupes d'appels alphanumériques, par ex. "
+"'1,3000-3005,ventes,ventes2'."
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:146
 msgid ""
 "Callgroup(s) that this device is part of, can be one or more alpha/numeric "
 "callgroups, e.g. '1,3000-3005,sales,sales2.'"
 msgstr ""
+"Les groupes d'appels dont cet appareil fait partie peuvent être un ou "
+"plusieurs groupes d'appels alphanumériques, par ex. "
+"'1,3000-3005,ventes,ventes2.'"
 
 #: ../core/functions.inc.php:2149
 #, php-format
 msgid "Calling Out Route: %s"
-msgstr ""
+msgstr "Appeler Route Sortante : %s"
 
 #: amp_conf/htdocs/admin/views/menu.php:28
 msgid "Can Not Connect to Asterisk"
@@ -2003,18 +2027,22 @@ msgstr "Impossible de se connecter à Asterisk"
 
 #: ../core/functions.inc/drivers/Sip.class.php:328
 msgid "Can Reinvite"
-msgstr ""
+msgstr "Peut réinviter"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:137
 #, php-format
 msgid "Can not create cache folder at %s/cache. Please run (from the CLI): %s"
 msgstr ""
+"Impossible de créer un dossier de cache dans %s/cache. Veuillez exécuter (à "
+"partir de la CLI) : %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:176
 #, php-format
 msgid ""
 "Can not create the LESS cache folder at %s. Please run (from the CLI): %s"
 msgstr ""
+"Impossible de créer le dossier de cache LESS à %s. Veuillez exécuter (à "
+"partir de la CLI) : %s"
 
 #: upgrades/2.8.0alpha2/tables.php:54
 msgid "Can not create trunk_dialpatterns table"
