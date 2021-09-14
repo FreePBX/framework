@@ -8,13 +8,11 @@ class Restore Extends Base\RestoreBase{
 		$sql = "UPDATE IGNORE freepbx_settings SET `value` = :value WHERE `keyword` = :keyword AND `module` = ''";
 		$sth = $this->FreePBX->Database->prepare($sql);
 		//check oembranding is installed and licensed
-		if ($this->FreePBX->Modules->checkStatus("oembranding") && $this->FreePBX->Oembranding->isLicensed()) {
-			$skinsettings = [];
-		}else {
+		$skinsettings = array("VIEW_MENU", "VIEW_LOGIN", "VIEW_FOOTER_CONTENT", "DASHBOARD_OVERRIDE_BASIC", "DASHBOARD_FREEPBX_BRAND", "BRAND_IMAGE_TANGO_LEFT", "BRAND_IMAGE_FREEPBX_LINK_LEFT", "BRAND_IMAGE_FAVICON", "BRAND_CSS_CUSTOM", "BRAND_ALT_JS");
+		if ($this->FreePBX->Modules->checkStatus("oembranding") && !$this->FreePBX->Oembranding->isLicensed()) {
 			$query = "UPDATE freepbx_settings SET `value`=`defaultval` Where `value` like'modules/oembranding%';";
 			$st = $this->FreePBX->Database->prepare($query);
 			$st->execute();
-			$skinsettings = array("VIEW_MENU", "VIEW_LOGIN", "VIEW_FOOTER_CONTENT", "DASHBOARD_OVERRIDE_BASIC", "DASHBOARD_FREEPBX_BRAND", "BRAND_IMAGE_TANGO_LEFT", "BRAND_IMAGE_FREEPBX_LINK_LEFT", "BRAND_IMAGE_FAVICON", "BRAND_CSS_CUSTOM", "BRAND_ALT_JS");
 		}
 		foreach($configs['settings'] as $keyword => $value) {
 			if ($keyword === 'AMPMGRPASS') {
@@ -26,7 +24,7 @@ class Restore Extends Base\RestoreBase{
 				continue;
 			}
 			if(in_array($keyword,$skinsettings)){
-				$this->log(sprintf(_("Ignorning Oembranding  Setting %s"), $keyword));
+				$this->log(sprintf(_("Ignorning Brand view  Setting %s"), $keyword));
 				continue;
 			}
 			$sth->execute([
