@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-06 02:39+0000\n"
+"POT-Creation-Date: 2021-09-15 08:42+0000\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -548,6 +548,20 @@ msgstr "%s version %s or  higher is required, you have %s"
 msgid "%s will be removed from the hard disk"
 msgstr "%s از هارد دیسک حذف خواهد شد"
 
+#: ../core/Core.class.php:3914
+msgid ""
+"'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
+"but PM2 is not installed so we were unable to start the FastAGI server, As a "
+"result all AGIs will be forked inside of Asterisk until this is resolved"
+msgstr ""
+
+#: ../core/Core.class.php:3935
+msgid ""
+"'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
+"but the FastAGI server was unable to start, As a result all AGIs will be "
+"forked inside of Asterisk until this is resolved"
+msgstr ""
+
 #: install.php:51
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
@@ -648,7 +662,7 @@ msgstr ""
 msgid "<keyword> [<value>]"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:241
+#: ../core/functions.inc/drivers/Sip.class.php:245
 #, php-format
 msgid ""
 "<strong>CRITICAL ERROR!</strong> Required Service %s is disabled! This "
@@ -756,7 +770,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "یک مسیر برای این DID/CID در حال حاضر موجود است!"
 
-#: ../core/functions.inc.php:4222
+#: ../core/Core.class.php:2774 ../core/functions.inc.php:4222
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "یک مسیر برای این DID/CID: %s %s در حال حاضر موجود است"
@@ -839,7 +853,7 @@ msgstr "لغو خاموش کردن. استریسک هنوز در حال اجرا
 msgid "Aborting reload because extension conflicts or bad destinations"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:362
+#: ../core/functions.inc/drivers/Sip.class.php:366
 msgid "Accept"
 msgstr "قبول کردن"
 
@@ -848,7 +862,7 @@ msgid "Access Restrictions"
 msgstr "محدودیت دسترسی"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:233
-#: ../core/functions.inc/drivers/Sip.class.php:475
+#: ../core/functions.inc/drivers/Sip.class.php:479
 msgid "Account Code"
 msgstr "کد حساب"
 
@@ -858,7 +872,7 @@ msgstr "کد حساب برای این داخلی"
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:144
 #: ../core/functions.inc/drivers/Iax2.class.php:147
-#: ../core/functions.inc/drivers/Sip.class.php:474
+#: ../core/functions.inc/drivers/Sip.class.php:478
 msgid "Accountcode for this device."
 msgstr "کد حساب برای این وسیله."
 
@@ -1126,23 +1140,23 @@ msgid ""
 "Techno, Theme, Tweedle, Twinkle, Vibe."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:400
+#: ../core/functions.inc/drivers/Sip.class.php:404
 msgid "All - TCP Primary"
 msgstr "همه -  TCP اصلی"
 
-#: ../core/functions.inc/drivers/Sip.class.php:401
+#: ../core/functions.inc/drivers/Sip.class.php:405
 msgid "All - TLS Primary"
 msgstr "همه -  TLS اصلی"
 
-#: ../core/functions.inc/drivers/Sip.class.php:399
+#: ../core/functions.inc/drivers/Sip.class.php:403
 msgid "All - UDP Primary"
 msgstr "همه -  UDP اصلی"
 
-#: ../core/functions.inc/drivers/Sip.class.php:403
+#: ../core/functions.inc/drivers/Sip.class.php:407
 msgid "All - WS Primary"
 msgstr "همه -  WS اصلی"
 
-#: ../core/functions.inc/drivers/Sip.class.php:404
+#: ../core/functions.inc/drivers/Sip.class.php:408
 msgid "All - WSS Primary"
 msgstr "همه -  WSS اصلی"
 
@@ -1210,7 +1224,7 @@ msgid "Allow Non-Encrypted Media (Opportunistic SRTP)"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Iax2.class.php:143
-#: ../core/functions.inc/drivers/Sip.class.php:470
+#: ../core/functions.inc/drivers/Sip.class.php:474
 msgid ""
 "Allow specific codecs, separated by the '&' sign and in priority order. E.g. "
 "'ulaw&g729'. Codecs allowed in the general settings will also be allowed "
@@ -1220,7 +1234,7 @@ msgstr ""
 "g. 'ulaw&g729'. Codecs allowed in the general settings will also be allowed "
 "unless removed with the 'disallow' directive."
 
-#: ../core/functions.inc/drivers/Sip.class.php:471
+#: ../core/functions.inc/drivers/Sip.class.php:475
 msgid "Allowed Codecs"
 msgstr "کدک های مجاز"
 
@@ -1329,7 +1343,7 @@ msgstr "اعمال پیکربندی"
 msgid "Apply Configuration Gql api"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:485
+#: ../core/functions.inc/drivers/Sip.class.php:489
 msgid ""
 "Are you Sure you want to Change the SIP Channel Driver? (The Page will "
 "Refresh, then you MUST hit submit to resave the device when you are done to "
@@ -1489,13 +1503,13 @@ msgid "Asterisk bin Dir"
 msgstr "دایرکتوری bin استریسک"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:134
-#: ../core/functions.inc/drivers/Sip.class.php:358
+#: ../core/functions.inc/drivers/Sip.class.php:362
 msgid "Asterisk connection type, usually friend for endpoints."
 msgstr "نوع اتصال استریسک، معمولا برای نقاط پایانی دوستانه است."
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:104
 #: ../core/functions.inc/drivers/Iax2.class.php:125
-#: ../core/functions.inc/drivers/Sip.class.php:312
+#: ../core/functions.inc/drivers/Sip.class.php:316
 msgid ""
 "Asterisk context this device will send calls to. Only change this is you "
 "know what you are doing."
@@ -1503,7 +1517,7 @@ msgstr ""
 "Asterisk context this  device will send calls to. Only change this is you "
 "know what you are doing."
 
-#: ../core/functions.inc/drivers/Sip.class.php:478
+#: ../core/functions.inc/drivers/Sip.class.php:482
 msgid ""
 "Asterisk dialplan extension to reach voicemail for this device. Some devices "
 "use this to auto-program the voicemail button on the endpoint. If left "
@@ -1663,8 +1677,8 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Iax2.class.php:159
 #: ../core/functions.inc/drivers/PJSip.class.php:259
-#: ../core/functions.inc/drivers/Sip.class.php:291
 #: ../core/functions.inc/drivers/Sip.class.php:295
+#: ../core/functions.inc/drivers/Sip.class.php:299
 #: ../core/views/trunks/pjsip.php:259
 msgid "Auto"
 msgstr "خودکار"
@@ -1677,12 +1691,12 @@ msgstr ""
 "Auto set ZAP2DAHDICOMPAT to  true because we are running a version of "
 "Asterisk greater than 1.4.21"
 
-#: ../core/functions.inc/drivers/Sip.class.php:378
+#: ../core/functions.inc/drivers/Sip.class.php:382
 #, php-format
 msgid "Automatic Force Both - (%s)"
 msgstr "تحمیل خودکار هردو - (%s)"
 
-#: ../core/functions.inc/drivers/Sip.class.php:379
+#: ../core/functions.inc/drivers/Sip.class.php:383
 #, php-format
 msgid "Automatic Force rport - (%s)"
 msgstr "تحمیل خودکار rport - (%s)"
@@ -1702,7 +1716,7 @@ msgstr ""
 msgid "Automatic System Updates"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:380
+#: ../core/functions.inc/drivers/Sip.class.php:384
 #, php-format
 msgid "Automatic comedia - (%s)"
 msgstr "Automatic  comedia - (%s)"
@@ -1935,7 +1949,7 @@ msgstr "انتقال تماس غیرفعال شد"
 msgid "Call Forwarding is enabled"
 msgstr "انتقال تماس فعال شد"
 
-#: ../core/functions.inc/drivers/Sip.class.php:465
+#: ../core/functions.inc/drivers/Sip.class.php:469
 msgid "Call Groups"
 msgstr "گروه های تماس"
 
@@ -2018,6 +2032,14 @@ msgstr ""
 msgid "Call successful"
 msgstr ""
 
+#: ../core/Core.class.php:3244
+msgid "Caller ID"
+msgstr "شناسه تماس گیرنده"
+
+#: ../core/Core.class.php:3245
+msgid "Caller ID Number"
+msgstr "شماره تماس گیرنده"
+
 #: ../core/Api/Gql/Devices.php:153 ../core/Api/Gql/Devices.php:160
 msgid "Caller ID for the device"
 msgstr ""
@@ -2039,7 +2061,7 @@ msgstr "شماره تماس گیرنده"
 msgid "CallerID:"
 msgstr "شناسه تماس گیرنده:"
 
-#: ../core/functions.inc/drivers/Sip.class.php:464
+#: ../core/functions.inc/drivers/Sip.class.php:468
 msgid ""
 "Callgroup(s) that this device is part of, can be one or more alpha/numeric "
 "callgroups, e.g. '1,3000-3005,sales,sales2'."
@@ -2064,7 +2086,7 @@ msgstr "مسیر تماس های خروجی: %s"
 msgid "Can Not Connect to Asterisk"
 msgstr "نمیتوان به استریسک متصل شد"
 
-#: ../core/functions.inc/drivers/Sip.class.php:310
+#: ../core/functions.inc/drivers/Sip.class.php:314
 msgid "Can Reinvite"
 msgstr "توانایی دعوت مجدد"
 
@@ -2238,11 +2260,11 @@ msgstr "جاسوسی کانال"
 msgid "Change Log for version"
 msgstr "لاگ تغییرات نسخه"
 
-#: ../core/functions.inc/drivers/Sip.class.php:281
+#: ../core/functions.inc/drivers/Sip.class.php:285
 msgid "Change SIP Driver"
 msgstr "تغییر درایور SIP"
 
-#: ../core/functions.inc/drivers/Sip.class.php:278
+#: ../core/functions.inc/drivers/Sip.class.php:282
 #, php-format
 msgid "Change To %s Driver"
 msgstr "تغییر به %s درایور"
@@ -2261,7 +2283,7 @@ msgstr "تغییرات"
 msgid "Changing \"%s\" from [%s] to [%s]"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:284
+#: ../core/functions.inc/drivers/Sip.class.php:288
 msgid "Changing SIP Driver unavailable"
 msgstr "تغییر درایور SIP در دسترس نیست"
 
@@ -2280,8 +2302,12 @@ msgid "Channel ID"
 msgstr "شناسه کانال"
 
 #: ../core/Api/Gql/Extensions.php:383 ../core/Api/Gql/Extensions.php:400
-#: ../core/Api/Gql/Extensions.php:458
+#: ../core/Api/Gql/Extensions.php:462
 msgid "Channel Name incase if you are using tech DAHDi."
+msgstr ""
+
+#: ../core/Core.class.php:188
+msgid "Channel can not be blank!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:639
@@ -2433,7 +2459,7 @@ msgstr ""
 msgid "Class"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:49
+#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:47
 msgid "Cleared AMPUSERS"
 msgstr ""
 
@@ -2584,7 +2610,7 @@ msgstr "ازدحام"
 msgid "Connected"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:359
+#: ../core/functions.inc/drivers/Sip.class.php:363
 msgid "Connection Type"
 msgstr "نوع اتصال"
 
@@ -2600,7 +2626,7 @@ msgstr "تماس با کاربر"
 msgid "Contact User to use in request."
 msgstr "اطلاعات تماس کاربر برای استفاده در این درخواست."
 
-#: ../core/functions.inc/drivers/Sip.class.php:313
+#: ../core/functions.inc/drivers/Sip.class.php:317
 #: ../core/views/trunks/pjsip.php:202
 msgid "Context"
 msgstr "زمینه"
@@ -2671,6 +2697,15 @@ msgstr ""
 #: amp.i18n.php:854 ../core/install.php:6
 msgid "Core"
 msgstr "هسته"
+
+#: ../core/Core.class.php:3794
+#, php-format
+msgid "Core FastAGI Server has already been running on PID %s for %s"
+msgstr ""
+
+#: ../core/Core.class.php:3867
+msgid "Core FastAGI Server is not running"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1313
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1654
@@ -2844,7 +2879,7 @@ msgstr ""
 "check to use system defaults set in Advanced  Options. These will not apply "
 "to trunk options which are configured with the trunk."
 
-#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:94
+#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:92
 #, php-format
 msgid "Current FreePBX Web Root Directory is %s"
 msgstr ""
@@ -2994,9 +3029,21 @@ msgstr "توضیحات داخلی مستقیم"
 msgid "DID Number"
 msgstr "شماره داخلی مستقیم"
 
+#: ../core/Core.class.php:3385
+msgid "DID already exists"
+msgstr "DID موجود است"
+
 #: ../core/views/did/rnav.php:14
 msgid "DID/CID"
 msgstr "DID/CID"
+
+#: ../core/Core.class.php:3186
+msgid "DIDs"
+msgstr ".DIDs"
+
+#: ../core/Core.class.php:3187
+msgid "DIDs / Inbound Routes"
+msgstr "مسیرهای ورودی / DIDs"
 
 #: ../core/page.extensions.php:135 ../core/page.extensions.php:163
 #: ../core/page.users.php:60
@@ -3079,7 +3126,7 @@ msgstr "DTLS-SRTP (توصیه نمیشود)"
 msgid "DTMF Mode"
 msgstr "حالت DTMF"
 
-#: ../core/functions.inc/drivers/Sip.class.php:302
+#: ../core/functions.inc/drivers/Sip.class.php:306
 msgid "DTMF Signaling"
 msgstr "سیگنال DTMF"
 
@@ -3144,7 +3191,7 @@ msgid "Default Asterisk Manager Password Used"
 msgstr "استفاده از کلمه عبور پیشفرض مدیر استریسک"
 
 #: ../core/functions.inc.php:5093
-#: ../core/functions.inc/drivers/Sip.class.php:319
+#: ../core/functions.inc/drivers/Sip.class.php:323
 msgid "Default User"
 msgstr "کاربر پیش فرض"
 
@@ -3290,7 +3337,7 @@ msgstr ""
 "blind transfers and when a Follow Me is configured and enabled. If Disabled, "
 "the phone rings as a normal phone."
 
-#: ../core/functions.inc/drivers/Sip.class.php:318
+#: ../core/functions.inc/drivers/Sip.class.php:322
 msgid ""
 "Default user setting for this device, almost always empty for dynamic "
 "endpoints or equals to extension number for multiple endpoints residing on "
@@ -3341,7 +3388,10 @@ msgstr ""
 "can also use a pattern match (eg _2[345]X) to match a range of numbers"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:772
-#: ../core/Components/Dahdichannels.php:15 ../core/page.devices.php:58
+#: ../core/Components/Dahdichannels.php:15 ../core/Core.class.php:322
+#: ../core/Core.class.php:345 ../core/Core.class.php:369
+#: ../core/Core.class.php:409 ../core/Core.class.php:434
+#: ../core/Core.class.php:464 ../core/page.devices.php:58
 #: ../core/page.devices.php:78 ../core/page.extensions.php:32
 #: ../core/page.extensions.php:125 ../core/page.extensions.php:153
 #: ../core/page.users.php:49
@@ -3369,7 +3419,7 @@ msgstr "ماژول[های] حذف شد، آرگومان ماژول[ها] پذی�
 msgid "Deleting the modules.conf file will reset this to defaults."
 msgstr "با حذف فایل modules.conf به حالت پیشفرض برمیگردید."
 
-#: ../core/functions.inc/drivers/Sip.class.php:481
+#: ../core/functions.inc/drivers/Sip.class.php:485
 msgid "Deny"
 msgstr "لغو"
 
@@ -3396,6 +3446,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:231
+#: ../core/Core.class.php:3212 ../core/Core.class.php:3213
+#: ../core/Core.class.php:3236 ../core/Core.class.php:3237
 #: ../core/functions.inc.php:5091 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:59
@@ -3408,7 +3460,7 @@ msgstr "شرح"
 msgid "Descriptive Name for this Trunk"
 msgstr "شرح نام برای این ترانک"
 
-#: ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:3248 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "مقصد"
 
@@ -3476,7 +3528,7 @@ msgid ""
 "extension/device."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:340
+#: ../core/functions.inc/drivers/Sip.class.php:344
 #: ../core/views/trunks/pjsip.php:566
 msgid ""
 "Determines whether a user=phone parameter is placed into the request URI if "
@@ -3538,8 +3590,9 @@ msgstr "حالت توسعه دهنده"
 msgid "Developer and Customization"
 msgstr "توسعه دهنده و شخصی ساز"
 
-#: ../core/functions.inc.php:5034 ../core/page.devices.php:65
-#: ../core/page.devices.php:86 ../core/views/rnav.php:81
+#: ../core/Core.class.php:3601 ../core/functions.inc.php:5034
+#: ../core/page.devices.php:65 ../core/page.devices.php:86
+#: ../core/views/rnav.php:81
 msgid "Device"
 msgstr "وسیله"
 
@@ -3553,12 +3606,16 @@ msgstr ""
 msgid "Device & User Hints Issue"
 msgstr ""
 
+#: ../core/Core.class.php:1441 ../core/Core.class.php:1670
+msgid "Device Extension was blank or there were no settings defined"
+msgstr "داخلی وسیله خالی بود یا تنظیمی یافت نشد"
+
 #: ../core/functions.inc.php:5089
 msgid "Device ID"
 msgstr "شناسه وسیله"
 
 #: ../core/functions.inc.php:5104
-#: ../core/functions.inc/drivers/Sip.class.php:262
+#: ../core/functions.inc/drivers/Sip.class.php:266
 msgid "Device Options"
 msgstr "گزینه های وسیله"
 
@@ -3570,14 +3627,26 @@ msgstr "تنظیمات وسیله"
 msgid "Device State Busy at"
 msgstr "وضعیت دستگاه مشغول است در"
 
+#: ../core/Core.class.php:3216 ../core/Core.class.php:3217
+msgid "Device Technology"
+msgstr "فن آوری وسیله"
+
 #: ../core/functions.inc.php:5092 ../core/page.devices.php:67
 #: ../core/page.devices.php:88
 msgid "Device Type"
 msgstr "نوع وسیله"
 
+#: ../core/Core.class.php:3334
+msgid "Device could not be added."
+msgstr "وسیله نمیتواند اضافه شود."
+
 #: ../core/Api/Gql/Extensions.php:228
 msgid "Device tech default is pjsip"
 msgstr ""
+
+#: ../core/Core.class.php:230 ../core/Core.class.php:280
+msgid "Device was not added!"
+msgstr "وسیله اضافه نشد!"
 
 #: amp.i18n.php:862
 msgid "Devices"
@@ -3594,7 +3663,7 @@ msgstr ""
 "users."
 
 #: ../core/functions.inc/drivers/Custom.class.php:37
-#: ../core/functions.inc/drivers/Sip.class.php:473
+#: ../core/functions.inc/drivers/Sip.class.php:477
 msgid "Dial"
 msgstr "شماره گیری"
 
@@ -3787,12 +3856,12 @@ msgstr ""
 msgid "Disallow transfer features for inbound callers"
 msgstr "نپذیرفتن جابجایی ویزگی ها برای تماسهای ورودی"
 
-#: ../core/functions.inc/drivers/Sip.class.php:469
+#: ../core/functions.inc/drivers/Sip.class.php:473
 msgid "Disallowed Codecs"
 msgstr "کدکهای غیرمجاز"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:141
-#: ../core/functions.inc/drivers/Sip.class.php:468
+#: ../core/functions.inc/drivers/Sip.class.php:472
 msgid ""
 "Disallowed codecs. Set this to all to remove all codecs defined in the "
 "general settings and then specify specific codecs separated by '&' on the "
@@ -3826,6 +3895,10 @@ msgstr "نمایش وضعیت مشکلات ترانک"
 #: ../core/functions.inc.php:4773 ../core/views/quickCreate.php:85
 msgid "Display Name"
 msgstr "نام نمایشی"
+
+#: ../core/Core.class.php:188
+msgid "Display Name can not be blank!"
+msgstr "نام نمایشی نمیتواند خالی باشد!"
 
 #: amp.i18n.php:302
 msgid "Display Presence State of Callee"
@@ -4061,6 +4134,10 @@ msgid ""
 "routes you dont know about"
 msgstr ""
 
+#: ../core/Core.class.php:439 ../core/Core.class.php:469
+msgid "Duplicate"
+msgstr "تکراری"
+
 #: amp.i18n.php:314
 msgid "Dynamically Generate Hints"
 msgstr "تولید پویای نکات"
@@ -4187,7 +4264,7 @@ msgstr ""
 "آدرس ایمیل استفاده شده برای سرویس ها مانند ایمیل صوتی، مدیریت کاربر و فکس"
 
 #: ../core/Api/Gql/Extensions.php:367 ../core/Api/Gql/Extensions.php:417
-#: ../core/Api/Gql/Extensions.php:475
+#: ../core/Api/Gql/Extensions.php:479
 msgid ""
 "Email address to use for services such as Voicemail, User Management and Fax."
 msgstr ""
@@ -4225,15 +4302,15 @@ msgstr "این فیلد نباید خالی باشد"
 msgid "Enable"
 msgstr "فعال"
 
-#: ../core/functions.inc/drivers/Sip.class.php:422
+#: ../core/functions.inc/drivers/Sip.class.php:426
 msgid "Enable AVPF"
 msgstr "فعال کردن AVPF"
 
-#: ../core/functions.inc/drivers/Sip.class.php:453
+#: ../core/functions.inc/drivers/Sip.class.php:457
 msgid "Enable Encryption"
 msgstr "فعال کردن رمزنگاری"
 
-#: ../core/functions.inc/drivers/Sip.class.php:438
+#: ../core/functions.inc/drivers/Sip.class.php:442
 msgid "Enable ICE Support"
 msgstr "فعال کردن پشتیبانی از ICE"
 
@@ -4317,7 +4394,7 @@ msgid ""
 "selected."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:460
+#: ../core/functions.inc/drivers/Sip.class.php:464
 msgid ""
 "Enable or disable video support for this extension. If set to inherit it "
 "will use the global value from SIP Settings. Default is inherit"
@@ -4325,7 +4402,7 @@ msgstr ""
 "فعال و یا غیر فعال کردن پشتیبانی از ویدیو برای این داخلی.اگر به صورت موروثی "
 "تنظیم شود این مقدار از تنظیمات SIP استفاده میکند.پیشفرض موروثی است"
 
-#: ../core/functions.inc/drivers/Sip.class.php:446
+#: ../core/functions.inc/drivers/Sip.class.php:450
 msgid "Enable rtcp Mux"
 msgstr ""
 
@@ -4420,7 +4497,7 @@ msgstr "نقطه پایانی"
 msgid "Endpoint port number to use, usually 4569."
 msgstr "شماره پورت نقطه پایانی برای استفاده، معمولا 4569."
 
-#: ../core/functions.inc/drivers/Sip.class.php:389
+#: ../core/functions.inc/drivers/Sip.class.php:393
 msgid ""
 "Endpoint port number to use, usually 5060. Some 2 ports devices such as ATA "
 "may used 5061 for the second port."
@@ -4480,6 +4557,10 @@ msgstr ""
 msgid "Error"
 msgstr "خطا"
 
+#: ../core/Core.class.php:913
+msgid "Error Duplicate Channel Entry"
+msgstr "خطا کانال وارد شده تکراری است"
+
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:157
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:198
 #, php-format
@@ -4516,7 +4597,7 @@ msgstr "خطا در ایجاد دایرکتوری موقت: %s"
 msgid "Error deleting directory %s (code %d)"
 msgstr "خطا حذف دایرکتوری %s (کد %d)"
 
-#: ../core/page.trunks.php:328
+#: ../core/Core.class.php:821 ../core/page.trunks.php:328
 msgid "Error fetching prefix list for: "
 msgstr "خطا در دریافت فهرست پیش شماره ها برای: "
 
@@ -4739,9 +4820,11 @@ msgid "Extended"
 msgstr "تمدید شده"
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:261
-#: ../core/functions.inc.php:4703 ../core/page.did.php:93
-#: ../core/page.extensions.php:39 ../core/page.extensions.php:132
-#: ../core/page.extensions.php:160 ../core/views/rnav.php:23
+#: ../core/Core.class.php:3203 ../core/Core.class.php:3204
+#: ../core/Core.class.php:3589 ../core/functions.inc.php:4703
+#: ../core/page.did.php:93 ../core/page.extensions.php:39
+#: ../core/page.extensions.php:132 ../core/page.extensions.php:160
+#: ../core/views/rnav.php:23
 msgid "Extension"
 msgstr "داخلی"
 
@@ -4764,6 +4847,14 @@ msgstr "مغایرت در شماره داخلی تشخیص داده شد"
 #: ../core/functions.inc.php:4806
 msgid "Extension Options"
 msgstr "گزینه های داخلی"
+
+#: ../core/Core.class.php:188
+msgid "Extension already in use!"
+msgstr "داخلی در حال استفاده است!"
+
+#: ../core/Core.class.php:188
+msgid "Extension can not be blank!"
+msgstr "داخلی نمیتواند خالی باشد!"
 
 #: ../core/Api/Gql/Extensions.php:185
 msgid "Extension does not exists"
@@ -4789,6 +4880,18 @@ msgstr ""
 msgid "Extension has been updated"
 msgstr ""
 
+#: ../core/Core.class.php:3272
+msgid "Extension is missing."
+msgstr ""
+
+#: ../core/Core.class.php:3275
+msgid "Extension is not numeric."
+msgstr "داخلی شماره نیست."
+
+#: ../core/Core.class.php:3278
+msgid "Extension name is blank."
+msgstr ""
+
 #: ../core/functions.inc.php:4768
 msgid "Extension number conflict, please choose another."
 msgstr "مغایرت شماره داخلی، یکی دیگر انتخاب کنید."
@@ -4796,6 +4899,10 @@ msgstr "مغایرت شماره داخلی، یکی دیگر انتخاب کنی
 #: ../core/Api/Gql/Users.php:174
 msgid "Extension password"
 msgstr ""
+
+#: ../core/Core.class.php:210 ../core/Core.class.php:269
+msgid "Extension was not numeric!"
+msgstr "داخلی شماره نیست!"
 
 #: ../core/Api/Gql/Extensions.php:164
 msgid "Extension's found successfully"
@@ -4805,7 +4912,8 @@ msgstr ""
 msgid "Extension's has been created Successfully"
 msgstr ""
 
-#: amp.i18n.php:858 ../core/page.extensions.php:26
+#: amp.i18n.php:858 ../core/Core.class.php:3182 ../core/Core.class.php:3183
+#: ../core/page.extensions.php:26
 msgid "Extensions"
 msgstr "داخلی ها"
 
@@ -4940,6 +5048,11 @@ msgstr "شکست در اجرای اسکریپت های عزل"
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
+#: ../core/Core.class.php:3846
+#, php-format
+msgid "Failed to run: '%s'"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:390
 msgid "Failed to send security notification email"
 msgstr "شکست در ارسال ایمیل هشدار امنیتی"
@@ -4963,6 +5076,15 @@ msgstr "شکست در نوشتن indications.conf"
 #: amp_conf/htdocs/admin/views/welcome.php:38
 msgid "Fallback Welcome Page"
 msgstr "جانشین صفحه خوش آمد"
+
+#: ../core/Core.class.php:3928 ../core/Core.class.php:3935
+msgid "Fast AGI Server not running"
+msgstr ""
+
+#: ../core/Core.class.php:3886
+#, php-format
+msgid "FastAGI Server Failed: %s"
+msgstr ""
 
 #: ../core/views/trunks/pjsip.php:395
 msgid "Fatal Retry Interval"
@@ -5117,7 +5239,7 @@ msgstr "ممنوعیت فاصله تلاش مجدد"
 msgid "Force"
 msgstr "تحمیل"
 
-#: ../core/functions.inc/drivers/Sip.class.php:429
+#: ../core/functions.inc/drivers/Sip.class.php:433
 msgid ""
 "Force 'RTP/AVP', 'RTP/AVPF', 'RTP/SAVP', and 'RTP/SAVPF' to be used for "
 "media streams when appropriate, even if a DTLS stream is present."
@@ -5125,7 +5247,7 @@ msgstr ""
 "Force 'RTP/AVP', 'RTP/AVPF', 'RTP/SAVP', and 'RTP/SAVPF' to be used  for "
 "media streams when appropriate, even if a DTLS stream is present."
 
-#: ../core/functions.inc/drivers/Sip.class.php:430
+#: ../core/functions.inc/drivers/Sip.class.php:434
 msgid "Force AVP"
 msgstr "تحمیل AVP"
 
@@ -5214,7 +5336,7 @@ msgstr ""
 msgid "Force rport"
 msgstr "تحمیل rport"
 
-#: ../core/functions.inc/drivers/Sip.class.php:373
+#: ../core/functions.inc/drivers/Sip.class.php:377
 #, php-format
 msgid "Force rport - (%s)"
 msgstr "تحمیل rport - (%s)"
@@ -5426,7 +5548,7 @@ msgstr ""
 msgid "FreePBX sbin Dir"
 msgstr "دایرکتوری اجرایی FreePBX"
 
-#: ../core/functions.inc/drivers/Sip.class.php:394
+#: ../core/functions.inc/drivers/Sip.class.php:398
 msgid "Frequency in seconds to send qualify messages to the endpoint."
 msgstr "Frequency  in seconds to send qualify messages to the endpoint."
 
@@ -5601,7 +5723,7 @@ msgstr ""
 msgid "Give your Extension Starting Number"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:392 ../core/Api/Gql/Extensions.php:450
+#: ../core/Api/Gql/Extensions.php:392 ../core/Api/Gql/Extensions.php:454
 msgid ""
 "Give your Extension a unique integer ID. The Extension will use this ID to "
 "create Extension in the system"
@@ -5735,12 +5857,12 @@ msgstr "برای ضبط از مرورگر روی کلید قرمز کلیک کن
 msgid "Home directory %s doesn't exist, and I can't create it"
 msgstr "دایرکتوری خانگی %s وجود ندارد، و نمیتواند ایجاد شود"
 
-#: ../core/functions.inc/drivers/Sip.class.php:316
+#: ../core/functions.inc/drivers/Sip.class.php:320
 msgid "Host"
 msgstr "هاست"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:127
-#: ../core/functions.inc/drivers/Sip.class.php:315
+#: ../core/functions.inc/drivers/Sip.class.php:319
 msgid "Host settings for this device, almost always dynamic for endpoints."
 msgstr "تنظیمات هاست برای وسیله، برای نقاط پایانی همیشه پویاست."
 
@@ -5781,7 +5903,7 @@ msgstr ""
 #: ../core/Api/Gql/Devices.php:164
 #: ../core/functions.inc/drivers/Dahdi.class.php:142
 #: ../core/functions.inc/drivers/Iax2.class.php:145
-#: ../core/functions.inc/drivers/Sip.class.php:472
+#: ../core/functions.inc/drivers/Sip.class.php:476
 msgid ""
 "How to dial this device, this should not be changed unless you know what you "
 "are doing."
@@ -5847,7 +5969,7 @@ msgid "IMPORTANT:"
 msgstr "مهم:"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:153
-#: ../core/functions.inc/drivers/Sip.class.php:482
+#: ../core/functions.inc/drivers/Sip.class.php:486
 msgid ""
 "IP Address range to allow access to, in the form of network/netmask. This "
 "can be a very useful security option when dealing with remote extensions "
@@ -5860,7 +5982,7 @@ msgstr ""
 "range for some home office situations."
 
 #: ../core/functions.inc/drivers/Iax2.class.php:151
-#: ../core/functions.inc/drivers/Sip.class.php:480
+#: ../core/functions.inc/drivers/Sip.class.php:484
 msgid "IP Address range to deny access to, in the form of network/netmask."
 msgstr "IP Address  range to deny access to, in the form of network/netmask."
 
@@ -5950,7 +6072,7 @@ msgstr ""
 "pages will be replaced with a text box which restores the functionality from "
 "FreePBX 2.7 and lower."
 
-#: ../core/functions.inc/drivers/Sip.class.php:445
+#: ../core/functions.inc/drivers/Sip.class.php:449
 msgid ""
 "If enabled, then Asterisk will attempt to use rtcp-mux with whatever it "
 "communicates with. Asterisk follows the rules set forth in RFC 5761 with "
@@ -6139,32 +6261,32 @@ msgstr ""
 msgid "Ignore last change date, process regardless"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:29
+#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:27
 #, php-format
-msgid "Ignorning Oembranding  Setting %s"
+msgid "Ignorning Brand view  Setting %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:85
+#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:83
 #, php-format
 msgid "Ignorning restore of %s Advanced Settings"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:89
+#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:87
 #, php-format
 msgid "Ignorning restore of %s Advanced Settings from cloudskin"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:21
-#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:77
+#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:19
+#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:75
 #, php-format
 msgid "Ignorning restore of AMPMGRPASS Advanced Settings from %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:25
+#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:23
 msgid "Ignorning restore of FREEPBX_SYSTEM_IDENT from Advanced Settings"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:81
+#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:79
 #, php-format
 msgid "Ignorning restore of Repo Server URLs %s"
 msgstr ""
@@ -6185,12 +6307,12 @@ msgstr "ورود تنظیمات از فایل"
 msgid "Import/Export Patterns"
 msgstr "ورود/خروج الگوها"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:71
+#: amp_conf/htdocs/admin/libraries/Builtin/Restore.php:69
 #, php-format
 msgid "Importing Advanced Settings from %s"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:300
+#: ../core/functions.inc/drivers/Sip.class.php:304
 msgid "In band audio (Not recommended)"
 msgstr "در باند صوتی (توصیه نمیشود)"
 
@@ -6234,6 +6356,10 @@ msgstr "تماس های خارجی ورودی"
 msgid "Inbound Internal Calls"
 msgstr "تماس های داخلی ورودی"
 
+#: ../core/Core.class.php:3643 ../core/Core.class.php:3652
+msgid "Inbound Route:"
+msgstr "مسیر ورودی:"
+
 #: ../core/functions.inc.php:4085
 #, php-format
 msgid "Inbound Route: %s (%s)"
@@ -6260,6 +6386,10 @@ msgstr "شامل نام سرور در مرورگر"
 msgid "Incoming"
 msgstr "ورودی"
 
+#: ../core/Core.class.php:3240 ../core/Core.class.php:3241
+msgid "Incoming DID"
+msgstr "داخلی مستقیم ورودی"
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1862
 #, php-format
 msgid "Incorrect Number of Directories for %s"
@@ -6279,7 +6409,7 @@ msgstr ""
 msgid "Info"
 msgstr "اطلاعات"
 
-#: ../core/functions.inc/drivers/Sip.class.php:459
+#: ../core/functions.inc/drivers/Sip.class.php:463
 msgid "Inherit"
 msgstr "ارثی"
 
@@ -6389,7 +6519,7 @@ msgstr ""
 msgid "Interface"
 msgstr "رابط"
 
-#: ../core/functions.inc/drivers/Sip.class.php:202
+#: ../core/functions.inc/drivers/Sip.class.php:206
 #, php-format
 msgid "Interface %s with Port %s (%s)"
 msgstr ""
@@ -6475,7 +6605,7 @@ msgstr "توضیحات نامعتبر"
 msgid "Invalid email address"
 msgstr "آدرس ایمیل نامعتبر"
 
-#: ../core/page.trunks.php:333
+#: ../core/Core.class.php:825 ../core/page.trunks.php:333
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "فرمت کد NPA-NXX نادرست است (فرمت درست:NXXNXX)"
 
@@ -6587,6 +6717,14 @@ msgstr ""
 
 #: amp.i18n.php:346
 msgid "Launch local AGIs through FastAGI Server"
+msgstr ""
+
+#: ../core/Core.class.php:3928
+#, php-format
+msgid ""
+"Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
+"but we were unable to start FastAGI server because: %s, As a result all AGIs "
+"will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:270
@@ -6726,13 +6864,13 @@ msgstr ""
 msgid "MWI Subscription Type"
 msgstr "نوع اشتراک MWI"
 
-#: ../core/functions.inc/drivers/Sip.class.php:477
+#: ../core/functions.inc/drivers/Sip.class.php:481
 msgid "Mailbox"
 msgstr "صندوق ایمیل"
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:150
 #: ../core/functions.inc/drivers/Iax2.class.php:149
-#: ../core/functions.inc/drivers/Sip.class.php:476
+#: ../core/functions.inc/drivers/Sip.class.php:480
 msgid ""
 "Mailbox for this device. This should not be changed unless you know what you "
 "are doing."
@@ -6785,6 +6923,11 @@ msgstr ""
 #: ../core/functions.inc/drivers/PJSip.class.php:236
 msgid "Max Contacts"
 msgstr "بیشترین اطلاعات تماس"
+
+#: ../core/Api/Gql/Extensions.php:445 ../core/Api/Gql/Extensions.php:511
+msgid ""
+"Max Contacts will set the maximum concurrent contacts for a PJSIP extension"
+msgstr ""
 
 #: ../core/views/trunks/pjsip.php:476
 msgid "Max Retries"
@@ -7412,11 +7555,11 @@ msgstr "جداول MySQL تعمیر شد"
 msgid "MySQL table repair Failed: %s"
 msgstr "تعمیر جدول MySQL شکست خورد: %s"
 
-#: ../core/functions.inc/drivers/Sip.class.php:387
+#: ../core/functions.inc/drivers/Sip.class.php:391
 msgid "NAT Mode"
 msgstr "نوع NAT"
 
-#: ../core/functions.inc/drivers/Sip.class.php:386
+#: ../core/functions.inc/drivers/Sip.class.php:390
 msgid ""
 "NAT setting, see Asterisk documentation for details. Yes usually works for "
 "both internal and external devices. Set to No if the device will always be "
@@ -7443,6 +7586,7 @@ msgstr "نکته! شما %s هشدارد دارید! برای مشاهده به 
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:35
+#: ../core/Core.class.php:3208 ../core/Core.class.php:3209
 #: ../core/page.extensions.php:40 ../core/page.extensions.php:133
 #: ../core/page.extensions.php:161 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -7475,7 +7619,7 @@ msgstr ""
 msgid "Never"
 msgstr "هرگز"
 
-#: ../core/functions.inc/drivers/Sip.class.php:383
+#: ../core/functions.inc/drivers/Sip.class.php:387
 #, php-format
 msgid "Never - (%s)"
 msgstr "هرگز - (%s)"
@@ -7517,17 +7661,17 @@ msgstr "شبانه"
 #: ../core/functions.inc/drivers/PJSip.class.php:314
 #: ../core/functions.inc/drivers/PJSip.class.php:320
 #: ../core/functions.inc/drivers/PJSip.class.php:326
-#: ../core/functions.inc/drivers/Sip.class.php:306
-#: ../core/functions.inc/drivers/Sip.class.php:322
-#: ../core/functions.inc/drivers/Sip.class.php:330
-#: ../core/functions.inc/drivers/Sip.class.php:338
-#: ../core/functions.inc/drivers/Sip.class.php:345
-#: ../core/functions.inc/drivers/Sip.class.php:419
-#: ../core/functions.inc/drivers/Sip.class.php:427
-#: ../core/functions.inc/drivers/Sip.class.php:435
-#: ../core/functions.inc/drivers/Sip.class.php:443
-#: ../core/functions.inc/drivers/Sip.class.php:450
-#: ../core/functions.inc/drivers/Sip.class.php:457
+#: ../core/functions.inc/drivers/Sip.class.php:310
+#: ../core/functions.inc/drivers/Sip.class.php:326
+#: ../core/functions.inc/drivers/Sip.class.php:334
+#: ../core/functions.inc/drivers/Sip.class.php:342
+#: ../core/functions.inc/drivers/Sip.class.php:349
+#: ../core/functions.inc/drivers/Sip.class.php:423
+#: ../core/functions.inc/drivers/Sip.class.php:431
+#: ../core/functions.inc/drivers/Sip.class.php:439
+#: ../core/functions.inc/drivers/Sip.class.php:447
+#: ../core/functions.inc/drivers/Sip.class.php:454
+#: ../core/functions.inc/drivers/Sip.class.php:461
 #: ../core/page.advancedsettings.php:94 ../core/views/backupSettings.php:31
 #: ../core/views/did/advanced_form.php:167
 #: ../core/views/did/advanced_form.php:327
@@ -7550,7 +7694,7 @@ msgstr "شبانه"
 msgid "No"
 msgstr "خیر"
 
-#: ../core/functions.inc/drivers/Sip.class.php:370
+#: ../core/functions.inc/drivers/Sip.class.php:374
 #, php-format
 msgid "No - (%s)"
 msgstr "خیر - (%s)"
@@ -8189,6 +8333,10 @@ msgstr "تماس های داخلی"
 msgid "Outbound Proxy"
 msgstr "پراکسی تماس خروجی"
 
+#: ../core/Core.class.php:3626
+msgid "Outbound Route:"
+msgstr "مسیر تماس خروجی:"
+
 #: ../core/functions.inc.php:4501
 #, php-format
 msgid "Outbound Route: %s"
@@ -8259,7 +8407,7 @@ msgid ""
 msgstr ""
 
 #: ../core/Api/Gql/Extensions.php:354 ../core/Api/Gql/Extensions.php:408
-#: ../core/Api/Gql/Extensions.php:466
+#: ../core/Api/Gql/Extensions.php:470
 msgid ""
 "Overrides the CallerID when dialing out a trunk. Any setting here will "
 "override the common outbound CallerID set in the Trunks admin.\n"
@@ -8332,6 +8480,10 @@ msgstr "منطقه زمانی PHP"
 msgid "PJSIP Settings"
 msgstr "تنظیمات PJSIP"
 
+#: ../core/Core.class.php:3914
+msgid "PM2 Not installed"
+msgstr ""
+
 #: amp.i18n.php:162
 msgid "POST_RELOAD Debug Mode"
 msgstr "حالت عیب یابی POST_RELOAD"
@@ -8354,7 +8506,7 @@ msgid "Password"
 msgstr "کلمه عبور"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:115
-#: ../core/functions.inc/drivers/Sip.class.php:259
+#: ../core/functions.inc/drivers/Sip.class.php:263
 msgid ""
 "Password (secret) configured for the device. Should be alphanumeric with at "
 "least 2 letters and numbers to keep secure."
@@ -8362,7 +8514,7 @@ msgstr ""
 "Password (secret) configured  for the device. Should be alphanumeric with at "
 "least 2 letters and numbers to keep secure."
 
-#: ../core/Api/Gql/Extensions.php:499
+#: ../core/Api/Gql/Extensions.php:503
 msgid ""
 "Password (secret) configured for the device. Should be alphanumeric with at "
 "least 2 letters and numbers to keep secure. [secret]"
@@ -8498,7 +8650,7 @@ msgstr ""
 msgid "Permissions should be set as integer not a string"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:483
+#: ../core/functions.inc/drivers/Sip.class.php:487
 msgid "Permit"
 msgstr "اجازه"
 
@@ -8506,12 +8658,12 @@ msgstr "اجازه"
 msgid "Phone Apps"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:467
+#: ../core/functions.inc/drivers/Sip.class.php:471
 msgid "Pickup Groups"
 msgstr "گروه های پاسخ"
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:148
-#: ../core/functions.inc/drivers/Sip.class.php:466
+#: ../core/functions.inc/drivers/Sip.class.php:470
 msgid ""
 "Pickupgroups(s) that this device can pickup calls from, can be one or more "
 "alpha/numeric callgroups, e.g. '1,3000-3005,sales,sales2'. Device does not "
@@ -8561,7 +8713,7 @@ msgstr "لطفا خطاهای زیر را تصحیح کنید:"
 
 #: ../core/functions.inc.php:5108
 #: ../core/functions.inc/drivers/Iax2.class.php:111
-#: ../core/functions.inc/drivers/Sip.class.php:257
+#: ../core/functions.inc/drivers/Sip.class.php:261
 msgid "Please enter a Secret for this device"
 msgstr "لطفا برای این وسیله یک رمز وارد کنید"
 
@@ -8681,11 +8833,11 @@ msgstr "لطفا صبر کنید تا کار ماژول تمام شود"
 msgid "Polling Interval for Stopping Asterisk"
 msgstr "Polling Interval for  Stopping Asterisk"
 
-#: ../core/functions.inc/drivers/Sip.class.php:390
+#: ../core/functions.inc/drivers/Sip.class.php:394
 msgid "Port"
 msgstr "پورت"
 
-#: ../core/functions.inc/drivers/Sip.class.php:200
+#: ../core/functions.inc/drivers/Sip.class.php:204
 #, php-format
 msgid "Port %s (%s)"
 msgstr "پورت %s (%s)"
@@ -8833,11 +8985,11 @@ msgstr "قراردادن همیشگی تماس گیرنده در حالت انت
 msgid "QXact Reports"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:392
+#: ../core/functions.inc/drivers/Sip.class.php:396
 msgid "Qualify"
 msgstr "تعیین کردن"
 
-#: ../core/functions.inc/drivers/Sip.class.php:395
+#: ../core/functions.inc/drivers/Sip.class.php:399
 #: ../core/views/trunks/pjsip.php:500
 msgid "Qualify Frequency"
 msgstr "تعیین فرکانس"
@@ -8858,11 +9010,11 @@ msgstr "جستجو سریع '/'"
 msgid "Quick Select"
 msgstr "انتخاب سریع"
 
-#: ../core/functions.inc/drivers/Sip.class.php:294
+#: ../core/functions.inc/drivers/Sip.class.php:298
 msgid "RFC 2833"
 msgstr "RFC  2833"
 
-#: ../core/functions.inc/drivers/Sip.class.php:289
+#: ../core/functions.inc/drivers/Sip.class.php:293
 msgid "RFC 4733"
 msgstr "RFC  4733"
 
@@ -8912,7 +9064,7 @@ msgstr ""
 msgid "Rawname"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:305
+#: ../core/functions.inc/drivers/Sip.class.php:309
 msgid ""
 "Re-Invite policy for this device, see Asterisk documentation for details."
 msgstr ""
@@ -9008,7 +9160,7 @@ msgstr "بازنشانی %s"
 msgid "Refreshing GPG Keys..."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:364
+#: ../core/functions.inc/drivers/Sip.class.php:368
 msgid "Refuse"
 msgstr "قبول نکردن"
 
@@ -9187,7 +9339,10 @@ msgstr "Requires one of the  following engines: %s; you have: %s"
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:771
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:48
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:527
-#: ../core/Components/Dahdichannels.php:21
+#: ../core/Components/Dahdichannels.php:21 ../core/Core.class.php:327
+#: ../core/Core.class.php:350 ../core/Core.class.php:374
+#: ../core/Core.class.php:393 ../core/Core.class.php:414
+#: ../core/Core.class.php:444 ../core/Core.class.php:474
 msgid "Reset"
 msgstr "بازگردانی"
 
@@ -9264,7 +9419,7 @@ msgstr "Rolling  back %s to %s"
 msgid "Route"
 msgstr "مسیر"
 
-#: ../core/functions.inc/drivers/Sip.class.php:384
+#: ../core/functions.inc/drivers/Sip.class.php:388
 #, php-format
 msgid "Route - (%s)"
 msgstr "مسیر - (%s)"
@@ -9344,6 +9499,11 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "هشدار امنیتی:"
 
+#: ../core/Core.class.php:3566 ../core/Core.class.php:3567
+#, php-format
+msgid "SIP (%s)"
+msgstr "SIP  (%s)"
+
 #: ../core/functions.inc.php:4776
 msgid "SIP Alias"
 msgstr "نام مستعار SIP"
@@ -9356,11 +9516,11 @@ msgstr "درایور کانال SIP"
 msgid "SIP DTMF Signaling"
 msgstr "SIP DTMF  Signaling"
 
-#: ../core/functions.inc/drivers/Sip.class.php:296
+#: ../core/functions.inc/drivers/Sip.class.php:300
 msgid "SIP INFO (application/dtmf)"
 msgstr "اطلاعات SIP (application/dtmf)"
 
-#: ../core/functions.inc/drivers/Sip.class.php:299
+#: ../core/functions.inc/drivers/Sip.class.php:303
 msgid "SIP INFO (application/dtmf-relay)"
 msgstr "اطلاعات SIP (application/dtmf-relay)"
 
@@ -9522,13 +9682,13 @@ msgid "Seconds"
 msgstr "ثانیه ها"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:116
-#: ../core/functions.inc/drivers/Sip.class.php:260
-#: ../core/functions.inc/drivers/Sip.class.php:519
+#: ../core/functions.inc/drivers/Sip.class.php:264
+#: ../core/functions.inc/drivers/Sip.class.php:523
 #: ../core/views/trunks/pjsip.php:84
 msgid "Secret"
 msgstr "راز"
 
-#: ../core/functions.inc/drivers/Sip.class.php:519
+#: ../core/functions.inc/drivers/Sip.class.php:523
 #, php-format
 msgid "Secret [Enter \"%s\" to regenerate]"
 msgstr "Secret [Enter \"%s\" to  regenerate]"
@@ -9573,12 +9733,12 @@ msgstr "انتخابی"
 msgid "Send"
 msgstr "ارسال"
 
-#: ../core/functions.inc/drivers/Sip.class.php:334
+#: ../core/functions.inc/drivers/Sip.class.php:338
 #: ../core/views/trunks/pjsip.php:313
 msgid "Send Connected Line"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:332
+#: ../core/functions.inc/drivers/Sip.class.php:336
 msgid "Send Connected Line updates to this endpoint."
 msgstr ""
 
@@ -9596,7 +9756,7 @@ msgstr "ارسال هشدارهای داشبورد به لاگ"
 msgid "Send Line in Registration"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:349
+#: ../core/functions.inc/drivers/Sip.class.php:353
 #: ../core/views/trunks/pjsip.php:996
 msgid "Send P-Asserted-Identity header"
 msgstr "Send P-Asserted-Identity  header"
@@ -9605,7 +9765,7 @@ msgstr "Send P-Asserted-Identity  header"
 msgid "Send Private CallerID Information"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:352
+#: ../core/functions.inc/drivers/Sip.class.php:356
 msgid "Send RPID"
 msgstr "ارسال RPID"
 
@@ -9613,7 +9773,7 @@ msgstr "ارسال RPID"
 msgid "Send RPID/PAI"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:346
+#: ../core/functions.inc/drivers/Sip.class.php:350
 #: ../core/views/trunks/pjsip.php:994
 msgid "Send Remote-Party-ID header"
 msgstr "Send Remote-Party-ID  header"
@@ -9671,7 +9831,7 @@ msgid "Session Timeout"
 msgstr "وقفه جلسه"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:307
-#: ../core/functions.inc/drivers/Sip.class.php:366
+#: ../core/functions.inc/drivers/Sip.class.php:370
 msgid "Session Timers"
 msgstr "تایمر جلسه"
 
@@ -9904,7 +10064,7 @@ msgstr ""
 "always fallback to the locally available libraries if the CDN is not "
 "available."
 
-#: ../core/functions.inc/drivers/Sip.class.php:391
+#: ../core/functions.inc/drivers/Sip.class.php:395
 msgid ""
 "Setting to yes (equivalent to 2000 msec) will send an OPTIONS packet to the "
 "endpoint periodically (default every minute). Used to monitor the health of "
@@ -9938,7 +10098,7 @@ msgstr ""
 
 #: amp.i18n.php:876 amp_conf/htdocs/admin/views/menu_items.php:51
 #: ../core/functions.inc/drivers/Iax2.class.php:107
-#: ../core/functions.inc/drivers/Sip.class.php:184
+#: ../core/functions.inc/drivers/Sip.class.php:188
 #: ../core/views/trunks/trunk_header.php:222
 msgid "Settings"
 msgstr "تنظیمات"
@@ -10191,6 +10351,11 @@ msgstr "استاندارد"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "آغاز استریسک و اجرای دستورات لازم FreePBX"
 
+#: ../core/Core.class.php:3841
+#, php-format
+msgid "Started Core FastAGI Server. PID is %s"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:169
 msgid "Starting Asterisk..."
 msgstr "استریسک در حال اجرا..."
@@ -10198,6 +10363,10 @@ msgstr "استریسک در حال اجرا..."
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:38
 msgid "Starting Cache cleanup"
 msgstr "شروع پاک سازی کش"
+
+#: ../core/Core.class.php:3800
+msgid "Starting Core FastAGI Server..."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1242
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:61
@@ -10235,6 +10404,14 @@ msgstr ""
 msgid "Stop Asterisk and run other needed FreePBX commands"
 msgstr "توقف استریسک و اجرای دستورات لازم FreePBX"
 
+#: ../core/Core.class.php:3882
+msgid "Stopped FastAGI Server"
+msgstr ""
+
+#: ../core/Core.class.php:3873
+msgid "Stopping Core FastAGI Server"
+msgstr ""
+
 #: amp.i18n.php:136
 msgid ""
 "Stops the automatic generation of a stripped CSS file that replaces the "
@@ -10252,7 +10429,10 @@ msgid "Styling and Logos"
 msgstr "چیدمان و لوگوها"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:770
-#: ../core/Components/Dahdichannels.php:26
+#: ../core/Components/Dahdichannels.php:26 ../core/Core.class.php:332
+#: ../core/Core.class.php:355 ../core/Core.class.php:379
+#: ../core/Core.class.php:398 ../core/Core.class.php:419
+#: ../core/Core.class.php:449 ../core/Core.class.php:479
 msgid "Submit"
 msgstr "ارسال"
 
@@ -10445,7 +10625,7 @@ msgstr "T.38 UDPTL error correction  method"
 msgid "T.38 UDPTL maximum datagram size."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:407
+#: ../core/functions.inc/drivers/Sip.class.php:411
 msgid "TCP Only"
 msgstr "فقط TCP"
 
@@ -10453,7 +10633,7 @@ msgstr "فقط TCP"
 msgid "TECH"
 msgstr "فن آوری"
 
-#: ../core/functions.inc/drivers/Sip.class.php:408
+#: ../core/functions.inc/drivers/Sip.class.php:412
 msgid "TLS Only"
 msgstr "فقط TLS"
 
@@ -10475,7 +10655,7 @@ msgid "Tech Type"
 msgstr "نوع فن آوری"
 
 #: ../core/Api/Gql/Devices.php:149 ../core/Api/Gql/Extensions.php:342
-#: ../core/Api/Gql/Extensions.php:396 ../core/Api/Gql/Extensions.php:454
+#: ../core/Api/Gql/Extensions.php:396 ../core/Api/Gql/Extensions.php:458
 msgid "Technology driver type"
 msgstr ""
 
@@ -10491,7 +10671,7 @@ msgstr ""
 msgid "Test repos are enabled"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:224
+#: ../core/functions.inc/drivers/Sip.class.php:228
 msgid ""
 "The Asterisk SIP Setting Module is not installed or is disabled. Please "
 "install it."
@@ -10537,7 +10717,7 @@ msgid ""
 "number."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:404 ../core/Api/Gql/Extensions.php:462
+#: ../core/Api/Gql/Extensions.php:404 ../core/Api/Gql/Extensions.php:466
 #: ../core/functions.inc.php:4773 ../core/views/quickCreate.php:93
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
@@ -10584,7 +10764,7 @@ msgstr ""
 "will be treated as if it came in with this DID and can be managed with "
 "Inbound Routing on DIDs"
 
-#: ../core/functions.inc/drivers/Sip.class.php:301
+#: ../core/functions.inc/drivers/Sip.class.php:305
 msgid ""
 "The DTMF signaling mode used by this device, usually RFC for most phones."
 msgstr ""
@@ -10721,6 +10901,14 @@ msgid ""
 "system might be slower. Please fix this by running 'fwconsole chown' from "
 "the CLI."
 msgstr ""
+
+#: ../core/Core.class.php:3249
+msgid ""
+"The context, extension, priority to go to when this DID is matched. Example: "
+"app-daynight,0,1"
+msgstr ""
+"The context, extension, priority  to go to when this DID is matched. "
+"Example: app-daynight,0,1"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Modules.class.php:559
 #, php-format
@@ -11100,7 +11288,7 @@ msgstr "طول رمز حداقل باید 6 کاراکتر باشد."
 msgid "The secret must contain at least two numbers and two letters."
 msgstr "رمز باید حداقل شامل 2 عدد و 2 حرف باشد."
 
-#: ../core/functions.inc/drivers/Sip.class.php:365
+#: ../core/functions.inc/drivers/Sip.class.php:369
 msgid ""
 "The sessions are kept alive by sending a RE-INVITE or UPDATE request at a "
 "negotiated interval. If a session refresh fails then all the entities that "
@@ -11245,7 +11433,7 @@ msgstr ""
 "The user your httpd  should be running as, used by freepbx_engine. Most "
 "systems should not change this."
 
-#: ../core/Api/Gql/Extensions.php:441 ../core/Api/Gql/Extensions.php:503
+#: ../core/Api/Gql/Extensions.php:441 ../core/Api/Gql/Extensions.php:507
 msgid "The user's password"
 msgstr ""
 
@@ -11318,6 +11506,10 @@ msgid ""
 "greater than post_max_size {"
 msgstr ""
 
+#: ../core/Core.class.php:241
+msgid "There was an unknown error creating this extension"
+msgstr ""
+
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:147
 msgid "There were no settings to update"
 msgstr "تنظیمی برای به روزرسانی وجود ندارد"
@@ -11363,7 +11555,7 @@ msgstr ""
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
 
 #: ../core/Api/Gql/Devices.php:185 ../core/Api/Gql/Extensions.php:363
-#: ../core/Api/Gql/Extensions.php:413 ../core/Api/Gql/Extensions.php:471
+#: ../core/Api/Gql/Extensions.php:413 ../core/Api/Gql/Extensions.php:475
 msgid ""
 "This CallerID will always be set when dialing out an Outbound Route flagged "
 "as Emergency. The Emergency CID overrides all other CallerID settings."
@@ -11384,10 +11576,11 @@ msgid ""
 msgstr ""
 
 #: ../core/Api/Gql/Extensions.php:43 ../core/Api/Gql/Extensions.php:144
+#: ../core/Core.class.php:1448 ../core/Core.class.php:1677
 msgid "This device id is already in use"
 msgstr "شناسه وسیله در حال استفاده است"
 
-#: ../core/functions.inc/drivers/Sip.class.php:220
+#: ../core/functions.inc/drivers/Sip.class.php:224
 #, php-format
 msgid "This device uses %s technology %s"
 msgstr "This device  uses %s technology %s"
@@ -11609,7 +11802,7 @@ msgstr ""
 "This plugin can be used to  detect and restore APIs or features that have "
 "been deprecated in jQuery and removed as of version 1.9"
 
-#: ../core/functions.inc/drivers/Sip.class.php:414
+#: ../core/functions.inc/drivers/Sip.class.php:418
 msgid ""
 "This sets the allowed transport settings for this device and the default "
 "(Primary) transport for outgoing. The default transport is only used for "
@@ -11655,6 +11848,11 @@ msgid ""
 msgstr ""
 "This trunk will not be able to be used for  outbound calls until a route is "
 "setup that uses it."
+
+#: ../core/Core.class.php:2758
+#, php-format
+msgid "This user/extension %s is already in use"
+msgstr "کاربر/داخلی %s در حال استفاده است"
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:36
 msgid "This will Set the Administator Auth credentials"
@@ -11833,7 +12031,7 @@ msgstr ""
 msgid "Transaction Id for status check"
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:415
+#: ../core/functions.inc/drivers/Sip.class.php:419
 #: ../core/views/trunks/pjsip.php:226
 msgid "Transport"
 msgstr "حمل ونقل"
@@ -11859,6 +12057,10 @@ msgstr "نام ترانک و متن کاربر نمیتواند یکی باشد"
 msgid "Trunk Sequence for Matched Routes"
 msgstr "توالی ترانک برای مسیرهای یکسان"
 
+#: ../core/Core.class.php:3634
+msgid "Trunk:"
+msgstr "ترانک:"
+
 #: ../core/functions.inc.php:977
 #, php-format
 msgid "Trunk: %s (%s)"
@@ -11869,7 +12071,7 @@ msgstr "ترانک: %s (%s)"
 msgid "Trunks"
 msgstr "ترانکها"
 
-#: ../core/functions.inc/drivers/Sip.class.php:325
+#: ../core/functions.inc/drivers/Sip.class.php:329
 msgid "Trust RPID"
 msgstr "RPID درست"
 
@@ -11907,7 +12109,7 @@ msgstr ""
 msgid "UCP Node Disabled in Advanced Settings."
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:406
+#: ../core/functions.inc/drivers/Sip.class.php:410
 msgid "UDP Only"
 msgstr "فقط UDP"
 
@@ -11941,6 +12143,16 @@ msgstr "جزییات کاربر"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:639
 msgid "UTC"
+msgstr ""
+
+#: ../core/Core.class.php:1596
+msgid ""
+"Unable to change device driver. The device is already set to the specified "
+"driver"
+msgstr ""
+
+#: ../core/Core.class.php:1590
+msgid "Unable to change device driver. Unable to fetch the device"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:839
@@ -12459,9 +12671,9 @@ msgstr ""
 "Used when  PHP Console is enabled for error debugging https://github.com/"
 "barbushin/php-console"
 
-#: ../core/functions.inc.php:4705 ../core/page.devices.php:68
-#: ../core/page.devices.php:89 ../core/page.did.php:90
-#: ../core/page.users.php:57 ../core/views/rnav.php:49
+#: ../core/Core.class.php:3613 ../core/functions.inc.php:4705
+#: ../core/page.devices.php:68 ../core/page.devices.php:89
+#: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
 msgstr "کاربر"
 
@@ -12515,21 +12727,25 @@ msgid "User Password"
 msgstr "کلمه عبور کاربر"
 
 #: ../core/Api/Gql/Extensions.php:379 ../core/Api/Gql/Extensions.php:437
-#: ../core/Api/Gql/Extensions.php:495
+#: ../core/Api/Gql/Extensions.php:499
 msgid "User caller ID"
 msgstr ""
+
+#: ../core/Core.class.php:3361
+msgid "User could not be added."
+msgstr "امکان افزودن کاربروجود ندارد."
 
 #: ../core/Api/Gql/Extensions.php:36 ../core/Api/Gql/Extensions.php:67
 msgid "User management is enabled please provide password"
 msgstr ""
 
 #: ../core/Api/Gql/Extensions.php:350 ../core/Api/Gql/Extensions.php:421
-#: ../core/Api/Gql/Extensions.php:479
+#: ../core/Api/Gql/Extensions.php:483
 msgid "Usermanagment enable yes/no."
 msgstr ""
 
 #: ../core/Api/Gql/Extensions.php:359 ../core/Api/Gql/Extensions.php:425
-#: ../core/Api/Gql/Extensions.php:483
+#: ../core/Api/Gql/Extensions.php:487
 msgid "Usermanagment groupid. (comma seperated)"
 msgstr ""
 
@@ -12620,7 +12836,7 @@ msgstr ""
 msgid "Value [%s] out of range, changed to [%s]"
 msgstr "Value [%s] out of range, changed  to [%s]"
 
-#: ../core/functions.inc/drivers/Sip.class.php:505
+#: ../core/functions.inc/drivers/Sip.class.php:509
 msgid "Value must be between 1 and 63"
 msgstr "مقدار باید بین 1 و 63 باشد"
 
@@ -12637,7 +12853,7 @@ msgstr "نسخه"
 msgid "Version from Framework was empty, cant continue"
 msgstr "نسخه فریم ورک خالی است, نمیتوان ادامه داد"
 
-#: ../core/functions.inc/drivers/Sip.class.php:461
+#: ../core/functions.inc/drivers/Sip.class.php:465
 msgid "Video Support"
 msgstr "پشتیبانی ویدیو"
 
@@ -12667,17 +12883,17 @@ msgstr "محل VmX"
 msgid "Voicemail"
 msgstr "صندوق صوتی"
 
-#: ../core/functions.inc/drivers/Sip.class.php:479
+#: ../core/functions.inc/drivers/Sip.class.php:483
 msgid "Voicemail Extension"
 msgstr "داخلی صندوق صوتی"
 
 #: ../core/Api/Gql/Extensions.php:371 ../core/Api/Gql/Extensions.php:429
-#: ../core/Api/Gql/Extensions.php:487
+#: ../core/Api/Gql/Extensions.php:491
 msgid "Voicemail enable yes/no."
 msgstr ""
 
 #: ../core/Api/Gql/Extensions.php:375 ../core/Api/Gql/Extensions.php:433
-#: ../core/Api/Gql/Extensions.php:491
+#: ../core/Api/Gql/Extensions.php:495
 msgid "Voicemail password"
 msgstr ""
 
@@ -12720,15 +12936,15 @@ msgstr ""
 msgid "WARNING: This trunk is not used by any routes!"
 msgstr "هشدار：این ترانک توسط هیچ مسیری استفاده نمیشود!"
 
-#: ../core/functions.inc/drivers/Sip.class.php:410
+#: ../core/functions.inc/drivers/Sip.class.php:414
 msgid "WS Only"
 msgstr "فقط WS"
 
-#: ../core/functions.inc/drivers/Sip.class.php:412
+#: ../core/functions.inc/drivers/Sip.class.php:416
 msgid "WS, WSS Only - WSS Primary"
 msgstr "فقط WS , WSS - WSS اصلی است"
 
-#: ../core/functions.inc/drivers/Sip.class.php:411
+#: ../core/functions.inc/drivers/Sip.class.php:415
 msgid "WSS Only"
 msgstr "فقط WSS"
 
@@ -13032,7 +13248,7 @@ msgstr ""
 "dbug Loggin is disabled or not. Set to 'freepbxlog' will send them to the "
 "FreePBX Log. Set to 'off' and they will be ignored."
 
-#: ../core/functions.inc/drivers/Sip.class.php:351
+#: ../core/functions.inc/drivers/Sip.class.php:355
 msgid ""
 "Whether Asterisk should send RPID (or PAI) info to the device. Usually "
 "should be enabled to the settings used by your device for CONNECTEDLINE() "
@@ -13050,7 +13266,7 @@ msgstr ""
 "Whether Asterisk should serve  static content from http-static (HTML pages, "
 "CSS, javascript, etc.). Default is no."
 
-#: ../core/functions.inc/drivers/Sip.class.php:324
+#: ../core/functions.inc/drivers/Sip.class.php:328
 msgid ""
 "Whether Asterisk should trust the RPID settings from this device. Usually "
 "should be yes for CONNECTEDLINE() functionality to work if supported by the "
@@ -13082,7 +13298,7 @@ msgstr ""
 "Asterisk, it is not directly related for FreePBX usage and the value of this "
 "setting is irrelevant for accessing core FreePBX settings. Default is no."
 
-#: ../core/functions.inc/drivers/Sip.class.php:421
+#: ../core/functions.inc/drivers/Sip.class.php:425
 msgid ""
 "Whether to Enable AVPF. Defaults to no. The WebRTC standard has selected "
 "AVPF as the audio video profile to use for media streams. This is not the "
@@ -13094,7 +13310,7 @@ msgstr ""
 "default profile in use by Asterisk. As a result the following must be "
 "enabled to use WebRTC"
 
-#: ../core/functions.inc/drivers/Sip.class.php:437
+#: ../core/functions.inc/drivers/Sip.class.php:441
 msgid ""
 "Whether to Enable ICE Support. Defaults to no. ICE (Interactive Connectivity "
 "Establishment) is a protocol for Network Address Translator(NAT) traversal "
@@ -13112,7 +13328,7 @@ msgid ""
 "will be prefixed with "
 msgstr ""
 
-#: ../core/functions.inc/drivers/Sip.class.php:452
+#: ../core/functions.inc/drivers/Sip.class.php:456
 msgid ""
 "Whether to offer SRTP encrypted media (and only SRTP encrypted media) on "
 "outgoing calls to a peer. Calls will fail with HANGUPCAUSE=58 if the peer "
@@ -13178,15 +13394,15 @@ msgstr ""
 #: ../core/functions.inc/drivers/PJSip.class.php:315
 #: ../core/functions.inc/drivers/PJSip.class.php:321
 #: ../core/functions.inc/drivers/PJSip.class.php:327
-#: ../core/functions.inc/drivers/Sip.class.php:307
-#: ../core/functions.inc/drivers/Sip.class.php:323
-#: ../core/functions.inc/drivers/Sip.class.php:331
-#: ../core/functions.inc/drivers/Sip.class.php:339
-#: ../core/functions.inc/drivers/Sip.class.php:420
-#: ../core/functions.inc/drivers/Sip.class.php:428
-#: ../core/functions.inc/drivers/Sip.class.php:436
-#: ../core/functions.inc/drivers/Sip.class.php:444
-#: ../core/functions.inc/drivers/Sip.class.php:458
+#: ../core/functions.inc/drivers/Sip.class.php:311
+#: ../core/functions.inc/drivers/Sip.class.php:327
+#: ../core/functions.inc/drivers/Sip.class.php:335
+#: ../core/functions.inc/drivers/Sip.class.php:343
+#: ../core/functions.inc/drivers/Sip.class.php:424
+#: ../core/functions.inc/drivers/Sip.class.php:432
+#: ../core/functions.inc/drivers/Sip.class.php:440
+#: ../core/functions.inc/drivers/Sip.class.php:448
+#: ../core/functions.inc/drivers/Sip.class.php:462
 #: ../core/page.advancedsettings.php:92 ../core/views/backupSettings.php:29
 #: ../core/views/did/advanced_form.php:165
 #: ../core/views/did/advanced_form.php:325
@@ -13209,11 +13425,11 @@ msgstr ""
 msgid "Yes"
 msgstr "بله"
 
-#: ../core/functions.inc/drivers/Sip.class.php:451
+#: ../core/functions.inc/drivers/Sip.class.php:455
 msgid "Yes (SRTP only)"
 msgstr "بله (SRTP فقط)"
 
-#: ../core/functions.inc/drivers/Sip.class.php:369
+#: ../core/functions.inc/drivers/Sip.class.php:373
 #, php-format
 msgid "Yes - (%s)"
 msgstr "بله - (%s)"
@@ -13400,7 +13616,7 @@ msgstr ""
 
 #: ../core/functions.inc.php:5107
 #: ../core/functions.inc/drivers/Iax2.class.php:110
-#: ../core/functions.inc/drivers/Sip.class.php:256
+#: ../core/functions.inc/drivers/Sip.class.php:260
 msgid ""
 "You have not entered a Secret for this device, although this is possible it "
 "is generally bad practice to not assign a Secret to a device. Are you sure "
@@ -13429,8 +13645,8 @@ msgstr ""
 "You have  some broken %s Modules. We advise you take care of these as soon "
 "as possible: "
 
-#: ../core/functions.inc/drivers/Sip.class.php:480
-#: ../core/functions.inc/drivers/Sip.class.php:482
+#: ../core/functions.inc/drivers/Sip.class.php:484
+#: ../core/functions.inc/drivers/Sip.class.php:486
 msgid "You may add multiple subnets, separate them with an &amp;."
 msgstr "You may add  multiple subnets, separate them with an &amp;."
 
@@ -13483,6 +13699,10 @@ msgstr "You must  defined a Client URI"
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:189
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "شما باید یک فایل freepbx.conf مناسب برای اجرا داشته باشید"
+
+#: ../core/Core.class.php:2751
+msgid "You must put in an extension (or user) number"
+msgstr "شما باید شماره یک داخلی (یا کاربر) وارد کنید"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:41
 #: amp_conf/htdocs/admin/libraries/Console/Restart.class.php:25
@@ -13741,7 +13961,7 @@ msgstr "بررسی لزوم انتقال res_odbc.conf"
 msgid "choose one"
 msgstr "انتخاب یکی"
 
-#: ../core/functions.inc/drivers/Sip.class.php:374
+#: ../core/functions.inc/drivers/Sip.class.php:378
 #, php-format
 msgid "comedia - (%s)"
 msgstr "comedia  - (%s)"
@@ -13991,7 +14211,7 @@ msgstr "فهرست هشدارها"
 msgid "list trunks"
 msgstr "فهرست ترانک ها"
 
-#: ../core/functions.inc/drivers/Sip.class.php:219
+#: ../core/functions.inc/drivers/Sip.class.php:223
 #, php-format
 msgid "listening on %s"
 msgstr "شنیدن در %s"
@@ -14155,7 +14375,7 @@ msgstr "تایید"
 msgid "ok moved"
 msgstr "تایید منتقل شد"
 
-#: ../core/functions.inc/drivers/Sip.class.php:363
+#: ../core/functions.inc/drivers/Sip.class.php:367
 msgid "originate"
 msgstr "ایجاد کردن"
 
@@ -14339,7 +14559,7 @@ msgstr "بدون امضا"
 msgid "untrusted"
 msgstr "غیر قابل اطمینان"
 
-#: ../core/functions.inc/drivers/Sip.class.php:342
+#: ../core/functions.inc/drivers/Sip.class.php:346
 msgid "user = Phone"
 msgstr ""
 
@@ -14396,85 +14616,6 @@ msgid ""
 msgstr ""
 "شما باید دستی خط 'preload => pbx_config.so' را به فایل modules.conf اضافه "
 "کنید"
-
-#~ msgid "Caller ID"
-#~ msgstr "شناسه تماس گیرنده"
-
-#~ msgid "Caller ID Number"
-#~ msgstr "شماره تماس گیرنده"
-
-#~ msgid "DID already exists"
-#~ msgstr "DID موجود است"
-
-#~ msgid "DIDs"
-#~ msgstr ".DIDs"
-
-#~ msgid "DIDs / Inbound Routes"
-#~ msgstr "مسیرهای ورودی / DIDs"
-
-#~ msgid "Device Extension was blank or there were no settings defined"
-#~ msgstr "داخلی وسیله خالی بود یا تنظیمی یافت نشد"
-
-#~ msgid "Device Technology"
-#~ msgstr "فن آوری وسیله"
-
-#~ msgid "Device could not be added."
-#~ msgstr "وسیله نمیتواند اضافه شود."
-
-#~ msgid "Device was not added!"
-#~ msgstr "وسیله اضافه نشد!"
-
-#~ msgid "Display Name can not be blank!"
-#~ msgstr "نام نمایشی نمیتواند خالی باشد!"
-
-#~ msgid "Duplicate"
-#~ msgstr "تکراری"
-
-#~ msgid "Error Duplicate Channel Entry"
-#~ msgstr "خطا کانال وارد شده تکراری است"
-
-#~ msgid "Extension already in use!"
-#~ msgstr "داخلی در حال استفاده است!"
-
-#~ msgid "Extension can not be blank!"
-#~ msgstr "داخلی نمیتواند خالی باشد!"
-
-#~ msgid "Extension is not numeric."
-#~ msgstr "داخلی شماره نیست."
-
-#~ msgid "Extension was not numeric!"
-#~ msgstr "داخلی شماره نیست!"
-
-#~ msgid "Inbound Route:"
-#~ msgstr "مسیر ورودی:"
-
-#~ msgid "Incoming DID"
-#~ msgstr "داخلی مستقیم ورودی"
-
-#~ msgid "Outbound Route:"
-#~ msgstr "مسیر تماس خروجی:"
-
-#~ msgid "SIP (%s)"
-#~ msgstr "SIP  (%s)"
-
-#~ msgid ""
-#~ "The context, extension, priority to go to when this DID is matched. "
-#~ "Example: app-daynight,0,1"
-#~ msgstr ""
-#~ "The context, extension, priority  to go to when this DID is matched. "
-#~ "Example: app-daynight,0,1"
-
-#~ msgid "This user/extension %s is already in use"
-#~ msgstr "کاربر/داخلی %s در حال استفاده است"
-
-#~ msgid "Trunk:"
-#~ msgstr "ترانک:"
-
-#~ msgid "User could not be added."
-#~ msgstr "امکان افزودن کاربروجود ندارد."
-
-#~ msgid "You must put in an extension (or user) number"
-#~ msgstr "شما باید شماره یک داخلی (یا کاربر) وارد کنید"
 
 #~ msgid ""
 #~ "Interface %s, Port %s (%s - this is a <strong>NON STANDARD</strong> port)"
