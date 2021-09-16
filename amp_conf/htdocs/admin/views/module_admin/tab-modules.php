@@ -160,7 +160,7 @@ if($online) {
 							<?php if ($module['salert']) { ?>
 								<span class="modulevul">
 									<a class="modulevul_tag" href="#" data-sec='<?php echo json_encode($module['vulnerabilities']['vul'])?>'>
-										<img src="images/notify_security.png" alt="" width="16" height="16" border="0" title="<?php echo sprintf(_("Vulnerable to security issues %s"), implode($module['vulnerabilities']['vul'], ', '))?>" /><?php echo sprintf(_("Vulnerable, Requires: %s"), $module['vulnerabilities']['minver']) ?>
+										<img src="images/notify_security.png" alt="" width="16" height="16" border="0" title="<?php echo sprintf(_("Vulnerable to security issues %s"), implode( ', ',$module['vulnerabilities']['vul']))?>" /><?php echo sprintf(_("Vulnerable, Requires: %s"), $module['vulnerabilities']['minver']) ?>
 									</a>
 								</span>
 							<?php } ?>
@@ -224,7 +224,7 @@ if($online) {
 													<?php if(!empty($module['salert'])) {?>
 													<tr>
 														<td><?php echo _("Fixes Vulnerabilities")?>:</td>
-														<td><?php echo implode($module['vulnerabilities']['vul'], ', ')?></td>
+														<td><?php echo implode(', ',$module['vulnerabilities']['vul'])?></td>
 													</tr>
 													<?php } ?>
 													<tr>
