@@ -451,7 +451,7 @@ class module_functions {
 			foreach($exposures as $m => $vinfo) {
 				$extext .= sprintf(
 					_("%s (Cur v. %s) should be upgraded to v. %s to fix security issues: %s")."\n",
-					$m, $vinfo['curver'], $vinfo['minver'], implode($vinfo['vul'],', ')
+					$m, $vinfo['curver'], $vinfo['minver'], implode(', ',$vinfo['vul'])
 				);
 			}
 			$notifications->add_security('freepbx', 'VULNERABILITIES', $text, $extext, 'config.php?display=modules');
