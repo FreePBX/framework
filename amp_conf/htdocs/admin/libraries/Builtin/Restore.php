@@ -23,6 +23,10 @@ class Restore Extends Base\RestoreBase{
 				$this->log(_("Ignorning restore of FREEPBX_SYSTEM_IDENT from Advanced Settings"));
 				continue;
 			}
+			if ($keyword === 'MODULE_REPO') {
+				$this->log(sprintf(_("Ignorning restore of MODULE_REPO Advanced Settings from %s"), $module));
+				continue;
+			}
 			if(in_array($keyword,$skinsettings)){
 				$this->log(sprintf(_("Ignorning Brand view  Setting %s"), $keyword));
 				continue;
