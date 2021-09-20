@@ -3,48 +3,64 @@
 error_reporting(E_ALL);
 require '/usr/lib/sysadmin/includes.php';
 
-$module = $action = $track = $txnId = "";
+$txnId = '';
+
 if (isset($argv[1])) {
-   //Decoding all compressed arguments
-   $b = str_replace('_', '/', $argv[1]);
-   $settings = @json_decode(gzuncompress(@base64_decode($b)), true);
-   if (is_array($settings)) {
-      $module = $settings[0];
-      $action = $settings[1];
-      $track = $settings[2];
-      $txnId = $settings[3];
-   }
+   $txnId = $argv[1];
 }
 
-//Executing upgrade all module command
-$action = $module;
-shell_exec('/usr/sbin/fwconsole ma ' . $action);
+$firstCommandOutput = [];
+$firstCommandReturn = 1;
+$cmd = "/usr/sbin/fwconsole ma upgradeall";
 
-//Running Chown Command
-$output = array();
-$cmd = "/usr/sbin/fwconsole chown 2>&1";
-$result = exec($cmd, $output, $return);
+//Running upgrade all module command
+exec($cmd, $firstCommandOutput, $firstCommandReturn);
 
-if ($return == 0) {
-   //On success
-   //Running Reload Command
-   $output = array();
-   $cmd = "/usr/sbin/fwconsole reload 2>&1";
-   $result = exec($cmd, $output, $return);
-   if ($return == 0) {
-      $message = '';
-      $status = "Executed";
+if($firstCommandReturn == 0){
+
+   // Running Chown Command
+   
+   $secondCommandOutput = [];
+   $secondCommandReturn = 1;
+   $cmd = "/usr/sbin/fwconsole chown 2>&1";
+   exec($cmd, $secondCommandOutput, $secondCommandReturn);
+   
+   if ($secondCommandReturn == 0) {
+
+      //Running Reload Command
+      
+      $thirdCommandOutput = [];
+      $thirdCommandReturn = 1;
+      $cmd = "/usr/sbin/fwconsole reload 2>&1";
+      exec($cmd , $thirdCommandOutput, $thirdCommandReturn);
+
+      if ($thirdCommandReturn == 0) {
+         
+         $message = json_encode($firstCommandOutput);
+         $status = "Executed";
+
+      } else {
+         
+         if (array_key_exists(2, $thirdCommandOutput)) {
+            $message =  "Failed to execute command [ " . $cmd . " ] , command output = $thirdCommandOutput[2]";
+         } else {
+            $message =  "Failed to execute command [ " . $cmd . " ]";
+         }
+         $status = 'Failed';
+      }
    } else {
-      if (array_key_exists(2, $output)) {
-         $message =  "Failed to execute command [ " . $cmd . " ] , command output = $output[2]";
+      
+      if (array_key_exists(2, $secondCommandOutput)) {
+         $message =  "Failed to execute command [ " . $cmd . " ] , command output = $secondCommandOutput[2]";
       } else {
          $message =  "Failed to execute command [ " . $cmd . " ]";
       }
       $status = 'Failed';
    }
-} else {
-   if (array_key_exists(2, $output)) {
-      $message =  "Failed to execute command [ " . $cmd . " ] , command output = $output[2]";
+}else {
+
+   if (array_key_exists(2, $firstCommandOutput)) {
+      $message =  "Failed to execute command [ " . $cmd . " ] , command output = $firstCommandOutput[2]";
    } else {
       $message =  "Failed to execute command [ " . $cmd . " ]";
    }
