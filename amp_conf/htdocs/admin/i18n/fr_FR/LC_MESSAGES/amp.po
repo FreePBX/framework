@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-07-08 03:19+0000\n"
-"PO-Revision-Date: 2021-09-14 14:00+0000\n"
+"PO-Revision-Date: 2021-09-23 07:04+0000\n"
 "Last-Translator: jeremie cattan <freepbx@famillecattan.com>\n"
 "Language-Team: French <http://weblate.freepbx.org/projects/freepbx/framework/"
 "fr/>\n"
@@ -2046,12 +2046,14 @@ msgstr ""
 
 #: upgrades/2.8.0alpha2/tables.php:54
 msgid "Can not create trunk_dialpatterns table"
-msgstr ""
+msgstr "Impossible de créer la table trunk_dialpatterns"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:184
 #, php-format
 msgid "Can not read from the LESS folder at %s. Please run (from the CLI): %s"
 msgstr ""
+"Impossible de lire à partir du dossier LESS à %s. Veuillez exécuter (à "
+"partir de la CLI) : %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1372
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1399
@@ -2062,18 +2064,23 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1603
 msgid "Can not run this command while 'Developer Mode' is enabled"
 msgstr ""
+"Impossible d'exécuter cette commande lorsque le 'mode développeur' est activé"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:60
 #, php-format
 msgid ""
 "Can not write to cache folder at %s/cache. Please run (from the CLI): %s"
 msgstr ""
+"Impossible d'écrire dans le dossier de cache à %s/cache. Veuillez exécuter ("
+"à partir de la CLI) : %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:187
 #, php-format
 msgid ""
 "Can not write to the LESS cache folder at %s. Please run (from the CLI): %s"
 msgstr ""
+"Impossible d'écrire dans le dossier de cache LESS à %s. Veuillez exécuter (à "
+"partir de la CLI) : %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:313
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:321
@@ -2116,19 +2123,19 @@ msgstr "Impossible de trouver le module"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:373
 msgid "Cannot revoke null key!"
-msgstr ""
+msgstr "Impossible de révoquer la clé nulle !"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:385
 msgid "Cannot trust null key!"
-msgstr ""
+msgstr "Impossible de faire confiance à la clé nulle !"
 
 #: install.php:272
 msgid "Cant Find Framework XML"
-msgstr ""
+msgstr "Impossible de trouver Framework XML"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1182
 msgid "Cant Reach Online Server"
-msgstr ""
+msgstr "Impossible d'atteindre le serveur en ligne"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1531
 #, php-format
@@ -2136,6 +2143,8 @@ msgid ""
 "Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: "
 "%s)"
 msgstr ""
+"Impossible de vérifier le module téléchargé %s. Impossible de faire "
+"confiance à la clé GPG - annulation (Cause : %s)"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1528
 #, php-format
@@ -2143,14 +2152,16 @@ msgid ""
 "Cant Verify downloaded module %s. Unable to trust GPG Key - aborting (Cause: "
 "No Cause Given)"
 msgstr ""
+"Impossible de vérifier le module téléchargé %s. Impossible de faire "
+"confiance à la clé GPG - abandon (Cause : aucune cause donnée)"
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:23
 msgid "Centralized job management"
-msgstr ""
+msgstr "Gestion centralisée des tâches"
 
 #: amp.i18n.php:428
 msgid "Certificate File Location"
-msgstr ""
+msgstr "Emplacement du fichier de certificat"
 
 #: ../core/install.php:10
 msgid "ChanSpy"
@@ -2158,20 +2169,20 @@ msgstr "ChanSpy"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:426
 msgid "Change Log for version"
-msgstr ""
+msgstr "Journal des modifications pour la version"
 
 #: ../core/functions.inc/drivers/Sip.class.php:299
 msgid "Change SIP Driver"
-msgstr ""
+msgstr "Changer de pilote SIP"
 
 #: ../core/functions.inc/drivers/Sip.class.php:296
 #, php-format
 msgid "Change To %s Driver"
-msgstr ""
+msgstr "Passer au pilote %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:23
 msgid "Change ownership of files"
-msgstr ""
+msgstr "Changer la propriété des fichiers"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:165
 msgid "Changelog"
@@ -2181,11 +2192,11 @@ msgstr "Modifications"
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:168
 #, php-format
 msgid "Changing \"%s\" from [%s] to [%s]"
-msgstr ""
+msgstr "Modification de \"%s\" de [%s] à [%s]"
 
 #: ../core/functions.inc/drivers/Sip.class.php:302
 msgid "Changing SIP Driver unavailable"
-msgstr ""
+msgstr "Modification du pilote SIP non disponible"
 
 #: ../core/views/dahdichandids/changrid.php:36
 #: ../core/views/dahdichandids/didForm.php:35 ../core/views/quickCreate.php:69
@@ -2199,31 +2210,33 @@ msgstr "Canal %s"
 
 #: ../core/Console/Trunks.class.php:55 ../core/Console/Trunks.class.php:62
 msgid "Channel ID"
-msgstr ""
+msgstr "ID Canal"
 
 #: ../core/Core.class.php:147
 msgid "Channel can not be blank!"
-msgstr ""
+msgstr "Le canal ne peut pas être vide !"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:612
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:639
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:27
 msgid "Check Online"
-msgstr ""
+msgstr "Vérifier en ligne"
 
 #: amp.i18n.php:470
 msgid "Check Server Referrer"
-msgstr ""
+msgstr "Vérifier le référent du serveur"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:109
 #: amp_conf/htdocs/admin/views/oobe.php:204
 msgid "Check for Updates every"
-msgstr ""
+msgstr "Vérifiez les mises à jour tous les"
 
 #: ../core/views/trunks/pjsip.php:1227
 msgid ""
 "Check the desired codecs, all others will be disabled. Drag to re-order."
 msgstr ""
+"Vérifiez les codecs souhaités, tous les autres seront désactivés. Faites "
+"glisser pour réorganiser."
 
 #: ../core/views/trunks/trunk_header.php:440
 msgid "Check this to disable this trunk in all routes where it is used."
@@ -2234,11 +2247,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1191
 #, php-format
 msgid "Checking %s..."
-msgstr ""
+msgstr "Vérification %s..."
 
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:39
 msgid "Checking Online, Please Wait..."
-msgstr ""
+msgstr "Vérification en ligne, veuillez patienter..."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1187
 msgid "Checking Signatures of Modules..."
@@ -2247,19 +2260,23 @@ msgstr "Vérification des signatures des modules..."
 #: upgrades/2.9.0alpha1/tables.php:40 upgrades/2.9.0alpha1/tables.php:56
 #, php-format
 msgid "Checking for %s field.."
-msgstr ""
+msgstr "Vérification du champ %s.."
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:19
 msgid "Checking for freepbx_settings table.."
-msgstr ""
+msgstr "Vérification de la table freepbx_settings .."
 
 #: ../core/install.php:479
 msgid "Checking for possibly invalid emergency caller id fields.."
 msgstr ""
+"Vérification des champs d'identification de l'appelant d'urgence "
+"éventuellement invalides."
 
 #: upgrades/2.9.0alpha1/tables.php:37
 msgid "Checking for schema changes for core's users table."
 msgstr ""
+"Vérification des changements de schéma pour la table des utilisateurs du "
+"noyau."
 
 #: amp_conf/htdocs/admin/page.modules.php:1212
 #, php-format
@@ -2269,6 +2286,11 @@ msgid ""
 "proper update information and track version usage to focus development and "
 "maintenance efforts. No private information is transmitted."
 msgstr ""
+"La vérification des mises à jour transmettra vos numéros de version %s, "
+"Distro, Asterisk et PHP ainsi qu'un identifiant unique mais aléatoire. Ceci "
+"est utilisé pour fournir des informations de mise à jour appropriées et "
+"suivre l'utilisation de la version pour concentrer les efforts de "
+"développement et de maintenance. Aucune information privée n'est transmise."
 
 #: upgrades/2.6.0beta1/tables.php:278
 msgid "Checking if trunk table migration required.."
@@ -2276,33 +2298,36 @@ msgstr "Vérification de la nécessité de migration de la table des trunks.."
 
 #: upgrades/2.8.0alpha2/tables.php:51
 msgid "Checking if trunk_dialpatterns table exists.."
-msgstr ""
+msgstr "Vérifier si la table trunk_dialpatterns existe.."
 
 #: upgrades/2.6.0beta1/tables.php:331 upgrades/2.8.0alpha2/tables.php:167
 msgid "Checking if trunks_dialpatterns table exists.."
-msgstr ""
+msgstr "Vérifier si la table trunks_dialpatterns existe.."
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:106
 msgid "Checking number of admin users.."
-msgstr ""
+msgstr "Vérification du nombre d'utilisateurs administrateurs."
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1304
 msgid "Checks dependencies for provided module[s], accepts argument module[s]"
 msgstr ""
+"Vérifie les dépendances des modules fournis, accepte les modules d'arguments"
 
 #: amp.i18n.php:808
 msgid ""
 "Checks to make sure modules and their files are validly signed. Will display "
 "a notice on any module page that is not correctly verified."
 msgstr ""
+"Vérifie que les modules et leurs fichiers sont valablement signés. Affiche "
+"un avis sur toute page de module qui n'est pas correctement vérifiée."
 
 #: ../core/views/routing/form.php:517
 msgid "Choose File"
-msgstr ""
+msgstr "Choisir fichier"
 
 #: ../core/Console/Trunks.class.php:64
 msgid "Choose an ID to enable/disable"
-msgstr ""
+msgstr "Choisissez un ID à activer/désactiver"
 
 #: ../core/views/did/advanced_form.php:308
 msgid ""
@@ -2310,6 +2335,9 @@ msgid ""
 "creating the different standard telephony tones such as ringing, busy, "
 "congetstion, etc."
 msgstr ""
+"Choisissez la zone d'indication du pays que..vous souhaitez qu'Asterisk "
+"utilise lors de la création des différentes tonalités de téléphonie standard "
+"telles que sonnerie, occupé, congestion, etc."
 
 #: amp.i18n.php:280
 msgid ""
@@ -2317,6 +2345,9 @@ msgid ""
 "creating the different standard telephony tones such as ringing, busy, "
 "congetstion, etc."
 msgstr ""
+"Choisissez la zone de tonalité du pays que vous souhaitez qu'Asterisk "
+"utilise lors de la création des différentes tonalités de téléphonie standard "
+"telles que sonnerie, occupé, congestion, etc."
 
 #: amp_conf/htdocs/admin/page.modules.php:1209
 msgid ""
@@ -2326,18 +2357,24 @@ msgid ""
 "to start with the Basic repository and update all modules, then go back and "
 "review the others."
 msgstr ""
+"Choisissez les repositories dans lesquels vous souhaitez rechercher de "
+"nouveaux modules. Toutes les mises à jour disponibles pour les modules que "
+"vous avez sur votre système seront détectées même si le repositories n'est "
+"pas vérifié. Si vous installez un nouveau système, vous souhaiterez peut-"
+"être commencer par le repositories de base et mettre à jour tous les "
+"modules, puis revenir en arrière et passer en revue les autres."
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:83
 msgid "Class"
-msgstr ""
+msgstr "Classer"
 
 #: ../core/assets/js/trunks/trunks.js:239
 msgid "Click here to insert a new pattern before this pattern"
-msgstr ""
+msgstr "Cliquez ici pour insérer un nouveau modèle avant ce modèle"
 
 #: ../core/assets/js/trunks/trunks.js:240
 msgid "Click here to remove this pattern"
-msgstr ""
+msgstr "Cliquez ici pour supprimer ce modèle"
 
 #: ../core/views/trunks/trunk_header.php:25
 msgid ""
@@ -2348,13 +2385,15 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:769
 msgid "Click to Expand"
-msgstr ""
+msgstr "Cliquez pour agrandir"
 
 #: ../core/views/trunks/pjsip.php:634
 msgid ""
 "Client SIP URI used when attemping outbound registration. This setting is "
 "automatically generated by the PBX if left blank"
 msgstr ""
+"URI SIP client utilisé lors de la tentative d'enregistrement sortant. Ce "
+"paramètre est généré automatiquement par le PBX s'il est laissé vide"
 
 #: ../core/views/trunks/pjsip.php:621
 msgid "Client URI"
@@ -2373,11 +2412,11 @@ msgstr "Codecs"
 #: amp_conf/htdocs/admin/libraries/BMO/LoadConfig.class.php:334
 #, php-format
 msgid "Coding Error - don't understand '%s' from %s"
-msgstr ""
+msgstr "Erreur de codage - ne comprends pas '%s' de %s"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:62
 msgid "Colorize table based list"
-msgstr ""
+msgstr "Colorier la liste basée sur la table"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:462
 msgid "Combined"
@@ -2386,11 +2425,11 @@ msgstr "Combiné"
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:198
 #, php-format
 msgid "Combining key and crt into %s.pem"
-msgstr ""
+msgstr "Combinaison de key et crt dans %s.pem"
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:83
 msgid "Command"
-msgstr ""
+msgstr "Commande"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:15
 msgid "Commercial"
@@ -2405,6 +2444,8 @@ msgid ""
 "Commercial Status of this module. Commercial Modules are maintained and "
 "supported through Sangoma Technologies Inc."
 msgstr ""
+"Statut commercial de ce module. Les modules commerciaux sont maintenus et "
+"pris en charge par Sangoma Technologies Inc."
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:18
 msgid "Common utilities"
