@@ -101,7 +101,7 @@ $fpbx['conf']['brandid'] = $modulef->_brandid();
 //TODO: This eventually should be provided by each individual module, rather than be hardcoded
 $fpbx['conf']['modules']['sysadmin']['deployment_id'] = $modulef->_deploymentid();
 $fpbx['conf']['modules']['sysadmin']['zendid'] = (function_exists('sysadmin_get_zendid'))?sysadmin_get_zendid():null;
-$fpbx['conf']['modules']['sysadmin']['machineid'] = (function_exists('getMachineId'))?getMachineId():null;
+$fpbx['conf']['modules']['sysadmin']['machineid'] = \FreePBX::Modules()->moduleHasMethod('sysadmin', 'getMachineId') ? \FreePBX::Sysadmin()->getMachineId() : null;
 $fpbx['msg']['framework']['reload_unidentified_error'] = _(" error(s) occurred, you should view the notification log on the dashboard or main screen to check for more details.");
 $fpbx['msg']['framework']['close'] = _("Close");
 $fpbx['msg']['framework']['continuemsg'] = _("Continue");//continue is a resorved word!
