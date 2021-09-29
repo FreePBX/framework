@@ -3,13 +3,14 @@
 	<modtype>framework</modtype>
 	<repo>standard</repo>
 	<name>FreePBX Framework</name>
-	<version>15.0.17.55</version>
+	<version>15.0.17.56</version>
 	<publisher>Sangoma Technologies Corporation</publisher>
 	<license>GPLv2+</license>
 	<licenselink>http://www.gnu.org/licenses/gpl-3.0.txt</licenselink>
 	<candisable>no</candisable>
 	<canuninstall>no</canuninstall>
 	<changelog>
+		*15.0.17.56* FREEI-3815 Refactored upgrade-all-modules hook file for GQL API 
 		*15.0.17.55* FREEI-3319 Backup and Restore is overwriting the values for module_repo 
 		*15.0.17.54* FREEI-3833 Backup &amp;amp; Restore issue fix 
 		*15.0.17.53* FREEI-3909 created new gql api 'fetchInstalledModules' to get all installed modules 
