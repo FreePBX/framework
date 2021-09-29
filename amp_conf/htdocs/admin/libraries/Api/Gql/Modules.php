@@ -278,7 +278,7 @@ class Modules extends Base {
 							try{
 								$status = $this->freepbx->api->getTransactionStatus($args['txnId']);
 								if(isset($status['event_status']) && $status['event_status'] != null){
-									return ['message' => $status['event_status'], 'status' => true, 'failureReason' => $status['failure_reason']] ;
+									return ['message' => $status['event_status'], 'status' => true, 'details' => $status['failure_reason']] ;
 								}else{
 									return ['message' => 'Sorry unable to fetch the status', 'status' => true] ;
 								}
@@ -405,9 +405,9 @@ class Modules extends Base {
 					'type' => $this->getEnumStatuses(),
 					'description' => _('Message for the request')
 				],
-				'failureReason' => [
+				'details' => [
 					'type' => Type::string(),
-					'description' => _('Reason for the transaction failed')
+					'description' => _('Output of the API')
 				],
 				'state' => [
 					'type' => Type::string(),
@@ -492,7 +492,7 @@ class Modules extends Base {
 		$track = (strtoupper(isset($input['track'])) == 'EDGE') ? 'edge' : 'stable';
 		$txnId = $this->freepbx->api->addTransaction("Processing", "Framework", "gql-module-admin");
 		if ($action == 'upgradeAll') {
-			$this->freepbx->Sysadmin()->ApiHooks()->runModuleSystemHook('framework', 'upgrade-all-module', array($module, $action, $track, $txnId));
+			$this->freepbx->Sysadmin()->ApiHooks()->runModuleSystemHook('framework', 'upgrade-all-module', $txnId);
 		} else {
 			$this->freepbx->api->setGqlApiHelper()->initiateGqlAPIProcess(array($module, $action, $track, $txnId));
 		}
