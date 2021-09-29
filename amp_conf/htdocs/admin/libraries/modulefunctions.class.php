@@ -2848,6 +2848,13 @@ class module_functions {
 		} else {
 			$notifications->delete('freepbx', 'modules_broken');
 		}
+		if (\FreePBX::Modules()->checkStatus("restapi")) {
+			$text = _('You have a deprecated module');
+			$desc = _('The restapi module is deprecated and functionality is moving to the api module starting in PBX version 16. If not being used, the restapi module should be removed.');
+			$notifications->add_warning('freepbx', 'modules_deprecated', $text, $desc, '?type=tool&display=modules');
+		} else {
+			$notifications->delete('freepbx', 'modules_deprecated');
+		}
 	}
 
 	/** Replaces variables in a string with the values from ampconf
