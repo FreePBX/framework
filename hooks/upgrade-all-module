@@ -36,34 +36,39 @@ if($firstCommandReturn == 0){
 
       if ($thirdCommandReturn == 0) {
          
-         $message = json_encode($firstCommandOutput);
+         $result = [];
+
+         foreach($firstCommandOutput as $output){
+            //Regex to get modules which needs upgradation
+            if(preg_match('/(\bModule\(s\)\s)(\w+)/',$output)){
+               $result[] = $output;
+            }
+            //Regex to get modules which successfully upgraded
+            else if(preg_match('/(\bModule\s)(\w+)/',$output)){
+                  $result[] = $output;
+            }
+         }
+
+         if(count($result) == 0){
+            $result = $firstCommandOutput;
+         }
+
+         $message = json_encode($result);
          $status = "Executed";
 
-      } else {
-         
-         if (array_key_exists(2, $thirdCommandOutput)) {
-            $message =  "Failed to execute command [ " . $cmd . " ] , command output = $thirdCommandOutput[2]";
-         } else {
-            $message =  "Failed to execute command [ " . $cmd . " ]";
-         }
+      } else {         
+         $output = json_encode($thirdCommandOutput);
+         $message =  "Failed to execute command [ " . $cmd . " ] , command output = $output";
          $status = 'Failed';
       }
    } else {
-      
-      if (array_key_exists(2, $secondCommandOutput)) {
-         $message =  "Failed to execute command [ " . $cmd . " ] , command output = $secondCommandOutput[2]";
-      } else {
-         $message =  "Failed to execute command [ " . $cmd . " ]";
-      }
+      $output = json_encode($secondCommandOutput);
+      $message =  "Failed to execute command [ " . $cmd . " ] , command output = $output";
       $status = 'Failed';
    }
 }else {
-
-   if (array_key_exists(2, $firstCommandOutput)) {
-      $message =  "Failed to execute command [ " . $cmd . " ] , command output = $firstCommandOutput[2]";
-   } else {
-      $message =  "Failed to execute command [ " . $cmd . " ]";
-   }
+   $output = json_encode($firstCommandOutput);
+   $message =  "Failed to execute command [ " . $cmd . " ] , command output = $output";
    $status = 'Failed';
 }
 
