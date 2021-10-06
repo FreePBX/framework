@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-29 04:28+0000\n"
+"POT-Creation-Date: 2021-10-06 02:56+0000\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -2129,6 +2129,10 @@ msgstr "Não é Possível se Conectar ao Asterisk"
 msgid "Can Reinvite"
 msgstr "Permissão Reinvite"
 
+#: ../core/Api/Gql/Extensions.php:38 ../core/Api/Gql/Extensions.php:132
+msgid "Can not add extension beyond the extensions license limit"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:137
 #, php-format
 msgid "Can not create cache folder at %s/cache. Please run (from the CLI): %s"
@@ -2344,8 +2348,8 @@ msgstr "Canal %s"
 msgid "Channel ID"
 msgstr "ID do Canal"
 
-#: ../core/Api/Gql/Extensions.php:383 ../core/Api/Gql/Extensions.php:400
-#: ../core/Api/Gql/Extensions.php:462
+#: ../core/Api/Gql/Extensions.php:393 ../core/Api/Gql/Extensions.php:410
+#: ../core/Api/Gql/Extensions.php:472
 msgid "Channel Name incase if you are using tech DAHDi."
 msgstr ""
 
@@ -2857,7 +2861,7 @@ msgstr "Não foi possível escrever para %s"
 msgid "Country Indication Tones"
 msgstr "Toques de Indicação de País"
 
-#: ../core/Api/Gql/Extensions.php:120
+#: ../core/Api/Gql/Extensions.php:125
 msgid "Create a Range of Extensions"
 msgstr ""
 
@@ -3465,7 +3469,7 @@ msgstr "Apagar"
 msgid "Delete Device %s"
 msgstr "Excluir Dispositivo %s"
 
-#: ../core/Api/Gql/Extensions.php:97
+#: ../core/Api/Gql/Extensions.php:102
 msgid "Delete an Extension in Core"
 msgstr ""
 
@@ -3707,7 +3711,7 @@ msgstr "Tipo de dispositivo"
 msgid "Device could not be added."
 msgstr "Não foi possível adicionar o dispositivo."
 
-#: ../core/Api/Gql/Extensions.php:228
+#: ../core/Api/Gql/Extensions.php:238
 msgid "Device tech default is pjsip"
 msgstr ""
 
@@ -4339,8 +4343,8 @@ msgstr ""
 "Endereço de e-mail a ser usado para serviços como correio de voz, "
 "gerenciamento de usuários e Fax"
 
-#: ../core/Api/Gql/Extensions.php:367 ../core/Api/Gql/Extensions.php:417
-#: ../core/Api/Gql/Extensions.php:479
+#: ../core/Api/Gql/Extensions.php:377 ../core/Api/Gql/Extensions.php:427
+#: ../core/Api/Gql/Extensions.php:489
 msgid ""
 "Email address to use for services such as Voicemail, User Management and Fax."
 msgstr ""
@@ -4925,7 +4929,7 @@ msgstr "Limite de Chamadas Simultâneas de Ramal"
 msgid "Extension Number"
 msgstr "Número da Extensão"
 
-#: ../core/Api/Gql/Extensions.php:98
+#: ../core/Api/Gql/Extensions.php:103
 msgid "Extension Number to be deleted"
 msgstr ""
 
@@ -4945,27 +4949,27 @@ msgstr "Extensão já em uso!"
 msgid "Extension can not be blank!"
 msgstr "A extensão não pode ficar em branco!"
 
-#: ../core/Api/Gql/Extensions.php:185
+#: ../core/Api/Gql/Extensions.php:195
 msgid "Extension does not exists"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:74 ../core/Api/Gql/Extensions.php:108
+#: ../core/Api/Gql/Extensions.php:79 ../core/Api/Gql/Extensions.php:113
 msgid "Extension does not exists."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:183
+#: ../core/Api/Gql/Extensions.php:193
 msgid "Extension found successfully"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:52
+#: ../core/Api/Gql/Extensions.php:57
 msgid "Extension has been created Successfully"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:112
+#: ../core/Api/Gql/Extensions.php:117
 msgid "Extension has been deleted"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:86
+#: ../core/Api/Gql/Extensions.php:91
 msgid "Extension has been updated"
 msgstr ""
 
@@ -4993,11 +4997,11 @@ msgstr ""
 msgid "Extension was not numeric!"
 msgstr "A extensão não era numérica!"
 
-#: ../core/Api/Gql/Extensions.php:164
+#: ../core/Api/Gql/Extensions.php:174
 msgid "Extension's found successfully"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:142
+#: ../core/Api/Gql/Extensions.php:152
 msgid "Extension's has been created Successfully"
 msgstr ""
 
@@ -5080,7 +5084,7 @@ msgstr ""
 msgid "Failed to create emergencydevices table"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:54
+#: ../core/Api/Gql/Extensions.php:59
 msgid "Failed to create extension"
 msgstr ""
 
@@ -5269,8 +5273,8 @@ msgstr ""
 "selecionando 'Novo Usuário', um novo Ramal de Usuário com mesmo "
 "identificador do dispositivo será configurado como usuário padrão."
 
-#: ../core/Api/Gql/Devices.php:173 ../core/Api/Gql/Extensions.php:240
-#: ../core/Api/Gql/Extensions.php:269
+#: ../core/Api/Gql/Devices.php:173 ../core/Api/Gql/Extensions.php:250
+#: ../core/Api/Gql/Extensions.php:279
 msgid ""
 "Fixed devices will always mapped to this user. Adhoc devices will be mapped "
 "to this user by default."
@@ -5825,11 +5829,11 @@ msgstr ""
 "Defina um nome único para este tronco. Exemplo: meuteliax. Observe que isso "
 "é usado como o contexto do tronco dentro do asterisk"
 
-#: ../core/Api/Gql/Extensions.php:334
+#: ../core/Api/Gql/Extensions.php:344
 msgid "Give your Extension Starting Number"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:392 ../core/Api/Gql/Extensions.php:454
+#: ../core/Api/Gql/Extensions.php:402 ../core/Api/Gql/Extensions.php:464
 msgid ""
 "Give your Extension a unique integer ID. The Extension will use this ID to "
 "create Extension in the system"
@@ -5843,7 +5847,7 @@ msgstr ""
 "Atribua um ID único para seu dispositivo. O dispositivo usará este ID para "
 "autenticar no sistema."
 
-#: ../core/Api/Gql/Devices.php:142 ../core/Api/Gql/Extensions.php:216
+#: ../core/Api/Gql/Devices.php:142 ../core/Api/Gql/Extensions.php:226
 msgid ""
 "Give your device a unique integer ID. The device will use this ID to "
 "authenticate to the system"
@@ -7061,7 +7065,7 @@ msgstr ""
 msgid "Max Contacts"
 msgstr "Máximo de Contatos"
 
-#: ../core/Api/Gql/Extensions.php:445 ../core/Api/Gql/Extensions.php:511
+#: ../core/Api/Gql/Extensions.php:455 ../core/Api/Gql/Extensions.php:521
 msgid ""
 "Max Contacts will set the maximum concurrent contacts for a PJSIP extension"
 msgstr ""
@@ -8125,7 +8129,7 @@ msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr ""
 "Número de tentativas que o chamador tem para inserir um ID de chamada válido"
 
-#: ../core/Api/Gql/Extensions.php:346
+#: ../core/Api/Gql/Extensions.php:356
 msgid "Number of extensions you want to create."
 msgstr ""
 
@@ -8570,8 +8574,8 @@ msgid ""
 "override the common outbound CallerID set in the Trunks admin."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:354 ../core/Api/Gql/Extensions.php:408
-#: ../core/Api/Gql/Extensions.php:470
+#: ../core/Api/Gql/Extensions.php:364 ../core/Api/Gql/Extensions.php:418
+#: ../core/Api/Gql/Extensions.php:480
 msgid ""
 "Overrides the CallerID when dialing out a trunk. Any setting here will "
 "override the common outbound CallerID set in the Trunks admin.\n"
@@ -8677,7 +8681,7 @@ msgstr ""
 "Senha configurada para o dispositivo. Deve ser alfanumérico com pelo menos 2 "
 "letras e números para se manter seguro."
 
-#: ../core/Api/Gql/Extensions.php:503
+#: ../core/Api/Gql/Extensions.php:513
 msgid ""
 "Password (secret) configured for the device. Should be alphanumeric with at "
 "least 2 letters and numbers to keep secure. [secret]"
@@ -8954,8 +8958,8 @@ msgid "Please enter a valid pause time in seconds, using digits only"
 msgstr ""
 "Por favor entre um tempo de pausa válido em segundos, usando dígitos somente"
 
-#: ../core/Api/Gql/Extensions.php:39 ../core/Api/Gql/Extensions.php:70
-#: ../core/Api/Gql/Extensions.php:104
+#: ../core/Api/Gql/Extensions.php:44 ../core/Api/Gql/Extensions.php:75
+#: ../core/Api/Gql/Extensions.php:109
 msgid "Please enter only numeric values"
 msgstr ""
 
@@ -10490,7 +10494,7 @@ msgstr ""
 msgid "Some of these settings can render your system inoperable."
 msgstr "Algumas dessas configurações podem tornar seu sistema inoperante."
 
-#: ../core/Api/Gql/Extensions.php:88
+#: ../core/Api/Gql/Extensions.php:93
 msgid "Sorry could not update the extension"
 msgstr ""
 
@@ -10502,7 +10506,7 @@ msgstr ""
 msgid "Sorry, Unable to fetch the module status"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:166
+#: ../core/Api/Gql/Extensions.php:176
 msgid "Sorry, unable to find any extensions"
 msgstr ""
 
@@ -10881,8 +10885,8 @@ msgstr ""
 msgid "Tech Type"
 msgstr "Tipo de Type"
 
-#: ../core/Api/Gql/Devices.php:149 ../core/Api/Gql/Extensions.php:342
-#: ../core/Api/Gql/Extensions.php:396 ../core/Api/Gql/Extensions.php:458
+#: ../core/Api/Gql/Devices.php:149 ../core/Api/Gql/Extensions.php:352
+#: ../core/Api/Gql/Extensions.php:406 ../core/Api/Gql/Extensions.php:468
 msgid "Technology driver type"
 msgstr ""
 
@@ -10939,13 +10943,13 @@ msgstr ""
 "necessário para a gravação de chamadas, você pode não ser capaz de gravar "
 "chamadas até que o módulo esteja instalado e habilitado."
 
-#: ../core/Api/Gql/Extensions.php:338
+#: ../core/Api/Gql/Extensions.php:348
 msgid ""
 "The CallerID name , a name which you want to append along with the extension "
 "number."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:404 ../core/Api/Gql/Extensions.php:466
+#: ../core/Api/Gql/Extensions.php:414 ../core/Api/Gql/Extensions.php:476
 #: ../core/functions.inc.php:4801 ../core/views/quickCreate.php:93
 msgid ""
 "The CallerID name for calls from this user will be set to this name. Only "
@@ -11028,7 +11032,7 @@ msgstr ""
 "parte do fluxo de áudio.</li><li>info - DTMF é enviado como pacote SIP INFO."
 "</li></ul>"
 
-#: ../core/Api/Gql/Extensions.php:176
+#: ../core/Api/Gql/Extensions.php:186
 msgid "The ExtensionId to fetch"
 msgstr ""
 
@@ -11726,7 +11730,7 @@ msgstr ""
 "O usuário que seu httpd deve estar executando como, usado por "
 "freepbx_engine. A maioria dos sistemas não deve mudar isso."
 
-#: ../core/Api/Gql/Extensions.php:441 ../core/Api/Gql/Extensions.php:507
+#: ../core/Api/Gql/Extensions.php:451 ../core/Api/Gql/Extensions.php:517
 msgid "The user's password"
 msgstr ""
 
@@ -11849,8 +11853,8 @@ msgstr ""
 "de Saída como Emergência. O CID de emergência substitui todas as outras "
 "configurações de identificador de chamadas."
 
-#: ../core/Api/Gql/Devices.php:185 ../core/Api/Gql/Extensions.php:363
-#: ../core/Api/Gql/Extensions.php:413 ../core/Api/Gql/Extensions.php:475
+#: ../core/Api/Gql/Devices.php:185 ../core/Api/Gql/Extensions.php:373
+#: ../core/Api/Gql/Extensions.php:423 ../core/Api/Gql/Extensions.php:485
 msgid ""
 "This CallerID will always be set when dialing out an Outbound Route flagged "
 "as Emergency. The Emergency CID overrides all other CallerID settings."
@@ -11870,7 +11874,7 @@ msgid ""
 "settings"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:43 ../core/Api/Gql/Extensions.php:144
+#: ../core/Api/Gql/Extensions.php:48 ../core/Api/Gql/Extensions.php:154
 #: ../core/Core.class.php:1448 ../core/Core.class.php:1677
 msgid "This device id is already in use"
 msgstr "Este dispositivo já está em uso"
@@ -12751,7 +12755,7 @@ msgstr ""
 msgid "Update System Informations"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:60
+#: ../core/Api/Gql/Extensions.php:65
 msgid "Update an Extension in Core"
 msgstr ""
 
@@ -13047,8 +13051,8 @@ msgstr "Painel do Usuário"
 msgid "User Password"
 msgstr "Senha do Usuário"
 
-#: ../core/Api/Gql/Extensions.php:379 ../core/Api/Gql/Extensions.php:437
-#: ../core/Api/Gql/Extensions.php:499
+#: ../core/Api/Gql/Extensions.php:389 ../core/Api/Gql/Extensions.php:447
+#: ../core/Api/Gql/Extensions.php:509
 msgid "User caller ID"
 msgstr ""
 
@@ -13056,17 +13060,17 @@ msgstr ""
 msgid "User could not be added."
 msgstr "O usuário não pôde ser adicionado."
 
-#: ../core/Api/Gql/Extensions.php:36 ../core/Api/Gql/Extensions.php:67
+#: ../core/Api/Gql/Extensions.php:41 ../core/Api/Gql/Extensions.php:72
 msgid "User management is enabled please provide password"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:350 ../core/Api/Gql/Extensions.php:421
-#: ../core/Api/Gql/Extensions.php:483
+#: ../core/Api/Gql/Extensions.php:360 ../core/Api/Gql/Extensions.php:431
+#: ../core/Api/Gql/Extensions.php:493
 msgid "Usermanagment enable yes/no."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:359 ../core/Api/Gql/Extensions.php:425
-#: ../core/Api/Gql/Extensions.php:487
+#: ../core/Api/Gql/Extensions.php:369 ../core/Api/Gql/Extensions.php:435
+#: ../core/Api/Gql/Extensions.php:497
 msgid "Usermanagment groupid. (comma seperated)"
 msgstr ""
 
@@ -13212,13 +13216,13 @@ msgstr "Correio de Voz"
 msgid "Voicemail Extension"
 msgstr "Ramal Correio de Voz"
 
-#: ../core/Api/Gql/Extensions.php:371 ../core/Api/Gql/Extensions.php:429
-#: ../core/Api/Gql/Extensions.php:491
+#: ../core/Api/Gql/Extensions.php:381 ../core/Api/Gql/Extensions.php:439
+#: ../core/Api/Gql/Extensions.php:501
 msgid "Voicemail enable yes/no."
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:375 ../core/Api/Gql/Extensions.php:433
-#: ../core/Api/Gql/Extensions.php:495
+#: ../core/Api/Gql/Extensions.php:385 ../core/Api/Gql/Extensions.php:443
+#: ../core/Api/Gql/Extensions.php:505
 msgid "Voicemail password"
 msgstr ""
 
