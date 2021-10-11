@@ -647,7 +647,7 @@ class Moduleadmin extends Command {
 				continue;
 			}
 
-			$this->write("$action $rawname due to security vulnerability ".implode($info['vul'],', ')."...");
+			$this->write("$action $rawname due to security vulnerability ".implode(', ',$info['vul'])."...");
 
 			// Upgrade/install/whatever our mod
 			exec($ampsbin."/fwconsole ma $action ".escapeshellarg($rawname)." --format=json",$out,$ret);
@@ -671,7 +671,7 @@ class Moduleadmin extends Command {
 				foreach($errorvuls as $m => $vinfo) {
 					$line = sprintf(
 						_("%s (Cur v. %s) should be upgraded to v. %s to fix security issues: %s")."\n",
-						$m, $vinfo['curver'], $vinfo['minver'], implode($vinfo['vul'],', ')
+						$m, $vinfo['curver'], $vinfo['minver'], implode(', ',$vinfo['vul'])
 					);
 					$notification_body .= $line;
 					$email_body .= "    $line";
@@ -682,7 +682,7 @@ class Moduleadmin extends Command {
 				foreach($mods as $m => $vinfo) {
 					$line = sprintf(
 						_("%s has been automatically upgraded to fix security issues: %s")."\n",
-						$m, implode($vinfo['vul'],', ')
+						$m, implode(', ',$vinfo['vul'])
 					);
 					$success_notification_body .= $line;
 					$email_body .= "    $line";
