@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: AMP_1.10.008\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-08 03:19+0000\n"
+"POT-Creation-Date: 2021-10-13 03:02+0000\n"
 "PO-Revision-Date: 2021-09-30 09:00+0000\n"
 "Last-Translator: jeremie cattan <freepbx@famillecattan.com>\n"
 "Language-Team: French <http://weblate.freepbx.org/projects/freepbx/framework/"
@@ -399,8 +399,8 @@ msgstr "%s activé avec succès"
 #, php-format
 msgid "%s has been automatically upgraded to fix security issues: %s"
 msgstr ""
-"%s a été automatiquement mis à jour pour résoudre les problèmes de sécurité :"
-" %s"
+"%s a été automatiquement mis à jour pour résoudre les problèmes de "
+"sécurité : %s"
 
 #: amp_conf/htdocs/admin/page.modules.php:201
 #: amp_conf/htdocs/admin/page.modules.php:231
@@ -494,7 +494,7 @@ msgstr "La version %s %s ou plus est requise. Celle installée est %s"
 msgid "%s will be removed from the hard disk"
 msgstr "%s sera supprimé du disque dur"
 
-#: ../core/Core.class.php:4161
+#: ../core/Core.class.php:4165
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
@@ -505,7 +505,7 @@ msgstr ""
 "démarrer le serveur FastAGI. Par conséquent, tous les AGI seront insérés "
 "dans Asterisk jusqu'à ce que cela soit résolu"
 
-#: ../core/Core.class.php:4182
+#: ../core/Core.class.php:4186
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but the FastAGI server was unable to start, As a result all AGIs will be "
@@ -570,12 +570,6 @@ msgstr "Les fichiers .htaccess ne sont pas supportés sur ce serveur web."
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:112
 msgid "0 admins"
 msgstr "0 administrateurs"
-
-#: amp.i18n.php:110
-msgid "0 for disabling the Random Sleep And Max sleep you can set is 30"
-msgstr ""
-"0 pour désactiver le sommeil aléatoire et le sommeil maximum que vous pouvez "
-"définir est 30"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:597
 msgid "1 RPM available for upgrade"
@@ -677,9 +671,9 @@ msgid ""
 "CID can also be associated with this DID by setting the next box"
 msgstr ""
 "Un SDA associé à cette extension. Le SDA doit être au même format que celui "
-"fourni par le provider (numéro complet, 4 chiffres pour 10x4,...)<br><br>"
-"Format :<b>XXXXXXXXXX</b><br><br>. Un identifiant de l'appelant peut être "
-"associé à ce SDA en modifiant le prochain champ"
+"fourni par le provider (numéro complet, 4 chiffres pour "
+"10x4,...)<br><br>Format :<b>XXXXXXXXXX</b><br><br>. Un identifiant de "
+"l'appelant peut être associé à ce SDA en modifiant le prochain champ"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:42
 msgid ""
@@ -697,8 +691,8 @@ msgid ""
 "A required module might be disabled or uninstalled. Recommended steps (run "
 "from the CLI): 1) fwconsole ma install %s 2) fwconsole ma enable %s"
 msgstr ""
-"Un module requis peut être désactivé ou désinstallé. Étapes recommandées ("
-"exécutées à partir de la CLI) : 1) fwconsole ma install %s 2) fwconsole ma "
+"Un module requis peut être désactivé ou désinstallé. Étapes recommandées "
+"(exécutées à partir de la CLI) : 1) fwconsole ma install %s 2) fwconsole ma "
 "enable %s"
 
 #: ../core/functions.inc.php:4140 ../core/functions.inc.php:4169
@@ -740,10 +734,6 @@ msgstr "TOUS LES MODULES"
 msgid "AMI failure details:"
 msgstr "Détails de l'échec AMI :"
 
-#: amp.i18n.php:118
-msgid "AMPLOCALBIN Dir for retrieve_conf"
-msgstr "Repertoir AMPLOCALBIN pour retrieve_conf"
-
 #: ../core/views/did/advanced_form.php:116
 #: ../core/views/did/advanced_form.php:140 ../core/views/did/basic_form.php:48
 #: ../core/views/did/basic_form.php:72
@@ -765,18 +755,6 @@ msgid ""
 msgstr ""
 "AOR à utiliser dans le Trunk. Ce paramètre est généré automatiquement par le "
 "PBX s'il est laissé vide"
-
-#: amp.i18n.php:590
-msgid "API Cache expiration"
-msgstr "Expiration du cache API"
-
-#: amp.i18n.php:462
-msgid "Abort Config Gen on Bad Dest"
-msgstr "Abandonner la génération de config sur une destination incorrecte"
-
-#: amp.i18n.php:468
-msgid "Abort Config Gen on Exten Conflict"
-msgstr "Abandonner la génération de config en cas de conflit d'extension"
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:149
 msgid "Aborting Shutdown. Asterisk is still running"
@@ -948,8 +926,8 @@ msgstr ""
 "Ajoutez un CID pour un routage SDA + CID plus spécifique. Un SDA doit être "
 "spécifié dans la case Ajouter un SDA ci-dessus. En plus des séquences de "
 "numérotation standard, vous pouvez également mettre Privé, Bloqué, Inconnu, "
-"Anonyme, Indisponible et Masqué afin de détecter ces cas particuliers si l’"
-"opérateur les transmet."
+"Anonyme, Indisponible et Masqué afin de détecter ces cas particuliers si "
+"l’opérateur les transmet."
 
 #: amp_conf/htdocs/admin/helpers/freepbx_helpers.php:131
 #, php-format
@@ -968,16 +946,11 @@ msgstr "Information complémentaire"
 msgid "Additional Settings"
 msgstr "Paramètres complémentaires"
 
-#: amp.i18n.php:44
-msgid "Address to bind to. Default is ::"
-msgstr "Adresse d’écoute. Valeur par défaut ::"
-
 #: ../core/functions.inc.php:5931
 msgid "Adhoc"
 msgstr "Adhoc"
 
-#: amp.i18n.php:6 amp.i18n.php:922
-#: amp_conf/htdocs/admin/views/menu_items.php:47
+#: amp.i18n.php:30 amp_conf/htdocs/admin/views/menu_items.php:47
 msgid "Admin"
 msgstr "Administrateur"
 
@@ -1003,7 +976,7 @@ msgstr "Nom d'utilisateur administrateur"
 msgid "Administrator User"
 msgstr "Utilisateur administrateur"
 
-#: amp.i18n.php:920
+#: amp.i18n.php:28
 msgid "Administrators"
 msgstr "Administrateurs"
 
@@ -1012,63 +985,17 @@ msgstr "Administrateurs"
 msgid "Advanced"
 msgstr "Avancé"
 
-#: amp.i18n.php:916
+#: amp.i18n.php:24
 msgid "Advanced Settings"
 msgstr "Paramètres avancés"
-
-#: amp.i18n.php:12
-msgid "Advanced Settings Details"
-msgstr "Détails des paramètres avancés"
 
 #: ../core/functions.inc/drivers/PJSip.class.php:263
 msgid "Aggregate MWI"
 msgstr "Agréger MWI"
 
-#: amp.i18n.php:766
-msgid "Aggresively Check for Duplicate Extensions"
-msgstr "Vérification agressive des extensions en double"
-
 #: ../core/views/did/advanced_form.php:187
 msgid "Alert Info"
 msgstr "Alert Info"
-
-#: amp.i18n.php:252
-msgid ""
-"Alert Info to use on Attended Transfer Calls. 'Inherit' will use the "
-"previously set Alert Info.'Unset' will remove the previously set Alert Info."
-"</br> Note: Attended Transfer detection only works in Asterisk 12 or higher"
-msgstr ""
-"Informations d'alerte à utiliser sur les appels de transfert surveillés. "
-"'Hériter' utilisera les informations d'alerte précédemment définies. "
-"'Désactiver' supprimera les informations d'alerte précédemment définies.</br>"
-" Remarque : la détection de transfert assisté ne fonctionne que dans "
-"Asterisk 12 ou supérieur"
-
-#: amp.i18n.php:256
-msgid ""
-"Alert Info to use on Blind Transfer Calls. 'Inherit' will use the previously "
-"set Alert Info,'Unset' will remove the previously set Alert Info."
-msgstr ""
-"Informations d'alerte à utiliser sur les appels de transfert aveugle. "
-"'Hériter' utilisera les informations d'alerte précédemment définies. "
-"'Désactiver' supprimera les informations d'alerte précédemment définies."
-
-#: amp.i18n.php:340
-msgid ""
-"Alert Info to use on Extension to Extension Calls. 'Inherit' will use the "
-"previously set Alert Info,'Unset' will remove the previously set Alert Info. "
-"<br> <b>Sangoma's S series phones ringtones</b>: ring1, ring2, ring3, ring4, "
-"ring5. </br> <b>Sangoma's D series phones ringtones</b>: Alarm, Chimes, "
-"Digium, GuitarStrum, Jingle, Office, Office2, RotaryPhone, SteelDrum, "
-"Techno, Theme, Tweedle, Twinkle, Vibe."
-msgstr ""
-"Informations d'alerte à utiliser sur les appels de poste à poste. 'Hériter' "
-"utilisera les informations d'alerte précédemment définies, 'Désactiver' "
-"supprimera les informations d'alerte précédemment définies. <br> <b>"
-"Sonneries des téléphones de la série S de Sangoma</b> : ring1, ring2, ring3, "
-"ring4, ring5. </br> <b>Sonneries de téléphones de la série D de Sangoma</b> :"
-" Alarme, Carillons, Digium, GuitarStrum, Jingle, Office, Office2, "
-"RotaryPhone, SteelDrum, Techno, Thème, Tweedle, Twinkle, Vibe."
 
 #: ../core/functions.inc/drivers/Sip.class.php:418
 msgid "All - TCP Primary"
@@ -1141,10 +1068,6 @@ msgid "Allow Contact header to be rewritten with the source IP address-port"
 msgstr ""
 "Autoriser la réécriture de l'en-tête du contact avec l'adresse IP-port source"
 
-#: amp.i18n.php:782
-msgid "Allow Login With DB Credentials"
-msgstr "Autoriser la connexion avec les informations d'identification de la BD"
-
 #: ../core/functions.inc/drivers/PJSip.class.php:311
 msgid "Allow Non-Encrypted Media (Opportunistic SRTP)"
 msgstr "Autoriser les médias non cryptés (SRTP opportuniste)"
@@ -1169,55 +1092,10 @@ msgstr "Codecs permis"
 msgid "Already Migrated!"
 msgstr "Déjà migré !"
 
-#: amp.i18n.php:618
-msgid "Alt for Footer Logo"
-msgstr "Alt pour le logo de pied de page"
-
-#: amp.i18n.php:614
-msgid "Alt for Left Logo"
-msgstr "Alt pour le logo de gauche"
-
 #: ../core/functions.inc.php:5548
 #: ../core/functions.inc/drivers/PJSip.class.php:296
 msgid "Always"
 msgstr "Toujours"
-
-#: amp.i18n.php:112
-msgid "Always Download Web Assets"
-msgstr "Toujours télécharger les ressources Web"
-
-#: amp.i18n.php:514
-msgid ""
-"Amount of days to keep browser playback (HTML5 audio files) cache. Set this "
-"to a lower value to conserve disk space."
-msgstr ""
-"Nombre de jours pour conserver le cache de lecture du navigateur (fichiers "
-"audio HTML5). Réglez-le sur une valeur inférieure pour économiser de "
-"l'espace disque."
-
-#: amp.i18n.php:550
-msgid ""
-"Amount of days to retain data in the log tables. Setting this to 30 is ideal."
-msgstr ""
-"Nombre de jours pour conserver les données dans les tables de journal. Le "
-"réglage à 30 est idéal."
-
-#: amp.i18n.php:554
-msgid ""
-"Amount of days to retain data. Setting this above 90 could cause performance "
-"issues."
-msgstr ""
-"Nombre de jours pour conserver les données. Un réglage supérieur à 90 peut "
-"entraîner des problèmes de performances."
-
-#: amp.i18n.php:518
-msgid ""
-"Amount of seconds to allow a session to stay open before logging a user out. "
-"For unlimited clear this box and save."
-msgstr ""
-"Nombre de secondes pour permettre à une session de rester ouverte avant de "
-"déconnecter un utilisateur. Pour un nombre illimité, décochez cette case et "
-"enregistrez."
 
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:434
 #, php-format
@@ -1270,7 +1148,7 @@ msgstr ""
 msgid "Any DID"
 msgstr "Tout SDA"
 
-#: amp.i18n.php:898 amp_conf/htdocs/admin/views/menu_items.php:48
+#: amp.i18n.php:6 amp_conf/htdocs/admin/views/menu_items.php:48
 msgid "Applications"
 msgstr "Applications"
 
@@ -1345,15 +1223,7 @@ msgstr ""
 msgid "Assigned DID/CID"
 msgstr "SDA/CID associé"
 
-#: amp.i18n.php:394
-msgid "Asterisk AGI Dir"
-msgstr "Répertoire AGI Asterisk"
-
-#: amp.i18n.php:26
-msgid "Asterisk Builtin mini-HTTP server"
-msgstr "Mini serveur HTTP intégré d'Asterisk"
-
-#: amp.i18n.php:240 ../core/functions.inc.php:5757
+#: ../core/functions.inc.php:5757
 msgid "Asterisk Dial Options"
 msgstr "Options de composition d'Asterisk"
 
@@ -1371,57 +1241,9 @@ msgstr ""
 msgid "Asterisk General Call Pickup"
 msgstr "Interception général d'appel Asterisk"
 
-#: amp.i18n.php:408
-msgid "Asterisk Log Dir"
-msgstr "Répertoire de journalisation d'Asterisk"
-
-#: amp.i18n.php:82
-msgid "Asterisk Manager"
-msgstr "Gestionnaire Asterisk"
-
-#: amp.i18n.php:80
-msgid "Asterisk Manager Host"
-msgstr "Hôte du gestionnaire d'Asterisk"
-
-#: amp.i18n.php:86
-msgid "Asterisk Manager Password"
-msgstr "Mot de passe du gestionnaire d'Asterisk"
-
-#: amp.i18n.php:90
-msgid "Asterisk Manager Port"
-msgstr "Port du gestionnaire d'Asterisk"
-
-#: amp.i18n.php:94
-msgid "Asterisk Manager Proxy Port"
-msgstr "Port Asterisk Manager Proxy"
-
-#: amp.i18n.php:98
-msgid "Asterisk Manager User"
-msgstr "Utilisateur du gestionnaire d'Asterisk"
-
-#: amp.i18n.php:102
-msgid "Asterisk Manager Write Timeout"
-msgstr "Délai d'expiration d'écriture Asterisk Manager"
-
-#: amp.i18n.php:924 ../core/page.astmodules.php:49
+#: amp.i18n.php:32 ../core/page.astmodules.php:49
 msgid "Asterisk Modules"
 msgstr "Modules d'Asterisk"
-
-#: amp.i18n.php:412
-msgid "Asterisk Modules Dir"
-msgstr "Répertoire des modules d'Asterisk"
-
-#: amp.i18n.php:246
-msgid "Asterisk Outbound Trunk Dial Options"
-msgstr "Options de numérotation trunk sortant Asterisk"
-
-#: amp.i18n.php:416
-msgid "Asterisk Run Dir"
-msgstr "Répertoire d'exécution d'Asterisk"
-
-#: amp.i18n.php:420
-msgid "Asterisk Spool Dir"
-msgstr "Répertoire Spool Asterisk"
 
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:133
 msgid "Asterisk Started"
@@ -1430,14 +1252,6 @@ msgstr "Asterisk Démarré"
 #: ../core/views/trunks/trunk_header.php:368
 msgid "Asterisk Trunk Dial Options"
 msgstr "Options de numérotation trunk Asterisk"
-
-#: amp.i18n.php:790
-msgid "Asterisk VMU Mask"
-msgstr "Masque Asterisk VMU"
-
-#: amp.i18n.php:400
-msgid "Asterisk bin Dir"
-msgstr "Répertoire bin Asterisk"
 
 #: ../core/functions.inc/drivers/Iax2.class.php:134
 #: ../core/functions.inc/drivers/Sip.class.php:376
@@ -1467,10 +1281,6 @@ msgstr ""
 "paramètre vmexten par défaut est automatiquement configuré par le module de "
 "messagerie vocale. Ne modifiez cela que sur les appareils qui peuvent avoir "
 "des besoins spéciaux."
-
-#: amp.i18n.php:404
-msgid "Asterisk etc Dir"
-msgstr "Répertoire etc Asterisk"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:796
 #, php-format
@@ -1512,11 +1322,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Util.class.php:62
 msgid "Attempting to repair MySQL Tables (this may take some time)"
-msgstr "Tenter de réparer les tables MySQL (cela peut prendre un certain temps)"
-
-#: amp.i18n.php:250
-msgid "Attended Transfer Alert Info"
-msgstr "Alert-Info de transfert supervisé"
+msgstr ""
+"Tenter de réparer les tables MySQL (cela peut prendre un certain temps)"
 
 # msgid "DID Number"
 # msgstr "Num&eacute;ro DID"
@@ -1553,27 +1360,6 @@ msgstr "Authentification"
 msgid "Authentication Disabled"
 msgstr "Authentification désactivée"
 
-#: amp.i18n.php:780
-msgid ""
-"Authentication type to use for web admin. If type set to <b>database</b>, "
-"the primary AMP admin credentials will be the AMPDBUSER/AMPDBPASS above. "
-"When using database you can create users that are restricted to only certain "
-"module pages. When set to none, you should make sure you have provided "
-"security at the apache level. When set to webserver, FreePBX will expect "
-"authentication to happen at the apache level, but will take the user "
-"credentials and apply any restrictions as if it were in database mode."
-msgstr ""
-"Type d'authentification à utiliser pour l'administrateur Web. Si le type est "
-"défini sur <b>base de données</b>, les informations d'identification "
-"d'administrateur AMP principales seront AMPDBUSER/AMPDBPASS ci-dessus. "
-"Lorsque vous utilisez la base de données, vous pouvez créer des utilisateurs "
-"limités à certaines pages de module uniquement. Lorsqu'il est défini sur "
-"aucun, vous devez vous assurer que vous avez fourni une sécurité au niveau "
-"d'Apache. Lorsqu'il est défini sur serveur Web, FreePBX s'attend à ce que "
-"l'authentification se produise au niveau Apache, mais prendra les "
-"informations d'identification de l'utilisateur et appliquera toutes les "
-"restrictions comme s'il était en mode base de données."
-
 #: amp_conf/htdocs/admin/libraries/Console/Localization.class.php:39
 #, php-format
 msgid ""
@@ -1582,10 +1368,6 @@ msgid ""
 msgstr ""
 "Jeton d'autorisation. Les demandes sont limitées à 100/jour, sans le "
 "définir. Voir %s pour plus d'informations"
-
-#: amp.i18n.php:778
-msgid "Authorization Type"
-msgstr "Type d'autorisation"
 
 #: ../core/page.ampusers.php:126
 msgid ""
@@ -1674,18 +1456,6 @@ msgstr ""
 msgid "Automatically enable disabled modules without prompting"
 msgstr "Activer automatiquement les modules désactivés sans demander"
 
-#: amp.i18n.php:168
-msgid ""
-"Automatically execute a script after applying changes in the AMP admin. Set "
-"POST_RELOAD to the script you wish to execute after applying changes. If "
-"POST_RELOAD_DEBUG=true, you will see the output of the script in the web "
-"page."
-msgstr ""
-"Exécutez automatiquement un script après avoir appliqué les modifications "
-"dans l'admin AMP. Définissez POST_RELOAD sur le script que vous souhaitez "
-"exécuter après avoir appliqué les modifications. Si POST_RELOAD_DEBUG=true, "
-"vous verrez la sortie du script dans la page Web."
-
 #: ../core/views/routing/form.php:45
 #, php-format
 msgid "Before %s"
@@ -1725,14 +1495,6 @@ msgstr "Entre 20h et 0h"
 msgid "Between Midnight and 4am"
 msgstr "Entre 0h et 4h"
 
-#: amp.i18n.php:254
-msgid "Blind Transfer Alert Info"
-msgstr "Alert-Info de transfert sans préavis"
-
-#: amp.i18n.php:258
-msgid "Block CNAM on External Trunks"
-msgstr "Bloquer CNAM sur les trunks externes"
-
 #: ../core/views/trunks/trunk_header.php:320
 msgid "Block Foreign CIDs"
 msgstr "Bloque les CIDs étrangers"
@@ -1750,18 +1512,6 @@ msgstr "Endommagé"
 #: amp_conf/htdocs/admin/views/module_admin/tab-summary.php:52
 msgid "Broken:"
 msgstr "Endommagé :"
-
-#: amp.i18n.php:424
-msgid "Browser Playback Cache Directory"
-msgstr "Répertoire du cache de lecture du navigateur"
-
-#: amp.i18n.php:510
-msgid "Browser Playback Day Cache"
-msgstr "Cache du jour de lecture du navigateur"
-
-#: amp.i18n.php:794
-msgid "Browser Stats"
-msgstr "Stats du navigateur"
 
 #: install.php:328
 msgid "Building Packaged Scripts..."
@@ -1809,10 +1559,6 @@ msgstr "CFB"
 msgid "CFU"
 msgstr "CFU"
 
-#: amp.i18n.php:432
-msgid "CGI Dir"
-msgstr "Répertoire CGI"
-
 #: ../core/views/did/didgrid.php:18
 msgid "CID"
 msgstr "ID Appelant"
@@ -1843,14 +1589,6 @@ msgstr "Préfixe au CID"
 msgid "CW"
 msgstr "CW"
 
-#: amp.i18n.php:282
-msgid "CW Enabled by Default"
-msgstr "CW Activé par défaut"
-
-#: amp.i18n.php:862
-msgid "Cache Expiration"
-msgstr "Expiration du cache"
-
 #: amp_conf/htdocs/admin/libraries/BMO/Cache.class.php:245
 msgid "Cache path is not writable!"
 msgstr "Le chemin du cache n'est pas accessible en écriture !"
@@ -1862,10 +1600,6 @@ msgstr "Mode Calendrier"
 #: ../core/functions.inc.php:5769
 msgid "Call Forward Ring Time"
 msgstr "Durée de la sonnerie du renvoi d'appel"
-
-#: amp.i18n.php:262
-msgid "Call Forward Ringtimer Default"
-msgstr "Renvoi d'appel par défaut de la sonnerie"
 
 #: ../core/page.users.php:87
 msgid "Call Forwarding Busy is disabled"
@@ -1895,28 +1629,9 @@ msgstr "Le renvoi d'appel est activé"
 msgid "Call Groups"
 msgstr "Groupes d'appel"
 
-#: amp.i18n.php:798
-msgid "Call Recording Format"
-msgstr "Format d'enregistrement des appels"
-
 #: ../core/functions.inc.php:1054
 msgid "Call Recording Module Not Enabled"
 msgstr "Module d'enregistrement d'appels non activé"
-
-#: amp.i18n.php:266
-msgid "Call Recording Policy"
-msgstr "Politique d'enregistrement des appels"
-
-#: amp.i18n.php:268
-msgid ""
-"Call Recording Policy used to resove the winner in a conflict between two "
-"extensions when one wants a call recorded and the other does not, if both "
-"their priorities are also the same."
-msgstr ""
-"Politique d'enregistrement des appels utilisée pour résoudre le gagnant dans "
-"un conflit entre deux extensions lorsque l'une souhaite enregistrer un appel "
-"et l'autre ne le souhaite pas, si leurs deux priorités sont également les "
-"mêmes."
 
 #: ../core/functions.inc.php:5782
 msgid "Call Screening"
@@ -2004,8 +1719,8 @@ msgid ""
 "callgroups, e.g. '1,3000-3005,sales,sales2'."
 msgstr ""
 "Les groupes d'appels dont cet appareil fait partie peuvent être un ou "
-"plusieurs groupes d'appels alphanumériques, par ex. "
-"'1,3000-3005,ventes,ventes2'."
+"plusieurs groupes d'appels alphanumériques, par ex. '1,3000-3005,ventes,"
+"ventes2'."
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:146
 msgid ""
@@ -2013,8 +1728,8 @@ msgid ""
 "callgroups, e.g. '1,3000-3005,sales,sales2.'"
 msgstr ""
 "Les groupes d'appels dont cet appareil fait partie peuvent être un ou "
-"plusieurs groupes d'appels alphanumériques, par ex. "
-"'1,3000-3005,ventes,ventes2.'"
+"plusieurs groupes d'appels alphanumériques, par ex. '1,3000-3005,ventes,"
+"ventes2.'"
 
 #: ../core/functions.inc.php:2149
 #, php-format
@@ -2071,8 +1786,8 @@ msgstr ""
 msgid ""
 "Can not write to cache folder at %s/cache. Please run (from the CLI): %s"
 msgstr ""
-"Impossible d'écrire dans le dossier de cache à %s/cache. Veuillez exécuter ("
-"à partir de la CLI) : %s"
+"Impossible d'écrire dans le dossier de cache à %s/cache. Veuillez exécuter "
+"(à partir de la CLI) : %s"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:187
 #, php-format
@@ -2159,10 +1874,6 @@ msgstr ""
 msgid "Centralized job management"
 msgstr "Gestion centralisée des tâches"
 
-#: amp.i18n.php:428
-msgid "Certificate File Location"
-msgstr "Emplacement du fichier de certificat"
-
 #: ../core/install.php:10
 msgid "ChanSpy"
 msgstr "ChanSpy"
@@ -2221,10 +1932,6 @@ msgstr "Le canal ne peut pas être vide !"
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:27
 msgid "Check Online"
 msgstr "Vérifier en ligne"
-
-#: amp.i18n.php:470
-msgid "Check Server Referrer"
-msgstr "Vérifier le référent du serveur"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:109
 #: amp_conf/htdocs/admin/views/oobe.php:204
@@ -2313,14 +2020,6 @@ msgid "Checks dependencies for provided module[s], accepts argument module[s]"
 msgstr ""
 "Vérifie les dépendances des modules fournis, accepte les modules d'arguments"
 
-#: amp.i18n.php:808
-msgid ""
-"Checks to make sure modules and their files are validly signed. Will display "
-"a notice on any module page that is not correctly verified."
-msgstr ""
-"Vérifie que les modules et leurs fichiers sont valablement signés. Affiche "
-"un avis sur toute page de module qui n'est pas correctement vérifiée."
-
 #: ../core/views/routing/form.php:517
 msgid "Choose File"
 msgstr "Choisir fichier"
@@ -2336,16 +2035,6 @@ msgid ""
 "congetstion, etc."
 msgstr ""
 "Choisissez la zone d'indication du pays que..vous souhaitez qu'Asterisk "
-"utilise lors de la création des différentes tonalités de téléphonie standard "
-"telles que sonnerie, occupé, congestion, etc."
-
-#: amp.i18n.php:280
-msgid ""
-"Choose the country tonezone that you would like Asterisk to use when "
-"creating the different standard telephony tones such as ringing, busy, "
-"congetstion, etc."
-msgstr ""
-"Choisissez la zone de tonalité du pays que vous souhaitez qu'Asterisk "
 "utilise lors de la création des différentes tonalités de téléphonie standard "
 "telles que sonnerie, occupé, congestion, etc."
 
@@ -2459,10 +2148,6 @@ msgstr "Compression du framework CSS..."
 msgid "Compressing Web Files"
 msgstr "Compression des fichiers Web"
 
-#: amp.i18n.php:270
-msgid "Conference Room App"
-msgstr "Application de salle de conférence"
-
 #: amp_conf/htdocs/admin/page.modules.php:616
 msgid "Confirm"
 msgstr "Confirmer"
@@ -2492,7 +2177,7 @@ msgstr "Congestion"
 msgid "Connection Type"
 msgstr "Type de connexion"
 
-#: amp.i18n.php:908 amp_conf/htdocs/admin/views/menu_items.php:49
+#: amp.i18n.php:16 amp_conf/htdocs/admin/views/menu_items.php:49
 msgid "Connectivity"
 msgstr "Connectivité"
 
@@ -2558,10 +2243,6 @@ msgstr ""
 "généré automatiquement : %s comme contexte de la jonction entrante. (voir "
 "extensions_additional.conf)."
 
-#: amp.i18n.php:274
-msgid "Convert ZAP Settings to DAHDi"
-msgstr "Convertir les paramètres ZAP en DAHDi"
-
 #: ../core/Console/Convert2pjsip.class.php:16
 msgid "Convert all extensions to PJSIP"
 msgstr "Convertir toutes les extensions en PJSIP"
@@ -2575,16 +2256,16 @@ msgstr "Convertir les anciennes extensions chan_sip en chan_pjsip"
 msgid "Converted extension %s to PJSIP"
 msgstr "Extension %s convertie en PJSIP"
 
-#: amp.i18n.php:896 ../core/install.php:6
+#: amp.i18n.php:4 ../core/install.php:6
 msgid "Core"
 msgstr "Coeur"
 
-#: ../core/Core.class.php:4041
+#: ../core/Core.class.php:4045
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr "Le serveur Core FastAGI a déjà été exécuté sur le PID %s pour %s"
 
-#: ../core/Core.class.php:4114
+#: ../core/Core.class.php:4118
 msgid "Core FastAGI Server is not running"
 msgstr "Le serveur principal FastAGI n'est pas en cours d'exécution"
 
@@ -2685,10 +2366,6 @@ msgstr "Ne peut décompresser %s vers %s"
 msgid "Could not write to %s"
 msgstr "Impossible d'écrire dans %s"
 
-#: amp.i18n.php:278
-msgid "Country Indication Tones"
-msgstr "Tonalités d'indication de pays"
-
 #: ../core/page.ampusers.php:240
 msgid "Create a password for this new user"
 msgstr "Créer un mot de passe pour ce nouvel utilisateur"
@@ -2745,10 +2422,6 @@ msgstr ""
 msgid "Cron"
 msgstr "Cron"
 
-#: amp.i18n.php:108
-msgid "Cron JOBS"
-msgstr "JOBS Cron"
-
 #: ../core/functions.inc.php:5757
 msgid ""
 "Cryptic Asterisk Dial Options, check to customize for this extension or un-"
@@ -2796,10 +2469,6 @@ msgstr "Paramètre actuel pour %s laissé en place"
 msgid "Custom"
 msgstr "Personnalisé(e)"
 
-#: amp.i18n.php:596
-msgid "Custom CRM url"
-msgstr "URL CRM personnalisée"
-
 #: upgrades/2.8.0/custom-context.php:53 upgrades/2.8.0rc1/custom-context.php:53
 msgid "Custom Context Migration aborted"
 msgstr "Migration de contexte personnalisé abandonnée"
@@ -2823,7 +2492,7 @@ msgstr ""
 msgid "DAHDI Channel"
 msgstr "Canal DAHDI"
 
-#: amp.i18n.php:910 ../core/views/dahdichandids/general.php:5
+#: amp.i18n.php:18 ../core/views/dahdichandids/general.php:5
 #: ../core/views/dahdichandids/view.php:6
 msgid "DAHDI Channel DIDs"
 msgstr "DIDs de canaux DAHDI"
@@ -2906,7 +2575,7 @@ msgstr "Description DID"
 msgid "DID Number"
 msgstr "Numéro DID"
 
-#: ../core/Core.class.php:3640
+#: ../core/Core.class.php:3644
 msgid "DID already exists"
 msgstr "Ce DID existe déjà"
 
@@ -2927,78 +2596,6 @@ msgstr "DID / Routes entrantes"
 msgid "DND"
 msgstr "NPD"
 
-#: amp.i18n.php:580
-msgid ""
-"DO NOT set this unless you know what you are doing. Only used if you do not "
-"use the default values provided by FreePBX. Defaults to your configured "
-"AMDBENGINE."
-msgstr ""
-"NE PAS régler ceci à moins que vous ne sachiez ce que vous faites. Utilisé "
-"uniquement si vous n'utilisez pas les valeurs par défaut fournies par "
-"FreePBX. Par défaut, votre AMDBENGINE configuré."
-
-#: amp.i18n.php:576
-msgid ""
-"DO NOT set this unless you know what you are doing. Only used if you do not "
-"use the default values provided by FreePBX. Name of the table in the db "
-"where the cdr is stored. cdr is default."
-msgstr ""
-"NE PAS régler ceci à moins que vous ne sachiez ce que vous faites. Utilisé "
-"uniquement si vous n'utilisez pas les valeurs par défaut fournies par "
-"FreePBX. Nom de la table dans la base de données où est stocké le cdr. cdr "
-"est la valeur par défaut."
-
-#: amp.i18n.php:584
-msgid ""
-"DO NOT set this unless you know what you are doing. Only used if you do not "
-"use the default values provided by FreePBX. Username to connect to db with "
-"if it is not the same as AMPDBUSER."
-msgstr ""
-"NE PAS régler ceci à moins que vous ne sachiez ce que vous faites. Utilisé "
-"uniquement si vous n'utilisez pas les valeurs par défaut fournies par "
-"FreePBX. Nom d'utilisateur avec lequel se connecter à la base de données "
-"s'il n'est pas le même que AMPDBUSER."
-
-#: amp.i18n.php:560
-msgid ""
-"DO NOT set this unless you know what you are doing. Only used if you do not "
-"use the default values provided by FreePBX.<br>Hostname of db server if not "
-"the same as AMPDBHOST."
-msgstr ""
-"NE PAS régler ceci à moins que vous ne sachiez ce que vous faites. Utilisé "
-"uniquement si vous n'utilisez pas les valeurs par défaut fournies par "
-"FreePBX.<br>Nom d'hôte du serveur db s'il n'est pas le même que AMPDBHOST."
-
-#: amp.i18n.php:564
-msgid ""
-"DO NOT set this unless you know what you are doing. Only used if you do not "
-"use the default values provided by FreePBX.<br>Name of database used for cdr "
-"records."
-msgstr ""
-"NE PAS régler ceci à moins que vous ne sachiez ce que vous faites. Utilisé "
-"uniquement si vous n'utilisez pas les valeurs par défaut fournies par "
-"FreePBX.<br>Nom de la base de données utilisée pour les enregistrements cdr."
-
-#: amp.i18n.php:568
-msgid ""
-"DO NOT set this unless you know what you are doing. Only used if you do not "
-"use the default values provided by FreePBX.<br>Password for connecting to db "
-"if its not the same as AMPDBPASS."
-msgstr ""
-"NE PAS régler ceci à moins que vous ne sachiez ce que vous faites. Utilisé "
-"uniquement si vous n'utilisez pas les valeurs par défaut fournies par "
-"FreePBX.<br>Mot de passe pour la connexion à la base de données si ce n'est "
-"pas le même que AMPDBPASS."
-
-#: amp.i18n.php:572
-msgid ""
-"DO NOT set this unless you know what you are doing. Only used if you do not "
-"use the default values provided by FreePBX.<br>Port number for db host."
-msgstr ""
-"NE PAS régler ceci à moins que vous ne sachiez ce que vous faites. Utilisé "
-"uniquement si vous n'utilisez pas les valeurs par défaut fournies par "
-"FreePBX.<br>Numéro de port pour l'hôte db."
-
 #: ../core/functions.inc/drivers/PJSip.class.php:288
 msgid "DTLS-SRTP (not recommended)"
 msgstr "DTLS-SRTP (non recommandé)"
@@ -3015,10 +2612,6 @@ msgstr "Signalisation DTMF"
 msgid "DUNDi Mapping"
 msgstr "Cartographie DUNDi"
 
-#: amp.i18n.php:546
-msgid "Data Retention"
-msgstr "La conservation des données"
-
 #: amp_conf/htdocs/admin/libraries/BMO/DB_Helper.class.php:607
 msgid "Database Error detected. Automatic repair started. Please retry"
 msgstr ""
@@ -3033,17 +2626,9 @@ msgstr "Nom de la base de données"
 msgid "Date Fixed"
 msgstr "Date corrigé"
 
-#: amp.i18n.php:738
-msgid "Date Format"
-msgstr "Format de date"
-
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:18
 msgid "Date Reported"
 msgstr "Date de notification"
-
-#: amp.i18n.php:734
-msgid "Date and Time Format"
-msgstr "Format de la date et de l'heure"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:114
 #: amp_conf/htdocs/admin/views/oobe.php:210
@@ -3053,10 +2638,6 @@ msgstr "Jour"
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:171
 msgid "Debug"
 msgstr "Débogage"
-
-#: amp.i18n.php:122
-msgid "Debug File"
-msgstr "Fichier de débogage"
 
 #: ../core/functions.inc.php:5546 ../core/functions.inc.php:5547
 #: ../core/views/did/advanced_form.php:10 ../core/views/trunks/pjsip.php:145
@@ -3077,198 +2658,6 @@ msgstr "Utilisateur par défaut"
 msgid "Default Value"
 msgstr "Valeur par défaut"
 
-#: amp.i18n.php:802
-msgid "Default language"
-msgstr "Langue par défaut"
-
-#: amp.i18n.php:324
-msgid ""
-"Default maximum number of outbound simultaneous calls that an extension can "
-"make. This is also very useful as a Security Protection against a system "
-"that has been compromised. It will limit the number of simultaneous calls "
-"that can be made on the compromised extension. This default is used when an "
-"extension is created. A default of 0 means no limit."
-msgstr ""
-"Nombre maximal par défaut d'appels sortants simultanés qu'un poste peut "
-"passer. Ceci est également très utile comme protection de sécurité contre un "
-"système qui a été compromis. Cela limitera le nombre d'appels simultanés "
-"pouvant être passés sur le poste compromis. Cette valeur par défaut est "
-"utilisée lorsqu'une extension est créée. Une valeur par défaut de 0 signifie "
-"aucune limite."
-
-#: amp.i18n.php:368
-msgid ""
-"Default number of seconds to ring phones before sending callers to voicemail "
-"or other extension destinations. This can be set per extension/user. Phones "
-"with no voicemail or other destination options will ring indefinitely."
-msgstr ""
-"Nombre de secondes par défaut pour faire sonner les téléphones avant "
-"d'envoyer les appelants vers la messagerie vocale ou d'autres destinations "
-"de poste. Cela peut être défini par poste/utilisateur. Les téléphones sans "
-"messagerie vocale ou autres options de destination sonneront indéfiniment."
-
-#: amp.i18n.php:214
-msgid ""
-"Default setting for (new Extension)  SIP encryption. Whether to offer SRTP "
-"encrypted media (and only SRTP encrypted media) on outgoing calls to a peer. "
-"Calls will fail with HANGUPCAUSE=58 if the peer does not support SRTP. See "
-"Asterisk documentation for details."
-msgstr ""
-"Paramètre par défaut pour le cryptage SIP (nouveau poste). S'il faut "
-"proposer ou non des médias chiffrés SRTP (et uniquement des médias chiffrés "
-"SRTP) lors des appels sortants vers un homologue. Les appels échoueront avec "
-"HANGUPCAUSE=58 si l'homologue ne prend pas en charge SRTP. Voir la "
-"documentation Asterisk pour plus de détails."
-
-#: amp.i18n.php:226
-msgid ""
-"Default setting for (new Extension) SIP and IAX allow (for codecs). Codecs "
-"to allow in addition to those set in general settings unless explicitly "
-"'disallowed' for the device. Values van be separated with '&' e.g. "
-"'ulaw&g729&g729' where the preference order is preserved. See Asterisk "
-"documentation for details."
-msgstr ""
-"Paramètre par défaut pour (nouveau poste) SIP et IAX autorisés (pour les "
-"codecs). Codecs à autoriser en plus de ceux définis dans les paramètres "
-"généraux, à moins qu'ils ne soient explicitement 'interdits' pour "
-"l'appareil. Les valeurs peuvent être séparées par '&', par ex. "
-"'alaw&ulaw&g729' où l'ordre de préférence est préservé. Voir la "
-"documentation Asterisk pour plus de détails."
-
-#: amp.i18n.php:230
-msgid ""
-"Default setting for (new Extension) SIP and IAX disallow (for codecs). "
-"Codecs to disallow, can help to reset from the general settings by setting a "
-"value of 'all' and then specifically including allowed codecs with the "
-"'allow' directive. Values van be separated with '&' e.g. 'g729&g722'. See "
-"Asterisk documentation for details."
-msgstr ""
-"Paramètre par défaut pour (nouveau poste) SIP et IAX interdits (pour les "
-"codecs). Les codecs à interdire peuvent aider à réinitialiser les paramètres "
-"généraux en définissant une valeur de 'all', puis en incluant spécifiquement "
-"les codecs autorisés avec la directive « allow ». Les valeurs peuvent être "
-"séparées par '&', par ex. 'g729&g722'. Voir la documentation Asterisk pour "
-"plus de détails."
-
-#: amp.i18n.php:222
-msgid ""
-"Default setting for (new Extension) SIP and IAX qualify. Whether to send "
-"periodic OPTIONS messages (for SIP) or otherwise monitor the channel, and at "
-"what point to consider the channel unavailable. A value of 'yes' is "
-"equivalent to 2000, time in msec. Can help to keep NAT holes open with SIP "
-"but not dependable for remote client firewalls. See Asterisk documentation "
-"for details."
-msgstr ""
-"Paramètre par défaut pour (nouveau poste) SIP et IAX qualify. S'il faut "
-"envoyer des messages OPTIONS périodiques (pour SIP) ou surveiller autrement "
-"le canal, et à quel moment considérer que le canal n'est pas disponible. Une "
-"valeur de 'oui' équivaut à 2000, temps en ms. Peut aider à garder les ports "
-"NAT ouverts avec SIP mais pas fiable pour les pare-feu des clients distants. "
-"Voir la documentation Asterisk pour plus de détails."
-
-#: amp.i18n.php:194
-msgid ""
-"Default setting for (new Extension) SIP canreinvite (same as directmedia). "
-"See Asterisk documentation for details."
-msgstr ""
-"Paramètre par défaut pour (nouveau poste) SIP canreinvite (identique à "
-"directmedia). Voir la documentation Asterisk pour plus de détails."
-
-#: amp.i18n.php:210
-msgid ""
-"Default setting for (new Extension) SIP nat. A 'yes' will attempt to handle "
-"nat, also works for local (uses the network ports and address instead of the "
-"reported ports), 'no' follows the protocol, 'never' tries to block it, no "
-"RFC3581, 'route' ignores the rport information. See Asterisk documentation "
-"for details."
-msgstr ""
-"Paramètre par défaut pour (nouveau poste) SIP nat. Un 'oui' tentera de gérer "
-"nat, fonctionne également pour le local (utilise les ports réseau et "
-"l'adresse au lieu des ports signalés), 'non' suit le protocole, 'jamais' "
-"essaie de le bloquer, pas de RFC3581, 'route' ignore les informations de "
-"rport. Voir la documentation Asterisk pour plus de détails."
-
-#: amp.i18n.php:218
-msgid ""
-"Default setting for (new Extension) SIP qualifyfreq. Only valid for Asterisk "
-"1.6 and above. Frequency that 'qualify' OPTIONS messages will be sent to the "
-"device. Can help to keep NAT holes open but not dependable for remote client "
-"firewalls. See Asterisk documentation for details."
-msgstr ""
-"Paramètre par défaut pour le (nouveau poste) SIP qualifierfreq. Uniquement "
-"valable pour Asterisk 1.6 et supérieur. Fréquence à laquelle les messages "
-"OPTIONS 'qualify' seront envoyés à l'appareil. Peut aider à garder les ports "
-"NAT ouverts mais pas fiable pour les pare-feu des clients distants. Voir la "
-"documentation Asterisk pour plus de détails"
-
-#: amp.i18n.php:206
-msgid ""
-"Default setting for (new Extension) SIP sendrpid. A value of 'yes' is "
-"equivalent to 'rpid' and will send the 'Remote-Party-ID' header. A value of "
-"'pai' will send the 'P-Asserted-Identity' header. See Asterisk documentation "
-"for details."
-msgstr ""
-"Paramètre par défaut pour (nouveau poste) SIP sendrpid. Une valeur de 'yes' "
-"équivaut à 'rpid' et enverra l'en-tête 'Remote-Party-ID'. Une valeur de "
-"'pai' enverra l'en-tête 'P-Asserted-Identity'. Voir la documentation "
-"Asterisk pour plus de détails."
-
-#: amp.i18n.php:202
-msgid ""
-"Default setting for (new Extension) SIP trustrpid. See Asterisk "
-"documentation for details."
-msgstr ""
-"Paramètre par défaut pour (nouveau poste) SIP trustrpid. Voir la "
-"documentation Asterisk pour plus de détails."
-
-#: amp.i18n.php:234
-msgid ""
-"Default setting for (new Extension) SIP, DAHDi (and Zap) callgroup. "
-"Callgroup(s) that the device is part of, can be one or more callgroups, e.g. "
-"'1,3-5' would be in groups 1,3,4,5. See Asterisk documentation for details."
-msgstr ""
-"Paramètre par défaut pour le groupe d'appel (nouveau poste) SIP, DAHDi (et "
-"Zap). Les groupes d'appels dont fait partie l'appareil peuvent être un ou "
-"plusieurs groupes d'appels, par ex. '1,3-5' serait dans les groupes 1,3,4,5. "
-"Voir la documentation Asterisk pour plus de détails."
-
-#: amp.i18n.php:238
-msgid ""
-"Default setting for (new Extension) SIP, DAHDi (and Zap) pickupgroup. "
-"Pickupgroups(s) that the device can pickup calls from, can be one or more "
-"groups, e.g. '1,3-5' would be in groups 1,3,4,5. Device does not have to be "
-"in a group to be able to pickup calls from that group. See Asterisk "
-"documentation for details."
-msgstr ""
-"Paramètre par défaut pour le groupe d'interception (nouveau poste) SIP, "
-"DAHDi (et Zap) . Le(s) groupe(s) d'interception d'appels à partir desquels "
-"l'appareil peut intercepter des appels peuvent être constitués d'un ou "
-"plusieurs groupes, par ex. '1,3-5' serait dans les groupes 1,3,4,5. "
-"L'appareil n'a pas besoin d'être dans un groupe pour pouvoir intercepter les "
-"appels de ce groupe. Voir la documentation Asterisk pour plus de détails."
-
-#: amp.i18n.php:344
-msgid ""
-"Default setting for new extensions. When set to Intercom, calls to new "
-"extensions/users from other internal users act as if they were intercom "
-"calls meaning they will be auto-answered if the endpoint supports this "
-"feature and the system is configured to operate in this mode. All the normal "
-"white list and black list settings will be honored if they are set. External "
-"calls will still ring as normal, as will certain other circumstances such as "
-"blind transfers and when a Follow Me is configured and enabled. If Disabled, "
-"the phone rings as a normal phone."
-msgstr ""
-"Paramètre par défaut pour les nouveaux postes. Lorsqu'il est défini sur "
-"Intercom, les appels vers de nouveaux postes/utilisateurs provenant d'autres "
-"utilisateurs internes agissent comme s'il s'agissait d'appels interphone, ce "
-"qui signifie qu'ils recevront une réponse automatique si le terminal prend "
-"en charge cette fonctionnalité et que le système est configuré pour "
-"fonctionner dans ce mode. Tous les paramètres normaux de liste blanche et de "
-"liste noire seront respectés s'ils sont définis. Les appels externes "
-"sonneront toujours normalement, de même que certaines autres circonstances "
-"telles que les transferts aveugles et lorsqu'un Follow Me est configuré et "
-"activé. Si désactivé, le téléphone sonne comme un téléphone normal."
-
 #: ../core/functions.inc/drivers/Sip.class.php:336
 msgid ""
 "Default user setting for this device, almost always empty for dynamic "
@@ -3282,24 +2671,6 @@ msgstr ""
 #: ../core/functions.inc/drivers/PJSip.class.php:281
 msgid "Defaults and enables some options that are relevant to WebRTC"
 msgstr "Par défaut et active certaines options pertinentes pour WebRTC"
-
-#: amp.i18n.php:792
-msgid ""
-"Defaults to 077 allowing only the asterisk user to have any permission on VM "
-"files. If set to something like 007, it would allow the group to have "
-"permissions. This can be used if setting apache to a different user then "
-"asterisk, so that the apache user can have access to read/write/delete the "
-"voicemail files. If changed, some of the voicemail directory structures may "
-"have to be manually changed."
-msgstr ""
-"La valeur par défaut est 077, permettant uniquement à l'utilisateur "
-"astérisque d'avoir une autorisation sur les fichiers VM. S'il est défini sur "
-"quelque chose comme 007, cela permettrait au groupe d'avoir des "
-"autorisations. Cela peut être utilisé si vous définissez Apache sur un autre "
-"utilisateur que l'astérisque, afin que l'utilisateur Apache puisse avoir "
-"accès à la lecture/écriture/suppression des fichiers de messagerie vocale. "
-"En cas de modification, certaines des structures de répertoire de messagerie "
-"vocale devront peut-être être modifiées manuellement."
 
 #: ../core/views/did/advanced_form.php:148 ../core/views/did/basic_form.php:80
 msgid ""
@@ -3431,26 +2802,6 @@ msgstr "Destruction session"
 msgid "Detected Missing Dependency of: %s %s"
 msgstr "Dépendance manquante détectée de : %s %s"
 
-#: amp.i18n.php:712
-msgid ""
-"Determine where to send log information if the log is enabled ('Disable "
-"FreePBX Log' (AMPDISABLELOG) false. There are two places to route the log "
-"messages. 'FILE' will send all log messages to the defined 'FreePBX Log "
-"File' (FPBX_LOG_FILE). All the other settings will route the log messages to "
-"your System Logging subsystem (syslog) using the specified log level. Syslog "
-"can be configured to route different levels to different locations. See "
-"'syslog' documentation (man syslog) on your system for more details."
-msgstr ""
-"Déterminez où envoyer les informations de journal si le journal est activé ("
-"'Disable FreePBX Log' (AMPDISABLELOG) false. Il y a deux endroits pour "
-"acheminer les messages de log. 'FILE' enverra tous les messages de log au "
-"'FreePBX Log File' (FPBX_LOG_FILE) défini. Tous les autres paramètres "
-"acheminent les messages du journal vers votre sous-système d’enregistrement "
-"système (syslog) en utilisant le niveau de journal spécifié. Syslog peut "
-"être configuré pour router différents niveaux vers différents emplacements. "
-"Voir la documentation 'syslog' (man syslog) sur votre système pour plus de "
-"détails."
-
 #: ../core/views/trunks/trunk_header.php:332
 msgid ""
 "Determines what CIDs will be allowed out this trunk. IMPORTANT: EMERGENCY "
@@ -3468,17 +2819,17 @@ msgid ""
 msgstr ""
 "Détermine quels CID seront autorisés à sortir de ce trunk. IMPORTANT : les "
 "CID D'URGENCE définis sur un poste/un appareil seront TOUJOURS utilisés si "
-"ce trunk fait partie d'une route d'URGENCE, quels que soient ces paramètres.<"
-"br />Autoriser tout CID : tous les CID, y compris les CIDS étrangers "
+"ce trunk fait partie d'une route d'URGENCE, quels que soient ces paramètres."
+"<br />Autoriser tout CID : tous les CID, y compris les CIDS étrangers "
 "provenant d'appels externes renvoyés, seront transmis.< br />Bloquer les CID "
 "étrangers : définit tout CID résultant d'un appel transféré depuis le "
 "système vers l'ID de l'appelant sortant défini pour le trunk. Si aucun ID "
 "d'appelant sortant n'est défini pour le trunk, le CID étranger sera envoyé "
-"sans changement. Les CID définis pour les postes/utilisateurs sont transmis.<"
-"br />Supprimer CNAM : ceci supprimera CNAM de tout CID envoyé sur ce trunk<"
-"br />Forcer le CID de trunk : utilisez toujours le CID défini pour ce trunk, "
-"sauf s'il fait partie d'une route d'URGENCE avec un CID D'URGENCE défini "
-"pour le poste/l'appareil."
+"sans changement. Les CID définis pour les postes/utilisateurs sont transmis."
+"<br />Supprimer CNAM : ceci supprimera CNAM de tout CID envoyé sur ce "
+"trunk<br />Forcer le CID de trunk : utilisez toujours le CID défini pour ce "
+"trunk, sauf s'il fait partie d'une route d'URGENCE avec un CID D'URGENCE "
+"défini pour le poste/l'appareil."
 
 #: ../core/functions.inc/drivers/Sip.class.php:358
 #: ../core/views/trunks/pjsip.php:539
@@ -3548,14 +2899,6 @@ msgstr ""
 "Détermine si res_pjsip utilisera le transport média reçu dans  l’offre SDP "
 "dans la réponse correspondante."
 
-#: amp.i18n.php:126
-msgid "Developer Mode"
-msgstr "Mode développeur"
-
-#: amp.i18n.php:114
-msgid "Developer and Customization"
-msgstr "Développeur et personnalisation"
-
 # msgid "Not found"
 # msgstr "pas trouv&eacute;"
 # msgid ""
@@ -3563,7 +2906,7 @@ msgstr "Développeur et personnalisation"
 # msgstr ""
 # "La section demand&eacute;e n'existe pas ou vous n'y avez pas acc&egrave;s."
 # #       FIN config
-#: ../core/Core.class.php:3848 ../core/functions.inc.php:5979
+#: ../core/Core.class.php:3852 ../core/functions.inc.php:5979
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3589,10 +2932,6 @@ msgstr "Identité Périphérique"
 msgid "Device Options"
 msgstr "Options du dispositif"
 
-#: amp.i18n.php:184
-msgid "Device Settings"
-msgstr "Paramètres du dispositif"
-
 #: ../core/functions.inc/drivers/PJSip.class.php:314
 msgid "Device State Busy at"
 msgstr "État du périphérique occupé à"
@@ -3606,7 +2945,7 @@ msgstr "Technologie du dispositif"
 msgid "Device Type"
 msgstr "Type de dispositif"
 
-#: ../core/Core.class.php:3592
+#: ../core/Core.class.php:3596
 msgid "Device could not be added."
 msgstr "Le dispositif n'a pu être ajouté."
 
@@ -3614,7 +2953,7 @@ msgstr "Le dispositif n'a pu être ajouté."
 msgid "Device was not added!"
 msgstr "Le dispositif n'a pas été ajouté !"
 
-#: amp.i18n.php:904
+#: amp.i18n.php:12
 msgid "Devices"
 msgstr "Dispositifs"
 
@@ -3660,10 +2999,6 @@ msgstr "Masque de numérotation pré-défini"
 msgid "Dialed Number Manipulation Rules"
 msgstr "Règles de manipulation des numéros composés"
 
-#: amp.i18n.php:242
-msgid "Dialplan and Operational"
-msgstr "Plan de numérotation et opérationnel"
-
 #: ../core/views/routing/form.php:88
 msgid ""
 "Digits to prepend to a successful match. If the dialed number matches the "
@@ -3699,39 +3034,11 @@ msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
 msgstr ""
 "Le répertoire %s n'existe pas et je ne peux le créer (checkPermissions)"
 
-#: amp.i18n.php:396
-msgid "Directory Layout"
-msgstr "Structure de répertoire"
-
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:404
 #: ../core/functions.inc.php:5522 ../core/functions.inc.php:5528
 #: ../core/functions.inc.php:5531 ../core/functions.inc.php:5535
 msgid "Disable"
 msgstr "Désactivation"
-
-#: amp.i18n.php:286
-msgid "Disable -custom Context Includes"
-msgstr "Désactiver le contexte personnalisé inclut"
-
-#: amp.i18n.php:600
-msgid "Disable CRM Logging"
-msgstr "Désactiver les logs CRM"
-
-#: amp.i18n.php:714
-msgid "Disable FreePBX Log"
-msgstr "Désactiver les logs FreePBX"
-
-#: amp.i18n.php:130
-msgid "Disable FreePBX dbug Logging"
-msgstr "Désactiver la journalisation dbug de FreePBX"
-
-#: amp.i18n.php:134
-msgid "Disable Mainstyle CSS Compression"
-msgstr "Désactiver la compression CSS de style principal"
-
-#: amp.i18n.php:138
-msgid "Disable Module Admin Caching"
-msgstr "Désactiver la mise en cache du module Admin"
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:177
 msgid "Disable Module Admin caching already enabled, ignoring option"
@@ -3809,18 +3116,6 @@ msgstr "Désactivation du trunk %s"
 msgid "Disabling Trunk %s Run fwconsole reload"
 msgstr "Désactivation du Trunk %s Exécutez fwconsole reload"
 
-#: amp.i18n.php:292
-msgid ""
-"Disallow transfer features (Normally ## and *2) for callers who passthrough "
-"inbound routes (Such as external callers)"
-msgstr ""
-"Interdire les fonctions de transfert (normalement ## et *2) pour les "
-"appelants qui passent par des routes entrantes (comme les appelants externes)"
-
-#: amp.i18n.php:290
-msgid "Disallow transfer features for inbound callers"
-msgstr "Interdire les fonctionnalités de transfert pour les appelants entrants"
-
 #: ../core/functions.inc/drivers/Sip.class.php:487
 msgid "Disallowed Codecs"
 msgstr "Codecs rejetés"
@@ -3842,22 +3137,6 @@ msgstr ""
 msgid "Discontinued logging type %s changing to %s.."
 msgstr "Arrêt du type de log %s passant à %s.."
 
-#: amp.i18n.php:294
-msgid "Display CallerID on Calling Phone"
-msgstr "Afficher l'ID de l'appelant sur le téléphone appelant"
-
-#: amp.i18n.php:298
-msgid "Display Dialed Number on Calling Phone"
-msgstr "Afficher le numéro composé sur le téléphone appelant"
-
-#: amp.i18n.php:10
-msgid "Display Friendly Name"
-msgstr "Afficher le nom convivial"
-
-#: amp.i18n.php:142
-msgid "Display Monitor Trunk Failures Option"
-msgstr "Afficher l'option des problèmes de trunk"
-
 #: ../core/functions.inc.php:5718 ../core/views/quickCreate.php:85
 msgid "Display Name"
 msgstr "Nom affiché"
@@ -3865,28 +3144,6 @@ msgstr "Nom affiché"
 #: ../core/Core.class.php:147
 msgid "Display Name can not be blank!"
 msgstr "Le nom affiché ne peut être vide !"
-
-#: amp.i18n.php:302
-msgid "Display Presence State of Callee"
-msgstr "Afficher l'état de présence de l'appelé"
-
-#: amp.i18n.php:16
-msgid "Display Readonly Settings"
-msgstr "Afficher les paramètres en lecture seule"
-
-#: amp.i18n.php:164
-msgid "Display debug output for script used if POST_RELOAD is used."
-msgstr ""
-"Affiche la sortie de débogage pour le script utilisé si POST_RELOAD est "
-"utilisé."
-
-#: amp.i18n.php:306
-msgid "Ditech VQA Inbound Setting"
-msgstr "Paramètre entrant Ditech VQA"
-
-#: amp.i18n.php:310
-msgid "Ditech VQA Outbound Setting"
-msgstr "Paramètre sortant Ditech VQA"
 
 #: amp_conf/htdocs/admin/libraries/BMO/Freepbx_conf.class.php:451
 msgid ""
@@ -3903,10 +3160,6 @@ msgstr "Ne pas déranger est désactivé"
 #: ../core/page.users.php:78
 msgid "Do Not Disturb is enabled"
 msgstr "Ne pas déranger est activé"
-
-#: amp.i18n.php:724
-msgid "Do fwconsole reload After automatic module update"
-msgstr "Faire un rechargement Après la mise à jour automatique du module"
 
 #: amp_conf/htdocs/admin/libraries/Console/Debug.class.php:26
 msgid "Do not tail standard freepbx.log"
@@ -4083,10 +3336,6 @@ msgstr ""
 msgid "Duplicate"
 msgstr ""
 
-#: amp.i18n.php:314
-msgid "Dynamically Generate Hints"
-msgstr ""
-
 #: amp_conf/htdocs/admin/views/module_admin/tab-summary.php:13
 msgid "EDGE MODE"
 msgstr ""
@@ -4251,40 +3500,8 @@ msgstr "Activer le chiffrement"
 msgid "Enable ICE Support"
 msgstr "Activer le support ICE"
 
-#: amp.i18n.php:806
-msgid "Enable Module Signature Checking"
-msgstr ""
-
-#: amp.i18n.php:810
-msgid "Enable Module Tracks"
-msgstr ""
-
-#: amp.i18n.php:520
-msgid "Enable NativeApps Logging"
-msgstr ""
-
-#: amp.i18n.php:150
-msgid "Enable Performance Logging"
-msgstr ""
-
 #: ../core/functions.inc/drivers/PJSip.class.php:270
 msgid "Enable RTP bundling"
-msgstr ""
-
-#: amp.i18n.php:24
-msgid "Enable Static Content"
-msgstr ""
-
-#: amp.i18n.php:34
-msgid "Enable TLS for the mini-HTTP Server"
-msgstr ""
-
-#: amp.i18n.php:474
-msgid "Enable The Old Style FreePBX Dial Patterns Textarea"
-msgstr ""
-
-#: amp.i18n.php:526
-msgid "Enable Token Based Security"
 msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:282
@@ -4299,23 +3516,9 @@ msgstr ""
 msgid "Enable and disable trunks from the command line"
 msgstr "Activer et désactiver les jonctions en ligne de commande"
 
-#: amp.i18n.php:284
-msgid ""
-"Enable call waiting by default when an extension is created (Default is "
-"yes). Set to <b>no</b> to if you do not want phones to be commissioned with "
-"call waiting already enabled. The user would then be required to dial the CW "
-"feature code (*70 default) to enable their phone. Most installations should "
-"leave this alone. It allows multi-line phones to receive multiple calls on "
-"their line appearances."
-msgstr ""
-
 #: ../core/Console/Trunks.class.php:19
 msgid "Enable given trunk"
 msgstr "Activer la jonction spécifiée"
-
-#: amp.i18n.php:146
-msgid "Enable jQuery Migrate"
-msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1309
 msgid "Enable module[s], accepts argument module[s]"
@@ -4337,16 +3540,6 @@ msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:464
 msgid "Enable rtcp Mux"
-msgstr ""
-
-#: amp.i18n.php:30
-msgid "Enable the mini-HTTP Server"
-msgstr "Activer le mini serveur HTTP"
-
-#: amp.i18n.php:534
-msgid ""
-"Enable this to send outbound HTTP and HTTPS requests via a proxy. This does "
-"not affect Voice or Video traffic."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
@@ -4375,13 +3568,6 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:130
 msgid "Enabled; Not available online"
 msgstr "Activé, non disponible en ligne"
-
-#: amp.i18n.php:36
-msgid ""
-"Enables listening for HTTPS connections. This is for Asterisk, it is not "
-"directly related for FreePBX usage and the value of this setting is "
-"irrelevant for accessing core FreePBX settings. Default is no."
-msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1330
 msgid "Enables repo, accepts argument repo[s]"
@@ -4431,10 +3617,6 @@ msgid ""
 "may used 5061 for the second port."
 msgstr ""
 
-#: amp.i18n.php:318
-msgid "Enforce RFC7462"
-msgstr ""
-
 #: ../core/functions.inc/drivers/PJSip.class.php:239
 msgid ""
 "Enforce that RTP must be symmetric. If this device is natting in it is "
@@ -4467,12 +3649,6 @@ msgstr ""
 
 #: ../core/views/quickCreate.php:88
 msgid "Enter name"
-msgstr ""
-
-#: amp.i18n.php:538
-msgid ""
-"Enter the address of the outbound proxy. This will be similar to "
-"http://10.1.1.1:3128"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/welcome.php:13
@@ -4703,16 +3879,6 @@ msgstr ""
 msgid "Export settings to file"
 msgstr ""
 
-#: amp.i18n.php:774
-msgid "Expose All Feature Codes"
-msgstr ""
-
-#: amp.i18n.php:776
-msgid ""
-"Expose All Feature Codes settings in Feature Code Admin page. By default *11/"
-"*12 feature code setting will be hidden in Extension mode."
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:14
 msgid "Extended"
 msgstr ""
@@ -4725,16 +3891,12 @@ msgstr ""
 # msgstr "Utiliser les r&eacute;glages 'Appels entrants'"
 # ### Fin message DID
 #: ../core/Core.class.php:3461 ../core/Core.class.php:3462
-#: ../core/Core.class.php:3836 ../core/functions.inc.php:5624
+#: ../core/Core.class.php:3840 ../core/functions.inc.php:5624
 #: ../core/page.did.php:93 ../core/page.extensions.php:39
 #: ../core/page.extensions.php:132 ../core/page.extensions.php:160
 #: ../core/views/rnav.php:23
 msgid "Extension"
 msgstr "Poste"
-
-#: amp.i18n.php:322
-msgid "Extension Concurrency Limit"
-msgstr ""
 
 #: ../core/views/quickCreate.php:53
 msgid "Extension Number"
@@ -4756,15 +3918,15 @@ msgstr "Le poste est déjà utilisé !"
 msgid "Extension can not be blank!"
 msgstr "Le numéro de poste ne peut être vide !"
 
-#: ../core/Core.class.php:3530
+#: ../core/Core.class.php:3531
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3533
+#: ../core/Core.class.php:3534
 msgid "Extension is not numeric."
 msgstr "Le numéro de poste n'est pas numérique."
 
-#: ../core/Core.class.php:3536
+#: ../core/Core.class.php:3537
 msgid "Extension name is blank."
 msgstr ""
 
@@ -4779,7 +3941,7 @@ msgstr "Le numéro de poste n'est pas numérique !"
 # La suite ne sont plus des messages de config. Peut-etre utilise par d'autres!
 # msgid "Incoming Calls"
 # msgstr "Appels entrants"
-#: amp.i18n.php:900 ../core/Core.class.php:3440 ../core/Core.class.php:3441
+#: amp.i18n.php:8 ../core/Core.class.php:3440 ../core/Core.class.php:3441
 #: ../core/page.extensions.php:26
 msgid "Extensions"
 msgstr "Postes"
@@ -4811,10 +3973,6 @@ msgstr ""
 
 #: ../core/page.extensions.php:164
 msgid "FMFM"
-msgstr ""
-
-#: amp.i18n.php:456
-msgid "FOP Web Root Dir"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/utility.functions.php:1230
@@ -4894,7 +4052,7 @@ msgstr "Impossible d'exécuter les scripts d'installation"
 msgid "Failed to run un-installation scripts"
 msgstr "Impossible de démarrer les scripts de désinstallation"
 
-#: ../core/Core.class.php:4093
+#: ../core/Core.class.php:4097
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -4923,11 +4081,11 @@ msgstr "Echec d'écriture du fichier indications.conf"
 msgid "Fallback Welcome Page"
 msgstr ""
 
-#: ../core/Core.class.php:4175 ../core/Core.class.php:4182
+#: ../core/Core.class.php:4179 ../core/Core.class.php:4186
 msgid "Fast AGI Server not running"
 msgstr ""
 
-#: ../core/Core.class.php:4133
+#: ../core/Core.class.php:4137
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -4938,10 +4096,6 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:906
 msgid "Fax Detect"
-msgstr ""
-
-#: amp.i18n.php:326
-msgid "Feature Codes Beep Only"
 msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:633
@@ -5023,10 +4177,6 @@ msgstr ""
 msgid "Flags"
 msgstr ""
 
-#: amp.i18n.php:458
-msgid "Flash Operator Panel"
-msgstr "Panneau Opérateur"
-
 #: ../core/functions.inc/drivers/PJSip.class.php:253
 msgid ""
 "For Message Waiting indicators there are three types: Auto, Solicited and "
@@ -5048,13 +4198,6 @@ msgstr ""
 msgid ""
 "For a list of Operating Systems that can be automatically updated, please "
 "see the FreePBX Wiki."
-msgstr ""
-
-#: amp.i18n.php:356
-msgid ""
-"For extensions that have CW enabled, report unanswered CW calls as <b>busy</"
-"b> (resulting in busy voicemail greeting). If set to no, unanswered CW calls "
-"simply report as <b>no-answer</b>."
 msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:810
@@ -5083,16 +4226,8 @@ msgstr ""
 msgid "Force AVP"
 msgstr ""
 
-#: amp.i18n.php:330
-msgid "Force All Internal Auto Answer"
-msgstr ""
-
 #: ../core/views/did/advanced_form.php:374
 msgid "Force Answer"
-msgstr ""
-
-#: amp.i18n.php:786
-msgid "Force Asterisk Version"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:144
@@ -5124,20 +4259,9 @@ msgstr ""
 msgid "Force Trunk CID"
 msgstr "Force le CID du trunk"
 
-#: amp.i18n.php:38
-msgid "Force WebSocket Mode"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/Console/Doctrine.class.php:21
 msgid ""
 "Force XML/PHP output even if there is an alter string after generation checks"
-msgstr ""
-
-#: amp.i18n.php:332
-msgid ""
-"Force all extensions to operate in the Internal Auto Answer mode regardless "
-"of their individual settings. See 'Internal Auto Answer Default' for more "
-"information."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:57
@@ -5194,23 +4318,11 @@ msgstr "Forcer %s à vrai"
 msgid "Forced downgrades and re-installs:"
 msgstr "Forcé la version antérieure et réinstallation:"
 
-#: amp.i18n.php:156
-msgid ""
-"Forces the 'Apply Configuration Changes' reload bar to always be present "
-"even when not necessary."
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/Console/Doctrine.class.php:20
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:67
 #, php-format
 msgid "Format can be: %s"
 msgstr "Le format peut être : %s"
-
-#: amp.i18n.php:800
-msgid ""
-"Format to save recoreded calls for most call recording unless specified "
-"differently in specific applications."
-msgstr ""
 
 #: ../core/views/trunks/pjsip.php:833
 msgid "Forward"
@@ -5234,61 +4346,14 @@ msgstr "Cadriciel détecté. La version de FreePBX est %s"
 msgid "FreePBX Administration"
 msgstr "Administration de FreePBX"
 
-#: amp.i18n.php:4
-msgid "FreePBX Framework"
-msgstr "Cadriciel FreePBX"
-
-#: amp.i18n.php:106
-msgid "FreePBX JOBs Maximum Random sleep"
-msgstr ""
-
-#: amp.i18n.php:742
-msgid "FreePBX Log File"
-msgstr "Journal d'Asterisk"
-
-#: amp.i18n.php:708
-msgid "FreePBX Log Routing"
-msgstr ""
-
 #: install.php:5
 #, php-format
 msgid "FreePBX Requires PHP Version 5.6 or Higher, you have: %s"
 msgstr ""
 
-#: amp.i18n.php:926
+#: amp.i18n.php:34
 msgid "FreePBX Support"
 msgstr "Support FreePBX"
-
-#: amp.i18n.php:814
-msgid "FreePBX Web Address"
-msgstr "Adresse Web de FreePBX"
-
-#: amp.i18n.php:444
-msgid "FreePBX Web Root Dir"
-msgstr "Répertoire racine Web de FreePBX"
-
-#: amp.i18n.php:116
-msgid ""
-"FreePBX appends versioning tags on the CSS and javascript files and some of "
-"the main logo images. The versioning will help force browsers to load new "
-"versions of the files when module versions are upgraded. Setting this value "
-"to true will try to force these to be loaded to the browser every page load "
-"by appending an additional timestamp in the version information. This is "
-"useful during development and debugging where changes are being made to "
-"javascript and CSS files."
-msgstr ""
-
-#: amp.i18n.php:436
-msgid "FreePBX bin Dir"
-msgstr "Répertoire bin de FreePBX"
-
-#: amp.i18n.php:720
-msgid ""
-"FreePBX has many verbose and useful messages displayed to users during "
-"module installation, system installations, loading configurations and other "
-"places. In order to accumulate these messages in the log files as well as "
-"the on screen display, set this to true."
-msgstr ""
 
 #: ../core/page.trunks.php:488
 msgid ""
@@ -5322,19 +4387,6 @@ msgstr ""
 "paging,... pour accéder aux extensions et fonctionnalités fournies par ces "
 "contextes nombreux et générées par FreePBX."
 
-#: amp.i18n.php:180
-msgid ""
-"FreePBX packages several javascript libraries and components into a "
-"compressed file called libfreepbx.javascript.js. By default this will be "
-"loaded instead of the individual uncompressed libraries. Setting this to "
-"false will force FreePBX to load all the libraries as individual "
-"uncompressed files. This is useful during development and debugging."
-msgstr ""
-
-#: amp.i18n.php:440
-msgid "FreePBX sbin Dir"
-msgstr "Répertoire sbin de FreePBX"
-
 #: ../core/functions.inc/drivers/Sip.class.php:412
 msgid "Frequency in seconds to send qualify messages to the endpoint."
 msgstr ""
@@ -5362,27 +4414,9 @@ msgstr ""
 msgid "From User"
 msgstr ""
 
-#: amp.i18n.php:124
-msgid ""
-"Full path and name of FreePBX debug file. Used by the dbug() function by "
-"developers."
-msgstr ""
-
-#: amp.i18n.php:744
-msgid ""
-"Full path and name of the FreePBX Log File used in conjunction with the "
-"Syslog Level (AMPSYSLOGLEVEL) being set to FILE, not used otherwise. Initial "
-"installs may have some early logging sent to /tmp/freepbx_pre_install.log "
-"when it is first bootstrapping the installer."
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:535
 #, php-format
 msgid "GPG took too long to run the command: [%s]"
-msgstr ""
-
-#: amp.i18n.php:464
-msgid "GUI Behavior"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/components.class.php:50
@@ -5407,20 +4441,9 @@ msgstr "Paramètres généraux"
 msgid "Generate Buttons"
 msgstr "Générer les boutons"
 
-#: amp.i18n.php:334
-msgid "Generate Diversion Headers"
-msgstr ""
-
 #: ../core/views/routing/form.php:781 ../core/views/trunks/trunk_footer.php:79
 msgid "Generate Routes"
 msgstr "Générer les routes"
-
-#: amp.i18n.php:380
-msgid ""
-"Generate the bad-number context which traps any bogus number or feature code "
-"and plays a message to the effect. If you use the Early Dial feature on some "
-"Grandstream phones, you will want to set this to false."
-msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2079
 msgid "Generating CSS..."
@@ -5522,42 +4545,6 @@ msgid ""
 "wants to hook. This is a bug in %s"
 msgstr ""
 
-#: amp.i18n.php:42
-msgid "HTTP Bind Address"
-msgstr "Adresse d'écoute HTTP"
-
-#: amp.i18n.php:46
-msgid "HTTP Bind Port"
-msgstr "Port d'écoute HTTP"
-
-#: amp.i18n.php:50
-msgid "HTTP Prefix"
-msgstr "Préfixe HTTP"
-
-#: amp.i18n.php:52
-msgid ""
-"HTTP Prefix allows you to specify a prefix for all requests to the server. "
-"For example, if the prefix is set to "
-msgstr ""
-"Le préfixe HTTP vous permet de spécifier un préfix pour toutes les requêtes "
-"au serveur. Par exemple si le préfixe est "
-
-#: amp.i18n.php:54
-msgid "HTTPS Bind Address"
-msgstr "Adresse d'écoute HTTPS"
-
-#: amp.i18n.php:56
-msgid "HTTPS Bind Port"
-msgstr "Port d'écoute HTTPS"
-
-#: amp.i18n.php:60
-msgid "HTTPS TLS Certificate Location"
-msgstr "Endroit du certificat TLS HTTPS"
-
-#: amp.i18n.php:64
-msgid "HTTPS TLS Private Key Location"
-msgstr "Endroit de la clé privé TLS HTTPS"
-
 #: ../core/functions.inc.php:851 ../core/functions.inc.php:4576
 msgid "Hangup"
 msgstr "Décroché"
@@ -5610,10 +4597,6 @@ msgstr "Hôte"
 msgid "Host settings for this device, almost always dynamic for endpoints."
 msgstr ""
 
-#: amp.i18n.php:84
-msgid "Hostname for the Asterisk Manager"
-msgstr "Nom d'hôte pour le gestionnaire d'Asterisk"
-
 #: ../core/views/trunks/pjsip.php:356
 msgid "How long to wait before retry when receiving a 403 Forbidden response."
 msgstr ""
@@ -5624,14 +4607,6 @@ msgid ""
 "Retry Interval' is also set then 'Forbidden Retry Interval' takes precedence "
 "over this one when a 403 is received. Also, if 'Permanent Auth Rejection' is "
 "enabled then a 401 and 407 become subject to this retry interval."
-msgstr ""
-
-#: amp.i18n.php:376
-msgid ""
-"How many seconds to try a call on your trunks before giving up. This should "
-"normally be a very long time and is usually only changed if you have some "
-"sort of problematic trunks. This is the Asterisk Dial Command timeout "
-"parameter."
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:461
@@ -5738,20 +4713,6 @@ msgid ""
 "for CallerID matching similar to other number matches."
 msgstr ""
 
-#: amp.i18n.php:308
-msgid ""
-"If Ditech's VQA, Voice Quality application is installed, this setting will "
-"be used for all inbound calls. For more information 'core show application "
-"VQA' at the Asterisk CLI will show the different settings."
-msgstr ""
-
-#: amp.i18n.php:312
-msgid ""
-"If Ditech's VQA, Voice Quality application is installed, this setting will "
-"be used for all outbound calls. For more information 'core show application "
-"VQA' at the Asterisk CLI will show the different settings."
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/Console/Remoteunlock.class.php:18
 msgid "If REMOTEUNLOCK is enabled, you will receive a value for KEY."
 msgstr ""
@@ -5774,13 +4735,6 @@ msgstr ""
 "qui ne proviennent pas des motifs : Pas de réponse (NOANSWER) ou Annulé "
 "(CANCEL)."
 
-#: amp.i18n.php:476
-msgid ""
-"If enabled the intuitive Dial Patterns boxes on the Routing and Trunks pages "
-"will be replaced with a text box which restores the functionality from "
-"FreePBX 2.7 and lower."
-msgstr ""
-
 #: ../core/functions.inc/drivers/Sip.class.php:463
 msgid ""
 "If enabled, then Asterisk will attempt to use rtcp-mux with whatever it "
@@ -5788,13 +4742,6 @@ msgid ""
 "regards to falling back to standard RTCP behavior if the far end does not "
 "indicate support for rtcp-mux. As a result the following must be enabled to "
 "use WebRTC"
-msgstr ""
-
-#: amp.i18n.php:484
-msgid ""
-"If false, then the Destination Registry will not report unknown destinations "
-"as errors. This should be left to the default true and custom destinations "
-"should be moved into the new custom apps registry."
 msgstr ""
 
 #: ../core/views/did/advanced_form.php:443 ../core/views/did/basic_form.php:261
@@ -5812,34 +4759,6 @@ msgid ""
 "NOT_INUSE if it fails"
 msgstr ""
 
-#: amp.i18n.php:598
-msgid ""
-"If set this will over ride the URL settings in the CRM. This is experimental "
-"and may break things."
-msgstr ""
-
-#: amp.i18n.php:40
-msgid ""
-"If set to anything other than auto Asterisk will be forced to use the "
-"technology set here for all websocket communication. Asterisk can not work "
-"with both drivers at the same time!"
-msgstr ""
-
-#: amp.i18n.php:276
-msgid ""
-"If set to true, FreePBX will check if you have chan_dahdi installed. If so, "
-"it will automatically use all your ZAP configuration settings (devices and "
-"trunks) and silently convert them, under the covers, to DAHDi so no changes "
-"are needed. The GUI will continue to refer to these as ZAP but it will use "
-"the proper DAHDi channels. This will also keep Zap Channel DIDs working."
-msgstr ""
-
-#: amp.i18n.php:190
-msgid ""
-"If set to true, any fixed device associated with a user that has no "
-"voicemail configured will have the "
-msgstr ""
-
 #: ../core/views/routing/form.php:584
 msgid ""
 "If the option 'Call successful' is selected, an email notification will be "
@@ -5849,45 +4768,12 @@ msgid ""
 "outbound caller id."
 msgstr ""
 
-#: amp.i18n.php:120
-msgid ""
-"If this directory is defined, retrieve_conf will check for a file called "
-"<i>retrieve_conf_post_custom</i> and if that file exists, it will be "
-"included after other processing thus having full access to the current "
-"environment for additional customization."
-msgstr ""
-
 #: ../core/views/routing/timecond.php:33 ../core/views/routing/timecond.php:142
 msgid ""
 "If this route should only be available during certain times then Select a "
 "Time Group created under Time Groups. The route will be ignored outside of "
 "times specified in that Time Group. If left as default of Permanent Route "
 "then it will always be available."
-msgstr ""
-
-#: amp.i18n.php:336
-msgid ""
-"If this value is set to true, then calls going out your outbound routes that "
-"originate from outside your PBX and were subsequently forwarded through a "
-"call forward, ring group, follow-me or other means, will have a SIP "
-"diversion header added to the call with the original incoming DID assuming "
-"there is a DID available. This is useful with some carriers that may require "
-"this under certain circumstances."
-msgstr ""
-
-#: amp.i18n.php:316
-msgid ""
-"If true, Core will not statically generate hints, but instead make a call to "
-"the AMPBIN php script, and generate_hints.php through an Asterisk #exec "
-"call. This requires asterisk.conf to be configured with <b>execincludes=yes</"
-"b> set in the [options] section."
-msgstr ""
-
-#: amp.i18n.php:542
-msgid ""
-"If you need to authenticate to the proxy server, you must enter both a "
-"username and password. Leaving either (or both) blank disables Proxy "
-"Authentication"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:442
@@ -5922,14 +4808,6 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Localization.class.php:44
 msgid "Ignore last change date, process regardless"
-msgstr ""
-
-#: amp.i18n.php:610
-msgid "Image: Footer"
-msgstr ""
-
-#: amp.i18n.php:604
-msgid "Image: Left Upper"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:29
@@ -5984,7 +4862,7 @@ msgstr ""
 msgid "Inbound Internal Calls"
 msgstr ""
 
-#: ../core/Core.class.php:3890 ../core/Core.class.php:3899
+#: ../core/Core.class.php:3894 ../core/Core.class.php:3903
 msgid "Inbound Route:"
 msgstr ""
 
@@ -5993,7 +4871,7 @@ msgstr ""
 msgid "Inbound Route: %s (%s)"
 msgstr "Route Entrante: %s (%s)"
 
-#: amp.i18n.php:906 ../core/page.did.php:122
+#: amp.i18n.php:14 ../core/page.did.php:122
 msgid "Inbound Routes"
 msgstr "Routes Entrantes"
 
@@ -6004,10 +4882,6 @@ msgstr ""
 
 #: ../core/views/did/rnav.php:3
 msgid "Inbound Routes List"
-msgstr ""
-
-#: amp.i18n.php:478
-msgid "Include Server Name in Browser"
 msgstr ""
 
 #: ../core/views/trunks/sip.php:40
@@ -6046,10 +4920,6 @@ msgstr ""
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:75
 msgid "Initialize freepbx_conf settings.."
-msgstr ""
-
-#: amp.i18n.php:588
-msgid "Insert the date information into the CDR database using GMT time"
 msgstr ""
 
 #: upgrades/2.11.0rc1/migration.php:23
@@ -6140,14 +5010,6 @@ msgstr ""
 msgid "Interface %s, Port %s (%s)"
 msgstr ""
 
-#: amp.i18n.php:338
-msgid "Internal Alert Info"
-msgstr ""
-
-#: amp.i18n.php:342
-msgid "Internal Auto Answer Default"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2049
 msgid ""
 "Internal Error. Function getVersion did not match the Framework version, "
@@ -6158,10 +5020,6 @@ msgstr ""
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
-msgstr ""
-
-#: amp.i18n.php:512
-msgid "Internal Use"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:488
@@ -6330,11 +5188,7 @@ msgstr ""
 msgid "Last online check:"
 msgstr ""
 
-#: amp.i18n.php:346
-msgid "Launch local AGIs through FastAGI Server"
-msgstr ""
-
-#: ../core/Core.class.php:4175
+#: ../core/Core.class.php:4179
 #, php-format
 msgid ""
 "Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
@@ -6346,14 +5200,6 @@ msgstr ""
 msgid "Learn More"
 msgstr ""
 
-#: amp.i18n.php:154
-msgid "Leave Reload Bar Up"
-msgstr ""
-
-#: amp.i18n.php:608
-msgid "Left upper logo.Path is relative to admin."
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1168
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:60
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:198
@@ -6362,18 +5208,6 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:267
 msgid "Licensed"
-msgstr ""
-
-#: amp.i18n.php:624
-msgid "Link for Footer Logo"
-msgstr ""
-
-#: amp.i18n.php:620
-msgid "Link for Left Logo"
-msgstr ""
-
-#: amp.i18n.php:626
-msgid "Link for Sponsor Footer Logo"
 msgstr ""
 
 #: ../core/views/rnav.php:18
@@ -6431,18 +5265,6 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:41
 msgid "Locally chosen FreePBX module from your system"
-msgstr ""
-
-#: amp.i18n.php:438
-msgid "Location of the FreePBX command line scripts."
-msgstr ""
-
-#: amp.i18n.php:718
-msgid "Log Verbose Messages"
-msgstr ""
-
-#: amp.i18n.php:612
-msgid "Logo in footer.Path is relative to admin."
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/menu.php:52
@@ -6724,10 +5546,6 @@ msgstr ""
 msgid "Missing repo name"
 msgstr ""
 
-#: amp.i18n.php:448
-msgid "MoH Subdirectory"
-msgstr ""
-
 #: ../core/views/trunks/sip.php:89
 msgid ""
 "Modify the default PEER connection parameters for your VoIP provider."
@@ -6836,28 +5654,6 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/welcome.php:45
 msgid "Module Admin"
 msgstr "Administration Modules"
-
-#: amp.i18n.php:140
-msgid ""
-"Module Admin caches a copy of the online XML document that describes what is "
-"available on the server. Subsequent online update checks will use the cached "
-"information if it is less than 5 minutes old. To bypass the cache and force "
-"it to go to the server each time, set this to True. This should normally be "
-"false but can be helpful during testing."
-msgstr ""
-
-#: amp.i18n.php:508
-msgid ""
-"Module Admin normally tries to get its online information through direct "
-"file open type calls to URLs that go back to the freepbx.org server. If it "
-"fails, typically because of content filters in firewalls that do not like "
-"the way PHP formats the requests, the code will fall back and try a wget to "
-"pull the information. This will often solve the problem. However, in such "
-"environment there can be a significant timeout before the failed file open "
-"calls to the URLs return and there are often 2-3 of these that occur. "
-"Setting this value will force FreePBX to avoid the attempt to open the URL "
-"and go straight to the wget calls."
-msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1297
 msgid "Module Administration Help"
@@ -7289,10 +6085,6 @@ msgstr ""
 msgid "No updates currently required!"
 msgstr ""
 
-#: amp.i18n.php:350
-msgid "NoOp Traces in Dialplan"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:534
 #: ../core/functions.inc.php:5541
 #: ../core/functions.inc/drivers/PJSip.class.php:286
@@ -7308,36 +6100,6 @@ msgstr "Aucun (extension virtuelle)"
 
 #: ../core/views/routing/form.php:474
 msgid "Normal Congestion"
-msgstr ""
-
-#: amp.i18n.php:288
-msgid ""
-"Normally FreePBX auto-generates a custom context that may be usable for "
-"adding custom dialplan to modify the normal behavior of FreePBX. It takes a "
-"good understanding of how Asterisk processes these includes to use this and "
-"in many of the cases, there is no useful application. All includes will "
-"result in a WARNING in the Asterisk log if there is no context found to "
-"include though it results in no errors. If you know that you want the "
-"includes, you can set this to true. If you comment it out FreePBX will "
-"revert to legacy behavior and include the contexts."
-msgstr ""
-
-#: amp.i18n.php:788
-msgid ""
-"Normally FreePBX gets the current Asterisk version directly from Asterisk. "
-"This is required to generate proper dialplan for a given version. When using "
-"some custom Asterisk builds, the version may not be properly parsed and "
-"improper dialplan generated. Setting this to an equivalent Asterisk version "
-"will override what is read from Asterisk. This SHOULD be left blank unless "
-"you know what you are doing."
-msgstr ""
-
-#: amp.i18n.php:14
-msgid ""
-"Normally the friendly names will be displayed on this page and the internal "
-"freepbx_conf configuration names are shown in the tooltip. If you prefer to "
-"view the configuration variables, and the friendly name in the tooltip, set "
-"this to false.."
 msgstr ""
 
 #: ../core/views/trunks/trunk_header.php:413
@@ -7462,10 +6224,6 @@ msgstr "Objets"
 msgid "Obtain Free License"
 msgstr "Obtenir une licence gratuite"
 
-#: amp.i18n.php:354
-msgid "Occupied Lines CW Busy"
-msgstr ""
-
 #: ../core/functions.inc.php:5830
 msgid "On Demand Recording"
 msgstr "Enregistrement sur demande"
@@ -7494,10 +6252,6 @@ msgstr "Mise à jour en ligne disponible (%s)"
 #, php-format
 msgid "Only %s version %s is compatible, you have %s"
 msgstr "Seule la version %s de %s est compatible. Celle installée est %s"
-
-#: amp.i18n.php:358
-msgid "Only Use Last CID Prepend"
-msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Mysql.class.php:31
 msgid "Only mysql is supported"
@@ -7535,10 +6289,6 @@ msgstr "OpenSSL a pris trop de temps à exécuter la commande '%s'"
 msgid "Operator Panel"
 msgstr ""
 
-#: amp.i18n.php:638
-msgid "Optional Additional CSS Stylesheet"
-msgstr ""
-
 #: ../core/functions.inc.php:5858
 msgid "Optional CID Prefix to add before sending to this busy destination."
 msgstr ""
@@ -7571,12 +6321,6 @@ msgid ""
 "EMERGENCY Route</li><li>trunk CID if trunk is set to force its CID</"
 "li><li>Forwarded call CIDs (CF, Follow Me, Ring Groups, etc)</"
 "li><li>Extension/User CIDs if checked</li></ul>"
-msgstr ""
-
-#: amp.i18n.php:640
-msgid ""
-"Optional custom CSS style sheet included after the primary one and any "
-"module specific ones are loaded, relative to admin."
 msgstr ""
 
 #: ../core/functions.inc.php:5843
@@ -7618,16 +6362,6 @@ msgid ""
 "as a softphone currently off or a phone unplugged."
 msgstr ""
 
-#: amp.i18n.php:96
-msgid "Optional port for an Asterisk Manager Proxy"
-msgstr ""
-
-#: amp.i18n.php:172
-msgid ""
-"Optional script to run just prior to doing an extension reload to Asterisk "
-"through the manager after pressing Apply Configuration Changes in the GUI."
-msgstr ""
-
 #: ../core/views/routing/form.php:377
 msgid ""
 "Optional: A route can prompt users for a password before allowing calls to "
@@ -7649,31 +6383,6 @@ msgid ""
 "Optional: Selecting Intra-Company will treat this route as an intra-company "
 "connection, preserving the internal CallerID information instead of the "
 "outbound CID of either the extension or trunk."
-msgstr ""
-
-#: amp.i18n.php:244
-msgid ""
-"Options to be passed to the Asterisk Dial Command when making internal calls "
-"or for calls ringing internal phones. The options are documented in Asterisk "
-"documentation, a subset of which are described here. The default options T "
-"and t allow the calling and called users to transfer a call with ##. If "
-"'Disallow transfer features for inbound callers' is set to 'Yes' the T "
-"option is removed for inbound callers. The r option allows Asterisk to "
-"generate ringing back to the calling phones which is needed by some phones "
-"and sometimes needed in complex dialplan features that may otherwise result "
-"in silence to the caller. The H and h options allow the in-Call disconnect "
-"feature code to function"
-msgstr ""
-
-#: amp.i18n.php:248
-msgid ""
-"Options to be passed to the Asterisk Dial Command when making outbound calls "
-"on your trunks when not part of an Intra-Company Route. The options are "
-"documented in Asterisk documentation, a subset of which are described here. "
-"The default option T allows the calling user to transfer a call with ##. It "
-"is HIGHLY DISCOURAGED to use the r option here as this will prevent early "
-"media from being delivered from the PSTN and can result in the inability to "
-"interact with some external IVRs"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:17
@@ -7723,7 +6432,7 @@ msgstr "Appels internes en sortie"
 msgid "Outbound Proxy"
 msgstr ""
 
-#: ../core/Core.class.php:3873
+#: ../core/Core.class.php:3877
 msgid "Outbound Route:"
 msgstr ""
 
@@ -7732,7 +6441,7 @@ msgstr ""
 msgid "Outbound Route: %s"
 msgstr "Route en sortie : %s"
 
-#: amp.i18n.php:912 ../core/page.routing.php:104
+#: amp.i18n.php:20 ../core/page.routing.php:104
 msgid "Outbound Routes"
 msgstr "Routes Sortantes"
 
@@ -7753,23 +6462,9 @@ msgstr ""
 msgid "Override"
 msgstr "Remplacer"
 
-#: amp.i18n.php:452
-msgid "Override Call Recording Location"
-msgstr ""
-
 #: ../core/views/routing/form.php:336
 msgid "Override Extension"
 msgstr "Remplacer le poste"
-
-#: amp.i18n.php:20
-msgid "Override Readonly Settings"
-msgstr "Remplacer les paramètres en lecture seule"
-
-#: amp.i18n.php:454
-msgid ""
-"Override the default location where asterisk will store call recordings. Be "
-"sure to set proper permissions on the directory for the asterisk user."
-msgstr ""
 
 #: ../core/views/did/advanced_form.php:228 ../core/views/did/basic_form.php:132
 #, php-format
@@ -7817,49 +6512,17 @@ msgid ""
 msgstr ""
 "Le composant PHP %s version %s  est nécessaire mais n'a pas été installé."
 
-#: amp.i18n.php:750
-msgid "PHP Console"
-msgstr "Console PHP"
-
 #: amp_conf/htdocs/admin/config.php:627
 msgid "PHP Console Enabled but not installed"
 msgstr "La console PHP est activée mais pas installée"
-
-#: amp.i18n.php:754
-msgid "PHP Console Password"
-msgstr "Mot de passe de la console PHP"
-
-#: amp.i18n.php:762
-msgid "PHP Error Level"
-msgstr "Niveau d'erreur PHP"
-
-#: amp.i18n.php:758
-msgid "PHP Error Log Output"
-msgstr ""
-
-#: amp.i18n.php:818
-msgid "PHP Timezone"
-msgstr "Fuseau horaire PHP"
 
 #: ../core/views/trunks/pjsip.php:28
 msgid "PJSIP Settings"
 msgstr "Paramètres PJSIP"
 
-#: ../core/Core.class.php:4161
+#: ../core/Core.class.php:4165
 msgid "PM2 Not installed"
 msgstr ""
-
-#: amp.i18n.php:162
-msgid "POST_RELOAD Debug Mode"
-msgstr "Mode de débogage POST_RELOAD"
-
-#: amp.i18n.php:166
-msgid "POST_RELOAD Script"
-msgstr "Script POST_RELOAD"
-
-#: amp.i18n.php:170
-msgid "PRE_RELOAD Script"
-msgstr "Script PRE_RELOAD"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:192
 msgid "Packaged (Released)"
@@ -7887,88 +6550,12 @@ msgstr "Protégé par mot de passe"
 msgid "Password error. Please re-check"
 msgstr "Erreur de mot de passe. S'il vous plaît revéfier"
 
-#: amp.i18n.php:88
-msgid ""
-"Password for accessing the Asterisk Manager Interface (AMI), this will be "
-"automatically updated in manager.conf."
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/BMO/OOBE.class.php:251
 msgid "Password too short"
 msgstr "Le mot de passe est trop court"
 
-#: amp.i18n.php:642
-msgid "Path for asterisk"
-msgstr "Chemin pour Asterisk"
-
-#: amp.i18n.php:648
-msgid "Path for at"
-msgstr ""
-
-#: amp.i18n.php:652
-msgid "Path for chown"
-msgstr ""
-
-#: amp.i18n.php:656
-msgid "Path for ffmpeg"
-msgstr "Chemin pour ffmpeg"
-
-#: amp.i18n.php:660
-msgid "Path for ipset"
-msgstr ""
-
-#: amp.i18n.php:664
-msgid "Path for lame"
-msgstr "Chemin pour lame"
-
-#: amp.i18n.php:668
-msgid "Path for mailq"
-msgstr ""
-
-#: amp.i18n.php:672
-msgid "Path for mpg123"
-msgstr "Chemin pour mpg123"
-
-#: amp.i18n.php:676
-msgid "Path for mysql"
-msgstr ""
-
-#: amp.i18n.php:680
-msgid "Path for mysqldump"
-msgstr "Chemin pour mysqldump"
-
-#: amp.i18n.php:684
-msgid "Path for netstat"
-msgstr ""
-
-#: amp.i18n.php:688
-msgid "Path for openssl"
-msgstr "Chemin pour openssl"
-
-#: amp.i18n.php:692
-msgid "Path for rsync"
-msgstr "Chemin pour rsync"
-
-#: amp.i18n.php:696
-msgid "Path for sox"
-msgstr "Chemin pour sox"
-
-#: amp.i18n.php:700
-msgid "Path for tail"
-msgstr "Chemin pour tail"
-
-#: amp.i18n.php:704
-msgid "Path for touch"
-msgstr "Chemin pour touch"
-
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:185
 msgid "Path given to verifyModule. Only provide a module name"
-msgstr ""
-
-#: amp.i18n.php:460
-msgid ""
-"Path to the Flash Operator Panel webroot or other modules providing such "
-"functionality (leave off trailing slash)."
 msgstr ""
 
 #: ../core/views/routing/form.php:70
@@ -8019,10 +6606,6 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:501
 msgid "Permit"
 msgstr "Permettre"
-
-#: amp.i18n.php:522
-msgid "Phone Apps"
-msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:485
 msgid "Pickup Groups"
@@ -8165,6 +6748,10 @@ msgid ""
 "your system"
 msgstr ""
 
+#: ../core/Core.class.php:3540
+msgid "Please provide valid Device Technology"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1585
 msgid "Please review the output above for any errors while enabling modules"
 msgstr ""
@@ -8189,10 +6776,6 @@ msgstr "Veuillez sélectionner le type de dispositif que vous désirez créer"
 msgid "Please wait while module actions are performed"
 msgstr "Merci de patienter: exécution en cours"
 
-#: amp.i18n.php:362
-msgid "Polling Interval for Stopping Asterisk"
-msgstr ""
-
 #: ../core/functions.inc/drivers/Sip.class.php:408
 msgid "Port"
 msgstr "Port"
@@ -8207,28 +6790,8 @@ msgstr "Port %s (%s - il s'agit d'un port <strong>NON STANDARD</strong>)"
 msgid "Port %s (%s)"
 msgstr "Port %s (%s)"
 
-#: amp.i18n.php:92
-msgid "Port for the Asterisk Manager"
-msgstr "Port du gestionnaire Asterisk"
-
-#: amp.i18n.php:48
-msgid "Port to bind to. Default is 8088"
-msgstr "Le port sur lequel écouter. 8088 par défaut"
-
-#: amp.i18n.php:58
-msgid "Port to bind to. Default is 8089"
-msgstr "Le port sur lequel écouter. 8089 par défaut"
-
-#: amp.i18n.php:158
-msgid "Post Call Recording Script"
-msgstr ""
-
 #: amp_conf/htdocs/admin/views/bad_refferer.php:16
 msgid "Potential Security Breach"
-msgstr ""
-
-#: amp.i18n.php:480
-msgid "Precede browser title with the server name."
 msgstr ""
 
 #: ../core/views/routing/form.php:89
@@ -8260,14 +6823,6 @@ msgstr ""
 msgid "Previous Releases"
 msgstr ""
 
-#: amp.i18n.php:634
-msgid "Primary CSS Popover Stylesheet Addtion"
-msgstr ""
-
-#: amp.i18n.php:630
-msgid "Primary CSS Stylesheet"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/Console/Motd.class.php:26
 msgid "Prints MOTD"
 msgstr ""
@@ -8293,35 +6848,9 @@ msgstr "Gestion de la protection"
 msgid "Process"
 msgstr "Exécution"
 
-#: amp.i18n.php:174
-msgid "Provide Verbose Tracebacks"
-msgstr ""
-
 #: ../core/views/did/advanced_form.php:100 ../core/views/did/basic_form.php:32
 msgid "Provide a meaningful description of what this incoming route is"
 msgstr "Donnez une description précise de la route entrante"
-
-#: amp.i18n.php:176
-msgid ""
-"Provides a very verbose traceback when die_freepbx() is called including "
-"extensive object details if present in the traceback."
-msgstr ""
-
-#: amp.i18n.php:536
-msgid "Proxy Address"
-msgstr ""
-
-#: amp.i18n.php:544
-msgid "Proxy Password"
-msgstr ""
-
-#: amp.i18n.php:532
-msgid "Proxy Settings"
-msgstr ""
-
-#: amp.i18n.php:540
-msgid "Proxy Username"
-msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:59
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:186
@@ -8336,10 +6865,6 @@ msgstr ""
 msgid "Put caller on hold forever"
 msgstr "Mettre définitivement l'appelant sur occupation"
 
-#: amp.i18n.php:552
-msgid "QXact Reports"
-msgstr ""
-
 #: ../core/functions.inc/drivers/Sip.class.php:410
 msgid "Qualify"
 msgstr ""
@@ -8347,10 +6872,6 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:413
 #: ../core/views/trunks/pjsip.php:473
 msgid "Qualify Frequency"
-msgstr ""
-
-#: amp.i18n.php:548
-msgid "Queue Wallboard"
 msgstr ""
 
 #: ../core/page.extensions.php:122 ../core/page.extensions.php:183
@@ -8384,16 +6905,6 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/System.class.php:112
 #: amp_conf/htdocs/admin/libraries/Console/System.class.php:167
 msgid "RPM(s) upgrade check had errors:"
-msgstr ""
-
-#: amp.i18n.php:822
-msgid "RSS Feeds"
-msgstr ""
-
-#: amp.i18n.php:824
-msgid ""
-"RSS Feeds that are displayed in UCP and Dashboard. Separate each feed by a "
-"new line. Supported feeds are Atom 1.0 and RSS 0.91, 0.92, 1.0 and 2.0"
 msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:335
@@ -8505,10 +7016,6 @@ msgstr ""
 msgid "Related URLs"
 msgstr ""
 
-#: amp.i18n.php:722
-msgid "Reload Config After Automatic Module Updates"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:14
 msgid "Reload Configs"
 msgstr ""
@@ -8528,38 +7035,6 @@ msgstr "Rechargement à échouer car retrieve_conf a rencontré l'erreur : %s"
 msgid "Reloading FreePBX"
 msgstr ""
 
-#: amp.i18n.php:556
-msgid "Remote CDR DB Host"
-msgstr ""
-
-#: amp.i18n.php:562
-msgid "Remote CDR DB Name"
-msgstr ""
-
-#: amp.i18n.php:566
-msgid "Remote CDR DB Password"
-msgstr ""
-
-#: amp.i18n.php:570
-msgid "Remote CDR DB Port"
-msgstr ""
-
-#: amp.i18n.php:574
-msgid "Remote CDR DB Table"
-msgstr ""
-
-#: amp.i18n.php:578
-msgid "Remote CDR DB Type"
-msgstr ""
-
-#: amp.i18n.php:582
-msgid "Remote CDR DB User"
-msgstr ""
-
-#: amp.i18n.php:558
-msgid "Remote CDR Database"
-msgstr ""
-
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:324
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:348
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:410
@@ -8569,10 +7044,6 @@ msgstr ""
 #: ../core/views/trunks/trunk_header.php:322
 msgid "Remove CNAM"
 msgstr "Supprime le CNAM"
-
-#: amp.i18n.php:188
-msgid "Remove mailbox Setting when no Voicemail"
-msgstr ""
 
 #: upgrades/2.5.0/removefiles.php:21
 msgid "Removed"
@@ -8612,10 +7083,6 @@ msgstr ""
 msgid "Repo "
 msgstr ""
 
-#: amp.i18n.php:482
-msgid "Report Unknown Dest as Error"
-msgstr ""
-
 #: amp_conf/htdocs/admin/views/menu_items.php:50
 msgid "Reports"
 msgstr "Rapports"
@@ -8624,25 +7091,8 @@ msgstr "Rapports"
 msgid "Repositories"
 msgstr ""
 
-#: amp.i18n.php:486
-msgid "Require Confirm with Apply Changes"
-msgstr ""
-
-#: amp.i18n.php:182
-msgid "Require Strong Secrets"
-msgstr ""
-
 #: ../core/functions.inc/drivers/PJSip.class.php:295
 msgid "Required"
-msgstr ""
-
-#: amp.i18n.php:186
-msgid ""
-"Requires a strong secret on SIP and IAX devices requiring at least two "
-"numeric and non-numeric characters and 6 or more characters. This can be "
-"disabled if using devices that can not meet these needs, or you prefer to "
-"put other constraints including more rigid constraints that this rule "
-"actually considers weak when it may not be."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1117
@@ -8713,10 +7163,6 @@ msgstr ""
 #: ../core/functions.inc.php:5760 ../core/views/did/advanced_form.php:211
 #: ../core/views/did/basic_form.php:115
 msgid "Ringer Volume Override"
-msgstr ""
-
-#: amp.i18n.php:366
-msgid "Ringtime Default"
 msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:215
@@ -8802,7 +7248,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr ""
 
-#: ../core/Core.class.php:3813 ../core/Core.class.php:3814
+#: ../core/Core.class.php:3817 ../core/Core.class.php:3818
 #, php-format
 msgid "SIP (%s)"
 msgstr ""
@@ -8810,14 +7256,6 @@ msgstr ""
 #: ../core/functions.inc.php:5721
 msgid "SIP Alias"
 msgstr "Alias SIP"
-
-#: amp.i18n.php:370
-msgid "SIP Channel Driver"
-msgstr ""
-
-#: amp.i18n.php:196
-msgid "SIP DTMF Signaling"
-msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:314
 msgid "SIP INFO (application/dtmf)"
@@ -8850,50 +7288,6 @@ msgid ""
 "generated by the PBX if left blank"
 msgstr ""
 
-#: amp.i18n.php:232
-msgid "SIP and DAHDi callgroup"
-msgstr ""
-
-#: amp.i18n.php:236
-msgid "SIP and DAHDi pickupgroup"
-msgstr ""
-
-#: amp.i18n.php:224
-msgid "SIP and IAX allow"
-msgstr ""
-
-#: amp.i18n.php:228
-msgid "SIP and IAX disallow"
-msgstr ""
-
-#: amp.i18n.php:220
-msgid "SIP and IAX qualify"
-msgstr ""
-
-#: amp.i18n.php:192
-msgid "SIP canrenivite (directmedia)"
-msgstr ""
-
-#: amp.i18n.php:212
-msgid "SIP encryption"
-msgstr ""
-
-#: amp.i18n.php:208
-msgid "SIP nat"
-msgstr ""
-
-#: amp.i18n.php:216
-msgid "SIP qualifyfreq"
-msgstr ""
-
-#: amp.i18n.php:204
-msgid "SIP sendrpid"
-msgstr ""
-
-#: amp.i18n.php:200
-msgid "SIP trustrpid"
-msgstr ""
-
 #: ../core/functions.inc/drivers/PJSip.class.php:287
 #: ../core/views/trunks/pjsip.php:1158
 msgid "SRTP via in-SDP (recommended)"
@@ -8902,10 +7296,6 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/bad_refferer.php:19
 msgid "SUSPECT LINK:"
 msgstr "LIEN SUSPECT:"
-
-#: amp.i18n.php:592
-msgid "Sangoma CRM"
-msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:811
 msgid "Sangoma Support"
@@ -9045,10 +7435,6 @@ msgid ""
 "providers. False by default."
 msgstr ""
 
-#: amp.i18n.php:730
-msgid "Send Dashboard Notifications to Log"
-msgstr "Journaliser les notifications du tableau de bord"
-
 #: ../core/functions.inc/drivers/Sip.class.php:367
 #: ../core/views/trunks/pjsip.php:969
 msgid "Send P-Asserted-Identity header"
@@ -9099,24 +7485,8 @@ msgstr ""
 msgid "Server time:"
 msgstr ""
 
-#: amp.i18n.php:68
-msgid "Session Inactivity "
-msgstr ""
-
-#: amp.i18n.php:72
-msgid "Session Keep Alive"
-msgstr ""
-
-#: amp.i18n.php:76
-msgid "Session Limit"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/Console/Unlock.class.php:41
 msgid "Session Should be unlocked now"
-msgstr ""
-
-#: amp.i18n.php:516
-msgid "Session Timeout"
 msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:299
@@ -9135,10 +7505,6 @@ msgstr ""
 #: ../core/views/did/advanced_form.php:265 ../core/views/did/basic_form.php:143
 msgid "Set Destination"
 msgstr "Choix Destination"
-
-#: amp.i18n.php:490
-msgid "Set Module Admin to Edge mode"
-msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:26
 msgid "Set permissions on a specific module: <rawname>"
@@ -9162,57 +7528,12 @@ msgstr ""
 msgid "Set the initial/current Call Waiting state for this user's extension"
 msgstr "Fixe l'état initial/courant de l'attente pour cette extension"
 
-#: amp.i18n.php:632
-msgid ""
-"Set this to replace the default mainstyle.css style sheet with your own, "
-"relative to admin."
-msgstr ""
-
-#: amp.i18n.php:636
-msgid ""
-"Set this to replace the default popover.css style sheet with your own, "
-"relative to admin."
-msgstr ""
-
 #: ../core/views/did/advanced_form.php:389
 msgid "Set to Yes to force the call to be answered at this time"
 msgstr ""
 
-#: amp.i18n.php:152
-msgid "Set to true to enable Advanced Performance Logging into the dbug file"
-msgstr ""
-
-#: amp.i18n.php:132
-msgid ""
-"Set to true to stop all dbug() calls from writing to the Debug File "
-"(FPBXDBUGFILE)"
-msgstr ""
-
 #: amp_conf/htdocs/admin/views/obe.php:78
 msgid "Set up my Account"
-msgstr ""
-
-#: amp.i18n.php:772
-msgid ""
-"Sets the extension behavior in FreePBX.If set to <b>extensions</b>, Devices "
-"and Users are administered together as a unified Extension, and appear on a "
-"single page. If set to <b>deviceanduser</b>, Devices and Users will be "
-"administered separately. Devices (e.g. each individual line on a SIP phone) "
-"and Users (e.g. <b>101</b>) will be configured independent of each other, "
-"allowing association of one User to many Devices, or allowing Users to login "
-"and logout of Devices."
-msgstr ""
-
-#: amp.i18n.php:66
-msgid "Sets the path to the HTTPS private key. If this is not specified, the "
-msgstr ""
-
-#: amp.i18n.php:62
-msgid "Sets the path to the HTTPS server certificate. This is required if "
-msgstr ""
-
-#: amp.i18n.php:764
-msgid "Sets which PHP errors are reported"
 msgstr ""
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:89
@@ -9235,22 +7556,6 @@ msgstr ""
 msgid "Setting base permissions..."
 msgstr ""
 
-#: amp.i18n.php:466
-msgid ""
-"Setting either of these to true will result in retrieve_conf aborting during "
-"a reload if an extension conflict is detected or a destination is detected. "
-"It is usually better to allow the reload to go through and then correct the "
-"problem but these can be set if a more strict behavior is desired."
-msgstr ""
-
-#: amp.i18n.php:492
-msgid ""
-"Setting module admin to edge mode allows you to vet new module releases "
-"before they are deemed stable. This process helps the developers so we "
-"encourage you to enable it. If you want a more stable system please leave "
-"this set to no. See http://wiki.freepbx.org/x/boi3Aw for more details"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:61
 #, php-format
 msgid "Setting of \"%s\" is \"%s\""
@@ -9268,46 +7573,6 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Chown.class.php:218
 msgid "Setting specific permissions..."
-msgstr ""
-
-#: amp.i18n.php:388
-msgid ""
-"Setting this flag will generate the required global variable so that "
-"enumlookup.agi will use Google DNS 8.8.8.8 when performing an ENUM lookup. "
-"Not all DNS deals with NAPTR record, but Google does. There is a drawback to "
-"this as Google tracks every lookup. If you are not comfortable with this, do "
-"not enable this setting. Please read Google FAQ about this: <b>http://code."
-"google.com/speed/public-dns/faq.html#privacy</b>."
-msgstr ""
-
-#: amp.i18n.php:796
-msgid ""
-"Setting this to true will allow the development team to use google analytics "
-"to anonymously analyze browser information to help make better development "
-"decisions."
-msgstr ""
-
-#: amp.i18n.php:22
-msgid ""
-"Setting this to true will allow you to override un-hidden readonly setting "
-"to change them. Settings that are readonly may be extremely volatile and "
-"have a high chance of breaking your system if you change them. Take extreme "
-"caution when electing to make such changes."
-msgstr ""
-
-#: amp.i18n.php:144
-msgid "Setting this to true will expose the "
-msgstr ""
-
-#: amp.i18n.php:860
-msgid ""
-"Setting this to true will fetch system javascript libraries such as jQuery "
-"and jQuery-ui from ajax.googleapis.com. This can be advantageous if "
-"accessing remote or multiple different FreePBX systems since the libraries "
-"are only cached once in your browser. If external internet connections are "
-"problematic, setting this true could result in slow systems. FreePBX will "
-"always fallback to the locally available libraries if the CDN is not "
-"available."
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:409
@@ -9330,7 +7595,7 @@ msgid ""
 "keep NAT pinholes open."
 msgstr ""
 
-#: amp.i18n.php:918 amp_conf/htdocs/admin/views/menu_items.php:51
+#: amp.i18n.php:26 amp_conf/htdocs/admin/views/menu_items.php:51
 #: ../core/functions.inc/drivers/Iax2.class.php:107
 #: ../core/functions.inc/drivers/Sip.class.php:184
 #: ../core/views/trunks/trunk_header.php:222
@@ -9349,25 +7614,9 @@ msgstr "Sévérité"
 msgid "Short for 'Digium Asterisk Hardware Device Interface'"
 msgstr ""
 
-#: amp.i18n.php:494
-msgid "Show Language setting"
-msgstr ""
-
-#: amp.i18n.php:496
-msgid "Show Language setting on menu . Defaults = false"
-msgstr ""
-
-#: amp.i18n.php:726
-msgid "Show Updates on SSH login"
-msgstr ""
-
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:32
 msgid "Show only upgradeable"
 msgstr "Afficher seulement les mises à jour"
-
-#: amp.i18n.php:728
-msgid "Show system and module updates information on SSH login."
-msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1333
 msgid "Shows a list of modules that may be updated, accepts no arguments"
@@ -9412,10 +7661,6 @@ msgstr "Signature invalide"
 msgid "Simulate Incoming Call"
 msgstr "Simule un appels entrant"
 
-#: amp.i18n.php:498
-msgid "Size of generated sip secrets"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/Console/Start.class.php:26
 msgid "Skip Chowning"
 msgstr ""
@@ -9432,17 +7677,6 @@ msgstr ""
 msgid "Solicited"
 msgstr "Solicité"
 
-#: amp.i18n.php:260
-msgid ""
-"Some carriers will reject a call if a CallerID Name (CNAM) is presented. "
-"This occurs in several areas when configuring CID on the PBX using the "
-"format of 'CNAM' <CNUM>. To remove the CNAM part of CID on all external "
-"trunks, set this value to true. This WILL NOT remove CNAM when a trunk is "
-"called from an Intra-Company route. This can be done on each individual "
-"trunk in addition to globally if there are trunks where it is desirable to "
-"keep CNAM information, though most carriers ignore CNAM."
-msgstr ""
-
 #: ../core/views/did/advanced_form.php:335 ../core/views/did/basic_form.php:183
 msgid ""
 "Some devices or providers require RINGING to be sent before ANSWER. You'll "
@@ -9454,23 +7688,6 @@ msgstr ""
 "à un serveur vocal ne fonctionne pas alors que envoyé à un téléphone cela "
 "fonctionne."
 
-#: amp.i18n.php:360
-msgid ""
-"Some modules allow the CNAM to be prepended. If a previous prepend was done, "
-"the default behavior is to remove the previous prepend and only use the most "
-"recent one. Setting this to false will turn that off allowing all prepends "
-"to be 'stacked' in front of one another."
-msgstr ""
-
-#: amp.i18n.php:352
-msgid ""
-"Some modules will generate lots of NoOp() commands proceeded by a [TRACE]"
-"(trace_level) that can be used during development or while trying to trace "
-"call flows. These NoOp() commands serve no other purpose so if you do not "
-"want to see excessive NoOp()s in your dialplan you can set this to 0. The "
-"higher the number the more detailed level of trace NoOp()s will be generated"
-msgstr ""
-
 #: ../core/page.advancedsettings.php:293
 msgid "Some of these settings can render your system inoperable."
 msgstr "Certains de ces paramètres peuvent rendre votre système inutilisable."
@@ -9480,24 +7697,6 @@ msgstr "Certains de ces paramètres peuvent rendre votre système inutilisable."
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2287
 msgid "Specified module not found"
 msgstr "Module demandé non trouvé"
-
-#: amp.i18n.php:78
-msgid ""
-"Specifies the maximum number of http sessions that will be allowed to exist "
-"at any given time."
-msgstr ""
-
-#: amp.i18n.php:70
-msgid ""
-"Specifies the number of milliseconds to wait for more data over the HTTP "
-"connection before closing it. Set to 0 to disable session inactivity."
-msgstr ""
-
-#: amp.i18n.php:74
-msgid ""
-"Specifies the number of milliseconds to wait for the next HTTP request over "
-"a persistent connection. Set to 0 to disable persistent HTTP connections."
-msgstr ""
 
 #: ../core/Console/Convert2pjsip.class.php:17
 msgid ""
@@ -9534,7 +7733,7 @@ msgstr "Standard"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: ../core/Core.class.php:4088
+#: ../core/Core.class.php:4092
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -9547,7 +7746,7 @@ msgstr "Démarrage d’Asterisk..."
 msgid "Starting Cache cleanup"
 msgstr ""
 
-#: ../core/Core.class.php:4047
+#: ../core/Core.class.php:4051
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -9561,26 +7760,16 @@ msgstr "Statut"
 msgid "Stop Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: ../core/Core.class.php:4129
+#: ../core/Core.class.php:4133
 msgid "Stopped FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:4120
+#: ../core/Core.class.php:4124
 msgid "Stopping Core FastAGI Server"
-msgstr ""
-
-#: amp.i18n.php:136
-msgid ""
-"Stops the automatic generation of a stripped CSS file that replaces the "
-"primary sheet, usually mainstyle.css."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Debug.class.php:23
 msgid "Stream files for debugging"
-msgstr ""
-
-#: amp.i18n.php:606
-msgid "Styling and Logos"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/BMore.php:770
@@ -9637,26 +7826,6 @@ msgstr "Erreur de syntaxe dans votre fichier freepbx_menu.conf"
 msgid "System"
 msgstr "Système"
 
-#: amp.i18n.php:644
-msgid "System Apps"
-msgstr "Applications système"
-
-#: amp.i18n.php:826
-msgid "System Asterisk Group"
-msgstr "Groupe système Asterisk"
-
-#: amp.i18n.php:830
-msgid "System Asterisk User"
-msgstr "Utilisateur système Asterisk"
-
-#: amp.i18n.php:834
-msgid "System Device Group"
-msgstr "Groupe de dispositif système"
-
-#: amp.i18n.php:838
-msgid "System Device User"
-msgstr "Utilisateur de dispositif système"
-
 #: amp_conf/htdocs/admin/views/oobe.php:123
 msgid "System Identification"
 msgstr ""
@@ -9669,17 +7838,9 @@ msgstr ""
 msgid "System Identifier:"
 msgstr ""
 
-#: amp.i18n.php:842
-msgid "System Identity"
-msgstr "Identité système"
-
 #: amp_conf/htdocs/admin/views/oobe.php:112
 msgid "System Notifcations Email"
 msgstr ""
-
-#: amp.i18n.php:710
-msgid "System Setup"
-msgstr "Configuration système"
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:547
 msgid "System Update Details"
@@ -9704,14 +7865,6 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/tab-summary.php:77
 msgid "System Upgrades Available:"
 msgstr ""
-
-#: amp.i18n.php:846
-msgid "System Web Group"
-msgstr "Groupe Web système"
-
-#: amp.i18n.php:850
-msgid "System Web User"
-msgstr "Utilisateur Web système"
 
 #: amp_conf/htdocs/admin/libraries/media/Media/Driver/Drivers/SoxShell.php:81
 msgid "System is missing SOX"
@@ -9792,23 +7945,10 @@ msgstr "Tech"
 msgid "Tech Type"
 msgstr "Type de technologie"
 
-#: amp.i18n.php:854
-msgid "Telephony Engine"
-msgstr ""
-
 #: ../core/functions.inc/drivers/Sip.class.php:242
 msgid ""
 "The Asterisk SIP Setting Module is not installed or is disabled. Please "
 "install it."
-msgstr ""
-
-#: amp.i18n.php:372
-msgid ""
-"The Asterisk channel driver to use for SIP. The default is both for Asterisk "
-"12 and higher. For Asterisk 11 and lower the default will be chan_sip. If "
-"only one is compiled into asterisk, the PBX will attempt to auto detect and "
-"change the value to what is compiled. The chan_pjsip channel driver does not "
-"work on Asterisk 11 or lower."
 msgstr ""
 
 #: ../core/functions.inc.php:5720
@@ -9875,13 +8015,6 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:319
 msgid ""
 "The DTMF signaling mode used by this device, usually RFC for most phones."
-msgstr ""
-
-#: amp.i18n.php:198
-msgid ""
-"The DTMF signaling mode used by this device, usually RFC for most phones. "
-"(Note: For PJSIP devices RFC-4733 supercedes the older RFC-2833 and will be "
-"used when RFC-2833 is selected for PJSIP devices)"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:272
@@ -9956,12 +8089,6 @@ msgstr ""
 "exemple choisir d'abord les routes les moins chères (jonctions VoIP) et "
 "ensuite les lignes classiques."
 
-#: amp.i18n.php:272
-msgid ""
-"The asterisk application to use for conferencing. The app_meetme application "
-"is considered "
-msgstr ""
-
 #: amp_conf/htdocs/admin/config.php:134
 msgid "The autoloader is damaged. Please run: "
 msgstr ""
@@ -9991,10 +8118,6 @@ msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
 msgstr ""
-
-#: amp.i18n.php:804
-msgid "The default language used in the webUI"
-msgstr "La langue par défaut à utiliser dans l'interface web"
 
 #: ../core/views/routing/form.php:90
 msgid ""
@@ -10082,18 +8205,6 @@ msgstr ""
 "Les nouveaux modules suivants sont disponibles au téléchargement. Cliquer "
 "sur l'icône supprimer à droite pour retirer cette information."
 
-#: amp.i18n.php:736
-msgid "The format dates and times should display in. The default of "
-msgstr ""
-
-#: amp.i18n.php:740
-msgid "The format dates should display in. The default of "
-msgstr ""
-
-#: amp.i18n.php:748
-msgid "The format times should display in. The default of "
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/Console/Localization.class.php:43
 msgid ""
 "The language code to work against, if not provided all languages are assumed"
@@ -10102,10 +8213,6 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:23
 msgid "The legacy SIP channel driver in Asterisk"
 msgstr "Le pilote de canal SIP patrimonial d'Asterisk"
-
-#: amp.i18n.php:430
-msgid "The location for Asterisk Certificates"
-msgstr ""
 
 #: amp_conf/htdocs/admin/views/noaccess.php:13
 msgid "The module appears to be valid but is not currently installed"
@@ -10160,120 +8267,6 @@ msgstr ""
 "les lignes qui ont besoin d'un temps d'attente pour obtenir la ligne<br>La "
 "plupart des utilisateurs laisseront ce champ vide."
 
-#: amp.i18n.php:434
-msgid "The path to Apache cgi-bin dir (leave off trailing slash)."
-msgstr ""
-"Le chemin vers le répertoire cgi-bin d'Apache (ne mettez pas la barre "
-"oblique finale)."
-
-#: amp.i18n.php:446
-msgid "The path to Apache webroot (leave off trailing slash)."
-msgstr ""
-"Le chemin vers le répertoire racine d'Apache (ne mettez pas la barre oblique "
-"finale)."
-
-#: amp.i18n.php:646
-msgid ""
-"The path to asterisk as auto-determined by the system. Overwrite as "
-"necessary."
-msgstr ""
-"Le chemin vers Asterisk tel que déterminé automatiquement par le système. "
-"Modifier au besoin."
-
-#: amp.i18n.php:650
-msgid ""
-"The path to at as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:654
-msgid ""
-"The path to chown as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:658
-msgid ""
-"The path to ffmpeg as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-"Le chemin vers ffmpeg tel que déterminé automatiquement par le système. "
-"Modifier au besoin."
-
-#: amp.i18n.php:662
-msgid ""
-"The path to ipset as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:666
-msgid ""
-"The path to lame as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-"Le chemin vers lame tel que déterminé automatiquement par le système. "
-"Modifier au besoin."
-
-#: amp.i18n.php:670
-msgid ""
-"The path to mailq as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:674
-msgid ""
-"The path to mpg123 as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-"Le chemin vers mpg123 tel que déterminé automatiquement par le système. "
-"Modifier au besoin."
-
-#: amp.i18n.php:678
-msgid ""
-"The path to mysql as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:682
-msgid ""
-"The path to mysqldump as auto-determined by the system. Overwrite as "
-"necessary."
-msgstr ""
-"Le chemin vers mysqldump tel que déterminé automatiquement par le système. "
-"Modifier au besoin."
-
-#: amp.i18n.php:686
-msgid ""
-"The path to netstat as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-
-#: amp.i18n.php:690
-msgid ""
-"The path to openssl as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-"Le chemin vers openssl tel que déterminé automatiquement par le système. "
-"Modifier au besoin."
-
-#: amp.i18n.php:694
-msgid ""
-"The path to rsync as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-"Le chemin vers rsync tel que déterminé automatiquement par le système. "
-"Modifier au besoin."
-
-#: amp.i18n.php:698
-msgid ""
-"The path to sox as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-"Le chemin vers sox tel que déterminé automatiquement par le système. "
-"Modifier au besoin."
-
-#: amp.i18n.php:702
-msgid ""
-"The path to tail as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-"Le chemin vers tail tel que déterminé automatiquement par le système. "
-"Modifier au besoin."
-
-#: amp.i18n.php:706
-msgid ""
-"The path to touch as auto-determined by the system. Overwrite as necessary."
-msgstr ""
-"Le chemin vers touch tel que déterminé automatiquement par le système. "
-"Modifier au besoin."
-
 #: amp_conf/htdocs/admin/views/footer.php:122
 msgid "The secret must be at minimum six characters in length."
 msgstr "Le mot de passe doit avoir une longueur d'au moins six caractères."
@@ -10324,28 +8317,6 @@ msgid ""
 "tooltip in Advanced Settings for more details."
 msgstr ""
 
-#: amp.i18n.php:856
-msgid ""
-"The telephony backend engine being used, asterisk is the only option "
-"currently."
-msgstr ""
-
-#: amp.i18n.php:866
-msgid ""
-"The time in seconds that FreePBX will cache Vega gateways status. Default to "
-"5 min."
-msgstr ""
-
-#: amp.i18n.php:870
-msgid ""
-"The time in seconds that FreePBX will wait for Vega gateways to respond for "
-"any request. Default to 5 sec."
-msgstr ""
-
-#: amp.i18n.php:594
-msgid "The time in seconds that remote API's should cache user data"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1740
 msgid ""
 "The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in "
@@ -10360,47 +8331,9 @@ msgstr ""
 msgid "The uploaded file was only partially uploaded"
 msgstr ""
 
-#: amp.i18n.php:832
-msgid ""
-"The user Asterisk should be running as, used by freepbx_engine. Most systems "
-"should not change this."
-msgstr ""
-
-#: amp.i18n.php:828
-msgid ""
-"The user group Asterisk should be running as, used by freepbx_engine. Most "
-"systems should not change this."
-msgstr ""
-
-#: amp.i18n.php:836
-msgid ""
-"The user group that various device directories should be set to, used by "
-"freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
-"mISDN and /dev/dsp. Most systems should not change this."
-msgstr ""
-
-#: amp.i18n.php:848
-msgid ""
-"The user group your httpd should be running as, used by freepbx_engine. Most "
-"systems should not change this."
-msgstr ""
-
 #: ../core/page.ampusers.php:71
 #, php-format
 msgid "The user name %s is already in use"
-msgstr ""
-
-#: amp.i18n.php:840
-msgid ""
-"The user that various device directories should be set to, used by "
-"freepbx_engine. Examples include /dev/zap, /dev/dahdi, /dev/misdn, /dev/"
-"mISDN and /dev/dsp. Most systems should not change this."
-msgstr ""
-
-#: amp.i18n.php:852
-msgid ""
-"The user your httpd should be running as, used by freepbx_engine. Most "
-"systems should not change this."
 msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:318
@@ -10532,21 +8465,6 @@ msgstr ""
 "prendre les appels. Si il y a unne route spécifique pour ce SDA, cette route "
 "prendra l'appel quand ce SDA est appelé."
 
-#: amp.i18n.php:128
-msgid ""
-"This enables several debug features geared towards developers, including "
-"some page load timing information, some debug information in Module Admin, "
-"use of original CSS files and other future capabilities will be enabled."
-msgstr ""
-
-#: amp.i18n.php:812
-msgid ""
-"This enables the setting of module tracks (sub repositories of modules). "
-"Whereas a user could select a beta release track of a module or keep it on "
-"standard. Disabling this will force all modules into the stable track and "
-"disallow users to change the tracks"
-msgstr ""
-
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:44
 #: amp_conf/htdocs/admin/libraries/Console/System.class.php:34
 #, php-format
@@ -10569,60 +8487,6 @@ msgstr ""
 "attend.<br>Ce Contexte USER sera utilisé pour définir les détails du USER ci-"
 "dessous."
 
-#: amp.i18n.php:816
-msgid ""
-"This is the address of your Web Server. It is mostly obsolete and derived "
-"when not supplied and will be phased out, but there are still some areas "
-"expecting a variable to be set and if you are using it this will migrate "
-"your value."
-msgstr ""
-
-#: amp.i18n.php:398
-msgid "This is the default directory for Asterisks agi files."
-msgstr "Ceci est le répertoire par défaut pour les fichiers agi d'Asterisk."
-
-#: amp.i18n.php:406
-msgid "This is the default directory for Asterisks configuration files."
-msgstr ""
-"Ceci est le répertoire par défaut pour les fichiers de configuration "
-"d'Asterisk."
-
-#: amp.i18n.php:402
-msgid "This is the default directory for Asterisks lib files."
-msgstr "Ceci est le répertoire par défaut pour les fichiers lib d'Asterisk."
-
-#: amp.i18n.php:410
-msgid "This is the default directory for Asterisks log files."
-msgstr "Ceci est le répertoire par défaut pour les journaux d'Asterisk."
-
-#: amp.i18n.php:414
-msgid "This is the default directory for Asterisks modules."
-msgstr "Ceci est le répertoire par défaut pour les modules d'Asterisk."
-
-#: amp.i18n.php:418
-msgid "This is the default directory for Asterisks run files."
-msgstr "Ceci est le répertoire par défaut pour les fichiers run d'Asterisk."
-
-#: amp.i18n.php:422
-msgid "This is the default directory for Asterisks spool directory."
-msgstr ""
-
-#: amp.i18n.php:426
-msgid "This is the default directory for HTML5 releated playback files"
-msgstr ""
-
-#: amp.i18n.php:264
-msgid ""
-"This is the default time in seconds to try and connect a call that has been "
-"call forwarded by the server side CF, CFU and CFB options. (If your phones "
-"use client side CF such as SIP redirects, this will not have any affect) If "
-"set to the default of 0, it will use the standard ring timer. If set to -1 "
-"it will ring the forwarded number with no limit which is consistent with the "
-"behavior of some existing PBX systems. If set to any other value, it will "
-"ring for that duration before diverting the call to the users voicemail if "
-"they have one. This can be overridden for each extension."
-msgstr ""
-
 #: ../core/views/trunks/dundi.php:21
 msgid ""
 "This is the name of the DUNDi mapping as defined in the [mappings] section "
@@ -10634,14 +8498,6 @@ msgstr ""
 "distance dundi.conf.Cela correspond à la section 'include' des détails peer "
 "dans le fichier local dundi.conf. Cela nécessite une configuration manuelle "
 "de DUNDi pour utiliser ce trunk."
-
-#: amp.i18n.php:450
-msgid ""
-"This is the subdirectory for the MoH files/directories which is located in "
-"ASTVARLIBDIR. Older installation may be using mohmp3 which was the old "
-"Asterisk default and should be set to that value if the music files are "
-"located there relative to the ASTVARLIBDIR."
-msgstr ""
 
 #: ../core/views/routing/form.php:744 ../core/views/trunks/trunk_footer.php:42
 msgid ""
@@ -10659,17 +8515,6 @@ msgstr "Ce module semble endommagé"
 msgid ""
 "This module appears to be installed and enabled but your user does not seem "
 "to have permission to access it."
-msgstr ""
-
-#: amp.i18n.php:8
-msgid ""
-"This module provides a facility to install bug fixes to the framework code "
-"that is not otherwise housed in a module"
-msgstr ""
-
-#: amp.i18n.php:844
-msgid ""
-"This name will be used to help identify this machine in emails or alerts"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:75
@@ -10692,12 +8537,6 @@ msgstr ""
 
 #: ../core/page.routing.php:25
 msgid "This page is used to manage your outbound routing."
-msgstr ""
-
-#: amp.i18n.php:148
-msgid ""
-"This plugin can be used to detect and restore APIs or features that have "
-"been deprecated in jQuery and removed as of version 1.9"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:432
@@ -10739,13 +8578,6 @@ msgid ""
 "if installed. Languages can be added or removed in the Sound Languages module"
 msgstr ""
 
-#: amp.i18n.php:18
-msgid ""
-"This will display settings that are readonly. These settings are often "
-"internally used settings that are not of interest to most users. Since they "
-"are readonly they can only be viewed."
-msgstr ""
-
 #: amp_conf/htdocs/admin/views/welcome.php:41
 msgid ""
 "This won't cause you any problems, but it does make your system a little "
@@ -10755,10 +8587,6 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:118
 #: amp_conf/htdocs/admin/views/oobe.php:214
 msgid "Thursday"
-msgstr ""
-
-#: amp.i18n.php:746
-msgid "Time Format"
 msgstr ""
 
 #: ../core/views/routing/grid.php:31
@@ -10791,19 +8619,6 @@ msgstr ""
 
 #: ../core/views/routing/timecond.php:45
 msgid "Time Match Time Zone:"
-msgstr ""
-
-#: amp.i18n.php:104
-msgid ""
-"Timeout, im ms, for write timeouts for cases where Asterisk disconnects "
-"frequently"
-msgstr ""
-
-#: amp.i18n.php:820
-msgid ""
-"Timezone that should be used by PHP. Empty value will use PHP defaults. List "
-"of value Timezones: <a href='http://php.net/manual/en/timezones.php'>http://"
-"php.net/manual/en/timezones.php</a>"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/login.php:9
@@ -10849,10 +8664,6 @@ msgstr ""
 msgid "Transport"
 msgstr ""
 
-#: amp.i18n.php:374
-msgid "Trunk Dial Timeout"
-msgstr ""
-
 #: ../core/views/trunks/sip.php:53 ../core/views/trunks/trunk_header.php:235
 msgid "Trunk Name"
 msgstr "Nom de la jonction"
@@ -10867,7 +8678,7 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr ""
 
-#: ../core/Core.class.php:3881
+#: ../core/Core.class.php:3885
 msgid "Trunk:"
 msgstr ""
 
@@ -10876,7 +8687,7 @@ msgstr ""
 msgid "Trunk: %s (%s)"
 msgstr ""
 
-#: amp.i18n.php:914 ../core/views/trunks/bootnav.php:20
+#: amp.i18n.php:22 ../core/views/trunks/bootnav.php:20
 #: ../core/views/trunks/main.php:2 ../core/views/trunks/popover_main.php:9
 msgid "Trunks"
 msgstr "Trunks"
@@ -11333,36 +9144,8 @@ msgstr ""
 msgid "Usage"
 msgstr ""
 
-#: amp.i18n.php:382
-msgid "Use Experimental Dialparties Dialplan"
-msgstr ""
-
-#: amp.i18n.php:586
-msgid "Use GMT Time"
-msgstr ""
-
-#: amp.i18n.php:386
-msgid "Use Google DNS for Enum"
-msgstr ""
-
-#: amp.i18n.php:858
-msgid "Use Google Distribution Network for js Downloads"
-msgstr ""
-
-#: amp.i18n.php:530
-msgid "Use HTTP(S) Proxy"
-msgstr "Utiliser un mandataire HTTP(S)"
-
-#: amp.i18n.php:178
-msgid "Use Packaged Javascript Library "
-msgstr ""
-
 #: ../core/views/routing/timecond.php:50
 msgid "Use System Timezone"
-msgstr ""
-
-#: amp.i18n.php:378
-msgid "Use bad-number Context"
 msgstr ""
 
 #: ../core/views/routing/form.php:558
@@ -11371,24 +9154,9 @@ msgid ""
 "avoid excessive calls, and emails."
 msgstr ""
 
-#: amp.i18n.php:384
-msgid ""
-"Use experimental dialparties dialplan. When enabled the system will no "
-"longer use dialparties.agi and will instead use strictly dialplan, this may "
-"improve performance on heavy systems"
-msgstr ""
-
 #: ../core/page.advancedsettings.php:290
 msgid "Use extreme caution when making changes!"
 msgstr "Faites preuve d'une grande prudence si vous faites des changements !"
-
-#: amp.i18n.php:502
-msgid "Use freepbx_menu.conf Configuration"
-msgstr "Utiliser la configuration de freepbx_menu.conf"
-
-#: amp.i18n.php:506
-msgid "Use wget For Module Admin"
-msgstr "Utiliser wget pour l'administrateur de modules"
 
 #: amp_conf/htdocs/admin/libraries/BMO/View.class.php:768
 #: amp_conf/htdocs/admin/libraries/usage_registry.functions.php:254
@@ -11396,46 +9164,11 @@ msgstr "Utiliser wget pour l'administrateur de modules"
 msgid "Used as Destination by %s %s"
 msgstr "Utilisé comme destination par %s %s"
 
-#: amp.i18n.php:876
-msgid ""
-"Used to do extremely advanced and customized changes to the macro-vm VmX "
-"locater. Check the dialplan for a thorough understanding of how to use this."
-msgstr ""
-
-#: amp.i18n.php:890
-msgid ""
-"Used to do extremely advanced and customized changes to the macro-vm VmX "
-"locater. Check the dialplan for a thorough understanding of how to use this. "
-"The default location that a caller will be sent if they don't press any key "
-"(timeout) or press # which is interpreted as a timeout. Set this to 'dovm' "
-"to go to voicemail (default)."
-msgstr ""
-
-#: amp.i18n.php:880
-msgid ""
-"Used to do extremely advanced and customized changes to the macro-vm VmX "
-"locater. Check the dialplan for a thorough understanding of how to use this. "
-"The default location that a caller will be sent if they press an invalid "
-"options too many times, as defined by the Maximum Loops count."
-msgstr ""
-
-#: amp.i18n.php:756
-msgid ""
-"Used when PHP Console is enabled for error debugging https://github.com/"
-"barbushin/php-console"
-msgstr ""
-"Utilisé quand la console PHP (https://github.com/barbushin/php-console) est "
-"activée pour le débogage d'erreur"
-
-#: ../core/Core.class.php:3860 ../core/functions.inc.php:5638
+#: ../core/Core.class.php:3864 ../core/functions.inc.php:5638
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
 msgstr "Utilisateur"
-
-#: amp.i18n.php:770
-msgid "User & Devices Mode"
-msgstr "Mode utilisateur et dispositifs"
 
 #: ../core/views/trunks/pjsip.php:524
 msgid "User = Phone"
@@ -11484,7 +9217,7 @@ msgstr "Panneau utilisateur"
 msgid "User Password"
 msgstr "Mot de Passe Utilisateur"
 
-#: ../core/Core.class.php:3619
+#: ../core/Core.class.php:3623
 msgid "User could not be added."
 msgstr "L'utilisateur n'a pu être ajouté."
 
@@ -11495,17 +9228,11 @@ msgstr "L'utilisateur n'a pu être ajouté."
 msgid "Username"
 msgstr "Nom d'utilisateur"
 
-#: amp.i18n.php:100
-msgid ""
-"Username for accessing the Asterisk Manager Interface (AMI), this will be "
-"automatically updated in manager.conf."
-msgstr ""
-
 #: ../core/views/trunks/pjsip.php:610
 msgid "Username to use in From header for requests to this trunk"
 msgstr "Le nom d'usager à utiliser pour les requêtes à cette jonction"
 
-#: amp.i18n.php:902
+#: amp.i18n.php:10
 msgid "Users"
 msgstr "Utilisateurs"
 
@@ -11520,38 +9247,6 @@ msgid ""
 "out, and allows unauthenticated calls in from the other server. If you "
 "select 'None', all calls from or to the specified SIP Server are "
 "unauthenticated. <strong>Setting this to 'None' may be insecure!</strong>"
-msgstr ""
-
-#: amp.i18n.php:872
-msgid "VMX Default Context"
-msgstr "Contexte par défaut de VMX"
-
-#: amp.i18n.php:878
-msgid "VMX Default Loop Exceed Context"
-msgstr ""
-
-#: amp.i18n.php:882
-msgid "VMX Default Loop Exceed Extension"
-msgstr ""
-
-#: amp.i18n.php:884
-msgid "VMX Default Loop Exceed Priority"
-msgstr ""
-
-#: amp.i18n.php:886
-msgid "VMX Default Priority"
-msgstr "Priorité par défaut de VMX"
-
-#: amp.i18n.php:888
-msgid "VMX Default Timeout Context"
-msgstr ""
-
-#: amp.i18n.php:892
-msgid "VMX Default Timeout Extension"
-msgstr ""
-
-#: amp.i18n.php:894
-msgid "VMX Default Timeout Priority"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Validate.class.php:17
@@ -11574,14 +9269,6 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:523
 msgid "Value must be between 1 and 63"
 msgstr "Le valeur doit être comprise entre 1 et 63"
-
-#: amp.i18n.php:868
-msgid "Vega Access Timeout"
-msgstr ""
-
-#: amp.i18n.php:864
-msgid "Vega Gateway Management"
-msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1205
 msgid "Verifying GPG..."
@@ -11615,10 +9302,6 @@ msgstr ""
 #: ../core/functions.inc/drivers/Virtual.class.php:10
 msgid "Virtual"
 msgstr "Virtuel"
-
-#: amp.i18n.php:874
-msgid "VmX Locater"
-msgstr ""
 
 # ######### ANCIEN MESSAGES de FUNCTIONS
 #  Deja dans Extension
@@ -11679,10 +9362,6 @@ msgstr ""
 #: ../core/functions.inc/drivers/Sip.class.php:429
 msgid "WSS Only"
 msgstr ""
-
-#: amp.i18n.php:390
-msgid "Waiting Period to Stop Asterisk"
-msgstr "La période d'attente pour arrêter Asterisk"
 
 #: amp_conf/htdocs/admin/views/welcome.php:14
 msgid "Warning"
@@ -11764,133 +9443,11 @@ msgstr ""
 msgid "What Does this Mean?"
 msgstr ""
 
-#: amp.i18n.php:392
-msgid ""
-"When Asterisk is stopped or restarted with the 'amportal stop/restart' "
-"commands, it does a graceful stop waiting for active channels to hangup. "
-"This sets the maximum time in seconds to wait prior to force stopping "
-"Asterisk"
-msgstr ""
-
-#: amp.i18n.php:364
-msgid ""
-"When Asterisk is stopped or restarted with the 'amportal stop/restart' "
-"commands, it does a graceful stop waiting for active channels to hangup. "
-"This sets the polling interval to check if Asterisk is shutdown and update "
-"the countdown timer."
-msgstr ""
-
-#: amp.i18n.php:784
-msgid ""
-"When Set to True, admin access to the FreePBX GUI will be allowed using the "
-"FreePBX configured AMPDBUSER and AMPDBPASS credentials. This only applies "
-"when Authorization Type is 'database' mode."
-msgstr ""
-
-#: amp.i18n.php:500
-msgid ""
-"When creating a new sip extension this sets the max size of the generated "
-"secret. This generally should be default."
-msgstr ""
-
-#: amp.i18n.php:348
-msgid ""
-"When enabled all AGI() calls that launch local scripts will instead launch "
-"through a FastAGI subprocess. In certain environments this can cause "
-"performance improvements. Any AGIs that already called upon agi:// will be "
-"unaffected"
-msgstr ""
-
-#: amp.i18n.php:732
-msgid ""
-"When enabled all notification updates to the Dashboard notification panel "
-"will also be logged into the specified log file when enabled."
-msgstr ""
-
-#: amp.i18n.php:752
-msgid ""
-"When enabled will turn on PHP Console for error debugging https://github.com/"
-"barbushin/php-console"
-msgstr ""
-
 #: ../core/functions.inc/drivers/PJSip.class.php:262
 msgid ""
 "When enabled, Asterisk condenses message waiting notifications from multiple "
 "mailboxes into a single NOTIFY. If it is disabled, individual NOTIFYs are "
 "sent for each mailbox."
-msgstr ""
-
-#: amp.i18n.php:488
-msgid "When set to false, will bypass the confirm on Reload Box."
-msgstr ""
-
-#: amp.i18n.php:472
-msgid ""
-"When set to the default value of true, all requests into FreePBX that might "
-"possibly add/edit/delete settings will be validated to assure the request is "
-"coming from the server. This will protect the system from CSRF (cross site "
-"request forgery) attacks. It will have the effect of preventing legitimately "
-"entering URLs that could modify settings which can be allowed by changing "
-"this field to false."
-msgstr ""
-
-#: amp.i18n.php:768
-msgid ""
-"When set to true FreePBX will update its extension map every page load. This "
-"is used to check for duplicate extension numbers in the client side "
-"javascript validation. Normally the extension map is only created when Apply "
-"Configuration Settings is pressed and retrieve_conf is run."
-msgstr ""
-
-#: amp.i18n.php:296
-msgid ""
-"When set to true and when CONNECTEDLINE() capabilities are configured and "
-"supported by your handset, the CID value being transmitted on this call will "
-"be updated on your handset in the CNAM field prepended with CID: so you know "
-"what is being presented to the caller if the outbound trunk supports and "
-"honors setting the transmitted CID."
-msgstr ""
-
-#: amp.i18n.php:304
-msgid ""
-"When set to true and when CONNECTEDLINE() capabilities are configured and "
-"supported by your handset, the name displayed will include the presence "
-"state of the callee."
-msgstr ""
-
-#: amp.i18n.php:300
-msgid ""
-"When set to true and when CONNECTEDLINE() capabilities are configured and "
-"supported by your handset, the number actually dialled will be updated on "
-"your handset in the CNUM field. This allows you to see the final "
-"manipulation of your number after outbound route and trunk dial manipulation "
-"rules have been applied. For example, if you have configured 7 digit dialing "
-"on a North America dialplan, the ultimate 10 or 11 digit transmission will "
-"be displayed back. Any 'Outbound Dial Prefixes' configured at the trunk "
-"level will NOT be shown as these are foten analog line pauses (w) or other "
-"characters that distort the CNUM field on updates."
-msgstr ""
-
-#: amp.i18n.php:328
-msgid ""
-"When set to true, a beep is played instead of confirmation message when "
-"activating/de-activating: CallForward, CallWaiting, DayNight, DoNotDisturb "
-"and FindMeFollow."
-msgstr ""
-
-#: amp.i18n.php:504
-msgid ""
-"When set to true, the system will check for a freepbx_menu.conf file amongst "
-"the normal configuraiton files and if found, it will be used to define and "
-"remap the menu tabs and contents. See http://wiki.freepbx.org/x/6YDGAg for "
-"more details"
-msgstr ""
-
-#: amp.i18n.php:528
-msgid ""
-"When this is enabled only phones that have a token in their URL will be "
-"allowed to access the Phone Apps. You will have to regenerated all "
-"configurations for all endpoints in Endpoint Manager to get the token"
 msgstr ""
 
 #: ../core/views/trunks/pjsip.php:787
@@ -11900,20 +9457,8 @@ msgid ""
 "header as necessary."
 msgstr ""
 
-#: amp.i18n.php:442
-msgid "Where (root) command line scripts are located."
-msgstr ""
-
 #: ../core/views/routing/form.php:434
 msgid "Where to insert this route or relocate it relative to the other routes."
-msgstr ""
-
-#: amp.i18n.php:760
-msgid ""
-"Where to send PHP errors, warnings and notices by the FreePBX PHP error "
-"handler. Set to 'dbug', they will go to the Debug File regardless of whether "
-"dbug Loggin is disabled or not. Set to 'freepbxlog' will send them to the "
-"FreePBX Log. Set to 'off' and they will be ignored."
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:369
@@ -11921,12 +9466,6 @@ msgid ""
 "Whether Asterisk should send RPID (or PAI) info to the device. Usually "
 "should be enabled to the settings used by your device for CONNECTEDLINE() "
 "functionality to work if supported by the endpoint."
-msgstr ""
-
-#: amp.i18n.php:28
-msgid ""
-"Whether Asterisk should serve static content from http-static (HTML pages, "
-"CSS, javascript, etc.). Default is no."
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:342
@@ -11942,17 +9481,6 @@ msgstr ""
 
 #: ../core/views/trunks/pjsip.php:814
 msgid "Whether T.38 UDPTL support is enabled or not"
-msgstr ""
-
-#: amp.i18n.php:716
-msgid "Whether or not to invoke the FreePBX log facility."
-msgstr ""
-
-#: amp.i18n.php:32
-msgid ""
-"Whether the Asterisk HTTP interface is enabled or not. This is for Asterisk, "
-"it is not directly related for FreePBX usage and the value of this setting "
-"is irrelevant for accessing core FreePBX settings. Default is no."
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:439
@@ -11971,12 +9499,6 @@ msgid ""
 "This option is commonly enabled in WebRTC setups"
 msgstr ""
 
-#: amp.i18n.php:320
-msgid ""
-"Whether to enforce RFC7462 for Alert-Info. With this enabled all Alert Infos "
-"will be prefixed with "
-msgstr ""
-
 #: ../core/functions.inc/drivers/Sip.class.php:470
 msgid ""
 "Whether to offer SRTP encrypted media (and only SRTP encrypted media) on "
@@ -11988,14 +9510,6 @@ msgstr ""
 msgid ""
 "Whether to turn on echo cancellation when bridging between DAHDi channels. "
 "See DAHDi documentation for details."
-msgstr ""
-
-#: amp.i18n.php:602
-msgid "Whether yes or not to invoke the CRM log facility."
-msgstr ""
-
-#: amp.i18n.php:524
-msgid "Whether yes or not to invoke the NativeApps log facility."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Kvstore.class.php:17
@@ -12325,7 +9839,8 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/module_admin/upload.php:9
 #, php-format
 msgid "You should fix the problem or select another file and %s."
-msgstr "Vous devez résoudre ce problème ou sélectionner un autre fichier et %s."
+msgstr ""
+"Vous devez résoudre ce problème ou sélectionner un autre fichier et %s."
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2812
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2820
@@ -12388,8 +9903,8 @@ msgid ""
 "(group zero)."
 msgstr ""
 "Les canaux ZAP sont référencés soit par un numéro de groupe ou un numéo de "
-"canal (défini dans zapata.conf).<br>Le paramètres par défaut est <b>g0</b> ("
-"groupe zéro)."
+"canal (défini dans zapata.conf).<br>Le paramètres par défaut est <b>g0</b> "
+"(groupe zéro)."
 
 #: ../core/views/trunks/zap.php:9
 msgid "Zap Identifier"
@@ -12446,12 +9961,6 @@ msgstr ""
 
 #: upgrades/2.10.0beta3/migration.php:63 upgrades/2.10.0beta3/migration.php:78
 msgid "already there"
-msgstr ""
-
-#: amp.i18n.php:616
-msgid ""
-"alt attribute to use in place of image and title hover value. Defaults to "
-"FreePBX"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:239
@@ -12740,15 +10249,6 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:828
 msgid "is unknown"
-msgstr ""
-
-#: amp.i18n.php:622
-msgid ""
-"link to follow when clicking on logo, defaults to http://www.freepbx.org"
-msgstr ""
-
-#: amp.i18n.php:628
-msgid "link to follow when clicking on sponsor logo"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Notifications.class.php:20
@@ -13116,6 +10616,938 @@ msgid ""
 msgstr ""
 "vous pourriez avoir à ajouter la ligne 'preload => pbx_config.so' a votre "
 "modules.conf manuellement"
+
+#~ msgid "0 for disabling the Random Sleep And Max sleep you can set is 30"
+#~ msgstr ""
+#~ "0 pour désactiver le sommeil aléatoire et le sommeil maximum que vous "
+#~ "pouvez définir est 30"
+
+#~ msgid "AMPLOCALBIN Dir for retrieve_conf"
+#~ msgstr "Repertoir AMPLOCALBIN pour retrieve_conf"
+
+#~ msgid "API Cache expiration"
+#~ msgstr "Expiration du cache API"
+
+#~ msgid "Abort Config Gen on Bad Dest"
+#~ msgstr "Abandonner la génération de config sur une destination incorrecte"
+
+#~ msgid "Abort Config Gen on Exten Conflict"
+#~ msgstr "Abandonner la génération de config en cas de conflit d'extension"
+
+#~ msgid "Address to bind to. Default is ::"
+#~ msgstr "Adresse d’écoute. Valeur par défaut ::"
+
+#~ msgid "Advanced Settings Details"
+#~ msgstr "Détails des paramètres avancés"
+
+#~ msgid "Aggresively Check for Duplicate Extensions"
+#~ msgstr "Vérification agressive des extensions en double"
+
+#~ msgid ""
+#~ "Alert Info to use on Attended Transfer Calls. 'Inherit' will use the "
+#~ "previously set Alert Info.'Unset' will remove the previously set Alert "
+#~ "Info.</br> Note: Attended Transfer detection only works in Asterisk 12 or "
+#~ "higher"
+#~ msgstr ""
+#~ "Informations d'alerte à utiliser sur les appels de transfert surveillés. "
+#~ "'Hériter' utilisera les informations d'alerte précédemment définies. "
+#~ "'Désactiver' supprimera les informations d'alerte précédemment définies.</"
+#~ "br> Remarque : la détection de transfert assisté ne fonctionne que dans "
+#~ "Asterisk 12 ou supérieur"
+
+#~ msgid ""
+#~ "Alert Info to use on Blind Transfer Calls. 'Inherit' will use the "
+#~ "previously set Alert Info,'Unset' will remove the previously set Alert "
+#~ "Info."
+#~ msgstr ""
+#~ "Informations d'alerte à utiliser sur les appels de transfert aveugle. "
+#~ "'Hériter' utilisera les informations d'alerte précédemment définies. "
+#~ "'Désactiver' supprimera les informations d'alerte précédemment définies."
+
+#~ msgid ""
+#~ "Alert Info to use on Extension to Extension Calls. 'Inherit' will use the "
+#~ "previously set Alert Info,'Unset' will remove the previously set Alert "
+#~ "Info. <br> <b>Sangoma's S series phones ringtones</b>: ring1, ring2, "
+#~ "ring3, ring4, ring5. </br> <b>Sangoma's D series phones ringtones</b>: "
+#~ "Alarm, Chimes, Digium, GuitarStrum, Jingle, Office, Office2, RotaryPhone, "
+#~ "SteelDrum, Techno, Theme, Tweedle, Twinkle, Vibe."
+#~ msgstr ""
+#~ "Informations d'alerte à utiliser sur les appels de poste à poste. "
+#~ "'Hériter' utilisera les informations d'alerte précédemment définies, "
+#~ "'Désactiver' supprimera les informations d'alerte précédemment définies. "
+#~ "<br> <b>Sonneries des téléphones de la série S de Sangoma</b> : ring1, "
+#~ "ring2, ring3, ring4, ring5. </br> <b>Sonneries de téléphones de la série "
+#~ "D de Sangoma</b> : Alarme, Carillons, Digium, GuitarStrum, Jingle, "
+#~ "Office, Office2, RotaryPhone, SteelDrum, Techno, Thème, Tweedle, Twinkle, "
+#~ "Vibe."
+
+#~ msgid "Allow Login With DB Credentials"
+#~ msgstr ""
+#~ "Autoriser la connexion avec les informations d'identification de la BD"
+
+#~ msgid "Alt for Footer Logo"
+#~ msgstr "Alt pour le logo de pied de page"
+
+#~ msgid "Alt for Left Logo"
+#~ msgstr "Alt pour le logo de gauche"
+
+#~ msgid "Always Download Web Assets"
+#~ msgstr "Toujours télécharger les ressources Web"
+
+#~ msgid ""
+#~ "Amount of days to keep browser playback (HTML5 audio files) cache. Set "
+#~ "this to a lower value to conserve disk space."
+#~ msgstr ""
+#~ "Nombre de jours pour conserver le cache de lecture du navigateur "
+#~ "(fichiers audio HTML5). Réglez-le sur une valeur inférieure pour "
+#~ "économiser de l'espace disque."
+
+#~ msgid ""
+#~ "Amount of days to retain data in the log tables. Setting this to 30 is "
+#~ "ideal."
+#~ msgstr ""
+#~ "Nombre de jours pour conserver les données dans les tables de journal. Le "
+#~ "réglage à 30 est idéal."
+
+#~ msgid ""
+#~ "Amount of days to retain data. Setting this above 90 could cause "
+#~ "performance issues."
+#~ msgstr ""
+#~ "Nombre de jours pour conserver les données. Un réglage supérieur à 90 "
+#~ "peut entraîner des problèmes de performances."
+
+#~ msgid ""
+#~ "Amount of seconds to allow a session to stay open before logging a user "
+#~ "out. For unlimited clear this box and save."
+#~ msgstr ""
+#~ "Nombre de secondes pour permettre à une session de rester ouverte avant "
+#~ "de déconnecter un utilisateur. Pour un nombre illimité, décochez cette "
+#~ "case et enregistrez."
+
+#~ msgid "Asterisk AGI Dir"
+#~ msgstr "Répertoire AGI Asterisk"
+
+#~ msgid "Asterisk Builtin mini-HTTP server"
+#~ msgstr "Mini serveur HTTP intégré d'Asterisk"
+
+#~ msgid "Asterisk Log Dir"
+#~ msgstr "Répertoire de journalisation d'Asterisk"
+
+#~ msgid "Asterisk Manager"
+#~ msgstr "Gestionnaire Asterisk"
+
+#~ msgid "Asterisk Manager Host"
+#~ msgstr "Hôte du gestionnaire d'Asterisk"
+
+#~ msgid "Asterisk Manager Password"
+#~ msgstr "Mot de passe du gestionnaire d'Asterisk"
+
+#~ msgid "Asterisk Manager Port"
+#~ msgstr "Port du gestionnaire d'Asterisk"
+
+#~ msgid "Asterisk Manager Proxy Port"
+#~ msgstr "Port Asterisk Manager Proxy"
+
+#~ msgid "Asterisk Manager User"
+#~ msgstr "Utilisateur du gestionnaire d'Asterisk"
+
+#~ msgid "Asterisk Manager Write Timeout"
+#~ msgstr "Délai d'expiration d'écriture Asterisk Manager"
+
+#~ msgid "Asterisk Modules Dir"
+#~ msgstr "Répertoire des modules d'Asterisk"
+
+#~ msgid "Asterisk Outbound Trunk Dial Options"
+#~ msgstr "Options de numérotation trunk sortant Asterisk"
+
+#~ msgid "Asterisk Run Dir"
+#~ msgstr "Répertoire d'exécution d'Asterisk"
+
+#~ msgid "Asterisk Spool Dir"
+#~ msgstr "Répertoire Spool Asterisk"
+
+#~ msgid "Asterisk VMU Mask"
+#~ msgstr "Masque Asterisk VMU"
+
+#~ msgid "Asterisk bin Dir"
+#~ msgstr "Répertoire bin Asterisk"
+
+#~ msgid "Asterisk etc Dir"
+#~ msgstr "Répertoire etc Asterisk"
+
+#~ msgid "Attended Transfer Alert Info"
+#~ msgstr "Alert-Info de transfert supervisé"
+
+#~ msgid ""
+#~ "Authentication type to use for web admin. If type set to <b>database</b>, "
+#~ "the primary AMP admin credentials will be the AMPDBUSER/AMPDBPASS above. "
+#~ "When using database you can create users that are restricted to only "
+#~ "certain module pages. When set to none, you should make sure you have "
+#~ "provided security at the apache level. When set to webserver, FreePBX "
+#~ "will expect authentication to happen at the apache level, but will take "
+#~ "the user credentials and apply any restrictions as if it were in database "
+#~ "mode."
+#~ msgstr ""
+#~ "Type d'authentification à utiliser pour l'administrateur Web. Si le type "
+#~ "est défini sur <b>base de données</b>, les informations d'identification "
+#~ "d'administrateur AMP principales seront AMPDBUSER/AMPDBPASS ci-dessus. "
+#~ "Lorsque vous utilisez la base de données, vous pouvez créer des "
+#~ "utilisateurs limités à certaines pages de module uniquement. Lorsqu'il "
+#~ "est défini sur aucun, vous devez vous assurer que vous avez fourni une "
+#~ "sécurité au niveau d'Apache. Lorsqu'il est défini sur serveur Web, "
+#~ "FreePBX s'attend à ce que l'authentification se produise au niveau "
+#~ "Apache, mais prendra les informations d'identification de l'utilisateur "
+#~ "et appliquera toutes les restrictions comme s'il était en mode base de "
+#~ "données."
+
+#~ msgid "Authorization Type"
+#~ msgstr "Type d'autorisation"
+
+#~ msgid ""
+#~ "Automatically execute a script after applying changes in the AMP admin. "
+#~ "Set POST_RELOAD to the script you wish to execute after applying changes. "
+#~ "If POST_RELOAD_DEBUG=true, you will see the output of the script in the "
+#~ "web page."
+#~ msgstr ""
+#~ "Exécutez automatiquement un script après avoir appliqué les modifications "
+#~ "dans l'admin AMP. Définissez POST_RELOAD sur le script que vous souhaitez "
+#~ "exécuter après avoir appliqué les modifications. Si "
+#~ "POST_RELOAD_DEBUG=true, vous verrez la sortie du script dans la page Web."
+
+#~ msgid "Blind Transfer Alert Info"
+#~ msgstr "Alert-Info de transfert sans préavis"
+
+#~ msgid "Block CNAM on External Trunks"
+#~ msgstr "Bloquer CNAM sur les trunks externes"
+
+#~ msgid "Browser Playback Cache Directory"
+#~ msgstr "Répertoire du cache de lecture du navigateur"
+
+#~ msgid "Browser Playback Day Cache"
+#~ msgstr "Cache du jour de lecture du navigateur"
+
+#~ msgid "Browser Stats"
+#~ msgstr "Stats du navigateur"
+
+#~ msgid "CGI Dir"
+#~ msgstr "Répertoire CGI"
+
+#~ msgid "CW Enabled by Default"
+#~ msgstr "CW Activé par défaut"
+
+#~ msgid "Cache Expiration"
+#~ msgstr "Expiration du cache"
+
+#~ msgid "Call Forward Ringtimer Default"
+#~ msgstr "Renvoi d'appel par défaut de la sonnerie"
+
+#~ msgid "Call Recording Format"
+#~ msgstr "Format d'enregistrement des appels"
+
+#~ msgid "Call Recording Policy"
+#~ msgstr "Politique d'enregistrement des appels"
+
+#~ msgid ""
+#~ "Call Recording Policy used to resove the winner in a conflict between two "
+#~ "extensions when one wants a call recorded and the other does not, if both "
+#~ "their priorities are also the same."
+#~ msgstr ""
+#~ "Politique d'enregistrement des appels utilisée pour résoudre le gagnant "
+#~ "dans un conflit entre deux extensions lorsque l'une souhaite enregistrer "
+#~ "un appel et l'autre ne le souhaite pas, si leurs deux priorités sont "
+#~ "également les mêmes."
+
+#~ msgid "Certificate File Location"
+#~ msgstr "Emplacement du fichier de certificat"
+
+#~ msgid "Check Server Referrer"
+#~ msgstr "Vérifier le référent du serveur"
+
+#~ msgid ""
+#~ "Checks to make sure modules and their files are validly signed. Will "
+#~ "display a notice on any module page that is not correctly verified."
+#~ msgstr ""
+#~ "Vérifie que les modules et leurs fichiers sont valablement signés. "
+#~ "Affiche un avis sur toute page de module qui n'est pas correctement "
+#~ "vérifiée."
+
+#~ msgid ""
+#~ "Choose the country tonezone that you would like Asterisk to use when "
+#~ "creating the different standard telephony tones such as ringing, busy, "
+#~ "congetstion, etc."
+#~ msgstr ""
+#~ "Choisissez la zone de tonalité du pays que vous souhaitez qu'Asterisk "
+#~ "utilise lors de la création des différentes tonalités de téléphonie "
+#~ "standard telles que sonnerie, occupé, congestion, etc."
+
+#~ msgid "Conference Room App"
+#~ msgstr "Application de salle de conférence"
+
+#~ msgid "Convert ZAP Settings to DAHDi"
+#~ msgstr "Convertir les paramètres ZAP en DAHDi"
+
+#~ msgid "Country Indication Tones"
+#~ msgstr "Tonalités d'indication de pays"
+
+#~ msgid "Cron JOBS"
+#~ msgstr "JOBS Cron"
+
+#~ msgid "Custom CRM url"
+#~ msgstr "URL CRM personnalisée"
+
+#~ msgid ""
+#~ "DO NOT set this unless you know what you are doing. Only used if you do "
+#~ "not use the default values provided by FreePBX. Defaults to your "
+#~ "configured AMDBENGINE."
+#~ msgstr ""
+#~ "NE PAS régler ceci à moins que vous ne sachiez ce que vous faites. "
+#~ "Utilisé uniquement si vous n'utilisez pas les valeurs par défaut fournies "
+#~ "par FreePBX. Par défaut, votre AMDBENGINE configuré."
+
+#~ msgid ""
+#~ "DO NOT set this unless you know what you are doing. Only used if you do "
+#~ "not use the default values provided by FreePBX. Name of the table in the "
+#~ "db where the cdr is stored. cdr is default."
+#~ msgstr ""
+#~ "NE PAS régler ceci à moins que vous ne sachiez ce que vous faites. "
+#~ "Utilisé uniquement si vous n'utilisez pas les valeurs par défaut fournies "
+#~ "par FreePBX. Nom de la table dans la base de données où est stocké le "
+#~ "cdr. cdr est la valeur par défaut."
+
+#~ msgid ""
+#~ "DO NOT set this unless you know what you are doing. Only used if you do "
+#~ "not use the default values provided by FreePBX. Username to connect to db "
+#~ "with if it is not the same as AMPDBUSER."
+#~ msgstr ""
+#~ "NE PAS régler ceci à moins que vous ne sachiez ce que vous faites. "
+#~ "Utilisé uniquement si vous n'utilisez pas les valeurs par défaut fournies "
+#~ "par FreePBX. Nom d'utilisateur avec lequel se connecter à la base de "
+#~ "données s'il n'est pas le même que AMPDBUSER."
+
+#~ msgid ""
+#~ "DO NOT set this unless you know what you are doing. Only used if you do "
+#~ "not use the default values provided by FreePBX.<br>Hostname of db server "
+#~ "if not the same as AMPDBHOST."
+#~ msgstr ""
+#~ "NE PAS régler ceci à moins que vous ne sachiez ce que vous faites. "
+#~ "Utilisé uniquement si vous n'utilisez pas les valeurs par défaut fournies "
+#~ "par FreePBX.<br>Nom d'hôte du serveur db s'il n'est pas le même que "
+#~ "AMPDBHOST."
+
+#~ msgid ""
+#~ "DO NOT set this unless you know what you are doing. Only used if you do "
+#~ "not use the default values provided by FreePBX.<br>Name of database used "
+#~ "for cdr records."
+#~ msgstr ""
+#~ "NE PAS régler ceci à moins que vous ne sachiez ce que vous faites. "
+#~ "Utilisé uniquement si vous n'utilisez pas les valeurs par défaut fournies "
+#~ "par FreePBX.<br>Nom de la base de données utilisée pour les "
+#~ "enregistrements cdr."
+
+#~ msgid ""
+#~ "DO NOT set this unless you know what you are doing. Only used if you do "
+#~ "not use the default values provided by FreePBX.<br>Password for "
+#~ "connecting to db if its not the same as AMPDBPASS."
+#~ msgstr ""
+#~ "NE PAS régler ceci à moins que vous ne sachiez ce que vous faites. "
+#~ "Utilisé uniquement si vous n'utilisez pas les valeurs par défaut fournies "
+#~ "par FreePBX.<br>Mot de passe pour la connexion à la base de données si ce "
+#~ "n'est pas le même que AMPDBPASS."
+
+#~ msgid ""
+#~ "DO NOT set this unless you know what you are doing. Only used if you do "
+#~ "not use the default values provided by FreePBX.<br>Port number for db "
+#~ "host."
+#~ msgstr ""
+#~ "NE PAS régler ceci à moins que vous ne sachiez ce que vous faites. "
+#~ "Utilisé uniquement si vous n'utilisez pas les valeurs par défaut fournies "
+#~ "par FreePBX.<br>Numéro de port pour l'hôte db."
+
+#~ msgid "Data Retention"
+#~ msgstr "La conservation des données"
+
+#~ msgid "Date Format"
+#~ msgstr "Format de date"
+
+#~ msgid "Date and Time Format"
+#~ msgstr "Format de la date et de l'heure"
+
+#~ msgid "Debug File"
+#~ msgstr "Fichier de débogage"
+
+#~ msgid "Default language"
+#~ msgstr "Langue par défaut"
+
+#~ msgid ""
+#~ "Default maximum number of outbound simultaneous calls that an extension "
+#~ "can make. This is also very useful as a Security Protection against a "
+#~ "system that has been compromised. It will limit the number of "
+#~ "simultaneous calls that can be made on the compromised extension. This "
+#~ "default is used when an extension is created. A default of 0 means no "
+#~ "limit."
+#~ msgstr ""
+#~ "Nombre maximal par défaut d'appels sortants simultanés qu'un poste peut "
+#~ "passer. Ceci est également très utile comme protection de sécurité contre "
+#~ "un système qui a été compromis. Cela limitera le nombre d'appels "
+#~ "simultanés pouvant être passés sur le poste compromis. Cette valeur par "
+#~ "défaut est utilisée lorsqu'une extension est créée. Une valeur par défaut "
+#~ "de 0 signifie aucune limite."
+
+#~ msgid ""
+#~ "Default number of seconds to ring phones before sending callers to "
+#~ "voicemail or other extension destinations. This can be set per extension/"
+#~ "user. Phones with no voicemail or other destination options will ring "
+#~ "indefinitely."
+#~ msgstr ""
+#~ "Nombre de secondes par défaut pour faire sonner les téléphones avant "
+#~ "d'envoyer les appelants vers la messagerie vocale ou d'autres "
+#~ "destinations de poste. Cela peut être défini par poste/utilisateur. Les "
+#~ "téléphones sans messagerie vocale ou autres options de destination "
+#~ "sonneront indéfiniment."
+
+#~ msgid ""
+#~ "Default setting for (new Extension)  SIP encryption. Whether to offer "
+#~ "SRTP encrypted media (and only SRTP encrypted media) on outgoing calls to "
+#~ "a peer. Calls will fail with HANGUPCAUSE=58 if the peer does not support "
+#~ "SRTP. See Asterisk documentation for details."
+#~ msgstr ""
+#~ "Paramètre par défaut pour le cryptage SIP (nouveau poste). S'il faut "
+#~ "proposer ou non des médias chiffrés SRTP (et uniquement des médias "
+#~ "chiffrés SRTP) lors des appels sortants vers un homologue. Les appels "
+#~ "échoueront avec HANGUPCAUSE=58 si l'homologue ne prend pas en charge "
+#~ "SRTP. Voir la documentation Asterisk pour plus de détails."
+
+#~ msgid ""
+#~ "Default setting for (new Extension) SIP and IAX allow (for codecs). "
+#~ "Codecs to allow in addition to those set in general settings unless "
+#~ "explicitly 'disallowed' for the device. Values van be separated with '&' "
+#~ "e.g. 'ulaw&g729&g729' where the preference order is preserved. See "
+#~ "Asterisk documentation for details."
+#~ msgstr ""
+#~ "Paramètre par défaut pour (nouveau poste) SIP et IAX autorisés (pour les "
+#~ "codecs). Codecs à autoriser en plus de ceux définis dans les paramètres "
+#~ "généraux, à moins qu'ils ne soient explicitement 'interdits' pour "
+#~ "l'appareil. Les valeurs peuvent être séparées par '&', par ex. "
+#~ "'alaw&ulaw&g729' où l'ordre de préférence est préservé. Voir la "
+#~ "documentation Asterisk pour plus de détails."
+
+#~ msgid ""
+#~ "Default setting for (new Extension) SIP and IAX disallow (for codecs). "
+#~ "Codecs to disallow, can help to reset from the general settings by "
+#~ "setting a value of 'all' and then specifically including allowed codecs "
+#~ "with the 'allow' directive. Values van be separated with '&' e.g. "
+#~ "'g729&g722'. See Asterisk documentation for details."
+#~ msgstr ""
+#~ "Paramètre par défaut pour (nouveau poste) SIP et IAX interdits (pour les "
+#~ "codecs). Les codecs à interdire peuvent aider à réinitialiser les "
+#~ "paramètres généraux en définissant une valeur de 'all', puis en incluant "
+#~ "spécifiquement les codecs autorisés avec la directive « allow ». Les "
+#~ "valeurs peuvent être séparées par '&', par ex. 'g729&g722'. Voir la "
+#~ "documentation Asterisk pour plus de détails."
+
+#~ msgid ""
+#~ "Default setting for (new Extension) SIP and IAX qualify. Whether to send "
+#~ "periodic OPTIONS messages (for SIP) or otherwise monitor the channel, and "
+#~ "at what point to consider the channel unavailable. A value of 'yes' is "
+#~ "equivalent to 2000, time in msec. Can help to keep NAT holes open with "
+#~ "SIP but not dependable for remote client firewalls. See Asterisk "
+#~ "documentation for details."
+#~ msgstr ""
+#~ "Paramètre par défaut pour (nouveau poste) SIP et IAX qualify. S'il faut "
+#~ "envoyer des messages OPTIONS périodiques (pour SIP) ou surveiller "
+#~ "autrement le canal, et à quel moment considérer que le canal n'est pas "
+#~ "disponible. Une valeur de 'oui' équivaut à 2000, temps en ms. Peut aider "
+#~ "à garder les ports NAT ouverts avec SIP mais pas fiable pour les pare-feu "
+#~ "des clients distants. Voir la documentation Asterisk pour plus de détails."
+
+#~ msgid ""
+#~ "Default setting for (new Extension) SIP canreinvite (same as "
+#~ "directmedia). See Asterisk documentation for details."
+#~ msgstr ""
+#~ "Paramètre par défaut pour (nouveau poste) SIP canreinvite (identique à "
+#~ "directmedia). Voir la documentation Asterisk pour plus de détails."
+
+#~ msgid ""
+#~ "Default setting for (new Extension) SIP nat. A 'yes' will attempt to "
+#~ "handle nat, also works for local (uses the network ports and address "
+#~ "instead of the reported ports), 'no' follows the protocol, 'never' tries "
+#~ "to block it, no RFC3581, 'route' ignores the rport information. See "
+#~ "Asterisk documentation for details."
+#~ msgstr ""
+#~ "Paramètre par défaut pour (nouveau poste) SIP nat. Un 'oui' tentera de "
+#~ "gérer nat, fonctionne également pour le local (utilise les ports réseau "
+#~ "et l'adresse au lieu des ports signalés), 'non' suit le protocole, "
+#~ "'jamais' essaie de le bloquer, pas de RFC3581, 'route' ignore les "
+#~ "informations de rport. Voir la documentation Asterisk pour plus de "
+#~ "détails."
+
+#~ msgid ""
+#~ "Default setting for (new Extension) SIP qualifyfreq. Only valid for "
+#~ "Asterisk 1.6 and above. Frequency that 'qualify' OPTIONS messages will be "
+#~ "sent to the device. Can help to keep NAT holes open but not dependable "
+#~ "for remote client firewalls. See Asterisk documentation for details."
+#~ msgstr ""
+#~ "Paramètre par défaut pour le (nouveau poste) SIP qualifierfreq. "
+#~ "Uniquement valable pour Asterisk 1.6 et supérieur. Fréquence à laquelle "
+#~ "les messages OPTIONS 'qualify' seront envoyés à l'appareil. Peut aider à "
+#~ "garder les ports NAT ouverts mais pas fiable pour les pare-feu des "
+#~ "clients distants. Voir la documentation Asterisk pour plus de détails"
+
+#~ msgid ""
+#~ "Default setting for (new Extension) SIP sendrpid. A value of 'yes' is "
+#~ "equivalent to 'rpid' and will send the 'Remote-Party-ID' header. A value "
+#~ "of 'pai' will send the 'P-Asserted-Identity' header. See Asterisk "
+#~ "documentation for details."
+#~ msgstr ""
+#~ "Paramètre par défaut pour (nouveau poste) SIP sendrpid. Une valeur de "
+#~ "'yes' équivaut à 'rpid' et enverra l'en-tête 'Remote-Party-ID'. Une "
+#~ "valeur de 'pai' enverra l'en-tête 'P-Asserted-Identity'. Voir la "
+#~ "documentation Asterisk pour plus de détails."
+
+#~ msgid ""
+#~ "Default setting for (new Extension) SIP trustrpid. See Asterisk "
+#~ "documentation for details."
+#~ msgstr ""
+#~ "Paramètre par défaut pour (nouveau poste) SIP trustrpid. Voir la "
+#~ "documentation Asterisk pour plus de détails."
+
+#~ msgid ""
+#~ "Default setting for (new Extension) SIP, DAHDi (and Zap) callgroup. "
+#~ "Callgroup(s) that the device is part of, can be one or more callgroups, e."
+#~ "g. '1,3-5' would be in groups 1,3,4,5. See Asterisk documentation for "
+#~ "details."
+#~ msgstr ""
+#~ "Paramètre par défaut pour le groupe d'appel (nouveau poste) SIP, DAHDi "
+#~ "(et Zap). Les groupes d'appels dont fait partie l'appareil peuvent être "
+#~ "un ou plusieurs groupes d'appels, par ex. '1,3-5' serait dans les groupes "
+#~ "1,3,4,5. Voir la documentation Asterisk pour plus de détails."
+
+#~ msgid ""
+#~ "Default setting for (new Extension) SIP, DAHDi (and Zap) pickupgroup. "
+#~ "Pickupgroups(s) that the device can pickup calls from, can be one or more "
+#~ "groups, e.g. '1,3-5' would be in groups 1,3,4,5. Device does not have to "
+#~ "be in a group to be able to pickup calls from that group. See Asterisk "
+#~ "documentation for details."
+#~ msgstr ""
+#~ "Paramètre par défaut pour le groupe d'interception (nouveau poste) SIP, "
+#~ "DAHDi (et Zap) . Le(s) groupe(s) d'interception d'appels à partir "
+#~ "desquels l'appareil peut intercepter des appels peuvent être constitués "
+#~ "d'un ou plusieurs groupes, par ex. '1,3-5' serait dans les groupes "
+#~ "1,3,4,5. L'appareil n'a pas besoin d'être dans un groupe pour pouvoir "
+#~ "intercepter les appels de ce groupe. Voir la documentation Asterisk pour "
+#~ "plus de détails."
+
+#~ msgid ""
+#~ "Default setting for new extensions. When set to Intercom, calls to new "
+#~ "extensions/users from other internal users act as if they were intercom "
+#~ "calls meaning they will be auto-answered if the endpoint supports this "
+#~ "feature and the system is configured to operate in this mode. All the "
+#~ "normal white list and black list settings will be honored if they are "
+#~ "set. External calls will still ring as normal, as will certain other "
+#~ "circumstances such as blind transfers and when a Follow Me is configured "
+#~ "and enabled. If Disabled, the phone rings as a normal phone."
+#~ msgstr ""
+#~ "Paramètre par défaut pour les nouveaux postes. Lorsqu'il est défini sur "
+#~ "Intercom, les appels vers de nouveaux postes/utilisateurs provenant "
+#~ "d'autres utilisateurs internes agissent comme s'il s'agissait d'appels "
+#~ "interphone, ce qui signifie qu'ils recevront une réponse automatique si "
+#~ "le terminal prend en charge cette fonctionnalité et que le système est "
+#~ "configuré pour fonctionner dans ce mode. Tous les paramètres normaux de "
+#~ "liste blanche et de liste noire seront respectés s'ils sont définis. Les "
+#~ "appels externes sonneront toujours normalement, de même que certaines "
+#~ "autres circonstances telles que les transferts aveugles et lorsqu'un "
+#~ "Follow Me est configuré et activé. Si désactivé, le téléphone sonne comme "
+#~ "un téléphone normal."
+
+#~ msgid ""
+#~ "Defaults to 077 allowing only the asterisk user to have any permission on "
+#~ "VM files. If set to something like 007, it would allow the group to have "
+#~ "permissions. This can be used if setting apache to a different user then "
+#~ "asterisk, so that the apache user can have access to read/write/delete "
+#~ "the voicemail files. If changed, some of the voicemail directory "
+#~ "structures may have to be manually changed."
+#~ msgstr ""
+#~ "La valeur par défaut est 077, permettant uniquement à l'utilisateur "
+#~ "astérisque d'avoir une autorisation sur les fichiers VM. S'il est défini "
+#~ "sur quelque chose comme 007, cela permettrait au groupe d'avoir des "
+#~ "autorisations. Cela peut être utilisé si vous définissez Apache sur un "
+#~ "autre utilisateur que l'astérisque, afin que l'utilisateur Apache puisse "
+#~ "avoir accès à la lecture/écriture/suppression des fichiers de messagerie "
+#~ "vocale. En cas de modification, certaines des structures de répertoire de "
+#~ "messagerie vocale devront peut-être être modifiées manuellement."
+
+#~ msgid ""
+#~ "Determine where to send log information if the log is enabled ('Disable "
+#~ "FreePBX Log' (AMPDISABLELOG) false. There are two places to route the log "
+#~ "messages. 'FILE' will send all log messages to the defined 'FreePBX Log "
+#~ "File' (FPBX_LOG_FILE). All the other settings will route the log messages "
+#~ "to your System Logging subsystem (syslog) using the specified log level. "
+#~ "Syslog can be configured to route different levels to different "
+#~ "locations. See 'syslog' documentation (man syslog) on your system for "
+#~ "more details."
+#~ msgstr ""
+#~ "Déterminez où envoyer les informations de journal si le journal est "
+#~ "activé ('Disable FreePBX Log' (AMPDISABLELOG) false. Il y a deux endroits "
+#~ "pour acheminer les messages de log. 'FILE' enverra tous les messages de "
+#~ "log au 'FreePBX Log File' (FPBX_LOG_FILE) défini. Tous les autres "
+#~ "paramètres acheminent les messages du journal vers votre sous-système "
+#~ "d’enregistrement système (syslog) en utilisant le niveau de journal "
+#~ "spécifié. Syslog peut être configuré pour router différents niveaux vers "
+#~ "différents emplacements. Voir la documentation 'syslog' (man syslog) sur "
+#~ "votre système pour plus de détails."
+
+#~ msgid "Developer Mode"
+#~ msgstr "Mode développeur"
+
+#~ msgid "Developer and Customization"
+#~ msgstr "Développeur et personnalisation"
+
+#~ msgid "Device Settings"
+#~ msgstr "Paramètres du dispositif"
+
+#~ msgid "Dialplan and Operational"
+#~ msgstr "Plan de numérotation et opérationnel"
+
+#~ msgid "Directory Layout"
+#~ msgstr "Structure de répertoire"
+
+#~ msgid "Disable -custom Context Includes"
+#~ msgstr "Désactiver le contexte personnalisé inclut"
+
+#~ msgid "Disable CRM Logging"
+#~ msgstr "Désactiver les logs CRM"
+
+#~ msgid "Disable FreePBX Log"
+#~ msgstr "Désactiver les logs FreePBX"
+
+#~ msgid "Disable FreePBX dbug Logging"
+#~ msgstr "Désactiver la journalisation dbug de FreePBX"
+
+#~ msgid "Disable Mainstyle CSS Compression"
+#~ msgstr "Désactiver la compression CSS de style principal"
+
+#~ msgid "Disable Module Admin Caching"
+#~ msgstr "Désactiver la mise en cache du module Admin"
+
+#~ msgid ""
+#~ "Disallow transfer features (Normally ## and *2) for callers who "
+#~ "passthrough inbound routes (Such as external callers)"
+#~ msgstr ""
+#~ "Interdire les fonctions de transfert (normalement ## et *2) pour les "
+#~ "appelants qui passent par des routes entrantes (comme les appelants "
+#~ "externes)"
+
+#~ msgid "Disallow transfer features for inbound callers"
+#~ msgstr ""
+#~ "Interdire les fonctionnalités de transfert pour les appelants entrants"
+
+#~ msgid "Display CallerID on Calling Phone"
+#~ msgstr "Afficher l'ID de l'appelant sur le téléphone appelant"
+
+#~ msgid "Display Dialed Number on Calling Phone"
+#~ msgstr "Afficher le numéro composé sur le téléphone appelant"
+
+#~ msgid "Display Friendly Name"
+#~ msgstr "Afficher le nom convivial"
+
+#~ msgid "Display Monitor Trunk Failures Option"
+#~ msgstr "Afficher l'option des problèmes de trunk"
+
+#~ msgid "Display Presence State of Callee"
+#~ msgstr "Afficher l'état de présence de l'appelé"
+
+#~ msgid "Display Readonly Settings"
+#~ msgstr "Afficher les paramètres en lecture seule"
+
+#~ msgid "Display debug output for script used if POST_RELOAD is used."
+#~ msgstr ""
+#~ "Affiche la sortie de débogage pour le script utilisé si POST_RELOAD est "
+#~ "utilisé."
+
+#~ msgid "Ditech VQA Inbound Setting"
+#~ msgstr "Paramètre entrant Ditech VQA"
+
+#~ msgid "Ditech VQA Outbound Setting"
+#~ msgstr "Paramètre sortant Ditech VQA"
+
+#~ msgid "Do fwconsole reload After automatic module update"
+#~ msgstr "Faire un rechargement Après la mise à jour automatique du module"
+
+#~ msgid "Enable the mini-HTTP Server"
+#~ msgstr "Activer le mini serveur HTTP"
+
+#~ msgid "Flash Operator Panel"
+#~ msgstr "Panneau Opérateur"
+
+#~ msgid "FreePBX Framework"
+#~ msgstr "Cadriciel FreePBX"
+
+#~ msgid "FreePBX Log File"
+#~ msgstr "Journal d'Asterisk"
+
+#~ msgid "FreePBX Web Address"
+#~ msgstr "Adresse Web de FreePBX"
+
+#~ msgid "FreePBX Web Root Dir"
+#~ msgstr "Répertoire racine Web de FreePBX"
+
+#~ msgid "FreePBX bin Dir"
+#~ msgstr "Répertoire bin de FreePBX"
+
+#~ msgid "FreePBX sbin Dir"
+#~ msgstr "Répertoire sbin de FreePBX"
+
+#~ msgid "HTTP Bind Address"
+#~ msgstr "Adresse d'écoute HTTP"
+
+#~ msgid "HTTP Bind Port"
+#~ msgstr "Port d'écoute HTTP"
+
+#~ msgid "HTTP Prefix"
+#~ msgstr "Préfixe HTTP"
+
+#~ msgid ""
+#~ "HTTP Prefix allows you to specify a prefix for all requests to the "
+#~ "server. For example, if the prefix is set to "
+#~ msgstr ""
+#~ "Le préfixe HTTP vous permet de spécifier un préfix pour toutes les "
+#~ "requêtes au serveur. Par exemple si le préfixe est "
+
+#~ msgid "HTTPS Bind Address"
+#~ msgstr "Adresse d'écoute HTTPS"
+
+#~ msgid "HTTPS Bind Port"
+#~ msgstr "Port d'écoute HTTPS"
+
+#~ msgid "HTTPS TLS Certificate Location"
+#~ msgstr "Endroit du certificat TLS HTTPS"
+
+#~ msgid "HTTPS TLS Private Key Location"
+#~ msgstr "Endroit de la clé privé TLS HTTPS"
+
+#~ msgid "Hostname for the Asterisk Manager"
+#~ msgstr "Nom d'hôte pour le gestionnaire d'Asterisk"
+
+#~ msgid "Override Readonly Settings"
+#~ msgstr "Remplacer les paramètres en lecture seule"
+
+#~ msgid "PHP Console"
+#~ msgstr "Console PHP"
+
+#~ msgid "PHP Console Password"
+#~ msgstr "Mot de passe de la console PHP"
+
+#~ msgid "PHP Error Level"
+#~ msgstr "Niveau d'erreur PHP"
+
+#~ msgid "PHP Timezone"
+#~ msgstr "Fuseau horaire PHP"
+
+#~ msgid "POST_RELOAD Debug Mode"
+#~ msgstr "Mode de débogage POST_RELOAD"
+
+#~ msgid "POST_RELOAD Script"
+#~ msgstr "Script POST_RELOAD"
+
+#~ msgid "PRE_RELOAD Script"
+#~ msgstr "Script PRE_RELOAD"
+
+#~ msgid "Path for asterisk"
+#~ msgstr "Chemin pour Asterisk"
+
+#~ msgid "Path for ffmpeg"
+#~ msgstr "Chemin pour ffmpeg"
+
+#~ msgid "Path for lame"
+#~ msgstr "Chemin pour lame"
+
+#~ msgid "Path for mpg123"
+#~ msgstr "Chemin pour mpg123"
+
+#~ msgid "Path for mysqldump"
+#~ msgstr "Chemin pour mysqldump"
+
+#~ msgid "Path for openssl"
+#~ msgstr "Chemin pour openssl"
+
+#~ msgid "Path for rsync"
+#~ msgstr "Chemin pour rsync"
+
+#~ msgid "Path for sox"
+#~ msgstr "Chemin pour sox"
+
+#~ msgid "Path for tail"
+#~ msgstr "Chemin pour tail"
+
+#~ msgid "Path for touch"
+#~ msgstr "Chemin pour touch"
+
+#~ msgid "Port for the Asterisk Manager"
+#~ msgstr "Port du gestionnaire Asterisk"
+
+#~ msgid "Port to bind to. Default is 8088"
+#~ msgstr "Le port sur lequel écouter. 8088 par défaut"
+
+#~ msgid "Port to bind to. Default is 8089"
+#~ msgstr "Le port sur lequel écouter. 8089 par défaut"
+
+#~ msgid "Send Dashboard Notifications to Log"
+#~ msgstr "Journaliser les notifications du tableau de bord"
+
+#~ msgid "System Apps"
+#~ msgstr "Applications système"
+
+#~ msgid "System Asterisk Group"
+#~ msgstr "Groupe système Asterisk"
+
+#~ msgid "System Asterisk User"
+#~ msgstr "Utilisateur système Asterisk"
+
+#~ msgid "System Device Group"
+#~ msgstr "Groupe de dispositif système"
+
+#~ msgid "System Device User"
+#~ msgstr "Utilisateur de dispositif système"
+
+#~ msgid "System Identity"
+#~ msgstr "Identité système"
+
+#~ msgid "System Setup"
+#~ msgstr "Configuration système"
+
+#~ msgid "System Web Group"
+#~ msgstr "Groupe Web système"
+
+#~ msgid "System Web User"
+#~ msgstr "Utilisateur Web système"
+
+#~ msgid "The default language used in the webUI"
+#~ msgstr "La langue par défaut à utiliser dans l'interface web"
+
+#~ msgid "The path to Apache cgi-bin dir (leave off trailing slash)."
+#~ msgstr ""
+#~ "Le chemin vers le répertoire cgi-bin d'Apache (ne mettez pas la barre "
+#~ "oblique finale)."
+
+#~ msgid "The path to Apache webroot (leave off trailing slash)."
+#~ msgstr ""
+#~ "Le chemin vers le répertoire racine d'Apache (ne mettez pas la barre "
+#~ "oblique finale)."
+
+#~ msgid ""
+#~ "The path to asterisk as auto-determined by the system. Overwrite as "
+#~ "necessary."
+#~ msgstr ""
+#~ "Le chemin vers Asterisk tel que déterminé automatiquement par le système. "
+#~ "Modifier au besoin."
+
+#~ msgid ""
+#~ "The path to ffmpeg as auto-determined by the system. Overwrite as "
+#~ "necessary."
+#~ msgstr ""
+#~ "Le chemin vers ffmpeg tel que déterminé automatiquement par le système. "
+#~ "Modifier au besoin."
+
+#~ msgid ""
+#~ "The path to lame as auto-determined by the system. Overwrite as necessary."
+#~ msgstr ""
+#~ "Le chemin vers lame tel que déterminé automatiquement par le système. "
+#~ "Modifier au besoin."
+
+#~ msgid ""
+#~ "The path to mpg123 as auto-determined by the system. Overwrite as "
+#~ "necessary."
+#~ msgstr ""
+#~ "Le chemin vers mpg123 tel que déterminé automatiquement par le système. "
+#~ "Modifier au besoin."
+
+#~ msgid ""
+#~ "The path to mysqldump as auto-determined by the system. Overwrite as "
+#~ "necessary."
+#~ msgstr ""
+#~ "Le chemin vers mysqldump tel que déterminé automatiquement par le "
+#~ "système. Modifier au besoin."
+
+#~ msgid ""
+#~ "The path to openssl as auto-determined by the system. Overwrite as "
+#~ "necessary."
+#~ msgstr ""
+#~ "Le chemin vers openssl tel que déterminé automatiquement par le système. "
+#~ "Modifier au besoin."
+
+#~ msgid ""
+#~ "The path to rsync as auto-determined by the system. Overwrite as "
+#~ "necessary."
+#~ msgstr ""
+#~ "Le chemin vers rsync tel que déterminé automatiquement par le système. "
+#~ "Modifier au besoin."
+
+#~ msgid ""
+#~ "The path to sox as auto-determined by the system. Overwrite as necessary."
+#~ msgstr ""
+#~ "Le chemin vers sox tel que déterminé automatiquement par le système. "
+#~ "Modifier au besoin."
+
+#~ msgid ""
+#~ "The path to tail as auto-determined by the system. Overwrite as necessary."
+#~ msgstr ""
+#~ "Le chemin vers tail tel que déterminé automatiquement par le système. "
+#~ "Modifier au besoin."
+
+#~ msgid ""
+#~ "The path to touch as auto-determined by the system. Overwrite as "
+#~ "necessary."
+#~ msgstr ""
+#~ "Le chemin vers touch tel que déterminé automatiquement par le système. "
+#~ "Modifier au besoin."
+
+#~ msgid "This is the default directory for Asterisks agi files."
+#~ msgstr "Ceci est le répertoire par défaut pour les fichiers agi d'Asterisk."
+
+#~ msgid "This is the default directory for Asterisks configuration files."
+#~ msgstr ""
+#~ "Ceci est le répertoire par défaut pour les fichiers de configuration "
+#~ "d'Asterisk."
+
+#~ msgid "This is the default directory for Asterisks lib files."
+#~ msgstr "Ceci est le répertoire par défaut pour les fichiers lib d'Asterisk."
+
+#~ msgid "This is the default directory for Asterisks log files."
+#~ msgstr "Ceci est le répertoire par défaut pour les journaux d'Asterisk."
+
+#~ msgid "This is the default directory for Asterisks modules."
+#~ msgstr "Ceci est le répertoire par défaut pour les modules d'Asterisk."
+
+#~ msgid "This is the default directory for Asterisks run files."
+#~ msgstr "Ceci est le répertoire par défaut pour les fichiers run d'Asterisk."
+
+#~ msgid "Use HTTP(S) Proxy"
+#~ msgstr "Utiliser un mandataire HTTP(S)"
+
+#~ msgid "Use freepbx_menu.conf Configuration"
+#~ msgstr "Utiliser la configuration de freepbx_menu.conf"
+
+#~ msgid "Use wget For Module Admin"
+#~ msgstr "Utiliser wget pour l'administrateur de modules"
+
+#~ msgid ""
+#~ "Used when PHP Console is enabled for error debugging https://github.com/"
+#~ "barbushin/php-console"
+#~ msgstr ""
+#~ "Utilisé quand la console PHP (https://github.com/barbushin/php-console) "
+#~ "est activée pour le débogage d'erreur"
+
+#~ msgid "User & Devices Mode"
+#~ msgstr "Mode utilisateur et dispositifs"
+
+#~ msgid "VMX Default Context"
+#~ msgstr "Contexte par défaut de VMX"
+
+#~ msgid "VMX Default Priority"
+#~ msgstr "Priorité par défaut de VMX"
+
+#~ msgid "Waiting Period to Stop Asterisk"
+#~ msgstr "La période d'attente pour arrêter Asterisk"
 
 #~ msgid "Username is trunk name"
 #~ msgstr "Le nom d'usager est le nom de la jonction"
