@@ -19,7 +19,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freepbx 2.5.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-14 04:03+0000\n"
+"POT-Creation-Date: 2021-10-19 03:37+0000\n"
 "PO-Revision-Date: 2017-03-23 16:32+0200\n"
 "Last-Translator: Kingvoice <suporte@kingvoice.com.br>\n"
 "Language-Team: Portuguese (Brazil) <http://weblate.freepbx.org/projects/"
@@ -906,13 +906,13 @@ msgstr "Código da Conta para este dispositivo."
 msgid "Action"
 msgstr "Ação"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:166
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:179
 msgid ""
 "Action you want to perform on a module [install/uninstall/enable/disable/"
 "remove]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:499
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:514
 #, php-format
 msgid ""
 "Action[%s] on module[%s] has been initiated. Please check the status using "
@@ -1781,7 +1781,7 @@ msgstr ""
 "mudanças. Se POST_RELOAD_DEBUG=verdadeiro, você verá a saída do script na "
 "página web."
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:489
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:502
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:371
 msgid ""
 "Backup & Restore process is in progress. Please wait till the process is "
@@ -2375,7 +2375,7 @@ msgid ""
 "saterday,sunday)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:292
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:305
 msgid "Check if config reload is required or not"
 msgstr ""
 
@@ -4071,15 +4071,15 @@ msgstr "Feito. Todos os módulos instalados."
 msgid "Dont reload asterisk"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:298
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:311
 msgid "Doreload is not required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:296
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:309
 msgid "Doreload is required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:534
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:549
 msgid ""
 "Doreload/apply config has been initiated. Please check the status using "
 "fetchApiStatus api with the returned transaction id"
@@ -5092,11 +5092,11 @@ msgid "Failed to get remote file, mirror site may be down: %s"
 msgstr ""
 "Falha ao obter o arquivo remoto, site espelho pode estar indisponível: %s"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:321
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:334
 msgid "Failed to load installed modules list"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:324
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:337
 msgid "Failed to load installed modules list "
 msgstr ""
 
@@ -6310,6 +6310,18 @@ msgstr ""
 "o DID de entrada original assumindo que haja um DID disponível. Isto é útil "
 "com algumas operadoras que poderem solicitar isto sob certas circunstâncias."
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:166
+msgid ""
+"If true executes chown command after running module upgradation. By default "
+"this is true"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:162
+msgid ""
+"If true executes reload command after running module upgradation. By default "
+"this is true"
+msgstr ""
+
 #: amp.i18n.php:316
 msgid ""
 "If true, Core will not statically generate hints, but instead make a call to "
@@ -6331,11 +6343,11 @@ msgstr ""
 "Se você precisa se autenticar no servidor proxy, digite um nome de usuário e "
 "uma senha. Deixar um (ou ambos) em branco desativa Autenticação de proxy"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:179
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:192
 msgid "If you want to download and install"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:196
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:209
 msgid "If you want to remove the module"
 msgstr ""
 
@@ -6588,7 +6600,7 @@ msgstr "Instalado Faltando Dependência de: %s %s"
 msgid "Installed Version"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:319
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:332
 msgid "Installed modules list loaded successfully "
 msgstr ""
 
@@ -6932,7 +6944,7 @@ msgstr "Lista todos os módulos locais, não aceita argumentos"
 msgid "List all sessions"
 msgstr "Listar todas as sessões"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:304
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:317
 msgid "List all the installed modules"
 msgstr ""
 
@@ -7174,8 +7186,8 @@ msgstr "Modificado limite de memória"
 msgid "Message Context"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:402
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:406
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:415
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:419
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:200
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:208
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:282
@@ -7475,8 +7487,8 @@ msgstr "Módulo não encontrado"
 msgid "Module Not Installed"
 msgstr "Módulo não instalado"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:354
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:414
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:367
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:427
 msgid "Module Status"
 msgstr ""
 
@@ -7509,23 +7521,23 @@ msgstr ""
 msgid "Module is Unsigned"
 msgstr "Módulo não assinado"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:175
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:188
 msgid "Module name on which you want to perform  install action on"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:205
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:218
 msgid "Module name on which you want to perform action on"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:162
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:175
 msgid "Module name on which you want to perform any action"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:192
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:205
 msgid "Module name on which you want to perform uninstall action on"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:218
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:231
 msgid "Module name on which you want to perform upgrade"
 msgstr ""
 
@@ -7546,11 +7558,11 @@ msgstr "Módulo não instalado: impossível desinstalar"
 msgid "Module signature expired"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:458
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:471
 msgid "Module status"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:262
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:275
 msgid "Module status found successfully"
 msgstr ""
 
@@ -8511,7 +8523,7 @@ msgstr "Sainte"
 msgid "Output debug messages to the console (be super chatty)"
 msgstr "Saída de mensagens de depuração para o console (ser super chatty)"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:410
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:423
 msgid "Output of the API"
 msgstr ""
 
@@ -8765,7 +8777,7 @@ msgstr "Ajuda do Padrão"
 msgid "Pause Before Answer"
 msgstr "Pausa antes de atender"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:235
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:248
 msgid "Performed Module operation status"
 msgstr ""
 
@@ -9223,7 +9235,7 @@ msgstr "RTP Simétrico"
 msgid "RTP Timeout"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:358
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:371
 msgid "Raw name of the module"
 msgstr ""
 
@@ -9552,7 +9564,7 @@ msgstr "Tentar novamente"
 msgid "Return"
 msgstr "Retornar"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:418
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:431
 msgid "Returns installed modules list"
 msgstr ""
 
@@ -10472,7 +10484,7 @@ msgstr ""
 msgid "Sorry, Could not find automatic update status"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:264
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:277
 msgid "Sorry, Unable to fetch the module status"
 msgstr ""
 
@@ -11301,64 +11313,64 @@ msgstr "O local para Certificados Asterisk"
 msgid "The module appears to be valid but is not currently installed"
 msgstr "O módulo parece ser válido, mas não está instalado no momento"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:398
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:411
 msgid "The module category in FreePBX UI"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:478
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:491
 msgid "The module is broken"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:466
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:479
 msgid "The module is disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:470
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:483
 msgid "The module is enabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:462
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:475
 msgid "The module is not installed"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:390
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:403
 msgid "The module license information url "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:386
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:399
 msgid "The module license type "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:474
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:487
 msgid "The module needs to be upgraded"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:382
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:395
 msgid "The module publisher name "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:256
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:269
 msgid "The module rawname"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:394
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:407
 msgid "The module release changelog "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:374
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:378
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:387
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:391
 msgid "The module release version "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:362
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:375
 msgid "The module repository information"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:370
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:383
 msgid "The module user friendly display name"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:366
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:379
 msgid "The module user friendly name "
 msgstr ""
 
@@ -12269,8 +12281,8 @@ msgstr ""
 msgid "Track"
 msgstr "Faixa"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:183
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:209
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:196
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:222
 msgid "Track module (edge/stable) "
 msgstr ""
 
