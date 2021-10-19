@@ -97,10 +97,10 @@ class Modules extends Base {
 				'upgradeAllModules' => Relay::mutationWithClientMutationId([
 					'name' => 'upgradeAllModule',
 					'description' => _('This will perform upgrade on all modules'),
-					'inputFields' => [],
+					'inputFields' => $this->getUpgradeAllInputFields(),
 					'outputFields' => $this->getOutputFields(),
 					'mutateAndGetPayload' => function ($input) {
-						return $this->moduleAction('','upgradeAll');
+						return $this->moduleAction('','upgradeAll',$input);
 					}
 				]),
 				'doreload' => Relay::mutationWithClientMutationId([
@@ -151,6 +151,19 @@ class Modules extends Base {
 					]
 				]),
 				'description' => _('fwconsole command'),
+			]
+		];
+	}
+
+	private function getUpgradeAllInputFields(){
+		return [
+			'runReloadCommand' => [
+				'type' => Type::boolean(),
+				'description' => _('If true executes reload command after running module upgradation. By default this is true'),
+			],
+			'runChownCommand' => [
+				'type' => Type::boolean(),
+				'description' => _('If true executes chown command after running module upgradation. By default this is true'),
 			]
 		];
 	}
@@ -482,7 +495,7 @@ class Modules extends Base {
 		return $this->moduleStatuses;
 	}
 
-	public function moduleAction($module,$action){
+	public function moduleAction($module,$action,$inputFields = []){
 		if($action == 'upgradeAll') {
 			$status = $this->freepbx->Framework->checkBackUpAndRestoreProgressStatus();
 			if(!$status) {
@@ -492,7 +505,9 @@ class Modules extends Base {
 		$track = (strtoupper(isset($input['track'])) == 'EDGE') ? 'edge' : 'stable';
 		$txnId = $this->freepbx->api->addTransaction("Processing", "Framework", "gql-module-admin");
 		if ($action == 'upgradeAll') {
-			$this->freepbx->Sysadmin()->ApiHooks()->runModuleSystemHook('framework', 'upgrade-all-module', $txnId);
+			$runReloadCommand = $inputFields['runReloadCommand'] ? $inputFields['runReloadCommand'] : true;
+			$runChownCommand = $inputFields['runChownCommand'] ? $inputFields['runChownCommand'] : true;
+			$this->freepbx->Sysadmin()->ApiHooks()->runModuleSystemHook('framework', 'upgrade-all-module', array($runReloadCommand,$runChownCommand, $txnId));
 		} else {
 			$this->freepbx->api->setGqlApiHelper()->initiateGqlAPIProcess(array($module, $action, $track, $txnId));
 		}

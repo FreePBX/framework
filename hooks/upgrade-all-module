@@ -3,10 +3,18 @@
 error_reporting(E_ALL);
 require '/usr/lib/sysadmin/includes.php';
 
-$txnId = '';
-
+$txnId  = "";
+$runReloadCommand = true;
+$runChownCommand = true;
 if (isset($argv[1])) {
-   $txnId = $argv[1];
+	// Underp the base64
+	$b = str_replace('_', '/', $argv[1]);
+	$settings = @json_decode(gzuncompress(@base64_decode($b)), true);
+	if (is_array($settings)) {
+		$runReloadCommand = $settings[0];
+		$runChownCommand = $settings[1];
+		$txnId = $settings[2];
+	}
 }
 
 $firstCommandOutput = [];
@@ -17,61 +25,60 @@ $cmd = "/usr/sbin/fwconsole ma upgradeall";
 exec($cmd, $firstCommandOutput, $firstCommandReturn);
 
 if($firstCommandReturn == 0){
-
+   
    // Running Chown Command
-   
-   $secondCommandOutput = [];
-   $secondCommandReturn = 1;
-   $cmd = "/usr/sbin/fwconsole chown 2>&1";
-   exec($cmd, $secondCommandOutput, $secondCommandReturn);
-   
-   if ($secondCommandReturn == 0) {
-
-      //Running Reload Command
-      
-      $thirdCommandOutput = [];
-      $thirdCommandReturn = 1;
-      $cmd = "/usr/sbin/fwconsole reload 2>&1";
-      exec($cmd , $thirdCommandOutput, $thirdCommandReturn);
-
-      if ($thirdCommandReturn == 0) {
-         
-         $result = [];
-
-         foreach($firstCommandOutput as $output){
-            //Regex to get modules which needs upgradation
-            if(preg_match('/(\bModule\(s\)\s)(\w+)/',$output)){
-               $result[] = $output;
-            }
-            //Regex to get modules which successfully upgraded
-            else if(preg_match('/(\bModule\s)(\w+)/',$output)){
-                  $result[] = $output;
-            }
-         }
-
-         if(count($result) == 0){
-            $result = $firstCommandOutput;
-         }
-
-         $message = json_encode($result);
-         $status = "Executed";
-
-      } else {         
-         $output = json_encode($thirdCommandOutput);
-         $message =  "Failed to execute command [ " . $cmd . " ] , command output = $output";
-         $status = 'Failed';
-      }
-   } else {
-      $output = json_encode($secondCommandOutput);
-      $message =  "Failed to execute command [ " . $cmd . " ] , command output = $output";
-      $status = 'Failed';
+   $chownCommandOutput = [];
+   $chownCommandReturn = 1;
+   $chownCommand = "/usr/sbin/fwconsole chown 2>&1";
+   if($runChownCommand){
+      exec($chownCommand, $chownCommandOutput, $chownCommandReturn);
    }
+   
+   //Running Reload Command
+   $reloadCommandOutput = [];
+   $reloadCommandReturn = 1;
+   $reloadCommand = "/usr/sbin/fwconsole reload 2>&1";
+   if($runReloadCommand){
+      exec($reloadCommand , $reloadCommandOutput, $reloadCommandReturn);
+   }
+
+   $result = [];
+
+   foreach($firstCommandOutput as $output){
+      //Regex to get modules which needs upgradation
+      if(preg_match('/(\bModule\(s\)\s)(\w+)/',$output)){
+         $result[] = $output;
+      }
+      //Regex to get modules which successfully upgraded
+      else if(preg_match('/(\bModule\s)(\w+)/',$output)){
+            $result[] = $output;
+      }
+   }
+
+   if(count($result) == 0){
+      $result = $firstCommandOutput;
+   }
+   
+   // If Chown command fails
+   if($runChownCommand && $chownCommandReturn != 0){
+      $output = json_encode($chownCommandOutput);
+      $result[] = "Failed to execute command [ " . $chownCommand . " ] , command output = $output";
+   }
+
+   // If Reload command fails
+   if($runReloadCommand && $reloadCommandReturn != 0){
+      $output = json_encode($reloadCommandOutput);
+      $result[] = "Failed to execute command [ " . $reloadCommand . " ] , command output = $output";
+   }
+
+   $message = json_encode($result);
+   $status = "Executed";
+
 }else {
    $output = json_encode($firstCommandOutput);
    $message =  "Failed to execute command [ " . $cmd . " ] , command output = $output";
    $status = 'Failed';
 }
-
 
 $db = \Sysadmin\FreePBX::Database();
 $sql = ("UPDATE IGNORE api_asynchronous_transaction_history SET event_status = :event_status , failure_reason =:failure_reason, process_end_time =:end_time WHERE `txn_id` = :txn_id");
