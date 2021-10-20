@@ -158,11 +158,11 @@ class Modules extends Base {
 	private function getUpgradeAllInputFields(){
 		return [
 			'runReloadCommand' => [
-				'type' => Type::boolean(),
+				'type' => Type::nonNull(Type::boolean()),
 				'description' => _('If true executes reload command after running module upgradation. By default this is true'),
 			],
 			'runChownCommand' => [
-				'type' => Type::boolean(),
+				'type' => Type::nonNull(Type::boolean()),
 				'description' => _('If true executes chown command after running module upgradation. By default this is true'),
 			]
 		];
