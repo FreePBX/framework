@@ -150,7 +150,7 @@ class DB {
 			$parsed['dbsyntax'] = $str;
 		}
 
-		if (!count($dsn)) {
+		if (is_null($dsn) || is_array($dsn) && !count($dsn) ) {
 			return $parsed;
 		}
 
