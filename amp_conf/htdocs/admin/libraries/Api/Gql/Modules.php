@@ -505,8 +505,8 @@ class Modules extends Base {
 		$track = (strtoupper(isset($input['track'])) == 'EDGE') ? 'edge' : 'stable';
 		$txnId = $this->freepbx->api->addTransaction("Processing", "Framework", "gql-module-admin");
 		if ($action == 'upgradeAll') {
-			$runReloadCommand = $inputFields['runReloadCommand'] ? $inputFields['runReloadCommand'] : true;
-			$runChownCommand = $inputFields['runChownCommand'] ? $inputFields['runChownCommand'] : true;
+			$runReloadCommand = isset($inputFields['runReloadCommand']) ? $inputFields['runReloadCommand'] : true;
+			$runChownCommand = isset($inputFields['runChownCommand']) ? $inputFields['runChownCommand'] : true;
 			$this->freepbx->Sysadmin()->ApiHooks()->runModuleSystemHook('framework', 'upgrade-all-module', array($runReloadCommand,$runChownCommand, $txnId));
 		} else {
 			$this->freepbx->api->setGqlApiHelper()->initiateGqlAPIProcess(array($module, $action, $track, $txnId));
