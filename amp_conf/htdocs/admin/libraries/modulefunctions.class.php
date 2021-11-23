@@ -83,6 +83,7 @@ class module_functions {
 		$got_new = false;
 		$skip_cache = false;
 		$sec_array=false;
+		$modules = array();
 
 		$result = sql("SELECT * FROM module_xml WHERE id = 'beta'",'getRow',DB_FETCHMODE_ASSOC);
 		if(!empty($result['data'])) {
@@ -126,6 +127,9 @@ class module_functions {
 		// we need to know the freepbx major version we have running (ie: 12.0.1 is 12.0)
 		preg_match('/(\d+\.\d+)/',$version,$matches);
 		$base_version = $matches[1];
+		if (!isset($result['time']) || empty($result['time'])) {
+			$result['time'] = time(); // initialize time variable if not set
+		}
 		if(!$never_refresh && ($force || ( (time() - $result['time']) > 300 || $skip_cache || empty($modules) ))) {
 			set_time_limit($this->maxTimeLimit);
 			if ($override_xml) {
