@@ -845,7 +845,7 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 
 		// module_admin install framework
 		$output->writeln("Installing framework...");
-		$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole ma install framework");
+		$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole ma install framework", 600);
 		$output->writeln("Done");
 
 		if(method_exists(\FreePBX::create()->View,'getScripts')) {
