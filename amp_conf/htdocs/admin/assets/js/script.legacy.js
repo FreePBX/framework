@@ -110,8 +110,9 @@ function validateDestinations(theForm, numForms, bRequired) {
  *
  * @param {jquery object} theField javascript form object
  * @param {string} s        The Alert message
+ * @param {string} stype	Alert Type "info|warning|success|error", if none is defined, an error will be used.
  */
-function warnInvalid(theField, s) {
+function warnInvalid(theField, s, stype) {
 	$(".element-container").removeClass("has-error has-warning has-success");
 	$(".element-container .input-warn").remove();
 	if (theField) {
@@ -150,8 +151,12 @@ function warnInvalid(theField, s) {
 			$(this).parents(".element-container").find(".input-warn").remove();
 		});
 	}
-	if (typeof s !== "undefined" && s !== "") {
-		alert(s);
+	if (typeof s !== "undefined" && s !== null && s !== "") {
+		let stype_allow = ['info', 'warning', 'success', 'error'];
+		if (typeof stype === "undefined" || stype === null || stype_allow.includes(stype.toLowerCase()) !== true) {
+			stype = "error";
+		}
+		fpbxToast(s, '', stype.toLowerCase());
 	}
 	return false;
 }
