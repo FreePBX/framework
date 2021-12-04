@@ -31,7 +31,7 @@ class Destinations {
 					list($cat, $id) = $this->getCategoryAndId($dest, $data);
 					$destinations[$rawname][$id]['destinations'][$dest['destination']] = array_merge($dest, array(
 						'name' => $data['name'],
-						'edit_url' => $data['edit_url']
+						'edit_url' => isset($data['edit_url']) ? $data['edit_url'] : ""
 					));
 					if(!isset($destinations[$rawname][$id]['popover'])) {
 						$destinations[$rawname][$id]['popover'] = [];
@@ -104,7 +104,7 @@ class Destinations {
 	 * @return array                       Array of modules
 	 */
 	public function getPopoversByModule($rawname) {
-		if(!$this->FreePBX->Modules->getInfo($rawname)[$rawname]['popovers']) {
+		if(! isset($this->FreePBX->Modules->getInfo($rawname)[$rawname]['popovers'])) {
 			return false;
 		}
 		$popoverInfo = $this->FreePBX->Modules->getInfo($rawname)[$rawname]['popovers'];
