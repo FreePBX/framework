@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-23 03:09+0000\n"
+"POT-Creation-Date: 2021-12-06 03:57+0000\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -2728,7 +2728,7 @@ msgstr ""
 msgid "Core"
 msgstr "База"
 
-#: ../core/Api/Gql/Devices.php:100
+#: ../core/Api/Gql/Devices.php:106
 msgid "Core Device's found successfully"
 msgstr ""
 
@@ -2741,19 +2741,19 @@ msgstr ""
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:56
+#: ../core/Api/Gql/Devices.php:59
 msgid "Core device does not exists"
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:42
+#: ../core/Api/Gql/Devices.php:45
 msgid "Core device has been created successfully"
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:81
+#: ../core/Api/Gql/Devices.php:87
 msgid "Core device has been deleted successfully"
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:64
+#: ../core/Api/Gql/Devices.php:70
 msgid "Core device has been updated successfully"
 msgstr ""
 
@@ -3724,7 +3724,7 @@ msgstr "Устройство не было добавлено!"
 msgid "Devices"
 msgstr "Устройства"
 
-#: ../core/Api/Gql/Devices.php:184 ../core/Api/Gql/Devices.php:305
+#: ../core/Api/Gql/Devices.php:190 ../core/Api/Gql/Devices.php:311
 #: ../core/functions.inc.php:5124
 msgid ""
 "Devices can be fixed or adhoc. Fixed devices are always associated to the "
@@ -5065,7 +5065,7 @@ msgstr "Ошибка перемещения директории"
 msgid "Failed to copy from module agi-bin"
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:44
+#: ../core/Api/Gql/Devices.php:47
 msgid "Failed to create core device"
 msgstr ""
 
@@ -5153,7 +5153,7 @@ msgstr "Ошибка отправки на email  уведомления о не
 msgid "Failed to send update notification email"
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:66
+#: ../core/Api/Gql/Devices.php:72
 msgid "Failed to updated core device"
 msgstr ""
 
@@ -5200,11 +5200,11 @@ msgstr ""
 msgid "Fetch system status for DB"
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:95
+#: ../core/Api/Gql/Devices.php:101
 msgid "Fetchs all core devices"
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:108
+#: ../core/Api/Gql/Devices.php:114
 msgid "Fetchs particular core device"
 msgstr ""
 
@@ -5275,7 +5275,7 @@ msgstr ""
 "<br><br>Если выбрано 'Новый пользователь', то новый внутренний номер с тем "
 "же ИД устройства будет назначен этому пользователю по умолчанию."
 
-#: ../core/Api/Gql/Devices.php:196 ../core/Api/Gql/Devices.php:309
+#: ../core/Api/Gql/Devices.php:202 ../core/Api/Gql/Devices.php:315
 #: ../core/Api/Gql/Extensions.php:250 ../core/Api/Gql/Extensions.php:279
 msgid ""
 "Fixed devices will always mapped to this user. Adhoc devices will be mapped "
@@ -5844,7 +5844,7 @@ msgstr ""
 "Присвойте устройству уникальный ИД. Устройство будет использовать его для "
 "аутентификации в системе."
 
-#: ../core/Api/Gql/Devices.php:148 ../core/Api/Gql/Devices.php:293
+#: ../core/Api/Gql/Devices.php:154 ../core/Api/Gql/Devices.php:299
 #: ../core/Api/Gql/Extensions.php:226
 msgid ""
 "Give your device a unique integer ID. The device will use this ID to "
@@ -6005,7 +6005,7 @@ msgid ""
 "permanently giving up. Maximum of 1000000."
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:172 ../core/Api/Gql/Devices.php:301
+#: ../core/Api/Gql/Devices.php:178 ../core/Api/Gql/Devices.php:307
 #: ../core/functions.inc/drivers/Dahdi.class.php:142
 #: ../core/functions.inc/drivers/Iax2.class.php:145
 #: ../core/functions.inc/drivers/Sip.class.php:476
@@ -6780,6 +6780,10 @@ msgstr "Введённый пароль короче 8-ми символов"
 msgid "Invalid path %s"
 msgstr "Неверный путь %s"
 
+#: ../core/Api/Gql/AdvanceSettings.php:329
+msgid "Invalid path value"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:161
 #, php-format
 msgid ""
@@ -6839,6 +6843,10 @@ msgstr "Введённый ключ %s не 16-тиричном формате"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:375
 msgid "Key revokation/trust removal is not currently implemented."
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:335
+msgid "Keyword type could not found"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:162
@@ -7206,8 +7214,10 @@ msgstr ""
 msgid "Message for the request"
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:280 ../core/Api/Gql/Devices.php:348
-#: ../core/Api/Gql/Devices.php:378
+#: ../core/Api/Gql/AdvanceSettings.php:193
+#: ../core/Api/Gql/AdvanceSettings.php:222
+#: ../core/Api/Gql/AdvanceSettings.php:268 ../core/Api/Gql/Devices.php:286
+#: ../core/Api/Gql/Devices.php:354 ../core/Api/Gql/Devices.php:384
 msgid "Message of the request"
 msgstr ""
 
@@ -9285,6 +9295,10 @@ msgstr ""
 msgid "ReDownloads all modules that have invalid signatures"
 msgstr "Скачать ещё раз все модули с неверными сигнатурами"
 
+#: ../core/Api/Gql/AdvanceSettings.php:17
+msgid "Read Advance Settings"
+msgstr ""
+
 #: ../core/Api/Rest/Users.php:9
 msgid "Read Core User information"
 msgstr ""
@@ -9457,7 +9471,7 @@ msgstr "Удалить"
 msgid "Remove CNAM"
 msgstr "Удалять имя из Caller ID (CNAM)"
 
-#: ../core/Api/Gql/Devices.php:72
+#: ../core/Api/Gql/Devices.php:78
 msgid "Remove an entry from Core"
 msgstr ""
 
@@ -9602,8 +9616,16 @@ msgstr "Повторить"
 msgid "Return"
 msgstr "Вернуться"
 
+#: ../core/Api/Gql/AdvanceSettings.php:62
+msgid "Returns all the advance setting's details "
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:431
 msgid "Returns installed modules list"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:81
+msgid "Returns particular the advance setting's details"
 msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:250
@@ -10300,12 +10322,34 @@ msgstr ""
 "установить в no, то эта опция выключена. Также помогает поддерживать "
 "динамические трансляции NAT."
 
+#: ../core/Api/Gql/AdvanceSettings.php:73
+#: ../core/Api/Gql/AdvanceSettings.php:96
+msgid "Setting's found successfully"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:42
+msgid "Setting's updated successfully"
+msgstr ""
+
 #: amp.i18n.php:884 amp_conf/htdocs/admin/views/menu_items.php:51
 #: ../core/functions.inc/drivers/Iax2.class.php:107
 #: ../core/functions.inc/drivers/Sip.class.php:188
 #: ../core/views/trunks/trunk_header.php:222
 msgid "Settings"
 msgstr "Общие настройки"
+
+#: ../core/Api/Gql/AdvanceSettings.php:85
+msgid "Settings Keyword"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:341
+msgid "Settings can not be updated. Permission denied"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:338
+#: ../core/Api/Gql/AdvanceSettings.php:344
+msgid "Settings not found"
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/oobe.php:256
 msgid "Setup System"
@@ -10490,12 +10534,21 @@ msgstr ""
 msgid "Sorry, Unable to fetch the module status"
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:102
+#: ../core/Api/Gql/Devices.php:108
 msgid "Sorry, unable to find any core devices"
 msgstr ""
 
 #: ../core/Api/Gql/Extensions.php:176
 msgid "Sorry, unable to find any extensions"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:75
+#: ../core/Api/Gql/AdvanceSettings.php:98
+msgid "Sorry, unable to find settings"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:44
+msgid "Sorry, unable to update settings"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2122
@@ -10606,9 +10659,12 @@ msgstr ""
 msgid "Status of the database"
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:273 ../core/Api/Gql/Devices.php:344
-#: ../core/Api/Gql/Devices.php:374 ../core/Api/Gql/Dids.php:106
-#: ../core/Api/Gql/Dids.php:218 ../core/Api/Gql/Dids.php:262
+#: ../core/Api/Gql/AdvanceSettings.php:186
+#: ../core/Api/Gql/AdvanceSettings.php:215
+#: ../core/Api/Gql/AdvanceSettings.php:264 ../core/Api/Gql/Devices.php:279
+#: ../core/Api/Gql/Devices.php:350 ../core/Api/Gql/Devices.php:380
+#: ../core/Api/Gql/Dids.php:106 ../core/Api/Gql/Dids.php:218
+#: ../core/Api/Gql/Dids.php:262
 msgid "Status of the request"
 msgstr ""
 
@@ -10867,7 +10923,7 @@ msgstr "Технический"
 msgid "Tech Type"
 msgstr "Тип технологии"
 
-#: ../core/Api/Gql/Devices.php:160 ../core/Api/Gql/Devices.php:297
+#: ../core/Api/Gql/Devices.php:166 ../core/Api/Gql/Devices.php:303
 #: ../core/Api/Gql/Extensions.php:352 ../core/Api/Gql/Extensions.php:406
 #: ../core/Api/Gql/Extensions.php:468
 msgid "Technology driver type"
@@ -10934,7 +10990,7 @@ msgstr ""
 "Имя для соединений от этого пользователя будет установлен в это значение."
 "Введите имя, НЕ номер."
 
-#: ../core/Api/Gql/Devices.php:204 ../core/Api/Gql/Devices.php:313
+#: ../core/Api/Gql/Devices.php:210 ../core/Api/Gql/Devices.php:319
 #: ../core/functions.inc.php:5123
 msgid ""
 "The CallerID name for this device will be set to this description until it "
@@ -10998,7 +11054,7 @@ msgid ""
 "li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:112
+#: ../core/Api/Gql/Devices.php:118
 msgid "The Device ID"
 msgstr ""
 
@@ -11755,7 +11811,7 @@ msgstr ""
 "промаркированые как экстренные. Caller ID экстренных служб переопределяет "
 "все остальные Caller ID."
 
-#: ../core/Api/Gql/Devices.php:216 ../core/Api/Gql/Devices.php:317
+#: ../core/Api/Gql/Devices.php:222 ../core/Api/Gql/Devices.php:323
 #: ../core/Api/Gql/Extensions.php:373 ../core/Api/Gql/Extensions.php:423
 #: ../core/Api/Gql/Extensions.php:485
 msgid ""
@@ -12635,7 +12691,7 @@ msgstr ""
 msgid "Update an Extension in Core"
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:50
+#: ../core/Api/Gql/Devices.php:53
 msgid "Update an entry in Core"
 msgstr ""
 
@@ -12661,6 +12717,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:24
 msgid "Updates"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:31
+msgid "Updates Advance Settings Field"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:630
@@ -13561,6 +13621,10 @@ msgstr ""
 msgid "Working"
 msgstr ""
 
+#: ../core/Api/Gql/AdvanceSettings.php:20
+msgid "Write Advance Settings"
+msgstr ""
+
 #: ../core/Api/Gql/Devices.php:18
 msgid "Write Devices"
 msgstr ""
@@ -14124,6 +14188,10 @@ msgstr ""
 msgid "called set_conf_values with a non-array"
 msgstr "вызов set_conf_values не из массива данных"
 
+#: ../core/Api/Gql/AdvanceSettings.php:162
+msgid "category of the setting"
+msgstr ""
+
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:145
 #, php-format
 msgid "changed %s settings"
@@ -14202,6 +14270,10 @@ msgstr "по умолчанию"
 #: ../core/page.did.php:8
 msgid "deleted"
 msgstr "удалено"
+
+#: ../core/Api/Gql/AdvanceSettings.php:174
+msgid "description of the setting"
+msgstr ""
 
 #: install.php:211 install.php:223 install.php:234
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:1022
@@ -14397,6 +14469,10 @@ msgstr "не установлен"
 msgid "is unknown"
 msgstr "неизвестный"
 
+#: ../core/Api/Gql/AdvanceSettings.php:126
+msgid "keyword of the setting"
+msgstr ""
+
 #: amp.i18n.php:618
 msgid ""
 "link to follow when clicking on logo, defaults to http://www.freepbx.org"
@@ -14535,6 +14611,10 @@ msgstr "отсутствует указанное  и/или дефолтное 
 #, php-format
 msgid "module.sig check failed! %s"
 msgstr "ошибка проверки module.sig ! %s"
+
+#: ../core/Api/Gql/AdvanceSettings.php:150
+msgid "name of the setting"
+msgstr ""
 
 #: ../core/views/quickCreate.php:120
 msgid "name@domain.tld"
@@ -14783,6 +14863,14 @@ msgstr "имя"
 
 #: ../core/views/trunks/pjsip.php:1348
 msgid "username is trunk name"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:250
+msgid "value"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:138
+msgid "value of the setting"
 msgstr ""
 
 #: ../core/views/trunks/custom.php:21
