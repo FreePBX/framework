@@ -792,7 +792,7 @@ class View {
 				if(!empty($data['popover'])) {
 					$tmp['popover'] = $data['popover'];
 					$data['popover']['args']['display'] = $cat;
-					$data['popover']['args']['view'] = $data['popover']['args']['view']? $data['popover']['args']['view']:'form';
+					$data['popover']['args']['view'] = isset($data['popover']['args']['view'])? $data['popover']['args']['view']:'form';
 					$tmp['data_url'] = 'data-url="config.php?'.http_build_query($data['popover']['args']).'"';
 				}
 
@@ -820,7 +820,7 @@ class View {
 				$cat_html.='<option value="'.str_replace(' ','_',$data['raw']).'"'.($data['selected'] ? ' SELECTED ':'').$data['style'].'>'.$name.'</option>';
 
 				$data_class = 'form-control destdropdown2 '.($data['mod'] === $data['cat'] ? $data['mod'] : $data['mod'].' '.$data['cat']).' '.(!$data['selected'] ? 'hidden':'');
-				$dest_html.='<select data-class="'.$data['mod'].'" class="'.$data_class.'" ' . $data['data_url'] . ' data-mod="'.$data['mod'].'" data-last="'.(!empty($goto) ? $goto : '').'" name="' . $data['name_tag']
+				$dest_html.='<select data-class="'.$data['mod'].'" class="'.$data_class.'" ' . (isset($data['data_url']) ? $data['data_url'] : '') . ' data-mod="'.$data['mod'].'" data-last="'.(!empty($goto) ? $goto : '').'" name="' . $data['name_tag']
 					. '" id="' . $data['name_tag'] . '" '. $style . ' data-id="' . $i . '" ' . $disabled . '>';
 				foreach($data['destinations'] as $dest) {
 					$selected=($goto==$dest['destination'])?'SELECTED ':' ';
