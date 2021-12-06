@@ -439,7 +439,7 @@ class SystemUpdates {
 					if (function_exists("freepbx_log")) {
 						freepbx_log(FPBX_LOG_CRITICAL, "Update error: Tried to run '$cmd', exit code $ret");
 					}
-					throw new \Exception("RPM command errored, Delete /dev/shm/yumwrapper/* and try again. Exit code $ret - see FreePBX log for more info.");
+					throw new \Exception("Failed to process the yum command. Please follow below steps to resolve the error - 1) SSH to PBX Linux terminal as root user 2) rm -rf /dev/shm/yumwrapper/* 3) Now again try to check/update the system packages from the UI. See FreePBX log for more info.");
 				}
 			}
 		}

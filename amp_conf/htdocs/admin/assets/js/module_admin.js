@@ -424,6 +424,11 @@ function reload_system_updates_tab() {
 				}
 			}
 		},
+		error: function (error) {
+			if (error.responseJSON && error.responseJSON.error.message != undefined) {
+				alert(error.responseJSON.error.message)
+			}
+		},
 	});
 }
 
