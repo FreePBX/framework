@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-22 07:46+0000\n"
+"POT-Creation-Date: 2021-12-13 06:33+0000\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -783,7 +783,7 @@ msgid "A user will enter this password when logging onto a device."
 msgstr "کاربر این کلمه عبور را برای ورود به سیستم از طریق تلفن وارد خواهد کرد."
 
 #: ../core/Api/Gql/Dids.php:50 ../core/Api/Gql/Dids.php:162
-#: ../core/Api/Gql/Dids.php:391
+#: ../core/Api/Gql/Dids.php:395
 msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
 msgstr "ALERT_INFO can be  used for distinctive ring with SIP devices."
 
@@ -1034,6 +1034,10 @@ msgstr ""
 
 #: ../core/Api/Gql/Extensions.php:30
 msgid "Add a new Extension to Core"
+msgstr ""
+
+#: ../core/Api/Gql/Devices.php:29
+msgid "Add a new entry to Core"
 msgstr ""
 
 #: ../core/Api/Gql/Dids.php:30
@@ -1313,7 +1317,7 @@ msgid "An attempt to send an email to \"%s\" with update notifications failed"
 msgstr ""
 
 #: ../core/Api/Gql/Dids.php:66 ../core/Api/Gql/Dids.php:178
-#: ../core/Api/Gql/Dids.php:410 ../core/views/did/advanced_form.php:413
+#: ../core/Api/Gql/Dids.php:414 ../core/views/did/advanced_form.php:413
 #: ../core/views/did/basic_form.php:234
 msgid ""
 "An optional delay to wait before processing this route. Setting this value "
@@ -1907,7 +1911,7 @@ msgid "CID Priority Route"
 msgstr "مسیر پیشوند CID"
 
 #: ../core/Api/Gql/Dids.php:62 ../core/Api/Gql/Dids.php:174
-#: ../core/Api/Gql/Dids.php:406 ../core/views/did/advanced_form.php:240
+#: ../core/Api/Gql/Dids.php:410 ../core/views/did/advanced_form.php:240
 msgid "CID name prefix"
 msgstr "نام پیشوند CID"
 
@@ -2054,10 +2058,6 @@ msgstr "شناسه تماس گیرنده"
 #: ../core/Core.class.php:3259
 msgid "Caller ID Number"
 msgstr "شماره تماس گیرنده"
-
-#: ../core/Api/Gql/Devices.php:153 ../core/Api/Gql/Devices.php:160
-msgid "Caller ID for the device"
-msgstr ""
 
 #: ../core/views/quickCreate.php:104
 msgid "Caller Name"
@@ -2717,6 +2717,10 @@ msgstr ""
 msgid "Core"
 msgstr "هسته"
 
+#: ../core/Api/Gql/Devices.php:106
+msgid "Core Device's found successfully"
+msgstr ""
+
 #: ../core/Core.class.php:3812
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
@@ -2724,6 +2728,22 @@ msgstr ""
 
 #: ../core/Core.class.php:3885
 msgid "Core FastAGI Server is not running"
+msgstr ""
+
+#: ../core/Api/Gql/Devices.php:59
+msgid "Core device does not exists"
+msgstr ""
+
+#: ../core/Api/Gql/Devices.php:45
+msgid "Core device has been created successfully"
+msgstr ""
+
+#: ../core/Api/Gql/Devices.php:87
+msgid "Core device has been deleted successfully"
+msgstr ""
+
+#: ../core/Api/Gql/Devices.php:70
+msgid "Core device has been updated successfully"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1313
@@ -3388,7 +3408,7 @@ msgid "Define ID of inbound route"
 msgstr ""
 
 #: ../core/Api/Gql/Dids.php:38 ../core/Api/Gql/Dids.php:142
-#: ../core/Api/Gql/Dids.php:376
+#: ../core/Api/Gql/Dids.php:380
 msgid "Define the CallerID Number to be matched on incoming calls."
 msgstr ""
 
@@ -3406,7 +3426,7 @@ msgid "Define the custom Dial String.  Include the token"
 msgstr "تعریف رشته شماره گیری سفارشی. شامل نشانی"
 
 #: ../core/Api/Gql/Dids.php:34 ../core/Api/Gql/Dids.php:138
-#: ../core/Api/Gql/Dids.php:372
+#: ../core/Api/Gql/Dids.php:376
 msgid ""
 "Define the expected DID Number if your trunk passes DID on incoming calls."
 msgstr ""
@@ -3499,7 +3519,7 @@ msgid "Destination"
 msgstr "مقصد"
 
 #: ../core/Api/Gql/Dids.php:94 ../core/Api/Gql/Dids.php:206
-#: ../core/Api/Gql/Dids.php:447 ../core/views/did/advanced_form.php:277
+#: ../core/Api/Gql/Dids.php:451 ../core/views/did/advanced_form.php:277
 #: ../core/views/did/basic_form.php:155
 msgid "Destination for route"
 msgstr "مقصد برای مسیر"
@@ -3688,7 +3708,8 @@ msgstr "وسیله اضافه نشد!"
 msgid "Devices"
 msgstr "وسایل"
 
-#: ../core/Api/Gql/Devices.php:168 ../core/functions.inc.php:5124
+#: ../core/Api/Gql/Devices.php:190 ../core/Api/Gql/Devices.php:311
+#: ../core/functions.inc.php:5124
 msgid ""
 "Devices can be fixed or adhoc. Fixed devices are always associated to the "
 "same extension/user. Adhoc devices can be logged into and logged out of by "
@@ -5028,6 +5049,10 @@ msgstr "حذف ناموفق دایرکتوری"
 msgid "Failed to copy from module agi-bin"
 msgstr ""
 
+#: ../core/Api/Gql/Devices.php:47
+msgid "Failed to create core device"
+msgstr ""
+
 #: ../core/install.php:195
 msgid "Failed to create emergencydevices table"
 msgstr ""
@@ -5109,6 +5134,10 @@ msgstr "شکست در ارسال ایمیل هشدارهای ماژول های �
 msgid "Failed to send update notification email"
 msgstr ""
 
+#: ../core/Api/Gql/Devices.php:72
+msgid "Failed to updated core device"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1753
 msgid "Failed to write file to disk"
 msgstr "شکست در نوشتن فایل در دیسک"
@@ -5148,6 +5177,14 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:82
 msgid "Fetch system status for DB"
+msgstr ""
+
+#: ../core/Api/Gql/Devices.php:101
+msgid "Fetchs all core devices"
+msgstr ""
+
+#: ../core/Api/Gql/Devices.php:114
+msgid "Fetchs particular core device"
 msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:633
@@ -5215,8 +5252,8 @@ msgstr ""
 "mapped to this user by default.<br><br>If selecting 'New User', a new User "
 "Extension of the same Device ID will be set as the Default User."
 
-#: ../core/Api/Gql/Devices.php:173 ../core/Api/Gql/Extensions.php:250
-#: ../core/Api/Gql/Extensions.php:279
+#: ../core/Api/Gql/Devices.php:202 ../core/Api/Gql/Devices.php:315
+#: ../core/Api/Gql/Extensions.php:250 ../core/Api/Gql/Extensions.php:279
 msgid ""
 "Fixed devices will always mapped to this user. Adhoc devices will be mapped "
 "to this user by default."
@@ -5781,7 +5818,8 @@ msgstr ""
 "اختصاص یک شناسه عددی یکتا به وسیله. این وسیله توسط این شناسه در سیستم "
 "شناسایی میشود."
 
-#: ../core/Api/Gql/Devices.php:142 ../core/Api/Gql/Extensions.php:226
+#: ../core/Api/Gql/Devices.php:154 ../core/Api/Gql/Devices.php:299
+#: ../core/Api/Gql/Extensions.php:226
 msgid ""
 "Give your device a unique integer ID. The device will use this ID to "
 "authenticate to the system"
@@ -5944,7 +5982,7 @@ msgid ""
 "permanently giving up. Maximum of 1000000."
 msgstr ""
 
-#: ../core/Api/Gql/Devices.php:164
+#: ../core/Api/Gql/Devices.php:178 ../core/Api/Gql/Devices.php:307
 #: ../core/functions.inc/drivers/Dahdi.class.php:142
 #: ../core/functions.inc/drivers/Iax2.class.php:145
 #: ../core/functions.inc/drivers/Sip.class.php:476
@@ -6136,7 +6174,7 @@ msgstr ""
 "destinations should be moved into the new custom apps registry."
 
 #: ../core/Api/Gql/Dids.php:46 ../core/Api/Gql/Dids.php:158
-#: ../core/Api/Gql/Dids.php:384 ../core/views/did/advanced_form.php:443
+#: ../core/Api/Gql/Dids.php:388 ../core/views/did/advanced_form.php:443
 #: ../core/views/did/basic_form.php:261
 msgid ""
 "If no CallerID has been received, Privacy Manager will ask the caller to "
@@ -6715,6 +6753,10 @@ msgstr "کلمه عبور نادرست - باید کمتر از 8 کاراکتر
 msgid "Invalid path %s"
 msgstr "مسیر نادرست %s"
 
+#: ../core/Api/Gql/AdvanceSettings.php:329
+msgid "Invalid path value"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:161
 #, php-format
 msgid ""
@@ -6772,6 +6814,10 @@ msgstr "ارائه کلید - %s  - هگزا نیست"
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:375
 msgid "Key revokation/trust removal is not currently implemented."
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:335
+msgid "Keyword type could not found"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:162
@@ -7140,6 +7186,13 @@ msgstr ""
 msgid "Message for the request"
 msgstr ""
 
+#: ../core/Api/Gql/AdvanceSettings.php:193
+#: ../core/Api/Gql/AdvanceSettings.php:222
+#: ../core/Api/Gql/AdvanceSettings.php:268 ../core/Api/Gql/Devices.php:286
+#: ../core/Api/Gql/Devices.php:354 ../core/Api/Gql/Devices.php:384
+msgid "Message of the request"
+msgstr ""
+
 #: ../core/functions.inc/drivers/PJSip.class.php:359
 msgid "Messages Context"
 msgstr ""
@@ -7186,7 +7239,7 @@ msgstr ""
 "considered valid"
 
 #: ../core/Api/Gql/Dids.php:78 ../core/Api/Gql/Dids.php:190
-#: ../core/Api/Gql/Dids.php:425
+#: ../core/Api/Gql/Dids.php:429
 msgid ""
 "Minimum amount of digits CallerID needs to contain in order to be considered "
 "valid. Default value is 10"
@@ -8081,7 +8134,7 @@ msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr "تعداد دفعاتی که تماس گیرنده میتواند شناسه تماس را وارد کند"
 
 #: ../core/Api/Gql/Dids.php:74 ../core/Api/Gql/Dids.php:186
-#: ../core/Api/Gql/Dids.php:421
+#: ../core/Api/Gql/Dids.php:425
 msgid ""
 "Number of attempts the caller has to enter a valid CallerID. Default value "
 "is 3"
@@ -8150,7 +8203,7 @@ msgid "On Demand Recording"
 msgstr "On Demand  Recording"
 
 #: ../core/Api/Gql/Dids.php:82 ../core/Api/Gql/Dids.php:194
-#: ../core/Api/Gql/Dids.php:429 ../core/views/did/advanced_form.php:362
+#: ../core/Api/Gql/Dids.php:433 ../core/views/did/advanced_form.php:362
 #: ../core/views/did/basic_form.php:210
 msgid ""
 "On PRI channels the carrier will send a signal if the caller indicates a "
@@ -8531,7 +8584,7 @@ msgid ""
 msgstr ""
 
 #: ../core/Api/Gql/Dids.php:86 ../core/Api/Gql/Dids.php:198
-#: ../core/Api/Gql/Dids.php:436
+#: ../core/Api/Gql/Dids.php:440
 msgid ""
 "Override the ringer volume. Note: This is only valid for Sangoma phones at "
 "this time. Default value is 0"
@@ -9098,7 +9151,7 @@ msgid "Provide Verbose Tracebacks"
 msgstr "Provide  Verbose Tracebacks"
 
 #: ../core/Api/Gql/Dids.php:42 ../core/Api/Gql/Dids.php:154
-#: ../core/Api/Gql/Dids.php:380 ../core/views/did/advanced_form.php:100
+#: ../core/Api/Gql/Dids.php:384 ../core/views/did/advanced_form.php:100
 #: ../core/views/did/basic_form.php:32
 msgid "Provide a meaningful description of what this incoming route is"
 msgstr "Provide a meaningful  description of what this incoming route is"
@@ -9232,6 +9285,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1409
 msgid "ReDownloads all modules that have invalid signatures"
 msgstr "تمام ماژول هایی که امضا نادرست دارند مجدد دانلود کنید"
+
+#: ../core/Api/Gql/AdvanceSettings.php:17
+msgid "Read Advance Settings"
+msgstr ""
 
 #: ../core/Api/Rest/Users.php:9
 msgid "Read Core User information"
@@ -9409,6 +9466,10 @@ msgstr "حذف"
 msgid "Remove CNAM"
 msgstr "حذف CNAM"
 
+#: ../core/Api/Gql/Devices.php:78
+msgid "Remove an entry from Core"
+msgstr ""
+
 #: ../core/Api/Gql/Dids.php:247
 msgid "Remove an inbound route from the system"
 msgstr ""
@@ -9556,8 +9617,16 @@ msgstr "تلاش مجدد"
 msgid "Return"
 msgstr "بازگشت"
 
+#: ../core/Api/Gql/AdvanceSettings.php:62
+msgid "Returns all the advance setting's details "
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:431
 msgid "Returns installed modules list"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:81
+msgid "Returns particular the advance setting's details"
 msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:250
@@ -10029,7 +10098,7 @@ msgid "Set permissions on a specific module: <rawname>"
 msgstr "تنظیم دسترسی در یک ماژول مشخص: <rawname>"
 
 #: ../core/Api/Gql/Dids.php:58 ../core/Api/Gql/Dids.php:170
-#: ../core/Api/Gql/Dids.php:402 ../core/views/did/advanced_form.php:15
+#: ../core/Api/Gql/Dids.php:406 ../core/views/did/advanced_form.php:15
 msgid ""
 "Set the MoH class that will be used for calls that come in on this route. "
 "For example, choose a type appropriate for routes coming in from a country "
@@ -10064,7 +10133,7 @@ msgstr ""
 "relative to admin."
 
 #: ../core/Api/Gql/Dids.php:90 ../core/Api/Gql/Dids.php:202
-#: ../core/Api/Gql/Dids.php:440 ../core/views/did/advanced_form.php:389
+#: ../core/Api/Gql/Dids.php:444 ../core/views/did/advanced_form.php:389
 msgid "Set to Yes to force the call to be answered at this time"
 msgstr ""
 
@@ -10269,12 +10338,34 @@ msgstr ""
 "the msec threshold. Setting to no will turn this off. Can also be helpful to "
 "keep NAT pinholes open."
 
+#: ../core/Api/Gql/AdvanceSettings.php:73
+#: ../core/Api/Gql/AdvanceSettings.php:96
+msgid "Setting's found successfully"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:42
+msgid "Setting's updated successfully"
+msgstr ""
+
 #: amp.i18n.php:916 amp_conf/htdocs/admin/views/menu_items.php:51
 #: ../core/functions.inc/drivers/Iax2.class.php:107
 #: ../core/functions.inc/drivers/Sip.class.php:188
 #: ../core/views/trunks/trunk_header.php:222
 msgid "Settings"
 msgstr "تنظیمات"
+
+#: ../core/Api/Gql/AdvanceSettings.php:85
+msgid "Settings Keyword"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:341
+msgid "Settings can not be updated. Permission denied"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:338
+#: ../core/Api/Gql/AdvanceSettings.php:344
+msgid "Settings not found"
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/oobe.php:256
 msgid "Setup System"
@@ -10414,7 +10505,7 @@ msgstr ""
 "keep CNAM information, though most carriers ignore CNAM."
 
 #: ../core/Api/Gql/Dids.php:54 ../core/Api/Gql/Dids.php:166
-#: ../core/Api/Gql/Dids.php:395 ../core/views/did/advanced_form.php:335
+#: ../core/Api/Gql/Dids.php:399 ../core/views/did/advanced_form.php:335
 #: ../core/views/did/basic_form.php:183
 msgid ""
 "Some devices or providers require RINGING to be sent before ANSWER. You'll "
@@ -10467,8 +10558,21 @@ msgstr ""
 msgid "Sorry, Unable to fetch the module status"
 msgstr ""
 
+#: ../core/Api/Gql/Devices.php:108
+msgid "Sorry, unable to find any core devices"
+msgstr ""
+
 #: ../core/Api/Gql/Extensions.php:176
 msgid "Sorry, unable to find any extensions"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:75
+#: ../core/Api/Gql/AdvanceSettings.php:98
+msgid "Sorry, unable to find settings"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:44
+msgid "Sorry, unable to update settings"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2118
@@ -10583,6 +10687,10 @@ msgstr ""
 msgid "Status of the database"
 msgstr ""
 
+#: ../core/Api/Gql/AdvanceSettings.php:186
+#: ../core/Api/Gql/AdvanceSettings.php:215
+#: ../core/Api/Gql/AdvanceSettings.php:264 ../core/Api/Gql/Devices.php:279
+#: ../core/Api/Gql/Devices.php:350 ../core/Api/Gql/Devices.php:380
 #: ../core/Api/Gql/Dids.php:106 ../core/Api/Gql/Dids.php:218
 #: ../core/Api/Gql/Dids.php:262
 msgid "Status of the request"
@@ -10842,8 +10950,9 @@ msgstr "فن آوری"
 msgid "Tech Type"
 msgstr "نوع فن آوری"
 
-#: ../core/Api/Gql/Devices.php:149 ../core/Api/Gql/Extensions.php:352
-#: ../core/Api/Gql/Extensions.php:406 ../core/Api/Gql/Extensions.php:468
+#: ../core/Api/Gql/Devices.php:166 ../core/Api/Gql/Devices.php:303
+#: ../core/Api/Gql/Extensions.php:352 ../core/Api/Gql/Extensions.php:406
+#: ../core/Api/Gql/Extensions.php:468
 msgid "Technology driver type"
 msgstr ""
 
@@ -10914,7 +11023,8 @@ msgstr ""
 "The CallerID name  for calls from this user will be set to this name. Only "
 "enter the name, NOT the number."
 
-#: ../core/Api/Gql/Devices.php:181 ../core/functions.inc.php:5123
+#: ../core/Api/Gql/Devices.php:210 ../core/Api/Gql/Devices.php:319
+#: ../core/functions.inc.php:5123
 msgid ""
 "The CallerID name for this device will be set to this description until it "
 "is logged into."
@@ -10984,6 +11094,10 @@ msgstr ""
 "of the main audio stream.This supercedes the older RFC-2833 used within the "
 "older chan_sip.</li><li>inband - DTMF is sent as part of audio stream.</"
 "li><li>info - DTMF is sent as SIP INFO packets.</li></ul>"
+
+#: ../core/Api/Gql/Devices.php:118
+msgid "The Device ID"
+msgstr ""
 
 #: ../core/Api/Gql/Extensions.php:186
 msgid "The ExtensionId to fetch"
@@ -11764,8 +11878,9 @@ msgstr ""
 "This CallerID will always  be set when dialing out an Outbound Route flagged "
 "as Emergency.  The Emergency CID overrides all other CallerID settings."
 
-#: ../core/Api/Gql/Devices.php:185 ../core/Api/Gql/Extensions.php:373
-#: ../core/Api/Gql/Extensions.php:423 ../core/Api/Gql/Extensions.php:485
+#: ../core/Api/Gql/Devices.php:222 ../core/Api/Gql/Devices.php:323
+#: ../core/Api/Gql/Extensions.php:373 ../core/Api/Gql/Extensions.php:423
+#: ../core/Api/Gql/Extensions.php:485
 msgid ""
 "This CallerID will always be set when dialing out an Outbound Route flagged "
 "as Emergency. The Emergency CID overrides all other CallerID settings."
@@ -11785,8 +11900,9 @@ msgid ""
 "settings"
 msgstr ""
 
-#: ../core/Api/Gql/Extensions.php:48 ../core/Api/Gql/Extensions.php:154
-#: ../core/Core.class.php:1462 ../core/Core.class.php:1691
+#: ../core/Api/Gql/Devices.php:35 ../core/Api/Gql/Extensions.php:48
+#: ../core/Api/Gql/Extensions.php:154 ../core/Core.class.php:1462
+#: ../core/Core.class.php:1691
 msgid "This device id is already in use"
 msgstr "شناسه وسیله در حال استفاده است"
 
@@ -11796,7 +11912,7 @@ msgid "This device uses %s technology %s"
 msgstr "This device  uses %s technology %s"
 
 #: ../core/Api/Gql/Dids.php:70 ../core/Api/Gql/Dids.php:182
-#: ../core/Api/Gql/Dids.php:414 ../core/views/did/advanced_form.php:175
+#: ../core/Api/Gql/Dids.php:418 ../core/views/did/advanced_form.php:175
 msgid ""
 "This effects CID ONLY routes where no DID is specified. If checked, calls "
 "with this CID will be routed to this route, even if there is a route to the "
@@ -12650,6 +12766,10 @@ msgstr ""
 msgid "Update an Extension in Core"
 msgstr ""
 
+#: ../core/Api/Gql/Devices.php:53
+msgid "Update an entry in Core"
+msgstr ""
+
 #: ../core/Api/Gql/Dids.php:134
 msgid "Update an inbound route on the system"
 msgstr ""
@@ -12672,6 +12792,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:24
 msgid "Updates"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:31
+msgid "Updates Advance Settings Field"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:629
@@ -13595,6 +13719,10 @@ msgstr ""
 msgid "Working"
 msgstr ""
 
+#: ../core/Api/Gql/AdvanceSettings.php:20
+msgid "Write Advance Settings"
+msgstr ""
+
 #: ../core/Api/Gql/Devices.php:18
 msgid "Write Devices"
 msgstr ""
@@ -14159,6 +14287,10 @@ msgstr "اعمال تنظیمات پیکربندی پس از بارگذاری م
 msgid "called set_conf_values with a non-array"
 msgstr "called set_conf_values with  a non-array"
 
+#: ../core/Api/Gql/AdvanceSettings.php:162
+msgid "category of the setting"
+msgstr ""
+
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:145
 #, php-format
 msgid "changed %s settings"
@@ -14237,6 +14369,10 @@ msgstr "پیشفرض"
 #: ../core/page.did.php:8
 msgid "deleted"
 msgstr "حذف شد"
+
+#: ../core/Api/Gql/AdvanceSettings.php:174
+msgid "description of the setting"
+msgstr ""
 
 #: install.php:211 install.php:223 install.php:234
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:1022
@@ -14429,6 +14565,10 @@ msgstr "نصب نشده است"
 msgid "is unknown"
 msgstr "ناشناخته است"
 
+#: ../core/Api/Gql/AdvanceSettings.php:126
+msgid "keyword of the setting"
+msgstr ""
+
 #: amp.i18n.php:632
 msgid ""
 "link to follow when clicking on logo, defaults to http://www.freepbx.org"
@@ -14562,6 +14702,10 @@ msgstr "از دست دادن مقدار و/یا مقدار اولیه لازم �
 #, php-format
 msgid "module.sig check failed! %s"
 msgstr "module.sig check  failed! %s"
+
+#: ../core/Api/Gql/AdvanceSettings.php:150
+msgid "name of the setting"
+msgstr ""
 
 #: ../core/views/quickCreate.php:120
 msgid "name@domain.tld"
@@ -14806,6 +14950,14 @@ msgstr "نام کاربری"
 
 #: ../core/views/trunks/pjsip.php:1348
 msgid "username is trunk name"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:250
+msgid "value"
+msgstr ""
+
+#: ../core/Api/Gql/AdvanceSettings.php:138
+msgid "value of the setting"
 msgstr ""
 
 #: ../core/views/trunks/custom.php:21
