@@ -577,9 +577,9 @@ class SystemUpdates {
 			$currentstatus = _("Working");
 		}
 		if($this->checkIfTestingRepoEnabled()) {
-			print "<div class='container-fluid'>";
-			print show_help(_("This system has test repos enabled."), _('Test Repos Enabled'), false, false);
-			print "</div>";
+			$html .= "<div class='container-fluid '>";
+			$html .= show_help(_("This system has test repos enabled."), _('Test Repos Enabled'), false, false);
+			$html .= "</div>";
 		}
 		$html .= "<div class='row'>
 			<div class='col-xs-3'>"._("Current System Update Status:")."</div>
