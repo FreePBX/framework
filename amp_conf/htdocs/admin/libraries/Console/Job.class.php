@@ -15,8 +15,11 @@ class Job extends Command {
 	private $output;
 	private $input;
 	private $force = false;
+	private $fwjobsLogEnabled=false;
+	private $fwjobslogfd=null;
 
 	use LockableTrait;
+
 
 	protected function configure() {
 		$this->setName('job')
@@ -134,16 +137,25 @@ class Job extends Command {
 	 * @return void
 	 */
 	private function runJobs($jobs=[]) {
+		$this->freePBX = \FreePBX::Create();
+		$this->fwjobsLogEnabled  = $this->freePBX->Config->get('FWJOBS_LOGS');
+		$this->fwjobslogfd = null ;
+		if ($this->fwjobsLogEnabled) {
+			$astLogdir = $this->freePBX->Config->get('ASTLOGDIR');
+			$fwjobsLogfile = $astLogdir.'/fwjobs.log';
+			$this->fwjobslogfd = fopen($fwjobsLogfile,'a+');
+		}
 		$time = new \DateTimeImmutable("now");
 		foreach($jobs as $config) {
 			if (!$this->force && !\Cron\CronExpression::factory($config['schedule'])->isDue($time)) {
 				if ($this->output->isVerbose() || !empty($this->input->getOption('run'))) {
-					$this->output->writeln('Skipping '.$config['module'].'::'.$config['job'].' because schedule does not match');
+					$msg = sprintf(_('Skipping %s::%s because schedule does not match'), $config['module'], $config['job']);
+					writelog($msg);
 				}
 				continue;
 			}
-
-			$this->output->write('Running '.$config['module'].'::'.$config['job'].'...');
+		$msg = sprintf(_('Running %s :: %s ...'),$config['module'],$config['job']);
+		$this->writelog($msg);
 			try {
 				switch($config['type']) {
 					case 'command':
@@ -152,22 +164,39 @@ class Job extends Command {
 						$process->setTimeout($config['max_runtime']);
 						$process->run(function ($type, $buffer) {
 							if (Process::ERR === $type) {
-								$this->output->writeln('<error>'.$buffer.'</error>');
+								$msg = '<error>'.$buffer.'</error>';
+								$this->writelog($msg);
 							} else {
-								$this->output->write($buffer);
+								$this->writelog($buffer);
 							}
 						});
 					break;
 					case 'class':
 						if($config['closure']($this->input, $this->output) !== true) {
-							throw new \Exception("Command did not return true!");
+							$msg =  sprintf(_("Error: Command[%s] did not return true!"),$config['command']);
+							$this->writelog($msg);
+							throw new \Exception($msg);
 						};
 					break;
 				}
-				$this->output->writeln('Done');
+				$msg = sprintf(_("Done with %s"),$config['job']);
+				$this->writelog($msg);
 			} catch(\Exception $e) {
-				$this->output->writeln('<error>'.$e->getMessage().'</error>');
+				$msg = "<error> ". sprintf(_("Error in the task  %s Exception = %s"),$config['job'],$e->getMessage())." </error>";
+				$this->writelog($msg);
 			}
+		}
+		if ($this->fwjobslogfd != null) {
+			fclose($this->fwjobslogfd);
+		}
+	}
+
+	private function writelog($msg) {
+		$this->output->writeln($msg);
+		if (($this->fwjobslogfd != null) && 
+				($this->fwjobsLogEnabled == true)) {
+			$msg = "\n" . date('d/m/Y H:i:s') .' '.$msg."\n";
+			fwrite($this->fwjobslogfd, $msg);
 		}
 	}
 

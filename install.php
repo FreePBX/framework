@@ -5,23 +5,9 @@ if (version_compare(PHP_VERSION, '5.6', '<')) {
 	out(sprintf(_("FreePBX Requires PHP Version 5.6 or Higher, you have: %s"),PHP_VERSION));
 	return false;
 }
-//Adding JOBS advancedsettings to adjust the Random sleep /No sleep
-$freepbx_conf =& freepbx_conf::create();
-$set['value'] = '30';
-$set['defaultval'] =& $set['value'];
-$set['options'] = array(0,30);
-$set['readonly'] = 0;
-$set['hidden'] = 0;
-$set['level'] = 0;
-$set['module'] = 'framework';
-$set['category'] = 'Cron JOBS';
-$set['emptyok'] = 0;
-$set['name'] = 'FreePBX JOBs Maximum Random sleep';
-$set['description'] = '0 for disabling the Random Sleep And Max sleep you can set is 30';
-$set['type'] = CONF_TYPE_INT;
-
-$freepbx_conf->define_conf_setting('JOBSRANDOMSLEEP',$set, true);
-
+if(\FreePBX::Modules()->checkStatus("sysadmin")) {
+	touch("/var/spool/asterisk/incron/framework.logrotate");
+}
 $output = exec("node --version"); //v0.10.29
 $output = str_replace("v","",trim($output));
 if(empty($output)) {

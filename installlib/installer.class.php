@@ -244,6 +244,30 @@ class Installer {
 	'type' => CONF_TYPE_BOOL,
 	);
 
+	$category = 'Cron JOBS';
+	$settings[$category]['FWJOBS_LOGS'] = array(
+		'description' => _('Enable / disable framework cron jobs logs. If enabled logs will save to ASTLOGDIR/fwjobs.log file'),
+		'name' => _('Enable fwconsloe cron jobs execution logs'),
+		'value' => false,
+		'readonly' => 0,
+		'hidden' => 0,
+		'level' => 1,
+		'emptyok' => 0,
+		'sortorder' => 30,
+		'type' => CONF_TYPE_BOOL
+	);
+
+	$settings[$category]['JOBSRANDOMSLEEP'] = array(
+		'defaultval' =>0,
+		'options' => array(0,30),
+		'readonly' => 0,
+		'hidden' => 0,
+		'level' => 0,
+		'name' => _('FreePBX JOBs Maximum Random sleep'),
+		'description' => _('0 for disabling the Random Sleep And Max sleep you can set is 30'),
+		'type' => CONF_TYPE_INT
+	);
+
 
 	$category = 'System Setup';
 
@@ -2135,6 +2159,9 @@ class Installer {
 		'sortorder' => 180,
 		'type' => CONF_TYPE_TEXT
 	);
+
+
+	
 
 	// The following settings are used in various modules prior to 2.9. If they are found in amportal.conf then we
 	// retain their values until the individual modules are updated and their install scripts run where a full
