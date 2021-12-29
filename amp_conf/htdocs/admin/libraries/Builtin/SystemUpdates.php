@@ -16,7 +16,7 @@ class SystemUpdates {
 	public function __construct($cli = false) {
 		$this->cli = $cli;
 		// Can't use functions in class definitions
-		$this->strarr = [ "complete" => _("(Complete)"), "unknown" => _("(Unknown)"), "inprogress" => _("(In Progress)"), "yumerror" => _("(Yum Error)"), "error" => _("General Error") ];
+		$this->strarr = [ "complete" => _("(Complete)"), "unknown" => _("(Unknown)"), "inprogress" => _("(In Progress)"), "yumerror" => _("(YUM Error)"), "error" => _("General Error") ];
 	}
 
 	public function __destruct() {

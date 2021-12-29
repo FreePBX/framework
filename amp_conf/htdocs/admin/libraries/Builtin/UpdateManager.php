@@ -401,7 +401,7 @@ class UpdateManager {
 		$email_body = _("Module updates are available.")."\n\n";
 		$email_body .= $this->getUnsignedEmailBody()."\n";
 		if ($willupdate) {
-			$email_body .= "\n"._("Automatic updates are enabled!  These modules will be automatically updated in one hours time.")."\n\n";
+			$email_body .= "\n"._("Automatic updates are enabled! These modules will be automatically updated in one hours time.")."\n\n";
 		}
 		foreach ($updates as $item) {
 			$email_body .= $item['display_text']."\n";
