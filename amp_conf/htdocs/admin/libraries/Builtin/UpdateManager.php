@@ -387,7 +387,7 @@ class UpdateManager {
 		$sent = $this->sendEmail("security", $email_subject, $email_body, 4);
 
 		if (!$sent) {
-			$this->freepbx->Notifications->add_error('freepbx', 'SECEMAIL', _('Failed to send security notification email'), sprintf(_('An attempt to send an email to "%s" with security notifications failed'),$this->email_to),'./config.php?display=modules'));
+			$this->freepbx->Notifications->add_error('freepbx', 'SECEMAIL', _('Failed to send security notification email'), sprintf(_('An attempt to send an email to "%s" with security notifications failed'),$this->email_to),'./config.php?display=modules');
 		}
 	}
 
