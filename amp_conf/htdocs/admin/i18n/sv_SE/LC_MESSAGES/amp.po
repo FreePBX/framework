@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX amp\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-06 03:57+0000\n"
+"POT-Creation-Date: 2021-12-29 03:01+0000\n"
 "PO-Revision-Date: 2010-06-27 18:43+0100\n"
 "Last-Translator: Mikael Carlsson <mickecamino@gmail.com>\n"
 "Language-Team: Swedish\n"
@@ -405,7 +405,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Kvstore.class.php:37
 #, php-format
-msgid "%s does not impliment kvstore"
+msgid "%s does not implement kvstore"
 msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:305
@@ -548,7 +548,7 @@ msgid ""
 "forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: install.php:51
+#: install.php:37
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
 msgstr ""
@@ -577,7 +577,7 @@ msgid "(Unknown)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:19
-msgid "(Yum Error)"
+msgid "(YUM Error)"
 msgstr ""
 
 #: ../core/views/routing/timecond.php:134
@@ -593,7 +593,7 @@ msgid "--Select a Group--"
 msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:227
-msgid ".htaccess files are disable on this webserver. Please enable them"
+msgid ".htaccess files are disabled on this webserver. Please enable them"
 msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:240
@@ -604,7 +604,7 @@ msgstr ""
 msgid "0 admins"
 msgstr ""
 
-#: amp.i18n.php:110
+#: amp.i18n.php:110 installlib/installer.class.php:267
 msgid "0 for disabling the Random Sleep And Max sleep you can set is 30"
 msgstr ""
 
@@ -629,17 +629,17 @@ msgstr ""
 msgid "7 Digit Patterns"
 msgstr ""
 
-#: install.php:39
+#: install.php:25
 #, php-format
 msgid "<error>Error!</error>"
 msgstr ""
 
-#: install.php:41
+#: install.php:27
 #, php-format
 msgid "<error>Supported Asterisk versions: 13, 14, 15, 16, 17, 18</error>"
 msgstr ""
 
-#: install.php:40
+#: install.php:26
 #, php-format
 msgid "<error>Unsupported Version of %s </error>"
 msgstr ""
@@ -851,7 +851,7 @@ msgstr ""
 msgid "Accountcode for this device."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:329
 #: ../core/page.ampusers.php:279 ../core/page.astmodules.php:91
 #: ../core/page.astmodules.php:108 ../core/page.astmodules.php:125
@@ -1663,7 +1663,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:404
 msgid ""
-"Automatic updates are enabled!  These modules will be automatically updated "
+"Automatic updates are enabled! These modules will be automatically updated "
 "in one hours time."
 msgstr ""
 
@@ -1758,7 +1758,7 @@ msgstr ""
 msgid "Browser Stats"
 msgstr ""
 
-#: install.php:350
+#: install.php:336
 msgid "Building Packaged Scripts..."
 msgstr ""
 
@@ -2127,7 +2127,7 @@ msgstr ""
 msgid "Cannot trust null key!"
 msgstr ""
 
-#: install.php:294
+#: install.php:280
 msgid "Cant Find Framework XML"
 msgstr ""
 
@@ -2149,7 +2149,7 @@ msgid ""
 "No Cause Given)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:23
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:26
 msgid "Centralized job management"
 msgstr ""
 
@@ -2346,7 +2346,7 @@ msgid ""
 "review the others."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:83
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:86
 msgid "Class"
 msgstr ""
 
@@ -2413,7 +2413,7 @@ msgstr ""
 msgid "Combining key and crt into %s.pem"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:83
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:86
 msgid "Command"
 msgstr ""
 
@@ -2441,11 +2441,11 @@ msgstr ""
 msgid "Common utilities"
 msgstr ""
 
-#: install.php:288
+#: install.php:274
 msgid "Compressing Framework CSS..."
 msgstr ""
 
-#: install.php:279
+#: install.php:265
 msgid "Compressing Web Files"
 msgstr ""
 
@@ -2765,7 +2765,7 @@ msgid ""
 "was asked to add %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 msgid "Cron"
 msgstr ""
 
@@ -3361,7 +3361,7 @@ msgid ""
 "'syslog' documentation (man syslog) on your system for more details."
 msgstr ""
 
-#: install.php:44
+#: install.php:30
 #, php-format
 msgid "Determined Asterisk version to be: %s"
 msgstr ""
@@ -3631,7 +3631,7 @@ msgstr "Avaktivera trunk"
 msgid "Disable Trunks on Restore?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:26
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:29
 msgid "Disable a specific job"
 msgstr ""
 
@@ -3827,12 +3827,17 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2035
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2108
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2258
-#: amp_conf/htdocs/admin/page.modules.php:380 install.php:284 install.php:290
-#: install.php:311 install.php:346 install.php:352 install.php:359
+#: amp_conf/htdocs/admin/page.modules.php:380 install.php:270 install.php:276
+#: install.php:297 install.php:332 install.php:338 install.php:345
 #: installlib/installcommand.class.php:554
 #: installlib/installcommand.class.php:592 ../core/install.php:197
 #: ../core/install.php:855
 msgid "Done"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:182
+#, php-format
+msgid "Done with %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:757
@@ -4145,6 +4150,12 @@ msgstr ""
 msgid "Enable"
 msgstr "Aktivera"
 
+#: installlib/installer.class.php:249
+msgid ""
+"Enable / disable framework cron jobs logs. If enabled logs will save to "
+"ASTLOGDIR/fwjobs.log file"
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:426
 msgid "Enable AVPF"
 msgstr ""
@@ -4193,7 +4204,7 @@ msgstr ""
 msgid "Enable WebRTC defaults"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:25
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:28
 msgid "Enable a specific job"
 msgstr ""
 
@@ -4209,6 +4220,10 @@ msgid ""
 "feature code (*70 default) to enable their phone. Most installations should "
 "leave this alone. It allows multi-line phones to receive multiple calls on "
 "their line appearances."
+msgstr ""
+
+#: installlib/installer.class.php:250
+msgid "Enable fwconsloe cron jobs execution logs"
 msgstr ""
 
 #: ../core/Console/Trunks.class.php:19
@@ -4251,7 +4266,7 @@ msgid ""
 "not affect Voice or Video traffic."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1227
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:147
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:4
@@ -4439,6 +4454,11 @@ msgstr ""
 msgid "Error from %s: %s"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:185
+#, php-format
+msgid "Error in the task  %s Exception = %s"
+msgstr ""
+
 #: ../core/Restore.php:30
 #, php-format
 msgid "Error installing core reason(s): %s"
@@ -4466,7 +4486,7 @@ msgstr ""
 msgid "Error uninstalling core reason(s): %s"
 msgstr ""
 
-#: install.php:361
+#: install.php:347
 #, php-format
 msgid "Error updating GPG Keys: %s"
 msgstr ""
@@ -4550,6 +4570,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:96
 #, php-format
 msgid "Error: \"%s\" must not be blank/empty"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:176
+#, php-format
+msgid "Error: Command[%s] did not return true!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/footer.php:119
@@ -5164,7 +5189,7 @@ msgstr ""
 msgid "Force rport - (%s)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:29
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:32
 msgid "Force run even if disabled or not the right time"
 msgstr ""
 
@@ -5245,7 +5270,7 @@ msgstr ""
 msgid "FreePBX Framework"
 msgstr ""
 
-#: amp.i18n.php:106
+#: amp.i18n.php:106 installlib/installer.class.php:266
 msgid "FreePBX JOBs Maximum Random sleep"
 msgstr ""
 
@@ -5735,7 +5760,7 @@ msgstr ""
 msgid "IAX transfer capabilities, see the Asterisk documentation for details."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:6
 msgid "ID"
 msgstr ""
@@ -6311,7 +6336,7 @@ msgid ""
 "even after it was suppose to be applied"
 msgstr ""
 
-#: install.php:308
+#: install.php:294
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -6430,7 +6455,7 @@ msgstr ""
 msgid "It is unlikely you'll need to change anything here."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 msgid "Job"
 msgstr ""
 
@@ -6578,7 +6603,7 @@ msgstr ""
 msgid "List all the installed modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:28
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:31
 msgid "List known jobs"
 msgstr ""
 
@@ -6956,7 +6981,7 @@ msgstr ""
 msgid "Modify the default USER connection parameters for your VoIP provider."
 msgstr "Modifiera standardinställningarna för ANVÄNDARE för din VoIP operatör."
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 #: amp_conf/htdocs/admin/libraries/Console/Localization.class.php:101
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1242
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1329
@@ -7396,7 +7421,7 @@ msgstr ""
 msgid "Newer than online version (%s)"
 msgstr "Nyare än on-lineversionen (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 msgid "Next Run"
 msgstr ""
 
@@ -7507,7 +7532,7 @@ msgstr "Inga val att utföra"
 msgid "No description is available."
 msgstr "Ingen beskrivning tillgänglig."
 
-#: install.php:189
+#: install.php:175
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr ""
@@ -7557,7 +7582,7 @@ msgstr ""
 msgid "NoOp Traces in Dialplan"
 msgstr ""
 
-#: install.php:32
+#: install.php:18
 #, php-format
 msgid "NodeJS version is: %s requirement is %s or higher"
 msgstr ""
@@ -8159,8 +8184,8 @@ msgstr "PEERdetaljer"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1014
 #, php-format
-msgid "PHP Component %s is required but missing from you PHP installation."
-msgstr "PHP-komponenten %s krävs men fattas i din PHP-installation"
+msgid "PHP Component %s is required but missing from your PHP installation."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1016
 #, php-format
@@ -8850,7 +8875,7 @@ msgstr ""
 msgid "Refreshing %s"
 msgstr ""
 
-#: install.php:356
+#: install.php:342
 msgid "Refreshing GPG Keys..."
 msgstr ""
 
@@ -9161,7 +9186,7 @@ msgstr "Regler:"
 msgid "Run 'fwconsole reload' to reload config"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:27
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:30
 msgid "Run all jobs, or optionally run a single job if job id is appended"
 msgstr ""
 
@@ -9171,6 +9196,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:413
 msgid "Running"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:157
+#, php-format
+msgid "Running %s :: %s ..."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:102
@@ -9194,7 +9224,7 @@ msgstr ""
 msgid "Running Asterisk pre from %s module"
 msgstr ""
 
-#: install.php:338
+#: install.php:324
 msgid "Running SQL cleanup..."
 msgstr ""
 
@@ -9635,7 +9665,7 @@ msgstr ""
 msgid "Setting AUTHTYPE to none consistent with old default"
 msgstr ""
 
-#: install.php:305
+#: install.php:291
 msgid "Setting Framework Version..."
 msgstr ""
 
@@ -9677,7 +9707,7 @@ msgstr ""
 msgid "Setting of \"%s\" is (%s)[%s]"
 msgstr ""
 
-#: install.php:331
+#: install.php:317
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr ""
@@ -9879,6 +9909,11 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:67
 msgid "Skip the chown operation"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:152
+#, php-format
+msgid "Skipping %s::%s because schedule does not match"
 msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:264
@@ -12384,7 +12419,7 @@ msgstr ""
 msgid "Version"
 msgstr "Version"
 
-#: install.php:314
+#: install.php:300
 msgid "Version from Framework was empty, cant continue"
 msgstr ""
 
@@ -13292,7 +13327,7 @@ msgstr ""
 msgid "amportal.conf not writeable"
 msgstr ""
 
-#: install.php:270
+#: install.php:256
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr ""
@@ -13406,7 +13441,7 @@ msgstr "borttagen"
 msgid "description of the setting"
 msgstr ""
 
-#: install.php:211 install.php:223 install.php:234
+#: install.php:197 install.php:209 install.php:220
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:1022
 #: ../core/install.php:1063 ../core/install.php:1105
 msgid "done"
@@ -13417,7 +13452,7 @@ msgstr "klar"
 msgid "done! Reload FreePBX to update all Custom Context settings."
 msgstr ""
 
-#: install.php:209 install.php:220 install.php:231
+#: install.php:195 install.php:206 install.php:217
 msgid "done, see errors below"
 msgstr ""
 
@@ -13482,7 +13517,7 @@ msgstr ""
 msgid "failed to open %s module archive into _cache directory."
 msgstr ""
 
-#: install.php:272
+#: install.php:258
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr ""
@@ -13496,12 +13531,12 @@ msgstr ""
 msgid "format list as xml"
 msgstr ""
 
-#: install.php:52
+#: install.php:38
 #, php-format
 msgid "framework couldn't copy file to %s"
 msgstr ""
 
-#: install.php:258
+#: install.php:244
 msgid "framework file install done, removing packages from module"
 msgstr ""
 
@@ -13561,7 +13596,7 @@ msgstr ""
 msgid "insert"
 msgstr ""
 
-#: install.php:202
+#: install.php:188
 #, php-format
 msgid "installing files to %s.."
 msgstr ""
@@ -14013,6 +14048,9 @@ msgid ""
 "you may need to add the line 'preload => pbx_config.so' to your modules.conf "
 "manually"
 msgstr ""
+
+#~ msgid "PHP Component %s is required but missing from you PHP installation."
+#~ msgstr "PHP-komponenten %s krävs men fattas i din PHP-installation"
 
 #~ msgid "Magic Quotes GPC"
 #~ msgstr "Magic Quotes GPC"

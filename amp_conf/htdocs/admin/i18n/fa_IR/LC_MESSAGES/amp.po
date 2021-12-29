@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-06 03:57+0000\n"
+"POT-Creation-Date: 2021-12-29 03:01+0000\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -416,7 +416,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Kvstore.class.php:37
 #, php-format
-msgid "%s does not impliment kvstore"
+msgid "%s does not implement kvstore"
 msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:305
@@ -562,7 +562,7 @@ msgid ""
 "forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: install.php:51
+#: install.php:37
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
 msgstr "'cp -rf' from src: '%s' to  dst: '%s'...details follow"
@@ -591,7 +591,7 @@ msgid "(Unknown)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:19
-msgid "(Yum Error)"
+msgid "(YUM Error)"
 msgstr ""
 
 #: ../core/views/routing/timecond.php:134
@@ -607,8 +607,8 @@ msgid "--Select a Group--"
 msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:227
-msgid ".htaccess files are disable on this webserver. Please enable them"
-msgstr "فایل .htaccess در وب سرور غیرفعال شده است. لطفا آن را فعال کنید"
+msgid ".htaccess files are disabled on this webserver. Please enable them"
+msgstr ""
 
 #: amp_conf/htdocs/admin/config.php:240
 msgid ".htaccess files are not supported on this webserver."
@@ -618,7 +618,7 @@ msgstr "فایل .htaccess توسط وب سرور پشتیبانی نمیشود.
 msgid "0 admins"
 msgstr "0 مدیران"
 
-#: amp.i18n.php:110
+#: amp.i18n.php:110 installlib/installer.class.php:267
 msgid "0 for disabling the Random Sleep And Max sleep you can set is 30"
 msgstr ""
 
@@ -643,17 +643,17 @@ msgstr "۴۰۴ یافت نشد (%s)"
 msgid "7 Digit Patterns"
 msgstr "الگوهای ۷ رقمی"
 
-#: install.php:39
+#: install.php:25
 #, php-format
 msgid "<error>Error!</error>"
 msgstr ""
 
-#: install.php:41
+#: install.php:27
 #, php-format
 msgid "<error>Supported Asterisk versions: 13, 14, 15, 16, 17, 18</error>"
 msgstr ""
 
-#: install.php:40
+#: install.php:26
 #, php-format
 msgid "<error>Unsupported Version of %s </error>"
 msgstr ""
@@ -881,7 +881,7 @@ msgstr "کد حساب برای این داخلی"
 msgid "Accountcode for this device."
 msgstr "کد حساب برای این وسیله."
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:329
 #: ../core/page.ampusers.php:279 ../core/page.astmodules.php:91
 #: ../core/page.astmodules.php:108 ../core/page.astmodules.php:125
@@ -1742,7 +1742,7 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:404
 msgid ""
-"Automatic updates are enabled!  These modules will be automatically updated "
+"Automatic updates are enabled! These modules will be automatically updated "
 "in one hours time."
 msgstr ""
 
@@ -1841,7 +1841,7 @@ msgstr "کش روزانه مرورگر"
 msgid "Browser Stats"
 msgstr "آمار مرورگر"
 
-#: install.php:350
+#: install.php:336
 msgid "Building Packaged Scripts..."
 msgstr ""
 
@@ -2234,7 +2234,7 @@ msgstr ""
 msgid "Cannot trust null key!"
 msgstr ""
 
-#: install.php:294
+#: install.php:280
 msgid "Cant Find Framework XML"
 msgstr "نمیتواند فریم ورک XML را پیدا کند"
 
@@ -2260,7 +2260,7 @@ msgstr ""
 "Cant Verify  downloaded module %s. Unable to trust GPG Key - aborting "
 "(Cause: No Cause Given)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:23
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:26
 msgid "Centralized job management"
 msgstr ""
 
@@ -2471,7 +2471,7 @@ msgstr ""
 "to start with the Basic repository and update all modules, then go back and "
 "review the others."
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:83
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:86
 msgid "Class"
 msgstr ""
 
@@ -2541,7 +2541,7 @@ msgstr "ادغام شده"
 msgid "Combining key and crt into %s.pem"
 msgstr "Combining  key and crt into %s.pem"
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:83
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:86
 msgid "Command"
 msgstr ""
 
@@ -2569,11 +2569,11 @@ msgstr ""
 msgid "Common utilities"
 msgstr "ابزارهای متداول"
 
-#: install.php:288
+#: install.php:274
 msgid "Compressing Framework CSS..."
 msgstr ""
 
-#: install.php:279
+#: install.php:265
 msgid "Compressing Web Files"
 msgstr ""
 
@@ -2897,7 +2897,7 @@ msgstr ""
 "section with a priority greater than 1. This is always a bug in a module. I "
 "was asked to add %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 msgid "Cron"
 msgstr ""
 
@@ -3560,7 +3560,7 @@ msgstr ""
 "can be configured to route different levels to different locations. See "
 "'syslog' documentation (man syslog) on your system for more details."
 
-#: install.php:44
+#: install.php:30
 #, php-format
 msgid "Determined Asterisk version to be: %s"
 msgstr ""
@@ -3835,7 +3835,7 @@ msgstr "غیرفعال کردن ترانک"
 msgid "Disable Trunks on Restore?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:26
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:29
 msgid "Disable a specific job"
 msgstr ""
 
@@ -4038,13 +4038,18 @@ msgstr "هنوز پیزی درباره ماژولها نمیدانید. بسپا
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2035
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2108
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2258
-#: amp_conf/htdocs/admin/page.modules.php:380 install.php:284 install.php:290
-#: install.php:311 install.php:346 install.php:352 install.php:359
+#: amp_conf/htdocs/admin/page.modules.php:380 install.php:270 install.php:276
+#: install.php:297 install.php:332 install.php:338 install.php:345
 #: installlib/installcommand.class.php:554
 #: installlib/installcommand.class.php:592 ../core/install.php:197
 #: ../core/install.php:855
 msgid "Done"
 msgstr "انجام شد"
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:182
+#, php-format
+msgid "Done with %s"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:757
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1121
@@ -4360,6 +4365,12 @@ msgstr "این فیلد نباید خالی باشد"
 msgid "Enable"
 msgstr "فعال"
 
+#: installlib/installer.class.php:249
+msgid ""
+"Enable / disable framework cron jobs logs. If enabled logs will save to "
+"ASTLOGDIR/fwjobs.log file"
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:426
 msgid "Enable AVPF"
 msgstr "فعال کردن AVPF"
@@ -4408,7 +4419,7 @@ msgstr ""
 msgid "Enable WebRTC defaults"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:25
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:28
 msgid "Enable a specific job"
 msgstr ""
 
@@ -4431,6 +4442,10 @@ msgstr ""
 "feature code (*70 default) to enable their phone. Most installations should "
 "leave this alone. It allows multi-line phones to receive multiple calls on "
 "their line appearances."
+
+#: installlib/installer.class.php:250
+msgid "Enable fwconsloe cron jobs execution logs"
+msgstr ""
 
 #: ../core/Console/Trunks.class.php:19
 msgid "Enable given trunk"
@@ -4476,7 +4491,7 @@ msgstr ""
 "Enable this to send  outbound HTTP and HTTPS requests via a proxy. This does "
 "not affect Voice or Video traffic."
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1227
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:147
 #: amp_conf/htdocs/admin/views/module_admin/tab-scheduler.php:4
@@ -4671,6 +4686,11 @@ msgstr "خطا در یافتن فایل بارگذاری شده - پیکربند
 msgid "Error from %s: %s"
 msgstr "خطا از %s: %s"
 
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:185
+#, php-format
+msgid "Error in the task  %s Exception = %s"
+msgstr ""
+
 #: ../core/Restore.php:30
 #, php-format
 msgid "Error installing core reason(s): %s"
@@ -4698,7 +4718,7 @@ msgstr "خطا در تحلیل cdr_mysql.conf، منتقل نشد"
 msgid "Error uninstalling core reason(s): %s"
 msgstr ""
 
-#: install.php:361
+#: install.php:347
 #, php-format
 msgid "Error updating GPG Keys: %s"
 msgstr "خطا در حال به روزرسانی کلیدهای GPG: %s"
@@ -4782,6 +4802,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:96
 #, php-format
 msgid "Error: \"%s\" must not be blank/empty"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:176
+#, php-format
+msgid "Error: Command[%s] did not return true!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/footer.php:119
@@ -5415,7 +5440,7 @@ msgstr "تحمیل rport"
 msgid "Force rport - (%s)"
 msgstr "تحمیل rport - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:29
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:32
 msgid "Force run even if disabled or not the right time"
 msgstr ""
 
@@ -5500,7 +5525,7 @@ msgstr "مدیریت مرکزتماس رایگان"
 msgid "FreePBX Framework"
 msgstr "فریم ورک مرکزتماس رایگان"
 
-#: amp.i18n.php:106
+#: amp.i18n.php:106 installlib/installer.class.php:266
 msgid "FreePBX JOBs Maximum Random sleep"
 msgstr ""
 
@@ -6034,7 +6059,7 @@ msgid "IAX transfer capabilities, see the Asterisk documentation for details."
 msgstr ""
 "IAX transfer  capabilities, see the Asterisk documentation for details."
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:6
 msgid "ID"
 msgstr "شناسه"
@@ -6660,7 +6685,7 @@ msgid ""
 "even after it was suppose to be applied"
 msgstr "خطای داخلی. تابع getVersion با نسخه فریم ورک همخوانی ندارد"
 
-#: install.php:308
+#: install.php:294
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -6784,7 +6809,7 @@ msgstr ""
 msgid "It is unlikely you'll need to change anything here."
 msgstr "شما نیاز به تغییر چندانی در این بخش ندارید."
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 msgid "Job"
 msgstr ""
 
@@ -6932,7 +6957,7 @@ msgstr "فهرست تمامی جلسات"
 msgid "List all the installed modules"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:28
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:31
 msgid "List known jobs"
 msgstr ""
 
@@ -7317,7 +7342,7 @@ msgstr ""
 msgid "Modify the default USER connection parameters for your VoIP provider."
 msgstr "تغییر پارامترهای پیشفرض اتصال کاربر برای تامین کننده سرویس ویپ."
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 #: amp_conf/htdocs/admin/libraries/Console/Localization.class.php:101
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1242
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1329
@@ -7785,7 +7810,7 @@ msgstr ""
 msgid "Newer than online version (%s)"
 msgstr "جدیدتر از نسخه آنلاین (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:74
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 msgid "Next Run"
 msgstr ""
 
@@ -7896,7 +7921,7 @@ msgstr "عملی برای انجام نیست"
 msgid "No description is available."
 msgstr "توضیحی در دسترس نیست."
 
-#: install.php:189
+#: install.php:175
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr "بدون دایرکتوری %s، نیاز به نصب اسکریپت نیست"
@@ -7946,7 +7971,7 @@ msgstr ""
 msgid "NoOp Traces in Dialplan"
 msgstr "آثار NoOp در نقشه تماس"
 
-#: install.php:32
+#: install.php:18
 #, php-format
 msgid "NodeJS version is: %s requirement is %s or higher"
 msgstr ""
@@ -8614,8 +8639,8 @@ msgstr "جزییات PEER"
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1014
 #, php-format
-msgid "PHP Component %s is required but missing from you PHP installation."
-msgstr "PHP Component %s is required but missing  from you PHP installation."
+msgid "PHP Component %s is required but missing from your PHP installation."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1016
 #, php-format
@@ -9336,7 +9361,7 @@ msgstr ""
 msgid "Refreshing %s"
 msgstr "بازنشانی %s"
 
-#: install.php:356
+#: install.php:342
 msgid "Refreshing GPG Keys..."
 msgstr ""
 
@@ -9652,7 +9677,7 @@ msgstr "قواعد:"
 msgid "Run 'fwconsole reload' to reload config"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:27
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:30
 msgid "Run all jobs, or optionally run a single job if job id is appended"
 msgstr ""
 
@@ -9662,6 +9687,11 @@ msgstr "Run an  immediate shutdown. Defaults to 'when convenient'"
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:413
 msgid "Running"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:157
+#, php-format
+msgid "Running %s :: %s ..."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Stop.class.php:102
@@ -9685,7 +9715,7 @@ msgstr ""
 msgid "Running Asterisk pre from %s module"
 msgstr ""
 
-#: install.php:338
+#: install.php:324
 msgid "Running SQL cleanup..."
 msgstr ""
 
@@ -10146,7 +10176,7 @@ msgstr "Sets which PHP errors  are reported"
 msgid "Setting AUTHTYPE to none consistent with old default"
 msgstr "Setting AUTHTYPE to none  consistent with old default"
 
-#: install.php:305
+#: install.php:291
 msgid "Setting Framework Version..."
 msgstr ""
 
@@ -10197,7 +10227,7 @@ msgstr ""
 msgid "Setting of \"%s\" is (%s)[%s]"
 msgstr ""
 
-#: install.php:331
+#: install.php:317
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr "Setting sbin to the  correct location of: %s"
@@ -10432,6 +10462,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:67
 msgid "Skip the chown operation"
 msgstr "لغو عملیات مالکیت لینوکس"
+
+#: amp_conf/htdocs/admin/libraries/Console/Job.class.php:152
+#, php-format
+msgid "Skipping %s::%s because schedule does not match"
+msgstr ""
 
 #: ../core/functions.inc/drivers/PJSip.class.php:264
 msgid "Solicited"
@@ -13131,7 +13166,7 @@ msgstr "تایید GPG..."
 msgid "Version"
 msgstr "نسخه"
 
-#: install.php:314
+#: install.php:300
 msgid "Version from Framework was empty, cant continue"
 msgstr "نسخه فریم ورک خالی است, نمیتوان ادامه داد"
 
@@ -14183,7 +14218,7 @@ msgstr "تغییر داده شد"
 msgid "amportal.conf not writeable"
 msgstr ""
 
-#: install.php:270
+#: install.php:256
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr "بروز خطا در حذف بسته فایل/دایرکتوری: %s"
@@ -14299,7 +14334,7 @@ msgstr "حذف شد"
 msgid "description of the setting"
 msgstr ""
 
-#: install.php:211 install.php:223 install.php:234
+#: install.php:197 install.php:209 install.php:220
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:1022
 #: ../core/install.php:1063 ../core/install.php:1105
 msgid "done"
@@ -14310,7 +14345,7 @@ msgstr "انجام شد"
 msgid "done! Reload FreePBX to update all Custom Context settings."
 msgstr "انجام شد. بازگذاری مجدد FreePBX برای به روزرسانی تنظیمات سفارشی متن."
 
-#: install.php:209 install.php:220 install.php:231
+#: install.php:195 install.php:206 install.php:217
 msgid "done, see errors below"
 msgstr "انجام شد، مشاهده خطا های زیر"
 
@@ -14376,7 +14411,7 @@ msgstr "failed to  include %s during %s of the %s module."
 msgid "failed to open %s module archive into _cache directory."
 msgstr "failed to  open %s module archive into _cache directory."
 
-#: install.php:272
+#: install.php:258
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr "فایل/دایرکتوری: %s با موفقیت حذف شد"
@@ -14390,12 +14425,12 @@ msgstr "فرمت فهرست به صورت json"
 msgid "format list as xml"
 msgstr "فرمت فهرست به صورت xml"
 
-#: install.php:52
+#: install.php:38
 #, php-format
 msgid "framework couldn't copy file to %s"
 msgstr "فریم ورک نمیتواند فایل را به %s کپی کند"
 
-#: install.php:258
+#: install.php:244
 msgid "framework file install done, removing packages from module"
 msgstr "نصب فایل فریم ورک انجام شد، حذف بسته ها از ماژول"
 
@@ -14460,7 +14495,7 @@ msgstr ""
 msgid "insert"
 msgstr "قرار دادن"
 
-#: install.php:202
+#: install.php:188
 #, php-format
 msgid "installing files to %s.."
 msgstr "نصب فایلها به %s.."
@@ -14930,6 +14965,13 @@ msgid ""
 msgstr ""
 "شما باید دستی خط 'preload => pbx_config.so' را به فایل modules.conf اضافه "
 "کنید"
+
+#~ msgid ".htaccess files are disable on this webserver. Please enable them"
+#~ msgstr "فایل .htaccess در وب سرور غیرفعال شده است. لطفا آن را فعال کنید"
+
+#~ msgid "PHP Component %s is required but missing from you PHP installation."
+#~ msgstr ""
+#~ "PHP Component %s is required but missing  from you PHP installation."
 
 #~ msgid ""
 #~ "Setting this to true will allow the development team to use google "
