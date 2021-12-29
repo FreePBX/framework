@@ -34,7 +34,7 @@ class Kvstore extends Command {
       return;
     }
     if(!is_subclass_of($c,'\\FreePBX\\DB_Helper')){
-      $output->writeln(sprintf(_("%s does not impliment kvstore"),$module));
+      $output->writeln(sprintf(_("%s does not implement kvstore"),$module));
       return;
     }
     switch ($action) {

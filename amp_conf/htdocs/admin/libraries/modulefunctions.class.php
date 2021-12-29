@@ -1007,7 +1007,7 @@ class module_functions {
 										}
 									} else {
 										if ($compare_version == '') {
-											$newerrors[] = sprintf(_('PHP Component %s is required but missing from you PHP installation.'), $matches[1]);
+											$newerrors[] = sprintf(_('PHP Component %s is required but missing from your PHP installation.'), $matches[1]);
 										} else {
 											$newerrors[] = sprintf(_('PHP Component %s version %s is required but missing from you PHP installation.'), $matches[1], $compare_version);
 										}

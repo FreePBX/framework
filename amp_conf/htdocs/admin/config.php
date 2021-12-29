@@ -224,7 +224,7 @@ if (!$quietmode) {
 	if ( !isset($_SERVER['HTACCESS']) && preg_match("/apache/i", $_SERVER['SERVER_SOFTWARE']) ) {
 		// No .htaccess support
 		if(!$nt->exists('framework', 'htaccess')) {
-			$nt->add_security('framework', 'htaccess', _('.htaccess files are disable on this webserver. Please enable them'),
+			$nt->add_security('framework', 'htaccess', _('.htaccess files are disabled on this webserver. Please enable them'),
 				sprintf(_("To protect the integrity of your server, you must allow overrides in your webserver's configuration file for the User Control Panel. For more information see: %s"), '<a href="http://wiki.freepbx.org/display/F2/Webserver+Overrides">http://wiki.freepbx.org/display/F2/Webserver+Overrides</a>'),"http://wiki.freepbx.org/display/F2/Webserver+Overrides");
 		}
 	} elseif(!preg_match("/apache/i", $_SERVER['SERVER_SOFTWARE'])) {
