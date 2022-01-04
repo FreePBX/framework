@@ -150,7 +150,7 @@ class Job extends Command {
 			if (!$this->force && !\Cron\CronExpression::factory($config['schedule'])->isDue($time)) {
 				if ($this->output->isVerbose() || !empty($this->input->getOption('run'))) {
 					$msg = sprintf(_('Skipping %s::%s because schedule does not match'), $config['module'], $config['job']);
-					writelog($msg);
+					$this->writelog($msg);
 				}
 				continue;
 			}
