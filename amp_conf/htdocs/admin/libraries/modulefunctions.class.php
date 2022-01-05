@@ -874,7 +874,7 @@ class module_functions {
 								}
 							break;
 							case MODULE_STATUS_ENABLED:
-								return true;
+									out(sprintf(_("Dependency module %s  version %s is Enabled "),$module,$version));
 							break;
 							default:
 								out(sprintf(_("Dependency %s has an unknown state of : %s %s"),$module,$version, $m[$module]['status']));
