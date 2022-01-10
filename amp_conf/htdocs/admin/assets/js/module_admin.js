@@ -8,6 +8,19 @@ $(document).ready(function(){
 			e.stopPropagation();
 		}
 	});
+	$("#restartHttpd").click( function(){
+		fpbxToast(_("Restarting Apache. Please, wait for the page to load."),'Action','info');
+		$.ajax({
+			url: 'config.php',
+			type: 'POST',
+			data: {quietmode: 1,  display: "modules", action: "restarthttpd", online: 1},
+			timeout: 3000,
+			error: function(){
+				console.debug('reloading page');
+				window.location.href = "./config.php?display=modules";
+			}
+		})
+	});
 	$('.repo_boxes').find('input[type=checkbox]').click(function() {
 		var id = $(this).attr('id');
 		var selected = $(this).prop('checked') ? 1 : 0;
@@ -263,7 +276,13 @@ function showhide_upgrades() {
 }
 
 var box;
+var httpdRestart
 function process_module_actions(modules) {
+	httpdRestart = false;
+	if(modules.hasOwnProperty("sysadmin")){
+		httpdRestart = true;
+	}
+
 	var urlStr = '';
 	if(!jQuery.isEmptyObject(modules)) {
 		urlStr = "config.php?display=modules&action=process&quietmode=1&online=1";
@@ -308,8 +327,13 @@ function process_module_actions(modules) {
 }
 function close_module_actions(goback) {
 	box.dialog("destroy").remove();
+	htrestart = '';
+	if (httpdRestart == true) {
+	    htrestart = '&httpdRestart=check';
+	}
+
 	if (goback) {
-		location.href = 'config.php?display=modules';
+		location.href = 'config.php?display=modules'+htrestart;
 	}
 }
 

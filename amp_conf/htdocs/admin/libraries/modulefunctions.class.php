@@ -2668,7 +2668,7 @@ class module_functions {
 
 		$announcement = $this->get_remote_contents("/version-".getversion().".html");
 
-		if (\FreePBX::Modules()->moduleHasMethod('sysadmin', 'getAnnouncements')) {
+		if (\FreePBX::Modules()->checkStatus('sysadmin') && \FreePBX::Modules()->moduleHasMethod('sysadmin', 'getAnnouncements')) {
 			$announcement = \FreePBX::Sysadmin()->getAnnouncements($announcement);
 		}
 
