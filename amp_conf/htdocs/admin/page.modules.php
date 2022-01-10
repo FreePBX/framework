@@ -56,6 +56,11 @@ $displayvars = array();
 
 $displayvars['freepbx_help_url'] = $freepbx_help_url;
 $displayvars['online'] = $online;
+$displayvars['httpdRestart'] = "";
+
+if (!empty($REQUEST['httpdRestart']) && $REQUEST['httpdRestart'] == "check") {
+	$displayvars['httpdRestart'] = $REQUEST['httpdRestart'];
+}
 
 if ($quietmode) {
 	if($action == 'process') {
@@ -163,7 +168,13 @@ switch ($action) {
 				echo json_encode(array("status" => false, "message" => "Unable to set ".$repo." as active repo"));
 			}
 		break;
+		case 'restarthttpd':
+			if(\FreePBX::Modules()->checkStatus('sysadmin')){
+				\FreePBX::Sysadmin()->runHook("update-ports");
+			}
+			break;
 		case 'process':
+			touch('/var/spool/asterisk/tmp/GuiUpdate.flag');
 			$moduleactions = !empty($REQUEST['modules']) ? $REQUEST['modules'] : array();
 			echo "<div id=\"moduleBoxContents\">";
 			echo "<h4>"._("Please wait while module actions are performed")."</h4>\n";
@@ -380,8 +391,9 @@ switch ($action) {
 			echo _("Done")."<br />";
 		echo "</div>";
 		echo "<hr /><br />";
+		@unlink('/var/spool/asterisk/tmp/GuiUpdate.flag');
 		if ($quietmode) {
-			echo '<a class="btn" href="#" onclick="parent.close_module_actions(true);" >'._("Return").'</a>';
+			echo '<a class="btn" href="#" onclick="parent.close_module_actions(true, true);" >'._("Return").'</a>';
 		}
 		break;
 	case 'confirm':
@@ -1143,7 +1155,11 @@ switch ($action) {
 		$summary["availupdates"] = $FreePBX->Modules->getUpgradeableModules($cachedonline['modules']);
 		$summary["lastonlinecheck"] = $cachedonline['timestamp'];
 		$displayvars['breaking'] = $FreePBX->Modules->checkConflicts();
-
+		$summary["httpdRestart"] = ""; 
+		if($displayvars['httpdRestart'] == 'check'){
+			$summary["httpdRestart"] = show_view(__DIR__.'/views/module_admin/httpdRestart.php', []);
+		}
+		
 		show_view(__DIR__.'/views/module_admin/tabheader.php', $summary);
 		show_view(__DIR__.'/views/module_admin/tab-summary.php', $summary);
 		$updates = new \FreePBX\Builtin\UpdateManager();

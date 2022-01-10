@@ -9,6 +9,9 @@ if ($activetab == "modules") {
 ?>
 
 <div class='fpbx-container container-fluid'>
+  <?php
+      echo $httpdRestart;
+  ?>
   <ul class='nav nav-tabs' role='tablist'>
     <li role="presentation" <?php echo $s; ?>><a href="#summarytab" aria-controls="summarytab" role="tab" data-toggle="tab"><?php echo _("Summary")?></a></li>
     <li role="presentation"><a href="#scheduletab" aria-controls="scheduletab" role="tab" data-toggle="tab"><?php echo _("Scheduler and Alerts")?></a></li>
