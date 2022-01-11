@@ -251,7 +251,7 @@ class GuiHooks {
 			} else {
 				$this->doBMOConfigPage($class, $display);
 			}
-			unset($myHooks[$class]);
+			unset($myHooks["FreePBX\\modules\\" . $class]);
 		}
 
 		// Now we've run the modules own stuff, now we can hand the request off to any other
