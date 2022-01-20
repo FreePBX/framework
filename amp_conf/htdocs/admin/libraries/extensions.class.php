@@ -1940,3 +1940,43 @@ class ext_stopmusiconhold extends extension {
 		return "StopMusicOnHold()";
 	}
 }
+
+class ext_PauseQueueMember extends extension {
+
+	function __construct($queue, $agent, $event = '', $additionalinfo = ''){
+		$this->queue			= $queue;
+		$this->agent			= $agent;
+		$this->event			= $event;
+		$this->additionalinfo	= $additionalinfo;
+	}
+
+	function output() {
+
+		return 'PauseQueueMember('
+					. $this->queue . ','
+					. $this->agent . ','
+					. $this->event . ','
+					. $this->additionalinfo
+					. ')';
+	}
+}
+
+class ext_UnpauseQueueMember extends extension {
+
+	function __construct($queue, $agent, $event, $additionalinfo = ''){
+		$this->queue			= $queue;
+		$this->agent			= $agent;
+		$this->event			= $event;
+		$this->additionalinfo	= $additionalinfo;
+	}
+
+	function output() {
+
+		return 'UnpauseQueueMember('
+					. $this->queue . ','
+					. $this->agent . ','
+					. $this->event . ','
+					. $this->additionalinfo
+					. ')';
+	}
+}
