@@ -1449,3 +1449,24 @@ function version_min($origin, $list){
 	}
 	return NULL;
 }
+
+/**
+ * checkFreeSpace
+ * @pram $allowedspace = 2 means 2GB
+ * @return boolean
+ */
+function checkFreeSpace($allowedspace)
+{
+	$process = new \Symfony\Component\Process\Process('df -h /');
+	$process->setTimeout(300);
+	$process->run();
+	$output = $process->getOutput();
+	if (empty($output)) { return NULL; }
+	$output = explode(' ',trim($output));
+	$available_space = str_replace('G','',$output[31]);
+	if ($available_space <= $allowedspace) {
+		return array('status'=>false, 'available_space'=> $available_space);
+	} else {
+		return array('status'=>true, 'available_space'=> $available_space);
+	}
+}
