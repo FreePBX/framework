@@ -301,7 +301,7 @@
     * @param mixed $options
     * @return array, see evaluate for return information. ['result'] is whatever the application returns, or -2 on failure to find application
     */
-    function exec($application, $options)
+    function exec($application, $options = array())
     {
       if(is_array($options)) $options = join(',', $options);
       return $this->evaluate("EXEC $application $options");
