@@ -540,3 +540,8 @@ function freepbx_get_contexts() {
 	}
 	return $contexts;
 }
+
+function getModuleInfo($module = false, $status = false, $forceload = false){
+	$module_functions = module_functions::create();
+	return $module_functions->getinfo($module, $status, $forceload);
+}

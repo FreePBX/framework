@@ -119,9 +119,13 @@ class Modules extends Base {
 						'outputFields' => $this->getOutputFields(),
 						'mutateAndGetPayload' => function ($input) {
 							$txnId = $this->freepbx->api->addTransaction("Processing", "framework", "fwconsole-commands");
-							\FreePBX::Sysadmin()->ApiHooks()->runModuleSystemHook('api', 'fwconsole-commands', array($input['command'], $txnId));
-							$msg = _('Command has been initiated. Please check the status using fetchApiStatus api with the returned transaction id');
-							return ['message' => $msg, 'status' => true, 'transaction_id' => $txnId];
+							if(\FreePBX::Modules()->checkStatus('sysadmin')){
+								\FreePBX::Sysadmin()->ApiHooks()->runModuleSystemHook('api', 'fwconsole-commands', array($input['command'], $txnId));
+								$msg = _('Command has been initiated. Please check the status using fetchApiStatus api with the returned transaction id');
+								return ['message' => $msg, 'status' => true, 'transaction_id' => $txnId];
+							}
+							$msg = _('Sysadmin module in not installed. Unable to execute ApiHooks().');
+							return ['message' => $msg, 'status' => false, 'transaction_id' => $txnId];
 						}
 					]),
 			  ];
