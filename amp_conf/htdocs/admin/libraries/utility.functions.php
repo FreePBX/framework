@@ -1463,7 +1463,9 @@ function checkFreeSpace($allowedspace)
 	$output = $process->getOutput();
 	if (empty($output)) { return NULL; }
 	$output = explode(' ',trim($output));
-	$available_space = str_replace('G','',$output[31]);
+	$output = array_filter($output);
+	$output = array_combine(range(1, count($output)), array_values($output));
+	$available_space = str_replace('G','',$output[10]);
 	if ($available_space <= $allowedspace) {
 		return array('status'=>false, 'available_space'=> $available_space);
 	} else {
