@@ -279,7 +279,7 @@ var box;
 var httpdRestart
 function process_module_actions(modules) {
 	httpdRestart = false;
-	if(modules.hasOwnProperty("sysadmin")){
+	if(modules.hasOwnProperty("sysadmin") || modules.hasOwnProperty("restapps") || modules.hasOwnProperty("sangomaconnect")){
 		httpdRestart = true;
 	}
 
