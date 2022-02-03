@@ -58,10 +58,8 @@ class UpdateManager {
 			"auto_module_security_updates" => "enabled",
 			"unsigned_module_emails" => "enabled",
 			"update_every" => "saturday",
-			"update_period" => "4to8",
+			"update_period" => "8to12",
 		];
-
-
 
 		foreach ($retarr as $k => $null) {
 			$val = $this->freepbx->getConfig($k, "updates");
