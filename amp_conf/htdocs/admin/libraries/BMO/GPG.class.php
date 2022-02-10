@@ -59,11 +59,10 @@ class GPG {
 
 	// List of well-known keyservers.
 	private $keyservers = array(
-		"pool.sks-keyservers.net",  // This should almost always work
+		"hkp://keys.openpgp.org",
 		"hkp://keyserver.ubuntu.com:80",  // This is in case port 11371 is blocked outbound
 		"pgp.mit.edu", // Other random keyservers
-		"keyserver.pgp.com",  // Other random keyserver
-		"pool.sks-keyservers.net"
+		"keyserver.pgp.com"  // Other random keyserver
 	); // Yes. sks is there twice.
 
 	// This is how long we should wait for GPG to run a command.
