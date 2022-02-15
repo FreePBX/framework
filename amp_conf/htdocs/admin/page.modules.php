@@ -819,7 +819,7 @@ switch ($action) {
 			}
 		}
 
-		$repo_list = array_merge($local_repo_list, $remote_repo_list);
+		$repo_list = array_unique(array_merge($local_repo_list, $remote_repo_list));
 
 		//Stupidness when people captialize repos.
 		foreach($repo_list as &$r) {
