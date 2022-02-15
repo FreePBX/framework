@@ -224,6 +224,10 @@ function check_upgrade_all() {
 			var module = $(this).parents('.fullmodule').data('module');
 			$('#infopane_'+module+' .modulefunctionradios').addClass('radioset');
 			$('#infopane_'+module+' .moduletrackradios').addClass('radioset');
+			if($('#fullmodule_'+module).find(".notinstalled").length == 1){
+				$('#noaction_'+module).click();
+				$('#infopane_'+module).slideUp("slow", function() {});
+			}
 		}
 	});
 	fpbxToast(_('All module upgrades marked. Click process to run update.'),_('Updates Selected'),'success');
