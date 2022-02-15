@@ -276,17 +276,18 @@ class GuiHooks {
 		if(!empty($myHooks) && is_array($myHooks)) {
 			foreach ($myHooks as $mod => $arr) {
 				if (!empty($arr) && is_array($arr) && in_array($display, $arr)) {
-					$this->doBMOConfigPage($mod, $display);
+					// doBMOConfigPage expects a class name not module name
+					$class = str_ireplace("FreePBX\\modules\\","",$mod);
+					$this->doBMOConfigPage($class, $display);
 				}
 			}
 		}
 	}
 
 	private function doBMOConfigPage($class, $display) {
-		$mod = str_ireplace("FreePBX\\modules\\","",$class);
 		if (method_exists($this->FreePBX->$class, "doConfigPageInit")) {
 			$this->FreePBX->Performance->Stamp($class."->doConfigPageInit-$display"."_start");
-			\modgettext::push_textdomain(strtolower($mod));
+			\modgettext::push_textdomain(strtolower($class));
 			$this->FreePBX->$class->doConfigPageInit($display);
 			\modgettext::pop_textdomain();
 			$this->FreePBX->Performance->Stamp($class."->doConfigPageInit-$display"."_stop");
