@@ -83,8 +83,8 @@ if ($logout == 'true') {
 /**
  * Check if this deployment is UCC and must prohibit access to certain menus.
  */
-if(file_exists("/etc/asterisk/ucc_restrict.conf") && file_exists("/etc/schmooze/schmooze.zl")){
-	$lic_array = parse_ini_file("/etc/schmooze/schmooze.zl", false , INI_SCANNER_RAW);
+if(file_exists("/etc/asterisk/ucc_restrict.conf") && file_exists("/etc/sangoma/license.txt")){
+	$lic_array = parse_ini_file("/etc/sangoma/license.txt", false , INI_SCANNER_RAW);
 	$_restrict = parse_ini_file("/etc/asterisk/ucc_restrict.conf", true, INI_SCANNER_RAW);
 	if(is_array($lic_array) && (strtolower($lic_array["branding"]) === "pbxactucc" || strtolower($lic_array["deploy_type"]) === "pbxact ucc")){
 		$display 	= empty($_REQUEST["display"])	? "" : htmlentities($_REQUEST["display"]);
