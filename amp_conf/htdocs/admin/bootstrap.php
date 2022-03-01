@@ -324,17 +324,19 @@ if ($restrict_mods_local !== true) {
 			// Zend appears to break class auto-loading. Therefore, if we
 			//detect there is a module that requires Zend
 			// we will include all the potential classes at this point.
-			$needs_zend = isset($module['depends']['phpcomponent'])
-				&& stristr($module['depends']['phpcomponent'], 'zend');
+			$needs_ioncube = isset($module['depends']['phpcomponent'])
+				&& stristr($module['depends']['phpcomponent'], 'ioncube');
 
 			//do we have a license file
 			try {
-				if ($needs_zend && class_exists('\Schmooze\Zend') && file_exists($file) && \Schmooze\Zend::fileIsLicensed($file) && !FreePBX::Modules()->loadLicensedFileCheck()) {
+				if ($needs_ioncube && class_exists('\Sangoma\Licensing\Ioncube',false) && file_exists($file) && 
+					\Sangoma\Licensing\Ioncube::isFileEncoded($file) 
+					&& !FreePBX::Modules()->loadLicensedFileCheck()) {
 					$file_exists = false;
 					$zendedbroken[] = $key;
 				}
 				//emergency mode
-				if($needs_zend && $file_exists && !empty($bootstrap_settings['fix_zend'])) {
+				if($needs_ioncube && $file_exists && !empty($bootstrap_settings['fix_zend'])) {
 					$file_exists = false;
 					$zended[$key] = $file;
 				}
