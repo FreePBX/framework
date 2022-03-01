@@ -30,7 +30,7 @@ class View {
 		$files = array(
 			"moment-with-locales-2.20.1.min.js",
 			"script.legacy.js",
-			"Sortable-1.10.2.min.js",
+			"Sortable-1.10.4.js",
 			"autosize-3.0.17.min.js",
 			"bootstrap-3.3.7.custom.min.js",
 			"bootstrap-multiselect-0.9.13.js",
