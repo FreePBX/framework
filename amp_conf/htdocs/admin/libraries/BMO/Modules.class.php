@@ -92,10 +92,9 @@ class Modules extends DB_Helper{
 			$ifiles = get_included_files();
 			$relative = $rawname."/functions.inc.php";
 			$absolute = $path."/admin/modules/".$relative;
-			$needs_ioncube = isset($data['depends']['phpcomponent']) && stristr($data['depends']['phpcomponent'], 'ioncube');
+			$needs_zend = isset($data['depends']['phpcomponent']) && stristr($data['depends']['phpcomponent'], 'zend');
 			if(file_exists($absolute)) {
-				if ($needs_ioncube && class_exists('\Sangoma\Licensing\Ioncube',false) && 
-					\Sangoma\Licensing\Ioncube::isFileEncoded($absolute) && !$this->loadLicensedFileCheck()) {
+				if ($needs_zend && class_exists('\Schmooze\Zend',false) && \Schmooze\Zend::fileIsLicensed($absolute) && !$this->loadLicensedFileCheck()) {
 					continue;
 				}
 				$include = true;
@@ -130,10 +129,9 @@ class Modules extends DB_Helper{
 			$relative = $module."/functions.inc.php";
 			$absolute = $path."/admin/modules/".$relative;
 			$data = \FreePBX::Modules()->getInfo($module);
-			$needs_ioncube = isset($data[$module]['depends']['phpcomponent']) && stristr($data[$module]['depends']['phpcomponent'], 'ioncube');
+			$needs_zend = isset($data[$module]['depends']['phpcomponent']) && stristr($data[$module]['depends']['phpcomponent'], 'zend');
 			if(file_exists($absolute)) {
-				if ($needs_ioncube && class_exists('\Sangoma\Licensing\Ioncube',false) && 
-					\Sangoma\Licensing\Ioncube::isFileEncoded($absolute) && !$this->loadLicensedFileCheck()) {
+				if ($needs_zend && class_exists('\Schmooze\Zend',false) && \Schmooze\Zend::fileIsLicensed($absolute) && !$this->loadLicensedFileCheck()) {
 					return false;
 				}
 				$include = true;
@@ -160,36 +158,34 @@ class Modules extends DB_Helper{
 	 * This is so that commercial modules wont crash the system
 	 * @return boolean True if we can load the file, false otherwise
 	 */
+	public function loadLicensedFileCheck() {
+		if(!is_null($this->validLicense)) {
+			return $this->validLicense;
+		}
+		$licFileExists = glob ('/etc/schmooze/license-*.zl');
+		if(!function_exists('zend_loader_install_license') || empty($licFileExists)) {
+			$this->validLicense = false;
+			return false;
+		}
 
-	  public function loadLicensedFileCheck() {
-                if(!is_null($this->validLicense)) {
-                        return $this->validLicense;
-                }
-                $licFileExists = glob ('/etc/sangoma/license.txt');
-                if(empty($licFileExists)) {
-                        $this->validLicense = false;
-                        return false;
-                }
-
-                $path = $this->FreePBX->Config->get("AMPWEBROOT");
-                $sclass = $path."/admin/modules/sysadmin/functions.inc/Ioncube.class.php";
-                if (file_exists($sclass) && !class_exists('\Sangoma\Licensing\Ioncube',false)) {
-                        $this->validLicense = false;
-                        include $sclass;
-                }
-                if (!class_exists('\Sangoma\Licensing\Ioncube')) {
-                        // Schmooze class is broken somehow. Accidentally deleted, possibly?
-                        $this->validLicense = false;
-                        return false;
-                }
-                if (\Sangoma\Licensing\Ioncube::isEnabled() && \Sangoma\Licensing\Ioncube::hasValidLicense()) {
-                        $this->validLicense = true;
-                        return true;
-                }
-                $this->validLicense = false;
-                return false;
-        }
-
+		$path = $this->FreePBX->Config->get("AMPWEBROOT");
+		$sclass = $path."/admin/modules/sysadmin/functions.inc/Schmooze.class.php";
+		if (file_exists($sclass) && !class_exists('\Schmooze\Zend',false)) {
+			$this->validLicense = false;
+			include $sclass;
+		}
+		if (!class_exists('\Schmooze\Zend')) {
+			// Schmooze class is broken somehow. Accidentally deleted, possibly?
+			$this->validLicense = false;
+			return false;
+		}
+		if (!\Schmooze\Zend::hasValidLic()) {
+			$this->validLicense = false;
+			return false;
+		}
+		$this->validLicense = true;
+		return true;
+	}
 
 	/**
 	 * Get Signature

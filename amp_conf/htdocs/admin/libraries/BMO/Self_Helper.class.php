@@ -190,11 +190,10 @@ class Self_Helper extends DB_Helper {
 					} catch(\Exception $e) {}
 
 					$info = $this->Modules->getInfo($module);
-					$needs_ioncube = isset($info[$module]['depends']['phpcomponent']) && stristr($info[$module]['depends']['phpcomponent'], 'ioncube');
-					$licFileExists = glob ('/etc/sangoma/license.txt');
-					$complete_ioncube = (!function_exists('ioncube_license_properties') || empty($licFileExists));
-					if ($needs_ioncube && class_exists('\Sangoma\Licensing\Ioncube',false) && 
-						\Sangoma\Licensing\Ioncube::isFileEncoded($try) && $complete_ioncube) {
+					$needs_zend = isset($info[$module]['depends']['phpcomponent']) && stristr($info[$module]['depends']['phpcomponent'], 'zend');
+					$licFileExists = glob ('/etc/schmooze/license-*.zl');
+					$complete_zend = (!function_exists('zend_loader_install_license') || empty($licFileExists));
+					if ($needs_zend && class_exists('\Schmooze\Zend',false) && \Schmooze\Zend::fileIsLicensed($try) && $complete_zend) {
 						break;
 					}
 
