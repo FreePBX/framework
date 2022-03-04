@@ -25,7 +25,7 @@ global $_item_sort;
 				<?php if(FreePBX::create()->astman->connected()) {?>
 					<li><a id="button_reload" class="btn btn-danger nav-button reload-btn"><?php echo _('Apply Config'); ?></a></li>
 				<?php } else { ?>
-					<li><a class="btn btn-danger nav-button reload-btn"><?php echo _('Can Not Connect to Asterisk'); ?></a></li>
+					<li><a class="btn btn-danger nav-button reload-btn"><?php echo _('Cannot Connect to Asterisk'); ?></a></li>
 				<?php } ?>
 				<?php if ( isset($_SESSION['AMP_user']) ) { ?>
 					<?php if($amp_conf['SHOWLANGUAGE']) { ?>
