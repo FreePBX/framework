@@ -45,6 +45,13 @@ class Modules extends DB_Helper{
 	}
 
 	/**
+	 * Primarily used by unit tests to reset the loaded class counter.
+	 */
+	public static function reset() {
+		self::$count = 0;
+	}
+
+	/**
 	 * Get all active modules
 	 * @method getActiveModules
 	 * @param  boolean          $cached Whether to cache the results.

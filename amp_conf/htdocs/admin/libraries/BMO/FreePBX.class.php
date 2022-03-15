@@ -59,13 +59,19 @@ class FreePBX extends FreePBX\FreePBX_Helpers {
         self::$obj = $this;
 
 		$oldIncludePath = get_include_path();
-		set_include_path(__DIR__.":".get_include_path());
+		$newIncludePath = __DIR__.":".get_include_path();
+		set_include_path($newIncludePath);
 		foreach ($libraries as $lib) {
-
-			if (class_exists($lib)) {
-				throw new Exception("Somehow, the class $lib already exists. Are you trying to 'new' something?");
-			} else {
+			$class = '\\FreePBX\\'.$lib;
+			if (!class_exists($class)) {
 				include "$lib.class.php";
+			} else {
+				// Is someone trying to do bad things?
+				// Verify that we're not loading a library class from somewhere else
+				$reflector = new \ReflectionClass($class);
+				if($reflector->getFileName() !== __DIR__."/{$lib}.class.php") {
+					throw new Exception("Somehow, the class $lib already exists. Are you trying to 'new' something?");
+				}
 			}
 			$class = '\\FreePBX\\'.$lib;
 			$this->$lib = new $class($this);
@@ -90,6 +96,16 @@ class FreePBX extends FreePBX\FreePBX_Helpers {
         }
 
 		return self::$obj;
+	}
+
+	/**
+	 * Reset loaded dependencies
+	 * 
+	 * Primarily used in unit testis to reset the loaded dependencies
+	 */
+	public static function reset() {
+		self::$obj = null;
+		\FreePBX\Modules::reset();
 	}
 
 	/**
