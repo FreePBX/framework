@@ -1173,6 +1173,7 @@ class Moduleadmin extends Command {
 		$modules_local = $this->mf->getinfo(false,false,true);
 		$modules = $modules_local;
 		$this->check_active_repos();
+		$showSignCol = ($this->FreePBX->Config->get('SIGNATURECHECK')) ? _('Signature') : null;
 		if ($online) {
 			$modules_online = $this->mf->getonlinexml();
 			if (isset($modules_online)) {
@@ -1232,14 +1233,30 @@ class Moduleadmin extends Command {
 			}
 			$module_version = isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'';
 			$module_license = isset($modules[$name]['license'])?$modules[$name]['license']:'';
-			array_push($rows,array($name, $module_version, $status, $module_license));
+			if (!empty($showSignCol)) {
+				if(file_exists($this->FreePBX->Config->get('AMPWEBROOT') . "/admin/modules/" . $name . "/module.sig")) {
+					$sigfile = $this->FreePBX->Config->get('AMPWEBROOT') . "/admin/modules/" . $name . "/module.sig";
+					$sig = $this->FreePBX->GPG->checkSig($sigfile);
+					if(in_array($sig['config']['signedwith'], array('B53D215A755231A3','86CE877469D2EAD9'))) {
+						$module_Signature = 'Sangoma';
+					} else {
+						$module_Signature = 'Unknown';
+					}
+				} else {
+					$module_Signature = 'Unsigned';
+				}
+				array_push($rows,array($name, $module_version, $status, $module_license, $module_Signature));
+			} else {
+				array_push($rows,array($name, $module_version, $status, $module_license));
+			}
 		}
+		$headers = (!empty($showSignCol)) ? array(_('Module'), _('Version'), _('Status'),_('License'), $showSignCol) : array(_('Module'), _('Version'), _('Status'),_('License'));
 		if($this->format == 'json') {
 			$this->writeln($rows);
 		} else {
 			$table = new Table($this->out);
 			$table
-				->setHeaders(array(_('Module'), _('Version'), _('Status'),_('License')))
+				->setHeaders($headers)
 				->setRows($rows);
 			$table->render();
 		}
