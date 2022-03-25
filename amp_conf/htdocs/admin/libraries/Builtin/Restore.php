@@ -96,6 +96,11 @@ class Restore Extends Base\RestoreBase{
 					$this->log(sprintf(_("Current FreePBX Web Root Directory is %s"), $this->FreePBX->Config->get_conf_setting('AMPWEBROOT')));
 					continue;
 				}
+				if ($data['keyword'] == 'ASTMODDIR') {
+					$this->log("Ignorning restore of ASTMODDIR Advanced Settings");
+					$this->log(sprintf(_("Current Asterisk Modules Directory is %s"), $this->FreePBX->Config->get_conf_setting('ASTMODDIR',true)));
+					continue;
+				}
 				$val = str_replace('\r\n', "\r\n", $data['value']);
 				$usth->execute([
 					":keyword" => $data['keyword'],
