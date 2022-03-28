@@ -1234,7 +1234,9 @@ class Moduleadmin extends Command {
 			$module_version = isset($modules[$name]['dbversion'])?$modules[$name]['dbversion']:'';
 			$module_license = isset($modules[$name]['license'])?$modules[$name]['license']:'';
 			if (!empty($showSignCol)) {
-				if(file_exists($this->FreePBX->Config->get('AMPWEBROOT') . "/admin/modules/" . $name . "/module.sig")) {
+				if ($status_index == MODULE_STATUS_NOTINSTALLED && !isset($modules_local[$name])) {
+					$module_Signature = 'Unknown';
+				} elseif (file_exists($this->FreePBX->Config->get('AMPWEBROOT') . "/admin/modules/" . $name . "/module.sig")) {
 					$sigfile = $this->FreePBX->Config->get('AMPWEBROOT') . "/admin/modules/" . $name . "/module.sig";
 					$sig = $this->FreePBX->GPG->checkSig($sigfile);
 					if(in_array($sig['config']['signedwith'], array('B53D215A755231A3','86CE877469D2EAD9'))) {
