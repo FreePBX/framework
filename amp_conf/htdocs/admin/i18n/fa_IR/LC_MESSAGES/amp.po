@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-03-29 05:09+0000\n"
+"POT-Creation-Date: 2022-03-30 06:53+0000\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -548,14 +548,14 @@ msgstr "%s version %s or  higher is required, you have %s"
 msgid "%s will be removed from the hard disk"
 msgstr "%s از هارد دیسک حذف خواهد شد"
 
-#: ../core/Core.class.php:4048
+#: ../core/Core.class.php:4056
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
 "result all AGIs will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: ../core/Core.class.php:4069
+#: ../core/Core.class.php:4077
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but the FastAGI server was unable to start, As a result all AGIs will be "
@@ -770,7 +770,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "یک مسیر برای این DID/CID در حال حاضر موجود است!"
 
-#: ../core/Core.class.php:2902 ../core/functions.inc.php:4254
+#: ../core/Core.class.php:2908 ../core/functions.inc.php:4254
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "یک مسیر برای این DID/CID: %s %s در حال حاضر موجود است"
@@ -783,8 +783,8 @@ msgstr "یک توضیح مفید این کانال را شرح میدهد"
 msgid "A user will enter this password when logging onto a device."
 msgstr "کاربر این کلمه عبور را برای ورود به سیستم از طریق تلفن وارد خواهد کرد."
 
-#: ../core/Api/Gql/Dids.php:50 ../core/Api/Gql/Dids.php:162
-#: ../core/Api/Gql/Dids.php:395
+#: ../core/Api/Gql/Dids.php:50 ../core/Api/Gql/Dids.php:166
+#: ../core/Api/Gql/Dids.php:399
 msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
 msgstr "ALERT_INFO can be  used for distinctive ring with SIP devices."
 
@@ -1317,8 +1317,8 @@ msgstr ""
 msgid "An attempt to send an email to \"%s\" with update notifications failed"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:66 ../core/Api/Gql/Dids.php:178
-#: ../core/Api/Gql/Dids.php:414 ../core/views/did/advanced_form.php:413
+#: ../core/Api/Gql/Dids.php:66 ../core/Api/Gql/Dids.php:182
+#: ../core/Api/Gql/Dids.php:418 ../core/views/did/advanced_form.php:413
 #: ../core/views/did/basic_form.php:234
 msgid ""
 "An optional delay to wait before processing this route. Setting this value "
@@ -1911,8 +1911,8 @@ msgstr "پیشوند CID"
 msgid "CID Priority Route"
 msgstr "مسیر پیشوند CID"
 
-#: ../core/Api/Gql/Dids.php:62 ../core/Api/Gql/Dids.php:174
-#: ../core/Api/Gql/Dids.php:410 ../core/views/did/advanced_form.php:240
+#: ../core/Api/Gql/Dids.php:62 ../core/Api/Gql/Dids.php:178
+#: ../core/Api/Gql/Dids.php:414 ../core/views/did/advanced_form.php:240
 msgid "CID name prefix"
 msgstr "نام پیشوند CID"
 
@@ -2048,28 +2048,28 @@ msgstr ""
 msgid "Call successful"
 msgstr ""
 
-#: ../core/Core.class.php:609
+#: ../core/Core.class.php:610
 #, php-format
 msgid "Call trasnfer monitoring service  Failed: %s"
 msgstr ""
 
-#: ../core/Core.class.php:592
+#: ../core/Core.class.php:593
 msgid "Call trasnfer monitoring service is not running"
 msgstr ""
 
-#: ../core/Core.class.php:581
+#: ../core/Core.class.php:582
 msgid "Call trasnfer monitoring service stopped"
 msgstr ""
 
-#: ../core/Core.class.php:585
+#: ../core/Core.class.php:586
 msgid "Call trasnfer monitoring service was not running"
 msgstr ""
 
-#: ../core/Core.class.php:3372
+#: ../core/Core.class.php:3378
 msgid "Caller ID"
 msgstr "شناسه تماس گیرنده"
 
-#: ../core/Core.class.php:3373
+#: ../core/Core.class.php:3379
 msgid "Caller ID Number"
 msgstr "شماره تماس گیرنده"
 
@@ -2735,12 +2735,12 @@ msgstr "هسته"
 msgid "Core Device's found successfully"
 msgstr ""
 
-#: ../core/Core.class.php:3927
+#: ../core/Core.class.php:3935
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:4001
+#: ../core/Core.class.php:4009
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -3087,7 +3087,7 @@ msgstr "توضیحات داخلی مستقیم"
 msgid "DID Number"
 msgstr "شماره داخلی مستقیم"
 
-#: ../core/Core.class.php:3517
+#: ../core/Core.class.php:3523
 msgid "DID already exists"
 msgstr "DID موجود است"
 
@@ -3095,11 +3095,11 @@ msgstr "DID موجود است"
 msgid "DID/CID"
 msgstr "DID/CID"
 
-#: ../core/Core.class.php:3314
+#: ../core/Core.class.php:3320
 msgid "DIDs"
 msgstr ".DIDs"
 
-#: ../core/Core.class.php:3315
+#: ../core/Core.class.php:3321
 msgid "DIDs / Inbound Routes"
 msgstr "مسیرهای ورودی / DIDs"
 
@@ -3422,12 +3422,12 @@ msgstr ""
 "voicemail files. If changed, some of the voicemail directory structures may "
 "have to be manually changed."
 
-#: ../core/Api/Gql/Dids.php:365
+#: ../core/Api/Gql/Dids.php:369
 msgid "Define ID of inbound route"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:38 ../core/Api/Gql/Dids.php:142
-#: ../core/Api/Gql/Dids.php:380
+#: ../core/Api/Gql/Dids.php:38 ../core/Api/Gql/Dids.php:146
+#: ../core/Api/Gql/Dids.php:384
 msgid "Define the CallerID Number to be matched on incoming calls."
 msgstr ""
 
@@ -3444,8 +3444,8 @@ msgstr ""
 msgid "Define the custom Dial String.  Include the token"
 msgstr "تعریف رشته شماره گیری سفارشی. شامل نشانی"
 
-#: ../core/Api/Gql/Dids.php:34 ../core/Api/Gql/Dids.php:138
-#: ../core/Api/Gql/Dids.php:376
+#: ../core/Api/Gql/Dids.php:34 ../core/Api/Gql/Dids.php:142
+#: ../core/Api/Gql/Dids.php:380
 msgid ""
 "Define the expected DID Number if your trunk passes DID on incoming calls."
 msgstr ""
@@ -3524,8 +3524,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:231
-#: ../core/Core.class.php:3340 ../core/Core.class.php:3341
-#: ../core/Core.class.php:3364 ../core/Core.class.php:3365
+#: ../core/Core.class.php:3346 ../core/Core.class.php:3347
+#: ../core/Core.class.php:3370 ../core/Core.class.php:3371
 #: ../core/functions.inc.php:5123 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:59
@@ -3538,12 +3538,12 @@ msgstr "شرح"
 msgid "Descriptive Name for this Trunk"
 msgstr "شرح نام برای این ترانک"
 
-#: ../core/Core.class.php:3376 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:3382 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "مقصد"
 
-#: ../core/Api/Gql/Dids.php:94 ../core/Api/Gql/Dids.php:206
-#: ../core/Api/Gql/Dids.php:451 ../core/views/did/advanced_form.php:277
+#: ../core/Api/Gql/Dids.php:94 ../core/Api/Gql/Dids.php:210
+#: ../core/Api/Gql/Dids.php:455 ../core/views/did/advanced_form.php:277
 #: ../core/views/did/basic_form.php:155
 msgid "Destination for route"
 msgstr "مقصد برای مسیر"
@@ -3670,7 +3670,7 @@ msgstr "حالت توسعه دهنده"
 msgid "Developer and Customization"
 msgstr "توسعه دهنده و شخصی ساز"
 
-#: ../core/Core.class.php:3733 ../core/functions.inc.php:5066
+#: ../core/Core.class.php:3739 ../core/functions.inc.php:5066
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3686,7 +3686,7 @@ msgstr ""
 msgid "Device & User Hints Issue"
 msgstr ""
 
-#: ../core/Core.class.php:1569 ../core/Core.class.php:1798
+#: ../core/Core.class.php:1575 ../core/Core.class.php:1804
 msgid "Device Extension was blank or there were no settings defined"
 msgstr "داخلی وسیله خالی بود یا تنظیمی یافت نشد"
 
@@ -3707,7 +3707,7 @@ msgstr "تنظیمات وسیله"
 msgid "Device State Busy at"
 msgstr "وضعیت دستگاه مشغول است در"
 
-#: ../core/Core.class.php:3344 ../core/Core.class.php:3345
+#: ../core/Core.class.php:3350 ../core/Core.class.php:3351
 msgid "Device Technology"
 msgstr "فن آوری وسیله"
 
@@ -3716,7 +3716,7 @@ msgstr "فن آوری وسیله"
 msgid "Device Type"
 msgstr "نوع وسیله"
 
-#: ../core/Core.class.php:3466
+#: ../core/Core.class.php:3472
 msgid "Device could not be added."
 msgstr "وسیله نمیتواند اضافه شود."
 
@@ -4657,7 +4657,7 @@ msgstr ""
 msgid "Error"
 msgstr "خطا"
 
-#: ../core/Core.class.php:1033
+#: ../core/Core.class.php:1039
 msgid "Error Duplicate Channel Entry"
 msgstr "خطا کانال وارد شده تکراری است"
 
@@ -4697,7 +4697,7 @@ msgstr "خطا در ایجاد دایرکتوری موقت: %s"
 msgid "Error deleting directory %s (code %d)"
 msgstr "خطا حذف دایرکتوری %s (کد %d)"
 
-#: ../core/Core.class.php:941 ../core/page.trunks.php:328
+#: ../core/Core.class.php:947 ../core/page.trunks.php:328
 msgid "Error fetching prefix list for: "
 msgstr "خطا در دریافت فهرست پیش شماره ها برای: "
 
@@ -4930,8 +4930,8 @@ msgid "Extended"
 msgstr "تمدید شده"
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:261
-#: ../core/Core.class.php:3331 ../core/Core.class.php:3332
-#: ../core/Core.class.php:3721 ../core/functions.inc.php:4735
+#: ../core/Core.class.php:3337 ../core/Core.class.php:3338
+#: ../core/Core.class.php:3727 ../core/functions.inc.php:4735
 #: ../core/page.did.php:93 ../core/page.extensions.php:39
 #: ../core/page.extensions.php:132 ../core/page.extensions.php:160
 #: ../core/views/rnav.php:23
@@ -4990,15 +4990,15 @@ msgstr ""
 msgid "Extension has been updated"
 msgstr ""
 
-#: ../core/Core.class.php:3401
+#: ../core/Core.class.php:3407
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3404
+#: ../core/Core.class.php:3410
 msgid "Extension is not numeric."
 msgstr "داخلی شماره نیست."
 
-#: ../core/Core.class.php:3407
+#: ../core/Core.class.php:3413
 msgid "Extension name is blank."
 msgstr ""
 
@@ -5022,7 +5022,7 @@ msgstr ""
 msgid "Extension's has been created Successfully"
 msgstr ""
 
-#: amp.i18n.php:866 ../core/Core.class.php:3310 ../core/Core.class.php:3311
+#: amp.i18n.php:866 ../core/Core.class.php:3316 ../core/Core.class.php:3317
 #: ../core/page.extensions.php:26
 msgid "Extensions"
 msgstr "داخلی ها"
@@ -5162,7 +5162,7 @@ msgstr "شکست در اجرای اسکریپت های عزل"
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
-#: ../core/Core.class.php:3979
+#: ../core/Core.class.php:3987
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -5179,7 +5179,7 @@ msgstr "شکست در ارسال ایمیل هشدارهای ماژول های �
 msgid "Failed to send update notification email"
 msgstr ""
 
-#: ../core/Core.class.php:546
+#: ../core/Core.class.php:547
 msgid "Failed to start call trasnfer monitoring service"
 msgstr ""
 
@@ -5199,11 +5199,11 @@ msgstr "شکست در نوشتن indications.conf"
 msgid "Fallback Welcome Page"
 msgstr "جانشین صفحه خوش آمد"
 
-#: ../core/Core.class.php:4062 ../core/Core.class.php:4069
+#: ../core/Core.class.php:4070 ../core/Core.class.php:4077
 msgid "Fast AGI Server not running"
 msgstr ""
 
-#: ../core/Core.class.php:4020
+#: ../core/Core.class.php:4028
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -6222,8 +6222,8 @@ msgstr ""
 "destinations as errors. This should be left to the default true and custom "
 "destinations should be moved into the new custom apps registry."
 
-#: ../core/Api/Gql/Dids.php:46 ../core/Api/Gql/Dids.php:158
-#: ../core/Api/Gql/Dids.php:388 ../core/views/did/advanced_form.php:443
+#: ../core/Api/Gql/Dids.php:46 ../core/Api/Gql/Dids.php:162
+#: ../core/Api/Gql/Dids.php:392 ../core/views/did/advanced_form.php:443
 #: ../core/views/did/basic_form.php:261
 msgid ""
 "If no CallerID has been received, Privacy Manager will ask the caller to "
@@ -6506,35 +6506,35 @@ msgstr "تماس های خارجی ورودی"
 msgid "Inbound Internal Calls"
 msgstr "تماس های داخلی ورودی"
 
-#: ../core/Api/Gql/Dids.php:305
+#: ../core/Api/Gql/Dids.php:309
 msgid "Inbound Route ID"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:128
+#: ../core/Api/Gql/Dids.php:132
 msgid "Inbound Route already exists"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:126
+#: ../core/Api/Gql/Dids.php:130
 msgid "Inbound Route created successfully"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:276
+#: ../core/Api/Gql/Dids.php:280
 msgid "Inbound Route deleted successfully"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:241
+#: ../core/Api/Gql/Dids.php:245
 msgid "Inbound Route does not exists"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:278
+#: ../core/Api/Gql/Dids.php:282
 msgid "Inbound Route not found"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:239
+#: ../core/Api/Gql/Dids.php:243
 msgid "Inbound Route updated successfully"
 msgstr ""
 
-#: ../core/Core.class.php:3775 ../core/Core.class.php:3784
+#: ../core/Core.class.php:3781 ../core/Core.class.php:3790
 msgid "Inbound Route:"
 msgstr "مسیر ورودی:"
 
@@ -6564,7 +6564,7 @@ msgstr "شامل نام سرور در مرورگر"
 msgid "Incoming"
 msgstr "ورودی"
 
-#: ../core/Core.class.php:3368 ../core/Core.class.php:3369
+#: ../core/Core.class.php:3374 ../core/Core.class.php:3375
 msgid "Incoming DID"
 msgstr "داخلی مستقیم ورودی"
 
@@ -6783,7 +6783,7 @@ msgstr "توضیحات نامعتبر"
 msgid "Invalid email address"
 msgstr "آدرس ایمیل نامعتبر"
 
-#: ../core/Core.class.php:945 ../core/page.trunks.php:333
+#: ../core/Core.class.php:951 ../core/page.trunks.php:333
 msgid "Invalid format for NPA-NXX code (must be format: NXXNXX)"
 msgstr "فرمت کد NPA-NXX نادرست است (فرمت درست:NXXNXX)"
 
@@ -6905,7 +6905,7 @@ msgstr ""
 msgid "Launch local AGIs through FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:4062
+#: ../core/Core.class.php:4070
 #, php-format
 msgid ""
 "Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
@@ -7225,8 +7225,8 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:208
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:282
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:350
-#: ../core/Api/Gql/Dids.php:110 ../core/Api/Gql/Dids.php:222
-#: ../core/Api/Gql/Dids.php:266
+#: ../core/Api/Gql/Dids.php:110 ../core/Api/Gql/Dids.php:226
+#: ../core/Api/Gql/Dids.php:270
 msgid "Message for the request"
 msgstr ""
 
@@ -7282,8 +7282,8 @@ msgstr ""
 "Minimum amount of digits CallerID needs to  contain in order to be "
 "considered valid"
 
-#: ../core/Api/Gql/Dids.php:78 ../core/Api/Gql/Dids.php:190
-#: ../core/Api/Gql/Dids.php:429
+#: ../core/Api/Gql/Dids.php:78 ../core/Api/Gql/Dids.php:194
+#: ../core/Api/Gql/Dids.php:433
 msgid ""
 "Minimum amount of digits CallerID needs to contain in order to be considered "
 "valid. Default value is 10"
@@ -7788,7 +7788,7 @@ msgstr "نکته! شما %s هشدارد دارید! برای مشاهده به 
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:35
-#: ../core/Core.class.php:3336 ../core/Core.class.php:3337
+#: ../core/Core.class.php:3342 ../core/Core.class.php:3343
 #: ../core/page.extensions.php:40 ../core/page.extensions.php:133
 #: ../core/page.extensions.php:161 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -8177,8 +8177,8 @@ msgstr "راهنمای هشدارها"
 msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr "تعداد دفعاتی که تماس گیرنده میتواند شناسه تماس را وارد کند"
 
-#: ../core/Api/Gql/Dids.php:74 ../core/Api/Gql/Dids.php:186
-#: ../core/Api/Gql/Dids.php:425
+#: ../core/Api/Gql/Dids.php:74 ../core/Api/Gql/Dids.php:190
+#: ../core/Api/Gql/Dids.php:429
 msgid ""
 "Number of attempts the caller has to enter a valid CallerID. Default value "
 "is 3"
@@ -8226,11 +8226,11 @@ msgstr "گرفتن مجوز رایگان"
 msgid "Occupied Lines CW Busy"
 msgstr "Occupied  Lines CW Busy"
 
-#: ../core/Api/Gql/Dids.php:150
+#: ../core/Api/Gql/Dids.php:154
 msgid "Old CID Num. Used to change the cid number "
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:146
+#: ../core/Api/Gql/Dids.php:150
 msgid "Old Extension. Used to change the extension "
 msgstr ""
 
@@ -8238,8 +8238,8 @@ msgstr ""
 msgid "On Demand Recording"
 msgstr "On Demand  Recording"
 
-#: ../core/Api/Gql/Dids.php:82 ../core/Api/Gql/Dids.php:194
-#: ../core/Api/Gql/Dids.php:433 ../core/views/did/advanced_form.php:362
+#: ../core/Api/Gql/Dids.php:82 ../core/Api/Gql/Dids.php:198
+#: ../core/Api/Gql/Dids.php:437 ../core/views/did/advanced_form.php:362
 #: ../core/views/did/basic_form.php:210
 msgid ""
 "On PRI channels the carrier will send a signal if the caller indicates a "
@@ -8552,7 +8552,7 @@ msgstr "تماس های داخلی"
 msgid "Outbound Proxy"
 msgstr "پراکسی تماس خروجی"
 
-#: ../core/Core.class.php:3758
+#: ../core/Core.class.php:3764
 msgid "Outbound Route:"
 msgstr "مسیر تماس خروجی:"
 
@@ -8619,8 +8619,8 @@ msgid ""
 "this time"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:86 ../core/Api/Gql/Dids.php:198
-#: ../core/Api/Gql/Dids.php:440
+#: ../core/Api/Gql/Dids.php:86 ../core/Api/Gql/Dids.php:202
+#: ../core/Api/Gql/Dids.php:444
 msgid ""
 "Override the ringer volume. Note: This is only valid for Sangoma phones at "
 "this time. Default value is 0"
@@ -8710,7 +8710,7 @@ msgstr "منطقه زمانی PHP"
 msgid "PJSIP Settings"
 msgstr "تنظیمات PJSIP"
 
-#: ../core/Core.class.php:4048
+#: ../core/Core.class.php:4056
 msgid "PM2 Not installed"
 msgstr ""
 
@@ -9035,7 +9035,13 @@ msgid ""
 "your system"
 msgstr ""
 
-#: ../core/Core.class.php:3410
+#: ../core/Api/Gql/Dids.php:125
+msgid ""
+"Please provide the valid `destination` value, for example extension (100) :"
+"`from-did-direct,100,1`"
+msgstr ""
+
+#: ../core/Core.class.php:3416
 msgid "Please provide valid device technology"
 msgstr ""
 
@@ -9174,8 +9180,8 @@ msgstr ""
 msgid "Provide Verbose Tracebacks"
 msgstr "Provide  Verbose Tracebacks"
 
-#: ../core/Api/Gql/Dids.php:42 ../core/Api/Gql/Dids.php:154
-#: ../core/Api/Gql/Dids.php:384 ../core/views/did/advanced_form.php:100
+#: ../core/Api/Gql/Dids.php:42 ../core/Api/Gql/Dids.php:158
+#: ../core/Api/Gql/Dids.php:388 ../core/views/did/advanced_form.php:100
 #: ../core/views/did/basic_form.php:32
 msgid "Provide a meaningful description of what this incoming route is"
 msgstr "Provide a meaningful  description of what this incoming route is"
@@ -9490,7 +9496,7 @@ msgstr "حذف CNAM"
 msgid "Remove an entry from Core"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:247
+#: ../core/Api/Gql/Dids.php:251
 msgid "Remove an inbound route from the system"
 msgstr ""
 
@@ -9764,7 +9770,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "هشدار امنیتی:"
 
-#: ../core/Core.class.php:3698 ../core/Core.class.php:3699
+#: ../core/Core.class.php:3704 ../core/Core.class.php:3705
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP  (%s)"
@@ -10120,8 +10126,8 @@ msgstr "تنظیم ماژول مدیریت به حالت Edge"
 msgid "Set permissions on a specific module: <rawname>"
 msgstr "تنظیم دسترسی در یک ماژول مشخص: <rawname>"
 
-#: ../core/Api/Gql/Dids.php:58 ../core/Api/Gql/Dids.php:170
-#: ../core/Api/Gql/Dids.php:406 ../core/views/did/advanced_form.php:15
+#: ../core/Api/Gql/Dids.php:58 ../core/Api/Gql/Dids.php:174
+#: ../core/Api/Gql/Dids.php:410 ../core/views/did/advanced_form.php:15
 msgid ""
 "Set the MoH class that will be used for calls that come in on this route. "
 "For example, choose a type appropriate for routes coming in from a country "
@@ -10155,8 +10161,8 @@ msgstr ""
 "Set this to  replace the default popover.css style sheet with your own, "
 "relative to admin."
 
-#: ../core/Api/Gql/Dids.php:90 ../core/Api/Gql/Dids.php:202
-#: ../core/Api/Gql/Dids.php:444 ../core/views/did/advanced_form.php:389
+#: ../core/Api/Gql/Dids.php:90 ../core/Api/Gql/Dids.php:206
+#: ../core/Api/Gql/Dids.php:448 ../core/views/did/advanced_form.php:389
 msgid "Set to Yes to force the call to be answered at this time"
 msgstr ""
 
@@ -10536,8 +10542,8 @@ msgstr ""
 "trunk in addition to globally if there are trunks where it is desirable to "
 "keep CNAM information, though most carriers ignore CNAM."
 
-#: ../core/Api/Gql/Dids.php:54 ../core/Api/Gql/Dids.php:166
-#: ../core/Api/Gql/Dids.php:399 ../core/views/did/advanced_form.php:335
+#: ../core/Api/Gql/Dids.php:54 ../core/Api/Gql/Dids.php:170
+#: ../core/Api/Gql/Dids.php:403 ../core/views/did/advanced_form.php:335
 #: ../core/views/did/basic_form.php:183
 msgid ""
 "Some devices or providers require RINGING to be sent before ANSWER. You'll "
@@ -10676,12 +10682,12 @@ msgstr "استاندارد"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "آغاز استریسک و اجرای دستورات لازم FreePBX"
 
-#: ../core/Core.class.php:3974
+#: ../core/Core.class.php:3982
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
 
-#: ../core/Core.class.php:542
+#: ../core/Core.class.php:543
 #, php-format
 msgid "Started call trasnfer monitoring Service. PID is %s"
 msgstr ""
@@ -10694,7 +10700,7 @@ msgstr "استریسک در حال اجرا..."
 msgid "Starting Cache cleanup"
 msgstr "شروع پاک سازی کش"
 
-#: ../core/Core.class.php:3933
+#: ../core/Core.class.php:3941
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -10734,8 +10740,8 @@ msgstr ""
 #: ../core/Api/Gql/AdvanceSettings.php:216
 #: ../core/Api/Gql/AdvanceSettings.php:265 ../core/Api/Gql/Devices.php:279
 #: ../core/Api/Gql/Devices.php:350 ../core/Api/Gql/Devices.php:380
-#: ../core/Api/Gql/Dids.php:106 ../core/Api/Gql/Dids.php:218
-#: ../core/Api/Gql/Dids.php:262
+#: ../core/Api/Gql/Dids.php:106 ../core/Api/Gql/Dids.php:222
+#: ../core/Api/Gql/Dids.php:266
 msgid "Status of the request"
 msgstr ""
 
@@ -10743,23 +10749,23 @@ msgstr ""
 msgid "Stop Asterisk and run other needed FreePBX commands"
 msgstr "توقف استریسک و اجرای دستورات لازم FreePBX"
 
-#: ../core/Core.class.php:605
+#: ../core/Core.class.php:606
 msgid "Stopped Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4016
+#: ../core/Core.class.php:4024
 msgid "Stopped FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:563
+#: ../core/Core.class.php:564
 msgid "Stopped call trasnfer monitoring service"
 msgstr ""
 
-#: ../core/Core.class.php:597
+#: ../core/Core.class.php:598
 msgid "Stopping Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4007
+#: ../core/Core.class.php:4015
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -11263,7 +11269,7 @@ msgid ""
 "the CLI."
 msgstr ""
 
-#: ../core/Core.class.php:3377
+#: ../core/Core.class.php:3383
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -11945,8 +11951,8 @@ msgid ""
 msgstr ""
 
 #: ../core/Api/Gql/Devices.php:35 ../core/Api/Gql/Extensions.php:48
-#: ../core/Api/Gql/Extensions.php:154 ../core/Core.class.php:1576
-#: ../core/Core.class.php:1805
+#: ../core/Api/Gql/Extensions.php:154 ../core/Core.class.php:1582
+#: ../core/Core.class.php:1811
 msgid "This device id is already in use"
 msgstr "شناسه وسیله در حال استفاده است"
 
@@ -11955,8 +11961,8 @@ msgstr "شناسه وسیله در حال استفاده است"
 msgid "This device uses %s technology %s"
 msgstr "This device  uses %s technology %s"
 
-#: ../core/Api/Gql/Dids.php:70 ../core/Api/Gql/Dids.php:182
-#: ../core/Api/Gql/Dids.php:418 ../core/views/did/advanced_form.php:175
+#: ../core/Api/Gql/Dids.php:70 ../core/Api/Gql/Dids.php:186
+#: ../core/Api/Gql/Dids.php:422 ../core/views/did/advanced_form.php:175
 msgid ""
 "This effects CID ONLY routes where no DID is specified. If checked, calls "
 "with this CID will be routed to this route, even if there is a route to the "
@@ -12220,7 +12226,7 @@ msgstr ""
 "This trunk will not be able to be used for  outbound calls until a route is "
 "setup that uses it."
 
-#: ../core/Core.class.php:2886
+#: ../core/Core.class.php:2892
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "کاربر/داخلی %s در حال استفاده است"
@@ -12428,7 +12434,7 @@ msgstr "نام ترانک و متن کاربر نمیتواند یکی باشد"
 msgid "Trunk Sequence for Matched Routes"
 msgstr "توالی ترانک برای مسیرهای یکسان"
 
-#: ../core/Core.class.php:3766
+#: ../core/Core.class.php:3772
 msgid "Trunk:"
 msgstr "ترانک:"
 
@@ -12516,13 +12522,13 @@ msgstr "جزییات کاربر"
 msgid "UTC"
 msgstr ""
 
-#: ../core/Core.class.php:1724
+#: ../core/Core.class.php:1730
 msgid ""
 "Unable to change device driver. The device is already set to the specified "
 "driver"
 msgstr ""
 
-#: ../core/Core.class.php:1718
+#: ../core/Core.class.php:1724
 msgid "Unable to change device driver. Unable to fetch the device"
 msgstr ""
 
@@ -12814,7 +12820,7 @@ msgstr ""
 msgid "Update an entry in Core"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:134
+#: ../core/Api/Gql/Dids.php:138
 msgid "Update an inbound route on the system"
 msgstr ""
 
@@ -13054,7 +13060,7 @@ msgstr ""
 "Used when  PHP Console is enabled for error debugging https://github.com/"
 "barbushin/php-console"
 
-#: ../core/Core.class.php:3745 ../core/functions.inc.php:4737
+#: ../core/Core.class.php:3751 ../core/functions.inc.php:4737
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -13114,7 +13120,7 @@ msgstr "کلمه عبور کاربر"
 msgid "User caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:3493
+#: ../core/Core.class.php:3499
 msgid "User could not be added."
 msgstr "امکان افزودن کاربروجود ندارد."
 
@@ -14091,7 +14097,7 @@ msgstr "You must  defined a Client URI"
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "شما باید یک فایل freepbx.conf مناسب برای اجرا داشته باشید"
 
-#: ../core/Core.class.php:2879
+#: ../core/Core.class.php:2885
 msgid "You must put in an extension (or user) number"
 msgstr "شما باید شماره یک داخلی (یا کاربر) وارد کنید"
 
@@ -14309,7 +14315,7 @@ msgstr ""
 msgid "apply configuration settings after new core module loaded"
 msgstr "اعمال تنظیمات پیکربندی پس از بارگذاری ماژول هسته جدید"
 
-#: ../core/Core.class.php:569
+#: ../core/Core.class.php:570
 msgid "call trasnfer monitoring service stopped"
 msgstr ""
 
