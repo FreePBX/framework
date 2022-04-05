@@ -1784,9 +1784,14 @@ $(document).ready(function() {
 				console.warn(jqxhr.responseJSON);
 			}
 		} else {
-			fpbxToast(jqxhr.responseText,_("Error"),"exception");
+			msg = jqxhr.responseText;
+			if(typeof msg === 'undefined') {
+				msg = "Ajax request broken or aborted for an unexpected reason. Please check console logs for more details.";
+			}
+			fpbxToast(msg,_("Error"),"exception");
+			
 			if (window.console) {
-				console.warn(jqxhr.responseText);
+				console.warn(msg);
 			}
 		}
 		$("#settings-cog").css("color","red");
