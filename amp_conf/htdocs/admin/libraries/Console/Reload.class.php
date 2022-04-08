@@ -877,8 +877,10 @@ class Reload extends Command {
 		} else {
 			$memt = 0;
 		}
-
-		$brand = $this->freepbx->Config->get('DASHBOARD_FREEPBX_BRAND');
+		$brand ='';
+		if ($this->freepbx->Modules->checkStatus("sysadmin")) {
+			$brand = $this->freepbx->Sysadmin->getDeploymentType();
+		}
 		if($brand != 'PBXact UCC'){
 			$mems = isset($meminfo['SwapTotal']) ? preg_replace("/\D/","",$meminfo['SwapTotal']) : '';
 			if(empty($mems)) {
