@@ -367,10 +367,15 @@ class System extends Base {
 	 */
 	private function yumUpgrade(){
 		$status = $this->freepbx->Framework->checkBackUpAndRestoreProgressStatus();
+		$root = $this->freepbx->Config()->get("AMPWEBROOT");
+		$permissions = fileperms($root."/admin/modules/framework/hooks/yum-run-update");
+		if(substr(sprintf('%o', $permissions), -4) != "0755"){
+			return ['message' => _('Invalid privileges to execute yum-run-update. Please run: fwconsole chown through console and try again.'),'status' => false];
+		}
 		if(!$status) {
 			return ['message' => _('Backup & Restore process is in progress. Please wait till the process is completed.'),'status' => false];
 		}
-		$txnId = $this->freepbx->api->addTransaction("Processing","system","yum-run-updat");
+		$txnId = $this->freepbx->api->addTransaction("Processing","system","yum-run-update");
 		$res = false;
 		if(\FreePBX::Modules()->checkStatus('sysadmin')){
 			$res = \FreePBX::Sysadmin()->ApiHooks()->runModuleSystemHook('framework','yum-run-update',$txnId);
