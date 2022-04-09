@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-08 03:19+0000\n"
+"POT-Creation-Date: 2022-04-09 04:50+0000\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -1422,7 +1422,7 @@ msgstr "دایرکتوری AGI استریسک"
 msgid "Asterisk Builtin mini-HTTP server"
 msgstr "سرور mini-HTTP داخلی استریسک"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:427
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:432
 msgid "Asterisk Details"
 msgstr ""
 
@@ -1735,7 +1735,7 @@ msgstr ""
 msgid "Automatic comedia - (%s)"
 msgstr "Automatic  comedia - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:477
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:482
 msgid "Automatic update status"
 msgstr ""
 
@@ -1762,7 +1762,7 @@ msgstr ""
 "page."
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:506
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:371
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:376
 msgid ""
 "Backup & Restore process is in progress. Please wait till the process is "
 "completed."
@@ -2641,8 +2641,8 @@ msgstr ""
 msgid "Congestion"
 msgstr "ازدحام"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:423
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:438
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:428
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:443
 msgid "Connected"
 msgstr ""
 
@@ -3203,7 +3203,7 @@ msgstr ""
 msgid "Database Error detected. Automatic repair started. Please retry"
 msgstr "خطای بانک اطلاعاتی. تعمیر خودکار آغاز شد. لطفا مجدد تلاش کنید"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:442
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:447
 msgid "Database Status"
 msgstr ""
 
@@ -5165,7 +5165,7 @@ msgstr "شکست در اجرای اسکریپت های نصب"
 msgid "Failed to run un-installation scripts"
 msgstr "شکست در اجرای اسکریپت های عزل"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:381
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:386
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
@@ -5741,7 +5741,7 @@ msgstr "GPG took too  long to run the command: [%s]"
 msgid "GUI Behavior"
 msgstr "رفتار رابط گرافیکی"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:452
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:457
 msgid "GUI Mode details"
 msgstr ""
 
@@ -6825,6 +6825,12 @@ msgstr "مسیر نادرست %s"
 msgid "Invalid path value"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:373
+msgid ""
+"Invalid privileges to execute yum-run-update. Please run: fwconsole chown "
+"through console and try again."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:161
 #, php-format
 msgid ""
@@ -7016,7 +7022,7 @@ msgstr ""
 msgid "List online modules, accepts no arguments"
 msgstr "فهرست ماژولهای آنلاین، پذیرفتن بدون آرگمان ها"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:463
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:468
 msgid "List up moduels setup wizard is run for"
 msgstr ""
 
@@ -7053,7 +7059,7 @@ msgid "Long Distance"
 msgstr "فاصله زیاد"
 
 #: amp_conf/htdocs/admin/bootstrap.php:285
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:903
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:905
 msgid "Low Memory Limit"
 msgstr "محدودیت مموری"
 
@@ -7235,7 +7241,7 @@ msgid "Media Use Received Transport"
 msgstr "Media  Use Received Transport"
 
 #: amp_conf/htdocs/admin/bootstrap.php:283
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:901
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:903
 msgid "Memory Limit Changed"
 msgstr "محدودیت مموری تغییر کرد"
 
@@ -7963,8 +7969,8 @@ msgstr "بدون آهنگ"
 msgid "No RPMs need to be updated"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:885
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:888
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:887
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:890
 msgid "No Swap"
 msgstr ""
 
@@ -8108,8 +8114,8 @@ msgstr ""
 "always continue to the next configured trunk or destination even when the "
 "channel reports BUSY or INVALID NUMBER."
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:425
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:440
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:430
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:445
 msgid "Not Connected"
 msgstr ""
 
@@ -8155,7 +8161,7 @@ msgstr "یک آرایه نیست"
 msgid "Not received"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:418
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:423
 msgid "Not running"
 msgstr ""
 
@@ -9780,7 +9786,7 @@ msgstr ""
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
 msgstr "Run an  immediate shutdown. Defaults to 'when convenient'"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:416
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:421
 msgid "Running"
 msgstr ""
 
@@ -10454,7 +10460,7 @@ msgstr ""
 msgid "Setup System"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:465
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:470
 msgid "Setup wizard is not run for any module"
 msgstr ""
 
@@ -10648,7 +10654,7 @@ msgstr "Some of these  settings can render your system inoperable."
 msgid "Sorry could not update the extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:479
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:484
 msgid "Sorry, Could not find automatic update status"
 msgstr ""
 
@@ -11759,7 +11765,7 @@ msgstr ""
 "you did not intended to execute this command as it may result in changes to "
 "your configuration."
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:888
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:890
 #, php-format
 msgid ""
 "The swap space of your system is too low (%s KB). You should have at least "
@@ -14257,7 +14263,7 @@ msgid "Your browser is out-of-date!"
 msgstr "مرورگر شما به روز نیست!"
 
 #: amp_conf/htdocs/admin/bootstrap.php:283
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:901
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:903
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and has been increased to %sM. You "
@@ -14267,7 +14273,7 @@ msgstr ""
 "may want to change this in you php.ini config file"
 
 #: amp_conf/htdocs/admin/bootstrap.php:285
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:903
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:905
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and may cause problems. FreePBX is "
@@ -14283,13 +14289,13 @@ msgstr ""
 msgid "Your server [%s] discovered the following security issues:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:885
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:887
 msgid ""
 "Your system has no swap space. This should be fixed as soon as possible. "
 "Once fixed issue a reload to remove this message"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:379
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:384
 msgid ""
 "Yum Upgrade has been initiated. Kindly check the fetchApiStatus api with the "
 "transaction id."
