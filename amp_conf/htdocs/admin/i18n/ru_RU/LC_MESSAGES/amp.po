@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-08 03:42+0000\n"
+"POT-Creation-Date: 2022-04-09 04:48+0000\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -551,14 +551,14 @@ msgstr "Требуется %s версии %s или выше, в наличии
 msgid "%s will be removed from the hard disk"
 msgstr "%s будет удалён с диска"
 
-#: ../core/Core.class.php:4056
+#: ../core/Core.class.php:4057
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
 "result all AGIs will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: ../core/Core.class.php:4077
+#: ../core/Core.class.php:4078
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but the FastAGI server was unable to start, As a result all AGIs will be "
@@ -778,7 +778,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "Маршрут для этого DID/CID уже существует!"
 
-#: ../core/Core.class.php:2908 ../core/functions.inc.php:4254
+#: ../core/Core.class.php:2909 ../core/functions.inc.php:4254
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "Маршрут с таким DID/ИД: %s/%s уже существует"
@@ -1435,7 +1435,7 @@ msgstr "Директория AGI-скриптов Астериск"
 msgid "Asterisk Builtin mini-HTTP server"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:427
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:432
 msgid "Asterisk Details"
 msgstr ""
 
@@ -1753,7 +1753,7 @@ msgstr ""
 msgid "Automatic comedia - (%s)"
 msgstr "Автоматически запустить comedia- (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:477
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:482
 msgid "Automatic update status"
 msgstr ""
 
@@ -1780,7 +1780,7 @@ msgstr ""
 "POST_RELOAD_DEBUG=true, то вывод этого скрипта будет виден на вэб-странице."
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:506
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:371
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:376
 msgid ""
 "Backup & Restore process is in progress. Please wait till the process is "
 "completed."
@@ -2080,11 +2080,11 @@ msgstr ""
 msgid "Call trasnfer monitoring service was not running"
 msgstr ""
 
-#: ../core/Core.class.php:3378
+#: ../core/Core.class.php:3379
 msgid "Caller ID"
 msgstr "Идентификационный номер вызывающей стороны(Caller ID)"
 
-#: ../core/Core.class.php:3379
+#: ../core/Core.class.php:3380
 msgid "Caller ID Number"
 msgstr "Номер  Caller ID"
 
@@ -2651,8 +2651,8 @@ msgstr ""
 msgid "Congestion"
 msgstr "Перегрузка"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:423
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:438
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:428
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:443
 msgid "Connected"
 msgstr "Подключено"
 
@@ -2749,12 +2749,12 @@ msgstr "База"
 msgid "Core Device's found successfully"
 msgstr ""
 
-#: ../core/Core.class.php:3935
+#: ../core/Core.class.php:3936
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:4009
+#: ../core/Core.class.php:4010
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -3101,7 +3101,7 @@ msgstr "Описание DID"
 msgid "DID Number"
 msgstr "Номер DID"
 
-#: ../core/Core.class.php:3523
+#: ../core/Core.class.php:3524
 msgid "DID already exists"
 msgstr ""
 
@@ -3109,11 +3109,11 @@ msgstr ""
 msgid "DID/CID"
 msgstr "DID/CID"
 
-#: ../core/Core.class.php:3320
+#: ../core/Core.class.php:3321
 msgid "DIDs"
 msgstr "DID-ы"
 
-#: ../core/Core.class.php:3321
+#: ../core/Core.class.php:3322
 msgid "DIDs / Inbound Routes"
 msgstr "DID-ы / Входящие маршруты"
 
@@ -3222,7 +3222,7 @@ msgstr ""
 "Обнаружена ошибка базы данных. Запущено автоматическое восстановление. "
 "Попробуйте ещё раз"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:442
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:447
 msgid "Database Status"
 msgstr ""
 
@@ -3542,8 +3542,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:231
-#: ../core/Core.class.php:3346 ../core/Core.class.php:3347
-#: ../core/Core.class.php:3370 ../core/Core.class.php:3371
+#: ../core/Core.class.php:3347 ../core/Core.class.php:3348
+#: ../core/Core.class.php:3371 ../core/Core.class.php:3372
 #: ../core/functions.inc.php:5123 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:59
@@ -3556,7 +3556,7 @@ msgstr "Описание"
 msgid "Descriptive Name for this Trunk"
 msgstr "Понятное название для этого транка"
 
-#: ../core/Core.class.php:3382 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:3383 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "Назначение"
 
@@ -3690,7 +3690,7 @@ msgstr "Режим разработки"
 msgid "Developer and Customization"
 msgstr "Разработчикам и дизайнерам"
 
-#: ../core/Core.class.php:3739 ../core/functions.inc.php:5066
+#: ../core/Core.class.php:3740 ../core/functions.inc.php:5066
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3726,7 +3726,7 @@ msgstr "Установки устройства"
 msgid "Device State Busy at"
 msgstr ""
 
-#: ../core/Core.class.php:3350 ../core/Core.class.php:3351
+#: ../core/Core.class.php:3351 ../core/Core.class.php:3352
 msgid "Device Technology"
 msgstr "Технология устройства"
 
@@ -3735,7 +3735,7 @@ msgstr "Технология устройства"
 msgid "Device Type"
 msgstr "Тип устройства"
 
-#: ../core/Core.class.php:3472
+#: ../core/Core.class.php:3473
 msgid "Device could not be added."
 msgstr "Устройство не может быть добавлено."
 
@@ -4949,8 +4949,8 @@ msgid "Extended"
 msgstr "Дополнительный"
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:261
-#: ../core/Core.class.php:3337 ../core/Core.class.php:3338
-#: ../core/Core.class.php:3727 ../core/functions.inc.php:4735
+#: ../core/Core.class.php:3338 ../core/Core.class.php:3339
+#: ../core/Core.class.php:3728 ../core/functions.inc.php:4735
 #: ../core/page.did.php:93 ../core/page.extensions.php:39
 #: ../core/page.extensions.php:132 ../core/page.extensions.php:160
 #: ../core/views/rnav.php:23
@@ -5009,15 +5009,15 @@ msgstr ""
 msgid "Extension has been updated"
 msgstr ""
 
-#: ../core/Core.class.php:3407
+#: ../core/Core.class.php:3408
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3410
+#: ../core/Core.class.php:3411
 msgid "Extension is not numeric."
 msgstr "Внутренний номер не из цифр."
 
-#: ../core/Core.class.php:3413
+#: ../core/Core.class.php:3414
 msgid "Extension name is blank."
 msgstr ""
 
@@ -5041,7 +5041,7 @@ msgstr ""
 msgid "Extension's has been created Successfully"
 msgstr ""
 
-#: amp.i18n.php:866 ../core/Core.class.php:3316 ../core/Core.class.php:3317
+#: amp.i18n.php:866 ../core/Core.class.php:3317 ../core/Core.class.php:3318
 #: ../core/page.extensions.php:26
 msgid "Extensions"
 msgstr "Внутренние номера"
@@ -5184,11 +5184,11 @@ msgstr "Ошибка при исполнении скрипта инсталля
 msgid "Failed to run un-installation scripts"
 msgstr "Ошибка при выполнении скрипта удаления"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:381
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:386
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
-#: ../core/Core.class.php:3987
+#: ../core/Core.class.php:3988
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -5225,11 +5225,11 @@ msgstr "Ошибка при записи indications.conf"
 msgid "Fallback Welcome Page"
 msgstr "Приветственная страница при аварийном режиме"
 
-#: ../core/Core.class.php:4070 ../core/Core.class.php:4077
+#: ../core/Core.class.php:4071 ../core/Core.class.php:4078
 msgid "Fast AGI Server not running"
 msgstr ""
 
-#: ../core/Core.class.php:4028
+#: ../core/Core.class.php:4029
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -5766,7 +5766,7 @@ msgstr " Слишком длинная команда  GPG для запуска
 msgid "GUI Behavior"
 msgstr "Поведение вэб-интерфейса"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:452
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:457
 msgid "GUI Mode details"
 msgstr ""
 
@@ -6567,7 +6567,7 @@ msgstr ""
 msgid "Inbound Route updated successfully"
 msgstr ""
 
-#: ../core/Core.class.php:3781 ../core/Core.class.php:3790
+#: ../core/Core.class.php:3782 ../core/Core.class.php:3791
 msgid "Inbound Route:"
 msgstr ""
 
@@ -6597,7 +6597,7 @@ msgstr "Включать имя сервера в браузере"
 msgid "Incoming"
 msgstr "Входящий"
 
-#: ../core/Core.class.php:3374 ../core/Core.class.php:3375
+#: ../core/Core.class.php:3375 ../core/Core.class.php:3376
 msgid "Incoming DID"
 msgstr "Входящий DID"
 
@@ -6639,6 +6639,12 @@ msgstr "Начальная установка"
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:75
 msgid "Initialize freepbx_conf settings.."
 msgstr "Инициализация настроек freepbx_conf.."
+
+#: ../core/Api/Gql/Dids.php:519
+msgid ""
+"Input variable destination does not exists in this system, Please provide "
+"the valid `destination`"
+msgstr ""
 
 #: amp.i18n.php:584
 msgid "Insert the date information into the CDR database using GMT time"
@@ -6840,6 +6846,12 @@ msgstr "Неверный путь %s"
 msgid "Invalid path value"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:373
+msgid ""
+"Invalid privileges to execute yum-run-update. Please run: fwconsole chown "
+"through console and try again."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:161
 #, php-format
 msgid ""
@@ -6942,7 +6954,7 @@ msgstr ""
 msgid "Launch local AGIs through FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:4070
+#: ../core/Core.class.php:4071
 #, php-format
 msgid ""
 "Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
@@ -7033,7 +7045,7 @@ msgstr ""
 msgid "List online modules, accepts no arguments"
 msgstr "Список всех онлайн-модулей,не требующих аргументов"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:463
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:468
 msgid "List up moduels setup wizard is run for"
 msgstr ""
 
@@ -7070,7 +7082,7 @@ msgid "Long Distance"
 msgstr "Большое расстояние"
 
 #: amp_conf/htdocs/admin/bootstrap.php:285
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:903
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:905
 msgid "Low Memory Limit"
 msgstr "Ниижний лимит памяти"
 
@@ -7251,7 +7263,7 @@ msgid "Media Use Received Transport"
 msgstr "Медиа поток использует полученный траспортный протокол"
 
 #: amp_conf/htdocs/admin/bootstrap.php:283
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:901
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:903
 msgid "Memory Limit Changed"
 msgstr "Лимит памяти изменён"
 
@@ -7830,7 +7842,7 @@ msgstr "Уведомление! У Вас %s уведомлений! Войди�
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:35
-#: ../core/Core.class.php:3342 ../core/Core.class.php:3343
+#: ../core/Core.class.php:3343 ../core/Core.class.php:3344
 #: ../core/page.extensions.php:40 ../core/page.extensions.php:133
 #: ../core/page.extensions.php:161 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -7981,8 +7993,8 @@ msgstr "Без музыки"
 msgid "No RPMs need to be updated"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:885
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:888
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:887
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:890
 msgid "No Swap"
 msgstr ""
 
@@ -8130,8 +8142,8 @@ msgstr ""
 "продолжать вызов через следующий сконфигурированный транк или назначение "
 "даже если канал возвращает статус Занято или Неверный номер."
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:425
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:440
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:430
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:445
 msgid "Not Connected"
 msgstr ""
 
@@ -8177,7 +8189,7 @@ msgstr "Не массив"
 msgid "Not received"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:418
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:423
 msgid "Not running"
 msgstr ""
 
@@ -8600,7 +8612,7 @@ msgstr "Контроль внутренних исходящих соедине�
 msgid "Outbound Proxy"
 msgstr "Исходящий прокси"
 
-#: ../core/Core.class.php:3764
+#: ../core/Core.class.php:3765
 msgid "Outbound Route:"
 msgstr ""
 
@@ -8757,7 +8769,7 @@ msgstr ""
 msgid "PJSIP Settings"
 msgstr "Настройки PJSIP"
 
-#: ../core/Core.class.php:4056
+#: ../core/Core.class.php:4057
 msgid "PM2 Not installed"
 msgstr ""
 
@@ -9072,13 +9084,13 @@ msgid ""
 "your system"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:125
+#: ../core/Api/Gql/Dids.php:506
 msgid ""
 "Please provide the valid `destination` value, for example extension (100) :"
 "`from-did-direct,100,1`"
 msgstr ""
 
-#: ../core/Core.class.php:3416
+#: ../core/Core.class.php:3417
 msgid "Please provide valid device technology"
 msgstr ""
 
@@ -9766,7 +9778,7 @@ msgstr ""
 msgid "Run an immediate shutdown. Defaults to 'when convenient'"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:416
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:421
 msgid "Running"
 msgstr ""
 
@@ -9810,7 +9822,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "ЗАМЕЧАНИЕ ПО БЕЗОПАСНОСТИ:"
 
-#: ../core/Core.class.php:3704 ../core/Core.class.php:3705
+#: ../core/Core.class.php:3705 ../core/Core.class.php:3706
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP (%s)"
@@ -10425,7 +10437,7 @@ msgstr ""
 msgid "Setup System"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:465
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:470
 msgid "Setup wizard is not run for any module"
 msgstr ""
 
@@ -10611,7 +10623,7 @@ msgstr ""
 msgid "Sorry could not update the extension"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:479
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:484
 msgid "Sorry, Could not find automatic update status"
 msgstr ""
 
@@ -10695,7 +10707,7 @@ msgstr "Стандартный"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "Запустить Астериск и выполнить другие нужные команды FreePBX"
 
-#: ../core/Core.class.php:3982
+#: ../core/Core.class.php:3983
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -10713,7 +10725,7 @@ msgstr "Астериск запускается..."
 msgid "Starting Cache cleanup"
 msgstr "Запускается очистка кэш..."
 
-#: ../core/Core.class.php:3941
+#: ../core/Core.class.php:3942
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -10766,7 +10778,7 @@ msgstr "Остановить Астериск и выполнить другие
 msgid "Stopped Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4024
+#: ../core/Core.class.php:4025
 msgid "Stopped FastAGI Server"
 msgstr ""
 
@@ -10778,7 +10790,7 @@ msgstr ""
 msgid "Stopping Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4015
+#: ../core/Core.class.php:4016
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -11268,7 +11280,7 @@ msgid ""
 "the CLI."
 msgstr ""
 
-#: ../core/Core.class.php:3383
+#: ../core/Core.class.php:3384
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -11686,7 +11698,7 @@ msgstr ""
 "сделать исполнением этой команды, то не стоит соверщать это действие, потому "
 "что это повлечёт изменения в конфигурации."
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:888
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:890
 #, php-format
 msgid ""
 "The swap space of your system is too low (%s KB). You should have at least "
@@ -12214,7 +12226,7 @@ msgstr ""
 "Этот транк  не может быть использован для исходящих вызовов пока "
 "настраивается роут,который использует этот транк"
 
-#: ../core/Core.class.php:2892
+#: ../core/Core.class.php:2893
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "Этот пользователь/номер %s уже существует"
@@ -12415,7 +12427,7 @@ msgstr ""
 msgid "Trunk Sequence for Matched Routes"
 msgstr "Последовательность транков для совпавших маршрутов"
 
-#: ../core/Core.class.php:3772
+#: ../core/Core.class.php:3773
 msgid "Trunk:"
 msgstr ""
 
@@ -13042,7 +13054,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:3751 ../core/functions.inc.php:4737
+#: ../core/Core.class.php:3752 ../core/functions.inc.php:4737
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -13104,7 +13116,7 @@ msgstr "Пароль пользователя"
 msgid "User caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:3499
+#: ../core/Core.class.php:3500
 msgid "User could not be added."
 msgstr "Пользователь не может быть добавлен"
 
@@ -14065,7 +14077,7 @@ msgstr "Необходимо указать клиентский URI"
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "Чтобы продолжить, необходим корректный файл  freepbx.conf "
 
-#: ../core/Core.class.php:2885
+#: ../core/Core.class.php:2886
 msgid "You must put in an extension (or user) number"
 msgstr "Вы должны ввести внутренний номер или номер пользователя"
 
@@ -14133,7 +14145,7 @@ msgid "Your browser is out-of-date!"
 msgstr "Ваш браузер устарел!"
 
 #: amp_conf/htdocs/admin/bootstrap.php:283
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:901
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:903
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and has been increased to %sM. You "
@@ -14143,7 +14155,7 @@ msgstr ""
 "%sM, Вы можете изменить этот параметр в файле php.ini"
 
 #: amp_conf/htdocs/admin/bootstrap.php:285
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:903
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:905
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and may cause problems. FreePBX is "
@@ -14159,13 +14171,13 @@ msgstr ""
 msgid "Your server [%s] discovered the following security issues:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:885
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:887
 msgid ""
 "Your system has no swap space. This should be fixed as soon as possible. "
 "Once fixed issue a reload to remove this message"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:379
+#: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:384
 msgid ""
 "Yum Upgrade has been initiated. Kindly check the fetchApiStatus api with the "
 "transaction id."
