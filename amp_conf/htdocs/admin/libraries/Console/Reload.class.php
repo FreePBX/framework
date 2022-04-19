@@ -893,6 +893,10 @@ class Reload extends Command {
 				}
 			}
 		}
+		//remove no swap warning for PBXact UCC
+		if($brand == 'PBXact UCC'){
+			$this->freepbx->Notifications->delete('core', 'SWAP');
+		}
 
 		// Check and increase php memory_limit if needed and if allowed on the system
 		// TODO: should all be in bootstrap
