@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-09 04:48+0000\n"
+"POT-Creation-Date: 2022-04-20 07:34+0000\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -548,14 +548,14 @@ msgstr "%s version %s or  higher is required, you have %s"
 msgid "%s will be removed from the hard disk"
 msgstr "%s از هارد دیسک حذف خواهد شد"
 
-#: ../core/Core.class.php:4057
+#: ../core/Core.class.php:4062
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
 "result all AGIs will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: ../core/Core.class.php:4078
+#: ../core/Core.class.php:4083
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but the FastAGI server was unable to start, As a result all AGIs will be "
@@ -770,7 +770,7 @@ msgstr ""
 msgid "A route for this DID/CID already exists!"
 msgstr "یک مسیر برای این DID/CID در حال حاضر موجود است!"
 
-#: ../core/Core.class.php:2909 ../core/functions.inc.php:4254
+#: ../core/Core.class.php:2914 ../core/functions.inc.php:4254
 #, php-format
 msgid "A route with this DID/CID: %s/%s already exists"
 msgstr "یک مسیر برای این DID/CID: %s %s در حال حاضر موجود است"
@@ -2065,11 +2065,11 @@ msgstr ""
 msgid "Call trasnfer monitoring service was not running"
 msgstr ""
 
-#: ../core/Core.class.php:3379
+#: ../core/Core.class.php:3384
 msgid "Caller ID"
 msgstr "شناسه تماس گیرنده"
 
-#: ../core/Core.class.php:3380
+#: ../core/Core.class.php:3385
 msgid "Caller ID Number"
 msgstr "شماره تماس گیرنده"
 
@@ -2735,12 +2735,12 @@ msgstr "هسته"
 msgid "Core Device's found successfully"
 msgstr ""
 
-#: ../core/Core.class.php:3936
+#: ../core/Core.class.php:3941
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:4010
+#: ../core/Core.class.php:4015
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -3087,7 +3087,7 @@ msgstr "توضیحات داخلی مستقیم"
 msgid "DID Number"
 msgstr "شماره داخلی مستقیم"
 
-#: ../core/Core.class.php:3524
+#: ../core/Core.class.php:3529
 msgid "DID already exists"
 msgstr "DID موجود است"
 
@@ -3095,11 +3095,11 @@ msgstr "DID موجود است"
 msgid "DID/CID"
 msgstr "DID/CID"
 
-#: ../core/Core.class.php:3321
+#: ../core/Core.class.php:3326
 msgid "DIDs"
 msgstr ".DIDs"
 
-#: ../core/Core.class.php:3322
+#: ../core/Core.class.php:3327
 msgid "DIDs / Inbound Routes"
 msgstr "مسیرهای ورودی / DIDs"
 
@@ -3524,8 +3524,8 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/footer.php:15
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:231
-#: ../core/Core.class.php:3347 ../core/Core.class.php:3348
-#: ../core/Core.class.php:3371 ../core/Core.class.php:3372
+#: ../core/Core.class.php:3352 ../core/Core.class.php:3353
+#: ../core/Core.class.php:3376 ../core/Core.class.php:3377
 #: ../core/functions.inc.php:5123 ../core/page.devices.php:66
 #: ../core/page.devices.php:87 ../core/views/dahdichandids/changrid.php:37
 #: ../core/views/dahdichandids/didForm.php:59
@@ -3538,7 +3538,7 @@ msgstr "شرح"
 msgid "Descriptive Name for this Trunk"
 msgstr "شرح نام برای این ترانک"
 
-#: ../core/Core.class.php:3383 ../core/views/did/didgrid.php:20
+#: ../core/Core.class.php:3388 ../core/views/did/didgrid.php:20
 msgid "Destination"
 msgstr "مقصد"
 
@@ -3670,7 +3670,7 @@ msgstr "حالت توسعه دهنده"
 msgid "Developer and Customization"
 msgstr "توسعه دهنده و شخصی ساز"
 
-#: ../core/Core.class.php:3740 ../core/functions.inc.php:5066
+#: ../core/Core.class.php:3745 ../core/functions.inc.php:5066
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -3686,7 +3686,7 @@ msgstr ""
 msgid "Device & User Hints Issue"
 msgstr ""
 
-#: ../core/Core.class.php:1575 ../core/Core.class.php:1804
+#: ../core/Core.class.php:1580 ../core/Core.class.php:1809
 msgid "Device Extension was blank or there were no settings defined"
 msgstr "داخلی وسیله خالی بود یا تنظیمی یافت نشد"
 
@@ -3707,7 +3707,7 @@ msgstr "تنظیمات وسیله"
 msgid "Device State Busy at"
 msgstr "وضعیت دستگاه مشغول است در"
 
-#: ../core/Core.class.php:3351 ../core/Core.class.php:3352
+#: ../core/Core.class.php:3356 ../core/Core.class.php:3357
 msgid "Device Technology"
 msgstr "فن آوری وسیله"
 
@@ -3716,7 +3716,7 @@ msgstr "فن آوری وسیله"
 msgid "Device Type"
 msgstr "نوع وسیله"
 
-#: ../core/Core.class.php:3473
+#: ../core/Core.class.php:3478
 msgid "Device could not be added."
 msgstr "وسیله نمیتواند اضافه شود."
 
@@ -4930,8 +4930,8 @@ msgid "Extended"
 msgstr "تمدید شده"
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:261
-#: ../core/Core.class.php:3338 ../core/Core.class.php:3339
-#: ../core/Core.class.php:3728 ../core/functions.inc.php:4735
+#: ../core/Core.class.php:3343 ../core/Core.class.php:3344
+#: ../core/Core.class.php:3733 ../core/functions.inc.php:4735
 #: ../core/page.did.php:93 ../core/page.extensions.php:39
 #: ../core/page.extensions.php:132 ../core/page.extensions.php:160
 #: ../core/views/rnav.php:23
@@ -4990,15 +4990,15 @@ msgstr ""
 msgid "Extension has been updated"
 msgstr ""
 
-#: ../core/Core.class.php:3408
+#: ../core/Core.class.php:3413
 msgid "Extension is missing."
 msgstr ""
 
-#: ../core/Core.class.php:3411
+#: ../core/Core.class.php:3416
 msgid "Extension is not numeric."
 msgstr "داخلی شماره نیست."
 
-#: ../core/Core.class.php:3414
+#: ../core/Core.class.php:3419
 msgid "Extension name is blank."
 msgstr ""
 
@@ -5022,7 +5022,7 @@ msgstr ""
 msgid "Extension's has been created Successfully"
 msgstr ""
 
-#: amp.i18n.php:866 ../core/Core.class.php:3317 ../core/Core.class.php:3318
+#: amp.i18n.php:866 ../core/Core.class.php:3322 ../core/Core.class.php:3323
 #: ../core/page.extensions.php:26
 msgid "Extensions"
 msgstr "داخلی ها"
@@ -5162,7 +5162,7 @@ msgstr "شکست در اجرای اسکریپت های عزل"
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
-#: ../core/Core.class.php:3988
+#: ../core/Core.class.php:3993
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -5199,11 +5199,11 @@ msgstr "شکست در نوشتن indications.conf"
 msgid "Fallback Welcome Page"
 msgstr "جانشین صفحه خوش آمد"
 
-#: ../core/Core.class.php:4071 ../core/Core.class.php:4078
+#: ../core/Core.class.php:4076 ../core/Core.class.php:4083
 msgid "Fast AGI Server not running"
 msgstr ""
 
-#: ../core/Core.class.php:4029
+#: ../core/Core.class.php:4034
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -6534,7 +6534,7 @@ msgstr ""
 msgid "Inbound Route updated successfully"
 msgstr ""
 
-#: ../core/Core.class.php:3782 ../core/Core.class.php:3791
+#: ../core/Core.class.php:3787 ../core/Core.class.php:3796
 msgid "Inbound Route:"
 msgstr "مسیر ورودی:"
 
@@ -6564,7 +6564,7 @@ msgstr "شامل نام سرور در مرورگر"
 msgid "Incoming"
 msgstr "ورودی"
 
-#: ../core/Core.class.php:3375 ../core/Core.class.php:3376
+#: ../core/Core.class.php:3380 ../core/Core.class.php:3381
 msgid "Incoming DID"
 msgstr "داخلی مستقیم ورودی"
 
@@ -6917,7 +6917,7 @@ msgstr ""
 msgid "Launch local AGIs through FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:4071
+#: ../core/Core.class.php:4076
 #, php-format
 msgid ""
 "Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
@@ -7045,7 +7045,7 @@ msgid "Long Distance"
 msgstr "فاصله زیاد"
 
 #: amp_conf/htdocs/admin/bootstrap.php:285
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:905
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:909
 msgid "Low Memory Limit"
 msgstr "محدودیت مموری"
 
@@ -7223,7 +7223,7 @@ msgid "Media Use Received Transport"
 msgstr "Media  Use Received Transport"
 
 #: amp_conf/htdocs/admin/bootstrap.php:283
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:903
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:907
 msgid "Memory Limit Changed"
 msgstr "محدودیت مموری تغییر کرد"
 
@@ -7800,7 +7800,7 @@ msgstr "نکته! شما %s هشدارد دارید! برای مشاهده به 
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:75
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:35
-#: ../core/Core.class.php:3343 ../core/Core.class.php:3344
+#: ../core/Core.class.php:3348 ../core/Core.class.php:3349
 #: ../core/page.extensions.php:40 ../core/page.extensions.php:133
 #: ../core/page.extensions.php:161 ../core/page.users.php:58
 #: ../core/views/rnav.php:24 ../core/views/rnav.php:50
@@ -8564,7 +8564,7 @@ msgstr "تماس های داخلی"
 msgid "Outbound Proxy"
 msgstr "پراکسی تماس خروجی"
 
-#: ../core/Core.class.php:3765
+#: ../core/Core.class.php:3770
 msgid "Outbound Route:"
 msgstr "مسیر تماس خروجی:"
 
@@ -8722,7 +8722,7 @@ msgstr "منطقه زمانی PHP"
 msgid "PJSIP Settings"
 msgstr "تنظیمات PJSIP"
 
-#: ../core/Core.class.php:4057
+#: ../core/Core.class.php:4062
 msgid "PM2 Not installed"
 msgstr ""
 
@@ -9053,7 +9053,7 @@ msgid ""
 "`from-did-direct,100,1`"
 msgstr ""
 
-#: ../core/Core.class.php:3417
+#: ../core/Core.class.php:3422
 msgid "Please provide valid device technology"
 msgstr ""
 
@@ -9782,7 +9782,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "هشدار امنیتی:"
 
-#: ../core/Core.class.php:3705 ../core/Core.class.php:3706
+#: ../core/Core.class.php:3710 ../core/Core.class.php:3711
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP  (%s)"
@@ -10694,7 +10694,7 @@ msgstr "استاندارد"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "آغاز استریسک و اجرای دستورات لازم FreePBX"
 
-#: ../core/Core.class.php:3983
+#: ../core/Core.class.php:3988
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -10712,7 +10712,7 @@ msgstr "استریسک در حال اجرا..."
 msgid "Starting Cache cleanup"
 msgstr "شروع پاک سازی کش"
 
-#: ../core/Core.class.php:3942
+#: ../core/Core.class.php:3947
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -10765,7 +10765,7 @@ msgstr "توقف استریسک و اجرای دستورات لازم FreePBX"
 msgid "Stopped Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4025
+#: ../core/Core.class.php:4030
 msgid "Stopped FastAGI Server"
 msgstr ""
 
@@ -10777,7 +10777,7 @@ msgstr ""
 msgid "Stopping Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4016
+#: ../core/Core.class.php:4021
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -11281,7 +11281,7 @@ msgid ""
 "the CLI."
 msgstr ""
 
-#: ../core/Core.class.php:3384
+#: ../core/Core.class.php:3389
 msgid ""
 "The context, extension, priority to go to when this DID is matched. Example: "
 "app-daynight,0,1"
@@ -11963,8 +11963,8 @@ msgid ""
 msgstr ""
 
 #: ../core/Api/Gql/Devices.php:35 ../core/Api/Gql/Extensions.php:48
-#: ../core/Api/Gql/Extensions.php:154 ../core/Core.class.php:1582
-#: ../core/Core.class.php:1811
+#: ../core/Api/Gql/Extensions.php:154 ../core/Core.class.php:1587
+#: ../core/Core.class.php:1816
 msgid "This device id is already in use"
 msgstr "شناسه وسیله در حال استفاده است"
 
@@ -12238,7 +12238,7 @@ msgstr ""
 "This trunk will not be able to be used for  outbound calls until a route is "
 "setup that uses it."
 
-#: ../core/Core.class.php:2893
+#: ../core/Core.class.php:2898
 #, php-format
 msgid "This user/extension %s is already in use"
 msgstr "کاربر/داخلی %s در حال استفاده است"
@@ -12446,7 +12446,7 @@ msgstr "نام ترانک و متن کاربر نمیتواند یکی باشد"
 msgid "Trunk Sequence for Matched Routes"
 msgstr "توالی ترانک برای مسیرهای یکسان"
 
-#: ../core/Core.class.php:3773
+#: ../core/Core.class.php:3778
 msgid "Trunk:"
 msgstr "ترانک:"
 
@@ -12534,13 +12534,13 @@ msgstr "جزییات کاربر"
 msgid "UTC"
 msgstr ""
 
-#: ../core/Core.class.php:1730
+#: ../core/Core.class.php:1735
 msgid ""
 "Unable to change device driver. The device is already set to the specified "
 "driver"
 msgstr ""
 
-#: ../core/Core.class.php:1724
+#: ../core/Core.class.php:1729
 msgid "Unable to change device driver. Unable to fetch the device"
 msgstr ""
 
@@ -12789,6 +12789,10 @@ msgstr "ناخواسته"
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:18
 msgid "Unsupported"
 msgstr "پشتیبانی نشده"
+
+#: ../core/Core.class.php:1073
+msgid "Unsupported Pattern file format"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/DB.class.php:420
 msgid "Unsupported getAssoc Conversion mode"
@@ -13072,7 +13076,7 @@ msgstr ""
 "Used when  PHP Console is enabled for error debugging https://github.com/"
 "barbushin/php-console"
 
-#: ../core/Core.class.php:3752 ../core/functions.inc.php:4737
+#: ../core/Core.class.php:3757 ../core/functions.inc.php:4737
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -13132,7 +13136,7 @@ msgstr "کلمه عبور کاربر"
 msgid "User caller ID"
 msgstr ""
 
-#: ../core/Core.class.php:3500
+#: ../core/Core.class.php:3505
 msgid "User could not be added."
 msgstr "امکان افزودن کاربروجود ندارد."
 
@@ -14109,7 +14113,7 @@ msgstr "You must  defined a Client URI"
 msgid "You must have a proper freepbx.conf file to proceed"
 msgstr "شما باید یک فایل freepbx.conf مناسب برای اجرا داشته باشید"
 
-#: ../core/Core.class.php:2886
+#: ../core/Core.class.php:2891
 msgid "You must put in an extension (or user) number"
 msgstr "شما باید شماره یک داخلی (یا کاربر) وارد کنید"
 
@@ -14176,7 +14180,7 @@ msgid "Your browser is out-of-date!"
 msgstr "مرورگر شما به روز نیست!"
 
 #: amp_conf/htdocs/admin/bootstrap.php:283
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:903
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:907
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and has been increased to %sM. You "
@@ -14186,7 +14190,7 @@ msgstr ""
 "may want to change this in you php.ini config file"
 
 #: amp_conf/htdocs/admin/bootstrap.php:285
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:905
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:909
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and may cause problems. FreePBX is "
