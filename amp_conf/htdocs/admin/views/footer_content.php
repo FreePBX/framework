@@ -18,7 +18,7 @@ $html .= '<div class="col-md-4">
 	<a target="_blank" href="'
                 . $amp_conf['BRAND_IMAGE_FREEPBX_LINK_FOOT']
                 . '" >'
-                . '<img id="footer_logo1" src="'.$amp_conf['BRAND_IMAGE_FREEPBX_FOOT'].$version_tag
+                . '<img id="footer_logo1" src="/admin/'.$amp_conf['BRAND_IMAGE_FREEPBX_FOOT'].$version_tag
                 . '" alt="'.$amp_conf['BRAND_FREEPBX_ALT_FOOT'] .'"/>
 	</a>
 	</div>';
@@ -45,7 +45,7 @@ $html .= '</div>';
 $html .= '<div class="col-md-4">
 	<a target="_blank" href="' . $amp_conf['BRAND_IMAGE_SPONSOR_LINK_FOOT']
 		. '" >'
-		. '<img id="footer_logo" src="' . $amp_conf['BRAND_IMAGE_SPONSOR_FOOT'] . '" '
+		. '<img id="footer_logo" src="/admin/' . $amp_conf['BRAND_IMAGE_SPONSOR_FOOT'] . '" '
 		. 'alt="' . $amp_conf['BRAND_SPONSOR_ALT_FOOT'] . '"/>
 	</a>
 	</div>';
