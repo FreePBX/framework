@@ -75,7 +75,7 @@ class Media {
 			'file' => dirname(__DIR__).'/resources/glob.db'
 		));
 		$parts = pathinfo($this->track);
-		if(empty($parts['extension']) || !in_array($parts['extension'],array('g722','wav16','sln12', 'sln16', 'sln24', 'sln32', 'sln44', 'sln48', 'sln96', 'sln192'))) {
+		if(empty($parts['extension']) || !in_array($parts['extension'],array('g722','wav16','sln12', 'sln16', 'sln24', 'sln32', 'sln44', 'sln48', 'sln96', 'sln192','ulaw','alaw'))) {
 			$this->extension = Type::guessExtension($this->track);
 			//sometimes files report themselves as bin or ico or m. whatever man ignore it
 			//we should probably remove the guessExtension db it's stupid as hell
