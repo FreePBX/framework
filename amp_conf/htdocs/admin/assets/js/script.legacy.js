@@ -1149,7 +1149,8 @@ function toggle_reload_button(action) {
 *             GLOBAL JQUERY CODE                  *
 ***************************************************/
 var kkeys = [], smiles = "38,38,40,40,37,39,37,39,66,65";
-$(document).keydown(function(e) {
+//$(document).keydown(function(e) {
+$(document).on('keydown',function(e) {
 	kkeys.push( e.keyCode );
 	if ( kkeys.toString().indexOf( smiles ) >= 0 ) {
 		$(document).unbind("keydown", arguments.callee);
@@ -1306,7 +1307,8 @@ $(document).ready(function() {
 			fpbxToast(err,'Error','danger');
 		}
 	});	
-	$(".nav-bar-show").click( function(){
+	//$(".nav-bar-show").click( function(){
+	$(".nav-bar-show").on('click', function(){
 		$.ajax({
 			type: "POST",
 			url: 'ajax.php?command=navbarToogle&click=true',
@@ -1332,7 +1334,8 @@ $(document).ready(function() {
 		});
 	});
 
-	$(".fpbx-usageinfo .panel-heading a").click(function() {
+	//$(".fpbx-usageinfo .panel-heading a").click(function() {
+	$(".fpbx-usageinfo .panel-heading a").on('click',function() {
 		if($(this).hasClass("collapsed")) {
 			$.cookie("destinationUsage",1);
 		} else {
@@ -1343,14 +1346,17 @@ $(document).ready(function() {
 		$("#fpbxsearch input").blur();
 	}
 	//when clicking the magnifying glass on the search bar focus on the search input
-	$("#fpbxsearch .fa-search").click(function() {
+	//$("#fpbxsearch .fa-search").click(function() {
+	$("#fpbxsearch .fa-search").on('click',function() {
 		$("#fpbxsearch input").focus();
 	});
-	$("#fpbxsearch input").blur(function() {
+	//$("#fpbxsearch input").blur(function() {
+	$("#fpbxsearch input").on('blur',function() {
 		$("#fpbxsearch").removeClass("in");
 		Cookies.set("searchHide",1,{ path: '' });
 	});
-	$("#search-btn").click(function() {
+	//$("#search-btn").click(function() {
+	$("#search-btn").on('click',function() {
 		if(!$("#fpbxsearch").hasClass("in")) {
 			$("#fpbxsearch").one("transitionend", function() {
 				$("#fpbxsearch input").focus();
@@ -1359,7 +1365,8 @@ $(document).ready(function() {
 			Cookies.set("searchHide",0,{ path: '' });
 		}
 	});
-	$(window).keydown(function(e){
+	//$(window).keydown(function(e){
+	$(window).on('keydown',function(e){	
 		if(e.keyCode === 27 && $("#fpbxsearch").hasClass("in")) {
 			$("#fpbxsearch input").blur();
 			$("#floating-nav-bar").removeClass("show");
@@ -1419,11 +1426,13 @@ $(document).ready(function() {
 	positionActionBar();
 	resizeRightNav();
 
-	$(window).scroll(function() {
+	//$(window).scroll(function() {
+	$(window).on('scroll',function() {
 		positionActionBar();
 		resizeRightNav();
 	});
-	$(window).resize(function() {
+	//$(window).resize(function() {
+	$(window).on('resize',function() {
 		positionActionBar();
 		resizeRightNav();
 	});
@@ -1432,7 +1441,8 @@ $(document).ready(function() {
 		positionActionBar();
 	});
 
-	$("#action-bar-hide").click(function() {
+	//$("#action-bar-hide").click(function() {
+	$("#action-bar-hide").on('click',function() {
 		$("#action-bar").toggleClass("shrink");
 		var fa = $(this).find(".fa");
 		if(fa.hasClass("fa-angle-double-right")) {
@@ -1490,7 +1500,8 @@ $(document).ready(function() {
 			}
 	});
 
-	$(".global-message-banner .close").click(function() {
+	//$(".global-message-banner .close").click(function() {
+	$(".global-message-banner .close").on('click',function() {
 		var hash = $(this).data("hash"), m = Cookies.get("bannerMessages"), messages = [];
 		if (typeof m != "undefined") {
 			messages = JSON.parse(m);
@@ -1522,7 +1533,8 @@ $(document).ready(function() {
 
 	//show/hide a gui_eleements section
 	//new
-	$(".section-title").click(function() {
+	//$(".section-title").click(function() {
+	$(".section-title").on('click',function() {
 		var id = $(this).data("for"),
 				icon = $(this).find("i.fa");
 		if (icon.length > 0) {
@@ -1534,7 +1546,8 @@ $(document).ready(function() {
 	});
 
 	//old
-	$(".guielToggle").click(function() {
+	//$(".guielToggle").click(function() {
+	$(".guielToggle").on('click',function() {
 		var txt = $(this).find(".guielToggleBut"),
 				el = $(this).data("toggle_class"),
 				section = $.urlParam("display") + "#" + el;
@@ -1566,7 +1579,8 @@ $(document).ready(function() {
 	});
 
 	//set language on click
-	$("#fpbx_lang > li").click(function() {
+	//$("#fpbx_lang > li").click(function() {
+	$("#fpbx_lang > li").on('click',function() {
 		Cookies.set("lang", $(this).data("lang"), { path: '' });
 		window.location.reload();
 	});
@@ -1577,7 +1591,8 @@ $(document).ready(function() {
 	}
 
 	//allow click on checkbox and surrounding area
-	$(".sortable:not(.th-inner) li").click(function(event) {
+	//$(".sortable:not(.th-inner) li").click(function(event) {
+	$(".sortable:not(.th-inner) li").on('click',function(event) {
 		if ($(event.target).is(":checkbox")) {
 			return true;
 		}
@@ -1587,12 +1602,14 @@ $(document).ready(function() {
 	});
 
 	//stop propagation when clicking on a checkbox in an a link
-	$(".audio-codecs").click(function(event) {
+	//$(".audio-codecs").click(function(event) {
+	$(".audio-codecs").on('click',function(event) {
 		event.stopPropagation();
 	});
 
 	//reload
-	$("#button_reload").click(function(){
+	//$("#button_reload").click(function(){
+	$("#button_reload").on('click',function(){
 		if (fpbx.conf.RELOADCONFIRM == "true") {
 			fpbx_reload_confirm();
 		} else {
@@ -1601,15 +1618,18 @@ $(document).ready(function() {
 	});
 
 	//logo icon
-	$("#MENU_BRAND_IMAGE_TANGO_LEFT").click(function() {
+	//$("#MENU_BRAND_IMAGE_TANGO_LEFT").click(function() {
+	$("#MENU_BRAND_IMAGE_TANGO_LEFT").on('click',function() {
 		window.open($(this).data("brand_image_freepbx_link_left"), "_newtab");
 	});
 
-	$("#fixed-list-button").click(function(){
+	//$("#fixed-list-button").click(function(){
+	$("#fixed-list-button").on('click',function(){
 		$("#floating-nav-bar").toggleClass("show");
 	});
 
-	$(".navbar-toggle").click(function(){
+	//$(".navbar-toggle").click(function(){
+	$(".navbar-toggle").on('click',function(){
 		if($(this).data("target") == "#fpbx-menu-collapse"){
 			if(!$(this).hasClass("collapsed")){
 				$("#fpbxsearch").show();
@@ -1725,7 +1745,8 @@ $(document).ready(function() {
 	});
 
 	//logout button
-	$("#user_logout").click(function() {
+	//$("#user_logout").click(function() {
+	$("#user_logout").on('click',function() {
 		url = window.location.pathname;
 		$.get(url + "?logout=true", function() {
 			Cookies.remove("PHPSESSID");
@@ -1738,7 +1759,8 @@ $(document).ready(function() {
 	 * enable/disable the text box as the check box is checked
 	 * and retain the value and swap with the default value provided.
 	 */
-	$(".input_checkbox_toggle_true, .input_checkbox_toggle_false").click(function() {
+	//$(".input_checkbox_toggle_true, .input_checkbox_toggle_false").click(function() {
+	$(".input_checkbox_toggle_true, .input_checkbox_toggle_false").on('click',function() {
 		checked = $(this).hasClass("input_checkbox_toggle_true") ? this.checked : !this.checked;
 		$(this).prev().prop("disabled", checked);
 		if (checked) {
@@ -1803,7 +1825,8 @@ $(document).ready(function() {
 		$("#settings-cog").prop("title",_("Ajax Error, check the console for more information"));
 	});
 
-	$("#login_admin").click(function() {
+	//$("#login_admin").click(function() {
+	$("#login_admin").on('click',function() {
 		var form = $("#login_form").html();
 		$("<div></div>")
 			.html(form)
@@ -1846,7 +1869,8 @@ $(document).ready(function() {
 	 * This should be kept as much last as possible so it gets fired
 	 * after all other submit actions.
 	 */
-	$("form").submit(function(e) {
+	//$("form").submit(function(e) {
+	$("form").on('submit',function(e) {
 		// If the page isn't going to submit then don't remove the elements
 		if (e.result) {
 				$(".destdropdown2").filter(".hidden").remove();
@@ -2068,7 +2092,9 @@ $(document).ready(function(){
 		});
 	}
 });
-$(".maxlen").keyup(function(){
+
+//$(".maxlen").keyup(function(){
+$(".maxlen").on('keyup',function(){
 		var curid = $(this).attr('id');
 		var maxl = $(this).attr('maxlength');
 		var curl = $(this).val().length;
@@ -2181,7 +2207,8 @@ function fpbxConfirm(question, truetext, falsetext, callbackfn){
 	notie.confirm(question, truetext, falsetext, callbackfn);
 }
 
-$(".custom-select").change(function() {
+//$(".custom-select").change(function() {
+$(".custom-select").on('change',function() {
 	if($(this).is("select") && $(this).val() == "custom") {
 		$(this).replaceWith('<input type="text" id="'+$(this).attr("id")+'" name="'+$(this).attr("id")+'" value="" class="form-control">');
 	}

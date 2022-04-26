@@ -32,7 +32,8 @@ class View {
 			"script.legacy.js",
 			"Sortable-1.10.4.js",
 			"autosize-3.0.17.min.js",
-			"bootstrap-3.3.7.custom.min.js",
+			//"bootstrap-3.3.7.custom.min.js",
+			"bootstrap-5.1.3.min.js",
 			"bootstrap-multiselect-0.9.13.js",
 			"bootstrap-select-1.12.1.min.js",
 			"bootstrap-table-dev.min.js",
@@ -44,14 +45,17 @@ class View {
 			"browser-locale-1.0.0.min.js",
 			"browser-support.js",
 			"chosen.jquery-1.6.2.min.js",
-			"jquery-migrate-3.0.0.js",
-			"jquery-ui-1.12.1.min.js",
+			//"jquery-migrate-3.0.0.js",
+			"jquery-migrate-3.4.0.js",
+			//"jquery-ui-1.12.1.min.js",
+			"jquery-ui-1.13.1.min.js",
 			"jquery.fileupload-9.12.5.js",
 			"jquery.fileupload-process-9.12.5.js",
 			"jquery.form-3.51.min.js",
 			"jquery.hotkeys-0.2.0.js",
 			"jquery.iframe-transport-9.12.5.js",
-			"jquery.jplayer-2.9.2.min.js",
+			//"jquery.jplayer-2.9.2.min.js",
+			"jquery.jplayer-2.9.2.js",
 			"jquery.numeric-1.4.1.min.js",
 			"jquery.smartWizard-3.3.1.js",
 			"jquery.tablednd-0.9.1.min.js",
@@ -70,7 +74,7 @@ class View {
 
 		$package = $this->freepbx->Config->get('USE_PACKAGED_JS');
 
-		if($package) {
+		if(!$package) {
 			$jspath = $this->freepbx->Config->get('AMPWEBROOT') .'/admin/assets/js';
 			$sha1 = '';
 			foreach($files as $file) {
