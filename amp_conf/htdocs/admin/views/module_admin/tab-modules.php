@@ -168,34 +168,34 @@ if($online) {
 							</div>
 							<div class="moduleinfopane" id="infopane_<?php echo prep_id($module['name'])?>">
 								<div class="row">
-									<div class="col-sm-2">
-										<ul class="nav nav-pills nav-stacked">
+									<div class="col-2">
+										<div class="nav flex-column nav-pills">
 											<?php if (!empty($module['attention'])) { ?>
-												<li role="presentation" class="active"><a href="#attention_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _('Attention')?></a></li>
+												<a class="nav-link active" href="#attention_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _('Attention')?></a>
 											<?php } ?>
-											<li role="presentation" class="active"><a href="#info_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Info")?></a></li>
+												<a class="nav-link active" href="#info_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Info")?></a>
 											<?php if(!empty($module['changelog'])) { ?>
-												<li role="presentation"><a href="#changelog_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Changelog")?></a></li>
+												<a class="nav-link" href="#changelog_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Changelog")?></a>
 											<?php } ?>
 											<?php if(!empty($module['previous'])) {?>
-												<li role="presentation"><a href="#previous_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Previous")?></a></li>
+												<a class="nav-link" href="#previous_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Previous")?></a>
 											<?php } ?>
 											<?php if($breaking['breaking'] && !empty($breaking['issues'][$module['name']])) {?>
-												<li role="presentation"><a href="#breaking_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Conflicts")?></a></li>
+												<a class="nav-link" href="#breaking_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Conflicts")?></a>
 											<?php } ?>
 											<?php if ($devel) { ?>
-												<li role="presentation"><a href="#devel_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Debug")?></a></li>
+												<a class="nav-link" href="#devel_<?php echo prep_id($module['name'])?>" data-toggle="tab"><?php echo _("Debug")?></a>
 											<?php } ?>
-										</ul>
+										</div>
 									</div>
-									<div class="col-sm-10">
+									<div class="col-10">
 										<div class="tab-content">
 											<?php if (!empty($module['attention'])) { ?>
-												<div id="attention_<?php echo prep_id($module['name'])?>" class="tab-pane active">
+												<div id="attention_<?php echo prep_id($module['name'])?>" class="tab-pane fade show active">
 													<?php echo $module['attention']?>
 												</div>
 											<?php } ?>
-											<div id="info_<?php echo prep_id($module['name'])?>" class="tab-pane active">
+											<div id="info_<?php echo prep_id($module['name'])?>" class="tab-pane fade show active">
 												<table class="modulequickinfo">
 													<?php if(!empty($module['publisher'])) {?>
 													<tr>

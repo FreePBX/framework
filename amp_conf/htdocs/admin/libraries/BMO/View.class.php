@@ -32,8 +32,8 @@ class View {
 			"script.legacy.js",
 			"Sortable-1.10.4.js",
 			"autosize-3.0.17.min.js",
-			"bootstrap-3.3.7.custom.min.js",
-			"bootstrap-multiselect-0.9.13.js",
+			"bootstrap-4.6.1.bundle.min.js",
+			"bootstrap-multiselect-1.0.0.js",
 			"bootstrap-select-1.12.1.min.js",
 			"bootstrap-table-dev.min.js",
 			"bootstrap-table-extensions-dev/bootstrap-table-cookie.min.js",
@@ -66,6 +66,7 @@ class View {
 			"tableexport-1.9.6.js",
 			"timeutils.js",
 			"typeahead.bundle-0.10.5.min.js",
+			"common.js"
 		);
 
 		$package = $this->freepbx->Config->get('USE_PACKAGED_JS');

@@ -78,7 +78,7 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 			$href = isset($cat[0]['href']) ? $cat[0]['href'] : 'config.php?display=' . $cat[0]['display'];
 			$target = isset($cat[0]['target']) ? ' target="' . $cat[0]['target'] . '"'  : '';
 			$class = $cat[0]['display'] == $display ? 'class="ui-state-highlight"' : '';
-			$mods[$t] = '<li><a href="' . $href . '" ' . $target . $class . '>' . modgettext::_(ucwords($cat[0]['name']),$cat[0]['module']['rawname']) . '</a></li>';
+			$mods[$t] = '<li class="nav-item"><a class="nav-link" href="' . $href . '" ' . $target . $class . '>' . modgettext::_(ucwords($cat[0]['name']),$cat[0]['module']['rawname']) . '</a></li>';
 			continue;
 		}
 
@@ -86,9 +86,9 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 		//This allows us to check special modules that are not defined in Framework
 		$catname = _(ucwords($t));
 		$catname = ($catname != ucwords($t)) ? $catname : modgettext::_(ucwords($t),$cat[0]['module']['rawname']);
-		$mods[$t] = '<li class="dropdown">
-			<a href="#" class="dropdown-toggle" data-toggle="dropdown">' . $catname . '</a>
-			<ul class="dropdown-menu" role="menu">';
+		$mods[$t] = '<li class="nav-item dropdown">
+			<a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">' . $catname . '</a>
+			<ul class="dropdown-menu" aria-labelledby="navbarDropdown">';
 
 		$cat = is_array($cat) ? $cat : array();
 		$items = array();
@@ -114,13 +114,13 @@ if (isset($fpbx_menu) && is_array($fpbx_menu)) {	// && freepbx_menu.conf not def
 			// try the module's translation domain first
 			if (isset($mod['disabled']) && $mod['disabled']) {
 				$items[$mod['name']] = '<li><a'
-						. ' class="disabled ' . implode(' ', $classes) . ' '.$active.'">'
+						. ' class="disabled dropdown-item' . implode(' ', $classes) . ' '.$active.'">'
 						. modgettext::_($mod['name'], $mod['module']['rawname'])
 						. '</a></li>';
 			} else {
 				$items[$mod['name']] = '<li><a href="' . $href . '"'
 						. $target
-						. ' class="' . implode(' ', $classes) . ' '.$active.'">'
+						. ' class="dropdown-item' . implode(' ', $classes) . ' '.$active.'">'
 						. modgettext::_($mod['name'], $mod['module']['rawname'])
 						. '</a></li>';
 			}

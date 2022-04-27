@@ -15,6 +15,8 @@
 		border: 1px solid @border-color;
 		background-color: @background-color;
 		min-height: @navbar-height;
+		padding: 0rem;
+		justify-content: flex-start;
 		.stuck-right {
 			position: absolute;
 			right: 0;
@@ -79,9 +81,6 @@
 			.navbar {
 				border-radius: 4px;
 			}
-			.navbar-header {
-				float: left;
-			}
 			.navbar-text {
 				float: left;
 				margin-right: 15px;
@@ -99,23 +98,29 @@
 			}
 		}
 		@media (max-width: @menu-breakpoint) {
-			.navbar-nav .open .dropdown-menu > li > a {
+			.navbar-nav .dropdown-item {
 				color: #777;
 			}
-			.navbar-nav .open .dropdown-menu > li > a:hover,
-			.navbar-nav .open .dropdown-menu > li > a:focus {
+			.navbar-nav .dropdown-item.active {
+				color: #777;
+				background-color: #f5f5f5;
+				font-weight: bold;
+			}
+			.navbar-nav .dropdown-item:hover,
+			.navbar-nav .dropdown-item:focus,
+			.navbar-nav .dropdown-item:active {
 				color: #333;
 				background-color: transparent;
 			}
-			.navbar-nav .open .dropdown-menu > .active > a,
-			.navbar-nav .open .dropdown-menu > .active > a:hover,
-			.navbar-nav .open .dropdown-menu > .active > a:focus {
+			.navbar-nav .dropdown-menu > .active > a,
+			.navbar-nav .dropdown-menu > .active > a:hover,
+			.navbar-nav .dropdown-menu > .active > a:focus {
 				color: #555;
 				background-color: #e7e7e7;
 			}
-			.navbar-nav .open .dropdown-menu > .disabled > a,
-			.navbar-nav .open .dropdown-menu > .disabled > a:hover,
-			.navbar-nav .open .dropdown-menu > .disabled > a:focus {
+			.navbar-nav .dropdown-menu > .disabled > a,
+			.navbar-nav .dropdown-menu > .disabled > a:hover,
+			.navbar-nav .dropdown-menu > .disabled > a:focus {
 				color: #ccc;
 				background-color: transparent;
 			}
@@ -125,7 +130,7 @@
 			.navbar-form .form-group:last-child {
 				margin-bottom: 0;
 			}
-			.navbar-nav .open .dropdown-menu {
+			.navbar-nav  .dropdown-menu {
 		    position: static;
 		    float: none;
 		    width: auto;
@@ -135,22 +140,13 @@
 		    -webkit-box-shadow: none;
 		    box-shadow: none;
 			}
-	    .navbar-header {
-          //float: left;
-					margin-right: -15px;
-					margin-left: -15px;
-	    }
-	    .navbar-toggle {
+	    .navbar-toggler {
 	        display: block;
-					padding: 5px 7px;
-					margin-top: 3px;
+			padding: 2px 7px;
 	    }
 	    .navbar-collapse {
 	        border-top: 1px solid transparent;
 	        box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
-	    }
-	    .navbar-collapse.collapse {
-	        display: none!important;
 	    }
 	    .navbar-nav {
 			margin: 5.5px -36px;
@@ -173,30 +169,38 @@
 	        overflow: hidden!important;
 	    }
 		}
-		.navbar-collapse {
-			overflow-x: hidden;
+		// .navbar-collapse {
+		// 	overflow-x: hidden;
+		// }
+		.navbar-toggler .icon-bar {
+			display: block;
+			width: 22px;
+			height: 2px;
+			border-radius: 1px;
+			    margin: 3px 0px;
 		}
-		.navbar-header .navbar-toggle.collapsed {
+		 .navbar-toggler.collapsed {
 			background-color: @background-color;
 			.icon-bar {
 				background-color: @text-color;
 			}
 		}
-		.navbar-header .navbar-toggle {
+		 .navbar-toggler {
 			border: 1px solid @border-color;
 			color: #FFFFFF;
 			background-color: @background-color;
+			margin-right: 5px;
 			.icon-bar {
-				background-color: #FFFFFF;
+				background-color: @text-color;
 			}
 		}
-		.navbar-header .navbar-toggle:hover {
+		 .navbar-toggler:hover {
 			background-color: #EBF7FF;
 			.icon-bar {
 				background-color: @background-color;
 			}
 		}
-		.navbar-header .navbar-toggle:active {
+		 .navbar-toggler:active {
 			color: #FFFFFF;
 			background-color: darken(@background-color,50%);
 			border-color: darken(@border-color,20%);
@@ -207,11 +211,17 @@
 		.navbar-nav {
 			> li {
 				margin-left: 5px;
-				top: 3px;
 				.disabled {
 					font-style: italic;
 					background-color: rgba(128, 128, 128, 0.1);
 					cursor: default;
+				}
+				[aria-expanded="true"]{
+					color: @button-active-text-color;
+					.button-border(@button-gradient, @button-active-border-color);
+					.button-border-gradient(@button-gradient, @button-active-border-gradient-top, @button-active-border-gradient-bottom);
+					.button-background(@button-gradient, @button-active-background-color, @button-active-image);
+					.button-background-gradient(@button-gradient, @button-active-background-gradient-top, @button-active-background-gradient-bottom);
 				}
 				> a {
 					line-height: inherit;
@@ -220,7 +230,6 @@
 					font-weight: bold;
 					color: @button-text-color;
 					border-radius: 4px;
-					padding-top: 3px;
 					background-color: @menu-button-background-color;
 					.button-border(@button-gradient, @button-border-color);
 					.button-border-gradient(@button-gradient, @button-border-gradient-top, @button-border-gradient-bottom);
@@ -242,15 +251,6 @@
 					.button-background-gradient(@button-gradient, @button-active-background-gradient-top, @button-active-background-gradient-bottom);
 				}
 			}
-			> li.open {
-				> a {
-					color: @button-active-text-color;
-					.button-border(@button-gradient, @button-active-border-color);
-					.button-border-gradient(@button-gradient, @button-active-border-gradient-top, @button-active-border-gradient-bottom);
-					.button-background(@button-gradient, @button-active-background-color, @button-active-image);
-					.button-background-gradient(@button-gradient, @button-active-background-gradient-top, @button-active-background-gradient-bottom);
-				}
-			}
 		}
 		@media (max-width: @menu-breakpoint) {
 			.navbar-nav > li > a {
@@ -258,18 +258,19 @@
 				background: none;
 			}
 		}
-		.navbar-toggle {
+		.navbar-toggler {
 			float: left;
 		}
 		.navbar-brand {
 			padding: 0px;
 			padding-left: 4px;
-			padding-top: 4px;
 			position: relative;
 			height: @navbar-height;
+			margin-right: 0rem;
+			display: flex;
+			align-items: center;
 			img {
 				height: 22px;
-				margin-top: 2px;
 			}
 		}
 		@media (max-width: @menu-breakpoint) {
@@ -285,8 +286,48 @@
 	}
 }
 
+.navbar-nav > .nav-item > .nav-link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0px 15px;
+}
+.navbar-nav .dropdown-item{
+	color:inherit !important;
+}
+.navbar-nav .dropdown-item.active{
+	color: #333;
+	background-color: @background-color;
+	font-weight: bold;
+}
+.navbar-nav .dropdown-item:focus {
+	color: #333;
+	background-color: @background-color;
+	font-weight: bold;
+}
+.dropdown-toggle::after{
+	display:none !important;
+}
 
-.freepbx-navbar .dropdown-menu > li > a.active {
-  background-color: @background-color;
-  font-weight: bold;
+.stuck-right .dropdown-menu{
+	min-width: 245px;
+	li{
+		a{
+			display: block;
+			padding: 3px 20px;
+			clear: both;
+			font-weight: normal;
+			line-height: 1.42857143;
+			color: #333;
+			white-space: nowrap;
+		}
+		>a:hover, >a:focus {
+			text-decoration: none;
+			color: #262626;
+			background-color: #f5f5f5;
+		}
+	}
+}
+.navbar-collapse{
+	    margin-top: -1px;
 }

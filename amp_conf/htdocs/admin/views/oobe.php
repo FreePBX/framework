@@ -203,7 +203,7 @@ if (!isset($system_ident)) {
           <div class='col-sm-3'>
             <label for="unsigned_module_emails" style='margin-top: 1em'><?php echo _("Check for Updates every"); ?></label>
           </div>
-          <div class='col-xs-7 col-sm-3'>
+          <div class='col-sm-3'>
             <select class='form-control' id='update_every' name='update_every'>
               <?php
               $days = [
