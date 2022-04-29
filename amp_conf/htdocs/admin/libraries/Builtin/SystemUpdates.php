@@ -432,15 +432,11 @@ class SystemUpdates {
 			 * or not, if this is present then ignore the error and continue with processing */
 		} else {
 			if ($ret !== 0 && $ret !== 6) {
-				if ($pkglist) {
-					//not installed package present so might not be the real failure.. continue with processing..
-				} else {
-					// 6 = new packages are going to be installed
-					if (function_exists("freepbx_log")) {
-						freepbx_log(FPBX_LOG_CRITICAL, "Update error: Tried to run '$cmd', exit code $ret");
-					}
-					throw new \Exception(_("Failed to process the yum command. Please follow below steps to resolve the error - 1) SSH to PBX Linux terminal as root user 2) rm -rf /dev/shm/yumwrapper/* 3) Now again try to check/update the system packages from the UI. Exit code $ret - See FreePBX log for more info."));
+				// 6 = new packages are going to be installed
+				if (function_exists("freepbx_log")) {
+					freepbx_log(FPBX_LOG_CRITICAL, sprintf(_("Update error: Tried to run '%s', exit code %s"), $cmd, $ret));
 				}
+				throw new \Exception(sprintf(_("RPM command errored, Delete /dev/shm/yumwrapper/* and try again. Exit code %s - see FreePBX log for more info."), $ret));
 			}
 		}
 
