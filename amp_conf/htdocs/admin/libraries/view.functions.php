@@ -458,7 +458,7 @@ function framework_server_name() {
 function show_help($message, $title='', $collapse=false, $collapseable=true, $class='default') {
 	$thisid = uniqid();
 	$html = "<div class='panel panel-$class panel-help'>";
-	$html .= sprintf('<div class="panel-heading %s" data-target="#%s" data-toggle="%s">', ((! $collapse) ? 'collapsed' : ''), $thisid,  (($collapseable) ? 'collapse' : '' ) );
+	$html .= sprintf('<div class="panel-heading" %s href="#%s" role="button" aria-expanded="%s" aria-controls="%s">', (($collapseable) ? 'data-toggle="collapse"' : '' ), "panelId$thisid", ((! $collapse) ? 'false' : 'true'),"panelId$thisid");
 	$html .= '<h3 class="panel-title">';
 	$html .= '<span class="pull-left"><i class="fa fa-info-circle fa-lg fa-fw"></i></span>';
 	$html .= ($title) ? $title : _("Helpful Information");
@@ -469,7 +469,7 @@ function show_help($message, $title='', $collapse=false, $collapseable=true, $cl
 	}
 	$html .= '</h3>';
 	$html .= '</div>';
-	$html .= sprintf('<div id="%s" class="panel-collapse collapse %s">', $thisid, ( $collapse ? 'in' : '' ));
+	$html .= sprintf('<div id="%s" class="panel-collapse %s">', "panelId$thisid", ((! $collapse) ? 'collapse' : 'collapse show'));
 	$html .= '<div class="panel-body">';
 	$html .= $message;
 	$html .= '</div>';

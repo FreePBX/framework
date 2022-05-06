@@ -48,7 +48,7 @@ var SearchC = Class.extend({
       }
     })
     .bind("typeahead:selected", function(o,d,n) { self.processSearchClick(o,d,n); })
-    .focus();
+    .trigger('focus');
   },
 
   processSearchClick: function(o, d, name) {

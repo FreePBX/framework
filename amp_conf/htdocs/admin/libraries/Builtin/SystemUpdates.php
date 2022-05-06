@@ -579,21 +579,21 @@ class SystemUpdates {
 			$html .= "</div>";
 		}
 		$html .= "<div class='row'>
-			<div class='col-xs-3'>"._("Current System Update Status:")."</div>
-			<div class='col-xs-5'>$currentstatus</div>
-			<div class='col-xs-4'><button id='refreshpagebutton' class='btn btn-default pull-right' onclick='reload_system_updates_tab()'>"._("Refresh page")."</button></div>
+			<div class='col-sm-3'>"._("Current System Update Status:")."</div>
+			<div class='col-sm-5'>$currentstatus</div>
+			<div class='col-sm-4'><button id='refreshpagebutton' class='btn btn-default pull-right' onclick='reload_system_updates_tab()'>"._("Refresh page")."</button></div>
 		</div>\n";
 		$html .= "<div class='row'>
-			<div class='col-xs-3'>"._("Last Online Check Status:")."</div>
-			<div class='col-xs-5' id='pendingstatus' data-value='".$pending['status']."'>".($pending['lasttimestamp'] != 0 ? \FreePBX::View()->humanDiff($pending['lasttimestamp']) : _("Never"))." &nbsp; ".$this->strarr[$pending['status']]."</div>
+			<div class='col-sm-3'>"._("Last Online Check Status:")."</div>
+			<div class='col-sm-5' id='pendingstatus' data-value='".$pending['status']."'>".($pending['lasttimestamp'] != 0 ? \FreePBX::View()->humanDiff($pending['lasttimestamp']) : _("Never"))." &nbsp; ".$this->strarr[$pending['status']]."</div>
 		</div>\n";
 		$html .= "<div class='row'>
-			<div class='col-xs-3'>"._("Last System Update:")."</div>";
+			<div class='col-sm-3'>"._("Last System Update:")."</div>";
 		// If lasttimestamp isn't false, we should have updates for the user to watch.
 		if ($yumstatus['lasttimestamp']) {
-			$html .= "<div class='col-xs-5' id='yumstatus' data-value='".$yumstatus['status']."'><a class='clickable' onclick='show_sysupdate_modal()'>".\FreePBX::View()->humanDiff($yumstatus['lasttimestamp'])." &nbsp; ".$this->strarr[$yumstatus['status']]."</a></div>";
+			$html .= "<div class='col-sm-5' id='yumstatus' data-value='".$yumstatus['status']."'><a class='clickable' onclick='show_sysupdate_modal()'>".\FreePBX::View()->humanDiff($yumstatus['lasttimestamp'])." &nbsp; ".$this->strarr[$yumstatus['status']]."</a></div>";
 		} else {
-			$html .= "<div class='col-xs-5' id='yumstatus' data-value='complete'>"._("Unknown (System updates not run since last reboot)")."</div>";
+			$html .= "<div class='col-sm-5' id='yumstatus' data-value='complete'>"._("Unknown (System updates not run since last reboot)")."</div>";
 		}
 
 		$html .= "</div>\n";
@@ -623,14 +623,14 @@ class SystemUpdates {
 			}
 		}
 		$html .= "<div class='row'>
-			<div class='col-xs-3'>"._("Updates Available:")."</div>
-			<div class='col-xs-5'>$rpmtext</div>
+			<div class='col-sm-3'>"._("Updates Available:")."</div>
+			<div class='col-sm-5'>$rpmtext</div>
 		</div>";
 
 		if ($rpmcount == 0) {
 			// Add the 'Check Online' button.
 			$html .= "<div class='row'>
-				<div class='col-xs-12'>
+				<div class='col-sm-12'>
 					<span class='pull-right'>
 						<button id='checkonlinebutton' class='btn btn-default pull-right' onclick='run_yum_checkonline()'>"._("Check Online")."</button>
 					</span>
@@ -656,7 +656,7 @@ class SystemUpdates {
 		}
 		$html .= "</table>";
 		$html .= "<div class='row'>
-			<div class='col-xs-12'>
+			<div class='col-sm-12'>
 				<span class='pull-right'>
 					<button id='updatesystembutton' class='btn btn-default pull-right' onclick='update_rpms()'>"._("Update System")."</button>
 					<button id='checkonlinebutton' class='btn btn-default pull-right' onclick='run_yum_checkonline()'>"._("Check Online")."</button>

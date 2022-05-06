@@ -155,7 +155,7 @@ foreach ($times as $v => $desc) {
       </div>
     </div>
 	<div class='row' style='padding-top: .5em'>
-	  <div class='col-xs-1 col-xs-offset-11'>
+	  <div class='col-1 offset-11'>
 		<button class='btn btn-default pull-right' id='saveschedule'><?php echo _("Save"); ?></button>
 	  </div>
 	</div>
