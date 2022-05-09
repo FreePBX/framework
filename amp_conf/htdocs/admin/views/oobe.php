@@ -79,8 +79,8 @@ if (!isset($system_ident)) {
       </div>
 <?php } ?>
       <h3 class="text-center"><?php echo _("Administrator User")?></h3>
-      <div class='row'>
-        <div class='form-group'>
+      <div class=''>
+        <div class='row form-group'>
           <div class='col-sm-3'>
             <label for="username" style='margin-top: 1em'><?php echo $un[0];?></label>
           </div>
@@ -89,8 +89,8 @@ if (!isset($system_ident)) {
           </div>
         </div>
       </div>
-      <div class='row'>
-        <div class='form-group'>
+      <div class=''>
+        <div class='row form-group'>
           <div class='col-sm-3'>
             <label for="password1" style='margin-top: 1em'><?php echo $pw[0];?></label>
           </div>
@@ -99,8 +99,8 @@ if (!isset($system_ident)) {
           </div>
         </div>
       </div>
-      <div class='row'>
-        <div class='form-group'>
+      <div class=''>
+        <div class='row form-group'>
           <div class='col-sm-3'>
             <label for="password2" style='margin-top: 1em'><?php echo $pw[2];?></label>
           </div>
@@ -110,8 +110,8 @@ if (!isset($system_ident)) {
         </div>
       </div>
       <h3 class="text-center"><?php echo _("System Notifcations Email")?></h3>
-      <div class='row'>
-        <div class='form-group'>
+      <div class=''>
+        <div class='row form-group'>
           <div class='col-sm-3'>
             <label for="email" style='margin-top: 1em'><?php echo $em[0];?></label>
           </div>
@@ -121,8 +121,8 @@ if (!isset($system_ident)) {
         </div>
       </div>
       <h3 class="text-center"><?php echo _("System Identification")?></h3>
-      <div class='row'>
-        <div class='form-group'>
+      <div class=''>
+        <div class='row form-group'>
           <div class='col-sm-3'>
             <label for="system_ident" style='margin-top: 1em'><?php echo $si[0];?></label>
           </div>
@@ -133,8 +133,8 @@ if (!isset($system_ident)) {
       </div>
       <h3 class="text-center"><?php echo _("System Updates")?></h3>
       <?php if($sysUpdate->canDoSystemUpdates()) { ?>
-        <div class='row'>
-          <div class='form-group'>
+        <div class=''>
+          <div class='row form-group'>
             <div class='col-sm-3'>
               <label for="auto_system_updates" style='margin-top: 1em'><?php echo _("Automatic System Updates"); ?></label>
             </div>
@@ -151,8 +151,8 @@ if (!isset($system_ident)) {
           </div>
         </div>
       <?php } ?>
-      <div class='row'>
-        <div class='form-group'>
+      <div class=''>
+        <div class='row form-group'>
           <div class='col-sm-3'>
             <label for="auto_module_updates" style='margin-top: 1em'><?php echo _("Automatic Module Updates"); ?></label>
           </div>
@@ -168,8 +168,8 @@ if (!isset($system_ident)) {
           </div>
         </div>
       </div>
-      <div class='row'>
-        <div class='form-group'>
+      <div class=''>
+        <div class='row form-group'>
           <div class='col-sm-3'>
             <label for="auto_module_security_updates" style='margin-top: 1em'><?php echo _("Automatic Module Security Updates"); ?></label>
           </div>
@@ -183,8 +183,8 @@ if (!isset($system_ident)) {
           </div>
         </div>
       </div>
-      <div class='row'>
-        <div class='form-group'>
+      <div class=''>
+        <div class='row form-group'>
           <div class='col-sm-3'>
             <label for="unsigned_module_emails" style='margin-top: 1em'><?php echo _("Send Security Emails For Unsigned Modules"); ?></label>
           </div>
@@ -198,8 +198,8 @@ if (!isset($system_ident)) {
           </div>
         </div>
       </div>
-      <div class='row'>
-        <div class='form-group'>
+      <div class=''>
+        <div class='row form-group'>
           <div class='col-sm-3'>
             <label for="unsigned_module_emails" style='margin-top: 1em'><?php echo _("Check for Updates every"); ?></label>
           </div>
@@ -253,7 +253,7 @@ if (!isset($system_ident)) {
       </div>
     </div>
       <div class='row'>
-        <div class='col-sm-3 col-sm-offset-9'><div class='pull-right'><button class='btn btn-default' type='submit' id='createacct'><?php echo _('Setup System')?></button></div></div>
+        <div class="col-sm-3 offset-9 mb-3"><div class='pull-right'><button class='btn btn-default' type='submit' id='createacct'><?php echo _('Setup System')?></button></div></div>
       </div>
     </div>
   </div>
