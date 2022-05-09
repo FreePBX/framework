@@ -34,8 +34,8 @@
 													<?php if(!empty($elem['prompttext'])) {?>
 														<div class="row">
 															<div class="col-md-12">
-																<div class="row">
-																	<div class="form-group">
+																<div class="">
+																	<div class="row form-group">
 																		<div class="col-md-4 control-label">
 																			<label for="<?php echo $elem['name']?>"><?php echo $elem['prompttext']?></label>
 																			<?php if(!empty($elem['helptext'])) { ?>
