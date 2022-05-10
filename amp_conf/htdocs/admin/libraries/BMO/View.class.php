@@ -820,7 +820,7 @@ class View {
 			foreach($cat_options as $name => $data) {
 				$cat_html.='<option value="'.str_replace(' ','_',$data['raw']).'"'.($data['selected'] ? ' SELECTED ':'').$data['style'].'>'.$name.'</option>';
 
-				$data_class = 'form-control destdropdown2 '.($data['mod'] === $data['cat'] ? $data['mod'] : $data['mod'].' '.$data['cat']).' '.(!$data['selected'] ? 'hidden':'');
+				$data_class = 'form-control destdropdown2 '.($data['mod'] === $data['cat'] ? $data['mod'] : $data['mod'].' '.$data['cat']).' '.(!$data['selected'] ? 'd-none':'');
 				$dest_html.='<select data-class="'.$data['mod'].'" class="'.$data_class.'" ' . (isset($data['data_url']) ? $data['data_url'] : '') . ' data-mod="'.$data['mod'].'" data-last="'.(!empty($goto) ? $goto : '').'" name="' . $data['name_tag']
 					. '" id="' . $data['name_tag'] . '" '. $style . ' data-id="' . $i . '" ' . $disabled . '>';
 				foreach($data['destinations'] as $dest) {
