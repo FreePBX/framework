@@ -32,6 +32,9 @@ body {
 	font-family: 'open_sans';
 }
 
+p{
+	margin: 0 0 5px;
+}
 html {
 	input:disabled {
 		color:grey;
@@ -327,6 +330,12 @@ a.info:link, a.info:hover {
 	padding-left: 1px;
 	font-weight: normal;
 }
+.help-block {
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    color: #737373;
+}
 .help span, a.info span {
 	display: none;
 	position:absolute;
@@ -509,7 +518,7 @@ div.attention {
  * Nav tab colouring
  */
 .nav.nav-tabs {
-	padding: 0px 0px 0px;
+	padding: 0px 0px 4px;
 	margin-top: 10px;
 	border-bottom-color: @border-color;
 	> li {
@@ -521,6 +530,7 @@ div.attention {
 			border-bottom-color: @border-color;
 			border-top-right-radius: .5em;
 			border-top-left-radius: .5em;
+			margin-right:2px;
 		}
 		> a:hover {
 			background-color: @nav-hover-background-color;
@@ -925,7 +935,7 @@ div.attention {
 		content: "\f067";   // fa-plus 
 	}
 }
-.label{
+label{
     display: inline-block;
     max-width: 100%;
     margin-bottom: 5px;
