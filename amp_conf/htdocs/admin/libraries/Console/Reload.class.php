@@ -468,6 +468,14 @@ class Reload extends Command {
 			$brand = $this->freepbx->Config->get('DASHBOARD_FREEPBX_BRAND');
 			$this->freepbx->Notifications->add_warning('freepbx','ASTRELOADSKIP', _("Asterisk Reload Skipped"), sprintf(_("Asterisk reload was skipped but the %s configuration files were still written out. %s and Asterisk might be in a weird state"),$brand,$brand));
 		}
+		//conference app notification
+		//check what is set for conference room app if app_meetme is selected then show the notification
+		if($this->freepbx->Config->get('ASTCONFAPP') == 'app_meetme') {
+			$this->freepbx->Notifications->add_warning('freepbx','ASTCONFAPP', _("Conference app_meetme"), _("As the app_meetme Asterisk application is deprecated and scheduled for removal in Asterisk 21, it's recommended that it be changed to app_confbridge."));
+		} else {
+			$this->freepbx->Notifications->delete('freepbx','ASTCONFAPP');
+		}
+
 		$this->freepbx->Hooks->processHooksByClassMethod('FreePBX\Reload', 'postReload');
 		$this->writeln(_("Reload Complete"));
 	}
