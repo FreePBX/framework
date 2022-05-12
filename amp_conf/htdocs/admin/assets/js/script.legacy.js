@@ -1223,7 +1223,8 @@ function checkPassword(el) {
 			result = zxcvbn(textVal),
 			box = jel.parents("div").find(".password-meter-box");
 	if(box.length === 0) {
-		$(el).after('<div class="password-meter-box"><div class="wording"></div><div class="progress password-meter-progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div></div></div>');
+		var divObject = ($(el).parents('.input-group').length)? $(el).parent().parent() : $(el).parent();
+		divObject.append('<div class="password-meter-box w-100"><div class="wording"></div><div class="progress password-meter-progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%"></div></div></div>');
 		box = $(el).parents("div").find(".password-meter-box");
 	}
 	switch(result.score){
