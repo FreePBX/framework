@@ -492,7 +492,9 @@ class AGI_AsteriskManager {
 		if($this->connected()) {
 			$this->logoff();
 		}
-		fclose($this->socket);
+		if(is_resource($this->socket)) {
+			fclose($this->socket);
+		}
 	}
 
 	/**
