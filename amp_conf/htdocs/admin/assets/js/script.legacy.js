@@ -10,7 +10,7 @@ function hideSelects(b) {
 	var allelems = document.all.tags("SELECT"), i = 0;
 	if (allelems !== null) {
 		for (i = 0; i < allelems.length; i++) {
-			allelems[i].style.visibility = (b ? "hidden" : "inherit");
+			allelems[i].style.visibility = (b ? "d-none" : "inherit");
 		}
 	}
 }
@@ -22,10 +22,10 @@ function resetDrawselects(){
 		var v = $(this).val(),
 				i = $(this).data("id");
 		if(v !== "") {
-			$(".destdropdown2").not("#" + v + i).addClass("hidden");
-			$("#"+ v + i).removeClass("hidden");
+			$(".destdropdown2").not("#" + v + i).addClass("d-none");
+			$("#"+ v + i).removeClass("d-none");
 		} else {
-			$(".destdropdown2").addClass("hidden");
+			$(".destdropdown2").addClass("d-none");
 		}
 	});
 }
@@ -801,9 +801,9 @@ function bind_dests_double_selects() {
 		var id = $(this).data("id"), dest	= $(this).val();
 		id = (typeof id == "undefined") ? "" : id; //ensure id isn't set to undefined
 
-		$("[data-id=" + id + "].destdropdown2").addClass("hidden");
+		$("[data-id=" + id + "].destdropdown2").addClass("d-none");
 		dd2 = $("#" + dest + id + ".destdropdown2");
-		cur_val = dd2.removeClass("hidden").prop("disabled", false).val();
+		cur_val = dd2.removeClass("d-none").prop("disabled", false).val();
 
 		// This was added because a cancel can leave dd2 cur_val to popover
 		// even when there are other choices so we force it to 'none'
@@ -905,13 +905,13 @@ $('form').on('reset', function() {
 			if(v !== "") {
 				$(".destdropdown2").not("#" + v + i).each(function(){
 					if($.inArray(this.id, showing_list) == -1){
-						$(this).addClass("hidden");
+						$(this).addClass("d-none");
 					}
 				});
-				$("#"+ v + i).removeClass("hidden");
+				$("#"+ v + i).removeClass("d-none");
 				showing_list[showing_list.length] = v + i;
 			} else {
-				$(".destdropdown2").addClass("hidden");
+				$(".destdropdown2").addClass("d-none");
 			}
 		});
 	}, 50); //50 mil timeout because the form is not reset yet
@@ -1850,7 +1850,7 @@ $(document).ready(function() {
 	$("form").on('submit',function(e) {
 		// If the page isn't going to submit then don't remove the elements
 		if (e.result) {
-				$(".destdropdown2").filter(".hidden").remove();
+				$(".destdropdown2").filter(".d-none").remove();
 		}
 	});
 
@@ -1958,7 +1958,7 @@ $(document).ready(function(){
 	if($(".nav-container").length > 0) {
 		var scrollTab = function(container, direction) {
 			var move = 0;
-			container.find(".wrapper li:not(.hidden)").each(function() {
+			container.find(".wrapper li:not(.d-none)").each(function() {
 				var width = $(this).parents(".wrapper")[0].getBoundingClientRect().width,
 						list = $(this).parents(".list"),
 						scrollerright = $(this).parents(".nav-container").find(".scroller-right")[0].getBoundingClientRect().width,
