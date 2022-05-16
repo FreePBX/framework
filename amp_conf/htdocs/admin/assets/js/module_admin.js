@@ -344,6 +344,8 @@ function close_module_actions(goback) {
 function toggleScreenDoor() {
 	var h = $( document ).height();
 	$('.screendoor').css('height', h);
+	$('.screendoor').css('display', 'flex');
+	$('.screendoor').css('justifiy-content', 'center');
 	$('.screendoor').fadeToggle('fast');
 }
 
