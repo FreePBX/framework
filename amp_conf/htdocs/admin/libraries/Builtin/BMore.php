@@ -610,7 +610,7 @@ class BMore extends \FreePBX_Helpers {
 				$this->tag('div', array('class' => 'panel-heading'),
 					$this->tag('div', array('class' => 'panel-title'),
 						$this->tag('a', array('href' => '#', 'data-toggle' => 'collapse', 'data-target' => "#$target"),
-							$this->tag('i', array('class' => 'glyphicon glyphicon-info-sign'), '')
+							$this->tag('i', array('class' => 'fa fa-info-circle'), '')
 						)."&nbsp;&nbsp;&nbsp;".$panel_header
 					)
 				)."\n".
