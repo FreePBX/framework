@@ -214,11 +214,21 @@ a.badge:focus {
 }
 
 .multiselect-option{
-    padding: 0.25rem 0.5rem;
+    padding: 0.22rem 0.5rem;
+    .form-check-input{
+        margin-bottom: 2px;
+    }
 }
 
 .multiselect-all{
     padding: 0.25rem 0.7rem;
+}
+
+.multiselect-container{
+    .dropdown-item-text {
+        padding: 0.25rem 0.8rem;
+        font-weight: bolder;
+    }
 }
 
 .row > .form-group{
@@ -226,6 +236,9 @@ a.badge:focus {
     width: -webkit-fill-available;
 }
 
+.loading-text{
+    font-size: 14px !important;
+}
 
 @media (max-width: 992px) {
     .fpbx-container .display .element-container {
