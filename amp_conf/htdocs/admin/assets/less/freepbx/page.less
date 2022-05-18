@@ -928,11 +928,11 @@ div.attention {
 		border-bottom-left-radius:  @panel-border-radius;
 		border-bottom-right-radius: @panel-border-radius;
 	}
-	.panel-heading .chevron:after {
+	.panel-heading[aria-expanded="true"] .chevron:after {
 		content: "\f068";	// fa-minus
 	}
-	.panel-heading.collapsed .chevron:after {
-		content: "\f067";   // fa-plus 
+	.panel-heading[aria-expanded="false"] .chevron:after {
+		content: "\f067";	// fa-minus
 	}
 }
 label{
@@ -1025,4 +1025,32 @@ label{
 }
 .mr-0{
 	margin-right:0px !important
+}
+@media (min-width: 576px){
+	.modal-dialog {
+		max-width: 600px;
+		margin: 30px auto;
+	}
+}
+.modal-header{
+	flex-direction: row-reverse;
+}
+pre{
+	display: block;
+    padding: 9.5px;
+    margin: 0 0 10px;
+    font-size: 13px;
+    line-height: 1.42857143;
+    word-break: break-all;
+    word-wrap: break-word;
+    color: #333;
+    background-color: #f5f5f5 !important;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+@media (min-width: 992px){
+	.modal-xl {
+		max-width: 1200px !important;
+	}
 }
