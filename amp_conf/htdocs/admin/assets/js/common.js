@@ -7,4 +7,5 @@ $(document).ready(function () {
         $(".cron-ui").addClass('row');
     }
 
+    $('.modal-header:has(.mr-auto)').css('flex-direction', 'row');
 });
