@@ -7,5 +7,13 @@ $(document).ready(function () {
         $(".cron-ui").addClass('row');
     }
 
-    $('.modal-header:has(.mr-auto)').css('flex-direction', 'row');
+    $('.modal-header').each(function () {
+        let el = $(this).children();
+        if (el.length > 0) {
+            if ($(el[0]).hasClass('mr-auto') || $(el[0]).hasClass('modal-title')) {
+                $(this).css('flex-direction', 'row');
+            }
+        }
+    });
+
 });
