@@ -34,7 +34,7 @@ class View {
 			"autosize-3.0.17.min.js",
 			"bootstrap-4.6.1.bundle.min.js",
 			"bootstrap-multiselect-1.1.1.js",
-			"bootstrap-select-1.12.1.min.js",
+			"bootstrap-select-1.13.14.min.js",
 			"bootstrap-table-dev.min.js",
 			"bootstrap-table-extensions-dev/bootstrap-table-cookie.min.js",
 			"bootstrap-table-extensions-dev/bootstrap-table-export.min.js",
