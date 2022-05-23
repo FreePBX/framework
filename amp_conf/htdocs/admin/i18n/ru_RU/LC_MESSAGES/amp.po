@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-20 07:34+0000\n"
+"POT-Creation-Date: 2022-05-23 01:46+0000\n"
 "PO-Revision-Date: 2016-03-08 06:00+0200\n"
 "Last-Translator: Andrew <andrew.nagy@the159.com>\n"
 "Language-Team: Russian <http://weblate.freepbx.org/projects/freepbx/"
@@ -226,7 +226,7 @@ msgstr "%s Онлайн %s обновление доступно (%s)"
 msgid "%s Online upgrade available (%s)"
 msgstr "%s Онлайн обновление доступно (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:626
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:622
 #, php-format
 msgid "%s RPMs available for upgrade"
 msgstr ""
@@ -269,7 +269,7 @@ msgstr "%s администраторы"
 msgid "%s already exists"
 msgstr "%s уже существует"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:642
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:650
 #, php-format
 msgid "%s already exists, and is not a symlink!"
 msgstr ""
@@ -427,26 +427,26 @@ msgstr ""
 msgid "%s enabled successfully"
 msgstr "%s активирован успешно"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:714
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:722
 #, php-format
 msgid "%s failed to copy from module directory"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:648
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:656
 #, php-format
 msgid "%s from %s/%s (Already exists, linked to something else)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:643
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:651
 #, php-format
 msgid "%s from %s/%s (Already exists, not a link)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:600
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:613
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:625
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:637
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:659
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:608
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:621
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:633
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:645
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:667
 #, php-format
 msgid "%s from %s/%s (Bad Permissions)"
 msgstr ""
@@ -470,7 +470,7 @@ msgstr "%s инсталлирован успешно"
 msgid "%s is a registered trademark of"
 msgstr "%s является торговой маркой "
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:694
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:702
 #, php-format
 msgid "%s is a symbolic link, failed to unlink!"
 msgstr ""
@@ -625,7 +625,7 @@ msgstr "0 администраторов"
 msgid "0 for disabling the Random Sleep And Max sleep you can set is 30"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:624
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:620
 msgid "1 RPM available for upgrade"
 msgstr ""
 
@@ -792,7 +792,7 @@ msgid "A user will enter this password when logging onto a device."
 msgstr "Пользователь будет вводить этот пароль при входе на устройство."
 
 #: ../core/Api/Gql/Dids.php:50 ../core/Api/Gql/Dids.php:166
-#: ../core/Api/Gql/Dids.php:399
+#: ../core/Api/Gql/Dids.php:403
 msgid "ALERT_INFO can be used for distinctive ring with SIP devices."
 msgstr ""
 "Дополнительная информация ALERT_INFO может быть использования для "
@@ -1329,7 +1329,7 @@ msgid "An attempt to send an email to \"%s\" with update notifications failed"
 msgstr ""
 
 #: ../core/Api/Gql/Dids.php:66 ../core/Api/Gql/Dids.php:182
-#: ../core/Api/Gql/Dids.php:418 ../core/views/did/advanced_form.php:413
+#: ../core/Api/Gql/Dids.php:422 ../core/views/did/advanced_form.php:413
 #: ../core/views/did/basic_form.php:234
 msgid ""
 "An optional delay to wait before processing this route. Setting this value "
@@ -1411,6 +1411,13 @@ msgstr ""
 #, php-format
 msgid "Are you sure you want to set %s to its default?"
 msgstr "Действительно хотите установить %s в значение по умолчанию?"
+
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:474
+msgid ""
+"As the app_meetme Asterisk application is deprecated and scheduled for "
+"removal in Asterisk 21, it's recommended that it be changed to "
+"app_confbridge."
+msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/unable-to-sysupdate.php:13
 msgid ""
@@ -1929,7 +1936,7 @@ msgid "CID Priority Route"
 msgstr "Маршрут по приоритету CID"
 
 #: ../core/Api/Gql/Dids.php:62 ../core/Api/Gql/Dids.php:178
-#: ../core/Api/Gql/Dids.php:414 ../core/views/did/advanced_form.php:240
+#: ../core/Api/Gql/Dids.php:418 ../core/views/did/advanced_form.php:240
 msgid "CID name prefix"
 msgstr "Префикс для ИД номера"
 
@@ -2232,17 +2239,17 @@ msgstr "Не отключить: Выбранный модуль зависит 
 msgid "Cannot find module"
 msgstr "Модуль не найден"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:596
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:604
 #, php-format
 msgid "Cannot remove conflicting file %s (Bad Permissions)"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:595
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:603
 #, php-format
 msgid "Cannot remove conflicting file %s. Check Permissions?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:589
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:597
 #, php-format
 msgid "Cannot replace reserved file %s from module %s (Not allowed)"
 msgstr ""
@@ -2251,11 +2258,11 @@ msgstr ""
 msgid "Cannot revoke null key!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:599
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:612
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:624
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:636
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:658
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:607
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:620
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:632
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:644
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:666
 #, php-format
 msgid "Cannot symlink %s to %s. Check Permissions?"
 msgstr ""
@@ -2356,8 +2363,8 @@ msgstr ""
 msgid "Channel can not be blank!"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:639
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:666
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:635
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:662
 #: amp_conf/htdocs/admin/views/module_admin/reposelect.php:27
 msgid "Check Online"
 msgstr "Проверить он-лайн"
@@ -2611,6 +2618,10 @@ msgstr ""
 msgid "Conference Room App"
 msgstr ""
 
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:474
+msgid "Conference app_meetme"
+msgstr ""
+
 #: amp_conf/htdocs/admin/page.modules.php:734
 msgid "Confirm"
 msgstr "Подвердить"
@@ -2848,8 +2859,8 @@ msgstr "Невозможно удалить старый модуль %s для 
 msgid "Could not remove temporary location %s"
 msgstr "Невозможно удалить временное расположение %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:850
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:865
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:858
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:873
 #, php-format
 msgid "Could not run %s script."
 msgstr "Не удалось запустить скрипт %s."
@@ -2967,7 +2978,7 @@ msgstr "Текущая конфигурация сети "
 msgid "Current PBX Version:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:586
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:582
 msgid "Current System Update Status:"
 msgstr ""
 
@@ -3437,12 +3448,12 @@ msgid ""
 "have to be manually changed."
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:369
+#: ../core/Api/Gql/Dids.php:373
 msgid "Define ID of inbound route"
 msgstr ""
 
 #: ../core/Api/Gql/Dids.php:38 ../core/Api/Gql/Dids.php:146
-#: ../core/Api/Gql/Dids.php:384
+#: ../core/Api/Gql/Dids.php:388
 msgid "Define the CallerID Number to be matched on incoming calls."
 msgstr ""
 
@@ -3460,7 +3471,7 @@ msgid "Define the custom Dial String.  Include the token"
 msgstr "Укажите тип специального набора,"
 
 #: ../core/Api/Gql/Dids.php:34 ../core/Api/Gql/Dids.php:142
-#: ../core/Api/Gql/Dids.php:380
+#: ../core/Api/Gql/Dids.php:384
 msgid ""
 "Define the expected DID Number if your trunk passes DID on incoming calls."
 msgstr ""
@@ -3561,7 +3572,7 @@ msgid "Destination"
 msgstr "Назначение"
 
 #: ../core/Api/Gql/Dids.php:94 ../core/Api/Gql/Dids.php:210
-#: ../core/Api/Gql/Dids.php:455 ../core/views/did/advanced_form.php:277
+#: ../core/Api/Gql/Dids.php:459 ../core/views/did/advanced_form.php:277
 #: ../core/views/did/basic_form.php:155
 msgid "Destination for route"
 msgstr "Назначение для маршрута"
@@ -4879,8 +4890,8 @@ msgstr ""
 msgid "Executes fwconsole commands"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:849
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:864
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:857
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:872
 #, php-format
 msgid "Exit code was %s and output was: %s"
 msgstr "Код ошибки %s и вывод %s"
@@ -5113,7 +5124,7 @@ msgstr "Не удалось удалить"
 msgid "Failed to Remove directory"
 msgstr "Ошибка перемещения директории"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:723
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:731
 msgid "Failed to copy from module agi-bin"
 msgstr ""
 
@@ -5718,14 +5729,11 @@ msgstr "Частота посылок сообщений qualify конечны�
 msgid "Friday"
 msgstr ""
 
-#: ../core/page.advancedsettings.php:132 ../core/page.advancedsettings.php:157
-#: ../core/page.advancedsettings.php:186 ../core/page.advancedsettings.php:220
-#: ../core/page.advancedsettings.php:250 ../core/page.advancedsettings.php:274
+#: ../core/page.advancedsettings.php:100 ../core/page.advancedsettings.php:132
+#: ../core/page.advancedsettings.php:157 ../core/page.advancedsettings.php:186
+#: ../core/page.advancedsettings.php:220 ../core/page.advancedsettings.php:250
+#: ../core/page.advancedsettings.php:274
 msgid "Friendly Name"
-msgstr "Дружественное имя"
-
-#: ../core/page.advancedsettings.php:100
-msgid "Friendy Name"
 msgstr "Дружественное имя"
 
 #: ../core/views/trunks/pjsip.php:602
@@ -6166,7 +6174,7 @@ msgstr ""
 "точками. Отделите IP-адрес от маски подсети символом косой черты  ('/'). "
 "Если оставлено пустым ,то  FreePBX  создаёт автоматически"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:575
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:571
 msgid "Idle"
 msgstr ""
 
@@ -6257,7 +6265,7 @@ msgstr ""
 "перенесены в новый реестр специальных приложений."
 
 #: ../core/Api/Gql/Dids.php:46 ../core/Api/Gql/Dids.php:162
-#: ../core/Api/Gql/Dids.php:392 ../core/views/did/advanced_form.php:443
+#: ../core/Api/Gql/Dids.php:396 ../core/views/did/advanced_form.php:443
 #: ../core/views/did/basic_form.php:261
 msgid ""
 "If no CallerID has been received, Privacy Manager will ask the caller to "
@@ -6539,7 +6547,7 @@ msgstr "Контроль внешних входящих соединений"
 msgid "Inbound Internal Calls"
 msgstr "Контроль внутренних входящих соединений"
 
-#: ../core/Api/Gql/Dids.php:309
+#: ../core/Api/Gql/Dids.php:313
 msgid "Inbound Route ID"
 msgstr ""
 
@@ -6551,19 +6559,19 @@ msgstr ""
 msgid "Inbound Route created successfully"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:280
+#: ../core/Api/Gql/Dids.php:284
 msgid "Inbound Route deleted successfully"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:245
+#: ../core/Api/Gql/Dids.php:249
 msgid "Inbound Route does not exists"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:282
+#: ../core/Api/Gql/Dids.php:286
 msgid "Inbound Route not found"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:243
+#: ../core/Api/Gql/Dids.php:247
 msgid "Inbound Route updated successfully"
 msgstr ""
 
@@ -6640,7 +6648,7 @@ msgstr "Начальная установка"
 msgid "Initialize freepbx_conf settings.."
 msgstr "Инициализация настроек freepbx_conf.."
 
-#: ../core/Api/Gql/Dids.php:519
+#: ../core/Api/Gql/Dids.php:523
 msgid ""
 "Input variable destination does not exists in this system, Please provide "
 "the valid `destination`"
@@ -6672,7 +6680,7 @@ msgstr ""
 msgid "Installed Missing Dependency of: %s %s"
 msgstr "Установлены ошибочные зависимости:%s %s"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:647
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:643
 msgid "Installed Version"
 msgstr ""
 
@@ -6934,11 +6942,11 @@ msgstr ""
 msgid "Languages"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:591
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:587
 msgid "Last Online Check Status:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:595
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:591
 msgid "Last System Update:"
 msgstr ""
 
@@ -7082,7 +7090,7 @@ msgid "Long Distance"
 msgstr "Большое расстояние"
 
 #: amp_conf/htdocs/admin/bootstrap.php:285
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:909
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:917
 msgid "Low Memory Limit"
 msgstr "Ниижний лимит памяти"
 
@@ -7263,7 +7271,7 @@ msgid "Media Use Received Transport"
 msgstr "Медиа поток использует полученный траспортный протокол"
 
 #: amp_conf/htdocs/admin/bootstrap.php:283
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:907
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:915
 msgid "Memory Limit Changed"
 msgstr "Лимит памяти изменён"
 
@@ -7278,7 +7286,7 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:282
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:350
 #: ../core/Api/Gql/Dids.php:110 ../core/Api/Gql/Dids.php:226
-#: ../core/Api/Gql/Dids.php:270
+#: ../core/Api/Gql/Dids.php:274
 msgid "Message for the request"
 msgstr ""
 
@@ -7335,7 +7343,7 @@ msgstr ""
 "решения, что он верный"
 
 #: ../core/Api/Gql/Dids.php:78 ../core/Api/Gql/Dids.php:194
-#: ../core/Api/Gql/Dids.php:433
+#: ../core/Api/Gql/Dids.php:437
 msgid ""
 "Minimum amount of digits CallerID needs to contain in order to be considered "
 "valid. Default value is 10"
@@ -7870,7 +7878,7 @@ msgstr "Необходимо создание экземпляра объект�
 msgid "Needs Upgrade:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:592
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:588
 #: ../core/functions.inc.php:4626
 msgid "Never"
 msgstr "Никогда"
@@ -7880,11 +7888,11 @@ msgstr "Никогда"
 msgid "Never - (%s)"
 msgstr "Никогда - (%s)"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:650
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:646
 msgid "New Package"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:647
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:643
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:359
 msgid "New Version"
 msgstr ""
@@ -7993,8 +8001,8 @@ msgstr "Без музыки"
 msgid "No RPMs need to be updated"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:887
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:890
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:895
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:898
 msgid "No Swap"
 msgstr ""
 
@@ -8048,7 +8056,7 @@ msgstr ""
 msgid "No status was given to checkStatus"
 msgstr "Не указан статус для checkStatus"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:620
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:616
 msgid "No updates currently required!"
 msgstr ""
 
@@ -8236,7 +8244,7 @@ msgid "Number of attempts the caller has to enter a valid CallerID"
 msgstr "Количество попыток определения правильного Caller ID (CID)"
 
 #: ../core/Api/Gql/Dids.php:74 ../core/Api/Gql/Dids.php:190
-#: ../core/Api/Gql/Dids.php:429
+#: ../core/Api/Gql/Dids.php:433
 msgid ""
 "Number of attempts the caller has to enter a valid CallerID. Default value "
 "is 3"
@@ -8298,7 +8306,7 @@ msgid "On Demand Recording"
 msgstr "Запись разговоров"
 
 #: ../core/Api/Gql/Dids.php:82 ../core/Api/Gql/Dids.php:198
-#: ../core/Api/Gql/Dids.php:437 ../core/views/did/advanced_form.php:362
+#: ../core/Api/Gql/Dids.php:441 ../core/views/did/advanced_form.php:362
 #: ../core/views/did/basic_form.php:210
 msgid ""
 "On PRI channels the carrier will send a signal if the caller indicates a "
@@ -8681,7 +8689,7 @@ msgid ""
 msgstr ""
 
 #: ../core/Api/Gql/Dids.php:86 ../core/Api/Gql/Dids.php:202
-#: ../core/Api/Gql/Dids.php:444
+#: ../core/Api/Gql/Dids.php:448
 msgid ""
 "Override the ringer volume. Note: This is only valid for Sangoma phones at "
 "this time. Default value is 0"
@@ -9084,7 +9092,7 @@ msgid ""
 "your system"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:506
+#: ../core/Api/Gql/Dids.php:510
 msgid ""
 "Please provide the valid `destination` value, for example extension (100) :"
 "`from-did-direct,100,1`"
@@ -9233,7 +9241,7 @@ msgid "Provide Verbose Tracebacks"
 msgstr "Давать подробную трассировку"
 
 #: ../core/Api/Gql/Dids.php:42 ../core/Api/Gql/Dids.php:158
-#: ../core/Api/Gql/Dids.php:388 ../core/views/did/advanced_form.php:100
+#: ../core/Api/Gql/Dids.php:392 ../core/views/did/advanced_form.php:100
 #: ../core/views/did/basic_form.php:32
 msgid "Provide a meaningful description of what this incoming route is"
 msgstr "Внятное описание - что из себя представляет этот маршрут"
@@ -9313,8 +9321,15 @@ msgstr "RFC 2833"
 msgid "RFC 4733"
 msgstr "RFC 4733"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:647
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:643
 msgid "RPM Name"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:439
+#, php-format
+msgid ""
+"RPM command errored, Delete /dev/shm/yumwrapper/* and try again. Exit code "
+"%s - see FreePBX log for more info."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/System.class.php:119
@@ -9441,7 +9456,7 @@ msgstr "Резервирование"
 msgid "Refer Blind Progress"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:588
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:584
 msgid "Refresh page"
 msgstr ""
 
@@ -9486,7 +9501,7 @@ msgstr "Связанный URL"
 msgid "Related URLs"
 msgstr "Связанные URL-ы"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:472
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:480
 msgid "Reload Complete"
 msgstr ""
 
@@ -9548,7 +9563,7 @@ msgstr "Удалять имя из Caller ID (CNAM)"
 msgid "Remove an entry from Core"
 msgstr ""
 
-#: ../core/Api/Gql/Dids.php:251
+#: ../core/Api/Gql/Dids.php:255
 msgid "Remove an inbound route from the system"
 msgstr ""
 
@@ -9676,7 +9691,7 @@ msgstr ""
 msgid "Retrieve Conf Post Custom Script Detected"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:723
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:731
 #, php-format
 msgid "Retrieve conf failed to copy file(s) from a module's agi-bin dir: %s"
 msgstr ""
@@ -10180,7 +10195,7 @@ msgid "Set permissions on a specific module: <rawname>"
 msgstr ""
 
 #: ../core/Api/Gql/Dids.php:58 ../core/Api/Gql/Dids.php:174
-#: ../core/Api/Gql/Dids.php:410 ../core/views/did/advanced_form.php:15
+#: ../core/Api/Gql/Dids.php:414 ../core/views/did/advanced_form.php:15
 msgid ""
 "Set the MoH class that will be used for calls that come in on this route. "
 "For example, choose a type appropriate for routes coming in from a country "
@@ -10215,7 +10230,7 @@ msgid ""
 msgstr ""
 
 #: ../core/Api/Gql/Dids.php:90 ../core/Api/Gql/Dids.php:206
-#: ../core/Api/Gql/Dids.php:448 ../core/views/did/advanced_form.php:389
+#: ../core/Api/Gql/Dids.php:452 ../core/views/did/advanced_form.php:389
 msgid "Set to Yes to force the call to be answered at this time"
 msgstr ""
 
@@ -10573,7 +10588,7 @@ msgid ""
 msgstr ""
 
 #: ../core/Api/Gql/Dids.php:54 ../core/Api/Gql/Dids.php:170
-#: ../core/Api/Gql/Dids.php:403 ../core/views/did/advanced_form.php:335
+#: ../core/Api/Gql/Dids.php:407 ../core/views/did/advanced_form.php:335
 #: ../core/views/did/basic_form.php:183
 msgid ""
 "Some devices or providers require RINGING to be sent before ANSWER. You'll "
@@ -10766,7 +10781,7 @@ msgstr ""
 #: ../core/Api/Gql/AdvanceSettings.php:265 ../core/Api/Gql/Devices.php:279
 #: ../core/Api/Gql/Devices.php:350 ../core/Api/Gql/Devices.php:380
 #: ../core/Api/Gql/Dids.php:106 ../core/Api/Gql/Dids.php:222
-#: ../core/Api/Gql/Dids.php:266
+#: ../core/Api/Gql/Dids.php:270
 msgid "Status of the request"
 msgstr ""
 
@@ -10855,18 +10870,18 @@ msgstr ""
 msgid "Switch to Stable and Download and Install %s"
 msgstr "Перейти к стабильной версии, Загрузить и Установить %s"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:672
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:675
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:678
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:680
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:683
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:686
 msgid "Symlink Conflict Resolved"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:509
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:517
 #, php-format
 msgid "Symlink error - %s should be linked to %s, and it isn't a link"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:667
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:675
 msgid "Symlink from modules failed"
 msgstr ""
 
@@ -10930,7 +10945,7 @@ msgstr ""
 msgid "System Setup"
 msgstr "Системные установки"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:569
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:565
 msgid "System Update Details"
 msgstr ""
 
@@ -11051,7 +11066,7 @@ msgstr ""
 msgid "Telephony Engine"
 msgstr "Подсистема телефонии"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:582
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:578
 msgid "Test Repos Enabled"
 msgstr ""
 
@@ -11250,6 +11265,13 @@ msgstr ""
 "которых попадает набранный номер. <br><br>Например, при наборе "
 "междугороднего номера вы направляете его в первую очередь по более дешевому "
 "маршруту (VoIP транк), затем по более дорогим (линии ТФОП)."
+
+#: installlib/installer.class.php:804
+msgid ""
+"The asterisk application to use for conferencing. As the app_meetme Asterisk "
+"application is deprecated and scheduled for removal in Asterisk 21, it's "
+"recommended that it be changed to app_confbridge."
+msgstr ""
 
 #: amp.i18n.php:272
 msgid ""
@@ -11698,7 +11720,7 @@ msgstr ""
 "сделать исполнением этой команды, то не стоит соверщать это действие, потому "
 "что это повлечёт изменения в конфигурации."
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:890
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:898
 #, php-format
 msgid ""
 "The swap space of your system is too low (%s KB). You should have at least "
@@ -11964,7 +11986,7 @@ msgid "This device uses %s technology %s"
 msgstr "Это устройство использует %s технологию %s"
 
 #: ../core/Api/Gql/Dids.php:70 ../core/Api/Gql/Dids.php:186
-#: ../core/Api/Gql/Dids.php:422 ../core/views/did/advanced_form.php:175
+#: ../core/Api/Gql/Dids.php:426 ../core/views/did/advanced_form.php:175
 msgid ""
 "This effects CID ONLY routes where no DID is specified. If checked, calls "
 "with this CID will be routed to this route, even if there is a route to the "
@@ -12214,7 +12236,7 @@ msgid ""
 "</br> For more information visit %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:582
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:578
 msgid "This system has test repos enabled."
 msgstr ""
 
@@ -12405,7 +12427,7 @@ msgstr ""
 msgid "Transport"
 msgstr "Транспорт"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:655
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:663
 #, php-format
 msgid "Tried to link %s to %s, but %s doesn't exist"
 msgstr ""
@@ -12525,7 +12547,7 @@ msgstr ""
 msgid "Unable to change device driver. Unable to fetch the device"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:839
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:847
 msgid "Unable to connect to Asterisk Manager"
 msgstr ""
 
@@ -12568,7 +12590,7 @@ msgid ""
 "override?"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:832
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:840
 msgid "Unable to find the Asterisk binary"
 msgstr ""
 
@@ -12606,7 +12628,7 @@ msgstr "Невозможно удалить tmp.cfg"
 msgid "Unable to resolve dependencies for module %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:618
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:614
 msgid "Unable to run 'yum check-updates', can't check for updates"
 msgstr ""
 
@@ -12687,7 +12709,7 @@ msgstr "Деинсталлируюется модуль(-ли), принимая
 msgid "Unknown"
 msgstr "Неизвестно"
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:600
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:596
 msgid "Unknown (System updates not run since last reboot)"
 msgstr ""
 
@@ -12801,7 +12823,7 @@ msgstr "Предупреждения об обновлении"
 msgid "Update Required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:665
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:661
 msgid "Update System"
 msgstr ""
 
@@ -12819,6 +12841,11 @@ msgstr ""
 
 #: ../core/Api/Gql/Dids.php:138
 msgid "Update an inbound route on the system"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:437
+#, php-format
+msgid "Update error: Tried to run '%s', exit code %s"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Localization.class.php:41
@@ -12845,7 +12872,7 @@ msgstr ""
 msgid "Updates Advance Settings Field"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:630
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:626
 msgid "Updates Available:"
 msgstr ""
 
@@ -13739,7 +13766,7 @@ msgid ""
 "enable the rtcp_mux option"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:578
+#: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:574
 msgid "Working"
 msgstr ""
 
@@ -14149,7 +14176,7 @@ msgid "Your browser is out-of-date!"
 msgstr "Ваш браузер устарел!"
 
 #: amp_conf/htdocs/admin/bootstrap.php:283
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:907
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:915
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and has been increased to %sM. You "
@@ -14159,7 +14186,7 @@ msgstr ""
 "%sM, Вы можете изменить этот параметр в файле php.ini"
 
 #: amp_conf/htdocs/admin/bootstrap.php:285
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:909
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:917
 #, php-format
 msgid ""
 "Your memory_limit, %sM, is set too low and may cause problems. FreePBX is "
@@ -14175,7 +14202,7 @@ msgstr ""
 msgid "Your server [%s] discovered the following security issues:"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:887
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:895
 msgid ""
 "Your system has no swap space. This should be fixed as soon as possible. "
 "Once fixed issue a reload to remove this message"
@@ -14800,7 +14827,7 @@ msgstr ""
 msgid "password"
 msgstr "Пароль FOP"
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:756
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:764
 #, php-format
 msgid "php reported: '%s' after copy or unlink attempt!"
 msgstr ""
@@ -14867,7 +14894,7 @@ msgid ""
 "softwitch with out it. Error: %s"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:667
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:675
 #, php-format
 msgid ""
 "retrieve_conf failed to sym link: %s<br \\>This can result in FATAL failures "
@@ -14877,9 +14904,9 @@ msgid ""
 "customization."
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:672
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:675
-#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:678
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:680
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:683
+#: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:686
 #, php-format
 msgid ""
 "retrieve_conf resolved a symlink with %s<br \\>This is a notice to let you "
@@ -15045,6 +15072,9 @@ msgid ""
 msgstr ""
 "возможно Вам понадобиться вручную  добавить строку  'preload => pbx_config."
 "so'  в файл modules.conf"
+
+#~ msgid "Friendy Name"
+#~ msgstr "Дружественное имя"
 
 #~ msgid "Can Not Connect to Asterisk"
 #~ msgstr "Может не быть подключенным в Астериск"
