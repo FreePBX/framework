@@ -801,7 +801,7 @@ class Installer {
 	'value' => 'app_confbridge',
 	'options' => array('app_meetme', 'app_confbridge'),
 	'name' => 'Conference Room App',
-	'description' => _("The asterisk application to use for conferencing. As this Asterisk module is deprecated and scheduled for removal in Asterisk 21, it's recommended that it be changed to app_confbridge."),
+	'description' => _("The asterisk application to use for conferencing. As the app_meetme Asterisk application is deprecated and scheduled for removal in Asterisk 21, it's recommended that it be changed to app_confbridge."),
 	'type' => CONF_TYPE_SELECT,
 	);
 
