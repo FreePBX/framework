@@ -1874,6 +1874,12 @@ $(document).ready(function() {
 			}
 		}
 	};
+
+	setTimeout(function () {
+		if ($('#floating-nav-bar').hasClass('show')) {
+			$("#floating-nav-bar").removeClass("show");
+		}
+	}, 10000);
 });
 
 /**
