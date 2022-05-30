@@ -1818,8 +1818,16 @@ $(document).ready(function() {
 				buttons: [
 					{
 						text: fpbx.msg.framework.continuemsg,
-						click: function() {
-							$(this).find("form").trigger("submit");
+						click: function () {
+							if (typeof checkPasswordReminder === "function") {
+								if ($('div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').hasClass("resetPasswordButton")) {
+									resetAdminPassswordWithToken(this);
+								} else {
+									checkPasswordReminder(this);
+								}
+							} else {
+								$(this).find("form").trigger("submit");
+							}
 						}
 					},
 					{
