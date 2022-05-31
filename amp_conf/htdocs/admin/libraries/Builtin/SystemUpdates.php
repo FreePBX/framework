@@ -351,13 +351,20 @@ class SystemUpdates {
 		$wrapped = null; //https://bugzilla.redhat.com/show_bug.cgi?id=584525
 		foreach ($lines as $line) {
 			// If the line is blank, or, starts with a space, ignore.
-			if (!$line || $line[0] === " ") {
+			if (!$line || trim($line) === "" || $line[0] === " ") {
 				continue;
 			}
 
 			// Ignore any error lines
-			if (strpos($line, "Trying other mirror") !== false || strpos($line, "Operation too slow") !== false) {
-				continue;
+			$txt_ignore = array(
+				"Trying other mirror",
+				"Operation too slow",
+				"is listed more than once in the configuration",
+			);
+			foreach ($txt_ignore as $txt) {
+				if (strpos($line, $txt) !== false) {
+					continue 2;
+				}
 			}
 
 			$linearr = preg_split("/\s+/", $line);
