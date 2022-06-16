@@ -1452,12 +1452,12 @@ function version_min($origin, $list){
 
 /**
  * checkFreeSpace
- * @pram $allowedspace = 2 means 2GB
+ * @pram $allowedspace = 2097152 KB (2GB)
  * @return boolean
  */
-function checkFreeSpace($allowedspace)
+function checkFreeSpace($allowedspaceInKB)
 {
-	$process = new \Symfony\Component\Process\Process('df -h /');
+	$process = new \Symfony\Component\Process\Process('df');
 	$process->setTimeout(300);
 	$process->run();
 	$output = $process->getOutput();
@@ -1465,10 +1465,13 @@ function checkFreeSpace($allowedspace)
 	$output = explode(' ',trim($output));
 	$output = array_filter($output);
 	$output = array_combine(range(1, count($output)), array_values($output));
-	$available_space = str_replace('G','',$output[10]);
-	if ($available_space <= $allowedspace) {
-		return array('status'=>false, 'available_space'=> $available_space);
+	$availableSpaceInKB = $output[10];
+	//Convert KB into GB
+	$availableSpaceInGB = $availableSpaceInKB / pow(1024,2);
+	$availableSpaceInGB = sprintf("%f", floatval($availableSpaceInGB)) . ' ' .'GB';
+	if ($availableSpaceInKB <= $allowedspaceInKB) {
+		return array('status'=>false, 'available_space'=> $availableSpaceInGB);
 	} else {
-		return array('status'=>true, 'available_space'=> $available_space);
+		return array('status'=>true, 'available_space'=> $availableSpaceInGB);
 	}
 }
