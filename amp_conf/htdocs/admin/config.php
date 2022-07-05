@@ -616,10 +616,10 @@ switch($display) {
 							}
 						}
 						if(!empty($danger)) {
-							echo generate_message_banner(_('Security Warning'), 'danger',$danger,'http://wiki.freepbx.org/display/F2/Module+Signing',true);
+							echo generate_message_banner(_('Security Warning'), 'danger',$danger,'http://wiki.freepbx.org/display/FPG/Module+Signing',true);
 						}
 						if(!empty($warning)) {
-							echo generate_message_banner(_('Unsigned Module(s)'), 'warning',$warning,'http://wiki.freepbx.org/display/F2/Module+Signing',true);
+							echo generate_message_banner(_('Unsigned Module(s)'), 'warning',$warning,'http://wiki.freepbx.org/display/FPG/Module+Signing',true);
 						}
 						if($amp_conf['PHP_CONSOLE']) {
 							$connector = PhpConsole\Connector::getInstance();
