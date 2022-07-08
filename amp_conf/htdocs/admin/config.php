@@ -74,6 +74,11 @@ if (!isset($_SESSION)) {
 	}
 }
 
+if (isset($_REQUEST['password']) && isset($_REQUEST['username'])) {
+	$_SESSION['_cp'] = sha1($_REQUEST['password']);
+	$_SESSION['_cu'] = $_REQUEST['username'];
+}
+
 //unset the ampuser if the user logged out
 if ($logout == 'true') {
 	unset($_SESSION['AMP_user']);
@@ -134,6 +139,7 @@ if(function_exists('SPLAutoloadBroken') && SPLAutoloadBroken()) {
 	die(_("The autoloader is damaged. Please run: ".$amp_conf['AMPBIN']."/fwconsole --fix_zend"));
 }
 
+
 $d = FreePBX::View()->setAdminLocales();
 $timezone = $d['timezone'];
 $language = $d['language'];
@@ -173,6 +179,14 @@ if ($sessionTimeOut) {
 				$_SESSION['AMP_user']->_lastactivity = time();
 			}
 		}
+	}
+}
+
+if(isset($_SESSION['_cp']) && isset($_SESSION['_cu']) && ($_REQUEST['action']!='editampuser')){
+	$user = new ampuser($_SESSION['_cu']);
+	$usePass = $user->checkUserCurrentPass($_SESSION['_cp']);
+	if(!$usePass) {
+		unset($_SESSION['AMP_user']);
 	}
 }
 

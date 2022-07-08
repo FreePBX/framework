@@ -180,4 +180,13 @@ class ampuser {
 	public function getSections() {
 		return $this->sections;
 	}
+	public function checkUserCurrentPass($sessionpass)
+	{
+		if($this->password == $sessionpass) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 }
