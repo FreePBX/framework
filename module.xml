@@ -300,7 +300,7 @@
 		<table name="ampusers">
 			<field name="username" type="string" length="190" primarykey="true"/>
 			<field name="email" type="string" length="40" default="" notnull="false"/>
-			<field name="phonenumber" type="string" length="40" default="" notnull="false"/>
+			<field name="extension" type="string" length="40" default="" notnull="false"/>
 			<field name="password_sha1" type="string" length="40"/>
 			<field name="extension_low" type="string" length="20" default=""/>
 			<field name="extension_high" type="string" length="20" default=""/>
