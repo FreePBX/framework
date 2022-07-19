@@ -1457,15 +1457,8 @@ function version_min($origin, $list){
  */
 function checkFreeSpace($allowedSpace)
 {
-	$process = new \Symfony\Component\Process\Process('df -BG /');
-	$process->setTimeout(300);
-	$process->run();
-	$output = $process->getOutput();
-	if (empty($output)) { return NULL; }
-	$output = explode(' ',trim($output));
-	$output = array_filter($output);
-	$output = array_combine(range(1, count($output)), array_values($output));
-	$availableSpace = rtrim($output[10],'G');
+	$availableSpace = disk_free_space("/");
+	$availableSpace = number_format($availableSpace/1073741824,2); //available space in GB
 	if ($availableSpace <= $allowedSpace) {
 		return array('status'=>false, 'available_space'=> $availableSpace);
 	} else {
