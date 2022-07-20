@@ -277,6 +277,21 @@ class UpdateManager {
 
 	}
 
+	private function iscloud(){
+		if(!\FreePBX::Modules()->checkStatus('sysadmin')) {
+			return false;
+		}
+		\FreePBX::Modules()->loadFunctionsInc('sysadmin');
+		if (!function_exists("sysadmin_get_license")) {
+			return false;
+		}
+		$lic = sysadmin_get_license();
+		if ($lic['deploy_type'] == 'PBXact UCC') {
+			return true;
+		}
+		return false;
+	}
+
 	/**
 	 * Send an email
 	 *
@@ -293,6 +308,9 @@ class UpdateManager {
 	 * @param int $priority
 	 */
 	public function sendEmail($tag, $subject, $message, $priority = 4, $force = false) {
+		if($this->iscloud()){
+			return;
+		}
 		$settings = $this->getCurrentUpdateSettings(false); // Don't html encode the output
 		$to = $settings['notification_emails'];
 
@@ -368,6 +386,9 @@ class UpdateManager {
 	}
 
 	public function securityEmail() {
+		if($this->iscloud()){
+			return;
+		}
 		$security = $this->freepbx->Notifications->list_security();
 		if (!$security) {
 			return;
@@ -392,6 +413,9 @@ class UpdateManager {
 	}
 
 	public function updateEmail($willupdate = false) {
+		if($this->iscloud()){
+			return;
+		}
 		$updates = $this->freepbx->Notifications->list_update();
 		if (!$updates) {
 			return;
@@ -419,6 +443,9 @@ class UpdateManager {
 	}
 
 	public function unsignedEmail() {
+		if($this->iscloud()){
+			return;
+		}
 		if($this->getCurrentUpdateSettings(false)['unsigned_module_emails'] === 'disabled'){
 			$this->freepbx->Notifications->delete("freepbx", "SIGEMAIL");
 			return true;
