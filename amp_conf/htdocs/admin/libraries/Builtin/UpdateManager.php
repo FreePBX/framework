@@ -293,6 +293,13 @@ class UpdateManager {
 	 * @param int $priority
 	 */
 	public function sendEmail($tag, $subject, $message, $priority = 4, $force = false) {
+		if(\FreePBX::Modules()->checkStatus('sysadmin')) {
+			if (method_exists(\FreePBX::Sysadmin(),"isCloudDeployment")) {
+				if(\FreePBX::Sysadmin()->isCloudDeployment()){
+					return;
+				}
+			}
+		}
 		$settings = $this->getCurrentUpdateSettings(false); // Don't html encode the output
 		$to = $settings['notification_emails'];
 
@@ -368,6 +375,13 @@ class UpdateManager {
 	}
 
 	public function securityEmail() {
+		if(\FreePBX::Modules()->checkStatus('sysadmin')) {
+			if (method_exists(\FreePBX::Sysadmin(),"isCloudDeployment")) {
+				if(\FreePBX::Sysadmin()->isCloudDeployment()){
+					return;
+				}
+			}
+		}
 		$security = $this->freepbx->Notifications->list_security();
 		if (!$security) {
 			return;
@@ -392,6 +406,13 @@ class UpdateManager {
 	}
 
 	public function updateEmail($willupdate = false) {
+		if(\FreePBX::Modules()->checkStatus('sysadmin')) {
+			if (method_exists(\FreePBX::Sysadmin(),"isCloudDeployment")) {
+				if(\FreePBX::Sysadmin()->isCloudDeployment()){
+					return;
+				}
+			}
+		}
 		$updates = $this->freepbx->Notifications->list_update();
 		if (!$updates) {
 			return;
@@ -419,6 +440,13 @@ class UpdateManager {
 	}
 
 	public function unsignedEmail() {
+		if(\FreePBX::Modules()->checkStatus('sysadmin')) {
+			if (method_exists(\FreePBX::Sysadmin(),"isCloudDeployment")) {
+				if(\FreePBX::Sysadmin()->isCloudDeployment()){
+					return;
+				}
+			}
+		}
 		if($this->getCurrentUpdateSettings(false)['unsigned_module_emails'] === 'disabled'){
 			$this->freepbx->Notifications->delete("freepbx", "SIGEMAIL");
 			return true;
