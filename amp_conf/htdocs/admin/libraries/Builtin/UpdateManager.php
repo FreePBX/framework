@@ -3,6 +3,7 @@
 namespace FreePBX\Builtin;
 
 class UpdateManager {
+	private $iscloud = false;
 
 	public function __construct() {
 		$this->freepbx = \FreePBX::create();
@@ -10,6 +11,13 @@ class UpdateManager {
 		$this->brand = $this->freepbx->Config->get('DASHBOARD_FREEPBX_BRAND');
 		$settings = $this->getCurrentUpdateSettings(false); // Don't html encode the output
 		$this->machine_id = $settings['system_ident'];
+		if($this->freepbx->Modules->checkStatus('sysadmin')) {
+			if (method_exists($this->freepbx->Sysadmin(),"isCloudDeployment")) {
+				if($this->freepbx->isCloudDeployment()){
+					$this->iscloud = true;
+				}
+			}
+		}
 	}
 
 	/**
@@ -293,6 +301,9 @@ class UpdateManager {
 	 * @param int $priority
 	 */
 	public function sendEmail($tag, $subject, $message, $priority = 4, $force = false) {
+		if($this->iscloud){
+			return;
+		}
 		$settings = $this->getCurrentUpdateSettings(false); // Don't html encode the output
 		$to = $settings['notification_emails'];
 
@@ -368,6 +379,9 @@ class UpdateManager {
 	}
 
 	public function securityEmail() {
+		if($this->iscloud){
+			return;
+		}
 		$security = $this->freepbx->Notifications->list_security();
 		if (!$security) {
 			return;
@@ -392,6 +406,9 @@ class UpdateManager {
 	}
 
 	public function updateEmail($willupdate = false) {
+		if($this->iscloud){
+			return;
+		}
 		$updates = $this->freepbx->Notifications->list_update();
 		if (!$updates) {
 			return;
@@ -419,6 +436,9 @@ class UpdateManager {
 	}
 
 	public function unsignedEmail() {
+		if($this->iscloud){
+			return;
+		}
 		if($this->getCurrentUpdateSettings(false)['unsigned_module_emails'] === 'disabled'){
 			$this->freepbx->Notifications->delete("freepbx", "SIGEMAIL");
 			return true;
