@@ -13,7 +13,7 @@ class UpdateManager {
 		$this->machine_id = $settings['system_ident'];
 		if($this->freepbx->Modules->checkStatus('sysadmin')) {
 			if (method_exists($this->freepbx->Sysadmin(),"isCloudDeployment")) {
-				if($this->freepbx->isCloudDeployment()){
+				if($this->freepbx->Sysadmin->isCloudDeployment()){
 					$this->iscloud = true;
 				}
 			}
