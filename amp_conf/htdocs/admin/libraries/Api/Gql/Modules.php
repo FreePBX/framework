@@ -295,7 +295,7 @@ class Modules extends Base {
 							try{
 								$status = $this->freepbx->api->getTransactionStatus($args['txnId']);
 								if(isset($status['event_status']) && $status['event_status'] != null){
-									return ['message' => $status['event_status'], 'status' => true, 'details' => $status['failure_reason']] ;
+									return ['message' => $status['event_status'], 'status' => true, 'details' => $status['failure_reason'],'event_output' => $status['event_output']] ;
 								}else{
 									return ['message' => 'Sorry unable to fetch the status', 'status' => true] ;
 								}
@@ -425,6 +425,10 @@ class Modules extends Base {
 				'details' => [
 					'type' => Type::string(),
 					'description' => _('Output of the API')
+				],
+				'event_output' => [
+					'type' => Type::string(),
+					'description' => _('Event Output of the API'),
 				],
 				'state' => [
 					'type' => Type::string(),
