@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-06-27 02:10+0000\n"
+"POT-Creation-Date: 2022-08-08 05:26+0000\n"
 "PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -582,14 +582,14 @@ msgstr ""
 msgid "%s will be removed from the hard disk"
 msgstr "%s はハードディスクから削除します"
 
-#: ../core/Core.class.php:4065
+#: ../core/Core.class.php:4073
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
 "result all AGIs will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: ../core/Core.class.php:4086
+#: ../core/Core.class.php:4094
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but the FastAGI server was unable to start, As a result all AGIs will be "
@@ -917,7 +917,7 @@ msgid ""
 "remove]"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:518
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:522
 #, php-format
 msgid ""
 "Action[%s] on module[%s] has been initiated. Please check the status using "
@@ -1774,7 +1774,7 @@ msgstr ""
 "POST_RELOAD_DEBUG=trueにした場合,そのスクリプトの結果をウェブページ上に表示す"
 "ることができます。"
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:506
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:510
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:376
 msgid ""
 "Backup & Restore process is in progress. Please wait till the process is "
@@ -2738,12 +2738,12 @@ msgstr "コア"
 msgid "Core Device's found successfully"
 msgstr ""
 
-#: ../core/Core.class.php:3944
+#: ../core/Core.class.php:3952
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:4018
+#: ../core/Core.class.php:4026
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -3657,7 +3657,7 @@ msgstr "開発者モード"
 msgid "Developer and Customization"
 msgstr "開発者とカスタマイズ"
 
-#: ../core/Core.class.php:3748 ../core/functions.inc.php:5066
+#: ../core/Core.class.php:3756 ../core/functions.inc.php:5066
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -4080,7 +4080,7 @@ msgstr ""
 msgid "Doreload is required"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:553
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:557
 msgid ""
 "Doreload/apply config has been initiated. Please check the status using "
 "fetchApiStatus api with the returned transaction id"
@@ -4826,6 +4826,10 @@ msgstr ""
 msgid "Errors with selection:"
 msgstr "選択エラー："
 
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:431
+msgid "Event Output of the API"
+msgstr ""
+
 #: ../core/page.astmodules.php:67
 msgid "Excluded Modules"
 msgstr ""
@@ -4909,7 +4913,7 @@ msgstr "拡張"
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:261
 #: ../core/Core.class.php:3346 ../core/Core.class.php:3347
-#: ../core/Core.class.php:3736 ../core/functions.inc.php:4735
+#: ../core/Core.class.php:3744 ../core/functions.inc.php:4735
 #: ../core/page.did.php:93 ../core/page.extensions.php:39
 #: ../core/page.extensions.php:132 ../core/page.extensions.php:160
 #: ../core/views/rnav.php:23
@@ -5146,7 +5150,7 @@ msgstr "アンインストールスクリプトの実行に失敗しました"
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
-#: ../core/Core.class.php:3996
+#: ../core/Core.class.php:4004
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -5183,11 +5187,11 @@ msgstr "indications.confへの書き込み失敗"
 msgid "Fallback Welcome Page"
 msgstr ""
 
-#: ../core/Core.class.php:4079 ../core/Core.class.php:4086
+#: ../core/Core.class.php:4087 ../core/Core.class.php:4094
 msgid "Fast AGI Server not running"
 msgstr ""
 
-#: ../core/Core.class.php:4037
+#: ../core/Core.class.php:4045
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -6498,7 +6502,7 @@ msgstr ""
 msgid "Inbound Route updated successfully"
 msgstr ""
 
-#: ../core/Core.class.php:3790 ../core/Core.class.php:3799
+#: ../core/Core.class.php:3798 ../core/Core.class.php:3807
 msgid "Inbound Route:"
 msgstr ""
 
@@ -6870,7 +6874,7 @@ msgstr ""
 msgid "Launch local AGIs through FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:4079
+#: ../core/Core.class.php:4087
 #, php-format
 msgid ""
 "Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
@@ -7510,7 +7514,7 @@ msgid "Module Not Installed"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:371
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:431
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:435
 msgid "Module Status"
 msgstr ""
 
@@ -7580,7 +7584,7 @@ msgstr "モジュールがインストールされていません： アンイ�
 msgid "Module signature expired"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:475
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:479
 msgid "Module status"
 msgstr ""
 
@@ -8499,7 +8503,7 @@ msgstr "内部発信コール"
 msgid "Outbound Proxy"
 msgstr ""
 
-#: ../core/Core.class.php:3773
+#: ../core/Core.class.php:3781
 msgid "Outbound Route:"
 msgstr ""
 
@@ -8658,7 +8662,7 @@ msgstr ""
 msgid "PJSIP Settings"
 msgstr ""
 
-#: ../core/Core.class.php:4065
+#: ../core/Core.class.php:4073
 msgid "PM2 Not installed"
 msgstr ""
 
@@ -9609,7 +9613,7 @@ msgstr "戻る"
 msgid "Returns all the advance setting's details "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:435
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:439
 msgid "Returns installed modules list"
 msgstr ""
 
@@ -9734,7 +9738,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr ""
 
-#: ../core/Core.class.php:3713 ../core/Core.class.php:3714
+#: ../core/Core.class.php:3721 ../core/Core.class.php:3722
 #, php-format
 msgid "SIP (%s)"
 msgstr ""
@@ -10615,7 +10619,7 @@ msgstr "標準"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr ""
 
-#: ../core/Core.class.php:3991
+#: ../core/Core.class.php:3999
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -10633,7 +10637,7 @@ msgstr ""
 msgid "Starting Cache cleanup"
 msgstr ""
 
-#: ../core/Core.class.php:3950
+#: ../core/Core.class.php:3958
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -10686,7 +10690,7 @@ msgstr ""
 msgid "Stopped Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4033
+#: ../core/Core.class.php:4041
 msgid "Stopped FastAGI Server"
 msgstr ""
 
@@ -10698,7 +10702,7 @@ msgstr ""
 msgid "Stopping Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4024
+#: ../core/Core.class.php:4032
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -11378,19 +11382,19 @@ msgstr ""
 msgid "The module category in FreePBX UI"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:495
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:499
 msgid "The module is broken"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:483
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:487
 msgid "The module is disabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:487
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:491
 msgid "The module is enabled"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:479
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:483
 msgid "The module is not installed"
 msgstr ""
 
@@ -11402,7 +11406,7 @@ msgstr ""
 msgid "The module license type "
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:491
+#: amp_conf/htdocs/admin/libraries/Api/Gql/Modules.php:495
 msgid "The module needs to be upgraded"
 msgstr ""
 
@@ -12305,7 +12309,7 @@ msgstr "トランク名とユーザーコンテキストを同じ値に設定す
 msgid "Trunk Sequence for Matched Routes"
 msgstr "一致したルートのトランクシーケンス"
 
-#: ../core/Core.class.php:3781
+#: ../core/Core.class.php:3789
 msgid "Trunk:"
 msgstr ""
 
@@ -12931,7 +12935,7 @@ msgid ""
 "barbushin/php-console"
 msgstr ""
 
-#: ../core/Core.class.php:3760 ../core/functions.inc.php:4737
+#: ../core/Core.class.php:3768 ../core/functions.inc.php:4737
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
