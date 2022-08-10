@@ -39,6 +39,10 @@ class Unlock extends Command {
 			$_SESSION["AMP_user"] = new \ampuser('fwconsole');
 			$_SESSION["AMP_user"]->setAdmin();
 			$output->writeln(_('Session Should be unlocked now'));
+			if ($FreePBX->Modules->checkStatus('pbxsecurity') && method_exists($FreePBX->Pbxsecurity->mfa, 'updateSessionData')) { 
+				// Update User Session data on DB
+				$FreePBX->Pbxsecurity->mfa->updateSessionData($args[0]);
+			}
 		}
 		session_write_close();
 		chown($file,$this->FreePBXConf->get("AMPASTERISKWEBUSER"));
