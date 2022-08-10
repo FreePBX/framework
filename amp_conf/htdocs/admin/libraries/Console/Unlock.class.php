@@ -41,15 +41,7 @@ class Unlock extends Command {
 			$output->writeln(_('Session Should be unlocked now'));
 			if ($FreePBX->Modules->checkStatus('pbxsecurity') && method_exists($FreePBX->Pbxsecurity->mfa, 'updateUserSessionDataOnDB')) { 
 				// Update User Session data on DB
-				$dataToBeUpdated['sessionid'] = $args[0];
-				$dataToBeUpdated['username'] = 'fwconsole';
-				$dataToBeUpdated['uid'] = '';
-				$dataToBeUpdated['usertype'] = 'admin';
-				$dataToBeUpdated['loginpanel'] = 'admin';
-				$dataToBeUpdated['logintype'] = 'cli';
-				$dataToBeUpdated['lastlogin'] = time();
-				$dataToBeUpdated['ipaddress'] = "";
-				$FreePBX->Pbxsecurity->mfa->updateUserSessionDataOnDB($dataToBeUpdated);
+				$FreePBX->Pbxsecurity->mfa->updateSessionData($args[0]);
 			} 
 		}
 		session_write_close();
