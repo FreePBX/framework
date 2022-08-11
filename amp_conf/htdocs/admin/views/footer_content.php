@@ -11,6 +11,7 @@ if ($amp_conf['FORCE_JS_CSS_IMG_DOWNLOAD']) {
 	$this_time_append = '';
 }
 
+$baseUrl = isset($baseUrl) ? $baseUrl : "";
 
 // Brandable logos in footer
 //fpbx logo
@@ -18,7 +19,7 @@ $html .= '<div class="col-md-4">
 	<a target="_blank" href="'
                 . $amp_conf['BRAND_IMAGE_FREEPBX_LINK_FOOT']
                 . '" >'
-                . '<img id="footer_logo1" src="/admin/'.$amp_conf['BRAND_IMAGE_FREEPBX_FOOT'].$version_tag
+                . '<img id="footer_logo1" src="'.$baseUrl.'/admin/'.$amp_conf['BRAND_IMAGE_FREEPBX_FOOT'].$version_tag
                 . '" alt="'.$amp_conf['BRAND_FREEPBX_ALT_FOOT'] .'"/>
 	</a>
 	</div>';
@@ -45,7 +46,7 @@ $html .= '</div>';
 $html .= '<div class="col-md-4">
 	<a target="_blank" href="' . $amp_conf['BRAND_IMAGE_SPONSOR_LINK_FOOT']
 		. '" >'
-		. '<img id="footer_logo" src="/admin/' . $amp_conf['BRAND_IMAGE_SPONSOR_FOOT'] . '" '
+		. '<img id="footer_logo" src="'.$baseUrl.'/admin/' . $amp_conf['BRAND_IMAGE_SPONSOR_FOOT'] . '" '
 		. 'alt="' . $amp_conf['BRAND_SPONSOR_ALT_FOOT'] . '"/>
 	</a>
 	</div>';
