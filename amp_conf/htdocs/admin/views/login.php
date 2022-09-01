@@ -16,10 +16,10 @@
 	</form>
 </div>
 <?php
-	if (\FreePBX::Modules()->checkStatus('pbxsecurity')) {
+	if (\FreePBX::Modules()->checkStatus('pbxmfa')) {
 	$userType = 'admin';
 	$webrootpath = \FreePBX::Config()->get('AMPWEBROOT');
-	include $webrootpath . '/admin/modules/pbxsecurity/views/mfa/otpModal.php';
+	include $webrootpath . '/admin/modules/pbxmfa/views/mfa/otpModal.php';
 	}
 ?>
 <div id="login_icon_holder">

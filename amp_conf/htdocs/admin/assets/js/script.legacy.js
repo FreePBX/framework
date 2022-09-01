@@ -1819,12 +1819,8 @@ $(document).ready(function() {
 					{
 						text: fpbx.msg.framework.continuemsg,
 						click: function () {
-							if (typeof checkPasswordReminder === "function") {
-								if ($('div.ui-dialog-buttonpane.ui-widget-content.ui-helper-clearfix > div > button:nth-child(1)').hasClass("resetPasswordButton")) {
-									resetAdminPassswordWithToken(this);
-								} else {
-									checkPasswordReminder(this);
-								}
+							if (typeof checkMFAenabled === "function") {
+								checkMFAenabled(false, false, false, '', this);
 							} else {
 								$(this).find("form").trigger("submit");
 							}
