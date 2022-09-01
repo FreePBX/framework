@@ -51,7 +51,7 @@ class System extends Base {
 				]),
 				'switchAstriskVersion' => Relay::mutationWithClientMutationId([
 					'name' => 'switchAstriskVersion',
-					'description' => _('Swictch Asterisk version'),
+					'description' => _('Switch Asterisk version'),
 					'inputFields' => ['asteriskVersion' => [
 											'type' => Type::id(),
 											'description' => _('Asterisk version switch number, default is set to 18'),
@@ -498,18 +498,18 @@ class System extends Base {
 	}
 
 	private function updateAstriskVersion($input){
-	
-		exec("rpm -qa | grep asterisk-version-switch", $output_lines, $ret);
+			
+		$response = exec("rpm -q --queryformat '%{VERSION}' asterisk-version-switch");
+		$result = false;
+		if(is_numeric($response) && $response >= 6.1){
+			$output = exec("rpm -q --queryformat '%{RELEASE}' asterisk-version-switch");
+			$output = isset($output) ? explode('.', $output) : null;
+			if($output >= 19){
+				$result = true;
+			}
+		}
 
-		$output = isset($output_lines[0]) ? $output_lines[0] : null;
-		$output = isset($output) ? explode('asterisk-version-switch-', $output) : null;
-		$output = isset($output[1]) ? $output[1] : null;
-		$output = isset($output) ? explode('.sng7.noarch', $output) : null;
-		$output = isset($output[0]) ? $output[0] : null;
-		$output = isset($output) ? explode('-', $output) : null;
-		
-		if( $output[0] >= 6.1 && $output[1] >= 19){
-
+		if($result){
 			$asteriskVersion = isset($input['asteriskVersion']) ? $input['asteriskVersion'] : 18;
 
 			if($asteriskVersion === 19){
