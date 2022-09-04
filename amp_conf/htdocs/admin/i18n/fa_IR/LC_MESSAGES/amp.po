@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-08-29 02:54+0000\n"
+"POT-Creation-Date: 2022-09-04 02:15+0000\n"
 "PO-Revision-Date: 2016-05-15 07:22+0200\n"
 "Last-Translator: Media <mousavi.media@gmail.com>\n"
 "Language-Team: Persian (Iran) <http://weblate.freepbx.org/projects/freepbx/"
@@ -547,14 +547,14 @@ msgstr "%s version %s or  higher is required, you have %s"
 msgid "%s will be removed from the hard disk"
 msgstr "%s از هارد دیسک حذف خواهد شد"
 
-#: ../core/Core.class.php:4092
+#: ../core/Core.class.php:4088
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but PM2 is not installed so we were unable to start the FastAGI server, As a "
 "result all AGIs will be forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: ../core/Core.class.php:4113
+#: ../core/Core.class.php:4109
 msgid ""
 "'Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
 "but the FastAGI server was unable to start, As a result all AGIs will be "
@@ -794,7 +794,7 @@ msgid ""
 ">Advanced Settings."
 msgstr ""
 
-#: ../core/page.ampusers.php:170
+#: ../core/page.ampusers.php:166
 msgid "ALL SECTIONS"
 msgstr "تمام بخش ها"
 
@@ -861,7 +861,7 @@ msgstr ""
 msgid "Accept"
 msgstr "قبول کردن"
 
-#: ../core/page.ampusers.php:265
+#: ../core/page.ampusers.php:261
 msgid "Access Restrictions"
 msgstr "محدودیت دسترسی"
 
@@ -882,7 +882,7 @@ msgstr "کد حساب برای این وسیله."
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:329
-#: ../core/page.ampusers.php:290 ../core/page.astmodules.php:91
+#: ../core/page.ampusers.php:286 ../core/page.astmodules.php:91
 #: ../core/page.astmodules.php:108 ../core/page.astmodules.php:125
 msgid "Action"
 msgstr "عمل"
@@ -936,7 +936,7 @@ msgstr "افزودن %s داخلی"
 msgid "Add %s Trunk"
 msgstr "افزودن %s ترانک"
 
-#: ../core/page.ampusers.php:113
+#: ../core/page.ampusers.php:109
 msgid "Add Administrator"
 msgstr "افزودن مدیریت"
 
@@ -948,14 +948,14 @@ msgstr "افزودن داخلی مستقیم به DAHDI"
 msgid "Add DAHDi DID"
 msgstr "افزودن داخلی مستقیم به DAHDI"
 
-#: ../core/page.ampusers.php:144 ../core/page.ampusers.php:167
+#: ../core/page.ampusers.php:140 ../core/page.ampusers.php:163
 #: ../core/views/rnav.php:68
 msgid "Add Device"
 msgstr "افزودن وسیله"
 
 #: ../core/functions.inc.php:4770 ../core/functions.inc.php:5138
-#: ../core/functions.inc.php:5157 ../core/page.ampusers.php:144
-#: ../core/page.ampusers.php:167 ../core/page.extensions.php:29
+#: ../core/functions.inc.php:5157 ../core/page.ampusers.php:140
+#: ../core/page.ampusers.php:163 ../core/page.extensions.php:29
 #: ../core/page.extensions.php:114 ../core/views/rnav.php:9
 msgid "Add Extension"
 msgstr "افزودن داخلی"
@@ -1074,7 +1074,7 @@ msgstr ".Adhoc"
 msgid "Admin"
 msgstr "مدیر"
 
-#: ../core/page.ampusers.php:273
+#: ../core/page.ampusers.php:269
 msgid "Admin Access"
 msgstr "دسترسی مدیر"
 
@@ -1353,7 +1353,7 @@ msgstr "هر داخلی مستقیم"
 msgid "Applications"
 msgstr "برنامه ها"
 
-#: ../core/page.ampusers.php:145 ../core/page.ampusers.php:164
+#: ../core/page.ampusers.php:141 ../core/page.ampusers.php:160
 msgid "Apply Changes Bar"
 msgstr "اعمال نوار تغییرات"
 
@@ -1678,7 +1678,7 @@ msgstr ""
 msgid "Authorization Type"
 msgstr "نوع مجوز"
 
-#: ../core/page.ampusers.php:137
+#: ../core/page.ampusers.php:133
 msgid ""
 "Authorization Type is not set to 'database' in Advanced Settings - note that "
 "this module is not currently providing access control, and changing "
@@ -1690,7 +1690,7 @@ msgstr ""
 "passwords here or adding users will have no effect unless Authorization Type "
 "is set to 'database'."
 
-#: ../core/page.ampusers.php:139
+#: ../core/page.ampusers.php:135
 msgid ""
 "Authorization Type is set to 'usermanager' in Advanced Settings - note that "
 "this module is not currently providing full access control and is only used "
@@ -2774,12 +2774,12 @@ msgstr "هسته"
 msgid "Core Device's found successfully"
 msgstr ""
 
-#: ../core/Core.class.php:3971
+#: ../core/Core.class.php:3967
 #, php-format
 msgid "Core FastAGI Server has already been running on PID %s for %s"
 msgstr ""
 
-#: ../core/Core.class.php:4045
+#: ../core/Core.class.php:4041
 msgid "Core FastAGI Server is not running"
 msgstr ""
 
@@ -2902,11 +2902,11 @@ msgstr "نشانه بوق کشور"
 msgid "Create a Range of Extensions"
 msgstr ""
 
-#: ../core/page.ampusers.php:251
+#: ../core/page.ampusers.php:247
 msgid "Create a password for this new user"
 msgstr "ایجاد کلمه عبور برای کاربر جدید"
 
-#: ../core/page.ampusers.php:230
+#: ../core/page.ampusers.php:226
 msgid "Create a unique username for this user"
 msgstr "ایجاد نام کاربری واحد برای این کاربر"
 
@@ -3709,7 +3709,7 @@ msgstr "حالت توسعه دهنده"
 msgid "Developer and Customization"
 msgstr "توسعه دهنده و شخصی ساز"
 
-#: ../core/Core.class.php:3775 ../core/functions.inc.php:5075
+#: ../core/Core.class.php:3771 ../core/functions.inc.php:5075
 #: ../core/page.devices.php:65 ../core/page.devices.php:86
 #: ../core/views/rnav.php:81
 msgid "Device"
@@ -4321,7 +4321,7 @@ msgstr "ویرایش %s"
 msgid "Edit %s %s (%s)"
 msgstr "ویرایش %s %s (%s)"
 
-#: ../core/page.ampusers.php:122
+#: ../core/page.ampusers.php:118
 msgid "Edit Administrator"
 msgstr "ویرایش مدیریت"
 
@@ -4981,7 +4981,7 @@ msgstr "تمدید شده"
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:261
 #: ../core/Core.class.php:3364 ../core/Core.class.php:3365
-#: ../core/Core.class.php:3763 ../core/functions.inc.php:4744
+#: ../core/Core.class.php:3759 ../core/functions.inc.php:4744
 #: ../core/page.did.php:93 ../core/page.extensions.php:39
 #: ../core/page.extensions.php:132 ../core/page.extensions.php:160
 #: ../core/views/rnav.php:23
@@ -5212,7 +5212,7 @@ msgstr "شکست در اجرای اسکریپت های عزل"
 msgid "Failed to run yum Upgrade"
 msgstr ""
 
-#: ../core/Core.class.php:4023
+#: ../core/Core.class.php:4019
 #, php-format
 msgid "Failed to run: '%s'"
 msgstr ""
@@ -5249,11 +5249,11 @@ msgstr "شکست در نوشتن indications.conf"
 msgid "Fallback Welcome Page"
 msgstr "جانشین صفحه خوش آمد"
 
-#: ../core/Core.class.php:4106 ../core/Core.class.php:4113
+#: ../core/Core.class.php:4102 ../core/Core.class.php:4109
 msgid "Fast AGI Server not running"
 msgstr ""
 
-#: ../core/Core.class.php:4064
+#: ../core/Core.class.php:4060
 #, php-format
 msgid "FastAGI Server Failed: %s"
 msgstr ""
@@ -5803,7 +5803,7 @@ msgstr ""
 msgid "General Retry Interval"
 msgstr "وقفه تلاش مجدد عمومی"
 
-#: ../core/page.ampusers.php:209
+#: ../core/page.ampusers.php:205
 msgid "General Settings"
 msgstr "تنظیمات عمومی"
 
@@ -6599,7 +6599,7 @@ msgstr ""
 msgid "Inbound Route updated successfully"
 msgstr ""
 
-#: ../core/Core.class.php:3817 ../core/Core.class.php:3826
+#: ../core/Core.class.php:3813 ../core/Core.class.php:3822
 msgid "Inbound Route:"
 msgstr "مسیر ورودی:"
 
@@ -6977,7 +6977,7 @@ msgstr ""
 msgid "Launch local AGIs through FastAGI Server"
 msgstr ""
 
-#: ../core/Core.class.php:4106
+#: ../core/Core.class.php:4102
 #, php-format
 msgid ""
 "Launch local AGIs through FastAGI Server' was enabled in Advanced Settings "
@@ -7847,7 +7847,7 @@ msgstr ""
 "both internal and external devices. Set to No if the device will always be "
 "internal."
 
-#: ../core/page.ampusers.php:137 ../core/page.ampusers.php:139
+#: ../core/page.ampusers.php:133 ../core/page.ampusers.php:135
 msgid "NOTE"
 msgstr "یادداشت"
 
@@ -8191,7 +8191,7 @@ msgstr "قابل دسترسی نیست"
 msgid "Not Required"
 msgstr "لازم نیست"
 
-#: ../core/page.ampusers.php:298
+#: ../core/page.ampusers.php:294
 msgid "Not Selected"
 msgstr "انتخاب نشده"
 
@@ -8636,7 +8636,7 @@ msgstr "تماس های داخلی"
 msgid "Outbound Proxy"
 msgstr "پراکسی تماس خروجی"
 
-#: ../core/Core.class.php:3800
+#: ../core/Core.class.php:3796
 msgid "Outbound Route:"
 msgstr "مسیر تماس خروجی:"
 
@@ -8794,7 +8794,7 @@ msgstr "منطقه زمانی PHP"
 msgid "PJSIP Settings"
 msgstr "تنظیمات PJSIP"
 
-#: ../core/Core.class.php:4092
+#: ../core/Core.class.php:4088
 msgid "PM2 Not installed"
 msgstr ""
 
@@ -8815,7 +8815,7 @@ msgid "Packaged (Released)"
 msgstr "بسته بنده شده (ارایه شده)"
 
 #: amp_conf/htdocs/admin/views/obe.php:30
-#: amp_conf/htdocs/admin/views/oobe.php:44 ../core/page.ampusers.php:240
+#: amp_conf/htdocs/admin/views/oobe.php:44 ../core/page.ampusers.php:236
 msgid "Password"
 msgstr "کلمه عبور"
 
@@ -9733,7 +9733,7 @@ msgstr ""
 "Restart  Asterisk and then refresh the browser in order to try accessing "
 "this menu item again."
 
-#: ../core/page.ampusers.php:173
+#: ../core/page.ampusers.php:169
 msgid "Restart Setup Wizard"
 msgstr ""
 
@@ -9887,7 +9887,7 @@ msgstr ""
 msgid "SECURITY NOTICE:"
 msgstr "هشدار امنیتی:"
 
-#: ../core/Core.class.php:3740 ../core/Core.class.php:3741
+#: ../core/Core.class.php:3736 ../core/Core.class.php:3737
 #, php-format
 msgid "SIP (%s)"
 msgstr "SIP  (%s)"
@@ -10109,11 +10109,11 @@ msgstr ""
 msgid "Select a Timezone"
 msgstr ""
 
-#: ../core/page.ampusers.php:313
+#: ../core/page.ampusers.php:309
 msgid "Select the Admin Sections this user should have access to."
 msgstr "بخش مدیریتی که این کاربر میتواند دسترسی داشته باشد انتخاب کنید."
 
-#: ../core/page.ampusers.php:281
+#: ../core/page.ampusers.php:277
 msgid "Selected"
 msgstr "انتخابی"
 
@@ -10799,7 +10799,7 @@ msgstr "استاندارد"
 msgid "Start Asterisk and run other needed FreePBX commands"
 msgstr "آغاز استریسک و اجرای دستورات لازم FreePBX"
 
-#: ../core/Core.class.php:4018
+#: ../core/Core.class.php:4014
 #, php-format
 msgid "Started Core FastAGI Server. PID is %s"
 msgstr ""
@@ -10817,7 +10817,7 @@ msgstr "استریسک در حال اجرا..."
 msgid "Starting Cache cleanup"
 msgstr "شروع پاک سازی کش"
 
-#: ../core/Core.class.php:3977
+#: ../core/Core.class.php:3973
 msgid "Starting Core FastAGI Server..."
 msgstr ""
 
@@ -10870,7 +10870,7 @@ msgstr "توقف استریسک و اجرای دستورات لازم FreePBX"
 msgid "Stopped Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4060
+#: ../core/Core.class.php:4056
 msgid "Stopped FastAGI Server"
 msgstr ""
 
@@ -10882,7 +10882,7 @@ msgstr ""
 msgid "Stopping Call trasnfer monitoring service "
 msgstr ""
 
-#: ../core/Core.class.php:4051
+#: ../core/Core.class.php:4047
 msgid "Stopping Core FastAGI Server"
 msgstr ""
 
@@ -12579,7 +12579,7 @@ msgstr "نام ترانک و متن کاربر نمیتواند یکی باشد"
 msgid "Trunk Sequence for Matched Routes"
 msgstr "توالی ترانک برای مسیرهای یکسان"
 
-#: ../core/Core.class.php:3808
+#: ../core/Core.class.php:3804
 msgid "Trunk:"
 msgstr "ترانک:"
 
@@ -13216,7 +13216,7 @@ msgstr ""
 "Used when  PHP Console is enabled for error debugging https://github.com/"
 "barbushin/php-console"
 
-#: ../core/Core.class.php:3787 ../core/functions.inc.php:4746
+#: ../core/Core.class.php:3783 ../core/functions.inc.php:4746
 #: ../core/page.devices.php:68 ../core/page.devices.php:89
 #: ../core/page.did.php:90 ../core/page.users.php:57 ../core/views/rnav.php:49
 msgid "User"
@@ -13295,7 +13295,7 @@ msgid "Usermanagment groupid. (comma seperated)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:20
-#: amp_conf/htdocs/admin/views/oobe.php:43 ../core/page.ampusers.php:218
+#: amp_conf/htdocs/admin/views/oobe.php:43 ../core/page.ampusers.php:214
 #: ../core/views/ampusers/bootnav.php:14 ../core/views/trunks/pjsip.php:54
 #: ../core/views/trunks/pjsip.php:1051
 msgid "Username"
