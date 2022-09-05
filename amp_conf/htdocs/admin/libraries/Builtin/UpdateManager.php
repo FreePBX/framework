@@ -3,7 +3,6 @@
 namespace FreePBX\Builtin;
 
 class UpdateManager {
-	private $iscloud = false;
 
 	public function __construct() {
 		$this->freepbx = \FreePBX::create();
@@ -11,15 +10,18 @@ class UpdateManager {
 		$this->brand = $this->freepbx->Config->get('DASHBOARD_FREEPBX_BRAND');
 		$settings = $this->getCurrentUpdateSettings(false); // Don't html encode the output
 		$this->machine_id = $settings['system_ident'];
+	}
+
+	private function isCloudDeployment() {
 		if($this->freepbx->Modules->checkStatus('sysadmin')) {
 			if (method_exists($this->freepbx->Sysadmin(),"isCloudDeployment")) {
 				if($this->freepbx->Sysadmin->isCloudDeployment()){
-					$this->iscloud = true;
+					return true;
 				}
 			}
 		}
+		return false;
 	}
-
 	/**
 	 * Handle an Ajax request from the Updates Page
 	 *
@@ -299,7 +301,7 @@ class UpdateManager {
 	 * @param int $priority
 	 */
 	public function sendEmail($tag, $subject, $message, $priority = 4, $force = false) {
-		if($this->iscloud){
+		if($this->isCloudDeployment()){
 			return;
 		}
 		$settings = $this->getCurrentUpdateSettings(false); // Don't html encode the output
@@ -377,7 +379,7 @@ class UpdateManager {
 	}
 
 	public function securityEmail() {
-		if($this->iscloud){
+		if($this->isCloudDeployment()){
 			return;
 		}
 		$security = $this->freepbx->Notifications->list_security();
@@ -404,7 +406,7 @@ class UpdateManager {
 	}
 
 	public function updateEmail($willupdate = false) {
-		if($this->iscloud){
+		if($this->isCloudDeployment()){
 			return;
 		}
 		$updates = $this->freepbx->Notifications->list_update();
@@ -434,7 +436,7 @@ class UpdateManager {
 	}
 
 	public function unsignedEmail() {
-		if($this->iscloud){
+		if($this->isCloudDeployment()){
 			return;
 		}
 		if($this->getCurrentUpdateSettings(false)['unsigned_module_emails'] === 'disabled'){
