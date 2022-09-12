@@ -18,11 +18,14 @@ if (isset($argv[1])) {
 
 $firstCommandOutput = [];
 $firstCommandReturn = 1;
-$cmd = "export TERM=xterm-256color && /usr/local/sbin/asterisk-version-switch " .$asteriskSwitchVersion . " 2>&1";
+
+shell_exec("export TERM=xterm-256color");
+
+$cmd = "/usr/local/sbin/asterisk-version-switch " .$asteriskSwitchVersion . " 2>&1";
 //Running version switch command
 exec($cmd, $firstCommandOutput, $firstCommandReturn);
 
-if($firstCommandReturn == 0){
+if($firstCommandReturn == 0) {
    $message = "Asterisk version upgraded Successfully";
    $status = "Executed";
 }else {
