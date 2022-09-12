@@ -18,7 +18,7 @@ if (isset($argv[1])) {
 
 $firstCommandOutput = [];
 $firstCommandReturn = 1;
-$cmd = "/usr/local/sbin/asterisk-version-switch " .$asteriskSwitchVersion;
+$cmd = "/usr/local/sbin/asterisk-version-switch " .$asteriskSwitchVersion . " 2>&1";
 //Running version switch command
 exec($cmd, $firstCommandOutput, $firstCommandReturn);
 
