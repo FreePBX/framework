@@ -1672,6 +1672,14 @@ class Moduleadmin extends Command {
 						$this->nt->add_notice('freepbx', 'VULNERABILITIES_FIXED', $l['display_text'], $l['extended_text'], '',true,true);
 					}
 				}
+
+				// check for faulty rpms and add dashboard notification
+				$this->nt->delete("freepbx", "RPM_BROKEN");
+				$brokenRpms = $this->updatemanager->checkBrokenRpm();
+				if($brokenRpms){
+					$this->nt->add_warning("freepbx", "RPM_BROKEN",_("You have some fault RPM versions running"),_("Found some faulty RPM versions please run 'yum update -y' manually to update to the latest version."));
+				}
+
 				$announcements = $this->mf->get_annoucements();
 				$this->showList(true);
 				$settings = $this->updatemanager->getCurrentUpdateSettings(false); // Don't html encode the output

@@ -1,6 +1,7 @@
 <?php
 // vim: set ai ts=4 sw=4 ft=php:
 namespace FreePBX\Builtin;
+use Symfony\Component\Process\Process;
 
 class UpdateManager {
 
@@ -484,6 +485,29 @@ class UpdateManager {
 			$warning .= $this->cleanHtml($item['extended_text'])."\n";
 		}
 		return $warning;
+	}
+
+	public function checkBrokenRpm()
+	{
+		// in future add the broken rpm version to this array
+		$brokenModules = [
+			'sysadmin' => 'sysadmin-5.6-5.6.50.sng.noarch',
+		];
+		$modNames = array_keys($brokenModules);
+		if(count($modNames) > 1) {
+			$moduleStr = implode("|",$modNames);
+			$process = new Process("rpm -qa | grep -E '$moduleStr'");
+		} else {
+			$process = new Process("rpm -qa | grep '".$modNames[0]."'");
+		}
+		$process->run();
+		$res = $process->getOutput();
+		foreach ($brokenModules as $_mod => $vers) {
+			if (strpos($res, $vers) !== false) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
 
