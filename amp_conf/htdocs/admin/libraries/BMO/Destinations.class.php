@@ -84,6 +84,7 @@ class Destinations {
 				'edit_url' => 'config.php?display=announcement&type='.$type.'&extdisplay='.urlencode($thisid),
 			);
 			*/
+			$dest_matches = array();
 			foreach (array_keys($dest_usage) as $mod) {
 				foreach ($destination as $test_dest) {
 					foreach ($dest_usage[$mod] as $dest_item) {
@@ -93,8 +94,8 @@ class Destinations {
 					}
 				}
 			}
+			return $dest_matches;
 		}
-		return $dest_matches;
 	}
 
 	/**
@@ -306,6 +307,22 @@ class Destinations {
 
 		if (!is_array($dest)) {
 			$dest = array($dest);
+		}
+
+		$data = $this->FreePBX->Hooks->processHooks($dest);
+		foreach($data as $mod => $return_modulo) {
+			if (! empty($return_modulo)) {
+				foreach($return_modulo as $target => $check_module) {
+					if (isset($this->dest_cache[$target])) {
+						$dest_results[$target] = $this->dest_cache[$target];
+					} else {
+						if(!empty($check_module)) {
+							$this->dest_cache[$target] = array(strtolower($mod) => $check_module);
+							$dest_results[$target] = $this->dest_cache[$target];
+						}
+					}
+				}
+			}
 		}
 
 		$this->FreePBX->Modules->loadAllFunctionsInc();

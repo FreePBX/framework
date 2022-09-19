@@ -48,6 +48,19 @@ class System extends Base {
 					'mutateAndGetPayload' => function () {
 						return $this->yumUpgrade();
 					}
+				]),
+				'switchAstriskVersion' => Relay::mutationWithClientMutationId([
+					'name' => 'switchAstriskVersion',
+					'description' => _('Switch Asterisk version'),
+					'inputFields' => ['asteriskVersion' => [
+											'type' => Type::id(),
+											'description' => _('Asterisk version switch number, default is set to 18'),
+											'defaultValue' => 18 ],
+										  ],
+					'outputFields' => $this->getOutputFields(),
+					'mutateAndGetPayload' => function ($input) {
+						return $this->updateAstriskVersion($input);
+					}
 				])
 				];
 			};
@@ -375,9 +388,9 @@ class System extends Base {
 		if(!$status) {
 			return ['message' => _('Backup & Restore process is in progress. Please wait till the process is completed.'),'status' => false];
 		}
-		$txnId = $this->freepbx->api->addTransaction("Processing","system","yum-run-update");
-		$res = false;
 		if(\FreePBX::Modules()->checkStatus('sysadmin')){
+			$txnId = $this->freepbx->api->addTransaction("Processing","system","yum-run-update");
+			$res = false;
 			$res = \FreePBX::Sysadmin()->ApiHooks()->runModuleSystemHook('framework','yum-run-update',$txnId);
 		}
 		if($res){
@@ -482,5 +495,42 @@ class System extends Base {
 			return ['message' => _('Automatic update status'), 'status' => true , 'systemUpdates' =>  $row['auto_system_updates'], 'moduleUpdates' =>  $row['auto_module_updates'] , 'moduleSecurityUpdates' => $row['auto_module_security_updates']];
 		}
 		return ['message' => _('Sorry, Could not find automatic update status'), 'status' => false];
+	}
+
+	private function updateAstriskVersion($input){
+			
+		$response = exec("rpm -q --queryformat '%{VERSION}' asterisk-version-switch");
+		$result = false;
+		if(is_numeric($response) && $response >= 6.1){
+			$output = exec("rpm -q --queryformat '%{RELEASE}' asterisk-version-switch");
+			$output = isset($output) ? explode('.', $output) : null;
+			if($output >= 19){
+				$result = true;
+			}
+		}
+
+		if($result){
+			$asteriskVersion = isset($input['asteriskVersion']) ? $input['asteriskVersion'] : 18;
+
+			if($asteriskVersion === 19){
+				$asteriskSwitchVersion = 9;
+			}else{
+				$asteriskSwitchVersion = 7;
+			} 
+			
+			if($this->freepbx->Modules->checkStatus('sysadmin')){
+				$txnId = $this->freepbx->api->addTransaction("Processing","framework","switch-asterisk-version");
+				$res = false;
+				$res = \FreePBX::Sysadmin()->ApiHooks()->runModuleSystemHook('framework','switch-asterisk-version',array($txnId,$asteriskSwitchVersion));
+			}
+
+			if($res){
+				return ['message' => _('Asterisk version switch has started. Kindly check the fetchApiStatus api with the transaction id.'),'status' => true , 'transaction_id' => $txnId];
+			}else{
+				return ['message' => _('Failed to start asterisk version switch'),'status' => false];
+			}
+		}else{
+				return ['message' => _('A minium of asterisk-version-switch-6.1-19 or higher is required'),'status' => false];
+		}
 	}
 }

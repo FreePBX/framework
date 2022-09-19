@@ -15,6 +15,13 @@
 		</div>
 	</form>
 </div>
+<?php
+	if (\FreePBX::Modules()->checkStatus('pbxmfa')) {
+	$userType = 'admin';
+	$webrootpath = \FreePBX::Config()->get('AMPWEBROOT');
+	include $webrootpath . '/admin/modules/pbxmfa/views/mfa/otpModal.php';
+	}
+?>
 <div id="login_icon_holder">
 	<div class="login_item_title">
 		<a href="#" class="login_item" id="login_admin" style="background-image: url(assets/images/sys-admin.png);"/>&nbsp;</a>

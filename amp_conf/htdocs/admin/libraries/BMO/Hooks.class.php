@@ -369,7 +369,7 @@ class Hooks extends DB_Helper {
 		$return = null;
 		if(!empty($sortedHooks)) {
 			foreach($sortedHooks as $hook) {
-				if($hook['module'] === $mod) {
+				if(strtolower($hook['module']) === strtolower($mod)) {
 					$return = $this->executeCall($hook, $args);
 				}
 			}

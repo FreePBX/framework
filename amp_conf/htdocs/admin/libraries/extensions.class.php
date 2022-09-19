@@ -112,7 +112,9 @@ class extensions {
 	function addGlobal($globvar, $globval) {
 		$this->_globals[$globvar] = $globval;
 	}
-
+	function addGeneral($genevar, $geneval) {
+		$this->_generals[$genevar] = $geneval;
+	}
 	function addInclude($section, $incsection, $comment='') {
     $this->_includes[$section][] = array('include' => $incsection, 'comment' => $comment);
 	}
@@ -354,7 +356,14 @@ class extensions {
 	*/
 	function generateConf() {
 		$output = "";
-
+		if(isset($this->_generals) && is_array($this->_generals)){
+			$output .= "[general]\n";
+			foreach (array_keys($this->_generals) as $gene) {
+				$output .= $gene." = ".$this->_generals[$gene]."\n";
+			}
+			$output .= "#include general_custom.conf\n";
+			$output .= "\n;end of [general]\n\n";
+		}
 		/* sorting is not necessary anymore
 		if (!$this->_sorted) {
 			$this->sort();
