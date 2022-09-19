@@ -98,9 +98,14 @@ class SystemUpdates {
 				unlink("/var/spool/asterisk/incron/framework.yum-check-updates");
 			}
 			touch("/var/spool/asterisk/incron/framework.yum-check-updates");
+			$nt = \notifications::create();
 			if($this->checkIfTestingRepoEnabled()) {
-				$nt = \notifications::create();
 				$nt->add_warning('framework', 'test_repos_enabled', _("Test repos are enabled"), _("'sangoma-devel' rpm is installed.\nyum repo 'sng7-testing' is enabled."), "", false, true);
+			}
+
+			$nt->delete("freepbx", "RPM_BROKEN");
+			if($this->checkBrokenRpm()) {
+				$nt->add_warning("freepbx", "RPM_BROKEN",_("You have some fault RPM versions running"),_("Found some faulty RPM versions please run 'yum update -y' manually to update to the latest version."));
 			}
 			// Wait up to 5 seconds for it to start
 			$endafter = time()+5;
@@ -137,6 +142,13 @@ class SystemUpdates {
 				unlink("/var/spool/asterisk/incron/framework.yum-update-system");
 			}
 			touch("/var/spool/asterisk/incron/framework.yum-update-system");
+
+			$nt = \notifications::create();
+			$nt->delete("freepbx", "RPM_BROKEN");
+			if($this->checkBrokenRpm()) {
+				$nt->add_warning("freepbx", "RPM_BROKEN",_("You have some fault RPM versions running"),_("Found some faulty RPM versions please run 'yum update -y' manually to update to the latest version."));
+			}
+
 			// Wait up to 5 seconds for it to start
 			$endafter = time()+5;
 			while (time() < $endafter) {
@@ -698,5 +710,26 @@ class SystemUpdates {
 			}
         }
         return false;
+	}
+
+	public function checkBrokenRpm()
+	{
+		// in future add the broken rpm version to this array
+		$brokenModules = [
+			'sysadmin' => 'sysadmin-5.6-5.6.50.sng.noarch',
+		];
+		$modNames = array_keys($brokenModules);
+		if(count($modNames) > 1) {
+			$moduleStr = implode("|",$modNames);
+			$process = exec("rpm -qa | grep -E '$moduleStr'");
+		} else {
+			$process = exec("rpm -qa | grep '".$modNames[0]."'");
+		}
+		foreach ($brokenModules as $_mod => $vers) {
+			if (strpos($process, $vers) !== false) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
