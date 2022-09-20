@@ -98,9 +98,14 @@ class SystemUpdates {
 				unlink("/var/spool/asterisk/incron/framework.yum-check-updates");
 			}
 			touch("/var/spool/asterisk/incron/framework.yum-check-updates");
+			$nt = \notifications::create();
 			if($this->checkIfTestingRepoEnabled()) {
-				$nt = \notifications::create();
 				$nt->add_warning('framework', 'test_repos_enabled', _("Test repos are enabled"), _("'sangoma-devel' rpm is installed.\nyum repo 'sng7-testing' is enabled."), "", false, true);
+			}
+
+			$nt->delete("freepbx", "RPM_BROKEN");
+			if($this->checkBrokenRpm()) {
+				$nt->add_warning("freepbx", "RPM_BROKEN",_("You have some fault RPM versions running"),_("Found some faulty RPM versions please run 'yum update -y' manually to update to the latest version."));
 			}
 			// Wait up to 5 seconds for it to start
 			$endafter = time()+5;
@@ -108,6 +113,7 @@ class SystemUpdates {
 				if ($this->isYumRunning()) {
 					return true;
 				}
+				return true;
 				usleep(100000); // 1/10th of a second.
 			}
 		} finally {
@@ -147,6 +153,11 @@ class SystemUpdates {
 			}
 		} finally {
 			$this->getLock()->release();
+			$nt = \notifications::create();
+			$nt->delete("freepbx", "RPM_BROKEN");
+			if($this->checkBrokenRpm()) {
+				$nt->add_warning("freepbx", "RPM_BROKEN",_("You have some fault RPM versions running"),_("Found some faulty RPM versions please run 'yum update -y' manually to update to the latest version."));
+			}
 		}
 
 		// If we made it here, the updates never started
@@ -698,5 +709,29 @@ class SystemUpdates {
 			}
         }
         return false;
+	}
+
+	public function checkBrokenRpm()
+	{
+		// in future add the broken rpm version to this array
+		$brokenRpms = [
+			'sysadmin-5.6-5.6.48.sng.noarch',
+			'sysadmin-5.6-5.6.49.sng.noarch',
+			'sysadmin-5.6-5.6.50.sng.noarch',
+			'sysadmin-5.6-5.6.51.sng.noarch',
+		];
+		$rpmNames = ['sysadmin'];
+		if(count($rpmNames) > 1) {
+			$moduleStr = implode("|",$rpmNames);
+			$process = exec("rpm -qa | grep -E '$moduleStr'");
+		} else {
+			$process = exec("rpm -qa | grep '".$rpmNames[0]."'");
+		}
+		foreach ($brokenRpms as $vers) {
+			if (strpos($process, $vers) !== false) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
