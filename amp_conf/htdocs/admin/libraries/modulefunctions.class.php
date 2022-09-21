@@ -2363,7 +2363,7 @@ class module_functions {
 			if(isset($this->modXMLCache[$modulename]) && $cached) {
 				return $this->modXMLCache[$modulename];
 			}
-			ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
+			ini_set('user_agent','Wget/ (Red Hat modified)');
 			$data = file_get_contents($xmlfile);
 			try {
 				$parser = new xml2Array($data);

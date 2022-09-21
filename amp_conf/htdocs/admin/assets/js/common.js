@@ -16,4 +16,12 @@ $(document).ready(function () {
         }
     });
 
+    let navTabs = $('.nav-tabs > li');
+    for (let tab of navTabs) {
+        if ($(tab).hasClass('active')) {
+            $(tab).children('a').addClass('active');
+            console.log(1);
+        }
+    }
+
 });

@@ -425,7 +425,7 @@ function file_get_contents_url($file_url) {
 
 	foreach ($file_url as $fn) {
 		if (!$amp_conf['MODULEADMINWGET']) {
-			ini_set('user_agent','Wget/1.10.2 (Red Hat modified)');
+			ini_set('user_agent','Wget/ (Red Hat modified)');
 			$contents = @ file_get_contents($fn);
 		}
 		if (empty($contents)) {

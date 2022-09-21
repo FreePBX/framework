@@ -70,7 +70,8 @@ var SearchC = Class.extend({
     console.log("No idea what to do with this: ", o);
   },
 
-  processItemClick: function(o) {
+  processItemClick: function (o) {
+    console.log(o)
     var item = o.o;
 
     var href;
