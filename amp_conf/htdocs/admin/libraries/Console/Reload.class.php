@@ -382,6 +382,13 @@ class Reload extends Command {
 			$this->freepbx->Notifications->delete('framework', 'retrieve_conf_post_custom');
 		}
 
+		//warning for use of mixmonitor for recordings
+		if(!$this->freepbx->Config->get('QUEUES_MIX_MONITOR')) {
+			$this->freepbx->Notifications->add_warning('queues', 'QUEUES_MIX_MONITOR', _("MixMonitor for recordings is disabled"), _('It is recommended that Mixmonitor be used for call recordings as the Asterisk Monitor application is deprecated. In Advanced Settings please set "Use MixMonitor for Recordings" to Yes.'));
+		} else {
+			$this->freepbx->Notifications->delete('queues', 'QUEUES_MIX_MONITOR');
+		}
+
 		/* As of Asterisk 1.4.16 or there abouts, a missing #include file will make the reload fail. So
 			we need to make sure that we have such for everything that is in our configs. We will simply
 			look for the #include statements and touch the files vs. trying to inventory everything we may
