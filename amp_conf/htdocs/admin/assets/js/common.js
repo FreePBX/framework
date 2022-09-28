@@ -16,11 +16,22 @@ $(document).ready(function () {
         }
     });
 
-    let navTabs = $('.nav-tabs > li');
+
+    // Bootstrap 4 nav tab active check
+    let navTabs = $('.nav-tabs > li > a');
+    let isTabActive = false;
     for (let tab of navTabs) {
         if ($(tab).hasClass('active')) {
-            $(tab).children('a').addClass('active');
-            console.log(1);
+            isTabActive = true;
+        }
+    }
+    if (!isTabActive) {
+        // Bootstrap 3 nav tab active check
+        navTabs = $('.nav-tabs > li');
+        for (let tab of navTabs) {
+            if ($(tab).hasClass('active')) {
+                $(tab).children('a').addClass('active');
+            }
         }
     }
 

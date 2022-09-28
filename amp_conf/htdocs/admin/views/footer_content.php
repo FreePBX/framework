@@ -25,7 +25,7 @@ $html .= '<div class="col-md-4" id="footer__left__logo__wrapper">
 	</div>';
 
 //text
-$html .= '<div class="col-md-3" id="footer_text">';
+$html .= '<div class="col-md-2" id="footer_text">';
 $html .= sprintf(_('%s is a registered trademark of'),'<a href="http://www.freepbx.org" target="_blank">FreePBX</a>') . br() . '<a href="http://www.freepbx.org/copyright.html" target="_blank"> Sangoma Technologies Inc.</a>' . br();
 $html .= sprintf(_('%s %s is licensed under the %s'),'FreePBX',$version,'<a href="http://www.gnu.org/copyleft/gpl.html" target="_blank"> GPL</a>') . br();
 $html .= '<a href="http://www.freepbx.org/copyright.html" target="_blank">Copyright&copy; 2007-'.date('Y',time()).'</a>';
