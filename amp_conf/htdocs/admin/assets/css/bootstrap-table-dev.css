@@ -1,6 +1,6 @@
 /**
  * @author zhixin wen <wenzhixin2010@gmail.com>
- * version: 1.20.1
+ * version: 1.21.0
  * https://github.com/wenzhixin/bootstrap-table/
  */
 .bootstrap-table .fixed-table-toolbar::after {
@@ -17,21 +17,21 @@
   margin-bottom: 10px;
 }
 
-.bootstrap-table .fixed-table-toolbar .columns .btn-group > .btn-group {
+.bootstrap-table .fixed-table-toolbar .columns .btn-group>.btn-group {
   display: inline-block;
   margin-left: -1px !important;
 }
 
-.bootstrap-table .fixed-table-toolbar .columns .btn-group > .btn-group > .btn {
+.bootstrap-table .fixed-table-toolbar .columns .btn-group>.btn-group>.btn {
   border-radius: 0;
 }
 
-.bootstrap-table .fixed-table-toolbar .columns .btn-group > .btn-group:first-child > .btn {
+.bootstrap-table .fixed-table-toolbar .columns .btn-group>.btn-group:first-child>.btn {
   border-top-left-radius: 4px;
   border-bottom-left-radius: 4px;
 }
 
-.bootstrap-table .fixed-table-toolbar .columns .btn-group > .btn-group:last-child > .btn {
+.bootstrap-table .fixed-table-toolbar .columns .btn-group>.btn-group:last-child>.btn {
   border-top-right-radius: 4px;
   border-bottom-right-radius: 4px;
 }
@@ -110,6 +110,10 @@
   padding-right: 30px !important;
 }
 
+.bootstrap-table .fixed-table-container .table thead th .sortable.sortable-center {
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
 .bootstrap-table .fixed-table-container .table thead th .both {
   background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAATCAQAAADYWf5HAAAAkElEQVQoz7X QMQ5AQBCF4dWQSJxC5wwax1Cq1e7BAdxD5SL+Tq/QCM1oNiJidwox0355mXnG/DrEtIQ6azioNZQxI0ykPhTQIwhCR+BmBYtlK7kLJYwWCcJA9M4qdrZrd8pPjZWPtOqdRQy320YSV17OatFC4euts6z39GYMKRPCTKY9UnPQ6P+GtMRfGtPnBCiqhAeJPmkqAAAAAElFTkSuQmCC");
 }
@@ -276,48 +280,48 @@
   clear: both;
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination-detail,
-.bootstrap-table .fixed-table-pagination > .pagination {
+.bootstrap-table .fixed-table-pagination>.pagination-detail,
+.bootstrap-table .fixed-table-pagination>.pagination {
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination-detail .pagination-info {
+.bootstrap-table .fixed-table-pagination>.pagination-detail .pagination-info {
   line-height: 34px;
   margin-right: 5px;
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination-detail .page-list {
+.bootstrap-table .fixed-table-pagination>.pagination-detail .page-list {
   display: inline-block;
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination-detail .page-list .btn-group {
+.bootstrap-table .fixed-table-pagination>.pagination-detail .page-list .btn-group {
   position: relative;
   display: inline-block;
   vertical-align: middle;
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination-detail .page-list .btn-group .dropdown-menu {
+.bootstrap-table .fixed-table-pagination>.pagination-detail .page-list .btn-group .dropdown-menu {
   margin-bottom: 0;
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination ul.pagination {
+.bootstrap-table .fixed-table-pagination>.pagination ul.pagination {
   margin: 0;
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination ul.pagination li.page-intermediate a {
+.bootstrap-table .fixed-table-pagination>.pagination ul.pagination li.page-intermediate a {
   color: #c8c8c8;
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination ul.pagination li.page-intermediate a::before {
+.bootstrap-table .fixed-table-pagination>.pagination ul.pagination li.page-intermediate a::before {
   content: "\2B05";
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination ul.pagination li.page-intermediate a::after {
+.bootstrap-table .fixed-table-pagination>.pagination ul.pagination li.page-intermediate a::after {
   content: "\27A1";
 }
 
-.bootstrap-table .fixed-table-pagination > .pagination ul.pagination li.disabled a {
+.bootstrap-table .fixed-table-pagination>.pagination ul.pagination li.disabled a {
   pointer-events: none;
   cursor: default;
 }
@@ -333,7 +337,8 @@
   overflow-y: scroll;
 }
 
-.bootstrap-table.bootstrap4 .pagination-lg .page-link, .bootstrap-table.bootstrap5 .pagination-lg .page-link {
+.bootstrap-table.bootstrap4 .pagination-lg .page-link,
+.bootstrap-table.bootstrap5 .pagination-lg .page-link {
   padding: .5rem 1rem;
 }
 
@@ -364,9 +369,11 @@ div.fixed-table-scroll-outer {
   0% {
     opacity: 0;
   }
+
   50% {
     opacity: 1;
   }
+
   to {
     opacity: 0;
   }
