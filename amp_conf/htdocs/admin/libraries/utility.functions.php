@@ -1458,7 +1458,7 @@ function version_min($origin, $list){
 function checkFreeSpace($allowedSpace)
 {
 	$availableSpace = disk_free_space("/");
-	$availableSpace = number_format($availableSpace/1073741824,2); //available space in GB
+	$availableSpace = round($availableSpace/1073741824,2); //available space in GB
 	if ($availableSpace <= $allowedSpace) {
 		return array('status'=>false, 'available_space'=> $availableSpace);
 	} else {
