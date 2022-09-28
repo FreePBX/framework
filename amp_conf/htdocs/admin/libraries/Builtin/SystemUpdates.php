@@ -714,6 +714,9 @@ class SystemUpdates {
 
 	public function checkBrokenRpm()
 	{
+		if(!\FreePBX::Modules()->checkStatus('sysadmin')) {
+			return false;
+		}
 		// in future add the broken rpm version to this array
 		$brokenRpms = [
 			'sysadmin-5.6-5.6.48.sng.noarch',
