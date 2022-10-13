@@ -19,12 +19,20 @@ if(version_compare($output,'8.0.0',"<")) {
 	return false;
 }
 
+$asterisk_vmax = "20";
+$asterisk_vmin = "11";
+
+$asterisk_validate_content = <<<EOF
+min = {$asterisk_vmin}
+max = {$asterisk_vmax}
+EOF;
+file_put_contents("/etc/asterisk/asterisk_validate.conf", $asterisk_validate_content);
 $engine_info = engine_getinfo();
 $astversion = $engine_info['version'];
-if (version_compare($astversion, "13", "lt") || version_compare($astversion, "20", "ge")) {
+if (version_compare($astversion, $asterisk_vmin, "lt") || version_compare($astversion, $asterisk_vmax, "gt")) {
 	out(sprintf(_("<error>Error!</error>")));
 	out(sprintf(_("<error>Unsupported Version of %s </error>"), $astversion));
-	out(sprintf(_("<error>Supported Asterisk versions: 13, 14, 15, 16, 17, 18, 19</error>")));
+	out(sprintf(_("<error>Supported Asterisk versions: %s to %s.</error>"), $asterisk_vmin, $asterisk_vmax));
 	exit(1);
 }
 out(sprintf(_("Determined Asterisk version to be: %s"), $astversion));

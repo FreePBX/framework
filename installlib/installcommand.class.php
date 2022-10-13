@@ -294,10 +294,31 @@ class FreePBXInstallCommand extends Command {
 			// Parse Asterisk version.
 			if (preg_match('/^Asterisk (?:SVN-|GIT-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*)) built/', $astver, $matches)) {
 				$determined = true;
-				if (version_compare($matches[1], "13", "lt") || version_compare($matches[1], "20", "ge")) {
+				if(file_exists("/etc/asterisk/asterisk_validate.conf")){
+					 $asterisk_validate = parse_ini_file("/etc/asterisk/asterisk_validate.conf");
+					 if(empty($asterisk_validate["min"])){
+						$output->writeln("<error>Error!</error>");
+						$output->writeln("<error>min version is missing in /etc/asterisk/asterisk_validate.conf.</error>");
+						exit(1);
+					 }
+					 if(empty($asterisk_validate["max"])){
+						$output->writeln("<error>Error!</error>");
+						$output->writeln("<error>max version is missing in /etc/asterisk/asterisk_validate.conf.</error>");
+						exit(1);
+					 }
+					 $asterisk_vmin = $asterisk_validate["min"];
+					 $asterisk_vmax = $asterisk_validate["max"];
+				}
+				else{
+					$output->writeln("<error>Error!</error>");
+					$output->writeln("<error>/etc/asterisk/asterisk_validate.conf not found.</error>");
+					exit(1);
+				}
+				
+				if (version_compare($matches[1], $asterisk_vmin, "lt") || version_compare($matches[1], $asterisk_vmax, "gt")) {
 					$output->writeln("<error>Error!</error>");
 					$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
-					$output->writeln("<error>Supported Asterisk versions: 13, 14, 15, 16, 17, 18, 19</error>");
+					$output->writeln(sprintf(_("<error>Supported Asterisk versions: %s to %s.</error>"), $asterisk_vmin, $asterisk_vmax));
 					exit(1);
 				}
 				$output->writeln("Yes. Determined Asterisk version to be: ".$matches[1]);
