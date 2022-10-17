@@ -929,7 +929,8 @@ class ext_macro {
 	function output() {
 		//$callers=debug_backtrace();
 		//freepbx_log(FPBX_LOG_UPDATE, "Need to remove Macro from ".$callers[1]['file']." on line ".$callers[1]['line']);
-		return "Macro(".$this->macro.",".$this->args.")";
+		// Macro deprecated !!!!!!!! Send all macro to gosub
+		return "Gosub(macro-".$this->macro.",s,1(".$this->args."))";
 	}
 }
 
@@ -1107,7 +1108,8 @@ class ext_macroexit extends extension {
 	function output() {
 		//$callers=debug_backtrace();
 		//freepbx_log(FPBX_LOG_UPDATE, "Need to remove Macro from ".$callers[1]['file']." on line ".$callers[1]['line']);
-		return "MacroExit()";
+		// macro deprecated , change macroexit to Return
+		return "Return()";
 	}
 }
 
