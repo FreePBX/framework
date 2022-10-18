@@ -29,10 +29,16 @@ EOF;
 file_put_contents("/etc/asterisk/asterisk_validate.conf", $asterisk_validate_content);
 $engine_info = engine_getinfo();
 $astversion = $engine_info['version'];
-if (version_compare($astversion, $asterisk_vmin, "lt") || version_compare($astversion, $asterisk_vmax, "gt")) {
-	out("<error>"._("Error!")."</error>");
-	out("<error>".sprintf(_("Unsupported Version of %s"), $astversion)."</error>");
-	out("<error>".sprintf(_("Supported Asterisk versions: %s to %s."), $asterisk_vmin, $asterisk_vmax)."<error>");
+if (version_compare($astversion, $asterisk_vmin, "lt") || version_compare(explode(".",$astversion)[0], $asterisk_vmax, "gt")) {
+	/**
+	 * https://misc.flogisoft.com/bash/tip_colors_and_formatting
+	 * \e[31m = red color
+	 * \e[39m = default
+	 * Out() doesn't support Symfony console tags
+	 */
+	out("\e[31m"._("Error!")."\e[39m");
+	out("\e[31m".sprintf(_("Unsupported Version of %s"), $astversion)."\e[39m");
+	out("\e[31m".sprintf(_("Supported Asterisk versions: %s to %s."), $asterisk_vmin, $asterisk_vmax)."\e[39m");
 	exit(1);
 }
 out(sprintf(_("Determined Asterisk version to be: %s"), $astversion));

@@ -315,7 +315,7 @@ class FreePBXInstallCommand extends Command {
 					exit(1);
 				}
 				
-				if (version_compare($matches[1], $asterisk_vmin, "lt") || version_compare($matches[1], $asterisk_vmax, "gt")) {
+				if (version_compare($matches[1], $asterisk_vmin, "lt") || version_compare(explode(".",$matches[1])[0], $asterisk_vmax, "gt")) {
 					$output->writeln("<error>"._("Error!")."</error>");
 					$output->writeln("<error>"._("Unsupported Version of")." ".$matches[1]."</error>");
 					$output->writeln("<error>".sprintf(_("Supported Asterisk versions: %s to %s."), $asterisk_vmin, $asterisk_vmax)."</error>");

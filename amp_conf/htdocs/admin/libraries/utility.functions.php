@@ -1440,7 +1440,7 @@ function IsAsteriskSupported($version){
 		return $result;
 	}
 	
-	if(version_compare($version, $asterisk_vmin, "lt") || version_compare($version, $asterisk_vmax, "gt")) {
+	if(version_compare($version, $asterisk_vmin, "lt") || version_compare(explode(".",$version)[0], $asterisk_vmax, "gt")) {
 		$result["status"] 	= false;
 		$result["message"] 	=sprintf( _("Supported Asterisk versions: %s to %s."), $asterisk_vmin, $asterisk_vmax);
 	}
