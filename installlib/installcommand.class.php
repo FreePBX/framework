@@ -490,7 +490,7 @@ class FreePBXInstallCommand extends Command {
 			$conf = file_get_contents(ODBC_INI);
 			$conf = trim($conf);
 			if(empty($conf)) {
-				$output->write(sprintf( _("Blank %s file detected. Installing..."), ODBC_INI);
+				$output->write(sprintf( _("Blank %s file detected. Installing..."), ODBC_INI));
 				if(!copy(FILES_DIR . "/odbc.ini", ODBC_INI)) {
 					$output->writeln("<error>"._("Error!")."</error>");
 					$output->writeln("<error>".sprintf( _("Unable to copy %s/odbc.ini to %s"), FILES_DIR , ODBC_INI)."</error>");

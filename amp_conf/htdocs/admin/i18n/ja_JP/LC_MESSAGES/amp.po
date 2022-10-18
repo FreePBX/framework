@@ -37,7 +37,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: FreePBX\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-09-28 09:38+0000\n"
+"POT-Creation-Date: 2022-10-18 03:18+0000\n"
 "PO-Revision-Date: 2015-10-29 06:32+0200\n"
 "Last-Translator: Kevin <kevin@qloog.com>\n"
 "Language-Team: Japanese <http://weblate.freepbx.org/projects/freepbx/"
@@ -463,6 +463,11 @@ msgstr "%s が有効になりました"
 msgid "%s failed to copy from module directory"
 msgstr ""
 
+#: installlib/installcommand.class.php:648
+#, php-format
+msgid "%s files (this may take a bit)...."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:663
 #, php-format
 msgid "%s from %s/%s (Already exists, linked to something else)"
@@ -597,7 +602,7 @@ msgid ""
 "forked inside of Asterisk until this is resolved"
 msgstr ""
 
-#: install.php:37
+#: install.php:45
 #, php-format
 msgid "'cp -rf' from src: '%s' to dst: '%s'...details follow"
 msgstr "'cp -rf' 参照元: '%s' から 参照先: '%s'…詳細は次の通り："
@@ -645,6 +650,14 @@ msgstr ""
 msgid "--Select a Group--"
 msgstr ""
 
+#: installlib/installcommand.class.php:940
+msgid "-> New file:"
+msgstr ""
+
+#: installlib/installcommand.class.php:939
+msgid "-> Original file:"
+msgstr ""
+
 #: amp_conf/htdocs/admin/config.php:227
 msgid ".htaccess files are disabled on this webserver. Please enable them"
 msgstr ""
@@ -652,6 +665,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/config.php:240
 msgid ".htaccess files are not supported on this webserver."
 msgstr "このサーバーは .htaccess ファイルをサポートしていません。"
+
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1439
+msgid "/etc/asterisk/asterisk_validate.conf not found."
+msgstr ""
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:112
 msgid "0 admins"
@@ -681,21 +698,6 @@ msgstr "404 見つかりませんでした (%s)"
 #: ../core/views/routing/form.php:713 ../core/views/trunks/trunk_footer.php:57
 msgid "7 Digit Patterns"
 msgstr "7桁のパターン"
-
-#: install.php:25
-#, php-format
-msgid "<error>Error!</error>"
-msgstr ""
-
-#: install.php:27
-#, php-format
-msgid "<error>Supported Asterisk versions: 13, 14, 15, 16, 17, 18, 19</error>"
-msgstr ""
-
-#: install.php:26
-#, php-format
-msgid "<error>Unsupported Version of %s </error>"
-msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Setting.class.php:31
 msgid "<keyword> [<value>]"
@@ -1454,6 +1456,10 @@ msgstr ""
 msgid "Assigned DID/CID"
 msgstr "割り当てられたDID/CID"
 
+#: installlib/installcommand.class.php:201
+msgid "Assuming you are Database Root"
+msgstr ""
+
 #: amp.i18n.php:398
 msgid "Asterisk AGI Dir"
 msgstr "Asterisk AGI ディレクトリ"
@@ -1552,6 +1558,10 @@ msgstr "Asteriskトランクダイヤルオプション:"
 msgid "Asterisk VMU Mask"
 msgstr "Asterisk VMU マスク"
 
+#: installlib/installcommand.class.php:282
+msgid "Asterisk appears to be running as "
+msgstr ""
+
 #: amp.i18n.php:404
 msgid "Asterisk bin Dir"
 msgstr "Asterisk bin ディレクトリ"
@@ -1583,6 +1593,10 @@ msgstr ""
 "にこれを使用します。空白にした場合、ボイスメールモジュールによってデフォルト"
 "の vmexten 設定が自動的に設定されます。特別なニーズがあるデバイス上でのみ変更"
 "します。"
+
+#: installlib/installcommand.class.php:284
+msgid "Asterisk does not appear to be running"
+msgstr ""
 
 #: amp.i18n.php:408
 msgid "Asterisk etc Dir"
@@ -1842,6 +1856,11 @@ msgstr ""
 msgid "Between Midnight and 4am"
 msgstr ""
 
+#: installlib/installcommand.class.php:493
+#, php-format
+msgid "Blank %s file detected. Installing..."
+msgstr ""
+
 #: amp.i18n.php:258
 msgid "Blind Transfer Alert Info"
 msgstr ""
@@ -1880,7 +1899,7 @@ msgstr ""
 msgid "Browser Stats"
 msgstr "ブラウザー統計"
 
-#: install.php:336
+#: install.php:344
 msgid "Building Packaged Scripts..."
 msgstr ""
 
@@ -2282,7 +2301,7 @@ msgstr ""
 msgid "Cannot trust null key!"
 msgstr ""
 
-#: install.php:280
+#: install.php:288
 msgid "Cant Find Framework XML"
 msgstr "フレームワークXMLが見つかりません"
 
@@ -2341,6 +2360,11 @@ msgstr "変更履歴"
 #: amp_conf/htdocs/admin/libraries/Console/Updatemanager.class.php:168
 #, php-format
 msgid "Changing \"%s\" from [%s] to [%s]"
+msgstr ""
+
+#: installlib/installcommand.class.php:631
+#, php-format
+msgid "Changing %s [%s] to match what was given at install time: %s"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:288
@@ -2445,6 +2469,10 @@ msgid ""
 "maintenance efforts. No private information is transmitted."
 msgstr ""
 
+#: installlib/installcommand.class.php:367
+msgid "Checking if this is a new install..."
+msgstr ""
+
 #: upgrades/2.6.0beta1/tables.php:278
 msgid "Checking if trunk table migration required.."
 msgstr "trunkテーブルの移行が必要かチェック中.."
@@ -2502,6 +2530,10 @@ msgid ""
 "repository is not checked. If you are installing a new system, you may want "
 "to start with the Basic repository and update all modules, then go back and "
 "review the others."
+msgstr ""
+
+#: installlib/installcommand.class.php:863
+msgid "Chowning directories..."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:86
@@ -2607,11 +2639,11 @@ msgstr ""
 msgid "Common utilities"
 msgstr ""
 
-#: install.php:274
+#: install.php:282
 msgid "Compressing Framework CSS..."
 msgstr ""
 
-#: install.php:265
+#: install.php:273
 msgid "Compressing Web Files"
 msgstr ""
 
@@ -2810,6 +2842,16 @@ msgstr "Asterisk鍵フォルダは作成できませんでした: %s"
 #, php-format
 msgid "Could not delete %s"
 msgstr "%s を削除できませんでした"
+
+#: installlib/installcommand.class.php:333
+#, php-format
+msgid "Could not determine Asterisk version (got: %s). Please report this."
+msgstr ""
+
+#: installlib/installcommand.class.php:336
+#, php-format
+msgid "Could not determine Asterisk version. Error was '%s'"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1556
 msgid "Could not determine module name"
@@ -3609,7 +3651,7 @@ msgstr ""
 "ベルでsyslogに設定されます。Syslogの設定は、それぞれ別レベルのものを異なる場"
 "所へ出力が可能です。詳細はsyslogのマニュアル(man syslog)を確認してください。"
 
-#: install.php:30
+#: install.php:38
 #, php-format
 msgid "Determined Asterisk version to be: %s"
 msgstr ""
@@ -3829,6 +3871,12 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:842
 #, php-format
 msgid "Directory %s doesn't exist, and I can't make it. (checkPermissions)"
+msgstr ""
+
+#: installlib/installcommand.class.php:666
+#: installlib/installcommand.class.php:671
+#, php-format
+msgid "Directory %s missing, creating."
 msgstr ""
 
 #: amp.i18n.php:400 ../core/install.php:336
@@ -4084,17 +4132,47 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2035
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2108
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2258
-#: amp_conf/htdocs/admin/page.modules.php:391 install.php:270 install.php:276
-#: install.php:297 install.php:332 install.php:338 install.php:345
-#: installlib/installcommand.class.php:554
-#: installlib/installcommand.class.php:592 ../core/install.php:197
+#: amp_conf/htdocs/admin/page.modules.php:391 install.php:278 install.php:284
+#: install.php:305 install.php:340 install.php:346 install.php:353
+#: installlib/installcommand.class.php:236
+#: installlib/installcommand.class.php:264
+#: installlib/installcommand.class.php:488
+#: installlib/installcommand.class.php:499
+#: installlib/installcommand.class.php:575
+#: installlib/installcommand.class.php:613
+#: installlib/installcommand.class.php:658
+#: installlib/installcommand.class.php:681
+#: installlib/installcommand.class.php:688
+#: installlib/installcommand.class.php:700
+#: installlib/installcommand.class.php:707
+#: installlib/installcommand.class.php:785
+#: installlib/installcommand.class.php:801
+#: installlib/installcommand.class.php:811
+#: installlib/installcommand.class.php:820
+#: installlib/installcommand.class.php:828
+#: installlib/installcommand.class.php:850
+#: installlib/installcommand.class.php:865
+#: installlib/installcommand.class.php:870
+#: installlib/installcommand.class.php:875 ../core/install.php:197
 #: ../core/install.php:906
 msgid "Done"
+msgstr ""
+
+#: installlib/installcommand.class.php:906
+msgid "Done installing all modules"
+msgstr ""
+
+#: installlib/installcommand.class.php:902
+msgid "Done installing base modules"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:182
 #, php-format
 msgid "Done with %s"
+msgstr ""
+
+#: installlib/installcommand.class.php:760
+msgid "Done!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:757
@@ -4403,6 +4481,15 @@ msgstr ""
 msgid "Emergency Route"
 msgstr ""
 
+#: installlib/installcommand.class.php:597
+msgid "Empty % Database going to populate it"
+msgstr ""
+
+#: installlib/installcommand.class.php:564
+#, php-format
+msgid "Empty %s Database going to populate it"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:995
 #: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:1012
 msgid "Empty value not allowed for this field"
@@ -4587,6 +4674,10 @@ msgstr ""
 msgid "Enabling %s because autoenable was passed at the command line"
 msgstr ""
 
+#: installlib/installcommand.class.php:894
+msgid "Enabling Developer mode"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:841
 #, php-format
 msgid "Enabling Missing Dependency of: %s %s"
@@ -4696,6 +4787,13 @@ msgstr ""
 msgid "Error Signing Cert with '%s': %s"
 msgstr ""
 
+#: installlib/installcommand.class.php:279
+#, php-format
+msgid ""
+"Error communicating with Asterisk. Ensure that Asterisk is properly "
+"installed and running as the %s user"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1895
 #, php-format
 msgid "Error creating module directory: %s"
@@ -4761,7 +4859,7 @@ msgstr ""
 msgid "Error uninstalling core reason(s): %s"
 msgstr ""
 
-#: install.php:347
+#: install.php:355
 #, php-format
 msgid "Error updating GPG Keys: %s"
 msgstr ""
@@ -4775,9 +4873,39 @@ msgstr "データベースのアップデートエラー。コマンド；%s エ
 msgid "Error updating database: "
 msgstr "データベースアップデートエラー： "
 
+#: installlib/installcommand.class.php:884
+msgid "Error while trusting FreePBX:"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Less.class.php:209
 #, php-format
 msgid "Error with the templating engine: %s"
+msgstr ""
+
+#: install.php:33 installlib/installcommand.class.php:209
+#: installlib/installcommand.class.php:224
+#: installlib/installcommand.class.php:232
+#: installlib/installcommand.class.php:278
+#: installlib/installcommand.class.php:300
+#: installlib/installcommand.class.php:305
+#: installlib/installcommand.class.php:313
+#: installlib/installcommand.class.php:319
+#: installlib/installcommand.class.php:332
+#: installlib/installcommand.class.php:335
+#: installlib/installcommand.class.php:355
+#: installlib/installcommand.class.php:358
+#: installlib/installcommand.class.php:448
+#: installlib/installcommand.class.php:473
+#: installlib/installcommand.class.php:484
+#: installlib/installcommand.class.php:495
+#: installlib/installcommand.class.php:679
+#: installlib/installcommand.class.php:686
+#: installlib/installcommand.class.php:698
+#: installlib/installcommand.class.php:705
+#: installlib/installcommand.class.php:824
+#: installlib/installcommand.class.php:846
+#: installlib/installcommand.class.php:883
+msgid "Error!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/page.modules.php:323
@@ -4885,6 +5013,10 @@ msgstr ""
 #, php-format
 msgid "Exit code was %s and output was: %s"
 msgstr "終了コード %s 出力 %s"
+
+#: installlib/installcommand.class.php:941
+msgid "Exiting install program."
+msgstr ""
 
 #: ../core/functions.inc/drivers/Dahdi.class.php:133
 msgid ""
@@ -5316,6 +5448,18 @@ msgstr ""
 msgid "Finished cleaning up cache"
 msgstr ""
 
+#: installlib/installcommand.class.php:921
+msgid "Finished generating default configurations"
+msgstr ""
+
+#: installlib/installcommand.class.php:636
+msgid "Finished initalizing settings"
+msgstr ""
+
+#: installlib/installcommand.class.php:816
+msgid "Finished upgrades"
+msgstr ""
+
 #: ../core/functions.inc.php:5026
 msgid "Fixed"
 msgstr "固定"
@@ -5441,6 +5585,10 @@ msgstr ""
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:401
 msgid "Force Install"
+msgstr ""
+
+#: installlib/installcommand.class.php:197
+msgid "Force Install. This will reset everything!"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Reload.class.php:43
@@ -5813,6 +5961,10 @@ msgstr ""
 msgid "Generating CSS..."
 msgstr ""
 
+#: installlib/installcommand.class.php:919
+msgid "Generating default configurations..."
+msgstr ""
+
 #: ../core/functions.inc/drivers/PJSip.class.php:40
 #: ../core/functions.inc/drivers/Sip.class.php:21
 #, php-format
@@ -5899,6 +6051,10 @@ msgid ""
 "authenticate to the system"
 msgstr ""
 
+#: installlib/installcommand.class.php:857
+msgid "Giving up!"
+msgstr ""
+
 #: amp_conf/htdocs/admin/config.php:814
 msgid "Go Back"
 msgstr ""
@@ -5964,6 +6120,14 @@ msgstr ""
 
 #: amp.i18n.php:64
 msgid "HTTPS TLS Private Key Location"
+msgstr ""
+
+#: installlib/installcommand.class.php:356
+#: installlib/installcommand.class.php:359
+#, php-format
+msgid ""
+"Half-baked install previously detected. %s should not exist if %s does not "
+"exist"
 msgstr ""
 
 #: ../core/functions.inc.php:857 ../core/functions.inc.php:4132
@@ -6606,6 +6770,10 @@ msgstr "初期設定"
 msgid "Initialize freepbx_conf settings.."
 msgstr "freepbx_confの設定を初期化しています…"
 
+#: installlib/installcommand.class.php:622
+msgid "Initializing FreePBX Settings"
+msgstr ""
+
 #: ../core/Api/Gql/Dids.php:523
 msgid ""
 "Input variable destination does not exists in this system, Please provide "
@@ -6669,6 +6837,10 @@ msgstr ""
 msgid "Installing core..."
 msgstr ""
 
+#: installlib/installcommand.class.php:868
+msgid "Installing framework..."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1095
 #, php-format
 msgid "Installing missing modules: %s"
@@ -6717,7 +6889,7 @@ msgid ""
 "even after it was suppose to be applied"
 msgstr ""
 
-#: install.php:294
+#: install.php:302
 msgid ""
 "Internal Error. Function install_getversion did not match the Framework "
 "version, even after it was suppose to be applied"
@@ -6748,6 +6920,10 @@ msgstr "Intra-Companyルートでは、常に内線番号と名前を送信し�
 #: ../core/views/trunks/trunk_footer.php:92
 msgid "Invalid Custom Dial String entered"
 msgstr "無効なカスタムダイヤル文字列が入力されました"
+
+#: installlib/installcommand.class.php:474
+msgid "Invalid Database Permissions. The error was:"
+msgstr ""
 
 #: ../core/views/trunks/trunk_footer.php:89
 msgid "Invalid Dial Rules"
@@ -6851,6 +7027,10 @@ msgstr ""
 #: ../core/page.astmodules.php:53
 msgid "It is unlikely you'll need to change anything here."
 msgstr "通常はこの項目を変更する必要がありません。"
+
+#: installlib/installcommand.class.php:213
+msgid "Its not (good)!"
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Job.class.php:77
 msgid "Job"
@@ -7899,6 +8079,19 @@ msgstr ""
 msgid "No"
 msgstr "いいえ"
 
+#: installlib/installcommand.class.php:402
+#, php-format
+msgid "No (%s file detected)"
+msgstr ""
+
+#: installlib/installcommand.class.php:370
+msgid "No (Forcing dev-links)"
+msgstr ""
+
+#: installlib/installcommand.class.php:378
+msgid "No (Un dev-linking this machine)"
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:374
 #, php-format
 msgid "No - (%s)"
@@ -7951,11 +8144,15 @@ msgstr ""
 msgid "No actions to perform"
 msgstr "実行するアクションが存在しません"
 
+#: installlib/installcommand.class.php:856
+msgid "No amp_conf[AMPBIN] value exists!"
+msgstr ""
+
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:235
 msgid "No description is available."
 msgstr "利用できる説明がありません。"
 
-#: install.php:175
+#: install.php:183
 #, php-format
 msgid "No directory %s, install script not needed"
 msgstr "%s のディレクトリが存在しないため、インストールスクリプトは不要です"
@@ -8005,7 +8202,11 @@ msgstr ""
 msgid "NoOp Traces in Dialplan"
 msgstr "ダイヤルプラン内でNoOpをトレース"
 
-#: install.php:18
+#: install.php:14 installlib/installcommand.class.php:345
+msgid "NodeJS 8 or higher is not installed. This is now a requirement"
+msgstr ""
+
+#: install.php:18 installlib/installcommand.class.php:349
 #, php-format
 msgid "NodeJS version is: %s requirement is %s or higher"
 msgstr ""
@@ -8651,6 +8852,11 @@ msgstr ""
 msgid "PBX GUI administrator username"
 msgstr ""
 
+#: installlib/installcommand.class.php:449
+#, php-format
+msgid "PDO Driver '%s' is missing from the system"
+msgstr ""
+
 #: ../core/views/trunks/sip.php:77
 msgid "PEER Details"
 msgstr "ピア詳細"
@@ -8715,6 +8921,10 @@ msgstr "PRE_RELOAD スクリプト"
 
 #: amp_conf/htdocs/admin/views/module_admin/tab-modules.php:208
 msgid "Packaged (Released)"
+msgstr ""
+
+#: installlib/installcommand.class.php:389
+msgid "Partial"
 msgstr ""
 
 #: amp_conf/htdocs/admin/views/obe.php:30
@@ -9092,6 +9302,10 @@ msgstr ""
 "続のカラムと一致が比較されます。一致した場合は、このプリフィックスはトランク"
 "に送られる前にダイヤルされた番号から削除されます。"
 
+#: installlib/installcommand.class.php:365
+msgid "Preliminary checks done. Starting FreePBX Installation"
+msgstr ""
+
 #: ../core/page.astmodules.php:77
 msgid "Preloaded Modules"
 msgstr ""
@@ -9377,7 +9591,7 @@ msgstr ""
 msgid "Refreshing %s"
 msgstr ""
 
-#: install.php:342
+#: install.php:350
 msgid "Refreshing GPG Keys..."
 msgstr ""
 
@@ -9739,7 +9953,7 @@ msgstr ""
 msgid "Running Asterisk pre from %s module"
 msgstr ""
 
-#: install.php:324
+#: install.php:332
 msgid "Running SQL cleanup..."
 msgstr ""
 
@@ -9749,8 +9963,16 @@ msgid ""
 "Running an unsupported version of Asterisk. %s Detected Asterisk version: %s "
 msgstr ""
 
+#: installlib/installcommand.class.php:813
+msgid "Running through upgrades..."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Builtin/UpdateManager.php:393
 msgid "SECURITY NOTICE:"
+msgstr ""
+
+#: installlib/installcommand.class.php:210
+msgid "SELinux is enabled. Please disable SELinux before installing FreePBX."
 msgstr ""
 
 #: ../core/Core.class.php:3736 ../core/Core.class.php:3737
@@ -10187,7 +10409,7 @@ msgstr ""
 msgid "Setting AUTHTYPE to none consistent with old default"
 msgstr ""
 
-#: install.php:291
+#: install.php:299
 msgid "Setting Framework Version..."
 msgstr ""
 
@@ -10233,7 +10455,7 @@ msgstr ""
 msgid "Setting of \"%s\" is (%s)[%s]"
 msgstr ""
 
-#: install.php:317
+#: install.php:325
 #, php-format
 msgid "Setting sbin to the correct location of: %s"
 msgstr ""
@@ -10773,8 +10995,10 @@ msgstr ""
 msgid "Support T.38 UDPTL"
 msgstr ""
 
-#: amp_conf/htdocs/admin/libraries/utility.functions.php:1426
-msgid "Supported Asterisk versions:"
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1445 install.php:35
+#: installlib/installcommand.class.php:321
+#, php-format
+msgid "Supported Asterisk versions: %s to %s."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Api/Gql/System.php:54
@@ -12327,6 +12551,16 @@ msgstr ""
 msgid "Trust the Remote-Party-ID and/or P-Asserted-Identity header"
 msgstr ""
 
+#: installlib/installcommand.class.php:891
+msgid "Trusted"
+msgstr ""
+
+#: installlib/installcommand.class.php:286
+msgid ""
+"Try starting Asterisk with the './start_asterisk start' command in this "
+"directory"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:1413
 msgid "Trys to enable all modules, accepts no arguments"
 msgstr ""
@@ -12406,6 +12640,12 @@ msgstr ""
 msgid "Unable to connect to servers from URLs provided: %s"
 msgstr "提供されたURL:%s サーバーへの接続が出来ません"
 
+#: installlib/installcommand.class.php:485
+#: installlib/installcommand.class.php:496
+#, php-format
+msgid "Unable to copy %s/odbc.ini to %s"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:102
 #, php-format
 msgid "Unable to create %s config file"
@@ -12457,6 +12697,20 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2372
 #, php-format
 msgid "Unable to parse %s: %s"
+msgstr ""
+
+#: installlib/installcommand.class.php:233
+#, php-format
+msgid "Unable to read %s or it was missing a directories section"
+msgstr ""
+
+#: installlib/installcommand.class.php:225
+#, php-format
+msgid "Unable to read %s/asterisk.conf or it was missing a directories section"
+msgstr ""
+
+#: installlib/installcommand.class.php:807
+msgid "Unable to reload Asterisk Manager"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/PKCS.class.php:690
@@ -12523,6 +12777,11 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:1823
 #, php-format
 msgid "Unable to work with GPG file, message was: %s"
+msgstr ""
+
+#: installlib/installcommand.class.php:825
+#: installlib/installcommand.class.php:847
+msgid "Unable to write to file"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:3138
@@ -12642,6 +12901,15 @@ msgstr "サポート対象外"
 msgid "Unsupported Pattern file format"
 msgstr ""
 
+#: installlib/installcommand.class.php:320
+msgid "Unsupported Version of"
+msgstr ""
+
+#: install.php:34
+#, php-format
+msgid "Unsupported Version of %s"
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/DB.class.php:420
 msgid "Unsupported getAssoc Conversion mode"
 msgstr ""
@@ -12731,8 +12999,8 @@ msgid "Updating prepared settings.."
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/modulefunctions.class.php:2033
-#: installlib/installcommand.class.php:552
-#: installlib/installcommand.class.php:590
+#: installlib/installcommand.class.php:573
+#: installlib/installcommand.class.php:611
 #, php-format
 msgid "Updating tables %s..."
 msgstr ""
@@ -13107,7 +13375,7 @@ msgstr ""
 msgid "Version"
 msgstr "バージョン"
 
-#: install.php:300
+#: install.php:308
 msgid "Version from Framework was empty, cant continue"
 msgstr ""
 
@@ -13173,6 +13441,13 @@ msgid ""
 "WARNING: Javascript is disabled in your browser. The %s administration "
 "interface requires Javascript to run properly. Please enable javascript or "
 "switch to another  browser that supports it."
+msgstr ""
+
+#: install.php:126
+#, php-format
+msgid ""
+"WARNING: Known bad extensions_custom.conf automatically replaced (contained "
+"%s)"
 msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/Console/Moduleadmin.class.php:665
@@ -13659,6 +13934,11 @@ msgstr ""
 msgid "Yes"
 msgstr "はい"
 
+#: installlib/installcommand.class.php:398
+#, php-format
+msgid "Yes (No %s file detected)"
+msgstr ""
+
 #: ../core/functions.inc/drivers/Sip.class.php:455
 msgid "Yes (SRTP only)"
 msgstr "はい(SRTPのみ)"
@@ -13666,6 +13946,14 @@ msgstr "はい(SRTPのみ)"
 #: ../core/functions.inc/drivers/Sip.class.php:373
 #, php-format
 msgid "Yes - (%s)"
+msgstr ""
+
+#: installlib/installcommand.class.php:324
+msgid "Yes. Determined Asterisk version to be: "
+msgstr ""
+
+#: installlib/installcommand.class.php:363
+msgid "Yes. Determined NodeJS version to be: "
 msgstr ""
 
 #: ../core/views/trunks/trunk_footer.php:97
@@ -13858,6 +14146,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:109
 #: amp_conf/htdocs/admin/libraries/Builtin/SystemUpdates.php:160
 msgid "You have some fault RPM versions running"
+msgstr ""
+
+#: installlib/installcommand.class.php:923
+msgid "You have successfully installed FreePBX"
 msgstr ""
 
 #: ../core/functions.inc/drivers/Sip.class.php:484
@@ -14090,7 +14382,7 @@ msgstr ""
 msgid "amportal.conf not writeable"
 msgstr ""
 
-#: install.php:256
+#: install.php:264
 #, php-format
 msgid "an error occured removing the packaged file/directory: %s"
 msgstr "パッケージ ファイル/ディレクトリーの削除に失敗しました: %s"
@@ -14111,6 +14403,11 @@ msgstr ""
 
 #: upgrades/2.9.0beta2/logger_migrate.php:84
 msgid "apply configuration settings after new core module loaded"
+msgstr ""
+
+#: installlib/installcommand.class.php:664
+#, php-format
+msgid "bin is: %s"
 msgstr ""
 
 #: ../core/Core.class.php:570
@@ -14208,7 +14505,7 @@ msgstr "削除されました"
 msgid "description of the setting"
 msgstr ""
 
-#: install.php:197 install.php:209 install.php:220
+#: install.php:205 install.php:217 install.php:228
 #: upgrades/2.6.0beta1/tables.php:317 ../core/install.php:1073
 #: ../core/install.php:1114 ../core/install.php:1156
 msgid "done"
@@ -14219,7 +14516,7 @@ msgstr "完了"
 msgid "done! Reload FreePBX to update all Custom Context settings."
 msgstr ""
 
-#: install.php:195 install.php:206 install.php:217
+#: install.php:203 install.php:214 install.php:225
 msgid "done, see errors below"
 msgstr "完了しました。以下のエラーを確認してください："
 
@@ -14230,6 +14527,10 @@ msgstr ""
 #: amp_conf/htdocs/admin/views/obe.php:59
 msgid "email address"
 msgstr "Eメールアドレス"
+
+#: install.php:44
+msgid "error copying files:"
+msgstr ""
 
 #: upgrades/2.11.0rc1/migration.php:47
 msgid "error could not move it"
@@ -14287,7 +14588,7 @@ msgid "failed to open %s module archive into _cache directory."
 msgstr ""
 "モジュールアーカイブ %s を _cacheディレクトリにオープンできませんでした。"
 
-#: install.php:258
+#: install.php:266
 #, php-format
 msgid "file/directory: %s removed successfully"
 msgstr "ファイル/ディレクトリー:%s の削除に成功しました"
@@ -14301,12 +14602,12 @@ msgstr ""
 msgid "format list as xml"
 msgstr ""
 
-#: install.php:38
+#: install.php:46
 #, php-format
 msgid "framework couldn't copy file to %s"
 msgstr "frameworkは、ファイルを %s にコピーできませんでした"
 
-#: install.php:244
+#: install.php:252
 msgid "framework file install done, removing packages from module"
 msgstr ""
 "framework ファイルのインストールが完了し、パッケージをモジュールから削除して"
@@ -14370,7 +14671,7 @@ msgstr ""
 msgid "insert"
 msgstr "挿入"
 
-#: install.php:188
+#: install.php:196
 #, php-format
 msgid "installing files to %s.."
 msgstr "%s にファイルをインストール中.."
@@ -14488,6 +14789,14 @@ msgid ""
 "matches any digit or letter in the brackets (in this example, 1,2,3,7,8,9)"
 msgstr ""
 
+#: installlib/installcommand.class.php:306
+msgid "max version is missing in"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1431
+msgid "max version is missing in /etc/asterisk/asterisk_validate.conf."
+msgstr ""
+
 #: amp_conf/htdocs/admin/libraries/BMO/Config.class.php:775
 #, php-format
 msgid ""
@@ -14510,6 +14819,14 @@ msgstr ""
 #: upgrades/2.8.0rc1/custom-context.php:42
 msgid "migrating.."
 msgstr "移行中.."
+
+#: installlib/installcommand.class.php:301
+msgid "min version is missing in"
+msgstr ""
+
+#: amp_conf/htdocs/admin/libraries/utility.functions.php:1425
+msgid "min version is missing in /etc/asterisk/asterisk_validate.conf."
+msgstr ""
 
 #: amp_conf/htdocs/admin/libraries/BMO/GPG.class.php:230
 msgid "missing"
@@ -14561,6 +14878,10 @@ msgstr "なし"
 
 #: ../core/install.php:529
 msgid "none found"
+msgstr ""
+
+#: installlib/installcommand.class.php:314
+msgid "not found."
 msgstr ""
 
 #: upgrades/2.9.0alpha1/migrate_ampconf.php:127
