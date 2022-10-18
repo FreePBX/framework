@@ -11,7 +11,7 @@ if(\FreePBX::Modules()->checkStatus("sysadmin")) {
 $output = exec("node --version"); //v0.10.29
 $output = str_replace("v","",trim($output));
 if(empty($output)) {
-	out("NodeJS 8 or higher is not installed. This is now a requirement");
+	out( _("NodeJS 8 or higher is not installed. This is now a requirement"));
 	return false;
 }
 if(version_compare($output,'8.0.0',"<")) {
@@ -19,12 +19,20 @@ if(version_compare($output,'8.0.0',"<")) {
 	return false;
 }
 
+$asterisk_vmax = "20";
+$asterisk_vmin = "11";
+
+$asterisk_validate_content = <<<EOF
+min = {$asterisk_vmin}
+max = {$asterisk_vmax}
+EOF;
+file_put_contents("/etc/asterisk/asterisk_validate.conf", $asterisk_validate_content);
 $engine_info = engine_getinfo();
 $astversion = $engine_info['version'];
-if (version_compare($astversion, "13", "lt") || version_compare($astversion, "20", "ge")) {
-	out(sprintf(_("<error>Error!</error>")));
-	out(sprintf(_("<error>Unsupported Version of %s </error>"), $astversion));
-	out(sprintf(_("<error>Supported Asterisk versions: 13, 14, 15, 16, 17, 18, 19</error>")));
+if (version_compare($astversion, $asterisk_vmin, "lt") || version_compare($astversion, $asterisk_vmax, "gt")) {
+	out("<error>"._("Error!")."</error>");
+	out("<error>".sprintf(_("Unsupported Version of %s"), $astversion)."</error>");
+	out("<error>".sprintf(_("Supported Asterisk versions: %s to %s."), $asterisk_vmin, $asterisk_vmax)."<error>");
 	exit(1);
 }
 out(sprintf(_("Determined Asterisk version to be: %s"), $astversion));
@@ -33,7 +41,7 @@ out(sprintf(_("Determined Asterisk version to be: %s"), $astversion));
 // HELPER FUNCTIONS:
 
 function framework_print_errors($src, $dst, $errors) {
-	out("error copying files:");
+	out(_("error copying files:"));
 	out(sprintf(_("'cp -rf' from src: '%s' to dst: '%s'...details follow"), $src, $dst));
 	freepbx_log(FPBX_LOG_ERROR, sprintf(_("framework couldn't copy file to %s"),$dst));
 	foreach ($errors as $error) {
@@ -115,7 +123,7 @@ if (isset($knownbad[$ecchash])) {
 	date_default_timezone_set("UTC");
 	$ecc = "# Known bad file found (".$knownbad[$ecchash]." - $ecchash)\n# Removed automatically by framework ".date("Y-m-d H:i:s")." UTC\n";
 	file_put_contents("/etc/asterisk/extensions_custom.conf", $ecc);
-	out("WARNING: Known bad extensions_custom.conf automatically replaced (contained ".$knownbad[$ecchash].")");
+	out(sprintf(_("WARNING: Known bad extensions_custom.conf automatically replaced (contained %s)"), $knownbad[$ecchash]));
 }
 
 // Prune any invalid files in assets or images

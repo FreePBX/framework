@@ -194,11 +194,11 @@ class FreePBXInstallCommand extends Command {
 		$dbroot = $input->getOption('rootdb');
 		$force = $input->getOption('force');
 		if($force) {
-			$output->writeln("<info>Force Install. This will reset everything!</info>");
+			$output->writeln("<info>"._("Force Install. This will reset everything!")."</info>");
 		}
 
 		if($dbroot || $answers['dbuser'] == 'root') {
-			$output->writeln("<info>Assuming you are Database Root</info>");
+			$output->writeln("<info>"._("Assuming you are Database Root")."</info>");
 			$dbroot = true;
 		}
 
@@ -206,11 +206,11 @@ class FreePBXInstallCommand extends Command {
 		$output->write("Checking if SELinux is enabled...");
 		exec("getenforce 2>/dev/null", $tmpout, $ret);
 		if (isset($tmpout[0]) && ($tmpout[0] === "Enabled" || $tmpout[0] === "Enforcing")) {
-			$output->writeln("<error>Error!</error>");
-			$output->writeln("<error>SELinux is enabled.  Please disable SELinux before installing FreePBX.</error>");
+			$output->writeln("<error>"._("Error!")."</error>");
+			$output->writeln("<error>"._("SELinux is enabled. Please disable SELinux before installing FreePBX.")."</error>");
 			exit(1);
 		}
-		$output->writeln("Its not (good)!");
+		$output->writeln(_("Its not (good)!"));
 		unset($tmpout);
 
 		require_once(__DIR__.'/installer.class.php');
@@ -221,19 +221,19 @@ class FreePBXInstallCommand extends Command {
 			$output->write("No ".ASTERISK_CONF." file detected. Installing...");
 			$aconf = $installer->asterisk_conf_read(FILES_DIR . "/asterisk.conf");
 			if(empty($aconf['directories'])) {
-				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Unable to read " . FILES_DIR . "/asterisk.conf or it was missing a directories section</error>");
+				$output->writeln("<error>"._("Error!")."</error>");
+				$output->writeln("<error>".sprintf(_("Unable to read %s/asterisk.conf or it was missing a directories section"), FILES_DIR)."</error>");
 				exit(1);
 			}
 		} else {
 			$output->write("Reading ".ASTERISK_CONF."...");
 			$aconf = $installer->asterisk_conf_read(ASTERISK_CONF);
 			if(empty($aconf['directories'])) {
-				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Unable to read " . ASTERISK_CONF . " or it was missing a directories section</error>");
+				$output->writeln("<error>"._("Error!")."</error>");
+				$output->writeln("<error>".sprintf(_("Unable to read %s or it was missing a directories section"), ASTERISK_CONF)."</error>");
 				exit(1);
 			}
-			$output->writeln("Done");
+			$output->writeln(_("Done"));
 		}
 
 		if(!file_exists(ASTERISK_CONF) || $force) {
@@ -261,7 +261,7 @@ class FreePBXInstallCommand extends Command {
 
 			$output->write("Writing ".ASTERISK_CONF."...");
 			$installer->asterisk_conf_write(ASTERISK_CONF, $aconf);
-			$output->writeln("Done");
+			$output->writeln(_("Done"));
 		}
 
 		$asterisk_conf = $aconf['directories'];
@@ -275,15 +275,15 @@ class FreePBXInstallCommand extends Command {
 			$tmpout = [];
 			$lastline = exec("runuser " . $answers['user'] . ' -s /bin/bash -c "cd ~/ && asterisk -rx \'core show version\' 2>&1"', $tmpout, $ret);
 			if ($ret != 0) {
-				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Error communicating with Asterisk.  Ensure that Asterisk is properly installed and running as the ".$answers['user']." user</error>");
+				$output->writeln("<error>"._("Error!")."</error>");
+				$output->writeln("<error>".sprintf(_("Error communicating with Asterisk. Ensure that Asterisk is properly installed and running as the %s user"), $answers['user'] )."</error>");
 				if(file_exists($asterisk_conf['astrundir']."/asterisk.ctl")) {
 					$info = posix_getpwuid(fileowner($asterisk_conf['astrundir']."/asterisk.ctl"));
-					$output->writeln("<error>Asterisk appears to be running as ".$info['name']."</error>");
+					$output->writeln("<error>"._("Asterisk appears to be running as ").$info['name']."</error>");
 				} else {
-					$output->writeln("<error>Asterisk does not appear to be running</error>");
+					$output->writeln("<error>"._("Asterisk does not appear to be running")."</error>");
 				}
-				$output->writeln("<error>Try starting Asterisk with the './start_asterisk start' command in this directory</error>");
+				$output->writeln("<error>"._("Try starting Asterisk with the './start_asterisk start' command in this directory")."</error>");
 				exit(1);
 			}
 			// If this machine doesn't have an ethernet interface (which opens a WHOLE NEW can of worms),
@@ -294,13 +294,34 @@ class FreePBXInstallCommand extends Command {
 			// Parse Asterisk version.
 			if (preg_match('/^Asterisk (?:SVN-|GIT-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*)) built/', $astver, $matches)) {
 				$determined = true;
-				if (version_compare($matches[1], "13", "lt") || version_compare($matches[1], "20", "ge")) {
-					$output->writeln("<error>Error!</error>");
-					$output->writeln("<error>Unsupported Version of ". $matches[1]."</error>");
-					$output->writeln("<error>Supported Asterisk versions: 13, 14, 15, 16, 17, 18, 19</error>");
+				if(file_exists("/etc/asterisk/asterisk_validate.conf")){
+					 $asterisk_validate = parse_ini_file("/etc/asterisk/asterisk_validate.conf");
+					 if(empty($asterisk_validate["min"])){
+						$output->writeln("<error>"._("Error!")."</error>");
+						$output->writeln("<error>"._("min version is missing in")." /etc/asterisk/asterisk_validate.conf</error>");
+						exit(1);
+					 }
+					 if(empty($asterisk_validate["max"])){
+						$output->writeln("<error>"._("Error!")."</error>");
+						$output->writeln("<error>"._("max version is missing in")." /etc/asterisk/asterisk_validate.conf.</error>");
+						exit(1);
+					 }
+					 $asterisk_vmin = $asterisk_validate["min"];
+					 $asterisk_vmax = $asterisk_validate["max"];
+				}
+				else{
+					$output->writeln("<error>"._("Error!")."</error>");
+					$output->writeln("<error>/etc/asterisk/asterisk_validate.conf "._("not found.")."</error>");
 					exit(1);
 				}
-				$output->writeln("Yes. Determined Asterisk version to be: ".$matches[1]);
+				
+				if (version_compare($matches[1], $asterisk_vmin, "lt") || version_compare($matches[1], $asterisk_vmax, "gt")) {
+					$output->writeln("<error>"._("Error!")."</error>");
+					$output->writeln("<error>"._("Unsupported Version of")." ".$matches[1]."</error>");
+					$output->writeln("<error>".sprintf(_("Supported Asterisk versions: %s to %s."), $asterisk_vmin, $asterisk_vmax)."</error>");
+					exit(1);
+				}
+				$output->writeln(_("Yes. Determined Asterisk version to be: ").$matches[1]);
 				break;
 			}
 			sleep(1);
@@ -308,11 +329,11 @@ class FreePBXInstallCommand extends Command {
 		}
 		if(!$determined) {
 			if(!empty($astver)) {
-				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Could not determine Asterisk version (got: " . $astver . "). Please report this.</error>");
+				$output->writeln("<error>"._("Error!")."</error>");
+				$output->writeln("<error>".sprintf( _("Could not determine Asterisk version (got: %s). Please report this."), $astver)."</error>");
 			} else {
-				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Could not determine Asterisk version. Error was '".$lastline."'</error>");
+				$output->writeln("<error>"._("Error!")."</error>");
+				$output->writeln("<error>".sprintf(_("Could not determine Asterisk version. Error was '%s'"), $lastline)."</error>");
 			}
 			exit(1);
 		}
@@ -321,32 +342,32 @@ class FreePBXInstallCommand extends Command {
 		$nodejsout = exec("node --version"); //v0.10.29
 		$nodejsout = str_replace("v","",trim($nodejsout));
 		if(empty($nodejsout)) {
-			$output->writeln("<error>NodeJS 8 or higher is not installed. This is now a requirement</error>");
+			$output->writeln("<error>"._("NodeJS 8 or higher is not installed. This is now a requirement")."</error>");
 			return false;
 		}
 		if(version_compare($nodejsout,'8.0.0',"<")) {
-			$output->writeln(sprintf("NodeJS version is: %s requirement is %s or higher",$nodejsout,'8.0.0'));
+			$output->writeln(sprintf(_("NodeJS version is: %s requirement is %s or higher"),$nodejsout,'8.0.0'));
 			return false;
 		}
 
 		if((file_exists($freepbx_conf_path) && !file_exists(AMP_CONF)) || (!file_exists($freepbx_conf_path) && file_exists(AMP_CONF))) {
 			if(file_exists($freepbx_conf_path)) {
-				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Half-baked install previously detected. ".$freepbx_conf_path." should not exist if ".AMP_CONF." does not exist</error>");
+				$output->writeln("<error>"._("Error!")."</error>");
+				$output->writeln("<error>".sprintf( _("Half-baked install previously detected. %s should not exist if %s does not exist"), $freepbx_conf_path, AMP_CONF)."</error>");
 			} else {
-				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Half-baked install previously detected. ".AMP_CONF." should not exist if ".$freepbx_conf_path." does not exist</error>");
+				$output->writeln("<error>"._("Error!")."</error>");
+				$output->writeln("<error>".sprintf( _("Half-baked install previously detected. %s should not exist if %s does not exist"), AMP_CONF, $freepbx_conf_path)."</error>");
 			}
 			exit(1);
 		}
-		$output->writeln("Yes. Determined NodeJS version to be: ".$nodejsout);
+		$output->writeln(_("Yes. Determined NodeJS version to be: ").$nodejsout);
 
-		$output->writeln("Preliminary checks done. Starting FreePBX Installation");
+		$output->writeln(_("Preliminary checks done. Starting FreePBX Installation"));
 
-		$output->write("Checking if this is a new install...");
+		$output->write(_("Checking if this is a new install..."));
 		if(file_exists($answers['webroot']."/admin/bootstrap.php") && !is_link($answers['webroot']."/admin/bootstrap.php") && $answers['dev-links']) {
 			//Previous install, not in dev mode. We need to do cleanup
-			$output->writeln("No (Forcing dev-links)");
+			$output->writeln(_("No (Forcing dev-links)"));
 			$bootstrap_settings['returnimmediately'] = true;
 			include_once $freepbx_conf_path;
 			unset($bootstrap_settings['returnimmediately']);
@@ -354,7 +375,7 @@ class FreePBXInstallCommand extends Command {
 			require_once('amp_conf/htdocs/admin/functions.inc.php');
 		} elseif(file_exists($answers['webroot']."/admin/bootstrap.php") && is_link($answers['webroot']."/admin/bootstrap.php") && !$answers['dev-links']) {
 			//Previous install, was in dev mode. Now we need to do cleanup
-			$output->writeln("No (Un dev-linking this machine)");
+			$output->writeln(_("No (Un dev-linking this machine)"));
 			$bootstrap_settings['returnimmediately'] = true;
 			include_once $freepbx_conf_path;
 			unset($bootstrap_settings['returnimmediately']);
@@ -365,7 +386,7 @@ class FreePBXInstallCommand extends Command {
 				mkdir($answers['webroot']."/admin");
 			}
 			touch($answers['webroot']."/admin/bootstrap.php");
-			$output->writeln("Partial");
+			$output->writeln(_("Partial"));
 			$bootstrap_settings['returnimmediately'] = true;
 			include_once $freepbx_conf_path;
 			unlink($answers['webroot']."/admin/bootstrap.php");
@@ -374,11 +395,11 @@ class FreePBXInstallCommand extends Command {
 			$answers['skip-install'] = true;
 			require_once('amp_conf/htdocs/admin/functions.inc.php');
 		} elseif (!file_exists($freepbx_conf_path) || $force) {
-			$output->writeln("Yes (No ".$freepbx_conf_path." file detected)");
+			$output->writeln(sprintf(_("Yes (No %s file detected)"), $freepbx_conf_path));
 			$newinstall = true;
 			require_once('amp_conf/htdocs/admin/functions.inc.php');
 		} else {
-			$output->writeln("No (".$freepbx_conf_path." file detected)");
+			$output->writeln(sprintf(_("No (%s file detected)"), $freepbx_conf_path));
 			$bootstrap_settings['freepbx_auth'] = false;
 			$restrict_mods = true;
 			include_once $freepbx_conf_path;
@@ -424,8 +445,8 @@ class FreePBXInstallCommand extends Command {
 
 		$pdodrivers = \PDO::getAvailableDrivers();
 		if(!in_array($amp_conf['AMPDBENGINE'],$pdodrivers)) {
-			$output->writeln("<error>Error!</error>");
-			$output->writeln("<error>PDO Driver '".$amp_conf['AMPDBENGINE']."' is missing from the system</error>");
+			$output->writeln("<error>"._("Error!")."</error>");
+			$output->writeln("<error>".sprintf(_("PDO Driver '%s' is missing from the system"), $amp_conf['AMPDBENGINE'])."</error>");
 			exit(1);
 		}
 
@@ -449,8 +470,8 @@ class FreePBXInstallCommand extends Command {
 			try {
 				$pdodb = new \PDO($dsn, $amp_conf['AMPDBUSER'], $amp_conf['AMPDBPASS']);
 			} catch(\Exception $e) {
-				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Invalid Database Permissions. The error was: ".$e->getMessage()."</error>");
+				$output->writeln("<error>"._("Error!")."</error>");
+				$output->writeln("<error>"._("Invalid Database Permissions. The error was:")." ".$e->getMessage()."</error>");
 				exit(1);
 			}
 			$dbencoding = version_compare($pdodb->getAttribute(\PDO::ATTR_SERVER_VERSION), "5.5.3", "ge") ? "utf8mb4" : "utf8";
@@ -460,22 +481,22 @@ class FreePBXInstallCommand extends Command {
 		if(!file_exists(ODBC_INI)) {
 			$output->write("No ".ODBC_INI." file detected. Installing...");
 			if(!copy(FILES_DIR . "/odbc.ini", ODBC_INI)) {
-				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Unable to copy " . FILES_DIR . "/odbc.ini to ".ODBC_INI."</error>");
+				$output->writeln("<error>"._("Error!")."</error>");
+				$output->writeln("<error>".sprintf(_("Unable to copy %s/odbc.ini to %s"), FILES_DIR , ODBC_INI)."</error>");
 				exit(1);
 			}
-			$output->writeln("Done");
+			$output->writeln(_("Done"));
 		} elseif(file_exists(ODBC_INI)) {
 			$conf = file_get_contents(ODBC_INI);
 			$conf = trim($conf);
 			if(empty($conf)) {
-				$output->write("Blank ".ODBC_INI." file detected. Installing...");
+				$output->write(sprintf( _("Blank %s file detected. Installing..."), ODBC_INI);
 				if(!copy(FILES_DIR . "/odbc.ini", ODBC_INI)) {
-					$output->writeln("<error>Error!</error>");
-					$output->writeln("<error>Unable to copy " . FILES_DIR . "/odbc.ini to ".ODBC_INI."</error>");
+					$output->writeln("<error>"._("Error!")."</error>");
+					$output->writeln("<error>".sprintf( _("Unable to copy %s/odbc.ini to %s"), FILES_DIR , ODBC_INI)."</error>");
 					exit(1);
 				}
-				$output->writeln("Done");
+				$output->writeln(_("Done"));
 			}
 		}
 
@@ -540,7 +561,7 @@ class FreePBXInstallCommand extends Command {
 			$db->query("USE ".$amp_conf['AMPDBNAME']);
 			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['AMPDBNAME']."';";
 			if (!$db->getOne($sql)) {
-				$output->writeln("Empty " . $amp_conf['AMPDBNAME'] . " Database going to populate it");
+				$output->writeln(sprintf(_("Empty %s Database going to populate it"), $amp_conf['AMPDBNAME']));
 
 				$xml = simplexml_load_file(dirname(__DIR__).'/module.xml');
 				if(!empty($xml->database)) {
@@ -573,7 +594,7 @@ class FreePBXInstallCommand extends Command {
 			$db->query("USE ".$amp_conf['CDRDBNAME']);
 			$sql = "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = '".$amp_conf['CDRDBNAME']."';";
 			if (!$db->getOne($sql)) {
-				$output->writeln("Empty " . $amp_conf['CDRDBNAME'] . " Database going to populate it");
+				$output->writeln(sprintf( _("Empty % Database going to populate it"),$amp_conf['CDRDBNAME']));
 				$installer->install_sql_file(SQL_DIR . '/cdr.sql');
 			}
 			unset($amp_conf['CDRDBNAME']);
@@ -598,7 +619,7 @@ class FreePBXInstallCommand extends Command {
 		// Get version of FreePBX.
 		$version = $installer->get_version();
 
-		$output->writeln("Initializing FreePBX Settings");
+		$output->writeln(_("Initializing FreePBX Settings"));
 		$installer_amp_conf = $amp_conf;
 		// freepbx_settings_init();
 		$installer->freepbx_settings_init(true);
@@ -607,12 +628,12 @@ class FreePBXInstallCommand extends Command {
 		$freepbx_conf = \freepbx_conf::create();
 		foreach ($installer_amp_conf as $keyword => $value) {
 			if ($freepbx_conf->conf_setting_exists($keyword) && $amp_conf[$keyword] != $value) {
-				$output->writeln("\tChanging ".$keyword." [".$amp_conf[$keyword]."] to match what was given at install time: ".$value);
+				$output->writeln("\t".sprintf(_("Changing %s [%s] to match what was given at install time: %s"), $keyword, $amp_conf[$keyword], $value));
 				$freepbx_conf->set_conf_values(array($keyword => $value), false, true);
 			}
 		}
 		$freepbx_conf->commit_conf_settings();
-		$output->writeln("Finished initalizing settings");
+		$output->writeln(_("Finished initalizing settings"));
 
 		if(!file_exists($amp_conf['AMPWEBROOT'])) {
 			@mkdir($amp_conf['AMPWEBROOT'], 0777, true);
@@ -624,7 +645,7 @@ class FreePBXInstallCommand extends Command {
 
 		// Copy amp_conf/
 		$verb = $answers['dev-links'] ? "Linking" : "Copying";
-		$output->writeln($verb." files (this may take a bit)....");
+		$output->writeln(sprintf(_("%s files (this may take a bit)...."),$verb));
 		if (is_dir($this->rootPath."/amp_conf")) {
 			$iterator = $this->getFilesToCopy($this->rootPath."/amp_conf", $newinstall);
 			$progress = new ProgressBar($output, iterator_count($iterator));
@@ -634,20 +655,20 @@ class FreePBXInstallCommand extends Command {
 			$progress->finish();
 		}
 		$output->writeln("");
-		$output->writeln("Done");
+		$output->writeln(_("Done"));
 
 		//Last minute symlinks
 		$sbin = \FreePBX::Config()->get("AMPSBIN");
 		$bin = \FreePBX::Config()->get("AMPBIN");
 
-		$output->writeln("bin is: $bin");
+		$output->writeln(sprint( _("bin is: %s"),$bin));
 		if(!file_exists($bin)) {
-			$output->writeln("Directory $bin missing, creating.");
+			$output->writeln(sprintf( _("Directory %s missing, creating."),$bin ));
 			mkdir($bin, 0755);
 		}
 		$output->writeln("sbin is: $sbin");
 		if(!file_exists($sbin)) {
-			$output->writeln("Directory $sbin missing, creating.");
+			$output->writeln(sprintf( _("Directory %s missing, creating."),$sbin ));
 			mkdir($sbin, 0755);
 		}
 
@@ -655,16 +676,16 @@ class FreePBXInstallCommand extends Command {
 		if(!file_exists($sbin."/fwconsole")) {
 			$output->write("Symlinking ".$bin."/fwconsole to ".$sbin."/fwconsole ...");
 			if(!symlink($bin."/fwconsole", $sbin."/fwconsole")) {
-				$output->writeln("<error>Error</error>");
+				$output->writeln("<error>"._("Error!")."</error>");
 			}
-			$output->writeln("Done");
+			$output->writeln(_("Done"));
 		} elseif(file_exists($sbin."/fwconsole") && (!is_link($sbin."/fwconsole") || readlink($sbin."/fwconsole") != $bin."/fwconsole")) {
 			unlink($sbin."/fwconsole");
 			$output->write("Symlinking ".$bin."/fwconsole to ".$sbin."/fwconsole ...");
 			if(!symlink($bin."/fwconsole", $sbin."/fwconsole")) {
-				$output->writeln("<error>Error</error>");
+				$output->writeln("<error>"._("Error!")."</error>");
 			}
-			$output->writeln("Done");
+			$output->writeln(_("Done"));
 		}
 
 		//put old amportal into place
@@ -674,16 +695,16 @@ class FreePBXInstallCommand extends Command {
 			}
 			$output->write("Symlinking ".$bin."/amportal to ".$sbin."/amportal ...");
 			if(!symlink($bin."/amportal", $sbin."/amportal")) {
-				$output->writeln("<error>Error</error>");
+				$output->writeln("<error>"._("Error!")."</error>");
 			}
-			$output->writeln("Done");
+			$output->writeln(_("Done"));
 		} elseif(file_exists($sbin."/amportal") && (!is_link($sbin."/amportal") || readlink($sbin."/amportal") != $bin."/amportal")) {
 			unlink($sbin."/amportal");
 			$output->write("Symlinking ".$bin."/amportal to ".$sbin."/amportal ...");
 			if(!symlink($bin."/amportal", $sbin."/amportal")) {
-				$output->writeln("<error>Error</error>");
+				$output->writeln("<error>"._("Error!")."</error>");
 			}
-			$output->writeln("Done");
+			$output->writeln(_("Done"));
 		}
 
 		$output->write("Finishing up directory processes...");
@@ -736,7 +757,7 @@ class FreePBXInstallCommand extends Command {
 		if(!file_exists($amp_conf['ASTETCDIR'] . "/voicemail.conf")) {
 			copy($amp_conf['ASTETCDIR'] . "/voicemail.conf.template", $amp_conf['ASTETCDIR'] . "/voicemail.conf");
 		}
-		$output->writeln("Done!");
+		$output->writeln(_("Done!"));
 
 		//File variable replacement
 		$rfiles = array(
@@ -761,7 +782,7 @@ class FreePBXInstallCommand extends Command {
 			$conf = str_replace(array_keys($replace), array_values($replace), $conf);
 			file_put_contents($file, $conf);
 		}
-		$output->writeln("Done");
+		$output->writeln(_("Done"));
 
 		// Create missing #include files.
 		$output->write("Creating missing #include files...");
@@ -777,34 +798,34 @@ class FreePBXInstallCommand extends Command {
 				}
 			}
 		}
-		$output->writeln("Done");
+		$output->writeln(_("Done"));
 
 		//setup and get manager working
 		$output->write("Setting up Asterisk Manager Connection...");
 		exec("runuser " . $answers['user'] . ' -s /bin/bash -c "cd ~/ && asterisk -rx \'module reload manager\' 2>&1"',$o,$r);
 		if($r !== 0) {
-			$output->writeln("<error>Unable to reload Asterisk Manager</error>");
+			$output->writeln("<error>"._("Unable to reload Asterisk Manager")."</error>");
 			exit(127);
 		}
 		//TODO: we should check to make sure manager worked at this stage..
-		$output->writeln("Done");
+		$output->writeln(_("Done"));
 
-		$output->writeln("Running through upgrades...");
+		$output->writeln(_("Running through upgrades..."));
 		// Upgrade framework (upgrades/ dir)
 		$installer->install_upgrades($version);
-		$output->writeln("Finished upgrades");
+		$output->writeln(_("Finished upgrades"));
 
 		$output->write("Setting FreePBX version to ".$fwver."...");
 		$installer->set_version($fwver);
-		$output->writeln("Done");
+		$output->writeln(_("Done"));
 
 		$output->write("Writing out ".AMP_CONF."...");
 		if(!file_put_contents(AMP_CONF, $freepbx_conf->amportal_generate(true))) {
-			$output->writeln("<error>Error!</error>");
-			$output->writeln("<error>Unable to write to file</error>");
+			$output->writeln("<error>"._("Error!")."</error>");
+			$output->writeln("<error>"._("Unable to write to file")."</error>");
 			exit(1);
 		}
-		$output->writeln("Done");
+		$output->writeln(_("Done"));
 
 		if ($newinstall) {
 			/* Write freepbx.conf */
@@ -822,36 +843,36 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 ";
 			$output->write("Writing out ".$freepbx_conf_path."...");
 			if(!file_put_contents($freepbx_conf_path, $conf)) {
-				$output->writeln("<error>Error!</error>");
-				$output->writeln("<error>Unable to write to file</error>");
+				$output->writeln("<error>"._("Error!")."</error>");
+				$output->writeln("<error>"._("Unable to write to file")."</error>");
 				exit(1);
 			}
-			$output->writeln("Done");
+			$output->writeln(_("Done"));
 		}
 
 		// Sanity check - trap error as reported in
 		// http://issues.freepbx.org/browse/FREEPBX-9898
 		if (!array_key_exists("AMPBIN", $amp_conf)) {
-			$output->writeln("No amp_conf[AMPBIN] value exists!");
-			$output->writeln("Giving up!");
+			$output->writeln(_("No amp_conf[AMPBIN] value exists!"));
+			$output->writeln(_("Giving up!"));
 			$output->writeln("");
 			exit;
 		}
 
 		//run this here so that we make sure everything is square for module installs
-		$output->writeln("Chowning directories...");
+		$output->writeln(_("Chowning directories..."));
 		system($amp_conf['AMPSBIN']."/fwconsole chown");
-		$output->writeln("Done");
+		$output->writeln(_("Done"));
 
 		// module_admin install framework
-		$output->writeln("Installing framework...");
+		$output->writeln(_("Installing framework..."));
 		$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole ma install framework", 600);
-		$output->writeln("Done");
+		$output->writeln(_("Done"));
 
 		if(method_exists(\FreePBX::create()->View,'getScripts')) {
 			$output->write("Building Packaged Scripts...");
 			\FreePBX::View()->getScripts();
-			$output->writeln("Done");
+			$output->writeln(_("Done"));
 		}
 
 		// GPG setup - trustFreePBX();
@@ -859,18 +880,18 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		try {
 			\FreePBX::GPG()->trustFreePBX();
 		} catch(\Exception $e) {
-			$output->writeln("<error>Error!</error>");
-			$output->writeln("<error>Error while trusting FreePBX: ".$e->getMessage()."</error>");
+			$output->writeln("<error>"._("Error!")."</error>");
+			$output->writeln("<error>"._("Error while trusting FreePBX:")." ".$e->getMessage()."</error>");
 			exit(1);
 		}
 
 		// Make sure we have the latest keys, if this install is out of date.
 		\FreePBX::GPG()->refreshKeys();
 
-		$output->writeln("Trusted");
+		$output->writeln(_("Trusted"));
 
 		if($answers['dev-links']) {
-			$output->writeln("Enabling Developer mode");
+			$output->writeln(_("Enabling Developer mode"));
 			$this->executeSystemCommand($amp_conf['AMPSBIN'] . "/fwconsole setting DEVEL 1 > /dev/null");
 		}
 
@@ -878,11 +899,11 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		if(file_exists(MODULE_DIR) && $newinstall) {
 			$output->write("Installing base modules...");
 			$this->executeSystemCommand($amp_conf['AMPSBIN']."/fwconsole ma install core dashboard sipsettings voicemail certman");
-			$output->writeln("Done installing base modules");
+			$output->writeln(_("Done installing base modules"));
 			if(!$answers['skip-install']) {
 				$output->write("Installing all modules...");
 				system($amp_conf['AMPSBIN']."/fwconsole ma installlocal");
-				$output->writeln("Done installing all modules");
+				$output->writeln(_("Done installing all modules"));
 			}
 
 		}
@@ -895,11 +916,11 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		}
 
 		// generate_configs();
-		$output->writeln("Generating default configurations...");
+		$output->writeln(_("Generating default configurations..."));
 		system("runuser " . $amp_conf['AMPASTERISKUSER'] . ' -s /bin/bash -c "cd ~/ && '.$amp_conf["AMPSBIN"].'/fwconsole reload &>/dev/null"');
-		$output->writeln("Finished generating default configurations");
+		$output->writeln(_("Finished generating default configurations"));
 
-		$output->writeln("<info>You have successfully installed FreePBX</info>");
+		$output->writeln("<info>"._("You have successfully installed FreePBX")."</info>");
 	}
 
 	private function ask_overwrite(InputInterface $input, OutputInterface $output, $file1, $file2) {
@@ -915,9 +936,9 @@ require_once('{$amp_conf['AMPWEBROOT']}/admin/bootstrap.php');
 		switch ($key) {
 		case "Exit":
 		default:
-			$output->writeln("-> Original file:  ".$file2);
-			$output->writeln("-> New file:       ".$file1);
-			$output->writeln("Exiting install program.");
+			$output->writeln(_("-> Original file:")." ".$file2);
+			$output->writeln(_("-> New file:")."       ".$file1);
+			$output->writeln(_("Exiting install program."));
 			exit(1);
 			break;
 		case "Yes":
