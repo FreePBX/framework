@@ -1418,31 +1418,12 @@ function freepbxGetSanitizedRequest($definition = FILTER_SANITIZE_STRING, $add_e
  * @return array
  */
 function IsAsteriskSupported($version){
+	$min 				= "11";
+	$max 				= "21";
 	$result["status"] 	= true;
-	if(file_exists("/var/spool/asterisk/asterisk_validate")){
-		$asterisk_validate	= parse_ini_file("/var/spool/asterisk/asterisk_validate");
-		if(empty($asterisk_validate["min"])){
-		$result["message"] 	= _("min version is missing in /var/spool/asterisk/asterisk_validate.");
+	if(version_compare($version, $min, "lt") || version_compare($version, $max, "ge")) {
 		$result["status"] 	= false;
-		return $result;
-		}
-		if(empty($asterisk_validate["max"])){
-		$result["status"] 	= false;
-		$result["message"] 	= _("max version is missing in /var/spool/asterisk/asterisk_validate.");
-		return $result;
-		}
-		$asterisk_vmin = $asterisk_validate["min"];
-		$asterisk_vmax = $asterisk_validate["max"];
-	}
-	else{
-		$result["status"] 	= false;
-		$result["message"] 	= _("/var/spool/asterisk/asterisk_validate not found.");
-		return $result;
-	}
-	
-	if(version_compare($version, $asterisk_vmin, "lt") || version_compare(explode(".",$version)[0], $asterisk_vmax, "gt")) {
-		$result["status"] 	= false;
-		$result["message"] 	=sprintf( _("Supported Asterisk versions: %s to %s."), $asterisk_vmin, $asterisk_vmax);
+		$result["message"] 	= _("Supported Asterisk versions:")." 11, 12, 13, 14, 15, 16, 17, 18, 19, 20.";
 	}
 	return $result;	
 }
