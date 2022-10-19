@@ -294,16 +294,16 @@ class FreePBXInstallCommand extends Command {
 			// Parse Asterisk version.
 			if (preg_match('/^Asterisk (?:SVN-|GIT-)?(?:branch-)?(\d+(\.\d+)*)(-?(.*)) built/', $astver, $matches)) {
 				$determined = true;
-				if(file_exists("/etc/asterisk/asterisk_validate.conf")){
-					 $asterisk_validate = parse_ini_file("/etc/asterisk/asterisk_validate.conf");
+				if(file_exists("/var/spool/asterisk/asterisk_validate")){
+					 $asterisk_validate = parse_ini_file("/var/spool/asterisk/asterisk_validate");
 					 if(empty($asterisk_validate["min"])){
 						$output->writeln("<error>"._("Error!")."</error>");
-						$output->writeln("<error>"._("min version is missing in")." /etc/asterisk/asterisk_validate.conf</error>");
+						$output->writeln("<error>"._("min version is missing in")." /var/spool/asterisk/asterisk_validate</error>");
 						exit(1);
 					 }
 					 if(empty($asterisk_validate["max"])){
 						$output->writeln("<error>"._("Error!")."</error>");
-						$output->writeln("<error>"._("max version is missing in")." /etc/asterisk/asterisk_validate.conf.</error>");
+						$output->writeln("<error>"._("max version is missing in")." /var/spool/asterisk/asterisk_validate.</error>");
 						exit(1);
 					 }
 					 $asterisk_vmin = $asterisk_validate["min"];
@@ -311,7 +311,7 @@ class FreePBXInstallCommand extends Command {
 				}
 				else{
 					$output->writeln("<error>"._("Error!")."</error>");
-					$output->writeln("<error>/etc/asterisk/asterisk_validate.conf "._("not found.")."</error>");
+					$output->writeln("<error>/var/spool/asterisk/asterisk_validate "._("not found.")."</error>");
 					exit(1);
 				}
 				

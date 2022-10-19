@@ -1419,16 +1419,16 @@ function freepbxGetSanitizedRequest($definition = FILTER_SANITIZE_STRING, $add_e
  */
 function IsAsteriskSupported($version){
 	$result["status"] 	= true;
-	if(file_exists("/etc/asterisk/asterisk_validate.conf")){
-		$asterisk_validate	= parse_ini_file("/etc/asterisk/asterisk_validate.conf");
+	if(file_exists("/var/spool/asterisk/asterisk_validate")){
+		$asterisk_validate	= parse_ini_file("/var/spool/asterisk/asterisk_validate");
 		if(empty($asterisk_validate["min"])){
-		$result["message"] 	= _("min version is missing in /etc/asterisk/asterisk_validate.conf.");
+		$result["message"] 	= _("min version is missing in /var/spool/asterisk/asterisk_validate.");
 		$result["status"] 	= false;
 		return $result;
 		}
 		if(empty($asterisk_validate["max"])){
 		$result["status"] 	= false;
-		$result["message"] 	= _("max version is missing in /etc/asterisk/asterisk_validate.conf.");
+		$result["message"] 	= _("max version is missing in /var/spool/asterisk/asterisk_validate.");
 		return $result;
 		}
 		$asterisk_vmin = $asterisk_validate["min"];
@@ -1436,7 +1436,7 @@ function IsAsteriskSupported($version){
 	}
 	else{
 		$result["status"] 	= false;
-		$result["message"] 	= _("/etc/asterisk/asterisk_validate.conf not found.");
+		$result["message"] 	= _("/var/spool/asterisk/asterisk_validate not found.");
 		return $result;
 	}
 	

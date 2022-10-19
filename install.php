@@ -26,7 +26,7 @@ $asterisk_validate_content = <<<EOF
 min = {$asterisk_vmin}
 max = {$asterisk_vmax}
 EOF;
-file_put_contents("/etc/asterisk/asterisk_validate.conf", $asterisk_validate_content);
+file_put_contents("/var/spool/asterisk/asterisk_validate", $asterisk_validate_content);
 $engine_info = engine_getinfo();
 $astversion = $engine_info['version'];
 if (version_compare($astversion, $asterisk_vmin, "lt") || version_compare(explode(".",$astversion)[0], $asterisk_vmax, "gt")) {
