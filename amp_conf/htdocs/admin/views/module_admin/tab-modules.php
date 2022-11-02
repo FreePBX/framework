@@ -203,6 +203,12 @@ if($online) {
 														<td><?php echo $module['publisher']?></td>
 													</tr>
 													<?php } ?>
+                                                    <?php if(!empty($module['repo'])) {?>
+													<tr>
+														<td><?php echo _("Repository")?>:</td>
+														<td><?php echo $module['repo']?></td>
+													</tr>
+													<?php } ?>	
 													<?php if(!empty($module['raw']['online']['packaged'])) {?>
 													<tr>
 														<td><?php echo _("Packaged (Released)")?>:</td>
