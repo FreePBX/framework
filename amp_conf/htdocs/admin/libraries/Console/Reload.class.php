@@ -383,7 +383,7 @@ class Reload extends Command {
 		}
 
 		//warning for use of mixmonitor for recordings
-		if(!$this->freepbx->Config->get('QUEUES_MIX_MONITOR')) {
+		if($this->freepbx->Modules->checkStatus("queues") && !$this->freepbx->Config->get('QUEUES_MIX_MONITOR')) {
 			$this->freepbx->Notifications->add_warning('queues', 'QUEUES_MIX_MONITOR', _("MixMonitor for recordings is disabled"), _('It is recommended that Mixmonitor be used for call recordings as the Asterisk Monitor application is deprecated. In Advanced Settings please set "Use MixMonitor for Recordings" to Yes.'));
 		} else {
 			$this->freepbx->Notifications->delete('queues', 'QUEUES_MIX_MONITOR');
