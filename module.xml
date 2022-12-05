@@ -394,6 +394,7 @@
 			<field name="reset" type="boolean" default="0"/>
 			<field name="candelete" type="boolean" default="0"/>
 			<field name="timestamp" type="integer" default="0"/>
+			<field name="single" type="integer" default="0"/>
 		</table>
 		<table name="cron_jobs">
 			<field name="id" type="integer" unsigned="true" primarykey="true" autoincrement="true"/>

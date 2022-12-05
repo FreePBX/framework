@@ -64,9 +64,9 @@ class Notifications {
 	 * @param bool $candelete If the notification can be deleted by the user on the notifications display page
 	 * @return int Returns the number of notifications per module & id
 	 */
-	public function add_critical($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
+	public function add_critical($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false, $single=0) {
 		if($this->canAddNotification($module, $id, 'critical')){
-			$this->add_type(static::TYPE_CRITICAL, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+			$this->add_type(static::TYPE_CRITICAL, $module, $id, $display_text, $extended_text, $link, $reset, $candelete, $single);
 			$this->freepbx_log(FPBX_LOG_CRITICAL, $module, $id, $display_text, $extended_text);
 		}
 	}
@@ -82,9 +82,9 @@ class Notifications {
 	 * @param bool $candelete If the notification can be deleted by the user on the notifications display page
 	 * @return int Returns the number of notifications per module & id
 	 */
-	public function add_security($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
+	public function add_security($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false, $single=0) {
 		if($this->canAddNotification($module, $id, 'security')){
-			$this->add_type(static::TYPE_SECURITY, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+			$this->add_type(static::TYPE_SECURITY, $module, $id, $display_text, $extended_text, $link, $reset, $candelete, $single);
 			$this->freepbx_log(FPBX_LOG_SECURITY, $module, $id, $display_text, $extended_text);
 		}
 	}
@@ -100,9 +100,9 @@ class Notifications {
 	* @param bool $candelete If the notification can be deleted by the user on the notifications display page
 	* @return int Returns the number of notifications per module & id
 	*/
-	public function add_signature_unsigned($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false) {
+	public function add_signature_unsigned($module, $id, $display_text, $extended_text="", $link="", $reset=true, $candelete=false, $single=0) {
 		if($this->canAddNotification($module, $id, 'signature_unsigned')){
-			$this->add_type(static::TYPE_SIGNATURE_UNSIGNED, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+			$this->add_type(static::TYPE_SIGNATURE_UNSIGNED, $module, $id, $display_text, $extended_text, $link, $reset, $candelete, $single);
 			$this->freepbx_log(FPBX_LOG_SIGNATURE_UNSIGNED, $module, $id, $display_text, $extended_text);
 		}	
 	}
@@ -118,9 +118,9 @@ class Notifications {
 	 * @param bool $candelete If the notification can be deleted by the user on the notifications display page
 	 * @return int Returns the number of notifications per module & id
 	 */
-	public function add_update($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
+	public function add_update($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false, $single=0) {
 		if($this->canAddNotification($module, $id, 'update')){
-			$this->add_type(static::TYPE_UPDATE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+			$this->add_type(static::TYPE_UPDATE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete, $single);
 			$this->freepbx_log(FPBX_LOG_UPDATE, $module, $id, $display_text, $extended_text);
 		}
 	}
@@ -136,9 +136,9 @@ class Notifications {
 	 * @param bool $candelete If the notification can be deleted by the user on the notifications display page
 	 * @return int Returns the number of notifications per module & id
 	 */
-	public function add_error($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
+	public function add_error($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false, $single=0) {
 		if($this->canAddNotification($module, $id, 'error')){
-			$this->add_type(static::TYPE_ERROR, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+			$this->add_type(static::TYPE_ERROR, $module, $id, $display_text, $extended_text, $link, $reset, $candelete, $single);
 			$this->freepbx_log(FPBX_LOG_ERROR, $module, $id, $display_text, $extended_text);
 		}
 	}
@@ -154,9 +154,9 @@ class Notifications {
 	 * @param bool $candelete If the notification can be deleted by the user on the notifications display page
 	 * @return int Returns the number of notifications per module & id
 	 */
-	public function add_warning($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
+	public function add_warning($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false, $single=0) {
 		if($this->canAddNotification($module, $id, 'warning')){	
-			$this->add_type(static::TYPE_WARNING, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+			$this->add_type(static::TYPE_WARNING, $module, $id, $display_text, $extended_text, $link, $reset, $candelete, $single);
 			$this->freepbx_log(FPBX_LOG_WARNING, $module, $id, $display_text, $extended_text);
 		}
 	}
@@ -172,9 +172,9 @@ class Notifications {
 	 * @param bool $candelete If the notification can be deleted by the user on the notifications display page
 	 * @return int Returns the number of notifications per module & id
 	 */
-	public function add_notice($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=true) {
+	public function add_notice($module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=true, $single=0) {
 		if($this->canAddNotification($module, $id, 'notice')){	
-			$this->add_type(static::TYPE_NOTICE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete);
+			$this->add_type(static::TYPE_NOTICE, $module, $id, $display_text, $extended_text, $link, $reset, $candelete, $single);
 			$this->freepbx_log(FPBX_LOG_NOTICE, $module, $id, $display_text, $extended_text);
 		}
 	}
@@ -304,6 +304,14 @@ class Notifications {
 	 * @param string $id ID of the notification
 	 */
 	public function safe_delete($module, $id) {
+		$messages =$this->listMessages();
+		foreach($messages as $message){
+			if(!empty($message["single"]) && $message["single"] == 1){
+				/*$sth = $this->freepbx->Database->prepare("UPDATE notifications SET single = 2 WHERE `module` = :module AND `id` = :id");
+				$sth->execute([":module" => $module, ":id" => $id]);*/
+				$this->ignore_forever($module, $id);
+			}
+		}
 		$sth = $this->freepbx->Database->prepare("DELETE FROM notifications WHERE `module` = :module AND `id` = :id AND candelete = 1");
 		$sth->execute([":module" => $module, ":id" => $id]);
 	}
@@ -316,7 +324,6 @@ class Notifications {
 	 * @param string $id ID of the notification
 	 */
 	public function ignore_forever($module, $id) {
-
 		$setting = "NOTIFICATION_IGNORE_{$module}_{$id}";
 
 		if (!$this->freepbx->Config->exists($setting)) {
@@ -409,7 +416,7 @@ class Notifications {
 	 * @return int Returns the number of notifications per module & id
 	 * @ignore
 	 */
-	private function add_type($level, $module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false) {
+	private function add_type($level, $module, $id, $display_text, $extended_text="", $link="", $reset=false, $candelete=false, $single=0) {
 		global $amp_conf;
 		if (!empty($amp_conf["NOTIFICATION_IGNORE_{$module}_{$id}"])) {
 			return null;
@@ -437,12 +444,12 @@ class Notifications {
 		if ($existing_row) {
 
 			if (($reset && $existing_row['reset'] == 1) || $existing_row['level'] != $level || $existing_row['display_text'] != $display_text || $existing_row['extended_text'] != $extended_text || $existing_row['link'] != $link || $existing_row['candelete'] == $candelete) {
-
+				
 				// If $reset is set to the special case of PASSIVE then the updates will not change it's value in an update
 				//
 				$reset_value = ($reset == 'PASSIVE') ? $existing_row['reset'] : 0;
 
-				$sql = "UPDATE notifications SET level = :level, display_text = :display_text, extended_text = :extended_text, link = :link, reset = :reset, candelete = :candelete, timestamp = :timestamp WHERE module = :module AND id = :id";
+				$sql = "UPDATE notifications SET level = :level, display_text = :display_text, extended_text = :extended_text, link = :link, reset = :reset, candelete = :candelete, timestamp = :timestamp, single = :single WHERE module = :module AND id = :id";
 				$sth = $this->freepbx->Database->prepare($sql);
 				$sth->execute([
 					":level" => $level,
@@ -453,7 +460,8 @@ class Notifications {
 					":candelete" => $candelete,
 					":timestamp" => time(),
 					":module" => $module,
-					":id" => $id
+					":id" => $id,
+					":single" => (int) $single
 				]);
 				// TODO: I should really just add this to the internal cache, but really
 				//       how often does this get called that if is a big deal.
@@ -462,7 +470,7 @@ class Notifications {
 		} else {
 			// No existing row so insert this new one
 			//
-			$sql = "INSERT INTO notifications (module, id, level, display_text, extended_text, link, reset, candelete, timestamp) VALUES (:module, :id, :level, :display_text, :extended_text, :link, 0, :candelete, :timestamp)";
+			$sql = "INSERT INTO notifications (module, id, level, display_text, extended_text, link, reset, candelete, timestamp, single) VALUES (:module, :id, :level, :display_text, :extended_text, :link, 0, :candelete, :timestamp, :single)";
 			$sth = $this->freepbx->Database->prepare($sql);
 			$sth->execute([
 				":level" => $level,
@@ -472,7 +480,8 @@ class Notifications {
 				":candelete" => $candelete,
 				":timestamp" => time(),
 				":module" => $module,
-				":id" => $id
+				":id" => $id,
+				":single" => (int) $single
 			]);
 			// TODO: I should really just add this to the internal cache, but really
 			//       how often does this get called that if is a big deal.
@@ -491,7 +500,7 @@ class Notifications {
 	 * @return array Returns the list of Messages
 	 * @ignore
 	 */
-	private function listMessages($level, $show_reset=false, $allow_filtering=false) {
+	public function listMessages($level="", $show_reset=false, $allow_filtering=false) {
 
 		$where = array();
 
