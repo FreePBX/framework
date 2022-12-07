@@ -3104,6 +3104,9 @@ class module_functions {
 				$options['deploymentid'] = $deploymentid;
 			}
 
+			// New param to get expired module list from mirror server
+			$options['enableExpiredModuleList'] = 1;
+
 			$engver=engine_getinfo();
 			if ($engver['engine'] == 'asterisk' && trim($engver['engine']) != "") {
 				$options['astver'] = $engver['version'];
