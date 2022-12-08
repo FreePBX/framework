@@ -17,6 +17,12 @@ class_alias('FreePBX\Freepbx_conf', 'Freepbx_conf');
 
 class_alias('Ramsey\Uuid\Uuid', 'Rhumsaa\Uuid\Uuid');
 class_alias('Ramsey\Uuid\Exception\UnsatisfiedDependencyException', 'Rhumsaa\Uuid\Exception\UnsatisfiedDependencyException');
+
+/**
+* Backwards compatibility for FreePBX 17 non namespaced
+*/
+class_alias('Ramsey\Uuid\Exception\UuidExceptionInterface', 'Ramsey\Uuid\Exception\UnsatisfiedDependencyException');
+
 /**
  * This is the FreePBX Big Module Object.
  *

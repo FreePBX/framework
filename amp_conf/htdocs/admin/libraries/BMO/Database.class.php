@@ -236,7 +236,16 @@ class Database extends \PDO {
 		return $migrate->modifyMultiple($tables,$dryrun);
 	}
 
-	public function query() {
+	/**
+	 * Executes an SQL statement, returning the results
+	 *
+	 * @param string $query The SQL statement to prepare and execute.
+	 * @param int|null $fetchMode The fetch mode must be one of the
+	 *   PDO::FETCH_* constants.
+	 * @param mixed|null $fetchModeArgs Column number, class name or object.
+	 * @return Statement
+	 */
+	public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs)
 		$args = func_get_args();
 		if(defined('LOGPREPARES')) {
 			$logger = \FreePBX::Logger()->createLogDriver('query_performance', \FreePBX::Config()->get('ASTLOGDIR').'/query_performance.log', \Monolog\Logger::DEBUG);
